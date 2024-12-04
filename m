@@ -2,84 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385499E473A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 22:50:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D37D79E4769
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 23:05:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C55210E366;
-	Wed,  4 Dec 2024 21:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D78B710E591;
+	Wed,  4 Dec 2024 22:04:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XeBpWy3o";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d0sEMyxy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
- [209.85.166.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C8110E358;
- Wed,  4 Dec 2024 21:50:48 +0000 (UTC)
-Received: by mail-il1-f179.google.com with SMTP id
- e9e14a558f8ab-3a777fd574bso718335ab.1; 
- Wed, 04 Dec 2024 13:50:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733349048; x=1733953848; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=c0hg9lZJZN9avUvJdZ9Zeao5cWyz1cd0v08GATDUcUo=;
- b=XeBpWy3okbaEbeN7OdvDosxuqqiO5+QgIaA8TvnajYO242nNsMB+TRVc82snHXmq9K
- G509YSzaZwFpJHj0vz65PRGCp4hYsOUWIbVEicHiVL2a46rVoksVwuNOZHkngMUTEyXw
- smTKlujx2hASV+6cXmuIxqOB8/z9kqNdlSW/o5Wo/RYH34X7I9qDHbAjwp34KEaQwJsm
- J6GIN/0CfoF2mOQ8pLeKBWP+171T982YBVskm4d69B+2M1yve8XYQRXKqNsoVImBxYLQ
- vy8RIhDZn26Sos1rHmebylp9B05va0PKnMC1ltZ5Gw1DMV86WNfaKvhKxSJmpi1x6Qxt
- 1C6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733349048; x=1733953848;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=c0hg9lZJZN9avUvJdZ9Zeao5cWyz1cd0v08GATDUcUo=;
- b=QgtfaiLZFYdooh4CrkpBa2jPRFr7EHHkUOnekkPIuuunKTK2VWNRvkoP+cPk3fLuD4
- 3Yy4nqjLCnYZVba0B+ZMwA1goFP29Ci6v+Xfq5pSAbzjcyiSVeFU1REaErtZjAEivozL
- 9k6jQjvLJyuK0BeSDyXBPCmypeXL6aSf7tBykrKsNbLYHuwIiszYSDaeBXlz80hnRgDm
- XYy1jRR/xMgub38SP2Qd0VY27+icgcm6JmKV+5xeowkNs0tZF+Z5UD2KW6/YMoVNtcj6
- H/9aStnRnMA/pV0K3cRMrcXHpA42Os2KMFYnzPAZG/MnIvPqIWIYIC6jzhWmuTRgBu1Z
- NuLw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUomCjcJkBwHr8ifTkgR+938YwiVxu00oOyEX2+B9icsCxRgDX/C+UKEOad3O80XSQt79RTTTQv5oI=@lists.freedesktop.org,
- AJvYcCXb8vsiBQL1aUqrU0tIjaQXOOBOFwxBGmotE7NlliRY9Drn9Y+CGp2viFdkS8KW0w3G0kduKNGcMAqg@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzx9pL3Vc9EjbTDPe4RMRw+VTK3C+y0ErzZZHRaSci4l9RiHLm9
- kdheK3Wmnk5EVelPX2ezenKbFzMONAfBTBquCgOunktUXRLLznDKT98ejPiicyZqS4XZCHAFX+R
- kZVujs6zY6iy0Me5+2ZCIMn7rT08=
-X-Gm-Gg: ASbGncuBu287lPAItbS9mBY/ZCjOKGsz0sgb7UUE04bxRjtCwqhE+vLvPS1rAtRwHll
- F7GjfDm5HG1EG2Q0HbX1BLBhWPVb/Nr1PcTtldDaj2lzGah8w0u92NHMptwXJGA6FGQ==
-X-Google-Smtp-Source: AGHT+IEN22zZO17beulhc91zwdhUV4FuS5A/AGEPOGDx/jgh8nXD72t6NrVHshchMWIfdwnMPRMw2pDkgVwvxaSGD24=
-X-Received: by 2002:a05:6e02:1c43:b0:3a7:819c:5129 with SMTP id
- e9e14a558f8ab-3a7f9a8d86fmr107044695ab.18.1733349047572; Wed, 04 Dec 2024
- 13:50:47 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04E7910E358
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 22:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733349897; x=1764885897;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=yjtLRtRCKWAPsgc1vT8YYp8ipR0xLKwjHOr2+Rn5rZw=;
+ b=d0sEMyxyxY86A3DXBkExC64VyEtwvJn53bmWYaIK9JaoA00gfx750KVO
+ +LZJq3CLPwlMxP7axaBNPtS/TtiR8jfr9tqpq5BZqVlAgZ3o4GgWwCzaR
+ +9d56+LgnWtBQRQdMRw21Iv2TE/VUc2VJsRZ2bQnG3kiz/K/03GfioV3d
+ QWY5p6/oVu2OGkp2IemSBD9iyfGX0QVsHsPzflYhO+sDKBitwneThC8BE
+ 64JSFmSyN8WMYSAUv9ugXeEpjI6vlpYkbG/NMPP05JPzOBik6s+hC6dcs
+ CDKZZdt9l0aj7/Pk8JYq8Ny3ifeIerQRZYvBo9KKxo4+vECKuVns2ewhs w==;
+X-CSE-ConnectionGUID: +71HxdcCQeCGKCLS7gh6ug==
+X-CSE-MsgGUID: e5a9bxlOR02UNf/K4ES9JQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33558915"
+X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; d="scan'208";a="33558915"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 14:04:56 -0800
+X-CSE-ConnectionGUID: 3jwPoGqFTvO0TbolozmAfA==
+X-CSE-MsgGUID: gLTI/H5tTDC51CHZk4Mscg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; d="scan'208";a="124711614"
+Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
+ by orviesa002.jf.intel.com with ESMTP; 04 Dec 2024 14:04:52 -0800
+Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tIxUH-0003XN-0w;
+ Wed, 04 Dec 2024 22:04:49 +0000
+Date: Thu, 5 Dec 2024 06:03:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nikolaus Voss <nv@vosn.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ miquel.raynal@bootlin.com, nikolaus.voss@haag-streit.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+Message-ID: <202412050521.d87GwldA-lkp@intel.com>
+References: <20241203191111.47B56F7@mail.steuer-voss.de>
 MIME-Version: 1.0
-References: <20241125-a612-gpu-support-v2-0-b7cc38e60191@quicinc.com>
- <20241125-a612-gpu-support-v2-1-b7cc38e60191@quicinc.com>
- <752484b5-2db1-4714-8046-17cd5496d81d@oss.qualcomm.com>
- <0aa547fc-4c88-4457-8d01-81f93fb3832c@quicinc.com>
- <CAF6AEGvqPEFN+j0Txa5KPmxF8tXCn_uUsM86i4uo+tc2mTWYgg@mail.gmail.com>
- <f603f71c-64f4-4f29-b8b9-430d758a738b@quicinc.com>
- <CAF6AEGt-wojTde=OfqSyez3fD1jiyUTP08TWxNQMgkoWhF-MVA@mail.gmail.com>
-In-Reply-To: <CAF6AEGt-wojTde=OfqSyez3fD1jiyUTP08TWxNQMgkoWhF-MVA@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 4 Dec 2024 13:50:36 -0800
-Message-ID: <CAF6AEGuedG4j0no=9GYK=y2HZHVVporDfkpL9y9dg8H5PhZdKg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] drm/msm/adreno: Introduce ADRENO_QUIRK_NO_SYSCACHE
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203191111.47B56F7@mail.steuer-voss.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,169 +79,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 4, 2024 at 1:47=E2=80=AFPM Rob Clark <robdclark@gmail.com> wrot=
-e:
->
-> On Wed, Dec 4, 2024 at 11:04=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quic=
-inc.com> wrote:
-> >
-> > On 12/1/2024 10:06 PM, Rob Clark wrote:
-> > > On Sat, Nov 30, 2024 at 12:30=E2=80=AFPM Akhil P Oommen
-> > > <quic_akhilpo@quicinc.com> wrote:
-> > >>
-> > >> On 11/30/2024 7:01 PM, Konrad Dybcio wrote:
-> > >>> On 25.11.2024 5:33 PM, Akhil P Oommen wrote:
-> > >>>> There are a few chipsets which don't have system cache a.k.a LLC.
-> > >>>> Currently, the assumption in the driver is that the system cache
-> > >>>> availability correlates with the presence of GMU or RPMH, which
-> > >>>> is not true. For instance, Snapdragon 6 Gen 1 has RPMH and a GPU
-> > >>>> with a full blown GMU, but doesnot have a system cache. So,
-> > >>>> introduce an Adreno Quirk flag to check support for system cache
-> > >>>> instead of using gmu_wrapper flag.
-> > >>>>
-> > >>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> > >>>> ---
-> > >>>>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 3 ++-
-> > >>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 7 +------
-> > >>>>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 1 +
-> > >>>>  3 files changed, 4 insertions(+), 7 deletions(-)
-> > >>>>
-> > >>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/g=
-pu/drm/msm/adreno/a6xx_catalog.c
-> > >>>> index 0c560e84ad5a..5e389f6b8b8a 100644
-> > >>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> > >>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> > >>>> @@ -682,6 +682,7 @@ static const struct adreno_info a6xx_gpus[] =
-=3D {
-> > >>>>              },
-> > >>>>              .gmem =3D (SZ_128K + SZ_4K),
-> > >>>>              .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > >>>> +            .quirks =3D ADRENO_QUIRK_NO_SYSCACHE,
-> > >>>>              .init =3D a6xx_gpu_init,
-> > >>>>              .zapfw =3D "a610_zap.mdt",
-> > >>>>              .a6xx =3D &(const struct a6xx_info) {
-> > >>>> @@ -1331,7 +1332,7 @@ static const struct adreno_info a7xx_gpus[] =
-=3D {
-> > >>>>              },
-> > >>>>              .gmem =3D SZ_128K,
-> > >>>>              .inactive_period =3D DRM_MSM_INACTIVE_PERIOD,
-> > >>>> -            .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV,
-> > >>>> +            .quirks =3D ADRENO_QUIRK_HAS_HW_APRIV | ADRENO_QUIRK_=
-NO_SYSCACHE,
-> > >>>>              .init =3D a6xx_gpu_init,
-> > >>>>              .zapfw =3D "a702_zap.mbn",
-> > >>>>              .a6xx =3D &(const struct a6xx_info) {
-> > >>>
-> > >>> +a619_holi
-> > >>>
-> > >>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/d=
-rm/msm/adreno/a6xx_gpu.c
-> > >>>> index 019610341df1..a8b928d0f320 100644
-> > >>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > >>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> > >>>> @@ -1863,10 +1863,6 @@ static void a7xx_llc_activate(struct a6xx_g=
-pu *a6xx_gpu)
-> > >>>>
-> > >>>>  static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
-> > >>>>  {
-> > >>>> -    /* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
-> > >>>> -    if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
-> > >>>> -            return;
-> > >>>> -
-> > >>>>      llcc_slice_putd(a6xx_gpu->llc_slice);
-> > >>>>      llcc_slice_putd(a6xx_gpu->htw_llc_slice);
-> > >>>>  }
-> > >>>> @@ -1876,8 +1872,7 @@ static void a6xx_llc_slices_init(struct plat=
-form_device *pdev,
-> > >>>>  {
-> > >>>>      struct device_node *phandle;
-> > >>>>
-> > >>>> -    /* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
-> > >>>> -    if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
-> > >>>> +    if (a6xx_gpu->base.info->quirks & ADRENO_QUIRK_NO_SYSCACHE)
-> > >>>>              return;
-> > >>>
-> > >>> I think A612 is the "quirky" one here.. it has some sort of a GMU,
-> > >>> but we're choosing not to implement it. maybe a check for
-> > >>>
-> > >>> if (adreno_has_gmu_wrapper && !adreno_is_a612)
-> > >>>
-> > >>> would be clearer here, with a comment that RGMU support is not
-> > >>> implemented
-> > >>>
-> > >>>
-> > >>>
-> > >>> But going further, I'm a bit concerned about dt-bindings.. If we
-> > >>> implement RGMU on the driver side in the future, that will require
-> > >>> DT changes which will make the currently proposed description inval=
-id.
-> > >>>
-> > >>> I think a better angle would be to add a adreno_has_rgmu() func wit=
-h
-> > >>> a qcom,adreno-rgmu compatible and plumb it correctly from the get-g=
-o.
-> > >>>
-> > >>> This way, we can avoid this syscache quirk as well.
-> > >>>
-> > >>
-> > >> I am aware of at least Adreno 710 which doesn't have syscache, but h=
-as
-> > >> proper GMU. And I don't see any reason why there couldn't be another=
- one
-> > >> in future to save silicon area. So, a quirk flag doesn't seem so bad=
- in
-> > >> this case.
-> > >>
-> > >> The correct way to avoid this quirk flag is by making LLCC driver re=
-turn
-> > >> a proper error to detect the absence of syscache. Currently, it just
-> > >> returns EPROBE_DEFER which put driver in an infinite probe loop.
-> > >
-> > > Hmm, this seems solvable?  llcc has a node in the dt, so it seems lik=
-e
-> > > it should be able to tell the difference between not existing and not
-> > > being probed yet.  Something maybe like, initialize drv_data to NULL
-> > > instead of -EPROBE_DEFER, and then in the various entry points, if
-> > > (!drv_data) return not_probed_helper(); which would check if a
-> > > compatible node exists in dt?
-> >
-> > Sounds like that would work. Can we explore that separately?
-> >
-> > I am a bit worried about adding another subsystem's patch to this
-> > series. That might delay this series by weeks.
->
-> I don't think there is a dependency between the two, so it shouldn't
-> delay anything.  We can just merge the first patch in this series as
-> it is and drop the second.  And the llcc change is a legit bug fix,
-> IMO, -EPROBE_DEFER is the incorrect return value when the device is
-> not present.
+Hi Nikolaus,
 
-Actually, that wasn't _quite_ correct, but the idea still stands.
-Re-send second patch, but without the ADRENO_QUIRK_NO_SYSCACHE parts,
-and drop the first.
+kernel test robot noticed the following build warnings:
 
-In parallel send the llcc fix.  There is no compile time dependency,
-so they can go thru different trees.
+[auto build test WARNING on linus/master]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc1 next-20241204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BR,
--R
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolaus-Voss/drm-bridge-fsl-ldb-fixup-mode-on-freq-mismatch/20241204-115306
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241203191111.47B56F7%40mail.steuer-voss.de
+patch subject: [PATCH v2] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241205/202412050521.d87GwldA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412050521.d87GwldA-lkp@intel.com/reproduce)
 
->
-> BR,
-> -R
->
-> > -Akhil
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > >> Agree about the dt binding suggestion. I will define a new compatibl=
-e
-> > >> string for rgmu.
-> > >>
-> > >> -Akhil.
-> > >>
-> > >>> Konrad
-> > >>
-> >
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412050521.d87GwldA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/bridge/fsl-ldb.c:9:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/fsl-ldb.c:125:30: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     125 |                                 struct drm_bridge_state *,
+         |                                                          ^
+   drivers/gpu/drm/bridge/fsl-ldb.c:127:33: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     127 |                                 struct drm_connector_state *)
+         |                                                             ^
+   6 warnings generated.
+
+
+vim +125 drivers/gpu/drm/bridge/fsl-ldb.c
+
+   123	
+   124	static int fsl_ldb_atomic_check(struct drm_bridge *bridge,
+ > 125					struct drm_bridge_state *,
+   126					struct drm_crtc_state *crtc_state,
+   127					struct drm_connector_state *)
+   128	{
+   129		struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
+   130		const struct drm_display_mode *mode = &crtc_state->mode;
+   131		unsigned long requested_link_freq =
+   132			fsl_ldb_link_frequency(fsl_ldb, mode->clock);
+   133		unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_link_freq);
+   134	
+   135		if (freq != requested_link_freq) {
+   136			/*
+   137			 * this will lead to flicker and incomplete lines on
+   138			 * the attached display, adjust the CRTC clock
+   139			 * accordingly.
+   140			 */
+   141			struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+   142			int pclk = freq / fsl_ldb_link_frequency(fsl_ldb, 1);
+   143	
+   144			if (adjusted_mode->clock != pclk) {
+   145				dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
+   146					 adjusted_mode->clock, pclk);
+   147	
+   148				adjusted_mode->clock = pclk;
+   149				adjusted_mode->crtc_clock = pclk;
+   150			}
+   151		}
+   152	
+   153		return 0;
+   154	}
+   155	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
