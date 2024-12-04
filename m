@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195619E3A36
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 13:46:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201019E3A4B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 13:49:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15B8F10E105;
-	Wed,  4 Dec 2024 12:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2CF10E07F;
+	Wed,  4 Dec 2024 12:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Hs3v67iE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cJ/YsQVV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 303 seconds by postgrey-1.36 at gabe;
- Wed, 04 Dec 2024 12:46:09 UTC
-Received: from mail-m118212.qiye.163.com (mail-m118212.qiye.163.com
- [115.236.118.212])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 570FB10E105
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 12:46:09 +0000 (UTC)
-Received: from [172.16.12.69] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 4b3f2238;
- Wed, 4 Dec 2024 20:41:01 +0800 (GMT+08:00)
-Message-ID: <06fa9c22-9b5c-4d22-bdcf-be011bbf14ca@rock-chips.com>
-Date: Wed, 4 Dec 2024 20:41:01 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3EA710E07F
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 12:49:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733316570; x=1764852570;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=6RdyS6rQi6HSm5hdOEW2RdWv0FYXX5MAP73uG4z69M8=;
+ b=cJ/YsQVVyFILMyyhBiVW+rukp4zWBdkCFmX0ZvmueFRHD6Ng7I/BBxhd
+ l+0ZAU2I1kWYJsmQhiJLQu79Nl9RmeEclhobiHbFHAZErpKg6wMubNFEC
+ +JzEEgA8xPSoqLbDjO9MlNCmssiua6u5FkGOp+jmE2yk3yMU6vPjZR9Pm
+ qZtkWOvCtZxq83YxHEZKz64eOw5WrLFoRS9KgpR2ztWfxRDf2u+9dCIrh
+ V/8f1KuKbfKlzqK3Rq9kHYzEQCM3SYnzGvuM/OaeYNkSpmyytpXrNLyHd
+ C31auVhNT/JWxZ2u/rjbdglDPLZ98DBKTkQboiAfzk4+Dr5K2DmulyoTu A==;
+X-CSE-ConnectionGUID: A5veRpE4RMeZuNNWA2wI/w==
+X-CSE-MsgGUID: b0BHcb9dSAGeO/ecKWwgeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44244726"
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="44244726"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 04:49:30 -0800
+X-CSE-ConnectionGUID: rmifMeztTJu8VWydzNTOuA==
+X-CSE-MsgGUID: 0d0rjvzHS06nxW5aiZeqpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="94213756"
+Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
+ by fmviesa009.fm.intel.com with ESMTP; 04 Dec 2024 04:49:25 -0800
+Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tIooJ-00031v-1D;
+ Wed, 04 Dec 2024 12:49:07 +0000
+Date: Wed, 4 Dec 2024 20:48:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nikolaus Voss <nv@vosn.de>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ miquel.raynal@bootlin.com, nikolaus.voss@haag-streit.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+Message-ID: <202412042024.4mJmO3sM-lkp@intel.com>
+References: <20241203191111.47B56F7@mail.steuer-voss.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>,
- Daniel Semkowicz <dse@thaumatec.com>
-References: <20241203165450.1501219-1-heiko@sntech.de>
- <20241203165450.1501219-4-heiko@sntech.de>
-Content-Language: en-US
-From: Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20241203165450.1501219-4-heiko@sntech.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk9CSFZJQk5IQ0JKHk1MQhhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a9391b0297109d6kunm4b3f2238
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PSo6SQw*PzIhCQhRHCpOPS4N
- NAoKCklVSlVKTEhISEpNS01IT09CVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
- WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSUtCS0M3Bg++
-DKIM-Signature: a=rsa-sha256;
- b=Hs3v67iEk0bp71WBXpB4Vce4GLOZ5nuRUSMiFnjKtGNAI30wWnhtNWWbIGZFsC4+dteJBlsUr/X6qCggB2HzzoBwxjcTGW3ardRrrZjeqDFFKQtAMt3ExsI1BaxG1YhGNm/TLnxqVU2RYd6unaBTcdOlu63uSFkE2epeHMQ80Io=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=nSEXGxrylVivNX6XuE/k3lXK3558t8wLqSEd4BUT5k0=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203191111.47B56F7@mail.steuer-voss.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,630 +79,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
+Hi Nikolaus,
 
-On 12/4/24 00:54, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@cherry.de>
-> 
-> This adds the glue code for the MIPI DSI2 bridge on Rockchip SoCs and
-> enables its use on the RK3588.
-> 
-> Right now the DSI2 controller is always paired with a DC-phy based on a
-> Samsung IP, so the interface values are set statically for now.
-> This stays true for the upcoming RK3576 as well.
-> 
-> Tested-by: Daniel Semkowicz <dse@thaumatec.com>
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
-> ---
->   drivers/gpu/drm/rockchip/Kconfig              |  10 +
->   drivers/gpu/drm/rockchip/Makefile             |   1 +
->   .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 524 ++++++++++++++++++
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   1 +
->   5 files changed, 538 insertions(+)
->   create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> 
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index 448fadd4ba15..84af423b7f90 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -10,6 +10,7 @@ config DRM_ROCKCHIP
->   	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
->   	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
->   	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-> +	select DRM_DW_MIPI_DSI2 if ROCKCHIP_DW_MIPI_DSI2
->   	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
->   	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
->   	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
-> @@ -81,6 +82,15 @@ config ROCKCHIP_DW_MIPI_DSI
->   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
->   	  select this option.
->   
-> +config ROCKCHIP_DW_MIPI_DSI2
-> +	bool "Rockchip specific extensions for Synopsys DW MIPI DSI2"
-> +	select GENERIC_PHY_MIPI_DPHY
-> +	help
-> +	  This selects support for Rockchip SoC specific extensions
-> +	  for the Synopsys DesignWare dsi driver. If you want to
-           
-          Maybe we should emphasize dsi2 driver here ?
+kernel test robot noticed the following build warnings:
 
-> +	  enable MIPI DSI on RK3576 or RK3588 based SoC, you should
-> +	  select this option.
-> +
->   config ROCKCHIP_INNO_HDMI
->   	bool "Rockchip specific extensions for Innosilicon HDMI"
->   	select DRM_DISPLAY_HDMI_HELPER
-> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
-> index 3eab662a5a1d..2b867cebbc12 100644
-> --- a/drivers/gpu/drm/rockchip/Makefile
-> +++ b/drivers/gpu/drm/rockchip/Makefile
-> @@ -13,6 +13,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) += dw_hdmi_qp-rockchip.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
-> +rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) += dw-mipi-dsi2-rockchip.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) += rockchip_lvds.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_RGB) += rockchip_rgb.o
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> new file mode 100644
-> index 000000000000..55eed4001634
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> @@ -0,0 +1,524 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2024 Rockchip Electronics Co.Ltd
-> + * Author:
-> + *      Guochun Huang <hero.huang@rock-chips.com>
-> + *      Heiko Stuebner <heiko.stuebner@cherry.de>
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/clk.h>
-> +#include <linux/component.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +#include <linux/reset.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/phy/phy.h>
-> +
-> +#include <drm/bridge/dw_mipi_dsi2.h>
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_of.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include <uapi/linux/videodev2.h>
-> +
-> +#include "rockchip_drm_drv.h"
-> +#include "rockchip_drm_vop.h"
+[auto build test WARNING on linus/master]
+[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc1 next-20241203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-It seems that we don't use anything from rockchip_drm_vop.h ?
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolaus-Voss/drm-bridge-fsl-ldb-fixup-mode-on-freq-mismatch/20241204-115306
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241203191111.47B56F7%40mail.steuer-voss.de
+patch subject: [PATCH v2] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+config: arm-randconfig-003-20241204 (https://download.01.org/0day-ci/archive/20241204/202412042024.4mJmO3sM-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412042024.4mJmO3sM-lkp@intel.com/reproduce)
 
-> +
-> +#define PSEC_PER_SEC			1000000000000LL
-> +
-> +struct dsigrf_reg {
-> +	u16 offset;
-> +	u16 lsb;
-> +	u16 msb;
-> +};
-> +
-> +enum grf_reg_fields {
-> +	TXREQCLKHS_EN,
-> +	GATING_EN,
-> +	IPI_SHUTDN,
-> +	IPI_COLORM,
-> +	IPI_COLOR_DEPTH,
-> +	IPI_FORMAT,
-> +	MAX_FIELDS,
-> +};
-> +
-> +#define IPI_DEPTH_5_6_5_BITS		0x02
-> +#define IPI_DEPTH_6_BITS		0x03
-> +#define IPI_DEPTH_8_BITS		0x05
-> +#define IPI_DEPTH_10_BITS		0x06
-> +
-> +struct rockchip_dw_dsi2_chip_data {
-> +	u32 reg;
-> +	const struct dsigrf_reg *grf_regs;
-> +	unsigned long long max_bit_rate_per_lane;
-> +};
-> +
-> +struct dw_mipi_dsi2_rockchip {
-> +	struct device *dev;
-> +	struct rockchip_encoder encoder;
-> +	struct regmap *regmap;
-> +	struct clk *pclk;
-> +	struct clk *sys_clk;
-> +
-> +	unsigned int lane_mbps; /* per lane */
-> +	u32 format;
-> +
-> +	struct regmap *grf_regmap;
-> +	struct phy *phy;
-> +	union phy_configure_opts phy_opts;
-> +
-> +	struct dw_mipi_dsi2 *dmd;
-> +	struct dw_mipi_dsi2_plat_data pdata;
-> +	const struct rockchip_dw_dsi2_chip_data *cdata;
-> +};
-> +
-> +static inline struct dw_mipi_dsi2_rockchip *to_dsi2(struct drm_encoder *encoder)
-> +{
-> +	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
-> +
-> +	return container_of(rkencoder, struct dw_mipi_dsi2_rockchip, encoder);
-> +}
-> +
-> +static void grf_field_write(struct dw_mipi_dsi2_rockchip *dsi2, enum grf_reg_fields index,
-> +			    unsigned int val)
-> +{
-> +	const struct dsigrf_reg *field = &dsi2->cdata->grf_regs[index];
-> +
-> +	if (!field)
-> +		return;
-> +
-> +	regmap_write(dsi2->grf_regmap, field->offset,
-> +		     (val << field->lsb) | (GENMASK(field->msb, field->lsb) << 16));
-> +}
-> +
-> +static int dw_mipi_dsi2_phy_init(void *priv_data)
-> +{
-> +	return 0;
-> +}
-> +
-> +static void dw_mipi_dsi2_phy_power_on(void *priv_data)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-> +	int ret;
-> +
-> +	ret = phy_set_mode(dsi2->phy, PHY_MODE_MIPI_DPHY);
-> +	if (ret) {
-> +		dev_err(dsi2->dev, "Failed to set phy mode: %d\n", ret);
-> +		return;
-> +	}
-> +
-> +	phy_configure(dsi2->phy, &dsi2->phy_opts);
-> +	phy_power_on(dsi2->phy);
-> +}
-> +
-> +static void dw_mipi_dsi2_phy_power_off(void *priv_data)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-> +
-> +	phy_power_off(dsi2->phy);
-> +}
-> +
-> +static int
-> +dw_mipi_dsi2_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
-> +			   unsigned long mode_flags, u32 lanes, u32 format,
-> +			   unsigned int *lane_mbps)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-> +	u64 max_lane_rate, target_phyclk;
-> +	unsigned int lane_rate_kbps;
-> +	int bpp;
-> +
-> +	max_lane_rate = dsi2->cdata->max_bit_rate_per_lane;
-> +
-> +	dsi2->format = format;
-> +	bpp = mipi_dsi_pixel_format_to_bpp(format);
-> +	if (bpp < 0) {
-> +		dev_err(dsi2->dev, "failed to get bpp for pixel format %d\n", format);
-> +		return bpp;
-> +	}
-> +
-> +	lane_rate_kbps = mode->clock * bpp / lanes;
-> +
-> +	/*
-> +	 * Set BW a little larger only in video burst mode in
-> +	 * consideration of the protocol overhead and HS mode
-> +	 * switching to BLLP mode, take 1 / 0.9, since Mbps must
-> +	 * big than bandwidth of RGB
-> +	 */
-> +	if (mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-> +		lane_rate_kbps = (lane_rate_kbps * 10) / 9;
-> +
-> +	if (lane_rate_kbps > max_lane_rate) {
-> +		dev_err(dsi2->dev, "DPHY clock frequency is out of range\n");
-> +		return -ERANGE;
-> +	}
-> +
-> +	dsi2->lane_mbps = lane_rate_kbps / 1000;
-> +	*lane_mbps = dsi2->lane_mbps;
-> +
-> +	if (dsi2->phy) {
-> +		target_phyclk = DIV_ROUND_CLOSEST_ULL(lane_rate_kbps * lanes * 1000, bpp);
-> +		phy_mipi_dphy_get_default_config(target_phyclk, bpp, lanes,
-> +						 &dsi2->phy_opts.mipi_dphy);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_mipi_dsi2_phy_get_iface(void *priv_data, struct dw_mipi_dsi2_phy_iface *iface)
-> +{
-> +	/* PPI width is fixed to 16 bits in DCPHY */
-> +	iface->ppi_width = 16;
-> +	iface->phy_type = DW_MIPI_DSI2_DPHY;
-> +}
-> +
-> +static int
-> +dw_mipi_dsi2_phy_get_timing(void *priv_data, unsigned int lane_mbps,
-> +			    struct dw_mipi_dsi2_phy_timing *timing)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-> +	struct phy_configure_opts_mipi_dphy *cfg = &dsi2->phy_opts.mipi_dphy;
-> +	unsigned long long tmp, ui;
-> +	unsigned long long hstx_clk;
-> +
-> +	hstx_clk = DIV_ROUND_CLOSEST_ULL(dsi2->lane_mbps * USEC_PER_SEC, 16);
-> +
-> +	ui = ALIGN(PSEC_PER_SEC, hstx_clk);
-> +	do_div(ui, hstx_clk);
-> +
-> +	/* PHY_LP2HS_TIME = (TLPX + THS-PREPARE + THS-ZERO) / Tphy_hstx_clk */
-> +	tmp = cfg->lpx + cfg->hs_prepare + cfg->hs_zero;
-> +	tmp = DIV_ROUND_CLOSEST_ULL(tmp << 16, ui);
-> +	timing->data_lp2hs = tmp;
-> +
-> +	/* PHY_HS2LP_TIME = (THS-TRAIL + THS-EXIT) / Tphy_hstx_clk */
-> +	tmp = cfg->hs_trail + cfg->hs_exit;
-> +	tmp = DIV_ROUND_CLOSEST_ULL(tmp << 16, ui);
-> +	timing->data_hs2lp = tmp;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dw_mipi_dsi2_phy_ops dw_mipi_dsi2_rockchip_phy_ops = {
-> +	.init = dw_mipi_dsi2_phy_init,
-> +	.power_on = dw_mipi_dsi2_phy_power_on,
-> +	.power_off = dw_mipi_dsi2_phy_power_off,
-> +	.get_interface = dw_mipi_dsi2_phy_get_iface,
-> +	.get_lane_mbps = dw_mipi_dsi2_get_lane_mbps,
-> +	.get_timing = dw_mipi_dsi2_phy_get_timing,
-> +};
-> +
-> +static void dw_mipi_dsi2_encoder_atomic_enable(struct drm_encoder *encoder,
-> +					       struct drm_atomic_state *state)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = to_dsi2(encoder);
-> +	u32 color_depth;
-> +
-> +	switch (dsi2->format) {
-> +	case MIPI_DSI_FMT_RGB666:
-> +	case MIPI_DSI_FMT_RGB666_PACKED:
-> +		color_depth = IPI_DEPTH_6_BITS;
-> +		break;
-> +	case MIPI_DSI_FMT_RGB565:
-> +		color_depth = IPI_DEPTH_5_6_5_BITS;
-> +		break;
-> +	case MIPI_DSI_FMT_RGB888:
-> +		color_depth = IPI_DEPTH_8_BITS;
-> +		break;
-> +	default:
-> +		/* Should've been caught by atomic_check */
-> +		WARN_ON(1);
-> +		return;
-> +	}
-> +
-> +	grf_field_write(dsi2, IPI_COLOR_DEPTH, color_depth);
-> +}
-> +
-> +static int
-> +dw_mipi_dsi2_encoder_atomic_check(struct drm_encoder *encoder,
-> +				  struct drm_crtc_state *crtc_state,
-> +				  struct drm_connector_state *conn_state)
-> +{
-> +	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = to_dsi2(encoder);
-> +	struct drm_connector *connector = conn_state->connector;
-> +	struct drm_display_info *info = &connector->display_info;
-> +
-> +	switch (dsi2->format) {
-> +	case MIPI_DSI_FMT_RGB666:
-> +	case MIPI_DSI_FMT_RGB666_PACKED:
-> +		s->output_mode = ROCKCHIP_OUT_MODE_P666;
-> +		break;
-> +	case MIPI_DSI_FMT_RGB565:
-> +		s->output_mode = ROCKCHIP_OUT_MODE_P565;
-> +		break;
-> +	case MIPI_DSI_FMT_RGB888:
-> +		s->output_mode = ROCKCHIP_OUT_MODE_P888;
-> +		break;
-> +	default:
-> +		WARN_ON(1);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (info->num_bus_formats)
-> +		s->bus_format = info->bus_formats[0];
-> +	else
-> +		s->bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> +
-> +	s->output_type = DRM_MODE_CONNECTOR_DSI;
-> +	s->bus_flags = info->bus_flags;
-> +	s->color_space = V4L2_COLORSPACE_DEFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct drm_encoder_helper_funcs
-> +dw_mipi_dsi2_encoder_helper_funcs = {
-> +	.atomic_enable = dw_mipi_dsi2_encoder_atomic_enable,
-> +	.atomic_check = dw_mipi_dsi2_encoder_atomic_check,
-> +};
-> +
-> +static int rockchip_dsi2_drm_create_encoder(struct dw_mipi_dsi2_rockchip *dsi2,
-> +					    struct drm_device *drm_dev)
-> +{
-> +	struct drm_encoder *encoder = &dsi2->encoder.encoder;
-> +	int ret;
-> +
-> +	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm_dev,
-> +							     dsi2->dev->of_node);
-> +
-> +	ret = drm_simple_encoder_init(drm_dev, encoder, DRM_MODE_ENCODER_DSI);
-> +	if (ret) {
-> +		dev_err(dsi2->dev, "Failed to initialize encoder with drm\n");
-> +		return ret;
-> +	}
-> +
-> +	drm_encoder_helper_add(encoder, &dw_mipi_dsi2_encoder_helper_funcs);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_mipi_dsi2_rockchip_bind(struct device *dev, struct device *master,
-> +				      void *data)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-> +	struct drm_device *drm_dev = data;
-> +	int ret;
-> +
-> +	ret = rockchip_dsi2_drm_create_encoder(dsi2, drm_dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to create drm encoder\n");
-> +
-> +	rockchip_drm_encoder_set_crtc_endpoint_id(&dsi2->encoder,
-> +						  dev->of_node, 0, 0);
-> +
-> +	ret = dw_mipi_dsi2_bind(dsi2->dmd, &dsi2->encoder.encoder);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to bind\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_mipi_dsi2_rockchip_unbind(struct device *dev, struct device *master,
-> +					 void *data)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-> +
-> +	dw_mipi_dsi2_unbind(dsi2->dmd);
-> +}
-> +
-> +static const struct component_ops dw_mipi_dsi2_rockchip_ops = {
-> +	.bind	= dw_mipi_dsi2_rockchip_bind,
-> +	.unbind	= dw_mipi_dsi2_rockchip_unbind,
-> +};
-> +
-> +static int dw_mipi_dsi2_rockchip_host_attach(void *priv_data,
-> +					     struct mipi_dsi_device *device)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-> +	int ret;
-> +
-> +	ret = component_add(dsi2->dev, &dw_mipi_dsi2_rockchip_ops);
-> +	if (ret)
-> +		return dev_err_probe(dsi2->dev, ret, "Failed to register component\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_mipi_dsi2_rockchip_host_detach(void *priv_data,
-> +					     struct mipi_dsi_device *device)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = priv_data;
-> +
-> +	component_del(dsi2->dev, &dw_mipi_dsi2_rockchip_ops);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dw_mipi_dsi2_host_ops dw_mipi_dsi2_rockchip_host_ops = {
-> +	.attach = dw_mipi_dsi2_rockchip_host_attach,
-> +	.detach = dw_mipi_dsi2_rockchip_host_detach,
-> +};
-> +
-> +static __maybe_unused int dw_mipi_dsi2_runtime_suspend(struct device *dev)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-> +
-> +	clk_disable_unprepare(dsi2->pclk);
-> +	clk_disable_unprepare(dsi2->sys_clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static __maybe_unused int dw_mipi_dsi2_runtime_resume(struct device *dev)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = dev_get_drvdata(dev);
-> +
-> +	clk_prepare_enable(dsi2->pclk);
-> +	clk_prepare_enable(dsi2->sys_clk);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dev_pm_ops dw_mipi_dsi2_rockchip_pm_ops = {
-> +	SET_RUNTIME_PM_OPS(dw_mipi_dsi2_runtime_suspend,
-> +			   dw_mipi_dsi2_runtime_resume, NULL)
-> +};
-> +
-> +static const struct regmap_config dw_mipi_dsi2_rockchip_regmap_config = {
-> +	.name = "dsi2-host",
-> +	.reg_bits = 32,
-> +	.val_bits = 32,
-> +	.reg_stride = 4,
-> +	.fast_io = true,
-> +};
-> +
-> +static int dw_mipi_dsi2_rockchip_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np = dev->of_node;
-> +	const struct rockchip_dw_dsi2_chip_data *cdata =
-> +						of_device_get_match_data(dev);
-> +	struct dw_mipi_dsi2_rockchip *dsi2;
-> +	struct resource *res;
-> +	void __iomem *base;
-> +	int i;
-> +
-> +	dsi2 = devm_kzalloc(dev, sizeof(*dsi2), GFP_KERNEL);
-> +	if (!dsi2)
-> +		return -ENOMEM;
-> +
-> +	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-> +	if (IS_ERR(base))
-> +		return dev_err_probe(dev, PTR_ERR(base), "Unable to get dsi registers\n");
-> +
-> +	dsi2->regmap = devm_regmap_init_mmio(dev, base, &dw_mipi_dsi2_rockchip_regmap_config);
-> +	if (IS_ERR(dsi2->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(dsi2->regmap), "failed to init register map\n");
-> +
-> +	i = 0;
-> +	while (cdata[i].reg) {
-> +		if (cdata[i].reg == res->start) {
-> +			dsi2->cdata = &cdata[i];
-> +			break;
-> +		}
-> +
-> +		i++;
-> +	}
-> +
-> +	if (!dsi2->cdata)
-> +		return dev_err_probe(dev, -EINVAL, "No dsi-config for %s node\n", np->name);
-> +
-> +	dsi2->pclk = devm_clk_get(dev, "pclk");
-> +	if (IS_ERR(dsi2->pclk))
-> +		return dev_err_probe(dev, PTR_ERR(dsi2->pclk), "Unable to get pclk\n");
-> +
-> +	dsi2->sys_clk = devm_clk_get(dev, "sys");
-> +	if (IS_ERR(dsi2->sys_clk))
-> +		return dev_err_probe(dev, PTR_ERR(dsi2->sys_clk), "Unable to get sys_clk\n");
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412042024.4mJmO3sM-lkp@intel.com/
 
-Do we really need to get pclk and sys clk here? __dw_mipi_dsi2_probe will also do this .
+All warnings (new ones prefixed by >>):
 
-> +
-> +	dsi2->grf_regmap = syscon_regmap_lookup_by_phandle(dev->of_node, "rockchip,grf");
-> +	if (IS_ERR(dsi2->grf_regmap))
-> +		return dev_err_probe(dsi2->dev, PTR_ERR(dsi2->grf_regmap), "Unable to get grf\n");
-> +
-> +	dsi2->phy = devm_phy_optional_get(dev, "dcphy");
-> +	if (IS_ERR(dsi2->phy))
-> +		return dev_err_probe(dev, PTR_ERR(dsi2->phy), "failed to get mipi phy\n");
-> +
-> +	dsi2->dev = dev;
-> +	dsi2->pdata.regmap = dsi2->regmap;
-> +	dsi2->pdata.max_data_lanes = 4;
-> +	dsi2->pdata.phy_ops = &dw_mipi_dsi2_rockchip_phy_ops;
-> +	dsi2->pdata.host_ops = &dw_mipi_dsi2_rockchip_host_ops;
-> +	dsi2->pdata.priv_data = dsi2;
-> +	platform_set_drvdata(pdev, dsi2);
-> +
-> +	dsi2->dmd = dw_mipi_dsi2_probe(pdev, &dsi2->pdata);
-> +	if (IS_ERR(dsi2->dmd))
-> +		return dev_err_probe(dev, PTR_ERR(dsi2->dmd), "Failed to probe dw_mipi_dsi2\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_mipi_dsi2_rockchip_remove(struct platform_device *pdev)
-> +{
-> +	struct dw_mipi_dsi2_rockchip *dsi2 = platform_get_drvdata(pdev);
-> +
-> +	dw_mipi_dsi2_remove(dsi2->dmd);
-> +}
-> +
-> +static const struct dsigrf_reg rk3588_dsi0_grf_reg_fields[MAX_FIELDS] = {
-> +	[TXREQCLKHS_EN]		= { 0x0000, 11, 11 },
-> +	[GATING_EN]		= { 0x0000, 10, 10 },
-> +	[IPI_SHUTDN]		= { 0x0000,  9,  9 },
-> +	[IPI_COLORM]		= { 0x0000,  8,  8 },
-> +	[IPI_COLOR_DEPTH]	= { 0x0000,  4,  7 },
-> +	[IPI_FORMAT]		= { 0x0000,  0,  3 },
-> +};
-> +
-> +static const struct dsigrf_reg rk3588_dsi1_grf_reg_fields[MAX_FIELDS] = {
-> +	[TXREQCLKHS_EN]		= { 0x0004, 11, 11 },
-> +	[GATING_EN]		= { 0x0004, 10, 10 },
-> +	[IPI_SHUTDN]		= { 0x0004,  9,  9 },
-> +	[IPI_COLORM]		= { 0x0004,  8,  8 },
-> +	[IPI_COLOR_DEPTH]	= { 0x0004,  4,  7 },
-> +	[IPI_FORMAT]		= { 0x0004,  0,  3 },
-> +};
-> +
-> +static const struct rockchip_dw_dsi2_chip_data rk3588_chip_data[] = {
-> +	{
-> +		.reg = 0xfde20000,
-> +		.grf_regs = rk3588_dsi0_grf_reg_fields,
-> +		.max_bit_rate_per_lane = 4500000ULL,
-> +	},
-> +	{
-> +		.reg = 0xfde30000,
-> +		.grf_regs = rk3588_dsi1_grf_reg_fields,
-> +		.max_bit_rate_per_lane = 4500000ULL,
-> +	}
-> +};
-> +
-> +static const struct of_device_id dw_mipi_dsi2_rockchip_dt_ids[] = {
-> +	{
-> +		.compatible = "rockchip,rk3588-mipi-dsi2",
-> +		.data = &rk3588_chip_data,
-> +	},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, dw_mipi_dsi2_rockchip_dt_ids);
-> +
-> +struct platform_driver dw_mipi_dsi2_rockchip_driver = {
-> +	.probe	= dw_mipi_dsi2_rockchip_probe,
-> +	.remove = dw_mipi_dsi2_rockchip_remove,
-> +	.driver = {
-> +		.of_match_table = dw_mipi_dsi2_rockchip_dt_ids,
-> +		.pm = &dw_mipi_dsi2_rockchip_pm_ops,
-> +		.name = "dw-mipi-dsi2",
-> +	},
-> +};
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> index ddf0be331c0a..5327ce035003 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -511,6 +511,8 @@ static int __init rockchip_drm_init(void)
->   				CONFIG_ROCKCHIP_DW_HDMI_QP);
->   	ADD_ROCKCHIP_SUB_DRIVER(dw_mipi_dsi_rockchip_driver,
->   				CONFIG_ROCKCHIP_DW_MIPI_DSI);
-> +	ADD_ROCKCHIP_SUB_DRIVER(dw_mipi_dsi2_rockchip_driver,
-> +				CONFIG_ROCKCHIP_DW_MIPI_DSI2);
->   	ADD_ROCKCHIP_SUB_DRIVER(inno_hdmi_driver, CONFIG_ROCKCHIP_INNO_HDMI);
->   	ADD_ROCKCHIP_SUB_DRIVER(rk3066_hdmi_driver,
->   				CONFIG_ROCKCHIP_RK3066_HDMI);
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-> index 24b4ce5ceaf1..9c9d38a06cdf 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-> @@ -90,6 +90,7 @@ extern struct platform_driver cdn_dp_driver;
->   extern struct platform_driver dw_hdmi_rockchip_pltfm_driver;
->   extern struct platform_driver dw_hdmi_qp_rockchip_pltfm_driver;
->   extern struct platform_driver dw_mipi_dsi_rockchip_driver;
-> +extern struct platform_driver dw_mipi_dsi2_rockchip_driver;
->   extern struct platform_driver inno_hdmi_driver;
->   extern struct platform_driver rockchip_dp_driver;
->   extern struct platform_driver rockchip_lvds_driver;
+>> drivers/gpu/drm/bridge/fsl-ldb.c:125:30: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+                                   struct drm_bridge_state *,
+                                                            ^
+   drivers/gpu/drm/bridge/fsl-ldb.c:127:33: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+                                   struct drm_connector_state *)
+                                                               ^
+   2 warnings generated.
+
+
+vim +125 drivers/gpu/drm/bridge/fsl-ldb.c
+
+   123	
+   124	static int fsl_ldb_atomic_check(struct drm_bridge *bridge,
+ > 125					struct drm_bridge_state *,
+   126					struct drm_crtc_state *crtc_state,
+   127					struct drm_connector_state *)
+   128	{
+   129		struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
+   130		const struct drm_display_mode *mode = &crtc_state->mode;
+   131		unsigned long requested_link_freq =
+   132			fsl_ldb_link_frequency(fsl_ldb, mode->clock);
+   133		unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_link_freq);
+   134	
+   135		if (freq != requested_link_freq) {
+   136			/*
+   137			 * this will lead to flicker and incomplete lines on
+   138			 * the attached display, adjust the CRTC clock
+   139			 * accordingly.
+   140			 */
+   141			struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+   142			int pclk = freq / fsl_ldb_link_frequency(fsl_ldb, 1);
+   143	
+   144			if (adjusted_mode->clock != pclk) {
+   145				dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
+   146					 adjusted_mode->clock, pclk);
+   147	
+   148				adjusted_mode->clock = pclk;
+   149				adjusted_mode->crtc_clock = pclk;
+   150			}
+   151		}
+   152	
+   153		return 0;
+   154	}
+   155	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
