@@ -2,58 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EDF9E3B19
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:19:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBDD9E3B4E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:33:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC0210ED05;
-	Wed,  4 Dec 2024 13:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDEF810ED0C;
+	Wed,  4 Dec 2024 13:33:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nvR7HkZE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BehLDnST";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D66810E0D1;
- Wed,  4 Dec 2024 13:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733318369; x=1764854369;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Bl3YRY2ZNAyUOBZvgqu14yu+mKsPPDUgR1HwrQGFpi8=;
- b=nvR7HkZENd4FWl5vF+kw0dgOgYgNr8U9mGxyGaNaPgDy+0/qnvxWMig8
- JUVXgh/r63/3y5+TcR2UWSoT1zS0rRAKyvZL0ZlianmB/gZzL/vAXJZWx
- 7ae/6OyL5UiEn3G3Eq9Tbj0a8Vx2K9Zg2txoy5dIYhuq/ZHAM9NXjVMTe
- mZiVkBYGeDzEGnivyISS3Zc5Rt4WRa0p+g4OVylev3JCk8Q9d3NA/lgfI
- mX1DDP554HRvknkMPriIeSMP71dITxfiwx/wHew7kJlb+8etpAQpYDCJY
- EFFTZ/Ol4pGzKxhYWXvVtUGD4g96j611p0Qc9C7I6JRYe+TlJ7Q8y+Htg Q==;
-X-CSE-ConnectionGUID: PuNcHz+JTISiSxCOtdCwDg==
-X-CSE-MsgGUID: EtygWjIJQa+q5FOHubrVdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="51114460"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="51114460"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2024 05:19:29 -0800
-X-CSE-ConnectionGUID: /78+7sWGQ7OBEeaBbF1TEw==
-X-CSE-MsgGUID: RiDIH8yNQyKXFyuMpCkoPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="131218557"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2024 05:19:27 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	Lyude Paul <lyude@redhat.com>
-Subject: [PATCH v2 5/7] drm/dp_mst: Ensure mst_primary pointer is valid in
- drm_dp_mst_handle_up_req()
-Date: Wed,  4 Dec 2024 15:20:07 +0200
-Message-ID: <20241204132007.3132494-1-imre.deak@intel.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20241203160223.2926014-6-imre.deak@intel.com>
-References: <20241203160223.2926014-6-imre.deak@intel.com>
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96BF110ED0C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:33:14 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-2ffdf564190so76870421fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 05:33:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733319192; x=1733923992; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=RsB/NfCwM+1P1olfsdC/83TYUAkoJAqW1rAzLORxhG4=;
+ b=BehLDnSTHjTYMGhTr/F85DdietvuHkgBAogvT+6VetpnY9Ys91TDmfXbvRUJIdA67e
+ ipKsTz1p0D2UJXB9zUH1BpVzb3p8xYVKhjt3M/moemUy9rWDBJ5C6rsgW4bXLTTSr0PA
+ KIVSNzZEQuulOS6cL8/Ci+OYQi5ODinmZROswOIiJBwZyGbwDL4pBpf8Ch/Y2ByOTJyM
+ yPwC+vTa+6AHcIPjMAePysZEuEAwyTQ1ukFHjP4u5G5pUmugLD9tq68IJcd/86XnVdMk
+ UKHdvUVasoFnXYdfulu6yq9qqh5nh0pt03JTaBBEPcrQ4ARgIaSHylKH2/ajyQpQwPrN
+ E2mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733319192; x=1733923992;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RsB/NfCwM+1P1olfsdC/83TYUAkoJAqW1rAzLORxhG4=;
+ b=BEg0rbWLJFGnud/Ok1lht+Y/EsrW29ikMKHfz6HxNBCfS6j04b4YGHPq1TsCJUk37v
+ 3cG5/3ng1CzUF/CuWsIqjvUis1W4YRdc7q/Ptw+4ZpI4cWsg2PQ/06P2cQMta4a58ir5
+ KuuR1P//zPVSr18A4/eJGSIlCupIZzYKxD2B9uGx0mEEmsczOQPW4DON2qG90vQiFlTL
+ YjM3uLp6+uvDbl+S55kz8fFWRmJkhkPgGC78NI6us/WjgYFBWVbDISH+X/FTUw+kP51R
+ QHSrU4Rrz/BsMZTw2JNM7gZIy4hyjxHG8NVnBVd+aM659vdktV3TtCM9kXDf1pWrI7Lh
+ dfBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUj0qTRGTLO19un2lUw7D5FX2HJjsaiz6rbVaZM3cbJJ//gRuoQX1L560O91QiqD3GsPSpLkRq6w8U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHoqeIpwWsa+UOrtcNRNAg2Zi+JQ3Uc7dl913lQ/ASfqJq30Us
+ 5SY86lFItGvRMox+wy+eiMuv3TR0sGrE8QVkJ6cgxuVkcRF+5PdUolRp78OFUoM=
+X-Gm-Gg: ASbGncu0FOy1TzwxmB+xFKtMwedORzw5x1oeZ0dRIluTNR3zL6nXaeZziVvvXyMLyaK
+ PMKfkMelY9NaXBwkJdsz7QV9BWsjj7QwTGOGT8Y06c1ikLKxfDfFuxQ4eL11A3FQLizIpe1CKrb
+ 5lnwu154VFXe6GkVb2BOS29VQ7fEjKoZ06cwCGqWmTXFPBU+aSpc0436GSljvteFxysjFLphvQH
+ AV0TIG0gHf2QKxQAj7f43aJiMHJf/dfFX6I6u8NCST7+7+e41E3HKaCdwnsgPKgRJwfLy0iwimP
+ qrjRe9+0bEYBZt9NmF7jeG7Bqt6RGQ==
+X-Google-Smtp-Source: AGHT+IHljNFnGfVrhy26wQvMiA6JzxpZak1+n6ymrInfwTm7qaG3E2fx4pN19Sr0wCFYUH9zwMcJxA==
+X-Received: by 2002:a2e:a5c9:0:b0:2ff:a415:5ac6 with SMTP id
+ 38308e7fff4ca-30009caa509mr36018411fa.29.1733319192549; 
+ Wed, 04 Dec 2024 05:33:12 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-2ffdfcd6f90sm19855931fa.126.2024.12.04.05.33.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2024 05:33:12 -0800 (PST)
+Date: Wed, 4 Dec 2024 15:33:09 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Liu Ying <victor.liu@nxp.com>, linux-renesas-soc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, biju.das.jz@bp.renesas.com, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+Message-ID: <7bzqm2qbr5zwwlltvbj77ux4hu5iwuwz25u3hwvgnwak5xyl7k@54wzvunf7cze>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ <834a2690-ca06-4a8b-9a81-c4981074f95c@nxp.com>
+ <Z1Aw0WafGmYDrr8K@tom-desktop>
+ <cnauwpk7myky6zbfcqg5335dqif4vmggzxlq554ye2bykb5iwh@ng4oxd2c5md3>
+ <Z1BVADAhfENdcc3y@tom-desktop>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z1BVADAhfENdcc3y@tom-desktop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,90 +102,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-While receiving an MST up request message from one thread in
-drm_dp_mst_handle_up_req(), the MST topology could be removed from
-another thread via drm_dp_mst_topology_mgr_set_mst(false), freeing
-mst_primary and setting drm_dp_mst_topology_mgr::mst_primary to NULL.
-This could lead to a NULL deref/use-after-free of mst_primary in
-drm_dp_mst_handle_up_req().
+On Wed, Dec 04, 2024 at 02:11:28PM +0100, Tommaso Merciai wrote:
+> Hi Dmitry,
+> 
+> On Wed, Dec 04, 2024 at 01:53:44PM +0200, Dmitry Baryshkov wrote:
+> > On Wed, Dec 04, 2024 at 11:37:05AM +0100, Tommaso Merciai wrote:
+> > > Hi Liu Ying,
+> > > Thanks for your review.
+> > > 
+> > > On Wed, Dec 04, 2024 at 11:34:23AM +0800, Liu Ying wrote:
+> > > > On 12/04/2024, tomm.merciai@gmail.com wrote:
+> > > > > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > > > 
+> > > > > Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> > > > > it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> > > > > format by selecting the LVDS input format based on the LVDS data mapping
+> > > > > and thereby support both JEIDA and VESA input formats.
+> > > > 
+> > > > ite,it6263.yaml says IT6263 supports vesa-24 and vesa-30, while
+> > > > this patch actually only adds vesa-24 support.  So, to be more
+> > > > specific, the patch subject and commit message should reflect
+> > > > this rather than claim "Support VESA input format".
+> > > 
+> > > Fully agree, thanks.
+> > > I will fix that in v2 specifying vesa-24 like you suggest.
+> > > 
+> > > > 
+> > > > > 
+> > > > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > > 
+> > > > Can you please send this patch with your Renesas email address
+> > > > instead of Gmail email address?
+> > > > Otherwise, add a Signed-off-by tag with your Gmail email address.
+> > > 
+> > > Thanks, for the point.
+> > > What about adding Acked-by: from my renesas email address?
+> > 
+> > Acked-by has a different meaning. I'd say that generally it's okay to
+> > have this light mismatch, see [1] or any of the emails that B4 generates
+> > for web-based submission.
+> > 
+> > [1] https://lore.kernel.org/dri-devel/20241121164858.457921-1-robdclark@gmail.com/
+> 
+> Thanks for sharing this example and for the clarification.
+> This is similar to my case :)
+> 
+> Then v1 procedure is correct?
+> I can use the same formatting (From: Sob:) for sending v2?
 
-Avoid the above by holding a reference for mst_primary in
-drm_dp_mst_handle_up_req() while it's used.
+I think so
 
-v2: Fix kfreeing the request if getting an mst_primary reference fails.
+> 
+> Thanks & Regards,
+> Tommaso
+> > 
+> > > 
+> > 
+> > -- 
+> > With best wishes
+> > Dmitry
 
-Cc: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com> (v1)
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 24 ++++++++++++++-----
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 895c78806f0c5..7a0e757b712c7 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -4105,9 +4105,10 @@ static void drm_dp_mst_up_req_work(struct work_struct *work)
- static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- {
- 	struct drm_dp_pending_up_req *up_req;
-+	struct drm_dp_mst_branch *mst_primary;
- 
- 	if (!drm_dp_get_one_sb_msg(mgr, true, NULL))
--		goto out;
-+		goto out_clear_reply;
- 
- 	if (!mgr->up_req_recv.have_eomt)
- 		return 0;
-@@ -4125,10 +4126,19 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 		drm_dbg_kms(mgr->dev, "Received unknown up req type, ignoring: %x\n",
- 			    up_req->msg.req_type);
- 		kfree(up_req);
--		goto out;
-+		goto out_clear_reply;
-+	}
-+
-+	mutex_lock(&mgr->lock);
-+	mst_primary = mgr->mst_primary;
-+	if (!mst_primary || !drm_dp_mst_topology_try_get_mstb(mst_primary)) {
-+		mutex_unlock(&mgr->lock);
-+		kfree(up_req);
-+		goto out_clear_reply;
- 	}
-+	mutex_unlock(&mgr->lock);
- 
--	drm_dp_send_up_ack_reply(mgr, mgr->mst_primary, up_req->msg.req_type,
-+	drm_dp_send_up_ack_reply(mgr, mst_primary, up_req->msg.req_type,
- 				 false);
- 
- 	if (up_req->msg.req_type == DP_CONNECTION_STATUS_NOTIFY) {
-@@ -4145,13 +4155,13 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 			    conn_stat->peer_device_type);
- 
- 		mutex_lock(&mgr->probe_lock);
--		handle_csn = mgr->mst_primary->link_address_sent;
-+		handle_csn = mst_primary->link_address_sent;
- 		mutex_unlock(&mgr->probe_lock);
- 
- 		if (!handle_csn) {
- 			drm_dbg_kms(mgr->dev, "Got CSN before finish topology probing. Skip it.");
- 			kfree(up_req);
--			goto out;
-+			goto out_put_primary;
- 		}
- 	} else if (up_req->msg.req_type == DP_RESOURCE_STATUS_NOTIFY) {
- 		const struct drm_dp_resource_status_notify *res_stat =
-@@ -4168,7 +4178,9 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 	mutex_unlock(&mgr->up_req_lock);
- 	queue_work(system_long_wq, &mgr->up_req_work);
- 
--out:
-+out_put_primary:
-+	drm_dp_mst_topology_put_mstb(mst_primary);
-+out_clear_reply:
- 	memset(&mgr->up_req_recv, 0, sizeof(struct drm_dp_sideband_msg_rx));
- 	return 0;
- }
 -- 
-2.44.2
-
+With best wishes
+Dmitry
