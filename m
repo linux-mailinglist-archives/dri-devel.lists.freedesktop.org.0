@@ -2,87 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B1C29E3437
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 08:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5879E348B
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 08:54:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BD6710EC1B;
-	Wed,  4 Dec 2024 07:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDA2C10EC24;
+	Wed,  4 Dec 2024 07:54:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Osxe82UM";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dg46Bgf9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D576810EC1B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 07:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733298148; x=1764834148;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=gK06+f1C0mBtgYKTZ09XhG1sOVFjumSjIgGeM6ZwmU0=;
- b=Osxe82UMA0/+tDgr4m6z0FXgTbo2XV3j8+ZfJPS2CZ8HjnjfSlALA3Ds
- RZU3eckiQPILV1f2qOjAduPx24zC5Wz9f9F9mip5EW+kFL9UxPg0qafkC
- mRzYG0QoC4IcJTSWMuGCmuFkw9smL+lJvvvPxcKxz4bXw5Kq5D4FSSpoI
- A47yV+EK1QG6DwadQrpK5+VeRGT+K/Oq4w1tUtsD+LOnmRnWL96LfIW+1
- POzFaSbnjN5B/pHgnpd5SRcr7EvpL0u9N6cssVl1e5DwuVxZP/j3kKXY0
- qeX3dWowUL5nk33P8DRacBtnWEuCkoVefsQxnMlGAuM1eR3uNBqD8NDKv Q==;
-X-CSE-ConnectionGUID: v3SWdENJTW6XcNduDIpAcQ==
-X-CSE-MsgGUID: TmKHVPGfT3Gst0uboHWmYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="21132189"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="21132189"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2024 23:42:27 -0800
-X-CSE-ConnectionGUID: ztyXjIeiR26vOG8EeEOB9Q==
-X-CSE-MsgGUID: MiRNI+71Qr6pKR5u1cWLig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="131139278"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.205])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2024 23:42:14 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE
- <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim
- <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
- <heiko@sntech.de>, Andy
- Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 7/9] drm/bridge_connector: hook
- drm_atomic_helper_connector_hdmi_update_edid()
-In-Reply-To: <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-7-b5316e82f61a@linaro.org>
- <87a5dc4zd5.fsf@intel.com>
- <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
-Date: Wed, 04 Dec 2024 09:42:11 +0200
-Message-ID: <87v7vz3ne4.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78FA910EC24
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 07:54:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B5C105C64B8;
+ Wed,  4 Dec 2024 07:53:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92EA3C4CED1;
+ Wed,  4 Dec 2024 07:54:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733298852;
+ bh=r7spAKgJ9nwULUJ94kYk71uQKUoe4HtwLYlFt5AYFJI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dg46Bgf9jwMe6I1uCUp3Lsqtqf6L/k+MOBRHQoLdYmuzUIj0YUPcWbX0FtmUbIOMh
+ /+dpPtOR1Mg9DF47VITfak8t3HqsepZ8N0gAtcWbT/6pxjIAqvvjniAX1LLVgw7bAv
+ V31ZZPZO5JGoHe70R9EUujt8ApeIxGQSN2FHtuLpDeFwBHMvZt7nUB4zPOdfIl+35Y
+ shSaxILOJRNytxvk+PlaGNVVI6LhNiGKKuEe1HsxGlNunsHDkFmJ/hO3htzzthOhGs
+ WoTh7KGN6Wdvj/s576JgluvmyghHZTCHILiPJucuZ5Ury76Jttc74A+mCtU4XIUUMJ
+ t5DVVQuNwx9MQ==
+Date: Wed, 4 Dec 2024 08:54:09 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Andrej Picej <andrej.picej@norik.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
+Subject: Re: [PATCH v3 1/3] dt-bindings: drm/bridge: ti-sn65dsi83: Add
+ properties for ti,lvds-vod-swing
+Message-ID: <vgg3bygtmj6sotatddkqfapset5bofsqvkzuj7ejuvomn6hs3n@mscq2jbhtaux>
+References: <20241203110054.2506123-1-andrej.picej@norik.com>
+ <20241203110054.2506123-2-andrej.picej@norik.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241203110054.2506123-2-andrej.picej@norik.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,32 +66,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 04 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Tue, Dec 03, 2024 at 04:25:58PM +0200, Jani Nikula wrote:
->> On Sun, 01 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->> > +	drm_edid = drm_bridge_edid_read(bridge, connector);
->> > +	if (!drm_edid_valid(drm_edid)) {
->> 
->> What's the case this check is for?
->> 
->> My preference would be that bridge->funcs->edid_read() uses
->> drm_edid_read*() family of functions that do the checks and return the
->> EDID.
->> 
->> There are some cases that just allocate a blob and return it. Would be
->> nice if they could be converted, but in the mean time could use
->> drm_edid_valid() right there. Additional validity checks are redundant.
->
-> This was c&p from drm_bridge_connector_get_modes_edid(). If you think
-> that the check is redundant, could you please send a patch dropping the
-> check?
-
-Mmmh. It's just scary to *remove* them, and that's the reason I didn't
-want you to add one in the first place! :)
-
-BR,
-Jani.
+On Tue, Dec 03, 2024 at 12:00:52PM +0100, Andrej Picej wrote:
+> Add properties which can be used to specify LVDS differential output
+> voltage. Since this also depends on near-end signal termination also
+> include property which sets this. LVDS differential output voltage is
+> specified with an array (min, max), which should match the one from
+> connected device.
+> 
+> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+> ---
+> Changes in v3:
+> - no change
 
 
--- 
-Jani Nikula, Intel
+One version of patchset per 24h.
+
+> Changes in v2:
+> - move LVDS port schema to a $defs and reference it from there
+> - properties are now defined in microvolts/ohms
+> - use 1 property for data-lane and 1 for clock-lane LVDS voltage swing
+> - add 1 property which sets LVDS near-end termination
+> - since major change was done change the authorship to myself
+> ---
+>  .../bindings/display/bridge/ti,sn65dsi83.yaml | 36 +++++++++++++++++--
+>  1 file changed, 33 insertions(+), 3 deletions(-)
+
+...
+
+>  allOf:
+>    - if:
+>        properties:
+> @@ -120,7 +150,7 @@ allOf:
+>            properties:
+>              port@1: false
+>  
+> -additionalProperties: false
+> +additionalProperties: true
+
+This cannot be true. Not explained in commit msg and this is not shared
+schema.
+
+>  
+>  examples:
+>    - |
+> -- 
+> 2.34.1
+> 
