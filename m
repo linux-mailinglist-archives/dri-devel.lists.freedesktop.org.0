@@ -2,87 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E9B9E31BF
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 04:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8718A9E31FE
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 04:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED07510E295;
-	Wed,  4 Dec 2024 03:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB50910E244;
+	Wed,  4 Dec 2024 03:18:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g7Aq4f11";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XEyrgW9E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61D1510E295
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 03:03:46 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-2ffd6882dcbso49250931fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 19:03:46 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4169F10E287
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 03:18:17 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-53df63230d0so7629204e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Dec 2024 19:18:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733281424; x=1733886224; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733282295; x=1733887095; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ikLnrq2neiQXCnlo3R5J5faufHu5wG48WhuaguFzsfQ=;
- b=g7Aq4f11YXnNV0KrougwB5BAeyMQc5/SfTuhyNwNwC8uq/NRayzyn79HeNPMfs0BVS
- li9nSeOn0LSUfQBFSPoK0E9rkxm5G7CWXNxVojmA/gwfUzZyJeqqbUYzKO1C4Ke9S6iu
- iET8QtczE7KT8B14p35lO8ipQ0mQAhN0Hg2NcyThenCAybiKMKXeVwhfUYu1yPPpqMJb
- lpGHFF2fNg5d9mOUBUpZX5gxGAlGdOHdKRRUy8AvISlL64Y0mt4XAnan533Cd95PwjSL
- UYWILf1/lTa+ez/acvcg0aE3J/EN5+mEPKbRyStj5v962siABx2nNBjftTZpt7xvYI+D
- 5DbA==
+ bh=ov4oIDApdgx4WHS7bE5m2BIEReCDIeuVyAq9ezmep2w=;
+ b=XEyrgW9EFTBdSKFXtrSNurXB8H6A5uMK0v4/Vhr8jJjJ0Sor+gCXCZqM8SUOW1Y6wq
+ wgZqDV+8+B/O+bKzoKs09+yqUfxhYwaP8bYSN1G1aghYmM4M7fi1lEf7QwndsBXEuvdt
+ pjOu0rovVGOa/FLxRnk6ujPvkON+jl5sZj16CR5aKUytGooJ1QWlxPqZ8YndFBHWVxfm
+ Gpsl6DqfylJ+i0gI+TU9+GigUC2QmN8MrhYXsfivE/QoJxe/4SGf/4JB9KVwqKYHz4Ae
+ amvIyLY1sfHFNpZT/BmLEp7Ya8hzH0CpjDeV2NxL5E/8lYHHHB1guNt9Yg1Ow+iWF31j
+ ll5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733281424; x=1733886224;
+ d=1e100.net; s=20230601; t=1733282295; x=1733887095;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ikLnrq2neiQXCnlo3R5J5faufHu5wG48WhuaguFzsfQ=;
- b=Z+RL91TPYDg8NDT5IwuAYn2RNMWB1X47ol1NKbxhmRYnhx0yHFtstlU3eDvXP1Gign
- WIOfQ3NV4pblEC3dsgmBBMwZ3MNTl2kv+j3A6Y5E/iPcDSY29AiQo6SXb93fFsiLgR4F
- gIgvvUFzrCWqyf5RupYERdX5K/55BIpgOMThWpSH3d71JIUIP+U0Sbg7fxk0A5Yhpu1O
- m/Rijngrh+ohyrS22s0FH31aYYmh66rqZyTcbdMGNm2gGV5D/2stQkfgvCTX7aSOuso0
- tiRrg5EpxbsI86BIE73v6WSkNXcjcBMtZT642KtR/O6Io5ERaU+9hO0ejGefaseDkRl4
- /brg==
+ bh=ov4oIDApdgx4WHS7bE5m2BIEReCDIeuVyAq9ezmep2w=;
+ b=f9yHz5bSe0UEEd16CcuoHg13dRlbOcAGWtSSFLWoBcfoHUDdDXaJtwudj4Clb0gHTk
+ iZNKvMdNLuiT46/8Pp4ylnhvDTAjqGsiTsTyPPyKy10FU8et9CpjKYDiiLNHQ6raccDU
+ V0hUx7rTzhXrTu1np3GDt61g1p4Vu2dzdFxVo1NNDmlJcHxqiteLQiTC7kKvSWpdKzbN
+ B/x7yF0B2KYSOydBI1Qe1b/TRt4Ew0ULc7BpsiOmZ5BjRyb4f5yNihCjmpuV3hUTtBWA
+ LM8ZdoKOfUuryVRq4uZVJjVW93XtiiVrzjYWP006HelMTpsNApuBbeYyAroYxIi8ywoU
+ wFkg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6v+Lvav1dY5XxVYVgE9JCZfJ1nZRvP26tp0nx0nf/yKRIp7FG9mCPTuowZDirNFwl/Zj393fbD0w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMUk560vKVWn1sd7UOMafnMZF2R6QTrBBQQlGRC0ELphsxY704
- Y0Mh8utyQzHsh1pznMCvOxSxIP67QOAF00+Bh0Umr7EcYdO6jIp0VnociP+4L9s=
-X-Gm-Gg: ASbGncv4LozDQDssNAOcBOlMwc2EEPOq0WaTbcA2pqidDUSiq5gIRuO0TxAcrA1DhSE
- 7AOw1J0+M2mZnnj7csS8QLFoN5lbEu1PldNg5G1nX7T8TqOZhwdIsu2nGquLa8H9j/dj9VnLsTM
- Mxv/2BfeArAihUuFNNCu+iMN6c+KDifj+pfH97ZAscl8PsAGGOoJzUl9vwmR6oShxQvPkJ4REwC
- E+eLHeUrXTJJ1061qJbS8kmNMpWMB+qev/WGDhasFBhploE0gFfvKzOT5mc6Ox2v1cW0Nj7o/wX
- M70n3ntaOkm4XisLUtr+VeTIM7mnuQ==
-X-Google-Smtp-Source: AGHT+IHvj3GK9mvvHsYxtJ/AYW0XXXhWSJ/ZzMycuoNBeFIBdIFiRzpwHVHkl0tRH7tUUn0ZNFCc4A==
-X-Received: by 2002:a05:6512:2209:b0:53d:a264:f25a with SMTP id
- 2adb3069b0e04-53e1b8c11e5mr907942e87.47.1733281424214; 
- Tue, 03 Dec 2024 19:03:44 -0800 (PST)
+ AJvYcCUSEnIaNhYT0eB59F5hEbfXkWfW+wFHpC5Wj67d0gyJyntws+FfMkFU2OYr3XQaCh471/IKkEdOsXk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyD61B2z8Yx70YC9dURrgptNtQD1pGjHXYmwG0q+41cs4UHlTsY
+ w61vDDW6QtAJmXRrXLiAo0ge9HwI4x/06tBiS4PoDzTourqBGz/aqOR8u7EXVkI=
+X-Gm-Gg: ASbGncs49UUVBxmlkNIrMMFQOgcI7XIe+Q39xs2XrozwVj+jkJa2vlzr7pgjHdHFNxf
+ G9jRIa8kv4IIXUAqo4/ATymSqHASRDySILGwMIIghN1dkiQNZp28xJrNp1rXH1mi5fiPmmB90Ms
+ HebTHoZOyWL7vxt5RYr2E/3JEOhnot7aKt5O5kQWL9pdyQK0Aq5Q/hOjCFNzl18euYwWZL6eM6K
+ esE0GZ0xqbcjC/E0xmPaXz2sbZUifkdy2H8Uy9eQ6cW/jwXUJXu7cN8Y1/751GiWB5UCzDsVwpk
+ 51MUqaZJ85+kqpYS1OaBtmMnJTuXBw==
+X-Google-Smtp-Source: AGHT+IFJX8QZfHrEBC9Xxxj95DpGajpX3DiwA7TRxy/4ydOL7I3C5fwKfR6CJxAdfz87Jxn9zNInqQ==
+X-Received: by 2002:a05:6512:3a8e:b0:53d:a550:2885 with SMTP id
+ 2adb3069b0e04-53e12a34282mr2179215e87.47.1733282295266; 
+ Tue, 03 Dec 2024 19:18:15 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53df646efd9sm2067551e87.143.2024.12.03.19.03.41
+ 2adb3069b0e04-53df649f13csm2058532e87.230.2024.12.03.19.18.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Dec 2024 19:03:42 -0800 (PST)
-Date: Wed, 4 Dec 2024 05:03:40 +0200
+ Tue, 03 Dec 2024 19:18:14 -0800 (PST)
+Date: Wed, 4 Dec 2024 05:18:11 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Stephen Boyd <swboyd@chromium.org>, 
- Doug Anderson <dianders@chromium.org>, Johan Hovold <johan@kernel.org>, 
- Bjorn Andersson <quic_bjorande@quicinc.com>
-Subject: Re: [PATCH 1/4] drm/msm/dp: remove redundant checks related to
- ST_DISPLAY_OFF in plug/irq_ipd handlers
-Message-ID: <evnnydsvr5ur7sl2lnahqo7ni6y5bwbdfkajhrmbues5uyeb2c@zym27uj553yy>
-References: <20241202-hpd_display_off-v1-0-8d0551847753@quicinc.com>
- <20241202-hpd_display_off-v1-1-8d0551847753@quicinc.com>
- <pa3jwxpnipj7lcusioqnjesz4cpgc2oyqgspqqvk2i5kb6ud4k@fi4grx6w5k7d>
- <41725f98-5c23-47d2-966b-ebd5f4e1c532@quicinc.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Phong LE <ple@baylibre.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 7/9] drm/bridge_connector: hook
+ drm_atomic_helper_connector_hdmi_update_edid()
+Message-ID: <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-7-b5316e82f61a@linaro.org>
+ <87a5dc4zd5.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <41725f98-5c23-47d2-966b-ebd5f4e1c532@quicinc.com>
+In-Reply-To: <87a5dc4zd5.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,95 +119,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 03, 2024 at 06:36:45PM -0800, Abhinav Kumar wrote:
+On Tue, Dec 03, 2024 at 04:25:58PM +0200, Jani Nikula wrote:
+> On Sun, 01 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > Extend drm_bridge_connector code to read the EDID and use it to update
+> > connector status if the bridge chain implements HDMI bridge. Performing
+> > it from the generic location minimizes individual bridge's code and
+> > enforces standard behaviour from all corresponding drivers.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_bridge_connector.c | 67 ++++++++++++++++++++------
+> >  1 file changed, 53 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+> > index 12ab9f14cc8a8672478ae2804c9a68d766d88ea5..71ae3b2c9049016d1cc0d39a787f6461633efd53 100644
+> > --- a/drivers/gpu/drm/display/drm_bridge_connector.c
+> > +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+> > @@ -17,6 +17,7 @@
+> >  #include <drm/drm_edid.h>
+> >  #include <drm/drm_managed.h>
+> >  #include <drm/drm_modeset_helper_vtables.h>
+> > +#include <drm/drm_print.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/display/drm_hdmi_state_helper.h>
+> >  
+> > @@ -175,17 +176,55 @@ static void drm_bridge_connector_disable_hpd(struct drm_connector *connector)
+> >   * Bridge Connector Functions
+> >   */
+> >  
+> > +static const struct drm_edid *
+> > +drm_bridge_connector_read_edid(struct drm_connector *connector,
+> > +			       enum drm_connector_status status)
+> > +{
+> > +	struct drm_bridge_connector *bridge_connector =
+> > +		to_drm_bridge_connector(connector);
+> > +	const struct drm_edid *drm_edid;
+> > +	struct drm_bridge *bridge;
+> > +
+> > +	bridge = bridge_connector->bridge_edid;
+> > +	if (!bridge)
+> > +		return NULL;
+> > +
+> > +	if (status != connector_status_connected)
+> > +		return NULL;
+> > +
+> > +	drm_edid = drm_bridge_edid_read(bridge, connector);
+> > +	if (!drm_edid_valid(drm_edid)) {
 > 
+> What's the case this check is for?
 > 
-> On 12/3/2024 5:50 AM, Dmitry Baryshkov wrote:
-> > On Mon, Dec 02, 2024 at 04:39:00PM -0800, Abhinav Kumar wrote:
-> > > In commit 8ede2ecc3e5ee ("drm/msm/dp: Add DP compliance tests on Snapdragon Chipsets"),
-> > > checks were introduced to avoid handling any plug or irq hpd events in
-> > > ST_DISPLAY_OFF state.
-> > > 
-> > > Even if we do get hpd events, after the bridge was disabled,
-> > > it should get handled. Moreover, its unclear under what circumstances
-> > > these events will fire because ST_DISPLAY_OFF means that the link was
-> > > still connected but only the bridge was disabled. If the link was untouched,
-> > > then interrupts shouldn't fire.
-> > 
-> > What about the link being untouched, but the monitor being toggled
-> > somehow, which might generate HPD / attention events?
-> > 
+> My preference would be that bridge->funcs->edid_read() uses
+> drm_edid_read*() family of functions that do the checks and return the
+> EDID.
 > 
-> To confirm my understanding of this, I tested this case again with and
-> without a dongle on sc7180.
-> 
-> Without a dongle - When the monitor is powered off and powered on, without
-> physically disturbing the cable, it still generates a hotplug disconnect
-> event when powered off and hotplug connect event when its powered on again.
-> 
-> It gets handled the same way as a user would hotplug it using the cable.
-> 
-> With a dongle - When the monitor is powered off , nothing happens and it
-> stays in connected state. When the monitor is powered back on, it generates
-> a hotplug disable followed by hotplug enable event. This behavior is
-> consistent with or without this series with this dongle.
-> 
-> So from the DP driver point of view, for both these cases, its just another
-> hotlplug disconnect/connect.
-> 
-> Both these cases still work fine with these changes.
+> There are some cases that just allocate a blob and return it. Would be
+> nice if they could be converted, but in the mean time could use
+> drm_edid_valid() right there. Additional validity checks are redundant.
 
-Thanks for the confirmation!
-
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+This was c&p from drm_bridge_connector_get_modes_edid(). If you think
+that the check is redundant, could you please send a patch dropping the
+check?
 
 > 
-> > > 
-> > > Even in the case of the DP compliance equipment, it should be raising these
-> > > interrupts during the start of the test which is usually accompanied with either
-> > > a HPD pulse or a IRQ HPD but after the bridge is disabled it should be fine
-> > > to handle these anyway. In the absence of a better reason to keep these checks,
-> > > drop these and if any other issues do arise, it should be handled in a different
-> > > way.
-> > > 
-> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > > ---
-> > >   drivers/gpu/drm/msm/dp/dp_display.c | 10 ----------
-> > >   1 file changed, 10 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > index aba925aab7ad..992184cc17e4 100644
-> > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > @@ -562,11 +562,6 @@ static int msm_dp_hpd_plug_handle(struct msm_dp_display_private *dp, u32 data)
-> > >   	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
-> > >   			dp->msm_dp_display.connector_type, state);
-> > > -	if (state == ST_DISPLAY_OFF) {
-> > > -		mutex_unlock(&dp->event_mutex);
-> > > -		return 0;
-> > > -	}
-> > > -
-> > >   	if (state == ST_MAINLINK_READY || state == ST_CONNECTED) {
-> > >   		mutex_unlock(&dp->event_mutex);
-> > >   		return 0;
-> > > @@ -689,11 +684,6 @@ static int msm_dp_irq_hpd_handle(struct msm_dp_display_private *dp, u32 data)
-> > >   	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
-> > >   			dp->msm_dp_display.connector_type, state);
-> > > -	if (state == ST_DISPLAY_OFF) {
-> > > -		mutex_unlock(&dp->event_mutex);
-> > > -		return 0;
-> > > -	}
-> > > -
-> > >   	if (state == ST_MAINLINK_READY || state == ST_DISCONNECT_PENDING) {
-> > >   		/* wait until ST_CONNECTED */
-> > >   		msm_dp_add_event(dp, EV_IRQ_HPD_INT, 0, 1); /* delay = 1 */
-> > > 
-> > > -- 
-> > > 2.34.1
-> > > 
-> > 
+> BR,
+> Jani.
+> 
+> 
+> > +		drm_edid_free(drm_edid);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	return drm_edid;
+> > +}
+> > +
+> >  static enum drm_connector_status
+> >  drm_bridge_connector_detect(struct drm_connector *connector, bool force)
+> >  {
+> >  	struct drm_bridge_connector *bridge_connector =
+> >  		to_drm_bridge_connector(connector);
+> >  	struct drm_bridge *detect = bridge_connector->bridge_detect;
+> > +	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
+> >  	enum drm_connector_status status;
+> >  
+> >  	if (detect) {
+> >  		status = detect->funcs->detect(detect);
+> >  
+> > +		if (hdmi) {
+> > +			const struct drm_edid *drm_edid;
+> > +			int ret;
+> > +
+> > +			drm_edid = drm_bridge_connector_read_edid(connector, status);
+> > +			ret = drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
+> > +			if (ret)
+> > +				drm_warn(connector->dev, "updating EDID failed with %d\n", ret);
+> > +
+> > +			drm_edid_free(drm_edid);
+> > +		}
+> > +
+> >  		drm_bridge_connector_hpd_notify(connector, status);
+> >  	} else {
+> >  		switch (connector->connector_type) {
+> > @@ -246,29 +285,29 @@ static const struct drm_connector_funcs drm_bridge_connector_funcs = {
+> >  static int drm_bridge_connector_get_modes_edid(struct drm_connector *connector,
+> >  					       struct drm_bridge *bridge)
+> >  {
+> > +	struct drm_bridge_connector *bridge_connector =
+> > +		to_drm_bridge_connector(connector);
+> > +	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
+> >  	enum drm_connector_status status;
+> >  	const struct drm_edid *drm_edid;
+> > -	int n;
+> >  
+> >  	status = drm_bridge_connector_detect(connector, false);
+> >  	if (status != connector_status_connected)
+> > -		goto no_edid;
+> > +		return 0;
+> >  
+> > -	drm_edid = drm_bridge_edid_read(bridge, connector);
+> > -	if (!drm_edid_valid(drm_edid)) {
+> > +	/* In HDMI setup the EDID has been read and handled as a part of .detect() */
+> > +	if (!hdmi) {
+> > +		drm_edid = drm_bridge_connector_read_edid(connector, status);
+> > +		if (!drm_edid) {
+> > +			drm_edid_connector_update(connector, NULL);
+> > +			return 0;
+> > +		}
+> > +
+> > +		drm_edid_connector_update(connector, drm_edid);
+> >  		drm_edid_free(drm_edid);
+> > -		goto no_edid;
+> >  	}
+> >  
+> > -	drm_edid_connector_update(connector, drm_edid);
+> > -	n = drm_edid_connector_add_modes(connector);
+> > -
+> > -	drm_edid_free(drm_edid);
+> > -	return n;
+> > -
+> > -no_edid:
+> > -	drm_edid_connector_update(connector, NULL);
+> > -	return 0;
+> > +	return drm_edid_connector_add_modes(connector);
+> >  }
+> >  
+> >  static int drm_bridge_connector_get_modes(struct drm_connector *connector)
+> 
+> -- 
+> Jani Nikula, Intel
 
 -- 
 With best wishes
