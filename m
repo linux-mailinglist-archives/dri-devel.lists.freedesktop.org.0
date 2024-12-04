@@ -2,74 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76DD9E43EC
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4599E4400
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7D010E54B;
-	Wed,  4 Dec 2024 19:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACB410E551;
+	Wed,  4 Dec 2024 19:04:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Qim8GpN2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8305710E54B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:01:12 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-313-jjyDm2TwPfyiY5kFs-bItg-1; Wed, 04 Dec 2024 19:01:10 +0000
-X-MC-Unique: jjyDm2TwPfyiY5kFs-bItg-1
-X-Mimecast-MFC-AGG-ID: jjyDm2TwPfyiY5kFs-bItg
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 4 Dec
- 2024 19:00:30 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 4 Dec 2024 19:00:30 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Linus Torvalds
- <torvalds@linux-foundation.org>, Luc Van Oostenryck
- <luc.vanoostenryck@gmail.com>, Nathan Chancellor <nathan@kernel.org>, "Nick
- Desaulniers" <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Rikard Falkeborn
- <rikard.falkeborn@gmail.com>, Martin Uecker
- <Martin.Uecker@med.uni-goettingen.de>
-CC: "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
- "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "coresight@lists.linaro.org" <coresight@lists.linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH 08/10] drm/i915/reg: replace __is_const_expr() by
- is_const_true() or is_const()
-Thread-Topic: [PATCH 08/10] drm/i915/reg: replace __is_const_expr() by
- is_const_true() or is_const()
-Thread-Index: AQHbROC53ESHBJmyt0it15KohMFuibLWc7hQ
-Date: Wed, 4 Dec 2024 19:00:30 +0000
-Message-ID: <6597979088eb4ee7b98cfb99815a402e@AcuMS.aculab.com>
-References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
- <20241203-is_constexpr-refactor-v1-8-4e4cbaecc216@wanadoo.fr>
-In-Reply-To: <20241203-is_constexpr-refactor-v1-8-4e4cbaecc216@wanadoo.fr>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9598210E54E;
+ Wed,  4 Dec 2024 19:04:10 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4Ebhvi010267;
+ Wed, 4 Dec 2024 19:04:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ rKvaVoAo9QZzYIpLIpPzm19Rx6mJMrYuo4XWJfhmVVI=; b=Qim8GpN2MyDDoYea
+ WTXtsbIlCKXlvffsILgxUcJ2aZkxK3XcJnvArzid3vRw1m65JLcIHQ7qAJljJ/bD
+ aYLL3GWGupRB3IPqrESmGjOz1kr82W7YgTgl+mHfup4T25uoQY5FWSVvRKGF2nkm
+ 7NeW//gE5GX+tzZtES2Rl29BiAAAJyYFGUxFWrEH9FpWimsMo4VIK7P1ii5zI0Iu
+ V8P3b/JGE4YN0247nJ5FNfV2dqRaofhRNJ99GG6++56GBjoPDGhG7OrxNqBxcPNR
+ v0TGDO8pKcBySnGpL9pbUGkqBvNUY8xqI/5SRy/aVEtLzF9lIcH/hHk5fusXiNMw
+ bPBnyA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439v7ywcje-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 04 Dec 2024 19:04:03 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B4J42lX027274
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 4 Dec 2024 19:04:02 GMT
+Received: from [10.216.22.114] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 4 Dec 2024
+ 11:03:57 -0800
+Message-ID: <f603f71c-64f4-4f29-b8b9-430d758a738b@quicinc.com>
+Date: Thu, 5 Dec 2024 00:33:55 +0530
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JdsaKwaqt6pdGS4N9Fc0upaaO-gx44u0ecabXxiyw_w_1733338868
-X-Mimecast-Originator: aculab.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] drm/msm/adreno: Introduce ADRENO_QUIRK_NO_SYSCACHE
+To: Rob Clark <robdclark@gmail.com>
+CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>
+References: <20241125-a612-gpu-support-v2-0-b7cc38e60191@quicinc.com>
+ <20241125-a612-gpu-support-v2-1-b7cc38e60191@quicinc.com>
+ <752484b5-2db1-4714-8046-17cd5496d81d@oss.qualcomm.com>
+ <0aa547fc-4c88-4457-8d01-81f93fb3832c@quicinc.com>
+ <CAF6AEGvqPEFN+j0Txa5KPmxF8tXCn_uUsM86i4uo+tc2mTWYgg@mail.gmail.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <CAF6AEGvqPEFN+j0Txa5KPmxF8tXCn_uUsM86i4uo+tc2mTWYgg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: YWQExhXkQneS9244YNdV1kL_d4jQndXa
+X-Proofpoint-GUID: YWQExhXkQneS9244YNdV1kL_d4jQndXa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ impostorscore=0 adultscore=0 priorityscore=1501 clxscore=1011
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412040145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,130 +100,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVmluY2VudCBNYWlsaG9sDQo+IFNlbnQ6IDAyIERlY2VtYmVyIDIwMjQgMTc6MzQNCj4g
-DQo+IE1vc3Qgb2YgdGhlIHVzZSBvZiBfX2lzX2NvbnN0X2V4cHIoKSBpbiBpOTE1X3JlZ19kZWZz
-LmggYXJlIGp1c3QgdG8NCj4gdGVzdCB3aGV0aGVyIGFuIGV4cHJlc3Npb24gaXMga25vd24gdG8g
-YmUgdHJ1ZS4gQmVjYXVzZSB0aG9zZSBjaGVja3MNCj4gYXJlIGFsbCBkb25lIGluIGEgQlVJTERf
-QlVHX09OX1pFUk8oKSwgcmVwbGFjZSB0aG9zZSB3aXRoDQo+IGlzX2NvbnN0X3RydWUoKS4NCg0K
-QW5vdGhlciBwbGFjZSB0aGF0IGNvdWxkIHVzZSBzdGF0aWNhbGx5X3RydWUoKSBhbmQgQlVJTERf
-QlVHX09OX01TRygpLg0KDQoJRGF2aWQNCg0KPiANCj4gUmVwbGFjZSB0aGUgZmV3IG90aGVyIG9j
-Y3VycmVuY2VzIG9mIF9faXNfY29uc3RfZXhwcigpIHdpdGggaXNfY29uc3QoKS4NCj4gDQo+IFNp
-Z25lZC1vZmYtYnk6IFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+
-DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWdfZGVmcy5oIHwgNDcgKysr
-KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMjIg
-aW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvaTkxNV9yZWdfZGVmcy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
-NV9yZWdfZGVmcy5oDQo+IGluZGV4IGUyNTFiY2MwYzg5ZjU3MTAxMjViYzcwZjA3ODUxYjJjYjk3
-OGM4OWMuLjZlZDJmYjljZjUwNmEzYmQ2NDY3YmEzMGY5ZDBlODYzZDYyNzYyZjMgMTAwNjQ0DQo+
-IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnX2RlZnMuaA0KPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZ19kZWZzLmgNCj4gQEAgLTE5LDggKzE5LDcgQEANCj4g
-ICAqLw0KPiAgI2RlZmluZSBSRUdfQklUKF9fbikJCQkJCQkJXA0KPiAgCSgodTMyKShCSVQoX19u
-KSArCQkJCQkJXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyhfX2lzX2NvbnN0ZXhwcihf
-X24pICYmCQlcDQo+IC0JCQkJICgoX19uKSA8IDAgfHwgKF9fbikgPiAzMSkpKSkNCj4gKwkgICAg
-ICAgQlVJTERfQlVHX09OX1pFUk8oaXNfY29uc3RfdHJ1ZSgoX19uKSA8IDAgfHwgKF9fbikgPiAz
-MSkpKSkNCj4gDQo+ICAvKioNCj4gICAqIFJFR19CSVQ4KCkgLSBQcmVwYXJlIGEgdTggYml0IHZh
-bHVlDQo+IEBAIC0zMiw4ICszMSw3IEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0JJVDgoX19u
-KSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4g
-IAkoKHU4KShCSVQoX19uKSArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyhfX2lzX2NvbnN0ZXhwcihf
-X24pICYmICAgICAgICAgXA0KPiAtCQkJCSAoKF9fbikgPCAwIHx8IChfX24pID4gNykpKSkNCj4g
-KwkgICAgICBCVUlMRF9CVUdfT05fWkVSTyhpc19jb25zdF90cnVlKChfX24pIDwgMCB8fCAoX19u
-KSA+IDcpKSkpDQo+IA0KPiAgLyoqDQo+ICAgKiBSRUdfR0VOTUFTSygpIC0gUHJlcGFyZSBhIGNv
-bnRpbnVvdXMgdTMyIGJpdG1hc2sNCj4gQEAgLTQ2LDkgKzQ0LDkgQEANCj4gICAqLw0KPiAgI2Rl
-ZmluZSBSRUdfR0VOTUFTSyhfX2hpZ2gsIF9fbG93KQkJCQkJXA0KPiAgCSgodTMyKShHRU5NQVNL
-KF9faGlnaCwgX19sb3cpICsJCQkJCVwNCj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19p
-c19jb25zdGV4cHIoX19oaWdoKSAmJglcDQo+IC0JCQkJIF9faXNfY29uc3RleHByKF9fbG93KSAm
-JgkJXA0KPiAtCQkJCSAoKF9fbG93KSA8IDAgfHwgKF9faGlnaCkgPiAzMSB8fCAoX19sb3cpID4g
-KF9faGlnaCkpKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlzX2NvbnN0X3RydWUo
-KF9fbG93KSA8IDAgfHwJCVwNCj4gKwkJCQkJICAgICAgIChfX2hpZ2gpID4gMzEgfHwJCVwNCj4g
-KwkJCQkJICAgICAgIChfX2xvdykgPiAoX19oaWdoKSkpKSkNCj4gDQo+ICAvKioNCj4gICAqIFJF
-R19HRU5NQVNLNjQoKSAtIFByZXBhcmUgYSBjb250aW51b3VzIHU2NCBiaXRtYXNrDQo+IEBAIC02
-MSw5ICs1OSw5IEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0dFTk1BU0s2NChfX2hpZ2gsIF9f
-bG93KQkJCQkJXA0KPiAgCSgodTY0KShHRU5NQVNLX1VMTChfX2hpZ2gsIF9fbG93KSArCQkJCVwN
-Cj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19pc19jb25zdGV4cHIoX19oaWdoKSAmJgkJ
-XA0KPiAtCQkJCSBfX2lzX2NvbnN0ZXhwcihfX2xvdykgJiYJCVwNCj4gLQkJCQkgKChfX2xvdykg
-PCAwIHx8IChfX2hpZ2gpID4gNjMgfHwgKF9fbG93KSA+IChfX2hpZ2gpKSkpKQ0KPiArCSAgICAg
-ICBCVUlMRF9CVUdfT05fWkVSTyhpc19jb25zdF90cnVlKChfX2xvdykgPCAwIHx8CQlcDQo+ICsJ
-CQkJCSAgICAgICAoX19oaWdoKSA+IDYzIHx8CQlcDQo+ICsJCQkJCSAgICAgICAoX19sb3cpID4g
-KF9faGlnaCkpKSkpDQo+IA0KPiAgLyoqDQo+ICAgKiBSRUdfR0VOTUFTSzgoKSAtIFByZXBhcmUg
-YSBjb250aW51b3VzIHU4IGJpdG1hc2sNCj4gQEAgLTc2LDkgKzc0LDkgQEANCj4gICAqLw0KPiAg
-I2RlZmluZSBSRUdfR0VOTUFTSzgoX19oaWdoLCBfX2xvdykgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXA0KPiAgCSgodTgpKEdFTk1BU0soX19oaWdoLCBfX2xvdykgKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQo+IC0JICAgICAgIEJVSUxEX0JVR19PTl9a
-RVJPKF9faXNfY29uc3RleHByKF9faGlnaCkgJiYgICAgICBcDQo+IC0JCQkJIF9faXNfY29uc3Rl
-eHByKF9fbG93KSAmJiAgICAgICAgICAgICAgIFwNCj4gLQkJCQkgKChfX2xvdykgPCAwIHx8IChf
-X2hpZ2gpID4gNyB8fCAoX19sb3cpID4gKF9faGlnaCkpKSkpDQo+ICsJICAgICAgQlVJTERfQlVH
-X09OX1pFUk8oaXNfY29uc3RfdHJ1ZSgoX19sb3cpIDwgMCB8fCAgICAgICAgICAgIFwNCj4gKwkJ
-CQkJICAgICAgKF9faGlnaCkgPiA3IHx8ICAgICAgICAgICBcDQo+ICsJCQkJCSAgICAgIChfX2xv
-dykgPiAoX19oaWdoKSkpKSkNCj4gDQo+ICAvKg0KPiAgICogTG9jYWwgaW50ZWdlciBjb25zdGFu
-dCBleHByZXNzaW9uIHZlcnNpb24gb2YgaXNfcG93ZXJfb2ZfMigpLg0KPiBAQCAtOTcsMTAgKzk1
-LDEwIEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0ZJRUxEX1BSRVAoX19tYXNrLCBfX3ZhbCkJ
-CQkJCQlcDQo+ICAJKCh1MzIpKCgoKHR5cGVvZihfX21hc2spKShfX3ZhbCkgPDwgX19iZl9zaGYo
-X19tYXNrKSkgJiAoX19tYXNrKSkgKwlcDQo+IC0JICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKCFf
-X2lzX2NvbnN0ZXhwcihfX21hc2spKSArCQlcDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJP
-KCFpc19jb25zdChfX21hc2spKSArCQkJCVwNCj4gIAkgICAgICAgQlVJTERfQlVHX09OX1pFUk8o
-KF9fbWFzaykgPT0gMCB8fCAoX19tYXNrKSA+IFUzMl9NQVgpICsJCVwNCj4gIAkgICAgICAgQlVJ
-TERfQlVHX09OX1pFUk8oIUlTX1BPV0VSX09GXzIoKF9fbWFzaykgKyAoMVVMTCA8PCBfX2JmX3No
-ZihfX21hc2spKSkpICsgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyhfX2J1aWx0aW5f
-Y2hvb3NlX2V4cHIoX19pc19jb25zdGV4cHIoX192YWwpLCAofigoX19tYXNrKSA+Pg0KPiBfX2Jm
-X3NoZihfX21hc2spKSAmIChfX3ZhbCkpLCAwKSkpKQ0KPiArCSAgICAgICBCVUlMRF9CVUdfT05f
-WkVSTyhpc19jb25zdF90cnVlKH4oKF9fbWFzaykgPj4gX19iZl9zaGYoX19tYXNrKSkgJiAoX192
-YWwpKSkpKQ0KPiANCj4gIC8qKg0KPiAgICogUkVHX0ZJRUxEX1BSRVA4KCkgLSBQcmVwYXJlIGEg
-dTggYml0ZmllbGQgdmFsdWUNCj4gQEAgLTExNCwxMCArMTEyLDEwIEBADQo+ICAgKi8NCj4gICNk
-ZWZpbmUgUkVHX0ZJRUxEX1BSRVA4KF9fbWFzaywgX192YWwpICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgXA0KPiAgCSgodTgpKCgoKHR5cGVvZihfX21hc2spKShfX3Zh
-bCkgPDwgX19iZl9zaGYoX19tYXNrKSkgJiAoX19tYXNrKSkgKyAgICAgIFwNCj4gLQkgICAgICAg
-QlVJTERfQlVHX09OX1pFUk8oIV9faXNfY29uc3RleHByKF9fbWFzaykpICsgICAgICAgICAgICAg
-XA0KPiArCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyghaXNfY29uc3QoX19tYXNrKSkgKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIFwNCj4gIAkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oKF9f
-bWFzaykgPT0gMCB8fCAoX19tYXNrKSA+IFU4X01BWCkgKyAgICAgICAgICBcDQo+ICAJICAgICAg
-IEJVSUxEX0JVR19PTl9aRVJPKCFJU19QT1dFUl9PRl8yKChfX21hc2spICsgKDFVTEwgPDwgX19i
-Zl9zaGYoX19tYXNrKSkpKSArIFwNCj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19idWls
-dGluX2Nob29zZV9leHByKF9faXNfY29uc3RleHByKF9fdmFsKSwgKH4oKF9fbWFzaykgPj4NCj4g
-X19iZl9zaGYoX19tYXNrKSkgJiAoX192YWwpKSwgMCkpKSkNCj4gKwkgICAgICAgQlVJTERfQlVH
-X09OX1pFUk8oaXNfY29uc3RfdHJ1ZSh+KChfX21hc2spID4+IF9fYmZfc2hmKF9fbWFzaykpICYg
-KF9fdmFsKSkpKSkNCj4gDQo+ICAvKioNCj4gICAqIFJFR19GSUVMRF9HRVQoKSAtIEV4dHJhY3Qg
-YSB1MzIgYml0ZmllbGQgdmFsdWUNCj4gQEAgLTE1NCw4ICsxNTIsNyBAQA0KPiAgICovDQo+ICAj
-ZGVmaW5lIFJFR19CSVQxNihfX24pICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXA0KPiAgCSgodTE2KShCSVQoX19uKSArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05f
-WkVSTyhfX2lzX2NvbnN0ZXhwcihfX24pICYmICAgICAgICAgXA0KPiAtCQkJCSAoKF9fbikgPCAw
-IHx8IChfX24pID4gMTUpKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlzX2NvbnN0
-X3RydWUoKF9fbikgPCAwIHx8IChfX24pID4gMTUpKSkpDQo+IA0KPiAgLyoqDQo+ICAgKiBSRUdf
-R0VOTUFTSzE2KCkgLSBQcmVwYXJlIGEgY29udGludW91cyB1OCBiaXRtYXNrDQo+IEBAIC0xNjks
-OSArMTY2LDkgQEANCj4gICAqLw0KPiAgI2RlZmluZSBSRUdfR0VOTUFTSzE2KF9faGlnaCwgX19s
-b3cpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gIAkoKHUxNikoR0VO
-TUFTSyhfX2hpZ2gsIF9fbG93KSArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwN
-Cj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19pc19jb25zdGV4cHIoX19oaWdoKSAmJiAg
-ICAgIFwNCj4gLQkJCQkgX19pc19jb25zdGV4cHIoX19sb3cpICYmICAgICAgICAgICAgICAgXA0K
-PiAtCQkJCSAoKF9fbG93KSA8IDAgfHwgKF9faGlnaCkgPiAxNSB8fCAoX19sb3cpID4gKF9faGln
-aCkpKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlzX2NvbnN0X3RydWUoKF9fbG93
-KSA8IDAgfHwgICAgICAgICAgICBcDQo+ICsJCQkJCSAgICAgICAoX19oaWdoKSA+IDE1IHx8ICAg
-ICAgICAgIFwNCj4gKwkJCQkJICAgICAgIChfX2xvdykgPiAoX19oaWdoKSkpKSkNCj4gDQo+ICAv
-KioNCj4gICAqIFJFR19GSUVMRF9QUkVQMTYoKSAtIFByZXBhcmUgYSB1MTYgYml0ZmllbGQgdmFs
-dWUNCj4gQEAgLTE4NiwxMCArMTgzLDEwIEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0ZJRUxE
-X1BSRVAxNihfX21hc2ssIF9fdmFsKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIFwNCj4gIAkoKHUxNikoKCgodHlwZW9mKF9fbWFzaykpKF9fdmFsKSA8PCBfX2JmX3No
-ZihfX21hc2spKSAmIChfX21hc2spKSArICAgICAgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05f
-WkVSTyghX19pc19jb25zdGV4cHIoX19tYXNrKSkgKyAgICAgICAgICAgICBcDQo+ICsJICAgICAg
-IEJVSUxEX0JVR19PTl9aRVJPKCFpc19jb25zdChfX21hc2spKSArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIFwNCj4gIAkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oKF9fbWFzaykgPT0gMCB8
-fCAoX19tYXNrKSA+IFUxNl9NQVgpICsgICAgICAgICAgXA0KPiAgCSAgICAgICBCVUlMRF9CVUdf
-T05fWkVSTyghSVNfUE9XRVJfT0ZfMigoX19tYXNrKSArICgxVUxMIDw8IF9fYmZfc2hmKF9fbWFz
-aykpKSkgKyBcDQo+IC0JICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKF9fYnVpbHRpbl9jaG9vc2Vf
-ZXhwcihfX2lzX2NvbnN0ZXhwcihfX3ZhbCksICh+KChfX21hc2spID4+DQo+IF9fYmZfc2hmKF9f
-bWFzaykpICYgKF9fdmFsKSksIDApKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlz
-X2NvbnN0X3RydWUofigoX19tYXNrKSA+PiBfX2JmX3NoZihfX21hc2spKSAmIChfX3ZhbCkpKSkp
-DQo+IA0KPiAgI2RlZmluZSBfX01BU0tFRF9GSUVMRChtYXNrLCB2YWx1ZSkgKChtYXNrKSA8PCAx
-NiB8ICh2YWx1ZSkpDQo+ICAjZGVmaW5lIF9NQVNLRURfRklFTEQobWFzaywgdmFsdWUpICh7CQkJ
-CQkgICBcDQo+IEBAIC0yMzcsNyArMjM0LDcgQEANCj4gICAqCS4uLg0KPiAgICovDQo+ICAjZGVm
-aW5lIF9QSUNLX0VWRU5fMlJBTkdFUyhfX2luZGV4LCBfX2NfaW5kZXgsIF9fYSwgX19iLCBfX2Ms
-IF9fZCkJCVwNCj4gLQkoQlVJTERfQlVHX09OX1pFUk8oIV9faXNfY29uc3RleHByKF9fY19pbmRl
-eCkpICsJCQlcDQo+ICsJKEJVSUxEX0JVR19PTl9aRVJPKCFpc19jb25zdChfX2NfaW5kZXgpKSAr
-CQkJCVwNCj4gIAkgKChfX2luZGV4KSA8IChfX2NfaW5kZXgpID8gX1BJQ0tfRVZFTihfX2luZGV4
-LCBfX2EsIF9fYikgOgkJXA0KPiAgCQkJCSAgIF9QSUNLX0VWRU4oKF9faW5kZXgpIC0gKF9fY19p
-bmRleCksIF9fYywgX19kKSkpDQo+IA0KPiANCj4gLS0NCj4gMi40NS4yDQo+IA0KPiANCg0KLQ0K
-UmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1p
-bHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVz
-KQ0K
+On 12/1/2024 10:06 PM, Rob Clark wrote:
+> On Sat, Nov 30, 2024 at 12:30 PM Akhil P Oommen
+> <quic_akhilpo@quicinc.com> wrote:
+>>
+>> On 11/30/2024 7:01 PM, Konrad Dybcio wrote:
+>>> On 25.11.2024 5:33 PM, Akhil P Oommen wrote:
+>>>> There are a few chipsets which don't have system cache a.k.a LLC.
+>>>> Currently, the assumption in the driver is that the system cache
+>>>> availability correlates with the presence of GMU or RPMH, which
+>>>> is not true. For instance, Snapdragon 6 Gen 1 has RPMH and a GPU
+>>>> with a full blown GMU, but doesnot have a system cache. So,
+>>>> introduce an Adreno Quirk flag to check support for system cache
+>>>> instead of using gmu_wrapper flag.
+>>>>
+>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>>> ---
+>>>>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 3 ++-
+>>>>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 7 +------
+>>>>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 1 +
+>>>>  3 files changed, 4 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>> index 0c560e84ad5a..5e389f6b8b8a 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>>> @@ -682,6 +682,7 @@ static const struct adreno_info a6xx_gpus[] = {
+>>>>              },
+>>>>              .gmem = (SZ_128K + SZ_4K),
+>>>>              .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>>> +            .quirks = ADRENO_QUIRK_NO_SYSCACHE,
+>>>>              .init = a6xx_gpu_init,
+>>>>              .zapfw = "a610_zap.mdt",
+>>>>              .a6xx = &(const struct a6xx_info) {
+>>>> @@ -1331,7 +1332,7 @@ static const struct adreno_info a7xx_gpus[] = {
+>>>>              },
+>>>>              .gmem = SZ_128K,
+>>>>              .inactive_period = DRM_MSM_INACTIVE_PERIOD,
+>>>> -            .quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+>>>> +            .quirks = ADRENO_QUIRK_HAS_HW_APRIV | ADRENO_QUIRK_NO_SYSCACHE,
+>>>>              .init = a6xx_gpu_init,
+>>>>              .zapfw = "a702_zap.mbn",
+>>>>              .a6xx = &(const struct a6xx_info) {
+>>>
+>>> +a619_holi
+>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> index 019610341df1..a8b928d0f320 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+>>>> @@ -1863,10 +1863,6 @@ static void a7xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+>>>>
+>>>>  static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
+>>>>  {
+>>>> -    /* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+>>>> -    if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
+>>>> -            return;
+>>>> -
+>>>>      llcc_slice_putd(a6xx_gpu->llc_slice);
+>>>>      llcc_slice_putd(a6xx_gpu->htw_llc_slice);
+>>>>  }
+>>>> @@ -1876,8 +1872,7 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
+>>>>  {
+>>>>      struct device_node *phandle;
+>>>>
+>>>> -    /* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+>>>> -    if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
+>>>> +    if (a6xx_gpu->base.info->quirks & ADRENO_QUIRK_NO_SYSCACHE)
+>>>>              return;
+>>>
+>>> I think A612 is the "quirky" one here.. it has some sort of a GMU,
+>>> but we're choosing not to implement it. maybe a check for
+>>>
+>>> if (adreno_has_gmu_wrapper && !adreno_is_a612)
+>>>
+>>> would be clearer here, with a comment that RGMU support is not
+>>> implemented
+>>>
+>>>
+>>>
+>>> But going further, I'm a bit concerned about dt-bindings.. If we
+>>> implement RGMU on the driver side in the future, that will require
+>>> DT changes which will make the currently proposed description invalid.
+>>>
+>>> I think a better angle would be to add a adreno_has_rgmu() func with
+>>> a qcom,adreno-rgmu compatible and plumb it correctly from the get-go.
+>>>
+>>> This way, we can avoid this syscache quirk as well.
+>>>
+>>
+>> I am aware of at least Adreno 710 which doesn't have syscache, but has
+>> proper GMU. And I don't see any reason why there couldn't be another one
+>> in future to save silicon area. So, a quirk flag doesn't seem so bad in
+>> this case.
+>>
+>> The correct way to avoid this quirk flag is by making LLCC driver return
+>> a proper error to detect the absence of syscache. Currently, it just
+>> returns EPROBE_DEFER which put driver in an infinite probe loop.
+> 
+> Hmm, this seems solvable?  llcc has a node in the dt, so it seems like
+> it should be able to tell the difference between not existing and not
+> being probed yet.  Something maybe like, initialize drv_data to NULL
+> instead of -EPROBE_DEFER, and then in the various entry points, if
+> (!drv_data) return not_probed_helper(); which would check if a
+> compatible node exists in dt?
+
+Sounds like that would work. Can we explore that separately?
+
+I am a bit worried about adding another subsystem's patch to this
+series. That might delay this series by weeks.
+
+-Akhil
+
+> 
+> BR,
+> -R
+> 
+>> Agree about the dt binding suggestion. I will define a new compatible
+>> string for rgmu.
+>>
+>> -Akhil.
+>>
+>>> Konrad
+>>
 
