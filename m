@@ -2,60 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397F19E4907
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 00:30:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E08159E487E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 00:14:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA2D810ED87;
-	Wed,  4 Dec 2024 23:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD0910E5A3;
+	Wed,  4 Dec 2024 23:14:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="C+DrpRkO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uV7+aXB1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA39110ED87
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 23:30:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 54BC35C54D8;
- Wed,  4 Dec 2024 23:29:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5CCAC4CED2;
- Wed,  4 Dec 2024 23:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733355027;
- bh=Avd25BoX7Gc9a/fkGmYV/04s9u9/tOaOaYTRyptRfHA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C+DrpRkOuMMgicGX8kn768s+V45rwDN1ZskI9KoKZ2z5NvPWIrxhgM3lcp0P16Ae6
- tjr/Fs//x8+Bnp95nvfn6KCXSLoKV2deXDucaIrnxGe4zHIkqnPXg1tRbgJMasQ8Tm
- qM2fI4GNyXSB4FRt3h3xqHGKCz//jivD0yWHMHMmasvsJpgT3zWPpq7zE1OYZ0zorI
- +fKxBeQkqbq198hRJ0tykUWZzkdwVD5gOomfu4MBkkI1ZDhJ4mv+6xwx1YeR8I4f/K
- 0uYCj0Xiud4B1dvG9bmIPjoxX1fN+FkOzm8en6aVSeJd9bt84rw49TfoY4Q5CGKAOa
- u9ntJ7TyGkV0g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Saravana Kannan <saravanak@google.com>,
- =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?=
- <nfraprado@collabora.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Thierry Reding <treding@nvidia.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, matthias.bgg@gmail.com, sumit.garg@linaro.org,
- ricardo@marliere.net, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 6.1 4/8] drm: display: Set fwnode for aux bus devices
-Date: Wed,  4 Dec 2024 17:18:46 -0500
-Message-ID: <20241204221859.2248634-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221859.2248634-1-sashal@kernel.org>
-References: <20241204221859.2248634-1-sashal@kernel.org>
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29D4910E59B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 23:14:49 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-2ffc7a2c5d5so2348881fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 15:14:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733354087; x=1733958887; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ByDBggfihaA7bzylhtE2nPcYIo+DwLJnDtkfjIDytqw=;
+ b=uV7+aXB1OTFM17UJhS5k9FRXyR9YuNRgZKJDXE8UZi7V1fiy8FDPzQSoga/XB5CZbK
+ SB/sosHL0DLY9dp9iWglazwgE95P2Xf3seEZvtdl7X2HbuAoUAr4UAwsOkhs53Xj2Dvu
+ pSwkqXjIJeVzqGjvbOo8le68FjDZ/3gRFz1wz4/qypXSG1ZLD4/RkSeP39hN1Q7TeSjO
+ 4dr04xUQSQ/zf0U1YGVWyjPfAuFYqTfQ+K7ZqLwZ+lM0eq+aEdoe86OQDqqpw+hkO3lq
+ ZF9Yf2Y5rYRgkwiL9XbVgkLIOcSCsGTuhWgxX9jHB0lUe107xc0paeOxifYmL/cB8zxI
+ +Z6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733354087; x=1733958887;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ByDBggfihaA7bzylhtE2nPcYIo+DwLJnDtkfjIDytqw=;
+ b=hiuzfyG3rnxwxMKwwLTyLfMWqIPCDJexSDGVBPvQ4eb7rzH95a0DWZbCikKFBh6ZjI
+ DGbKXPZDNFiUnFmpmBhdqtZRpZtyq0/42Cib4WDjFlVIXVma50GR8LVZKKENsJktkcTl
+ FOnz+GLp5zWAVRNUgHOItSzmX+DKdW8I83MuDuU28GiOhhh3KW0EREGO0VMLCeGFfNfb
+ xpBeO6/OUsrykRtZPpyLpFXmv+vVM51KNWJIesRWjkyuJnRNGN0U/gbPLeVeuQfanfde
+ k4Tn7JtMpTM2Z48E81OjDHrloU63p04yV12IplNqkj2Bo9iCAVG09N9Xwp+7AqmHOwh5
+ P+Rg==
+X-Gm-Message-State: AOJu0YyBXVLLpf1OhGRdA2gMxfCAiDo/JeXafwQPufhJke57h4BQ5xIf
+ +Lx6OEsOI5iS584ddkUSNJ2+veboLITDK01caJMl8UK/0yP5OPaKQopJYy5UBHs=
+X-Gm-Gg: ASbGncsFmGj7kzfgKVIEWlY1aRCfHLbovFpoMHXwPYfREGmWwf37Pp3Nq9EQujxMmNc
+ 0jbJTn6/MTEtXziyrh0P7KvwUBsmj/iN2NYlYr8NWVz724FFs7NYo16tp9O8igZQFa13yl6rqfC
+ PYgVACgiLvD+nr6Y0WUYDe81zXMklWBJGzuaxWceIHuR8Yw+h6NxSZOFOgWncfJpjRTSBVUn30d
+ 2pnQRtxttjNdXc1YJy8nXQtN2yb/fwHzwvdZxFfQvhoKTtIplYm8rFXMtW+f+l5367pZoJ8Qvrc
+ 0BYWqa8Fk7m+UsR+UQf/sFqp+cjh7Q==
+X-Google-Smtp-Source: AGHT+IFuUS7Not1i5YzDB3gHy3ub9/hXvCvAwbQxzNqfeGQDqOoYZ6k6qPs0qszHy91ZjySfOh3ENQ==
+X-Received: by 2002:a05:651c:210c:b0:2ff:7a4f:e770 with SMTP id
+ 38308e7fff4ca-30014eaa13cmr17797471fa.31.1733354087009; 
+ Wed, 04 Dec 2024 15:14:47 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30020e2085fsm158771fa.83.2024.12.04.15.14.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2024 15:14:45 -0800 (PST)
+Date: Thu, 5 Dec 2024 01:14:43 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, Simon Ser <contact@emersion.fr>, 
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, David Airlie <airlied@gmail.com>, 
+ Hamza Mahfooz <hamza.mahfooz@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, 
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ amd-gfx@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 3/3] drm: remove driver date from struct drm_driver
+ and all drivers
+Message-ID: <couqmlshll3v6vgziqnt6sq7caf4nart42ljo5fbim3rg7ec5o@3ym66tyaytd2>
+References: <cover.1733322525.git.jani.nikula@intel.com>
+ <1f2bf2543aed270a06f6c707fd6ed1b78bf16712.1733322525.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1f2bf2543aed270a06f6c707fd6ed1b78bf16712.1733322525.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,44 +99,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Saravana Kannan <saravanak@google.com>
+On Wed, Dec 04, 2024 at 04:31:12PM +0200, Jani Nikula wrote:
+> We stopped using the driver initialized date in commit 7fb8af6798e8
+> ("drm: deprecate driver date") and (eventually) started returning "0"
+> for drm_version ioctl instead.
+> 
+> Finish the job, and remove the unused date member from struct
+> drm_driver, its initialization from drivers, along with the common
+> DRIVER_DATE macros.
+> 
+> v2: Also update drivers/accel (kernel test robot)
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> Acked-by: Simon Ser <contact@emersion.fr>
+> Acked-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-[ Upstream commit fe2e59aa5d7077c5c564d55b7e2997e83710c314 ]
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm
 
-fwnode needs to be set for a device for fw_devlink to be able to
-track/enforce its dependencies correctly. Without this, you'll see error
-messages like this when the supplier has probed and tries to make sure
-all its fwnode consumers are linked to it using device links:
+> 
+> ---
 
-mediatek-drm-dp 1c500000.edp-tx: Failed to create device link (0x180) with backlight-lcd0
-
-Reported-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Closes: https://lore.kernel.org/all/7b995947-4540-4b17-872e-e107adca4598@notapiano/
-Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-Signed-off-by: Saravana Kannan <saravanak@google.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Link: https://lore.kernel.org/r/20241024061347.1771063-2-saravanak@google.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/display/drm_dp_aux_bus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-index f5741b45ca077..951170e1d5d14 100644
---- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
-+++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-@@ -287,7 +287,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
- 	aux_ep->dev.parent = aux->dev;
- 	aux_ep->dev.bus = &dp_aux_bus_type;
- 	aux_ep->dev.type = &dp_aux_device_type_type;
--	aux_ep->dev.of_node = of_node_get(np);
-+	device_set_node(&aux_ep->dev, of_fwnode_handle(of_node_get(np)));
- 	dev_set_name(&aux_ep->dev, "aux-%s", dev_name(aux->dev));
- 
- 	ret = device_register(&aux_ep->dev);
 -- 
-2.43.0
-
+With best wishes
+Dmitry
