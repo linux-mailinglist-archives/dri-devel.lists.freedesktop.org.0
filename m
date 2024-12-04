@@ -2,63 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A88B9E37B9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 11:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E239E37BB
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 11:40:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A724910ECCD;
-	Wed,  4 Dec 2024 10:39:54 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h8K7VaeD";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3E6610E1BC;
+	Wed,  4 Dec 2024 10:40:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75D8110E1BC
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:39:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C3A535C4887
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:39:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 642FEC4CED1
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:39:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733308792;
- bh=7sdXwPk+RNKgINiNZ5jhPDlr8IU2cWO4buHHlACFXwY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=h8K7VaeDH7jDm+2jW/qjjO46K8xfzRR+aCJX/eNfc9EXOq63zmxtn9xZqHVgwRtci
- 2JDU4LoeAbw0mUxNL312bPd3UrtAXYx9X+4Zrhzd/ISOLMNMwBeonPbkV6N6qE5eHp
- iPqn7uAf3o+7AT/PyrfUkbob9efytSYCNe9mN9huwT5ExE8RO/pSeR4u+eL4uZXzMZ
- i/CHLpa0EaUQjf5DwHW62RvvXxrSpvF5onXZC739XlvAcUrwmRNC0JmAvplwkWRT/W
- A0k9ynSlpTP/RuGghVn5TVLSQDzbfL3tB9BJdBrt9qq1KeUeahqxD2G7rqD1jKAJkZ
- YjDU1n5W4TSug==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 530DBC41612; Wed,  4 Dec 2024 10:39:52 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219556] AMDGPU monitoring is broken
-Date: Wed, 04 Dec 2024 10:39:52 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: i.r.e.c.c.a.k.u.n+bugzilla.kernel.org@gmail.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-219556-2300-NN5bihPIEP@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219556-2300@https.bugzilla.kernel.org/>
-References: <bug-219556-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0792910E1BC
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:40:43 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
+Received: from mail.steuer-voss.de (localhost [127.0.0.1])
+ by mail.steuer-voss.de (Postfix) with ESMTP id DD917267;
+ Wed,  4 Dec 2024 11:40:37 +0100 (CET)
 MIME-Version: 1.0
+Date: Wed, 04 Dec 2024 11:40:37 +0100
+From: Nikolaus Voss <nv@vosn.de>
+To: Marek Vasut <marex@denx.de>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, Liu Ying
+ <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Fabio
+ Estevam <festevam@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ miquel.raynal@bootlin.com, nikolaus.voss@haag-streit.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+In-Reply-To: <2d7f8afc-119a-4080-93be-bf3daf017e5e@denx.de>
+References: <20241203191111.47B56F7@mail.steuer-voss.de>
+ <2d7f8afc-119a-4080-93be-bf3daf017e5e@denx.de>
+User-Agent: Roundcube Webmail/1.5.0
+Message-ID: <abcc89936f44fd884b9c5da65ea64c42@vosn.de>
+X-Sender: nv@vosn.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,14 +54,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219556
+Hi Marek,
 
---- Comment #2 from Hanabishi (i.r.e.c.c.a.k.u.n+bugzilla.kernel.org@gmail.=
-com) ---
-https://gitlab.freedesktop.org/drm/amd/-/issues/3811
+On 03.12.2024 21:15, Marek Vasut wrote:
+> On 12/3/24 8:09 PM, Nikolaus Voss wrote:
+>> LDB clock has to be a fixed multiple of the pixel clock.
+>> As LDB and pixel clock are derived from different clock sources
+> 
+> Can you please share the content of /sys/kernel/debug/clk/clk_summary ?
 
---=20
-You may reply to this email to add a comment.
+Sure. Without my patch:
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+     video_pll1_ref_sel               1       1        0        24000000  
+   0          0     50000      Y      deviceless                      
+no_connection_id
+        video_pll1                    1       1        0        
+1039500000  0          0     50000      Y         deviceless             
+          no_connection_id
+           video_pll1_bypass          1       1        0        
+1039500000  0          0     50000      Y            deviceless          
+             no_connection_id
+              video_pll1_out          2       2        0        
+1039500000  0          0     50000      Y               deviceless       
+                no_connection_id
+                 media_ldb            1       1        0        346500000 
+   0          0     50000      Y                  
+32ec0000.blk-ctrl:bridge@5c     ldb
+                                                                          
+                                                  deviceless              
+         no_connection_id
+                    media_ldb_root_clk 0       0        0        
+346500000   0          0     50000      Y                     deviceless 
+                      no_connection_id
+                 media_disp2_pix      1       1        0        51975000  
+   0          0     50000      Y                  deviceless              
+         no_connection_id
+                    media_disp2_pix_root_clk 1       1        0        
+51975000    0          0     50000      Y                     
+32e90000.display-controller     pix
+
+Here 346500000 (media_ldb) != 7 * 51975000 (media_disp2_pix)
+   -> distorted panel image (if any).
+The requested panel pixel clock from EDID is 51200000.
+
+This is the same with my patch:
+
+     video_pll1_ref_sel               1       1        0        24000000  
+   0          0     50000      Y      deviceless                      
+no_connection_id
+        video_pll1                    1       1        0        
+1039500000  0          0     50000      Y         deviceless             
+          no_connection_id
+           video_pll1_bypass          1       1        0        
+1039500000  0          0     50000      Y            deviceless          
+             no_connection_id
+              video_pll1_out          2       2        0        
+1039500000  0          0     50000      Y               deviceless       
+                no_connection_id
+                 media_ldb            1       1        0        346500000 
+   0          0     50000      Y                  
+32ec0000.blk-ctrl:bridge@5c     ldb
+                                                                          
+                                                  deviceless              
+         no_connection_id
+                    media_ldb_root_clk 0       0        0        
+346500000   0          0     50000      Y                     deviceless 
+                      no_connection_id
+                 media_disp2_pix      1       1        0        49500000  
+   0          0     50000      Y                  deviceless              
+         no_connection_id
+                    media_disp2_pix_root_clk 1       1        0        
+49500000    0          0     50000      Y                     
+32e90000.display-controller     pix
+
+So, here 346500000 (media_ldb) = 7 * 49500000 (media_disp2_pix).
+   -> stable panel image, but pixel clock reduced to 49.5 MHz from 
+requested 51.2 MHz.
+
+My conclusion: The clock source is the same, nevertheless the
+ldb/pixel clock constraint cannot be satisfied without either
+modifying the pll clock or the pixel clock.
+
+-- 
+Nikolaus Voss
