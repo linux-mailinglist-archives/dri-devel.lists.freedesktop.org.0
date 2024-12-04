@@ -2,113 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DA49E3FE9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 17:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76DD9E43EC
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B944910E2AF;
-	Wed,  4 Dec 2024 16:42:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="jwLrm3XJ";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="jwLrm3XJ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B7D010E54B;
+	Wed,  4 Dec 2024 19:01:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
- [96.44.175.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9FD610E2AF
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 16:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1733330561;
- bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=jwLrm3XJJg0bE+y+jmRYNMFwEElygfQC2HGQiHPd5Xz/u0WtyW7YWY3rX060euBo7
- f9S1jUzBwKhA2RFoWPD/ZkuHcVNkBdGsPnMe1XGCn2DaqvTsyQjVXKsqZzFLZSZ0Tt
- bvl4/NIRU0Ww5p2EbpvPP+Glg6xJuhny+E4/K7oQ=
-Received: from localhost (localhost [127.0.0.1])
- by bedivere.hansenpartnership.com (Postfix) with ESMTP id DBE1112816C9;
- Wed, 04 Dec 2024 11:42:41 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id H1OGkhq900B6; Wed,  4 Dec 2024 11:42:41 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=hansenpartnership.com; s=20151216; t=1733330561;
- bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
- h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
- b=jwLrm3XJJg0bE+y+jmRYNMFwEElygfQC2HGQiHPd5Xz/u0WtyW7YWY3rX060euBo7
- f9S1jUzBwKhA2RFoWPD/ZkuHcVNkBdGsPnMe1XGCn2DaqvTsyQjVXKsqZzFLZSZ0Tt
- bvl4/NIRU0Ww5p2EbpvPP+Glg6xJuhny+E4/K7oQ=
-Received: from lingrow.int.hansenpartnership.com (unknown
- [IPv6:2601:5c4:4302:c21::a774])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 13309128116A;
- Wed, 04 Dec 2024 11:42:36 -0500 (EST)
-Message-ID: <5c905df49a332b1136787a524955b46b6153c012.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Zijun Hu <zijun_hu@icloud.com>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
- <thomas@t-8ch.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
- Delvare <jdelvare@suse.com>,  Guenter Roeck <linux@roeck-us.net>, Martin
- Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
- Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>,  Yehezkel Bernat
- <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean
- <olteanv@gmail.com>,  "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
- Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
- Leech <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
- <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
- <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, Alison
- Schofield <alison.schofield@intel.com>, Andreas Larsson
- <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
- <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
- <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
- Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
- netdev@vger.kernel.org,  linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
- linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org, 
- linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
- linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Date: Wed, 04 Dec 2024 11:42:34 -0500
-In-Reply-To: <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
- <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
- <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
- <2024120320-manual-jockey-dfd1@gregkh>
- <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
- <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
- <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
- <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
- <108c63c753f2f637a72c2e105ac138f80d4b0859.camel@HansenPartnership.com>
- <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8305710E54B
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:01:12 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-313-jjyDm2TwPfyiY5kFs-bItg-1; Wed, 04 Dec 2024 19:01:10 +0000
+X-MC-Unique: jjyDm2TwPfyiY5kFs-bItg-1
+X-Mimecast-MFC-AGG-ID: jjyDm2TwPfyiY5kFs-bItg
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 4 Dec
+ 2024 19:00:30 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Wed, 4 Dec 2024 19:00:30 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Luc Van Oostenryck
+ <luc.vanoostenryck@gmail.com>, Nathan Chancellor <nathan@kernel.org>, "Nick
+ Desaulniers" <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, Rikard Falkeborn
+ <rikard.falkeborn@gmail.com>, Martin Uecker
+ <Martin.Uecker@med.uni-goettingen.de>
+CC: "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+ "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "coresight@lists.linaro.org" <coresight@lists.linaro.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: RE: [PATCH 08/10] drm/i915/reg: replace __is_const_expr() by
+ is_const_true() or is_const()
+Thread-Topic: [PATCH 08/10] drm/i915/reg: replace __is_const_expr() by
+ is_const_true() or is_const()
+Thread-Index: AQHbROC53ESHBJmyt0it15KohMFuibLWc7hQ
+Date: Wed, 4 Dec 2024 19:00:30 +0000
+Message-ID: <6597979088eb4ee7b98cfb99815a402e@AcuMS.aculab.com>
+References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
+ <20241203-is_constexpr-refactor-v1-8-4e4cbaecc216@wanadoo.fr>
+In-Reply-To: <20241203-is_constexpr-refactor-v1-8-4e4cbaecc216@wanadoo.fr>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JdsaKwaqt6pdGS4N9Fc0upaaO-gx44u0ecabXxiyw_w_1733338868
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,60 +85,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-12-04 at 20:26 +0800, Zijun Hu wrote:
-> On 2024/12/3 23:34, James Bottomley wrote:
-> > > > This also enables an incremental migration.
-> > > change the API prototype from:
-> > > device_find_child(..., void *data_0, int (*match)(struct device
-> > > *dev, void *data));
-> > > 
-> > > to:
-> > > device_find_child(..., const void *data_0, int (*match)(struct
-> > > device *dev, const void *data));
-> > > 
-> > > For @data_0,  void * -> const void * is okay.
-> > > but for @match, the problem is function pointer type
-> > > incompatibility.
-> > > 
-> > > there are two solutions base on discussions.
-> > > 
-> > > 1) squashing likewise Greg mentioned.
-> > >    Do all of the "prep work" first, and then
-> > >    do the const change at the very end, all at once.
-> > > 
-> > > 2)  as changing platform_driver's remove() prototype.
-> > > Commit: e70140ba0d2b ("Get rid of 'remove_new' relic from
-> > > platform driver struct")
-> > > 
-> > >  introduce extra device_find_child_new() which is constified  ->
-> > > use *_new() replace ALL device_find_child() instances one by one
-> > > -> remove device_find_child() -> rename *_new() to
-> > > device_find_child() once.
-> > Why bother with the last step, which churns the entire code base
-> > again?
-> 
-> keep the good API name device_find_child().
-
-Well, I think it's a good opportunity to rename the API better, but if
-that's the goal, you can still do it with _Generic() without churning
-the code base a second time.  The example is in
-slab.h:kmem_cache_create
-
-> > Why not call the new function device_find_child_const() and simply
-> > keep it (it's descriptive of its function).  That way you can have
-> > a patch series without merging and at the end simply remove the old
-> > function.
-> 
-> device_find_child is a good name for the API, 'find' already means
-> const.
-
-Not to me it doesn't, but that's actually not what I think is wrong
-with the API name: it actually only returns the first match, so I'd
-marginally prefer it to be called device_find_first_child() ... not
-enough to churn the code to change it, but since you're doing that
-anyway it might make sense as an update.
-
-Regards,
-
-James
+RnJvbTogVmluY2VudCBNYWlsaG9sDQo+IFNlbnQ6IDAyIERlY2VtYmVyIDIwMjQgMTc6MzQNCj4g
+DQo+IE1vc3Qgb2YgdGhlIHVzZSBvZiBfX2lzX2NvbnN0X2V4cHIoKSBpbiBpOTE1X3JlZ19kZWZz
+LmggYXJlIGp1c3QgdG8NCj4gdGVzdCB3aGV0aGVyIGFuIGV4cHJlc3Npb24gaXMga25vd24gdG8g
+YmUgdHJ1ZS4gQmVjYXVzZSB0aG9zZSBjaGVja3MNCj4gYXJlIGFsbCBkb25lIGluIGEgQlVJTERf
+QlVHX09OX1pFUk8oKSwgcmVwbGFjZSB0aG9zZSB3aXRoDQo+IGlzX2NvbnN0X3RydWUoKS4NCg0K
+QW5vdGhlciBwbGFjZSB0aGF0IGNvdWxkIHVzZSBzdGF0aWNhbGx5X3RydWUoKSBhbmQgQlVJTERf
+QlVHX09OX01TRygpLg0KDQoJRGF2aWQNCg0KPiANCj4gUmVwbGFjZSB0aGUgZmV3IG90aGVyIG9j
+Y3VycmVuY2VzIG9mIF9faXNfY29uc3RfZXhwcigpIHdpdGggaXNfY29uc3QoKS4NCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+
+DQo+IC0tLQ0KPiAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9yZWdfZGVmcy5oIHwgNDcgKysr
+KysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMjIg
+aW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL2k5MTUvaTkxNV9yZWdfZGVmcy5oIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkx
+NV9yZWdfZGVmcy5oDQo+IGluZGV4IGUyNTFiY2MwYzg5ZjU3MTAxMjViYzcwZjA3ODUxYjJjYjk3
+OGM4OWMuLjZlZDJmYjljZjUwNmEzYmQ2NDY3YmEzMGY5ZDBlODYzZDYyNzYyZjMgMTAwNjQ0DQo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnX2RlZnMuaA0KPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZ19kZWZzLmgNCj4gQEAgLTE5LDggKzE5LDcgQEANCj4g
+ICAqLw0KPiAgI2RlZmluZSBSRUdfQklUKF9fbikJCQkJCQkJXA0KPiAgCSgodTMyKShCSVQoX19u
+KSArCQkJCQkJXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyhfX2lzX2NvbnN0ZXhwcihf
+X24pICYmCQlcDQo+IC0JCQkJICgoX19uKSA8IDAgfHwgKF9fbikgPiAzMSkpKSkNCj4gKwkgICAg
+ICAgQlVJTERfQlVHX09OX1pFUk8oaXNfY29uc3RfdHJ1ZSgoX19uKSA8IDAgfHwgKF9fbikgPiAz
+MSkpKSkNCj4gDQo+ICAvKioNCj4gICAqIFJFR19CSVQ4KCkgLSBQcmVwYXJlIGEgdTggYml0IHZh
+bHVlDQo+IEBAIC0zMiw4ICszMSw3IEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0JJVDgoX19u
+KSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4g
+IAkoKHU4KShCSVQoX19uKSArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyhfX2lzX2NvbnN0ZXhwcihf
+X24pICYmICAgICAgICAgXA0KPiAtCQkJCSAoKF9fbikgPCAwIHx8IChfX24pID4gNykpKSkNCj4g
+KwkgICAgICBCVUlMRF9CVUdfT05fWkVSTyhpc19jb25zdF90cnVlKChfX24pIDwgMCB8fCAoX19u
+KSA+IDcpKSkpDQo+IA0KPiAgLyoqDQo+ICAgKiBSRUdfR0VOTUFTSygpIC0gUHJlcGFyZSBhIGNv
+bnRpbnVvdXMgdTMyIGJpdG1hc2sNCj4gQEAgLTQ2LDkgKzQ0LDkgQEANCj4gICAqLw0KPiAgI2Rl
+ZmluZSBSRUdfR0VOTUFTSyhfX2hpZ2gsIF9fbG93KQkJCQkJXA0KPiAgCSgodTMyKShHRU5NQVNL
+KF9faGlnaCwgX19sb3cpICsJCQkJCVwNCj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19p
+c19jb25zdGV4cHIoX19oaWdoKSAmJglcDQo+IC0JCQkJIF9faXNfY29uc3RleHByKF9fbG93KSAm
+JgkJXA0KPiAtCQkJCSAoKF9fbG93KSA8IDAgfHwgKF9faGlnaCkgPiAzMSB8fCAoX19sb3cpID4g
+KF9faGlnaCkpKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlzX2NvbnN0X3RydWUo
+KF9fbG93KSA8IDAgfHwJCVwNCj4gKwkJCQkJICAgICAgIChfX2hpZ2gpID4gMzEgfHwJCVwNCj4g
+KwkJCQkJICAgICAgIChfX2xvdykgPiAoX19oaWdoKSkpKSkNCj4gDQo+ICAvKioNCj4gICAqIFJF
+R19HRU5NQVNLNjQoKSAtIFByZXBhcmUgYSBjb250aW51b3VzIHU2NCBiaXRtYXNrDQo+IEBAIC02
+MSw5ICs1OSw5IEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0dFTk1BU0s2NChfX2hpZ2gsIF9f
+bG93KQkJCQkJXA0KPiAgCSgodTY0KShHRU5NQVNLX1VMTChfX2hpZ2gsIF9fbG93KSArCQkJCVwN
+Cj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19pc19jb25zdGV4cHIoX19oaWdoKSAmJgkJ
+XA0KPiAtCQkJCSBfX2lzX2NvbnN0ZXhwcihfX2xvdykgJiYJCVwNCj4gLQkJCQkgKChfX2xvdykg
+PCAwIHx8IChfX2hpZ2gpID4gNjMgfHwgKF9fbG93KSA+IChfX2hpZ2gpKSkpKQ0KPiArCSAgICAg
+ICBCVUlMRF9CVUdfT05fWkVSTyhpc19jb25zdF90cnVlKChfX2xvdykgPCAwIHx8CQlcDQo+ICsJ
+CQkJCSAgICAgICAoX19oaWdoKSA+IDYzIHx8CQlcDQo+ICsJCQkJCSAgICAgICAoX19sb3cpID4g
+KF9faGlnaCkpKSkpDQo+IA0KPiAgLyoqDQo+ICAgKiBSRUdfR0VOTUFTSzgoKSAtIFByZXBhcmUg
+YSBjb250aW51b3VzIHU4IGJpdG1hc2sNCj4gQEAgLTc2LDkgKzc0LDkgQEANCj4gICAqLw0KPiAg
+I2RlZmluZSBSRUdfR0VOTUFTSzgoX19oaWdoLCBfX2xvdykgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXA0KPiAgCSgodTgpKEdFTk1BU0soX19oaWdoLCBfX2xvdykgKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcDQo+IC0JICAgICAgIEJVSUxEX0JVR19PTl9a
+RVJPKF9faXNfY29uc3RleHByKF9faGlnaCkgJiYgICAgICBcDQo+IC0JCQkJIF9faXNfY29uc3Rl
+eHByKF9fbG93KSAmJiAgICAgICAgICAgICAgIFwNCj4gLQkJCQkgKChfX2xvdykgPCAwIHx8IChf
+X2hpZ2gpID4gNyB8fCAoX19sb3cpID4gKF9faGlnaCkpKSkpDQo+ICsJICAgICAgQlVJTERfQlVH
+X09OX1pFUk8oaXNfY29uc3RfdHJ1ZSgoX19sb3cpIDwgMCB8fCAgICAgICAgICAgIFwNCj4gKwkJ
+CQkJICAgICAgKF9faGlnaCkgPiA3IHx8ICAgICAgICAgICBcDQo+ICsJCQkJCSAgICAgIChfX2xv
+dykgPiAoX19oaWdoKSkpKSkNCj4gDQo+ICAvKg0KPiAgICogTG9jYWwgaW50ZWdlciBjb25zdGFu
+dCBleHByZXNzaW9uIHZlcnNpb24gb2YgaXNfcG93ZXJfb2ZfMigpLg0KPiBAQCAtOTcsMTAgKzk1
+LDEwIEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0ZJRUxEX1BSRVAoX19tYXNrLCBfX3ZhbCkJ
+CQkJCQlcDQo+ICAJKCh1MzIpKCgoKHR5cGVvZihfX21hc2spKShfX3ZhbCkgPDwgX19iZl9zaGYo
+X19tYXNrKSkgJiAoX19tYXNrKSkgKwlcDQo+IC0JICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKCFf
+X2lzX2NvbnN0ZXhwcihfX21hc2spKSArCQlcDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJP
+KCFpc19jb25zdChfX21hc2spKSArCQkJCVwNCj4gIAkgICAgICAgQlVJTERfQlVHX09OX1pFUk8o
+KF9fbWFzaykgPT0gMCB8fCAoX19tYXNrKSA+IFUzMl9NQVgpICsJCVwNCj4gIAkgICAgICAgQlVJ
+TERfQlVHX09OX1pFUk8oIUlTX1BPV0VSX09GXzIoKF9fbWFzaykgKyAoMVVMTCA8PCBfX2JmX3No
+ZihfX21hc2spKSkpICsgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyhfX2J1aWx0aW5f
+Y2hvb3NlX2V4cHIoX19pc19jb25zdGV4cHIoX192YWwpLCAofigoX19tYXNrKSA+Pg0KPiBfX2Jm
+X3NoZihfX21hc2spKSAmIChfX3ZhbCkpLCAwKSkpKQ0KPiArCSAgICAgICBCVUlMRF9CVUdfT05f
+WkVSTyhpc19jb25zdF90cnVlKH4oKF9fbWFzaykgPj4gX19iZl9zaGYoX19tYXNrKSkgJiAoX192
+YWwpKSkpKQ0KPiANCj4gIC8qKg0KPiAgICogUkVHX0ZJRUxEX1BSRVA4KCkgLSBQcmVwYXJlIGEg
+dTggYml0ZmllbGQgdmFsdWUNCj4gQEAgLTExNCwxMCArMTEyLDEwIEBADQo+ICAgKi8NCj4gICNk
+ZWZpbmUgUkVHX0ZJRUxEX1BSRVA4KF9fbWFzaywgX192YWwpICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXA0KPiAgCSgodTgpKCgoKHR5cGVvZihfX21hc2spKShfX3Zh
+bCkgPDwgX19iZl9zaGYoX19tYXNrKSkgJiAoX19tYXNrKSkgKyAgICAgIFwNCj4gLQkgICAgICAg
+QlVJTERfQlVHX09OX1pFUk8oIV9faXNfY29uc3RleHByKF9fbWFzaykpICsgICAgICAgICAgICAg
+XA0KPiArCSAgICAgICBCVUlMRF9CVUdfT05fWkVSTyghaXNfY29uc3QoX19tYXNrKSkgKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIFwNCj4gIAkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oKF9f
+bWFzaykgPT0gMCB8fCAoX19tYXNrKSA+IFU4X01BWCkgKyAgICAgICAgICBcDQo+ICAJICAgICAg
+IEJVSUxEX0JVR19PTl9aRVJPKCFJU19QT1dFUl9PRl8yKChfX21hc2spICsgKDFVTEwgPDwgX19i
+Zl9zaGYoX19tYXNrKSkpKSArIFwNCj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19idWls
+dGluX2Nob29zZV9leHByKF9faXNfY29uc3RleHByKF9fdmFsKSwgKH4oKF9fbWFzaykgPj4NCj4g
+X19iZl9zaGYoX19tYXNrKSkgJiAoX192YWwpKSwgMCkpKSkNCj4gKwkgICAgICAgQlVJTERfQlVH
+X09OX1pFUk8oaXNfY29uc3RfdHJ1ZSh+KChfX21hc2spID4+IF9fYmZfc2hmKF9fbWFzaykpICYg
+KF9fdmFsKSkpKSkNCj4gDQo+ICAvKioNCj4gICAqIFJFR19GSUVMRF9HRVQoKSAtIEV4dHJhY3Qg
+YSB1MzIgYml0ZmllbGQgdmFsdWUNCj4gQEAgLTE1NCw4ICsxNTIsNyBAQA0KPiAgICovDQo+ICAj
+ZGVmaW5lIFJFR19CSVQxNihfX24pICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXA0KPiAgCSgodTE2KShCSVQoX19uKSArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05f
+WkVSTyhfX2lzX2NvbnN0ZXhwcihfX24pICYmICAgICAgICAgXA0KPiAtCQkJCSAoKF9fbikgPCAw
+IHx8IChfX24pID4gMTUpKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlzX2NvbnN0
+X3RydWUoKF9fbikgPCAwIHx8IChfX24pID4gMTUpKSkpDQo+IA0KPiAgLyoqDQo+ICAgKiBSRUdf
+R0VOTUFTSzE2KCkgLSBQcmVwYXJlIGEgY29udGludW91cyB1OCBiaXRtYXNrDQo+IEBAIC0xNjks
+OSArMTY2LDkgQEANCj4gICAqLw0KPiAgI2RlZmluZSBSRUdfR0VOTUFTSzE2KF9faGlnaCwgX19s
+b3cpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gIAkoKHUxNikoR0VO
+TUFTSyhfX2hpZ2gsIF9fbG93KSArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwN
+Cj4gLQkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oX19pc19jb25zdGV4cHIoX19oaWdoKSAmJiAg
+ICAgIFwNCj4gLQkJCQkgX19pc19jb25zdGV4cHIoX19sb3cpICYmICAgICAgICAgICAgICAgXA0K
+PiAtCQkJCSAoKF9fbG93KSA8IDAgfHwgKF9faGlnaCkgPiAxNSB8fCAoX19sb3cpID4gKF9faGln
+aCkpKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlzX2NvbnN0X3RydWUoKF9fbG93
+KSA8IDAgfHwgICAgICAgICAgICBcDQo+ICsJCQkJCSAgICAgICAoX19oaWdoKSA+IDE1IHx8ICAg
+ICAgICAgIFwNCj4gKwkJCQkJICAgICAgIChfX2xvdykgPiAoX19oaWdoKSkpKSkNCj4gDQo+ICAv
+KioNCj4gICAqIFJFR19GSUVMRF9QUkVQMTYoKSAtIFByZXBhcmUgYSB1MTYgYml0ZmllbGQgdmFs
+dWUNCj4gQEAgLTE4NiwxMCArMTgzLDEwIEBADQo+ICAgKi8NCj4gICNkZWZpbmUgUkVHX0ZJRUxE
+X1BSRVAxNihfX21hc2ssIF9fdmFsKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFwNCj4gIAkoKHUxNikoKCgodHlwZW9mKF9fbWFzaykpKF9fdmFsKSA8PCBfX2JmX3No
+ZihfX21hc2spKSAmIChfX21hc2spKSArICAgICAgXA0KPiAtCSAgICAgICBCVUlMRF9CVUdfT05f
+WkVSTyghX19pc19jb25zdGV4cHIoX19tYXNrKSkgKyAgICAgICAgICAgICBcDQo+ICsJICAgICAg
+IEJVSUxEX0JVR19PTl9aRVJPKCFpc19jb25zdChfX21hc2spKSArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIFwNCj4gIAkgICAgICAgQlVJTERfQlVHX09OX1pFUk8oKF9fbWFzaykgPT0gMCB8
+fCAoX19tYXNrKSA+IFUxNl9NQVgpICsgICAgICAgICAgXA0KPiAgCSAgICAgICBCVUlMRF9CVUdf
+T05fWkVSTyghSVNfUE9XRVJfT0ZfMigoX19tYXNrKSArICgxVUxMIDw8IF9fYmZfc2hmKF9fbWFz
+aykpKSkgKyBcDQo+IC0JICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKF9fYnVpbHRpbl9jaG9vc2Vf
+ZXhwcihfX2lzX2NvbnN0ZXhwcihfX3ZhbCksICh+KChfX21hc2spID4+DQo+IF9fYmZfc2hmKF9f
+bWFzaykpICYgKF9fdmFsKSksIDApKSkpDQo+ICsJICAgICAgIEJVSUxEX0JVR19PTl9aRVJPKGlz
+X2NvbnN0X3RydWUofigoX19tYXNrKSA+PiBfX2JmX3NoZihfX21hc2spKSAmIChfX3ZhbCkpKSkp
+DQo+IA0KPiAgI2RlZmluZSBfX01BU0tFRF9GSUVMRChtYXNrLCB2YWx1ZSkgKChtYXNrKSA8PCAx
+NiB8ICh2YWx1ZSkpDQo+ICAjZGVmaW5lIF9NQVNLRURfRklFTEQobWFzaywgdmFsdWUpICh7CQkJ
+CQkgICBcDQo+IEBAIC0yMzcsNyArMjM0LDcgQEANCj4gICAqCS4uLg0KPiAgICovDQo+ICAjZGVm
+aW5lIF9QSUNLX0VWRU5fMlJBTkdFUyhfX2luZGV4LCBfX2NfaW5kZXgsIF9fYSwgX19iLCBfX2Ms
+IF9fZCkJCVwNCj4gLQkoQlVJTERfQlVHX09OX1pFUk8oIV9faXNfY29uc3RleHByKF9fY19pbmRl
+eCkpICsJCQlcDQo+ICsJKEJVSUxEX0JVR19PTl9aRVJPKCFpc19jb25zdChfX2NfaW5kZXgpKSAr
+CQkJCVwNCj4gIAkgKChfX2luZGV4KSA8IChfX2NfaW5kZXgpID8gX1BJQ0tfRVZFTihfX2luZGV4
+LCBfX2EsIF9fYikgOgkJXA0KPiAgCQkJCSAgIF9QSUNLX0VWRU4oKF9faW5kZXgpIC0gKF9fY19p
+bmRleCksIF9fYywgX19kKSkpDQo+IA0KPiANCj4gLS0NCj4gMi40NS4yDQo+IA0KPiANCg0KLQ0K
+UmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1p
+bHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVz
+KQ0K
 
