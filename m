@@ -2,138 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EF29E3EE2
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 16:59:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B184C9E3F1A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 17:05:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C058910E4E2;
-	Wed,  4 Dec 2024 15:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36BE210E50C;
+	Wed,  4 Dec 2024 16:04:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L9iuDnc8";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OEdPDLnP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A168210E4E2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 15:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1733327938;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PKbyfYlEzsBujPEJXUvTgJm5gyk4gXBwn1S2KY6PxE0=;
- b=L9iuDnc8SdhvbPBYy/7F5qniOwSf7SbrFE0ZBFzdXaDToPjcmlOHVFme+asyEKjWziI05T
- T97sEsfQqNqqLcIN6wuL4Tkge7MHFIeuMMdaPsLMamlE0vCnZQPxi8YQnrNGOlTtI3RBfL
- NHE6DcGPMHyPCy8C/9xGO6U1BDXczZY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-294-nrJ9Xif_NMSPNjpQ_h5W7g-1; Wed, 04 Dec 2024 10:58:57 -0500
-X-MC-Unique: nrJ9Xif_NMSPNjpQ_h5W7g-1
-X-Mimecast-MFC-AGG-ID: nrJ9Xif_NMSPNjpQ_h5W7g
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-385e5e3bf60so2992974f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 07:58:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733327936; x=1733932736;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=PKbyfYlEzsBujPEJXUvTgJm5gyk4gXBwn1S2KY6PxE0=;
- b=wq94X9jcOIpiIhV+6RJJWBCYCZiW8L3INKwaosjJ0tmujcuaTYKuybJfTmsuctiv2b
- 5I8/aO3cEzEAj/1QyD3TzMVdOMX/FganrxMwNeD4q7WY9M5PoMUQ4/8jrTaFNWC9hL/z
- O7egm3qX3osgTLANxhflHQdLLMcXxHkVlWbDlx3lBGNtp+NVub9zdrj+0+OmKMDo4Mhw
- nh8VKa/7heRXYnCX8erkvpCpJs43I3qad4RUyHSBqcexBjfCVSKe9b6tl54ptFhoAbtq
- pw0Yf4AImRtL/DuO3HCH5NjyDLi4YRdK2iwHLGt8X+TWVEjzepluGLM5PDD3CmEc8MTf
- GN7g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWBcUxsPtGyZ2usOAgmIQIeX7WcWlh9A8zkqHDuuAdra0rJs3+Z0lix3egpKnL3CV4K4OE3Pmjy8lw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyyn2DrHtyL1yx4Z2J6IUcYOP/+UJ6zt/35dbVtDxKtMku8rql4
- nrgmDc4P3/941008LQ0zhZPdr3kAr9GSkyp9t7h2LA3tbjYxDtiO4ctiC/PGGcCRUmzFoj4Wjo6
- rxJ3z4yjUeXRruPS8hH/P48neHD/94zuF5R304KxaIgPRmh/5JQtMkI5jU021+fQxJA==
-X-Gm-Gg: ASbGncsGFzTHDVehJcldfIRqejtrSkwXyAOuIPYbhyBY3kNuKa0vL2IyOq2kYksAoqU
- JQT4ryYLvF8Apvbs10jIae1tE7HMyRh9TG9onXDnURSmrsB+cCFZtWaImflt6KPxwJLqJDCgoJ3
- cn2zRNpXZjb/HfJwhHie26AuVTUZqPWacMilqeHLSetP47eux5uSlNjeju0bQ5lg0X224LFuB3X
- jvTfjH2Iz2cdZjDLvumeDaHs9r94w4JV853LC+eLrXODqknJILeiWMT7Or50AqoQOeIpDbVrkXu
- rZVkmppJmZJMqN/v/6gwz+nF8mwKxK18bkEcrbDr9z7y4f4I1fn0qnp9QDJ4k0IlurcLT3ASrDC
- KEg==
-X-Received: by 2002:a5d:6d0a:0:b0:385:df87:28de with SMTP id
- ffacd0b85a97d-385fd433607mr5947958f8f.56.1733327936073; 
- Wed, 04 Dec 2024 07:58:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFdOQUBULKzvFzkHWqPRGxc1LuUQ7T34ds9Ipq4JMMTeGrEwEobbTL5YAOMuZklHAw/mSdAhw==
-X-Received: by 2002:a5d:6d0a:0:b0:385:df87:28de with SMTP id
- ffacd0b85a97d-385fd433607mr5947932f8f.56.1733327935659; 
- Wed, 04 Dec 2024 07:58:55 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70b:e100:38d6:8aa1:11b0:a20a?
- (p200300cbc70be10038d68aa111b0a20a.dip0.t-ipconnect.de.
- [2003:cb:c70b:e100:38d6:8aa1:11b0:a20a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-385faec0c9dsm6142889f8f.20.2024.12.04.07.58.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2024 07:58:54 -0800 (PST)
-Message-ID: <cebb44b2-e258-43ff-80a5-6bd19c8edab8@redhat.com>
-Date: Wed, 4 Dec 2024 16:58:52 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7320A10ED60
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 16:04:56 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A99536D6;
+ Wed,  4 Dec 2024 17:04:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1733328267;
+ bh=C3PVXGm45ULNAqZE4h9VZWoMGKJEU0y/gIV6rWMrPF0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OEdPDLnPd6N+fxDyZ2Q7P1hZWZ7/63Zy5NrZ8TinHpQDrzvN8ar2Mnxrk2oZvWnpk
+ tdaHeBvj6mHbvHB2dtEnasjKJpxJbzqtuwjy6Az+R01wGakkh55wIrSw3QrVGI+eh9
+ u7JypWdpJ1mQoBOxmLAtR74XBTP7LJ5mThS5LC0M=
+Message-ID: <b9a07779-34c3-496f-ac04-d7f6e1e61d82@ideasonboard.com>
+Date: Wed, 4 Dec 2024 18:04:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Removing page->index
-To: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-s390@vger.kernel.org, Claudio Imbrenda <imbrenda@linux.ibm.com>
-References: <Z09hOy-UY9KC8WMb@casper.infradead.org>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <Z09hOy-UY9KC8WMb@casper.infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 42vVMBPQQDsaey0fHzABZr5_4V1s1f3xQF9MhKNLH8A_1733327936
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 8/9] arm64: dts: renesas: r8a779h0: Add display support
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+ <20241203-rcar-gh-dsi-v1-8-738ae1a95d2a@ideasonboard.com>
+ <20241203093703.GL10736@pendragon.ideasonboard.com>
 Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241203093703.GL10736@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -151,68 +117,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03.12.24 20:51, Matthew Wilcox wrote:
-> I've pushed out a new tree to
-> git://git.infradead.org/users/willy/pagecache.git shrunk-page
-> aka
-> http://git.infradead.org/?p=users/willy/pagecache.git;a=shortlog;h=refs/heads/shrunk-page
+Hi,
+
+On 03/12/2024 11:37, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> The observant will notice that it doesn't actually shrink struct page
-> yet.  However, we're getting close.  What it does do is rename
-> page->index to page->__folio_index to prevent new users of page->index
-> from showing up.
-
-BTW, I was wondering how often we convert a page to a folio to then 
-access folio->index / folio->mapping and not actually having a folio (in 
-the future).
-
-I suspect this will need quite some changes to get it right, and I would 
-count that as "less obvious".
-
-Calling PageAnon() on anything mapped into user space page tables might 
-be one such case, for example.
-
+> Thank you for the patch.
 > 
-> There are (I believe) three build failures in that tree:
+> On Tue, Dec 03, 2024 at 10:01:42AM +0200, Tomi Valkeinen wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>
+>> Add the device nodes for supporting DU and DSI.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 77 +++++++++++++++++++++++++++++++
+>>   1 file changed, 77 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+>> index 12d8be3fd579..82df6ee98afb 100644
+>> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+>> @@ -1828,6 +1828,54 @@ csi41isp1: endpoint {
+>>   			};
+>>   		};
+>>   
+>> +		fcpvd0: fcp@fea10000 {
+>> +			compatible = "renesas,fcpv";
+>> +			reg = <0 0xfea10000 0 0x200>;
+>> +			clocks = <&cpg CPG_MOD 508>;
+>> +			power-domains = <&sysc R8A779H0_PD_C4>;
+>> +			resets = <&cpg 508>;
+>> +		};
+>> +
+>> +		vspd0: vsp@fea20000 {
+>> +			compatible = "renesas,vsp2";
+>> +			reg = <0 0xfea20000 0 0x8000>;
+>> +			interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
 > 
->   - fb_defio
->   - fbtft
->   - s390's gmap (and vsie?  is that the same thing?)
+> The documentation lists this interrupt as being LevelSensitive and
+> Negative. I wouldn't expect the VSP to work at all with a wrong polarity
+> in DT, so the level may get inverted somewhere.
 
-Not completely (vsie (nested VMs) uses shadow gmap, ordinary VMs use 
-ordinary gmap) , but they are very related (-> KVM implementation on s390x).
+Indeed... It's the same for V4H. And it also has IRQ_TYPE_LEVEL_HIGH in 
+the dts. I tried changing it to LOW on V4H, but:
 
-I know that Claudio is working on some changes, but not sure how that 
-would affect gmap's usage of page->index.
+genirq: Setting trigger mode 8 for irq 91 failed
+vsp1 fea20000.vsp: failed to request IRQ
 
-s390x gmap is 64bit only, so we have to store stuff in 8byte. gmap page 
-tables are
+I didn't dig further yet.
 
-Maybew e could simply switch from page->index to page->private? But I 
-lost track if that will also be gone in the near future :)
-
+>> +			clocks = <&cpg CPG_MOD 830>;
+>> +			power-domains = <&sysc R8A779H0_PD_C4>;
+>> +			resets = <&cpg 830>;
+>> +			renesas,fcp = <&fcpvd0>;
+>> +		};
+>> +
+>> +		du: display@feb00000 {
+>> +			compatible = "renesas,du-r8a779h0";
+>> +			reg = <0 0xfeb00000 0 0x40000>;
+>> +			interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>;
+>> +			clocks = <&cpg CPG_MOD 411>;
+>> +			clock-names = "du.0";
+>> +			power-domains = <&sysc R8A779H0_PD_C4>;
+>> +			resets = <&cpg 411>;
+>> +			reset-names = "du.0";
+>> +			renesas,vsps = <&vspd0 0>;
+>> +
+>> +			status = "disabled";
+>> +
+>> +			ports {
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +
+>> +				port@0 {
+>> +					reg = <0>;
+>> +					du_out_dsi0: endpoint {
+>> +						remote-endpoint = <&dsi0_in>;
+>> +					};
+>> +				};
+>> +
+>> +				port@1 {
+>> +					reg = <1>;
+>> +				};
 > 
-> Other than that, allmodconfig builds on x86 and I'm convinced the build
-> bots will tell me about anything else I missed.
-> 
-> Lorenzo is working on fb_defio and fbtft will come along for the ride
-> (it's a debug printk, so could just be deleted).
-> 
-> s390 is complicated.  I'd really appreciate some help.
-> 
-> The next step is to feed most of the patches through the appropriate
-> subsystems.  Some have already gone into various maintainer trees
-> (thanks!)
-> 
-> 
-> There are still many more steps to go after this; eliminating memcg_data
-> is closest to complete, and after that will come (in some order)
-> eliminating ->lru, ->mapping, ->refcount and ->mapcount. 
+> On V4M the DU has a single channel, so there should be a single port.
 
-Will continue working on the latter ;)
+Yep, I'll drop.
 
--- 
-Cheers,
+  Tomi
 
-David / dhildenb
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+>> +			};
+>> +		};
+>> +
+>>   		isp0: isp@fed00000 {
+>>   			compatible = "renesas,r8a779h0-isp",
+>>   				     "renesas,rcar-gen4-isp";
+>> @@ -1996,6 +2044,35 @@ isp1vin15: endpoint {
+>>   			};
+>>   		};
+>>   
+>> +		dsi0: dsi-encoder@fed80000 {
+>> +			compatible = "renesas,r8a779h0-dsi-csi2-tx";
+>> +			reg = <0 0xfed80000 0 0x10000>;
+>> +			clocks = <&cpg CPG_MOD 415>,
+>> +				 <&cpg CPG_CORE R8A779H0_CLK_DSIEXT>,
+>> +				 <&cpg CPG_CORE R8A779H0_CLK_DSIREF>;
+>> +			clock-names = "fck", "dsi", "pll";
+>> +			power-domains = <&sysc R8A779H0_PD_C4>;
+>> +			resets = <&cpg 415>;
+>> +
+>> +			status = "disabled";
+>> +
+>> +			ports {
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +
+>> +				port@0 {
+>> +					reg = <0>;
+>> +					dsi0_in: endpoint {
+>> +						remote-endpoint = <&du_out_dsi0>;
+>> +					};
+>> +				};
+>> +
+>> +				port@1 {
+>> +					reg = <1>;
+>> +				};
+>> +			};
+>> +		};
+>> +
+>>   		prr: chipid@fff00044 {
+>>   			compatible = "renesas,prr";
+>>   			reg = <0 0xfff00044 0 4>;
+> 
 
