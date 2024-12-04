@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE6F79E315A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 03:21:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E759E315D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 03:23:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0AEF10EBAE;
-	Wed,  4 Dec 2024 02:21:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F5F10E0AA;
+	Wed,  4 Dec 2024 02:23:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="dzcA+s18";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="A0gvFFur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
- Wed, 04 Dec 2024 02:21:07 UTC
-Received: from mail-m127165.xmail.ntesmail.com
- (mail-m127165.xmail.ntesmail.com [115.236.127.165])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C660E10E298
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 02:21:07 +0000 (UTC)
-Received: from [172.16.12.67] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 4a145995;
- Wed, 4 Dec 2024 10:16:00 +0800 (GMT+08:00)
-Message-ID: <af1cce1a-c46d-470f-a1b9-bfbc90b46415@rock-chips.com>
-Date: Wed, 4 Dec 2024 10:16:00 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABC510E0AA
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 02:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1733278994;
+ bh=hVPWjxDf3J62Z7wnIqQWbdoImqDsRWqpTgW/qaZa0BY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=A0gvFFurp2Dn6uAuJi/e5zdcYYEKkJJtQlu4JFEHpWCPvSr5lsqsuH2ju7XfY2iTU
+ K+RA40TbSdIXfFTIBaaR55eHenhPEU9YMBzkWuHoEYSU82f6JQyXHIW/48oku0zhXo
+ BSgPE+MSGBzmokhsalyTQXp/K8C888UWi0J4+D3LFv1hOlMQC3lxZnDYaCd5ZHMmO/
+ +wganKwSZNmPAkNP7MTX6ttSkPzCNTx8+RKtCUdnIc6NRcdr0Rxd+tBbVBxhdNZmnI
+ V8hJfQ0+4a1zoVZB67UlJ9zsUWBCErDBmWM7UvxyiAcNNmZ2P/f7T5FZ9Tij93Eaxz
+ lnAg1wwCv2PcA==
+Received: from [192.168.50.250] (unknown [171.76.86.133])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 916CC17E0F8A;
+ Wed,  4 Dec 2024 03:23:11 +0100 (CET)
+Message-ID: <a9a956b7-55da-4b90-bf82-92def097a63a@collabora.com>
+Date: Wed, 4 Dec 2024 07:53:08 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>,
- Daniel Semkowicz <dse@thaumatec.com>
-References: <20241203165450.1501219-1-heiko@sntech.de>
- <20241203165450.1501219-4-heiko@sntech.de>
+Subject: Re: [PATCH v1 0/2] drm/ci: uprev mesa and modify gitlab rules
+To: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ daniels <daniels@collabora.com>, airlied <airlied@gmail.com>,
+ daniel <daniel@ffwll.ch>, robdclark <robdclark@gmail.com>,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
+ "jani.nikula" <jani.nikula@linux.intel.com>,
+ "dmitry.baryshkov" <dmitry.baryshkov@linaro.org>,
+ mripard <mripard@kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>
+References: <20241128042025.611659-1-vignesh.raman@collabora.com>
+ <1938cdd3a4b.10ab98f77527721.7719837795987945098@collabora.com>
 Content-Language: en-US
-From: Kever Yang <kever.yang@rock-chips.com>
-In-Reply-To: <20241203165450.1501219-4-heiko@sntech.de>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <1938cdd3a4b.10ab98f77527721.7719837795987945098@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh5IGlZDTkhCSRkdSh9DGhhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a938f73f0f903afkunm4a145995
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MBA6Hjo5NDIiQgsiEC4hFjQU
- ASIaC0JVSlVKTEhISUxDTk1JTUpOVTMWGhIXVRAeDR4JVQIaFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFITUtDNwY+
-DKIM-Signature: a=rsa-sha256;
- b=dzcA+s18pHeWsAvT8DU6Gsg9UZW7nRkXuem7SF0t2SffbzdYCfnk1RxngwDRz/caOzZYcCZaQu9jL1FTEb9tq/sSV+YyDZMacY5Qosl70MpbmQuFuO09iKrupIcEb66TLNKyZAFWaXQGYXAWgfTjBZerWwqAAwdoOs17GOk8h04=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=7Qfir7c7WLrv83V+tyvAYKqAUcaUO9npr2R5cAdgfC0=;
- h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,85 +68,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
+Hi Helen,
 
-On 2024/12/4 00:54, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@cherry.de>
->
-> This adds the glue code for the MIPI DSI2 bridge on Rockchip SoCs and
-> enables its use on the RK3588.
->
-> Right now the DSI2 controller is always paired with a DC-phy based on a
-> Samsung IP, so the interface values are set statically for now.
-> This stays true for the upcoming RK3576 as well.
->
-> Tested-by: Daniel Semkowicz <dse@thaumatec.com>
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
-> ---
->   drivers/gpu/drm/rockchip/Kconfig              |  10 +
->   drivers/gpu/drm/rockchip/Makefile             |   1 +
->   .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 524 ++++++++++++++++++
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   1 +
->   5 files changed, 538 insertions(+)
->   create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
->
-> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-> index 448fadd4ba15..84af423b7f90 100644
-> --- a/drivers/gpu/drm/rockchip/Kconfig
-> +++ b/drivers/gpu/drm/rockchip/Kconfig
-> @@ -10,6 +10,7 @@ config DRM_ROCKCHIP
->   	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
->   	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
->   	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-> +	select DRM_DW_MIPI_DSI2 if ROCKCHIP_DW_MIPI_DSI2
->   	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
->   	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
->   	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
-> @@ -81,6 +82,15 @@ config ROCKCHIP_DW_MIPI_DSI
->   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
->   	  select this option.
->   
-> +config ROCKCHIP_DW_MIPI_DSI2
-> +	bool "Rockchip specific extensions for Synopsys DW MIPI DSI2"
-> +	select GENERIC_PHY_MIPI_DPHY
-> +	help
-> +	  This selects support for Rockchip SoC specific extensions
-> +	  for the Synopsys DesignWare dsi driver. If you want to
-> +	  enable MIPI DSI on RK3576 or RK3588 based SoC, you should
-> +	  select this option.
-> +
->   config ROCKCHIP_INNO_HDMI
->   	bool "Rockchip specific extensions for Innosilicon HDMI"
->   	select DRM_DISPLAY_HDMI_HELPER
-> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
-> index 3eab662a5a1d..2b867cebbc12 100644
-> --- a/drivers/gpu/drm/rockchip/Makefile
-> +++ b/drivers/gpu/drm/rockchip/Makefile
-> @@ -13,6 +13,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) += dw_hdmi_qp-rockchip.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
-> +rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) += dw-mipi-dsi2-rockchip.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) += rockchip_lvds.o
->   rockchipdrm-$(CONFIG_ROCKCHIP_RGB) += rockchip_rgb.o
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> new file mode 100644
-> index 000000000000..55eed4001634
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
-> @@ -0,0 +1,524 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright (C) 2024 Rockchip Electronics Co.Ltd
-This should be:
+On 03/12/24 19:42, Helen Mae Koike Fornazier wrote:
+> Hi Vignesh,
+> 
+> Thanks for your patchset.
+> 
+> 
+> 
+> ---- On Thu, 28 Nov 2024 01:20:19 -0300 Vignesh Raman  wrote ---
+> 
+>   > Uprev mesa to adapt to the latest changes in mesa-ci,
+>   > including new container jobs and stages. Update the
+>   > lava-submit script to align with recent mesa-ci changes
+>   > for using LAVA rootfs overlays. Modify gitLab rules
+>   > to include scheduled pipelines.
+>   >
+>   > Pipeline link,
+>   > https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1318024
+> 
+> I see this pipeline has a few failures, most of them are because outdated xfails files and timeouts.
+> Could we fix that first? So when we test this patchset we can verify if it introduces any issues or not.
 
-Rockchip Electronics Co., Ltd.
+Yes. The expectation files are not updated. I will uprev IGT and rerun 
+the tests and update xfails.
 
-This typo is from vendor kernel, we will correct all this kind of issue locally,
-and Andy is going to correct other files in drm for mainline kernel.
+Regards,
+Vignesh
 
-Thanks,
-- Kever
-
+> 
+> Thanks
+> Helen
+> 
+>   >
+>   > Vignesh Raman (2):
+>   >  drm/ci: uprev mesa
+>   >  drm/ci: update gitlab rules
+>   >
+>   >  drivers/gpu/drm/ci/build.sh       |   2 +-
+>   >  drivers/gpu/drm/ci/build.yml      | 104 ++++++++++++++++-
+>   >  drivers/gpu/drm/ci/container.yml  |  22 ++--
+>   >  drivers/gpu/drm/ci/gitlab-ci.yml  | 185 ++++++++++++++++--------------
+>   >  drivers/gpu/drm/ci/image-tags.yml |  11 +-
+>   >  drivers/gpu/drm/ci/lava-submit.sh |  99 +++++++++++-----
+>   >  drivers/gpu/drm/ci/test.yml       |  33 +++---
+>   >  7 files changed, 314 insertions(+), 142 deletions(-)
+>   >
+>   > --
+>   > 2.43.0
+>   >
+>   >
+> 
