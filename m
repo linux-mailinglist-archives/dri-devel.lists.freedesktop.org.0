@@ -2,44 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9275D9E3FD6
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 17:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DA49E3FE9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 17:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4185D10E1B2;
-	Wed,  4 Dec 2024 16:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B944910E2AF;
+	Wed,  4 Dec 2024 16:42:45 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="jwLrm3XJ";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="jwLrm3XJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8569810E1B2
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 16:40:24 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D43381063;
- Wed,  4 Dec 2024 08:40:51 -0800 (PST)
-Received: from [10.57.90.162] (unknown [10.57.90.162])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D7053F5A1;
- Wed,  4 Dec 2024 08:40:21 -0800 (PST)
-Message-ID: <e36019f8-a4e5-4327-91b3-b21a869d0660@arm.com>
-Date: Wed, 4 Dec 2024 16:40:19 +0000
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [96.44.175.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9FD610E2AF
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 16:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1733330561;
+ bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=jwLrm3XJJg0bE+y+jmRYNMFwEElygfQC2HGQiHPd5Xz/u0WtyW7YWY3rX060euBo7
+ f9S1jUzBwKhA2RFoWPD/ZkuHcVNkBdGsPnMe1XGCn2DaqvTsyQjVXKsqZzFLZSZ0Tt
+ bvl4/NIRU0Ww5p2EbpvPP+Glg6xJuhny+E4/K7oQ=
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id DBE1112816C9;
+ Wed, 04 Dec 2024 11:42:41 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id H1OGkhq900B6; Wed,  4 Dec 2024 11:42:41 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1733330561;
+ bh=/tV2/rqC9g/RzItU4xjpFfq9TJiKncFzSdSN5cVSPCI=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=jwLrm3XJJg0bE+y+jmRYNMFwEElygfQC2HGQiHPd5Xz/u0WtyW7YWY3rX060euBo7
+ f9S1jUzBwKhA2RFoWPD/ZkuHcVNkBdGsPnMe1XGCn2DaqvTsyQjVXKsqZzFLZSZ0Tt
+ bvl4/NIRU0Ww5p2EbpvPP+Glg6xJuhny+E4/K7oQ=
+Received: from lingrow.int.hansenpartnership.com (unknown
+ [IPv6:2601:5c4:4302:c21::a774])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 13309128116A;
+ Wed, 04 Dec 2024 11:42:36 -0500 (EST)
+Message-ID: <5c905df49a332b1136787a524955b46b6153c012.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Zijun Hu <zijun_hu@icloud.com>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
+ <thomas@t-8ch.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
+ Delvare <jdelvare@suse.com>,  Guenter Roeck <linux@roeck-us.net>, Martin
+ Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
+ Jamet <michael.jamet@intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>,  Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean
+ <olteanv@gmail.com>,  "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
+ <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
+ Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
+ Leech <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
+ <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
+ <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, Alison
+ Schofield <alison.schofield@intel.com>, Andreas Larsson
+ <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
+ <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
+ <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
+ Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
+ netdev@vger.kernel.org,  linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org, 
+ linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
+ linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
+ arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Date: Wed, 04 Dec 2024 11:42:34 -0500
+In-Reply-To: <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
+References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+ <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
+ <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
+ <2024120320-manual-jockey-dfd1@gregkh>
+ <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
+ <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
+ <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
+ <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
+ <108c63c753f2f637a72c2e105ac138f80d4b0859.camel@HansenPartnership.com>
+ <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] drm/panfrost: Make re-enabling job interrupts at
- device reset optional
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Philipp Zabel <p.zabel@pengutronix.de>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241128211223.1805830-1-adrian.larumbe@collabora.com>
- <20241128211223.1805830-7-adrian.larumbe@collabora.com>
- <20241202122039.273f0e9f@collabora.com>
- <em3uug2hv5lzzvujqvc34cv3jmoex5kw6q2q2pf3djpaumaxuz@4y47e2fag6ug>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <em3uug2hv5lzzvujqvc34cv3jmoex5kw6q2q2pf3djpaumaxuz@4y47e2fag6ug>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,225 +124,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2024 15:34, Adrián Larumbe wrote:
-> Hi Boris,
+On Wed, 2024-12-04 at 20:26 +0800, Zijun Hu wrote:
+> On 2024/12/3 23:34, James Bottomley wrote:
+> > > > This also enables an incremental migration.
+> > > change the API prototype from:
+> > > device_find_child(..., void *data_0, int (*match)(struct device
+> > > *dev, void *data));
+> > > 
+> > > to:
+> > > device_find_child(..., const void *data_0, int (*match)(struct
+> > > device *dev, const void *data));
+> > > 
+> > > For @data_0,  void * -> const void * is okay.
+> > > but for @match, the problem is function pointer type
+> > > incompatibility.
+> > > 
+> > > there are two solutions base on discussions.
+> > > 
+> > > 1) squashing likewise Greg mentioned.
+> > >    Do all of the "prep work" first, and then
+> > >    do the const change at the very end, all at once.
+> > > 
+> > > 2)  as changing platform_driver's remove() prototype.
+> > > Commit: e70140ba0d2b ("Get rid of 'remove_new' relic from
+> > > platform driver struct")
+> > > 
+> > >  introduce extra device_find_child_new() which is constified  ->
+> > > use *_new() replace ALL device_find_child() instances one by one
+> > > -> remove device_find_child() -> rename *_new() to
+> > > device_find_child() once.
+> > Why bother with the last step, which churns the entire code base
+> > again?
 > 
-> On 02.12.2024 12:20, Boris Brezillon wrote:
->> On Thu, 28 Nov 2024 21:06:21 +0000
->> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
->>
->>> Rather than remasking interrupts after a device reset in the main reset
->>> path, allow selecting whether to do this with an additional bool parameter.
->>>
->>> To this end, split reenabling job interrupts into two functions, one that
->>> clears the interrupts and another one which unmasks them conditionally.
->>>
->>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>> ---
->>>  drivers/gpu/drm/panfrost/panfrost_device.c | 11 +++++--
->>>  drivers/gpu/drm/panfrost/panfrost_device.h |  2 +-
->>>  drivers/gpu/drm/panfrost/panfrost_job.c    | 34 ++++++++++++----------
->>>  drivers/gpu/drm/panfrost/panfrost_job.h    |  3 +-
->>>  4 files changed, 29 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
->>> index 4fe29286bbe3..7e5d39699982 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
->>> @@ -395,20 +395,25 @@ bool panfrost_exception_needs_reset(const struct panfrost_device *pfdev,
->>>  	return false;
->>>  }
->>>  
->>> -void panfrost_device_reset(struct panfrost_device *pfdev)
->>> +void panfrost_device_reset(struct panfrost_device *pfdev, bool enable_job_int)
->>>  {
->>> +	u32 irq_mask;
->>> +
->>>  	panfrost_gpu_soft_reset(pfdev);
->>>  
->>>  	panfrost_gpu_power_on(pfdev);
->>>  	panfrost_mmu_reset(pfdev);
->>> -	panfrost_job_enable_interrupts(pfdev);
->>> +
->>> +	irq_mask = panfrost_job_reset_interrupts(pfdev);
->>> +	if (enable_job_int)
->>> +		panfrost_enable_interrupts(pfdev, irq_mask);
->>>  }
->>>  
->>>  static int panfrost_device_runtime_resume(struct device *dev)
->>>  {
->>>  	struct panfrost_device *pfdev = dev_get_drvdata(dev);
->>>  
->>> -	panfrost_device_reset(pfdev);
->>> +	panfrost_device_reset(pfdev, true);
->>>  	panfrost_devfreq_resume(pfdev);
->>>  
->>>  	return 0;
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.h b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> index d9aea2c2cbe5..fc83d5e104a3 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_device.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_device.h
->>> @@ -205,7 +205,7 @@ int panfrost_unstable_ioctl_check(void);
->>>  
->>>  int panfrost_device_init(struct panfrost_device *pfdev);
->>>  void panfrost_device_fini(struct panfrost_device *pfdev);
->>> -void panfrost_device_reset(struct panfrost_device *pfdev);
->>> +void panfrost_device_reset(struct panfrost_device *pfdev, bool enable_job_int);
->>>  
->>>  extern const struct dev_pm_ops panfrost_pm_ops;
->>>  
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> index fba1a376f593..79d2ee3625b2 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
->>> @@ -27,6 +27,10 @@
->>>  #define job_write(dev, reg, data) writel(data, dev->iomem + (reg))
->>>  #define job_read(dev, reg) readl(dev->iomem + (reg))
->>>  
->>> +#define JOB_INT_ENABLE_MASK			\
->>> +	(GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |	\
->>> +	 GENMASK(NUM_JOB_SLOTS - 1, 0))
->>> +
->>>  struct panfrost_queue_state {
->>>  	struct drm_gpu_scheduler sched;
->>>  	u64 fence_context;
->>> @@ -421,18 +425,23 @@ static struct dma_fence *panfrost_job_run(struct drm_sched_job *sched_job)
->>>  	return fence;
->>>  }
->>>  
->>> -void panfrost_job_enable_interrupts(struct panfrost_device *pfdev)
->>> +u32 panfrost_job_reset_interrupts(struct panfrost_device *pfdev)
->>>  {
->>>  	int j;
->>>  	u32 irq_mask = 0;
->>>  
->>> -	clear_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
->>> -
->>>  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
->>>  		irq_mask |= MK_JS_MASK(j);
->>>  	}
->>>  
->>>  	job_write(pfdev, JOB_INT_CLEAR, irq_mask);
->>> +
->>> +	return irq_mask;
->>> +}
->>
->> Let's define an ALL_JS_INT_MASK so we can get rid of the for loop and
->> can avoid returning a value that's constant.
+> keep the good API name device_find_child().
+
+Well, I think it's a good opportunity to rename the API better, but if
+that's the goal, you can still do it with _Generic() without churning
+the code base a second time.  The example is in
+slab.h:kmem_cache_create
+
+> > Why not call the new function device_find_child_const() and simply
+> > keep it (it's descriptive of its function).  That way you can have
+> > a patch series without merging and at the end simply remove the old
+> > function.
 > 
-> Because ALL_JS_INT_MASK would be defined as an OR of MK_JS_MASK() applications,
-> and this macro is defined in panfrost_regs.h, I can't think of a nice location
-> for it that would be suitable for all the files where it would be called.
+> device_find_child is a good name for the API, 'find' already means
+> const.
 
-I can't speak for Boris, but I'd be quite happy with a:
+Not to me it doesn't, but that's actually not what I think is wrong
+with the API name: it actually only returns the first match, so I'd
+marginally prefer it to be called device_find_first_child() ... not
+enough to churn the code to change it, but since you're doing that
+anyway it might make sense as an update.
 
-#define ALL_JS_INT_MASK 0x70007
+Regards,
 
-We know NUM_JOB_SLOTS is a (hardware) constant so we can compute the
-value once. That or MK_JS_MASK(0)|MK_JS_MASK(1)|MK_JS_MASK(2) if you
-prefer, or of course the GENMASK() variant below.
-
-> Maybe I could implement the same loop inside panfrost_job_init() where it would be
-> called only once, and store the result in a const struct panfrost_job_slot field?
-
-It seems silly wasting memory on a compile time constant...
-
->>> +
->>> +void panfrost_enable_interrupts(struct panfrost_device *pfdev, u32 irq_mask)
->>
->> Let's drop the irq_mask mask (use ALL_JS_INT_MASK), and call the
->> function panfrost_job_enable_interrupts() instead.
-> 
-> I made a mistake here naming this function, it should've been panfrost_job_enable_interrupts().
-> 
-> Other than that, I decided to keep the irq_mask argument because I'm also calling it from
-> the very end of panfrost_reset() with JOB_INT_ENABLE_MASK, where I defined it to be
-> 
-> (GENMASK(16 + NUM_JOB_SLOTS - 1, 16) | GENMASK(NUM_JOB_SLOTS - 1, 0))
-> 
-> That raises the question, what is the functional difference between writing either
-> this or MK_JS_MASK(0) | MK_JS_MASK(1) | MK_JS_MASK(2) into the JOB_INT_MASK register?
-
-Hopefully none - the two values should be the same. Indeed the GENMASK
-variant is possibly best because it encodes using NUM_JOB_SLOTS.
-Although I have to admit I have to think harder to decode the GENMASK()
-version than either of the other alternatives above.
-
-Steve
-
-> It's also being done in panfrost_job_irq_handler_thread() so I'm not quite sure of this.
-> 
->>> +{
->>> +	clear_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended);
->>>  	job_write(pfdev, JOB_INT_MASK, irq_mask);
->>>  }
->>>  
->>> @@ -725,12 +734,7 @@ panfrost_reset(struct panfrost_device *pfdev,
->>>  	spin_unlock(&pfdev->js->job_lock);
->>>  
->>>  	/* Proceed with reset now. */
->>> -	panfrost_device_reset(pfdev);
->>> -
->>> -	/* panfrost_device_reset() unmasks job interrupts, but we want to
->>> -	 * keep them masked a bit longer.
->>> -	 */
->>> -	job_write(pfdev, JOB_INT_MASK, 0);
->>> +	panfrost_device_reset(pfdev, false);
->>>  
->>>  	/* GPU has been reset, we can clear the reset pending bit. */
->>>  	atomic_set(&pfdev->reset.pending, 0);
->>> @@ -752,9 +756,7 @@ panfrost_reset(struct panfrost_device *pfdev,
->>>  		drm_sched_start(&pfdev->js->queue[i].sched, 0);
->>>  
->>>  	/* Re-enable job interrupts now that everything has been restarted. */
->>> -	job_write(pfdev, JOB_INT_MASK,
->>> -		  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
->>> -		  GENMASK(NUM_JOB_SLOTS - 1, 0));
->>> +	panfrost_enable_interrupts(pfdev, JOB_INT_ENABLE_MASK);
->>>  
->>>  	dma_fence_end_signalling(cookie);
->>>  }
->>> @@ -827,9 +829,7 @@ static irqreturn_t panfrost_job_irq_handler_thread(int irq, void *data)
->>>  
->>>  	/* Enable interrupts only if we're not about to get suspended */
->>>  	if (!test_bit(PANFROST_COMP_BIT_JOB, pfdev->is_suspended))
->>> -		job_write(pfdev, JOB_INT_MASK,
->>> -			  GENMASK(16 + NUM_JOB_SLOTS - 1, 16) |
->>> -			  GENMASK(NUM_JOB_SLOTS - 1, 0));
->>> +		job_write(pfdev, JOB_INT_MASK, JOB_INT_ENABLE_MASK);
->>>  
->>>  	return IRQ_HANDLED;
->>>  }
->>> @@ -854,6 +854,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->>>  {
->>>  	struct panfrost_job_slot *js;
->>>  	unsigned int nentries = 2;
->>> +	u32 irq_mask;
->>>  	int ret, j;
->>>  
->>>  	/* All GPUs have two entries per queue, but without jobchain
->>> @@ -905,7 +906,8 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->>>  		}
->>>  	}
->>>  
->>> -	panfrost_job_enable_interrupts(pfdev);
->>> +	irq_mask = panfrost_job_reset_interrupts(pfdev);
->>> +	panfrost_enable_interrupts(pfdev, irq_mask);
->>>  
->>>  	return 0;
->>>  
->>> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.h b/drivers/gpu/drm/panfrost/panfrost_job.h
->>> index ec581b97852b..c09d42ee5039 100644
->>> --- a/drivers/gpu/drm/panfrost/panfrost_job.h
->>> +++ b/drivers/gpu/drm/panfrost/panfrost_job.h
->>> @@ -46,7 +46,8 @@ void panfrost_job_close(struct panfrost_file_priv *panfrost_priv);
->>>  int panfrost_job_get_slot(struct panfrost_job *job);
->>>  int panfrost_job_push(struct panfrost_job *job);
->>>  void panfrost_job_put(struct panfrost_job *job);
->>> -void panfrost_job_enable_interrupts(struct panfrost_device *pfdev);
->>> +u32 panfrost_job_reset_interrupts(struct panfrost_device *pfdev);
->>> +void panfrost_enable_interrupts(struct panfrost_device *pfdev, u32 irq_mask);
->>>  void panfrost_job_suspend_irq(struct panfrost_device *pfdev);
->>>  int panfrost_job_is_idle(struct panfrost_device *pfdev);
->>>  
+James
 
