@@ -2,74 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4B49E36F9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 10:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07739E3736
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 11:09:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E16910E127;
-	Wed,  4 Dec 2024 09:57:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099AA10ECB4;
+	Wed,  4 Dec 2024 10:09:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SVLUJ/m+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mNMctgEj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4B9310E127;
- Wed,  4 Dec 2024 09:57:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733306232; x=1764842232;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=jaosHWMaAcP9TMvVlNhxqKRNyIQsSTqKBPZl7Gu/MU8=;
- b=SVLUJ/m+ewx7R+ryFb7ys/t+yXhWxcgaz7IhBBlrtOXNOf2U2AQ95xpg
- I0mDBFQgbMUMWtXx/QC+XWSuS3e2n8kr5jKgdwNAsJRKor98hT7uBysPF
- pzJZvMEZIn/0JagdfyXUWLfPR92FDxGV5CvDQSv6hS0s21a4gIK2NbDzN
- p71Ah6owJB7KAqj0Ho6B7GYlIPdu8nGoZsFpI8jeYs7TyWU0jC7wElsKz
- TCERObS3SM4heiw67pj0FYmQ6vyCJfiYKeiW8sKj4GrwXSWahE4by+4ip
- BwFkFRFnaHqbOTpvp0SRfI4tVtpQeHMI27BSHTq2+pARldtNgVnTxyX5y g==;
-X-CSE-ConnectionGUID: o3kN+SWlTw6BMWvIzVcvcg==
-X-CSE-MsgGUID: P5TDMlPIRJ6IyxXu/+uyCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="56047893"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="56047893"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2024 01:57:11 -0800
-X-CSE-ConnectionGUID: O8Zw4C5CTbuFne29nZRFVg==
-X-CSE-MsgGUID: WFVkJl6nRY6d0387D4nQ0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="97780137"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.221])
- ([10.245.246.221])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2024 01:57:09 -0800
-Message-ID: <e7654f8140ce2bd1afdca20b21b139cf810b6070.camel@linux.intel.com>
-Subject: Re: [PATCH v14 3/8] drm/ttm/pool: Provide a helper to shrink pages
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, Matthew Brost
- <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, Paulo Zanoni
- <paulo.r.zanoni@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Date: Wed, 04 Dec 2024 10:56:52 +0100
-In-Reply-To: <26747cae-d66a-4bc4-9efb-4fdda4ac766b@amd.com>
-References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
- <20241115150120.3280-4-thomas.hellstrom@linux.intel.com>
- <800ee040-7c2e-47d0-81e6-a352f5f689fb@amd.com>
- <a07c93704bc7f59f51b5a6a13aeb3e13eee28e3c.camel@linux.intel.com>
- <d1e33436-9c1c-43d4-a86a-956926a7096c@amd.com>
- <73588525571a68f5638300ef171591de10ba5e5d.camel@linux.intel.com>
- <0595e4df-86d4-4082-86ab-b77902d3020b@amd.com>
- <cf722b696676b7383a94c2b846f8230e180ee527.camel@linux.intel.com>
- <bc762b0c-4fe3-48ff-b8df-14f741c91939@amd.com>
- <f74a7b678b5013dbcbe090bbff885827d3675247.camel@linux.intel.com>
- <c74e9f5c-3201-4083-8b79-80fdbbd903f2@amd.com>
- <5f3c04297fd6f008cad0415d6b6c04ba8c3b5a8c.camel@linux.intel.com>
- <26747cae-d66a-4bc4-9efb-4fdda4ac766b@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3293B10ECB4
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:09:47 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-53de8ecb39bso7738384e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 02:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733306985; x=1733911785; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=6GG/C0igHoeNKj2mH68ClLF3Ygx5izj48/Bea3x0gsc=;
+ b=mNMctgEjvP6RxsfwoCbuHq6M7lsW82tXcNQi3y1TiBaGee4XQcNaIrVe9BHJu1lfSY
+ h3Chd4CVzaaz1dzzKjgddHod+m14xC6spPn1QQiWqNEv2SirDUO6Zqmw7Zq7a2h5cY87
+ leqpzE+ExcV+6gbqa+0k1k8PJ/xf6MMFzxnRGVGpVF8kXS0pIBIX67mv0NJPlB1/yOAa
+ SFg8VB6F4MqC0MCfH+cVFeBXpL0yMlemU3cpmjl4tWnDSubCZ8QJZS7vRI93XujE+8s+
+ tJ7xW6+l/cEdH5k/Gume8XCJd1t7FB11sVcpnOUPeAKgsP//u/BhEE32akAzQEXWz59L
+ lTRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733306985; x=1733911785;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6GG/C0igHoeNKj2mH68ClLF3Ygx5izj48/Bea3x0gsc=;
+ b=ATp1nZP3xPZlfc+Gnf29eAJWFsnXH5j5YMMnIcodGRSxX2bSqCy5ZDxQOhErZ+jBI+
+ r6XJA6t2RaTCu/I9zeQD8JJEao1xw+sXCHtPZti6bgGxe3Lrh7OaHESYVSRU8uljim38
+ 0Q+RBigvJ+DAUUPxcYLR3hbe9Vo2e71eewN5bEW8WhQ98Tqe5Lxa6wfpKUUmbRKhMDw+
+ KCbeTVxq9awg1PNThL9k6CALBdaBlHRNH/YYZHO8RFwyUElEHAChnRFaudF3J0HhNhXn
+ OLqyD9ky/yW9gX5erNJyCwICjzXlNEvO3CC1SGvNIakOv8ydL0jkk33oYvtfGWqPjOJ4
+ VWEA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXN7mp/+l18x4NJKcik8fMr66xORIZ6UEGdStCbSLiNIpSKmLRAkK7ODhecc2R5C/zfM32MQiKJC7s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzcFouI25WO+m6tUtQmz0ssBADkyAkNLadv5vKDZ9MvoyY3lW/A
+ msWwoN0QNZVfOMZ6CTh2a8aP82TtnOg9IPwJlEqTOIHBA9bziGwV2xare1YB8B8=
+X-Gm-Gg: ASbGncvQ9VWeXnp1hnre7S1vsO5ewNxQqW1v38IzJ1qBrlc+9McmhpoOwodCxuJZ+0H
+ busPeMzw+vCYnPsrELt3LNi/38qHjGpTNevfKrj36hK/MShNzeebUqMqwLYpyS7Fwktf6O6pCGY
+ 5SOHmn/qIbTV7EqFd753uw2Iq9QoSWgII32vu1hx/H8rolhIj356Lxapzv8K3HMjb4w5vQD+0I+
+ lXVxDZN/jSSOISJhCxSMFZEMvrFpMftv6xnAmDfccKMFAckEssrKyNgxqi0jVjPm3nPY6o3D4Ep
+ aCD4fc45XXG6qGtJrE/lIqM6F6H53Q==
+X-Google-Smtp-Source: AGHT+IFeChx3JdkEVrSx44qmoT8HCpAzvLzptFBGVf0Lu16LK9AmpqVP6+Unh/3j2hROlEszt0kJ2A==
+X-Received: by 2002:a05:6512:224d:b0:53d:f82a:deb8 with SMTP id
+ 2adb3069b0e04-53e129fdd73mr3741737e87.14.1733306985190; 
+ Wed, 04 Dec 2024 02:09:45 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53e14f97649sm495602e87.146.2024.12.04.02.09.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2024 02:09:44 -0800 (PST)
+Date: Wed, 4 Dec 2024 12:09:42 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Mahadevan <quic_mahap@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] dt-bindings: display: msm: dp-controller: document
+ clock parents better
+Message-ID: <pxi2nf4h34xtkickkkuwh4svvhbtsutuz5u3ukzgfgd5rzzcps@g4gct5zuc6kj>
+References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
+ <20241202-dp_mst_bindings-v1-2-9a9a43b0624a@quicinc.com>
+ <bfa857c2-cd74-4fe2-a88c-3b35a58710b0@kernel.org>
+ <gpqrugcsyhz32bvip5mgjtcservhral2o5b6c5nz4ocwbjw5uo@eypv4x6jyrdr>
+ <hqe2pipkcnxftoq5mvdk36xmkj3ybr3oto6eghimq75rqlncsm@v45smglhedy7>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <hqe2pipkcnxftoq5mvdk36xmkj3ybr3oto6eghimq75rqlncsm@v45smglhedy7>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,321 +103,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-12-04 at 10:16 +0100, Christian K=C3=B6nig wrote:
-> Am 03.12.24 um 18:44 schrieb Thomas Hellstr=C3=B6m:
-> > On Tue, 2024-12-03 at 17:46 +0100, Christian K=C3=B6nig wrote:
-> > > Am 03.12.24 um 17:43 schrieb Thomas Hellstr=C3=B6m:
-> > > > On Tue, 2024-12-03 at 17:39 +0100, Christian K=C3=B6nig wrote:
-> > > > > Am 03.12.24 um 17:31 schrieb Thomas Hellstr=C3=B6m:
-> > > > > > On Tue, 2024-12-03 at 17:20 +0100, Christian K=C3=B6nig wrote:
-> > > > > > > [SNIP]
-> > > > > > > > > > > > @@ -453,9 +601,36 @@ int ttm_pool_alloc(struct
-> > > > > > > > > > > > ttm_pool
-> > > > > > > > > > > > *pool,
-> > > > > > > > > > > > struct ttm_tt *tt,
-> > > > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0	else
-> > > > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0		gfp_fla=
-gs |=3D GFP_HIGHUSER;
-> > > > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > > -	for (order =3D min_t(unsigned int,
-> > > > > > > > > > > > MAX_PAGE_ORDER,
-> > > > > > > > > > > > __fls(num_pages));
-> > > > > > > > > > > > -	=C2=A0=C2=A0=C2=A0=C2=A0 num_pages;
-> > > > > > > > > > > > -	=C2=A0=C2=A0=C2=A0=C2=A0 order =3D min_t(unsigned=
- int,
-> > > > > > > > > > > > order,
-> > > > > > > > > > > > __fls(num_pages)))
-> > > > > > > > > > > > {
-> > > > > > > > > > > > +	order =3D min_t(unsigned int,
-> > > > > > > > > > > > MAX_PAGE_ORDER,
-> > > > > > > > > > > > __fls(num_pages));
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	if (tt->page_flags &
-> > > > > > > > > > > > TTM_TT_FLAG_PRIV_BACKED_UP) {
-> > > > > > > > > > > > +		if (!tt->restore) {
-> > > > > > > > > > > > +			gfp_t gfp =3D GFP_KERNEL
-> > > > > > > > > > > > |
-> > > > > > > > > > > > __GFP_NOWARN;
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +			if (ctx-
-> > > > > > > > > > > > > gfp_retry_mayfail)
-> > > > > > > > > > > > +				gfp |=3D
-> > > > > > > > > > > > __GFP_RETRY_MAYFAIL;
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +			tt->restore =3D
-> > > > > > > > > > > > +				kvzalloc(struc
-> > > > > > > > > > > > t_si
-> > > > > > > > > > > > ze(t
-> > > > > > > > > > > > t-
-> > > > > > > > > > > > > restore,
-> > > > > > > > > > > > old_pages,
-> > > > > > > > > > > > +				=09
-> > > > > > > > > > > > =09
-> > > > > > > > > > > > (size_t)1
-> > > > > > > > > > > > <<
-> > > > > > > > > > > > order), gfp);
-> > > > > > > > > > > > +			if (!tt->restore)
-> > > > > > > > > > > > +				return -
-> > > > > > > > > > > > ENOMEM;
-> > > > > > > > > > > > +		} else if
-> > > > > > > > > > > > (ttm_pool_restore_valid(tt-
-> > > > > > > > > > > > > restore)) {
-> > > > > > > > > > > > +			struct
-> > > > > > > > > > > > ttm_pool_tt_restore
-> > > > > > > > > > > > *restore =3D
-> > > > > > > > > > > > tt-
-> > > > > > > > > > > > > restore;
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +			num_pages -=3D restore-
-> > > > > > > > > > > > > alloced_pages;
-> > > > > > > > > > > > +			order =3D min_t(unsigned
-> > > > > > > > > > > > int,
-> > > > > > > > > > > > order,
-> > > > > > > > > > > > __fls(num_pages));
-> > > > > > > > > > > > +			pages +=3D restore-
-> > > > > > > > > > > > > alloced_pages;
-> > > > > > > > > > > > +			r =3D
-> > > > > > > > > > > > ttm_pool_restore_tt(restore,
-> > > > > > > > > > > > tt-
-> > > > > > > > > > > > > backup, ctx);
-> > > > > > > > > > > > +			if (r)
-> > > > > > > > > > > > +				return r;
-> > > > > > > > > > > > +			caching =3D restore-
-> > > > > > > > > > > > > caching_divide;
-> > > > > > > > > > > > +		}
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +		tt->restore->pool =3D pool;
-> > > > > > > > > > > > +	}
-> > > > > > > > > > > Hui? Why is that part of the allocation function
-> > > > > > > > > > > now?
-> > > > > > > > > > >=20
-> > > > > > > > > > > At bare minimum I would expect that this is a new
-> > > > > > > > > > > function.
-> > > > > > > > > > It's because we now have partially backed up tts,
-> > > > > > > > > > so
-> > > > > > > > > > the
-> > > > > > > > > > restore is
-> > > > > > > > > > interleaved on a per-page basis, replacing the
-> > > > > > > > > > backup
-> > > > > > > > > > handles
-> > > > > > > > > > with
-> > > > > > > > > > page-pointers. I'll see if I can separate out at
-> > > > > > > > > > least
-> > > > > > > > > > the
-> > > > > > > > > > initialization here.
-> > > > > > > > > Yeah, that kind of makes sense.
-> > > > > > > > >=20
-> > > > > > > > > My expectation was just that we now have explicit
-> > > > > > > > > ttm_pool_swapout()
-> > > > > > > > > and
-> > > > > > > > > ttm_pool_swapin() functions.
-> > > > > > > > I fully understand, although in the allocation step,
-> > > > > > > > that
-> > > > > > > > would
-> > > > > > > > also
-> > > > > > > > increase the memory pressure since we might momentarily
-> > > > > > > > have
-> > > > > > > > twice
-> > > > > > > > the
-> > > > > > > > bo-size allocated, if the shmem object was never
-> > > > > > > > swapped
-> > > > > > > > out,
-> > > > > > > > and
-> > > > > > > > we
-> > > > > > > > don't want to unnecessarily risc OOM at recover time,
-> > > > > > > > although
-> > > > > > > > that
-> > > > > > > > should be a recoverable situation now. If the OOM
-> > > > > > > > receiver
-> > > > > > > > can
-> > > > > > > > free
-> > > > > > > > up
-> > > > > > > > system memory resources they can could potentially
-> > > > > > > > restart
-> > > > > > > > the
-> > > > > > > > recover.
-> > > > > > > What I meant was more that we have ttm_pool_swapout()
-> > > > > > > which
-> > > > > > > does
-> > > > > > > a
-> > > > > > > mix
-> > > > > > > of moving each page to a swap backend and freeing one by
-> > > > > > > one.
-> > > > > > >=20
-> > > > > > > And ttm_pool_swapin() which allocates a bit of memory
-> > > > > > > (usually
-> > > > > > > one
-> > > > > > > huge
-> > > > > > > page) and then copies the content back in from the swap
-> > > > > > > backend.
-> > > > > > >=20
-> > > > > > > Alternatively we could rename ttm_pool_alloc() into
-> > > > > > > something
-> > > > > > > like
-> > > > > > > ttm_pool_populate() and ttm_pool_free() into
-> > > > > > > ttm_pool_unpopulate(),
-> > > > > > > but
-> > > > > > > those names are not very descriptive either.
-> > > > > > >=20
-> > > > > > > It's just that we now do a bit more than just alloc and
-> > > > > > > free
-> > > > > > > in
-> > > > > > > those
-> > > > > > > functions, so the naming doesn't really match that well
-> > > > > > > any
-> > > > > > > more.
-> > > > > > So what about ttm_pool_alloc() and
-> > > > > > ttm_pool_recover/swapin(),
-> > > > > > both
-> > > > > > pointing to the same code, but _alloc() asserts that the tt
-> > > > > > isn't
-> > > > > > backed up?
-> > > > > >=20
-> > > > > > That would give a clean interface at least.
-> > > > > More or less ok. I would just put figuring out the gfp flags
-> > > > > and
-> > > > > the
-> > > > > stuff inside the for (order... loop into separate functions.
-> > > > > And
-> > > > > then
-> > > > > remove the if (tt->page_flags & TTM_TT_FLAG_PRIV_BACKED_UP)
-> > > > > from
-> > > > > the
-> > > > > pool.
-> > > > >=20
-> > > > > In other words you trigger the back restore by calling a
-> > > > > different
-> > > > > function than the allocation one.
-> > > > I'll take a look at this as well.
-> > > Ah, and BTW: It's perfectly possible that ttm_tt_free() is called
-> > > because a halve swapped TT is about to be destroyed!
-> > >=20
-> > > If I'm not completely mistaken that is not handled gracefully
-> > > when we
-> > > try to always backup from in the ttm_tt_free() function.
-> > >=20
-> > > So we clearly need the separation of move this TT to a backup
-> > > (and
-> > > eventually only partially) and freeing it.
-> > Hm. I'm not sure I follow completely.
-> >=20
-> > The ttm_pool interface is currently:
-> >=20
-> > ttm_pool_alloc() -> allocs and may recover from backup. May leave
-> > partially backed up. Called from ttm_tt_populate() or its driver
-> > callbacks.
->=20
-> Yeah that this is done by a single function looks really strange to
-> me.
->=20
-> > ttm_pool_backup_tt() -> Attempts to back up (the not already backed
-> > up
-> > part of a tt. Called from ttm_tt_backup(), which is just a tt layer
-> > wrapper. If called with purge=3D=3Dtrue, then frees memory bypassing
-> > the
-> > pool to return it to the system directly.
-> >=20
-> > ttm_pool_free() -> Frees a (potentially backed up or partially
-> > backed
-> > up) tt. Called from ttm_tt_unpopulate() or its driver callbacks.
->=20
-> Ah! I missed that you have separated that functionality from the free
-> path.
->=20
-> I've only saw the allocation path and though I need to clear that up
-> first.
->=20
-> > So the backup functionality is implemented with a minimal change to
-> > upper layers, and I don't think there is a correctness problem on
-> > free().
-> >=20
-> > So could you clarify a bit if it is this interface you think needs
-> > changing or that the implementation is better at separating out the
-> > backup functionality from the pool functionality?
->=20
-> I think we should just make the ttm pool object take charge of=20
-> allocation, backup, restore and free operation on the TT objects.
->=20
-> And all of those are separate operations, they just internally share=20
-> steps to archive what they should do.
+On Wed, Dec 04, 2024 at 09:02:18AM +0100, Krzysztof Kozlowski wrote:
+> On Tue, Dec 03, 2024 at 03:41:48PM +0200, Dmitry Baryshkov wrote:
+> > On Tue, Dec 03, 2024 at 09:01:31AM +0100, Krzysztof Kozlowski wrote:
+> > > On 03/12/2024 04:31, Abhinav Kumar wrote:
+> > > > Document the assigned-clock-parents better for the DP controller node
+> > > > to indicate its functionality better.
+> > > 
+> > > 
+> > > You change the clocks entirely, not "document". I would say that's an
+> > > ABI break if it really is a Linux requirement. You could avoid any
+> > > problems by just dropping the property from binding.
+> > 
+> > But if you take a look at the existing usage, the proposed change
+> > matches the behaviour. So, I'd say, it's really a change that makes
+> > documentation follow the actual hardware.
+> 
+> First, this should be in the commit msg, instead of "document better to
+> indicate functionality better".
+> 
+> Second, what is the point of documenting it in the first place if you
+> can change it and changing has no impact? So maybe just drop?
 
-So are we looking at an interface change like:
+So, do you suggest setting both of the property descriptions to true? Or
+dropping them completely and using unevaluatedProperties instead of
+additionalProperties?
 
-ttm_pool_alloc() // no recover. Errors if backed-up-data present.
-ttm_pool_alloc_and_recover() // because you can't alloc first and then
-recover in a memory-efficient manner, since you need to interleave.
-ttm_pool_backup() // as currently
-ttm_pool_drop_backed_up() //drops the backed-up data if any.
-ttm_pool_free() // frees all data. errors if backed-up-data present.
-
-Is this what you mean?
-
->=20
-> BTW I really dislike that tt->restore is allocated dynamically. That
-> is=20
-> just another allocation which can cause problems.
-
->=20
-> We should probably have all the state necessary for the operation in
-> the=20
-> TT object.
-
-Initially it was done this way. But that meant a pre-allocated struct
-page-pointer array the of 1 << MAX_PAGE_ORDER size (2MiB) for each
-ttm_tt. That lead to a patch to reduce the MAX_PAGE_ORDER to PMD size
-order, but  as you might remember, that needed to be ripped out because
-the PMD size macros aren't constant across all architectures. IIRC it
-was ARM causing compilation failures, and Linus wasn't happy.
-
-So, enter the dynamic allocation which is temporary, and 1/512 of the
-size of the memory we need to allocate for the buffer object. IIRC that
-was discussed with Matt when he reiewed and we concluded that it should
-be ok. I think this approach leads to less memory pressure than if we'd
-keep that array around all the time for *all* the allocated bos, and
-the allocation is never during reclaim.
-
-Thanks,
-Thomas
-
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Thanks,
-> > Thomas
-> >=20
-> >=20
-> >=20
-> >=20
-> > > Christian.
-> > >=20
-> > > > /Thomas
-> > > >=20
-> > > >=20
-> > > > > > For a renaming change that touch all TTM drivers, I'd
-> > > > > > rather
-> > > > > > put
-> > > > > > that
-> > > > > > as a last patch since getting acks for that from all TTM
-> > > > > > driver
-> > > > > > maintainers seems like a hopeless undertaking.
-> > > > > Yeah the acks are not the problem, merging it through the xe
-> > > > > tree
-> > > > > would be.
-> > > > >=20
-> > > > > Christian.
-> > > > >=20
-> > > > >=20
-> > > > > > /Thomas
-> > > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > > Christian.
-> > > > > > >=20
-> > > > > > > > /Thomas
->=20
-
+-- 
+With best wishes
+Dmitry
