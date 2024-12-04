@@ -2,89 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4AB9E394A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 12:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA0E9E3965
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 13:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7E5210E353;
-	Wed,  4 Dec 2024 11:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8048B10ECE9;
+	Wed,  4 Dec 2024 12:01:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gJUx3Q9v";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NjxamjzG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ojpZ9GOu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xMp+M91r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="shBmRZHn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72FC610E353
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 11:53:49 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53df63230d0so8048697e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 03:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733313227; x=1733918027; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=eZi0lek4MKOQiatQagp7Ze6cVrkfo3z9JDWmy9BvIl4=;
- b=gJUx3Q9vATaC1LCwMWCTFIrO+U1ZBN/DsX0iKs3d7lOIcmMwZtxq2mVsq8ij/RPEJV
- gmWJDcbZssvDiLIdNmi9zsk5eWF80TFDFn0IvcsAkNLhJ3PiCAeFjMLDKGw27U7RnfYp
- OmTH4+Dn0NGpan20rEp3Z7GLjN0ZBsCmEZy3uyL77O7gDp9dIJV5i7FNwHFPn6MHhWgZ
- oGWszH55Ar7JEqCq3/oN/ih0yZQsOTFyNVQh5iirAzCg3tGCpwTi7DJ/ffFUqsPL8D4z
- 78T82Pz1XC6UDoiwBwk/skUekA6zkbsGxJT2qJAPncccpj8nFT6OuGiKRnMgGM7reEVH
- MlnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733313227; x=1733918027;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=eZi0lek4MKOQiatQagp7Ze6cVrkfo3z9JDWmy9BvIl4=;
- b=gMm06VHc1HyINxmALPcyBT3AT2s81Yh1x448/0V9R5yBtWhncrEVhox2f7WtUS7HQr
- 6DmwDMpe1i5dqqUpFTRZjMN4uubvlb+3qfWXrU+euhMbf0HKAavN6sYFQuJXH4ijP0ll
- 0Fr/z40w3Q9HClBrep8IuCWjYlwSx5jZBHKFpxsIt5YEngkUoJU0H6vcRP7w4h272Qzi
- qBCPhz9jatCgtKPugM8la1hrAVSXAgXBZEEqntlse5fsqg2QsqqpIdsZfE66uAhGgAgV
- lw2e36xC3UKrLiV4eCZE7Xk6nFUTS4A/dK2diP0Jl3haRDq0U0ENtnGLBIy+VrRqqm7H
- +crg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTLFmbE32LNiNJ0UV4tuNDSJmJuC/mcqiHkeGQyTBBvtp0tfxMckJyRref/UPxuq917WMq7n7N3X0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4eM+6ahCzACanYrvwFjX0qtO1ZVbCzfRuHVyZCh91yDPfTb8A
- Rth0JCAW1J7gH66JzFqFbP6q2SgxUo4Y3bcjI32WxSqGtlrE7b0s/ikxHBx4TYI=
-X-Gm-Gg: ASbGncuCoEVxoVuB2Bvnxko5zsl6RI8ejkCdazctHJ0V3qWNe7Wj+/wYs808W2xYWii
- YDG2jfmGxDWFMKRIEqlqEc/iR1eKEWTAhPZI/GAbDLYDFV9EeiIOX9mAgW5Sv3kzI0/w2oDazd0
- v/pkretMWtku4RiMyDuDjdaYeRxuNAjvUqumiel2EtbeUeMU9Ua9Oy1KgcBm1QEXIg9f3TjueN8
- vSlZdSTvUQjHdDA3G5J29xaE3YcyLFFzw1rv8kAAyxnRX6VXSI7iutjPogi+e8whKAs1n4oO+5t
- h/k627q99yVdk04mYHIrvxCjwMWlNQ==
-X-Google-Smtp-Source: AGHT+IFnxylvsEOR+9iXG9XQGFOsLGLuTUnH2Iuu/xJxK8JDRP9Lh4DwH23FiU4cCFdLCw17KMc73g==
-X-Received: by 2002:a05:6512:b85:b0:53d:ee75:1581 with SMTP id
- 2adb3069b0e04-53e12a35260mr2697093e87.50.1733313227235; 
- Wed, 04 Dec 2024 03:53:47 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e1356906esm554232e87.15.2024.12.04.03.53.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2024 03:53:46 -0800 (PST)
-Date: Wed, 4 Dec 2024 13:53:44 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: Liu Ying <victor.liu@nxp.com>, linux-renesas-soc@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, biju.das.jz@bp.renesas.com, 
- Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
-Message-ID: <cnauwpk7myky6zbfcqg5335dqif4vmggzxlq554ye2bykb5iwh@ng4oxd2c5md3>
-References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
- <834a2690-ca06-4a8b-9a81-c4981074f95c@nxp.com>
- <Z1Aw0WafGmYDrr8K@tom-desktop>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 566B110ECE9
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 12:01:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D0B1D1F38E;
+ Wed,  4 Dec 2024 12:01:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1733313707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
+ b=NjxamjzGcjXW6to6l67i6CoFAKcBDp4lGRx+Rds0l5QPKt+rfXLehVdkQTKX94nXvnqWVn
+ dpXrLNfg8NxZPLWdXuJH7UspxltmvsLZpTdjk4Xb0x9EFG63mYpAFK9V7Ez1jK5CSIJzXz
+ 6JkyLctehKOKOrnNuIQ38QxoDHHBxB8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1733313707;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
+ b=ojpZ9GOuJXNyR/vp6XsHoLsOXhJI4cOfvhNlDca8oGvfzYIRMVPve4oCWqmADqbjdo4M+A
+ 0xAwqZEZjWrYLKAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1733313706; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
+ b=xMp+M91r2pR9VfINWZDH6sdvftrKE19XFnk96zw5DBlW4nXRAP5NrINq6NY8kLMk1U1CUr
+ 030PFr75NrEb++m4vhg+/vZ50LhBHmFpJ0ZxxDMviI0iqFqX2YmVkIRSfFX74bpkwEz6cp
+ Coa9deNVsd9x/qtwOsQ3oJzzN1mFGI8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1733313706;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hdQpCtHb/G8boTtOws0ht3i2N81j+VDcQZjqp9/HdvQ=;
+ b=shBmRZHndiZc4wVndDm9+gtzuB5CAsfzjQ7mNQFJ5f3zelUPbyWxeNnriDgCHAtmxZeazC
+ Wb/ZzNzcpZo2grAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E8B31396E;
+ Wed,  4 Dec 2024 12:01:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lB9jJapEUGdOHgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 04 Dec 2024 12:01:46 +0000
+Message-ID: <bfc97a69-de69-45ec-875d-2f1e652e0f94@suse.de>
+Date: Wed, 4 Dec 2024 13:01:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z1Aw0WafGmYDrr8K@tom-desktop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Removing page->index
+To: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-s390@vger.kernel.org
+References: <Z09hOy-UY9KC8WMb@casper.infradead.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <Z09hOy-UY9KC8WMb@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,46 +139,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 04, 2024 at 11:37:05AM +0100, Tommaso Merciai wrote:
-> Hi Liu Ying,
-> Thanks for your review.
-> 
-> On Wed, Dec 04, 2024 at 11:34:23AM +0800, Liu Ying wrote:
-> > On 12/04/2024, tomm.merciai@gmail.com wrote:
-> > > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > 
-> > > Introduce it6263_is_input_bus_fmt_valid() and refactor the
-> > > it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
-> > > format by selecting the LVDS input format based on the LVDS data mapping
-> > > and thereby support both JEIDA and VESA input formats.
-> > 
-> > ite,it6263.yaml says IT6263 supports vesa-24 and vesa-30, while
-> > this patch actually only adds vesa-24 support.  So, to be more
-> > specific, the patch subject and commit message should reflect
-> > this rather than claim "Support VESA input format".
-> 
-> Fully agree, thanks.
-> I will fix that in v2 specifying vesa-24 like you suggest.
-> 
-> > 
-> > > 
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > 
-> > Can you please send this patch with your Renesas email address
-> > instead of Gmail email address?
-> > Otherwise, add a Signed-off-by tag with your Gmail email address.
-> 
-> Thanks, for the point.
-> What about adding Acked-by: from my renesas email address?
+Hi
 
-Acked-by has a different meaning. I'd say that generally it's okay to
-have this light mismatch, see [1] or any of the emails that B4 generates
-for web-based submission.
 
-[1] https://lore.kernel.org/dri-devel/20241121164858.457921-1-robdclark@gmail.com/
+Am 03.12.24 um 20:51 schrieb Matthew Wilcox:
+> I've pushed out a new tree to
+> git://git.infradead.org/users/willy/pagecache.git shrunk-page
+> aka
+> http://git.infradead.org/?p=users/willy/pagecache.git;a=shortlog;h=refs/heads/shrunk-page
+>
+> The observant will notice that it doesn't actually shrink struct page
+> yet.  However, we're getting close.  What it does do is rename
+> page->index to page->__folio_index to prevent new users of page->index
+> from showing up.
+>
+> There are (I believe) three build failures in that tree:
+>
+>   - fb_defio
 
-> 
+It's only used for helpers of the mm code. So it should be good to change.
+
+>   - fbtft
+
+And this reference should be removed IMHO. The driver's display-update 
+code has no business in looking at struct page.
+
+Best regards
+Thomas
+
+>   - s390's gmap (and vsie?  is that the same thing?)
+>
+> Other than that, allmodconfig builds on x86 and I'm convinced the build
+> bots will tell me about anything else I missed.
+>
+> Lorenzo is working on fb_defio and fbtft will come along for the ride
+> (it's a debug printk, so could just be deleted).
+>
+> s390 is complicated.  I'd really appreciate some help.
+>
+> The next step is to feed most of the patches through the appropriate
+> subsystems.  Some have already gone into various maintainer trees
+> (thanks!)
+>
+>
+> There are still many more steps to go after this; eliminating memcg_data
+> is closest to complete, and after that will come (in some order)
+> eliminating ->lru, ->mapping, ->refcount and ->mapcount.  We also need
+> to move page_pool out into its own structure.
 
 -- 
-With best wishes
-Dmitry
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
