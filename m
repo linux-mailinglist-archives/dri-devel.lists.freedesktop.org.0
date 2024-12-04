@@ -2,86 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D629E3C3E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 15:10:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED0A69E3CA9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 15:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9427610ED44;
-	Wed,  4 Dec 2024 14:10:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5188310E24D;
+	Wed,  4 Dec 2024 14:26:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E5lopxwR";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XYOPP67n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F414B10ED44
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 14:10:06 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-385de59c1a0so5094188f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 06:10:06 -0800 (PST)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B63910E24D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 14:26:51 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-7fc1f1748a3so4602706a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 06:26:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733321405; x=1733926205; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=mrFMLc/jdh5p8JybRnIahA1b8Q2rxGK6wJh2KFAKrwU=;
- b=E5lopxwRKfX48DOZ2WPH9JFA9gZzt42/UR4VyFILqTiIEDLAD0QVDF7DmMO7W6aUik
- P59iojoV1961obbL/0aJQEsLDHsNcNNjc49wp4m9X5XRoz/IuX9LicIzoWa861M0nVVW
- i6e1zFqR8sjo5NOaZ/GwO7eIBT6DBFS6XFdft52s61aheeVEUNA08zJlFpFelkHXjwnt
- 1FpKOCrxbJEf3Ay5ucv0EO+rm1nH6IQ+xU7UAou+GqDZmdFNcIgl8Uf/Z8xqFqElwzgE
- CqMJoN7tPfvPoVUGlv3AGRAbL4s1EIsFE+0JR5skRT1P9k6ocAAf3dNe+rcgIF8XKv/z
- WcWA==
+ d=chromium.org; s=google; t=1733322411; x=1733927211;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6Zm/pDEZ2wWuq6CLhWp8fdFsf6yo2FBchkfiY2ICjk=;
+ b=XYOPP67nSNc7XD6SgWqi5HSFIKrvG5yMq8yNt5+YGy4Hoi5odh/R2Nx7tG7E8/odoL
+ E7KeIzZ//Zeb9VctAIdBgqUz41T84JM+oi4wzAAozD0EoRHibDawkkbynsP2uT1dz5EF
+ +fw97Y12il/gqYq8g1+IriOVKf4FYq/F4mJRI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733321405; x=1733926205;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mrFMLc/jdh5p8JybRnIahA1b8Q2rxGK6wJh2KFAKrwU=;
- b=ws40idym0nuvVgObv+YZryo8sRJhbluOtlvOWKT8po1DIfEZi02lbgNG+7/ePTXwwx
- /X8Oi60yS0FRBiAejXkI8dW6DC8KLSV18Ds2UxT/eOAMQrUWmBRP+fr8yFqP5o+K6/3+
- CZXcvX91g3VUzp12FlOc3F4QMZywUCcCmKxEtIOIXSZp98d9y1tAVNR8ErHc5U6Ci3/N
- JUY6hZ3+PW9B2MCgHsjHBYGmZq2PHQEg5LvM/LaJj8XVC418GthwsK8Sap4ABVZijt+m
- 69d8ZAu5bioM/S5BbnsoIzZ0tMrFp9ql7nEwrziDN9WozKsKExzK8ZofYhAbvtf4PqpT
- Q+og==
+ d=1e100.net; s=20230601; t=1733322411; x=1733927211;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y6Zm/pDEZ2wWuq6CLhWp8fdFsf6yo2FBchkfiY2ICjk=;
+ b=cOV4/rYxcP9/O9bDpviSHuq69z6DYyX1TJOoJaXIxQX4LWDgMNAg1AkyfzXUTmntIA
+ GOXo8Fk2xRW1nkWlwXVWOXRG7fTg63rQcOYT0AWlrWBtiU9IGRsihHoazAORmZCAlcDX
+ CaRfGgmDpLwCFVXe3ed9ZTz/cwr8lSt7M6cKYlnZwm7Stu0VCALdG8NEmpIPJQ2wusGu
+ YYfvxlG0xBYA+unm8XCiYgAkurlXDc2bLI2Bv80d17hQ5ke8XlzVJIhNz6xExqAUab1P
+ 4iex0lbG1NT5JF/OlMNHrijgIrlaZqnfuKnZpJPZp6axp470ScDyKJvpZjyJsLI3dj8j
+ OeQQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSozSRoTFZxcSVPA7eOULfrao9zt7IxQaeSklkE5CiL/RNv3otKlXlwbLRcqSTZ1HRySAHUOvSGD4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbBgTTl21YzhHbyyHJ0ROzKQ3pvCc5neXopurhFxgjQeH6pm62
- +CdvCOAqJh7ZwOXUB1FFukdHdq22/QJtm0kpu6N0F4iCqK4AKn9O
-X-Gm-Gg: ASbGncujnbCko9CSTxY71rYHAJMtFaz2Ztzvsxwtm9pJOXmlBPJauB7h/aGPJaXCkL/
- W3mmVWkyRvBhj7ukWt89yIt/Xi2MxSLvKnOAkInS44psxuyy7H0tLS7jve5qeU27HertdSR4INk
- H3SAl7eyVbHb41RpekOQTZs5mOkmZNdD2k/WrQPmbq5POIDhpUimCU7vJxcT/6yIHIDQule9YTC
- XexMAFQTPbzMnZMQWQ1XNiN6pXBzzTdXmEBiv0QGTl/GZ0YUsG3sFgECR3C57IxcIHsLWgMj4pv
- Zrxjc9RE2DHGE+HBW4uiPpi0S/RSHBmB19s7
-X-Google-Smtp-Source: AGHT+IG17qKjHP7hajsb1NqDKGf26pPgtY+u2y2Irx0Mpfq+Bk5d1g+9CG/Zi2mBLwUCzK6vQKtkSA==
-X-Received: by 2002:a5d:598c:0:b0:385:ea2b:12cc with SMTP id
- ffacd0b85a97d-385fd3e779bmr6188036f8f.13.1733321404995; 
- Wed, 04 Dec 2024 06:10:04 -0800 (PST)
-Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+ AJvYcCXT2q64nyFJ4Ouc7+91qT8KSdLod3CAq4V5RuXBoAToHB1WUd/pUFjkvvvFprJvCbDfpIhzg0Axmeo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2n1H92AxrEcVuauBmHgYcum5zzR9hHQngfFgPVRdMD4WbPwSM
+ Otw0aeRFMTW3Dl9V5ydZoT2y+tHDIblSMjadY6a6bdDm/VNfzG+K3RN8lfHkvg==
+X-Gm-Gg: ASbGncvyuNY4ay6vzMI2+bsJaJmysp6hQZyxtoV8oTVbC5FO7RF8R6jxL76c+cUdcb7
+ 0foaH9IiRRY1GRQQB+heeqK749TicS5wa8VBxdy6eiGYHktn84zdc/gVn3b9OKnqEktBLGgpIlZ
+ WW3VFBX5K2HM0Y3ywkWs0c+IjF2Pr6Vm03OnCp6RkgA3DVDDXtfvYiv6vPZZcjr+0GjyLFEn4RB
+ qy2VdZKB2x0NmqO5C38l2hgRJ+SY2RABCVk1CjgSqxKJCARfHBRQCkYr83sYSihrnU=
+X-Google-Smtp-Source: AGHT+IF0dNNNk83kN4LRrd8AEGyz62WUomCygJPIZPBTF7uW7lrdAcSow02U1nyM8E/b/c2B1GaPog==
+X-Received: by 2002:a05:6a20:cfa6:b0:1dc:bdbd:9017 with SMTP id
+ adf61e73a8af0-1e165412f33mr9668165637.40.1733322410642; 
+ Wed, 04 Dec 2024 06:26:50 -0800 (PST)
+Received: from fshao-p620.tpe.corp.google.com
+ ([2401:fa00:1:10:b764:8a78:a02:6e0])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-434d527257dsm26885385e9.1.2024.12.04.06.10.03
+ 41be03b00d2f7-7fc9c3a2a5asm11416510a12.80.2024.12.04.06.26.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2024 06:10:04 -0800 (PST)
-Date: Wed, 4 Dec 2024 15:10:02 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Gax-c <zichenxie0106@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, mperttunen@nvidia.com,
- jonathanh@nvidia.com, kraxel@redhat.com, gurchetansingh@chromium.org, 
- olvaffe@gmail.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, 
- mst@redhat.com, airlied@redhat.com, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH] drm: cast calculation to __u64 to fix potential integer
- overflow
-Message-ID: <xlmfl2rhjgczu6oycgogchqi2gc65w7s3qy33yxzsrf6mbri3q@7onulkroaa7z>
-References: <20241203160159.8129-1-zichenxie0106@gmail.com>
+ Wed, 04 Dec 2024 06:26:50 -0800 (PST)
+From: Fei Shao <fshao@chromium.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Fei Shao <fshao@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: [PATCH v2] drm/mediatek: dp: Support flexible length of DP
+ calibration data
+Date: Wed,  4 Dec 2024 22:25:38 +0800
+Message-ID: <20241204142626.158395-1-fshao@chromium.org>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="magv3qwbnz55o6h7"
-Content-Disposition: inline
-In-Reply-To: <20241203160159.8129-1-zichenxie0106@gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,58 +87,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The DP calibration data is stored in nvmem cells, and the data layout is
+described in the `mtk_dp_efuse_fmt` arrays for each platform.
 
---magv3qwbnz55o6h7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm: cast calculation to __u64 to fix potential integer
- overflow
-MIME-Version: 1.0
+There is no guarantee that the data is always a 4-length u32 cell array.
+For example, MT8188 has a data length of 3, preventing it from passing
+the preliminary check and undergoing calibration.
 
-On Tue, Dec 03, 2024 at 10:02:00AM -0600, Gax-c wrote:
-> From: Zichen Xie <zichenxie0106@gmail.com>
->=20
-> Like commit b0b0d811eac6 ("drm/mediatek: Fix coverity issue with
-> unintentional integer overflow"), directly multiply pitch and
-> height may lead to integer overflow. Add a cast to avoid it.
->=20
-> Fixes: 6d1782919dc9 ("drm/cma: Introduce drm_gem_cma_dumb_create_internal=
-()")
-> Fixes: dc5698e80cf7 ("Add virtio gpu driver.")
-> Fixes: dc6057ecb39e ("drm/tegra: gem: dumb: pitch and size are outputs")
-> Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-> Cc: stable@vger.kernel.org
-> ---
->  drivers/gpu/drm/drm_gem_dma_helper.c | 6 +++---
->  drivers/gpu/drm/tegra/gem.c          | 2 +-
->  drivers/gpu/drm/virtio/virtgpu_gem.c | 2 +-
->  3 files changed, 5 insertions(+), 5 deletions(-)
+Update the logic to support flexible data lengths. Specifically, we
+validate the length returned from `nvmem_cell_read()` against the
+platform-specific efuse format. If out-of-bound access is detected, fall
+back to the default calibration values. This likely indicates an error
+in either the efuse data length described in DT or the efuse format
+within the driver.
 
-I don't think this can ever happen. All of these functions should only
-ever be called via drm_mode_create_dumb(), which already ensures that
-these won't overflow.
+Signed-off-by: Fei Shao <fshao@chromium.org>
+---
 
-Thierry
+Changes in v2:
+- use %zu identifier for size_t in dev_warn()
 
---magv3qwbnz55o6h7
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/gpu/drm/mediatek/mtk_dp.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index 36713c176cfc..55671701459a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -1165,17 +1165,25 @@ static void mtk_dp_get_calibration_data(struct mtk_dp *mtk_dp)
+ 	buf = (u32 *)nvmem_cell_read(cell, &len);
+ 	nvmem_cell_put(cell);
+ 
+-	if (IS_ERR(buf) || ((len / sizeof(u32)) != 4)) {
++	if (IS_ERR(buf)) {
+ 		dev_warn(dev, "Failed to read nvmem_cell_read\n");
+-
+-		if (!IS_ERR(buf))
+-			kfree(buf);
+-
+ 		goto use_default_val;
+ 	}
+ 
++	/* The cell length is in bytes. Convert it to be compatible with u32 buffer. */
++	len /= sizeof(u32);
++
+ 	for (i = 0; i < MTK_DP_CAL_MAX; i++) {
+ 		fmt = &mtk_dp->data->efuse_fmt[i];
++
++		if (fmt->idx >= len) {
++			dev_warn(mtk_dp->dev,
++				 "Out-of-bound efuse data access, fmt idx = %d, buf len = %zu\n",
++				 fmt->idx, len);
++			kfree(buf);
++			goto use_default_val;
++		}
++
+ 		cal_data[i] = (buf[fmt->idx] >> fmt->shift) & fmt->mask;
+ 
+ 		if (cal_data[i] < fmt->min_val || cal_data[i] > fmt->max_val) {
+-- 
+2.47.0.338.g60cca15819-goog
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmdQYrcACgkQ3SOs138+
-s6HXsxAAtQJlAEOMdgNNQBcnlKziuLGEV6eDn2I2ZMbyfdflAwfxU1IZem8HHolu
-Uf8rl4/XAETFBzeMup8SZ+DvspOCUSQY6kf8Dh+25/5NDTEf50vjBA/TXcws/ced
-6pRImbXzulFvz7kEm/fOaTXdk9w7mKnNDpFj86FUBcuz5kIQm1Qo4uhEYZRR9BSs
-C5c6m77m/4N3Iw7mkJoKW1U0jDJpfgw/iCdUpZrNh2buoKaRhe3WasizYdpXcbIn
-ImHPVPKV7MUgLrlYjdqOlxninIKhRMB9n5hcbvHD2YQcv9Y3pj1XA9YzXu3+4pir
-Sq6HLJFoHy+vmeLdTJZsMEljM25tBtkXkIUVEiWUb4BTbjJHLikCT4IYvfm9wByx
-OKCLKtdAiKyC1mh3aswnmeHb9tHBTt2Zj++nl2u/oUJyUncmBeboX7Wh+C9aCWF3
-cjT8OzvzTFX0bTLWyO9n0hwM9n84di0kuVmN8Bm7erXZcFAQyJfQpVB8lqiXokYA
-iw+IZX7DQQ8oKnxYpXy+V+gxSD19e4fed6jzgGpn7s+JYRuH1SiBSA4iaIQ8OCze
-7FPuGM5WT1d92OgNUU+jC3gjM58QHwLiEFhJgV2Oj6/sOi5fs1JY9uGKlMbxynlF
-PQm2NJU7k9lZXI2hxYRY6AmtikgF4NSYiz5zgglZvHpLoeLItpo=
-=dkp1
------END PGP SIGNATURE-----
-
---magv3qwbnz55o6h7--
