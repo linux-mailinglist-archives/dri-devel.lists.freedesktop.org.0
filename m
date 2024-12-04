@@ -2,88 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E08159E487E
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 00:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372C09E4882
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 00:17:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD0910E5A3;
-	Wed,  4 Dec 2024 23:14:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A508F10E359;
+	Wed,  4 Dec 2024 23:17:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uV7+aXB1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rA5qoLMK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D4910E59B
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 23:14:49 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-2ffc7a2c5d5so2348881fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 15:14:49 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91E8D10E359
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 23:17:45 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-53e0844ee50so355578e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 15:17:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733354087; x=1733958887; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733354264; x=1733959064; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ByDBggfihaA7bzylhtE2nPcYIo+DwLJnDtkfjIDytqw=;
- b=uV7+aXB1OTFM17UJhS5k9FRXyR9YuNRgZKJDXE8UZi7V1fiy8FDPzQSoga/XB5CZbK
- SB/sosHL0DLY9dp9iWglazwgE95P2Xf3seEZvtdl7X2HbuAoUAr4UAwsOkhs53Xj2Dvu
- pSwkqXjIJeVzqGjvbOo8le68FjDZ/3gRFz1wz4/qypXSG1ZLD4/RkSeP39hN1Q7TeSjO
- 4dr04xUQSQ/zf0U1YGVWyjPfAuFYqTfQ+K7ZqLwZ+lM0eq+aEdoe86OQDqqpw+hkO3lq
- ZF9Yf2Y5rYRgkwiL9XbVgkLIOcSCsGTuhWgxX9jHB0lUe107xc0paeOxifYmL/cB8zxI
- +Z6w==
+ bh=R+qyWMAaxSXjS/GuoQtdsJ9zo8e90abOj5J8SrRL65M=;
+ b=rA5qoLMKQH8z1velee5QOMKd1VFfwCWRpvDmg11NvorDPDRZ/9L3Az/o3PfiySRQLt
+ wuSXnyyXYHFSmEDVgE+GPy8veIEnEprexfjv/Ka0R9WD40dse8mNK58clAiWFqKvFqnY
+ TTT2yLGVruu5FaUUd3koM9x2CWIkNTpti4WBf1DHSHsKbcpeHiZij/FeLU/8t3ADduKu
+ OaRSAK3cPo2hwHVgZaD21HP9bnO5zkDq90J8Iaft3JiCQbAs168olptl6irkGnustc4K
+ GyvorEha2Ys6HNnUeFsroidjQaov37kMeJQRijcmeikoKeYgBuBWGElU8OafjyaqtRbO
+ Pmvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733354087; x=1733958887;
+ d=1e100.net; s=20230601; t=1733354264; x=1733959064;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ByDBggfihaA7bzylhtE2nPcYIo+DwLJnDtkfjIDytqw=;
- b=hiuzfyG3rnxwxMKwwLTyLfMWqIPCDJexSDGVBPvQ4eb7rzH95a0DWZbCikKFBh6ZjI
- DGbKXPZDNFiUnFmpmBhdqtZRpZtyq0/42Cib4WDjFlVIXVma50GR8LVZKKENsJktkcTl
- FOnz+GLp5zWAVRNUgHOItSzmX+DKdW8I83MuDuU28GiOhhh3KW0EREGO0VMLCeGFfNfb
- xpBeO6/OUsrykRtZPpyLpFXmv+vVM51KNWJIesRWjkyuJnRNGN0U/gbPLeVeuQfanfde
- k4Tn7JtMpTM2Z48E81OjDHrloU63p04yV12IplNqkj2Bo9iCAVG09N9Xwp+7AqmHOwh5
- P+Rg==
-X-Gm-Message-State: AOJu0YyBXVLLpf1OhGRdA2gMxfCAiDo/JeXafwQPufhJke57h4BQ5xIf
- +Lx6OEsOI5iS584ddkUSNJ2+veboLITDK01caJMl8UK/0yP5OPaKQopJYy5UBHs=
-X-Gm-Gg: ASbGncsFmGj7kzfgKVIEWlY1aRCfHLbovFpoMHXwPYfREGmWwf37Pp3Nq9EQujxMmNc
- 0jbJTn6/MTEtXziyrh0P7KvwUBsmj/iN2NYlYr8NWVz724FFs7NYo16tp9O8igZQFa13yl6rqfC
- PYgVACgiLvD+nr6Y0WUYDe81zXMklWBJGzuaxWceIHuR8Yw+h6NxSZOFOgWncfJpjRTSBVUn30d
- 2pnQRtxttjNdXc1YJy8nXQtN2yb/fwHzwvdZxFfQvhoKTtIplYm8rFXMtW+f+l5367pZoJ8Qvrc
- 0BYWqa8Fk7m+UsR+UQf/sFqp+cjh7Q==
-X-Google-Smtp-Source: AGHT+IFuUS7Not1i5YzDB3gHy3ub9/hXvCvAwbQxzNqfeGQDqOoYZ6k6qPs0qszHy91ZjySfOh3ENQ==
-X-Received: by 2002:a05:651c:210c:b0:2ff:7a4f:e770 with SMTP id
- 38308e7fff4ca-30014eaa13cmr17797471fa.31.1733354087009; 
- Wed, 04 Dec 2024 15:14:47 -0800 (PST)
+ bh=R+qyWMAaxSXjS/GuoQtdsJ9zo8e90abOj5J8SrRL65M=;
+ b=kcIXmze2pVp3IQFx7kvf6mljcg4OeJw+tgAU3/K2jlLoX9h8eVDNkG45OaGNj6J00f
+ h5r6oHKcqmR8DItyY1lONhsiYwajud1KuDM57f8kR9egIkGQqVXia1ZMHVLQX5tNOSOE
+ JY+Ybg5AazRj3fdVDG4Ea3f2WF2Bi7CxE9FSr9Zhdf/kwV9c5TVx5mywGHp3EO8EpIQ4
+ lHAsrxJYzDnTcN1muctwL+Pr1x2V+pPRCnDEgvCFVbKHaBQclUtX8GhSGLXVka/AWtOG
+ pH5cgvRypHRojJZb589AkZ5GbTBNzWPT4ot03Tt/EOnukmuSVfiXaXGKuK6nCYNbNi22
+ 5Cgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUQeWXHoF6EdnljqbfWW3GmYdfKgv6P2VXSTUfPbC4l1IohErzKd1Xr1u16me2TzcyRvVM00Df8aFw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzBwEloUw5g55dG2sO4T4oxZj8AC4my96iVG3CKVc4yHWXS7sg5
+ ni2trwDdggfcmjzFIVWocMl5PhlUeAoqL+Pq1YtgdFEuVtpiRqEyN+gRiqCrm0M=
+X-Gm-Gg: ASbGnctZLL9yEtPXURrUunka/rJ9FdI5myohV4ofNe/utz+SIOQ8JnDVZjDYHnY92b8
+ glgkgD/Na4vpp25DdlVmwJ2cJwUvuaWMPy3Yshjjj4qnYaSn7XefQDpEhKowWMJYbHjxNdWSzg3
+ B44wX49YQEbHivjtY+Un5xtMjzQ9NSEdxRnq+SNkZaiOFvutc2dNES2D0CCd49WN6zsChqRj9b5
+ x+xtKlQKIADV4xP9J/RKN+7e3rjx/hCHTwzyOJqBqQJJz/Ahjscs8lGqSVukfJ74ryHk5f9ASOE
+ LodBWnBAG+pTqmfbzMUeouxmQM09lg==
+X-Google-Smtp-Source: AGHT+IG2aNoUrJvkerXSq3eWJ+qwjRlvZ17m+biwTB/m1eLy8NPmwfbxly/t8CsrnbMCJEk1wfQi/Q==
+X-Received: by 2002:a05:6512:3f16:b0:53d:dd09:124a with SMTP id
+ 2adb3069b0e04-53e129ed245mr3412222e87.8.1733354263629; 
+ Wed, 04 Dec 2024 15:17:43 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30020e2085fsm158771fa.83.2024.12.04.15.14.44
+ 2adb3069b0e04-53e229ca4c2sm31823e87.269.2024.12.04.15.17.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2024 15:14:45 -0800 (PST)
-Date: Thu, 5 Dec 2024 01:14:43 +0200
+ Wed, 04 Dec 2024 15:17:42 -0800 (PST)
+Date: Thu, 5 Dec 2024 01:17:39 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, Javier Martinez Canillas <javierm@redhat.com>, 
- Alex Deucher <alexander.deucher@amd.com>, Simon Ser <contact@emersion.fr>, 
- Jeffrey Hugo <quic_jhugo@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Hamza Mahfooz <hamza.mahfooz@amd.com>,
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- amd-gfx@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, nouveau@lists.freedesktop.org,
- xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v2 3/3] drm: remove driver date from struct drm_driver
- and all drivers
-Message-ID: <couqmlshll3v6vgziqnt6sq7caf4nart42ljo5fbim3rg7ec5o@3ym66tyaytd2>
-References: <cover.1733322525.git.jani.nikula@intel.com>
- <1f2bf2543aed270a06f6c707fd6ed1b78bf16712.1733322525.git.jani.nikula@intel.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Phong LE <ple@baylibre.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 7/9] drm/bridge_connector: hook
+ drm_atomic_helper_connector_hdmi_update_edid()
+Message-ID: <3oz2k3ywwdkxhi4t4setfqjl54yzxg3nxe7upxwl4syyyygf42@3ynkabu2bmvs>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-7-b5316e82f61a@linaro.org>
+ <87a5dc4zd5.fsf@intel.com>
+ <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
+ <87v7vz3ne4.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1f2bf2543aed270a06f6c707fd6ed1b78bf16712.1733322525.git.jani.nikula@intel.com>
+In-Reply-To: <87v7vz3ne4.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,27 +121,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 04, 2024 at 04:31:12PM +0200, Jani Nikula wrote:
-> We stopped using the driver initialized date in commit 7fb8af6798e8
-> ("drm: deprecate driver date") and (eventually) started returning "0"
-> for drm_version ioctl instead.
+On Wed, Dec 04, 2024 at 09:42:11AM +0200, Jani Nikula wrote:
+> On Wed, 04 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> > On Tue, Dec 03, 2024 at 04:25:58PM +0200, Jani Nikula wrote:
+> >> On Sun, 01 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> >> > +	drm_edid = drm_bridge_edid_read(bridge, connector);
+> >> > +	if (!drm_edid_valid(drm_edid)) {
+> >> 
+> >> What's the case this check is for?
+> >> 
+> >> My preference would be that bridge->funcs->edid_read() uses
+> >> drm_edid_read*() family of functions that do the checks and return the
+> >> EDID.
+> >> 
+> >> There are some cases that just allocate a blob and return it. Would be
+> >> nice if they could be converted, but in the mean time could use
+> >> drm_edid_valid() right there. Additional validity checks are redundant.
+> >
+> > This was c&p from drm_bridge_connector_get_modes_edid(). If you think
+> > that the check is redundant, could you please send a patch dropping the
+> > check?
 > 
-> Finish the job, and remove the unused date member from struct
-> drm_driver, its initialization from drivers, along with the common
-> DRIVER_DATE macros.
-> 
-> v2: Also update drivers/accel (kernel test robot)
-> 
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> Acked-by: Simon Ser <contact@emersion.fr>
-> Acked-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> Mmmh. It's just scary to *remove* them, and that's the reason I didn't
+> want you to add one in the first place! :)
 
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # msm
-
-> 
-> ---
+Ack
 
 -- 
 With best wishes
