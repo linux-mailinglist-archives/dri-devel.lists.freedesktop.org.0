@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E5B9E30E5
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 02:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6F79E315A
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 03:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B591510E4A3;
-	Wed,  4 Dec 2024 01:44:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AEF10EBAE;
+	Wed,  4 Dec 2024 02:21:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="OxiKsdGR";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="dzcA+s18";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5EF110E4A3
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 01:44:16 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id AED348940F;
- Wed,  4 Dec 2024 02:44:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1733276654;
- bh=vY9kPGS0RdiXB0OHZCmI9kH/oWg2qyslJ/GlqgoS874=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OxiKsdGRxNS7Xdu0tMCPtS62mOtLM/7/zbKsln5bTnZxcCAxW4IyRydn6ckF5zToI
- 2knwzr4uqjZctkqgfqG2/XdrW4teL8Yd8c16CFXDRjf6t5PlX9oK9oAHAtdnexaJQJ
- P1rpf4NgH6zDZom1Gkf0pI6G2PkzuU+SkJs/V7Zfflf7kY7yEAJQJf01Ed4FwjiNDU
- vQYsUY8CHQIsDSULugkcFEBnAwsh2/6m1BKQT/OCg93ykB0j1nRGqlFyA89S3F4+GS
- 2rJieYBhNc99vWOLe01jqNFhSckRQyvWSwM1f9FBlKmGlJZy6n8MijvCDFehud213r
- 5ZfrvtJrc0mbg==
-Message-ID: <b86666cc-da63-405d-9036-96cb4e69dafb@denx.de>
-Date: Wed, 4 Dec 2024 00:40:44 +0100
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Wed, 04 Dec 2024 02:21:07 UTC
+Received: from mail-m127165.xmail.ntesmail.com
+ (mail-m127165.xmail.ntesmail.com [115.236.127.165])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C660E10E298
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 02:21:07 +0000 (UTC)
+Received: from [172.16.12.67] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 4a145995;
+ Wed, 4 Dec 2024 10:16:00 +0800 (GMT+08:00)
+Message-ID: <af1cce1a-c46d-470f-a1b9-bfbc90b46415@rock-chips.com>
+Date: Wed, 4 Dec 2024 10:16:00 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-To: Nikolaus Voss <nv@vosn.de>
-Cc: Liu Ying <victor.liu@oss.nxp.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Fabio Estevam <festevam@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nikolaus.voss@haag-streit.com, miquel.raynal@bootlin.com
-References: <20241126172610.AD8B51622C@mail.steuer-voss.de>
- <1f0a307a-666f-4647-9f73-e9bddd6c7eff@oss.nxp.com>
- <000b34cdd1591c82265ce1f9848828d1@vosn.de>
- <2c950130-84b4-4a81-84a2-b5e08af43616@oss.nxp.com>
- <12a1b86e-8f25-4875-8503-1de98f125a62@denx.de>
- <808d4092a9e97b95480d47c1bd84d930@vosn.de>
+Subject: Re: [PATCH v3 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Daniel Semkowicz <dse@thaumatec.com>
+References: <20241203165450.1501219-1-heiko@sntech.de>
+ <20241203165450.1501219-4-heiko@sntech.de>
 Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <808d4092a9e97b95480d47c1bd84d930@vosn.de>
+From: Kever Yang <kever.yang@rock-chips.com>
+In-Reply-To: <20241203165450.1501219-4-heiko@sntech.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh5IGlZDTkhCSRkdSh9DGhhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a938f73f0f903afkunm4a145995
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MBA6Hjo5NDIiQgsiEC4hFjQU
+ ASIaC0JVSlVKTEhISUxDTk1JTUpOVTMWGhIXVRAeDR4JVQIaFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFITUtDNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=dzcA+s18pHeWsAvT8DU6Gsg9UZW7nRkXuem7SF0t2SffbzdYCfnk1RxngwDRz/caOzZYcCZaQu9jL1FTEb9tq/sSV+YyDZMacY5Qosl70MpbmQuFuO09iKrupIcEb66TLNKyZAFWaXQGYXAWgfTjBZerWwqAAwdoOs17GOk8h04=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=7Qfir7c7WLrv83V+tyvAYKqAUcaUO9npr2R5cAdgfC0=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,47 +73,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/3/24 8:20 AM, Nikolaus Voss wrote:
-> On 03.12.2024 04:12, Marek Vasut wrote:
->> On 12/3/24 3:22 AM, Liu Ying wrote:
->>
->> [...]
->>
->>>>> I doubt that pixel clock tree cannot find appropriate division ratios
->>>>> for some pixel clock rates, especially for dual-link LVDS on i.MX8MP
->>>>> and i.MX93 platforms, because PLL clock rate should be 7x faster than
->>>>> pixel clock rate and 2x faster than "ldb" clock rate so that the 3.5
->>>>> folder between "ldb" clock and pixel clock can be met. That means the
->>>>> PLL clock rate needs to be explicitly set first for this case.
->>>>>
->>>>> Can you assign the PLL clock rate in DT to satisfy the "ldb" and pixel
->>>>> clock rates like the below commit does, if you use a LVDS panel?
->>>>>
->>>>> 4fbb73416b10 ("arm64: dts: imx8mp-phyboard-pollux: Set Video PLL1
->>>>> frequency to 506.8 MHz")
->>>>
->>>> I probably could. The point of my patch is you don't have to know in
->>>> advance which LVDS panel is connected, and you don't have to calculate
->>>> the base PLL clock by hand and store it in the device tree.
->>>>
->>>> In my test system, I have three different LVDS panels with EDID EEPROM,
->>>> none of which worked with the stock driver, but all work with this
->>>> patch.
->>>> With slightly adapted pixel clocks though.
->>>
->>> If each of the three LVDS panels has only one display mode, you may
->>> assign the PLL clock rates in DT overlays for the panels.
->> I temporarily agree.
->>
->> I also currently use DTOs for various panels including their PLL
->> setting, but in the end, I think/hope the work of Miquel and co. is
->> going to make that PLL setting part unnecessary.
-> 
-> That is exactly what my patch is about. I want to use one DT for all
-> panels
+Hi Heiko,
 
-Right
+On 2024/12/4 00:54, Heiko Stuebner wrote:
+> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+>
+> This adds the glue code for the MIPI DSI2 bridge on Rockchip SoCs and
+> enables its use on the RK3588.
+>
+> Right now the DSI2 controller is always paired with a DC-phy based on a
+> Samsung IP, so the interface values are set statically for now.
+> This stays true for the upcoming RK3576 as well.
+>
+> Tested-by: Daniel Semkowicz <dse@thaumatec.com>
+> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
+> ---
+>   drivers/gpu/drm/rockchip/Kconfig              |  10 +
+>   drivers/gpu/drm/rockchip/Makefile             |   1 +
+>   .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  | 524 ++++++++++++++++++
+>   drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |   2 +
+>   drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |   1 +
+>   5 files changed, 538 insertions(+)
+>   create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+>
+> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> index 448fadd4ba15..84af423b7f90 100644
+> --- a/drivers/gpu/drm/rockchip/Kconfig
+> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> @@ -10,6 +10,7 @@ config DRM_ROCKCHIP
+>   	select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
+>   	select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
+>   	select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
+> +	select DRM_DW_MIPI_DSI2 if ROCKCHIP_DW_MIPI_DSI2
+>   	select GENERIC_PHY if ROCKCHIP_DW_MIPI_DSI
+>   	select GENERIC_PHY_MIPI_DPHY if ROCKCHIP_DW_MIPI_DSI
+>   	select SND_SOC_HDMI_CODEC if ROCKCHIP_CDN_DP && SND_SOC
+> @@ -81,6 +82,15 @@ config ROCKCHIP_DW_MIPI_DSI
+>   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
+>   	  select this option.
+>   
+> +config ROCKCHIP_DW_MIPI_DSI2
+> +	bool "Rockchip specific extensions for Synopsys DW MIPI DSI2"
+> +	select GENERIC_PHY_MIPI_DPHY
+> +	help
+> +	  This selects support for Rockchip SoC specific extensions
+> +	  for the Synopsys DesignWare dsi driver. If you want to
+> +	  enable MIPI DSI on RK3576 or RK3588 based SoC, you should
+> +	  select this option.
+> +
+>   config ROCKCHIP_INNO_HDMI
+>   	bool "Rockchip specific extensions for Innosilicon HDMI"
+>   	select DRM_DISPLAY_HDMI_HELPER
+> diff --git a/drivers/gpu/drm/rockchip/Makefile b/drivers/gpu/drm/rockchip/Makefile
+> index 3eab662a5a1d..2b867cebbc12 100644
+> --- a/drivers/gpu/drm/rockchip/Makefile
+> +++ b/drivers/gpu/drm/rockchip/Makefile
+> @@ -13,6 +13,7 @@ rockchipdrm-$(CONFIG_ROCKCHIP_CDN_DP) += cdn-dp-core.o cdn-dp-reg.o
+>   rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI) += dw_hdmi-rockchip.o
+>   rockchipdrm-$(CONFIG_ROCKCHIP_DW_HDMI_QP) += dw_hdmi_qp-rockchip.o
+>   rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI) += dw-mipi-dsi-rockchip.o
+> +rockchipdrm-$(CONFIG_ROCKCHIP_DW_MIPI_DSI2) += dw-mipi-dsi2-rockchip.o
+>   rockchipdrm-$(CONFIG_ROCKCHIP_INNO_HDMI) += inno_hdmi.o
+>   rockchipdrm-$(CONFIG_ROCKCHIP_LVDS) += rockchip_lvds.o
+>   rockchipdrm-$(CONFIG_ROCKCHIP_RGB) += rockchip_rgb.o
+> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+> new file mode 100644
+> index 000000000000..55eed4001634
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+> @@ -0,0 +1,524 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright (C) 2024 Rockchip Electronics Co.Ltd
+This should be:
 
-> and store the panel's timing in EDID EEPROM.
-Oh, that is a new one. Does the EDID EEPROM store the entirety of 
-'struct display_timing {}' somehow , or is that a custom format ?
+Rockchip Electronics Co., Ltd.
+
+This typo is from vendor kernel, we will correct all this kind of issue locally,
+and Andy is going to correct other files in drm for mainline kernel.
+
+Thanks,
+- Kever
+
