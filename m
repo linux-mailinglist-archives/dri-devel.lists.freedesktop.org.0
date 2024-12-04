@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5170F9E4F18
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 09:02:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FDD79E4F1B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 09:02:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D719810EDC8;
-	Thu,  5 Dec 2024 08:01:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC6810EDD7;
+	Thu,  5 Dec 2024 08:02:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="rdBYwhJR";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Y9oq+kJh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A570A10ECBA
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:11:30 +0000 (UTC)
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BF0E10ECC2
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:34:52 +0000 (UTC)
 Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20241204101128euoutp02b6a65e71997c44677dac684f1220fbd3~N8Z0qzXDW1909919099euoutp02S
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:11:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20241204101128euoutp02b6a65e71997c44677dac684f1220fbd3~N8Z0qzXDW1909919099euoutp02S
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20241204103450euoutp01e33eea6efc46cc3e1b2d4d7ad8bec425~N8uOXaiCt0525305253euoutp01u
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 10:34:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20241204103450euoutp01e33eea6efc46cc3e1b2d4d7ad8bec425~N8uOXaiCt0525305253euoutp01u
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1733307088;
- bh=EuqndAqdKmSf/8miGqIK4IlylxV/hAtKHgomM2ekQI8=;
+ s=mail20170921; t=1733308490;
+ bh=+l4e4Tyx2I1+OfNbhG6k6rLroWYsZg5fA2FLlIaEGO8=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=rdBYwhJRB8NfzkoOck8slotlY6vZFxyCmqFMkaMvyaO8zt7nE1C2pSNxQYVw/bzFx
- u1Cp5XU708WFTPM3wYq8R2Z7ITypzo1OjJnwp+d5Az3VgoeYrPuw7aXzWWWb1jfeOk
- 28XPfP78SAa9FQ5VwddpNUJR5HPQPmvFDUmZX2GA=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ b=Y9oq+kJh1NjEmC3cKfnL87LEyhDPwJlYY36WdYQKcTWseq9ldAwyDAmy2E0v/+3aM
+ aRkIAxhCYk5kGS6rsmx4ZV6ExB56kNi/GHmbQ1K0Di3cY/brn/Uqo6oeCfQTMkf14e
+ c1FtfNQDk7r7D+TXRKTo3d6aIdDaHCfXrOOW99K0=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20241204101128eucas1p25ef8b2a4716d2cb3bee6e1f1b8884e1b~N8Z0JlD4D0619706197eucas1p2v;
- Wed,  4 Dec 2024 10:11:28 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 82.E8.20397.0DA20576; Wed,  4
- Dec 2024 10:11:28 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ 20241204103448eucas1p2787f6ba041d5859d798f8a0fe36e5869~N8uL0vWCQ1075110751eucas1p2M;
+ Wed,  4 Dec 2024 10:34:48 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id A0.27.20821.84030576; Wed,  4
+ Dec 2024 10:34:48 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20241204101127eucas1p179dcc956b027a7b919043a4c65c04a71~N8ZzvXPbA1897018970eucas1p1-;
- Wed,  4 Dec 2024 10:11:27 +0000 (GMT)
+ 20241204103447eucas1p1290a8da81821da986015bef31ccf0e3c~N8uLKQQUG1362813628eucas1p1r;
+ Wed,  4 Dec 2024 10:34:47 +0000 (GMT)
 Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20241204101127eusmtrp1e121421c025121a497c41359c15ff375~N8ZzueqwA2729527295eusmtrp1j;
- Wed,  4 Dec 2024 10:11:27 +0000 (GMT)
-X-AuditID: cbfec7f5-e59c770000004fad-f6-67502ad0bd06
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id E5.B6.19654.FCA20576; Wed,  4
- Dec 2024 10:11:27 +0000 (GMT)
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20241204103447eusmtrp2cae4b6f1f36a5e73397910cd66cdf731~N8uLJMXGw1364613646eusmtrp2t;
+ Wed,  4 Dec 2024 10:34:47 +0000 (GMT)
+X-AuditID: cbfec7f2-b09c370000005155-fe-675030486f50
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 0E.BB.19654.74030576; Wed,  4
+ Dec 2024 10:34:47 +0000 (GMT)
 Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20241204101126eusmtip2a89da49f3dc9db1702403a20dc33d885~N8Zyb6hBh1974719747eusmtip2t;
- Wed,  4 Dec 2024 10:11:26 +0000 (GMT)
-Message-ID: <07bfb02a-1df3-4a03-83bb-d7edc540739d@samsung.com>
-Date: Wed, 4 Dec 2024 11:11:26 +0100
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20241204103446eusmtip11cf57501b24c5ce7d747834870a33315~N8uJ2BqPW0744207442eusmtip1a;
+ Wed,  4 Dec 2024 10:34:46 +0000 (GMT)
+Message-ID: <17df9341-e299-40bb-81ae-f4c7296d73ac@samsung.com>
+Date: Wed, 4 Dec 2024 11:34:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 05/14] dt-bindings: clock: thead,th1520: Add
- support for Video Output subsystem
+Subject: Re: [RFC PATCH v1 13/14] riscv: dts: Introduce power domain node
+ with simple-bus compatible
 To: Krzysztof Kozlowski <krzk@kernel.org>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
@@ -71,56 +71,56 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 Content-Language: en-US
 From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <f21ffd12-167b-4d10-9017-33041ec322b0@kernel.org>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Se0xTVxzeub2999JavC06TpgLoXFugsNNxJxMQ+ZeuYlZBnMZGS7DZr0W
- x8u0wDaECdIRxGp0SJidAiKTBocMKOVRXitIKUVaYTwm5eEGhJIyZCApI7JRL278933f7/H9
- vpND8STNhB91MiGJVSbI4qSEADd0rthetQeGK15bbhejrqESDNWuakn0U3Mvhoo6evlorE+P
- oV8fzxPozpSdRDPNmTga1F0nUVZnJYGc2jEC2Ww/k2hBM8ZH/Y3XCLR4oQMgw6KaQBUdoyS6
- sVCLo9L6RoCyz93io/vd7yJnv4aHsrVb0T9N9SRaG6zC0Q9/tpJI77rMR+aKSKRuvYK/+SIz
- P/wtybicTpxpz1kimeblYpxp0I6SjKahBzDV5ecIxjHYRDCFlghm/LwZY2pKzzDqik6MmW8Z
- IJiL+nLA9GUNkUyN9XS4OEpwSM7GnUxhlXvDjgtisqbt+Km2kK/qa6v4GeBSYC7woiC9Hy5l
- DpO5QEBJaB2AroLCDbIE4MTZIowjiwCevTjAezbS/uPfBFcoA3DlyV3AkTkAF7vKgKdLRIfB
- 343FuAfj9E5oHGnjcboYWq5OPtW30/5w/MH3pAf70HHwF9co7lm0jb6CQ3dJ89MBHl0HYFeP
- iMO+8MGk5yYviqD3wYmyIr4He62b1ebPAq7HH9bNXeN5FkHaIoDuhzfWHah18g60OQ9xEXzg
- rFlPcngHtOZpcA4nwonavzZipsEGjXkDH4SOXk9kan3/bljZuJeTD8Mus25juzccnhNzF3jD
- 7wwFPE4WwZxsCde9C+ZrLvxn2qszYJeAVLvpUbSbMmo3ZdH+71sM8HLgyyar4hWsKiSB/TJY
- JYtXJScogj9PjK8G6z/cumZ+XA90swvBJoBRwAQgxZNuE0WUfqCQiOSyr1NZZWK0MjmOVZnA
- CxQu9RW9JPdnJbRClsTGsuwpVvmsilFefhnYpy8nNR3ufiXeaG7zTXFuXziin//M+/33hvIi
- R1SpX8TsUDe99caJOrZyfE0+ZSRZvFSxJ+25rGkiShPijj4TkGlUTOYIhEF+W3QR/eYnzzta
- 9kdbRjJK7E3qkunIb65+VFghf9t1TOe4n71TEXrb5ZcSJAw4feKow+pzQBy69chq2prwetZI
- 0L3qsYf5q5/MpEf+MWOuOX4719Rd128LNMFoiyLAfmyg0tJVmGEIe3SULmrfc15YYre7w5Me
- fVzQmmeo0t05cAs7aFjuaEmyzsTs/m2qLN2ZvhJap5zKDupQm/uGVnsCqA/FKNUWuyWANd7r
- dcndVNTdEeHNfbGXpbgqRvZ6IE+pkv0Ldt9DKVAEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPKsWRmVeSWpSXmKPExsVy+t/xe7rntQLSDV73G1qcuL6IyWLr71ns
- Fmv2nmOymH/kHKvFvUtbmCyufH3PZrHu6QV2ixd7G1ksrq2Yy27RfGw9m8XLWffYLM6f38Bu
- 8bHnHqvF5V1z2Cw+9x5htNj2uYXNYu2Ru+wWCz9uZbFYsmMXo0Vb5zJWi4unXC1eXu5htmib
- xW/xf88Odot/1zayWMx+t5/dYsubiawWx9eGW7Tsn8LiIOvx/kYru8ebly9ZPA53fGH32Ptt
- AYvHzll32T16dp5h9Ni0qpPN4861PWwe804GetzvPs7ksXlJvUfL2mNMHu/3XWXz6NuyitHj
- UvN1do/Np6sDBKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLL
- Uov07RL0MpqfXWApOGBcsWPrRtYGxglaXYycHBICJhKHl/5iA7GFBJYySvS8zIaIy0hc637J
- AmELS/y51gVV85pR4tI+KRCbV8BO4tHuBWA1LAIqErtvH2CGiAtKnJz5BCwuKiAvcf/WDHYQ
- W1ggR+Lgm7tAcS4OEYEpLBKrH/1jBnGYBbYzSmyYOZURxBES+Mso8bR1Btg6ZgFxiVtP5jOB
- 2GwCRhIPls9nBbE5gVZvnfoKqIEDqEZdYv08IYhyeYntb+cwT2AUmoXkkFlIJs1C6JiFpGMB
- I8sqRpHU0uLc9NxiI73ixNzi0rx0veT83E2MwJS17djPLTsYV776qHeIkYmD8RCjBAezkghv
- 4BL/dCHelMTKqtSi/Pii0pzU4kOMpsDAmMgsJZqcD0yaeSXxhmYGpoYmZpYGppZmxkrivGxX
- zqcJCaQnlqRmp6YWpBbB9DFxcEo1MPFc+e8Xvi17e2vg2X9VbB/ykletedhqbrw5aLNl19Y4
- K7PM+tkreyWiYhjq74fs/OHE91y0cI7L5GitmCy2ojdPZk+dr9C2in/dTJGlNcKO+RymD5PD
- 5780+MBybvsHjzeVaSfcytMPbZs0927DgSTxz4f3/Fp17Kg1262iyTzOa22FZjsppW6aYhrZ
- fYTTST4pLOP+p6743JQrH7IYMnbfnrTmwfFd97wkG2V3CURtXLesOOLPtD8xrddVdPrOBAau
- ki34Yym+bsfCGUsVMgy00+XfFa3T2y0k+SBl+yTjk32CFzlCE7kU3LJmnlmSKcedM+uzZbA4
- s3hOgMpjB/sSFpPvIcfY+66fDvzIoMRSnJFoqMVcVJwIADEy7ZviAwAA
-X-CMS-MailID: 20241204101127eucas1p179dcc956b027a7b919043a4c65c04a71
+In-Reply-To: <9b75bc06-2a28-4c16-8e2b-90f824f7f79f@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGc+693FtK6i6FjRPKhjbqhM0C0y0nmTFKht7plqAzTkjc1oy7
+ goNiWnCbOkVgDKEQcBi2FikiswRhfLOWFVlaQhFYmSAgFRA3PqwDS6UaRcFRLm7893s/zvO+
+ z5vDw4W/kf68OHkSq5BL48Ukn2hqf2LdzIRGykILCwnUMViKocanagpVtlgxpG2zeqDR3gYM
+ 3XjoINEvE39S6G7LGQINlF+gUFp7NYns6lES9fTUUMipGvVAfc1FJJrLaQOoaS6dRFVtIxS6
+ 6GwkUJm+GaCMs5c90PXOCGTvU+EoQ/0Sem7UU2hxoJZAmvutFGqYzvdAlqqPUXprAbHjVcZx
+ 8zuKmbbbCcac6aKYlkclBGNQj1CMytANmLqKsyQzPGAkmeJr+5jb2RaMqS87zaRXtWOM42o/
+ yeQ2VACmN22QYuq7TkR6R/O3xbDxccdYRcj2z/ixw/n51NH+V77uzAlPAQZhFvDkQXorbF5w
+ EFmAzxPS5QA6OswYF7gAnC45Q3LBHIAL2iyPF0++r7lEuFlI6wDsnvyEa5oB8GqnGbgLAno7
+ TBkswtxM0Ovh5Zw7GJf3htd+Gl9+/DIdCG/bfqTc7EN/Aa3TRuAW8qULCPi4tAV3F3D6VwA7
+ ugUc+0HbuHZZiKTfgmM67fJGnkvDJjLSMa4nEKY1anC3EKT/4MNUzf0lD7yl4D04mUtzDnzg
+ PUsDxXEAfG7gNCGdCMcaH+Acn4QGlWWF34XD1vllGZwOgtXNIVx6JzTdGMM59TXw5ow3t8Ea
+ eK6pcCUtgJkZK5feCM+rcv4bai1vwvKAWL3qKOpVHtWrvKj/n1sCiArgxyYrE2SsMkzOfiVR
+ ShOUyXKZ5PPEhDqw9L+7Fi0P9ODCPafEBDAeMAHIw8W+gv1vRMqEghjpN8dZReKniuR4VmkC
+ Ih4h9hNsiAlkhbRMmsR+ybJHWcWLKsbz9E/BNGtPHyYLiwcroxxvjxzhRWvG+tcNhn14ULAr
+ fMelqFvG2oX5Ge/wLQGS3N3PNMWWouy4U2al0EUaNpTeUYrq19rvnkg2TlHOpLnAlCsx62d2
+ NpuGrlQeqXk0tMlLFHqovriosLog9dRj0Lfb1v/zROytzOzyLVZzmmeDLejZ3pI83WuVXnsj
+ giW2YP1+L/zJlP5Y42amurd2q8/TqbzFvyt0hz6qfF2Hr0s9f2D6uGzW/2H8NtX7Q3SF9EDZ
+ fJ7zr+vmtoN73gyV/+OaDZuM3hQlAnPqD3b5iuS6i++IZ0/WHdaJkgP0feO/72F7vnX5au2t
+ o3muH7pmtRE6m3+IM2hATChjpWHBuEIp/RevMK9jTgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrAKsWRmVeSWpSXmKPExsVy+t/xu7ruBgHpBq3XRS1OXF/EZLH19yx2
+ izV7zzFZzD9yjtXi3qUtTBZXvr5ns1j39AK7xYu9jSwW11bMZbdoPraezeLlrHtsFufPb2C3
+ +Nhzj9Xi8q45bBafe48wWmz73MJmsfbIXXaLhR+3slgs2bGL0aKtcxmrxcVTrhYvL/cwW7TN
+ 4rf4v2cHu8W/axtZLGa/289useXNRFaL42vDLVr2T2FxkPV4f6OV3ePNy5csHoc7vrB77P22
+ gMVj56y77B49O88wemxa1cnmcefaHjaPeScDPe53H2fy2Lyk3qNl7TEmj/f7rrJ59G1Zxehx
+ qfk6u8fm09UBglF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZll
+ qUX6dgl6GXcmTmQvuCpWcarXqYFxp1AXIyeHhICJRPuGxSxdjFwcQgJLGSW+PvrCBJGQkbjW
+ /ZIFwhaW+HOtiw2i6DWjxI5pjWAJXgE7iYbrc8AaWARUJJb1PmSCiAtKnJz5BKxGVEBe4v6t
+ GewgtrBAmsT0LW+YQAaJCExhkVj96B8ziMMssJ1RYsPMqYwQK/4xSrw6uooNpIVZQFzi1pP5
+ YGPZBIwkHiyfzwpicwKtftrWAhTnAKpRl1g/TwiiXF6ieets5gmMQrOQHDILyaRZCB2zkHQs
+ YGRZxSiSWlqcm55bbKRXnJhbXJqXrpecn7uJEZi0th37uWUH48pXH/UOMTJxMB5ilOBgVhLh
+ DdIOSBfiTUmsrEotyo8vKs1JLT7EaAoMjInMUqLJ+cC0mVcSb2hmYGpoYmZpYGppZqwkzst2
+ 5XyakEB6YklqdmpqQWoRTB8TB6dUA9Omyf9PFs306Fn62kAy+BOLoUpJnqbZmRzrxB/yn4N8
+ InJWFNytqhBdli2bsEI+PPpmWviHH7czDjTcjQptmulfNE/9ldGMn4bnxZN9j0uvO863SnXP
+ 7Wlb57wsfZOV171aaanMJK3vi6SKGaKr0zpW9/Fsy/8iUJ1xdq1MkKeGwbsIhyqn7yWr115y
+ me8hKHj+1oaEdy6N8oqCC+a2iTZZCv49FdW0jT1u2cngmx93TT7ftudNJtvXrduFzgtJ5scs
+ Nkh6bnxg8sVfOppXtus6XUnPX5gvlfrfSC/pqE/9opctF5sfB/zpvTtp3/cbdqWPHPS+unAw
+ HMz/cSHX1+yIwo0LvySNtFadVkwUb1FiKc5INNRiLipOBAAdHNKv4wMAAA==
+X-CMS-MailID: 20241204103447eucas1p1290a8da81821da986015bef31ccf0e3c
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20241203134155eucas1p1e90c71c4f8eb5da41d2cc8a500f54dc7
+X-RootMTR: 20241203134206eucas1p10ca2d7bb12afbd082d5f8a9ad85f94bd
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20241203134155eucas1p1e90c71c4f8eb5da41d2cc8a500f54dc7
+X-CMS-RootMailID: 20241203134206eucas1p10ca2d7bb12afbd082d5f8a9ad85f94bd
 References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134155eucas1p1e90c71c4f8eb5da41d2cc8a500f54dc7@eucas1p1.samsung.com>
- <20241203134137.2114847-6-m.wilczynski@samsung.com>
- <f21ffd12-167b-4d10-9017-33041ec322b0@kernel.org>
+ <CGME20241203134206eucas1p10ca2d7bb12afbd082d5f8a9ad85f94bd@eucas1p1.samsung.com>
+ <20241203134137.2114847-14-m.wilczynski@samsung.com>
+ <9b75bc06-2a28-4c16-8e2b-90f824f7f79f@kernel.org>
 X-Mailman-Approved-At: Thu, 05 Dec 2024 08:01:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -139,166 +139,72 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/3/24 16:45, Krzysztof Kozlowski wrote:
+On 12/3/24 16:52, Krzysztof Kozlowski wrote:
 > On 03/12/2024 14:41, Michal Wilczynski wrote:
->> The device tree bindings for the T-Head TH1520 SoC clocks currently
->> support only the Application Processor (AP) subsystem. This commit
->> extends the bindings to include the Video Output (VO) subsystem clocks.
+>> The DRM Imagination GPU requires a power-domain driver, but the driver
+>> for "thead,th1520-aon" is not yet available. To ensure that the 'aon'
+>> node and its child 'pd' node are properly recognized and probed by the
+>> kernel, add "simple-bus" to the compatible property of the 'aon' node.
 >>
->> Update the YAML schema to define the VO subsystem clocks, allowing the
->> clock driver to configure and manage these clocks appropriately. This
->> addition is necessary to enable the proper operation of the video output
->> features on the TH1520 SoC.
+>> This change allows the kernel to treat the 'aon' node as a simple bus,
+>> enabling the child nodes to be probed and initialized independently. It
+>> ensures that the power domain can be managed appropriately until the
+>> specific AON driver is developed.
+>>
+>> This commit introduces some errors while running dtbs_check, as the aon
+>> doesn't have the dt-bindings yet.
 >>
 >> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 >> ---
->>  .../bindings/clock/thead,th1520-clk-ap.yaml   | 31 +++++++++++++++----
->>  1 file changed, 25 insertions(+), 6 deletions(-)
+>>  arch/riscv/boot/dts/thead/th1520.dtsi | 11 +++++++++++
+>>  1 file changed, 11 insertions(+)
 >>
->> diff --git a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->> index 4a0806af2bf9..5a8f1041f766 100644
->> --- a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->> +++ b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->> @@ -4,11 +4,13 @@
->>  $id: https://protect2.fireeye.com/v1/url?k=f595e769-941ef222-f5946c26-74fe485fb305-6d0b73471bbfc1a2&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fclock%2Fthead%2Cth1520-clk-ap.yaml%23
->>  $schema: https://protect2.fireeye.com/v1/url?k=5b94114b-3a1f0400-5b959a04-74fe485fb305-0e2c50f5c24cf3e9&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23
+>> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
+>> index 39d39059160d..58f93ad3eb6e 100644
+>> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
+>> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
+>> @@ -6,6 +6,7 @@
 >>  
->> -title: T-HEAD TH1520 AP sub-system clock controller
->> +title: T-HEAD TH1520 sub-systems clock controller
+>>  #include <dt-bindings/interrupt-controller/irq.h>
+>>  #include <dt-bindings/clock/thead,th1520-clk.h>
+>> +#include <dt-bindings/power/thead,th1520-power.h>
 >>  
->>  description: |
->> -  The T-HEAD TH1520 AP sub-system clock controller configures the
->> -  CPU, DPU, GMAC and TEE PLLs.
->> +  The T-HEAD TH1520 sub-systems clock controller configures the
->> +  CPU, DPU, GMAC and TEE PLLs for the AP subsystem. For the VO
->> +  subsystem clock gates can be configured for the HDMI, MIPI and
->> +  the GPU.
+>>  / {
+>>  	compatible = "thead,th1520";
+>> @@ -229,6 +230,16 @@ stmmac_axi_config: stmmac-axi-config {
+>>  		snps,blen = <0 0 64 32 0 0 0>;
+>>  	};
 >>  
->>    SoC reference manual
->>    https://protect2.fireeye.com/v1/url?k=cceb6120-ad60746b-cceaea6f-74fe485fb305-b294b70f1b52a5ab&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=https%3A%2F%2Fopenbeagle.org%2Fbeaglev-ahead%2Fbeaglev-ahead%2F-%2Fblob%2Fmain%2Fdocs%2FTH1520%2520System%2520User%2520Manual.pdf
->> @@ -20,7 +22,9 @@ maintainers:
->>  
->>  properties:
->>    compatible:
->> -    const: thead,th1520-clk-ap
->> +    enum:
->> +      - thead,th1520-clk-ap
->> +      - thead,th1520-clk-vo
->>  
->>    reg:
->>      maxItems: 1
->> @@ -29,6 +33,17 @@ properties:
->>      items:
->>        - description: main oscillator (24MHz)
->>  
->> +  thead,vosys-regmap:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description: |
->> +      Phandle to a syscon node representing the shared register
->> +      space of the VO (Video Output) subsystem. This register space
->> +      includes both clock control registers and other control
->> +      registers used for operations like resetting the GPU. Since
+>> +	aon {
+>> +		compatible = "thead,th1520-aon", "simple-bus";
 > 
-> 
-> It seems you wanted to implement reset controller...
+> 1. No, that's not a bus.
 
-Thank you for your feedback.
+I understand that using "simple-bus" for the 'aon' node was not
+appropriate. Since the 'aon' node isn't needed for testing this
+patchset, I will remove it and move the power-domain device tree node to
+the SoC. Future changes to the 'aon' node will be handled in a separate
+patchset.
 
-I understand your concern about the reset controller. In the TH1520 SoC,
-the GPU doesn't have its own reset controller. Instead, its reset is
-managed through the power domain's registers as part of the power-up
-sequence.
+> 2. Please run scripts/checkpatch.pl and fix reported warnings. Then
+> please run `scripts/checkpatch.pl --strict` and (probably) fix more
+> warnings. Some warnings can be ignored, especially from --strict run,
+> but the code here looks like it needs a fix. Feel free to get in touch
+> if the warning is not clear.
+> 
+> Sorry, this patchset is not ready, unless by RFC you meant - do not
+> review, because it is not ready. Then it is fine. But then *clearly
+> express* this in cover letter, so we know what you expect from us (and I
+> would not waste my time to go through all this).
 
-According to the Video Image Processing Manual 1.4.1 [1], the GPU
-requires the following steps to power up:
+My intention with this patchset was to gather feedback on the overall
+direction of the changes. I understand that clearer communication in the
+cover letter would have been beneficial. Moving forward, I will ensure
+that the patch's readiness and expectations are explicitly stated.
 
-1) Enable the GPU clock gate.
-2) After 32 core clock cycles, release the GPU soft reset
+Thanks a lot for your review.
+Michał
 
-Since these steps are closely tied to power management, I implemented
-the reset functionality within the power-domain driver.
-
-Because the GPU doesn't support the resets property, introducing a reset
-controller wouldn't align with the existing device tree well.
-
-[1] - https://openbeagle.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20Video%20Image%20Processing%20User%20Manual.pdf
-> 
->> +      these registers reside in the same address space, access to
->> +      them is coordinated through a shared syscon regmap provided by
->> +      the specified syscon node.
-> 
-> Drop last sentence. syscon regmap is a Linux term, not hardware one.
-> 
-> Anyway, this needs to be constrained per variant.
-> 
->> +
->>    "#clock-cells":
->>      const: 1
->>      description:
->> @@ -36,8 +51,6 @@ properties:
->>  
->>  required:
->>    - compatible
->> -  - reg
-> 
-> No, that's a clear NAK. You claim you have no address space but in the
-> same time you have address space via regmap.
-
-I see your concern. The VOSYS subsystem's address space includes
-registers for various components, such as clock gates and reset
-controls, which are scattered throughout the address space as specified
-in the manual 4.4.1 [2]. Initially, I attempted to use a shared syscon
-regmap for access, but I realize this might not be the best approach.
-
-To address this, I'll specify the 'reg' property in each node to define
-the address ranges explicitly fragmenting the address space for the VOSYS
-manually.
-
-vosys_clk: clock-controller@ffef528050 {
-	compatible = "thead,th1520-clk-vo";
-	reg = <0xff 0xef528050 0x0 0x8>;
-	#clock-cells = <1>;
-};
-
-pd: power-domain@ffef528000 {
-	compatible = "thead,th1520-pd";
-	reg = <0xff 0xef528000 0x0 0x8>;
-	#power-domain-cells = <1>;
-};
-
-I would be happy to proceed like this if that's okay.
-
-[2] - https://openbeagle.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20System%20User%20Manual.pdf
-
-> 
->> -  - clocks
-> 
-> Nope, not explained, unless you wanted to make it different per variants.
-> 
->>    - "#clock-cells"
->>  
->>  additionalProperties: false
->> @@ -51,3 +64,9 @@ examples:
->>          clocks = <&osc>;
->>          #clock-cells = <1>;
->>      };
->> +
->> +    clock-controller-vo {
-> 
-> Node names should be generic. See also an explanation and list of
-> examples (not exhaustive) in DT specification:
-> https://protect2.fireeye.com/v1/url?k=1e9cac96-7f17b9dd-1e9d27d9-74fe485fb305-f0538482114df941&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=https%3A%2F%2Fdevicetree-specification.readthedocs.io%2Fen%2Flatest%2Fchapter2-devicetree-basics.html%23generic-names-recommendation
-> 
-> 
->> +        compatible = "thead,th1520-clk-vo";
->> +        thead,vosys-regmap = <&vosys_regmap>;
-> 
-> That's a "reg" property. Do not encode address space as something else.
-> 
-> 
->> +        #clock-cells = <1>;
->> +    };
-> 
 > 
 > Best regards,
 > Krzysztof
