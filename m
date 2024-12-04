@@ -2,66 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0DD9E3C3A
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 15:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D629E3C3E
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 15:10:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6830010ED3F;
-	Wed,  4 Dec 2024 14:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9427610ED44;
+	Wed,  4 Dec 2024 14:10:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="usuWvrQs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="E5lopxwR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1746210ED3F
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 14:09:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 63CEA5C6E98;
- Wed,  4 Dec 2024 14:09:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFDAFC4CECD;
- Wed,  4 Dec 2024 14:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733321385;
- bh=8bpWYXTOYDvPrGB1unmqH06hbmqJCmi9ftm+wC3VQpk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=usuWvrQsTOt/nq7CzPORMna/eR1OYoCM2Ax95riq6z48PKN2L/w8PhwOrdTwJlR1z
- JY7wHMz9DJJ+4u6dRmCnOtA/WWU9je6NJa4eqA3ImXaOukJVbF3GAUyxXEmkhwPTBE
- f2Adwk3vhqpnR92ksJC3vx26b7wp0AwAckej7jjfg2PFEaq2ylOszeWywgtAJPghfJ
- lWxAPM8/nrjQqHh+SyeZAerbrICx1fKwZ9tHMpQYZPhuZfR12bN598MLNK7iztbTUF
- AzuU8i1OYnMrXR3Vy2pCKNR2IhkEClRBRWDO0ecqDtSP2hD7bE8TDsrof9pEaCJ8aQ
- Sg0hofhtqMzsw==
-Date: Wed, 4 Dec 2024 08:09:43 -0600
-From: Rob Herring <robh@kernel.org>
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>,
- Francesco Dolcini <francesco@dolcini.it>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Max Krummenacher <max.oss.09@gmail.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 2/3] dt-bindings: display: ti: Add schema for AM625
- OLDI Transmitter
-Message-ID: <20241204140943.GA149654-robh@kernel.org>
-References: <20241124143649.686995-1-aradhya.bhatia@linux.dev>
- <20241124143649.686995-3-aradhya.bhatia@linux.dev>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F414B10ED44
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 14:10:06 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-385de59c1a0so5094188f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 06:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733321405; x=1733926205; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mrFMLc/jdh5p8JybRnIahA1b8Q2rxGK6wJh2KFAKrwU=;
+ b=E5lopxwRKfX48DOZ2WPH9JFA9gZzt42/UR4VyFILqTiIEDLAD0QVDF7DmMO7W6aUik
+ P59iojoV1961obbL/0aJQEsLDHsNcNNjc49wp4m9X5XRoz/IuX9LicIzoWa861M0nVVW
+ i6e1zFqR8sjo5NOaZ/GwO7eIBT6DBFS6XFdft52s61aheeVEUNA08zJlFpFelkHXjwnt
+ 1FpKOCrxbJEf3Ay5ucv0EO+rm1nH6IQ+xU7UAou+GqDZmdFNcIgl8Uf/Z8xqFqElwzgE
+ CqMJoN7tPfvPoVUGlv3AGRAbL4s1EIsFE+0JR5skRT1P9k6ocAAf3dNe+rcgIF8XKv/z
+ WcWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733321405; x=1733926205;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mrFMLc/jdh5p8JybRnIahA1b8Q2rxGK6wJh2KFAKrwU=;
+ b=ws40idym0nuvVgObv+YZryo8sRJhbluOtlvOWKT8po1DIfEZi02lbgNG+7/ePTXwwx
+ /X8Oi60yS0FRBiAejXkI8dW6DC8KLSV18Ds2UxT/eOAMQrUWmBRP+fr8yFqP5o+K6/3+
+ CZXcvX91g3VUzp12FlOc3F4QMZywUCcCmKxEtIOIXSZp98d9y1tAVNR8ErHc5U6Ci3/N
+ JUY6hZ3+PW9B2MCgHsjHBYGmZq2PHQEg5LvM/LaJj8XVC418GthwsK8Sap4ABVZijt+m
+ 69d8ZAu5bioM/S5BbnsoIzZ0tMrFp9ql7nEwrziDN9WozKsKExzK8ZofYhAbvtf4PqpT
+ Q+og==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVSozSRoTFZxcSVPA7eOULfrao9zt7IxQaeSklkE5CiL/RNv3otKlXlwbLRcqSTZ1HRySAHUOvSGD4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbBgTTl21YzhHbyyHJ0ROzKQ3pvCc5neXopurhFxgjQeH6pm62
+ +CdvCOAqJh7ZwOXUB1FFukdHdq22/QJtm0kpu6N0F4iCqK4AKn9O
+X-Gm-Gg: ASbGncujnbCko9CSTxY71rYHAJMtFaz2Ztzvsxwtm9pJOXmlBPJauB7h/aGPJaXCkL/
+ W3mmVWkyRvBhj7ukWt89yIt/Xi2MxSLvKnOAkInS44psxuyy7H0tLS7jve5qeU27HertdSR4INk
+ H3SAl7eyVbHb41RpekOQTZs5mOkmZNdD2k/WrQPmbq5POIDhpUimCU7vJxcT/6yIHIDQule9YTC
+ XexMAFQTPbzMnZMQWQ1XNiN6pXBzzTdXmEBiv0QGTl/GZ0YUsG3sFgECR3C57IxcIHsLWgMj4pv
+ Zrxjc9RE2DHGE+HBW4uiPpi0S/RSHBmB19s7
+X-Google-Smtp-Source: AGHT+IG17qKjHP7hajsb1NqDKGf26pPgtY+u2y2Irx0Mpfq+Bk5d1g+9CG/Zi2mBLwUCzK6vQKtkSA==
+X-Received: by 2002:a5d:598c:0:b0:385:ea2b:12cc with SMTP id
+ ffacd0b85a97d-385fd3e779bmr6188036f8f.13.1733321404995; 
+ Wed, 04 Dec 2024 06:10:04 -0800 (PST)
+Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-434d527257dsm26885385e9.1.2024.12.04.06.10.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Dec 2024 06:10:04 -0800 (PST)
+Date: Wed, 4 Dec 2024 15:10:02 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Gax-c <zichenxie0106@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, mperttunen@nvidia.com,
+ jonathanh@nvidia.com, kraxel@redhat.com, gurchetansingh@chromium.org, 
+ olvaffe@gmail.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, 
+ mst@redhat.com, airlied@redhat.com, dri-devel@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drm: cast calculation to __u64 to fix potential integer
+ overflow
+Message-ID: <xlmfl2rhjgczu6oycgogchqi2gc65w7s3qy33yxzsrf6mbri3q@7onulkroaa7z>
+References: <20241203160159.8129-1-zichenxie0106@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="magv3qwbnz55o6h7"
 Content-Disposition: inline
-In-Reply-To: <20241124143649.686995-3-aradhya.bhatia@linux.dev>
+In-Reply-To: <20241203160159.8129-1-zichenxie0106@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,415 +97,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 24, 2024 at 08:06:48PM +0530, Aradhya Bhatia wrote:
-> From: Aradhya Bhatia <a-bhatia1@ti.com>
-> 
-> The OLDI transmitters (TXes) do not have registers of their own, and are
-> dependent on the source video-ports (VPs) from the DSS to provide
-> configuration data. This hardware doesn't directly sit on the internal
-> bus of the SoC, but does so via the DSS. Hence, the OLDI TXes are
-> supposed to be child nodes under the DSS, and not independent devices.
-> 
-> Two of the OLDI TXes can function in tandem to output dual-link OLDI
-> output, or cloned single-link outputs. In these cases, one OLDI will be
-> the primary OLDI, and the other one, a companion. The following diagram
-> represents such a configuration.
-> 
-> +-----+-----+         +-------+
-> |     |     |         |       |
-> |     | VP1 +----+--->+ OLDI0 |  (Primary - may need companion)
-> |     |     |    |    |       |
-> | DSS +-----+    |    +-------+
-> |     |     |    |
-> |     | VP2 |    |    +-------+
-> |     |     |    |    |       |
-> +-----+-----+    +--->+ OLDI1 |  (Companion OLDI)
->                       |       |
->                       +-------+
-> 
-> The DSS in AM625 SoC has a configuration like the one above. The AM625
-> DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use them in
-> dual-link or cloned single-link OLDI modes. It is only the VP1 that can
-> connect to either OLDI TXes for the AM625 DSS, and not the VP2.
-> 
-> Alternatively, on some future TI SoCs, along with the above
-> configuration, the OLDI TX can _also_ connect to separate video sources,
-> making them work entirely independent of each other. In this case,
-> neither of the OLDIs are "companion" or "secondary" OLDIs, and nor do
-> they require one. They both are independent and primary OLDIs. The
-> following diagram represents such a configuration.
-> 
-> +-----+-----+               +-------+
-> |     |     |               |       |
-> |     | VP1 +--+----------->+ OLDI0 |  (Primary - may need companion)
-> |     |     |  |            |       |
-> |     +-----+  |            +-------+
-> |     |     |  |
-> |     | VP2 |  |
-> |     |     |  |
-> | DSS +-----+  |   +---+    +-------+
-> |     |     |  +-->+ M |    |       |
-> |     | VP3 +----->+ U +--->+ OLDI1 |  (Companion or Primary)
-> |     |     |      | X |    |       |
-> |     +-----+      +---+    +-------+
-> |     |     |
-> |     | VP4 |
-> |     |     |
-> +-----+-----+
-> 
-> Note that depending on the mux configuration, the OLDIs can either be
-> working together in tandem - sourced by VP1, OR, they could be working
-> independently sourced by VP1 and VP3 respectively.
-> The idea is to support all the configurations with this OLDI TX schema.
-> 
-> The OLDI functionality is further supported by a system-control module,
-> which contains a few registers to control OLDI IO power and other
-> electrical characteristics of the IO lanes.
-> 
-> Add devicetree binding schema for the OLDI TXes to support various
-> configurations, and extend their support to the AM625 DSS.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+
+--magv3qwbnz55o6h7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm: cast calculation to __u64 to fix potential integer
+ overflow
+MIME-Version: 1.0
+
+On Tue, Dec 03, 2024 at 10:02:00AM -0600, Gax-c wrote:
+> From: Zichen Xie <zichenxie0106@gmail.com>
+>=20
+> Like commit b0b0d811eac6 ("drm/mediatek: Fix coverity issue with
+> unintentional integer overflow"), directly multiply pitch and
+> height may lead to integer overflow. Add a cast to avoid it.
+>=20
+> Fixes: 6d1782919dc9 ("drm/cma: Introduce drm_gem_cma_dumb_create_internal=
+()")
+> Fixes: dc5698e80cf7 ("Add virtio gpu driver.")
+> Fixes: dc6057ecb39e ("drm/tegra: gem: dumb: pitch and size are outputs")
+> Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+> Cc: stable@vger.kernel.org
 > ---
->  .../bindings/display/ti/ti,am625-oldi.yaml    | 119 ++++++++++++++
->  .../bindings/display/ti/ti,am65x-dss.yaml     | 153 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  3 files changed, 273 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-> new file mode 100644
-> index 000000000000..51b24db04e89
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-> @@ -0,0 +1,119 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/ti/ti,am625-oldi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments AM625 OLDI Transmitter
-> +
-> +maintainers:
-> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> +  - Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> +
-> +description:
-> +  The AM625 TI Keystone OpenLDI transmitter (OLDI TX) supports serialized RGB
-> +  pixel data transmission between host and flat panel display over LVDS (Low
-> +  Voltage Differential Sampling) interface. The OLDI TX consists of 7-to-1 data
-> +  serializers, and 4-data and 1-clock LVDS outputs. It supports the LVDS output
-> +  formats "jeida-18", "jeida-24" and "vesa-18", and can accept 24-bit RGB or
-> +  padded and un-padded 18-bit RGB bus formats as input.
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: serial clock input for the OLDI transmitters
-> +
-> +  clock-names:
-> +    const: serial
-> +
-> +  ti,companion-oldi:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to companion OLDI transmitter. This property is mandatory for the
-> +      primarty OLDI TX if the OLDI TXes are expected to work either in dual-lvds
-> +      mode or in clone mode. This property should point to the secondary OLDI
-> +      TX.
-> +
-> +  ti,secondary-oldi:
-> +    type: boolean
-> +    description:
-> +      Boolean property to mark the OLDI transmitter as the secondary one, when the
-> +      OLDI hardware is expected to run as a companion HW, in cases of dual-lvds
-> +      mode or clone mode. The primary OLDI hardware is responsible for all the
-> +      hardware configuration.
-> +
-> +  ti,oldi-io-ctrl:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to syscon device node mapping OLDI IO_CTRL registers found in the
-> +      control MMR region. These registers are required to toggle the I/O lane
-> +      power, and control its electrical characteristics.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Parallel RGB input port
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: LVDS output port
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +allOf:
-> +  - if:
-> +      required:
-> +        - ti,secondary-oldi
-> +    then:
-> +      properties:
-> +        ti,companion-oldi: false
-> +
-> +required:
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - ti,oldi-io-ctrl
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> +
-> +    oldi-transmitters {
+>  drivers/gpu/drm/drm_gem_dma_helper.c | 6 +++---
+>  drivers/gpu/drm/tegra/gem.c          | 2 +-
+>  drivers/gpu/drm/virtio/virtgpu_gem.c | 2 +-
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 
-Drop the example here. It's incomplete without the parent and it is 
-never validated with this schema because there is no way to select it.
+I don't think this can ever happen. All of these functions should only
+ever be called via drm_mode_create_dumb(), which already ensures that
+these won't overflow.
 
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        oldi: oldi@0 {
-> +            reg = <0>;
-> +            clocks = <&k3_clks 186 0>;
-> +            clock-names = "serial";
-> +            ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    reg = <0>;
-> +                    oldi_in: endpoint {
-> +                        remote-endpoint = <&dpi_out>;
-> +                    };
-> +                };
-> +                port@1 {
-> +                    reg = <1>;
-> +                    oldi_out: endpoint {
-> +                        remote-endpoint = <&panel_in>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 399d68986326..eb6a65f9970d 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -91,6 +91,24 @@ properties:
->            For AM625 DSS, the internal DPI output port node from video
->            port 1.
->            For AM62A7 DSS, the port is tied off inside the SoC.
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description:
-> +              For AM625 DSS, VP Connection to OLDI0.
-> +              For AM65X DSS, OLDI output from the SoC.
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description:
-> +              For AM625 DSS, VP Connection to OLDI1.
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint
-> +          - required:
-> +              - endpoint@0
-> +              - endpoint@1
->  
->        port@1:
->          $ref: /schemas/graph.yaml#/properties/port
-> @@ -112,6 +130,26 @@ properties:
->        Input memory (from main memory to dispc) bandwidth limit in
->        bytes per second
->  
-> +  oldi-transmitters:
-> +    description:
-> +      Child node under the DSS, to describe all the OLDI transmitters connected
-> +      to the DSS videoports.
-> +    type: object
-> +    additionalProperties: false
+Thierry
 
-blank line here.
+--magv3qwbnz55o6h7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^oldi@[0-1]$':
-> +        type: object
-> +        $ref: ti,am625-oldi.yaml#
-> +        unevaluatedProperties: false
-> +        description: OLDI transmitters connected to the DSS VPs
+-----BEGIN PGP SIGNATURE-----
 
-You can drop 'type' and 'unevaluatedProperties' here.
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmdQYrcACgkQ3SOs138+
+s6HXsxAAtQJlAEOMdgNNQBcnlKziuLGEV6eDn2I2ZMbyfdflAwfxU1IZem8HHolu
+Uf8rl4/XAETFBzeMup8SZ+DvspOCUSQY6kf8Dh+25/5NDTEf50vjBA/TXcws/ced
+6pRImbXzulFvz7kEm/fOaTXdk9w7mKnNDpFj86FUBcuz5kIQm1Qo4uhEYZRR9BSs
+C5c6m77m/4N3Iw7mkJoKW1U0jDJpfgw/iCdUpZrNh2buoKaRhe3WasizYdpXcbIn
+ImHPVPKV7MUgLrlYjdqOlxninIKhRMB9n5hcbvHD2YQcv9Y3pj1XA9YzXu3+4pir
+Sq6HLJFoHy+vmeLdTJZsMEljM25tBtkXkIUVEiWUb4BTbjJHLikCT4IYvfm9wByx
+OKCLKtdAiKyC1mh3aswnmeHb9tHBTt2Zj++nl2u/oUJyUncmBeboX7Wh+C9aCWF3
+cjT8OzvzTFX0bTLWyO9n0hwM9n84di0kuVmN8Bm7erXZcFAQyJfQpVB8lqiXokYA
+iw+IZX7DQQ8oKnxYpXy+V+gxSD19e4fed6jzgGpn7s+JYRuH1SiBSA4iaIQ8OCze
+7FPuGM5WT1d92OgNUU+jC3gjM58QHwLiEFhJgV2Oj6/sOi5fs1JY9uGKlMbxynlF
+PQm2NJU7k9lZXI2hxYRY6AmtikgF4NSYiz5zgglZvHpLoeLItpo=
+=dkp1
+-----END PGP SIGNATURE-----
 
-> +
->  allOf:
->    - if:
->        properties:
-> @@ -123,6 +161,19 @@ allOf:
->          ports:
->            properties:
->              port@0: false
-> +            oldi-transmitters: false
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am65x-dss
-> +    then:
-> +      properties:
-> +        oldi-transmitters: false
-> +        port@0:
-
-You missed a level with 'ports'.
-
-> +          properties:
-> +            endpoint@1: false
->  
->  required:
->    - compatible
-> @@ -171,3 +222,105 @@ examples:
->              };
->          };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> +
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        dss1: dss@30200000 {
-> +            compatible = "ti,am625-dss";
-> +            reg = <0x00 0x30200000 0x00 0x1000>, /* common */
-> +                  <0x00 0x30202000 0x00 0x1000>, /* vidl1 */
-> +                  <0x00 0x30206000 0x00 0x1000>, /* vid */
-> +                  <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
-> +                  <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
-> +                  <0x00 0x3020a000 0x00 0x1000>, /* vp1 */
-> +                  <0x00 0x3020b000 0x00 0x1000>, /* vp2 */
-> +                  <0x00 0x30201000 0x00 0x1000>; /* common1 */
-> +            reg-names = "common", "vidl1", "vid",
-> +                        "ovr1", "ovr2", "vp1", "vp2", "common1";
-> +            power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
-> +            clocks =        <&k3_clks 186 6>,
-> +                            <&vp1_clock>,
-> +                            <&k3_clks 186 2>;
-> +            clock-names = "fck", "vp1", "vp2";
-> +            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-> +            oldi-transmitters {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                oldi0: oldi@0 {
-> +                    reg = <0>;
-> +                    clocks = <&k3_clks 186 0>;
-> +                    clock-names = "serial";
-> +                    ti,companion-oldi = <&oldi1>;
-> +                    ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-> +                    ports {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +                        port@0 {
-> +                            reg = <0>;
-> +                            oldi0_in: endpoint {
-> +                                remote-endpoint = <&dpi0_out0>;
-> +                            };
-> +                        };
-> +                        port@1 {
-> +                            reg = <1>;
-> +                            oldi0_out: endpoint {
-> +                                remote-endpoint = <&panel_in0>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +                oldi1: oldi@1 {
-> +                    reg = <1>;
-> +                    clocks = <&k3_clks 186 0>;
-> +                    clock-names = "serial";
-> +                    ti,secondary-oldi;
-> +                    ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-> +                    ports {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +                        port@0 {
-> +                            reg = <0>;
-> +                            oldi1_in: endpoint {
-> +                                remote-endpoint = <&dpi0_out1>;
-> +                            };
-> +                        };
-> +                        port@1 {
-> +                            reg = <1>;
-> +                            oldi1_out: endpoint {
-> +                                remote-endpoint = <&panel_in1>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    reg = <0>;
-> +                    dpi0_out0: endpoint@0 {
-> +                        reg = <0>;
-> +                        remote-endpoint = <&oldi0_in>;
-> +                    };
-> +                    dpi0_out1: endpoint@1 {
-> +                        reg = <1>;
-> +                        remote-endpoint = <&oldi1_in>;
-> +                    };
-> +                };
-> +                port@1 {
-> +                    reg = <1>;
-> +                    dpi1_out: endpoint {
-> +                        remote-endpoint = <&hdmi_bridge>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 93415153247b..d47a56c4d276 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7817,6 +7817,7 @@ M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->  L:	dri-devel@lists.freedesktop.org
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
->  F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->  F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->  F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
-> -- 
-> 2.34.1
-> 
+--magv3qwbnz55o6h7--
