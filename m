@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721C69E440E
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:06:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7655E9E4423
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 20:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DAD110E55A;
-	Wed,  4 Dec 2024 19:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C8310E0AC;
+	Wed,  4 Dec 2024 19:08:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="dIH/ijqN";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="MQ4vvfr8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
- [209.85.222.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 028CE10E556
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:06:05 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id
- af79cd13be357-7b676152a86so134404085a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 11:06:05 -0800 (PST)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E50710E0AC
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 19:08:52 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-7250844b0ecso140974b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 11:08:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1733339165; x=1733943965;
+ d=broadcom.com; s=google; t=1733339332; x=1733944132;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=rwAMqF5C2/XSwGsn6tg9idQ+gKok1OrDZ/TQYQQC3ME=;
- b=dIH/ijqNdkAuAR96D7aSZBrkWisDs9HiTlYBgmHW72hcBIwORXgilSIARKc23wnj93
- FGzGj43ZJvnASjloCSEqRe/Nxp8kre+0vYadwccBPr5pptIvsWoVKreDm7IkVZ7fKeWS
- o4/gNtexZ8wk9//gH01DokkfMYx5AlnDlIShc=
+ bh=CeaxonMXyIRT226phScRmc3Q71XZjLqP8a2LkKst8Q0=;
+ b=MQ4vvfr8Npq5q3vVmcUbLrnJz1+9rXaXtuU7PXLFm3tFfJzK9fpFByYDdjamsIBy9H
+ 9TKzUmKmNnTNmn8FCPM29vLWnTaxbxdECIkFlJU2dDRRIca6YFwnbpuScz/iSX999ude
+ FJpm/oRaBB/trFL+hYovFrLqyf2CloLUDj45I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733339165; x=1733943965;
+ d=1e100.net; s=20230601; t=1733339332; x=1733944132;
  h=content-transfer-encoding:in-reply-to:autocrypt:from
  :content-language:references:cc:to:subject:user-agent:mime-version
  :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rwAMqF5C2/XSwGsn6tg9idQ+gKok1OrDZ/TQYQQC3ME=;
- b=AiVpAKCINooxVZmSHBppTMBlUjt/99hWaa+E6RCCNFeukjlHk5Am1psbeYVMkEncFk
- 80creoipisbeaZn/khNkH5X8K2bQCW5RJM3b7lAmYGDbQDPGy7OlnINdpR2EMcNaLkVk
- HkRDr0oEu3BKGhIG0XNQ6MPwBEsgIFRjDSLv/aaQK/gi9fO9cAKZDBiuDBbw1oj8noPX
- ryRGWrwZuJLXYbC/7K71Krsg3/WuzxuP0p6nEXbf7mgMd7gjyZH4BdtyQMboT2FdCKxm
- YQlb+Q/4p9JySyl1TdokrvjaNIFBBHIxH193yWyZKbloAhdOXwsUXMpydU+2No5qbcNk
- dOPw==
-X-Gm-Message-State: AOJu0Yzk2eeZ+xOt0engj15PT8PlnTaBhZdqvQRBVugpILYde+hdkwyk
- 0sj3Ii/Iwo/UBIySpkvVBsUGEv1vQPPPq0jvNWT9/0XwAd07r0niNfuX8yvTpw==
-X-Gm-Gg: ASbGncv/nexSsAKY+ZNqYp/wAAsoJn5jQG7A2hg4ym4qGfX61n4XoCJoJwvWUg1faZY
- DnfpxxQjBEHwJs/XyUC9qCSsSlPjJvWRa38EgDJ3Nm9Zcl6PIS/sPiDd74JFKxXBVRRsmYcArkL
- SAQ7uD0kxvMrDOzDRcOROHOFo5fNEydcIiKnGXeFagyizRRHfHSuNlBTvy1M6FHnefZrPdm9BCJ
- G3+cAsFg2Cjqg00YcmqmR+x8SBnzTD9jbb8zxr+rw/fOFiJosdZ0J1Axoap74EjyLchXKRv2K4e
- IRhf8jYnb6VrNw==
-X-Google-Smtp-Source: AGHT+IET8ru0K2M3tO3OOrXNHAiQ22hdOskTrfOZXT2O7Z5zjNnzqqS/g1Ime/BQv4SnXZ/y8604qA==
-X-Received: by 2002:a05:620a:6005:b0:7b1:48d1:574d with SMTP id
- af79cd13be357-7b6b4185bdfmr97267185a.8.1733339164891; 
- Wed, 04 Dec 2024 11:06:04 -0800 (PST)
+ bh=CeaxonMXyIRT226phScRmc3Q71XZjLqP8a2LkKst8Q0=;
+ b=rzlxfhegjjsuaEfuR407U6hfZS8cx3rSJTrJ7EnG2g0T2946nSikTFkD4Zki99ZO8N
+ a2qqknCrIajFwZtToPQ8V5JyM7G2EaaRQrUV5iNd9bETaYBR3s7V0wKGT4M6/YAllFN4
+ zxl3/1J7PxgcvN8i+22P1tcOHuNA86qbCfBDenAGP/7sYJCRB+UCSHAIqee1Ju1zAjgo
+ w/gD/NarGz337IKAoQCwIXfKMIbH5SQ/PTvol3cTvah0X8kou7aPYatfyLc6lq4Ceunn
+ DFwCUCRrrpRQ3mkZsVPHciBhmpplXCBbALnlMoYwLS+TR8OQ3if2uqlRtXYeK9ph+PX9
+ wpYw==
+X-Gm-Message-State: AOJu0YyPS3q+ii4u1gVvDRM/+Rz1i/VAYQ3LjdXbIh1EHwatjMHP+ciN
+ K3KzdfiOCC0zuiEQOekfbj1C/v78892PrsktvGh7krGlttOC1ZwqmRBNVyu20Q==
+X-Gm-Gg: ASbGncs3OV7aK5eftSzZ2//wTA0MKyUeNr6Kb+6QU9lKJ+0Quov318vw5jnekDLMctj
+ 2VGd4LyldU+EfOEbTAT27DRFqF2k7kxQ81Udqv2MhpQ+EmySu3Yu99vFkKtku9YbY/WyPKs9Zbr
+ e3yzZXDCDrWz39lC92Q7WBOjwZW4Q6HxOw3JwwdEmYbjL0SdEnvc8jZgDlw7sBHiyXTEehHdZid
+ pPKzlFWdLJ/6f2QpDLOfKyhiP1VaVuPECEeY6MyqG/IOZxKcLTBkbWvhU/rB0QLyAqCU1UYweG8
+ eyNvnBgWTZ3rgA==
+X-Google-Smtp-Source: AGHT+IGmY+qzKW/9TmwBPBzx791pCA1vC+Wl3B3mwReYsRw8915lr3trZFeoT08VDI12exU8vOaX7Q==
+X-Received: by 2002:a05:6a00:230a:b0:725:4109:5b5f with SMTP id
+ d2e1a72fcca58-7257fa611bfmr12599475b3a.8.1733339331930; 
+ Wed, 04 Dec 2024 11:08:51 -0800 (PST)
 Received: from [10.67.48.245] ([192.19.223.252])
  by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7b6849aac82sm635574085a.94.2024.12.04.11.06.00
+ d2e1a72fcca58-72597347ec0sm946638b3a.48.2024.12.04.11.08.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Dec 2024 11:06:04 -0800 (PST)
-Message-ID: <5b36a3c7-f691-49e5-a4c6-803ddccdd5ea@broadcom.com>
-Date: Wed, 4 Dec 2024 11:05:58 -0800
+ Wed, 04 Dec 2024 11:08:51 -0800 (PST)
+Message-ID: <4ab9673a-03a7-4358-b95d-eef514607bc2@broadcom.com>
+Date: Wed, 4 Dec 2024 11:08:46 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] arm64: dts: broadcom: Fix device tree warnings for
- BCM2712 display pipeline
+Subject: Re: [PATCH 7/7] arm64: dts: broadcom: Fix device tree errors on
+ BCM2712.
 To: Krzysztof Kozlowski <krzk@kernel.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -82,8 +82,8 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
  linux-gpio@vger.kernel.org
 References: <20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com>
- <20241202-dt-bcm2712-fixes-v1-4-fac67cc2f98a@raspberrypi.com>
- <c8093283-f2c1-4a66-823a-50aeabb3c82b@kernel.org>
+ <20241202-dt-bcm2712-fixes-v1-7-fac67cc2f98a@raspberrypi.com>
+ <44c233d7-87d7-4dbb-a0d0-9e93ea497622@kernel.org>
 Content-Language: en-US
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
@@ -118,7 +118,7 @@ Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
  MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
  7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
  95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <c8093283-f2c1-4a66-823a-50aeabb3c82b@kernel.org>
+In-Reply-To: <44c233d7-87d7-4dbb-a0d0-9e93ea497622@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,46 +136,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/2/24 07:20, Krzysztof Kozlowski wrote:
-> On 02/12/2024 15:31, Dave Stevenson wrote:
->> Fixes up errors on HDMI and interrupt controllers that weren't
+On 12/2/24 07:24, Krzysztof Kozlowski wrote:
+> On 02/12/2024 15:32, Dave Stevenson wrote:
+>> Resolves the issues on clocks and power nodes
 > 
-> What errors? I can't find anything in the commit. Describe the error.
-> 
->> noticed before merging.
->>
->> Fixes: de9bc2dba3db ("arm64: dts: broadcom: Add display pipeline support to BCM2712")
->> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->> ---
->>   arch/arm64/boot/dts/broadcom/bcm2712.dtsi | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
->> index 39305e0869ec..f42fad2d8b37 100644
->> --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
->> +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
->> @@ -336,7 +336,7 @@ ddc1: i2c@7d508280 {
->>   			#size-cells = <0>;
->>   		};
->>   
->> -		bsc_irq: intc@7d508380 {
->> +		bsc_irq: interrupt-controller@7d508380 {
-> 
-> 
-> Do not mix cleanups with bugfixes.
-> 
-> BTW, do not mix DTS to DRM. DRM has its own development style. DTS
-> *cannot* be merged there, so combining these series is not welcomed and
-> leads to issues (like DRM applying DTS!).
+> Which issues? Be specific. Such commit is unprecise and not really
+> helpful. We see it from the diff that this is "some issue". What we do
+> not see is WHY and WHAT the ISSUE is.
 
-That is not what was done, I took the DTS patches via the Broadcom ARM 
-SoC tree, as I usually do, unless someone tells me otherwise.
-
-We got a number of DTS warnings after I took Dave's patches so I asked 
-for those to be fixed, as it turns out there are binding and DTS fixes.
-
-I intend to squash these fixes with their original commit, so all of 
-those commit messages will be discarded, they are only meant to be 
-transitional.
+A link to the robot email would have probably been helpful in 
+understanding which dt checker errors are being fixed here. Regardless, 
+as indicated in patch #4, those commit messages will be discarded since 
+I intend to fixup the original commits directly into my tree I would not 
+put too much effort into addressing any comments there, unless there is 
+some piece of information that should have been provided in the original 
+commit, in which case I can squash, rather than fixup.
 -- 
 Florian
