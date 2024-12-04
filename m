@@ -2,16 +2,16 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45719E3BB7
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C6309E3BBE
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 14:53:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95D2A10ED3A;
-	Wed,  4 Dec 2024 13:53:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 379BB10ED34;
+	Wed,  4 Dec 2024 13:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 832C610ED37
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:53:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC0610ED3D
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 13:53:22 +0000 (UTC)
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
@@ -21,9 +21,9 @@ To: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
 Cc: cgroups@vger.kernel.org, linux-mm@kvack.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maarten Lankhorst <dev@lankhorst.se>
-Subject: [PATCH v2 5/7] drm/amdgpu: Add cgroups implementation
-Date: Wed,  4 Dec 2024 14:44:05 +0100
-Message-ID: <20241204134410.1161769-6-dev@lankhorst.se>
+Subject: [PATCH v2 6/7] drm/xe: Hack to test with mapped pages instead of vram.
+Date: Wed,  4 Dec 2024 14:44:06 +0100
+Message-ID: <20241204134410.1161769-7-dev@lankhorst.se>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241204134410.1161769-1-dev@lankhorst.se>
 References: <20241204134410.1161769-1-dev@lankhorst.se>
@@ -44,37 +44,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Similar to xe, enable some simple management of VRAM only.
+We will probably want to make this a proper region in TTM for
+everything, so that we can charge VRAM twice, once for mapped
+in sysmem, once for mapped in vram. That way we don't need to
+deal with evict failing from lack of available memory in mapped.
 
-Co-developed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/xe/xe_ttm_sys_mgr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-index 7d26a962f811c..f1703a746cadd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-@@ -24,6 +24,7 @@
- 
- #include <linux/dma-mapping.h>
+diff --git a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
+index 9844a8edbfe19..5450caaef52ad 100644
+--- a/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
++++ b/drivers/gpu/drm/xe/xe_ttm_sys_mgr.c
+@@ -11,6 +11,7 @@
+ #include <drm/ttm/ttm_placement.h>
  #include <drm/ttm/ttm_range_manager.h>
+ #include <drm/ttm/ttm_tt.h>
 +#include <drm/drm_drv.h>
  
- #include "amdgpu.h"
- #include "amdgpu_vm.h"
-@@ -908,6 +909,9 @@ int amdgpu_vram_mgr_init(struct amdgpu_device *adev)
- 	struct ttm_resource_manager *man = &mgr->manager;
- 	int err;
+ #include "xe_bo.h"
+ #include "xe_gt.h"
+@@ -112,6 +113,10 @@ int xe_ttm_sys_mgr_init(struct xe_device *xe)
+ 	/* TTM limits allocation of all TTM devices by 50% of system memory */
+ 	gtt_size /= 2;
  
-+	man->cg = drmm_cgroup_register_region(adev_to_drm(adev), "vram", adev->gmc.real_vram_size);
++	man->cg = drmm_cgroup_register_region(&xe->drm, "mapped", gtt_size);
 +	if (IS_ERR(man->cg))
 +		return PTR_ERR(man->cg);
- 	ttm_resource_manager_init(man, &adev->mman.bdev,
- 				  adev->gmc.real_vram_size);
- 
++
+ 	man->use_tt = true;
+ 	man->func = &xe_ttm_sys_mgr_func;
+ 	ttm_resource_manager_init(man, &xe->ttm, gtt_size >> PAGE_SHIFT);
 -- 
 2.43.0
 
