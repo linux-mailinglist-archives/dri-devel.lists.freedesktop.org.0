@@ -2,75 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0A69E3CA9
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 15:26:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D939E3CB9
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Dec 2024 15:31:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5188310E24D;
-	Wed,  4 Dec 2024 14:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C78DA10E340;
+	Wed,  4 Dec 2024 14:31:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XYOPP67n";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MFMd5SeP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B63910E24D
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Dec 2024 14:26:51 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id
- 41be03b00d2f7-7fc1f1748a3so4602706a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Dec 2024 06:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1733322411; x=1733927211;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Y6Zm/pDEZ2wWuq6CLhWp8fdFsf6yo2FBchkfiY2ICjk=;
- b=XYOPP67nSNc7XD6SgWqi5HSFIKrvG5yMq8yNt5+YGy4Hoi5odh/R2Nx7tG7E8/odoL
- E7KeIzZ//Zeb9VctAIdBgqUz41T84JM+oi4wzAAozD0EoRHibDawkkbynsP2uT1dz5EF
- +fw97Y12il/gqYq8g1+IriOVKf4FYq/F4mJRI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733322411; x=1733927211;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Y6Zm/pDEZ2wWuq6CLhWp8fdFsf6yo2FBchkfiY2ICjk=;
- b=cOV4/rYxcP9/O9bDpviSHuq69z6DYyX1TJOoJaXIxQX4LWDgMNAg1AkyfzXUTmntIA
- GOXo8Fk2xRW1nkWlwXVWOXRG7fTg63rQcOYT0AWlrWBtiU9IGRsihHoazAORmZCAlcDX
- CaRfGgmDpLwCFVXe3ed9ZTz/cwr8lSt7M6cKYlnZwm7Stu0VCALdG8NEmpIPJQ2wusGu
- YYfvxlG0xBYA+unm8XCiYgAkurlXDc2bLI2Bv80d17hQ5ke8XlzVJIhNz6xExqAUab1P
- 4iex0lbG1NT5JF/OlMNHrijgIrlaZqnfuKnZpJPZp6axp470ScDyKJvpZjyJsLI3dj8j
- OeQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXT2q64nyFJ4Ouc7+91qT8KSdLod3CAq4V5RuXBoAToHB1WUd/pUFjkvvvFprJvCbDfpIhzg0Axmeo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2n1H92AxrEcVuauBmHgYcum5zzR9hHQngfFgPVRdMD4WbPwSM
- Otw0aeRFMTW3Dl9V5ydZoT2y+tHDIblSMjadY6a6bdDm/VNfzG+K3RN8lfHkvg==
-X-Gm-Gg: ASbGncvyuNY4ay6vzMI2+bsJaJmysp6hQZyxtoV8oTVbC5FO7RF8R6jxL76c+cUdcb7
- 0foaH9IiRRY1GRQQB+heeqK749TicS5wa8VBxdy6eiGYHktn84zdc/gVn3b9OKnqEktBLGgpIlZ
- WW3VFBX5K2HM0Y3ywkWs0c+IjF2Pr6Vm03OnCp6RkgA3DVDDXtfvYiv6vPZZcjr+0GjyLFEn4RB
- qy2VdZKB2x0NmqO5C38l2hgRJ+SY2RABCVk1CjgSqxKJCARfHBRQCkYr83sYSihrnU=
-X-Google-Smtp-Source: AGHT+IF0dNNNk83kN4LRrd8AEGyz62WUomCygJPIZPBTF7uW7lrdAcSow02U1nyM8E/b/c2B1GaPog==
-X-Received: by 2002:a05:6a20:cfa6:b0:1dc:bdbd:9017 with SMTP id
- adf61e73a8af0-1e165412f33mr9668165637.40.1733322410642; 
- Wed, 04 Dec 2024 06:26:50 -0800 (PST)
-Received: from fshao-p620.tpe.corp.google.com
- ([2401:fa00:1:10:b764:8a78:a02:6e0])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7fc9c3a2a5asm11416510a12.80.2024.12.04.06.26.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Dec 2024 06:26:50 -0800 (PST)
-From: Fei Shao <fshao@chromium.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Fei Shao <fshao@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: [PATCH v2] drm/mediatek: dp: Support flexible length of DP
- calibration data
-Date: Wed,  4 Dec 2024 22:25:38 +0800
-Message-ID: <20241204142626.158395-1-fshao@chromium.org>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5534B10E2AA;
+ Wed,  4 Dec 2024 14:31:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733322678; x=1764858678;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Nay1gnhVbkiMLBv1I4wuTvkENs2han/NjHOXtQx7SIs=;
+ b=MFMd5SePxLvcRlAgCaH284yf9kX8Tzenqtve85qYKwhDFewgwXwWIe2z
+ sFm4gQqw6lNR0LUETFpV/Bog+X17oWFkLk07xnHWCaJ3kQuXW1lOJGX2f
+ bCuIm9m3EQhDcRvHdqOAkLDne0diQM/YJXIRsBo17BFGiYqSySYsbNNo4
+ hBHRvhKkdUK56qSqEZAjcfCAbmJasiX9xfQHitRg19i+/6lx09xT0D1+d
+ lCYU0iFpyF5FiX527/qGIld25v4ONMRwPN7tIVuCIRZd3PwdhMB4OHYtQ
+ 6fPmzJRg3htj/HfM4/8PKly2sWc6qJis1N4VrLB8AnaBZjp/0wefQmYA9 A==;
+X-CSE-ConnectionGUID: YG1w9DX5TcKyMJNUG2nx5w==
+X-CSE-MsgGUID: +gq6QITARwy1UFWJ1Oqlfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44255512"
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="44255512"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 06:31:18 -0800
+X-CSE-ConnectionGUID: OXUL59ePTK6if2kv+s8f4w==
+X-CSE-MsgGUID: S7NX28XMRxWXwWHN6J1N2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; d="scan'208";a="93963312"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.205])
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 06:31:16 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Cc: jani.nikula@intel.com
+Subject: [PATCH v2 0/3] drm: remove driver date
+Date: Wed,  4 Dec 2024 16:31:09 +0200
+Message-Id: <cover.1733322525.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,64 +69,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DP calibration data is stored in nvmem cells, and the data layout is
-described in the `mtk_dp_efuse_fmt` arrays for each platform.
+Resend, crunched this through more configs enabled to be sure.
 
-There is no guarantee that the data is always a 4-length u32 cell array.
-For example, MT8188 has a data length of 3, preventing it from passing
-the preliminary check and undergoing calibration.
+BR,
+Jani.
 
-Update the logic to support flexible data lengths. Specifically, we
-validate the length returned from `nvmem_cell_read()` against the
-platform-specific efuse format. If out-of-bound access is detected, fall
-back to the default calibration values. This likely indicates an error
-in either the efuse data length described in DT or the efuse format
-within the driver.
 
-Signed-off-by: Fei Shao <fshao@chromium.org>
----
 
-Changes in v2:
-- use %zu identifier for size_t in dev_warn()
+Jani Nikula (3):
+  drm/xen: remove redundant initialization info print
+  accel/ivpu: remove DRIVER_DATE conditional drm_driver init
+  drm: remove driver date from struct drm_driver and all drivers
 
- drivers/gpu/drm/mediatek/mtk_dp.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/accel/habanalabs/common/habanalabs_drv.c | 1 -
+ drivers/accel/ivpu/ivpu_drv.c                    | 8 --------
+ drivers/accel/qaic/qaic_drv.c                    | 1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c          | 2 --
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.h          | 1 -
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c  | 1 -
+ drivers/gpu/drm/arm/hdlcd_drv.c                  | 1 -
+ drivers/gpu/drm/arm/malidp_drv.c                 | 1 -
+ drivers/gpu/drm/armada/armada_drv.c              | 1 -
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c          | 1 -
+ drivers/gpu/drm/ast/ast_drv.c                    | 1 -
+ drivers/gpu/drm/ast/ast_drv.h                    | 1 -
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c     | 1 -
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c            | 1 -
+ drivers/gpu/drm/exynos/exynos_drm_drv.c          | 2 --
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c        | 1 -
+ drivers/gpu/drm/gma500/psb_drv.c                 | 1 -
+ drivers/gpu/drm/gma500/psb_drv.h                 | 1 -
+ drivers/gpu/drm/gud/gud_drv.c                    | 1 -
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 1 -
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c  | 1 -
+ drivers/gpu/drm/hyperv/hyperv_drm_drv.c          | 2 --
+ drivers/gpu/drm/i915/i915_driver.c               | 1 -
+ drivers/gpu/drm/i915/i915_driver.h               | 1 -
+ drivers/gpu/drm/i915/i915_gpu_error.c            | 1 -
+ drivers/gpu/drm/imagination/pvr_drv.c            | 1 -
+ drivers/gpu/drm/imagination/pvr_drv.h            | 1 -
+ drivers/gpu/drm/imx/dcss/dcss-kms.c              | 1 -
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c         | 1 -
+ drivers/gpu/drm/imx/lcdc/imx-lcdc.c              | 1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c        | 1 -
+ drivers/gpu/drm/kmb/kmb_drv.c                    | 1 -
+ drivers/gpu/drm/kmb/kmb_drv.h                    | 1 -
+ drivers/gpu/drm/lima/lima_drv.c                  | 1 -
+ drivers/gpu/drm/logicvc/logicvc_drm.c            | 1 -
+ drivers/gpu/drm/loongson/lsdc_drv.c              | 2 --
+ drivers/gpu/drm/mcde/mcde_drv.c                  | 1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c           | 2 --
+ drivers/gpu/drm/meson/meson_drv.c                | 1 -
+ drivers/gpu/drm/mgag200/mgag200_drv.c            | 1 -
+ drivers/gpu/drm/mgag200/mgag200_drv.h            | 1 -
+ drivers/gpu/drm/msm/msm_drv.c                    | 1 -
+ drivers/gpu/drm/mxsfb/lcdif_drv.c                | 1 -
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                | 1 -
+ drivers/gpu/drm/nouveau/nouveau_drm.c            | 5 -----
+ drivers/gpu/drm/nouveau/nouveau_drv.h            | 1 -
+ drivers/gpu/drm/omapdrm/omap_drv.c               | 2 --
+ drivers/gpu/drm/panfrost/panfrost_drv.c          | 1 -
+ drivers/gpu/drm/panthor/panthor_drv.c            | 1 -
+ drivers/gpu/drm/pl111/pl111_drv.c                | 1 -
+ drivers/gpu/drm/qxl/qxl_drv.c                    | 1 -
+ drivers/gpu/drm/qxl/qxl_drv.h                    | 1 -
+ drivers/gpu/drm/radeon/radeon_drv.c              | 1 -
+ drivers/gpu/drm/radeon/radeon_drv.h              | 1 -
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c    | 1 -
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c     | 1 -
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c | 1 -
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c      | 2 --
+ drivers/gpu/drm/solomon/ssd130x.c                | 2 --
+ drivers/gpu/drm/sprd/sprd_drm.c                  | 2 --
+ drivers/gpu/drm/sti/sti_drv.c                    | 2 --
+ drivers/gpu/drm/stm/drv.c                        | 1 -
+ drivers/gpu/drm/sun4i/sun4i_drv.c                | 1 -
+ drivers/gpu/drm/tegra/drm.c                      | 2 --
+ drivers/gpu/drm/tidss/tidss_drv.c                | 1 -
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c              | 1 -
+ drivers/gpu/drm/tiny/arcpgu.c                    | 1 -
+ drivers/gpu/drm/tiny/bochs.c                     | 1 -
+ drivers/gpu/drm/tiny/cirrus-qemu.c               | 2 --
+ drivers/gpu/drm/tiny/gm12u320.c                  | 2 --
+ drivers/gpu/drm/tiny/hx8357d.c                   | 1 -
+ drivers/gpu/drm/tiny/ili9163.c                   | 1 -
+ drivers/gpu/drm/tiny/ili9225.c                   | 1 -
+ drivers/gpu/drm/tiny/ili9341.c                   | 1 -
+ drivers/gpu/drm/tiny/ili9486.c                   | 1 -
+ drivers/gpu/drm/tiny/mi0283qt.c                  | 1 -
+ drivers/gpu/drm/tiny/ofdrm.c                     | 2 --
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c            | 1 -
+ drivers/gpu/drm/tiny/repaper.c                   | 1 -
+ drivers/gpu/drm/tiny/sharp-memory.c              | 1 -
+ drivers/gpu/drm/tiny/simpledrm.c                 | 2 --
+ drivers/gpu/drm/tiny/st7586.c                    | 1 -
+ drivers/gpu/drm/tiny/st7735r.c                   | 1 -
+ drivers/gpu/drm/tve200/tve200_drv.c              | 1 -
+ drivers/gpu/drm/udl/udl_drv.c                    | 1 -
+ drivers/gpu/drm/udl/udl_drv.h                    | 1 -
+ drivers/gpu/drm/v3d/v3d_drv.c                    | 2 --
+ drivers/gpu/drm/vboxvideo/vbox_drv.c             | 1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.h             | 1 -
+ drivers/gpu/drm/vc4/vc4_drv.c                    | 3 ---
+ drivers/gpu/drm/vgem/vgem_drv.c                  | 2 --
+ drivers/gpu/drm/virtio/virtgpu_drv.c             | 1 -
+ drivers/gpu/drm/virtio/virtgpu_drv.h             | 1 -
+ drivers/gpu/drm/vkms/vkms_drv.c                  | 2 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c              | 1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h              | 1 -
+ drivers/gpu/drm/xe/xe_device.c                   | 1 -
+ drivers/gpu/drm/xe/xe_drv.h                      | 1 -
+ drivers/gpu/drm/xen/xen_drm_front.c              | 6 ------
+ drivers/gpu/drm/xlnx/zynqmp_kms.c                | 1 -
+ include/drm/drm_drv.h                            | 2 --
+ 101 files changed, 138 deletions(-)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index 36713c176cfc..55671701459a 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -1165,17 +1165,25 @@ static void mtk_dp_get_calibration_data(struct mtk_dp *mtk_dp)
- 	buf = (u32 *)nvmem_cell_read(cell, &len);
- 	nvmem_cell_put(cell);
- 
--	if (IS_ERR(buf) || ((len / sizeof(u32)) != 4)) {
-+	if (IS_ERR(buf)) {
- 		dev_warn(dev, "Failed to read nvmem_cell_read\n");
--
--		if (!IS_ERR(buf))
--			kfree(buf);
--
- 		goto use_default_val;
- 	}
- 
-+	/* The cell length is in bytes. Convert it to be compatible with u32 buffer. */
-+	len /= sizeof(u32);
-+
- 	for (i = 0; i < MTK_DP_CAL_MAX; i++) {
- 		fmt = &mtk_dp->data->efuse_fmt[i];
-+
-+		if (fmt->idx >= len) {
-+			dev_warn(mtk_dp->dev,
-+				 "Out-of-bound efuse data access, fmt idx = %d, buf len = %zu\n",
-+				 fmt->idx, len);
-+			kfree(buf);
-+			goto use_default_val;
-+		}
-+
- 		cal_data[i] = (buf[fmt->idx] >> fmt->shift) & fmt->mask;
- 
- 		if (cal_data[i] < fmt->min_val || cal_data[i] > fmt->max_val) {
 -- 
-2.47.0.338.g60cca15819-goog
+2.39.5
 
