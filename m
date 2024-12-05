@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4199E5785
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:45:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195859E5786
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:45:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85A7610EE78;
-	Thu,  5 Dec 2024 13:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9372410EE79;
+	Thu,  5 Dec 2024 13:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sf114J7i";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EtoGV4yP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3143610EE78
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 13:45:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E103E10EE79
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 13:45:34 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 01F5AD01;
- Thu,  5 Dec 2024 14:45:01 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B3AEB1063;
+ Thu,  5 Dec 2024 14:45:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733406303;
- bh=7hzw0SzmxWLVIEQik4mqnwQiiO+6a15pjXhcBTuLaI8=;
+ s=mail; t=1733406305;
+ bh=Cj2VeJ8uFjY3w3v+Ynbvv8L6oauOfCaE6Fq+A8xrCKE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=sf114J7inwr/qgMflsHlg/9+4hUFvQQ3uBKlMjcAbX1rU5hR4tQshZ3rHST234mbt
- jo0XKD4lLuPay4odo4UQx5aEFAFEXVkAS0LS4hAyLM2TCrq34pOsu1Ol7EhqlV7Tci
- fSSOH/fHSH+Log862lEMdidF4BQqt9g93KbXdn1Q=
+ b=EtoGV4yPESKmwBJjWkx/TOSPWqmE02KXG6DgsTn6tU75eEOzBohhcq7DEHd9ir+yU
+ 8ivY4stnWXlPKy4BDGEWdPWBmhylw3kfANjdd+3Ig0JpJC8T5Q9ZX5k0IZb/ykoZeR
+ ttv1a3PkxFPuHrDSE3tlMXU9N3ZosBrUiJE/5sJ0=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 05 Dec 2024 15:44:58 +0200
-Subject: [PATCH v2 03/10] dt-bindings: display: bridge:
- renesas,dsi-csi2-tx: Add r8a779h0
+Date: Thu, 05 Dec 2024 15:44:59 +0200
+Subject: [PATCH v2 04/10] dt-bindings: display: renesas,du: Add r8a779h0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241205-rcar-gh-dsi-v2-3-42471851df86@ideasonboard.com>
+Message-Id: <20241205-rcar-gh-dsi-v2-4-42471851df86@ideasonboard.com>
 References: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
 In-Reply-To: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -57,24 +56,23 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1073;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2543;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=dTprj9jjuLmoedubnDT5F4e9cHFBPmdT8w1PeMV2wF8=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUa5yWRMiq+qr708cmz/km+OvSL/hXvfR2V7VK
- NEToNpajXmJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1GucgAKCRD6PaqMvJYe
- 9XbTD/9d8IWcl8EmJHjHJbJ7lo9Mdk4BRIcv1MpyOJrxiVpeZQtw5mLGyHSLIeUXAV52Ap+t7Y3
- cyJHf7W9q+5uw86hqU+yxRQF7SWRbbWlmxKIXdYjfks7onk92AH9bNqkdYdd3V1a5LoMPci4fQz
- BXVwbU2URPvytR07pZOoQlinjpe8rIgYCF8+9FHruzJfXmZST/EkQcPg9MeQnri3D4xrV2lgapi
- Swcpy6adhrsm7ZzqnaOr6CD2zFRWyKPSCeZVFat2nb/e2qpnzAc0rLJXMTgcJ0PZbFYPjVNiEqS
- RPAJ/EkdjsGOm370IQ8yapavj6PbfQcTK8TZQZT7qXT2gCgLhBL4Sj/cHwc6qnIygXByySltFwe
- bPzZ/8CZYn0/i3RsYmbDqy96o+Helio4eoUfB+w0InKjMZffNjORgs+hiwN2QnuZ43k+8Utf/CH
- Md+rBGdTtIx7mEjE8xT2+Jls5tUiDsFxUzjcGIe8bgYFjH08NsZ65OdZzKN95+epYdDGs0kZmNu
- TcYSGxpN82FzU7R8qIwWX5H1DmWa8pT1cen2/IWDQwE7uAF/b8TljujwrZdba9CJXYICKKvxWKL
- 53JPzO8UXC5uCcWn8sP6VyMYb3qQgwLtGO7lY2zZLElTR7ti9NgnwnyCar6UgYExpAanPzIk2WP
- GD3wbMTWpjDsoyA==
+ bh=+C1FPFSno+ZBvGJfrkZWI9g3QFl0y7ZqagIAzaX59o8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUa5yRvrQv1Nkv4l0aaXGR+R1m8Ps9diRJC2D9
+ OJG64sSBGKJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1GucgAKCRD6PaqMvJYe
+ 9UN2D/sHIfsWlmb2GoR2sxyQyDbhd/fWXRTAPBso0DgmrSx4e4vTdR9WquOwvnhM4Th5GbvKUds
+ zFIFxe9bSYxtDYhnqhAFY7fJ8tXmGNUY1a95GoYwzeLShOuDDkb3MdAmx2C7qBh0Pa4a/cgdoLT
+ GeWhF/0i8MEt8GMQWxe09Mn4B8DoEJjhxOPzu8M/K78LjoXSl8uP4RQt4O/yjG4sC8AwftOnZ3b
+ DGADS7JLdejrEUpOnW91t9N7T1j+Z68S07067h41PdZpe4Mu0CX9ZthtKEW2N5QZSY+3aWVmeKE
+ c+sKJbPMP5M80qctGujaFh43JE8+BtHgEPimaoSXsGrFZer2nKS82ZGeEEL6Sg8AvNZUbkQHGnJ
+ 5G55joETgVPwZH9DsdBZF+ZNqedEN6Dq/ccnnworGwpANrg7yk/OqCPjU7rwO6Lemz44vnO7hab
+ jFJCUHGOXJIZ5HzYVby+m/PzQxro927C+dzQxRPSCHn91Lp60eFscxMyJZ/bnRFmuRBkyJSE9uB
+ a0umVevBJrwRL0j4UxZrPFg5yZ0ZF21dROTZULliuXeQCHWpGgnbxg8+SR/FLHqin7pigvk9uA1
+ JtULLsFxFY3vEwIZgpHF1H6qDQxA6KNHp1nF/Zw7wxL/NdaI8j1RcTpyqc0lttQEbUEjfCheAkB
+ 0ihMGj6aJMWYUsA==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,28 +92,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Extend the Renesas DSI display bindings to support the r8a779h0 V4M.
+Extend the Renesas DU display bindings to support the r8a779h0 V4M.
+
+Note that we remove the requirement for two ports from the global part
+of the bindings, as each conditional part defines the number of required
+ports already. This came up with r8a779h0 as it's the first one that has
+only one port.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml          | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/display/renesas,du.yaml    | 52 ++++++++++++++++++++--
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-index d33026f85e19..c167795c63f6 100644
---- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
-@@ -19,6 +19,7 @@ properties:
-     enum:
-       - renesas,r8a779a0-dsi-csi2-tx    # for V3U
-       - renesas,r8a779g0-dsi-csi2-tx    # for V4H
-+      - renesas,r8a779h0-dsi-csi2-tx    # for V4M
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index c5b9e6812bce..7dec47aea052 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -41,6 +41,7 @@ properties:
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
+       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+       - renesas,du-r8a779g0 # for R-Car V4H compatible DU
++      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
  
    reg:
      maxItems: 1
+@@ -69,10 +70,6 @@ properties:
+         $ref: /schemas/graph.yaml#/properties/port
+         unevaluatedProperties: false
+ 
+-    required:
+-      - port@0
+-      - port@1
+-
+     unevaluatedProperties: false
+ 
+   renesas,cmms:
+@@ -807,6 +804,53 @@ allOf:
+         - reset-names
+         - renesas,vsps
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,du-r8a779h0
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Functional clock
++
++        clock-names:
++          items:
++            - const: du.0
++
++        interrupts:
++          maxItems: 1
++
++        resets:
++          maxItems: 1
++
++        reset-names:
++          items:
++            - const: du.0
++
++        ports:
++          properties:
++            port@0:
++              description: DSI 0
++            port@1: false
++            port@2: false
++            port@3: false
++
++          required:
++            - port@0
++
++        renesas,vsps:
++          minItems: 1
++
++      required:
++        - clock-names
++        - interrupts
++        - resets
++        - reset-names
++        - renesas,vsps
++
+ additionalProperties: false
+ 
+ examples:
 
 -- 
 2.43.0
