@@ -2,67 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15689E5AC9
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 17:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE6C9E5B35
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 17:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49F3210EEF6;
-	Thu,  5 Dec 2024 16:09:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4423A10EEFC;
+	Thu,  5 Dec 2024 16:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="KGhWCnui";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="hQ9ZR51P";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QUnzA4sI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hQ9ZR51P";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QUnzA4sI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8A710EEF6
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 16:09:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1733414958; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Rt8DOKLyxpbGvCLkuxKZs3vFNJ/U9RklguBB93SNwTGstBIGkptRt4H+aotXLNXIBMXmNFpjU7LAaIkjS9E0qwDzXB9h+bYOtXVWkcqjp3S9WqRyH0SdE1/VUM5WH7GSqyH0Etn6Pl/DwqLPG1mQ+GjQi/rbL84cNrOSw04iUU4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1733414958;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=40MMr4zyE54ucDXtnRwizB0SWb9WLWtvCrlRmiBIfnY=; 
- b=XKEoZm1lnMfhqW//YRGqqOPQ8H+geM0Y0bQZ9opPrcp4va+6PixdAJ0ci84GGwHqSPRfr7qC5WbMxwstC+zCZ9ZFMhBsbHwRj1W0XaAtywZwKlJUKYAkXrE+4vvWCYNO+oAAd6PvgnQn4ENoNLE36v+0JERQt3BLG1pzdDmc4R4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733414958; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=40MMr4zyE54ucDXtnRwizB0SWb9WLWtvCrlRmiBIfnY=;
- b=KGhWCnuiVXfjC8zFoZho/QKYHiZUuD/ZiQmxo9zybXxXOitiafSvZlwypfocyv4B
- qmcxBrWYhQOzypOyt3H9eoP8LZ7DJ3PyAmNXWoNMXv3AjSN1Mbh4Q02l+SaJ32SNkuk
- TgdZlwZ+PyKwSWVReqJSWUuP5QNbZKojATYif5C4=
-Received: by mx.zohomail.com with SMTPS id 1733414957440728.3043397680057;
- Thu, 5 Dec 2024 08:09:17 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [WIP RFC v2 34/35] WIP: rust: drm/kms: Add Kms::atomic_commit_tail
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20240930233257.1189730-35-lyude@redhat.com>
-Date: Thu, 5 Dec 2024 13:09:01 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <771FBC25-8887-4C0B-8923-0A9FF1BFFEFF@collabora.com>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-35-lyude@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.200.121)
-X-ZohoMailClient: External
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 140F510EEFC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 16:21:55 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AEF111F38C;
+ Thu,  5 Dec 2024 16:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1733415713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZQybBpUukciUAeNPe29JNT5tQxGhJNnk/QOTBFKF6WA=;
+ b=hQ9ZR51P5hbsAGbths9bGids7LoT17+/oJAjz1xN1+MY7NltZL/f3kQKaiT8rDV46YRjs1
+ vU/9d+od7ReFAX6/PdkehYnRIYAqb1Gegls/Ts05A1UC/RHdmRKBAeLjWa96i60nLxsxxY
+ W6kAU+gn2YSqeHR0V/Rl6OaLHlHttrA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1733415713;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZQybBpUukciUAeNPe29JNT5tQxGhJNnk/QOTBFKF6WA=;
+ b=QUnzA4sIEv1hJOGROYtf1oF6uZkRHMDw80mOw1K/HM+PalruapzX9vTqMfg1TF6KZe8tSk
+ /7EsAOXNQgogy4CQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1733415713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZQybBpUukciUAeNPe29JNT5tQxGhJNnk/QOTBFKF6WA=;
+ b=hQ9ZR51P5hbsAGbths9bGids7LoT17+/oJAjz1xN1+MY7NltZL/f3kQKaiT8rDV46YRjs1
+ vU/9d+od7ReFAX6/PdkehYnRIYAqb1Gegls/Ts05A1UC/RHdmRKBAeLjWa96i60nLxsxxY
+ W6kAU+gn2YSqeHR0V/Rl6OaLHlHttrA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1733415713;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=ZQybBpUukciUAeNPe29JNT5tQxGhJNnk/QOTBFKF6WA=;
+ b=QUnzA4sIEv1hJOGROYtf1oF6uZkRHMDw80mOw1K/HM+PalruapzX9vTqMfg1TF6KZe8tSk
+ /7EsAOXNQgogy4CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4940C138A5;
+ Thu,  5 Dec 2024 16:21:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id FmHmDyHTUWezfwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 05 Dec 2024 16:21:53 +0000
+Message-ID: <75efda63-6656-4dfb-a308-cb5d6e08a8d5@suse.de>
+Date: Thu, 5 Dec 2024 17:21:52 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241204160014.1171469-1-jfalempe@redhat.com>
+ <20241204160014.1171469-3-jfalempe@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241204160014.1171469-3-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,linutronix.de,igalia.com,verizon.net,linaro.org,suse.com,lists.freedesktop.org,vger.kernel.org];
+ RCPT_COUNT_TWELVE(0.00)[14]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,verizon.net];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,668 +150,598 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude
 
-> On 30 Sep 2024, at 20:10, Lyude Paul <lyude@redhat.com> wrote:
->=20
-> A quick note: this is one of my favorite bindings so far :). It sounds =
-way
-> overly complicated, but so far actually writing implementations of =
-this in
-> rust has been a breeze.
->=20
-> Anyway: RVKMS has a slightly different atomic_commit_tail than normal,
-> which means we need to write up some bindings for atomic_commit_tail. =
-This
-> is a lot more interesting then it might seem on the surface as =
-implementing
-> atomic_commit_tail incorrectly could result in UB. And in general, DRM =
-has
-> up until now relied entirely on the programmer to do this correctly =
-through
-> implicit ordering requirements.
->=20
-> In the universe of rust though, we want no UB at all! To ensure this, =
-we
-> need to make sure that all atomic commit callbacks follow all of these
-> requirements:
->=20
-> * Disable/enable modeset commits must happen exactly once
-> * A disable modeset must be committed for a resource before an enable
->  modeset may be committed for a resource
-> * Plane updates must happen exactly once
-> * drm_atomic_commit_hw_done() must be called exactly once, and only =
-after
->  all commits have been completed.
-> * The state may not be mutated after drm_atomic_commit_hw_done() is =
-called
-> * Access to the prior atomic states are revoked after
->  drm_atomic_commit_hw_done() is called (and our "new" states become =
-"old"
->  states)
->=20
-> To handle this, we introduce a number of new objects and types:
-> tokens:
->=20
-> * AtomicCommitTail
->  Main object for controlling the commit_tail process
->  * ModesetsReadyToken
->    A single use token indicating that no modesets have been committed =
-with
->    the AtomicCommitTail yet
->  * commit_modeset_disables() -> DisablesCommittedToken
->    This function consumes the ModesetsReadyToken, commits modeset
->    disables, and then returns a DisablesCommittedToken
->  * commit_modeset_enables() -> EnablesCommittedToken
->    This function consumes a DisablesCommittedToken, commits modeset
->    enables, and then returns a EnablesCommittedToken
->    EnablesCommittedToken - enforcing the disables -> enables order.
->  * commit_planes() -> PlaneUpdatesCommittedToken
->    Consumes a PlaneUpdatesReadyToken and returns a
->    PlaneUpdatesCommittedToken.
->  * commit_hw_done() -> CommittedAtomicState
->    Revokes access to the AtomicCommitTailObject, and consumes both the
->    EnablesCommittedToken and PlaneUpdatesCommitted tokens. This =
-ensures
->    that all modesets and plane updates have occurred exactly once.
-> * CommittedAtomicState - main object for controlling the =
-atomic_commit_tail
->  after the state has been swapped in. This must be returned from the
->  atomic_commit_tail function to prove that all of the required commits
->  have occurred.
 
-This is very informative, you should have that in the documentation =
-somewhere IMHO.
 
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+Am 04.12.24 um 16:45 schrieb Jocelyn Falempe:
+> drm_log is a simple logger that uses the drm_client API to print the
+> kmsg boot log on the screen. This is not a full replacement to fbcon,
+> as it will only print the kmsg. It will never handle user input, or a
+> terminal because this is better done in userspace.
+>
+> Design decisions:
+>   * It uses the drm_client API, so it should work on all drm drivers
+>     from the start.
+>   * It doesn't scroll the message, that way it doesn't need to redraw
+>     the whole screen for each new message.
+>     It also means it doesn't have to keep drawn messages in memory, to
+>     redraw them when scrolling.
+>   * It uses the new non-blocking console API, so it should work well
+>     with PREEMPT_RT.
+>
+> This patch also adds a Kconfig menu to select the drm client to use.
+> It can be overwritten on the kernel command line with:
+> drm_client_lib.active=log or drm_client_lib.active=fbdev
+>
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> Reviewed-by: John Ogness <john.ogness@linutronix.de> # console API
 
-Note that you can use the typestate pattern to model this IIUC.
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-The main advantage is that you can control which functions are available =
-at each state, whereas
-your solution will have all of them available at all times even though =
-each function requires the right tokens
-to be called.
-
->=20
 > ---
->=20
-> TODO:
->=20
-> * Currently this solution wouldn't be sufficient for drivers that need
->  precise control over the order of each individual modeset or plane
->  update. However, this should be very easy to add.
-> * Figure out something better for enforcing the plane cleanup then =
-what we
->  have right now (e.g. cleaning up planes in the destructor for
->  CommittedAtomicState).
-> * Add iterator functions that take mutable references to the atomic =
-state
->  objects here. This will prevent functions like =
-commit_modeset_disables()
->  from being called while a state borrow is taken out, while still =
-allowing
->  easy access to the contents of the atomic state at any portion of the
->  atomic commit tail.
-> * Actually add some macros for generating bitmasks like we do with
->  PlaneCommitFlags - right now we just do this by hand.
+>
+> v2:
+>   * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+>   * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+>   * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+>   * Add color support for the timestamp prefix, like what dmesg does.
+>   * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
+>
+> v3:
+>   * Remove the work thread and circular buffer, and use the new write_thread() console API.
+>   * Register a console for each drm driver.
+>
+> v4:
+>   * Can be built as a module, even if that's not really useful.
+>   * Rebased on top of "drm: Introduce DRM client library" series from Thomas Zimmermann.
+>   * Add a Kconfig menu to choose between drm client.
+>   
+> v5:
+>   * Build drm_log in drm_client_lib module, to avoid circular dependency.
+>
+> v8:
+>   * Rebased after drm client moved to drivers/gpu/drm/clients/
+>   * Rename DRM_LOG to DRM_CLIENT_LOG (Thomas Zimmermann)
+>   * Add an info message if no clients are initialized in drm_client_setup()
+>   
+> v9:
+>   * Add cflags to remove the "../" when including drm internal headers (Jani Nikula)
+>   * Order select alphabetically in KConfig (Thomas Zimmermann)
+>   * Replace drm_info with drm_dbg, to be less verbose (Thomas Zimmermann)
+>   * Rename module parameter to drm_client_lib.active (Thomas Zimmermann)
+>   * Warn if drm_client_lib.active is malformated (Thomas Zimmermann)
+>   
+>   drivers/gpu/drm/clients/Kconfig               |  48 +++
+>   drivers/gpu/drm/clients/Makefile              |   3 +
+>   drivers/gpu/drm/clients/drm_client_internal.h |   6 +
+>   drivers/gpu/drm/clients/drm_client_setup.c    |  29 +-
+>   drivers/gpu/drm/clients/drm_log.c             | 370 ++++++++++++++++++
+>   5 files changed, 452 insertions(+), 4 deletions(-)
+>   create mode 100644 drivers/gpu/drm/clients/drm_log.c
+>
+> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
+> index 01ad3b000130..c18decc90200 100644
+> --- a/drivers/gpu/drm/clients/Kconfig
+> +++ b/drivers/gpu/drm/clients/Kconfig
+> @@ -12,6 +12,7 @@ config DRM_CLIENT_LIB
+>   config DRM_CLIENT_SELECTION
+>   	tristate
+>   	depends on DRM
+> +	select DRM_CLIENT_LIB if DRM_CLIENT_LOG
+>   	select DRM_CLIENT_LIB if DRM_FBDEV_EMULATION
+>   	help
+>   	  Drivers that support in-kernel DRM clients have to select this
+> @@ -70,4 +71,51 @@ config DRM_FBDEV_LEAK_PHYS_SMEM
+>   	  If in doubt, say "N" or spread the word to your closed source
+>   	  library vendor.
+>   
+> +config DRM_CLIENT_LOG
+> +	bool "Print the kernel boot message on the screen"
+> +	depends on DRM_CLIENT_SELECTION
+> +	select DRM_CLIENT
+> +	select DRM_CLIENT_SETUP
+> +	select DRM_DRAW
+> +	help
+> +	  This enable a drm logger, that will print the kernel messages to the
+> +	  screen until the userspace is ready to take over.
+> +
+> +	  If you only need logs, but no terminal, or if you prefer userspace
+> +	  terminal, say "Y".
+> +
+> +choice
+> +	prompt "Default DRM Client"
+> +	depends on DRM_CLIENT_SELECTION
+> +	default DRM_CLIENT_DEFAULT_FBDEV
+> +	help
+> +	  Selects the default drm client.
+> +
+> +	  The selection made here can be overridden by using the kernel
+> +	  command line 'drm_client_lib.active=fbdev' option.
+> +
+> +config DRM_CLIENT_DEFAULT_FBDEV
+> +	bool "fbdev"
+> +	depends on DRM_FBDEV_EMULATION
+> +	help
+> +	  Use fbdev emulation as default drm client. This is needed to have
+> +	  fbcon on top of a drm driver.
+> +
+> +config DRM_CLIENT_DEFAULT_LOG
+> +	bool "log"
+> +	depends on DRM_CLIENT_LOG
+> +	help
+> +	  Use drm log as default drm client. This will display boot logs on the
+> +	  screen, but doesn't implement a full terminal. For that you will need
+> +	  a userspace terminal using drm/kms.
+> +
+> +endchoice
+> +
+> +config DRM_CLIENT_DEFAULT
+> +       string
+> +       depends on DRM_CLIENT
+> +       default "fbdev" if DRM_CLIENT_DEFAULT_FBDEV
+> +       default "log" if DRM_CLIENT_DEFAULT_LOG
+> +       default ""
+> +
+>   endmenu
+> diff --git a/drivers/gpu/drm/clients/Makefile b/drivers/gpu/drm/clients/Makefile
+> index 1d004ec92e1e..c16addbc327f 100644
+> --- a/drivers/gpu/drm/clients/Makefile
+> +++ b/drivers/gpu/drm/clients/Makefile
+> @@ -1,5 +1,8 @@
+>   # SPDX-License-Identifier: GPL-2.0
+>   
+> +subdir-ccflags-y += -I$(src)/..
+> +
+>   drm_client_lib-y := drm_client_setup.o
+> +drm_client_lib-$(CONFIG_DRM_CLIENT_LOG) += drm_log.o
+>   drm_client_lib-$(CONFIG_DRM_FBDEV_EMULATION) += drm_fbdev_client.o
+>   obj-$(CONFIG_DRM_CLIENT_LIB) += drm_client_lib.o
+> diff --git a/drivers/gpu/drm/clients/drm_client_internal.h b/drivers/gpu/drm/clients/drm_client_internal.h
+> index 23258934956a..6dc078bf6503 100644
+> --- a/drivers/gpu/drm/clients/drm_client_internal.h
+> +++ b/drivers/gpu/drm/clients/drm_client_internal.h
+> @@ -16,4 +16,10 @@ static inline int drm_fbdev_client_setup(struct drm_device *dev,
+>   }
+>   #endif
+>   
+> +#ifdef CONFIG_DRM_CLIENT_LOG
+> +void drm_log_register(struct drm_device *dev);
+> +#else
+> +static inline void drm_log_register(struct drm_device *dev) {}
+> +#endif
+> +
+>   #endif
+> diff --git a/drivers/gpu/drm/clients/drm_client_setup.c b/drivers/gpu/drm/clients/drm_client_setup.c
+> index 4b211a4812b5..e17265039ca8 100644
+> --- a/drivers/gpu/drm/clients/drm_client_setup.c
+> +++ b/drivers/gpu/drm/clients/drm_client_setup.c
+> @@ -7,6 +7,12 @@
+>   
+>   #include "drm_client_internal.h"
+>   
+> +static char drm_client_default[16] = CONFIG_DRM_CLIENT_DEFAULT;
+> +module_param_string(active, drm_client_default, sizeof(drm_client_default), 0444);
+> +MODULE_PARM_DESC(active,
+> +		 "Choose which drm client to start, default is"
+> +		 CONFIG_DRM_CLIENT_DEFAULT "]");
+> +
+>   /**
+>    * drm_client_setup() - Setup in-kernel DRM clients
+>    * @dev: DRM device
+> @@ -25,11 +31,26 @@
+>    */
+>   void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
+>   {
+> -	int ret;
+>   
+> -	ret = drm_fbdev_client_setup(dev, format);
+> -	if (ret)
+> -		drm_warn(dev, "Failed to set up DRM client; error %d\n", ret);
+> +#ifdef CONFIG_DRM_FBDEV_EMULATION
+> +	if (!strcmp(drm_client_default, "fbdev")) {
+> +		int ret;
+> +
+> +		ret = drm_fbdev_client_setup(dev, format);
+> +		if (ret)
+> +			drm_warn(dev, "Failed to set up DRM client; error %d\n", ret);
+> +		return;
+> +	}
+> +#endif
+> +
+> +#ifdef CONFIG_DRM_CLIENT_LOG
+> +	if (!strcmp(drm_client_default, "log")) {
+> +		drm_log_register(dev);
+> +		return;
+> +	}
+> +#endif
+> +	if (strcmp(drm_client_default, ""))
+> +		drm_warn(dev, "Unknown DRM client %s\n", drm_client_default);
+>   }
+>   EXPORT_SYMBOL(drm_client_setup);
+>   
+> diff --git a/drivers/gpu/drm/clients/drm_log.c b/drivers/gpu/drm/clients/drm_log.c
+> new file mode 100644
+> index 000000000000..4e07bff6c864
+> --- /dev/null
+> +++ b/drivers/gpu/drm/clients/drm_log.c
+> @@ -0,0 +1,370 @@
+> +// SPDX-License-Identifier: GPL-2.0 or MIT
+> +/*
+> + * Copyright (c) 2024 Red Hat.
+> + * Author: Jocelyn Falempe <jfalempe@redhat.com>
+> + */
+> +
+> +#include <linux/console.h>
+> +#include <linux/font.h>
+> +#include <linux/init.h>
+> +#include <linux/iosys-map.h>
+> +#include <linux/module.h>
+> +#include <linux/types.h>
+> +
+> +#include <drm/drm_client.h>
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_fourcc.h>
+> +#include <drm/drm_framebuffer.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "drm_client_internal.h"
+> +#include "drm_draw_internal.h"
+> +
+> +MODULE_AUTHOR("Jocelyn Falempe");
+> +MODULE_DESCRIPTION("DRM boot logger");
+> +MODULE_LICENSE("GPL");
+> +
+> +/**
+> + * DOC: overview
+> + *
+> + * This is a simple graphic logger, to print the kernel message on screen, until
+> + * a userspace application is able to take over.
+> + * It is only for debugging purpose.
+> + */
+> +
+> +struct drm_log_scanout {
+> +	struct drm_client_buffer *buffer;
+> +	const struct font_desc *font;
+> +	u32 rows;
+> +	u32 columns;
+> +	u32 line;
+> +	u32 format;
+> +	u32 px_width;
+> +	u32 front_color;
+> +};
+> +
+> +struct drm_log {
+> +	struct mutex lock;
+> +	struct drm_client_dev client;
+> +	struct console con;
+> +	bool probed;
+> +	u32 n_scanout;
+> +	struct drm_log_scanout *scanout;
+> +};
+> +
+> +static struct drm_log *client_to_drm_log(struct drm_client_dev *client)
+> +{
+> +	return container_of(client, struct drm_log, client);
+> +}
+> +
+> +static struct drm_log *console_to_drm_log(struct console *con)
+> +{
+> +	return container_of(con, struct drm_log, con);
+> +}
+> +
+> +static void drm_log_blit(struct iosys_map *dst, unsigned int dst_pitch,
+> +			 const u8 *src, unsigned int src_pitch,
+> +			 u32 height, u32 width, u32 scale, u32 px_width, u32 color)
+> +{
+> +	switch (px_width) {
+> +	case 2:
+> +		drm_draw_blit16(dst, dst_pitch, src, src_pitch, height, width, scale, color);
+> +		break;
+> +	case 3:
+> +		drm_draw_blit24(dst, dst_pitch, src, src_pitch, height, width, scale, color);
+> +		break;
+> +	case 4:
+> +		drm_draw_blit32(dst, dst_pitch, src, src_pitch, height, width, scale, color);
+> +		break;
+> +	default:
+> +		WARN_ONCE(1, "Can't blit with pixel width %d\n", px_width);
+> +	}
+> +}
+> +
+> +static void drm_log_clear_line(struct drm_log_scanout *scanout, u32 line)
+> +{
+> +	struct drm_framebuffer *fb = scanout->buffer->fb;
+> +	unsigned long height = scanout->font->height;
+> +	struct iosys_map map;
+> +	struct drm_rect r = DRM_RECT_INIT(0, line * height, fb->width, height);
+> +
+> +	if (drm_client_buffer_vmap_local(scanout->buffer, &map))
+> +		return;
+> +	iosys_map_memset(&map, r.y1 * fb->pitches[0], 0, height * fb->pitches[0]);
+> +	drm_client_buffer_vunmap_local(scanout->buffer);
+> +	drm_client_framebuffer_flush(scanout->buffer, &r);
+> +}
+> +
+> +static void drm_log_draw_line(struct drm_log_scanout *scanout, const char *s,
+> +			      unsigned int len)
+> +{
+> +	struct drm_framebuffer *fb = scanout->buffer->fb;
+> +	struct iosys_map map;
+> +	const struct font_desc *font = scanout->font;
+> +	size_t font_pitch = DIV_ROUND_UP(font->width, 8);
+> +	const u8 *src;
+> +	u32 px_width = fb->format->cpp[0];
+> +	struct drm_rect r = DRM_RECT_INIT(0, scanout->line * font->height,
+> +					  fb->width, (scanout->line + 1) * font->height);
+> +	u32 i;
+> +
+> +	if (drm_client_buffer_vmap_local(scanout->buffer, &map))
+> +		return;
+> +
+> +	iosys_map_incr(&map, r.y1 * fb->pitches[0]);
+> +	for (i = 0; i < len && i < scanout->columns; i++) {
+> +		src = drm_draw_get_char_bitmap(font, s[i], font_pitch);
+> +		drm_log_blit(&map, fb->pitches[0], src, font_pitch, font->height, font->width,
+> +			     1, px_width, scanout->front_color);
+> +		iosys_map_incr(&map, font->width * px_width);
+> +	}
+> +
+> +	scanout->line++;
+> +	if (scanout->line >= scanout->rows)
+> +		scanout->line = 0;
+> +	drm_client_buffer_vunmap_local(scanout->buffer);
+> +	drm_client_framebuffer_flush(scanout->buffer, &r);
+> +}
+> +
+> +static void drm_log_draw_new_line(struct drm_log_scanout *scanout,
+> +				  const char *s, unsigned int len)
+> +{
+> +	if (scanout->line == 0) {
+> +		drm_log_clear_line(scanout, 0);
+> +		drm_log_clear_line(scanout, 1);
+> +		drm_log_clear_line(scanout, 2);
+> +	} else if (scanout->line + 2 < scanout->rows)
+> +		drm_log_clear_line(scanout, scanout->line + 2);
+> +
+> +	drm_log_draw_line(scanout, s, len);
+> +}
+> +
+> +static void drm_log_draw_kmsg_record(struct drm_log_scanout *scanout,
+> +				     const char *s, unsigned int len)
+> +{
+> +	/* do not print the ending \n character */
+> +	if (s[len - 1] == '\n')
+> +		len--;
+> +
+> +	while (len > scanout->columns) {
+> +		drm_log_draw_new_line(scanout, s, scanout->columns);
+> +		s += scanout->columns;
+> +		len -= scanout->columns;
+> +	}
+> +	if (len)
+> +		drm_log_draw_new_line(scanout, s, len);
+> +}
+> +
+> +static u32 drm_log_find_usable_format(struct drm_plane *plane)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < plane->format_count; i++)
+> +		if (drm_draw_color_from_xrgb8888(0xffffff, plane->format_types[i]) != 0)
+> +			return plane->format_types[i];
+> +	return DRM_FORMAT_INVALID;
+> +}
+> +
+> +static int drm_log_setup_modeset(struct drm_client_dev *client,
+> +				 struct drm_mode_set *mode_set,
+> +				 struct drm_log_scanout *scanout)
+> +{
+> +	struct drm_crtc *crtc = mode_set->crtc;
+> +	u32 width = mode_set->mode->hdisplay;
+> +	u32 height = mode_set->mode->vdisplay;
+> +	u32 format;
+> +
+> +	scanout->font = get_default_font(width, height, NULL, NULL);
+> +	if (!scanout->font)
+> +		return -ENOENT;
+> +
+> +	format = drm_log_find_usable_format(crtc->primary);
+> +	if (format == DRM_FORMAT_INVALID)
+> +		return -EINVAL;
+> +
+> +	scanout->buffer = drm_client_framebuffer_create(client, width, height, format);
+> +	if (IS_ERR(scanout->buffer)) {
+> +		drm_warn(client->dev, "drm_log can't create framebuffer %d %d %p4cc\n",
+> +			 width, height, &format);
+> +		return -ENOMEM;
+> +	}
+> +	mode_set->fb = scanout->buffer->fb;
+> +	scanout->rows = height / scanout->font->height;
+> +	scanout->columns = width / scanout->font->width;
+> +	scanout->front_color = drm_draw_color_from_xrgb8888(0xffffff, format);
+> +	return 0;
+> +}
+> +
+> +static int drm_log_count_modeset(struct drm_client_dev *client)
+> +{
+> +	struct drm_mode_set *mode_set;
+> +	int count = 0;
+> +
+> +	mutex_lock(&client->modeset_mutex);
+> +	drm_client_for_each_modeset(mode_set, client)
+> +		count++;
+> +	mutex_unlock(&client->modeset_mutex);
+> +	return count;
+> +}
+> +
+> +static void drm_log_init_client(struct drm_log *dlog)
+> +{
+> +	struct drm_client_dev *client = &dlog->client;
+> +	struct drm_mode_set *mode_set;
+> +	int i, max_modeset;
+> +	int n_modeset = 0;
+> +
+> +	dlog->probed = true;
+> +
+> +	if (drm_client_modeset_probe(client, 0, 0))
+> +		return;
+> +
+> +	max_modeset = drm_log_count_modeset(client);
+> +	if (!max_modeset)
+> +		return;
+> +
+> +	dlog->scanout = kcalloc(max_modeset, sizeof(*dlog->scanout), GFP_KERNEL);
+> +	if (!dlog->scanout)
+> +		return;
+> +
+> +	mutex_lock(&client->modeset_mutex);
+> +	drm_client_for_each_modeset(mode_set, client) {
+> +		if (!mode_set->mode)
+> +			continue;
+> +		if (drm_log_setup_modeset(client, mode_set, &dlog->scanout[n_modeset]))
+> +			continue;
+> +		n_modeset++;
+> +	}
+> +	mutex_unlock(&client->modeset_mutex);
+> +	if (n_modeset == 0)
+> +		goto err_nomodeset;
+> +
+> +	if (drm_client_modeset_commit(client))
+> +		goto err_failed_commit;
+> +
+> +	dlog->n_scanout = n_modeset;
+> +	return;
+> +
+> +err_failed_commit:
+> +	for (i = 0; i < n_modeset; i++)
+> +		drm_client_framebuffer_delete(dlog->scanout[i].buffer);
+> +
+> +err_nomodeset:
+> +	kfree(dlog->scanout);
+> +	dlog->scanout = NULL;
+> +}
+> +
+> +static void drm_log_free_scanout(struct drm_client_dev *client)
+> +{
+> +	struct drm_log *dlog = client_to_drm_log(client);
+> +	int i;
+> +
+> +	if (dlog->n_scanout) {
+> +		for (i = 0; i < dlog->n_scanout; i++)
+> +			drm_client_framebuffer_delete(dlog->scanout[i].buffer);
+> +		dlog->n_scanout = 0;
+> +		kfree(dlog->scanout);
+> +		dlog->scanout = NULL;
+> +	}
+> +}
+> +
+> +static void drm_log_client_unregister(struct drm_client_dev *client)
+> +{
+> +	struct drm_log *dlog = client_to_drm_log(client);
+> +	struct drm_device *dev = client->dev;
+> +
+> +	unregister_console(&dlog->con);
+> +
+> +	mutex_lock(&dlog->lock);
+> +	drm_log_free_scanout(client);
+> +	drm_client_release(client);
+> +	mutex_unlock(&dlog->lock);
+> +	kfree(dlog);
+> +	drm_dbg(dev, "Unregistered with drm log\n");
+> +}
+> +
+> +static int drm_log_client_hotplug(struct drm_client_dev *client)
+> +{
+> +	struct drm_log *dlog = client_to_drm_log(client);
+> +
+> +	mutex_lock(&dlog->lock);
+> +	drm_log_free_scanout(client);
+> +	dlog->probed = false;
+> +	mutex_unlock(&dlog->lock);
+> +	return 0;
+> +}
+> +
+> +static const struct drm_client_funcs drm_log_client_funcs = {
+> +	.owner		= THIS_MODULE,
+> +	.unregister	= drm_log_client_unregister,
+> +	.hotplug	= drm_log_client_hotplug,
+> +};
+> +
+> +static void drm_log_write_thread(struct console *con, struct nbcon_write_context *wctxt)
+> +{
+> +	struct drm_log *dlog = console_to_drm_log(con);
+> +	int i;
+> +
+> +	if (!dlog->probed)
+> +		drm_log_init_client(dlog);
+> +
+> +	for (i = 0; i < dlog->n_scanout; i++)
+> +		drm_log_draw_kmsg_record(&dlog->scanout[i], wctxt->outbuf, wctxt->len);
+> +}
+> +
+> +static void drm_log_lock(struct console *con, unsigned long *flags)
+> +{
+> +	struct drm_log *dlog = console_to_drm_log(con);
+> +
+> +	mutex_lock(&dlog->lock);
+> +	migrate_disable();
+> +}
+> +
+> +static void drm_log_unlock(struct console *con, unsigned long flags)
+> +{
+> +	struct drm_log *dlog = console_to_drm_log(con);
+> +
+> +	migrate_enable();
+> +	mutex_unlock(&dlog->lock);
+> +}
+> +
+> +static void drm_log_register_console(struct console *con)
+> +{
+> +	strscpy(con->name, "drm_log");
+> +	con->write_thread = drm_log_write_thread;
+> +	con->device_lock = drm_log_lock;
+> +	con->device_unlock = drm_log_unlock;
+> +	con->flags = CON_PRINTBUFFER | CON_NBCON;
+> +	con->index = -1;
+> +
+> +	register_console(con);
+> +}
+> +
+> +/**
+> + * drm_log_register() - Register a drm device to drm_log
+> + * @dev: the drm device to register.
+> + */
+> +void drm_log_register(struct drm_device *dev)
+> +{
+> +	struct drm_log *new;
+> +
+> +	new = kzalloc(sizeof(*new), GFP_KERNEL);
+> +	if (!new)
+> +		goto err_warn;
+> +
+> +	mutex_init(&new->lock);
+> +	if (drm_client_init(dev, &new->client, "drm_log", &drm_log_client_funcs))
+> +		goto err_free;
+> +
+> +	drm_client_register(&new->client);
+> +
+> +	drm_log_register_console(&new->con);
+> +
+> +	drm_dbg(dev, "Registered with drm log as %s\n", new->con.name);
+> +	return;
+> +
+> +err_free:
+> +	kfree(new);
+> +err_warn:
+> +	drm_warn(dev, "Failed to register with drm log\n");
+> +}
 
-I have a patch in-flight for genmask at [0].
-
->=20
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
-> rust/kernel/drm/kms.rs        |  27 ++-
-> rust/kernel/drm/kms/atomic.rs | 365 +++++++++++++++++++++++++++++++++-
-> 2 files changed, 386 insertions(+), 6 deletions(-)
->=20
-> diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
-> index e13f35d9e223f..117c97a9e7165 100644
-> --- a/rust/kernel/drm/kms.rs
-> +++ b/rust/kernel/drm/kms.rs
-> @@ -142,6 +142,26 @@ fn mode_config_info(
->=20
->     /// Create mode objects like [`crtc::Crtc`], [`plane::Plane`], =
-etc. for this device
->     fn create_objects(drm: &UnregisteredKmsDevice<'_, Self::Driver>) =
--> Result;
-> +
-> +    /// The optional [`atomic_commit_tail`] callback for this =
-[`Device`].
-> +    ///
-> +    /// It must return a [`CommittedAtomicState`] to prove that it =
-has signaled completion of the hw
-> +    /// commit phase. Drivers may use this function to customize the =
-order in which commits are
-> +    /// performed during the atomic commit phase.
-> +    ///
-> +    /// If not provided, DRM will use its own default atomic commit =
-tail helper
-> +    /// [`drm_atomic_helper_commit_tail`].
-> +    ///
-> +    /// [`CommittedAtomicState`]: atomic::CommittedAtomicState
-> +    /// [`atomic_commit_tail`]: =
-srctree/include/drm/drm_modeset_helper_vtables.h
-> +    /// [`drm_atomic_helper_commit_tail`]: =
-srctree/include/drm/drm_atomic_helpers.h
-> +    fn atomic_commit_tail<'a>(
-> +        state: atomic::AtomicCommitTail<'a, Self::Driver>,
-> +        _modeset_token: atomic::ModesetsReadyToken<'_>,
-> +        _plane_update_token: atomic::PlaneUpdatesReadyToken<'_>
-
-Fyi, I don=E2=80=99t think you ever plan to use any of the arguments =
-here. You can simply bind them to `_` directly:
-
-e.g.:
-
-> +    fn atomic_commit_tail<'a>(
-> +        _: atomic::AtomicCommitTail<'a, Self::Driver>,
-> +        _: atomic::ModesetsReadyToken<'_>,
-> +        _: atomic::PlaneUpdatesReadyToken<'_>
-
-> +    ) -> atomic::CommittedAtomicState<'a, Self::Driver> {
-> +        build_error::build_error("This function should not be =
-reachable")
-> +    }
-> }
-
-
->=20
-> impl<T: Kms> private::KmsImpl for T {
-> @@ -164,7 +184,12 @@ impl<T: Kms> private::KmsImpl for T {
->=20
->         kms_helper_vtable: bindings::drm_mode_config_helper_funcs {
->             atomic_commit_setup: None, // TODO
-> -            atomic_commit_tail: None, // TODO
-> +            atomic_commit_tail:
-> +                if Self::HAS_ATOMIC_COMMIT_TAIL {
-> +                    Some(atomic::commit_tail_callback::<Self>)
-> +                } else {
-> +                    None
-> +                },
->         },
->     });
->=20
-> diff --git a/rust/kernel/drm/kms/atomic.rs =
-b/rust/kernel/drm/kms/atomic.rs
-> index a4354b89b07cc..f9398edbca3d6 100644
-> --- a/rust/kernel/drm/kms/atomic.rs
-> +++ b/rust/kernel/drm/kms/atomic.rs
-> @@ -14,14 +14,14 @@
->     private::Sealed
-> };
-> use core::{
-> -    marker::*,
-> -    ptr::NonNull,
->     cell::Cell,
->     ffi::*,
-> -    slice,
-> -    ops::*,
-> -    mem::ManuallyDrop,
->     iter::Iterator,
-> +    marker::*,
-> +    mem::ManuallyDrop,
-> +    ops::*,
-> +    ptr::NonNull,
-> +    slice
-> };
-> use super::{
->     crtc::*,
-> @@ -372,6 +372,361 @@ pub fn add_affected_planes(&self, crtc: &impl =
-AsRawCrtc<Driver =3D T>) -> Result {
->     }
-> }
->=20
-> +/// A token proving that no modesets for a commit have completed.
-> +///
-> +/// This token is proof that no commits have yet completed, and is =
-provided as an argument to
-> +/// [`Kms::atomic_commit_tail`]. This may be used with
-> +/// [`AtomicCommitTail::commit_modeset_disables`].
-> +pub struct ModesetsReadyToken<'a>(PhantomData<&'a ()>);
-> +
-> +/// A token proving that modeset disables for a commit have =
-completed.
-> +///
-> +/// This token is proof that an implementor's =
-[`Kms::atomic_commit_tail`] phase has finished
-> +/// committing any operations which disable mode objects. It is =
-returned by
-> +/// [`AtomicCommitTail::commit_modeset_disables`], and can be used =
-with
-> +/// [`AtomicCommitTail::commit_modeset_enables`] to acquire a =
-[`EnablesCommittedToken`].
-> +pub struct DisablesCommittedToken<'a>(PhantomData<&'a ()>);
-> +
-> +/// A token proving that modeset enables for a commit have completed.
-> +///
-> +/// This token is proof that an implementor's =
-[`Kms::atomic_commit_tail`] phase has finished
-> +/// committing any operations which enable mode objects. It is =
-returned by
-> +/// [`AtomicCommitTail::commit_modeset_enables`].
-> +pub struct EnablesCommittedToken<'a>(PhantomData<&'a ()>);
-> +
-> +/// A token proving that no plane updates for a commit have =
-completed.
-> +///
-> +/// This token is proof that no plane updates have yet been completed =
-within an implementor's
-> +/// [`Kms::atomic_commit_tail`] implementation, and that we are ready =
-to begin updating planes. It
-> +/// is provided as an argument to [`Kms::atomic_commit_tail`].
-> +pub struct PlaneUpdatesReadyToken<'a>(PhantomData<&'a ()>);
-> +
-> +/// A token proving that all plane updates for a commit have =
-completed.
-> +///
-> +/// This token is proof that all plane updates within an =
-implementor's [`Kms::atomic_commit_tail`]
-> +/// implementation have completed. It is returned by =
-[`AtomicCommitTail::commit_planes`].
-> +pub struct PlaneUpdatesCommittedToken<'a>(PhantomData<&'a ()>);
-> +
-> +/// An [`AtomicState`] interface that allows a driver to control the =
-[`atomic_commit_tail`]
-> +/// callback.
-> +///
-> +/// This object is provided as an argument to =
-[`Kms::atomic_commit_tail`], and represents an atomic
-> +/// state within the commit tail phase which is still in the process =
-of being committed to hardware.
-> +/// It may be used to control the order in which the commit process =
-happens.
-> +///
-> +/// # Invariants
-> +///
-> +/// Same as [`AtomicState`].
-> +///
-> +/// [`atomic_commit_tail`]: =
-srctree/include/drm/drm_modeset_helper_vtables.h
-> +pub struct AtomicCommitTail<'a, T: KmsDriver>(&'a AtomicState<T>);
-> +
-> +impl<'a, T: KmsDriver> AtomicCommitTail<'a, T> {
-> +    /// Commit modesets which would disable outputs.
-> +    ///
-> +    /// This function commits any modesets which would shut down =
-outputs, along with preparing them
-> +    /// for a new mode (if needed).
-> +    ///
-> +    /// Since it is physically impossible to disable an output =
-multiple times, and since it is
-> +    /// logically unsound to disable an output within an atomic =
-commit after the output was enabled
-> +    /// in the same commit - this function requires a =
-[`ModesetsReadyToken`] to consume and returns
-> +    /// a [`DisablesCommittedToken`].
-> +    ///
-> +    /// If compatibility with legacy CRTC helpers is desired, this
-> +    /// should be called before [`commit_planes`] which is what the =
-default commit function does.
-> +    /// But drivers with different needs can group the modeset =
-commits tgether and do the plane
-> +    /// commits at the end. This is useful for drivers doing runtime =
-PM since then plane updates
-> +    /// only happen when the CRTC is actually enabled.
-> +    ///
-> +    /// [`commit_planes`]: AtomicCommitTail::commit_planes
-> +    #[inline]
-> +    #[must_use]
-> +    pub fn commit_modeset_disables<'b>(
-> +        &mut self,
-> +        _token: ModesetsReadyToken<'_>,
-> +    ) -> DisablesCommittedToken<'b> {
-> +        // SAFETY: Both `as_raw()` calls are guaranteed to return =
-valid pointers
-> +        unsafe {
-> +            bindings::drm_atomic_helper_commit_modeset_disables(
-> +                self.0.drm_dev().as_raw(),
-> +                self.0.as_raw()
-> +            )
-> +        }
-> +
-> +        DisablesCommittedToken(PhantomData)
-> +    }
-> +
-> +    /// Commit all plane updates.
-> +    ///
-> +    /// This function performs all plane updates for the given =
-[`AtomicCommitTail`]. Since it is
-> +    /// logically unsound to perform the same plane update more then =
-once in a given atomic commit,
-> +    /// this function requires a [`PlaneUpdatesReadyToken`] to =
-consume and returns a
-> +    /// [`PlaneUpdatesCommittedToken`] to prove that plane updates =
-for the state have completed.
-> +    #[inline]
-> +    #[must_use]
-> +    pub fn commit_planes<'b>(
-> +        &mut self,
-> +        _token: PlaneUpdatesReadyToken<'_>,
-> +        flags: PlaneCommitFlags
-> +    ) -> PlaneUpdatesCommittedToken<'b> {
-> +        // SAFETY: Both `as_raw()` calls are guaranteed to return =
-valid pointers
-> +        unsafe {
-> +            bindings::drm_atomic_helper_commit_planes(
-> +                self.0.drm_dev().as_raw(),
-> +                self.0.as_raw(),
-> +                flags.into()
-> +            )
-> +        }
-> +
-> +        PlaneUpdatesCommittedToken(PhantomData)
-> +    }
-> +
-> +    /// Commit modesets which would enable outputs.
-> +    ///
-> +    /// This function commits any modesets in the given =
-[`AtomicCommitTail`] which would enable
-> +    /// outputs, along with preparing them for their new modes (if =
-needed).
-> +    ///
-> +    /// Since it is logically unsound to enable an output before any =
-disabling modesets within the
-> +    /// same atomic commit have been performed, and physically =
-impossible to enable the same output
-> +    /// multiple times - this function requires a =
-[`DisablesCommittedToken`] to consume and returns
-> +    /// a [`EnablesCommittedToken`] which may be used as proof that =
-all modesets in the state have
-> +    /// been completed.
-> +    #[inline]
-> +    #[must_use]
-> +    pub fn commit_modeset_enables<'b>(
-> +        &mut self,
-> +        _token: DisablesCommittedToken<'_>
-> +    ) -> EnablesCommittedToken<'b> {
-> +        // SAFETY: Both `as_raw()` calls are guaranteed to return =
-valid pointers
-> +        unsafe {
-> +            bindings::drm_atomic_helper_commit_modeset_enables(
-> +                self.0.drm_dev().as_raw(),
-> +                self.0.as_raw()
-> +            )
-> +        }
-> +
-> +        EnablesCommittedToken(PhantomData)
-> +    }
-> +
-> +    /// Fake VBLANK events if needed
-> +    ///
-> +    /// Note that this is still relevant to drivers which don't =
-implement [`VblankSupport`] for any
-> +    /// of their CRTCs.
-> +    ///
-> +    /// TODO: more doc
-> +    ///
-> +    /// [`VblankSupport`]: super::vblank::VblankSupport
-> +    pub fn fake_vblank(&mut self) {
-> +        // SAFETY: `as_raw()` is guaranteed to always return a valid =
-pointer
-> +        unsafe { =
-bindings::drm_atomic_helper_fake_vblank(self.0.as_raw()) }
-> +    }
-> +
-> +    /// Signal completion of the hardware commit step.
-> +    ///
-> +    /// This swaps the atomic state into the relevant atomic state =
-pointers and marks the hardware
-> +    /// commit step as completed. Since this step can only happen =
-after all plane updates and
-> +    /// modesets within an [`AtomicCommitTail`] have been completed, =
-it requires both a
-> +    /// [`EnablesCommittedToken`] and a =
-[`PlaneUpdatesCommittedToken`] to consume. After this
-> +    /// function is called, the caller no longer has exclusive access =
-to the underlying atomic
-> +    /// state. As such, this function consumes the =
-[`AtomicCommitTail`] object and returns a
-> +    /// [`CommittedAtomicState`] accessor for performing post-hw =
-commit tasks.
-> +    pub fn commit_hw_done<'b>(
-> +        self,
-> +        _modeset_token: EnablesCommittedToken<'_>,
-> +        _plane_updates_token: PlaneUpdatesCommittedToken<'_>,
-> +    ) -> CommittedAtomicState<'b, T>
-> +    where
-> +        'a: 'b
-> +    {
-> +        // SAFETY: we consume the `AtomicCommitTail` object, making =
-it impossible for the user to
-> +        // mutate the state after this function has been called - =
-which upholds the safety
-> +        // requirements of the C API allowing us to safely call this =
-function
-> +        unsafe { =
-bindings::drm_atomic_helper_commit_hw_done(self.0.as_raw()) };
-> +
-> +        CommittedAtomicState(self.0)
-> +    }
-> +}
-> +
-> +// The actual raw C callback for custom atomic commit tail =
-implementations
-> +pub(crate) unsafe extern "C" fn commit_tail_callback<T: Kms>(
-> +    state: *mut bindings::drm_atomic_state
-> +) {
-> +    // SAFETY:
-> +    // * We're guaranteed by DRM that `state` always points to a =
-valid instance of
-> +    //   `bindings::drm_atomic_state`
-> +    // * This conversion is safe via the type invariants
-> +    let state =3D unsafe { =
-AtomicState::<T::Driver>::from_raw(state.cast_const()) };
-> +
-> +    T::atomic_commit_tail(
-> +        AtomicCommitTail(state),
-> +        ModesetsReadyToken(PhantomData),
-> +        PlaneUpdatesReadyToken(PhantomData),
-> +    );
-> +}
-> +
-> +/// An [`AtomicState`] which was just committed with =
-[`AtomicCommitTail::commit_hw_done`].
-> +///
-> +/// This object represents an [`AtomicState`] which has been fully =
-committed to hardware, and as
-> +/// such may no longer be mutated as it is visible to userspace. It =
-may be used to control what
-> +/// happens immediately after an atomic commit finishes within the =
-[`atomic_commit_tail`] callback.
-> +///
-> +/// Since acquiring this object means that all modesetting locks have =
-been dropped, a non-blocking
-> +/// commit could happen at the same time an [`atomic_commit_tail`] =
-implementer has access to this
-> +/// object. Thus, it cannot be assumed that this object represents =
-the current hardware state - and
-> +/// instead only represents the final result of the =
-[`AtomicCommitTail`] that was just committed.
-> +///
-> +/// # Invariants
-> +///
-> +/// It may be assumed that [`drm_atomic_helper_commit_hw_done`] has =
-been called as long as this type
-> +/// exists.
-> +///
-> +/// [`atomic_commit_tail`]: Kms::atomic_commit_tail
-> +/// [`drm_atomic_helper_commit_hw_done`]: =
-srctree/include/drm/drm_atomic_helper.h
-> +pub struct CommittedAtomicState<'a, T: KmsDriver>(&'a =
-AtomicState<T>);
-> +
-> +impl<'a, T: KmsDriver> CommittedAtomicState<'a, T> {
-> +    /// Wait for page flips on this state to complete
-> +    pub fn wait_for_flip_done(&self) {
-> +        // SAFETY: `drm_atomic_helper_commit_hw_done` has been called =
-via our invariants
-> +        unsafe {
-> +            bindings::drm_atomic_helper_wait_for_flip_done(
-> +                self.0.drm_dev().as_raw(),
-> +                self.0.as_raw()
-> +            )
-> +        }
-> +    }
-> +}
-> +
-> +impl<'a, T: KmsDriver> Drop for CommittedAtomicState<'a, T> {
-> +    fn drop(&mut self) {
-> +        // SAFETY:
-> +        // * This interface represents the last atomic state accessor =
-which could be affected as a
-> +        //   result of resources from an atomic commit being cleaned =
-up.
-> +        unsafe {
-> +            bindings::drm_atomic_helper_cleanup_planes(
-> +                self.0.drm_dev().as_raw(),
-> +                self.0.as_raw()
-> +            )
-> +        }
-> +    }
-> +}
-> +
-> +/// An enumerator representing all the possible flags in a =
-[`PlaneCommitFlags`] mask
-> +///
-> +/// This is a non-exhaustive list, as the C side could add more =
-later.
-> +///
-> +/// TODO: this idea kinda sick we should add some macros for this :3c
-
-
-IMHO you should follow the same style as the Alloc code.
-
-This includes a separate `flags` module.
-
-> +#[derive(Copy, Clone, PartialEq, Eq)]
-> +#[repr(u32)]
-> +pub enum PlaneCommitFlag {
-> +    ActiveOnly =3D (1 << 0),
-> +    NoDisableAfterModeset =3D (1 << 1),
-> +}
-> +
-> +impl BitOr for PlaneCommitFlag {
-> +    type Output =3D PlaneCommitFlags;
-> +
-> +    fn bitor(self, rhs: Self) -> Self::Output {
-> +        PlaneCommitFlags(self as u32 | rhs as u32)
-> +    }
-> +}
-> +
-> +impl BitOr<PlaneCommitFlags> for PlaneCommitFlag {
-> +    type Output =3D PlaneCommitFlags;
-> +
-> +    fn bitor(self, rhs: PlaneCommitFlags) -> Self::Output {
-> +        PlaneCommitFlags(self as u32 | rhs.0)
-> +    }
-> +}
-> +
-> +/// A bitmask for controlling the behavior of =
-[`AtomicCommitTail::commit_planes`]
-> +///
-> +/// This corresponds to the `DRM_PLANE_COMMIT_*` flags on the C side. =
-Note that this bitmask does
-> +/// not discard unknown values in order to ensure that adding new =
-flags on the C side of things does
-> +/// not break anything in the future.
-> +#[derive(Copy, Clone, Default, PartialEq, Eq)]
-> +pub struct PlaneCommitFlags(u32);
-> +
-> +impl From<PlaneCommitFlag> for PlaneCommitFlags {
-> +    fn from(value: PlaneCommitFlag) -> Self {
-> +        Self(value as u32)
-> +    }
-> +}
-> +
-> +impl From<PlaneCommitFlags> for u32 {
-> +    fn from(value: PlaneCommitFlags) -> Self {
-> +        value.0
-> +    }
-> +}
-> +
-> +impl BitOr for PlaneCommitFlags {
-> +    type Output =3D Self;
-> +
-> +    fn bitor(self, rhs: Self) -> Self::Output {
-> +        Self(self.0 | rhs.0)
-> +    }
-> +}
-> +
-> +impl BitOrAssign for PlaneCommitFlags {
-> +    fn bitor_assign(&mut self, rhs: Self) {
-> +        *self =3D *self | rhs
-> +    }
-> +}
-> +
-> +impl BitAnd for PlaneCommitFlags {
-> +    type Output =3D PlaneCommitFlags;
-> +
-> +    fn bitand(self, rhs: Self) -> Self::Output {
-> +        Self(self.0 & rhs.0)
-> +    }
-> +}
-> +
-> +impl BitAndAssign for PlaneCommitFlags {
-> +    fn bitand_assign(&mut self, rhs: Self) {
-> +        *self =3D *self & rhs
-> +    }
-> +}
-> +
-> +impl BitOr<PlaneCommitFlag> for PlaneCommitFlags {
-> +    type Output =3D Self;
-> +
-> +    fn bitor(self, rhs: PlaneCommitFlag) -> Self::Output {
-> +        self | Self::from(rhs)
-> +    }
-> +}
-> +
-> +impl BitOrAssign<PlaneCommitFlag> for PlaneCommitFlags {
-> +    fn bitor_assign(&mut self, rhs: PlaneCommitFlag) {
-> +        *self =3D *self | rhs
-> +    }
-> +}
-> +
-> +impl BitAnd<PlaneCommitFlag> for PlaneCommitFlags {
-> +    type Output =3D PlaneCommitFlags;
-> +
-> +    fn bitand(self, rhs: PlaneCommitFlag) -> Self::Output {
-> +        self & Self::from(rhs)
-> +    }
-> +}
-> +
-> +impl BitAndAssign<PlaneCommitFlag> for PlaneCommitFlags {
-> +    fn bitand_assign(&mut self, rhs: PlaneCommitFlag) {
-> +        *self =3D *self & rhs
-> +    }
-> +}
-> +
-> +impl PlaneCommitFlags {
-> +    /// Create a new bitmask
-> +    fn new() -> Self {
-> +        Self::default()
-> +    }
-> +
-> +    /// Check if the bitmask has the given commit flag set
-> +    fn has(&self, flag: PlaneCommitFlag) -> bool {
-> +        *self & flag =3D=3D flag.into()
-> +    }
-> +}
-> +
-> /// An iterator which goes through each DRM plane currently in an =
-atomic state.
-> ///
-> /// Note that this iterator will return [`OpaquePlane`]s, because it's =
-entirely possible for a
-> --=20
-> 2.46.1
->=20
->=20
-
-=E2=80=94 Daniel
-
-[0] =
-https://lore.kernel.org/all/20241024-topic-panthor-rs-genmask-v2-1-85237c1=
-f0cea@collabora.com/
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
