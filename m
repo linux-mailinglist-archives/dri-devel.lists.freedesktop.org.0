@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1C29E4E43
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 08:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B009E4E4C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 08:28:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDA8310E159;
-	Thu,  5 Dec 2024 07:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36BA10EDB5;
+	Thu,  5 Dec 2024 07:28:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M5t80+72";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TWT2MG99";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B021410E159
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 07:27:21 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDDF610EDB5
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 07:28:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7568BA420C4;
- Thu,  5 Dec 2024 07:25:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E161EC4CED1;
- Thu,  5 Dec 2024 07:27:10 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 02DB95C6FF6;
+ Thu,  5 Dec 2024 07:28:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DAF0C4CED1;
+ Thu,  5 Dec 2024 07:28:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733383640;
- bh=SuJc6mzm5VsH730y7QpEg/itX9dQOpdmKNjQ5iekAEc=;
+ s=k20201202; t=1733383723;
+ bh=d9RVmBnjc+7Rz3EcXgbJd1R8pcShtevZX/vVfoCaVQU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=M5t80+72qrafHWqFAajm0rw62IqA0kCmRHbuEeFgDKgb7NzLNU+ZFygAdw36lJ2HN
- izmCMVJxN58ymkwAM4bmE0WEe8URuFA7696Z+R06mQBreOwGJKclSRxiUVJPRAyC/N
- w8vCIM4ZQDN9jM1QjL+ZNKlv225yri3B2UuHd0eGImvsUnDGhbtKhZrRKZ3v47cqBk
- FC540Tyhq7Df7JOxguYxR95MAY/kO6TysgQksysPC/MUY/v5X2mC/sOp3xEiAOQufx
- AlHo/BR77b7UX3EkZ2IDPMJyfOScZV/zRTAUZ9LMvWJVKAYClolkG2SxJMinrZTyzY
- CE+QRhiLlgb9A==
-Message-ID: <9c6d9a42-78e8-4cf0-9591-c3d009fee582@kernel.org>
-Date: Thu, 5 Dec 2024 08:27:08 +0100
+ b=TWT2MG99jaEORtLsTyEL3B9M/HfBcFMyu2Bev/rYVVZCVc6ioluM1uxEhxbTGBdJu
+ +MFp2D9GDPlS/S58wskAkM0Fg0LDVM3e7hjxlEjx7mbqf+ORRlg/J/xlwmHXBkXjn8
+ CZRFnAsyvbI0CL84iO4OoH1EXf/WDJGUhCNDSsfQ1YcOD4YrcK15BWYUUDJxRdN0Sa
+ 8KaAZnE/oAy6cWdLIqFWqoLx2r7UcRw0/cbVFqwPIK8RfKgZVQSFmQepxQhvmbHBqW
+ Hyxho/G7aVGP6z2ujouWY/iBGV+4m/infSyrmY/++9sJ9lnoiVr31Q8+JA7KHhNCeN
+ vhmoY2TLiGnfg==
+Message-ID: <2842aa7b-e369-4c80-b651-a3a9b09d17ff@kernel.org>
+Date: Thu, 5 Dec 2024 08:28:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH v1 05/14] dt-bindings: clock: thead,th1520: Add
  support for Video Output subsystem
-To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- frank.binns@imgtec.com, matt.coster@imgtec.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
- jszhang@kernel.org, m.szyprowski@samsung.com
+To: Stephen Boyd <sboyd@kernel.org>,
+ Michal Wilczynski <m.wilczynski@samsung.com>, airlied@gmail.com,
+ aou@eecs.berkeley.edu, conor+dt@kernel.org, drew@pdp7.com,
+ frank.binns@imgtec.com, guoren@kernel.org, jassisinghbrar@gmail.com,
+ jszhang@kernel.org, krzk+dt@kernel.org, m.szyprowski@samsung.com,
+ maarten.lankhorst@linux.intel.com, matt.coster@imgtec.com,
+ mripard@kernel.org, mturquette@baylibre.com, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, robh@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de, ulf.hansson@linaro.org, wefu@redhat.com
 Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
@@ -52,6 +53,7 @@ References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
  <20241203134137.2114847-6-m.wilczynski@samsung.com>
  <f21ffd12-167b-4d10-9017-33041ec322b0@kernel.org>
  <07bfb02a-1df3-4a03-83bb-d7edc540739d@samsung.com>
+ <1b05b11b2a8287c0ff4b6bdd079988c7.sboyd@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <07bfb02a-1df3-4a03-83bb-d7edc540739d@samsung.com>
+In-Reply-To: <1b05b11b2a8287c0ff4b6bdd079988c7.sboyd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,151 +117,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2024 11:11, Michal Wilczynski wrote:
-> 
-> 
-> On 12/3/24 16:45, Krzysztof Kozlowski wrote:
->> On 03/12/2024 14:41, Michal Wilczynski wrote:
->>> The device tree bindings for the T-Head TH1520 SoC clocks currently
->>> support only the Application Processor (AP) subsystem. This commit
->>> extends the bindings to include the Video Output (VO) subsystem clocks.
->>>
->>> Update the YAML schema to define the VO subsystem clocks, allowing the
->>> clock driver to configure and manage these clocks appropriately. This
->>> addition is necessary to enable the proper operation of the video output
->>> features on the TH1520 SoC.
->>>
->>> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->>> ---
->>>  .../bindings/clock/thead,th1520-clk-ap.yaml   | 31 +++++++++++++++----
->>>  1 file changed, 25 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->>> index 4a0806af2bf9..5a8f1041f766 100644
->>> --- a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->>> +++ b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
->>> @@ -4,11 +4,13 @@
->>>  $id: https://protect2.fireeye.com/v1/url?k=f595e769-941ef222-f5946c26-74fe485fb305-6d0b73471bbfc1a2&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=http%3A%2F%2Fdevicetree.org%2Fschemas%2Fclock%2Fthead%2Cth1520-clk-ap.yaml%23
->>>  $schema: https://protect2.fireeye.com/v1/url?k=5b94114b-3a1f0400-5b959a04-74fe485fb305-0e2c50f5c24cf3e9&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=http%3A%2F%2Fdevicetree.org%2Fmeta-schemas%2Fcore.yaml%23
->>>  
->>> -title: T-HEAD TH1520 AP sub-system clock controller
->>> +title: T-HEAD TH1520 sub-systems clock controller
->>>  
->>>  description: |
->>> -  The T-HEAD TH1520 AP sub-system clock controller configures the
->>> -  CPU, DPU, GMAC and TEE PLLs.
->>> +  The T-HEAD TH1520 sub-systems clock controller configures the
->>> +  CPU, DPU, GMAC and TEE PLLs for the AP subsystem. For the VO
->>> +  subsystem clock gates can be configured for the HDMI, MIPI and
->>> +  the GPU.
->>>  
->>>    SoC reference manual
->>>    https://protect2.fireeye.com/v1/url?k=cceb6120-ad60746b-cceaea6f-74fe485fb305-b294b70f1b52a5ab&q=1&e=6b918e4d-d81f-4b44-8516-776d7b4f9dae&u=https%3A%2F%2Fopenbeagle.org%2Fbeaglev-ahead%2Fbeaglev-ahead%2F-%2Fblob%2Fmain%2Fdocs%2FTH1520%2520System%2520User%2520Manual.pdf
->>> @@ -20,7 +22,9 @@ maintainers:
->>>  
->>>  properties:
->>>    compatible:
->>> -    const: thead,th1520-clk-ap
->>> +    enum:
->>> +      - thead,th1520-clk-ap
->>> +      - thead,th1520-clk-vo
->>>  
->>>    reg:
->>>      maxItems: 1
->>> @@ -29,6 +33,17 @@ properties:
->>>      items:
->>>        - description: main oscillator (24MHz)
->>>  
->>> +  thead,vosys-regmap:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description: |
->>> +      Phandle to a syscon node representing the shared register
->>> +      space of the VO (Video Output) subsystem. This register space
->>> +      includes both clock control registers and other control
->>> +      registers used for operations like resetting the GPU. Since
+On 04/12/2024 21:21, Stephen Boyd wrote:
+>>> No, that's a clear NAK. You claim you have no address space but in the
+>>> same time you have address space via regmap.
 >>
+>> I see your concern. The VOSYS subsystem's address space includes
+>> registers for various components, such as clock gates and reset
+>> controls, which are scattered throughout the address space as specified
+>> in the manual 4.4.1 [2]. Initially, I attempted to use a shared syscon
+>> regmap for access, but I realize this might not be the best approach.
 >>
->> It seems you wanted to implement reset controller...
+>> To address this, I'll specify the 'reg' property in each node to define
+>> the address ranges explicitly fragmenting the address space for the VOSYS
+>> manually.
+>>
+>> vosys_clk: clock-controller@ffef528050 {
+>>         compatible = "thead,th1520-clk-vo";
+>>         reg = <0xff 0xef528050 0x0 0x8>;
+>>         #clock-cells = <1>;
+>> };
+>>
+>> pd: power-domain@ffef528000 {
+>>         compatible = "thead,th1520-pd";
+>>         reg = <0xff 0xef528000 0x0 0x8>;
+>>         #power-domain-cells = <1>;
+>> };
 > 
-> Thank you for your feedback.
+> You should have one node:
 > 
-> I understand your concern about the reset controller. In the TH1520 SoC,
-> the GPU doesn't have its own reset controller. Instead, its reset is
-> managed through the power domain's registers as part of the power-up
-> sequence.
-> 
-> According to the Video Image Processing Manual 1.4.1 [1], the GPU
-> requires the following steps to power up:
-> 
-> 1) Enable the GPU clock gate.
-> 2) After 32 core clock cycles, release the GPU soft reset
-> 
-> Since these steps are closely tied to power management, I implemented
-> the reset functionality within the power-domain driver.
-> 
-> Because the GPU doesn't support the resets property, introducing a reset
-> controller wouldn't align with the existing device tree well.
+>     clock-controller@ffef528000 {
+>       compatible = "thead,th1520-vo";
+>       reg = <0xff 0xef528050 0x0 0x1a04>;
 
-So add resets to GPU. You said here that VO has reset registers, so it
-should be a reset controller.
+Yes, obviously, but probably entire block:
 
-> 
-> [1] - https://openbeagle.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20Video%20Image%20Processing%20User%20Manual.pdf
->>
->>> +      these registers reside in the same address space, access to
->>> +      them is coordinated through a shared syscon regmap provided by
->>> +      the specified syscon node.
->>
->> Drop last sentence. syscon regmap is a Linux term, not hardware one.
->>
->> Anyway, this needs to be constrained per variant.
->>
->>> +
->>>    "#clock-cells":
->>>      const: 1
->>>      description:
->>> @@ -36,8 +51,6 @@ properties:
->>>  
->>>  required:
->>>    - compatible
->>> -  - reg
->>
->> No, that's a clear NAK. You claim you have no address space but in the
->> same time you have address space via regmap.
-> 
-> I see your concern. The VOSYS subsystem's address space includes
-> registers for various components, such as clock gates and reset
-> controls, which are scattered throughout the address space as specified
-> in the manual 4.4.1 [2]. Initially, I attempted to use a shared syscon
-> regmap for access, but I realize this might not be the best approach.
+<0xff 0xef528000 0x0 0x1000>;
 
-No, you miss the point of how device nodes are supposed to look like.
-Don't bring your driver architecture here.
+>       #clock-cells = <1>;
+>       #power-domain-cells = <1>;
+>     };
 
-You cannot have regmap/syscon if you do not have reg. Your VOSYS is a
-clock, reset and whatever-provider. Your power domain - if it does not
-have reg - just does not exist. There is no such device and we do not
-care if you have such device DRIVER.
-
-> 
-> To address this, I'll specify the 'reg' property in each node to define
-> the address ranges explicitly fragmenting the address space for the VOSYS
-> manually.
-> 
-> vosys_clk: clock-controller@ffef528050 {
-> 	compatible = "thead,th1520-clk-vo";
-> 	reg = <0xff 0xef528050 0x0 0x8>;
-> 	#clock-cells = <1>;
-> };
-> 
-> pd: power-domain@ffef528000 {
-> 	compatible = "thead,th1520-pd";
-> 	reg = <0xff 0xef528000 0x0 0x8>;
-> 	#power-domain-cells = <1>;
-> };
-
-I don't think you really get the point here. Clock controllers and power
-domains per one clock or domain are also a no-go.
 
 Best regards,
 Krzysztof
