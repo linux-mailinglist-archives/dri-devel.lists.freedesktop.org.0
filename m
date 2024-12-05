@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180DA9E82C2
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 00:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9360B9E82C4
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 00:46:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDCC310E506;
-	Sat,  7 Dec 2024 23:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D5BC10E637;
+	Sat,  7 Dec 2024 23:46:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="DIQKZN4N";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="NV8W7gCn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out.smtpout.orange.fr (out-11.smtpout.orange.fr [193.252.22.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E72C210E1F6;
- Fri,  6 Dec 2024 23:42:10 +0000 (UTC)
-Received: from mail-ed1-f45.google.com ([209.85.208.45])
+Received: from out.smtpout.orange.fr (out-16.smtpout.orange.fr [193.252.22.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E26F210E640;
+ Sat,  7 Dec 2024 16:33:39 +0000 (UTC)
+Received: from mail-ej1-f43.google.com ([209.85.218.43])
  by smtp.orange.fr with ESMTPSA
- id JhxYtSrPmagYUJhxYt272k; Sat, 07 Dec 2024 00:42:08 +0100
+ id JxkPtxgHPOZ7nJxkQtzcNr; Sat, 07 Dec 2024 17:33:38 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1733528528;
- bh=y8D8qHkNTgsq/hueRr7hAF5ECQldq13KAVXg/Zr3BLA=;
+ s=t20230301; t=1733589218;
+ bh=EDV0uoUPSeCM4ycVbpiYzkI+GBIJXljO1W7VncV40gg=;
  h=MIME-Version:From:Date:Message-ID:Subject:To;
- b=DIQKZN4N1tG5kIETufS6VciJ5rA1lbylGpeGGxllZWRAwIeeqD0VmS7Y9ehLeIVBs
- ImFgKbWnwl1aTcVcWCjtKFvH8NQ1lFr7UZhx9xtB543JddN+hr2Tvde4S+EBRcqifB
- hWpoxUvXihD53FwPfq2zFr1BGW2BSiTW8QYeqDDpErRh2Zmw7cUdnytOWElMixEiV5
- hHZ+cgAnkswvorGk+UNOxES/cYA33MbWLIV7WNeqqAeaCdwXNAINVkTKrGkrBtZf7r
- JEaUxCNhFd7WLi9rHiuVZlmizuYkemkhswv2SU9pDYiltUuI7EACsYy/owQoeTS53Y
- NPXv/cz3zDXLQ==
-X-ME-Helo: mail-ed1-f45.google.com
+ b=NV8W7gCn9oe/rL7MffkNOyoC+JVA07dJ8CtXAqGO01FxcpxpnPglRt1FM55fvOYgm
+ wlzDPe6VvGoTVnLIsArQtK8gzApCZwPk8uKo94lvvsRFqT6tHpa5A+mwzgm/+UYUHH
+ 9gPJSo5BvYq0cNTD+DYrWPGrjBLUvQfeB2/BfTJ2ss/kpRYuiirSjTotvhrTuD/PN2
+ QIcz7jQxOdkqkTRz5lrKSHeKYJx+9reNQkTQL948+r0Xyg6nitKvd2zYKfcA6BL8sB
+ 4HGNcm1zJ4O5zDVxFQ/tqrM/pfqlZOS8qzFCcFyBWJX1eNOmhaA5QeV15VbR/BR/vz
+ wTmIHH8MH4fBQ==
+X-ME-Helo: mail-ej1-f43.google.com
 X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 07 Dec 2024 00:42:08 +0100
-X-ME-IP: 209.85.208.45
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5cf6f367f97so3717479a12.0; 
- Fri, 06 Dec 2024 15:42:08 -0800 (PST)
+X-ME-Date: Sat, 07 Dec 2024 17:33:38 +0100
+X-ME-IP: 209.85.218.43
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-aa647af6804so178371066b.1; 
+ Sat, 07 Dec 2024 08:33:38 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU95dgD5pLmWnXlHhGTLAG5oqWaDRpz7LTREkO7AlDVVj9f207E/Xv/k3lGT2ovfATj4dEV+5O8CVQe@lists.freedesktop.org,
- AJvYcCUqGuU/myvSI2mV652Q5wekaL/RUvnFeQiI6mUcciL18cLmHA3c7swRZh5POAyBZt2KRmwLvXGM7Z8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+ggF95gHBkAMcGhl0cHYEEfyVyIZxOxaknlDjwBOpEMg6OCUP
- sbXE5ZZheNZnbUypsVTCdr+7u1yRBulrToSl3hkc7Ucqi3pmeQdl+4BKSQoqszDJ0G/rJxCuVs2
- FpnpSMXs7+QDluNvmyTBYuBeQHDY=
-X-Google-Smtp-Source: AGHT+IFZAC0AEpJ1/mPjmzfGhg/DetDbHXis2ssNehZ0yWdtCmcXanGc2R7Dja3wTy2rdkW6SAY6SvJBqtErDk3coGc=
-X-Received: by 2002:a17:906:3295:b0:aa5:28af:f0e with SMTP id
- a640c23a62f3a-aa5f7d4edd1mr1018856966b.15.1733413793948; Thu, 05 Dec 2024
- 07:49:53 -0800 (PST)
+ AJvYcCVSXY1v5grG4+dAhFJ1w1V+qeKBKzMJmByAzVe1eBfi7wx8Hs8HiK9Cr+LFbj30V4M0+OmqzNW7cJ6t@lists.freedesktop.org,
+ AJvYcCVvAspyxJa917UzoejUkkEV/JhzZ3bzlrrKuwA6E9e+yKRYwrz05QXun5kKxKueT6/V6guWiFzzaZ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxafH+shgTu3acOjAWoI9OnwT+mYrvsecz3qjwLp4QKhVak+kl1
+ HlDPgHSK26AqJPCKupvbNg5k2V9KUZT6Gj500yipeUgQIoVx5KrRfP9xGOe5KUu4AHGsl5KChaY
+ i3Er1d+OrkSYRy+NLNHT3JbZtS0k=
+X-Google-Smtp-Source: AGHT+IEENKH5q363NsvaDS9r/FGBH4NT8jK2UDZzhmMDEw1YQ0vbbHzKVnWBLQ5cMhIKh2zINR9br+tBOM6tHUnfBmY=
+X-Received: by 2002:a17:907:7759:b0:a99:5f45:cb69 with SMTP id
+ a640c23a62f3a-aa6202f3295mr391454866b.4.1733413951191; Thu, 05 Dec 2024
+ 07:52:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
- <20241203-is_constexpr-refactor-v1-4-4e4cbaecc216@wanadoo.fr>
- <dff4cdd543104e3792e4856375f310c1@AcuMS.aculab.com>
-In-Reply-To: <dff4cdd543104e3792e4856375f310c1@AcuMS.aculab.com>
+ <20241203-is_constexpr-refactor-v1-5-4e4cbaecc216@wanadoo.fr>
+ <8b8262389bd6484586007d749132346f@AcuMS.aculab.com>
+In-Reply-To: <8b8262389bd6484586007d749132346f@AcuMS.aculab.com>
 From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Date: Fri, 6 Dec 2024 00:49:43 +0900
-X-Gmail-Original-Message-ID: <CAMZ6RqLsiOF=5FZ=U2MtZ01iBYKZHtfZ5Zi4t3m=L5Oc4EPHGg@mail.gmail.com>
-Message-ID: <CAMZ6RqLsiOF=5FZ=U2MtZ01iBYKZHtfZ5Zi4t3m=L5Oc4EPHGg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] linux/bits.h: simplify GENMASK_INPUT_CHECK() by
- using is_const_true()
+Date: Fri, 6 Dec 2024 00:52:20 +0900
+X-Gmail-Original-Message-ID: <CAMZ6RqJPvbSr5i8N4Dm=2N6D8uSzefCM3TyK8HBNNNrybo5f2Q@mail.gmail.com>
+Message-ID: <CAMZ6RqJPvbSr5i8N4Dm=2N6D8uSzefCM3TyK8HBNNNrybo5f2Q@mail.gmail.com>
+Subject: Re: [PATCH 05/10] minmax: simplify __clamp_once() by using
+ is_const_false()
 To: David Laight <David.Laight@aculab.com>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
  Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
@@ -98,25 +98,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu. 5 Dec 2024 at 03:52, David Laight <David.Laight@aculab.com> wrote:
+On Thu. 5 Dec. 2024 at 03:54, David Laight <David.Laight@aculab.com> wrote:
 > From: Vincent Mailhol
 > > Sent: 02 December 2024 17:33
 > >
-> >   __builtin_choose_expr(__is_constexpr((l) > (h)), (l) > (h), 0)
+> > In __clamp_once(),
+> >
+> >   __builtin_choose_expr(__is_constexpr((lo) > (hi)), (lo) <= (hi), true)
 > >
 > > is equivalent to:
 > >
-> >   is_const_true((l) > (h))
+> >   !is_const_false((lo) <= (hi))
+> >
+> > Apply is_const_false() to simplify __clamp_once().
 >
-> Change it to BUILD_BUG_ON_MSG(statically_true((l) < (h)), "error message")
->
-> and then fix all the fallout :-)
+> There is already a patch 'for next' that changes it use BUILD_BUG_ON_MSG()
+> and statically_true().
 
-BUILD_BUG_ON_MSG() is not suitable for GENMASK_INPUT_CHECK. We need
-one of the variants that returns zero here.
+Found it!
 
-But I agree that it is good to have a more meaningful error message
-here. I will use __BUILD_BUG_ON_ZERO_MSG() in v2.
+  https://lore.kernel.org/all/34d53778977747f19cce2abb287bb3e6@AcuMS.aculab.com/
+
+I think the easiest would be for me to cherry pick this patch. So that
+regardless which series is merged first, no conflict will occur, the
+patch will just be skipped the second time it is encountered.
+
+Does this work for you?
 
 
 Yours sincerely,
