@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D8A9E4D35
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 06:14:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458BF9E4D36
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 06:15:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 514F610E384;
-	Thu,  5 Dec 2024 05:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2D10ED99;
+	Thu,  5 Dec 2024 05:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pnkiwiOf";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a5qNp1cH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2041.outbound.protection.outlook.com [40.107.100.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBE7110E384
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 05:14:41 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C147E10ED99
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 05:15:33 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GjUsrVVM+Kxvi3f85VjhdEY5d1TOP5mhAIdpBOY3pYj7vLyaw7m1I/pSA3TTqH98xUIzFxWbin4OK5qpKQn2Q+uc/AiK3bdRIuHD64aeBCeGLIp44iTL5fVjEoJfEKbdqjC2E69qZGvoH8s1oJoaZf+0aS9QwFO99rPoKceORo++09I6IbAVBOhqUVOx7VR/xn6lIsfzcSd12qYZsx6P1vDP+5FmRnbUJwL2p0tBieHntSqYOtKhYwrDhQ2YzXDCRPuYpHfJwdFRQHunqPv4CmWsudA1gLxIPtwNOAh+UuRvl7uWnJuGPtNzAO8NE/5tmW6bAfN8r9X1I54EgGDM5Q==
+ b=Tho+fuoswcbd11dCGd69G+GOahKIXeLFwHqVsxf4/S0MCkWclau/cxTYb/IRW5SCalxMjMlqVrJfKi3IRs0RhZcmsUQfeBnTzVFoAbFAjVL4xYLm9dxqXfqqWDgomf2F3xdGqA2glWe8j9IIXnR3KNflcU09QTWq8n+tlRvBdnQM9Mq9/lUv4EH+E0Fv0koX19KpyMIsNXUkcGZdOrfTk41wCAvmT0vjblA21P1B+iVBqQ+LKFDm8Y+HpgasRDnCLpCkefD4pK2lOKg/5yfQ+pOMkZts3zOh66E2pMIASrCVfh/GEk8o1hN8hOUO2k9WLKkXh5vf5mfWrqi2Bc2/Tg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NHUuIezHA9lRAxfqwCSt7QcFPFI728tChcboZ4jqCEE=;
- b=jP+zjKuUD0VYxyh70C9k8X3YBm6HHs0ZlccrJcNjaZgStXXPYV2qC1y9i9XNnCKV63KgQMzE3qVAGJ2LfRlMpegwamrvksy+pxv4JGqSiZcoRIa1cTepJ5Z9AZsPEvAhaq0u4puQfUgREWwG+e0e7dSA1y8bDoJKHrRpFnaf2QBSx3iu5ju9hqFfGGoQS2yPyVJ647ezGnHRIgY03SJARC56ERJZd9g6JOOqCl9kxfuqE1BIIFz4De3W0Xu+gcvEb8wOrYURSBMQFYsICoSh1Feen8207m7iiUAqZs1Lm2YWXVw4D9VM2KGFrAdnvrZ5Eh6RoKBTDBn6yrNlifgX/Q==
+ bh=ysoZTrNM2hasf/TRq4G2a4Pfqt7pCGNTCdMe08VHRVg=;
+ b=Y2w5Nxh0QAkPDFjhJWiehdXG6+rwfpB2RLFw4YxglPNMxuwomLQy8mSjDHxea8/mOJ3W1VWiqRT5N8qPSBEvpD77tTerhmzWDKEKFpjgGJaFpKDrf/eKLr9sQHtdQ8686QYm5pjsLSaC+ilTaOtaylU3WdbBlXOSSpVGCygR9AMYwUXx2Xo6rJ5Ysuc9EivL0KEXwr2QIM7iGRVyI22c8mIp8EjztWqoJg6ckxKegDQS5+Vy49MYRIMRTucwcETp017jUa6qYscB9/ofLSvYTKkAq64hcKq+T7erED7lcg6dZvX8ShMQII9BhVIrcUA6yu2vfFq6OfPN89HfBrP+rg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NHUuIezHA9lRAxfqwCSt7QcFPFI728tChcboZ4jqCEE=;
- b=pnkiwiOfEOTMASvWDFf3gfBJ3kS0KJCGsFScu/203PrtV5nTfJrcZnWX/SofOHF22ICpstlrsdA5cJRyrAMB23lCefgCfqzSAGJDawggcZc9crSCivYYj4r2hGN05rLo4u8w10ONVompT8+ZyEof/ENqLe95lTLMZkTyHhjLdM0=
-Received: from DM6PR06CA0067.namprd06.prod.outlook.com (2603:10b6:5:54::44) by
- SA1PR12MB8987.namprd12.prod.outlook.com (2603:10b6:806:386::22) with
+ bh=ysoZTrNM2hasf/TRq4G2a4Pfqt7pCGNTCdMe08VHRVg=;
+ b=a5qNp1cHFKJC+G0NsjHwy0ODTlXFS7llkLPLR0E5hA7CRfgt4UublJTNm0vulMmPdJYv77LiJit6jIa2pQETt52D+OStE5D2sdHjTUbZxetlamNK9lvER3E1LfBMa63Qne2j0RyB9WbRsLtiWSB1/SZbHJJEUYfwRfraTtEC9FU=
+Received: from DM6PR06CA0069.namprd06.prod.outlook.com (2603:10b6:5:54::46) by
+ SN7PR12MB7787.namprd12.prod.outlook.com (2603:10b6:806:347::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Thu, 5 Dec
- 2024 05:14:35 +0000
-Received: from DS2PEPF0000343F.namprd02.prod.outlook.com
- (2603:10b6:5:54:cafe::d4) by DM6PR06CA0067.outlook.office365.com
- (2603:10b6:5:54::44) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Thu, 5 Dec
+ 2024 05:15:28 +0000
+Received: from DS2PEPF0000343B.namprd02.prod.outlook.com
+ (2603:10b6:5:54:cafe::75) by DM6PR06CA0069.outlook.office365.com
+ (2603:10b6:5:54::46) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.9 via Frontend Transport; Thu, 5
- Dec 2024 05:14:35 +0000
+ Dec 2024 05:15:28 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,91 +48,93 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS2PEPF0000343F.mail.protection.outlook.com (10.167.18.42) with Microsoft
+ DS2PEPF0000343B.mail.protection.outlook.com (10.167.18.38) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8230.7 via Frontend Transport; Thu, 5 Dec 2024 05:14:35 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ 15.20.8230.7 via Frontend Transport; Thu, 5 Dec 2024 05:15:27 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 4 Dec
- 2024 23:14:34 -0600
+ 2024 23:15:27 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 4 Dec
+ 2024 23:15:27 -0600
 Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 4 Dec 2024 23:14:33 -0600
-Message-ID: <7741c649-3897-fabb-ee1c-e12c62e4ccfa@amd.com>
-Date: Wed, 4 Dec 2024 21:14:24 -0800
+ Transport; Wed, 4 Dec 2024 23:15:26 -0600
+Message-ID: <b354b25a-219b-70d6-3626-bd2137edfaf6@amd.com>
+Date: Wed, 4 Dec 2024 21:15:26 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH V1 5/7] accel/amdxdna: Add query firmware version
+Subject: Re: [PATCH V1 1/7] accel/amdxdna: Add device status for aie2 devices
 Content-Language: en-US
 To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
  <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>
 CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
  <sonal.santan@amd.com>, <king.tam@amd.com>
 References: <20241204213729.3113941-1-lizhi.hou@amd.com>
- <20241204213729.3113941-6-lizhi.hou@amd.com>
- <4f233efa-8269-4f6f-bd22-0dcf2810c4ab@amd.com>
+ <20241204213729.3113941-2-lizhi.hou@amd.com>
+ <e551fe89-6e39-4393-9e50-cae4a819e947@amd.com>
 From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <4f233efa-8269-4f6f-bd22-0dcf2810c4ab@amd.com>
+In-Reply-To: <e551fe89-6e39-4393-9e50-cae4a819e947@amd.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343F:EE_|SA1PR12MB8987:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8c20750-978c-48cc-8969-08dd14ebb5a8
+X-MS-TrafficTypeDiagnostic: DS2PEPF0000343B:EE_|SN7PR12MB7787:EE_
+X-MS-Office365-Filtering-Correlation-Id: 27c28efa-ba7f-4c98-ee0b-08dd14ebd509
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|36860700013|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SWFOc1NpOWE1bTQxeGlVcnZBRXRZSFN1ZFR3L0Vxckw5cE92ajF0U3BYR0ZL?=
- =?utf-8?B?NnVUdlp2ZHNuWHNXcytnMWV0T1BpeVQ4Rjg3Tmx3OGcvUjRNYXVwdVE3YVBU?=
- =?utf-8?B?TjhiRTlLSDFxZVpDU1AxaFF6T2U5Nk90QW1FdmJSZDc0U0VpZEhQMXcyVXlx?=
- =?utf-8?B?UVlkTG50YWZRSjI3YUZ2bEt6aG0yN2tPQUZveXlBeW54a2drTFNJc01wdVFr?=
- =?utf-8?B?aWhTaUFwMncwVFlpRDdTdGJNVys0M2dMS0hGWGE5cndiVG5DZU1KYm5FRTNV?=
- =?utf-8?B?UlZTMnNRNHFUaGtHTWU3cFNTaGdTSkl4UzdnT1VLRkg1Tm85MUVnUVdKNllF?=
- =?utf-8?B?eDBFNHl3M0lFd0QzNEk5QzRzalJWejZ5eFFmT2J4ZURyVWtIR2h6N2xiYlQ0?=
- =?utf-8?B?MUt4cStpL1JaNEgrd094dVdFNGVGTFNvVEV3WHd5eFVHbUR0SEdSRVovbC9m?=
- =?utf-8?B?Vm5YT1dFMUpyemIxeVpIZTErR3NGZXIzdmpkZjhqRlNBMlNIQ3BiZTU5aXBv?=
- =?utf-8?B?bmVwU094WGxHeGs1MUVETllEZXBPL05XTnFJNHh6VUs4Ti9Lc2htMUpzNGNV?=
- =?utf-8?B?bnhQQy9COW9VR3FQMm9yWDNuU2RPNmg1c0M2QkpEQVY4TzBYYzJXYTNmQ25M?=
- =?utf-8?B?bXlRejd3ZlNySnhXaXRRVjBpdHBtZ1I5Q0FaVFRhWk5pdExJZFpPc2NNR3R3?=
- =?utf-8?B?TEd6Rm9HNTFXd0FYODZlTldianNQaFR5UG1xc2kvenZURzlSc2k5b2NXN3Vz?=
- =?utf-8?B?ZGd5cG14eHQ5SU1XT2IxYzRvT2R5S1dqU2lIdVBmRTIyVTZYMmxDSzRacTRq?=
- =?utf-8?B?cUtBYmU5a21LZmtCKzVpOTFHcndVelR3TExRM2s0VGVjOTdKY09Fb2Z1REJO?=
- =?utf-8?B?N25KR2NRRHdqMEpOV0ZKdDl6ejFISkkrS3pJaFJBblNTbXh0cE9HWjRaZWd6?=
- =?utf-8?B?N2NpcE4zb2YwckxyTjllT1pPQWIxN08xU2tGUUFHeFFFZUozRW1xYXNZOGw1?=
- =?utf-8?B?TWdQMW1jaHVXNDJ6QzRCMXFHZjdRdG5SWlVjUFo0czZaZVJSeUVzaG1jVDBY?=
- =?utf-8?B?VXpIeFQ1T0QwK25BNmtkK08wYjBHZlYxMnFrNXdLQlBkMExMRXhIVmQvekth?=
- =?utf-8?B?N2xPWVc1cmFiT1Q0Z1BaL1JBRVRzWkpzLy9aWGo1a3BHWG96cTF2Q25FMm83?=
- =?utf-8?B?TVhaMFV6ZzJxeDZML3ZSR1ZySUxPWi9JeENXTDlnTGdKQm45MkpvT1VmcnZW?=
- =?utf-8?B?OS82UWYySzFGaXJyenB4UkhuOWFsKzJ0UTNqRmkzMlAvc1M2dDFGWWRTSEFr?=
- =?utf-8?B?SEYvaXFlN3RISk10WWJ5Q0RxV2JBUkk0ZUJhWCtMSnlwUjNWMXFRaVBmbzg5?=
- =?utf-8?B?eXY1aXJKZmJlaXoxU2R2bnhCTWYyYnpMbjl4QnlqazdwdU1qYnZIMk1oUEU3?=
- =?utf-8?B?VjZjUW0wYVgxZ09INGozdFlHRGt6cWtQek90cEZwamdTc1N0elhLT3dJeWpF?=
- =?utf-8?B?d012bWZQcHBXZVFVVUkyS0lLQ2x4SDhBdWVNakZ2dFU4by8wRkxyVEpxamRE?=
- =?utf-8?B?K1hhTkJPTy9oeVo0akxFaHVYekdESVVmSXdVbjNCQUppUS9Rb2lzbURWMDBR?=
- =?utf-8?B?NVk5S1BsWVQvNklic3VSNmxibjVvdWlpejhDaGxQOTRmbmd2M1JvZFlWblV4?=
- =?utf-8?B?OVBXc3VPWmVRVHpOQUx6eldEUDY3bkdjOCtHVGx1SXB4RDRISWllQnFMVHox?=
- =?utf-8?B?TE5hV01oOTRLRlJyNFhZbTlRRWd2SXpYUTRNNTB4bnBIWEVZcjNCRWhsZEpY?=
- =?utf-8?B?bFRuSWVEaTBOTEVsWHVIR2d2a09KNDNrUXR3QTN4S2FqcXB4ZjZCVUZaRlhU?=
- =?utf-8?B?Y2w4WHlkaW1QK2ZUWUVXN01ZNit5cWgxaUo0aWRiYmlZb2M1c2oveXpxdE96?=
- =?utf-8?Q?4Wl17rvHRXoF7y3OVQebJW8hh8IG9vzD?=
+ ARA:13230040|1800799024|36860700013|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wld3a1JlZTZNVGJxeDIwQjB2UElnUENuT0hBNmd3VXc1Qk01Qzk4Qi93OWpP?=
+ =?utf-8?B?YStWV0lBSmw4S3pVY3k0ZVFKSDVBMHlIMSs1cWE3UTJKMHJ4VVJ6MXFDYzJ6?=
+ =?utf-8?B?dis3OTlxQ2haU2JHcit2RUZhNDl6L1ZCYmdHWkpEU01sZnc1Q3hKaVBNVnBy?=
+ =?utf-8?B?QU1yZGNsZ0NyZkhJckRBSXdFSHZaRW10YzZLTEovaGZ2bmVrVWk3aFcxa2l0?=
+ =?utf-8?B?SGZsM0gwTTdicC9DOVJ5SE9DK0JGQmpFWTY3cXVzNThNWHRydmlqb0w0MEpG?=
+ =?utf-8?B?dlY4bU5rb0NFU0pScHM0ZHlSS3pGK3l0L3IxbzVVQ3lFQWVPd3l6NlhWbmZq?=
+ =?utf-8?B?QTFzci93VnczeDlsQ2V1UzdRbU5GMDBhRmNJamxySFBrNGFTYnBJdGJiTnlL?=
+ =?utf-8?B?dXY3UTk1bUFOTzduUEdkVmlSSWMxRlIxT1NGQkVmdU5yYW1hYnMrWHU0T1Bx?=
+ =?utf-8?B?UGNFdWZNc1Q0TmtPSHFhelplZEN1UVBNOGQ0TXRXZVJtWkhqaVZpRlI4bEZs?=
+ =?utf-8?B?aVVkUDlTNE1oVllBdXpsZU40UTNhVWw3d0FCZW84WE0rUkh0ZTdnMGVtdzRu?=
+ =?utf-8?B?eEVzdHpsUUIvWVQ5QTVDOEU3OEh4WjV1b0gyWW51dnB3UGRQMTZIc1JnZ25u?=
+ =?utf-8?B?c3VKMXRIQWZSRDZlOVB1cC84L09JL0lOTG16VVFyVjdSWld1OFVUd2JxMjBG?=
+ =?utf-8?B?cFpjYkZmV0ppSEFVR1ZYVHJscnZURmd6V2ZqS3FyTHQyeTRIckZ1alcza2Yx?=
+ =?utf-8?B?MTNaUFU1MThyVHVYWWgwMzlJZEdZbmV6NC9YbWQxTFUwSFBRWHNEQ3JQWklk?=
+ =?utf-8?B?UEk3RFlRMEttMVc0elNXMFBYSWZ3OWViOGhJQ3o0RW5McGR0am9xbW5OK040?=
+ =?utf-8?B?UnZaSUF3d0hHcWpOVE45M0ZwMjlJUGY2K0RJMWFqbG9QcmVzbjJCZGI3cXJt?=
+ =?utf-8?B?OUZjb0VzamdzUmF5aEpRdldhY2p6cmdUSlE2THdzaHNHdnFPcm5jSjA5MFBO?=
+ =?utf-8?B?V0srTCtKZnN5ZkxGblptMEtIOGE3bFNtcXFTenEzczZkMVNmZnpybERYSFU2?=
+ =?utf-8?B?SmJhWEhraUVuR3UyQXRuOU1ITHlsemVHbWhhcFZHb0g1NkJqVFpqL1NsVUNh?=
+ =?utf-8?B?TXAvbkE3WS9kVnhkM044aENQM1ZlN3lodmNLaTBPU0h2VEE1MFc2dEwzcEcw?=
+ =?utf-8?B?SVVMRkFCWUdrYk1iaFA5Z3BjMy93b28xM0tPdXdJSzdPRjc0ajVPTHJlQ2Z0?=
+ =?utf-8?B?bGZ3Q1ZjYWRMdERpOWpGVWtGTnE3cldTaCtCQVNUQ3ZTcUdDQnpaR3ErcnhO?=
+ =?utf-8?B?MzNEeFpCNk5OOUVKdDIraTZjQmhzMnVCQkdkNUdGTXRPM2tyYjVCbmFXTFR3?=
+ =?utf-8?B?eVBoMzFiWlRRK2RDNkdSK2lUZEtnaVBGU0Y1SHFZLzRyZmhHNExFZFE4TDZn?=
+ =?utf-8?B?RlE0ZHZzblB3RCtrWk82UUMwMXFrcVExVVhveGFoNHk3TmowWThlVzFHVHFH?=
+ =?utf-8?B?eE9tMXUwYlRhUEFHNlppRHJUYm0va25Db3diUXM0VXMvdFVqaytFN2RMQ2ZC?=
+ =?utf-8?B?QkRMd043M3ZmWEZiK2V2eFVRNzc5UGJ2OFRzayt2TytSMW9YMEtUZVM4eXlw?=
+ =?utf-8?B?RGxMbDJRK3c1Rk41N1QvbWJIVk5JM1M0dHRjUmhhMVlUSWx4TjdnWkJ2d1Jw?=
+ =?utf-8?B?RldSOGFJaFdleUhsZkhNTitjRHNGcnlQUmhjWXQ3eXNxWU5melVzOXJSYmVN?=
+ =?utf-8?B?aVpsME1CSzlzbTExUEg1VmJhL3B6Y0lKUFo2cUNwYlN4blk0bmRYWGx6Tmw2?=
+ =?utf-8?B?OEhnVElsd3lhaG9scmdqTllIVS9sWkpqREo5L1U1Yk9xYkU5SDZRVXdDeHBH?=
+ =?utf-8?B?amV3L01wMGZzVFRCT3RXUEtaUWg2R2RPQkphaUxhUUFseEhBN2owaUM3TW9O?=
+ =?utf-8?Q?9CEcRiiVV/xfPkhjwsLIzlwuJIeHTP9r?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014); DIR:OUT;
+ SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 05:14:35.2976 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8c20750-978c-48cc-8969-08dd14ebb5a8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 05:15:27.9608 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27c28efa-ba7f-4c98-ee0b-08dd14ebd509
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343B.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8987
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7787
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,105 +151,88 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/4/24 14:24, Mario Limonciello wrote:
+On 12/4/24 14:26, Mario Limonciello wrote:
 > On 12/4/2024 15:37, Lizhi Hou wrote:
->> Enhance GET_INFO ioctl to support retrieving firmware version.
+>> Add device status to track if aie2_hw_start() or aie2_hw_stop() is
+>> re-entered. In aie2_hw_stop(), call drmm_kfree to free mbox.
 >>
 >> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 >> ---
->>   drivers/accel/amdxdna/aie2_pci.c | 20 ++++++++++++++++++++
->>   include/uapi/drm/amdxdna_accel.h | 19 +++++++++++++++++++
->>   2 files changed, 39 insertions(+)
+>>   drivers/accel/amdxdna/aie2_pci.c        | 17 +++++++++++++++++
+>>   drivers/accel/amdxdna/aie2_pci.h        |  7 +++++++
+>>   drivers/accel/amdxdna/amdxdna_mailbox.c |  6 ------
+>>   3 files changed, 24 insertions(+), 6 deletions(-)
 >>
 >> diff --git a/drivers/accel/amdxdna/aie2_pci.c 
 >> b/drivers/accel/amdxdna/aie2_pci.c
->> index 1c8170325837..83abd16ade11 100644
+>> index 349ada697e48..19c76b2b204b 100644
 >> --- a/drivers/accel/amdxdna/aie2_pci.c
 >> +++ b/drivers/accel/amdxdna/aie2_pci.c
->> @@ -640,6 +640,23 @@ static int aie2_get_aie_version(struct 
->> amdxdna_client *client,
->>       return 0;
+>> @@ -267,12 +267,22 @@ static void aie2_hw_stop(struct amdxdna_dev *xdna)
+>>       struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
+>>       struct amdxdna_dev_hdl *ndev = xdna->dev_handle;
+>>   +    if (ndev->dev_status <= AIE2_DEV_INIT) {
+>> +        XDNA_ERR(xdna, "device is already stopped");
+>> +        return;
+>> +    }
+>> +
+>>       aie2_mgmt_fw_fini(ndev);
+>>       xdna_mailbox_stop_channel(ndev->mgmt_chann);
+>>       xdna_mailbox_destroy_channel(ndev->mgmt_chann);
+>> +    ndev->mgmt_chann = NULL;
+>> +    drmm_kfree(&xdna->ddev, ndev->mbox);
+>> +    ndev->mbox = NULL;
+>>       aie2_psp_stop(ndev->psp_hdl);
+>>       aie2_smu_fini(ndev);
+>>       pci_disable_device(pdev);
+>> +
+>> +    ndev->dev_status = AIE2_DEV_INIT;
 >>   }
->>   +static int aie2_get_firmware_version(struct amdxdna_client *client,
->> +                     struct amdxdna_drm_get_info *args)
->> +{
->> +    struct amdxdna_drm_query_firmware_version version;
->> +    struct amdxdna_dev *xdna = client->xdna;
+>>     static int aie2_hw_start(struct amdxdna_dev *xdna)
+>> @@ -283,6 +293,11 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
+>>       u32 xdna_mailbox_intr_reg;
+>>       int mgmt_mb_irq, ret;
+>>   +    if (ndev->dev_status >= AIE2_DEV_START) {
+>> +        XDNA_INFO(xdna, "device is already started");
+>> +        return 0;
+>> +    }
 >> +
->> +    version.major = xdna->fw_ver.major;
->> +    version.minor = xdna->fw_ver.minor;
->> +    version.patch = xdna->fw_ver.sub;
->> +    version.build = xdna->fw_ver.build;
+>>       ret = pci_enable_device(pdev);
+>>       if (ret) {
+>>           XDNA_ERR(xdna, "failed to enable device, ret %d", ret);
+>> @@ -345,6 +360,8 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
+>>           goto destroy_mgmt_chann;
+>>       }
+>>   +    ndev->dev_status = AIE2_DEV_START;
 >> +
->> +    if (copy_to_user(u64_to_user_ptr(args->buffer), &version, 
->> sizeof(version)))
->> +        return -EFAULT;
->> +
->> +    return 0;
->> +}
->> +
->>   static int aie2_get_clock_metadata(struct amdxdna_client *client,
->>                      struct amdxdna_drm_get_info *args)
->>   {
->> @@ -752,6 +769,9 @@ static int aie2_get_info(struct amdxdna_client 
->> *client, struct amdxdna_drm_get_i
->>       case DRM_AMDXDNA_QUERY_HW_CONTEXTS:
->>           ret = aie2_get_hwctx_status(client, args);
->>           break;
->> +    case DRM_AMDXDNA_QUERY_FIRMWARE_VERSION:
->> +        ret = aie2_get_firmware_version(client, args);
->> +        break;
->>       default:
->>           XDNA_ERR(xdna, "Not supported request parameter %u", 
->> args->param);
->>           ret = -EOPNOTSUPP;
->> diff --git a/include/uapi/drm/amdxdna_accel.h 
->> b/include/uapi/drm/amdxdna_accel.h
->> index af12af8bd699..ea86c57beb92 100644
->> --- a/include/uapi/drm/amdxdna_accel.h
->> +++ b/include/uapi/drm/amdxdna_accel.h
->> @@ -375,6 +375,20 @@ struct amdxdna_drm_query_hwctx {
->>       __u64 errors;
+>>       return 0;
+>>     destroy_mgmt_chann:
+>> diff --git a/drivers/accel/amdxdna/aie2_pci.h 
+>> b/drivers/accel/amdxdna/aie2_pci.h
+>> index 6a2686255c9c..5d262ae5c9bb 100644
+>> --- a/drivers/accel/amdxdna/aie2_pci.h
+>> +++ b/drivers/accel/amdxdna/aie2_pci.h
+>> @@ -149,6 +149,11 @@ struct amdxdna_hwctx_priv {
+>>       struct drm_syncobj        *syncobj;
 >>   };
->>   +/**
->> + * struct amdxdna_drm_query_firmware_version - Query the firmware 
->> version
->> + * @major: The major version number
->> + * @minor: The minor version number
->> + * @patch: The patch level version number
->> + * @build: The build ID
->> + */
->> +struct amdxdna_drm_query_firmware_version {
->> +    __u32 major; /* out */
->> +    __u32 minor; /* out */
->> +    __u32 patch; /* out */
->> +    __u32 build; /* out */
+>>   +enum aie2_dev_status {
+>> +    AIE2_DEV_INIT,
+>> +    AIE2_DEV_START,
 >> +};
 >> +
->>   enum amdxdna_drm_get_param {
->>       DRM_AMDXDNA_QUERY_AIE_STATUS,
->>       DRM_AMDXDNA_QUERY_AIE_METADATA,
->> @@ -382,6 +396,11 @@ enum amdxdna_drm_get_param {
->>       DRM_AMDXDNA_QUERY_CLOCK_METADATA,
->>       DRM_AMDXDNA_QUERY_SENSORS,
->>       DRM_AMDXDNA_QUERY_HW_CONTEXTS,
->> +    DRM_AMDXDNA_READ_AIE_MEM,
->> +    DRM_AMDXDNA_READ_AIE_REG,
->> +    DRM_AMDXDNA_QUERY_FIRMWARE_VERSION,
->> +    DRM_AMDXDNA_GET_POWER_MODE,
->> +    DRM_AMDXDNA_QUERY_TELEMETRY,
+>>   struct amdxdna_dev_hdl {
+>>       struct amdxdna_dev        *xdna;
+>>       const struct amdxdna_dev_priv    *priv;
+>> @@ -171,6 +176,8 @@ struct amdxdna_dev_hdl {
+>>       struct mailbox            *mbox;
+>>       struct mailbox_channel        *mgmt_chann;
+>>       struct async_events        *async_events;
+>> +
+>> +    u32                dev_status;
 >
-> This is more than DRM_AMDXDNA_QUERY_FIRMWARE_VERSION.
->
-> The other ones should go with other patches.
-> Like DRM_AMDXDNA_GET_POWER_MODE should be in patch 6.
-Ok.
->
-> I didn't see DRM_AMDXDNA_READ_AIE_MEM, DRM_AMDXDNA_READ_AIE_REG, or
-> DRM_AMDXDNA_QUERY_TELEMETRY used in this series, are they just 
-> placeholders?  Maybe a different patch for the placeholders?
+> Shouldn't this be "enum aie2_dev_status" not "u32"?
 
-Yes. These are placeholders. I can remove them.
+You are right. I will fix it.
 
 
 Thanks,
@@ -255,7 +240,29 @@ Thanks,
 Lizhi
 
 >
->
->>       DRM_AMDXDNA_NUM_GET_PARAM,
 >>   };
+>>     #define DEFINE_BAR_OFFSET(reg_name, bar, reg_addr) \
+>> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c 
+>> b/drivers/accel/amdxdna/amdxdna_mailbox.c
+>> index 415d99abaaa3..eab79dbb8b25 100644
+>> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+>> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+>> @@ -530,9 +530,6 @@ xdna_mailbox_create_channel(struct mailbox *mb,
+>>     int xdna_mailbox_destroy_channel(struct mailbox_channel *mb_chann)
+>>   {
+>> -    if (!mb_chann)
+>> -        return 0;
+>> -
+>>       MB_DBG(mb_chann, "IRQ disabled and RX work cancelled");
+>>       free_irq(mb_chann->msix_irq, mb_chann);
+>>       destroy_workqueue(mb_chann->work_q);
+>> @@ -548,9 +545,6 @@ int xdna_mailbox_destroy_channel(struct 
+>> mailbox_channel *mb_chann)
+>>     void xdna_mailbox_stop_channel(struct mailbox_channel *mb_chann)
+>>   {
+>> -    if (!mb_chann)
+>> -        return;
+>> -
+>>       /* Disable an irq and wait. This might sleep. */
+>>       disable_irq(mb_chann->msix_irq);
 >
