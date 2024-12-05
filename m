@@ -2,71 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C119E5481
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 12:49:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6406D9E5502
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 13:07:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D91B310E3A7;
-	Thu,  5 Dec 2024 11:49:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YdPXOdsB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94EE010EE34;
+	Thu,  5 Dec 2024 12:07:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C76310E39E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 11:49:07 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-e3970ac2dddso826660276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 03:49:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733399346; x=1734004146; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=NNosSFnZWS3/0rAeqPqg7jsw4r2V2KBYZ8N3XXPfXDA=;
- b=YdPXOdsBGs57nbbNkkTib77JjPIqWumVwCK1rOOIIJFSd4km5EvL+1kCH8W6mF7A9O
- gPTy4CzS+adzqxPY3IK1QyyPDeDC2dc9GD2JR1zSkrPyFRdog12wmDv2Ruhg5X3c/uFP
- PWtbQZVxShsMq3ZaIM2+fWQGGoS6swGH6GKmBUd8YEfCBRBZiHpsy1K1Mc32MInbc6B8
- Rs19olJ7RF01IwjpdiETwI6TaoxDl0Relb4EefBI0nEtgGI867tiDKLbFkU5K+rkAM12
- KcBE9MFYDIvlokdSXfuqoS6tx+8wrXOifCX7ZBUo9T5T7CELLIkME+1+zEsi59AWKz8Q
- lP8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733399346; x=1734004146;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NNosSFnZWS3/0rAeqPqg7jsw4r2V2KBYZ8N3XXPfXDA=;
- b=hL3bxN3rBVOlPnO2c0+t0zGf1GiCNbokSrCBN9xIWHxTJVJRuSOI2qskPQi2+tSqh4
- UDOmBq4IebZARfCFpmVG05gJv9xofriwb42cd3B19iLB7LIAQb9EiC7O+k+HYheYOGNR
- LOwbDyCYBy23CIVcwORo8dJuet7CtmOg2amq5w8N9TCdizfumt556fW/ELx+NlXj7Eq0
- tbVvVvOgZhUH2J620kxij2yRlugNb5kZczgW6tlP/bthsMIhqEi31Nb/urbqrMxB+n6T
- i9bnHjF0Qr9lr7UdRK262MQJK0uUEpmKM0pod0ZObFUQEtLTdXQlcTeoE2STJnz6b95v
- 6FRA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9fyzAGrWVh7YxGq1pCLHA9G8WaslUFmvPh/ZL32l+AS7kG/t88ALc80is8paoBRyLw3+skfErpdc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhNbJubq2cn3GZ1P0WCyZuptgMm5onlU/x8fmAL7lYGAjyWO3h
- esatrs7HAGMcEA45tVUmVYx8xJH6COqtPdrb5j19Mu1BsuA5/n3CoQA8wpRnog36vOhWcry7Uxf
- XPsONv0Fvp8tAPv8OTUr97mJY2rGBneHGz9EngJuVbGUF0Q/K
-X-Gm-Gg: ASbGncucOcklJAvGAjrQOAWbGXZEy8TSmjcr6l2iM+R6CkSyO9lWcJ7MVTAGXbLrGwk
- 9KVlG+EtEd83r5p2VcZGf58vOJZ6rLvZLEN8MCQspU2bc6Q==
-X-Google-Smtp-Source: AGHT+IHsLDGCMgyHpl+ta8rwvROml6H1/zc0wRlaH4TAJqr+AXvmTTlfjU7Jmp6XmRkiRCRFiAxwe2sKkZpUsmLrYso=
-X-Received: by 2002:a05:6902:2b02:b0:e39:8b10:30d0 with SMTP id
- 3f1490d57ef6-e39d4386826mr9937682276.44.1733399346113; Thu, 05 Dec 2024
- 03:49:06 -0800 (PST)
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C129310E39E;
+ Thu,  5 Dec 2024 12:07:33 +0000 (UTC)
+Message-ID: <4ae9d042-c151-4b3a-b434-a178a0360b3c@lankhorst.se>
+Date: Thu, 5 Dec 2024 13:07:29 +0100
 MIME-Version: 1.0
-References: <20241204091456.1785858-1-arun.r.murthy@intel.com>
- <s3gkb36ga2pxmxocrhcjp5pcgbewx4x3joiyrpld3th4r4fvyi@rkpgbu4ekst3>
- <IA0PR11MB7307F22883ACF3AD873C3697BA302@IA0PR11MB7307.namprd11.prod.outlook.com>
-In-Reply-To: <IA0PR11MB7307F22883ACF3AD873C3697BA302@IA0PR11MB7307.namprd11.prod.outlook.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 5 Dec 2024 13:48:55 +0200
-Message-ID: <CAA8EJpp4HjyEL9XSLzXr6tG7+8M2FmZO1S2WrLXmP64J_aKs-w@mail.gmail.com>
-Subject: Re: [PATCHv2 01/10] drm/crtc: Add histogram properties
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
+ cgroup
+To: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, cgroups@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20241204143112.1250983-1-dev@lankhorst.se>
+ <202412051039.P06riwrP-lkp@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <202412051039.P06riwrP-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,78 +49,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Dec 2024 at 09:58, Murthy, Arun R <arun.r.murthy@intel.com> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Sent: Wednesday, December 4, 2024 5:17 PM
-> > To: Murthy, Arun R <arun.r.murthy@intel.com>
-> > Cc: intel-xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; dri-
-> > devel@lists.freedesktop.org
-> > Subject: Re: [PATCHv2 01/10] drm/crtc: Add histogram properties
-> >
-> > On Wed, Dec 04, 2024 at 02:44:56PM +0530, Arun R Murthy wrote:
-> > > Add variables for histogram drm_property, its corrsponding crtc_state
-> > > variables and define the structure pointed by the blob property.
-> > > struct drm_histogram defined in include/uapi/drm/drm_mode.h The blob
-> > > data pointer will be the address of the struct drm_histogram.
-> > > The struct drm_histogram will be used for both reading the histogram
-> > > and writing the image enhanced data.
-> > > struct drm_histogram {
-> > >     u64 data_ptr;
-> > >     u32 nr_elements;
-> > > }
-> > > The element data_ptr holds the address of the histogram statistics
-> > > data and 'nr_elements' represents the number of elements pointed by
-> > > the pointer held in data_ptr.
-> > > The same element data_ptr in teh struct drm_histogram when writing the
-> > > image enahnced data from user to KMD holds the address to pixel factor.
-> > >
-> > > v2: Added blob description in commit message (Dmitry)
-> >
-> > No, it is not a proper description. What is the actual data format inside the
-> > blob? If I were to implement drm_histogram support for e.g.
-> > VKMS, what kind of data should the driver generate? What is the format of the
-> > response data from the userspace app? The ABI description should allow an
-> > independent but completely compatible implementation to be written from
-> > scratch.
-> >
-> The histogram is generated by the hardware.
-> Histogram represents integer which is the pixel count and when it comes to
-> the IET(Image Enhancement) to be written back to hardware its again an
-> integer, pixel factor.
-> Is this the information that you expected to be added or something else?
+Hey,
 
-You are defining the interface between the kernel and userspace. The
-interface should be defined in a way that allows us (developers) to
-understand the data, make a decision whether it fits a generic
-namespace (which means that other drivers must be able to implement
-the same interface), it fits namespace specific to i915 / Xe (then we
-will have platform-specific properties for the feature that might be
-implemented by other platforms) or it doesn't fit anything at all.
+Missing a select PAGE_COUNTER in init/Kconfig. I thought I had fixed it, 
+but I must have forgotten to commit those changes when developing 
+between 2 machines.
 
-So the documentation must contain the specification of the binary data
-inside the blobs. An IGT, modetest or some other compositor must be
-able to parse the data and generate (some) response without using your
-library.
+Cheers,
+~Maarten
 
->
-> > BTW: something is really wrong with the way you are sending the patchset. For
-> > this iteration I see only two patches with no threading.
-> > Please stop playing with individual versions of the patches, generate and send
-> > the patchset via a single invocation of git send-email (or git format-patches / git
-> > send-email). The version is a version of the patchset, not some other number.
-> > You can use the b4 tool which can handle everything for you.
-> Sorry, will send the entire patchset in future.
->
-> Thanks and Regards,
-> Arun R Murthy
-> -------------------
+Den 2024-12-05 kl. 03:27, skrev kernel test robot:
+> Hi Maarten,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on tj-cgroup/for-next]
+> [also build test ERROR on akpm-mm/mm-everything linus/master v6.13-rc1 next-20241204]
+> [cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dmem-memory-accounting-cgroup/20241204-233207
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+> patch link:    https://lore.kernel.org/r/20241204143112.1250983-1-dev%40lankhorst.se
+> patch subject: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting cgroup
+> config: um-randconfig-r061-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202412051039.P06riwrP-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_min':
+>>> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_low':
+>>> kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_max':
+>>> kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `reset_all_resource_limits':
+>>> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
+>>> /usr/bin/ld: kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
+>>> /usr/bin/ld: kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_uncharge':
+>>> kernel/cgroup/dmem.c:607: undefined reference to `page_counter_uncharge'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_calculate_protection':
+>>> kernel/cgroup/dmem.c:275: undefined reference to `page_counter_calculate_protection'
+>     /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_try_charge':
+>>> kernel/cgroup/dmem.c:657: undefined reference to `page_counter_try_charge'
+>     collect2: error: ld returned 1 exit status
+> 
+> Kconfig warnings: (for reference only)
+>     WARNING: unmet direct dependencies detected for GET_FREE_REGION
+>     Depends on [n]: SPARSEMEM [=n]
+>     Selected by [y]:
+>     - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+> 
+> 
+> vim +115 kernel/cgroup/dmem.c
+> 
+>     111	
+>     112	static void
+>     113	set_resource_min(struct dmem_cgroup_pool_state *pool, u64 val)
+>     114	{
+>   > 115		page_counter_set_min(&pool->cnt, val);
+>     116	}
+>     117	
+>     118	static void
+>     119	set_resource_low(struct dmem_cgroup_pool_state *pool, u64 val)
+>     120	{
+>   > 121		page_counter_set_low(&pool->cnt, val);
+>     122	}
+>     123	
+>     124	static void
+>     125	set_resource_max(struct dmem_cgroup_pool_state *pool, u64 val)
+>     126	{
+>   > 127		page_counter_set_max(&pool->cnt, val);
+>     128	}
+>     129	
+>     130	static u64 get_resource_low(struct dmem_cgroup_pool_state *pool)
+>     131	{
+>     132		return pool ? READ_ONCE(pool->cnt.low) : 0;
+>     133	}
+>     134	
+>     135	static u64 get_resource_min(struct dmem_cgroup_pool_state *pool)
+>     136	{
+>     137		return pool ? READ_ONCE(pool->cnt.min) : 0;
+>     138	}
+>     139	
+>     140	static u64 get_resource_max(struct dmem_cgroup_pool_state *pool)
+>     141	{
+>     142		return pool ? READ_ONCE(pool->cnt.max) : PAGE_COUNTER_MAX;
+>     143	}
+>     144	
+>     145	static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
+>     146	{
+>     147		return pool ? page_counter_read(&pool->cnt) : 0;
+>     148	}
+>     149	
+>     150	static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
+>     151	{
+>     152		set_resource_min(rpool, 0);
+>     153		set_resource_low(rpool, 0);
+>     154		set_resource_max(rpool, PAGE_COUNTER_MAX);
+>     155	}
+>     156	
+>     157	static void dmemcs_offline(struct cgroup_subsys_state *css)
+>     158	{
+>     159		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
+>     160		struct dmem_cgroup_pool_state *pool;
+>     161	
+>     162		rcu_read_lock();
+>     163		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node)
+>     164			reset_all_resource_limits(pool);
+>     165		rcu_read_unlock();
+>     166	}
+>     167	
+>     168	static void dmemcs_free(struct cgroup_subsys_state *css)
+>     169	{
+>     170		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
+>     171		struct dmem_cgroup_pool_state *pool, *next;
+>     172	
+>     173		spin_lock(&dmemcg_lock);
+>     174		list_for_each_entry_safe(pool, next, &dmemcs->pools, css_node) {
+>     175			/*
+>     176			 *The pool is dead and all references are 0,
+>     177			 * no need for RCU protection with list_del_rcu or freeing.
+>     178			 */
+>     179			list_del(&pool->css_node);
+>     180			free_cg_pool(pool);
+>     181		}
+>     182		spin_unlock(&dmemcg_lock);
+>     183	
+>     184		kfree(dmemcs);
+>     185	}
+>     186	
+>     187	static struct cgroup_subsys_state *
+>     188	dmemcs_alloc(struct cgroup_subsys_state *parent_css)
+>     189	{
+>     190		struct dmemcg_state *dmemcs = kzalloc(sizeof(*dmemcs), GFP_KERNEL);
+>     191		if (!dmemcs)
+>     192			return ERR_PTR(-ENOMEM);
+>     193	
+>     194		INIT_LIST_HEAD(&dmemcs->pools);
+>     195		return &dmemcs->css;
+>     196	}
+>     197	
+>     198	static struct dmem_cgroup_pool_state *
+>     199	find_cg_pool_locked(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *region)
+>     200	{
+>     201		struct dmem_cgroup_pool_state *pool;
+>     202	
+>     203		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node, spin_is_locked(&dmemcg_lock))
+>     204			if (pool->region == region)
+>     205				return pool;
+>     206	
+>     207		return NULL;
+>     208	}
+>     209	
+>     210	static struct dmem_cgroup_pool_state *pool_parent(struct dmem_cgroup_pool_state *pool)
+>     211	{
+>     212		if (!pool->cnt.parent)
+>     213			return NULL;
+>     214	
+>     215		return container_of(pool->cnt.parent, typeof(*pool), cnt);
+>     216	}
+>     217	
+>     218	static void
+>     219	dmem_cgroup_calculate_protection(struct dmem_cgroup_pool_state *limit_pool,
+>     220					 struct dmem_cgroup_pool_state *test_pool)
+>     221	{
+>     222		struct page_counter *climit;
+>     223		struct cgroup_subsys_state *css, *next_css;
+>     224		struct dmemcg_state *dmemcg_iter;
+>     225		struct dmem_cgroup_pool_state *pool, *parent_pool;
+>     226		bool found_descendant;
+>     227	
+>     228		climit = &limit_pool->cnt;
+>     229	
+>     230		rcu_read_lock();
+>     231		parent_pool = pool = limit_pool;
+>     232		css = &limit_pool->cs->css;
+>     233	
+>     234		/*
+>     235		 * This logic is roughly equivalent to css_foreach_descendant_pre,
+>     236		 * except we also track the parent pool to find out which pool we need
+>     237		 * to calculate protection values for.
+>     238		 *
+>     239		 * We can stop the traversal once we find test_pool among the
+>     240		 * descendants since we don't really care about any others.
+>     241		 */
+>     242		while (pool != test_pool) {
+>     243			next_css = css_next_child(NULL, css);
+>     244			if (next_css) {
+>     245				parent_pool = pool;
+>     246			} else {
+>     247				while (css != &limit_pool->cs->css) {
+>     248					next_css = css_next_child(css, css->parent);
+>     249					if (next_css)
+>     250						break;
+>     251					css = css->parent;
+>     252					parent_pool = pool_parent(parent_pool);
+>     253				}
+>     254				/*
+>     255				 * We can only hit this when test_pool is not a
+>     256				 * descendant of limit_pool.
+>     257				 */
+>     258				if (WARN_ON_ONCE(css == &limit_pool->cs->css))
+>     259					break;
+>     260			}
+>     261			css = next_css;
+>     262	
+>     263			found_descendant = false;
+>     264			dmemcg_iter = container_of(css, struct dmemcg_state, css);
+>     265	
+>     266			list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
+>     267				if (pool_parent(pool) == parent_pool) {
+>     268					found_descendant = true;
+>     269					break;
+>     270				}
+>     271			}
+>     272			if (!found_descendant)
+>     273				continue;
+>     274	
+>   > 275			page_counter_calculate_protection(
+>     276				climit, &pool->cnt, true);
+>     277		}
+>     278		rcu_read_unlock();
+>     279	}
+>     280	
+> 
 
-
-
--- 
-With best wishes
-Dmitry
