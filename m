@@ -2,90 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C6319E5425
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 12:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9598D9E5436
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 12:43:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B9C10E3B5;
-	Thu,  5 Dec 2024 11:40:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E6010E5AF;
+	Thu,  5 Dec 2024 11:43:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D4Ydmjuo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i4wgeoXK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5984E10E5C4
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 11:40:49 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-6efc58fae20so6008527b3.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 03:40:49 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5658E10E5AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 11:43:03 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-e333af0f528so823833276.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 03:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733398848; x=1734003648; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kVlR8SfhnG5cey0ump1Xp1q6+3VfWCJyhprNP3dwbtc=;
- b=D4YdmjuoTPQXTfhorexTZR9JRycfzXX/4B7+j4zPSHm2D62FP8RNLGS0Z0zx/Ph0WF
- RGqSyjQqkmR7izfay1qYXXoaGqr1PlR8KBaeXTyTCC3JHaWlA7vjnrEevNiVK0Ojj3TP
- Yo56dC0sMOOEIbBcfBERseqjth8igPher/75s91i5VOFaju0JGoSWP3uSYYmbdvxNu0m
- j+8fJ26TyDZ58sQLrh9Y3irc1R9x4jju/y93nHr+LlPnEFAJYK222c772KJ+0xFa1HTP
- yde+scxQI0zO+O/pS4YO2DFZnFnmV5pNKp5PX2CVE9lMxvxzIPOR9kiUJTt5PLIf/fkt
- 7syA==
+ d=linaro.org; s=google; t=1733398982; x=1734003782; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=foW0/KGDo9eGD4oVVo4WypJSTUBY0HMIRisvLT2/meA=;
+ b=i4wgeoXKibTUdUb3Sa92XPYUXnbPqRy2iPOMctTY0XrZSh4GPL6zLmjAGuGKBc6glQ
+ J2ozooMr8lHzFvzMBZftHPgF05KQE+y+jFMOgYrx7YDiOaBcK9m11o1C933SSE9aTka+
+ 3CLqLU6zgpsrwi02EFOVvoFwVp66omcey0I6ZAiqqYEl7A5vwEdCuJHnSkPW4NRLMUp9
+ ImLNGKJkzySbiuomHoNX0i9i5LRrL+JBeL0KsZ8BfGiae6eoout2BocENID5sV52gCia
+ 355lqx2dEo7XCOX+BeAhJtu1IkKZETrjRCLtEOOQVYQBhgFJY+rNF/37RHFPZNaV0Or+
+ 7vtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733398848; x=1734003648;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kVlR8SfhnG5cey0ump1Xp1q6+3VfWCJyhprNP3dwbtc=;
- b=GmwCvauKP+QHyE0cRJ2yf0DlKuoGAlJj5LThHIUnSAaK6/eZTXWFYV/8Em5dySOBXo
- tW1iwJbsYXxYAzn3LQL/p5n7PgmrotWtHlPVtYiv9pHSR/wFuiC6pTVtafVNLt5SsLDs
- RInrn8/wx4nySMCJ5cOgyPKng4gAiQOMQZ+li8vZDsCNzWTDR+YDGS3kXMl9aBNBPjpf
- acokIWaAmNEaVCjy3QUyR+VUx1+DapYim4bz/UlawElAl/8e0Ng5anwS3NmJOkELX+Uj
- nBSM3qGozINWV2r4UcT4Wcx5Mt05GK+1qOxCb70qt6W+FBpVm8rohVmtzm9eAApCKMPw
- XERw==
+ d=1e100.net; s=20230601; t=1733398982; x=1734003782;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=foW0/KGDo9eGD4oVVo4WypJSTUBY0HMIRisvLT2/meA=;
+ b=WENuwVfsTsldipSvu7WUN9/Yi97xrZ2cYPjw8DuTJJoOv4HMyQZfYR69PWlOPGTJkJ
+ bVLPeT2XpV36RotIRxfPHbgcILuKhkifM3lwXWUpMS7jcQig5WUcsjAKGh9+kLWjx71q
+ 6xudS1xPgqMjZEjalCbV4oe0zNrYXT89y2zvform4swezPTQqf7MwISsHSYppExiOwow
+ KIq7YogS5RLb2IRI8LTFoGleYAS1gKtFIJ4+ipWC11lQTowiJpK+jKuwvGQ4DDlrZuTg
+ lShOYbdA87PuJDyup40JgPWHXc31j764uMKeKbkVU4le3k6iKTMzNnfQeEBgaaCQDZvK
+ LMmQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUx18pizLaAXUA6jFqI+clQ23o8DJvA3A0P2MB1sFklnvPamdn9q1S1EfbjN+24vPMqUhlMv7CbV/U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5BGQ0tqWCYDNB8K6pIswjKCwx14HSoF8wpSI6tUf7uxo2gfdX
- fs7kAlSilMWBIG3X5gK0CIHJGdYUIIINCEWNYpUd08UQH95larT36G0g332gm61yuvL3haNY1Me
- 1P6BuduBQr+KQGnGTahVzlYLPASCUfSs2jQX+ZA==
-X-Gm-Gg: ASbGncvPuIibbxjFVCifbxo+PyLo0DdvwH/dnklyTnVcL+Jehljve06ZcMbJKg8lB/K
- Ra+5b+VammyTksFuqLUUCneLvnQhZL9ivXfl3fHQ90u991Q==
-X-Google-Smtp-Source: AGHT+IE7HGuIvq1u8h8I8rkPJdzS+9WwLlvVg6WJaLoZvVrKFT+XlrLuu0kqLNSwgkmrfDwW/eoD4F5p5LcplIqXWkE=
-X-Received: by 2002:a05:6902:cc5:b0:e39:b0de:fed8 with SMTP id
- 3f1490d57ef6-e39d3a293cdmr10638085276.17.1733398848266; Thu, 05 Dec 2024
- 03:40:48 -0800 (PST)
+ AJvYcCXujON5Fo5nYLYXYcxOdjoqVkxBsz6z00rNL6KlfD1mIsM4ORX8o//Yjr6qsc7KnxM3bOH5sZWCUoU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4QP+qMKvyIIIKvXEUUp68ipd0+zfOOVVITq2/g3X4vozBTsnL
+ P+d4g2A1P1wCQnidslXTNbfdTZJTMDW38crh1Aav5tt5FnN/9U8mysQBTGqFtwFPc91bvwkx+8x
+ RO0iZ8a/lKbwoer0wazgd8ilgSfYc0lWVpBscCQ==
+X-Gm-Gg: ASbGnctH4E/81NLNZPylNk8BJ/iE4plVpXl9VJa0PXKP7vEzFr1eJPYHIDmCfrJrHVI
+ Xz/UmuYu+ql2cFT7Jc7L4+kWbKFuaEYKC2XjQ1CL9ayZebw==
+X-Google-Smtp-Source: AGHT+IEHe0hEqVxHW1W6LA/XnWI/0yeqMuF4kFnDKLb5IX3EJI4UID7Ltgg79MyMh35EoVOtfkZnRY3ZbH01erDTs/A=
+X-Received: by 2002:a05:6902:2b07:b0:e39:8d52:e308 with SMTP id
+ 3f1490d57ef6-e39de228e92mr7181180276.26.1733398982302; Thu, 05 Dec 2024
+ 03:43:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
- <20241129-add-displayport-support-for-qcs615-platform-v1-5-09a4338d93ef@quicinc.com>
- <CAA8EJpoY8hySQd00yODGeHjSpVZpEBLjF3aBiKGJPUhpr-2mgw@mail.gmail.com>
- <d2a3cd6f-1077-4edb-9f0c-0c940a639050@quicinc.com>
- <zvapsvfftai4fp6vwrn33edqsyuuprq2pxz6spij6j7t4y6xmn@zzgp7gbsivbk>
- <93ddb63c-42da-43c8-9a77-c517ca5d6432@quicinc.com>
-In-Reply-To: <93ddb63c-42da-43c8-9a77-c517ca5d6432@quicinc.com>
+References: <20241203172129.778123-1-tommaso.merciai.xr@bp.renesas.com>
+ <hd2kom5acz47c3mkjuauxhauahkt7vq2qoilppwn34iidldhos@rb5ydcayhtlj>
+ <054a0278-428f-49cb-b0f0-182c5bb3b61b@nxp.com>
+ <TY3PR01MB113469CCF62FCC801F15C6B2286372@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <3243b983-2f22-4254-b7e6-0f7ef0ae725c@nxp.com>
+In-Reply-To: <3243b983-2f22-4254-b7e6-0f7ef0ae725c@nxp.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 5 Dec 2024 13:40:37 +0200
-Message-ID: <CAA8EJprAFYD6ykN10-r=JwHM4A4XeDDcZVcVWYp_5A5FP-=RyA@mail.gmail.com>
-Subject: Re: [PATCH 5/8] drm/msm/dp: Add support for lane mapping configuration
-To: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+Date: Thu, 5 Dec 2024 13:42:51 +0200
+Message-ID: <CAA8EJpqAjx+K2GdKt=gLxsETa7nvH57f3RVbhhL6EftiN_8EuA@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
+To: Liu Ying <victor.liu@nxp.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+ "tomm.merciai@gmail.com" <tomm.merciai@gmail.com>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
- quic_fangez@quicinc.com, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
- linux-gpio@vger.kernel.org
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,173 +96,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Dec 2024 at 13:28, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+On Thu, 5 Dec 2024 at 11:01, Liu Ying <victor.liu@nxp.com> wrote:
 >
+> On 12/04/2024, Biju Das wrote:
+> > Hi Liu Ying,
 >
+> Hi Biju,
 >
-> On 12/2/2024 6:46 PM, Dmitry Baryshkov wrote:
-> > On Mon, Dec 02, 2024 at 04:40:05PM +0800, Xiangxu Yin wrote:
+> >
+> >> -----Original Message-----
+> >> From: Liu Ying <victor.liu@nxp.com>
+> >> Sent: 04 December 2024 03:43
+> >> Subject: Re: [PATCH] drm/bridge: ite-it6263: Support VESA input format
 > >>
+> >> On 12/04/2024, Dmitry Baryshkov wrote:
+> >>> On Tue, Dec 03, 2024 at 06:21:29PM +0100, tomm.merciai@gmail.com wrote:
+> >>>> From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> >>>>
+> >>>> Introduce it6263_is_input_bus_fmt_valid() and refactor the
+> >>>> it6263_bridge_atomic_get_input_bus_fmts() function to support VESA
+> >>>> format by selecting the LVDS input format based on the LVDS data
+> >>>> mapping and thereby support both JEIDA and VESA input formats.
+> >>>
+> >>> For the patch itself,
+> >>>
+> >>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>
+> >>> A more generic question: is the bridge limited to 4 lanes or does it
+> >>> support 3-lane or 5-lane configurations?
 > >>
-> >> On 11/29/2024 9:50 PM, Dmitry Baryshkov wrote:
-> >>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com>=
- wrote:
-> >>>>
-> >>>> Add the ability to configure lane mapping for the DP controller. Thi=
-s is
-> >>>> required when the platform's lane mapping does not follow the defaul=
-t
-> >>>> order (0, 1, 2, 3). The mapping rules are now configurable via the
-> >>>> `data-lane` property in the devicetree. This property defines the
-> >>>> logical-to-physical lane mapping sequence, ensuring correct lane
-> >>>> assignment for non-default configurations.
-> >>>>
-> >>>> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/msm/dp/dp_catalog.c | 11 +++++------
-> >>>>  drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
-> >>>>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  2 +-
-> >>>>  drivers/gpu/drm/msm/dp/dp_panel.c   | 13 ++++++++++---
-> >>>>  drivers/gpu/drm/msm/dp/dp_panel.h   |  3 +++
-> >>>>  5 files changed, 20 insertions(+), 11 deletions(-)
-> >>>>
+> >> According to ite,it6263.yaml, the bridge supports all the data mappings(jeida-{18,24,30} and vesa-
+> >> {24,30}) listed in lvds-data-mapping.yaml.  lvds-data-mapping.yaml specifies the data lanes(3/4/5)
+> >> used by each of the data mappings.  So, the bridge supports 3, 4 or 5 data lanes.
 > >
-> >>>> @@ -461,6 +460,7 @@ static int msm_dp_panel_parse_dt(struct msm_dp_p=
-anel *msm_dp_panel)
-> >>>>         struct msm_dp_panel_private *panel;
-> >>>>         struct device_node *of_node;
-> >>>>         int cnt;
-> >>>> +       u32 lane_map[DP_MAX_NUM_DP_LANES] =3D {0, 1, 2, 3};
-> >>>>
-> >>>>         panel =3D container_of(msm_dp_panel, struct msm_dp_panel_pri=
-vate, msm_dp_panel);
-> >>>>         of_node =3D panel->dev->of_node;
-> >>>> @@ -474,10 +474,17 @@ static int msm_dp_panel_parse_dt(struct msm_dp=
-_panel *msm_dp_panel)
-> >>>>                 cnt =3D drm_of_get_data_lanes_count(of_node, 1, DP_M=
-AX_NUM_DP_LANES);
-> >>>>         }
-> >>>>
-> >>>> -       if (cnt > 0)
-> >>>> +       if (cnt > 0) {
-> >>>> +               struct device_node *endpoint;
-> >>>> +
-> >>>>                 msm_dp_panel->max_dp_lanes =3D cnt;
-> >>>> -       else
-> >>>> +               endpoint =3D of_graph_get_endpoint_by_regs(of_node, =
-1, -1);
-> >>>> +               of_property_read_u32_array(endpoint, "data-lanes", l=
-ane_map, cnt);
-> >>>> +       } else {
-> >>>>                 msm_dp_panel->max_dp_lanes =3D DP_MAX_NUM_DP_LANES; =
-/* 4 lanes */
-> >>>> +       }
-> >>>
-> >>> Why? This sounds more like dp_catalog or (after the refactoring at
-> >>> [1]) dp_ctrl. But not the dp_panel.
-> >>>
-> >>> [1] https://patchwork.freedesktop.org/project/freedreno/series/?order=
-ing=3D-last_updated
-> >>>
-> >> We are used the same prop 'data-lanes =3D <3 2 0 1>' in mdss_dp_out to=
- keep similar behaviour with dsi_host_parse_lane_data.
-> >> From the modules used, catalog seems more appropriate, but since the m=
-ax_dp_lanes is parsed at dp_panel, it has been placed here.
-> >> Should lane_map parsing in msm_dp_catalog_get, and keep max_dp_lanes p=
-arsing at the dp_panel?
-> >
-> > msm_dp_catalog_get() is going to be removed. Since the functions that
-> > are going to use it are in dp_ctrl module, I thought that dp_ctrl.c is
-> > the best place. A better option might be to move max_dp_lanes and
-> > max_dp_link_rate to dp_link.c as those are link params. Then
-> > lane_mapping also logically becomes a part of dp_link module.
-> >
-> > But now I have a more important question (triggered by Krishna's email
-> > about SAR2130P's USB): if the lanes are swapped, does USB 3 work on tha=
-t
-> > platform? Or is it being demoted to USB 2 with nobody noticing that?
-> >
-> > If lanes 0/1 and 2/3 are swapped, shouldn't it be handled in the QMP
-> > PHY, where we handle lanes and orientation switching?
-> >
-> I have checked the DP hardware programming guide and also discussed it wi=
-th Krishna.
+> > In Renesas SMARC RZ/G3E LVDS add on board, only 4 LVDS Rx lanes connected. The 5th one is unconnected.
+> > What is the situation in your board Liu Ying?
 >
-> According to the HPG section '3.4.2 PN and Lane Swap: PHY supports PN swa=
-p for mainlink and AUX, but it doesn't support lane swap feature.'
->
-> The lane swap mainly refers to the logical to physical mapping between th=
-e DP controller and the DP PHY. The PHY handles polarity inversion, and the=
- lane map does not affect USB behavior.
->
-> On the QCS615 platform, we have also tested when DP works with lane swap,=
- other USB 3.0 ports can works normally at super speed.
+> The adapter cards I'm using to connect with i.MX8MP EVK have only 4
+> LVDS data lanes routed out.
 
-"Other USB 3.0 ports"? What does that mean? Please correct me if I'm
-wrong, you should have a USB+DP combo port that is being managed with
-combo PHY. Does USB 3 work on that port?
+What about the bridge SoC. I don't understand why the driver gets
+limited by a particular add-on card.
 
-In other words, where the order of lanes is actually inverted? Between
-DP and combo PHY? Within combo PHY? Between the PHY and the pinout?
-Granted that SM6150 was supported in msm-4.14 could you possibly point
-out a corresponding commit or a set of commits from that kernel?
-
->
-> Additionally, if it were placed on the PHY side, the PHY would need acces=
-s to dp_link=E2=80=99s domain which can access REG_DP_LOGICAL2PHYSICAL_LANE=
-_MAPPING.
-
-I was thinking about inverting the SW_PORTSEL_VAL bit.
-
-> Therefore, we believe that the  max_dp_link_rate,max_dp_lanes and lane_ma=
-p move to dp_link side is better.
->
-> >>>> +
-> >>>> +       memcpy(msm_dp_panel->lane_map, lane_map, msm_dp_panel->max_d=
-p_lanes * sizeof(u32));
-> >>>>
-> >>>>         msm_dp_panel->max_dp_link_rate =3D msm_dp_panel_link_frequen=
-cies(of_node);
-> >>>>         if (!msm_dp_panel->max_dp_link_rate)
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm=
-/dp/dp_panel.h
-> >>>> index 0e944db3adf2f187f313664fe80cf540ec7a19f2..7603b92c32902bd3d448=
-5539bd6308537ff75a2c 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-> >>>> @@ -11,6 +11,8 @@
-> >>>>  #include "dp_aux.h"
-> >>>>  #include "dp_link.h"
-> >>>>
-> >>>> +#define DP_MAX_NUM_DP_LANES    4
-> >>>> +
-> >>>>  struct edid;
-> >>>>
-> >>>>  struct msm_dp_display_mode {
-> >>>> @@ -46,6 +48,7 @@ struct msm_dp_panel {
-> >>>>         bool video_test;
-> >>>>         bool vsc_sdp_supported;
-> >>>>
-> >>>> +       u32 lane_map[DP_MAX_NUM_DP_LANES];
-> >>>>         u32 max_dp_lanes;
-> >>>>         u32 max_dp_link_rate;
-> >>>>
-> >>>>
-> >>>> --
-> >>>> 2.25.1
-> >>>>
-> >>>
-> >>>
-> >>
-> >>
-> >> --
-> >> linux-phy mailing list
-> >> linux-phy@lists.infradead.org
-> >> https://lists.infradead.org/mailman/listinfo/linux-phy
-> >
->
-
-
---=20
+-- 
 With best wishes
 Dmitry
