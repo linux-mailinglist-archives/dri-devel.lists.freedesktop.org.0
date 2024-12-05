@@ -2,63 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494629E5E9A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 20:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEB09E5EA0
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 20:10:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E4DA10EF7C;
-	Thu,  5 Dec 2024 19:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C634310EF81;
+	Thu,  5 Dec 2024 19:10:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J5d21sTy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WgCW9EU9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD78510EF7C
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 19:08:59 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E4D22B3;
- Thu,  5 Dec 2024 20:08:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733425708;
- bh=gpyryQqORDmiyuSyg34TV+1Hz4lJ6aOHkXIhXH1UvaY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J5d21sTyqWYtne2btLeGlY1CvIrEv7DHDVcS364svFlwB9+7EiQNSI6iIBrZ21WyG
- Ob1ml8pP59fUOML9CA0STJECUiKv9HFqhTg7C5UTdUk/BCLRWW9S+u9Ls4sGWMpu5d
- LK4KFPdds/1YnQAkArRQpPPJt0nEjvDPkblkbkiE=
-Date: Thu, 5 Dec 2024 21:08:45 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF2010EF8C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 19:10:38 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-53e0844ee50so1409733e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 11:10:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733425837; x=1734030637; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OQVG1tQuHt3SHcx2mPIxH4KYBUQ1F6QooRs+6KQiv2g=;
+ b=WgCW9EU9IgfbbXa/XSdvbVeWA6X+IcsqNsbhCEpSJqW7rVXOghYGApxt6AQLMQYin8
+ IQ1KmbHROqRadBZVbdahNi6wyoROnHK1GBCM6mmYTp+JTNO2Y4sWtatIfTtjvyOAhF/F
+ Mql5qs0Jd1MRk3yhlqJbGnR90Q34fcTwP5UJ6PSbIRLo5m+eKoyukZ/e2iiKE7ybN7mI
+ oLpHuHuq9rkQKIOFvPk0rF2SGXF5546fDvrGvyDn1hNmxD8C28x26HqFJ64NwH7c8uk/
+ hC6ltaJkio8Nnz4S1P/nc5zlkhr6vcDBF87sjQ7gdfjZ0/bRQU9gE7Q/3BzWxHyxFxMX
+ kBjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733425837; x=1734030637;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OQVG1tQuHt3SHcx2mPIxH4KYBUQ1F6QooRs+6KQiv2g=;
+ b=aF2/GT2ZMFETC+kN1/0A5ol4X3qj0XpRb06pwI7pXOQkzdWP6qwOFRPrYFjYHrsODG
+ blGUzaGLQmExtiJTGCj0qEipWHLxoBjxZJaagge4wLLq7xgi09ON8rKKsHM/dxS9nqKB
+ MQXonhf/tjlfk8So0byAD9km9sOVMmgU5d39GJkHOOfD0f5E3rfyqUlfi183OrXK/WgD
+ FIq+0PKr6ejtCwwla1XUdAwzVJNv/zB1i+8wIyaoJMieYBPVt8wEGjbk9x55d8+40Crh
+ AB9yTwWAdDp1LoSETDKA/lXEy0h0H/DvQqvls07A7vU00YOedbSLBsjIiN8xNBbz97em
+ NqCA==
+X-Gm-Message-State: AOJu0YwWm7QbnzIE2uqMjoP1UIgXkpOcdeXJza2AX6VqT1C5EIwW/0Gv
+ 3lB4x1H6oi0vyZHDHn1eU5vdSVC77tSTijtudt8MB033B+tIcoiUpja7Yv4GWwA=
+X-Gm-Gg: ASbGnctPFtqyZ8+SHef4HMnD5WB5o2cGuYZEsDpkc/LvK2JtF9fHrKRb751JP7MYjUY
+ OhfLTKDAhlvFURK4JqqVkRmC9Jcn+WUVfRj1G/r3ewReH9Ydri3WTbeXGz2w3eYAvw5S+b1caBv
+ jqPCWNe9ucMYg8j2R157C88CvV2Mwtfpw+ldJ1Rg1WgAPnwt6ydcAuHbB8tC4UbeOODnoR+UEXn
+ hmVKE4Z2uMI+7AsSA7yW1OvLBGEI9Ra9rDZ5oQZwi6cZ3Amx3DreA4KyMA6HUbzMyDBTCEb2f3q
+ RMLnxfd7zb0PQOmFBA==
+X-Google-Smtp-Source: AGHT+IHUNLqaLQBuYan1ZGoMqkshI2yl9UY4KpKLMA9S8dD5jZebO/X3lWSvz99JLzTn4lGzisOwhw==
+X-Received: by 2002:a05:6512:3c99:b0:53d:ab21:4e17 with SMTP id
+ 2adb3069b0e04-53e2c2f0135mr21836e87.55.1733425836767; 
+ Thu, 05 Dec 2024 11:10:36 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53e2294738fsm314252e87.52.2024.12.05.11.10.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Dec 2024 11:10:35 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 07/10] drm/rcar-du: Add support for r8a779h0
-Message-ID: <20241205190845.GE21014@pendragon.ideasonboard.com>
-References: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
- <20241205-rcar-gh-dsi-v2-7-42471851df86@ideasonboard.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 00/10] drm/display: hdmi: add
+ drm_hdmi_connector_mode_valid()
+Date: Thu,  5 Dec 2024 21:10:31 +0200
+Message-ID: <173342582161.2533869.11795486713615996638.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
+References: <20241130-hdmi-mode-valid-v5-0-742644ec3b1f@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241205-rcar-gh-dsi-v2-7-42471851df86@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,83 +101,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Thu, Dec 05, 2024 at 03:45:02PM +0200, Tomi Valkeinen wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+On Sat, 30 Nov 2024 03:52:25 +0200, Dmitry Baryshkov wrote:
+> Several HDMI drivers have common code pice in the .mode_valid function
+> that validates RGB / 8bpc rate using the TMDS char rate callbacks.
 > 
-> Add support for r8a779h0. It is very similar to r8a779g0, but has only
-> one output.
+> Move this code piece to the common helper and remove the need to perform
+> this check manually. In case of DRM_BRIDGE_OP_HDMI bridges, they can
+> skip the check in favour of performing it in drm_bridge_connector.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> [...]
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Applied to drm-misc-next, thanks!
 
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 18 ++++++++++++++++++
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c |  4 +++-
->  2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> index fb719d9aff10..7858e10839f2 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
-> @@ -545,6 +545,23 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
->  	.dsi_clk_mask =  BIT(1) | BIT(0),
->  };
->  
-> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
-> +	.gen = 4,
-> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
-> +		  | RCAR_DU_FEATURE_NO_BLENDING,
-> +	.channels_mask = BIT(0),
-> +	.routes = {
-> +		/* R8A779H0 has one MIPI DSI output. */
-> +		[RCAR_DU_OUTPUT_DSI0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 0,
-> +		},
-> +	},
-> +	.num_rpf = 5,
-> +	.dsi_clk_mask = BIT(0),
-> +};
-> +
->  static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
->  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> @@ -571,6 +588,7 @@ static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
->  	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
->  	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
-> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
->  	{ }
->  };
->  
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> index 0fbf6abbde6e..b9ae6cc43702 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> @@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
->  		 */
->  		rcrtc = rcdu->crtcs;
->  		num_crtcs = rcdu->num_crtcs;
-> -	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
-> +	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
-> +		   rcdu->info->gen == 4) {
->  		/*
->  		 * On Gen3 dot clocks are setup through per-group registers,
->  		 * only available when the group has two channels.
-> +		 * On Gen4 the registers are there for single channel too.
->  		 */
->  		rcrtc = &rcdu->crtcs[rgrp->index * 2];
->  		num_crtcs = rgrp->num_crtcs;
-> 
+[01/10] drm/tests: hdmi: handle empty modes in find_preferred_mode()
+        commit: d3314efd6ebf335a3682b1d6b1b81cdab3d8254a
+[02/10] drm/tests: hdmi: rename connector creation function
+        commit: 67d31cd02c8dfb3d006dba62a854e6758cf7a0e4
+[03/10] drm/tests: hdmi: return meaningful value from set_connector_edid()
+        commit: a8403be6eea91e4f5d8ad5dbc463dd08339eaece
+[04/10] drm/display: hdmi: add generic mode_valid helper
+        commit: 47368ab437fdd1b5118644659a97a6e5dab45248
+[05/10] drm/sun4i: use drm_hdmi_connector_mode_valid()
+        commit: ae048fc4f96d716a2ef326bd6e894694057c078c
+[06/10] drm/vc4: use drm_hdmi_connector_mode_valid()
+        commit: d4581ae8695863b21f9b739dddce8159f3068ca3
+[07/10] drm/display: bridge_connector: use drm_bridge_connector_mode_valid()
+        commit: 54d7b7f9d637a53ba19d117eb9b01619bb1704ed
+[08/10] drm/bridge: lontium-lt9611: drop TMDS char rate check in mode_valid
+        commit: efda6551aa866b80dcb5a94158d805c560fc4f1c
+[09/10] drm/bridge: dw-hdmi-qp: replace mode_valid with tmds_char_rate
+        commit: 2d7202c6f38d14260a3998a2aa249a53415a24f5
+[10/10] drm/sun4i: use drm_atomic_helper_connector_hdmi_check()
+        commit: 84e541b1e58e04d808e1bb13ef566ffbe87aa89b
 
+Best regards,
 -- 
-Regards,
+With best wishes
+Dmitry
 
-Laurent Pinchart
