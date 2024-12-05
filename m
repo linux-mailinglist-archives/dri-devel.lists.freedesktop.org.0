@@ -2,88 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302699E55E6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 13:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDBD9E5603
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 13:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A204010E16F;
-	Thu,  5 Dec 2024 12:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EA3C10E27A;
+	Thu,  5 Dec 2024 12:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kejQ0OWI";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Y2TqidV6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BAD910E16F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 12:57:01 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-53de771c5ebso895165e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 04:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733403419; x=1734008219; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=s2Jxa49+lF4JxHiGnW6UzqLVnsE/QayBWcQoJh8S91E=;
- b=kejQ0OWIF09Xw+MnwvdI6yV0OzvwDXArI+W9Oo7j3Gn31ds/DgBjHltp39i6dABZre
- mEgYUMQGpkbJigMWBfzgKd8JVd3UGQg5v2VvO1bR25KbIepK3b2TloP6CA+zgI1qu4AW
- I3bVuCPoZwQxlDXHBW6Fu0T0s4jALscWailvwclI4SnXbcTfJ7R9sL4rguIFCskpBOq4
- DIUra0deZd76+10N58k9KnNBsTzfNtUwgZpdaqEv1lH5ssV/nXKN52EojpHsADk6pGEe
- KiWX+3rzPdbniwz8Rrla8mOz9HjEVBDR4SCc7jcWuNYklSr8lD7N3VtzIs+66swdYh9O
- g5uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733403419; x=1734008219;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s2Jxa49+lF4JxHiGnW6UzqLVnsE/QayBWcQoJh8S91E=;
- b=naowWBXNjAWR6fteOMwB31ffw2XL5YBy6l0Xo+/heXgJAppPpsdNqYfBj0A7Intoo6
- ROe7+/T2HiedIgrsPj/JvNukTLVycDkcjPBnLT7l0TvTF229F/TjcFLXOjvEZU6HUQ+U
- Nrrvu/wFtozCWZRdFaRtpJEGYt2oeUZ6SNJV8yKH8jwZER4g5iNsL64X1ZgORxGcykFs
- HVMosQSP7dka5uWYdxzsX3Lo/9klu+Ws6lkVj4Kpd0t4FxAMm9QgZ1VByAbqgDiq/ZL2
- h//2CEP6+5To4sJkRsydoj0KCgdEu6Fi1u7s8wURE1eBqBCHnS9XXkQPzjFZEMYtWTzo
- gxKw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUXu8d761nR7gdNNmq9RW+8Pk8TMpVTJTQbzbGfdHD+x06EJU9QQIJqEKnKZvdRuZ8uihmT7NnHHsM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxoaWo5xcHyV7wlG5SJsSX+xlrt9TBf1PViN1LlsGxSuSqiY/5d
- /4x83Kkgy2KTFfc+uL1c1/VhnLDXaFwL71rjK+ESiewsHy4HlRX+6cAC4xPyYi0=
-X-Gm-Gg: ASbGncu1RylnGy/SvGsnDK2k1QWRT10wQfYNzNUCg2J5sM9jKCm9vxdA9EJyroMAb8a
- hn7s+o+YQCVrY0SFIM7Q35EDWtL8Ll0jqHS/WvEmBu+ZA0am61594DDx1Uoukpsdjt+W09vI/E+
- 5BzvhO+zUS0zyS+liHFexSWh9UVdrJTka6g0CJB0mc3H9g1EV0QyBPVDka64cTviUA93Bzy6PAa
- U3xja+uMJvrfdRt29LgIpGx+kC1anMTwRkd3ux/5h7ZO7kxetLpaFkhhZD22d6gpbbR42+mLwSk
- JWji2XufoSJQJUC9XRElG3SbREXQ0A==
-X-Google-Smtp-Source: AGHT+IFxozV5yADLSZdT2aZmMAmC3YLc8oyR/mmxvGNOEAUjKfoe1x86CuOyh23J/0TyZbHiXn/ilw==
-X-Received: by 2002:ac2:51d3:0:b0:53e:1c3d:d0c5 with SMTP id
- 2adb3069b0e04-53e1c3dd10cmr3218316e87.28.1733403419364; 
- Thu, 05 Dec 2024 04:56:59 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e229751fcsm237413e87.87.2024.12.05.04.56.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Dec 2024 04:56:58 -0800 (PST)
-Date: Thu, 5 Dec 2024 14:56:57 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com,
- jie.qiu@mediatek.com, 
- junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v2 12/15] drm/mediatek: mtk_hdmi: Split driver and add
- common probe function
-Message-ID: <uhcl2ypz3xmari73xl3l4klu2ucfkfkuj7bt3dz35hfmuzvvkj@5odvmmhivl54>
-References: <20241205114518.53527-1-angelogioacchino.delregno@collabora.com>
- <20241205114518.53527-13-angelogioacchino.delregno@collabora.com>
- <olxtqto5mbgofxg4iqjvsmpxxzz6zoj7pbwmoeklhfjiavqfvv@dyveek7hgtki>
- <f2862790-f613-4583-bec5-302e06c77d8d@collabora.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806DD10E27A
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 12:58:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1733403536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1ejPSUyE1VwI22socUQfc/dY5FGc0qthNmoqEGE+4rk=;
+ b=Y2TqidV6uK28yBe9+Dlo2QQ68aQAni+Z4COX4YDTRUwZq+J0h8N+jorfnBbjzBuNxPM/2J
+ A/gYGtzcWuDF1IWjBYFDAIdB4CfnYPdoovHtZ5fbIgeTvlzRrVccFuq8kqGLSftUUuQtGh
+ diuD9nQ5dVJHYFZnNNptNzANNKMFvFM=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-214-az_aVD5aOOeUSD3aRUB0bw-1; Thu,
+ 05 Dec 2024 07:58:55 -0500
+X-MC-Unique: az_aVD5aOOeUSD3aRUB0bw-1
+X-Mimecast-MFC-AGG-ID: az_aVD5aOOeUSD3aRUB0bw
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id E98DC195606B; Thu,  5 Dec 2024 12:58:52 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.39.194.217])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 9EC981956052; Thu,  5 Dec 2024 12:58:49 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ =?UTF-8?q?Thomas=20B=C3=B6hler?= <witcher@wiredspace.de>,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH] drm/panic: Better binary encoding in QR code
+Date: Thu,  5 Dec 2024 13:58:36 +0100
+Message-ID: <20241205125841.1646731-1-jfalempe@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2862790-f613-4583-bec5-302e06c77d8d@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,85 +73,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 01:36:18PM +0100, AngeloGioacchino Del Regno wrote:
-> Il 05/12/24 13:29, Dmitry Baryshkov ha scritto:
-> > On Thu, Dec 05, 2024 at 12:45:14PM +0100, AngeloGioacchino Del Regno wrote:
-> > > In preparation for adding a new driver for the HDMI TX v2 IP,
-> > > split out the functions that will be common between the already
-> > > present mtk_hdmi (v1) driver and the new one.
-> > > 
-> > > Since the probe flow for both drivers is 90% similar, add a common
-> > > probe function that will be called from each driver's .probe()
-> > > callback, avoiding lots of code duplication.
-> > > 
-> > > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> > > ---
-> > >   drivers/gpu/drm/mediatek/Kconfig           |  11 +-
-> > >   drivers/gpu/drm/mediatek/Makefile          |   1 +
-> > >   drivers/gpu/drm/mediatek/mtk_hdmi.c        | 724 +++------------------
-> > >   drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 425 ++++++++++++
-> > >   drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 203 ++++++
-> > >   5 files changed, 729 insertions(+), 635 deletions(-)
-> > >   create mode 100644 drivers/gpu/drm/mediatek/mtk_hdmi_common.c
-> > >   create mode 100644 drivers/gpu/drm/mediatek/mtk_hdmi_common.h
-> > > 
-> > > @@ -1026,19 +812,12 @@ static int mtk_hdmi_setup_vendor_specific_infoframe(struct mtk_hdmi *hdmi,
-> > >   	return 0;
-> > >   }
-> > > -static int mtk_hdmi_output_init(struct mtk_hdmi *hdmi)
-> > > +static void mtk_hdmi_send_infoframe(struct mtk_hdmi *hdmi, u8 *buffer_spd, size_t bufsz_spd,
-> > > +				    u8 *buffer_avi, size_t bufsz_avi,
-> > > +				    struct drm_display_mode *mode)
-> > >   {
-> > > -	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
-> > > -
-> > > -	hdmi->csp = HDMI_COLORSPACE_RGB;
-> > > -	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
-> > > -	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
-> > > -	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
-> > > -	aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
-> > > -	aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
-> > > -	aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
-> > > -
-> > > -	return 0;
-> > > +	mtk_hdmi_setup_avi_infoframe(hdmi, buffer_avi, bufsz_avi, mode);
-> > > +	mtk_hdmi_setup_spd_infoframe(hdmi, buffer_spd, bufsz_spd, "mediatek", "On-chip HDMI");
-> > 
-> > Please use the HDMI Connector framework instead of handling everything
-> > on your own.
-> > 
-> 
-> Dmitry, my plan is to get the MediaTek HDMIv2 driver upstreamed *with* using
-> the HDMI helpers - this commit is only splitting the old HDMI v1 driver in
-> common parts and v1 handling.
-> 
-> This "handling everything on my own" is something that was already present
-> into the old v1 driver, I am *not adding* this code, but *moving it around*.
-> 
-> I cannot migrate the v1 driver to the HDMI helpers right now because in this
-> moment I have no way to test that and I don't want to break any functionality.
-> 
-> If you check patch 15, you'll see that I am indeed using all of the helper
-> goodies - but for now only on the new driver, and not on the old one.
-> 
-> I do plan to migrate the v1 driver to the new helpers as well, but I would
-> (please) really prefer to do that only after the v2 driver is upstreamed.
-> 
-> Is that okay for you?
+The current encoding, is done by converting 13bits of input into 4
+decimal digits, that are then encoded efficiently using the numeric
+encoding of the QR code specification.
+The Fido v2.2 specification [1] uses a similar approach for its
+QR-initiated authentication. The only difference is that it converts
+7 bytes (56bits) of input into 17 decimal digits. The benefit is that
+the algorithm doesn't require to split input bytes into 13bits chunk,
+and the ratio is a bit better.
+This improvement was proposed by Jó Ágila Bitsch in [2].
+drm_panic is still young, and the QR code feature is not widely used,
+so it's still time to switch to a common algorithm, shared with a
+widely used standard.
+I also changed the name of the url parameter, from zl= to z=, so the
+website can keep backward compatibility if needed.
 
-Yes, I've sent this comment before seeing the last patches.
+[1] https://fidoalliance.org/specs/fido-v2.2-rd-20230321/fido-client-to-authenticator-protocol-v2.2-rd-20230321.html#hybrid-qr-initiated
+[2] https://github.com/kdj0c/panic_report/issues/2
 
-> 
-> Cheers,
-> Angelo
-> 
-> > >   }
-> > >   static void mtk_hdmi_audio_enable(struct mtk_hdmi *hdmi)
-> > 
-> 
-> 
-> 
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+---
+ drivers/gpu/drm/drm_panic.c     |   2 +-
+ drivers/gpu/drm/drm_panic_qr.rs | 104 ++++++++++----------------------
+ 2 files changed, 32 insertions(+), 74 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+index 0a9ecc1380d2..d88fd86263f6 100644
+--- a/drivers/gpu/drm/drm_panic.c
++++ b/drivers/gpu/drm/drm_panic.c
+@@ -712,7 +712,7 @@ static int drm_panic_get_qr_code_url(u8 **qr_image)
+ 	char *kmsg;
+ 	int max_qr_data_size, url_len;
+ 
+-	url_len = snprintf(url, sizeof(url), CONFIG_DRM_PANIC_SCREEN_QR_CODE_URL "?a=%s&v=%s&zl=",
++	url_len = snprintf(url, sizeof(url), CONFIG_DRM_PANIC_SCREEN_QR_CODE_URL "?a=%s&v=%s&z=",
+ 			   utsname()->machine, utsname()->release);
+ 
+ 	max_qr_data_size = drm_panic_qr_max_data_size(panic_qr_version, url_len);
+diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+index 09500cddc009..939240ca8619 100644
+--- a/drivers/gpu/drm/drm_panic_qr.rs
++++ b/drivers/gpu/drm/drm_panic_qr.rs
+@@ -13,12 +13,13 @@
+ //! The binary data must be a valid URL parameter, so the easiest way is
+ //! to use base64 encoding. But this wastes 25% of data space, so the
+ //! whole stack trace won't fit in the QR code. So instead it encodes
+-//! every 13bits of input into 4 decimal digits, and then uses the
++//! every 7 bytes of input into 17 decimal digits, and then uses the
+ //! efficient numeric encoding, that encode 3 decimal digits into
+-//! 10bits. This makes 39bits of compressed data into 12 decimal digits,
+-//! into 40bits in the QR code, so wasting only 2.5%. And the numbers are
++//! 10bits. This makes 168bits of compressed data into 51 decimal digits,
++//! into 170bits in the QR code, so wasting only 1.17%. And the numbers are
+ //! valid URL parameter, so the website can do the reverse, to get the
+-//! binary data.
++//! binary data. This is the same algorithm used by Fido v2.2 QR-initiated
++//! authentication specification.
+ //!
+ //! Inspired by these 3 projects, all under MIT license:
+ //!
+@@ -26,7 +27,6 @@
+ //! * <https://github.com/erwanvivien/fast_qr>
+ //! * <https://github.com/bjguillot/qr>
+ 
+-use core::cmp;
+ use kernel::str::CStr;
+ 
+ #[derive(Debug, Clone, Copy, PartialEq, Eq, Ord, PartialOrd)]
+@@ -296,35 +296,11 @@ fn version_info(&self) -> u32 {
+ /// Padding bytes.
+ const PADDING: [u8; 2] = [236, 17];
+ 
+-/// Get the next 13 bits of data, starting at specified offset (in bits).
+-fn get_next_13b(data: &[u8], offset: usize) -> Option<(u16, usize)> {
+-    if offset < data.len() * 8 {
+-        let size = cmp::min(13, data.len() * 8 - offset);
+-        let byte_off = offset / 8;
+-        let bit_off = offset % 8;
+-        // `b` is 20 at max (`bit_off` <= 7 and `size` <= 13).
+-        let b = (bit_off + size) as u16;
+-
+-        let first_byte = (data[byte_off] << bit_off >> bit_off) as u16;
+-
+-        let number = match b {
+-            0..=8 => first_byte >> (8 - b),
+-            9..=16 => (first_byte << (b - 8)) + (data[byte_off + 1] >> (16 - b)) as u16,
+-            _ => {
+-                (first_byte << (b - 8))
+-                    + ((data[byte_off + 1] as u16) << (b - 16))
+-                    + (data[byte_off + 2] >> (24 - b)) as u16
+-            }
+-        };
+-        Some((number, size))
+-    } else {
+-        None
+-    }
+-}
+-
+ /// Number of bits to encode characters in numeric mode.
+ const NUM_CHARS_BITS: [usize; 4] = [0, 4, 7, 10];
+-const POW10: [u16; 4] = [1, 10, 100, 1000];
++/// Number of decimal digits required to encode n bytes of binary data.
++/// eg: you need 15 decimal digits to fit 6 bytes of binary data.
++const BYTES_TO_DIGITS: [usize; 8] = [0, 3, 5, 8, 10, 13, 15, 17];
+ 
+ enum Segment<'a> {
+     Numeric(&'a [u8]),
+@@ -360,13 +336,9 @@ fn character_count(&self) -> usize {
+         match self {
+             Segment::Binary(data) => data.len(),
+             Segment::Numeric(data) => {
+-                let data_bits = data.len() * 8;
+-                let last_chars = match data_bits % 13 {
+-                    1 => 1,
+-                    k => (k + 1) / 3,
+-                };
+-                // 4 decimal numbers per 13bits + remainder.
+-                4 * (data_bits / 13) + last_chars
++                let last_chars = BYTES_TO_DIGITS[data.len() % 7];
++                // 17 decimal numbers per 7bytes + remainder.
++                17 * (data.len() / 7) + last_chars
+             }
+         }
+     }
+@@ -403,7 +375,7 @@ fn iter(&self) -> SegmentIterator<'_> {
+ struct SegmentIterator<'a> {
+     segment: &'a Segment<'a>,
+     offset: usize,
+-    carry: u16,
++    carry: u64,
+     carry_len: usize,
+ }
+ 
+@@ -422,40 +394,26 @@ fn next(&mut self) -> Option<Self::Item> {
+                 }
+             }
+             Segment::Numeric(data) => {
+-                if self.carry_len == 3 {
+-                    let out = (self.carry, NUM_CHARS_BITS[self.carry_len]);
+-                    self.carry_len = 0;
+-                    self.carry = 0;
+-                    Some(out)
+-                } else if let Some((bits, size)) = get_next_13b(data, self.offset) {
+-                    self.offset += size;
+-                    let new_chars = match size {
+-                        1 => 1,
+-                        k => (k + 1) / 3,
+-                    };
+-                    if self.carry_len + new_chars > 3 {
+-                        self.carry_len = new_chars + self.carry_len - 3;
+-                        let out = (
+-                            self.carry * POW10[new_chars - self.carry_len]
+-                                + bits / POW10[self.carry_len],
+-                            NUM_CHARS_BITS[3],
+-                        );
+-                        self.carry = bits % POW10[self.carry_len];
+-                        Some(out)
+-                    } else {
+-                        let out = (
+-                            self.carry * POW10[new_chars] + bits,
+-                            NUM_CHARS_BITS[self.carry_len + new_chars],
+-                        );
+-                        self.carry_len = 0;
+-                        Some(out)
++                if self.carry_len < 3 && self.offset < data.len() {
++                    let mut buf = [0u8; 8];
++                    let len = 7.min(data.len() - self.offset);
++                    buf[..len].copy_from_slice(&data[self.offset..self.offset + len]);
++                    let chunk = u64::from_le_bytes(buf);
++                    let pow = u64::pow(10, BYTES_TO_DIGITS[len] as u32);
++                    self.carry = chunk + self.carry * pow;
++                    self.offset += len;
++                    self.carry_len += BYTES_TO_DIGITS[len];
++                }
++                match self.carry_len {
++                    0 => None,
++                    len => {
++                        let out_len = 3.min(len);
++                        self.carry_len -= out_len;
++                        let pow = u64::pow(10, self.carry_len as u32);
++                        let out = (self.carry / pow) as u16;
++                        self.carry = self.carry % pow;
++                        Some((out, NUM_CHARS_BITS[out_len]))
+                     }
+-                } else if self.carry_len > 0 {
+-                    let out = (self.carry, NUM_CHARS_BITS[self.carry_len]);
+-                    self.carry_len = 0;
+-                    Some(out)
+-                } else {
+-                    None
+                 }
+             }
+         }
+
+base-commit: c6eabbab359c156669e10d5dec3e71e80ff09bd2
 -- 
-With best wishes
-Dmitry
+2.47.1
+
