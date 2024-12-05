@@ -2,139 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 458BF9E4D36
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 06:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F04C9E4D49
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 06:41:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDC2D10ED99;
-	Thu,  5 Dec 2024 05:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B2D010ED9E;
+	Thu,  5 Dec 2024 05:41:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a5qNp1cH";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A8NZXBKd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C147E10ED99
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 05:15:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tho+fuoswcbd11dCGd69G+GOahKIXeLFwHqVsxf4/S0MCkWclau/cxTYb/IRW5SCalxMjMlqVrJfKi3IRs0RhZcmsUQfeBnTzVFoAbFAjVL4xYLm9dxqXfqqWDgomf2F3xdGqA2glWe8j9IIXnR3KNflcU09QTWq8n+tlRvBdnQM9Mq9/lUv4EH+E0Fv0koX19KpyMIsNXUkcGZdOrfTk41wCAvmT0vjblA21P1B+iVBqQ+LKFDm8Y+HpgasRDnCLpCkefD4pK2lOKg/5yfQ+pOMkZts3zOh66E2pMIASrCVfh/GEk8o1hN8hOUO2k9WLKkXh5vf5mfWrqi2Bc2/Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ysoZTrNM2hasf/TRq4G2a4Pfqt7pCGNTCdMe08VHRVg=;
- b=Y2w5Nxh0QAkPDFjhJWiehdXG6+rwfpB2RLFw4YxglPNMxuwomLQy8mSjDHxea8/mOJ3W1VWiqRT5N8qPSBEvpD77tTerhmzWDKEKFpjgGJaFpKDrf/eKLr9sQHtdQ8686QYm5pjsLSaC+ilTaOtaylU3WdbBlXOSSpVGCygR9AMYwUXx2Xo6rJ5Ysuc9EivL0KEXwr2QIM7iGRVyI22c8mIp8EjztWqoJg6ckxKegDQS5+Vy49MYRIMRTucwcETp017jUa6qYscB9/ofLSvYTKkAq64hcKq+T7erED7lcg6dZvX8ShMQII9BhVIrcUA6yu2vfFq6OfPN89HfBrP+rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ysoZTrNM2hasf/TRq4G2a4Pfqt7pCGNTCdMe08VHRVg=;
- b=a5qNp1cHFKJC+G0NsjHwy0ODTlXFS7llkLPLR0E5hA7CRfgt4UublJTNm0vulMmPdJYv77LiJit6jIa2pQETt52D+OStE5D2sdHjTUbZxetlamNK9lvER3E1LfBMa63Qne2j0RyB9WbRsLtiWSB1/SZbHJJEUYfwRfraTtEC9FU=
-Received: from DM6PR06CA0069.namprd06.prod.outlook.com (2603:10b6:5:54::46) by
- SN7PR12MB7787.namprd12.prod.outlook.com (2603:10b6:806:347::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Thu, 5 Dec
- 2024 05:15:28 +0000
-Received: from DS2PEPF0000343B.namprd02.prod.outlook.com
- (2603:10b6:5:54:cafe::75) by DM6PR06CA0069.outlook.office365.com
- (2603:10b6:5:54::46) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.9 via Frontend Transport; Thu, 5
- Dec 2024 05:15:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS2PEPF0000343B.mail.protection.outlook.com (10.167.18.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8230.7 via Frontend Transport; Thu, 5 Dec 2024 05:15:27 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 4 Dec
- 2024 23:15:27 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 4 Dec
- 2024 23:15:27 -0600
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 4 Dec 2024 23:15:26 -0600
-Message-ID: <b354b25a-219b-70d6-3626-bd2137edfaf6@amd.com>
-Date: Wed, 4 Dec 2024 21:15:26 -0800
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83E7210ED9E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 05:41:16 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1280D2B3;
+ Thu,  5 Dec 2024 06:40:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1733377246;
+ bh=qDAoDRz8/a6ebOykhzr8jAX+oxO/ZNOdAADQGp3ckKc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=A8NZXBKdtfYUMtt8hEik8q6uDozVKMhikEHWh6fnrIjI3NaxTEz/8UtY0K2Xx4a2Q
+ sfggpsElgvnLOSIMtbwoyGEVhxCLKclgDNT/i5QOhXCsNElxpUThJpEXpie/Xv8KBb
+ 9oABovlXP0x0kVXeFLxaxjS59/g3dBPMcZA3iyXg=
+Message-ID: <1c557030-a267-4311-a942-f6245a5cc81a@ideasonboard.com>
+Date: Thu, 5 Dec 2024 07:41:09 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V1 1/7] accel/amdxdna: Add device status for aie2 devices
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/9] drm/rcar-du: Add support for r8a779h0
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com>
+ <20241203-rcar-gh-dsi-v1-6-738ae1a95d2a@ideasonboard.com>
+ <20241203085654.GJ10736@pendragon.ideasonboard.com>
+ <e155c9b1-a43f-4be3-9825-2639ac3bb61d@ideasonboard.com>
+ <20241203104806.GN10736@pendragon.ideasonboard.com>
 Content-Language: en-US
-To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
- <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <king.tam@amd.com>
-References: <20241204213729.3113941-1-lizhi.hou@amd.com>
- <20241204213729.3113941-2-lizhi.hou@amd.com>
- <e551fe89-6e39-4393-9e50-cae4a819e947@amd.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <e551fe89-6e39-4393-9e50-cae4a819e947@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343B:EE_|SN7PR12MB7787:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27c28efa-ba7f-4c98-ee0b-08dd14ebd509
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wld3a1JlZTZNVGJxeDIwQjB2UElnUENuT0hBNmd3VXc1Qk01Qzk4Qi93OWpP?=
- =?utf-8?B?YStWV0lBSmw4S3pVY3k0ZVFKSDVBMHlIMSs1cWE3UTJKMHJ4VVJ6MXFDYzJ6?=
- =?utf-8?B?dis3OTlxQ2haU2JHcit2RUZhNDl6L1ZCYmdHWkpEU01sZnc1Q3hKaVBNVnBy?=
- =?utf-8?B?QU1yZGNsZ0NyZkhJckRBSXdFSHZaRW10YzZLTEovaGZ2bmVrVWk3aFcxa2l0?=
- =?utf-8?B?SGZsM0gwTTdicC9DOVJ5SE9DK0JGQmpFWTY3cXVzNThNWHRydmlqb0w0MEpG?=
- =?utf-8?B?dlY4bU5rb0NFU0pScHM0ZHlSS3pGK3l0L3IxbzVVQ3lFQWVPd3l6NlhWbmZq?=
- =?utf-8?B?QTFzci93VnczeDlsQ2V1UzdRbU5GMDBhRmNJamxySFBrNGFTYnBJdGJiTnlL?=
- =?utf-8?B?dXY3UTk1bUFOTzduUEdkVmlSSWMxRlIxT1NGQkVmdU5yYW1hYnMrWHU0T1Bx?=
- =?utf-8?B?UGNFdWZNc1Q0TmtPSHFhelplZEN1UVBNOGQ0TXRXZVJtWkhqaVZpRlI4bEZs?=
- =?utf-8?B?aVVkUDlTNE1oVllBdXpsZU40UTNhVWw3d0FCZW84WE0rUkh0ZTdnMGVtdzRu?=
- =?utf-8?B?eEVzdHpsUUIvWVQ5QTVDOEU3OEh4WjV1b0gyWW51dnB3UGRQMTZIc1JnZ25u?=
- =?utf-8?B?c3VKMXRIQWZSRDZlOVB1cC84L09JL0lOTG16VVFyVjdSWld1OFVUd2JxMjBG?=
- =?utf-8?B?cFpjYkZmV0ppSEFVR1ZYVHJscnZURmd6V2ZqS3FyTHQyeTRIckZ1alcza2Yx?=
- =?utf-8?B?MTNaUFU1MThyVHVYWWgwMzlJZEdZbmV6NC9YbWQxTFUwSFBRWHNEQ3JQWklk?=
- =?utf-8?B?UEk3RFlRMEttMVc0elNXMFBYSWZ3OWViOGhJQ3o0RW5McGR0am9xbW5OK040?=
- =?utf-8?B?UnZaSUF3d0hHcWpOVE45M0ZwMjlJUGY2K0RJMWFqbG9QcmVzbjJCZGI3cXJt?=
- =?utf-8?B?OUZjb0VzamdzUmF5aEpRdldhY2p6cmdUSlE2THdzaHNHdnFPcm5jSjA5MFBO?=
- =?utf-8?B?V0srTCtKZnN5ZkxGblptMEtIOGE3bFNtcXFTenEzczZkMVNmZnpybERYSFU2?=
- =?utf-8?B?SmJhWEhraUVuR3UyQXRuOU1ITHlsemVHbWhhcFZHb0g1NkJqVFpqL1NsVUNh?=
- =?utf-8?B?TXAvbkE3WS9kVnhkM044aENQM1ZlN3lodmNLaTBPU0h2VEE1MFc2dEwzcEcw?=
- =?utf-8?B?SVVMRkFCWUdrYk1iaFA5Z3BjMy93b28xM0tPdXdJSzdPRjc0ajVPTHJlQ2Z0?=
- =?utf-8?B?bGZ3Q1ZjYWRMdERpOWpGVWtGTnE3cldTaCtCQVNUQ3ZTcUdDQnpaR3ErcnhO?=
- =?utf-8?B?MzNEeFpCNk5OOUVKdDIraTZjQmhzMnVCQkdkNUdGTXRPM2tyYjVCbmFXTFR3?=
- =?utf-8?B?eVBoMzFiWlRRK2RDNkdSK2lUZEtnaVBGU0Y1SHFZLzRyZmhHNExFZFE4TDZn?=
- =?utf-8?B?RlE0ZHZzblB3RCtrWk82UUMwMXFrcVExVVhveGFoNHk3TmowWThlVzFHVHFH?=
- =?utf-8?B?eE9tMXUwYlRhUEFHNlppRHJUYm0va25Db3diUXM0VXMvdFVqaytFN2RMQ2ZC?=
- =?utf-8?B?QkRMd043M3ZmWEZiK2V2eFVRNzc5UGJ2OFRzayt2TytSMW9YMEtUZVM4eXlw?=
- =?utf-8?B?RGxMbDJRK3c1Rk41N1QvbWJIVk5JM1M0dHRjUmhhMVlUSWx4TjdnWkJ2d1Jw?=
- =?utf-8?B?RldSOGFJaFdleUhsZkhNTitjRHNGcnlQUmhjWXQ3eXNxWU5melVzOXJSYmVN?=
- =?utf-8?B?aVpsME1CSzlzbTExUEg1VmJhL3B6Y0lKUFo2cUNwYlN4blk0bmRYWGx6Tmw2?=
- =?utf-8?B?OEhnVElsd3lhaG9scmdqTllIVS9sWkpqREo5L1U1Yk9xYkU5SDZRVXdDeHBH?=
- =?utf-8?B?amV3L01wMGZzVFRCT3RXUEtaUWg2R2RPQkphaUxhUUFseEhBN2owaUM3TW9O?=
- =?utf-8?Q?9CEcRiiVV/xfPkhjwsLIzlwuJIeHTP9r?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 05:15:27.9608 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27c28efa-ba7f-4c98-ee0b-08dd14ebd509
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7787
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241203104806.GN10736@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,119 +119,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
-On 12/4/24 14:26, Mario Limonciello wrote:
-> On 12/4/2024 15:37, Lizhi Hou wrote:
->> Add device status to track if aie2_hw_start() or aie2_hw_stop() is
->> re-entered. In aie2_hw_stop(), call drmm_kfree to free mbox.
+On 03/12/2024 12:48, Laurent Pinchart wrote:
+> On Tue, Dec 03, 2024 at 11:22:15AM +0200, Tomi Valkeinen wrote:
+>> On 03/12/2024 10:56, Laurent Pinchart wrote:
+>>> On Tue, Dec 03, 2024 at 10:01:40AM +0200, Tomi Valkeinen wrote:
+>>>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>>
+>>>> Add support for r8a779h0. It is very similar to r8a779g0, but has only
+>>>> one output.
+>>>>
+>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>>>> ---
+>>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c   | 19 +++++++++++++++++++
+>>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h   |  1 +
+>>>>    drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 16 ++++++++++------
+>>>>    3 files changed, 30 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+>>>> index fb719d9aff10..afbc74e18cce 100644
+>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c
+>>>> @@ -545,6 +545,24 @@ static const struct rcar_du_device_info rcar_du_r8a779g0_info = {
+>>>>    	.dsi_clk_mask =  BIT(1) | BIT(0),
+>>>>    };
+>>>>    
+>>>> +static const struct rcar_du_device_info rcar_du_r8a779h0_info = {
+>>>> +	.gen = 4,
+>>>> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
+>>>> +		  | RCAR_DU_FEATURE_VSP1_SOURCE
+>>>> +		  | RCAR_DU_FEATURE_NO_BLENDING
+>>>> +		  | RCAR_DU_FEATURE_NO_DPTSR,
+>>>> +	.channels_mask = BIT(0),
+>>>> +	.routes = {
+>>>> +		/* R8A779H0 has one MIPI DSI output. */
+>>>> +		[RCAR_DU_OUTPUT_DSI0] = {
+>>>> +			.possible_crtcs = BIT(0),
+>>>> +			.port = 0,
+>>>> +		},
+>>>> +	},
+>>>> +	.num_rpf = 5,
+>>>> +	.dsi_clk_mask = BIT(0),
+>>>> +};
+>>>> +
+>>>>    static const struct of_device_id rcar_du_of_table[] = {
+>>>>    	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
+>>>>    	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
+>>>> @@ -571,6 +589,7 @@ static const struct of_device_id rcar_du_of_table[] = {
+>>>>    	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
+>>>>    	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+>>>>    	{ .compatible = "renesas,du-r8a779g0", .data = &rcar_du_r8a779g0_info },
+>>>> +	{ .compatible = "renesas,du-r8a779h0", .data = &rcar_du_r8a779h0_info },
+>>>>    	{ }
+>>>>    };
+>>>>    
+>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+>>>> index 5cfa2bb7ad93..d7004f76f735 100644
+>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.h
+>>>> @@ -32,6 +32,7 @@ struct rcar_du_device;
+>>>>    #define RCAR_DU_FEATURE_INTERLACED	BIT(3)	/* HW supports interlaced */
+>>>>    #define RCAR_DU_FEATURE_TVM_SYNC	BIT(4)	/* Has TV switch/sync modes */
+>>>>    #define RCAR_DU_FEATURE_NO_BLENDING	BIT(5)	/* PnMR.SPIM does not have ALP nor EOR bits */
+>>>> +#define RCAR_DU_FEATURE_NO_DPTSR	BIT(6)  /* V4M does not have DPTSR */
+>>>
+>>> Do we need a quirk ? At first glance it seems the DPTSR register is only
+>>> used for DU instances that have two channels, so a check on the number
+>>> of channels should be enough ?
 >>
->> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->> ---
->>   drivers/accel/amdxdna/aie2_pci.c        | 17 +++++++++++++++++
->>   drivers/accel/amdxdna/aie2_pci.h        |  7 +++++++
->>   drivers/accel/amdxdna/amdxdna_mailbox.c |  6 ------
->>   3 files changed, 24 insertions(+), 6 deletions(-)
+>> What do you mean with "DPTSR register is only used for DU instances that
+>> have two channels"? The upstream code sets it for all SoCs, doesn't it,
+>> without any checks?
+> 
+> DPTSR is one of those registers that controls features shared between
+> channels, in this specific case plane assignment to DU channels. The
+> default register value (i.e. all 0's) splits resources between the
+> channels. For DU groups with a single channel, there's no need for
+> resource assignment. Logically speaking, the all 0's register value as
+> documented in instances that have two channels would assign all the
+> resources that exist in the single-channel group to the single channel.
+> When computing the DPTSR value, the driver will (or at least should)
+> therefore always come up with 0x00000000. Writing that to the register
+> should be a no-op.
+> 
+> It's not clear if the register is present or not when the group has a
+> single channel. Some datasheets document the register is not being
+> applicable. Writing to it has never caused issues, so we may be dealing
+> with the hardware just ignoring writes to a non-implemented register, or
+> the register may be there, with only 0x00000000 being a meaningful
+> value. This being said, some people are concerned about writes to
+> registers that are not documented as present, as they could possibly
+> cause issues. Safety certification of the driver could be impacted.
+> We've updated the DU driver over the past few years to avoid those
+> writes for this reason.
+> 
+> TL;DR: yes, the DU driver writes to DPTSR for DU groups with a single
+> channel, but that seem it could be wrong, and we could fix it for all
+> single-channel groups in one go without introducing this feature bit. I
+> can test a patch on a M3 board that has a single channel in the second
+> group.
+
+Do you have docs for r8a77970? Is the register there?
+
+Do you want me to change the series to use the number of channels here, 
+or shall we go with the current version and change it later if we're 
+confident that the change works?
+
+  Tomi
+
+>> Most of the SoCs seem to have two channels, but r8a77970 has one.
+>> However, I don't have docs for that one. It could be that it does not
+>> have DPTSR register, and indeed we could use the num_crtcs > 1 check there.
 >>
->> diff --git a/drivers/accel/amdxdna/aie2_pci.c 
->> b/drivers/accel/amdxdna/aie2_pci.c
->> index 349ada697e48..19c76b2b204b 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.c
->> +++ b/drivers/accel/amdxdna/aie2_pci.c
->> @@ -267,12 +267,22 @@ static void aie2_hw_stop(struct amdxdna_dev *xdna)
->>       struct pci_dev *pdev = to_pci_dev(xdna->ddev.dev);
->>       struct amdxdna_dev_hdl *ndev = xdna->dev_handle;
->>   +    if (ndev->dev_status <= AIE2_DEV_INIT) {
->> +        XDNA_ERR(xdna, "device is already stopped");
->> +        return;
->> +    }
->> +
->>       aie2_mgmt_fw_fini(ndev);
->>       xdna_mailbox_stop_channel(ndev->mgmt_chann);
->>       xdna_mailbox_destroy_channel(ndev->mgmt_chann);
->> +    ndev->mgmt_chann = NULL;
->> +    drmm_kfree(&xdna->ddev, ndev->mbox);
->> +    ndev->mbox = NULL;
->>       aie2_psp_stop(ndev->psp_hdl);
->>       aie2_smu_fini(ndev);
->>       pci_disable_device(pdev);
->> +
->> +    ndev->dev_status = AIE2_DEV_INIT;
->>   }
->>     static int aie2_hw_start(struct amdxdna_dev *xdna)
->> @@ -283,6 +293,11 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
->>       u32 xdna_mailbox_intr_reg;
->>       int mgmt_mb_irq, ret;
->>   +    if (ndev->dev_status >= AIE2_DEV_START) {
->> +        XDNA_INFO(xdna, "device is already started");
->> +        return 0;
->> +    }
->> +
->>       ret = pci_enable_device(pdev);
->>       if (ret) {
->>           XDNA_ERR(xdna, "failed to enable device, ret %d", ret);
->> @@ -345,6 +360,8 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
->>           goto destroy_mgmt_chann;
->>       }
->>   +    ndev->dev_status = AIE2_DEV_START;
->> +
->>       return 0;
->>     destroy_mgmt_chann:
->> diff --git a/drivers/accel/amdxdna/aie2_pci.h 
->> b/drivers/accel/amdxdna/aie2_pci.h
->> index 6a2686255c9c..5d262ae5c9bb 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.h
->> +++ b/drivers/accel/amdxdna/aie2_pci.h
->> @@ -149,6 +149,11 @@ struct amdxdna_hwctx_priv {
->>       struct drm_syncobj        *syncobj;
->>   };
->>   +enum aie2_dev_status {
->> +    AIE2_DEV_INIT,
->> +    AIE2_DEV_START,
->> +};
->> +
->>   struct amdxdna_dev_hdl {
->>       struct amdxdna_dev        *xdna;
->>       const struct amdxdna_dev_priv    *priv;
->> @@ -171,6 +176,8 @@ struct amdxdna_dev_hdl {
->>       struct mailbox            *mbox;
->>       struct mailbox_channel        *mgmt_chann;
->>       struct async_events        *async_events;
->> +
->> +    u32                dev_status;
->
-> Shouldn't this be "enum aie2_dev_status" not "u32"?
+>>>>    #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+>>>>    
+>>>> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+>>>> index 2ccd2581f544..132d930670eb 100644
+>>>> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+>>>> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+>>>> @@ -107,10 +107,12 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+>>>>    		 */
+>>>>    		rcrtc = rcdu->crtcs;
+>>>>    		num_crtcs = rcdu->num_crtcs;
+>>>> -	} else if (rcdu->info->gen >= 3 && rgrp->num_crtcs > 1) {
+>>>> +	} else if ((rcdu->info->gen == 3 && rgrp->num_crtcs > 1) ||
+>>>> +		   rcdu->info->gen == 4) {
+>>>>    		/*
+>>>>    		 * On Gen3 dot clocks are setup through per-group registers,
+>>>>    		 * only available when the group has two channels.
+>>>> +		 * On Gen4 the registers are there for single channel too.
+>>>>    		 */
+>>>>    		rcrtc = &rcdu->crtcs[rgrp->index * 2];
+>>>>    		num_crtcs = rgrp->num_crtcs;
+>>>> @@ -185,11 +187,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+>>>>    		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
+>>>>    	rcar_du_group_write(rgrp, DORCR, dorcr);
+>>>>    
+>>>> -	/* Apply planes to CRTCs association. */
+>>>> -	mutex_lock(&rgrp->lock);
+>>>> -	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+>>>> -			    rgrp->dptsr_planes);
+>>>> -	mutex_unlock(&rgrp->lock);
+>>>> +	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_NO_DPTSR)) {
+>>>> +		/* Apply planes to CRTCs association. */
+>>>> +		mutex_lock(&rgrp->lock);
+>>>> +		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+>>>> +				    rgrp->dptsr_planes);
+>>>> +		mutex_unlock(&rgrp->lock);
+>>>> +	}
+>>>>    }
+>>>>    
+>>>>    /*
+> 
 
-You are right. I will fix it.
-
-
-Thanks,
-
-Lizhi
-
->
->>   };
->>     #define DEFINE_BAR_OFFSET(reg_name, bar, reg_addr) \
->> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c 
->> b/drivers/accel/amdxdna/amdxdna_mailbox.c
->> index 415d99abaaa3..eab79dbb8b25 100644
->> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
->> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
->> @@ -530,9 +530,6 @@ xdna_mailbox_create_channel(struct mailbox *mb,
->>     int xdna_mailbox_destroy_channel(struct mailbox_channel *mb_chann)
->>   {
->> -    if (!mb_chann)
->> -        return 0;
->> -
->>       MB_DBG(mb_chann, "IRQ disabled and RX work cancelled");
->>       free_irq(mb_chann->msix_irq, mb_chann);
->>       destroy_workqueue(mb_chann->work_q);
->> @@ -548,9 +545,6 @@ int xdna_mailbox_destroy_channel(struct 
->> mailbox_channel *mb_chann)
->>     void xdna_mailbox_stop_channel(struct mailbox_channel *mb_chann)
->>   {
->> -    if (!mb_chann)
->> -        return;
->> -
->>       /* Disable an irq and wait. This might sleep. */
->>       disable_irq(mb_chann->msix_irq);
->
