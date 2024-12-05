@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4FA9E4BA9
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 02:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B589E4C3E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 03:28:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D8C710E377;
-	Thu,  5 Dec 2024 01:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46BA810E055;
+	Thu,  5 Dec 2024 02:28:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="WISiTRVX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KvrH71J7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m1973170.qiye.163.com (mail-m1973170.qiye.163.com
- [220.197.31.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A1110E377
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 01:13:38 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 4bd352ea;
- Thu, 5 Dec 2024 09:13:33 +0800 (GMT+08:00)
-Message-ID: <42035ebe-09b7-4005-912a-8ec72d5dabcc@rock-chips.com>
-Date: Thu, 5 Dec 2024 09:13:33 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72C6810E055;
+ Thu,  5 Dec 2024 02:28:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733365681; x=1764901681;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=QO5IboRu4sXKDliedTe2GJzHgDQy5oh6qE/bI1NxotM=;
+ b=KvrH71J7kf7mmQYLGHI1aqzSu9HkmKKVNYBEjNn7y5wUSezvBImi5xk+
+ dHmkFPV1k54eNbqdKBErCFgqECJgprD9Zc1T4+4nwPrrnBzyy9fPybLTr
+ l7+IY62hZFLosdnHU5tLtX2/Km7tikGldqLDX+duNa2OkG5CIx6siU+RI
+ 1ZooWkrleIHn+JYBgZObcd4fkNeQomiZ2Nknn/4v1ArOVub3P14akkGjF
+ z62ipbghbM7H1u5xF1kC5caJp0T2wQJzrgkqRepfVcVFiaTaBI/ZO8iLx
+ JIG7g37ez6jss+aNiyf6lS1AYIJaJ7TPRj8VOyU9vACl2pf5EOCqC4cXu A==;
+X-CSE-ConnectionGUID: ierp3gT/QVS2c6j4i2ZOzw==
+X-CSE-MsgGUID: gOyubPa3S4mvaAOghZu12g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="33906105"
+X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; d="scan'208";a="33906105"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2024 18:28:00 -0800
+X-CSE-ConnectionGUID: Q5g3rUN6RcabXY/8BbzQOA==
+X-CSE-MsgGUID: nlNLgQgxTM6qb2x9125a6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,209,1728975600"; d="scan'208";a="98025648"
+Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
+ by fmviesa003.fm.intel.com with ESMTP; 04 Dec 2024 18:27:57 -0800
+Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tJ1as-0003gr-2k;
+ Thu, 05 Dec 2024 02:27:54 +0000
+Date: Thu, 5 Dec 2024 10:27:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maarten Lankhorst <dev@lankhorst.se>, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>, cgroups@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
+ cgroup
+Message-ID: <202412051039.P06riwrP-lkp@intel.com>
+References: <20241204143112.1250983-1-dev@lankhorst.se>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support for
- eDP mode
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com,
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org
-References: <20241127075157.856029-1-damon.ding@rock-chips.com>
- <2131853.KlZ2vcFHjT@diego>
- <6e1f35c0-5ea8-414f-b3ea-4e7222c605ef@rock-chips.com>
- <2886747.Y6S9NjorxK@diego>
- <h4giob7bcrh7qmtepti6huym2llw4ujfmeff76vrgpahb5zy6x@dz6zghsifww5>
- <2342f342-672c-447e-90d8-674b748af6a4@rock-chips.com>
- <abzu2chif2g3urxoqbm3gbe6cciexbmqvn44qezrx4hgllfkkn@7bzi5jl3stqe>
-Content-Language: en-US
-In-Reply-To: <abzu2chif2g3urxoqbm3gbe6cciexbmqvn44qezrx4hgllfkkn@7bzi5jl3stqe>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU9KGVZKQ0xMHUgfSBoaSkJWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
- NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a93946120e103a3kunm4bd352ea
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6KxQ6Gio*LTIoPwgsQxQ0MBIp
- HU4aFB1VSlVKTEhISE1KSUpOSE1PVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFDTkxDNwY+
-DKIM-Signature: a=rsa-sha256;
- b=WISiTRVXtAaRWpgjq9W3YiO1ccva6uGhJR5I55wb5jjk+7wL5cmCiXq8LSmI6luTAGZJJIA0Taa3iYC+zAV32L1jHVfqsTJvVDLBcs676kw51sHKnI6yu6FUvD0S/qRkAQpLLmNcLoJcQw4o1rv5Eh7Xs6VLjqsf+MpB1JnwefA=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=8qvutCjvz03YvJgS0BHFHA7ySObcGdDLiuBFsNcLkEg=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241204143112.1250983-1-dev@lankhorst.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,201 +77,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+Hi Maarten,
 
-On 2024/12/2 22:41, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Mon, Dec 02, 2024 at 11:28:13AM +0800, Damon Ding wrote:
->> Hi,
->>
->> On 2024/12/2 6:59, Sebastian Reichel wrote:
->>> Hi,
->>>
->>> On Sat, Nov 30, 2024 at 09:25:12PM +0100, Heiko Stübner wrote:
->>>> Am Freitag, 29. November 2024, 03:43:57 CET schrieb Damon Ding:
->>>>> On 2024/11/27 19:04, Heiko Stübner wrote:
->>>>>> Am Mittwoch, 27. November 2024, 12:00:10 CET schrieb Damon Ding:
->>>>>>> On 2024/11/27 17:29, Heiko Stübner wrote:
->>>>>>>> Am Mittwoch, 27. November 2024, 08:51:51 CET schrieb Damon Ding:
->>>>>>>>> +static int rk_hdptx_phy_set_mode(struct phy *phy, enum phy_mode mode,
->>>>>>>>> +				 int submode)
->>>>>>>>> +{
->>>>>>>>> +	return 0;
->>>>>>>>> +}
->>>>>>>> analogix_dp_phy_power_on
->>>>>>>> I think it might make sense to go the same way as the DCPHY and also
->>>>>>>> naneng combophy, to use #phy-cells = 1 to select the phy-mode via DT .
->>>>>>>>
->>>>>>>> See [0] for Sebastians initial suggestion regarding the DC-PHY.
->>>>>>>> The naneng combophy already uses that scheme of mode-selection too.
->>>>>>>>
->>>>>>>> There is of course the issue of backwards-compatibility, but that can be
->>>>>>>> worked around in the binding with something like:
->>>>>>>>
->>>>>>>>      '#phy-cells':
->>>>>>>>         enum: [0, 1]
->>>>>>>>         description: |
->>>>>>>>           If #phy-cells is 0, PHY mode is set to PHY_TYPE_HDMI
->>>>>>>>           If #phy-cells is 1 mode is set in the PHY cells. Supported modes are:
->>>>>>>>             - PHY_TYPE_HDMI
->>>>>>>>             - PHY_TYPE_DP
->>>>>>>>           See include/dt-bindings/phy/phy.h for constants.
->>>>>>>>
->>>>>>>> PHY_TYPE_HDMI needs to be added to include/dt-bindings/phy/phy.h
->>>>>>>> but PHY_TYPE_DP is already there.
->>>>>>>>
->>>>>>>> That way we would standardize on one form of accessing phy-types
->>>>>>>> on rk3588 :-) .
->>>>>>>>
->>>>>>>> Also see the Mediatek CSI rx phy doing this too already [1]
->>>>>>>>
->>>>>>>>
->>>>>>>> Heiko
->>>>>>>>
->>>>>>>> [0] https://lore.kernel.org/linux-rockchip/udad4qf3o7kt45nuz6gxsvsmprh4rnyfxfogopmih6ucznizih@7oj2jrnlfonz/
->>>>>>>> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/phy/mediatek,mt8365-csi-rx.yaml
->>>>>>>>
->>>>>>>
->>>>>>> It is really a nice way to separate HDMI and DP modes.
->>>>>
->>>>> I apologize for reopening the discussion about the phy-types setting.
->>>>
->>>> there is definitly no need to apologize. We're trying to find the best
->>>> solution afterall :-) .
->>>>
->>>>> With the .set_mode() of struct phy_ops, the HDMI and eDP dynamic
->>>>> switching can be achieved, which just depends on the right setting of
->>>>> enum phy_mode in include/linux/phy/phy.h. So the previous way of
->>>>> configuring phy mode may be also good.
->>>>
->>>> I think the deciding factor is, is there a use-case for needing to switch
->>>> modes at runtime.
->>>>
->>>> I do think the mode for the dc-phy and also the hdptx-phy is pretty much
->>>> decided by the board design.
->>>>
->>>> I.e. when you end up in a DP-connector (or eDP-panel) on your board you
->>>> need DP mode, and when you end up in a hdmi-connector you need the
->>>> HDMI phy mode.
->>>>
->>>> So I think the phy-mode for the hdptx-phy is largely dictated by the static
->>>> board definition (like devicetree), hence going with the dt-argument for
->>>> the mode.
->>>>
->>>> Like similar to the Naneng combophy, selecting its mode via argument
->>>> because deciding if it ends up in a sata port is a board-design thing.
->>>>
->>>> Is there a use-case where you need to switch at runtime between
->>>> HDMI and eDP? Like starting the phy in eDP mode but then needing
->>>> to switch to HDMI mode, while the device is running?
->>
->> Indeed, we have the board as you described, on which the DP-connector and
->> HDMI-connector both have been configured.
->>
->> And the dynamic switching is more useful for RK3576, which has the same
->> eDP/HDMI design as RK3588 but only one eDP controller/HDMI controller/HDPTX
->> phy. We can only enable both of eDP/HDMI by this way.
->>
->>>
->>> I believe the eDP controller can only use the PHY in eDP mode and
->>> the HDMI controller can only use it in HDMI mode. So in order to
->>> support runtime switching, the following options are possible:
->>>
->>> 1. Enable both controllers, the PHY decides which one is really
->>>      used, the other one is basically a non-functional dummy device
->>>      until the PHY is reconfigured. This requires the set_mode()
->>>      callback, since the HDMI and eDP drivers both expect their
->>>      PHY to be enabled.
->>>
->>> 2. Properly enable / disable the used controller, so that only one
->>>      controller is active at the same time. In this case the switching
->>>      is handled one layer above and the PHY has nothing to do with it.
->>>      The phy_enable call from each controller would just set it up in
->>>      the right mode.
->>>
->>> I guess option 1 is the hacked solution, which is easier to
->>> implement as DRM's hotplug abilities are quite limited at the moment
->>> as far as I know. I think the second solution looks much cleaner and
->>> should be prefered for upstream. That solution does not require
->>> calling set_mode() for runtime switching making this whole argument
->>> void :)
->>>
->>
->> Your friendly and detailed analysis has brought me some valuable insights.
->> :)
->>
->> The option 2 is really a better way to support the dynamic switching, and we
->> still need the .set_mode() to select the configurations for either eDP or
->> HDMI in HDPTX phy at the controller level. Would you mind
->> elaborating on the useful way to choose the phy mode for the second
->> solution?
-> 
-> The xlate function to handle the arguments is called when the PHY
-> device is looked up. So the devm_phy_get(dp->dev, "dp") call in
-> analogix_dp_probe() would setup the PHY in DP mode.
-> 
-> Similarily the call to devm_of_phy_get_by_index() in
-> dw_hdmi_qp_rockchip_bind() would set the PHY in HDMI mode.
-> 
-> So the PHY mode is correct as long as only one controller driver
-> is bound at the same time.
-> 
+kernel test robot noticed the following build errors:
 
-Firstly, the term "the HDMI and eDP dynamic switching" can be somewhat 
-misleading, because the eDP usually does not support hot plug. The 
-RK3588 eDP is often used as DP, and it actually supports DP 1.2. 
-Therefore, it is better to use the "the HDMI and DP dynamic switching" 
-description.
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.13-rc1 next-20241204]
+[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Indeed, the devm_phy_get(dp->dev, "dp") and devm_of_phy_get_by_index() 
-will help to get the phy reference in .probe() or .bind().
+url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dmem-memory-accounting-cgroup/20241204-233207
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20241204143112.1250983-1-dev%40lankhorst.se
+patch subject: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting cgroup
+config: um-randconfig-r061-20241205 (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241205/202412051039.P06riwrP-lkp@intel.com/reproduce)
 
-However, the phy_set_mode() may be still needed in the HDMI and DP 
-dynamic switching application scenarios. We need the enum phy_mode 
-PHY_MODE_DP/PHY_MODE_HDMI to differentiate the configuration processes 
-in .power_on(), .power_off() and .configure() of struct phy_ops, which 
-will be called in conjunction with plugging in and unplugging an HDMI or 
-DP cable.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412051039.P06riwrP-lkp@intel.com/
 
-Therefore, I believe we should retain the .set_mode() function.
+All errors (new ones prefixed by >>):
 
-> Greetings,
-> 
-> -- Sebastian
-> 
->>> FWIW I think the DT argument based mode setting and the runtime set_mode
->>> are not necessarily mutual exclusive. In theory one could support both
->>> and adding set_mode support later does not change any ABI as far as
->>> I can see. Basically handle it like pin mux/configuration settings,
->>> which are usually automatically handled by the device core based on
->>> DT information, except for some drivers which have special needs.
->>>
->>
->>>>> And other phys may want to support dynamic switching too, like the
->>>>> Rockchip USBDP combo phy.
->>>>
->>>> I guess USBDP is special in that in also does both modes dynamical
->>>> depending on its use (like type-c with option DP altmode)
->>>
->>> The USBDP PHY is indeed quite different from the PHYs in your list
->>> above, but for a different reason: All the combined PHYs you listed
->>> above only support one mode at the same time. E.g. you need to
->>> decide between PCIe, SATA and USB3 mode for the Naneng combophy.
->>>
->>> For the USBDP PHY the modes are not mutually exclusive. The USB
->>> controller can request the USBDP PHY in USB mode at the same time
->>> as the DP controller requests it in DP mode. Some additional
->>> registers configure how the lanes are being muxed. A typcial setup
->>> would be 2 lanes for USB3 and 2 lanes for DP.
->>>
->>> Greetings,
->>>
->>> -- Sebastian
->>
->> Best regards,
->> Damon
->>
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_min':
+>> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_low':
+>> kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `set_resource_max':
+>> kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `reset_all_resource_limits':
+>> kernel/cgroup/dmem.c:115: undefined reference to `page_counter_set_min'
+>> /usr/bin/ld: kernel/cgroup/dmem.c:121: undefined reference to `page_counter_set_low'
+>> /usr/bin/ld: kernel/cgroup/dmem.c:127: undefined reference to `page_counter_set_max'
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_uncharge':
+>> kernel/cgroup/dmem.c:607: undefined reference to `page_counter_uncharge'
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_calculate_protection':
+>> kernel/cgroup/dmem.c:275: undefined reference to `page_counter_calculate_protection'
+   /usr/bin/ld: kernel/cgroup/dmem.o: in function `dmem_cgroup_try_charge':
+>> kernel/cgroup/dmem.c:657: undefined reference to `page_counter_try_charge'
+   collect2: error: ld returned 1 exit status
 
-Best regards,
-Damon
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +115 kernel/cgroup/dmem.c
+
+   111	
+   112	static void
+   113	set_resource_min(struct dmem_cgroup_pool_state *pool, u64 val)
+   114	{
+ > 115		page_counter_set_min(&pool->cnt, val);
+   116	}
+   117	
+   118	static void
+   119	set_resource_low(struct dmem_cgroup_pool_state *pool, u64 val)
+   120	{
+ > 121		page_counter_set_low(&pool->cnt, val);
+   122	}
+   123	
+   124	static void
+   125	set_resource_max(struct dmem_cgroup_pool_state *pool, u64 val)
+   126	{
+ > 127		page_counter_set_max(&pool->cnt, val);
+   128	}
+   129	
+   130	static u64 get_resource_low(struct dmem_cgroup_pool_state *pool)
+   131	{
+   132		return pool ? READ_ONCE(pool->cnt.low) : 0;
+   133	}
+   134	
+   135	static u64 get_resource_min(struct dmem_cgroup_pool_state *pool)
+   136	{
+   137		return pool ? READ_ONCE(pool->cnt.min) : 0;
+   138	}
+   139	
+   140	static u64 get_resource_max(struct dmem_cgroup_pool_state *pool)
+   141	{
+   142		return pool ? READ_ONCE(pool->cnt.max) : PAGE_COUNTER_MAX;
+   143	}
+   144	
+   145	static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
+   146	{
+   147		return pool ? page_counter_read(&pool->cnt) : 0;
+   148	}
+   149	
+   150	static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
+   151	{
+   152		set_resource_min(rpool, 0);
+   153		set_resource_low(rpool, 0);
+   154		set_resource_max(rpool, PAGE_COUNTER_MAX);
+   155	}
+   156	
+   157	static void dmemcs_offline(struct cgroup_subsys_state *css)
+   158	{
+   159		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
+   160		struct dmem_cgroup_pool_state *pool;
+   161	
+   162		rcu_read_lock();
+   163		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node)
+   164			reset_all_resource_limits(pool);
+   165		rcu_read_unlock();
+   166	}
+   167	
+   168	static void dmemcs_free(struct cgroup_subsys_state *css)
+   169	{
+   170		struct dmemcg_state *dmemcs = css_to_dmemcs(css);
+   171		struct dmem_cgroup_pool_state *pool, *next;
+   172	
+   173		spin_lock(&dmemcg_lock);
+   174		list_for_each_entry_safe(pool, next, &dmemcs->pools, css_node) {
+   175			/*
+   176			 *The pool is dead and all references are 0,
+   177			 * no need for RCU protection with list_del_rcu or freeing.
+   178			 */
+   179			list_del(&pool->css_node);
+   180			free_cg_pool(pool);
+   181		}
+   182		spin_unlock(&dmemcg_lock);
+   183	
+   184		kfree(dmemcs);
+   185	}
+   186	
+   187	static struct cgroup_subsys_state *
+   188	dmemcs_alloc(struct cgroup_subsys_state *parent_css)
+   189	{
+   190		struct dmemcg_state *dmemcs = kzalloc(sizeof(*dmemcs), GFP_KERNEL);
+   191		if (!dmemcs)
+   192			return ERR_PTR(-ENOMEM);
+   193	
+   194		INIT_LIST_HEAD(&dmemcs->pools);
+   195		return &dmemcs->css;
+   196	}
+   197	
+   198	static struct dmem_cgroup_pool_state *
+   199	find_cg_pool_locked(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *region)
+   200	{
+   201		struct dmem_cgroup_pool_state *pool;
+   202	
+   203		list_for_each_entry_rcu(pool, &dmemcs->pools, css_node, spin_is_locked(&dmemcg_lock))
+   204			if (pool->region == region)
+   205				return pool;
+   206	
+   207		return NULL;
+   208	}
+   209	
+   210	static struct dmem_cgroup_pool_state *pool_parent(struct dmem_cgroup_pool_state *pool)
+   211	{
+   212		if (!pool->cnt.parent)
+   213			return NULL;
+   214	
+   215		return container_of(pool->cnt.parent, typeof(*pool), cnt);
+   216	}
+   217	
+   218	static void
+   219	dmem_cgroup_calculate_protection(struct dmem_cgroup_pool_state *limit_pool,
+   220					 struct dmem_cgroup_pool_state *test_pool)
+   221	{
+   222		struct page_counter *climit;
+   223		struct cgroup_subsys_state *css, *next_css;
+   224		struct dmemcg_state *dmemcg_iter;
+   225		struct dmem_cgroup_pool_state *pool, *parent_pool;
+   226		bool found_descendant;
+   227	
+   228		climit = &limit_pool->cnt;
+   229	
+   230		rcu_read_lock();
+   231		parent_pool = pool = limit_pool;
+   232		css = &limit_pool->cs->css;
+   233	
+   234		/*
+   235		 * This logic is roughly equivalent to css_foreach_descendant_pre,
+   236		 * except we also track the parent pool to find out which pool we need
+   237		 * to calculate protection values for.
+   238		 *
+   239		 * We can stop the traversal once we find test_pool among the
+   240		 * descendants since we don't really care about any others.
+   241		 */
+   242		while (pool != test_pool) {
+   243			next_css = css_next_child(NULL, css);
+   244			if (next_css) {
+   245				parent_pool = pool;
+   246			} else {
+   247				while (css != &limit_pool->cs->css) {
+   248					next_css = css_next_child(css, css->parent);
+   249					if (next_css)
+   250						break;
+   251					css = css->parent;
+   252					parent_pool = pool_parent(parent_pool);
+   253				}
+   254				/*
+   255				 * We can only hit this when test_pool is not a
+   256				 * descendant of limit_pool.
+   257				 */
+   258				if (WARN_ON_ONCE(css == &limit_pool->cs->css))
+   259					break;
+   260			}
+   261			css = next_css;
+   262	
+   263			found_descendant = false;
+   264			dmemcg_iter = container_of(css, struct dmemcg_state, css);
+   265	
+   266			list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
+   267				if (pool_parent(pool) == parent_pool) {
+   268					found_descendant = true;
+   269					break;
+   270				}
+   271			}
+   272			if (!found_descendant)
+   273				continue;
+   274	
+ > 275			page_counter_calculate_protection(
+   276				climit, &pool->cnt, true);
+   277		}
+   278		rcu_read_unlock();
+   279	}
+   280	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
