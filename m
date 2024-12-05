@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A31E9E5790
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:45:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007939E5791
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:45:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B477210EE7E;
-	Thu,  5 Dec 2024 13:45:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 717F110EE80;
+	Thu,  5 Dec 2024 13:45:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fcocQJQ/";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OA1n9cMJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5513310EE7E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 13:45:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03DB210EE80
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 13:45:45 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AA733E;
- Thu,  5 Dec 2024 14:45:12 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5C6B1063;
+ Thu,  5 Dec 2024 14:45:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733406313;
- bh=CvG5cV3/BnOqrex+A4rcAyfGhlZH/bFpQ2vkN135FkY=;
+ s=mail; t=1733406315;
+ bh=tRF43KBsvxv3hRirW7Pu5wocJ26K3VE9RSkQJeg7ABU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=fcocQJQ/mTBKbtvWtrWnl7cMgtQQ+bfVtYLL61OTIg1O/fDSsh8q3O0RuDq8o6XRV
- h4aW9QMUalMyIKWzzr/44s9EisbgWMzj/hCUUyRjALhlBRojzX2F/14QGn3YoI0fDJ
- fkkpUOqZQOgPKHLq6cr2nZT63W2HxsPQHw4w1HLg=
+ b=OA1n9cMJMPnikyhxwz7EcVXcDKAX7UMX+n1bt7jTXVMiuWwWNkTr/MBqSakzugY3t
+ kphahV54aB/iMO/GUhvaut1xF//v0gHsb4zorWhQsYVmBLuEfU10CmPM+xJT2S3vEC
+ CWO/u2GcYV/nyIn7ol1+Hvtp7vqLnW51GHxihNH8=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 05 Dec 2024 15:45:04 +0200
-Subject: [PATCH v2 09/10] arm64: dts: renesas: r8a779h0: Add display
- support
+Date: Thu, 05 Dec 2024 15:45:05 +0200
+Subject: [PATCH v2 10/10] arm64: dts: renesas: gray-hawk-single: Add
+ DisplayPort support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241205-rcar-gh-dsi-v2-9-42471851df86@ideasonboard.com>
+Message-Id: <20241205-rcar-gh-dsi-v2-10-42471851df86@ideasonboard.com>
 References: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
 In-Reply-To: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -59,21 +59,21 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  linux-clk@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2687;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3107;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=bdk0P2sOC8R4gh5BoZ9fg3apaeHjc9+QqgKmbv8gVqY=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUa50SPX6Ulwze9yvprRJT2bV+YlEh2b5013yH
- 5C4krNYpPOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1GudAAKCRD6PaqMvJYe
- 9cw3D/0Yqk1LwxdZY7MhaT6rNyfJMQZK3yTV2MMIA3KuOsVlwbAt9laTn0yo+iUffJTg6Vk06KG
- bkMIu4agYIWvF+MVCTNi3Gp+YzOkK13Ftc0MYNfoOByYZjN6T5W1dfRmpG59J10/ERz+rlqf5rC
- 4Hmx9wxOOts7TGjtwgGzrn0L8hLDrUlFxgv88KEMQJAGRn9PbanhtXx27xVEOCXastW7kP6fw2g
- EkztfNa2eVuWYE2bIOxtn5Ckzz+6AfnGxHJc/f6YWa73UiJTQetDiJYJAPl/4wmzqLHY6F6g5s4
- 8KqsIuEev/pyCsAciKZNm6J8lY1zfzslmlbQX3yRlCeVCT8riXw7g5JLxfp3GLqC/I7D3pnPVM0
- Tl4kQFRBgUD9zi/Pna5clwQAujcTLxoAzY3NkRKUlhUyihpwEv6ho1ub6BWnPvdLAw2o8MWXEB7
- 7dh/sqZL6zS6ZqAW94EIxYZrPdUJ2X4Zr0EAorFtAdU1m45tpO8cm4s0V5QSISjSukxMDjFNE7e
- q7w94wrGNy4IEIPGa+B5eGWH1VSwiAqFS0vPrQIsz5uOJyF7tCEE+GuEO+NYZmLxjjTv1Wobz8t
- LY3K+iVn1n0/57clmJY1qWvAH0OeusO/o9DawsAjMTcGxHxTqxwhLXUomcjGInRZerWr3EnVAY4
- eX5J9agJoFdtzMg==
+ bh=u9rlLJsMm1XL9+aRvQppvfNen/IBc5LxFiSkKc7jCZA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUa5016ggN4ijsS9cosSzVInIMBKN5wmX+o8aV
+ eO3+rTzwJ6JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1GudAAKCRD6PaqMvJYe
+ 9fFYD/0YxHcK0WoJP+pfc8ZoGNbOJ5lfl0dqpVoHSMKlphIRTK64r93Ou6gzMI2w1mILsvyDv08
+ tvLukm2pu20WEUY0e761OOe+2/kXyKhJfDIEPhBvW/KOOSy9SZthCa6fnq0fEKwdqrV5zOVmJ0S
+ dKP9ofxdQh0QFwHTB34g6OXG3jXmixKrOxEQHOTRpvAlU2Czcl4WdAgrnG9p+vS9HCh1CUQxjeC
+ DVvhp7lQg/0C8Z7QFAf4kcWiAco6knFm1ZuS2IRno4JzMm/2BhFgUwVJu17Z9nvtvLKNCUGgsdx
+ UpTsWu7LFiy9RU5gB+JOpBcvqSXjj0/OmWo5U2D6LVsY+cT4xmr+D7sSInIyZemlJOGbQAbaTMS
+ gKaKUg799XB93vUFVGOnOvcoMog54psczzlRAM9FY0T5ePyvedx1/TyRmmVy4VMZ20TZyyFm5xC
+ P5wshfONoX72yfSvN25ZrHyBOCrkDtuS4y54YZrrtoi8i2OvSEuE/TB13o+pExvh2nZF9b4OFwl
+ reES4Z5MVH1JvHk5FE6EzIPYbHeBRSNg4B+1xYABE5q5qsgIDBfzX5m9oJ3eCeLH8rxj+b5yy4N
+ eBXIU56N3sDmLMi2RzebrHAKG74egB5/+5zQt2+ZJ6od9WszpVbtP0v8HQgyoI6COCrS7B0qwLS
+ uf03Kp4HGjzlEiw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,106 +93,149 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Add the device nodes for supporting DU and DSI.
+Add support for the mini DP output on the Gray Hawk board.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 73 +++++++++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+ .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts | 95 ++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-index 12d8be3fd579..4f97c483fd4b 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-@@ -1828,6 +1828,50 @@ csi41isp1: endpoint {
- 			};
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+index 057f959d67b3..7cdf07b6dde6 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+@@ -59,6 +59,12 @@ chosen {
+ 		stdout-path = "serial0:921600n8";
+ 	};
  
-+		fcpvd0: fcp@fea10000 {
-+			compatible = "renesas,fcpv";
-+			reg = <0 0xfea10000 0 0x200>;
-+			clocks = <&cpg CPG_MOD 508>;
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 508>;
++	sn65dsi86_refclk: clk-x6 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <38400000>;
++	};
++
+ 	keys {
+ 		compatible = "gpio-keys";
+ 
+@@ -126,6 +132,27 @@ memory@480000000 {
+ 		reg = <0x4 0x80000000 0x1 0x80000000>;
+ 	};
+ 
++	mini-dp-con {
++		compatible = "dp-connector";
++		label = "CN5";
++		type = "mini";
++
++		port {
++			mini_dp_con_in: endpoint {
++				remote-endpoint = <&sn65dsi86_out0>;
++			};
 +		};
++	};
 +
-+		vspd0: vsp@fea20000 {
-+			compatible = "renesas,vsp2";
-+			reg = <0 0xfea20000 0 0x8000>;
-+			interrupts = <GIC_SPI 546 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 830>;
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 830>;
-+			renesas,fcp = <&fcpvd0>;
++	reg_1p2v: regulator-1p2v {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.2V";
++		regulator-min-microvolt = <1200000>;
++		regulator-max-microvolt = <1200000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	reg_1p8v: regulator-1p8v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "fixed-1.8V";
+@@ -200,6 +227,24 @@ channel1 {
+ 	};
+ };
+ 
++&dsi0 {
++	status = "okay";
++
++	ports {
++		port@1 {
++			reg = <1>;
++			dsi0_out: endpoint {
++				remote-endpoint = <&sn65dsi86_in0>;
++				data-lanes = <1 2 3 4>;
++			};
 +		};
++	};
++};
 +
-+		du: display@feb00000 {
-+			compatible = "renesas,du-r8a779h0";
-+			reg = <0 0xfeb00000 0 0x40000>;
-+			interrupts = <GIC_SPI 523 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 411>;
-+			clock-names = "du.0";
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 411>;
-+			reset-names = "du.0";
-+			renesas,vsps = <&vspd0 0>;
++&du {
++	status = "okay";
++};
 +
-+			status = "disabled";
+ &extal_clk {
+ 	clock-frequency = <16666666>;
+ };
+@@ -269,6 +314,51 @@ eeprom@53 {
+ 	};
+ };
+ 
++&i2c1 {
++	pinctrl-0 = <&i2c1_pins>;
++	pinctrl-names = "default";
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++	status = "okay";
++	clock-frequency = <400000>;
 +
-+				port@0 {
-+					reg = <0>;
-+					du_out_dsi0: endpoint {
-+						remote-endpoint = <&dsi0_in>;
-+					};
++	bridge@2c {
++		compatible = "ti,sn65dsi86";
++		reg = <0x2c>;
++
++		clocks = <&sn65dsi86_refclk>;
++		clock-names = "refclk";
++
++		interrupt-parent = <&intc_ex>;
++		interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
++
++		enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
++
++		vccio-supply = <&reg_1p8v>;
++		vpll-supply = <&reg_1p8v>;
++		vcca-supply = <&reg_1p2v>;
++		vcc-supply = <&reg_1p2v>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				sn65dsi86_in0: endpoint {
++					remote-endpoint = <&dsi0_out>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				sn65dsi86_out0: endpoint {
++					remote-endpoint = <&mini_dp_con_in>;
 +				};
 +			};
 +		};
++	};
++};
 +
- 		isp0: isp@fed00000 {
- 			compatible = "renesas,r8a779h0-isp",
- 				     "renesas,rcar-gen4-isp";
-@@ -1996,6 +2040,35 @@ isp1vin15: endpoint {
- 			};
- 		};
+ &i2c3 {
+ 	pinctrl-0 = <&i2c3_pins>;
+ 	pinctrl-names = "default";
+@@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
+ 		function = "i2c0";
+ 	};
  
-+		dsi0: dsi-encoder@fed80000 {
-+			compatible = "renesas,r8a779h0-dsi-csi2-tx";
-+			reg = <0 0xfed80000 0 0x10000>;
-+			clocks = <&cpg CPG_MOD 415>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_DSIEXT>,
-+				 <&cpg CPG_CORE R8A779H0_CLK_DSIREF>;
-+			clock-names = "fck", "dsi", "pll";
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 415>;
++	i2c1_pins: i2c1 {
++		groups = "i2c1";
++		function = "i2c1";
++	};
 +
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					dsi0_in: endpoint {
-+						remote-endpoint = <&du_out_dsi0>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
- 		prr: chipid@fff00044 {
- 			compatible = "renesas,prr";
- 			reg = <0 0xfff00044 0 4>;
+ 	i2c3_pins: i2c3 {
+ 		groups = "i2c3";
+ 		function = "i2c3";
 
 -- 
 2.43.0
