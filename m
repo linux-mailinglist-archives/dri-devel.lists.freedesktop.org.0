@@ -2,73 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25469E687D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 09:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541579E6884
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 09:12:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 741F610E5FA;
-	Fri,  6 Dec 2024 08:12:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 017C510EFFE;
+	Fri,  6 Dec 2024 08:12:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=thalesgroup.com header.i=@thalesgroup.com header.b="pc2p1rs6";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="aVzGogmc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
- Thu, 05 Dec 2024 15:13:39 UTC
-Received: from esa.hc1631-21.eu.iphmx.com (esa.hc1631-21.eu.iphmx.com
- [23.90.123.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37BC310EEAC;
- Thu,  5 Dec 2024 15:13:39 +0000 (UTC)
-X-CSE-ConnectionGUID: DtLK0DlsS/Wb4CZkDKtkyg==
-X-CSE-MsgGUID: 7sik+0rLRP2CRNZEMG3ACQ==
-Authentication-Results: ob1.hc1631-21.eu.iphmx.com;
- dkim=pass (signature verified)
- header.i=@thalesgroup.com
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="24580185"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728943200"; d="scan'208";a="24580185"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=thalesgroup.com; i=@thalesgroup.com; s=bbmfo20230504;
- t=1733411179; h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=dFNyZ6CzMIcrFuNf7yf624oDb7uTHna8qfR7jQp9EpM=;
- b=pc2p1rs6wM/SDwFC4gJIK4EhaTsMcaXcnbQD82z+Rsg59ejAYUoTRTBT
- MKQnFgr8wUTJiObM+ik1jQ7E2hUyxM7jPrkYOGpilTvLH1H8yZAZDsdqe
- CGQpA6WRKK8EFGXPFNc0i447e4zdqyCW5Lmxvue5Xf071tWoNhNk81aRX
- R75rJbGXsaslefivqBBDMmKlkufFMO1RQWFhDL8Vs35mvAecuS9DXdm0K
- dn71YoZdI/Brk8QcXygvhWsVucXUlBYoQEpY+fpjHKVJvwMOPmqBNZz57
- Tj7X2kSknJNp+1sd9p/HcVDkqE9Y0T7gjifYnRGLPB3CZhO8lVWpKJr2c A==;
-X-CSE-ConnectionGUID: RCUkX0p4RFyi6/TDqjX0fQ==
-X-CSE-MsgGUID: pUEsyKGkTZeAfMQcYU/pNQ==
-X-CSE-ConnectionGUID: 8rvR8T5QRcKRxelbuKq7JQ==
-X-CSE-MsgGUID: wEwR4l06R1CYjqYp3BWqiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="36769402"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728943200"; d="scan'208";a="36769402"
-From: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
-To: Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
- <simon.lenain@thalesgroup.com>, BARBEAU Etienne
- <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
- <sebastien.lejeune@thalesgroup.com>
-Subject: RE: [PATCH v2] drm/etnaviv: add optional reset support
-Thread-Topic: [PATCH v2] drm/etnaviv: add optional reset support
-Thread-Index: Adsx5YIJONFfGHrTSZ2tfemyyzgnnQTvw6IAAFjvBlA=
-Date: Thu, 5 Dec 2024 15:06:18 +0000
-Message-ID: <66770f0cadcf4728880efe3a2427f55d@thalesgroup.com>
-References: <dc139d10a4184d289c9ffd1d308c0db1@thalesgroup.com>
- <3416531c050e5f6717e478eb7fd8fd6c30c21dd4.camel@pengutronix.de>
-In-Reply-To: <3416531c050e5f6717e478eb7fd8fd6c30c21dd4.camel@pengutronix.de>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-nodisclaimer: 0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-Greylist: delayed 527 seconds by postgrey-1.36 at gabe;
+ Thu, 05 Dec 2024 15:30:41 UTC
+Received: from out.smtpout.orange.fr (out-14.smtpout.orange.fr [193.252.22.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F8F610E3E5
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 15:30:41 +0000 (UTC)
+Received: from mail-lj1-f179.google.com ([209.85.208.179])
+ by smtp.orange.fr with ESMTPSA
+ id JDfrt2JeNQ2aZJDfrtOBlz; Thu, 05 Dec 2024 16:21:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1733412112;
+ bh=5Sob8jML2a9sfY47l90QZhBAyozcID3U7Li8+UA7roI=;
+ h=MIME-Version:From:Date:Message-ID:Subject:To;
+ b=aVzGogmcTPRdjLpDdU/7wCOIlxa/3k9MfUx9oXxURMDPjn98fuB0PLDwBo5NAqUUU
+ ZCyRgBXKhOh1O1qV3BMRpAN8iX0SOL8sy7M4kmTBCfkEY01ELS6vc+SCyaJ2oTaFJG
+ WY5QTjECwGMTPjnZCaf6e8NMnhANiAArbAsiy7I6tepSRZ9vh5GW4O3M9R5yWzqRI3
+ tuOZ/8tEzxmX9Nu4g0gnT+I9PfENnOe4KxABB2icpuwPl0uP4VG2UjXVmfJk04vrwP
+ 0c1o4j7/O5xytJ5pDDfI3rVf6kTcCCJVQXxcAtrAED3p7DpAAG66pUYEOxoBvx+WNV
+ rZjURcMV9HxiA==
+X-ME-Helo: mail-lj1-f179.google.com
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 05 Dec 2024 16:21:52 +0100
+X-ME-IP: 209.85.208.179
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-3000b64fbe9so9960441fa.1; 
+ Thu, 05 Dec 2024 07:21:51 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUXI25gL/HipuGV6jBvnlPAiYIYaDAHRFC/bymlbJ52mOg3Dz3G7v5AfXKi41u1Q9kapqbvhyR9RnY=@lists.freedesktop.org,
+ AJvYcCX2yD6gBcu5z79Zn7kNmthN403mK9TigF/OK+fiGSgJdHe2j8JP+uYAITjztoBD1XWVq/aqwgSiHE86@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxg0Zd8FZL2cSxWXHAf9h3IufHeBPFmmpvU4MnLS9PtXmoVoNIT
+ 2RT8LJnkaq8d6/Olk6JMYSA0HtcoKAHmq2hAd0QGJK3DyGzOp2+qRSv8O7NhgihXTfXSEU/saPG
+ FNAm51KaJGi360lWYzV+ng3kgwas=
+X-Google-Smtp-Source: AGHT+IFTPODU6RGdJMXff+75tOD6Nj3x2Mn/gdl5NWtqQnJzhnFZgI0m0ZroaJ8Q+jvxJuILOkW0ziN/Pe9Qt29xALE=
+X-Received: by 2002:a05:6512:32c8:b0:53e:28dd:a9d1 with SMTP id
+ 2adb3069b0e04-53e28ddb7bcmr693951e87.24.1733412111008; Thu, 05 Dec 2024
+ 07:21:51 -0800 (PST)
 MIME-Version: 1.0
+References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
+ <FBEB24FF-5885-4938-8D1C-9B7BA9071FB9@kernel.org>
+In-Reply-To: <FBEB24FF-5885-4938-8D1C-9B7BA9071FB9@kernel.org>
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Date: Fri, 6 Dec 2024 00:21:35 +0900
+X-Gmail-Original-Message-ID: <CAMZ6RqLSiTfTNQrcje06MbSxvM2k16MgqG1YTCufe6j9FhupEw@mail.gmail.com>
+Message-ID: <CAMZ6RqLSiTfTNQrcje06MbSxvM2k16MgqG1YTCufe6j9FhupEw@mail.gmail.com>
+Subject: Re: [PATCH 00/10] compiler.h: refactor __is_constexpr() into
+ is_const{, _true, _false}()
+To: Kees Cook <kees@kernel.org>
+Cc: Vincent Mailhol via B4 Relay
+ <devnull+mailhol.vincent.wanadoo.fr@kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ David Laight <David.Laight@aculab.com>, 
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+ Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
+ Martin Uecker <Martin.Uecker@med.uni-goettingen.de>,
+ linux-sparse@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-hardening@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, coresight@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-Mailman-Approved-At: Fri, 06 Dec 2024 08:12:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,122 +99,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTHVjYXMsDQoNCkkgYW0gZ3JhdGVmdWwgdG8geW91IGZvciB5b3VyIGFuc3dlciBhcyB0aGlz
-IGlzIG15IGZpcnN0IGF0dGVtcHQgdG8gY29udHJpYnV0ZSB0byB0aGUga2VybmVsLg0KDQo+IC0t
-LS0tTWVzc2FnZSBkJ29yaWdpbmUtLS0tLQ0KPiBEZcKgOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBw
-ZW5ndXRyb25peC5kZT4NCj4gRW52b3nDqcKgOiBtYXJkaSAzIGTDqWNlbWJyZSAyMDI0IDE4OjU4
-DQo+IMOAwqA6IExFQ09JTlRSRSBQaGlsaXBwZSA8cGhpbGlwcGUubGVjb2ludHJlQHRoYWxlc2dy
-b3VwLmNvbT47IFJ1c3NlbGwgS2luZw0KPiA8bGludXgrZXRuYXZpdkBhcm1saW51eC5vcmcudWs+
-OyBDaHJpc3RpYW4gR21laW5lcg0KPiA8Y2hyaXN0aWFuLmdtZWluZXJAZ21haWwuY29tPg0KPiBD
-Y8KgOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAZ21haWwuY29tPjsgU2ltb25hIFZldHRlciA8c2lt
-b25hQGZmd2xsLmNoPjsNCj4gZXRuYXZpdkBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LQ0KPiBrZXJuZWxAdmdlci5rZXJuZWwub3Jn
-OyBMRU5BSU4gU2ltb24gPHNpbW9uLmxlbmFpbkB0aGFsZXNncm91cC5jb20+Ow0KPiBCQVJCRUFV
-IEV0aWVubmUgPGV0aWVubmUuYmFyYmVhdUB0aGFsZXNncm91cC5jb20+OyBMRUpFVU5FIFNlYmFz
-dGllbg0KPiA8c2ViYXN0aWVuLmxlamV1bmVAdGhhbGVzZ3JvdXAuY29tPg0KPiBPYmpldMKgOiBS
-ZTogW1BBVENIIHYyXSBkcm0vZXRuYXZpdjogYWRkIG9wdGlvbmFsIHJlc2V0IHN1cHBvcnQNCj4g
-DQo+IEhpIFBoaWxpcHBlLA0KPiANCj4gQW0gRnJlaXRhZywgZGVtIDA4LjExLjIwMjQgdW0gMTQ6
-MDAgKzAwMDAgc2NocmllYiBMRUNPSU5UUkUgUGhpbGlwcGU6DQo+ID4gQWRkIG9wdGlvbmFsIHJl
-c2V0IHN1cHBvcnQgd2hpY2ggaXMgbWVudGlvbmVkIGluIHZpdmFudGUsZ2MueWFtbCB0bw0KPiA+
-IGFsbG93IHRoZSBkcml2ZXIgdG8gd29yayBvbiBTb0NzIHdob3NlIHJlc2V0IHNpZ25hbCBpcyBh
-c3NlcnRlZCBieSBkZWZhdWx0DQo+ID4gQXZvaWQgZW5hYmxpbmcgdGhlIGludGVycnVwdCB1bnRp
-bCBldmVyeXRoaW5nIGlzIHJlYWR5DQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwZSBM
-ZWNvaW50cmUgPHBoaWxpcHBlLmxlY29pbnRyZUB0aGFsZXNncm91cC5jb20+DQo+ID4gUmV2aWV3
-ZWQtYnk6IFNpbW9uIExlbmFpbiA8c2ltb24ubGVuYWluQHRoYWxlc2dyb3VwLmNvbT4NCj4gPiAt
-LS0NCj4gPiB2MjoNCj4gPiAtIEFkZCBtaXNzaW5nIGluY2x1ZGUgb2YgaXJxLmgNCj4gPiAtLS0N
-Cj4gPiAgZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuYyB8IDMwDQo+ICsrKysr
-KysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICBkcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5h
-dml2X2dwdS5oIHwgIDIgKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAzMiBpbnNlcnRpb25zKCsp
-DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9n
-cHUuYw0KPiBiL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ3B1LmMNCj4gPiBpbmRl
-eCA3YzdmOTc3OTNkZGQuLjNlMGM1ZGQ5Zjc0YiAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2V0
-bmF2aXYvZXRuYXZpdl9ncHUuYw0KPiA+IEBAIC0xLDYgKzEsNyBAQA0KPiA+ICAvLyBTUERYLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICAvKg0KPiA+ICAgKiBDb3B5cmlnaHQgKEMp
-IDIwMTUtMjAxOCBFdG5hdml2IFByb2plY3QNCj4gPiArICogQ29weXJpZ2h0IChDKSAyMDI0IFRo
-YWxlcw0KPiA+ICAgKi8NCj4gPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvY2xrLmg+DQo+ID4gQEAg
-LTgsMTEgKzksMTMgQEANCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RlbGF5Lmg+DQo+ID4gICNpbmNs
-dWRlIDxsaW51eC9kbWEtZmVuY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L2RtYS1tYXBwaW5n
-Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9pcnEuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L21v
-ZF9kZXZpY2V0YWJsZS5oPg0KPiA+ICAjaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+DQo+ID4gICNp
-bmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3Bt
-X3J1bnRpbWUuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3JlZ3VsYXRvci9jb25zdW1lci5oPg0K
-PiA+ICsjaW5jbHVkZSA8bGludXgvcmVzZXQuaD4NCj4gPiAgI2luY2x1ZGUgPGxpbnV4L3RoZXJt
-YWwuaD4NCj4gPg0KPiA+ICAjaW5jbHVkZSAiZXRuYXZpdl9jbWRidWYuaCINCj4gPiBAQCAtMTYy
-OSw4ICsxNjMyLDI0IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9ncHVfY2xrX2VuYWJsZShzdHJ1Y3QN
-Cj4gZXRuYXZpdl9ncHUgKmdwdSkNCj4gPiAgCWlmIChyZXQpDQo+ID4gIAkJZ290byBkaXNhYmxl
-X2Nsa19jb3JlOw0KPiA+DQo+ID4gKwkvKiAzMiBjb3JlIGNsb2NrIGN5Y2xlcyAoc2xvd2VzdCBj
-bG9jaykgcmVxdWlyZWQgYmVmb3JlIGRlYXNzZXJ0aW9uLiAqLw0KPiA+ICsJLyogMSBtaWNyb3Nl
-Y29uZCBtaWdodCBtYXRjaCBhbGwgaW1wbGVtZW50YXRpb25zICovDQo+ID4gKwl1c2xlZXBfcmFu
-Z2UoMSwgMik7DQo+ID4gKw0KPiA+ICsJcmV0ID0gcmVzZXRfY29udHJvbF9kZWFzc2VydChncHUt
-PnJzdCk7DQo+ID4gKwlpZiAocmV0KQ0KPiA+ICsJCWdvdG8gZGlzYWJsZV9jbGtfc2hhZGVyOw0K
-PiA+ICsNCj4gPiArCS8qIDEyOCBjb3JlIGNsb2NrIGN5Y2xlcyAoc2xvd2VzdCBjbG9jaykgcmVx
-dWlyZWQgYmVmb3JlIGFueSBhY3Rpdml0eSBvbg0KPiBBSEIuICovDQo+ID4gKwkvKiAxIG1pY3Jv
-c2Vjb25kIG1pZ2h0IG1hdGNoIGFsbCBpbXBsZW1lbnRhdGlvbnMgKi8NCj4gPiArCXVzbGVlcF9y
-YW5nZSgxLCAyKTsNCj4gDQo+IE1hc2hpbmcgdGhlIHJlc2V0IGhhbmRsaW5nIGludG8gdGhlIGNs
-b2NrIGhhbmRsaW5nIGlzIGEgYmFkIGlkZWEuIFRoZQ0KPiBjbG9ja3MgYXJlIGVuLS9kaXNhYmxl
-ZCBkdXJpbmcgcnVudGltZSBQTSBoYW5kbGluZy4gVGhlIGV0bmF2aXYgZHJpdmVyDQo+IGlzIHdy
-aXR0ZW4gaW4gYSB3YXkgdGhhdCB0aGUgR1BVIGRvZXMgbm90IG5lY2Vzc2FyaWx5IG5lZWQgdG8g
-YmUgcmVzZXQNCj4gZHVyaW5nIGEgcnVudGltZSBQTSB0cmFuc2l0aW9uLCB3aGljaCBhbGxvdyBm
-b3IgZmFzdGVyIHN0YXJ0dXAgdGltZXMuDQo+IA0KPiBUaGUgcmVzZXQgaGFuZGxpbmcgc2hvdWxk
-IHJlYWxseSBiZSBpdHMgb3duIHNlcGFyYXRlIGZ1bmN0aW9uIGFuZCB3b3VsZA0KPiBsb2dpY2Fs
-bHkgZ28gaW50byBldG5hdml2X2dwdV9pbml0KCkgYmV0d2VlbiB0aGUgcG1fcnVudGltZV9nZXRf
-c3luYygpDQo+IGFuZCBldG5hdml2X2h3X2lkZW50aWZ5KCkuDQo+IA0KDQpJIHdpbGwgcmV3b3Jr
-IHRoaXMgcGFydCB0byBtYXRjaCB5b3VyIGZlZWRiYWNrLg0KDQo+ID4gKw0KPiA+ICsJZW5hYmxl
-X2lycShncHUtPmlycSk7DQo+IA0KPiBEbyB5b3Ugc2VlIGFueSBpc3N1ZXMgd2l0aCB0aGUgSVJR
-IGJlaW5nIGVuYWJsZWQgZWFybGllcj8gQSBHUFUgYmVpbmcNCj4gaGVsZCBpbiByZXNldCBzaG91
-bGQgbm90IGJlIGFibGUgdG8gdHJpZ2dlciBhIElSUS4NCj4gDQoNCkkgaW50ZW5kIHRvIGF2b2lk
-IHNpdHVhdGlvbnMgd2hlcmUgSVJRIGFyZSB0cmlnZ2VyZWQgZm9yIHNvbWUgcmVhc29uIGFuZCB0
-aGUgR1BVIGlzIG5vdCBmdWxseSBvcGVyYXRpb25hbC4NClN1Y2ggaXNzdWVzIG1pZ2h0IGFwcGVh
-ciBjb25zaWRlcmluZyB0aGUgc3RhdGUgb2YgcmVzZXQgYW5kIGNsb2NrcyBmcm9tIGludGVybmFs
-IGJvb3QgdG8ga2VybmVsLg0KSSBhc3N1bWUgdGhpcyBzaXR1YXRpb24gbmV2ZXIgYXBwZWFyZWQg
-d2l0aCBTb0NzIHRoYXQgYXJlIHVzaW5nIHRoaXMgZHJpdmVyIGF0IHRoZSBtb21lbnQuDQpCdXQg
-aXQgYXBwZWFyIG9uIGEgU29DIGRldmVsb3BlZCBieSBhbiBpbmR1c3RyaWFsIHBhcnRuZXIsIHRo
-aXMgbGVhZCB0byBJUlEgc3BhbW1pbmcgd2l0aCBBWEkgYnVzIGVycm9yIGluIHRoZSBjb25zb2xl
-Lg0KDQo+ID4gKw0KPiA+ICAJcmV0dXJuIDA7DQo+ID4NCj4gPiArZGlzYWJsZV9jbGtfc2hhZGVy
-Og0KPiA+ICsJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGdwdS0+Y2xrX3NoYWRlcik7DQo+ID4gIGRp
-c2FibGVfY2xrX2NvcmU6DQo+ID4gIAljbGtfZGlzYWJsZV91bnByZXBhcmUoZ3B1LT5jbGtfY29y
-ZSk7DQo+ID4gIGRpc2FibGVfY2xrX2J1czoNCj4gPiBAQCAtMTY0Myw2ICsxNjYyLDggQEAgc3Rh
-dGljIGludCBldG5hdml2X2dwdV9jbGtfZW5hYmxlKHN0cnVjdA0KPiBldG5hdml2X2dwdSAqZ3B1
-KQ0KPiA+DQo+ID4gIHN0YXRpYyBpbnQgZXRuYXZpdl9ncHVfY2xrX2Rpc2FibGUoc3RydWN0IGV0
-bmF2aXZfZ3B1ICpncHUpDQo+ID4gIHsNCj4gPiArCWRpc2FibGVfaXJxKGdwdS0+aXJxKTsNCj4g
-PiArCXJlc2V0X2NvbnRyb2xfYXNzZXJ0KGdwdS0+cnN0KTsNCj4gPiAgCWNsa19kaXNhYmxlX3Vu
-cHJlcGFyZShncHUtPmNsa19zaGFkZXIpOw0KPiA+ICAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGdw
-dS0+Y2xrX2NvcmUpOw0KPiA+ICAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGdwdS0+Y2xrX2J1cyk7
-DQo+ID4gQEAgLTE4NzYsNiArMTg5Nyw5IEBAIHN0YXRpYyBpbnQgZXRuYXZpdl9ncHVfcGxhdGZv
-cm1fcHJvYmUoc3RydWN0DQo+IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gPiAgCWlmIChncHUt
-PmlycSA8IDApDQo+ID4gIAkJcmV0dXJuIGdwdS0+aXJxOw0KPiA+DQo+ID4gKwkvKiBBdm9pZCBl
-bmFibGluZyB0aGUgaW50ZXJydXB0IHVudGlsIGV2ZXJ5dGhpbmcgaXMgcmVhZHkgKi8NCj4gPiAr
-CWlycV9zZXRfc3RhdHVzX2ZsYWdzKGdwdS0+aXJxLCBJUlFfTk9BVVRPRU4pOw0KPiA+ICsNCj4g
-PiAgCWVyciA9IGRldm1fcmVxdWVzdF9pcnEoJnBkZXYtPmRldiwgZ3B1LT5pcnEsIGlycV9oYW5k
-bGVyLCAwLA0KPiA+ICAJCQkgICAgICAgZGV2X25hbWUoZ3B1LT5kZXYpLCBncHUpOw0KPiA+ICAJ
-aWYgKGVycikgew0KPiA+IEBAIC0xODgzLDYgKzE5MDcsMTIgQEAgc3RhdGljIGludCBldG5hdml2
-X2dwdV9wbGF0Zm9ybV9wcm9iZShzdHJ1Y3QNCj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+
-ICAJCXJldHVybiBlcnI7DQo+ID4gIAl9DQo+ID4NCj4gPiArCS8qIEdldCBSZXNldDogKi8NCj4g
-PiArCWdwdS0+cnN0ID0gZGV2bV9yZXNldF9jb250cm9sX2dldF9vcHRpb25hbCgmcGRldi0+ZGV2
-LCBOVUxMKTsNCj4gPiArCWlmIChJU19FUlIoZ3B1LT5yc3QpKQ0KPiA+ICsJCXJldHVybiBkZXZf
-ZXJyX3Byb2JlKGRldiwgUFRSX0VSUihncHUtPnJzdCksDQo+ID4gKwkJCQkgICAgICJmYWlsZWQg
-dG8gZ2V0IHJlc2V0XG4iKTsNCj4gPiArDQo+ID4gIAkvKiBHZXQgQ2xvY2tzOiAqLw0KPiA+ICAJ
-Z3B1LT5jbGtfcmVnID0gZGV2bV9jbGtfZ2V0X29wdGlvbmFsKCZwZGV2LT5kZXYsICJyZWciKTsN
-Cj4gPiAgCURCRygiY2xrX3JlZzogJXAiLCBncHUtPmNsa19yZWcpOw0KPiA+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5oDQo+IGIvZHJpdmVycy9ncHUv
-ZHJtL2V0bmF2aXYvZXRuYXZpdl9ncHUuaA0KPiA+IGluZGV4IDMxMzIyMTk1YjllNC4uOGMxODEx
-OTE3NTVlIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZf
-Z3B1LmgNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZXRuYXZpdi9ldG5hdml2X2dwdS5oDQo+
-ID4gQEAgLTEsNiArMSw3IEBADQo+ID4gIC8qIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwt
-Mi4wICovDQo+ID4gIC8qDQo+ID4gICAqIENvcHlyaWdodCAoQykgMjAxNS0yMDE4IEV0bmF2aXYg
-UHJvamVjdA0KPiA+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMjQgVGhhbGVzDQo+IA0KPiBJIGRvbid0
-IHRoaW5rIGFkZGluZyBhIHNpbmdsZSBtZW1iZXIgaGVyZSBkb2VzIHdhcnJhbnQgYSBDb3B5cmln
-aHQNCj4gc3RhdGVtZW50LCBpbiBmYWN0IEkgd291bGQgcHJlZmVyIHRoZW0gdG8gbm90IGJlIHRv
-dWNoZWQgYXQgYWxsLg0KPiBBdXRob3JzaGlwIG9mIGluZGl2aWR1YWwgY2hhbmdlcyB0byB0aGUg
-ZHJpdmVyIGEgY2xlYXJseSBhdHRyaWJ1dGFibGUNCj4gdmlhIHRoZSBnaXQgaGlzdG9yeS4NCj4g
-DQoNCkkgYWRkIHRoZXNlIENvcHlyaWdodCB3aGlsZSBmb2xsb3dpbmcgdGhlIHJ1bGVzIHRvIGNv
-bnRyaWJ1dGUgdG8gYW4gT1NTIHByb2plY3QgZnJvbSBteSBjb21wYW55Lg0KQWZ0ZXIgY2xhcmlm
-aWNhdGlvbnMgd2l0aCB0aGUgbGVnYWwgZGVwYXJ0bWVudCwgSSB3aWxsIHJlbW92ZSB0aGVzZSBj
-aGFuZ2VzIGluIG15IG5leHQgcmV2aXNpb24uDQoNClJlZ2FyZHMsDQpQaGlsaXBwZQ0KDQo+IFJl
-Z2FyZHMsDQo+IEx1Y2FzDQo+ID4gICAqLw0KPiA+DQo+ID4gICNpZm5kZWYgX19FVE5BVklWX0dQ
-VV9IX18NCj4gPiBAQCAtMTU3LDYgKzE1OCw3IEBAIHN0cnVjdCBldG5hdml2X2dwdSB7DQo+ID4g
-IAlzdHJ1Y3QgY2xrICpjbGtfcmVnOw0KPiA+ICAJc3RydWN0IGNsayAqY2xrX2NvcmU7DQo+ID4g
-IAlzdHJ1Y3QgY2xrICpjbGtfc2hhZGVyOw0KPiA+ICsJc3RydWN0IHJlc2V0X2NvbnRyb2wgKnJz
-dDsNCj4gPg0KPiA+ICAJdW5zaWduZWQgaW50IGZyZXFfc2NhbGU7DQo+ID4gIAl1bnNpZ25lZCBp
-bnQgZmVfd2FpdGN5Y2xlczsNCg0K
+On Thu. 5 Dec. 2024 at 08:58, Kees Cook <kees@kernel.org> wrote:
+> On December 3, 2024 3:33:22 AM GMT+10:00, Vincent Mailhol via B4 Relay <devnull+mailhol.vincent.wanadoo.fr@kernel.org> wrote:
+> >This series is the spiritual successor of [1] which introduced
+> >const_true(). In [1], following a comment from David Laight, Linus
+> >came with a suggestion to simplify __is_constexpr() and its derived
+> >macros using a _Generic() selection. Because of the total change of
+> >scope, I am starting a new series.
+> >
+> >The goal is to introduce a set of three macros:
+> >
+> >  - is_const(): a one to one replacement of __is_constexpr() in term
+> >    of features but written in a less hacky way thanks to _Generic().
+> >
+> >  - is_const_true(): tells whether or not the argument is a true
+> >    integer constant expression.
+> >
+> >  - is_const_false(): tells whether or not the argument is a false
+> >    integer constant expression.
+>
+> But why make this change? Is something broken? Does it make builds faster?
+>
+> > 7 files changed, 97 insertions(+), 84 deletions(-)
+>
+> It makes the code larger too. I don't see what the benefit is, and given how much time has been spent making sure the existing stuff works correctly, I feel like we should have a clear benefit to replacing it all.
+
+It makes the "code" larger because patch 3 ("compiler.h: add
+is_const_true() and is_const_false()") adds two new macros with 20
+lines of comments to explain the pros and cons. So the added "code" is
+only comments. If you ignore the comments, you can see that I am
+actually removing a few lines of code.
+
+As for the clear benefit, sorry, but I have nothing more to offer
+other than code simplification. The reason why a lot of time was spent
+to make __is_constexpr() work correctly is just a testimony of how
+complex the thing is. That alone can be a reason to simplify it, now
+that new tools (_Generic()) are available.
+
+Of course, modifying __is_constexpr() is not strictly needed to
+introduce the new is_const_expr(). My previous series:
+
+  https://lore.kernel.org/all/20241113172939.747686-4-mailhol.vincent@wanadoo.fr/
+
+ did it that way. But I was rightfully pointed out for my macro being
+ugly. Maybe I can suggest that you give a look to the above thread and
+tell me if you still disagree with David and Linus's comments after
+reading it?
+
+
+Yours sincerely,
+Vincent Mailhol
