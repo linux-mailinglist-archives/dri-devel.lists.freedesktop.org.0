@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA7989E559A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 13:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C9A99E55DC
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 13:54:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1A1F10EE2E;
-	Thu,  5 Dec 2024 12:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44C110EE4C;
+	Thu,  5 Dec 2024 12:54:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oBL2+fFJ";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="j7RbPjAB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58A1E10EE2E
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 12:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733402179;
- bh=te7Fq4Bo3HG2cZ3InWv7OJj4fVdLIRE8o0P8loWm+X0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oBL2+fFJd7Uue7s+sKucSheC+bCKoHl/qx4RzhjKclRVRd1npg9MpzC3TgYxh69r0
- Q3X8VV2vqYcOUMh/KwpnLaCNWRvVmTNlUqIgAbHM0GAtHuazRSnVNDnKYR1xsrSZQR
- tCf+CpVzMffcpmhxGRcAekrGP6xc1MbNEukU3SoDjLJ2wsosEbLW2x04VlUFWlyqua
- pmyHaGZGV2UyROHl4NfynSLi4R+o4N2TwDQjusAFI3sIp1v2zZBBALrxsD2xgwQg09
- 8u9QqC6fr9CKERkKZPDZTjAZdMTt07MZYRjrGR5p4lW5UvkHrYPIRz/06bn7qONJRP
- mDOc4ZokWgniQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 054A617E366D;
- Thu,  5 Dec 2024 13:36:18 +0100 (CET)
-Message-ID: <f2862790-f613-4583-bec5-302e06c77d8d@collabora.com>
-Date: Thu, 5 Dec 2024 13:36:18 +0100
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5AB3C10EE4C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 12:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=DxzuJ+PBFBTjnuUJMTNyiYZFtvZ7pwkUk2OsNljH+Rw=; b=j
+ 7RbPjABJaEEtc0yrG1mU6Sn04lAI389ddLLpuWyGuwdIuaCalEyEMiH5SEeBpRRB
+ 7TegI8igKwhMtSpngF2S+wiYiWD54zZX3j1A+IExXJOJOuEstS2QC2WETW0ovIC9
+ JyJgR87YZ+gEYyaQ2GDwBuSD28QIi2KbVhKbiF877E=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-118 (Coremail) ; Thu, 5 Dec 2024 20:53:25 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 5 Dec 2024 20:53:25 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: hjc@rock-chips.com, andy.yan@rock-chips.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ "Piotr Zalewski" <pZ010001011111@proton.me>, 
+ skhan@linuxfoundation.org, "Daniel Stone" <daniel@fooishbar.org>, 
+ "Dragan Simic" <dsimic@manjaro.org>, 
+ "Diederik de Haas" <didi.debian@cknow.org>
+Subject: Re:Re: [PATCH v7] rockchip/drm: vop2: add support for gamma LUT
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <12938960.VsHLxoZxqI@diego>
+References: <20241101185545.559090-3-pZ010001011111@proton.me>
+ <9Rp0NJW2QG5qDduowVaialZWN6xTe9KJFciu7Q2LERJZQXsUgFvMGXfcFaNznIEJEBpZeOdZPuL4fxOEFduaSJLuQJ3cIvN-fx2lEzYSBKE=@proton.me>
+ <12938960.VsHLxoZxqI@diego>
+X-NTES-SC: AL_Qu2YAfibvEor4ySfYelS8zNM9K56MKvt5LljqcQFePgqqTHL3g4cZnlBM0vW6uLuhrF9Zm4giOWgVo9pwXcb
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/15] drm/mediatek: mtk_hdmi: Split driver and add
- common probe function
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com, jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-References: <20241205114518.53527-1-angelogioacchino.delregno@collabora.com>
- <20241205114518.53527-13-angelogioacchino.delregno@collabora.com>
- <olxtqto5mbgofxg4iqjvsmpxxzz6zoj7pbwmoeklhfjiavqfvv@dyveek7hgtki>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <olxtqto5mbgofxg4iqjvsmpxxzz6zoj7pbwmoeklhfjiavqfvv@dyveek7hgtki>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <7877dddf.b3b8.19396e1df66.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: digvCgD3nw5HolFn1Sw4AA--.49949W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gOsXmdRnDbFCQACsx
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,79 +68,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 05/12/24 13:29, Dmitry Baryshkov ha scritto:
-> On Thu, Dec 05, 2024 at 12:45:14PM +0100, AngeloGioacchino Del Regno wrote:
->> In preparation for adding a new driver for the HDMI TX v2 IP,
->> split out the functions that will be common between the already
->> present mtk_hdmi (v1) driver and the new one.
->>
->> Since the probe flow for both drivers is 90% similar, add a common
->> probe function that will be called from each driver's .probe()
->> callback, avoiding lots of code duplication.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/gpu/drm/mediatek/Kconfig           |  11 +-
->>   drivers/gpu/drm/mediatek/Makefile          |   1 +
->>   drivers/gpu/drm/mediatek/mtk_hdmi.c        | 724 +++------------------
->>   drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 425 ++++++++++++
->>   drivers/gpu/drm/mediatek/mtk_hdmi_common.h | 203 ++++++
->>   5 files changed, 729 insertions(+), 635 deletions(-)
->>   create mode 100644 drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->>   create mode 100644 drivers/gpu/drm/mediatek/mtk_hdmi_common.h
->>
->> @@ -1026,19 +812,12 @@ static int mtk_hdmi_setup_vendor_specific_infoframe(struct mtk_hdmi *hdmi,
->>   	return 0;
->>   }
->>   
->> -static int mtk_hdmi_output_init(struct mtk_hdmi *hdmi)
->> +static void mtk_hdmi_send_infoframe(struct mtk_hdmi *hdmi, u8 *buffer_spd, size_t bufsz_spd,
->> +				    u8 *buffer_avi, size_t bufsz_avi,
->> +				    struct drm_display_mode *mode)
->>   {
->> -	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
->> -
->> -	hdmi->csp = HDMI_COLORSPACE_RGB;
->> -	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
->> -	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
->> -	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
->> -	aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
->> -	aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
->> -	aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
->> -
->> -	return 0;
->> +	mtk_hdmi_setup_avi_infoframe(hdmi, buffer_avi, bufsz_avi, mode);
->> +	mtk_hdmi_setup_spd_infoframe(hdmi, buffer_spd, bufsz_spd, "mediatek", "On-chip HDMI");
-> 
-> Please use the HDMI Connector framework instead of handling everything
-> on your own.
-> 
-
-Dmitry, my plan is to get the MediaTek HDMIv2 driver upstreamed *with* using
-the HDMI helpers - this commit is only splitting the old HDMI v1 driver in
-common parts and v1 handling.
-
-This "handling everything on my own" is something that was already present
-into the old v1 driver, I am *not adding* this code, but *moving it around*.
-
-I cannot migrate the v1 driver to the HDMI helpers right now because in this
-moment I have no way to test that and I don't want to break any functionality.
-
-If you check patch 15, you'll see that I am indeed using all of the helper
-goodies - but for now only on the new driver, and not on the old one.
-
-I do plan to migrate the v1 driver to the new helpers as well, but I would
-(please) really prefer to do that only after the v2 driver is upstreamed.
-
-Is that okay for you?
-
-Cheers,
-Angelo
-
->>   }
->>   
->>   static void mtk_hdmi_audio_enable(struct mtk_hdmi *hdmi)
-> 
-
-
-
+CkhpIFBpb3RyLAoKQXQgMjAyNC0xMi0wNSAxNjo1NDowOSwgIkhlaWtvIFN0w7xibmVyIiA8aGVp
+a29Ac250ZWNoLmRlPiB3cm90ZToKPkhpIFBpb3RyLAo+Cj5BbSBNaXR0d29jaCwgNC4gRGV6ZW1i
+ZXIgMjAyNCwgMTY6NDU6MjEgQ0VUIHNjaHJpZWIgUGlvdHIgWmFsZXdza2k6Cj4+IEkganVzdCBu
+b3RpY2VkIHRoYXQgYWZ0ZXIgY29taW5nIG91dCBvZiBzdXNwZW5kIGdhbW1hIExVVCBpcyBsb3N0
+IGFuZCBtdXN0Cj4+IGJlIHJld3JpdHRlbiBieSB1c2Vyc3BhY2UuCj4+IAo+PiBTbyBJIGd1ZXNz
+IGl0IHdpbGwgYmUgbmVlZGVkIHRvIHNhdmUgTFVUIHRvIGEgYnVmZmVyIGFuZCByZXdyaXRlIGl0
+IGFmdGVyCj4+IGdvaW5nIG91dCBvZiBzdXNwZW5kIGR1cmluZyBtb2Rlc2V0Pwo+Cj5Nb3N0IGxp
+a2VseSAuLi4gdGhlIG9sZCB2b3AgZG9lcyB0aGlzIGFscmVhZHkgdG9vLCBzbyBJIGd1ZXNzIHlv
+dSBjYW4KPmdldCBpbnNwaXJhdGlvbiBmcm9tIHRoZXJlLiAoZ2FtbWFfc2V0IGNhbGwgaW4gdm9w
+X2NydGNfYXRvbWljX2VuYWJsZSgpKQoKSSBndWVzcyBpdCByZXR1cm5lZCBiZWNhdXNlIGNydGNf
+c3RhdGUtPmNvbG9yX21nbXRfY2hhbmdlZCBpcyBmYWxzZSB3aGVuIGNhbGxlZCBmcm9tIAp2b3Ay
+X2NydGNfYXRvbWljX2VuYWJsZSBmcm9tIHMyci4KCgpzdGF0aWMgdm9pZCB2b3AyX2NydGNfYXRv
+bWljX3RyeV9zZXRfZ2FtbWEoc3RydWN0IHZvcDIgKnZvcDIsCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3Qgdm9wMl92aWRlb19wb3J0ICp2cCwKICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1fY3J0YyAqY3J0
+YywKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBkcm1f
+Y3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSkKewogICAgICAgIGlmICghdm9wMi0+bHV0X3JlZ3MgfHwg
+IWNydGNfc3RhdGUtPmNvbG9yX21nbXRfY2hhbmdlZCkKICAgICAgICAgICAgICAgIHJldHVybjsK
+CiAgICAgICAgaWYgKCFjcnRjX3N0YXRlLT5nYW1tYV9sdXQpIHsKICAgICAgICAgICAgICAgIHZv
+cDJfdnBfZHNwX2x1dF9kaXNhYmxlKHZwKTsKICAgICAgICAgICAgICAgIHJldHVybjsKICAgICAg
+ICB9CgogICAgICAgIGlmICh2b3AyX3N1cHBvcnRzX3NlYW1sZXNzX2dhbW1hX2x1dF91cGRhdGUo
+dm9wMikpCiAgICAgICAgICAgICAgICB2b3AyX2NydGNfYXRvbWljX3NldF9nYW1tYV9zZWFtbGVz
+cyh2b3AyLCB2cCwgY3J0Yyk7CiAgICAgICAgZWxzZQogICAgICAgICAgICAgICAgdm9wMl9jcnRj
+X2F0b21pY19zZXRfZ2FtbWFfcmszNTZ4KHZvcDIsIHZwLCBjcnRjKTsKfQo+Cj4+IEkgY2hlY2tl
+ZCB0aGUgcGF0Y2ggaXNuJ3QgeWV0IGluIHRoZSAib2ZmaWNpYWwiIGxpbnV4LW5leHQuCj4KPlRo
+ZSBwYXRjaCBpcyBpbiBkcm0tbWlzYy1uZXh0Ogo+aHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Au
+b3JnL2RybS9taXNjL2tlcm5lbC8tL2NvbW1pdC80ZjUzNzc3NjM0MGRhYjJiNjgwYTRkODU1NDU2
+N2Y2ODg0MjQwZDBiCj4KPnNvIHNob3VsZCB0dXJuIHVwIGluIGxpbnV4LW5leHQgYXQgc29tZSBw
+b2ludC4gVGhpcyBhbHNvIG1lYW5zLCBwbGVhc2UKPnByb3ZpZGUgYSBmb2xsb3ctdXAgcGF0Y2gg
+Zm9yIHRoZSBzdXNwZW5kIGhhbmRsaW5nLgo+Cj5UaGFua3MgYSBsb3QKPkhlaWtvCj4K
