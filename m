@@ -2,69 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE0B9E5D3F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 18:35:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8AC9E5D93
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 18:45:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64D1A10EF28;
-	Thu,  5 Dec 2024 17:35:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4A510EF4A;
+	Thu,  5 Dec 2024 17:45:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HwxXKHoA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qnOSplhG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B49B110EF28
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 17:35:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69D762B3;
- Thu,  5 Dec 2024 18:34:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733420076;
- bh=WQlqs2b3gZl3ijVpbkx65Dbf+b3YV9hOMw6FMzNRzgo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HwxXKHoA0W9slXiSRGl9gxsQ5iE6RURj3g8O/5xRzQf8G9ONWEojrYL9F/Hu/8ENF
- TY7+GZUP0Ko9zxewaSg4d5BMTZxVJ6YzUO91Qf5Xzj09CbWKWTnhxJqMv77YcPdnZB
- jHpTeH3QNsGTCpJf54wqRxMeyA8R8q4KIeTy0Z/g=
-Date: Thu, 5 Dec 2024 19:34:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v2 02/10] drm/rcar-du: Write DPTSR only if there are more
- than one crtc
-Message-ID: <20241205173452.GA21014@pendragon.ideasonboard.com>
-References: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
- <20241205-rcar-gh-dsi-v2-2-42471851df86@ideasonboard.com>
- <CAMuHMdVHRWbeQ8UF-xsKuxUNwHc5_kVwSgrTfOkwFFG5vG7fwA@mail.gmail.com>
- <98b43276-2a68-4ba9-999a-c738b8f7654f@ideasonboard.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77C2E10EF4A
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 17:45:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=VC5Q5VhFolVQqOIeMPRL/FD6EJNcWK177zOjwgVshSs=; b=qnOSplhGAwD0/CQJCVadhWwi4j
+ Wi3d5iq0iDyueagbW/Wyo4SNkHD8I2b46A/tQ+gT7fzCJbeHC6ClA74Ph90wYNLqUllK4y2Rp7lyD
+ 88g+yNE7ixLDuTkwiifLxv7iaRprHFE8Unf0MURujgs4MOZd+Tr9uXe/uli0kA/u8Z0rEXPykT/wW
+ eR1nvt91A2jiMGnKdBqr6ykNhXIWtBltNo1f9CBp3Euurs88+BsHRkNXBT4xzrs4qXKG1s2OObORT
+ Ld10eXu53U6MwAN2njrmcSMplfaifzQEJI4QhEEh6JXUFKMVgPNK8VHgrTjN6BygVmyaGY597T2Ke
+ oiuCHhzg==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tJFuj-00H4rx-GA; Thu, 05 Dec 2024 18:45:21 +0100
+Message-ID: <700f1ec7-cbe3-4d8d-a694-40350918df52@igalia.com>
+Date: Thu, 5 Dec 2024 14:45:15 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/v3d: Enable Performance Counters before clearing them
+To: Iago Toral <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241204122831.17015-1-mcanal@igalia.com>
+ <2c2af0bb388fd740f72d8e4521feb41feac86319.camel@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <2c2af0bb388fd740f72d8e4521feb41feac86319.camel@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <98b43276-2a68-4ba9-999a-c738b8f7654f@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,72 +62,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 06:08:24PM +0200, Tomi Valkeinen wrote:
-> On 05/12/2024 16:16, Geert Uytterhoeven wrote:
-> > Hi Tomi,
-> > 
-> > CC Jacopo
-> > 
-> > On Thu, Dec 5, 2024 at 2:45 PM Tomi Valkeinen wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>
-> >> Currently the driver always writes DPTSR when setting up the hardware.
-> >> However, the register is only meaningful when there are more than one
-> >> crtc, and the only SoC with one crtc, V3M, does not have the register
-> >> mentioned in its documentation.
-> > 
-> > R-Car V3H/V3H_2, too.
-> 
-> Right... I was looking at the number of outputs, not the number of crtcs 
-> when going through the SoCs.
-> 
-> >> So move the write behind a condition.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >> ---
-> >>   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 12 +++++++-----
-> >>   1 file changed, 7 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >> index 2ccd2581f544..0fbf6abbde6e 100644
-> >> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-> >> @@ -185,11 +185,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
-> >>                  dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
-> >>          rcar_du_group_write(rgrp, DORCR, dorcr);
-> >>
-> >> -       /* Apply planes to CRTCs association. */
-> >> -       mutex_lock(&rgrp->lock);
-> >> -       rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> >> -                           rgrp->dptsr_planes);
-> >> -       mutex_unlock(&rgrp->lock);
-> >> +       if (rgrp->num_crtcs > 1) {
-> >> +               /* Apply planes to CRTCs association. */
-> >> +               mutex_lock(&rgrp->lock);
-> >> +               rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-> >> +                                   rgrp->dptsr_planes);
-> >> +               mutex_unlock(&rgrp->lock);
-> >> +       }
-> > 
-> > This is per group, not per DU, right?
-> > The second group on R-Car M3-W/M3-W+ has a single channel, hence no
-> > DPTSR2 register.
-> > The second group on R-Car M3-N has a single channel, but it's actually
-> > the second physical channel in the group, and thus does have DPTSR2.
-> 
-> That logic does make sense. So that would be if (rgrp->channels_mask & 
-> BIT(1)) then write DPTSR? And probably add a comment in the code about this.
-> 
-> > And apparently we had this discussion before...
-> > https://lore.kernel.org/all/CAMuHMdXxf4oePnyLvp84OhSa+wdehCNJBXnhjYO7-1VxpBJ7eQ@mail.gmail.com
-> 
-> Somehow I hadn't even realized Jacopo had sent these before...
+Hi Iago,
 
-Oops...
+On 04/12/24 09:36, Iago Toral wrote:
+> Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
-I'll let Jacopo and you decide who will send an updated patch.
+Thanks for reviewing! Applied to misc/kernel.git (drm-misc-fixes).
 
--- 
-Regards,
+Best Regards,
+- Maíra
 
-Laurent Pinchart
+> 
+> El mié, 04-12-2024 a las 09:28 -0300, Maíra Canal escribió:
+>> On the Raspberry Pi 5, performance counters are not being cleared
+>> when `v3d_perfmon_start()` is called, even though we write to the
+>> CLR register. As a result, their values accumulate until they
+>> overflow.
+>>
+>> The expected behavior is for performance counters to reset to zero
+>> at the start of a job. When the job finishes and the perfmon is
+>> stopped, the counters should accurately reflect the values for that
+>> specific job.
+>>
+>> To ensure this behavior, the performance counters are now enabled
+>> before being cleared. This allows the CLR register to function as
+>> intended, zeroing the counter values when the job begins.
+>>
+>> Fixes: 26a4dc29b74a ("drm/v3d: Expose performance counters to
+>> userspace")
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_perfmon.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> b/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> index b4c3708ea781..c49abb90954d 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_perfmon.c
+>> @@ -255,9 +255,9 @@ void v3d_perfmon_start(struct v3d_dev *v3d,
+>> struct v3d_perfmon *perfmon)
+>>   		V3D_CORE_WRITE(0, V3D_V4_PCTR_0_SRC_X(source),
+>> channel);
+>>   	}
+>>   
+>> +	V3D_CORE_WRITE(0, V3D_V4_PCTR_0_EN, mask);
+>>   	V3D_CORE_WRITE(0, V3D_V4_PCTR_0_CLR, mask);
+>>   	V3D_CORE_WRITE(0, V3D_PCTR_0_OVERFLOW, mask);
+>> -	V3D_CORE_WRITE(0, V3D_V4_PCTR_0_EN, mask);
+>>   
+>>   	v3d->active_perfmon = perfmon;
+>>   }
+> 
+
