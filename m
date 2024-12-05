@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4217E9E5DB2
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 18:54:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E959E5DEC
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 19:04:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0480B10EF59;
-	Thu,  5 Dec 2024 17:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F5D410EF57;
+	Thu,  5 Dec 2024 18:04:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BvN0yct0";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="SLgIBSPy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A583C10EF58
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 17:54:11 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5HaMuY015782;
- Thu, 5 Dec 2024 17:54:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MdNclNjeSKNYclxADpDhRwaPZjdeDgh7nycQPLeeEoc=; b=BvN0yct0+t0xSfM3
- dBJlzi/4XyXO/GMDzijYkE/LDb5nZ5OWrnOeITiyYEnJ2qw3lJ7rhLlg+f5MISgG
- vGs1lUATmIuTHdxzFlWgKPoKa2Z++lZFgOW+rCHUOgIcv+w+3J0ppTrMY0HnpQ+y
- H69YMSATMTHUJ2Ph99Jf9TC2kX2T2y1pm3XzhIufdEqcogz/W5lm6ohyMjv1bx11
- 25XVcn9dlM5aljtC95WZw6Iq8zb+WcbvFlBDoyRgK/HUwMcVLTcaTWHBoWjYN89J
- Ta5aZ02UG5X2RwRjZ66RnJeAYc2d/uxt2LS0yC33BpTodrzMUmCJBVEhkLtu62b5
- CQJC2g==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bbnmh0ku-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Dec 2024 17:54:04 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B5Hs3Xi019178
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 5 Dec 2024 17:54:03 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Dec 2024
- 09:54:03 -0800
-Message-ID: <e4bf2d14-395a-4147-97f1-e5fb41669822@quicinc.com>
-Date: Thu, 5 Dec 2024 09:54:02 -0800
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B67310EF57
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 18:04:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733421881; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CD7IQ9sWFL7LplVEoEnc0NaZmOuF/y0rMnTPwHbvX/n0+Wy1kmwvi2g/Dmov9FV8tSDE6QihziJhYSLNZUJIGVhVNk2b0nR9aTGiX44aNWWKy1lrT+7YlppBJXhurBP2IwpVlv3dAli0nEGsKSGcrIq/cdZkDcSQs+HR0ntm0VY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733421881;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=tXsmplCWIfDU1nslWwIzWjXlT1Uhwo23G/KzmcVHbWA=; 
+ b=AOBAnGEz+5pBuWHF1fr3zRWsZvFOUonvoDDj1zKnmNeTuEvDsb5rbbpXSSZbUM8mcJD2R8EgDMRCzkTyXAIH311txt422DYrmbHPLfSsLQ8S5H6XMuInc+HBX2skjSTMg/DQObGD7U+10Ndm+xtIQRcnxjQ8vPPUMUnSTNLX2ww=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733421881; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=tXsmplCWIfDU1nslWwIzWjXlT1Uhwo23G/KzmcVHbWA=;
+ b=SLgIBSPyZrlSRVdtdt8u5wyKkpez+z41A5lkHP/IjxRXWMXULNC2fPxqpO2qn4xh
+ Q69s3f7XeGip3ZO8f3afDchahlQ4n5yTM9V4p0A5MS/dHduVGpSKG9lBDjEoayEfSxa
+ Jxjg8ssPj3vD6lBlYGrC2szq5y5Kqo8Hp0T7Ceqk=
+Received: by mx.zohomail.com with SMTPS id 1733421877901470.7310984148362;
+ Thu, 5 Dec 2024 10:04:37 -0800 (PST)
+Received: by mercury (Postfix, from userid 1000)
+ id 563EF10604B0; Thu, 05 Dec 2024 19:04:32 +0100 (CET)
+Date: Thu, 5 Dec 2024 19:04:32 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ andy.yan@rock-chips.com, 
+ hjc@rock-chips.com, algea.cao@rock-chips.com, kever.yang@rock-chips.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support
+ for eDP mode
+Message-ID: <5ncdog66jtc4s7vxk2yt4jkknf2es3whvweuqmrxbot3azi5ge@t6s3xadkiasp>
+References: <20241127075157.856029-1-damon.ding@rock-chips.com>
+ <2131853.KlZ2vcFHjT@diego>
+ <6e1f35c0-5ea8-414f-b3ea-4e7222c605ef@rock-chips.com>
+ <2886747.Y6S9NjorxK@diego>
+ <h4giob7bcrh7qmtepti6huym2llw4ujfmeff76vrgpahb5zy6x@dz6zghsifww5>
+ <2342f342-672c-447e-90d8-674b748af6a4@rock-chips.com>
+ <abzu2chif2g3urxoqbm3gbe6cciexbmqvn44qezrx4hgllfkkn@7bzi5jl3stqe>
+ <42035ebe-09b7-4005-912a-8ec72d5dabcc@rock-chips.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/panel: visionox-rm69299: Remove redundant
- assignments of panel fields
-To: Chen-Yu Tsai <wenst@chromium.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241204093942.1374693-1-wenst@chromium.org>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20241204093942.1374693-1-wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: ygAMV1OvSlLWJ0XwUx1BKKD1qQ0MU8MJ
-X-Proofpoint-GUID: ygAMV1OvSlLWJ0XwUx1BKKD1qQ0MU8MJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
- suspectscore=0 adultscore=0 clxscore=1011 phishscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412050131
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tgjajudtqqajoprm"
+Content-Disposition: inline
+In-Reply-To: <42035ebe-09b7-4005-912a-8ec72d5dabcc@rock-chips.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/233.339.97
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,63 +86,62 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--tgjajudtqqajoprm
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 04/10] phy: phy-rockchip-samsung-hdptx: Add support
+ for eDP mode
+MIME-Version: 1.0
 
-On 12/4/2024 1:39 AM, Chen-Yu Tsai wrote:
-> drm_panel_init() was made to initialize the fields in |struct drm_panel|.
-> There is no need to separately initialize them again.
-> 
-> Drop the separate assignments that are redundant. Also fix up any uses
-> of `ctx->panel.dev` to use `dev` directly.
-> 
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Hello Damon,
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+On Thu, Dec 05, 2024 at 09:13:33AM +0800, Damon Ding wrote:
+> Firstly, the term "the HDMI and eDP dynamic switching" can be somewhat
+> misleading, because the eDP usually does not support hot plug. The RK3588
+> eDP is often used as DP, and it actually supports DP 1.2. Therefore, it is
+> better to use the "the HDMI and DP dynamic switching" description.
 
-> ---
-> Changes since v1:
-> - Also fix uses of `ctx->panel.dev`
-> 
->   drivers/gpu/drm/panel/panel-visionox-rm69299.c | 9 ++-------
->   1 file changed, 2 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-visionox-rm69299.c b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> index 272490b9565b..be3a9797fbce 100644
-> --- a/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> +++ b/drivers/gpu/drm/panel/panel-visionox-rm69299.c
-> @@ -193,7 +193,6 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->   
->   	mipi_dsi_set_drvdata(dsi, ctx);
->   
-> -	ctx->panel.dev = dev;
->   	ctx->dsi = dsi;
->   
->   	ctx->supplies[0].supply = "vdda";
-> @@ -201,13 +200,11 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->   	ctx->supplies[1].supply = "vdd3p3";
->   	ctx->supplies[1].init_load_uA = 13200;
->   
-> -	ret = devm_regulator_bulk_get(ctx->panel.dev, ARRAY_SIZE(ctx->supplies),
-> -				      ctx->supplies);
-> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies), ctx->supplies);
->   	if (ret < 0)
->   		return ret;
->   
-> -	ctx->reset_gpio = devm_gpiod_get(ctx->panel.dev,
-> -					 "reset", GPIOD_OUT_LOW);
-> +	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
->   	if (IS_ERR(ctx->reset_gpio)) {
->   		dev_err(dev, "cannot get reset gpio %ld\n", PTR_ERR(ctx->reset_gpio));
->   		return PTR_ERR(ctx->reset_gpio);
-> @@ -215,8 +212,6 @@ static int visionox_rm69299_probe(struct mipi_dsi_device *dsi)
->   
->   	drm_panel_init(&ctx->panel, dev, &visionox_rm69299_drm_funcs,
->   		       DRM_MODE_CONNECTOR_DSI);
-> -	ctx->panel.dev = dev;
-> -	ctx->panel.funcs = &visionox_rm69299_drm_funcs;
->   	drm_panel_add(&ctx->panel);
->   
->   	dsi->lanes = 4;
-> -- 
-> 2.47.0.338.g60cca15819-goog
-> 
+The part unclear to me is how the dynamic switching is supposed to
+happen. Looking at the TRM the hotplug detect signals also seem to be
+shared between HDMI and eDP. Can the RK3588S EVB distinguish if HDMI
+or eDP has been plugged, or does this require some user interaction
+to set the right mode?
 
+> Indeed, the devm_phy_get(dp->dev, "dp") and devm_of_phy_get_by_index() wi=
+ll
+> help to get the phy reference in .probe() or .bind().
+>=20
+> However, the phy_set_mode() may be still needed in the HDMI and DP dynamic
+> switching application scenarios. We need the enum phy_mode
+> PHY_MODE_DP/PHY_MODE_HDMI to differentiate the configuration processes in
+> .power_on(), .power_off() and .configure() of struct phy_ops, which will =
+be
+> called in conjunction with plugging in and unplugging an HDMI or DP cable.
+
+I suppose you could fetch the PHY in power_on() and release it in
+power_off(). But using phy_set_mode() might indeed be better here.
+
+-- Sebastian
+
+--tgjajudtqqajoprm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdR6ykACgkQ2O7X88g7
++pqINw/8CISqq7TtaVuYjbUOVbMUju+XZCYIgQ86pXkRiTB8jbo9FSE0v+9rD3B2
+oxzyPpwv6e3CW9hJHsPgmeUz+zqzwa+gzHDTtdyapfOhrDHbALNBaskJavvFxjAG
+rXs/kJaga35Z1AtGug6P//VQt5jOKx6VjBe51mQqphngJngD4gW2xr7Jh3zjSuJU
+uwx7QiMwxdT2ysmQkwddEXm5B8Wjn4NqmxehkLSQWF+gi9P0al9uuYua17vbz5OA
+sP3mpDYUsvPVUwPjYO+8c2eGuKFCIAwZBS01v1TtpjeEMCLqIZAAVcGpx1jwN2H/
+XIFLQaf06CvqvB4IqErNgoXfqVV/B/X0kCnHVEfu0AD8yrZ7sT7EVo/FtFF8/DtD
+yd7p3/+x+7z34LPUf6uhpjzyyko5gPZpFXILYSFACxhDO8ayX95PEQazQbmGnG0U
+pLanIRga3lIxoCaGXaFetBHOCeSiqWxBs9SPO7r3gWYQmBv15VPLhR4q+9lSjoFT
+O25niK3n7hgpuT40FfAcLgnftvycNIrTK9SWQbEeOKGH0G2Rq1rdk74zcgmlnQEM
+DjucMFzuoftYsJlq8HN2nPrwr7P07N6F0eFapyTH3xfGj3O1zbKroiosXZEFJDTo
+tl/VwfSg8bbGG/Zbc+/D+ZIvD+ovCWItkKoKJqB7j+lZJmbCzvc=
+=0mlA
+-----END PGP SIGNATURE-----
+
+--tgjajudtqqajoprm--
