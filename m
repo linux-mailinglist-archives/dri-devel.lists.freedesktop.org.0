@@ -2,111 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC74B9E5AC4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 17:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15689E5AC9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 17:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8610910EEF0;
-	Thu,  5 Dec 2024 16:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49F3210EEF6;
+	Thu,  5 Dec 2024 16:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wHaIcIXu";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="KGhWCnui";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66F8D10EEF0
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 16:08:30 +0000 (UTC)
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
- [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D925C7E2;
- Thu,  5 Dec 2024 17:07:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733414880;
- bh=laiIJD9x59dMaPoXu8TfoBIpHF70Qyx8qxXjOIXVd8g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=wHaIcIXuZBA59Omydk/Jq9R+iNDX86ayihxZwyXk6bzh65jagTE9P2/3EHMGVmWtu
- goo7MOud7sCYM4R91IxqFOsRxb/rg20uiHeRPeHBz4onm5/CH1wEPg25+dkUlTEdhu
- OWSVHuo26j3I+JukYWftfzcZaFRWKNO51ibat1c0=
-Message-ID: <98b43276-2a68-4ba9-999a-c738b8f7654f@ideasonboard.com>
-Date: Thu, 5 Dec 2024 18:08:24 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] drm/rcar-du: Write DPTSR only if there are more
- than one crtc
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com>
- <20241205-rcar-gh-dsi-v2-2-42471851df86@ideasonboard.com>
- <CAMuHMdVHRWbeQ8UF-xsKuxUNwHc5_kVwSgrTfOkwFFG5vG7fwA@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <CAMuHMdVHRWbeQ8UF-xsKuxUNwHc5_kVwSgrTfOkwFFG5vG7fwA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E8A710EEF6
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 16:09:22 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733414958; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Rt8DOKLyxpbGvCLkuxKZs3vFNJ/U9RklguBB93SNwTGstBIGkptRt4H+aotXLNXIBMXmNFpjU7LAaIkjS9E0qwDzXB9h+bYOtXVWkcqjp3S9WqRyH0SdE1/VUM5WH7GSqyH0Etn6Pl/DwqLPG1mQ+GjQi/rbL84cNrOSw04iUU4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733414958;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=40MMr4zyE54ucDXtnRwizB0SWb9WLWtvCrlRmiBIfnY=; 
+ b=XKEoZm1lnMfhqW//YRGqqOPQ8H+geM0Y0bQZ9opPrcp4va+6PixdAJ0ci84GGwHqSPRfr7qC5WbMxwstC+zCZ9ZFMhBsbHwRj1W0XaAtywZwKlJUKYAkXrE+4vvWCYNO+oAAd6PvgnQn4ENoNLE36v+0JERQt3BLG1pzdDmc4R4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733414958; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=40MMr4zyE54ucDXtnRwizB0SWb9WLWtvCrlRmiBIfnY=;
+ b=KGhWCnuiVXfjC8zFoZho/QKYHiZUuD/ZiQmxo9zybXxXOitiafSvZlwypfocyv4B
+ qmcxBrWYhQOzypOyt3H9eoP8LZ7DJ3PyAmNXWoNMXv3AjSN1Mbh4Q02l+SaJ32SNkuk
+ TgdZlwZ+PyKwSWVReqJSWUuP5QNbZKojATYif5C4=
+Received: by mx.zohomail.com with SMTPS id 1733414957440728.3043397680057;
+ Thu, 5 Dec 2024 08:09:17 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
+Subject: Re: [WIP RFC v2 34/35] WIP: rust: drm/kms: Add Kms::atomic_commit_tail
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20240930233257.1189730-35-lyude@redhat.com>
+Date: Thu, 5 Dec 2024 13:09:01 -0300
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+ mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+ jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@samsung.com>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <771FBC25-8887-4C0B-8923-0A9FF1BFFEFF@collabora.com>
+References: <20240930233257.1189730-1-lyude@redhat.com>
+ <20240930233257.1189730-35-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.200.121)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,70 +78,668 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Lyude
 
-On 05/12/2024 16:16, Geert Uytterhoeven wrote:
-> Hi Tomi,
-> 
-> CC Jacopo
-> 
-> On Thu, Dec 5, 2024 at 2:45 PM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>
->> Currently the driver always writes DPTSR when setting up the hardware.
->> However, the register is only meaningful when there are more than one
->> crtc, and the only SoC with one crtc, V3M, does not have the register
->> mentioned in its documentation.
-> 
-> R-Car V3H/V3H_2, too.
+> On 30 Sep 2024, at 20:10, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> A quick note: this is one of my favorite bindings so far :). It sounds =
+way
+> overly complicated, but so far actually writing implementations of =
+this in
+> rust has been a breeze.
+>=20
+> Anyway: RVKMS has a slightly different atomic_commit_tail than normal,
+> which means we need to write up some bindings for atomic_commit_tail. =
+This
+> is a lot more interesting then it might seem on the surface as =
+implementing
+> atomic_commit_tail incorrectly could result in UB. And in general, DRM =
+has
+> up until now relied entirely on the programmer to do this correctly =
+through
+> implicit ordering requirements.
+>=20
+> In the universe of rust though, we want no UB at all! To ensure this, =
+we
+> need to make sure that all atomic commit callbacks follow all of these
+> requirements:
+>=20
+> * Disable/enable modeset commits must happen exactly once
+> * A disable modeset must be committed for a resource before an enable
+>  modeset may be committed for a resource
+> * Plane updates must happen exactly once
+> * drm_atomic_commit_hw_done() must be called exactly once, and only =
+after
+>  all commits have been completed.
+> * The state may not be mutated after drm_atomic_commit_hw_done() is =
+called
+> * Access to the prior atomic states are revoked after
+>  drm_atomic_commit_hw_done() is called (and our "new" states become =
+"old"
+>  states)
+>=20
+> To handle this, we introduce a number of new objects and types:
+> tokens:
+>=20
+> * AtomicCommitTail
+>  Main object for controlling the commit_tail process
+>  * ModesetsReadyToken
+>    A single use token indicating that no modesets have been committed =
+with
+>    the AtomicCommitTail yet
+>  * commit_modeset_disables() -> DisablesCommittedToken
+>    This function consumes the ModesetsReadyToken, commits modeset
+>    disables, and then returns a DisablesCommittedToken
+>  * commit_modeset_enables() -> EnablesCommittedToken
+>    This function consumes a DisablesCommittedToken, commits modeset
+>    enables, and then returns a EnablesCommittedToken
+>    EnablesCommittedToken - enforcing the disables -> enables order.
+>  * commit_planes() -> PlaneUpdatesCommittedToken
+>    Consumes a PlaneUpdatesReadyToken and returns a
+>    PlaneUpdatesCommittedToken.
+>  * commit_hw_done() -> CommittedAtomicState
+>    Revokes access to the AtomicCommitTailObject, and consumes both the
+>    EnablesCommittedToken and PlaneUpdatesCommitted tokens. This =
+ensures
+>    that all modesets and plane updates have occurred exactly once.
+> * CommittedAtomicState - main object for controlling the =
+atomic_commit_tail
+>  after the state has been swapped in. This must be returned from the
+>  atomic_commit_tail function to prove that all of the required commits
+>  have occurred.
 
-Right... I was looking at the number of outputs, not the number of crtcs 
-when going through the SoCs.
+This is very informative, you should have that in the documentation =
+somewhere IMHO.
 
-> 
->>
->> So move the write behind a condition.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 12 +++++++-----
->>   1 file changed, 7 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
->> index 2ccd2581f544..0fbf6abbde6e 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
->> @@ -185,11 +185,13 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->>                  dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
->>          rcar_du_group_write(rgrp, DORCR, dorcr);
->>
->> -       /* Apply planes to CRTCs association. */
->> -       mutex_lock(&rgrp->lock);
->> -       rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
->> -                           rgrp->dptsr_planes);
->> -       mutex_unlock(&rgrp->lock);
->> +       if (rgrp->num_crtcs > 1) {
->> +               /* Apply planes to CRTCs association. */
->> +               mutex_lock(&rgrp->lock);
->> +               rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
->> +                                   rgrp->dptsr_planes);
->> +               mutex_unlock(&rgrp->lock);
->> +       }
-> 
-> This is per group, not per DU, right?
-> The second group on R-Car M3-W/M3-W+ has a single channel, hence no
-> DPTSR2 register.
-> The second group on R-Car M3-N has a single channel, but it's actually
-> the second physical channel in the group, and thus does have DPTSR2.
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-That logic does make sense. So that would be if (rgrp->channels_mask & 
-BIT(1)) then write DPTSR? And probably add a comment in the code about this.
+Note that you can use the typestate pattern to model this IIUC.
 
-> And apparently we had this discussion before...
-> https://lore.kernel.org/all/CAMuHMdXxf4oePnyLvp84OhSa+wdehCNJBXnhjYO7-1VxpBJ7eQ@mail.gmail.com
+The main advantage is that you can control which functions are available =
+at each state, whereas
+your solution will have all of them available at all times even though =
+each function requires the right tokens
+to be called.
 
-Somehow I hadn't even realized Jacopo had sent these before...
+>=20
+> ---
+>=20
+> TODO:
+>=20
+> * Currently this solution wouldn't be sufficient for drivers that need
+>  precise control over the order of each individual modeset or plane
+>  update. However, this should be very easy to add.
+> * Figure out something better for enforcing the plane cleanup then =
+what we
+>  have right now (e.g. cleaning up planes in the destructor for
+>  CommittedAtomicState).
+> * Add iterator functions that take mutable references to the atomic =
+state
+>  objects here. This will prevent functions like =
+commit_modeset_disables()
+>  from being called while a state borrow is taken out, while still =
+allowing
+>  easy access to the contents of the atomic state at any portion of the
+>  atomic commit tail.
+> * Actually add some macros for generating bitmasks like we do with
+>  PlaneCommitFlags - right now we just do this by hand.
 
-  Tomi
+I have a patch in-flight for genmask at [0].
+
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> ---
+> rust/kernel/drm/kms.rs        |  27 ++-
+> rust/kernel/drm/kms/atomic.rs | 365 +++++++++++++++++++++++++++++++++-
+> 2 files changed, 386 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
+> index e13f35d9e223f..117c97a9e7165 100644
+> --- a/rust/kernel/drm/kms.rs
+> +++ b/rust/kernel/drm/kms.rs
+> @@ -142,6 +142,26 @@ fn mode_config_info(
+>=20
+>     /// Create mode objects like [`crtc::Crtc`], [`plane::Plane`], =
+etc. for this device
+>     fn create_objects(drm: &UnregisteredKmsDevice<'_, Self::Driver>) =
+-> Result;
+> +
+> +    /// The optional [`atomic_commit_tail`] callback for this =
+[`Device`].
+> +    ///
+> +    /// It must return a [`CommittedAtomicState`] to prove that it =
+has signaled completion of the hw
+> +    /// commit phase. Drivers may use this function to customize the =
+order in which commits are
+> +    /// performed during the atomic commit phase.
+> +    ///
+> +    /// If not provided, DRM will use its own default atomic commit =
+tail helper
+> +    /// [`drm_atomic_helper_commit_tail`].
+> +    ///
+> +    /// [`CommittedAtomicState`]: atomic::CommittedAtomicState
+> +    /// [`atomic_commit_tail`]: =
+srctree/include/drm/drm_modeset_helper_vtables.h
+> +    /// [`drm_atomic_helper_commit_tail`]: =
+srctree/include/drm/drm_atomic_helpers.h
+> +    fn atomic_commit_tail<'a>(
+> +        state: atomic::AtomicCommitTail<'a, Self::Driver>,
+> +        _modeset_token: atomic::ModesetsReadyToken<'_>,
+> +        _plane_update_token: atomic::PlaneUpdatesReadyToken<'_>
+
+Fyi, I don=E2=80=99t think you ever plan to use any of the arguments =
+here. You can simply bind them to `_` directly:
+
+e.g.:
+
+> +    fn atomic_commit_tail<'a>(
+> +        _: atomic::AtomicCommitTail<'a, Self::Driver>,
+> +        _: atomic::ModesetsReadyToken<'_>,
+> +        _: atomic::PlaneUpdatesReadyToken<'_>
+
+> +    ) -> atomic::CommittedAtomicState<'a, Self::Driver> {
+> +        build_error::build_error("This function should not be =
+reachable")
+> +    }
+> }
+
+
+>=20
+> impl<T: Kms> private::KmsImpl for T {
+> @@ -164,7 +184,12 @@ impl<T: Kms> private::KmsImpl for T {
+>=20
+>         kms_helper_vtable: bindings::drm_mode_config_helper_funcs {
+>             atomic_commit_setup: None, // TODO
+> -            atomic_commit_tail: None, // TODO
+> +            atomic_commit_tail:
+> +                if Self::HAS_ATOMIC_COMMIT_TAIL {
+> +                    Some(atomic::commit_tail_callback::<Self>)
+> +                } else {
+> +                    None
+> +                },
+>         },
+>     });
+>=20
+> diff --git a/rust/kernel/drm/kms/atomic.rs =
+b/rust/kernel/drm/kms/atomic.rs
+> index a4354b89b07cc..f9398edbca3d6 100644
+> --- a/rust/kernel/drm/kms/atomic.rs
+> +++ b/rust/kernel/drm/kms/atomic.rs
+> @@ -14,14 +14,14 @@
+>     private::Sealed
+> };
+> use core::{
+> -    marker::*,
+> -    ptr::NonNull,
+>     cell::Cell,
+>     ffi::*,
+> -    slice,
+> -    ops::*,
+> -    mem::ManuallyDrop,
+>     iter::Iterator,
+> +    marker::*,
+> +    mem::ManuallyDrop,
+> +    ops::*,
+> +    ptr::NonNull,
+> +    slice
+> };
+> use super::{
+>     crtc::*,
+> @@ -372,6 +372,361 @@ pub fn add_affected_planes(&self, crtc: &impl =
+AsRawCrtc<Driver =3D T>) -> Result {
+>     }
+> }
+>=20
+> +/// A token proving that no modesets for a commit have completed.
+> +///
+> +/// This token is proof that no commits have yet completed, and is =
+provided as an argument to
+> +/// [`Kms::atomic_commit_tail`]. This may be used with
+> +/// [`AtomicCommitTail::commit_modeset_disables`].
+> +pub struct ModesetsReadyToken<'a>(PhantomData<&'a ()>);
+> +
+> +/// A token proving that modeset disables for a commit have =
+completed.
+> +///
+> +/// This token is proof that an implementor's =
+[`Kms::atomic_commit_tail`] phase has finished
+> +/// committing any operations which disable mode objects. It is =
+returned by
+> +/// [`AtomicCommitTail::commit_modeset_disables`], and can be used =
+with
+> +/// [`AtomicCommitTail::commit_modeset_enables`] to acquire a =
+[`EnablesCommittedToken`].
+> +pub struct DisablesCommittedToken<'a>(PhantomData<&'a ()>);
+> +
+> +/// A token proving that modeset enables for a commit have completed.
+> +///
+> +/// This token is proof that an implementor's =
+[`Kms::atomic_commit_tail`] phase has finished
+> +/// committing any operations which enable mode objects. It is =
+returned by
+> +/// [`AtomicCommitTail::commit_modeset_enables`].
+> +pub struct EnablesCommittedToken<'a>(PhantomData<&'a ()>);
+> +
+> +/// A token proving that no plane updates for a commit have =
+completed.
+> +///
+> +/// This token is proof that no plane updates have yet been completed =
+within an implementor's
+> +/// [`Kms::atomic_commit_tail`] implementation, and that we are ready =
+to begin updating planes. It
+> +/// is provided as an argument to [`Kms::atomic_commit_tail`].
+> +pub struct PlaneUpdatesReadyToken<'a>(PhantomData<&'a ()>);
+> +
+> +/// A token proving that all plane updates for a commit have =
+completed.
+> +///
+> +/// This token is proof that all plane updates within an =
+implementor's [`Kms::atomic_commit_tail`]
+> +/// implementation have completed. It is returned by =
+[`AtomicCommitTail::commit_planes`].
+> +pub struct PlaneUpdatesCommittedToken<'a>(PhantomData<&'a ()>);
+> +
+> +/// An [`AtomicState`] interface that allows a driver to control the =
+[`atomic_commit_tail`]
+> +/// callback.
+> +///
+> +/// This object is provided as an argument to =
+[`Kms::atomic_commit_tail`], and represents an atomic
+> +/// state within the commit tail phase which is still in the process =
+of being committed to hardware.
+> +/// It may be used to control the order in which the commit process =
+happens.
+> +///
+> +/// # Invariants
+> +///
+> +/// Same as [`AtomicState`].
+> +///
+> +/// [`atomic_commit_tail`]: =
+srctree/include/drm/drm_modeset_helper_vtables.h
+> +pub struct AtomicCommitTail<'a, T: KmsDriver>(&'a AtomicState<T>);
+> +
+> +impl<'a, T: KmsDriver> AtomicCommitTail<'a, T> {
+> +    /// Commit modesets which would disable outputs.
+> +    ///
+> +    /// This function commits any modesets which would shut down =
+outputs, along with preparing them
+> +    /// for a new mode (if needed).
+> +    ///
+> +    /// Since it is physically impossible to disable an output =
+multiple times, and since it is
+> +    /// logically unsound to disable an output within an atomic =
+commit after the output was enabled
+> +    /// in the same commit - this function requires a =
+[`ModesetsReadyToken`] to consume and returns
+> +    /// a [`DisablesCommittedToken`].
+> +    ///
+> +    /// If compatibility with legacy CRTC helpers is desired, this
+> +    /// should be called before [`commit_planes`] which is what the =
+default commit function does.
+> +    /// But drivers with different needs can group the modeset =
+commits tgether and do the plane
+> +    /// commits at the end. This is useful for drivers doing runtime =
+PM since then plane updates
+> +    /// only happen when the CRTC is actually enabled.
+> +    ///
+> +    /// [`commit_planes`]: AtomicCommitTail::commit_planes
+> +    #[inline]
+> +    #[must_use]
+> +    pub fn commit_modeset_disables<'b>(
+> +        &mut self,
+> +        _token: ModesetsReadyToken<'_>,
+> +    ) -> DisablesCommittedToken<'b> {
+> +        // SAFETY: Both `as_raw()` calls are guaranteed to return =
+valid pointers
+> +        unsafe {
+> +            bindings::drm_atomic_helper_commit_modeset_disables(
+> +                self.0.drm_dev().as_raw(),
+> +                self.0.as_raw()
+> +            )
+> +        }
+> +
+> +        DisablesCommittedToken(PhantomData)
+> +    }
+> +
+> +    /// Commit all plane updates.
+> +    ///
+> +    /// This function performs all plane updates for the given =
+[`AtomicCommitTail`]. Since it is
+> +    /// logically unsound to perform the same plane update more then =
+once in a given atomic commit,
+> +    /// this function requires a [`PlaneUpdatesReadyToken`] to =
+consume and returns a
+> +    /// [`PlaneUpdatesCommittedToken`] to prove that plane updates =
+for the state have completed.
+> +    #[inline]
+> +    #[must_use]
+> +    pub fn commit_planes<'b>(
+> +        &mut self,
+> +        _token: PlaneUpdatesReadyToken<'_>,
+> +        flags: PlaneCommitFlags
+> +    ) -> PlaneUpdatesCommittedToken<'b> {
+> +        // SAFETY: Both `as_raw()` calls are guaranteed to return =
+valid pointers
+> +        unsafe {
+> +            bindings::drm_atomic_helper_commit_planes(
+> +                self.0.drm_dev().as_raw(),
+> +                self.0.as_raw(),
+> +                flags.into()
+> +            )
+> +        }
+> +
+> +        PlaneUpdatesCommittedToken(PhantomData)
+> +    }
+> +
+> +    /// Commit modesets which would enable outputs.
+> +    ///
+> +    /// This function commits any modesets in the given =
+[`AtomicCommitTail`] which would enable
+> +    /// outputs, along with preparing them for their new modes (if =
+needed).
+> +    ///
+> +    /// Since it is logically unsound to enable an output before any =
+disabling modesets within the
+> +    /// same atomic commit have been performed, and physically =
+impossible to enable the same output
+> +    /// multiple times - this function requires a =
+[`DisablesCommittedToken`] to consume and returns
+> +    /// a [`EnablesCommittedToken`] which may be used as proof that =
+all modesets in the state have
+> +    /// been completed.
+> +    #[inline]
+> +    #[must_use]
+> +    pub fn commit_modeset_enables<'b>(
+> +        &mut self,
+> +        _token: DisablesCommittedToken<'_>
+> +    ) -> EnablesCommittedToken<'b> {
+> +        // SAFETY: Both `as_raw()` calls are guaranteed to return =
+valid pointers
+> +        unsafe {
+> +            bindings::drm_atomic_helper_commit_modeset_enables(
+> +                self.0.drm_dev().as_raw(),
+> +                self.0.as_raw()
+> +            )
+> +        }
+> +
+> +        EnablesCommittedToken(PhantomData)
+> +    }
+> +
+> +    /// Fake VBLANK events if needed
+> +    ///
+> +    /// Note that this is still relevant to drivers which don't =
+implement [`VblankSupport`] for any
+> +    /// of their CRTCs.
+> +    ///
+> +    /// TODO: more doc
+> +    ///
+> +    /// [`VblankSupport`]: super::vblank::VblankSupport
+> +    pub fn fake_vblank(&mut self) {
+> +        // SAFETY: `as_raw()` is guaranteed to always return a valid =
+pointer
+> +        unsafe { =
+bindings::drm_atomic_helper_fake_vblank(self.0.as_raw()) }
+> +    }
+> +
+> +    /// Signal completion of the hardware commit step.
+> +    ///
+> +    /// This swaps the atomic state into the relevant atomic state =
+pointers and marks the hardware
+> +    /// commit step as completed. Since this step can only happen =
+after all plane updates and
+> +    /// modesets within an [`AtomicCommitTail`] have been completed, =
+it requires both a
+> +    /// [`EnablesCommittedToken`] and a =
+[`PlaneUpdatesCommittedToken`] to consume. After this
+> +    /// function is called, the caller no longer has exclusive access =
+to the underlying atomic
+> +    /// state. As such, this function consumes the =
+[`AtomicCommitTail`] object and returns a
+> +    /// [`CommittedAtomicState`] accessor for performing post-hw =
+commit tasks.
+> +    pub fn commit_hw_done<'b>(
+> +        self,
+> +        _modeset_token: EnablesCommittedToken<'_>,
+> +        _plane_updates_token: PlaneUpdatesCommittedToken<'_>,
+> +    ) -> CommittedAtomicState<'b, T>
+> +    where
+> +        'a: 'b
+> +    {
+> +        // SAFETY: we consume the `AtomicCommitTail` object, making =
+it impossible for the user to
+> +        // mutate the state after this function has been called - =
+which upholds the safety
+> +        // requirements of the C API allowing us to safely call this =
+function
+> +        unsafe { =
+bindings::drm_atomic_helper_commit_hw_done(self.0.as_raw()) };
+> +
+> +        CommittedAtomicState(self.0)
+> +    }
+> +}
+> +
+> +// The actual raw C callback for custom atomic commit tail =
+implementations
+> +pub(crate) unsafe extern "C" fn commit_tail_callback<T: Kms>(
+> +    state: *mut bindings::drm_atomic_state
+> +) {
+> +    // SAFETY:
+> +    // * We're guaranteed by DRM that `state` always points to a =
+valid instance of
+> +    //   `bindings::drm_atomic_state`
+> +    // * This conversion is safe via the type invariants
+> +    let state =3D unsafe { =
+AtomicState::<T::Driver>::from_raw(state.cast_const()) };
+> +
+> +    T::atomic_commit_tail(
+> +        AtomicCommitTail(state),
+> +        ModesetsReadyToken(PhantomData),
+> +        PlaneUpdatesReadyToken(PhantomData),
+> +    );
+> +}
+> +
+> +/// An [`AtomicState`] which was just committed with =
+[`AtomicCommitTail::commit_hw_done`].
+> +///
+> +/// This object represents an [`AtomicState`] which has been fully =
+committed to hardware, and as
+> +/// such may no longer be mutated as it is visible to userspace. It =
+may be used to control what
+> +/// happens immediately after an atomic commit finishes within the =
+[`atomic_commit_tail`] callback.
+> +///
+> +/// Since acquiring this object means that all modesetting locks have =
+been dropped, a non-blocking
+> +/// commit could happen at the same time an [`atomic_commit_tail`] =
+implementer has access to this
+> +/// object. Thus, it cannot be assumed that this object represents =
+the current hardware state - and
+> +/// instead only represents the final result of the =
+[`AtomicCommitTail`] that was just committed.
+> +///
+> +/// # Invariants
+> +///
+> +/// It may be assumed that [`drm_atomic_helper_commit_hw_done`] has =
+been called as long as this type
+> +/// exists.
+> +///
+> +/// [`atomic_commit_tail`]: Kms::atomic_commit_tail
+> +/// [`drm_atomic_helper_commit_hw_done`]: =
+srctree/include/drm/drm_atomic_helper.h
+> +pub struct CommittedAtomicState<'a, T: KmsDriver>(&'a =
+AtomicState<T>);
+> +
+> +impl<'a, T: KmsDriver> CommittedAtomicState<'a, T> {
+> +    /// Wait for page flips on this state to complete
+> +    pub fn wait_for_flip_done(&self) {
+> +        // SAFETY: `drm_atomic_helper_commit_hw_done` has been called =
+via our invariants
+> +        unsafe {
+> +            bindings::drm_atomic_helper_wait_for_flip_done(
+> +                self.0.drm_dev().as_raw(),
+> +                self.0.as_raw()
+> +            )
+> +        }
+> +    }
+> +}
+> +
+> +impl<'a, T: KmsDriver> Drop for CommittedAtomicState<'a, T> {
+> +    fn drop(&mut self) {
+> +        // SAFETY:
+> +        // * This interface represents the last atomic state accessor =
+which could be affected as a
+> +        //   result of resources from an atomic commit being cleaned =
+up.
+> +        unsafe {
+> +            bindings::drm_atomic_helper_cleanup_planes(
+> +                self.0.drm_dev().as_raw(),
+> +                self.0.as_raw()
+> +            )
+> +        }
+> +    }
+> +}
+> +
+> +/// An enumerator representing all the possible flags in a =
+[`PlaneCommitFlags`] mask
+> +///
+> +/// This is a non-exhaustive list, as the C side could add more =
+later.
+> +///
+> +/// TODO: this idea kinda sick we should add some macros for this :3c
+
+
+IMHO you should follow the same style as the Alloc code.
+
+This includes a separate `flags` module.
+
+> +#[derive(Copy, Clone, PartialEq, Eq)]
+> +#[repr(u32)]
+> +pub enum PlaneCommitFlag {
+> +    ActiveOnly =3D (1 << 0),
+> +    NoDisableAfterModeset =3D (1 << 1),
+> +}
+> +
+> +impl BitOr for PlaneCommitFlag {
+> +    type Output =3D PlaneCommitFlags;
+> +
+> +    fn bitor(self, rhs: Self) -> Self::Output {
+> +        PlaneCommitFlags(self as u32 | rhs as u32)
+> +    }
+> +}
+> +
+> +impl BitOr<PlaneCommitFlags> for PlaneCommitFlag {
+> +    type Output =3D PlaneCommitFlags;
+> +
+> +    fn bitor(self, rhs: PlaneCommitFlags) -> Self::Output {
+> +        PlaneCommitFlags(self as u32 | rhs.0)
+> +    }
+> +}
+> +
+> +/// A bitmask for controlling the behavior of =
+[`AtomicCommitTail::commit_planes`]
+> +///
+> +/// This corresponds to the `DRM_PLANE_COMMIT_*` flags on the C side. =
+Note that this bitmask does
+> +/// not discard unknown values in order to ensure that adding new =
+flags on the C side of things does
+> +/// not break anything in the future.
+> +#[derive(Copy, Clone, Default, PartialEq, Eq)]
+> +pub struct PlaneCommitFlags(u32);
+> +
+> +impl From<PlaneCommitFlag> for PlaneCommitFlags {
+> +    fn from(value: PlaneCommitFlag) -> Self {
+> +        Self(value as u32)
+> +    }
+> +}
+> +
+> +impl From<PlaneCommitFlags> for u32 {
+> +    fn from(value: PlaneCommitFlags) -> Self {
+> +        value.0
+> +    }
+> +}
+> +
+> +impl BitOr for PlaneCommitFlags {
+> +    type Output =3D Self;
+> +
+> +    fn bitor(self, rhs: Self) -> Self::Output {
+> +        Self(self.0 | rhs.0)
+> +    }
+> +}
+> +
+> +impl BitOrAssign for PlaneCommitFlags {
+> +    fn bitor_assign(&mut self, rhs: Self) {
+> +        *self =3D *self | rhs
+> +    }
+> +}
+> +
+> +impl BitAnd for PlaneCommitFlags {
+> +    type Output =3D PlaneCommitFlags;
+> +
+> +    fn bitand(self, rhs: Self) -> Self::Output {
+> +        Self(self.0 & rhs.0)
+> +    }
+> +}
+> +
+> +impl BitAndAssign for PlaneCommitFlags {
+> +    fn bitand_assign(&mut self, rhs: Self) {
+> +        *self =3D *self & rhs
+> +    }
+> +}
+> +
+> +impl BitOr<PlaneCommitFlag> for PlaneCommitFlags {
+> +    type Output =3D Self;
+> +
+> +    fn bitor(self, rhs: PlaneCommitFlag) -> Self::Output {
+> +        self | Self::from(rhs)
+> +    }
+> +}
+> +
+> +impl BitOrAssign<PlaneCommitFlag> for PlaneCommitFlags {
+> +    fn bitor_assign(&mut self, rhs: PlaneCommitFlag) {
+> +        *self =3D *self | rhs
+> +    }
+> +}
+> +
+> +impl BitAnd<PlaneCommitFlag> for PlaneCommitFlags {
+> +    type Output =3D PlaneCommitFlags;
+> +
+> +    fn bitand(self, rhs: PlaneCommitFlag) -> Self::Output {
+> +        self & Self::from(rhs)
+> +    }
+> +}
+> +
+> +impl BitAndAssign<PlaneCommitFlag> for PlaneCommitFlags {
+> +    fn bitand_assign(&mut self, rhs: PlaneCommitFlag) {
+> +        *self =3D *self & rhs
+> +    }
+> +}
+> +
+> +impl PlaneCommitFlags {
+> +    /// Create a new bitmask
+> +    fn new() -> Self {
+> +        Self::default()
+> +    }
+> +
+> +    /// Check if the bitmask has the given commit flag set
+> +    fn has(&self, flag: PlaneCommitFlag) -> bool {
+> +        *self & flag =3D=3D flag.into()
+> +    }
+> +}
+> +
+> /// An iterator which goes through each DRM plane currently in an =
+atomic state.
+> ///
+> /// Note that this iterator will return [`OpaquePlane`]s, because it's =
+entirely possible for a
+> --=20
+> 2.46.1
+>=20
+>=20
+
+=E2=80=94 Daniel
+
+[0] =
+https://lore.kernel.org/all/20241024-topic-panthor-rs-genmask-v2-1-85237c1=
+f0cea@collabora.com/
 
