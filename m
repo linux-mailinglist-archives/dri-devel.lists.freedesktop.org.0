@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E7B9E576C
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:41:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FEB9E576B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:41:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D8210EE6E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15D1310EE68;
 	Thu,  5 Dec 2024 13:41:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="gnsOKH7Z";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="gZznjb7t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 739E910EE6E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7334710EE68
  for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 13:41:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
  s=default;
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
- Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=dr/S1PDeDWB2o8SfMO3shRqP5XsLt8ET+V/0DY4RDuw=; b=gnsOKH7ZxKLvQxKYYsuI/1YM2Q
- ZD3K2CcT+IwZCMpwgJwUZ7Wm6Fq0e/6tsp7j1vZmlTT/AMlMVS+s9IcQHSqbQwLRzvIEl/nfBGR8n
- fjaA/iVdR7CzdF9+KEnzge2NgVxZe4H6YRV9yqae7zWhrtdjzayqw3PUBHY2IwLzHtq/Jmpzw/Vul
- wAbgy9249XsnpzT1p5k3B9CR42rnpQlErEdToiiwZhQbKukbgmbbjDE+HTC+KdB7Z6Zzto8bcZOwY
- Z8lqlvknIMfg9VpHQJxRIUZG46qiP4KwSBblDCifgpx4h1yqmd0u82pqk2mh/i5+jX+xGkgbzTfaY
- OVmPDJ+g==;
+ bh=lMPpn7vURo2QJgxJJZTuStA+ZdH2S+Bbb3WyYBZp9YY=; b=gZznjb7tF5mnoBBGWV0T0B6Z/t
+ xrRjsfMUg22t/CWvrf+1yL3f8Vbi/uDtue78GPP5cxIeDMMgB5kP4jBxRtz7caeh1OMKQQNyTm+1y
+ DDITTda1b0YYnhFBRF/hhYCwfh6fn+7Ux+TH+LvI7YpTwpYuQXOJ0HZUAWhXUXPp2qXDQnjGgIjc2
+ thoAGeG+tolcLU0t/fcUnlsHgS5As/BfEQdjR3xxvD2L1rWcf5rlr6M2EpX1BxGViNRecMgQUSQVN
+ oTb9Z4XLDNeLOLcFOsZCleuWRi5oV8MaGsWpC+eFevM+sfi+64RLV2pG6pIFSQV0dMHqa1UnpK1Vo
+ c/KUwfAw==;
 Received: from [89.212.21.243] (port=51914 helo=and-HP-Z4..)
  by cpanel.siel.si with esmtpsa (TLS1.2) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <andrej.picej@norik.com>) id 1tJC6J-001iy5-2b;
- Thu, 05 Dec 2024 14:41:03 +0100
+ (envelope-from <andrej.picej@norik.com>) id 1tJC6K-001iy5-05;
+ Thu, 05 Dec 2024 14:41:04 +0100
 From: Andrej Picej <andrej.picej@norik.com>
 To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
@@ -44,10 +44,13 @@ To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
-Subject: [PATCH v4 0/3] SN65DSI83/4 lvds_vod_swing properties
-Date: Thu,  5 Dec 2024 14:40:18 +0100
-Message-Id: <20241205134021.2592013-1-andrej.picej@norik.com>
+Subject: [PATCH v4 1/3] dt-bindings: drm/bridge: ti-sn65dsi83: Add properties
+ for ti, lvds-vod-swing
+Date: Thu,  5 Dec 2024 14:40:19 +0100
+Message-Id: <20241205134021.2592013-2-andrej.picej@norik.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241205134021.2592013-1-andrej.picej@norik.com>
+References: <20241205134021.2592013-1-andrej.picej@norik.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-AntiAbuse: This header was added to track abuse,
@@ -77,44 +80,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Add properties which can be used to specify LVDS differential output
+voltage. Since this also depends on near-end signal termination also
+include property which sets this. LVDS differential output voltage is
+specified with an array (min, max), which should match the one from
+connected device.
 
-The LVDS differential voltage swing can be specified as arrays of min, max
-in microvolts. Two arrays, one for data-lanes and one for clock-lane can
-be specified. Additionally, because LVDS voltage swing depends on near-end
-termination this can now also be specified with separate property.
+Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+---
+Changes in v4:
+- removed "additionalProperties: true" from the patch as it is not needed
+Changes in v3:
+- no change
+Changes in v2:
+- move LVDS port schema to a $defs and reference it from there
+- properties are now defined in microvolts/ohms
+- use 1 property for data-lane and 1 for clock-lane LVDS voltage swing
+- add 1 property which sets LVDS near-end termination
+- since major change was done change the authorship to myself
+---
+ .../bindings/display/bridge/ti,sn65dsi83.yaml | 34 +++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
-Driver goes through the tables, taken from datasheet [1] and selects the
-appropriate configuration. If appropriate configuration can not be found
-the probe fails. If these properties are not defined default values are
-used as before.
-
-This patch series depends on the patch
-"[PATCH v2 11/15] arm64: dts: imx8mm-phyboard-polis: Add support for PEB-AV-10"
-(https://lore.kernel.org/all/20241202072052.2195283-12-andrej.picej@norik.com/)
-which is currently under review. Please apply the dependent series first before
-applying this one.
-
-v1 is at: https://lore.kernel.org/all/20241127103031.1007893-1-andrej.picej@norik.com/
-v2 is at: https://lore.kernel.org/all/20241203085822.2475138-1-andrej.picej@norik.com/
-v3 is at: https://lore.kernel.org/all/20241203110054.2506123-1-andrej.picej@norik.com/
-
-[1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf?ts=1732738773429&ref_url=https%253A%252F%252Fwww.mouser.co.uk%252F
-
-Best regards,
-Andrej
-
-Andrej Picej (3):
-  dt-bindings: drm/bridge: ti-sn65dsi83: Add properties for
-    ti,lvds-vod-swing
-  drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing optional properties
-  arm64: dts: imx8mm-phyboard-polis-peb-av-10: Set lvds-vod-swing
-
- .../bindings/display/bridge/ti,sn65dsi83.yaml |  34 +++-
- .../imx8mm-phyboard-polis-peb-av-10.dtso      |   2 +
- drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 147 +++++++++++++++++-
- 3 files changed, 178 insertions(+), 5 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+index 48a97bb3e2e0..bad6f5c81b06 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -80,12 +80,12 @@ properties:
+                   - const: 4
+ 
+       port@2:
+-        $ref: /schemas/graph.yaml#/properties/port
+         description: Video port for LVDS Channel-A output (panel or bridge).
++        $ref: '#/$defs/lvds-port'
+ 
+       port@3:
+-        $ref: /schemas/graph.yaml#/properties/port
+         description: Video port for LVDS Channel-B output (panel or bridge).
++        $ref: '#/$defs/lvds-port'
+ 
+     required:
+       - port@0
+@@ -96,6 +96,36 @@ required:
+   - reg
+   - ports
+ 
++$defs:
++  lvds-port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    unevaluatedProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          ti,lvds-termination-ohms:
++            description: The value of near end differential termination in ohms.
++            enum: [100, 200]
++            default: 200
++
++          ti,lvds-vod-swing-clock-microvolt:
++            description: LVDS diferential output voltage <min max> for clock
++              lanes in microvolts.
++            $ref: /schemas/types.yaml#/definitions/uint32-array
++            minItems: 2
++            maxItems: 2
++
++          ti,lvds-vod-swing-data-microvolt:
++            description: LVDS diferential output voltage <min max> for data
++              lanes in microvolts.
++            $ref: /schemas/types.yaml#/definitions/uint32-array
++            minItems: 2
++            maxItems: 2
++
+ allOf:
+   - if:
+       properties:
 -- 
 2.34.1
 
