@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0E29E572D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EAC9E5741
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 14:33:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB4D210EE6B;
-	Thu,  5 Dec 2024 13:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 213B410EE6A;
+	Thu,  5 Dec 2024 13:33:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XN7uxW74";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UsrwpU1j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D7B610EE6A;
- Thu,  5 Dec 2024 13:32:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733405533; x=1764941533;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=ZKJmbFXZb7Mu5ntPsS5hH2MbAYfqPgPQ9hW8tcycSl0=;
- b=XN7uxW74B7VeVmK5/7BiDSuRrNjw3XtkReFYgLc7rcWiw2qvVBysGPJE
- r1XXCXTuSAAgo/RxxbWt7IiTthppVXTnWLKHMeRMgpINXVfBAByhwb5Ws
- IxZ/ilr/EXCwpDZvb5HNH6/Rphx9RjAuAXC/0FLS50bB6GiRK6PbSrYy8
- Q+LendvaJg018//o3eAyrB6P6qhDeXF9kjlKHShTghRx/ct9RqyqjAxVN
- s7+dFTHA1YRECDEtcu3L0/lU5W3pvBLPqpbDAEs5FKWPEHuqpwQeg7pBF
- 5eSc1FdDK/nfiMcZ4u+kT1pmxbeq1isjWkvZIy8omAsdxeyGx/DW4aZGi g==;
-X-CSE-ConnectionGUID: sZqr0rXMT2uvS4pum9osRQ==
-X-CSE-MsgGUID: zLyGV8z4TMSLdxFmZyFWtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44322492"
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; d="scan'208";a="44322492"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2024 05:32:12 -0800
-X-CSE-ConnectionGUID: /n4XjCZHRFyHH8GrvQKnTw==
-X-CSE-MsgGUID: gULP/NQmSqKL4f6u26RkQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,210,1728975600"; d="scan'208";a="94535500"
-Received: from unknown (HELO localhost) ([10.237.66.160])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2024 05:32:11 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/i915/display: use drm_print_hex_dump() for crtc
- state dump
-In-Reply-To: <Z1GnsMJXRvMgpCdf@ashyti-mobl2.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1733392101.git.jani.nikula@intel.com>
- <12d76e34ed4c508524f768a46d2a2beb09991a23.1733392101.git.jani.nikula@intel.com>
- <Z1GnsMJXRvMgpCdf@ashyti-mobl2.lan>
-Date: Thu, 05 Dec 2024 15:32:08 +0200
-Message-ID: <87cyi61civ.fsf@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD7C10EE6A
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 13:33:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 27307A4383F;
+ Thu,  5 Dec 2024 13:32:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0318C4CEE0;
+ Thu,  5 Dec 2024 13:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733405634;
+ bh=HY9tTGeW5NW/9Fp7iwxPs9KMW7cXmJeJAVDmaY4R1VE=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=UsrwpU1jhn2CrdcLXusDmzHQxeTYjTOseV6uFBr3sr6C/rFvFwziJqAOQpqxzQuGL
+ RzdajG9/dhis/gxXfRCPrPRImkDFnnxHPZzBxFsPEQ1SmERTmmQtC5TjwhfWWAZJnT
+ Sg6G/Gt8DDY5LH7aJclBgfC3kJBiM5LnL5zJpU6h/EupV2fUtc5gyTAJvnsiGx4UQI
+ xZjeedfI1zEC71nDNpXzq2bhhmthTMIW3SrRsLT7GeW3V148yRO3Rvgh1p13OHdTzb
+ 4ssr0tkkLvPN/Zt4AEnXfqt8J18drl7cmPwUbQXf06AC13luQhAH/jkTVAXDwco17y
+ sgipnyP69ENTQ==
+Date: Thu, 05 Dec 2024 07:33:52 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: simona@ffwll.ch, devicetree@vger.kernel.org, p.zabel@pengutronix.de, 
+ junzhi.zhao@mediatek.com, mripard@kernel.org, matthias.bgg@gmail.com, 
+ linux-kernel@vger.kernel.org, tzimmermann@suse.de, krzk+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ airlied@gmail.com, chunkuang.hu@kernel.org, conor+dt@kernel.org, 
+ kernel@collabora.com, jitao.shi@mediatek.com, 
+ maarten.lankhorst@linux.intel.com, ck.hu@mediatek.com, 
+ linux-mediatek@lists.infradead.org, jie.qiu@mediatek.com
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20241205114518.53527-8-angelogioacchino.delregno@collabora.com>
+References: <20241205114518.53527-1-angelogioacchino.delregno@collabora.com>
+ <20241205114518.53527-8-angelogioacchino.delregno@collabora.com>
+Message-Id: <173340563286.3304541.16351309995499835638.robh@kernel.org>
+Subject: Re: [PATCH v2 07/15] dt-bindings: display: mediatek: Add binding
+ for MT8195 HDMI-TX v2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,38 +65,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Dec 2024, Andi Shyti <andi.shyti@linux.intel.com> wrote:
-> Hi Jani,
->
-> On Thu, Dec 05, 2024 at 11:49:34AM +0200, Jani Nikula wrote:
->> Use the drm_printer based printer to get the device specific printing of
->> the hex dump.
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> ...
->
->> -static void
->> -intel_dump_buffer(const char *prefix, const u8 *buf, size_t len)
->> -{
->> -	if (!drm_debug_enabled(DRM_UT_KMS))
->> -		return;
->
-> We lose this check now, anyway,
 
-That now depends on the drm_printer, as it should.
+On Thu, 05 Dec 2024 12:45:09 +0100, AngeloGioacchino Del Regno wrote:
+> Add a binding for the HDMI TX v2 Encoder found in MediaTek MT8195
+> and MT8188 SoCs.
+> 
+> This fully supports the HDMI Specification 2.0b, hence it provides
+> support for 3D-HDMI, Polarity inversion, up to 16 bits Deep Color,
+> color spaces including RGB444, YCBCR420/422/444 (ITU601/ITU709) and
+> xvYCC, with output resolutions up to 3840x2160p@60Hz.
+> 
+> Moreover, it also supports HDCP 1.4 and 2.3, Variable Refresh Rate
+> (VRR) and Consumer Electronics Control (CEC).
+> 
+> This IP also includes support for HDMI Audio, including IEC60958
+> and IEC61937 SPDIF, 8-channel PCM, DSD, and other lossless audio
+> according to HDMI 2.0.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../mediatek/mediatek,mt8195-hdmi.yaml        | 154 ++++++++++++++++++
+>  1 file changed, 154 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+> 
 
-Moreover, intel_crtc_state_dump() already has that check, so this is
-completely redundant.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+yamllint warnings/errors:
 
-Thanks,
-Jani.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml:
+Error in referenced schema matching $id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.example.dtb: hdmi-tx@1c300000: i2c: False schema does not allow {'compatible': ['mediatek,mt8195-hdmi-ddc'], 'clocks': [[4294967295]]}
+	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.example.dtb: hdmi-tx@1c300000: i2c: Unevaluated properties are not allowed ('clocks', 'compatible' were unexpected)
+	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
+Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.example.dtb: /example-0/soc/hdmi-tx@1c300000/i2c: failed to match any schema with compatible: ['mediatek,mt8195-hdmi-ddc']
 
->
-> Thanks,
-> Andi
+doc reference errors (make refcheckdocs):
 
--- 
-Jani Nikula, Intel
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241205114518.53527-8-angelogioacchino.delregno@collabora.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
