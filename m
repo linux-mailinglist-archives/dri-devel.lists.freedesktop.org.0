@@ -2,67 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187CA9E52B8
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 11:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B293F9E530D
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 11:55:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5072710E3A1;
-	Thu,  5 Dec 2024 10:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6175510E3A3;
+	Thu,  5 Dec 2024 10:55:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tQKq5cpz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ct5BW/+v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D2B10E12F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 10:44:11 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-29e3721ded9so513951fac.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 02:44:11 -0800 (PST)
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com
+ [209.85.160.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B05E10EE26
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 10:55:28 +0000 (UTC)
+Received: by mail-oa1-f48.google.com with SMTP id
+ 586e51a60fabf-29e3721ded9so518477fac.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 02:55:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733395450; x=1734000250; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733396127; x=1734000927; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Zrpm3XeH+mOs42vBgawvUmt6HS7pncA0m+kxGWfcqJw=;
- b=tQKq5cpzUou0uLS/fieTpuq7TdnTQW6ZiETFFqinbbLT9RZjOFlbFyWWgGqmg6Bn8L
- 8D7qwRosYplo7vG6hmOUtOmha8gifQblGVsy/g1ucn5KzCxmC6BkYWqxkdXaAapJykkZ
- 5pyPTE7P6pgiEevCvDgS9W8N/uw6etQ6gYYfpu3mH/f7q/pZz7/8ETnblxL2g0abwJih
- 4bRMa044pN3litEJePBhRDqhUAUh8fizayzuSoo2KHU2483beVA43HHdWLqGHvj8FSsh
- b1+8RftPJ2hS45CmqwdxmIRboYMYQaeZXcp1y2jH2aknxhuCG1btx7PqKmw9uHi4zs0I
- FGfA==
+ bh=Mcud7I5JiovuE8Jaohme85mCqGYx3lG0/HsoBiy64I4=;
+ b=Ct5BW/+vSmdMWett0+/Cxs30EAjotnPjfBDUDZCFqaco7hl3urLQ0To1sfiUlpdq7M
+ wKe0K2uJ6qPoy0JAPP6oH91v2e4J6bHoLSMuKuwaO0pOvMnN2KJwGQ9aUyWme4G8j/Mz
+ EHYYeEA8psazhkJ354KxNN9FHDbM/1Rj4A169Ok3ZG9nZy5mSW+9p7ZGuNsjRkpUvK1k
+ ZCdqNk4ZCaVRngUmtwrA20AaZa87bTkT22n7aFAFWceh4AP8gTTCTuNLeVNHBDSg26ci
+ lrV5vHznd9/AY/5FddYb0jl9QXZ+8mB/9dvP/wmPXvLVpJR5kUoEpFnvn2JKXp1ZZVGv
+ NVEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733395450; x=1734000250;
+ d=1e100.net; s=20230601; t=1733396127; x=1734000927;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Zrpm3XeH+mOs42vBgawvUmt6HS7pncA0m+kxGWfcqJw=;
- b=N3osQTryV7pBSJeOwQ0faU33i7SiL+kwzZVWDaQHEllfb4yNxuP2p1jzM+cMD4oIW0
- Bz/sG04tx/Wc8dW2y89nXnOntnMZh6HSdd89wg+RY/oxJOCb61d15z1GKVlZo4ReOF/t
- 6KL9lcQbdcdeoL6oI2Q25GuzbjqpbISHk2qhJvYiG2zMqNfVn29o7+kQHyYkXnyp/P5j
- +OICxNbjmJSR5qZDVxlGg1jdc2on+vkB92B0OqucyctUAF1oDllMWakq1a5nb5w8FENW
- ah8yDhjqgY3a8kc0xgeeYfxdbISOX2xazcHK+uJ6/e55qdPwLs47nfGy5KrG8fEGZj1V
- u2ww==
+ bh=Mcud7I5JiovuE8Jaohme85mCqGYx3lG0/HsoBiy64I4=;
+ b=d8AHTUrvaf+w7q7XdUMrNDfD43WWr8u/X16QyUtuGN8TnAL49A3hqMINS48P1foPrN
+ rmxWhO7IO77uBaRFMcBrFZsliSOmukDFCnsQRPwX6rLA86XYSLd8vvqa9Y234g4DYzhj
+ B3J+qFnJmTE3ySXrZoR9eV9DejPfEsXzNf7RwIMcODlOCHQ8v+SoScJ9hxFfUose4ddC
+ 34o+8VeGk7yBcIuywFVQGYzLLFvo0AzMMu2G7Ph/LmsQBD+nXdwRqJxiTUsQZRCS3nB4
+ QwAdijvt1UC/aqJt8GlDNWC0sZEVKs2xPDmqiwDLsXTbbyM2Q872o7hM7yQUg5JOfQDn
+ INUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvoMmZfDVR5is9YKCDGJX5kyj8cT5+oagERF6Uv3OlBVlIjuWrDhOnmGkH8HrKolvpbQirfw7CgoY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjKzMP6k8lasLSGm11oe289r5ND0QmLT/7YL60KCDFvIR7KC0O
- sllwzfQJANHI9n+kik/Zp4Enc8HcWMAKuZJMkKh7V2CplT6ZgrFPVPsD5bWT0Oy27S7tGBgJoqv
- T+GiN2H3EhyGogRoVlu4WBocqXZhkICaht5wRKA==
-X-Gm-Gg: ASbGncs70HMxK8Ff8BAFiOLw/QoLWiZicUI68olPrvAcVm5WpnArOHSAPZrJh3fiYKa
- GpnUsqZF1qX3GF9JzgnJqvuCuf+k3jgU=
-X-Google-Smtp-Source: AGHT+IEkbgy0HVg9g3FanBbnyR0UrX+I+6OCetArRo5yw3tk0iAyUe69De6WL0TtHdjziJhstql+Sq+aKSTTeC75xNo=
-X-Received: by 2002:a05:6870:e310:b0:29e:2bbd:51ba with SMTP id
- 586e51a60fabf-29e88560cb3mr10541855fac.9.1733395450323; Thu, 05 Dec 2024
- 02:44:10 -0800 (PST)
+ AJvYcCVYsRnrn7XwYfaBsGr8sJyHeo+SV6Sct2M2Y10fweh3ECmDRk7iuyzH68gJCqdNI8/V3RIBHFD3S54=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1e4YpuuiFJe7MwdgifLuvqHHVjNo5z37KIaYN+iM+x4W537PK
+ x4F33tJiTCJpVGcRzuuA98B2/WfynPOqfSuEoUT3OisBuzLKCh5gABY3k8KYmVZPqTt8Khhz/0I
+ JvB24/cH6dH6cYfWoGmL75urmc1cVWlI0+vejtg==
+X-Gm-Gg: ASbGncuPTyytXsmsqSFKvGZ8J4+BJzxpJVf1gFmA1bKar0v5u3+9SkMa4H4djOOEp2G
+ 2NRTva/KWUD6V+POfSEFdTGmgv4Ar0xI=
+X-Google-Smtp-Source: AGHT+IHlwPY5xDLgAp8+7rewqyZjwLcOsvOVnN31rI+fQNuV2Cjqu6sNj+5VwMTxAnipNmlIqTvLbcqCcQ2ahUgu/cw=
+X-Received: by 2002:a05:6871:729c:b0:29e:3a95:a25 with SMTP id
+ 586e51a60fabf-29e886a884fmr9661813fac.19.1733396127233; Thu, 05 Dec 2024
+ 02:55:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20241128150927.1377981-1-jens.wiklander@linaro.org>
- <20241128150927.1377981-2-jens.wiklander@linaro.org>
- <CAFA6WYPVEzNLRL3sFUBgGGF_9m7tqGmg+h4TY5LDCAN5=qgBTg@mail.gmail.com>
-In-Reply-To: <CAFA6WYPVEzNLRL3sFUBgGGF_9m7tqGmg+h4TY5LDCAN5=qgBTg@mail.gmail.com>
+ <20241128150927.1377981-3-jens.wiklander@linaro.org>
+ <CAFA6WYPEqCWyvD=pCj6DEkZWN9SCfXMnq4tKbSx1-e8UmgXb=Q@mail.gmail.com>
+ <CAHUa44H0go3fSMt_jreWz4EQgYvo8GOZ5woc-x5Cyi680oWZWw@mail.gmail.com>
+ <CAFA6WYNJQEjs29AniqC7mdmo7Fe+fCmW1kFcJ1Z2HSjQQ36LBw@mail.gmail.com>
+In-Reply-To: <CAFA6WYNJQEjs29AniqC7mdmo7Fe+fCmW1kFcJ1Z2HSjQQ36LBw@mail.gmail.com>
 From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 5 Dec 2024 11:43:57 +0100
-Message-ID: <CAHUa44EL-8OH4a9ZvW5v7s3eW14_eYaDJV1HR17exWH5roeUFA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] tee: add restricted memory allocation
+Date: Thu, 5 Dec 2024 11:55:14 +0100
+Message-ID: <CAHUa44G2=6tCvnJN2xkkg+UHJ58-0sK+BJSJyCU27aXWqPJy9g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] optee: account for direction while converting
+ parameters
 To: Sumit Garg <sumit.garg@linaro.org>
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
@@ -94,623 +97,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sumit,
-
-On Tue, Dec 3, 2024 at 8:58=E2=80=AFAM Sumit Garg <sumit.garg@linaro.org> w=
-rote:
->
-> Hi Jens,
->
-> On Thu, 28 Nov 2024 at 20:39, Jens Wiklander <jens.wiklander@linaro.org> =
+On Tue, Dec 3, 2024 at 11:35=E2=80=AFAM Sumit Garg <sumit.garg@linaro.org> =
 wrote:
+>
+> On Tue, 3 Dec 2024 at 15:58, Jens Wiklander <jens.wiklander@linaro.org> w=
+rote:
 > >
-> > Add restricted memory allocation to the TEE subsystem. Restricted memor=
-y
-> > is not be accessible by kernel during normal circumstances. A new ioctl
+> > Hi Sumit,
+> >
+> > On Tue, Dec 3, 2024 at 9:27=E2=80=AFAM Sumit Garg <sumit.garg@linaro.or=
+g> wrote:
+> > >
+> > > Hi Jens,
+> > >
+> > > On Thu, 28 Nov 2024 at 20:39, Jens Wiklander <jens.wiklander@linaro.o=
+rg> wrote:
+> > > >
+> > > > The OP-TEE backend driver has two internal function pointers to con=
+vert
+> > > > between the subsystem type struct tee_param and the OP-TEE type str=
+uct
+> > > > optee_msg_param.
+> > > >
+> > > > The conversion is done from one of the types to the other, which is=
+ then
+> > > > involved in some operation and finally converted back to the origin=
+al
+> > > > type. When converting to prepare the parameters for the operation, =
+all
+> > > > fields must be taken into account, but then converting back, it's e=
+nough
+> > > > to update only out-values and out-sizes. So, an update_out paramete=
+r is
+> > > > added to the conversion functions to tell if all or only some field=
+s
+> > > > must be copied.
+> > >
+> > > Is this patch just a refactoring of TEE params handling? Or are we
+> > > fixing a real ABI issue here? Also, is this required for restricted
+> > > shared memory support to work? Just asking if we want to consider it
+> > > as a fix for backporting or if we can handle this refactoring patch
+> > > independently of this series?
+> >
+> > This is needed in this series. Without this patch, it might get
+> > confusing when converting back in from_msg_param() callback since an
+> > allocated restricted SHM can be using the sec_world_id of the pool and
+> > that doesn't translate back well. params_to_user() in
+> > drivers/tee/tee_core.c already takes the direction into account so it
+> > wouldn't spread to user-space.
 >
-> s/not be accessible/not accessible/
->
-> How about if we reword it as follows?
->
->     Restricted memory refers to memory buffers behind a hardware enforced
->     firewall. It is not accessible to the kernel during normal circumstan=
-ces but
->     rather only accessible to certain hardware IPs or CPUs executing in h=
-igher
->     privileged mode than the kernel itself. This interface allows to
-> allocate and
->     manage such restricted memory buffers via interaction with a TEE
->     implementation.
+> Thanks Jens for the clarification, if you can update the commit text
+> accordingly will help clarify the motivation for the change.
 
-Sure, thanks.
-
->
-> > TEE_IOC_RSTMEM_ALLOC is added to allocate these restricted memory
-> > buffers.
-> >
-> > The restricted memory is allocated for a specific use-case, like Secure
-> > Video Playback, Trusted UI, or Secure Video Recording where certain
-> > hardware devices can access the memory.
-> >
-> > More use-cases can be added in userspace ABI, but it's up to the backen=
-d
-> > drivers to provide the implementation.
-> >
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> >  drivers/tee/Makefile       |   1 +
-> >  drivers/tee/tee_core.c     |  37 ++++++-
-> >  drivers/tee/tee_private.h  |   2 +
-> >  drivers/tee/tee_rstmem.c   | 201 +++++++++++++++++++++++++++++++++++++
-> >  drivers/tee/tee_shm.c      |   2 +
-> >  drivers/tee/tee_shm_pool.c |  69 ++++++++++++-
-> >  include/linux/tee_core.h   |  15 +++
-> >  include/linux/tee_drv.h    |   4 +-
-> >  include/uapi/linux/tee.h   |  37 ++++++-
-> >  9 files changed, 363 insertions(+), 5 deletions(-)
-> >  create mode 100644 drivers/tee/tee_rstmem.c
-> >
-> > diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
-> > index 5488cba30bd2..a4c6b55444b9 100644
-> > --- a/drivers/tee/Makefile
-> > +++ b/drivers/tee/Makefile
-> > @@ -3,6 +3,7 @@ obj-$(CONFIG_TEE) +=3D tee.o
-> >  tee-objs +=3D tee_core.o
-> >  tee-objs +=3D tee_shm.o
-> >  tee-objs +=3D tee_shm_pool.o
-> > +tee-objs +=3D tee_rstmem.o
-> >  obj-$(CONFIG_OPTEE) +=3D optee/
-> >  obj-$(CONFIG_AMDTEE) +=3D amdtee/
-> >  obj-$(CONFIG_ARM_TSTEE) +=3D tstee/
-> > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-> > index d113679b1e2d..e81167826002 100644
-> > --- a/drivers/tee/tee_core.c
-> > +++ b/drivers/tee/tee_core.c
-> > @@ -1,12 +1,13 @@
-> >  // SPDX-License-Identifier: GPL-2.0-only
-> >  /*
-> > - * Copyright (c) 2015-2016, Linaro Limited
-> > + * Copyright (c) 2015-2022, 2024, Linaro Limited
-> >   */
-> >
-> >  #define pr_fmt(fmt) "%s: " fmt, __func__
-> >
-> >  #include <linux/cdev.h>
-> >  #include <linux/cred.h>
-> > +#include <linux/dma-buf.h>
-> >  #include <linux/fs.h>
-> >  #include <linux/idr.h>
-> >  #include <linux/module.h>
-> > @@ -815,6 +816,38 @@ static int tee_ioctl_supp_send(struct tee_context =
-*ctx,
-> >         return rc;
-> >  }
-> >
-> > +static int
-> > +tee_ioctl_rstmem_alloc(struct tee_context *ctx,
-> > +                      struct tee_ioctl_rstmem_alloc_data __user *udata=
-)
-> > +{
-> > +       struct tee_ioctl_rstmem_alloc_data data;
-> > +       struct dma_buf *dmabuf;
-> > +       int id;
-> > +       int fd;
-> > +
-> > +       if (copy_from_user(&data, udata, sizeof(data)))
-> > +               return -EFAULT;
-> > +
-> > +       if (data.use_case =3D=3D TEE_IOC_UC_RESERVED)
-> > +               return -EINVAL;
-> > +
-> > +       dmabuf =3D tee_rstmem_alloc(ctx, data.flags, data.use_case, dat=
-a.size,
-> > +                                 &id);
-> > +       if (IS_ERR(dmabuf))
-> > +               return PTR_ERR(dmabuf);
-> > +       if (put_user(id, &udata->id)) {
-> > +               fd =3D -EFAULT;
-> > +               goto err;
-> > +       }
-> > +       fd =3D dma_buf_fd(dmabuf, O_CLOEXEC);
-> > +       if (fd < 0)
-> > +               goto err;
-> > +       return fd;
-> > +err:
-> > +       dma_buf_put(dmabuf);
-> > +       return fd;
-> > +}
-> > +
-> >  static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned lo=
-ng arg)
-> >  {
-> >         struct tee_context *ctx =3D filp->private_data;
-> > @@ -839,6 +872,8 @@ static long tee_ioctl(struct file *filp, unsigned i=
-nt cmd, unsigned long arg)
-> >                 return tee_ioctl_supp_recv(ctx, uarg);
-> >         case TEE_IOC_SUPPL_SEND:
-> >                 return tee_ioctl_supp_send(ctx, uarg);
-> > +       case TEE_IOC_RSTMEM_ALLOC:
-> > +               return tee_ioctl_rstmem_alloc(ctx, uarg);
-> >         default:
-> >                 return -EINVAL;
-> >         }
-> > diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
-> > index 9bc50605227c..bf97796909c0 100644
-> > --- a/drivers/tee/tee_private.h
-> > +++ b/drivers/tee/tee_private.h
-> > @@ -23,5 +23,7 @@ void teedev_ctx_put(struct tee_context *ctx);
-> >  struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t=
- size);
-> >  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
-> >                                           unsigned long addr, size_t le=
-ngth);
-> > +struct dma_buf *tee_rstmem_alloc(struct tee_context *ctx, u32 flags,
-> > +                                u32 use_case, size_t size, int *shm_id=
-);
-> >
-> >  #endif /*TEE_PRIVATE_H*/
-> > diff --git a/drivers/tee/tee_rstmem.c b/drivers/tee/tee_rstmem.c
-> > new file mode 100644
-> > index 000000000000..536bca2901e2
-> > --- /dev/null
-> > +++ b/drivers/tee/tee_rstmem.c
-> > @@ -0,0 +1,201 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +/*
-> > + * Copyright (c) 2024 Linaro Limited
-> > + */
-> > +#include <linux/device.h>
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/genalloc.h>
-> > +#include <linux/scatterlist.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/tee_core.h>
-> > +#include "tee_private.h"
-> > +
-> > +struct tee_rstmem_attachment {
-> > +       struct sg_table table;
-> > +       struct device *dev;
-> > +};
-> > +
-> > +static int rstmem_dma_attach(struct dma_buf *dmabuf,
-> > +                            struct dma_buf_attachment *attachment)
-> > +{
-> > +       struct tee_shm *shm =3D dmabuf->priv;
-> > +       struct tee_rstmem_attachment *a;
-> > +       int rc;
-> > +
-> > +       a =3D kzalloc(sizeof(*a), GFP_KERNEL);
-> > +       if (!a)
-> > +               return -ENOMEM;
-> > +
-> > +       if (shm->pages) {
-> > +               rc =3D sg_alloc_table_from_pages(&a->table, shm->pages,
-> > +                                              shm->num_pages, 0,
-> > +                                              shm->num_pages * PAGE_SI=
-ZE,
-> > +                                              GFP_KERNEL);
-> > +               if (rc)
-> > +                       goto err;
-> > +       } else {
-> > +               rc =3D sg_alloc_table(&a->table, 1, GFP_KERNEL);
-> > +               if (rc)
-> > +                       goto err;
-> > +               sg_set_page(a->table.sgl, phys_to_page(shm->paddr), shm=
-->size,
-> > +                           0);
-> > +       }
-> > +
-> > +       a->dev =3D attachment->dev;
-> > +       attachment->priv =3D a;
-> > +
-> > +       return 0;
-> > +err:
-> > +       kfree(a);
-> > +       return rc;
-> > +}
-> > +
-> > +static void rstmem_dma_detach(struct dma_buf *dmabuf,
-> > +                             struct dma_buf_attachment *attachment)
-> > +{
-> > +       struct tee_rstmem_attachment *a =3D attachment->priv;
-> > +
-> > +       sg_free_table(&a->table);
-> > +       kfree(a);
-> > +}
-> > +
-> > +static struct sg_table *
-> > +rstmem_dma_map_dma_buf(struct dma_buf_attachment *attachment,
-> > +                      enum dma_data_direction direction)
-> > +{
-> > +       struct tee_rstmem_attachment *a =3D attachment->priv;
-> > +       int ret;
-> > +
-> > +       ret =3D dma_map_sgtable(attachment->dev, &a->table, direction,
-> > +                             DMA_ATTR_SKIP_CPU_SYNC);
-> > +       if (ret)
-> > +               return ERR_PTR(ret);
-> > +
-> > +       return &a->table;
-> > +}
-> > +
-> > +static void rstmem_dma_unmap_dma_buf(struct dma_buf_attachment *attach=
-ment,
-> > +                                    struct sg_table *table,
-> > +                                    enum dma_data_direction direction)
-> > +{
-> > +       struct tee_rstmem_attachment *a =3D attachment->priv;
-> > +
-> > +       WARN_ON(&a->table !=3D table);
-> > +
-> > +       dma_unmap_sgtable(attachment->dev, table, direction,
-> > +                         DMA_ATTR_SKIP_CPU_SYNC);
-> > +}
-> > +
-> > +static int rstmem_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-> > +                                          enum dma_data_direction dire=
-ction)
-> > +{
-> > +       return -EPERM;
-> > +}
-> > +
-> > +static int rstmem_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-> > +                                        enum dma_data_direction direct=
-ion)
-> > +{
-> > +       return -EPERM;
-> > +}
-> > +
-> > +static int rstmem_dma_buf_mmap(struct dma_buf *dmabuf,
-> > +                              struct vm_area_struct *vma)
-> > +{
-> > +       return -EPERM;
-> > +}
-> > +
-> > +static void rstmem_dma_buf_free(struct dma_buf *dmabuf)
-> > +{
-> > +       struct tee_shm *shm =3D dmabuf->priv;
-> > +
-> > +       tee_shm_put(shm);
-> > +}
-> > +
-> > +static const struct dma_buf_ops rstmem_generic_buf_ops =3D {
-> > +       .attach =3D rstmem_dma_attach,
-> > +       .detach =3D rstmem_dma_detach,
-> > +       .map_dma_buf =3D rstmem_dma_map_dma_buf,
-> > +       .unmap_dma_buf =3D rstmem_dma_unmap_dma_buf,
-> > +       .begin_cpu_access =3D rstmem_dma_buf_begin_cpu_access,
-> > +       .end_cpu_access =3D rstmem_dma_buf_end_cpu_access,
-> > +       .mmap =3D rstmem_dma_buf_mmap,
-> > +       .release =3D rstmem_dma_buf_free,
-> > +};
-> > +
-> > +struct dma_buf *tee_rstmem_alloc(struct tee_context *ctx, u32 flags,
-> > +                                u32 use_case, size_t size, int *shm_id=
-)
-> > +{
-> > +       struct tee_device *teedev =3D ctx->teedev;
-> > +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> > +       struct dma_buf *dmabuf;
-> > +       struct tee_shm *shm;
-> > +       void *ret;
-> > +       int rc;
-> > +
-> > +       if (!tee_device_get(teedev))
-> > +               return ERR_PTR(-EINVAL);
-> > +
-> > +       if (!teedev->desc->ops->rstmem_alloc ||
-> > +           !teedev->desc->ops->rstmem_free) {
-> > +               dmabuf =3D ERR_PTR(-EINVAL);
-> > +               goto err;
-> > +       }
-> > +
-> > +       shm =3D kzalloc(sizeof(*shm), GFP_KERNEL);
-> > +       if (!shm) {
-> > +               dmabuf =3D ERR_PTR(-ENOMEM);
-> > +               goto err;
-> > +       }
-> > +
-> > +       refcount_set(&shm->refcount, 1);
-> > +       shm->flags =3D TEE_SHM_RESTRICTED;
-> > +       shm->use_case =3D use_case;
-> > +       shm->ctx =3D ctx;
-> > +
-> > +       mutex_lock(&teedev->mutex);
-> > +       shm->id =3D idr_alloc(&teedev->idr, NULL, 1, 0, GFP_KERNEL);
-> > +       mutex_unlock(&teedev->mutex);
-> > +       if (shm->id < 0) {
-> > +               dmabuf =3D ERR_PTR(shm->id);
-> > +               goto err_kfree;
-> > +       }
-> > +
-> > +       rc =3D teedev->desc->ops->rstmem_alloc(ctx, shm, flags, use_cas=
-e, size);
-> > +       if (rc) {
-> > +               dmabuf =3D ERR_PTR(rc);
-> > +               goto err_idr_remove;
-> > +       }
-> > +
-> > +       mutex_lock(&teedev->mutex);
-> > +       ret =3D idr_replace(&teedev->idr, shm, shm->id);
-> > +       mutex_unlock(&teedev->mutex);
-> > +       if (IS_ERR(ret)) {
-> > +               dmabuf =3D ret;
-> > +               goto err_rstmem_free;
-> > +       }
-> > +       teedev_ctx_get(ctx);
-> > +
-> > +       exp_info.ops =3D &rstmem_generic_buf_ops;
-> > +       exp_info.size =3D shm->size;
-> > +       exp_info.priv =3D shm;
-> > +       dmabuf =3D dma_buf_export(&exp_info);
-> > +       if (IS_ERR(dmabuf)) {
-> > +               tee_shm_put(shm);
-> > +               return dmabuf;
-> > +       }
-> > +
-> > +       *shm_id =3D shm->id;
-> > +       return dmabuf;
-> > +
-> > +err_rstmem_free:
-> > +       teedev->desc->ops->rstmem_free(ctx, shm);
-> > +err_idr_remove:
-> > +       mutex_lock(&teedev->mutex);
-> > +       idr_remove(&teedev->idr, shm->id);
-> > +       mutex_unlock(&teedev->mutex);
-> > +err_kfree:
-> > +       kfree(shm);
-> > +err:
-> > +       tee_device_put(teedev);
-> > +       return dmabuf;
-> > +}
-> > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-> > index daf6e5cfd59a..416f7f25d885 100644
-> > --- a/drivers/tee/tee_shm.c
-> > +++ b/drivers/tee/tee_shm.c
-> > @@ -55,6 +55,8 @@ static void tee_shm_release(struct tee_device *teedev=
-, struct tee_shm *shm)
-> >                                 "unregister shm %p failed: %d", shm, rc=
-);
-> >
-> >                 release_registered_pages(shm);
-> > +       } else if (shm->flags & TEE_SHM_RESTRICTED) {
-> > +               teedev->desc->ops->rstmem_free(shm->ctx, shm);
-> >         }
-> >
-> >         teedev_ctx_put(shm->ctx);
-> > diff --git a/drivers/tee/tee_shm_pool.c b/drivers/tee/tee_shm_pool.c
-> > index 80004b55628d..ee57ef157a77 100644
-> > --- a/drivers/tee/tee_shm_pool.c
-> > +++ b/drivers/tee/tee_shm_pool.c
-> > @@ -1,9 +1,8 @@
-> >  // SPDX-License-Identifier: GPL-2.0-only
-> >  /*
-> > - * Copyright (c) 2015, 2017, 2022 Linaro Limited
-> > + * Copyright (c) 2015, 2017, 2022, 2024 Linaro Limited
-> >   */
-> >  #include <linux/device.h>
-> > -#include <linux/dma-buf.h>
-> >  #include <linux/genalloc.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/tee_core.h>
-> > @@ -90,3 +89,69 @@ struct tee_shm_pool *tee_shm_pool_alloc_res_mem(unsi=
-gned long vaddr,
-> >         return ERR_PTR(rc);
-> >  }
-> >  EXPORT_SYMBOL_GPL(tee_shm_pool_alloc_res_mem);
-> > +
-> > +static int rstmem_pool_op_gen_alloc(struct tee_shm_pool *pool,
-> > +                                   struct tee_shm *shm, size_t size,
-> > +                                   size_t align)
-> > +{
-> > +       size_t sz =3D ALIGN(size, PAGE_SIZE);
-> > +       phys_addr_t pa;
-> > +
-> > +       pa =3D gen_pool_alloc(pool->private_data, sz);
-> > +       if (!pa)
-> > +               return -ENOMEM;
-> > +
-> > +       shm->size =3D sz;
-> > +       shm->paddr =3D pa;
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static void rstmem_pool_op_gen_free(struct tee_shm_pool *pool,
-> > +                                   struct tee_shm *shm)
-> > +{
-> > +       gen_pool_free(pool->private_data, shm->paddr, shm->size);
-> > +       shm->paddr =3D 0;
-> > +}
-> > +
-> > +static struct tee_shm_pool_ops rstmem_pool_ops_generic =3D {
-> > +       .alloc =3D rstmem_pool_op_gen_alloc,
-> > +       .free =3D rstmem_pool_op_gen_free,
-> > +       .destroy_pool =3D pool_op_gen_destroy_pool,
-> > +};
-> > +
-> > +struct tee_shm_pool *tee_rstmem_gen_pool_alloc(phys_addr_t paddr, size=
-_t size)
-> > +{
-> > +       const size_t page_mask =3D PAGE_SIZE - 1;
-> > +       struct tee_shm_pool *pool;
-> > +       int rc;
-> > +
-> > +       /* Check it's page aligned */
-> > +       if ((paddr | size) & page_mask)
-> > +               return ERR_PTR(-EINVAL);
-> > +
-> > +       pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
-> > +       if (!pool)
-> > +               return ERR_PTR(-ENOMEM);
-> > +
-> > +       pool->private_data =3D gen_pool_create(PAGE_SHIFT, -1);
-> > +       if (!pool->private_data) {
-> > +               rc =3D -ENOMEM;
-> > +               goto err_free;
-> > +       }
-> > +
-> > +       rc =3D gen_pool_add(pool->private_data, paddr, size, -1);
-> > +       if (rc)
-> > +               goto err_free_pool;
-> > +
-> > +       pool->ops =3D &rstmem_pool_ops_generic;
-> > +       return pool;
-> > +
-> > +err_free_pool:
-> > +       gen_pool_destroy(pool->private_data);
-> > +err_free:
-> > +       kfree(pool);
-> > +
-> > +       return ERR_PTR(rc);
-> > +}
-> > +EXPORT_SYMBOL_GPL(tee_rstmem_gen_pool_alloc);
-> > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-> > index a38494d6b5f4..608302f494fe 100644
-> > --- a/include/linux/tee_core.h
-> > +++ b/include/linux/tee_core.h
-> > @@ -26,6 +26,7 @@
-> >  #define TEE_SHM_USER_MAPPED    BIT(1)  /* Memory mapped in user space =
-*/
-> >  #define TEE_SHM_POOL           BIT(2)  /* Memory allocated from pool *=
-/
-> >  #define TEE_SHM_PRIV           BIT(3)  /* Memory private to TEE driver=
- */
-> > +#define TEE_SHM_RESTRICTED     BIT(4)  /* Restricted memory */
-> >
-> >  #define TEE_DEVICE_FLAG_REGISTERED     0x1
-> >  #define TEE_MAX_DEV_NAME_LEN           32
-> > @@ -76,6 +77,8 @@ struct tee_device {
-> >   * @supp_send:         called for supplicant to send a response
-> >   * @shm_register:      register shared memory buffer in TEE
-> >   * @shm_unregister:    unregister shared memory buffer in TEE
-> > + * @rstmem_alloc:      allocate restricted memory
-> > + * @rstmem_free:       free restricted memory
-> >   */
-> >  struct tee_driver_ops {
-> >         void (*get_version)(struct tee_device *teedev,
-> > @@ -99,6 +102,9 @@ struct tee_driver_ops {
-> >                             struct page **pages, size_t num_pages,
-> >                             unsigned long start);
-> >         int (*shm_unregister)(struct tee_context *ctx, struct tee_shm *=
-shm);
-> > +       int (*rstmem_alloc)(struct tee_context *ctx, struct tee_shm *sh=
-m,
-> > +                           u32 flags, u32 use_case, size_t size);
-> > +       void (*rstmem_free)(struct tee_context *ctx, struct tee_shm *sh=
-m);
-> >  };
-> >
-> >  /**
-> > @@ -229,6 +235,15 @@ static inline void tee_shm_pool_free(struct tee_sh=
-m_pool *pool)
-> >         pool->ops->destroy_pool(pool);
-> >  }
-> >
-> > +/**
-> > + * tee_rstmem_gen_pool_alloc() - Create a restricted memory manager
-> > + * @paddr:     Physical address of start of pool
-> > + * @size:      Size in bytes of the pool
-> > + *
-> > + * @returns pointer to a 'struct tee_shm_pool' or an ERR_PTR on failur=
-e.
-> > + */
-> > +struct tee_shm_pool *tee_rstmem_gen_pool_alloc(phys_addr_t paddr, size=
-_t size);
-> > +
-> >  /**
-> >   * tee_get_drvdata() - Return driver_data pointer
-> >   * @returns the driver_data pointer supplied to tee_register().
-> > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-> > index a54c203000ed..b7ee346e5e44 100644
-> > --- a/include/linux/tee_drv.h
-> > +++ b/include/linux/tee_drv.h
-> > @@ -55,6 +55,7 @@ struct tee_context {
-> >   * @pages:     locked pages from userspace
-> >   * @num_pages: number of locked pages
-> >   * @refcount:  reference counter
-> > + * @use_case:  defined by TEE_IOC_UC_* in tee.h
-> >   * @flags:     defined by TEE_SHM_* in tee_core.h
-> >   * @id:                unique id of a shared memory object on this dev=
-ice, shared
-> >   *             with user space
-> > @@ -71,7 +72,8 @@ struct tee_shm {
-> >         struct page **pages;
-> >         size_t num_pages;
-> >         refcount_t refcount;
-> > -       u32 flags;
-> > +       u16 use_case;
-> > +       u16 flags;
->
-> Shouldn't we keep them u32 instead to be aligned with user-space inputs?
-
-Sure, that makes sense.
-
->
-> >         int id;
-> >         u64 sec_world_id;
-> >  };
-> > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-> > index d0430bee8292..cdc8c82c9a38 100644
-> > --- a/include/uapi/linux/tee.h
-> > +++ b/include/uapi/linux/tee.h
-> > @@ -1,5 +1,5 @@
-> >  /*
-> > - * Copyright (c) 2015-2016, Linaro Limited
-> > + * Copyright (c) 2015-2017, 2020, 2024, Linaro Limited
-> >   * All rights reserved.
-> >   *
-> >   * Redistribution and use in source and binary forms, with or without
-> > @@ -48,6 +48,7 @@
-> >  #define TEE_GEN_CAP_PRIVILEGED (1 << 1)/* Privileged device (for suppl=
-icant) */
-> >  #define TEE_GEN_CAP_REG_MEM    (1 << 2)/* Supports registering shared =
-memory */
-> >  #define TEE_GEN_CAP_MEMREF_NULL        (1 << 3)/* NULL MemRef support =
-*/
-> > +#define TEE_GEN_CAP_RSTMEM     (1 << 4)/* Supports restricted memory *=
-/
-> >
-> >  #define TEE_MEMREF_NULL                (__u64)(-1) /* NULL MemRef Buff=
-er */
-> >
-> > @@ -389,6 +390,40 @@ struct tee_ioctl_shm_register_data {
-> >   */
-> >  #define TEE_IOC_SHM_REGISTER   _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 9, =
-\
-> >                                      struct tee_ioctl_shm_register_data=
-)
-> > +
-> > +#define TEE_IOC_UC_RESERVED            0
-> > +#define TEE_IOC_UC_SECURE_VIDEO_PLAY   1
-> > +#define TEE_IOC_UC_TRUSTED_UI          2
-> > +#define TEE_IOC_UC_SECURE_VIDEO_RECORD 3
-> > +
-> > +/**
-> > + * struct tee_ioctl_rstmem_alloc_data - Restricted memory allocate arg=
-ument
-> > + * @size:      [in/out] Size of restricted memory to allocate
-> > + * @flags:     [in/out] Flags to/from allocate
-> > + * @use_case   [in] Restricted memory use case, TEE_IOC_UC_*
-> > + * @id:                [out] Identifier of the restricted memory
-> > + */
-> > +struct tee_ioctl_rstmem_alloc_data {
-> > +       __u64 size;
-> > +       __u32 flags;
-> > +       __u32 use_case;
-> > +       __s32 id;
-> > +};
-> > +
-> > +/**
-> > + * TEE_IOC_RSTMEM_ALLOC - allocate restricted memory
-> > + *
-> > + * Allocates restricted physically memory normally not accessible by t=
-he
-> > + * kernel.
->
-> Can we elaborate here as well on similar lines as per commit message?
-
-OK, I'll add something.
+Sure, I'll update.
 
 Thanks,
 Jens
@@ -718,20 +157,718 @@ Jens
 >
 > -Sumit
 >
-> > + *
-> > + * Returns a file descriptor on success or < 0 on failure
-> > + *
-> > + * The returned file descriptor is a dma-buf that can be attached and
-> > + * mapped for device with permission to access the physical memory.
-> > + */
-> > +#define TEE_IOC_RSTMEM_ALLOC     _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1=
-0, \
-> > +                                      struct tee_ioctl_rstmem_alloc_da=
-ta)
-> > +
-> >  /*
-> >   * Five syscalls are used when communicating with the TEE driver.
-> >   * open(): opens the device associated with the driver
-> > --
-> > 2.43.0
 > >
+> > Cheers,
+> > Jens
+> >
+> > >
+> > > -Sumit
+> > >
+> > > >
+> > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > > ---
+> > > >  drivers/tee/optee/call.c          | 10 ++--
+> > > >  drivers/tee/optee/ffa_abi.c       | 43 +++++++++++++----
+> > > >  drivers/tee/optee/optee_private.h | 42 +++++++++++------
+> > > >  drivers/tee/optee/rpc.c           | 31 +++++++++----
+> > > >  drivers/tee/optee/smc_abi.c       | 76 +++++++++++++++++++++++----=
+----
+> > > >  5 files changed, 144 insertions(+), 58 deletions(-)
+> > > >
+> > > > diff --git a/drivers/tee/optee/call.c b/drivers/tee/optee/call.c
+> > > > index 16eb953e14bb..f1533b894726 100644
+> > > > --- a/drivers/tee/optee/call.c
+> > > > +++ b/drivers/tee/optee/call.c
+> > > > @@ -400,7 +400,8 @@ int optee_open_session(struct tee_context *ctx,
+> > > >         export_uuid(msg_arg->params[1].u.octets, &client_uuid);
+> > > >
+> > > >         rc =3D optee->ops->to_msg_param(optee, msg_arg->params + 2,
+> > > > -                                     arg->num_params, param);
+> > > > +                                     arg->num_params, param,
+> > > > +                                     false /*!update_out*/);
+> > > >         if (rc)
+> > > >                 goto out;
+> > > >
+> > > > @@ -427,7 +428,8 @@ int optee_open_session(struct tee_context *ctx,
+> > > >         }
+> > > >
+> > > >         if (optee->ops->from_msg_param(optee, param, arg->num_param=
+s,
+> > > > -                                      msg_arg->params + 2)) {
+> > > > +                                      msg_arg->params + 2,
+> > > > +                                      true /*update_out*/)) {
+> > > >                 arg->ret =3D TEEC_ERROR_COMMUNICATION;
+> > > >                 arg->ret_origin =3D TEEC_ORIGIN_COMMS;
+> > > >                 /* Close session again to avoid leakage */
+> > > > @@ -541,7 +543,7 @@ int optee_invoke_func(struct tee_context *ctx, =
+struct tee_ioctl_invoke_arg *arg,
+> > > >         msg_arg->cancel_id =3D arg->cancel_id;
+> > > >
+> > > >         rc =3D optee->ops->to_msg_param(optee, msg_arg->params, arg=
+->num_params,
+> > > > -                                     param);
+> > > > +                                     param, false /*!update_out*/)=
+;
+> > > >         if (rc)
+> > > >                 goto out;
+> > > >
+> > > > @@ -551,7 +553,7 @@ int optee_invoke_func(struct tee_context *ctx, =
+struct tee_ioctl_invoke_arg *arg,
+> > > >         }
+> > > >
+> > > >         if (optee->ops->from_msg_param(optee, param, arg->num_param=
+s,
+> > > > -                                      msg_arg->params)) {
+> > > > +                                      msg_arg->params, true /*upda=
+te_out*/)) {
+> > > >                 msg_arg->ret =3D TEEC_ERROR_COMMUNICATION;
+> > > >                 msg_arg->ret_origin =3D TEEC_ORIGIN_COMMS;
+> > > >         }
+> > > > diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_ab=
+i.c
+> > > > index f3af5666bb11..02e6175ac5f0 100644
+> > > > --- a/drivers/tee/optee/ffa_abi.c
+> > > > +++ b/drivers/tee/optee/ffa_abi.c
+> > > > @@ -122,15 +122,21 @@ static int optee_shm_rem_ffa_handle(struct op=
+tee *optee, u64 global_id)
+> > > >   */
+> > > >
+> > > >  static void from_msg_param_ffa_mem(struct optee *optee, struct tee=
+_param *p,
+> > > > -                                  u32 attr, const struct optee_msg=
+_param *mp)
+> > > > +                                  u32 attr, const struct optee_msg=
+_param *mp,
+> > > > +                                  bool update_out)
+> > > >  {
+> > > >         struct tee_shm *shm =3D NULL;
+> > > >         u64 offs_high =3D 0;
+> > > >         u64 offs_low =3D 0;
+> > > >
+> > > > +       if (update_out) {
+> > > > +               if (attr =3D=3D OPTEE_MSG_ATTR_TYPE_FMEM_INPUT)
+> > > > +                       return;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > >         p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+> > > >                   attr - OPTEE_MSG_ATTR_TYPE_FMEM_INPUT;
+> > > > -       p->u.memref.size =3D mp->u.fmem.size;
+> > > >
+> > > >         if (mp->u.fmem.global_id !=3D OPTEE_MSG_FMEM_INVALID_GLOBAL=
+_ID)
+> > > >                 shm =3D optee_shm_from_ffa_handle(optee, mp->u.fmem=
+.global_id);
+> > > > @@ -141,6 +147,8 @@ static void from_msg_param_ffa_mem(struct optee=
+ *optee, struct tee_param *p,
+> > > >                 offs_high =3D mp->u.fmem.offs_high;
+> > > >         }
+> > > >         p->u.memref.shm_offs =3D offs_low | offs_high << 32;
+> > > > +out:
+> > > > +       p->u.memref.size =3D mp->u.fmem.size;
+> > > >  }
+> > > >
+> > > >  /**
+> > > > @@ -150,12 +158,14 @@ static void from_msg_param_ffa_mem(struct opt=
+ee *optee, struct tee_param *p,
+> > > >   * @params:    subsystem internal parameter representation
+> > > >   * @num_params:        number of elements in the parameter arrays
+> > > >   * @msg_params:        OPTEE_MSG parameters
+> > > > + * @update_out: update parameter for output only
+> > > >   *
+> > > >   * Returns 0 on success or <0 on failure
+> > > >   */
+> > > >  static int optee_ffa_from_msg_param(struct optee *optee,
+> > > >                                     struct tee_param *params, size_=
+t num_params,
+> > > > -                                   const struct optee_msg_param *m=
+sg_params)
+> > > > +                                   const struct optee_msg_param *m=
+sg_params,
+> > > > +                                   bool update_out)
+> > > >  {
+> > > >         size_t n;
+> > > >
+> > > > @@ -166,18 +176,20 @@ static int optee_ffa_from_msg_param(struct op=
+tee *optee,
+> > > >
+> > > >                 switch (attr) {
+> > > >                 case OPTEE_MSG_ATTR_TYPE_NONE:
+> > > > +                       if (update_out)
+> > > > +                               break;
+> > > >                         p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+> > > >                         memset(&p->u, 0, sizeof(p->u));
+> > > >                         break;
+> > > >                 case OPTEE_MSG_ATTR_TYPE_VALUE_INPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_VALUE_INOUT:
+> > > > -                       optee_from_msg_param_value(p, attr, mp);
+> > > > +                       optee_from_msg_param_value(p, attr, mp, upd=
+ate_out);
+> > > >                         break;
+> > > >                 case OPTEE_MSG_ATTR_TYPE_FMEM_INPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_FMEM_OUTPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_FMEM_INOUT:
+> > > > -                       from_msg_param_ffa_mem(optee, p, attr, mp);
+> > > > +                       from_msg_param_ffa_mem(optee, p, attr, mp, =
+update_out);
+> > > >                         break;
+> > > >                 default:
+> > > >                         return -EINVAL;
+> > > > @@ -188,10 +200,16 @@ static int optee_ffa_from_msg_param(struct op=
+tee *optee,
+> > > >  }
+> > > >
+> > > >  static int to_msg_param_ffa_mem(struct optee_msg_param *mp,
+> > > > -                               const struct tee_param *p)
+> > > > +                               const struct tee_param *p, bool upd=
+ate_out)
+> > > >  {
+> > > >         struct tee_shm *shm =3D p->u.memref.shm;
+> > > >
+> > > > +       if (update_out) {
+> > > > +               if (p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF=
+_INPUT)
+> > > > +                       return 0;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > >         mp->attr =3D OPTEE_MSG_ATTR_TYPE_FMEM_INPUT + p->attr -
+> > > >                    TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+> > > >
+> > > > @@ -211,6 +229,7 @@ static int to_msg_param_ffa_mem(struct optee_ms=
+g_param *mp,
+> > > >                 memset(&mp->u, 0, sizeof(mp->u));
+> > > >                 mp->u.fmem.global_id =3D OPTEE_MSG_FMEM_INVALID_GLO=
+BAL_ID;
+> > > >         }
+> > > > +out:
+> > > >         mp->u.fmem.size =3D p->u.memref.size;
+> > > >
+> > > >         return 0;
+> > > > @@ -222,13 +241,15 @@ static int to_msg_param_ffa_mem(struct optee_=
+msg_param *mp,
+> > > >   * @optee:     main service struct
+> > > >   * @msg_params:        OPTEE_MSG parameters
+> > > >   * @num_params:        number of elements in the parameter arrays
+> > > > - * @params:    subsystem itnernal parameter representation
+> > > > + * @params:    subsystem internal parameter representation
+> > > > + * @update_out: update parameter for output only
+> > > >   * Returns 0 on success or <0 on failure
+> > > >   */
+> > > >  static int optee_ffa_to_msg_param(struct optee *optee,
+> > > >                                   struct optee_msg_param *msg_param=
+s,
+> > > >                                   size_t num_params,
+> > > > -                                 const struct tee_param *params)
+> > > > +                                 const struct tee_param *params,
+> > > > +                                 bool update_out)
+> > > >  {
+> > > >         size_t n;
+> > > >
+> > > > @@ -238,18 +259,20 @@ static int optee_ffa_to_msg_param(struct opte=
+e *optee,
+> > > >
+> > > >                 switch (p->attr) {
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+> > > > +                       if (update_out)
+> > > > +                               break;
+> > > >                         mp->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NONE=
+;
+> > > >                         memset(&mp->u, 0, sizeof(mp->u));
+> > > >                         break;
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> > > > -                       optee_to_msg_param_value(mp, p);
+> > > > +                       optee_to_msg_param_value(mp, p, update_out)=
+;
+> > > >                         break;
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> > > > -                       if (to_msg_param_ffa_mem(mp, p))
+> > > > +                       if (to_msg_param_ffa_mem(mp, p, update_out)=
+)
+> > > >                                 return -EINVAL;
+> > > >                         break;
+> > > >                 default:
+> > > > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/=
+optee_private.h
+> > > > index dc0f355ef72a..20eda508dbac 100644
+> > > > --- a/drivers/tee/optee/optee_private.h
+> > > > +++ b/drivers/tee/optee/optee_private.h
+> > > > @@ -185,10 +185,12 @@ struct optee_ops {
+> > > >                                 bool system_thread);
+> > > >         int (*to_msg_param)(struct optee *optee,
+> > > >                             struct optee_msg_param *msg_params,
+> > > > -                           size_t num_params, const struct tee_par=
+am *params);
+> > > > +                           size_t num_params, const struct tee_par=
+am *params,
+> > > > +                           bool update_out);
+> > > >         int (*from_msg_param)(struct optee *optee, struct tee_param=
+ *params,
+> > > >                               size_t num_params,
+> > > > -                             const struct optee_msg_param *msg_par=
+ams);
+> > > > +                             const struct optee_msg_param *msg_par=
+ams,
+> > > > +                             bool update_out);
+> > > >  };
+> > > >
+> > > >  /**
+> > > > @@ -316,23 +318,35 @@ void optee_release(struct tee_context *ctx);
+> > > >  void optee_release_supp(struct tee_context *ctx);
+> > > >
+> > > >  static inline void optee_from_msg_param_value(struct tee_param *p,=
+ u32 attr,
+> > > > -                                             const struct optee_ms=
+g_param *mp)
+> > > > +                                             const struct optee_ms=
+g_param *mp,
+> > > > +                                             bool update_out)
+> > > >  {
+> > > > -       p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT +
+> > > > -                 attr - OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> > > > -       p->u.value.a =3D mp->u.value.a;
+> > > > -       p->u.value.b =3D mp->u.value.b;
+> > > > -       p->u.value.c =3D mp->u.value.c;
+> > > > +       if (!update_out)
+> > > > +               p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT +
+> > > > +                         attr - OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> > > > +
+> > > > +       if (attr =3D=3D OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT ||
+> > > > +           attr =3D=3D OPTEE_MSG_ATTR_TYPE_VALUE_INOUT || !update_=
+out) {
+> > > > +               p->u.value.a =3D mp->u.value.a;
+> > > > +               p->u.value.b =3D mp->u.value.b;
+> > > > +               p->u.value.c =3D mp->u.value.c;
+> > > > +       }
+> > > >  }
+> > > >
+> > > >  static inline void optee_to_msg_param_value(struct optee_msg_param=
+ *mp,
+> > > > -                                           const struct tee_param =
+*p)
+> > > > +                                           const struct tee_param =
+*p,
+> > > > +                                           bool update_out)
+> > > >  {
+> > > > -       mp->attr =3D OPTEE_MSG_ATTR_TYPE_VALUE_INPUT + p->attr -
+> > > > -                  TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> > > > -       mp->u.value.a =3D p->u.value.a;
+> > > > -       mp->u.value.b =3D p->u.value.b;
+> > > > -       mp->u.value.c =3D p->u.value.c;
+> > > > +       if (!update_out)
+> > > > +               mp->attr =3D OPTEE_MSG_ATTR_TYPE_VALUE_INPUT + p->a=
+ttr -
+> > > > +                          TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> > > > +
+> > > > +       if (p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT |=
+|
+> > > > +           p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT ||=
+ !update_out) {
+> > > > +               mp->u.value.a =3D p->u.value.a;
+> > > > +               mp->u.value.b =3D p->u.value.b;
+> > > > +               mp->u.value.c =3D p->u.value.c;
+> > > > +       }
+> > > >  }
+> > > >
+> > > >  void optee_cq_init(struct optee_call_queue *cq, int thread_count);
+> > > > diff --git a/drivers/tee/optee/rpc.c b/drivers/tee/optee/rpc.c
+> > > > index ebbbd42b0e3e..580e6b9b0606 100644
+> > > > --- a/drivers/tee/optee/rpc.c
+> > > > +++ b/drivers/tee/optee/rpc.c
+> > > > @@ -63,7 +63,7 @@ static void handle_rpc_func_cmd_i2c_transfer(stru=
+ct tee_context *ctx,
+> > > >         }
+> > > >
+> > > >         if (optee->ops->from_msg_param(optee, params, arg->num_para=
+ms,
+> > > > -                                      arg->params))
+> > > > +                                      arg->params, false /*!update=
+_out*/))
+> > > >                 goto bad;
+> > > >
+> > > >         for (i =3D 0; i < arg->num_params; i++) {
+> > > > @@ -107,7 +107,8 @@ static void handle_rpc_func_cmd_i2c_transfer(st=
+ruct tee_context *ctx,
+> > > >         } else {
+> > > >                 params[3].u.value.a =3D msg.len;
+> > > >                 if (optee->ops->to_msg_param(optee, arg->params,
+> > > > -                                            arg->num_params, param=
+s))
+> > > > +                                            arg->num_params, param=
+s,
+> > > > +                                            true /*update_out*/))
+> > > >                         arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >                 else
+> > > >                         arg->ret =3D TEEC_SUCCESS;
+> > > > @@ -188,6 +189,7 @@ static void handle_rpc_func_cmd_wait(struct opt=
+ee_msg_arg *arg)
+> > > >  static void handle_rpc_supp_cmd(struct tee_context *ctx, struct op=
+tee *optee,
+> > > >                                 struct optee_msg_arg *arg)
+> > > >  {
+> > > > +       bool update_out =3D false;
+> > > >         struct tee_param *params;
+> > > >
+> > > >         arg->ret_origin =3D TEEC_ORIGIN_COMMS;
+> > > > @@ -200,15 +202,21 @@ static void handle_rpc_supp_cmd(struct tee_co=
+ntext *ctx, struct optee *optee,
+> > > >         }
+> > > >
+> > > >         if (optee->ops->from_msg_param(optee, params, arg->num_para=
+ms,
+> > > > -                                      arg->params)) {
+> > > > +                                      arg->params, update_out)) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >                 goto out;
+> > > >         }
+> > > >
+> > > >         arg->ret =3D optee_supp_thrd_req(ctx, arg->cmd, arg->num_pa=
+rams, params);
+> > > >
+> > > > +       /*
+> > > > +        * Special treatment for OPTEE_RPC_CMD_SHM_ALLOC since inpu=
+t is a
+> > > > +        * value type, but the output is a memref type.
+> > > > +        */
+> > > > +       if (arg->cmd !=3D OPTEE_RPC_CMD_SHM_ALLOC)
+> > > > +               update_out =3D true;
+> > > >         if (optee->ops->to_msg_param(optee, arg->params, arg->num_p=
+arams,
+> > > > -                                    params))
+> > > > +                                    params, update_out))
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >  out:
+> > > >         kfree(params);
+> > > > @@ -270,7 +278,7 @@ static void handle_rpc_func_rpmb_probe_reset(st=
+ruct tee_context *ctx,
+> > > >
+> > > >         if (arg->num_params !=3D ARRAY_SIZE(params) ||
+> > > >             optee->ops->from_msg_param(optee, params, arg->num_para=
+ms,
+> > > > -                                      arg->params) ||
+> > > > +                                      arg->params, false /*!update=
+_out*/) ||
+> > > >             params[0].attr !=3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUT=
+PUT) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >                 return;
+> > > > @@ -280,7 +288,8 @@ static void handle_rpc_func_rpmb_probe_reset(st=
+ruct tee_context *ctx,
+> > > >         params[0].u.value.b =3D 0;
+> > > >         params[0].u.value.c =3D 0;
+> > > >         if (optee->ops->to_msg_param(optee, arg->params,
+> > > > -                                    arg->num_params, params)) {
+> > > > +                                    arg->num_params, params,
+> > > > +                                    true /*update_out*/)) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >                 return;
+> > > >         }
+> > > > @@ -324,7 +333,7 @@ static void handle_rpc_func_rpmb_probe_next(str=
+uct tee_context *ctx,
+> > > >
+> > > >         if (arg->num_params !=3D ARRAY_SIZE(params) ||
+> > > >             optee->ops->from_msg_param(optee, params, arg->num_para=
+ms,
+> > > > -                                      arg->params) ||
+> > > > +                                      arg->params, false /*!update=
+_out*/) ||
+> > > >             params[0].attr !=3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUT=
+PUT ||
+> > > >             params[1].attr !=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OU=
+TPUT) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > > @@ -358,7 +367,8 @@ static void handle_rpc_func_rpmb_probe_next(str=
+uct tee_context *ctx,
+> > > >         params[0].u.value.b =3D rdev->descr.capacity;
+> > > >         params[0].u.value.c =3D rdev->descr.reliable_wr_count;
+> > > >         if (optee->ops->to_msg_param(optee, arg->params,
+> > > > -                                    arg->num_params, params)) {
+> > > > +                                    arg->num_params, params,
+> > > > +                                    true /*update_out*/)) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >                 return;
+> > > >         }
+> > > > @@ -384,7 +394,7 @@ static void handle_rpc_func_rpmb_frames(struct =
+tee_context *ctx,
+> > > >
+> > > >         if (arg->num_params !=3D ARRAY_SIZE(params) ||
+> > > >             optee->ops->from_msg_param(optee, params, arg->num_para=
+ms,
+> > > > -                                      arg->params) ||
+> > > > +                                      arg->params, false /*!update=
+_out*/) ||
+> > > >             params[0].attr !=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_IN=
+PUT ||
+> > > >             params[1].attr !=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OU=
+TPUT) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > > @@ -401,7 +411,8 @@ static void handle_rpc_func_rpmb_frames(struct =
+tee_context *ctx,
+> > > >                 goto out;
+> > > >         }
+> > > >         if (optee->ops->to_msg_param(optee, arg->params,
+> > > > -                                    arg->num_params, params)) {
+> > > > +                                    arg->num_params, params,
+> > > > +                                    true /*update_out*/)) {
+> > > >                 arg->ret =3D TEEC_ERROR_BAD_PARAMETERS;
+> > > >                 goto out;
+> > > >         }
+> > > > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_ab=
+i.c
+> > > > index e9456e3e74cc..d1f79947f58a 100644
+> > > > --- a/drivers/tee/optee/smc_abi.c
+> > > > +++ b/drivers/tee/optee/smc_abi.c
+> > > > @@ -81,20 +81,26 @@ static int optee_cpuhp_disable_pcpu_irq(unsigne=
+d int cpu)
+> > > >   */
+> > > >
+> > > >  static int from_msg_param_tmp_mem(struct tee_param *p, u32 attr,
+> > > > -                                 const struct optee_msg_param *mp)
+> > > > +                                 const struct optee_msg_param *mp,
+> > > > +                                 bool update_out)
+> > > >  {
+> > > >         struct tee_shm *shm;
+> > > >         phys_addr_t pa;
+> > > >         int rc;
+> > > >
+> > > > +       if (update_out) {
+> > > > +               if (attr =3D=3D OPTEE_MSG_ATTR_TYPE_TMEM_INPUT)
+> > > > +                       return 0;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > >         p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+> > > >                   attr - OPTEE_MSG_ATTR_TYPE_TMEM_INPUT;
+> > > > -       p->u.memref.size =3D mp->u.tmem.size;
+> > > >         shm =3D (struct tee_shm *)(unsigned long)mp->u.tmem.shm_ref=
+;
+> > > >         if (!shm) {
+> > > >                 p->u.memref.shm_offs =3D 0;
+> > > >                 p->u.memref.shm =3D NULL;
+> > > > -               return 0;
+> > > > +               goto out;
+> > > >         }
+> > > >
+> > > >         rc =3D tee_shm_get_pa(shm, 0, &pa);
+> > > > @@ -103,18 +109,25 @@ static int from_msg_param_tmp_mem(struct tee_=
+param *p, u32 attr,
+> > > >
+> > > >         p->u.memref.shm_offs =3D mp->u.tmem.buf_ptr - pa;
+> > > >         p->u.memref.shm =3D shm;
+> > > > -
+> > > > +out:
+> > > > +       p->u.memref.size =3D mp->u.tmem.size;
+> > > >         return 0;
+> > > >  }
+> > > >
+> > > >  static void from_msg_param_reg_mem(struct tee_param *p, u32 attr,
+> > > > -                                  const struct optee_msg_param *mp=
+)
+> > > > +                                  const struct optee_msg_param *mp=
+,
+> > > > +                                  bool update_out)
+> > > >  {
+> > > >         struct tee_shm *shm;
+> > > >
+> > > > +       if (update_out) {
+> > > > +               if (attr =3D=3D OPTEE_MSG_ATTR_TYPE_RMEM_INPUT)
+> > > > +                       return;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > >         p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT +
+> > > >                   attr - OPTEE_MSG_ATTR_TYPE_RMEM_INPUT;
+> > > > -       p->u.memref.size =3D mp->u.rmem.size;
+> > > >         shm =3D (struct tee_shm *)(unsigned long)mp->u.rmem.shm_ref=
+;
+> > > >
+> > > >         if (shm) {
+> > > > @@ -124,6 +137,8 @@ static void from_msg_param_reg_mem(struct tee_p=
+aram *p, u32 attr,
+> > > >                 p->u.memref.shm_offs =3D 0;
+> > > >                 p->u.memref.shm =3D NULL;
+> > > >         }
+> > > > +out:
+> > > > +       p->u.memref.size =3D mp->u.rmem.size;
+> > > >  }
+> > > >
+> > > >  /**
+> > > > @@ -133,11 +148,13 @@ static void from_msg_param_reg_mem(struct tee=
+_param *p, u32 attr,
+> > > >   * @params:    subsystem internal parameter representation
+> > > >   * @num_params:        number of elements in the parameter arrays
+> > > >   * @msg_params:        OPTEE_MSG parameters
+> > > > + * @update_out:        update parameter for output only
+> > > >   * Returns 0 on success or <0 on failure
+> > > >   */
+> > > >  static int optee_from_msg_param(struct optee *optee, struct tee_pa=
+ram *params,
+> > > >                                 size_t num_params,
+> > > > -                               const struct optee_msg_param *msg_p=
+arams)
+> > > > +                               const struct optee_msg_param *msg_p=
+arams,
+> > > > +                               bool update_out)
+> > > >  {
+> > > >         int rc;
+> > > >         size_t n;
+> > > > @@ -149,25 +166,27 @@ static int optee_from_msg_param(struct optee =
+*optee, struct tee_param *params,
+> > > >
+> > > >                 switch (attr) {
+> > > >                 case OPTEE_MSG_ATTR_TYPE_NONE:
+> > > > +                       if (update_out)
+> > > > +                               break;
+> > > >                         p->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NONE;
+> > > >                         memset(&p->u, 0, sizeof(p->u));
+> > > >                         break;
+> > > >                 case OPTEE_MSG_ATTR_TYPE_VALUE_INPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_VALUE_OUTPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_VALUE_INOUT:
+> > > > -                       optee_from_msg_param_value(p, attr, mp);
+> > > > +                       optee_from_msg_param_value(p, attr, mp, upd=
+ate_out);
+> > > >                         break;
+> > > >                 case OPTEE_MSG_ATTR_TYPE_TMEM_INPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_TMEM_OUTPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_TMEM_INOUT:
+> > > > -                       rc =3D from_msg_param_tmp_mem(p, attr, mp);
+> > > > +                       rc =3D from_msg_param_tmp_mem(p, attr, mp, =
+update_out);
+> > > >                         if (rc)
+> > > >                                 return rc;
+> > > >                         break;
+> > > >                 case OPTEE_MSG_ATTR_TYPE_RMEM_INPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_RMEM_OUTPUT:
+> > > >                 case OPTEE_MSG_ATTR_TYPE_RMEM_INOUT:
+> > > > -                       from_msg_param_reg_mem(p, attr, mp);
+> > > > +                       from_msg_param_reg_mem(p, attr, mp, update_=
+out);
+> > > >                         break;
+> > > >
+> > > >                 default:
+> > > > @@ -178,20 +197,25 @@ static int optee_from_msg_param(struct optee =
+*optee, struct tee_param *params,
+> > > >  }
+> > > >
+> > > >  static int to_msg_param_tmp_mem(struct optee_msg_param *mp,
+> > > > -                               const struct tee_param *p)
+> > > > +                               const struct tee_param *p, bool upd=
+ate_out)
+> > > >  {
+> > > >         int rc;
+> > > >         phys_addr_t pa;
+> > > >
+> > > > +       if (update_out) {
+> > > > +               if (p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF=
+_INPUT)
+> > > > +                       return 0;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > >         mp->attr =3D OPTEE_MSG_ATTR_TYPE_TMEM_INPUT + p->attr -
+> > > >                    TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+> > > >
+> > > >         mp->u.tmem.shm_ref =3D (unsigned long)p->u.memref.shm;
+> > > > -       mp->u.tmem.size =3D p->u.memref.size;
+> > > >
+> > > >         if (!p->u.memref.shm) {
+> > > >                 mp->u.tmem.buf_ptr =3D 0;
+> > > > -               return 0;
+> > > > +               goto out;
+> > > >         }
+> > > >
+> > > >         rc =3D tee_shm_get_pa(p->u.memref.shm, p->u.memref.shm_offs=
+, &pa);
+> > > > @@ -201,19 +225,27 @@ static int to_msg_param_tmp_mem(struct optee_=
+msg_param *mp,
+> > > >         mp->u.tmem.buf_ptr =3D pa;
+> > > >         mp->attr |=3D OPTEE_MSG_ATTR_CACHE_PREDEFINED <<
+> > > >                     OPTEE_MSG_ATTR_CACHE_SHIFT;
+> > > > -
+> > > > +out:
+> > > > +       mp->u.tmem.size =3D p->u.memref.size;
+> > > >         return 0;
+> > > >  }
+> > > >
+> > > >  static int to_msg_param_reg_mem(struct optee_msg_param *mp,
+> > > > -                               const struct tee_param *p)
+> > > > +                               const struct tee_param *p, bool upd=
+ate_out)
+> > > >  {
+> > > > +       if (update_out) {
+> > > > +               if (p->attr =3D=3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF=
+_INPUT)
+> > > > +                       return 0;
+> > > > +               goto out;
+> > > > +       }
+> > > > +
+> > > >         mp->attr =3D OPTEE_MSG_ATTR_TYPE_RMEM_INPUT + p->attr -
+> > > >                    TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
+> > > >
+> > > >         mp->u.rmem.shm_ref =3D (unsigned long)p->u.memref.shm;
+> > > > -       mp->u.rmem.size =3D p->u.memref.size;
+> > > >         mp->u.rmem.offs =3D p->u.memref.shm_offs;
+> > > > +out:
+> > > > +       mp->u.rmem.size =3D p->u.memref.size;
+> > > >         return 0;
+> > > >  }
+> > > >
+> > > > @@ -223,11 +255,13 @@ static int to_msg_param_reg_mem(struct optee_=
+msg_param *mp,
+> > > >   * @msg_params:        OPTEE_MSG parameters
+> > > >   * @num_params:        number of elements in the parameter arrays
+> > > >   * @params:    subsystem itnernal parameter representation
+> > > > + * @update_out:        update parameter for output only
+> > > >   * Returns 0 on success or <0 on failure
+> > > >   */
+> > > >  static int optee_to_msg_param(struct optee *optee,
+> > > >                               struct optee_msg_param *msg_params,
+> > > > -                             size_t num_params, const struct tee_p=
+aram *params)
+> > > > +                             size_t num_params, const struct tee_p=
+aram *params,
+> > > > +                             bool update_out)
+> > > >  {
+> > > >         int rc;
+> > > >         size_t n;
+> > > > @@ -238,21 +272,23 @@ static int optee_to_msg_param(struct optee *o=
+ptee,
+> > > >
+> > > >                 switch (p->attr) {
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+> > > > +                       if (update_out)
+> > > > +                               break;
+> > > >                         mp->attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_NONE=
+;
+> > > >                         memset(&mp->u, 0, sizeof(mp->u));
+> > > >                         break;
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+> > > > -                       optee_to_msg_param_value(mp, p);
+> > > > +                       optee_to_msg_param_value(mp, p, update_out)=
+;
+> > > >                         break;
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+> > > >                 case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> > > >                         if (tee_shm_is_dynamic(p->u.memref.shm))
+> > > > -                               rc =3D to_msg_param_reg_mem(mp, p);
+> > > > +                               rc =3D to_msg_param_reg_mem(mp, p, =
+update_out);
+> > > >                         else
+> > > > -                               rc =3D to_msg_param_tmp_mem(mp, p);
+> > > > +                               rc =3D to_msg_param_tmp_mem(mp, p, =
+update_out);
+> > > >                         if (rc)
+> > > >                                 return rc;
+> > > >                         break;
+> > > > --
+> > > > 2.43.0
+> > > >
