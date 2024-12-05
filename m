@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64E99E4E62
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 08:31:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02459E4E7C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Dec 2024 08:33:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D40E10EDBA;
-	Thu,  5 Dec 2024 07:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AFC010EDC2;
+	Thu,  5 Dec 2024 07:33:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e4S6usSu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Udkuqoi/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9233A10EDBA
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Dec 2024 07:31:29 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DF2510EDBF;
+ Thu,  5 Dec 2024 07:33:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3347B5C563A;
- Thu,  5 Dec 2024 07:30:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC662C4CED1;
- Thu,  5 Dec 2024 07:31:19 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9EF86A41522;
+ Thu,  5 Dec 2024 07:31:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58075C4CED1;
+ Thu,  5 Dec 2024 07:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733383888;
- bh=tl7z5khqHwgfmMC1yiN0DCsWW590Zda7OF1raNXX9wo=;
+ s=k20201202; t=1733384012;
+ bh=N6b6G1hccUjy50KfZUwq8KJZvPbyplkKkBKQG+61mK4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=e4S6usSuH5khmzNH0uwBG77QC78odPh/2kq0qMDeGd/ANo+7o2nuziV3Jq2mSUKpf
- dYh0PvwQehqhnJyfTH3JzGBmNODJ3u2eAe148ta1ZpfjuBKmVMLPV4NocVHUKWoVjq
- 47LRw2chq/03glgPtpgZXYl56+3EnT6q6xyJn9sTqzfZ48rgWzZmnLyyw4+uiPb8Z3
- 8bee0JOBwaP+qne5ecQ3OM4X//OzcNyaQoh8nCp1Qan5gXLNjtt4b1rpc52tBzQ9OD
- 5o1V2PKEQhmjkiZvIZH3ExgEzAXYvfmGOHDhvJiqDnUjXCX2xfcJdJyJ+DQQSyx7c2
- QzyjbZrPQP62g==
-Message-ID: <5206c6a1-0473-40c2-b651-5dbca1204729@kernel.org>
-Date: Thu, 5 Dec 2024 08:31:17 +0100
+ b=Udkuqoi/TpU9taIdDluAHlQrGzg6PJ7ZcepZ46TL+2pOJv5/uDBzoNUi9AflB3bbL
+ LI3Ty6ZLopqblld66CarHdx51UdnCkXemecjuzLG+y4oO2pNF57czqKCJhfVYP2jPN
+ 4aRzBbGGOhrPFWq78yJB6aN4uxBgxEu5Zu4Sth/XSkEFyw5vEwV+AMcGp6awb/AqhJ
+ bXVvupEqNwl0TjfcDF9Xe62OwsNEfX9BZ6iwwp6xFdw/4DrRlV0uQlSrz+uwdIBl6l
+ Vp30G1UFU6yrQvmow6p2bT7j4niPxYcg3Ea0VUGd0rkkE0NShtM4KrWAbyLuDDTIR1
+ rilfwuA60BvwQ==
+Message-ID: <2ef59c6d-bef2-4763-9463-06116a2e7d04@kernel.org>
+Date: Thu, 5 Dec 2024 08:33:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 01/14] clk: thead: Refactor TH1520 clock driver to
- share common code
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
- Stephen Boyd <sboyd@kernel.org>, airlied@gmail.com, aou@eecs.berkeley.edu,
- conor+dt@kernel.org, drew@pdp7.com, frank.binns@imgtec.com,
- guoren@kernel.org, jassisinghbrar@gmail.com, jszhang@kernel.org,
- krzk+dt@kernel.org, m.szyprowski@samsung.com,
- maarten.lankhorst@linux.intel.com, matt.coster@imgtec.com,
- mripard@kernel.org, mturquette@baylibre.com, palmer@dabbelt.com,
- paul.walmsley@sifive.com, robh@kernel.org, simona@ffwll.ch,
- tzimmermann@suse.de, ulf.hansson@linaro.org, wefu@redhat.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-References: <20241203134137.2114847-1-m.wilczynski@samsung.com>
- <CGME20241203134150eucas1p24ba8d2fbf2af5b8f9abe503b4334127d@eucas1p2.samsung.com>
- <20241203134137.2114847-2-m.wilczynski@samsung.com>
- <94a57c718a09a20d148101884bf2e5f2.sboyd@kernel.org>
- <94356242-7c94-4da5-a9ad-684d03ddedd6@samsung.com>
+Subject: Re: [PATCH 2/4] dt-bindings: display: msm: dp-controller: document
+ clock parents better
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Mahadevan <quic_mahap@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com>
+ <20241202-dp_mst_bindings-v1-2-9a9a43b0624a@quicinc.com>
+ <bfa857c2-cd74-4fe2-a88c-3b35a58710b0@kernel.org>
+ <gpqrugcsyhz32bvip5mgjtcservhral2o5b6c5nz4ocwbjw5uo@eypv4x6jyrdr>
+ <hqe2pipkcnxftoq5mvdk36xmkj3ybr3oto6eghimq75rqlncsm@v45smglhedy7>
+ <pxi2nf4h34xtkickkkuwh4svvhbtsutuz5u3ukzgfgd5rzzcps@g4gct5zuc6kj>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -98,9 +99,9 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <94356242-7c94-4da5-a9ad-684d03ddedd6@samsung.com>
+In-Reply-To: <pxi2nf4h34xtkickkkuwh4svvhbtsutuz5u3ukzgfgd5rzzcps@g4gct5zuc6kj>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,111 +117,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2024 14:54, Michal Wilczynski wrote:
+On 04/12/2024 11:09, Dmitry Baryshkov wrote:
+> On Wed, Dec 04, 2024 at 09:02:18AM +0100, Krzysztof Kozlowski wrote:
+>> On Tue, Dec 03, 2024 at 03:41:48PM +0200, Dmitry Baryshkov wrote:
+>>> On Tue, Dec 03, 2024 at 09:01:31AM +0100, Krzysztof Kozlowski wrote:
+>>>> On 03/12/2024 04:31, Abhinav Kumar wrote:
+>>>>> Document the assigned-clock-parents better for the DP controller node
+>>>>> to indicate its functionality better.
+>>>>
+>>>>
+>>>> You change the clocks entirely, not "document". I would say that's an
+>>>> ABI break if it really is a Linux requirement. You could avoid any
+>>>> problems by just dropping the property from binding.
+>>>
+>>> But if you take a look at the existing usage, the proposed change
+>>> matches the behaviour. So, I'd say, it's really a change that makes
+>>> documentation follow the actual hardware.
+>>
+>> First, this should be in the commit msg, instead of "document better to
+>> indicate functionality better".
+>>
+>> Second, what is the point of documenting it in the first place if you
+>> can change it and changing has no impact? So maybe just drop?
 > 
+> So, do you suggest setting both of the property descriptions to true? Or
+> dropping them completely and using unevaluatedProperties instead of
+> additionalProperties?
 > 
-> On 12/3/24 20:56, Stephen Boyd wrote:
->> Quoting Michal Wilczynski (2024-12-03 05:41:24)
->>> diff --git a/drivers/clk/thead/Makefile b/drivers/clk/thead/Makefile
->>> index 7ee0bec1f251..d7cf88390b69 100644
->>> --- a/drivers/clk/thead/Makefile
->>> +++ b/drivers/clk/thead/Makefile
->>> @@ -1,2 +1,2 @@
->>>  # SPDX-License-Identifier: GPL-2.0
->>> -obj-$(CONFIG_CLK_THEAD_TH1520_AP) += clk-th1520-ap.o
->>> +obj-$(CONFIG_CLK_THEAD_TH1520_AP) += clk-th1520.o clk-th1520-ap.o
->>
->> Can the -ap driver be extended instead? Or are the clks in a different
->> IO region?
-> 
-> The Video Output (VO) clocks reside in a different address space as
-> defined in the T-HEAD manual 4.4.1 [1]. Therefore, creating a separate
-> driver made sense to maintain clarity and adhere to the existing
 
-There is no such rule, no convention even. But there is a rule and
-convention of re-using drivers.
-
-> convention of having one driver per subsystem, similar to the
-
-You have here two drivers per subsystem, so even if there was such a
-rule, you just broke it.
-
-> AP-specific driver.
-> 
-> [1] - https://openbeagle.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20System%20User%20Manual.pdf
->>
->>> diff --git a/drivers/clk/thead/clk-th1520-ap.c b/drivers/clk/thead/clk-th1520-ap.c
->>> index 17e32ae08720..a6015805b859 100644
->>> --- a/drivers/clk/thead/clk-th1520-ap.c
->>> +++ b/drivers/clk/thead/clk-th1520-ap.c
->>> @@ -5,297 +5,9 @@
->>>   *  Authors: Yangtao Li <frank.li@vivo.com>
->>>   */
->>>  
->>> -#include <dt-bindings/clock/thead,th1520-clk-ap.h>
->>
->> Presumably this should stay here.
->>
->>> -#include <linux/bitfield.h>
->>> -#include <linux/clk-provider.h>
->>> -#include <linux/device.h>
->>> -#include <linux/module.h>
->>> -#include <linux/platform_device.h>
->>> -#include <linux/regmap.h>
->>
-
-...
-
->>> +static inline struct ccu_common *hw_to_ccu_common(struct clk_hw *hw)
->>> +{
->>> +       return container_of(hw, struct ccu_common, hw);
->>> +}
->>> +
->>> +static inline struct ccu_mux *hw_to_ccu_mux(struct clk_hw *hw)
->>> +{
->>> +       struct ccu_common *common = hw_to_ccu_common(hw);
->>> +
->>> +       return container_of(common, struct ccu_mux, common);
->>> +}
->>> +
->>> +static inline struct ccu_pll *hw_to_ccu_pll(struct clk_hw *hw)
->>> +{
->>> +       struct ccu_common *common = hw_to_ccu_common(hw);
->>> +
->>> +       return container_of(common, struct ccu_pll, common);
->>> +}
->>> +
->>> +static inline struct ccu_div *hw_to_ccu_div(struct clk_hw *hw)
->>> +{
->>> +       struct ccu_common *common = hw_to_ccu_common(hw);
->>> +
->>> +       return container_of(common, struct ccu_div, common);
->>> +}
->>> +
->>> +static inline struct ccu_gate *hw_to_ccu_gate(struct clk_hw *hw)
->>> +{
->>> +       struct ccu_common *common = hw_to_ccu_common(hw);
->>> +
->>> +       return container_of(common, struct ccu_gate, common);
->>> +}
->>> +
->>> +extern const struct clk_ops ccu_div_ops;
->>> +extern const struct clk_ops clk_pll_ops;
->>> +extern const struct regmap_config th1520_clk_regmap_config;
->>
->> Why is the regmap config exported?
-> 
-> The regmap_config is exported to allow reuse across multiple drivers.
-> Initially, I passed the clock VOSYS address space using the reg property
-> and created the regmap from it, enabling other drivers to utilize the
-> same configuration. Later, I switched to a regmap-based syscon approach
-> but haven’t moved the regmap_config back to the AP driver.
-
-
-It anyway in your original code cannot be exported. If you want to use
-syscon, then use syscon, not exporting regmaps manually.
-
-
+Dropping them entirely, without any changes of additionalProperties.
+Unless this property was added due to limitation of dtschema?
 
 
 Best regards,
