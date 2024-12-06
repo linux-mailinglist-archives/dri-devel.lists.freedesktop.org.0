@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2AD9E61A6
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 01:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D809E61AC
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 01:06:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C24A710EFE1;
-	Fri,  6 Dec 2024 00:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE5110EFE6;
+	Fri,  6 Dec 2024 00:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="ddQV5noL";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="tW2coqxF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D06AD10EFE1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 00:05:34 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-30020d33d05so12448701fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 16:05:34 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2487B10EFE6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 00:06:15 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53ded167ae3so1498579e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 16:06:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733443533; x=1734048333;
+ d=google.com; s=20230601; t=1733443573; x=1734048373;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TOo5o1IkcWYIYeHg+0oB2U3HqNWFzIG3pPjklrK0UCc=;
- b=ddQV5noLwgT4CB4SPw4s44nv+dmVx6YnVVAmuvWEQQ0lqL2qay6RF74OyL4GoPcUjl
- kc2bgm9gCm+JWym0Y77q8noDyeXW3/pU3yXE5ZsjbM97yTkln8G5ynx8G9RkgHy/Onh8
- Qz5s7FXBQGxj2/15sG32PdVCLhv5lsV07uGfOs7rVXiJAXLSYeVygZnvt1nqJzRWQGqr
- WHdkmfI/kEEVva6+Mdzch1y3SORzcq5QXwVId+c6E3xHgR/IhGX6B2dblX2+uqB7XP0o
- ZSgl4tfIHTCs7vSCCXO9y5xq4AqRorFhCV7HjyUUVz9trMYRB/JE9AtAKZvrP7my2ouW
- 7BCQ==
+ bh=d3TPBP6t+GJK9sLABw7iuDGZ/6x8FUIQxd10a+gfRfo=;
+ b=tW2coqxFxu9R5cIIpG9LBhJg91zCUjaMuBS2ZCr22EHeFTD8zA89JSWBxR+984WyEe
+ Km3K+oAMSJsaogHBd6BpJo+KyXgHMa6FA9DfqVDwNaBXAaxHZV28f8Q4ipb1xFNdQSRf
+ QDzazNDiQIIHmLo+yQTkakM+3/p4Kh7bhOaMJA4IBVgueTtZnaTbHppS+OcSx7bXqUKR
+ izH6zbHe3ed1sCs3SJyWhHOeIs10yKk5scwTCkpOFHr9wL3BB61JEQfEQhunTqfhrRye
+ 5MOcVsVshEsNIYoOy5doZbJr81bNHD7NRKxy4E2a3O/DSKMlzk2cfcI4NSVgR9lELwmr
+ 3L9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733443533; x=1734048333;
+ d=1e100.net; s=20230601; t=1733443573; x=1734048373;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TOo5o1IkcWYIYeHg+0oB2U3HqNWFzIG3pPjklrK0UCc=;
- b=dZqpHpnzdOWpXR4F4cG8wImWvrUfaYGeyDfkxxv3JZaR/YCbH7bBSZKWEZx6EZmfF9
- W0j8NI/bZ7KoWQBE8tABgzEhfZmApLsTB8qjuz8KI4oXYmLLrhFczMTYRWnYtQCmSrBY
- HmI7ZG0XWS+9zd0niXdakqYxMF587uCe1RbvzmCGPj5eo/cGhBI2Mzyvh0O8nyEw88It
- 1rhKOSCRSa3G6LMg9NNwf0vKyFQjep/4+HI4oyVOB44kMKqfktpWOEsit3QOzKdZiGDy
- bPFV6CN6KEsWClO73O7CiWtxC9s5vXL+JFxkIamGg7Tt3POgpWRtrloQ+E6CPXthUeQW
- tUpg==
+ bh=d3TPBP6t+GJK9sLABw7iuDGZ/6x8FUIQxd10a+gfRfo=;
+ b=CoEUj/FRZPLW6CtljOg4ZZ2Hh7mNrV+7TKFV6Fu0xHhJ2i2ySFVQ8PiFZG2fpahg70
+ 981pArlWCfUGjrdLIpYsXnNxTIRuDcRAOWYGIRSkK2yLZaewvhxkEy+Bi8YSNf6WmHyx
+ 4OcOFZ5ab+pCkXgr9T33wkOhwtQoruEchUmZX2vPPIsmG69srvWSsEYd5gRHN7FY9KLQ
+ 9W5a5RCHfgwhmy1lXp4NpJ0yTvskXSbBowJPhsko2RWvcXDHhyWLWJaHSTYGdlHB7hiY
+ OrBq+XRT2ahSBvl4HbL6pWo/53qMAKjDu4MCrJL+uRU2Itx/jzDcAT0mVEf/Fl7rtp5b
+ QUWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWHsuwNqpPgkZMT0DfatmHHoit4N6lvNrHdm0lhvwIoj/AFEkbOE8kVSl937m7tRfvBuXM1IQp407s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnrNMvD5svDvwm4v9kJSEsRR2LEm3FRXNvFD9l3izL+PLSoMKW
- 4P54pCYwXcvM4/i6rFRGvBfVfSdbRJCwyiWQk/Jz8xeA3lORD/Oh1qs7oXeX3D1YtEiOQd/bi/L
- 3XKJFcFMrg+AESilHo436FFQ6OvX4FhoZIthI
-X-Gm-Gg: ASbGnctCSOySArpV1Uz2gR2bZcCrUtmbdlC6sm144javQxDE9RkcYRM7tdk1+RUaTdL
- oOZ0f2vbhlITOqvRkuYXp+C3gb6enhg==
-X-Google-Smtp-Source: AGHT+IGyZ/TZMqzTp8+it+xJqPWDkQKwRdqrGP6nkAD/oOmQhsRauaZCXRwfpEP8IRWA2Z0RTrR2gBDTeLWDpYubwUw=
-X-Received: by 2002:a05:6512:1189:b0:53e:18ac:b1fe with SMTP id
- 2adb3069b0e04-53e2b6ba9abmr349123e87.1.1733443532699; Thu, 05 Dec 2024
- 16:05:32 -0800 (PST)
+ AJvYcCVVMw7T4BucvWAwoWGS3hhmVExaVYzJmrMzZ4Oxd1Z8P0jPQTaUvukMiRySGyFimCrWA6ztJB9mLVE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7obL8nU8tPARoYiAluOamfrUmAWxEEl6oha9lIA1zOT1NwSwc
+ soU/Hx4cbkgI8wxVZF+eSj6v+HO4Dkw3QooIRPaYqxEqM2xF6cfqDB58K5LgcoL2wcCOuXKOfVu
+ JMFrvgvyH5xl5xmQXJ8GtxJTFfAj4DLoaxH1d
+X-Gm-Gg: ASbGncuCztHD/EHz2DpitiQmGux0utBh4Bnx3FTJq/Gt1g96qhmLUanD8mLwSMHVjCO
+ 5LSNKR5cuaKfCvr75ywWa8fMLPbPrVA==
+X-Google-Smtp-Source: AGHT+IENUCJT3jmuSq+uuBSoJsgvgSBDBHg4ob0uMlJQb0PpgFG3hX9cyDh1XGO4hDnpY6OiQOw6us+nrtPgXeARTyM=
+X-Received: by 2002:a05:6512:104e:b0:53e:2116:fd2f with SMTP id
+ 2adb3069b0e04-53e2c2ba477mr238894e87.24.1733443573131; Thu, 05 Dec 2024
+ 16:06:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20241204221859.2248634-1-sashal@kernel.org>
- <20241204221859.2248634-4-sashal@kernel.org>
-In-Reply-To: <20241204221859.2248634-4-sashal@kernel.org>
+References: <20241204221820.2248367-1-sashal@kernel.org>
+ <20241204221820.2248367-4-sashal@kernel.org>
+In-Reply-To: <20241204221820.2248367-4-sashal@kernel.org>
 From: Saravana Kannan <saravanak@google.com>
-Date: Thu, 5 Dec 2024 16:04:55 -0800
-Message-ID: <CAGETcx-u9BuPLiJ+Hn_29xmR_W3d7jC=uPFsw70eC65CZ_9UtQ@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 6.1 4/8] drm: display: Set fwnode for aux bus
+Date: Thu, 5 Dec 2024 16:05:35 -0800
+Message-ID: <CAGETcx9RpUz0hR-X+rO6yKRxOmrMLveU7EMSACF49kMTMqdaRg@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.6 04/10] drm: display: Set fwnode for aux bus
  devices
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
@@ -73,9 +73,9 @@ Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  maarten.lankhorst@linux.intel.com, 
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- matthias.bgg@gmail.com, sumit.garg@linaro.org, ricardo@marliere.net, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
+ matthias.bgg@gmail.com, elder@kernel.org, sumit.garg@linaro.org, 
+ ricardo@marliere.net, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,7 +93,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 4, 2024 at 3:30=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
+On Wed, Dec 4, 2024 at 3:29=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
 e:
 >
 > From: Saravana Kannan <saravanak@google.com>
@@ -140,10 +140,10 @@ Is there a pressing need for this in 4.19?
 >
 > diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/d=
 isplay/drm_dp_aux_bus.c
-> index f5741b45ca077..951170e1d5d14 100644
+> index 8a165be1a8214..d15c0f184983b 100644
 > --- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
 > +++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
-> @@ -287,7 +287,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
+> @@ -292,7 +292,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
 >         aux_ep->dev.parent =3D aux->dev;
 >         aux_ep->dev.bus =3D &dp_aux_bus_type;
 >         aux_ep->dev.type =3D &dp_aux_device_type_type;
