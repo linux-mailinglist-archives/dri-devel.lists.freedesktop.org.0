@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F669E6FF6
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 15:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A0179E7018
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 15:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE5810F103;
-	Fri,  6 Dec 2024 14:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B30010F107;
+	Fri,  6 Dec 2024 14:34:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i7NRQ6jU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WgHxdjMu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8CE10F103
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 14:23:05 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F7110F107
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 14:34:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 983CBA4423C;
- Fri,  6 Dec 2024 14:21:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6CA8C4CED1;
- Fri,  6 Dec 2024 14:23:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 845D55C6E72;
+ Fri,  6 Dec 2024 14:34:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A50DC4CED1;
+ Fri,  6 Dec 2024 14:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733494984;
- bh=KjGZ7RXzGwqZiqmHjguEh0tDh9nP5DfFrBU9SfrU15k=;
- h=From:Date:To:Cc:Subject:References:In-Reply-To:From;
- b=i7NRQ6jUNAOhb8w7aT8pqsBU9WQagCvkU0JqfRg0P0mqaGYTO0EQmBBoiAvjpgccQ
- LSlSazpccXfaqiFOsccfqWJpQzhrgjKyCmWiso/EoKZCbnNKFWT2vNFjaSUTbrZ0NV
- wEF0gdbsmXHAlU6dMNfRBtdodwqxIlCMnsEShU8hn0BF23K1qzYmHmJFG5KgEfh4DO
- SPdfTFtl3NP5xzTS6Dq3t9R2GJaXe5upAcVClaEQLdi0Y0eLXtodBv7+OCkWCKEMOq
- GFlgLzCM2OuFqbfzaLgQsxlpcn+ZYBjY63ZN9UmlE/MZ+vcIYWiHGLkkOZ+zuK9rIx
- PzEhxJg6u+Kiw==
-From: mripard@kernel.org
-Date: Fri, 6 Dec 2024 15:23:01 +0100
+ s=k20201202; t=1733495695;
+ bh=nF5LxKv8T81leJMO/CuStFlxQDPRXw0NlSd9f5JANYc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WgHxdjMuh7TGdSDG78OQk4528JQqnx5KRlevVafqybA+nndhgJb7Q70hQ36QphC7m
+ 5J5HKk9E6TZ9duXn4GHfgApO3OHuIlAXffiDZU129EnvSz9FhND87VGhejelBxsIvq
+ sBLNi5O3GT4ArsiTXb+a95mquANa9oVe/eoZ27dirHsZm5LDxjFWrLYgljpvRikiYq
+ MmlKV31TVnfvcurjE5rt1OKQoZIgxIH/EK+7WsaTtS1YWbu9imqs3Y+eKs3FPMTZX8
+ Jx9N7bJkAiOxjE4cCX1Ke6WmOWBeRNiKX9xzpl/XzHbUaojbajwdOG+z2tSb05GFEz
+ EBCHb6D1nP7SA==
+Date: Fri, 6 Dec 2024 15:34:52 +0100
+From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
@@ -64,19 +64,15 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  linux-sound@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
  linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 9/9] drm/vc4: hdmi: use
- drm_atomic_helper_connector_hdmi_update_edid()
-Message-ID: <20241206-speedy-beaver-from-asgard-dbed9c@houat>
-HFrom: Maxime Ripard <mripard@kernel.org>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-9-b5316e82f61a@linaro.org>
- <20241202-married-bald-raven-7acd83@houat>
- <ae24x2bo736jpzi77l34hybejawwe4rp47v2idedga344ye6zr@bxsxz34dwrd2>
+Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
+Message-ID: <20241206-caped-proficient-rattlesnake-c882f3@houat>
+References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
+ <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="dycgynhhneeoioiz"
+ protocol="application/pgp-signature"; boundary="6occl6gdwf4rqri7"
 Content-Disposition: inline
-In-Reply-To: <ae24x2bo736jpzi77l34hybejawwe4rp47v2idedga344ye6zr@bxsxz34dwrd2>
+In-Reply-To: <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,102 +89,83 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---dycgynhhneeoioiz
+--6occl6gdwf4rqri7
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 9/9] drm/vc4: hdmi: use
- drm_atomic_helper_connector_hdmi_update_edid()
+Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in
+ get_modes()
 MIME-Version: 1.0
 
-On Tue, Dec 03, 2024 at 02:27:44PM +0200, Dmitry Baryshkov wrote:
-> On Mon, Dec 02, 2024 at 02:27:49PM +0100, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Sun, Dec 01, 2024 at 02:44:13AM +0200, Dmitry Baryshkov wrote:
-> > > Use the helper function to update the connector's information. This
-> > > makes sure that HDMI-related events are handled in a generic way.
-> > > Currently it is limited to the HDMI state reporting to the sound syst=
-em.
-> > >=20
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > ---
-> > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++--
-> > >  1 file changed, 7 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4=
-_hdmi.c
-> > > index d0a9aff7ad43016647493263c00d593296a1e3ad..d83f587ab69f4b8f7d5c3=
-7a00777f11da8301bc1 100644
-> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > > @@ -401,13 +401,16 @@ static void vc4_hdmi_handle_hotplug(struct vc4_=
-hdmi *vc4_hdmi,
-> > >  	 */
-> > > =20
-> > >  	if (status =3D=3D connector_status_disconnected) {
-> > > +		drm_atomic_helper_connector_hdmi_update_edid(connector, NULL);
-> > >  		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-> > >  		return;
-> > >  	}
-> > > =20
-> > >  	drm_edid =3D drm_edid_read_ddc(connector, vc4_hdmi->ddc);
-> > > =20
-> > > -	drm_edid_connector_update(connector, drm_edid);
-> > > +	// TODO: use drm_atomic_helper_connector_hdmi_update() once it gains
-> > > +	// CEC support
-> > > +	drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
-> >=20
-> > So, it's not just about EDID, and I think we shouldn't really focus on
-> > that either.
-> >=20
-> > As that patch points out, even if we only consider EDID's, we have
-> > different path depending on the connector status. It shouldn't be up to
-> > the drivers to get this right.
-> >=20
-> > What I had in mind was something like a
-> > drm_atomic_helper_connector_hdmi_hotplug function that would obviously
-> > deal with EDID only here, but would expand to CEC, scrambling, etc.
-> > later on.
+Hi,
+
+On Fri, Dec 06, 2024 at 12:16:03PM +0200, Dmitry Baryshkov wrote:
+> The vc4_hdmi_connector_detect_ctx() via vc4_hdmi_handle_hotplug()
+> already reads EDID and propagates it to the drm_connector. Stop
+> rereading EDID as a part of the .get_modes() callback and just update
+> the list of modes. This matches the behaviour of the i915 driver.
 >=20
-> I thought about it, after our discussion, but in the end I had to
-> implement the EDID-specific function, using edid =3D=3D NULL as
-> "disconnected" event. The issue is pretty simple: there is no standard
-> way to get EDID from the connector. The devices can call
-> drm_edid_read(), drm_edid_read_ddc(connector->ddc) or (especially
-> embedded bridges) use drm_edid_read_custom().
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ---------------------
+>  1 file changed, 21 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index e5ab42f72f618b90f956482db6c9c8074c1e3bf1..3364ef90968dad3074800f029=
+26300ffceb75c69 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -470,31 +470,10 @@ static int vc4_hdmi_connector_detect_ctx(struct drm=
+_connector *connector,
+> =20
+>  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>  {
+> -	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
+>  	struct vc4_dev *vc4 =3D to_vc4_dev(connector->dev);
+> -	const struct drm_edid *drm_edid;
+>  	int ret =3D 0;
+> =20
+> -	/*
+> -	 * NOTE: This function should really take vc4_hdmi->mutex, but doing so
+> -	 * results in reentrancy issues since cec_s_phys_addr() might call
+> -	 * .adap_enable, which leads to that funtion being called with our mutex
+> -	 * held.
+> -	 *
+> -	 * Concurrency isn't an issue at the moment since we don't share
+> -	 * any state with any of the other frameworks so we can ignore
+> -	 * the lock for now.
+> -	 */
+> -
+> -	drm_edid =3D drm_edid_read_ddc(connector, vc4_hdmi->ddc);
+> -	drm_edid_connector_update(connector, drm_edid);
+> -	cec_s_phys_addr(vc4_hdmi->cec_adap,
+> -			connector->display_info.source_physical_address, false);
+> -	if (!drm_edid)
+> -		return 0;
+> -
+>  	ret =3D drm_edid_connector_add_modes(connector);
+> -	drm_edid_free(drm_edid);
 
-And that's fine, it's to be expected.
+I don't think that works though, for mostly two reasons:
 
-> Of course we can go with the functional way and add the
-> .read_edid(drm_connector) callback to the HDMI funcs. Then the
-> drm_atomic_helper_connector_hdmi_hotplug() function can read EDID on its
-> own.
+ 1) We're not sure we'll even have an hotplug interrupt if the system
+    boots with the connector plugged in for example.
 
-Yep, that's definitely what we should do. And then we can make a
-get_modes helper too that would also use it.
-
-> Also the function that you proposed perfectly fits the HPD notification
-> callbacks, but which function should be called from the .get_modes()?
-> The _hdmi_hotplug() doesn't fit there. Do we still end up with both
-> drm_atomic_helper_connector_hdmi_hotplug() and
-> drm_atomic_helper_connector_hdmi_update_edid()?
-
-I'd say both a get_modes helper and a hotplug helper, both using that
-read_edid hook under the hood.
+ 2) afaik, the get_modes ioctl directly calls get_modes too.
 
 Maxime
 
---dycgynhhneeoioiz
+--6occl6gdwf4rqri7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1MIxQAKCRAnX84Zoj2+
-do5xAX4k6mKW4Bt7ybI5RhlLw9sJEo4pfcA2eh2x5DRMpHOkyzon0k434uDMFRng
-2KdcU8gBgK08VG9rHNa3FQR0uOvG+ivNuzpw60Z3iQTfDrl9j6ufNMx2bCeo7pR2
-LTKnOXxxkg==
-=7iA8
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1MLiwAKCRAnX84Zoj2+
+dtSXAX4hYRG+Z6tKfkagtuQh3eXutsb5V7CXdnzsxAuDpcnlgOGnrNWvE/pOo221
+IbNrcU0BgKUK8Zc+sRgjwT4hMHCUzqNxA3vJPT21KIFeOFWVKptImryaMUOS4zgh
+qNsNOpDWOQ==
+=07j8
 -----END PGP SIGNATURE-----
 
---dycgynhhneeoioiz--
+--6occl6gdwf4rqri7--
