@@ -2,119 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E509E6DF5
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 13:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA749E6F1F
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 14:17:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E165D10E2E1;
-	Fri,  6 Dec 2024 12:20:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DAF210F0DF;
+	Fri,  6 Dec 2024 13:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eoHDjxEa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LRdo+IHD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F065B10E2E1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 12:20:24 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67jV9F031102
- for <dri-devel@lists.freedesktop.org>; Fri, 6 Dec 2024 12:20:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9E3Q5V18pzVm0efIN2Z36r5MoCfL8CYX45xyLjaUZPo=; b=eoHDjxEay15UJjR6
- IwX7o44jEaiQbMhdt5dcw6lLE6+/89AUfsd8ka4uEkuIOkjIOe3BTWVxheOVCCSs
- yIZJc05bJ+Rm7FhKHG3sbiS90CAvrv2TNAlBs/LIuSdffIGx91XFAMZqxEQT5Uz0
- 3QegG+MjAZyHHGXX9ys6M5CC+dZU3ct4BabykCfgej9n3b/5b+hIhOuZ0hY/qI/L
- X+p+7rVKrp/HkgTV123zb6rbunTRrn3l6yVbQHXXmTsc4DU9zEwkKf3S0aVO4fKB
- f1ZwqxV+oUPj+ECEsMsY/SLIt87EBwbInIVFu5ZZLJjof9+H78mdzzU4fTq2MRQ1
- v0tulA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43be1734hr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 12:20:23 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4668a6d41a5so5736201cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 04:20:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733487623; x=1734092423;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9E3Q5V18pzVm0efIN2Z36r5MoCfL8CYX45xyLjaUZPo=;
- b=YBb7KmGAOWqA5+QENbn/DOEZARwHDWNlJG6sMIn567/lLP5fM1AyeheObZcyYBCuin
- MllTrVP8IrvCUMgXVaGbPjC4oRav3B78Pcfgzw/hpbW0CLhYCBJII4AeUay0rrK7dt1S
- qhlhH2JPH856pGFj/4d5F/WM3uVXevbL+mYEMyncpZ7bNsw0ijNQ6SRiyJroppfa+fZs
- EiAUsfRJseOgXgTBkq7uFtuRzH/XbnItZC3hMWBkRUjXUvPGTIdl/moEH1vZ4RvvMUEq
- Uaev2cYQv5we2JHsZBb+gfdcfHCCGLXqOx+PXBqLcD2wLgWV14fe77RbZpNqa7LvBmFq
- FGhQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWFfaBfpNICaMgtPOiCWGra8dc5BHRNd4/Cdwu7FH2kFR5V80yG2CGohQQxzVW840eFkhZ4/1cd4Is=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIg8eIwAX1i17uASFjPMc5Ic7K+CvBBYZI3FSuFffS8DXnbaDK
- 8R1H+9YffAFSYKnbbJkfmWgbBkYN+x4+dNmeNfrw9BdrJ4FZujMWz/HubjTT6dUh6DakOYcmYqb
- 1Nv3/v8xBRQPcxHTz7NKDPZMT8+y9AtONgx9PLrC96bgOwU0ElWLMtH/TvqasaalyWgc=
-X-Gm-Gg: ASbGnctKqmO4UwgVHbquJ+hJEYTK71WS4OEMy8FtbXR0KQ7naWN/xodKJQleWm0wxBN
- AzKHqGSqh/XPCuIHhPY5l/VcI3X77Cwz3FcLFgupF5vyVJBuKTDcloDQTc16bqhWuexEnqd7Y29
- mV9W5JrOWaFDNLBKi8Gij+oik3NPyXAPbrSg8ur11ru/xhAgOfYCeQ/xjHeoSTrqcegg74Iq393
- jNqsQDl+l/xt2gucrNzT7qfv1f1rSBXsaB3pcjztmWZPvnlTDVx72rVQDkM9RXZpPuCjlvyjbjG
- IKx5OPamNPmFaC9nQYgBdho5FfwgCqw=
-X-Received: by 2002:a05:622a:606:b0:464:9faf:664b with SMTP id
- d75a77b69052e-46734c8f531mr18002161cf.2.1733487622870; 
- Fri, 06 Dec 2024 04:20:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFaYjuLbGBmcbEVFGiae/eyDl8MSbUHvTvfg7816ggOQFX2Cej3+/3TS1KDf5HZCvflpH7buQ==
-X-Received: by 2002:a05:622a:606:b0:464:9faf:664b with SMTP id
- d75a77b69052e-46734c8f531mr18002011cf.2.1733487622527; 
- Fri, 06 Dec 2024 04:20:22 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d149a25924sm2113819a12.17.2024.12.06.04.20.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Dec 2024 04:20:22 -0800 (PST)
-Message-ID: <d83ebaa2-1da8-4f85-9034-670e525b457b@oss.qualcomm.com>
-Date: Fri, 6 Dec 2024 13:20:18 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E97D710F0CD
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 13:17:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=D6qVrVwr3Q3b8dTifijCeDTSuXLVIMeD5KyhqpYEELU=; b=LRdo+IHDIwbxSMVfPinLm8tTgK
+ cypzH7D9H+nH8X6sXDq/77Iy2immDZSYP6/KBWp0XYkkVFKX7D6PVuQySHNpF/ZBf0Qms/0mX901r
+ ndaaokGG+OArHFFCGdZ10rtxzrEyBsSKMkwI3J61VHdcKKYTVKDdaG4MJDOm9C7pMnlYjavQEBaFx
+ ZBboXZ49ZdQZZ3E6RnShE2DLd8HZ49SOpvC4nIYOCveUSRj7to1CE9Rt0vrE6pAeULMxQXRjezdL6
+ SvNrldHjboGPANc3aTNG+YU+ejoxfe3MVCM4nqeDNfoGwLdIW8UGGx7qKeF6zm0fLrh/N8n4bO2K5
+ tz1BE24A==;
+Received: from [187.36.213.55] (helo=morissey..)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tJYCv-00HQHu-4L; Fri, 06 Dec 2024 14:17:21 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH 0/4] drm/vc4: Clean-up the BO seqnos
+Date: Fri,  6 Dec 2024 10:12:33 -0300
+Message-ID: <20241206131706.203324-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 44/45] arm64: dts: qcom: add mst support for pixel stream
- clk for DP0
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Stephen Boyd <swboyd@chromium.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Vara Reddy <quic_varar@quicinc.com>, Rob Clark <robdclark@chromium.org>,
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Yongxing Mou <quic_yongmou@quicinc.com>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-44-f8618d42a99a@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241205-dp_mst-v1-44-f8618d42a99a@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 7qKe7EphkV2PjklVXrksSx6f8fhTgSWH
-X-Proofpoint-ORIG-GUID: 7qKe7EphkV2PjklVXrksSx6f8fhTgSWH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
- impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0 clxscore=1015
- mlxlogscore=951 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412060092
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,45 +61,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6.12.2024 5:32 AM, Abhinav Kumar wrote:
-> From: Yongxing Mou <quic_yongmou@quicinc.com>
-> 
-> Populate the pixel clock for stream 1 for DP0 for sa8775p DP controller.
-> 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> index 0dbaa17e5e3f06c61b2aa777e45b73a48e50e66b..0150ce27b98e9894fa9ee6cccd020528d716f543 100644
-> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> @@ -3944,16 +3944,20 @@ mdss0_dp0: displayport-controller@af54000 {
->  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
->  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK>,
->  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
-> -					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-> +					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-> +					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
+This series introduces a series of clean-ups in BO reservations for the
+VC4 driver. Currently, VC4 uses shared fences to track BO reservations as
+several other DRM devices. But apart from the DMA reservation objects, VC4
+also attaches seqnos to its BOs with the intention to track if the job that
+uses such BO has finished.
 
-dispcc also defines PIXEL2/3 clocks.
+The seqno tracking system was introduced before the DMA reservation objects
+and we ended up lefting it in the code after DMA resv was introduced. This
+is redundant, as we can perfectly track the end of a job with a fence.
+Therefore, this series focuses on eliminating the seqnos from the BO.
 
->  				clock-names = "core_iface",
->  					      "core_aux",
->  					      "ctrl_link",
->  					      "ctrl_link_iface",
-> -					      "stream_pixel";
-> +					      "stream_pixel",
-> +					      "stream_1_pixel";
->  				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
-> -						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-> -				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>;
-> +						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-> +						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
-> +				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>, <&mdss0_dp0_phy 1>;
+This series introduces a series of clean-ups for BO reservations in the VC4
+driver. Currently, VC4 uses shared fences to track BO reservations, similar
+to many other DRM devices. However, in addition to DMA reservation objects,
+VC4 has been maintaining a separate seqno tracking system for BOs to track
+job completion.
 
-Please turn this into a vertical list
+The seqno tracking system was implemented before DMA reservation objects
+and was left in the code after DMA reservation's introduction. This
+approach is now redundant, as job completion can be effectively tracked
+using fences. Consequently, this series focuses on eliminating seqnos from
+the BO implementation.
 
-Konrad
+Patch Breakdown
+===============
+
+* Patch #1: Uses the DRM GEM implementation of `drm_gem_lock_reservations()`
+and `drm_gem_unlock_reservations()` to replace the open-coded implementation
+of this functions by VC4. A straightforward change with no functional
+changes.
+
+* Patch #2: Implements the VC4 wait BO IOCTL using DMA reservations. The
+new implementation closely mirrors the V3D approach and removes the IOCTL's
+dependency on BO sequence numbers.
+
+* Patch #3: The central piece of this patchset. It removes `bo->seqno`,
+`bo->write_seqno`, and `exec->bin_dep_seqno` from the driver. As the seqno
+tracking system is redundant, its deletion is relatively straightforward.
+The only notable change is `vc4_async_set_fence_cb()`, which now uses
+`dma_fence_add_callback()` to add the VC4 callback.
+
+* Patch #4: Deletes the now-unused function `vc4_queue_seqno_cb()`.
+
+Best Regards,
+- Maíra
+
+Maíra Canal (4):
+  drm/vc4: Use `drm_gem_lock_reservations()` instead of hard-coding
+  drm/vc4: Use DMA Resv to implement VC4 wait BO IOCTL
+  drm/vc4: Remove BOs seqnos
+  drm/vc4: Remove `vc4_queue_seqno_cb()`
+
+ drivers/gpu/drm/vc4/vc4_crtc.c     |  22 ++---
+ drivers/gpu/drm/vc4/vc4_drv.h      |  26 ++---
+ drivers/gpu/drm/vc4/vc4_gem.c      | 147 ++++++-----------------------
+ drivers/gpu/drm/vc4/vc4_validate.c |  11 ---
+ 4 files changed, 48 insertions(+), 158 deletions(-)
+
+-- 
+2.47.1
+
