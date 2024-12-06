@@ -2,136 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD3C9E76B9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 18:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 458DB9E76D7
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 18:14:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8BC210E1E8;
-	Fri,  6 Dec 2024 17:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A519010E62A;
+	Fri,  6 Dec 2024 17:14:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yYHb0+JW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ijP8pa/N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2075.outbound.protection.outlook.com [40.107.93.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CDF110E1E8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 17:10:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Iyz+3Jrc9CHrshAZkEVC6wdjAdT7Xfwnpzi4mim17yWMdfWTmRWXo735yNvig+admrneOgiUxI/IaY71ftcQOu7DDezsZQWkJahW7JCGDUXiK90S3Urooo7kayh18d3bZLT/C19KqwkvawayWUWaSxRtL61nwZGvpSwFxn1yMq/B3OrQE+fT9p5aTdVqS0TQoaJCGrOxGfilTqJdR79apI2/I8nxJ0InEWoHyXgJzwzhRKCm+ZLjnmo3AUfGpdSC5F4LFej72VfGvnJXgsr3BRKFFieIGKE0XS1cYzsxYZbxs6f8xczcTBbvPlbohA9XtY3TPrV+e37C1Ey9WsZuGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0WR12sX6nJ4exzGoXfOsFCySUxroUo8KlR9JpCknFBY=;
- b=F7NRjKxco9BPKuAj73O6cKPfvJy6m4CJD5ulVG9CEZ8/MovDCiCkP3q+OF5/BnaCd2mVw3EokF4SM3wLKJXx+qrpHxcsIfoDgXlWBsPlHK8qTUlcxi8m54fzMG9p7fqpC27jac/PL+bvgSlv1SHsqpbc6Hngs6o6jZGgnsXR9qMpFzHK9p4ib01oy60oWmFEPCt71FdzPlRblbBTS6EYjvQTwyVzqOZXUJvr0fowtcQPwbSq9HGNXXouW6cpeLSelZ/Qe2jAxTH2NpUdtqltYKmVmDL99LTv+ayYJCEB/fKnom9TkIgT4zoOoOrmmsBFUqGxKr2nKtdoOcOy7gQ/aA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=fireburn.co.uk smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0WR12sX6nJ4exzGoXfOsFCySUxroUo8KlR9JpCknFBY=;
- b=yYHb0+JW6GIt+SFtMKdB9YRfJjabDpFwwMFL9SNU/Uo3lhT6eltIWE4Um617xqQM7dk5A8L6eqNE8NLWk703uX2THONcQixd7Y533vv7x2RAcBzgekboI8HxQeaCmWwV3G8/F/TuWZEAs+Tq7TdT3UGJQY9Kf8M7y1VVMF58O3c=
-Received: from DS7PR06CA0036.namprd06.prod.outlook.com (2603:10b6:8:54::14) by
- CH3PR12MB9432.namprd12.prod.outlook.com (2603:10b6:610:1c7::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8207.19; Fri, 6 Dec 2024 17:10:31 +0000
-Received: from DS1PEPF0001708F.namprd03.prod.outlook.com
- (2603:10b6:8:54:cafe::7a) by DS7PR06CA0036.outlook.office365.com
- (2603:10b6:8:54::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.12 via Frontend Transport; Fri,
- 6 Dec 2024 17:10:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF0001708F.mail.protection.outlook.com (10.167.17.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8230.7 via Frontend Transport; Fri, 6 Dec 2024 17:10:28 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 6 Dec
- 2024 11:10:27 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 6 Dec
- 2024 11:10:26 -0600
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 6 Dec 2024 11:10:26 -0600
-Message-ID: <c9e86bf2-1d97-87bc-e170-4525d304d89d@amd.com>
-Date: Fri, 6 Dec 2024 09:10:26 -0800
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF73710E62A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 17:14:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 0FB45A443B1;
+ Fri,  6 Dec 2024 17:12:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F420C4CEDC;
+ Fri,  6 Dec 2024 17:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733505256;
+ bh=KYrkgXaTwqhP8HgpH8nwpOb2FLa+80m4Qodso23nLzM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ijP8pa/N/sftrlw1o0uXuYtH0FWCMQTmau6Oz3xKFnFL8b4AdDwUJQVNbWfjInkhe
+ 6HzufOZzS6dJpqOQERDFjwlQc/sOOVEAwoCMReZd4szuibM33f+X92ovoR8m2w6q1S
+ 9e9b8HzG7J/kddFOsYPm6rgqSiBWelleFs6m3Mw+a9FzB5r06pGzjJDGjXN+ciBZnu
+ Up5VlVqJASX1X7jZthbV8paGopI3sYF9FRmZZQclQJLMbZsghLtZR3KbF43dSo964Y
+ Kl5AbUoCY9VJ8FU6dYsjIurBPw7GScgBlXOAcukFbfC3QP0N5GFmPqz+EDkADlnjaJ
+ HSc1IwcqJIwTw==
+Date: Fri, 6 Dec 2024 17:14:12 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+Cc: Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: Convert LP8860 into YAML
+ format adding LP886x
+Message-ID: <20241206-brim-talcum-f5e8c504c572@spud>
+References: <20241206170717.1090206-1-alexander.sverdlin@siemens.com>
+ <20241206170717.1090206-2-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V7 03/10] accel/amdxdna: Support hardware mailbox
-Content-Language: en-US
-To: Mike Lothian <mike@fireburn.co.uk>, Maling list - DRI developers
- <dri-devel@lists.freedesktop.org>
-References: <CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com>
-CC: "Zhen, Max" <Max.Zhen@amd.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0001708F:EE_|CH3PR12MB9432:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5b1d1edc-c887-48fd-3da6-08dd1618e1f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R0t6NXJVVlpJTDdxUWtWWm5oeksxN0pTK1RMTnRuWXVwMTg4ZEd2YkNZZUNE?=
- =?utf-8?B?V1FLUzhqTS8zSTd3S09aMmU4M2U3bFRGdkR6aXhvUUN4UzlRZVF0dGw1bkpC?=
- =?utf-8?B?UHdKUGFRQkZTeHZVV0pvODYrRjUrMHBPT3Zrb2drMU5zME9SWU4vdUViS2Zw?=
- =?utf-8?B?c1o4cCtNSk1JbmpVV0UxczYrdTNSNlY5WXFaWitaRjFmVE5YckVzUzJhbnI5?=
- =?utf-8?B?MWpuc3ZyVUFSd0VhQk85dlA3eDY0WjlrOTJLTk5OL1ZkZE4wZjJQSEtGUjI0?=
- =?utf-8?B?bjFHRk9oZ0FPU3NjbGZ1UExmaXY1L09TMnM3MHpwL0RuQVhlR1RGVmZWNW1l?=
- =?utf-8?B?MCtUSkVQZE51TENVMEsrbU5BdldCWFJRbjJibFhybUFKU1dOd2NKMGxEUVRk?=
- =?utf-8?B?SFJMaThZeDMrSDVOT0NKUUJzQWJjekc3bklPV0FzdmtrSVM4SGZPU2tjeE9F?=
- =?utf-8?B?cG5makZKM1BRMG1ZcnU2WHZnQ3NiWXpUNVB1TU1jNjJtNmxaTkFja3dvNlhk?=
- =?utf-8?B?QkdzUmUrOFhoR2JZaWdGM0pveFZmRlVrYk5VWG10dkwzakh0ZmI1eGlUSURT?=
- =?utf-8?B?aXlWc0V3VGhSUU4rVXJIdWoyNlpseHB4emgvK1ViRjhMTlFPZURFNmFtTkFR?=
- =?utf-8?B?L2tWWXhHQmN1aytEa2t5NUk3UFIwR0s1Y3NQck4wNDdoakZyVDl6R3BoUXY3?=
- =?utf-8?B?WC82bHhXNDNUbHIrMU5UVHRwMTNRZ1dGQm9CTk8rNVZkOUVUZDI0UklBemo1?=
- =?utf-8?B?bGlxNVNucEFYNVV6U2hGQVNtQi9jQXZ4M0MwM1A1S1VmaCtsaXlmakRFSjRn?=
- =?utf-8?B?NjBEbW1pM3VOWk5uRTFsY2dwZ09ZY2tWMjc0QUdPdlVtcnBORzBEdElNN0NM?=
- =?utf-8?B?SkJNeUNGcDVXMWxtN2M5ZXRScnBwYXNwczF1Z0UzWWhqaVF0dkdhbXBlckVv?=
- =?utf-8?B?cE90bHFwR3BQSDJTSWdtczhJdldkTVFKbisxeFdKVzVEL3NqUERMNGJXcjNy?=
- =?utf-8?B?VTJaak1CbmRMc0Qrb29qY0lhNWVXWS9ITStJeWdnSTllTXRZcnJlN2VjMmxP?=
- =?utf-8?B?L1NCTjR4SjJXUzE4enpXY0MyRFJTYWxFVElrbUk4MXl3aVVkTEdyZzdTMzRt?=
- =?utf-8?B?RE5BbkNVSGoraGNUK1gvaWtCVzdzeVhMdHMwT1F5bUg0YUw1eDVnek5qdHhZ?=
- =?utf-8?B?b3luSE10VW9yODdyTk4xU1paczF1T29YaWRYdDVaOFNiUHpxQ0trWExCd2pS?=
- =?utf-8?B?dHZhenR2SklFNmdDWlVKQmdqOEdYTkxNbjZDUXptWWRkOUU2NUNkMm9KbDYw?=
- =?utf-8?B?MitWK2N4dnMzKzdzNm9ZcVQ5cEREeGI3ZVVoazkwdCs2STB0aW80VnBBcDV4?=
- =?utf-8?B?ZmI0Ylk5YUdZbWUzWHRFaEN3RTJ5Rm5Lc0JZOG94VnBSQTZyNUVOWkIzVHN5?=
- =?utf-8?B?bGVnWFhuNDNOMGVJRkZ4c1hFMVQ0VEcyS2p4MnM5YWpKU2tmckY3Q1lZQlFp?=
- =?utf-8?B?aEYyMWtWRXpwTTJHRHhUL2psZmRYOFFPQmtqRGxKSGg4SkJXcnVkanFKWmsv?=
- =?utf-8?B?Q0FiV3p5bVlxcFVsYzQvVmhzTFRZUWpCUGI5ZGlNT0dDR1lMdUo3Yzd4b3hN?=
- =?utf-8?B?cmdMVEttNFl5Vm4xVWRwMU1Qczl6OHNHcFhXOWhrYTNxSFVhd3NDTm80cFlW?=
- =?utf-8?B?OWx0MXRIcnYwNUphUXRqU1Uzdm4vdzY1UFlIZlBST0xOcTNQd3lkeDgvMi9Y?=
- =?utf-8?B?UTFHdWZBelM1VS9yV2dvYU96dG51U0VYNTlNRXpXZllJOEVQeHlqeVF4NVIv?=
- =?utf-8?B?bDVjYWRrNmRwYmtpRlFVS2Y2ZVBsOWpnTGpDOWhrYjNBSXYyNVYvSEMxbklu?=
- =?utf-8?B?bm1hNHExR0VRNkgzUnZzaEZTZ0JIRlJ5K1I3cE9yeUZYcUpOTjZ0VFoxNU5E?=
- =?utf-8?Q?FzjMVVbkRkqioNitom3Xs5nwc9lSUjOD?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2024 17:10:28.1028 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b1d1edc-c887-48fd-3da6-08dd1618e1f0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0001708F.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9432
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Qlj+s/p4vOBn4o0H"
+Content-Disposition: inline
+In-Reply-To: <20241206170717.1090206-2-alexander.sverdlin@siemens.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,45 +64,207 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mike,
 
+--Qlj+s/p4vOBn4o0H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-How did you install npu.sbin.1.5.2.380?  There should be a symlink 
-npu.sbin which points to npu.sbin.1.5.2.380.
+On Fri, Dec 06, 2024 at 06:07:12PM +0100, A. Sverdlin wrote:
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+>=20
+> Add Texas Instruments' LP8864/LP8866 bindings into LP8860 converting them
+> into YAML format simultaneously. While here, drop the index of the "led"
+> subnode, this one is neither used nor mandated by the drivers. All the
+> *-cells properties are therefore not required.
 
-https://gitlab.com/kernel-firmware/linux-firmware/-/blob/main/WHENCE?ref_type=heads#L2719
+Are you sure this is a correct thing to do? The lp8860-q1 product link
+cites it as being a 4-channel device. Even if the kernel only ever
+supports it as a single-channel device, the binding should reflect what
+it is capable of doing.
 
+Cheers,
+Conor.
 
-Thanks,
+>=20
+> Move the file into backlight directory because all of the LP886x drivers
+> are special backlight products.
+>=20
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> ---
+>  .../bindings/leds/backlight/ti,lp8860.yaml    | 86 +++++++++++++++++++
+>  .../devicetree/bindings/leds/leds-lp8860.txt  | 50 -----------
+>  2 files changed, 86 insertions(+), 50 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,l=
+p8860.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/leds/leds-lp8860.txt
+>=20
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lp8860.y=
+aml b/Documentation/devicetree/bindings/leds/backlight/ti,lp8860.yaml
+> new file mode 100644
+> index 0000000000000..3ece2f6fc3f02
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/ti,lp8860.yaml
+> @@ -0,0 +1,86 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/ti,lp8860.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments - LP886x 4/6-Channel LED Driver family
+> +
+> +maintainers:
+> +  - Andrew Davis <afd@ti.com>
+> +  - Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> +
+> +description: |
+> +  The LP8860-Q1 is an high-efficiency LED driver with boost controller.
+> +  It has 4 high-precision current sinks that can be controlled by a PWM =
+input
+> +  signal, a SPI/I2C master, or both.
+> +
+> +  LP8866-Q1, LP8866S-Q1, LP8864-Q1, LP8864S-Q1 are newer products offeri=
+ng
+> +  similar functionality with 4/6 channels.
+> +
+> +  For more product information please see the links below:
+> +    https://www.ti.com/product/lp8860-q1
+> +    https://www.ti.com/product/LP8864-Q1
+> +    https://www.ti.com/product/LP8864S-Q1
+> +    https://www.ti.com/product/LP8866-Q1
+> +    https://www.ti.com/product/LP8866S-Q1
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ti,lp8860
+> +      - ti,lp8864
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: I2C slave address
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +    description: GPIO pin to enable (active high) / disable the device
+> +
+> +  vled-supply:
+> +    description: LED supply
+> +
+> +  led:
+> +    type: object
+> +    $ref: common.yaml#
+> +    properties:
+> +      function: true
+> +      color: true
+> +      label: true
+> +      linux,default-trigger: true
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - led
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/leds/common.h>
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        led-controller@2d {
+> +            compatible =3D "ti,lp8860";
+> +            reg =3D <0x2d>;
+> +            enable-gpios =3D <&gpio1 28 GPIO_ACTIVE_HIGH>;
+> +            vled-supply =3D <&vbatt>;
+> +
+> +            led {
+> +                function =3D LED_FUNCTION_BACKLIGHT;
+> +                color =3D <LED_COLOR_ID_WHITE>;
+> +                linux,default-trigger =3D "backlight";
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/leds/leds-lp8860.txt b/Doc=
+umentation/devicetree/bindings/leds/leds-lp8860.txt
+> deleted file mode 100644
+> index 8bb25749a3da3..0000000000000
+> --- a/Documentation/devicetree/bindings/leds/leds-lp8860.txt
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -* Texas Instruments - lp8860 4-Channel LED Driver
+> -
+> -The LP8860-Q1 is an high-efficiency LED
+> -driver with boost controller. It has 4 high-precision
+> -current sinks that can be controlled by a PWM input
+> -signal, a SPI/I2C master, or both.
+> -
+> -Required properties:
+> -	- compatible :
+> -		"ti,lp8860"
+> -	- reg : I2C slave address
+> -	- #address-cells : 1
+> -	- #size-cells : 0
+> -
+> -Optional properties:
+> -	- enable-gpios : gpio pin to enable (active high)/disable the device.
+> -	- vled-supply : LED supply
+> -
+> -Required child properties:
+> -	- reg : 0
+> -
+> -Optional child properties:
+> -	- function : see Documentation/devicetree/bindings/leds/common.txt
+> -	- color : see Documentation/devicetree/bindings/leds/common.txt
+> -	- label : see Documentation/devicetree/bindings/leds/common.txt (deprec=
+ated)
+> -	- linux,default-trigger :
+> -	   see Documentation/devicetree/bindings/leds/common.txt
+> -
+> -Example:
+> -
+> -#include <dt-bindings/leds/common.h>
+> -
+> -led-controller@2d {
+> -	compatible =3D "ti,lp8860";
+> -	#address-cells =3D <1>;
+> -	#size-cells =3D <0>;
+> -	reg =3D <0x2d>;
+> -	enable-gpios =3D <&gpio1 28 GPIO_ACTIVE_HIGH>;
+> -	vled-supply =3D <&vbatt>;
+> -
+> -	led@0 {
+> -		reg =3D <0>;
+> -		function =3D LED_FUNCTION_BACKLIGHT;
+> -		color =3D <LED_COLOR_ID_WHITE>;
+> -		linux,default-trigger =3D "backlight";
+> -	};
+> -}
+> -
+> -For more product information please see the link below:
+> -https://www.ti.com/product/lp8860-q1
+> --=20
+> 2.47.1
+>=20
 
-Lizhi
+--Qlj+s/p4vOBn4o0H
+Content-Type: application/pgp-signature; name="signature.asc"
 
-On 12/5/24 07:44, Mike Lothian wrote:
-> Hi
->
-> I needed to add the following to get things compiling for me
->
->
-> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> index fe684f463b945..79b9801935e71 100644
-> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> @@ -6,6 +6,7 @@
-> #include <drm/drm_device.h>
-> #include <drm/drm_managed.h>
-> #include <linux/bitfield.h>
-> +#include <linux/interrupt.h>
-> #include <linux/iopoll.h>
->
-> #define CREATE_TRACE_POINTS
->
->
-> I also had to rename the firmware in /lib/firmware/amdnpu/1502_00/
-> from npu.sbin.1.5.2.380 to npu.sbin
->
-> Cheers
->
-> Mike
->
->
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ1Mw5AAKCRB4tDGHoIJi
+0tkXAQCu+1CVMY8L2nKR4b+9uxmoiTDyzlaE0D0NeTCJoVGIPQEA8t+yHr3xlTJt
+Voy21saUBgSDby4hnc61PRkHDJ8Qvwg=
+=aQUN
+-----END PGP SIGNATURE-----
+
+--Qlj+s/p4vOBn4o0H--
