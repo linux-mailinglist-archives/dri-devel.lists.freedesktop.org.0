@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8671A9E6DD7
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 13:12:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E509E6DF5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 13:20:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 218D210EF72;
-	Fri,  6 Dec 2024 12:12:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E165D10E2E1;
+	Fri,  6 Dec 2024 12:20:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WPxQEfbI";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eoHDjxEa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B71910F0C8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 12:12:14 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-a9a0ec0a94fso248128666b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 04:12:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733487132; x=1734091932; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=q3dVJRMa0TfmjWnvrA4GwhBptLmOPXIzRSr4Tl/7cq0=;
- b=WPxQEfbIOLIiyvNVjl6pN5cQvDktkbbIckpPnm8R4jx9EOW//k8QOnDpu+GQTLCDVV
- Z/3L7dNW94oVNzDSxKrUGYgAAJbs+le1aEdzj1Lx3djCbpSjYE6iU/q1WWyHfwOUMCwU
- 45q8ih7fwwbsKmeqLmR5B+yYIpFxs0+HGyGa+k3MG20Z/J2Fd6xlHEe1/AIDw0hi1JOP
- 7ziBkrXrZuoXbfxMuEcS9rJ7Ke0aXIuVOzTxMW/SprgW8dcVAMxwL7DnAUxkeUEGOTbs
- 97utRvSCgpaOa5Ea2ts6sjRqq6TI9W5cu4EJmzAAaiH7f5eUCD9833YcRoTy6W4Q6Lwe
- nJdw==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F065B10E2E1
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 12:20:24 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B67jV9F031102
+ for <dri-devel@lists.freedesktop.org>; Fri, 6 Dec 2024 12:20:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9E3Q5V18pzVm0efIN2Z36r5MoCfL8CYX45xyLjaUZPo=; b=eoHDjxEay15UJjR6
+ IwX7o44jEaiQbMhdt5dcw6lLE6+/89AUfsd8ka4uEkuIOkjIOe3BTWVxheOVCCSs
+ yIZJc05bJ+Rm7FhKHG3sbiS90CAvrv2TNAlBs/LIuSdffIGx91XFAMZqxEQT5Uz0
+ 3QegG+MjAZyHHGXX9ys6M5CC+dZU3ct4BabykCfgej9n3b/5b+hIhOuZ0hY/qI/L
+ X+p+7rVKrp/HkgTV123zb6rbunTRrn3l6yVbQHXXmTsc4DU9zEwkKf3S0aVO4fKB
+ f1ZwqxV+oUPj+ECEsMsY/SLIt87EBwbInIVFu5ZZLJjof9+H78mdzzU4fTq2MRQ1
+ v0tulA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43be1734hr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 12:20:23 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4668a6d41a5so5736201cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 04:20:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733487132; x=1734091932;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q3dVJRMa0TfmjWnvrA4GwhBptLmOPXIzRSr4Tl/7cq0=;
- b=D6/ziwnBg+I4wlN9Z4XxZWeF9g+hRg4JBWu+MhDJ42dTfAZQl5xKGMWgJWq1BcdQwE
- Vr4zwfDMnSmPB+g6OCa5RZ+VKdf7/9DPClRK18zzdet5F8gAFdYGYJSvVw/qsxExeMvv
- KINcfwu7S5U5Z8/O12o3o7EOsJ5gkaPVD1+9wftldIIs/5RFr1NLLCLElY08uoYhstQM
- lx9XmewBck2odUtRRDjerLYexjyh329OgnQhJtlgBRPY8Sq/cS6kANR5Qt/MHYAjNu36
- zgF7F+okFEzXdVVN84EqOoWuxbVfaF2qod34NxylmgIN5eIv8FaTK6LZXI0RYQUPVjCQ
- RCXw==
+ d=1e100.net; s=20230601; t=1733487623; x=1734092423;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9E3Q5V18pzVm0efIN2Z36r5MoCfL8CYX45xyLjaUZPo=;
+ b=YBb7KmGAOWqA5+QENbn/DOEZARwHDWNlJG6sMIn567/lLP5fM1AyeheObZcyYBCuin
+ MllTrVP8IrvCUMgXVaGbPjC4oRav3B78Pcfgzw/hpbW0CLhYCBJII4AeUay0rrK7dt1S
+ qhlhH2JPH856pGFj/4d5F/WM3uVXevbL+mYEMyncpZ7bNsw0ijNQ6SRiyJroppfa+fZs
+ EiAUsfRJseOgXgTBkq7uFtuRzH/XbnItZC3hMWBkRUjXUvPGTIdl/moEH1vZ4RvvMUEq
+ Uaev2cYQv5we2JHsZBb+gfdcfHCCGLXqOx+PXBqLcD2wLgWV14fe77RbZpNqa7LvBmFq
+ FGhQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3NpuVbSzUtUSpMaO/0bbs5m7ebFHvIyDBHoDQKCtYKCpRddtGk0hKSrISYD4KbMoS+xbJGYM710M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAt9SXUXeU7cqV2PYexyjf5ZTsqj2kb9xfrHxGXdrVL9trkLg5
- cHSe1ORcs48bCPsjEJLHoWA0qIZQzubDnfd5nXyEmOH57TqPZlJnJV0KoA4dj98=
-X-Gm-Gg: ASbGncsMS0GsnKULm2tMbXfGkAlMhBe/07pp6BB8ZbOEYOX+gOROMJ7mkwCa+pTQP0A
- OjiNgmSZ8qAKV23D+AQGMCG5jSpNj9KwFaw5axwLODlbuMwCT7dQX4+g9Qy2+d+yGpvcRyUc1rI
- tFnxqy6FiVM1lzFoveQMesorRmPplgNcIf2KeqeBtfRHoinYhkflSF0fhacdtSvHQrWCxQJLt8u
- LNzydEhKGtvNrpZBpG35zAWNPKLkW43ASV2og8ZXg8j0pD1V2rzwrZcfJqRvQ==
-X-Google-Smtp-Source: AGHT+IFUBtKqDnQ9TdUxArZ0TKaVsJSrVKXuzX74MKt4//gCX0PMHcMHzQXS+cSEiOZgDyWc5Brq9g==
-X-Received: by 2002:a17:906:2922:b0:aa5:76f1:4051 with SMTP id
- a640c23a62f3a-aa63a1a162cmr145435666b.35.1733487132526; 
- Fri, 06 Dec 2024 04:12:12 -0800 (PST)
-Received: from linaro.org ([2a02:2454:ff21:ef80:7aba:3257:28e7:dce9])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aa62601c1ddsm235148666b.126.2024.12.06.04.12.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2024 04:12:12 -0800 (PST)
-Date: Fri, 6 Dec 2024 13:12:07 +0100
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>,
+ AJvYcCWFfaBfpNICaMgtPOiCWGra8dc5BHRNd4/Cdwu7FH2kFR5V80yG2CGohQQxzVW840eFkhZ4/1cd4Is=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxIg8eIwAX1i17uASFjPMc5Ic7K+CvBBYZI3FSuFffS8DXnbaDK
+ 8R1H+9YffAFSYKnbbJkfmWgbBkYN+x4+dNmeNfrw9BdrJ4FZujMWz/HubjTT6dUh6DakOYcmYqb
+ 1Nv3/v8xBRQPcxHTz7NKDPZMT8+y9AtONgx9PLrC96bgOwU0ElWLMtH/TvqasaalyWgc=
+X-Gm-Gg: ASbGnctKqmO4UwgVHbquJ+hJEYTK71WS4OEMy8FtbXR0KQ7naWN/xodKJQleWm0wxBN
+ AzKHqGSqh/XPCuIHhPY5l/VcI3X77Cwz3FcLFgupF5vyVJBuKTDcloDQTc16bqhWuexEnqd7Y29
+ mV9W5JrOWaFDNLBKi8Gij+oik3NPyXAPbrSg8ur11ru/xhAgOfYCeQ/xjHeoSTrqcegg74Iq393
+ jNqsQDl+l/xt2gucrNzT7qfv1f1rSBXsaB3pcjztmWZPvnlTDVx72rVQDkM9RXZpPuCjlvyjbjG
+ IKx5OPamNPmFaC9nQYgBdho5FfwgCqw=
+X-Received: by 2002:a05:622a:606:b0:464:9faf:664b with SMTP id
+ d75a77b69052e-46734c8f531mr18002161cf.2.1733487622870; 
+ Fri, 06 Dec 2024 04:20:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFaYjuLbGBmcbEVFGiae/eyDl8MSbUHvTvfg7816ggOQFX2Cej3+/3TS1KDf5HZCvflpH7buQ==
+X-Received: by 2002:a05:622a:606:b0:464:9faf:664b with SMTP id
+ d75a77b69052e-46734c8f531mr18002011cf.2.1733487622527; 
+ Fri, 06 Dec 2024 04:20:22 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d149a25924sm2113819a12.17.2024.12.06.04.20.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Dec 2024 04:20:22 -0800 (PST)
+Message-ID: <d83ebaa2-1da8-4f85-9034-670e525b457b@oss.qualcomm.com>
+Date: Fri, 6 Dec 2024 13:20:18 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 44/45] arm64: dts: qcom: add mst support for pixel stream
+ clk for DP0
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -74,22 +89,32 @@ Cc: Rob Clark <robdclark@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>,
- Rob Clark <robdclark@chromium.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Vara Reddy <quic_varar@quicinc.com>, Rob Clark <robdclark@chromium.org>,
  Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 13/45] drm/msm/dp: separate dp_display_prepare() into its
- own API
-Message-ID: <Z1LqF_jIHhqRImsf@linaro.org>
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Yongxing Mou <quic_yongmou@quicinc.com>
 References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-13-f8618d42a99a@quicinc.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-13-f8618d42a99a@quicinc.com>
+ <20241205-dp_mst-v1-44-f8618d42a99a@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241205-dp_mst-v1-44-f8618d42a99a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 7qKe7EphkV2PjklVXrksSx6f8fhTgSWH
+X-Proofpoint-ORIG-GUID: 7qKe7EphkV2PjklVXrksSx6f8fhTgSWH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 malwarescore=0 clxscore=1015
+ mlxlogscore=951 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,81 +130,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:31:44PM -0800, Abhinav Kumar wrote:
-> dp_display_prepare() only prepares the link in case its not
-> already ready before dp_display_enable(). Hence separate it into
-> its own API.
+On 6.12.2024 5:32 AM, Abhinav Kumar wrote:
+> From: Yongxing Mou <quic_yongmou@quicinc.com>
 > 
+> Populate the pixel clock for stream 1 for DP0 for sa8775p DP controller.
+> 
+> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 24 +++++++++++++++++-------
->  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
->  drivers/gpu/drm/msm/dp/dp_drm.c     |  2 ++
->  3 files changed, 20 insertions(+), 7 deletions(-)
+>  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 2f8650d60202deaa90de1a5e0dd6d8bc50f09782..02282f58f1b31594601692b406215cee4ca41032 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1525,26 +1525,36 @@ int msm_dp_modeset_init(struct msm_dp *msm_dp_display, struct drm_device *dev,
->  	return 0;
->  }
->  
-> -void msm_dp_display_atomic_enable(struct msm_dp *dp)
-> +void msm_dp_display_atomic_prepare(struct msm_dp *dp)
->  {
->  	int rc = 0;
-> -
->  	struct msm_dp_display_private *msm_dp_display;
->  
->  	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
->  
-> -	if (dp->is_edp)
-> -		msm_dp_hpd_plug_handle(msm_dp_display, 0);
-> -
->  	mutex_lock(&msm_dp_display->event_mutex);
->  
->  	rc = msm_dp_display_prepare(msm_dp_display);
->  	if (rc) {
->  		DRM_ERROR("DP display prepare failed, rc=%d\n", rc);
-> -		mutex_unlock(&msm_dp_display->event_mutex);
-> -		return;
->  	}
+> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> index 0dbaa17e5e3f06c61b2aa777e45b73a48e50e66b..0150ce27b98e9894fa9ee6cccd020528d716f543 100644
+> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> @@ -3944,16 +3944,20 @@ mdss0_dp0: displayport-controller@af54000 {
+>  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
+>  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK>,
+>  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
+> -					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
+> +					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
+> +					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
 
-FWIW: This patch breaks the eDP panel on the X1E80100 CRD for me. If you
-don't do the msm_dp_hpd_plug_handle() before msm_dp_display_prepare(),
-then the link_params (rate/num_lanes etc) are not initialized. Moving it
-back here seems to fix it.
+dispcc also defines PIXEL2/3 clocks.
 
-Maybe I'm missing some dependent patches or so, I was just experimenting
-a bit. :-)
+>  				clock-names = "core_iface",
+>  					      "core_aux",
+>  					      "ctrl_link",
+>  					      "ctrl_link_iface",
+> -					      "stream_pixel";
+> +					      "stream_pixel",
+> +					      "stream_1_pixel";
+>  				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
+> -						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
+> -				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>;
+> +						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
+> +						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
+> +				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>, <&mdss0_dp0_phy 1>;
 
-Thanks,
-Stephan
+Please turn this into a vertical list
 
-[   17.724076] phy phy-aec5a00.phy.15: phy poweron failed --> -22
-[   17.724698] ------------[ cut here ]------------
-[   17.724699] disp_cc_mdss_dptx3_link_clk status stuck at 'off'
-[   17.724709] WARNING: CPU: 9 PID: 705 at drivers/clk/qcom/clk-branch.c:88 clk_branch_toggle+0x124/0x16c
-[   17.724877] CPU: 9 UID: 0 PID: 705 Comm: (udev-worker) Not tainted 6.13.0-rc1 #1
-[   17.724883] pstate: 614000c5 (nZCv daIF +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-[   17.724887] pc : clk_branch_toggle+0x124/0x16c
-[   17.724889] lr : clk_branch_toggle+0x120/0x16c
-[   17.724927] Call trace:
-[   17.724929]  clk_branch_toggle+0x124/0x16c (P)
-[   17.724933]  clk_branch_toggle+0x120/0x16c (L)
-[   17.724935]  clk_branch2_enable+0x1c/0x28
-[   17.724938]  clk_core_enable+0x78/0xb4
-[   17.724944]  clk_core_enable_lock+0x88/0x118
-[   17.724947]  clk_enable+0x1c/0x28
-[   17.724950]  clk_bulk_enable+0x38/0xb0
-[   17.724953]  msm_dp_ctrl_enable_mainlink_clocks+0x140/0x234 [msm]
-[   17.724974]  msm_dp_ctrl_prepare_stream_on+0x10c/0x19c [msm]
-[   17.724985]  msm_dp_display_atomic_prepare+0x9c/0x1b4 [msm]
-[   17.724994]  msm_edp_bridge_atomic_enable+0x60/0x78 [msm]
-[...]
-[   17.725216] ---[ end trace 0000000000000000 ]---
-[   17.725218] Failed to enable clk 'ctrl_link': -16
-[   17.725220] [drm:msm_dp_ctrl_enable_mainlink_clocks [msm]] *ERROR* Unable to start link clocks. ret=-16
-[   17.725231] [drm:msm_dp_ctrl_prepare_stream_on [msm]] *ERROR* Failed to start link clocks. ret=-16
-[   17.725240] [drm:msm_dp_display_atomic_prepare [msm]] *ERROR* DP display prepare failed, rc=-16
+Konrad
