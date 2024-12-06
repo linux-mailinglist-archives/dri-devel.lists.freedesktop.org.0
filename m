@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E57D9E6A8A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C239E6A9D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:42:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D580F10F064;
-	Fri,  6 Dec 2024 09:39:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA2E010F065;
+	Fri,  6 Dec 2024 09:42:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d7/rFf7R";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mtf7v0Ex";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC3D910F064
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:39:54 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-53e22458fb5so1679817e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 01:39:54 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C36C710F065
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:42:26 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-53df67d6659so1799267e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 01:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733477992; x=1734082792; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733478145; x=1734082945; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=lyjy+B1BzCuYPV6TYOZ9W+qMOzIQt8vOgPam9Y/pajs=;
- b=d7/rFf7R7LGit7rpT3hQLq7n3lOIflYGUj5wx3ZP2rwKcFDdkeGSkxm0h1VZfRlDZ4
- 1tnqYtTAcF8vc9jwS9T2wWgEj7ezJy+roJaRTepKvVLnncpIeRWCgykv1tgQtXLJfStt
- xTogF767Vbd6ban92rR1+TP6uYMV90kS58cw8NFlnD3CAtAYtSvF+ZgDdpBc33tTJmnX
- ib0PfF0r6WMMwvH1+qJ+g9ge3eT8TrVMuDuK0964IjjI6VvhMfUSgTTsWrlQpaVA+di0
- J4BwOxmr8o/KcjqBn+tB+hZ5hY4o/QUKx4KSLsBeJ4Ths0vbm4atJ1fI3iYMZjcBodhs
- 0mqA==
+ bh=uUIRQbMczpjfL2wu8QV4pEN4I4ysbDGkQQGhfj0T2t4=;
+ b=Mtf7v0ExBTcD22o2vWQwjXg9s1h04DTYzILVnTbffBNWY3F9+RQyQwcZ2LFZI6pnSj
+ 17zZ87mlhSzR+D1k9igZIHqzE2GixIIRFvXBvNJNSTmAL4i4PUIiKqBi4gohO0rAU6Qd
+ 2eErCw/XO/UJbD13vtne2yU6ruhvWzP8EZ9RrpkhDEaZfFjCbF3yi4G/TeHWrX9tR+PF
+ dSZQ6p3lNYWibn5Wj1EcL1ExJ3HovBNCqV1K/p4pMHuBB8FLwY9r9S99V1mJAESdFR/B
+ a40PPv6LKQEG4cwImuVShxJil9AujU9qX7HDU+HYJiJ4ENg4lcBYrcHANXdH+doeUkC3
+ Mz6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733477992; x=1734082792;
+ d=1e100.net; s=20230601; t=1733478145; x=1734082945;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lyjy+B1BzCuYPV6TYOZ9W+qMOzIQt8vOgPam9Y/pajs=;
- b=XQ3VNstZDzO59d68BrTb7gIIXiWabC9SwdyJiS3aDOOMBPI0TBAySsObQFhECE9hAT
- u5k1nBv+ltxK3C21K0btMDmTDvuqEGRGNoRPFFNc2+SrLBGBv57vry7+HYdkO9qq8dBP
- gg1VHpeF+vDCBZHo4idysEMBLCCUpKlK74cGg3OQKVwNPl73HS27MsX6ObTKLscAMJt3
- 8JguS6yF6x/irHIcOkyQDuJmhRqY4KO4j8tmqR61g+oY3eS15zZD3FrUpQzcUQegsCxq
- 2IO2mHIQxCqNWqy8M95JKq4v1UeI+FRIch+LvanX1+IFGiUplz1LCabiBQMBXx1Dhn2n
- HLPQ==
+ bh=uUIRQbMczpjfL2wu8QV4pEN4I4ysbDGkQQGhfj0T2t4=;
+ b=TImF+mgcedBmKLfQhYr1L6+1pMr3anr35dAcCIGfZ1wFqab16wMr0PlFwdr8PRzA9P
+ GpPLxhrUqpKO4kkrR4bGIZ8YYs0n4Mwxt4QRenlle/+YOejUQa2RYUDns88UFyk2k8/p
+ sEn4q5X4fy0317IPSJ9h5jxSUqcjVk7d9pFv0c3nYTfMgIUDumNcR1xDuneglrV/NKxm
+ jKuUhdB/60waPUeiyWDi+5EUfYXBQ1P/Xaj1KHRkFh/guCFjJUj1NBa2snzM8OQbIU+W
+ ddzqLICJY9d2xW7Ahm4RJARAjwUeDJMhbMyz9dDpquaJzABVxvoSqrKkjl9CAEE3eobp
+ yJ/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrQ58rhoUYTt6MVmk+WCoMNTpSF1+xABlNcOQPH+/4ESrEGFNpJ8EhFfw/CzqL4iax6MP10jX3A7o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxk80QxWxXhEevvm/pJRuHV8Cc43lzEESmj0yrj7iHq2l7WjqEs
- c+jlFLqefuThKxFkkKf/dG5flK+t13vXKRbKHdZ/PIOHH9+e1B8XusRuxfbCbss=
-X-Gm-Gg: ASbGncvYGUqIZLNgVhrCVShEIKBtWEZNr6CIErhk6a+IFi5yeVWjzF+TrOrpVNTIzGy
- T9+u9o/wh1pASOq5XjSE6FVFNII5kdGyjjpbTDjb3nd+ztK/DhecTy2KOg++QTo6PHSVYpnakEQ
- XNYsuWf6ECj1tN3F3Ald3XdA3oASo7hmiIQUSikPhmsuvbsq0JVDd7ooxe+sjI9QIlNSwU+/ZoN
- GmFTxPUw9aqyGnYgLlM7WuZ1NddQAzkB4SFlXxchMvqyGwLQ9tzUuoAXlw9ZD3K8F3fdUvyLZIi
- oxb/Cm20gyvuN7gXvPNmAEjHb5SFTg==
-X-Google-Smtp-Source: AGHT+IGNBPdaS1w4uQtjk5trf2hXxJbni2d/hlEYqanCr4EtCYjz+uzjDBO9Y74HuWm6AMKmFcMGVQ==
-X-Received: by 2002:a05:6512:138a:b0:53e:232b:6864 with SMTP id
- 2adb3069b0e04-53e2c2b17f4mr621540e87.2.1733477992487; 
- Fri, 06 Dec 2024 01:39:52 -0800 (PST)
+ AJvYcCVob4tBseoH4EK97Sb0bXi/Asr26icri0rg/RU20gt1moymZGI4U/Oy/7xaqP4JaKJPApiWgSF8XN4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHxAsvUT0tpBOLlFDgkAUin3QldzCRPks/XXwVsI13NSHLaIPU
+ YX9E0W41XzYb1PtQ1BupTHXWRBbfNSaMDizp3LhWd5s7hyewtLwmJzB5xxKd92E=
+X-Gm-Gg: ASbGncurVqMDOVyCXogxQT8a73y07a5v7uAtnLqY1brBDPzL5puVhPn6sRmFMP2aIFm
+ CZrhJ9/lAjwWMZUP/Stmmng1Z4hOMRmEsn87gN9fNZbw6y2YBmAr/jy6dFCuTgXpOQlxKaQoNXC
+ NRnq2/F2AAgw4w5fONi7hfRaR0r31s+PGkJ/3wmCzyYHJFGSm6x9TQVAW+HttYAds0yIHvRXdPX
+ PhEltwHbkNNEGlcMOfdAtXiZlRhlm2gQFNZvBjkWg6tXMbK8wE4S1QmWA+IaWc/XoPTyxViGpBq
+ 4YMYM6kyFaLpqPHRv5NVJXlp87Uyjw==
+X-Google-Smtp-Source: AGHT+IH4esxK0uLXH9slo3btbx6QQTuIap6lMO09rzPOg/wiHUYCi6471yfGuoXePGv2SFTfDWGePw==
+X-Received: by 2002:a05:6512:3092:b0:53d:ecfc:306d with SMTP id
+ 2adb3069b0e04-53e2c2b575cmr685333e87.19.1733478144895; 
+ Fri, 06 Dec 2024 01:42:24 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e229ca4aasm448445e87.244.2024.12.06.01.39.50
+ 2adb3069b0e04-53e22975264sm450841e87.92.2024.12.06.01.42.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2024 01:39:51 -0800 (PST)
-Date: Fri, 6 Dec 2024 11:39:48 +0200
+ Fri, 06 Dec 2024 01:42:23 -0800 (PST)
+Date: Fri, 6 Dec 2024 11:42:21 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -80,7 +80,7 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH 16/45] drm/msm/dp: add support for programming p1
  register block
-Message-ID: <d6hwd3mktcgrczwiqmkuf53byjushkdxgadilcjb5dqu2sdq2n@z7tzffqkn6tg>
+Message-ID: <ewwpuc3f7vqjeazgeebecc3ygrha4ujq5r7bg5cow56zzb564l@kef4v3bwo3bi>
 References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
  <20241205-dp_mst-v1-16-f8618d42a99a@quicinc.com>
 MIME-Version: 1.0
@@ -111,74 +111,20 @@ On Thu, Dec 05, 2024 at 08:31:47PM -0800, Abhinav Kumar wrote:
 >  drivers/gpu/drm/msm/dp/dp_catalog.c | 29 +++++++++++++++++++++++++++++
 >  1 file changed, 29 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index b4c8856fb25d01dd1b30c5ec33ce821aafa9551d..ee7f2d0b23aa034428a01ef2c9752f51013c5e01 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -73,6 +73,7 @@ struct dss_io_data {
->  	struct dss_io_region aux;
->  	struct dss_io_region link;
->  	struct dss_io_region p0;
-> +	struct dss_io_region p1;
->  };
->  
->  struct msm_dp_catalog_private {
-> @@ -93,6 +94,8 @@ void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_d
->  	msm_disp_snapshot_add_block(disp_state, dss->aux.len, dss->aux.base, "dp_aux");
->  	msm_disp_snapshot_add_block(disp_state, dss->link.len, dss->link.base, "dp_link");
->  	msm_disp_snapshot_add_block(disp_state, dss->p0.len, dss->p0.base, "dp_p0");
-> +
-
-Drop extra empty line, please
-
-> +	msm_disp_snapshot_add_block(disp_state, dss->p1.len, dss->p0.base, "dp_p1");
->  }
->  
->  static inline u32 msm_dp_read_aux(struct msm_dp_catalog_private *catalog, u32 offset)
-> @@ -145,6 +148,26 @@ static inline u32 msm_dp_read_p0(struct msm_dp_catalog_private *catalog,
->  	return readl_relaxed(catalog->io.p0.base + offset);
->  }
->  
-> +static inline void msm_dp_write_p1(struct msm_dp_catalog_private *catalog,
-> +				   u32 offset, u32 data)
-> +{
-> +	/*
-> +	 * To make sure interface reg writes happens before any other operation,
-> +	 * this function uses writel() instread of writel_relaxed()
-> +	 */
-> +	writel(data, catalog->io.p1.base + offset);
-> +}
-> +
-> +static inline u32 msm_dp_read_p1(struct msm_dp_catalog_private *catalog,
-> +				 u32 offset)
-> +{
-> +	/*
-> +	 * To make sure interface reg writes happens before any other operation,
-> +	 * this function uses writel() instread of writel_relaxed()
-> +	 */
-
-Not applicable to the actual function.
-
-> +	return readl_relaxed(catalog->io.p1.base + offset);
-> +}
-> +
->  static inline u32 msm_dp_read_link(struct msm_dp_catalog_private *catalog, u32 offset)
->  {
->  	return readl_relaxed(catalog->io.link.base + offset);
 > @@ -1137,6 +1160,12 @@ static int msm_dp_catalog_get_io(struct msm_dp_catalog_private *catalog)
 >  			DRM_ERROR("unable to remap p0 region: %pe\n", dss->p0.base);
 >  			return PTR_ERR(dss->p0.base);
 >  		}
 > +
 > +		dss->p1.base = msm_dp_ioremap(pdev, 4, &dss->p1.len);
-
-p1 is not populated for eDP case, it wasn't always present in DT, etc.
-So please make it optional.
-
 > +		if (IS_ERR(dss->p1.base)) {
 > +			DRM_ERROR("unable to remap p1 region: %pe\n", dss->p1.base);
 > +			return PTR_ERR(dss->p1.base);
 > +		}
+
+Forgot to mention, please also map p1 in the legacy bingdings branch in
+this function.
+
 >  	}
 >  
 >  	return 0;
