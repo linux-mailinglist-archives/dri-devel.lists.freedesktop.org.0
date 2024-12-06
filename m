@@ -2,92 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B6B9E79F0
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 21:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7329E79FB
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 21:24:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7987810F1B3;
-	Fri,  6 Dec 2024 20:17:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pfzvquSl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5D110F1AF;
+	Fri,  6 Dec 2024 20:24:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9161310F1AF;
- Fri,  6 Dec 2024 20:17:45 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6KA5Nx018614;
- Fri, 6 Dec 2024 20:17:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- V8TXl6zc2x9wr3hGp8Wkq7mrYvv14H9MajeE4l2soGU=; b=pfzvquSl9jFS5XtS
- tAoOZtrim8gZQPs9cdpo363apKv0TijVSBDzpZFsDW/mSMypc/57phqSljh2+sFL
- Apb/yVPWVM62UtABfUz2U7Dhb3D3mtmMjKu3r2I7NaPHNEbEEkZHA9TawigrCHzi
- cR1KXgfY9nuOT0PUpswQjWZ0LKOQ6w4N4qIDwpSidzKLgx4SJcLyHUIr/RZ8fDOS
- Pnw5+CZHbD+G1oJ7O+ma0ZZaVuGn4hTDvdBRjpDUn1YNXNiFYy/mJyzLJbUp23zp
- V7yIG7Vwvac+mp88zkp3fba7fmelzFUY8+ysrI93f5QsduheLtejRA/eNzgvqds1
- tI5Pcg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bjk8ufkb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 06 Dec 2024 20:17:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6KHael018454
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 6 Dec 2024 20:17:36 GMT
-Received: from [10.110.95.46] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
- 12:17:31 -0800
-Message-ID: <c1b2fe04-e43e-4ab7-b0f8-2bb2ce6e1313@quicinc.com>
-Date: Fri, 6 Dec 2024 12:17:29 -0800
+Received: from eu-smtp-delivery-151.mimecast.com
+ (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A44D710F1AF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 20:24:49 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-17-T5q5JrNWPoSE2npJYwkYcg-1; Fri, 06 Dec 2024 20:24:46 +0000
+X-MC-Unique: T5q5JrNWPoSE2npJYwkYcg-1
+X-Mimecast-MFC-AGG-ID: T5q5JrNWPoSE2npJYwkYcg
+Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
+ (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Fri, 6 Dec
+ 2024 20:23:59 +0000
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Fri, 6 Dec 2024 20:23:59 +0000
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'Linus Torvalds' <torvalds@linux-foundation.org>
+CC: 'Vincent Mailhol' <vincent.mailhol@gmail.com>, 'Luc Van Oostenryck'
+ <luc.vanoostenryck@gmail.com>, 'Nathan Chancellor' <nathan@kernel.org>,
+ "'Nick Desaulniers'" <ndesaulniers@google.com>, 'Bill Wendling'
+ <morbo@google.com>, 'Justin Stitt' <justinstitt@google.com>, 'Yury Norov'
+ <yury.norov@gmail.com>, 'Rasmus Villemoes' <linux@rasmusvillemoes.dk>, 'Kees
+ Cook' <kees@kernel.org>, "'Gustavo A. R. Silva'" <gustavoars@kernel.org>,
+ 'Jani Nikula' <jani.nikula@linux.intel.com>, 'Joonas Lahtinen'
+ <joonas.lahtinen@linux.intel.com>, 'Rodrigo Vivi' <rodrigo.vivi@intel.com>,
+ 'Tvrtko Ursulin' <tursulin@ursulin.net>, 'David Airlie' <airlied@gmail.com>,
+ 'Simona Vetter' <simona@ffwll.ch>, 'Suzuki K Poulose'
+ <suzuki.poulose@arm.com>, 'Mike Leach' <mike.leach@linaro.org>, 'James Clark'
+ <james.clark@linaro.org>, 'Alexander Shishkin'
+ <alexander.shishkin@linux.intel.com>, 'Rikard Falkeborn'
+ <rikard.falkeborn@gmail.com>, "'linux-sparse@vger.kernel.org'"
+ <linux-sparse@vger.kernel.org>, "'linux-kernel@vger.kernel.org'"
+ <linux-kernel@vger.kernel.org>, "'llvm@lists.linux.dev'"
+ <llvm@lists.linux.dev>, "'linux-hardening@vger.kernel.org'"
+ <linux-hardening@vger.kernel.org>, "'intel-gfx@lists.freedesktop.org'"
+ <intel-gfx@lists.freedesktop.org>, "'dri-devel@lists.freedesktop.org'"
+ <dri-devel@lists.freedesktop.org>, "'coresight@lists.linaro.org'"
+ <coresight@lists.linaro.org>, "'linux-arm-kernel@lists.infradead.org'"
+ <linux-arm-kernel@lists.infradead.org>, "'uecker@tugraz.at'"
+ <uecker@tugraz.at>
+Subject: RE: [PATCH 02/10] compiler.h: add is_const() as a replacement of
+ __is_constexpr()
+Thread-Topic: [PATCH 02/10] compiler.h: add is_const() as a replacement of
+ __is_constexpr()
+Thread-Index: AQHbROFPJXcuwP9wN0+yRzIQ2cx/pbLWa+gggAFf14CAACMqUIABpzoGgAAClHCAAAPoAIAAAwjggAANnsA=
+Date: Fri, 6 Dec 2024 20:23:59 +0000
+Message-ID: <e806dd51b1ac4e289131297fbf30fc37@AcuMS.aculab.com>
+References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
+ <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
+ <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
+ <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
+ <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
+ <CAHk-=wjmeU6ahyuwAymqkSpxX-gCNa3Qc70UXjgnxNiC8eiyOw@mail.gmail.com>
+ <CAMZ6Rq+SzTA25XcMZnMnOJcrrq1VZpeT1xceinarqbXgDDo8VA@mail.gmail.com>
+ <CAHk-=wiP8111QZZJNbcDNsYQ_JC-xvwRKr0qV9UdKn3HKK+-4Q@mail.gmail.com>
+ <d23fe8a5dbe84bfeb18097fdef7aa4c4@AcuMS.aculab.com>
+ <CAHk-=win8afdcergvJ6f2=rRrff8giGUW62qmYs9Ae6aw=wcnA@mail.gmail.com>
+ <0f5c07b827c3468c8fa3928a93a98bfa@AcuMS.aculab.com>
+In-Reply-To: <0f5c07b827c3468c8fa3928a93a98bfa@AcuMS.aculab.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/9] drm/msm/dpu: Add SM6150 support
-To: Fange Zhang <quic_fangez@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Krishna
- Manikandan" <quic_mkrishn@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Li Liu
- <quic_lliu6@quicinc.com>, Xiangxu Yin <quic_xiangxuy@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
- <20241122-add-display-support-for-qcs615-platform-v3-5-35252e3a51fe@quicinc.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: odQrul3Z01DTjiP3xLeH1Hjcz0YUBrH0AnsMr_YQHZo_1733516685
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241122-add-display-support-for-qcs615-platform-v3-5-35252e3a51fe@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: yj9fXnaj5lnOP6LN3qd6Slds2MgrbGF-
-X-Proofpoint-GUID: yj9fXnaj5lnOP6LN3qd6Slds2MgrbGF-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 bulkscore=0 phishscore=0 suspectscore=0 spamscore=0
- lowpriorityscore=0 adultscore=0 mlxscore=0 mlxlogscore=999
- priorityscore=1501 clxscore=1011 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412060152
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,91 +95,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Li4uDQo+ID4gPiAjZGVmaW5lIGNvbnN0X05VTEwoeCkgX0dlbmVyaWMoMCA/ICh4KSA6IChjaGFy
+ICopMCwgY2hhciAqOiAxLCB2b2lkICo6IDApDQo+ID4gPiAjZGVmaW5lIGNvbnN0X3RydWUoeCkg
+Y29uc3RfTlVMTCgoeCkgPyBOVUxMIDogKHZvaWQgKikxTCkpDQo+ID4gPiAjZGVmaW5lIGNvbnN0
+X2V4cHIoeCkgY29uc3RfTlVMTCgoeCkgPyBOVUxMIDogTlVMTCkpDQo+ID4gPiBJIHNlbmQgdGhp
+cyBtb3JuaW5nLg0KPiA+ID4gTmVlZHMgJ3MvY2hhci9zdHJ1Y3Qga2pramtqa2p1aS8nIGFwcGxp
+ZWQuDQo+ID4NCj4gPiBPaCBDaHJpc3QuIFlvdSByZWFsbHkgYXJlIHRha2luZyB0aGlzIHdob2xl
+IHVnbHkgdG8gYW5vdGhlciBsZXZlbC4NCj4gDQo+IEkgc29ydCBvZiBsaWtlZCB0aGF0IHZlcnNp
+b24gaW4gYSBwZXJ2ZXJzZSBzb3J0IG9mIHdheS4NCj4gSXQgZG9lcyBnaXZlIHlvdSBhIHNpbXBs
+ZSB0ZXN0IGZvciBOVUxMICh1bmxlc3MgeW91J3ZlIHVzZWQgJ3N0cnVjdCBramtqa2pranVpJyku
+DQoNCkV4Y2VwdCBjb25zdF9OVUxMKCkgcmVhbGx5IGRvZXNuJ3Qgd29yayBhdCBhbGwgLSBzbyB5
+b3UgYXJlIGx1Y2t5IDotKQ0KDQpTbyBtYXliZSB0aGUgc2xpZ2h0bHkgbG9uZyBsaW5lczoNCiNk
+ZWZpbmUgY29uc3RfdHJ1ZSh4KSBfR2VuZXJpYygwID8gKHZvaWQgKikoKHgpICsgMCA/IDBMIDog
+MUwpIDogKGNoYXIgKikwLCBjaGFyICo6IDEsIHZvaWQgKjogMCkNCiNkZWZpbmUgY29uc3RfZXhw
+cih4KSBfR2VuZXJpYygwID8gKHZvaWQgKikoKHgpICsgMCA/IDBMIDogMEwpIDogKGNoYXIgKikw
+LCBjaGFyICo6IDEsIHZvaWQgKjogMCkNCg0KSSBtYWtlIHRoYXQgOTggY2hhcmFjdGVycy4NCk9m
+IGNvdXJzZSwgeW91IGNhbiByZW1vdmUgYWxsIHRoZSBzcGFjZXMsIG9ubHkgb25lIG9mIHRoZSBj
+b25zdGFudHMgbmVlZCB0aGUgTCBzdWZmaXgNCmFuZCAnaW50JyBpcyBhIHNob3J0ZXIgdHlwZSBu
+YW1lLg0KVGhhdCBjdXRzIGlzIGRvd24gdG8gNzY6DQojZGVmaW5lIGNvbnN0X2V4cHIoeCkgX0dl
+bmVyaWMoMD8odm9pZCopKCh4KSswPzBMOjApOihpbnQqKTAsaW50KjoxLHZvaWQqOjApDQp3aGlj
+aCBzdGFydHMgbG9va2luZyBsaWtlIHRoZSBURUNPIGNvbW1hbmRzIHRvIHBhcnNlIGl0cyBjb21t
+YW5kIGxpbmUhDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJy
+YW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lz
+dHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-
-On 11/22/2024 1:56 AM, Fange Zhang wrote:
-> From: Li Liu <quic_lliu6@quicinc.com>
-> 
-> Add definitions for the display hardware used on the Qualcomm SM6150
-> platform.
-> 
-> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
-> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
-> ---
->   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 263 +++++++++++++++++++++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
->   4 files changed, 266 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e8b7f694b885d69a9bbfaa85b0faf0c7af677a75
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-> @@ -0,0 +1,263 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef _DPU_5_3_SM6150_H
-> +#define _DPU_5_3_SM6150_H
-> +
-> +
-
-<snip>
-
-> +static const struct dpu_sspp_cfg sm6150_sspp[] = {
-> +	{
-> +		.name = "sspp_0", .id = SSPP_VIG0,
-> +		.base = 0x4000, .len = 0x1f0,
-> +		.features = VIG_SDM845_MASK,
-
-This is not correct. Smartdma is supported on this chipset on both Vig 
-and DMA SSPPs.
-
-Please use VIG_SDM845_MASK_SDMA and DMA_SDM845_MASK_SDMA respectively.
-
-
-> +		.sblk = &dpu_vig_sblk_qseed3_2_4,
-> +		.xin_id = 0,
-> +		.type = SSPP_TYPE_VIG,
-> +		.clk_ctrl = DPU_CLK_CTRL_VIG0,
-> +	}, {
-> +		.name = "sspp_8", .id = SSPP_DMA0,
-> +		.base = 0x24000, .len = 0x1f0,
-> +		.features = DMA_SDM845_MASK,
-> +		.sblk = &dpu_dma_sblk,
-> +		.xin_id = 1,
-> +		.type = SSPP_TYPE_DMA,
-> +		.clk_ctrl = DPU_CLK_CTRL_DMA0,
-> +	}, {
-> +		.name = "sspp_9", .id = SSPP_DMA1,
-> +		.base = 0x26000, .len = 0x1f0,
-> +		.features = DMA_SDM845_MASK,
-> +		.sblk = &dpu_dma_sblk,
-> +		.xin_id = 5,
-> +		.type = SSPP_TYPE_DMA,
-> +		.clk_ctrl = DPU_CLK_CTRL_DMA1,
-> +	}, {
-> +		.name = "sspp_10", .id = SSPP_DMA2,
-> +		.base = 0x28000, .len = 0x1f0,
-> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
-> +		.sblk = &dpu_dma_sblk,
-> +		.xin_id = 9,
-> +		.type = SSPP_TYPE_DMA,
-> +		.clk_ctrl = DPU_CLK_CTRL_DMA2,
-> +	}, {
-> +		.name = "sspp_11", .id = SSPP_DMA3,
-> +		.base = 0x2a000, .len = 0x1f0,
-> +		.features = DMA_CURSOR_SDM845_MASK_SDMA,
-> +		.sblk = &dpu_dma_sblk,
-> +		.xin_id = 13,
-> +		.type = SSPP_TYPE_DMA,
-> +		.clk_ctrl = DPU_CLK_CTRL_DMA3,
-> +	},
-> +};
-> +
-
-<snip>
