@@ -2,69 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D789E7B1C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 22:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BD49E7B1D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 22:38:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D3B10E0AD;
-	Fri,  6 Dec 2024 21:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D6810E163;
+	Fri,  6 Dec 2024 21:38:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=antheas.dev header.i=@antheas.dev header.b="PCT5XVly";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bVYIlK8p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06FE210E163
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 21:37:43 +0000 (UTC)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by linux1587.grserver.gr (Postfix) with ESMTPSA id 29AB62E08B1C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 23:37:38 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
- s=default; t=1733521058;
- bh=sUIZ7yFiwkQs7/RyRHjph86Tz7Z33Zp4mkGsfwbVWjw=;
- h=Received:From:Subject:To;
- b=PCT5XVly82CU7ujBwgGixbN4YsZgeGWG4ddZXgz6RxoSz+q1IrOmAq89CaD4OZuZq
- eBa4y4mlm1QEid3+6K5EB3DEO9AWplPu9i8RbsiyoGO5021GYziKXgGOlAfJm/8FI2
- LoJy0/IveDyT//vjvm7oTfU3QhSMU763cD2uP54A=
-Authentication-Results: linux1587.grserver.gr;
- spf=pass (sender IP is 209.85.208.176) smtp.mailfrom=lkml@antheas.dev
- smtp.helo=mail-lj1-f176.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-3003d7ca01cso4213711fa.0
- for <dri-devel@lists.freedesktop.org>;
- Fri, 06 Dec 2024 13:37:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUD1MOzWe0pwQZh3nBJChSLkTeqkKnN7babfuayzGQ/0J88wuciYiJmPtA1E5Or9TeXv8Yrv3cq8yo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxk0nIOlLLQ6LATbwP5F0MEd1PIAMzcqY9LFTxHBm+nJmLBp17K
- hYQmT8AFrdaKvmLEAAmY47Va+e/hgJG8EMoq3Pi/USYlmtAD2zIaHVQZ4uCy3rMD4FITClagMac
- c3fkTzdsss5MC9EKGI0xyrhpXRok=
-X-Google-Smtp-Source: AGHT+IEiHgR5xIO6c0tBPqpY3rl5MAN0+xVjFvG+Gf/34uH+FygSQslFHHGsFHFwoh1tTLgAr86tfegbq0Ys3XZA2cM=
-X-Received: by 2002:a2e:ab0f:0:b0:2ff:7a4f:e770 with SMTP id
- 38308e7fff4ca-3002fc68eaemr15238351fa.31.1733521057001; Fri, 06 Dec 2024
- 13:37:37 -0800 (PST)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7775810E163
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 21:38:14 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4B6Lc3VO117629;
+ Fri, 6 Dec 2024 15:38:03 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1733521083;
+ bh=5Vbbde26YMC8xR8A9dVdNntJv9l2JlGijS55Ah+v7GI=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=bVYIlK8p4slFDMDphnXG7AK2GKIMje38NJuxi7/owRG4hp7tMiiVSK02QxBCRy+Lr
+ lksuUs3Y3aBZLPF80akt4gwRd8XCSwfq+5FYDlxpANj7wr/EHAi/ay3GuMv0/dZ3t4
+ 2vhreTdw/3diAIElwsGGVLTHHHY2hBz8FfUt4+Pc=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B6Lc30d006880;
+ Fri, 6 Dec 2024 15:38:03 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 6
+ Dec 2024 15:38:03 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 6 Dec 2024 15:38:03 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B6Lc3Ws090555;
+ Fri, 6 Dec 2024 15:38:03 -0600
+Message-ID: <4f69afd7-67e2-4ba7-a6c5-5da47911e278@ti.com>
+Date: Fri, 6 Dec 2024 15:38:02 -0600
 MIME-Version: 1.0
-References: <20241121172239.119590-1-lkml@antheas.dev>
- <CAJZ5v0gDg57skLVOH32NtmhCEXGw_m63az4jWRJgkUq6qTsqgQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0gDg57skLVOH32NtmhCEXGw_m63az4jWRJgkUq6qTsqgQ@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Fri, 6 Dec 2024 22:37:25 +0100
-X-Gmail-Original-Message-ID: <CAGwozwEmgtWFD=dErONA8zitPCUhK6JNu6Y-6_AHEiEev7AWvw@mail.gmail.com>
-Message-ID: <CAGwozwEmgtWFD=dErONA8zitPCUhK6JNu6Y-6_AHEiEev7AWvw@mail.gmail.com>
-Subject: Re: [RFC 00/13] acpi/x86: s2idle: implement Modern Standby transition
- states and expose to userspace
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Mario Limonciello <mario.limonciello@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Kyle Gospodnetich <me@kylegospodneti.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: <173352105855.19320.11515338681764722940@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] leds: lp8864: New driver
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>,
+ <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, Lee Jones <lee@kernel.org>, Daniel
+ Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Pavel
+ Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20241206212421.1132578-1-alexander.sverdlin@siemens.com>
+ <20241206212421.1132578-3-alexander.sverdlin@siemens.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20241206212421.1132578-3-alexander.sverdlin@siemens.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,261 +73,425 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rafael,
-since 6.13-rc1 is out, hopefully you can have a look over the next few days
+On 12/6/24 3:24 PM, A. Sverdlin wrote:
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> 
+> Add driver for TI LP8864, LP8864S, LP8866 4/6 channel LED-backlight drivers
+> with I2C interface.
+> 
+> Link: https://www.ti.com/lit/gpn/lp8864-q1
+> Link: https://www.ti.com/lit/gpn/lp8864s-q1
+> Link: https://www.ti.com/lit/gpn/lp8866-q1
+> Link: https://www.ti.com/lit/gpn/lp8866s-q1
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> ---
+>   MAINTAINERS                |   7 +
+>   drivers/leds/Kconfig       |  12 ++
+>   drivers/leds/Makefile      |   1 +
+>   drivers/leds/leds-lp8864.c | 320 +++++++++++++++++++++++++++++++++++++
+>   4 files changed, 340 insertions(+)
+>   create mode 100644 drivers/leds/leds-lp8864.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 21f855fe468bc..a89f0b9d991fb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23262,6 +23262,13 @@ S:	Supported
+>   F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml
+>   F:	drivers/iio/dac/ti-dac7612.c
+>   
+> +TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+> +M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> +L:	linux-leds@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+> +F:	drivers/leds/leds-lp8864.c
+> +
+>   TEXAS INSTRUMENTS' SYSTEM CONTROL INTERFACE (TISCI) PROTOCOL DRIVER
+>   M:	Nishanth Menon <nm@ti.com>
+>   M:	Tero Kristo <kristo@kernel.org>
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index b784bb74a8378..6d0e88e501614 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -511,6 +511,18 @@ config LEDS_LP8860
+>   	  on the LP8860 4 channel LED driver using the I2C communication
+>   	  bus.
+>   
+> +config LEDS_LP8864
+> +	tristate "LED support for the TI LP8864/LP8866 4/6 channel LED drivers"
+> +	depends on LEDS_CLASS && I2C && OF
+> +	select REGMAP_I2C
+> +	help
+> +	  If you say yes here you get support for the TI LP8864-Q1,
+> +	  LP8864S-Q1, LP8866-Q1, LP8866S-Q1 4/6 channel LED backlight
+> +	  drivers with I2C interface.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called leds-lp8864.
+> +
+>   config LEDS_CLEVO_MAIL
+>   	tristate "Mail LED on Clevo notebook"
+>   	depends on LEDS_CLASS && BROKEN
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index 18afbb5a23ee5..f66bf2e13665f 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -57,6 +57,7 @@ obj-$(CONFIG_LEDS_LP55XX_COMMON)	+= leds-lp55xx-common.o
+>   obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
+>   obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
+>   obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
+> +obj-$(CONFIG_LEDS_LP8864)		+= leds-lp8864.o
+>   obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
+>   obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
+>   obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
+> diff --git a/drivers/leds/leds-lp8864.c b/drivers/leds/leds-lp8864.c
+> new file mode 100644
+> index 0000000000000..da02e29bbf4b7
+> --- /dev/null
+> +++ b/drivers/leds/leds-lp8864.c
+> @@ -0,0 +1,320 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * TI LP8864/LP8866 4/6 Channel LED Driver
+> + *
+> + * Copyright (C) 2024 Siemens AG
+> + *
+> + * Based on LP8860 driver by Dan Murphy <dmurphy@ti.com>
+> + */
+> +
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> +
+> +#define LP8864_BRT_CONTROL		0x00
+> +#define LP8864_USER_CONFIG1		0x04
+> +#define   LP8864_BRT_MODE_MASK		GENMASK(9, 8)
+> +/* Brightness controlled by DISPLAY_BRT register */
+> +#define   LP8864_BRT_MODE_REG		BIT(9)
+> +#define LP8864_SUPPLY_STATUS		0x0e
+> +#define LP8864_BOOST_STATUS		0x10
+> +#define LP8864_LED_STATUS		0x12
+> +/* Writeable bits in the LED_STATUS register */
+> +#define   LP8864_LED_STATUS_WR_MASK	GENMASK(14, 9)
+> +
+> +/* Textual meaning for every register bit */
+> +static const char *const lp8864_supply_status_msg[] = {
+> +	NULL, "Vin under-voltage fault",
+> +	NULL, "Vin over-voltage fault",
+> +	NULL, "Vdd under-voltage fault",
+> +	NULL, "Vin over-current fault",
+> +	NULL, "Missing charge pump fault",
+> +	NULL, "Charge pump fault",
+> +	NULL, "Missing boost sync fault",
+> +	NULL, "CRC error fault ",
+> +};
+> +
+> +/* Textual meaning for every register bit */
+> +static const char *const lp8864_boost_status_msg[] = {
+> +	NULL, "Boost OVP low fault",
+> +	NULL, "Boost OVP high fault",
+> +	NULL, "Boost over-current fault",
+> +	NULL, "Missing boost FSET resistor fault",
+> +	NULL, "Missing MODE SEL resistor fault",
+> +	NULL, "Missing LED resistor fault",
+> +	NULL, "ISET resistor short to ground fault",
+> +	NULL, "Thermal shutdown fault",
+> +};
+> +
+> +/* Textual meaning for every register bit */
+> +static const char *const lp8864_led_status_msg[] = {
+> +	"LED 1 fault",
+> +	"LED 2 fault",
+> +	"LED 3 fault",
+> +	"LED 4 fault",
+> +	"LED 5 fault",
+> +	"LED 6 fault",
+> +	"LED open fault",
+> +	"LED internal short fault",
+> +	"LED short to GND fault",
+> +	NULL, NULL, NULL,
+> +	"Invalid string configuration fault",
+> +	NULL,
+> +	"I2C time out fault",
+> +};
+> +
+> +/**
+> + * struct lp8864_led
+> + * @client: Pointer to the I2C client
+> + * @led_dev: led class device pointer
+> + * @regmap: Devices register map
+> + * @led_status_mask: Helps to report LED fault only once
+> + */
+> +struct lp8864_led {
+> +	struct i2c_client *client;
+> +	struct led_classdev led_dev;
+> +	struct regmap *regmap;
+> +	u16 led_status_mask;
+> +};
+> +
+> +static int lp8864_fault_check(struct lp8864_led *led)
+> +{
+> +	int ret, i;
+> +	unsigned int buf;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_SUPPLY_STATUS, &buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lp8864_supply_status_msg); i++)
+> +		if (lp8864_supply_status_msg[i] && buf & BIT(i))
+> +			dev_err(&led->client->dev, "%s\n",
+> +				lp8864_supply_status_msg[i]);
+> +
+> +	/*
+> +	 * Clear bits have an index preceding the corresponding Status bits;
+> +	 * both have to be written "1" simultaneously to clear the corresponding
+> +	 * Status bit.
+> +	 */
+> +	if (buf)
+> +		ret = regmap_write(led->regmap, LP8864_SUPPLY_STATUS,
+> +				   buf >> 1 | buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_BOOST_STATUS, &buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lp8864_boost_status_msg); i++)
+> +		if (lp8864_boost_status_msg[i] && buf & BIT(i))
+> +			dev_err(&led->client->dev, "%s\n",
+> +				lp8864_boost_status_msg[i]);
+> +
+> +	if (buf)
+> +		ret = regmap_write(led->regmap, LP8864_BOOST_STATUS,
+> +				   buf >> 1 | buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_LED_STATUS, &buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	/*
+> +	 * Clear already reported faults that maintain their value until device
+> +	 * power-down
+> +	 */
+> +	buf &= ~led->led_status_mask;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lp8864_led_status_msg); i++)
+> +		if (lp8864_led_status_msg[i] && buf & BIT(i))
+> +			dev_err(&led->client->dev, "%s\n",
+> +				lp8864_led_status_msg[i]);
+> +
+> +	/*
+> +	 * Mark those which maintain their value until device power-down as
+> +	 * "already reported"
+> +	 */
+> +	led->led_status_mask |= buf & ~LP8864_LED_STATUS_WR_MASK;
+> +
+> +	/*
+> +	 * Only bits 14, 12, 10 have to be cleared here, but others are RO,
+> +	 * we don't care what we write to them.
+> +	 */
+> +	if (buf & LP8864_LED_STATUS_WR_MASK)
+> +		ret = regmap_write(led->regmap, LP8864_LED_STATUS,
+> +				   buf >> 1 | buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	return 0;
+> +
+> +err:
+> +	dev_err(&led->client->dev, "Cannot read/clear faults (%pe)\n",
+> +		ERR_PTR(ret));
+> +
+> +	return ret;
+> +}
+> +
+> +static int lp8864_brightness_set(struct led_classdev *led_cdev,
+> +				 enum led_brightness brt_val)
+> +{
+> +	struct lp8864_led *led = container_of(led_cdev, struct lp8864_led,
+> +					      led_dev);
+> +	unsigned int val = brt_val * 0xffff / LED_FULL;
+> +	int ret;
+> +
+> +	ret = lp8864_fault_check(led);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(led->regmap, LP8864_BRT_CONTROL, val);
+> +	if (ret)
+> +		dev_err(&led->client->dev, "Cannot write BRT_CONTROL\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static enum led_brightness lp8864_brightness_get(struct led_classdev *led_cdev)
+> +{
+> +	struct lp8864_led *led = container_of(led_cdev, struct lp8864_led,
+> +					      led_dev);
+> +	unsigned int buf;
+> +	int ret;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_BRT_CONTROL, &buf);
+> +	if (ret) {
+> +		dev_err(&led->client->dev, "Cannot read BRT_CONTROL\n");
+> +		return ret;
+> +	}
+> +
+> +	return buf * LED_FULL / 0xffff;
+> +}
+> +
+> +static int lp8864_init(struct lp8864_led *led)
+> +{
+> +	int ret;
+> +
+> +	/* Control brightness by DISPLAY_BRT register */
+> +	ret = regmap_update_bits(led->regmap, LP8864_USER_CONFIG1,
+> +				 LP8864_BRT_MODE_MASK, LP8864_BRT_MODE_REG);
+> +	if (ret) {
+> +		dev_err(&led->client->dev, "Cannot write USER_CONFIG1\n");
+> +		return ret;
+> +	}
+> +
+> +	return lp8864_fault_check(led);
+> +}
 
-We have deployed a variant of this patchset now on desktop builds as
-well for over 2 months now, and we haven't had any regressions
-reported. We have also been using it on handheld builds, where for the
-last 2 or so weeks we transition to the sleep state and fire the dpms
-as part of the systemd sleep target, and it makes a big difference in
-how devices look when suspending and hibernating.
+Why is this a function? It is only called once in probe() and it
+is very short, just put this code inline down in probe().
 
-Essentially, as soon as the suspend animation plays, the screen and
-rgb of the devices turn off instantly, and the power light of devices
-that have it as part of the sleep call begins to flash. Then, after a
-few seconds, the fan of the devices turns off. Before, they'd show a
-stale framebuffer and have the RGB be on until almost the suspend
-sequence is over.
+> +
+> +static const struct regmap_config lp8864_regmap_config = {
+> +	.reg_bits		= 8,
+> +	.val_bits		= 16,
+> +	.val_format_endian	= REGMAP_ENDIAN_LITTLE,
+> +	.cache_type		= REGCACHE_NONE,
 
-This is also true for hibernation, where before the RGB lights of the
-devices would stay on during the suspend sequence and the device would
-show a stale frame buffer on the screen. Now the devices look like
-they are suspended while initializing hibernation and then just turn
-off
+No caching is the default, you can drop this line.
 
-Maybe I need to shoot a video with it..
+Or maybe you could enable caching instead.
 
-So I'd love to hear your thoughts. Can you expand on what you mean by
-not backwards compatible?
+> +};
+> +
+> +static void lp8864_disable_gpio(void *data)
+> +{
+> +	struct gpio_desc *gpio = data;
+> +
+> +	gpiod_set_value(gpio, 0);
+> +}
+> +
+> +static int lp8864_probe(struct i2c_client *client)
+> +{
+> +	int ret;
+> +	struct lp8864_led *led;
+> +	struct device_node *np = dev_of_node(&client->dev);
+> +	struct device_node *child_node;
+> +	struct led_init_data init_data = {};
+> +	struct gpio_desc *enable_gpio;
+> +
+> +	led = devm_kzalloc(&client->dev, sizeof(*led), GFP_KERNEL);
+> +	if (!led)
+> +		return -ENOMEM;
+> +
+> +	child_node = of_get_next_available_child(np, NULL);
+> +	if (!child_node) {
+> +		dev_err(&client->dev, "No LED function defined\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = devm_regulator_get_enable_optional(&client->dev, "vled");
+> +	if (ret && ret != -ENODEV)
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Failed to enable vled regulator (%pe)\n",
+> +				     ERR_PTR(ret));
+> +
+> +	enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
+> +					      GPIOD_OUT_HIGH);
+> +	if (IS_ERR(enable_gpio))
+> +		return dev_err_probe(&client->dev, PTR_ERR(enable_gpio),
+> +				     "Failed to get enable GPIO (%pe)\n",
+> +				     enable_gpio);
 
-I know that it is not backwards compatible in the way where if the
-compositor/init system are not aware of it, the display on/off
-notifications will not fire automatically when the displays turn off.
+dev_err_probe() already prints out the (%pe) error for you, so you
+can drop that extra output.
 
-Antheas
+> +
+> +	ret = devm_add_action_or_reset(&client->dev, lp8864_disable_gpio,
+> +				       enable_gpio);
 
-On Thu, 21 Nov 2024 at 18:41, Rafael J. Wysocki <rafael@kernel.org> wrote:
->
-> On Thu, Nov 21, 2024 at 6:28=E2=80=AFPM Antheas Kapenekakis <lkml@antheas=
-.dev> wrote:
-> >
-> > The following series moves the _DSM 3,4,7,8 firmware notifications outs=
-ide
-> > the suspend sequence, and makes them part of a transition function, whe=
-re
-> > the system can transition freely between them when it is not suspended.
-> > This transition function is exposed to userspace, which now gains the
-> > ability to control the presentation of the device (e.g., pulse the susp=
-end
-> > light) without forcing the kernel to suspend. In addition, it adds supp=
-ort
-> > for the _DSM 9 call Turn Display On, which was introduced in Windows 22=
-H2
-> > and aims to speed up device wake-up while remaining in the "Sleep" stat=
-e.
-> > If userspace is not standby aware, the kernel will bring the system int=
-o
-> > the "Sleep" state before beginning the suspend sequence.
->
-> I'll get to this when 6.13-rc1 is out, but I can tell you right away
-> that some of the above cannot be done without breaking backwards
-> compatibility.
->
-> > This series requires a bit of background on how modern standby works in
-> > Windows. Windows has a concept of "Modern Standby" [1], where it perfor=
-ms
-> > an elaborate userspace and kernel suspend choreography while the device=
- is
-> > inactive in order to maintain fast wake-up times and connectivity while=
- the
-> > display of the device is off. This is done through 5 hardware states an=
-d
-> > the OS takes the liberty of transitioning between them, by following a =
-set
-> > of rules (e.g., "Adaptive Hibernate").
-> >
-> > ```
-> >                                  \/-> "Hibernate (S4)"
-> > "Active" <-> "Screen Off" <-> "Sleep" <-> "DRIPS"
-> >                   /\-  "Resume"  <-         <-
-> > ```
-> >
-> > When the display is on and the user is interacting with the device, it =
-is
-> > in the "Active" state. The moment the display turns off, the device
-> > transitions to the "Screen Off" state, where hardware and userspace are
-> > fully active. Userspace will then decide when appropriate to freeze maj=
-or
-> > components (such as the DE) and transition into the "Sleep" state, wher=
-e
-> > the kernel is still active and connectivity is maintained. Finally, the
-> > conventional "Suspend-to-idle" path can be used to bring the system int=
-o
-> > the deepest runtime idle platform state (DRIPS) state, which is named
-> > "s2idle" in the Linux kernel.
-> >
-> > After wake-up, the system re-transitions into the "Sleep" state, where
-> > userspace can run housekeeping and/or hibernate if the wake-up was not =
-user
-> > initiated (e.g., timer). If user-initiated, userspace can hasten the
-> > transition out of the "Sleep" state by transitioning into the state
-> > "Resume" that certain devices use to boost the Power Limit (PLx) while
-> > remaining in sleep (support for this new notification is rare). Then, i=
-t
-> > transitions back into "Screen Off" and "Active" to prepare for the user=
-.
-> >
-> > All transitions between these states feature unique firmware notificati=
-ons
-> > [3] that change the presentation of the device (e.g., pulse the suspend
-> > light, turn off RGB). For more information, see the docs in [8]. Making
-> > these transitions accessible from userspace moves them out of the suspe=
-nd
-> > sequence and has them happen while the kernel is fully active, mirrorin=
-g
-> > Windows.
-> >
-> > As a side effect, this patch series completely fixes the ROG Ally
-> > controller issue [5], which expects for .5s to lapse before its
-> > controller's USB hub goes into D3 and otherwise malfunctions. It also f=
-ixes
-> > an issue present in (allegedly only) older firmwares where they check t=
-he
-> > USB subsystem is not in D3 before allowing the controller to wake up wh=
-ile
-> > in powersave mode (for avoiding spurious wake-ups). As such, this patch
-> > series is also a universal fix for the ROG Ally controller.
-> >
-> > Moreover, this patch series allows turning off the controller and RGB o=
-f
-> > most Windows handhelds (OneXPlayer, Lenovo Legion Go, GPD, and Asus ROG
-> > Ally), opening the possibility of implementing suspend-then-hibernate a=
-nd
-> > other standby features, such as background downloads, without waking up=
- the
-> > RGB/controller of those devices. A Thinkpad T14 2021 was also tested, a=
-nd
-> > it pulses its suspend light during sleep.
-> >
-> > There is still the question of where LSP0 entry/exit (_DSM 5,6) should =
-be
-> > fired or whether they should be fired in the path to hibernation. Howev=
-er,
-> > as they cause no issues currently, and they fire when software activity=
- has
-> > seized, they are fine where they are.
-> >
-> > It is important to note that the effects of these _DSMs persist during
-> > reboots. I.e., if the Legion Go reboots while in the "Sleep" state, it =
-will
-> > boot into the "Sleep" state and have its controller disabled and suspen=
-d
-> > light pulsing. The reboot persistence is undesirable, so the reboot pat=
-h
-> > will need to include a transition to active prior to reboot (not
-> > included in this series). This is not the case after shutdown and
-> > hibernation, where the device boots into the "Active" state.
-> >
-> > The issue of DPMS is still present. Currently, gamescope and KDE (at le=
-ast)
-> > do not fire DPMS before suspending. This causes an undesirable frozen
-> > screen while the system is suspending and looks quite ugly in general. =
-This
-> > is especially true if the firmware notifications fire earlier. Therefor=
-e,
-> > should the kernel fire DPMS before forcing the transition to sleep for
-> > backwards compat.? If yes, it will be quite the effort. Moreover, shoul=
-d
-> > the kernel allow graphics drivers hook the transition function and bloc=
-k
-> > transitions to "Screen Off" if there is an active CRTC? As that would b=
-e a
-> > significant undertaking, there should be proof that there exists such a
-> > device that has an issue firing the notifications with an active CRTC.
-> >
-> > A variant of this series has been tested by thousands of users by now,
-> > where the notifications fire around .5s before the CRTC is disabled and=
- no
-> > ill-effects have found in regard to this quirk. AFAIK, it is a visual
-> > quirk. Making DPMS fire before the backwards compat. transition is a go=
-od
-> > idea in any case, as it will sync the 200ms between Display Off/Sleep E=
-ntry
-> > firing and the graphics driver turning off the display, but it might no=
-t be
-> > worth the effort.
-> >
-> > We are currently testing a DPMS patch for gamescope and it completely f=
-ixes
-> > this visual quirk while allowing for e.g., hibernation without turning =
-on
-> > the screen. The DPMS gamescope patch + performing the transitions in
-> > userspace in such a way where it blends the Ally's suspend delay halves=
- the
-> > user perceived delay to sleep and results in a very professional
-> > presentation. This presentation extends to other devices as well, such =
-as
-> > the Legion Go.
-> >
-> > Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-=
-experiences/prepare-hardware-for-modern-standby [1]
-> > Link: https://learn.microsoft.com/en-us/windows-hardware/customize/powe=
-r-settings/adaptive-hibernate [2]
-> > Link: https://learn.microsoft.com/en-us/windows-hardware/design/device-=
-experiences/modern-standby-firmware-notifications [3]
-> > Link: https://github.com/hhd-dev/hwinfo/tree/master/devices [4]
-> > Link: https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git=
-/log/?h=3Dsuperm1/dsm-screen-on-off [5]
-> > Link: https://gitlab.freedesktop.org/drm/amd/-/issues/2719 [6]
-> > Link: https://dl.dell.com/manuals/all-products/esuprt_solutions_int/esu=
-prt_solutions_int_solutions_resources/client-mobile-solution-resources_whit=
-e-papers45_en-us.pdf [7]
-> > File: Documentation/admin-guide/pm/standby-states.rst [8]
-> >
-> > Changes from previous series (`acpi/x86: s2idle: move Display off/on ca=
-lls
-> >   outside suspend (fixes ROG Ally suspend)`):
-> >   - Separate Display On/Off rename into its own commit (suggested by Ha=
-ns)
-> >   - Move delay quirks into s2idle.c (suggested by Hans)
-> >   - Add documentation on Documentation/admin-guide/pm/standby-states.rs=
-t
-> >   - Callbacks are now static and a transition function is used
-> >   - Fixed all checkpatch warnings
-> >   - The rest of the series is completely re-written
-> >
-> > Antheas Kapenekakis (13):
-> >   Documentation: PM: Add documentation for S0ix Standby States
-> >   acpi/x86: s2idle: add support for Display Off and Display On callback=
-s
-> >   acpi/x86: s2idle: add support for Sleep Entry and Sleep Exit callback=
-s
-> >   acpi/x86: s2idle: add support for Turn On Display callback
-> >   acpi/x86: s2idle: add modern standby transition function
-> >   acpi/x86: s2idle: rename Screen On/Off to Display On/Off
-> >   acpi/x86: s2idle: call Display On/Off as part of callbacks
-> >   acpi/x86: s2idle: rename MS Exit/Entry to Sleep Exit/Entry
-> >   acpi/x86: s2idle: call Sleep Entry/Exit as part of callbacks
-> >   acpi/x86: s2idle: add Turn On Display and call as part of callback
-> >   acpi/x86: s2idle: add quirk table for modern standby delays
-> >   platform/x86: asus-wmi: remove Ally (1st gen) and Ally X suspend quir=
-k
-> >   PM: standby: Add sysfs attribute for modern standby transitions
-> >
-> >  Documentation/ABI/testing/sysfs-power         |  34 +++
-> >  .../admin-guide/pm/standby-states.rst         | 133 ++++++++++
-> >  Documentation/admin-guide/pm/system-wide.rst  |   1 +
-> >  drivers/acpi/x86/s2idle.c                     | 249 ++++++++++++++----
-> >  drivers/platform/x86/asus-wmi.c               |  54 ----
-> >  include/linux/suspend.h                       |  16 ++
-> >  kernel/power/main.c                           |  75 ++++++
-> >  kernel/power/power.h                          |   1 +
-> >  kernel/power/suspend.c                        | 154 +++++++++++
-> >  9 files changed, 616 insertions(+), 101 deletions(-)
-> >  create mode 100644 Documentation/admin-guide/pm/standby-states.rst
-> >
-> > --
-> > 2.47.0
-> >
-> >
+You never do anything with this ret value.
+
+> +
+> +	led->client = client;
+> +	led->led_dev.brightness_set_blocking = lp8864_brightness_set;
+> +	led->led_dev.brightness_get = lp8864_brightness_get;
+> +
+> +	i2c_set_clientdata(client, led);
+
+You don't need this if no where else you do i2c_get_clientdata().
+
+> +
+> +	led->regmap = devm_regmap_init_i2c(client, &lp8864_regmap_config);
+> +	if (IS_ERR(led->regmap)) {
+> +		dev_err(&client->dev, "Failed to allocate register map (%pe)\n",
+> +			led->regmap);
+
+dev_err_probe()?
+
+Andrew
+
+> +		return PTR_ERR(led->regmap);
+> +	}
+> +
+> +	ret = lp8864_init(led);
+> +	if (ret)
+> +		return ret;
+> +
+> +	init_data.fwnode = of_fwnode_handle(child_node);
+> +	init_data.devicename = "lp8864";
+> +	init_data.default_label = ":display_cluster";
+> +
+> +	ret = devm_led_classdev_register_ext(&client->dev, &led->led_dev,
+> +					     &init_data);
+> +	if (ret)
+> +		dev_err(&client->dev, "Failed to register LED device (%pe)\n",
+> +			ERR_PTR(ret));
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct i2c_device_id lp8864_id[] = {
+> +	{ "lp8864" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, lp8864_id);
+> +
+> +static const struct of_device_id of_lp8864_leds_match[] = {
+> +	{ .compatible = "ti,lp8864" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, of_lp8864_leds_match);
+> +
+> +static struct i2c_driver lp8864_driver = {
+> +	.driver = {
+> +		.name	= "lp8864",
+> +		.of_match_table = of_lp8864_leds_match,
+> +	},
+> +	.probe		= lp8864_probe,
+> +	.id_table	= lp8864_id,
+> +};
+> +module_i2c_driver(lp8864_driver);
+> +
+> +MODULE_DESCRIPTION("Texas Instruments LP8864/LP8866 LED driver");
+> +MODULE_AUTHOR("Alexander Sverdlin <alexander.sverdlin@siemens.com>");
+> +MODULE_LICENSE("GPL");
