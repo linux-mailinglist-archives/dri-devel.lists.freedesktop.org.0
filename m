@@ -2,77 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0179E7018
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 15:35:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E679E701B
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 15:35:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B30010F107;
-	Fri,  6 Dec 2024 14:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8730010F10E;
+	Fri,  6 Dec 2024 14:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WgHxdjMu";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="zGqZu5nm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20F7110F107
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 14:34:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 845D55C6E72;
- Fri,  6 Dec 2024 14:34:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A50DC4CED1;
- Fri,  6 Dec 2024 14:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733495695;
- bh=nF5LxKv8T81leJMO/CuStFlxQDPRXw0NlSd9f5JANYc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WgHxdjMuh7TGdSDG78OQk4528JQqnx5KRlevVafqybA+nndhgJb7Q70hQ36QphC7m
- 5J5HKk9E6TZ9duXn4GHfgApO3OHuIlAXffiDZU129EnvSz9FhND87VGhejelBxsIvq
- sBLNi5O3GT4ArsiTXb+a95mquANa9oVe/eoZ27dirHsZm5LDxjFWrLYgljpvRikiYq
- MmlKV31TVnfvcurjE5rt1OKQoZIgxIH/EK+7WsaTtS1YWbu9imqs3Y+eKs3FPMTZX8
- Jx9N7bJkAiOxjE4cCX1Ke6WmOWBeRNiKX9xzpl/XzHbUaojbajwdOG+z2tSb05GFEz
- EBCHb6D1nP7SA==
-Date: Fri, 6 Dec 2024 15:34:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Phong LE <ple@baylibre.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
-Message-ID: <20241206-caped-proficient-rattlesnake-c882f3@houat>
-References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
- <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7114310F11A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 14:35:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=lXAYhpdfsf+gOIdq60uXPUI1h1U4aSY+52/5Tzkwy3o=; b=zGqZu5nmmiMR40kS1ag20bkZPn
+ 34/WeQB+p3pPf5pLsBw3pnqEJbt/Oo/WuvhzsETmFIx3NcWETcipC+hKsTXGu93XASq00fG7IiRhY
+ ugoku54YtHBQCHd2dIrEF8RZto8uUUd2BPnAXualbTHQyzVf/HDdnXKEVNswMpIhJlD2+8YJWA/ZR
+ w2AR0CD0BSddg0M0kJN9aiTdyRi/PwU/fPifztlnuqZVfCvzMjPIi26kxT2H2TsWf1LAD9tDN28/1
+ 0Kl1t9kLx7MQzvLaV4zLiQkE/kJ9RIFCW6VuRaphGb3r2RZvay3zfzCXbuZXcCfwy8zIPWpCN5DDT
+ U5xMwHLA==;
+Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tJZQW-00011Y-Hy; Fri, 06 Dec 2024 15:35:28 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com,
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v1 00/10] Add eDP support for RK3588
+Date: Fri, 06 Dec 2024 15:35:27 +0100
+Message-ID: <5939852.zQ0Gbyo6oJ@diego>
+In-Reply-To: <20241127075157.856029-1-damon.ding@rock-chips.com>
+References: <20241127075157.856029-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="6occl6gdwf4rqri7"
-Content-Disposition: inline
-In-Reply-To: <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,84 +66,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Daemon,
 
---6occl6gdwf4rqri7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in
- get_modes()
-MIME-Version: 1.0
+Am Mittwoch, 27. November 2024, 08:51:47 CET schrieb Damon Ding:
+> These patchs have been tested with a 1536x2048p60 eDP panel on
+> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+> on RK3588 EVB1 board.
+> 
+> Patch 1~3 are the RK3588 eDP support of Rockchip analogix_dp driver.
+> Patch 4   is the eDP mode support of samsung hdptx phy driver.
+> Patch 5~6 are the Rk3588 eDP support of Aanalogix DP driver. Add phy
+>           interfaces is to configure the HDMI/eDP TX Combo PHY.
+> Patch 7~8 are the renaming of hdptxphy node. It is not only used by
+>           HDMI display but also for the eDP display.
+> Patch 9   is the addition of RK3588 eDP0 node.
+> Patch 10  is to enable the eDP0 display on RK3588S EVB1 board.
 
-Hi,
+Could you maybe also bring over functionality for real bridge-handling?
+That way we'd have support for things like the dp-connector bridge.
 
-On Fri, Dec 06, 2024 at 12:16:03PM +0200, Dmitry Baryshkov wrote:
-> The vc4_hdmi_connector_detect_ctx() via vc4_hdmi_handle_hotplug()
-> already reads EDID and propagates it to the drm_connector. Stop
-> rereading EDID as a part of the .get_modes() callback and just update
-> the list of modes. This matches the behaviour of the i915 driver.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ---------------------
->  1 file changed, 21 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index e5ab42f72f618b90f956482db6c9c8074c1e3bf1..3364ef90968dad3074800f029=
-26300ffceb75c69 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -470,31 +470,10 @@ static int vc4_hdmi_connector_detect_ctx(struct drm=
-_connector *connector,
-> =20
->  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->  {
-> -	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
->  	struct vc4_dev *vc4 =3D to_vc4_dev(connector->dev);
-> -	const struct drm_edid *drm_edid;
->  	int ret =3D 0;
-> =20
-> -	/*
-> -	 * NOTE: This function should really take vc4_hdmi->mutex, but doing so
-> -	 * results in reentrancy issues since cec_s_phys_addr() might call
-> -	 * .adap_enable, which leads to that funtion being called with our mutex
-> -	 * held.
-> -	 *
-> -	 * Concurrency isn't an issue at the moment since we don't share
-> -	 * any state with any of the other frameworks so we can ignore
-> -	 * the lock for now.
-> -	 */
-> -
-> -	drm_edid =3D drm_edid_read_ddc(connector, vc4_hdmi->ddc);
-> -	drm_edid_connector_update(connector, drm_edid);
-> -	cec_s_phys_addr(vc4_hdmi->cec_adap,
-> -			connector->display_info.source_physical_address, false);
-> -	if (!drm_edid)
-> -		return 0;
-> -
->  	ret =3D drm_edid_connector_add_modes(connector);
-> -	drm_edid_free(drm_edid);
+In the 6.1 vendor-tree I've found commits
+94e598190128 ("drm/rockchip: analogix_dp: Add support for external bridge")
+437e0a901b14 ("drm/bridge: analogix_dp: Support split mode for bridge chain")
 
-I don't think that works though, for mostly two reasons:
+needing a bit of cleanup of course, but that would get rid of the driver
+not handling the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag too.
 
- 1) We're not sure we'll even have an hotplug interrupt if the system
-    boots with the connector plugged in for example.
+With a bit of streamlining, we could maybe even get rid of the panel-part
+completely, similar to how the dw-dsi controllers do it [0]
 
- 2) afaik, the get_modes ioctl directly calls get_modes too.
 
-Maxime
+Thanks
+Heiko
 
---6occl6gdwf4rqri7
-Content-Type: application/pgp-signature; name="signature.asc"
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#n335
+devm_drm_of_get_bridge() combines drm_of_find_panel_or_bridge()
+with devm_drm_panel_bridge_add(), so indepent of it being either a
+panel or other bridge, the driver below only needs to handle bridges.
 
------BEGIN PGP SIGNATURE-----
+> Damon Ding (10):
+>   drm/rockchip: analogix_dp: Use formalized struct definition for grf
+>     field
+>   dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
+>   drm/rockchip: analogix_dp: Add support for RK3588
+>   phy: phy-rockchip-samsung-hdptx: Add support for eDP mode
+>   drm/bridge: analogix_dp: add support for RK3588
+>   drm/bridge: analogix_dp: Add support for phy configuration.
+>   dt-bindings: display: rockchip: Fix label name of hdptxphy for RK3588
+>     HDMI TX Controller
+>   arm64: dts: rockchip: Fix label name of hdptxphy for RK3588
+>   arm64: dts: rockchip: Add eDP0 node for RK3588
+>   arch64: dts: rockchip: Enable eDP0 display on RK3588S EVB1 board
+> 
+>  .../rockchip/rockchip,analogix-dp.yaml        |   1 +
+>  .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |   2 +-
+>  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  33 +-
+>  .../dts/rockchip/rk3588-coolpi-cm5-evb.dts    |   2 +-
+>  .../rockchip/rk3588-coolpi-cm5-genbook.dts    |   2 +-
+>  .../boot/dts/rockchip/rk3588-evb1-v10.dts     |   2 +-
+>  .../rk3588-friendlyelec-cm3588-nas.dts        |   2 +-
+>  .../arm64/boot/dts/rockchip/rk3588-jaguar.dts |   2 +-
+>  .../boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |   2 +-
+>  .../dts/rockchip/rk3588-orangepi-5-plus.dts   |   2 +-
+>  .../boot/dts/rockchip/rk3588-rock-5b.dts      |   2 +-
+>  .../boot/dts/rockchip/rk3588-tiger-haikou.dts |   2 +-
+>  .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   2 +-
+>  .../boot/dts/rockchip/rk3588s-evb1-v10.dts    |  84 ++
+>  .../dts/rockchip/rk3588s-indiedroid-nova.dts  |   2 +-
+>  .../boot/dts/rockchip/rk3588s-nanopi-r6.dtsi  |   2 +-
+>  .../boot/dts/rockchip/rk3588s-odroid-m2.dts   |   2 +-
+>  .../boot/dts/rockchip/rk3588s-orangepi-5.dtsi |   2 +-
+>  .../boot/dts/rockchip/rk3588s-rock-5a.dts     |   2 +-
+>  .../boot/dts/rockchip/rk3588s-rock-5c.dts     |   2 +-
+>  .../drm/bridge/analogix/analogix_dp_core.c    |   8 +-
+>  .../drm/bridge/analogix/analogix_dp_core.h    |   2 +
+>  .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  90 ++
+>  .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 112 ++-
+>  .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 936 +++++++++++++++++-
+>  include/drm/bridge/analogix_dp.h              |   3 +-
+>  26 files changed, 1206 insertions(+), 97 deletions(-)
+> 
+> 
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1MLiwAKCRAnX84Zoj2+
-dtSXAX4hYRG+Z6tKfkagtuQh3eXutsb5V7CXdnzsxAuDpcnlgOGnrNWvE/pOo221
-IbNrcU0BgKUK8Zc+sRgjwT4hMHCUzqNxA3vJPT21KIFeOFWVKptImryaMUOS4zgh
-qNsNOpDWOQ==
-=07j8
------END PGP SIGNATURE-----
 
---6occl6gdwf4rqri7--
+
+
