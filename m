@@ -2,57 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C859E67F9
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 08:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC059E680B
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 08:38:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F05E910E5E8;
-	Fri,  6 Dec 2024 07:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2945C10E07C;
+	Fri,  6 Dec 2024 07:38:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uE8BedoB";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="kFxuA8kD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0E810E5E8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 07:33:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B450B5C72DE;
- Fri,  6 Dec 2024 07:32:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FBBC4CED1;
- Fri,  6 Dec 2024 07:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733470389;
- bh=Br4Ym+uOjzwX17XYvI6sLeN1epKmjEpXyufYM9pwxpQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uE8BedoByqhdRpsz+nvWWsw9TdjmV87U11uPD4Qop8gheN7MZTHZLzp7GEq7SN1Cc
- q4jE4Utd01mmoHUmUsuEhjBtBQzY6LQqQd0c9UAoOWArRLtqkciMcWPlXNKsqSoXlf
- 8zlHorpx7x+cCDbzFPaKzYxc8I0Yx4b8NeEh2ydzLZu0w9x9l+97T9X0qjMrNUkyPn
- loJUghnwxME1X8VwvaJrduAMuSXpKvUvJofn3we2z/pFu7cS31/+0rk9CKh8VpYnhR
- hd6hpvQ+60DXYaYCziZ+37lnaPK0K/FPVBIe9wqhEeSnhSTYk40NhVNpWBk3CQaVmW
- jUW5MkLThAWeA==
-Date: Fri, 6 Dec 2024 08:33:06 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: John Stultz <jstultz@google.com>
-Cc: Andrew Davis <afd@ti.com>, Jonathan Corbet <corbet@lwn.net>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-media@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
- definitions
-Message-ID: <20241206-wealthy-hyrax-of-grandeur-ca3cba@houat>
-References: <20241202115827.50388-1-mripard@kernel.org>
- <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
- <20241203-cerulean-ringtail-of-speed-920c5f@houat>
- <f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com>
- <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="w6x675unrzbjvp2x"
-Content-Disposition: inline
-In-Reply-To: <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com
+ [209.85.128.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C347010E07C
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 07:38:33 +0000 (UTC)
+Received: by mail-yw1-f201.google.com with SMTP id
+ 00721157ae682-6efed40a5bcso883627b3.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 23:38:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1733470712; x=1734075512;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:mime-version:message-id:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=SLJxxCZMQjxFHfpRLUoPsE0Pog5U57DZgoMGmPXxLis=;
+ b=kFxuA8kD4b6I2VGeQdlutUbRwMZIZx2PmboB6+Y87rZWXuce/nUE6N1LcnYkywBKAv
+ J7PI7TmxhR9OMMshSbv/zYuHtLb6tCqqGdCWM54+LQLjznT3viTlo22VvFXAYm6u2IvT
+ 2khYb14Q3VH4/HxFriS8ghJBy9YGuJeFyce4/p+MgIcBdSr2lyAkgVezYYkTvrdcUQ5K
+ 1R3d1TdL8Z2YynY4vnQMZvc1x6MrlK7I7K30kk5NYMgoXU1ka7II0IeGrD9Ux52T8Hlc
+ 787Mjs8MlZUjDtAZe6yjWf27f7y/n9iL1UDCATPmVzXvkGCc/YnxlMQo9lDlzx5+cARt
+ JByA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733470712; x=1734075512;
+ h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=SLJxxCZMQjxFHfpRLUoPsE0Pog5U57DZgoMGmPXxLis=;
+ b=lgRUwa/+hMwXno7DMkSCRW4ZccBFGhLPRSnWQcgRIm0sJ/1Q6SSNHEDi7F0A8pZ/5F
+ 9dmkct5LDmc6xjUBy0PqLJ9beH4ohV+j1RIVkLOerE8x71lAr8hCK1MpgZHtJk13vACW
+ JJmR+cwMxSdVNt0jV49zXAXEUjkiDA9LHmdfWYolb7WeNxyFU6qMpyxaXHx9mMxR1sHV
+ U4U8qbzFzHqz6/vQaw0ZjEnAFeZG6ORXjpd0lBP7f2Nm9bSs7IqAumpD8lwN+td/yQLX
+ Md+hGY3Tx2DtK7h3g+EpfOvZmGwxGtx6DawJ3/9lZI55AOGBc27bMy62vVsDqpqRl4r7
+ H31w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVdryYgODyHB136/U++NeJlzR4m20OpGCCB7hfLZ5TScM+/aPDx3LNot37WFf5qITKVmz5M/cBmFr8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4lWWjM/QA/ySmuvUwHxBK8V6kwJ7CkbPEDmDaoWzLNGT0RLQG
+ raseVL6yYU0rSzrTPmR6o6jFyTDpcjXrh3/mEgo8JfEzwjvwZmAHQ4GsIckkGsI9gYGTAPdjBJ0
+ fD8O0gg==
+X-Google-Smtp-Source: AGHT+IFHADbgNWu44wH+EjPynn/KpIRmLys7JfKxs6jd18rOnGXtQ37Irj6xBMwTLehW76cUlY5nbXBYX++6
+X-Received: from irogers.svl.corp.google.com
+ ([2620:15c:2c5:11:bff4:a354:8911:79b3])
+ (user=irogers job=sendgmr) by 2002:a25:e907:0:b0:e39:6c75:dd22 with SMTP id
+ 3f1490d57ef6-e3a0b0a8930mr3089276.2.1733470712462; Thu, 05 Dec 2024 23:38:32
+ -0800 (PST)
+Date: Thu,  5 Dec 2024 23:38:25 -0800
+Message-Id: <20241206073828.1119464-1-irogers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Subject: [PATCH v5 1/4] proc_pid_fdinfo.5: Reduce indent for most of the page
+From: Ian Rogers <irogers@google.com>
+To: Alejandro Colomar <alx@kernel.org>,
+ "G . Branden Robinson" <g.branden.robinson@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-man@vger.kernel.org, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,89 +84,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When /proc/pid/fdinfo was part of proc.5 man page the indentation made
+sense. As a standalone man page the indentation doesn't need to be so
+far over to the right. Remove the initial tagged pragraph, move the
+"since Linux 2.6.22" to a new history subsection.
 
---w6x675unrzbjvp2x
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
- definitions
-MIME-Version: 1.0
+Suggested-by: G. Branden Robinson <g.branden.robinson@gmail.com>
+---
+v5. Remove the word Since.
+v4. Since from Alejandro Colomar <alx@kernel.org> review comment.
+---
+ man/man5/proc_pid_fdinfo.5 | 51 +++++++++++++++++++-------------------
+ 1 file changed, 25 insertions(+), 26 deletions(-)
 
-On Thu, Dec 05, 2024 at 03:17:57PM -0800, John Stultz wrote:
-> On Tue, Dec 3, 2024 at 11:04=E2=80=AFAM Andrew Davis <afd@ti.com> wrote:
-> > On 12/3/24 1:44 AM, Maxime Ripard wrote:
-> > > On Mon, Dec 02, 2024 at 11:12:23AM -0800, John Stultz wrote:
-> > >> Hrm. I'm not sure I see the value in enumerating things in this way,
-> > >> it seems like it will be a nuisance to keep current?  Maybe something
-> > >> like:
-> > >>
-> > >> On most systems the default cma region is named "linux, cma" or
-> > >> "reserved", with a few exceptions:
-> > >>      - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
-> > >
-> > > I'm a bit worried about doing so. What if, on a "linux,cma" system, we
-> > > have another "reserved" heap created with different semantics?
-> > >
-> >
-> > Having the "default CMA" heap get its dev name based on the method that
-> > created it was arguably a mistake made when first upstreaming this heap.
-> > We should fix this, then maybe add the old name as a link just for
-> > backwards compat as needed.
-> >
-> > exp_info.name =3D "default_cma";
-> >
-> > All other CMA and carveout heaps will have names based on their
-> > method of creation as there may be multiple of them, but there
-> > will only every be one "default CMA" area, and its heap should
-> > be named to match.
->=20
-> This seems reasonable to me. Maybe putting the link creation behind a
-> compatibility config so they can be later deprecated?
+diff --git a/man/man5/proc_pid_fdinfo.5 b/man/man5/proc_pid_fdinfo.5
+index 1e23bbe02..1c6c38423 100644
+--- a/man/man5/proc_pid_fdinfo.5
++++ b/man/man5/proc_pid_fdinfo.5
+@@ -8,8 +8,6 @@
+ .SH NAME
+ /proc/pid/fdinfo/ \- information about file descriptors
+ .SH DESCRIPTION
+-.TP
+-.IR /proc/ pid /fdinfo/ " (since Linux 2.6.22)"
+ This is a subdirectory containing one entry for each file which the
+ process has open, named by its file descriptor.
+ The files in this directory are readable only by the owner of the process.
+@@ -17,9 +15,9 @@ The contents of each file can be read to obtain information
+ about the corresponding file descriptor.
+ The content depends on the type of file referred to by the
+ corresponding file descriptor.
+-.IP
++.P
+ For regular files and directories, we see something like:
+-.IP
++.P
+ .in +4n
+ .EX
+ .RB "$" " cat /proc/12015/fdinfo/4"
+@@ -28,7 +26,7 @@ flags:  01002002
+ mnt_id: 21
+ .EE
+ .in
+-.IP
++.P
+ The fields are as follows:
+ .RS
+ .TP
+@@ -51,7 +49,6 @@ this field incorrectly displayed the setting of
+ at the time the file was opened,
+ rather than the current setting of the close-on-exec flag.
+ .TP
+-.I
+ .I mnt_id
+ This field, present since Linux 3.15,
+ .\" commit 49d063cb353265c3af701bab215ac438ca7df36d
+@@ -59,13 +56,13 @@ is the ID of the mount containing this file.
+ See the description of
+ .IR /proc/ pid /mountinfo .
+ .RE
+-.IP
++.P
+ For eventfd file descriptors (see
+ .BR eventfd (2)),
+ we see (since Linux 3.8)
+ .\" commit cbac5542d48127b546a23d816380a7926eee1c25
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -74,16 +71,16 @@ mnt_id:	10
+ eventfd\-count:               40
+ .EE
+ .in
+-.IP
++.P
+ .I eventfd\-count
+ is the current value of the eventfd counter, in hexadecimal.
+-.IP
++.P
+ For epoll file descriptors (see
+ .BR epoll (7)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -93,7 +90,7 @@ tfd:        9 events:       19 data: 74253d2500000009
+ tfd:        7 events:       19 data: 74253d2500000007
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning
+ .I tfd
+ describes one of the file descriptors being monitored via
+@@ -110,13 +107,13 @@ descriptor.
+ The
+ .I data
+ field is the data value associated with this file descriptor.
+-.IP
++.P
+ For signalfd file descriptors (see
+ .BR signalfd (2)),
+ we see (since Linux 3.8)
+ .\" commit 138d22b58696c506799f8de759804083ff9effae
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -125,7 +122,7 @@ mnt_id:	10
+ sigmask:	0000000000000006
+ .EE
+ .in
+-.IP
++.P
+ .I sigmask
+ is the hexadecimal mask of signals that are accepted via this
+ signalfd file descriptor.
+@@ -135,12 +132,12 @@ and
+ .BR SIGQUIT ;
+ see
+ .BR signal (7).)
+-.IP
++.P
+ For inotify file descriptors (see
+ .BR inotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -150,7 +147,7 @@ inotify wd:2 ino:7ef82a sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8
+ inotify wd:1 ino:192627 sdev:800001 mask:800afff ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:27261900802dfd73
+ .EE
+ .in
+-.IP
++.P
+ Each of the lines beginning with "inotify" displays information about
+ one file or directory that is being monitored.
+ The fields in this line are as follows:
+@@ -168,19 +165,19 @@ The ID of the device where the target file resides (in hexadecimal).
+ .I mask
+ The mask of events being monitored for the target file (in hexadecimal).
+ .RE
+-.IP
++.P
+ If the kernel was built with exportfs support, the path to the target
+ file is exposed as a file handle, via three hexadecimal fields:
+ .IR fhandle\-bytes ,
+ .IR fhandle\-type ,
+ and
+ .IR f_handle .
+-.IP
++.P
+ For fanotify file descriptors (see
+ .BR fanotify (7)),
+ we see (since Linux 3.8)
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:	0
+@@ -190,7 +187,7 @@ fanotify flags:0 event\-flags:88002
+ fanotify ino:19264f sdev:800001 mflags:0 mask:1 ignored_mask:0 fhandle\-bytes:8 fhandle\-type:1 f_handle:4f261900a82dfd73
+ .EE
+ .in
+-.IP
++.P
+ The fourth line displays information defined when the fanotify group
+ was created via
+ .BR fanotify_init (2):
+@@ -210,7 +207,7 @@ argument given to
+ .BR fanotify_init (2)
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ Each additional line shown in the file contains information
+ about one of the marks in the fanotify group.
+ Most of these fields are as for inotify, except:
+@@ -228,16 +225,16 @@ The events mask for this mark
+ The mask of events that are ignored for this mark
+ (expressed in hexadecimal).
+ .RE
+-.IP
++.P
+ For details on these fields, see
+ .BR fanotify_mark (2).
+-.IP
++.P
+ For timerfd file descriptors (see
+ .BR timerfd (2)),
+ we see (since Linux 3.17)
+ .\" commit af9c4957cf212ad9cf0bee34c95cb11de5426e85
+ the following fields:
+-.IP
++.P
+ .in +4n
+ .EX
+ pos:    0
+@@ -296,5 +293,7 @@ fields contain the values that
+ .BR timerfd_gettime (2)
+ on this file descriptor would return.)
+ .RE
++.SH HISTORY
++Linux 2.6.22.
+ .SH SEE ALSO
+ .BR proc (5)
+-- 
+2.47.0.338.g60cca15819-goog
 
-That sounds reasonable to me too. However, I'm not sure how to create a
-symlink in devtmpfs from the kernel. Or maybe we should create a second
-device file with the same major / minor?
-
-> That said, while I understand the impulse to want to fix the heap
-> names so applications can depend on them, I also want to caution it's
-> a little bit like trying to hard code eth0 as a network device name in
-> your scripts.  There are too many potential configurations, and any
-> fixed mapping is going to break in some cases.
-
-I certainly don't want to spark *that* discussion again, but it's
-exactly why I wasn't convinced about the names providing the guarantees
-back in Plumbers. I definitely agree with you there that the situation
-is kind of messy already, and it will only get worse.
-
-It will be really hard to document, and if we can't document it,
-userspace can't rely on guarantees either.
-
-> I think there is just going to have to be some (gralloc-like)
-> device-specific configuration glue to map a pipeline/use-case to the
-> memory type (similar to fstab for filesystem to mount points) in order
-> to handle every case.
-
-That might work for Android, but it really doesn't for anything more
-generic than that.
-
-> So if I'm being a little squirrely on fixed names, it's mostly due to
-> wanting to avoid anyone getting the mistaken impression that fixed
-> mappings will generally work.
-
-Ack :)
-Maxime
-
---w6x675unrzbjvp2x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1KosQAKCRAnX84Zoj2+
-ds/mAYC5oull8D+NhsZeCjJbs/mJRi1Y1zq/Mnhb0orpy9wyHHtCo3KrcFCnkiaj
-rUeJBjABgNA9DcsfGkKd8Qls0c/K42LeX5GkSBdFVlo30WUjrWr+u9Nt/JBW9oPk
-4+etnwsr0g==
-=NN+l
------END PGP SIGNATURE-----
-
---w6x675unrzbjvp2x--
