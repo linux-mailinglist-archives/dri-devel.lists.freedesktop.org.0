@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7ED9E61B2
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 01:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3D99E61B9
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 01:07:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 720F510EFE7;
-	Fri,  6 Dec 2024 00:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D02B410EFE8;
+	Fri,  6 Dec 2024 00:07:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="x3izjmvN";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="R3mjPz72";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFDEA10EFE7
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 00:06:41 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-53e29c00ff2so540093e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 16:06:41 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC58D10EFE8
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 00:07:36 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-53e274f149fso1595681e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 16:07:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733443600; x=1734048400;
+ d=google.com; s=20230601; t=1733443655; x=1734048455;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GqZWstnvS5M7KlsauJVlhYbS8zK4ZfCAjPX+o2siRvQ=;
- b=x3izjmvNVH+qz/VmxNNi9WqfNAI05vxblSqfwvT4KsZ8pE42Ysz8yzjJ/B6FleUoNK
- JSNOgNkQOWHtZ1N9UnFqdcXTyumaO7i6J9Aj+LnZXKKgVxr76vn4JCqH0kAdb4VAD0gY
- yF+22tcODaiaLePtOvO4nkAcs73UtMz517dskj0jR9FDWPrAzQcHD2bwyZ7rZnzBnxvt
- +jeadwtlZDSyBEWz+MPs77Jr/QImj2UikG2stFnwdiT0mG9sfnfbDPx1d52t0EIR87vI
- SroPoN93l4zhMBiDGGwSCUoVIJKliV984ElBBEMqOFWw4LRTY8aLyzCNpgxTOaC8OT3a
- EOuw==
+ bh=blIrJbErtJBhmg6i7GQdINtKp/1t5xm0HORWyHzR8zA=;
+ b=R3mjPz72Yw9gtgRm813lutWkRFwvGGUeApLWebT0jkEJ6hTidEM4bpQ4Ur4L1OsrfB
+ EIV4iEUziiMPZFWv1J2kOGqophESG6a4vtoh7z14QxY6rod5wUuktA82kRJxZjuwUmyG
+ gX+Czi99HwjxlX8NKQYJX5qiIPFVFfRSMFzYRsy/KWucuAIth0vX+SB4bLFQCUgEdXYs
+ ozfs5y1vSUP8vKHIC6BddI6a2rpSWDgFroA1iwArXT2nYRkpkDVL3xVeX+dmYrIlAUY4
+ sJ3lR7eh6N9mirRYQb5K8Pgtvgc+2TFUNNev+LsN2Te9l5A2ZouZeEP6fS32k69oBYq5
+ KRsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733443600; x=1734048400;
+ d=1e100.net; s=20230601; t=1733443655; x=1734048455;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GqZWstnvS5M7KlsauJVlhYbS8zK4ZfCAjPX+o2siRvQ=;
- b=J3dN7aIeeCPRwdJqOn2zfVAMtZVe8lLeiu4yepCDh0702OoK3AF/nq58JaSbO3zgk/
- i8iP6fUHs24mBRi+HMdGR64adSZ2nnwk+5AyMfWJjaGNVj7Co6JZFktTNoLmoyuGGrNm
- pi5R8pZ4srNTYxmy2LjgTAg/glNp435HVztbEn6tTjX6AEzD9iKraV7wROuCW/qns5ms
- mXaOUl0o7ZEJ+jr55+Ia5M3jvHjZ1l9s07ulBLskVyALkeElP618p5q6Aw17WYRpMmu8
- yVddlytgGScRkzOTaI0m9I4OCZaf6EkBnvcLq2kzoGrcRRGfzlzyubLa+ux/d196U6pq
- 25Zg==
+ bh=blIrJbErtJBhmg6i7GQdINtKp/1t5xm0HORWyHzR8zA=;
+ b=A4jTakGXKXcZPzsmMuODT6OJa0nbJC180HJjLlsY6jaSqHCDLJtAX4QMT7iSS8oOZf
+ axTFApHPajno6qnCVSpmnC29MB3Se6OA/13djVvRo/wJuJ981IFHAF6wO0DVLmZxM95G
+ c/2yjz3Uq93HYjAWWp5DXKvONJi30Hzjtmq1fnFzrhLTugS6kYfT9EnzDCDoG4UJuy0H
+ 7da+t6o+VB+ipY414zeQ/cSGab4Vsv4Qrr+w7+f16jHgTajxJYXtVmLrO3cZKMPbT34T
+ 7gfpaiybNgV+/k0z1wyZIn4WismlCr0WdtKBnG6x/GM0zBlT3QkcaCPoWtbCK3Ul5UAt
+ mbuA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyhq/oRl2PYn5Xxq+DLawZLyG2zuFYrces8H/h5YQ+7fm4pL3I6YeZfNaWpoVDxyZF8uDKcUk0VUE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwM0fa3V/zuvsPhE/fuaUzVfClSbumh7aUxQl10uJEVn9UOgmZy
- Oql9uyUDB49lLDZfgPgv1jclvynuqYznEsDrDA5pmA/t/LUaaJz5LEYFcPvibOJ9+zE1RparCqz
- l8TfwsZJ2zSkVPKMBPKdi6IfJqpjMgP/CLRmF
-X-Gm-Gg: ASbGncss/XUzumKpi4xnmBf9msF4GB/xRN6hoxwSuJsw1fPB8KK8ALHlA9ryKgk/5qr
- mfNSULDSa1iwgCfetiK4PWE9aN4X3Mw==
-X-Google-Smtp-Source: AGHT+IFMKCgNjf7EuTIfzy1U+mxlTHH4A6RijBLU54vNTWXHVXJQWJqIB/kHPOOCzpMc5RVjG0prBUt0JknyJqn08+E=
-X-Received: by 2002:a05:6512:4024:b0:52f:ca2b:1d33 with SMTP id
- 2adb3069b0e04-53e2c2b8f76mr213110e87.20.1733443599437; Thu, 05 Dec 2024
- 16:06:39 -0800 (PST)
+ AJvYcCUJmWqVEmH+iuHvrhq9AS34jUn4UBtVFlEuaTyrrxZnHftUEREAtmXY87GbqSG2n0FrMR/BG6REWzw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLVEZSBEnRHF7A2mzOS3bmksHISGfX2y4c2NH1olIGTdOpfLRu
+ 1Dpyd8MqmYh+b92+MHGr2HVKemdywpR4XWUDdnAFatAulbFZTe1RDiItAYESXL3FlIzE+/8MPUO
+ 7ccnFjleAMIenRjGOzQZBpxIwhvXHoRtAr1ML
+X-Gm-Gg: ASbGncvJLLrR3BHt3VGUfLYyDXlpBxaNZV/ExUk44Z7QxA4hd7Sfc4aVCXJL+7gRrLY
+ PerXj1YczXsJ3WFGVhqsAl7L9ebGhdw==
+X-Google-Smtp-Source: AGHT+IGwkB+5shyB5Uw7Uf9fUCWUSk4ghNB6iVijhuSWeVK3ZvAmFf8V/NY25l5TehZEnnHMKB1Y4S3fEVzEwkI2dcY=
+X-Received: by 2002:a05:6512:220c:b0:539:e65a:8a71 with SMTP id
+ 2adb3069b0e04-53e2c2c1873mr420862e87.34.1733443654651; Thu, 05 Dec 2024
+ 16:07:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20241204221726.2247988-1-sashal@kernel.org>
- <20241204221726.2247988-8-sashal@kernel.org>
-In-Reply-To: <20241204221726.2247988-8-sashal@kernel.org>
+References: <20241204221627.2247598-1-sashal@kernel.org>
+ <20241204221627.2247598-8-sashal@kernel.org>
+In-Reply-To: <20241204221627.2247598-8-sashal@kernel.org>
 From: Saravana Kannan <saravanak@google.com>
-Date: Thu, 5 Dec 2024 16:06:02 -0800
-Message-ID: <CAGETcx8bhzGZKge4qfpNR8FaTWqbo0-5J9c7whc3pn-RECJs3Q@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 6.11 08/15] drm: display: Set fwnode for aux bus
+Date: Thu, 5 Dec 2024 16:06:58 -0800
+Message-ID: <CAGETcx-8nwfbCHN7zG7XuOM+CRevEU6M8fqaw1H4h+yz-H2BoQ@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.12 08/15] drm: display: Set fwnode for aux bus
  devices
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
@@ -73,8 +73,8 @@ Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  maarten.lankhorst@linux.intel.com, 
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- matthias.bgg@gmail.com, elder@kernel.org, ricardo@marliere.net, 
- sumit.garg@linaro.org, dri-devel@lists.freedesktop.org, 
+ matthias.bgg@gmail.com, elder@kernel.org, sumit.garg@linaro.org, 
+ ricardo@marliere.net, dri-devel@lists.freedesktop.org, 
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -93,7 +93,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 4, 2024 at 3:29=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
+On Wed, Dec 4, 2024 at 3:28=E2=80=AFPM Sasha Levin <sashal@kernel.org> wrot=
 e:
 >
 > From: Saravana Kannan <saravanak@google.com>
@@ -122,15 +122,7 @@ a.com>
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-As mentioned in the original cover letter:
-
-PSA: Do not pull any of these patches into stable kernels. fw_devlink
-had a lot of changes that landed in the last year. It's hard to ensure
-cherry-picks have picked up all the dependencies correctly. If any of
-these really need to get cherry-picked into stable kernels, cc me and
-wait for my explicit Ack.
-
-Is there a pressing need for this in 4.19?
+I'm okay pulling this into 6.12 as it's recent enough.
 
 -Saravana
 
