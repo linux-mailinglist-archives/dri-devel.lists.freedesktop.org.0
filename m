@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D809E61AC
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 01:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7ED9E61B2
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 01:06:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE5110EFE6;
-	Fri,  6 Dec 2024 00:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 720F510EFE7;
+	Fri,  6 Dec 2024 00:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="tW2coqxF";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="x3izjmvN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2487B10EFE6
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 00:06:15 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53ded167ae3so1498579e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 16:06:15 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFDEA10EFE7
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 00:06:41 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-53e29c00ff2so540093e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Dec 2024 16:06:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733443573; x=1734048373;
+ d=google.com; s=20230601; t=1733443600; x=1734048400;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=d3TPBP6t+GJK9sLABw7iuDGZ/6x8FUIQxd10a+gfRfo=;
- b=tW2coqxFxu9R5cIIpG9LBhJg91zCUjaMuBS2ZCr22EHeFTD8zA89JSWBxR+984WyEe
- Km3K+oAMSJsaogHBd6BpJo+KyXgHMa6FA9DfqVDwNaBXAaxHZV28f8Q4ipb1xFNdQSRf
- QDzazNDiQIIHmLo+yQTkakM+3/p4Kh7bhOaMJA4IBVgueTtZnaTbHppS+OcSx7bXqUKR
- izH6zbHe3ed1sCs3SJyWhHOeIs10yKk5scwTCkpOFHr9wL3BB61JEQfEQhunTqfhrRye
- 5MOcVsVshEsNIYoOy5doZbJr81bNHD7NRKxy4E2a3O/DSKMlzk2cfcI4NSVgR9lELwmr
- 3L9A==
+ bh=GqZWstnvS5M7KlsauJVlhYbS8zK4ZfCAjPX+o2siRvQ=;
+ b=x3izjmvNVH+qz/VmxNNi9WqfNAI05vxblSqfwvT4KsZ8pE42Ysz8yzjJ/B6FleUoNK
+ JSNOgNkQOWHtZ1N9UnFqdcXTyumaO7i6J9Aj+LnZXKKgVxr76vn4JCqH0kAdb4VAD0gY
+ yF+22tcODaiaLePtOvO4nkAcs73UtMz517dskj0jR9FDWPrAzQcHD2bwyZ7rZnzBnxvt
+ +jeadwtlZDSyBEWz+MPs77Jr/QImj2UikG2stFnwdiT0mG9sfnfbDPx1d52t0EIR87vI
+ SroPoN93l4zhMBiDGGwSCUoVIJKliV984ElBBEMqOFWw4LRTY8aLyzCNpgxTOaC8OT3a
+ EOuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733443573; x=1734048373;
+ d=1e100.net; s=20230601; t=1733443600; x=1734048400;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=d3TPBP6t+GJK9sLABw7iuDGZ/6x8FUIQxd10a+gfRfo=;
- b=CoEUj/FRZPLW6CtljOg4ZZ2Hh7mNrV+7TKFV6Fu0xHhJ2i2ySFVQ8PiFZG2fpahg70
- 981pArlWCfUGjrdLIpYsXnNxTIRuDcRAOWYGIRSkK2yLZaewvhxkEy+Bi8YSNf6WmHyx
- 4OcOFZ5ab+pCkXgr9T33wkOhwtQoruEchUmZX2vPPIsmG69srvWSsEYd5gRHN7FY9KLQ
- 9W5a5RCHfgwhmy1lXp4NpJ0yTvskXSbBowJPhsko2RWvcXDHhyWLWJaHSTYGdlHB7hiY
- OrBq+XRT2ahSBvl4HbL6pWo/53qMAKjDu4MCrJL+uRU2Itx/jzDcAT0mVEf/Fl7rtp5b
- QUWw==
+ bh=GqZWstnvS5M7KlsauJVlhYbS8zK4ZfCAjPX+o2siRvQ=;
+ b=J3dN7aIeeCPRwdJqOn2zfVAMtZVe8lLeiu4yepCDh0702OoK3AF/nq58JaSbO3zgk/
+ i8iP6fUHs24mBRi+HMdGR64adSZ2nnwk+5AyMfWJjaGNVj7Co6JZFktTNoLmoyuGGrNm
+ pi5R8pZ4srNTYxmy2LjgTAg/glNp435HVztbEn6tTjX6AEzD9iKraV7wROuCW/qns5ms
+ mXaOUl0o7ZEJ+jr55+Ia5M3jvHjZ1l9s07ulBLskVyALkeElP618p5q6Aw17WYRpMmu8
+ yVddlytgGScRkzOTaI0m9I4OCZaf6EkBnvcLq2kzoGrcRRGfzlzyubLa+ux/d196U6pq
+ 25Zg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVVMw7T4BucvWAwoWGS3hhmVExaVYzJmrMzZ4Oxd1Z8P0jPQTaUvukMiRySGyFimCrWA6ztJB9mLVE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7obL8nU8tPARoYiAluOamfrUmAWxEEl6oha9lIA1zOT1NwSwc
- soU/Hx4cbkgI8wxVZF+eSj6v+HO4Dkw3QooIRPaYqxEqM2xF6cfqDB58K5LgcoL2wcCOuXKOfVu
- JMFrvgvyH5xl5xmQXJ8GtxJTFfAj4DLoaxH1d
-X-Gm-Gg: ASbGncuCztHD/EHz2DpitiQmGux0utBh4Bnx3FTJq/Gt1g96qhmLUanD8mLwSMHVjCO
- 5LSNKR5cuaKfCvr75ywWa8fMLPbPrVA==
-X-Google-Smtp-Source: AGHT+IENUCJT3jmuSq+uuBSoJsgvgSBDBHg4ob0uMlJQb0PpgFG3hX9cyDh1XGO4hDnpY6OiQOw6us+nrtPgXeARTyM=
-X-Received: by 2002:a05:6512:104e:b0:53e:2116:fd2f with SMTP id
- 2adb3069b0e04-53e2c2ba477mr238894e87.24.1733443573131; Thu, 05 Dec 2024
- 16:06:13 -0800 (PST)
+ AJvYcCVyhq/oRl2PYn5Xxq+DLawZLyG2zuFYrces8H/h5YQ+7fm4pL3I6YeZfNaWpoVDxyZF8uDKcUk0VUE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwM0fa3V/zuvsPhE/fuaUzVfClSbumh7aUxQl10uJEVn9UOgmZy
+ Oql9uyUDB49lLDZfgPgv1jclvynuqYznEsDrDA5pmA/t/LUaaJz5LEYFcPvibOJ9+zE1RparCqz
+ l8TfwsZJ2zSkVPKMBPKdi6IfJqpjMgP/CLRmF
+X-Gm-Gg: ASbGncss/XUzumKpi4xnmBf9msF4GB/xRN6hoxwSuJsw1fPB8KK8ALHlA9ryKgk/5qr
+ mfNSULDSa1iwgCfetiK4PWE9aN4X3Mw==
+X-Google-Smtp-Source: AGHT+IFMKCgNjf7EuTIfzy1U+mxlTHH4A6RijBLU54vNTWXHVXJQWJqIB/kHPOOCzpMc5RVjG0prBUt0JknyJqn08+E=
+X-Received: by 2002:a05:6512:4024:b0:52f:ca2b:1d33 with SMTP id
+ 2adb3069b0e04-53e2c2b8f76mr213110e87.20.1733443599437; Thu, 05 Dec 2024
+ 16:06:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20241204221820.2248367-1-sashal@kernel.org>
- <20241204221820.2248367-4-sashal@kernel.org>
-In-Reply-To: <20241204221820.2248367-4-sashal@kernel.org>
+References: <20241204221726.2247988-1-sashal@kernel.org>
+ <20241204221726.2247988-8-sashal@kernel.org>
+In-Reply-To: <20241204221726.2247988-8-sashal@kernel.org>
 From: Saravana Kannan <saravanak@google.com>
-Date: Thu, 5 Dec 2024 16:05:35 -0800
-Message-ID: <CAGETcx9RpUz0hR-X+rO6yKRxOmrMLveU7EMSACF49kMTMqdaRg@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 6.6 04/10] drm: display: Set fwnode for aux bus
+Date: Thu, 5 Dec 2024 16:06:02 -0800
+Message-ID: <CAGETcx8bhzGZKge4qfpNR8FaTWqbo0-5J9c7whc3pn-RECJs3Q@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.11 08/15] drm: display: Set fwnode for aux bus
  devices
 To: Sasha Levin <sashal@kernel.org>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
@@ -73,8 +73,8 @@ Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  maarten.lankhorst@linux.intel.com, 
  mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- matthias.bgg@gmail.com, elder@kernel.org, sumit.garg@linaro.org, 
- ricardo@marliere.net, dri-devel@lists.freedesktop.org, 
+ matthias.bgg@gmail.com, elder@kernel.org, ricardo@marliere.net, 
+ sumit.garg@linaro.org, dri-devel@lists.freedesktop.org, 
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -140,7 +140,7 @@ Is there a pressing need for this in 4.19?
 >
 > diff --git a/drivers/gpu/drm/display/drm_dp_aux_bus.c b/drivers/gpu/drm/d=
 isplay/drm_dp_aux_bus.c
-> index 8a165be1a8214..d15c0f184983b 100644
+> index d810529ebfb6e..ec7eac6b595f7 100644
 > --- a/drivers/gpu/drm/display/drm_dp_aux_bus.c
 > +++ b/drivers/gpu/drm/display/drm_dp_aux_bus.c
 > @@ -292,7 +292,7 @@ int of_dp_aux_populate_bus(struct drm_dp_aux *aux,
