@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167239E6F1E
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 14:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B5D9E6F20
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 14:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 021B510F0CD;
-	Fri,  6 Dec 2024 13:17:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAC1A10F0D5;
+	Fri,  6 Dec 2024 13:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lLUdUYgH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="N1mHhMaE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB92A10F0D5
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 13:17:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5032210F0D5
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 13:17:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=9cnJwX5vBVA53SV+FuCCQIt4R1G+KZmMzEPipYtAiVw=; b=lLUdUYgHl5Y0uyys4NT8ZuJlMh
- UjYTgJ+H4Ek4ZTfNZbiydRI04GT/1BMcyXUv7ZLFUHYaWi/SXJXhG9bQt4aG95hkAzmNamiElXAnI
- SSQj1NNrAOzQF7f8FxhLT/USzwEUy+/Ato1jOghuncZ1s9XZX4+HORlDpVLHlJ6U1GN1gJkPHxJNs
- /0sOGkhA8WO4fhN66q4/shOiHfiYV+XRCveDOGV9pvOrfhkgjI2SB8YpCzddCnenzlDGyDVxwuaIe
- Ugwv2gCRF1ZwXIJV0Y2v28DYKkCX0Ru06Wxl03tKlIY9N20wYfUBhUPaM6XSlSUu8rEkB4wtZtoYn
- ISUh1+uQ==;
+ bh=SINW3DKIYuMLtUwv00EkdgQxf7jWNB9RNblxSXozEpM=; b=N1mHhMaEZ6jp4UYyK2z/m81bQh
+ kGvmkVXV/wqqeaO28rrrBUB3AycLqlTznXh1cpw5AXtmRM1FhH+FYjKTcMKhCmGSApH8h37OcPxlo
+ fkPbpA8Rkl92fII1GuQ4ilXId7y6dOorikaboEPR7/HsBtJF3jIkZjjd8B+C5QP4C1LBSKK6eqdVR
+ UD7mbEirxjTTVLdFr0Spz+G/7fOZ1LudTOgoOZQWaczHOyhKQ4TsdpxnYiwMShPKwe0BdA2ElGj//
+ Ad0NzI+k4HOsN+8adse2rJLzgJn9bmI3Q7EqknOb1mRMAnmxuQlGpum2vF2+C+QFj/z5r+CFHkJac
+ RATAHvdA==;
 Received: from [187.36.213.55] (helo=morissey..)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tJYCz-00HQHu-Du; Fri, 06 Dec 2024 14:17:26 +0100
+ id 1tJYD3-00HQHu-H7; Fri, 06 Dec 2024 14:17:30 +0100
 From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
 To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
@@ -39,10 +39,9 @@ To: Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
  Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH 1/4] drm/vc4: Use `drm_gem_lock_reservations()` instead of
- hard-coding
-Date: Fri,  6 Dec 2024 10:12:34 -0300
-Message-ID: <20241206131706.203324-2-mcanal@igalia.com>
+Subject: [PATCH 2/4] drm/vc4: Use DMA Resv to implement VC4 wait BO IOCTL
+Date: Fri,  6 Dec 2024 10:12:35 -0300
+Message-ID: <20241206131706.203324-3-mcanal@igalia.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241206131706.203324-1-mcanal@igalia.com>
 References: <20241206131706.203324-1-mcanal@igalia.com>
@@ -64,115 +63,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of creating internal copies of `drm_gem_lock_reservations()`
-and `drm_gem_unlock_reservations()`, use the functions provided by DRM
-GEM.
+As the BOs used by VC4 have DMA Reservation Objects attached to it,
+there is no need to use seqnos wait for the BOs availability. Instead,
+we can use `dma_gem_dma_resv_wait()`.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/vc4/vc4_gem.c | 66 ++++-------------------------------
- 1 file changed, 6 insertions(+), 60 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.h | 10 ++++++++++
+ drivers/gpu/drm/vc4/vc4_gem.c | 31 +++++++++++++++++++------------
+ 2 files changed, 29 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+index 4a078ffd9f82..03ed40ab9a93 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.h
++++ b/drivers/gpu/drm/vc4/vc4_drv.h
+@@ -924,6 +924,16 @@ struct vc4_validated_shader_info {
+ 						   (Wmax))
+ #define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
+ 
++static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
++{
++	/* nsecs_to_jiffies64() does not guard against overflow */
++	if ((NSEC_PER_SEC % HZ) != 0 &&
++	    div_u64(n, NSEC_PER_SEC) >= MAX_JIFFY_OFFSET / HZ)
++		return MAX_JIFFY_OFFSET;
++
++	return min_t(u64, MAX_JIFFY_OFFSET, nsecs_to_jiffies64(n) + 1);
++}
++
+ /* vc4_bo.c */
+ struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size);
+ struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t size,
 diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-index 22bccd69eb62..2e5477b1c73a 100644
+index 2e5477b1c73a..256af016ade0 100644
 --- a/drivers/gpu/drm/vc4/vc4_gem.c
 +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-@@ -578,19 +578,6 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
- 	}
- }
- 
--static void
--vc4_unlock_bo_reservations(struct drm_device *dev,
--			   struct vc4_exec_info *exec,
--			   struct ww_acquire_ctx *acquire_ctx)
--{
--	int i;
--
--	for (i = 0; i < exec->bo_count; i++)
--		dma_resv_unlock(exec->bo[i]->resv);
--
--	ww_acquire_fini(acquire_ctx);
--}
--
- /* Takes the reservation lock on all the BOs being referenced, so that
-  * at queue submit time we can update the reservations.
-  *
-@@ -603,54 +590,12 @@ vc4_lock_bo_reservations(struct drm_device *dev,
- 			 struct vc4_exec_info *exec,
- 			 struct ww_acquire_ctx *acquire_ctx)
+@@ -1022,11 +1022,13 @@ int
+ vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
+ 		  struct drm_file *file_priv)
  {
--	int contended_lock = -1;
- 	int i, ret;
- 	struct drm_gem_object *bo;
+-	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	int ret;
++	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 	struct drm_vc4_wait_bo *args = data;
+-	struct drm_gem_object *gem_obj;
+-	struct vc4_bo *bo;
++	unsigned long timeout_jiffies =
++		nsecs_to_jiffies_timeout(args->timeout_ns);
++	ktime_t start = ktime_get();
++	u64 delta_ns;
  
--	ww_acquire_init(acquire_ctx, &reservation_ww_class);
--
--retry:
--	if (contended_lock != -1) {
--		bo = exec->bo[contended_lock];
--		ret = dma_resv_lock_slow_interruptible(bo->resv, acquire_ctx);
--		if (ret) {
--			ww_acquire_done(acquire_ctx);
--			return ret;
--		}
+ 	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+ 		return -ENODEV;
+@@ -1034,17 +1036,22 @@ vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad != 0)
+ 		return -EINVAL;
+ 
+-	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
+-	if (!gem_obj) {
+-		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
+-		return -EINVAL;
 -	}
--
--	for (i = 0; i < exec->bo_count; i++) {
--		if (i == contended_lock)
--			continue;
--
--		bo = exec->bo[i];
--
--		ret = dma_resv_lock_interruptible(bo->resv, acquire_ctx);
--		if (ret) {
--			int j;
--
--			for (j = 0; j < i; j++) {
--				bo = exec->bo[j];
--				dma_resv_unlock(bo->resv);
--			}
--
--			if (contended_lock != -1 && contended_lock >= i) {
--				bo = exec->bo[contended_lock];
--
--				dma_resv_unlock(bo->resv);
--			}
--
--			if (ret == -EDEADLK) {
--				contended_lock = i;
--				goto retry;
--			}
--
--			ww_acquire_done(acquire_ctx);
--			return ret;
--		}
--	}
--
--	ww_acquire_done(acquire_ctx);
-+	ret = drm_gem_lock_reservations(exec->bo, exec->bo_count, acquire_ctx);
-+	if (ret)
-+		return ret;
+-	bo = to_vc4_bo(gem_obj);
++	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
++				    true, timeout_jiffies);
  
- 	/* Reserve space for our shared (read-only) fence references,
- 	 * before we commit the CL to the hardware.
-@@ -660,7 +605,8 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+-	ret = vc4_wait_for_seqno_ioctl_helper(dev, bo->seqno,
+-					      &args->timeout_ns);
++	/* Decrement the user's timeout, in case we got interrupted
++	 * such that the ioctl will be restarted.
++	 */
++	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
++	if (delta_ns < args->timeout_ns)
++		args->timeout_ns -= delta_ns;
++	else
++		args->timeout_ns = 0;
++
++	/* Asked to wait beyond the jiffy/scheduler precision? */
++	if (ret == -ETIME && args->timeout_ns)
++		ret = -EAGAIN;
  
- 		ret = dma_resv_reserve_fences(bo->resv, 1);
- 		if (ret) {
--			vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
-+			drm_gem_unlock_reservations(exec->bo, exec->bo_count,
-+						    acquire_ctx);
- 			return ret;
- 		}
- 	}
-@@ -708,7 +654,7 @@ vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
- 
- 	vc4_update_bo_seqnos(exec, seqno);
- 
--	vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
-+	drm_gem_unlock_reservations(exec->bo, exec->bo_count, acquire_ctx);
- 
- 	list_add_tail(&exec->head, &vc4->bin_job_list);
+-	drm_gem_object_put(gem_obj);
+ 	return ret;
+ }
  
 -- 
 2.47.1
