@@ -2,64 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9109E67CB
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 08:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87C859E67F9
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 08:33:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D80B110E432;
-	Fri,  6 Dec 2024 07:21:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F05E910E5E8;
+	Fri,  6 Dec 2024 07:33:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o+wG9rcY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uE8BedoB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE0110E432
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 07:21:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0E810E5E8
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 07:33:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ABE395C6F85;
- Fri,  6 Dec 2024 07:20:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F657C4CED1;
- Fri,  6 Dec 2024 07:21:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B450B5C72DE;
+ Fri,  6 Dec 2024 07:32:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7FBBC4CED1;
+ Fri,  6 Dec 2024 07:33:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733469664;
- bh=eXgkPnSuV1DLMSpxicSxCmpRMc11qSId1Ps39ZgC62E=;
+ s=k20201202; t=1733470389;
+ bh=Br4Ym+uOjzwX17XYvI6sLeN1epKmjEpXyufYM9pwxpQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o+wG9rcYnotlrUeuc0PL7wpQWKlXXxbgXtHgvJy7YCCwHVZ9BkccRLmauWqsz+ZV/
- iY49BGCvaEwufLj74wUd4KOO2j4hv4jUIw8urqblrYMJBpAv6CgCbIU/8R6GyV73VK
- 9c58t+wda7Myy5qJF2WzOXzK3/BQJ0i/AkjHXsZFMr7s3vepRv5asoxKqYToTl/hYB
- VNEio9U05OacRjqjaygqmLG9eUZQ17GF0aovEsH5OsM54NY9ccCb7HeNz79C2xEmMj
- yLXMkRkJbjJNx0ViCQboZDxE2VKg3DG3+oa6CDnctzD5D0J8giHgftdS96ghXZOqUx
- A94yQD2wKTalw==
-Date: Fri, 6 Dec 2024 08:21:01 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-sound@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org,
- linux-cxl@vger.kernel.org, 
- linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, 
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-media@vger.kernel.org, 
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, 
- open-iscsi@googlegroups.com, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, 
- netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-Message-ID: <7ylfj462lf6g3ej6d2cmsxadawsmajogbimi7cl4pjemb7df4h@snr73pd7vaid>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+ b=uE8BedoByqhdRpsz+nvWWsw9TdjmV87U11uPD4Qop8gheN7MZTHZLzp7GEq7SN1Cc
+ q4jE4Utd01mmoHUmUsuEhjBtBQzY6LQqQd0c9UAoOWArRLtqkciMcWPlXNKsqSoXlf
+ 8zlHorpx7x+cCDbzFPaKzYxc8I0Yx4b8NeEh2ydzLZu0w9x9l+97T9X0qjMrNUkyPn
+ loJUghnwxME1X8VwvaJrduAMuSXpKvUvJofn3we2z/pFu7cS31/+0rk9CKh8VpYnhR
+ hd6hpvQ+60DXYaYCziZ+37lnaPK0K/FPVBIe9wqhEeSnhSTYk40NhVNpWBk3CQaVmW
+ jUW5MkLThAWeA==
+Date: Fri, 6 Dec 2024 08:33:06 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: John Stultz <jstultz@google.com>
+Cc: Andrew Davis <afd@ti.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, "T.J. Mercier" <tjmercier@google.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-media@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
+ definitions
+Message-ID: <20241206-wealthy-hyrax-of-grandeur-ca3cba@houat>
+References: <20241202115827.50388-1-mripard@kernel.org>
+ <CANDhNCpTnc6=YkjQgQngRCw1_xLWgOFrcjTxrrGX+bRhvGb5DQ@mail.gmail.com>
+ <20241203-cerulean-ringtail-of-speed-920c5f@houat>
+ <f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com>
+ <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="owd7bvwanf7sxd4s"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="w6x675unrzbjvp2x"
 Content-Disposition: inline
-In-Reply-To: <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+In-Reply-To: <CANDhNCqtMUaO4Y_7UYGJebDEdN==vTAQRexuuek5SZt5rqd8sQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,63 +69,88 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---owd7bvwanf7sxd4s
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--w6x675unrzbjvp2x
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
+Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add heap name
+ definitions
 MIME-Version: 1.0
 
-Hello,
-
-On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
+On Thu, Dec 05, 2024 at 03:17:57PM -0800, John Stultz wrote:
+> On Tue, Dec 3, 2024 at 11:04=E2=80=AFAM Andrew Davis <afd@ti.com> wrote:
+> > On 12/3/24 1:44 AM, Maxime Ripard wrote:
+> > > On Mon, Dec 02, 2024 at 11:12:23AM -0800, John Stultz wrote:
+> > >> Hrm. I'm not sure I see the value in enumerating things in this way,
+> > >> it seems like it will be a nuisance to keep current?  Maybe something
+> > >> like:
+> > >>
+> > >> On most systems the default cma region is named "linux, cma" or
+> > >> "reserved", with a few exceptions:
+> > >>      - Allwinner sun4i, sun5i and sun7i families: ``default-pool``
+> > >
+> > > I'm a bit worried about doing so. What if, on a "linux,cma" system, we
+> > > have another "reserved" heap created with different semantics?
+> > >
+> >
+> > Having the "default CMA" heap get its dev name based on the method that
+> > created it was arguably a mistake made when first upstreaming this heap.
+> > We should fix this, then maybe add the old name as a link just for
+> > backwards compat as needed.
+> >
+> > exp_info.name =3D "default_cma";
+> >
+> > All other CMA and carveout heaps will have names based on their
+> > method of creation as there may be multiple of them, but there
+> > will only every be one "default CMA" area, and its heap should
+> > be named to match.
 >=20
-> Constify the following API:
-> struct device *device_find_child(struct device *dev, void *data,
-> 		int (*match)(struct device *dev, void *data));
-> To :
-> struct device *device_find_child(struct device *dev, const void *data,
->                                  device_match_t match);
-> typedef int (*device_match_t)(struct device *dev, const void *data);
-> with the following reasons:
->=20
-> - Protect caller's match data @*data which is for comparison and lookup
->   and the API does not actually need to modify @*data.
->=20
-> - Make the API's parameters (@match)() and @data have the same type as
->   all of other device finding APIs (bus|class|driver)_find_device().
->=20
-> - All kinds of existing device match functions can be directly taken
->   as the API's argument, they were exported by driver core.
->=20
-> Constify the API and adapt for various existing usages by simply making
-> various match functions take 'const void *' as type of match data @data.
+> This seems reasonable to me. Maybe putting the link creation behind a
+> compatibility config so they can be later deprecated?
 
-With the discussion that a new name would ease the conversion, maybe
-consider device_find_child_device() to also align the name (somewhat) to
-the above mentioned (bus|class|driver)_find_device()?
+That sounds reasonable to me too. However, I'm not sure how to create a
+symlink in devtmpfs from the kernel. Or maybe we should create a second
+device file with the same major / minor?
 
-Do you have a merge plan already? I guess this patch will go through
-Greg's driver core tree?
+> That said, while I understand the impulse to want to fix the heap
+> names so applications can depend on them, I also want to caution it's
+> a little bit like trying to hard code eth0 as a network device name in
+> your scripts.  There are too many potential configurations, and any
+> fixed mapping is going to break in some cases.
 
-Best regards
-Uwe
+I certainly don't want to spark *that* discussion again, but it's
+exactly why I wasn't convinced about the names providing the guarantees
+back in Plumbers. I definitely agree with you there that the situation
+is kind of messy already, and it will only get worse.
 
---owd7bvwanf7sxd4s
+It will be really hard to document, and if we can't document it,
+userspace can't rely on guarantees either.
+
+> I think there is just going to have to be some (gralloc-like)
+> device-specific configuration glue to map a pipeline/use-case to the
+> memory type (similar to fstab for filesystem to mount points) in order
+> to handle every case.
+
+That might work for Android, but it really doesn't for anything more
+generic than that.
+
+> So if I'm being a little squirrely on fixed names, it's mostly due to
+> wanting to avoid anyone getting the mistaken impression that fixed
+> mappings will generally work.
+
+Ack :)
+Maxime
+
+--w6x675unrzbjvp2x
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdSpdoACgkQj4D7WH0S
-/k4dIQf/Zne0n0ncNUTb3GbDwFv4sf3wAVH368SbrNYMV23ZdWpNl4KZPovf5L1+
-5nMlPkc2I/CBZGE2OJcZWUhHI7cZ2ZYDHBBAf/TYhsY9f0+6wXgdi2cc+bbbQpo1
-JdabxMtgPX9tQ1Rbtv6jNu1AUvx8pONwQvUe5vmIBeLFDx5+wEwm4LppEVU+x9zB
-dApq6D2VfLguHwMf8HDycoa0nd0GL3R4KIJF4+taiSmhz9q+yjewqiXD2ag3fYrF
-1IeZ6pnyXoaq0aTwLmXXhI6se14Q+IZIVQPRXVQ5i9A8kbsWN0Fj2LfXnnNWhmHl
-YR8uP+UVLcfagxTg7ascr+SuV4OlCw==
-=cpdm
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1KosQAKCRAnX84Zoj2+
+ds/mAYC5oull8D+NhsZeCjJbs/mJRi1Y1zq/Mnhb0orpy9wyHHtCo3KrcFCnkiaj
+rUeJBjABgNA9DcsfGkKd8Qls0c/K42LeX5GkSBdFVlo30WUjrWr+u9Nt/JBW9oPk
+4+etnwsr0g==
+=NN+l
 -----END PGP SIGNATURE-----
 
---owd7bvwanf7sxd4s--
+--w6x675unrzbjvp2x--
