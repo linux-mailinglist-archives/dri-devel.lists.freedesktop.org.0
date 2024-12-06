@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F6A9E7B0F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 22:35:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6659E7B11
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 22:36:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B3510E036;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC8110E138;
 	Fri,  6 Dec 2024 21:35:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b="b4d8QRXz";
+	dkim=pass (2048-bit key; secure) header.d=siemens.com header.i=alexander.sverdlin@siemens.com header.b="KpeOOK2Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 X-Greylist: delayed 602 seconds by postgrey-1.36 at gabe;
  Fri, 06 Dec 2024 21:35:51 UTC
-Received: from mta-65-226.siemens.flowmailer.net
- (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3946E10E036
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 21:35:51 +0000 (UTC)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id
- 20241206212546ababed1fe3a3bab799
+Received: from mta-65-227.siemens.flowmailer.net
+ (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED9310E138
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 21:35:50 +0000 (UTC)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id
+ 202412062125472094913a2bc3d014e6
  for <dri-devel@lists.freedesktop.org>;
  Fri, 06 Dec 2024 22:25:47 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=alexander.sverdlin@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=VGAi1Tip6Q2fjBl44Ct3hhDKQbzd+Zjis1nKE/QhpU0=;
- b=b4d8QRXzn9FuuCE3zqlVu44EwUimgwVe7VItQ6C6tI5T3mZKjoWdli/NcHkTyCdoQ2qnRu
- JDaNmcDjKbF3K0meM/DfHWlEJwjrs54K/J47u+AuyXZv5+x5nEgk5eWKpHM/MUttvRX362O1
- koa4HaEHDawYWq/COtBePJ4dMamoD9FN62g8VA78inIG3kwP3ZzakKZQHmnV6aZcOfPp6QSR
- sFX1Evod4YMLmziuE/GZy/v/FxuPVYzF3QoVLSYIcj3vrUtU8BWgWQNs1a+1L+iUAAdPzkxn
- i7CBBFSXC606rlxFi83c2wMWwtfnUNJs7pTIg8UYTx2D1dtz5RKNwrnQ==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=CxiH0k287cAwzbSPxROSkdb0BXEwY4Em53y35azAYqs=;
+ b=KpeOOK2QNOKFDjeDOB+rNC2vCLNYL0dPVk3wizVgBZfbX+rqheixuP5orNSsEVUIxzs5HO
+ EfCbeb2cl4ivd/lu3x/f2PSgnwWXEqNlyzACWuiMDIJjzf25nXldM/D2K1b8vnjPexHQpNrP
+ MTjkDsVIyJGd8KKL4UvF38bY8bqSXfONEbez8WflzV99v8g/JvagtUfWVxUqGDTuV90vAdEE
+ g+tsSQ5fzg4rZGImqRNUji2Iux5dRHgGKoPpA+2+/oWE2U37GeJBm6LmTx/19iqxBwsZkqr1
+ pWI4rkviNYeE8p/etmaFNOOp4J5uGEqR7Af3ZmcgghwFGh4wwXwQLXgg==;
 From: "A. Sverdlin" <alexander.sverdlin@siemens.com>
 To: Dan Murphy <dmurphy@ti.com>, linux-leds@vger.kernel.org,
  devicetree@vger.kernel.org
@@ -40,9 +40,12 @@ Cc: Alexander Sverdlin <alexander.sverdlin@siemens.com>,
  Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH v2 0/2] leds: TI LP8864/LP8866 support
-Date: Fri,  6 Dec 2024 22:24:17 +0100
-Message-ID: <20241206212421.1132578-1-alexander.sverdlin@siemens.com>
+Subject: [PATCH v2 1/2] dt-bindings: backlight: add TI LP8864/LP8866
+ LED-backlight drivers
+Date: Fri,  6 Dec 2024 22:24:18 +0100
+Message-ID: <20241206212421.1132578-2-alexander.sverdlin@siemens.com>
+In-Reply-To: <20241206212421.1132578-1-alexander.sverdlin@siemens.com>
+References: <20241206212421.1132578-1-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -64,34 +67,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 
-The series adds support for a family of Texas Instruments' automotive
-high-efficiency LED drivers with boost controller. The four or six
-high-precision current sinks support phase shifting that is automatically
-adjusted based on the number of channels in use. LED brightness can be
-controlled globally through the I2C interface or PWM input.
+Add bindings for Texas Instruments' LP8864/LP8866 LED-backlight drivers.
+Note that multiple channels in these models are used for load-balancing and
+brightness is controlled gobally, so from a user perspective it's only one
+LED.
 
-Add new DT bindings for ti,lp8864 to support all four software-compatible
-devices:
-- LP8864
-- LP8864S
-- LP8866
-- LP8866S
-
-Add leds class driver for these devices.
-
-Alexander Sverdlin (2):
-  dt-bindings: backlight: add TI LP8864/LP8866 LED-backlight drivers
-  leds: lp8864: New driver
-
- .../bindings/leds/backlight/ti,lp8864.yaml    |  80 +++++
- MAINTAINERS                                   |   7 +
- drivers/leds/Kconfig                          |  12 +
- drivers/leds/Makefile                         |   1 +
- drivers/leds/leds-lp8864.c                    | 320 ++++++++++++++++++
- 5 files changed, 420 insertions(+)
+Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+---
+ .../bindings/leds/backlight/ti,lp8864.yaml    | 80 +++++++++++++++++++
+ 1 file changed, 80 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
- create mode 100644 drivers/leds/leds-lp8864.c
 
+diff --git a/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml b/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+new file mode 100644
+index 0000000000000..d44232d462bde
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+@@ -0,0 +1,80 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/ti,lp8864.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments - LP8864/LP8866 4/6-Channel LED Driver family
++
++maintainers:
++  - Andrew Davis <afd@ti.com>
++  - Alexander Sverdlin <alexander.sverdlin@siemens.com>
++
++description: |
++  LP8866-Q1, LP8866S-Q1, LP8864-Q1, LP8864S-Q1 are display LED-backlight drivers
++  with 4/6 channels. LED brightness can be controlled globally through the I2C
++  interface or PWM input.
++
++  For more product information please see the links below:
++    https://www.ti.com/product/LP8864-Q1
++    https://www.ti.com/product/LP8864S-Q1
++    https://www.ti.com/product/LP8866-Q1
++    https://www.ti.com/product/LP8866S-Q1
++
++properties:
++  compatible:
++    const: ti,lp8864
++
++  reg:
++    maxItems: 1
++    description: I2C slave address
++
++  enable-gpios:
++    maxItems: 1
++    description: GPIO pin to enable (active high) / disable the device
++
++  vled-supply:
++    description: LED supply
++
++  led:
++    type: object
++    $ref: common.yaml#
++    properties:
++      function: true
++      color: true
++      label: true
++      linux,default-trigger: true
++
++    additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/leds/common.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        led-controller@3a {
++            compatible = "ti,lp8864";
++            reg = <0x3a>;
++            enable-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
++            vled-supply = <&vbatt>;
++
++            led {
++                function = LED_FUNCTION_BACKLIGHT;
++                color = <LED_COLOR_ID_WHITE>;
++                linux,default-trigger = "backlight";
++            };
++        };
++    };
++
++...
 -- 
 2.47.1
 
