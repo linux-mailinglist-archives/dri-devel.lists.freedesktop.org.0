@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A914D9E6A27
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:33:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B509E6A28
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E24FC10F04C;
-	Fri,  6 Dec 2024 09:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32DEE10F04E;
+	Fri,  6 Dec 2024 09:33:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b86zVfEA";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="P/wC+9xs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22F7E10F04C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:33:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 627CF10F04C
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:33:23 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id EEA289FC;
- Fri,  6 Dec 2024 10:32:49 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A66FBB2B;
+ Fri,  6 Dec 2024 10:32:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733477571;
- bh=avI8ClOrtHzD2SipA/Fyk+O8iRhwsleato1FpezpTWY=;
+ s=mail; t=1733477573;
+ bh=ew3Muv7MPQxqUGbM+KoQnCxBlFs7GGorAf6A+5Mac4g=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=b86zVfEA652HS/zggvjO4MBo++yhe37R+/FjEwQ3j8uacMsVe71DzJW5URW2HJ8w9
- 10xFUriP9nd1GoJ9VtVBaKnLGBkBTFW1pcIR4SMyt7wZlfx/mThjJ7gaql+yUXtx9r
- 5TGQWuuw/bh9HIPY7Z0km0MU4ctJxucGv3sqCaeE=
+ b=P/wC+9xsgr9Fyi4jwZfuFlhGQtuAzK9Yh12mW3YFj50GGwNHbvA5pqgR4Qd5ajIKv
+ pSf9VoqoVAKUSGC7LgwtpDH6wFuKfTp5+kAVHN/IdrPz280Y57D2rAntLBOFV85g8/
+ D74Pii0SyeMMQboWCszguT4I2Zk/4cvPJx5sxWD0=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 06 Dec 2024 11:32:34 +0200
-Subject: [PATCH v3 01/10] drm/rcar-du: dsi: Fix PHY lock bit check
+Date: Fri, 06 Dec 2024 11:32:35 +0200
+Subject: [PATCH v3 02/10] drm/rcar-du: Write DPTSR only if the second
+ source exists
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241206-rcar-gh-dsi-v3-1-d74c2166fa15@ideasonboard.com>
+Message-Id: <20241206-rcar-gh-dsi-v3-2-d74c2166fa15@ideasonboard.com>
 References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
 In-Reply-To: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -56,24 +57,23 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- stable@vger.kernel.org
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2124;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1836;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=oDefLvswOZixERy//YecN6qGggsNckidLEErkzhvvTE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUsTZKqBlNSAmmsuyI1/BI0pgoiWom3wicv1jq
- /dDC75fpRaJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1LE2QAKCRD6PaqMvJYe
- 9atqD/9n0Ru3e3iLbS6ZB7lQ7yUSTMw+MbnMTbWuD5CUsUL1n6/dLlvdhVGzNXIZaodZsbdBTf0
- LdU/f/N6F5/vqhD1MBMObxRR20ihRed1AN6oU3IHY9PywCGiL+IlV4b60r49v86byKw8E0CwRKB
- h+w02bqwQ9xysZ1mLzrcaELI4xEC/dzqPVpmxXClLq5WnYWvQfgimd9/NQicqYOb7EmwfGaHOlY
- LLQUSFlwKn7CqxetIojY5AAG1cOO+Rv2ovgrf8vZtHSUh6hwBU5vhDJbhCitwDfs7nWU59WpPUt
- NZPZxAywf5/X/DCW/n6OZcCihriYgceBvHOeoorHWrFHIUTPYVqTmJqFXeq5B0GYlFCZ2ascVvs
- bzqWWDPtsufsSmFwuCsxIkfLL2EKhWTumfd7bK0SOEhEN1t8NZcUvBV+F3cp3yOKLeXHosSTBlZ
- GRAy+g84/ZlElaeXZhNX3GB3SjHMmt7Cs/u9oa8KiIVUcTiQEg8dSrJurpaG+o9pyGOW/1iWbx4
- 4Ma4DNSc1offDrOHQNHChLfu+fPj6D4HY+Dg9cIgl1XTXzA0jxrGUdBCCDyWW5VnVuUrt7oV5hM
- jGa6fibrZHW+0/5Gy3y/Gi5XY2D7YGr/9jpy1VM/7PUuCs713oz5i/jo5IOdVh00gCRMOIjHw8I
- m+Be+DgwLccENCw==
+ bh=WgJUjyHVjpUZhqroUVXkYdZsN54pZDvBuc2FAqHU/bw=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUsTZv+lZt+VI6OjQT11qyLdJQuLRoD9mE8aB8
+ mMuGoSQQ0eJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1LE2QAKCRD6PaqMvJYe
+ 9fXSD/9f0Yu01vQPEZbGCiuzab8N0z2dogT/6nBDhwJAES4+i4dJFYxOworNw2WnibQg5uN+tKz
+ kvxJIpOWap7b+7myvlxDsxAn4gthYQ0d8rlGDwy9R9OVQTVHjxD7KGMV3O0oKVpZAY78CJ7xKO3
+ A5bc6bccKdjEVNxnGZWLoKz/zWLo6XSJBxp0eKvPgQGBCJ6t8PgGxs71sXjGMzfUsaWyRnjViom
+ l2wlnWiHF5O+Nh4yiR7DqknrlnsRjfR+sdwJjr+Q7QYbMOLgQSZiPaOry5FsDOunpDvxcDA+pk0
+ oveoe2CEEp23uJ/6GdYeqidSbKwfS7JYCkfQlayevhSZxs15kl++M6R23HEuYm6xeXxC2WDkIMH
+ YXHARQLivF8daMPgqH+vlpLXjGoikPGUc1InV5AR2kl/bMrq+ekoYvifPg1IEKKFKEwI3lLrNMq
+ yw7HdaZnX1bYr4mhHjGGScXQnjDS6ASsn9xYD0TvkvlCPWRGC2haEG/YEV2e7O9YWgxkWlwtuE8
+ uKaMGsh2C/KNtl7h2p+osnYybrdW5qAwsJLYZeW6Y4hkF4BqKnmva0P3zQWB1AlUN3bP6BQaKTp
+ 9HoS8m6NQmA55hICx62WAMRw1yA/FSAiJ4Wzh7gcSKamVKIyYJCB5HoK+QqKEDhTlrpOCZz58y6
+ yr/hWBws6zkXuaw==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,49 +93,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-The driver checks for bit 16 (using CLOCKSET1_LOCK define) in CLOCKSET1
-register when waiting for the PPI clock. However, the right bit to check
-is bit 17 (CLOCKSET1_LOCK_PHY define). Not only that, but there's
-nothing in the documents for bit 16 for V3U nor V4H.
+Currently the driver always writes DPTSR when setting up the hardware.
+However, writing the register is only meaningful when the second source
+for a plane is used, and the register is not even documented for SoCs
+that do not have the second source.
 
-So, fix the check to use bit 17, and drop the define for bit 16.
+So move the write behind a condition.
 
-Fixes: 155358310f01 ("drm: rcar-du: Add R-Car DSI driver")
-Fixes: 11696c5e8924 ("drm: Place Renesas drivers in a separate dir")
-Cc: stable@vger.kernel.org
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 2 +-
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-index 2dba7c5ffd2c..92f4261305bd 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-@@ -587,7 +587,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
- 	for (timeout = 10; timeout > 0; --timeout) {
- 		if ((rcar_mipi_dsi_read(dsi, PPICLSR) & PPICLSR_STPST) &&
- 		    (rcar_mipi_dsi_read(dsi, PPIDLSR) & PPIDLSR_STPST) &&
--		    (rcar_mipi_dsi_read(dsi, CLOCKSET1) & CLOCKSET1_LOCK))
-+		    (rcar_mipi_dsi_read(dsi, CLOCKSET1) & CLOCKSET1_LOCK_PHY))
- 			break;
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+index 2ccd2581f544..1ec806c8e013 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
+@@ -185,11 +185,21 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+ 		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
+ 	rcar_du_group_write(rgrp, DORCR, dorcr);
  
- 		usleep_range(1000, 2000);
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-index f8114d11f2d1..a6b276f1d6ee 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
-@@ -142,7 +142,6 @@
+-	/* Apply planes to CRTCs association. */
+-	mutex_lock(&rgrp->lock);
+-	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
+-			    rgrp->dptsr_planes);
+-	mutex_unlock(&rgrp->lock);
++	/*
++	 * DPTSR is used to select the source for the planes of a group. The
++	 * first source is chosen by writing 0 to the respective bits, and this
++	 * is always the default value of the register. In other words, writing
++	 * DPTSR is only needed if the SoC supports choosing the second source.
++	 *
++	 * The SoCs documentations seems to confirm this, as the DPTSR register
++	 * is not documented if only the first source exists on that SoC.
++	 */
++	if (rgrp->channels_mask & BIT(1)) {
++		mutex_lock(&rgrp->lock);
++		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
++				    rgrp->dptsr_planes);
++		mutex_unlock(&rgrp->lock);
++	}
+ }
  
- #define CLOCKSET1			0x101c
- #define CLOCKSET1_LOCK_PHY		(1 << 17)
--#define CLOCKSET1_LOCK			(1 << 16)
- #define CLOCKSET1_CLKSEL		(1 << 8)
- #define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
- #define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
+ /*
 
 -- 
 2.43.0
