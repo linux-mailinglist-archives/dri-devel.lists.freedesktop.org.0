@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B509E6A28
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E880F9E6A29
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:33:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32DEE10F04E;
-	Fri,  6 Dec 2024 09:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5582B10F04F;
+	Fri,  6 Dec 2024 09:33:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="P/wC+9xs";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BxV+fEbB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 627CF10F04C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:33:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2674610F04F
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:33:25 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A66FBB2B;
- Fri,  6 Dec 2024 10:32:51 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57D63FEF;
+ Fri,  6 Dec 2024 10:32:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733477573;
- bh=ew3Muv7MPQxqUGbM+KoQnCxBlFs7GGorAf6A+5Mac4g=;
+ s=mail; t=1733477574;
+ bh=7hzw0SzmxWLVIEQik4mqnwQiiO+6a15pjXhcBTuLaI8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=P/wC+9xsgr9Fyi4jwZfuFlhGQtuAzK9Yh12mW3YFj50GGwNHbvA5pqgR4Qd5ajIKv
- pSf9VoqoVAKUSGC7LgwtpDH6wFuKfTp5+kAVHN/IdrPz280Y57D2rAntLBOFV85g8/
- D74Pii0SyeMMQboWCszguT4I2Zk/4cvPJx5sxWD0=
+ b=BxV+fEbB582PIWf5iUCPlHw7fB4zMMLrZTPcbYlwQi+c0k5riprNA9zjQGR/CA7pW
+ DjdU0fAi8fFevzPz9nXglrgATYOj3i/iMxtiSc8/lHYMFrrarBQvyMTeuo5mjfWTFW
+ dNoCynoky+b1pYAM0uu75zYBUqc3sB4nFsE/1iDA=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 06 Dec 2024 11:32:35 +0200
-Subject: [PATCH v3 02/10] drm/rcar-du: Write DPTSR only if the second
- source exists
+Date: Fri, 06 Dec 2024 11:32:36 +0200
+Subject: [PATCH v3 03/10] dt-bindings: display: bridge:
+ renesas,dsi-csi2-tx: Add r8a779h0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241206-rcar-gh-dsi-v3-2-d74c2166fa15@ideasonboard.com>
+Message-Id: <20241206-rcar-gh-dsi-v3-3-d74c2166fa15@ideasonboard.com>
 References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
 In-Reply-To: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -57,23 +57,24 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1836;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1073;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=WgJUjyHVjpUZhqroUVXkYdZsN54pZDvBuc2FAqHU/bw=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUsTZv+lZt+VI6OjQT11qyLdJQuLRoD9mE8aB8
- mMuGoSQQ0eJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1LE2QAKCRD6PaqMvJYe
- 9fXSD/9f0Yu01vQPEZbGCiuzab8N0z2dogT/6nBDhwJAES4+i4dJFYxOworNw2WnibQg5uN+tKz
- kvxJIpOWap7b+7myvlxDsxAn4gthYQ0d8rlGDwy9R9OVQTVHjxD7KGMV3O0oKVpZAY78CJ7xKO3
- A5bc6bccKdjEVNxnGZWLoKz/zWLo6XSJBxp0eKvPgQGBCJ6t8PgGxs71sXjGMzfUsaWyRnjViom
- l2wlnWiHF5O+Nh4yiR7DqknrlnsRjfR+sdwJjr+Q7QYbMOLgQSZiPaOry5FsDOunpDvxcDA+pk0
- oveoe2CEEp23uJ/6GdYeqidSbKwfS7JYCkfQlayevhSZxs15kl++M6R23HEuYm6xeXxC2WDkIMH
- YXHARQLivF8daMPgqH+vlpLXjGoikPGUc1InV5AR2kl/bMrq+ekoYvifPg1IEKKFKEwI3lLrNMq
- yw7HdaZnX1bYr4mhHjGGScXQnjDS6ASsn9xYD0TvkvlCPWRGC2haEG/YEV2e7O9YWgxkWlwtuE8
- uKaMGsh2C/KNtl7h2p+osnYybrdW5qAwsJLYZeW6Y4hkF4BqKnmva0P3zQWB1AlUN3bP6BQaKTp
- 9HoS8m6NQmA55hICx62WAMRw1yA/FSAiJ4Wzh7gcSKamVKIyYJCB5HoK+QqKEDhTlrpOCZz58y6
- yr/hWBws6zkXuaw==
+ bh=dTprj9jjuLmoedubnDT5F4e9cHFBPmdT8w1PeMV2wF8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnUsTaNEBZorD2e2FGf5qufr2OT5g/o0jnoTW/d
+ 8dH5FWArfCJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ1LE2gAKCRD6PaqMvJYe
+ 9TdsD/9ykPgrcfKcefWXV1Nb9U41qlE83epgXgSTeIruwoZqkCf3/JWNyOjbXLCg79RZ9vxORK+
+ bzhQMIc1snECLh/8LgWxTAZ8hgZO2nPPUaruhTqSUbTVxld8ey239WIkPmYyBMhnm1NQXsmqREH
+ TPXfBM+4lq0AuvtiDFue8R8xpW2jiI4DAIZL5d96cBnEYJu1axHdZuXL+zHJKsyWSivBhB3Vxuu
+ BVLFXv1tOngor/H5Q0IiIidEX8V8IkNmyJf2HvqT5K8AUAi3lcmommOI6lmE0xBzszPs8L04qXB
+ iCYw7PpmDnsow5aEz1xcGRdxsH/I8+eNSOE4TeFhyR2r/1nUlenUk7PtK9t2DLldvAuRTHin8NQ
+ TpLW5grpqhxcM5IIle4qRpk96wLtuuQxZZfpzwi00lycUv+7bfoB1oV2JN8Q8cLR/ozqwU1yflF
+ kIxrMn6ZoVhs2ZldHjpzO9bISAUNiNHcbsi1bbs5gK+Z/fzUOizN5TsmJDtJwwfTWVKq/sclX0Q
+ q9ccDRRvmZXd1xfO8zNiJM/c6nLjOWCYnB5fqwQs4cn7cRjI9FB1EJZNnz9McYyxtvkpaIEYMXN
+ hwARqFmOnfBl2NacvKc7ClqM9wZ7630j8+3zds/pH/Cmx6Ti6peSZsIBPf2pg21MaZTBuil5o+U
+ N6mklpM8WwZPm4A==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,49 +94,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Currently the driver always writes DPTSR when setting up the hardware.
-However, writing the register is only meaningful when the second source
-for a plane is used, and the register is not even documented for SoCs
-that do not have the second source.
-
-So move the write behind a condition.
+Extend the Renesas DSI display bindings to support the r8a779h0 V4M.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml          | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-index 2ccd2581f544..1ec806c8e013 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c
-@@ -185,11 +185,21 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- 		dorcr |= DORCR_PG1T | DORCR_DK1S | DORCR_PG1D_DS1;
- 	rcar_du_group_write(rgrp, DORCR, dorcr);
+diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+index d33026f85e19..c167795c63f6 100644
+--- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+@@ -19,6 +19,7 @@ properties:
+     enum:
+       - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+       - renesas,r8a779g0-dsi-csi2-tx    # for V4H
++      - renesas,r8a779h0-dsi-csi2-tx    # for V4M
  
--	/* Apply planes to CRTCs association. */
--	mutex_lock(&rgrp->lock);
--	rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
--			    rgrp->dptsr_planes);
--	mutex_unlock(&rgrp->lock);
-+	/*
-+	 * DPTSR is used to select the source for the planes of a group. The
-+	 * first source is chosen by writing 0 to the respective bits, and this
-+	 * is always the default value of the register. In other words, writing
-+	 * DPTSR is only needed if the SoC supports choosing the second source.
-+	 *
-+	 * The SoCs documentations seems to confirm this, as the DPTSR register
-+	 * is not documented if only the first source exists on that SoC.
-+	 */
-+	if (rgrp->channels_mask & BIT(1)) {
-+		mutex_lock(&rgrp->lock);
-+		rcar_du_group_write(rgrp, DPTSR, (rgrp->dptsr_planes << 16) |
-+				    rgrp->dptsr_planes);
-+		mutex_unlock(&rgrp->lock);
-+	}
- }
- 
- /*
+   reg:
+     maxItems: 1
 
 -- 
 2.43.0
