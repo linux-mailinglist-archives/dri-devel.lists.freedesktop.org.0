@@ -2,68 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA45B9E77B8
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 18:52:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB839E77C7
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 19:02:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC85010F151;
-	Fri,  6 Dec 2024 17:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA1E10F159;
+	Fri,  6 Dec 2024 18:02:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fireburn-co-uk.20230601.gappssmtp.com header.i=@fireburn-co-uk.20230601.gappssmtp.com header.b="DmLxYPME";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="pppjbmu3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
- [209.85.215.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF00410F151
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 17:52:33 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id
- 41be03b00d2f7-7fbc1ca1046so2255699a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 09:52:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20230601.gappssmtp.com; s=20230601; t=1733507553; x=1734112353;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nKYHN1tDjRPCAyrZepPGpFuLMXlU8NGafq5LEoek4Ig=;
- b=DmLxYPMEVKIB9hlu204lZo/UyW81+4uSYjXy8yCCNx0ZQ03m8Kr91dgO6ajt7T2QXm
- b7+hhnUYRm5u8wtEKg348tsnTB6/jlIdUxCt6iqpcf/LtvlZtpbrn8sLWh7bDWOKRla4
- Ll/ucxj/MT4ucyIAH4zzriQOInM8qz56H9xvSwi4tKtGQU9DRCi3sd8S3pR4ZSrvAB5e
- DsaGccl9R2cmkwd8QvGOdvR05rIlskdZSDuRklASB1alKDB6d/CrrbI3ZhdHnPZWLFtG
- 7ny2lZtEGtpooydANUHbt4xKH3H5bDr7Z5icnunyNeuCPrEYydIn8s3QoaxqmH4+ZBRQ
- Uy2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733507553; x=1734112353;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=nKYHN1tDjRPCAyrZepPGpFuLMXlU8NGafq5LEoek4Ig=;
- b=JjHIE8PmBLSMwzJMDuXgEnFhCi2t2srd7Fv0gG0pvRM7ijTvGR0jQbgu4UIP/GMnL/
- eogCDqOV0OcPURNoCHRnk3lZfj35HdbkcGPqdFiWVCULBoCSsWQPHW+BnjAyT5k4aBt4
- I8VgH4GApcan8XMpgM+h4nNYyrHT9D0ev/zHry/B3Cg1E6kYmBZa7z+T512+hDXgSEYH
- m34X62pViyqxNLkQq83Ex4lNQCPSQfNbUhHdcL3b72Z15rLpolORK3ByfiWf2qJrtx3R
- 74toxHGp26qDKaGWgdkCUNPO7lv8FAHVQDzk18t+Ff+BeHv+YdG4cZYtrxpfYZlmppIM
- fjkg==
-X-Gm-Message-State: AOJu0Yzp6whGS/1tj4gUNE8VvyzfHec7U22hTnBpiFICosKrPEuAnpGT
- U3nmu05pfpipShTTOZZxhTg4n14aa9kF1ppUbA1ZNTWcq2Rq+GA9LCM+OvYrow/yumw0O81MSZ9
- fV4dLIdqA4B2HrRxDg40nr0Mlb0OCdqQMHJc6
-X-Gm-Gg: ASbGncu8mtxYOYqnE9xY2MjZrOtEXccibngrpD6m/AmIJm2GmVfoPze3D8L7N1uYgcs
- OA1BbTgI7Zj31wljfOaBTHn/Cq2qQ1JQt
-X-Google-Smtp-Source: AGHT+IH3u51CB6cyh8k9ahMRnC9pPmxqxIgQNVKfBI4jUC8TZon+ZqYMpuQ8hepzCVqYdx25g9AdleBH6vRLt6zjdEk=
-X-Received: by 2002:a17:90b:3910:b0:2ee:d797:40a4 with SMTP id
- 98e67ed59e1d1-2ef6955d53fmr6469215a91.8.1733507553348; Fri, 06 Dec 2024
- 09:52:33 -0800 (PST)
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7143B10F159
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 18:02:27 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 4B6I2HF52394970
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 6 Dec 2024 12:02:17 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1733508137;
+ bh=AB7rvt8lEDFwJ8EFWXm4qm+/wdw4f6cHzb/xxrpxAas=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=pppjbmu3TH0G3sPdDbHHVTipbIxzBMGBaOVTUtftpzsLbkyVI1fy8TsuSaWZPuiNH
+ +uZGZAEwmzi+HyeAnvwdH/t5XRZeYzGjUTz6WKGcT/W9dEYrc7SsuvzRZAcPle1aQO
+ ltm9DJVEFRwdLIPENozc4c6ENCE1T5o9wnoADPr8=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4B6I2HAL032754
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 6 Dec 2024 12:02:17 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 6
+ Dec 2024 12:02:17 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 6 Dec 2024 12:02:17 -0600
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B6I2GXk113376;
+ Fri, 6 Dec 2024 12:02:16 -0600
+Message-ID: <fa2c0961-771d-4a71-8dea-b7a3cdea6ced@ti.com>
+Date: Fri, 6 Dec 2024 12:02:16 -0600
 MIME-Version: 1.0
-References: <CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com>
- <c9e86bf2-1d97-87bc-e170-4525d304d89d@amd.com>
-In-Reply-To: <c9e86bf2-1d97-87bc-e170-4525d304d89d@amd.com>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Fri, 6 Dec 2024 17:52:22 +0000
-Message-ID: <CAHbf0-Hb=y02=YX3O6Hb7yYH8922sPchWn1YYADNFSrzonoSzg@mail.gmail.com>
-Subject: Re: [PATCH V7 03/10] accel/amdxdna: Support hardware mailbox
-To: Lizhi Hou <lizhi.hou@amd.com>
-Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Zhen,
- Max" <Max.Zhen@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: backlight: Convert LP8860 into YAML
+ format adding LP886x
+To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>, "conor@kernel.org"
+ <conor@kernel.org>
+CC: "jingoohan1@gmail.com" <jingoohan1@gmail.com>, "dmurphy@ti.com"
+ <dmurphy@ti.com>, "lee@kernel.org" <lee@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "pavel@ucw.cz" <pavel@ucw.cz>,
+ "danielt@kernel.org" <danielt@kernel.org>, "linux-leds@vger.kernel.org"
+ <linux-leds@vger.kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>
+References: <20241206170717.1090206-1-alexander.sverdlin@siemens.com>
+ <20241206170717.1090206-2-alexander.sverdlin@siemens.com>
+ <20241206-brim-talcum-f5e8c504c572@spud>
+ <129a3e14-9c87-47c2-b4ed-49bbcf12ae7e@ti.com>
+ <1b8648f10248a949508240785f5a99ed7c2c2037.camel@siemens.com>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <1b8648f10248a949508240785f5a99ed7c2c2037.camel@siemens.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,52 +83,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 6 Dec 2024 at 17:10, Lizhi Hou <lizhi.hou@amd.com> wrote:
->
-> Hi Mike,
->
->
-> How did you install npu.sbin.1.5.2.380?  There should be a symlink
-> npu.sbin which points to npu.sbin.1.5.2.380.
->
-> https://gitlab.com/kernel-firmware/linux-firmware/-/blob/main/WHENCE?ref_type=heads#L2719
->
->
-> Thanks,
->
-> Lizhi
->
-> On 12/5/24 07:44, Mike Lothian wrote:
-> > Hi
-> >
-> > I needed to add the following to get things compiling for me
-> >
-> >
-> > diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> > b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> > index fe684f463b945..79b9801935e71 100644
-> > --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> > +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> > @@ -6,6 +6,7 @@
-> > #include <drm/drm_device.h>
-> > #include <drm/drm_managed.h>
-> > #include <linux/bitfield.h>
-> > +#include <linux/interrupt.h>
-> > #include <linux/iopoll.h>
-> >
-> > #define CREATE_TRACE_POINTS
-> >
-> >
-> > I also had to rename the firmware in /lib/firmware/amdnpu/1502_00/
-> > from npu.sbin.1.5.2.380 to npu.sbin
-> >
-> > Cheers
-> >
-> > Mike
-> >
-> >
+On 12/6/24 11:46 AM, Sverdlin, Alexander wrote:
+> Hi Andrew,
+> 
+> On Fri, 2024-12-06 at 11:43 -0600, Andrew Davis wrote:
+>>> Are you sure this is a correct thing to do? The lp8860-q1 product link
+>>> cites it as being a 4-channel device. Even if the kernel only ever
+>>> supports it as a single-channel device, the binding should reflect what
+>>> it is capable of doing.
+>>>
+>>
+>> Agree, the driver today just checks the first child node, but it could
+>> be extended for all 4 supported LED channels, and we shouldn't have
+>> to change the binding for that new support.
+> 
+> but the channels are (in my understanding) for power-balancing only, there
+> are no separate controls for them. What do I miss?
+> 
 
-It's just a clone of
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
-in /lib/firmware, there's definately no symlink in
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/amdnpu/1502_00
+I'm not very familiar with this part either, but looking at the datasheet
+I see:
+
+> Supports Display Mode (Global Dimming) and
+> Cluster Mode (Independent Dimming)
+
+> In Cluster mode LED strings have independent control but fewer features enabled than in Display Mode.
+
+And one channel controlling the others is only in this "Display Mode",
+but the currents to the others can be independently controlled in a
+different mode (seems these modes have less features which is probably
+why the driver doesn't make use of that today).
+
+Andrew
