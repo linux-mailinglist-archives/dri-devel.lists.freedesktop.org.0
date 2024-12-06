@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E679E701B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 15:35:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94F09E72AE
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 16:12:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8730010F10E;
-	Fri,  6 Dec 2024 14:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53D7B10E2FD;
+	Fri,  6 Dec 2024 15:11:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="zGqZu5nm";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Vk6CZx7H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7114310F11A
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 14:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23CD510F119
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 15:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lXAYhpdfsf+gOIdq60uXPUI1h1U4aSY+52/5Tzkwy3o=; b=zGqZu5nmmiMR40kS1ag20bkZPn
- 34/WeQB+p3pPf5pLsBw3pnqEJbt/Oo/WuvhzsETmFIx3NcWETcipC+hKsTXGu93XASq00fG7IiRhY
- ugoku54YtHBQCHd2dIrEF8RZto8uUUd2BPnAXualbTHQyzVf/HDdnXKEVNswMpIhJlD2+8YJWA/ZR
- w2AR0CD0BSddg0M0kJN9aiTdyRi/PwU/fPifztlnuqZVfCvzMjPIi26kxT2H2TsWf1LAD9tDN28/1
- 0Kl1t9kLx7MQzvLaV4zLiQkE/kJ9RIFCW6VuRaphGb3r2RZvay3zfzCXbuZXcCfwy8zIPWpCN5DDT
- U5xMwHLA==;
-Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tJZQW-00011Y-Hy; Fri, 06 Dec 2024 15:35:28 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com,
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v1 00/10] Add eDP support for RK3588
-Date: Fri, 06 Dec 2024 15:35:27 +0100
-Message-ID: <5939852.zQ0Gbyo6oJ@diego>
-In-Reply-To: <20241127075157.856029-1-damon.ding@rock-chips.com>
-References: <20241127075157.856029-1-damon.ding@rock-chips.com>
+ bh=WzsVK7dbmvnOeiY0TjSDZNlfbvBM7TILoe17uI8cse0=; b=Vk6CZx7H8e0YtcupnXASf5G0mF
+ d6GovrxYpasTctNboVLZ86vOgYkuUhOKejQWxyZ1x5UWOugUXUyhUnnDP+AooDTsgRX8Gs1f2hI18
+ sv2x700liSjuIDqm+nIA7/ezO8moEueql/AgUeyZYaMSIDnDjSA9BBJF27/LqyVFHYcWuDhkPHpc0
+ xawgQoD/uR3wB5wCWB4gwZAME4g6Q2OThRArd4HMYzXNI5iS3Qjvw0lEDLHiSho0cQlkIyy79aGo1
+ AELKtCL/VB5eykUdBTrcae1ia8FBIlDu6Bd/ZzitiZ8dQjxWqVfn6C9Fu7cHeF7vba5i6F1Vev3Uv
+ rnMMhE8Q==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tJZzg-00HSEK-9x; Fri, 06 Dec 2024 16:11:48 +0100
+Message-ID: <e9d0a1cc-d2e6-476e-993d-1ccc68b9d237@igalia.com>
+Date: Fri, 6 Dec 2024 12:11:43 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] drm/vc4: Clean-up the BO seqnos
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241206131706.203324-1-mcanal@igalia.com>
+ <4df589b6-93be-40eb-a918-ec26f93b923f@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <4df589b6-93be-40eb-a918-ec26f93b923f@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,88 +64,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daemon,
-
-Am Mittwoch, 27. November 2024, 08:51:47 CET schrieb Damon Ding:
-> These patchs have been tested with a 1536x2048p60 eDP panel on
-> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
-> on RK3588 EVB1 board.
+On 06/12/24 11:17, Christian König wrote:
+> Am 06.12.24 um 14:12 schrieb Maíra Canal:
+>> This series introduces a series of clean-ups in BO reservations for the
+>> VC4 driver. Currently, VC4 uses shared fences to track BO reservations as
+>> several other DRM devices. But apart from the DMA reservation objects, 
+>> VC4
+>> also attaches seqnos to its BOs with the intention to track if the job 
+>> that
+>> uses such BO has finished.
+>>
+>> The seqno tracking system was introduced before the DMA reservation 
+>> objects
+>> and we ended up lefting it in the code after DMA resv was introduced. 
+>> This
+>> is redundant, as we can perfectly track the end of a job with a fence.
+>> Therefore, this series focuses on eliminating the seqnos from the BO.
+>>
+>> This series introduces a series of clean-ups for BO reservations in 
+>> the VC4
+>> driver. Currently, VC4 uses shared fences to track BO reservations, 
+>> similar
+>> to many other DRM devices. However, in addition to DMA reservation 
+>> objects,
+>> VC4 has been maintaining a separate seqno tracking system for BOs to 
+>> track
+>> job completion.
+>>
+>> The seqno tracking system was implemented before DMA reservation objects
+>> and was left in the code after DMA reservation's introduction. This
+>> approach is now redundant, as job completion can be effectively tracked
+>> using fences. Consequently, this series focuses on eliminating seqnos 
+>> from
+>> the BO implementation.
 > 
-> Patch 1~3 are the RK3588 eDP support of Rockchip analogix_dp driver.
-> Patch 4   is the eDP mode support of samsung hdptx phy driver.
-> Patch 5~6 are the Rk3588 eDP support of Aanalogix DP driver. Add phy
->           interfaces is to configure the HDMI/eDP TX Combo PHY.
-> Patch 7~8 are the renaming of hdptxphy node. It is not only used by
->           HDMI display but also for the eDP display.
-> Patch 9   is the addition of RK3588 eDP0 node.
-> Patch 10  is to enable the eDP0 display on RK3588S EVB1 board.
+> Just FYI, you duplicated the text somehow :)
 
-Could you maybe also bring over functionality for real bridge-handling?
-That way we'd have support for things like the dp-connector bridge.
+Oops, that's a non-native English-speaker trying to write a v2 of a
+paragraph :)
 
-In the 6.1 vendor-tree I've found commits
-94e598190128 ("drm/rockchip: analogix_dp: Add support for external bridge")
-437e0a901b14 ("drm/bridge: analogix_dp: Support split mode for bridge chain")
-
-needing a bit of cleanup of course, but that would get rid of the driver
-not handling the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag too.
-
-With a bit of streamlining, we could maybe even get rid of the panel-part
-completely, similar to how the dw-dsi controllers do it [0]
-
-
-Thanks
-Heiko
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c#n335
-devm_drm_of_get_bridge() combines drm_of_find_panel_or_bridge()
-with devm_drm_panel_bridge_add(), so indepent of it being either a
-panel or other bridge, the driver below only needs to handle bridges.
-
-> Damon Ding (10):
->   drm/rockchip: analogix_dp: Use formalized struct definition for grf
->     field
->   dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
->   drm/rockchip: analogix_dp: Add support for RK3588
->   phy: phy-rockchip-samsung-hdptx: Add support for eDP mode
->   drm/bridge: analogix_dp: add support for RK3588
->   drm/bridge: analogix_dp: Add support for phy configuration.
->   dt-bindings: display: rockchip: Fix label name of hdptxphy for RK3588
->     HDMI TX Controller
->   arm64: dts: rockchip: Fix label name of hdptxphy for RK3588
->   arm64: dts: rockchip: Add eDP0 node for RK3588
->   arch64: dts: rockchip: Enable eDP0 display on RK3588S EVB1 board
 > 
->  .../rockchip/rockchip,analogix-dp.yaml        |   1 +
->  .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |   2 +-
->  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  33 +-
->  .../dts/rockchip/rk3588-coolpi-cm5-evb.dts    |   2 +-
->  .../rockchip/rk3588-coolpi-cm5-genbook.dts    |   2 +-
->  .../boot/dts/rockchip/rk3588-evb1-v10.dts     |   2 +-
->  .../rk3588-friendlyelec-cm3588-nas.dts        |   2 +-
->  .../arm64/boot/dts/rockchip/rk3588-jaguar.dts |   2 +-
->  .../boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |   2 +-
->  .../dts/rockchip/rk3588-orangepi-5-plus.dts   |   2 +-
->  .../boot/dts/rockchip/rk3588-rock-5b.dts      |   2 +-
->  .../boot/dts/rockchip/rk3588-tiger-haikou.dts |   2 +-
->  .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   2 +-
->  .../boot/dts/rockchip/rk3588s-evb1-v10.dts    |  84 ++
->  .../dts/rockchip/rk3588s-indiedroid-nova.dts  |   2 +-
->  .../boot/dts/rockchip/rk3588s-nanopi-r6.dtsi  |   2 +-
->  .../boot/dts/rockchip/rk3588s-odroid-m2.dts   |   2 +-
->  .../boot/dts/rockchip/rk3588s-orangepi-5.dtsi |   2 +-
->  .../boot/dts/rockchip/rk3588s-rock-5a.dts     |   2 +-
->  .../boot/dts/rockchip/rk3588s-rock-5c.dts     |   2 +-
->  .../drm/bridge/analogix/analogix_dp_core.c    |   8 +-
->  .../drm/bridge/analogix/analogix_dp_core.h    |   2 +
->  .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  90 ++
->  .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 112 ++-
->  .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 936 +++++++++++++++++-
->  include/drm/bridge/analogix_dp.h              |   3 +-
->  26 files changed, 1206 insertions(+), 97 deletions(-)
+>>
+>> Patch Breakdown
+>> ===============
+>>
+>> * Patch #1: Uses the DRM GEM implementation of 
+>> `drm_gem_lock_reservations()`
+>> and `drm_gem_unlock_reservations()` to replace the open-coded 
+>> implementation
+>> of this functions by VC4. A straightforward change with no functional
+>> changes.
 > 
+> I actually pushed to remove drm_gem_lock_reservations() in favor of 
+> using the drm_exec object.
 > 
+> It would be nice if you could use that one instead.
 
+Okay, I'll use DRM exec in the next version. I'd appreciate if you could
+take a look at the patches that remove the BOs seqnos.
 
+Thanks for comments!
 
+Best Regards,
+- Maíra
+
+> 
+> Regards,
+> Christian.
+> 
+>>
+>> * Patch #2: Implements the VC4 wait BO IOCTL using DMA reservations. The
+>> new implementation closely mirrors the V3D approach and removes the 
+>> IOCTL's
+>> dependency on BO sequence numbers.
+>>
+>> * Patch #3: The central piece of this patchset. It removes `bo->seqno`,
+>> `bo->write_seqno`, and `exec->bin_dep_seqno` from the driver. As the 
+>> seqno
+>> tracking system is redundant, its deletion is relatively straightforward.
+>> The only notable change is `vc4_async_set_fence_cb()`, which now uses
+>> `dma_fence_add_callback()` to add the VC4 callback.
+>>
+>> * Patch #4: Deletes the now-unused function `vc4_queue_seqno_cb()`.
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>> Maíra Canal (4):
+>>    drm/vc4: Use `drm_gem_lock_reservations()` instead of hard-coding
+>>    drm/vc4: Use DMA Resv to implement VC4 wait BO IOCTL
+>>    drm/vc4: Remove BOs seqnos
+>>    drm/vc4: Remove `vc4_queue_seqno_cb()`
+>>
+>>   drivers/gpu/drm/vc4/vc4_crtc.c     |  22 ++---
+>>   drivers/gpu/drm/vc4/vc4_drv.h      |  26 ++---
+>>   drivers/gpu/drm/vc4/vc4_gem.c      | 147 ++++++-----------------------
+>>   drivers/gpu/drm/vc4/vc4_validate.c |  11 ---
+>>   4 files changed, 48 insertions(+), 158 deletions(-)
+>>
+> 
 
