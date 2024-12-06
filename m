@@ -2,73 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C939E751D
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 17:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9776E9E75E0
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 17:26:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD17510E3FD;
-	Fri,  6 Dec 2024 16:06:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB8310E402;
+	Fri,  6 Dec 2024 16:26:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rUZhriGH";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UCp4WBTf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9911E10E3FD
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 16:06:52 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 056675C6946;
- Fri,  6 Dec 2024 16:06:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 403D8C4CED1;
- Fri,  6 Dec 2024 16:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733501211;
- bh=gToIYM+37jkKtK/Sbu0IwPGwvwqDSaBXiHsgZA/gUAk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rUZhriGHwCOGUtnZPn6FC7saJhs6BKSmHqVG5AS+E0JB1T7WxDfeMpEbolQahWmV4
- +/IvsXta9NDAgw02+PN2UCwNsn9gZ7EcEzwPrENYs2Vv191ztYUHRjTXw+lBe+c9Ic
- odbaoVofPbb+z6qo3uRJPlLjvHkpPXpFKIIvFaH5hbkzMAoRG89g854UUjG8fG127a
- 4I04DzE5/U6OQjK/qkdEVVwAPxTAKAB2LS0I9ttpCOLbB7M9AkUDMA1KcR+1H7deLu
- TFv1mG8eIAAlXUdkyPJgcjkxdssShLZNDvFIYmCLWfTfQ3uccoPRQtkhT+hkSm5eNH
- lTXQ1kBPWpADw==
-Date: Fri, 6 Dec 2024 16:06:45 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Jiaxin Yu =?utf-8?B?KOS/nuWutumRqyk=?= <Jiaxin.Yu@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "ajye_huang@compal.corp-partner.google.com"
- <ajye_huang@compal.corp-partner.google.com>, 
- Chunxu Li =?utf-8?B?KOadjuaYpeaXrSk=?= <Chunxu.Li@mediatek.com>,
- Allen-KH Cheng =?utf-8?B?KOeoi+WGoOWLsik=?= <Allen-KH.Cheng@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kuninori.morimoto.gx@renesas.com" <kuninori.morimoto.gx@renesas.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- "robert.foss@linaro.org" <robert.foss@linaro.org>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Nicolas Prado <nfraprado@collabora.com>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH v2 1/3] ASoC: hdmi-codec: Add event handler for hdmi TX
-Message-ID: <6456e0b7-08ae-4515-a7c9-734f50c9130a@sirena.org.uk>
-References: <Y4Y/vEWe3dw0FPQH@sirena.org.uk>
- <cf9ea98a3263ffb8fc8b542888ad0ad680facfc7.camel@mediatek.com>
- <Y4jHAJgmz/P58Q/C@sirena.org.uk>
- <7023a2c7b471d6888d9079563a6c01f22599201f.camel@mediatek.com>
- <Y43e+EsNCrCpZSIH@sirena.org.uk>
- <dc50d0b21795acbcc44c77e5fd81e7cb92c65c67.camel@mediatek.com>
- <Y5ipwqzHKTK8UdlC@sirena.org.uk>
- <a699178dcef540fff5caae6291983a444886bff6.camel@mediatek.com>
- <00d5c728-3eb9-427a-bc60-5828c20fec09@sirena.org.uk>
- <b44319c9fabbea2e8c333191a0005ef5c4ec6b2c.camel@mediatek.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A56510E402
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 16:26:35 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6GMpKq026175;
+ Fri, 6 Dec 2024 16:26:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ HEtZXyIuo2ta5bt30TTW9g/r4uKrWQvEWoKZSfyLPxA=; b=UCp4WBTfU8la6H2J
+ bpY0geAbqCo8GKsI0fYDOROYUqw+Kvah5phtFOZcMoVxFyBFo42ebDD51DZsHCJG
+ 8R0uTo1Vrjjt1n+4tsI6YNWnL3GhjkyvnMf/ba4qD6iurSJMSvWXo95oWEM+9BKf
+ 8+OvAD29HSK9BHUZNYb8uNK+T5z3ILd4QECTbvb/r5MTBu67Uqw6gfsm1AP7hyGc
+ 08nUENTtLEARBRxYJwxO6ohPOo9TPj2877nCWewWwjv1e+N3rhz/LPqx0j8oLu8E
+ Lk6DG8i/1gE5f+byqm8EyO0dIY18HvOGMg7K9i0pEPxFtumU+orvECfqgz5AHX0J
+ 8I4uzw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43c4r4g08r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Dec 2024 16:26:32 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6GQWOc031271
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 6 Dec 2024 16:26:32 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
+ 08:26:31 -0800
+Message-ID: <f094ae61-04a9-8bd9-7b43-72ccdca22d5a@quicinc.com>
+Date: Fri, 6 Dec 2024 09:26:30 -0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="0Q96+HlCP5jtbeOt"
-Content-Disposition: inline
-In-Reply-To: <b44319c9fabbea2e8c333191a0005ef5c4ec6b2c.camel@mediatek.com>
-X-Cookie: Sales tax applies.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH V7 03/10] accel/amdxdna: Support hardware mailbox
+Content-Language: en-US
+To: Mike Lothian <mike@fireburn.co.uk>, Lizhi Hou <lizhi.hou@amd.com>
+References: <CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com>
+CC: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: YaOHBtywWIMp4LYxrUAIqfcv_Mq3kR2x
+X-Proofpoint-ORIG-GUID: YaOHBtywWIMp4LYxrUAIqfcv_Mq3kR2x
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 mlxlogscore=958 impostorscore=0 adultscore=0 suspectscore=0
+ mlxscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1011 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,50 +89,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/5/2024 8:44 AM, Mike Lothian wrote:
+> Hi
+> 
+> I needed to add the following to get things compiling for me
+> 
+> 
+> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> index fe684f463b945..79b9801935e71 100644
+> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> @@ -6,6 +6,7 @@
+> #include <drm/drm_device.h>
+> #include <drm/drm_managed.h>
+> #include <linux/bitfield.h>
+> +#include <linux/interrupt.h>
+> #include <linux/iopoll.h>
 
---0Q96+HlCP5jtbeOt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Looking at the code, this is valid.  However, I'm not sure why this is 
+broken for you and not others.  Do you have any ideas?  How are you 
+building this?  Is the tree and/or defconfig unique in some way?
 
-On Fri, Dec 06, 2024 at 03:39:15PM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=E9=
-=91=AB) wrote:
-> On Mon, 2024-12-02 at 13:16 +0000, Mark Brown wrote:
-> > On Sun, Dec 01, 2024 at 05:15:45PM +0000, Jiaxin Yu (=E4=BF=9E=E5=AE=B6=
-=E9=91=AB) wrote:
+> #define CREATE_TRACE_POINTS
+> 
+> 
+> I also had to rename the firmware in /lib/firmware/amdnpu/1502_00/
+> from npu.sbin.1.5.2.380 to npu.sbin
+> 
+> Cheers
+> 
+> Mike
+> 
 
-> > > So I want to ask if I can do it by just adding
-> > > SOC_DAPM_PIN_SWITCH("Speakers") and SOC_DAPM_PIN_SWITCH("HDMI")?
-> > > Correspondingly, dapm widget and route path need to be added. That
-> > > is
-> > > "SND_SOC_DAPM_SPK("Speakers", NULL)/ SND_SOC_DAPM_LINE("HDMI1",
-> > > NULL)"
-> > > and "{"Speakers", NULL, "Speaker"}/ {"HDMI1", NULL, "TX"}".
-
-> > Yes, that's what I'd expect to see.
-
-> So if I open the "HDMI Switch" amixer control, it will call
-> 'hdmi_codec_startup', which in turn calls "audio_startup()"  in
-> 'hdmi_codec_ops'. Conversely, if I close it, it will call
-> 'hdmi_codec_shutdown', which in turn calls 'audio_shutdown' in
-> 'hdmi_codec_ops'. Is this understanding correct?
-
-The audio stream will still run, the DAPM path attached to it will get
-shut down.
-
---0Q96+HlCP5jtbeOt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdTIRQACgkQJNaLcl1U
-h9AR8gf9Hfqv5O8hW1VoO/+oNPx5CkfRkyZFsfXQTS4FYXeTZ9zcxTzV8bdgREIe
-WVUSi00ehS2CCupQkffrSFfZHqk88wxKrrMFNQYcoDrekq/kUtbseBayFJgB6mQY
-4NUYT/0mnejbXDk+qeiHI1f0UzygswelfRVu+TZ7exCG2UI7GJO2RYdL6fpItNpQ
-F7ISvK9ldljmyAmqAbZ8Ol6tg2eNfbhESwdEGsGrx58UpFAWH/0Qb6G+T4tzPxQ+
-3rMJvvwahR0VMHmVglGFRUneunLknVaycWRVne7jYBilbaRlWMGQQ4FVs8XLY45q
-OE7ZqGZc2+b4p2bOuAcnSLIiQPRSsg==
-=/TNF
------END PGP SIGNATURE-----
-
---0Q96+HlCP5jtbeOt--
