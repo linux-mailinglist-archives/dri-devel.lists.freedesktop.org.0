@@ -2,68 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C4B29E7937
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 20:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925589E793A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 20:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12FAE10E62C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5EA910F192;
 	Fri,  6 Dec 2024 19:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=thalesgroup.com header.i=@thalesgroup.com header.b="JowvWRHh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GTy4Ue+e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.hc1631-21.eu.iphmx.com (esa.hc1631-21.eu.iphmx.com
- [23.90.122.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 575CA10E1E8;
- Fri,  6 Dec 2024 17:00:27 +0000 (UTC)
-X-CSE-ConnectionGUID: LjzJYgpwRkef6KBvtNCeSg==
-X-CSE-MsgGUID: 6oW8s5lnT6a8/73vpUsPdA==
-Authentication-Results: ob1.hc1631-21.eu.iphmx.com;
- dkim=pass (signature verified)
- header.i=@thalesgroup.com
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="23273212"
-X-IronPort-AV: E=Sophos;i="6.12,213,1728943200"; d="scan'208";a="23273212"
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6361010F143
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 17:28:05 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-725958d5ee0so2354861b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 09:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=thalesgroup.com; i=@thalesgroup.com; s=bbmfo20230504;
- t=1733504425; h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=MMvxvcjwmGaoaI6TY+sGHOwLrNIxmnQoHv/0XjIcJL0=;
- b=JowvWRHhloGB8kjAWHht5nNizwpMA8nluIjexaK7y3ihdAOMcx4KN5ed
- vE4ijTD6Sv8Cou+iCHFnGs9/j7S2WWFTXw46D9oH/usrXLV6ttL1JqgFc
- X5QJJ+3BP7bPxsCjcbck7ca1tpswnsYcUGgLco3Wm1LRY3KmajN1LNMwR
- SsMmU7fSrB4lSyClH64L0JLBVWZyUkJD72kgKWZOCX7KW4id47qA+1ntq
- NcmO9FVgrGP4LqNFjQKFnxs8ZHV/fIlRtzA2+9nHxUfW6kxG7cJEPD8Ra
- NVgUZy0V3vR/zpwOCLaXYeFPgr3EX3DR4P17JTPiFH9eJBgKeOy2nbFpI A==;
-X-CSE-ConnectionGUID: eh5xvLKnTtCmo1jJEDjh2w==
-X-CSE-MsgGUID: ebRBKRevQcOmqQew0uK3UA==
-X-CSE-ConnectionGUID: ivLhYqsyQXuhkMMHH+jcsQ==
-X-CSE-MsgGUID: sFIkbeDeSBacDqZf3dN5sg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="36858925"
-X-IronPort-AV: E=Sophos;i="6.12,213,1728943200"; d="scan'208";a="36858925"
-From: LECOINTRE Philippe <philippe.lecointre@thalesgroup.com>
-To: Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>
-CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "etnaviv@lists.freedesktop.org" <etnaviv@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LENAIN Simon
- <simon.lenain@thalesgroup.com>, BARBEAU Etienne
- <etienne.barbeau@thalesgroup.com>, LEJEUNE Sebastien
- <sebastien.lejeune@thalesgroup.com>
-Subject: [PATCH v3] drm/etnaviv: add optional reset support
-Thread-Topic: [PATCH v3] drm/etnaviv: add optional reset support
-Thread-Index: AdtIAAvrmB6eEfCxSuiZypoaKXF8Jg==
-Date: Fri, 6 Dec 2024 17:00:23 +0000
-Message-ID: <afcb562602e54c969964a608e3b6494a@thalesgroup.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-nodisclaimer: 0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ d=gmail.com; s=20230601; t=1733506085; x=1734110885; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4y2ki+6zul3gbLgcnSK/uoLUEGgMXT8pqStVpvvXP2k=;
+ b=GTy4Ue+ebvIvavLWC17XGPF+yIJA5QMKYimNuOCccmSo/oHPKyE5oNBkKFLyWUIi7u
+ 76g8qHffhyrGZwegHhQ7w//wBu7gAf83QsLVHb4N02aIYPdUFq7vBgLLdduA5/5EU34V
+ GJfoS7larI49oWs4dhSXPMjZgrCJHznRTYSCeVBvQVTuCnEO1p/mh/gLW0qz97UfcLWK
+ rMTMmyTiEXS7O0V//3ICOs+k4wh3sIs40JBab0AQHn1Fn3kRH+nVFCx81O7vcDs4K5yl
+ 18UOID1oZbNkn0NBKVpEIhDkMgFRk+8jwVl4LGo3QOeIwd5d+BnOvnTtGwqWi1LCCJJf
+ Bf2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733506085; x=1734110885;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4y2ki+6zul3gbLgcnSK/uoLUEGgMXT8pqStVpvvXP2k=;
+ b=jVHHst48HJNu0Z8wblSxb5JsFvyKfEBHwGhIdFlBOgWOXQQEwMsU1RmiF/Oz8pd8zi
+ CiROmIAMe32pB+UbVBn4Gko6rWN1Zwc25FowW0Sx967qluHhmz+aTJ06Axh/yqLanYGt
+ CBqM5vRlDQQeuRK7R64leSYc/06FPInaUfM40KIYhKf0Ykctu+bKmXo7dR2hfsgNocdJ
+ 9eHFNNHHj+DhNtDJLEf7DIiSeYLEpPH3N+x77APQ036CL7BEzhmhVrzee1QzEkC8SLHi
+ fDBi7syrzH9ronzEkrYyCXEpuFxIj5GlpRitH6WsNHon7OK3gMEKlxSDDoRBY1VskPt/
+ eEHg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUORF+86tzXcl6hzxugm/0sKhElmcImIbKqsD85ub46eyGPo1gHElbGDVWbV94/HyEHnYGNh+x7Piw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz8ZUhpaRiJ3bkDsmAuDNv7rw40z/jHnmo12nkBmXzHU6ndDCWy
+ l/o6InG7EQynIbOomUmQQRwgVf+MkziVisnNRPMW2QXuBXZACmwb
+X-Gm-Gg: ASbGncvJlqprr9+DEY8L5DLTAlceZUwmXwu21yqBdBSZGyl48je7y5VVi+e2u4Wx/8l
+ mPamZgHkU9wBkYelhiJfYYiFVg5xXGz5YLXm8BgjnQ058DCxgJ0LFcmVWJHppZTZ7vLUuXpMjXN
+ S27K8TyELLkUfkmVnjDod2Uu3zR4lKx9/M6RnMXqk8CfkJc3OR53eVzl/dUYaT5G0QL93hWPVUl
+ Jju02okRfaZ0z8zL2i8Ew9VyNjtihk7bTyufe2nH6nZio6T1eOhJzMIPOk4ffIUcsYX
+X-Google-Smtp-Source: AGHT+IHXdwewDIPQOXtv1iEJ1h+wD3M9qyi9bwIoqyxS6+rfSqoJNur+gfxUq0L2I9fps7PZzh+XJQ==
+X-Received: by 2002:a05:6a00:806:b0:725:90f9:daf9 with SMTP id
+ d2e1a72fcca58-725b812aaabmr5813954b3a.15.1733506084740; 
+ Fri, 06 Dec 2024 09:28:04 -0800 (PST)
+Received: from localhost.localdomain ([49.130.54.203])
+ by smtp.googlemail.com with ESMTPSA id
+ d2e1a72fcca58-725a2cc6950sm3204512b3a.173.2024.12.06.09.28.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Dec 2024 09:28:04 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Nick Chan <towinchenmi@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/3] Apple DWI backlight driver
+Date: Sat,  7 Dec 2024 01:24:32 +0800
+Message-ID: <20241206172735.4310-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 06 Dec 2024 19:45:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,106 +91,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add optional reset support which is mentioned in vivante,gc.yaml to
-allow the driver to work on SoCs whose reset signal is asserted by default
+Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
+and iPod touches 1-2 backlight controllers are attached via this interface.
+Though, to software using this interface, there is effectively only one
+controller to worry about since the registers changes the brightness
+setting on all controllers at the same time. This series adds a backlight
+driver for backlight controllers connected this way.
 
-Signed-off-by: Philippe Lecointre <philippe.lecointre@thalesgroup.com>
-Reviewed-by: Simon Lenain <simon.lenain@thalesgroup.com>
+Nick Chan
 ---
-v3:
-- Rework to match initial feedback
----
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 37 +++++++++++++++++++++++++++
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h |  1 +
- 2 files changed, 38 insertions(+)
+Nick Chan (3):
+  dt-bindings: leds: backlight: apple,dwi-bl: Add bindings for Apple DWI
+    backlight
+  backlight: dwi_bl: Add Apple DWI backlight driver
+  MAINTAINERS: Add entries for Apple DWI backlight controller
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnavi=
-v/etnaviv_gpu.c
-index 2d4c112ce033..1961ebac315a 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -13,6 +13,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/reset.h>
- #include <linux/thermal.h>
-=20
- #include "etnaviv_cmdbuf.h"
-@@ -172,6 +173,25 @@ int etnaviv_gpu_get_param(struct etnaviv_gpu *gpu, u32=
- param, u64 *value)
- 	return 0;
- }
-=20
-+static int etnaviv_gpu_reset_deassert(struct etnaviv_gpu *gpu)
-+{
-+	int ret;
-+
-+	/* 32 core clock cycles (slowest clock) required before deassertion */
-+	/* 1 microsecond might match all implementations without computation */
-+	usleep_range(1, 2);
-+
-+	ret =3D reset_control_deassert(gpu->rst);
-+	if (ret)
-+		return ret;
-+
-+	/* 128 core clock cycles (slowest clock) required before any activity on =
-AHB */
-+	/* 1 microsecond might match all implementations without computation */
-+	usleep_range(1, 2);
-+
-+	return 0;
-+}
-+
- static inline bool etnaviv_is_model_rev(struct etnaviv_gpu *gpu, u32 model=
-, u32 revision)
- {
- 	return gpu->identity.model =3D=3D model &&
-@@ -799,6 +819,12 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
- 		goto pm_put;
- 	}
-=20
-+	ret =3D etnaviv_gpu_reset_deassert(gpu);
-+	if (ret) {
-+		dev_err(gpu->dev, "GPU reset deassert failed\n");
-+		goto fail;
-+	}
-+
- 	etnaviv_hw_identify(gpu);
-=20
- 	if (gpu->identity.model =3D=3D 0) {
-@@ -1860,6 +1886,17 @@ static int etnaviv_gpu_platform_probe(struct platfor=
-m_device *pdev)
- 	if (IS_ERR(gpu->mmio))
- 		return PTR_ERR(gpu->mmio);
-=20
-+
-+	/* Get Reset: */
-+	gpu->rst =3D devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
-+	if (IS_ERR(gpu->rst))
-+		return dev_err_probe(dev, PTR_ERR(gpu->rst),
-+				     "failed to get reset\n");
-+
-+	err =3D reset_control_assert(gpu->rst);
-+	if (err)
-+		return dev_err_probe(dev, err, "failed to assert reset\n");
-+
- 	/* Get Interrupt: */
- 	gpu->irq =3D platform_get_irq(pdev, 0);
- 	if (gpu->irq < 0)
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h b/drivers/gpu/drm/etnavi=
-v/etnaviv_gpu.h
-index 4d8a7d48ade3..0985ea548b82 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.h
-@@ -158,6 +158,7 @@ struct etnaviv_gpu {
- 	struct clk *clk_reg;
- 	struct clk *clk_core;
- 	struct clk *clk_shader;
-+	struct reset_control *rst;
-=20
- 	unsigned int freq_scale;
- 	unsigned int fe_waitcycles;
---=20
-2.19.1
+ .../bindings/leds/backlight/apple,dwi-bl.yaml |  55 ++++++++
+ MAINTAINERS                                   |   2 +
+ drivers/video/backlight/Kconfig               |  12 ++
+ drivers/video/backlight/Makefile              |   1 +
+ drivers/video/backlight/dwi_bl.c              | 123 ++++++++++++++++++
+ 5 files changed, 193 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+ create mode 100644 drivers/video/backlight/dwi_bl.c
+
+
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+-- 
+2.47.1
 
