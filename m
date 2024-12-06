@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1FA9E69D1
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:11:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380639E69DD
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 10:14:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B9B510E197;
-	Fri,  6 Dec 2024 09:11:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D23F110F03D;
+	Fri,  6 Dec 2024 09:14:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lRmtP2jI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Xfc/JOB4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0552010F033
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:11:34 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-53e23fb807dso1546333e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 01:11:33 -0800 (PST)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+ [209.85.208.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C45D010F03D
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 09:14:23 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id
+ 38308e7fff4ca-2ffbfee94d7so15294671fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 01:14:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733476292; x=1734081092; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733476462; x=1734081262; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=T8gpX618iMkRwGuO0MNBjOsaC1WUlIK8H0NQRZoPtiI=;
- b=lRmtP2jIBE9470OtALeQc6LfUmClqrsJ/OEJU3SPnK/iTKt79wIg9L2kyqrrg+uwqt
- sMasqZD4WP+kPG3kGv/VTHYRWIj2Oqjkj2BQz4fvYeykUBrnoCfYVR6psXZh41KB49pM
- 1KtQ4hwAecsDhhXq7dbsDXRCBSWVPaFecLP3J2DwaLzzPUrqVJdkAlRjoJkH4S44qBEL
- CXsOL/TWtFtrn3yvVjTEB30tU+I3AOWAEImSPziQZajDUhO+rxgT+MyYgCniApVqIQ9g
- 1jRk+XEbu92qkBMApQWqiKIHP2o6H31864YtrDwpNXw9OIkENLGW2Zn+xUEqDDBJw1uX
- 9f7A==
+ bh=Nntj0vr3sSuMkDDvLjAvt9OkCo7KS9A001W3Zyy1XKs=;
+ b=Xfc/JOB4hvFREqluDLPmGZ1zMA6WrvwjZjY7aC/PsLlYRJYUUHjKXM9hOApdzJteKy
+ 9YGPUaABxp+fYoPPMO1Zda85TjaeMHIVY+ggT1XMklCBNrI2/wYwpoK06xOXEgURo9Uc
+ AqZgaRADmDNmNFRLX7wGhYTq/FsJUf1xL74V6+7K8hFvxlQM80S2hWMa6+lAr5V1KTfC
+ VDYN8GngOYyjBPiKhxkLW8BNAbFq91yHoxI0g5ZRvBT0ubW/TuetapnZkung4HmDFuPg
+ soHKIxPRzAQu4zcbjLNDYlun4s/RtWIM7gc0I4R6U8cQwJ0zc2DXIaOz5ScNjrH4BsG3
+ lilw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733476292; x=1734081092;
+ d=1e100.net; s=20230601; t=1733476462; x=1734081262;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=T8gpX618iMkRwGuO0MNBjOsaC1WUlIK8H0NQRZoPtiI=;
- b=MfaxCsZU9Ulic/rtrttZrcOFQAX0vxnWvt/aGjDb3z1ELvI8dodATRJRsD5GJytV/w
- 9yyhB4Z5YCFvy4A8TsC+nQgclLVhEStAqy8ndAxj8mbbgE5Jzxa0QCjE1wB8o02UGbHA
- PLVnjKgxP0++2siSrS9PapTR74ZZYKRIn8vDj4SX5JDS31pFhAzqBYHQkOSlTx3caKF7
- wOwN1452yYjX6s/X4vVrrQuvFDJ+whaaz42T/AUpm5QHniMCTTs10KkOjpCX+yYguMoj
- xCaRTeh1//z71DiPKEG731XyXsTOKkn/zqgCYnLO74BdEdBd2M6f8HL4CGRcOYI8qmH6
- Zbag==
+ bh=Nntj0vr3sSuMkDDvLjAvt9OkCo7KS9A001W3Zyy1XKs=;
+ b=HzAC0MmfuwWe0NfB67ntYpY/dJPKcq4cgggUGgQAMrwUwzkAe+JP2rNBdt5Ob5JzBO
+ 9dRjO4+HqC7nWLYYmjANzGrNm6xMNgHGskp9lmn9/UpIBxe5afnN/zZIM1umOBoNndZM
+ NQEEqlLiWXidFMZ0T+MMUU4rB98MScQkOa0G4kESRXiMCbPg1FesNb9FSqlKseC3rfwd
+ FfJuqWoHmstC0ZECC3hMtuCWripx7vtFk9dUXqJSBJCxBYTwdRJJJugxnzv118sZ/t0v
+ sO9vw6/HjpJFwsMZLj3yfeFTsyBUGVo3yAdmzH6IMKMkqO9Jh3oFjfC9c24O0AZIkb2t
+ eBTQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWP225C9mzr55KTsm6UyE9/CjzQsiJ+maELQXuYdXcj3HTe5QcEmVnNmt4T+f55zgP02zXoDsgOhus=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzuff3QqEJJE7FfHPUOBfoaJKGygdy26AXdD74TwSC63KVJukRe
- l7I4YJGj1OqE9dnWbLNG+/V2rkyEy+tRbddC3CE/uuyvPZYN6ZAjAaddoKudjW0=
-X-Gm-Gg: ASbGncsMkiSR0wzHG6LfGKnMYcHcz6Pt0lqSwpaDbsqvr9XEZwEo4g8fZFe3Rqh3aMB
- zHrQ4fuYbNP7rvgV3LV00QH938R+ozzE9xId0wL4g1F5ICYu2b/27ZBPTmXELKkkLwRVESS8zhN
- lWXMY3Qg0LAdPthT92VaO7iAdjhxIAspb2he+/Jb96YvMgUICZoLy0427t4ZF9GygQr0zHrtjCq
- tEhMqnNICdoTfwp+/45A9OEyWCxGN9ixhrT3k9MoRu3L6eY/G2FbBTEKLyBUkrHXIa5YZds5b+l
- w3uIR05IggH59+wKn6flLPmxgn7A1g==
-X-Google-Smtp-Source: AGHT+IGNi8p6tF7mI10HM7W5wGLN6DaQZ+XRjtGNfF7C+qKH+cNm/VA+lU/O/GtzKadPV+/qvj5+wQ==
-X-Received: by 2002:a05:6512:2316:b0:53d:f712:53ce with SMTP id
- 2adb3069b0e04-53e2c2b18f8mr560342e87.7.1733476292070; 
- Fri, 06 Dec 2024 01:11:32 -0800 (PST)
+ AJvYcCUAm19WCTjb207Sb/uI1d6eK7r6k5a+BvSaSjPK82gTiTH/JqM++s4Ng150c5xJsSFkAL+de0oYOI0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4/bt6t1yazwRYGuvkdd/SeswcZrvqEkWpaO8n28CZElCjxz7U
+ tODbIw5X/OzVBHIQnRKM2HlELFj6AoxjIqX1RqxVi/Ny67PwZOUV5qIxvYnQKig=
+X-Gm-Gg: ASbGncsJSHOVxu8RGd6viP7P6pha2fexNHVpkWcjOppUZs01/3xo1fXNUHDIsmLXY9j
+ SgAXGkUeAmmSRscZI5xRpeh45zN2vXk5yatjInJo+2tbrBnbr9/jKAGMdRHdVpbS/3gyYnuGsoR
+ nTzuuguYlBoxFi5B88vQld9Gqo5FMxQuSR4LNxHFuD0m73/7Tp9j6q/J3BgWklZGGhO7wBfN4wH
+ DiqxCNmI6XqJkLClvI+DlviQY/UY7xEMazhgCBdK6x6cs9WGbqNoMWDNSbDFVRobTwo7CFUUfNR
+ GhDB2+a7v1h3QETfkhmy06Nv5/Jhbg==
+X-Google-Smtp-Source: AGHT+IGeULY30Ge8vUZIm0lr+henqDGul8jwzbkSBs8yjUR7FgUITuGkZXPcAseJRkhVj5nlhBQZqQ==
+X-Received: by 2002:a2e:9a0e:0:b0:2ff:d0c4:5ffe with SMTP id
+ 38308e7fff4ca-3002f8c4d83mr7019641fa.16.1733476461886; 
+ Fri, 06 Dec 2024 01:14:21 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e229c1ef2sm442949e87.186.2024.12.06.01.11.29
+ 38308e7fff4ca-30020e20581sm4050831fa.77.2024.12.06.01.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2024 01:11:30 -0800 (PST)
-Date: Fri, 6 Dec 2024 11:11:28 +0200
+ Fri, 06 Dec 2024 01:14:20 -0800 (PST)
+Date: Fri, 6 Dec 2024 11:14:18 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -78,15 +78,15 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 10/45] drm/msm/dp: move the pixel clock control to its
- own API
-Message-ID: <mqreu34au5g6yfogb2ijv7f2yx76fqoba2n3kljioagrfe2ilz@skoljluurawr>
+Subject: Re: [PATCH 11/45] drm/msm/dp: split dp_ctrl_off() into stream and
+ link parts
+Message-ID: <iplgkmgma3li3jirsxlwr6mrbaepcfhqg2kuz44utvm56vwgpb@4ayjjqehmgw2>
 References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-10-f8618d42a99a@quicinc.com>
+ <20241205-dp_mst-v1-11-f8618d42a99a@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-10-f8618d42a99a@quicinc.com>
+In-Reply-To: <20241205-dp_mst-v1-11-f8618d42a99a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,138 +102,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:31:41PM -0800, Abhinav Kumar wrote:
-> Enable/Disable of DP pixel clock happens in multiple code paths
-> leading to code duplication. Move it into individual helpers so that
-> the helpers can be called wherever necessary.
+On Thu, Dec 05, 2024 at 08:31:42PM -0800, Abhinav Kumar wrote:
+> Split dp_ctrl_off() into stream and link parts so that for MST
+> cases we can control the link and pixel parts separately.
+
+Please start by describing the problem.
+
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c | 76 ++++++++++++++++++++++------------------
->  1 file changed, 41 insertions(+), 35 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 29 +++--------------------------
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c |  4 +++-
+>  3 files changed, 7 insertions(+), 28 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 0bed85b5c8e8133ffa8c74d5de22668905396d09..118f5ed83e464f9f27f813eb39624f9c3189f5ac 100644
+> index 118f5ed83e464f9f27f813eb39624f9c3189f5ac..485339eb998cc6c8c1e8ab0a88b5c5d6ef300a1f 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -1698,6 +1698,30 @@ static bool msm_dp_ctrl_send_phy_test_pattern(struct msm_dp_ctrl_private *ctrl)
->  	return success;
->  }
+> @@ -1739,7 +1739,8 @@ static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl
+>  	 * running. Add the global reset just before disabling the
+>  	 * link clocks and core clocks.
+>  	 */
+> -	msm_dp_ctrl_off(&ctrl->msm_dp_ctrl);
+> +	msm_dp_ctrl_stream_clk_off(&ctrl->msm_dp_ctrl);
+> +	msm_dp_ctrl_off_link(&ctrl->msm_dp_ctrl);
+
+Huh? What happened with the rest of the msm_dp_ctrl_off() code sequence?
+It got dropped, but the commit message tells nothing about it.
+
 >  
-> +static int msm_dp_ctrl_stream_clk_on(struct msm_dp_ctrl_private *ctrl, unsigned long pixel_rate)
-> +{
-> +	int ret;
-> +
-> +	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
-> +	if (ret) {
-> +		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (ctrl->stream_clks_on) {
-> +		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
-> +	} else {
-> +		ret = clk_prepare_enable(ctrl->pixel_clk);
-> +		if (ret) {
-> +			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
-> +			return ret;
-> +		}
-> +		ctrl->stream_clks_on = true;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl,
->  						struct msm_dp_panel *msm_dp_panel)
->  {
-> @@ -1724,22 +1748,7 @@ static int msm_dp_ctrl_process_phy_test_request(struct msm_dp_ctrl_private *ctrl
->  	}
->  
->  	pixel_rate = msm_dp_panel->msm_dp_mode.drm_mode.clock;
-> -	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
-> -	if (ret) {
-> -		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
-> -		return ret;
-> -	}
-> -
-> -	if (ctrl->stream_clks_on) {
-> -		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
-> -	} else {
-> -		ret = clk_prepare_enable(ctrl->pixel_clk);
-> -		if (ret) {
-> -			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
-> -			return ret;
-> -		}
-> -		ctrl->stream_clks_on = true;
-> -	}
-> +	ret = msm_dp_ctrl_stream_clk_on(ctrl, pixel_rate);
->  
->  	msm_dp_ctrl_send_phy_test_pattern(ctrl);
->  
-> @@ -1999,21 +2008,10 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
->  
->  	drm_dbg_dp(ctrl->drm_dev, "pixel_rate=%lu\n", pixel_rate);
->  
-> -	ret = clk_set_rate(ctrl->pixel_clk, pixel_rate * 1000);
-> +	ret = msm_dp_ctrl_stream_clk_on(ctrl, pixel_rate);
+>  	ret = msm_dp_ctrl_on_link(&ctrl->msm_dp_ctrl);
 >  	if (ret) {
-> -		DRM_ERROR("Failed to set pixel clock rate. ret=%d\n", ret);
-> -		goto end;
-> -	}
-> -
-> -	if (ctrl->stream_clks_on) {
-> -		drm_dbg_dp(ctrl->drm_dev, "pixel clks already enabled\n");
-> -	} else {
-> -		ret = clk_prepare_enable(ctrl->pixel_clk);
-> -		if (ret) {
-> -			DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
-> -			goto end;
-> -		}
-> -		ctrl->stream_clks_on = true;
-> +		DRM_ERROR("failed to enable stream pixel clk\n");
-> +		return ret;
->  	}
->  
->  	/*
-> @@ -2041,10 +2039,21 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
->  	drm_dbg_dp(ctrl->drm_dev,
->  		"mainlink %s\n", mainlink_ready ? "READY" : "NOT READY");
->  
-> -end:
+> @@ -2042,7 +2043,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
 >  	return ret;
 >  }
 >  
-> +static void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl)
-
-At least this should come right after msm_dp_ctrl_stream_clk_on().
-
-> +{
-> +	struct msm_dp_ctrl_private *ctrl;
-> +
-> +	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
-> +
-> +	if (ctrl->stream_clks_on) {
-> +		clk_disable_unprepare(ctrl->pixel_clk);
-> +		ctrl->stream_clks_on = false;
-> +	}
-> +}
-> +
->  void msm_dp_ctrl_clear_vsc_sdp_pkt(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *dp_panel)
+> -static void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl)
+> +void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl)
 >  {
 >  	struct msm_dp_ctrl_private *ctrl;
-> @@ -2115,10 +2124,7 @@ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
 >  
->  	msm_dp_catalog_ctrl_reset(ctrl->catalog);
+> @@ -2110,30 +2111,6 @@ void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl)
+>  		phy, phy->init_count, phy->power_count);
+>  }
 >  
-> -	if (ctrl->stream_clks_on) {
-> -		clk_disable_unprepare(ctrl->pixel_clk);
-> -		ctrl->stream_clks_on = false;
-> -	}
-> +	msm_dp_ctrl_stream_clk_off(msm_dp_ctrl);
+> -void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
+> -{
+> -	struct msm_dp_ctrl_private *ctrl;
+> -	struct phy *phy;
+> -
+> -	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+> -	phy = ctrl->phy;
+> -
+> -	msm_dp_catalog_panel_disable_vsc_sdp(ctrl->catalog);
+> -
+> -	msm_dp_catalog_ctrl_mainlink_ctrl(ctrl->catalog, false);
+> -
+> -	msm_dp_catalog_ctrl_reset(ctrl->catalog);
+> -
+> -	msm_dp_ctrl_stream_clk_off(msm_dp_ctrl);
+> -
+> -	dev_pm_opp_set_rate(ctrl->dev, 0);
+> -	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
+> -
+> -	phy_power_off(phy);
+> -	drm_dbg_dp(ctrl->drm_dev, "phy=%p init=%d power_on=%d\n",
+> -			phy, phy->init_count, phy->power_count);
+> -}
+> -
+>  irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl)
+>  {
+>  	struct msm_dp_ctrl_private *ctrl;
+> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> index 547155ffa50fbe2f3a1f2c2e1ee17420daf0f3da..887cf5a866f07cb9038887a0634d3e1a0375879c 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+> @@ -22,7 +22,7 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, struct msm_dp_panel *
+>  int msm_dp_ctrl_prepare_stream_on(struct msm_dp_ctrl *dp_ctrl, bool force_link_train);
+>  void msm_dp_ctrl_off_link_stream(struct msm_dp_ctrl *msm_dp_ctrl);
+>  void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl);
+> -void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl);
+> +void msm_dp_ctrl_stream_clk_off(struct msm_dp_ctrl *msm_dp_ctrl);
+>  void msm_dp_ctrl_push_idle(struct msm_dp_ctrl *msm_dp_ctrl);
+>  irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl);
+>  void msm_dp_ctrl_handle_sink_request(struct msm_dp_ctrl *msm_dp_ctrl);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index c059f749c1f204deac9dfb0c56f537f5545d9acb..b0458bbc89e934ca33ed5af3f2a8ebca30b50824 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -911,7 +911,9 @@ static int msm_dp_display_disable(struct msm_dp_display_private *dp)
+>  	if (dp->link->sink_count == 0)
+>  		msm_dp_ctrl_psm_config(dp->ctrl);
 >  
->  	dev_pm_opp_set_rate(ctrl->dev, 0);
->  	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
+> -	msm_dp_ctrl_off(dp->ctrl);
+> +	msm_dp_ctrl_stream_clk_off(dp->ctrl);
+> +
+> +	msm_dp_ctrl_off_link(dp->ctrl);
+>  
+>  	/* re-init the PHY so that we can listen to Dongle disconnect */
+>  	if (dp->link->sink_count == 0)
 > 
 > -- 
 > 2.34.1
