@@ -2,93 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B58B9E6B63
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 11:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5151E9E6B8A
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Dec 2024 11:16:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D937610E3D9;
-	Fri,  6 Dec 2024 10:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAFEA10E404;
+	Fri,  6 Dec 2024 10:16:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Lox98JN2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KrMaSz7u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 016ED10E404
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 10:12:34 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-2ffc7a2c5d5so19238451fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 02:12:34 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E1F10E404
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Dec 2024 10:16:47 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-53df6322ea7so2196595e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Dec 2024 02:16:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733479953; x=1734084753; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=pdQlVUVoYFeHvG7EmBsOjseHHWqsjVKlG64Crc+IonQ=;
- b=Lox98JN2fZk1TGMDVevY0yYOVXsgFvAx0u0+8uU2T92sRowscAxw88YZMbC6OKQPC/
- qY4ZRmsomzbDdKygqM5Fl3+mAF0XGa3B51HHN01oedQnNHhgDn3Tx71IY9D6TrxUFOXc
- xSEdXTQPbLNeckzKHaTRofhU2S0VEWwx/UKggvnenOXoy/SWTod4/eHc9evEOjhtu0sZ
- sccQSeyPxbiMmFyzcd+YgDtVle1FvKVYxkNJZHFuVq19MvkXvExFBj8mnWtuIotZQnJ9
- jGu7vX2DD2d6CI6OCMTYNVrcVoz8UlhFpfFy+Q/+/ZXhR2Br0mTNXW04/UPv7N5i1UQo
- LEYA==
+ d=linaro.org; s=google; t=1733480205; x=1734085005; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=GMu0r/m4fzk4vy8ni1/jP/ytexs8H5s1m6UVlxoiIzM=;
+ b=KrMaSz7uveccnL1Ii7WsTcOr2xeU8kDp7CDaJj0WfNBkJUPrHEavftak1E59fpaioa
+ lJIbjsR5GaT9slNU7yx0ZdiHGaMBlXSrceFk8QhnrVGm8pwGYtaI8t2iWTq2cHlOWmzU
+ aZ6qkibQN9hDn0L5C+eKzOIVXxxCPM6OECvYxQxaxUD+OP9vy0cxUmXZFu8paz+c8Z9z
+ b3aDz/5Wq13NurFqtXaAOQuZ4RuCVVQx6w//TIjmcEhmDva/BHv+tY4gKCyoBjoctwHG
+ RAyaiLlY0nhNvk+Q37GJ0ZcKPYbXTXrHG1eSrgcmhx8AbmhMUl59+UrqRH8LoMbXvFfW
+ Joww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733479953; x=1734084753;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pdQlVUVoYFeHvG7EmBsOjseHHWqsjVKlG64Crc+IonQ=;
- b=xTusX5OscjYgp6nCL0x1AM1epHwL8WwxSyQQlShAUsrFLrGnXkw5Ih113WmTwkqRY6
- lgrp7aQ9wYZUgGKgRH3gqZQINe9rX/uk3KzrEm0ZvSZESXaw2mAxKH+1cpKBHARUf7e9
- 7m6Tlizxsoc9f8GWPe35JhrKMpjpyBNck7BtAQTCPAFiHMzmrQLpluyC/hQZkA8CcSy7
- kBGarIIvO8niBIxWPM1gF9x71cMSGh+EnqJCec9XCz1okja9KOnOlvS9Vv+VlByNkT/z
- Rv0tVBpz24Ue/qBgv5qTlLqc8j8n7dhxn7yuZCSsvDkij9lhz/BM70nAbysc0UBdsJgk
- Gc/A==
+ d=1e100.net; s=20230601; t=1733480205; x=1734085005;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GMu0r/m4fzk4vy8ni1/jP/ytexs8H5s1m6UVlxoiIzM=;
+ b=GIB6kNlvLXGh1iTAisbY6VUgSaTAOVlIYCig3kLXSVqI0zh3nKgxuf14WxewETt2Xi
+ ILchQ/HAc19AmFiCWEpJdytKBGJvGdXuxTWoot9OvVDdNj2Lm5VbWFFTyfWIKU2XnwH3
+ fooeIskqkc/0NQusFHtn4tuVIFueMhp5VUjJnwiPl/7Aw1RcSG9nWF3tI82E8S7fJonh
+ YNUsm4+gQFNSVpe69vU/PmVHwqgRNjH2StAcZs0L4b557wkukc4NbGaTVi323gfPkSRv
+ sGgQbcAn2bPj5Y7q1RZJ+jzqWvs4gyyu7RGHKjiMKuljsfH85JhE4s7KSFl1QhopRU+B
+ wksw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV7KtX5ttNi7ARxCYJarCzRpdHpcCpHkK+qCfrqg+Ym+HG8N1Euf6SfK5qH5fWRVIFzRLqpgAYMXW0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtAEr/SQif4UopeUcMeTfBtPkq4h8Sux9tlV9wJVrVNaSFX8O5
- g3HFEhtgvZxnfmOiXVnxo/G26Yfs5M/BVssbmHbYDGKo0ha84YCfjpXB16k97Zs=
-X-Gm-Gg: ASbGncttjEbXyF6yxZLWpYvzQ3zOeZyBEwJeIyg+yFym/o+izC01204kHmyaShrOciq
- HbRbZDAdgrXqt/j8QGpC5geMlnp9FvX+ltqnG2H0Jh/v1IltKzqfBiXZ0GPj2hZ58Oblmrvw3Wb
- sXBcDtdHe730uNX3N/dUDLl6XwPBbADJGqZc6leljt0owXk+QrX97HxwdLGQCnQEqVvTRfcvM5i
- 96JVjTHVPc9SWhLKjo50HSo78ZMOiGrj8ErZ4vnpZdKExsGkyRK0P23IuhQeoqakPOac0i577D3
- hRRbwMJIwxkEz2/7z3MekbdHY90Yog==
-X-Google-Smtp-Source: AGHT+IEyZSvPL3mzmowHJHRfcFnZqMzovXVw5afrre7v6w1xeHTTmWEyWuLQ4pxK5xrsOcPrkW46Qw==
-X-Received: by 2002:a2e:b8c1:0:b0:300:1699:6e9a with SMTP id
- 38308e7fff4ca-3002fc95ca2mr6843341fa.35.1733479952926; 
- Fri, 06 Dec 2024 02:12:32 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30035db98d9sm691531fa.37.2024.12.06.02.12.30
+ AJvYcCWSWJ8dmq67deylmu4cAm2iVDaSl0AYXWb7Mm4cg60aYku2vHI9zJfOzmAK6jJgtgILTFT9lNmi+wE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRVuJfKKIfOMKrF/Zpk/0e9QJe273fBhtty3iGSCjiTANKF+MF
+ vC/mqLM0EwDa6YLCeG+gTCX/s+u0TnATxXCyf1HND80/txQMpKSwaJrJT3s1A8s=
+X-Gm-Gg: ASbGncv6RnTWitdrHrTmIM4sTFqg6AJF/cWM8lqoU1cmFq32Ruff6bEj3kcXptK37ty
+ OkZJk62whSUp3m+MMZysdBD8zf0hAFqZspAiu2Gs2mKAKiq51ycajeXGlh4XkGBoxzZ7bW6JSWT
+ iwKDYTXv2Ej/Tq/qJjrkXa+8PKEpzvFSD0aOYQqz4SECmEbwUKcEYr5ZWHrWn88xe/aNsFx32fb
+ R9D6mym6AuFTO2Jv5VJ6CD28bMKY6y6Ize2c4iDIfAR/nLL9jLOjp1hOQ==
+X-Google-Smtp-Source: AGHT+IFoNdCoX9yAN9f6E4/wn97zmUD4xfv4UmC2Fb6ivX/IzUxT2UJ0tEJKhb3Ba6M0U4YvvS3rmw==
+X-Received: by 2002:ac2:5212:0:b0:53e:2ed9:8122 with SMTP id
+ 2adb3069b0e04-53e2ed98271mr483370e87.22.1733480205200; 
+ Fri, 06 Dec 2024 02:16:45 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53e2294738fsm462355e87.52.2024.12.06.02.16.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Dec 2024 02:12:31 -0800 (PST)
-Date: Fri, 6 Dec 2024 12:12:29 +0200
+ Fri, 06 Dec 2024 02:16:43 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Vara Reddy <quic_varar@quicinc.com>, Rob Clark <robdclark@chromium.org>, 
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 31/45] drm/msm/dp: add dp_mst_drm to manage DP MST bridge
- operations
-Message-ID: <4unizv5vi7ve7qdpzmcxj6vvxwxrpcppg3y72csi7ga2jqwhrm@5eu74nuopyqf>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-31-f8618d42a99a@quicinc.com>
+Subject: [PATCH v6 00/10] drm: add DRM HDMI Codec framework
+Date: Fri, 06 Dec 2024 12:15:54 +0200
+Message-Id: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241205-dp_mst-v1-31-f8618d42a99a@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANrOUmcC/33RwW6EIBAA0F8xnEsrICie+h9NDwjDSrJii66x2
+ ey/d1zTuhsTL4SBmTeBuZIBUoCB1NmVJJjCEPqIgXrJiG1NPAENDmPCc17kUuTUpY42KTi8aV0
+ XqO1jBDv2ieom96rkUpcCCNZ/JfBhvtsfnxi3YcC0n3uriS2nq6qYPFAnRrGp1N6WlZKm4e/nE
+ E3qX/t0Igs78X+KsZwdURypUmjw2jjnNewo8UjpI0ogZZk03lkjq6rYUcUDxfkRVSDVFE5pp0A
+ 0Tu8ouVH8+IFyoaRgCiruFTNP1G2dSYLvC455XAezTbnOnjpsKpwd7S4jzLQyQhshAZeqxn9Hs
+ DEDYG7XhbHOlrouDPbtb0MjzCN2vv0C/vUs5GgCAAA=
+X-Change-ID: 20240530-drm-bridge-hdmi-connector-9b0f6725973e
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7229;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=X9kaSDtRP1MgSeYirvVG+XyehxBCw+87eheLybmqpYo=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnUs8IyVydnpBlAcAHh/cXorjU91qWaV7pIsj38
+ 2HxLjH62cyJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1LPCAAKCRCLPIo+Aiko
+ 1VNVB/98WtyAUjEWVIPrfqZFogwDMChB2E3F91aMuAO5L1y25H5WYJcPWv69B5Xc2pV2tb5JX5W
+ VjbizeqJ4/CraKCMUGpGUGJ8O+JaYQ+ZzZQjogS4f/irTluKP5JH0gOKfBg5yTVJ6R9W0XLpUNP
+ oUN6rEmaLqKEiNbRo040BvPDi+1wYFwg10PnBdzRXDF/Q91Uxh9wokseT7SouqP36U9jIQwTFpL
+ 98w14nh5sW5flZ/suxJZkpFUvHHXOp0wpbk6WiVtsdL9RJFXPRrqqpO7bbTfT3idPOtTEIg3PHs
+ UCznbLm0RFr43E4gqaM7+j9yZv1QHF6kvjzzpiuc6U6qK1cY
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,694 +130,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:32:02PM -0800, Abhinav Kumar wrote:
-> Add a new file dp_mst_drm to manage the DP MST bridge operations
-> similar to the dp_drm file which manages the SST bridge operations.
-> Each MST encoder creates one bridge and each bridge is bound to its
-> own dp_panel abstraction to manage the operations of its pipeline.
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/Makefile        |   3 +-
->  drivers/gpu/drm/msm/dp/dp_display.h |   2 +
->  drivers/gpu/drm/msm/dp/dp_mst_drm.c | 490 ++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_mst_drm.h | 102 ++++++++
->  4 files changed, 596 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index f274d9430cc311405f890074c1466ffe2ec45ac9..b1e01b3123d9afc4818f059c5d4e7ca70dca3754 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -142,7 +142,8 @@ msm-display-$(CONFIG_DRM_MSM_DP)+= dp/dp_aux.o \
->  	dp/dp_link.o \
->  	dp/dp_panel.o \
->  	dp/dp_audio.o \
-> -	dp/dp_utils.o
-> +	dp/dp_utils.o \
-> +	dp/dp_mst_drm.o
->  
->  msm-display-$(CONFIG_DRM_MSM_HDMI_HDCP) += hdmi/hdmi_hdcp.o
->  
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 6ab14e969bce0fd07b3a550bae17e99652479232..a5d4893f689c6afbbe622c9b7dfa98d23d754831 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -7,6 +7,7 @@
->  #define _DP_DISPLAY_H_
->  
->  #include "dp_panel.h"
-> +#include "dp_mst_drm.h"
->  #include <sound/hdmi-codec.h>
->  #include "disp/msm_disp_snapshot.h"
->  
-> @@ -26,6 +27,7 @@ struct msm_dp {
->  	bool is_edp;
->  	bool internal_hpd;
->  
-> +	struct msm_dp_mst *msm_dp_mst;
->  	hdmi_codec_plugged_cb plugged_cb;
->  
->  	struct msm_dp_audio *msm_dp_audio;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_mst_drm.c b/drivers/gpu/drm/msm/dp/dp_mst_drm.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e66bd1e565aeb4da3d636eb5f4aa75504d60fd40
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/dp/dp_mst_drm.c
-> @@ -0,0 +1,490 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> + * Copyright (c) 2018-2021, The Linux Foundation. All rights reserved.
-> + */
-> +
-> +/*
-> + * Copyright © 2014 Red Hat.
-> + *
-> + * Permission to use, copy, modify, distribute, and sell this software and its
-> + * documentation for any purpose is hereby granted without fee, provided that
-> + * the above copyright notice appear in all copies and that both that copyright
-> + * notice and this permission notice appear in supporting documentation, and
-> + * that the name of the copyright holders not be used in advertising or
-> + * publicity pertaining to distribution of the software without specific,
-> + * written prior permission.  The copyright holders make no representations
-> + * about the suitability of this software for any purpose.  It is provided "as
-> + * is" without express or implied warranty.
-> + *
-> + * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-> + * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-> + * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-> + * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-> + * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-> + * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
-> + * OF THIS SOFTWARE.
-> + */
-> +
-> +#include "dp_mst_drm.h"
-> +
-> +static struct drm_private_state *msm_dp_mst_duplicate_bridge_state(struct drm_private_obj *obj)
-> +{
-> +	struct msm_dp_mst_bridge_state *state;
-> +
-> +	state = kmemdup(obj->state, sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return NULL;
-> +
-> +	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
-> +
-> +	return &state->base;
-> +}
-> +
-> +static void msm_dp_mst_destroy_bridge_state(struct drm_private_obj *obj,
-> +					    struct drm_private_state *state)
-> +{
-> +	struct msm_dp_mst_bridge_state *priv_state =
-> +		to_msm_dp_mst_bridge_priv_state(state);
-> +
-> +	kfree(priv_state);
-> +}
-> +
-> +static const struct drm_private_state_funcs msm_dp_mst_bridge_state_funcs = {
-> +	.atomic_duplicate_state = msm_dp_mst_duplicate_bridge_state,
-> +	.atomic_destroy_state = msm_dp_mst_destroy_bridge_state,
-> +};
-> +
-> +/**
-> + * dp_mst_find_vcpi_slots() - Find VCPI slots for this PBN value
-> + * @mgr: manager to use
-> + * @pbn: payload bandwidth to convert into slots.
-> + *
-> + * Calculate the number of VCPI slots that will be required for the given PBN
-> + * value.
-> + *
-> + * RETURNS:
-> + * The total slots required for this port, or error.
-> + */
-> +static int msm_dp_mst_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, int pbn)
-> +{
-> +	int num_slots;
-> +	struct drm_dp_mst_topology_state *state;
-> +
-> +	state = to_drm_dp_mst_topology_state(mgr->base.state);
-> +	num_slots = DIV_ROUND_UP(pbn, dfixed_trunc(state->pbn_div));
+While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+framework, I stumbled upon an issue while handling the Audio InfoFrames.
+The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+there was no simple way to get the drm_connector that stayed at the end
+of the bridge chain. At the same point the drm_hdmi_connector functions
+expected to get drm_connector instance.
 
-drm_dp_atomic_find_time_slots() uses slightly different maths here, with
-the different precision. Can we use the data that is set by that function
-instead (payload->time_slots)?
+While looking for a way to solve the issue, I stumbled upon several
+deficiencies in existing hdmi_codec_ops implementations. Only few of the
+implementations were able to handle codec's 'plugged' callback. One
+third of the drivers didn't implement the get_eld() callback.
 
-> +
-> +	/* max. time slots - one slot for MTP header */
-> +	if (num_slots > 63)
-> +		return -ENOSPC;
-> +	return num_slots;
-> +}
-> +
-> +static void _msm_dp_mst_update_timeslots(struct msm_dp_mst *mst,
-> +					 struct msm_dp_mst_bridge *mst_bridge,
-> +					 struct drm_dp_mst_port *port)
-> +{
-> +	int i;
-> +	struct msm_dp_mst_bridge *msm_dp_bridge;
-> +	struct drm_dp_mst_topology_state *mst_state;
-> +	struct drm_dp_mst_atomic_payload *payload;
-> +	int prev_start = 0;
-> +	int prev_slots = 0;
-> +
-> +	mst_state = to_drm_dp_mst_topology_state(mst->mst_mgr.base.state);
-> +	payload = drm_atomic_get_mst_payload_state(mst_state, port);
-> +
-> +	if (!payload) {
-> +		DRM_ERROR("mst bridge [%d] update_timeslots failed, null payload\n",
-> +			  mst_bridge->id);
-> +		return;
-> +	}
-> +
-> +	for (i = 0; i < mst->max_streams; i++) {
-> +		msm_dp_bridge = &mst->mst_bridge[i];
-> +		if (mst_bridge == msm_dp_bridge) {
-> +			/*
-> +			 * When a payload was removed make sure to move any payloads after it
-> +			 * to the left so all payloads are aligned to the left.
-> +			 */
+Most of the issues can be solved if drm_connector handles
+hdmi-audio-codec on its own, delegating functionality to the actual
+implementation, be it a driver that implements drm_connector or
+drm_bridge.
 
-Please don't. drm_dp_remove_payload_part2() should take care of that for
-us. What is the reason for caching the data if we have to manually
-handle the cache?
+Implement such high-level framework, adding proper support for Audio
+InfoFrame generation to the LT9611 driver.
 
-> +			if (payload->vc_start_slot < 0) {
-> +				// cache the payload
-> +				prev_start = msm_dp_bridge->start_slot;
-> +				prev_slots = msm_dp_bridge->num_slots;
-> +				msm_dp_bridge->pbn = 0;
-> +				msm_dp_bridge->start_slot = 1;
-> +				msm_dp_bridge->num_slots = 0;
-> +				msm_dp_bridge->vcpi = 0;
-> +			} else { //add payload
-> +				msm_dp_bridge->pbn = payload->pbn;
-> +				msm_dp_bridge->start_slot = payload->vc_start_slot;
-> +				msm_dp_bridge->num_slots = payload->time_slots;
-> +				msm_dp_bridge->vcpi = payload->vcpi;
-> +			}
-> +		}
-> +	}
-> +
-> +	// Now commit all the updated payloads
-> +	for (i = 0; i < mst->max_streams; i++) {
-> +		msm_dp_bridge = &mst->mst_bridge[i];
-> +
-> +		//Shift payloads to the left if there was a removed payload.
-> +		if (payload->vc_start_slot < 0 && msm_dp_bridge->start_slot > prev_start)
-> +			msm_dp_bridge->start_slot -= prev_slots;
-> +
-> +		msm_dp_display_set_stream_info(mst->msm_dp, msm_dp_bridge->msm_dp_panel,
-> +					       msm_dp_bridge->id, msm_dp_bridge->start_slot,
-> +					       msm_dp_bridge->num_slots,
-> +					       msm_dp_bridge->pbn, msm_dp_bridge->vcpi);
-> +		drm_dbg_dp(mst->msm_dp->drm_dev,
-> +			   "conn:%d vcpi:%d start_slot:%d num_slots:%d, pbn:%d\n",
-> +			   DP_MST_CONN_ID(msm_dp_bridge), msm_dp_bridge->vcpi,
-> +			   msm_dp_bridge->start_slot,
-> +			   msm_dp_bridge->num_slots, msm_dp_bridge->pbn);
-> +	}
-> +}
-> +
-> +static int _msm_dp_mst_bridge_pre_enable_part1(struct msm_dp_mst_bridge *dp_bridge,
-> +					       struct drm_bridge_state *bridge_state)
-> +{
-> +	struct msm_dp *msm_dp = dp_bridge->display;
-> +	struct msm_dp_mst *mst = msm_dp->msm_dp_mst;
-> +	struct msm_dp_mst_connector *mst_conn = to_msm_dp_mst_connector(dp_bridge->connector);
-> +	struct drm_dp_mst_port *port = mst_conn->mst_port;
-> +	struct drm_dp_mst_topology_state *mst_state;
-> +	struct drm_dp_mst_atomic_payload *payload;
-> +	struct msm_dp_panel *dp_panel = mst_conn->dp_panel;
-> +	int pbn, slots;
-> +	int rc = 0;
-> +
-> +	mst_state = drm_atomic_get_new_mst_topology_state(bridge_state->base.state,
-> +							  &mst->mst_mgr);
-> +
-> +	pbn = drm_dp_calc_pbn_mode(dp_panel->msm_dp_mode.drm_mode.clock,
-> +				   (mst_conn->connector.display_info.bpc * 3) << 4);
-> +
-> +	slots = msm_dp_mst_find_vcpi_slots(&mst->mst_mgr, pbn);
-> +
-> +	drm_dbg_dp(msm_dp->drm_dev, "conn:%d pbn:%d, slots:%d\n", DP_MST_CONN_ID(dp_bridge),
-> +		   pbn, slots);
-> +
-> +	payload = drm_atomic_get_mst_payload_state(mst_state, port);
-> +	if (!payload || payload->time_slots <= 0) {
-> +		DRM_ERROR("time slots not allocated for conn:%d\n", DP_MST_CONN_ID(dp_bridge));
-> +		rc = -EINVAL;
-> +		return rc;
-> +	}
-> +
-> +	drm_dp_mst_update_slots(mst_state, DP_CAP_ANSI_8B10B);
-> +
-> +	rc = drm_dp_add_payload_part1(&mst->mst_mgr, mst_state, payload);
-> +	if (rc) {
-> +		DRM_ERROR("payload allocation failure for conn:%d\n", DP_MST_CONN_ID(dp_bridge));
-> +		return rc;
-> +	}
-> +
-> +	_msm_dp_mst_update_timeslots(mst, dp_bridge, port);
-> +
-> +	return rc;
-> +}
-> +
-> +static void _msm_dp_mst_bridge_pre_enable_part2(struct msm_dp_mst_bridge *dp_bridge,
-> +						struct drm_bridge_state *bridge_state)
-> +{
-> +	struct msm_dp *msm_dp = dp_bridge->display;
-> +	struct msm_dp_mst *mst = msm_dp->msm_dp_mst;
-> +	struct msm_dp_mst_connector *mst_conn = to_msm_dp_mst_connector(dp_bridge->connector);
-> +	struct drm_dp_mst_port *port = mst_conn->mst_port;
-> +	struct drm_dp_mst_topology_state *mst_state;
-> +	struct drm_dp_mst_atomic_payload *payload;
-> +
-> +	drm_dp_check_act_status(&mst->mst_mgr);
-> +
-> +	mst_state = to_drm_dp_mst_topology_state(mst->mst_mgr.base.state);
-> +	payload = drm_atomic_get_mst_payload_state(mst_state, port);
-> +
-> +	if (!payload) {
-> +		DRM_ERROR("mst bridge [%d] null payload\n", dp_bridge->id);
-> +		return;
-> +	}
-> +
-> +	if (!payload->port) {
-> +		DRM_ERROR("mst bridge [%d] null port\n", dp_bridge->id);
-> +		return;
-> +	}
-> +
-> +	if (!payload->port->connector) {
-> +		DRM_ERROR("mst bridge [%d] part-2 failed, null connector\n",
-> +			  dp_bridge->id);
-> +		return;
-> +	}
-> +
-> +	if (payload->vc_start_slot == -1) {
-> +		DRM_ERROR("mst bridge [%d] part-2 failed, payload alloc part 1 failed\n",
-> +			  dp_bridge->id);
-> +		return;
-> +	}
-> +
-> +	drm_dp_add_payload_part2(&mst->mst_mgr, payload);
-> +
-> +	drm_dbg_dp(msm_dp->drm_dev, "mst bridge [%d] _pre enable part-2 complete\n",
-> +		   dp_bridge->id);
-> +}
-> +
-> +static void _msm_dp_mst_bridge_pre_disable_part1(struct msm_dp_mst_bridge *dp_bridge,
-> +						 struct drm_bridge_state *bridge_state)
-> +{
-> +	struct msm_dp *msm_dp = dp_bridge->display;
-> +	struct msm_dp_mst *mst = msm_dp->msm_dp_mst;
-> +	struct msm_dp_mst_connector *mst_conn = to_msm_dp_mst_connector(dp_bridge->connector);
-> +	struct drm_dp_mst_port *port = mst_conn->mst_port;
-> +	struct drm_dp_mst_topology_state *old_mst_state;
-> +	struct drm_dp_mst_topology_state *new_mst_state;
-> +	const struct drm_dp_mst_atomic_payload *old_payload;
-> +	struct drm_dp_mst_atomic_payload *new_payload;
-> +
-> +	old_mst_state = drm_atomic_get_old_mst_topology_state(bridge_state->base.state,
-> +							      &mst->mst_mgr);
-> +
-> +	new_mst_state = drm_atomic_get_new_mst_topology_state(bridge_state->base.state,
-> +							      &mst->mst_mgr);
-> +
-> +	old_payload = drm_atomic_get_mst_payload_state(old_mst_state, port);
-> +	new_payload = drm_atomic_get_mst_payload_state(new_mst_state, port);
-> +
-> +	if (!old_payload || !new_payload) {
-> +		DRM_ERROR("mst bridge [%d] _pre disable part-1 failed, null payload\n",
-> +			  dp_bridge->id);
-> +		return;
-> +	}
-> +
-> +	drm_dp_remove_payload_part1(&mst->mst_mgr, new_mst_state, new_payload);
-> +	drm_dp_remove_payload_part2(&mst->mst_mgr, new_mst_state, old_payload, new_payload);
-> +
-> +	_msm_dp_mst_update_timeslots(mst, dp_bridge, port);
-> +
-> +	drm_dbg_dp(msm_dp->drm_dev, "mst bridge [%d] _pre disable part-1 complete\n",
-> +		   dp_bridge->id);
-> +}
-> +
-> +static void _msm_dp_mst_bridge_pre_disable_part2(struct msm_dp_mst_bridge *dp_bridge)
-> +{
-> +	struct msm_dp *msm_dp = dp_bridge->display;
-> +	struct msm_dp_mst *mst = msm_dp->msm_dp_mst;
-> +
-> +	drm_dp_check_act_status(&mst->mst_mgr);
-> +
-> +	drm_dbg_dp(msm_dp->drm_dev, "mst bridge [%d] _pre disable part-2 complete\n",
-> +		   dp_bridge->id);
-> +}
-> +
-> +static void msm_dp_mst_bridge_atomic_pre_enable(struct drm_bridge *drm_bridge,
-> +						struct drm_bridge_state *old_bridge_state)
-> +{
-> +	int rc = 0;
-> +	struct msm_dp_mst_bridge *bridge;
-> +	struct msm_dp *dp;
-> +	struct msm_dp_mst_bridge_state *msm_dp_bridge_state;
-> +
-> +	if (!drm_bridge) {
-> +		DRM_ERROR("Invalid params\n");
-> +		return;
-> +	}
-> +
-> +	bridge = to_msm_dp_mst_bridge(drm_bridge);
-> +	msm_dp_bridge_state = to_msm_dp_mst_bridge_state(bridge);
-> +	dp = bridge->display;
-> +
-> +	/* to cover cases of bridge_disable/bridge_enable without modeset */
-> +	bridge->connector = msm_dp_bridge_state->connector;
-> +	bridge->msm_dp_panel = msm_dp_bridge_state->msm_dp_panel;
-> +
-> +	if (!bridge->connector) {
-> +		DRM_ERROR("Invalid connector\n");
-> +		return;
-> +	}
-> +
-> +	msm_dp_display_atomic_prepare(dp);
-> +
-> +	rc = _msm_dp_mst_bridge_pre_enable_part1(bridge, old_bridge_state);
-> +	if (rc) {
-> +		DRM_ERROR("[%d] DP display pre-enable failed, rc=%d\n", bridge->id, rc);
-> +		msm_dp_display_unprepare(dp);
-> +		return;
-> +	}
-> +
-> +	msm_dp_display_enable_helper(dp, bridge->msm_dp_panel);
-> +
-> +	_msm_dp_mst_bridge_pre_enable_part2(bridge, old_bridge_state);
-> +
-> +	drm_dbg_dp(dp->drm_dev, "conn:%d mode:%s fps:%d vcpi:%d slots:%d to %d\n",
-> +		   DP_MST_CONN_ID(bridge), bridge->drm_mode.name,
-> +		   drm_mode_vrefresh(&bridge->drm_mode),
-> +		   bridge->vcpi, bridge->start_slot,
-> +		   bridge->start_slot + bridge->num_slots);
-> +}
-> +
-> +static void msm_dp_mst_bridge_atomic_disable(struct drm_bridge *drm_bridge,
-> +					     struct drm_bridge_state *old_bridge_state)
-> +{
-> +	struct msm_dp_mst_bridge *bridge;
-> +	struct msm_dp *dp;
-> +
-> +	if (!drm_bridge) {
-> +		DRM_ERROR("Invalid params\n");
-> +		return;
-> +	}
-> +
-> +	bridge = to_msm_dp_mst_bridge(drm_bridge);
-> +	if (!bridge->connector) {
-> +		DRM_ERROR("Invalid connector\n");
-> +		return;
-> +	}
-> +
-> +	dp = bridge->display;
-> +
-> +	_msm_dp_mst_bridge_pre_disable_part1(bridge, old_bridge_state);
-> +
-> +	msm_dp_display_disable_helper(dp, bridge->msm_dp_panel);
-> +
-> +	_msm_dp_mst_bridge_pre_disable_part2(bridge);
-> +
-> +	drm_dbg_dp(dp->drm_dev, "mst bridge:%d conn:%d disable complete\n", bridge->id,
-> +		   DP_MST_CONN_ID(bridge));
-> +}
-> +
-> +static void msm_dp_mst_bridge_atomic_post_disable(struct drm_bridge *drm_bridge,
-> +						  struct drm_bridge_state *old_bridge_state)
-> +{
-> +	int conn = 0;
-> +	struct msm_dp_mst_bridge *bridge;
-> +	struct msm_dp *dp;
-> +
-> +	if (!drm_bridge) {
-> +		DRM_ERROR("Invalid params\n");
-> +		return;
-> +	}
-> +
-> +	bridge = to_msm_dp_mst_bridge(drm_bridge);
-> +	if (!bridge->connector) {
-> +		DRM_ERROR("Invalid connector\n");
-> +		return;
-> +	}
-> +
-> +	conn = DP_MST_CONN_ID(bridge);
-> +
-> +	dp = bridge->display;
-> +
-> +	msm_dp_display_atomic_post_disable_helper(dp, bridge->msm_dp_panel);
-> +
-> +	if (!dp->mst_active)
-> +		msm_dp_display_unprepare(dp);
-> +
-> +	bridge->connector = NULL;
-> +	bridge->msm_dp_panel =  NULL;
-> +
-> +	drm_dbg_dp(dp->drm_dev, "mst bridge:%d conn:%d post disable complete\n",
-> +		   bridge->id, conn);
-> +}
-> +
-> +static void msm_dp_mst_bridge_mode_set(struct drm_bridge *drm_bridge,
-> +				       const struct drm_display_mode *mode,
-> +				       const struct drm_display_mode *adjusted_mode)
-> +{
-> +	struct msm_dp_mst_bridge *bridge;
-> +	struct msm_dp_mst_bridge_state *dp_bridge_state;
-> +	struct msm_dp *dp;
-> +	struct msm_dp_panel *msm_dp_panel;
-> +
-> +	if (!drm_bridge || !mode || !adjusted_mode) {
-> +		DRM_ERROR("Invalid params\n");
-> +		return;
-> +	}
-> +
-> +	bridge = to_msm_dp_mst_bridge(drm_bridge);
-> +
-> +	dp_bridge_state = to_msm_dp_mst_bridge_state(bridge);
-> +	bridge->connector = dp_bridge_state->connector;
-> +	bridge->msm_dp_panel = dp_bridge_state->msm_dp_panel;
-> +
-> +	msm_dp_panel = bridge->msm_dp_panel;
-> +	dp = bridge->display;
-> +
-> +	memset(&bridge->msm_dp_mode, 0x0, sizeof(struct msm_dp_display_mode));
-> +	memcpy(&bridge->drm_mode, adjusted_mode, sizeof(bridge->drm_mode));
-> +	msm_dp_display_mode_set_helper(dp, mode, adjusted_mode, bridge->msm_dp_panel);
-> +	msm_dp_panel->mst_caps.pbn = drm_dp_calc_pbn_mode(msm_dp_panel->msm_dp_mode.drm_mode.clock,
-> +							  (msm_dp_panel->msm_dp_mode.bpp << 4));
-> +	memcpy(&bridge->msm_dp_mode, &bridge->msm_dp_panel->msm_dp_mode,
-> +	       sizeof(struct msm_dp_display_mode));
+Several design decisions to be kept in mind:
 
-No, you can't just memcpy the drm_mode struct.
+- drm_connector_hdmi_codec is kept as simple as possible. It implements
+  generic functionality (ELD, hotplug, registration).
 
-> +	drm_dbg_dp(dp->drm_dev, "mst bridge:%d conn:%d mode set complete %s\n", bridge->id,
-> +		   DP_MST_CONN_ID(bridge), mode->name);
-> +}
-> +
-> +/* DP MST Bridge APIs */
-> +static const struct drm_bridge_funcs msm_dp_mst_bridge_ops = {
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state   = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset           = drm_atomic_helper_bridge_reset,
-> +	.atomic_pre_enable   = msm_dp_mst_bridge_atomic_pre_enable,
-> +	.atomic_disable      = msm_dp_mst_bridge_atomic_disable,
-> +	.atomic_post_disable = msm_dp_mst_bridge_atomic_post_disable,
-> +	.mode_set     = msm_dp_mst_bridge_mode_set,
-> +};
-> +
-> +int msm_dp_mst_drm_bridge_init(struct msm_dp *dp, struct drm_encoder *encoder)
-> +{
-> +	int rc = 0;
-> +	struct msm_dp_mst_bridge *bridge = NULL;
-> +	struct msm_dp_mst_bridge_state *state;
-> +	struct drm_device *dev;
-> +	struct msm_dp_mst *mst = dp->msm_dp_mst;
-> +	int i;
-> +
-> +	for (i = 0; i < mst->max_streams; i++) {
-> +		if (!mst->mst_bridge[i].in_use) {
-> +			bridge = &mst->mst_bridge[i];
-> +			bridge->encoder = encoder;
-> +			bridge->in_use = true;
-> +			bridge->id = i;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (i == mst->max_streams) {
-> +		DRM_ERROR("mst supports only %d bridges\n", i);
-> +		rc = -EACCES;
-> +		goto end;
-> +	}
-> +
-> +	dev = dp->drm_dev;
-> +	bridge->display = dp;
-> +	bridge->base.funcs = &msm_dp_mst_bridge_ops;
-> +	bridge->base.encoder = encoder;
-> +	bridge->base.type = dp->connector_type;
-> +	bridge->base.ops = DRM_BRIDGE_OP_MODES;
-> +	drm_bridge_add(&bridge->base);
-> +
-> +	rc = drm_bridge_attach(encoder, &bridge->base, NULL, 0);
-> +	if (rc) {
-> +		DRM_ERROR("failed to attach bridge, rc=%d\n", rc);
-> +		goto end;
-> +	}
-> +
-> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (!state) {
-> +		rc = -ENOMEM;
-> +		goto end;
-> +	}
-> +
-> +	drm_atomic_private_obj_init(dev, &bridge->obj,
-> +				    &state->base,
-> +				    &msm_dp_mst_bridge_state_funcs);
-> +
-> +	drm_dbg_dp(dp->drm_dev, "mst drm bridge init. bridge id:%d\n", i);
-> +
-> +	return 0;
-> +
-> +end:
-> +	return rc;
-> +}
-> diff --git a/drivers/gpu/drm/msm/dp/dp_mst_drm.h b/drivers/gpu/drm/msm/dp/dp_mst_drm.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..c2a82cd3c6d6e1951a8e5905d3aa39dfc691023b
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/dp/dp_mst_drm.h
-> @@ -0,0 +1,102 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> + *
-> + * Permission to use, copy, modify, distribute, and sell this software and its
-> + * documentation for any purpose is hereby granted without fee, provided that
-> + * the above copyright notice appear in all copies and that both that copyright
-> + * notice and this permission notice appear in supporting documentation, and
-> + * that the name of the copyright holders not be used in advertising or
-> + * publicity pertaining to distribution of the software without specific,
-> + * written prior permission.  The copyright holders make no representations
-> + * about the suitability of this software for any purpose.  It is provided "as
-> + * is" without express or implied warranty.
-> + *
-> + * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-> + * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-> + * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-> + * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-> + * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-> + * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
-> + * OF THIS SOFTWARE.
-> + */
-> +
-> +#ifndef _DP_MST_DRM_H_
-> +#define _DP_MST_DRM_H_
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/init.h>
-> +#include <linux/errno.h>
-> +#include <linux/version.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_atomic.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_crtc.h>
-> +#include <drm/drm_fixed.h>
-> +#include <drm/drm_connector.h>
-> +#include <drm/display/drm_dp_helper.h>
-> +#include <drm/display/drm_dp_mst_helper.h>
-> +
-> +#include "dp_panel.h"
-> +#include "dp_display.h"
-> +
-> +#define DP_MST_CONN_ID(bridge) ((bridge)->connector ? \
-> +		(bridge)->connector->base.id : 0)
+- drm_hdmi_connector sets up HDMI codec device if the connector
+  is setup correspondingly (either I2S or S/PDIF is marked as
+  supported).
 
-locking? Also connectors can easily be freed, so you can't just read
-into it.
+- drm_bridge_connector provides a way to link HDMI audio codec
+  funcionality in the drm_bridge with the drm_connector_hdmi_codec
+  framework.
 
-> +
-> +struct msm_dp_mst_bridge {
-> +	struct drm_bridge base;
-> +	struct drm_private_obj obj;
-> +	u32 id;
-> +
-> +	bool in_use;
-> +
-> +	struct msm_dp *display;
-> +	struct drm_encoder *encoder;
-> +
-> +	struct drm_display_mode drm_mode;
+- It might be worth reverting the no_i2s_capture / no_spdif_capture
+  bits. Only TDA889x driver sets them, while it's safe to assume that
+  most of HDMI / DP devices do not support ARC / capture. I think the
+  drivers should opt-in capture support rather than having to opt-out of
+  it.
 
-Why? Where is this being set? Why can't you use the state objects instead?
+This series depends on the ELD mutex series [1]
 
-> +	struct msm_dp_display_mode msm_dp_mode;
+[1] https://lore.kernel.org/r/20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org
 
-I don't see this being used. Please drop.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+Changes in v6:
+- Dropped extra checks on the EDID (Jani)
+- Reworked drmm_connector_hdmi_init(), splitting the codec init to a
+  separate optional function rather than passing arguments through
+  drm_connector (Maxime)
+- Reworked EDID update functions (Maxime, Jani)
+- No longer refresh the EDID in vc4_hdmi_connector_get_modes(), it is
+  redundant as vc4_hdmi_connector_detect_cxtx() already does that.
+- Link to v5: https://lore.kernel.org/r/20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org
 
-> +	struct drm_connector *connector;
+Changes in v5:
+- Moved prototypes from drm_internal.h to
+  drm_connector_hdmi_codec_internal.h (Jani)
+- Rebased on top of ELD mutex series, resolving the long-standing FIXME
+- Converted the VC4 driver (compile-tested only)
+- Link to v4: https://lore.kernel.org/r/20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org
 
-So, you have connector here and a connector in the state. Please drop
-one (I'd guess this one).
+Changes in v4:
+- Added forward declaration of struct drm_edid (LKP)
+- Fixed kerneldoc for drm_atomic_helper_connector_hdmi_update_edid().
+- Link to v3: https://lore.kernel.org/r/20241109-drm-bridge-hdmi-connector-v3-0-c15afdca5884@linaro.org
 
-> +	struct msm_dp_panel *msm_dp_panel;
-> +
-> +	int vcpi;
-> +	int pbn;
-> +	int num_slots;
-> +	int start_slot;
+Changes in v3:
+- Dropped RFC status
+- Fixed drm_connector_hdmi_codec_init() kerneldoc (LKP)
+- Dropped double underscore prefix from
+  __drm_atomic_helper_connector_hdmi_update_edid() (Jani)
+- Moved drm_edid_free() from
+  drm_atomic_helper_connector_hdmi_update_edid() to the caller's side
+  (Jani)
+- Link to v2: https://lore.kernel.org/r/20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org
 
-Which of the fields (including in_use) are long-lived and which are a
-part of the current state? Can we move all state ones to bridge's state?
+Changes in v2:
+- Use drm_atomic_get_old_connector_for_encoder in atomic_disable() to
+  prevent it from crashing
+- Reworked HDMI codec init/exit, removing drmm_ calls (Maxime)
+- Drafted the helper to be called from .detect_ctx() that performs HDMI
+  Connector maintenance duties (Maxime)
+- Moved no_capture_mute to struct hdmi_codec_pdata
+- Link to v1: https://lore.kernel.org/r/20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org
 
-> +};
-> +
-> +struct msm_dp_mst_bridge_state {
-> +	struct drm_private_state base;
-> +	struct drm_connector *connector;
-> +	struct msm_dp_panel *msm_dp_panel;
-> +	int num_slots;
-> +};
-> +
-> +struct msm_dp_mst {
-> +	bool mst_initialized;
-> +	struct drm_dp_mst_topology_mgr mst_mgr;
-> +	struct msm_dp_mst_bridge *mst_bridge;
-> +	struct msm_dp *msm_dp;
-> +	bool mst_session_hpd_state;
-> +	u32 max_streams;
-> +};
-> +
-> +struct msm_dp_mst_connector {
-> +	struct drm_connector connector;
-> +	struct drm_dp_mst_port *mst_port;
-> +	struct msm_dp *msm_dp;
-> +	struct msm_dp_panel *dp_panel;
-> +};
-> +
-> +#define to_msm_dp_mst_bridge(x)     container_of((x), struct msm_dp_mst_bridge, base)
-> +#define to_msm_dp_mst_bridge_priv(x) \
-> +		container_of((x), struct msm_dp_mst_bridge, obj)
-> +#define to_msm_dp_mst_bridge_priv_state(x) \
-> +		container_of((x), struct msm_dp_mst_bridge_state, base)
-> +#define to_msm_dp_mst_bridge_state(x) \
-> +		to_msm_dp_mst_bridge_priv_state((x)->obj.state)
-> +#define to_msm_dp_mst_connector(x) \
-> +		container_of((x), struct msm_dp_mst_connector, connector)
-> +int msm_dp_mst_drm_bridge_init(struct msm_dp *dp, struct drm_encoder *encoder);
-> +
-> +#endif /* _DP_MST_DRM_H_ */
-> 
-> -- 
-> 2.34.1
-> 
+---
+Dmitry Baryshkov (10):
+      ASoC: hdmi-codec: pass data to get_dai_id too
+      ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
+      drm/connector: implement generic HDMI codec helpers
+      drm/bridge: connector: add support for HDMI codec framework
+      drm/bridge: lt9611: switch to using the DRM HDMI codec framework
+      drm/display/hdmi: implement hotplug functions
+      drm/bridge_connector: hook drm_atomic_helper_connector_hdmi_hotplug_edid()
+      drm/vc4: hdmi: switch to using generic HDMI Codec infrastructure
+      drm/vc4: hdmi: stop rereading EDID in get_modes()
+      drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_hotplug_edid()
 
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c     |   3 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |   3 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |   2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            | 169 ++++++++-----------
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |   3 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |   5 +-
+ .../gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c    |   3 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     | 127 +++++++++++++-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  61 +++++++
+ drivers/gpu/drm/drm_connector.c                    |   5 +
+ drivers/gpu/drm/drm_connector_hdmi_codec.c         | 185 +++++++++++++++++++++
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |   2 +-
+ drivers/gpu/drm/i2c/tda998x_drv.c                  |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |   2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c             |   2 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                     |   2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  98 ++---------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 -
+ include/drm/display/drm_hdmi_state_helper.h        |   8 +
+ include/drm/drm_bridge.h                           |  38 +++++
+ include/drm/drm_connector.h                        |  80 +++++++++
+ include/sound/hdmi-codec.h                         |   7 +-
+ sound/soc/codecs/hdmi-codec.c                      |   4 +-
+ 25 files changed, 610 insertions(+), 206 deletions(-)
+---
+base-commit: 84e541b1e58e04d808e1bb13ef566ffbe87aa89b
+change-id: 20240530-drm-bridge-hdmi-connector-9b0f6725973e
+prerequisite-change-id: 20241201-drm-connector-eld-mutex-8a39a35e9a38:v2
+prerequisite-patch-id: 8373a0638371955d1a695a6253a5429c5c79ee05
+prerequisite-patch-id: cd898cf6d758d05fda796b0ab685ed53d7ccd72e
+prerequisite-patch-id: 92115dfe744bb79f3ef0a10fc1fb3c8ef22f3bda
+prerequisite-patch-id: cc8334b2d881be3418f1d4d2fdea8b05776fdb73
+prerequisite-patch-id: 8c6c14a1dc11e4b70ea67b25dc3d2f6ef3234160
+prerequisite-patch-id: e0dbd26699df8fcde52a46a66e4ab4dc705b2c2d
+prerequisite-patch-id: c6ca8b52338034569c09e35061d34b277a876253
+prerequisite-patch-id: 32bdfe82c8f8573fc9132395520bf6ed949b8915
+prerequisite-patch-id: 865b400514c2207990c07d9f789c05e414d19fd6
+prerequisite-patch-id: 0e05e8ce53477acfc686620b9e212763ad3058aa
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
