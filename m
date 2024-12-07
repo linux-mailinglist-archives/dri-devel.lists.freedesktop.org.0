@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C799E809B
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 17:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034979E809E
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 17:17:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7175E10E316;
-	Sat,  7 Dec 2024 16:17:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7215B10E418;
+	Sat,  7 Dec 2024 16:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L8GJE++J";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vb2aBq+x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E85CD10E303;
- Sat,  7 Dec 2024 16:17:22 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-724e14b90cfso3084668b3a.2; 
- Sat, 07 Dec 2024 08:17:22 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9515010E321;
+ Sat,  7 Dec 2024 16:17:24 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-21631789fcdso2085795ad.1; 
+ Sat, 07 Dec 2024 08:17:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733588242; x=1734193042; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1733588244; x=1734193044; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=og6TbKNQT7gUo1tyiZb0dTG6ZZOX+cqXvJGjZMol84k=;
- b=L8GJE++Jtut1IDa+mRpS/cj4AXeRNyfp3GOkuk4eKEc+6pjyQT1UoIp6mzB/QRYL9L
- grHprBa2f2TkJhLYF7Sur/V7TlzQ/I2zcSecBRlePAAjhMjdYaR2OnpDeq+KIPQsb/0M
- RwI8iXu1mQKEIs2Qyf/eah1OulBZpQQQgvPGw+cDkk9b3eAJ3Gv7arB4dycDw0ige1pw
- 5BMvw2A3VVoPFq1iXzO5fQhdQi66NHNpHaOeKLz5pyuTMXAWjPvJ2QcaXwNXIrG0wKXJ
- JhGFJF96SdN7yZvQYs5+CTQwoMZ2aapw3Rooo/ovFExaQwQuiy/v4whKtWUoYXqHzy+0
- RhAg==
+ bh=/byccYmBx9GqheY7o02LLjac0bcvN34+HChoq7opjUQ=;
+ b=Vb2aBq+xMqi8SODGlHRxOvBF9nGc21q+6xfRpB1gRXKt+LIgI+NCvBoNQdC4o1eYIN
+ USwg2+UFuHL4LAf7iNdVYZaOoR0U8xSzU/5d5tSdxnBq4LjsBWDNKd5Hx/M2RP6XPV+Y
+ lwbEd++xYqzpntuIKDWLQW2XNlx34nbC27prDKlisQlTCluZPIjv7wKAihHrn6ueEKyu
+ 0GfNp7WhShsacy0p4aAC/DmuwoZVJT2bvLitFInkn82L2qKi+ImZMUn2uOG7Gia2l3y4
+ n3Z8w7oddo4qHYFP6qCbKfn05/ceEfPEuandZ0KDvRgHibPxQMJch48kZqgliKn71ADQ
+ Ijsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733588242; x=1734193042;
+ d=1e100.net; s=20230601; t=1733588244; x=1734193044;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=og6TbKNQT7gUo1tyiZb0dTG6ZZOX+cqXvJGjZMol84k=;
- b=BlilOQpaFMTi4jyuQRv2xWOu0V+o1mTpgi8sMdCYuO1oDiH9iytMS3Q1VX9EDigjco
- FMCKYygAisHFdKOZ2YKvlxMQyzcwbW8TXug8wEstSmo/GpAlJvuTTstXNdq/qFloILIh
- 32+tmJQTX0KfIxlULU5OYr8h8OuqrVqGwwjrtnqpG1VKLQsCb3+IQ0WDXnaiu8bYxfik
- qFpQxq9IKcCwgI8337qi1CJXkl7i5QZolhTEkiYUCDqMtVKjDRaPp9dU2bJHDbGjBMw2
- 8K7RkLcbwbOx2HZl9JV/M/p7V5U8WHZjmgtBJGG2Twc6s1kG+PgQf5JgYuqiqPaKxluX
- kifA==
-X-Gm-Message-State: AOJu0YxZheS82nCIlXBXeZT5j2Z5A/SecW9f6MCp67K7ZV0M32/k8LfB
- v2LoRn9CJErrc55wmaGx2viiQrXEvNKxyfiwoQDFcGjO9j43SRT8oA8NnQ==
-X-Gm-Gg: ASbGncs+pL4+dgTw6Ahegre4M1qgBAQWAyQZgxqIfMkUU2nJo1bXKFmS6EY34JSMle0
- DvmxDmU5Ge+mdVFt9GBZ2WdoxAp/CGaWbaJilmaaxREc/icMivexAGM/zYDwUeKo7V98pxJb7VN
- a23tE6qOP2WbZfmYmEOui8XXbeBZc5M1/MVWQAsr32gBPLB8pUpYzA7Oy3kOZpEN7ezUZhClumS
- atRg1aLPUzhFYP3nYO7WKXhMitDAS4B7Q1iuP+kjgA89pMOxb7tPkIIUFGSTgfUg8+HZmgycKPl
- no0UXYqy
-X-Google-Smtp-Source: AGHT+IG87V2LVfkZufSxkAwW+KhZ7IjRJrfnw/8csBCiSK+b09Gfi6ZYwYPOhJurL7WhNm8Z6C0bDQ==
-X-Received: by 2002:a05:6a20:3d87:b0:1e0:c6c0:1e08 with SMTP id
- adf61e73a8af0-1e1870c802dmr10900586637.25.1733588241979; 
- Sat, 07 Dec 2024 08:17:21 -0800 (PST)
+ bh=/byccYmBx9GqheY7o02LLjac0bcvN34+HChoq7opjUQ=;
+ b=GbvTNPYVaz86tbJGy0CnHHZdgjvOo7/oXm6XC++kEgYgzhYQn4gqfpIhy2N291kZuG
+ 0tNld0Xw0i1stL3yE02BkwWyHt10BVr7edXIFQz4of874dSMxrS4HychDTjGWy+d98sC
+ S6M/T5CMtS7MzoA3rgnKQ9rHIktq1Q2mZd3vZKeMO+/AX8PH1bky50ByXrqb6A5Qc8xY
+ OkNuE0s0ByDileJgkBAgGT8TL4aYHozYGYeZ6UvcuD2D9Jg2vl7qsQW36GmWupUhNqrK
+ dVFFwem0grocqC0L4N2oQoQU/WbAMEXFveVVt9QscUEsrW4zjNgfMjEYPxfFCyzEQlG1
+ gxGA==
+X-Gm-Message-State: AOJu0YwtxCitV/ZuE/ZXOGO7VmikPnebw7+5gpq4hCFibDPLCjIgMUFo
+ EVnwtnjXYEEgsqKxQuJ1LbyYx8rMd/cFZrjm1m/K0IdNCHk0dZshK8IRhA==
+X-Gm-Gg: ASbGncuC1JDMETI5b5HwD5dhheTeUcuPwE2wh2P7+Dfa+sN/Jyn6lPCJGqGVd/ZeEHk
+ Pl/TA3YTgpw2+CzSvq5/vl5H4jpFQQ/IVcjDtVytY+9Nklau9Ekeb5XifstnNSCNm2CMoEqd+nJ
+ 0JvZn/Eq1TefJhfkDKG8jSSVUjhCyfU0GOucrqhaNyqCXSaG19zHWRCbtnTx9bLZE8kExbcwTOG
+ R6WUyfMQ2ox0oK9nGjfK13XhGvkukcJOJAlKhJfoJO+5ByxMRG7ytgWRFUmzUPKSHXSmUkLbw1/
+ Khh7ncD1
+X-Google-Smtp-Source: AGHT+IHf3FRKOfTROzUO93B5FqsgYxWePs7Ij4IlbmL7knPOJXeOyJEigaHOrxxp4IxYJ4ZweYxOCQ==
+X-Received: by 2002:a17:902:da8f:b0:215:8847:4377 with SMTP id
+ d9443c01a7336-216112fb5e7mr114122425ad.15.1733588243660; 
+ Sat, 07 Dec 2024 08:17:23 -0800 (PST)
 Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-725a2a90339sm4776139b3a.105.2024.12.07.08.17.21
+ d9443c01a7336-21631bd2c2dsm9974905ad.263.2024.12.07.08.17.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Dec 2024 08:17:21 -0800 (PST)
+ Sat, 07 Dec 2024 08:17:23 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -71,9 +71,9 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [RFC 04/24] drm/msm: Rename msm_file_private -> msm_context
-Date: Sat,  7 Dec 2024 08:15:04 -0800
-Message-ID: <20241207161651.410556-5-robdclark@gmail.com>
+Subject: [RFC 05/24] drm/msm: Improve msm_context comments
+Date: Sat,  7 Dec 2024 08:15:05 -0800
+Message-ID: <20241207161651.410556-6-robdclark@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241207161651.410556-1-robdclark@gmail.com>
 References: <20241207161651.410556-1-robdclark@gmail.com>
@@ -96,393 +96,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This is a more descriptive name.
+Just some tidying up.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  2 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.c |  6 ++--
- drivers/gpu/drm/msm/adreno/adreno_gpu.h |  4 +--
- drivers/gpu/drm/msm/msm_drv.c           | 14 ++++-----
- drivers/gpu/drm/msm/msm_gem.c           |  2 +-
- drivers/gpu/drm/msm/msm_gem_submit.c    |  2 +-
- drivers/gpu/drm/msm/msm_gpu.c           |  4 +--
- drivers/gpu/drm/msm/msm_gpu.h           | 39 ++++++++++++-------------
- drivers/gpu/drm/msm/msm_submitqueue.c   | 27 +++++++++--------
- 9 files changed, 49 insertions(+), 51 deletions(-)
+ drivers/gpu/drm/msm/msm_gpu.h | 44 +++++++++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 0ae29a7c8a4d..867c6161ef1f 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -111,7 +111,7 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
- 		struct msm_ringbuffer *ring, struct msm_gem_submit *submit)
- {
- 	bool sysprof = refcount_read(&a6xx_gpu->base.base.sysprof_active) > 1;
--	struct msm_file_private *ctx = submit->queue->ctx;
-+	struct msm_context *ctx = submit->queue->ctx;
- 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
- 	phys_addr_t ttbr;
- 	u32 asid;
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index a18c69a9f3fa..719abefecb6f 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -306,7 +306,7 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
- 	return 0;
- }
- 
--int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
- 		     uint32_t param, uint64_t *value, uint32_t *len)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-@@ -394,7 +394,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	}
- }
- 
--int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+int adreno_set_param(struct msm_gpu *gpu, struct msm_context *ctx,
- 		     uint32_t param, uint64_t value, uint32_t len)
- {
- 	struct drm_device *drm = gpu->dev;
-@@ -440,7 +440,7 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
- 	case MSM_PARAM_SYSPROF:
- 		if (!capable(CAP_SYS_ADMIN))
- 			return UERR(EPERM, drm, "invalid permissions");
--		return msm_file_private_set_sysprof(ctx, gpu, value);
-+		return msm_context_set_sysprof(ctx, gpu, value);
- 	default:
- 		return UERR(EINVAL, drm, "%s: invalid param: %u", gpu->name, param);
- 	}
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 9bd38dda4308..caf8816e6252 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -569,9 +569,9 @@ static inline int adreno_is_a7xx(struct adreno_gpu *gpu)
- }
- 
- u64 adreno_private_address_space_size(struct msm_gpu *gpu);
--int adreno_get_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
- 		     uint32_t param, uint64_t *value, uint32_t *len);
--int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+int adreno_set_param(struct msm_gpu *gpu, struct msm_context *ctx,
- 		     uint32_t param, uint64_t value, uint32_t len);
- const struct firmware *adreno_request_fw(struct adreno_gpu *adreno_gpu,
- 		const char *fwname);
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 6bc6f67825ce..e7c76d243ee7 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -333,7 +333,7 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
- {
- 	static atomic_t ident = ATOMIC_INIT(0);
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_file_private *ctx;
-+	struct msm_context *ctx;
- 
- 	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
-@@ -363,23 +363,23 @@ static int msm_open(struct drm_device *dev, struct drm_file *file)
- 	return context_init(dev, file);
- }
- 
--static void context_close(struct msm_file_private *ctx)
-+static void context_close(struct msm_context *ctx)
- {
- 	msm_submitqueue_close(ctx);
--	msm_file_private_put(ctx);
-+	msm_context_put(ctx);
- }
- 
- static void msm_postclose(struct drm_device *dev, struct drm_file *file)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_file_private *ctx = file->driver_priv;
-+	struct msm_context *ctx = file->driver_priv;
- 
- 	/*
- 	 * It is not possible to set sysprof param to non-zero if gpu
- 	 * is not initialized:
- 	 */
- 	if (priv->gpu)
--		msm_file_private_set_sysprof(ctx, priv->gpu, 0);
-+		msm_context_set_sysprof(ctx, priv->gpu, 0);
- 
- 	context_close(ctx);
- }
-@@ -511,7 +511,7 @@ static int msm_ioctl_gem_info_iova(struct drm_device *dev,
- 		uint64_t *iova)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_file_private *ctx = file->driver_priv;
-+	struct msm_context *ctx = file->driver_priv;
- 
- 	if (!priv->gpu)
- 		return -EINVAL;
-@@ -531,7 +531,7 @@ static int msm_ioctl_gem_info_set_iova(struct drm_device *dev,
- 		uint64_t iova)
- {
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct msm_file_private *ctx = file->driver_priv;
-+	struct msm_context *ctx = file->driver_priv;
- 
- 	if (!priv->gpu)
- 		return -EINVAL;
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index ebc9ba66efb8..747e2ab8373a 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -44,7 +44,7 @@ static void update_device_mem(struct msm_drm_private *priv, ssize_t size)
- 
- static void update_ctx_mem(struct drm_file *file, ssize_t size)
- {
--	struct msm_file_private *ctx = file->driver_priv;
-+	struct msm_context *ctx = file->driver_priv;
- 	uint64_t ctx_mem = atomic64_add_return(size, &ctx->ctx_mem);
- 
- 	rcu_read_lock(); /* Locks file->pid! */
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index be6e793f34bd..99d3f2c4bae5 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -642,7 +642,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- {
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct drm_msm_gem_submit *args = data;
--	struct msm_file_private *ctx = file->driver_priv;
-+	struct msm_context *ctx = file->driver_priv;
- 	struct msm_gem_submit *submit = NULL;
- 	struct msm_gpu *gpu = priv->gpu;
- 	struct msm_gpu_submitqueue *queue;
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 0d4a3744cfcb..6ff9541990dc 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -148,7 +148,7 @@ int msm_gpu_pm_suspend(struct msm_gpu *gpu)
- 	return 0;
- }
- 
--void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_context *ctx,
- 			 struct drm_printer *p)
- {
- 	drm_printf(p, "drm-engine-gpu:\t%llu ns\n", ctx->elapsed_ns);
-@@ -330,7 +330,7 @@ static void retire_submits(struct msm_gpu *gpu);
- 
- static void get_comm_cmdline(struct msm_gem_submit *submit, char **comm, char **cmd)
- {
--	struct msm_file_private *ctx = submit->queue->ctx;
-+	struct msm_context *ctx = submit->queue->ctx;
- 	struct task_struct *task;
- 
- 	WARN_ON(!mutex_is_locked(&submit->gpu->lock));
 diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 7cabc8480d7c..76ad75f06706 100644
+index 76ad75f06706..01a3b2770d71 100644
 --- a/drivers/gpu/drm/msm/msm_gpu.h
 +++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -22,7 +22,7 @@
- struct msm_gem_submit;
- struct msm_gpu_perfcntr;
- struct msm_gpu_state;
--struct msm_file_private;
-+struct msm_context;
- 
- struct msm_gpu_config {
- 	const char *ioname;
-@@ -44,9 +44,9 @@ struct msm_gpu_config {
-  *    + z180_gpu
-  */
- struct msm_gpu_funcs {
--	int (*get_param)(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+	int (*get_param)(struct msm_gpu *gpu, struct msm_context *ctx,
- 			 uint32_t param, uint64_t *value, uint32_t *len);
--	int (*set_param)(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+	int (*set_param)(struct msm_gpu *gpu, struct msm_context *ctx,
- 			 uint32_t param, uint64_t value, uint32_t len);
- 	int (*hw_init)(struct msm_gpu *gpu);
- 
-@@ -339,7 +339,7 @@ struct msm_gpu_perfcntr {
- #define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_LOW - DRM_SCHED_PRIORITY_HIGH)
+@@ -340,25 +340,39 @@ struct msm_gpu_perfcntr {
  
  /**
-- * struct msm_file_private - per-drm_file context
-+ * struct msm_context - per-drm_file context
-  *
-  * @queuelock:    synchronizes access to submitqueues list
-  * @submitqueues: list of &msm_gpu_submitqueue created by userspace
-@@ -349,7 +349,7 @@ struct msm_gpu_perfcntr {
-  * @ref:          reference count
-  * @seqno:        unique per process seqno
+  * struct msm_context - per-drm_file context
+- *
+- * @queuelock:    synchronizes access to submitqueues list
+- * @submitqueues: list of &msm_gpu_submitqueue created by userspace
+- * @queueid:      counter incremented each time a submitqueue is created,
+- *                used to assign &msm_gpu_submitqueue.id
+- * @aspace:       the per-process GPU address-space
+- * @ref:          reference count
+- * @seqno:        unique per process seqno
   */
--struct msm_file_private {
-+struct msm_context {
+ struct msm_context {
++	/** @queuelock: synchronizes access to submitqueues list */
  	rwlock_t queuelock;
++
++	/** @submitqueues: list of &msm_gpu_submitqueue created by userspace */
  	struct list_head submitqueues;
++
++	/**
++	 * @queueid:
++	 *
++	 * Counter incremented each time a submitqueue is created, used to
++	 * assign &msm_gpu_submitqueue.id
++	 */
  	int queueid;
-@@ -504,7 +504,7 @@ struct msm_gpu_submitqueue {
- 	u32 ring_nr;
- 	int faults;
- 	uint32_t last_fence;
--	struct msm_file_private *ctx;
-+	struct msm_context *ctx;
- 	struct list_head node;
- 	struct idr fence_idr;
- 	struct spinlock idr_lock;
-@@ -600,33 +600,32 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 reg, u64 val)
- int msm_gpu_pm_suspend(struct msm_gpu *gpu);
- int msm_gpu_pm_resume(struct msm_gpu *gpu);
++
++	/** @aspace: the per-process GPU address-space */
+ 	struct msm_gem_address_space *aspace;
++
++	/** @kref: the reference count */
+ 	struct kref ref;
++
++	/**
++	 * @seqno:
++	 *
++	 * A unique per-process sequence number.  Used to detect context
++	 * switches, without relying on keeping a, potentially dangling,
++	 * pointer to the previous context.
++	 */
+ 	int seqno;
  
--void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_file_private *ctx,
-+void msm_gpu_show_fdinfo(struct msm_gpu *gpu, struct msm_context *ctx,
- 			 struct drm_printer *p);
+ 	/**
+-	 * sysprof:
++	 * @sysprof:
+ 	 *
+ 	 * The value of MSM_PARAM_SYSPROF set by userspace.  This is
+ 	 * intended to be used by system profiling tools like Mesa's
+@@ -376,21 +390,21 @@ struct msm_context {
+ 	int sysprof;
  
--int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
--struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
-+int msm_submitqueue_init(struct drm_device *drm, struct msm_context *ctx);
-+struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_context *ctx,
- 		u32 id);
- int msm_submitqueue_create(struct drm_device *drm,
--		struct msm_file_private *ctx,
-+		struct msm_context *ctx,
- 		u32 prio, u32 flags, u32 *id);
--int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
-+int msm_submitqueue_query(struct drm_device *drm, struct msm_context *ctx,
- 		struct drm_msm_submitqueue_query *args);
--int msm_submitqueue_remove(struct msm_file_private *ctx, u32 id);
--void msm_submitqueue_close(struct msm_file_private *ctx);
-+int msm_submitqueue_remove(struct msm_context *ctx, u32 id);
-+void msm_submitqueue_close(struct msm_context *ctx);
+ 	/**
+-	 * comm: Overridden task comm, see MSM_PARAM_COMM
++	 * @comm: Overridden task comm, see MSM_PARAM_COMM
+ 	 *
+ 	 * Accessed under msm_gpu::lock
+ 	 */
+ 	char *comm;
  
- void msm_submitqueue_destroy(struct kref *kref);
+ 	/**
+-	 * cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE
++	 * @cmdline: Overridden task cmdline, see MSM_PARAM_CMDLINE
+ 	 *
+ 	 * Accessed under msm_gpu::lock
+ 	 */
+ 	char *cmdline;
  
--int msm_file_private_set_sysprof(struct msm_file_private *ctx,
--				 struct msm_gpu *gpu, int sysprof);
--void __msm_file_private_destroy(struct kref *kref);
-+int msm_context_set_sysprof(struct msm_context *ctx, struct msm_gpu *gpu, int sysprof);
-+void __msm_context_destroy(struct kref *kref);
+ 	/**
+-	 * elapsed:
++	 * @elapsed:
+ 	 *
+ 	 * The total (cumulative) elapsed time GPU was busy with rendering
+ 	 * from this context in ns.
+@@ -398,7 +412,7 @@ struct msm_context {
+ 	uint64_t elapsed_ns;
  
--static inline void msm_file_private_put(struct msm_file_private *ctx)
-+static inline void msm_context_put(struct msm_context *ctx)
- {
--	kref_put(&ctx->ref, __msm_file_private_destroy);
-+	kref_put(&ctx->ref, __msm_context_destroy);
- }
+ 	/**
+-	 * cycles:
++	 * @cycles:
+ 	 *
+ 	 * The total (cumulative) GPU cycles elapsed attributed to this
+ 	 * context.
+@@ -406,7 +420,7 @@ struct msm_context {
+ 	uint64_t cycles;
  
--static inline struct msm_file_private *msm_file_private_get(
--	struct msm_file_private *ctx)
-+static inline struct msm_context *msm_context_get(
-+	struct msm_context *ctx)
- {
- 	kref_get(&ctx->ref);
- 	return ctx;
-diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
-index 7fed1de63b5d..1acc0fe36353 100644
---- a/drivers/gpu/drm/msm/msm_submitqueue.c
-+++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-@@ -7,8 +7,7 @@
+ 	/**
+-	 * entities:
++	 * @entities:
+ 	 *
+ 	 * Table of per-priority-level sched entities used by submitqueues
+ 	 * associated with this &drm_file.  Because some userspace apps
+@@ -419,7 +433,7 @@ struct msm_context {
+ 	struct drm_sched_entity *entities[NR_SCHED_PRIORITIES * MSM_GPU_MAX_RINGS];
  
- #include "msm_gpu.h"
- 
--int msm_file_private_set_sysprof(struct msm_file_private *ctx,
--				 struct msm_gpu *gpu, int sysprof)
-+int msm_context_set_sysprof(struct msm_context *ctx, struct msm_gpu *gpu, int sysprof)
- {
- 	/*
- 	 * Since pm_runtime and sysprof_active are both refcounts, we
-@@ -46,10 +45,10 @@ int msm_file_private_set_sysprof(struct msm_file_private *ctx,
- 	return 0;
- }
- 
--void __msm_file_private_destroy(struct kref *kref)
-+void __msm_context_destroy(struct kref *kref)
- {
--	struct msm_file_private *ctx = container_of(kref,
--		struct msm_file_private, ref);
-+	struct msm_context *ctx = container_of(kref,
-+		struct msm_context, ref);
- 	int i;
- 
- 	for (i = 0; i < ARRAY_SIZE(ctx->entities); i++) {
-@@ -73,12 +72,12 @@ void msm_submitqueue_destroy(struct kref *kref)
- 
- 	idr_destroy(&queue->fence_idr);
- 
--	msm_file_private_put(queue->ctx);
-+	msm_context_put(queue->ctx);
- 
- 	kfree(queue);
- }
- 
--struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
-+struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_context *ctx,
- 		u32 id)
- {
- 	struct msm_gpu_submitqueue *entry;
-@@ -101,7 +100,7 @@ struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
- 	return NULL;
- }
- 
--void msm_submitqueue_close(struct msm_file_private *ctx)
-+void msm_submitqueue_close(struct msm_context *ctx)
- {
- 	struct msm_gpu_submitqueue *entry, *tmp;
- 
-@@ -119,7 +118,7 @@ void msm_submitqueue_close(struct msm_file_private *ctx)
- }
- 
- static struct drm_sched_entity *
--get_sched_entity(struct msm_file_private *ctx, struct msm_ringbuffer *ring,
-+get_sched_entity(struct msm_context *ctx, struct msm_ringbuffer *ring,
- 		 unsigned ring_nr, enum drm_sched_priority sched_prio)
- {
- 	static DEFINE_MUTEX(entity_lock);
-@@ -155,7 +154,7 @@ get_sched_entity(struct msm_file_private *ctx, struct msm_ringbuffer *ring,
- 	return ctx->entities[idx];
- }
- 
--int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
-+int msm_submitqueue_create(struct drm_device *drm, struct msm_context *ctx,
- 		u32 prio, u32 flags, u32 *id)
- {
- 	struct msm_drm_private *priv = drm->dev_private;
-@@ -200,7 +199,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
- 
- 	write_lock(&ctx->queuelock);
- 
--	queue->ctx = msm_file_private_get(ctx);
-+	queue->ctx = msm_context_get(ctx);
- 	queue->id = ctx->queueid++;
- 
- 	if (id)
-@@ -221,7 +220,7 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
-  * Create the default submit-queue (id==0), used for backwards compatibility
-  * for userspace that pre-dates the introduction of submitqueues.
-  */
--int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
-+int msm_submitqueue_init(struct drm_device *drm, struct msm_context *ctx)
- {
- 	struct msm_drm_private *priv = drm->dev_private;
- 	int default_prio, max_priority;
-@@ -261,7 +260,7 @@ static int msm_submitqueue_query_faults(struct msm_gpu_submitqueue *queue,
- 	return ret ? -EFAULT : 0;
- }
- 
--int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
-+int msm_submitqueue_query(struct drm_device *drm, struct msm_context *ctx,
- 		struct drm_msm_submitqueue_query *args)
- {
- 	struct msm_gpu_submitqueue *queue;
-@@ -282,7 +281,7 @@ int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
- 	return ret;
- }
- 
--int msm_submitqueue_remove(struct msm_file_private *ctx, u32 id)
-+int msm_submitqueue_remove(struct msm_context *ctx, u32 id)
- {
- 	struct msm_gpu_submitqueue *entry;
- 
+ 	/**
+-	 * ctx_mem:
++	 * @ctx_mem:
+ 	 *
+ 	 * Total amount of memory of GEM buffers with handles attached for
+ 	 * this context.
 -- 
 2.47.1
 
