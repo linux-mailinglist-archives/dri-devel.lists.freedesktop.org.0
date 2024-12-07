@@ -2,101 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2889E81FA
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 21:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344A99E81F7
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 21:31:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 307E410E136;
-	Sat,  7 Dec 2024 20:35:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEB210E03E;
+	Sat,  7 Dec 2024 20:31:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Yms+nVYg";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="BMQRRJhe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F26710E136
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 20:35:11 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2ffc357ea33so28087421fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Dec 2024 12:35:11 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4568A10E03E
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 20:31:29 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-385e3621518so2342843f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Dec 2024 12:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1733603710; x=1734208510;
+ d=linux-foundation.org; s=google; t=1733603487; x=1734208287;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=HiZTKf4hCKQ8GKQ+oAO9V4GLtbxeasgvzn3MVqs40sY=;
- b=Yms+nVYgx7KMKiUohL8rP7HH9j1P3QRl4ptfSJIfWiggV8EyDYDfiz/znMxoUbHWql
- Tjh09O2bFgpdxG+FN+KECKNO1z7NSFRE/q/ljzOfICS+BFtcNPexr0af78odkcRm9Iph
- 36PkTXXtUor3uAF7OyEKPCmjRPwFDE/qtXj28=
+ bh=ms7Dj4PhpQjQO3I96MAeIgwapri0gFHpEAP0IFi7Ea0=;
+ b=BMQRRJheoRNgDkEcPPNZD+pDxI+zaWkHoMR4VEMbWfeKo4BhLHeLaRXA7mbr920BEY
+ 9VO6mtvkJWpoplelGc03qCuF/aJf2iNAeCggLDWTDciOPkgedkCFpJ1hDescDY7xrcu+
+ 4j8f02DffkLIAm1hGkfIsW2F9ILJwn1fT1IG4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733603710; x=1734208510;
+ d=1e100.net; s=20230601; t=1733603487; x=1734208287;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=HiZTKf4hCKQ8GKQ+oAO9V4GLtbxeasgvzn3MVqs40sY=;
- b=kgRXLIBDBOftwege6ERxHgVQUvvlolJk8AszYnlaE4rEA4qkA7VNohTFFbNXaCVrfL
- gZxLUwBOCpkGOnVoSaelsm9yZIUq9TCJXBlZrwUATXCQg9FAi2PYVg3Cr7StSJ0OQTDK
- BX1YPgs54SEYBna31jUXXiy7EI+KQwuTmxsavLk80V3UFs5QmkBsnNNlQMkZqohzYmPb
- BUh6Wl/zyy1LKJ7hcgagsBlgtNl67cYEIAGTHgri7kT/ZgIyUBw59uqgDG9hkAan0os0
- vTo73e9prwBDNAluEKLJcybOsNIU9m48x+F2ZplxzpOhmohA4TSQqGXrdDtHrn24yRBT
- 9Hjw==
+ bh=ms7Dj4PhpQjQO3I96MAeIgwapri0gFHpEAP0IFi7Ea0=;
+ b=lzndSZfUwAhFgRewE5VW+Itk4RVN+8IWHMSaGpLCLdYhTmJlt2wEWDBA0qGBo06mlD
+ slN1AI3E8+QIufluOHR9OW+0IiRh8uQX+hd9deff1GNtxSkjXV1q8cVYLb1FksLh7ffI
+ upeOiY42QpbohuIncvoEs09Wx71ydXGYsUOapoMSqf9jg7MYYsnuMGgrvuIo0DxB7Ymp
+ J+DE+nx7rxbOSxKKhvL/UhS2yWutpHoroiq56hCtMuV63CcrzYZfD6kKBo8QFvsZJnoJ
+ DxeulzA5dLxBQ3IEJl1o+AEfR2RzTOupU4zAViZS2oXW1oE3wAAJBrJ+kYXm+YYdqAtg
+ 4nEg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2WyaUIORFj4/F3vy2rYAelRqa01t/+KEkLDAm4EjqngZDa8rFpDqs+uo+hUYr0z60EOwlLiPnVJk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnAuuNTAgvSO5wdehAaHJ4a2AzkIhWdS5i5klXrbjcQBwZawWo
- r5lv8ZnLhwT3mhAmoGfA8gBj6Ysrw8XVJHWsvAsFg3pASz4k4mAzUgZZ47ctOcUXn8QY9Kh2UkE
- JOOpbdQ==
-X-Gm-Gg: ASbGncsG+reIRxvtUJXRAdl+Nqo7daxyVF+r6cuZq8oy1IPxZRt2tEpU41ZyPmcJvf+
- 7tgcWF6Je1FyhRUhoFkOkxHbZPySyKzD+3rx7ZqQtVnaiKq8RpuEa83Z1UzxcghAdUDql/jdCRR
- 3zcT55lYUrOX2tJy7Wf6MI1/0CNnTRX8RpW0seAPCbC2pnBCAkQNr8fuW5dm9j9ipFmU/K+LOGZ
- a0uim9exwmUdERZ2yNLrOhfzAcobqRyMqW/WVEI3NRkYbVnMpVwW53Zj+wTxyy94RnyZExGdHBK
- fYTYGj0QTzehb6475WJ8TL4Q91iB
-X-Google-Smtp-Source: AGHT+IHbcr3vNXPy/SiVzwDl3T4bgzd0cqy1RT5/XbIiz/gOY8kc+ccx35tjaftdttFqLiRr+51B9g==
-X-Received: by 2002:a05:6512:281e:b0:53d:d486:9705 with SMTP id
- 2adb3069b0e04-53e2c2b19a3mr2300947e87.9.1733603709561; 
- Sat, 07 Dec 2024 12:35:09 -0800 (PST)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com.
- [209.85.208.173]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53f5e219f6bsm193815e87.248.2024.12.07.12.35.07
+ AJvYcCWX4ydbGKaChRdTOfKPsdvJwtsZwpkddbEMuWi/0XzSD45IqRz1oVUgNIbzKpbS/w/SUiDDUuoy1dc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXQT60bYXkovfr5Ywjtx3rDA91JWcrWSNDcRuVKt/O8Sj7XxtW
+ AiYWRjttPKsH/oM/By/HGjyrqEEDx6FsR1lRsRJslkebsgX3N/Y02BYb96rpaNJ1lLVM7dmZEBX
+ nLwkE7g==
+X-Gm-Gg: ASbGncunUOelWRyiun9R9Xcwt2m+11/M5hc/J3sb1bDbc5wUXI3wyF7C2TxlSH6B7pC
+ SwCUjYTgu9E1laN1/LqGpW1ruItas1Ig2zRUzwyE40ulE0WvMQO9kG1zHFhqczKlrqp5vyAEBkq
+ eRiSuUUaPj3c4JjM+1Gwe+kUodWBoOpb7l+VZaJCiyqnTbGlo5tvjXpbLqJR+dRA+HW6VQZeCva
+ dLK7nteuGSUQvaFFUxZvFVe9TEkPFbtehCJRtLRU/nB04RkbMZT6mP6zVZE+bsu1pG8bBjQzsZp
+ hDtUyJmspo9y1//eru1CHDKr
+X-Google-Smtp-Source: AGHT+IH/a89QwAIp25Y5jUgGpn/5qsnz99FLzA2hv2HReYDOAJYVwqQrtRx+KOz1ojGztKAx7yS9dg==
+X-Received: by 2002:a05:6000:481d:b0:385:fdc2:1808 with SMTP id
+ ffacd0b85a97d-3862b3cedbamr5524647f8f.40.1733603487434; 
+ Sat, 07 Dec 2024 12:31:27 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com.
+ [209.85.218.47]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aa625e96c0bsm434355866b.66.2024.12.07.12.31.26
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Dec 2024 12:35:08 -0800 (PST)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-2ffc357ea33so28087171fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Dec 2024 12:35:07 -0800 (PST)
+ Sat, 07 Dec 2024 12:31:26 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-aa5500f7a75so439517266b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 07 Dec 2024 12:31:26 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfHBsskxKO4lPWrzQzJahIbjUAPpOmKC2n2+yJIVtY2ME34jjhmcX0AF+xEjgC0lq/YV1Taj+6sy4=@lists.freedesktop.org
-X-Received: by 2002:a17:906:5a52:b0:aa5:3853:553d with SMTP id
- a640c23a62f3a-aa63a21b715mr608706066b.46.1733603329136; Sat, 07 Dec 2024
- 12:28:49 -0800 (PST)
+ AJvYcCWnla+2rBwZ9JjuaDe0NWSQiRcaYkhwErX15uWPsXLd8M0Sgf8lTyON7cDqjksSzG/6UVhcUAsXERA=@lists.freedesktop.org
+X-Received: by 2002:a17:906:328b:b0:aa6:326a:bcb9 with SMTP id
+ a640c23a62f3a-aa63a10fe42mr541173966b.33.1733603485779; Sat, 07 Dec 2024
+ 12:31:25 -0800 (PST)
 MIME-Version: 1.0
 References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
  <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
  <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
  <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
  <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
- <abdd7862f136aa676b2d2c324369f4a43ff9909c.camel@gwdg.de>
- <CAMZ6RqKzGiRNMeLsQKRNrxvW_bXB-kEi11udQ82kKX6tGCrqcg@mail.gmail.com>
- <9607300dfca5d71ca9570b1e1de0864e524f356b.camel@gwdg.de>
- <344b4cf41a474377b3d2cbf6302de703@AcuMS.aculab.com>
- <9a0c041b6143ba07c2b3e524572fccd841f5374b.camel@gwdg.de>
- <CAHk-=wjpVXEjX16PP=-hi4CgLqEGJ_U-WvKWq+J3C+FW-hSSfg@mail.gmail.com>
- <0a2996a7c63930b9d9a8d3792358dd9e494e27c1.camel@gwdg.de>
-In-Reply-To: <0a2996a7c63930b9d9a8d3792358dd9e494e27c1.camel@gwdg.de>
+ <CAHk-=wjmeU6ahyuwAymqkSpxX-gCNa3Qc70UXjgnxNiC8eiyOw@mail.gmail.com>
+ <CAMZ6Rq+SzTA25XcMZnMnOJcrrq1VZpeT1xceinarqbXgDDo8VA@mail.gmail.com>
+ <CAHk-=wiP8111QZZJNbcDNsYQ_JC-xvwRKr0qV9UdKn3HKK+-4Q@mail.gmail.com>
+ <d23fe8a5dbe84bfeb18097fdef7aa4c4@AcuMS.aculab.com>
+ <CAHk-=win8afdcergvJ6f2=rRrff8giGUW62qmYs9Ae6aw=wcnA@mail.gmail.com>
+ <0f5c07b827c3468c8fa3928a93a98bfa@AcuMS.aculab.com>
+ <e806dd51b1ac4e289131297fbf30fc37@AcuMS.aculab.com>
+ <CAMZ6RqLOR3aCRW_js2agV+VFiHdazb4S2+NdT5G4=WbDKNB8bA@mail.gmail.com>
+ <b1ff4a65594a4d39b2e9b8b44770214e@AcuMS.aculab.com>
+ <CAMZ6RqJFReLJTd-O8s02oQNeB0SPQh3C-Mg+Nif5vMB9gFtQww@mail.gmail.com>
+ <CAHk-=wjpN4GWtnsWQ8XJvf=gBQ3UvBk512xK1S35=nGXA6yTiw@mail.gmail.com>
+ <6b8c9b942ba6e85a3f1e4eef65a9916333502881.camel@gwdg.de>
+In-Reply-To: <6b8c9b942ba6e85a3f1e4eef65a9916333502881.camel@gwdg.de>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 7 Dec 2024 12:28:32 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wjsfYYKBYuW8_6yKjdwHih0MMa2GwUJh_LHcuUNFR7-QA@mail.gmail.com>
-Message-ID: <CAHk-=wjsfYYKBYuW8_6yKjdwHih0MMa2GwUJh_LHcuUNFR7-QA@mail.gmail.com>
+Date: Sat, 7 Dec 2024 12:31:09 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whzFAaksqMdYeYC=T82tny1HnGGcYu_xJTXZF1OZwVziQ@mail.gmail.com>
+Message-ID: <CAHk-=whzFAaksqMdYeYC=T82tny1HnGGcYu_xJTXZF1OZwVziQ@mail.gmail.com>
 Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
  __is_constexpr()
 To: Martin Uecker <muecker@gwdg.de>
-Cc: David Laight <David.Laight@aculab.com>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
- Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+Cc: Vincent Mailhol <vincent.mailhol@gmail.com>,
+ David Laight <David.Laight@aculab.com>, 
+ "w@1wt.eu" <w@1wt.eu>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Yury Norov <yury.norov@gmail.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
  Jani Nikula <jani.nikula@linux.intel.com>, 
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, 
@@ -129,59 +134,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 7 Dec 2024 at 11:19, Martin Uecker <muecker@gwdg.de> wrote:
+On Sat, 7 Dec 2024 at 11:51, Martin Uecker <muecker@gwdg.de> wrote:
 >
-> But that all seem solvable issues on the compiler side.
+> Am Samstag, dem 07.12.2024 um 10:19 -0800 schrieb Linus Torvalds:
+> >
+> > If there is one feature of C I would have liked it is "allow inline
+> > functions and statement expressions with constant arguments as
+> > constant expressions".
+>
+> There exist proposals along those lines for C2Y.
+>
+> From a more near-term solution, I wonder if making it possible (or
+> easier) to return integer constant expressions from statement
+> expressions and allowing a restricted form of statement expressions
+> at file scope would help?
 
-You know, there was a whole *architecture* that was designed and
-predicated on "it's all solvable on the compiler side".
+Even a more limited form of this would have been useful several times,
+but as mentioned, the problem tends to be that we end up supporting
+compilers for many years.
 
-That architecture was pure and utter *shit*.
+So then we end up having to work with older compilers without that
+feature, and can't actually clean stuff up until many years after the
+fact.
 
-Because no, it's not solvable on the compiler side.
+We're currently still accepting gcc-5.1 as a compiler, although it's
+time to look at that and probably (judging by what stable distros use)
+upgrade to something like gcc-8.1 as the minimum supported compiler
+version.
 
-Getting things like value range analysis right on the compiler side is
-fundamentally hard.
-
-It's hard to the point where either you only get it for the simple
-cases - yes, I can show you a ton of real code where it's trivial - or
-you need to have explicit markings in the source code to help the
-compiler, and then you end up having to have the compiler (or some
-other tool) validate those with asserts or whatever.
-
-And random asserts ARE NOT ACCEPTABLE in the kernel outside of pure
-debug builds.
-
-They may be acceptable in most other situations, but in a kernel you
-can't just say "we stop now because it turns out the analysis was
-broken and the manual notes could be fooled by an attacker".
-
-Now, would we want to have proper value *static* range analysis in the
-kernel for other reasons? Oh yes. It would often be very nice to have
-the ability to state "this value is trusted and is in this range", and
-have it percolate all the way down, both for optimization purposes but
-also for various sanity check purposes.
-
-But it's simply not sanely available in the generic case.
-
-> a) this is not guaranteed in a specific situation (-Wvla-larher-than)
-
-We'd either get horrendous numbers of false positives that we then
-have to manually add special code for, or
-
-> b) transform the array automatically to fixed size array
-> of size X *or* something smaller when it can show this.
-
-we'd just do this by hand *once* and for all, and say "VLA's didn't work out".
-
-So yeah. We did (b) by hand.
-
-We used to have VLA's in the kernel. It was a disaster. We got rid of
-them, because the (big) pain wasn't worth the (few) places it was
-actually useful.
-
-So we have been VLA-free for the last five years, and it's been good.
-
-Simplify.
-
-             Linus
+            Linus
