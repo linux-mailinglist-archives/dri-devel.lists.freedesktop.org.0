@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C3E9E82BB
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 00:46:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892D69E82C0
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 00:46:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE58410E078;
-	Sat,  7 Dec 2024 23:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C532210E484;
+	Sat,  7 Dec 2024 23:46:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eyQObqwN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KtqjFm+o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B352910E1B0;
- Sat,  7 Dec 2024 07:42:54 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-aa549d9dffdso402334366b.2; 
- Fri, 06 Dec 2024 23:42:54 -0800 (PST)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C86E10E031;
+ Sat,  7 Dec 2024 12:24:29 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-a9e8522445dso567437066b.1; 
+ Sat, 07 Dec 2024 04:24:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733557373; x=1734162173; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1733574268; x=1734179068; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Hd+JXxg1Trx18tJn2WFf9QCw9lSZFwBnHLKDbtoBF3M=;
- b=eyQObqwN4u300eHNtNcJzhMwYmhppIyVV336mi520iCm/Be/XVj50M/ET9HFkCCoti
- fYWWsJXbm1lL2nJsg740eTR8i9UrFXzyHrMIqy0ISdo0nGvcetcvUNdvfBUThJnya0CK
- EodiBZ3JKbm3noq6+Au02Hf/TBz63lpGD91fcK0NlRkopaoPgdDqb8JcsfCrFrOZynkt
- Ozc1FNsw4FZITAfXvRczpCzz2ZF6eUrsAK0jhirKsm1tkP1xG+4kXm17RZ3Q5XYvoRrH
- jYzWCDymhcXG0/rn0/874WvLIOIathefDcFDU4qo4Zng3puyd3hZkD2lzC0zBS1LmmEb
- z55w==
+ bh=nQ4RRhd2E6TY+Bu5fIbqEbAQEz1MRYR2VOuTBXdoN1w=;
+ b=KtqjFm+oz0tHGpK4lzXiXI8VgQaEUF2lsRao2DU56amCg6BaadELe5yFjb0U7m7c9A
+ L7xP86+YXTsn/P83emxKUMeybPntKpzgBQTgM2ESEkeq/F7PVWutQI8J4HzF7ZMbVY0s
+ XP1op8/6+tOzNsyoXcdYWyk8ArBVObEskrquJwCxkOOV1BAHt4QMNU043vBIEzoruETC
+ QME9RJzx5T2SbPQ1PQWxyV8vycqABl2IRo8ESQ/fdTJlBiuFiXQM746dB5WeQix7i3CC
+ AnURqqX/vuabpUK/CRd/UvppWTzRoU8xq4uSlXrD6ne22G2GreFBxFZPTaUld2LgoO+w
+ +J4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733557373; x=1734162173;
+ d=1e100.net; s=20230601; t=1733574268; x=1734179068;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Hd+JXxg1Trx18tJn2WFf9QCw9lSZFwBnHLKDbtoBF3M=;
- b=GtjH8zQ1vpZQIPXqx2aRdhu+MFjivqPq/b8RhPhGhUMKPPXMPnsLMZe+5vL2zKudfi
- IUj0q9MwToAkUaBvOeqGPbOZpBpPftWOSTrtOLMf/sXh8JbeIs7/Jjqu8zQZIgNoUdJF
- flCv7AhoDsg8p3+QwHmI7tTMKRir9JU9Ks5CBy8ULH6rgyMEypb7rpdgic1nWXA9iyvi
- +3WvxYyPxC3QCuiCSdWAVd8xnavfGFqSeI3sMEwVQeLqyAywBZ26cffSlCFdMPLti4Un
- Hh9rQJNs9Yfuqo6vri9Vk2F1pfnXEwGoUJLDTAfT9z77OtBvolWtMYMI0IcS31sVSSOS
- YYuA==
+ bh=nQ4RRhd2E6TY+Bu5fIbqEbAQEz1MRYR2VOuTBXdoN1w=;
+ b=wcNj5IEr0aD+Ud8yC7peucteBN2jANW0tmEb3vOkYehPB/8WtSUNhTY/+Pga2W11S+
+ 4IDTi9cYbMy7zFQeGsMM7TYNoPzd7VY+gKFwhTWuJdb/F/v0SJm7i7hSfKpn4RN8uOuP
+ ++t7peUUn3kURZXV28lnVUd5oSck5ti6SIf7NNZT9jPoEdGuthJ9bOqninrsaR5qkx1F
+ 03RrBDxoPns/qXPhDWstTBBRCmcqQbT2Yaal77CaDhe+nnrvxUlEHh0RIsjwfjzdL9ow
+ dCCY+TMmkajKeHsCPhFZ6qqEIRber5134m3lsG0Uq7jbp2vTmJLLXvmDfJJob0ufnDqW
+ Qoog==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVy45LHJVzDElBy9WlfnoObVvWucq5gjuWZduEMwWzA7U5S59ND4BzIU2YZ+nyQ7krlo9EVPQDKhyY=@lists.freedesktop.org,
- AJvYcCXezKlZC+CK+zwXsZrCNt0YOT/arVxrJHRDztragw9VB8swtcRLqv19y0g94Ki3wzmkRn6USLSKjfn4@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yytopbn2/FJdwS61psaUrpiU4DCYfm0mSa+m5UkJU4aP293IWSO
- m8YiCL78ap7c0nnhUXDPjNLavEAoa+cYyhnlXzJz+J4JKAZIF5TXwKr7nP/Gh4E+TjywahOHm4Z
- PoIpWjkv6DSLr2hLhs/hMKpmOs6c=
-X-Gm-Gg: ASbGncuBqHEnnnJkw2rAEvCvAAtcEXuyOkVslLeavnXobyRGuZBr/D/YuNpw2tbf6lO
- WPaGAxjQsBNoopwuS2VvpRWRTLn154+k=
-X-Google-Smtp-Source: AGHT+IFtbq3U+qyH15cm3qJcpaS8xIxfktbIH2S26u2IkmcJ4yPTJg9aqWHgPR/Bx1zVWKXpdweVI0tjzLEF2jmrRv0=
-X-Received: by 2002:a17:906:31d1:b0:aa6:62d5:653 with SMTP id
- a640c23a62f3a-aa662d50b73mr25238766b.54.1733557372613; Fri, 06 Dec 2024
- 23:42:52 -0800 (PST)
+ AJvYcCVVOGoyzxh/PnRLolnz2y3BImvcWukfaYD0tXfDKwCctELYx9pdvZVVAc3p8+7upymvnENMLJ1yS1U=@lists.freedesktop.org,
+ AJvYcCXgMzFe8USZdrbl3KrDEcnfl/UPHLxZLYtPS48Wrg2aHSfbJ5htfS2lSrSjB85EuItZxBZWEgXqJki9@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzSQW62LnvA3oMO9WifYT1MypUzYXprB2n2jAdvll4uCdHTi7ff
+ hEagsRMgHLUR1V/MTiKVxLvbAQ8ArxmvMY402Tr4m5G/ZxqeuC4l238ZcqGPrQP4XVNQHUpKn4V
+ 37NcEj2UKfXhZ1QRE221kF1o6wLs=
+X-Gm-Gg: ASbGncvUGnWsndf1L+mSlhVJ82X4ahlJ3oe7oe33AVHYGC6IUKi6p7xm6cDmh2b0awk
+ VKFq1qBw27JkjXmSFXYHzfCgqUFQG378=
+X-Google-Smtp-Source: AGHT+IGR0yviTsv6EI0Cf6ZzGRuPI9Rqzj5opuPmDdPb/4ZfUr5j5Og+KYs8tNZPu+yItNXL45088jAdwI3x7fjsYQI=
+X-Received: by 2002:a17:907:1de6:b0:aa6:59ef:ec with SMTP id
+ a640c23a62f3a-aa659ef01a8mr99491466b.1.1733574267541; Sat, 07 Dec 2024
+ 04:24:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
  <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
@@ -67,15 +67,17 @@ References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
  <CAHk-=win8afdcergvJ6f2=rRrff8giGUW62qmYs9Ae6aw=wcnA@mail.gmail.com>
  <0f5c07b827c3468c8fa3928a93a98bfa@AcuMS.aculab.com>
  <e806dd51b1ac4e289131297fbf30fc37@AcuMS.aculab.com>
-In-Reply-To: <e806dd51b1ac4e289131297fbf30fc37@AcuMS.aculab.com>
+ <CAMZ6RqLOR3aCRW_js2agV+VFiHdazb4S2+NdT5G4=WbDKNB8bA@mail.gmail.com>
+ <b1ff4a65594a4d39b2e9b8b44770214e@AcuMS.aculab.com>
+In-Reply-To: <b1ff4a65594a4d39b2e9b8b44770214e@AcuMS.aculab.com>
 From: Vincent Mailhol <vincent.mailhol@gmail.com>
-Date: Sat, 7 Dec 2024 16:42:41 +0900
-Message-ID: <CAMZ6RqLOR3aCRW_js2agV+VFiHdazb4S2+NdT5G4=WbDKNB8bA@mail.gmail.com>
+Date: Sat, 7 Dec 2024 21:24:16 +0900
+Message-ID: <CAMZ6RqJFReLJTd-O8s02oQNeB0SPQh3C-Mg+Nif5vMB9gFtQww@mail.gmail.com>
 Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
  __is_constexpr()
-To: David Laight <David.Laight@aculab.com>,
- Linus Torvalds <torvalds@linux-foundation.org>, w@1wt.eu
-Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+To: David Laight <David.Laight@aculab.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, "w@1wt.eu" <w@1wt.eu>, 
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
  Nathan Chancellor <nathan@kernel.org>, 
  Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
  Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>, 
@@ -115,72 +117,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat. 7 Dec. 2024 at 05:24, David Laight <David.Laight@aculab.com> wrote:
-> > > > #define const_NULL(x) _Generic(0 ? (x) : (char *)0, char *: 1, void *: 0)
-> > > > #define const_true(x) const_NULL((x) ? NULL : (void *)1L))
-> > > > #define const_expr(x) const_NULL((x) ? NULL : NULL))
-> > > > I send this morning.
-> > > > Needs 's/char/struct kjkjkjkjui/' applied.
-> > >
-> > > Oh Christ. You really are taking this whole ugly to another level.
+On Sat. 7 Dec. 2024 at 20:19, David Laight <David.Laight@aculab.com> wrote:
+> From: Vincent Mailhol
+> > Sent: 07 December 2024 07:43
+> ...
+> > > So maybe the slightly long lines:
+> > > #define const_true(x) _Generic(0 ? (void *)((x) + 0 ? 0L : 1L) : (char *)0, char *: 1, void *: 0)
+> > > #define const_expr(x) _Generic(0 ? (void *)((x) + 0 ? 0L : 0L) : (char *)0, char *: 1, void *: 0)
+>
+> Clearly they can be implemented in terms of a common define.
+> But I don't see a need for a const_zero() and nested expansions make extra
+> work for the compiler.
+>
 > >
-> > I sort of liked that version in a perverse sort of way.
-> > It does give you a simple test for NULL (unless you've used 'struct kjkjkjkjui').
+> > This still throws a -Wnull-pointer-arithmetic on clang on const_expr(NULL):
+> >   https://godbolt.org/z/vo5W7efdE
 >
-> Except const_NULL() really doesn't work at all - so you are lucky :-)
+> I was worried about that one.
 >
-> So maybe the slightly long lines:
-> #define const_true(x) _Generic(0 ? (void *)((x) + 0 ? 0L : 1L) : (char *)0, char *: 1, void *: 0)
-> #define const_expr(x) _Generic(0 ? (void *)((x) + 0 ? 0L : 0L) : (char *)0, char *: 1, void *: 0)
+> > I just do not see a method to silence that one. So three options:
+> >
+> >   1. is_const() does not accept pointers and throws a constraint violation:
+> >        #define is_const(x) __is_const_zero(0 * (x))
+> >      This is my current patch.
+>
+> Is that going to affect things like const_true(x << y)?
 
-This still throws a -Wnull-pointer-arithmetic on clang on const_expr(NULL):
+No warnings for const_true(x << y). See by yourself:
 
-  https://godbolt.org/z/vo5W7efdE
+  https://godbolt.org/z/v79x3dnor
 
-I just do not see a method to silence that one. So three options:
+> Disallowing that seems counter-productive.
+> (Remember it might be passed into a #define that is then
+> checking its argument for being constant.)
 
-  1. is_const() does not accept pointers and throws a constraint
-     violation:
+I understand how a static inline may use __builtin_constant_p() to
+check if its argument is NULL. But I am having a hard time
+understanding how this would look like with macros and with
+is_const().
 
-       #define is_const(x) __is_const_zero(0 * (x))
+Do you know one real life example where you have to pass NULL to a
+function like macro which can not be written as a static inline
+function?
 
-     This is my current patch.
+And if that real life use case does not exist, then disallowing it
+looks sane: it will push the developper to do the right thing: write a
+static inline with __builting_constant_p().
 
-  2. is_const() accept pointers but is_const(NULL) returns false:
+> >   2. is_const() accept pointers but is_const(NULL) returns false:
+> >        #define is_const(x) __is_const_zero((x) != (x))
+> >      This keeps the current __is_constexpr() behaviour.
+>
+> No good - expands everything twice.
 
-       #define is_const(x) __is_const_zero((x) != (x))
+And? __is_const_zero() does not evaluate its arguments, so no side effect:
 
-     This keeps the current __is_constexpr() behaviour.
+  https://godbolt.org/z/W988P4v9e
 
-  3. is_const() accepts pointers and is_const(NULL) return true:
+Or am I missing something else?
 
-       #define const_expr(x) _Generic(0 ? (void *)((x) + 0 ? 0L : 0L)
-: (char *)0, char *: 1, void *: 0)
+> >   3. is_const() accepts pointers and is_const(NULL) return true:
+> >
+> >        #define const_expr(x) _Generic(0 ? (void *)((x) + 0 ? 0L : 0L)
+> > : (char *)0, char *: 1, void *: 0)
+> >
+> >      David's latest proposal, it requires to remove the
+> >      -Wnull-pointer-arithmetic clang warning.
+>
+> Only for const_expr(NULL) - and since clang gets that wrong
+> maybe the warning is a good thing.
+>
+> You can just add:
+> #define const_NULL(ptr) const_true(!(ptr))
+> Probably the only place where you actually want to test for zero.
 
-     David's latest proposal, it requires to remove the
-     -Wnull-pointer-arithmetic clang warning.
+Which goes back to my first point: if we have to declare const_NULL(),
+then we probably do not want is_const() to accept NULL so that the
+user sees the mismatch (and I am not acknowledging that we need
+const_NULL(): as long as no use case arize, no need for it).
 
-I vote for 1. or 2. (with a preference for 1.). IMHO, we are just
-adding an unreasonable level of complexity for making the macro treat
-NULL as an integer. Would someone find a solution for 3. that does not
-yield a warning, then why not. But if we have to remove a compiler
-check for a theoretical use case that does not even exist in the
-kernel, then it is not worth the trade off.
+> > I vote for 1. or 2. (with a preference for 1.). IMHO, we are just
+> > adding an unreasonable level of complexity for making the macro treat
+> > NULL as an integer. Would someone find a solution for 3. that does not
+> > yield a warning, then why not. But if we have to remove a compiler
+> > check for a theoretical use case that does not even exist in the
+> > kernel, then it is not worth the trade off.
+> >
+> > Concerning is_const(var << 2), the patch I submitted works fine as-is
+> > with all scalars including that (var << 2):
+> >
+> >   https://godbolt.org/z/xer4aMees
+> >
+> > And can we ignore the case (!(var << 2))? This is not a warning
+> > because of the macro, but because of the caller! If I do any of:
+> >
+> >           if (!(var << 2)) {}
+> >           (void)__builtin_constant_p(!(var << 2));
+> >
+> > I also got the warning. The point is that the macro should not
+> > generate *new* warnings. If the given argument already raises a
+> > warning, it is the caller's responsibility to fix.
+>
+> Except it could easily happen way inside some other expansion.
+> Perhaps someone optimises frobnicate(x) for constant input.
+> Suddenly frobnicate(!(var << 2)) generates a compile error.
 
-Concerning is_const(var << 2), the patch I submitted works fine as-is
-with all scalars including that (var << 2):
+Then, that person will see that compile error and will modify
+frobnicate() to remove the compile error. End of the story.
 
-  https://godbolt.org/z/xer4aMees
+My point is simple: if the use case you are mentioning is valid, why
+did it never collide with __builtin_constant_p() that we have been
+using for many years?
 
-And can we ignore the case (!(var << 2))? This is not a warning
-because of the macro, but because of the caller! If I do any of:
-
-          if (!(var << 2)) {}
-          (void)__builtin_constant_p(!(var << 2));
-
-I also got the warning. The point is that the macro should not
-generate *new* warnings. If the given argument already raises a
-warning, it is the caller's responsibility to fix.
+And I am sure that there are hundreds of examples of macro that will
+either pass their argument as-is to an if() or to the ternary operator
+without accounting for if their input is (!(var << 2)). So why did not
+these collide?
 
 
 Yours sincerely,
