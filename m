@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D36C09E8242
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 22:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031F29E8243
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 22:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06F4210E27C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68DB010E305;
 	Sat,  7 Dec 2024 21:32:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Iv3tVR5z";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="o+NFop28";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE3D10E27C
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 21:32:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8B910E27C
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 21:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1733607174;
- bh=Nafq+FLCBEcpE333sXMCjOF7hSfZUxcTRNgOL/SHq2s=;
+ bh=SCcXEr+KFbRx8TCn5PCWtq/V3Qw/KVqvlgOoYmZD3W0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Iv3tVR5zqj3C2rt7DFnT5VLAgUs1luwwH7JYXAMlTm99x3Q7biM6CxpUbHq3QWDmY
- +9R9zEFQuYe5e39hwcQMYpHgYZ1zBzWcJZuBnCVAEQgOvBMsER4rGNCz/DzmeWiV4X
- 0xi7xXisSyTu3oCv0TWf345jVN+N8m95aY1yOmZfhbW0c0+eHESEu/6I1vXOr4Xa8D
- vT+j1tHc1v0KB6GLrwGPV7nBPQf+aohHdXY3AcLiTn6dCHkxDtNRjP8BRgn4PeELrJ
- +Ikbpe/MwYrEZG9xbwp0B0JWnFZ/AeGgz8AV1dKeRx2f5i/MlNpxQPiSvk3t5uumyV
- S4AC0gwKsLm4Q==
+ b=o+NFop28mM500kuvIyn5uKh7Rj4QxJjpNp7hffTFtXdprwLi0l6rdUmTL3xbvbyp2
+ Xf5+kYrylwa/BUuH9Ctihrm3sRlElxK4/TDj4kYVJgWe3OkxXyM+WTAVtxMXRW5krc
+ jepubeIiCpliycVLelRSWix216s9lQIx8WCoyiOHkUKrCRS7QBH76zckpS6YbUKXEU
+ /tS+ySluGVWV78/KznNMy7QlhO8YU/MQjg4EpIBfvcYZhoNMnhxh/IXv8vn5Yx5Okk
+ V/6rOYNTJuN2VvtGH2z40mZ/ZrpKZsNuIKv6kJfTOsULB9jlHf/yFp4U6btnAINWG7
+ 1qgiAcUA9IMjg==
 Received: from localhost (unknown [188.27.48.199])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EE97F17E3805;
- Sat,  7 Dec 2024 22:32:53 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B809B17E3806;
+ Sat,  7 Dec 2024 22:32:54 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 07 Dec 2024 23:32:26 +0200
-Subject: [PATCH 3/4] arm64: dts: rockchip: Add HDMI1 node on RK3588
+Date: Sat, 07 Dec 2024 23:32:27 +0200
+Subject: [PATCH 4/4] arm64: dts: rockchip: Enable HDMI1 on rock-5b
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241207-rk3588-hdmi1-v1-3-ca3a99b46a40@collabora.com>
+Message-Id: <20241207-rk3588-hdmi1-v1-4-ca3a99b46a40@collabora.com>
 References: <20241207-rk3588-hdmi1-v1-0-ca3a99b46a40@collabora.com>
 In-Reply-To: <20241207-rk3588-hdmi1-v1-0-ca3a99b46a40@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -69,65 +69,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the second HDMI TX port found on RK3588 SoC.
+Add the necessary DT changes to enable the second HDMI output port on
+Radxa ROCK 5B.
+
+While at it, switch the position of &vop_mmu and @vop to maintain the
+alphabetical order.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi | 41 ++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 42 +++++++++++++++++++++++--
+ 1 file changed, 40 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-index 68fa9806164776cef8732bb776e958003779ba28..528319908247e90b33f9dbde0516f8bca849676f 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
-@@ -140,6 +140,47 @@ i2s10_8ch: i2s@fde00000 {
- 		status = "disabled";
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+index c44d001da16978bbbb8a93d652893a786e9ea79b..bf9e4dc601555050d8857e03b2f1fb5fe2cadaac 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+@@ -49,6 +49,17 @@ hdmi0_con_in: endpoint {
+ 		};
  	};
  
-+	hdmi1: hdmi@fdea0000 {
-+		compatible = "rockchip,rk3588-dw-hdmi-qp";
-+		reg = <0x0 0xfdea0000 0x0 0x20000>;
-+		clocks = <&cru PCLK_HDMITX1>,
-+			 <&cru CLK_HDMITX1_EARC>,
-+			 <&cru CLK_HDMITX1_REF>,
-+			 <&cru MCLK_I2S6_8CH_TX>,
-+			 <&cru CLK_HDMIHDP1>,
-+			 <&cru HCLK_VO1>;
-+		clock-names = "pclk", "earc", "ref", "aud", "hdp", "hclk_vo1";
-+		interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 175 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "avp", "cec", "earc", "main", "hpd";
-+		phys = <&hdptxphy1>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&hdmim2_tx1_cec &hdmim0_tx1_hpd
-+			     &hdmim1_tx1_scl &hdmim1_tx1_sda>;
-+		power-domains = <&power RK3588_PD_VO1>;
-+		resets = <&cru SRST_HDMITX1_REF>, <&cru SRST_HDMIHDP1>;
-+		reset-names = "ref", "hdp";
-+		rockchip,grf = <&sys_grf>;
-+		rockchip,vo-grf = <&vo1_grf>;
-+		status = "disabled";
++	hdmi1-con {
++		compatible = "hdmi-connector";
++		type = "a";
 +
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			hdmi1_in: port@0 {
-+				reg = <0>;
-+			};
-+
-+			hdmi1_out: port@1 {
-+				reg = <1>;
++		port {
++			hdmi1_con_in: endpoint {
++				remote-endpoint = <&hdmi1_out_con>;
 +			};
 +		};
 +	};
 +
- 	pcie3x4: pcie@fe150000 {
- 		compatible = "rockchip,rk3588-pcie", "rockchip,rk3568-pcie";
- 		#address-cells = <3>;
+ 	leds {
+ 		compatible = "gpio-leds";
+ 		pinctrl-names = "default";
+@@ -220,10 +231,30 @@ hdmi0_out_con: endpoint {
+ 	};
+ };
+ 
++&hdmi1 {
++	status = "okay";
++};
++
++&hdmi1_in {
++	hdmi1_in_vp1: endpoint {
++		remote-endpoint = <&vp1_out_hdmi1>;
++	};
++};
++
++&hdmi1_out {
++	hdmi1_out_con: endpoint {
++		remote-endpoint = <&hdmi1_con_in>;
++	};
++};
++
+ &hdptxphy_hdmi0 {
+ 	status = "okay";
+ };
+ 
++&hdptxphy1 {
++	status = "okay";
++};
++
+ &i2c0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&i2c0m2_xfer>;
+@@ -891,11 +922,11 @@ &usb_host2_xhci {
+ 	status = "okay";
+ };
+ 
+-&vop_mmu {
++&vop {
+ 	status = "okay";
+ };
+ 
+-&vop {
++&vop_mmu {
+ 	status = "okay";
+ };
+ 
+@@ -905,3 +936,10 @@ vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
+ 		remote-endpoint = <&hdmi0_in_vp0>;
+ 	};
+ };
++
++&vp1 {
++	vp1_out_hdmi1: endpoint@ROCKCHIP_VOP2_EP_HDMI1 {
++		reg = <ROCKCHIP_VOP2_EP_HDMI1>;
++		remote-endpoint = <&hdmi1_in_vp1>;
++	};
++};
 
 -- 
 2.47.0
