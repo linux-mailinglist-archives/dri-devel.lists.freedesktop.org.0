@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2458F9E7F97
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 11:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619219E7F99
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Dec 2024 11:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8120310E215;
-	Sat,  7 Dec 2024 10:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D83B210E21B;
+	Sat,  7 Dec 2024 10:52:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BDusMLbw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Xhugr7oU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2057.outbound.protection.outlook.com [40.107.236.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75E9510E215
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 10:51:18 +0000 (UTC)
+ (mail-bn8nam11on2082.outbound.protection.outlook.com [40.107.236.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC4D510E21B
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 10:52:26 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mZLARswOq4vxTYQ5L/ALSx77d9uZfmI6AbW6OR4Er8WLOArUXFO0hX5DU9facAqstLizPTHp5VwQcxdc13/sgoRr/O9ButblsETIM5FjoJmbIFS+v/v6MTF5GnVI2CA85rOvUizSpUjKDOP0ZelfOiyZ9SoOlCdCeVELJXTq8/VWfq6nKvdrgq8vCWdidkvPXNcwC9m6aHjmw1Ge0eNygotFl7ZpRCKkPd5W39bEBUPydqObQRkVk07vIbuvvGL93l56lVK2wOXym6zwh2DU6LcpzIB2AVjvVgr+ucWgzAebMCCByAEukGGUFHb/Hujuemb+Kjl9dddUHGrVmRT1ig==
+ b=SlvR02hKEYgqecz9uAmyFruuuJEldYY2K2oz+/k5/jqjqpwPKQfUekkQnKpKc0mv47KjjSDn5v3O8r9YTLPVkoPPb9/G+6XTMomnrEcTj5GQsS6e192FtrDO7GkFSAFyQSC/OQWj91In3QSsJtaVT1AKBEd36cz3Fu82oI+5bS7gwSdydokkMCNTYErfx2ux2MaOIjQXjaJ08NBcgaGRqSmpxZXg6/pkx+R4+L1mQrOieMfb/vdloLoiUZWXiaLMBfwxZZUGLMpCBni2fZq51v2vLI6XpbBKtjYMrNtZNVCBAejqdJ1NhscRbY+L8ORvxJ6TXTui1AbXnfnokMt5Sg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j3NJSEdVo5KlzEiay2XUDjqLBYgfkv1hWCm9vS9ugrs=;
- b=XQbXfEQnMn0L+hqWbQVA+i1IDB+h2VQrfxIbPokL/Q0lShXSJhAvuHgx5RYdEiGpuI94oBlxPKkLeRndjwbha9F/JogRHIKChNbZLKeNg1ZaPouD6kA81gWMADB45AIyuv9kyybfzhwHB1GPMmQWMZaAd3dIO5YmUUyPhGQQGw8DHCQI0hqfXIwNSQ20RTctnX5+eDnf0P9Rt3dSCqgCK4++hR1Wjfw5e5M6INdxd5t/HrsTjU+W1LpUo5b2BxVtBjtNlp5tZFDT4oVf61VX8F7A0xa3Zokhn908A+issxIxeEaKhlj2US4Vp0qOoeU+q9/n2R2kJNJSDyQb2upbPA==
+ bh=3z7f/RAhcwAHkXYmUepiHSK25Jlz0SNuaumnbydHfcc=;
+ b=XlfTi3mH4Fu7BLO+vkBCMu3xvYGm6vgCBpORbxO6uetUBPOnJUCPXsVoRN9hAzESvASBLDkj9keVMZ5hZEEF44d07GiauQALwQ2z46YuxTMREhaX/AA6dHuKHaXk89xXNOMKyfJYsAeqjePQat0rhGYI4mVtW+xsXbK9L+nvjoQOuf0jWcxkLda+dh4iKu53eSJS9ICPx/FaI+farccp6Ff+YQBkgJ9wr2QrWCpyNJlGklAuMeYpiFk5/x/wL75nHL5EEo+Ff7lTeczp03qGeU9rLQjUvmdGCnOQLkEZo62sFNtpLCJSLILIN4Q/OMX5SldaAXxl+fRAG6kpeDaRiw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j3NJSEdVo5KlzEiay2XUDjqLBYgfkv1hWCm9vS9ugrs=;
- b=BDusMLbwmyovvjH3FCjJApxWII0hXqBuGEqabqQq33Wa0NK7pp5hFPLUFYAg1MG/cdu0CDTvcRuBQwGTbyVjrR61Ti7ylC85G9dgMKx9vnDTh+jlycaxCAQhSnAWMast48IKDpgvZ+veYZDaUv7fJRkr3HhJYwbmRxYeMROrpa0=
-Received: from CH5PR05CA0024.namprd05.prod.outlook.com (2603:10b6:610:1f0::29)
- by BY5PR12MB4148.namprd12.prod.outlook.com (2603:10b6:a03:208::23)
+ bh=3z7f/RAhcwAHkXYmUepiHSK25Jlz0SNuaumnbydHfcc=;
+ b=Xhugr7oUoK1G6fhyrFgCD8kKP0JKFbNK8HWiq5awZ+LF78bVE7ecksUnCnTbU2V9FHJWLVvxFbcNHp1Aayufp8LyPu/WeA3ByXk2jKNMkgFpx4BujnF+mz9ZXjYYVXJyt0S4ygh+kXeIQnyghBYYRI3PxFIEvj/ogHTPjTpNVMk=
+Received: from CH2PR18CA0023.namprd18.prod.outlook.com (2603:10b6:610:4f::33)
+ by SA1PR12MB8119.namprd12.prod.outlook.com (2603:10b6:806:337::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Sat, 7 Dec
- 2024 10:51:14 +0000
-Received: from CH2PEPF0000013D.namprd02.prod.outlook.com
- (2603:10b6:610:1f0:cafe::d5) by CH5PR05CA0024.outlook.office365.com
- (2603:10b6:610:1f0::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.11 via Frontend Transport; Sat,
- 7 Dec 2024 10:51:14 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Sat, 7 Dec
+ 2024 10:52:21 +0000
+Received: from CH2PEPF00000140.namprd02.prod.outlook.com
+ (2603:10b6:610:4f:cafe::e1) by CH2PR18CA0023.outlook.office365.com
+ (2603:10b6:610:4f::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.12 via Frontend Transport; Sat,
+ 7 Dec 2024 10:52:17 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF0000013D.mail.protection.outlook.com (10.167.244.69) with Microsoft
+ CH2PEPF00000140.mail.protection.outlook.com (10.167.244.72) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8230.7 via Frontend Transport; Sat, 7 Dec 2024 10:51:13 +0000
+ 15.20.8230.7 via Frontend Transport; Sat, 7 Dec 2024 10:52:17 +0000
 Received: from jenkins-julia.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sat, 7 Dec
- 2024 04:51:08 -0600
+ 2024 04:52:12 -0600
 From: Julia Zhang <julia.zhang@amd.com>
 To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, 
@@ -70,10 +70,12 @@ CC: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Roger=20Pau=20Monn=C3=A9?= <roger.pau@citrix.com>, Jan Beulich
  <jbeulich@suse.com>, Paul Durrant <paul@xen.org>, Julia Zhang
  <julia.zhang@amd.com>
-Subject: [PATCH 0/3] virtgpu: check if P2P is possiable or not
-Date: Sat, 7 Dec 2024 18:50:20 +0800
-Message-ID: <20241207105023.542399-1-julia.zhang@amd.com>
+Subject: [PATCH 1/3] xen:get p2pdma_distance
+Date: Sat, 7 Dec 2024 18:50:22 +0800
+Message-ID: <20241207105023.542399-2-julia.zhang@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241207105023.542399-1-julia.zhang@amd.com>
+References: <20241207105023.542399-1-julia.zhang@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -82,51 +84,51 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000013D:EE_|BY5PR12MB4148:EE_
-X-MS-Office365-Filtering-Correlation-Id: e51dea4b-ee44-41df-ebbf-08dd16ad11c8
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000140:EE_|SA1PR12MB8119:EE_
+X-MS-Office365-Filtering-Correlation-Id: ecae0a17-be8f-4c2e-da1a-08dd16ad37e1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YFw/sjdbC4eGfb4g5dXVndGFO2L7uImwUJh7oHYCsJsfdwT79Q9INuj3739D?=
- =?us-ascii?Q?V/Pa8HVNLZY8szM8uwH1ZwMqywy2B5I8HTE0AWiMws2A8r+ICBNq7QBBmiVO?=
- =?us-ascii?Q?xbe1tqagwffnN0DZvHszJRZvqPxMZEVXgihgdhwGoVCziMf7c8AYBlPvWANc?=
- =?us-ascii?Q?7KbyiLzoYgUSPHafUYOJeoFb0/Za3HjMy3PoqzBteHqJrp6xE+3TvAQSBFyE?=
- =?us-ascii?Q?EwisEZFQTkMLIb//N2CJvr856XTijzc0NB4u0zccr2fw6wteXEK279gh/uUz?=
- =?us-ascii?Q?Z//6Qpb9EMu4Wg53Fuyd8VG9tdrwNH+EK1mtGuu5gAYkoUt3mOpb+KQJttzH?=
- =?us-ascii?Q?ql/9PpvSXAjMlPLnz+KnFcff9hmnDrCrSO9TuGmuUUl/WHu/GsujrEO98M3H?=
- =?us-ascii?Q?TnPyypJpsghiFhJfq1jzU22dLhUFdVfRSu+Pzb/YkzG/scZjsraKqUQJhzZv?=
- =?us-ascii?Q?uxmUzI5DptNq/6aLO0QrClZ1sTh+g4QZNavIPbcbyngdzamnMq5j8zIg+Fed?=
- =?us-ascii?Q?t3Zd04IsldfNnp0UxIHOY33wzTXOrOz3Y/ipIEBu+Ci2oh4INR5CS3hqzDDA?=
- =?us-ascii?Q?GGSveS3NAimtp1tYz3WDVnVT0F9DjXiAOnVH9MW43xkzbfhOpadXSSE5k2kH?=
- =?us-ascii?Q?jb0dpuDWswG9x1m/1futWep5fJD7zDwNrY4WZVo8YLFQm7uWwMHKebIX7lKe?=
- =?us-ascii?Q?g/nl24KGV1E+OtV4dvwG8asmZUHtkq50Lw1djYhVy9RplmOSDPEPPp5p0E9w?=
- =?us-ascii?Q?P8mesnyC5hVssTrw+Rj1dsn+aYqaxoozJVc8LdS7mE39U14Q8TgH6xZ0OeJE?=
- =?us-ascii?Q?DK6AECVmvDq5yPomM5RqHJBjvyXYdqIHLhHwQ3cJO4cv7XEfXu9i0aYOtVJv?=
- =?us-ascii?Q?f5+HoS+UECkT481tmb7UrbnyiTMvRDElpEEPdNxpJmBoU0yHGxxwvrgOd6ef?=
- =?us-ascii?Q?g7kKrsxY43n64exIJZZTtU/cPFMxExrttK1cCVtIS59+h7L2FL0zxEji4Gbb?=
- =?us-ascii?Q?t+dCeWYuOFKokLSlTe2x211ZOXXNOiVCFLUyB52cKhRnjrCZum2PzA3DwmI5?=
- =?us-ascii?Q?Krp6SvYUL6KMODM5g2BmEWLmo7reU373MD6qrI4zvsZMzDhM4dkkbr3RJIsg?=
- =?us-ascii?Q?AyyX4VhRzOHCUI8pdPgR38VTaOQN6r6vfPgc5v1b3BAAHL7DizpQGSYtBbfQ?=
- =?us-ascii?Q?1fKRTdAS6OtcDpFknWDUb6c9+RVXvuAetzj4wcHXGAJsnetkufGtNijoOJJB?=
- =?us-ascii?Q?4dWmH7rT2yjvYuR70DQoTeQTyF5ZtzZW6NDcqJ7qQzG06y+kEbj9UGGDIpkr?=
- =?us-ascii?Q?TQ89nkMXlyqKk8AkdXXtKRnec8HyBU7tmZr7NnUFi0MkhwgAgiHHvtNAXUNe?=
- =?us-ascii?Q?UBMaIrkqTcRkxvbmW0F21JTfbwEixNfXchqhP6qc+Dj4oMmu9uojn3tE8+tW?=
- =?us-ascii?Q?vwjqtZSqhAIh72urGZHbcJBybq9UngI+axNsetqo8p4msM5YPSJ1gg=3D=3D?=
+ ARA:13230040|82310400026|1800799024|36860700013|7416014|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DU1i4lB89NXMg++EWvDHebP0wVGJ0sI3UJ+iKv+sVi2uSJTyV7UjIJZzESkh?=
+ =?us-ascii?Q?xsJ8sDlpy+OZD0o9cptA0TCn+aMbZV6P/W0WEbxeG+GyGGVKv2sTHBzY6/L4?=
+ =?us-ascii?Q?qlIkhb9h23QT03iB6e3cTwxsdMANV5LmdvrX/iU/1hdj7uqDyVU6dC8vbAVA?=
+ =?us-ascii?Q?ZmIcPs7aoGEl04/3GUX1tJ6qrAqFTO2pY27wKQDq/fBX1lTBZorHVP/d9gYl?=
+ =?us-ascii?Q?ExJ1flL3I//ikRm3tXRVRmgH6Kb3lWLYjdR4qRLPP94oEbva+3Tp0599kx97?=
+ =?us-ascii?Q?Xhsh2Qw6QACwe9m7zhRmmkWvkmVOVXciQMyhLdGZ7R20Nf9t6Tu5Vf8TJrti?=
+ =?us-ascii?Q?PaV/HoSAF5vTSzlz/Jm9sLe8jUDkH08Z6AxDJLJs7tbfDWvb2K1y7ArN94kQ?=
+ =?us-ascii?Q?C69eZuNwA90xnKKeFxyPDgfBCF9FnmFK5sRo/i05kPzqiMisbGw5Or528oGu?=
+ =?us-ascii?Q?c18U5xwrpt3JDT5283MDFGV9SmKUo77dFIX4Eao6BYOs45Fjw2Z+QrxSNzih?=
+ =?us-ascii?Q?cNSEb31XUiJvK5SDH0PuiLRP+rL6SRc4IVssKtqAlz9kgxUaNlk2FMEJNosw?=
+ =?us-ascii?Q?yrK8PO+TG+EGemGeM1Gv/F16g1CK8PI9N/ccTcTubHl8BZjqhpT8X6161bQF?=
+ =?us-ascii?Q?JejXn6NT5kD7yK3hWholwbsIltzvYrr0y4zxDMiyd+W5Uv4uGE+cmhFnXcVv?=
+ =?us-ascii?Q?yh1ldoTqhBPdKHnWboNonA4a64gKYFPbiPLhtbbGrqM/Lv89gLYf3xfTb8kU?=
+ =?us-ascii?Q?vVG37IKT+NsgVa7FVb0wdMX/IiYkWpQXgSWlBX/pkae8in/uUdJdCjDk/gIN?=
+ =?us-ascii?Q?X66mcdX8hixyjuYdUmS3+BDvrCmYpi9HHvpiy5EqreGTESGXWHcJzfkUFWEy?=
+ =?us-ascii?Q?M9ffIUkbYpYunh8dAeMfvVaLJ8oo28jsL6uF6QAcm3tSQOlG1X/+GPgEp+Wv?=
+ =?us-ascii?Q?LHCI9rD2IMYpzfLp3Gkf0hNCUqrvFf08D3nGxcNKbprMfHG/spMbf3+TKgMx?=
+ =?us-ascii?Q?2IhZnamIevGEMPzYrUxVb1x1nUWmNCWmsjGyg/I8lOGBYjvwo1bM0qt5hJnc?=
+ =?us-ascii?Q?0dUaOjbcbHVN13tJatnu5DGNTZeuWNUpwU0vF0nZQMnAO8NXvEKAqxeb/ImO?=
+ =?us-ascii?Q?eDeY+ySEiq8y6fDk0k1XfFoSj8jd4Rogc0Twgnc4VSwtbHQnjwz0DFhJrNVW?=
+ =?us-ascii?Q?cZgl1OwjDxnoJzaCuIO6Cs1vJN6rfNY4blVg4LULy5DReVMhvIt02rkQ1Ar1?=
+ =?us-ascii?Q?2M9mz4JIGW5aihL/uqcJcunjw8teB/pye7C8lEU1q22Rg6dkk9myvjR25kfT?=
+ =?us-ascii?Q?Nls6CNN9MQaTawR5eKwxk5Swh1wpK6qXlgbV6A22HwhFqqyX4uZHRh/KLlqV?=
+ =?us-ascii?Q?m/5UImk5FQbyJ0hBavBj9WWDCshUqoYmxdnBCSzF+6zwLxTgZIBpeCTa93TA?=
+ =?us-ascii?Q?WwrhuWzEMU2uI7/F5U8Gbg3Munkp3msIzRIVpP12qLxzo3KgODkpMA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014)(921020);
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2024 10:51:13.9074 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e51dea4b-ee44-41df-ebbf-08dd16ad11c8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2024 10:52:17.8242 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecae0a17-be8f-4c2e-da1a-08dd16ad37e1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000013D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000140.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4148
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,30 +144,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To implement dGPU prime feature, virtgpu needs to import/export buffer
-between virtio iGPU and passthrough dGPU. Before that, virtgpu should
-check if P2P is possible or not. But calling function pci_p2pdma_distance
-in guest VM will only get virtual p2pdma_distance instead of real physical
-p2pdma_distance.
+To get the p2pdma_distance, this create a new privcmd ioctl to calculate
+p2pdma_distance for two pci devices on the host with pci notations sent
+from guest virtgpu driver.
+
+Signed-off-by: Julia Zhang <julia.zhang@amd.com>
+---
+ drivers/xen/privcmd.c      | 42 ++++++++++++++++++++++++++++++++++++++
+ include/uapi/xen/privcmd.h | 12 +++++++++++
+ 2 files changed, 54 insertions(+)
+
+diff --git a/drivers/xen/privcmd.c b/drivers/xen/privcmd.c
+index 72c161e94731..95f67815a2ef 100644
+--- a/drivers/xen/privcmd.c
++++ b/drivers/xen/privcmd.c
+@@ -31,6 +31,9 @@
+ #include <linux/miscdevice.h>
+ #include <linux/moduleparam.h>
+ #include <linux/virtio_mmio.h>
++#include <linux/pci.h>
++#include <linux/pci-p2pdma.h>
++#include <linux/dma-map-ops.h>
  
-So this series introduce an implementation of virtgpu device_attach
-callback to get p2pdma_distance. And also adds a new virtgpu command to
-pass PCI notations from guest to host and a new xen privcmd to get physical
-p2pdma_distance according to the PCI notations in host.
-
-Julia Zhang (3):
-  xen:get p2pdma_distance
-  virtgpu: get p2pdma_distance
-  drm/virtio: Implement device_attach
-
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 17 ++++++++
- drivers/gpu/drm/virtio/virtgpu_prime.c | 59 +++++++++++++++++++++++++-
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 53 +++++++++++++++++++++++
- drivers/xen/privcmd.c                  | 42 ++++++++++++++++++
- include/uapi/linux/virtio_gpu.h        | 19 +++++++++
- include/uapi/xen/privcmd.h             | 12 ++++++
- 6 files changed, 201 insertions(+), 1 deletion(-)
-
+ #include <asm/xen/hypervisor.h>
+ #include <asm/xen/hypercall.h>
+@@ -977,6 +980,42 @@ static long privcmd_ioctl_map_hva_to_gpfns(struct file *file, void __user *udata
+ 	return ret;
+ }
+ 
++static int privcmd_ioctl_p2pdma_distance(struct file *file, void __user *udata)
++{
++	struct privcmd_p2pdma_distance kdata;
++	struct pci_dev *provider = NULL;
++	struct pci_dev *client = NULL;
++	struct pci_dev *dev = NULL;
++	enum pci_p2pdma_map_type map;
++
++	if (copy_from_user(&kdata, udata, sizeof(kdata)))
++		return -EFAULT;
++
++	for_each_pci_dev(dev) {
++		if (dev->bus->number == kdata.provider_bus &&
++		    dev->devfn == PCI_DEVFN(kdata.provider_slot, kdata.provider_func)) {
++			provider = dev;
++		} else if (dev->bus->number == kdata.client_bus &&
++			   dev->devfn == PCI_DEVFN(kdata.client_slot, kdata.client_func)) {
++			client = dev;
++		} else {
++			continue;
++		}
++	}
++
++	if (!provider || !client) {
++		pr_err("%s fail to get provider or client.\n", __func__);
++		return -EINVAL;
++	}
++
++	kdata.distance = pci_p2pdma_distance(provider, &client->dev, false);
++
++	if (copy_to_user(udata, &kdata, sizeof(kdata)))
++		return -EFAULT;
++
++	return 0;
++}
++
+ #ifdef CONFIG_XEN_PRIVCMD_EVENTFD
+ /* Irqfd support */
+ static struct workqueue_struct *irqfd_cleanup_wq;
+@@ -1684,6 +1723,9 @@ static long privcmd_ioctl(struct file *file,
+ 		ret = privcmd_ioctl_map_hva_to_gpfns(file, udata);
+ 		break;
+ 
++	case IOCTL_PRIVCMD_P2PDMA_DISTANCE:
++		ret = privcmd_ioctl_p2pdma_distance(file, udata);
++		break;
+ 
+ 	default:
+ 		break;
+diff --git a/include/uapi/xen/privcmd.h b/include/uapi/xen/privcmd.h
+index d131002dd48f..a7ec3704519f 100644
+--- a/include/uapi/xen/privcmd.h
++++ b/include/uapi/xen/privcmd.h
+@@ -141,6 +141,16 @@ struct privcmd_map_hva_to_gpfns {
+ 	int add_mapping;
+ };
+ 
++struct privcmd_p2pdma_distance {
++	__u32 provider_bus;
++	__u32 provider_slot;
++	__u32 provider_func;
++	__u32 client_bus;
++	__u32 client_slot;
++	__u32 client_func;
++	__u32 distance;
++};
++
+ /*
+  * @cmd: IOCTL_PRIVCMD_HYPERCALL
+  * @arg: &privcmd_hypercall_t
+@@ -174,6 +184,8 @@ struct privcmd_map_hva_to_gpfns {
+ 	_IOW('P', 9, struct privcmd_ioeventfd)
+ #define IOCTL_PRIVCMD_PCIDEV_GET_GSI				\
+ 	_IOC(_IOC_NONE, 'P', 10, sizeof(struct privcmd_pcidev_get_gsi))
++#define IOCTL_PRIVCMD_P2PDMA_DISTANCE                          \
++	_IOC(_IOC_NONE, 'P', 11, sizeof(struct privcmd_p2pdma_distance))
+ #define IOCTL_PRIVCMD_MAP_HVA_TO_GPFNS                          \
+ 	_IOC(_IOC_NONE, 'P', 13, sizeof(struct privcmd_map_hva_to_gpfns))
+ 
 -- 
 2.34.1
 
