@@ -2,83 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DE89E82C8
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 00:46:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988D69E82BD
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 00:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F11A410E660;
-	Sat,  7 Dec 2024 23:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6816610E310;
+	Sat,  7 Dec 2024 23:46:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KRv3x5aD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LGCUNPJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9FB710E231
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Dec 2024 13:05:03 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-725abf74334so2613615b3a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 07 Dec 2024 05:05:03 -0800 (PST)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
+ [209.85.218.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED0210E2F7;
+ Sat,  7 Dec 2024 13:50:55 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id
+ a640c23a62f3a-aa6413fc7c5so182830866b.0; 
+ Sat, 07 Dec 2024 05:50:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733576703; x=1734181503; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=TFVSrkNiEMMJAigz7OiMiNZjcf3pYxRxO/MhDZIhBgc=;
- b=KRv3x5aD5e3LTR8VDFmTckoi7+wHZYJBQwWYbfaSCv/bUpy3jlIK9WAwfoiYfCB/Po
- vX30kMQ8ayArVSMxiHjircqbjr3HLrTup4klbN6kbI7cngROPSShUNuZrgiwqnK7w3HN
- 41LgiXe1gnw8zDVErULKqioESWy1QD752h6/yrxRzDkUENqEZGpUH0E1obpuXTXJoP62
- Aohh7SBVeJpAm3sx4PhdCapxCVIb38uoml+dhqKqI+C7LCXpATdi3+bvkN0+33mD8xyv
- pRickfqJrKMgaR8C5XS/SNeKHodm1WVQtTkcPTfVElnw+sHh46QT1VzWK/ulPJ73Q+3p
- E13w==
+ d=gmail.com; s=20230601; t=1733579453; x=1734184253; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xHFw9+ZFS/5kCWej9Q2r4cNs9qWMsdVVVFbrLzYifFk=;
+ b=LGCUNPJ2aqaATe4NurBfsOXP0cHDqOO9nLyC7/0tPkWIZg38NamIilP+t4jImdCijx
+ fDqJA7rUb2eYNxbvV++a2H8Jq59La+H5meaSPpnynp1yr4YU4veE1+UvcNspg0/y65tN
+ 2omdveD52YjpW0FkbZ0EcDAvoO6iSShuhn+0YddR9PHj3qG7d75SZEYHzZC9qn6L3l7o
+ noC3xg4+B5dxUMXN7g0/rk34py04O6IVpd2MMm+/h9BWk5aQbPB1C1cMY8m2vFD5BVjb
+ Dv9kPTzVlzabrJDJ2CUJHjVlFnSqpU4IjMXFixTU/YAwnYBUIlc9nQeXOY90Kl8ibG2A
+ y8Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733576703; x=1734181503;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1733579453; x=1734184253;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TFVSrkNiEMMJAigz7OiMiNZjcf3pYxRxO/MhDZIhBgc=;
- b=XxtEwQllnkWvb0zXVSDwXjndDOuEW7s4NszCkErrIe0y5feFogrOnmwfpxu4bYN7VU
- odZjG3Msz2z+U85cLHutI9FGeVARGV1GtlwiirIXx+HjVTSDqihgYdDuxVlLWUYfaai+
- 0Ju3sBJRBwj/R/9WuMm844Oi0XxnU0CWIn6/N5iJjhOwrdKLl+JUqaLSEVJOH++Q2VEA
- No92egYoSQVuUchY1t6mZuu/mt1ECSZi7Ghl5c20IvaiorRn7+EUfkOftdZBgISPiIKt
- 1pWlXC+mp0IoRCkyeZcobtSdkQHcIAlQDzdkc2TRVQoEMSzzu0Ubhr30ldZ3EeK1itvF
- KiJA==
+ bh=xHFw9+ZFS/5kCWej9Q2r4cNs9qWMsdVVVFbrLzYifFk=;
+ b=c6i37y0Mbw/vJonMMLGeiXq0u/DQOOf47TE2vHFnooM4fYVn0aLF1uLFho5KyOq5fQ
+ 80nPmtR8Y9Zj7cRLCBMWyvm2TnQaiQF4e5i6+Ib/wDE1+K73YCN8VDXxaD20Mqj2iO0p
+ sS22J53f1GKRNMbs5laKQhjP0G9ov/st9TytST3eyuGPpDJrhkVtC5kGX0dnFSZlKu6o
+ 8H/VBX7gmWlStNE4diZq3mM4SrVmpV9eZBzxty6KK9j0ffRmUHhlNMC7djYENhbReZiY
+ Ii+ONYnewAQ7WV/jeuRoIm1zVWqtYJyigCg7zyox7GjH9dlEw5tyEQkeJ31v5P6mDEdn
+ 6JkQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWfhNS8ah5v3sSQiQoN8OoTcYzi6KgUNkGsPwxA7Y+2JJLQXAVD8vYtwrIKDeequq3DB3ZSbpNQyvs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpYTBYyB9wino3epgF5HsDpu78yogy0nlXLSdFEBtXaS1h9LSr
- ymM4RQdqtvVFSK1Tm3DNFxHALNROYOojE6GG49vQY2Imo9+VF7wV
-X-Gm-Gg: ASbGnctTRMOExh+FAnyWTO8mJuYRp3RPHQ48m52kJ03Y+iJPROXOOHXG6tnWguaEDMJ
- ahqE+4gW4gQzIyR5knrafMro+WGUv9n65Zs4J3x1DfKLKglvsR3K+onQ4FQvM4udc5t+s9wMbCp
- Pz5wgNT8haPuo0VAQj5BlNcAt+1viuyIOrubHIrkx/x+D/4tFrIe+oC9nJCQW+6SGrt98hgj/9e
- FaxEp78uifejo1RdS63eMqw7ABwkr5qkKPwNB7aSPQAgUP/a7ShRMPypHoxV73jCQ==
-X-Google-Smtp-Source: AGHT+IH0D/Yd8zXEABvPSshTZ5GdofWvmFimE7bz/L0Dg8+hzOe7KfKe6Ge/tMmMUKD8ETbyZzILpQ==
-X-Received: by 2002:a17:902:e80b:b0:215:97c5:52b0 with SMTP id
- d9443c01a7336-21614dac17dmr93533435ad.38.1733576703350; 
- Sat, 07 Dec 2024 05:05:03 -0800 (PST)
-Received: from localhost.localdomain ([59.188.211.160])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-21628c59730sm12779715ad.105.2024.12.07.05.04.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 07 Dec 2024 05:05:03 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nick Chan <towinchenmi@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 3/3] MAINTAINERS: Add entries for Apple DWI backlight
- controller
-Date: Sat,  7 Dec 2024 21:03:16 +0800
-Message-ID: <20241207130433.30351-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241207130433.30351-1-towinchenmi@gmail.com>
-References: <20241207130433.30351-1-towinchenmi@gmail.com>
+ AJvYcCURGYHNrQBJGUx6Sq7nRAvTgWSXJhmA5evgqVEuN+dImlSE4dNxHaXhvlL6KLKEgzQatLNRdxlaDzk=@lists.freedesktop.org,
+ AJvYcCWJgzlZVhXA0jQbi7mCLm/z2X50yyowqvHdxbRsBwNY0sdRWCu9Qvm2VxlHwZu2i4oXT9KIgCMHsIHw@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxe2rlR2FaejVuC0Z7FJv+Q9rwQWDYvc0jxQd/IVvfMojwPZkgM
+ rdeu89Q67y7CUqd60/76+emn5oaHjc8dC9zpIFOoNPDFrIEtGdAkxWbHLvfkdTvBfOjC331bJRh
+ t06lTq35vCEcTLIQvOxChCqn/JJE=
+X-Gm-Gg: ASbGncsfGBSkTOEcgMP/PLdtN/UMbNnxwcRG4iPztOyZv1U5g7BhqhyvBbLYjT0tbn7
+ BGxqp33820kMYn7ZRor4ununB8CsGCSk=
+X-Google-Smtp-Source: AGHT+IH6k2GyIlgxnGFl/g0StSGsvarnhcm9pbDRqjwA6P99KliYB7aZHWQfO50sclN4sezlsrdFqfGV/df1a3TMj88=
+X-Received: by 2002:aa7:cf83:0:b0:5d3:d7c2:ca58 with SMTP id
+ 4fb4d7f45d1cf-5d3d7c2cad3mr7104642a12.24.1733579453216; Sat, 07 Dec 2024
+ 05:50:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
+ <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
+ <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
+ <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
+ <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
+ <abdd7862f136aa676b2d2c324369f4a43ff9909c.camel@gwdg.de>
+ <CAMZ6RqKzGiRNMeLsQKRNrxvW_bXB-kEi11udQ82kKX6tGCrqcg@mail.gmail.com>
+ <9607300dfca5d71ca9570b1e1de0864e524f356b.camel@gwdg.de>
+ <CAMZ6RqJGqBqvgxzp5yPFY1pk0WkkwEMM34qU-dZ3kXfsnKaqEg@mail.gmail.com>
+ <429e7c6713ecc94494d9107e5f5a1f0c8e854f23.camel@gwdg.de>
+In-Reply-To: <429e7c6713ecc94494d9107e5f5a1f0c8e854f23.camel@gwdg.de>
+From: Vincent Mailhol <vincent.mailhol@gmail.com>
+Date: Sat, 7 Dec 2024 22:50:41 +0900
+Message-ID: <CAMZ6RqL+iS6GVsY20=O6GdQakRpp7XdewZJsUbmE5OCsKaHR6Q@mail.gmail.com>
+Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
+ __is_constexpr()
+To: Martin Uecker <muecker@gwdg.de>
+Cc: David Laight <David.Laight@aculab.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+ Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
+ "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "llvm@lists.linux.dev" <llvm@lists.linux.dev>, 
+ "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "coresight@lists.linaro.org" <coresight@lists.linaro.org>, 
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Sat, 07 Dec 2024 23:46:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,33 +115,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MAINTAINERS entries for the driver.
+On Sat. 7 Dec. 2024 =C3=A0 22:19, Martin Uecker <muecker@gwdg.de> wrote:
+> Am Samstag, dem 07.12.2024 um 21:45 +0900 schrieb Vincent Mailhol:
+> > On Sat. 7 Dec. 2024 at 17:39, Martin Uecker <muecker@gwdg.de> wrote:
+> > > Am Freitag, dem 06.12.2024 um 16:26 +0900 schrieb Vincent Mailhol:
+>
+> ...
+>
+> > > I find it amazing how much time the Linux kernel community spends
+> > > revising code to make it work perfectly.
+> > >
+> > > Still, I am wondering whether some of this time and effort should not
+> > > be targeted at C compilers and language work to make these macro
+> > > hacks unnecessary?
+> >
+> > It seems to me that the long term solution to this problem are the
+> > constexpr functions.
+>
+> How would constexpr functions help here?  (I am a bit sceptical about
+> constexpr functions.)
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+I was thinking of some of the "side features" of constexpr functions. Namel=
+y:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e930c7a58b1..36de76bc6fd4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2204,6 +2204,7 @@ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
- F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-+F:	Documentation/devicetree/bindings/video/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -2221,6 +2222,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
--- 
-2.47.1
+  - std::is_constant_evaluated
+  Link: https://en.cppreference.com/w/cpp/types/is_constant_evaluated
 
+  - if consteval
+  Link: https://en.cppreference.com/w/cpp/language/if#Consteval_if
+
+I did not try it, but looking at these, I believe that this would
+allow us to rewrite most of our macros into some constexpr functions.
+
+> > But the core issue is that before getting this support in Linux, we
+> > have to wait for this to be added to the C2Y draft, then implemented
+> > in the compilers (probably just reusing the C++ constexpr functions)
+> > and finally wait maybe one more decade for the C2Y support to reach
+> > the kernel. For reference the kernel supports C11 only from 2022=E2=80=
+=A6 So
+> > maybe we will see those in the kernel around 2037? Meanwhile, we have
+> > to deal with those hacks.
+>
+> If we do not collaborate on proper solutions, then you might have
+> to wait much longer.
+
+I was invited to WG14 this September. For now, I am only lurking. The
+thing I have in mind right now is to write a paper to allow the use of
+static_assert() in expressions (i.e. make it return 0 on success).
+That should be a relatively small change, but would bring a nice
+quality of life improvement.
+
+For context, look at this:
+
+  https://lore.kernel.org/all/CAHk-=3DwjLSEcZ5LdW+3C+9rtjvNPHZT6zdk0POj67T5=
+k2ZpDbgA@mail.gmail.com/T/#m1ba33a804b4041154b72a1d0333f90ec7204c461
+
+And I will definitely follow the progress of constexpr functions in C2Y.
+
+
+Yours sincerely,
+Vincent Mailhol
