@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855FC9E84E1
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 13:00:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4465F9E84EC
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 13:03:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE41F10E455;
-	Sun,  8 Dec 2024 12:00:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6448010E461;
+	Sun,  8 Dec 2024 12:03:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I1C6QOyC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LdcJ/u2D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5781710E44F
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2024 12:00:40 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-2ffc357ea33so31104781fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Dec 2024 04:00:40 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9E210E44F
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2024 12:03:53 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53e3a37ae07so1235541e87.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Dec 2024 04:03:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733659238; x=1734264038; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1733659432; x=1734264232; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=IZQDqZh24CIlU2q7DysLNqODQ6Kiip1cX4ZxRIqPVaA=;
- b=I1C6QOyC3u4tQ4LyjYjTS3i25YUNFqbL2HHASzuFvfKmCnYWd2MGW9ceME2ZWag1A+
- WSB4vd1h7ZWsgynLFhgR6SiEMlwN29LX36skMeV3ij/y21xJgFXnztmL8K3i5/6k01GZ
- KW6cGqQUSvxxlBwqeOM3mSSVKtd6y/ZJ2X+MSKvoSDWWUBqotnyOYlD7h7r94XR91apA
- fOptGjW6lP2s8LrFgLpiPCWZ0Mu14u1PmZgnfo4Rsjjf3nYUjmAExKHl3qpHs0U7CSUQ
- 5UMN7CVsWsE+f8cLQbXNJlv0PU409Xi9O18DHY/xVopPWClxM/Z+D1Yhf6smQDmsVctL
- ljpw==
+ bh=Q9KXx0ApNlsijlOZA0ju99Q+G9M5R7Yx2sQkciVcDS4=;
+ b=LdcJ/u2DJ5YE40VPwIgea5+TzRbvtu9A8PdWzRV+B3EmGF0DtXkwiO9TaHQa4CCnDa
+ okeG3nn3Qlj31VjFjKDyJSDrBpoThYBnX4nYE6TW9E2Vmlxhl1B2OOhwbi+N8n64xVLV
+ sw5m5psHsP/cIEJSZ9gXl7/T702YyKfJWzev6/q1cf9z8zgdEmx05hArzqB/sK6fTnDf
+ 4xjs3GZnZDR1pN5u88zllM6m+quj/uF7IYpD89ipufZ88MO070ePGOmOJRbKlduwrs9h
+ PKaGmdOCy4zfwe1LWa5mYoRj2BiSrzLuDaw33SMyhmDkJXOEnTG/nyr1H/PpoHWB3tz1
+ Ct5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733659238; x=1734264038;
+ d=1e100.net; s=20230601; t=1733659432; x=1734264232;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IZQDqZh24CIlU2q7DysLNqODQ6Kiip1cX4ZxRIqPVaA=;
- b=DLCnldxRt5vuailMJebzZgM8hlY1DGXPkS+W2SCLAhcVaxcobwaOpPwLCCiiWuhBLq
- anGA3yPu2BLzH7fC1qRiSPu1Z9gNp5B8k16Gr77XG2HNWBH0eQa3tmZmZkkEc+xjpDxv
- E0N4SlnkeRghFPeuTodjeqFrLjVTddqtmnONFlAgMx0QLGAbqUPjwUfnt0NH9OqR7qKF
- AP+LyJMrEcE6bMae9xVeeXVK020Ao/1fJyp77hzpmj+V8jIZcOeWZ2X2WUC9S19qDY3a
- Mj12Fo/38rwtfPWzsjwVRlCA+g6PVLPRPIag4RFFckfZBk5CNWVLxe0dEMZ07ZkM97ls
- KS0Q==
+ bh=Q9KXx0ApNlsijlOZA0ju99Q+G9M5R7Yx2sQkciVcDS4=;
+ b=PMoKOlWm+CPYh6aujwzl36LrNh8ZoiGtGC/AR6mq0Nsw5ubuUjdepPwzBEG1RHUx0S
+ b1+nUHOhYdcZGoN4FoWQxn7DLBpEkqjv3Uaya3mBEgcVcrzs27Liya6/rCQMaIGOS6Bu
+ m0LCUkujcGbla/pAkiccfeppKnCZqR6X3NmwWxUjeci4t5JD3pqzdTdb048/9zp4/nrn
+ AkRN4WUeVaKX5Cn5h4KJ2OzIT9EpAhmpQaF/T3IQedijf+aEZgZISD0GFlC9nsH42mdN
+ WNL0l03KNhEGosLcCelmAMD6h7soNfvoWpWFd4zC9rUY0w8NIOAH1yAErok7dscFEye7
+ NqBA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWHvtNVEl6dMjABwR3DL4O8Ivmo2oi30N8M9fjx3mBDG/B806U2wHXWrShP4kzDd/LvmR62KDBj8So=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHmBwKiRMOFloNycm1g6A4AN9SaBT3cfjA2VyS4PWCkvP361d7
- Yih3Mnvhbqxed63n8f51qkLyuoKepw28rADSsMhfXRFwtQEcTeJzzNAG/F87ahw=
-X-Gm-Gg: ASbGncvoagsE9zaM97aTfV4b0YQAdbMu3eRfBJZkScitwVqo9eEOF4M75fJN8XUpjX+
- cHTI8juj5HwIp0Pq4QHukTBRc5RV+9rMqLoNrC0rRh5A1uHB+MBCKxEoLd3KC+doYg3mX8Xtj4i
- GmO/Z1Bw0by9rPk7Ex2metmAHEWcU0i0a6wRSURbZ7oOVvXWHUhcnv2bJjZrCxwwvgQPdOCYwri
- 0QdaZMLOpeRkHoHJxEapKK9o8oSSmr4l0EjsLadPlcLwdKzk6/z+AEg0oAdIt18CtC0n31Yv3/A
- XbtdquwWr5Ofz2/uQsPMzxfgSVPCpg==
-X-Google-Smtp-Source: AGHT+IFtuMd2CLZMp/J0k4uDOw6R2C77JANZoosZcIAaqEzW6+8T96FmwIKt4fcpD8nXNf+JBXuB1Q==
-X-Received: by 2002:a2e:bccb:0:b0:2ff:cfbb:c893 with SMTP id
- 38308e7fff4ca-3002f688d90mr36234661fa.6.1733659238447; 
- Sun, 08 Dec 2024 04:00:38 -0800 (PST)
+ AJvYcCX3tUzQjHUIgdwoWXXZ2EO7V8yIaRkA9lrbE1AiM9j9j1KjWrCe3d6fmkZgKxKfUjejScyhipC8ywc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxSteiCHvVSjdbXuzFN3XQv/0suX8NNF8oCibQyfTURtWejzMq1
+ bDzdVXwJEg+TZwW+4QKicMScaRos/g6lYprND7hlC1kNoNVDXe65nloF4qoiZco=
+X-Gm-Gg: ASbGnctiXJkC584buvnwNwqd4r0HMgnj+ZMUgAdgM7arbCwJ8JYl/TgpnOVT/IAun2e
+ XScUrr4GoHxhr6cSkkl7o5YlJ1Z+c4i1a4F9djpyMbToeJTtcaa15OppA5SMY4pB87FmgHlanmU
+ tenQVhXT+i3gJo3d2AJpOcAszBQwXiUkATDd2SlMKjbCwWFPEhwxup7O5ithS5r7X2tpwdwRvv8
+ Q6qmiz7R6pypmi5zt8h7NCDuwgBtW4HG8c/7WDCiNboni+YRd9XR0x5iKj5C+6/2NO1owkhqsig
+ Xn2WSipiu1yFr5CJFg37bJKssKtH9Q==
+X-Google-Smtp-Source: AGHT+IE3O1vDcG2I7HunwmWrjoW+AhnlewTum6tSDC7QGhQdfWJpHRGs4D0Utg5tFcMzbQvnOUmbyQ==
+X-Received: by 2002:a05:6512:33d1:b0:539:e58a:9704 with SMTP id
+ 2adb3069b0e04-53e2c2c2e2dmr2716844e87.33.1733659432037; 
+ Sun, 08 Dec 2024 04:03:52 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3022397e845sm144661fa.66.2024.12.08.04.00.36
+ 2adb3069b0e04-53e395e0c65sm589206e87.256.2024.12.08.04.03.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Dec 2024 04:00:37 -0800 (PST)
-Date: Sun, 8 Dec 2024 14:00:34 +0200
+ Sun, 08 Dec 2024 04:03:50 -0800 (PST)
+Date: Sun, 8 Dec 2024 14:03:48 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -78,15 +78,15 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 43/45] drm/msm/dp: populate the max_streams for sa8775
- mst controller
-Message-ID: <5hmhxnqp3ix636jdsxqgmdkrzvsduax4ft5uec35qduuwif2rz@pwbm6hchctrw>
+Subject: Re: [PATCH 08/45] drm/msm/dp: re-arrange dp_display_disable() into
+ functional parts
+Message-ID: <7bscw5btxqonvfo4fqbalhjdhs3hewtkcr3svpxonhsuawzpio@d4wbamnobcdl>
 References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-43-f8618d42a99a@quicinc.com>
+ <20241205-dp_mst-v1-8-f8618d42a99a@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-43-f8618d42a99a@quicinc.com>
+In-Reply-To: <20241205-dp_mst-v1-8-f8618d42a99a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,105 +102,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:32:14PM -0800, Abhinav Kumar wrote:
-> Populate the max_streams for DP controllers to indicate MST support.
-> 
-> If the pixel clock handle for the second stream fails, treat it as
-> SST case rather than a complete failure.
-
-Could you possibly clarify:
-- Are there MSM DP controllers which do not support MST?
-- Are there MSM DP controller which support more than 2 streams?
-
-It might be easier to to set max_streams statically rather than setting
-it via the descs.
-
+On Thu, Dec 05, 2024 at 08:31:39PM -0800, Abhinav Kumar wrote:
+> dp_display_disable() handles special case of when monitor is
+> disconnected from the dongle while the dongle stays connected
+> thereby needing a separate function dp_ctrl_off_link_stream()
+> for this. However with a slight rework this can still be handled
+> by keeping common paths same for regular and special case.
 > 
 > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  9 +++++++++
->  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  2 ++
->  drivers/gpu/drm/msm/dp/dp_display.c | 13 ++++++++++---
->  3 files changed, 21 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/msm/dp/dp_ctrl.c    | 29 +++++++++++++++--------------
+>  drivers/gpu/drm/msm/dp/dp_ctrl.h    |  4 ++++
+>  drivers/gpu/drm/msm/dp/dp_display.c | 25 ++++++++++++-------------
+>  3 files changed, 31 insertions(+), 27 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index d4915a962f97b3d2a347456e197265a5dc043eb0..0e5ebcdab00936cf0ce6e35514f2932158530cc0 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -2438,6 +2438,15 @@ static int msm_dp_ctrl_clk_init(struct msm_dp_ctrl *msm_dp_ctrl)
->  	return 0;
->  }
+
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Nevertheless,
+
+> @@ -905,20 +905,19 @@ static int msm_dp_display_disable(struct msm_dp_display_private *dp)
+>  	if (!msm_dp_display->power_on)
+>  		return 0;
 >  
-> +int msm_dp_ctrl_get_stream_cnt(struct msm_dp_ctrl *msm_dp_ctrl)
-> +{
-> +	struct msm_dp_ctrl_private *ctrl;
+> -	if (dp->link->sink_count == 0) {
+> -		/*
+> -		 * irq_hpd with sink_count = 0
+> -		 * hdmi unplugged out of dongle
+> -		 */
+> -		msm_dp_ctrl_off_link_stream(dp->ctrl);
+> -	} else {
+> -		/*
+> -		 * unplugged interrupt
+> -		 * dongle unplugged out of DUT
+> -		 */
+> -		msm_dp_ctrl_off(dp->ctrl);
+> +	msm_dp_ctrl_clear_vsc_sdp_pkt(dp->ctrl);
 > +
-> +	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+> +	/* dongle is still connected but sinks are disconnected */
+> +	if (dp->link->sink_count == 0)
+> +		msm_dp_ctrl_psm_config(dp->ctrl);
 > +
-> +	return ctrl->num_pixel_clks;
-> +}
+> +	msm_dp_ctrl_off(dp->ctrl);
 > +
->  struct msm_dp_ctrl *msm_dp_ctrl_get(struct device *dev, struct msm_dp_link *link,
->  			struct msm_dp_panel *panel,	struct drm_dp_aux *aux,
->  			struct msm_dp_catalog *catalog,
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> index 9ad7022d6217572395d69294c3cc4d4dbaddf0ac..f72a499809ec01a9cc5bb79762bc2604820426a1 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
-> @@ -54,4 +54,6 @@ void msm_dp_ctrl_set_mst_channel_info(struct msm_dp_ctrl *msm_dp_ctrl,
->  				      u32 start_slot, u32 tot_slots);
->  void msm_dp_ctrl_push_vcpf(struct msm_dp_ctrl *dp_ctrl, struct msm_dp_panel *msm_dp_panel);
->  
-> +int msm_dp_ctrl_get_stream_cnt(struct msm_dp_ctrl *dp_ctrl);
-> +
->  #endif /* _DP_CTRL_H_ */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 528cda1453a85f5f8dd37bb0d2366548016c88e4..db563af19461089dbcaccce0d03fd03d5aa567aa 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -126,6 +126,7 @@ struct msm_dp_desc {
->  	unsigned int id;
->  	bool wide_bus_supported;
->  	const unsigned int *intf_map;
-> +	unsigned int max_streams;
->  };
->  
->  /* to be kept in sync with enum dpu_intf of dpu_hw_mdss.h */
-> @@ -149,10 +150,10 @@ static const unsigned int stream_intf_map_sa_8775p[][DP_STREAM_MAX] = {
->  };
->  
->  static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
-> -	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true,
-> +	{ .io_start = 0x0af54000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true, .max_streams = 2,
->  	  .intf_map = stream_intf_map_sa_8775p[MSM_DP_CONTROLLER_0],
->  	},
-> -	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true,
-> +	{ .io_start = 0x0af5c000, .id = MSM_DP_CONTROLLER_1, .wide_bus_supported = true, .max_streams = 2,
->  	  .intf_map = stream_intf_map_sa_8775p[MSM_DP_CONTROLLER_1],
->  	},
->  	{ .io_start = 0x22154000, .id = MSM_DP_CONTROLLER_2, .wide_bus_supported = true },
-> @@ -1481,7 +1482,10 @@ int msm_dp_get_mst_max_stream(const struct msm_dp *dp_display)
->  
->  	dp_priv = container_of(dp_display, struct msm_dp_display_private, msm_dp_display);
->  
-> -	return dp_priv->max_stream;
-> +	if (dp_priv->max_stream == msm_dp_ctrl_get_stream_cnt(dp_priv->ctrl))
-> +		return dp_priv->max_stream;
+> +	/* re-init the PHY so that we can listen to Dongle disconnect */
+> +	if (dp->link->sink_count == 0)
+
+It might be better to have just two codepaths:
+
+if (sink_count == 0) {
+  msm_dp_ctrl_clear_vsc_sdp_pkt()
+  msm_dp_ctrl_psm_config()
+  msm_dp_ctrl_off()
+  msm_dp_ctrl_reinit_phy()
+} else {
+  msm_dp_ctrl_clear_vsc_sdp_pkt()
+  msm_dp_ctrl_off()
+  msm_dp_display_host_phy_exit()
+}
+
+> +		msm_dp_ctrl_reinit_phy(dp->ctrl);
 > +	else
-> +		return DEFAULT_STREAM_COUNT;
->  }
+>  		msm_dp_display_host_phy_exit(dp);
+> -	}
 >  
->  int msm_dp_mst_bridge_init(struct msm_dp *dp_display, struct drm_encoder *encoder)
-> @@ -1517,6 +1521,9 @@ static int msm_dp_display_probe(struct platform_device *pdev)
+>  	msm_dp_display->power_on = false;
 >  
->  	dp->max_stream = DEFAULT_STREAM_COUNT;
->  
-> +	if (desc->max_streams > DEFAULT_STREAM_COUNT)
-> +		dp->max_stream = desc->max_streams;
-> +
->  	dp->intf_map = desc->intf_map;
->  
->  	rc = msm_dp_init_sub_modules(dp);
 > 
 > -- 
 > 2.34.1
