@@ -2,98 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A13C9E8504
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 13:38:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBD59E856F
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 14:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6424010E323;
-	Sun,  8 Dec 2024 12:38:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0399C10E193;
+	Sun,  8 Dec 2024 13:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gwdg.de header.i=@gwdg.de header.b="byU3IfeK";
+	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="nsAlKyTz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx-2023-1.gwdg.de (mx-2023-1.gwdg.de [134.76.10.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B270910E012;
- Sun,  8 Dec 2024 12:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gwdg.de;
- s=2023-rsa; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:CC:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=CYPZ6zhZQZZegU5YKzAwbOa7JzOMQMMoi9xo6uKq+Yo=; b=byU3IfeK/Jszh3px4gBXWsVxW4
- /Uy3hONFmadHud3NLgWfq93VfyrCzySJiBjGY46NRtsG0PTQ8UVc4PR7AgDtSIJqLAJkLA3syPYL6
- nkFWCkAkLylaC6XsqCc0WsaNIOKeN2D8IOjdmo//of3IyUSS/sgrXcfheXQ4zpEoatupVAUiGoAVl
- EomUTq2W0/3CLTbnEmtixebgfjOVO7rkINYp3CSPnt6aPMdKEfxYw7RQy6DGK3/S30Erx3MkajS49
- pF7KWi6Qami3L7TVwTQ6MUSACAnhnv+/wG2V4IQHLwhiacw28v9qP97n6GWPhzQScMCOGUH5OX7MT
- bFFz2glA==;
-Received: from xmailer.gwdg.de ([134.76.10.29]:42336)
- by mailer.gwdg.de with esmtp (GWDG Mailer)
- (envelope-from <muecker@gwdg.de>) id 1tKGY8-004Y8O-3C;
- Sun, 08 Dec 2024 13:38:13 +0100
-Received: from mbx19-fmz-06.um.gwdg.de ([10.108.142.65] helo=email.gwdg.de)
- by mailer.gwdg.de with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- (GWDG Mailer) (envelope-from <muecker@gwdg.de>) id 1tKGY8-0006nC-2q;
- Sun, 08 Dec 2024 13:38:12 +0100
-Received: from vra-173-64.tugraz.at (10.250.9.200) by MBX19-FMZ-06.um.gwdg.de
- (10.108.142.65) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.14; Sun, 8 Dec
- 2024 13:38:11 +0100
-Message-ID: <6658618490381cf5ec35edbb66f1478024174e67.camel@gwdg.de>
-Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
- __is_constexpr()
-From: Martin Uecker <muecker@gwdg.de>
-To: David Laight <David.Laight@ACULAB.COM>, Linus Torvalds
- <torvalds@linux-foundation.org>
-CC: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Luc Van Oostenryck
- <luc.vanoostenryck@gmail.com>, Nathan Chancellor <nathan@kernel.org>, "Nick
- Desaulniers" <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Rikard Falkeborn
- <rikard.falkeborn@gmail.com>, "linux-sparse@vger.kernel.org"
- <linux-sparse@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "llvm@lists.linux.dev"
- <llvm@lists.linux.dev>, "linux-hardening@vger.kernel.org"
- <linux-hardening@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "coresight@lists.linaro.org"
- <coresight@lists.linaro.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>
-Date: Sun, 8 Dec 2024 13:38:10 +0100
-In-Reply-To: <b71056c1b9e04aa383f2e5608c27290f@AcuMS.aculab.com>
-References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
- <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
- <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
- <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
- <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
- <abdd7862f136aa676b2d2c324369f4a43ff9909c.camel@gwdg.de>
- <CAMZ6RqKzGiRNMeLsQKRNrxvW_bXB-kEi11udQ82kKX6tGCrqcg@mail.gmail.com>
- <9607300dfca5d71ca9570b1e1de0864e524f356b.camel@gwdg.de>
- <344b4cf41a474377b3d2cbf6302de703@AcuMS.aculab.com>
- <9a0c041b6143ba07c2b3e524572fccd841f5374b.camel@gwdg.de>
- <CAHk-=wjpVXEjX16PP=-hi4CgLqEGJ_U-WvKWq+J3C+FW-hSSfg@mail.gmail.com>
- <0a2996a7c63930b9d9a8d3792358dd9e494e27c1.camel@gwdg.de>
- <CAHk-=wjsfYYKBYuW8_6yKjdwHih0MMa2GwUJh_LHcuUNFR7-QA@mail.gmail.com>
- <9d9567dbdaf39688bbd0d240e29dec826a5931ee.camel@gwdg.de>
- <b71056c1b9e04aa383f2e5608c27290f@AcuMS.aculab.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from pv50p00im-zteg10021301.me.com (pv50p00im-zteg10021301.me.com
+ [17.58.6.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D65610E193
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2024 13:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1733663951;
+ bh=B9Z7dZW7Hi3Js1z/RCEjU+3M/IjEGHpjDFHWBOHmqc4=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
+ x-icloud-hme;
+ b=nsAlKyTzBjgFKiKK875IKrpeQ6Hv0IpX0ZWERQ6ck5xVT3yTVHF/ma0+sMayke7RA
+ Mgepn7kdGl4f4KMgfy/ymh+QBWxBeS7/1xqjrAX4SI9iGKKSkpp5xcz5oH/1zd68so
+ q8B21ej8wfHvQSmqknU2Qp3DQusSq/gzOdhHF5FFhfSN5Qste9Sq1vNahO5iwGakAp
+ tKQIdEZWB3krUn4WgU7lFUNJY/OoKRT0xs0HLsHhvA1M3HxUyLGgZ/BUmsWP7OKH1i
+ bCryHNz+PA1BYV/NsVSs5yT/qG6oSWCs9oJcX6JOBLUE0hNVJ8Fz0YBe04unhhDqh2
+ KUvRd6BwJWVxw==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com
+ [17.56.9.10])
+ by pv50p00im-zteg10021301.me.com (Postfix) with ESMTPSA id B0625500490;
+ Sun,  8 Dec 2024 13:18:59 +0000 (UTC)
+Message-ID: <7780942a-93cd-4508-be97-fc5e5267c389@icloud.com>
+Date: Sun, 8 Dec 2024 21:18:54 +0800
 MIME-Version: 1.0
-X-Originating-IP: [10.250.9.200]
-X-ClientProxiedBy: MBX19-GWD-05.um.gwdg.de (10.108.142.58) To
- MBX19-FMZ-06.um.gwdg.de (10.108.142.65)
-X-EndpointSecurity-0xde81-EV: v:7.9.17.458, d:out, a:y, w:t, t:6, sv:1733639668,
- ts:1733661492
-X-Virus-Scanned: (clean) by clamav
-X-Spam-Level: -
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+ linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+ netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+ <20241206135209.GA133715@workstation.local>
+Content-Language: en-US
+From: Zijun Hu <zijun_hu@icloud.com>
+In-Reply-To: <20241206135209.GA133715@workstation.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: zq6ALpvY8lzOJgSSQvNtYt-PHDnk_XXq
+X-Proofpoint-GUID: zq6ALpvY8lzOJgSSQvNtYt-PHDnk_XXq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-08_04,2024-12-06_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0
+ clxscore=1011 adultscore=0 phishscore=0 malwarescore=0 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2412080111
+X-Mailman-Approved-At: Sun, 08 Dec 2024 13:26:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,114 +86,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, dem 08.12.2024 um 11:26 +0000 schrieb David Laight:
-> From: Martin Uecker
-> > Sent: 07 December 2024 23:52
-> ...
-> > While the compiler can not automatically prove every use
-> > of VLA bounded, it can reliably diagnose the cases where it
-> > can=C2=A0*not* see that it is bounded. Consider this example:
-> >=20
-> > void oob(int n, char p[n]);
-> > void f(unsigned int n)
-> > {
-> >     char buf[MIN(n, 100)]; // bounded
-> >     oob(n + 10, buf); // warning
-> > }
-> ...
->=20
-> The kernel stack has to have enough space for the [100]
-> so the full amount might as well always be allocated.
-> The chance of 'trading off' stack usage with another function
-> in the same call stack that is guaranteed to use less than
-> its maximum is about zero.
+On 2024/12/6 21:52, Takashi Sakamoto wrote:
+> Hi,
+> 
+> On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
+>> From: Zijun Hu <quic_zijuhu@quicinc.com>
+>>
+>> Constify the following API:
+>> struct device *device_find_child(struct device *dev, void *data,
+>> 		int (*match)(struct device *dev, void *data));
+>> To :
+>> struct device *device_find_child(struct device *dev, const void *data,
+>>                                  device_match_t match);
+>> typedef int (*device_match_t)(struct device *dev, const void *data);
+>> with the following reasons:
+>>
+>> - Protect caller's match data @*data which is for comparison and lookup
+>>   and the API does not actually need to modify @*data.
+>>
+>> - Make the API's parameters (@match)() and @data have the same type as
+>>   all of other device finding APIs (bus|class|driver)_find_device().
+>>
+>> - All kinds of existing device match functions can be directly taken
+>>   as the API's argument, they were exported by driver core.
+>>
+>> Constify the API and adapt for various existing usages by simply making
+>> various match functions take 'const void *' as type of match data @data.
+>>
+>> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+>> ---
+>>  arch/sparc/kernel/vio.c                |  6 +++---
+>>  drivers/base/core.c                    |  6 +++---
+>>  drivers/block/sunvdc.c                 |  6 +++---
+>>  drivers/bus/fsl-mc/dprc-driver.c       |  4 ++--
+>>  drivers/cxl/core/pci.c                 |  4 ++--
+>>  drivers/cxl/core/pmem.c                |  2 +-
+>>  drivers/cxl/core/region.c              | 21 ++++++++++++---------
+>>  drivers/firewire/core-device.c         |  4 ++--
+>>  drivers/firmware/arm_scmi/bus.c        |  4 ++--
+>>  drivers/firmware/efi/dev-path-parser.c |  4 ++--
+>>  drivers/gpio/gpio-sim.c                |  2 +-
+>>  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 +-
+>>  drivers/hwmon/hwmon.c                  |  2 +-
+>>  drivers/media/pci/mgb4/mgb4_core.c     |  4 ++--
+>>  drivers/nvdimm/bus.c                   |  2 +-
+>>  drivers/pwm/core.c                     |  2 +-
+>>  drivers/rpmsg/rpmsg_core.c             |  4 ++--
+>>  drivers/scsi/qla4xxx/ql4_os.c          |  3 ++-
+>>  drivers/scsi/scsi_transport_iscsi.c    | 10 +++++-----
+>>  drivers/slimbus/core.c                 |  8 ++++----
+>>  drivers/thunderbolt/retimer.c          |  2 +-
+>>  drivers/thunderbolt/xdomain.c          |  2 +-
+>>  drivers/tty/serial/serial_core.c       |  4 ++--
+>>  drivers/usb/typec/class.c              |  8 ++++----
+>>  include/linux/device.h                 |  4 ++--
+>>  include/scsi/scsi_transport_iscsi.h    |  4 ++--
+>>  net/dsa/dsa.c                          |  2 +-
+>>  tools/testing/cxl/test/cxl.c           |  2 +-
+>>  28 files changed, 66 insertions(+), 62 deletions(-)
+> 
+> For the changes in FireWire subsystem:
+> 
+> Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> 
 
-In numerical computing this is a big motivation because
-you can reduce stack usage in recursive divide-and-conquer
-algorithms.  For the kernel, I agree this is not a
-compelling use case, and the better motivation would be
-precise bounds checking and clearer semantics for buffer
-management. =C2=A0
+thank you for code review and previous cooperation to achieve
+this goal (^^).
 
-But don't get me wrong, if the kernel is happier without VLA
-this is fine with me, I am just trying to understand the
-underlying issues better and the "VLAs are security problem"
-or "VLA use more stack"  arguments do not convince me, while
-the points Linus raises make much more sense to me.
-
->=20
-> The VLA code also adds an extra stack frame, this pretty much
-> pessimises everything.
-
-Yes, but this is something which seems could be improved
-on the compiler side, e.g. by simply transforming
-small VLAs automatically to a fixed size array while
-preserving their semantics for bound checking.
-
-
-> This happened for 'constant' sizes from min(16, sizeof (struct))
-> because min() needs to be a statement function to avoid re-evaluating
-> its arguments.
-
-Can you clarify this?  If the VLA size is constant, even when
-it is not an integer constant expression according to ISO C,
-the compiler should not produce worse code.  For example,
-
-void g(void*);
-
-void foo()
-{
-    int n =3D 10;
-    char buf[n];
-    g(buf);
-}
-
-void bar()
-{
-    char buf[10];
-    g(buf);
-}
-
-So a lot of this macro business seems to be necessary
-to avoid creating warnings for ISO VLAs when instead you really
-care about the created code not having a dynamic allocation on
-the stack.
-
-So one might wonder whether a compiler warning that warns more
-specifically about this would help.
-
-> (The version of min() that managed to return constant from constant
-> input just exploded in cpp, partially responsible for 18MB lines
-> being fed into the compiler part.)
-
-The issue here is that we miss a language feature in C to
-introduce local variables that help avoid multiple expansion
-of macro arguments.  GCC's statement expressions and __auto_type
-are a solution
-
-#define foo(x) ({ __auto_type __x =3D (x); ... })
-
-but this runs into the current limitations that ({ }) can not be used
-at file-scope and can not return constant expressions.
-
-
-For other reasons I was thinking about adding names to _Generic,
-as in
-
-_Generic(x, int i: (i + 1));
-
-because one design issues with _Generic is that it typechecks=C2=A0
-also the untaken associations and there the 'x' then has the wrong
-type.  Having an 'i' with the right type which is set to the value
-of 'x' when the branch is taken would fix this issue.
-
-But this feature might also allow writing macros that avoid
-doublel expansion without requiring statement expressions (which
-are more difficult to fix):
-
-#define foo(x) _Generic(x, int i: (i + i));
-
-
-Martin
-
+> 
+> Thanks
+> 
+> Takashi Sakamoto
 
