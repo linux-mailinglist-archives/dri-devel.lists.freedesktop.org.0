@@ -2,92 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE199E845B
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 09:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA2A9E8465
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 10:18:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8DDE10E25C;
-	Sun,  8 Dec 2024 08:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 808C810E268;
+	Sun,  8 Dec 2024 09:18:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A93TgWD8";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gwdg.de header.i=@gwdg.de header.b="NV4r6sre";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA34310E25C
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2024 08:58:40 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-5401bd6cdb4so288222e87.2
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Dec 2024 00:58:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733648319; x=1734253119; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=D7Uh+SJQekyCtS3Bb8quKYzQ2jhfqR7g6RmC561JgnU=;
- b=A93TgWD8NCZ1mT+CwI3TZ+iIDJ5pNtmoWHczODk+aw/ILY3sT9EcYy1PLsrQnfbKcS
- jI4HJ5IYopdhYSlKnsZe8adW5Je1BNf7P4vor/NEq8vjXTbLwLNShSgNiGwb8G/UhZKi
- +DFf66eJmpMj8juwPY5K1wYhQ2y6Om6JweeaRon/7cYMTeVxr2gbETzKqqMV8eGjdXmk
- xI/VnC/6hn0l+tyX9ZSbNc1BHG1lu16hvRidt3/4c8DTGNTs5qWn0ld6YakfDcJ4dBT1
- DI8219+B5jhk2ArSI7RD2p89uv+s64QQ47G3xUSusi/kPM7MNVbIo8dNX+UjlNHmWj2c
- 5Ceg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733648319; x=1734253119;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=D7Uh+SJQekyCtS3Bb8quKYzQ2jhfqR7g6RmC561JgnU=;
- b=hd2yxJL7pYouhlYXHVh570cSZnRhLk4urpeMoEMh3Yi6dtasklVKOelqNP98Av2iYN
- 9TBZXx1oMqA2TdZtO5EnXdRqGpa8LwZhEXj3DR6EZhWwp+uZBKfaY8O2lKGa9I2q71jU
- UU1GasobXeV5urc9oreVFOWluZuuKq8Ig8+XpS4BL4aYMmB3jmJ8JIRb0ed+CFREXSIU
- MOIh6Gy45qKZG1hZ3hVc4jEdgSPo03xHD8euRIFnjH3WaaxoymXMqQ0Cl1ZKVVgrETKf
- yGXrrL7rvoCIIqZREHkF/SeBl04ml1w8BtCsZgaVIZKgFu2hn/lvRuHj2rEjD2MyhPkx
- teaA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVesaqYZZcljLm2mItZXd3QI45jSFrL+kHMykw4xC8Mm3JOs/R3/9TJSL2bEomBTMZOfqr86ShwZ4E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxI3BFRNUIzmJljcDojkvXpSwv1AvgWp2lHSi2u0B00rPc1WfAq
- fUj+S3hTtDo3cYjC4cEi0IXV6X2DWhYmXcm+7BxAIcswWL4IDj+kIStLuaBGteA=
-X-Gm-Gg: ASbGnctbobZq6sWavfzKJG44VI7NVqoxPQZf2us0e3tHygbVQ9yEDtxE5FCMsZXtzJk
- xZUXoNEieKaPgSuxxQVQ45C/IrLRAWOsqVFUF5msEV7NW0L8l7CtU5Z66BL5sjnL/pC5QJFh+dJ
- 26jLjSG9jupXFPeIB6JZyDGOyD7iZvecz7rxhifxZDJqgCImENbhHpxhX8AvuDSVnF9xeOkbAZN
- WRWrmZpEOI3OQ/1fqtr7f8sCnGgcPmFFW4jC+K+sS1R3mapgtcMlavw3jcvF+OKRTtMqmTCUtG6
- mw2pDoIOoZ5zpIo7gHOOEnBHdAIUxQ==
-X-Google-Smtp-Source: AGHT+IH2ch7ihmd9jopH5ZUgfSxWgUmNfamdhAezIqSfVOYXD+euFjFOJiJWhx2N3HmtHnu0C5AiMQ==
-X-Received: by 2002:a05:6512:2208:b0:540:1e17:10d2 with SMTP id
- 2adb3069b0e04-5401e1713acmr110960e87.49.1733648319062; 
- Sun, 08 Dec 2024 00:58:39 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53f22eaec0esm364933e87.72.2024.12.08.00.58.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Dec 2024 00:58:37 -0800 (PST)
-Date: Sun, 8 Dec 2024 10:58:35 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Vara Reddy <quic_varar@quicinc.com>, Rob Clark <robdclark@chromium.org>, 
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Yongxing Mou <quic_yongmou@quicinc.com>
-Subject: Re: [PATCH 36/45] drm/msm/dp: propagate hpd state changes to dp mst
- module
-Message-ID: <z55f2r7ooavjoj7gbjr4cg6xbf3p7bjayl5oe2uk26esgpdvfz@jx4kxbmyz7zq>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-36-f8618d42a99a@quicinc.com>
+Received: from mx-2023-1.gwdg.de (mx-2023-1.gwdg.de [134.76.10.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D99F10E268;
+ Sun,  8 Dec 2024 09:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gwdg.de;
+ s=2023-rsa; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:CC:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=KwaQAzddSYnu9vcLie6k6ok9qNzm4PTtfMoMlLyy2fg=; b=NV4r6sre7Ok3wo0w1M1IjH9x5v
+ ilQNDn/XPZdX75phM23l8dDuOB1VNLxPMKKvbXXgd2p5V1uHMsRuNlgUvf3AeH+1FHymLdhoiVhYb
+ Ysg5PIEKxMJsc40fxHSui5EdG6IyQ779QS2vQL/KCo23F0ru06QpS7EqMxsnFyRsGJUOxjFPdQrFF
+ dMiLRhK4dzQ+XzC7th2Qi5Cn/nbNKPbxR8YQrAOeUvar7hboo1TVeI0RknC5cICOBS4weA5dqdt5G
+ klU9eXU4tnOo08f48hmQEaTj/tdZySI5WFrnz0HUUZJt7JKdf1ztGZMduj6rbs6dzv6RXPuDvBedP
+ Kjj2AMww==;
+Received: from xmailer.gwdg.de ([134.76.10.29]:43999)
+ by mailer.gwdg.de with esmtp (GWDG Mailer)
+ (envelope-from <muecker@gwdg.de>) id 1tKDR4-004WKp-2q;
+ Sun, 08 Dec 2024 10:18:42 +0100
+Received: from mbx19-fmz-06.um.gwdg.de ([10.108.142.65] helo=email.gwdg.de)
+ by mailer.gwdg.de with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (GWDG Mailer) (envelope-from <muecker@gwdg.de>) id 1tKDR4-000HH6-2Q;
+ Sun, 08 Dec 2024 10:18:42 +0100
+Received: from [192.168.0.221] (10.250.9.200) by MBX19-FMZ-06.um.gwdg.de
+ (10.108.142.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.14; Sun, 8 Dec
+ 2024 10:18:41 +0100
+Message-ID: <aeb1c27d320800dcd8375771022e11e8c27b0d1a.camel@gwdg.de>
+Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
+ __is_constexpr()
+From: Martin Uecker <muecker@gwdg.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+CC: David Laight <David.Laight@aculab.com>, Vincent Mailhol
+ <mailhol.vincent@wanadoo.fr>, Luc Van Oostenryck
+ <luc.vanoostenryck@gmail.com>, Nathan Chancellor <nathan@kernel.org>, "Nick
+ Desaulniers" <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, Rikard Falkeborn
+ <rikard.falkeborn@gmail.com>, "linux-sparse@vger.kernel.org"
+ <linux-sparse@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "llvm@lists.linux.dev"
+ <llvm@lists.linux.dev>, "linux-hardening@vger.kernel.org"
+ <linux-hardening@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "coresight@lists.linaro.org"
+ <coresight@lists.linaro.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>
+Date: Sun, 8 Dec 2024 10:18:40 +0100
+In-Reply-To: <CAHk-=wgVGmj+nAju2XuWWD_FZHdeytRW2XX5D-L3MqDuRRciVg@mail.gmail.com>
+References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
+ <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
+ <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
+ <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
+ <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
+ <abdd7862f136aa676b2d2c324369f4a43ff9909c.camel@gwdg.de>
+ <CAMZ6RqKzGiRNMeLsQKRNrxvW_bXB-kEi11udQ82kKX6tGCrqcg@mail.gmail.com>
+ <9607300dfca5d71ca9570b1e1de0864e524f356b.camel@gwdg.de>
+ <344b4cf41a474377b3d2cbf6302de703@AcuMS.aculab.com>
+ <9a0c041b6143ba07c2b3e524572fccd841f5374b.camel@gwdg.de>
+ <CAHk-=wjpVXEjX16PP=-hi4CgLqEGJ_U-WvKWq+J3C+FW-hSSfg@mail.gmail.com>
+ <0a2996a7c63930b9d9a8d3792358dd9e494e27c1.camel@gwdg.de>
+ <CAHk-=wjsfYYKBYuW8_6yKjdwHih0MMa2GwUJh_LHcuUNFR7-QA@mail.gmail.com>
+ <9d9567dbdaf39688bbd0d240e29dec826a5931ee.camel@gwdg.de>
+ <CAHk-=wgVGmj+nAju2XuWWD_FZHdeytRW2XX5D-L3MqDuRRciVg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-36-f8618d42a99a@quicinc.com>
+X-Originating-IP: [10.250.9.200]
+X-ClientProxiedBy: mbx19-gwd-02.um.gwdg.de (10.108.142.51) To
+ MBX19-FMZ-06.um.gwdg.de (10.108.142.65)
+X-EndpointSecurity-0xde81-EV: v:7.9.17.458, d:out, a:y, w:t, t:5, sv:1733619932,
+ ts:1733649522
+X-Virus-Scanned: (clean) by clamav
+X-Spam-Level: -
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,127 +109,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:32:07PM -0800, Abhinav Kumar wrote:
-> From: Yongxing Mou <quic_yongmou@quicinc.com>
-> 
-> Propagate the hpd state changes to dp mst module so that it
+Am Samstag, dem 07.12.2024 um 17:58 -0800 schrieb Linus Torvalds:
+> On Sat, 7 Dec 2024 at 15:52, Martin Uecker <muecker@gwdg.de> wrote:
+> >=20
+> > Can you point me to some horror stories?
+>=20
+> So the main issues tended to be about various static verification tools.
+>=20
+> Ranging from things like the stackleak plugin for gcc, where handling
+> VLA's and alloca() (which are pretty much the same thing with
+> different syntax) was just very much added complexity, to perhaps
+> overly simplistic tools that literally just check the stack usage by
+> parsing "objdump --disassemble" output and then building up
+> approximate "this is the combined deepest stack" call chain
+> approximations.
+>=20
+> And even in the *basic* infrastructure like gcc itself, VLA's simply
+> made -Wframe-larger-than=3D just simply not work.
+>=20
+> I also have this memory of bad code generation (again, this is 5=3D
+> years ago, so take this with a pinch of salt: dim memories), where gcc
+> wouldn't end up re-using VLA stack slots, so VLA's made the frame
+> bigger for that reason or something like that.
+>=20
+> We explicitly use "-fconserve-stack" to get gcc to reuse spill slots,
+> because gcc has been known to sometimes makes insanely piggish stack
+> frames when it just creates a spill slot for *everything*, even if the
+> spills aren't live at the same time (think big functions with lots of
+> case statements).
+>=20
+> We also had several cases of the VLA's just being silly, when a simple
+> constant-sized allocation just worked fine and didn't generate
+> pointless extra code.
+>=20
+> Pretty much none of the code core actually ever wanted VLA's, so the
+> end result was that we had these bad patterns mainly in random drivers
+> etc. Don't do that.
 
-please fix upcase.
+Thanks. This confirms that the tooling around VLAs is rather poor.
 
-> can be synchronized with the cable connect/disconnect.
 
-It doesn't propagate HPD state. Instead it updates MST state when the
-device is plugged / unplugged.
+Martin
 
-> 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 20 ++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_mst_drm.c | 18 ++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_mst_drm.h |  1 +
->  3 files changed, 39 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 97f8228042773f51f23a9d39fc009de0798059d7..80df79a7c2077d49184cdeb7b801bf0699ff4ece 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -26,6 +26,7 @@
->  #include "dp_drm.h"
->  #include "dp_audio.h"
->  #include "dp_debug.h"
-> +#include "dp_mst_drm.h"
->  
->  static bool psr_enabled = false;
->  module_param(psr_enabled, bool, 0);
-> @@ -409,6 +410,17 @@ static void msm_dp_display_mst_init(struct msm_dp_display_private *dp)
->  	msm_dp->mst_active = true;
->  }
->  
-> +static void msm_dp_display_set_mst_mgr_state(struct msm_dp_display_private *dp,
-> +					     bool state)
-> +{
-> +	if (!dp->msm_dp_display.mst_active)
-> +		return;
-> +
-> +	msm_dp_mst_display_set_mgr_state(&dp->msm_dp_display, state);
-> +
-> +	drm_dbg_dp(dp->drm_dev, "mst_mgr_state: %d\n", state);
-> +}
-> +
->  static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  {
->  	struct drm_connector *connector = dp->msm_dp_display.connector;
-> @@ -455,6 +467,8 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  		goto end;
->  	}
->  
-> +	msm_dp_display_set_mst_mgr_state(dp, true);
-> +
->  	msm_dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
->  
->  end:
-> @@ -521,6 +535,12 @@ static int msm_dp_display_usbpd_configure_cb(struct device *dev)
->  static int msm_dp_display_notify_disconnect(struct device *dev)
->  {
->  	struct msm_dp_display_private *dp = dev_get_dp_display_private(dev);
-> +	struct msm_dp *dp_display = &dp->msm_dp_display;
-> +
-> +	if (dp_display->mst_active) {
-> +		msm_dp_mst_display_set_mgr_state(&dp->msm_dp_display, false);
-> +		dp_display->mst_active = false;
-> +	}
->  
->  	msm_dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
->  
-> diff --git a/drivers/gpu/drm/msm/dp/dp_mst_drm.c b/drivers/gpu/drm/msm/dp/dp_mst_drm.c
-> index 313eb63b9a35cbbb36db2d7d8f0a85e4441f2998..1149af71d01f99ba5326870fa69e30ae081d6101 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_mst_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_mst_drm.c
-> @@ -1043,6 +1043,24 @@ msm_dp_mst_add_connector(struct drm_dp_mst_topology_mgr *mgr,
->  	return &mst_connector->connector;
->  }
->  
-> +int msm_dp_mst_display_set_mgr_state(struct msm_dp *dp_display, bool state)
-> +{
-> +	int rc;
-> +	struct msm_dp_mst *mst = dp_display->msm_dp_mst;
-> +
-> +	if (state)
-> +		mst->mst_session_hpd_state = state;
 
-Where is mst_session_hpd_state cleared?
 
-> +
-> +	rc = drm_dp_mst_topology_mgr_set_mst(&mst->mst_mgr, state);
-> +	if (rc < 0) {
-> +		DRM_ERROR("failed to set topology mgr state to %d. rc %d\n",
-> +			  state, rc);
-> +	}
-> +
-> +	drm_dbg_dp(dp_display->drm_dev, "dp_mst_display_set_mgr_state state:%d\n", state);
-> +	return rc;
-> +}
-> +
->  static const struct drm_dp_mst_topology_cbs msm_dp_mst_drm_cbs = {
->  	.add_connector = msm_dp_mst_add_connector,
->  };
-> diff --git a/drivers/gpu/drm/msm/dp/dp_mst_drm.h b/drivers/gpu/drm/msm/dp/dp_mst_drm.h
-> index b1adb8a61115d4809107553809206bb2ed3c6c3d..b89913ef7b343d449e0003f56b96df049fa36e89 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_mst_drm.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_mst_drm.h
-> @@ -105,5 +105,6 @@ int msm_dp_mst_init(struct msm_dp *dp_display, u32 max_streams,
->  		    u32 max_dpcd_transaction_bytes, struct drm_dp_aux *drm_aux);
->  
->  void msm_dp_mst_display_hpd_irq(struct msm_dp *dp_display);
-> +int msm_dp_mst_display_set_mgr_state(struct msm_dp *dp_display, bool state);
->  
->  #endif /* _DP_MST_DRM_H_ */
-> 
-> -- 
-> 2.34.1
-> 
 
--- 
-With best wishes
-Dmitry
+
+
