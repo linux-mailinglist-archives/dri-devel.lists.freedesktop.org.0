@@ -2,91 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E3A9E8726
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 18:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A619E8737
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 19:11:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DDF510E335;
-	Sun,  8 Dec 2024 17:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39C6410E250;
+	Sun,  8 Dec 2024 18:11:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oFrH0KwN";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gwdg.de header.i=@gwdg.de header.b="CJKS3qLo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E47C10E32F
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2024 17:50:16 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53e28cf55cdso2669524e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Dec 2024 09:50:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733680215; x=1734285015; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=5u+YWQpYadE0OMjiReHLCH4W+mWwJz1CAGoagd9qERs=;
- b=oFrH0KwNLvZtK3DaLGt4M3A3s4JR8em7AjgVIywpmwkuvfvy+2y4VpXh5+34yXIqJY
- P2C+Hdit7tNwFm7Ly+qnsGdtdK2bx/0PfkrAYH4wFZIiJNCDljnJNnbZ8pMBZyij54y/
- IsVJCHrHBjxCf1tXlsRpHOcydykwBPUbbZl1CeNrVgmx3lpHMywRTYcqotMbYTZgXjdO
- gcBL/DG4BXr3I8gSgMFMsm3Kg7uxt48jKI55OrD1g9yxBPyHheDW+WoKvb833nwyU3+l
- RjJuXN0XEwviM8DYkO0Ip5WmWXVXPB5PYAcfoXOh13L3OxJt6jM28iH0j11Zn1kqMMtd
- g90g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733680215; x=1734285015;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5u+YWQpYadE0OMjiReHLCH4W+mWwJz1CAGoagd9qERs=;
- b=a5KLsB1VqH6oazJ6t93QvlLcefv3/cBVClxvIF4ruXSlDbnPepDQ7joDmSvzwYOxU2
- +C15fRD2lMWSO+7a3SNASV0RbroqxrWm7Qroux4E/iBcAMblY5YFSpxeRRYvwhJHuMUO
- KXuW8KfKMDX+5EegxvMjzW3hKrnJjYGtUxZi+kAlVwt0+u7jSWLb36SKTt7DCHu1+Npv
- GewW4583qGtTWa6GOFbn45mlqLQSlLqLlyVpK76TaJUQtHtpy3yFOV7e5SrGNJ5CMW1a
- vdb4FKxurp2vJiZJuCHDOBxFBTO96vaYHfpx5EH+2u5hsWcsyLMvlTpW8ETW1qkgTA0M
- POnQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXC+pfpSUpqZNvaJd1jCW6+E9ClW83yVmPGfmtYoLIPJY2WykamelNyvxaTAFSnMb08nLIB2tQOyQM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGV4T4DvjA6pU9iH0LCwYtaodqw6DV9AA5fR5ULRhdajgC/3e2
- w8dVN2pMJmyOXcLW1CQmokcer35xfjAV9FywDNq8LTya9wnYCU0oYOx69zdXhb0=
-X-Gm-Gg: ASbGncu2ubEcBYYOYLycYvBJPjQYLCTSA8JgyYeAF/HYtXPDxHade8Q0+a/A0cllwcv
- UzRFcQSTtOPCShIkJTLFj4ErAiN2p8SJXHaNImoHcazFaAWF1eFiCUv3v2A8za++PnFqd4t4v5j
- URuy9k4g+x2IB1393e63hC31hlZ4hkcykrZuc2iHPzKhCkd3k6T7H1XGT7aLkrLi3I9Qh+I6ecc
- V4OvO0coJ5SudmEqj/6JCzfMgk5cJ/ajgMMKDduIrwZ++jDXO/vNlN8UcmZ2oXi8rcaaHP/h12T
- ZdmE+cwciecODYcI3DWvmKHU6wyRpA==
-X-Google-Smtp-Source: AGHT+IEVJLXOPnyFmKaPz9KPMKbv70YRlg73dziKIo45JVQh26G1HQVfDj7ebpdmC8hy5ZJT275q6A==
-X-Received: by 2002:a05:6512:33d0:b0:53d:cfdb:c65c with SMTP id
- 2adb3069b0e04-53e2c504c25mr3188513e87.52.1733680214661; 
- Sun, 08 Dec 2024 09:50:14 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e3968850dsm659447e87.31.2024.12.08.09.50.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Dec 2024 09:50:13 -0800 (PST)
-Date: Sun, 8 Dec 2024 19:50:10 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Vara Reddy <quic_varar@quicinc.com>, Rob Clark <robdclark@chromium.org>, 
- Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 01/45] drm/msm/dp: dont call
- dp_catalog_ctrl_mainlink_ctrl in dp_ctrl_configure_source_params()
-Message-ID: <vemardbn3siohtg74hgjsnugkm4adqw6ekc4xhvjq3fty2rfov@5yhhsvjsnp6z>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-1-f8618d42a99a@quicinc.com>
+Received: from mx-2023-1.gwdg.de (mx-2023-1.gwdg.de [134.76.10.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227C310E250;
+ Sun,  8 Dec 2024 18:10:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gwdg.de;
+ s=2023-rsa; h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:CC:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=9FB2GPk7COCoX9cEFVKvQVosxysJZseEWA2qS7zkWkM=; b=CJKS3qLo2nmU8RTYUGjkHdxbqz
+ ns3qD6CiJJHSo/fxpi0OkfvH8JDQQZdboDlvM/X5DcOKtxOEKZHO1DDbUS7ibZ6KyG6Zk/SU7+Rph
+ Te6kIRiApeS89pXKvOVY+/VJ3wXYA9Z9G+I2/zCcCa/XvLG7AmRxVqASLRJcXP5LXQrdAXnUEcvrs
+ O2/01MVDPrEC4QD/XJf1NbP4rjXcQJ8Qs8VhOvKcazkXGe4hH97QTcLqKzLARCv8+BY4s5fBYP0Go
+ K8CQW9PwNvu3ayOiSb1QPTX1xyvg4/5600xSFeHb+Ar6vPZsB/cK/rcDMH/V4blTmcT3RaT4DwSed
+ W3JC06dw==;
+Received: from xmailer.gwdg.de ([134.76.10.29]:57248)
+ by mailer.gwdg.de with esmtp (GWDG Mailer)
+ (envelope-from <muecker@gwdg.de>) id 1tKLk3-004b6U-2I;
+ Sun, 08 Dec 2024 19:10:51 +0100
+Received: from mbx19-fmz-06.um.gwdg.de ([10.108.142.65] helo=email.gwdg.de)
+ by mailer.gwdg.de with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ (GWDG Mailer) (envelope-from <muecker@gwdg.de>) id 1tKLk3-000BW3-1w;
+ Sun, 08 Dec 2024 19:10:51 +0100
+Received: from vra-173-64.tugraz.at (10.250.9.200) by MBX19-FMZ-06.um.gwdg.de
+ (10.108.142.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.14; Sun, 8 Dec
+ 2024 19:10:49 +0100
+Message-ID: <87dd9b7b52e7cea874c1899f56efdd3d7c5b7243.camel@gwdg.de>
+Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
+ __is_constexpr()
+From: Martin Uecker <muecker@gwdg.de>
+To: David Laight <David.Laight@ACULAB.COM>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+CC: Vincent Mailhol <mailhol.vincent@wanadoo.fr>, Luc Van Oostenryck
+ <luc.vanoostenryck@gmail.com>, Nathan Chancellor <nathan@kernel.org>, "Nick
+ Desaulniers" <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, Rikard Falkeborn
+ <rikard.falkeborn@gmail.com>, "linux-sparse@vger.kernel.org"
+ <linux-sparse@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "llvm@lists.linux.dev"
+ <llvm@lists.linux.dev>, "linux-hardening@vger.kernel.org"
+ <linux-hardening@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "coresight@lists.linaro.org"
+ <coresight@lists.linaro.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>
+Date: Sun, 8 Dec 2024 19:10:49 +0100
+In-Reply-To: <e71fffb7ff0e4bf29692d006c0fe77c2@AcuMS.aculab.com>
+References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
+ <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
+ <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
+ <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
+ <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
+ <abdd7862f136aa676b2d2c324369f4a43ff9909c.camel@gwdg.de>
+ <CAMZ6RqKzGiRNMeLsQKRNrxvW_bXB-kEi11udQ82kKX6tGCrqcg@mail.gmail.com>
+ <9607300dfca5d71ca9570b1e1de0864e524f356b.camel@gwdg.de>
+ <344b4cf41a474377b3d2cbf6302de703@AcuMS.aculab.com>
+ <9a0c041b6143ba07c2b3e524572fccd841f5374b.camel@gwdg.de>
+ <CAHk-=wjpVXEjX16PP=-hi4CgLqEGJ_U-WvKWq+J3C+FW-hSSfg@mail.gmail.com>
+ <0a2996a7c63930b9d9a8d3792358dd9e494e27c1.camel@gwdg.de>
+ <CAHk-=wjsfYYKBYuW8_6yKjdwHih0MMa2GwUJh_LHcuUNFR7-QA@mail.gmail.com>
+ <9d9567dbdaf39688bbd0d240e29dec826a5931ee.camel@gwdg.de>
+ <b71056c1b9e04aa383f2e5608c27290f@AcuMS.aculab.com>
+ <6658618490381cf5ec35edbb66f1478024174e67.camel@gwdg.de>
+ <e71fffb7ff0e4bf29692d006c0fe77c2@AcuMS.aculab.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-1-f8618d42a99a@quicinc.com>
+X-Originating-IP: [10.250.9.200]
+X-ClientProxiedBy: MBX19-GWD-03.um.gwdg.de (10.108.142.56) To
+ MBX19-FMZ-06.um.gwdg.de (10.108.142.65)
+X-EndpointSecurity-0xde81-EV: v:7.9.17.458, d:out, a:y, w:t, t:5, sv:1733649613,
+ ts:1733681451
+X-Virus-Scanned: (clean) by clamav
+X-Spam-Level: -
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,20 +111,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:31:32PM -0800, Abhinav Kumar wrote:
-> Once the link has already been setup there is no need to call
-> dp_catalog_ctrl_mainlink_ctrl() as this does a reset on the mainlink
-> thereby tearing down the link briefly.
-> 
-> Fixes: c943b4948b58 ("drm/msm/dp: add displayPort driver support")
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_ctrl.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
+Am Sonntag, dem 08.12.2024 um 16:48 +0000 schrieb David Laight:
+> From: Martin Uecker
+> > Sent: 08 December 2024 12:38
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+...
+> ...
+> > So a lot of this macro business seems to be necessary
+> > to avoid creating warnings for ISO VLAs when instead you really
+> > care about the created code not having a dynamic allocation on
+> > the stack.
+>=20
+> A lot of the 'macro business' for min/max is avoiding unexpected
+> conversion of negative values to very large unsigned ones.
+> And no, -Wsign-compare is spectacularly useless.
 
--- 
-With best wishes
-Dmitry
+This is a different topic, but what would be needed here?
+>=20
+> ..
+> > The issue here is that we miss a language feature in C to
+> > introduce local variables that help avoid multiple expansion
+> > of macro arguments.  GCC's statement expressions and __auto_type
+> > are a solution
+>=20
+> or historically 'typeof(x) _x =3D x'
+>=20
+> > #define foo(x) ({ __auto_type __x =3D (x); ... })
+> >=20
+> > but this runs into the current limitations that ({ }) can not be used
+> > at file-scope and can not return constant expressions.
+> >=20
+> >=20
+> > For other reasons I was thinking about adding names to _Generic,
+> > as in
+> >=20
+> > _Generic(x, int i: (i + 1));
+> >=20
+> > because one design issues with _Generic is that it typechecks
+> > also the untaken associations and there the 'x' then has the wrong
+> > type.  Having an 'i' with the right type which is set to the value
+> > of 'x' when the branch is taken would fix this issue.
+>=20
+> That looks even more syntactically obscure than _Generic itself.
+> Why does it need to do more than very simple syntax analysis of
+> the unwanted branches=C2=A0
+
+This would be possible and GCC does turn of some warnings in
+the unwanted branches.  I added this to GCC 14 I think.
+
+But so far, ISO C requires that all branches are valid and this
+was an intentional design decision to detect errors.
+
+> - or they could automatically be analysed
+> with the named variable have the specified type?
+
+Inside a macro there is no variable 'x' but
+the macro argument 'x' is replaced by some expression.
+
+Also there is the general problem of multiple expansion which
+can only be addressed by introducing an identifier.
+
+>=20
+> > But this feature might also allow writing macros that avoid
+> > double expansion without requiring statement expressions (which
+> > are more difficult to fix):
+> >=20
+> > #define foo(x) _Generic(x, int i: (i + i));
+>=20
+> How can that work for things like min() that have multiple arguments?
+
+You would need to nest it:
+
+#define foo(x, y) _Generic(x, int i: _Generic(y, int j: i + j))
+
+Otherwise one could invent syntax for matching multiple arguments
+at the same time.
+
+There is still the problem of name collision, but this is already
+a problem with=C2=A0
+
+({ int i =3D (x); int j =3D (x); i + j; })=20
+
+> Not going to work if you need __auto_type either.
+
+If we allowed an identifier for the default branch too, this
+would work:  _Generic(x, default i: (2 * i))
+
+
+But hey, I am not saying  this is perfect, it is just
+a possible improvement I was thinking about and which could be
+implemented easily, would automatically return constant expressions,
+and could be used at file scope without further changes.
+
+There are certainly better long-term solutions.
+
+Martin
+
