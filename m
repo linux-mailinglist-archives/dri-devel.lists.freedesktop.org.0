@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA63F9E93F8
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74DD9E93FD
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD28210E706;
-	Mon,  9 Dec 2024 12:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCE410E712;
+	Mon,  9 Dec 2024 12:30:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Y2z1C4ic";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SvBsaXHY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9E58210E706
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:30:09 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24B5410E70B
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:30:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=hHFtb
- WxMIZp65Rbn0nrqgPsTaDmioigLj6AKnHkoIQ0=; b=Y2z1C4icsvGdtmS5H9Evi
- YTDDBuK35uqb3Jd3W+U4CI0Q6g7HZfA6wVB4n5ILsbDV5y1LRyHQrDwZXqlBVgJ7
- kkSQjAzXsCYm+OSTKYtIobC/aCA1x+k5oIS86slca9oaoGoPJMpxwj9Ts6xQz4zX
- U9nY80bK9Mt3kVKlYiDLo8=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=nwbBr
+ VKk+dAN+u4ZRk+RUtW0AAay6ePMRzsXnGzmP1w=; b=SvBsaXHYLYaAzuOjMUmxH
+ jSgmWuRgIob488bmHIn0DiLCAC7Z7FFlvemmsnrQQC9UvVwbEL9VhMCgqoxprtCZ
+ nKG7nre3rl57twrtVHzTQtt86+TTpOdlhAbHw14oRFPsAA6bIY+OdEDshkvz2Y/B
+ nFYNaX5JDuDfLm2F2zzsZU=
 Received: from ProDesk.. (unknown [58.22.7.114])
- by gzsmtp1 (Coremail) with SMTP id PCgvCgD3Woe44lZnubZICA--.5849S3;
- Mon, 09 Dec 2024 20:29:50 +0800 (CST)
+ by gzsmtp1 (Coremail) with SMTP id PCgvCgD3Woe44lZnubZICA--.5849S4;
+ Mon, 09 Dec 2024 20:29:51 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
- detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH] arm64: dts: rockchip: Add vop for rk3576
-Date: Mon,  9 Dec 2024 20:29:11 +0800
-Message-ID: <20241209122943.2781431-2-andyshrk@163.com>
+ detlev.casanova@collabora.com, Andy Yan <andyshrk@163.com>
+Subject: [PATCH] arm64: dts: rockchip: Enable HDMI display for rk3588 Cool Pi
+ GenBook
+Date: Mon,  9 Dec 2024 20:29:12 +0800
+Message-ID: <20241209122943.2781431-3-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241209122943.2781431-1-andyshrk@163.com>
 References: <20241209122943.2781431-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PCgvCgD3Woe44lZnubZICA--.5849S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXF1rKF43WF17CrW5Gw1rJFb_yoW5GrWkp3
- ZrCrW8Jr4kWF129a9xKryvyrZ5Ja95C3Z7KwnxAF1UKr1Ykr9rKrySgr93J3Zrtr48XanF
- vFs2kry8Krs3Xw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jfqXPUUUUU=
+X-CM-TRANSID: PCgvCgD3Woe44lZnubZICA--.5849S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zr1ftryDGF17Ar4rGFyrCrg_yoW8Zr1kp3
+ ZrZrZ5GFn7urW3JwsxAryxJF15twsYkFW3GryfZFy7Kr47ZF9Yywn7Wrn2vFyDAFWxZ3yf
+ CF1kJF1j9F1jvaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_R6whUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gCwXmdW3S-iwAACsf
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqR+wXmdW3c3VqgAAsG
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,108 +62,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+Enable hdmi display output on Cool Pi GenBook.
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Signed-off-by: Andy Yan <andyshrk@163.com>
+Link: https://lore.kernel.org/r/20241028123503.384866-4-andyshrk@163.com
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 ---
- arch/arm64/boot/dts/rockchip/rk3576.dtsi | 70 +++++++++++++++++++++++-
- 1 file changed, 69 insertions(+), 1 deletion(-)
+ .../rockchip/rk3588-coolpi-cm5-genbook.dts    | 49 +++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3576.dtsi b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-index 70ddedb0c890..45823a758b6e 100644
---- a/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3576.dtsi
-@@ -393,6 +393,11 @@ opp-950000000 {
- 		};
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts b/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts
+index 6418286efe40d..9ec2374c6cdfa 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts
+@@ -7,6 +7,7 @@
+ /dts-v1/;
+ 
+ #include <dt-bindings/leds/common.h>
++#include <dt-bindings/soc/rockchip,vop2.h>
+ #include "rk3588-coolpi-cm5.dtsi"
+ 
+ / {
+@@ -35,6 +36,17 @@ charger: dc-charger {
+ 		gpios = <&gpio1 RK_PC0 GPIO_ACTIVE_LOW>;
  	};
  
-+	display_subsystem: display-subsystem {
-+		compatible = "rockchip,display-subsystem";
-+		ports = <&vop_out>;
-+	};
++	hdmi-con {
++		compatible = "hdmi-connector";
++		type = "a";
 +
- 	firmware {
- 		scmi: scmi {
- 			compatible = "arm,scmi-smc";
-@@ -832,6 +837,70 @@ gpu: gpu@27800000 {
- 			status = "disabled";
- 		};
- 
-+		vop: vop@27d00000 {
-+			compatible = "rockchip,rk3576-vop";
-+			reg = <0x0 0x27d00000 0x0 0x3000>, <0x0 0x27d05000 0x0 0x1000>;
-+			reg-names = "vop", "gamma-lut";
-+			interrupts = <GIC_SPI 342 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 381 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "vop-sys",
-+					  "vop-vp0",
-+					  "vop-vp1",
-+					  "vop-vp2";
-+			clocks = <&cru ACLK_VOP>,
-+				 <&cru HCLK_VOP>,
-+				 <&cru DCLK_VP0>,
-+				 <&cru DCLK_VP1>,
-+				 <&cru DCLK_VP2>;
-+			clock-names = "aclk",
-+				      "hclk",
-+				      "dclk_vp0",
-+				      "dclk_vp1",
-+				      "dclk_vp2";
-+			iommus = <&vop_mmu>;
-+			power-domains = <&power RK3576_PD_VOP>;
-+			rockchip,grf = <&sys_grf>;
-+			rockchip,pmu = <&pmu>;
-+			status = "disabled";
-+
-+			vop_out: ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				vp0: port@0 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <0>;
-+				};
-+
-+				vp1: port@1 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <1>;
-+				};
-+
-+				vp2: port@2 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <2>;
-+				};
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi0_out_con>;
 +			};
 +		};
++	};
 +
-+		vop_mmu: iommu@27d07e00 {
-+			compatible = "rockchip,rk3576-iommu", "rockchip,rk3568-iommu";
-+			reg = <0x0 0x27d07e00 0x0 0x100>, <0x0 0x27d07f00 0x0 0x100>;
-+			interrupts = <GIC_SPI 342 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "vop_mmu";
-+			clocks = <&cru ACLK_VOP>, <&cru HCLK_VOP>;
-+			clock-names = "aclk", "iface";
-+			#iommu-cells = <0>;
-+			power-domains = <&power RK3576_PD_VOP>;
-+			status = "disabled";
-+		};
-+
- 		hdmi: hdmi@27da0000 {
- 			compatible = "rockchip,rk3576-dw-hdmi-qp";
- 			reg = <0x0 0x27da0000 0x0 0x20000>;
-@@ -873,7 +942,6 @@ hdmi_out: port@1 {
- 			};
- 		};
+ 	leds: leds {
+ 		compatible = "gpio-leds";
  
-->>>>>>> 2b62c69b3a4c (arm64: dts: rockchip: Add hdmi for rk3576)
- 		qos_hdcp1: qos@27f02000 {
- 			compatible = "rockchip,rk3576-qos", "syscon";
- 			reg = <0x0 0x27f02000 0x0 0x20>;
+@@ -136,6 +148,28 @@ vcc5v0_usb_host0: vcc5v0_usb30_host: vcc5v0-usb-host-regulator {
+ 	};
+ };
+ 
++/* HDMI CEC is not used */
++&hdmi0 {
++	pinctrl-0 = <&hdmim0_tx0_hpd &hdmim0_tx0_scl &hdmim0_tx0_sda>;
++	status = "okay";
++};
++
++&hdmi0_in {
++	hdmi0_in_vp0: endpoint {
++		remote-endpoint = <&vp0_out_hdmi0>;
++	};
++};
++
++&hdmi0_out {
++	hdmi0_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
++
++&hdptxphy_hdmi0 {
++	status = "okay";
++};
++
+ &i2c4 {
+ 	status = "okay";
+ 	pinctrl-names = "default";
+@@ -347,3 +381,18 @@ &usb_host1_xhci {
+ 	dr_mode = "host";
+ 	status = "okay";
+ };
++
++&vop {
++	status = "okay";
++};
++
++&vop_mmu {
++	status = "okay";
++};
++
++&vp0 {
++	vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
++		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
++		remote-endpoint = <&hdmi0_in_vp0>;
++	};
++};
 -- 
 2.34.1
 
