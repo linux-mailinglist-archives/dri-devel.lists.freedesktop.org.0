@@ -2,81 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5D29EA186
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 22:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA289EA1B7
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 23:17:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0E4610E35D;
-	Mon,  9 Dec 2024 21:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED68E10E0B5;
+	Mon,  9 Dec 2024 22:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="m/FwsSje";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I04NoRpp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
- [209.85.166.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEC410E034;
- Mon,  9 Dec 2024 21:56:56 +0000 (UTC)
-Received: by mail-il1-f180.google.com with SMTP id
- e9e14a558f8ab-3a8ed4c8647so17242905ab.1; 
- Mon, 09 Dec 2024 13:56:56 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 250F210E034
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 22:16:55 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-e387ad7abdaso4246632276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 14:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733781416; x=1734386216; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nUNHDJ6ILFxdRFiTOkLTRDjyDsyOaooQYqwkxtWBOZs=;
- b=m/FwsSjenXj6Hw/fmr1ujJ8tGnYK8zZu5iJ0BwgiUVD7HTz5VxbY2VQu4Fk60mEx2I
- b6dCw79IQZ/w2r7AAp40TcDAUVXtLuTSw5y1OYxLlEF3oyaoKsmSr1vDBFHw/Dk8Ymet
- I+ea/OVVO7fUJuEXaI7EXU37/jT1XfLa+3ZNj70tcpQxmn8JQlaYJSPuuHnWecS3DCRz
- hkWg3Q83ekFYO0n1l1dnckCwUzOnyy7NOD1zlKox7dSYKYQArkzrTO//VbeyZHAC+GVH
- 0CiubjFW8hmhAomka8/77UswMgP6Oj/EFzXUkvVb7HAv0smvQ7X3nNl4MKUFR/wHjbst
- 0Xkw==
+ d=linaro.org; s=google; t=1733782614; x=1734387414; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=GjdBU58GLyG4jXaeGh1WmIo6+crxO9Fl9Blf1+csx7g=;
+ b=I04NoRppBeUHnX6AqwZ73vxk0y7HyrrNJwcUIiPfMAaoguMkh+wg8TmrEYqJAS6JPN
+ E5BxoAfJwPEVKLN+KFvvaD49Yc3byFBzlmRJcXtX+cL4FisX2Uv97SZ6vYV6fNI6KCS0
+ AUAoLKSDPWVbEeG9CHIFEdwOGPMFs1GY+VUz3HzoPKdTynqpLibxZrItWc7LWG5dLvIj
+ VDaUYbp3dj356411tIJZHCnD5FJoeWhI9gLnZ4gSXLLbi7zGysLg1WwWPKT7VVQvAW27
+ 4H8eT2QtqSMakmP1TKhbmQFYI/SBHVPPDA6x8U2mEd7Tb+W8zgGI1jrSFVOMa7QBG303
+ 8OVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733781416; x=1734386216;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=nUNHDJ6ILFxdRFiTOkLTRDjyDsyOaooQYqwkxtWBOZs=;
- b=Mo/o45u5w55GJLWXIY5lKkXoviUQm9GRvoKokIKZ5My+iYYFWo9xyJsf90xr52ZxLr
- roehxOa2U0CS9t0RA/JpJRfn1p/XV2j1jG6y9gjAaZnBVHIjQ+c8BV8tLvS7eRXYc/i8
- 3ndBUbUxBzFpF3xanyPt209l3u7ZLTGc3+8e+i3m+58RWxee1hRr/c0uimBjbHunagcj
- rExbhzGPkhlfAkddGh8YtKFpOi1n06JB3lJLN8WLLJYEzXplmAbb5Sv5NduA8OSrIqc2
- T8fb6fIBxu4NF9k+t+wY6P5NyNy0JsyfRRGw+/fMVLwCFcXZqQN/R73eeafmodUHI+Py
- dnog==
+ d=1e100.net; s=20230601; t=1733782614; x=1734387414;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=GjdBU58GLyG4jXaeGh1WmIo6+crxO9Fl9Blf1+csx7g=;
+ b=OWQGCrnHQPyjsI47/tNP9tffqNzDLtPnkkXbrqPNBkUAwkmyWkqEXkDmJYc0isv/DT
+ B7pkptVixzTgYlqPKftzPOFeujLi6KHkSMzR8CnAudJO/adUADu+WS11MhDnLEyATUO9
+ E479YbjuEz8KCDb4vnnZVAOhcDO/4IUK1/hESiStyVJSQT6bGhkGG8pvoGbD2RISTtIu
+ ModaHvVfYhV4A9lud6DY0TnrGUyitpq/hdendD30bbLCyux4lroQ6gRAYRM4jZwzG4rg
+ TlM4zqomxu7wxw+rZBDfsYTIG+r2RnX6Hdno9+8TNu9MfppaT/fDq5Wtj1jeEokT373v
+ 5VSg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4jUfdpIK9iAKAhFIYf41M7EbzpjKqTX0a9Gs46MIlNQ+A3lYZA5O3Y4Fz3zwl/fzjxujCUv0jGczL@lists.freedesktop.org,
- AJvYcCWCWvX/HZ7J9vAarz+oUVLcUuNRrMl3rVgoKFgf3CCoCpC9xWu0Kkjr9pN+6YWtUi5RaphIxrBpacM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjUYanh3meoyC+tfFvMaUHGshYsvkSsHwJWtzqgBpqgI/66hX9
- lWBXQPWS1r9WwHE6ri3uRcBLdiZvSaopNLFfW1y3Icv6LUw23wTUnJF3SeOnGpHvV0/J7/jt9cZ
- yfqwouPuvvn/GslFDFswOYV0x2H0=
-X-Gm-Gg: ASbGncviAZpRI49R9G7EI+0cxUItnRLf7+7Pz1mgc27DttJ0G670X2GBIHs27jtm3x0
- w4UVjC8MKOw1tXdi4yLs6kUUyQz9q83TyULk3ifLSkPWvwz/W7KlimZ4jDEeO6I41Ug==
-X-Google-Smtp-Source: AGHT+IH7i9zLT2/3HS5RsXkA25gYc8CnkPrXffiXodQojiAfgigEq875VdgnrRDYd+CYD90qZDMyy0maoJBm25wbQSE=
-X-Received: by 2002:a05:6e02:3707:b0:3a7:9670:7abb with SMTP id
- e9e14a558f8ab-3a811e073a4mr155617215ab.15.1733781415758; Mon, 09 Dec 2024
- 13:56:55 -0800 (PST)
+ AJvYcCVTokPSV3b1X8e0VQaqGX/1QKOrSr8VViocJz55HSJmASGDOCKMjNLhfgS4iMebEfxc2nqQWQW+7Vk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw8jhQHlkubHOsTk/hMqmUGQOu/L/oP2vQXTcfCVWbqvE+lWfRO
+ 9iQ0wic7PtEJZg4OnhtHe2tDYbWiG/qb/8hF8N0fEEMauH2LAon9Mgu1Mu5OpL0+RUQCWNrRW1D
+ J30dgKyV8QTuzC2mTAEEYnYNKmp+509jraHqniA==
+X-Gm-Gg: ASbGncsviexl44Lmj0bJV/4/eJ9SbO09ikIaXjWLSaWv45xxifjvKwcv8sYhHG0J4SF
+ yZZVPhvv3iQItmruAYtpxYmzjxrDUSff1+JU=
+X-Google-Smtp-Source: AGHT+IE3KVx9ellET6od2Fov33jjRyilDngNFD1e4QdzTDVV+Uuh2NyO57XkBrcDlZwfvuJUuaClqS4lRUo1DxYviZw=
+X-Received: by 2002:a05:6902:2886:b0:e38:bf8b:e2d0 with SMTP id
+ 3f1490d57ef6-e3a59d08124mr1793629276.46.1733782614229; Mon, 09 Dec 2024
+ 14:16:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
- <CAF6AEGtKfWOGpd1gMfJ96BjCqwERZzBVmj5GzmjKxw8_vmSrJg@mail.gmail.com>
- <f4813046-5952-4d16-bae6-37303f22ad1a@quicinc.com>
-In-Reply-To: <f4813046-5952-4d16-bae6-37303f22ad1a@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 9 Dec 2024 13:56:44 -0800
-Message-ID: <CAF6AEGvBU8mB5HHNK4nP5h9ouKfLNhCMFgF+PhrC77ZMfSOTkQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: Skip gpu secure fw load in EL2 mode
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Pavan Kondeti <quic_pkondeti@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+References: <20241206-no_3dmux-v1-1-72ad2677a323@quicinc.com>
+ <zae7rlojv5iiq2dx7bxhdsmmzj73o65cwk7kmryxsst36gy2of@k3vcm6omcias>
+ <b784049f-a72c-47ff-a618-e7c85c132d28@quicinc.com>
+In-Reply-To: <b784049f-a72c-47ff-a618-e7c85c132d28@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 10 Dec 2024 00:16:43 +0200
+Message-ID: <CAA8EJpojwG+_Q_9GYBFzQ_ReDbnO=+GbTPZscWgS1f=fkU0Anw@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: filter out too wide modes if no 3dmux is
+ present
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Elliot Berman <quic_eberman@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,212 +86,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 9, 2024 at 12:52=E2=80=AFPM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
+Hi Abhinav,
+
+On Mon, 9 Dec 2024 at 22:07, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
 >
-> On 12/10/2024 1:24 AM, Rob Clark wrote:
-> > On Mon, Dec 9, 2024 at 12:20=E2=80=AFAM Akhil P Oommen <quic_akhilpo@qu=
-icinc.com> wrote:
-> >>
-> >> When kernel is booted in EL2, SECVID registers are accessible to the
-> >> KMD. So we can use that to switch GPU's secure mode to avoid dependenc=
-y
-> >> on Zap firmware. Also, we can't load a secure firmware without a
-> >> hypervisor that supports it.
-> >
-> > Shouldn't we do this based on whether zap node is in dtb (and not disab=
-led)?
 >
-> This is better, isn't it? Otherwise, multiple overlays should be
-> maintained for each soc/board since EL2 can be toggled from bootloader.
-> And this feature is likely going to be more widely available.
-
-I guess the first question is what the dt should look like.  I think
-it makes sense to not have a zap node when booting in EL2 (or at least
-disabling it) because that describes the hw+fw situation.  And in any
-case, so far it seems like we often need unrelated changes[1].  But
-maybe others have differing opinions.
-
-And depending on how much cooperation we get from the bootloader, it
-could be that our hand is forced.  I figured I should at least point
-out how we currently handle this.
-
-A further point, I suppose it is in theory possible that a device
-could have no secure playback support, despite booting in EL1?  So
-tying this to EL2 seems a bit contrived.
-
-BR,
--R
-
-[1] https://github.com/TravMurav/slbounce/blob/main/dtbo/x1e-el2.dtso
-
-> -Akhil.
 >
-> >
-> > slbounce applies some dtb overlays to disable the zap node when
-> > booting in EL2 (and make some other changes due to kernel being in
-> > control of the pci smmuv3, or something along those lines).
-> >
-> > BR,
-> > -R
-> >
+> On 12/7/2024 9:29 PM, Dmitry Baryshkov wrote:
+> > On Fri, Dec 06, 2024 at 12:00:53PM -0800, Abhinav Kumar wrote:
+> >> On chipsets such as QCS615, there is no 3dmux present. In such
+> >> a case, a layer exceeding the max_mixer_width cannot be split,
+> >> hence cannot be supported.
 > >>
-> >> Tested following configurations on sa8775p chipset (Adreno 663 gpu):
+> >> Filter out the modes which exceed the max_mixer_width when there
+> >> is no 3dmux present. Also, add a check in the dpu_crtc_atomic_check()
+> >> to return failure for such modes.
 > >>
-> >> 1. Gunyah (No KVM) - Loads zap shader based on DT
-> >> 2. KVM in VHE - Skips zap shader load and programs SECVID register
-> >> 3. KVM in nVHE - Loads zap shader based on DT
-> >> 4. Kernel in EL2 with CONFIG_KVM=3Dn - Skips zap shader load and
-> >>         programs SECVID register
-> >>
-> >> For (1) and (3) configuration, this patch doesn't have any impact.
-> >> Driver loads secure firmware based on other existing hints.
-> >>
-> >> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> >> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > >> ---
+> >> Note: this was only compile tested, so its pending validation on QCS615
 > >> ---
-> >>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 82 +++++++++++++++++++++++---=
----------
-> >>  1 file changed, 54 insertions(+), 28 deletions(-)
+> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 13 +++++++++++++
+> >>   1 file changed, 13 insertions(+)
 > >>
-> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/m=
-sm/adreno/a6xx_gpu.c
-> >> index 019610341df1..9dcaa8472430 100644
-> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> >> @@ -14,6 +14,10 @@
-> >>  #include <linux/pm_domain.h>
-> >>  #include <linux/soc/qcom/llcc-qcom.h>
+> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >> index 9f6ffd344693ecfb633095772a31ada5613345dc..e6e5540aae83be7c20d8ae29115b8fdd42056e55 100644
+> >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> >> @@ -732,6 +732,13 @@ static int _dpu_crtc_check_and_setup_lm_bounds(struct drm_crtc *crtc,
+> >>      struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+> >>      int i;
 > >>
-> >> +#ifdef CONFIG_ARM64
-> >> +#include <asm/virt.h>
-> >> +#endif
+> >> +    /* if we cannot merge 2 LMs (no 3d mux) better to fail earlier
+> >> +     * before even checking the width after the split
+> >> +     */
+> >> +    if (!dpu_kms->catalog->caps->has_3d_merge
+> >> +        && adj_mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+> >> +            return -E2BIG;
+> >
+> > Is it the same as checking that there are LMs which support
+> > DPU_MIXER_SOURCESPLIT ?
+> >
+>
+> DPU_MIXER_SOURCESPLIT tells whether we can have more than one SSPP in
+> the same blend stage.
+
+Do we have a feature bit that corresponds to the ability to use 2 LMs?
+I mean, there are other *split topologies, not necessarily the 3DMux
+ones. E.g. PPSPLIT.
+
+>
+> 494     if (test_bit(DPU_MIXER_SOURCESPLIT,
+> 495             &ctx->mixer_hw_caps->features))
+> 496             pipes_per_stage = PIPES_PER_STAGE;
+> 497     else
+> 498             pipes_per_stage = 1;
+>
+> That is different from this one. Here we are checking if we can actually
+> blend two LM outputs using the 3dmux (so its post blend).
+>
 > >> +
-> >>  #define GPU_PAS_ID 13
+> >>      for (i = 0; i < cstate->num_mixers; i++) {
+> >>              struct drm_rect *r = &cstate->lm_bounds[i];
+> >>              r->x1 = crtc_split_width * i;
+> >> @@ -1251,6 +1258,12 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+> >>   {
+> >>      struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
 > >>
-> >>  static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
-> >> @@ -998,6 +1002,54 @@ static int a6xx_zap_shader_init(struct msm_gpu *=
-gpu)
-> >>         return ret;
-> >>  }
-> >>
-> >> +static int a6xx_switch_secure_mode(struct msm_gpu *gpu)
-> >> +{
-> >> +       int ret;
-> >> +
-> >> +#ifdef CONFIG_ARM64
-> >> +       /*
-> >> +        * We can access SECVID_TRUST_CNTL register when kernel is boo=
-ted in EL2 mode. So, use it
-> >> +        * to switch the secure mode to avoid the dependency on zap sh=
-ader.
-> >> +        */
-> >> +       if (is_kernel_in_hyp_mode())
-> >> +               goto direct_switch;
-> >> +#endif
-> >> +
-> >> +       /*
-> >> +        * Try to load a zap shader into the secure world. If successf=
-ul
-> >> +        * we can use the CP to switch out of secure mode. If not then=
- we
-> >> +        * have no resource but to try to switch ourselves out manuall=
-y. If we
-> >> +        * guessed wrong then access to the RBBM_SECVID_TRUST_CNTL reg=
-ister will
-> >> +        * be blocked and a permissions violation will soon follow.
-> >> +        */
-> >> +       ret =3D a6xx_zap_shader_init(gpu);
-> >> +       if (ret =3D=3D -ENODEV) {
-> >> +               /*
-> >> +                * This device does not use zap shader (but print a wa=
-rning
-> >> +                * just in case someone got their dt wrong.. hopefully=
- they
-> >> +                * have a debug UART to realize the error of their way=
-s...
-> >> +                * if you mess this up you are about to crash horribly=
-)
-> >> +                */
-> >> +               dev_warn_once(gpu->dev->dev,
-> >> +                       "Zap shader not enabled - using SECVID_TRUST_C=
-NTL instead\n");
-> >> +               goto direct_switch;
-> >> +       } else if (ret)
-> >> +               return ret;
-> >> +
-> >> +       OUT_PKT7(gpu->rb[0], CP_SET_SECURE_MODE, 1);
-> >> +       OUT_RING(gpu->rb[0], 0x00000000);
-> >> +
-> >> +       a6xx_flush(gpu, gpu->rb[0]);
-> >> +       if (!a6xx_idle(gpu, gpu->rb[0]))
-> >> +               return -EINVAL;
-> >> +
-> >> +       return 0;
-> >> +
-> >> +direct_switch:
-> >> +       gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
-> >> +       return 0;
-> >> +}
-> >> +
-> >>  #define A6XX_INT_MASK (A6XX_RBBM_INT_0_MASK_CP_AHB_ERROR | \
-> >>                        A6XX_RBBM_INT_0_MASK_RBBM_ATB_ASYNCFIFO_OVERFLO=
-W | \
-> >>                        A6XX_RBBM_INT_0_MASK_CP_HW_ERROR | \
-> >> @@ -1341,35 +1393,9 @@ static int hw_init(struct msm_gpu *gpu)
-> >>         if (ret)
-> >>                 goto out;
-> >>
-> >> -       /*
-> >> -        * Try to load a zap shader into the secure world. If successf=
-ul
-> >> -        * we can use the CP to switch out of secure mode. If not then=
- we
-> >> -        * have no resource but to try to switch ourselves out manuall=
-y. If we
-> >> -        * guessed wrong then access to the RBBM_SECVID_TRUST_CNTL reg=
-ister will
-> >> -        * be blocked and a permissions violation will soon follow.
-> >> -        */
-> >> -       ret =3D a6xx_zap_shader_init(gpu);
-> >> -       if (!ret) {
-> >> -               OUT_PKT7(gpu->rb[0], CP_SET_SECURE_MODE, 1);
-> >> -               OUT_RING(gpu->rb[0], 0x00000000);
-> >> -
-> >> -               a6xx_flush(gpu, gpu->rb[0]);
-> >> -               if (!a6xx_idle(gpu, gpu->rb[0]))
-> >> -                       return -EINVAL;
-> >> -       } else if (ret =3D=3D -ENODEV) {
-> >> -               /*
-> >> -                * This device does not use zap shader (but print a wa=
-rning
-> >> -                * just in case someone got their dt wrong.. hopefully=
- they
-> >> -                * have a debug UART to realize the error of their way=
-s...
-> >> -                * if you mess this up you are about to crash horribly=
-)
-> >> -                */
-> >> -               dev_warn_once(gpu->dev->dev,
-> >> -                       "Zap shader not enabled - using SECVID_TRUST_C=
-NTL instead\n");
-> >> -               gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
-> >> -               ret =3D 0;
-> >> -       } else {
-> >> +       ret =3D a6xx_switch_secure_mode(gpu);
-> >> +       if (!ret)
-> >>                 return ret;
-> >> -       }
-> >>
-> >>  out:
-> >>         if (adreno_has_gmu_wrapper(adreno_gpu))
+> >> +    /* if there is no 3d_mux block we cannot merge LMs so we cannot
+> >> +     * split the large layer into 2 LMs, filter out such modes
+> >> +     */
+> >> +    if (!dpu_kms->catalog->caps->has_3d_merge
+> >> +        && mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+> >> +            return MODE_BAD;
+> >
+> > This can be more specific, like MODE_BAD_HVALUE.
+> >
+>
+> Yes for sure, will fix this up.
+>
+> >>      /*
+> >>       * max crtc width is equal to the max mixer width * 2 and max height is 4K
+> >>       */
 > >>
 > >> ---
-> >> base-commit: f4a867a46862c1743501bbe8c813238456ec8699
-> >> change-id: 20241120-drm-msm-kvm-support-cd6e6744ced6
+> >> base-commit: af2ea8ab7a546b430726183458da0a173d331272
+> >> change-id: 20241206-no_3dmux-521a55ea0669
 > >>
 > >> Best regards,
 > >> --
-> >> Akhil P Oommen <quic_akhilpo@quicinc.com>
+> >> Abhinav Kumar <quic_abhinavk@quicinc.com>
 > >>
->
+> >
+
+
+
+-- 
+With best wishes
+Dmitry
