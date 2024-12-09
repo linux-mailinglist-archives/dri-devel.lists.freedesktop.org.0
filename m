@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B44C9E942C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D3DA9E9430
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:33:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8503F10E71E;
-	Mon,  9 Dec 2024 12:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC1610E720;
+	Mon,  9 Dec 2024 12:33:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ZMi6z3U6";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="aStJV6QZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id BE75110E721
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:33:45 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9ED3510E720
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:33:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=58Dm3
- Eqh22L+JQTpTi4STstJ8qz0fGUCNuAiGro+EX0=; b=ZMi6z3U6th6UsW2WsV204
- e+QeTso7VocRjfDFSrWvjcvLZlSa5tGg02AU7vi0WYztBvH70Xce6XXMINe/777Z
- Z0JI5WW9x/0IuXKQ1PdKzMoEAMA6kk+o8BwzXWvBdHwURPqrJC4w6WKFu6vwwEra
- O5yv1+pbNlusR2cE2WvTBs=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=d7hXp
+ 7/6c+SIMrC3/v4/aGKD1T4Tsfxq8Ze0YbDDAqA=; b=aStJV6QZ8uzh/zt9/44xW
+ r3pYzCxRbLfM7n95McvmvRvanW0llZXeIheo6DL827Tfc9EjATMOckgxkyVJq9DI
+ a/O+rkHyjeCeHhlVG92sTryk7rtFp0ehjtDGzQQoe6j+NxFE6RgPdvV1mvCnRKOg
+ h6BPzk/zUrrmBZq7wBCECQ=
 Received: from ProDesk.. (unknown [])
- by gzsmtp2 (Coremail) with SMTP id PSgvCgC3KOOb41ZnxO+AAA--.35994S2;
- Mon, 09 Dec 2024 20:33:34 +0800 (CST)
+ by gzsmtp4 (Coremail) with SMTP id PygvCgDnLxum41ZnYcrvAg--.38867S2;
+ Mon, 09 Dec 2024 20:33:46 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
@@ -32,21 +32,22 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
  linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
  Michael Riesch <michael.riesch@wolfvision.net>
-Subject: [PATCH v5 13/18] drm/rockchip: vop2: Introduce vop hardware version
-Date: Mon,  9 Dec 2024 20:33:29 +0800
-Message-ID: <20241209123330.2781991-1-andyshrk@163.com>
+Subject: [PATCH v5 14/18] drm/rockchip: vop2: Register the primary plane and
+ overlay plane separately
+Date: Mon,  9 Dec 2024 20:33:40 +0800
+Message-ID: <20241209123341.2782031-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241209122943.2781431-1-andyshrk@163.com>
 References: <20241209122943.2781431-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PSgvCgC3KOOb41ZnxO+AAA--.35994S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3XryDWFW5Kw1xZw1UCw48WFg_yoWxKF4DpF
- W7Aay5WrWxGa1qgw4kJFW3ZF4aywn2yay7JanrGw13try3KryDGan0qF17AFZ0yr92kr4j
- yFn5A3yUWr47tr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jF-eOUUUUU=
+X-CM-TRANSID: PygvCgDnLxum41ZnYcrvAg--.38867S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGFWxtw4kKr43tFyrKryxuFg_yoWrZrW3pa
+ 13ta90qr4xWrsFgry8JF4jyFWYyan2kay7Crn8Kw1a934Sgr93ur4rKF1DAF1ruFnrWFya
+ kFW3K39Y9FWj9r7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2E_NUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gKwXmdW4xoX5wAAsG
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0giwXmdW4xoZygAAsv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,12 +65,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-There is a version number hardcoded in the VOP VERSION_INFO
-register, and the version number increments sequentially based
-on the production order of the SOC.
-
-So using this version number to distinguish different VOP features
-will simplify the code.
+In the upcoming VOP of rk3576, a Window cannot attach to all Video Ports,
+so make sure all VP find it's suitable primary plane, then register the
+remain windows as overlay plane will make code easier.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
@@ -81,175 +79,149 @@ Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
 Changes in v3:
 - Add comments for why we should treat rk3566 with special care.
-- Add hardware version check
 
-Changes in v2:
-- Introduce vop hardware version
-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 25 ++++++++++++++------
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 11 +++++++++
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c |  3 +++
- 3 files changed, 32 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 100 +++++++++++--------
+ 1 file changed, 61 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 1997a8deada8..4f56a7e91728 100644
+index 4f56a7e91728..29f7c105b89b 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -354,7 +354,7 @@ static bool vop2_output_uv_swap(u32 bus_format, u32 output_mode)
- 
- static bool vop2_output_rg_swap(struct vop2 *vop2, u32 bus_format)
- {
--	if (vop2->data->soc_id == 3588) {
-+	if (vop2->version == VOP_VERSION_RK3588) {
- 		if (bus_format == MEDIA_BUS_FMT_YUV8_1X24 ||
- 		    bus_format == MEDIA_BUS_FMT_YUV10_1X30)
- 			return true;
-@@ -798,6 +798,7 @@ static void rk3588_vop2_power_domain_enable_all(struct vop2 *vop2)
- static void vop2_enable(struct vop2 *vop2)
- {
- 	int ret;
-+	u32 version;
- 
- 	ret = pm_runtime_resume_and_get(vop2->dev);
- 	if (ret < 0) {
-@@ -817,10 +818,19 @@ static void vop2_enable(struct vop2 *vop2)
- 		return;
- 	}
- 
-+	version = vop2_readl(vop2, RK3568_VERSION_INFO);
-+	if (version != vop2->version) {
-+		drm_err(vop2->drm, "Hardware version(0x%08x) mismatch\n", version);
-+		return;
-+	}
-+	/*
-+	 * rk3566 share the same vop version with rk3568, so
-+	 * wen need to use soc_id for identification here.
-+	 */
- 	if (vop2->data->soc_id == 3566)
- 		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
- 
--	if (vop2->data->soc_id == 3588)
-+	if (vop2->version == VOP_VERSION_RK3588)
- 		rk3588_vop2_power_domain_enable_all(vop2);
- 
- 	vop2_writel(vop2, RK3568_REG_CFG_DONE, RK3568_REG_CFG_DONE__GLB_CFG_DONE_EN);
-@@ -901,7 +911,7 @@ static void vop2_vp_dsp_lut_update_enable(struct vop2_video_port *vp)
- 
- static inline bool vop2_supports_seamless_gamma_lut_update(struct vop2 *vop2)
- {
--	return (vop2->data->soc_id != 3566 && vop2->data->soc_id != 3568);
-+	return vop2->version != VOP_VERSION_RK3568;
+@@ -2224,22 +2224,29 @@ static int vop2_plane_init(struct vop2 *vop2, struct vop2_win *win,
+ 	return 0;
  }
  
- static bool vop2_gamma_lut_in_use(struct vop2 *vop2, struct vop2_video_port *vp)
-@@ -1031,7 +1041,7 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
- 		return -EINVAL;
+-static struct vop2_video_port *find_vp_without_primary(struct vop2 *vop2)
++/*
++ * On RK3566 these windows don't have an independent
++ * framebuffer. They can only share/mirror the framebuffer
++ * with smart0, esmart0 and cluster0 respectively.
++ * And RK3566 share the same vop version with Rk3568, so we
++ * need to use soc_id for identification here.
++ */
++static bool vop2_is_mirror_win(struct vop2_win *win)
+ {
+-	int i;
+-
+-	for (i = 0; i < vop2->data->nr_vps; i++) {
+-		struct vop2_video_port *vp = &vop2->vps[i];
+-
+-		if (!vp->crtc.port)
+-			continue;
+-		if (vp->primary_plane)
+-			continue;
++	struct vop2 *vop2 = win->vop2;
+ 
+-		return vp;
++	if (vop2->data->soc_id == 3566) {
++		switch (win->data->phys_id) {
++		case ROCKCHIP_VOP2_SMART1:
++		case ROCKCHIP_VOP2_ESMART1:
++		case ROCKCHIP_VOP2_CLUSTER1:
++			return true;
++		default:
++			return false;
++		}
++	} else {
++		return false;
+ 	}
+-
+-	return NULL;
+ }
+ 
+ static int vop2_create_crtcs(struct vop2 *vop2)
+@@ -2250,7 +2257,9 @@ static int vop2_create_crtcs(struct vop2 *vop2)
+ 	struct drm_plane *plane;
+ 	struct device_node *port;
+ 	struct vop2_video_port *vp;
+-	int i, nvp, nvps = 0;
++	struct vop2_win *win;
++	u32 possible_crtcs;
++	int i, j, nvp, nvps = 0;
+ 	int ret;
+ 
+ 	for (i = 0; i < vop2_data->nr_vps; i++) {
+@@ -2289,42 +2298,55 @@ static int vop2_create_crtcs(struct vop2 *vop2)
  	}
  
--	if (vop2->data->soc_id == 3568 || vop2->data->soc_id == 3566) {
-+	if (vop2->version == VOP_VERSION_RK3568) {
- 		if (vop2_cluster_window(win)) {
- 			if (!rockchip_afbc(plane, fb->modifier)) {
- 				drm_err(vop2->drm, "Unsupported linear format for %s\n", win->data->name);
-@@ -1041,7 +1051,7 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
- 	}
- 
- 	if (fb->format->format == DRM_FORMAT_XRGB2101010 || fb->format->format == DRM_FORMAT_XBGR2101010) {
--		if (vop2->data->soc_id == 3588) {
-+		if (vop2->version == VOP_VERSION_RK3588) {
- 			if (!rockchip_afbc(plane, fb->modifier)) {
- 				drm_err(vop2->drm, "Unsupported linear 32 bpp for %s\n", win->data->name);
- 				return -EINVAL;
-@@ -1260,7 +1270,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 		&fb->format->format,
- 		afbc_en ? "AFBC" : "", &yrgb_mst);
- 
--	if (vop2->data->soc_id > 3568) {
-+	if (vop2->version > VOP_VERSION_RK3568) {
- 		vop2_win_write(win, VOP2_WIN_AXI_BUS_ID, win->data->axi_bus_id);
- 		vop2_win_write(win, VOP2_WIN_AXI_YRGB_R_ID, win->data->axi_yrgb_r_id);
- 		vop2_win_write(win, VOP2_WIN_AXI_UV_R_ID, win->data->axi_uv_r_id);
-@@ -1320,7 +1330,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 		 * this bit is gating disable, we should write 1 to
- 		 * disable gating when enable afbc.
- 		 */
--		if (vop2->data->soc_id == 3566 || vop2->data->soc_id == 3568)
-+		if (vop2->version == VOP_VERSION_RK3568)
- 			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 0);
- 		else
- 			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
-@@ -2525,6 +2535,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
- 	vop2->dev = dev;
- 	vop2->data = vop2_data;
- 	vop2->ops = vop2_data->ops;
-+	vop2->version = vop2_data->version;
- 	vop2->drm = drm;
- 
- 	dev_set_drvdata(dev, vop2);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index dcfa791be99d..5514ece7df4d 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -13,6 +13,15 @@
- #include "rockchip_drm_drv.h"
- #include "rockchip_drm_vop.h"
- 
-+#define VOP2_VERSION(major, minor, build)	((major) << 24 | (minor) << 16 | (build))
+ 	nvp = 0;
+-	for (i = 0; i < vop2->registered_num_wins; i++) {
+-		struct vop2_win *win = &vop2->win[i];
+-		u32 possible_crtcs = 0;
+-
+-		if (vop2->data->soc_id == 3566) {
+-			/*
+-			 * On RK3566 these windows don't have an independent
+-			 * framebuffer. They share the framebuffer with smart0,
+-			 * esmart0 and cluster0 respectively.
+-			 */
+-			switch (win->data->phys_id) {
+-			case ROCKCHIP_VOP2_SMART1:
+-			case ROCKCHIP_VOP2_ESMART1:
+-			case ROCKCHIP_VOP2_CLUSTER1:
++	/* Register a primary plane for every crtc */
++	for (i = 0; i < vop2_data->nr_vps; i++) {
++		vp = &vop2->vps[i];
 +
-+/* The new SOC VOP version is bigger than the old */
-+#define VOP_VERSION_RK3568	VOP2_VERSION(0x40, 0x15, 0x8023)
-+#define VOP_VERSION_RK3588	VOP2_VERSION(0x40, 0x17, 0x6786)
-+#define VOP_VERSION_RK3528	VOP2_VERSION(0x50, 0x17, 0x1263)
-+#define VOP_VERSION_RK3562	VOP2_VERSION(0x50, 0x17, 0x4350)
-+#define VOP_VERSION_RK3576	VOP2_VERSION(0x50, 0x19, 0x9765)
++		if (!vp->crtc.port)
++			continue;
 +
- #define VOP2_VP_FEATURE_OUTPUT_10BIT        BIT(0)
++		for (j = 0; j < vop2->registered_num_wins; j++) {
++			win = &vop2->win[j];
++
++			/* Aready registered as primary plane */
++			if (win->base.type == DRM_PLANE_TYPE_PRIMARY)
++				continue;
++
++			if (vop2_is_mirror_win(win))
+ 				continue;
+-			}
+-		}
  
- #define VOP2_FEATURE_HAS_SYS_GRF	BIT(0)
-@@ -242,6 +251,7 @@ struct vop2_ops {
- struct vop2_data {
- 	u8 nr_vps;
- 	u64 feature;
-+	u32 version;
- 	const struct vop2_ops *ops;
- 	const struct vop2_win_data *win;
- 	const struct vop2_video_port_data *vp;
-@@ -259,6 +269,7 @@ struct vop2_data {
- };
+-		if (win->type == DRM_PLANE_TYPE_PRIMARY) {
+-			vp = find_vp_without_primary(vop2);
+-			if (vp) {
++			if (win->type == DRM_PLANE_TYPE_PRIMARY) {
+ 				possible_crtcs = BIT(nvp);
+ 				vp->primary_plane = win;
++				ret = vop2_plane_init(vop2, win, possible_crtcs);
++				if (ret) {
++					drm_err(vop2->drm, "failed to init primary plane %s: %d\n",
++						win->data->name, ret);
++					return ret;
++				}
+ 				nvp++;
+-			} else {
+-				/* change the unused primary window to overlay window */
+-				win->type = DRM_PLANE_TYPE_OVERLAY;
++				break;
+ 			}
+ 		}
++	}
++
++	/* Register all unused window as overlay plane */
++	for (i = 0; i < vop2->registered_num_wins; i++) {
++		win = &vop2->win[i];
++
++		/* Aready registered as primary plane */
++		if (win->base.type == DRM_PLANE_TYPE_PRIMARY)
++			continue;
++
++		if (vop2_is_mirror_win(win))
++			continue;
  
- struct vop2 {
-+	u32 version;
- 	struct device *dev;
- 	struct drm_device *drm;
- 	struct vop2_video_port vps[ROCKCHIP_MAX_CRTC];
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-index 80f9debd7aa9..baf81e97062c 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-@@ -1627,6 +1627,7 @@ static const struct vop2_ops rk3588_vop_ops = {
- };
+-		if (win->type == DRM_PLANE_TYPE_OVERLAY)
+-			possible_crtcs = (1 << nvps) - 1;
++		win->type = DRM_PLANE_TYPE_OVERLAY;
  
- static const struct vop2_data rk3566_vop = {
-+	.version = VOP_VERSION_RK3568,
- 	.feature = VOP2_FEATURE_HAS_SYS_GRF,
- 	.nr_vps = 3,
- 	.max_input = { 4096, 2304 },
-@@ -1645,6 +1646,7 @@ static const struct vop2_data rk3566_vop = {
- };
- 
- static const struct vop2_data rk3568_vop = {
-+	.version = VOP_VERSION_RK3568,
- 	.feature = VOP2_FEATURE_HAS_SYS_GRF,
- 	.nr_vps = 3,
- 	.max_input = { 4096, 2304 },
-@@ -1663,6 +1665,7 @@ static const struct vop2_data rk3568_vop = {
- };
- 
- static const struct vop2_data rk3588_vop = {
-+	.version = VOP_VERSION_RK3588,
- 	.feature = VOP2_FEATURE_HAS_SYS_GRF | VOP2_FEATURE_HAS_VO1_GRF |
- 		   VOP2_FEATURE_HAS_VOP_GRF | VOP2_FEATURE_HAS_SYS_PMU,
- 	.nr_vps = 4,
++		possible_crtcs = (1 << nvps) - 1;
+ 		ret = vop2_plane_init(vop2, win, possible_crtcs);
+ 		if (ret) {
+-			drm_err(vop2->drm, "failed to init plane %s: %d\n",
++			drm_err(vop2->drm, "failed to init overlay plane %s: %d\n",
+ 				win->data->name, ret);
+ 			return ret;
+ 		}
 -- 
 2.34.1
 
