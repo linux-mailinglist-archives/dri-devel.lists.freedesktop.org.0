@@ -2,197 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957D19E8B5D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 07:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7319E8BAD
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 07:48:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B52B10E29B;
-	Mon,  9 Dec 2024 06:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7AFF10E0E6;
+	Mon,  9 Dec 2024 06:48:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="UodOGWTz";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="zJlURkc2";
+	dkim=pass (1024-bit key; unprotected) header.d=analogixsemi.com header.i=@analogixsemi.com header.b="dcC7io/i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D48B10E29B;
- Mon,  9 Dec 2024 06:13:50 +0000 (UTC)
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B8NNCYU025031;
- Mon, 9 Dec 2024 06:13:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=
- corp-2023-11-20; bh=k+IMN54UVpAPMOnRFcUOIHQb3gDXMAlS6Bgq2dCxlMk=; b=
- UodOGWTzkosoV4ibbSITUbx6YHKPmVCVDRpHSPovQaq1AiwnZglMmbDaBALdWl8o
- u33y5DC0jpC1N+/COZ6Wq0Mbo2++4mRnvRwq4t8C8vor38jqbisi9E/6eF4P6qnY
- r9Y20JxL7gYvcFmMLiHadT3PVogDEWi6/UwIt9uqE2dblZ85lI8iwvQd6GpMj9f7
- p8c/hY7MTd0qILdz0bSgRrvcV5zq8dAiJ6kQYqw8dU/OQ9yGvJFY45p58GJ5nYo+
- WUA64NhdNDeoIi7I0ibgsuQ+6NNcP/JRJITr88XtkF2MIbwcpVivCB/Mp+DWzz6E
- ageL4KDBdDhsPfBWTRV4OQ==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 43ddr60mes-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Dec 2024 06:13:46 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 4B95go6Y008679; Mon, 9 Dec 2024 06:13:45 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2043.outbound.protection.outlook.com [104.47.70.43])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 43cct6metw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 09 Dec 2024 06:13:45 +0000
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11022112.outbound.protection.outlook.com
+ [40.93.195.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA1C110E0E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 06:48:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZMyirjcLAx4oyilxWPgVyBLTnteEcuUKNQcWOGKVQxTkmKw4pIXKkw5pGXV3uDzOVItohfme9V1oCihpDHJgj+DnxTVdX7FeLAWjbUoADDB7CSbaUhK/L+4tij+K464nJ0cjKOnNWpbi/RMFI/yUyNVfnN/KrpMNUm4wyv8pjfHK5zcHR9EwBLRgpcItWneXKn3hb2APCjO4LpUzuuoGfjgjmQ+qXLutqb3HX12TVwqgQttOOw/nxubp1+SRSpR1lmykfhIRyJsZC3v7PzDb1XnfrZI9Qkji3JgDiNc7Tlpw301SeMR3cMqykbFE1byQfZH6/SDoEX7lkrbf+AA03A==
+ b=S10cU7FqvhQZsAxfmEAXMbuy2i7GkXU5IL8ams2YDPSZFotEAOhYd4zYLeyJsjBQCGDchuyxpzetiFyiT1rQ1tVucVUzlkSMLB2CjDv5sA3nJIXhHUlRX57zjfPsiEaCtDJPhzE6lUOKZ5Kpafkgp8CKJbThjUzJ163ytZKyL+mOImYDWdeCTTk20du+bMG1j4iDNFf+EMLyoRZ2Pflnt7I2l9uWrV9QAA/IrVH2jUOlrMIERh1jwablK3pv5rmCmRmZJQ40TzCP3CSwi94SVQ8Uy5JIzs22chf/ixgFHy5XCN+1TAV9EUpanF1/QrJ91ClePUWmGlfR8od9ezr6Kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k+IMN54UVpAPMOnRFcUOIHQb3gDXMAlS6Bgq2dCxlMk=;
- b=W6Odejv36lmrM48Uc7djEezYxeJ0Uh+dvTyHb1t3/7hWw4rCbXqITwcMq4QtPouI0VerLHV/Z3GQ6VtgC+bMKeBXrRrOAX+j51K/mZaS4FgpQYGtY0r9FJ8ZmhLmhaIbkEkZNR4U9kBOKciKInOqeOUJbGUtSVkJjQQk5XsIWNs2Fay7q5ldDEA5iykPTJKCiDD17D+vbF7SaQzASAr5yPwezGiRZ/DlVlgW6dP9EnFKgY13Z2507gPLnDEYStyZZJKlhLVKjNHTBy6q17XDs45bgHq8sJQtZpJ9M8r7i/21EeLVUDGNA4rcMhcyfc7Mr+Ut9ZWVTRcg5JOK3d/NWw==
+ bh=aUKRdaLsp50JnzyFXWoQ2tnJmbqXBfLi7MzdsrKQFHk=;
+ b=BO0nPGGhkHmWIvNx/E4LYpe12oKTCP0JBK85KGlfpdQrSy0KAX/OHm2miYk5LXStUr7Hmm0dO/Cjba8svS7geS64dUq5VF32KsZp762GCS/CP+qd+EBr2IJEFIN29cfcCLod9lzeTP3rmv07SWkmznrREf5LYJ1q3jey/bcq/Xi90/oBpjKoYXOUtvFU9PcmRJLR4hkfyTKgGIGj7SnnP5NK49NCiZ0HVJI1O4gPLQdYZvAAjOI65/tXbKr2K9GPXL0bKdGp7L1+UBsC34SCqWm9IWY8z53IdHWrZsaMdONreAP5+k1nVXrM34/nSFR6UEYiewpdb1IJR0HejQZrew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=analogixsemi.com; dmarc=pass action=none
+ header.from=analogixsemi.com; dkim=pass header.d=analogixsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analogixsemi.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+IMN54UVpAPMOnRFcUOIHQb3gDXMAlS6Bgq2dCxlMk=;
- b=zJlURkc2cL0Mzp4Obw9QtJZ/u9RIuS2eCeGPig7y4SUAuyGRt59A3WkwPVZy/xNpDBGZSIt8ShRxZ+vXaK1I/uNnGL82K/RKGOvxBzocjcV2UfEOmik/ti6BfFxqTMwfSmXTyEsyNnYfaWDT6vA5o+K8eJUUaBZCrMEIIAjKPSw=
-Received: from DM4PR10MB6886.namprd10.prod.outlook.com (2603:10b6:8:102::10)
- by MW4PR10MB5677.namprd10.prod.outlook.com (2603:10b6:303:18e::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Mon, 9 Dec
- 2024 06:13:42 +0000
-Received: from DM4PR10MB6886.namprd10.prod.outlook.com
- ([fe80::bdcc:98f5:ebd5:cd38]) by DM4PR10MB6886.namprd10.prod.outlook.com
- ([fe80::bdcc:98f5:ebd5:cd38%6]) with mapi id 15.20.8207.017; Mon, 9 Dec 2024
- 06:13:42 +0000
-Message-ID: <82d8db95-2f62-4124-aff8-424252f505df@oracle.com>
-Date: Mon, 9 Dec 2024 11:43:32 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6.1.y] drm/amd/display: Don't refer to dc_sink in
- is_dsc_need_re_compute
-To: jianqi.ren.cn@windriver.com, wayne.lin@amd.com, gregkh@linuxfoundation.org
-Cc: stable@vger.kernel.org, harry.wentland@amd.com, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, daniel@ffwll.ch,
- Jerry.Zuo@amd.com, zaeem.mohamed@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>
-References: <20241209063637.3427088-1-jianqi.ren.cn@windriver.com>
-Content-Language: en-US
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-In-Reply-To: <20241209063637.3427088-1-jianqi.ren.cn@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR01CA0015.apcprd01.prod.exchangelabs.com
- (2603:1096:4:191::15) To DM4PR10MB6886.namprd10.prod.outlook.com
- (2603:10b6:8:102::10)
+ bh=aUKRdaLsp50JnzyFXWoQ2tnJmbqXBfLi7MzdsrKQFHk=;
+ b=dcC7io/i1Lkdqk3u9O5ed9rE/tCdk6OVuFlv1AUWcOu0e7ghwMks/gbeD+uPMX3HUSEnjCs2YCZB66pasekpqaz6AqTLKPktcmTrsh2FE25bdys8zWPsZ7tBLuduSz3jMS0KDV6BQwsztUW0oi0KFotLLjxLZCqkvWHSciv6Xe4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=analogixsemi.com;
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com (2603:10b6:a03:229::8)
+ by SJ0PR04MB7360.namprd04.prod.outlook.com (2603:10b6:a03:293::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
+ 2024 06:47:59 +0000
+Received: from BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::5a7e:9e8c:138f:1815]) by BY5PR04MB6739.namprd04.prod.outlook.com
+ ([fe80::5a7e:9e8c:138f:1815%7]) with mapi id 15.20.8230.010; Mon, 9 Dec 2024
+ 06:47:58 +0000
+From: Xin Ji <xji@analogixsemi.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: bliang@analogixsemi.com, qwen@analogixsemi.com, treapking@google.com,
+ Xin Ji <xji@analogixsemi.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/bridge:anx7625: Update HDCP status at atomic_disable()
+Date: Mon,  9 Dec 2024 14:46:32 +0800
+Message-Id: <20241209064632.1705578-1-xji@analogixsemi.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TP0P295CA0048.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:3::19) To BY5PR04MB6739.namprd04.prod.outlook.com
+ (2603:10b6:a03:229::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB6886:EE_|MW4PR10MB5677:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99bd4ab4-625e-41f1-a813-08dd1818a10a
+X-MS-TrafficTypeDiagnostic: BY5PR04MB6739:EE_|SJ0PR04MB7360:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4929b163-2e90-4420-3d5f-08dd181d6b15
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZFQxUTRrZnBOVlpDMzQ2YlRlTVQ5d29nQjFpSHY5TG5ZTmJEcThPSlI3cFNP?=
- =?utf-8?B?K1ByK3lGTnlzUE00TU1KOUw5ZTY3OHZjY2ZHWlBMeFM0d3RvQy9acXBwWXdz?=
- =?utf-8?B?RDd3bkJhZzBpd3VTb0N2NzNtMmhlT0dHRFg2Q3hWbkxJNWxaNFZvclljdUw0?=
- =?utf-8?B?YkZtV1F4Wm95em8za1c5OURnTEV5TTZrb3lYajdDRS85RFhOUTNwVW9MUTl2?=
- =?utf-8?B?cVVNbHlOODAxNk9CNjlqY1VpK2lidHdqVEFsbVI3NW5vOGhkcnBCRDQxeUN2?=
- =?utf-8?B?a0NWV1RxQXkwZnl5T3YrQkhub2VKdmFnS3VmcTZXNHhHZytOdVRodXJxdEV5?=
- =?utf-8?B?SmYycDQxRGtPc1ZKM05BVllISlRmc1dvZVBVUjc0UE1ISGtIelg2VVlzM2pq?=
- =?utf-8?B?QkhFYS9QdHMrS2xla3hRSXFzL0hIb2UwSkJuNUwyc3JkeE1Yc25zbk5GUUc5?=
- =?utf-8?B?aTN6djk0Um5tNGJ3elh3a2xXOVFNRnVKK0hJOVlrMVkxOUpMQ1lxeVQ3M2Y5?=
- =?utf-8?B?aFd3K2hVdXhJUmp3VHkwSXVydnpKYnBtNTVZaVFHQmI3cWd0NlA0Q0U0MFFF?=
- =?utf-8?B?ZnFLTk9kTXRHN0F6N2p1RDBHMFluVzJvc1E0c0tWU3IrT1JBcCtucm1Yb1N4?=
- =?utf-8?B?cSszWEd1dUsxZG9VZWRLSy9sVmk5L3ZGS0Z1SzZ2c0FXUjIwK25IL3N0dTZ5?=
- =?utf-8?B?SDlXaTVkNDFocUYvZVA2K0V5NGQ1T2Y3WkxVQVFGSzlXYTZpSi9HTjlaQngx?=
- =?utf-8?B?TWwxMTFSTUQ4Wm9NSU9NZ3hvc2hjOEpXQm9aOUY4RUVsSTQwZGtEV3AxdVJK?=
- =?utf-8?B?MENBUXFXa3JsQWF4UC9KcFlMVlBZSzBqWDBKMkxBZ25lTTFRMXF2UGN1clFG?=
- =?utf-8?B?c0JjTC9vTTJzeUJPTUxnRld0TlFaK0xLSm04Vkp5MzVYdlFlL2wvZkwxYlcw?=
- =?utf-8?B?c1BCZ256ZjRWdjBBbk0wSzBJV2hha0ljWko1WTBkcnJnUFVxaVhucFg2b1Iy?=
- =?utf-8?B?ZTd5WUlqUzRST3lHSS9sbWcwSEFVZFBoeWZuZXVRL2hHZ0VvbFNoV0lrbEs3?=
- =?utf-8?B?TG4xWEZmMzFGZmsvKzcxNWttRjBTQ2g0ZFpJTXBlVUV4eWtEb3dBWWFzbjVI?=
- =?utf-8?B?OXVaSDVvVnBNVDhrTWdjclVjblhiTHVOUWxKSFNNd0xPNFhoSkx3UXdRSFpz?=
- =?utf-8?B?Um5pZ3hUK2hJU1hCeHBhaFNjVVgreStEMlc4Q0szelo0U1V3djlkSlNuck13?=
- =?utf-8?B?K0d5RUxEL3h3OGNNcS9MM29NVFMzWUpDTXZUQzJ2OGZJRzFuS1dzS21wdjc5?=
- =?utf-8?B?aU9aL2k1N3lldDhPT3Rmcm11cjNUZ0p1V3NsMFk2eEZyM0REelJCWkJWaTdL?=
- =?utf-8?B?a04wME1DenhlekI2NjQzN2RoQmpJQzdqZXAvVGNSNzRkZnpKZGVmN0Rxd01u?=
- =?utf-8?B?WXhhMTEzVXF0M2N0UDMxWGg4Rm5rOXRPQno5VWxsYm9LZ2t6SHRCNmdvTlJs?=
- =?utf-8?B?S3RiUTZRSDNxNlM2UUdIbkRkdnZsYWQzekhHWG9XZ1RMay9QcEtrNWlNcXZS?=
- =?utf-8?B?eGtha0E3YU5XR1NUbVdNZ3dGQTh0S2NZUjVBVmR1U3l3dG1ZWHdaclFrc25m?=
- =?utf-8?B?WDFyUFZOc3lvR0hrNVFQRUhzbHRsMno4RHA1U0h5RUZJRlI4U3lJRDFJYkc1?=
- =?utf-8?B?Tlk2YS9yb3l0dmpkOUJFZUJrQmNpUGVqRU5GdFVjbmVCNHJ6YW5NWGwxbHFW?=
- =?utf-8?B?b0laUWc5U3hKQmxwVGJqenNrSGxVRy9pdDd0RVR5ZFdZejRpQ1FPWGtrRFVh?=
- =?utf-8?B?TmF3RVZTZEM3MGlMSDJDQT09?=
+ ARA:13230040|1800799024|366016|52116014|376014|7416014|921020|38350700014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bbRxZeJRCZLn6Fvwf9PXGh92+3ZXGEDLu12mAD2/vyAa+p9G77qWMTl9oyRs?=
+ =?us-ascii?Q?bpnIAQfT+Nnm35CvLQTtSBfqQM9AuaHCsDxyWda6rfw+BTyr9RvHfVSIJ3fs?=
+ =?us-ascii?Q?iRK94KIUjjkUsef2/cTgnH+OuV6pexwebwHSlLAAloU7yFgcZfXakLP11RJG?=
+ =?us-ascii?Q?Lf71laRn3OzvQ9J609N06d0HUcguwG2CZ6RnlukHbNP0giWfj827d4WQCv+c?=
+ =?us-ascii?Q?XrMDNKIqTr6MK7wsCA4ffrMrb24Io5wTRptOVodbdTtuTfA32h2qJVNQGkrA?=
+ =?us-ascii?Q?//TGCgXypORN8dDWOyg6z9/UzM6L4a+2p5j2UxHGXDlquOJoanrt3h0Jdm1P?=
+ =?us-ascii?Q?Agv9Ec/qa01ATiN4H/lODRh2V7ojkaSqijfMVQFEmSMS4X41rLgQCZvfjO0m?=
+ =?us-ascii?Q?1zddf9UXCqiT/ZlqQNTMQNCVhBGs2GE2SzvBbjPbTuDipAE1UQR3EFTrw4OW?=
+ =?us-ascii?Q?YZew0D+8W4/BxmUQAQjmlu80JxZUlWopBvs6+bw/MluQ3I+AB3Ohxv/EEOUp?=
+ =?us-ascii?Q?LPVWFTspHkGbwpYkkZ3qeTVT62Uhaxdy2nUONf3giUgze2zpukdADZI0t4K3?=
+ =?us-ascii?Q?fh/b9tRyQRydmw4PCSjIXvJ4Efch+3Mv8pDImoqDVDKGpReS1xlNbsfssEyt?=
+ =?us-ascii?Q?tWANRKtpWC3KC5YjlRrvTWZ/fzbbxMQby1em4kbeys54kN5hAFI2MQ+feKVB?=
+ =?us-ascii?Q?Ar/4/oDXhkUVWYpt0ZAGSCBZgtVYt0jW4xa6iGl5d9ANTJ4OQlkJFGfXDLcQ?=
+ =?us-ascii?Q?/x97tv+7Pa+AmGiF3dfcG5aeWkJ4GJj17I5wd/u6t/WxcInVypBcrMHGxz8P?=
+ =?us-ascii?Q?rbF50gvfZTA9L1dqwwdwpblcEip+51XcWAjpMTjKyyZ+ozGngyngz/lJLNvp?=
+ =?us-ascii?Q?o3rogafTuTIIjzPHqxe8WdtQcMjm1UZrO8gjzTO9SCkRiA0ncv4FUGBv6aFV?=
+ =?us-ascii?Q?YH5TIxT+HnpAVxH9603WZawxH/FBS0vMlGODYUZIfXxQOkU6cVW34YlcQ53b?=
+ =?us-ascii?Q?qKTZvYxFluDoSUUoRlJa/6lOySEaxFPdlpidjjIgozvG+8Y8ZAfH4T3iNxVn?=
+ =?us-ascii?Q?wlWCN40HuVGhPWEocuFKKYdkHWyREJdpPc5ucp5RIKvxbGSKebHx3e9Zsjz3?=
+ =?us-ascii?Q?Jre3XVGz4mtD3W/EOVyTrze4BPHexFPPmgOwm1Usz42FOI74PwZk9uqbitrF?=
+ =?us-ascii?Q?JyhOPPaGM8RfMkCJhRlNmyqCFeI4wzkJB+GcYYScPRq4xug08VSMkCAD1EFb?=
+ =?us-ascii?Q?vsW+Bk61WcFb1lb/YomFXy1cPsso3uBj3sxAXIgdIr53ISMJ9HLl2cz+pwKK?=
+ =?us-ascii?Q?MTTgvtM1Fh3eAWuD6iNuFL59OpKy5RkXEX42NgYrtzJDPkN215lMjJrPyzA9?=
+ =?us-ascii?Q?Pep+6ZvTsaHll12jAte0XjK29jfe00CNwsUlteqD3DSlrTVxb61KZTh+jOZ0?=
+ =?us-ascii?Q?R/0RWqwVsvA=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR10MB6886.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BY5PR04MB6739.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(52116014)(376014)(7416014)(921020)(38350700014);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KytiNjZMVkt2VytweDVsWnRUTmNVd09hZ1E5dDZlNzZIM3FZTmlkY1dIS3Fm?=
- =?utf-8?B?dnd2dDkzOE9HZzg2anFjNDNlRjFCc2p6dXZZZWdzWTd1c1UybGc2NTI2MndD?=
- =?utf-8?B?TDBaS2JBZnk2T2FmenhRSXdZaW5zUnFwd004NlhqcTlBRldiRTF1RkVZTjI3?=
- =?utf-8?B?R2JDN2NYNWF4SmdMZTFWa0pBNlkwc1BCNE5qSlF6d09Sd0pUT296V28vbHhn?=
- =?utf-8?B?bzdwYVdJanJPUTloR3o5cFNPak5BNXpTdFdBazdLZGJLaEZHTVdSOUdzSFpj?=
- =?utf-8?B?bFB0YnhPZkg4V2ZocFZNQ0pxclpUNkZXN1V0M0I3Mk5IR1o5QVRCbzdmK2k0?=
- =?utf-8?B?V0xPTGlURXhVN3JQSzhyL1lmTGpOTzcvNnd6VG9rcTA4d2NoNEFCOWV5V2JP?=
- =?utf-8?B?WVlWRFp5UzlxWXYxVld5M3dUMWRKYkp3ZlF5Umt6MmNnL0JGc1BpTi9rVWNv?=
- =?utf-8?B?NjU3VWxHSnRNOVpHbkgxQmNQZ2dmRzFybmFhMmkvVlBsdUc1YUNuTm5SQkZH?=
- =?utf-8?B?MFRvYU1nZ3ZTR0R6YUF5UDlvcjMyeGFlZ3UzZDdEL0tXQi9vam0zeE9tWTMr?=
- =?utf-8?B?TUtUMEVXUkhRU3V3dGtTMGk4UU53dGJ3Qi9CRCt1RGJ5azRmUStldVgzMnIv?=
- =?utf-8?B?emhYU3pRYlByKzlJVjNKck5HSHNKMXNVZVdnOFFTT2g1K2Y5eVBNM2Y0dkNX?=
- =?utf-8?B?SXgrKytPdnBjN0xnSkxwdkhDU0RUS3ZQMkt1RUZ1MkJKR1NJRVNOZ2JkOEU0?=
- =?utf-8?B?aUxTaWxLUVpBQVIxKzJyOGlBS3ROb3hZSWZJeEgyVk1wOU1iS0tJWmlxcU1v?=
- =?utf-8?B?NVR4SmxIMzZBUk1QM2syMjQ1ZFhRNWQrTkNLUDJnREF0OWZnM0RtN0xrY2ZJ?=
- =?utf-8?B?ZWtvV1dRL01hMmlTMWFCMGtPU2xWOFpmQkc0cHF3QkIxQWdWWm9uVjByUVNR?=
- =?utf-8?B?VDhwRVRHZjZoYWh3M0cxV1BPcFJDK3hJQ1ptRFBqSVZLY2VvVHBIaStnRUxU?=
- =?utf-8?B?SWw3UTQ2a3ovemxtZWIwTW5wNHZVdUZoUTJobFN4V3lyK3JGQnVLSmFwYmpQ?=
- =?utf-8?B?YTl4b3hyS09xSU0rZkM0aWJsZ2pKa2czTmNWVTZhNXN6Y09Qblo0K1U5bzVN?=
- =?utf-8?B?eStrbzBMMGpNZkJjc3lVeG5LbFRLRzJlbm45L3dTMjR5RWdDMG5kekVEWExm?=
- =?utf-8?B?cnkwNStsS05VaU14RElZcks2KzFwRHBuNGc5SzZqSnZJYkpybkd5Vnc0a3Aw?=
- =?utf-8?B?L0IxRWcySEFmOTZzdUZzc1FDTXJzd0hNcEZ4Mkc5MkY0QWZqSTBsKy91V1k0?=
- =?utf-8?B?NC8zZlAzVkpyVkdQYnhlV09uVXBuS0c5bDNUZk9XZytnMjFWOGZJNDJrOGVB?=
- =?utf-8?B?cjRFcDhSMlllWGFHM1BFSXpIZU5OVVFLSzh6YmpGdWprM0crbktoOWV1NmZa?=
- =?utf-8?B?S3p0QXVQNkYyYnI2UlpucFFQL25vS042ay9qN01JNlNzRUpQQTB5dVEyOHds?=
- =?utf-8?B?K05Jc2FsTVh1dzkrelNCcFhOQWJURlJyTEhMVE5BNG9tWG1CYktvMU1MSDZa?=
- =?utf-8?B?cWJGSzI3KzVhQndVZC9lREJreHRXdFpNWElFendPZ05hM0JOWVVRWVNldkdo?=
- =?utf-8?B?aVd3QkdlcndWVGVuRHhnWE5KL3JabEFvQldjZWFsL1RZcGFYeURqbUlCUU9R?=
- =?utf-8?B?VkgrUjFUczlMRWZwOTlpSElRTlM5bW9SeU9hcitnUGtlQ0RPZDJCMTU2bzBz?=
- =?utf-8?B?eVZQN2xOSEk1dlFBUkhuNGNjbUNMZW9KNC9mZjVJR3JMc3poWHVTZjFzbmVq?=
- =?utf-8?B?UnN5cCtPckdLL2czTUJhTnVJODg2STgyeExidkh5eVBqQkNhdzJCMmpyNkNT?=
- =?utf-8?B?QUVFejBnZVBwckJaT3lKN1hOcXB0Q2d2S0REaThHTzVjTm5oWEVPVFRHUTMx?=
- =?utf-8?B?YlcveFFBZkEzSWdHcjhrT3BBbFdIVmZKUTJkR0RGMjlJUlQvNHBwc0lXdEZO?=
- =?utf-8?B?bzA2cmRCR0RGQWIyTFdTWGtIV3ZmT2d1bm51WTA4Y3JWRnpGeVp1eCtCdTg0?=
- =?utf-8?B?ZXJNbzV1SHZVdkNOaFFSTUJVT2hic09YYUNqMFRUd0JVamZFTWNhWlFKWDRP?=
- =?utf-8?B?K3o4ZUIyb0xYVHRJYzNRSWU2elhKd0VqdnNxRnp5TVdFbXhMbWdjWVdmTWda?=
- =?utf-8?Q?usmRXv2QG6Enj0lrZz0yqhA=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: k0OzxaazbJxKONJsGmnfpebikZwqE+ps+E4SjAItwCGZKExpwF34Hvt0sIUO0j377AIWerMuNYoLSK3wrVx7O/t+HJISGe4e4AquDB8TT7ZQEM99jDYV41oLoGnHm+M983a9aVlTCIEkOb7PrwYD/Y64xX97c0yrFradBJld/19Aco7sfDqoNg85vjkypVHby9Mx0sxwmG0uxKhO+xOdZ6PUQ9pvLMh7RS8DaofCwpwLS3yG1hlxyVAoMs/DuNFWN75h1k9hn1xKCqS0LE1GsvV7wKwaUkjTwYzlV5c8BlAyt8GEBW41vDnvkqsHR/j+jOojpSsv9ZAOMNL80adIU0yMEwZkmj3g/mY7TV2qURq4j4g3KKqWASf1wyUN6U9UWdiCLHbb81LI5b98K5m8oyjQZDIJFETy0vQlqLzEgL1SIuKNnag/pSWOIPgvTrPCJB0TB3daugpswj5XVFZYUP7HWk9Jok7QAjWQVfdXxcV9G6W5C2y/lKf/dIPN6ClHd/MeXS5L/rP+Wo5lOkQwr5A9YeDycvnTcLZJijzEEtnddSvhDqtyUzjFXYBxti//tKaL8nKDkQ/hcwY2co1HnjKWj+31KzGiaeIXMIbD8H8=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99bd4ab4-625e-41f1-a813-08dd1818a10a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB6886.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H2qehK2rKLZwQpP9I/13+p6nei8lp7YO7zYitTNFZNXwGU9VZhTt4BspyUOX?=
+ =?us-ascii?Q?ObURLF4XuKRXiALNW5ti13JIU/pUYqBir3RwJK4GJiWOfV4FhYVPcRaPjceT?=
+ =?us-ascii?Q?q0TPqU74E2+y/GGKE7dRjduIMoQQd+P9jefBOOgloeBKLLqpF/SbyBTV+5i0?=
+ =?us-ascii?Q?1H5w7KHfBfW/Q5YqJkqnTDqFU/dCHEs0Q+cI7GT6Hdpj6kmYIT9WT+uMW6lJ?=
+ =?us-ascii?Q?0nyiJ0pmoX4lIOwpF+rCPQveJQQmG0aoLIN7mP5iL24Zmr+3jY4XGT92R4Fy?=
+ =?us-ascii?Q?evat8ApVhmhxYbllwTnI6nTMTQgFSaaND9ChHgZCtVonzz+Mh8ladp1uBSKJ?=
+ =?us-ascii?Q?zNTqJlWilQl8gYBPhb4OIfcQ3KVX/cRYN/6/5T3mFsHbva8W7yDqHPuDna6t?=
+ =?us-ascii?Q?LUk+Nx4nby4rdFcV9HItDgFadIknhe2cveGkiex3BVCnlRSe0L56jKQy9buo?=
+ =?us-ascii?Q?Ufn9WlzW4jHIyDdsKEbpZt19GEj9IbtKTVfvXoNRfmRFIiGsTbEZQ+0+Ez3n?=
+ =?us-ascii?Q?4DzCORFiu8SfeurZxbDXxYgFmdDkkBrCnlpgRQGVucLn7Eevk2E1TD8sKPVa?=
+ =?us-ascii?Q?+1XQhFqFEWOsU0n+Wj+Sc8lVsJxCHi5x3y66GQFDoSzv9HcnYOZAWyqSkpo6?=
+ =?us-ascii?Q?lDPzf0wg4spbMKjS+NOvU7vvzHZ2/bDbMyqD+v/ntJ6l6YS8LdJwO0Lhw3rv?=
+ =?us-ascii?Q?1lyyTOuP55buqpXnLttQlLdo1wWQZZBYCtDJ+mjl1tg6zBzVKjP5Z1MpnYuJ?=
+ =?us-ascii?Q?7/5boEL8+W9LstVz02clWrfjBOM7+MMEvhLGn30wcb48sUWsdissVD/514eU?=
+ =?us-ascii?Q?DAjVQGtxpIIeXgNCXJE8h43jA0G/rzHTEDzZxoecZ5KXxW8UQsNFZyjVipp7?=
+ =?us-ascii?Q?qIfMhnDQbFjNhPLb7adxvd0C9KGxrXwlx3f+q+wpUWfKAKuHWjiZB7MPc3hD?=
+ =?us-ascii?Q?NPr0yIei2ZzwKG91mbPQj+91Xu0ySIeYzUMbNqgsGN78ywl3udM9RY3N4OCf?=
+ =?us-ascii?Q?wp8kP1LWsTpNMyvcsZ3xeKRvJ6Pces8KX+Ggl/3deHXkMmeVJMbtz/VdaU9x?=
+ =?us-ascii?Q?vBo2uvQa1TNe6U0HheBkxJ163FQth/GeO1jGs9dS1LIO+Yb2j9b+6hc7ktEW?=
+ =?us-ascii?Q?YBLjJoPAe7NJeMCicUulFNPE9HlrVTOuzmcvLCSzYDNzDESfPsAS+GrN6+Ke?=
+ =?us-ascii?Q?ax6gysxvuqK+R3X8ZOoJvwPRGimRti8BVNpe/43Hv45d1uyIM53WNE5qNcre?=
+ =?us-ascii?Q?Hxthzv+9knGIXDQ578fxehiCkhHBgi2RAjzmrMyNOHuvkZ36YGJvgh+kV38Q?=
+ =?us-ascii?Q?deJwc+7H6dKHUHHTxXFBpVWl1ZlWuE20y5r/gQNC3q4bykGI187hXg7N0EFg?=
+ =?us-ascii?Q?YdBWFRqmKHCzozeBMknpwJthNjATEqE3bcDUPnxupLlCFeO6MBmtaQr23fEz?=
+ =?us-ascii?Q?nE/dfm28DMWTyAXSeH4WAmY1Nfg0t4NBF1Jta1mliyQ7cET65JQpfr7S7Oor?=
+ =?us-ascii?Q?ATmQ5Pet3qTB8UPdST2f3bI7LYFW27rA8APbCgJVz8TZ9c/93NOjISduXSym?=
+ =?us-ascii?Q?OiP3pznKfd2JLff3I+DlL1qmRpeWWbD6JTvgjd20?=
+X-OriginatorOrg: analogixsemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4929b163-2e90-4420-3d5f-08dd181d6b15
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR04MB6739.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 06:13:41.9819 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 06:47:58.7319 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: b099b0b4-f26c-4cf5-9a0f-d5be9acab205
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2P2nzc4b2DhqQu2N0fDkUAy+31ms0nBmJI3fESmkv8G54VK1d2eWb10F6irRe6RrmWTxkHZ8F4p9LOLwot88OKD4p8FVMWQDFKQ1icFMJ3Id4kalLWkNXIWWx87o4/N3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5677
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-09_02,2024-12-09_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 adultscore=0
- malwarescore=0 mlxlogscore=999 bulkscore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
- definitions=main-2412090050
-X-Proofpoint-GUID: N7L1bf2A2ONT2X_wpJWBkzZnxKTqQKpu
-X-Proofpoint-ORIG-GUID: N7L1bf2A2ONT2X_wpJWBkzZnxKTqQKpu
+X-MS-Exchange-CrossTenant-UserPrincipalName: eQUFq+TCsunUYX3agCDFvpPjMMhBxaDNwIgDBdxkyuhl2gj1FbYPNbGyWBAMDTD659KAtPelE6Hj6vtbTXuc4w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7360
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -208,100 +154,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jianqi,
+When user enabled HDCP feature, upper layer will set HDCP content
+to DRM_MODE_CONTENT_PROTECTION_DESIRED. Next, anx7625 will update
+HDCP content to DRM_MODE_CONTENT_PROTECTION_ENABLED if down stream
+support HDCP feature.
 
-On 09/12/24 12:06, jianqi.ren.cn@windriver.com wrote:
-> From: Wayne Lin <wayne.lin@amd.com>
-> 
-> [ Upstream commit fcf6a49d79923a234844b8efe830a61f3f0584e4 ]
-> 
-> [Why]
-> When unplug one of monitors connected after mst hub, encounter null pointer dereference.
-> 
-> It's due to dc_sink get released immediately in early_unregister() or detect_ctx(). When
-> commit new state which directly referring to info stored in dc_sink will cause null pointer
-> dereference.
-> 
-> [how]
-> Remove redundant checking condition. Relevant condition should already be covered by checking
-> if dsc_aux is null or not. Also reset dsc_aux to NULL when the connector is disconnected.
-> 
-> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-> Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-> Signed-off-by: Wayne Lin <wayne.lin@amd.com>
-> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
-> ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 1acef5f3838f..a1619f4569cf 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -183,6 +183,8 @@ amdgpu_dm_mst_connector_early_unregister(struct drm_connector *connector)
->   		dc_sink_release(dc_sink);
->   		aconnector->dc_sink = NULL;
->   		aconnector->edid = NULL;
-> +		aconnector->dsc_aux = NULL;
-> +		port->passthrough_aux = NULL;
->   	}
->   
->   	aconnector->mst_status = MST_STATUS_DEFAULT;
-> @@ -487,6 +489,8 @@ dm_dp_mst_detect(struct drm_connector *connector,
->   		dc_sink_release(aconnector->dc_sink);
->   		aconnector->dc_sink = NULL;
->   		aconnector->edid = NULL;
-> +		aconnector->dsc_aux = NULL;
-> +		port->passthrough_aux = NULL;
->   
->   		amdgpu_dm_set_mst_status(&aconnector->mst_status,
->   			MST_REMOTE_EDID | MST_ALLOCATE_NEW_PAYLOAD | MST_CLEAR_ALLOCATED_PAYLOAD,
+However once HDCP content turn to  DRM_MODE_CONTENT_PROTECTION_ENABLED
+upper layer will not update the HDCP content to
+DRM_MODE_CONTENT_PROTECTION_UNDESIRED until monitor disconnect.
 
-This backport doesn't look right to me, can you please clarify these.
+So when user dynamic change the display resolution, anx7625 driver must
+call drm_hdcp_update_content_protection() to update HDCP content to
+DRM_MODE_CONTENT_PROTECTION_UNDESIRED in bridge interface
+.atomic_disable().
 
-1.  I think it is worth documenting in commit message just before your 
-SOB on why you don't need this hunk:
+Signed-off-by: Xin Ji <xji@analogixsemi.com>
+---
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 25 ++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-                         MST_REMOTE_EDID | MST_ALLOCATE_NEW_PAYLOAD | 
-MST_CLEAR_ALLOCATED_PAYLOAD,
-@@ -1238,14 +1242,6 @@ static bool is_dsc_need_re_compute(
-                 if (!aconnector || !aconnector->dsc_aux)
-                         continue;
-
--               /*
--                *      check if cached virtual MST DSC caps are 
-available and DSC is supported
--                *      as per specifications in their Virtual DPCD 
-registers.
--               */
--               if 
-(!(aconnector->dc_sink->dsc_caps.dsc_dec_caps.is_dsc_supported ||
-- 
-aconnector->dc_link->dpcd_caps.dsc_caps.dsc_basic_caps.fields.dsc_support.DSC_PASSTHROUGH_SUPPORT))
--                       continue;
--
-                 stream_on_link[new_stream_on_link_num] = aconnector;
-                 new_stream_on_link_num++;
-
-
-which is part of upstream, I understand that this is not in 6.1.y code, 
-if so is it even affected ?
-
-2. Also commit message says:
-
-""
-Remove redundant checking condition. Relevant condition should already 
-be covered by checking if dsc_aux is null or not. Also reset dsc_aux to 
-NULL when the connector is disconnected.
-""
-
-but the if(!aconnector->dsc_aux) is not in 6.1.y, so something is 
-missing. Maybe 6.1.y is not affected or we need more backports to 6.1.y 
-to make them clean cherry-picks ?
-
-Thanks,
-Harshit
-
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index a2675b121fe4..a75f519ddcb8 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -861,6 +861,22 @@ static int anx7625_hdcp_disable(struct anx7625_data *ctx)
+ 				 TX_HDCP_CTRL0, ~HARD_AUTH_EN & 0xFF);
+ }
+ 
++static void anx7625_hdcp_disable_and_update_cp(struct anx7625_data *ctx)
++{
++	struct device *dev = ctx->dev;
++
++	if (!ctx->connector)
++		return;
++
++	anx7625_hdcp_disable(ctx);
++
++	ctx->hdcp_cp = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
++	drm_hdcp_update_content_protection(ctx->connector,
++					   ctx->hdcp_cp);
++
++	dev_dbg(dev, "update CP to UNDESIRE\n");
++}
++
+ static int anx7625_hdcp_enable(struct anx7625_data *ctx)
+ {
+ 	u8 bcap;
+@@ -2165,11 +2181,8 @@ static int anx7625_connector_atomic_check(struct anx7625_data *ctx,
+ 			dev_err(dev, "current CP is not ENABLED\n");
+ 			return -EINVAL;
+ 		}
+-		anx7625_hdcp_disable(ctx);
+-		ctx->hdcp_cp = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+-		drm_hdcp_update_content_protection(ctx->connector,
+-						   ctx->hdcp_cp);
+-		dev_dbg(dev, "update CP to UNDESIRE\n");
++
++		anx7625_hdcp_disable_and_update_cp(ctx);
+ 	}
+ 
+ 	if (cp == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+@@ -2449,6 +2462,8 @@ static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
+ 
+ 	dev_dbg(dev, "drm atomic disable\n");
+ 
++	anx7625_hdcp_disable_and_update_cp(ctx);
++
+ 	ctx->connector = NULL;
+ 	anx7625_dp_stop(ctx);
+ 
+-- 
+2.25.1
 
