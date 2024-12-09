@@ -2,78 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224EE9E9FE5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 20:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023EB9EA00F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 21:07:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77A0510E525;
-	Mon,  9 Dec 2024 19:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E80D410E534;
+	Mon,  9 Dec 2024 20:07:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y+FVbG0D";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CQdVpgKr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
- [209.85.166.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5B310E525;
- Mon,  9 Dec 2024 19:55:03 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id
- ca18e2360f4ac-84192e4788dso158859039f.2; 
- Mon, 09 Dec 2024 11:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733774102; x=1734378902; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IFjXl1XiaruT75EaeRKmg8rjvdRqedIGSRaEJR+tE8Q=;
- b=Y+FVbG0DkmzE9kwUSC1KfqSy9gxLJ8h2Rql6OQA7Bnz5n7a2Rz42GlAMoDlg7Fybtl
- iP2RTFmlCe/lUfujw5HI7ieNzEg1UMQgwsFMy4K+4PjvKa8AexM1IVHRV0ABYSayvBU5
- hmfgAjcZ9/HLDVJTCBv1cmHJKT04xD73X03unMned3y9b8kYtOPFMFPS/Ph/i3Gcvxta
- YZT8u/jQ3+IUxC5dxe0JDUqjEWpRd6HkQvRflt5dRqC2lH6m2V44qL4kGA8GeBw0f3jL
- J5GsU2UTCMb81iOar7ajtdy9N10ibtOeYElgxmxrmti1mYOgaBAQLVU3fcGelvFuVYje
- momA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733774102; x=1734378902;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IFjXl1XiaruT75EaeRKmg8rjvdRqedIGSRaEJR+tE8Q=;
- b=qBLWOy+r1/L/m3YKCYRioX5QHJ+K5PPisr5RMYVYQjliIKzRn7wiyw0EySG11B6eax
- qGpxoYjX5iq2HQ/dXht74sXRBBPkMHTNScixaDfOLu8lyeHeosrqv6vGZEXXsaoXRjYE
- V8njYcrVJcf+2RTRBy/TIOiYZeRmcEygMQPxbaZmGO3Nrrs0obF0WNoVRTr2c37weQV/
- qDOPbyv9VOudkFWdh2MgjUKF3nRLi6F751+cSkj0xgSBiFiNL3G+qsqwRUcn6BR874oZ
- jfnc83eWagrVelynl+kx3vUflpc/IG+dJKZmyseKBl83FZnWPrBN/x7iVYlaDlq11Bp8
- +HBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3orQSySgt8PYvqkzrt2Cvf6KWl4wmmb7e0Udnm0ytZUkRVK4cptTeoVqNvGx87GYnhxlCka+if6U=@lists.freedesktop.org,
- AJvYcCXC5lms+4mx527BvVXHofNQ7Kbu5YKhPspgA/9rXMymU49rRq6W7Rp2TeF0xCarlcvXhCj2qS95DmDe@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylszgUl1aQxH0ghNPOphWzzOHJ5R924Qw9zbOShkur7n/BuuEy
- dlOdkuasMAuyDTbhoUeyYijYg51IupKngxVffj26HqNm3bN9dhpddbz1SPNKf4xlkoaulnafxsk
- 7nRL6c1bW3UXvPXbiLlLNqjhqVWg=
-X-Gm-Gg: ASbGncswouUzoz9XZpmDVyxkhAGEJ8BqxMyqFO4I+Z34xLJUKdAXeTlbCpP8b+XIeta
- 9au2VcRpNlNOmllohDipSWAz3JK+32lgazAldIBGqB4djnw1kDuenFpFIAXnlZg==
-X-Google-Smtp-Source: AGHT+IF7/HFOaU7S7x2Uzem9wGp/+d/CGemDqVj17q17h9PETabVi9yFbXlT1iEBPQSdt5F4c+sIpjJZM+ndKUOMHVQ=
-X-Received: by 2002:a05:6e02:12ec:b0:3a7:d84c:f2a0 with SMTP id
- e9e14a558f8ab-3a9dbabfdb8mr16291535ab.7.1733774102376; Mon, 09 Dec 2024
- 11:55:02 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1D9410E0D2;
+ Mon,  9 Dec 2024 20:07:35 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9Glrlu027354;
+ Mon, 9 Dec 2024 20:07:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ fzQmFeVYCaS8lgQUAEQvHPV0BQLNqOHfmCuqpkodPfY=; b=CQdVpgKrXVdA9bzS
+ Z2304VHAVUeZDzNA8zPqX0lGMtPO1gV2ooq2Svnf10eupkY7OYGOdXLFQ2ifXw3A
+ djh2ufW5uh3SCNkwcXVUpGI6kZbFQ0oOUu59TnICQjftEKRPVbSNDXn8ODkkVBdl
+ /HzUdZPzHxLkao7SzZwWHAIiBwffnPhrKZPN/nfcFJLLAgnIRVLvmXno2mRQFSZ+
+ dahrMar15sGsGAHKLaxFP13Uh3jE4wOImuKAdtbDfyqiYNUxasRdVdLoh6WCa9a1
+ 4+7A0BE6Ne0NE4gJK8zOxNBtEIPZ2EDo3RYCXvU6zwNRJPDbItBtPndTvlioDy+P
+ CVpmIg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ceetp7yc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Dec 2024 20:07:33 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B9K7W2i031958
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 9 Dec 2024 20:07:32 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Dec 2024
+ 12:07:29 -0800
+Message-ID: <b784049f-a72c-47ff-a618-e7c85c132d28@quicinc.com>
+Date: Mon, 9 Dec 2024 12:07:28 -0800
 MIME-Version: 1.0
-References: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
-In-Reply-To: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Mon, 9 Dec 2024 11:54:50 -0800
-Message-ID: <CAF6AEGtKfWOGpd1gMfJ96BjCqwERZzBVmj5GzmjKxw8_vmSrJg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/a6xx: Skip gpu secure fw load in EL2 mode
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Elliot Berman <quic_eberman@quicinc.com>, 
- Pavan Kondeti <quic_pkondeti@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm/dpu: filter out too wide modes if no 3dmux is
+ present
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20241206-no_3dmux-v1-1-72ad2677a323@quicinc.com>
+ <zae7rlojv5iiq2dx7bxhdsmmzj73o65cwk7kmryxsst36gy2of@k3vcm6omcias>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <zae7rlojv5iiq2dx7bxhdsmmzj73o65cwk7kmryxsst36gy2of@k3vcm6omcias>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: RohcquaB-qGyBMHrlSThfVuIjiJj97GH
+X-Proofpoint-ORIG-GUID: RohcquaB-qGyBMHrlSThfVuIjiJj97GH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 clxscore=1015 impostorscore=0 mlxlogscore=756
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090156
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,174 +94,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 9, 2024 at 12:20=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
->
-> When kernel is booted in EL2, SECVID registers are accessible to the
-> KMD. So we can use that to switch GPU's secure mode to avoid dependency
-> on Zap firmware. Also, we can't load a secure firmware without a
-> hypervisor that supports it.
 
-Shouldn't we do this based on whether zap node is in dtb (and not disabled)=
-?
 
-slbounce applies some dtb overlays to disable the zap node when
-booting in EL2 (and make some other changes due to kernel being in
-control of the pci smmuv3, or something along those lines).
+On 12/7/2024 9:29 PM, Dmitry Baryshkov wrote:
+> On Fri, Dec 06, 2024 at 12:00:53PM -0800, Abhinav Kumar wrote:
+>> On chipsets such as QCS615, there is no 3dmux present. In such
+>> a case, a layer exceeding the max_mixer_width cannot be split,
+>> hence cannot be supported.
+>>
+>> Filter out the modes which exceed the max_mixer_width when there
+>> is no 3dmux present. Also, add a check in the dpu_crtc_atomic_check()
+>> to return failure for such modes.
+>>
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> ---
+>> Note: this was only compile tested, so its pending validation on QCS615
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> index 9f6ffd344693ecfb633095772a31ada5613345dc..e6e5540aae83be7c20d8ae29115b8fdd42056e55 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> @@ -732,6 +732,13 @@ static int _dpu_crtc_check_and_setup_lm_bounds(struct drm_crtc *crtc,
+>>   	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+>>   	int i;
+>>   
+>> +	/* if we cannot merge 2 LMs (no 3d mux) better to fail earlier
+>> +	 * before even checking the width after the split
+>> +	 */
+>> +	if (!dpu_kms->catalog->caps->has_3d_merge
+>> +	    && adj_mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+>> +		return -E2BIG;
+> 
+> Is it the same as checking that there are LMs which support
+> DPU_MIXER_SOURCESPLIT ?
+> 
 
-BR,
--R
+DPU_MIXER_SOURCESPLIT tells whether we can have more than one SSPP in 
+the same blend stage.
 
->
-> Tested following configurations on sa8775p chipset (Adreno 663 gpu):
->
-> 1. Gunyah (No KVM) - Loads zap shader based on DT
-> 2. KVM in VHE - Skips zap shader load and programs SECVID register
-> 3. KVM in nVHE - Loads zap shader based on DT
-> 4. Kernel in EL2 with CONFIG_KVM=3Dn - Skips zap shader load and
->         programs SECVID register
->
-> For (1) and (3) configuration, this patch doesn't have any impact.
-> Driver loads secure firmware based on other existing hints.
->
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 82 +++++++++++++++++++++++------=
-------
->  1 file changed, 54 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 019610341df1..9dcaa8472430 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -14,6 +14,10 @@
->  #include <linux/pm_domain.h>
->  #include <linux/soc/qcom/llcc-qcom.h>
->
-> +#ifdef CONFIG_ARM64
-> +#include <asm/virt.h>
-> +#endif
-> +
->  #define GPU_PAS_ID 13
->
->  static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
-> @@ -998,6 +1002,54 @@ static int a6xx_zap_shader_init(struct msm_gpu *gpu=
-)
->         return ret;
->  }
->
-> +static int a6xx_switch_secure_mode(struct msm_gpu *gpu)
-> +{
-> +       int ret;
-> +
-> +#ifdef CONFIG_ARM64
-> +       /*
-> +        * We can access SECVID_TRUST_CNTL register when kernel is booted=
- in EL2 mode. So, use it
-> +        * to switch the secure mode to avoid the dependency on zap shade=
-r.
-> +        */
-> +       if (is_kernel_in_hyp_mode())
-> +               goto direct_switch;
-> +#endif
-> +
-> +       /*
-> +        * Try to load a zap shader into the secure world. If successful
-> +        * we can use the CP to switch out of secure mode. If not then we
-> +        * have no resource but to try to switch ourselves out manually. =
-If we
-> +        * guessed wrong then access to the RBBM_SECVID_TRUST_CNTL regist=
-er will
-> +        * be blocked and a permissions violation will soon follow.
-> +        */
-> +       ret =3D a6xx_zap_shader_init(gpu);
-> +       if (ret =3D=3D -ENODEV) {
-> +               /*
-> +                * This device does not use zap shader (but print a warni=
-ng
-> +                * just in case someone got their dt wrong.. hopefully th=
-ey
-> +                * have a debug UART to realize the error of their ways..=
-.
-> +                * if you mess this up you are about to crash horribly)
-> +                */
-> +               dev_warn_once(gpu->dev->dev,
-> +                       "Zap shader not enabled - using SECVID_TRUST_CNTL=
- instead\n");
-> +               goto direct_switch;
-> +       } else if (ret)
-> +               return ret;
-> +
-> +       OUT_PKT7(gpu->rb[0], CP_SET_SECURE_MODE, 1);
-> +       OUT_RING(gpu->rb[0], 0x00000000);
-> +
-> +       a6xx_flush(gpu, gpu->rb[0]);
-> +       if (!a6xx_idle(gpu, gpu->rb[0]))
-> +               return -EINVAL;
-> +
-> +       return 0;
-> +
-> +direct_switch:
-> +       gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
-> +       return 0;
-> +}
-> +
->  #define A6XX_INT_MASK (A6XX_RBBM_INT_0_MASK_CP_AHB_ERROR | \
->                        A6XX_RBBM_INT_0_MASK_RBBM_ATB_ASYNCFIFO_OVERFLOW |=
- \
->                        A6XX_RBBM_INT_0_MASK_CP_HW_ERROR | \
-> @@ -1341,35 +1393,9 @@ static int hw_init(struct msm_gpu *gpu)
->         if (ret)
->                 goto out;
->
-> -       /*
-> -        * Try to load a zap shader into the secure world. If successful
-> -        * we can use the CP to switch out of secure mode. If not then we
-> -        * have no resource but to try to switch ourselves out manually. =
-If we
-> -        * guessed wrong then access to the RBBM_SECVID_TRUST_CNTL regist=
-er will
-> -        * be blocked and a permissions violation will soon follow.
-> -        */
-> -       ret =3D a6xx_zap_shader_init(gpu);
-> -       if (!ret) {
-> -               OUT_PKT7(gpu->rb[0], CP_SET_SECURE_MODE, 1);
-> -               OUT_RING(gpu->rb[0], 0x00000000);
-> -
-> -               a6xx_flush(gpu, gpu->rb[0]);
-> -               if (!a6xx_idle(gpu, gpu->rb[0]))
-> -                       return -EINVAL;
-> -       } else if (ret =3D=3D -ENODEV) {
-> -               /*
-> -                * This device does not use zap shader (but print a warni=
-ng
-> -                * just in case someone got their dt wrong.. hopefully th=
-ey
-> -                * have a debug UART to realize the error of their ways..=
-.
-> -                * if you mess this up you are about to crash horribly)
-> -                */
-> -               dev_warn_once(gpu->dev->dev,
-> -                       "Zap shader not enabled - using SECVID_TRUST_CNTL=
- instead\n");
-> -               gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
-> -               ret =3D 0;
-> -       } else {
-> +       ret =3D a6xx_switch_secure_mode(gpu);
-> +       if (!ret)
->                 return ret;
-> -       }
->
->  out:
->         if (adreno_has_gmu_wrapper(adreno_gpu))
->
-> ---
-> base-commit: f4a867a46862c1743501bbe8c813238456ec8699
-> change-id: 20241120-drm-msm-kvm-support-cd6e6744ced6
->
-> Best regards,
-> --
-> Akhil P Oommen <quic_akhilpo@quicinc.com>
->
+494 	if (test_bit(DPU_MIXER_SOURCESPLIT,
+495 		&ctx->mixer_hw_caps->features))
+496 		pipes_per_stage = PIPES_PER_STAGE;
+497 	else
+498 		pipes_per_stage = 1;
+
+That is different from this one. Here we are checking if we can actually 
+blend two LM outputs using the 3dmux (so its post blend).
+
+>> +
+>>   	for (i = 0; i < cstate->num_mixers; i++) {
+>>   		struct drm_rect *r = &cstate->lm_bounds[i];
+>>   		r->x1 = crtc_split_width * i;
+>> @@ -1251,6 +1258,12 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>>   {
+>>   	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+>>   
+>> +	/* if there is no 3d_mux block we cannot merge LMs so we cannot
+>> +	 * split the large layer into 2 LMs, filter out such modes
+>> +	 */
+>> +	if (!dpu_kms->catalog->caps->has_3d_merge
+>> +	    && mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+>> +		return MODE_BAD;
+> 
+> This can be more specific, like MODE_BAD_HVALUE.
+> 
+
+Yes for sure, will fix this up.
+
+>>   	/*
+>>   	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
+>>   	 */
+>>
+>> ---
+>> base-commit: af2ea8ab7a546b430726183458da0a173d331272
+>> change-id: 20241206-no_3dmux-521a55ea0669
+>>
+>> Best regards,
+>> -- 
+>> Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+> 
