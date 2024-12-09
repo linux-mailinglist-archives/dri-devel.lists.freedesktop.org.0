@@ -2,83 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4D49E99FF
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 16:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E879E9A92
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 16:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D22E310E039;
-	Mon,  9 Dec 2024 15:06:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B15410E24D;
+	Mon,  9 Dec 2024 15:31:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=thaumatec-com.20230601.gappssmtp.com header.i=@thaumatec-com.20230601.gappssmtp.com header.b="DOuOI9xb";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="a0kMMcMk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9DA10E039
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 15:06:23 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-434a2033562so42793065e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 07:06:22 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F98A10E24D
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 15:31:18 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-38634c35129so1661346f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 07:31:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1733756781; x=1734361581;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fBemlKVePg1M8JMVZCDuH/Kc392eD263a2QapCaGV9U=;
- b=DOuOI9xbl7GXArBcIx+eM2MjsWIVrC91MC7Yo6oeWloMQlixKRB3Hs69vDqSVkaOho
- tzgLtLovTmaeYUjUQWzI5oh+sh6ByLwAUy7A4c2MJxMHfhg0b/tlwPoxikechc6XQuzd
- v+bfB75SF9i6KI7PYye7Tm/fi9563Dfsjl5TeA+yNKHUXERX4otDc0V6wtNp8vlaeDM1
- FOcboQMcahdq4AkTdVpiLmx1K0+TGAsPwWeyFzc7u9sm3nE8PaGwFJncm2sC5NlNsAS4
- 89Ko59cAEm4ncvah8pfTS0lLkmjvfW+/HkMF0WY7dbO1bTWCIy9gaWmQUynBH3qOg/Pe
- r3UQ==
+ d=ffwll.ch; s=google; t=1733758276; x=1734363076; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rRrwKagbDkhwxnLFjd7MS7qeMP3V5ZX0pRGxISFGQGY=;
+ b=a0kMMcMkffPHTdwcEfGf2PD+tX9Azky051XxGl36q+4er98frBDiSLzDqBvsrw4w8E
+ e539Fq5VLPT+mKSyRaOdTarPMKu0xnZENcl8E5lYbeDaYyIz9VSxsTZBir/G77mhWQbi
+ 15CxcQ+R/+Q6g9wGILOiz64aBbbZzIwW2ZliY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733756781; x=1734361581;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fBemlKVePg1M8JMVZCDuH/Kc392eD263a2QapCaGV9U=;
- b=RsoeviHotwaSvs6oUy0riMUD3BgASdGXAwuvD3RKWNlvhHOFNw9u6ZbT2h8Tgb8ZAm
- j0PvPpdCxu7lhJRuOCkTfXkjiloR+7/xc9XiIkykfdJW096BBirUfYhkI6E6MAwzDckZ
- ukEv103cyx/6Th0+s0S2uDFjK64Vm5yhwYMlY+70FqdKSmnp4hu/QlpUDjgKPdtOKxy0
- y9r/nm7uRGGyUPKpQp71WIecu0duf+f41GWR/iau0QmeHHXOMOzVIMl41gubxGaAdBpZ
- +W8ys4r7guT9g/vEPD/3sz5Sz5nTmKU126jOtmc9nJiasRtgJoiWKXl2X8GXwHKetGdb
- 2AhQ==
+ d=1e100.net; s=20230601; t=1733758276; x=1734363076;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rRrwKagbDkhwxnLFjd7MS7qeMP3V5ZX0pRGxISFGQGY=;
+ b=tAgnNES3jLmuKfukPPkWmLjnddlyb0c3+oKuuqpCccfdUnw11Jj1r5Y6S0ElMN/DcE
+ jf4172sIZSZ50WgGBlPcK/EJBhXcnlg+BzKXnSgKJp2mS02fF8CSDYf/+nPcBji8B3IN
+ c7+hbQxgBM+cQ6LtVru6xdYP7T7jEkr3J2fV9MIaf+LnUqfbrAvsOU3zvoCucTWdqzFD
+ 1BI0VGysM9dMiNp0QXuuVUqq+K597qeoWPCOTCu+aXRDXyGMVT0eZzwRWuR/7oJiyhyN
+ vlBb/hyUTH7E6F7OODhwz4n/IksiLhSvkVLXqegANFhb3hPPKRfQ8zEVkbEtSiuH9ih5
+ 6lGw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/XvzqWqkAIURugE+ihCkoWawXX1K51fuJ6/za41KcTOKQ0FC9GbCg99GnbywrOxxvI+rHQzm5oUc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwI+F1m5IYdU2f4JAylxGC1Mmngi6o7fxPI0eet/xlndUbqx/KX
- 5s4yBE2ictuFr7pguYT4P8lcxz83LFVs+rqlyeUavMjseVHnLRWjaFBThaixOc4=
-X-Gm-Gg: ASbGncsLlh0dA51s/laUj+G3Vlew5fz4ftBrA9njC0RZtvqDH5gqlCthJVhQIyGl8ZA
- BaM15Kik8sVWPIXj0x+RkJLP5G2zkCc3DdSyYIMLdCiVU5d0csludRmip8a5AIND3yRGGyqDkGb
- 2bPwv4tXULLOEwAg/XmtjmR3LVwbpP1NWQFRHifzZ1JaUWjhQ248blHErLi07u7cckPg4cZVNI2
- Lryxg0lCDQ1uh3DabUBAEwYfHaKDo68kU+GW+22
-X-Google-Smtp-Source: AGHT+IEaMojRUAQLLwed4/ER+OeZapLgzpX/2UyzkziLJwq8W59lZWRdfU3Peh7xaUCEk69zEFgm5A==
-X-Received: by 2002:a05:600c:a09:b0:434:fb65:ebbb with SMTP id
- 5b1f17b1804b1-434fb65ecb9mr25947035e9.17.1733756781170; 
- Mon, 09 Dec 2024 07:06:21 -0800 (PST)
-Received: from fedora.. ([91.90.172.13]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-434d43809fdsm103296665e9.1.2024.12.09.07.06.19
+ AJvYcCWSAfCLV3P5tApkQ8qk0vcmSKwzfQ4izk2onOo6RS2jScwviOvLMx2V4KYQ+Dw0cQZbBEI3NHtYerE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxvryCC5Kv+8jQIQ23F4rqa8Ba+SV1uoiPVJn0poEEj+TFKFLSi
+ 2ckmtU63LOMAzr7e8C5TJctNnOtUBUS7kr1xIkjD1ifgdcEK1z/ODqfnId4UiWc=
+X-Gm-Gg: ASbGnct1Hcb/Hc6/LyXoIqbThOFKoPzPOTSIuICzmm7fdLfQj2fh4mYiS4CzelJkQ8I
+ KjuarYnXIgv4xQ71s/mpu5m0j6ZcE7oY9oeGnmVRN9cJQ7cTyAYxsy4oc2tUkRLgG1FqFFAPRmZ
+ IjYk/5Ly6dUxlOlwdLFxEwdf++P0OYEQLYHDN2Q8I5A1g+5t0BBao5UZGRVLjb/wbWP8Hs/Gy6p
+ beVrHjuWhseu75EuvcuBJkxYjlUfhrypuwg687grHOLB6wURoYhcsAW5erjSQ==
+X-Google-Smtp-Source: AGHT+IEa2hI71BSfv72l6DzkdT7Sj5cETKMQ7Bq7s1zyr891Bbd+K0P9g6YcWBCA6YUOOgULQ7HHrw==
+X-Received: by 2002:a5d:5f45:0:b0:385:f2a5:ef6a with SMTP id
+ ffacd0b85a97d-386453d6876mr751537f8f.15.1733758276345; 
+ Mon, 09 Dec 2024 07:31:16 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38637a0c6dfsm6814580f8f.93.2024.12.09.07.31.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Dec 2024 07:06:20 -0800 (PST)
-From: Daniel Semkowicz <dse@thaumatec.com>
-To: heiko@sntech.de
-Cc: Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- andy.yan@rock-chips.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, quentin.schulz@cherry.de, rfoss@kernel.org,
- robh@kernel.org, tzimmermann@suse.de
-Subject: Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
- controller
-Date: Mon,  9 Dec 2024 16:06:08 +0100
-Message-ID: <20241209150619.33998-1-dse@thaumatec.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241203165450.1501219-1-heiko@sntech.de>
-References: <20241203165450.1501219-1-heiko@sntech.de>
+ Mon, 09 Dec 2024 07:31:15 -0800 (PST)
+Date: Mon, 9 Dec 2024 16:31:13 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>,
+ Linux MM <linux-mm@kvack.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>
+Subject: Re: [PATCH 14/26] drm/xe/eudebug: implement userptr_vma access
+Message-ID: <Z1cNQTvGdAUPp4Y-@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, 
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-xe@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>,
+ Linux MM <linux-mm@kvack.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Maciej Patelczyk <maciej.patelczyk@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>
+References: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
+ <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
+ <ec42fe8b-9be0-41cc-96f4-f1869c6bb7e6@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ec42fe8b-9be0-41cc-96f4-f1869c6bb7e6@amd.com>
+X-Operating-System: Linux phenom 6.11.6-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,52 +101,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Heiko,
-
-On 03.12.24 21:54, Heiko Stuebner wrote:
-> This series adds a bridge and glue driver for the DSI2 controller found
-> in the rk3588 soc from Rockchip, that is based on a Synopsis IP block.
+On Mon, Dec 09, 2024 at 03:03:04PM +0100, Christian König wrote:
+> Am 09.12.24 um 14:33 schrieb Mika Kuoppala:
+> > From: Andrzej Hajda <andrzej.hajda@intel.com>
+> > 
+> > Debugger needs to read/write program's vmas including userptr_vma.
+> > Since hmm_range_fault is used to pin userptr vmas, it is possible
+> > to map those vmas from debugger context.
 > 
-> As the manual states:
-> The Display Serial Interface 2 (DSI-2) is part of a group of communication
-> protocols defined by the MIPI Alliance. The MIPI DSI-2 Host Controller is
-> a digital core that implements all protocol functions defined in the
-> MIPI DSI-2 Specification.
+> Oh, this implementation is extremely questionable as well. Adding the LKML
+> and the MM list as well.
 > 
+> First of all hmm_range_fault() does *not* pin anything!
 > 
-> While the driver structure is very similar to the previous DSI controller,
-> the programming model of the core is quite different, with a completely
-> new register set.
+> In other words you don't have a page reference when the function returns,
+> but rather just a sequence number you can check for modifications.
+
+I think it's all there, holds the invalidation lock during the critical
+access/section, drops it when reacquiring pages, retries until it works.
+
+I think the issue is more that everyone hand-rolls userptr. Probably time
+we standardize that and put it into gpuvm as an optional part, with
+consistent locking, naming (like not calling it _pin_pages when it's
+unpinnged userptr), kerneldoc and all the nice things so that we
+stop consistently getting confused by other driver's userptr code.
+
+I think that was on the plan originally as an eventual step, I guess time
+to pump that up. Matt/Thomas, thoughts?
+-Sima
+
 > 
-> Another notable difference is that the phy interface is variable now too
-> in its width and some other settings.
+> > v2: pin pages vs notifier, move to vm.c (Matthew)
+> > v3: - iterate over system pages instead of DMA, fixes iommu enabled
+> >      - s/xe_uvma_access/xe_vm_uvma_access/ (Matt)
+> > 
+> > Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
+> > Signed-off-by: Maciej Patelczyk <maciej.patelczyk@intel.com>
+> > Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> > Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com> #v1
+> > ---
+> >   drivers/gpu/drm/xe/xe_eudebug.c |  3 ++-
+> >   drivers/gpu/drm/xe/xe_vm.c      | 47 +++++++++++++++++++++++++++++++++
+> >   drivers/gpu/drm/xe/xe_vm.h      |  3 +++
+> >   3 files changed, 52 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/xe/xe_eudebug.c b/drivers/gpu/drm/xe/xe_eudebug.c
+> > index 9d87df75348b..e5949e4dcad8 100644
+> > --- a/drivers/gpu/drm/xe/xe_eudebug.c
+> > +++ b/drivers/gpu/drm/xe/xe_eudebug.c
+> > @@ -3076,7 +3076,8 @@ static int xe_eudebug_vma_access(struct xe_vma *vma, u64 offset_in_vma,
+> >   		return ret;
+> >   	}
+> > -	return -EINVAL;
+> > +	return xe_vm_userptr_access(to_userptr_vma(vma), offset_in_vma,
+> > +				    buf, bytes, write);
+> >   }
+> >   static int xe_eudebug_vm_access(struct xe_vm *vm, u64 offset,
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> > index 0f17bc8b627b..224ff9e16941 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.c
+> > +++ b/drivers/gpu/drm/xe/xe_vm.c
+> > @@ -3414,3 +3414,50 @@ void xe_vm_snapshot_free(struct xe_vm_snapshot *snap)
+> >   	}
+> >   	kvfree(snap);
+> >   }
+> > +
+> > +int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64 offset,
+> > +			 void *buf, u64 len, bool write)
+> > +{
+> > +	struct xe_vm *vm = xe_vma_vm(&uvma->vma);
+> > +	struct xe_userptr *up = &uvma->userptr;
+> > +	struct xe_res_cursor cur = {};
+> > +	int cur_len, ret = 0;
+> > +
+> > +	while (true) {
+> > +		down_read(&vm->userptr.notifier_lock);
+> > +		if (!xe_vma_userptr_check_repin(uvma))
+> > +			break;
+> > +
+> > +		spin_lock(&vm->userptr.invalidated_lock);
+> > +		list_del_init(&uvma->userptr.invalidate_link);
+> > +		spin_unlock(&vm->userptr.invalidated_lock);
+> > +
+> > +		up_read(&vm->userptr.notifier_lock);
+> > +		ret = xe_vma_userptr_pin_pages(uvma);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	if (!up->sg) {
+> > +		ret = -EINVAL;
+> > +		goto out_unlock_notifier;
+> > +	}
+> > +
+> > +	for (xe_res_first_sg_system(up->sg, offset, len, &cur); cur.remaining;
+> > +	     xe_res_next(&cur, cur_len)) {
+> > +		void *ptr = kmap_local_page(sg_page(cur.sgl)) + cur.start;
+> 
+> The interface basically creates a side channel to access userptrs in the way
+> an userspace application would do without actually going through userspace.
+> 
+> That is generally not something a device driver should ever do as far as I
+> can see.
+> 
+> > +
+> > +		cur_len = min(cur.size, cur.remaining);
+> > +		if (write)
+> > +			memcpy(ptr, buf, cur_len);
+> > +		else
+> > +			memcpy(buf, ptr, cur_len);
+> > +		kunmap_local(ptr);
+> > +		buf += cur_len;
+> > +	}
+> > +	ret = len;
+> > +
+> > +out_unlock_notifier:
+> > +	up_read(&vm->userptr.notifier_lock);
+> 
+> I just strongly hope that this will prevent the mapping from changing.
+> 
+> Regards,
+> Christian.
+> 
+> > +	return ret;
+> > +}
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+> > index 23adb7442881..372ad40ad67f 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.h
+> > +++ b/drivers/gpu/drm/xe/xe_vm.h
+> > @@ -280,3 +280,6 @@ struct xe_vm_snapshot *xe_vm_snapshot_capture(struct xe_vm *vm);
+> >   void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap);
+> >   void xe_vm_snapshot_print(struct xe_vm_snapshot *snap, struct drm_printer *p);
+> >   void xe_vm_snapshot_free(struct xe_vm_snapshot *snap);
+> > +
+> > +int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64 offset,
+> > +			 void *buf, u64 len, bool write);
 > 
 
-I did more tests with different LVDS displays. I tested following
-configurations with DSI/LVDS bridge:
-- 1024x600@60.01
-- 1024x768@60.02
-- 1280x800@60.07
-- 1366x768@60.06
-
-All of them worked without issues, except 1366x768.
-With this resolution, video is blurry, and offset incorrectly
-to the left. There are also repeating errors on the console:
-
-  rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY irq err at vp3
-
-In correct operation with other resolutions, there is no error.
-I am not sure if this is a problem in your series or rather in VOP2
-driver.
-
-I tried to track down the problem, and it seems to be a generic issue
-when horizontal line width is not divisible by 4.
-Lowering line width to 1364px fixes the issue, but of course I have two
-vertical lines of black pixels on the right.
-I also made some tests with 720x1280 DSI display. Lowering horizontal
-line to 718px shows the same problem. With 720px and 716px it works
-correctly.
-
-Kind regards
-Daniel
-
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
