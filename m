@@ -2,50 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407179E98B4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 15:24:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C28B9E997F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 15:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15AB810E746;
-	Mon,  9 Dec 2024 14:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249EE10E763;
+	Mon,  9 Dec 2024 14:54:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5986010E746
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 14:24:47 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.48])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Y6PFn5lT4zhZV8;
- Mon,  9 Dec 2024 22:22:21 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04FC910E75E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 14:54:44 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Y6Px72bdFz21mtm;
+ Mon,  9 Dec 2024 22:52:59 +0800 (CST)
 Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 6CC90180064;
- Mon,  9 Dec 2024 22:24:44 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
+ by mail.maildlp.com (Postfix) with ESMTPS id 40AD61A016C;
+ Mon,  9 Dec 2024 22:54:42 +0800 (CST)
+Received: from localhost.huawei.com (10.169.71.169) by
  kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Mon, 9 Dec 2024 22:24:42 +0800
-Message-ID: <bca38499-5479-4edc-9cea-217f3164258b@huawei.com>
-Date: Mon, 9 Dec 2024 22:24:41 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 drm-dp 2/5] drm/hisilicon/hibmc: add dp link moduel in
- hibmc
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ 15.2.1258.34; Mon, 9 Dec 2024 22:54:40 +0800
+From: Yongbang Shi <shiyongbang@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
  <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <kong.kongxinwei@hisilicon.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
  <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <20241202131322.1847078-1-shiyongbang@huawei.com>
- <20241202131322.1847078-3-shiyongbang@huawei.com>
- <yyunb5oxzlmrrcxlsrub4j7iwwpaptbvubbtxr3omjftietc5b@3tfg2ldxeaoa>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <yyunb5oxzlmrrcxlsrub4j7iwwpaptbvubbtxr3omjftietc5b@3tfg2ldxeaoa>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v7 drm-dp 0/5] Add dp module in hibmc driver
+Date: Mon, 9 Dec 2024 22:48:35 +0800
+Message-ID: <20241209144840.1933265-1-shiyongbang@huawei.com>
+X-Mailer: git-send-email 2.33.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+Content-Type: text/plain
+X-Originating-IP: [10.169.71.169]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,127 +56,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Mon, Dec 02, 2024 at 09:13:19PM +0800, Yongbang Shi wrote:
->> From: baihan li <libaihan@huawei.com>
->>
->> Add link training process functions in this moduel.
->>
->> Signed-off-by: Baihan Li <libaihan@huawei.com>
->> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->> ---
->> Changelog:
->> v5 -> v6:
->>    - using drm_dbg_dp() to print debug info instead of drm_info(), suggested by Dmitry Baryshkov.
->> v3 -> v4:
->>    - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
->>    - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
->>    - deleting meaningless macro, suggested by Dmitry Baryshkov.
->>    - fixing build errors reported by kernel test robot <lkp@intel.com>
->>      Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
->> v2 -> v3:
->>    - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
->>    - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
->>    - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
->> v1 -> v2:
->>    - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
->>    - fix build errors reported by kernel test robot <lkp@intel.com>
->>      Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
->>    v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/Makefile     |   2 +-
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h |  24 ++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c | 339 +++++++++++++++++++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h  |   8 +
->>   4 files changed, 372 insertions(+), 1 deletion(-)
->>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> index 8770ec6dfffd..94d77da88bbf 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->> @@ -1,5 +1,5 @@
->>   # SPDX-License-Identifier: GPL-2.0-only
->>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
->> -	       dp/dp_aux.o
->> +	       dp/dp_aux.o dp/dp_link.o
->>   
->>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->> index 7d3cd32393c0..8422999acbf0 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->> @@ -13,11 +13,34 @@
->>   #include <linux/io.h>
->>   #include <drm/display/drm_dp_helper.h>
->>   
->> +#define HIBMC_DP_LANE_NUM_MAX 2
->> +
->> +struct hibmc_link_status {
->> +	bool clock_recovered;
->> +	bool channel_equalized;
->> +};
->> +
->> +struct hibmc_link_cap {
->> +	int rx_dpcd_revision;
->> +	u8 link_rate;
->> +	u8 lanes;
->> +	bool is_tps3;
->> +	bool is_tps4;
-> These two fields are set neither in this patch nor in any of the
-> following patches.
+From: baihan li <libaihan@huawei.com>
 
-Hi Dmitry,
-Thanks for your carefully and patiently reviewing. These two will be assigned when edid is acquired,
-so I accept and delete them in this patch, and I will add them in next series.
+Realizing the basic display function of DP cable for DP connector
+displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+Hibmc SoC which used for Out-of-band management. Blow is the general
+hardware connection, both the Hibmc and the host CPU are on the same
+mother board.
 
-Sincerely，
-Baihan Li
++----------+       +----------+      +----- ----+      +----------------+
+|          | PCIe  |  Hibmc   |      |          |      |                |
+|host CPU( |<----->| display  |<---->| dp kapi  |<---->| dp aux moduel  |
+|arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link moduel |
++----------+       +----------+      +----------+      +----------------+
 
+---
+ChangeLog:
+v6 -> v7:
+  - deleteing unset fields in struct hibmc_link_cap, suggested by Dmitry Baryshkov.
+  - using macro instead of constants in hibmc_dp_link_training_configure(), suggested by Dmitry Baryshkov.
+  - lowercasing hex, suggested by Dmitry Baryshkov.
+  v6:https://lore.kernel.org/all/20241202131322.1847078-1-shiyongbang@huawei.com/
+v5 -> v6:
+  - adding do{} while(0) in macro defination function, suggested by Dmitry Baryshkov.
+  - using drm_dbg_dp() to print debug info instead of drm_info(), suggested by Dmitry Baryshkov.
+  - adding code comments in hibmc_dp_set_sst(), suggested by Dmitry Baryshkov.
+  - adding hpd and get_edid comments in the beginning of patch, suggested by Dmitry Baryshkov.
+  v5:https://lore.kernel.org/all/20241118142805.3326443-1-shiyongbang@huawei.com/
+v4 -> v5:
+  - fixing build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+  v4:https://lore.kernel.org/all/20241112132348.2631150-1-shiyongbang@huawei.com/
+v3 -> v4:
+  - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
+  - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+  - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
+  - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
+  - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
+  - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
+  - moving some structs to later patch, suggested by Dmitry Baryshkov.
+  - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
+  - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
+  - deleting meaningless macro, suggested by Dmitry Baryshkov.
+  - fixing build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+  - changed the type of train_set to array, suggested by Dmitry Baryshkov.
+  - using actual link rate instead of magic num, suggested by Dmitry Baryshkov.
+  - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
+  - separating hibmc_vdac and hibmc_dp changes into separate patche, suggested by Dmitry Baryshkov.
+  - static int hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
+  v3:https://lore.kernel.org/all/20241101105028.2177274-1-shiyongbang@huawei.com/
+v2 -> v3:
+  - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
+  - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
+  - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+  - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+  - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
+  - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
+  - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
+  v2:https://lore.kernel.org/all/20241022124148.1952761-1-shiyongbang@huawei.com/
+v1 -> v2:
+  - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
+  - using drm dp header files' dp macros instead, suggested by Andy Yan.
+  - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
+  - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
+  - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
+  - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
+  - modifying drm_simple_encoder_init function, suggested by Dmitry Baryshkov.
+  - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
+  - withdrawing the modification in hibmc_kms_init, suggested by Dmitry Baryshkov.
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+    Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
+  v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+---
 
->> +};
->> +
-> [...]
->
->> +static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
->> +{
->> +	u8 buf[2];
->> +	int ret;
->> +
->> +	/* DP 2 lane */
->> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_PHYIF_CTRL0, HIBMC_DP_CFG_LANE_DATA_EN,
->> +				 dp->link.cap.lanes == 0x2 ? 0x3 : 0x1);
->> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_DPTX_GCTL0, HIBMC_DP_CFG_PHY_LANE_NUM,
->> +				 dp->link.cap.lanes == 0x2 ? 0x1 : 0);
->> +
->> +	/* enhanced frame */
->> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_CTRL, HIBMC_DP_CFG_STREAM_FRAME_MODE, 0x1);
->> +
->> +	/* set rate and lane count */
->> +	buf[0] = dp->link.cap.link_rate;
->> +	buf[1] = DP_LANE_COUNT_ENHANCED_FRAME_EN | dp->link.cap.lanes;
->> +	ret = drm_dp_dpcd_write(&dp->aux, DP_LINK_BW_SET, buf, sizeof(buf));
->> +	if (ret != sizeof(buf)) {
->> +		drm_dbg_dp(dp->dev, "dp aux write link rate and lanes failed, ret: %d\n", ret);
->> +		return ret >= 0 ? -EIO : ret;
->> +	}
->> +
->> +	/* set 8b/10b and downspread */
->> +	buf[0] = 0x10;
-> DP_SPREAD_AMP_0_5
->
->> +	buf[1] = 0x1;
-> DP_SET_ANSI_8B10B
->
->> +	ret = drm_dp_dpcd_write(&dp->aux, DP_DOWNSPREAD_CTRL, buf, sizeof(buf));
->> +	if (ret != sizeof(buf)) {
->> +		drm_dbg_dp(dp->dev, "dp aux write 8b/10b and downspread failed, ret: %d\n", ret);
->> +		return ret >= 0 ? -EIO : ret;
->> +	}
->> +
->> +	ret = drm_dp_read_dpcd_caps(&dp->aux, dp->dpcd);
->> +	if (ret)
->> +		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
->> +
->> +	return ret;
->> +}
->> +
+baihan li (5):
+  drm/hisilicon/hibmc: add dp aux in hibmc drivers
+  drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+  drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+  drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+  drm/hisilicon/hibmc: add dp module in hibmc
+
+ drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 164 +++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  63 ++++
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 +
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 220 ++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 ++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 329 ++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 +++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  12 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  19 +-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 ++-
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +-
+ 13 files changed, 1073 insertions(+), 39 deletions(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+
+-- 
+2.33.0
+
