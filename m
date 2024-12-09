@@ -2,49 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889F19E88F8
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 02:17:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FD69E8903
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 02:44:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8CB810E276;
-	Mon,  9 Dec 2024 01:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 251AF10E289;
+	Mon,  9 Dec 2024 01:44:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="i1UwMysJ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CRdQVIiV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C676410E0B9;
- Mon,  9 Dec 2024 01:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1733707036;
- bh=t+DmoviSdAlTAk3abSj0RVB34XICUcoxmmWptoeLCtM=;
- h=Date:From:To:Cc:Subject:From;
- b=i1UwMysJ1ZO+TD6/r/L/NuH6jt2pIFn/AEYRufyRUxUUSG9XNjWRZbrDr/17Gv8n8
- t4GbF1iqZzcKPKr+Y8pHVFtZAI336VhJhZwe+t7Vai5JUOW+rbnRiO4VE9akZ9a8DD
- 7WoLcmFfKMlzHTSDlv1m7KSIf5oKzPB0bAJm97mDbfqBv4cJZ8qr6+GQA/ShNL1SBg
- 8SF1uT4bNFkVVDcBY43BwUqSfOp6KqwNbcVBKHl+Hs3bP05YOyDTnta42yW05eKAkl
- tw3hdinSvuWLH5khcwbwTYpgyI4m6fEpW+wAO6K/gBdY2aDKbrtO2kZxw/dawa1Aei
- kcROYCcYV1kPw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Y63qt32kcz4wj1;
- Mon,  9 Dec 2024 12:17:14 +1100 (AEDT)
-Date: Mon, 9 Dec 2024 12:17:17 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Peter Zijlstra <peterz@infradead.org>, Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20241209121717.2abe8026@canb.auug.org.au>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2868610E27D;
+ Mon,  9 Dec 2024 01:44:41 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9017xs012697;
+ Mon, 9 Dec 2024 01:44:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ mONfncm9hTek7jcougy3xSCm6rv4bmG3B6zaPol5p8s=; b=CRdQVIiVJoyJvgfP
+ sNwJrCXjY0zLONqgfds4bqv3EyyGmMjgD45okpHdukbx7fb/MH9gXYxIcu0vHCgE
+ aeDkX90GyuwF1jPUR6M3EUuKD3VdqsFPKG7WmXXi1JcgtP7fcncdYF08ZZO6HN64
+ r/bvWnBERBZ4xPHX50JSRRhexDQ2+eNk6ni/dyM7j/gRou9MLLBI7M5anFUPhAdV
+ 7ZYXBzbSOO0zabPL1Y7qvJFG150maTpp4OiMs/Cq2skBSQLpNHssfpC3Z6L1Jnjm
+ 7ly3FVDqjZW6GfZn4scPciwGlimNLoIqBUDwrB8M56pB+P+0KhXS9q1fkqZo0Iog
+ 2MgtFA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ceetk03m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Dec 2024 01:44:29 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
+ [10.47.209.197])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B91iSBn020361
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 9 Dec 2024 01:44:28 GMT
+Received: from [10.64.16.151] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 8 Dec 2024
+ 17:44:22 -0800
+Message-ID: <afd00fdf-af62-46b5-9131-ed360a93e094@quicinc.com>
+Date: Mon, 9 Dec 2024 09:44:19 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TGxxteLnVPJt1FrtE=UXr.l";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/9] drm/msm/dpu: Add SM6150 support
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, "Sean
+ Paul" <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ "Bjorn Andersson" <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, "Li Liu" <quic_lliu6@quicinc.com>,
+ Xiangxu Yin <quic_xiangxuy@quicinc.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20241122-add-display-support-for-qcs615-platform-v3-0-35252e3a51fe@quicinc.com>
+ <20241122-add-display-support-for-qcs615-platform-v3-5-35252e3a51fe@quicinc.com>
+ <c1b2fe04-e43e-4ab7-b0f8-2bb2ce6e1313@quicinc.com>
+Content-Language: en-US
+From: fange zhang <quic_fangez@quicinc.com>
+In-Reply-To: <c1b2fe04-e43e-4ab7-b0f8-2bb2ce6e1313@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: FwBFuB_mvjA8on_c0eMLzgSptP0zqSaY
+X-Proofpoint-ORIG-GUID: FwBFuB_mvjA8on_c0eMLzgSptP0zqSaY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 clxscore=1015 impostorscore=0 mlxlogscore=999
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090012
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,103 +104,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/TGxxteLnVPJt1FrtE=UXr.l
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
-Hi all,
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-allmodconfig) failed like this:
+On 2024/12/7 4:17, Abhinav Kumar wrote:
+> 
+> 
+> On 11/22/2024 1:56 AM, Fange Zhang wrote:
+>> From: Li Liu <quic_lliu6@quicinc.com>
+>>
+>> Add definitions for the display hardware used on the Qualcomm SM6150
+>> platform.
+>>
+>> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
+>> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
+>> ---
+>>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 263 +++++++++++ 
+>> ++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
+>>   4 files changed, 266 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/ 
+>> drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..e8b7f694b885d69a9bbfaa85b0faf0c7af677a75
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+>> @@ -0,0 +1,263 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + */
+>> +
+>> +#ifndef _DPU_5_3_SM6150_H
+>> +#define _DPU_5_3_SM6150_H
+>> +
+>> +
+> 
+> <snip>
+> 
+>> +static const struct dpu_sspp_cfg sm6150_sspp[] = {
+>> +    {
+>> +        .name = "sspp_0", .id = SSPP_VIG0,
+>> +        .base = 0x4000, .len = 0x1f0,
+>> +        .features = VIG_SDM845_MASK,
+> 
+> This is not correct. Smartdma is supported on this chipset on both Vig 
+> and DMA SSPPs.
+> 
+> Please use VIG_SDM845_MASK_SDMA and DMA_SDM845_MASK_SDMA respectively.
+Got it, will replace them in next patch
+> 
+> 
+>> +        .sblk = &dpu_vig_sblk_qseed3_2_4,
+>> +        .xin_id = 0,
+>> +        .type = SSPP_TYPE_VIG,
+>> +        .clk_ctrl = DPU_CLK_CTRL_VIG0,
+>> +    }, {
+>> +        .name = "sspp_8", .id = SSPP_DMA0,
+>> +        .base = 0x24000, .len = 0x1f0,
+>> +        .features = DMA_SDM845_MASK,
+>> +        .sblk = &dpu_dma_sblk,
+>> +        .xin_id = 1,
+>> +        .type = SSPP_TYPE_DMA,
+>> +        .clk_ctrl = DPU_CLK_CTRL_DMA0,
+>> +    }, {
+>> +        .name = "sspp_9", .id = SSPP_DMA1,
+>> +        .base = 0x26000, .len = 0x1f0,
+>> +        .features = DMA_SDM845_MASK,
+>> +        .sblk = &dpu_dma_sblk,
+>> +        .xin_id = 5,
+>> +        .type = SSPP_TYPE_DMA,
+>> +        .clk_ctrl = DPU_CLK_CTRL_DMA1,
+>> +    }, {
+>> +        .name = "sspp_10", .id = SSPP_DMA2,
+>> +        .base = 0x28000, .len = 0x1f0,
+>> +        .features = DMA_CURSOR_SDM845_MASK_SDMA,
+>> +        .sblk = &dpu_dma_sblk,
+>> +        .xin_id = 9,
+>> +        .type = SSPP_TYPE_DMA,
+>> +        .clk_ctrl = DPU_CLK_CTRL_DMA2,
+>> +    }, {
+>> +        .name = "sspp_11", .id = SSPP_DMA3,
+>> +        .base = 0x2a000, .len = 0x1f0,
+>> +        .features = DMA_CURSOR_SDM845_MASK_SDMA,
+>> +        .sblk = &dpu_dma_sblk,
+>> +        .xin_id = 13,
+>> +        .type = SSPP_TYPE_DMA,
+>> +        .clk_ctrl = DPU_CLK_CTRL_DMA3,
+>> +    },
+>> +};
+>> +
+> 
+> <snip>
 
-In file included from include/linux/module.h:22,
-                 from include/linux/device/driver.h:21,
-                 from include/linux/device.h:32,
-                 from include/linux/dma-mapping.h:5,
-                 from include/linux/dma-buf.h:21,
-                 from include/linux/virtio_dma_buf.h:11,
-                 from drivers/gpu/drm/virtio/virtgpu_prime.c:26:
-drivers/gpu/drm/virtio/virtgpu_prime.c:30:18: error: expected ',' or ';' be=
-fore 'DMA_BUF'
-   30 | MODULE_IMPORT_NS(DMA_BUF);
-      |                  ^~~~~~~
-include/linux/moduleparam.h:26:61: note: in definition of macro '__MODULE_I=
-NFO'
-   26 |                 =3D __MODULE_INFO_PREFIX __stringify(tag) "=3D" info
-      |                                                             ^~~~
-include/linux/module.h:299:33: note: in expansion of macro 'MODULE_INFO'
-  299 | #define MODULE_IMPORT_NS(ns)    MODULE_INFO(import_ns, ns)
-      |                                 ^~~~~~~~~~~
-drivers/gpu/drm/virtio/virtgpu_prime.c:30:1: note: in expansion of macro 'M=
-ODULE_IMPORT_NS'
-   30 | MODULE_IMPORT_NS(DMA_BUF);
-      | ^~~~~~~~~~~~~~~~
-
-Caused by commit
-
-  25c3fd1183c0 ("drm/virtio: Add a helper to map and note the dma addrs and=
- lengths")
-
-Interacting with commit
-
-  cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
-
-from Linus' tree.
-
-I have applied the following merge fix patch for today.
-
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Mon, 9 Dec 2024 12:08:24 +1100
-Subject: [PATCH] fix up for "drm/virtio: Add a helper to map and note the d=
-ma
- addrs and lengths"
-
-interacting with commit
-
-  cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
-
-from Linus' tree.
-
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/virtio/virtgpu_prime.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virti=
-o/virtgpu_prime.c
-index 688810d1b611..b3664c12843d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -27,7 +27,7 @@
-=20
- #include "virtgpu_drv.h"
-=20
--MODULE_IMPORT_NS(DMA_BUF);
-+MODULE_IMPORT_NS("DMA_BUF");
-=20
- static int virtgpu_virtio_get_uuid(struct dma_buf *buf,
- 				   uuid_t *uuid)
---=20
-2.45.2
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/TGxxteLnVPJt1FrtE=UXr.l
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmdWRR0ACgkQAVBC80lX
-0Gya1gf+L7+ybxyfZSaJhxvqPO9tsfECMUSA6w/dj8rcodhy5CrYOfDWkt/avS49
-F41fQ1QqqvmgOpqT3Rj/mKBlFCNlZAj04bNukZcgy/v3CLGYcQq/QY+n4deKDAUp
-bMnQsChNIXqI/bwyZ7laLU+3HAPim0tF9b6vA2t2vjKRNbeYigrjVc2vW+RXRI0T
-RRRGkGZdepm37Sv1/pzIQFstyPNum6hutFpYvQ/xn0NA5EYzKC0xBfw4Veng9rdU
-bq6xvanR8Ldlsz4kAfR+sUHZepeR6UG3bC0R95vSZsj/1up13gWn09lp7zQvh36z
-L7EugUQRrzyAiojD3i2m8Y2aswKoiA==
-=c+iH
------END PGP SIGNATURE-----
-
---Sig_/TGxxteLnVPJt1FrtE=UXr.l--
