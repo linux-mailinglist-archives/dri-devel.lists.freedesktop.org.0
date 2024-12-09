@@ -2,59 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1182A9E913F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 12:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B13F9E9193
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 12:07:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E55310E6BD;
-	Mon,  9 Dec 2024 11:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF9410E6C0;
+	Mon,  9 Dec 2024 11:07:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SQx8Uvzz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Y6ClI+kQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83E010E6BD;
- Mon,  9 Dec 2024 11:02:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733742174; x=1765278174;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=q2D1LX0udl2c+ATjj5IMgqtnJCdMO26UOIRx1T7bJnk=;
- b=SQx8Uvzzf+rNHLQhpt9I8PAn02yb0ws4v5HAKYsZytN4iWLKIJXwf/f8
- JUEmj/+sGsnwHSO24HN1ckUJwygPIoPN5bA0BUUiEaV1Asfuv5Da/Kt/T
- 1pX19/b80fPTxQofGmJmN2/K0nVj7skWU4sVKl52Qt7ZGt2+OeOmBM5qr
- PM/TNWv7frQO501VPb5F8xeCCy2OVZd+8Yc/gsQJkWCboqZRl/6A8IxEt
- EtvLPOUUwvhmUPPMZns3Vr4al5R4WqlB/gX+4Hf7hv6VRMmEalI+l6rir
- XYvctyz4N7z8d8gz79AEQ3+bLok1Ofv7s+ztX//KWDPcUFhYfsEpI3yhk A==;
-X-CSE-ConnectionGUID: ALf1p4z3RcKj13x2x7Yy/Q==
-X-CSE-MsgGUID: BSy6b1VGQL+lelhUZOpl3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="37710550"
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="37710550"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 03:02:54 -0800
-X-CSE-ConnectionGUID: 6Jy8THfGT/ezf1vWZUbQqQ==
-X-CSE-MsgGUID: c1jc7O5NRqygZ33CFxi+5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="95499131"
-Received: from mklonows-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.194])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 03:02:51 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH 1/3] drm/print: add drm_print_hex_dump()
-In-Reply-To: <f650fe1ed3e3bb74760426fa7461c3b028d661fb.1733392101.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1733392101.git.jani.nikula@intel.com>
- <f650fe1ed3e3bb74760426fa7461c3b028d661fb.1733392101.git.jani.nikula@intel.com>
-Date: Mon, 09 Dec 2024 13:02:49 +0200
-Message-ID: <87y10pyv8m.fsf@intel.com>
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3904F10E6C0
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 11:07:41 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-21628b3fe7dso18014615ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 03:07:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733742461; x=1734347261; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YJ9JUQ5bSEMgGsZqbZA+J2STml+1V04qdkGaF/nnd20=;
+ b=Y6ClI+kQh7StaLlaAUD4FF7ZbnW3ges1WhriM9HIjwn7oSa5zi/1AyJ2jTosQKsAbg
+ aiJS/3uJiw68UWbEQjO7RBTAoPC0pLOGdzX/HHzcs3eR7x2sSz2BZvjOKE+HFUDtpvNH
+ oLO+zEBcmirWvqcp/miBU/Zqn7v9uuUhE/tI+EjURIjtwBTpWcOCfU0+ZlKZElT5k1yK
+ KOGhyYg1lT7XcHOVJd1udSizYrT8W5UHTJ6g6NgaZDLn8uItlATKhoHjJ7k/pFt+Npkw
+ H8xuqpHdURUj6RupSrs+2SzOHjJXtoturP0MtA6LUBV13RnIt6/RObGAZk+4DWQBCdMy
+ X8ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733742461; x=1734347261;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YJ9JUQ5bSEMgGsZqbZA+J2STml+1V04qdkGaF/nnd20=;
+ b=fjCWpA4steRnbxn10iKyS44pVJ6b6I2JmgBSQo0vIturSLRm2sEQ7wF1HMXr+46xrH
+ frcNns/0RTsRuWGNCUwGgMZNMwoxyAtc0FnunfBeZaK4/wDoIwtBToiKosPFE54YnJQj
+ t6eF3TwirIuR7j82Pve2TfKLYrc2nYbi6orwvt8MU1Q0f1IyFsuqd47VPNavOFctB/39
+ 36c+QQTLY23LepYm0z9w6OvnFWFiocBF4RUGC9REe5dnzmyBr/8Q+RxafbB3tS5VY5mz
+ tncq7fdStoWpJC2y7WIb9dMNw8HQLkDjHUvCf9YM8hgelVRMa84rxPhW2fopOFhQN9Sm
+ xPag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrnmhYMuBf8VhCdxJOtLETx+vI/Kqs4QLfiYfsgyvyx0B9DUoZrc59BXZQrYf2JcUmCKVL+TaGNvM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyfxy4+iTzYlVWP7I2QTXLw5fCk5ZY/iDICIWg5nq098GfWGZj4
+ VS49k5DTCUrmnMb1vGFO+1itlY+q2zHu1N5KrJzH1n6XqT9/cpgEO+u1SQ==
+X-Gm-Gg: ASbGncsZBqVaCR9zHA7b+qlbWiVgcPwQb8tON4oLAMzOWcoCLr9NxyaqP948Ce2TfuP
+ cl8JGQsB9Du5Ov8u7Py7nX0kc+MXWooL1/REYvglnysWMBa4iTBcWlDzZ6zs+Bqo1ceV0JDDDx1
+ aIA5NszfldzI3CqBQlpNmtbZTsyPNly848C2NL/npenb6sJNcrPr1DcWK8AzzEaRgnAyDZDiM7i
+ GIylHg51bxIY4aivuedJZXJNfnmStKuAbqZRoXHd98JoaDfcwXpkyy6gw==
+X-Google-Smtp-Source: AGHT+IHE+t2Du1WqC/+jnVLPWSG0jQUPMDd8/py9w7+kgKS309UwwhMmDAhAU/gz6Yfj4oBXSzHyqA==
+X-Received: by 2002:a17:902:f607:b0:216:4883:fb43 with SMTP id
+ d9443c01a7336-216488401a3mr47732355ad.32.1733742460654; 
+ Mon, 09 Dec 2024 03:07:40 -0800 (PST)
+Received: from [192.168.0.122] ([59.188.211.160])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-215f8f3188fsm70017745ad.265.2024.12.09.03.07.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Dec 2024 03:07:40 -0800 (PST)
+Message-ID: <494a944e-4088-463a-abbb-c0a8cf4455ec@gmail.com>
+Date: Mon, 9 Dec 2024 19:07:35 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: leds: backlight: apple,dwi-bl: Add
+ bindings for Apple DWI backlight
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20241207130433.30351-1-towinchenmi@gmail.com>
+ <20241207130433.30351-2-towinchenmi@gmail.com>
+ <iwapssdmronnbtmlmynuarzmkd2oh3ssrmzvlobxx4ixrgwgcl@dnonaahib6jw>
+Content-Language: en-MW
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <iwapssdmronnbtmlmynuarzmkd2oh3ssrmzvlobxx4ixrgwgcl@dnonaahib6jw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,68 +99,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Dec 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> Add a helper to print a hex dump to a struct drm_printer. There's no
-> fancy formatting stuff, just 16 space-separated bytes per line, with an
-> optional prefix.
-
-drm-misc maintainers, ack for merging this via drm-intel-next?
-
-BR,
-Jani.
 
 
->
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> ---
->  drivers/gpu/drm/drm_print.c | 23 +++++++++++++++++++++++
->  include/drm/drm_print.h     |  2 ++
->  2 files changed, 25 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index 08cfea04e22b..79517bd4418f 100644
-> --- a/drivers/gpu/drm/drm_print.c
-> +++ b/drivers/gpu/drm/drm_print.c
-> @@ -390,3 +390,26 @@ void drm_print_regset32(struct drm_printer *p, struct debugfs_regset32 *regset)
->  	}
->  }
->  EXPORT_SYMBOL(drm_print_regset32);
-> +
-> +/**
-> + * drm_print_hex_dump - print a hex dump to a &drm_printer stream
-> + * @p: The &drm_printer
-> + * @prefix: Prefix for each line, may be NULL for no prefix
-> + * @buf: Buffer to dump
-> + * @len: Length of buffer
-> + *
-> + * Print hex dump to &drm_printer, with 16 space-separated hex bytes per line,
-> + * optionally with a prefix on each line. No separator is added after prefix.
-> + */
-> +void drm_print_hex_dump(struct drm_printer *p, const char *prefix,
-> +			const u8 *buf, size_t len)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < len; i += 16) {
-> +		int bytes_per_line = min(16, len - i);
-> +
-> +		drm_printf(p, "%s%*ph\n", prefix ?: "", bytes_per_line, buf + i);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_print_hex_dump);
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index b3906dc04388..f77fe1531cf8 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -199,6 +199,8 @@ void drm_puts(struct drm_printer *p, const char *str);
->  void drm_print_regset32(struct drm_printer *p, struct debugfs_regset32 *regset);
->  void drm_print_bits(struct drm_printer *p, unsigned long value,
->  		    const char * const bits[], unsigned int nbits);
-> +void drm_print_hex_dump(struct drm_printer *p, const char *prefix,
-> +			const u8 *buf, size_t len);
->  
->  __printf(2, 0)
->  /**
+On 9/12/2024 17:16, Krzysztof Kozlowski wrote:
+> On Sat, Dec 07, 2024 at 09:03:14PM +0800, Nick Chan wrote:
+>> Add the device tree bindings for backlight controllers attached via Apple
+>> DWI 2-wire interface.
+[...]
 
--- 
-Jani Nikula, Intel
+Ack all the changes, will be in v4.
+
+Nick Chan
