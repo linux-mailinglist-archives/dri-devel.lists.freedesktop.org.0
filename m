@@ -2,64 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0B69E94A1
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB0F9E954A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:59:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B63E10E33C;
-	Mon,  9 Dec 2024 12:45:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20EBB10E725;
+	Mon,  9 Dec 2024 12:59:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="K3Q6sXoL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 87BD810E33C;
- Mon,  9 Dec 2024 12:45:20 +0000 (UTC)
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
- by localhost (Postfix) with ESMTP id 4Y6M5p179vz9tBf;
- Mon,  9 Dec 2024 13:45:18 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
- by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ad8aC7rBW98b; Mon,  9 Dec 2024 13:45:18 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
- by pegase2.c-s.fr (Postfix) with ESMTP id 4Y6M5p0DxHz9tBd;
- Mon,  9 Dec 2024 13:45:18 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id E8A068B766;
- Mon,  9 Dec 2024 13:45:17 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
- by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
- with ESMTP id OUa8UHFVNS_8; Mon,  9 Dec 2024 13:45:17 +0100 (CET)
-Received: from [10.25.209.139] (unknown [10.25.209.139])
- by messagerie.si.c-s.fr (Postfix) with ESMTP id A70C18B763;
- Mon,  9 Dec 2024 13:45:17 +0100 (CET)
-Message-ID: <95a461ca-3ed6-4380-ad1a-da12e1109675@csgroup.eu>
-Date: Mon, 9 Dec 2024 13:45:17 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAA8A10E4B5;
+ Mon,  9 Dec 2024 12:59:48 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B98Lbam014059;
+ Mon, 9 Dec 2024 12:59:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ OxUmyy6yV13PBzRPg/BfEY5/02n3djkRn3ZTbxgOHW0=; b=K3Q6sXoLG6VOJO2y
+ sYvzhsZpm0js41vDNd7CnnEDPqav0MDrITVU5FyhWKfJrqb3ve2fCPjZVDz752sd
+ QQ3FRbQq/qWAvDOP0VMIQTr8R6h7Ybb/Td3hULAEaqP5JIT+b2p9z8jqOQElS1AT
+ FA/xgwZJ248IchUt6u276+PU45kxlWzXMTaJfcjdCKF6w0cKKNW5iNsqvM1KfISb
+ SE8+SSjA+CAIWfq615r4908LSbZo0SIzdI+kjFnx2q/XKy5tWMA8u2ZNEWXRFNLI
+ VMIyP+c8CW+ViC2d/vaV7ZCaQ3xMgyUzU6/LMZJF9qoyYEkFHBwesUm3ct8mcP30
+ BtRJ0Q==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43dvyah149-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 09 Dec 2024 12:59:43 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B9CxgSH005482
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 9 Dec 2024 12:59:42 GMT
+Received: from [10.216.3.14] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Dec 2024
+ 04:59:37 -0800
+Message-ID: <65d4378a-43f0-49ac-a47d-c700ae5e7de1@quicinc.com>
+Date: Mon, 9 Dec 2024 18:29:34 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/21] Converge on using secs_to_jiffies()
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
- etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
- linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
-References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <b9fcb12a-b7a4-4c33-836e-67109ce07deb@intel.com>
- <dab77729-682f-4182-9fb2-cd522ac29b5f@linux.microsoft.com>
- <72c8eb66-eb67-4f8b-b0c0-13f1aa001698@intel.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <72c8eb66-eb67-4f8b-b0c0-13f1aa001698@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 5/7] drm/msm: adreno: enable GMU bandwidth for A740 and
+ A750
+To: Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+References: <20241205-topic-sm8x50-gpu-bw-vote-v4-0-9650d15dd435@linaro.org>
+ <20241205-topic-sm8x50-gpu-bw-vote-v4-5-9650d15dd435@linaro.org>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20241205-topic-sm8x50-gpu-bw-vote-v4-5-9650d15dd435@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pVrhNiBgx-6N8iGdb0DuKBuyyuHFR68Q
+X-Proofpoint-ORIG-GUID: pVrhNiBgx-6N8iGdb0DuKBuyyuHFR68Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 priorityscore=1501 suspectscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412090102
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,48 +99,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-Le 09/12/2024 à 13:01, Przemek Kitszel a écrit :
-> On 12/6/24 9:58 PM, Easwar Hariharan wrote:
->> On 11/29/2024 4:57 AM, Przemek Kitszel wrote:
->>>
->>> [removed most non-list recipients, it's just too much]
->>>
->>> On 11/15/24 10:26 PM, Easwar Hariharan wrote:
->> <snip>
+On 12/5/2024 8:31 PM, Neil Armstrong wrote:
+> Now all the DDR bandwidth voting via the GPU Management Unit (GMU)
+> is in place, declare the Bus Control Modules (BCMs) and the
+> corresponding parameters in the GPU info struct.
 > 
->>>
->>> Regarding code - you could also convert msecs_to_jiffies(const * HZ),
->>> there are 10 that are greppable.
->>>
->>
->> Those seem to be mistakes. const*HZ is a seconds-denominated timeout,
->> being passed to msecs_to_jiffies() which will treat it as a
->> millisecond-denominated timeout resulting in an excessively long
->> timeout. I suppose that's better than a too-short timeout, and
->> apparently it's been working fine all along since hardware responds
->> before the too-long timeout expires. Half of them are in
->> drivers/scsi/arcmsr/arcmsr_hba.c and the pattern has apparently been
->> there since 2010.
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+
+-Akhil
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> my point was that, the default value of HZ is 1000, and most of the code
-> that is just `$value*HZ` was meant as "$value seconds, in ms unit".
-
-I can't follow you here. The default value of HZ is 250 as far as I can see.
-
-Regardless, HZ is the number of jiffies per second, nothing else.
-
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index 0c560e84ad5a53bb4e8a49ba4e153ce9cf33f7ae..edffb7737a97b268bb2986d557969e651988a344 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -1388,6 +1388,17 @@ static const struct adreno_info a7xx_gpus[] = {
+>  			.pwrup_reglist = &a7xx_pwrup_reglist,
+>  			.gmu_chipid = 0x7020100,
+>  			.gmu_cgc_mode = 0x00020202,
+> +			.bcms = (const struct a6xx_bcm[]) {
+> +				{ .name = "SH0", .buswidth = 16 },
+> +				{ .name = "MC0", .buswidth = 4 },
+> +				{
+> +					.name = "ACV",
+> +					.fixed = true,
+> +					.perfmode = BIT(3),
+> +					.perfmode_bw = 16500000,
+> +				},
+> +				{ /* sentinel */ },
+> +			},
+>  		},
+>  		.address_space_size = SZ_16G,
+>  		.preempt_record_size = 4192 * SZ_1K,
+> @@ -1432,6 +1443,17 @@ static const struct adreno_info a7xx_gpus[] = {
+>  			.pwrup_reglist = &a7xx_pwrup_reglist,
+>  			.gmu_chipid = 0x7090100,
+>  			.gmu_cgc_mode = 0x00020202,
+> +			.bcms = (const struct a6xx_bcm[]) {
+> +				{ .name = "SH0", .buswidth = 16 },
+> +				{ .name = "MC0", .buswidth = 4 },
+> +				{
+> +					.name = "ACV",
+> +					.fixed = true,
+> +					.perfmode = BIT(2),
+> +					.perfmode_bw = 10687500,
+> +				},
+> +				{ /* sentinel */ },
+> +			},
+>  		},
+>  		.address_space_size = SZ_16G,
+>  		.preempt_record_size = 3572 * SZ_1K,
 > 
-> Same for HZ/const, HZ/2 being 500ms.
-> 
-> HZ is awful in that it is not 1s but 1/s, but it was easy to abuse the
-> value in simple context.
 
-Why is that awful ?
-
-HZ is a nice macro that gives you the number of ticks per second, so 
-that you are able to easily calculate the number of ticks for a given 
-duration, regardless of the configured number of ticks per second.
-
-Christophe
