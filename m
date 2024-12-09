@@ -2,73 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C90D9E8F73
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 10:56:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7538E9E8F88
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:00:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF9C110E69E;
-	Mon,  9 Dec 2024 09:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 520C810E6B2;
+	Mon,  9 Dec 2024 10:00:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kncwX2M3";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Fgnx2FnI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F6710E69E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 09:56:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733738179;
- bh=nplaTSeRl93wINz5j7eOZBcNUOXjUDq4lRiwbGpfj40=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kncwX2M3cPzLj6tuhX7ozxLhSdFfurogINElznEJ+g7f7tM+P/eAKGHnGdO2vorCe
- kxwU0+7WBu5ArBUSqC1m2Dw3O4Sso6GqPmeEIpalobzZylB+DhBy21U/t08dNFp3Sr
- /4Wq/zD66z4WoCiWWsukZ0kzobBxXBa01prLQckoMIW42CkAqpLlrBNs76s6oU7km2
- 4/MHePcpGQHbePjsuT6w20n/C75bZwq1KTCamUDBDZMwBSiWpPeCRNzVsxqjXXduC7
- s6yJULljut9HnPmo0aL3ALBzSm3uVlAh52VJ94o2UBwtGWqvtnODK9DxUFdphpoWRq
- aItkqqgKTO5yA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8140817E3624;
- Mon,  9 Dec 2024 10:56:18 +0100 (CET)
-Message-ID: <7a4f8b11-e840-4e33-a6e7-4f58601ed31c@collabora.com>
-Date: Mon, 9 Dec 2024 10:56:18 +0100
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFEF610E6B1
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 10:00:16 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-e0875f1e9edso3713392276.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 02:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733738416; x=1734343216; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NaKxBgaq02X8de3kQjZpaBJzI71CtFoxfGULZINgpO0=;
+ b=Fgnx2FnI3mGBN6IRBtROPKjr5H03MtIX++votyUo3JPUc+arYL8B5X9qaKkwymfUO3
+ sBrC6thjVdu0C0ApR/H0Y8IfYRY2hCtuiMsbP837xTq0Sl3ZJaQQysz5lCuV9GXMbTm6
+ eB50eEkoJ3yzpkYvU7TDCLguOZos9PdriZ3+Nl0Dsj1BijT8AhiAoGW+kOJbAZGPllvY
+ QsQVXcm1n/6VtXSxvCODxm/QCjo//g84oi9XKLt905K9r0Oup9hZbqjeo8clTyHSRV+H
+ OpQ9sgVhX7zKHdLgS5I2wY3QhqM0ZmlxcUcxHI5Wd7zdlvjkhFQaK8FO91es/fdG3XNx
+ vMZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733738416; x=1734343216;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NaKxBgaq02X8de3kQjZpaBJzI71CtFoxfGULZINgpO0=;
+ b=GG3MtMUlH/T3Q+loP5e6OPOY1jUYCH77qFQXvYdnR4Tvk7jE+7pyvOJEAheC+vKRko
+ F+9e9TvZA/f1pJUOylnKDPxfC5sM/7yJtM4VWcc/a16qxCPb8nE54L3mvzhlADN4eqIg
+ jzVAdQ2+L3gjZM1gGNcGX+nh6SB/DOuqvafHQ6rWmmxOlcV9bX+WV8ghAQ2/eSZSeE3C
+ 9ZwBCIOhg6xvwxKWHbEQ3y59UWkVtRnrwIfjSX1fSAlqKbrkMVtKX2pc09zzLbaS7fBe
+ IxkCsidHaRKV0H59IuZmkcyN3Fs2l8XJYuCLRnqJRo05rIkcLBkIiI94saMJR0GeFZYp
+ CMuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWozu5L5TEYkNk5Ub7Aez9le7sWho3CrpvVAXGB0kewOEswWfsTHBqkPesR3giukxp+L4sn+Jf2O2U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzs6jK16LEG+31SZVeK1A5pt19idYoac1UktAWTELbkLav4QCFl
+ 6+GXL2WfIwNBHXBHSyfef1M7nMdZ7A2QAr/gRHTAd7uPpOtQHoYMxC1Rkex6aESEwcRB5BUldDn
+ OVc0iBmzP9cGPAuZ3SQIX8bbevh+eylJxpDG7mQ==
+X-Gm-Gg: ASbGncuSBiVxSsv76jcav5365KZQDJejAy4X8Cn9CsF0fBq4+7UoaW74piH1fwHgBBB
+ BcUfgYIcVwwhRMVyGxxCloI/0lFtD3L0=
+X-Google-Smtp-Source: AGHT+IH+mgmmr4qqUrNvXi89RebxgrqqEnj6NinYEcPLT9jjbWocaOUTk5gkEpMuQlwCgNRcU7QqZkyyvUYXic93/so=
+X-Received: by 2002:a05:6902:250e:b0:e39:b0de:fed8 with SMTP id
+ 3f1490d57ef6-e3a0b0ca18amr10550531276.17.1733738415719; Mon, 09 Dec 2024
+ 02:00:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/15] drm/mediatek: mtk_hdmi_common: Add OP_HDMI,
- vendor and product strings
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "robh@kernel.org" <robh@kernel.org>,
- "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
-References: <20241205114518.53527-1-angelogioacchino.delregno@collabora.com>
- <20241205114518.53527-15-angelogioacchino.delregno@collabora.com>
- <6697eef88677950d36fbfbd6676f82f291621159.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <6697eef88677950d36fbfbd6676f82f291621159.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20241208-dpu-fix-wb-v3-1-a1de69ce4a1b@linaro.org>
+ <Z1a3jOB8CutzRZud@hovoldconsulting.com>
+In-Reply-To: <Z1a3jOB8CutzRZud@hovoldconsulting.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 9 Dec 2024 12:00:07 +0200
+Message-ID: <CAA8EJprxosWNWojXWAzkM5eeNXewpT1hpBxCq3irmkuGf==b+w@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/msm/dpu1: don't choke on disabling the writeback
+ connector
+To: Johan Hovold <johan@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Leonard Lausen <leonard@lausen.nl>,
+ =?UTF-8?Q?Gy=C3=B6rgy_Kurucz?= <me@kuruczgy.com>, 
+ Johan Hovold <johan+linaro@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,78 +90,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/12/24 10:09, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
-> 
-> On Thu, 2024-12-05 at 12:45 +0100, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>
->>
->> In preparation for adding the HDMI TX v2 driver, and to allow
->> a future modernization of the HDMI v1 one, perform changes
->> that enable the usage of the HDMI Helpers provided by DRM.
->>
->> Check if the HDMI driver provides the function pointers to
->> hdmi_{clear,write}_infoframe used by the HDMI Helper API and,
->> if present, add DRM_BRIDGE_OP_HDMI to the drm_bridge ops,
->> enabling the drm API to register the bridge as HDMI and to use
->> the HDMI Helper functions.
->>
->> Moreover, as part of data exclusively used (in the context of
->> HDMI bridges) by the helpers, assign the vendor "MediaTek" and
->> product "On-Chip HDMI" strings to the drm_bridge struct.
->>
->> If the hdmi_{write,clear}_infoframe pointers are not assigned,
->> vendor and product strings and HDMI helpers will not be used,
->> hence this commit brings no functional changes to drivers that
->> have not been refactored to use the new helpers.
->>
->> This also means that, in the current state, there is effectively
->> no functional change to mtk_hdmi and its other components.
-> 
-> OP_HDMI is for v2.
-> vendor and product strings is for both v1 and v2.
-> So separate this patch to two patches.
-> 
+On Mon, 9 Dec 2024 at 11:25, Johan Hovold <johan@kernel.org> wrote:
+>
+> Dmitry,
+>
+> Looks like you just silently ignored my reviewed feedback, yet included
+> my conditional reviewed-by tag. Repeating below.
 
-They're both for v2, because only v2 uses the HDMI helpers, while v1 does not.
+Excuse me. I'll expand the commit message.
 
-Cheers,
-Angelo
+>
+> On Sun, Dec 08, 2024 at 07:29:11PM +0200, Dmitry Baryshkov wrote:
+> > During suspend/resume process all connectors are explicitly disabled an=
+d
+> > then reenabled. However resume fails because of the connector_status ch=
+eck:
+> >
+> > [ 1185.831970] [dpu error]connector not connected 3
+>
+> Please also include the follow-on resume error. I'm seeing:
+>
+>         [dpu error]connector not connected 3
+>         [drm:drm_mode_config_helper_resume [drm_kms_helper]] *ERROR* Fail=
+ed to resume (-22)
+>
+> and say something about that this can prevent *displays* from being
+> enabled on resume in *some* setups (preferably with an explanation why
+> if you have one).
+>
+> > It doesn't make sense to check for the Writeback connected status (and
+> > other drivers don't perform such check), so drop the check.
+> >
+> > Fixes: 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to dpu=
+_writeback.c")
+>
+> I noticed that the implementation had this status check also before
+> 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to
+> dpu_writeback.c").
+>
+> Why did this not cause any trouble back then? Or is this not the right
+> Fixes tag?
 
-> Regards,
-> CK
-> 
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/gpu/drm/mediatek/mtk_hdmi_common.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> index 4f708b04f5e8..0f60842462b0 100644
->> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_common.c
->> @@ -408,9 +408,16 @@ struct mtk_hdmi *mtk_hdmi_common_probe(struct platform_device *pdev)
->>
->>          hdmi->bridge.funcs = ver_conf->bridge_funcs;
->>          hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_HPD;
->> +
->> +       if (ver_conf->bridge_funcs->hdmi_write_infoframe &&
->> +           ver_conf->bridge_funcs->hdmi_clear_infoframe)
->> +               hdmi->bridge.ops |= DRM_BRIDGE_OP_HDMI;
->> +
->>          hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
->>          hdmi->bridge.of_node = pdev->dev.of_node;
->>          hdmi->bridge.ddc = hdmi->ddc_adpt;
->> +       hdmi->bridge.vendor = "MediaTek";
->> +       hdmi->bridge.product = "On-Chip HDMI";
->>
->>          ret = devm_drm_bridge_add(dev, &hdmi->bridge);
->>          if (ret)
->> --
->> 2.47.0
->>
-> 
+If I remember correctly, the encoder's atomic_check() is called only
+if the corresponding connector is a part of the new state, if there is
+a connected CRTC, etc, while the connector's atomic_check() is called
+both for old and new connectors.
+
+>
+> > Cc: stable@vger.kernel.org
+> > Reported-by: Leonard Lausen <leonard@lausen.nl>
+> > Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/57
+>
+> Please include mine an Gy=C3=B6rgy's reports here too.
+>
+> Since this has dragged on for many months now, more people have run into
+> this issue and have reported this to you. Giving them credit for this is
+> the least you can do especially since you failed to include the
+> corresponding details about how this manifests itself to users in the
+> commit message:
+>
+> Reported-by: Gy=C3=B6rgy Kurucz <me@kuruczgy.com>
+> Link: https://lore.kernel.org/all/b70a4d1d-f98f-4169-942c-cb9006a42b40@ku=
+ruczgy.com/
+>
+> Reported-by: Johan Hovold <johan+linaro@kernel.org>
+> Link: https://lore.kernel.org/all/ZzyYI8KkWK36FfXf@hovoldconsulting.com/
+>
+> > Tested-by: Leonard Lausen <leonard@lausen.nl> # on sc7180 lazor
+> > Tested-by: Gy=C3=B6rgy Kurucz <me@kuruczgy.com>
+> > Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+> > Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> > Leonard Lausen reported an issue with suspend/resume of the sc7180
+> > devices. Fix the WB atomic check, which caused the issue.
+> > ---
+> > Changes in v3:
+> > - Rebased on top of msm-fixes
+> > - Link to v2: https://lore.kernel.org/r/20240802-dpu-fix-wb-v2-0-7eac9e=
+b8e895@linaro.org
+>
+> Johan
 
 
+
+--=20
+With best wishes
+Dmitry
