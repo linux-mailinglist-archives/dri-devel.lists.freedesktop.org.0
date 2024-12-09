@@ -2,101 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5321B9EA267
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 00:05:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3669EA275
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 00:11:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7306710E366;
-	Mon,  9 Dec 2024 23:05:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F253E10E581;
+	Mon,  9 Dec 2024 23:11:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XsUHZkPk";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="m9Vpyjm4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A047110E366
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 23:05:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1733785517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rtXPjJ/UW99vVDZpFTpb2RZPeH7PKMqMj5zaKL4gx1k=;
- b=XsUHZkPkjVLnVvLDz6Y1u2pq9PuQF2sAqPtt40rAuYyNtZ61oMwb2Y3olADWjcpOIx2LEp
- 7SwpgUgO7l5mIDdniI2eFpYqFvF2nFIzRAkjtcuNq8ZAHjdnM1SDjHy6/RpAKqaT2KeD27
- C0ec3rHUmBBRjhHSWrZu1eTNNpGLvSI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-216-SBvxkJ4qO1Gz_6r5vWKEYA-1; Mon, 09 Dec 2024 18:05:16 -0500
-X-MC-Unique: SBvxkJ4qO1Gz_6r5vWKEYA-1
-X-Mimecast-MFC-AGG-ID: SBvxkJ4qO1Gz_6r5vWKEYA
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-434fa6d522bso6976355e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 15:05:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733785515; x=1734390315;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rtXPjJ/UW99vVDZpFTpb2RZPeH7PKMqMj5zaKL4gx1k=;
- b=DSsHBiQlpXM+JGqtTnKoln5C8oYKBlsnWm/F8XfC/brHQsgPeV0eHEt81entNptFtL
- ISziZ5DFXqKSCsR4+9dRhA7FzYVOFZd7YodtXYZ08oETZ3eIoL8/A3hCLak0GgTQjeof
- Cx4nebrzBsCsho4Ir5i7fbsZZ9A4+VoZplFOC0ArygBcWpVl0LB5Q5vqsTGkA/HMoRzh
- huJt/+ZbcRVwf8iwwXZhls7CobhNaAEIoUt2/ABFdHKduE46rsWPJdIiZMZtozpQCC3m
- kGp3w5Lu4KjnvhjQfhvot5Mn0y3Ky2q0t0xqFctHKVZnrZWFjSIWA31u6mMAAK/jycZJ
- sShQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbUN2ymIi0G1Ey/PHFaGwLPYYCfBkCXgm8dV12fc/CElQY0ibxNPkd7ecL8gL7mzt3hmz1gvhmDhU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywq6pYbbZXvvC5vc/orumuNkAnrZ3NpTsZu1a0ReLYi2AWNFIF5
- FWGSRaL60Y+ospdOwSPENBjbGoiGAoll6BgEpQIg49DTawc0tSB4SYX/odNqarIhOZ0Y+/asWOr
- AsxU72gYhllov35qtx9vvevHFCzIiFvsJyB98sJgkbK2Um/QBAs05NwabcD4oHgXGeA==
-X-Gm-Gg: ASbGnctoobndlJ3QzaZqRKYT29vbWtkf8PBL6LldS3Kjf8w+88NQ+UgyDJ3qSmGr084
- x0awnet8PcA3AN0+9Eia9ovNLNowPq2beooGkTGpKF3peSI+8uDFC2ztOQVb4HbNNbWZmb16wDa
- 2my9uX+4uTqGAwwbCeeWkBF/KGVyyzJBVMtAQT0EC5ewn8AOOfg2N4i4jN1YbQ5yio5MJS2ULMC
- beKEvbKzYNV5KbhVRidxE4VIla6wIgIkdTNjaNVlRdkOwBdoXJHiXmi2DU/NY3dzLdycKElwMgS
- UN9wJ5guzX/MuQ4eTA==
-X-Received: by 2002:a05:600c:18a6:b0:434:ea1a:e30c with SMTP id
- 5b1f17b1804b1-435021d9c95mr8234885e9.13.1733785515314; 
- Mon, 09 Dec 2024 15:05:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IErGKM+mO4OjrHPaFMSgaVoG1GHOIII5oaFReyZQhrk1MzggllJFKQWOp6TcUYxwWwXNWck1A==
-X-Received: by 2002:a05:600c:18a6:b0:434:ea1a:e30c with SMTP id
- 5b1f17b1804b1-435021d9c95mr8234565e9.13.1733785514969; 
- Mon, 09 Dec 2024 15:05:14 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38636e05568sm8337911f8f.39.2024.12.09.15.05.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Dec 2024 15:05:13 -0800 (PST)
-Message-ID: <e544c1c7-8b00-46d4-8d13-1303fd88dca3@redhat.com>
-Date: Tue, 10 Dec 2024 00:05:11 +0100
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56DF310E57C
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 23:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
+ Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8nQmkHAbwxQl1T/Kw4A2hwy2MJmGRj9oZcS+awgb4Gk=; b=m9Vpyjm4A7yCco/EItYeeAYaBS
+ KNTUOD7wzwb6HUqPN8C/2AVPT18GyP06DkxOt/V4hhWl7kZKiisskvX5HKb4BIF3LQ5+xsTrhpryu
+ PCLSQ4EM93PKTPHOOldWRUygZsfyMf8AdaDM+UB9aaq+J0NiMh5Rbs7v91H5RVMPuH1+gFGJdQ467
+ /z4iVammCFdMWBoMhmdfBkox6wcX75y2wTGLHZW77DVJkUN0gJ3Gy8lQr728WZXpbL9DE3IJz3RSB
+ A7RrSyfxHyhs03+ZOwpyCO0eRtZoCReirZ4tc7N/3G62NDMC7ypcgp7BxMJ0c5HBK5/vWjenA0sgx
+ LpcU6AUg==;
+Received: from i53875bc4.versanet.de ([83.135.91.196]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tKmtc-0005Ev-0o; Tue, 10 Dec 2024 00:10:32 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: heiko@sntech.de
+Cc: andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ quentin.schulz@cherry.de
+Subject: [PATCH v4 0/3] drm/rockchip: Add driver for the new DSI2 controller
+Date: Tue, 10 Dec 2024 00:10:18 +0100
+Message-ID: <20241209231021.2180582-1-heiko@sntech.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panic: remove spurious empty line to clean warning
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- patches@lists.linux.dev, stable@vger.kernel.org
-References: <20241125233332.697497-1-ojeda@kernel.org>
- <fe2a253c-4b2f-4cb3-b58d-66192044555f@redhat.com>
- <CANiq72=PB=r5UV_ekNGV+yewa7tHic8Gs9RTQo=YcB-Lu_nzNQ@mail.gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CANiq72=PB=r5UV_ekNGV+yewa7tHic8Gs9RTQo=YcB-Lu_nzNQ@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6hHDRqqtjU7eNMyynXrjlABZVFv_xzwjj2Smcd46R9s_1733785515
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -113,29 +66,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/12/2024 22:05, Miguel Ojeda wrote:
-> On Tue, Nov 26, 2024 at 10:04 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>
->> Thanks for this patch, it looks good to me.
->>
->> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Thanks Jocelyn. I thought DRM would pick this one -- should I pick it
-> through rust-fixes?
+This series adds a bridge and glue driver for the DSI2 controller found
+in the rk3588 soc from Rockchip, that is based on a Synopsis IP block.
 
-You can merge it through rust-fixes. I have another patch [1] under 
-review that touches this file, but it shouldn't conflict, as the changes 
-are far from this line.
+As the manual states:
+The Display Serial Interface 2 (DSI-2) is part of a group of communication
+protocols defined by the MIPI Alliance. The MIPI DSI-2 Host Controller is
+a digital core that implements all protocol functions defined in the
+MIPI DSI-2 Specification.
 
-How do you test clippy, so I can check I won't introduce another warning 
-with this series?
 
-[1]: https://patchwork.freedesktop.org/series/142175/
+While the driver structure is very similar to the previous DSI controller,
+the programming model of the core is quite different, with a completely
+new register set.
 
-Best regards,
+Another notable difference is that the phy interface is variable now too
+in its width and some other settings.
 
-> 
-> Cheers,
-> Miguel
-> 
+changes in v4:
+- Update binding example to use phy-type argument
+- Update commit description to use correctly spelled Synopsys
+- use devm_pm_runtime_enable()
+- drop pclk+sys_clk handling from the Rockchip glue-driver
+  (the bridge does that for us already)
+
+changes in v3:
+- remove double-empty line in bridge part (Neil)
+- add bitfield.h to both bridge and glue for FIELD_PROP
+  (reported by kernel test robot)
+- add Neil's Reviewed-by to bridge part
+- add Rob's Reviewed-by to binding
+
+changes in v2:
+- clean up includes (Diederik)
+- fix Kconfig description (Diederik)
+- constant naming (Diederik)
+- binding fixes (paths, sorting, labels) (Rob)
+- move to use regmap
+- drop custom UPDATE macro and use FIELD_PREP instead
+- use dev_err instead of DRM_DEV_ERROR
+
+Heiko Stuebner (3):
+  drm/bridge/synopsys: Add MIPI DSI2 host controller bridge
+  dt-bindings: display: rockchip: Add schema for RK3588 DW DSI2
+    controller
+  drm/rockchip: Add MIPI DSI2 glue driver for RK3588
+
+ .../rockchip/rockchip,rk3588-mipi-dsi2.yaml   |  120 ++
+ drivers/gpu/drm/bridge/synopsys/Kconfig       |    6 +
+ drivers/gpu/drm/bridge/synopsys/Makefile      |    1 +
+ .../gpu/drm/bridge/synopsys/dw-mipi-dsi2.c    | 1030 +++++++++++++++++
+ drivers/gpu/drm/rockchip/Kconfig              |   10 +
+ drivers/gpu/drm/rockchip/Makefile             |    1 +
+ .../gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c  |  487 ++++++++
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    2 +
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    1 +
+ include/drm/bridge/dw_mipi_dsi2.h             |   95 ++
+ 10 files changed, 1753 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-mipi-dsi2.yaml
+ create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
+ create mode 100644 drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c
+ create mode 100644 include/drm/bridge/dw_mipi_dsi2.h
+
+-- 
+2.45.2
 
