@@ -2,87 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE4D29E8FB4
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4943F9E8FBC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:08:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6533110E6B6;
-	Mon,  9 Dec 2024 10:08:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE41010E6B7;
+	Mon,  9 Dec 2024 10:08:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kDy1Psai";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=toralf.foerster@gmx.de header.b="Los3TLxq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB4F10E6B6
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 10:08:01 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-725ee27e905so737712b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 02:08:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733738881; x=1734343681; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=fZp+CFP7K7kOAlodAUCSCzM6XqjZQS3FtVdgKB9HjIU=;
- b=kDy1Psaiqp6o6HldxmL1heXf8TUhvZYxvgO8/k1V6D/VUo+W0DGNLYI+oQRlROGZ0l
- kNAY8N702QFlkJBaZm3+124vktRvEiUjIXEZ0gf2AOBHOTnOuOyDHXELefL27XQjG0Cq
- Ml26UvpfIeNdX7h8lirAwqzlVfMTPZifFIPKxky11kt9qjckrHjL0Vb3vROQ/B6MhGFz
- RkA1B06CCRWX2mQ8pjB/h5ON3/WPiZwA3jpvOZj2SXP9MDAZUL5fzflbAd5FDTl/UOaR
- nhONBm+S9O/5km7Dd2eNy9d0SnYXzRJajDbAPsYGlfqorrAMWOn2CSXzgLBwBVLskzxT
- AytQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733738881; x=1734343681;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fZp+CFP7K7kOAlodAUCSCzM6XqjZQS3FtVdgKB9HjIU=;
- b=Oqt51zhfHRIoiR/F66bn3JLFrenmiplPXPDOvGtIFzqJii6TIOhbETzYvi5jv+rQ0g
- NSASZ8qWMcVLWR+HKiZ5GUbiRcwXeXOlqCjP+h/mjvfn76Y7UCTOhvCzzkXXz3jvQvfX
- 10Nlmy5ZyHMTzYwTHDlTMchZKqU0uMBGLAMRTaLJCY4cqXQFx5O7HnyUBZ5mQ6JHWm4f
- 6+1Syg9/gMV+nv0U79pFrzpcoRMv7iBRk+BCtpX/tFV+/7Smt4ZSfbtJ/QeCBCOh51+O
- J2Qz9sG6ZgVX0le0zFlX+3ufjVRcD3rxerAxH/fQcBfYSm0/xjKJssyIE2XYRfiOhjBj
- +mcA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTtPd+qZydqBy+fszwyp2qtj5XsqHAYgTX8pWR9xFJ4B2vRqUtq3JFpyXZgkVpeqdBGqBS65HuLYY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+fE8/+jzd5nc2ka859sNBw8x8CPSxqgoHmcTlek9hpDRr4cO4
- 5gG1y4YtDQFEBwQ3mLbH401R/2+ny4sUGb6d4tL/KdSOqrXiFuCF
-X-Gm-Gg: ASbGnctFXSOvd/14MrSedxurNjfqYOo52aQRG3A4PfxrequavYHKYcPbaokqp4FqHyf
- VqTounXMg6dkLSId733ZERB9rGN/U3IYTutzfuUP4H8ScTaDqJkjfyrktN3ktSAQi9/oZ/QVtZa
- qJ1MQbq3VVJgqi2TD2l+AHDWH7LQ95D6t9R9gsWFVYQctUuaTOPs2+Nl6Vo4nO3Z8mCCHHfOTVy
- lU1GyUZXKLd+P0legZZ9ndg0uTBrcNZcn28LUIcn9/OQT0EHhV8Dt39nw4pGH/ZB6jv
-X-Google-Smtp-Source: AGHT+IE2AAunC8wmSSoVHJwvOzFoZYPvX4c5A5ejLO9bR6TnjihE9dezvHIlPn7G9UQ6/5A3kkQW9g==
-X-Received: by 2002:a05:6a00:a8c:b0:725:24c2:b794 with SMTP id
- d2e1a72fcca58-725b8188090mr18378334b3a.23.1733738881124; 
- Mon, 09 Dec 2024 02:08:01 -0800 (PST)
-Received: from [192.168.0.115] ([59.188.211.160])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-725d9b98eb2sm3567122b3a.148.2024.12.09.02.07.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Dec 2024 02:08:00 -0800 (PST)
-Message-ID: <551941de-b9a4-4353-8bb2-0bfc3304ef87@gmail.com>
-Date: Mon, 9 Dec 2024 18:07:55 +0800
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D03410E6B7;
+ Mon,  9 Dec 2024 10:08:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1733738908; x=1734343708; i=toralf.foerster@gmx.de;
+ bh=++GSIVtMPvhelwP5xwNl0IfmdO/ctiFEal2GziBdmUc=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
+ Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=Los3TLxqctonPt/IjJifsiy4ra63zkNqLlqov+AuWN9qcEizGpKraQXVIWk5ZVeC
+ oUPYk79Rml85n4quPmjeKuYGVON1UdBhcjof20HaxOgabjga3OX5iilQ33oQtJSP/
+ YKYsKQc6R4f8J3eWSKJt1a64orYPm/zPGhAeRfXH9COBWsp1YVAl+8Jd1s1LeV9lV
+ tp8LM3CxhmR1U3rG7Th/a+Y+eeAEUlXjX4b98VEsb24rAtCsjw3GsO4ISAggxaIV/
+ woSALVUMmLJvBDng58RVZNwkbifrMrveCD+Ttwyv8wrqaIpt5CT276ktJwW727bBy
+ fZ7L0CNkJIisVgvc0w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.178.33] ([77.8.121.179]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mnps0-1tzlKb3RIA-00bRw2; Mon, 09
+ Dec 2024 11:08:27 +0100
+Message-ID: <b77c293a-8418-437c-b879-7d292d96f2cc@gmx.de>
+Date: Mon, 9 Dec 2024 11:08:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-To: Krzysztof Kozlowski <krzk@kernel.org>, y@krzk-bin
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20241207130433.30351-1-towinchenmi@gmail.com>
- <20241207130433.30351-3-towinchenmi@gmail.com>
- <bqn4tddl3kgle7zlamgaqlh45pizw6gf5qjwlmcsbkb6fx343l@tf5w63xursi2>
+Subject: Re: 6.6.57 has a new WARNING:
+ amdgpu/../display/dc/dcn30/dcn30_dpp.c:501 dpp3_deferred_update+0x106/0x330
+ [amdgpu
+From: =?UTF-8?Q?Toralf_F=C3=B6rster?= <toralf.foerster@gmx.de>
+To: Linux Kernel <linux-kernel@vger.kernel.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel
+ <dri-devel@lists.freedesktop.org>, airlied@gmail.com
+References: <b110ad59-f503-492d-9758-1634c1277b5d@gmx.de>
 Content-Language: en-US
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <bqn4tddl3kgle7zlamgaqlh45pizw6gf5qjwlmcsbkb6fx343l@tf5w63xursi2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=toralf.foerster@gmx.de; keydata=
+ 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
+In-Reply-To: <b110ad59-f503-492d-9758-1634c1277b5d@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qPBSZ9kU9yi3FNk66Rpoj3F10Z9DR9Pu6clIiJcJeZwFB+W5C5r
+ 67whLsoMOpzFT972xA6UchezNDCqXYVHlHphd6fb8NfDx0BQaytVywgbNaWx+mXASNsnc+6
+ FnIwFT/WPd8S6MqpNXPDXtRd8WOJzcJIWKMZjuc8J1VEf0vcfGcHLvcMecJS2ftaxSkeotb
+ XRJcV9LGWw+7z57gDjCHg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wOIRnsUMyUc=;eCbegi37DDA93hhqwbZlbiHFgU8
+ YxOvRGZmp0kXqzBNAQXx42AIk+7rwtEdMAmQMA/gbTU1iJpvUhxOV1dsLR7BHZGUQ9/Q2nkmz
+ vPCdCVO9Nbitv7AMhdnoJQSrZxPiHMRxjdS3DAuAffYrZ+BlW1TaPxhruPaQiEgxCSdpNGkjp
+ 7yiwDqD9kYNlajcI8F/MwC2q17AEYeDUNak5CGAey6xX78xauAtfvW2MMdOKLUaghT/vhaXTG
+ 0UL+ZK5AKWff7eVb878v5BaCjhfzJnhRG2AIgZdygY9Vpx83degifmX8nv/eUXKA2ZzKsOC5J
+ huCFvjNCRB+IreAoiMVM/w43uor0GWLqqNVUc+KQDo7nnDZ5a6Ld/yQf8EN4aRlC6qQAQ/eYh
+ g+rsqGfvTT6EtCJmkAARRmDGIuavavwL77LQqN1/7KIB8jeH0hDhrBn+6jISJ1DAC3d1dfH8S
+ m5n4xy3Hch6wHymsINj5cxRtqdGqPr/9sLWwFY5QEh/H4p5mdyPqLD1Vii3bby+rXw1nu+W+8
+ l6YOD/yiVxH5IPtqSwAxWodLKFQ+x/kuwzb/kheQUEX4tAGx9Lpay7qQYnQ/gy58fzEep6VMu
+ A3Qql9vQ8jTow5nrtX+84jU4dps5twdnkdnl/pmWJjQtreRvyU1TyKjLPgis0iFEL77Drsafm
+ MfaTv8KxzU7hLAEO9vQh7Lz8SVuxxJ83YITH34Psn5ctYgaGP5MfSeEs3wXz7Oglzu5iRfQWF
+ iCj7nGarlxNKG+grS+VpufFKExEIXM7oq9ehM6MJRK++mS3XvC2jStyFOR64whiT9T1IU7PdJ
+ OOx90QAPtmf4GRKjAsjbmxjjSwjjllaZtql8uhD+2fGHDBhraW2QQii+wTgGw/wNyiduKf5NY
+ dtXB7cqlS0sGelwTCVNJKyYFBBHtxUI8a3kAi1kYQ6CZXksyfpuWSH2Gvbxfu/4vaBuvkq7YL
+ lCfVwPSdf6HeO0pGfnYx7yX/iOFG7dw6vP2dHvi4tk/howZR7cXtCXm8ikw9z6tS6CCMoKNW0
+ ahU8ojSV4dCc+wwuJ7eJVkFkrHLodptYy9NOW+RBU+yUPN7o6s2Tt65Vz8ffLM3Onw6YihlHb
+ xXBx4oNE9gnuGrskL+KJI4dwz7E+mF
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,177 +133,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since 6.6.57 there'se a new warning here which is still in 6.6.64.
+
+Is this a known issue?
 
 
-Krzysztof Kozlowski 於 2024/12/9 下午5:22 寫道:
-> On Sat, Dec 07, 2024 at 09:03:15PM +0800, Nick Chan wrote:
->> Add driver for backlight controllers attached via Apple DWI 2-wire
->> interface, which is found on some Apple iPhones, iPads and iPod touches
->> with a LCD display.
->>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->>  drivers/video/backlight/Kconfig  |  12 +++
->>  drivers/video/backlight/Makefile |   1 +
->>  drivers/video/backlight/dwi_bl.c | 124 +++++++++++++++++++++++++++++++
->>  3 files changed, 137 insertions(+)
->>  create mode 100644 drivers/video/backlight/dwi_bl.c
->>
->> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
->> index 3614a5d29c71..e64cc3d51ac5 100644
->> --- a/drivers/video/backlight/Kconfig
->> +++ b/drivers/video/backlight/Kconfig
->> @@ -166,6 +166,18 @@ config BACKLIGHT_EP93XX
->>  	  To compile this driver as a module, choose M here: the module will
->>  	  be called ep93xx_bl.
->>  
->> +config BACKLIGHT_APPLE_DWI
->> +	tristate "Apple DWI 2-Wire Interface Backlight Driver"
->> +	depends on ARCH_APPLE || COMPILE_TEST
->> +	default y
->> +	help
->> +          Say Y to enable the backlight driver for backlight controllers
->> +          attached via the Apple DWI 2-wire interface which is found in some
->> +          Apple iPhones, iPads and iPod touches.
-> 
-> Mixed/messed indentation. Some spaces?
-Ack. Will be fixed for v4.
+On 10/17/24 17:05, Toralf F=C3=B6rster wrote:
+> [=C2=A0=C2=A0 22.120385] ------------[ cut here ]------------
+> [=C2=A0=C2=A0 22.120389] WARNING: CPU: 13 PID: 11 at drivers/gpu/drm/amd=
+/
+> amdgpu/../display/dc/dcn30/dcn30_dpp.c:501
+> dpp3_deferred_update+0x106/0x330 [amdgpu]
+> [=C2=A0=C2=A0 22.120484] Modules linked in: fuse michael_mic hid_jabra
+> ip6table_filter ip6_tables xt_LOG nf_log_syslog xt_recent xt_multiport
+> xt_limit xt_conntrack nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4
+> iptable_filter xt_comment ip_tables 8021q r8153_ecm cdc_ether usbnet
+> r8152 mii hid_logitech_hidpp snd_usb_audio snd_usbmidi_lib snd_rawmidi
+> bnep hid_logitech_dj btusb qrtr_mhi btrtl btintel btbcm btmtk bluetooth
+> ecdh_generic dm_crypt trusted asn1_encoder uvcvideo videobuf2_vmalloc
+> videobuf2_memops uvc videobuf2_v4l2 videodev videobuf2_common mc qrtr
+> ath11k_pci mhi snd_ctl_led ath11k amdgpu snd_hda_codec_realtek
+> qmi_helpers snd_hda_codec_generic snd_hda_codec_hdmi snd_hda_intel
+> i2c_algo_bit snd_intel_dspcfg drm_ttm_helper ttm hid_multitouch
+> snd_hda_codec agpgart drm_exec intel_rapl_msr hid_generic
+> drm_suballoc_helper snd_hwdep amdxcp think_lmi mac80211 wmi_bmof
+> firmware_attributes_class drm_buddy snd_hda_core libarc4 thinkpad_acpi
+> snd_pcm gpu_sched snd_pci_acp5x ledtrig_audio drm_display_helper
+> snd_timer platform_profile
+> [=C2=A0=C2=A0 22.120565]=C2=A0 snd_rn_pci_acp3x cfg80211 intel_rapl_comm=
+on
+> snd_acp_config drm_kms_helper snd xhci_pci edac_mce_amd sp5100_tco video
+> snd_soc_acpi xhci_pci_renesas kvm_amd kvm irqbypass crct10dif_pclmul
+> crc32_pclmul crc32c_intel ghash_clmulni_intel rapl serio_raw ucsi_acpi
+> cec rfkill r8169 i2c_piix4 xhci_hcd ccp soundcore k10temp typec_ucsi
+> i2c_hid_acpi snd_pci_acp3x i2c_hid roles typec drm wmi amd_pmc acpi_tad
+> [=C2=A0=C2=A0 22.120606] CPU: 13 PID: 11 Comm: kworker/u32:0 Tainted: G =
+=C2=A0=C2=A0=C2=A0 T
+> 6.6.57 #12
+> [=C2=A0=C2=A0 22.120609] Hardware name: LENOVO 21J5002FGE/21J5002FGE, BI=
+OS
+> R23ET60W (1.30 ) 09/14/2022
+> [=C2=A0=C2=A0 22.120611] Workqueue: events_unbound commit_work [drm_kms_=
+helper]
+> [=C2=A0=C2=A0 22.120628] RIP: 0010:dpp3_deferred_update+0x106/0x330 [amd=
+gpu]
+> [=C2=A0=C2=A0 22.120709] Code: 83 78 e1 00 00 0f b6 90 a7 02 00 00 48 8b=
+ 83 70 e1
+> 00 00 8b b0 78 04 00 00 e8 f6 9e 09 00 8b 74 24 04 85 f6 0f 84 5d 01 00
+> 00 <0f> 0b 0f b6 83 48 96 00 00 83 e0 f7 88 83 48 96 00 00 a8 01 0f 84
+> [=C2=A0=C2=A0 22.120712] RSP: 0018:ffffc900000f7b88 EFLAGS: 00010202
+> [=C2=A0=C2=A0 22.120714] RAX: 0000000000000066 RBX: ffff888113e60000 RCX=
+:
+> 0000000000000000
+> [=C2=A0=C2=A0 22.120716] RDX: 0000000000000000 RSI: 0000000000000002 RDI=
+:
+> 0000000000000000
+> [=C2=A0=C2=A0 22.120717] RBP: 0000000000000000 R08: 0000000000000000 R09=
+:
+> 0000000000000000
+> [=C2=A0=C2=A0 22.120719] R10: 0000000000000000 R11: 0000000000000000 R12=
+:
+> ffff88813e100000
+> [=C2=A0=C2=A0 22.120720] R13: ffff88813e102608 R14: ffff88813e1037e8 R15=
+:
+> ffff8881050be800
+> [=C2=A0=C2=A0 22.120722] FS:=C2=A0 0000000000000000(0000) GS:ffff88881ee=
+80000(0000)
+> knlGS:0000000000000000
+> [=C2=A0=C2=A0 22.120723] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 000000008=
+0050033
+> [=C2=A0=C2=A0 22.120725] CR2: 000055d896379fe0 CR3: 0000000017216000 CR4=
+:
+> 0000000000f50ee0
+> [=C2=A0=C2=A0 22.120727] PKRU: 55555554
+> [=C2=A0=C2=A0 22.120728] Call Trace:
+> [=C2=A0=C2=A0 22.120731]=C2=A0 <TASK>
+> [=C2=A0=C2=A0 22.120733]=C2=A0 ? __warn+0x6f/0xd0
+> [=C2=A0=C2=A0 22.120739]=C2=A0 ? dpp3_deferred_update+0x106/0x330 [amdgp=
+u]
+> [=C2=A0=C2=A0 22.120820]=C2=A0 ? report_bug+0x148/0x190
+> [=C2=A0=C2=A0 22.120825]=C2=A0 ? handle_bug+0x40/0x80
+> [=C2=A0=C2=A0 22.120828]=C2=A0 ? exc_invalid_op+0x17/0x80
+> [=C2=A0=C2=A0 22.120830]=C2=A0 ? asm_exc_invalid_op+0x1a/0x20
+> [=C2=A0=C2=A0 22.120835]=C2=A0 ? dpp3_deferred_update+0x106/0x330 [amdgp=
+u]
+> [=C2=A0=C2=A0 22.120907]=C2=A0 ? dpp3_deferred_update+0xfa/0x330 [amdgpu=
+]
+> [=C2=A0=C2=A0 22.120988]=C2=A0 dc_post_update_surfaces_to_stream+0x196/0=
+x1e0 [amdgpu]
+> [=C2=A0=C2=A0 22.121070]=C2=A0 amdgpu_dm_atomic_commit_tail+0x2a25/0x395=
+0 [amdgpu]
+> [=C2=A0=C2=A0 22.121166]=C2=A0 ? srso_alias_return_thunk+0x5/0xfbef5
+> [=C2=A0=C2=A0 22.121169]=C2=A0 ? newidle_balance+0x335/0x3f0
+> [=C2=A0=C2=A0 22.121173]=C2=A0 ? finish_task_switch.isra.0+0x30/0x280
+> [=C2=A0=C2=A0 22.121179]=C2=A0 commit_tail+0x8f/0x130 [drm_kms_helper]
+> [=C2=A0=C2=A0 22.121189]=C2=A0 process_one_work+0x17c/0x2a0
+> [=C2=A0=C2=A0 22.121192]=C2=A0 worker_thread+0x318/0x460
+> [=C2=A0=C2=A0 22.121195]=C2=A0 ? rescuer_thread+0x5f0/0x5f0
+> [=C2=A0=C2=A0 22.121196]=C2=A0 kthread+0xcb/0xf0
+> [=C2=A0=C2=A0 22.121200]=C2=A0 ? kthread_complete_and_exit+0x20/0x20
+> [=C2=A0=C2=A0 22.121202]=C2=A0 ret_from_fork+0x2f/0x50
+> [=C2=A0=C2=A0 22.121206]=C2=A0 ? kthread_complete_and_exit+0x20/0x20
+> [=C2=A0=C2=A0 22.121208]=C2=A0 ret_from_fork_asm+0x11/0x20
+> [=C2=A0=C2=A0 22.121212]=C2=A0 </TASK>
+> [=C2=A0=C2=A0 22.121215] ---[ end trace 0000000000000000 ]---
+>
+>
 
-> 
->> +
->> +	  To compile this driver as a module, choose M here: the module will
->> +	  be called dwi_bl.
->> +
->>  config BACKLIGHT_IPAQ_MICRO
->>  	tristate "iPAQ microcontroller backlight driver"
->>  	depends on MFD_IPAQ_MICRO
->> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
->> index 8fc98f760a8a..0a569d7f0210 100644
->> --- a/drivers/video/backlight/Makefile
->> +++ b/drivers/video/backlight/Makefile
->> @@ -28,6 +28,7 @@ obj-$(CONFIG_BACKLIGHT_BD6107)		+= bd6107.o
->>  obj-$(CONFIG_BACKLIGHT_CLASS_DEVICE)	+= backlight.o
->>  obj-$(CONFIG_BACKLIGHT_DA903X)		+= da903x_bl.o
->>  obj-$(CONFIG_BACKLIGHT_DA9052)		+= da9052_bl.o
->> +obj-$(CONFIG_BACKLIGHT_APPLE_DWI)	+= dwi_bl.o
-> 
-> Please do not introduce other sorting way - it is sorted by config name.
-> Which will also point you to apple_bl.o and need of explaining the
-> differences, e.g. why this cannot be one driver.
 
-apple_bl is a driver backlight controllers on a PCI bus on Intel Macs,
-which is
-completely different from the Samsung-derived DWI block this driver
-deals with.
-This will be explained in the commit message for v4.
-
-> 
-> 
->>  obj-$(CONFIG_BACKLIGHT_EP93XX)		+= ep93xx_bl.o
->>  obj-$(CONFIG_BACKLIGHT_GPIO)		+= gpio_backlight.o
->>  obj-$(CONFIG_BACKLIGHT_HP680)		+= hp680_bl.o
->> diff --git a/drivers/video/backlight/dwi_bl.c b/drivers/video/backlight/dwi_bl.c
->> new file mode 100644
->> index 000000000000..d4bfd74b3129
->> --- /dev/null
->> +++ b/drivers/video/backlight/dwi_bl.c
->> @@ -0,0 +1,124 @@
->> +// SPDX-License-Identifier: GPL-2.0 OR MIT
->> +/*
->> + * Driver for backlight controllers attached via Apple DWI 2-wire interface
->> + *
->> + * Copyright (c) 2024 Nick Chan <towinchenmi@gmail.com>
->> + */
->> +
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/io.h>
->> +#include <linux/backlight.h>
->> +
->> +#define DWI_BL_CTL			0x0
->> +#define DWI_BL_CTL_SEND1		BIT(0)
->> +#define DWI_BL_CTL_SEND2		BIT(4)
->> +#define DWI_BL_CTL_SEND3		BIT(5)
->> +#define DWI_BL_CTL_LE_DATA		BIT(6)
->> +/* Only used on Apple A9 and later */
->> +#define DWI_BL_CTL_SEND4		BIT(12)
->> +
->> +#define DWI_BL_CMD			0x4
->> +#define DWI_BL_CMD_TYPE			GENMASK(31, 28)
->> +#define DWI_BL_CMD_TYPE_SET_BRIGHTNESS	0xa
->> +#define DWI_BL_CMD_DATA			GENMASK(10, 0)
->> +
->> +#define DWI_BL_CTL_SEND			(DWI_BL_CTL_SEND1 | \
->> +					 DWI_BL_CTL_SEND2 | \
->> +					 DWI_BL_CTL_SEND3 | \
->> +					 DWI_BL_CTL_LE_DATA | \
->> +					 DWI_BL_CTL_SEND4)
->> +
->> +#define DWI_BL_MAX_BRIGHTNESS		2047
->> +
->> +struct apple_dwi_bl {
->> +	void __iomem *base;
->> +};
->> +
->> +static int dwi_bl_update_status(struct backlight_device *bl)
->> +{
->> +	struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
->> +
->> +	int brightness = backlight_get_brightness(bl);
->> +
->> +	u32 cmd = 0;
->> +
->> +	cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
->> +	cmd |= FIELD_PREP(DWI_BL_CMD_TYPE, DWI_BL_CMD_TYPE_SET_BRIGHTNESS);
->> +
->> +	writel(cmd, dwi_bl->base + DWI_BL_CMD);
->> +	writel(DWI_BL_CTL_SEND, dwi_bl->base + DWI_BL_CTL);
->> +
->> +	return 0;
->> +}
->> +
->> +static int dwi_bl_get_brightness(struct backlight_device *bl)
->> +{
->> +	struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
->> +
->> +	u32 cmd = readl(dwi_bl->base + DWI_BL_CMD);
->> +
->> +	return FIELD_GET(DWI_BL_CMD_DATA, cmd);
->> +}
->> +
->> +static const struct backlight_ops dwi_bl_ops = {
->> +	.options = BL_CORE_SUSPENDRESUME,
->> +	.get_brightness = dwi_bl_get_brightness,
->> +	.update_status	= dwi_bl_update_status
->> +};
->> +
->> +static int dwi_bl_probe(struct platform_device *dev)
->> +{
->> +	struct apple_dwi_bl *dwi_bl;
->> +	struct backlight_device *bl;
->> +	struct backlight_properties props;
->> +	struct resource *res;
->> +
->> +	dwi_bl = devm_kzalloc(&dev->dev, sizeof(struct apple_dwi_bl), GFP_KERNEL);
-> 
-> sizeof(*)
-> 
->> +	if (!dwi_bl)
->> +		return -ENOMEM;
->> +
->> +	res = platform_get_resource(dev, IORESOURCE_MEM, 0);
->> +	if (!res)
->> +		return -ENXIO;
->> +
->> +	dwi_bl->base = devm_ioremap_resource(&dev->dev, res);
-> 
-> Use helper for these two, devm_platform_get_and_ioremap_resource() or
-> similar.
-Ack. Will be fixed for v4.
-
-> 
-> Best regards,
-> Krzysztof
-> 
-
-Nick Chan
+=2D-
+Toralf
