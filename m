@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC169E902A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E540F9E902C
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5328910E4A2;
-	Mon,  9 Dec 2024 10:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5201710E33E;
+	Mon,  9 Dec 2024 10:31:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i6Qk+uw1";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gLTgnQnB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C930210E491
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 10:31:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7A8910E33E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 10:31:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733740305;
- bh=uNhmgnve4luc+D5B5WQIKlrwApKmXukvG8Co3IvHWcI=;
+ s=mail; t=1733740314;
+ bh=eoxD+MuxeUWnPi1TZIMlO0bSaVXPjRZntQfrGLycbFM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=i6Qk+uw166U0n2OxUOVNIeLG4tCa9HLt1XZDlIlP5VHKFPHT+Pb0pyMO8/FO7DYFn
- miWtsy6yggg3ENn8ZPO1RYMi1rJzaxfMZ8FGvMBYawOr4IB5wvEjBquHF/n4Y7e4Dx
- EuOc58RgutPN6G9hyVIRpLrGPB/ExwPmxnXwVPgnZmtufnG1wC1e/Tmg2NEtGfZnJM
- CAHLd6WOMAAxb5qnoq2cZ9Q24rRCGX7IuqbMPwRlfUW2ny7MLAFD2ArFHFXEVFr2x7
- IMAlba8F02Tv3O2jBUCiGDUmBUoXObSE58FU4eKe9DLsbJJRA4Lk0kpqeyZUd7IKhc
- 4BaNJXyFdaOFA==
+ b=gLTgnQnBrQOHXgTiFEqwaP4J7pXZPhJWiHMKVa35ctJD/pScumBvQ1i89CcDXlDbe
+ uN2VLWMSOdsVPLLkxto2GuhU6oPFn3FReMvaKz8dXEu9OSjcSWIyLtoIbWkS0jmfUv
+ SrElDBoxZBKSTdZRW0qmmqQrsprgejfg4Oj2hPgiC5BPZcqSV82TQnplbEp0bSSIRp
+ CKac8ygzUqjD23HO22QD6DVSWHbt5jLvG9SY/ysVJ1yPVpQOfB9h4FHomPHe4WhnSy
+ Tf3osirrGWXboRb3hJ59yPQeodODSsWp2RJppVS+b1IWGusHJ77QteY45S1ijSCSfT
+ Z1ybLX9ITLpxg==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 8E75817E35FC;
- Mon,  9 Dec 2024 11:31:44 +0100 (CET)
-Message-ID: <a1153976-41ce-43c8-b6c1-14b055e05e9f@collabora.com>
-Date: Mon, 9 Dec 2024 11:31:44 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 51B1A17E360E;
+ Mon,  9 Dec 2024 11:31:53 +0100 (CET)
+Message-ID: <2cafa6a4-1f18-4891-9626-f7e5b83a4a3e@collabora.com>
+Date: Mon, 9 Dec 2024 11:31:52 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [v5,02/10] drm/tests: hdmi: rename connector creation function
+Subject: Re: [v5,01/10] drm/tests: hdmi: handle empty modes in
+ find_preferred_mode()
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -53,10 +54,10 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Jonas Karlman <jonas@kwiboo.se>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20241130-hdmi-mode-valid-v5-2-742644ec3b1f@linaro.org>
+References: <20241130-hdmi-mode-valid-v5-1-742644ec3b1f@linaro.org>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20241130-hdmi-mode-valid-v5-2-742644ec3b1f@linaro.org>
+In-Reply-To: <20241130-hdmi-mode-valid-v5-1-742644ec3b1f@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,11 +76,9 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Il 30/11/24 02:52, Dmitry Baryshkov ha scritto:
-> As pointed out by Maxime, the drm_atomic_helper_connector_hdmi_init()
-> isn't a good name for a function inside KUnit tests. Rename it to
-> drm_kunit_helper_connector_hdmi_init().
+> If the connector->modes list is empty, then list_first_entry() returns a
+> bogus entry. Change that to use list_first_entry_or_null().
 > 
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
 > Reviewed-by: Maxime Ripard <mripard@kernel.org>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
