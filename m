@@ -2,126 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31C29E8763
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Dec 2024 20:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889F19E88F8
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 02:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471DE10E0BE;
-	Sun,  8 Dec 2024 19:05:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8CB810E276;
+	Mon,  9 Dec 2024 01:17:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="WSa95Kxe";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="i1UwMysJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD8310E0BE
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Dec 2024 19:05:55 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-a9f1c590ecdso636914166b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Dec 2024 11:05:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1733684754; x=1734289554;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XjK1bZri5pPYXLEPg3pfsInYn2WFK+u61JXJym8gukc=;
- b=WSa95KxeaUy3giKn0ZL0fyZGx6uAqs/WojdN8JfM7niUMoUHSFLKLtQMKlcQ5+UQO5
- Biuts4B58Sue34fGsCK/wsamk2w/kyVdGQ4UaF37Um84UfM09ovAeNt0jde4gxcXkGD5
- p0cL12YMuMP215j36WqpWmDSVeuika6bHyWQ4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733684754; x=1734289554;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XjK1bZri5pPYXLEPg3pfsInYn2WFK+u61JXJym8gukc=;
- b=oPR+tnyo0PaHhnGV4g/KCydsZAQHgGYyeMe4ct2GfRc6Tqc2Anjmn4TxLUJxdG+WHV
- apV1JUZyk9kskcDEMduPn0hkPrj7j0rz+0kAZLI8aF6mc0qKxm07zgUkXdTMTc/iAkkj
- YyJknkcaieol+8rsDbmUPyqIisDhMqNo7mgMH4RVxTqvlswyB9Bu9WgT4UKVnUR/GqI+
- /NJRFbdJkIG+JvbbH+yBS6vn12O4ksU6YRPxL7Fw/Z0/GQLWo+ukmNAIMULfyY7Cnnpl
- 4y2rrpvTkPvlHYT+Yp930eoMjxBusdTvT6+ls5Q+ds+mVoqGFyFuWjDnhTnr9IotOIAm
- wExA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHe9MYFbyU9HM1DrSTNjjW6CiEpiQxTV65a85IU7jpad0WixKQ2+wHC+/WKGGOdAfcy7kIeiKDmFQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfoYmq9JJFw4toNFKG1+FyViO5KX19k+yRW50lExcZcA21pHFJ
- wUQklQhBHGefpMnFZHtF95zimfrW4wg3GdUU6MV2M6FAXR2mY2J9jfePd2PErVwsrOoMC+viQg8
- mGJWTpA==
-X-Gm-Gg: ASbGnctvyxS40ipxGL+t9gDApKmxnaNpwZ+LOIzWtVJYkbyHqdApnz0sW/YeMNMHReC
- 9HoV1N+MI10RtGl0573kpYOdD9phpwn+2hOCBl0X53k+DpVFzjZw628LLWh9u/2xzpQvyeF++a9
- EK+5BmOGOsR1811UGl63Ouk7YH0BjdnMDIgwpte81VQfRIHqqAiJqnE8vzhtAvezo/D1AiHwV3B
- LoxfC9z3pj4eJyMh9+7crxOCvp15Hzni10SBbvjv8IWq4XII+FWmHz7bJkGKJqvq/6HOci4cwIp
- JzpIMAxBuXMLtxHEMfeNksZ1
-X-Google-Smtp-Source: AGHT+IFaNFhl8BtvUamuUq5WGcsXmRTMYTHWuN0TbFHMZIxfeLXHLird2RKWMDL3EnJM0I9ZGQN3vA==
-X-Received: by 2002:a17:906:2189:b0:aa6:75d3:7d2d with SMTP id
- a640c23a62f3a-aa675d3943cmr300708866b.40.1733684753682; 
- Sun, 08 Dec 2024 11:05:53 -0800 (PST)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com.
- [209.85.218.45]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aa68770c4a4sm42333466b.163.2024.12.08.11.05.51
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Dec 2024 11:05:52 -0800 (PST)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-a9f1c590ecdso636908766b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Dec 2024 11:05:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWreShCaZ4RRFXAR89eyYNFDAoLvHGjEJI8opF5LQW1pp8cdf6cipQJD3xBlaejPmj4G4FMOlWLo7I=@lists.freedesktop.org
-X-Received: by 2002:a17:906:8a53:b0:aa5:4d96:ec7 with SMTP id
- a640c23a62f3a-aa63a21bf90mr809950866b.44.1733684751478; Sun, 08 Dec 2024
- 11:05:51 -0800 (PST)
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C676410E0B9;
+ Mon,  9 Dec 2024 01:17:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1733707036;
+ bh=t+DmoviSdAlTAk3abSj0RVB34XICUcoxmmWptoeLCtM=;
+ h=Date:From:To:Cc:Subject:From;
+ b=i1UwMysJ1ZO+TD6/r/L/NuH6jt2pIFn/AEYRufyRUxUUSG9XNjWRZbrDr/17Gv8n8
+ t4GbF1iqZzcKPKr+Y8pHVFtZAI336VhJhZwe+t7Vai5JUOW+rbnRiO4VE9akZ9a8DD
+ 7WoLcmFfKMlzHTSDlv1m7KSIf5oKzPB0bAJm97mDbfqBv4cJZ8qr6+GQA/ShNL1SBg
+ 8SF1uT4bNFkVVDcBY43BwUqSfOp6KqwNbcVBKHl+Hs3bP05YOyDTnta42yW05eKAkl
+ tw3hdinSvuWLH5khcwbwTYpgyI4m6fEpW+wAO6K/gBdY2aDKbrtO2kZxw/dawa1Aei
+ kcROYCcYV1kPw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Y63qt32kcz4wj1;
+ Mon,  9 Dec 2024 12:17:14 +1100 (AEDT)
+Date: Mon, 9 Dec 2024 12:17:17 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Peter Zijlstra <peterz@infradead.org>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20241209121717.2abe8026@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20241203-is_constexpr-refactor-v1-0-4e4cbaecc216@wanadoo.fr>
- <20241203-is_constexpr-refactor-v1-2-4e4cbaecc216@wanadoo.fr>
- <1d807c7471b9434aa8807e6e86c964ec@AcuMS.aculab.com>
- <CAMZ6RqLJLP+4d8f5gLfBdFeDVgqy23O+Eo8HRgKCthqBjSHaaw@mail.gmail.com>
- <9ef03cebb4dd406885d8fdf79aaef043@AcuMS.aculab.com>
- <abdd7862f136aa676b2d2c324369f4a43ff9909c.camel@gwdg.de>
- <CAMZ6RqKzGiRNMeLsQKRNrxvW_bXB-kEi11udQ82kKX6tGCrqcg@mail.gmail.com>
- <9607300dfca5d71ca9570b1e1de0864e524f356b.camel@gwdg.de>
- <344b4cf41a474377b3d2cbf6302de703@AcuMS.aculab.com>
- <9a0c041b6143ba07c2b3e524572fccd841f5374b.camel@gwdg.de>
- <CAHk-=wjpVXEjX16PP=-hi4CgLqEGJ_U-WvKWq+J3C+FW-hSSfg@mail.gmail.com>
- <0a2996a7c63930b9d9a8d3792358dd9e494e27c1.camel@gwdg.de>
- <CAHk-=wjsfYYKBYuW8_6yKjdwHih0MMa2GwUJh_LHcuUNFR7-QA@mail.gmail.com>
- <9d9567dbdaf39688bbd0d240e29dec826a5931ee.camel@gwdg.de>
- <b71056c1b9e04aa383f2e5608c27290f@AcuMS.aculab.com>
- <6658618490381cf5ec35edbb66f1478024174e67.camel@gwdg.de>
- <e71fffb7ff0e4bf29692d006c0fe77c2@AcuMS.aculab.com>
- <87dd9b7b52e7cea874c1899f56efdd3d7c5b7243.camel@gwdg.de>
-In-Reply-To: <87dd9b7b52e7cea874c1899f56efdd3d7c5b7243.camel@gwdg.de>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 8 Dec 2024 11:05:34 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg+_6eQnLWm-kihFxJo1_EmyLSGruKVGzuRUwACE=osrA@mail.gmail.com>
-Message-ID: <CAHk-=wg+_6eQnLWm-kihFxJo1_EmyLSGruKVGzuRUwACE=osrA@mail.gmail.com>
-Subject: Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of
- __is_constexpr()
-To: Martin Uecker <muecker@gwdg.de>
-Cc: David Laight <David.Laight@aculab.com>,
- Vincent Mailhol <mailhol.vincent@wanadoo.fr>, 
- Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
- Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
- Justin Stitt <justinstitt@google.com>, Yury Norov <yury.norov@gmail.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Rikard Falkeborn <rikard.falkeborn@gmail.com>, 
- "linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "llvm@lists.linux.dev" <llvm@lists.linux.dev>, 
- "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "coresight@lists.linaro.org" <coresight@lists.linaro.org>, 
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/TGxxteLnVPJt1FrtE=UXr.l";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,111 +60,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 8 Dec 2024 at 10:11, Martin Uecker <muecker@gwdg.de> wrote:
-> >
-> > A lot of the 'macro business' for min/max is avoiding unexpected
-> > conversion of negative values to very large unsigned ones.
-> > And no, -Wsign-compare is spectacularly useless.
->
-> This is a different topic, but what would be needed here?
+--Sig_/TGxxteLnVPJt1FrtE=UXr.l
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Dan Carpenter actually wrote up some of the issues in:
+Hi all,
 
-   https://staticthinking.wordpress.com/2023/07/25/wsign-compare-is-garbage=
-/
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-but the basic issue is that -Wsign-compare has over the years been
-truly spectacularly bad.
+In file included from include/linux/module.h:22,
+                 from include/linux/device/driver.h:21,
+                 from include/linux/device.h:32,
+                 from include/linux/dma-mapping.h:5,
+                 from include/linux/dma-buf.h:21,
+                 from include/linux/virtio_dma_buf.h:11,
+                 from drivers/gpu/drm/virtio/virtgpu_prime.c:26:
+drivers/gpu/drm/virtio/virtgpu_prime.c:30:18: error: expected ',' or ';' be=
+fore 'DMA_BUF'
+   30 | MODULE_IMPORT_NS(DMA_BUF);
+      |                  ^~~~~~~
+include/linux/moduleparam.h:26:61: note: in definition of macro '__MODULE_I=
+NFO'
+   26 |                 =3D __MODULE_INFO_PREFIX __stringify(tag) "=3D" info
+      |                                                             ^~~~
+include/linux/module.h:299:33: note: in expansion of macro 'MODULE_INFO'
+  299 | #define MODULE_IMPORT_NS(ns)    MODULE_INFO(import_ns, ns)
+      |                                 ^~~~~~~~~~~
+drivers/gpu/drm/virtio/virtgpu_prime.c:30:1: note: in expansion of macro 'M=
+ODULE_IMPORT_NS'
+   30 | MODULE_IMPORT_NS(DMA_BUF);
+      | ^~~~~~~~~~~~~~~~
 
-It has literally started out from the completely nonsensical and
-incorrect assumption that the types of a comparison have to match in
-signedness, and it shows in the name itself, but it also showed in
-early implementations.
+Caused by commit
 
-The very first versions of gcc that did -Wsign-compare literally
-complained about code like
+  25c3fd1183c0 ("drm/virtio: Add a helper to map and note the dma addrs and=
+ lengths")
 
-     sizeof(x) < 5
+Interacting with commit
 
-because obviously one side is an unsigned 'size_t', and the other side
-is a signed 'int'. So comparing the two is clearly invalid, right?
+  cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
 
-No.
+from Linus' tree.
 
-It's obviously *not* invalid, and any compiler that complains about
-different signedness of that compare is just complete useless garbage.
-It's literally checking two constants against each other, and the
-result doesn't depend on the signedness or the silent C implicit type
-conversion.
+I have applied the following merge fix patch for today.
 
-And no, gcc doesn't complain about that particular code any more.
-*That* particular problem was I think only visible in a gcc
-pre-release that sadly did actually ship as part of a SUSE release, so
-we saw it in the wild even if it was never in an official gcc release.
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Mon, 9 Dec 2024 12:08:24 +1100
+Subject: [PATCH] fix up for "drm/virtio: Add a helper to map and note the d=
+ma
+ addrs and lengths"
 
-I'm pointing out the history because it's relevant due to explaining
-*why* the whole concept of looking at just the type is so broken, and
-how the whole background to the warning was broken from the very
-beginning. The very name of the warning is a sign of the problem.
+interacting with commit
 
-Because gcc still *does* complain about entirely valid code, where
-"fixing" the warning just means you have to write worse code.
+  cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
 
-I think Dan's example from the link above is a good one: if
+from Linus' tree.
 
-        for (int i =3D 0; i < sizeof(x); i++)
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/virtio/virtgpu_prime.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-causes a warning, the compiler got things entirely wrong.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virti=
+o/virtgpu_prime.c
+index 688810d1b611..b3664c12843d 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_prime.c
++++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+@@ -27,7 +27,7 @@
+=20
+ #include "virtgpu_drv.h"
+=20
+-MODULE_IMPORT_NS(DMA_BUF);
++MODULE_IMPORT_NS("DMA_BUF");
+=20
+ static int virtgpu_virtio_get_uuid(struct dma_buf *buf,
+ 				   uuid_t *uuid)
+--=20
+2.45.2
 
-And yes, modern gcc very much warns about that:
+--=20
+Cheers,
+Stephen Rothwell
 
-  t.c:4:27: warning: comparison of integer expressions of different
-signedness: =E2=80=98int=E2=80=99 and =E2=80=98long unsigned int=E2=80=99 [=
--Wsign-compare]
-      4 |         for (int i =3D 0; i < sizeof(b); i++)
-        |                           ^
+--Sig_/TGxxteLnVPJt1FrtE=UXr.l
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-So if you want a general-purpose "Warn about dangerous comparisons",
-you need to get away from the mindset that it's about different signs.
+-----BEGIN PGP SIGNATURE-----
 
-A compiler needs to do proper value range analysis before warning
-about comparing said values. Not just mindlessly say "different types
-bad" like some marsupial that has been dropped on its head a few too
-many times.
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmdWRR0ACgkQAVBC80lX
+0Gya1gf+L7+ybxyfZSaJhxvqPO9tsfECMUSA6w/dj8rcodhy5CrYOfDWkt/avS49
+F41fQ1QqqvmgOpqT3Rj/mKBlFCNlZAj04bNukZcgy/v3CLGYcQq/QY+n4deKDAUp
+bMnQsChNIXqI/bwyZ7laLU+3HAPim0tF9b6vA2t2vjKRNbeYigrjVc2vW+RXRI0T
+RRRGkGZdepm37Sv1/pzIQFstyPNum6hutFpYvQ/xn0NA5EYzKC0xBfw4Veng9rdU
+bq6xvanR8Ldlsz4kAfR+sUHZepeR6UG3bC0R95vSZsj/1up13gWn09lp7zQvh36z
+L7EugUQRrzyAiojD3i2m8Y2aswKoiA==
+=c+iH
+-----END PGP SIGNATURE-----
 
-End result: calling it "Warn about sign compare" is a disease. It
-shows a lack of understanding of how complex the warning logic needs
-to be.
-
-Now, I'm not claiming that our min/max type warnings are great either:
-they *do* end up basically being the same silly "just check signs, but
-at least don't complain about signed positive constants being used for
-unsigned comparisons".
-
-So our min/max macros most definitely are *not* doing that "value
-range analysis" that I claim is required for a *general* comparison
-thing.
-
-But our min//max macros aren't some general thing. They are very
-specific, and so it's a lot easier to accept the not-great-analysis
-for those specific cases where we then may have to change types
-explicitly or do some other massaging to avoid the warning.
-
-Put another way: a warning that triggers on really basic C absolutely
-*must*not* have silly easily triggerable false positives for good and
-idiomatic source code.
-
-Such a warning is worse than useless, and gets disabled.
-
-But a warning that is overly restrictive and gives silly false
-positives can still be entirely acceptable when the context of that
-warning is very limited.
-
-So this is why in the kernel we disable '-Wsign-compare' in the
-general case, but *do* basically manually then implement that very
-same logic in the very _specific_ case of the min/max() macros.
-
-What is unacceptable nonsense in one case may be acceptable "good
-enough" in another. Life is not fair, I'm afraid.
-
-                Linus
+--Sig_/TGxxteLnVPJt1FrtE=UXr.l--
