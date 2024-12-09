@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690039E970C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 14:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796D09E970D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 14:33:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C402C10E74E;
-	Mon,  9 Dec 2024 13:33:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E112210E758;
+	Mon,  9 Dec 2024 13:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I4yQpSZ+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QbadJ5/5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D35610E75A;
- Mon,  9 Dec 2024 13:33:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A929B10E74B;
+ Mon,  9 Dec 2024 13:33:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733751207; x=1765287207;
+ t=1733751210; x=1765287210;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=de/u2tWBFVAIdQnJDSDQoU0pPV3M20qjM9UvPCWy9Wk=;
- b=I4yQpSZ+UJ+8cvbFQnDS5IBzHw41RujFl3c+FhH5b5pN9GflFgB7jbF0
- zGFWemo1e751abCpGYSeiZ/IybE+6oOungaZduC4iF/cMtSNIiEvYk+GU
- fHte+IA/naiAhzKNJDCMqhLfq23N6j85FR3UEz/5b0oOeXKd7N6592bPq
- YXeb/AbTbjJMkhOR+sYoSe6yUGkEVcCaIQVdm6KHvzIH3pqWFGz9/B/kH
- 3YKEozkjCv5Jl/BQqPxQswu3M/rOIQ+1hOZLSLf7Jh//f1QHBrVreT6xi
- QnlweeW1Lae8OwZtUpkIGZexuN/8hBojDjHGN44I2Tw0/c0vAvQ6asgL6 w==;
-X-CSE-ConnectionGUID: Hld7nBTBReylJHTEWgNVzQ==
-X-CSE-MsgGUID: VMHg4P7PRs6CfrDDy/Pc2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34192064"
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="34192064"
+ bh=i0eEWUvjEADbiO2A+EF/OaWk+nouJDCJvT64ZfH2BCQ=;
+ b=QbadJ5/5qAhiEUYJHmaAHyN4sPBKqxmZE0+irN9BUpl/qFOCmksnXxK9
+ 4qFL3HRqsVR7t8MmC0LMj1RSeVxB74BVCpcxX1sRejSeOx5tUsZk7hEHd
+ WvsIkEPn0HrMQ5T303knlWb/RB9iOKBGq6xzaOQaXUdo8BebQgJToZUyo
+ SrQfNJce/zKfItap/1IFAci0T3eFL2tUv76feVh4lZYvP2kH12BAJgvZJ
+ cnqWnB4McNmTqpsfTUtFCvNJQInhsQIJ2oLzDWLBsHMcNezAp9uNJDWa6
+ HstvAmxFTDMbfGBpYTZnK72z8JBfG0P9O3gvnUFEVH5X2Q1s+ECCZn7GB w==;
+X-CSE-ConnectionGUID: kOp2C9TpS7OfO7/rufzqCw==
+X-CSE-MsgGUID: 3fUhB8vaSrenS0fRDRFd4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34192076"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="34192076"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 05:33:27 -0800
-X-CSE-ConnectionGUID: 37JK02koTcSf/c/MbvXsjw==
-X-CSE-MsgGUID: BH1pn6BQQhKpbVr7WYr/vg==
+ 09 Dec 2024 05:33:29 -0800
+X-CSE-ConnectionGUID: P1e/Bbc0TB6IclHkN+TnNw==
+X-CSE-MsgGUID: fxvzCazRTjqVaj5saA/AjQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="99531326"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="99531334"
 Received: from mkuoppal-desk.fi.intel.com ([10.237.72.193])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 05:33:26 -0800
+ 09 Dec 2024 05:33:28 -0800
 From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Maciej Patelczyk <maciej.patelczyk@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Jonathan Cavitt <jonathan.cavitt@intel.com>
-Subject: [PATCH 14/26] drm/xe/eudebug: implement userptr_vma access
-Date: Mon,  9 Dec 2024 15:33:05 +0200
-Message-ID: <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
+ Dominik Grzegorzek <dominik.grzegorzek@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Subject: [PATCH 15/26] drm/xe: Debug metadata create/destroy ioctls
+Date: Mon,  9 Dec 2024 15:33:06 +0200
+Message-ID: <20241209133318.1806472-16-mika.kuoppala@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
 References: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,106 +71,427 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrzej Hajda <andrzej.hajda@intel.com>
+From: Dominik Grzegorzek <dominik.grzegorzek@intel.com>
 
-Debugger needs to read/write program's vmas including userptr_vma.
-Since hmm_range_fault is used to pin userptr vmas, it is possible
-to map those vmas from debugger context.
+Ad a part of eu debug feature introduce debug metadata objects.
+These are to be used to pass metadata between client and debugger,
+by attaching them to vm_bind operations.
 
-v2: pin pages vs notifier, move to vm.c (Matthew)
-v3: - iterate over system pages instead of DMA, fixes iommu enabled
-    - s/xe_uvma_access/xe_vm_uvma_access/ (Matt)
+todo: WORK_IN_PROGRESS_* defines need to be reworded/refined when
+      the real usage and need is established by l0+gdb.
 
-Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-Signed-off-by: Maciej Patelczyk <maciej.patelczyk@intel.com>
+v2: - include uapi/drm/xe_drm.h
+    - metadata behind kconfig (Mika)
+    - dont leak args->id on error (Matt Auld)
+
+Cc: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Dominik Grzegorzek <dominik.grzegorzek@intel.com>
 Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com> #v1
 ---
- drivers/gpu/drm/xe/xe_eudebug.c |  3 ++-
- drivers/gpu/drm/xe/xe_vm.c      | 47 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h      |  3 +++
- 3 files changed, 52 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/Makefile                  |   3 +-
+ drivers/gpu/drm/xe/xe_debug_metadata.c       | 107 +++++++++++++++++++
+ drivers/gpu/drm/xe/xe_debug_metadata.h       |  50 +++++++++
+ drivers/gpu/drm/xe/xe_debug_metadata_types.h |  25 +++++
+ drivers/gpu/drm/xe/xe_device.c               |   5 +
+ drivers/gpu/drm/xe/xe_device.h               |   2 +
+ drivers/gpu/drm/xe/xe_device_types.h         |   7 ++
+ drivers/gpu/drm/xe/xe_eudebug.c              |  13 +++
+ include/uapi/drm/xe_drm.h                    |  53 ++++++++-
+ 9 files changed, 263 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_debug_metadata.c
+ create mode 100644 drivers/gpu/drm/xe/xe_debug_metadata.h
+ create mode 100644 drivers/gpu/drm/xe/xe_debug_metadata_types.h
 
+diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+index 33f457e4fcd3..e7dc299ea178 100644
+--- a/drivers/gpu/drm/xe/Makefile
++++ b/drivers/gpu/drm/xe/Makefile
+@@ -117,7 +117,8 @@ xe-y += xe_bb.o \
+ 	xe_wa.o \
+ 	xe_wopcm.o
+ 
+-xe-$(CONFIG_DRM_XE_EUDEBUG) += xe_eudebug.o
++xe-$(CONFIG_DRM_XE_EUDEBUG) += xe_eudebug.o \
++	xe_debug_metadata.o
+ 
+ xe-$(CONFIG_HMM_MIRROR) += xe_hmm.o
+ 
+diff --git a/drivers/gpu/drm/xe/xe_debug_metadata.c b/drivers/gpu/drm/xe/xe_debug_metadata.c
+new file mode 100644
+index 000000000000..1dfed9aed285
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_debug_metadata.c
+@@ -0,0 +1,107 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2023 Intel Corporation
++ */
++#include "xe_debug_metadata.h"
++
++#include <drm/drm_device.h>
++#include <drm/drm_file.h>
++#include <uapi/drm/xe_drm.h>
++
++#include "xe_device.h"
++#include "xe_macros.h"
++
++static void xe_debug_metadata_release(struct kref *ref)
++{
++	struct xe_debug_metadata *mdata = container_of(ref, struct xe_debug_metadata, refcount);
++
++	kvfree(mdata->ptr);
++	kfree(mdata);
++}
++
++void xe_debug_metadata_put(struct xe_debug_metadata *mdata)
++{
++	kref_put(&mdata->refcount, xe_debug_metadata_release);
++}
++
++int xe_debug_metadata_create_ioctl(struct drm_device *dev,
++				   void *data,
++				   struct drm_file *file)
++{
++	struct xe_device *xe = to_xe_device(dev);
++	struct xe_file *xef = to_xe_file(file);
++	struct drm_xe_debug_metadata_create *args = data;
++	struct xe_debug_metadata *mdata;
++	int err;
++	u32 id;
++
++	if (XE_IOCTL_DBG(xe, args->extensions))
++		return -EINVAL;
++
++	if (XE_IOCTL_DBG(xe, args->type > DRM_XE_DEBUG_METADATA_PROGRAM_MODULE))
++		return -EINVAL;
++
++	if (XE_IOCTL_DBG(xe, !args->user_addr || !args->len))
++		return -EINVAL;
++
++	if (XE_IOCTL_DBG(xe, !access_ok(u64_to_user_ptr(args->user_addr), args->len)))
++		return -EFAULT;
++
++	mdata = kzalloc(sizeof(*mdata), GFP_KERNEL);
++	if (!mdata)
++		return -ENOMEM;
++
++	mdata->len = args->len;
++	mdata->type = args->type;
++
++	mdata->ptr = kvmalloc(mdata->len, GFP_KERNEL);
++	if (!mdata->ptr) {
++		kfree(mdata);
++		return -ENOMEM;
++	}
++	kref_init(&mdata->refcount);
++
++	err = copy_from_user(mdata->ptr, u64_to_user_ptr(args->user_addr), mdata->len);
++	if (err) {
++		err = -EFAULT;
++		goto put_mdata;
++	}
++
++	mutex_lock(&xef->eudebug.metadata.lock);
++	err = xa_alloc(&xef->eudebug.metadata.xa, &id, mdata, xa_limit_32b, GFP_KERNEL);
++	mutex_unlock(&xef->eudebug.metadata.lock);
++
++	if (err)
++		goto put_mdata;
++
++	args->metadata_id = id;
++
++	return 0;
++
++put_mdata:
++	xe_debug_metadata_put(mdata);
++	return err;
++}
++
++int xe_debug_metadata_destroy_ioctl(struct drm_device *dev,
++				    void *data,
++				    struct drm_file *file)
++{
++	struct xe_device *xe = to_xe_device(dev);
++	struct xe_file *xef = to_xe_file(file);
++	struct drm_xe_debug_metadata_destroy * const args = data;
++	struct xe_debug_metadata *mdata;
++
++	if (XE_IOCTL_DBG(xe, args->extensions))
++		return -EINVAL;
++
++	mutex_lock(&xef->eudebug.metadata.lock);
++	mdata = xa_erase(&xef->eudebug.metadata.xa, args->metadata_id);
++	mutex_unlock(&xef->eudebug.metadata.lock);
++	if (XE_IOCTL_DBG(xe, !mdata))
++		return -ENOENT;
++
++	xe_debug_metadata_put(mdata);
++
++	return 0;
++}
+diff --git a/drivers/gpu/drm/xe/xe_debug_metadata.h b/drivers/gpu/drm/xe/xe_debug_metadata.h
+new file mode 100644
+index 000000000000..3266c25e657e
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_debug_metadata.h
+@@ -0,0 +1,50 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2023 Intel Corporation
++ */
++
++#ifndef _XE_DEBUG_METADATA_H_
++#define _XE_DEBUG_METADATA_H_
++
++struct drm_device;
++struct drm_file;
++
++#if IS_ENABLED(CONFIG_DRM_XE_EUDEBUG)
++
++#include "xe_debug_metadata_types.h"
++
++void xe_debug_metadata_put(struct xe_debug_metadata *mdata);
++
++int xe_debug_metadata_create_ioctl(struct drm_device *dev,
++				   void *data,
++				   struct drm_file *file);
++
++int xe_debug_metadata_destroy_ioctl(struct drm_device *dev,
++				    void *data,
++				    struct drm_file *file);
++#else /* CONFIG_DRM_XE_EUDEBUG */
++
++#include <linux/errno.h>
++
++struct xe_debug_metadata;
++
++static inline void xe_debug_metadata_put(struct xe_debug_metadata *mdata) { }
++
++static inline int xe_debug_metadata_create_ioctl(struct drm_device *dev,
++						 void *data,
++						 struct drm_file *file)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int xe_debug_metadata_destroy_ioctl(struct drm_device *dev,
++						  void *data,
++						  struct drm_file *file)
++{
++	return -EOPNOTSUPP;
++}
++
++#endif /* CONFIG_DRM_XE_EUDEBUG */
++
++
++#endif
+diff --git a/drivers/gpu/drm/xe/xe_debug_metadata_types.h b/drivers/gpu/drm/xe/xe_debug_metadata_types.h
+new file mode 100644
+index 000000000000..624852920f58
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_debug_metadata_types.h
+@@ -0,0 +1,25 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2023 Intel Corporation
++ */
++
++#ifndef _XE_DEBUG_METADATA_TYPES_H_
++#define _XE_DEBUG_METADATA_TYPES_H_
++
++#include <linux/kref.h>
++
++struct xe_debug_metadata {
++	/** @type: type of given metadata */
++	u64 type;
++
++	/** @ptr: copy of userptr, given as a metadata payload */
++	void *ptr;
++
++	/** @len: length, in bytes of the metadata */
++	u64 len;
++
++	/** @ref: reference count */
++	struct kref refcount;
++};
++
++#endif
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index dc0336215912..a7a715475184 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -25,6 +25,7 @@
+ #include "xe_bo.h"
+ #include "xe_debugfs.h"
+ #include "xe_devcoredump.h"
++#include "xe_debug_metadata.h"
+ #include "xe_dma_buf.h"
+ #include "xe_drm_client.h"
+ #include "xe_drv.h"
+@@ -197,6 +198,10 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
+ 			  DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(XE_OBSERVATION, xe_observation_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF_DRV(XE_EUDEBUG_CONNECT, xe_eudebug_connect_ioctl, DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(XE_DEBUG_METADATA_CREATE, xe_debug_metadata_create_ioctl,
++			  DRM_RENDER_ALLOW),
++	DRM_IOCTL_DEF_DRV(XE_DEBUG_METADATA_DESTROY, xe_debug_metadata_destroy_ioctl,
++			  DRM_RENDER_ALLOW),
+ };
+ 
+ static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
+index 088831a6b863..f89f1f0fc25e 100644
+--- a/drivers/gpu/drm/xe/xe_device.h
++++ b/drivers/gpu/drm/xe/xe_device.h
+@@ -218,6 +218,8 @@ static inline int xe_eudebug_needs_lock(const unsigned int cmd)
+ 	case DRM_XE_EXEC_QUEUE_CREATE:
+ 	case DRM_XE_EXEC_QUEUE_DESTROY:
+ 	case DRM_XE_EUDEBUG_CONNECT:
++	case DRM_XE_DEBUG_METADATA_CREATE:
++	case DRM_XE_DEBUG_METADATA_DESTROY:
+ 		return 1;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 7b893a86d83f..4ab9f06eba2d 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -684,6 +684,13 @@ struct xe_file {
+ 	struct {
+ 		/** @client_link: list entry in xe_device.clients.list */
+ 		struct list_head client_link;
++
++		struct {
++			/** @xa: xarray to store debug metadata */
++			struct xarray xa;
++			/** @lock: protects debug metadata xarray */
++			struct mutex lock;
++		} metadata;
+ 	} eudebug;
+ #endif
+ };
 diff --git a/drivers/gpu/drm/xe/xe_eudebug.c b/drivers/gpu/drm/xe/xe_eudebug.c
-index 9d87df75348b..e5949e4dcad8 100644
+index e5949e4dcad8..e9092ed0b344 100644
 --- a/drivers/gpu/drm/xe/xe_eudebug.c
 +++ b/drivers/gpu/drm/xe/xe_eudebug.c
-@@ -3076,7 +3076,8 @@ static int xe_eudebug_vma_access(struct xe_vma *vma, u64 offset_in_vma,
- 		return ret;
- 	}
+@@ -21,6 +21,7 @@
+ #include "xe_assert.h"
+ #include "xe_bo.h"
+ #include "xe_device.h"
++#include "xe_debug_metadata.h"
+ #include "xe_eudebug.h"
+ #include "xe_eudebug_types.h"
+ #include "xe_exec_queue.h"
+@@ -2141,6 +2142,8 @@ void xe_eudebug_file_open(struct xe_file *xef)
+ 	struct xe_eudebug *d;
  
--	return -EINVAL;
-+	return xe_vm_userptr_access(to_userptr_vma(vma), offset_in_vma,
-+				    buf, bytes, write);
- }
+ 	INIT_LIST_HEAD(&xef->eudebug.client_link);
++	mutex_init(&xef->eudebug.metadata.lock);
++	xa_init_flags(&xef->eudebug.metadata.xa, XA_FLAGS_ALLOC1);
  
- static int xe_eudebug_vm_access(struct xe_vm *vm, u64 offset,
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 0f17bc8b627b..224ff9e16941 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3414,3 +3414,50 @@ void xe_vm_snapshot_free(struct xe_vm_snapshot *snap)
- 	}
- 	kvfree(snap);
- }
+ 	down_read(&xef->xe->eudebug.discovery_lock);
+ 
+@@ -2158,12 +2161,22 @@ void xe_eudebug_file_open(struct xe_file *xef)
+ void xe_eudebug_file_close(struct xe_file *xef)
+ {
+ 	struct xe_eudebug *d;
++	unsigned long idx;
++	struct xe_debug_metadata *mdata;
+ 
+ 	down_read(&xef->xe->eudebug.discovery_lock);
+ 	d = xe_eudebug_get(xef);
+ 	if (d)
+ 		xe_eudebug_event_put(d, client_destroy_event(d, xef));
+ 
++	mutex_lock(&xef->eudebug.metadata.lock);
++	xa_for_each(&xef->eudebug.metadata.xa, idx, mdata)
++		xe_debug_metadata_put(mdata);
++	mutex_unlock(&xef->eudebug.metadata.lock);
 +
-+int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64 offset,
-+			 void *buf, u64 len, bool write)
-+{
-+	struct xe_vm *vm = xe_vma_vm(&uvma->vma);
-+	struct xe_userptr *up = &uvma->userptr;
-+	struct xe_res_cursor cur = {};
-+	int cur_len, ret = 0;
++	xa_destroy(&xef->eudebug.metadata.xa);
++	mutex_destroy(&xef->eudebug.metadata.lock);
 +
-+	while (true) {
-+		down_read(&vm->userptr.notifier_lock);
-+		if (!xe_vma_userptr_check_repin(uvma))
-+			break;
+ 	spin_lock(&xef->xe->clients.lock);
+ 	list_del_init(&xef->eudebug.client_link);
+ 	spin_unlock(&xef->xe->clients.lock);
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index d0b9ef0799b2..1a452a8d2a2a 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -103,7 +103,8 @@ extern "C" {
+ #define DRM_XE_WAIT_USER_FENCE		0x0a
+ #define DRM_XE_OBSERVATION		0x0b
+ #define DRM_XE_EUDEBUG_CONNECT		0x0c
+-
++#define DRM_XE_DEBUG_METADATA_CREATE	0x0d
++#define DRM_XE_DEBUG_METADATA_DESTROY	0x0e
+ /* Must be kept compact -- no holes */
+ 
+ #define DRM_IOCTL_XE_DEVICE_QUERY		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_DEVICE_QUERY, struct drm_xe_device_query)
+@@ -119,6 +120,8 @@ extern "C" {
+ #define DRM_IOCTL_XE_WAIT_USER_FENCE		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_WAIT_USER_FENCE, struct drm_xe_wait_user_fence)
+ #define DRM_IOCTL_XE_OBSERVATION		DRM_IOW(DRM_COMMAND_BASE + DRM_XE_OBSERVATION, struct drm_xe_observation_param)
+ #define DRM_IOCTL_XE_EUDEBUG_CONNECT		DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_EUDEBUG_CONNECT, struct drm_xe_eudebug_connect)
++#define DRM_IOCTL_XE_DEBUG_METADATA_CREATE	 DRM_IOWR(DRM_COMMAND_BASE + DRM_XE_DEBUG_METADATA_CREATE, struct drm_xe_debug_metadata_create)
++#define DRM_IOCTL_XE_DEBUG_METADATA_DESTROY	 DRM_IOW(DRM_COMMAND_BASE + DRM_XE_DEBUG_METADATA_DESTROY, struct drm_xe_debug_metadata_destroy)
+ 
+ /**
+  * DOC: Xe IOCTL Extensions
+@@ -1733,6 +1736,54 @@ struct drm_xe_eudebug_connect {
+ 	__u32 version; /* output: current ABI (ioctl / events) version */
+ };
+ 
++/*
++ * struct drm_xe_debug_metadata_create - Create debug metadata
++ *
++ * Add a region of user memory to be marked as debug metadata.
++ * When the debugger attaches, the metadata regions will be delivered
++ * for debugger. Debugger can then map these regions to help decode
++ * the program state.
++ *
++ * Returns handle to created metadata entry.
++ */
++struct drm_xe_debug_metadata_create {
++	/** @extensions: Pointer to the first extension struct, if any */
++	__u64 extensions;
 +
-+		spin_lock(&vm->userptr.invalidated_lock);
-+		list_del_init(&uvma->userptr.invalidate_link);
-+		spin_unlock(&vm->userptr.invalidated_lock);
++#define DRM_XE_DEBUG_METADATA_ELF_BINARY     0
++#define DRM_XE_DEBUG_METADATA_PROGRAM_MODULE 1
++#define WORK_IN_PROGRESS_DRM_XE_DEBUG_METADATA_MODULE_AREA 2
++#define WORK_IN_PROGRESS_DRM_XE_DEBUG_METADATA_SBA_AREA 3
++#define WORK_IN_PROGRESS_DRM_XE_DEBUG_METADATA_SIP_AREA 4
++#define WORK_IN_PROGRESS_DRM_XE_DEBUG_METADATA_NUM (1 + \
++	  WORK_IN_PROGRESS_DRM_XE_DEBUG_METADATA_SIP_AREA)
 +
-+		up_read(&vm->userptr.notifier_lock);
-+		ret = xe_vma_userptr_pin_pages(uvma);
-+		if (ret)
-+			return ret;
-+	}
++	/** @type: Type of metadata */
++	__u64 type;
 +
-+	if (!up->sg) {
-+		ret = -EINVAL;
-+		goto out_unlock_notifier;
-+	}
++	/** @user_addr: pointer to start of the metadata */
++	__u64 user_addr;
 +
-+	for (xe_res_first_sg_system(up->sg, offset, len, &cur); cur.remaining;
-+	     xe_res_next(&cur, cur_len)) {
-+		void *ptr = kmap_local_page(sg_page(cur.sgl)) + cur.start;
++	/** @len: length, in bytes of the medata */
++	__u64 len;
 +
-+		cur_len = min(cur.size, cur.remaining);
-+		if (write)
-+			memcpy(ptr, buf, cur_len);
-+		else
-+			memcpy(buf, ptr, cur_len);
-+		kunmap_local(ptr);
-+		buf += cur_len;
-+	}
-+	ret = len;
++	/** @metadata_id: created metadata handle (out) */
++	__u32 metadata_id;
++};
 +
-+out_unlock_notifier:
-+	up_read(&vm->userptr.notifier_lock);
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 23adb7442881..372ad40ad67f 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -280,3 +280,6 @@ struct xe_vm_snapshot *xe_vm_snapshot_capture(struct xe_vm *vm);
- void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot *snap);
- void xe_vm_snapshot_print(struct xe_vm_snapshot *snap, struct drm_printer *p);
- void xe_vm_snapshot_free(struct xe_vm_snapshot *snap);
++/**
++ * struct drm_xe_debug_metadata_destroy - Destroy debug metadata
++ *
++ * Destroy debug metadata.
++ */
++struct drm_xe_debug_metadata_destroy {
++	/** @extensions: Pointer to the first extension struct, if any */
++	__u64 extensions;
 +
-+int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64 offset,
-+			 void *buf, u64 len, bool write);
++	/** @metadata_id: metadata handle to destroy */
++	__u32 metadata_id;
++};
++
+ #include "xe_drm_eudebug.h"
+ 
+ #if defined(__cplusplus)
 -- 
 2.43.0
 
