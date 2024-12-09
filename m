@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678969E89CE
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 04:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419489E89E3
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 04:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B3610E466;
-	Mon,  9 Dec 2024 03:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B88C110E47D;
+	Mon,  9 Dec 2024 03:42:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hEnEG7pA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ci4UOFuZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6353810E471
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 03:41:06 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1591C10E47E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 03:42:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733715666; x=1765251666;
+ t=1733715727; x=1765251727;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=ncK/sE8+KnlE+XPzzVk25YCDyXg/f1NqF+jwwsC606M=;
- b=hEnEG7pAZ1aPRWgU5BUMJmr6xRn0U0qe25wHFuJFjOf/OrusXHx/ymcB
- hvgzz6vvkUZA/KbBaQTU7gYOi+T7ykRBNT3BRscP9610c9FZsYs3Vgmuo
- wohapfzsWQk20VAQGxH4z2gVISloGUGhM22EdS2aZmB/QyEGuAbJZz0kg
- vxFqyXIGfDbBjD7/KyyRtOr6ESBPI7HrJ6bPqx4DrAE/pyS0+ow9uzUBy
- feGAYGadSWlJJojge34UWEKLyAC1fjLdLkemW1kmnJbFzOtzTOCEYsCld
- 8HLgUesgQ2f+ZE/+Lkua3VkDjAhd8P6hajNBmsclqWg/F2BAZFspgIDlh A==;
-X-CSE-ConnectionGUID: ZdJn+UdgQkmWGRWy7cruAA==
-X-CSE-MsgGUID: rGAKSQysQk2Z4/X/pZ9AjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="33889114"
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; d="scan'208";a="33889114"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2024 19:41:06 -0800
-X-CSE-ConnectionGUID: X3YHOIjOT4KxtkQC+kKXTQ==
-X-CSE-MsgGUID: nkT5gCzYSmOuxlFtB3DBpQ==
+ bh=jjCNDzZlfiFPST1Vis/4xXYsOg56hSTf+XAT+Z9Q2rE=;
+ b=ci4UOFuZPSPrUPphy43bBdegj5Jo88zPorw/shgi5NDnvRymnI1/UbhZ
+ PA0qVeW+HdsHDcHrssfSL3nbC0D7cfaz2UoPsMtHq8PMXXZlc0wE917Z4
+ 64+qgL3Sbx4tVHQq2oZwZ8jX1R5XulHWMWLN6M+vl5N8RuOJPnjwBC2fj
+ Q4CsX2DQiJ961pk9RRGvtwyWl60vGB2qzyFUYToxpkMK63e9dBp9U3s0J
+ QfPMYdTDt5X83/Ui4GHknQOKQurWfL8KyEhUf5cV8IstHVpaGS9qMyslc
+ BVX/dpypmTD2FH5Z5uS+6uIhouRdB4ENejnHkgdf1HE7KDQL0silYO0jd A==;
+X-CSE-ConnectionGUID: 6GuTyew+RuWsB0i9P1+WLA==
+X-CSE-MsgGUID: 9A0WjKJTTS6r0yhBSZ5K0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11280"; a="34135606"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; d="scan'208";a="34135606"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2024 19:42:07 -0800
+X-CSE-ConnectionGUID: Hbvqi3ZbQg6aI6/GpXdtlQ==
+X-CSE-MsgGUID: 0/36i1gHQEmF+PLe0iTyfg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; d="scan'208";a="95295523"
+X-IronPort-AV: E=Sophos;i="6.12,218,1728975600"; d="scan'208";a="94752221"
 Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
- by fmviesa010.fm.intel.com with ESMTP; 08 Dec 2024 19:41:02 -0800
+ by orviesa010.jf.intel.com with ESMTP; 08 Dec 2024 19:42:02 -0800
 Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tKUdn-0003kB-0K;
- Mon, 09 Dec 2024 03:40:59 +0000
-Date: Mon, 9 Dec 2024 11:40:50 +0800
+ (envelope-from <lkp@intel.com>) id 1tKUel-0003kL-0f;
+ Mon, 09 Dec 2024 03:41:59 +0000
+Date: Mon, 9 Dec 2024 11:41:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Nick Chan <towinchenmi@gmail.com>, Lee Jones <lee@kernel.org>,
  Daniel Thompson <danielt@kernel.org>,
@@ -56,9 +56,9 @@ To: Nick Chan <towinchenmi@gmail.com>, Lee Jones <lee@kernel.org>,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org, asahi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-Message-ID: <202412070721.9tZI9Ogl-lkp@intel.com>
+Message-ID: <202412070752.4Q1AOuGo-lkp@intel.com>
 References: <20241206172735.4310-3-towinchenmi@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -89,26 +89,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Chan/dt-bindings-led
 base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
 patch link:    https://lore.kernel.org/r/20241206172735.4310-3-towinchenmi%40gmail.com
 patch subject: [PATCH 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
-config: arc-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070721.9tZI9Ogl-lkp@intel.com/reproduce)
+config: hexagon-randconfig-001-20241207 (https://download.01.org/0day-ci/archive/20241207/202412070752.4Q1AOuGo-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241207/202412070752.4Q1AOuGo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412070721.9tZI9Ogl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412070752.4Q1AOuGo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_update_status':
->> drivers/video/backlight/dwi_bl.c:46:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-      46 |         cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
-         |                ^~~~~~~~~~
-   drivers/video/backlight/dwi_bl.c: In function 'dwi_bl_get_brightness':
->> drivers/video/backlight/dwi_bl.c:61:16: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-      61 |         return FIELD_GET(DWI_BL_CMD_DATA, cmd);
-         |                ^~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/video/backlight/dwi_bl.c:46:9: error: implicit declaration of function 'FIELD_PREP' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
+                  ^
+>> drivers/video/backlight/dwi_bl.c:61:9: error: implicit declaration of function 'FIELD_GET' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           return FIELD_GET(DWI_BL_CMD_DATA, cmd);
+                  ^
+   2 errors generated.
 
 
 vim +/FIELD_PREP +46 drivers/video/backlight/dwi_bl.c
