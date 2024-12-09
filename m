@@ -2,196 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E679E99E6
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 16:03:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4D49E99FF
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 16:06:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94CA010E280;
-	Mon,  9 Dec 2024 15:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D22E310E039;
+	Mon,  9 Dec 2024 15:06:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QcScL/u1";
+	dkim=pass (2048-bit key; unprotected) header.d=thaumatec-com.20230601.gappssmtp.com header.i=@thaumatec-com.20230601.gappssmtp.com header.b="DOuOI9xb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E273B10E24D;
- Mon,  9 Dec 2024 15:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733756633; x=1765292633;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=ojKY8VGrB0NUTTNKW1dlZ7YLMt791JXzjtxlmEN2aZU=;
- b=QcScL/u1suoopEtm61QgaGW6lv6QmViQbS/ZywUdGHsaRHcXb4n0Jutm
- oklZ8k0FSpwJmXi/PsZRg6TQclhUuGJnLiAvyXbjSfNeP39QCx8tIwCmo
- VXCG5Glvp9y7G8usnTLLAeFlVpgsnL4k59wgVKdC6/wn+onfF2UPDc922
- 7w1eMIH8pIcTwqFy/MexFfpto7esk98hRksBC/Y/vfexFduyDMnRG9T1X
- SVC3X52hIBT+D4VtiAtWKICOjU19MVFL3twn3nBViZKmSYHF6w9UEkmgo
- EoT2yUYOgA8FqnIPupbeeQErBsr41Bc9YCWJhe8VNQwpU+yvG7vJpJagI Q==;
-X-CSE-ConnectionGUID: U2k3P0g6Sg65vlcVNlC3xw==
-X-CSE-MsgGUID: d3pVZDRnQPmjJBYjGtHK+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="37740434"
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="37740434"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 07:03:45 -0800
-X-CSE-ConnectionGUID: HvJiLP3vSLae+wV9LKUE0Q==
-X-CSE-MsgGUID: 4qvw0x78RcOcXc7SMhO5wA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="95297421"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 09 Dec 2024 07:03:44 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 9 Dec 2024 07:03:43 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 9 Dec 2024 07:03:43 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 9 Dec 2024 07:03:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eEvqP/svuQHePq6kDJJha03hfHB1suI+0GkfdhwThGQ6lFfV58msKNuvw+o5ZTgpkLC6Z5/WQiSuaE9mMJ5JrF1Mk1RNY0Sujclvn8JEfeMlx4WpEqj0CqEe/qqBsgvG96TUQxMDVlSvS0/hRiwnSGEnBTlY8Q4crO0de30XvBmNpRgLAh/C/BcQzK4zxc5GjwNCP8DnWeVL6yZ5vs9hiPgIpIZFJcjza+zZGRZoDeFlREpnNUtBCvdvZ2D0+tlrh9rHIy9foG6CqaFR52O+iaUSws5a7Uk56X2ExeHRJ6bjswTCjGgOWxlt4F5ePn9c3wN15WrhEYtH2fgiJ9Djcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F4B11m+j+SDYKHTWgiQ51I/BvybU5Pv0AqswYdCIzeM=;
- b=yyGziDgGY3FQmopWALJEw4Iw8huHU9Iv6XqVZWe+cfsCqQwK3N1ZZwk+KXCOKa2VaX6vsGPqr0l+0lJhb5xq2i4UmuEMXXMsjMyB7druSe6IkQpjZNMwEQ5WG9w0jUSzyt6tG5dO8Ol3HwLsJAapsMmMlzkcBCMDViNeSRBwK3/c6W05/PsgrM22aEQT1T8XbDVJY2l1TwtpK1S2np9a+c1bJQQCnQvTvIdwMfkwpSXwWJ6SO4bklmimnteI6nwn1a6LWukzsJ3mkGth+SBMqfKkGIH41gP3v0dU7jYWjlmdod7kjepgCLHnEnvvKNKALvUT6m+hC/yo98t8nml8uQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
- by PH0PR11MB7633.namprd11.prod.outlook.com (2603:10b6:510:26c::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
- 2024 15:03:39 +0000
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6]) by MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6%4]) with mapi id 15.20.8230.010; Mon, 9 Dec 2024
- 15:03:39 +0000
-Message-ID: <3113d4f4-4f8b-41d6-af89-f82cbc89da75@intel.com>
-Date: Mon, 9 Dec 2024 16:03:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/21] Converge on using secs_to_jiffies()
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Easwar Hariharan
- <eahariha@linux.microsoft.com>
-CC: <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
- <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-s390@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-scsi@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
- <linux-block@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
- <ath11k@lists.infradead.org>, <linux-mm@kvack.org>,
- <linux-bluetooth@vger.kernel.org>, <linux-staging@lists.linux.dev>,
- <ceph-devel@vger.kernel.org>, <live-patching@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <etnaviv@lists.freedesktop.org>,
- <oss-drivers@corigine.com>, <linuxppc-dev@lists.ozlabs.org>
-References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <b9fcb12a-b7a4-4c33-836e-67109ce07deb@intel.com>
- <dab77729-682f-4182-9fb2-cd522ac29b5f@linux.microsoft.com>
- <72c8eb66-eb67-4f8b-b0c0-13f1aa001698@intel.com>
- <95a461ca-3ed6-4380-ad1a-da12e1109675@csgroup.eu>
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Content-Language: en-US
-In-Reply-To: <95a461ca-3ed6-4380-ad1a-da12e1109675@csgroup.eu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR10CA0100.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:803:28::29) To MN6PR11MB8102.namprd11.prod.outlook.com
- (2603:10b6:208:46d::9)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A9DA10E039
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 15:06:23 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-434a2033562so42793065e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 07:06:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=thaumatec-com.20230601.gappssmtp.com; s=20230601; t=1733756781; x=1734361581;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fBemlKVePg1M8JMVZCDuH/Kc392eD263a2QapCaGV9U=;
+ b=DOuOI9xbl7GXArBcIx+eM2MjsWIVrC91MC7Yo6oeWloMQlixKRB3Hs69vDqSVkaOho
+ tzgLtLovTmaeYUjUQWzI5oh+sh6ByLwAUy7A4c2MJxMHfhg0b/tlwPoxikechc6XQuzd
+ v+bfB75SF9i6KI7PYye7Tm/fi9563Dfsjl5TeA+yNKHUXERX4otDc0V6wtNp8vlaeDM1
+ FOcboQMcahdq4AkTdVpiLmx1K0+TGAsPwWeyFzc7u9sm3nE8PaGwFJncm2sC5NlNsAS4
+ 89Ko59cAEm4ncvah8pfTS0lLkmjvfW+/HkMF0WY7dbO1bTWCIy9gaWmQUynBH3qOg/Pe
+ r3UQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733756781; x=1734361581;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fBemlKVePg1M8JMVZCDuH/Kc392eD263a2QapCaGV9U=;
+ b=RsoeviHotwaSvs6oUy0riMUD3BgASdGXAwuvD3RKWNlvhHOFNw9u6ZbT2h8Tgb8ZAm
+ j0PvPpdCxu7lhJRuOCkTfXkjiloR+7/xc9XiIkykfdJW096BBirUfYhkI6E6MAwzDckZ
+ ukEv103cyx/6Th0+s0S2uDFjK64Vm5yhwYMlY+70FqdKSmnp4hu/QlpUDjgKPdtOKxy0
+ y9r/nm7uRGGyUPKpQp71WIecu0duf+f41GWR/iau0QmeHHXOMOzVIMl41gubxGaAdBpZ
+ +W8ys4r7guT9g/vEPD/3sz5Sz5nTmKU126jOtmc9nJiasRtgJoiWKXl2X8GXwHKetGdb
+ 2AhQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU/XvzqWqkAIURugE+ihCkoWawXX1K51fuJ6/za41KcTOKQ0FC9GbCg99GnbywrOxxvI+rHQzm5oUc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwI+F1m5IYdU2f4JAylxGC1Mmngi6o7fxPI0eet/xlndUbqx/KX
+ 5s4yBE2ictuFr7pguYT4P8lcxz83LFVs+rqlyeUavMjseVHnLRWjaFBThaixOc4=
+X-Gm-Gg: ASbGncsLlh0dA51s/laUj+G3Vlew5fz4ftBrA9njC0RZtvqDH5gqlCthJVhQIyGl8ZA
+ BaM15Kik8sVWPIXj0x+RkJLP5G2zkCc3DdSyYIMLdCiVU5d0csludRmip8a5AIND3yRGGyqDkGb
+ 2bPwv4tXULLOEwAg/XmtjmR3LVwbpP1NWQFRHifzZ1JaUWjhQ248blHErLi07u7cckPg4cZVNI2
+ Lryxg0lCDQ1uh3DabUBAEwYfHaKDo68kU+GW+22
+X-Google-Smtp-Source: AGHT+IEaMojRUAQLLwed4/ER+OeZapLgzpX/2UyzkziLJwq8W59lZWRdfU3Peh7xaUCEk69zEFgm5A==
+X-Received: by 2002:a05:600c:a09:b0:434:fb65:ebbb with SMTP id
+ 5b1f17b1804b1-434fb65ecb9mr25947035e9.17.1733756781170; 
+ Mon, 09 Dec 2024 07:06:21 -0800 (PST)
+Received: from fedora.. ([91.90.172.13]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-434d43809fdsm103296665e9.1.2024.12.09.07.06.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Dec 2024 07:06:20 -0800 (PST)
+From: Daniel Semkowicz <dse@thaumatec.com>
+To: heiko@sntech.de
+Cc: Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
+ andy.yan@rock-chips.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, quentin.schulz@cherry.de, rfoss@kernel.org,
+ robh@kernel.org, tzimmermann@suse.de
+Subject: Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
+ controller
+Date: Mon,  9 Dec 2024 16:06:08 +0100
+Message-ID: <20241209150619.33998-1-dse@thaumatec.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241203165450.1501219-1-heiko@sntech.de>
+References: <20241203165450.1501219-1-heiko@sntech.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|PH0PR11MB7633:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19376c7c-35e3-4a5d-6282-08dd1862aa15
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dERZaitoL0pnZEQ4aWhRMnd6b1BqY2lkQW54U3lxKzZ5RjExZXkrWEVMV1Jw?=
- =?utf-8?B?RTRrVkgwZjcvMGFFYXJkNjFtUXJmMm5LM0tWY3pTbE5uUytJc3VCdUhwT1Uy?=
- =?utf-8?B?Ym0wZ010TXNNY2UzbW8zVXBXL1MycE0wQTg2eHJuL2hKTWFUNmdaTVhBNHVR?=
- =?utf-8?B?Mk1BN2o5YXBYd3hudTZDN1RCOUMyN0ZSR1ZENlF4UFZOUG5ROHlJNE1GekRE?=
- =?utf-8?B?RTBjNlB3WUZuV256SHY0R1h4MlFHeTN1aFRMcTNucnZEaGYrRzFJMFRNZUNE?=
- =?utf-8?B?SFU1WTZ0SCtHR1gvc0RBdXJURzNkQzV0eG82eVJFNjNSM2FTZEs5S1FYNzJV?=
- =?utf-8?B?ZjVUU3hiZGN5VWRTNDQxaCtIQVR4ZjdkSjVDVndkOERyemJyWnlHNDZvQlFl?=
- =?utf-8?B?OFRxVytXUmFjelMvRTI4WE9jRk5abHRTcHZWRzRJWDRwSDhQNkJaVUw3am9L?=
- =?utf-8?B?eWZyWGlEbXBnUm5Zaytwbk92MjF0K09FUmlvY0FCcnRzSXhUNUo3djNyejBh?=
- =?utf-8?B?SmpuRjRLQVRCZWR0bXVtbGRJRmdxVzlKSURDb2ViMzN3SHNtVTZlc0ZsVGlp?=
- =?utf-8?B?S09LWVp0eXVCNE45aVBWOGs1QnM3NXltRldGdDJFSFk4RnVFaC9Zd3J0WVp6?=
- =?utf-8?B?RnRhcUE1OFV1TkxTU21DMTFIemc1THp6YkRsQmlmZjM2aitsaEhtN1JGY1dB?=
- =?utf-8?B?bVQ2cEtOS2NkQ3c5RHlDUWkycUg2bzZwT20xemFQMW9aam1OdU9GWXZ0SU9j?=
- =?utf-8?B?M29GWm5mRHdpR3p0ZGRreTlHc2ttSkpvQWdwOFpIUTRYcUpvUzh3NXFCTC9X?=
- =?utf-8?B?RUlKMWNCd0dFdmN2YlQ5WDZNR3BiVkVVdkpFbFRkS01pWkl5ZFFTeGxBMlkv?=
- =?utf-8?B?d2I3T1ZIS0c3UkQ1YnUvaWFtbTBqa0h2Rm9MdGUvSW5WMGVsNGFlVmtJems2?=
- =?utf-8?B?YkMrdnQ2OEN0SUNFTzRPM05CT3hpMkEvT0dRd29oUDAzZ09NakV0YzBrZmVN?=
- =?utf-8?B?c1VDdDJzdmFiRXdjODlmazhTNUZ2dER3Y1B1N1BEQ0FPWGFsTWVwN1BHUnVR?=
- =?utf-8?B?MzAvbnJSNG13dXZTYUdsdzJBSXZzTEMxOVhEYUl2SFBheStwZXROQXh1RnYw?=
- =?utf-8?B?aFZzanhNRVNDaGJCdTRXeENNbW80NklMOUwyR2hoOFBYKzZOWEpsY3RQc1NB?=
- =?utf-8?B?S0NXSmhvNzdSZXhGQjA0ZXZ1Tm1BN054Ukd4Y3pnRFM0Z1ZmRzBiWVU3SmF1?=
- =?utf-8?B?TmpDL1lROGVkOXFVK1hEWDBsQ0h3L21nalVvV2U0VVdzRlAyYmFCRjdqWUFF?=
- =?utf-8?B?M1c3WHkwd0t5NXZTanZ6YmF5djc0VzczdFhQL1JvVENwdW5adFgzcW9CVUhr?=
- =?utf-8?B?NVdzcjJNUm9IWE9xUWxCUnVzOFFpMTNhbWhHZHAvTnp4NmlTUTFiYXg1eWlz?=
- =?utf-8?B?TDF2SzkzbkNnZ2pQWlJrSkpzNUVaUWRFL2ZDdDAzcnhaUEpyUXJUU3NPSnlS?=
- =?utf-8?B?RjFMenpsN1RNL1R3blV5OVovaWM1WUNPanV5U1BOaWREKzBRWnY1RERPdVVu?=
- =?utf-8?B?L0N0bXhqd1FlbzZjZ0VPY1BKTDhtVFREWitvZHUzM0ptdnplTFVERW13Wlph?=
- =?utf-8?B?Q1dVdG5yWTJYSDZocGo1aHZ6ekV5YmlGZzV5Nk9Fd29WYVRjSFRjd01yTy9y?=
- =?utf-8?B?cWV0SHZxckNwZm9ha1ErNDVmakdnRzhwVmp5YXA0N1kzNWVMT3NBcUlNVksy?=
- =?utf-8?Q?wEL9oZQB6wix6G1QjQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN6PR11MB8102.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NTJoTjRHL0s2QmFqVDNvRGtIMFhRaVIzd21tTG9VTVJpSW1zdDl5QjRDUW02?=
- =?utf-8?B?d3FnMjJnSUtxS2FmcitLT1RuNzdaYThaZFJMWE93TnhmVW05dDRNdERva0gv?=
- =?utf-8?B?a0F1dEtSb0hSRUZKYmxSaGIzbzVIanVwNXRZSHFac1JTOUtLS3pxQWtoci9n?=
- =?utf-8?B?d3dGY1czWEdLL2tIanpwK1pQdGNKN1FVcWxpb0hmME45aTNnTTVHSTRZUjNN?=
- =?utf-8?B?UnV3OFFWcGd4ZTBBWENkRytDc3ZnVTZqWGJ0MXZXOVlySTJCRDI0R3RQVUNq?=
- =?utf-8?B?QUpYOVdwQXorRkJLSGNISDRpSjU0OUFoa1I3TklEeTJGY3FTbG9WUk9sUmcw?=
- =?utf-8?B?L3dyZmJQZ3YyL211RFZLZW1zdE1xN0xyai82cjdHZ25LUkc5Z3B0cnhOZnpG?=
- =?utf-8?B?RS9pbElJdHZZVDJKMitsSE0xRitKdXlhelRzNEZWcnp5YXRNSjlZcU1WZUV3?=
- =?utf-8?B?c0ZXUlRrTE80Q1NVcUszWStFbm91TmpvWlp0NVhndjRVajk4S0NuNzdVODRT?=
- =?utf-8?B?T2FZZmIrRE1oMDJQdWwvUHFqditUWDhyWEZidjJkdHBFTnRQNk0xVVRvT093?=
- =?utf-8?B?a3l2cmFieUtHL3pRRkxjN1NVR0RuWS9HN1FvanFXUzIyaTZqTkR5SzkxUWFn?=
- =?utf-8?B?VEJ6V1QrNXBZZHRhdkQzd005SXZwY2Z3bWNoc3NPcng0T3kwcDBkRGtEKzV1?=
- =?utf-8?B?RlJRdytOWmllTzg4ZkpCU2xISVpMdm5oUDZHYXB5UTRwVmYwTGRzWDcvYXRr?=
- =?utf-8?B?bUVMczZGeS9seWMzMnp4RFNYZnZ4b09Jby9URzE5WmRNeWF4REZFN3RBazRM?=
- =?utf-8?B?ckYxOGJxdXczWFNCYUliN01VclBuRkpua0VxbFRlLy9ydHRycUJRM2Z5ZW0w?=
- =?utf-8?B?V1ROd2VZSHJuSm1STVJhMXNKRTI1QlVhTVR1R1RvdEw0UEJXWitxK0ZzWFhU?=
- =?utf-8?B?Zi9vS0lGekIvMzlHMVNFN2V0OW5Ka2JrR0ZQOWRRVXlEcTVlYU5wdjJ1RTR5?=
- =?utf-8?B?aDl3YVF6Zi9IUFhjM2lDOW9WeldPL3lHdnpEdkpwdTFDU1FJSnUza1IzK0Zi?=
- =?utf-8?B?WGpRbFFMLzhFbTEzNmJPWFRvQXhQcUY1R1hFdnA4ZytXU1F0cXV3cUpIdStG?=
- =?utf-8?B?M1Zmd1AvTzNsWFZBWDJoMmxPOTdmQUExL005SmxhS2dXQ0h1SWU5QXlEbnFH?=
- =?utf-8?B?eGtMVERzckVIbTBtZ2F1MmVVcy9SL1o5ZHNGeS9NbHFEUzdIUVZZek9nMkc3?=
- =?utf-8?B?aFFUdndzMFBsTW5pNjN0cC8wRHhRaEhVcllYays1NndzblR6N2ZxbVB4RlRm?=
- =?utf-8?B?a3RtUUpZc0JuM0srZkc3djJZOUs4ZW5OVkYyT2VRTFljVkdWcFg5eXppMzQy?=
- =?utf-8?B?bVp5S1o3OGhFNk1VMXIyMFVjdGIveHNsaDdad0ZybGxXUlE2NVVpR2ZjaFE1?=
- =?utf-8?B?TDZDRnBEZGhSL2Rid0lWQThuZENNWENDQ3hvSFhFbFV2YjZlK0hNR0RhbkhS?=
- =?utf-8?B?TXkxdUdPV0NDOFJvMzdETi8wU3JCK1ZuSjh1R2xESWtOZk1rVUd3ZXZxN0hl?=
- =?utf-8?B?OHhKZGJkSW4vdVovTEF4WjZmd1luNFd5Q0NSZWI2SDZDMmVpSWtTYnZXaTdP?=
- =?utf-8?B?WERvWHJxUFFSRlg4OXUySkVJRlFWY1ZqbEExUXBVN00zQ212SVp5QmJ6YTBH?=
- =?utf-8?B?cHloUVdUMkN0UTlIVFJRbkUwMzh2S1RIckhyNll6Z3NXbVlGaG1FUEdZSFgx?=
- =?utf-8?B?ZnlucFlnN3FKemNQSTlRRUtXYWN0SC8yTmtrcjNURWQxTXk1SFRiWGN6MjNS?=
- =?utf-8?B?RytPR3pseHBSMzBqeWFmSHBmMkpnTXMzTmIzQlJhdmdtWjBNVWgzRGUyUFcv?=
- =?utf-8?B?N3RleTZQWjFhNWpnN0IzSUM5aVZtTzNFelR1b0Y5Nnc5MlI4UzlVNHNsSDRV?=
- =?utf-8?B?S2pLQUZzdzNTQ1lUNHdOekhRYnoyMmdwTEJZTGQwY0VEbDhVbEpmcjh3S1Zr?=
- =?utf-8?B?ODFyMDhpMXk4R2VLVjIySTBGRkJMbm5xYWMrTVRNMHllNGdHVEI5UTFNenBh?=
- =?utf-8?B?UW96ak9xdm1RdTcxY3BmY1NBRExKL1IvNkVIQ3oyejh1RXpraWwvUjllOWY0?=
- =?utf-8?B?TC9mMnlkYjF4ZmVrWFVKZVU2NzVVdlZpT0JMZVVJMjBZU0lUUm8xRGgzNWli?=
- =?utf-8?B?VHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19376c7c-35e3-4a5d-6282-08dd1862aa15
-X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 15:03:39.7381 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aAwfYO53ax7O0HgtzbNHxDg4y4YIgk0CrCzgBW8cnkbVLdYnV/IAJaOB+cPgAGabZY4dGCuNoZovPhZ6+A3TkCFPUHvIA+3RncA26GujG54=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7633
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -207,73 +94,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/9/24 1:45 PM, Christophe Leroy wrote:
+Hello Heiko,
+
+On 03.12.24 21:54, Heiko Stuebner wrote:
+> This series adds a bridge and glue driver for the DSI2 controller found
+> in the rk3588 soc from Rockchip, that is based on a Synopsis IP block.
+> 
+> As the manual states:
+> The Display Serial Interface 2 (DSI-2) is part of a group of communication
+> protocols defined by the MIPI Alliance. The MIPI DSI-2 Host Controller is
+> a digital core that implements all protocol functions defined in the
+> MIPI DSI-2 Specification.
 > 
 > 
-> Le 09/12/2024 à 13:01, Przemek Kitszel a écrit :
->> On 12/6/24 9:58 PM, Easwar Hariharan wrote:
->>> On 11/29/2024 4:57 AM, Przemek Kitszel wrote:
->>>>
->>>> [removed most non-list recipients, it's just too much]
->>>>
->>>> On 11/15/24 10:26 PM, Easwar Hariharan wrote:
->>> <snip>
->>
->>>>
->>>> Regarding code - you could also convert msecs_to_jiffies(const * HZ),
->>>> there are 10 that are greppable.
-
-Thanks to Christope, I re-examined those ~10 cases, and that should be
-refactored by just dropping msec_to_jiffies() part, not replacing
-by sec_to_jiffies().
-
->>>>
->>>
->>> Those seem to be mistakes. const*HZ is a seconds-denominated timeout,
->>> being passed to msecs_to_jiffies() which will treat it as a
->>> millisecond-denominated timeout resulting in an excessively long
->>> timeout. I suppose that's better than a too-short timeout, and
->>> apparently it's been working fine all along since hardware responds
->>> before the too-long timeout expires. Half of them are in
->>> drivers/scsi/arcmsr/arcmsr_hba.c and the pattern has apparently been
->>> there since 2010.
->>
->> my point was that, the default value of HZ is 1000, and most of the code
->> that is just `$value*HZ` was meant as "$value seconds, in ms unit".
+> While the driver structure is very similar to the previous DSI controller,
+> the programming model of the core is quite different, with a completely
+> new register set.
 > 
-> I can't follow you here. The default value of HZ is 250 as far as I can 
-> see.
-
-as default I understand "the value that is effective for those that
-don't tweak", not necessarily "the fallback that will be used when not
-set by any other means". On my RedHat and Fedora boxes it's 1000.
-
+> Another notable difference is that the phy interface is variable now too
+> in its width and some other settings.
 > 
-> Regardless, HZ is the number of jiffies per second, nothing else.
 
-That is true. But the name is wrong.
+I did more tests with different LVDS displays. I tested following
+configurations with DSI/LVDS bridge:
+- 1024x600@60.01
+- 1024x768@60.02
+- 1280x800@60.07
+- 1366x768@60.06
 
-> 
->>
->> Same for HZ/const, HZ/2 being 500ms.
->>
->> HZ is awful in that it is not 1s but 1/s, but it was easy to abuse the
->> value in simple context.
-> 
-> Why is that awful ?
+All of them worked without issues, except 1366x768.
+With this resolution, video is blurry, and offset incorrectly
+to the left. There are also repeating errors on the console:
 
-so, 1Hertz = 1/1s == once per second,
-something happening twice per second, with freq of 2Hz, repeats
-each HZ/2 jiffies
-https://en.wikipedia.org/wiki/Hertz
+  rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY irq err at vp3
 
-the #define name should be really JHZ -> JIFFIES_PER_SECOND
+In correct operation with other resolutions, there is no error.
+I am not sure if this is a problem in your series or rather in VOP2
+driver.
 
-> 
-> HZ is a nice macro that gives you the number of ticks per second, so 
-> that you are able to easily calculate the number of ticks for a given 
-> duration, regardless of the configured number of ticks per second.
+I tried to track down the problem, and it seems to be a generic issue
+when horizontal line width is not divisible by 4.
+Lowering line width to 1364px fixes the issue, but of course I have two
+vertical lines of black pixels on the right.
+I also made some tests with 720x1280 DSI display. Lowering horizontal
+line to 718px shows the same problem. With 720px and 716px it works
+correctly.
 
-Again, technically true, but default being eq to number of msec in sec,
-causes it to bite.
+Kind regards
+Daniel
 
