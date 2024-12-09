@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E20F9E9431
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A743D9E9433
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:34:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D851110E722;
-	Mon,  9 Dec 2024 12:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE02510E721;
+	Mon,  9 Dec 2024 12:34:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="TbkCWvX3";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="DIIAgugJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0AC9C10E722
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:34:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id CCB2010E721
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:34:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=IHtTj
- cTu+DnSKNy89SRVAsYS7sLOgsyFok9gfYGh2z0=; b=TbkCWvX36jK9cllVCvgEz
- gKkVfJbX8sMVb6z6Dvvqd9FiBJzQLoSPBaK3RzkadCXOXw9JQ0imfEjc0z0E5Cx/
- qdtK1AO7SwF8/3eERCmn9Z0MNAzY3yBR+2ln3gX6RtsT/N1+ArDrAeugPujhY/HX
- kD2fl+iq+ENWiXl1Ct/qSY=
-Received: from ProDesk.. (unknown [58.22.7.114])
- by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
- _____wDnT3ey41ZnAKtbDA--.2178S2; 
- Mon, 09 Dec 2024 20:33:57 +0800 (CST)
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=trF4L
+ 83g8tN2gupE6CBi+vYrPnk7PSiisHo3Regg5sw=; b=DIIAgugJ8iMdXrbT5hzzu
+ wvwEq7mvRyOkrxQaCybNtUc/GHQLMuQfOX5Vzm+jzUFdh7xkQnBgm2xSB3/VcpP/
+ 0JLT03JluO7gMb1wEyFXfE7EbYnTXgmhTDq9pLQ1prGfVkmOioiIG4d+pjRHFi3L
+ X0ViSpX3thaRlgRo14/f9M=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
+ _____wD3__y941ZnjBSxAg--.2339S2; 
+ Mon, 09 Dec 2024 20:34:08 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
@@ -33,22 +33,21 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
  linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
  Michael Riesch <michael.riesch@wolfvision.net>
-Subject: [PATCH v5 15/18] drm/rockchip: vop2: Set plane possible crtcs by
- possible vp mask
-Date: Mon,  9 Dec 2024 20:33:52 +0800
-Message-ID: <20241209123353.2782091-1-andyshrk@163.com>
+Subject: [PATCH v5 16/18] drm/rockchip: vop2: Add uv swap for cluster window
+Date: Mon,  9 Dec 2024 20:34:03 +0800
+Message-ID: <20241209123404.2782132-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241209122943.2781431-1-andyshrk@163.com>
 References: <20241209122943.2781431-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDnT3ey41ZnAKtbDA--.2178S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxtrW8JFWkXF43Zr17tw45GFg_yoWxKrWUpa
- yxZFy3WF4fCr4agry7Ja98ZFyak39xAw4a93ZrKFsxKr15Kry7Wr1UK3Z8Cr1DuFyxZr1j
- vw4aqrWDur17tFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: _____wD3__y941ZnjBSxAg--.2339S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tFW8Ww1kAF4UAw47JFy7ZFb_yoW8XrWfpw
+ 43ArWqgw45Kw4Iq34kJFW5AFWfJwnxKayxZws7tw1F9ry3KFyDGwn0kFWUAr1qyan2ka17
+ tF93JrW7Zr40vrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2E_NUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hWwXmdW4xobqwAAsR
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQmwXmdW46cEMQAAsO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,9 +65,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-In the upcoming VOP of rk3576, a window cannot attach to all Video
-Ports, we introduce a possible_vp_mask for every window to indicate
-which Video Ports this window can attach to.
+The Cluster windows of upcoming VOP on rk3576 also support
+linear YUV support, we need to set uv swap bit for it.
+
+As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
+0xffffffff, so this register will not be touched on these
+two platforms.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
@@ -77,175 +79,26 @@ Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
 (no changes since v1)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 18 +++++++++++++++++-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  1 +
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 14 ++++++++++++++
- 3 files changed, 32 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 29f7c105b89b..81ba2e29a09d 100644
+index 81ba2e29a09d..4922cce3247a 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -2312,6 +2312,10 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 			if (win->base.type == DRM_PLANE_TYPE_PRIMARY)
- 				continue;
+@@ -1373,10 +1373,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
  
-+			/* If this win can not attached to this VP */
-+			if (!(win->data->possible_vp_mask & BIT(vp->id)))
-+				continue;
-+
- 			if (vop2_is_mirror_win(win))
- 				continue;
+ 	rb_swap = vop2_win_rb_swap(fb->format->format);
+ 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
+-	if (!vop2_cluster_window(win)) {
+-		uv_swap = vop2_win_uv_swap(fb->format->format);
+-		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+-	}
++	uv_swap = vop2_win_uv_swap(fb->format->format);
++	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
  
-@@ -2343,7 +2347,19 @@ static int vop2_create_crtcs(struct vop2 *vop2)
- 
- 		win->type = DRM_PLANE_TYPE_OVERLAY;
- 
--		possible_crtcs = (1 << nvps) - 1;
-+		possible_crtcs = 0;
-+		nvp = 0;
-+		for (j = 0; j < vop2_data->nr_vps; j++) {
-+			vp = &vop2->vps[j];
-+
-+			if (!vp->crtc.port)
-+				continue;
-+
-+			if (win->data->possible_vp_mask & BIT(vp->id))
-+				possible_crtcs |= BIT(nvp);
-+			nvp++;
-+		}
-+
- 		ret = vop2_plane_init(vop2, win, possible_crtcs);
- 		if (ret) {
- 			drm_err(vop2->drm, "failed to init overlay plane %s: %d\n",
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index 5514ece7df4d..adb23438e4cd 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -167,6 +167,7 @@ struct vop2_win_data {
- 	unsigned int phys_id;
- 
- 	u32 base;
-+	u32 possible_vp_mask;
- 	enum drm_plane_type type;
- 
- 	u32 nformats;
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-index baf81e97062c..62f8b4113f5f 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-@@ -347,6 +347,7 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 		.name = "Smart0-win0",
- 		.phys_id = ROCKCHIP_VOP2_SMART0,
- 		.base = 0x1c00,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2),
- 		.formats = formats_smart,
- 		.nformats = ARRAY_SIZE(formats_smart),
- 		.format_modifiers = format_modifiers,
-@@ -360,6 +361,7 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 	}, {
- 		.name = "Smart1-win0",
- 		.phys_id = ROCKCHIP_VOP2_SMART1,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2),
- 		.formats = formats_smart,
- 		.nformats = ARRAY_SIZE(formats_smart),
- 		.format_modifiers = format_modifiers,
-@@ -373,6 +375,7 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 	}, {
- 		.name = "Esmart1-win0",
- 		.phys_id = ROCKCHIP_VOP2_ESMART1,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2),
- 		.formats = formats_rk356x_esmart,
- 		.nformats = ARRAY_SIZE(formats_rk356x_esmart),
- 		.format_modifiers = format_modifiers,
-@@ -386,6 +389,7 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 	}, {
- 		.name = "Esmart0-win0",
- 		.phys_id = ROCKCHIP_VOP2_ESMART0,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2),
- 		.formats = formats_rk356x_esmart,
- 		.nformats = ARRAY_SIZE(formats_rk356x_esmart),
- 		.format_modifiers = format_modifiers,
-@@ -400,6 +404,7 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 		.name = "Cluster0-win0",
- 		.phys_id = ROCKCHIP_VOP2_CLUSTER0,
- 		.base = 0x1000,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2),
- 		.formats = formats_cluster,
- 		.nformats = ARRAY_SIZE(formats_cluster),
- 		.format_modifiers = format_modifiers_afbc,
-@@ -415,6 +420,7 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 		.name = "Cluster1-win0",
- 		.phys_id = ROCKCHIP_VOP2_CLUSTER1,
- 		.base = 0x1200,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2),
- 		.formats = formats_cluster,
- 		.nformats = ARRAY_SIZE(formats_cluster),
- 		.format_modifiers = format_modifiers_afbc,
-@@ -580,6 +586,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 		.name = "Cluster0-win0",
- 		.phys_id = ROCKCHIP_VOP2_CLUSTER0,
- 		.base = 0x1000,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_cluster,
- 		.nformats = ARRAY_SIZE(formats_cluster),
- 		.format_modifiers = format_modifiers_afbc,
-@@ -598,6 +605,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 		.name = "Cluster1-win0",
- 		.phys_id = ROCKCHIP_VOP2_CLUSTER1,
- 		.base = 0x1200,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_cluster,
- 		.nformats = ARRAY_SIZE(formats_cluster),
- 		.format_modifiers = format_modifiers_afbc,
-@@ -616,6 +624,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 		.name = "Cluster2-win0",
- 		.phys_id = ROCKCHIP_VOP2_CLUSTER2,
- 		.base = 0x1400,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_cluster,
- 		.nformats = ARRAY_SIZE(formats_cluster),
- 		.format_modifiers = format_modifiers_afbc,
-@@ -634,6 +643,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 		.name = "Cluster3-win0",
- 		.phys_id = ROCKCHIP_VOP2_CLUSTER3,
- 		.base = 0x1600,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_cluster,
- 		.nformats = ARRAY_SIZE(formats_cluster),
- 		.format_modifiers = format_modifiers_afbc,
-@@ -651,6 +661,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 	}, {
- 		.name = "Esmart0-win0",
- 		.phys_id = ROCKCHIP_VOP2_ESMART0,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_esmart,
- 		.nformats = ARRAY_SIZE(formats_esmart),
- 		.format_modifiers = format_modifiers,
-@@ -667,6 +678,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 	}, {
- 		.name = "Esmart1-win0",
- 		.phys_id = ROCKCHIP_VOP2_ESMART1,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_esmart,
- 		.nformats = ARRAY_SIZE(formats_esmart),
- 		.format_modifiers = format_modifiers,
-@@ -684,6 +696,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 		.name = "Esmart2-win0",
- 		.phys_id = ROCKCHIP_VOP2_ESMART2,
- 		.base = 0x1c00,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_esmart,
- 		.nformats = ARRAY_SIZE(formats_esmart),
- 		.format_modifiers = format_modifiers,
-@@ -699,6 +712,7 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 	}, {
- 		.name = "Esmart3-win0",
- 		.phys_id = ROCKCHIP_VOP2_ESMART3,
-+		.possible_vp_mask = BIT(0) | BIT(1) | BIT(2) | BIT(3),
- 		.formats = formats_esmart,
- 		.nformats = ARRAY_SIZE(formats_esmart),
- 		.format_modifiers = format_modifiers,
+ 	if (fb->format->is_yuv) {
+ 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
 -- 
 2.34.1
 
