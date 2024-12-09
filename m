@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0489E971E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 14:33:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9C79E971D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 14:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49CE910E767;
-	Mon,  9 Dec 2024 13:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D690E10E762;
+	Mon,  9 Dec 2024 13:33:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IolEBWzd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PshWHiwQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD4B010E768;
- Mon,  9 Dec 2024 13:33:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C4E10E75F;
+ Mon,  9 Dec 2024 13:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733751228; x=1765287228;
+ t=1733751230; x=1765287230;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=90FvMUCLQi8mDjtBvWw+swGOj430xuNure4yFSG5B6I=;
- b=IolEBWzd8/PCPSJa+8WCBQHBXJSM4PoVeFhcZQBMWABs9C7ig0X63pED
- JZsGrebwligQqm6KBvCXXOOlQ71FyK70YvjpzHVxs/e7Q6KZDx39I2UP5
- QK6B7IzkyHuYL78oj1R/HSUOhVM8692C0VwO1dGHJAnk0Lx93e0y89HCj
- sruWzNuoHgZTFFvjXhmzwpxo8ai62U9Wgb/JaJofCiCJeh8A58PPFgLkM
- 0qt81CdOyhGAiT0TODoPKECfoRFvxnDvPlVEAq2flELMSDtASlZ9tYE4a
- gGUnFqxFsIPQCbgr/ig+4BbUJvjS77zXMe/FV+S3P+y6/J26qwAG7Tz1G g==;
-X-CSE-ConnectionGUID: v50arGQfS1Kg7/kbv4z+jg==
-X-CSE-MsgGUID: UwnGw1zYRxO72IVlzGM+/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34192214"
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="34192214"
+ bh=RWlBI74UgxTE9VEQ4zxDfmkZ82fFFokHx6rswykANsg=;
+ b=PshWHiwQ9HFaB3By2VqcivgxWhEnGl3TYf3iDOpWZPPy43lCctgSUSCr
+ p6rFeqyyaFD9om31eDugzDAT1NiaEc9wXwv8jF7jIuaoAYGwHCIFG3tKl
+ 9Gi1wgIrjZe98zFat9xsDvij6vwa70D4pM4fwxSNI7A5ClNUPHhayEDs8
+ BhbG3539EWUzfGX805KbRsQnj8xY4FmWPW/acjG8UEaJH2slN81DcOKkn
+ 7cp7Tz58DR/ZeigfSWbp73+fy8FYPawm0eeaapy3UWafiCjIrzqMzI64H
+ btWDz+zE6oeLUcZeX0j9fkobOwYBLGRdl4k31yorqpYx7oGkZ15qrHUsi w==;
+X-CSE-ConnectionGUID: BUs0LGE7SqmLz+aueFzWyA==
+X-CSE-MsgGUID: FJ3B7mCvTquT0Dsg5chDlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11281"; a="34192221"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="34192221"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 05:33:47 -0800
-X-CSE-ConnectionGUID: AFt/k6KfRNm8xPW4e5YaaA==
-X-CSE-MsgGUID: Wxzb7kBeS1a1dDfw7eeegg==
+ 09 Dec 2024 05:33:49 -0800
+X-CSE-ConnectionGUID: lvKuYSf7ShW9DBObARJhNg==
+X-CSE-MsgGUID: O76YidI9S+uG4OCtP0lHNw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="99531391"
+X-IronPort-AV: E=Sophos;i="6.12,219,1728975600"; d="scan'208";a="99531398"
 Received: from mkuoppal-desk.fi.intel.com ([10.237.72.193])
  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2024 05:33:45 -0800
+ 09 Dec 2024 05:33:48 -0800
 From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, Oak Zeng <oak.zeng@intel.com>,
- Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
- Stuart Summers <stuart.summers@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Bruce Chang <yu.bruce.chang@intel.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
  Mika Kuoppala <mika.kuoppala@linux.intel.com>
-Subject: [PATCH 25/26] drm/xe/vm: Support for adding null page VMA to VM on
- request
-Date: Mon,  9 Dec 2024 15:33:16 +0200
-Message-ID: <20241209133318.1806472-26-mika.kuoppala@linux.intel.com>
+Subject: [PATCH 26/26] drm/xe/eudebug: Enable EU pagefault handling
+Date: Mon,  9 Dec 2024 15:33:17 +0200
+Message-ID: <20241209133318.1806472-27-mika.kuoppala@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
 References: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
@@ -77,70 +72,185 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 
 The XE2 (and PVC) HW has a limitation that the pagefault due to invalid
-access will halt the corresponding EUs. So, in order to activate the
-debugger, kmd needs to install the temporal page to unhalt the EUs.
-Plan to be used for pagefault handling when the EU debugger is running.
-The idea is to install a null page vma if the pagefault is from an invalid
-access. After installing null page pte, the user debugger can continue to
-run/inspect without causing a fatal failure or reset and stop.
-Based on Bruce's implementation [1].
+access will halt the corresponding EUs. To solve this problem, enable
+EU pagefault handling functionality, which allows to unhalt pagefaulted
+eu threads and to EU debugger to get inform about the eu attentions state
+of EU threads during execution.
 
-[1] https://lore.kernel.org/intel-xe/20230829231648.4438-1-yu.bruce.chang@intel.com/
+If a pagefault occurs, send the DRM_XE_EUDEBUG_EVENT_PAGEFAULT event to
+the client connected to the xe_eudebug after handling the pagefault.
 
-Cc: Oak Zeng <oak.zeng@intel.com>
-Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-Cc: Stuart Summers <stuart.summers@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Co-developed-by: Bruce Chang <yu.bruce.chang@intel.com>
-Signed-off-by: Bruce Chang <yu.bruce.chang@intel.com>
+The pagefault handling is a mechanism that allows a stalled EU thread to
+enter SIP mode by installing a temporal null page to the page table entry
+where the pagefault happened.
+
+A brief description of the page fault handling mechanism flow between KMD
+and the eu thread is as follows
+
+(1) eu thread accesses unallocated address
+(2) pagefault happens and eu thread stalls
+(3) XE kmd set an force eu thread exception to allow the running eu thread
+    to enter SIP mode (kmd set ForceException / ForceExternalHalt bit of
+    TD_CTL register)
+    Not stalled (none-pagefaulted) eu threads enter SIP mode
+(4) XE kmd installs temporal null page to the pagetable entry of the
+    address where pagefault happened.
+(5) XE kmd replies pagefault successful message to GUC
+(6) stalled eu thread resumes as per pagefault condition has resolved
+(7) resumed eu thread enters SIP mode due to force exception set by (3)
+
+As designed this feature to only work when eudbug is enabled, it should
+have no impact to regular recoverable pagefault code path.
+
 Signed-off-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
 Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 ---
- drivers/gpu/drm/xe/xe_vm.c | 23 +++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h |  2 ++
- 2 files changed, 25 insertions(+)
+ drivers/gpu/drm/xe/xe_gt_pagefault.c | 83 +++++++++++++++++++++++++---
+ 1 file changed, 75 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 474521d0fea9..ff45e5264aed 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3552,3 +3552,26 @@ int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64 offset,
- 	up_read(&vm->userptr.notifier_lock);
- 	return ret;
+diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+index 5558342b8e07..4e2883e19018 100644
+--- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
+@@ -13,6 +13,7 @@
+ 
+ #include "abi/guc_actions_abi.h"
+ #include "xe_bo.h"
++#include "xe_eudebug.h"
+ #include "xe_gt.h"
+ #include "xe_gt_tlb_invalidation.h"
+ #include "xe_guc.h"
+@@ -199,12 +200,16 @@ static struct xe_vm *asid_to_vm(struct xe_device *xe, u32 asid)
+ 	return vm;
  }
+ 
+-static int handle_pagefault(struct xe_gt *gt, struct pagefault *pf)
++static int handle_pagefault_start(struct xe_gt *gt, struct pagefault *pf,
++				  struct xe_vm **pf_vm,
++				  struct xe_eudebug_pagefault **eudebug_pf_out)
+ {
+-	struct xe_device *xe = gt_to_xe(gt);
++	struct xe_eudebug_pagefault *eudebug_pf;
+ 	struct xe_tile *tile = gt_to_tile(gt);
+-	struct xe_vm *vm;
++	struct xe_device *xe = gt_to_xe(gt);
++	bool  destroy_eudebug_pf = false;
+ 	struct xe_vma *vma = NULL;
++	struct xe_vm *vm;
+ 	int err;
+ 
+ 	/* SW isn't expected to handle TRTT faults */
+@@ -215,6 +220,10 @@ static int handle_pagefault(struct xe_gt *gt, struct pagefault *pf)
+ 	if (IS_ERR(vm))
+ 		return PTR_ERR(vm);
+ 
++	eudebug_pf = xe_eudebug_pagefault_create(gt, vm, pf->page_addr,
++						 pf->fault_type, pf->fault_level,
++						 pf->access_type);
 +
-+struct xe_vma *xe_vm_create_null_vma(struct xe_vm *vm, u64 addr)
-+{
-+	struct xe_vma *vma;
-+	u32 page_size;
-+	int err;
+ 	/*
+ 	 * TODO: Change to read lock? Using write lock for simplicity.
+ 	 */
+@@ -227,8 +236,27 @@ static int handle_pagefault(struct xe_gt *gt, struct pagefault *pf)
+ 
+ 	vma = xe_gt_pagefault_lookup_vma(vm, pf->page_addr);
+ 	if (!vma) {
+-		err = -EINVAL;
+-		goto unlock_vm;
++		if (eudebug_pf)
++			vma = xe_vm_create_null_vma(vm, pf->page_addr);
 +
-+	if (xe_vm_is_closed_or_banned(vm))
-+		return ERR_PTR(-ENOENT);
++		if (IS_ERR_OR_NULL(vma)) {
++			err = -EINVAL;
++			if (eudebug_pf)
++				destroy_eudebug_pf = true;
 +
-+	page_size = vm->flags & XE_VM_FLAG_64K ? SZ_64K : SZ_4K;
-+	vma = xe_vma_create(vm, NULL, 0, addr, addr + page_size - 1, 0, VMA_CREATE_FLAG_IS_NULL);
-+	if (IS_ERR_OR_NULL(vma))
-+		return vma;
++			goto unlock_vm;
++		}
++	} else {
++		/*
++		 * When creating an instance of eudebug_pagefault, there was
++		 * no vma containing the ppgtt address where the pagefault occurred,
++		 * but when reacquiring vm->lock, there is.
++		 * During not aquiring the vm->lock from this context,
++		 * but vma corresponding to the address where the pagefault occurred
++		 * in another context has allocated.
++		 */
++		if (eudebug_pf)
++			destroy_eudebug_pf = true;
+ 	}
+ 
+ 	err = handle_vma_pagefault(tile, pf, vma);
+@@ -237,11 +265,43 @@ static int handle_pagefault(struct xe_gt *gt, struct pagefault *pf)
+ 	if (!err)
+ 		vm->usm.last_fault_vma = vma;
+ 	up_write(&vm->lock);
+-	xe_vm_put(vm);
 +
-+	err = xe_vm_insert_vma(vm, vma);
-+	if (err) {
-+		xe_vma_destroy_late(vma);
-+		return ERR_PTR(err);
++	if (destroy_eudebug_pf) {
++		xe_eudebug_pagefault_destroy(gt, vm, eudebug_pf, false);
++		*eudebug_pf_out = NULL;
++	} else {
++		*eudebug_pf_out = eudebug_pf;
 +	}
 +
-+	return vma;
-+}
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index 372ad40ad67f..2ae3749cfd82 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -283,3 +283,5 @@ void xe_vm_snapshot_free(struct xe_vm_snapshot *snap);
++	/* while the lifetime of the eudebug pagefault instance, keep the VM instance.*/
++	if (!*eudebug_pf_out) {
++		xe_vm_put(vm);
++		*pf_vm = NULL;
++	} else {
++		*pf_vm = vm;
++	}
  
- int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64 offset,
- 			 void *buf, u64 len, bool write);
+ 	return err;
+ }
+ 
++static void handle_pagefault_end(struct xe_gt *gt, struct xe_vm *vm,
++				 struct xe_eudebug_pagefault *eudebug_pf)
++{
++	/* if there no eudebug_pagefault then return */
++	if (!eudebug_pf)
++		return;
 +
-+struct xe_vma *xe_vm_create_null_vma(struct xe_vm *vm, u64 addr);
++	xe_eudebug_pagefault_process(gt, eudebug_pf);
++
++	/*
++	 * TODO: Remove VMA added to handle eudebug pagefault
++	 */
++
++	xe_eudebug_pagefault_destroy(gt, vm, eudebug_pf, true);
++
++	xe_vm_put(vm);
++}
++
+ static int send_pagefault_reply(struct xe_guc *guc,
+ 				struct xe_guc_pagefault_reply *reply)
+ {
+@@ -367,7 +427,10 @@ static void pf_queue_work_func(struct work_struct *w)
+ 	threshold = jiffies + msecs_to_jiffies(USM_QUEUE_MAX_RUNTIME_MS);
+ 
+ 	while (get_pagefault(pf_queue, &pf)) {
+-		ret = handle_pagefault(gt, &pf);
++		struct xe_eudebug_pagefault *eudebug_pf = NULL;
++		struct xe_vm *vm = NULL;
++
++		ret = handle_pagefault_start(gt, &pf, &vm, &eudebug_pf);
+ 		if (unlikely(ret)) {
+ 			print_pagefault(xe, &pf);
+ 			pf.fault_unsuccessful = 1;
+@@ -385,7 +448,11 @@ static void pf_queue_work_func(struct work_struct *w)
+ 			FIELD_PREP(PFR_ENG_CLASS, pf.engine_class) |
+ 			FIELD_PREP(PFR_PDATA, pf.pdata);
+ 
+-		send_pagefault_reply(&gt->uc.guc, &reply);
++		ret = send_pagefault_reply(&gt->uc.guc, &reply);
++		if (unlikely(ret))
++			drm_dbg(&xe->drm, "GuC Pagefault reply failed: %d\n", ret);
++
++		handle_pagefault_end(gt, vm, eudebug_pf);
+ 
+ 		if (time_after(jiffies, threshold) &&
+ 		    pf_queue->tail != pf_queue->head) {
 -- 
 2.43.0
 
