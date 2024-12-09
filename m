@@ -2,64 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACBC9E8A34
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 05:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFB19E8AF6
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 06:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9131710E0E5;
-	Mon,  9 Dec 2024 04:18:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C043410E244;
+	Mon,  9 Dec 2024 05:26:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bVOcZ5rB";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MNcFaGRJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
- [95.215.58.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63EE510E0E5
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 04:18:31 +0000 (UTC)
-Message-ID: <56d4fc51-d30a-4467-9df0-6aba5818989f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1733717909;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1CLRMrE1NI/5klhfE3kmyF+H27MvukwsIlJRIa5ZNCI=;
- b=bVOcZ5rB33oZFYQgAIpbKYj5IoVwq5uLMua5cpRUQ5WzYef132s/+FYnz92Ts/3FpLqeQE
- LbMhl1TcGggDOfevWDkSUjcBAVg2IfRbbkWJfIY8eK0qLU1mlw5RJZDHYuANb+R7Z3FO2r
- wWx0XE0rxVt3XbFkXlFCZWZQPPAofAw=
-Date: Mon, 9 Dec 2024 09:47:36 +0530
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BC3B10E244
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 05:26:47 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D15D4502;
+ Mon,  9 Dec 2024 06:26:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1733721974;
+ bh=r3GRkniscda1h2jGia96dSzPLBBeCAFfWtcoKtCndGQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=MNcFaGRJBul5yuH7NaP0tg2XJDSNmygMpCc4b5I+kzpZhFdf/+jqvsUrjcomDAGgW
+ HMcuw98tx6rcyZZu/0v8bh6E2hdpABQr8j3h+Tq0uBkEBW1Ay7jABVRJQRgvzqYonB
+ l3zuGGhsdXifB0AVrFn5g9BgwC7qQkiJrDXnZk9M=
+Message-ID: <b0fffc87-a72e-4041-b3f6-7f2a4987916e@ideasonboard.com>
+Date: Mon, 9 Dec 2024 07:26:41 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v4 0/3] drm/tidss: Add OLDI bridge support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Francesco Dolcini <francesco@dolcini.it>,
- Alexander Sverdlin <alexander.sverdlin@siemens.com>,
- Max Krummenacher <max.oss.09@gmail.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Devicetree List <devicetree@vger.kernel.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/10] clk: renesas: r8a779h0: Add display clocks
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Simona Vetter <simona@ffwll.ch>
-References: <20241124143649.686995-1-aradhya.bhatia@linux.dev>
- <8b57d6a4-6bc1-4542-abf4-8bc4a3120c25@ideasonboard.com>
- <b8bde033-13a8-4726-a9ff-2fa4eff898e1@linux.dev>
- <9ade7a5d-dd87-4a08-9fdd-c24eb20e733c@ideasonboard.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
+ <20241206-rcar-gh-dsi-v3-5-d74c2166fa15@ideasonboard.com>
+ <CAMuHMdU+PPeCNb5y75A1YTf1EvvCQEgD1t-=6C_YyK0gDK3R8A@mail.gmail.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <9ade7a5d-dd87-4a08-9fdd-c24eb20e733c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAMuHMdU+PPeCNb5y75A1YTf1EvvCQEgD1t-=6C_YyK0gDK3R8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,153 +122,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 04/12/24 00:06, Tomi Valkeinen wrote:
-> Hi,
+On 06/12/2024 15:43, Geert Uytterhoeven wrote:
+> Hi Tomi,
 > 
-> On 03/12/2024 20:14, Aradhya Bhatia wrote:
->> Hi,
+> On Fri, Dec 6, 2024 at 10:33 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >>
->> On 03/12/24 17:42, Tomi Valkeinen wrote:
->>> Hi,
->>>
->>> On 24/11/2024 16:36, Aradhya Bhatia wrote:
->>>> Hello all,
->>>>
->>>> This patch series add support for the dual OLDI TXes supported in Texas
->>>> Instruments' AM62x and AM62Px family of SoCs. The OLDI TXes support
->>>> single-lvds
->>>> lvds-clone, and dual-lvds modes. These have now been represented
->>>> through DRM
->>>> bridges within TI-DSS.
->>>>
->>>>    - Some history and hardware description for this patch series.
->>>>
->>>> This patch series is a complete re-vamp from the previously posted
->>>> series[1] and
->>>> hence, the version index has been reset to v1. The OLDI support from
->>>> that series
->>>> was dropped and only the base support for AM62x DSS was kept (and
->>>> eventually
->>>> merged)[2].
->>>>
->>>> The OLDI display that the tidss driver today supports, could not be
->>>> extended for
->>>> the newer SoCs. The OLDI display in tidss is modelled after the DSS
->>>> and OLDI
->>>> hardware in the AM65x SoC. The DSS in AM65x SoC, has two video-ports.
->>>> Both these
->>>> video-ports (VP) output DPI video signals. One of the DPI output (from
->>>> VP1) from
->>>> the DSS connects to a singular OLDI TX present inside the SoC. There
->>>> is no other
->>>> way for the DPI from VP1 to be taken out of the SoC. The other DPI
->>>> output
->>>> however - the one from VP2 - is taken out of the SoC as is. Hence we
->>>> have an
->>>> OLDI bus output and a DPI bus output from the SoC. Since the VP1 and
->>>> OLDI are
->>>> tightly coupled, the tidss driver considers them as a single entity.
->>>> That is
->>>> why, any OLDI sink connects directly to the DSS ports in the OF graphs.
->>>>
->>>> The newer SoCs have varying DSS and OLDI integrations.
->>>>
->>>> The AM62x DSS also has 2 VPs. The 2nd VP, VP2, outputs DPI signals
->>>> which are
->>>> taken out of the SoC - similar to the AM65x above. For the VP1, there
->>>> are 2 OLDI
->>>> TXes. These OLDI TXes can only receive DPI signals from VP1, and don't
->>>> connect
->>>> to VP2 at all.
->>>>
->>>> The AM62Px SoC has 2 OLDI TXes like AM62x SoC. However, the AM62Px SoC
->>>> also has
->>>> 2 separate DSSes. The 2 OLDI TXes can now be shared between the 2 VPs
->>>> of the 2
->>>> DSSes.
->>>>
->>>> The addition of the 2nd OLDI TX (and a 2nd DSS in AM62Px) creates a
->>>> need for
->>>> some major changes for a full feature experience.
->>>>
->>>> 1. The OF graph needs to be updated to accurately show the data flow.
->>>> 2. The tidss and OLDI drivers now need to support the dual-link and
->>>> the cloned
->>>>      single-link OLDI video signals.
->>>> 3. The drivers also need to support the case where 2 OLDI TXes are
->>>> connected to
->>>>      2 different VPs - thereby creating 2 independent streams of
->>>> single-link OLDI
->>>>      outputs.
->>>>
->>>> Note that the OLDI does not have registers of its own. It is still
->>>> dependent on
->>>> the parent VP. The VP that provides the DPI video signals to the OLDI
->>>> TXes, also
->>>> gives the OLDI TXes all the config data. That is to say, the hardware
->>>> doesn't
->>>> sit on the bus directly - but does so through the DSS.
->>>>
->>>> In light of all of these hardware variations, it was decided to have a
->>>> separate
->>>> OLDI driver (unlike AM65x) but not entirely separate so as to be a
->>>> platform
->>>> device. The OLDI TXes are now being represented as DRM bridges under
->>>> the tidss.
->>>>
->>>> Also, since the DRM framework only really supports a linear encoder-
->>>> bridge
->>>> chain, the OLDI driver creates a DRM bridge ONLY for the primary OLDI
->>>> TX in
->>>> cases of dual-link or cloned single-link OLDI modes. That bridge then
->>>> attaches
->>>
->>> How does the clone case work, then? There are two panels, what does the
->>> second one connect to?
+>> Add display related clocks for DU, DSI, FCPVD, and VSPD.
 >>
->> For the clone case, the devicetree will show the true connections - as
->> they are in the hardware.
->>
->> 2 endpoints from a single DSS VP devicetree port will be connected to 2
->> OLDIs, OLDI0 and OLDI1. The outputs of these OLDIs will be connected to
->> 2 distinct single-link panels.
->>
->> The driver and DRM side of things do not show the same picture, however.
->> The tidss_oldi code creates and registers a drm_bridge only for the
->> primary OLDI. The driver is capable of detecting the expected OLDI mode,
->> and if a companion OLDI is present, then the primary OLDI drm_bridge
->> keeps a note of that.
->>
->> The clock and config resources are shared between the primary and
->> companion OLDI hardware. So configuring the primary OLDI takes care of
->> the companion too.
->> The only case where it is not shared is the OLDI IO bit in the Control
->> MMR (ctrl_mmr) region. But, since the primary OLDI drm_bridge remains
->> aware about the presence of companion OLDI, it makes sure to enable /
->> disable the comapnion OLDI IO when required.
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> But if there's just one bridge (for the first oldi), how is the second
-> panel connected to the DRM pipeline? Who e.g. calls the
-> drm_panel_funcs.enable() in the panel driver for the second panel?
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-clk for v6.14.
 > 
-> Or, say, if we have two LVDS->HDMI bridges, with the cloning setup, how
-> does all the plumbing work if "DRM framework only really supports a
-> linear encoder-bridge chain"?
+>> --- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+>> +++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+>> @@ -179,6 +179,9 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
+>>          DEF_MOD("canfd0",       328,    R8A779H0_CLK_SASYNCPERD2),
+>>          DEF_MOD("csi40",        331,    R8A779H0_CLK_CSI),
+>>          DEF_MOD("csi41",        400,    R8A779H0_CLK_CSI),
+>> +       DEF_MOD("dis0",         411,    R8A779H0_CLK_S0D3),
+>> +       DEF_MOD("dsitxlink0",   415,    R8A779H0_CLK_DSIREF),
+>> +       DEF_MOD("fcpvd0",       508,    R8A779H0_CLK_S0D3),
+>>          DEF_MOD("hscif0",       514,    R8A779H0_CLK_SASYNCPERD1),
+>>          DEF_MOD("hscif1",       515,    R8A779H0_CLK_SASYNCPERD1),
+>>          DEF_MOD("hscif2",       516,    R8A779H0_CLK_SASYNCPERD1),
+>> @@ -227,6 +230,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] __initconst = {
+>>          DEF_MOD("vin15",        811,    R8A779H0_CLK_S0D4_VIO),
+>>          DEF_MOD("vin16",        812,    R8A779H0_CLK_S0D4_VIO),
+>>          DEF_MOD("vin17",        813,    R8A779H0_CLK_S0D4_VIO),
+>> +       DEF_MOD("vspd0",        830,    R8A779H0_CLK_S0D1_VIO),
+>>          DEF_MOD("wdt1:wdt0",    907,    R8A779H0_CLK_R),
+>>          DEF_MOD("cmt0",         910,    R8A779H0_CLK_R),
+>>          DEF_MOD("cmt1",         911,    R8A779H0_CLK_R),
 > 
+> As mentioned by Laurent during his review on v1, all clock parents
+> should probably be some form of R8A779H0_CLK_S0Dx_VIO.
+> So I'm inclined to replace all of them by R8A779H0_CLK_VIOBUSD2 while
+> applying, which would match R-Car V4H.
 
-Right... The driver does not account for such a case at present. The
-simple panels don't require any additional programming, which is why a
-clone mode with them just happens to work out.
+What do you mean with the above? First you say the clock parents should 
+be some form of S0Dx_VIO, but then you say you'll use VIOBUSD2. Aren't 
+those unrelated clocks, from different PLLs?
 
-Since there is still only 1 VP behind this, there could only be a single
-crtc. Perhaps, we can have an additional tidss encoder (connected to the
-same crtc) to start this another encoder-bridge chain. I am still murky
-with the details here, but I will try to see what needs to be done.
+> Are you OK with that?
 
-Thank you! =)
+I'm fine with that. I can't really get much out of the docs wrt. 
+clocking, and the clocks I used were from the BSP. Afaics, it looks 
+similar to V4H, so it's probably best have the same clocks, as you suggest.
 
-
--- 
-Regards
-Aradhya
+  Tomi
 
