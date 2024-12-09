@@ -2,164 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2649E93E9
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720609E93FE
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 13:30:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6DC110E6FF;
-	Mon,  9 Dec 2024 12:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 097A610E713;
+	Mon,  9 Dec 2024 12:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="E0dzUGWK";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="gzjDmYMW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2072.outbound.protection.outlook.com [40.107.101.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466D810E6D9
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:28:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t9jWmPfEe8i1V9BuJJ0MpOMhVQ6PeK2yk5KaX2xxw9DNCWAkilSBzuLonWEsOLY3mOdJ0Xx6bNckplfE0bxwpTcYBClaBhK4evnHOcfIEb1B8iyOmh+mhv6nynkakXmzlqv4ihlEoHwunrpv4gCMb3+TQqeSTe9h8jv3TclsH2Hi7j91sOMywfvUMvj03q00yqVuNzryCvLh16Yakkx52xMinhpxk/2/Gnb1NvZre1vlVw9jAOrSCTpNXwgVulEfj9s41sfE9yho8ntMK5HQugENRgtytPA+yIRoD2XGTGMgcqpBHMXKFLIu7NmRBB7IIldPSm5EKO1d/goziXy1vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U3gXwbLF7ec4E+qCH3HUJ9Yzg2Nirswc69Reb7raWrU=;
- b=v01uS9IZPdpWbIuU6t13VbzJALPAyUiWIUbIXR9Ra/KsmIWxoWABtYa6fiF2hsSefTLdDKkd43lvCqkHJLmxbZPKjMa1VuMbyBVXvFf2IwY7cBZX2FTNQVtZQb6vgma7fhMpRQzasCecmN5uOUwzQB34JqABVogbFd16TRQ+3t5omKQXaSlOLecVoSUZB3ml4J9Z/GmMGJ1wdG5GehGxecnO00DMMZfKqNsGK+Yi3ROzRx1ZyjX/i1SHIDfhcXJnhStXUmJyq7Av6yeb4l5D0pvYQoBXDcDRNaq6yJXs5q0l8PfDyqV5SlS1XTeUfUfYwTkXjAi4HuJf/7XtFUFCoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U3gXwbLF7ec4E+qCH3HUJ9Yzg2Nirswc69Reb7raWrU=;
- b=E0dzUGWKwESCWA32waB9aTThOByKS5ULXygacoklpkmk0SJ0klqPMEwn7pneITw6ZP8oX/kM6TVeTfHWPtW6WGsXHkcYI5s5bMFP2Vb3n9o7RM9oEZ2CE8+OtK6Tk68p7K1i6hKVsSnK/ki0eBZEXncIxu8qxiLX0fScbpFBBuo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM6PR12MB4266.namprd12.prod.outlook.com (2603:10b6:5:21a::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Mon, 9 Dec
- 2024 12:28:26 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8207.017; Mon, 9 Dec 2024
- 12:28:26 +0000
-Message-ID: <36aa77a1-7a72-4cf4-850a-210e6f7f266a@amd.com>
-Date: Mon, 9 Dec 2024 13:28:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/virtio: Implement device_attach
-To: Julia Zhang <julia.zhang@amd.com>, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Juergen Gross <jgross@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- xen-devel@lists.xenproject.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, Daniel Vetter
- <daniel@ffwll.ch>, Chen Jiqian <Jiqian.Chen@amd.com>,
- Huang Rui <ray.huang@amd.com>, Penny Zheng <penny.zheng@amd.com>,
- Zhu Lingshan <Lingshan.Zhu@amd.com>,
- Anthony PERARD <anthony.perard@citrix.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Jan Beulich <jbeulich@suse.com>, Paul Durrant <paul@xen.org>
-References: <20241207105023.542399-1-julia.zhang@amd.com>
- <20241207105023.542399-4-julia.zhang@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20241207105023.542399-4-julia.zhang@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0103.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 688EE10E704
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 12:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=JETkg
+ mjDSfp+lIo8egQ4AEEqe7IPnscz/xFTqMIIcAk=; b=gzjDmYMWalJCHTYiyGOBL
+ 0B6jWEsMx8gBFh+LM7a8fOvKLfYOHlBuCVt6B2rDeAbJamm297YSEnHqwvDoZ5O2
+ lr1GjdUFigOx1wfNpBcCpndnW/0SRNEY8VCpF4ILfaFWn8aae8gZLlZiNqolPlQe
+ Nyl28aabgNp/vEzKTz8eq4=
+Received: from ProDesk.. (unknown [58.22.7.114])
+ by gzsmtp1 (Coremail) with SMTP id PCgvCgD3Woe44lZnubZICA--.5849S2;
+ Mon, 09 Dec 2024 20:29:48 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v5 00/18] VOP Support for rk3576
+Date: Mon,  9 Dec 2024 20:29:10 +0800
+Message-ID: <20241209122943.2781431-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4266:EE_
-X-MS-Office365-Filtering-Correlation-Id: a99ceac9-f966-4ac2-a6cd-08dd184cfabb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|366016|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aUtSZzBNUllkdmtxWmdMczZRalZsU3BUSnlCYTNvaGtKNkFVM0hmR0s5a2p3?=
- =?utf-8?B?a1p6YUZ6ODlkWFZrYzN0OUo5c0o5Nkl1T2MvWmZuREFRS1FmTWpNMVRqU09o?=
- =?utf-8?B?ckZYWXE4U3ZOdGRoeEIxdjIwNHhyak0vRUpMcFNTclJXTi9sVmF5OCtsWldr?=
- =?utf-8?B?bTk5UUcrTDBHUE1IOEFXODZPVnVNYXZsbGZOWjhVMTFwYWlkUTlLb2Q1bXNs?=
- =?utf-8?B?OGNhVjlhRlVaa01VOStpNlJmaTB1UjJNSVRybUZ2TmFJNEo3NXVSZlBzeWtZ?=
- =?utf-8?B?N1pIVzhCVWJ2MG1HR0dXM1R4dVk2b3pGOXRsWHlzWmpPdkpFcXpxb3NhM1A4?=
- =?utf-8?B?ZkVjK3RCRml5RUI4eFZqekRYdGdDUVAwelFIelpyRXUvMHJPRUJpNklkd1RP?=
- =?utf-8?B?ckZJNCtBUG5QejBPZGZ2dE1oVC8rQWlLaS9JQ0E2OUpheDNyNDZKR2RjWTF6?=
- =?utf-8?B?U3VMQlNUYlZsajFva2dTa1FLMW1WNENTZHAvYXVScUd2c1RzSXVPSXlWS1I0?=
- =?utf-8?B?VGhlTktRMjdrRUxRdElYbXNOVWNBOUhjb2dlWnVZcjNZV3BqWUl6TDc2TjFP?=
- =?utf-8?B?VnBDL0F0THRZeldBWWltMlovRVFaZE9IMG56NkRqQlJBYVNISVRpMndxVkRa?=
- =?utf-8?B?VmhrMHlOd0wwQ3Bzb3FqQmw5NnB1NDA2dXJUTDhTaURmcVgvb0dXYW5DWXFW?=
- =?utf-8?B?ayszakx3RXQzM1ZkaDExcjg1YmRSbXRNZFM4Y3o2ekNuN1RiU25IeEJiQkVl?=
- =?utf-8?B?OSszY1RKR1E2eHdlMlhDeVp3SjFNbUdqNzRDeWF6WDQ2NmFHK3ozMzRlVnVD?=
- =?utf-8?B?TFhZaE1aTzFIOG12NHVNTE56NGZpaXN2dWd0MkZPUFhwME0zQVhrN1lXaUpZ?=
- =?utf-8?B?WStueSsvS1E5QTczbHZ3WGNtVWV4Q2tUVFNNcWVIN3hVZGs1cytaZGhXWDNw?=
- =?utf-8?B?d1dIZFZCUHZsU2pkNnFETWIrdDlUVDVoNzFWT3FUM2ljWGhNK3ZBaVZISnhX?=
- =?utf-8?B?eTg2RzR6dVpnS2tSZG1oZUhwMFlSbjdndDVtSndpcnE0K3NYajRRY0s1SHVC?=
- =?utf-8?B?T3JTQ0xDK2ZjcjhlUVoxOVEwNDJEbkc0elE4MWt3dEJtWEQzV3JPMjZxeUF4?=
- =?utf-8?B?TDF6RWJwYlh0djloS1VPT05tZC9RKzd5Wng4SlovOWlUUVEvQkdrQzJYbEdo?=
- =?utf-8?B?OEJtYnc1NFRXc1h2Y2Y3QnhpS2dHdUxyUkF3aWdmNmM4UEJIMVFyRDJzOGQy?=
- =?utf-8?B?b05hTHBYTkN3L2J0WGxyY0FFWUE3WEgwbmtoMk5lN3I2SCtubWpmMTNJTExj?=
- =?utf-8?B?dTZLZFhEUzR6QVNSYWlRVHVXanFHckt3SHkxdHVkcCtVbi9RWFMvYzhrTkgx?=
- =?utf-8?B?ZHNIYXFtT1RNOXUyUW9XZUF6a1lkaTByUWJaRTRBUjJSVFhTbVJzMXp1ZEJ2?=
- =?utf-8?B?UUh2VmxGa1VkNFJ0QkVsSGJOODhFalloeVVWNEUyTE1PRFJtYzFLNzZWNzA1?=
- =?utf-8?B?Mk9rZmVVMG9Fa1plK3BicDZPbG1icE1RYSt3WnVjalNBQlVObHBoOHgxdGRK?=
- =?utf-8?B?V3Bha3BjODZRUFM3RDQwa2lONHJibllZc3drRXdyamNpbDdnRjdvRmJOY1FQ?=
- =?utf-8?B?YTVZWEZLZVdTbWVNS2d5aDMwcWszWktQNVlNSFZxTGk2eUZvTjdUd01wTGk0?=
- =?utf-8?B?MDJoSjZGZE5DN0dNeEFPUnR6dmdkTkkzcW54eWN4VVZqY1k4aERTckVieTNa?=
- =?utf-8?B?SXV1Tzlsblpna1dWcjhCeXhoZENBU0FOWC8xaHV6TlkwU2p3SVRRODdTUWhn?=
- =?utf-8?B?NkljTUJFbk5JUHplTHROVEFETEpPSmp2N1pad1lWdS9vWnpIRXpkYS94TGZt?=
- =?utf-8?Q?VX4HN+C1VTNvR?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(366016)(376014)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aEZGMzJ1V282K3hVZ2Vzb0EwYjNZbEZiNUJZZ2dOS2RYa0FwcnlXSzJ3SmhX?=
- =?utf-8?B?dFcvcU5wODB3TW8xdFNGTFc0N0VtU3czSU1mRnVLZVREd3djd3J6ekd3S3l3?=
- =?utf-8?B?SU1XeE56UkxMZ2tvRXg0TEpQcEVOQ0VPZUN3WUF4b3B3b1pDZ1lUTHdacVli?=
- =?utf-8?B?OFBQb2t1ZHVJWXc4MjhXWE8yRHE2QWs0SExSRFZJdWdRLzhnUnN0cmhqS3ZU?=
- =?utf-8?B?eDExM2EwSTRVd3ozemxIckdRRmx1NTkxOXl3ME9SOGhORUZuTitUUmR0OHhJ?=
- =?utf-8?B?aCtCTVYya0xSQ3didlE1Ty9HYnBnSUpwK041a0dWR2hVT2E0ODJUVUlXWUtt?=
- =?utf-8?B?SS9taDZVZ01XR2d2TjdhbjV0UWdqdUkxeStKNTRnNWM2VUlBTTVRTEJRb2lR?=
- =?utf-8?B?bkxMcnphMWlVK0hCM1A2Q3ZZQUk0MlVlYW1YOExwcEU3WUMvQlJrWDFEcURl?=
- =?utf-8?B?VEk3NWNpK3ZOMHl6U3pEOStyTUthZWJmL25xWlhiUXkxbWhIb3RLbVFnN0NW?=
- =?utf-8?B?QTRNcTRrSmU0UEMrVDBuUnFORnVuSlFKTTNJcnN0ZFNBcnkvaHU3Y25TSElM?=
- =?utf-8?B?bzFwZVJSeWc0L3M2VDlnbVVwR3dCQWloelFDeDg4bDZGbWJmMjkvOFZXQU1l?=
- =?utf-8?B?T0F4djJsZXY0QjhWei9rTm4wY2FrQngwV1RJUGFrcTQ4NVEyZ2pYZmNOaUd6?=
- =?utf-8?B?dXhQbFExMmhYYXZKcTBDMVJIcjliNTVjT2dwYWxNTFBCRDZQVVVjR1cxanRO?=
- =?utf-8?B?RVZvZmtnT3p6dll2ODBHdWNsa2lvYmptR3RqcUhwUVdzUW8vZXhHeHZ0ZFdO?=
- =?utf-8?B?Vm5QOFZTMTIzU2V0Tk4vckkxL0x3QVhGMWhqcms0WnJEaDhydFNpMVhuc0Zj?=
- =?utf-8?B?djM5SjM2MmVXNzduUGx0a1JTNFo0THpmTElSRXMweXFVVTFCWjBnNkNSbU9k?=
- =?utf-8?B?RXJBdmMwTDRINEVoKzU0VW90RElaYys2cU9Mb3hhT1hRY1czem80R1VhZWxh?=
- =?utf-8?B?VUxPZ2xsazZMTHRPNS9SZUhDUHBXUFhUbjV1VXdVT2lWTlBRb25FbW1CUWJ5?=
- =?utf-8?B?OVdrcXFJY00rRzRWN3RYZnBjSHBhUXlobkhTQkF3azFKTEsxTmpBSW9WUUVE?=
- =?utf-8?B?Vms0eSt1dU90Z0doOFNZcXZkUDBoc1hKTUlPeGhmNzg5bFJ0VUdvQlFrc1Iz?=
- =?utf-8?B?N2Myblk5MkltVUtUM0duZmlMaHZsUlFwdVRPWkt2R2UzZWU5dzRacHN0U3hE?=
- =?utf-8?B?cSt0YjlSV1REVDhXQUZxU0pNZTRSRHlnMkNsRE5CTXYybzVIUnFpQituNjVN?=
- =?utf-8?B?Uk9NZTZUQnNybWViTWFpcXRnZzl0Q0xPVDdHcHFGUnlMcnRhaUdKWCs0a0J0?=
- =?utf-8?B?amVFR3hPdG5UOWdMb0NMSXJ5bzVNeHRqckpqQml5OTVkTkhFdkFLUmpwd09p?=
- =?utf-8?B?UWlYWFZGdFF1eDVjQVhHcCtIa0NJWjVlL1JucmJzL2U3WG52eHdHY1ZKbndk?=
- =?utf-8?B?aFdlelVqekpZSENFc0NlY2puTGtwS3pwU0h0Q3MyZXVDVEg1RlhZWmY5UEdv?=
- =?utf-8?B?anBvNU1UT29RV1dlSFNYVDJsc2lFT2VXNUpqUDl3UkR1REw5dUZYOW5iV0xG?=
- =?utf-8?B?ekpsa09tR211MFErRm1sejVhenRFTzVlMUg0SnRBUS9DUjJPOUxmaW5sY29S?=
- =?utf-8?B?cUtZVlcxUjVIQ0ZlSzBubUFjMy8wRjduMDY2Q2d2ZDVXTElCTC9HcHFlU1Jw?=
- =?utf-8?B?bUtMb09mYWllaUQ2WHFKQ1VmdWZEUnpHclcvMDBFOTkwY3JvVHQ1Q2xia0R3?=
- =?utf-8?B?UHJhdmtJS3JYdGxxS3M0b1AveGF5ZjE2NUF4Q281dW1SQm5Lb1JYaElQQzZY?=
- =?utf-8?B?V1JVSWcxSjQwV1M3VzVORCs2MUpzVUo5SGRxMkFFajNRMm5tOGZQbGZjRWZn?=
- =?utf-8?B?b3Y1U3hYTXBoc0M0MTM4eVJKRmRnMkNhMnpVNDJKVDVRZkZTUDEvSVVza1k1?=
- =?utf-8?B?RkRBZFJjYWZEVVk1QWJFaDFnY1Q0czJUVHNTdkZJVHhrVjhVanZITWRLYStz?=
- =?utf-8?B?em5OeDhneThSa1ZRcDcrcVF5UGpOM3IzS1RFMEFZMnJycXBDbEp2NS9WbnVI?=
- =?utf-8?Q?1Si7K9dvCFl7rbuaq/UwDDk5R?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a99ceac9-f966-4ac2-a6cd-08dd184cfabb
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 12:28:26.0910 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y8vxxuHrWl3xKqjQj6hmnK6KwGJoAvtZS/wTC2xPE7wBsqVY/shgS6CENsL6qbdJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4266
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PCgvCgD3Woe44lZnubZICA--.5849S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuF1xtF48CF43WF1xJFy7KFg_yoW5AFW8p3
+ 98CryrXrWxGFyjqr4kJw4UCrWFqwnayay7Ww4fG3ZrJry3tFnrKr9I9Fn8ArZxX3W8Za1U
+ Cr4fJ34UGFsIvFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UMCJQUUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gCwXmdW3S-iwAABsc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,54 +59,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.12.24 um 11:50 schrieb Julia Zhang:
-> As vram objects may be imported by other gpu drivers, peer2peer flag
-> should be checked in dma_buf_ops->attach(). This reimplement virtio gpu
-> dma_buf_ops->attach by adding a device_attach() function for virtio gpu.
-> This function will get pci_p2pdma_distance and check attach->peer2peer
-> before calling drm_gem_map_attach().
->
-> Signed-off-by: Julia Zhang <julia.zhang@amd.com>
+From: Andy Yan <andy.yan@rock-chips.com>
 
-I can't judge that virtgpu or XEN code path, but that here looks like it 
-should work.
+Thanks for the basic work from Collabora, I can bringup a HDMI
+display out on rk3576.
 
-Acked-by: Christian König <christian.koenig@amd.com>
+PATCH 1 is a carryover from the working when add support for
+    rk3588[0], is very usefull when some people want me
+    help debug some issue online, so I really hope it can
+    be merged at this round.
+PATCH 2~8 are bugfix of rk3588 alpha blending which report and
+    test by Derek
+PATCH 9~13 are preparations for rk3576 support
+PATCH 17~18 are real support for rk376
 
-> ---
->   drivers/gpu/drm/virtio/virtgpu_prime.c | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> index 4960620eba02..4f6bce79e10e 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> @@ -116,6 +116,18 @@ static int virtgpu_get_p2pdma_distance(struct dma_buf *dma_buf,
->   	return 0;
->   }
->   
-> +static int virtgpu_gem_device_attach(struct dma_buf *dma_buf,
-> +				     struct dma_buf_attachment *attach)
-> +{
-> +	int ret = virtgpu_get_p2pdma_distance(dma_buf, attach);
-> +	if (ret)
-> +		return ret;
-> +	if (!attach->peer2peer)
-> +		return -EBUSY;
-> +
-> +	return drm_gem_map_attach(dma_buf, attach);
-> +}
-> +
->   static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
->   	.ops = {
->   		.cache_sgt_mapping = true,
-> @@ -128,7 +140,7 @@ static const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
->   		.vmap = drm_gem_dmabuf_vmap,
->   		.vunmap = drm_gem_dmabuf_vunmap,
->   	},
-> -	.device_attach = drm_gem_map_attach,
-> +	.device_attach = virtgpu_gem_device_attach,
->   	.get_uuid = virtgpu_virtio_get_uuid,
->   };
->   
+I test it with a 1080P/4K HDMI output with modetest and weston
+output.
+
+If there are some one want to have a try, I have a tree based on Linux
+6.13-rc2 here[1]
+
+[0]https://patchwork.kernel.org/project/linux-rockchip/cover/20231211115547.1784587-1-andyshrk@163.com/
+[1]https://github.com/andyshrk/linux/tree/rk3576-vop2-upstream-v5
+
+Changes in v5:
+- Add axi id configuration for rk3588/rk3576
+- More plane format check
+- Remove the non-existent CBCR scale register.
+
+Changes in v4:
+- Typo fix: selet->select
+
+Changes in v3:
+- Split it from 10/15, as it fix a exiting compile warning.
+- Add comments for why we should treat rk3566 with special care.
+- Add hardware version check
+- Add comments for why we should treat rk3566 with special care.
+- ordered by soc name
+- Add description for newly added interrupt
+- Share the alpha setup function with rk3568
+- recoder the code block by soc
+
+Changes in v2:
+- split it from main patch add support for rk3576
+- Add platform specific callback
+- Introduce vop hardware version
+- Add dt bindings
+- Add platform specific callback
+
+Andy Yan (17):
+  drm/rockchip: vop2: Add debugfs support
+  drm/rockchip: vop2: Fix cluster windows alpha ctrl regsiters offset
+  drm/rockchip: vop2: Fix the mixer alpha setup for layer 0
+  drm/rockchip: vop2: Fix the windows switch between different layers
+  drm/rockchip: vop2: Set AXI id for rk3588
+  drm/rockchip: vop2: Setup delay cycle for Esmart2/3
+  drm/rockchip: vop2: Check linear format for Cluster windows on
+    rk3566/8
+  drm/rockchip: vop2: Add check for 32 bpp format
+  drm/rockchip: vop2: Support 32x8 superblock afbc
+  drm/rockchip: vop2: Add platform specific callback
+  drm/rockchip: vop2: Support for different layer select configuration
+    between VPs
+  drm/rockchip: vop2: Introduce vop hardware version
+  drm/rockchip: vop2: Register the primary plane and overlay plane
+    separately
+  drm/rockchip: vop2: Set plane possible crtcs by possible vp mask
+  drm/rockchip: vop2: Add uv swap for cluster window
+  dt-bindings: display: vop2: Add rk3576 support
+  drm/rockchip: vop2: Add support for rk3576
+
+Min-Hua Chen (1):
+  drm/rockchip: vop2: include rockchip_drm_drv.h
+
+ .../display/rockchip/rockchip-vop2.yaml       |   13 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 1617 ++++---------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  292 ++-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 2014 ++++++++++++++++-
+ 4 files changed, 2794 insertions(+), 1142 deletions(-)
+
+-- 
+2.34.1
 
