@@ -2,75 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18309EA0BC
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 21:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3975C9EA0CA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 22:04:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C47C610E7BC;
-	Mon,  9 Dec 2024 20:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59D6C10E2CE;
+	Mon,  9 Dec 2024 21:04:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DcuzwIns";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZuQ0hoCP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
- [209.85.216.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F306D10E56D;
- Mon,  9 Dec 2024 20:56:52 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2ee8ecb721dso846138a91.3; 
- Mon, 09 Dec 2024 12:56:52 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54FFC10E7ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 21:04:17 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30229d5b22fso9277031fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 13:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733777812; x=1734382612; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ezkmBL5VUO/PNXtpKMgd76cJBr7+MADsjdUYCjfhYy8=;
- b=DcuzwInsh1XruSeZ/MVgdykLdRIu3wigGXRl+erFtZMoUU6a8qsqiSlaeOHVZwD+9L
- 79YpW14ksxiCW68HOuuvDxN3ACtqriGO/Nf2lqxnITB/wlsIF//oT9Tn9S/PZE5FpZS0
- tU4DNpOTNjWtS/iO5jPp8ERC+7fICU56/ZEyQr51HzlxuefFagO3BJeR0EHuCYAcGYOf
- r2rAO3/VW2fhwGMQMVDUEC+MXC+6qHTsmrcyDDrZs8yM9z3NnV+w7qElCx206aKisWYR
- WZ+Se1MWOSfW4BcbXrQSmEN4HWMlRYOhT/kdgJfn1P/89fORii5tDwU3bp1FkE0GJmHe
- rAqQ==
+ d=linaro.org; s=google; t=1733778255; x=1734383055; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=7Ma5GtyG8ioog91EhM+P4GWHWrGCT15M/sea78+XBKE=;
+ b=ZuQ0hoCPBtrYSB/aQiaKWC4cDFh0zz8omD1tLHkOqKCwxyubvzGI/hJSikr9wanhj2
+ H7v6HJ5oW8iNTtE2cjGvgTIeI+L38ci6/PtPpOZzPbnACjdCreOyC7J9IbcIbd60gIco
+ KdXOjMlsQ/Cz2Jl03Gnuzq5NV9UAFdjNwLGrS6I8GPciJazfYS0xinni5PoHoDZO+cWm
+ dnA8gi/a/QyhrhfYASAMcEtc6saMv5SNMIeMKxxhjNDn9FhqialZPLHHKI2sy+ryj8T9
+ SHrm5+6rfzNWnaxS8FblLIeV+E3L6L8ZnlVStD756JSzF5Pi24tU78yKuwwfJRK6hXez
+ TUfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733777812; x=1734382612;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ezkmBL5VUO/PNXtpKMgd76cJBr7+MADsjdUYCjfhYy8=;
- b=V95RhzD5lh3i8IC8wM180XGg00Ga8xRdx17kYs4CK/3av703K6hoeil/DOOOfL0shr
- bsM+1jukZg0idtI/sbOw78YbLjazIkMc4rnb1dwoWy9Ih8/Pb4PNsZCXTe+DzEuTA9jn
- yiR8HhVn5wecUx+AeXblPX05W/sKryDLF6f1qkw+mcfjBAZTlL3jvAhFjT+B58NxkvtE
- wCgl+F/tZQtFG4axaO0DirQ80V4i1+DWd61I4J2Z5eAleEbr3UZc2c4/5B2PQ95sA05b
- 1IX1LgOlZkwwAXGB8qC65+loBtsmPzEO8r27zdt0mW/E/5TkKP7ZfZDwvpF8as5yZzpG
- mLSw==
+ d=1e100.net; s=20230601; t=1733778255; x=1734383055;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=7Ma5GtyG8ioog91EhM+P4GWHWrGCT15M/sea78+XBKE=;
+ b=jduRBJROqBCdINUgaQoecj+AJpl++Q3IseJKHGLNoQkAyDUJMQ/TTXvabvGDdH+cl2
+ WqbCd9w71XGhzSzxhaAOd8+iPdm0UudsV0+RDZBYx/x0qaDfN2R0eRlsQ6HZ5Z3+QMd9
+ wiVMsuIc/Lv8O4xbdObO/z452ffX036ZDI7iyfWgCL+VZQ6o38vZ+hQ0Hnee4Z5LQDa+
+ zRbFB13yv5ApyN8EKfrSe8auTRXzyCqPHlr0IvDmlnGFzUnZe0P3xfClQ2eDYfwxGpXr
+ MGNJXZHousedGcjiDvFWEzIi8olldVVuyDyn8fE2T9A4Mu6F+0kYUcCpQu6TtVI4ZItZ
+ JqpA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2Saa8pKCa3v/JZEVz0gQvDq6/KrfrnM8MD79EF57cPa13/v52ecRJMcj+1nBRgL5tfCY6rtmSjMXB@lists.freedesktop.org,
- AJvYcCXIS7rYBMP915qzgpal7IftvchTDp5vEENePe2iD5SZULD7pCHQS+QA7C8B1709Nv3TFOQq7LNl@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiYUPdRsjwUs5Fjli8F+jaJnMqENHZRxHGR9Pnmv+x3dnsvfWK
- GYxndGRstts1CZ9ny4yODZZZ0zIantCA/3u6GKlCj+r/NhZQdE8qU/zey7AdMF7vGODa8GClhqP
- JXHN1BEMm+SyX8UFNwmVj5QlwdL0=
-X-Gm-Gg: ASbGnctF9v3hhV8MJ6aqKhxduJHY9S3O100j7FMBQUIIb+ub8Y8UeQmOWOmyYD53H2V
- lqppLVrAthqi+aOnNZZBYuVOl1rEeliioz00=
-X-Google-Smtp-Source: AGHT+IFcRrfCMGls5yqYKTcr2PE5GRIpy/PG523CyNrG70/v+QAJwYJp8rMrfjufd2aMTUe7Bmwh2Iowhj5LZcmxjaE=
-X-Received: by 2002:a17:90b:1b42:b0:2ee:6563:20b5 with SMTP id
- 98e67ed59e1d1-2efd454dfb2mr588400a91.0.1733777812387; Mon, 09 Dec 2024
- 12:56:52 -0800 (PST)
+ AJvYcCUFgMqnRnuc7YDZTsyLNSNkweSMCDUBlFNxqg2xoU6O95ERB0KcAMXKblu0Ko+pGsdmWNdEhTVPUZw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTXdd+ogMIx41+s8/EVyEa/ZgFvt2nvZxHq9erQQZ5Ct6wCtsc
+ yz51K5yXUmXdcwJ7iBLUCSw/4FVs8DxoxjT0CAg7eJ79q8L5HF8vtRZIBUz5OhQ=
+X-Gm-Gg: ASbGncsrwO6BVQzaICD108QChRV27Eh96WJ57sF0snu02HEOnyTWNVSTdVSkzWki58B
+ 9YaY3IM5Joso93ZGBOzCyv5nxMEusvyJLSiAVvT+zKb4LSyp0RTTQlQLPO32uSVzgYY/XJw35Q1
+ jgoRESHzl01jGOuN6yFShYgiRjvhItGLC3yEa9ISPywj7SpK8KXF2/6wp9pfJSG0RNQ7d/TDxFQ
+ jNzuj98lw0Jk2wGv/K8ndcFOcE8zHcslIPyGJw6FoUxyz//as09+f2DAlckLwcdRhUsGoNf7MVg
+ RDyn8u9NLSqmTeANV4CVwD+4syHce6wLbg==
+X-Google-Smtp-Source: AGHT+IGyoN5lvEyWoIQKeZ0cauegZG/9/HnT3c9dEG7V7kOpedR0OZrCmSQf0J/flV38TzNZUm43Vg==
+X-Received: by 2002:a05:651c:541:b0:302:2c61:a1d3 with SMTP id
+ 38308e7fff4ca-3022fd89c5dmr7913551fa.36.1733778255053; 
+ Mon, 09 Dec 2024 13:04:15 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30220d0b34fsm4716121fa.60.2024.12.09.13.04.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Dec 2024 13:04:13 -0800 (PST)
+Date: Mon, 9 Dec 2024 23:04:11 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH] drm/msm/dpu: check dpu_plane_atomic_print_state() for
+ valid sspp
+Message-ID: <d5yfas7yzilvjryrtdi2miaw5khnycm7egn4dd5ff3vu7z4op5@oit2xvsyx5l5>
+References: <20241209-check-state-before-dump-v1-1-7a9d8bc6048f@quicinc.com>
 MIME-Version: 1.0
-References: <20241104023852.492497-1-linux@treblig.org>
- <Z1JhHcaYZCzKHp-i@gallifrey>
-In-Reply-To: <Z1JhHcaYZCzKHp-i@gallifrey>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 9 Dec 2024 15:56:40 -0500
-Message-ID: <CADnq5_OUSOzzUYin8SRRGPL0MCvmd+RGo0TM_DRAyp85zE--Jg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Some more drm/amd/display deadcoding
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: alexander.deucher@amd.com, harry.wentland@amd.com, sunpeng.li@amd.com, 
- Rodrigo.Siqueira@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
- chaitanya.dhere@amd.com, jun.lei@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209-check-state-before-dump-v1-1-7a9d8bc6048f@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,62 +94,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 5, 2024 at 9:35=E2=80=AFPM Dr. David Alan Gilbert <linux@trebli=
-g.org> wrote:
->
-> * linux@treblig.org (linux@treblig.org) wrote:
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> >
-> > Hi,
-> >   This removes a bunch more functions (and a field) from
-> > drm/amd/display that are unused.
-> >
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
->
-> Hi Alex, Harry,
->   Gentle ping on this set - I think you've already pulled in all
-> of the older ones (Thanks!).
+On Mon, Dec 09, 2024 at 12:37:51PM -0800, Abhinav Kumar wrote:
+> Similar to the r_pipe sspp protect, add a check to protect
+> the pipe state prints to avoid NULL ptr dereference for cases when
+> the state is dumped without a corresponding atomic_check() where the
+> pipe->sspp is assigned.
+> 
+> Fixes: 31f7148fd370 ("drm/msm/dpu: move pstate->pipe initialization to dpu_plane_atomic_check")
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/67
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+> To: Rob Clark <robdclark@gmail.com>
+> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> To: Sean Paul <sean@poorly.run>
+> To: Marijn Suijten <marijn.suijten@somainline.org>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 3ffac24333a2a5b01135d4ece418432d4a74dc04..fe3fd9587ec61f241ccb8c28925c7902b92bcdcd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1333,14 +1333,17 @@ static void dpu_plane_atomic_print_state(struct drm_printer *p,
+>  	const struct dpu_sw_pipe *r_pipe = &pstate->r_pipe;
+>  	const struct dpu_sw_pipe_cfg *r_pipe_cfg = &pstate->r_pipe_cfg;
+>  
+> -	drm_printf(p, "\tstage=%d\n", pstate->stage);
+> -
+> -	drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
+> -	drm_printf(p, "\tmultirect_mode[0]=%s\n", dpu_get_multirect_mode(pipe->multirect_mode));
+> -	drm_printf(p, "\tmultirect_index[0]=%s\n",
+> -		   dpu_get_multirect_index(pipe->multirect_index));
+> -	drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
+> -	drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
+> +	if (pipe->sspp) {
+> +		drm_printf(p, "\tstage=%d\n", pstate->stage);
 
-Applied.  Thanks!
+Please keep pstate->stage out of the if() statement. LGTM otherwise.
 
-Alex
+> +
+> +		drm_printf(p, "\tsspp[0]=%s\n", pipe->sspp->cap->name);
+> +		drm_printf(p, "\tmultirect_mode[0]=%s\n",
+> +			   dpu_get_multirect_mode(pipe->multirect_mode));
+> +		drm_printf(p, "\tmultirect_index[0]=%s\n",
+> +			   dpu_get_multirect_index(pipe->multirect_index));
+> +		drm_printf(p, "\tsrc[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->src_rect));
+> +		drm_printf(p, "\tdst[0]=" DRM_RECT_FMT "\n", DRM_RECT_ARG(&pipe_cfg->dst_rect));
+> +	}
+>  
+>  	if (r_pipe->sspp) {
+>  		drm_printf(p, "\tsspp[1]=%s\n", r_pipe->sspp->cap->name);
+> 
+> ---
+> base-commit: 9d6a414ad31e8eb296cd6f2c1834b2c6994960a0
+> change-id: 20241209-check-state-before-dump-2a015ace5f49
+> 
+> Best regards,
+> -- 
+> Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
 
->
-> Dave
->
-> > Dave
-> >
-> > Dr. David Alan Gilbert (5):
-> >   drm/amd/display: Remove unused enable_surface_flip_reporting
-> >   drm/amd/display: Remove unused dwb3_set_host_read_rate_control
-> >   drm/amd/display: Remove unused dc_stream_warmup_writeback
-> >   drm/amd/display: Remove unused mmhubbub_warmup field
-> >   drm/amd/display: Remove unused dcn_find_dcfclk_suits_all
-> >
-> >  .../gpu/drm/amd/display/dc/core/dc_stream.c   |  11 --
-> >  .../gpu/drm/amd/display/dc/core/dc_surface.c  |   7 -
-> >  drivers/gpu/drm/amd/display/dc/dc_stream.h    |   4 -
-> >  .../drm/amd/display/dc/dml/calcs/dcn_calcs.c  | 132 ------------------
-> >  .../drm/amd/display/dc/dwb/dcn30/dcn30_dwb.c  |  13 --
-> >  .../drm/amd/display/dc/dwb/dcn30/dcn30_dwb.h  |   1 -
-> >  .../amd/display/dc/hwss/dcn30/dcn30_init.c    |   1 -
-> >  .../amd/display/dc/hwss/dcn301/dcn301_init.c  |   1 -
-> >  .../amd/display/dc/hwss/dcn31/dcn31_init.c    |   1 -
-> >  .../amd/display/dc/hwss/dcn314/dcn314_init.c  |   1 -
-> >  .../amd/display/dc/hwss/dcn32/dcn32_init.c    |   1 -
-> >  .../amd/display/dc/hwss/dcn35/dcn35_init.c    |   1 -
-> >  .../amd/display/dc/hwss/dcn351/dcn351_init.c  |   1 -
-> >  .../amd/display/dc/hwss/dcn401/dcn401_init.c  |   1 -
-> >  .../drm/amd/display/dc/hwss/hw_sequencer.h    |   4 -
-> >  .../gpu/drm/amd/display/dc/inc/core_types.h   |   3 -
-> >  .../gpu/drm/amd/display/dc/inc/dcn_calcs.h    |   4 -
-> >  17 files changed, 187 deletions(-)
-> >
-> > --
-> > 2.47.0
-> >
-> --
->  -----Open up your eyes, open up your mind, open up your code -------
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
+-- 
+With best wishes
+Dmitry
