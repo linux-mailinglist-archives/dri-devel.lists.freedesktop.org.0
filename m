@@ -2,60 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD559E8FEA
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:16:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E90B9E9006
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 11:22:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0623410E02F;
-	Mon,  9 Dec 2024 10:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D23610E12E;
+	Mon,  9 Dec 2024 10:22:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gRBBZc0S";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dBBmmOYK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 981A710E02F;
- Mon,  9 Dec 2024 10:16:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E2284A412B0;
- Mon,  9 Dec 2024 10:14:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21335C4CED1;
- Mon,  9 Dec 2024 10:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733739382;
- bh=PpQczTMRlRoCfSfucalSSQ+k0Y9bCRyp5dFa6bogxgI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gRBBZc0SILjc2viU8ITTLHkQzhaHu/UAIf2xue3tvihWIKj16Z4XTz0r5NSwp7b5l
- s3kJSaSBPDJhLY5/3hcYWa8U05HNRBcdlPB02gRbj+oxCRCui36awU27AOzXdObQJu
- Gm9elqwtZXfMnsFkCgw7lGSUoxYJxHxSn1vwwbIOM2aNkJ1iLo0+cN9D2vSo3Q3syC
- KQFskq22yd+auuqpHxXK4G2lg+ZkKXurVMxzZoiWUeGuVE9ZWqHKHWKOnrPl13wWtm
- zo8Y/sPvAwh4e2jX4qL3L1JGQQe/1M8wHtLKNFpTY9/IQkNbNLbaOnCGVVKSgi3G/h
- kM0uNx2pwcLOQ==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1tKaoQ-000000008Br-33Rv;
- Mon, 09 Dec 2024 11:16:23 +0100
-Date: Mon, 9 Dec 2024 11:16:22 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Leonard Lausen <leonard@lausen.nl>,
- =?utf-8?Q?Gy=C3=B6rgy?= Kurucz <me@kuruczgy.com>,
- Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH v3] drm/msm/dpu1: don't choke on disabling the writeback
- connector
-Message-ID: <Z1bDdj1XvWfGjM21@hovoldconsulting.com>
-References: <20241208-dpu-fix-wb-v3-1-a1de69ce4a1b@linaro.org>
- <Z1a3jOB8CutzRZud@hovoldconsulting.com>
- <CAA8EJprxosWNWojXWAzkM5eeNXewpT1hpBxCq3irmkuGf==b+w@mail.gmail.com>
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CCE10E12E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 10:22:25 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-725ea1e19f0so628454b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 02:22:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733739744; x=1734344544; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=JK+YHbwbzYxN2fA6jQpylORDnONEVEdYkbUHx87yE3E=;
+ b=dBBmmOYKui2bYd2JY4gfuLlrvWMBRIMpQQfFDijAemJ+w+9juOSVp/VAUIhf123vn6
+ 6es9maHHD/WUDpYIu2EQKhZDTlQsk9XxrOW4zEUbA0+K6/wkMfC89J84M5OBePgbMI4G
+ RF299sM6DKQhsQdTz1SZWHFC2QggJY8DTtVOthX6PnmMNIlnrMLWAxOrem/dKX5Jte71
+ z4IM77GEd0m+ZJ6fCSoY5sX1LSu7GRSmaJnQHuHb958LPDJiLU7YsB/d+FepX4wPNlpE
+ XPZOz1mHeEg+volLAFNT6aDdHrvj5OXUVT5sa16wH5l29avMURf4j3gwc991cTIQEUmM
+ +Evw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733739744; x=1734344544;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JK+YHbwbzYxN2fA6jQpylORDnONEVEdYkbUHx87yE3E=;
+ b=J7tf+R0//gQNUWxQTJpymMMTlNPo4E/q+bZ2izcVfukMsxkvrqtFdH61iVwivRzu/Q
+ SlCWyueSyqCjvGhfA4RIUvSXooO43jssMFrku9fuLYFqD8hAmwHtBnzmvQKfN++8bEN6
+ YVwTOpTqLjWpQlveYIcdrdGuVlRd4Dw8rMzTZ+eZI0nBWUm81WQRbMeEGHidSzjY6Djq
+ pKABameQQ5O0wzUY+/9SdVwMgTOq+5RHKeUcPXc9mXvQ/qC/G3SCl92NvOER0KUvTM3o
+ RwKsEl7v/2a2jnxektF3WRLRnVbGubGwuHOhCTBH0vkaZcC63l0dEC3E+cWZ1zi5wmvy
+ anQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWH4Gn6NpvK8tSL51CCG4p8kNAYrqtXtwBsjjBOT9l1yiCdHM+yGYd4qnFO2+c3d3zeZIX/HEL1GQo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLQn8UZlAIx4If1EjWRbNG9sMKs0Efviub/LYp5UeZrZ6neKuL
+ p8Z1o1Lh8TRpGvv/jwhrzatiBaIa9FWUuEs+XdMo4FKu2x/Qkl+N
+X-Gm-Gg: ASbGncsd3c8gpdtIDI9ei/UKfu5CKyWAN1gNuZMiZ1F+Xn13hfZpz+DfprpnZLP1CAs
+ Ts3w85uCDPMqwDjgZwn6BUBWUkml9jzbT2G8eaern9ydNV3zC6gt942vu5pHCiV8lb//QwfyoVy
+ p6rWP+hI+mqPxXx/znzWa+TAMzwFUmx+vczZRcJpA3AFpL+qDRT+CeU9pGlLbgfJqicCjpuWcAx
+ VSwS/+zmRF8UAOeNCfYVVvzgi5m6Rv6Vqi4NdbpMFis2AU1Dtt9yI3txeRsldCf4eXu
+X-Google-Smtp-Source: AGHT+IGIMaQLW4wct1dsitCDskJol1qDWg2mfuDdPh8GMuIT847eTTcppJMdsxFJj7Ut8lRt0yTYLQ==
+X-Received: by 2002:a05:6a00:4fcc:b0:71d:e93e:f542 with SMTP id
+ d2e1a72fcca58-725b820b43fmr19800743b3a.21.1733739744446; 
+ Mon, 09 Dec 2024 02:22:24 -0800 (PST)
+Received: from [192.168.0.115] ([59.188.211.160])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-725d6856bf7sm3620294b3a.192.2024.12.09.02.22.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Dec 2024 02:22:24 -0800 (PST)
+Message-ID: <e06c5d7c-de3c-46ff-b2ee-8ed794577e70@gmail.com>
+Date: Mon, 9 Dec 2024 18:22:17 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprxosWNWojXWAzkM5eeNXewpT1hpBxCq3irmkuGf==b+w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] backlight: dwi_bl: Add Apple DWI backlight driver
+To: Krzysztof Kozlowski <krzk@kernel.org>, y@krzk-bin
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20241207130433.30351-1-towinchenmi@gmail.com>
+ <20241207130433.30351-3-towinchenmi@gmail.com>
+ <bqn4tddl3kgle7zlamgaqlh45pizw6gf5qjwlmcsbkb6fx343l@tf5w63xursi2>
+Content-Language: en-US
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <bqn4tddl3kgle7zlamgaqlh45pizw6gf5qjwlmcsbkb6fx343l@tf5w63xursi2>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +98,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 09, 2024 at 12:00:07PM +0200, Dmitry Baryshkov wrote:
-On Mon, 9 Dec 2024 at 11:25, Johan Hovold <johan@kernel.org> wrote:
 
-> > I noticed that the implementation had this status check also before
-> > 71174f362d67 ("drm/msm/dpu: move writeback's atomic_check to
-> > dpu_writeback.c").
-> >
-> > Why did this not cause any trouble back then? Or is this not the right
-> > Fixes tag?
+
+Krzysztof Kozlowski 於 2024/12/9 下午5:22 寫道:
+>> diff --git a/drivers/video/backlight/dwi_bl.c b/drivers/video/backlight/dwi_bl.c
+>> new file mode 100644
+>> index 000000000000..d4bfd74b3129
+>> --- /dev/null
+>> +++ b/drivers/video/backlight/dwi_bl.c
+>> @@ -0,0 +1,124 @@
+[...]
+>> +
+>> +	dwi_bl = devm_kzalloc(&dev->dev, sizeof(struct apple_dwi_bl), GFP_KERNEL);
 > 
-> If I remember correctly, the encoder's atomic_check() is called only
-> if the corresponding connector is a part of the new state, if there is
-> a connected CRTC, etc, while the connector's atomic_check() is called
-> both for old and new connectors.
+> sizeof(*)
 
-Thanks for the explanation.
+Ack this change as well for v4.
 
-Johan
+> 
+>> +	if (!dwi_bl)
+>> +		return -ENOMEM;
+[...]
+
+Nick Chan
