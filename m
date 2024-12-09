@@ -2,74 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4706C9EA071
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 21:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202049EA072
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Dec 2024 21:41:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D3C410E563;
-	Mon,  9 Dec 2024 20:40:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A6810E568;
+	Mon,  9 Dec 2024 20:40:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BKaD0bZC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O6QGu3Ke";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3542810E563
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 20:40:52 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id
- 41be03b00d2f7-7fc93152edcso3825632a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 12:40:52 -0800 (PST)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E92110E568
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Dec 2024 20:40:55 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-7f43259d220so3218204a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 12:40:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733776851; x=1734381651; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=PXvsuXMERf6df08VQWVzjea3IcYfHYsxE45+1XCwwhA=;
- b=BKaD0bZCKCQ7t5hEoix1bdtbTdeHg99PqHOwdnM1dYfcaa0GeFDVBu5UX1bT7sVBiH
- TellfySaXCodC8nRMSIGswcdOqJ6Lz320Zu9h89rl66YyS8SlxSW6DCA97OuJSk9cBpJ
- epU8a4r4+R1WMpEj3NLeNQzeYMoiHj04lpX0B9k9WBtfbX4Li+Q06DBqSMXablQfVLAF
- ngucxCwwgJIL/gSXKTGKWgvho8bWt0sSa/w5I+dFLmZgcgmYNvaPgj1nHpHoWvWmJrkY
- AMUGfMeosz3A5nw+mhekO4DA7URTgEuaj4QE4tGoXp7CtCapXfr9XFtjWSRMhjCUEGZE
- AoaQ==
+ d=gmail.com; s=20230601; t=1733776855; x=1734381655; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UFk/8lTOXAJBBD0iMswUxwnGCPazYsTsiH7Y9OBU+PA=;
+ b=O6QGu3Keomr04CApQTU7swR4in+tUE7meJPv47CNzyKthtYDoamvOIdGACANML2oI+
+ IHfRwQiKGKvJ/jsPKWSM2syRzpCwXYIZfYZ1eKcmDOQDpnHEIDcc0W+T6nhyGkAfsOTd
+ FElpPHHyKdVt87vNZjyU4qo3qK16WFRJJHSQ+JB3nWrUXEypri6KoTLvztHmrKMKjPK3
+ 3lqjFG2TnxLII56OiRzphtwQi1W9Yi4u8EqOFckSANcm0vVO0UBMTIyaTsE50o0iRwRN
+ cortdie2m3ORnY0aqjqnWBYFQi3Jyt7VRkL6Se1SNrMv/KEmHCVQniAukKNek1pHhKEM
+ BURA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733776851; x=1734381651;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=PXvsuXMERf6df08VQWVzjea3IcYfHYsxE45+1XCwwhA=;
- b=WHODk7GSuKRQTniCS5Nm6WEc2QImW3/eIDThAzPBD8oOJ1AIyVx1+YnxwrywZAoHYb
- 2n8A8hruScG+Lhb0LfOccNffpTDQEu4+ooCo1XlNfrDtdavklpPOGw0edfuFvBfKp4MD
- BcbVq8muH7oCmMHBZOYnScubLm/vkXHxio0HBUI5k1GPsHkfEIEDcId1N+x3fQMBQHXh
- Y8d1/nwpZ7L8epV905DLZsR9pPIzVYYjHZgg1MytIo2I4T1gmdHDf4DO/NMcxX7HNkd1
- 0pg3iZzV68M3rbmbdmHwmiG7SATKgHthWZ2efF8GwpegVrlBqOWFmaYim0G77X8st+tE
- mNKw==
+ d=1e100.net; s=20230601; t=1733776855; x=1734381655;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UFk/8lTOXAJBBD0iMswUxwnGCPazYsTsiH7Y9OBU+PA=;
+ b=og+wmLaCZvPiF+elvd/m4eAr66uKIKtsungoJ05VLNWnHAo6DroIT/SuGgPssWnorl
+ CV27PzhfGkheP5xLs+mdIBVgFc8fFv1Tc493H2mUBVZgDD36fLhp50oOTG3+QnB/0VgR
+ tUFEIaooHBgu32s+AR/JUTaP2biFlPFguaEOcxSK+dX4vsuffHZI8bKeeydm/K1T+9tm
+ fs5K81bt5Zdh4EpejvFffbwni0x2xn7txnw5jKVKmWODWw/oQz8ZrGAyA+FVJNYkrHGc
+ vjqByF3zsGZstNMKuzUvjY+YfGrcn4BJrk0HTHoIqZQYBNpi6ZhqFRyMONB3WeCZ3Lrs
+ 3ggQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWStnI6Wey7HZ24eRz0QYl25vPIJwzShaEcJYoddu14kNvdRpa4XxUGwYBHXuFMjU5K1e2zb366hk4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5nbPqi7t8a7a2TAM/pTxWJ66lC5CBQ7j+1vytBQI2n++bh+pj
- Ippkq+4TtFx9jDMf1my+pwQGsvSfRHDmVqt4tBYxVwwR4Tp0l6X/CggE/Q==
-X-Gm-Gg: ASbGncsBE0+eMPHjVJkK5IrgD+nYd0CfYp7HV5SQ48TLMz6FFdmEGj5T5H4LqlCTdQ6
- NdoJm+YuWa/qxgg4ZopNGTHmIVZrjUWXq3wwdOiWpDM6nwJJRPngD4w3emtZMfXPdpzK8Mjy2aU
- CXwkb8E95YVGi/lQfVX7+8sDKqSFqO6gs7sq/EBqMeLJ1ewcx4mIC9gNlpmVeePJsx2A9mxIFvd
- VdYynpJKcbAUTldelXqDZa3outiMp5JggjuuQFmOiZJIgu1kelNbsxUd/tHQHMkj+4=
-X-Google-Smtp-Source: AGHT+IFc2Lceg6DjJ7cqQKBERaygfwtBeBltRK5cwNCLJrhI05ONbYSi9ksuO0DeTsh5Sp/KeBQ1Aw==
-X-Received: by 2002:a05:6a20:729c:b0:1db:e327:dd82 with SMTP id
- adf61e73a8af0-1e1b43c4e93mr1397192637.5.1733776851595; 
- Mon, 09 Dec 2024 12:40:51 -0800 (PST)
+ AJvYcCXRsIRLLnjewFKd5i6buRUoOnR6iVCziVjdTRlvPNJ/iq/SoryBA07WCSLX+tSlT6nxNtwSB6Ws+O4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyvihLUpbIA4iYrxUQ/Z+KsNZNQBF59mlu5HQk+xvYSHMw61syH
+ A6T/ZHMICaJJFg3yrYpRWYosc3PYnKTbrlbA4pP6ZLX/XMl7r5GY
+X-Gm-Gg: ASbGncsjf9PXa2tTVK19Il/hBHwK4TSPEns+kQXhfb1LuEh8kgZ94eNnjE2FmH1yCnM
+ nqkE+djOfdZQcJbeT3apw+3SzWjhb4vZbCOmvlDh9tFK6YwYzQEXD1ibgt0lwl4FIsdvA3u8JYM
+ 1WRI25cuI6VDzJP0lJU0Hov90WW6S8DeTJa4LA3eC3fNuxnMdG8/EHWBZJr0Zz2BRuis4aJ00MG
+ VSJ066L3r/3SlBeTTurhSH+X2IVXiJHv9JtfjoKwW7KQpMIuRoHBQO/lL9EqWM=
+X-Google-Smtp-Source: AGHT+IGkseJIUwCnXZApvQxM0FacDoY5qnz7kx/Zk4ZEw+I0M4KgH3VzNxAAY/RYu9/pFD3vDsUdGg==
+X-Received: by 2002:a17:90b:1f85:b0:2ee:b6c5:1def with SMTP id
+ 98e67ed59e1d1-2efcf10d3fdmr2974170a91.8.1733776854833; 
+ Mon, 09 Dec 2024 12:40:54 -0800 (PST)
 Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:d7c4:c4a9:e35:ccbf])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-7fd5207528csm1707219a12.36.2024.12.09.12.40.48
+ 41be03b00d2f7-7fd5207528csm1707219a12.36.2024.12.09.12.40.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Dec 2024 12:40:51 -0800 (PST)
+ Mon, 09 Dec 2024 12:40:54 -0800 (PST)
 From: Fabio Estevam <festevam@gmail.com>
 To: neil.armstrong@linaro.org
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  shawnguo@kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] dt-bindings: display: panel-lvds: Add compatible for AUO
- G084SN05 V9
-Date: Mon,  9 Dec 2024 17:40:02 -0300
-Message-Id: <20241209204003.1295503-1-festevam@gmail.com>
+Subject: [PATCH 2/2] arm64: dts: imx8mm-phg: Add LVDS compatible string
+Date: Mon,  9 Dec 2024 17:40:03 -0300
+Message-Id: <20241209204003.1295503-2-festevam@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241209204003.1295503-1-festevam@gmail.com>
+References: <20241209204003.1295503-1-festevam@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,28 +91,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Fabio Estevam <festevam@denx.de>
 
-The AUO G084SN05 V9 is a 8.4" 800x600 LVDS display.
+The imx8mm-phg board has an AUO G084SN05 V9 8.4" 800x600 LVDS panel.
 
-Add a compatible entry for this LVDS display model.
+Improve the devicetree description by passing the LVDS compatible
+string to fix the following dt-schema warning:
+
+imx8mm-phg.dtb: panel: compatible:0: 'panel-lvds' is not one of
+['admatec,9904379', 'auo,b101ew05', 'auo,g084sn05',
+'chunghwa,claa070wp03xg','edt,etml0700z9ndha', 'hannstar,hsd101pww2',
+'hydis,hv070wx2-1e0', 'jenson,bl-jt60050-01a', 'tbs,a711-panel']
+...
 
 Signed-off-by: Fabio Estevam <festevam@denx.de>
 ---
- Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8mm-phg.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-index 5af2d6930075..fcb5834f799a 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.yaml
-@@ -42,6 +42,8 @@ properties:
-           # Admatec 9904379 10.1" 1024x600 LVDS panel
-           - admatec,9904379
-           - auo,b101ew05
-+          # AUO G084SN05 V9 8.4" 800x600 LVDS panel
-+          - auo,g084sn05
-           # Chunghwa Picture Tubes Ltd. 7" WXGA (800x1280) TFT LCD LVDS panel
-           - chunghwa,claa070wp03xg
-           # EDT ETML0700Z9NDHA 7.0" WSVGA (1024x600) color TFT LCD LVDS panel
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm-phg.dts b/arch/arm64/boot/dts/freescale/imx8mm-phg.dts
+index 75bbedc6164c..a134b1833649 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mm-phg.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mm-phg.dts
+@@ -82,7 +82,7 @@ reg_usdhc2_vmmc: regulator-vmmc {
+ 	};
+ 
+ 	panel {
+-		compatible = "panel-lvds";
++		compatible = "auo,g084sn05", "panel-lvds";
+ 		width-mm = <170>;
+ 		height-mm = <28>;
+ 		data-mapping = "jeida-18";
 -- 
 2.34.1
 
