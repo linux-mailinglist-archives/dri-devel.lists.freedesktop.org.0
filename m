@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667649EBC75
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB969EBC76
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4D210E9B9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C061F10E9BB;
 	Tue, 10 Dec 2024 22:02:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WbJnm80T";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="R9JyWtdI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id C19B910E9B2;
- Tue, 10 Dec 2024 22:02:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6FBEE10E9B7;
+ Tue, 10 Dec 2024 22:02:46 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 05ECB20ACD66;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 3576020ACD6C;
  Tue, 10 Dec 2024 14:02:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 05ECB20ACD66
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3576020ACD6C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1733868159;
- bh=VvjxiqfKxbyi9uGzXsW8xZpGKBVs2F3SKydD57RgoIM=;
+ bh=2KdSABVpHGeIl3K+Zfq51kwhEReKGYYzt3DUWqeHGog=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=WbJnm80TvYnXykJB9DgMtqoZ50ou8AhS1efFy3dCoV03536YA3dJhXmL0IMKChnpw
- CujNWFZtiMOuyACXPjtJ3tU0PrbAysQ8+2RTG/TU5ekLFjjJ/pUAEWKon7ssztFoiO
- F9frqglM8e2VebaFFRHMBRJ+sqXulRejbFKVUSag=
+ b=R9JyWtdIUEb4/zKyVfibrupVtLSA8I4Ge9h6DsznbqwDXYuMt91s9gMK2E8wvHrfF
+ DAI6C0uY79rteNLP8XN3j0zl2c4hIe69V64Jd/WfL7mt75W43sZOrZK3S3e5zHR6NX
+ Fb6Kd6ZyvfvV2PAG+yCh6AjQd+L5BQfffwiXvwAk=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:45 +0000
-Subject: [PATCH v3 14/19] wifi: ath11k: Convert timeouts to secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:46 +0000
+Subject: [PATCH v3 15/19] Bluetooth: MGMT: Convert timeouts to
+ secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-14-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-15-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -95,8 +96,7 @@ Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
  live-patching@vger.kernel.org, linux-sound@vger.kernel.org, 
  oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
  Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Easwar Hariharan <eahariha@linux.microsoft.com>, 
- Jeff Johnson <quic_jjohnson@quicinc.com>
+ Easwar Hariharan <eahariha@linux.microsoft.com>
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -130,25 +130,24 @@ the following Coccinelle rules:
 - msecs_to_jiffies(C * MSEC_PER_SEC)
 + secs_to_jiffies(C)
 
-Acked-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/net/wireless/ath/ath11k/debugfs.c | 2 +-
+ net/bluetooth/mgmt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/ath/ath11k/debugfs.c b/drivers/net/wireless/ath/ath11k/debugfs.c
-index 57281a135dd7fa6b8610636f47873c8bba21053c..bf192529e3fe26a91e72105a77b4c6f849b905ec 100644
---- a/drivers/net/wireless/ath/ath11k/debugfs.c
-+++ b/drivers/net/wireless/ath/ath11k/debugfs.c
-@@ -178,7 +178,7 @@ static int ath11k_debugfs_fw_stats_request(struct ath11k *ar,
- 	 * received 'update stats' event, we keep a 3 seconds timeout in case,
- 	 * fw_stats_done is not marked yet
- 	 */
--	timeout = jiffies + msecs_to_jiffies(3 * 1000);
-+	timeout = jiffies + secs_to_jiffies(3);
+diff --git a/net/bluetooth/mgmt.c b/net/bluetooth/mgmt.c
+index b31192d473d09b663dc7babd107b4894088ebf6d..8c993763ee0f0360e0d92705f9035f47754b793b 100644
+--- a/net/bluetooth/mgmt.c
++++ b/net/bluetooth/mgmt.c
+@@ -210,7 +210,7 @@ static const u16 mgmt_untrusted_events[] = {
+ 	MGMT_EV_EXP_FEATURE_CHANGED,
+ };
  
- 	ath11k_debugfs_fw_stats_reset(ar);
+-#define CACHE_TIMEOUT	msecs_to_jiffies(2 * 1000)
++#define CACHE_TIMEOUT	secs_to_jiffies(2)
  
+ #define ZERO_KEY "\x00\x00\x00\x00\x00\x00\x00\x00" \
+ 		 "\x00\x00\x00\x00\x00\x00\x00\x00"
 
 -- 
 2.43.0
