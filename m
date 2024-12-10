@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4BB9EAC58
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 10:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB9899EAC64
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 10:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A3F110E86A;
-	Tue, 10 Dec 2024 09:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46F6410E85E;
+	Tue, 10 Dec 2024 09:37:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YP6fN6Gs";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SYPqUAjI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32E2710E863
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 09:36:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F2010E862
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 09:37:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2052D5C5581;
- Tue, 10 Dec 2024 09:36:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7254C4CEDD;
- Tue, 10 Dec 2024 09:36:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B50165C550D;
+ Tue, 10 Dec 2024 09:36:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A1BC4CED6;
+ Tue, 10 Dec 2024 09:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1733823408;
- bh=O4daBKvxBPZfUXfSH0uYR+1Dpk3TWqXz8SdKYCwKPbQ=;
+ s=korg; t=1733823433;
+ bh=H9GdWWxSQozv/mUkF3/jqCtHO65TOh5siE73iExwbnk=;
  h=Subject:To:Cc:From:Date:From;
- b=YP6fN6GsgILFO74HEoPXAqbl4ncMw6P1P4HhgcI9h2597ZgLpkGyPz3uAZ8wkOzbF
- W9eifqwZed2lSibUv8xvb0S+Hf+vWDpod3+S34SKdOt0YMLjUvTmXbph8kgoUGfelz
- AP2eFe/z6tRWOMoyf+w6EUOoe/hLRlZGYtosCF4U=
+ b=SYPqUAjItXisvgBF3JZ0CFIbQrhDDxprFrKhYivANR7Ak1USZMQj4cKHrm1EApikV
+ /Pz/jC3VA2N6MwC0eraf9D5MFFZanp6ad+sFtAFdeNJPqUiGAFgPnLJyd74KZpiWLE
+ YW9wtSY01KNFmwhbgaeoU74LcVZveyV+mS8J/PLk=
 Subject: Patch "dma-fence: Fix reference leak on fence merge failure path" has
- been added to the 6.1-stable tree
+ been added to the 6.6-stable tree
 To: christian.koenig@amd.com, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, friedrich.vock@gmx.de,
  gregkh@linuxfoundation.org, gustavo@padovan.org,
@@ -36,8 +36,8 @@ To: christian.koenig@amd.com, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@igalia.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Tue, 10 Dec 2024 10:35:43 +0100
-Message-ID: <2024121042-eggbeater-storage-afe2@gregkh>
+Date: Tue, 10 Dec 2024 10:35:53 +0100
+Message-ID: <2024121053-riddance-respect-21fc@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,12 +63,12 @@ This is a note to let you know that I've just added the patch titled
 
     dma-fence: Fix reference leak on fence merge failure path
 
-to the 6.1-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      dma-fence-fix-reference-leak-on-fence-merge-failure-path.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -105,14 +105,12 @@ Signed-off-by: Christian König <christian.koenig@amd.com>
 Link: https://patchwork.freedesktop.org/patch/msgid/20241115102153.1980-2-tursulin@igalia.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/dma-buf/dma-fence-unwrap.c | 2 ++
+ drivers/dma-buf/dma-fence-unwrap.c |    2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/dma-buf/dma-fence-unwrap.c b/drivers/dma-buf/dma-fence-unwrap.c
-index 628af51c81af..b19d0adf6086 100644
 --- a/drivers/dma-buf/dma-fence-unwrap.c
 +++ b/drivers/dma-buf/dma-fence-unwrap.c
-@@ -164,6 +164,8 @@ struct dma_fence *__dma_fence_unwrap_merge(unsigned int num_fences,
+@@ -164,6 +164,8 @@ restart:
  					dma_fence_context_alloc(1),
  					1, false);
  	if (!result) {
@@ -121,13 +119,10 @@ index 628af51c81af..b19d0adf6086 100644
  		tmp = NULL;
  		goto return_tmp;
  	}
--- 
-2.47.1
-
 
 
 Patches currently in stable-queue which might be from tvrtko.ursulin@igalia.com are
 
-queue-6.1/dma-fence-use-kernel-s-sort-for-merging-fences.patch
-queue-6.1/dma-buf-fix-dma_fence_array_signaled-v4.patch
-queue-6.1/dma-fence-fix-reference-leak-on-fence-merge-failure-path.patch
+queue-6.6/dma-fence-use-kernel-s-sort-for-merging-fences.patch
+queue-6.6/dma-buf-fix-dma_fence_array_signaled-v4.patch
+queue-6.6/dma-fence-fix-reference-leak-on-fence-merge-failure-path.patch
