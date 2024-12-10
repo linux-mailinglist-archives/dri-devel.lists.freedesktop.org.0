@@ -2,57 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B969EB6C2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 891759EB710
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:51:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA9B810E92C;
-	Tue, 10 Dec 2024 16:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A7DB10E3C2;
+	Tue, 10 Dec 2024 16:51:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nyYBqvz+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SBHDUgxR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF0210E92C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 16:43:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733849017;
- bh=RjRiLZ1f3LHWRqybA2eiBOy28oBtVCw+oLixglvRlSU=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nyYBqvz+hHfRe37Cy7w23O+fMBIh0IloEy8DQ+JBjx/q0Incj73B5tWRW5aBw86AT
- Y1ku+0L2ogYDCuB8C2190gncoQr91ZTRj7hndH2z6XZvCcmu2xTLk0WMnpkl5FhOAy
- rJD6Vx6ruFIesE1CAiXau1itGs9xYgh934i95jdHX9gQPmWh3TTTzYyW1JEWzU984y
- XisFTT6f4eXb7ZFPAZxEixhqFUcVN+yoeBKkYZBzM4/+4aLB356L2rvIuq9CumOvu9
- LuaPXHqnQdihzosQ3bxvsW4AjL8FmpdecPdmAyExyxiWH9esU0+U0JrUwvsCCyBck7
- hVOV2oCOSZaxQ==
-Received: from jupiter.universe (dyndsl-091-248-190-127.ewe-ip-backbone.de
- [91.248.190.127])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: sre)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0688917E37B9;
- Tue, 10 Dec 2024 17:43:37 +0100 (CET)
-Received: by jupiter.universe (Postfix, from userid 1000)
- id 6C51C48CC8C; Tue, 10 Dec 2024 17:43:36 +0100 (CET)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Andy Yan <andyshrk@163.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>, kernel@collabora.com
-Subject: [PATCH v1 2/2] drm/panel: add Raydium RM67200 panel driver
-Date: Tue, 10 Dec 2024 17:41:31 +0100
-Message-ID: <20241210164333.121253-3-sebastian.reichel@collabora.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241210164333.121253-1-sebastian.reichel@collabora.com>
-References: <20241210164333.121253-1-sebastian.reichel@collabora.com>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 479AF10E2CC;
+ Tue, 10 Dec 2024 16:51:45 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-21636268e43so35163475ad.2; 
+ Tue, 10 Dec 2024 08:51:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1733849505; x=1734454305; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JuzEEwZKQf9j9mqhaN0lST/eQY9CbMt5tK8I46FKdZM=;
+ b=SBHDUgxRImDpF4RhulmPN1WOtZb5l7Iy3tE6cI/hmUZFaaSfpUrJDq7ayAuFyfuxcx
+ oW1IvqEiSFYc1yoXxHCIQ0HEsmUNOqX3y7MXurgbnQp7/RhtkHKHrLFcSr6k/M653DIM
+ R/QIPiD05CAOTEAy8to8Cb/wkgnZuTGMeMV8Fwq7vKGEaEyXAfta2os+Pd0bij8g78wz
+ z4x0r4Utqng50iHMPrq4A91q3QYzk/ZW18REr8OoWfwrZS0Lc8+1lUwCiTGDw9N5Fv0h
+ o6dA8SXAJAVW9jPjoHAnjDQnHrXzdeTjZII4K2RgXQ6d2gW6N/Yij8dKGb56DH76vU2i
+ hXqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733849505; x=1734454305;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JuzEEwZKQf9j9mqhaN0lST/eQY9CbMt5tK8I46FKdZM=;
+ b=rJPSVVeIvIZMH2lPNMvPG3pQHcpWAGpk9OdIdWopw2916/GvsEBZ+5UP6a2lv65EdF
+ on2ZzE71h95iXHTVk1AxiLSSpAgGJ36WUXfjvrz90RrxGwihqpwiMrkQ73yQ49v80qI4
+ wQ98jv8Om0eXmnjoGmLzyyfDAq3Ph1beqEPp6e8RtzUM5bafpuAjaQpQpzW2qCpCihWK
+ eMrhkXTN2dshBKTf9mmTCW81UMl49Bl4b3Dpwv4assdIt4+wuzGm6nBMIZE23mce7Ii7
+ d3XUJjvbTOseNi1IErAgL5VBwXbxaal6XwoWDblEVTfzSAUZIcSSAMHiwsFnC9iQQL5l
+ hrAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVAd1B/2EC6ugSnKipyELM2Lcwei0dgvjvEO73THfTiajUUAmLER6/XxKUA9Nz6MhTFuV0IQOkaots=@lists.freedesktop.org,
+ AJvYcCVOrS6GM0cY0ldKGvHbP4Do1UfDnHKXefjLcjMdiNu2oKqiP8TaWK26L1IYAFkcJGW2k0mO1xJTyb2g@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWwNaAfae0umyugx1YBGKyG/E6Fp6qHlG1+82lW4GU/T55uybW
+ KKsdmNRBw6dJ4RoLSeFEIRYjB9ktPZbYlZLByAYIcH45kY9cZhOW
+X-Gm-Gg: ASbGncvfnDuwVKdoJ4swyPw9TP0gpWuMePwiz1F2dRjJeRbe7niyEt2yEHQuUDhse9Y
+ NQG7ScyE3cOrsPYW6DKVoLOjrjn9Q3hTjoXJjnbEYgAz67hx2/ihemACdvKABtvF6g5AKUpA8dg
+ PxK9Bc3Dk0eUYVl9gMr3tMKHkCeU61wzR638EQZzLvOCcdUs7mMSRyYQrv9gXyXutJLP+lCgty2
+ hlvT8HE+Ur/KlZGBeS6N0iJlfo6IX4CIIKAw/W+3zXkSlwAqn/AZMa4uHUfVVZ1+QlTT+i41mME
+ iiwKXJSSrtko6n5ItNlpCkzhZC/Z
+X-Google-Smtp-Source: AGHT+IHq5GJLA69hWJIqMBI3xX9I2B1vs+oiOQMLHk1Gt8OrfhdtpCShimUSU+G1kzy0p/Cgwakamg==
+X-Received: by 2002:a17:902:e750:b0:216:3c36:69a7 with SMTP id
+ d9443c01a7336-2166a0987ddmr69103725ad.45.1733849504588; 
+ Tue, 10 Dec 2024 08:51:44 -0800 (PST)
+Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-216363a3176sm51054905ad.246.2024.12.10.08.51.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Dec 2024 08:51:44 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: iommu@lists.linux.dev
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Mostafa Saleh <smostafa@google.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robdclark@chromium.org>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
+ GPUs), Jason Gunthorpe <jgg@ziepe.ca>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Kevin Tian <kevin.tian@intel.com>, Konrad Dybcio <konradybcio@kernel.org>,
+ linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ linux-pm@vger.kernel.org (open list:SUSPEND TO RAM),
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Sean Paul <sean@poorly.run>
+Subject: [PATCH v11 0/4] io-pgtable-arm + drm/msm: Extend iova fault debugging
+Date: Tue, 10 Dec 2024 08:51:18 -0800
+Message-ID: <20241210165127.600817-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,561 +98,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip W552793DBA-V10 display/touchscreen board contains a
-Wanchanglong W552793BAA panel, which in turn is using a Raydium
-RM67200 MIPI-DSI controller. Add a DSI panel driver for it.
+From: Rob Clark <robdclark@chromium.org>
 
-The W552793BAA panel init sequence has been taken from the RK3588
-EVB1 vendor kernel devicetree.
+This series extends io-pgtable-arm with a method to retrieve the page
+table entries traversed in the process of address translation, and then
+beefs up drm/msm gpu devcore dump to include this (and additional info)
+in the devcore dump.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- drivers/gpu/drm/panel/Kconfig                 |   8 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-raydium-rm67200.c | 503 ++++++++++++++++++
- 3 files changed, 512 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-raydium-rm67200.c
+This is a respin of https://patchwork.freedesktop.org/series/94968/
+(minus a patch that was already merged)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index d7469c565d1d..c2b08fdb0c26 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -573,6 +573,14 @@ config DRM_PANEL_RAYDIUM_RM67191
- 	  Say Y here if you want to enable support for Raydium RM67191 FHD
- 	  (1080x1920) DSI panel.
- 
-+config DRM_PANEL_RAYDIUM_RM67200
-+	tristate "Raydium RM67200-based DSI panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	help
-+	  Say Y here if you want to enable support for Raydium RM67200-based
-+	  display panels.
-+
- config DRM_PANEL_RAYDIUM_RM68200
- 	tristate "Raydium RM68200 720x1280 DSI video mode panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 7dcf72646cac..f7b7cd179492 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -58,6 +58,7 @@ obj-$(CONFIG_DRM_PANEL_OSD_OSD101T2587_53TS) += panel-osd-osd101t2587-53ts.o
- obj-$(CONFIG_DRM_PANEL_PANASONIC_VVX10F034N00) += panel-panasonic-vvx10f034n00.o
- obj-$(CONFIG_DRM_PANEL_RASPBERRYPI_TOUCHSCREEN) += panel-raspberrypi-touchscreen.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67191) += panel-raydium-rm67191.o
-+obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM67200) += panel-raydium-rm67200.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM68200) += panel-raydium-rm68200.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM692E5) += panel-raydium-rm692e5.o
- obj-$(CONFIG_DRM_PANEL_RAYDIUM_RM69380) += panel-raydium-rm69380.o
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67200.c b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-new file mode 100644
-index 000000000000..1a7201ce6c98
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-@@ -0,0 +1,503 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// Copyright (c) 2024 Collabora
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct raydium_rm67200_panel_info {
-+	struct drm_display_mode mode;
-+	const struct regulator_bulk_data *regulators;
-+	int num_regulators;
-+	void (*panel_setup)(struct mipi_dsi_multi_context *ctx);
-+};
-+
-+struct raydium_rm67200 {
-+	struct drm_panel panel;
-+	const struct raydium_rm67200_panel_info *panel_info;
-+	struct mipi_dsi_device *dsi;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data *supplies;
-+	int num_supplies;
-+};
-+
-+static inline struct raydium_rm67200 *to_raydium_rm67200(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct raydium_rm67200, panel);
-+}
-+
-+static void raydium_rm67200_reset(struct raydium_rm67200 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	msleep(60);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	msleep(60);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	msleep(60);
-+}
-+
-+static void raydium_rm67200_write(struct mipi_dsi_multi_context *ctx,
-+				  u8 arg1, u8 arg2)
-+{
-+	u8 d[] = { arg1, arg2 };
-+
-+	mipi_dsi_generic_write_multi(ctx, d, ARRAY_SIZE(d));
-+}
-+
-+static void w552793baa_setup(struct mipi_dsi_multi_context *ctx)
-+{
-+	raydium_rm67200_write(ctx, 0xFE, 0x21);
-+	raydium_rm67200_write(ctx, 0x04, 0x00);
-+	raydium_rm67200_write(ctx, 0x00, 0x64);
-+	raydium_rm67200_write(ctx, 0x2A, 0x00);
-+	raydium_rm67200_write(ctx, 0x26, 0x64);
-+	raydium_rm67200_write(ctx, 0x54, 0x00);
-+	raydium_rm67200_write(ctx, 0x50, 0x64);
-+	raydium_rm67200_write(ctx, 0x7B, 0x00);
-+	raydium_rm67200_write(ctx, 0x77, 0x64);
-+	raydium_rm67200_write(ctx, 0xA2, 0x00);
-+	raydium_rm67200_write(ctx, 0x9D, 0x64);
-+	raydium_rm67200_write(ctx, 0xC9, 0x00);
-+	raydium_rm67200_write(ctx, 0xC5, 0x64);
-+	raydium_rm67200_write(ctx, 0x01, 0x71);
-+	raydium_rm67200_write(ctx, 0x27, 0x71);
-+	raydium_rm67200_write(ctx, 0x51, 0x71);
-+	raydium_rm67200_write(ctx, 0x78, 0x71);
-+	raydium_rm67200_write(ctx, 0x9E, 0x71);
-+	raydium_rm67200_write(ctx, 0xC6, 0x71);
-+	raydium_rm67200_write(ctx, 0x02, 0x89);
-+	raydium_rm67200_write(ctx, 0x28, 0x89);
-+	raydium_rm67200_write(ctx, 0x52, 0x89);
-+	raydium_rm67200_write(ctx, 0x79, 0x89);
-+	raydium_rm67200_write(ctx, 0x9F, 0x89);
-+	raydium_rm67200_write(ctx, 0xC7, 0x89);
-+	raydium_rm67200_write(ctx, 0x03, 0x9E);
-+	raydium_rm67200_write(ctx, 0x29, 0x9E);
-+	raydium_rm67200_write(ctx, 0x53, 0x9E);
-+	raydium_rm67200_write(ctx, 0x7A, 0x9E);
-+	raydium_rm67200_write(ctx, 0xA0, 0x9E);
-+	raydium_rm67200_write(ctx, 0xC8, 0x9E);
-+	raydium_rm67200_write(ctx, 0x09, 0x00);
-+	raydium_rm67200_write(ctx, 0x05, 0xB0);
-+	raydium_rm67200_write(ctx, 0x31, 0x00);
-+	raydium_rm67200_write(ctx, 0x2B, 0xB0);
-+	raydium_rm67200_write(ctx, 0x5A, 0x00);
-+	raydium_rm67200_write(ctx, 0x55, 0xB0);
-+	raydium_rm67200_write(ctx, 0x80, 0x00);
-+	raydium_rm67200_write(ctx, 0x7C, 0xB0);
-+	raydium_rm67200_write(ctx, 0xA7, 0x00);
-+	raydium_rm67200_write(ctx, 0xA3, 0xB0);
-+	raydium_rm67200_write(ctx, 0xCE, 0x00);
-+	raydium_rm67200_write(ctx, 0xCA, 0xB0);
-+	raydium_rm67200_write(ctx, 0x06, 0xC0);
-+	raydium_rm67200_write(ctx, 0x2D, 0xC0);
-+	raydium_rm67200_write(ctx, 0x56, 0xC0);
-+	raydium_rm67200_write(ctx, 0x7D, 0xC0);
-+	raydium_rm67200_write(ctx, 0xA4, 0xC0);
-+	raydium_rm67200_write(ctx, 0xCB, 0xC0);
-+	raydium_rm67200_write(ctx, 0x07, 0xCF);
-+	raydium_rm67200_write(ctx, 0x2F, 0xCF);
-+	raydium_rm67200_write(ctx, 0x58, 0xCF);
-+	raydium_rm67200_write(ctx, 0x7E, 0xCF);
-+	raydium_rm67200_write(ctx, 0xA5, 0xCF);
-+	raydium_rm67200_write(ctx, 0xCC, 0xCF);
-+	raydium_rm67200_write(ctx, 0x08, 0xDD);
-+	raydium_rm67200_write(ctx, 0x30, 0xDD);
-+	raydium_rm67200_write(ctx, 0x59, 0xDD);
-+	raydium_rm67200_write(ctx, 0x7F, 0xDD);
-+	raydium_rm67200_write(ctx, 0xA6, 0xDD);
-+	raydium_rm67200_write(ctx, 0xCD, 0xDD);
-+	raydium_rm67200_write(ctx, 0x0E, 0x15);
-+	raydium_rm67200_write(ctx, 0x0A, 0xE9);
-+	raydium_rm67200_write(ctx, 0x36, 0x15);
-+	raydium_rm67200_write(ctx, 0x32, 0xE9);
-+	raydium_rm67200_write(ctx, 0x5F, 0x15);
-+	raydium_rm67200_write(ctx, 0x5B, 0xE9);
-+	raydium_rm67200_write(ctx, 0x85, 0x15);
-+	raydium_rm67200_write(ctx, 0x81, 0xE9);
-+	raydium_rm67200_write(ctx, 0xAD, 0x15);
-+	raydium_rm67200_write(ctx, 0xA9, 0xE9);
-+	raydium_rm67200_write(ctx, 0xD3, 0x15);
-+	raydium_rm67200_write(ctx, 0xCF, 0xE9);
-+	raydium_rm67200_write(ctx, 0x0B, 0x14);
-+	raydium_rm67200_write(ctx, 0x33, 0x14);
-+	raydium_rm67200_write(ctx, 0x5C, 0x14);
-+	raydium_rm67200_write(ctx, 0x82, 0x14);
-+	raydium_rm67200_write(ctx, 0xAA, 0x14);
-+	raydium_rm67200_write(ctx, 0xD0, 0x14);
-+	raydium_rm67200_write(ctx, 0x0C, 0x36);
-+	raydium_rm67200_write(ctx, 0x34, 0x36);
-+	raydium_rm67200_write(ctx, 0x5D, 0x36);
-+	raydium_rm67200_write(ctx, 0x83, 0x36);
-+	raydium_rm67200_write(ctx, 0xAB, 0x36);
-+	raydium_rm67200_write(ctx, 0xD1, 0x36);
-+	raydium_rm67200_write(ctx, 0x0D, 0x6B);
-+	raydium_rm67200_write(ctx, 0x35, 0x6B);
-+	raydium_rm67200_write(ctx, 0x5E, 0x6B);
-+	raydium_rm67200_write(ctx, 0x84, 0x6B);
-+	raydium_rm67200_write(ctx, 0xAC, 0x6B);
-+	raydium_rm67200_write(ctx, 0xD2, 0x6B);
-+	raydium_rm67200_write(ctx, 0x13, 0x5A);
-+	raydium_rm67200_write(ctx, 0x0F, 0x94);
-+	raydium_rm67200_write(ctx, 0x3B, 0x5A);
-+	raydium_rm67200_write(ctx, 0x37, 0x94);
-+	raydium_rm67200_write(ctx, 0x64, 0x5A);
-+	raydium_rm67200_write(ctx, 0x60, 0x94);
-+	raydium_rm67200_write(ctx, 0x8A, 0x5A);
-+	raydium_rm67200_write(ctx, 0x86, 0x94);
-+	raydium_rm67200_write(ctx, 0xB2, 0x5A);
-+	raydium_rm67200_write(ctx, 0xAE, 0x94);
-+	raydium_rm67200_write(ctx, 0xD8, 0x5A);
-+	raydium_rm67200_write(ctx, 0xD4, 0x94);
-+	raydium_rm67200_write(ctx, 0x10, 0xD1);
-+	raydium_rm67200_write(ctx, 0x38, 0xD1);
-+	raydium_rm67200_write(ctx, 0x61, 0xD1);
-+	raydium_rm67200_write(ctx, 0x87, 0xD1);
-+	raydium_rm67200_write(ctx, 0xAF, 0xD1);
-+	raydium_rm67200_write(ctx, 0xD5, 0xD1);
-+	raydium_rm67200_write(ctx, 0x11, 0x04);
-+	raydium_rm67200_write(ctx, 0x39, 0x04);
-+	raydium_rm67200_write(ctx, 0x62, 0x04);
-+	raydium_rm67200_write(ctx, 0x88, 0x04);
-+	raydium_rm67200_write(ctx, 0xB0, 0x04);
-+	raydium_rm67200_write(ctx, 0xD6, 0x04);
-+	raydium_rm67200_write(ctx, 0x12, 0x05);
-+	raydium_rm67200_write(ctx, 0x3A, 0x05);
-+	raydium_rm67200_write(ctx, 0x63, 0x05);
-+	raydium_rm67200_write(ctx, 0x89, 0x05);
-+	raydium_rm67200_write(ctx, 0xB1, 0x05);
-+	raydium_rm67200_write(ctx, 0xD7, 0x05);
-+	raydium_rm67200_write(ctx, 0x18, 0xAA);
-+	raydium_rm67200_write(ctx, 0x14, 0x36);
-+	raydium_rm67200_write(ctx, 0x42, 0xAA);
-+	raydium_rm67200_write(ctx, 0x3D, 0x36);
-+	raydium_rm67200_write(ctx, 0x69, 0xAA);
-+	raydium_rm67200_write(ctx, 0x65, 0x36);
-+	raydium_rm67200_write(ctx, 0x8F, 0xAA);
-+	raydium_rm67200_write(ctx, 0x8B, 0x36);
-+	raydium_rm67200_write(ctx, 0xB7, 0xAA);
-+	raydium_rm67200_write(ctx, 0xB3, 0x36);
-+	raydium_rm67200_write(ctx, 0xDD, 0xAA);
-+	raydium_rm67200_write(ctx, 0xD9, 0x36);
-+	raydium_rm67200_write(ctx, 0x15, 0x74);
-+	raydium_rm67200_write(ctx, 0x3F, 0x74);
-+	raydium_rm67200_write(ctx, 0x66, 0x74);
-+	raydium_rm67200_write(ctx, 0x8C, 0x74);
-+	raydium_rm67200_write(ctx, 0xB4, 0x74);
-+	raydium_rm67200_write(ctx, 0xDA, 0x74);
-+	raydium_rm67200_write(ctx, 0x16, 0x9F);
-+	raydium_rm67200_write(ctx, 0x40, 0x9F);
-+	raydium_rm67200_write(ctx, 0x67, 0x9F);
-+	raydium_rm67200_write(ctx, 0x8D, 0x9F);
-+	raydium_rm67200_write(ctx, 0xB5, 0x9F);
-+	raydium_rm67200_write(ctx, 0xDB, 0x9F);
-+	raydium_rm67200_write(ctx, 0x17, 0xDC);
-+	raydium_rm67200_write(ctx, 0x41, 0xDC);
-+	raydium_rm67200_write(ctx, 0x68, 0xDC);
-+	raydium_rm67200_write(ctx, 0x8E, 0xDC);
-+	raydium_rm67200_write(ctx, 0xB6, 0xDC);
-+	raydium_rm67200_write(ctx, 0xDC, 0xDC);
-+	raydium_rm67200_write(ctx, 0x1D, 0xFF);
-+	raydium_rm67200_write(ctx, 0x19, 0x03);
-+	raydium_rm67200_write(ctx, 0x47, 0xFF);
-+	raydium_rm67200_write(ctx, 0x43, 0x03);
-+	raydium_rm67200_write(ctx, 0x6E, 0xFF);
-+	raydium_rm67200_write(ctx, 0x6A, 0x03);
-+	raydium_rm67200_write(ctx, 0x94, 0xFF);
-+	raydium_rm67200_write(ctx, 0x90, 0x03);
-+	raydium_rm67200_write(ctx, 0xBC, 0xFF);
-+	raydium_rm67200_write(ctx, 0xB8, 0x03);
-+	raydium_rm67200_write(ctx, 0xE2, 0xFF);
-+	raydium_rm67200_write(ctx, 0xDE, 0x03);
-+	raydium_rm67200_write(ctx, 0x1A, 0x35);
-+	raydium_rm67200_write(ctx, 0x44, 0x35);
-+	raydium_rm67200_write(ctx, 0x6B, 0x35);
-+	raydium_rm67200_write(ctx, 0x91, 0x35);
-+	raydium_rm67200_write(ctx, 0xB9, 0x35);
-+	raydium_rm67200_write(ctx, 0xDF, 0x35);
-+	raydium_rm67200_write(ctx, 0x1B, 0x45);
-+	raydium_rm67200_write(ctx, 0x45, 0x45);
-+	raydium_rm67200_write(ctx, 0x6C, 0x45);
-+	raydium_rm67200_write(ctx, 0x92, 0x45);
-+	raydium_rm67200_write(ctx, 0xBA, 0x45);
-+	raydium_rm67200_write(ctx, 0xE0, 0x45);
-+	raydium_rm67200_write(ctx, 0x1C, 0x55);
-+	raydium_rm67200_write(ctx, 0x46, 0x55);
-+	raydium_rm67200_write(ctx, 0x6D, 0x55);
-+	raydium_rm67200_write(ctx, 0x93, 0x55);
-+	raydium_rm67200_write(ctx, 0xBB, 0x55);
-+	raydium_rm67200_write(ctx, 0xE1, 0x55);
-+	raydium_rm67200_write(ctx, 0x22, 0xFF);
-+	raydium_rm67200_write(ctx, 0x1E, 0x68);
-+	raydium_rm67200_write(ctx, 0x4C, 0xFF);
-+	raydium_rm67200_write(ctx, 0x48, 0x68);
-+	raydium_rm67200_write(ctx, 0x73, 0xFF);
-+	raydium_rm67200_write(ctx, 0x6F, 0x68);
-+	raydium_rm67200_write(ctx, 0x99, 0xFF);
-+	raydium_rm67200_write(ctx, 0x95, 0x68);
-+	raydium_rm67200_write(ctx, 0xC1, 0xFF);
-+	raydium_rm67200_write(ctx, 0xBD, 0x68);
-+	raydium_rm67200_write(ctx, 0xE7, 0xFF);
-+	raydium_rm67200_write(ctx, 0xE3, 0x68);
-+	raydium_rm67200_write(ctx, 0x1F, 0x7E);
-+	raydium_rm67200_write(ctx, 0x49, 0x7E);
-+	raydium_rm67200_write(ctx, 0x70, 0x7E);
-+	raydium_rm67200_write(ctx, 0x96, 0x7E);
-+	raydium_rm67200_write(ctx, 0xBE, 0x7E);
-+	raydium_rm67200_write(ctx, 0xE4, 0x7E);
-+	raydium_rm67200_write(ctx, 0x20, 0x97);
-+	raydium_rm67200_write(ctx, 0x4A, 0x97);
-+	raydium_rm67200_write(ctx, 0x71, 0x97);
-+	raydium_rm67200_write(ctx, 0x97, 0x97);
-+	raydium_rm67200_write(ctx, 0xBF, 0x97);
-+	raydium_rm67200_write(ctx, 0xE5, 0x97);
-+	raydium_rm67200_write(ctx, 0x21, 0xB5);
-+	raydium_rm67200_write(ctx, 0x4B, 0xB5);
-+	raydium_rm67200_write(ctx, 0x72, 0xB5);
-+	raydium_rm67200_write(ctx, 0x98, 0xB5);
-+	raydium_rm67200_write(ctx, 0xC0, 0xB5);
-+	raydium_rm67200_write(ctx, 0xE6, 0xB5);
-+	raydium_rm67200_write(ctx, 0x25, 0xF0);
-+	raydium_rm67200_write(ctx, 0x23, 0xE8);
-+	raydium_rm67200_write(ctx, 0x4F, 0xF0);
-+	raydium_rm67200_write(ctx, 0x4D, 0xE8);
-+	raydium_rm67200_write(ctx, 0x76, 0xF0);
-+	raydium_rm67200_write(ctx, 0x74, 0xE8);
-+	raydium_rm67200_write(ctx, 0x9C, 0xF0);
-+	raydium_rm67200_write(ctx, 0x9A, 0xE8);
-+	raydium_rm67200_write(ctx, 0xC4, 0xF0);
-+	raydium_rm67200_write(ctx, 0xC2, 0xE8);
-+	raydium_rm67200_write(ctx, 0xEA, 0xF0);
-+	raydium_rm67200_write(ctx, 0xE8, 0xE8);
-+	raydium_rm67200_write(ctx, 0x24, 0xFF);
-+	raydium_rm67200_write(ctx, 0x4E, 0xFF);
-+	raydium_rm67200_write(ctx, 0x75, 0xFF);
-+	raydium_rm67200_write(ctx, 0x9B, 0xFF);
-+	raydium_rm67200_write(ctx, 0xC3, 0xFF);
-+	raydium_rm67200_write(ctx, 0xE9, 0xFF);
-+	raydium_rm67200_write(ctx, 0xFE, 0x3D);
-+	raydium_rm67200_write(ctx, 0x00, 0x04);
-+	raydium_rm67200_write(ctx, 0xFE, 0x23);
-+	raydium_rm67200_write(ctx, 0x08, 0x82);
-+	raydium_rm67200_write(ctx, 0x0A, 0x00);
-+	raydium_rm67200_write(ctx, 0x0B, 0x00);
-+	raydium_rm67200_write(ctx, 0x0C, 0x01);
-+	raydium_rm67200_write(ctx, 0x16, 0x00);
-+	raydium_rm67200_write(ctx, 0x18, 0x02);
-+	raydium_rm67200_write(ctx, 0x1B, 0x04);
-+	raydium_rm67200_write(ctx, 0x19, 0x04);
-+	raydium_rm67200_write(ctx, 0x1C, 0x81);
-+	raydium_rm67200_write(ctx, 0x1F, 0x00);
-+	raydium_rm67200_write(ctx, 0x20, 0x03);
-+	raydium_rm67200_write(ctx, 0x23, 0x04);
-+	raydium_rm67200_write(ctx, 0x21, 0x01);
-+	raydium_rm67200_write(ctx, 0x54, 0x63);
-+	raydium_rm67200_write(ctx, 0x55, 0x54);
-+	raydium_rm67200_write(ctx, 0x6E, 0x45);
-+	raydium_rm67200_write(ctx, 0x6D, 0x36);
-+	raydium_rm67200_write(ctx, 0xFE, 0x3D);
-+	raydium_rm67200_write(ctx, 0x55, 0x78);
-+	raydium_rm67200_write(ctx, 0xFE, 0x20);
-+	raydium_rm67200_write(ctx, 0x26, 0x30);
-+	raydium_rm67200_write(ctx, 0xFE, 0x3D);
-+	raydium_rm67200_write(ctx, 0x20, 0x71);
-+	raydium_rm67200_write(ctx, 0x50, 0x8F);
-+	raydium_rm67200_write(ctx, 0x51, 0x8F);
-+	raydium_rm67200_write(ctx, 0xFE, 0x00);
-+	raydium_rm67200_write(ctx, 0x35, 0x00);
-+}
-+
-+static int raydium_rm67200_prepare(struct drm_panel *panel)
-+{
-+	struct raydium_rm67200 *ctx = to_raydium_rm67200(panel);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ctx->num_supplies, ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	raydium_rm67200_reset(ctx);
-+
-+	msleep(60);
-+
-+	return 0;
-+}
-+
-+static int raydium_rm67200_unprepare(struct drm_panel *panel)
-+{
-+	struct raydium_rm67200 *ctx = to_raydium_rm67200(panel);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	regulator_bulk_disable(ctx->num_supplies, ctx->supplies);
-+
-+	msleep(60);
-+
-+	return 0;
-+}
-+
-+static int raydium_rm67200_enable(struct drm_panel *panel)
-+{
-+	struct raydium_rm67200 *rm67200 = to_raydium_rm67200(panel);
-+	struct mipi_dsi_multi_context ctx = { .dsi = rm67200->dsi };
-+
-+	rm67200->panel_info->panel_setup(&ctx);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 120);
-+	mipi_dsi_dcs_set_display_on_multi(&ctx);
-+	mipi_dsi_msleep(&ctx, 30);
-+
-+	msleep(60);
-+
-+	return ctx.accum_err;
-+}
-+
-+static int raydium_rm67200_disable(struct drm_panel *panel)
-+{
-+	struct raydium_rm67200 *rm67200 = to_raydium_rm67200(panel);
-+	struct mipi_dsi_multi_context ctx = { .dsi = rm67200->dsi };
-+
-+	mipi_dsi_dcs_set_display_off_multi(&ctx);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&ctx);
-+
-+	msleep(60);
-+
-+	return ctx.accum_err;
-+}
-+
-+static int raydium_rm67200_get_modes(struct drm_panel *panel,
-+				    struct drm_connector *connector)
-+{
-+	struct raydium_rm67200 *ctx = to_raydium_rm67200(panel);
-+
-+	drm_connector_helper_get_modes_fixed(connector, &ctx->panel_info->mode);
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs raydium_rm67200_funcs = {
-+	.prepare = raydium_rm67200_prepare,
-+	.unprepare = raydium_rm67200_unprepare,
-+	.get_modes = raydium_rm67200_get_modes,
-+	.enable = raydium_rm67200_enable,
-+	.disable = raydium_rm67200_disable,
-+};
-+
-+static int raydium_rm67200_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct raydium_rm67200 *ctx;
-+	int ret = 0;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->panel_info = device_get_match_data(dev);
-+	if (!ctx->panel_info)
-+		return -EINVAL;
-+
-+	ctx->num_supplies = ctx->panel_info->num_regulators;
-+	ret = devm_regulator_bulk_get_const(&dsi->dev,
-+					    ctx->panel_info->num_regulators,
-+					    ctx->panel_info->regulators,
-+					    &ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_MODE_LPM;
-+	ctx->panel.prepare_prev_first = true;
-+
-+	drm_panel_init(&ctx->panel, dev, &raydium_rm67200_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return ret;
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		drm_panel_remove(&ctx->panel);
-+	}
-+
-+	return ret;
-+}
-+
-+static void raydium_rm67200_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct raydium_rm67200 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+}
-+
-+static const struct regulator_bulk_data w552793baa_regulators[] = {
-+	{ .supply = "vdd", },		/*  2.8V */
-+	{ .supply = "iovcc", },		/*  1.8V */
-+	{ .supply = "vsp", },		/* +5.5V */
-+	{ .supply = "vsn", },		/* -5.5V */
-+};
-+
-+static const struct raydium_rm67200_panel_info w552793baa_info = {
-+	.mode = {
-+		.clock = 132000,
-+		.hdisplay = 1080,
-+		.hsync_start = 1095,
-+		.hsync_end = 1125,
-+		.htotal = 1129,
-+		.vdisplay = 1920,
-+		.vsync_start = 1935,
-+		.vsync_end = 1950,
-+		.vtotal = 1952,
-+		.width_mm = 68, /* 68.04mm */
-+		.height_mm = 121, /* 120.96mm */
-+		.type = DRM_MODE_TYPE_DRIVER,
-+	},
-+	.regulators = w552793baa_regulators,
-+	.num_regulators = ARRAY_SIZE(w552793baa_regulators),
-+	.panel_setup = w552793baa_setup,
-+};
-+
-+static const struct of_device_id raydium_rm67200_of_match[] = {
-+	{ .compatible = "wanchanglong,w552793baa", .data = &w552793baa_info },
-+	{ /*sentinel*/ }
-+};
-+MODULE_DEVICE_TABLE(of, raydium_rm67200_of_match);
-+
-+static struct mipi_dsi_driver raydium_rm67200_driver = {
-+	.probe = raydium_rm67200_probe,
-+	.remove = raydium_rm67200_remove,
-+	.driver = {
-+		.name = "panel-raydium-rm67200",
-+		.of_match_table = raydium_rm67200_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(raydium_rm67200_driver);
-+
-+MODULE_AUTHOR("Sebastian Reichel <sebastian.reichel@collabora.com>");
-+MODULE_DESCRIPTION("DRM driver for RM67200-equipped DSI panels");
-+MODULE_LICENSE("GPL");
+v2:  Fix an armv7/32b build error in the last patch
+v3:  Incorperate Will Deacon's suggestion to make the interface
+     callback based.
+v4:  Actually wire up the callback
+v5:  Drop the callback approach
+v6:  Make walk-data struct pgtable specific and rename
+     io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
+v7:  Re-use the pgtable walker added for arm_lpae_read_and_clear_dirty()
+v8:  Pass pte pointer to callback so it can modify the actual pte
+v9:  Fix selftests_running case
+v10: Call visit cb for all nodes traversed, leave the decision about
+     whether to care about non-leaf nodes to the callback
+v11: Adjust logic in 3/4 [smostafa@]
+
+Rob Clark (4):
+  iommu/io-pgtable-arm: Make pgtable walker more generic
+  iommu/io-pgtable-arm: Re-use the pgtable walk for iova_to_phys
+  iommu/io-pgtable-arm: Add way to debug pgtable walk
+  drm/msm: Extend gpu devcore dumps with pgtbl info
+
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c |  10 ++
+ drivers/gpu/drm/msm/msm_gpu.c           |   9 ++
+ drivers/gpu/drm/msm/msm_gpu.h           |   8 ++
+ drivers/gpu/drm/msm/msm_iommu.c         |  22 ++++
+ drivers/gpu/drm/msm/msm_mmu.h           |   3 +-
+ drivers/iommu/io-pgtable-arm.c          | 157 +++++++++++++++---------
+ include/linux/io-pgtable.h              |  15 +++
+ 7 files changed, 167 insertions(+), 57 deletions(-)
+
 -- 
-2.45.2
+2.47.1
 
