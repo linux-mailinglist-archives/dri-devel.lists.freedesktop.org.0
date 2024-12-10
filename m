@@ -2,110 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD129EB90E
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 19:10:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD199EB979
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 19:40:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 088C310E2D4;
-	Tue, 10 Dec 2024 18:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 596EE10E153;
+	Tue, 10 Dec 2024 18:40:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="THK4xO6I";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="LZELpwG5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B481010E16C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 18:10:01 +0000 (UTC)
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
- [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 609DD352;
- Tue, 10 Dec 2024 19:09:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733854168;
- bh=44MoriPRa8+FOLOmQtOYuRsA5M7sKthD+8WC6qqjaaw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=THK4xO6Iuoq4eTRXsWHmqnO8ADa+mkIjtb8TKpOQtGPT23Wbhev6hF7nYgobUrzid
- LkfOE4wbEbJaPoiUXeT+EQaF/aBfK2e5ZstLJVq3JUYueCqJKsgDcniNfWE8NyPLST
- fhsBaMMGTXI5MYnsSymQ3f8Aa9Ad0DVHM5IGIP4A=
-Message-ID: <da31d29e-6a2b-45fc-bb16-3ee78be41d66@ideasonboard.com>
-Date: Tue, 10 Dec 2024 20:09:55 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78C3F10E153
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 18:40:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733856018; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=eLJVeQYFPMFmIItBqw+iC3duBThTFKhy7qlLZqlBdIU+QgFxFRfrjF5IP8IoeUjJLJlIeIagNF4wBbn6cTCfihdaenCWHQfWPIEEWhqsABEYYGoxuChoTUuaWDv9sDTwId9YDeW2H7yPFSmw5b4zBYkN/6s/5QF2EGrdhe4shaw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733856018;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=S6TU7l55Y0mdZ5Q3U4WL8dWps5L9M05F3suGGbIWtgw=; 
+ b=hTLXIKCaSIFGbIMfggLJZhU7NVYsgfCzxi/uJ6Ui4OlECzwHsZYl6nhw6chgxOsMaGd4f0qLM8D8OvpmZrSi4ntJdzPdgH3t9LQBuAdPNUAkU0zsvUwsYmTFuSsn2JuDaDzaPgm+Dlou7lVxKKUt8d9LRsn1dMwWr6lKjdEQX5M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+ dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733856018; 
+ s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=S6TU7l55Y0mdZ5Q3U4WL8dWps5L9M05F3suGGbIWtgw=;
+ b=LZELpwG5YCjb+W0kzThoZ7BmxJl1jkkHLx8U5ntvirtepwV6dLYCkEHPcf+wQ4Ye
+ HIAkjXa8s+snIddoOFA0SLqdENEE7uw368T1a62qyAQjo4Nh0Ha4Dqa0pnnoRn5BxTb
+ K2BcZD5DA49FKQYAbt39eq1FPMNUv/x5hfwAnCkE=
+Received: by mx.zohomail.com with SMTPS id 1733856016248872.700989510731;
+ Tue, 10 Dec 2024 10:40:16 -0800 (PST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: heiko@sntech.de, Andy Yan <andyshrk@163.com>
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>, kernel@collabora.com
+Subject: Re: [PATCH v5 05/18] drm/rockchip: vop2: Set AXI id for rk3588
+Date: Tue, 10 Dec 2024 13:40:14 -0500
+Message-ID: <5839604.DvuYhMxLoT@trenzalore>
+In-Reply-To: <20241209122943.2781431-9-andyshrk@163.com>
+References: <20241209122943.2781431-1-andyshrk@163.com>
+ <20241209122943.2781431-9-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 10/10] arm64: dts: renesas: gray-hawk-single: Add
- DisplayPort support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
- <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
- <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,120 +69,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Andy,
 
-On 10/12/2024 18:34, Geert Uytterhoeven wrote:
-> Hi Tomi,
+On Monday, 9 December 2024 07:29:18 EST Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> On Fri, Dec 6, 2024 at 10:33 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>
->> Add support for the mini DP output on the Gray Hawk board.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> There are two AXI bus in vop2, windows attached on the same bus must
+> have a unique channel YUV and RGB channel ID.
 > 
-> Thanks for your patch!
+> The default IDs will conflict with each other on the rk3588, so they
+> need to be reassigned.
 > 
->> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
->> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
->> @@ -269,6 +314,51 @@ eeprom@53 {
->>          };
->>   };
->>
->> +&i2c1 {
->> +       pinctrl-0 = <&i2c1_pins>;
->> +       pinctrl-names = "default";
->> +
->> +       status = "okay";
->> +       clock-frequency = <400000>;
->> +
->> +       bridge@2c {
+> Fixes: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> Tested-by: Derek Foreman <derek.foreman@collabora.com>
 > 
-> Missing:
+> ---
 > 
->          pinctrl-0 = <&irq0_pins>;
->          pinctrl-names = "default";
+> Changes in v5:
+> - Added in V5
 > 
->> +               compatible = "ti,sn65dsi86";
->> +               reg = <0x2c>;
->> +
->> +               clocks = <&sn65dsi86_refclk>;
->> +               clock-names = "refclk";
->> +
->> +               interrupt-parent = <&intc_ex>;
->> +               interrupts = <0 IRQ_TYPE_LEVEL_HIGH>;
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 +++++++++++
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  9 +++++++
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 26 +++++++++++++++++++-
+>  3 files changed, 48 insertions(+), 1 deletion(-)
 > 
-> interrupts-extended = ...
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c index
+> dc4edd65bc9e..8b9ca046eeeb 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -1426,6 +1426,12 @@ static void vop2_plane_atomic_update(struct drm_plane
+> *plane, &fb->format->format,
+>  		afbc_en ? "AFBC" : "", &yrgb_mst);
+> 
+> +	if (vop2->data->soc_id > 3568) {
 
-Is that just to use the same style in the whole dts, or is there some 
-specific need for the extended one here?
+Shouldn't this be done only for rk3588, as specified in the comments below ? 
+The test we did before showed that it is failing on rk3576 and 3576 is > 3588.
 
->> +
->> +               enable-gpios = <&gpio1 26 GPIO_ACTIVE_HIGH>;
->> +
->> +               vccio-supply = <&reg_1p8v>;
->> +               vpll-supply = <&reg_1p8v>;
->> +               vcca-supply = <&reg_1p2v>;
->> +               vcc-supply = <&reg_1p2v>;
->> +
->> +               ports {
->> +                       #address-cells = <1>;
->> +                       #size-cells = <0>;
->> +
->> +                       port@0 {
->> +                               reg = <0>;
->> +                               sn65dsi86_in0: endpoint {
->> +                                       remote-endpoint = <&dsi0_out>;
->> +                               };
->> +                       };
->> +
->> +                       port@1 {
->> +                               reg = <1>;
->> +                               sn65dsi86_out0: endpoint {
->> +                                       remote-endpoint = <&mini_dp_con_in>;
->> +                               };
->> +                       };
->> +               };
->> +       };
->> +};
->> +
->>   &i2c3 {
->>          pinctrl-0 = <&i2c3_pins>;
->>          pinctrl-names = "default";
->> @@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
->>                  function = "i2c0";
->>          };
->>
->> +       i2c1_pins: i2c1 {
->> +               groups = "i2c1";
->> +               function = "i2c1";
->> +       };
->> +
->>          i2c3_pins: i2c3 {
->>                  groups = "i2c3";
->>                  function = "i2c3";
-> 
-> Missing:
-> 
->          irq0_pins: irq0 {
->                  groups = "intc_ex_irq0_a";
->                  function = "intc_ex";
->          };
-> 
-> I'll fix that up while applying.
+I suggest
 
-Thanks!
+	if (vop2->data->soc_id == 3588) {
 
-  Tomi
+Regards,
+Detlev
 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-devel for v6.14.
+> +		vop2_win_write(win, VOP2_WIN_AXI_BUS_ID, win->data-
+>axi_bus_id);
+> +		vop2_win_write(win, VOP2_WIN_AXI_YRGB_R_ID, win->data-
+>axi_yrgb_r_id);
+> +		vop2_win_write(win, VOP2_WIN_AXI_UV_R_ID, win->data-
+>axi_uv_r_id);
+> +	}
+> +
+>  	if (vop2_cluster_window(win))
+>  		vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN, 
+half_block_en);
 > 
-> Gr{oetje,eeting}s,
+> @@ -3354,6 +3360,10 @@ static struct reg_field
+> vop2_cluster_regs[VOP2_WIN_MAX_REG] = { [VOP2_WIN_Y2R_EN] =
+> REG_FIELD(RK3568_CLUSTER_WIN_CTRL0, 8, 8),
+>  	[VOP2_WIN_R2Y_EN] = REG_FIELD(RK3568_CLUSTER_WIN_CTRL0, 9, 9),
+>  	[VOP2_WIN_CSC_MODE] = REG_FIELD(RK3568_CLUSTER_WIN_CTRL0, 10, 11),
+> +	[VOP2_WIN_AXI_YRGB_R_ID] = REG_FIELD(RK3568_CLUSTER_WIN_CTRL2, 0, 
+3),
+> +	[VOP2_WIN_AXI_UV_R_ID] = REG_FIELD(RK3568_CLUSTER_WIN_CTRL2, 5, 8),
+> +	/* RK3588 only, reserved bit on rk3568*/
+> +	[VOP2_WIN_AXI_BUS_ID] = REG_FIELD(RK3568_CLUSTER_CTRL, 13, 13),
 > 
->                          Geert
+>  	/* Scale */
+>  	[VOP2_WIN_SCALE_YRGB_X] = 
+REG_FIELD(RK3568_CLUSTER_WIN_SCL_FACTOR_YRGB, 0,
+> 15), @@ -3446,6 +3456,10 @@ static struct reg_field
+> vop2_esmart_regs[VOP2_WIN_MAX_REG] = { [VOP2_WIN_YMIRROR] =
+> REG_FIELD(RK3568_SMART_CTRL1, 31, 31),
+>  	[VOP2_WIN_COLOR_KEY] = REG_FIELD(RK3568_SMART_COLOR_KEY_CTRL, 0, 
+29),
+>  	[VOP2_WIN_COLOR_KEY_EN] = REG_FIELD(RK3568_SMART_COLOR_KEY_CTRL, 
+31, 31),
+> +	[VOP2_WIN_AXI_YRGB_R_ID] = REG_FIELD(RK3568_SMART_CTRL1, 4, 8),
+> +	[VOP2_WIN_AXI_UV_R_ID] = REG_FIELD(RK3568_SMART_CTRL1, 12, 16),
+> +	/* RK3588 only, reserved register on rk3568 */
+> +	[VOP2_WIN_AXI_BUS_ID] = REG_FIELD(RK3588_SMART_AXI_CTRL, 1, 1),
 > 
+>  	/* Scale */
+>  	[VOP2_WIN_SCALE_YRGB_X] = 
+REG_FIELD(RK3568_SMART_REGION0_SCL_FACTOR_YRGB,
+> 0, 15), diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h index
+> 8786c2ba48df..0a3b22e8d14e 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> @@ -78,6 +78,9 @@ enum vop2_win_regs {
+>  	VOP2_WIN_COLOR_KEY,
+>  	VOP2_WIN_COLOR_KEY_EN,
+>  	VOP2_WIN_DITHER_UP,
+> +	VOP2_WIN_AXI_BUS_ID,
+> +	VOP2_WIN_AXI_YRGB_R_ID,
+> +	VOP2_WIN_AXI_UV_R_ID,
+> 
+>  	/* scale regs */
+>  	VOP2_WIN_SCALE_YRGB_X,
+> @@ -149,6 +152,10 @@ struct vop2_win_data {
+>  	unsigned int layer_sel_id;
+>  	uint64_t feature;
+> 
+> +	uint8_t axi_bus_id;
+> +	uint8_t axi_yrgb_r_id;
+> +	uint8_t axi_uv_r_id;
+> +
+>  	unsigned int max_upscale_factor;
+>  	unsigned int max_downscale_factor;
+>  	const u8 dly[VOP2_DLY_MODE_MAX];
+> @@ -319,6 +326,7 @@ enum dst_factor_mode {
+> 
+>  #define RK3568_CLUSTER_WIN_CTRL0		0x00
+>  #define RK3568_CLUSTER_WIN_CTRL1		0x04
+> +#define RK3568_CLUSTER_WIN_CTRL2		0x08
+>  #define RK3568_CLUSTER_WIN_YRGB_MST		0x10
+>  #define RK3568_CLUSTER_WIN_CBR_MST		0x14
+>  #define RK3568_CLUSTER_WIN_VIR			0x18
+> @@ -341,6 +349,7 @@ enum dst_factor_mode {
+>  /* (E)smart register definition, offset relative to window base */
+>  #define RK3568_SMART_CTRL0			0x00
+>  #define RK3568_SMART_CTRL1			0x04
+> +#define RK3588_SMART_AXI_CTRL			0x08
+>  #define RK3568_SMART_REGION0_CTRL		0x10
+>  #define RK3568_SMART_REGION0_YRGB_MST		0x14
+>  #define RK3568_SMART_REGION0_CBR_MST		0x18
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c index
+> f7d3350594fa..37c65138012d 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -395,7 +395,7 @@ static const struct vop2_video_port_data
+> rk3588_vop_video_ports[] = { * AXI1 is a read only bus.
+>   *
+>   * Every window on a AXI bus must assigned two unique
+> - * read id(yrgb_id/uv_id, valid id are 0x1~0xe).
+> + * read id(yrgb_r_id/uv_r_id, valid id are 0x1~0xe).
+>   *
+>   * AXI0:
+>   * Cluster0/1, Esmart0/1, WriteBack
+> @@ -415,6 +415,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .layer_sel_id = 0,
+>  		.supported_rotations = DRM_MODE_ROTATE_90 | 
+DRM_MODE_ROTATE_270 |
+>  				       DRM_MODE_REFLECT_X | 
+DRM_MODE_REFLECT_Y,
+> +		.axi_bus_id = 0,
+> +		.axi_yrgb_r_id = 2,
+> +		.axi_uv_r_id = 3,
+>  		.max_upscale_factor = 4,
+>  		.max_downscale_factor = 4,
+>  		.dly = { 4, 26, 29 },
+> @@ -431,6 +434,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+> DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_PRIMARY,
+> +		.axi_bus_id = 0,
+> +		.axi_yrgb_r_id = 6,
+> +		.axi_uv_r_id = 7,
+>  		.max_upscale_factor = 4,
+>  		.max_downscale_factor = 4,
+>  		.dly = { 4, 26, 29 },
+> @@ -446,6 +452,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+> DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_PRIMARY,
+> +		.axi_bus_id = 1,
+> +		.axi_yrgb_r_id = 2,
+> +		.axi_uv_r_id = 3,
+>  		.max_upscale_factor = 4,
+>  		.max_downscale_factor = 4,
+>  		.dly = { 4, 26, 29 },
+> @@ -461,6 +470,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .supported_rotations = DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270 |
+> DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_PRIMARY,
+> +		.axi_bus_id = 1,
+> +		.axi_yrgb_r_id = 6,
+> +		.axi_uv_r_id = 7,
+>  		.max_upscale_factor = 4,
+>  		.max_downscale_factor = 4,
+>  		.dly = { 4, 26, 29 },
+> @@ -475,6 +487,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .layer_sel_id = 2,
+>  		.supported_rotations = DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_OVERLAY,
+> +		.axi_bus_id = 0,
+> +		.axi_yrgb_r_id = 0x0a,
+> +		.axi_uv_r_id = 0x0b,
+>  		.max_upscale_factor = 8,
+>  		.max_downscale_factor = 8,
+>  		.dly = { 23, 45, 48 },
+> @@ -488,6 +503,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .layer_sel_id = 3,
+>  		.supported_rotations = DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_OVERLAY,
+> +		.axi_bus_id = 0,
+> +		.axi_yrgb_r_id = 0x0c,
+> +		.axi_uv_r_id = 0x01,
+>  		.max_upscale_factor = 8,
+>  		.max_downscale_factor = 8,
+>  		.dly = { 23, 45, 48 },
+> @@ -501,6 +519,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .layer_sel_id = 6,
+>  		.supported_rotations = DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_OVERLAY,
+> +		.axi_bus_id = 1,
+> +		.axi_yrgb_r_id = 0x0a,
+> +		.axi_uv_r_id = 0x0b,
+>  		.max_upscale_factor = 8,
+>  		.max_downscale_factor = 8,
+>  		.dly = { 23, 45, 48 },
+> @@ -514,6 +535,9 @@ static const struct vop2_win_data rk3588_vop_win_data[]
+> = { .layer_sel_id = 7,
+>  		.supported_rotations = DRM_MODE_REFLECT_Y,
+>  		.type = DRM_PLANE_TYPE_OVERLAY,
+> +		.axi_bus_id = 1,
+> +		.axi_yrgb_r_id = 0x0c,
+> +		.axi_uv_r_id = 0x0d,
+>  		.max_upscale_factor = 8,
+>  		.max_downscale_factor = 8,
+>  		.dly = { 23, 45, 48 },
+
+
+
 
