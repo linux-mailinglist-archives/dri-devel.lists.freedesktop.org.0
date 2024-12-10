@@ -2,78 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D8579EA39C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 01:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85ED09EA3E1
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 01:52:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16FEF10E593;
-	Tue, 10 Dec 2024 00:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 740BA10E35C;
+	Tue, 10 Dec 2024 00:52:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oREeAIg9";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="H4dZEI47";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A648110E35B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 00:26:08 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-540215984f0so1275735e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 16:26:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733790367; x=1734395167; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4BwVrUZpTdtHulhLKWv2OcJChXM6uEDlwsocnkbKdQ4=;
- b=oREeAIg9F3F0g1xUaNQ9w4Tw3sCZJBs4RYtzUD4o2SoolaRpZMIqW0koP9DfAaJFnP
- jJZwuIczwzopJ8YofkKhjMkYQK7x/n0feNL+rT2ee4XD1X2VekQd/abgXZgsmT81+jT+
- CMH7Gyr4RmsfR5MM0otDHDAahKTAfnX7wTodleY5AXQOHQjWMO4YjamYNZMrkFZjlciy
- S14cUL69U5ZtdfrNa4sitsZxoCFgciC7LWwMkFOJTbYDaTYJY2Rwu6OLWjEr9bRvbN4O
- 0uoT7UbrOKLV5bbRNIR1uXZ/z+ncIbXiG/TIDsY25DihkrgfBq3wPrzKtgSwmb7rXCVu
- beig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733790367; x=1734395167;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4BwVrUZpTdtHulhLKWv2OcJChXM6uEDlwsocnkbKdQ4=;
- b=ZDcx7jdAVY35GD+oWHSoueDbfu8boMC1iUADdZPgcBadBv63U+pFfArMynpJG5OL8r
- 3i0IDaF8tkAAgdy66rroh6ykXdzYbu55LAXhJRSELsavFuL0HZFCiQuysByhaSPZtTF2
- FFA58vJcoOIWas3L882RsfJBXKXR/oz84yiOd42JtpV18UQvhs5Lr+NXAPTXdXQTx8Kb
- g5qw4RSKOsFxhMP3vEQ40LeQXMrYbvD80noO83NulKyl23xkTKEerTJ2D6vZ8qlWC1bv
- VgnbDqCA93p5tTwRJbX6ZRdufScliZGJd0dunpdy+aGqjp0KzF3sEzlWDd5O5CvRKalm
- DPtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlZ53EWZln55VmaBMggE3SpC0v1DQlmaUy/wgNyIBpIgs0VhT+N3gKCDkqfjBrX3cKiIlREM4wp+M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy2htThey6zBs676WQtUG/CA7U0ZQ2aMTm0LCO75VxrqSJFNHTc
- n21KHnYUdnvKoc73EAjMAmZ+ha34k+oqogsChxQKasaxBD5i37J7e0zIaY6a74I=
-X-Gm-Gg: ASbGncteeEuopmiPLoMJP7wFdt1foVXkdEnUKLaDAcw35iwkxY/aqBrgixHFQP7j4H1
- v2PVLl9aNWhlN0irfSi0tBzsElqZI1aFnK3ttMsl+0pfZCQZgPnPCfoW4coYi5M18+UylS4p7v+
- siPYx1Ovx1T5NCxzOL2367mH8fJriWBgXF7U8TzVy2PLm8LaQ4eP2K++iynUEHgPw+CMsWtB/MO
- 7Hg7cITh5FgEnNIgQViagd3L+Psxwb2sgIoK2u6ZUoCq88UqZAzbF6X3/6Qo/isjzwGV9oDySZt
- 4SytScOhghhEPsU0vh2IeMXxt4+XwKA1pw==
-X-Google-Smtp-Source: AGHT+IF2X1+jzpdAk4e9Hp3V3x/qmpFhWj2caHJ76xZxfhEu4S0Ho2FccWas++QMYQWHfk7RKLTQWw==
-X-Received: by 2002:a05:6512:138c:b0:540:1d6c:f1c7 with SMTP id
- 2adb3069b0e04-540240aa960mr829759e87.10.1733790366671; 
- Mon, 09 Dec 2024 16:26:06 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e3ab8dd61sm912121e87.44.2024.12.09.16.26.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Dec 2024 16:26:05 -0800 (PST)
-Date: Tue, 10 Dec 2024 02:26:02 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCHv3 01/10] drm/crtc: Add histogram properties
-Message-ID: <7tho6j262nzbu6nvjgzelsu3ljjipxdhazjlzdfa3xi2lbn3vs@bx55yrrbmshg>
-References: <20241209162504.2146697-1-arun.r.murthy@intel.com>
- <20241209162504.2146697-2-arun.r.murthy@intel.com>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CD2FD10E35C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 00:52:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=FhW3RxWuSa2qtZWnSfHCog3V8YUyYEUWMbSHUEDeJ6Y=; b=H
+ 4dZEI47ysOkjq2nt2vaVeH59o2igH7ym38HY80DnZ+V4Gzm0/3n4KSbUVTVOSsEz
+ 4QUoO+0/MtDdhh9xjY6g8CXb8BHECm3+l7pXUrU1amejdQe6oqpYNMts7amWtABu
+ VabSbjvfTfU2NOMwuZTekoLsz8h24rxTfSR5gIeExI=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-102 (Coremail) ; Tue, 10 Dec 2024 08:50:51 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Tue, 10 Dec 2024 08:50:51 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: "Daniel Semkowicz" <dse@thaumatec.com>, 
+ "Diederik de Haas" <didi.debian@cknow.org>, andy.yan@rock-chips.com, 
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, 
+ conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, 
+ jonas@kwiboo.se, krzk+dt@kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ neil.armstrong@linaro.org, quentin.schulz@cherry.de, 
+ rfoss@kernel.org, robh@kernel.org, tzimmermann@suse.de
+Subject: Re:Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
+ controller
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2024 www.mailtech.cn 163com
+In-Reply-To: <2203458.KiezcSG77Q@diego>
+References: <20241203165450.1501219-1-heiko@sntech.de>
+ <20241209150619.33998-1-dse@thaumatec.com>
+ <D67AV178CEBD.3QA9VD4ZPRNQ1@cknow.org> <2203458.KiezcSG77Q@diego>
+X-NTES-SC: AL_Qu2YAfuSvkAu5yOeZOkZnEobh+Y5UcK2s/ki2YFXN5k0tCTI0SYQW29KGUD2y86DDiKsoAirUQVL5MpFRpJHY460ozr25CzPaQGPdj10sTtO
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241209162504.2146697-2-arun.r.murthy@intel.com>
+Message-ID: <4e015ea9.960.193ae0c236a.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: ZigvCgAXlJxrkFdn5vA6AA--.43974W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwmxXmdXikRb2gADsp
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,85 +72,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 09, 2024 at 09:54:55PM +0530, Arun R Murthy wrote:
-> Add variables for histogram drm_property, its corrsponding crtc_state
-> variables and define the structure pointed by the blob property.
-> 
-> struct drm_histogram and drm_iet defined in include/uapi/drm/drm_mode.h
-> 
-> The property HISTOGRAM_ENABLE allows user to enable/disable the
-> histogram feature in the hardware. Upon KMD enabling by writing to the
-> hardware registers, a histogram is generated. Histogram is composed of
-> 'n' bins with each bin being an integer(pixel count).
-
-Is it really a count of pixels that fall into one of the bins?
-
-> An event HISTOGRAM will be sent to the user. User upon recieving this
-> event user can read the hardware generated histogram using crtc property
-
-Nit: here and further, it's CRTC, not crtc
-
-> HISTOGRAM_DATA. User can use this histogram data, apply various
-> equilization techniques to come up with a pixel factor. This pixel
-> factor is an array of integer with 'n+1' elements. This is fed back to
-> the KMD by crtc property HISTOGRAM_IET. KMD will write this IET data
-> back to the hardware to see the enhancement/equilization done to the
-> images on that pipe.
-> The crtc property HISTOGRAM_DATA and HISTOGRAM_IET is of type blob.
-> 
-> For crtc property HISTOGRAM_DATA,
-> the blob data pointer will be the address of the struct drm_histogram.
-> struct drm_histogram {
-> 	u64 data_ptr;
-> 	u32 nr_elements;
-> }
-> Histogram is composed of @nr_elements of bins with each bin being an
-> integer value, referred to as pixel_count.
-> The element @data_ptr holds the address of histogam.
-> Sample:
-> Historgram[0] = 2050717
-> Historgram[1] = 244619
-> Historgram[2] = 173368
-> ....
-> Historgram[31] = 21631
-> 
-> For crtc_property HISTOGRAM_IET,
-> the blob data pointer will be the address of the struct drm_iet.
-> struct drm_iet {
-> 	u64 data_ptr;
-> 	u32 nr_elements;
-> }
-> ImageEnhancemenT(IET) is composed of @nr_elements of bins with each bin
-> being an integer value, referred to as pixel factor.
-
-What are pixel factors? How are they supposed to be used? You have
-specified the format of the data, but one still can not implement
-proper HISTOGRAM support for the VKMS.
-
-> The element @data_ptr holds the addess of pixel factor.
-> Sample:
-> Pixel Factor[0] = 1023
-> Pixel Factor[1] = 695
-> Pixel Factor[2] = 1023
-> ....
-> Pixel Factor[32] = 512
-> 
-> Histogram is the statistics generated with 'n' number of frames on a
-> pipe.
-> Usually the size of pixel factor is one more than the size of histogram
-> data.
-
-What does that mean? What does it mean if this "Usually" isn't being
-followed? Previously you've written that it always has n+1 elements.
-
-> 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  include/drm/drm_crtc.h      | 51 +++++++++++++++++++++++++++++++++++++
->  include/uapi/drm/drm_mode.h | 24 +++++++++++++++++
->  2 files changed, 75 insertions(+)
-> 
-
--- 
-With best wishes
-Dmitry
+CgpIaSwKCkF0IDIwMjQtMTItMTAgMDc6MTI6MjYsICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNu
+dGVjaC5kZT4gd3JvdGU6Cj5BbSBNb250YWcsIDkuIERlemVtYmVyIDIwMjQsIDE3OjExOjAzIENF
+VCBzY2hyaWViIERpZWRlcmlrIGRlIEhhYXM6Cj4+IEhpLAo+PiAKPj4gT24gTW9uIERlYyA5LCAy
+MDI0IGF0IDQ6MDYgUE0gQ0VULCBEYW5pZWwgU2Vta293aWN6IHdyb3RlOgo+PiA+IE9uIDAzLjEy
+LjI0IDIxOjU0LCBIZWlrbyBTdHVlYm5lciB3cm90ZToKPj4gPiA+IFRoaXMgc2VyaWVzIGFkZHMg
+YSBicmlkZ2UgYW5kIGdsdWUgZHJpdmVyIGZvciB0aGUgRFNJMiBjb250cm9sbGVyIGZvdW5kCj4+
+ID4gPiBpbiB0aGUgcmszNTg4IHNvYyBmcm9tIFJvY2tjaGlwLCB0aGF0IGlzIGJhc2VkIG9uIGEg
+U3lub3BzaXMgSVAgYmxvY2suCj4+ID4gPiAKPj4gPgo+PiA+IEkgZGlkIG1vcmUgdGVzdHMgd2l0
+aCBkaWZmZXJlbnQgTFZEUyBkaXNwbGF5cy4gSSB0ZXN0ZWQgZm9sbG93aW5nCj4+ID4gY29uZmln
+dXJhdGlvbnMgd2l0aCBEU0kvTFZEUyBicmlkZ2U6Cj4+ID4gLSAxMDI0eDYwMEA2MC4wMQo+PiA+
+IC0gMTAyNHg3NjhANjAuMDIKPj4gPiAtIDEyODB4ODAwQDYwLjA3Cj4+ID4gLSAxMzY2eDc2OEA2
+MC4wNgo+PiA+Cj4+ID4gQWxsIG9mIHRoZW0gd29ya2VkIHdpdGhvdXQgaXNzdWVzLCBleGNlcHQg
+MTM2Nng3NjguCj4+ID4gV2l0aCB0aGlzIHJlc29sdXRpb24sIHZpZGVvIGlzIGJsdXJyeSwgYW5k
+IG9mZnNldCBpbmNvcnJlY3RseQo+PiA+IHRvIHRoZSBsZWZ0LiBUaGVyZSBhcmUgYWxzbyByZXBl
+YXRpbmcgZXJyb3JzIG9uIHRoZSBjb25zb2xlOgo+PiA+Cj4+ID4gICByb2NrY2hpcC1kcm0gZGlz
+cGxheS1zdWJzeXN0ZW06IFtkcm1dICpFUlJPUiogUE9TVF9CVUZfRU1QVFkgaXJxIGVyciBhdCB2
+cDMKPj4gPgo+PiA+IEluIGNvcnJlY3Qgb3BlcmF0aW9uIHdpdGggb3RoZXIgcmVzb2x1dGlvbnMs
+IHRoZXJlIGlzIG5vIGVycm9yLgo+PiA+IEkgYW0gbm90IHN1cmUgaWYgdGhpcyBpcyBhIHByb2Js
+ZW0gaW4geW91ciBzZXJpZXMgb3IgcmF0aGVyIGluIFZPUDIKPj4gPiBkcml2ZXIuCj4KPlRoaXMg
+cmVhbGx5IHNvdW5kcyBsaWtlIHNvbWV0aGluZyBpcyB3cm9uZyBvbiB0aGUgdm9wIHNpZGUuCj5U
+aGUgaW50ZXJydXB0IGlzIHBhcnQgb2YgdGhlIHZvcCwgdGhlIGRpdmlzYWJsZSBieSA0IHRoaW5n
+cyBsaWtlbHkgdG9vLgoKVGhpcyBpcyBhIGhhcmR3YXJlIGxpbWl0YXRpb24gb24gdm9wIHNpZGU6
+ClRoZSBob3Jpem9udGFsIHJlc29sdXRpb24gbXVzdCBiZSA0IHBpeGVsIGFsaWduZWQuCgoKCj4K
+Pgo+SGVpa28KPgo+Cj4+IAo+PiBPbiBteSBQaW5lVGFiMiBJIGdvdCBzaW1pbGFyIG1lc3NhZ2Vz
+IGFib3V0IDIgd2Vla3MgYWdvOgo+PiByb2NrY2hpcC1kcm0gZGlzcGxheS1zdWJzeXN0ZW06IFtk
+cm1dICpFUlJPUiogUE9TVF9CVUZfRU1QVFkgaXJxIGVyciBhdCB2cDEKPj4gCj4+IFByZWNlZGlu
+ZyB0aG9zZSwgSSBnb3Qgc2V2ZXJhbCBwYW5mcm9zdCByZWxhdGVkIGVycm9yczoKPj4gCj4+IHBh
+bmZyb3N0IGZkZTYwMDAwLmdwdTogZ2V0IGNsb2NrIGZhaWxlZCAtNTE3Cj4+IHBhbmZyb3N0IGZk
+ZTYwMDAwLmdwdTogY2xrIGluaXQgZmFpbGVkIC01MTcKPj4gcGxhdGZvcm0gZmRlNjAwMDAuZ3B1
+OiBkZWZlcnJlZCBwcm9iZSBwZW5kaW5nOiAocmVhc29uIHVua25vd24pCj4+IHBsYXRmb3JtIGNw
+dWZyZXEtZHQ6IGRlZmVycmVkIHByb2JlIHBlbmRpbmc6IChyZWFzb24gdW5rbm93bikKPj4gdmRk
+X2dwdV9ucHU6IGRpc2FibGluZwo+PiAKPj4gQnV0IGNhbiBhbHNvIGJlIHRoYXQgdGhlIFBpbmVU
+YWIyIChsaWtlbHkpIG5lZWRzIHJlZ3VsYXRvci1hbHdheXMtb24KPj4gYW5kIHJlZ3VsYXRvci1i
+b290LW9uIGluIGl0cyB2ZGRfZ3B1X25wdSBub2RlLgo+PiAKPj4gPiBJIHRyaWVkIHRvIHRyYWNr
+IGRvd24gdGhlIHByb2JsZW0sIGFuZCBpdCBzZWVtcyB0byBiZSBhIGdlbmVyaWMgaXNzdWUKPj4g
+PiB3aGVuIGhvcml6b250YWwgbGluZSB3aWR0aCBpcyBub3QgZGl2aXNpYmxlIGJ5IDQuCj4+ID4g
+TG93ZXJpbmcgbGluZSB3aWR0aCB0byAxMzY0cHggZml4ZXMgdGhlIGlzc3VlLCBidXQgb2YgY291
+cnNlIEkgaGF2ZSB0d28KPj4gPiB2ZXJ0aWNhbCBsaW5lcyBvZiBibGFjayBwaXhlbHMgb24gdGhl
+IHJpZ2h0Lgo+PiA+IEkgYWxzbyBtYWRlIHNvbWUgdGVzdHMgd2l0aCA3MjB4MTI4MCBEU0kgZGlz
+cGxheS4gTG93ZXJpbmcgaG9yaXpvbnRhbAo+PiA+IGxpbmUgdG8gNzE4cHggc2hvd3MgdGhlIHNh
+bWUgcHJvYmxlbS4gV2l0aCA3MjBweCBhbmQgNzE2cHggaXQgd29ya3MKPj4gPiBjb3JyZWN0bHku
+Cj4+IAo+PiBJIGhhdmVuJ3QgbG9vayBmdXJ0aGVyIGludG8gaXQsIGJ1dCB0aGUgUFQyIGhhcyBh
+IDEyODB4ODAwIHJlc29sdXRpb24uCj4+IAo+PiBIVEgsCj4+ICAgRGllZGVyaWsKPj4gCj4KPgo+
+Cg==
