@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A53F9EBC70
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3309C9EBC7D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:03:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A437710E9A3;
-	Tue, 10 Dec 2024 22:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC7C910E9C1;
+	Tue, 10 Dec 2024 22:02:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ey2u4hFu";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="YCfQzuzz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1149510E99B;
+ by gabe.freedesktop.org (Postfix) with ESMTP id BAB3010E99F;
  Tue, 10 Dec 2024 22:02:40 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 4B3EA204722C;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 7A91220BCAD0;
  Tue, 10 Dec 2024 14:02:37 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4B3EA204722C
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7A91220BCAD0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1733868157;
- bh=pNf1urZZ7beXITMyG6cNpTQM4ujE/reyCjI7dxR8TrA=;
+ bh=0JE1mCMNDTStNy3f4QrS8yzg/qXwB8sbyOMa5sLnc+M=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ey2u4hFur56upsg36Bzzf5E6sp9TxIQJWauHtVHyZKWxl2TYAXbOMES9gB/LrtTHt
- EMIcdvfnDr4nFfA+fPKgnRb6wrIZBNFQYmxUUa3IOMgJ6rbLPy51pP+s0wIlgpVbyY
- W7PI6jGCodUt7pK+WAXoxoZrhQg9ZJ/5kGvj+4iw=
+ b=YCfQzuzz84XSOxCFulDwBJMyeJsDcssJlAQbcNcDqVlVY42CJOIL+UK9ammaKlGe+
+ y0+S9QnHRdg/p6H9mSyPRo+qXk+3dcsFcITb9kFGHGdUIwdzitxdUdxS6Zxb9FQSzr
+ 04JqDqdWTuFBsk1ZmtqL88EM/bwJOE39+Tw6Eck4=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:36 +0000
-Subject: [PATCH v3 05/19] powerpc/papr_scm: Convert timeouts to
- secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:37 +0000
+Subject: [PATCH v3 06/19] mm: kmemleak: Convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-5-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-6-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -132,22 +131,31 @@ the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- arch/powerpc/platforms/pseries/papr_scm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/kmemleak.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-index f84ac9fbe203c111046464b9100866dddae687bb..f7c9271bda58433f395648063e60409a8d3c11d9 100644
---- a/arch/powerpc/platforms/pseries/papr_scm.c
-+++ b/arch/powerpc/platforms/pseries/papr_scm.c
-@@ -544,7 +544,7 @@ static int drc_pmem_query_health(struct papr_scm_priv *p)
+diff --git a/mm/kmemleak.c b/mm/kmemleak.c
+index 2a945c07ae99525815c8fb733e8eb1b4da60668e..a2ded75cc0c03838bc048c82990c8524f25549b6 100644
+--- a/mm/kmemleak.c
++++ b/mm/kmemleak.c
+@@ -1855,7 +1855,7 @@ static int kmemleak_scan_thread(void *arg)
+ 	 * Wait before the first scan to allow the system to fully initialize.
+ 	 */
+ 	if (first_run) {
+-		signed long timeout = msecs_to_jiffies(SECS_FIRST_SCAN * 1000);
++		signed long timeout = secs_to_jiffies(SECS_FIRST_SCAN);
+ 		first_run = 0;
+ 		while (timeout && !kthread_should_stop())
+ 			timeout = schedule_timeout_interruptible(timeout);
+@@ -2241,7 +2241,7 @@ void __init kmemleak_init(void)
+ 		return;
  
- 	/* Jiffies offset for which the health data is assumed to be same */
- 	cache_timeout = p->lasthealth_jiffies +
--		msecs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL * 1000);
-+		secs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL);
+ 	jiffies_min_age = msecs_to_jiffies(MSECS_MIN_AGE);
+-	jiffies_scan_wait = msecs_to_jiffies(SECS_SCAN_WAIT * 1000);
++	jiffies_scan_wait = secs_to_jiffies(SECS_SCAN_WAIT);
  
- 	/* Fetch new health info is its older than MIN_HEALTH_QUERY_INTERVAL */
- 	if (time_after(jiffies, cache_timeout))
+ 	object_cache = KMEM_CACHE(kmemleak_object, SLAB_NOLEAKTRACE);
+ 	scan_area_cache = KMEM_CACHE(kmemleak_scan_area, SLAB_NOLEAKTRACE);
 
 -- 
 2.43.0
