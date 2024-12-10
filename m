@@ -2,86 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3111E9EB014
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C919EB049
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:58:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C58110E04A;
-	Tue, 10 Dec 2024 11:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EB0D10E1BD;
+	Tue, 10 Dec 2024 11:57:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DgcsHrVG";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="RuEz1aVQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5908B10E04A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 11:43:24 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-54020b0dcd2so1794500e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 03:43:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733831002; x=1734435802; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bDuD4vOJTu/+TNrDw776dXillG1+SO1nfewpcnHal5U=;
- b=DgcsHrVGprpLxo8es/0C+6LBWnvXRmtIyxbZnCsB5FaD0kgA8fR4CwWv94UNznT1Wq
- M+8rF+bO3u3H6fA1UlfEzEVgq3K/yfaZpS6RZkYycsiBbggORMKfvdTzBdJ1VbrJm4+L
- Vek1XdO7pcKj+3C+B3NJr+6RJipLWaisqptMXf9TpOeRmELKCjxdq0iBqiN2mfdh0oTk
- TlyKWJWpz6JA9HLUUnDfWI/ZLxc4iMz9e7cF+g0acNkZ7QMsb1kvs0aLeWqMgeZuxsAF
- t8ILsN1X6xyRMlDUUpcSX9nHtrieHZuOSUUUdpRDw8BmQYfzwCiLX37vHEHuZBIGjnqk
- qwZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733831002; x=1734435802;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bDuD4vOJTu/+TNrDw776dXillG1+SO1nfewpcnHal5U=;
- b=QRrB/if1/AoECO0cVGxgXeGQiXV93OsY5Z9D77j4x2c2NLPLwdp1XRz03Gw+mOtwCZ
- 6kv8LNSDh7cw31E7NllyXcsrKn1XYxAqHpCrVfXkMrQ4aLeT/n5IKDhl6YoGYNguFSvf
- PFLP0zg64QPcspoRiG6NoiYP1z1shLBoTcaFuR6uhOoFYmiWW55l5KKeREQVpnyWF/6K
- Ge7apVrzLL4HzD9s3gmXldlz9pKipST7ZFidiMkmLzRxOdYdsEnGiAKL87EhiHj+iAkE
- aaafS3+cN1eTIwDpWfwEXCd1djARm2Ze2ebCLzk7rGIo3VnR1jp5ln0in+N1HEb7hC79
- GlGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkB19Wl07Dbd5hYW5gT1aUmHxt1eKlMuf9q4dp/6HEBkU7Sv5BDVLj5atQDbWMqCxWbKOdOUc84kk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw195b4+8K3TCgYtI44Hv6cnaTowGl8EQVXPOAtarqrIOw4+gyo
- atyWwuz7o1GZZdjUCYb9crix1d5BqGbRwVjexBzeNAVbGM2+w4tO6Fojz/MSqeI=
-X-Gm-Gg: ASbGncsNg+WahAVZNnAnDr8pqTYrObVSe+gpRxpq5TpXOZXcX40esn09riJ0ukMOp21
- Gr0dwvSVV9czLK/g4IC3oEYubkpWTtgedpM2e1hOCRxhph713jGGAHZPq2eCXpAaHDCrW3Qs8pX
- 27Ep21gh3ofk8ypGi22NVCFbT0AwPNej2Cc5FgIYKz0aMiNt982f3xaToUueyKNhChv6GlJhvjh
- 9oxKGePGpeowYQuCyp2Gj4SqliRREuswY0soCpepNEudztxJzcsJyv8fSplQ8T5BOKoipwjnoDs
- wnTYiSEwdO3J1CshLJ150IjAWLsXvThZdg==
-X-Google-Smtp-Source: AGHT+IHlLpHoQkMoGAXULRnbsa1CNz7DxSd8e5Kk0AkHyX98cxKn2C9E6+kb+xX37fsZPZiAJHZ8UA==
-X-Received: by 2002:a05:6512:3a8e:b0:53e:2246:c262 with SMTP id
- 2adb3069b0e04-54024f87ef1mr883959e87.0.1733831002365; 
- Tue, 10 Dec 2024 03:43:22 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e3a36ee3fsm1127765e87.107.2024.12.10.03.43.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2024 03:43:21 -0800 (PST)
-Date: Tue, 10 Dec 2024 13:43:19 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrej Picej <andrej.picej@norik.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
- airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
- festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
-Subject: Re: [PATCH v5 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
- optional properties
-Message-ID: <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
-References: <20241210091901.83028-1-andrej.picej@norik.com>
- <20241210091901.83028-3-andrej.picej@norik.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A57CA10E1BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 11:57:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KbVJw5J4GWJ01T8kGIEWydEYZvhCAGIPzpK/iHXKbT8=; b=RuEz1aVQq20Lt9i1RM6zkuMFJP
+ E7gWUPReBqKH8hpAFsniOi4v/LpHXv3Huxx0sfQy6a6Wv4J8NoiuKlL56oJ3qoVXx8FhEKY6PMtJN
+ ZlEeAarE6zVUMWD2bArovq74ytqUrvtYhvxy66Wh7mwUtEnrz0Sz1Iqu5xioV064XpTb4dBa3HR2l
+ LL3z9/hSMcy+0EdyOgpDFDzVLZ0qHW7r4Rn4bBa4SO0AtawcKWHheuFdCZHHYXM2p/E2Ucn2vedyZ
+ C7JA5VBytM4DCLM+U8MgACvIs57uqQXQFYUli/U7BKzTLVA0bNP3xs9OQFSM8Jbttbyl1OFEz0VDU
+ e+IKUKqA==;
+Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tKys5-00058v-Pm; Tue, 10 Dec 2024 12:57:45 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH v5 01/18] drm/rockchip: vop2: Add debugfs support
+Date: Tue, 10 Dec 2024 12:57:44 +0100
+Message-ID: <4471861.MSiuQNM8U4@diego>
+In-Reply-To: <20241209122943.2781431-4-andyshrk@163.com>
+References: <20241209122943.2781431-1-andyshrk@163.com>
+ <20241209122943.2781431-4-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241210091901.83028-3-andrej.picej@norik.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,244 +65,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 10:19:00AM +0100, Andrej Picej wrote:
-> Add a optional properties to change LVDS output voltage. This should not
-> be static as this depends mainly on the connected display voltage
-> requirement. We have three properties:
-> - "ti,lvds-termination-ohms", which sets near end termination,
-> - "ti,lvds-vod-swing-data-microvolt" and
-> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
-> output voltage for data and clock lanes. They are defined as an array
-> with min and max values. The appropriate bitfield will be set if
-> selected constraints can be met.
+Hi Andy,
+
+Am Montag, 9. Dezember 2024, 13:29:13 CET schrieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
-> end termination will be used. Selecting only one:
-> "ti,lvds-vod-swing-data-microvolt" or
-> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
-> constraint for only data/clock lanes will be met. Setting both is
-> recommended.
+> /sys/kernel/debug/dri/vop2/summary:  dump vop display state
+> /sys/kernel/debug/dri/vop2/regs: dump whole vop registers
+> /sys/kernel/debug/dri/vop2/active_regs: only dump the registers of
+> activated modules
 > 
-> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+> Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
+> Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 > ---
-> Changes in v5:
-> - specify default values in sn65dsi83_parse_lvds_endpoint,
-> - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
-> Changes in v4:
-> - fix typo in commit message bitfiled -> bitfield
-> - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
-> of separate variables for channel A/B
-> - add more checks on return value of "of_property_read_u32_array"
-> Changes in v3:
-> - use microvolts for default array values 1000 mV -> 1000000 uV.
-> Changes in v2:
-> - use datasheet tables to get the proper configuration
-> - since major change was done change the authorship to myself
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 142 +++++++++++++++++++++++++-
->  1 file changed, 139 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 57a7ed13f996..f9578b38da28 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -132,6 +132,16 @@
->  #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
->  #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
->  
-> +enum sn65dsi83_channel {
-> +	CHANNEL_A,
-> +	CHANNEL_B
-> +};
-> +
-> +enum sn65dsi83_lvds_term {
-> +	OHM_100,
-> +	OHM_200
-> +};
-> +
->  enum sn65dsi83_model {
->  	MODEL_SN65DSI83,
->  	MODEL_SN65DSI84,
-> @@ -147,6 +157,8 @@ struct sn65dsi83 {
->  	struct regulator		*vcc;
->  	bool				lvds_dual_link;
->  	bool				lvds_dual_link_even_odd_swap;
-> +	int				lvds_vod_swing_conf[2];
-> +	int				lvds_term_conf[2];
->  };
->  
->  static const struct regmap_range sn65dsi83_readable_ranges[] = {
-> @@ -237,6 +249,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
->  	.max_register = REG_IRQ_STAT,
->  };
->  
-> +static const int lvds_vod_swing_data_table[2][4][2] = {
-> +	{	/* 100 Ohm */
-> +		{ 180000, 313000 },
-> +		{ 215000, 372000 },
-> +		{ 250000, 430000 },
-> +		{ 290000, 488000 },
-> +	},
-> +	{	/* 200 Ohm */
-> +		{ 150000, 261000 },
-> +		{ 200000, 346000 },
-> +		{ 250000, 428000 },
-> +		{ 300000, 511000 },
-> +	},
-> +};
-> +
-> +static const int lvds_vod_swing_clock_table[2][4][2] = {
-> +	{	/* 100 Ohm */
-> +		{ 140000, 244000 },
-> +		{ 168000, 290000 },
-> +		{ 195000, 335000 },
-> +		{ 226000, 381000 },
-> +	},
-> +	{	/* 200 Ohm */
-> +		{ 117000, 204000 },
-> +		{ 156000, 270000 },
-> +		{ 195000, 334000 },
-> +		{ 234000, 399000 },
-> +	},
-> +};
-> +
->  static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
->  {
->  	return container_of(bridge, struct sn65dsi83, bridge);
-> @@ -435,12 +477,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->  		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
->  
->  	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
-> -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
-> +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
-> +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_A]) |
-> +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_B]));
->  	regmap_write(ctx->regmap, REG_LVDS_LANE,
->  		     (ctx->lvds_dual_link_even_odd_swap ?
->  		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
-> -		     REG_LVDS_LANE_CHA_LVDS_TERM |
-> -		     REG_LVDS_LANE_CHB_LVDS_TERM);
-> +		     (ctx->lvds_term_conf[CHANNEL_A] ?
-> +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
-> +		     (ctx->lvds_term_conf[CHANNEL_B] ?
-> +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
->  	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
->  
->  	le16val = cpu_to_le16(mode->hdisplay);
-> @@ -576,10 +622,100 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
->  	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
->  };
->  
-> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
-> +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
+
+> +static void __vop2_regs_dump(struct seq_file *s, bool active_only)
 > +{
-> +	int i;
+> +	struct drm_info_node *node = s->private;
+> +	struct vop2 *vop2 = node->info_ent->data;
+> +	struct drm_minor *minor = node->minor;
+> +	struct drm_device *drm_dev = minor->dev;
+> +	const struct vop2_regs_dump *dump;
+> +	unsigned int i;
 > +
-> +	for (i = 0; i <= 3; i++) {
-> +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
-> +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
-> +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
-> +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
-> +			return i;
-> +	}
+> +	drm_modeset_lock_all(drm_dev);
 > +
-> +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
-> +	return -EINVAL;
-> +}
+> +	regcache_drop_region(vop2->map, 0, vop2_regmap_config.max_register);
 > +
-> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
-> +{
-> +	struct device *dev = ctx->dev;
-> +	struct device_node *endpoint;
-> +	int endpoint_reg;
-> +	/* Set so the property can be freely selected if not defined */
-> +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
-> +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
-> +	u32 lvds_term;
-> +	u8 lvds_term_conf = 0x1;
-> +	int lvds_vod_swing_conf = 0x1;
-
-Magic values
-
-> +	int ret = 0;
-> +	int ret_data;
-> +	int ret_clock;
-> +
-> +	if (channel == CHANNEL_A)
-> +		endpoint_reg = 2;
-> +	else
-> +		endpoint_reg = 3;
-> +
-> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, endpoint_reg, -1);
-> +	if (!of_property_read_u32(endpoint, "ti,lvds-termination-ohms", &lvds_term)) {
-
-The code has been better before:
-provide default for lvds_term, read the property (keeping the default in
-case of an error), then use the lvds_term to set up lvds_term_conf, as
-expected.
-
-> +		if (lvds_term == 100)
-> +			lvds_term_conf = OHM_100;
-> +		else
-> +			lvds_term_conf = OHM_200;
-> +	}
-> +
-> +	ctx->lvds_term_conf[channel] = lvds_term_conf;
-> +
-> +	ret_data = of_property_read_u32_array(endpoint,
-> +			"ti,lvds-vod-swing-data-microvolt", lvds_vod_swing_data,
-> +			ARRAY_SIZE(lvds_vod_swing_data));
-> +	if (ret_data != 0 && ret_data != -EINVAL) {
-> +		ret = ret_data;
-> +		goto exit;
-> +	}
-> +
-> +	ret_clock = of_property_read_u32_array(endpoint,
-> +			"ti,lvds-vod-swing-clock-microvolt", lvds_vod_swing_clk,
-> +			ARRAY_SIZE(lvds_vod_swing_clk));
-> +	if (ret_clock != 0 && ret_clock != -EINVAL) {
-> +		ret = ret_clock;
-> +		goto exit;
-> +	}
-> +
-> +	/* If any of the two properties is defined. */
-> +	if (!ret_data || !ret_clock) {
-> +		lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
-> +			lvds_vod_swing_data, lvds_vod_swing_clk,
-> +			lvds_term_conf);
-> +		if (lvds_vod_swing_conf < 0) {
-> +			ret = lvds_vod_swing_conf;
-> +			goto exit;
+> +	if (vop2->enable_count) {
+> +		for (i = 0; i < vop2->data->regs_dump_size; i++) {
+> +			dump = &vop2->data->regs_dump[i];
+> +			vop2_regs_print(vop2, s, dump, active_only);
 > +		}
+> +	} else {
+> +		seq_printf(s, "VOP disabled\n");
 > +	}
+> +	drm_modeset_unlock_all(drm_dev);
 > +
-> +	ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
-> +	ret = 0;
-> +exit:
-> +	of_node_put(endpoint);
-> +	return ret;
+
+nit: not needed empty line at the end of the function
+
 > +}
 > +
->  static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
->  {
->  	struct drm_bridge *panel_bridge;
->  	struct device *dev = ctx->dev;
-> +	int ret;
-> +
-> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_A);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_B);
-> +	if (ret < 0)
-> +		return ret;
->  
->  	ctx->lvds_dual_link = false;
->  	ctx->lvds_dual_link_even_odd_swap = false;
-> -- 
-> 2.34.1
-> 
 
--- 
-With best wishes
-Dmitry
+> +static void vop2_debugfs_init(struct vop2 *vop2, struct drm_minor *minor)
+> +{
+> +	struct dentry *root;
+> +	unsigned int i;
+> +
+> +	root = debugfs_create_dir("vop2", minor->debugfs_root);
+> +	if (!IS_ERR(root)) {
+> +		for (i = 0; i < ARRAY_SIZE(vop2_debugfs_list); i++)
+> +			vop2_debugfs_list[i].data = vop2;
+> +
+> +		drm_debugfs_create_files(vop2_debugfs_list,
+> +					 ARRAY_SIZE(vop2_debugfs_list),
+> +					 root, minor);
+> +	}
+> +}
+> +
+> +static int vop2_crtc_late_register(struct drm_crtc *crtc)
+> +{
+> +	struct vop2_video_port *vp = to_vop2_video_port(crtc);
+> +	struct vop2 *vop2 = vp->vop2;
+> +
+> +	if (drm_crtc_index(crtc) == 0)
+> +		vop2_debugfs_init(vop2, crtc->dev->primary);
+> +
+> +	return 0;
+> +}
+
+I'm wondering about, shoudln't there be an unregister step too?
+I.e. the late_register callback says:
+"should be unregistered in the early_unregister callback" [0].
+
+And there exists drm_debugfs_remove_files(), though it doesn't
+seem t be used much - just by tegra.
+
+I haven't managed to find drm code handling that automatically though?
+
+
+Heiko
+
+
+[0] https://elixir.bootlin.com/linux/v6.12.4/source/include/drm/drm_crtc.h#L737
+[1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/drm_debugfs.c#L265
+
+
