@@ -2,80 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B82A9EBF12
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 00:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88D569EBF16
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 00:13:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA7110E032;
-	Tue, 10 Dec 2024 23:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C21FA10E16B;
+	Tue, 10 Dec 2024 23:13:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Qyd+VYlp";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="Fvt3fmai";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E409810E032
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 23:12:33 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5d3cfdc7e4fso937a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 15:12:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1733872352; x=1734477152;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8ktWoM2RO50AIk62xE/mUhtdnzdqp6Qodwc9F6o3J3M=;
- b=Qyd+VYlpchlPPk4QO4eL9G4DfNmUwS0FXppFINOtR7SWxfjFLHkD79TpbAr48A7C3+
- 3Tie7764LVWGiyLZIN4d7JOeP0hVNOfirXeTD4ymFgMWWKt1cXsfbC16sCNK71C4WjSQ
- IPKD1v6bi7HQD5HqbrJVKybQur9ftauCSr2HiVfV5ZRVnp+x1NJCliyfxL7NGJ+pMhbb
- 0py4jGwRcoP3Ggk6wwi3074jasGk3yDkFMq6bBvQ1dsiOYBk5xFGh2eYUaVl/IRunha7
- 8kda7pTxTJWqmPLns4iyVu26h7GQ5rRj2lBxjGq2daa/WpeCEtUtTwSdsC6yQ42Y2jgy
- BI9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733872352; x=1734477152;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8ktWoM2RO50AIk62xE/mUhtdnzdqp6Qodwc9F6o3J3M=;
- b=YkADzhvimlBVj+9YWJoFpApxAcbrEoQJs88nEWHPduaD3RMWFAQhFU5G3f9GMRZSKW
- rEEleT2ahtnXVnPyjnE1dsCdrt9Drl6kVIkI9nM1XScvPgRSnjt5HG/nDyHxZR9Ci+KZ
- +8zk47TGgDfVg3F2xdAzZGeET70lvojbKWNrnCwtTR5oJcIoNaWtQXVy0MIeDOOLszMN
- ijWOhgA5sXfEtwdpNMG1c/KPWHNcnOLpirYfbAKjKu4QGWDI7e0t7MO34qO6aJRo8eBN
- YcLyv3ytEQKAl0BKPX8PpJQ0LxiB2VsxK+SAtjEWyagWkn8HMMuaqBmYb1SdqAwHU3sy
- IiuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWy2J6GCcWzMtyS9gjX2sEnEIydYXgVkcB+wG74Zi835c7UcEMW+zt9Ukj7ercmS7peTfBc8PQ4B9o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyM2633XqCKbgmXdZqr4HR4ldTkBi/zrFFZtbmjvxhu/hn9Mdg3
- o8EPJSU92m2PDhcwOnHryY0cxHMSS5PNdOPDjkeeEWbA3SUL5paiB1er1MUb3axVJMhbFA+evGX
- lRMCDtJhKb+NwiK/9BTkcntdSRtzQ832CHo0a
-X-Gm-Gg: ASbGncsqKX4/JMmp33sR9A+tA0AhCyc8zGuhGujbl8Dk+fO6JKq42XqDxEur/uTQYMc
- VVq+4Z82/oIp+LInCUwxAtok2Jc1ZaEuIbqC8qnYmBUvNAkHnrD3SXmNkJOH0MbKH
-X-Google-Smtp-Source: AGHT+IFg93uOLvg+U0JqZTijgyGoPZEhO04pg5mVTz8T7IazCzxdGADHif0Wl3o6jYGRQnOjr9uTt6hydMk6lXR7lwc=
-X-Received: by 2002:a05:6402:b8f:b0:5d1:10a4:de9 with SMTP id
- 4fb4d7f45d1cf-5d43423be00mr11289a12.7.1733872351659; Tue, 10 Dec 2024
- 15:12:31 -0800 (PST)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4EF10E16B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 23:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=a6qMZJoDhXUbvrzz8pOdo34xzZMBBlZ49Lix3rFbxyQ=; b=Fvt3fmaiFWWht9AoPwUG+KIf0p
+ 12noGPd5E/Sp8r3lrbpNIs3BSUMyILLWEq33ywtYHA0n/dwVmueG/+vzSQBkYATKDHnEoCnXeZGla
+ WTx26uZYi4XR1sRSr3EsLmYb++KbsTg+V9Raxn630JkmsFQstRXtJ9koraEs85oaD3ZqTTYKK8Lql
+ P+9aySQBo6X2+OWyKwxuIivL8WJEgdScN6N1KnsJhmtdYrik8NessFkk5S8pFGhGUoANuh+713CZc
+ 26jjlvijLyPU6c4CeF3XQxOkL4QE+X4A66tLcngqctCnOH/IHr0bHaBboFFsaBaUHTgCIW++JftBy
+ JZfuo+0A==;
+Received: from i53875bc4.versanet.de ([83.135.91.196] helo=phil.fritz.box)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tL9PZ-0007R7-RF; Wed, 11 Dec 2024 00:13:01 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, hjc@rock-chips.com, krzk+dt@kernel.org,
+ s.hauer@pengutronix.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: (subset) [PATCH v5 00/18] VOP Support for rk3576
+Date: Wed, 11 Dec 2024 00:12:58 +0100
+Message-ID: <173387236508.2374456.8629854054013827389.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241209122943.2781431-1-andyshrk@163.com>
+References: <20241209122943.2781431-1-andyshrk@163.com>
 MIME-Version: 1.0
-References: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
- <20241204-udmabuf-fixes-v2-1-23887289de1c@google.com>
- <CAEXW_YRb4PsFgEvHW2QBDY5dxJ+aoMTn3qtj5v9eboxO3SxPLg@mail.gmail.com>
-In-Reply-To: <CAEXW_YRb4PsFgEvHW2QBDY5dxJ+aoMTn3qtj5v9eboxO3SxPLg@mail.gmail.com>
-From: Jann Horn <jannh@google.com>
-Date: Wed, 11 Dec 2024 00:11:54 +0100
-Message-ID: <CAG48ez2cTrD2_4iKo3+zrPH=e29znYOKLBkC4OLA3yhsu5oMNA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] udmabuf: fix racy memfd sealing check
-To: Joel Fernandes <joel@joelfernandes.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>, John Stultz <jstultz@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- linux-kernel@vger.kernel.org, Julian Orth <ju.orth@gmail.com>,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,39 +65,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 11:51=E2=80=AFPM Joel Fernandes <joel@joelfernandes=
-.org> wrote:
-> On Wed, Dec 4, 2024 at 11:27=E2=80=AFAM Jann Horn <jannh@google.com> wrot=
-e:
-> > The current check_memfd_seals() is racy: Since we first do
-> > check_memfd_seals() and then udmabuf_pin_folios() without holding any
-> > relevant lock across both, F_SEAL_WRITE can be set in between.
-> > This is problematic because we can end up holding pins to pages in a
-> > write-sealed memfd.
-> >
-> > Fix it using the inode lock, that's probably the easiest way.
-> > In the future, we might want to consider moving this logic into memfd,
-> > especially if anyone else wants to use memfd_pin_folios().
->
-> I am curious, why is it not possible to have a reproducer for this
-> issue, is it not reproducible and is theoretical?
 
-Sorry, I think I must have forgotten about this part when I wrote the
-cover letter: The original bug reporter (Julian) linked to a
-reproducer that is linked in the bugzilla bug report, at
-<https://github.com/mahkoh/udmabuf-seal>. I haven't tried running it
-myself though.
+On Mon, 09 Dec 2024 20:29:10 +0800, Andy Yan wrote:
+> Thanks for the basic work from Collabora, I can bringup a HDMI
+> display out on rk3576.
+> 
+> PATCH 1 is a carryover from the working when add support for
+>     rk3588[0], is very usefull when some people want me
+>     help debug some issue online, so I really hope it can
+>     be merged at this round.
+> PATCH 2~8 are bugfix of rk3588 alpha blending which report and
+>     test by Derek
+> PATCH 9~13 are preparations for rk3576 support
+> PATCH 17~18 are real support for rk376
+> 
+> [...]
 
+Applied, thanks!
 
-> thanks,
->
->  - Joel
->
-> >
-> > Reported-by: Julian Orth <ju.orth@gmail.com>
-> > Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D219106
-> > Closes: https://lore.kernel.org/r/CAG48ez0w8HrFEZtJkfmkVKFDhE5aP7nz=3Do=
-brimeTgpD+StkV9w@mail.gmail.com
-> > Fixes: fbb0de795078 ("Add udmabuf misc device")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Jann Horn <jannh@google.com>
+[02/18] drm/rockchip: vop2: Fix cluster windows alpha ctrl regsiters offset
+        commit: 17b4b10a0df1a1421d5fbdc03bad0bd3799bc966
+[03/18] drm/rockchip: vop2: Fix the mixer alpha setup for layer 0
+        commit: 6b4dfdcde3573a12b72d2869dabd4ca37ad7e9c7
+
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
