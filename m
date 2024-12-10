@@ -2,137 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54419EB650
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:26:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1A39EB686
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:34:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0269510E3BD;
-	Tue, 10 Dec 2024 16:26:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MF5LklWG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A369710E927;
+	Tue, 10 Dec 2024 16:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2087.outbound.protection.outlook.com [40.107.212.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A599610E3BD
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 16:26:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tDGVQVpC/QwdxUn8J/D7eA6Yu3KUnKh23JVpTWf3AvgHS2eT71kbERGuVLHUJ+MBfULdoF9YyYUIp9fcQPvWvZ8iD2dksAKjYVb1H5I64vpxV/1+HvwWJ0BThlTlDy+VXTHlM3G9QbZicHAPHLZerZbwwzhOclUu7QZjEM1v04Mikua5e/CCWOYrwQBMZusMvElKjVoMv06Ok4iKWyKkueWAo6GmbaWuvUeGiTe+td8tguzznJKv8W1vcCx10GyobyuhkkoFXdDJ1j0Bvixt7J1wkxsuwznlW87xSAx/SYYKTwNPZ2vOnln9dQjMX7gzgld9mpnxNF1J6cVlFDmXag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xx8LhDdB2+K+F9bQurRYhczkFRv1b/JTHvkkWt3iXSo=;
- b=OzrPE8J/KiR5fjf0jBI3R993MpbaYCqW5sQRtPvQTwe6WHLIvQs0jDymCGFmZN6q7CLQbedlAG6qR9qMW2ORLjbCIbluth5fdsG1gj2auB8zERZS6ISIQnrZYAcGQVh6cEcpLKN3cCHQ3b3bZOcB3htiIf5lvHiU3kZXRSuP4LdXSE41EZyQiDU3SFoOBh8GQv53rXADlePHcm1evzn0Pa6610RThKkl81Luzdg35IHlbGqraS9soOMLKAao2xAUnegOewiCFSHswk44+aT4M276liZGSzhQLbTCqteSDd0ANZxMJcZhRgRe6n+H/8dno6NLdyGFsjCWjpBhoSUN1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xx8LhDdB2+K+F9bQurRYhczkFRv1b/JTHvkkWt3iXSo=;
- b=MF5LklWGlKBMoWWL1v4ds4HFfA9ty1dUay4IMK6/Y22joyDeCK3B1mj23hubRjoXzfrgLzhiY3hddMSlC9DzzARrjVrR+B9Ah2s8AECBVWfeF9rxUwi2pureKC9qGeF0xMGFRkAAGWEaqWrlEj+PzTjwpNfoMq+8FFVaOyLKUDQ=
-Received: from CH0PR03CA0363.namprd03.prod.outlook.com (2603:10b6:610:119::32)
- by SJ1PR12MB6028.namprd12.prod.outlook.com (2603:10b6:a03:489::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.24; Tue, 10 Dec
- 2024 16:26:30 +0000
-Received: from CH2PEPF0000013F.namprd02.prod.outlook.com
- (2603:10b6:610:119:cafe::b2) by CH0PR03CA0363.outlook.office365.com
- (2603:10b6:610:119::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.15 via Frontend Transport; Tue,
- 10 Dec 2024 16:26:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF0000013F.mail.protection.outlook.com (10.167.244.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Tue, 10 Dec 2024 16:26:29 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 10 Dec
- 2024 10:26:29 -0600
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 10 Dec 2024 10:26:28 -0600
-Message-ID: <82c4fe4d-d118-6c50-d2de-78b126c06b87@amd.com>
-Date: Tue, 10 Dec 2024 08:26:28 -0800
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+ [209.85.160.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D32D10E914
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 16:34:36 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id
+ d75a77b69052e-4676e45234dso14311621cf.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 08:34:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733848475; x=1734453275;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=K2e3X6khm/ThbDpkGIJYPkvaVuIBT8ySpR+1a5iCbjI=;
+ b=BLt0Lr8w3PhPNwHRIdmEgSOnFculsAmdQWMXo9SE53qfe3VTrpgcCHJgm9DuKGyXV9
+ N+XjG0YXw9CebRdBSqrfQZ/E/xCjilgQ36mUr+51Ho+AsLBDafo5ydC81dujRQmub6Fl
+ BT/hkDI+xqagS+uJMym4NX8l2nJb5gq2Ln9t+AP9ZXLwxZwaMIx35//PaKz5teyqwF8L
+ iTbgJ+ivLgJlCx/x53kEc8OgxFZdXCRLgpGozr5AjvvMaYYJbU1YXjwigU2X6++N+DOo
+ wntqJTY+inF+gSBbt++Veo8s0dv7DEZLY5tuFPMYDos7TP1hGlB76qzM9Ut6oDksfUfy
+ DefA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdOSUHngIjcJA1Pdtpe1nBEHQnM26hofPHjTPYPXlS9U189c5mymI6eckKmK2hsHJlg1WmcW6WwuU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxp65BuKUBPpPshK/raaTvm2bAZuaS1Q17fepEPB9ZHuE+HGSaa
+ MzV2lEsYzkfB0l4Y2uEhNVEGD1bIevcZRdr1WC3kBeeVhK4Pp/acDkvcRqqGFX4=
+X-Gm-Gg: ASbGnctR3UT9f0u91RsKmb2bDPWMtpAkJc2AyZWmCWJ4RZPPOhDCv7DlFIMYmRYlEya
+ 4o9/K3SCLYChh5U/lf3R4pGYefBMgtAuAI/Fipmv5BjpHPmQimb0SzTmLiSOE31/Iq2U2AaKUU/
+ zszrJmpHgAET66oDbJDpXCRkQmJCbhsqQjP2pKRkcRRMZ6MyFt0+aV9jW0q26zKAnZkmybxK+Jl
+ Kvv1zmJZwmCXxeF20Ymgq5+Hz9Hetxav2XIYHBh+bIJfedAzb9vVPGq92GptIxjqQsLRN3MxCOb
+ v/OyO2W2r/7ovIRdF5IM
+X-Google-Smtp-Source: AGHT+IEtnkQzo53E5omQJ73plttbECZwdtZw3ZjKnbxSKdpSIvLU8CxbKipoVDLaP2yRw4C/ikc/0g==
+X-Received: by 2002:a05:622a:15c3:b0:467:6d36:4c94 with SMTP id
+ d75a77b69052e-467751f450fmr71789091cf.2.1733848475134; 
+ Tue, 10 Dec 2024 08:34:35 -0800 (PST)
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com.
+ [209.85.222.180]) by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-46759b837aasm30234251cf.83.2024.12.10.08.34.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Dec 2024 08:34:35 -0800 (PST)
+Received: by mail-qk1-f180.google.com with SMTP id
+ af79cd13be357-7b6c6fb409eso250172085a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 08:34:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWqIne5SV2S9vMlIQPWz4U6exgvCwk1yxaeGYE4i7GDZoZwW5wEp/nbDM19I5bHfYd5HA++eq4RR74=@lists.freedesktop.org
+X-Received: by 2002:a05:620a:1a85:b0:7b6:cef9:4f10 with SMTP id
+ af79cd13be357-7b6de6bf952mr762749985a.3.1733848474648; Tue, 10 Dec 2024
+ 08:34:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V7 03/10] accel/amdxdna: Support hardware mailbox
-Content-Language: en-US
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, Mike Lothian <mike@fireburn.co.uk>
-CC: Maling list - DRI developers <dri-devel@lists.freedesktop.org>
-References: <CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com>
- <f094ae61-04a9-8bd9-7b43-72ccdca22d5a@quicinc.com>
- <CAHbf0-HBYFTHqdC1w8Nhw1oVErXeMdtcdHZbebwmt8x20VwkHA@mail.gmail.com>
- <CAHbf0-H3jk17+aKTYUMTHMFT=KGAVh_xWMfe+VYrqXS-0jdQ5w@mail.gmail.com>
- <d7b0cc20-1ee9-8d21-7a8f-4dc84be3b7f9@amd.com>
- <89496055-5564-edcf-ff25-cbbb2bf9dd33@quicinc.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <89496055-5564-edcf-ff25-cbbb2bf9dd33@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000013F:EE_|SJ1PR12MB6028:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20e5b5f5-73c2-4daa-7aa5-08dd19376707
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|1800799024|36860700013|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U1BSamI0UTRiYVlUQ0Vac3YvRU5ORUhVV2dTQzlTWEdIN2tEOUpqc0VOeWxS?=
- =?utf-8?B?elFWRit4TExTNC9PWEczb3RlNFZ1cHIrbFRsVWp1b0crNUtJSlFNcWtVWE0x?=
- =?utf-8?B?cmh6d1hiVWNRZUlPbys2OTZpN0YyZGlxZFZtamc4a0dKZldnMnRBb2Q3SS96?=
- =?utf-8?B?Nm9IOGV4UDc0Y1ZvbFJxV00rRi9MWTZWRVZvcXFXYmp2eGFMYWFXdEtYK1dJ?=
- =?utf-8?B?ZHZOOE5URFh5ZTE4R0lzVzBUaWRJa1kvNjVYVmtSeWdHK0xCOTZGcjkvSEpz?=
- =?utf-8?B?bkhGK2VlYkJmanNEbWpnazJYSG1VOEtOcGFJa0RIL0tBZTg1RHk0eU5Wa2JU?=
- =?utf-8?B?NFVmbldtck9iU2lvbXhmVnhhckhQb3dBR0ZoYThwZmNvYkM1R2ZaVVBtTm93?=
- =?utf-8?B?aUxmOXl5cHIwYjRGYlRXM1NJbGNtYUxLOFQyQVRlUFdlRkNPZVlJYkNxQm9a?=
- =?utf-8?B?K0h2WEVzV2tUb2FYMWxRb1Mxem5LbHBiRzJod2VNZ0M4Z3E2bU9URGZrRHZY?=
- =?utf-8?B?TllhQU1QMUcrby9wTlFuZVo5Sks2ZTV5VU9nM0JhVU1USW42U2FpdDBBZEFQ?=
- =?utf-8?B?dWRHUUwraGpLWVQxRlJFNlBMR1hCb2dRRHhFWm1qK2o3V2JuZ0Y5ZGhnK0hU?=
- =?utf-8?B?T2t3Zytxemo4UTRQRnNWNWZ2MERscGdKRjBva2dURkNUVEpWY0V6MTdVVnps?=
- =?utf-8?B?aW9GeE53SmFOcGJ2VDN6WTVzN3lQWVowVWlxSVpOak1RMGFzTGVlcXRQRjdE?=
- =?utf-8?B?VzljVjQrd05nTUcrQ3hSM0xzVFlXNnhpSVBUUGNuUXllUXlzL0VZMWZCY1Jq?=
- =?utf-8?B?RU9TUnpOWjVmYjBOc1A4a3VxQk9GZlY3MXJ5eEtwbDBZb0VRRjdFZmljQ2lu?=
- =?utf-8?B?NFQzNUltcDVKcDY1TjVRcEhQS0ZsZmR1Wk5Ga2tTTFhCSENvbmF5QXhMWUd2?=
- =?utf-8?B?VzR3OHhWKzhYRjZJWWdQbmpob0V1ZXlldHluZEw0cGdaSTQ2WTFFT2xhNFg5?=
- =?utf-8?B?OG1IaUhjNkV5VXN3ZkwzaGdMQ0tpWEJFR05xa0ZYd0FMNTBtcE5GN0wyS3Na?=
- =?utf-8?B?QWRnSExWai9wQUREYzVFU09ZdFltRUROazNFL0tidnd6Zi8zTDJlQWt6YWNG?=
- =?utf-8?B?MmU4MFpGZnhIWDgxZHBCbi9oMll2N0dXelJnakZ2dCtkVERFRE1YaHhrdWVJ?=
- =?utf-8?B?MHZwYzJ3MEtnV2h1NnFqc2lpU2FTM2FtZUZCQ2E3ci9VbWJuZ0lmM09TalUv?=
- =?utf-8?B?TUJQMDkvZkxVYll2KzA2dWhZZXRkNGY0VFhoZjEyMno0d05rMk1hVHZMTm9v?=
- =?utf-8?B?RDNKVHEvWGtWVHFUTXFYOXJ1WmJQTHRZZGFJM1BieWtxejl0QjFBTngzSFQv?=
- =?utf-8?B?OWl6SDhQRXdHZmQvR3Nwam45aS9EUHhQU2d0aTRPd0dMRGtZQmpJemEzQmo2?=
- =?utf-8?B?ZDJUQ0ErWTFIQk5RU0g1c0g0eTRpUTVDWW10VkdjQWR6YjBxbzNJZkJRbi9K?=
- =?utf-8?B?MUNiVGRpMU9RMGdacGtpSEtSdXZRc2JqRTA3MGZFMFB1MUUrR2ZSUEhwZWZ2?=
- =?utf-8?B?ZW5TZlJ6RWp1RGRkTGFQY3cxeEpFUkp0K2dLK0RTelQvTHFRWVVGcko3dHl2?=
- =?utf-8?B?V0dGL3F4U1k2cEM2NWJkMHFXa0dVSk5IcmJYdCt2ZUlsZmtiZWUwTC81Y0Nl?=
- =?utf-8?B?TUpKa0Evd2FXTFZJMTNXRFVJQWlGcDNzSnkxTFBNcXIwVkVKTDVWWUU2REJm?=
- =?utf-8?B?NVVsOHFPMEowUzMxL2p6bnpDc3FFWVRyL2gycWQ3Q1JQaEF5eUc2Y2Rya2ZF?=
- =?utf-8?B?MXRFWEZHaFNaVWR1YzFtQzRmdUpWYWlpbE9oejRHUWRHVm1xcENPTGtYS2ln?=
- =?utf-8?B?MmxzYlJzSFk0QldTK3czTWFpeEt4K2V1b0lld2ljUy9GaEE9PQ==?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(1800799024)(36860700013)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2024 16:26:29.7980 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20e5b5f5-73c2-4daa-7aa5-08dd19376707
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000013F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6028
+References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
+ <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
+In-Reply-To: <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 10 Dec 2024 17:34:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
+Message-ID: <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] arm64: dts: renesas: gray-hawk-single: Add
+ DisplayPort support
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ LUU HOAI <hoai.luu.ub@renesas.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,113 +104,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi,
 
-On 12/6/24 14:55, Jeffrey Hugo wrote:
-> On 12/6/2024 11:47 AM, Lizhi Hou wrote:
->>
->> On 12/6/24 09:01, Mike Lothian wrote:
->>> On Fri, 6 Dec 2024 at 16:41, Mike Lothian <mike@fireburn.co.uk> wrote:
->>>> On Fri, 6 Dec 2024 at 16:26, Jeffrey Hugo <quic_jhugo@quicinc.com> 
->>>> wrote:
->>>>> On 12/5/2024 8:44 AM, Mike Lothian wrote:
->>>>>> Hi
->>>>>>
->>>>>> I needed to add the following to get things compiling for me
->>>>>>
->>>>>>
->>>>>> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c
->>>>>> b/drivers/accel/amdxdna/amdxdna_mailbox.c
->>>>>> index fe684f463b945..79b9801935e71 100644
->>>>>> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
->>>>>> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
->>>>>> @@ -6,6 +6,7 @@
->>>>>> #include <drm/drm_device.h>
->>>>>> #include <drm/drm_managed.h>
->>>>>> #include <linux/bitfield.h>
->>>>>> +#include <linux/interrupt.h>
->>>>>> #include <linux/iopoll.h>
->>>>> Looking at the code, this is valid.  However, I'm not sure why 
->>>>> this is
->>>>> broken for you and not others.  Do you have any ideas? How are you
->>>>> building this?  Is the tree and/or defconfig unique in some way?
->>>>>
->>>>>> #define CREATE_TRACE_POINTS
->>>>>>
->>>>>>
->>>>>> I also had to rename the firmware in /lib/firmware/amdnpu/1502_00/
->>>>>> from npu.sbin.1.5.2.380 to npu.sbin
->>>>>>
->>>>>> Cheers
->>>>>>
->>>>>> Mike
->>>>>>
->>>> I'm building with clang 19.1.5, this is on linus's tree 6.13-rc1
->>>>
->>>> I've applied AMD-XDNA-driver and AMD-NPU-driver-improvements series
->>>>
->>>> These are the errors I see without the above patch:
->>>>
->>>> drivers/accel/amdxdna/amdxdna_mailbox.c:342:8: error: unknown type
->>>> name 'irqreturn_t'
->>>>    342 | static irqreturn_t mailbox_irq_handler(int irq, void *p)
->>>>        |        ^
->>>> drivers/accel/amdxdna/amdxdna_mailbox.c:352:9: error: use of
->>>> undeclared identifier 'IRQ_HANDLED'
->>>>    352 |         return IRQ_HANDLED;
->>>>        |                ^
->>>> drivers/accel/amdxdna/amdxdna_mailbox.c:380:4: error: call to
->>>> undeclared function 'disable_irq'; ISO C99 and later do not support
->>>> implicit function declarations [-Wimplicit-function-declaration]
->>>>    380 | disable_irq(mb_chann->msix_irq);
->>>>        |                         ^
->>>> drivers/accel/amdxdna/amdxdna_mailbox.c:497:8: error: call to
->>>> undeclared function 'request_irq'; ISO C99 and later do not support
->>>> implicit function declarations [-Wimplicit-function-declaration]
->>>>    497 |         ret = request_irq(mb_irq, mailbox_irq_handler, 0,
->>>> MAILBOX_NAME, mb_chann);
->>>>        |               ^
->>>> drivers/accel/amdxdna/amdxdna_mailbox.c:521:2: error: call to
->>>> undeclared function 'free_irq'; ISO C99 and later do not support
->>>> implicit function declarations [-Wimplicit-function-declaration]
->>>>    521 |         free_irq(mb_chann->msix_irq, mb_chann);
->>>>        |         ^
->>>> drivers/accel/amdxdna/amdxdna_mailbox.c:538:2: error: call to
->>>> undeclared function 'disable_irq'; ISO C99 and later do not support
->>>> implicit function declarations [-Wimplicit-function-declaration]
->>>>    538 |         disable_irq(mb_chann->msix_irq);
->>>>        |         ^
->>>> 6 errors generated.
->>>>
->>>> With the patch applied I then got firmware issues so I had to rename
->>>> the newly upstreamed firmware, I'm not sure of the code needs to load
->>>> the versioned file or if the file needs renamed in linux-firmware
->>>>
->>>> I'm attaching my .config
->>>>
->>>> Cheers
->>>>
->>>> Mike
->>> The attachment bounced so heres a link to the .config on github
->>> https://github.com/FireBurn/KernelStuff/blob/quark/dot_config_tip
->>
->> I am able to reproduce with your .config. I believe it is because 
->> CONFIG_TRACING is disabled.
->>
->> If you are ok, I can include your fix to 
->> https://lore.kernel.org/dri-devel/20241204213729.3113941-1-lizhi.hou@amd.com/T/#t 
+On Fri, Dec 6, 2024 at 10:33=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 >
+> Add support for the mini DP output on the Gray Hawk board.
 >
-> It should be a separate patch, with a reported-by and a fixes tag.
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I have sent out 8/8 patch to fix it. It has all the tags. Maybe it is ok 
-to use it?
+Thanks for your patch!
 
-https://lore.kernel.org/dri-devel/20241206220001.164049-9-lizhi.hou@amd.com/
-
-
-Thanks,
-
-Lizhi
-
+> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> @@ -269,6 +314,51 @@ eeprom@53 {
+>         };
+>  };
 >
-> -Jeff
+> +&i2c1 {
+> +       pinctrl-0 =3D <&i2c1_pins>;
+> +       pinctrl-names =3D "default";
+> +
+> +       status =3D "okay";
+> +       clock-frequency =3D <400000>;
+> +
+> +       bridge@2c {
+
+Missing:
+
+        pinctrl-0 =3D <&irq0_pins>;
+        pinctrl-names =3D "default";
+
+> +               compatible =3D "ti,sn65dsi86";
+> +               reg =3D <0x2c>;
+> +
+> +               clocks =3D <&sn65dsi86_refclk>;
+> +               clock-names =3D "refclk";
+> +
+> +               interrupt-parent =3D <&intc_ex>;
+> +               interrupts =3D <0 IRQ_TYPE_LEVEL_HIGH>;
+
+interrupts-extended =3D ...
+
+> +
+> +               enable-gpios =3D <&gpio1 26 GPIO_ACTIVE_HIGH>;
+> +
+> +               vccio-supply =3D <&reg_1p8v>;
+> +               vpll-supply =3D <&reg_1p8v>;
+> +               vcca-supply =3D <&reg_1p2v>;
+> +               vcc-supply =3D <&reg_1p2v>;
+> +
+> +               ports {
+> +                       #address-cells =3D <1>;
+> +                       #size-cells =3D <0>;
+> +
+> +                       port@0 {
+> +                               reg =3D <0>;
+> +                               sn65dsi86_in0: endpoint {
+> +                                       remote-endpoint =3D <&dsi0_out>;
+> +                               };
+> +                       };
+> +
+> +                       port@1 {
+> +                               reg =3D <1>;
+> +                               sn65dsi86_out0: endpoint {
+> +                                       remote-endpoint =3D <&mini_dp_con=
+_in>;
+> +                               };
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+>  &i2c3 {
+>         pinctrl-0 =3D <&i2c3_pins>;
+>         pinctrl-names =3D "default";
+> @@ -361,6 +451,11 @@ i2c0_pins: i2c0 {
+>                 function =3D "i2c0";
+>         };
+>
+> +       i2c1_pins: i2c1 {
+> +               groups =3D "i2c1";
+> +               function =3D "i2c1";
+> +       };
+> +
+>         i2c3_pins: i2c3 {
+>                 groups =3D "i2c3";
+>                 function =3D "i2c3";
+
+Missing:
+
+        irq0_pins: irq0 {
+                groups =3D "intc_ex_irq0_a";
+                function =3D "intc_ex";
+        };
+
+I'll fix that up while applying.
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.14.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
