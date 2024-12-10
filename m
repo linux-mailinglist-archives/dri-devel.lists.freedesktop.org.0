@@ -2,81 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED0C9EB0C4
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD61F9EB0DA
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CA410E3A6;
-	Tue, 10 Dec 2024 12:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A19E10E2A0;
+	Tue, 10 Dec 2024 12:32:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lD6boal5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Y97aGP9T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E73C210E12F
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 12:27:09 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53ff1f7caaeso3037096e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 04:27:09 -0800 (PST)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8049010E2A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 12:32:09 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-30229d5b21cso14145721fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 04:32:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733833628; x=1734438428; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TLgFp1RmX3UnNxnp9DUX+wn/yHzpzgzjVvUXeTz82s8=;
- b=lD6boal5nLznXPjK7hkt0uLm6SBoETiM15ewBal6EK2dEMaUUaJCCT2RmWJhb5tigR
- Av15b8bZorbsn8B/2pbN1Uv2rOM15dt7X1BOcyaS/EpM196KRx6RKNwhuzvnKtm0Mm4J
- 5v2MXq0AcUK7TJ1/9jGIEwZowtbrAw4JFvekkl4vD87LbqMIdzLZj8KryPd51Vay2bFz
- TZRGcIBoHljueUvPTZhLu+xyMsPFZtuKXUsi2sncUQElEfTTW8nf0lTEDRYaFxMEY14+
- 7v6D/sojezCPcqXEfbNdIoUvioV1/IYE6dvM+LPERjugGQ0Rr0fDFZKJiiIfkOQldzfy
- jNEg==
+ d=linaro.org; s=google; t=1733833927; x=1734438727; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xFyd1PgF3D2/xwv+F2WOR3tO3r6sjTbGoWT6Q3TM8dg=;
+ b=Y97aGP9TovJQppt3JOQ1h6QC/4Bm5ZDFRYFE6knUq/qrSIvgdiAdt3NPS5Y/4gkDgp
+ febcQzGipJ60gzFjV1G3BNV8bvHeWadkJDPbp7GsaJU1jgjNu3aj+xpjDh1l77E+MKJG
+ FhHR/vo2n80j6JwqOegh95Fi/v19BPYrOB1MA6cX4BUdjiEFPPYxseZ3i+sSEEftdNMG
+ LL+Rydvdu3Xf8ZA9n+vlEb+BG11oZIikJHe43mh69I+2wW4hOSpKjx6XRYMn8VwxZIN7
+ QXNZfDMIbfPwMC7r4dGCtszIoA1lfjgmo2q0v+W4Nt/feSF0+0w/hEfFGjnzXoXYbXh9
+ k+Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733833628; x=1734438428;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TLgFp1RmX3UnNxnp9DUX+wn/yHzpzgzjVvUXeTz82s8=;
- b=VpUHYPno2KqDMvhLTUBUTDppmO3FkR9UgRn01ft8z4UE+1W6e1am+PG4EFA+GPVr95
- Pxh0Dr07gQtgp5Ndl8GmlwLDdMRvQXBtONdaGnD4KyfyNKOMgZHTsUpPnzS92+fbAsRU
- wmPRJXB9abCpIH5w/EwqqMoi+HTJdskqC5e93lvrfhWATv+h80gUXjYzl3dm0KHzNPkf
- cQsIimfLeCsWQ/DsRSHVk4tZxDMXyCDbB/9R81lOFvKn1F6P8F6wpeOTUQwxCsONjWXL
- 78VOr1TT+SnWgQAq6o2N9ULGc1y+pjcM06uKuIPK/NSXPSIYF2nZXfkFyMzgNYvHDLoQ
- VymQ==
+ d=1e100.net; s=20230601; t=1733833927; x=1734438727;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xFyd1PgF3D2/xwv+F2WOR3tO3r6sjTbGoWT6Q3TM8dg=;
+ b=rnkav78gBNBPo6KXTHXPq9MqMIlisDcqFDKDqHj2+TRfPBUS2a6ZWJKkaQejrX4iQK
+ g8BwFsPglAHwyOalNPj1C1QL67LCE+ZgJX3pkdwDUZghG6Bc8hfgeAa/R7C1JsQssc5b
+ zR+nYV2CfZSSfCz3BrVCmpSOVt20fb/XSOvhDVvvO3y++plwBB7Btuix2o4H27eOZTPq
+ 8CtffxvYLzuPtJhOhAIRzMZ29keoTD8hfzXFntaxVLbv9ZuRLm7n5A/d2XC/G+cTA9yc
+ Gm+1x8ITwuO150YEMJXrK8UJZ581AQj0L3anXevUHcjbmqoP/txdC3agVuSCuZhc8e3S
+ zxRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWEmC7BFhvYdaJM7VN/RQVaDTqYM9pf1N8pXV5+FvqBK2H5auO0zV9j8hyMKUagFFHA38asfiDr6ig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDZ6/bDdenu3u/p/nXzGfLAeakdDxj/jk9F/WulAqUIqb2HBAT
- Vn0Zrlfwgh5pOA5VPSY1H6V+bvw2E6NHO6pFIq91veRiel7pUCQv3StAIxPVpb0=
-X-Gm-Gg: ASbGncuafczGJE7cgygY8wIvr/+EDQmdul6w7iE4Ree//e8UCJ9Z1LG6sDOIdeyG2iT
- 65BScND/lsPv3hR5TLtA7ig3NrNtRrV3yvWpcjGkKRjVyIfiATROVuC5IkBe2u9i4n6VkfRd20z
- MMWBj4GsYwrTc3Y8f8nLmZqh8ffx2JDCCMCPpw+0/j58DhLBici/A0MNu+SaMfcBaUWS2SYu86U
- Up9wmQe+m33Vfk8Tlg3IGVi7WlMF4esY17zNTGlpx292ZmkL4VEJ+8rOvL9nfQxN23sarcQYgWt
- oWUnFELz7nfBRfduiije/88ertXkLntsJg==
-X-Google-Smtp-Source: AGHT+IEbQPT7YZlDlrRsdfMjgNLFXOBAjBsyY2abWlqzvZLvimYnTcVTLCYE3D43KyGE9HtxaadCDw==
-X-Received: by 2002:a05:6512:2393:b0:540:20f5:be77 with SMTP id
- 2adb3069b0e04-540240ae79emr1484431e87.3.1733833627939; 
- Tue, 10 Dec 2024 04:27:07 -0800 (PST)
+ AJvYcCVIKtfQl2wbFD5TZp99ZoNdbWDwovaiIVEcuO0oO0fpXHdAYX62VI1fOrC0z2dJb3lK6OaYtYKbM1Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyln9Uf7Ir7r2E8UQ4wOHTkvohtbnxoLpoUDCzf9H4xjGP33OEs
+ txWME01YNsSGu+8cl4sZkmRknqNlWnDsBnIn4oEjxQ6LrW+wcrM289ha8i0uF4k=
+X-Gm-Gg: ASbGncsqRQJ6pkwQlkTAuU9CMBPe50p1YQQcQ91jk+704qgIGbRyTXC4RfPQaCVqC/D
+ VNgRi6rzc/mE5ANB6VYae2xHxs6byBTQkkSTh7cptwrVThKkwDN2fPXSw1+kalP308yfACRo+dg
+ vCDl0mYYRGBj5GEzTGUlPt1Inpr+EhF+5CL0CMH2UiPmkoUmXmoTUFYxy/pDP44rl6/Af1sf92I
+ bmO2HhTzAr6upsYogJq6l9rcVNSBDRVErrMsOjIwGiAwgve6jXTrOID1lZMb5fNORJCzXFMIjX6
+ cczzLWvSpEP/6sAtKd7GIt0Mt0U3++mRpw==
+X-Google-Smtp-Source: AGHT+IFJ8BqRGzKbdRKo9sdokdyA13iJnEch3RCwabno4BEnD/wpduTivdAcQ64Maqs8TOr83ohZIw==
+X-Received: by 2002:a05:651c:1582:b0:302:2620:ecc7 with SMTP id
+ 38308e7fff4ca-3022fd82956mr14279341fa.35.1733833927539; 
+ Tue, 10 Dec 2024 04:32:07 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53f4a974824sm990494e87.147.2024.12.10.04.27.07
+ 38308e7fff4ca-30216eb1013sm9110231fa.34.2024.12.10.04.32.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2024 04:27:07 -0800 (PST)
-Date: Tue, 10 Dec 2024 14:27:05 +0200
+ Tue, 10 Dec 2024 04:32:06 -0800 (PST)
+Date: Tue, 10 Dec 2024 14:32:03 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCHv3 01/10] drm/crtc: Add histogram properties
-Message-ID: <l6dpikqfgwlio5rungx4ckvw524woz4mybkiqfp4k5fpkokj2c@zox6yfhxnzeh>
-References: <20241209162504.2146697-1-arun.r.murthy@intel.com>
- <20241209162504.2146697-2-arun.r.murthy@intel.com>
- <7tho6j262nzbu6nvjgzelsu3ljjipxdhazjlzdfa3xi2lbn3vs@bx55yrrbmshg>
- <IA0PR11MB7307E1C101F417CFAE3B114ABA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Daniel Semkowicz <dse@thaumatec.com>, Diederik de Haas <didi.debian@cknow.org>,
+ andy.yan@rock-chips.com, Laurent.pinchart@ideasonboard.com,
+ andrzej.hajda@intel.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ jernej.skrabec@gmail.com, jonas@kwiboo.se, krzk+dt@kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ neil.armstrong@linaro.org, 
+ quentin.schulz@cherry.de, rfoss@kernel.org, robh@kernel.org,
+ tzimmermann@suse.de
+Subject: Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
+ controller
+Message-ID: <jl5obi7rd4h6ywozeqruxq2vx62sx5yf4wwpksrq3prdleps2k@d3zbr5ttquvn>
+References: <20241203165450.1501219-1-heiko@sntech.de>
+ <20241209150619.33998-1-dse@thaumatec.com>
+ <D67AV178CEBD.3QA9VD4ZPRNQ1@cknow.org> <2203458.KiezcSG77Q@diego>
+ <4e015ea9.960.193ae0c236a.Coremail.andyshrk@163.com>
+ <ay5hbnqqjhopaqof6z7j2rzm2bc6xa2vbzan2ak3if6wzmyip2@kqh7gtrajnm2>
+ <33e2c5db.1300.193ae284b6d.Coremail.andyshrk@163.com>
+ <CAA8EJprLA09NP0KAztc5eoAMkGcrom84jg_pcbNcwN0FAaSLrw@mail.gmail.com>
+ <2d68155e.1e5b.193ae4616b9.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <IA0PR11MB7307E1C101F417CFAE3B114ABA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2d68155e.1e5b.193ae4616b9.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,122 +108,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 08:42:36AM +0000, Murthy, Arun R wrote:
-> > On Mon, Dec 09, 2024 at 09:54:55PM +0530, Arun R Murthy wrote:
-> > > Add variables for histogram drm_property, its corrsponding crtc_state
-> > > variables and define the structure pointed by the blob property.
-> > >
-> > > struct drm_histogram and drm_iet defined in
-> > > include/uapi/drm/drm_mode.h
-> > >
-> > > The property HISTOGRAM_ENABLE allows user to enable/disable the
-> > > histogram feature in the hardware. Upon KMD enabling by writing to the
-> > > hardware registers, a histogram is generated. Histogram is composed of
-> > > 'n' bins with each bin being an integer(pixel count).
-> > 
-> > Is it really a count of pixels that fall into one of the bins?
-> It's the statistics generated for each frame that is sent to the display and the value corresponds to 5 bit pixel depth.
-
-Let me try it once more, but this is becoming tiresome. Please provide a
-description of the property good enough so that one can implement
-HISTOGRAM support for the VKMS driver. You don't have to provide
-Intel-specific details, but the description should be complete enough.
-"The number of pixels falling into each of the bins, sorted by
-luminosity, started from the brighest ones" might be an example of a
-good enough desription. Then one can add such functionality to other
-drivers. Just saying "statistics" doesn't give us anything.
-
+On Tue, Dec 10, 2024 at 09:54:09AM +0800, Andy Yan wrote:
 > 
-> > 
-> > > An event HISTOGRAM will be sent to the user. User upon recieving this
-> > > event user can read the hardware generated histogram using crtc
-> > > property
-> > 
-> > Nit: here and further, it's CRTC, not crtc
-> Ok.
+> Hi Dmitry,
 > 
-> > 
-> > > HISTOGRAM_DATA. User can use this histogram data, apply various
-> > > equilization techniques to come up with a pixel factor. This pixel
-> > > factor is an array of integer with 'n+1' elements. This is fed back to
-> > > the KMD by crtc property HISTOGRAM_IET. KMD will write this IET data
-> > > back to the hardware to see the enhancement/equilization done to the
-> > > images on that pipe.
-> > > The crtc property HISTOGRAM_DATA and HISTOGRAM_IET is of type blob.
-> > >
-> > > For crtc property HISTOGRAM_DATA,
-> > > the blob data pointer will be the address of the struct drm_histogram.
-> > > struct drm_histogram {
-> > > 	u64 data_ptr;
-> > > 	u32 nr_elements;
-> > > }
-> > > Histogram is composed of @nr_elements of bins with each bin being an
-> > > integer value, referred to as pixel_count.
-> > > The element @data_ptr holds the address of histogam.
-> > > Sample:
-> > > Historgram[0] = 2050717
-> > > Historgram[1] = 244619
-> > > Historgram[2] = 173368
-> > > ....
-> > > Historgram[31] = 21631
-> > >
-> > > For crtc_property HISTOGRAM_IET,
-> > > the blob data pointer will be the address of the struct drm_iet.
-> > > struct drm_iet {
-> > > 	u64 data_ptr;
-> > > 	u32 nr_elements;
-> > > }
-> > > ImageEnhancemenT(IET) is composed of @nr_elements of bins with each
-> > > bin being an integer value, referred to as pixel factor.
-> > 
-> > What are pixel factors? How are they supposed to be used? You have specified
-> > the format of the data, but one still can not implement proper HISTOGRAM
-> > support for the VKMS.
+> 在 2024-12-10 09:45:11，"Dmitry Baryshkov" <dmitry.baryshkov@linaro.org> 写道：
+> >On Tue, 10 Dec 2024 at 03:22, Andy Yan <andyshrk@163.com> wrote:
+> >>
+> >>
+> >> Hi Dmitry,
+> >>
+> >> 在 2024-12-10 09:01:38，"Dmitry Baryshkov" <dmitry.baryshkov@linaro.org> 写道：
+> >> >On Tue, Dec 10, 2024 at 08:50:51AM +0800, Andy Yan wrote:
+> >> >>
+> >> >>
+> >> >> Hi,
+> >> >>
+> >> >> At 2024-12-10 07:12:26, "Heiko Stübner" <heiko@sntech.de> wrote:
+> >> >> >Am Montag, 9. Dezember 2024, 17:11:03 CET schrieb Diederik de Haas:
+> >> >> >> Hi,
+> >> >> >>
+> >> >> >> On Mon Dec 9, 2024 at 4:06 PM CET, Daniel Semkowicz wrote:
+> >> >> >> > On 03.12.24 21:54, Heiko Stuebner wrote:
+> >> >> >> > > This series adds a bridge and glue driver for the DSI2 controller found
+> >> >> >> > > in the rk3588 soc from Rockchip, that is based on a Synopsis IP block.
+> >> >> >> > >
+> >> >> >> >
+> >> >> >> > I did more tests with different LVDS displays. I tested following
+> >> >> >> > configurations with DSI/LVDS bridge:
+> >> >> >> > - 1024x600@60.01
+> >> >> >> > - 1024x768@60.02
+> >> >> >> > - 1280x800@60.07
+> >> >> >> > - 1366x768@60.06
+> >> >> >> >
+> >> >> >> > All of them worked without issues, except 1366x768.
+> >> >> >> > With this resolution, video is blurry, and offset incorrectly
+> >> >> >> > to the left. There are also repeating errors on the console:
+> >> >> >> >
+> >> >> >> >   rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY irq err at vp3
+> >> >> >> >
+> >> >> >> > In correct operation with other resolutions, there is no error.
+> >> >> >> > I am not sure if this is a problem in your series or rather in VOP2
+> >> >> >> > driver.
+> >> >> >
+> >> >> >This really sounds like something is wrong on the vop side.
+> >> >> >The interrupt is part of the vop, the divisable by 4 things likely too.
+> >> >>
+> >> >> This is a hardware limitation on vop side:
+> >> >> The horizontal resolution must be 4 pixel aligned.
+> >> >
+> >> >Then mode_valid() and atomic_check() must reject modes that don't fit.
+> >>
+> >> We round down to 4 pixel aligned in mode_fixup in our bsp kernel,
 > >
-> This pixel factor is a value that can be multiplied/appended/prepended to the pixels of the incoming image on that pipe thereby enhancing the image quality.
+> >What is meant by the "bsp kernel" here? I don't see it being present
+> 
+> bsp kernel means downstream vendor kernel.
+> 
+> >in the mainline kernel. So, if the mode is unsupported, it should be
+> 
+> Will it be acceptable to add this round down in the mainline mode_fixup?
 
-So, mupliplied, appended, prepended or something else? Please provide a
-usable description of the data.
-
->  
-> > > The element @data_ptr holds the addess of pixel factor.
-> > > Sample:
-> > > Pixel Factor[0] = 1023
-> > > Pixel Factor[1] = 695
-> > > Pixel Factor[2] = 1023
-> > > ....
-> > > Pixel Factor[32] = 512
-> > >
-> > > Histogram is the statistics generated with 'n' number of frames on a
-> > > pipe.
-> > > Usually the size of pixel factor is one more than the size of
-> > > histogram data.
-> > 
-> > What does that mean? What does it mean if this "Usually" isn't being followed?
-> > Previously you've written that it always has n+1 elements.
-> > 
-> In Intel platform its 'n' for histogram and 'n+1' for IET. Can vary with other vendors supporting this feature.
-> Hence have a variable(nr_elements) to convey this.
-
-You are defining generic userspace interface. It has nothing about
-"Intel" in it.
+I think so.
 
 > 
-> Thanks and Regards,
-> Arun R Murthy
-> --------------------
-> > >
-> > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> > > ---
-> > >  include/drm/drm_crtc.h      | 51
-> > +++++++++++++++++++++++++++++++++++++
-> > >  include/uapi/drm/drm_mode.h | 24 +++++++++++++++++
-> > >  2 files changed, 75 insertions(+)
-> > >
-> > 
-> > --
-> > With best wishes
-> > Dmitry
+> >rejected.
+> >
+> >> because sometimes, some boards do indeed choose a screen that is not 4 pixel aligned
 
 -- 
 With best wishes
