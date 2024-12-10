@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76F69EBC79
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FAF9EBC6E
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E55B710E9B3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A560910E9AF;
 	Tue, 10 Dec 2024 22:02:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="f8FLrazo";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="i9DsTNH+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 47BF210E5EC;
+ by gabe.freedesktop.org (Postfix) with ESMTP id 00D8110E9AA;
  Tue, 10 Dec 2024 22:02:43 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 40433204722F;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 6FF4C2047230;
  Tue, 10 Dec 2024 14:02:38 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 40433204722F
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6FF4C2047230
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1733868158;
- bh=BGnsC+198VTSc2YUOR+tnnzodlQEmbpaf1xRkHMeOLA=;
+ bh=U++D0WKRUcBPTXKKmA8ay83+fBnoO24djfuDhPxnmd0=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=f8FLrazoOSnG7X8aDWVI3nVNlHmQntetz0EU8Jiq9ArRSLgklxjGdYHhwJFkuGOqx
- IH/VjuOQp54aRZNV03h5piA8Q49loXnKOX2ThzuLLFf9IwCIw5oEVNJs8TgQ/6gM17
- zOuBTvw2xYfRYO0jrQtMw2wpWhKIeaajYB7zt3gs=
+ b=i9DsTNH+sl/IoEAtSjlSJHTOE30TcOTSfxv7yvCJsXzsKYC64wXa+LBK94U2wED8+
+ 6hMcKIbUoHeurUTa3oCFtWHdRYvf3LnrkdYUlQGzEUBgp5Wh7dgkbASpnSVSuIShxl
+ Qe59P7FSrX+a5TC/+UUUxnQ63OeNqL5idRg6Tx5c=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:41 +0000
-Subject: [PATCH v3 10/19] scsi: arcmsr: Convert timeouts to secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:42 +0000
+Subject: [PATCH v3 11/19] scsi: pm8001: Convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-10-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-11-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -131,22 +131,22 @@ the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/scsi/arcmsr/arcmsr_hba.c | 2 +-
+ drivers/scsi/pm8001/pm8001_init.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/arcmsr/arcmsr_hba.c b/drivers/scsi/arcmsr/arcmsr_hba.c
-index 6a32e3e0d516881fd87a56a394607930582644ee..fe7de7705b7e2c84324f1a493f7825343d6476c6 100644
---- a/drivers/scsi/arcmsr/arcmsr_hba.c
-+++ b/drivers/scsi/arcmsr/arcmsr_hba.c
-@@ -1045,7 +1045,7 @@ static void arcmsr_init_get_devmap_timer(struct AdapterControlBlock *pacb)
- static void arcmsr_init_set_datetime_timer(struct AdapterControlBlock *pacb)
- {
- 	timer_setup(&pacb->refresh_timer, arcmsr_set_iop_datetime, 0);
--	pacb->refresh_timer.expires = jiffies + msecs_to_jiffies(60 * 1000);
-+	pacb->refresh_timer.expires = jiffies + secs_to_jiffies(60);
- 	add_timer(&pacb->refresh_timer);
- }
- 
+diff --git a/drivers/scsi/pm8001/pm8001_init.c b/drivers/scsi/pm8001/pm8001_init.c
+index f8c81e53e93f7849bbe7fe9cbc861f22b964bc39..22e0e79e88ab0a60965ff3809de116eb4a6851e2 100644
+--- a/drivers/scsi/pm8001/pm8001_init.c
++++ b/drivers/scsi/pm8001/pm8001_init.c
+@@ -736,7 +736,7 @@ static int pm8001_init_sas_add(struct pm8001_hba_info *pm8001_ha)
+ 		return -EIO;
+ 	}
+ 	time_remaining = wait_for_completion_timeout(&completion,
+-				msecs_to_jiffies(60*1000)); // 1 min
++				secs_to_jiffies(60)); // 1 min
+ 	if (!time_remaining) {
+ 		kfree(payload.func_specific);
+ 		pm8001_dbg(pm8001_ha, FAIL, "get_nvmd_req timeout\n");
 
 -- 
 2.43.0
