@@ -2,60 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FB99EB5BA
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C71A9EB5DA
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:16:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 721CA10E0C9;
-	Tue, 10 Dec 2024 16:12:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC9E10E0C3;
+	Tue, 10 Dec 2024 16:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tNyKLcLf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a89O4Bfm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8B4610E0C9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 16:12:33 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C07C10E0C3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 16:16:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4C1825C5486;
- Tue, 10 Dec 2024 16:11:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38D41C4CED6;
- Tue, 10 Dec 2024 16:12:32 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B5E81A40EC5;
+ Tue, 10 Dec 2024 16:14:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B37CC4CEDE;
+ Tue, 10 Dec 2024 16:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733847152;
- bh=aeFcHfhyyi6Hrc1ORc56BM7zT3V7KDTDRrWatg2IVuM=;
+ s=k20201202; t=1733847392;
+ bh=rzsJ9NMMTP/m0KBPr+ghsEHE/q4mLK8kQfUUsuyDk1s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tNyKLcLf9TBPZY/+magH1b8HAo631nln+OPc5sR6f4ayS8hvBfvwQPECC9oIm9ag5
- LCeTAGJ8duFEitSd1+oL2LJp9rHp5BH4DocBeF2Bv8BdcJtdCaHyWooP0i2kXRRUvq
- ZcLqGR+StgEpRHOLLCIw3mPcZElRJNRJuN6fbGm39WIn5xZ55aptvWyx9tlGVKz24c
- KMF8WTpz3g1u0nx65+IjO2ma/Pj0w759l4H3HgL3Uh0tj4dNNLLMonbl4+8bAZYCu6
- FTJJv/kq4mgaYBi6sPjghLxgc3fEXCou7AiLit1XNSNqte8p5C7RIE05x9BJ4RVNgS
- xlERbS1/Oj/2g==
-Date: Tue, 10 Dec 2024 11:12:30 -0500
+ b=a89O4BfmDzVbneHeA9lJ7ce0/9RV85QCJfEd9zoaXsAcOijiRFeiHlJoes6ShV2AW
+ 4zEJU/fu+MrZrtGJ50pWMZTsqryXBDjKBReV3iabg74VpRSU2a+NWR5lpLlSZStJUF
+ Vi2bbZwxGb8b+HyuC/XJd5Ap9MSvmd7mDiMEEq/cKbSFP2roURj3UIewMAE4fLYuDt
+ 92WB2frvTdYyoSgQr0ZLtSzA8i+QH0XQU7NfxPYsN8prCmVT5fyWu1Zo+k0B2wfAtz
+ WFHqBC8b+CkbWa2YfKZt9ltUAirwCq4ezeJWkjdcg5lcwiZX2CUec7nkscGVdvq0Js
+ ojycG3hVQJJFw==
+Date: Tue, 10 Dec 2024 11:16:31 -0500
 From: Sasha Levin <sashal@kernel.org>
-To: Saravana Kannan <saravanak@google.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Thierry Reding <treding@nvidia.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- matthias.bgg@gmail.com, elder@kernel.org, ricardo@marliere.net,
- sumit.garg@linaro.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH AUTOSEL 6.11 08/15] drm: display: Set fwnode for aux bus
- devices
-Message-ID: <Z1hobuvz2S03L9TF@sashalap>
-References: <20241204221726.2247988-1-sashal@kernel.org>
- <20241204221726.2247988-8-sashal@kernel.org>
- <CAGETcx8bhzGZKge4qfpNR8FaTWqbo0-5J9c7whc3pn-RECJs3Q@mail.gmail.com>
- <CAGETcx-6yHV5xr1j7krY8LShCF5JATX0NSwjeRUL9+3TLCMq9w@mail.gmail.com>
+ Troy Hanson <quic_thanson@quicinc.com>,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ ogabbay@kernel.org, corbet@lwn.net, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.12 033/107] accel/qaic: Add AIC080 support
+Message-ID: <Z1hpX_BduAF4b54s@sashalap>
+References: <20241124133301.3341829-1-sashal@kernel.org>
+ <20241124133301.3341829-33-sashal@kernel.org>
+ <51afee37-2c90-d31a-978c-5681dccd5ccb@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGETcx-6yHV5xr1j7krY8LShCF5JATX0NSwjeRUL9+3TLCMq9w@mail.gmail.com>
+In-Reply-To: <51afee37-2c90-d31a-978c-5681dccd5ccb@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +62,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 04:07:45PM -0800, Saravana Kannan wrote:
->On Thu, Dec 5, 2024 at 4:06 PM Saravana Kannan <saravanak@google.com> wrote:
+On Sun, Nov 24, 2024 at 12:07:20PM -0700, Jeffrey Hugo wrote:
+>On 11/24/2024 6:28 AM, Sasha Levin wrote:
+>>From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 >>
->> On Wed, Dec 4, 2024 at 3:29 PM Sasha Levin <sashal@kernel.org> wrote:
->> >
->> > From: Saravana Kannan <saravanak@google.com>
->> >
->> > [ Upstream commit fe2e59aa5d7077c5c564d55b7e2997e83710c314 ]
->> >
->> > fwnode needs to be set for a device for fw_devlink to be able to
->> > track/enforce its dependencies correctly. Without this, you'll see error
->> > messages like this when the supplier has probed and tries to make sure
->> > all its fwnode consumers are linked to it using device links:
->> >
->> > mediatek-drm-dp 1c500000.edp-tx: Failed to create device link (0x180) with backlight-lcd0
->> >
->> > Reported-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->> > Closes: https://lore.kernel.org/all/7b995947-4540-4b17-872e-e107adca4598@notapiano/
->> > Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->> > Signed-off-by: Saravana Kannan <saravanak@google.com>
->> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> > Reviewed-by: Thierry Reding <treding@nvidia.com>
->> > Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> > Link: https://lore.kernel.org/r/20241024061347.1771063-2-saravanak@google.com
->> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+>>[ Upstream commit b8128f7815ff135f0333c1b46dcdf1543c41b860 ]
 >>
->> As mentioned in the original cover letter:
+>>Add basic support for the new AIC080 product. The PCIe Device ID is
+>>0xa080. AIC080 is a lower cost, lower performance SKU variant of AIC100.
+>> From the qaic perspective, it is the same as AIC100.
 >>
->> PSA: Do not pull any of these patches into stable kernels. fw_devlink
->> had a lot of changes that landed in the last year. It's hard to ensure
->> cherry-picks have picked up all the dependencies correctly. If any of
->> these really need to get cherry-picked into stable kernels, cc me and
->> wait for my explicit Ack.
->>
->> Is there a pressing need for this in 4.19?
+>>Reviewed-by: Troy Hanson <quic_thanson@quicinc.com>
+>>Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+>>Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>>Link: https://patchwork.freedesktop.org/patch/msgid/20241004195209.3910996-1-quic_jhugo@quicinc.com
+>>Signed-off-by: Sasha Levin <sashal@kernel.org>
 >
->I copy pasted this into several replies. In all those cases I meant
->the kernel version mentioned in the subject.
+>Sasha, it feels like autosel was a bit aggressive here.  This is an 
+>enablement patch for new hardware, and not a bug fix.  Therefore, it 
+>does not appear to be stable material to me.
+>
+>Am I missing something?
 
-I'll drop this and the other patch you've pointed out, thanks!
+Yup, we also take patches that enable new hardware by adding PCI/USB/etc
+IDs as well as quirks.
 
 -- 
 Thanks,
