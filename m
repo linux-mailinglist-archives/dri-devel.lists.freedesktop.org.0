@@ -2,78 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084839EA525
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 03:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF83D9EA685
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 04:23:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD92910E372;
-	Tue, 10 Dec 2024 02:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0A3910E0D3;
+	Tue, 10 Dec 2024 03:22:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="gltUExJp";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="aa2Yq1lo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5F9D10E372
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 02:35:28 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-20cf3e36a76so43671175ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 18:35:28 -0800 (PST)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A684410E0D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 03:22:57 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-46760d9e4daso14284071cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 19:22:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1733798127; x=1734402927;
+ d=broadcom.com; s=google; t=1733800975; x=1734405775;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Lbz6GgQcGGgKxUmPwve7mlms7Sw5WCPX8VZSPrMbRug=;
- b=gltUExJpR5vgOnGZQLHR5o3XqUXFGEDtxEsY7Z5DjhE2KclohxqZgPJ5LD4i/mg1u9
- ReW5P4y8j0k03RfY2LV02p1cGHPkPIkAQxRa9PULHideNrUGsAOrksBMViNH9vOL9hEm
- 7IOC2LYJRIXEj8Wq9PZ/tFE0ssTXljHYjhkYA=
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Dro4naoxwnk2zif5hx3koRBW27IE/i7uKasbGxdBR3A=;
+ b=aa2Yq1loy+LZ+HgOLVKEnFII5nQXVJpzrwa/rABbT6Zp0QKmFXVsle74RV0FRa2lSU
+ qUIQPMOMIHtSL9n/mhPTibiozJx39MdIQIhyVYGwrvg9qm4Ex+Um0Ekw9uct4Lk7SOym
+ BFvAZNQX1thIQBmZk8/WhaWJX6SvGpBlPfRGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733798127; x=1734402927;
- h=content-transfer-encoding:in-reply-to:content-language:from
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Lbz6GgQcGGgKxUmPwve7mlms7Sw5WCPX8VZSPrMbRug=;
- b=Jqth4pzwSP1N869U2e1RzRWxaddUsQ9cHKWp0QL00+AhVaPEd+7tV3PV1RXLLoq6bR
- IU4bNBR9P8D5GRtPs+tjrFVa5pMC7DvbN9JOtfyuIIjNWjZFH7ibOV2PiyrOc4qn0xqt
- t20b68UjIU5mSAtprIvG0vKQUTyy7VSwEAKL0WDwhBaU2Jp1W+uZfmmu53zMevmmVlz1
- x3HVpFxZ6qWzh2AXT13ioceMEKebievgNdBXNZyCVA9Qh8uDQC0BiFX5FrHhLVgGOf9A
- hLjBtdoAKVxCc+exwPS0hmbJZUrdrmr87/bLQwe7ngZPDUgX0rbsNlqnIfnA4cjxHmYw
- 6S2w==
-X-Gm-Message-State: AOJu0Yw4LUb/ZA5aDYE2Vn5QvANXV2EGH+yDD4tu2u57MIy4egWZYfug
- eV9DlEoHQKuUxs/KUXl+k0i6MzJsR1GayO2mhjyD1lYei9alIWzwOylJZNp1cQ==
-X-Gm-Gg: ASbGnct7pmgWipcxIcuL+Xh8yxPVxsnlQfCtjMmaw72hbKy0pdQIJAm7K24ELadnKcK
- OKB0F/Oa68Ffk5H4tpTq1o/0vIKoyi6HXVOgw93aiMpATGnnQj6p57bHyB32H9JxHmHptVGYayB
- bNvj0XcObpc5FnQf575iB3QwsDbkQAnZQfD45W61L+VaqjJQBiUR6rfDjKk6N3daxlsf1BRHZVS
- rpBKgfCL51JxIvaJkSNmA1df9EYw5ULYGALUNMn404gUJ8w97sPioQGt52yXJO164Vbxl1lreb+
- tG9t9gVbiCIr5cnKC4c=
-X-Google-Smtp-Source: AGHT+IFB7vxgKfpeoxWBpWlhV9HFWHEZ+pfFGafn2O1bBjpO0ek3O3PwxbU+bYJccMXERnA3wIY12w==
-X-Received: by 2002:a17:902:f602:b0:216:282d:c67b with SMTP id
- d9443c01a7336-2166a03d552mr48670035ad.35.1733798127590; 
- Mon, 09 Dec 2024 18:35:27 -0800 (PST)
-Received: from [10.211.247.102] ([216.221.25.44])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2163f688d65sm32736895ad.170.2024.12.09.18.35.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Dec 2024 18:35:27 -0800 (PST)
-Message-ID: <76e79296-ec07-4dc5-9389-266a4aa9d9a4@broadcom.com>
-Date: Mon, 9 Dec 2024 18:35:23 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] drm/vmwgfx: Support hw_destroy for userspace
- managed surfaces
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- ian.forbes@broadcom.com, martin.krastev@broadcom.com
-References: <20241018210046.2222313-1-maaz.mombasawala@broadcom.com>
- <20241018210046.2222313-3-maaz.mombasawala@broadcom.com>
- <CABQX2QPnOvN8FXK34OU7=zAMtE6wZAwostuHKzzenQ=RCG8+eg@mail.gmail.com>
+ d=1e100.net; s=20230601; t=1733800975; x=1734405775;
+ h=content-transfer-encoding:mime-version:reply-to:message-id:date
+ :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Dro4naoxwnk2zif5hx3koRBW27IE/i7uKasbGxdBR3A=;
+ b=fMQibG7IDAly+ztiqTFjmzvwtJfYq7cHx2UYtR0b/hNOz7YiX3vcSXKgsBAgHLuBBD
+ y6SF43LG0HbDRABgQhqPnimLANJNjBl2xyb/vPvTJpOL9iJybDwrO+sBgSCapzaR6cMo
+ oU94Osy+Jzk7WlDNSkZOBzFXtUxLOBd68sJTPyhm+ON+ixXQRmKludg3YunxH47aNdAc
+ Ox0sR7kCtzb4T3Wv/5ECma2BlLlfIATaifsW5HXxXaobqmxhPkVHehcgBSmQrqfzk/ZA
+ MAJxBxf40/ALE3xQcoP0Cg3YRQa1lAXkRfMzzeZm8wuQOm4qtphIaCPNyPE7JvweEsKx
+ Fj8A==
+X-Gm-Message-State: AOJu0YxLeozWCIwhQ99i+00K37hNSJIwMpzB7DkO/1QrrZi3Fvoq1J6i
+ ef+0X2+eQK/dB/EprNtXwXphTsUUF5SoR3YrqydT2xCZlgIzNhZeMCzn+RxonDB8PNwVTrvpDy3
+ wJQcecD6kegA2iom9JhhPGqH/rygtsp7s+Y95saJYtFq7VB/xbsJ3bhrYBoMz+fUjoZRiDCjLEZ
+ +2NUdSKsLWQ37yB1pS5zxsP+Ov+Qcj+S+EP0tZBmE1FykJLt4wDlMbTh3DbMEr
+X-Gm-Gg: ASbGncvmRzlFXcVUJfBOZtl3IzP5lRriTcZgL6a+H5p2ZoHMMGcOGQklv19q0P1fgQ7
+ VOdXO5EVmwTClsl5l8NYbMXfxEAZzRzmsc1EPqe0JWHT466e4w/ZbEGqfkigr13DPojAznnbv0q
+ X6ubk96jFR2ORwF1PbzSuXnHxoQ2Vm9hrShVntRiis/i1PlpjESXr0V7fBIWM1T2NCnbx2SuVGZ
+ odPaFnjGj39gi9hYdPgFnPX7UAL0ZXD/623PTcRVoZdQYRFdXTBgIdSW1iVtpwuzb+hlPOdHkgB
+ G8dh1oxDJMXm0ypMeSFU8oqH3bO+KGhwWeHfK2dFQkQB1VwZIRrKg+BMhzEnWvnm
+X-Google-Smtp-Source: AGHT+IGeNoFwMxePfpMXR4L6hVQuDeoDmOI3RbNZaMbqEvT7PR2V5pxt2lUgnuyHXcvzKR6CkdhmZA==
+X-Received: by 2002:a05:6214:5189:b0:6d8:a1fe:72a2 with SMTP id
+ 6a1803df08f44-6d8e723a069mr256167676d6.44.1733800975161; 
+ Mon, 09 Dec 2024 19:22:55 -0800 (PST)
+Received: from mombasawalam-Precision-5820-Tower.cap.broadcom.net
+ ([216.221.25.44]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6d8ef223d18sm40871956d6.99.2024.12.09.19.22.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Dec 2024 19:22:53 -0800 (PST)
 From: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
-Content-Language: en-US
-In-Reply-To: <CABQX2QPnOvN8FXK34OU7=zAMtE6wZAwostuHKzzenQ=RCG8+eg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, ian.forbes@broadcom.com,
+ zack.rusin@broadcom.com, martin.krastev@broadcom.com,
+ Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+Subject: [PATCH v3 0/3] drm/vmwgfx: Add support for userspace managed
+ surfaces. 
+Date: Mon,  9 Dec 2024 19:21:46 -0800
+Message-ID: <20241210032149.2084068-1-maaz.mombasawala@broadcom.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,49 +82,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Maaz Mombasawala <maaz.mombasawala@broadcom.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/19/24 11:46, Zack Rusin wrote:
+This series introduces basic support for userspace managed surfaces. The
+lifetime and id's of these surfaces is managed by userspace submitted
+commands instead of relying on the kernel to manage them.
 
->>  int vmw_cmdbuf_surface_define(struct vmw_private *dev_priv,
->>                               struct vmw_sw_context *sw_context,
->>                               struct vmw_surface_metadata *metadata,
->> @@ -2484,6 +2522,9 @@ int vmw_cmdbuf_surface_define(struct vmw_private *dev_priv,
->>                 return ret;
->>         }
->>
->> +       res->hw_destroy = vmw_cmdbuf_surface_hw_destroy;
->> +       surface->cmdbuf_destroy = false;
->> +
->>         return 0;
->>  }
->>
->> --
->> 2.43.0
->>
-> 
-> Hmm, this looks like a hack. So what seems to be happening is that the
-> reference count on the resource is still active. When vmw_resource
-> reference count goes to zero it should call hw_destroy, which should
-> invoke vmw_gb_surface_destroy which should delete the surface. It
-> looks like the reference count of userspace resources is off, so with
-> this patch we'd be destroying the gb surface but the vmw_resource is
-> still alive. If that's the case, then what we want to do is fix the
-> reference counting of the vmw_resource rather than working around it.
-> 
-> z
+v2: Add flag for userspace to check userspace surface support.
+
+v3:
+- Unref surface resource properly if there is error in creating surface object.
+- Check that guest backed objects are supported when reporting DRM_VMW_PARAM_USER_SRF.
+- Bind hw_destroy function when command buffer gets commited.
+
+Maaz Mombasawala (3):
+  drm/vmwgfx: Introduce userspace managed surfaces
+  drm/vmwgfx: Support hw_destroy for userspace managed surfaces
+  drm/vmwgfx: Add support for older define commands for userspace
+    surfaces
+
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  24 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 331 ++++++++++++++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c   |   3 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 198 +++++++++++++-
+ include/uapi/drm/vmwgfx_drm.h           |   4 +
+ 5 files changed, 527 insertions(+), 33 deletions(-)
 
 
-I have looked more closely at the resource refcounts here. In case there is
-an error in surface creation, then refcounts were not being freed properly, this
-is fixed in v3 of this patch series.
-As for hw_destroy, I have put binding the hw_destroy function when command buffer
-gets committed, so it only gets invoked when userspace has not submitted the destroy
-command. This also fixes an issue where if there is an error in command buffer checks
-and the surface create command gets reverted, the kernel still registered hw_destroy
-function and submitted a destroy surface command for the surface which was never
-created on device.
+Maaz Mombasawala (3):
+  drm/vmwgfx: Introduce userspace managed surfaces
+  drm/vmwgfx: Support hw_destroy for userspace managed surfaces
+  drm/vmwgfx: Add support for older define commands for userspace
+    surfaces
+
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  23 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c | 326 ++++++++++++++++++++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c   |   3 +
+ drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 203 ++++++++++++++-
+ include/uapi/drm/vmwgfx_drm.h           |   4 +
+ 5 files changed, 526 insertions(+), 33 deletions(-)
 
 -- 
-Maaz Mombasawala <maaz.mombasawala@broadcom.com>
+2.43.0
+
