@@ -2,60 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FF79EBDFC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F069EBE06
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:47:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBAC010E17B;
-	Tue, 10 Dec 2024 22:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF2610E2D5;
+	Tue, 10 Dec 2024 22:47:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G0KXdhbb";
+	dkim=pass (1024-bit key; unprotected) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="FLH0LCNK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E85310E17B
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 22:44:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 802F1A41BF3;
- Tue, 10 Dec 2024 22:42:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DCD1C4CED6;
- Tue, 10 Dec 2024 22:44:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733870661;
- bh=HP4MsNw/hXG7nhPJ0xWXWHKylFCTW4+JsqUQHNFKB2k=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=G0KXdhbbJ5rvvoDZqYRO6wYCU/J0eN/NtedIKQgZEPd2HdA2GPfsSOitJG8EW5ruE
- DxH6lGL9Jr28NBCy+ZXrSsNn4DVjD0FvcBq1IHIi8pNEFXKvR0PCQrZT9C7+C2x+Zt
- cxr1ixqZFf4slma0NhtmDYZ3q3DJxoHTkAmgxWTDbL8Ev4br2lExKoFXnGeQAGzVOf
- HzJ+oAHkfu/VaOcs5R0EREvFKR/EWDek4d7n6ZYmLXnQjDdqPaxB/vwJBhXM+eu9jo
- EIMrcVv9FF1sRyIKhwGu/JpCsHIZIhFmBYk/dVCi+OK6hJLpBpte73ViEaZLFrwE81
- CWJLj4Z6TEJOg==
-Message-ID: <fd2b473bc7c3c70ae0e85b2a6315d9e8.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C34EB10E2D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 22:47:35 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-e3c8c1373ebso409185276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 14:47:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=joelfernandes.org; s=google; t=1733870854; x=1734475654;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TWBkyRYQGMDGc5eLQDuZCpsdffQM6naQ0vYyr7n61vs=;
+ b=FLH0LCNKVhLFG5wyrudCZF3bqrqsaSbd4JbyQqlU6u0l5l1/zlsN8P4ZdWQ07Khl7Z
+ w3PAcEKE/AO/CkILeXYQsOYevopzGZ0H6DadWeUawUm0jxFaWRjQ67FkvJBu0YzEVGaQ
+ 4zhvSz0/TnYZwlbfq9AjJLMB6MLDGgFMNT5i8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733870854; x=1734475654;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TWBkyRYQGMDGc5eLQDuZCpsdffQM6naQ0vYyr7n61vs=;
+ b=oIIeZpkCsDFW5IuJpjG8r5SHP0qIHYvlW0Iy8f65KWPZCCFbm0sVC4pISs2x8f/3Sp
+ HwrgpNztW9uBNhoeLeDTWLT2rgJAUmmW6/QlgOTIqgNnCSTfFhtDcC1gO8exAkdFz+57
+ v8w0fL+uwUcN7bx+OTST8NXlU8KcaGompqzUpWv26irX0Dd2rHr0nvRp8oBEdk3+sgsF
+ T+9Evt5q3p4Y2ORf0Xgvj7xjIrgKTKmOj2d7Pj7Aeei5L4YkKi2hSbJ1UKwov6ekpZJg
+ PjmL3GXbL0eCrpck4wBxwnF+mXE084J5IOaXugBJBtCuI020kySdPnb4BE92yBqKLIbA
+ 35sw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXKPTtZqcC0C5AqWUyjcSX1/gmE/AWrjjv04LXzWw0gtAieIbKbXgsNKBn0Vdi67Nr/p/dfaSMovNU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqJIxX5zPStWurRFvnCvjML4msbpJNghbwZFVBpa5vnlN+dG+u
+ mGeL9TYFdu8LloPQP92ORKWsgLVqNWQuPV5IiJVbx+woTxTiGZZKASpZ7MfXFG7HZkHkCb+Kaoj
+ lbkhbQHV8ryhYb9OcCjLOFisxHS5DQART99XUSQ==
+X-Gm-Gg: ASbGncuRyYPq6o8PARxpccs7x2NoLq9sDaPDffj+SjyfIbYkR71a2CSflknVg2lfo8A
+ vt0FBd+mtJoVW9cgJK7ekVvlMyniWe36G539F
+X-Google-Smtp-Source: AGHT+IELsZuOhax2WDfAjwRl4rtBxQdB85wP9bCDDJ4eUK3hc/wYzDqJhKW371nUrhtu9bZHAkwmulfL19gZbIScI2s=
+X-Received: by 2002:a05:6902:2b85:b0:e39:83ce:6fb3 with SMTP id
+ 3f1490d57ef6-e3c8e4252ffmr1233132276.9.1733870854603; Tue, 10 Dec 2024
+ 14:47:34 -0800 (PST)
 MIME-Version: 1.0
+References: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
+ <20241204-udmabuf-fixes-v2-2-23887289de1c@google.com>
+In-Reply-To: <20241204-udmabuf-fixes-v2-2-23887289de1c@google.com>
+From: Joel Fernandes <joel@joelfernandes.org>
+Date: Tue, 10 Dec 2024 17:47:23 -0500
+Message-ID: <CAEXW_YSd5yv4n4UMDfzKNgVZ_TWikuS_6HHOs0suYwUiVqNnJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] udmabuf: also check for F_SEAL_FUTURE_WRITE
+To: Jann Horn <jannh@google.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, John Stultz <jstultz@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
-References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
- <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
-Subject: Re: [PATCH 4/5] clk: Add flag to prevent frequency changes when
- walking subtrees
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-clk@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abel Vesa <abel.vesa@linaro.org>,
- Herve Codina <herve.codina@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Ian Ray <ian.ray@ge.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>
-To: Abel Vesa <abelvesa@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Marek Vasut <marex@denx.de>, Michael Turquette <mturquette@baylibre.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Peng Fan <peng.fan@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Ying Liu <victor.liu@nxp.com>
-Date: Tue, 10 Dec 2024 14:44:19 -0800
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,53 +86,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Miquel Raynal (2024-11-21 09:41:14)
-> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index adfc5bfb93b5a65b6f58c52ca2c432d651f7dd7d..94d93470479e77769e63e9746=
-2b176261103b552 100644
-> --- a/drivers/clk/clk.c
-> +++ b/drivers/clk/clk.c
-> @@ -1927,7 +1927,6 @@ long clk_get_accuracy(struct clk *clk)
->  }
->  EXPORT_SYMBOL_GPL(clk_get_accuracy);
-> =20
-> -__maybe_unused
->  static unsigned long clk_determine(struct clk_core *core, unsigned long =
-rate)
+On Wed, Dec 4, 2024 at 11:27=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
+>
+> When F_SEAL_FUTURE_WRITE was introduced, it was overlooked that udmabuf
+> must reject memfds with this flag, just like ones with F_SEAL_WRITE.
+> Fix it by adding F_SEAL_FUTURE_WRITE to SEALS_DENIED.
+>
+> Fixes: ab3948f58ff8 ("mm/memfd: add an F_SEAL_FUTURE_WRITE seal to memfd"=
+)
+> Cc: stable@vger.kernel.org
+> Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+
+Thanks!
+
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+ - Joel
+
+
+
+> Signed-off-by: Jann Horn <jannh@google.com>
+> ---
+>  drivers/dma-buf/udmabuf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+> index c1d8c2766d6d36fc5fe1b3d73057f6e01ec6678f..b330b99fcc7619a05bb7dc2ae=
+eb9c82faf9a387b 100644
+> --- a/drivers/dma-buf/udmabuf.c
+> +++ b/drivers/dma-buf/udmabuf.c
+> @@ -297,7 +297,7 @@ static const struct dma_buf_ops udmabuf_ops =3D {
+>  };
+>
+>  #define SEALS_WANTED (F_SEAL_SHRINK)
+> -#define SEALS_DENIED (F_SEAL_WRITE)
+> +#define SEALS_DENIED (F_SEAL_WRITE|F_SEAL_FUTURE_WRITE)
+>
+>  static int check_memfd_seals(struct file *memfd)
 >  {
->         struct clk_rate_request req =3D {};
-
-Please add functions in the same patch that uses them. It is hard to
-review this patch when half the context is in another patch.
-
-> @@ -2272,7 +2271,13 @@ static void clk_calc_subtree(struct clk_core *core)
->  {
->         struct clk_core *child;
-> =20
-> -       core->new_rate =3D clk_recalc(core, core->parent->new_rate);
-> +       if (core->flags & CLK_NO_RATE_CHANGE_DURING_PROPAGATION) {
-> +               core->new_rate =3D clk_determine(core, core->rate);
-> +               if (!core->new_rate)
-> +                       core->new_rate =3D clk_recalc(core, core->parent-=
->new_rate);
-> +       } else {
-> +               core->new_rate =3D clk_recalc(core, core->parent->new_rat=
-e);
-> +       }
-> =20
->         hlist_for_each_entry(child, &core->children, child_node)
->                 clk_calc_subtree(child);
-> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-> index 200135e0f6d00d48b10e843259333b9733c97f38..baef0b442ac1d36ee935cbcaa=
-aa4e2d95fe7654c 100644
-> --- a/include/linux/clk-provider.h
-> +++ b/include/linux/clk-provider.h
-> @@ -38,6 +38,8 @@
->  #define CLK_OPS_PARENT_ENABLE  BIT(12)
->  /* duty cycle call may be forwarded to the parent clock */
->  #define CLK_DUTY_CYCLE_PARENT  BIT(13)
-> +/* do not passively change this clock rate during subtree rate propagati=
-on */
-> +#define CLK_NO_RATE_CHANGE_DURING_PROPAGATION BIT(14)
-
-Why doesn't rate locking work?
+>
+> --
+> 2.47.0.338.g60cca15819-goog
+>
