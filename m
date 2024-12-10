@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687199EBC72
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667649EBC75
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5746310E9B5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4D210E9B9;
 	Tue, 10 Dec 2024 22:02:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MyS1GphF";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WbJnm80T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2C70510E9AF;
+ by gabe.freedesktop.org (Postfix) with ESMTP id C19B910E9B2;
  Tue, 10 Dec 2024 22:02:45 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id CC9872047232;
- Tue, 10 Dec 2024 14:02:38 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CC9872047232
+ by linux.microsoft.com (Postfix) with ESMTPSA id 05ECB20ACD66;
+ Tue, 10 Dec 2024 14:02:39 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 05ECB20ACD66
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1733868158;
- bh=Nu1FTDRwT3eJ8G3TZ1SOaVXDK1brjinK2gy4k85VNBc=;
+ s=default; t=1733868159;
+ bh=VvjxiqfKxbyi9uGzXsW8xZpGKBVs2F3SKydD57RgoIM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=MyS1GphFvmGr2JHW6tyCf5nlmMH9PAcPu/qJOqDicxYHN3ga/E8mPiUpYdOmKe+08
- ESmMPf61fW9R/vd5fEqw2UI0IyMH9O+5zBGiCitLbR/PLOMP+sV+LtAwK3GV6cBnMZ
- qMuvwZX6TCbpYuenDC/gzSBNDFt3OVWamZA4/4ys=
+ b=WbJnm80TvYnXykJB9DgMtqoZ50ou8AhS1efFy3dCoV03536YA3dJhXmL0IMKChnpw
+ CujNWFZtiMOuyACXPjtJ3tU0PrbAysQ8+2RTG/TU5ekLFjjJ/pUAEWKon7ssztFoiO
+ F9frqglM8e2VebaFFRHMBRJ+sqXulRejbFKVUSag=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:44 +0000
-Subject: [PATCH v3 13/19] gve: Convert timeouts to secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:45 +0000
+Subject: [PATCH v3 14/19] wifi: ath11k: Convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-13-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-14-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -95,7 +95,8 @@ Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
  live-patching@vger.kernel.org, linux-sound@vger.kernel.org, 
  oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
  Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Easwar Hariharan <eahariha@linux.microsoft.com>
+ Easwar Hariharan <eahariha@linux.microsoft.com>, 
+ Jeff Johnson <quic_jjohnson@quicinc.com>
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -129,35 +130,25 @@ the following Coccinelle rules:
 - msecs_to_jiffies(C * MSEC_PER_SEC)
 + secs_to_jiffies(C)
 
+Acked-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/net/ethernet/google/gve/gve_tx_dqo.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/net/wireless/ath/ath11k/debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/google/gve/gve_tx_dqo.c b/drivers/net/ethernet/google/gve/gve_tx_dqo.c
-index f879426cb5523a7e150f363b5e57b9d472b5817c..394debc62268aadf2579f9b516e045cb48287e7c 100644
---- a/drivers/net/ethernet/google/gve/gve_tx_dqo.c
-+++ b/drivers/net/ethernet/google/gve/gve_tx_dqo.c
-@@ -1146,8 +1146,7 @@ static void gve_handle_miss_completion(struct gve_priv *priv,
- 	/* jiffies can wraparound but time comparisons can handle overflows. */
- 	pending_packet->timeout_jiffies =
- 			jiffies +
--			msecs_to_jiffies(GVE_REINJECT_COMPL_TIMEOUT *
--					 MSEC_PER_SEC);
-+			secs_to_jiffies(GVE_REINJECT_COMPL_TIMEOUT);
- 	add_to_list(tx, &tx->dqo_compl.miss_completions, pending_packet);
+diff --git a/drivers/net/wireless/ath/ath11k/debugfs.c b/drivers/net/wireless/ath/ath11k/debugfs.c
+index 57281a135dd7fa6b8610636f47873c8bba21053c..bf192529e3fe26a91e72105a77b4c6f849b905ec 100644
+--- a/drivers/net/wireless/ath/ath11k/debugfs.c
++++ b/drivers/net/wireless/ath/ath11k/debugfs.c
+@@ -178,7 +178,7 @@ static int ath11k_debugfs_fw_stats_request(struct ath11k *ar,
+ 	 * received 'update stats' event, we keep a 3 seconds timeout in case,
+ 	 * fw_stats_done is not marked yet
+ 	 */
+-	timeout = jiffies + msecs_to_jiffies(3 * 1000);
++	timeout = jiffies + secs_to_jiffies(3);
  
- 	*bytes += pending_packet->skb->len;
-@@ -1191,8 +1190,7 @@ static void remove_miss_completions(struct gve_priv *priv,
- 		pending_packet->state = GVE_PACKET_STATE_TIMED_OUT_COMPL;
- 		pending_packet->timeout_jiffies =
- 				jiffies +
--				msecs_to_jiffies(GVE_DEALLOCATE_COMPL_TIMEOUT *
--						 MSEC_PER_SEC);
-+				secs_to_jiffies(GVE_DEALLOCATE_COMPL_TIMEOUT);
- 		/* Maintain pending packet in another list so the packet can be
- 		 * unallocated at a later time.
- 		 */
+ 	ath11k_debugfs_fw_stats_reset(ar);
+ 
 
 -- 
 2.43.0
