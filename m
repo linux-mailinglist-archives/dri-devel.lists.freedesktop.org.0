@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464A49EAA7C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 09:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E419EAA9A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 09:26:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 853A510E815;
-	Tue, 10 Dec 2024 08:22:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2B0410E5C7;
+	Tue, 10 Dec 2024 08:26:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mMz5dKEA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SUshkcDB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB0E10E80A;
- Tue, 10 Dec 2024 08:22:56 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C581210E820;
+ Tue, 10 Dec 2024 08:26:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 939AA5C5D92;
- Tue, 10 Dec 2024 08:22:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D04C4CED6;
- Tue, 10 Dec 2024 08:22:53 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4B96DA40C0F;
+ Tue, 10 Dec 2024 08:24:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB5E3C4CED6;
+ Tue, 10 Dec 2024 08:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733818974;
- bh=H/PTpiyd1g/IZatSOIJyE5v4tK2Tp2P8REfRjdVko4Y=;
+ s=k20201202; t=1733819197;
+ bh=QogS27rITlHvuPRn0paQdojlD32rlA0qPWIpzySQE8U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mMz5dKEA2L6xUVKxPshuIC2YwO4FaUZg7x7jYtbc2WI2Pmc6Sk91T+zJJmQ3B650t
- M8sHLArKw3RI1w066pghtaLGlY9QW7el0OsHkFud61JlgSNujaSSWVcFXfMXrtQrUc
- uq3Kto9hUGYZmplgdRUpvq0pXA3Zzi1LziHC9TTWjyZ3RoQawq+KqKzpwz1egySdZw
- vQNg16EMvxf5k9WXM0C9DhqMDxt+6HQ55UIhpeTdsFV8KYf7rg9wdWmkXVoCc2NM1q
- fjK5fuSGIErg6pQ10vnr5oyUpcWb9U1mqQi+HjnL8o4wKYfbr+iVQGuNcbqIv+YG0G
- 0dVFd0hbmS60w==
-Date: Tue, 10 Dec 2024 09:22:51 +0100
+ b=SUshkcDBrmAsunj5jMQsUz/2UJyjlv8QozWkB4u312/do5975QEa0RCwPqxUeW1Qj
+ G37KZQiqorSI9JLXgOCAl73BuctxUfrgEATj6juJf7Ghu6Vdg2uody9ZpnNxcRwlK6
+ cp7BLbthJfe2b/WO9de1Klpa4b9nxukEUAKjZRwwnYheUHAakXxD6m39iMLeodCs/q
+ 7e31rKNLGpXwQu/oOcPkHvzWonhGSzC9vJ4UNSAqWDhzcWJVn4xNpjn7O2+IV/F5M9
+ sM5VKi601hufh7DdtrY7jdLg2BjIwIhnuAsFpLKFIqxI4SqJkY2zypsP1H1Jsr3bru
+ cHYgKwgy6ehiQ==
+Date: Tue, 10 Dec 2024 09:26:34 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -49,15 +49,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/9] dt-bindings: display/msm: dsi-controller-main:
- Document SM6150
-Message-ID: <td3344qs5xhvwiigmq7rn5kmxvn5haa4tqjmgiwcrppmolpdkz@3f6hcxguxlx2>
+Subject: Re: [PATCH v4 3/9] dt-bindings: display/msm: Add SM6150 MDSS & DPU
+Message-ID: <apd7junofv3yoawqg3oocj465o6nybvotohdtxtchfkkvihhec@noqs7usdeycy>
 References: <20241210-add-display-support-for-qcs615-platform-v4-0-2d875a67602d@quicinc.com>
- <20241210-add-display-support-for-qcs615-platform-v4-2-2d875a67602d@quicinc.com>
+ <20241210-add-display-support-for-qcs615-platform-v4-3-2d875a67602d@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241210-add-display-support-for-qcs615-platform-v4-2-2d875a67602d@quicinc.com>
+In-Reply-To: <20241210-add-display-support-for-qcs615-platform-v4-3-2d875a67602d@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,15 +72,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 02:53:53PM +0800, Fange Zhang wrote:
+On Tue, Dec 10, 2024 at 02:53:54PM +0800, Fange Zhang wrote:
 > From: Li Liu <quic_lliu6@quicinc.com>
 > 
-> Document general compatibility of the DSI controller on SM6150.
+> Document the MDSS and DPU hardware found on the Qualcomm SM6150 platform.
 > 
 > Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
 > Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
+> ---
+>  .../bindings/display/msm/qcom,sm6150-dpu.yaml      | 108 +++++++++
+>  .../bindings/display/msm/qcom,sm6150-mdss.yaml     | 245 +++++++++++++++++++++
+>  2 files changed, 353 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
