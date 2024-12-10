@@ -2,61 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85ED09EA3E1
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 01:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FAF9EA3F2
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 01:58:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 740BA10E35C;
-	Tue, 10 Dec 2024 00:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1CCF10E36D;
+	Tue, 10 Dec 2024 00:58:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="H4dZEI47";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iPSosQTF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id CD2FD10E35C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 00:52:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=FhW3RxWuSa2qtZWnSfHCog3V8YUyYEUWMbSHUEDeJ6Y=; b=H
- 4dZEI47ysOkjq2nt2vaVeH59o2igH7ym38HY80DnZ+V4Gzm0/3n4KSbUVTVOSsEz
- 4QUoO+0/MtDdhh9xjY6g8CXb8BHECm3+l7pXUrU1amejdQe6oqpYNMts7amWtABu
- VabSbjvfTfU2NOMwuZTekoLsz8h24rxTfSR5gIeExI=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-102 (Coremail) ; Tue, 10 Dec 2024 08:50:51 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Tue, 10 Dec 2024 08:50:51 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc: "Daniel Semkowicz" <dse@thaumatec.com>, 
- "Diederik de Haas" <didi.debian@cknow.org>, andy.yan@rock-chips.com, 
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, 
- conor+dt@kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, 
- jonas@kwiboo.se, krzk+dt@kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- neil.armstrong@linaro.org, quentin.schulz@cherry.de, 
- rfoss@kernel.org, robh@kernel.org, tzimmermann@suse.de
-Subject: Re:Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
- controller
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <2203458.KiezcSG77Q@diego>
-References: <20241203165450.1501219-1-heiko@sntech.de>
- <20241209150619.33998-1-dse@thaumatec.com>
- <D67AV178CEBD.3QA9VD4ZPRNQ1@cknow.org> <2203458.KiezcSG77Q@diego>
-X-NTES-SC: AL_Qu2YAfuSvkAu5yOeZOkZnEobh+Y5UcK2s/ki2YFXN5k0tCTI0SYQW29KGUD2y86DDiKsoAirUQVL5MpFRpJHY460ozr25CzPaQGPdj10sTtO
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 066C210E374
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 00:58:32 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30229d5b22fso10912921fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 16:58:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733792311; x=1734397111; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qA3kQRHwLNx/dBWpprz00JA3fWGQ8baI+DpIXaXrAR8=;
+ b=iPSosQTFLUhwpaVuUIBfFwusO8ryQKGtPqaDfuf6c9p2CStIFMWu6rO2xHj4W96owm
+ y4R2C2PkS2O3kN/r+FX8/zJu/6i4DDmJPEw/haHdE3qAi5nfUqwTnjt90sSnvV4pDXjI
+ LqKuJvHiOvBhQBHaatxjNE7qEcs7Fnsb0JmhyuOzjoB5bXIWbk8jgvD5fruQaoQL9zWI
+ NJfhXKVyuI+u/GX6q1Abd6ht3fj+iO1X/8OQM5KJ9TZB+cHqQuRsRxbCn9IJdsG69bsL
+ owS3PMLbpal4UKWKnWcUsAlfYQE3qJ3qnWKSXKMlrcWBLEIYbpoGYcSKhAOmSMHTP0OG
+ eO0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733792311; x=1734397111;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qA3kQRHwLNx/dBWpprz00JA3fWGQ8baI+DpIXaXrAR8=;
+ b=t0Pl7GuZz0LeIzZHbwdNENsdjTJwsXvqDjr+XeGfEoFYvfRMNCm0AVV4iW0+Ts3P1Y
+ DUsNt+wfXP1A5IRBajIzeE0qHEvzokvBDhnSpMQJ9BGDOE7miy6AmhNSePr1N+gVnzQg
+ QNc+poE+iPvWo801gqZ/bT4aRNLHTAxC35XDc9MxZwvHXoYCXSzhoqo8nu96JfwZoPgl
+ 8lVkgOWDOoOiNZa5ylDwHRu/4NrT/zTml6wIdAPGrIleMyM28Au3z00VpUAT42ZyAnvJ
+ o1fxeOm1BjK/s5vlml1JXe+qUWGagAVKMz4b+dHIZrJRn1WotS27QmVleTaPHXV0rqKF
+ 5waA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUNApEf0uMuOIgDENXzCJHP7orJTmvm1GWAq250uytk5JQxxnZQoFU5pTXIfToebG+x8HguG0ymzz0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzK1VtuwoShWbST5kmpqVflqfCxamhie2tTRhMro4l1i1gfolRD
+ wCLkTyIR99+2ML4Fp4KD7vlvtUWXnYP9XJS1+bmELRV05GIkr+Ny5anEC7WiJ2cjPx4KZVLJirv
+ 6bLq1Aw==
+X-Gm-Gg: ASbGncvorpGovB69exB7gtli6vGt/ZoWRhbuJtdO8Yc+6VQ6UzvT7n2uaLP+XvbJ6PC
+ QFm6+RHeWrWm+RQDR8SZneuYnqT2et1hCnfp/Zin3J6pD++KXSLiyLRL6l2PF6ozmTy3GG2UmzG
+ 2swecq2/6H8hpQIolVbYokSNlY2kUReIBwU0OcKfZtqeu65DdlLtvuCVFtWXOMIsO1/uhLIEAhq
+ 5cT9Bi/qF+g/8894DZdDXTNa7pRI+77J/R1OLv/Lzmi3JlTiZPe/ek4ZBELRyDQ/p0ydZVklzVy
+ fJGglg8CbcdArybCebvg1kMLK+1RUz/TFA==
+X-Google-Smtp-Source: AGHT+IH+ILwRShWeWXyUNY6NkTu4twrsP2fPiOhE+EcKn5AMtuWarD4sYCULeBspBFBcpZ2qPhS1aQ==
+X-Received: by 2002:a2e:bea4:0:b0:2fa:cdac:8732 with SMTP id
+ 38308e7fff4ca-3022fd7d97emr11152981fa.30.1733792310820; 
+ Mon, 09 Dec 2024 16:58:30 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-301366eedcesm7988731fa.3.2024.12.09.16.58.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Dec 2024 16:58:29 -0800 (PST)
+Date: Tue, 10 Dec 2024 02:58:27 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCHv3 01/10] drm/crtc: Add histogram properties
+Message-ID: <vicrfpm2rzc4nn5irw7buqobed4e47w53xkpjgkcncmnf3nce6@4zvkgbnpoeba>
+References: <20241209162504.2146697-1-arun.r.murthy@intel.com>
+ <20241209162504.2146697-2-arun.r.murthy@intel.com>
 MIME-Version: 1.0
-Message-ID: <4e015ea9.960.193ae0c236a.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: ZigvCgAXlJxrkFdn5vA6AA--.43974W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwmxXmdXikRb2gADsp
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209162504.2146697-2-arun.r.murthy@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +90,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSwKCkF0IDIwMjQtMTItMTAgMDc6MTI6MjYsICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNu
-dGVjaC5kZT4gd3JvdGU6Cj5BbSBNb250YWcsIDkuIERlemVtYmVyIDIwMjQsIDE3OjExOjAzIENF
-VCBzY2hyaWViIERpZWRlcmlrIGRlIEhhYXM6Cj4+IEhpLAo+PiAKPj4gT24gTW9uIERlYyA5LCAy
-MDI0IGF0IDQ6MDYgUE0gQ0VULCBEYW5pZWwgU2Vta293aWN6IHdyb3RlOgo+PiA+IE9uIDAzLjEy
-LjI0IDIxOjU0LCBIZWlrbyBTdHVlYm5lciB3cm90ZToKPj4gPiA+IFRoaXMgc2VyaWVzIGFkZHMg
-YSBicmlkZ2UgYW5kIGdsdWUgZHJpdmVyIGZvciB0aGUgRFNJMiBjb250cm9sbGVyIGZvdW5kCj4+
-ID4gPiBpbiB0aGUgcmszNTg4IHNvYyBmcm9tIFJvY2tjaGlwLCB0aGF0IGlzIGJhc2VkIG9uIGEg
-U3lub3BzaXMgSVAgYmxvY2suCj4+ID4gPiAKPj4gPgo+PiA+IEkgZGlkIG1vcmUgdGVzdHMgd2l0
-aCBkaWZmZXJlbnQgTFZEUyBkaXNwbGF5cy4gSSB0ZXN0ZWQgZm9sbG93aW5nCj4+ID4gY29uZmln
-dXJhdGlvbnMgd2l0aCBEU0kvTFZEUyBicmlkZ2U6Cj4+ID4gLSAxMDI0eDYwMEA2MC4wMQo+PiA+
-IC0gMTAyNHg3NjhANjAuMDIKPj4gPiAtIDEyODB4ODAwQDYwLjA3Cj4+ID4gLSAxMzY2eDc2OEA2
-MC4wNgo+PiA+Cj4+ID4gQWxsIG9mIHRoZW0gd29ya2VkIHdpdGhvdXQgaXNzdWVzLCBleGNlcHQg
-MTM2Nng3NjguCj4+ID4gV2l0aCB0aGlzIHJlc29sdXRpb24sIHZpZGVvIGlzIGJsdXJyeSwgYW5k
-IG9mZnNldCBpbmNvcnJlY3RseQo+PiA+IHRvIHRoZSBsZWZ0LiBUaGVyZSBhcmUgYWxzbyByZXBl
-YXRpbmcgZXJyb3JzIG9uIHRoZSBjb25zb2xlOgo+PiA+Cj4+ID4gICByb2NrY2hpcC1kcm0gZGlz
-cGxheS1zdWJzeXN0ZW06IFtkcm1dICpFUlJPUiogUE9TVF9CVUZfRU1QVFkgaXJxIGVyciBhdCB2
-cDMKPj4gPgo+PiA+IEluIGNvcnJlY3Qgb3BlcmF0aW9uIHdpdGggb3RoZXIgcmVzb2x1dGlvbnMs
-IHRoZXJlIGlzIG5vIGVycm9yLgo+PiA+IEkgYW0gbm90IHN1cmUgaWYgdGhpcyBpcyBhIHByb2Js
-ZW0gaW4geW91ciBzZXJpZXMgb3IgcmF0aGVyIGluIFZPUDIKPj4gPiBkcml2ZXIuCj4KPlRoaXMg
-cmVhbGx5IHNvdW5kcyBsaWtlIHNvbWV0aGluZyBpcyB3cm9uZyBvbiB0aGUgdm9wIHNpZGUuCj5U
-aGUgaW50ZXJydXB0IGlzIHBhcnQgb2YgdGhlIHZvcCwgdGhlIGRpdmlzYWJsZSBieSA0IHRoaW5n
-cyBsaWtlbHkgdG9vLgoKVGhpcyBpcyBhIGhhcmR3YXJlIGxpbWl0YXRpb24gb24gdm9wIHNpZGU6
-ClRoZSBob3Jpem9udGFsIHJlc29sdXRpb24gbXVzdCBiZSA0IHBpeGVsIGFsaWduZWQuCgoKCj4K
-Pgo+SGVpa28KPgo+Cj4+IAo+PiBPbiBteSBQaW5lVGFiMiBJIGdvdCBzaW1pbGFyIG1lc3NhZ2Vz
-IGFib3V0IDIgd2Vla3MgYWdvOgo+PiByb2NrY2hpcC1kcm0gZGlzcGxheS1zdWJzeXN0ZW06IFtk
-cm1dICpFUlJPUiogUE9TVF9CVUZfRU1QVFkgaXJxIGVyciBhdCB2cDEKPj4gCj4+IFByZWNlZGlu
-ZyB0aG9zZSwgSSBnb3Qgc2V2ZXJhbCBwYW5mcm9zdCByZWxhdGVkIGVycm9yczoKPj4gCj4+IHBh
-bmZyb3N0IGZkZTYwMDAwLmdwdTogZ2V0IGNsb2NrIGZhaWxlZCAtNTE3Cj4+IHBhbmZyb3N0IGZk
-ZTYwMDAwLmdwdTogY2xrIGluaXQgZmFpbGVkIC01MTcKPj4gcGxhdGZvcm0gZmRlNjAwMDAuZ3B1
-OiBkZWZlcnJlZCBwcm9iZSBwZW5kaW5nOiAocmVhc29uIHVua25vd24pCj4+IHBsYXRmb3JtIGNw
-dWZyZXEtZHQ6IGRlZmVycmVkIHByb2JlIHBlbmRpbmc6IChyZWFzb24gdW5rbm93bikKPj4gdmRk
-X2dwdV9ucHU6IGRpc2FibGluZwo+PiAKPj4gQnV0IGNhbiBhbHNvIGJlIHRoYXQgdGhlIFBpbmVU
-YWIyIChsaWtlbHkpIG5lZWRzIHJlZ3VsYXRvci1hbHdheXMtb24KPj4gYW5kIHJlZ3VsYXRvci1i
-b290LW9uIGluIGl0cyB2ZGRfZ3B1X25wdSBub2RlLgo+PiAKPj4gPiBJIHRyaWVkIHRvIHRyYWNr
-IGRvd24gdGhlIHByb2JsZW0sIGFuZCBpdCBzZWVtcyB0byBiZSBhIGdlbmVyaWMgaXNzdWUKPj4g
-PiB3aGVuIGhvcml6b250YWwgbGluZSB3aWR0aCBpcyBub3QgZGl2aXNpYmxlIGJ5IDQuCj4+ID4g
-TG93ZXJpbmcgbGluZSB3aWR0aCB0byAxMzY0cHggZml4ZXMgdGhlIGlzc3VlLCBidXQgb2YgY291
-cnNlIEkgaGF2ZSB0d28KPj4gPiB2ZXJ0aWNhbCBsaW5lcyBvZiBibGFjayBwaXhlbHMgb24gdGhl
-IHJpZ2h0Lgo+PiA+IEkgYWxzbyBtYWRlIHNvbWUgdGVzdHMgd2l0aCA3MjB4MTI4MCBEU0kgZGlz
-cGxheS4gTG93ZXJpbmcgaG9yaXpvbnRhbAo+PiA+IGxpbmUgdG8gNzE4cHggc2hvd3MgdGhlIHNh
-bWUgcHJvYmxlbS4gV2l0aCA3MjBweCBhbmQgNzE2cHggaXQgd29ya3MKPj4gPiBjb3JyZWN0bHku
-Cj4+IAo+PiBJIGhhdmVuJ3QgbG9vayBmdXJ0aGVyIGludG8gaXQsIGJ1dCB0aGUgUFQyIGhhcyBh
-IDEyODB4ODAwIHJlc29sdXRpb24uCj4+IAo+PiBIVEgsCj4+ICAgRGllZGVyaWsKPj4gCj4KPgo+
-Cg==
+On Mon, Dec 09, 2024 at 09:54:55PM +0530, Arun R Murthy wrote:
+> Add variables for histogram drm_property, its corrsponding crtc_state
+> variables and define the structure pointed by the blob property.
+> 
+> struct drm_histogram and drm_iet defined in include/uapi/drm/drm_mode.h
+> 
+> The property HISTOGRAM_ENABLE allows user to enable/disable the
+> histogram feature in the hardware. Upon KMD enabling by writing to the
+> hardware registers, a histogram is generated. Histogram is composed of
+> 'n' bins with each bin being an integer(pixel count).
+> An event HISTOGRAM will be sent to the user. User upon recieving this
+> event user can read the hardware generated histogram using crtc property
+> HISTOGRAM_DATA. User can use this histogram data, apply various
+> equilization techniques to come up with a pixel factor. This pixel
+> factor is an array of integer with 'n+1' elements. This is fed back to
+> the KMD by crtc property HISTOGRAM_IET. KMD will write this IET data
+> back to the hardware to see the enhancement/equilization done to the
+> images on that pipe.
+> The crtc property HISTOGRAM_DATA and HISTOGRAM_IET is of type blob.
+> 
+> For crtc property HISTOGRAM_DATA,
+> the blob data pointer will be the address of the struct drm_histogram.
+> struct drm_histogram {
+> 	u64 data_ptr;
+> 	u32 nr_elements;
+> }
+> Histogram is composed of @nr_elements of bins with each bin being an
+> integer value, referred to as pixel_count.
+> The element @data_ptr holds the address of histogam.
+> Sample:
+> Historgram[0] = 2050717
+> Historgram[1] = 244619
+> Historgram[2] = 173368
+> ....
+> Historgram[31] = 21631
+
+Further question: it seems that GHE library has hardcoded 32 bins in the
+histogram and 33 bins in the IET. Is that also a part of the property
+format? Can VKMS implement 2 bins? 64 bins? Will that break the
+userspace if VKMS uses 64 bins? (Hint: yes)
+
+I'm asking all these questions, because I can easily foresee developers
+wokring on using HISTOGRAM properties to implement support for contrast
+enhancement by other vendors. It should be possible to do it in away
+that new implementations do not break the existing userspace.  And
+ensuring such compatibility is impossible without a proper documentation
+on the data format.
+
+> 
+> For crtc_property HISTOGRAM_IET,
+> the blob data pointer will be the address of the struct drm_iet.
+> struct drm_iet {
+> 	u64 data_ptr;
+> 	u32 nr_elements;
+> }
+> ImageEnhancemenT(IET) is composed of @nr_elements of bins with each bin
+> being an integer value, referred to as pixel factor.
+> The element @data_ptr holds the addess of pixel factor.
+> Sample:
+> Pixel Factor[0] = 1023
+> Pixel Factor[1] = 695
+> Pixel Factor[2] = 1023
+> ....
+> Pixel Factor[32] = 512
+> 
+> Histogram is the statistics generated with 'n' number of frames on a
+> pipe.
+> Usually the size of pixel factor is one more than the size of histogram
+> data.
+> 
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>  include/drm/drm_crtc.h      | 51 +++++++++++++++++++++++++++++++++++++
+>  include/uapi/drm/drm_mode.h | 24 +++++++++++++++++
+>  2 files changed, 75 insertions(+)
+> 
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 8b48a1974da3..f0f4a73e2e31 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -274,6 +274,41 @@ struct drm_crtc_state {
+>  	 */
+>  	struct drm_property_blob *gamma_lut;
+>  
+> +	/**
+> +	 * @histogram_enable:
+> +	 *
+> +	 * This will be set if histogram needs to be enabled for the CRTC.
+> +	 */
+> +	bool histogram_enable;
+> +
+> +	/**
+> +	 * @histogram_data:
+> +	 *
+> +	 * The blob points to the structure drm_histogram.
+> +	 * The element data in drm_histogram will hold the pointer to the
+> +	 * histogram data generated by the hardware. This histogram data is
+> +	 * an array of integer. This integer value is the pixel count of the
+> +	 * incoming frames.
+> +	 */
+> +	struct drm_property_blob *histogram_data;
+> +
+> +	/**
+> +	 * @histogram_iet:
+> +	 *
+> +	 * The blob points to the struct drm_iet.
+> +	 * The element data_ptr in drm_iet will hold the pointer to the
+> +	 * image enhancement generated by the algorithm that is to
+> +	 * be fed back to the hardware. This IET data is an array of type
+> +	 * integer and is referred to as a pixel factor.
+> +	 */
+> +	struct drm_property_blob *histogram_iet;
+> +	/**
+> +	 * @histogram_iet_updates:
+> +	 *
+> +	 * Convey that the image enhanced data has been updated by the user
+> +	 */
+> +	bool histogram_iet_updated;
+> +
+>  	/**
+>  	 * @target_vblank:
+>  	 *
+> @@ -1088,6 +1123,22 @@ struct drm_crtc {
+>  	 */
+>  	struct drm_property *scaling_filter_property;
+>  
+> +	/**
+> +	 * @histogram_enable_property: Optional CRTC property for enabling or
+> +	 * disabling global histogram.
+> +	 */
+> +	struct drm_property *histogram_enable_property;
+> +	/**
+> +	 * @histogram_data_proeprty: Optional CRTC property for getting the
+> +	 * histogram blob data.
+> +	 */
+> +	struct drm_property *histogram_data_property;
+> +	/**
+> +	 * @histogram_iet_proeprty: Optional CRTC property for writing the
+> +	 * image enhanced blob data
+> +	 */
+> +	struct drm_property *histogram_iet_property;
+> +
+>  	/**
+>  	 * @state:
+>  	 *
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index c082810c08a8..c384ed8452c7 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -1355,6 +1355,30 @@ struct drm_mode_closefb {
+>  	__u32 pad;
+>  };
+>  
+> +/**
+> + * struct drm_histogram
+> + * @data_ptr: pointer to the array of bins which is of type integer. This
+> + *	      is the histogram data termed as pixel count.
+> + * @nr_elements: number of elements pointed by the data @data_ptr
+> + */
+> +struct drm_histogram {
+> +	__u64 data_ptr;
+> +	__u32 nr_elements;
+> +};
+> +
+> +/**
+> + * struct drm_iet
+> + * @data_ptr: pointer to the array of bins which is of type integer. This
+> + *	      is the image enhanced data, termed as pixel factor.
+> + * @nr_elements: number of elements pointed by the data @data_ptr
+> + * @reserved: reserved for future use
+> + */
+> +struct drm_iet {
+> +	__u64 data_ptr;
+> +	__u32 nr_elements;
+> +	__u32 reserved;
+> +};
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
+> -- 
+> 2.25.1
+> 
+
+-- 
+With best wishes
+Dmitry
