@@ -2,50 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33239EA458
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 02:30:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B7679EA477
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 02:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21A1F10E5A3;
-	Tue, 10 Dec 2024 01:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2267E10E5A9;
+	Tue, 10 Dec 2024 01:45:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="N4Ed1XIy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VqwUXvSZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B3A210E5A3;
- Tue, 10 Dec 2024 01:30:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1733794208;
- bh=An6uolrgf00SGJ8E+TJg/LlT/r+g0QzjXRT5lhUqzD8=;
- h=Date:From:To:Cc:Subject:From;
- b=N4Ed1XIyDTsO8lZaqu0waqB+8djd/FB3UpH8uk/3yzQBavdwGZUyWlWG/xDk4TcrS
- QMIrmvF3xeD+yIu739ASkwAZxs0zCsd4Ek5/+pTcpKPXZutnVy74g7DVEDUECZgfLL
- kuPDj8kY1heGG48vl0t6m2AwpwsSCjtWIHR5tOJz4TpDF2t2+MtRtZ0FH222y54VxT
- fnGJJWHnfXDKbFoSRvw3hB7tIbqNH9cZz5NTLbv/WEtvGuCM8W9dARynRMPBIC814u
- P5ENS6UT1O32usMvWRaTZMiFDPGsBANP17Ved98SAdhM7NJCN/Pu6TLzZ6jTT+279A
- PZI43rgMDdg1A==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Y6h4H441sz4wcy;
- Tue, 10 Dec 2024 12:30:07 +1100 (AEDT)
-Date: Tue, 10 Dec 2024 12:30:11 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Imre Deak <imre.deak@intel.com>, Jani Nikula <jani.nikula@intel.com>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm-intel tree with Linus' tree
-Message-ID: <20241210123011.503ddd5a@canb.auug.org.au>
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
+ [209.85.219.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF2310E5A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 01:45:24 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-e3a58827e25so747064276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Dec 2024 17:45:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733795123; x=1734399923; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bDeSzNmG0r25Rn5nUf/295MidZQ+oiAWsebYRxIgxz4=;
+ b=VqwUXvSZsB6ir317h7ErMjo6AOxUHPRhbsln2NuvqErSrO/CvUqD4znntIaO2c3kSq
+ QRRLsAKh/o7ACQQUSnkB21LnkcEsIKwtLrsdXF0UpkBQwOAhWngqmW19T/hJaOrFIOOV
+ QncDxBSTI37a7xRZaUbs4ig5tIo/g/zx5B3NKGUwYjn5Q7A+azGkhNUzPMmN721e/NPk
+ ltgPuM8AB0/uu178KTOLAoLjcSRVBnYe/3gNoQhXZLxfYZ7s+ShQ+o/VZx5ZA4vAXgox
+ TMBxa4+0PfZpg8WLcOrqmmYujeExpBTnOU8txXNcfckx91djNhi8hOCehIjSJeAkG+F4
+ uv1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733795123; x=1734399923;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bDeSzNmG0r25Rn5nUf/295MidZQ+oiAWsebYRxIgxz4=;
+ b=VEaGbueGDsqePHxvlQcCbRCD0xuagFrtkqQq+mp0FkFQtfSDxg/2VkSjyUBQu/GehJ
+ sanDTIVmQKSsXZadPhV9+N52YsA86jeuamhvx6BldMEhIbHo2Jbsh4zDk9+eOVllcoTv
+ xTDwjsNFMVgUAERch0Rs3iOGLkxdOhyOqVk+S5gBpoXf5hlAAnb59Cj5NzJLQ4Rew+1U
+ KuA2nLliI8c5jEqRzwcSVeFX44BsuYTEEht1PvRTwUgL8/EZDW2GR4r6bAPsVPLMlk0K
+ Dgjum/i3HgEZLzfktetxSfx6PwGjhoyr44hYuDz46EdCkHddRw6CGzjs7xrrWDJMCzK4
+ C+dA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUd7fDWZShCoBHEE9l05lUq6BgYTaZl2KPTFRhY8zcX7UhW80HM4bMGXF4nIQckZlK4lnJqTGKUcE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yze0Qe35ruIdKsSvgFE97jKnFOMO5uzyg2VagnNrYInKfqikClT
+ Rxg/ey9plYokXuqrknuDfWM4SVKdLTURqXGXJc8pgH80zLh1mxpM1Qydy3btWJZBYJuvkxtGUJ/
+ PQj4H7YEzJp49OsZpqRR4MCCUwLPmOzlFeF2aIg==
+X-Gm-Gg: ASbGncsGy9bL6l4oNsXT6lbrXfwXbiW6Os+GRp2Tc7G3IBScGhYJxVNARowYsfceUxU
+ hBOMATF3av9OfUkPN0X6QwEP+sW44QFX4zN4Q
+X-Google-Smtp-Source: AGHT+IH9FYdZyuYf6+rQs47uyzndT1wVwnYcReW2ltFVfptMntuMiqQM909xz0QThYmGJkZYxK5rC55WkYQfh3JUnOo=
+X-Received: by 2002:a05:6902:150b:b0:e38:b2fb:f57d with SMTP id
+ 3f1490d57ef6-e3a0b12a8c7mr11436978276.28.1733795122949; Mon, 09 Dec 2024
+ 17:45:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/5nFw1kQmLV+O/LDFyqcNIaI";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20241203165450.1501219-1-heiko@sntech.de>
+ <20241209150619.33998-1-dse@thaumatec.com>
+ <D67AV178CEBD.3QA9VD4ZPRNQ1@cknow.org> <2203458.KiezcSG77Q@diego>
+ <4e015ea9.960.193ae0c236a.Coremail.andyshrk@163.com>
+ <ay5hbnqqjhopaqof6z7j2rzm2bc6xa2vbzan2ak3if6wzmyip2@kqh7gtrajnm2>
+ <33e2c5db.1300.193ae284b6d.Coremail.andyshrk@163.com>
+In-Reply-To: <33e2c5db.1300.193ae284b6d.Coremail.andyshrk@163.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 10 Dec 2024 03:45:11 +0200
+Message-ID: <CAA8EJprLA09NP0KAztc5eoAMkGcrom84jg_pcbNcwN0FAaSLrw@mail.gmail.com>
+Subject: Re: Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
+ controller
+To: Andy Yan <andyshrk@163.com>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Daniel Semkowicz <dse@thaumatec.com>, Diederik de Haas <didi.debian@cknow.org>,
+ andy.yan@rock-chips.com, 
+ Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com, 
+ conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
+ krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ neil.armstrong@linaro.org, quentin.schulz@cherry.de, rfoss@kernel.org, 
+ robh@kernel.org, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,90 +96,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/5nFw1kQmLV+O/LDFyqcNIaI
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, 10 Dec 2024 at 03:22, Andy Yan <andyshrk@163.com> wrote:
+>
+>
+> Hi Dmitry,
+>
+> =E5=9C=A8 2024-12-10 09:01:38=EF=BC=8C"Dmitry Baryshkov" <dmitry.baryshko=
+v@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
+> >On Tue, Dec 10, 2024 at 08:50:51AM +0800, Andy Yan wrote:
+> >>
+> >>
+> >> Hi,
+> >>
+> >> At 2024-12-10 07:12:26, "Heiko St=C3=BCbner" <heiko@sntech.de> wrote:
+> >> >Am Montag, 9. Dezember 2024, 17:11:03 CET schrieb Diederik de Haas:
+> >> >> Hi,
+> >> >>
+> >> >> On Mon Dec 9, 2024 at 4:06 PM CET, Daniel Semkowicz wrote:
+> >> >> > On 03.12.24 21:54, Heiko Stuebner wrote:
+> >> >> > > This series adds a bridge and glue driver for the DSI2 controll=
+er found
+> >> >> > > in the rk3588 soc from Rockchip, that is based on a Synopsis IP=
+ block.
+> >> >> > >
+> >> >> >
+> >> >> > I did more tests with different LVDS displays. I tested following
+> >> >> > configurations with DSI/LVDS bridge:
+> >> >> > - 1024x600@60.01
+> >> >> > - 1024x768@60.02
+> >> >> > - 1280x800@60.07
+> >> >> > - 1366x768@60.06
+> >> >> >
+> >> >> > All of them worked without issues, except 1366x768.
+> >> >> > With this resolution, video is blurry, and offset incorrectly
+> >> >> > to the left. There are also repeating errors on the console:
+> >> >> >
+> >> >> >   rockchip-drm display-subsystem: [drm] *ERROR* POST_BUF_EMPTY ir=
+q err at vp3
+> >> >> >
+> >> >> > In correct operation with other resolutions, there is no error.
+> >> >> > I am not sure if this is a problem in your series or rather in VO=
+P2
+> >> >> > driver.
+> >> >
+> >> >This really sounds like something is wrong on the vop side.
+> >> >The interrupt is part of the vop, the divisable by 4 things likely to=
+o.
+> >>
+> >> This is a hardware limitation on vop side:
+> >> The horizontal resolution must be 4 pixel aligned.
+> >
+> >Then mode_valid() and atomic_check() must reject modes that don't fit.
+>
+> We round down to 4 pixel aligned in mode_fixup in our bsp kernel,
 
-Hi all,
+What is meant by the "bsp kernel" here? I don't see it being present
+in the mainline kernel. So, if the mode is unsupported, it should be
+rejected.
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+> because sometimes, some boards do indeed choose a screen that is not 4 pi=
+xel aligned
+> >
+> >>
+> >>
+> >>
+> >
+> >--
+> >With best wishes
+> >Dmitry
 
-  drivers/gpu/drm/xe/display/xe_display.c
 
-between commit:
-
-  a4de6beb83fc ("drm/xe/display: Separate the d3cold and non-d3cold runtime=
- PM handling")
-
-from Linus' tree and commit:
-
-  f5d38d4fa884 ("drm/i915/display: convert intel_display_driver.[ch] to str=
-uct intel_display")
-
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
 
 --=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/xe/display/xe_display.c
-index b5502f335f53,b8bfb666ebe8..000000000000
---- a/drivers/gpu/drm/xe/display/xe_display.c
-+++ b/drivers/gpu/drm/xe/display/xe_display.c
-@@@ -446,25 -470,20 +475,22 @@@ static void __xe_display_pm_resume(stru
-  	if (has_display(xe))
-  		drm_mode_config_reset(&xe->drm);
- =20
-- 	intel_display_driver_init_hw(xe);
-- 	intel_hpd_init(xe);
-+ 	intel_display_driver_init_hw(display);
- =20
-  	if (!runtime && has_display(xe))
-- 		intel_display_driver_resume_access(xe);
-+ 		intel_display_driver_resume_access(display);
- =20
-- 	/* MST sideband requires HPD interrupts enabled */
-- 	if (!runtime)
-- 		intel_dp_mst_resume(xe);
-+ 	intel_hpd_init(xe);
- =20
-  	if (!runtime && has_display(xe)) {
-- 		intel_display_driver_resume(xe);
-+ 		intel_display_driver_resume(display);
-  		drm_kms_helper_poll_enable(&xe->drm);
-- 		intel_display_driver_enable_user_access(xe);
-+ 		intel_display_driver_enable_user_access(display);
- -		intel_hpd_poll_disable(xe);
-  	}
- =20
- +	if (has_display(xe))
- +		intel_hpd_poll_disable(xe);
- +
-  	intel_opregion_resume(display);
- =20
-  	if (!runtime)
-
---Sig_/5nFw1kQmLV+O/LDFyqcNIaI
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmdXmaMACgkQAVBC80lX
-0GzrfAf8CQNQLyvtHwD0N8dm5jXXHlNMtQoirBpRCe1plSNol9py/L0e0L0H1UMV
-Fg7OKElNC1p48U+R3XDdZEAKbF1LW5vXy78CTnDLNfcjpt5AIdICiYZtMq4hyz56
-xwYMtQBNXVBYLViRfty5OvR+LMwr5dstAcM/wZDT18zjuuVbuoU/ozmVKagezqxM
-Tdzi03oEoDi808Zn+6jClIYOSxTLbMjcoYgdKh9d8Z/yAHSpkNqd0dJFXInyBaKe
-jlcyfREij63DtP4s1kJz8FHjC59pJahgfktmuqDWe34MJe7TJx8pmPeYAaPWdBv+
-q7tbSO6Qs/bW1f40XqLqHLoRsRbuJw==
-=TiTq
------END PGP SIGNATURE-----
-
---Sig_/5nFw1kQmLV+O/LDFyqcNIaI--
+With best wishes
+Dmitry
