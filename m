@@ -2,46 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905D69EC51F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 07:58:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428869EC52C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 07:58:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FD6E10E5E9;
-	Wed, 11 Dec 2024 06:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB14F10EA6D;
+	Wed, 11 Dec 2024 06:58:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="467cU4cV";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="VTij4G94";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 1185 seconds by postgrey-1.36 at gabe;
+ Tue, 10 Dec 2024 14:06:36 UTC
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
  [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEB1010E8EA
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 14:18:43 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA9RBJX019832;
- Tue, 10 Dec 2024 14:47:11 +0100
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7D3210E8E0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 14:06:36 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BAA1ErD020594;
+ Tue, 10 Dec 2024 14:46:35 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=selector1; bh=DQ1nTIBSftquwVYBQvoMKW
- HK26DZ8j8jxi/28l/0eEY=; b=467cU4cVsZlGtR9yEG9BYm4eiBhH1IsFCd/+oJ
- l7KFFQKsEgkujfFSIxl5yuW8A/lGF0aWqgKQFWPKS22mXCGmdW0z7aBrr6isTqAj
- sudyFjIPSpDQb4O4AgkA9ulojWqNOxaKaVz8k6pJbnCm8W10/RPge93ogWZR1jqf
- TL9ZYSlt4J7mH08SmNyxST/kK3jZV+Dy69Tx5g/tMoyEynK8QdmREP4Ub6DmL8jQ
- CdgKCf53Ym+j/HV09WrL9HqW2UU3FmcXxIvcQUhKQk8T/BYv8cj3rjCF003ZAZto
- ZCEd9eqUwgOtHxgBNzQRs2hetdZZLjM0U0s1zetUsILJYFGA==
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ B88LI0a9Jttf2T4vTgk1R/W8xNzBmhzuueRUVJ5fXx8=; b=VTij4G94oiwG6nVs
+ kAOhyaddTScvF0XJY6Owefa8LEB0JtyABva6XNVZlRrDA7mFQjbFr/5xhO8Q1Wgv
+ MABJhtVAV1GsZPCrORnP17UsBLwTW6/A4qye+a586WqtsI62ydPo47XKvOU99tws
+ qMkIh4o86OReclYJKD8KUig49P4B3tNDHegejsf8kp+YB0u8MXC3rcig9dN+YKWz
+ sxT9QgBwEgRtV193dK+0ZV1C4/DTDdUYbAqHS4X4VBpc07oPP9K4SdQjH6WjrViS
+ dty40BRrRlGJ3zfNbFFzOhhY32XfbgY52mI0D43M/A9XECl7jBEiHVxsMh/m34zG
+ WrMiRQ==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43cek1vwt2-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43d0t5aq79-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 10 Dec 2024 14:47:11 +0100 (CET)
+ Tue, 10 Dec 2024 14:46:35 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 268394004D;
- Tue, 10 Dec 2024 14:45:27 +0100 (CET)
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 3FAB040049;
+ Tue, 10 Dec 2024 14:45:07 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 56EB925853D;
- Tue, 10 Dec 2024 14:44:07 +0100 (CET)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 62071258555;
+ Tue, 10 Dec 2024 14:44:08 +0100 (CET)
 Received: from localhost (10.252.12.81) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Dec
- 2024 14:44:07 +0100
+ 2024 14:44:08 +0100
 From: Olivier Moysan <olivier.moysan@foss.st.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
  <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -50,16 +53,15 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 CC: Olivier Moysan <olivier.moysan@foss.st.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-sound@vger.kernel.org>
-Subject: [PATCH 0/3] drm: bridge: adv7511: refine actual capabilities
-Date: Tue, 10 Dec 2024 14:42:51 +0100
-Message-ID: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/3] drm: bridge: adv7511: fill i2s stream capabilities
+Date: Tue, 10 Dec 2024 14:42:52 +0100
+Message-ID: <20241210134254.2967524-2-olivier.moysan@foss.st.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
+References: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -85,27 +87,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The STM32MP257F DK board features an ADV7535 HDMI bridge,
-which belongs to the ADV7511 bridges family.
-At startup the Pipewire audio framework parses the audio devices to
-discover their capabilities. The capabilities reported by the ADV7511
-driver are not accurate enough, which results in warning messages from
-Pipewire.
-Adjust the capabilities reported by the ADV7511 driver, to more
-accurately reflect its actual capabilities.
+Set no_i2s_capture flag in hdmi_codec_pdata structure to report
+that the ADV7511 HDMI bridge does not support i2s audio capture.
 
-Olivier Moysan (3):
-  drm: bridge: adv7511: fill i2s stream capabilities
-  drm: bridge: adv7511: remove s32 format from i2s capabilities
-  ASoC: hdmi-codec: allow to refine formats actually supported
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 4 ++++
- include/sound/hdmi-codec.h                     | 1 +
- sound/soc/codecs/hdmi-codec.c                  | 4 ++++
- 3 files changed, 9 insertions(+)
-
-
-base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+index 61f4a38e7d2b..28ae81ca3651 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+@@ -234,6 +234,7 @@ static const struct hdmi_codec_pdata codec_data = {
+ 	.ops = &adv7511_codec_ops,
+ 	.max_i2s_channels = 2,
+ 	.i2s = 1,
++	.no_i2s_capture = 1,
+ 	.spdif = 1,
+ };
+ 
 -- 
 2.25.1
 
