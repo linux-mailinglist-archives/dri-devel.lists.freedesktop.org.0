@@ -2,69 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7F599EBDF2
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FF79EBDFC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 861C789838;
-	Tue, 10 Dec 2024 22:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBAC010E17B;
+	Tue, 10 Dec 2024 22:44:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Xm5AQDUp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G0KXdhbb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC1089838
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 22:42:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1733870511; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=k8b7jrTew3Buujzw4HKhY5qPIINmZGPz2YM4XZlhsU48oyTc2iRCCOm1oETihEeXqbq9vz5rdlPDEW1a7usw0wBFFj2ELbgpMbA7YEMyGrFresm0FgpgAkRCnqT00v6ctA/glnRkYzX+3zwZ21VvRXUI376BGIGxHFjRK0p9mf0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1733870511;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=tWgCnUxFLN0F+pgIL0M3QVKwrZmsYmCkQSYBlW0rvRw=; 
- b=Enc5wpPRoFLLEBEQ/AHsn5AY4FqOdn5cjcdr6huoUln1aedPDv3BLyT8SoDde4bwOnY2PmXQfFwioIVG7yQ3Q0luWKKP4a2LIXRzMUcPy2KER9VdxXLjfsH3fTO8QN74q+1Ekmo0ouJvNKET4trVJBCsaI8MS60MfjnSeRgfTfE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733870511; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=tWgCnUxFLN0F+pgIL0M3QVKwrZmsYmCkQSYBlW0rvRw=;
- b=Xm5AQDUpXbehSfM26Qi4sYxnGC/hM6lI4xcBV6VWm6RTx13utqImKVsvGXvTAuSH
- WCvXCDTeJyP2FsgLVFbhto5Zy/EvVnxLcSMGxjN62RALtAVtCy1SGdthCLCV2A4DMhO
- Wm4zGa9lkqmXekHfPvd9INWoQw4dlPCjee8cUgY8=
-Received: by mx.zohomail.com with SMTPS id 1733870510426908.8876418931715;
- Tue, 10 Dec 2024 14:41:50 -0800 (PST)
-Received: by mercury (Postfix, from userid 1000)
- id 954E210604B1; Tue, 10 Dec 2024 23:41:44 +0100 (CET)
-Date: Tue, 10 Dec 2024 23:41:44 +0100
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Andy Yan <andyshrk@163.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com
-Subject: Re: [PATCH v1 2/2] drm/panel: add Raydium RM67200 panel driver
-Message-ID: <2kfapf6iolb65g3kss2hulwpqiczyyk6vvv37pqthm7o625umf@vuo7saus5kcy>
-References: <20241210164333.121253-1-sebastian.reichel@collabora.com>
- <20241210164333.121253-3-sebastian.reichel@collabora.com>
- <2cbbc5d6-2d6b-4afe-a0ef-7f59d28724dc@quicinc.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E85310E17B
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 22:44:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 802F1A41BF3;
+ Tue, 10 Dec 2024 22:42:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DCD1C4CED6;
+ Tue, 10 Dec 2024 22:44:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733870661;
+ bh=HP4MsNw/hXG7nhPJ0xWXWHKylFCTW4+JsqUQHNFKB2k=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=G0KXdhbbJ5rvvoDZqYRO6wYCU/J0eN/NtedIKQgZEPd2HdA2GPfsSOitJG8EW5ruE
+ DxH6lGL9Jr28NBCy+ZXrSsNn4DVjD0FvcBq1IHIi8pNEFXKvR0PCQrZT9C7+C2x+Zt
+ cxr1ixqZFf4slma0NhtmDYZ3q3DJxoHTkAmgxWTDbL8Ev4br2lExKoFXnGeQAGzVOf
+ HzJ+oAHkfu/VaOcs5R0EREvFKR/EWDek4d7n6ZYmLXnQjDdqPaxB/vwJBhXM+eu9jo
+ EIMrcVv9FF1sRyIKhwGu/JpCsHIZIhFmBYk/dVCi+OK6hJLpBpte73ViEaZLFrwE81
+ CWJLj4Z6TEJOg==
+Message-ID: <fd2b473bc7c3c70ae0e85b2a6315d9e8.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="t5phmjcn4xd3igbd"
-Content-Disposition: inline
-In-Reply-To: <2cbbc5d6-2d6b-4afe-a0ef-7f59d28724dc@quicinc.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.3.1/233.837.80
-X-ZohoMailClient: External
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
+References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
+ <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
+Subject: Re: [PATCH 4/5] clk: Add flag to prevent frequency changes when
+ walking subtrees
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-clk@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Abel Vesa <abel.vesa@linaro.org>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Ian Ray <ian.ray@ge.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+To: Abel Vesa <abelvesa@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Marek Vasut <marex@denx.de>, Michael Turquette <mturquette@baylibre.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Peng Fan <peng.fan@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Ying Liu <victor.liu@nxp.com>
+Date: Tue, 10 Dec 2024 14:44:19 -0800
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,70 +71,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Miquel Raynal (2024-11-21 09:41:14)
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index adfc5bfb93b5a65b6f58c52ca2c432d651f7dd7d..94d93470479e77769e63e9746=
+2b176261103b552 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -1927,7 +1927,6 @@ long clk_get_accuracy(struct clk *clk)
+>  }
+>  EXPORT_SYMBOL_GPL(clk_get_accuracy);
+> =20
+> -__maybe_unused
+>  static unsigned long clk_determine(struct clk_core *core, unsigned long =
+rate)
+>  {
+>         struct clk_rate_request req =3D {};
 
---t5phmjcn4xd3igbd
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 2/2] drm/panel: add Raydium RM67200 panel driver
-MIME-Version: 1.0
+Please add functions in the same patch that uses them. It is hard to
+review this patch when half the context is in another patch.
 
-Hello Jessica,
+> @@ -2272,7 +2271,13 @@ static void clk_calc_subtree(struct clk_core *core)
+>  {
+>         struct clk_core *child;
+> =20
+> -       core->new_rate =3D clk_recalc(core, core->parent->new_rate);
+> +       if (core->flags & CLK_NO_RATE_CHANGE_DURING_PROPAGATION) {
+> +               core->new_rate =3D clk_determine(core, core->rate);
+> +               if (!core->new_rate)
+> +                       core->new_rate =3D clk_recalc(core, core->parent-=
+>new_rate);
+> +       } else {
+> +               core->new_rate =3D clk_recalc(core, core->parent->new_rat=
+e);
+> +       }
+> =20
+>         hlist_for_each_entry(child, &core->children, child_node)
+>                 clk_calc_subtree(child);
+> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+> index 200135e0f6d00d48b10e843259333b9733c97f38..baef0b442ac1d36ee935cbcaa=
+aa4e2d95fe7654c 100644
+> --- a/include/linux/clk-provider.h
+> +++ b/include/linux/clk-provider.h
+> @@ -38,6 +38,8 @@
+>  #define CLK_OPS_PARENT_ENABLE  BIT(12)
+>  /* duty cycle call may be forwarded to the parent clock */
+>  #define CLK_DUTY_CYCLE_PARENT  BIT(13)
+> +/* do not passively change this clock rate during subtree rate propagati=
+on */
+> +#define CLK_NO_RATE_CHANGE_DURING_PROPAGATION BIT(14)
 
-On Tue, Dec 10, 2024 at 09:45:09AM -0800, Jessica Zhang wrote:
-> [...]
-> > +static const struct raydium_rm67200_panel_info w552793baa_info =3D {
-> > +	.mode =3D {
-> > +		.clock =3D 132000,
-> > +		.hdisplay =3D 1080,
-> > +		.hsync_start =3D 1095,
-> > +		.hsync_end =3D 1125,
-> > +		.htotal =3D 1129,
-> > +		.vdisplay =3D 1920,
-> > +		.vsync_start =3D 1935,
-> > +		.vsync_end =3D 1950,
-> > +		.vtotal =3D 1952,
-> > +		.width_mm =3D 68, /* 68.04mm */
-> > +		.height_mm =3D 121, /* 120.96mm */
-> > +		.type =3D DRM_MODE_TYPE_DRIVER,
-> > +	},
-> > +	.regulators =3D w552793baa_regulators,
-> > +	.num_regulators =3D ARRAY_SIZE(w552793baa_regulators),
-> > +	.panel_setup =3D w552793baa_setup,
->=20
-> Just curious, will there be other panels with different regulators and in=
-it
-> commands added for this driver in the future?
-
-I don't know any other RM67200 based panels. But the init sequence
-contains lots of vendor specific registers and I'm pretty sure it
-is specific to the W552793BAA. I put the regulators into the panel
-specific section, because the datasheet for the RM67200 specifies
-slightly different ones than the w552793baa datasheet. Thus I expect
-that other displays might have slight differences.
-
-Greetings,
-
--- Sebastian
-
---t5phmjcn4xd3igbd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdYw6EACgkQ2O7X88g7
-+ppvBA//bksIiJDhO9U0NXa3VZF4/KNlPTGkiFvPuMd5QHpgbotOouiuKRQrnRKB
-LffeWBFL3Dxl8tEkAqzVKJRH6XlIKWUMXYuk0mNKIJN3WtQdPxSb8cOaMIHdBG+g
-wJ36QKmyz4mF8JPuDSSBQ70NJIZfZx3ewKlXbpNf92GRwXduE4do53mcs9XnqMDX
-4KTqpjXF/x9BlWMDsx1iFPJT4Mmg2bDN81FkfaiTmp/WR+YW8/I2kvgflrQZFz6N
-ffx61NTct+RSkBc0OHXftIxQ8NW1ZyIyCqLVa1QwE2McCARElOd4EMog0QWcoPZI
-nFwt+EbL4ZVdGv9wmDDqw/PlsJjNPKdgyMkWFMwm4H7TdUa6tvyTPkvdzp4SgxLx
-vs1oBOEUF44N+em9iU5tmWY47cBAAEvRkvfbAhmE34wS+/0qG0imGNS2ivt1DsRU
-h0BFCEut7d0iK5wjQV7sReocputqFesgjnRR+8ooCydsDz4vnSu0zsPhu8VWXgcH
-J6TYk1YG7XUcJdmq1qB18vsNbNNzVd8ggAWdpOb1Anu4J8QEndcznDzE/TMTBXOX
-kOORf5fpwifTrhpua5gDoYiUiHyGdPxEdWrjxQZZ+8pP5cPHTCBF7hW6PUnrVWcB
-pL2jbKoik+n2Yd5qKlieK8JLDAws9uKvHs1WTW9SKLkaUan7Mp0=
-=D5k8
------END PGP SIGNATURE-----
-
---t5phmjcn4xd3igbd--
+Why doesn't rate locking work?
