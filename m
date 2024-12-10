@@ -2,62 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732A59EB0E3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6E09EB0F3
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:37:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAA4510E3A7;
-	Tue, 10 Dec 2024 12:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95E2010E3B6;
+	Tue, 10 Dec 2024 12:37:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Pw4l2pqT";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="acbzj30F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ECB410E3A7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 12:34:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733834072; x=1765370072;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=DcpGbcGoWnPprsTcfihBEHsSBixVyfT8bKiR2w9j6Q8=;
- b=Pw4l2pqT5iKLkHwLsc8jJMUFK08UwVZKO8n7IPwAmapiTLpR9ufYWfuX
- GwdxS9CfD6MBQXA5rzX3dAcONe7Jw8UOFn/njB1iOcIGVN7gvonCqXj+F
- LCmu0k7ew4gPe7Blb5Zn8c396Vu7vh5KSwLx/CtKecVz5OfFmV7An3DmD
- fBOhX15zp785uzHiiN/WpRMCYeRiekkrtyLoW4XZ25MiZhMJCmXBW/UkC
- W9IYQanxtAz6spEnZTbLyYEcfX7v5zIwC3R4qSjHJFMDIMytlnPT7/yIZ
- ES/2URZVq+qA7dD55HJzq0BFCN7kYZCgoXvPjMwjC0MjD5EzmlvzXYyUi Q==;
-X-CSE-ConnectionGUID: 8S97S8NIQ/yGdgA0DZ//QQ==
-X-CSE-MsgGUID: zx+T3QjCQyiq6PAE2x9e6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="51700721"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; d="scan'208";a="51700721"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2024 04:34:32 -0800
-X-CSE-ConnectionGUID: LuJ5hUX+SyKiuCLVIXNf5w==
-X-CSE-MsgGUID: 72/IcMkgRnyoV2KyeCwvBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; d="scan'208";a="95601150"
-Received: from unknown (HELO [10.217.160.151]) ([10.217.160.151])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2024 04:34:30 -0800
-Message-ID: <b210c30a-21f5-417b-aac8-f54f9c302096@linux.intel.com>
-Date: Tue, 10 Dec 2024 13:34:28 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52D6A10E3AB;
+ Tue, 10 Dec 2024 12:37:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 98BCA5C6172;
+ Tue, 10 Dec 2024 12:37:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67AA1C4CED6;
+ Tue, 10 Dec 2024 12:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1733834267;
+ bh=yT+2etRjcgkDFWD03R9C8TI0zCspIsiAJ5OYsndSpFA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=acbzj30FlK2EmvlLToH6QFS188H3wkR00SNtGXFoyXfo7grjKoQlB4SrcSoHAL9XJ
+ 9l3MKDEFHD8hdBLasqB681IDSjuNhKX5BhkWKO30ICYOu/pdrsYMLXzzwMUbU2A+VE
+ 8cHX00vEWt10382+pbKfofAHT8L+umujoA21BX/o=
+Date: Tue, 10 Dec 2024 13:37:11 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Genes Lists <lists@sapience.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org, stable@vger.kernel.org,
+ linux-media@vger.kernel.org, bingbu.cao@intel.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
+Message-ID: <2024121001-senator-raffle-a371@gregkh>
+References: <2024120917-vision-outcast-85f2@gregkh>
+ <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
+ <Z1fqitbWlmELb5pj@kekkonen.localdomain> <87seqvzzg6.fsf@intel.com>
+ <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
+ <87bjxjzpwn.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Fix typo for struct
- qaic_manage_trans_passthrough
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_yabdulra@quicinc.com,
- quic_carlv@quicinc.com
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87bjxjzpwn.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,28 +68,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-
-On 11/29/2024 9:28 PM, Jeffrey Hugo wrote:
-> The documentation header for struct qaic_manage_trans_passthrough has a
-> typo - "t" is missing in "transaction".
+On Tue, Dec 10, 2024 at 02:24:56PM +0200, Jani Nikula wrote:
+> On Tue, 10 Dec 2024, Genes Lists <lists@sapience.com> wrote:
+> > On Tue, 2024-12-10 at 10:58 +0200, Jani Nikula wrote:
+> >> On Tue, 10 Dec 2024, Sakari Ailus <sakari.ailus@linux.intel.com>
+> >> wrote:
+> >> > Hi,
+> >> > 
+> >> > > ...
+> >> > > FYI 6.12.4 got a crash shortly after booting in dma_alloc_attrs -
+> >> > > maybe
+> >> > > triggered in ipu6_probe. Crash only happened on laptop with ipu6.
+> >> > > All
+> >> > > other machines are running fine.
+> >> > 
+> >> > Have you read the dmesg further than the IPU6 related warning? The
+> >> > IPU6
+> >> > driver won't work (maybe not even probe?) but if the system
+> >> > crashes, it
+> >> > appears unlikely the IPU6 drivers would have something to do with
+> >> > that.
+> >> > Look for warnings on linked list corruption later, they seem to be
+> >> > coming
+> >> > from the i915 driver.
+> >> 
+> >> And the list corruption is actually happening in
+> >> cpu_latency_qos_update_request(). I don't see any i915 changes in
+> >> 6.12.4
+> >> that could cause it.
+> >> 
+> >> I guess the question is, when did it work? Did 6.12.3 work?
+> >> 
+> >> 
+> >> BR,
+> >> Jani.
+> >
+> >
+> >  - 6.12.1 worked
+> >
+> >  - mainline - works (but only with i915 patch set [1] otherwise there
+> > are no graphics at all)
+> >
+> >     [1] https://patchwork.freedesktop.org/series/141911/
+> >
+> > - 6.12.3 - crashed (i see i915 not ipu6) and again it has       
+> >     cpu_latency_qos_update_request+0x61/0xc0
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  include/uapi/drm/qaic_accel.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks for testing.
 > 
-> diff --git a/include/uapi/drm/qaic_accel.h b/include/uapi/drm/qaic_accel.h
-> index d3ca876a08e9..c92d0309d583 100644
-> --- a/include/uapi/drm/qaic_accel.h
-> +++ b/include/uapi/drm/qaic_accel.h
-> @@ -64,7 +64,7 @@ struct qaic_manage_trans_hdr {
->  /**
->   * struct qaic_manage_trans_passthrough - Defines a passthrough transaction.
->   * @hdr: In. Header to identify this transaction.
-> - * @data: In. Payload of this ransaction. Opaque to the driver. Userspace must
-> + * @data: In. Payload of this transaction. Opaque to the driver. Userspace must
->   *	  encode in little endian and align/pad to 64-bit.
->   */
->  struct qaic_manage_trans_passthrough {
+> There are no changes to either i915 or kernel/power between 6.12.1 and
+> 6.12.4.
+> 
+> There are some changes to drm core, but none that could explain this.
+> 
+> Maybe try the same kernels a few more times to see if it's really
+> deterministic? Not that I have obvious ideas where to go from there, but
+> it's a clue nonetheless.
 
+'git bisect' would be nice to run if possible...
