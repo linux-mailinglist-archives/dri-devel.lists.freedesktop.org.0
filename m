@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8939EBC6B
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E3C9EBC6C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:02:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51DF110E9AA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9A210E9AC;
 	Tue, 10 Dec 2024 22:02:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="k1q7WXOx";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="IIAWMyJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6154210E9A3;
+ by gabe.freedesktop.org (Postfix) with ESMTP id ED47A10E9A1;
  Tue, 10 Dec 2024 22:02:41 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id A7DE320BCAEA;
+ by linux.microsoft.com (Postfix) with ESMTPSA id D4E6A204722D;
  Tue, 10 Dec 2024 14:02:37 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A7DE320BCAEA
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D4E6A204722D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1733868157;
- bh=WjXR/e+Bt5J36pfaIEwWXUE8wYei/ElgtSssYeLrLS0=;
+ s=default; t=1733868158;
+ bh=DhJBfAD2d6ET0f+MR7PDWaX6CpgYhpsGb+RQrMGIOAY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=k1q7WXOxk1qYLVn196G3sb8s3XVjdPiH9giyU/vMWpK4NQiBox8ErAeTFxnenHayv
- 1NLSp5g4CPg/qfYp440BlKTVCcToWDafQQXFfUYhXGaNJP4LCGPckmvvkPFrzQ2ykv
- 8WoFkMMhJxjwt/2RQ+Oo6g69AunqDN5xYmAoTPZY=
+ b=IIAWMyJ8NzQC8a9Pk8dz0U3jdNgu9NGd3SiawGSbAFHI2lBJj9kVVY+Jrn6mOAaem
+ Wm2Q0riPqkUNNLsJAJDVn84Us2zbSxk2FObucA7BvA+Ci0Obga6BtVUEDHD7pm4PpM
+ tPAQA1jtOYji99byX6HP0p2SzC0hDQD6638LF7MQ=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:38 +0000
-Subject: [PATCH v3 07/19] accel/habanalabs: Convert timeouts to
- secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:39 +0000
+Subject: [PATCH v3 08/19] drm/xe: Convert timeout to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-7-ddfefd7e9f2a@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241210-converge-secs-to-jiffies-v3-8-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -130,39 +129,25 @@ the following Coccinelle rules:
 - msecs_to_jiffies(C * MSEC_PER_SEC)
 + secs_to_jiffies(C)
 
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/accel/habanalabs/common/device.c         | 2 +-
- drivers/accel/habanalabs/common/habanalabs_drv.c | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/xe/xe_device.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index e0cf3b4343bb081638430f2552ed27431b488ff9..30277ae410d4b742ffb7bddc35498564ff96fe62 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -817,7 +817,7 @@ static void device_hard_reset_pending(struct work_struct *work)
- 		}
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 56d4ffb650dade8622cc25026a96155fa5572434..9093469a275f46f7bf58ff1049c1c9cc712cdd33 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -519,7 +519,7 @@ static int wait_for_lmem_ready(struct xe_device *xe)
+ 	drm_dbg(&xe->drm, "Waiting for lmem initialization\n");
  
- 		queue_delayed_work(hdev->reset_wq, &device_reset_work->reset_work,
--					msecs_to_jiffies(HL_PENDING_RESET_PER_SEC * 1000));
-+					secs_to_jiffies(HL_PENDING_RESET_PER_SEC));
- 	}
- }
+ 	start = jiffies;
+-	timeout = start + msecs_to_jiffies(60 * 1000); /* 60 sec! */
++	timeout = start + secs_to_jiffies(60); /* 60 sec! */
  
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 5409b2c656c803f6d172dd882711357061f30022..596c52e8aa266bf48e2be45e719adb202604577b 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -361,8 +361,7 @@ static void fixup_device_params_per_asic(struct hl_device *hdev, int timeout)
- 		 * a different default timeout for Gaudi
- 		 */
- 		if (timeout == HL_DEFAULT_TIMEOUT_LOCKED)
--			hdev->timeout_jiffies = msecs_to_jiffies(GAUDI_DEFAULT_TIMEOUT_LOCKED *
--										MSEC_PER_SEC);
-+			hdev->timeout_jiffies = secs_to_jiffies(GAUDI_DEFAULT_TIMEOUT_LOCKED);
- 
- 		hdev->reset_upon_device_release = 0;
- 		break;
+ 	do {
+ 		if (signal_pending(current))
 
 -- 
 2.43.0
