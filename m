@@ -2,96 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6CB9EC51B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 07:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C129EC523
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 07:58:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE9E710E5DC;
-	Wed, 11 Dec 2024 06:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4C9910E5E4;
+	Wed, 11 Dec 2024 06:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="wD3UMRxD";
-	dkim=pass (2048-bit key; secure) header.d=sapience.com header.i=@sapience.com header.b="BPkmprzB";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="hAAHvP4s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 255FD10E930;
- Tue, 10 Dec 2024 16:53:50 +0000 (UTC)
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
- signature) header.d=sapience.com header.i=@sapience.com 
- header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
- header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
- (No client certificate requested)
- by s1.sapience.com (Postfix) with ESMTPS id 2D403480525;
- Tue, 10 Dec 2024 11:53:49 -0500 (EST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1733849628;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
- b=wD3UMRxDuXgwaGrlzzvtlsdAYUd6ZthHn7SPY+6HWtZPuNwRQzCh6+vT6KQv4tzwg3GGo
- uv79hJXIqw7QqvSCQ==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1733849628; 
- cv=none;
- b=uKYreAe9nlsKlDkyS3y2eEjNHuEKJP2uKchljXhQbQ8PsoDv9xuLCHdyuA9tkQROru8IyBt9xQmrF+B2iadVVjODM8dzIoVymeaDQf9pJkEZjRHer80/NbTPBoYFU9R2pEdMthyKIUnigeeSSFrYRViiVHmzgC/3YKzL5t3jF83vbpdigi6gTOEVWTu5+65xYBs3wLfYompsMR/7bQgYeZdHHVtEdXTiQECRwpwxbFog87a4cNWKt32jLdGCDIuvHqEYoNVdj6RQ6SCDc6Zmer7O92S0EgNN1A9A9XV0hf4jMaTp4BK0lA99FIW8h+v83OgFUHitdWATzqe75yy8Wg==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
- t=1733849628; c=relaxed/simple;
- bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
- h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
- In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
- MIME-Version;
- b=ZNDdmjHEFbnQrxn73CA8+FXO1RhRXZ+SVueJS1DfPUqXhVhkWTiMztqTf2w8LyIsCOadkQ9hQ3TSB8GFYA+rwzjSz0qc/ucy02/L7EBI87KdIjDoYXE1b1wMoRTI5SjiI+8xZD79NMXLS4cnws2tQvbfvHVxUGPMYffD/FgwbDYcgEwma0ojy5JuuLaMpOWvmWWCQtvGImPfbJ2GMDVmHu+wGHir1app/knB4Zscnw0Lla3sEkQiS9SGYPB3S7xM1S7iBt+mQIAEEh0nPZ8zPrRxVxRPDf8fI6sUgfG6KIs1QZHsGZcVVRAMQv4K3wGIc8PmKDnqIQ/RZTQs3z4i4A==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1733849628;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=PPV/GHXwYA75Qk+vBJmS5CKvRytPVt2P7mQWbvhA7KA=;
- b=BPkmprzBZOodw8hR206xK5QG40OfcEf8XX3vi3gw8cmATqc1qUi7rNNtm8f4lgHNVmzsj
- 2UBEwTAYxiMlt4IUVP81fdZkP4C9N5pEcW6eg0kenh/llFU9IDIGZ6naP3sYwkvWyNptipy
- 9+fa1dTFi159z2Sv2qPtHdgtZ4avomBPZ30IIBA4xRwX7y8r7APq7JQIoE4hVgkk2O49vIx
- aJBbHf2JybZpQwmSLYahuoRQXZBSd7sN2seGC4PcheiU/uJT7z8coItuRy3jaE2PQ5hMW5T
- wbjS188+U2AON0y53pIRuGfam7BvGVFJ2X/1lp8dBNQiHfErCBt4ce85gN1A==
-Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1)
- server-digest SHA384) (No client certificate requested)
- by srv8.sapience.com (Postfix) with ESMTPS id DAD31280015;
- Tue, 10 Dec 2024 11:53:48 -0500 (EST)
-Message-ID: <d42a3c2b47fbcce8be3c4aa613451ce431c281a8.camel@sapience.com>
-Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
-From: Genes Lists <lists@sapience.com>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Greg
- Kroah-Hartman	 <gregkh@linuxfoundation.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Sakari Ailus	
- <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org, 
- akpm@linux-foundation.org, torvalds@linux-foundation.org,
- stable@vger.kernel.org, 	linux-media@vger.kernel.org, bingbu.cao@intel.com,
- Rodrigo Vivi	 <rodrigo.vivi@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Tue, 10 Dec 2024 11:53:48 -0500
-In-Reply-To: <Z1hbyNXUubokloda@linux.intel.com>
-References: <2024120917-vision-outcast-85f2@gregkh>
- <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
- <Z1fqitbWlmELb5pj@kekkonen.localdomain> <87seqvzzg6.fsf@intel.com>
- <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
- <87bjxjzpwn.fsf@intel.com> <2024121001-senator-raffle-a371@gregkh>
- <Z1hbyNXUubokloda@linux.intel.com>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
- protocol="application/pgp-signature"; boundary="=-bHGp4P46otAfPh8D5/ik"
-User-Agent: Evolution 3.54.2 
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D64310E140
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 17:46:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hDu86M3DSan61pnqxav4uiMh7WgH1iCO6Gm6c0AGrxBj8/3Wn9DudCvSqf2698C7/CedMTYdtFqDoYt6fdKRHMbj6QJR3yPBv8Kl+8YsXOaB7aF0pm94oBjTfRgI6sft8OMRdQQfAKQcRdooGE97ztYor0tOH08m3bQWwL+TBMk6qlK6pX8Ig2gKhATn5toSPdQfCoPYyWiUjizKQ2w+ijGZ8Dajct23b0RnsgtFed15EZliMtD98iHsF7EUR5i/Wsan3xS38NLrXlpaK3ukH68QusBNhhOdaAzYesVGscOWHYwdnKExTGhUJxBxun+TGOBgmYKXPKcKr6eoAHr1oQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/7TyIOfS5xTmcAqOqxV1VvowkfL/GE2I/pYlSGYQGfE=;
+ b=VGhPjIezgCEoorRsfo3f2KHLnuHGTo6mMU4CClVZ+/c+WICU5mQYSlhiTAHQi+paKdvD7HEEd32f+/lMXTTTXxizsvRTZN2hDNdeyuylHPRi6FSaKLzYYXE9MK0EAcpXxFqAq1Ca+KsNygrw26sbOzgyZFQ/CgGPGgU7069DEC54RiKmbMntcSBXmalxzCpFWFX7hZItHvUaqbGTMM8Hhaxw84oA24OOvmo6JMbPlcozgal67OM4PDwGJDjb3RXw+e+O22C+pfdWVtXN0JF9jNEeRrCuS0x11PXZmL1cz9VwCdx2QHo9dCnXcPVugavi5467oUsGU9GN3skXiE8Fvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/7TyIOfS5xTmcAqOqxV1VvowkfL/GE2I/pYlSGYQGfE=;
+ b=hAAHvP4s4GlT1FrFPKIpsSShN90SLOl2QD/IdXpUAyt0mfTYvcpNTKVQNHn81S7PB3m33REFqgLDhxwf/tHhdk+ZgDCb+l1hDzEQrM4Cx/Y9ljJZdROy9qyOVRNhc51w24uoor9V1ZIIt5lfHaUe5vF0WPIiOU0YIH39MeGNMFLoKGxM3I1sQee+9Mk7y2WD17xnvm9V7aQohP1nq/NyNa5lTpU/bQJOOV+g4MtgyZajfgy7Hl2KXFrKwXL3Kdk4MC/P621u2WXJsyFYSXFWuQOVeDMsWzSp4JusudHDxv2vXzEWzOnXh0MhQTEeJH2wqv4KgxfBhNn7OUXYkRevSg==
+Received: from BLAPR03CA0177.namprd03.prod.outlook.com (2603:10b6:208:32f::30)
+ by PH7PR12MB5594.namprd12.prod.outlook.com (2603:10b6:510:134::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Tue, 10 Dec
+ 2024 17:46:13 +0000
+Received: from MN1PEPF0000ECDB.namprd02.prod.outlook.com
+ (2603:10b6:208:32f:cafe::f8) by BLAPR03CA0177.outlook.office365.com
+ (2603:10b6:208:32f::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.13 via Frontend Transport; Tue,
+ 10 Dec 2024 17:46:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ MN1PEPF0000ECDB.mail.protection.outlook.com (10.167.242.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8230.7 via Frontend Transport; Tue, 10 Dec 2024 17:46:12 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 10 Dec
+ 2024 09:45:56 -0800
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 10 Dec 2024 09:45:56 -0800
+Received: from thinkpad-t480.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Tue, 10 Dec 2024 09:45:55 -0800
+From: Johnny Liu <johnliu@nvidia.com>
+To: <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+ <skomatineni@nvidia.com>, <luca.ceresoli@bootlin.com>,
+ <mperttunen@nvidia.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Johnny Liu <johnliu@nvidia.com>
+Subject: [PATCH v1 0/5] Support host1x actmon
+Date: Tue, 10 Dec 2024 09:45:49 -0800
+Message-ID: <20241210174554.18869-1-johnliu@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
+Content-Type: text/plain
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECDB:EE_|PH7PR12MB5594:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c56ee1b-c8c2-486f-7630-08dd194289fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|82310400026|1800799024|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZF0pS2P8vn/6t3tc1JWSKQDzSbn2pRAatAOGhTlLQxUg1M8GvpbxpgpNTC8J?=
+ =?us-ascii?Q?GBLQ6Yxc5QXUt/MOSvqcvJYlNRNCHbHtXxrV1NcBzeDhlUfGWJ9WmUICXn3a?=
+ =?us-ascii?Q?on5Ki3f51b9LyrgWMR0VB4lfjf827KSXntuwBO0x2hMJaPaLG8sbM/xDBmJR?=
+ =?us-ascii?Q?pnWzoX/sUS2UYw/slSgXSxBBcLWqQqnbqKfCHzPzTlxLc8wDZMvj6kLps00O?=
+ =?us-ascii?Q?CdpR0I8LjDngzAoFbsyi53Eiuv/XeH6giMyJWEXWKeSv/1OoQfdjHQKn30my?=
+ =?us-ascii?Q?+rCnRFU8TkhBjHvU72S+Iw5blFNEPAJ1gXLMHrnbiSWXIVvm5Ft/BUuuewrY?=
+ =?us-ascii?Q?enUFXBjOjvPzGxgd0Jly7iyru8rPfb6Wub95GXrKu2hEHjADtWgkxLKTOKV6?=
+ =?us-ascii?Q?ulyVaGLCA6dts52XyVC0wtvOWes76ER6GUbbMXd0pGPq3cGmeLeoycqXjX9R?=
+ =?us-ascii?Q?gLujrM9PBh9bT+pEm/BOg7Dr+YzmfWndNtYifKvWLvVE9pDDSnnk8HrZP33G?=
+ =?us-ascii?Q?/7Yyui3HKvrLlD+Zt9V4DazdzMfndsMBP0QPYUqanmO9go4NUTbWphj2rb78?=
+ =?us-ascii?Q?9qcNULFylo+q/yrSActnxsGejNM/UQ2HIJkCH8bBQu5RP4O5Z4VSz6RfREvz?=
+ =?us-ascii?Q?tjDDYZcnMc8qPCM4g/+49DTDEgIvBAjUzHq5XDGbKxoVNC/CzJpfrKRVNOj9?=
+ =?us-ascii?Q?f8CUxDfRoHkwrkWj0zY7RZqBG0rA3cPLIEixWd3P8yhG1DWGGeMwNED4kobV?=
+ =?us-ascii?Q?EZAHrd6dUBbbbYFhpL6ry85F8GVeQ5qSejm+dqYlFkcLKuEVQKx5ZKG6g0DL?=
+ =?us-ascii?Q?6+rgdtuyv9ILXHg/03P/kdReokQxBkjMlW1dDdlQETyCETnAv40i2Eau4teY?=
+ =?us-ascii?Q?T0bW4D89N8qfh9zirQtQtTNXLbomwPPIlrd1armXNP7wR45QJjKhk8Jx/JNj?=
+ =?us-ascii?Q?ktdrE8em59+2zEQUU5WcDP7pptgAiJ6SLRAOw7pGLj0BX7NqEvguWhP+8Szc?=
+ =?us-ascii?Q?OLD8Y6GV0W4J/XllgyrgcYNx5jUdqVFFwYqYDzyz+e6b9PlXf5Pk8gKlFvGC?=
+ =?us-ascii?Q?I6zlaSTgKPne4RLdbPadf4zhoaC+oown3po+P1p6RqQBpBhLi0lBPmhkLo93?=
+ =?us-ascii?Q?JcanGrLQJFaBKDBBb3otivTU6969D6h3JLmX3EogeSbvP+TvyHILCp2j/eM9?=
+ =?us-ascii?Q?nqWcyjhCDwu5sU1N3HleKL479UMLnxpJtWqOZs/0Znk0g9Uo71xD85uLc8rp?=
+ =?us-ascii?Q?M6lTwe4I4jueTDEMkXcgTAtAGW8wa1qmR333lZOa4vFmvQaqlF2TOPFFX7PK?=
+ =?us-ascii?Q?LQ4U+Ear/Au/A2D6Tq/wgBQRN5hY+if9xNWyXsJcTEuqQw5Qrpowyt66qhVR?=
+ =?us-ascii?Q?I4qvCVCxvl7siLUijFZXdS8oHFp1Uw9TlKrxZu2Z4Z29es7i0PF2wT2lQc22?=
+ =?us-ascii?Q?gWXUpwMLIjfPPh77wnhbkrvf324t7ObW?=
+X-Forefront-Antispam-Report: CIP:216.228.118.233; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700013)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2024 17:46:12.8228 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c56ee1b-c8c2-486f-7630-08dd194289fd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.233];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000ECDB.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5594
 X-Mailman-Approved-At: Wed, 11 Dec 2024 06:58:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,42 +145,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Activity monitoring (actmon for short) is a means to dynamically
+measure the utilization of units in the system to help drive software
+power management policies.
 
---=-bHGp4P46otAfPh8D5/ik
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In Tegra, Dynamic Voltage and Frequency Scaling (DVFS) is the primary
+dynamic power management mechanism. It uses utilization information
+from various units to select the most efficient frequency and thereby,
+voltage that the unit should operate while providing the requisite
+performance.
 
-On Tue, 2024-12-10 at 16:18 +0100, Stanislaw Gruszka wrote:
->=20
-> The problem will disappear after applying:
-> https://lore.kernel.org/stable/20241209175416.59433-1-
-> stanislaw.gruszka@linux.intel.com/
-> since the allocation will not longer fail.
->=20
-> ...
-> Regards
-> Stanislaw
+Johnny Liu (5):
+  dt-bindings: display: tegra: Add actmon information
+  arm64: tegra: Add actmon information
+  gpu: host1x: Support device monitoring with actmon
+  drm/tegra: nvdec: Register the device with actmon
+  drm/tegra: vic: Register the device with actmon
 
-I confirm that (6.12.4 + above patch) now boots without problems.
+ .../display/tegra/nvidia,tegra20-host1x.yaml  |  45 +-
+ arch/arm64/boot/dts/nvidia/tegra234.dtsi      |  10 +-
+ drivers/gpu/drm/tegra/nvdec.c                 |  82 ++-
+ drivers/gpu/drm/tegra/vic.c                   |  39 +-
+ drivers/gpu/drm/tegra/vic.h                   |   9 +
+ drivers/gpu/host1x/Makefile                   |   1 +
+ drivers/gpu/host1x/actmon.c                   | 558 ++++++++++++++++++
+ drivers/gpu/host1x/actmon.h                   |  46 ++
+ drivers/gpu/host1x/dev.c                      |  71 ++-
+ drivers/gpu/host1x/dev.h                      |  59 +-
+ drivers/gpu/host1x/hw/actmon.h                |  49 ++
+ drivers/gpu/host1x/hw/host1x08.c              |   6 +-
+ drivers/gpu/host1x/hw/hw_host1x08_common.h    |  16 +-
+ drivers/gpu/host1x/hw/intr_general_hw.c       |  83 +++
+ include/linux/host1x.h                        |  30 +-
+ 15 files changed, 1075 insertions(+), 29 deletions(-)
+ create mode 100644 drivers/gpu/host1x/actmon.c
+ create mode 100644 drivers/gpu/host1x/actmon.h
+ create mode 100644 drivers/gpu/host1x/hw/actmon.h
+ create mode 100644 drivers/gpu/host1x/hw/intr_general_hw.c
 
-Thank you for sorting it out.
+-- 
+2.34.1
 
-
-
---=20
-Gene
-
-
---=-bHGp4P46otAfPh8D5/ik
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ1hyHAAKCRA5BdB0L6Ze
-22qyAQCiow8EKie6x4WLJm79+9e46CEZ9gd5lJR0bGTh39txpQEAx4xNEdphp9mz
-xnLYva4vWbPImT2BELnv4B97Yw8B6QU=
-=+KY4
------END PGP SIGNATURE-----
-
---=-bHGp4P46otAfPh8D5/ik--
