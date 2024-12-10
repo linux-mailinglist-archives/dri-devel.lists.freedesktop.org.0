@@ -2,72 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AD89EB2E7
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 15:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8F59EB2EC
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 15:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5194710E3B0;
-	Tue, 10 Dec 2024 14:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8370610E3BF;
+	Tue, 10 Dec 2024 14:16:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="seNyLxUM";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jNlecyOw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
- [209.85.208.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9959010E3B0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 14:16:53 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id
- 4fb4d7f45d1cf-5cf6f367f97so8234269a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 06:16:53 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD3F510E3B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 14:16:54 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3dce16a3dso5700569a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 06:16:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733840212; x=1734445012; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=GwH0G8nePkS2BSjAdjZHUSwomZZVrTT3UjSpzowmTtQ=;
- b=seNyLxUMOiemRrzLsF04IdqHAD4xLda8OrZlfcGXYwguE/EGA1U8W4kjpKxY+1K+Hz
- dNJDu7WPWToQoNYzj7fXULwSMUdOkNComtgHrtxvl7COovqPqmGeg0Cw7SWSo1JDQCn5
- Lva3/O9Mw2eZ1m4W5bjwCVSDS9kRMAGIsBIuQjVufRRoShiWsU20/Z+qH19yfUrBgQK9
- Qt69WiOQbfAA70E7UyRoHRKxKBAbWlPATxJfwCpC/ML9TX63qC6fhSd04NUOR1JEo8Th
- ea2Bx6uADg861iVDEjo8Db7B1Yo2AIzeQl1sBmNGyYWz70bt9d+XF15yQlczqB4uA16O
- DrcQ==
+ d=linaro.org; s=google; t=1733840213; x=1734445013; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=YDx6hbMot9hPe7Zgw4rNyld1Z3a4kDtP9bTMjfYhMss=;
+ b=jNlecyOwjF5RigDWInf11PF4eylyEYylrYxaEwlHV2+ua0X6VbOXDS+KlWc0+tTcyM
+ OUS0vH5cnRuYbV2DJLSGfgkLFAYyLu5xXHg8tiI4ISAZA+mNpsoJdJL+o23xk3uMpxJn
+ cahR3/BZ214qiKlBsI0dnKhxyR+Ht7dv1kEJr07wZxgu0DDFv/F5eGl8MjVXs+I4lIVN
+ OxAHJ7+2ZWsSvHVenSFoSO0C/xbyQf0jvnm96j/W7Z54ZbSvMMqMm1Q8JqYR5OTIJTyb
+ GxXCE12E2zThAgNm7In0X3eheZCJMJBKw0zWZqUh688RVNmR7Nw+9Gd72LmCsJbgwhf5
+ ye8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733840212; x=1734445012;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=GwH0G8nePkS2BSjAdjZHUSwomZZVrTT3UjSpzowmTtQ=;
- b=gAYk7EEa4pORrYMCFrO9REdhaJRz0+r5aaVwzeHx97A2+9fcG2JNAh9sV6JAqnrvX3
- MOJb3DRexBMp9/T9yXUalIa/p7RGFJFu3hiZRFXZvpVWwDD4IOktxSAJLi7i7Aaw9by0
- wiDDKcvhLPtBJl4ePLZTKAV3LPRVuf43eAE/1/omXPCzdE23HkGvwrPuD64Lz687L0wM
- b703i0P+57JZi86byWTF7QaOSZ2YGo2wHXVLpBG+P4NyBiAmHAPjR3vQYqfktrqkWPNC
- aT4Rdyq3ocHtVh0t/PMLHNK057KAV0oN/vmiRP0Y4qr93Gz/RXExCdlDA8iRfeEhzv7y
- i9Dw==
-X-Gm-Message-State: AOJu0YwdBZnp3seKqtyk2lgFiQ0+cLwaknnlOEPEeVWES3xaeIV52wRp
- C9vyHOiL4FhP6d1o0Q2IjR20l6XWr1C1aw/Pm8X5T15lngdpkqfmO9cOQVSzvto=
-X-Gm-Gg: ASbGncvzo+x8xW9s1w0rpy9+CkXflZXhfcSeZb+MyN+Ojura7R/aBVwH9Pt6cnJyZ7t
- p7MXyhWXqyCnl7Xbxybadx7RIvawPywrWFopTCfWo10JH2NbyCis9/EjO0z/UJ175X60dewHWkw
- FOn5NBnZlYEkjzUt5qaU085oc0823I5tdeWleW1gaIOPIv8hwMl6NGaFBc42I/c2iFGTPLSi9OE
- vpZe6CtFDPLaxgvY3kZwvsOZUAj1e2HLHPH0MrNiV+sJoyteqcZ5erQFuxdFA==
-X-Google-Smtp-Source: AGHT+IGWk/qbRHRjKqV0wfeV5P+rWVopoCMPfZBVc89GTsbwmZWowfsav1SqSjh4fO5srkk+bmeMSA==
-X-Received: by 2002:a05:6402:2807:b0:5d3:ba42:e9fe with SMTP id
- 4fb4d7f45d1cf-5d4185319dbmr5684088a12.12.1733840211953; 
- Tue, 10 Dec 2024 06:16:51 -0800 (PST)
+ d=1e100.net; s=20230601; t=1733840213; x=1734445013;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YDx6hbMot9hPe7Zgw4rNyld1Z3a4kDtP9bTMjfYhMss=;
+ b=GaXypxA23de3H6zijCbgmARYORnFbrqotsoIRJHv0MOhK2RoEs46X9Bt4zVQchUlE3
+ BriEYYwBCaaO0erSsV8bHInNAtpG9Imq/nv2urUB06GVT02zSQ4oAcUuRWqHY5t9fQwi
+ pLPd/KF34EJnE1CPQlYQC3D+WgLgJZKrTUU/VFo1/F0s2Gm+6Aq1I68Zw8PwNkkB07Ml
+ LVjOp2GVo8iL6YHpCjlOG3szknxECFr+JM4lXbL9MRWcAWupK3J7i2/hyKi/sVHulg3e
+ /i25Ynol71CtwcmWm4LW5OSuUZURZQPjswezNMvJFVwukD5BsPXZzKABPCyMZE8pwYNi
+ +IAg==
+X-Gm-Message-State: AOJu0YzlmjlXp+cZC9qVg+4An2ccriONplStYv2Hnrtra3mn7sl3SMyS
+ T8tZpnm+OUROS800Ecp0UrJvV/8nsv4GZUT2rzVkzzORUFW/Uid1s+ZxSQ95zMs=
+X-Gm-Gg: ASbGncuMbkA8VEfMBm2UDnvABzkr4/fSPe3qP0d1a6pGFuwy1iY68Ag+KCXv4pI10yb
+ ByU9u9Pgt4n12RnHpUgEZR9SJnlooVSyfcnNVrP1tZKAXb1cqJd4ad+OIAZt09q9oHfi868NHho
+ WWydw/jvx7TkFwLsuWdE2Uqq6X/K9UyJ7bO5u+wJ1cCrvb9lKPaODDrHbUJoBA9AJZasCmQTiLq
+ Slo6aixpzXQIH0DNk+SAhfEv73C9QfzMISUAt+StRwlIy5jUY6Qi5Qbz2FRGQ==
+X-Google-Smtp-Source: AGHT+IGWT8mMHqxsdN4hdP58Pe8rJU3Stb8+4FvxSrZ3iQfKkTBWo2xyAfZGSkKZNrpT0n9roYgJVA==
+X-Received: by 2002:a05:6402:5212:b0:5d0:b1c4:7081 with SMTP id
+ 4fb4d7f45d1cf-5d41e163a48mr3441285a12.4.1733840213072; 
+ Tue, 10 Dec 2024 06:16:53 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d3dc2602b0sm5104362a12.18.2024.12.10.06.16.50
+ 4fb4d7f45d1cf-5d3dc2602b0sm5104362a12.18.2024.12.10.06.16.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2024 06:16:51 -0800 (PST)
+ Tue, 10 Dec 2024 06:16:52 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/4] drm/bridge: move
- drm_atomic_helper_connector_hdmi_check() to drm_bridge_connector
-Date: Tue, 10 Dec 2024 16:16:46 +0200
-Message-Id: <20241210-bridge_hdmi_check-v1-0-a8fdd8c5afa5@linaro.org>
+Date: Tue, 10 Dec 2024 16:16:47 +0200
+Subject: [PATCH 1/4] drm/display: bridge_connector: provide atomic_check
+ for HDMI bridges
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE5NWGcC/y3M4QpFQBCG4VvR/D5ba0OcW9FJ7Aw7icMsUnLvN
- vx8vvreAzwJk4dvdIDQxp7/Y0D8icC6euxIMQaD0SaJjU5VI4wdVQ4Hrqwj26uixTxDTBtTaAi
- /Sajl/W6Wv8dC8xrSyzue5wVsmTwQeAAAAA==
-X-Change-ID: 20241205-bridge_hdmi_check-9fd86dd5b290
+Message-Id: <20241210-bridge_hdmi_check-v1-1-a8fdd8c5afa5@linaro.org>
+References: <20241210-bridge_hdmi_check-v1-0-a8fdd8c5afa5@linaro.org>
+In-Reply-To: <20241210-bridge_hdmi_check-v1-0-a8fdd8c5afa5@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -78,16 +76,16 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Liu Ying <victor.liu@nxp.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1296;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1657;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=5yWtH0/AHsQas2EHkU/GrIi2GqCzfjr8NZABeuJRXOs=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnWE1RE7/f5a24T6MflVG9Cf6Zh6wNv1sHzeB7U
- Re5U7qSIrqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1hNUQAKCRCLPIo+Aiko
- 1WXTB/4idxCjQtZmhLjO7DL7OJyaix+Q8eg4eF4lr6z3ejiJF2RJWNH0GF5rtiNwILnhFTBCMqu
- omzbamg597QXtaYapZGMLnjiquloTdfZp4Q3g7hcGCcpApVJHuylTUE4j3fd5k04Nswo30z1dJf
- IZ/kJIwM5xlif1VVg0gbo4tj9qcHNMHoHflRwc7DoU6m+dTM5CduuKmj2m9yMlJDgY9Hvvbqfci
- dc/ignmbRRuHHCNiLuXoLJB1T3gQkwlVX1XQ3g4pbiMBb/jE8ITHyTtyaFBMZ/4VWvAruJv161Q
- 9AT9L24chTox01OHwbKMa7B9xsiepN9knePLrlZ8bZ1cHpbm
+ bh=w8Xw25H9E0EowRWue4E3JonkkP8YUynIV0Mvq3TC5nw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnWE1R5NPKL4rqV+jR0KPOXn80x27rRanZM+VQ5
+ Q4r9GgPzaKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1hNUQAKCRCLPIo+Aiko
+ 1atnB/9dz6pBR9aU669+5H2pdnKug29xlZBRPLZmzo+E5oJewM3cZD09he4jEBfGB6H63phwgKT
+ PCpN6NcXKee8q0yILHUXjqQPoq0+AETXNH6uHzI0+4meAAff39OFtOxfONhTOBikdBNVu1/L126
+ 34Smslj0Au4U5ptSosFI37VyPtgVeA3YkXyr762Thi+gFQikGCujFrG4rmoYiMn7YiCtGjO2kHo
+ bAYnERIBIUqUoLvx/uC1WeTp2w3aS+e4u4SjSuB5yGIiPaOyqOw5Fwn0eyiotVWCwsbb0E6Oc6E
+ XV7eLYsE+JEFYPpHPhaLSGyysWCYM1XeqIHTJMgcP4HrwECy
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,32 +103,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reduce boilerplate code and move calls to
-drm_atomic_helper_connector_hdmi_check() to the drm_bridge_connector.
-Initially the drm_bridge_connector didn't use HDMI state helpers
-directly, so each driver had to call that function on its own. Since the
-commit 9a71cf8b6fa4 ("drm/bridge-connector: reset the HDMI connector
-state") it depends on DRM_DISPLAY_HDMI_STATE_HELPER, allowing us to use
-the helper from the generic code too.
+The bridges using HDMI connector framework have a call to
+drm_atomic_helper_connector_hdmi_check() in their atomic_check()
+callback. In order to reduce boilerplate and make simplify bridge's
+code, use drm_atomic_helper_connector_hdmi_check() to implement
+drm_connector.atomic_check() for HDMI bridges.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (4):
-      drm/display: bridge_connector: provide atomic_check for HDMI bridges
-      drm/bridge: ite-it6263: drop atomic_check() callback
-      drm/bridge: lontium-lt9611: drop atomic_check() callback
-      drm/bridge: dw-hdmi-qp: drop atomic_check() callback
-
- drivers/gpu/drm/bridge/ite-it6263.c            | 10 ----------
- drivers/gpu/drm/bridge/lontium-lt9611.c        | 10 ----------
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c   | 17 -----------------
  drivers/gpu/drm/display/drm_bridge_connector.c | 13 +++++++++++++
- 4 files changed, 13 insertions(+), 37 deletions(-)
----
-base-commit: 84e541b1e58e04d808e1bb13ef566ffbe87aa89b
-change-id: 20241205-bridge_hdmi_check-9fd86dd5b290
+ 1 file changed, 13 insertions(+)
 
-Best regards,
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 512ced87ea18c74e182a558a686ddd83de891814..f6e0b6f1ffdd392ee15ddfd9ec85452a88122d42 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -313,11 +313,24 @@ drm_bridge_connector_mode_valid(struct drm_connector *connector,
+ 	return MODE_OK;
+ }
+ 
++static int drm_bridge_connector_atomic_check(struct drm_connector *connector,
++					     struct drm_atomic_state *state)
++{
++	struct drm_bridge_connector *bridge_connector =
++		to_drm_bridge_connector(connector);
++
++	if (bridge_connector->bridge_hdmi)
++		return drm_atomic_helper_connector_hdmi_check(connector, state);
++
++	return 0;
++}
++
+ static const struct drm_connector_helper_funcs drm_bridge_connector_helper_funcs = {
+ 	.get_modes = drm_bridge_connector_get_modes,
+ 	.mode_valid = drm_bridge_connector_mode_valid,
+ 	.enable_hpd = drm_bridge_connector_enable_hpd,
+ 	.disable_hpd = drm_bridge_connector_disable_hpd,
++	.atomic_check = drm_bridge_connector_atomic_check,
+ };
+ 
+ static enum drm_mode_status
+
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
