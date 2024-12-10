@@ -2,102 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED01E9EBC80
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735999EBD7C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:15:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB5110E5CA;
-	Tue, 10 Dec 2024 22:03:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85EDF10E075;
+	Tue, 10 Dec 2024 22:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Vt8vx6jK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rHc4Fdum";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1316A10E9AD;
- Tue, 10 Dec 2024 22:02:49 +0000 (UTC)
-Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id F1ABA20ACD6F;
- Tue, 10 Dec 2024 14:02:39 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F1ABA20ACD6F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1733868160;
- bh=zXBBaQqpACacMQS0Kj7gcrwl6nw/WBuJMa6i20JWtiI=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Vt8vx6jKTs+Ctim/qcZbBmxzvKglLplBaf8u3Ss1TuSPMlqyDk6c0iiPlA+LzR+m0
- YPZ/Qdi+1XcZwtu1UmEnzASc3HPTGQ/HgM/xmF7CmRGYf/aXx12mOKI6ka1aNTAUbz
- /gGdJ/+VOZh0/gOcfBkHqPOaIC1SiZYddw+BwdBw=
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:50 +0000
-Subject: [PATCH v3 19/19] ALSA: line6: Convert timeouts to
- secs_to_jiffies()
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5EC10E075
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 22:15:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 344C55C5B5E;
+ Tue, 10 Dec 2024 22:14:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 351F7C4CED6;
+ Tue, 10 Dec 2024 22:15:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733868910;
+ bh=3x4SgvgxpD/lcEUf3nJ+mjH3qTFRRg7PIFRh0uDdLlA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rHc4FdumgPQ+I6A2FJ6RnWwGc0HaSnQsLrVKxDly7JbPsBhnwWvn72/Nn689Wuqkm
+ obCpEtWZitbcfbR65XcrDV/ZhF9KBPAoEvHEQ0gvmNkSJCwGbxyACOTAAc/sCcWNlD
+ nFZSD0zH2HLB+8Yv6/0Yh4Ie4n/whG3Nb3x/j2pxJdYenYJHFhg5TO2ufhJQRvGA4Q
+ +UFz8q5+HJMcMI66JctRNjv809VrNHAfyNTEDNrP3aUSdghd/CE2os5bhRmPMO/E15
+ 6cTTsq0ykol5TEDftvEIQmGtULteXOkL2wj2Y4Eq1SfoRbPQ5x0XXoSTYOuunzSJwo
+ 0B2TTlBlYVglA==
+Date: Tue, 10 Dec 2024 16:15:08 -0600
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
+ kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
+ francesco@dolcini.it, frank.li@nxp.com, dmitry.baryshkov@linaro.org,
+ u.kleine-koenig@baylibre.com
+Subject: Re: [PATCH v6 01/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller processing units
+Message-ID: <20241210221508.GA550635-robh@kernel.org>
+References: <20241209033923.3009629-1-victor.liu@nxp.com>
+ <20241209033923.3009629-2-victor.liu@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-19-ddfefd7e9f2a@linux.microsoft.com>
-References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
-In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>, 
- Jozsef Kadlecsik <kadlec@netfilter.org>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>, 
- Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Russell King <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>, 
- Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jeroen de Borst <jeroendb@google.com>, 
- Praveen Kaligineedi <pkaligineedi@google.com>, 
- Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- James Smart <james.smart@broadcom.com>, 
- Dick Kennedy <dick.kennedy@broadcom.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- =?utf-8?q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
- Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>, 
- Jeff Johnson <jjohnson@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Jack Wang <jinpu.wang@cloud.ionos.com>, 
- Marcel Holtmann <marcel@holtmann.org>, 
- Johan Hedberg <johan.hedberg@gmail.com>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
- Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Louis Peens <louis.peens@corigine.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr, 
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org, 
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org, 
- ath11k@lists.infradead.org, linux-mm@kvack.org, 
- linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org, 
- live-patching@vger.kernel.org, linux-sound@vger.kernel.org, 
- oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, 
- Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Easwar Hariharan <eahariha@linux.microsoft.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209033923.3009629-2-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,42 +68,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-secs_to_jiffies(). As the value here is a multiple of 1000, use
-secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
+On Mon, Dec 09, 2024 at 11:39:05AM +0800, Liu Ying wrote:
+> Freescale i.MX8qxp Display Controller is implemented as construction set of
+> building blocks with unified concept and standardized interfaces.  Document
+> all existing processing units.
+> 
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v6:
+> * No change.
+> 
+> v5:
+> * Document aliases for processing units which have multiple instances in
+>   the Display Controller.  Drop Rob's previous R-b tag. (Maxime)
+> 
+> v4:
+> * Collect Rob's R-b tag.
+> 
+> v3:
+> * Combine fsl,imx8qxp-dc-fetchunit-common.yaml,
+>   fsl,imx8qxp-dc-fetchlayer.yaml and fsl,imx8qxp-dc-fetchwarp.yaml
+>   into 1 schema doc fsl,imx8qxp-dc-fetchunit.yaml. (Rob)
+> * Document all processing units. (Rob)
+> 
+> v2:
+> * Drop fsl,dc-*-id DT properties. (Krzysztof)
+> * Add port property to fsl,imx8qxp-dc-tcon.yaml. (Krzysztof)
+> * Fix register range sizes in examples.
+> 
+>  .../display/imx/fsl,imx8qxp-dc-blitblend.yaml |  46 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-clut.yaml      |  49 ++++++
+>  .../imx/fsl,imx8qxp-dc-constframe.yaml        |  49 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-dither.yaml    |  49 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-extdst.yaml    |  77 +++++++++
+>  .../display/imx/fsl,imx8qxp-dc-fetchunit.yaml | 147 ++++++++++++++++++
+>  .../display/imx/fsl,imx8qxp-dc-filter.yaml    |  47 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-framegen.yaml  |  68 ++++++++
+>  .../display/imx/fsl,imx8qxp-dc-gammacor.yaml  |  38 +++++
+>  .../imx/fsl,imx8qxp-dc-layerblend.yaml        |  45 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-matrix.yaml    |  48 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-rop.yaml       |  48 ++++++
+>  .../display/imx/fsl,imx8qxp-dc-safety.yaml    |  34 ++++
+>  .../imx/fsl,imx8qxp-dc-scaling-engine.yaml    |  89 +++++++++++
+>  .../display/imx/fsl,imx8qxp-dc-signature.yaml |  58 +++++++
+>  .../display/imx/fsl,imx8qxp-dc-store.yaml     | 100 ++++++++++++
+>  .../display/imx/fsl,imx8qxp-dc-tcon.yaml      |  50 ++++++
+>  17 files changed, 1042 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
+> new file mode 100644
+> index 000000000000..7f800e72c3f3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
+> @@ -0,0 +1,46 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-blitblend.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Freescale i.MX8qxp Display Controller Blit Blend Unit
+> +
+> +description: |
+> +  Combines two input frames to a single output frame, all frames having the
+> +  same dimension.
+> +
+> +  Each Blit Blend Unit device should have an alias in the aliases node, in the
+> +  form of dc<x>-blitblend<y>, where <x> is an integer specifying the Display
+> +  Controller instance and <y> is an integer specifying the Blit Blend Unit
+> +  device instance.
 
-This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-the following Coccinelle rules:
+That's really an abuse of aliases. If you need to describe connections 
+between components, use the graph binding like everyone else does for 
+display path components.
 
-@@ constant C; @@
-
-- msecs_to_jiffies(C * 1000)
-+ secs_to_jiffies(C)
-
-@@ constant C; @@
-
-- msecs_to_jiffies(C * MSEC_PER_SEC)
-+ secs_to_jiffies(C)
-
-Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
----
- sound/usb/line6/toneport.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/usb/line6/toneport.c b/sound/usb/line6/toneport.c
-index ca2c6f5de407ece21ab69a39ed603e3f10069039..c073b38cd6738176fc6a276d05ed553526573341 100644
---- a/sound/usb/line6/toneport.c
-+++ b/sound/usb/line6/toneport.c
-@@ -386,7 +386,7 @@ static int toneport_setup(struct usb_line6_toneport *toneport)
- 		toneport_update_led(toneport);
- 
- 	schedule_delayed_work(&toneport->line6.startup_work,
--			      msecs_to_jiffies(TONEPORT_PCM_DELAY * 1000));
-+			      secs_to_jiffies(TONEPORT_PCM_DELAY));
- 	return 0;
- }
- 
-
--- 
-2.43.0
-
+Rob
