@@ -2,69 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C98A9EB04C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6B29EB097
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:16:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2112510E3A3;
-	Tue, 10 Dec 2024 11:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D77D10E0A2;
+	Tue, 10 Dec 2024 12:16:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UUAAcqe1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OnCMCf0a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89D8810E392;
- Tue, 10 Dec 2024 11:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733831884; x=1765367884;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:to:date:message-id;
- bh=fkQQvhWkts9DOh8Pv3CfVt/3pMfiHZxuWSYMYbfIfCw=;
- b=UUAAcqe1wEgJuLoPjqVGDa3z/jnE0K82gQ6q+jHuWyWaWRVt4Lviq5Zi
- SnUycyO4vu481vr6P4eAPEDoPtyegBIU324dJa2lkCVE+DHWdZpMbr/3/
- t7OGYQ+3TQY3AYt003mUqitndGfIIUZg0ysqtcyLth/qUBL7ppuw7lDG9
- pj7KhiRNmmakBDL51MRIFT5KWNF1YgP9lzI4eab3OfDpfk5yiRy41OVgl
- 16Zcg+53wwfquQyGXhCDv11vGm9HzuGJLRsAI4IveSC3lxPpvaNV6DR8l
- ofyzrYpM0EAFaN7X8jq8bMsVOYeHlEljkpkhrjyhH+IQPAmO9Z33/OUW5 A==;
-X-CSE-ConnectionGUID: TrE3jWC5QLG1jODPeY/bBA==
-X-CSE-MsgGUID: zKdN29WjRPmLm7UPP6lSPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45182374"
-X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; d="scan'208";a="45182374"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2024 03:58:04 -0800
-X-CSE-ConnectionGUID: VHh2vEPmS/ynGURgYwzjdw==
-X-CSE-MsgGUID: a3JQfRXGT0aqEepKq62cRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="100433990"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.245.228])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2024 03:58:01 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5355810E0A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 12:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1733832990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=lXKHp7PTPeLrFs3yLv8CjwlFKDB9W3PSURISJTTUMQg=;
+ b=OnCMCf0aIO6CSydtCAGaGss5R3Qq3JAiUPEugXY1yrnfY9HB+iyjBjbzDhhMrRAr6C4InL
+ qtwpq2KjskvogoVSRhHNW1514166aOq+Sy8qneIe8+6okZncDg3AA1PjzBWCsnJg3cv089
+ YAflsQ8i2FSZgJv2o2YPdZmkxUyV2aQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-642-EWICFBMRMr2wj6GIUulxYg-1; Tue, 10 Dec 2024 07:16:29 -0500
+X-MC-Unique: EWICFBMRMr2wj6GIUulxYg-1
+X-Mimecast-MFC-AGG-ID: EWICFBMRMr2wj6GIUulxYg
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-38634103b0dso2028175f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 04:16:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733832988; x=1734437788;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:cc:to:subject:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=lXKHp7PTPeLrFs3yLv8CjwlFKDB9W3PSURISJTTUMQg=;
+ b=TDHwD/7Bjin27NTk0lzaidTAnj9q3iw0z7COIc0LOebyyrCb7az8xe6WvZ0TdHEYZv
+ 8Jrg8MS9IMa/n6oq7s4FeQgI4eMQJ6heoMvPOTgzvGE7lk9ynvfm0E+T1FBiguNPaQE4
+ jUQNUvxVjQew9xtzu2c1V51tvwmFHnuCb3PY1q/8BWiktjy9pIt2lHS3Hvtn+TJSh1Xt
+ OepSCcXdsf74ibOwA5zVBAQoIy4JneX0U25v4RoFh6hjrdSasjge7wPPvWZ/yzVLYfEG
+ vHjblJt+Jl94bLrhc1reOJnW86SPt2V4CSVkehxOLxgVUbW3+anYLrhljDKMV+CkL5hr
+ ycXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUMwiXDhqcZm5JTJZ/vIrk/NMTMMuZEpP/dEc1/XfTflBLKlWsLWqM3f5SguFRTc0KU1cn/q+Tzv9w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGmYoldd1KuRUtyyvZ38SJmKQ/rW9EbDCvKZwv7tzUmZ1WfLxX
+ d7rnLRT0duC7SwZ2DP/K1Sa33cSCrRX+aWbtIDPWGbRXD+0YWyEocZSXPuP4AOx5i8I+3Y4nXmI
+ i4I7mHobvxU+EmzlLb13sHLJJijm5exwKXju608um6ARFnw7lbrRVC4NZgHZtVUzCeA==
+X-Gm-Gg: ASbGncs0KwzcDhWBQbfJcC4IYOsIvnn+9iSvzzDlMpTws7wwhYcQIknr4utaJ/pLAXJ
+ qNudQU7XbYdhQX8UZoD02pQ5npyzsqxR0dNBRNHnn6RBISsQMQG2uRGRlEYn3MlYz50A+40xYEN
+ ZhW0KuUjHcTa6InZH94Zm53py1r5+eTBQsri9KoaKUPXmNIlb0XUDsPos1EP+z5Q1qkynFAM90u
+ Cnmj27xCCMMep7exeOOjdIwVi9aIWrE3dP1fHf4exVu+pnte1T22wVqq9k3yzztSbNMu8JlY/AW
+ a8ON42IeoVa8DMrp0wPrewGptTK2lJRm5Ra57nVB/+twKFyCnC5ea2oCVkqmPmcbzi6R6tDpLlE
+ OlO3QBg==
+X-Received: by 2002:a5d:6c69:0:b0:385:df4e:366f with SMTP id
+ ffacd0b85a97d-3862b3d094cmr12060650f8f.38.1733832987880; 
+ Tue, 10 Dec 2024 04:16:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEUtAVYwl95714e4M/5rFlPd3XdXauYVwgHgacxP4Jrf3GCmac2hrDCWK6xExtVYysSYZZd3Q==
+X-Received: by 2002:a5d:6c69:0:b0:385:df4e:366f with SMTP id
+ ffacd0b85a97d-3862b3d094cmr12060626f8f.38.1733832987490; 
+ Tue, 10 Dec 2024 04:16:27 -0800 (PST)
+Received: from ?IPV6:2003:cb:c723:b800:9a60:4b46:49f9:87f3?
+ (p200300cbc723b8009a604b4649f987f3.dip0.t-ipconnect.de.
+ [2003:cb:c723:b800:9a60:4b46:49f9:87f3])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3862294b1e3sm15641181f8f.109.2024.12.10.04.16.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Dec 2024 04:16:26 -0800 (PST)
+Message-ID: <1a02554d-d7c1-4925-8180-a39bd6ecdd32@redhat.com>
+Date: Tue, 10 Dec 2024 13:16:24 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <d2141daa-b556-4487-a310-69a7fea4eae8@amd.com>
-References: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
- <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
- <ec42fe8b-9be0-41cc-96f4-f1869c6bb7e6@amd.com>
- <Z1cNQTvGdAUPp4Y-@phenom.ffwll.local>
- <e4401ab1-0562-407a-a0e9-2f6e43e5ac22@amd.com>
- <173382321353.8959.8314520413901294535@jlahtine-mobl.ger.corp.intel.com>
- <d2141daa-b556-4487-a310-69a7fea4eae8@amd.com>
-Subject: Re: [PATCH 14/26] drm/xe/eudebug: implement userptr_vma access
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Jonathan Cavitt <jonathan.cavitt@intel.com>,
- Linux MM <linux-mm@kvack.org>, Maciej Patelczyk <maciej.patelczyk@intel.com>,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, lkml <linux-kernel@vger.kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Tue, 10 Dec 2024 13:57:58 +0200
-Message-ID: <173383187817.17709.7100544929981970614@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.10
+User-Agent: Mozilla Thunderbird
+Subject: Re: Removing page->index
+To: Claudio Imbrenda <imbrenda@linux.ibm.com>
+Cc: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-s390@vger.kernel.org
+References: <Z09hOy-UY9KC8WMb@casper.infradead.org>
+ <cebb44b2-e258-43ff-80a5-6bd19c8edab8@redhat.com>
+ <20241209183611.1f15595f@p-imbrenda>
+ <023d1c53-783e-4d6d-a5e9-d15b9e068986@redhat.com>
+ <20241210130420.534a6512@p-imbrenda>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20241210130420.534a6512@p-imbrenda>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: SOSNSCRb1dQOdjUJMfKJN075QzHunlP6vl6e6A7cIp8_1733832988
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,345 +156,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Christian K=C3=B6nig (2024-12-10 12:00:48)
-> Am 10.12.24 um 10:33 schrieb Joonas Lahtinen:
->=20
->     Quoting Christian K=C3=B6nig (2024-12-09 17:42:32)
->=20
->         Am 09.12.24 um 16:31 schrieb Simona Vetter:
->=20
->             On Mon, Dec 09, 2024 at 03:03:04PM +0100, Christian K=C3=B6ni=
-g wrote:
->=20
->                 Am 09.12.24 um 14:33 schrieb Mika Kuoppala:
->=20
->                     From: Andrzej Hajda <andrzej.hajda@intel.com>
->=20
->                     Debugger needs to read/write program's vmas including=
- userptr_vma.
->                     Since hmm_range_fault is used to pin userptr vmas, it=
- is possible
->                     to map those vmas from debugger context.
->=20
->                 Oh, this implementation is extremely questionable as well=
-. Adding the LKML
->                 and the MM list as well.
->=20
->                 First of all hmm_range_fault() does *not* pin anything!
->=20
->                 In other words you don't have a page reference when the f=
-unction returns,
->                 but rather just a sequence number you can check for modif=
-ications.
->=20
->             I think it's all there, holds the invalidation lock during th=
-e critical
->             access/section, drops it when reacquiring pages, retries unti=
-l it works.
->=20
->             I think the issue is more that everyone hand-rolls userptr.
->=20
->         Well that is part of the issue.
->=20
->         The general problem here is that the eudebug interface tries to s=
-imulate
->         the memory accesses as they would have happened by the hardware.
->=20
->     Could you elaborate, what is that a problem in that, exactly?
->=20
->     It's pretty much the equivalent of ptrace() poke/peek but for GPU mem=
-ory.
->=20
->=20
-> Exactly that here. You try to debug the GPU without taking control of the=
- CPU
-> process.
+On 10.12.24 13:04, Claudio Imbrenda wrote:
+> On Tue, 10 Dec 2024 12:05:25 +0100
+> David Hildenbrand <david@redhat.com> wrote:
+> 
+>> On 09.12.24 18:36, Claudio Imbrenda wrote:
+>>> On Wed, 4 Dec 2024 16:58:52 +0100
+>>> David Hildenbrand <david@redhat.com> wrote:
+> 
+> [...]
+> 
+>>>> I know that Claudio is working on some changes, but not sure how that
+>>>> would affect gmap's usage of page->index.
+>>>
+>>> After I'm done, we won't use page->index anymore.
+>>>
+>>> The changes I'm working on are massive, it's very impractical to push
+>>> everything at once, so I'm refactoring and splitting smaller and more
+>>> manageable (and reviewable) series.
+>>>
+>>> This means that it will take some time before I'm done (I'm *hoping*
+>>> to be done for 6.15)
+>>
+>> Thanks for the information. So for the time being, we could likely
+>> switch to page->private.
+>>
+>> One question may be whether these (not-user-space) page tables should at
+>> some point deserve a dedicated memdesc. But likely the question is what
+> 
+> maybe? but given that everything is changing all the time, I'm avoiding
+> any magic logic in struct page / struct folio.
 
-You seem to have a built-in expectation that the CPU threads and memory spa=
-ce
-must be interfered with in order to debug a completely different set of thr=
-eads
-and memory space elsewhere that executes independently. I don't quite see w=
-hy?
+I think Willy wants to get rid of page->index in the next release, so 
+any way to avoid the page->index usage in s390x is appreciated. 
+page->private might be the low hanging fruit. If your approach is 
+feasible in that time frame, it would also be great.
 
-In debugging massively parallel workloads, it's a huge drawback to be limit=
-ed to
-stop all mode in GDB. If ROCm folks are fine with such limitation, I have n=
-othing
-against them keeping that limitation. Just it was a starting design princip=
-le for
-this design to avoid such a limitation.
+-- 
+Cheers,
 
-> This means that you have to re-implement all debug functionalities which =
-where
-> previously invested for the CPU process for the GPU once more.
+David / dhildenb
 
-Seems like a strawman argument. Can you list the "all interfaces" being add=
-ed
-that would be possible via indirection via ptrace() beyond peek/poke?
-
-> And that in turn creates a massive attack surface for security related
-> problems, especially when you start messing with things like userptrs whi=
-ch
-> have a very low level interaction with core memory management.
-
-Again, just seems like a strawman argument. You seem to generalize to some =
-massive
-attack surface of hypothetical interfaces which you don't list. We're talki=
-ng
-about memory peek/poke here.
-
-Can you explain the high-level difference from security perspective for
-temporarily pinning userptr pages to write them to page tables for GPU to
-execute a dma-fence workload with and temporarily pinning pages for
-peek/poke?
-
->     And it is exactly the kind of interface that makes sense for debugger=
- as
->     GPU memory !=3D CPU memory, and they don't need to align at all.
->=20
->=20
-> And that is what I strongly disagree on. When you debug the GPU it is man=
-datory
-> to gain control of the CPU process as well.
-
-You are free to disagree on that. I simply don't agree and have in this
-and previous email presented multiple reasons as to why not. We can
-agree to disagree on the topic.
-
-> The CPU process is basically the overseer of the GPU activity, so it shou=
-ld
-> know everything about the GPU operation, for example what a mapping actua=
-lly
-> means.
-
-How does that relate to what is being discussed here? You just seem to
-explain how you think userspace driver should work: Maintain a shadow
-tree of each ppGTT VM layout? I don't agree on that, but I think it is
-slightly irrelevant here.
-
-> The kernel driver and the hardware only have the information necessary to
-> execute the work prepared by the CPU process. So the information availabl=
-e is
-> limited to begin with.
-
-And the point here is? Are you saying kernel does not know the actual mappi=
-ngs
-maintained in the GPU page tables?
-
->         What the debugger should probably do is to cleanly attach to the
->         application, get the information which CPU address is mapped to w=
-hich
->         GPU address and then use the standard ptrace interfaces.
->=20
->     I don't quite agree here -- at all. "Which CPU address is mapped to
->     which GPU address" makes no sense when the GPU address space and CPU
->     address space is completely controlled by the userspace driver/applic=
-ation.
->=20
->=20
-> Yeah, that's the reason why you should ask the userspace driver/applicati=
-on for
-> the necessary information and not go over the kernel to debug things.
-
-What hypothetical necessary information are you referring to exactly?
-
-I already explained there are good reasons not to map all the GPU memory
-into the CPU address space.
-
->     Please try to consider things outside of the ROCm architecture.
->=20
->=20
-> Well I consider a good part of the ROCm architecture rather broken exactly
-> because we haven't pushed back hard enough on bad ideas.
->=20
->=20
->     Something like a register scratch region or EU instructions should not
->     even be mapped to CPU address space as CPU has no business accessing =
-it
->     during normal operation. And backing of such region will vary per
->     context/LRC on the same virtual address per EU thread.
->=20
->     You seem to be suggesting to rewrite even our userspace driver to beh=
-ave
->     the same way as ROCm driver does just so that we could implement debu=
-g memory
->     accesses via ptrace() to the CPU address space.
->=20
->=20
-> Oh, well certainly not. That ROCm has an 1 to 1 mapping between CPU and G=
-PU is
-> one thing I've pushed back massively on and has now proven to be problema=
-tic.
-
-Right, so is your claim then that instead of being 1:1 the CPU address space
-should be a superset of all GPU address spaces instead to make sure
-ptrace() can modify all memory?
-
-Cause I'm slightly lost here as you don't give much reasoning, just
-claim things to be certain way.
-
->     That seems bit of a radical suggestion, especially given the drawbacks
->     pointed out in your suggested design.
->=20
->=20
->         The whole interface re-invents a lot of functionality which is al=
-ready
->         there
->=20
->     I'm not really sure I would call adding a single interface for memory
->     reading and writing to be "re-inventing a lot of functionality".
->=20
->     All the functionality behind this interface will be needed by GPU core
->     dumping, anyway. Just like for the other patch series.
->=20
->=20
-> As far as I can see exactly that's an absolutely no-go. Device core dumpi=
-ng
-> should *never ever* touch memory imported by userptrs.
-
-Could you again elaborate on what the great difference is to short term
-pinning to use in dma-fence workloads? Just the kmap?
-
-> That's what process core dumping is good for.
-
-Not really sure I agree. If you do not dump the memory as seen by the
-GPU, then you need to go parsing the CPU address space in order to make
-sense which buffers were mapped where and that CPU memory contents containi=
-ng
-metadata could be corrupt as we're dealing with a crashing app to begin wit=
-h.
-
-Big point of relying to the information from GPU VM for the GPU memory layo=
-ut
-is that it won't be corrupted by rogue memory accesses in CPU process.
-
->         just because you don't like the idea to attach to the debugged
->         application in userspace.
->=20
->     A few points that have been brought up as drawback to the
->     GPU debug through ptrace(), but to recap a few relevant ones for this
->     discussion:
->=20
->     - You can only really support GDB stop-all mode or at least have to
->       stop all the CPU threads while you control the GPU threads to
->       avoid interference. Elaborated on this on the other threads more.
->     - Controlling the GPU threads will always interfere with CPU threads.
->       Doesn't seem feasible to single-step an EU thread while CPU threads
->       continue to run freely?
->=20
->=20
-> I would say no.
-
-Should this be understood that you agree these are limitations of the ROCm
-debug architecture?
-
->     - You are very much restricted by the CPU VA ~ GPU VA alignment
->       requirement, which is not true for OpenGL or Vulkan etc. Seems
->       like one of the reasons why ROCm debugging is not easily extendable
->       outside compute?
->=20
->=20
-> Well as long as you can't take debugged threads from the hardware you can
-> pretty much forget any OpenGL or Vulkan debugging with this interface sin=
-ce it
-> violates the dma_fence restrictions in the kernel.
-
-Agreed. However doesn't mean because you can't do it right now, you you sho=
-uld
-design an architecture that actively prevents you from doing that in the fu=
-ture.
-
->     - You have to expose extra memory to CPU process just for GPU
->       debugger access and keep track of GPU VA for each. Makes the GPU mo=
-re
->       prone to OOB writes from CPU. Exactly what not mapping the memory
->       to CPU tried to protect the GPU from to begin with.
->=20
->=20
->         As far as I can see this whole idea is extremely questionable. Th=
-is
->         looks like re-inventing the wheel in a different color.
->=20
->     I see it like reinventing a round wheel compared to octagonal wheel.
->=20
->     Could you elaborate with facts much more on your position why the ROCm
->     debugger design is an absolute must for others to adopt?
->=20
->=20
-> Well I'm trying to prevent some of the mistakes we did with the ROCm desi=
-gn.
-
-Well, I would say that the above limitations are direct results of the ROCm
-debugging design. So while we're eager to learn about how you perceive
-GPU debugging should work, would you mind addressing the above
-shortcomings?
-
-> And trying to re-invent well proven kernel interfaces is one of the big
-> mistakes made in the ROCm design.
-
-Appreciate the feedback. Please work on the representation a bit as it curr=
-ently
-doesn't seem very helpful but appears just as an attempt to try to throw a =
-spanner
-in the works.
-
-> If you really want to expose an interface to userspace
-
-To a debugger process, enabled only behind a flag.
-
-> which walks the process
-> page table, installs an MMU notifier
-
-This part is already done to put an userptr to the GPU page tables to
-begin with. So hopefully not too controversial.
-
-> kmaps the resulting page
-
-In addition to having it in the page tables where GPU can access it.
-
-> and then memcpy
-> to/from it then you absolutely *must* run that by guys like Christoph Hel=
-lwig,
-> Andrew and even Linus.
-
-Surely, that is why we're seeking out for review.
-
-We could also in theory use an in-kernel GPU context on the GPU hardware for
-doing the peek/poke operations on userptr.
-
-But that seems like a high-overhead thing to do due to the overhead of
-setting up a transfer per data word and going over the PCI bus twice
-compared to accessing the memory directly by CPU when it trivially can.
-
-So this is the current proposal.
-
-Regards, Joonas
-
->=20
-> I'm pretty sure that those guys will note that a device driver should
-> absolutely not mess with such stuff.
->=20
-> Regards,
-> Christian.
->=20
->=20
->     Otherwise it just looks like you are trying to prevent others from
->     implementing a more flexible debugging interface through vague commen=
-ts about
->     "questionable design" without going into details. Not listing much co=
-ncrete
->     benefits nor addressing the very concretely expressed drawbacks of yo=
-ur
->     suggested design, makes it seem like a very biased non-technical disc=
-ussion.
->=20
->     So while review interest and any comments are very much appreciated, =
-please
->     also work on providing bit more reasoning and facts instead of just c=
-laiming
->     things. That'll help make the discussion much more fruitful.
->=20
->     Regards, Joonas
->=20
->
