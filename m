@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0BB9EA95A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 08:16:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3309EA95D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 08:16:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1382C10E2C3;
-	Tue, 10 Dec 2024 07:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ABCC10E7FB;
+	Tue, 10 Dec 2024 07:16:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EgFILTLl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jgj+KMS5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC65510E2C3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 07:16:18 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A9F910E7FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 07:16:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1E5075C3F14;
- Tue, 10 Dec 2024 07:15:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A644AC4CEDD;
- Tue, 10 Dec 2024 07:16:14 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 723A1A40BB3;
+ Tue, 10 Dec 2024 07:14:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1ECC4CEDD;
+ Tue, 10 Dec 2024 07:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733814977;
- bh=HfSFCYcIcHMz6pMmawMVgaalxgHhSfm7jOrYc4VD3TA=;
+ s=k20201202; t=1733815007;
+ bh=A9mFOZ5O9eHafBFHD4jukczoDdqKBwf7fgm9KFwngfQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=EgFILTLlnopOu5F3+JsggYgKPfp6ZSuU16Ejxerb23j3v9v0PF9ZocHaSgVhR/hGM
- OdmO1vVnwZYVn9BXLGhEJxSnXy6KjL3Q2hSYmNN+EzjK0dq5HcbcKt8FcXfEpnYVl6
- dWip0yg2kOF2+U9/E5KHWZ4xmbZnMbPkIgXiPIP0YMWgNywwP1Z9Nhx4MM7JZpYiz7
- fNaGB7r39KKojJVqR2ISETQCiOlvfJJ7HaeL+33c5ySnqJx9hd6DOgSIxsT2YH1Xjt
- nw5P6cPvHUE51xYkRx0OZX9Eu5WzXtSa+xl3FEerA8XhO3mFmVwlzoefMAU7dxi/Fz
- Mr7FjHJ3OmzLQ==
-Message-ID: <6c2624c4-4835-48f4-a27c-81e570219292@kernel.org>
-Date: Tue, 10 Dec 2024 08:16:12 +0100
+ b=Jgj+KMS5xgel/llW7t87K19W4xdE4P/iWRxR4oshp554khe6nrNFWnBSyPV36H9Qu
+ NCNyxB2MBxmuXgJxVCb7TfmJ6n7XN3lzjx6GzgYn1npwLNCkXL+vlfvzurIjU/Jv7w
+ 8uPXOXZEVEHovv64z+YIJPbnvhaRlLeB6GK6dNU7Q1p1ydAD/IWYVldCa1ejmAgLwO
+ r9YlTFwkykgkSbl2gVVcfBv9IvHz9sp7p9DxIBdia0KsJRSlsKr80heKozp8wLSZ0m
+ ce1fqFQ0jgw9X+atrYWQNXcK4FQ4+YXV4QKUNyo0e+vAnY47Jk+AO8ZXy1NsKDzE79
+ gs6osLvp6qdGw==
+Message-ID: <b4c49587-00ed-46d1-adc0-f82edd15a0a2@kernel.org>
+Date: Tue, 10 Dec 2024 08:16:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: display: panel-lvds: Add compatible for AUO
- G084SN05 V9
-To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Fabio Estevam <festevam@denx.de>
-References: <20241209204003.1295503-1-festevam@gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: display: tegra: Add actmon information
+To: Johnny Liu <johnliu@nvidia.com>, thierry.reding@gmail.com,
+ mperttunen@nvidia.com, airlied@gmail.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Cc: jonathanh@nvidia.com, rkasirajan@nvidia.com, bbasu@nvidia.com
+References: <20241209172549.5624-1-johnliu@nvidia.com>
+ <20241209172549.5624-2-johnliu@nvidia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -87,7 +86,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241209204003.1295503-1-festevam@gmail.com>
+In-Reply-To: <20241209172549.5624-2-johnliu@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,13 +104,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/12/2024 21:40, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
+On 09/12/2024 18:25, Johnny Liu wrote:
+> An activity monitor (actmon) is used to measure the device runtime
+> utilization to help drive software power management policies.
 > 
-> The AUO G084SN05 V9 is a 8.4" 800x600 LVDS display.
+> Extend the reg space to include actmon aperture for actmon configuration
+> through host1x.
 > 
-> Add a compatible entry for this LVDS display model.
+> Extend the number of clocks to include actmon clock, which is shared
+> between unit actmons for different host1x clients.
 > 
+> Signed-off-by: Johnny Liu <johnliu@nvidia.com>
+
 <form letter>
 Please use scripts/get_maintainers.pl to get a list of necessary people
 and lists to CC. It might happen, that command when run on an older
