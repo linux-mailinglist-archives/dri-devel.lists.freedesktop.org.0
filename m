@@ -2,108 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37989EB213
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 14:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CCC9EB21B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 14:42:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A267410E8D3;
-	Tue, 10 Dec 2024 13:41:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F32910E8D5;
+	Tue, 10 Dec 2024 13:42:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="dQSfkEkC";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ri1xDKzG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BADC10E8D3
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 13:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
- s=default;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=lZcgT+vJ9C3s9qzW0yb7NVL4KoS8lmtWTXUD97cMEvI=; b=dQSfkEkCIgw/LXfXWYmjN5QbTd
- tqQ9uUYOMwMxVQ5cdeoiPJt2CzyqSJy/BHKT50nqivofYeZ3HY3V+3psmkkdUzDcqYIwifiszaUtl
- hEbYJEr6z2cmg8AiouHPv70+mLeKSvcttncu+twPdg+wAvgmwkMjqdvhE5szSw2arkyhN9sr9T2Sm
- LEWyr94HYNVhUFm1cvv3m5l9frVNmmiaV0BNIuiKRYzQSiFecpF22IfNpAtHnBjEoxSOV/famuSuc
- Oz4HrTjkfSH468+YKoLmfZtRpRYSFnzlpspNA/oA6zOKGRZ6dKdiHgbaSIntjnhpZLU907pNhauc6
- 9yR9xHOA==;
-Received: from [89.212.21.243] (port=37530 helo=[192.168.69.52])
- by cpanel.siel.si with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <andrej.picej@norik.com>) id 1tL0U3-002cws-31;
- Tue, 10 Dec 2024 14:41:03 +0100
-Message-ID: <aa2de99d-21f4-4843-83b7-5d2db78be86f@norik.com>
-Date: Tue, 10 Dec 2024 14:41:01 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F18710E8D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 13:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1733838165;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K2evyBV6XmxxlV1avo/FS+rwZXLHzCz3qHmAF9H2G/I=;
+ b=Ri1xDKzGnR9J4QjgJBLJF81FpR6I/BRRFADfyncXr39hB3MTK8taR8pv18xQD7iJxGlgDE
+ fzcjmx61Jw62U2nYNarXl15DJRJl/E0uYCa3gbj8zEeaib6UwXI1XYe7PGarHrEhovaz+4
+ 44eoEdsBsCGCSfdXaX4NKLCWQTzHRlw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-637-tKbXOvAkNVqFqz83xd0PIw-1; Tue, 10 Dec 2024 08:42:42 -0500
+X-MC-Unique: tKbXOvAkNVqFqz83xd0PIw-1
+X-Mimecast-MFC-AGG-ID: tKbXOvAkNVqFqz83xd0PIw
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-4359206e1e4so6173795e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 05:42:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733838161; x=1734442961;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K2evyBV6XmxxlV1avo/FS+rwZXLHzCz3qHmAF9H2G/I=;
+ b=p6qlwoGN7R2FUu97UIUM9o2ge5Sa1LePm2DLA7PdEkJHVWa/lm2kCV+OaEqI9E1ekk
+ QXE9WiQLo2DCZ+kBXXNFLgjuezqOkR18CpfWEPDPBgPbfDqHxS4f/wUY2LVskgUdFhwL
+ svsdDJSR2/kthvqJpUsk+57Uq7ug7654ofIZmWP5nP9kqTnZveTfJuC7aDWjtHc1vB8u
+ PWw46hntISC5oYJOndfWDvBQvBpTkz0YX/uOv8AQ5ZkOP1fQg0lj13GrdIDB/7qN5uTg
+ oaipXDkKUcUUUYqepSmtUn7zSP97xjfUKAQwJTk5utgfkHzIl104XC0DQvRxKfSUGceE
+ gGYQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXc+8pqaEK2JqwGXLhfFMbozy6kdLbvFzvsZFuYdrQqMvQhNfFeHUwGoM1T/uwAzdkvaq6EPseT5G0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YySEZwkSg8LHnBS5llF8NMr1vfw+F4H0FZnR6VKUeoTgtpJAnnf
+ /lrKBZEd4WTVkvS6eP6upLAcVieYywk5VXSNaffFVor1qFT8LNQVFZM/FmTkmfIDwqPptTZhHk5
+ lJroVc1OBD6QgDEcwdjvGmQ7QtnHSWbnKv9BhPIJFjhz0m6NmHP/U/zXG7MbeWVjP/g==
+X-Gm-Gg: ASbGnct/1Dm9qVvEA8b0G3JteTUqbZHSlD/sBZhlUN4EzbdzWFNG07+ueULGF55KvTU
+ hxIuw+MEjCBpai6jSVfz+/io72yTtzEokeWa7lTZXOieBxCmaDajmru9UmNgg04sdTlI2FRbC8P
+ 5FKW6o88j/PLYhH0iR1bFKJoKl1Wl2WkBowGKGVMpvZqweMtYjrK/dwojc5yOIJ+amFH3JPSdNk
+ W4LPu0WtaEO5UKU1pFDHRfG6XUv5LuNNPv5WPxTegVrQfJJCSalobdR7L1KK72gguG/y/4sfR/X
+ S1Oo1Oj6U+YCRlAk5Q==
+X-Received: by 2002:a05:6000:4604:b0:385:d7f9:f16c with SMTP id
+ ffacd0b85a97d-386453f9740mr4345818f8f.46.1733838161182; 
+ Tue, 10 Dec 2024 05:42:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG/EzS42fP8Ylhxmzy6/cZtctx2cg5XbsNOtmOhU/S0scujl/REYju6ycezW9PzMx/GLIdX/A==
+X-Received: by 2002:a05:6000:4604:b0:385:d7f9:f16c with SMTP id
+ ffacd0b85a97d-386453f9740mr4345761f8f.46.1733838160742; 
+ Tue, 10 Dec 2024 05:42:40 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-386221a5eadsm15742309f8f.104.2024.12.10.05.42.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Dec 2024 05:42:40 -0800 (PST)
+Message-ID: <ca4485de-5463-4356-a024-fcabde45478d@redhat.com>
+Date: Tue, 10 Dec 2024 14:42:39 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
- optional properties
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- upstream@lists.phytec.de
-References: <20241210091901.83028-1-andrej.picej@norik.com>
- <20241210091901.83028-3-andrej.picej@norik.com>
- <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
-Content-Language: en-US
-From: Andrej Picej <andrej.picej@norik.com>
-Autocrypt: addr=andrej.picej@norik.com; keydata=
- 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
- xtT/8OxBOVSHvA==
-In-Reply-To: <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
+Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241204160014.1171469-1-jfalempe@redhat.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20241204160014.1171469-1-jfalempe@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: uJdpCyHVaxgrDr61eRqeu1VvbqorSHmEkMRhYIdaKFk_1733838161
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.siel.si
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - norik.com
-X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
- andrej.picej@norik.com
-X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,258 +109,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 10. 12. 24 12:43, Dmitry Baryshkov wrote:
-> On Tue, Dec 10, 2024 at 10:19:00AM +0100, Andrej Picej wrote:
->> Add a optional properties to change LVDS output voltage. This should not
->> be static as this depends mainly on the connected display voltage
->> requirement. We have three properties:
->> - "ti,lvds-termination-ohms", which sets near end termination,
->> - "ti,lvds-vod-swing-data-microvolt" and
->> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
->> output voltage for data and clock lanes. They are defined as an array
->> with min and max values. The appropriate bitfield will be set if
->> selected constraints can be met.
->>
->> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
->> end termination will be used. Selecting only one:
->> "ti,lvds-vod-swing-data-microvolt" or
->> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
->> constraint for only data/clock lanes will be met. Setting both is
->> recommended.
->>
->> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
->> ---
->> Changes in v5:
->> - specify default values in sn65dsi83_parse_lvds_endpoint,
->> - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
->> Changes in v4:
->> - fix typo in commit message bitfiled -> bitfield
->> - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
->> of separate variables for channel A/B
->> - add more checks on return value of "of_property_read_u32_array"
->> Changes in v3:
->> - use microvolts for default array values 1000 mV -> 1000000 uV.
->> Changes in v2:
->> - use datasheet tables to get the proper configuration
->> - since major change was done change the authorship to myself
->> ---
->>   drivers/gpu/drm/bridge/ti-sn65dsi83.c | 142 +++++++++++++++++++++++++-
->>   1 file changed, 139 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> index 57a7ed13f996..f9578b38da28 100644
->> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> @@ -132,6 +132,16 @@
->>   #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
->>   #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
->>   
->> +enum sn65dsi83_channel {
->> +	CHANNEL_A,
->> +	CHANNEL_B
->> +};
->> +
->> +enum sn65dsi83_lvds_term {
->> +	OHM_100,
->> +	OHM_200
->> +};
->> +
->>   enum sn65dsi83_model {
->>   	MODEL_SN65DSI83,
->>   	MODEL_SN65DSI84,
->> @@ -147,6 +157,8 @@ struct sn65dsi83 {
->>   	struct regulator		*vcc;
->>   	bool				lvds_dual_link;
->>   	bool				lvds_dual_link_even_odd_swap;
->> +	int				lvds_vod_swing_conf[2];
->> +	int				lvds_term_conf[2];
->>   };
->>   
->>   static const struct regmap_range sn65dsi83_readable_ranges[] = {
->> @@ -237,6 +249,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
->>   	.max_register = REG_IRQ_STAT,
->>   };
->>   
->> +static const int lvds_vod_swing_data_table[2][4][2] = {
->> +	{	/* 100 Ohm */
->> +		{ 180000, 313000 },
->> +		{ 215000, 372000 },
->> +		{ 250000, 430000 },
->> +		{ 290000, 488000 },
->> +	},
->> +	{	/* 200 Ohm */
->> +		{ 150000, 261000 },
->> +		{ 200000, 346000 },
->> +		{ 250000, 428000 },
->> +		{ 300000, 511000 },
->> +	},
->> +};
->> +
->> +static const int lvds_vod_swing_clock_table[2][4][2] = {
->> +	{	/* 100 Ohm */
->> +		{ 140000, 244000 },
->> +		{ 168000, 290000 },
->> +		{ 195000, 335000 },
->> +		{ 226000, 381000 },
->> +	},
->> +	{	/* 200 Ohm */
->> +		{ 117000, 204000 },
->> +		{ 156000, 270000 },
->> +		{ 195000, 334000 },
->> +		{ 234000, 399000 },
->> +	},
->> +};
->> +
->>   static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
->>   {
->>   	return container_of(bridge, struct sn65dsi83, bridge);
->> @@ -435,12 +477,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->>   		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
->>   
->>   	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
->> -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
->> +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
->> +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_A]) |
->> +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_B]));
->>   	regmap_write(ctx->regmap, REG_LVDS_LANE,
->>   		     (ctx->lvds_dual_link_even_odd_swap ?
->>   		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
->> -		     REG_LVDS_LANE_CHA_LVDS_TERM |
->> -		     REG_LVDS_LANE_CHB_LVDS_TERM);
->> +		     (ctx->lvds_term_conf[CHANNEL_A] ?
->> +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
->> +		     (ctx->lvds_term_conf[CHANNEL_B] ?
->> +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
->>   	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
->>   
->>   	le16val = cpu_to_le16(mode->hdisplay);
->> @@ -576,10 +622,100 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
->>   	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
->>   };
->>   
->> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
->> +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
->> +{
->> +	int i;
->> +
->> +	for (i = 0; i <= 3; i++) {
->> +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
->> +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
->> +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
->> +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
->> +			return i;
->> +	}
->> +
->> +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
->> +	return -EINVAL;
->> +}
->> +
->> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
->> +{
->> +	struct device *dev = ctx->dev;
->> +	struct device_node *endpoint;
->> +	int endpoint_reg;
->> +	/* Set so the property can be freely selected if not defined */
->> +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
->> +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
->> +	u32 lvds_term;
->> +	u8 lvds_term_conf = 0x1;
->> +	int lvds_vod_swing_conf = 0x1;
+On 04/12/2024 16:44, Jocelyn Falempe wrote:
+> drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
+> This is not a full replacement to fbcon, as it will only print the kmsg.
+> It will never handle user input, or a terminal because this is better done in userspace.
 > 
-> Magic values
+> If you're curious on how it looks like, I've put a small demo here:
+> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
 
-Can you please elaborate.
+I just pushed it to drm-misc-next.
 
-I can use:
-u8 lvds_term_conf = OHM_200;
+Thanks all for your reviews and comments.
 
-What about lvds_vod_swing_conf? Should I create additional define for 
-it? But this doesn't solve a hidden meaning? Maybe additional comment 
-above? Would like to avoid using voltages for it, since then we are 
-reverse engineering the table in datasheet to match the default reg value.
+Best regards,
 
+-- 
+
+Jocelyn
 > 
->> +	int ret = 0;
->> +	int ret_data;
->> +	int ret_clock;
->> +
->> +	if (channel == CHANNEL_A)
->> +		endpoint_reg = 2;
->> +	else
->> +		endpoint_reg = 3;
->> +
->> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, endpoint_reg, -1);
->> +	if (!of_property_read_u32(endpoint, "ti,lvds-termination-ohms", &lvds_term)) {
+> Design decisions:
+>    * It uses the drm_client API, so it should work on all drm drivers from the start.
+>    * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
+>      It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
+>    * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
+>   
+> v2:
+>   * Use vmap_local() api, with that change, I've tested it successfully on simpledrm, virtio-gpu, amdgpu, and nouveau.
+>   * Stop drawing when the drm_master is taken. This avoid wasting CPU cycle if the buffer is not visible.
+>   * Use deferred probe. Only do the probe the first time there is a log to draw. With this, if you boot with quiet, drm_log won't do any modeset.
+>   * Add color support for the timestamp prefix, like what dmesg does.
+>   * Add build dependency on  disabling the fbdev emulation, as they are both drm_client, and there is no way to choose which one gets the focus.
 > 
-> The code has been better before:
-> provide default for lvds_term, read the property (keeping the default in
-> case of an error), then use the lvds_term to set up lvds_term_conf, as
-> expected.
+> v3:
+>   * Remove the work thread and circular buffer, and use the new write_thread() console API.
+>   * Register a console for each drm driver.
+> 
+> v4:
+>   * Can be built as a module, even if that's not really useful.
+>   * Rebased on top of "drm: Introduce DRM client library" series from Thomas Zimmermann.
+>   * Add a Kconfig menu to choose between drm client.
+>   * Add suspend/resume callbacks.
+>   * Add integer scaling support.
+>   
+> v5:
+>   * Build drm_log in drm_client_lib module, to avoid circular dependency.
+>   * Export drm_draw symbols, so they can be used if drm_client_lib is built as module.
+>   * Change scale parameter to unsigned int (Jani Nikula)
+> 
+> v6:
+>   * Use console_stop() and console_start() in the suspend/resume callback (Petr Mladek).
+>   * rebase and solve conflict with "drm/panic: Add ABGR2101010 support"
+> 
+> v7:
+>   * Add a patch fix a build issue due to missing DRM_CLIENT_LIB, reported by kernel test bot.
+> 
+> v8:
+>   * Rebased after drm client moved to drivers/gpu/drm/clients/
+>   * Rename DRM_LOG to DRM_CLIENT_LOG (Thomas Zimmermann)
+>   * Drop "Always select DRM_CLIENT_LIB", and select only if DRM_CLIENT_LOG is set
+>   * Add an info message if no clients are initialized in drm_client_setup()
+> 
+> v9:
+>   * Rename drm_draw.h to drm_draw_internal.h (Jani Nikula)
+>   * Add cflags to remove the "../" when including drm internal headers (Jani Nikula)
+>   * Order select alphabetically in KConfig (Thomas Zimmermann)
+>   * Replace drm_info with drm_dbg, to be less verbose (Thomas Zimmermann)
+>   * Rename module parameter to drm_client_lib.active (Thomas Zimmermann)
+>   * Warn if drm_client_lib.active is malformated (Thomas Zimmermann)
+>   
+> Jocelyn Falempe (6):
+>    drm/panic: Move drawing functions to drm_draw
+>    drm/log: Introduce a new boot logger to draw the kmsg on the screen
+>    drm/log: Do not draw if drm_master is taken
+>    drm/log: Color the timestamp, to improve readability
+>    drm/log: Implement suspend/resume
+>    drm/log: Add integer scaling support
+> 
+>   drivers/gpu/drm/Kconfig                       |   5 +
+>   drivers/gpu/drm/Makefile                      |   1 +
+>   drivers/gpu/drm/clients/Kconfig               |  48 ++
+>   drivers/gpu/drm/clients/Makefile              |   3 +
+>   drivers/gpu/drm/clients/drm_client_internal.h |   6 +
+>   drivers/gpu/drm/clients/drm_client_setup.c    |  29 +-
+>   drivers/gpu/drm/clients/drm_log.c             | 420 ++++++++++++++++++
+>   drivers/gpu/drm/drm_draw.c                    | 233 ++++++++++
+>   drivers/gpu/drm/drm_draw_internal.h           |  56 +++
+>   drivers/gpu/drm/drm_panic.c                   | 257 +----------
+>   10 files changed, 820 insertions(+), 238 deletions(-)
+>   create mode 100644 drivers/gpu/drm/clients/drm_log.c
+>   create mode 100644 drivers/gpu/drm/drm_draw.c
+>   create mode 100644 drivers/gpu/drm/drm_draw_internal.h
+> 
+> 
+> base-commit: c6eabbab359c156669e10d5dec3e71e80ff09bd2
 
-Ok, will revert back.
-
-> 
->> +		if (lvds_term == 100)
->> +			lvds_term_conf = OHM_100;
->> +		else
->> +			lvds_term_conf = OHM_200;
->> +	}
->> +
->> +	ctx->lvds_term_conf[channel] = lvds_term_conf;
->> +
->> +	ret_data = of_property_read_u32_array(endpoint,
->> +			"ti,lvds-vod-swing-data-microvolt", lvds_vod_swing_data,
->> +			ARRAY_SIZE(lvds_vod_swing_data));
->> +	if (ret_data != 0 && ret_data != -EINVAL) {
->> +		ret = ret_data;
->> +		goto exit;
->> +	}
->> +
->> +	ret_clock = of_property_read_u32_array(endpoint,
->> +			"ti,lvds-vod-swing-clock-microvolt", lvds_vod_swing_clk,
->> +			ARRAY_SIZE(lvds_vod_swing_clk));
->> +	if (ret_clock != 0 && ret_clock != -EINVAL) {
->> +		ret = ret_clock;
->> +		goto exit;
->> +	}
->> +
->> +	/* If any of the two properties is defined. */
->> +	if (!ret_data || !ret_clock) {
->> +		lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
->> +			lvds_vod_swing_data, lvds_vod_swing_clk,
->> +			lvds_term_conf);
->> +		if (lvds_vod_swing_conf < 0) {
->> +			ret = lvds_vod_swing_conf;
->> +			goto exit;
->> +		}
->> +	}
->> +
->> +	ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
->> +	ret = 0;
->> +exit:
->> +	of_node_put(endpoint);
->> +	return ret;
->> +}
->> +
->>   static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
->>   {
->>   	struct drm_bridge *panel_bridge;
->>   	struct device *dev = ctx->dev;
->> +	int ret;
->> +
->> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_A);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_B);
->> +	if (ret < 0)
->> +		return ret;
->>   
->>   	ctx->lvds_dual_link = false;
->>   	ctx->lvds_dual_link_even_odd_swap = false;
->> -- 
->> 2.34.1
->>
-> 
