@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024D69EAF6A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C61A9EAF82
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:15:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F352010E3A4;
-	Tue, 10 Dec 2024 11:13:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030DD10E88A;
+	Tue, 10 Dec 2024 11:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jonzwLt1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oPiwb6ii";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C354110E3A4
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 11:13:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58AAC496;
- Tue, 10 Dec 2024 12:12:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733829172;
- bh=hPCDCY/RZqYfTWHTMRDlMEBiTSaxa6rs2fmrcjOAJ2g=;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62D2510E88A;
+ Tue, 10 Dec 2024 11:14:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id C8C4BA40BE8;
+ Tue, 10 Dec 2024 11:13:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B3CDC4CED6;
+ Tue, 10 Dec 2024 11:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733829297;
+ bh=lhICE9COOAdzLbeeCIG0N4z0GPEAUpsD9Gqft5qjfv4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jonzwLt15KHBuq7llkTJp03dz5Ggl6/dv8+qz8tOKrzMCIh0LgIg9ilRohG23E6C5
- hCpEWZMjK0M170IIDjYLXTI0wSHMPrtkZR2XRorb0qZ/VrGH2wXiZczHsL+gSHqldU
- 3XJSakEyfTCrcJaGZhzyD2pRK8fhD12GbJFdeE1I=
-Date: Tue, 10 Dec 2024 13:13:08 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 2/2] drm: renesas: rz-du: rzg2l_du_encoder: Fix max
- dot clock for DPI
-Message-ID: <20241210111308.GF573@pendragon.ideasonboard.com>
-References: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
- <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
+ b=oPiwb6iiYNDZ/WGH9n+gRvMNUl6iGEU0HBgF/24GiCfBXOtlBxpMlXU2u10//8QC8
+ WqMttv5upsoZ3Tccjav4vJtLriG2z2rEYDsmEwVN/VvwArcRysn0T6bYIm41crkJJi
+ sl87IZYqvkQV6kkCxvZux0h/iSCXHxL+rzPJIg7IUXYsrf8XX7OdYAOgsTC9Mt6yrS
+ i0cjfLiLJFBKdSeY8auwuEVGyBJjgmQdF1jsB9TmQsBJLu/1gUHvM1k0/M620uRqjc
+ LqySKf6zHG+OnkBUJPKGWGfTB29xpI/OQhVkIq7IrAf3p6AyEoCARe02X2SdIi2UIZ
+ uzdvgQ8KgEQ0Q==
+Date: Tue, 10 Dec 2024 11:14:51 +0000
+From: Will Deacon <will@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+Cc: iommu@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Robin Murphy <robin.murphy@arm.com>,
+ Mostafa Saleh <smostafa@google.com>, Rob Clark <robdclark@chromium.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ "open list:DRM DRIVER for Qualcomm Adreno GPUs"
+ <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Joao Martins <joao.m.martins@oracle.com>, Joerg Roedel <jroedel@suse.de>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Sean Paul <sean@poorly.run>, Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v10 0/4] io-pgtable-arm + drm/msm: Extend iova fault
+ debugging
+Message-ID: <20241210111450.GA14735@willie-the-truck>
+References: <20241028213146.238941-1-robdclark@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241028213146.238941-1-robdclark@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,75 +71,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Biju,
+Hi Rob,
 
-Thank you for the patch.
-
-On Tue, Oct 22, 2024 at 09:24:24AM +0100, Biju Das wrote:
-> As per the RZ/G2UL hardware manual Table 33.4 Clock List, the maximum
-> dot clock for the DPI interface is 83.5 MHz. Add mode_valid callback
-> to reject modes greater than 83.5 MHz.
+On Mon, Oct 28, 2024 at 02:31:36PM -0700, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
-> Changes in v2:
->  * Moved .mode_valid from crtc to encoder as the new state is not
->    available in crtc and instead, we could check renc->output for
->    .mode_valid() function of drm_encoder.
->  * Dropped rzg2l_du_crtc_atomic_check().
-> ---
->  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+> This series extends io-pgtable-arm with a method to retrieve the page
+> table entries traversed in the process of address translation, and then
+> beefs up drm/msm gpu devcore dump to include this (and additional info)
+> in the devcore dump.
 > 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> index 339cbaaea0b5..564ab4cb3d37 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
-> @@ -10,6 +10,7 @@
->  #include <linux/export.h>
->  #include <linux/of.h>
->  
-> +#include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_bridge_connector.h>
->  #include <drm/drm_panel.h>
-> @@ -24,6 +25,22 @@
->  static const struct drm_encoder_funcs rzg2l_du_encoder_funcs = {
->  };
->  
-> +static enum drm_mode_status
-> +rzg2l_du_encoder_mode_valid(struct drm_encoder *encoder,
-> +			    const struct drm_display_mode *mode)
-> +{
-> +	struct rzg2l_du_encoder *renc = to_rzg2l_encoder(encoder);
-> +
-> +	if (renc->output == RZG2L_DU_OUTPUT_DPAD0 && mode->clock > 83500)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	return MODE_OK;
-> +}
-> +
-> +static const struct drm_encoder_helper_funcs rzg2l_du_encoder_helper_funcs = {
-> +	.mode_valid = rzg2l_du_encoder_mode_valid,
-> +};
-> +
->  int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
->  			  enum rzg2l_du_output output,
->  			  struct device_node *enc_node)
-> @@ -48,6 +65,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
->  		return PTR_ERR(renc);
->  
->  	renc->output = output;
-> +	drm_encoder_helper_add(&renc->base, &rzg2l_du_encoder_helper_funcs);
->  
->  	/* Attach the bridge to the encoder. */
->  	ret = drm_bridge_attach(&renc->base, bridge, NULL,
+> This is a respin of https://patchwork.freedesktop.org/series/94968/
+> (minus a patch that was already merged)
+> 
+> v2:  Fix an armv7/32b build error in the last patch
+> v3:  Incorperate Will Deacon's suggestion to make the interface
+>      callback based.
+> v4:  Actually wire up the callback
+> v5:  Drop the callback approach
+> v6:  Make walk-data struct pgtable specific and rename
+>      io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
+> v7:  Re-use the pgtable walker added for arm_lpae_read_and_clear_dirty()
+> v8:  Pass pte pointer to callback so it can modify the actual pte
+> v9:  Fix selftests_running case
+> v10: Call visit cb for all nodes traversed, leave the decision about
+>      whether to care about non-leaf nodes to the callback
 
--- 
-Regards,
+Do you plan to respin this? I see Mostafa left a proposal on patch 3.
 
-Laurent Pinchart
+Thanks,
+
+Will
