@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A52A39EAF29
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:08:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024D69EAF6A
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 12:13:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74AAF10E3A0;
-	Tue, 10 Dec 2024 11:08:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F352010E3A4;
+	Tue, 10 Dec 2024 11:13:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="U8tXGh05";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jonzwLt1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 600B310E3A0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 11:08:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C354110E3A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 11:13:25 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F3EF752;
- Tue, 10 Dec 2024 12:08:11 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58AAC496;
+ Tue, 10 Dec 2024 12:12:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1733828891;
- bh=DBnbhjkdJSnKBI/tnnIo1zsbOX9XVkFGe0UVm4dZi6g=;
+ s=mail; t=1733829172;
+ bh=hPCDCY/RZqYfTWHTMRDlMEBiTSaxa6rs2fmrcjOAJ2g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U8tXGh05b6ghXdhKFpG7CRTTeNJngGryJSdzasrk3K9EpbHS3qtJOg04YslNCwAZl
- IU6mSe35Cn7xwtuulASj8SAmTaqjJqSasx5ZrhbmIHshr+iJ7qdCXg7CG3QQ7x4l8K
- 4SljSuIVpjZKdZCxEAf58Vbd+IKF3k+lO3nZIBpw=
-Date: Tue, 10 Dec 2024 13:08:27 +0200
+ b=jonzwLt15KHBuq7llkTJp03dz5Ggl6/dv8+qz8tOKrzMCIh0LgIg9ilRohG23E6C5
+ hCpEWZMjK0M170IIDjYLXTI0wSHMPrtkZR2XRorb0qZ/VrGH2wXiZczHsL+gSHqldU
+ 3XJSakEyfTCrcJaGZhzyD2pRK8fhD12GbJFdeE1I=
+Date: Tue, 10 Dec 2024 13:13:08 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -39,14 +39,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 1/2] drm: renesas: rz-du: Drop DU_MCR0_DPI_OE macro
-Message-ID: <20241210110827.GE573@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/2] drm: renesas: rz-du: rzg2l_du_encoder: Fix max
+ dot clock for DPI
+Message-ID: <20241210111308.GF573@pendragon.ideasonboard.com>
 References: <20241022082433.32513-1-biju.das.jz@bp.renesas.com>
- <20241022082433.32513-2-biju.das.jz@bp.renesas.com>
+ <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241022082433.32513-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20241022082433.32513-3-biju.das.jz@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,50 +67,69 @@ Hi Biju,
 
 Thank you for the patch.
 
-On Tue, Oct 22, 2024 at 09:24:23AM +0100, Biju Das wrote:
-> The DPI_OE bit is removed from the latest RZ/G2UL and RZ/G2L hardware
-> manual. So, drop this macro.
+On Tue, Oct 22, 2024 at 09:24:24AM +0100, Biju Das wrote:
+> As per the RZ/G2UL hardware manual Table 33.4 Clock List, the maximum
+> dot clock for the DPI interface is 83.5 MHz. Add mode_valid callback
+> to reject modes greater than 83.5 MHz.
 > 
-> Fixes: b330f1480172 ("drm: renesas: rz-du: Add RZ/G2UL DU Support")
+> Suggested-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
 > ---
-> v1->v2:
->  * Added Fixes tag.
+> Changes in v2:
+>  * Moved .mode_valid from crtc to encoder as the new state is not
+>    available in crtc and instead, we could check renc->output for
+>    .mode_valid() function of drm_encoder.
+>  * Dropped rzg2l_du_crtc_atomic_check().
 > ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
+>  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> index c4c1474d487e..6e7aac6219be 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
-> @@ -28,7 +28,6 @@
->  #include "rzg2l_du_vsp.h"
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> index 339cbaaea0b5..564ab4cb3d37 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/export.h>
+>  #include <linux/of.h>
 >  
->  #define DU_MCR0			0x00
-> -#define DU_MCR0_DPI_OE		BIT(0)
->  #define DU_MCR0_DI_EN		BIT(8)
+> +#include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_bridge_connector.h>
+>  #include <drm/drm_panel.h>
+> @@ -24,6 +25,22 @@
+>  static const struct drm_encoder_funcs rzg2l_du_encoder_funcs = {
+>  };
 >  
->  #define DU_DITR0		0x10
-> @@ -217,14 +216,9 @@ static void rzg2l_du_crtc_put(struct rzg2l_du_crtc *rcrtc)
+> +static enum drm_mode_status
+> +rzg2l_du_encoder_mode_valid(struct drm_encoder *encoder,
+> +			    const struct drm_display_mode *mode)
+> +{
+> +	struct rzg2l_du_encoder *renc = to_rzg2l_encoder(encoder);
+> +
+> +	if (renc->output == RZG2L_DU_OUTPUT_DPAD0 && mode->clock > 83500)
+> +		return MODE_CLOCK_HIGH;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static const struct drm_encoder_helper_funcs rzg2l_du_encoder_helper_funcs = {
+> +	.mode_valid = rzg2l_du_encoder_mode_valid,
+> +};
+> +
+>  int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
+>  			  enum rzg2l_du_output output,
+>  			  struct device_node *enc_node)
+> @@ -48,6 +65,7 @@ int rzg2l_du_encoder_init(struct rzg2l_du_device  *rcdu,
+>  		return PTR_ERR(renc);
 >  
->  static void rzg2l_du_start_stop(struct rzg2l_du_crtc *rcrtc, bool start)
->  {
-> -	struct rzg2l_du_crtc_state *rstate = to_rzg2l_crtc_state(rcrtc->crtc.state);
->  	struct rzg2l_du_device *rcdu = rcrtc->dev;
-> -	u32 val = DU_MCR0_DI_EN;
+>  	renc->output = output;
+> +	drm_encoder_helper_add(&renc->base, &rzg2l_du_encoder_helper_funcs);
 >  
-> -	if (rstate->outputs & BIT(RZG2L_DU_OUTPUT_DPAD0))
-> -		val |= DU_MCR0_DPI_OE;
-> -
-> -	writel(start ? val : 0, rcdu->mmio + DU_MCR0);
-> +	writel(start ? DU_MCR0_DI_EN : 0, rcdu->mmio + DU_MCR0);
->  }
->  
->  static void rzg2l_du_crtc_start(struct rzg2l_du_crtc *rcrtc)
+>  	/* Attach the bridge to the encoder. */
+>  	ret = drm_bridge_attach(&renc->base, bridge, NULL,
 
 -- 
 Regards,
