@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72489EB380
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 15:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5C89EB439
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 16:03:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECF110E8F1;
-	Tue, 10 Dec 2024 14:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D851E10E3B2;
+	Tue, 10 Dec 2024 15:03:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="apGYPtk9";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="bTt9MPRS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 123E210E8F1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 14:36:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA67110E3B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 15:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:
@@ -22,40 +22,35 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Vm/SMvu/8EpKkDOC/meueBC9lfWEJCHJn3wNu3oS+nU=; b=apGYPtk9B8cEHvRnlKnZRfyPlB
- UjU0n9BxnezEUSJl9xr/rIS3CAWGyApMVmPm35fTQfK9Lg1qjH1CqrI3pEIUsgAH3IAqgLHXpIi+5
- 1Rn2C4tjKDlVc/d7X34Zq4zZ6HCNJYmUb07z1nntcDroUOFxB3djTFTLeug2S0rRYOYXLX1VKG3d7
- wnlxrVKNe5R4q/9/UANNYjy5aP2n7mEi9uoUgwPSQFTqN5FNCUlgEBz+0dey58QWAUnSOtLtS+W6w
- sowpUyWKnenxm2NVdRvHK4tS7iOstRm1QAWChyc+OKiUkXA6I87nkF1VdHmwPKgZxU/V0Fy5rB84E
- //ZQ2gsg==;
+ bh=odtBH0LCDjXXAC9EkbBCPzy/Jj9lMmjM6esmzhTWvMc=; b=bTt9MPRSsSxp9+UuhbHN5pkJiQ
+ 2x/ygyfPuP7/tANxYvUYhUgX/bkSe86zdbbaK+jZEs1zNJ0lgx6qxd+ECV3Gm4eV6n5xooC5CycPp
+ KYpaZb8Dqt1CqDA0s26ryw8/0gS4UHUyhUnVI7KrceAm71GN9kCBeZkB1mQap4Dm5cd55JKSY2/+Q
+ C50DTqQeNTH/RRfe69p1WzgIpLLTswWfkq3rOPI43XnzdvLfXUTuCWwOTy7N9Q24qyaq9pb1eIWCU
+ 2ov0n1vTa7dQ7dqc5JzgusiAVIIIeNdK45EcIxXem2c6C3WMTnbJ2rW+NeHchpVxak8PY9eAENja/
+ J9Ai0xiQ==;
 Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1tL1Lk-0006dG-TS; Tue, 10 Dec 2024 15:36:32 +0100
+ id 1tL1lU-0006rU-7b; Tue, 10 Dec 2024 16:03:08 +0100
 From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andy Yan <andyshrk@163.com>
-Cc: Daniel Semkowicz <dse@thaumatec.com>,
- Diederik de Haas <didi.debian@cknow.org>, andy.yan@rock-chips.com,
- Laurent.pinchart@ideasonboard.com, andrzej.hajda@intel.com,
- conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- krzk+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, quentin.schulz@cherry.de, rfoss@kernel.org,
- robh@kernel.org, tzimmermann@suse.de
-Subject: Re: [PATCH v3 0/3] drm/rockchip: Add driver for the new DSI2
- controller
-Date: Tue, 10 Dec 2024 15:36:31 +0100
-Message-ID: <3104907.xgJ6IN8ObU@diego>
-In-Reply-To: <78e7b8e.b5ee.193b09ce46d.Coremail.andyshrk@163.com>
-References: <20241203165450.1501219-1-heiko@sntech.de>
- <jl5obi7rd4h6ywozeqruxq2vx62sx5yf4wwpksrq3prdleps2k@d3zbr5ttquvn>
- <78e7b8e.b5ee.193b09ce46d.Coremail.andyshrk@163.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH v5 13/18] drm/rockchip: vop2: Introduce vop hardware
+ version
+Date: Tue, 10 Dec 2024 16:03:06 +0100
+Message-ID: <8259618.JRmrKFJ9eK@diego>
+In-Reply-To: <20241209123330.2781991-1-andyshrk@163.com>
+References: <20241209122943.2781431-1-andyshrk@163.com>
+ <20241209123330.2781991-1-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +66,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+Am Montag, 9. Dezember 2024, 13:33:29 CET schrieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> There is a version number hardcoded in the VOP VERSION_INFO
+> register, and the version number increments sequentially based
+> on the production order of the SOC.
+> 
+> So using this version number to distinguish different VOP features
+> will simplify the code.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
+> Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
-Am Dienstag, 10. Dezember 2024, 13:48:12 CET schrieb Andy Yan:
-> =E5=9C=A8 2024-12-10 20:32:03=EF=BC=8C"Dmitry Baryshkov" <dmitry.baryshko=
-v@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
-> >On Tue, Dec 10, 2024 at 09:54:09AM +0800, Andy Yan wrote:
-> >> =E5=9C=A8 2024-12-10 09:45:11=EF=BC=8C"Dmitry Baryshkov" <dmitry.barys=
-hkov@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
-> >> >On Tue, 10 Dec 2024 at 03:22, Andy Yan <andyshrk@163.com> wrote:
-> >> >> =E5=9C=A8 2024-12-10 09:01:38=EF=BC=8C"Dmitry Baryshkov" <dmitry.ba=
-ryshkov@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
-> >> >> >On Tue, Dec 10, 2024 at 08:50:51AM +0800, Andy Yan wrote:
-> >> >> >> At 2024-12-10 07:12:26, "Heiko St=C3=BCbner" <heiko@sntech.de> w=
-rote:
-> >> >> >> >Am Montag, 9. Dezember 2024, 17:11:03 CET schrieb Diederik de H=
-aas:
-> >> >> >> >> On Mon Dec 9, 2024 at 4:06 PM CET, Daniel Semkowicz wrote:
-> >> >> >> >> > On 03.12.24 21:54, Heiko Stuebner wrote:
-> >> >> >> >This really sounds like something is wrong on the vop side.
-> >> >> >> >The interrupt is part of the vop, the divisable by 4 things lik=
-ely too.
-> >> >> >>
-> >> >> >> This is a hardware limitation on vop side:
-> >> >> >> The horizontal resolution must be 4 pixel aligned.
-> >> >> >
-> >> >> >Then mode_valid() and atomic_check() must reject modes that don't =
-fit.
-> >> >>
-> >> >> We round down to 4 pixel aligned in mode_fixup in our bsp kernel,
-> >> >
-> >> >What is meant by the "bsp kernel" here? I don't see it being present
-> >>=20
-> >> bsp kernel means downstream vendor kernel.
-> >>=20
-> >> >in the mainline kernel. So, if the mode is unsupported, it should be
-> >>=20
-> >> Will it be acceptable to add this round down in the mainline mode_fixu=
-p?
-> >
-> >I think so.
->=20
-> Then I can write a patch for it.
+> @@ -798,6 +798,7 @@ static void rk3588_vop2_power_domain_enable_all(struct vop2 *vop2)
+>  static void vop2_enable(struct vop2 *vop2)
+>  {
+>  	int ret;
+> +	u32 version;
+>  
+>  	ret = pm_runtime_resume_and_get(vop2->dev);
+>  	if (ret < 0) {
+> @@ -817,10 +818,19 @@ static void vop2_enable(struct vop2 *vop2)
+>  		return;
+>  	}
+>  
+> +	version = vop2_readl(vop2, RK3568_VERSION_INFO);
+> +	if (version != vop2->version) {
+> +		drm_err(vop2->drm, "Hardware version(0x%08x) mismatch\n", version);
+> +		return;
+> +	}
 
-thanks a lot for looking into that :-)
+style-nit: please add a blank line here.
 
+> +	/*
+> +	 * rk3566 share the same vop version with rk3568, so
+> +	 * wen need to use soc_id for identification here.
+> +	 */
+>  	if (vop2->data->soc_id == 3566)
+>  		vop2_writel(vop2, RK3568_OTP_WIN_EN, 1);
+>  
 
+otherwise, looks good.
+
+Thanks
 Heiko
 
 
