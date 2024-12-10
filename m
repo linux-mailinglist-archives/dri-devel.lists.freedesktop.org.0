@@ -2,41 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C76039EBDE5
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:33:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F599EBDF2
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 23:42:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E3510E9AB;
-	Tue, 10 Dec 2024 22:33:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 861C789838;
+	Tue, 10 Dec 2024 22:42:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Xm5AQDUp";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it [5.144.164.162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C11210E2D5;
- Tue, 10 Dec 2024 22:33:48 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 23CEE1F8B2;
- Tue, 10 Dec 2024 23:33:46 +0100 (CET)
-Date: Tue, 10 Dec 2024 23:33:44 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Kuogee Hsieh <quic_khsieh@quicinc.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH 0/3] drm/msm/dp: Fix and utilize TPG with a debugfs
-Message-ID: <zmbipw4zmcdabimxdd4adyzeqhy5dyoburjxene4ub62ws2pym@drvsjowufdh2>
-References: <20241202-tpg-v1-0-0fd6b518b914@quicinc.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC1089838
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 22:42:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733870511; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=k8b7jrTew3Buujzw4HKhY5qPIINmZGPz2YM4XZlhsU48oyTc2iRCCOm1oETihEeXqbq9vz5rdlPDEW1a7usw0wBFFj2ELbgpMbA7YEMyGrFresm0FgpgAkRCnqT00v6ctA/glnRkYzX+3zwZ21VvRXUI376BGIGxHFjRK0p9mf0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733870511;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=tWgCnUxFLN0F+pgIL0M3QVKwrZmsYmCkQSYBlW0rvRw=; 
+ b=Enc5wpPRoFLLEBEQ/AHsn5AY4FqOdn5cjcdr6huoUln1aedPDv3BLyT8SoDde4bwOnY2PmXQfFwioIVG7yQ3Q0luWKKP4a2LIXRzMUcPy2KER9VdxXLjfsH3fTO8QN74q+1Ekmo0ouJvNKET4trVJBCsaI8MS60MfjnSeRgfTfE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733870511; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=tWgCnUxFLN0F+pgIL0M3QVKwrZmsYmCkQSYBlW0rvRw=;
+ b=Xm5AQDUpXbehSfM26Qi4sYxnGC/hM6lI4xcBV6VWm6RTx13utqImKVsvGXvTAuSH
+ WCvXCDTeJyP2FsgLVFbhto5Zy/EvVnxLcSMGxjN62RALtAVtCy1SGdthCLCV2A4DMhO
+ Wm4zGa9lkqmXekHfPvd9INWoQw4dlPCjee8cUgY8=
+Received: by mx.zohomail.com with SMTPS id 1733870510426908.8876418931715;
+ Tue, 10 Dec 2024 14:41:50 -0800 (PST)
+Received: by mercury (Postfix, from userid 1000)
+ id 954E210604B1; Tue, 10 Dec 2024 23:41:44 +0100 (CET)
+Date: Tue, 10 Dec 2024 23:41:44 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Andy Yan <andyshrk@163.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v1 2/2] drm/panel: add Raydium RM67200 panel driver
+Message-ID: <2kfapf6iolb65g3kss2hulwpqiczyyk6vvv37pqthm7o625umf@vuo7saus5kcy>
+References: <20241210164333.121253-1-sebastian.reichel@collabora.com>
+ <20241210164333.121253-3-sebastian.reichel@collabora.com>
+ <2cbbc5d6-2d6b-4afe-a0ef-7f59d28724dc@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="t5phmjcn4xd3igbd"
 Content-Disposition: inline
-In-Reply-To: <20241202-tpg-v1-0-0fd6b518b914@quicinc.com>
+In-Reply-To: <2cbbc5d6-2d6b-4afe-a0ef-7f59d28724dc@quicinc.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/233.837.80
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,69 +80,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-12-02 12:41:57, Abhinav Kumar wrote:
-> DP Test Patten Generator is a very useful tool to debug issues such
-> as blank screen or corruption seen on the DP monitor by isolating it
-> to whether the corruption is coming from further upstream such as DPU
-> OR from the DP controller and below. It was noted in [1] that this API
-> is unused. Rather than dropping the API, it should be fixed and used.
-> 
-> Hence, this series fixes the DP Test Patten Generator API and also utilizes
-> it by adding a debugfs for it.
-> 
-> [1] : https://patchwork.freedesktop.org/patch/623508/?series=141074&rev=1
 
-This all sounds great, but perhaps the "unused function" issue applies to the
-DSI TPG from your series at [1] as well.  There, the patch describes where to
-insert the function call, but I remember that the contents of that function also
-changed over time.
+--t5phmjcn4xd3igbd
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 2/2] drm/panel: add Raydium RM67200 panel driver
+MIME-Version: 1.0
 
-Are you planning to add a debugfs entry, or perhaps entries to configure the
-pattern bits for DPU's DSI TPG as well, as suggested in [2]?  Or should someone
-else look into it to make it useful again?
+Hello Jessica,
 
-[1]: https://lore.kernel.org/linux-arm-msm/1626922232-29105-2-git-send-email-abhinavk@codeaurora.org/
-[2]: https://lore.kernel.org/linux-arm-msm/CAA8EJpqjWbEbgn9Sw=Hd8f7pP+NXDeM308jG8HirKjk7QcfOxA@mail.gmail.com/
+On Tue, Dec 10, 2024 at 09:45:09AM -0800, Jessica Zhang wrote:
+> [...]
+> > +static const struct raydium_rm67200_panel_info w552793baa_info =3D {
+> > +	.mode =3D {
+> > +		.clock =3D 132000,
+> > +		.hdisplay =3D 1080,
+> > +		.hsync_start =3D 1095,
+> > +		.hsync_end =3D 1125,
+> > +		.htotal =3D 1129,
+> > +		.vdisplay =3D 1920,
+> > +		.vsync_start =3D 1935,
+> > +		.vsync_end =3D 1950,
+> > +		.vtotal =3D 1952,
+> > +		.width_mm =3D 68, /* 68.04mm */
+> > +		.height_mm =3D 121, /* 120.96mm */
+> > +		.type =3D DRM_MODE_TYPE_DRIVER,
+> > +	},
+> > +	.regulators =3D w552793baa_regulators,
+> > +	.num_regulators =3D ARRAY_SIZE(w552793baa_regulators),
+> > +	.panel_setup =3D w552793baa_setup,
+>=20
+> Just curious, will there be other panels with different regulators and in=
+it
+> commands added for this driver in the future?
 
-> 
-> To: Rob Clark <robdclark@gmail.com>
-> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> To: Sean Paul <sean@poorly.run>
-> To: Marijn Suijten <marijn.suijten@somainline.org>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> To: Stephen Boyd <swboyd@chromium.org>
-> To: Kuogee Hsieh <quic_khsieh@quicinc.com>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
-> Abhinav Kumar (3):
->       drm/msm/dp: account for widebus in msm_dp_catalog_panel_tpg_enable()
->       drm/msm/dp: do not touch the MMSS_DP_INTF_CONFIG for tpg
->       drm/msm/dp: add a debugfs node for using tpg
+I don't know any other RM67200 based panels. But the init sequence
+contains lots of vendor specific registers and I'm pretty sure it
+is specific to the W552793BAA. I put the regulators into the panel
+specific section, because the datasheet for the RM67200 specifies
+slightly different ones than the w552793baa datasheet. Thus I expect
+that other displays might have slight differences.
 
-Should TPG be capitalized in these titles, as it is an abbreviation with
-capitalized words in your description as well?
+Greetings,
 
-Thanks!
+-- Sebastian
 
-- Marijn
+--t5phmjcn4xd3igbd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
->  drivers/gpu/drm/msm/dp/dp_catalog.c | 15 +++++++--
->  drivers/gpu/drm/msm/dp/dp_debug.c   | 61 +++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/dp/dp_panel.h   |  2 ++
->  3 files changed, 76 insertions(+), 2 deletions(-)
-> ---
-> base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
-> change-id: 20241202-tpg-3f7543c036ac
-> 
-> Best regards,
-> -- 
-> Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdYw6EACgkQ2O7X88g7
++ppvBA//bksIiJDhO9U0NXa3VZF4/KNlPTGkiFvPuMd5QHpgbotOouiuKRQrnRKB
+LffeWBFL3Dxl8tEkAqzVKJRH6XlIKWUMXYuk0mNKIJN3WtQdPxSb8cOaMIHdBG+g
+wJ36QKmyz4mF8JPuDSSBQ70NJIZfZx3ewKlXbpNf92GRwXduE4do53mcs9XnqMDX
+4KTqpjXF/x9BlWMDsx1iFPJT4Mmg2bDN81FkfaiTmp/WR+YW8/I2kvgflrQZFz6N
+ffx61NTct+RSkBc0OHXftIxQ8NW1ZyIyCqLVa1QwE2McCARElOd4EMog0QWcoPZI
+nFwt+EbL4ZVdGv9wmDDqw/PlsJjNPKdgyMkWFMwm4H7TdUa6tvyTPkvdzp4SgxLx
+vs1oBOEUF44N+em9iU5tmWY47cBAAEvRkvfbAhmE34wS+/0qG0imGNS2ivt1DsRU
+h0BFCEut7d0iK5wjQV7sReocputqFesgjnRR+8ooCydsDz4vnSu0zsPhu8VWXgcH
+J6TYk1YG7XUcJdmq1qB18vsNbNNzVd8ggAWdpOb1Anu4J8QEndcznDzE/TMTBXOX
+kOORf5fpwifTrhpua5gDoYiUiHyGdPxEdWrjxQZZ+8pP5cPHTCBF7hW6PUnrVWcB
+pL2jbKoik+n2Yd5qKlieK8JLDAws9uKvHs1WTW9SKLkaUan7Mp0=
+=D5k8
+-----END PGP SIGNATURE-----
+
+--t5phmjcn4xd3igbd--
