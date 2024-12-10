@@ -2,86 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E6E9EB717
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 17:52:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9969EB774
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 18:09:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2D0710E5D0;
-	Tue, 10 Dec 2024 16:52:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C055410E930;
+	Tue, 10 Dec 2024 17:09:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="j+fFC0Pl";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="X+vHMb81";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1061410E5D0;
- Tue, 10 Dec 2024 16:52:03 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2166022c5caso17968725ad.2; 
- Tue, 10 Dec 2024 08:52:03 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C94710E930
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 17:09:10 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30034ad2ca3so29915681fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 09:09:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733849522; x=1734454322; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1733850547; x=1734455347;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qh7p2d7+E2GMmgZFCCSWmo87bNDM3/nkgcYOWm/PC60=;
- b=j+fFC0PlitkQYKRG4ktvezOZ7S7rljwGC2U4cFOKhapSwxCB8wspvY/P/Y6OHHgLJB
- 4CrTtSlZAC6d/GQSasgXMTxYsrbICfNo5lnhGrH0Sl6xZRBsj+nYoOD41xaW1aYUK97a
- jWWXNs19ejvN1zadckTlQ9UsOIwY6m6LQWsj+xVV3n+uFastnM0y4s0oG2+HsUUhX+88
- rHeAybeBZnLZBSS9wFmZSe+5Awk8jEczA6bGj2taAFId6Lqpr+G3HiqemNyO8TehQaSK
- A9OMD+85uKUalQflqGmU+J9tQ9nhw07N1bBEsSRxaTqghzxRv2v5z+QwZzyn/i2fzTne
- yKdw==
+ bh=LuhRNegPQNd7+gF/yjuNpjthxXavGQO/1ZgSXezZky4=;
+ b=X+vHMb81EDUWAVcD49CnWRueKwCXahWg2FFAV85gKcZY+UMSCjKxKkOYZbEYdSiZs4
+ 65WUkmtbF/Qt4n0nQ2xRZhbY51fm0dYTkJ7sUQ69Z5JFpcqsUWSNYT5qIrARtLVp26Hz
+ cVGJSQZCv/ImSKTSV1G2TprkIp3DFeTldyFvE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733849522; x=1734454322;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1733850547; x=1734455347;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qh7p2d7+E2GMmgZFCCSWmo87bNDM3/nkgcYOWm/PC60=;
- b=vafYIQZYMPA9Z/5aFHxa0qTtMGfT9EzjgcDcQP0+a/wGNSaxzg/LjywUItEfhLWbhw
- KBfDIBqOAxg2RKZVi+2pT5+HSzPYEFIj3LPEHknVlFUgmoNyDDnJ7TpvY0S80siTGanA
- UTsHsoDxeyCazEaUcUbB+XQBcmkpxRTNzCMLMRkDSG5H/PBxhOLx1qjhkCRBK/cbTecn
- xD9t3M9X+WjJgTq/5k6SmlPGO5q36XbuWS4sRw4GZEm9sFLdp57YItGBWXjKpsG2lMOj
- CNLoizC2VxCCwijKj/no0gx1P4SsgzzT/ascaW1n8kAFkMYsgGbZtnFBclDFOPgkQBhT
- 8E4g==
+ bh=LuhRNegPQNd7+gF/yjuNpjthxXavGQO/1ZgSXezZky4=;
+ b=vyZgBa+zKJSNP7Is7InIClPaqg70uHSXwiY+UnUgOSrGs38fl+CNXkc0K6gfz87KEc
+ giTa6sTlbPxT9SIgIJCuGmMMRVnqIKiJx5+JN7AxtmOXEs0NMwoD/ZcVbku/a5Pfdu7W
+ vms/ieilcaicI149flXT/qVcFUJxKYzYtV8dOeYl9XRWHWGFn0f0rj9M2vTsPAwgJX/2
+ JR1Gwqvx3Rc+Bqk8gP/ZepXjXe2F54XM3jbA2N0+9YGyGiClTlQLQSRs+RpTDyT0cqBk
+ dIJskm74CpUDy3vjinQ0Kf1ekg2FCPFrGOVU0/jbQmNIntegpTI/ii705MwpL8o2tm4I
+ jeOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWZ+BeEPw21bCcTUq5k6f6FWh9yH2uyMOAN6HlA6AV7ItRkkUFRd0ZP49IBa+judK5xrOco4KFzJVyU@lists.freedesktop.org,
- AJvYcCXkGR/VgAjK8oJRD3iQy3gD+efTr926KKIYSVOINP6jkKBg2NjZEJPQXXB9JL9Vp9j+wc6mKGfWOko=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yweb5KTK0W4hS+T1HjxzYABeFdzlTmcNsnhj/P6f9uffQTf8umF
- rMvPnGpew24SCoAq3h+HG85751+ICXa0XkM5S8kY6VQ2NLoQz4LG
-X-Gm-Gg: ASbGncsX0t2nWQQ7W761eE1Mu4osIDO+x/EBbh68+gBBC1M4v0XUg9rmC8gpXo94w+F
- G4PjaezY0qauD6AoWUtxQTcEYYp3OEY5Wuc4qsN/jWZpOk4L2KRrWcGY5ozp+LYaFwdQfvoftLa
- dsWN1oFsKfmTFPoIbSzZDdhEqH7taqtCBkMD5ZiHRRbsF+bAcLYmSq9EI40k4zA4lXYcL14y9CT
- 7cbGL+aWjYRkvreKKH+2U7OVOxXUcy2i1hEtVbT5mXajeLuGvhfvSOjjKs+X/0CSwcS3SqWPOMw
- 5kCRhgR8Ito2XvPTngtP4PDoFV1O
-X-Google-Smtp-Source: AGHT+IGyppZ/XUmktj28oKiZ+5yOlPQdJYESYN99eWYi54gnG85QRxp2tq+GL1giES6A+moTdOjNmQ==
-X-Received: by 2002:a17:902:f684:b0:216:386e:dbc with SMTP id
- d9443c01a7336-216386e1127mr132673815ad.13.1733849522435; 
- Tue, 10 Dec 2024 08:52:02 -0800 (PST)
-Received: from localhost ([2a00:79e1:2e00:1301:12e9:d196:a1e9:ab67])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-21632c4fd4dsm55201575ad.232.2024.12.10.08.52.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2024 08:52:01 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: iommu@lists.linux.dev
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Mostafa Saleh <smostafa@google.com>, Will Deacon <will@kernel.org>,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVER for Qualcomm Adreno
- GPUs), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v11 4/4] drm/msm: Extend gpu devcore dumps with pgtbl info
-Date: Tue, 10 Dec 2024 08:51:22 -0800
-Message-ID: <20241210165127.600817-5-robdclark@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241210165127.600817-1-robdclark@gmail.com>
-References: <20241210165127.600817-1-robdclark@gmail.com>
+ AJvYcCUIPpZXJ1eGPPhQhZyt9MG3gVHPScATDfH0IF1bGsCRRNp2YlTlPjwaDZluchSrR0GYbHYJv4Cqn4A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqQC0nm3cdIwfIhOUE5r5+wYtUYcWkVSfPa4sDIt3zp1jDEXVl
+ F/jLxqi0B3R3VtZT1SptU1ATe4ktkus79NZ8ZWpCGxkVp+40kODKmVm2qcM7V09gwnqJvtK3XIS
+ rXQ==
+X-Gm-Gg: ASbGncv+cnhJBsVpDnjxEpjNOguB4CvcJrQ8Gl5EBoJtBFjDd4h1zzkTh6h9wP4V+gZ
+ KicnlqabCxufKHbNfaTqgcKg6DVGXN3HUEInfKa/8iIAnAX1nPAgU6vEVM6VIjUI48+mAohvRTf
+ c+T+ijc7XCn0I/H7ZxPFA4rVIKnpt0g13YXTR8wbV7vn2wreN8HtBSZQPQcRcN9nT61GLb6aTV+
+ 01j8numI/n4waqStDk9o3xhFlqDpl4WdlJNfXelggZVBiq3zu44jFnl164sVBf+McQCnTZmd4FX
+ XBFqEcZPpSiHRHvKzQ==
+X-Google-Smtp-Source: AGHT+IFubJXy3vtkJcOwHqqS9mESC3A7XabtJV9kuba14K6i1ZD7hDmahPlfBhOOFL5Pjv0KmynR8w==
+X-Received: by 2002:a05:6512:238f:b0:540:1f67:689e with SMTP id
+ 2adb3069b0e04-5402410d928mr2204911e87.47.1733850546924; 
+ Tue, 10 Dec 2024 09:09:06 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
+ [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401796d426sm1008552e87.14.2024.12.10.09.09.04
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Dec 2024 09:09:05 -0800 (PST)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5401e6efffcso2588236e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 09:09:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXnMGrZ3hgBVih7WkKW8caixMQP9M5GmIIixdZBsrRsl5iVX26cmJ9LI53YwhnN/RY8XqzpTgV41Uo=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:33d0:b0:53e:368c:ac43 with SMTP id
+ 2adb3069b0e04-540240aac8fmr2378233e87.5.1733850544359; Tue, 10 Dec 2024
+ 09:09:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
+In-Reply-To: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 Dec 2024 09:08:52 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
+X-Gm-Features: AZHOrDkvV4hXVBzL5LdGwv2-ywEkfcu0N74i9maLRg8R7KrBlypjtg_v-QyKEuk
+Message-ID: <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Fix multiple instances
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Greg KH <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,131 +112,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Hi,
 
-In the case of iova fault triggered devcore dumps, include additional
-debug information based on what we think is the current page tables,
-including the TTBR0 value (which should match what we have in
-adreno_smmu_fault_info unless things have gone horribly wrong), and
-the pagetable entries traversed in the process of resolving the
-faulting iova.
+On Tue, Dec 10, 2024 at 6:19=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Each bridge instance creates up to four auxiliary devices with different
+> names.  However, their IDs are always zero, causing duplicate filename
+> errors when a system has multiple bridges:
+>
+>     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/ti_sn=
+65dsi86.gpio.0'
+>
+> Fix this by using a unique instance ID per bridge instance.  The
+> instance ID is derived from the I2C adapter number and the bridge's I2C
+> address, to support multiple instances on the same bus.
+>
+> Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MIPI-t=
+o-eDP bridge into sub-drivers")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> On the White Hawk development board:
+>
+>     /sys/bus/auxiliary/devices/
+>     |-- ti_sn65dsi86.aux.1068
+>     |-- ti_sn65dsi86.aux.4140
+>     |-- ti_sn65dsi86.bridge.1068
+>     |-- ti_sn65dsi86.bridge.4140
+>     |-- ti_sn65dsi86.gpio.1068
+>     |-- ti_sn65dsi86.gpio.4140
+>     |-- ti_sn65dsi86.pwm.1068
+>     `-- ti_sn65dsi86.pwm.4140
+>
+> Discussion after v1:
+>   - https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.1729=
+180470.git.geert+renesas@glider.be
+>
+> Notes:
+>   - While the bridge supports only two possible I2C addresses, I2C
+>     translators may be present, increasing the address space.  Hence the
+>     instance ID calculation assumes 10-bit addressing.  Perhaps it makes
+>     sense to introduce a global I2C helper function for this?
+>
+>   - I think this is the simplest solution.  If/when the auxiliary bus
+>     receives support =C3=A0 la PLATFORM_DEVID_AUTO, the driver can be
+>     updated.
+>
+> v2:
+>   - Use I2C adapter/address instead of ida_alloc().
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 10 ++++++++++
- drivers/gpu/drm/msm/msm_gpu.c           |  9 +++++++++
- drivers/gpu/drm/msm/msm_gpu.h           |  8 ++++++++
- drivers/gpu/drm/msm/msm_iommu.c         | 22 ++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_mmu.h           |  3 ++-
- 5 files changed, 51 insertions(+), 1 deletion(-)
+While I agree with Laurent that having a more automatic solution would
+be nice, this is small and fixes a real problem. I'd be of the opinion
+that we should land it.
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 076be0473eb5..f1d6e6665c30 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -868,6 +868,16 @@ void adreno_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
- 		drm_printf(p, "  - dir=%s\n", info->flags & IOMMU_FAULT_WRITE ? "WRITE" : "READ");
- 		drm_printf(p, "  - type=%s\n", info->type);
- 		drm_printf(p, "  - source=%s\n", info->block);
-+
-+		/* Information extracted from what we think are the current
-+		 * pgtables.  Hopefully the TTBR0 matches what we've extracted
-+		 * from the SMMU registers in smmu_info!
-+		 */
-+		drm_puts(p, "pgtable-fault-info:\n");
-+		drm_printf(p, "  - ttbr0: %.16llx\n", (u64)info->pgtbl_ttbr0);
-+		drm_printf(p, "  - asid: %d\n", info->asid);
-+		drm_printf(p, "  - ptes: %.16llx %.16llx %.16llx %.16llx\n",
-+			   info->ptes[0], info->ptes[1], info->ptes[2], info->ptes[3]);
- 	}
- 
- 	drm_printf(p, "rbbm-status: 0x%08x\n", state->rbbm_status);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 0d4a3744cfcb..82f204f3bb8f 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -281,6 +281,15 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 	if (submit) {
- 		int i;
- 
-+		if (state->fault_info.ttbr0) {
-+			struct msm_gpu_fault_info *info = &state->fault_info;
-+			struct msm_mmu *mmu = submit->aspace->mmu;
-+
-+			msm_iommu_pagetable_params(mmu, &info->pgtbl_ttbr0,
-+						   &info->asid);
-+			msm_iommu_pagetable_walk(mmu, info->iova, info->ptes);
-+		}
-+
- 		state->bos = kcalloc(submit->nr_bos,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 7cabc8480d7c..e25009150579 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -101,6 +101,14 @@ struct msm_gpu_fault_info {
- 	int flags;
- 	const char *type;
- 	const char *block;
-+
-+	/* Information about what we think/expect is the current SMMU state,
-+	 * for example expected_ttbr0 should match smmu_info.ttbr0 which
-+	 * was read back from SMMU registers.
-+	 */
-+	phys_addr_t pgtbl_ttbr0;
-+	u64 ptes[4];
-+	int asid;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 2a94e82316f9..3e692818ba1f 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -195,6 +195,28 @@ struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu)
- 	return &iommu->domain->geometry;
- }
- 
-+int
-+msm_iommu_pagetable_walk(struct msm_mmu *mmu, unsigned long iova, uint64_t ptes[4])
-+{
-+	struct msm_iommu_pagetable *pagetable;
-+	struct arm_lpae_io_pgtable_walk_data wd = {};
-+
-+	if (mmu->type != MSM_MMU_IOMMU_PAGETABLE)
-+		return -EINVAL;
-+
-+	pagetable = to_pagetable(mmu);
-+
-+	if (!pagetable->pgtbl_ops->pgtable_walk)
-+		return -EINVAL;
-+
-+	pagetable->pgtbl_ops->pgtable_walk(pagetable->pgtbl_ops, iova, &wd);
-+
-+	for (int i = 0; i < ARRAY_SIZE(wd.ptes); i++)
-+		ptes[i] = wd.ptes[i];
-+
-+	return 0;
-+}
-+
- static const struct msm_mmu_funcs pagetable_funcs = {
- 		.map = msm_iommu_pagetable_map,
- 		.unmap = msm_iommu_pagetable_unmap,
-diff --git a/drivers/gpu/drm/msm/msm_mmu.h b/drivers/gpu/drm/msm/msm_mmu.h
-index 88af4f490881..96e509bd96a6 100644
---- a/drivers/gpu/drm/msm/msm_mmu.h
-+++ b/drivers/gpu/drm/msm/msm_mmu.h
-@@ -53,7 +53,8 @@ static inline void msm_mmu_set_fault_handler(struct msm_mmu *mmu, void *arg,
- struct msm_mmu *msm_iommu_pagetable_create(struct msm_mmu *parent);
- 
- int msm_iommu_pagetable_params(struct msm_mmu *mmu, phys_addr_t *ttbr,
--		int *asid);
-+			       int *asid);
-+int msm_iommu_pagetable_walk(struct msm_mmu *mmu, unsigned long iova, uint64_t ptes[4]);
- struct iommu_domain_geometry *msm_iommu_get_geometry(struct msm_mmu *mmu);
- 
- #endif /* __MSM_MMU_H__ */
--- 
-2.47.1
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
+If I personally end up being the person to land it, I'll likely wait
+until January since I'll be on vacation soon for the holidays and I
+don't want to check something that's slightly controversial in and
+then disappear. If someone else feels it's ready to land before then I
+have no objections.
+
+-Doug
