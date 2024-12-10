@@ -2,85 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550219EB0B3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:24:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00AB9EB0B9
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Dec 2024 13:25:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C280210E010;
-	Tue, 10 Dec 2024 12:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBCF10E38E;
+	Tue, 10 Dec 2024 12:25:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dsNpp8Rm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Jhx7NFto";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 518FF10E010
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 12:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1733833459;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aSecLXEIEH9VAnhyNAFzRJvrLm7yztvw8Khy2pOpSMo=;
- b=dsNpp8RmLkayvkRGWzdBaKUnZ07B47+VNUkt0E3KkCCm3u1C/wloVHvbDqL4/15C8U3KGb
- +n9cWof0L4qpy1VWXt/Byt56LcLzNK5q12ylIDAPXiA05uXZ7EwrmVszzjhvljXgxdtwfC
- qITQGiUUjmcG8f9/WeTF0hWQVHkvPwE=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-422-MUb2nFCfMz-Z3xuoSF_qjw-1; Tue, 10 Dec 2024 07:24:16 -0500
-X-MC-Unique: MUb2nFCfMz-Z3xuoSF_qjw-1
-X-Mimecast-MFC-AGG-ID: MUb2nFCfMz-Z3xuoSF_qjw
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-aa634496f58so89319766b.2
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 04:24:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733833455; x=1734438255;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aSecLXEIEH9VAnhyNAFzRJvrLm7yztvw8Khy2pOpSMo=;
- b=rCkU9Fmv7/d+VCOcDEEbWPSXM4jcimxA4MRVJhCSPiGH3G1Incyg4639zvh4hUd5ms
- bQIQKQ035CnIFvEe5QCqpB5Jqmf4N4m5R09/csX+vVhXST+GZMBPWcPxbDczooTacVCf
- tO/YcFOTVgvn/5bIr4JU+0OgxMPLPjC0RSIKrhvYSQQHfPJyKkCIFUbf9dk6cy3zEJwF
- rhw62on79/k8tOiDNcXGwURI8p8hDjIJRQMPtFjeAXKM8h0phP1vZDvcxowjb8RR7jOS
- a03c9aZ8Px0+c2n7MmKfqNNWj0GZ96cKyinObr49HaneDQq8D0kWrN2ECUg19PrXL2+z
- IvLQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXNa/z4OL4DA+vM38KV0MlbD3ERqnZHGhR6e0jcjtMvfLPdMLbP/2yhzSROn/kYCR1lCmnU4ABxhlw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylgepTwMyVK9gN6YIrWOsdUkbObbqN1PXHOfplg7Ep2K3cFoQX
- 0qvW/r8Ef+/zKzP68BucPBISkZYrgFrVOibDfs5BRRbB/z44ijO/+uCA/7qap0VVtmhmSveh+hC
- 1K0H527EgF+TeohZiNWVy6v+1UI+cMchK64h5WIkaUlFFYgNxdE968KjItsRWoR75KQd6QwI6/+
- 2TawwwpvI0dQSOWmrDnLiW/5qQurRZPepFK0MnsAf9
-X-Gm-Gg: ASbGncvukTBMu8RtadzZP9xM4vkzrkfVIgUlSzIQ+g47hzwQnEjPmCKrpSIMA/oUv9I
- s28ct5SDvTclNj4bCOfMCVoMes5Cknd8tobTwFekhQGIDYoJDYXugwJkexsJ6G76lR24=
-X-Received: by 2002:a17:906:18a9:b0:aa6:8a1b:8b7c with SMTP id
- a640c23a62f3a-aa68a1b8e98mr630992566b.2.1733833455443; 
- Tue, 10 Dec 2024 04:24:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEcgyA52HfEjey88Kb6EsuqPIgVlks8Qpk8hL6qKkV1dFhRyyCd5ELr+Iz6VA2G2PWuz4gd34tfvQzS/RzCBTs=
-X-Received: by 2002:a17:906:18a9:b0:aa6:8a1b:8b7c with SMTP id
- a640c23a62f3a-aa68a1b8e98mr630989266b.2.1733833455085; Tue, 10 Dec 2024
- 04:24:15 -0800 (PST)
-MIME-Version: 1.0
-References: <20241129122408.4167150-1-ryasuoka@redhat.com>
- <be01d2f7-8423-4e10-b65b-a84a7bc7c99e@collabora.com>
-In-Reply-To: <be01d2f7-8423-4e10-b65b-a84a7bc7c99e@collabora.com>
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-Date: Tue, 10 Dec 2024 21:24:03 +0900
-Message-ID: <CAHpthZrZ6DjsCQ4baQ80b2vOTdkR=vHDx=10W7DTS4ohxb6=pg@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/virtio: Add drm_panic support
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, daniel@ffwll.ch,
- jfalempe@redhat.com, 
- christophe.jaillet@wanadoo.fr, virtualization@lists.linux.dev, 
- spice-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6281C10E38E;
+ Tue, 10 Dec 2024 12:25:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733833506; x=1765369506;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=PtpvYsMJyPeHOPuFEZLTbXjEUkdt+zwt+rEBAt8uJ3Y=;
+ b=Jhx7NFtoD8oOjenpzGkRGx0lrQh2+11AMRf7Rz9LgfrQ08N3r6cOF+mt
+ ZUbxd9jbcP4n9t+Z76nwMlK+ZyYajDbcE195wAgQKYXxuurmp+sBoQsVF
+ h4icikCfzd+MUDFYozL4I14lNRC6Hug0LgAADvm4bhwCH8pXF8YVgWdCJ
+ Gesh7Oa5nC+tfzn4JJ39BkHB8rs3xce1/3wx52VjQszN3b9l1WPJcimR2
+ r0V8BEFjwlaOQSDVyfnKdWGkGvYY2IS65hyyqW/b88c8dLSna/GTk3AJ0
+ /+bDRQEF1CgAm6q/FAwkKPb+rOjKygTbaxk6KNZi8ibFcUybw/YXBxZCT Q==;
+X-CSE-ConnectionGUID: HKfhRgB3T8KfiVq5yz8F9w==
+X-CSE-MsgGUID: 7jW+1YqLTB+O7zSddLTI9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="44642682"
+X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; d="scan'208";a="44642682"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2024 04:25:05 -0800
+X-CSE-ConnectionGUID: kWML3+0tSpilYVrYcaMz1A==
+X-CSE-MsgGUID: 8MwiVfTRSpmx3tv+RKDm8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,222,1728975600"; d="scan'208";a="126296168"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.242])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2024 04:24:59 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Genes Lists <lists@sapience.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+ torvalds@linux-foundation.org, stable@vger.kernel.org,
+ linux-media@vger.kernel.org, bingbu.cao@intel.com, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 6JRwkeQ2-mLE881poygqivhhhtZGD3r6I6t50I0GxqQ_1733833455
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Linux 6.12.4 - crash dma_alloc_attrs+0x12b via ipu6
+In-Reply-To: <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <2024120917-vision-outcast-85f2@gregkh>
+ <c0e94be466b367f1a3cfdc3cb7b1a4f47e5953ae.camel@sapience.com>
+ <Z1fqitbWlmELb5pj@kekkonen.localdomain> <87seqvzzg6.fsf@intel.com>
+ <c1805642a6c5da6fef3927c70358c8cb851d2784.camel@sapience.com>
+Date: Tue, 10 Dec 2024 14:24:56 +0200
+Message-ID: <87bjxjzpwn.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,59 +81,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 2, 2024 at 11:30=E2=80=AFPM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
+On Tue, 10 Dec 2024, Genes Lists <lists@sapience.com> wrote:
+> On Tue, 2024-12-10 at 10:58 +0200, Jani Nikula wrote:
+>> On Tue, 10 Dec 2024, Sakari Ailus <sakari.ailus@linux.intel.com>
+>> wrote:
+>> > Hi,
+>> >=20
+>> > > ...
+>> > > FYI 6.12.4 got a crash shortly after booting in dma_alloc_attrs -
+>> > > maybe
+>> > > triggered in ipu6_probe. Crash only happened on laptop with ipu6.
+>> > > All
+>> > > other machines are running fine.
+>> >=20
+>> > Have you read the dmesg further than the IPU6 related warning? The
+>> > IPU6
+>> > driver won't work (maybe not even probe?) but if the system
+>> > crashes, it
+>> > appears unlikely the IPU6 drivers would have something to do with
+>> > that.
+>> > Look for warnings on linked list corruption later, they seem to be
+>> > coming
+>> > from the i915 driver.
+>>=20
+>> And the list corruption is actually happening in
+>> cpu_latency_qos_update_request(). I don't see any i915 changes in
+>> 6.12.4
+>> that could cause it.
+>>=20
+>> I guess the question is, when did it work? Did 6.12.3 work?
+>>=20
+>>=20
+>> BR,
+>> Jani.
 >
-> On 11/29/24 15:24, Ryosuke Yasuoka wrote:
-> ....
-> > +     } else {
-> > +             iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-> > +     }
-> > +
-> > +     sb->format =3D plane->state->fb->format;
-> > +     sb->height =3D plane->state->fb->height;
-> > +     sb->width =3D plane->state->fb->width;
-> > +     sb->pitch[0] =3D plane->state->fb->pitches[0];
-> > +     return 0;
-> > +}
-> ...
-> > +static void virtio_panic_flush(struct drm_plane *plane)
-> > +{
-> > +     struct virtio_gpu_object *bo;
-> > +     struct drm_device *dev =3D plane->dev;
-> > +     struct virtio_gpu_device *vgdev =3D dev->dev_private;
-> > +     struct drm_rect rect;
-> > +     void *p_vbuf =3D vgdev->panic_vbuf;
-> > +     struct virtio_gpu_vbuffer *vbuf_dumb_bo =3D p_vbuf;
-> > +     struct virtio_gpu_vbuffer *vbuf_resource_flush =3D p_vbuf + VBUFF=
-ER_SIZE;
 >
-> This p_vbuf + VBUFFER_SIZE looks suspicious. The VBUFFER_SIZE macro
-> isn't guarded with parentheses (), hence this vbuf_resource_flush is
-> pointing at the CMD part of the vbuf_dumb_bo?
-
-No. I intend vbuf_resource_flush to point to a different vbuf than
-vbuf_dumb_bo. I allocate 2 vbufs in virtio_gpu_plane_init() so that
-vbuf_dumb_bo points to the first vbuf and vbuf_resource_flush points
-to the second one.
-
-> Won't be using kmem_cache_zalloc(vgdev->vbufs, GFP_ATOMIC) to
-> dynamically allocate both buffers make everything cleaner?
+>  - 6.12.1 worked
 >
-> ...
-> > -#define MAX_INLINE_CMD_SIZE   96
-> > -#define MAX_INLINE_RESP_SIZE  24
-> > -#define VBUFFER_SIZE          (sizeof(struct virtio_gpu_vbuffer) \
-> > -                            + MAX_INLINE_CMD_SIZE             \
-> > -                            + MAX_INLINE_RESP_SIZE)...
+>  - mainline - works (but only with i915 patch set [1] otherwise there
+> are no graphics at all)
 >
-
-Yes, it is feasible.
-
-Thank you for your review.
-Ryosuke
-
-> Best regards,
-> Dmitry
+>     [1] https://patchwork.freedesktop.org/series/141911/
 >
+> - 6.12.3 - crashed (i see i915 not ipu6) and again it has      =C2=A0
+>     cpu_latency_qos_update_request+0x61/0xc0
 
+Thanks for testing.
+
+There are no changes to either i915 or kernel/power between 6.12.1 and
+6.12.4.
+
+There are some changes to drm core, but none that could explain this.
+
+Maybe try the same kernels a few more times to see if it's really
+deterministic? Not that I have obvious ideas where to go from there, but
+it's a clue nonetheless.
+
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel
