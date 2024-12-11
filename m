@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200259EDA54
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584F49EDA61
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E120210EA4D;
-	Wed, 11 Dec 2024 22:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B1F10EAA6;
+	Wed, 11 Dec 2024 22:50:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="rxk48gwt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XoyX2INU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EADFC10E986
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hTTJ7OXYyAx1ZfgndTqE4h/ckOFQ/YcOcAae/xgQEag=; b=rxk48gwtwxdly6V7kB9jzrpiHP
- MHVGl65qKQC+teywOmweE8tYOCUobbt6HUZXL/4IBedWNWsIhmmdYWNioXllEWuH0HDWaCHKAP3C/
- XvvR1DhmrKg+EJ7MZXHxQO6epJgNCk5Kg1OvGIZA1gPiC3jm0apA5YCoRiYXpRy7E+bTBMI+bxIva
- tfUMM3WSfVeQV+MnBlEgSz039UVtbHKuELZczrjjcbHvmMrakp1uKkvQ6Cev/CVw0y3nsKx5Acoy6
- OuPHNGQYFskLSOdc2yC2gEHRyrgqNv01AAefVYe3mFCXIedNyTlsob1yJJ+NBuq0it3elEty/1VAm
- MwtRSJWg==;
-Received: from i53875bc4.versanet.de ([83.135.91.196] helo=phil.fritz.box)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tLVSj-0000ON-3w; Wed, 11 Dec 2024 23:45:45 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: hjc@rock-chips.com, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Piotr Zalewski <pZ010001011111@proton.me>
-Cc: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH drm-misc-next] rockchip/drm: vop2: don't check
- color_mgmt_changed in atomic_enable
-Date: Wed, 11 Dec 2024 23:45:41 +0100
-Message-ID: <173395708760.2509957.1013367330408721282.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241206192013.342692-3-pZ010001011111@proton.me>
-References: <20241206192013.342692-3-pZ010001011111@proton.me>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B88B10EAA6
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:50:41 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-540218726d5so3370523e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733957440; x=1734562240; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZhObuxr/02KFb2isXPxGgNEnZ1jE84bLOSCb6UyuS5M=;
+ b=XoyX2INU4JA7lbPvvtLUEmgDcVEosIMiHOnyAl5MHPrEezRhPxtt3xq3cGTsaqQBcI
+ tOmur+an5dygnC6H2dx9B5vPcHDE/P8sly+ERBvHrTxtkAL/qv8iaO7H1bHOoP8H7nwJ
+ exHpc/EB42rSJjzcNmPaz/Mj0F/wfmIyfHceN3WdDsDNA9SnCKmm/OCbghyiPZrpbQwC
+ fzPKwwIlYICJflyqxiKyPfn5EXO31tnuEZyO3XOYuJzqRruOtU4YazBQ5K0NWph+DzGV
+ b7vaijhB1LzzRsPRyclQmfZyWaeNuNbgQ0yYUX56Fvd15GJrKsUYmIdJfafa2/jG0NBZ
+ vApw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733957440; x=1734562240;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZhObuxr/02KFb2isXPxGgNEnZ1jE84bLOSCb6UyuS5M=;
+ b=Y4yAASH+KZnAotZnFtazwkN9SFkteMfO1fH2/NRL6UdKtwqfmHMd2AR+NqIpXs5zX7
+ ydICSuGYB/MjaK9Mw6RREuHaUN53+uw6mQ7uztRyT28u2ZFSbXvUmrOP3imIs8LuSmt0
+ OB31loxIXqVW5NLz3VI72TigEkHa3iYmOGxXlVbTZ/CEQqXn0XcaEH1ZQ+oOCo3MU+x0
+ toylp2zb0KTA5/j0+khK7OyjGsQQTqqd6twR8nS6h2BYxl9VdO0zV2IZMI3dTlno0Ufi
+ SguT/ielx5dpLHA02eK/Y+wU35CXv50QrS7EZSZXW0M1IkWzVzv45MguBmqi76hrw6hp
+ ksZQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjFDd36xdY7GHzAt44qg7ANcqUA7t4MDd35iAQMDxGNEmSNByfSF92dZ630pbUcGzi6V65NPyjZe0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzfpzdZLJHMs1jDueoKpMq0svT7e6f4rZQ0kh4gk5aGNHqI1OHy
+ XzSPngPJw1dgK98pboArIHD/bmMZiQAGLvZNo55Uz3TCbLgxRlSDGBED7Lt2uzo=
+X-Gm-Gg: ASbGnct13srv3NJ5nkPiJohlyPqAiU7Of7eIj5obuGH/3uEPKc5QN/vq2NJeOm9TL7l
+ 8mloF+vAJBrsJcl4bHeuDhDo+Y5BdbtWfQSK6j30s+BQDKe+Pkl2vmEf6b/ZHvtGLmPX8K1iZ1J
+ BypPLjtRvc62JUjR9wS0mVqEJ9F80s9UCsFESWVjEylo6m97BruW7QokU4RDnh2A6knb2AVRT2R
+ NcD6i9lThjjZFnfV3T5uXJdzE7tzFwCEmBP9tvKX54lAsd2wSdZuVf8IRUhNiPs+ufaMUeBGTns
+ QcutuufhdMV6crGdQsU4rRv+Lo/y6HbnCA==
+X-Google-Smtp-Source: AGHT+IFfopIZRMQLZAH8vRQxGl2sNJnS4PO0XzwFwmFMQsUTluQcT38x+rS7eG9hh809gTG97MV1HA==
+X-Received: by 2002:a05:6512:2387:b0:53e:391c:e985 with SMTP id
+ 2adb3069b0e04-5402a5e8309mr1405330e87.32.1733957439569; 
+ Wed, 11 Dec 2024 14:50:39 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401e51bafesm1154464e87.221.2024.12.11.14.50.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 14:50:38 -0800 (PST)
+Date: Thu, 12 Dec 2024 00:50:35 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ quic_abhinavk@quicinc.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ robdclark@gmail.com
+Subject: Re: [PATCH v3 2/2] drm/tests: Add test for
+ drm_atomic_helper_commit_modeset_disables()
+Message-ID: <njx2ogued4bbu3ub5jlnczql3x2dr4i72onhmh35tgxyuf3lek@3liwh4butumk>
+References: <20241211-abhinavk-modeset-fix-v3-0-0de4bf3e7c32@quicinc.com>
+ <20241211-abhinavk-modeset-fix-v3-2-0de4bf3e7c32@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241211-abhinavk-modeset-fix-v3-2-0de4bf3e7c32@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,23 +94,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 06 Dec 2024 19:26:10 +0000, Piotr Zalewski wrote:
-> Remove color_mgmt_changed check from vop2_crtc_atomic_try_set_gamma to
-> allow gamma LUT rewrite during modeset when coming out of suspend. Add
-> a check for color_mgmt_changed directly in vop2_crtc_atomic_flush.
+On Wed, Dec 11, 2024 at 01:18:43PM -0800, Jessica Zhang wrote:
+> Add a subtest to check that modeset is called when the connector is
+> changed
 > 
-> This patch fixes the patch adding gamma LUT support for vop2 [1].
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+> Changes in v3:
+> - Use BUILD_BUG_ON to check connectors and encoders array sizes (Dmitry)
+> - Renamed functions to be more test-specific (Dmitry)
+> - Added comment description for test (Dmitry)
+> - Return get_modes_fixed() directly within the encoder get_modes
+>   function (Dmitry)
+> - Move drm_connector local variable declaration to top of function
+>   (Dmitry)
+> - Changed drm_test_modeset() to a more descriptive name
+> ---
+>  drivers/gpu/drm/tests/Makefile                |   1 +
+>  drivers/gpu/drm/tests/drm_atomic_state_test.c | 244 ++++++++++++++++++++++++++
+>  2 files changed, 245 insertions(+)
 > 
-> [1] https://lore.kernel.org/linux-rockchip/20241101185545.559090-3-pZ010001011111@proton.me/
-> 
-> [...]
 
-Applied, thanks!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[1/1] rockchip/drm: vop2: don't check color_mgmt_changed in atomic_enable
-      commit: 9c22b6ece2e5c2308f41ba4bec27cfa158397fa7
-
-Best regards,
 -- 
-Heiko Stuebner <heiko@sntech.de>
+With best wishes
+Dmitry
