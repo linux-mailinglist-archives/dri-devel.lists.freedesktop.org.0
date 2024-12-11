@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EAC39EC32B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 04:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56D619EC323
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 04:23:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E7D10EA53;
-	Wed, 11 Dec 2024 03:23:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C3210EA4A;
+	Wed, 11 Dec 2024 03:23:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="M97ZjAGA";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="jFCK7S34";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A09A810EA46
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 03:23:05 +0000 (UTC)
-X-UUID: 38e9b308b76f11efbd192953cf12861f-20241211
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A26A510EA46
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 03:23:07 +0000 (UTC)
+X-UUID: 39df223eb76f11efbd192953cf12861f-20241211
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=AewIw7iiAczZIdGvxah8jnWCWAkHtIDK6C0ls/hjIp8=; 
- b=M97ZjAGAfVKxSapsFJLL8Ctlr7e9Ktmy54Mei59I/AQroxj9NXEFP9d44wtHumIe9prAc7Hm99s0Nsi01k11HQbl8U0YmeTRDwziiDjeMUTKBsDU5y3mClXoYl2hJnC9/35uwgVQX7Vta0Jsip2eKoh46mgyQ1TtRHc5h2c5TOk=;
+ bh=T4U1k9XsfEGnGGquUv29OTEOhnDqH/IOUcFAOC5VTd4=; 
+ b=jFCK7S34RuUvVjncNCZEhwxUelsrsWqsfHEBu3kSjEIoUcaXBUKRMC43PmAy590fdIJ6NukHXZqMwgf7fp3PZ1WR+BOCbxhXKTCi+ckpNzumkKM2FYQf3VIYjPGR6drbUrEOUeXgD2VX7x+NWNxEL6mTBeZCvppVsJlQ0p6o4MI=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:d2492053-b470-4326-8777-03dc5aa3f437, IP:0,
+X-CID-O-INFO: VERSION:1.1.45, REQID:67157db2-320e-47d9-a329-fe529da79c4b, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:27532dc1-1c82-4420-82d9-d6eb228f5c4a,
+X-CID-META: VersionHash:6493067, CLOUDID:2267c53b-e809-4df3-83cd-88f012b9e9ba,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0,EDM:-3,IP
  :nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
@@ -34,18 +34,18 @@ X-CID-META: VersionHash:6493067, CLOUDID:27532dc1-1c82-4420-82d9-d6eb228f5c4a,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 38e9b308b76f11efbd192953cf12861f-20241211
+X-UUID: 39df223eb76f11efbd192953cf12861f-20241211
 Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
  mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 275636038; Wed, 11 Dec 2024 11:22:59 +0800
+ with ESMTP id 1124864045; Wed, 11 Dec 2024 11:23:01 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 11 Dec 2024 11:22:58 +0800
+ 15.2.1118.26; Wed, 11 Dec 2024 11:22:59 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 11 Dec 2024 11:22:58 +0800
+ 15.2.1118.26 via Frontend Transport; Wed, 11 Dec 2024 11:22:59 +0800
 From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 To: Jassi Brar <jassisinghbrar@gmail.com>, Chun-Kuang Hu
  <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
@@ -61,15 +61,27 @@ CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Moudy Ho
  <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2 4/8] soc: mediatek: mtk-cmdq: Add pa_base parsing for
- unsupported subsys ID hardware
-Date: Wed, 11 Dec 2024 11:22:52 +0800
-Message-ID: <20241211032256.28494-5-jason-jh.lin@mediatek.com>
+Subject: [PATCH v2 5/8] soc: mediatek: mtk-cmdq: Add mminfra_offset
+ compatibility for DRAM address
+Date: Wed, 11 Dec 2024 11:22:53 +0800
+Message-ID: <20241211032256.28494-6-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
 References: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--1.185700-8.000000
+X-TMASE-MatchedRID: DCodz87H3pGAaBshbPhdTBes/RxhysDb7JU5VR9SYzectWHPLT5Fffm0
+ YT+bdWqugML9UOgCBPc0Hb0yXykDnwFuUZy6kMeHA9lly13c/gGXYX34rFl3x0UNHQAoZf5c8tM
+ WbtVzWkhQRF/YWVwiHyItTFGzkWdF5UcZtwNsCroURSScn+QSXt0H8LFZNFG7CKFCmhdu5cWeVQ
+ JCOVCzcKwprm+vRmmGCmE2/uKUWiWFzI9t6v+l/uRhla2fBb2CgudlomqT4OzUOysKObTyDtflf
+ nlnLGPtOvRb/Ij74vkXRoPmWO3jekxwdkPqCq7vDEyN+J8hd+jCS9WgDXVPCp6oP1a0mRIj
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--1.185700-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 13C680120697E02D6B588F5B336C1BFDD78F4F353F9A8447A2C5D70A815F4FED2000:8
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,87 +98,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When GCE executes instructions, the corresponding hardware register
-can be found through the subsys ID. For hardware that does not support
-subsys IDs, the physical address needs to be used to generate GCE
-instructions.
+Since GCE has been moved to mminfra in MT8196, all transactions from
+mminfra to DRAM will have their addresses adjusted by subtracting a
+mminfra offset.
+This information should be handled inside the CMDQ driver, allowing
+CMDQ users to call CMDQ APIs as usual.
 
-This commit adds a pa_base parsing flow to the cmdq_client_reg structure
-for these unsupported subsys ID hardware.
+Therefore, CMDQ driver needs to use the mbox API to get the
+mminfra_offset value of the SoC, and then add it to the DRAM address
+when generating instructions to ensure GCE accesses the correct DRAM
+address.
 
 Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/soc/mediatek/mtk-cmdq-helper.c | 18 ++++++++++++++++--
- include/linux/soc/mediatek/mtk-cmdq.h  |  1 +
- 2 files changed, 17 insertions(+), 2 deletions(-)
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 35 ++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
-index 0a05ee87a0fc..87734639c37c 100644
+index 87734639c37c..623f89cd7448 100644
 --- a/drivers/soc/mediatek/mtk-cmdq-helper.c
 +++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
-@@ -8,6 +8,7 @@
- #include <linux/module.h>
- #include <linux/mailbox_controller.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
+@@ -314,10 +314,22 @@ EXPORT_SYMBOL(cmdq_pkt_write_s_mask_value);
  
- #define CMDQ_WRITE_ENABLE_MASK	BIT(0)
-@@ -60,20 +61,30 @@ int cmdq_dev_get_client_reg(struct device *dev,
- 			    struct cmdq_client_reg *client_reg, int idx)
+ int cmdq_pkt_mem_move(struct cmdq_pkt *pkt, dma_addr_t src_addr, dma_addr_t dst_addr)
  {
- 	struct of_phandle_args spec;
-+	struct resource res;
- 	int err;
++	struct cmdq_client *cl = (struct cmdq_client *)pkt->cl;
+ 	const u16 high_addr_reg_idx  = CMDQ_THR_SPR_IDX0;
+ 	const u16 value_reg_idx = CMDQ_THR_SPR_IDX1;
+ 	int ret;
  
- 	if (!client_reg)
- 		return -ENOENT;
- 
-+	if (of_address_to_resource(dev->of_node, 0, &res) != 0) {
-+		dev_err(dev, "Missing reg in %s node\n", dev->of_node->full_name);
++	if (!cl) {
++		pr_err("%s %d: pkt->cl is NULL!\n", __func__, __LINE__);
 +		return -EINVAL;
 +	}
-+	client_reg->pa_base = res.start;
 +
- 	err = of_parse_phandle_with_fixed_args(dev->of_node,
- 					       "mediatek,gce-client-reg",
- 					       3, idx, &spec);
- 	if (err < 0) {
--		dev_warn(dev,
-+		dev_dbg(dev,
- 			"error %d can't parse gce-client-reg property (%d)",
- 			err, idx);
- 
--		return err;
-+		/* make subsys invalid */
-+		client_reg->subsys = U8_MAX;
++	if (cmdq_addr_need_offset(cl->chan, src_addr))
++		src_addr += cmdq_get_offset_pa(cl->chan);
 +
-+		return 0;
- 	}
- 
- 	client_reg->subsys = (u8)spec.args[0];
-@@ -130,6 +141,9 @@ int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt, size_t siz
- 
- 	pkt->buf_size = size;
- 
-+	/* need to use pkt->cl->chan later to call mbox APIs when generating instruction */
-+	pkt->cl = (void *)client;
++	if (cmdq_addr_need_offset(cl->chan, dst_addr))
++		dst_addr += cmdq_get_offset_pa(cl->chan);
 +
- 	dev = client->chan->mbox->dev;
- 	dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
- 				  DMA_TO_DEVICE);
-diff --git a/include/linux/soc/mediatek/mtk-cmdq.h b/include/linux/soc/mediatek/mtk-cmdq.h
-index 5bee6f7fc400..d925f9dc7987 100644
---- a/include/linux/soc/mediatek/mtk-cmdq.h
-+++ b/include/linux/soc/mediatek/mtk-cmdq.h
-@@ -52,6 +52,7 @@ struct cmdq_operand {
+ 	/* read the value of src_addr into high_addr_reg_idx */
+ 	ret = cmdq_pkt_assign(pkt, high_addr_reg_idx, CMDQ_ADDR_HIGH(src_addr));
+ 	if (ret < 0)
+@@ -428,10 +440,19 @@ EXPORT_SYMBOL(cmdq_pkt_poll_mask);
  
- struct cmdq_client_reg {
- 	u8 subsys;
-+	u32 pa_base;
- 	u16 offset;
- 	u16 size;
- };
+ int cmdq_pkt_poll_addr(struct cmdq_pkt *pkt, dma_addr_t addr, u32 value, u32 mask)
+ {
++	struct cmdq_client *cl = (struct cmdq_client *)pkt->cl;
+ 	struct cmdq_instruction inst = { {0} };
+ 	u8 use_mask = 0;
+ 	int ret;
+ 
++	if (!cl) {
++		pr_err("%s %d: pkt->cl is NULL!\n", __func__, __LINE__);
++		return -EINVAL;
++	}
++
++	if (cmdq_addr_need_offset(cl->chan, addr))
++		addr += cmdq_get_offset_pa(cl->chan);
++
+ 	/*
+ 	 * Append an MASK instruction to set the mask for following POLL instruction
+ 	 * which enables use_mask bit.
+@@ -509,11 +530,21 @@ EXPORT_SYMBOL(cmdq_pkt_assign);
+ 
+ int cmdq_pkt_jump_abs(struct cmdq_pkt *pkt, dma_addr_t addr, u8 shift_pa)
+ {
++	struct cmdq_client *cl = (struct cmdq_client *)pkt->cl;
+ 	struct cmdq_instruction inst = {
+ 		.op = CMDQ_CODE_JUMP,
+-		.offset = CMDQ_JUMP_ABSOLUTE,
+-		.value = addr >> shift_pa
++		.offset = CMDQ_JUMP_ABSOLUTE
+ 	};
++
++	if (!cl) {
++		pr_err("%s %d: pkt->cl is NULL!\n", __func__, __LINE__);
++		return -EINVAL;
++	}
++
++	if (cmdq_addr_need_offset(cl->chan, addr))
++		addr += cmdq_get_offset_pa(cl->chan);
++
++	inst.value = addr >> shift_pa;
+ 	return cmdq_pkt_append_command(pkt, inst);
+ }
+ EXPORT_SYMBOL(cmdq_pkt_jump_abs);
 -- 
 2.43.0
 
