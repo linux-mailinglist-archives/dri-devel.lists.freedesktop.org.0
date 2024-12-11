@@ -2,55 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6839ED513
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 19:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A999ED570
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 20:00:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B72010E60B;
-	Wed, 11 Dec 2024 18:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B90410EBF3;
+	Wed, 11 Dec 2024 19:00:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kETN8+Jf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ntsLPiz2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5001C10EBEB
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 18:53:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 34D88A418B7;
- Wed, 11 Dec 2024 18:51:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82C42C4CED2;
- Wed, 11 Dec 2024 18:53:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733943227;
- bh=1s1oXBbynOKYRxIx8NkEYOr7+xr9N+ldup6y4maCt6U=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kETN8+JfnclYCXpEd9SsiTw8Nea19TVvF06/4hZtLJ0kmGA27Q5aXnGdVR3SESOgN
- 7yCkq3xYIKlB/Yd5mBinOHDmkT3WdkXCafSA8P8w/zCjDonFGxKwUZTrxPfyEWRvhf
- 0m4em5nZ6oEYJN0fqCHohCxNclUhmQLUEx6vRYfw9CStGt8qf4N4WpI2MYXDMDgDPN
- 4Y6sNx4+jLt6UojdZL9gkwi0VP9YTTgdBC63K44/RLUDR7PdcCwjY52fxnNOmR9WXX
- /rQgjpSi5/fKBVEY4qlODqRAgSb6KTyuP+e+CRztnQ9HOUxkkDwz2Y8oAWVnpS54fr
- QmflKLZTDTkMQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Imre Deak <imre.deak@intel.com>, Lyude Paul <lyude@redhat.com>,
- Sasha Levin <sashal@kernel.org>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, jani.nikula@intel.com, harry.wentland@amd.com,
- alexander.deucher@amd.com, Wayne.Lin@amd.com,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 13/15] drm/dp_mst: Reset message rx state after
- OOM in drm_dp_mst_handle_up_req()
-Date: Wed, 11 Dec 2024 13:53:05 -0500
-Message-ID: <20241211185316.3842543-13-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241211185316.3842543-1-sashal@kernel.org>
-References: <20241211185316.3842543-1-sashal@kernel.org>
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1546410E612
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 19:00:38 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-3022598e213so31810481fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 11:00:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733943636; x=1734548436; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3sm2j3frVX6XobbLx+2sssGo00nVIVVj/64ej0M6DaQ=;
+ b=ntsLPiz2qV+/zq7ih968cyD6PacwCu+V6laCxWOiWfu1mAtBEPQ33+3uH4sFeBAN4s
+ BCAl6tUYadvVieQo9iY7UZ9p2Da6/OAByCH3efRjYWcJrctu+YE2iGnRG3Opd19M3MDP
+ qmh187BB/aZj1JUhYh5zw0FAJoQJyRUp3SJIi+E6TeziAoLTK29TXTaV5dnzX/uqx/Tk
+ mryVIpfX0RodelV2gldvh/k6N74ePpob53VQs1HH0DtZiTAsWYxLQG1YxpBdbZTESRpE
+ fSeZ3I1DIpqJGpd9uVpUf6asvliSO49yyFevnoSh5UEPuiE4Ogv2Y6s90tDwekWJMMr0
+ Y9Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733943636; x=1734548436;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3sm2j3frVX6XobbLx+2sssGo00nVIVVj/64ej0M6DaQ=;
+ b=roOPw749oJSVkH57xn9daj7G3fF80VhBD3ukHFUEnEBgINdu5lGQhN9Sd6aBt8v05I
+ hFFqCaMNSdOAm9p1WIidRjvI6oC3qlSSizLskzH9AA5Vu7HVml4+Aed29/60sIpPni5Z
+ ut9pYktc3LmK3lgEwrIsmLOmOz/UFi9Mys2/p808LOuPnlgMwXIoPGfdfe+poKy2B5Rb
+ rxioGCrEDBDWa1BNwoiDo3/iDsQr2oEPoqYFuJMhDjfrHJXyu3x3sSP6q5Prv/UoaUQk
+ rT5LPeDcS+TF8gUPuZoDQfvDkiJb/q9QSfylAWy/RNqYQy5gfDqJoCa0Wcvp3MOUrtcO
+ zxdA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRuAv8zRldFQcE9erdtNHOdv4hc8FjK465f+ZDWG1AQbMtGms+eryslqTOtOObakMgYz5Mh4uLHns=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywks/cOkD6aNgCuhq6ymv1Gd0vMszTwwHL4khorv7TLTI/t5suT
+ hORIlH7nONvNFPsdspVvIc49r99rp/OddQQiBKtmgR1KMwtoR4l8nkbBm5BFTO0=
+X-Gm-Gg: ASbGncsJQvnlp51T41uMqMylTBIJM0J0s+/qhW1fGIncp76kVCA2SuB6deHx/26Rhej
+ Z799dGwE0glApi2rWDHbIua30asHv/ADNzbvpsCh++WLvr/D9iDCcLWKrzXLCimiW1Wq6hsVjj2
+ e39dvuizGw6Awix/Zc+R47oQ0GLWZHb6BRxnFkaxfIUnbGW7/CytJpxYCkex3Xw4KNB6Ch2cyBw
+ bWk3rviebg65/K9P9DYjRiU+49Nm9++pdei3gfy13mItvIY+7ewV3OE40oWrURG+ksMF0mD6mtk
+ Sod3QboTGklyGs4gPvvOJCMmnX23KHYFvQ==
+X-Google-Smtp-Source: AGHT+IGsgdXAdVI72VjehBhRAGYyQYi2ZlWZ5S+RtIUjGgQQsMEhY9vE/LoWlhZJn7MQjhDvpgk8fA==
+X-Received: by 2002:a2e:bea2:0:b0:302:2620:ecc7 with SMTP id
+ 38308e7fff4ca-30249e89ee5mr1842641fa.35.1733943636318; 
+ Wed, 11 Dec 2024 11:00:36 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-302292959c0sm8657671fa.94.2024.12.11.11.00.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 11:00:34 -0800 (PST)
+Date: Wed, 11 Dec 2024 21:00:31 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Abel Vesa <abel.vesa@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/4] drm/dp: Add helper to set LTTPRs in transparent
+ mode
+Message-ID: <qh5ochh2cjqj76qqbbj7e2jmyie6pbnvgcr5wti5eigc4qxjod@v5tov4s65sdb>
+References: <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-0-d5906ed38b28@linaro.org>
+ <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-1-d5906ed38b28@linaro.org>
+ <Z1mk08SHEd5_vc99@hovoldconsulting.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z1mk08SHEd5_vc99@hovoldconsulting.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,58 +107,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Imre Deak <imre.deak@intel.com>
+On Wed, Dec 11, 2024 at 03:42:27PM +0100, Johan Hovold wrote:
+> On Wed, Dec 11, 2024 at 03:04:12PM +0200, Abel Vesa wrote:
+>  
+> > +/**
+> > + * drm_dp_lttpr_set_transparent_mode - set the LTTPR in transparent mode
+> > + * @aux: DisplayPort AUX channel
+> > + * @enable: Enable or disable transparent mode
+> > + *
+> > + * Returns 0 on success or a negative error code on failure.
+> > + */
+> > +int drm_dp_lttpr_set_transparent_mode(struct drm_dp_aux *aux, bool enable)
+> > +{
+> > +	u8 val = enable ? DP_PHY_REPEATER_MODE_TRANSPARENT :
+> > +			  DP_PHY_REPEATER_MODE_NON_TRANSPARENT;
+> > +	int ret = drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE, val);
+> > +
+> > +	return ret == 1 ? 0 : ret;
+> 
+> This looks correct, but I had to go look at drm_dp_dpcd_writeb() to make
+> sure it never returns 0 (for short transfers).
 
-[ Upstream commit 2b245c97b1af5d8f04c359e0826cb5a5c81ef704 ]
+Indeed. It got me a while to check that drm_dp_dpcd_writeb() ->
+drm_dp_mst_dpcd_write() -> drm_dp_send_dpcd_write() ->
+drm_dp_mst_wait_tx_reply() never returns '0'. I'd prefer an explicit
 
-After an out-of-memory error the reception state should be reset, so
-that the next attempt receiving a message doesn't fail (due to getting a
-start-of-message packet, while the reception state has already the
-start-of-message flag set).
+if (ret < 0)
+	return ret;
+return (ret == 1) ? 0 : -EIO;
 
-Cc: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241203160223.2926014-7-imre.deak@intel.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_lttpr_set_transparent_mode);
+> 
 
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index e677a8eb45a4e..7321dcfb74a9a 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -3996,6 +3996,7 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- {
- 	struct drm_dp_pending_up_req *up_req;
- 	struct drm_dp_mst_branch *mst_primary;
-+	int ret = 0;
- 
- 	if (!drm_dp_get_one_sb_msg(mgr, true, NULL))
- 		goto out_clear_reply;
-@@ -4004,8 +4005,10 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 		return 0;
- 
- 	up_req = kzalloc(sizeof(*up_req), GFP_KERNEL);
--	if (!up_req)
--		return -ENOMEM;
-+	if (!up_req) {
-+		ret = -ENOMEM;
-+		goto out_clear_reply;
-+	}
- 
- 	INIT_LIST_HEAD(&up_req->next);
- 
-@@ -4072,7 +4075,7 @@ static int drm_dp_mst_handle_up_req(struct drm_dp_mst_topology_mgr *mgr)
- 	drm_dp_mst_topology_put_mstb(mst_primary);
- out_clear_reply:
- 	memset(&mgr->up_req_recv, 0, sizeof(struct drm_dp_sideband_msg_rx));
--	return 0;
-+	return ret;
- }
- 
- /**
 -- 
-2.43.0
-
+With best wishes
+Dmitry
