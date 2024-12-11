@@ -1,62 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F589ED9FE
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:36:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4D79ED9F6
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:35:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80D7710E08C;
-	Wed, 11 Dec 2024 22:36:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A5910E163;
+	Wed, 11 Dec 2024 22:35:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AotVFeh7";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="khNmPFqd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 020AB10E08C;
- Wed, 11 Dec 2024 22:36:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0Z5EkRMXSAAd6VugPHXUkDoDDuWALwNmWHDkbsYItPc=; b=AotVFeh7Uqefi7l5uxK5YZHyxa
- LJqoG7294B3siZZpD5zpe1Trm8d4i4ZBxNwapkO6TuelRgWreIJkHj6Lc8G6hHTJIJ+jFzokKg9kE
- XLBjBZGlZwbBSVh9C5pSBXyjDlUcwKETMbMrkap0J2DlitMy2g9Rg2oKDJ+O7GGxSVYFMzcHQ9Lk2
- yrHvPIhqhkAXpdFHM6rmE/w6TCqQ5v2KvCtvoN1iwA8mPl4LREPlr99zmhDCPe4M5mh5G46FDrT2w
- gfTjqDi+YwTDPNOM+o1bGL0gYOfAR/8D6y4WznmkH2KPVettO1IUwoh63VZBF5F4VmO9fLvRnH/ga
- smdqt0Sg==;
-Received: from [179.118.189.35] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tLVJ1-0025cH-AI; Wed, 11 Dec 2024 23:35:43 +0100
-Message-ID: <6221fc3d-0b1a-4e91-9e34-a32f3c77b63f@igalia.com>
-Date: Wed, 11 Dec 2024 19:35:36 -0300
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com
+ [IPv6:2607:f8b0:4864:20::833])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCC910E08C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:35:42 +0000 (UTC)
+Received: by mail-qt1-x833.google.com with SMTP id
+ d75a77b69052e-46772a0f8fbso27992711cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:35:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1733956542; x=1734561342;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=WkXMEqZ/gF/xnWJ/mhzzg/miOHHNVWajJShRngxnHGY=;
+ b=khNmPFqd1PT6t91gqvE8KR6hkcncdZ5bBfvzzNvS//V4iPoJCWd1FJJQ238hAEcsnc
+ 7w4B5bpJ11Rva5tQqgkIbpHl+AvVMcwGetnMhl1UVy3zItThLceutYY+p+5wPpHPLsTg
+ /gIQkFMeqSlNTjZ+hZKdQmcaO+GDbohRayR/E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733956542; x=1734561342;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WkXMEqZ/gF/xnWJ/mhzzg/miOHHNVWajJShRngxnHGY=;
+ b=UmykZ61WfzJeXBzwudMelfa85mCLcou7LpnPqVyqpuDLCUgkRdqgKNdpCA4YOlUAGb
+ MGzz3QcC/Vi90eF4bvOdql96+/b+FjrtI2KM73OByUKVKsDCt11T5a/gFzQHuEGT5tWC
+ JFatNDCQtgqkoJzYF1tiL37pBQD+4wxq8ZM68yLpv1xiiP7YkQ6fVI7ulo+RUeGhcwDb
+ aaaQV66nRl1UOVmvXV1au1MQnIoCXdDX50QCdnGoptzRaNSBftCdeBMp5/26hAV1lhrF
+ VYZvD0mNAH0V1d9EqX/qv/DNhPGdjaootkENBdtLrC5tt2pKkMnAHzWO2e3n5PS4TKJ6
+ 2jAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVrIMFuCPAaxXhvCdb4gzMp6X4oYvr9/r61VRJhDhHdYEsP/geMmtPTncV/9UrmpALbV1l881mIZ7Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKMvE9llFuKCAugn3u9jqOK7aqxmvA2Y1MXSmFtSSwo3n4RoQL
+ N2UE2Zg+CQpMgB6t/fDzHVWyHZFGDQO95sH34CG5pr9mGBBeyqKx4Ivsx6Ko1EjxTq6qpxtqAGB
+ xYAOps7PJR4RV/1UOIVSGXAmh2osO73C5rMjt
+X-Gm-Gg: ASbGncsQzNQ/NvGukjB2uKlA3LEF7sayAGftDwMX8Un6jVJN21JP68H0mVx347seFZf
+ jDKo8xntqNNfjEeliDQ+4IGght1Mq/v8jvZD0P+uD5GTjv53oexUO2a2FW7JzwAnbBQ==
+X-Google-Smtp-Source: AGHT+IG9f7BHz8iDa6A37ISXD8md+OMJZHRpC/Cm+CFql7zV4E9ytytJpMb018vR23ZL3eujA5g0+FW3B1/RL8ezpns=
+X-Received: by 2002:ac8:5e54:0:b0:467:43c1:f0ea with SMTP id
+ d75a77b69052e-467961786bbmr14756091cf.16.1733956541804; Wed, 11 Dec 2024
+ 14:35:41 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Dec 2024 14:35:41 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/2] drm/atomic: Ease async flip restrictions
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, Simon Ser <contact@emersion.fr>,
- joshua@froggi.es, Xaver Hugl <xaver.hugl@gmail.com>,
- Daniel Stone <daniel@fooishbar.org>, ville.syrjala@linux.intel.com,
- kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org
-References: <20241211-tonyk-async_flip-v10-0-6b1ff04847c2@igalia.com>
- <ouyulceg7zrnjirg2yf4qbgp5pfovz4y6hq5v6e573yx7ih5qe@uqqne6yq27wl>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <ouyulceg7zrnjirg2yf4qbgp5pfovz4y6hq5v6e573yx7ih5qe@uqqne6yq27wl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241202-fd-dp-audio-fixup-v2-11-d9187ea96dad@linaro.org>
+References: <20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org>
+ <20241202-fd-dp-audio-fixup-v2-11-d9187ea96dad@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Wed, 11 Dec 2024 14:35:41 -0800
+Message-ID: <CAE-0n52kSzNeFazUpL0e1C-tTZHv7nzOCYinYCX72pKk-E9_XQ@mail.gmail.com>
+Subject: Re: [PATCH v2 11/14] drm/msm/dp: move/inline audio related functions
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Paloma Arellano <quic_parellan@quicinc.com>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +87,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Quoting Dmitry Baryshkov (2024-12-02 02:06:41)
+> Move audio-related functions to dp_audio.c, following up the cleanup
+> done by the rest of the submodules. Inline functions with simple
+> register access patterns.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-Em 11/12/2024 16:35, Dmitry Baryshkov escreveu:
-> On Wed, Dec 11, 2024 at 12:25:07AM -0300, André Almeida wrote:
->> Hi,
->>
->> The goal of this work is to find a nice way to allow amdgpu to perform
->> async page flips in the overlay plane as well, not only on the primary
->> one. Currently, when using the atomic uAPI, this is the only type of
->> plane allowed to do async flips, and every driver accepts it.
->>
->> This patchset re-uses the per-plane function atomic_async_check() to
->> this purpose, so drivers can allow different plane types. There's a
->> `bool flip` parameter so the atomic_async_check() can do different
->> decisions if it's a complete page flip or a plane update.
->>
->> igt test: https://lore.kernel.org/igt-dev/20241211031820.115844-1-andrealmeid@igalia.com/
->>
->> Changelog
->>   v9: https://lore.kernel.org/r/20241101-tonyk-async_flip-v9-0-681814efbfbe@igalia.com
->>   - Add a 'flip' flag to indicate where the atomic_async_check() is being called from.
-> 
-> I think something went wrong. There is no changelog for v10 and also no
-> tags that you've got for v9.
-> 
-
-I have type the numbers wrongly, this is the changelog for v10, but I 
-forgot the tags, I will send a v11 with the correct changelog and tags.
-
-Thanks!
-
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
