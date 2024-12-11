@@ -1,86 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA0A9EDA67
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:52:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FA39EDA6D
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:53:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D455210EC45;
-	Wed, 11 Dec 2024 22:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42B1910E1B1;
+	Wed, 11 Dec 2024 22:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZAy9FsK1";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Go1ZjYYA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B287810EC45
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:52:41 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id
- 2adb3069b0e04-5401d3ea5a1so3900977e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:52:41 -0800 (PST)
+Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
+ [IPv6:2607:f8b0:4864:20::f31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BECC10E1B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:53:51 +0000 (UTC)
+Received: by mail-qv1-xf31.google.com with SMTP id
+ 6a1803df08f44-6d8adbda583so100076d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:53:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733957560; x=1734562360; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NY0DaHYgseRDWZY4d4IDidbyN2YiOVi5DaD5aAxmd4A=;
- b=ZAy9FsK1+xReP/ba1c2bffLg+PRFFBiw4vUf+YBQEmAhmhJpB5Lri4r2psEnGO0nPF
- SwBpEz4nYtVsfYkGY5G0glHIbD+cghFQ2YMmvwLrE8r9wUhowqwRX52INeI46cYWjAn4
- a6XSWuY9A+I6aWj4h17CaSa9aA5UfA25k1/pgQoyfzcR6RYt5TjPzqEHFEeqfd4TrIeY
- VTEzHLvTOzOdIblxgL40cECraaqs1cqpMZITfplm8h1RrCKdcbOgqqUxiVdq4hipVHbu
- 3CDyVZi2/yvuNmJbdbp4+thkc2Pu8oF4MBHNWfxc0q0wswHecWotOlnVrsb/sjXV/90Z
- RfvA==
+ d=chromium.org; s=google; t=1733957630; x=1734562430;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=2egq6Dq3KjRKLgPQmABDsLel2na1tngRhhj74d6j2rc=;
+ b=Go1ZjYYAShTbRVaDlXCnKuyjRNO8eJFruMVNNc0hwn5FcFStmIq/xqt3jHcTxWbQGl
+ PGXxerg1FhovIhi2ri/h1HIJP9COewGtleQND3OAz0XwfkHQA/DVGqEJWgPkeZPkl8tb
+ lFmO055bD2q5JwQxZpQck/fPq/Ci75zw4dFgs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733957560; x=1734562360;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1733957630; x=1734562430;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NY0DaHYgseRDWZY4d4IDidbyN2YiOVi5DaD5aAxmd4A=;
- b=AbqTPArKd1yQTJBLb5ZET4PTuzhUHM4d2+G2yTRDCIQPqNWbMYsVda6TQntCjBxINT
- vZZQXCtBfrfRCEt3+Wli5ng++r8hDk4bHnrNHK0W7yHo3gSabqe/uAw+ZExvxcsB9fGO
- Pghvc6JhSFUjx9vWai4fM2WiSleZvHT0QhVbc390TUU8DCEVtDYGJWJSHJK2lKqd+Fve
- AbWmBZCQ9yQ47JVywaIRhlJRd7PYE9p7VYQuPXqmuXG5cCd6doVKjY0ulotRJEAuexMb
- N3OiKQwXKRUYXj81ZGik0w2PabuXdlpkYkcTBh0L56hltrZavRbPl7HyQ71gMnETEJlm
- zXsw==
+ bh=2egq6Dq3KjRKLgPQmABDsLel2na1tngRhhj74d6j2rc=;
+ b=b1K6wRJsE9XrHjHz02ACnJHrsIAmj2ZZSj2q2Mj210sTkJ7H7dlFhv5VFTuWfokiAT
+ Eiuk+SWlwpd+RwMBhLc6f1xcVHqDjtM0XGZs3Z7zK+NC+K1Z2Ze+jzCGJeJfh5rRtWTr
+ 2DS6vTJsfuITB7Fe7uHyeJrdGiiTl9P6iOJsrrHFMvQyVbr6MSnGcSS+W/V86ql5h599
+ yz9mrwrOE0ggOj2klC8OIw025NYZEaRuFYhu1OjarT5rnBaZARkLGbWl+hteJGZw1Yec
+ DDJOoLxNIYlOwcH+GCA+AKbkzNdkQar4P+5gBTtzwdKnwckwFmUuBKcSr9wpQ3k+N2Fe
+ JF1w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcIygxf1G9z6yw2MtL7QBOxR365kIYIywdRpwERI/ZPogmC4/1iatgZdP4DIM369PhBit+Yrw0SvU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1yHQmwwXgQJkfdKadHiFtdtIsRDTU/bYrZ/8OxF8z3A92xByc
- ++NBgBa9hcws2ci30qzJB1PbDNRWmCtblEQ6Ieoh4tXWoSFx/Yp2swhqxiiTpm8=
-X-Gm-Gg: ASbGncs4fH4RIbRA3vpgaLa5rb5gDEHpmGyBXfs8OyfifFH2WfSwd2lPIFvDyUiB65H
- hSpvCbutbVmiqLlaiV9g2s7L5zS15vuPEXYRJVXYZoJCMkaFDelE8IzsOqUEjcStLvtKIePtacU
- 0rajGetsDy6q9XfKRWRmFwSNOPV24CaIOhh8NMaNyp+dM2bdWCj+qYGmds80xLIJclcrLPCAIzX
- bfc3F67b2p9LrlFJytmNYSy8nLBZfRN/H/GrK/xgKqBdbMVUkJcYnr+/uk8H2EvcJp2Wh0icUz6
- MJ1hnGyfkWZh3V58tHgfr/pUymnds5Ei6A==
-X-Google-Smtp-Source: AGHT+IF9HHn7otIsRRSetNzaUeXvxCJbkji7UoBVMa3gLuVqW6w3nM5oSY6llrPi+iNGIGJkdw3BTA==
-X-Received: by 2002:a05:6512:3e05:b0:53e:350a:7298 with SMTP id
- 2adb3069b0e04-5402a5e4b93mr1104975e87.25.1733957559885; 
- Wed, 11 Dec 2024 14:52:39 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5401a5360bcsm1378038e87.174.2024.12.11.14.52.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2024 14:52:38 -0800 (PST)
-Date: Thu, 12 Dec 2024 00:52:36 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] drm: bridge: adv7511: fill i2s stream capabilities
-Message-ID: <rilzmak24odk34q3rglnkmi23e7warmd6dytx2opkhjl3kjujm@fqxqydwhcluy>
-References: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
- <20241210134254.2967524-2-olivier.moysan@foss.st.com>
+ AJvYcCVDOX1ZXQnh5RnOzk0qfQmGNS3vJoG/PgAECR/erNRN+1OhobLAEL2elf5Wpnhk42cdZ9JXskflE+4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkwTT5REokuKruVzvkj/ZBdhDlfd2MEiGCW9htCDHhNgx+CPZA
+ 6Aj2wcrGrO06k8PqBF1tjc3zXzrTObm3g49gkJWvDgy02mHCDdtHWJYIhsv7daUaLtTSQRFER4h
+ CWdnN2kcRHmCxxmD4rOSR5DqlN5AkWiK6qY9I
+X-Gm-Gg: ASbGncul8gE/sKuQBscjJXRlSil/wpPxEGY0s6pr5Y0QkQVXL5jYBZ0vOPUGJxSo5Kr
+ Q3zBQMig9AH3Np23YCwuIESeavuSFcczAK+17BS9A4KNm/Ibe6HAB2msVvJEcsog=
+X-Google-Smtp-Source: AGHT+IHPYfu5RWwg4QjV5Ft9MAhO7VJZB9xFWbSMLRysOqfixDFuOnt9+09RHZcOWbxPXE1q+wf1OmiIJ0aIfFFsbn0=
+X-Received: by 2002:a05:6214:1d0e:b0:6d8:aa45:a8a2 with SMTP id
+ 6a1803df08f44-6dae38f441emr17981836d6.11.1733957630566; Wed, 11 Dec 2024
+ 14:53:50 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Dec 2024 14:53:50 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241210134254.2967524-2-olivier.moysan@foss.st.com>
+In-Reply-To: <20241202-fd-dp-audio-fixup-v2-13-d9187ea96dad@linaro.org>
+References: <20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org>
+ <20241202-fd-dp-audio-fixup-v2-13-d9187ea96dad@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Wed, 11 Dec 2024 14:53:50 -0800
+Message-ID: <CAE-0n52NEHh6XnsWsg4XG0nS8cVpC-HW8snBLD86PO3-AV3jfg@mail.gmail.com>
+Subject: Re: [PATCH v2 13/14] drm/msm/dp: drop struct msm_dp_panel_in
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Paloma Arellano <quic_parellan@quicinc.com>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,34 +87,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 02:42:52PM +0100, Olivier Moysan wrote:
-> Set no_i2s_capture flag in hdmi_codec_pdata structure to report
-> that the ADV7511 HDMI bridge does not support i2s audio capture.
-> 
-> Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Quoting Dmitry Baryshkov (2024-12-02 02:06:43)
+> All other submodules pass arguments directly. Drop struct
+> msm_dp_panel_in that is used to wrap dp_panel's submodule args and pass
+> all data to msm_dp_panel_get() directly.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> index 61f4a38e7d2b..28ae81ca3651 100644
-> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> @@ -234,6 +234,7 @@ static const struct hdmi_codec_pdata codec_data = {
->  	.ops = &adv7511_codec_ops,
->  	.max_i2s_channels = 2,
->  	.i2s = 1,
-> +	.no_i2s_capture = 1,
 
-Does it support spdif capture?
-
->  	.spdif = 1,
->  };
->  
-> -- 
-> 2.25.1
-> 
-
--- 
-With best wishes
-Dmitry
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
