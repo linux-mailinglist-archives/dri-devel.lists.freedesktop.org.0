@@ -2,166 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129559ED10A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 17:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFE69ED183
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 17:27:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8536110EBA2;
-	Wed, 11 Dec 2024 16:14:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB1810EBAC;
+	Wed, 11 Dec 2024 16:27:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="31Bw3NMo";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="UCHItnpr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2055.outbound.protection.outlook.com [40.107.236.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B7110EBA1;
- Wed, 11 Dec 2024 16:14:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ubIszFd3vn6MQDWqPW8LTZBFXmENDKLf+KvddDIzWenbYMS4WwGOK77abAyMQZ8C7/VvTTgCbllCRLLTY2BNTOgTKwTk2b3hHvoSIhR6OVgz2hv+j5JnIuqlb1JuBg643ZnYM/4ZcMpdiGsP560Goup6krkTtjVO1C+tgm0NRgm7iL9kgEnYcjovcMlXKm/oJ2b0oh4zhpf71tZoHX9/MLfbKlxK9b42jqwyQQgLhEQvaGKElcWMOUKnjv4e9K6BhNRUQIVlBrEvg1/ljpTPKfymfDkN93KvDh6yJILGUs/rnL6GADDoVV++CjjrrVBQMUhfc28cMaYxdlHABgQGKQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Jot1xs6+M5bQ06l0CS7hcKFI+wXvXXf96RpRG9D2YGU=;
- b=fIZbDa0SWJ80qbQw460jagYy0XxFTn86SPuV8G9Np/6wts6n9gMDyBJi1sOLj0MQE5SvE9Uh/eXJ8I+lwDYt1omyK1QoFH9Nm6hhL883yVUV76Idyfdhb/6LcGKimxtwhAKTz7FqzhS85BAFmIkB62wF1a9ufQcJOU6+C5eVavKhaEIAvbFP9hlnYq946TfouYhWtf2OcOyy+dLAVa3SROihBbICiqqIUVVZCQLemX+1f+upJuAiUqbLSg8mkWnzfJu6/3lLDHV6nvvwKxyhBiaypjeElwjRQAm3Cd76EqcCPHYxiu4y380J4bwuvOOECihOn1U9cqY3MyNWZWG9TQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jot1xs6+M5bQ06l0CS7hcKFI+wXvXXf96RpRG9D2YGU=;
- b=31Bw3NMohz0muEL8UdCfJPs0mq83fI4izksdjgF0eyfPgd9Lz4LrtltgGKqv5rt7eIPhvaDBNTK1huToB/2CwpPhQhOQem+cTaUkfvto+7ZdY7Phmx5+fSvlR4bdsh+n75/CWURxhcAgynnB9/CgxaXbWqmP91UXSocn9ANE5Jg=
-Received: from SA1PR12MB8599.namprd12.prod.outlook.com (2603:10b6:806:254::7)
- by DS7PR12MB6262.namprd12.prod.outlook.com (2603:10b6:8:96::7) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.16; Wed, 11 Dec 2024 16:14:53 +0000
-Received: from SA1PR12MB8599.namprd12.prod.outlook.com
- ([fe80::25da:4b98:9743:616b]) by SA1PR12MB8599.namprd12.prod.outlook.com
- ([fe80::25da:4b98:9743:616b%6]) with mapi id 15.20.8230.016; Wed, 11 Dec 2024
- 16:14:53 +0000
-From: "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "tvrtko.ursulin@igalia.com" <tvrtko.ursulin@igalia.com>
-CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [PATCH v10 4/6] drm: consider GEM object shared when it is
- exported
-Thread-Topic: [PATCH v10 4/6] drm: consider GEM object shared when it is
- exported
-Thread-Index: AQHbSy1d2oBDuua+lUe3Pyt6olRLiLLgs3MAgABeW/CAABNdgIAAEZEg
-Date: Wed, 11 Dec 2024 16:14:53 +0000
-Message-ID: <SA1PR12MB8599C134256BC6E17AD66070ED3E2@SA1PR12MB8599.namprd12.prod.outlook.com>
-References: <20241210175939.2498-1-Yunxiang.Li@amd.com>
- <20241210175939.2498-5-Yunxiang.Li@amd.com>
- <674b6d62-2274-4b0d-8d27-382faad5de88@amd.com>
- <SA1PR12MB859965C4B7EEB4B131E8C7E6ED3E2@SA1PR12MB8599.namprd12.prod.outlook.com>
- <8e514b7b-7826-4870-921a-ab6dac9a65c2@amd.com>
-In-Reply-To: <8e514b7b-7826-4870-921a-ab6dac9a65c2@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ActionId=4dc88c69-8a1b-4d88-b99f-def2c5b5c4d9;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_ContentBits=0;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Enabled=true;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Method=Privileged;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_Name=Open Source;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SetDate=2024-12-11T16:10:21Z;
- MSIP_Label_f265efc6-e181-49d6-80f4-fae95cf838a0_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR12MB8599:EE_|DS7PR12MB6262:EE_
-x-ms-office365-filtering-correlation-id: ec591703-3d75-4d25-683e-08dd19fef272
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?ZHRXbU9NUHc2VzcvZDZLSDc3aVdqS1FVSnhQS1JNMGVnVGJCbzJSWjRtK3E3?=
- =?utf-8?B?ZFp0U0Z1bVVmTXRTbUVaVnVwdHZmM2UvVjVIRmg4aXprZUdrVjlrcHJGNEtr?=
- =?utf-8?B?V1doR21YYmRHbitTLzJjdkVQalBHZVpQcnMyMUdpd1NLNkJmV0NIelorY1dS?=
- =?utf-8?B?Qk16RVVyb2ZnSGpTbjdpQXVUVWtMS2R6WDRXMWNRNTNxSnZYUGZ4WHFlTVdN?=
- =?utf-8?B?TUV1WkJPK1Rlek9MWkFaY0toVkl4TkxBT2pFYTVGRXdpd0FDMDN2dEgrRE1C?=
- =?utf-8?B?d0hpQnJtLzNBOGtjMG9tSVVzTTFxN3VKa3dMNHhETFhQdncxY0QzQ1M5elR1?=
- =?utf-8?B?RWlxbGZ5OTNpeU5DTTFnczlRVlhiVENFYkNkMW5Kb2RDNXRudllDSGdQRkNO?=
- =?utf-8?B?Ui84NUVvR1oxOElaSDBqK0xkdzBvNkxUQXplUXZkdHRickFhNXdkSFd0dHU1?=
- =?utf-8?B?R1BEdjNhOS91Q0Y0Q2hya01XNjBMczZZK0UyY21QOTZZZ2lyTXVRSmRMbWtQ?=
- =?utf-8?B?M0dYTzEvOTBzOFNyR1B6bENIQ2IyZUMyRHpwRXBmTmtSUWlQR3d1YjYrWTNk?=
- =?utf-8?B?TVpaNnI5a3dhRWpGcFpIMmxRcGJJcTlaSHlNRWw1dEdSM2xINUZVTFV3WjFt?=
- =?utf-8?B?MittR2RwajhCMWlrcitOa3NoUzNnZS9hdUlLRTRDakh2MkMwNFV6VXFEN1Fp?=
- =?utf-8?B?NFphTHhYYStLcDAyakMwbzlmaTFYTzA0dUgyL3VETmZsdGdNbXl2bFd5T29k?=
- =?utf-8?B?amliMloyY2NlQnBwY0dRcTVRZytLMEZZYUtZU1dpeGF3Yzh4MSs3cVRBZzhw?=
- =?utf-8?B?Wms3Rlg5QW8ydzRSdUhsU2JFQ0RwR2dCQURGTmg2bFZsYlR1bGtBS25Wa2lX?=
- =?utf-8?B?K0szRDRnZXMzUnYyUGtoSFBFSG5XSFVkbW85UkFVQzlNNXhwb1hrN2ZwWWE0?=
- =?utf-8?B?d1JzSWFWRDhpQ3I2ZjlBc3pBV0tsbTBOVTVIMjFQa1B1bEp1cHBIV0t1V3Ev?=
- =?utf-8?B?TGFKRTRSV3pXZDF6UEVHcHNoRTUvWmdqWkp3dGdySWw4T1FHQzRxZzBWS0lQ?=
- =?utf-8?B?LzhsQnFOVHRsengxQkZoSWk3YlFYOW5ZUmxqN3pvb2dDNWVkYzZ0T3VySTBQ?=
- =?utf-8?B?MURBdjJDYWlzanZrZFRVU1k4UWsrWFRZNmczenVWcmdreHA3Qm9sM3h4R1pN?=
- =?utf-8?B?dDh4VGxybTcwclkxR1RmOWF4Nm5aQ3F3OHRLb0hhSHZaa2xzNmEzWkJRSHJU?=
- =?utf-8?B?ai9BSWhMSzBWWXNqT2h0ZWlTMk5Va2tZalBCZU1ZRFVMNDk5ZVVka25mM2tp?=
- =?utf-8?B?My9YSzc4dlU1b3MwaDIvK0lSMjhuelJ6THRMWVF3NnhpblI4eWJtcFkvOGs0?=
- =?utf-8?B?b2lZVlEzcTNKV3pNeVdONVNLeEJ4MDBXZ21MZ3R0ZXpQRkw5S3d0TXViRnZm?=
- =?utf-8?B?b1Bzd0c0RzNBMnl1c1NZNHQ4NXpaODZpVzkwb0tVSFN4aGVJWVBvUmt0NHFY?=
- =?utf-8?B?NzdjK3ZvTjZ3QlN2WW5TRjVCZktHUk9DNVI4SkxkN09lV3JlK2FtSml0KzBV?=
- =?utf-8?B?NGlYMmhTeFlBK3g4akV6T0F0TS9MakNEOGlyNytwdktMMEhJOFZTMDBUckpr?=
- =?utf-8?B?L3JrM3ZHNVJUc2tlMHpjZXQ3SFpGV1VnV3RiMHhKc3JBUVFneHU1ekEvN25u?=
- =?utf-8?B?dEF3c2hWNWlablRoejU4dlFQWHhsc0s4Ly9HYkVvc05Ra0lhT3FDdDVjNjI5?=
- =?utf-8?B?SVNXU0pGR1VVaFpSejNvSDY4QktHdWwyQlhCWlcwRm9IYVUva0F6V09tWVRs?=
- =?utf-8?B?engrdTk5ekk2cndPZWtnRTBtZE1GQUdGTklsZENRbzZ5eDlBdjhvUzI1U1Rr?=
- =?utf-8?B?ZHg5MlNBMmxpL0dhYzExSVVsOGJBRzUwVWpjWWFKbTdIK3c9PQ==?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR12MB8599.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R3k2cTRvbEV5RVErNHc0NEZ0MlphU2hrWEIyOHdTckVkeUMySDViQmtyVWJm?=
- =?utf-8?B?MmlXa1dMeUVGMjF4TGpsL2ZFM1hEVk1ldW5qVGdPZFU5aFYrNUw2N0JHTWF0?=
- =?utf-8?B?d2phMmU5V1BJY3MralEwbW5xUkxwQTFyNkpxNVdsVmVOUWFBOXVOeEFocE11?=
- =?utf-8?B?bjJoUk5XdUMzT1hzcmQwd05Rak9JNUNvWHVTenpFWVJ2dktFYU1ibkdVeTJ3?=
- =?utf-8?B?U3kydkU1dWU4aWczZWMxYUJxanE4cHd5OFJPV3dtT1krK1VhZWMwR1cwUWFV?=
- =?utf-8?B?UjN5ZXZaNUg2cEphOWRQalFlRnBWRW40QkRoNnF1R0hld0JOTnYvRkVaTHdH?=
- =?utf-8?B?SDFlNW81aTRPUSt1aVFKMDRGUzhGOUxNZmR5MEdGNU5ucjhyeXBUamdlb2da?=
- =?utf-8?B?Mm54eVNiWGhYS1JSc1pMQ2s2SDkrV0NvT2IxT3V3bkVyUE5yMXZZdGJVZ01J?=
- =?utf-8?B?by9LVzF4S3orNUlTa3prWTVCVE5FRlR6WjI1azZMRFEvTDJObEdIeDJwK0RJ?=
- =?utf-8?B?aEgxK01hZDJEWThMS013bDNYQ2RLaDFuYUYrSHVvOWt5TndzSmdFUFd3Ynhn?=
- =?utf-8?B?d01jU2tFQXZIMkhWajhCb0dKYTQ1eTB2SjgyRHRFZ1BvUkU2ODVRTW5jQlBX?=
- =?utf-8?B?OTRHK3RidGlsanpOTi83enBhYjNWbEpTdDRNSWpNMGtwN0p6TDVjRmFGV3dO?=
- =?utf-8?B?SlpIK3lqOHQ1R240dVp0K1pDWlFlditYVktweG9Od0xVa3FrcitJUFlpaUtH?=
- =?utf-8?B?TEFqNFhFSWdEUEExVEpzUk0yYkNYY1dkeTFZSjgvVVQrUnZDUDNVL2NWb1My?=
- =?utf-8?B?azRaWE9IV3JmWXhtWERMUjM1L3ByV1JaSEhzTGhIbldPMHN0QVprVld0ekxn?=
- =?utf-8?B?N3E3TVVLNHFEeFluQU5IT0h1dmgvVmJ3UTdubm1CSHE5SjZBdlFZNWE1bEQv?=
- =?utf-8?B?SjZkcDYwRXptdElZWm55bVJ1cVpkSkNzS2tlSkR2eU1DRVNOUXRKS0lVSlhU?=
- =?utf-8?B?TFJHZjZQNTBKZFJjcjVERm9YTDd0YUhmOVIwTGtIK2tVYld2MU1SVFcvQTdm?=
- =?utf-8?B?WTJ0RSszazVKbERaZDhpZS96bVBQWWJzTDhGRGFyamFCdWM1UnN4Vm9GWkUw?=
- =?utf-8?B?NDNnN2JWblFZRFhJQnBqVitsNDJoODBFODV3dm5WRUxoREt1UnZ0bHlOVENv?=
- =?utf-8?B?b05jYlkxZkorMndPOW5lT3Q1YW5lbTVQMktnMnNyb3ZDVk1kWjJWUjlyRlpT?=
- =?utf-8?B?NUFyYVRNNG1jQ1BsV1FjTDh2UXFwdE9pRUlqS2tXQWpjTXdqMktUejUyVjZa?=
- =?utf-8?B?SHd2QVhpeTlqRlMyZFhHdjN3MG1Ia3FZc0hCcWtGZGNaQXFmS1V5clFseUhR?=
- =?utf-8?B?QjJpQ21paVpVaXg1TVVoTzA5ZTVzZWUvSnAvdkpQTGZVYXFmSnVsUFlxRE1r?=
- =?utf-8?B?NlpHTXhPS2wvZm1DbUptREF3WjZjMWVFV1pGRVRmNEh5VHFYM3dBNzA4TXdy?=
- =?utf-8?B?YjZKTDRIeU5XRmJwd3BZb0pHd0pSdExiMmlFWnhIN2d5Q0pPZHRzUjc5Yy9W?=
- =?utf-8?B?T0QrRGhuaTcxOTg2b1J2c1VYV3BlUk1oNzlmTFoyb1BqSkNxZ05FR2FGN3dQ?=
- =?utf-8?B?M0NhZGJjZ2llZk4xZHpHa2daamdyVEJmMUdmUE03cnZkNzA0SnZSN01zOHo2?=
- =?utf-8?B?ckpURTcrWFpaQUNMNGZ3bjZaYkJoT0doYlB2cFpEN3g5NmdVTXg0ZGdhMzZQ?=
- =?utf-8?B?TkFQR1NyTXVaWDFTR3pBRnc1WnEwSkt5cFZmOEFGMVpzL1pHU2xnR1Zmb25S?=
- =?utf-8?B?K3R1TEFaR1RMSWlOdHB0OU55aE81ckxVT1o5ZkdKZXB1dHFaV0pGMFJUUXYv?=
- =?utf-8?B?ZmhwMHFDcHM1c2hHNTFjU0dEZTRNN2FtZEIwYmxaOGRUSkxGbGtnempWd3Fh?=
- =?utf-8?B?NkVEeEhSYzJxbDVsekdDaWwxQTZKM3R5bnpCQmQ5VGFmQXBobU56c1BlUjRE?=
- =?utf-8?B?aWEzZjJJOEYwamVMeHc2L0cwSEdpTHBiUW5CVVR4TXhBUzIyVnhDVU91bnhC?=
- =?utf-8?B?RGkvRkNabUZQZXJMZm1OSnpoYXdMRi9hVU82TDNSbitCM0J4aVNNU1VrRi8v?=
- =?utf-8?Q?wTHE=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5521010E3FD;
+ Wed, 11 Dec 2024 16:27:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733934464; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=HsXCveVOmDm+5VrvfByitbx/akAhCHyVGLKlKryC/HG57PPlAGvQKusw6sENe4+3SKEASBZCRgRrs3aTkBEsR7pEgHqHYsnHnl+l8K6XdtvcNcHJ8WQJGr8whl/CzEFewWCnQZjquBmNL9wfZbYzzKjVb4AlvPf1F+XGmgOmavI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733934464;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=ShKobI5voutwjNZ6erAYazr4Rf4rfDpKI4plAFF7F4Q=; 
+ b=g2Vgt0Rh8IbLRg5vxG7uEd5Eg8TcC1ZozhC2siukV779pqazhf/+pawLQVd/qVdmu0JIS9G1RUC00k8QCD5MOSox6Hh06+8xBUpkw8n9Gb+n+9fS0q21BQUyamrMy1YVvLe7DymDwLToSsqsz2pvo4C1aPBuoIkJzLFY79zbA6A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=helen.koike@collabora.com;
+ dmarc=pass header.from=<helen.koike@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733934464; 
+ s=zohomail; d=collabora.com; i=helen.koike@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=ShKobI5voutwjNZ6erAYazr4Rf4rfDpKI4plAFF7F4Q=;
+ b=UCHItnprN1akY2GVSsGXCjk0/4nZhgprn92NDwAiGZWiAQClLL6nubLVDm5k0psN
+ WMJXGuK8KvPQC2TzuEi6kEpRL6f7p79hNAtcOk3Y9SS4MnFfyid+K2Py44qe2VINGr3
+ xjQ/egWP/u65oeWHbOTZko/rAAofFBAk7Q8wxUew=
+Received: from mail.zoho.com by mx.zohomail.com
+ with SMTP id 1733934463244465.41698001419445;
+ Wed, 11 Dec 2024 08:27:43 -0800 (PST)
+Date: Wed, 11 Dec 2024 13:27:43 -0300
+From: Helen Mae Koike Fornazier <helen.koike@collabora.com>
+To: "Vignesh Raman" <vignesh.raman@collabora.com>
+Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
+ "daniels" <daniels@collabora.com>, "airlied" <airlied@gmail.com>,
+ "daniel" <daniel@ffwll.ch>, "robdclark" <robdclark@gmail.com>,
+ "guilherme.gallo" <guilherme.gallo@collabora.com>,
+ "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
+ "dmitry.baryshkov" <dmitry.baryshkov@linaro.org>,
+ "linux-mediatek" <linux-mediatek@lists.infradead.org>,
+ "linux-amlogic" <linux-amlogic@lists.infradead.org>,
+ "linux-rockchip" <linux-rockchip@lists.infradead.org>,
+ "amd-gfx" <amd-gfx@lists.freedesktop.org>,
+ "linux-arm-msm" <linux-arm-msm@vger.kernel.org>,
+ "intel-gfx" <intel-gfx@lists.freedesktop.org>,
+ "virtualization" <virtualization@lists.linux.dev>,
+ "linux-kernel" <linux-kernel@vger.kernel.org>
+Message-ID: <193b68c38d7.cc3993332082713.4539736537165956204@collabora.com>
+In-Reply-To: <20241211142806.1824961-1-vignesh.raman@collabora.com>
+References: <20241211142806.1824961-1-vignesh.raman@collabora.com>
+Subject: Re: [PATCH v1] drm/ci: uprev IGT
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB8599.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec591703-3d75-4d25-683e-08dd19fef272
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2024 16:14:53.6194 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g6OjiKYEg+5y35GEcj2iM4DNFJodOQ/et+SbS6djNXcBZOy2cmot9/8o/zpj2TG08YoRhykDeQx1wJagwNH/jg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6262
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,107 +80,1567 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W1B1YmxpY10NCg0KPiBGcm9tOiBLb2VuaWcsIENocmlzdGlhbiA8Q2hyaXN0aWFuLktvZW5pZ0Bh
-bWQuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIERlY2VtYmVyIDExLCAyMDI0IDEwOjAzDQo+IEFt
-IDExLjEyLjI0IHVtIDE1OjAyIHNjaHJpZWIgTGksIFl1bnhpYW5nIChUZWRkeSk6DQo+ID4gW1B1
-YmxpY10NCj4gPg0KPiA+PiBGcm9tOiBLb2VuaWcsIENocmlzdGlhbiA8Q2hyaXN0aWFuLktvZW5p
-Z0BhbWQuY29tPg0KPiA+PiBTZW50OiBXZWRuZXNkYXksIERlY2VtYmVyIDExLCAyMDI0IDM6MTYg
-QW0gMTAuMTIuMjQgdW0gMTg6NTkgc2NocmllYg0KPiA+PiBZdW54aWFuZyBMaToNCj4gPj4+IFRy
-YWNraW5nIHRoZSBzdGF0ZSBvZiBhIEdFTSBvYmplY3QgZm9yIHNoYXJlZCBzdGF0cyBpcyBxdWl0
-ZQ0KPiA+Pj4gZGlmZmljdWx0IHNpbmNlIHRoZSBoYW5kbGVfY291bnQgaXMgbWFuYWdlZCBiZWhp
-bmQgZHJpdmVyJ3MgYmFjay4gU28NCj4gPj4+IGluc3RlYWQgY29uc2lkZXJzIEdFTSBvYmplY3Qg
-c2hhcmVkIHRoZSBtb21lbnQgaXQgaXMgZXhwb3J0ZWQgd2l0aCBmbGluayBpb2N0bC4NCj4gPj4+
-IFRoaXMgbWFrZXMgaXQgd29yayB0aGUgc2FtZSB0byB0aGUgZG1hX2J1ZiBjYXNlLiBBZGQgYSBj
-YWxsYmFjayBmb3INCj4gPj4+IGRyaXZlcnMgdG8gZ2V0IG5vdGlmaWVkIHdoZW4gR0VNIG9iamVj
-dCBpcyBiZWluZyBzaGFyZWQuDQo+ID4+IEZpcnN0IG9mIGFsbCBHRU0gZmxpbmsgaXMgcHJldHR5
-IG11Y2ggZGVwcmVjYXRlZCwgd2Ugb25seSBoYXZlIGl0IGZvcg0KPiA+PiBjb21wYXRpYmlsaXR5
-IHJlYXNvbnMuIFNvIHBsZWFzZSBkb24ndCBjaGFuZ2UgYW55dGhpbmcgaGVyZS4NCj4gPj4NCj4g
-Pj4gVGhlbiBmbGluayBpcyBub3QgdGhlIG9ubHkgd2F5IHRvIGNyZWF0ZSBtdWx0aXBsZSBoYW5k
-bGVzIGZvciBhIEdFTQ0KPiA+PiBvYmplY3QuIFNvIHRoaXMgaGVyZSB3b24ndCBoYW5kbGUgYWxs
-IGNhc2VzLg0KPiA+Pg0KPiA+PiBBbmQgZmluYWxseSB3ZSBhbHJlYWR5IGhhdmUgdGhlIC5vcGVu
-IGFuZCAuY2xvc2UgY2FsbGJhY2tzLCB3aGljaCBhcmUNCj4gPj4gY2FsbGVkIHdoZW5ldmVyIGEg
-aGFuZGxlIGZvciBhIEdFTSBvYmplY3QgaXMgY3JlYXRlZC9kZXN0cm95ZWQuIFNvIGl0DQo+ID4+
-IHNob3VsZG4ndCBiZSBuZWNlc3NhcnkgaW4gdGhlIGZpcnN0IHBsYWNlLg0KPiA+IEZvciB0aGUg
-aW1wb3J0aW5nIFZNIHRoZSBzaGFyZWQgc3RhdHMgaXMgYXV0b21hdGljYWxseSBjb3JyZWN0IGJ5
-IG9wZW4gYW5kIGNsb3NlLA0KPiBidXQgZm9yIHRoZSBleHBvcnRpbmcgVk0gd2UgbmVlZCB0byB1
-cGRhdGUgdGhlIHNoYXJlZCBzdGF0IHdoZW4gdGhlIGJ1ZmZlciBnZXRzDQo+IHNoYXJlZCwgc2lu
-Y2UgaXQgaXMgYWxyZWFkeSBjb3VudGVkIGFzIHByaXZhdGUgdGhlcmUuIEFzIGZhciBhcyBJIGNv
-dWxkIGZpbmQsIHNlZW1zDQo+IGxpa2UgZmxpbmsgaW9jdGwgaXMgdGhlIG9ubHkgcGxhY2Ugd2hl
-cmUgdGhlIGdsb2JhbCBuYW1lIGlzIGFzc2lnbmVkPyBUaGUgaW1wb3J0aW5nDQo+IHNpZGUgaGF2
-ZSBtdWx0aXBsZSBwbGFjZXMgdG8gZ2V0IHRoZSBnbG9iYWwgbmFtZSwgYnV0IHRoZSBleHBvcnRl
-ciBhbHdheXMgbmVlZHMgdG8NCj4gZmlyc3QgY2FsbCBmbGluayB0byBhbGxvY2F0ZSB0aGUgbnVt
-YmVyIHJpZ2h0PyBTbyBob29raW5nIGludG8gZmxpbmsgYW5kIGRtYS1idWYgc2hvdWxkDQo+IGNv
-dmVyIHRoZSBiYXNlcz8NCj4NCj4gSXQncyBpcnJlbGV2YW50IHdoZXJlIHRoZSBnbG9iYWwgbmFt
-ZSBpcyBhc3NpZ25lZC4gVGhlIHByb2JsZW0gaXMgdGhhdCB0aGVyZSBhcmUgbW9yZQ0KPiB3YXlz
-IHRvIGNyZWF0ZSBhIG5ldyBoYW5kbGUgZm9yIGEgR0VNIG9iamVjdCB0aGFuIGp1c3QgZmxpbmsg
-YW5kIERNQS1idWYuDQo+DQo+IEZvciBleGFtcGxlIHlvdSBjYW4ganVzdCBhc2sgYSBmcmFtZWJ1
-ZmZlciB0byBnaXZlIHlvdSBhIEdFTSBoYW5kbGUgZm9yIHRoZQ0KPiBjdXJyZW50bHkgZGlzcGxh
-eWVkIGJ1ZmZlci4gU2VlIHRoZSBjYWxsIHRvIGRybV9nZW1faGFuZGxlX2NyZWF0ZSgpIGluDQo+
-IGRybV9tb2RlX2dldGZiMl9pb2N0bCgpLg0KPg0KPiBXaGVuIHlvdSBtYWtlIHRoaXMgY2hhbmdl
-IGhlcmUgdGhlbiB0aG9zZSBHRU0gaGFuZGxlcyBhcmUgbm90IGNvbnNpZGVyZWQNCj4gc2hhcmVk
-IGFueSBtb3JlIGV2ZW4gaWYgdGhleSBhcmUgYW5kIHlvdSBzb29uZXIgb3IgbGF0ZXIgcnVuIGlu
-dG8gd2FybmluZ3Mgb24gVk0NCj4gZGVzdHJ1Y3Rpb24uDQo+DQo+ID4gSSBjb3VsZCBwcm9iYWJs
-eSBtYWtlIGhhbmRsZV9jb3VudCB3b3JrIHNvbWVob3csIGJ1dCBpdCBsb29rcyBsaWtlIGl0J3Mg
-cmVhZCBpbiBhDQo+IGxvdCBvZiBwbGFjZXMgd2l0aG91dCBsb2NrcyBzbyBJJ20gbm90IHN1cmUg
-aWYgdGhlcmUgd2lsbCBiZSBzb21lIHJhY2UgY29uZGl0aW9ucy4NCj4NCj4gVGhlIGhhbmRsZSBj
-b3VudCBpcyBwcm90ZWN0ZWQgYnkgdGhlIG9iamVjdF9uYW1lX2xvY2sgb2YgdGhlIGRldmljZS4g
-VGhlDQo+IGRybV9nZW1fb2JqZWN0X2lzX3NoYXJlZF9mb3JfbWVtb3J5X3N0YXRzKCkgZnVuY3Rp
-b24gaXMgcHJldHR5IG11Y2ggdGhlIG9ubHkNCj4gY2FzZSB3aGVyZSB3ZSByZWFkIHRoZSB2YWx1
-ZSB3aXRob3V0IGhvbGRpbmcgdGhlIGxvY2sgc2luY2UgdGhhdCBpcyB1c2VkIG9ubHkNCj4gb3Bw
-b3J0dW5pc3RpY2FsbHkuDQo+DQo+IFdoYXQgeW91IGNvdWxkIGRvIGlzIHRvIGhvb2sgaW50byBh
-bWRncHVfZ2VtX29iamVjdF9vcGVuKCkgYW5kDQo+IGFtZGdwdV9nZW1fb2JqZWN0X2Nsb3NlKCks
-IGNhbGwNCj4gZHJtX2dlbV9vYmplY3RfaXNfc2hhcmVkX2Zvcl9tZW1vcnlfc3RhdHMoKSBhbmQg
-Z28gb3ZlciBhbGwgdGhlIFZNcyB0aGUgQk8NCj4gYmVsb25ncyB0by4gKFNlZSBob3cgYW1kZ3B1
-X3ZtX2JvX2ZpbmQoKSBhbmQgYW1kZ3B1X3ZtX2JvX2FkZCBhcmUgdXNlZCkuDQo+DQo+IFRoZW4g
-aGF2ZSBhbiBhZGRpdGlvbmFsIGZsYWcgaW5zaWRlIGFtZGdwdV9ib192YSB3aG8gdGVsbHMgeW91
-IGlmIGEgQk8gd2FzDQo+IHByZXZpb3VzbHkgY29uc2lkZXJlZCBzaGFyZWQgb3IgcHJpdmF0ZSBh
-bmQgdXBkYXRlIHRoZSBzdGF0cyBhY2NvcmRpbmdseSB3aGVuIHRoYXQNCj4gc3RhdHVzIGNoYW5n
-ZXMuDQoNCkJ1dCB0aGUgb3BlbiBhbmQgY2xvc2UgZnVuY3Rpb25zIGFyZSBjYWxsZWQgb3V0c2lk
-ZSB0aGUgb2JqZWN0X25hbWVfbG9jayByaWdodCwgc28gZG8gSSByZWdyYWIgdGhlIGxvY2sgaW4g
-dGhlIGFtZGdwdV8qIGZ1bmN0aW9ucyBvciBJIGNvdWxkIG1vdmUgdGhlIGNhbGxiYWNrIGludG8g
-dGhlIGxvY2s/DQoNCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0KPg0KPiA+DQo+ID4+IFJlZ2Fy
-ZHMsDQo+ID4+IENocmlzdGlhbi4NCj4gPj4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IFl1bnhpYW5n
-IExpIDxZdW54aWFuZy5MaUBhbWQuY29tPg0KPiA+Pj4NCj4gPj4+IENDOiBkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnDQo+ID4+PiAtLS0NCj4gPj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9k
-cm1fZ2VtLmMgICB8ICAzICsrKw0KPiA+Pj4gICAgZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5j
-IHwgIDMgKysrDQo+ID4+PiAgICBpbmNsdWRlL2RybS9kcm1fZ2VtLmggICAgICAgfCAxMiArKysr
-KysrKysrKy0NCj4gPj4+ICAgIDMgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQ0KPiA+Pj4NCj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJt
-X2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW0uYw0KPiA+Pj4gaW5kZXggZDRiYmM1ZDEw
-OWM4Yi4uMWVhZDExZGUzMWY2YiAxMDA2NDQNCj4gPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZ2VtLmMNCj4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmMNCj4gPj4+IEBA
-IC04NTQsNiArODU0LDkgQEAgZHJtX2dlbV9mbGlua19pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAq
-ZGV2LCB2b2lkDQo+ICpkYXRhLA0KPiA+Pj4gICAgICAgICAgICAgICAgICAgICAgZ290byBlcnI7
-DQo+ID4+Pg0KPiA+Pj4gICAgICAgICAgICAgIG9iai0+bmFtZSA9IHJldDsNCj4gPj4+ICsNCj4g
-Pj4+ICsgICAgICAgICAgIGlmIChvYmotPmZ1bmNzLT5zaGFyZWQpDQo+ID4+PiArICAgICAgICAg
-ICAgICAgICAgIG9iai0+ZnVuY3MtPnNoYXJlZChvYmopOw0KPiA+Pj4gICAgICB9DQo+ID4+Pg0K
-PiA+Pj4gICAgICBhcmdzLT5uYW1lID0gKHVpbnQ2NF90KSBvYmotPm5hbWU7IGRpZmYgLS1naXQN
-Cj4gPj4+IGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jIGIvZHJpdmVycy9ncHUvZHJtL2Ry
-bV9wcmltZS5jIGluZGV4DQo+ID4+PiAwZTNmOGFkZjE2MmY2Li4zMzZkOTgyZDY5ODA3IDEwMDY0
-NA0KPiA+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9wcmltZS5jDQo+ID4+PiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX3ByaW1lLmMNCj4gPj4+IEBAIC00MDYsNiArNDA2LDkgQEAgc3Rh
-dGljIHN0cnVjdCBkbWFfYnVmDQo+ID4+PiAqZXhwb3J0X2FuZF9yZWdpc3Rlcl9vYmplY3Qoc3Ry
-dWN0DQo+ID4+IGRybV9kZXZpY2UgKmRldiwNCj4gPj4+ICAgICAgb2JqLT5kbWFfYnVmID0gZG1h
-YnVmOw0KPiA+Pj4gICAgICBnZXRfZG1hX2J1ZihvYmotPmRtYV9idWYpOw0KPiA+Pj4NCj4gPj4+
-ICsgICBpZiAob2JqLT5mdW5jcy0+c2hhcmVkKQ0KPiA+Pj4gKyAgICAgICAgICAgb2JqLT5mdW5j
-cy0+c2hhcmVkKG9iaik7DQo+ID4+PiArDQo+ID4+PiAgICAgIHJldHVybiBkbWFidWY7DQo+ID4+
-PiAgICB9DQo+ID4+Pg0KPiA+Pj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJtL2RybV9nZW0uaCBi
-L2luY2x1ZGUvZHJtL2RybV9nZW0uaCBpbmRleA0KPiA+Pj4gZGExMWMxNmUyMTJhYS4uOGM1ZmZj
-ZDQ4NTc1MiAxMDA2NDQNCj4gPj4+IC0tLSBhL2luY2x1ZGUvZHJtL2RybV9nZW0uaA0KPiA+Pj4g
-KysrIGIvaW5jbHVkZS9kcm0vZHJtX2dlbS5oDQo+ID4+PiBAQCAtMTIyLDYgKzEyMiwxNiBAQCBz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVuY3Mgew0KPiA+Pj4gICAgICAgKi8NCj4gPj4+ICAgICAg
-c3RydWN0IGRtYV9idWYgKigqZXhwb3J0KShzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgaW50
-DQo+ID4+PiBmbGFncyk7DQo+ID4+Pg0KPiA+Pj4gKyAgIC8qKg0KPiA+Pj4gKyAgICAqIEBzaGFy
-ZWQ6DQo+ID4+PiArICAgICoNCj4gPj4+ICsgICAgKiBDYWxsYmFjayB3aGVuIEdFTSBvYmplY3Qg
-YmVjb21lcyBzaGFyZWQsIHNlZSBhbHNvDQo+ID4+PiArICAgICogZHJtX2dlbV9vYmplY3RfaXNf
-c2hhcmVkX2Zvcl9tZW1vcnlfc3RhdHMNCj4gPj4+ICsgICAgKg0KPiA+Pj4gKyAgICAqIFRoaXMg
-Y2FsbGJhY2sgaXMgb3B0aW9uYWwuDQo+ID4+PiArICAgICovDQo+ID4+PiArICAgdm9pZCAoKnNo
-YXJlZCkoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOw0KPiA+Pj4gKw0KPiA+Pj4gICAgICAv
-KioNCj4gPj4+ICAgICAgICogQHBpbjoNCj4gPj4+ICAgICAgICoNCj4gPj4+IEBAIC01NjgsNyAr
-NTc4LDcgQEAgaW50IGRybV9nZW1fZXZpY3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOw0K
-PiA+Pj4gICAgICovDQo+ID4+PiAgICBzdGF0aWMgaW5saW5lIGJvb2wNCj4gPj4+IGRybV9nZW1f
-b2JqZWN0X2lzX3NoYXJlZF9mb3JfbWVtb3J5X3N0YXRzKHN0cnVjdA0KPiA+PiBkcm1fZ2VtX29i
-amVjdCAqb2JqKQ0KPiA+Pj4gICAgew0KPiA+Pj4gLSAgIHJldHVybiAob2JqLT5oYW5kbGVfY291
-bnQgPiAxKSB8fCBvYmotPmRtYV9idWY7DQo+ID4+PiArICAgcmV0dXJuIG9iai0+bmFtZSB8fCBv
-YmotPmRtYV9idWY7DQo+ID4+PiAgICB9DQo+ID4+Pg0KPiA+Pj4gICAgI2lmZGVmIENPTkZJR19M
-T0NLREVQDQoNCg==
+Hi Vignesh,
+
+thanks for the patch.
+
+
+
+---- On Wed, 11 Dec 2024 11:28:05 -0300 Vignesh Raman  wrote ---
+
+ > Uprev IGT to the latest version and update expectation files. 
+ >  
+ > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com> 
+ > --- 
+ >  
+ > v1: 
+ >  - Pipeline link - https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1327810 
+ >  Will update the flake bug report link after v1 is reviewed. 
+
+I see some i915 jobs are failing due to timeout and others because the xfails is not up to date.
+
+The ones timing out I wonder if it is better to increase the timeout in your configs or to split the jobs in more fragments.
+
+ >  
+ > --- 
+ >  drivers/gpu/drm/ci/gitlab-ci.yml              |   2 +- 
+ >  .../gpu/drm/ci/xfails/amdgpu-stoney-fails.txt |  10 +- 
+ >  .../drm/ci/xfails/amdgpu-stoney-flakes.txt    |  21 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-amly-fails.txt |   7 - 
+ >  drivers/gpu/drm/ci/xfails/i915-apl-fails.txt  |   8 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-cml-fails.txt  |   9 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-glk-fails.txt  |  31 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt |   7 + 
+ >  drivers/gpu/drm/ci/xfails/i915-glk-skips.txt  | 296 ++++++++++++++++++ 
+ >  drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt  |  18 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt |  15 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt  | 112 +++++++ 
+ >  drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt  |  54 +--- 
+ >  drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt |   6 + 
+ >  drivers/gpu/drm/ci/xfails/i915-whl-fails.txt  |  15 +- 
+ >  drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt |   7 + 
+ >  .../drm/ci/xfails/mediatek-mt8173-fails.txt   |   8 +- 
+ >  .../drm/ci/xfails/mediatek-mt8183-fails.txt   |  13 +- 
+ >  .../gpu/drm/ci/xfails/msm-apq8016-fails.txt   |   3 + 
+ >  .../msm-sc7180-trogdor-kingoftown-fails.txt   |   3 +- 
+ >  .../msm-sc7180-trogdor-kingoftown-flakes.txt  |   7 + 
+ >  ...sm-sc7180-trogdor-lazor-limozeen-fails.txt |   3 +- 
+ >  .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |   4 +- 
+ >  .../drm/ci/xfails/msm-sm8350-hdk-fails.txt    |   5 - 
+ >  .../drm/ci/xfails/msm-sm8350-hdk-flakes.txt   |   6 - 
+ >  .../drm/ci/xfails/rockchip-rk3288-fails.txt   |  26 +- 
+ >  .../drm/ci/xfails/rockchip-rk3399-fails.txt   |  14 +- 
+ >  .../drm/ci/xfails/rockchip-rk3399-flakes.txt  |  42 +++ 
+ >  .../drm/ci/xfails/virtio_gpu-none-fails.txt   |   2 + 
+ >  drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |  10 +- 
+ >  drivers/gpu/drm/ci/xfails/vkms-none-skips.txt | 214 +++++++++++++ 
+ >  31 files changed, 775 insertions(+), 203 deletions(-) 
+ >  create mode 100644 drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt 
+ >  delete mode 100644 drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt 
+ >  
+ > diff --git a/drivers/gpu/drm/ci/gitlab-ci.yml b/drivers/gpu/drm/ci/gitlab-ci.yml 
+ > index 90bde9f00cc3..b7214718723c 100644 
+ > --- a/drivers/gpu/drm/ci/gitlab-ci.yml 
+ > +++ b/drivers/gpu/drm/ci/gitlab-ci.yml 
+ > @@ -5,7 +5,7 @@ variables: 
+ >  UPSTREAM_REPO: https://gitlab.freedesktop.org/drm/kernel.git 
+ >  TARGET_BRANCH: drm-next 
+ >  
+ > -  IGT_VERSION: a73311079a5d8ac99eb25336a8369a2c3c6b519b 
+ > +  IGT_VERSION: 33adea9ebafd059ac88a5ccfec60536394f36c7c 
+ >  
+ >  DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/mesa/deqp-runner.git 
+ >  DEQP_RUNNER_GIT_TAG: v0.20.0 
+ > diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt 
+ > index f44dbce3151a..b72fcbf20c01 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-fails.txt 
+ > @@ -14,10 +14,16 @@ amdgpu/amd_plane@mpo-scale-nv12,Fail 
+ >  amdgpu/amd_plane@mpo-scale-p010,Fail 
+ >  amdgpu/amd_plane@mpo-scale-rgb,Crash 
+ >  amdgpu/amd_plane@mpo-swizzle-toggle,Fail 
+ > -amdgpu/amd_uvd_dec@amdgpu_uvd_decode,Fail 
+ > +amdgpu/amd_uvd_dec@amdgpu_uvd_decode,Crash 
+ >  kms_addfb_basic@bad-pitch-65536,Fail 
+ >  kms_addfb_basic@bo-too-small,Fail 
+ >  kms_addfb_basic@too-high,Fail 
+ > +kms_async_flips@alternate-sync-async-flip,Fail 
+ > +kms_async_flips@alternate-sync-async-flip-atomic,Fail 
+ > +kms_async_flips@test-cursor,Fail 
+ > +kms_async_flips@test-cursor-atomic,Fail 
+ > +kms_async_flips@test-time-stamp,Fail 
+ > +kms_async_flips@test-time-stamp-atomic,Fail 
+ >  kms_atomic_transition@plane-all-modeset-transition-internal-panels,Fail 
+ >  kms_atomic_transition@plane-all-transition,Fail 
+ >  kms_atomic_transition@plane-all-transition-nonblocking,Fail 
+ > @@ -31,6 +37,8 @@ kms_cursor_crc@cursor-size-change,Fail 
+ >  kms_cursor_crc@cursor-sliding-64x21,Fail 
+ >  kms_cursor_crc@cursor-sliding-64x64,Fail 
+ >  kms_cursor_edge_walk@64x64-left-edge,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt 
+ > index e70bd9d447ca..3ad24812e4f8 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/amdgpu-stoney-flakes.txt 
+ > @@ -1,10 +1,3 @@ 
+ > -# Board Name: hp-11A-G6-EE-grunt 
+ > -# Bug Report: https://lore.kernel.org/amd-gfx/3542730f-b8d7-404d-a947-b7a5e95d661c@collabora.com/T/#u 
+ > -# Failure Rate: 50 
+ > -# IGT Version: 1.28-g0df7b9b97 
+ > -# Linux Version: 6.9.0-rc7 
+ > -kms_async_flips@async-flip-with-page-flip-events 
+ > - 
+ >  # Board Name: hp-11A-G6-EE-grunt 
+ >  # Bug Report: https://lore.kernel.org/amd-gfx/3542730f-b8d7-404d-a947-b7a5e95d661c@collabora.com/T/#u 
+ >  # Failure Rate: 50 
+ > @@ -25,3 +18,17 @@ kms_plane@pixel-format-source-clamping 
+ >  # IGT Version: 1.28-ga73311079 
+ >  # Linux Version: 6.11.0-rc2 
+ >  kms_async_flips@async-flip-with-page-flip-events 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 100 
+
+
+I was discussing about the Failure Rate 100 meaning in another thread, please, see https://lore.kernel.org/all/19393604e18.f9b6fe7d298023.1937039548910081216@collabora.com/ 
+
+Let me know what do you think about the definition there.
+
+Regards,
+Helen
+
+
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_async_flips@async-flip-with-page-flip-events-atomic 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 100 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_async_flips@crc-atomic 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-amly-fails.txt b/drivers/gpu/drm/ci/xfails/i915-amly-fails.txt 
+ > index 0907cb0f6d9e..2ccdafb330ce 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-amly-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-amly-fails.txt 
+ > @@ -8,7 +8,6 @@ i915_module_load@resize-bar,Fail 
+ >  i915_pm_rpm@gem-execbuf-stress,Timeout 
+ >  i915_pm_rpm@module-reload,Fail 
+ >  kms_cursor_legacy@short-flip-before-cursor-atomic-transitions,Timeout 
+ > -kms_fb_coherency@memset-crc,Crash 
+ >  kms_flip@busy-flip,Timeout 
+ >  kms_flip@single-buffer-flip-vs-dpms-off-vs-modeset-interruptible,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail 
+ > @@ -39,14 +38,8 @@ kms_plane_alpha_blend@alpha-basic,Fail 
+ >  kms_plane_alpha_blend@alpha-opaque-fb,Fail 
+ >  kms_plane_alpha_blend@alpha-transparent-fb,Fail 
+ >  kms_plane_alpha_blend@constant-alpha-max,Fail 
+ > -kms_plane_scaling@plane-scaler-with-clipping-clamping-rotation,Timeout 
+ > -kms_plane_scaling@planes-upscale-factor-0-25-downscale-factor-0-5,Timeout 
+ >  kms_pm_rpm@modeset-stress-extra-wait,Timeout 
+ > -kms_pm_rpm@universal-planes,Timeout 
+ >  kms_pm_rpm@universal-planes-dpms,Timeout 
+ > -kms_prop_blob@invalid-set-prop,Fail 
+ > -kms_rotation_crc@primary-rotation-180,Timeout 
+ > -kms_vblank@query-forked-hang,Timeout 
+ >  perf@i915-ref-count,Fail 
+ >  perf_pmu@module-unload,Fail 
+ >  perf_pmu@rc6,Crash 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt 
+ > index 64772fedaed5..ee11999e3da1 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-apl-fails.txt 
+ > @@ -1,3 +1,4 @@ 
+ > +core_setmaster@master-drop-set-user,Fail 
+ >  i915_module_load@load,Fail 
+ >  i915_module_load@reload,Fail 
+ >  i915_module_load@reload-no-display,Fail 
+ > @@ -8,13 +9,13 @@ kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail 
+ > +kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-downscaling,Fail 
+ > -kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling,Fail 
+ > @@ -29,13 +30,10 @@ kms_plane_alpha_blend@alpha-opaque-fb,Fail 
+ >  kms_plane_alpha_blend@alpha-transparent-fb,Fail 
+ >  kms_plane_alpha_blend@constant-alpha-max,Fail 
+ >  kms_pm_backlight@basic-brightness,Fail 
+ > +kms_pm_backlight@brightness-with-dpms,Crash 
+ >  kms_pm_backlight@fade,Fail 
+ >  kms_pm_backlight@fade-with-dpms,Fail 
+ > -kms_pm_rpm@legacy-planes,Timeout 
+ > -kms_pm_rpm@legacy-planes-dpms,Timeout 
+ >  kms_pm_rpm@modeset-stress-extra-wait,Timeout 
+ > -kms_pm_rpm@universal-planes,Timeout 
+ > -kms_pm_rpm@universal-planes-dpms,Timeout 
+ >  kms_sysfs_edid_timing,Fail 
+ >  perf@i915-ref-count,Fail 
+ >  perf@non-zero-reason,Timeout 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt 
+ > index f352b719cf7d..1f0db6df1050 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-cml-fails.txt 
+ > @@ -11,7 +11,6 @@ i915_pm_rpm@module-reload,Fail 
+ >  i915_pm_rpm@system-suspend-execbuf,Timeout 
+ >  i915_pm_rps@engine-order,Fail 
+ >  kms_big_fb@linear-16bpp-rotate-180,Timeout 
+ > -kms_fb_coherency@memset-crc,Crash 
+ >  kms_flip@busy-flip,Timeout 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail 
+ > @@ -40,9 +39,7 @@ kms_plane_alpha_blend@alpha-basic,Fail 
+ >  kms_plane_alpha_blend@alpha-opaque-fb,Fail 
+ >  kms_plane_alpha_blend@alpha-transparent-fb,Fail 
+ >  kms_plane_alpha_blend@constant-alpha-max,Fail 
+ > -kms_plane_scaling@planes-upscale-factor-0-25-downscale-factor-0-5,Timeout 
+ >  kms_pm_rpm@modeset-stress-extra-wait,Timeout 
+ > -kms_pm_rpm@universal-planes,Timeout 
+ >  kms_pm_rpm@universal-planes-dpms,Timeout 
+ >  kms_psr2_sf@cursor-plane-update-sf,Fail 
+ >  kms_psr2_sf@overlay-plane-update-continuous-sf,Fail 
+ > @@ -51,10 +48,12 @@ kms_psr2_sf@overlay-primary-update-sf-dmg-area,Fail 
+ >  kms_psr2_sf@plane-move-sf-dmg-area,Fail 
+ >  kms_psr2_sf@primary-plane-update-sf-dmg-area,Fail 
+ >  kms_psr2_sf@primary-plane-update-sf-dmg-area-big-fb,Fail 
+ > +kms_psr2_sf@psr2-cursor-plane-update-sf,Fail 
+ > +kms_psr2_sf@psr2-overlay-primary-update-sf-dmg-area,Fail 
+ > +kms_psr2_sf@psr2-plane-move-sf-dmg-area,Fail 
+ > +kms_psr2_sf@psr2-primary-plane-update-sf-dmg-area-big-fb,Fail 
+ >  kms_psr2_su@page_flip-NV12,Fail 
+ > -kms_rotation_crc@primary-rotation-180,Timeout 
+ >  kms_setmode@basic,Fail 
+ > -kms_vblank@query-forked-hang,Timeout 
+ >  perf@i915-ref-count,Fail 
+ >  perf_pmu@module-unload,Fail 
+ >  perf_pmu@rc6,Crash 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-glk-fails.txt b/drivers/gpu/drm/ci/xfails/i915-glk-fails.txt 
+ > index 6eb64c672f7d..84331b89a209 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-glk-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-glk-fails.txt 
+ > @@ -1,61 +1,35 @@ 
+ > +core_setmaster@master-drop-set-shared-fd,Fail 
+ >  core_setmaster@master-drop-set-user,Fail 
+ > -core_setmaster_vs_auth,Fail 
+ > +gen9_exec_parse@unaligned-access,Timeout 
+ >  i915_module_load@load,Fail 
+ >  i915_module_load@reload,Fail 
+ >  i915_module_load@reload-no-display,Fail 
+ >  i915_module_load@resize-bar,Fail 
+ > -kms_cursor_legacy@short-flip-before-cursor-atomic-transitions,Timeout 
+ >  kms_dirtyfb@default-dirtyfb-ioctl,Fail 
+ >  kms_dirtyfb@drrs-dirtyfb-ioctl,Fail 
+ >  kms_dirtyfb@fbc-dirtyfb-ioctl,Fail 
+ > -kms_flip@blocking-wf_vblank,Fail 
+ > -kms_flip@busy-flip,Timeout 
+ > -kms_flip@single-buffer-flip-vs-dpms-off-vs-modeset-interruptible,Fail 
+ > -kms_flip@wf_vblank-ts-check,Fail 
+ >  kms_flip@wf_vblank-ts-check-interruptible,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail 
+ > -kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail 
+ > -kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-downscaling,Fail 
+ > -kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-upscaling,Fail 
+ > -kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-downscaling,Fail 
+ > -kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-downscaling,Fail 
+ > -kms_flip_scaled_crc@flip-64bpp-ytile-to-16bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail 
+ > -kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
+ > -kms_frontbuffer_tracking@fbc-rgb565-draw-mmap-cpu,Timeout 
+ > -kms_frontbuffer_tracking@fbc-tiling-linear,Fail 
+ >  kms_frontbuffer_tracking@fbcdrrs-tiling-linear,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ >  kms_plane_alpha_blend@alpha-opaque-fb,Fail 
+ > -kms_plane_scaling@plane-scaler-with-clipping-clamping-rotation,Timeout 
+ > -kms_plane_scaling@planes-upscale-factor-0-25-downscale-factor-0-5,Timeout 
+ > -kms_pm_rpm@legacy-planes,Timeout 
+ > -kms_pm_rpm@legacy-planes-dpms,Timeout 
+ > -kms_pm_rpm@modeset-stress-extra-wait,Timeout 
+ > -kms_pm_rpm@universal-planes,Timeout 
+ > -kms_pm_rpm@universal-planes-dpms,Timeout 
+ > -kms_prop_blob@invalid-set-prop,Fail 
+ > -kms_rotation_crc@multiplane-rotation,Fail 
+ > -kms_rotation_crc@multiplane-rotation-cropping-bottom,Fail 
+ >  kms_rotation_crc@multiplane-rotation-cropping-top,Fail 
+ > -kms_rotation_crc@primary-rotation-180,Timeout 
+ > -kms_vblank@query-forked-hang,Timeout 
+ >  perf@non-zero-reason,Timeout 
+ >  sysfs_heartbeat_interval@long,Timeout 
+ > -sysfs_heartbeat_interval@off,Timeout 
+ >  sysfs_preempt_timeout@off,Timeout 
+ >  sysfs_timeslice_duration@off,Timeout 
+ >  xe_module_load@force-load,Fail 
+ > @@ -63,4 +37,3 @@ xe_module_load@load,Fail 
+ >  xe_module_load@many-reload,Fail 
+ >  xe_module_load@reload,Fail 
+ >  xe_module_load@reload-no-display,Fail 
+ > -core_setmaster@master-drop-set-shared-fd,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt b/drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt 
+ > index 077886b76093..e98ba7da9f72 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-glk-flakes.txt 
+ > @@ -11,3 +11,10 @@ core_hotunplug@unplug-rescan 
+ >  # IGT Version: 1.28-g0df7b9b97 
+ >  # Linux Version: 6.9.0-rc7 
+ >  kms_fb_coherency@memset-crc 
+ > + 
+ > +# Board Name: hp-x360-12b-ca0010nr-n4020-octopus 
+ > +# Bug Report: 
+ > +# Failure Rate: 50 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_flip@dpms-off-confusion-interruptible 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt b/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt 
+ > index 9c64146aed90..0d8993e72da4 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-glk-skips.txt 
+ > @@ -27,3 +27,299 @@ perf.* 
+ >  # Kernel panic 
+ >  drm_fdinfo.* 
+ >  kms_plane_alpha_blend.* 
+ > + 
+ > +kms_async_flips.* 
+ > +# [IGT] kms_async_flips: executing 
+ > +# ------------[ cut here ]------------ 
+ > +# i915 0000:00:02.0: [drm] drm_WARN_ON(intel_dp->pps.vdd_wakeref) 
+ > +# WARNING: CPU: 0 PID: 1253 at drivers/gpu/drm/i915/display/intel_pps.c:760 intel_pps_vdd_on_unlocked+0x351/0x360 
+ > +# Modules linked in: 
+ > +# CPU: 0 UID: 0 PID: 1253 Comm: kms_async_flips Tainted: G        W          6.13.0-rc2-ge95c88d68ac3 #1 
+ > +# Tainted: [W]=WARN 
+ > +# Hardware name: HP Bloog/Bloog, BIOS  09/19/2019 
+ > +# RIP: 0010:intel_pps_vdd_on_unlocked+0x351/0x360 
+ > +# Code: 8b 77 50 4d 85 f6 75 03 4c 8b 37 e8 19 98 03 00 48 c7 c1 10 d3 61 84 4c 89 f2 48 c7 c7 67 56 69 84 48 89 c6 e8 a0 22 63 ff 90  0b 90 90 e9 5f fd ff ff e8 81 94 69 00 90 90 90 90 90 90 90 90 
+ > +# RSP: 0018:ffff9573c0dcfad8 EFLAGS: 00010286 
+ > +# RAX: 0000000000000000 RBX: ffff93498148e238 RCX: 00000000ffffdfff 
+ > +# RDX: 0000000000000000 RSI: ffff9573c0dcf988 RDI: 0000000000000001 
+ > +# RBP: ffff934980d80000 R08: 0000000000009ffb R09: 00000000ffffdfff 
+ > +# R10: 00000000ffffdfff R11: ffffffff8488c8a0 R12: ffff934980d80d68 
+ > +# R13: 0000000000000000 R14: ffff93498093c9b0 R15: 0000000000000000 
+ > +# FS:  00007fbf1f4486c0(0000) GS:ffff9349fbc00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 000055f260419028 CR3: 0000000106594000 CR4: 0000000000350ef0 
+ > +# Call Trace: 
+ > +#   
+ > +#  intel_pps_vdd_on+0x78/0x150 
+ > +#  intel_dp_detect+0xb9/0x7c0 
+ > +#  drm_helper_probe_detect+0x47/0xb0 
+ > +#  drm_helper_probe_single_connector_modes+0x40b/0x660 
+ > +#  drm_mode_getconnector+0x369/0x490 
+ > +#  drm_ioctl_kernel+0xad/0x110 
+ > +#  drm_ioctl+0x235/0x4b0 
+ > +#  __x64_sys_ioctl+0x8f/0xc0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7fbf208e4cdb 
+ > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00 
+ > +# RSP: 002b:00007ffe061f6c60 EFLAGS: 00000246 ORIG_RAX: 0000000000000010 
+ > +# RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fbf208e4cdb 
+ > +# RDX: 00007ffe061f6d00 RSI: 00000000c05064a7 RDI: 0000000000000003 
+ > +# RBP: 00007ffe061f6d00 R08: 0000000000000007 R09: 000055f260410cb0 
+ > +# R10: 650094cf40322201 R11: 0000000000000246 R12: 00000000c05064a7 
+ > +# R13: 0000000000000003 R14: 00000000c05064a7 R15: 00007ffe061f6d00 
+ > +#   
+ > +# irq event stamp: 0 
+ > +# hardirqs last  enabled at (0): [] 0x0 
+ > +# hardirqs last disabled at (0): [] copy_process+0xaf3/0x2eb0 
+ > +# softirqs last  enabled at (0): [] copy_process+0xaf3/0x2eb0 
+ > +# softirqs last disabled at (0): [] 0x0 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# i915 0000:00:02.0: [drm] *ERROR* PPS state mismatch 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* Failed to read DPCD register 0x92 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# [IGT] kms_async_flips: starting subtest test-time-stamp 
+ > +# i915 0000:00:02.0: [drm] *ERROR* [CRTC:70:pipe A] flip_done timed out 
+ > +# i915 0000:00:02.0: [drm] *ERROR* flip_done timed out 
+ > +# i915 0000:00:02.0: [drm] *ERROR* [CRTC:70:pipe A] commit wait timed out 
+ > +# INFO: task kms_async_flips:1253 blocked for more than 122 seconds. 
+ > +#       Tainted: G        W          6.13.0-rc2-ge95c88d68ac3 #1 
+ > +# "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message. 
+ > +# task:kms_async_flips state:D stack:12720 pid:1253  tgid:1253  ppid:164    flags:0x00004006 
+ > +# Call Trace: 
+ > +#   
+ > +#  __schedule+0x495/0xd20 
+ > +#  schedule+0x35/0x120 
+ > +#  drm_vblank_work_flush+0x91/0xf0 
+ > +#  intel_wait_for_vblank_workers+0x58/0x90 
+ > +#  intel_atomic_commit_tail+0xa86/0x15f0 
+ > +#  intel_atomic_commit+0x257/0x2a0 
+ > +#  drm_atomic_commit+0xac/0xe0 
+ > +#  set_property_atomic+0x91/0x160 
+ > +#  drm_mode_obj_set_property_ioctl+0xc1/0x110 
+ > +#  drm_ioctl_kernel+0xad/0x110 
+ > +#  drm_ioctl+0x235/0x4b0 
+ > +#  __x64_sys_ioctl+0x8f/0xc0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7fbf208e4cdb 
+ > +# RSP: 002b:00007ffe061f6c50 EFLAGS: 00000246 ORIG_RAX: 0000000000000010 
+ > +# RAX: ffffffffffffffda RBX: 000055f24e272330 RCX: 00007fbf208e4cdb 
+ > +# RDX: 00007ffe061f6ce0 RSI: 00000000c01864ba RDI: 0000000000000003 
+ > +# RBP: 00007ffe061f6ce0 R08: 0000000000000000 R09: 000055f2604184f0 
+ > +# R10: 00007fbf209ca310 R11: 0000000000000246 R12: 00000000c01864ba 
+ > +# R13: 0000000000000003 R14: 0000000000000000 R15: 000055f26040ab90 
+ > +#   
+ > +# INFO: lockdep is turned off. 
+ > + 
+ > +kms_lease.* 
+ > +# [IGT] kms_lease: executing 
+ > +# ------------[ cut here ]------------ 
+ > +# i915 0000:00:02.0: [drm] drm_WARN_ON(intel_dp->pps.vdd_wakeref) 
+ > +# WARNING: CPU: 1 PID: 1271 at drivers/gpu/drm/i915/display/intel_pps.c:760 intel_pps_vdd_on_unlocked+0x351/0x360 
+ > +# Modules linked in: 
+ > +# CPU: 1 UID: 0 PID: 1271 Comm: kms_lease Tainted: G        W          6.13.0-rc2-gfb6fd142a8eb #1 
+ > +# Tainted: [W]=WARN 
+ > +# Hardware name: HP Bloog/Bloog, BIOS  09/19/2019 
+ > +# RIP: 0010:intel_pps_vdd_on_unlocked+0x351/0x360 
+ > +# Code: 8b 77 50 4d 85 f6 75 03 4c 8b 37 e8 19 98 03 00 48 c7 c1 10 d3 61 a1 4c 89 f2 48 c7 c7 67 56 69 a1 48 89 c6 e8 a0 22 63 ff 90  0b 90 90 e9 5f fd ff ff e8 81 94 69 00 90 90 90 90 90 90 90 90 
+ > +# RSP: 0018:ffffb26500ddfad8 EFLAGS: 00010286 
+ > +# RAX: 0000000000000000 RBX: ffff988580dc6238 RCX: 00000000ffffdfff 
+ > +# RDX: 0000000000000000 RSI: ffffb26500ddf988 RDI: 0000000000000001 
+ > +# RBP: ffff988580d90000 R08: 0000000000009ffb R09: 00000000ffffdfff 
+ > +# R10: 00000000ffffdfff R11: ffffffffa188c8a0 R12: ffff988580d90d68 
+ > +# R13: 0000000000000000 R14: ffff98858093c9b0 R15: 0000000000000000 
+ > +# FS:  00007f6b0c60d6c0(0000) GS:ffff9885fbd00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 000055eea27460a8 CR3: 0000000105ac6000 CR4: 0000000000350ef0 
+ > +# Call Trace: 
+ > +#   
+ > +#  intel_pps_vdd_on+0x78/0x150 
+ > +#  intel_dp_detect+0xb9/0x7c0 
+ > +#  drm_helper_probe_detect+0x47/0xb0 
+ > +#  drm_helper_probe_single_connector_modes+0x40b/0x660 
+ > +#  drm_mode_getconnector+0x369/0x490 
+ > +#  drm_ioctl_kernel+0xad/0x110 
+ > +#  drm_ioctl+0x235/0x4b0 
+ > +#  __x64_sys_ioctl+0x8f/0xc0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7f6b0d637c5b 
+ > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00 
+ > +# RSP: 002b:00007ffc42b13670 EFLAGS: 00000246 ORIG_RAX: 0000000000000010 
+ > +# RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f6b0d637c5b 
+ > +# RDX: 00007ffc42b13710 RSI: 00000000c05064a7 RDI: 0000000000000003 
+ > +# RBP: 00007ffc42b13710 R08: 0000000000000007 R09: 000055eea2741720 
+ > +# R10: 9fb9be4e118bfa43 R11: 0000000000000246 R12: 00000000c05064a7 
+ > +# R13: 0000000000000003 R14: 00000000c05064a7 R15: 00007ffc42b13710 
+ > +#   
+ > +# irq event stamp: 0 
+ > +# hardirqs last  enabled at (0): [] 0x0 
+ > +# hardirqs last disabled at (0): [] copy_process+0xaf3/0x2eb0 
+ > +# softirqs last  enabled at (0): [] copy_process+0xaf3/0x2eb0 
+ > +# softirqs last disabled at (0): [] 0x0 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# i915 0000:00:02.0: [drm] *ERROR* PPS state mismatch 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* Failed to read DPCD register 0x92 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# i915 0000:00:02.0: [drm] *ERROR* AUX A/DDI A/PHY A: not done (status 0x00000000) 
+ > +# [IGT] kms_lease: starting subtest page-flip-implicit-plane 
+ > +# [IGT] kms_lease: starting dynamic subtest pipe-A-eDP-1 
+ > +# i915 0000:00:02.0: [drm] *ERROR* [CRTC:70:pipe A] flip_done timed out 
+ > +# i915 0000:00:02.0: [drm] *ERROR* flip_done timed out 
+ > +# i915 0000:00:02.0: [drm] *ERROR* [CRTC:70:pipe A] commit wait timed out 
+ > +# INFO: task kms_lease:1271 blocked for more than 122 seconds. 
+ > +#       Tainted: G        W          6.13.0-rc2-gfb6fd142a8eb #1 
+ > +# "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message. 
+ > +# task:kms_lease       state:D stack:12720 pid:1271  tgid:1271  ppid:184    flags:0x00004006 
+ > +# Call Trace: 
+ > +#   
+ > +#  __schedule+0x495/0xd20 
+ > +#  schedule+0x35/0x120 
+ > +#  drm_vblank_work_flush+0x91/0xf0 
+ > +#  intel_wait_for_vblank_workers+0x58/0x90 
+ > +#  intel_atomic_commit_tail+0xa86/0x15f0 
+ > +#  intel_atomic_commit+0x257/0x2a0 
+ > +#  drm_atomic_commit+0xac/0xe0 
+ > +#  set_property_atomic+0x91/0x160 
+ > +#  drm_mode_obj_set_property_ioctl+0xc1/0x110 
+ > +#  drm_ioctl_kernel+0xad/0x110 
+ > +#  drm_ioctl+0x235/0x4b0 
+ > +#  __x64_sys_ioctl+0x8f/0xc0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7f6b0d637c5b 
+ > +# RSP: 002b:00007ffc42b13650 EFLAGS: 00000246 ORIG_RAX: 0000000000000010 
+ > +# RAX: ffffffffffffffda RBX: 00007ffc42b14270 RCX: 00007f6b0d637c5b 
+ > +# RDX: 00007ffc42b136e0 RSI: 00000000c01864ba RDI: 0000000000000003 
+ > +# RBP: 00007ffc42b136e0 R08: 0000000000000000 R09: 000055eea2741750 
+ > +# R10: 00007f6b0d71d310 R11: 0000000000000246 R12: 00000000c01864ba 
+ > +# R13: 0000000000000003 R14: 0000000000000000 R15: 000055eea27378d0 
+ > +#   
+ > +# INFO: lockdep is turned off. 
+ > + 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt 
+ > index ed9f7b576843..0e08fff741aa 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-jsl-fails.txt 
+ > @@ -1,15 +1,16 @@ 
+ > -core_setmaster@master-drop-set-user,Fail 
+ > +drm_fdinfo@busy-check-all,Fail 
+ >  i915_module_load@load,Fail 
+ >  i915_module_load@reload,Fail 
+ >  i915_module_load@reload-no-display,Fail 
+ >  i915_module_load@resize-bar,Fail 
+ > -i915_pm_rpm@gem-execbuf-stress,Timeout 
+ > -i915_pm_rpm@module-reload,Fail 
+ > -kms_flip@plain-flip-fb-recreate,Fail 
+ > +kms_flip@dpms-off-confusion,Fail 
+ > +kms_flip@single-buffer-flip-vs-dpms-off-vs-modeset,Fail 
+ > +kms_flip@single-buffer-flip-vs-dpms-off-vs-modeset-interruptible,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-upscaling,Fail 
+ > +kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytile-to-64bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-ytileccs-to-64bpp-ytile-upscaling,Fail 
+ > @@ -17,6 +18,7 @@ kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-16bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-linear-to-32bpp-linear-upscaling,Fail 
+ > +kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-16bpp-xtile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-xtile-to-32bpp-xtile-upscaling,Fail 
+ > @@ -26,19 +28,15 @@ kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
+ > +kms_frontbuffer_tracking@fbc-rgb565-draw-blt,Timeout 
+ >  kms_lease@lease-uevent,Fail 
+ > -kms_pm_rpm@legacy-planes,Timeout 
+ > -kms_pm_rpm@legacy-planes-dpms,Timeout 
+ >  kms_pm_rpm@modeset-stress-extra-wait,Timeout 
+ > -kms_pm_rpm@universal-planes,Timeout 
+ > -kms_pm_rpm@universal-planes-dpms,Timeout 
+ > +kms_rotation_crc@bad-pixel-format,Fail 
+ >  kms_rotation_crc@multiplane-rotation,Fail 
+ >  kms_rotation_crc@multiplane-rotation-cropping-bottom,Fail 
+ >  kms_rotation_crc@multiplane-rotation-cropping-top,Fail 
+ >  perf@i915-ref-count,Fail 
+ > -perf_pmu@busy-accuracy-50,Fail 
+ >  perf_pmu@module-unload,Fail 
+ > -perf_pmu@most-busy-idle-check-all,Fail 
+ >  perf_pmu@rc6,Crash 
+ >  sysfs_heartbeat_interval@long,Timeout 
+ >  sysfs_heartbeat_interval@off,Timeout 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt b/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt 
+ > index 5c3ef4486b9d..d2b6ffd177ef 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-jsl-flakes.txt 
+ > @@ -1,13 +1,6 @@ 
+ >  # Board Name: acer-cb317-1h-c3z6-dedede 
+ > -# Bug Report: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12475 
+ > +# Bug Report: 
+ >  # Failure Rate: 100 
+ > -# IGT Version: 1.28-ga73311079 
+ > -# Linux Version: 6.12.0-rc1 
+ > -kms_flip@flip-vs-panning-interruptible 
+ > - 
+ > -# Board Name: acer-cb317-1h-c3z6-dedede 
+ > -# Bug Report: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12476 
+ > -# Failure Rate: 100 
+ > -# IGT Version: 1.28-ga73311079 
+ > -# Linux Version: 6.12.0-rc1 
+ > -kms_universal_plane@cursor-fb-leak 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_flip@flip-vs-fences-interruptible 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt b/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt 
+ > index 6ec2f83ffe13..dc722d6a774e 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-kbl-skips.txt 
+ > @@ -37,3 +37,115 @@ tools_test.* 
+ >  # GPU hang 
+ >  sysfs_timeslice_.* 
+ >  sysfs_heartbeat_.* 
+ > + 
+ > +device_reset@unbind-reset-rebind 
+ > +# [IGT] device_reset: starting subtest unbind-reset-rebind 
+ > +# i915 0000:00:02.0: [drm] Found kabylake (device ID 5917) display version 9.00 stepping C0 
+ > +# i915 0000:00:02.0: vgaarb: deactivate vga console 
+ > +# i915 0000:00:02.0: [drm] *ERROR* DPLL0 not locked 
+ > +# ------------[ cut here ]------------ 
+ > +# i915 0000:00:02.0: [drm] drm_WARN_ON((val & (1 << 30)) == 0) 
+ > +# WARNING: CPU: 4 PID: 472 at drivers/gpu/drm/i915/display/intel_cdclk.c:944 skl_get_cdclk+0x1ca/0x360 
+ > +# Modules linked in: 
+ > +# CPU: 4 UID: 0 PID: 472 Comm: device_reset Not tainted 6.13.0-rc2-ge95c88d68ac3 #1 
+ > +# Hardware name: HP Nami/Nami, BIOS  09/19/2019 
+ > +# RIP: 0010:skl_get_cdclk+0x1ca/0x360 
+ > +# Code: 67 50 4d 85 e4 0f 84 89 01 00 00 e8 e0 16 13 00 48 c7 c1 a0 71 5f 9a 4c 89 e2 48 c7 c7 67 56 69 9a 48 89 c6 e8 67 a1 72 ff 90  0b 90 90 8b 43 08 8b 53 04 89 43 0c 89 03 85 d2 0f 85 26 ff ff 
+ > +# RSP: 0018:ffffacba40f5fbd0 EFLAGS: 00010282 
+ > +# RAX: 0000000000000000 RBX: ffff953182571058 RCX: 00000000ffffdfff 
+ > +# RDX: 0000000000000000 RSI: ffffacba40f5fa80 RDI: 0000000000000001 
+ > +# RBP: ffff953182570d68 R08: 0000000000009ffb R09: 00000000ffffdfff 
+ > +# R10: 00000000ffffdfff R11: ffffffff9a88c8a0 R12: ffff953180d3f4a0 
+ > +# R13: 0000000000000000 R14: ffff953182570d68 R15: 0000000000000000 
+ > +# FS:  00007f74989c46c0(0000) GS:ffff9534eed00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 00007f1df530eff8 CR3: 0000000102302002 CR4: 00000000003706f0 
+ > +# DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000 
+ > +# DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400 
+ > +# Call Trace: 
+ > +#   
+ > +#  intel_update_cdclk+0x1c/0x90 
+ > +#  intel_cdclk_init_hw+0x46e/0x4c0 
+ > +#  intel_power_domains_init_hw+0x3eb/0x770 
+ > +#  intel_display_driver_probe_noirq+0x85/0x230 
+ > +#  i915_driver_probe+0x66d/0xc60 
+ > +#  local_pci_probe+0x3a/0x90 
+ > +#  pci_device_probe+0xb5/0x180 
+ > +#  really_probe+0xc9/0x2b0 
+ > +#  __driver_probe_device+0x6e/0x110 
+ > +#  device_driver_attach+0x42/0xa0 
+ > +#  bind_store+0x71/0xc0 
+ > +#  kernfs_fop_write_iter+0x121/0x1c0 
+ > +#  vfs_write+0x2a8/0x530 
+ > +#  ksys_write+0x6f/0xf0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7f7499e662c0 
+ > +# Code: 40 00 48 8b 15 41 9b 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 80 3d 21 23 0e 00 00 74 17 b8 01 00 00 00 0f 05  3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 48 83 ec 28 48 89 
+ > +# RSP: 002b:00007ffffaf36a68 EFLAGS: 00000202 ORIG_RAX: 0000000000000001 
+ > +# RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f7499e662c0 
+ > +# RDX: 000000000000000c RSI: 00007ffffaf36b50 RDI: 0000000000000003 
+ > +# RBP: 000000000000000c R08: 0000000000000007 R09: 000055b37d0964a0 
+ > +# R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffffaf36b50 
+ > +# R13: 0000000000000003 R14: 000055b3526a7220 R15: 00007f749a0dc020 
+ > +#   
+ > +# irq event stamp: 28591 
+ > +# hardirqs last  enabled at (28625): [] __up_console_sem+0x4d/0x60 
+ > +# hardirqs last disabled at (28658): [] __up_console_sem+0x32/0x60 
+ > +# softirqs last  enabled at (28688): [] handle_softirqs+0x310/0x3f0 
+ > +# softirqs last disabled at (28701): [] __irq_exit_rcu+0xa1/0xc0 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# ------------[ cut here ]------------ 
+ > +# i915 0000:00:02.0: [drm] drm_WARN_ON((val & (1 << 30)) == 0) 
+ > +# WARNING: CPU: 1 PID: 472 at drivers/gpu/drm/i915/display/intel_cdclk.c:944 skl_get_cdclk+0x1ca/0x360 
+ > +# Modules linked in: 
+ > +# CPU: 1 UID: 0 PID: 472 Comm: device_reset Tainted: G        W          6.13.0-rc2-ge95c88d68ac3 #1 
+ > +# Tainted: [W]=WARN 
+ > +# Hardware name: HP Nami/Nami, BIOS  09/19/2019 
+ > +# RIP: 0010:skl_get_cdclk+0x1ca/0x360 
+ > +# Code: 67 50 4d 85 e4 0f 84 89 01 00 00 e8 e0 16 13 00 48 c7 c1 a0 71 5f 9a 4c 89 e2 48 c7 c7 67 56 69 9a 48 89 c6 e8 67 a1 72 ff 90  0b 90 90 8b 43 08 8b 53 04 89 43 0c 89 03 85 d2 0f 85 26 ff ff 
+ > +# RSP: 0018:ffffacba40f5fb98 EFLAGS: 00010286 
+ > +# RAX: 0000000000000000 RBX: ffffacba40f5fbbc RCX: 00000000ffffdfff 
+ > +# RDX: 0000000000000000 RSI: ffffacba40f5fa48 RDI: 0000000000000001 
+ > +# RBP: ffff953182570d68 R08: 0000000000009ffb R09: 00000000ffffdfff 
+ > +# R10: 00000000ffffdfff R11: ffffffff9a88c8a0 R12: ffff953180d3f4a0 
+ > +# R13: ffff953182573208 R14: ffff953182570d68 R15: 0000000000000000 
+ > +# FS:  00007f74989c46c0(0000) GS:ffff9534eec40000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 00007f2b6598ee00 CR3: 0000000102302001 CR4: 00000000003706f0 
+ > +# DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000 
+ > +# DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400 
+ > +# Call Trace: 
+ > +#   
+ > +#  gen9_disable_dc_states+0x86/0x300 
+ > +#  intel_power_well_enable+0x56/0x70 
+ > +#  __intel_display_power_get_domain.part.0+0x4d/0x70 
+ > +#  intel_power_domains_init_hw+0x95/0x770 
+ > +#  intel_display_driver_probe_noirq+0x85/0x230 
+ > +#  i915_driver_probe+0x66d/0xc60 
+ > +#  local_pci_probe+0x3a/0x90 
+ > +#  pci_device_probe+0xb5/0x180 
+ > +#  really_probe+0xc9/0x2b0 
+ > +#  __driver_probe_device+0x6e/0x110 
+ > +#  device_driver_attach+0x42/0xa0 
+ > +#  bind_store+0x71/0xc0 
+ > +#  kernfs_fop_write_iter+0x121/0x1c0 
+ > +#  vfs_write+0x2a8/0x530 
+ > +#  ksys_write+0x6f/0xf0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7f7499e662c0 
+ > +# Code: 40 00 48 8b 15 41 9b 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 80 3d 21 23 0e 00 00 74 17 b8 01 00 00 00 0f 05  3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 48 83 ec 28 48 89 
+ > +# RSP: 002b:00007ffffaf36a68 EFLAGS: 00000202 ORIG_RAX: 0000000000000001 
+ > +# RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f7499e662c0 
+ > +# RDX: 000000000000000c RSI: 00007ffffaf36b50 RDI: 0000000000000003 
+ > +# RBP: 000000000000000c R08: 0000000000000007 R09: 000055b37d0964a0 
+ > +# R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffffaf36b50 
+ > +# R13: 0000000000000003 R14: 000055b3526a7220 R15: 00007f749a0dc020 
+ > +#   
+ > +# irq event stamp: 29605 
+ > +# hardirqs last  enabled at (29617): [] __up_console_sem+0x4d/0x60 
+ > +# hardirqs last disabled at (29634): [] __up_console_sem+0x32/0x60 
+ > +# softirqs last  enabled at (29630): [] handle_softirqs+0x310/0x3f0 
+ > +# softirqs last disabled at (29625): [] __irq_exit_rcu+0xa1/0xc0 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt 
+ > index 461ef69ef08a..831eea87caed 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-tgl-fails.txt 
+ > @@ -1,64 +1,13 @@ 
+ > -api_intel_allocator@fork-simple-stress-signal,Timeout 
+ > -api_intel_allocator@open-vm,Timeout 
+ > -api_intel_allocator@simple-allocator,Timeout 
+ > -api_intel_bb@lot-of-buffers,Timeout 
+ > -api_intel_bb@object-reloc-keep-cache,Timeout 
+ > -api_intel_bb@offset-control,Timeout 
+ > -api_intel_bb@render-ccs,Timeout 
+ > -api_intel_bb@reset-bb,Timeout 
+ > -core_auth@basic-auth,Timeout 
+ > -core_hotunplug@hotrebind,Timeout 
+ > -core_setmaster@master-drop-set-user,Fail 
+ > -debugfs_test@read_all_entries_display_on,Timeout 
+ > -drm_read@empty-block,Timeout 
+ > -dumb_buffer@create-clear,Timeout 
+ > -dumb_buffer@invalid-bpp,Timeout 
+ > -gen3_render_tiledx_blits,Timeout 
+ > -gen7_exec_parse@basic-allocation,Timeout 
+ > -gen9_exec_parse@batch-invalid-length,Timeout 
+ > -gen9_exec_parse@bb-secure,Timeout 
+ > -gen9_exec_parse@secure-batches,Timeout 
+ > -gen9_exec_parse@shadow-peek,Timeout 
+ > -gen9_exec_parse@unaligned-jump,Timeout 
+ > -i915_getparams_basic@basic-subslice-total,Timeout 
+ > -i915_hangman@gt-engine-hang,Timeout 
+ > +drm_read@short-buffer-block,Timeout 
+ >  i915_module_load@load,Fail 
+ >  i915_module_load@reload,Fail 
+ >  i915_module_load@reload-no-display,Fail 
+ >  i915_module_load@resize-bar,Fail 
+ > -i915_pciid,Timeout 
+ > -i915_pipe_stress@stress-xrgb8888-ytiled,Timeout 
+ > -i915_pm_rpm@gem-execbuf-stress,Timeout 
+ > -i915_pm_rps@engine-order,Timeout 
+ > -i915_pm_rps@thresholds-idle-park,Timeout 
+ > -i915_query@engine-info,Timeout 
+ > -i915_query@query-topology-kernel-writes,Timeout 
+ > -i915_query@test-query-geometry-subslices,Timeout 
+ >  kms_lease@lease-uevent,Fail 
+ >  kms_rotation_crc@multiplane-rotation,Fail 
+ >  perf@i915-ref-count,Fail 
+ > -perf_pmu@busy,Timeout 
+ > -perf_pmu@enable-race,Timeout 
+ > -perf_pmu@event-wait,Timeout 
+ > -perf_pmu@faulting-read,Timeout 
+ > -perf_pmu@gt-awake,Timeout 
+ > -perf_pmu@interrupts,Timeout 
+ >  perf_pmu@module-unload,Fail 
+ > -perf_pmu@most-busy-idle-check-all,Timeout 
+ >  perf_pmu@rc6,Crash 
+ > -perf_pmu@render-node-busy-idle,Fail 
+ > -perf_pmu@semaphore-wait-idle,Timeout 
+ > -prime_busy@after,Timeout 
+ > -prime_mmap@test_aperture_limit,Timeout 
+ > -prime_mmap@test_map_unmap,Timeout 
+ > -prime_mmap@test_refcounting,Timeout 
+ > -prime_self_import@basic-with_one_bo,Timeout 
+ > -sriov_basic@enable-vfs-autoprobe-off,Timeout 
+ > -syncobj_basic@bad-destroy,Timeout 
+ > -syncobj_basic@bad-flags-fd-to-handle,Timeout 
+ > -syncobj_basic@create-signaled,Timeout 
+ > -syncobj_eventfd@invalid-bad-pad,Timeout 
+ > -syncobj_eventfd@timeline-wait-before-signal,Timeout 
+ >  syncobj_wait@invalid-multi-wait-unsubmitted-signaled,Timeout 
+ >  syncobj_wait@invalid-signal-illegal-handle,Timeout 
+ >  syncobj_wait@invalid-single-wait-all-unsubmitted,Timeout 
+ > @@ -66,7 +15,6 @@ syncobj_wait@multi-wait-all-submitted,Timeout 
+ >  syncobj_wait@multi-wait-for-submit-submitted-signaled,Timeout 
+ >  syncobj_wait@wait-any-complex,Timeout 
+ >  syncobj_wait@wait-delayed-signal,Timeout 
+ > -template@A,Timeout 
+ >  xe_module_load@force-load,Fail 
+ >  xe_module_load@load,Fail 
+ >  xe_module_load@many-reload,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt b/drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt 
+ > new file mode 100644 
+ > index 000000000000..edee6679e71c 
+ > --- /dev/null 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-tgl-flakes.txt 
+ > @@ -0,0 +1,6 @@ 
+ > +# Board Name: acer-cp514-2h-1130g7-volteer 
+ > +# Bug Report: 
+ > +# Failure Rate: 50 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +core_hotunplug@unplug-rescan 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-whl-fails.txt b/drivers/gpu/drm/ci/xfails/i915-whl-fails.txt 
+ > index 0ce240e3aa07..1cb6978c86dc 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-whl-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-whl-fails.txt 
+ > @@ -1,5 +1,4 @@ 
+ >  core_setmaster@master-drop-set-shared-fd,Fail 
+ > -core_setmaster@master-drop-set-user,Fail 
+ >  i915_module_load@load,Fail 
+ >  i915_module_load@reload,Fail 
+ >  i915_module_load@reload-no-display,Fail 
+ > @@ -7,12 +6,10 @@ i915_module_load@resize-bar,Fail 
+ >  i915_pm_rpm@gem-execbuf-stress,Timeout 
+ >  i915_pm_rpm@module-reload,Fail 
+ >  i915_pm_rpm@system-suspend-execbuf,Timeout 
+ > -i915_pm_rps@engine-order,Fail 
+ > -kms_big_fb@linear-16bpp-rotate-180,Timeout 
+ > -kms_cursor_legacy@short-flip-before-cursor-atomic-transitions,Timeout 
+ > +kms_async_flips@test-time-stamp,Timeout 
+ > +kms_ccs@crc-sprite-planes-basic-y-tiled-ccs,Timeout 
+ >  kms_dirtyfb@default-dirtyfb-ioctl,Fail 
+ >  kms_dirtyfb@fbc-dirtyfb-ioctl,Fail 
+ > -kms_fb_coherency@memset-crc,Crash 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-downscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-linear-to-64bpp-linear-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-32bpp-xtile-to-64bpp-xtile-downscaling,Fail 
+ > @@ -34,18 +31,12 @@ kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytile-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilegen12rcccs-upscaling,Fail 
+ >  kms_flip_scaled_crc@flip-64bpp-ytile-to-32bpp-ytilercccs-downscaling,Fail 
+ >  kms_frontbuffer_tracking@fbc-tiling-linear,Fail 
+ > -kms_frontbuffer_tracking@fbc-1p-indfb-fliptrack-mmap-gtt,Timeout 
+ >  kms_lease@lease-uevent,Fail 
+ > +kms_lease@page-flip-implicit-plane,Timeout 
+ >  kms_plane_alpha_blend@alpha-basic,Fail 
+ >  kms_plane_alpha_blend@alpha-opaque-fb,Fail 
+ >  kms_plane_alpha_blend@alpha-transparent-fb,Fail 
+ >  kms_plane_alpha_blend@constant-alpha-max,Fail 
+ > -kms_plane_scaling@planes-upscale-factor-0-25-downscale-factor-0-5,Timeout 
+ > -kms_pm_rpm@modeset-stress-extra-wait,Timeout 
+ > -kms_pm_rpm@universal-planes,Timeout 
+ > -kms_pm_rpm@universal-planes-dpms,Timeout 
+ > -kms_rotation_crc@primary-rotation-180,Timeout 
+ > -kms_vblank@query-forked-hang,Timeout 
+ >  perf@i915-ref-count,Fail 
+ >  perf_pmu@module-unload,Fail 
+ >  perf_pmu@rc6,Crash 
+ > diff --git a/drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt b/drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt 
+ > index 60b8d1c64e70..e4b2740559a7 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/i915-whl-flakes.txt 
+ > @@ -4,3 +4,10 @@ 
+ >  # IGT Version: 1.28-g0df7b9b97 
+ >  # Linux Version: 6.9.0-rc7 
+ >  kms_pm_rpm@modeset-lpsp-stress 
+ > + 
+ > +# Board Name: dell-latitude-5400-8665U-sarien 
+ > +# Bug Report: 
+ > +# Failure Rate: 100 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +gen9_exec_parse@unaligned-access 
+ > diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt 
+ > index 8e0efc80d510..3a7f94f0eb8c 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8173-fails.txt 
+ > @@ -1,5 +1,3 @@ 
+ > -fbdev@eof,Fail 
+ > -fbdev@read,Fail 
+ >  kms_3d,Fail 
+ >  kms_bw@connected-linear-tiling-1-displays-1920x1080p,Fail 
+ >  kms_bw@connected-linear-tiling-1-displays-2160x1440p,Fail 
+ > @@ -20,8 +18,10 @@ kms_bw@linear-tiling-2-displays-3840x2160p,Fail 
+ >  kms_color@invalid-gamma-lut-sizes,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-atomic,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-legacy,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ > -kms_lease@lease-uevent,Fail 
+ > -kms_rmfb@close-fd,Fail 
+ > +kms_flip@flip-vs-suspend,Fail 
+ >  kms_flip@flip-vs-suspend-interruptible,Fail 
+ > +kms_lease@lease-uevent,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt 
+ > index 845f852bb4a0..ca367f66e636 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/mediatek-mt8183-fails.txt 
+ > @@ -1,16 +1,13 @@ 
+ > -core_setmaster@master-drop-set-shared-fd,Fail 
+ > +core_setmaster@master-drop-set-user,Fail 
+ >  dumb_buffer@create-clear,Crash 
+ > -fbdev@eof,Fail 
+ > -fbdev@pan,Fail 
+ > -fbdev@read,Fail 
+ > -fbdev@unaligned-read,Fail 
+ >  kms_bw@connected-linear-tiling-1-displays-1920x1080p,Fail 
+ > -kms_bw@connected-linear-tiling-1-displays-2160x1440p,Fail 
+ >  kms_bw@connected-linear-tiling-1-displays-2560x1440p,Fail 
+ > +kms_bw@connected-linear-tiling-1-displays-3840x2160p,Fail 
+ >  kms_bw@linear-tiling-1-displays-1920x1080p,Fail 
+ > +kms_bw@linear-tiling-1-displays-2160x1440p,Fail 
+ >  kms_bw@linear-tiling-1-displays-3840x2160p,Fail 
+ > -kms_color@invalid-gamma-lut-sizes,Fail 
+ > +kms_cursor_legacy@cursor-vs-flip-atomic,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ >  kms_flip@flip-vs-suspend,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > -kms_rmfb@close-fd,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt 
+ > index 066d24ee3e08..7752adff05c1 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt 
+ > @@ -1,4 +1,7 @@ 
+ >  kms_3d,Fail 
+ > +kms_cursor_legacy@forked-bo,Fail 
+ > +kms_cursor_legacy@forked-move,Fail 
+ > +kms_cursor_legacy@single-bo,Fail 
+ >  kms_cursor_legacy@torture-bo,Fail 
+ >  kms_force_connector_basic@force-edid,Fail 
+ >  kms_hdmi_inject@inject-4k,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt 
+ > index 6dbc2080347d..581d0aa33b4f 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt 
+ > @@ -8,6 +8,8 @@ kms_color@ctm-red-to-blue,Fail 
+ >  kms_color@ctm-signed,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-toggle,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-varying-size,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > @@ -15,4 +17,3 @@ kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail 
+ >  kms_plane_alpha_blend@alpha-7efc,Fail 
+ >  kms_plane_alpha_blend@coverage-7efc,Fail 
+ >  kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail 
+ > -kms_rmfb@close-fd,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt 
+ > index d74e04405e65..5122233b9941 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt 
+ > @@ -18,3 +18,10 @@ msm/msm_shrink@copy-gpu-oom-32 
+ >  # IGT Version: 1.28-g0df7b9b97 
+ >  # Linux Version: 6.9.0-rc7 
+ >  msm/msm_shrink@copy-gpu-oom-8 
+ > + 
+ > +# Board Name: sc7180-trogdor-kingoftown 
+ > +# Bug Report: 
+ > +# Failure Rate: 50 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_lease@page-flip-implicit-plane 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt 
+ > index 6dbc2080347d..581d0aa33b4f 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt 
+ > @@ -8,6 +8,8 @@ kms_color@ctm-red-to-blue,Fail 
+ >  kms_color@ctm-signed,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-toggle,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-varying-size,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > @@ -15,4 +17,3 @@ kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail 
+ >  kms_plane_alpha_blend@alpha-7efc,Fail 
+ >  kms_plane_alpha_blend@coverage-7efc,Fail 
+ >  kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail 
+ > -kms_rmfb@close-fd,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt 
+ > index fa8c7e663858..69076751af24 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt 
+ > @@ -1,4 +1,3 @@ 
+ > -drm_read@invalid-buffer,Fail 
+ >  kms_color@ctm-0-25,Fail 
+ >  kms_color@ctm-0-50,Fail 
+ >  kms_color@ctm-0-75,Fail 
+ > @@ -19,6 +18,8 @@ kms_cursor_legacy@flip-vs-cursor-atomic,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-legacy,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > @@ -28,4 +29,3 @@ kms_plane_alpha_blend@coverage-7efc,Fail 
+ >  kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail 
+ >  kms_plane_cursor@overlay,Fail 
+ >  kms_plane_cursor@viewport,Fail 
+ > -kms_rmfb@close-fd,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt 
+ > index 4892c0c70a6d..8d26b23133aa 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt 
+ > @@ -7,9 +7,4 @@ kms_cursor_legacy@torture-bo,Fail 
+ >  kms_cursor_legacy@torture-move,Fail 
+ >  kms_hdmi_inject@inject-4k,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > -kms_plane_alpha_blend@alpha-7efc,Fail 
+ > -kms_plane_alpha_blend@alpha-basic,Fail 
+ > -kms_plane_alpha_blend@alpha-opaque-fb,Fail 
+ > -kms_plane_alpha_blend@alpha-transparent-fb,Fail 
+ > -kms_plane_alpha_blend@constant-alpha-max,Fail 
+ >  msm/msm_recovery@gpu-fault-parallel,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt 
+ > deleted file mode 100644 
+ > index c1859d9b165f..000000000000 
+ > --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt 
+ > +++ /dev/null 
+ > @@ -1,6 +0,0 @@ 
+ > -# Board Name: sm8350-hdk 
+ > -# Bug Report: https://gitlab.freedesktop.org/drm/msm/-/issues/65 
+ > -# Failure Rate: 100 
+ > -# IGT Version: 1.28-ga73311079 
+ > -# Linux Version: 6.12.0-rc1 
+ > -msm/msm_recovery@gpu-fault 
+ > diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt 
+ > index 90282dfa19f4..ba9160d4d8eb 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3288-fails.txt 
+ > @@ -1,24 +1,10 @@ 
+ > +core_setmaster@master-drop-set-root,Crash 
+ > +core_setmaster@master-drop-set-shared-fd,Crash 
+ >  core_setmaster@master-drop-set-user,Crash 
+ > +core_setmaster_vs_auth,Crash 
+ >  dumb_buffer@create-clear,Crash 
+ >  fbdev@pan,Crash 
+ > -kms_bw@linear-tiling-2-displays-1920x1080p,Fail 
+ > -kms_cursor_crc@cursor-onscreen-32x10,Crash 
+ > -kms_cursor_crc@cursor-onscreen-32x32,Crash 
+ > -kms_cursor_crc@cursor-onscreen-64x64,Crash 
+ > -kms_cursor_crc@cursor-random-32x10,Crash 
+ > -kms_cursor_crc@cursor-sliding-32x10,Crash 
+ > -kms_cursor_crc@cursor-sliding-32x32,Crash 
+ > -kms_cursor_crc@cursor-sliding-64x21,Crash 
+ > -kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail 
+ > -kms_cursor_legacy@cursor-vs-flip-legacy,Fail 
+ > -kms_cursor_legacy@flip-vs-cursor-crc-atomic,Crash 
+ > -kms_flip@flip-vs-panning-vs-hang,Crash 
+ > -kms_invalid_mode@int-max-clock,Crash 
+ > -kms_lease@invalid-create-leases,Fail 
+ > -kms_pipe_crc_basic@read-crc-frame-sequence,Crash 
+ > -kms_plane@pixel-format,Crash 
+ > -kms_plane@pixel-format-source-clamping,Crash 
+ > +kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail 
+ > +kms_flip@flip-vs-modeset-vs-hang,Crash 
+ >  kms_prop_blob@invalid-set-prop,Crash 
+ > -kms_properties@get_properties-sanity-atomic,Crash 
+ > -kms_properties@get_properties-sanity-non-atomic,Crash 
+ > -kms_rmfb@close-fd,Crash 
+ > +kms_prop_blob@invalid-set-prop-any,Crash 
+ > diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt 
+ > index 83a38853b4af..e38dd0867d26 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-fails.txt 
+ > @@ -2,6 +2,7 @@ dumb_buffer@create-clear,Crash 
+ >  kms_atomic_transition@modeset-transition,Fail 
+ >  kms_atomic_transition@modeset-transition-fencing,Fail 
+ >  kms_atomic_transition@plane-toggle-modeset-transition,Fail 
+ > +kms_bw@connected-linear-tiling-1-displays-2160x1440p,Fail 
+ >  kms_color@gamma,Fail 
+ >  kms_color@legacy-gamma,Fail 
+ >  kms_cursor_crc@cursor-alpha-opaque,Fail 
+ > @@ -24,6 +25,7 @@ kms_cursor_crc@cursor-rapid-movement-32x32,Fail 
+ >  kms_cursor_crc@cursor-rapid-movement-64x21,Fail 
+ >  kms_cursor_crc@cursor-rapid-movement-64x64,Fail 
+ >  kms_cursor_crc@cursor-size-change,Fail 
+ > +kms_cursor_crc@cursor-size-hints,Fail 
+ >  kms_cursor_crc@cursor-sliding-32x10,Fail 
+ >  kms_cursor_crc@cursor-sliding-32x32,Fail 
+ >  kms_cursor_crc@cursor-sliding-64x21,Fail 
+ > @@ -32,6 +34,7 @@ kms_cursor_edge_walk@64x64-left-edge,Fail 
+ >  kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail 
+ >  kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-atomic,Fail 
+ > +kms_cursor_legacy@cursor-vs-flip-atomic-transitions,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-legacy,Fail 
+ >  kms_cursor_legacy@cursor-vs-flip-toggle,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-atomic,Fail 
+ > @@ -39,10 +42,10 @@ kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-legacy,Fail 
+ >  kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@basic-flip-vs-wf_vblank,Fail 
+ >  kms_flip@blocking-wf_vblank,Fail 
+ > -kms_flip@flip-vs-absolute-wf_vblank,Fail 
+ > -kms_flip@flip-vs-blocking-wf-vblank,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning,Fail 
+ >  kms_flip@flip-vs-panning-interruptible,Fail 
+ > @@ -64,14 +67,11 @@ kms_pipe_crc_basic@nonblocking-crc,Fail 
+ >  kms_pipe_crc_basic@nonblocking-crc-frame-sequence,Fail 
+ >  kms_pipe_crc_basic@read-crc,Fail 
+ >  kms_pipe_crc_basic@read-crc-frame-sequence,Fail 
+ > -kms_plane@pixel-format,Crash 
+ > -kms_plane@pixel-format-source-clamping,Crash 
+ > +kms_plane@pixel-format,Fail 
+ > +kms_plane@pixel-format-source-clamping,Fail 
+ >  kms_plane@plane-panning-bottom-right,Fail 
+ >  kms_plane@plane-panning-top-left,Fail 
+ >  kms_plane@plane-position-covered,Fail 
+ >  kms_plane@plane-position-hole,Fail 
+ > -kms_plane@plane-position-hole-dpms,Fail 
+ >  kms_plane_cursor@primary,Fail 
+ > -kms_plane_multiple@tiling-none,Fail 
+ > -kms_rmfb@close-fd,Fail 
+ >  kms_universal_plane@universal-plane-functional,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt 
+ > index 56f7d4f1ed15..8f4d57e2e4e7 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/rockchip-rk3399-flakes.txt 
+ > @@ -74,3 +74,45 @@ kms_bw@linear-tiling-2-displays-2160x1440p 
+ >  # IGT Version: 1.28-ga73311079 
+ >  # Linux Version: 6.11.0-rc5 
+ >  kms_flip@flip-vs-expired-vblank 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 100 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_bw@linear-tiling-1-displays-2160x1440p 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 100 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_plane_multiple@tiling-none 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 100 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_bw@linear-tiling-1-displays-1920x1080p 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 50 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_plane@plane-position-hole-dpms 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 50 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_flip@flip-vs-absolute-wf_vblank 
+ > + 
+ > +# Board Name: hp-11A-G6-EE-grunt 
+ > +# Bug Report: 
+ > +# Failure Rate: 50 
+ > +# IGT Version: 1.29-g33adea9eb 
+ > +# Linux Version: 6.13.0-rc2 
+ > +kms_flip@flip-vs-blocking-wf-vblank 
+ > diff --git a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt 
+ > index c72fee70e739..48f1a804d782 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/virtio_gpu-none-fails.txt 
+ > @@ -131,6 +131,8 @@ kms_bw@linear-tiling-9-displays-1920x1080p,Fail 
+ >  kms_bw@linear-tiling-9-displays-2160x1440p,Fail 
+ >  kms_bw@linear-tiling-9-displays-2560x1440p,Fail 
+ >  kms_bw@linear-tiling-9-displays-3840x2160p,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@absolute-wf_vblank,Fail 
+ >  kms_flip@absolute-wf_vblank-interruptible,Fail 
+ >  kms_flip@basic-flip-vs-wf_vblank,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt b/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt 
+ > index 71c02104a683..231ebbc4ba11 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/vkms-none-fails.txt 
+ > @@ -1,12 +1,5 @@ 
+ > -kms_cursor_crc@cursor-rapid-movement-128x128,Fail 
+ > -kms_cursor_crc@cursor-rapid-movement-128x42,Fail 
+ > -kms_cursor_crc@cursor-rapid-movement-256x256,Fail 
+ >  kms_cursor_crc@cursor-rapid-movement-256x85,Fail 
+ >  kms_cursor_crc@cursor-rapid-movement-32x10,Fail 
+ > -kms_cursor_crc@cursor-rapid-movement-32x32,Fail 
+ > -kms_cursor_crc@cursor-rapid-movement-512x170,Fail 
+ > -kms_cursor_crc@cursor-rapid-movement-512x512,Fail 
+ > -kms_cursor_crc@cursor-rapid-movement-64x21,Fail 
+ >  kms_cursor_crc@cursor-rapid-movement-64x64,Fail 
+ >  kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail 
+ >  kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail 
+ > @@ -18,10 +11,11 @@ kms_cursor_legacy@flip-vs-cursor-atomic,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail 
+ >  kms_cursor_legacy@flip-vs-cursor-legacy,Fail 
+ > +kms_display_modes@extended-mode-basic,Fail 
+ > +kms_display_modes@mst-extended-mode-negative,Fail 
+ >  kms_flip@flip-vs-modeset-vs-hang,Fail 
+ >  kms_flip@flip-vs-panning-vs-hang,Fail 
+ >  kms_lease@lease-uevent,Fail 
+ > -kms_pipe_crc_basic@nonblocking-crc,Fail 
+ >  kms_writeback@writeback-check-output,Fail 
+ >  kms_writeback@writeback-check-output-XRGB2101010,Fail 
+ >  kms_writeback@writeback-fb-id,Fail 
+ > diff --git a/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt b/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt 
+ > index b3d16e82e9a2..5bfd5b1dab0d 100644 
+ > --- a/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt 
+ > +++ b/drivers/gpu/drm/ci/xfails/vkms-none-skips.txt 
+ > @@ -258,6 +258,220 @@ kms_cursor_edge_walk@128x128-left-edge 
+ >  # CR2: 0000000000000018 CR3: 0000000101710000 CR4: 0000000000350ef0 
+ >  # vkms_vblank_simulate: vblank timer overrun 
+ >  
+ > +kms_cursor_crc@cursor-rapid-movement-64x64 
+ > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-64x64 
+ > +# ------------[ cut here ]------------ 
+ > +# WARNING: CPU: 1 PID: 1250 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +# Modules linked in: vkms 
+ > +# CPU: 1 UID: 0 PID: 1250 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-ge95c88d68ac3 #1 
+ > +# Hardware name: ChromiumOS crosvm, BIOS 0 
+ > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +# Code: f7 48 89 f3 e8 d0 bf ee ec 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 95 ec 48 89 df 5b e9 50 05 95 ec 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 
+ > +# RSP: 0018:ffff9fb640aafb08 EFLAGS: 00010202 
+ > +# RAX: ffff8e7240859e05 RBX: ffff8e7241cd6400 RCX: ffffffffae496b65 
+ > +# RDX: ffffffffad2d1f80 RSI: 0000000000000000 RDI: 0000000000000000 
+ > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002 
+ > +# R10: 0000000047dd15a5 R11: 00000000547dd15a R12: ffff8e72590cc000 
+ > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000 
+ > +# FS:  00007f0942ad56c0(0000) GS:ffff8e726bd00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 00007f0942ad0008 CR3: 0000000118d1e000 CR4: 0000000000350ef0 
+ > +# Call Trace: 
+ > +#   
+ > +#  ? __warn+0x8c/0x190 
+ > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +#  ? report_bug+0x164/0x190 
+ > +#  ? handle_bug+0x54/0x90 
+ > +#  ? exc_invalid_op+0x17/0x70 
+ > +#  ? asm_exc_invalid_op+0x1a/0x20 
+ > +#  ? __pfx_drm_property_free_blob+0x10/0x10 
+ > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms] 
+ > +#  drm_atomic_state_default_clear+0x137/0x2f0 
+ > +#  __drm_atomic_state_free+0x6c/0xb0 
+ > +#  drm_atomic_helper_update_plane+0x100/0x150 
+ > +#  drm_mode_cursor_universal+0x10e/0x270 
+ > +#  drm_mode_cursor_common+0x115/0x240 
+ > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10 
+ > +#  drm_mode_cursor_ioctl+0x4a/0x70 
+ > +#  drm_ioctl_kernel+0xb0/0x110 
+ > +#  drm_ioctl+0x235/0x4b0 
+ > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10 
+ > +#  __x64_sys_ioctl+0x92/0xc0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7f0943a84cdb 
+ > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00 
+ > +# RSP: 002b:00007fff267d68d0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010 
+ > +# RAX: ffffffffffffffda RBX: 000000000000005a RCX: 00007f0943a84cdb 
+ > +# RDX: 00007fff267d6960 RSI: 00000000c01c64a3 RDI: 0000000000000005 
+ > +# RBP: 00007fff267d6960 R08: 0000000000000007 R09: 00005619a60f3450 
+ > +# R10: fe95a83851609dee R11: 0000000000000246 R12: 00000000c01c64a3 
+ > +# R13: 0000000000000005 R14: 00005619a3cd2c68 R15: 00005619a608c830 
+ > +#   
+ > +# irq event stamp: 57793 
+ > +# hardirqs last  enabled at (57799): [] __up_console_sem+0x4d/0x60 
+ > +# hardirqs last disabled at (57804): [] __up_console_sem+0x32/0x60 
+ > +# softirqs last  enabled at (45586): [] handle_softirqs+0x310/0x3f0 
+ > +# softirqs last disabled at (45569): [] __irq_exit_rcu+0xa1/0xc0 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI 
+ > +# CPU: 0 UID: 0 PID: 119 Comm: kworker/u8:6 Tainted: G        W          6.13.0-rc2-ge95c88d68ac3 #1 
+ > +# Tainted: [W]=WARN 
+ > +# Hardware name: ChromiumOS crosvm, BIOS 0 
+ > +# Workqueue: vkms_composer vkms_composer_worker [vkms] 
+ > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms] 
+ > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00 
+ > +# RSP: 0018:ffff9fb640efbd20 EFLAGS: 00010202 
+ > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002 
+ > +# RDX: ffff8e7241926000 RSI: ffff8e7241927ffc RDI: 000000000b7fb767 
+ > +# RBP: ffff9fb640efbde0 R08: 0000000000000000 R09: 0000000000000000 
+ > +# R10: ffff8e7241b09a80 R11: 0000000000000000 R12: ffff8e7241cd6200 
+ > +# R13: 0000000000000013 R14: 0000000000000000 R15: ffff8e7241b09a80 
+ > +# FS:  0000000000000000(0000) GS:ffff8e726bc00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 000000000000001c CR3: 0000000118d1e000 CR4: 0000000000350ef0 
+ > +# Call Trace: 
+ > +#   
+ > +#  ? __die+0x1e/0x60 
+ > +#  ? page_fault_oops+0x17b/0x4a0 
+ > +#  ? srso_return_thunk+0x5/0x5f 
+ > +#  ? exc_page_fault+0x6d/0x230 
+ > +#  ? asm_exc_page_fault+0x26/0x30 
+ > +#  ? compose_active_planes+0x1a3/0x760 [vkms] 
+ > +#  vkms_composer_worker+0x205/0x240 [vkms] 
+ > +#  process_one_work+0x201/0x6c0 
+ > +#  ? lock_is_held_type+0x9e/0x110 
+ > +#  worker_thread+0x17e/0x320 
+ > +#  ? __pfx_worker_thread+0x10/0x10 
+ > +#  kthread+0xce/0x100 
+ > +#  ? __pfx_kthread+0x10/0x10 
+ > +#  ret_from_fork+0x2f/0x50 
+ > +#  ? __pfx_kthread+0x10/0x10 
+ > +#  ret_from_fork_asm+0x1a/0x30 
+ > +#   
+ > +# Modules linked in: vkms 
+ > +# CR2: 000000000000001c 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms] 
+ > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00 
+ > +# RSP: 0018:ffff9fb640efbd20 EFLAGS: 00010202 
+ > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002 
+ > +# RDX: ffff8e7241926000 RSI: ffff8e7241927ffc RDI: 000000000b7fb767 
+ > +# RBP: ffff9fb640efbde0 R08: 0000000000000000 R09: 0000000000000000 
+ > +# R10: ffff8e7241b09a80 R11: 0000000000000000 R12: ffff8e7241cd6200 
+ > +# R13: 0000000000000013 R14: 0000000000000000 R15: ffff8e7241b09a80 
+ > +# FS:  0000000000000000(0000) GS:ffff8e726bc00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 000000000000001c CR3: 0000000118d1e000 CR4: 0000000000350ef0 
+ > + 
+ > +kms_cursor_crc@cursor-rapid-movement-128x42 
+ > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-128x42 
+ > +# ------------[ cut here ]------------ 
+ > +# WARNING: CPU: 0 PID: 2933 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +# Modules linked in: vkms 
+ > +# CPU: 0 UID: 0 PID: 2933 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-g5219242748c8 #1 
+ > +# Hardware name: ChromiumOS crosvm, BIOS 0 
+ > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +# Code: f7 48 89 f3 e8 d0 bf 6e d0 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 15 d0 48 89 df 5b e9 50 05 15 d0 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 
+ > +# RSP: 0018:ffffa14cc08b3b08 EFLAGS: 00010202 
+ > +# RAX: ffff9b864084b605 RBX: ffff9b8641ba4600 RCX: ffffffff91c96b65 
+ > +# RDX: ffffffff90ad1f80 RSI: 0000000000000000 RDI: 0000000000000000 
+ > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002 
+ > +# R10: 0000000047dd15a5 R11: 00000000547dd15a R12: ffff9b864099c000 
+ > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000 
+ > +# FS:  00007f4f437ab6c0(0000) GS:ffff9b866bc00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 00007f4f44c3cd40 CR3: 0000000108c14000 CR4: 0000000000350ef0 
+ > +# Call Trace: 
+ > +#   
+ > +#  ? __warn+0x8c/0x190 
+ > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +#  ? report_bug+0x164/0x190 
+ > +#  ? handle_bug+0x54/0x90 
+ > +#  ? exc_invalid_op+0x17/0x70 
+ > +#  ? asm_exc_invalid_op+0x1a/0x20 
+ > +#  ? __pfx_drm_property_free_blob+0x10/0x10 
+ > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms] 
+ > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms] 
+ > +#  drm_atomic_state_default_clear+0x137/0x2f0 
+ > +#  __drm_atomic_state_free+0x6c/0xb0 
+ > +#  drm_atomic_helper_update_plane+0x100/0x150 
+ > +#  drm_mode_cursor_universal+0x10e/0x270 
+ > +#  drm_mode_cursor_common+0x115/0x240 
+ > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10 
+ > +#  drm_mode_cursor_ioctl+0x4a/0x70 
+ > +#  drm_ioctl_kernel+0xb0/0x110 
+ > +#  drm_ioctl+0x235/0x4b0 
+ > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10 
+ > +#  __x64_sys_ioctl+0x92/0xc0 
+ > +#  do_syscall_64+0xbb/0x1d0 
+ > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f 
+ > +# RIP: 0033:0x7f4f44960c5b 
+ > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00 
+ > +# RSP: 002b:00007ffcdfb0b560 EFLAGS: 00000246 ORIG_RAX: 0000000000000010 
+ > +# RAX: ffffffffffffffda RBX: 0000000000000060 RCX: 00007f4f44960c5b 
+ > +# RDX: 00007ffcdfb0b5f0 RSI: 00000000c01c64a3 RDI: 0000000000000005 
+ > +# RBP: 00007ffcdfb0b5f0 R08: 0000000000000007 R09: 000055c3a5801a30 
+ > +# R10: 3107764f00e1f281 R11: 0000000000000246 R12: 00000000c01c64a3 
+ > +# R13: 0000000000000005 R14: 000055c38b7e42c8 R15: 000055c3a579aab0 
+ > +#   
+ > +# irq event stamp: 58747 
+ > +# hardirqs last  enabled at (58753): [] __up_console_sem+0x4d/0x60 
+ > +# hardirqs last disabled at (58758): [] __up_console_sem+0x32/0x60 
+ > +# softirqs last  enabled at (47324): [] handle_softirqs+0x310/0x3f0 
+ > +# softirqs last disabled at (47307): [] __irq_exit_rcu+0xa1/0xc0 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI 
+ > +# CPU: 1 UID: 0 PID: 11 Comm: kworker/u8:0 Tainted: G        W          6.13.0-rc2-g5219242748c8 #1 
+ > +# Tainted: [W]=WARN 
+ > +# Hardware name: ChromiumOS crosvm, BIOS 0 
+ > +# Workqueue: vkms_composer vkms_composer_worker [vkms] 
+ > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms] 
+ > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00 
+ > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202 
+ > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002 
+ > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39 
+ > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000 
+ > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800 
+ > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0 
+ > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0 
+ > +# Call Trace: 
+ > +#   
+ > +#  ? __die+0x1e/0x60 
+ > +#  ? page_fault_oops+0x17b/0x4a0 
+ > +#  ? __kvmalloc_node_noprof+0x3e/0xc0 
+ > +#  ? exc_page_fault+0x6d/0x230 
+ > +#  ? asm_exc_page_fault+0x26/0x30 
+ > +#  ? compose_active_planes+0x1a3/0x760 [vkms] 
+ > +#  vkms_composer_worker+0x205/0x240 [vkms] 
+ > +#  process_one_work+0x201/0x6c0 
+ > +#  ? lock_is_held_type+0x9e/0x110 
+ > +#  worker_thread+0x17e/0x320 
+ > +#  ? __pfx_worker_thread+0x10/0x10 
+ > +#  kthread+0xce/0x100 
+ > +#  ? __pfx_kthread+0x10/0x10 
+ > +#  ret_from_fork+0x2f/0x50 
+ > +#  ? __pfx_kthread+0x10/0x10 
+ > +#  ret_from_fork_asm+0x1a/0x30 
+ > +#   
+ > +# Modules linked in: vkms 
+ > +# CR2: 000000000000001c 
+ > +# ---[ end trace 0000000000000000 ]--- 
+ > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms] 
+ > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00 
+ > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202 
+ > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002 
+ > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39 
+ > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000 
+ > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800 
+ > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0 
+ > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000 
+ > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 
+ > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0 
+ > + 
+ >  # Skip driver specific tests 
+ >  ^amdgpu.* 
+ >  ^msm.* 
+ > -- 
+ > 2.43.0 
+ >  
+ > 
+
