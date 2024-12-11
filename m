@@ -2,86 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD94C9EC2E0
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 04:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088379EC321
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 04:23:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F9DB10EA3A;
-	Wed, 11 Dec 2024 03:09:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD4EF10EA48;
+	Wed, 11 Dec 2024 03:23:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LKq4hFWh";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="kApDiNmB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E317610EA3A;
- Wed, 11 Dec 2024 03:09:35 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BB38mhl014601;
- Wed, 11 Dec 2024 03:09:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- BOuCHWqNGxQ20QctQ2U+nSgIvO7pAYpz581bH69U8H4=; b=LKq4hFWhXSA+U7w+
- dySsfzvDYqWb/Rm8f1cxhr6wkUhCxUptvNUybQauXCgRhsf6j67c+DwZf+ZiqaPx
- JLalhtUo0KGQwjUbyv8WI0C8AhwgExaeR6A341JLZ8DRjEYRrGbDgv5m1LpUsp1J
- jjcGWg7QYfNIwkZKOz+nZcaS9436chpT/jJjHvuJXtD+rUeDu3CHhzt67bbmTudM
- r6wJfq2RJy1WY7+TwTlPPwrqKVQRAHDOH4/84FOAVnZHqVyDnIeuKFukZmwzV6Wi
- EdW+k+6nZfY9fkwwR+1fla5z0LSBeHb6bB6NARxKDIT0KlqHuebV35eC2kkIcTNb
- rMyM4g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ee3nbh41-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Dec 2024 03:09:30 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BB39TB0016490
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Dec 2024 03:09:29 GMT
-Received: from [10.216.62.17] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 10 Dec
- 2024 19:09:24 -0800
-Message-ID: <0df78884-e734-4d34-adf0-c5cba2a0d9da@quicinc.com>
-Date: Wed, 11 Dec 2024 08:39:21 +0530
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74A4C10E183
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 03:23:04 +0000 (UTC)
+X-UUID: 38e61b3ab76f11efbd192953cf12861f-20241211
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=0KJPkukya59nfR1aGhl7T2oGpeA9UVjg5hfMTy1E8j0=; 
+ b=kApDiNmBd/kpFvYlEry3Htj7EsXzUt92K2V4SVCXWUA55Wl4bT22N9270juSlHuZWT+CGKjVSBBGCxk8sYZF1VsZEMANEprAU4FRRn+DS8pnxQVggfhsFZQrK9eUrtIZFbbrpxsmGahE/gYmefLS9KyzDgukFLm9dTvLJbWl4g0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:127a1e49-b043-4adf-986c-cdcf697e45b6, IP:0,
+ U
+ RL:0,TC:0,Content:36,EDM:-30,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:6
+X-CID-META: VersionHash:6493067, CLOUDID:e266c53b-e809-4df3-83cd-88f012b9e9ba,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:3,EDM:2,IP:nil,UR
+ L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+ PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 38e61b3ab76f11efbd192953cf12861f-20241211
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
+ mailgw02.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 125515625; Wed, 11 Dec 2024 11:22:59 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 11 Dec 2024 11:22:58 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 11 Dec 2024 11:22:58 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+CC: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>, Singo Chang
+ <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Moudy Ho
+ <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, Jason-jh Lin
+ <jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH v2 0/8] Add GCE support for MT8196
+Date: Wed, 11 Dec 2024 11:22:48 +0800
+Message-ID: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a6xx: Skip gpu secure fw load in EL2 mode
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Pavan Kondeti <quic_pkondeti@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>
-References: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
- <20241210125012120-0800.eberman@hu-eberman-lv.qualcomm.com>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <20241210125012120-0800.eberman@hu-eberman-lv.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Z5s_VoZPQDMLp02hzhF-9iYGtVolxUnd
-X-Proofpoint-ORIG-GUID: Z5s_VoZPQDMLp02hzhF-9iYGtVolxUnd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 impostorscore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412110022
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,156 +84,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/11/2024 2:24 AM, Elliot Berman wrote:
-> On Mon, Dec 09, 2024 at 01:49:15PM +0530, Akhil P Oommen wrote:
->> When kernel is booted in EL2, SECVID registers are accessible to the
->> KMD. So we can use that to switch GPU's secure mode to avoid dependency
->> on Zap firmware. Also, we can't load a secure firmware without a
->> hypervisor that supports it.
->>
->> Tested following configurations on sa8775p chipset (Adreno 663 gpu):
->>
->> 1. Gunyah (No KVM) - Loads zap shader based on DT
->> 2. KVM in VHE - Skips zap shader load and programs SECVID register
->> 3. KVM in nVHE - Loads zap shader based on DT
-> 
-> I think this might be misleading. As I understand, KVM in nVHE doesn't
-> support loading secure firmware. I'm not aware of any support added to
-> make it work. So, the driver will try to load zap shader and it fails
-> same as it does today.
->
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-I see that now. I was trying to document the decision logic in each case.
+This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
+driver and related subsystems. The changes include adding compatible
+names and properties, updating driver data to accommodate hardware
+changes, and modifying the usage of CMDQ API to support non-subsys ID
+hardware.
 
--Akhil.
+---
 
->> 4. Kernel in EL2 with CONFIG_KVM=n - Skips zap shader load and
->> 	programs SECVID register
->>
->> For (1) and (3) configuration, this patch doesn't have any impact.
->> Driver loads secure firmware based on other existing hints.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->> ---
->>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 82 +++++++++++++++++++++++------------
->>  1 file changed, 54 insertions(+), 28 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> index 019610341df1..9dcaa8472430 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
->> @@ -14,6 +14,10 @@
->>  #include <linux/pm_domain.h>
->>  #include <linux/soc/qcom/llcc-qcom.h>
->>  
->> +#ifdef CONFIG_ARM64
->> +#include <asm/virt.h>
->> +#endif
->> +
->>  #define GPU_PAS_ID 13
->>  
->>  static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
->> @@ -998,6 +1002,54 @@ static int a6xx_zap_shader_init(struct msm_gpu *gpu)
->>  	return ret;
->>  }
->>  
->> +static int a6xx_switch_secure_mode(struct msm_gpu *gpu)
->> +{
->> +	int ret;
->> +
->> +#ifdef CONFIG_ARM64
->> +	/*
->> +	 * We can access SECVID_TRUST_CNTL register when kernel is booted in EL2 mode. So, use it
->> +	 * to switch the secure mode to avoid the dependency on zap shader.
->> +	 */
->> +	if (is_kernel_in_hyp_mode())
->> +		goto direct_switch;
->> +#endif
->> +
->> +	/*
->> +	 * Try to load a zap shader into the secure world. If successful
->> +	 * we can use the CP to switch out of secure mode. If not then we
->> +	 * have no resource but to try to switch ourselves out manually. If we
->> +	 * guessed wrong then access to the RBBM_SECVID_TRUST_CNTL register will
->> +	 * be blocked and a permissions violation will soon follow.
->> +	 */
->> +	ret = a6xx_zap_shader_init(gpu);
->> +	if (ret == -ENODEV) {
->> +		/*
->> +		 * This device does not use zap shader (but print a warning
->> +		 * just in case someone got their dt wrong.. hopefully they
->> +		 * have a debug UART to realize the error of their ways...
->> +		 * if you mess this up you are about to crash horribly)
->> +		 */
->> +		dev_warn_once(gpu->dev->dev,
->> +			"Zap shader not enabled - using SECVID_TRUST_CNTL instead\n");
->> +		goto direct_switch;
->> +	} else if (ret)
->> +		return ret;
->> +
->> +	OUT_PKT7(gpu->rb[0], CP_SET_SECURE_MODE, 1);
->> +	OUT_RING(gpu->rb[0], 0x00000000);
->> +
->> +	a6xx_flush(gpu, gpu->rb[0]);
->> +	if (!a6xx_idle(gpu, gpu->rb[0]))
->> +		return -EINVAL;
->> +
->> +	return 0;
->> +
->> +direct_switch:
->> +	gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
->> +	return 0;
->> +}
->> +
->>  #define A6XX_INT_MASK (A6XX_RBBM_INT_0_MASK_CP_AHB_ERROR | \
->>  		       A6XX_RBBM_INT_0_MASK_RBBM_ATB_ASYNCFIFO_OVERFLOW | \
->>  		       A6XX_RBBM_INT_0_MASK_CP_HW_ERROR | \
->> @@ -1341,35 +1393,9 @@ static int hw_init(struct msm_gpu *gpu)
->>  	if (ret)
->>  		goto out;
->>  
->> -	/*
->> -	 * Try to load a zap shader into the secure world. If successful
->> -	 * we can use the CP to switch out of secure mode. If not then we
->> -	 * have no resource but to try to switch ourselves out manually. If we
->> -	 * guessed wrong then access to the RBBM_SECVID_TRUST_CNTL register will
->> -	 * be blocked and a permissions violation will soon follow.
->> -	 */
->> -	ret = a6xx_zap_shader_init(gpu);
->> -	if (!ret) {
->> -		OUT_PKT7(gpu->rb[0], CP_SET_SECURE_MODE, 1);
->> -		OUT_RING(gpu->rb[0], 0x00000000);
->> -
->> -		a6xx_flush(gpu, gpu->rb[0]);
->> -		if (!a6xx_idle(gpu, gpu->rb[0]))
->> -			return -EINVAL;
->> -	} else if (ret == -ENODEV) {
->> -		/*
->> -		 * This device does not use zap shader (but print a warning
->> -		 * just in case someone got their dt wrong.. hopefully they
->> -		 * have a debug UART to realize the error of their ways...
->> -		 * if you mess this up you are about to crash horribly)
->> -		 */
->> -		dev_warn_once(gpu->dev->dev,
->> -			"Zap shader not enabled - using SECVID_TRUST_CNTL instead\n");
->> -		gpu_write(gpu, REG_A6XX_RBBM_SECVID_TRUST_CNTL, 0x0);
->> -		ret = 0;
->> -	} else {
->> +	ret = a6xx_switch_secure_mode(gpu);
->> +	if (!ret)
->>  		return ret;
->> -	}
->>  
->>  out:
->>  	if (adreno_has_gmu_wrapper(adreno_gpu))
->>
->> ---
->> base-commit: f4a867a46862c1743501bbe8c813238456ec8699
->> change-id: 20241120-drm-msm-kvm-support-cd6e6744ced6
->>
->> Best regards,
->> -- 
->> Akhil P Oommen <quic_akhilpo@quicinc.com>
->>
+Change in v2:
+1. Remove the constant and fix warning in dt-bindings.
+2. Remove the pa_base parameter of CMDQ APIs and related modification.
+3. Move subsys checking to client drivers and use 2 alternative
+   CMDQ APIs to achieve the same functionality.
+
+---
+
+Jason-JH.Lin (8):
+  dt-bindings: mailbox: mediatek: Add GCE header file for MT8196
+  dt-bindings: mailbox: mediatek: Add MT8196 support for gce-mailbox
+  mailbox: mtk-cmdq: Add driver data to support for MT8196
+  soc: mediatek: mtk-cmdq: Add pa_base parsing for unsupported subsys ID
+    hardware
+  soc: mediatek: mtk-cmdq: Add mminfra_offset compatibility for DRAM
+    address
+  soc: mediatek: Add programming flow for unsupported subsys ID hardware
+  drm/mediatek: Add programming flow for unsupported subsys ID hardware
+  media: mediatek: mdp3: Add programming flow for unsupported subsys ID
+    hardware
+
+ .../mailbox/mediatek,gce-mailbox.yaml         |    4 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |   34 +-
+ drivers/mailbox/mtk-cmdq-mailbox.c            |  107 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |   26 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |   41 +-
+ drivers/soc/mediatek/mtk-cmdq-helper.c        |   53 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |   16 +-
+ drivers/soc/mediatek/mtk-mutex.c              |   12 +-
+ .../dt-bindings/mailbox/mediatek,mt8196-gce.h | 1439 +++++++++++++++++
+ include/linux/mailbox/mtk-cmdq-mailbox.h      |    3 +
+ include/linux/soc/mediatek/mtk-cmdq.h         |    1 +
+ 11 files changed, 1701 insertions(+), 35 deletions(-)
+ create mode 100644 include/dt-bindings/mailbox/mediatek,mt8196-gce.h
+
+-- 
+2.43.0
 
