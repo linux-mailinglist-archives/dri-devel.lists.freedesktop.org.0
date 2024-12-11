@@ -2,83 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185B89ECB5E
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 12:35:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC00D9ECC90
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 13:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DD410E1C3;
-	Wed, 11 Dec 2024 11:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2255C10EB2B;
+	Wed, 11 Dec 2024 12:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MCttHs3q";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bKHlB12J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D84810E1C3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 11:35:45 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-21649a7bcdcso32754735ad.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 03:35:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733916945; x=1734521745; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Ll6kImbemzHgzysNRe/B4ZjSKDdlmM1jCI9QSTOFJgQ=;
- b=MCttHs3qqjzeNhv4xbRTeb/VZ4MRo4rAFXVJPHqJYktS76oAy5g70AD1Y9yoCm+gVk
- 5Fdp2kBQ+WKybt/VSQs3zubaQzkoXJnmdhQDLewfh40XxvPuCCaIQ9SIlJLLOzSBKPPV
- 6PRGWgQPPg5JWQ1sF7LhAY0tvF4rG3dtKwsyDE0biHbyDvaDTa+KS0Q9EUr/sMUAbaRq
- 161tASQmJd9NHKTR39KtbWpDWNuNBSwv2LRhXC3QSxLPMaCFZD4GuV6CM89LOgWWuxYR
- bTryKaawRze9/ft87dA8HVTb4W5LHNL/aVTdJT/jPwEgGgVuVmSCq+w1mZ+wmUys4IS6
- +D7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733916945; x=1734521745;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ll6kImbemzHgzysNRe/B4ZjSKDdlmM1jCI9QSTOFJgQ=;
- b=Gf6vfKMIA6F3C9HWM4SpIjeGz7Ot+d1oRFSf0JK1yCZlwr89W2/GzFyKA4Oq+Avf1A
- 0FtuIljWt9UFFN0g0RlNTtUMxAFJZbsP3RyD9ZUYUGGvM+Y/b065FBtqnCNbv0Rfxsij
- AqZpZ9kEb9za/bdVHYrtkML3Z5t0GYU2GbXDkrNnqXi6j7iVqquzK56fx2Y+nBv8l/1r
- xMuugZXT/NRanyEzRengDmYAuDx/uAlOdsgQ3cgeGTejwm6buViRhKFgpPy88kGe/wtb
- 1AS5r3oOEypjoXH7aRe6o/j9j/3otxsOQzc4qeL/A1fYnA5d7WIvPrMBHIQ0xfyYD17a
- j/+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaav8zMkpC5Yrl+/p/TV147UlC4V2hqLK39/Lagf+packKl++h/Cfri7BDV4u2yKicSIzvu/1HwsU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwK05bTHP0HNa5zNoXVxrKugGm0KpHU0iAvDBDwFkfG7pnSAbM+
- UEOcsyDW2VN7gXDwW9UtdynjxHAyXsdQUbqWL1bJfZLJ/cdY68dq
-X-Gm-Gg: ASbGncuRi8nBgKH+ZbrlUbOqNe+FxrogmOegvYeLk0igA2PeSMuTlebEUei1mFTkaKJ
- FSprpYzwUSp51KXO1So1kg5LtOSWGu/qP8kNGvLZ7a89/dJ/WImEFO16Our5+36YpQ5wBYI51yd
- gq7TWzZ0Me8bvICPqNyVw+w1QKSoeq9mwAIkJVWso+OfrnLG/YxFRGfWFrYX5twHkoNfaWn82hz
- 0TJvQhLmaJKIcYEBhyLmD+yOVSnA/Jal5WT3uXMPq68iTZ286e/dcAmWYlOlWNmyyahOQ==
-X-Google-Smtp-Source: AGHT+IHPAoO6sweD7dzjHfcotRsgZIyMZdFaVq66RcEqv2cWXKrGq8y5aDUwVllnUENLHzeU5YMTvg==
-X-Received: by 2002:a17:902:d2c5:b0:216:2f91:92c7 with SMTP id
- d9443c01a7336-21778393b92mr49397375ad.12.1733916944690; 
- Wed, 11 Dec 2024 03:35:44 -0800 (PST)
-Received: from localhost.localdomain ([59.188.211.160])
- by smtp.googlemail.com with ESMTPSA id
- d9443c01a7336-216404df131sm56765635ad.203.2024.12.11.03.35.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2024 03:35:43 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nick Chan <towinchenmi@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 3/3] MAINTAINERS: Add entries for Apple DWI backlight
- controller
-Date: Wed, 11 Dec 2024 19:34:39 +0800
-Message-ID: <20241211113512.19009-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241211113512.19009-1-towinchenmi@gmail.com>
-References: <20241211113512.19009-1-towinchenmi@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7692810EB24;
+ Wed, 11 Dec 2024 12:50:23 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBAokM2006981;
+ Wed, 11 Dec 2024 12:50:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ zk4s7vhB2asnvEBnYuTFCimLlmm/nGDu1HLQOKCWzJw=; b=bKHlB12Jc8cR9Zp4
+ /EF33Rrz2D9AwqIyHOV5F1upJtrVWdK1NJn3tfowkFdhpPIj7/wGLCiGjgx7KchR
+ tHdxHg8Vt/dadt2UERt8XsQ1wpOEudK1WorLRGBu2l6EQb4U8avn0yxwThtrA+eN
+ XeNR8i2DeyOjPcQ8t1vNVl925MX25zjNjb/pVjitF8WQNyOaWQ12CobMMICCWgCT
+ OQIgvGu9ppiUGoMr9H/8nv26lrxm0qUYRME+Irxx0dpEEZSArssg0mSygxrYgdfT
+ DJkBAyM0Gh2mVkb2C6i51qmsUBHECMAlhZyGC8qOi4dHLo3SyAQYzQZXnlXt/i2s
+ RKsFhw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43f0r9swvp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Dec 2024 12:50:13 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BBCoCuX026022
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 11 Dec 2024 12:50:12 GMT
+Received: from [10.64.16.135] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 11 Dec
+ 2024 04:50:05 -0800
+Message-ID: <d5151b82-5f05-4826-99b4-e925c20550b4@quicinc.com>
+Date: Wed, 11 Dec 2024 20:50:02 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] phy: qcom: qmp-usbc: Add DP phy mode support on QCS615
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
+ Vijay Abraham I" <kishon@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, <quic_lliu6@quicinc.com>,
+ <quic_fangez@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-3-09a4338d93ef@quicinc.com>
+ <CAA8EJppOR_UXoVpMt-dhfWdCz3UNfsXGdz8X9NqpaSmYj3AZDg@mail.gmail.com>
+ <5ea14162-567b-462d-be02-b73b954b7507@quicinc.com>
+ <5whv4z7u6fkfwlv5muox5dmv6fow4mga76ammapw7wph7vwv3f@xibcjdfqorgf>
+ <iqcofcntirmlwcpyfr4yabymqfcgyrij57bibf337tmxpa73t6@npkt6wquenf6>
+ <527baded-f348-48a8-81cd-3f84c0ff1077@quicinc.com>
+ <t5vcjlf44fhae4f2h75cfs3f7r6tdstw4ysmkapvvawj6xp23x@xnxqnxvyhshe>
+From: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+In-Reply-To: <t5vcjlf44fhae4f2h75cfs3f7r6tdstw4ysmkapvvawj6xp23x@xnxqnxvyhshe>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: YEcBUSMTawlFVl6QGG7shl_PtInvRli7
+X-Proofpoint-GUID: YEcBUSMTawlFVl6QGG7shl_PtInvRli7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 phishscore=0 spamscore=0 clxscore=1015 mlxlogscore=999
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412110093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,33 +109,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MAINTAINERS entries for the driver.
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 17daa9ee9384..3a7dec3f9a5a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2196,6 +2196,7 @@ F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-+F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -2221,6 +2222,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
--- 
-2.47.1
+On 12/11/2024 5:46 PM, Dmitry Baryshkov wrote:
+> On Wed, Dec 11, 2024 at 08:46:16AM +0800, Xiangxu Yin wrote:
+>>
+>>
+>> On 12/10/2024 11:09 PM, Dmitry Baryshkov wrote:
+>>> On Thu, Dec 05, 2024 at 08:31:24PM +0200, Dmitry Baryshkov wrote:
+>>>> On Thu, Dec 05, 2024 at 09:26:47PM +0800, Xiangxu Yin wrote:
+>>>>>
+>>>>>
+>>>>> On 11/29/2024 10:33 PM, Dmitry Baryshkov wrote:
+>>>>>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+>>>>>>>
+>>>>>>> Extended DP support for QCS615 USB or DP phy. Differentiated between
+>>>>>>> USBC and DP PHY using the match table’s type, dynamically generating
+>>>>>>> different types of cfg and layout attributes during initialization based
+>>>>>>> on this type. Static variables are stored in cfg, while parsed values
+>>>>>>> are organized into the layout structure.
+>>>>>>
+>>>>>> We didn't have an understanding / conclusion whether
+>>>>>> qcom,usb-ssphy-qmp-usb3-or-dp PHYs are actually a single device / PHY
+>>>>>> or two PHYs being placed next to each other. Could you please start
+>>>>>> your commit message by explaining it? Or even better, make that a part
+>>>>>> of the cover letter for a new series touching just the USBC PHY
+>>>>>> driver. DP changes don't have anything in common with the PHY changes,
+>>>>>> so you can split the series into two.
+>>>>>>
+>>>>> Before implement DP extension, we have discussed with abhinav and krishna about whether use combo, usbc or separate phy.
+>>>>
+>>>> What is "DP extension"?
+>>>>
+>> I'm sorry confusion casued by my description. It's means extend DP implemnt for USBC phy driver.
+>>>>>
+>>>>> We identified that DP and USB share some common controls for phy_mode and orientation.
+>>>>> Specifically, 'TCSR_USB3_0_DP_PHYMODE' controls who must use the lanes - USB or DP,
+>>>>> while PERIPH_SS_USB0_USB3PHY_PCS_MISC_TYPEC_CTRL controls the orientation.
+>>>>> It would be more efficient for a single driver to manage these controls. 
+>>>>
+>>>> The question is about the hardware, not about the driver.
+>>>>
+>>>>> Additionally, this PHY does not support Alt Mode, and the two control registers are located in separate address spaces. 
+>>>>> Therefore, even though the orientation for DP on this platform is always normal and connected to the video output board, 
+>>>>> we still decided to base it on the USBC extension.
+>>>>
+>>>> Could you please clarify, do usb3-or-dp PHYs support DP-over-USB-C? I
+>>>> thought that usbc-or-dp platforms support that, but they don't
+>>>> support DP+USB pin configuration. Note, the question is broader than
+>>>> just QCS615, it covers the PHY type itself.
+>>>>
+>>>> Also, is TCSR configuration read/write or read-only? Are we supposed to
+>>>> set the register from OS or are we supposed to read it and thus detemine
+>>>> the PHY mode?
+>>>
+>>> Any updates on these two topics?
+>>>
+>> Still confirming detail info with HW & design team.
+>> I’ll update the information that has been confirmed so far.
+>> This phy support DP-over-USB-C,but it's not support alt-mode which 2 lane work for DP, other 2 lane work for USB.
+>> TCSR phy mode is read/write reg and we can read for determine phy mode.
+> 
+> Ok, thanks for the explanation. From my point of view:
+> 
+> - Implement the DP PHY to be a part of the same driver. Each device
+>   supported by the usbc driver should get both PHYs.
+> 
+> - Make sure not to break the ABI: #phy-cells = <0> should still work and
+>   return USB PHY, keeping backwards compatibility. Newer devices or
+>   upgraded DT for old devices should return USB PHY for <... 0> and DP
+>   PHY for <... 1>.
+> 
+Yes, currently we have implemented like your description,
+Each deivce shoud get both PHYs, DP PHY for <... 1> and USB PHY for <... 0>.
+> - I'm not shure how to handle the USB and DP coexistence, especially in
+>   your case of the USB-or-DP PHY.
+> 
+For coexistence process:
+
+When we start implement DP part, usb driver team said only need config TCSR phy mode and orientation during switch in USB-C port.
+Based on your previous comments avout SW_PWRDN, I'm confirming with the USB team whether SW_REST/SWPWRDN/START_CTRL registers might affect DP.
+
+Anyway, even though the original SoC design supports DP or USB over Type-C，
+but on QCS615 ADP AIR platform, there are only four USB-A port which works with 'qcs615-qmp-usb3-phy' driver, and no USB-C port.
+DP port is mappped from usb pin to the video out sub-board.
+so we are unable to verify the switching case between DP and USB devices under USB-C.
+
+However, I'm also confirming whether anything other will affect USB and DP each other.
+
 
