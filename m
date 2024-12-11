@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35F9F9EC607
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:54:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA1039EC609
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD0CE10E5E6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E85E710E5FD;
 	Wed, 11 Dec 2024 07:54:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KRtVSfdE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="A+4jrFMe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45EE010E576
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2E2010E576
  for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:54:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733903662;
- bh=SIJsnPt0I4FD02q9szBFQ2RkNzIB1KMJFYToNwB238Y=;
- h=From:To:Cc:Subject:Date:From;
- b=KRtVSfdEMRxwzgt99IkVxqVEAOudD4Er9zH/MgKvwrZI/j2yjTPykKyt/G9QQh3RR
- mi30aO0W2dM7OLlERVMzTboUoTWK5xNk9lcnVWRxVJ5BAcJ8WUot2yjL4FXHRQHygD
- TPy2oCEwcHR0XVL8m6cIjGT/x/UOPqC4ycnsCYokOhLbdLybiKPvIq1Vub389k/nkB
- fUaqAAwmppanilv1oq7moNB32nznZcsccpnxRygqYwZsv62EUsvf5adGRppAYDnx/b
- u1mXEdRSjQUw2fsR9ehq+gQ+e6aAFqYBiZn2ywBfkZA6GiW0KeAYL5rTy6NrdCs4Ih
- my4Xm+EF4otQg==
+ s=mail; t=1733903663;
+ bh=oCfEc8Rp4c1euA6PuGNOBj1L9F+BDOGTGCqU1dbo6oo=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=A+4jrFMeLzulvM0jp6druj/jYamEUBL1RuEp3NlXfotrI4wHLDYqI1QhQOJZ0k015
+ 3nyrNPUdBPFXuYPsLzYqlfIgY05P/9NpNRn0AHdwaBiypSjVuBpryfTqSWyJUk/PzS
+ Iu7HFdiJsJiXzdbSghklYF2YEv06xj67YpvXNjwfyavkYEY1A50EWZmKTLEpLsCOBs
+ BkDMldBEWq+4HkgpD2XBN8STRUKBWf2xZbm1i3p0gs+906aFZoRaXVzuMopoSXUcmn
+ pw+tcLwzpq+3WYQyqWn8xYNY20/WYOvlIa4qpTlnphLXBPm336IKyF3xwDLTkMbhuT
+ Cq9FlT/D+3Bcw==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:d3ea:1c7:41fd:3038])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 935F717E13A2;
- Wed, 11 Dec 2024 08:54:22 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 07BB417E1437;
+ Wed, 11 Dec 2024 08:54:23 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH v3 0/5] drm/panthor: Be robust against failures in the resume
- path
-Date: Wed, 11 Dec 2024 08:54:14 +0100
-Message-ID: <20241211075419.2333731-1-boris.brezillon@collabora.com>
+Subject: [PATCH v3 1/5] drm/panthor: Preserve the result returned by
+ panthor_fw_resume()
+Date: Wed, 11 Dec 2024 08:54:15 +0100
+Message-ID: <20241211075419.2333731-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241211075419.2333731-1-boris.brezillon@collabora.com>
+References: <20241211075419.2333731-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -61,55 +63,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+WARN() will return true if the condition is true, false otherwise.
+If we store the return of drm_WARN_ON() in ret, we lose the actual
+error code.
 
-Here's a collection of patches improving robustness to failures in
-the device resume/suspend path. Those failures are pretty hard to
-reproduce (happens once in a while on a deqp-vk run), so I used a
-mechanism to fake them.
+v3:
+- Add R-b
+v2:
+- Add R-b
 
-Faking a FW boot failure is kinda tricky though, which means the
-last patch has only been partially tested:
-- the fast reset path is well tested because that's the default on
-  a device suspend
-- the slow reset has been tested with a hack replacing fast resets
-  by slow resets
-- the fast -> slow reset fallback has been tested by faking boot
-  failures after a fast reset, but these are not real, which means
-  we can't really validate if the MCU recovers fine after a slow
-  reset
+Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
+---
+ drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On the other hand, this implementation doesn't look like it could
-do more harm than the current one (the only difference is the
-extra GPU soft-reset that happens between the fast and slow FW
-boot).
-
-Nothing major changed in v3. Each patch contains a changelog, if
-you're interested.
-
-Regards,
-
-Boris
-
-Boris Brezillon (5):
-  drm/panthor: Preserve the result returned by panthor_fw_resume()
-  drm/panthor: Be robust against runtime PM resume failures in the
-    suspend path
-  drm/panthor: Ignore devfreq_{suspend,resume}_device() failures
-  drm/panthor: Be robust against resume failures
-  drm/panthor: Fix the fast-reset logic
-
- drivers/gpu/drm/panthor/panthor_devfreq.c | 12 ++--
- drivers/gpu/drm/panthor/panthor_devfreq.h |  4 +-
- drivers/gpu/drm/panthor/panthor_device.c  | 68 ++++++++++-------------
- drivers/gpu/drm/panthor/panthor_device.h  | 37 ++++++++++++
- drivers/gpu/drm/panthor/panthor_drv.c     |  2 +-
- drivers/gpu/drm/panthor/panthor_fw.c      | 68 +++++++----------------
- drivers/gpu/drm/panthor/panthor_gpu.c     | 14 +++--
- drivers/gpu/drm/panthor/panthor_mmu.c     |  3 +-
- drivers/gpu/drm/panthor/panthor_sched.c   |  4 +-
- 9 files changed, 107 insertions(+), 105 deletions(-)
-
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index 984615f4ed27..e701e605d013 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -461,8 +461,8 @@ int panthor_device_resume(struct device *dev)
+ 	    drm_dev_enter(&ptdev->base, &cookie)) {
+ 		panthor_gpu_resume(ptdev);
+ 		panthor_mmu_resume(ptdev);
+-		ret = drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
+-		if (!ret) {
++		ret = panthor_fw_resume(ptdev);
++		if (!drm_WARN_ON(&ptdev->base, ret)) {
+ 			panthor_sched_resume(ptdev);
+ 		} else {
+ 			panthor_mmu_suspend(ptdev);
 -- 
 2.47.0
 
