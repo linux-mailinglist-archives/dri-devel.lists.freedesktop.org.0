@@ -1,170 +1,170 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308F09ED577
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 20:01:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9455C9ED5C2
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 20:07:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63E2410EC01;
-	Wed, 11 Dec 2024 19:01:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F2410E612;
+	Wed, 11 Dec 2024 19:06:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mNAuVzG+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ewdqk3FP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A08B910E612;
- Wed, 11 Dec 2024 19:01:04 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B3310E2D2;
+ Wed, 11 Dec 2024 19:06:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733943665; x=1765479665;
+ t=1733944016; x=1765480016;
  h=date:from:to:cc:subject:message-id:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=48KnFbNhbETMnLC8Z8u6C9UoetICqjI5fpR0lKqhnqs=;
- b=mNAuVzG++e3U4soAhUHBjyJ0/GSgAkksV1Yf+b49h1LNbhyPu6kSQ2WL
- HcVqjydvA9NEd4ubkNij1p9TeVT2XGcNMo6atKzBeAtWsa2CkBQR8DyTm
- DZc07RwYJQRoxGWJ91bxf7Bi9BlgfkaFo+mDMPPwMa/a1Ce9Ev+r3tioF
- U9Sc8sf3KRTvwqT77qwd1DtfMWgwlNMNU1TlXA1FdfD61E9Ptk5Z3fvqH
- RsMsA97SqO3r7ipoZlfgoLJ0tVsZJ5Kr1hGaGb0zqwkV+s/feOLSl6lUa
- 4Bu9tLRVzNvwHGRKlhlo+Or1PPNLlhXAOr0jHM9chKPQlnpIjGJWaXxOB w==;
-X-CSE-ConnectionGUID: pjhZQx20R/uTAxEYacD7jQ==
-X-CSE-MsgGUID: Xz79swY/RkKNKHnj55ljIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="44812928"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="44812928"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2024 11:01:04 -0800
-X-CSE-ConnectionGUID: GcdlsDVfRVO+H2LrR0hfYQ==
-X-CSE-MsgGUID: jzbxZgPhQ8uP9IsEzOoflA==
+ bh=qUco/F1m+nUlP/Rorox+xhVavwQs3tY/GmDd7uVkamo=;
+ b=Ewdqk3FPJMF5/exF+1WE8a4WFM9gBv3cDouu9Iqjro6jzcHqMBWKtUqS
+ /YNl4oNfz59cC249qxNKeJW2qWIe5DY8mYLJfst2TKsHXDglhfLaV4P4i
+ hzPjbGKqyKbk3gAMIrJnQK3BiJGNCr3swqFC9O5OzyAUBmfS6ZAA84xzn
+ nWN9PZfBUaUuMk8nBirN5PYYIrKo/w4qicbNda3324/ns2X2A/BlBEsPy
+ BpXx5hXL+lIMj7xPl9FLAIE5zeUFp4BujikmuQ1vDEQF0r9U9g7ADIvRv
+ wkmNr9yEI+1HtlGf9jPDGxXz+65EpBqqklQRk8ZT7/V9g//08cmcnbX/e Q==;
+X-CSE-ConnectionGUID: 34hB1rsOR/asfcHQX83NUQ==
+X-CSE-MsgGUID: ArGVe2kzQH6n2F+nnYGhJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="51870042"
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; d="scan'208";a="51870042"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2024 11:06:55 -0800
+X-CSE-ConnectionGUID: 5L1XXfE1TlexdJ4Y/826MQ==
+X-CSE-MsgGUID: HuyJ3wNSTsefyJubt0txnQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="133306627"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Dec 2024 11:01:05 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="96361194"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 11 Dec 2024 11:06:55 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 11 Dec 2024 11:01:03 -0800
+ 15.1.2507.39; Wed, 11 Dec 2024 11:06:54 -0800
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 11 Dec 2024 11:01:03 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Wed, 11 Dec 2024 11:06:54 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 11 Dec 2024 11:01:02 -0800
+ 15.1.2507.39; Wed, 11 Dec 2024 11:06:54 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MDOT0+kwS56mbYeMMhKXEk5VPnKhfV9Iws8wvcEnDOXzBRcZOjZhEMAGRkFgZ+OxKb8WwaldaxSF8ND8GhMOfPvB10d9Lj8pqAH4IGFRk/mK5tkZZMmB5TgYrjpnh85BXjS7MwQNONQnA9yqYkTAQ42WiyQdYT+aCLpFkIAveOHgvHlX8NTAxRf+CJB/R34bONUFDT1tBewRyxGwpOV3yJhFnw/x/3mqzkWPdt9n1kF6qAdAFZv2DL66LeeU/hjORGA9HAEzcL4oTHY47CvtG2hj7FqCOHBqXc9BEANbxjyhfSeQXsKDXf5kfV+p/0x2r0ycY9RUBQkTRLXsX6R7SA==
+ b=uvKK93Ps5EcU9Pennp9+huwlu4ymj+qmxXd4dKutFwYvKUexedDuo+2ruAG1/UvhDn9q8ygQjMcHXtEK+AVTjrDQFnyTZ0irLEHdSWov9aflA3XHmGaOO3kcftNl3HORH/AjiMoTtrdxU3vxTBhu4ASirDtYAJOuKqQpc9J1M3e+ypXje9JsBEhTz+SUWAhVtq5xAqab5U5smR5iW+uiPbhw/fZqy3hMZdc59HDDzQVUOEXL7te18dL+OlB+zoiA056IZuWkP46reaHNDiVtLUeNaH1vC6YnvvWMQ0BGpCOObL2+eOCwRUwO/QKgpMYpgXNvZZudxvmX9dF3wghG3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TNULsKpzaTIOZE6BQcOcoCn4yXH9Cqlno3ICC0NHh+Q=;
- b=NF87683LRXMuQ4wI3jvA1K18Y3Z3Myoew3aqhYdxIrqprf2RIGpVM7rCZz6ev+LS8pDljv+jW3DhSIxazh9RbPYnZuseQGD+127E7tYu+ficYIXnZoGmHnQr/GZdQoWsZ9L6UGrGjnrQlxbM+StJOLxqqCPdss0mPKPLDNJn7UkEvXInnNc7QmUn2CRk2hZxa02dUtYYihox/6pSy4Mr+FrG8WGZWuit12JXd+NgLPwf0m0cjS8miG2FrBGx1n5pu8NkURmAyB+/ulGWsEaXKH/kc+ynes9Aw9vM1rPo6zSa6UhLLP3T/JHB/a1Wu9/L3h/VDcxZCKInBXaXfUkqeQ==
+ bh=wz3t16qP/GMjjLa/unH8XZZgiC8FQC4kwGM9Xuxt41U=;
+ b=f/4m/00qOhQ6DnZ4I/OM2+LiwogceVt784asbgdj8gOoniiRx1tRzPAUAfJCb5wk8kHx9pk9a6xpY+BhdfZj6jrXlU3fpVQfXhmN3WLweq9PwBW/Q8N7fiXCzW8pxk+hxYz+2ZEEYqlQzC6LlruOTJPlPWyC3K8gDbFxsWvzreXQNOuZGBBKhSWfTUdupZtdy/P/ws5jDA3zPAlOdB65U/bcNl+kxheaVVEhPjfizPtMo8H0P4vH63vZS3iP+NDuQSMlnpzIN/AYCc+YhwGbs29C6vJ+h/1+3wcPAfxm+nhIlxDEjGoTBV19xc5qkDw92CXqxdRkZXMEgpp/9T9kzg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DM6PR11MB4740.namprd11.prod.outlook.com (2603:10b6:5:2ad::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.14; Wed, 11 Dec
- 2024 19:00:32 +0000
+ by PH7PR11MB5941.namprd11.prod.outlook.com (2603:10b6:510:13d::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.12; Wed, 11 Dec
+ 2024 19:06:36 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8230.016; Wed, 11 Dec 2024
- 19:00:32 +0000
-Date: Wed, 11 Dec 2024 11:01:14 -0800
+ 19:06:36 +0000
+Date: Wed, 11 Dec 2024 11:07:18 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <apopple@nvidia.com>, <airlied@gmail.com>, <christian.koenig@amd.com>,
  <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v2 09/29] drm/xe: Add SVM range invalidation
-Message-ID: <Z1nherArkwqT9g0/@lstrano-desk.jf.intel.com>
+Subject: Re: [PATCH v2 11/29] drm/xe: Add (re)bind to SVM page fault handler
+Message-ID: <Z1ni5r5eX4x2/9eA@lstrano-desk.jf.intel.com>
 References: <20241016032518.539495-1-matthew.brost@intel.com>
- <20241016032518.539495-10-matthew.brost@intel.com>
- <12b541d3a1b46434032afc1bcb9ce90428aa24a5.camel@linux.intel.com>
+ <20241016032518.539495-12-matthew.brost@intel.com>
+ <0d67ecef420cc38f05c029480252f4f30fdad834.camel@linux.intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <12b541d3a1b46434032afc1bcb9ce90428aa24a5.camel@linux.intel.com>
-X-ClientProxiedBy: BY3PR05CA0027.namprd05.prod.outlook.com
- (2603:10b6:a03:254::32) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <0d67ecef420cc38f05c029480252f4f30fdad834.camel@linux.intel.com>
+X-ClientProxiedBy: SJ0PR03CA0110.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::25) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM6PR11MB4740:EE_
-X-MS-Office365-Filtering-Correlation-Id: 96cefdc8-bd94-4a04-20f1-08dd1a161629
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH7PR11MB5941:EE_
+X-MS-Office365-Filtering-Correlation-Id: 06102a69-c747-47c3-5fff-08dd1a16eef8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?6fxYm4b4kgzyzcWkpdMxHHIyQylYAsa/TFJbX8cBMxUVIzj1G0KGb/kDtX?=
- =?iso-8859-1?Q?paQqs15eHvu8tQWb9+IYKXwxsuXVBogoLOj+acp82KCdzBwURfq7cUlMVB?=
- =?iso-8859-1?Q?X3G6YG2sROsjkzbjlH5azvvRE85h47dMDOlg+FdgVqfm08mvBaxr2RXj2o?=
- =?iso-8859-1?Q?+vR5eUaJVWg843+UgIQQgJKInNUPiQrYE6AdBXmNH6a47ZrR/qkxVCds5T?=
- =?iso-8859-1?Q?WYpeZs4lfhA2Oz/VWua9yHfKX96T9pPIoPK8xyBU9LagRfnv9QMB5FSGHU?=
- =?iso-8859-1?Q?P4fTmIOBQ9ntp6bo89TlXIRkyPehuqMjP51hygLYZoRsSoNzYNSIWEhU69?=
- =?iso-8859-1?Q?Ayz/0WV6bzU8v54rgN+jMa+BfeEzZLqA6P7PnlcNdg89H0kTdDwM0QmUXh?=
- =?iso-8859-1?Q?9Ad4+fPKxcA/EkDGLolGF+/tghVizilHFcPJUYK2ffro68zMQXEfhuomid?=
- =?iso-8859-1?Q?71KxnYV9DLXiFrj/Q0fPjGn8OSd8Gy2/7CMNc3JUMbnmkK3Zl3wc504S7s?=
- =?iso-8859-1?Q?pcQ4JzmfS5zKMvEK9iPzRpBilC4M7CENT5y71l345168vq8gbfTSvmR07K?=
- =?iso-8859-1?Q?lY3N+BW4wolde0aQ7xyUcnQ/8jE6QPKpgz6n5NwkI9SespSFVDq9fPN1eu?=
- =?iso-8859-1?Q?zkgEqoZexftQtix7Xh6yoNy6blfZEuBHu2GxAwE68A9sEZRFKiyjqmy4E+?=
- =?iso-8859-1?Q?rTBhOOvFZrr0vjt3XBVFlcORdY5EOY1Um12GtSqx8W0e8IOoaNdvbj3CJ3?=
- =?iso-8859-1?Q?qroYjDTnjuzljG0FofC29dOJYysPGbDLoW9FjmS/9R/bACHDJys1OrrAQU?=
- =?iso-8859-1?Q?AlZAhrWqwBd6J4dx69+FqG9oYnMozA2N8t2TOjTN8BKNP6VzsOk/np6vWc?=
- =?iso-8859-1?Q?N3pB/KZsBwz66yGEPhItrflQiCi4DI+wHt+x8MYkY6EBtR9so0STWBt19Q?=
- =?iso-8859-1?Q?XkX1+A6c6UD/x/IP9LK/fQhuAuCJWj8KJf+yqIPzHWrIxqRHLNP2zLscWc?=
- =?iso-8859-1?Q?Tm6ii1gOQd5jqzEOZbNmvJ6zlUUuG8lOfOSQjIPk/wOVcgQ2EnBf7jHe2h?=
- =?iso-8859-1?Q?HYGTAZLyLcf8QK07AZyFCrGTgvPDihNSiotIi8b1KY4QWBNhE+P4UuH+yC?=
- =?iso-8859-1?Q?bdbCM9iN9UOETuhhW39cr7bOFTssPW3HEYooDu28d5/5YM0UcekeZRGh+z?=
- =?iso-8859-1?Q?4v+tWgdQqEkpmiyzxeynr7zzU1lT2QEC3EIJIMlJFe6gzVdXbmkIwwZmEt?=
- =?iso-8859-1?Q?/7OR2E2u12M/dv4T2zqheYXNuVse46irRCmFoPV6HgV7nNyLCTu4RQ3lK8?=
- =?iso-8859-1?Q?BNfy5KgklEPBC64nrzcVtv6Obu3U30P9tIyXSSEd3u9DXv22P791AcjlEG?=
- =?iso-8859-1?Q?Y9nOCAWkrTcRpvK11D1OCC+Cbh7kMmZw=3D=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?s1+RG0/eQq/DvUy5ndV1ZrRwU7p2A0Crx4LzgpJbfhVQCfpsYzUchF4Fyj?=
+ =?iso-8859-1?Q?Ss0VrbM1t8GfwgO/w9RvcWgvRDlBPHvC58+Z5QVmvVX57pRdm5id8vCAPh?=
+ =?iso-8859-1?Q?1YrrOUeHxhe6rjpSeA3GQWt0x3H8+cBsACsAnQ8zsoWiGrOCE3ftZpfnop?=
+ =?iso-8859-1?Q?wyVdwsyHRavmHXkM7WFVxS/167iOno+Ew81/dT4hjHlKpt4b+m5HwhfkbQ?=
+ =?iso-8859-1?Q?SNlMkTDMlTPFN/W719JG7tAJhLhnDOf7bLsFp31BVQ/2wQ6bywYYMZ/MyE?=
+ =?iso-8859-1?Q?i024oFlFUB0k5VILQ/rVjfT2gbVY8LXbacBtp+qmS14NflqSybT1BgYHVv?=
+ =?iso-8859-1?Q?z/V6gXfdhGbyRLoYW+HOcx96L2lG7fEre5ayHiUEi4wHCSFr1x47ubJvjM?=
+ =?iso-8859-1?Q?K5I1CvpgzhPtRW+Kce+y0gCEhsJIXnPFojHQgm1NbuLLxw+eBY9h9Pn6OH?=
+ =?iso-8859-1?Q?eDYCkH9A59koiSLzRg2QHDjOtBNqQjgbl7mrG2j4WiE99bbOwYoX/AVAQp?=
+ =?iso-8859-1?Q?qOFvwBK7E0rW4b8e7I1cRwQft1/rpFMq8weVLTn7vR+zCPtNZ6Wd7KyOwz?=
+ =?iso-8859-1?Q?dWTSN6eW5uh3asUNLUEXmcWpeT9GSvAz0pNLnwAJrcjpI3wvLl7Ld0gd3v?=
+ =?iso-8859-1?Q?/27fW3uZeKVVeWbOZKGI63L0QKg7Nz8/2FOgbxjOvFXSRKG0/fNL4Y4lH0?=
+ =?iso-8859-1?Q?FT6eEhymh/mSk/B9PujAZ/h3+D6mOogQKGTTHFCNdr+He/3V6lqc/TcroD?=
+ =?iso-8859-1?Q?09zORGOwwdkmECq/l7ZcZb/Heta6tqUFO7qaU1XM7n7ULEkuD/p1xb1RHi?=
+ =?iso-8859-1?Q?0NiAVsO3ymjGaFic4RGDeaRu9aoBs9rLh0nFScDnnJjfqudur+uy464mDO?=
+ =?iso-8859-1?Q?m/OT0sN76U5JOQOODw8D5OXtBDKpMQJpwIH4iYIV+S4HHWLgAp8/K9ouEJ?=
+ =?iso-8859-1?Q?S+1zqmBFNeS3AkPR6lEQUmYdWLmJYrQuOoCK8OTGKtUowPuFE132d50p0+?=
+ =?iso-8859-1?Q?heU6WV89gLiofk9ZlvF+Vl3Qr1QvRNogYmmFZs5HapmXViqkYhbGtsOgcE?=
+ =?iso-8859-1?Q?MtUS1OTmRKqD4zet4o9CnWHUcpPnHpIep1fCC/9dYt6pwobgsZ/e1aAJLA?=
+ =?iso-8859-1?Q?SnXtwNfxZwiz9lANDZpQw4fS3XdkkKPqgWcvFqR+I6iVdp4onYnNtXXCCZ?=
+ =?iso-8859-1?Q?3DH1L9mLu3CrBkBEDZi8XXFyNdCj+l6fuPfEcwWxiYTjxbttKj8Bfs/JcB?=
+ =?iso-8859-1?Q?hk7gq+f864TivhI5G0TbOw1C6+vg0oYez12QhfxnoiLMWTQXt1nT8oGQZi?=
+ =?iso-8859-1?Q?TdgDiVXcaCQvUhZ5dcHL1FR1IB8IXXxZBBQVvBNDstRhZC7SHyQvGQeoO6?=
+ =?iso-8859-1?Q?Ovl+zOHdmJX1gp5oXIalW6nV7U8lTyUw=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?GsCY9KcRhHLD2i7vkDoJMC1X48c2iO/9r5zuxDXAvgsKV34WMANSXumy8Z?=
- =?iso-8859-1?Q?n7U7xhbW+WnDcxFIxJP46eucq6eaMyfp2BMlsM3zsv/zjqLJ8rnII6Ks+u?=
- =?iso-8859-1?Q?2hDdt5GPHfyH9YwMwRaQrgiu3XPkQYgHdxp+HtElJDpRSL9AWRZD+7Af/7?=
- =?iso-8859-1?Q?Iue3xfcMBsc9wDKnSKTpasrnXqCv6gnCdHjnHsu0Bo3/xU/rKfXISEkUuq?=
- =?iso-8859-1?Q?0z5PNTybYJhlGoK4v9Rg/Rk+1ko8k9TiKmNn+4Brs0V/cY43ClixwDJJ5N?=
- =?iso-8859-1?Q?Uxnwdbo+45kHY6qd7B39SxD6iJgFM+3XjbaL3InAlLNbDcoAsqcqs4kTyJ?=
- =?iso-8859-1?Q?hhVdDMfulmQhAGyRzl6DOc7KA/5LYlME4fCsQ35BIeh7iDlSjmKPtI4WnD?=
- =?iso-8859-1?Q?YB82fjJ5WwrZmPdXTQExnU5iHMaqCtk19umLwgOJlHUKqLCnnHymCeL8kq?=
- =?iso-8859-1?Q?+lVbWVtAC1iRitRdM+NPvcgURqM06dz71e2nV9hxC3j+RDo2Ii+VtLSS4P?=
- =?iso-8859-1?Q?c0hzn8V3CUS8wcT1UgU98O4dlGKT/auytlKBWqmSLDXDKnQv/KGDUpt91x?=
- =?iso-8859-1?Q?d1+ECQ4qTVymRlifEJWhwk3n0AiA0lRUncM/UD85WT1py+x/uIdkVkLiHr?=
- =?iso-8859-1?Q?3xNG3pdFI9bUoVJ2UtWwC93Vkb65iUPHJSQaaGphYml1LsAsurQjCHHvyF?=
- =?iso-8859-1?Q?f2ve7u8MrRoAfITuU1zgYra3p1GpDZfXEtRqOAJKL4SO3E3r172M6kj1Sc?=
- =?iso-8859-1?Q?kVcI5doJ+1G0qO4PrCmZqKlJHonzE5jEvdqVoR/Acz5ECE/1lVQ0M8OpvN?=
- =?iso-8859-1?Q?aihKH2/Ne92shutEsslHEdoHoHf209QP1nv/5O3Kclji68PsLk7d7aviP+?=
- =?iso-8859-1?Q?CCBxS7/mfYKZXmuMCN7h0498FVGYkYBNAu3i6AprzFNOxZnBgcGfvXucD+?=
- =?iso-8859-1?Q?3MrKj7ZkR+zcAkqKnRi2p5Ry+bwjkD2NNOKt4Zi/smLXVXJ0yvSfw0vB6W?=
- =?iso-8859-1?Q?BeYEEJlV/HfNX1eRX06WYLUaCgDg32abwgh297C+k/1tMeqloO4jcmvRGq?=
- =?iso-8859-1?Q?s8MkIi24lNegWe++l8QhL6N/OJ3l2CuuFCIrB8UzjGijPa8WJJG7u7PA2Y?=
- =?iso-8859-1?Q?lItkDV69+zYxCIFPQupJWKTIr65f6bUpyXPc/6GWwmmJPx4Hx+oWd7RSJF?=
- =?iso-8859-1?Q?l7zcagJWH/Sq11rX7QtFdOxFcu+Rh1Cz/eu4rpgBI89tmtrFsvzds4UabJ?=
- =?iso-8859-1?Q?EDWot1vJZiYuLhaJPNP124fFaVq1RAa894xsK5DL2OTLqNRBFHHI/WB4pi?=
- =?iso-8859-1?Q?T1E1n9cErlPZrIAlK83O//swGgQbmULK6ttL1uFt4xVIPtWO+h3zU1pkvZ?=
- =?iso-8859-1?Q?Bepyee/EANhe3KvireHgv6PeC2eXc1TuMPYciBsMYSNGdyo5fCgy1UzpSP?=
- =?iso-8859-1?Q?yRMZ+608oWRAax0yl5zPl7xlodZsMlInkK559/B94sS9MiAtoF1lK6f5Sc?=
- =?iso-8859-1?Q?FboK48x4pSfan0Wx0t3rT8qNxcaJ2L/aWmYk0skCwi4W/FtSsmq8GY62v1?=
- =?iso-8859-1?Q?/ZstDoPIGxdJsY/P0CRb2XZOpDFu9YoNw3YqmV2nwxvDBk770zZUW/G7DL?=
- =?iso-8859-1?Q?b8/BbqRV32BvqjiMo3xeSpqj4Oj24MP+MpNl7WIViCrUy+3d9q6PjXOw?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?KoTyVG30uXY6zZNBaAua6dXCGEcaziIJC1qmoOMWlo7ZCWxUATBkheCqKJ?=
+ =?iso-8859-1?Q?ku4T65i7Od/jfzCLqZKQYRl+GxdeTQ5DclLC/ojJmIYfTObVNjqoxSO5lu?=
+ =?iso-8859-1?Q?4Y5tCbBNB45MmA09Bp7tdLOljnM8MWc7PCYunFFck9NltaGPMlr5qHPYPt?=
+ =?iso-8859-1?Q?gt0GQRaUuBhQ3GTl6uZ5et0M4gURF5uYfVERPYp6LzRYAFAs4TxMxvKW8T?=
+ =?iso-8859-1?Q?8PpgAXCd8TNm6SM75h38fIv3ApU6+rvQnvrHKkmbZSg9H3f/MKsVdsTcVK?=
+ =?iso-8859-1?Q?URQETOTbbMy3jrrLHGMOKtCW7ozYJ0E35903ePUjTTglGqC724GsLWURaK?=
+ =?iso-8859-1?Q?BzwcgxaPnM/JAXJ56aSn7Fr2F/vQP4qqEX/yGvLC937wn/ntlxnKqk3NT4?=
+ =?iso-8859-1?Q?/jfudQhsNBKEe+jN4oDC9ETXsdZn+si8lG+aQ2dKkuTWKqK29s5hVXqGFX?=
+ =?iso-8859-1?Q?9ADHksm8u3C+xuYCNbP3wCQgpxeKpe3jOeHMOPYO5ZMKye0K8te7jkHp6d?=
+ =?iso-8859-1?Q?dGzWjZoV+1Bfn1qcdYGO6/FMlNiB8mBuKioG+Qo8kHnqoiakK3y7JUJB0u?=
+ =?iso-8859-1?Q?epazKNCyWUeLoLToZ3Va+WieYVH+lodNYcqbz1UW/+fU6zu4SWQRszDoNt?=
+ =?iso-8859-1?Q?UyUZUDsQZbmrAeIshMXMpPkz8/P9C1JpATT4Ixtxor/665xZgTY6f3Og5Z?=
+ =?iso-8859-1?Q?qrOcHrnqJi5IMRgWPApF6JCz8M2LAsqWsy+j0BYoPjgdkbtplSNh2Nfi8r?=
+ =?iso-8859-1?Q?8Xf9CF8BWZ0qY3i+iKRWMdemRi+fkA5BceGg3FEsY5UADDP2pqGKrGqlPw?=
+ =?iso-8859-1?Q?nL9ECOCGOAN1eJ0dHZVqdiG7oglOWJ5BiIqqeBfI+1V14ufn7auylur6aF?=
+ =?iso-8859-1?Q?jC29++P3uZPEJ/+IXDNehopb5w2/QPCYR8n3yNpg08uRL6Q/6kaSjpipfX?=
+ =?iso-8859-1?Q?JNyr5y71477wC6gPSGlznGWZX2ozxy89mq0scBbQqEllOosJESXoaHIMzv?=
+ =?iso-8859-1?Q?Wm1zznT76EM6iOD6Xbr6QO7K/lchcE8KKNFUfB/5FJ3xn4j86W/dbkgfAj?=
+ =?iso-8859-1?Q?+weokxiWCTZHGPsHLBmL6SKi93YBfmEtV6b2a9dvZMFFUjppFCOf81pKRu?=
+ =?iso-8859-1?Q?aIax+DXbhKiJCTM3Wuti6+arwxmQMqbzfwVAzQYICANSrnF57eFsAMWuh3?=
+ =?iso-8859-1?Q?rn/dShL3xKuHxk06hQ+K5E+3YVtzdRUveEkNpim6EymGNF5RAeqEEhCdcD?=
+ =?iso-8859-1?Q?YIVUt8XEI1fqTlm6uN8tQShRn6bKUgrj8wTjnTuqE/DhatHtdw+ZvUoHKO?=
+ =?iso-8859-1?Q?kyD4vW8BRdFEBm0CNyfe982GD75eXDrcdKtq0/YG0L6+ZOHTcd+SIbak4q?=
+ =?iso-8859-1?Q?s2CbJSH5xvu+pmR0mvnoXCgrCHDHO9STrM+UbwfHalfps51oDvgxhCD6NX?=
+ =?iso-8859-1?Q?awT7wP7CFnCEWN7hP+SWpFpjEvaMHF3IDH46yRyjpDSPsoyyPwX+CsVZcZ?=
+ =?iso-8859-1?Q?0Of11AcqgpvfNjnrQ54R5ynjIVPxx5uIlLeDWq/YQLTzW6PU52XfAqYsBH?=
+ =?iso-8859-1?Q?kMMWMiY+y69lhudHtPtl+WBrbeulpRJMnYBECHllU9eP9ciNctAnawhOyU?=
+ =?iso-8859-1?Q?anZ87cMrF356KAbqIAkzMpSZ4g2hguN2pQXOkKEurFDNNWhCFRcjWYZQ?=
  =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96cefdc8-bd94-4a04-20f1-08dd1a161629
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06102a69-c747-47c3-5fff-08dd1a16eef8
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2024 19:00:32.1991 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2024 19:06:35.9499 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A9kh7e4bqy6iiTuIEWQrkFt/IqFqUi6t6n4MYTeZLTAZKNuShJREWo6+5zk0DWDTJiUb/WHxizOKB1iBRILS/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4740
+X-MS-Exchange-CrossTenant-UserPrincipalName: LXJTGsuYhVtKivVcdYpROqwFxY8immsThsRBs7/85rXubSSC/TKQZmquNiRjlNp10Q5ICHQw89J7T/iqopbaXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5941
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -181,520 +181,804 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 19, 2024 at 02:56:12PM +0100, Thomas Hellström wrote:
-> On Tue, 2024-10-15 at 20:24 -0700, Matthew Brost wrote:
-> > Add SVM range invalidation vfunc.
+On Tue, Nov 19, 2024 at 03:26:32PM +0100, Thomas Hellström wrote:
+> On Tue, 2024-10-15 at 20:25 -0700, Matthew Brost wrote:
+> > Add (re)bind to SVM page fault handler. To facilitate add support
+> > function to VM layer which (re)binds a SVM range. Also teach PT layer
+> > to
+> > understand (re)binds of SVM ranges.
 > > 
 > > v2:
-> >  - Don't run invalidation if VM is closed
-> >  - Cycle notifier lock in xe_svm_close
-> >  - Drop xe_gt_tlb_invalidation_fence_fini
+> >  - Don't assert BO lock held for range binds
+> >  - Use xe_svm_notifier_lock/unlock helper in xe_svm_close
+> >  - Use drm_pagemap dma cursor
+> >  - Take notifier lock in bind code to check range state
 > > 
+> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > > ---
-> >  drivers/gpu/drm/xe/xe_gt_pagefault.c |  17 ++-
-> >  drivers/gpu/drm/xe/xe_pt.c           |  24 ++++
-> >  drivers/gpu/drm/xe/xe_pt.h           |   3 +
-> >  drivers/gpu/drm/xe/xe_svm.c          | 205
-> > ++++++++++++++++++++++++++-
-> >  drivers/gpu/drm/xe/xe_svm.h          |  13 ++
-> >  5 files changed, 256 insertions(+), 6 deletions(-)
+> >  drivers/gpu/drm/xe/xe_pt.c       | 170 +++++++++++++++++++++++++++--
+> > --
+> >  drivers/gpu/drm/xe/xe_pt_types.h |   2 +
+> >  drivers/gpu/drm/xe/xe_svm.c      |  49 ++++++++-
+> >  drivers/gpu/drm/xe/xe_svm.h      |  17 ++++
+> >  drivers/gpu/drm/xe/xe_vm.c       |  80 +++++++++++++++
+> >  drivers/gpu/drm/xe/xe_vm.h       |   5 +
+> >  drivers/gpu/drm/xe/xe_vm_types.h |  19 ++++
+> >  7 files changed, 319 insertions(+), 23 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> > b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> > index 79c426dc2505..92923947a12c 100644
-> > --- a/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> > +++ b/drivers/gpu/drm/xe/xe_gt_pagefault.c
-> > @@ -19,6 +19,7 @@
-> >  #include "xe_guc.h"
-> >  #include "xe_guc_ct.h"
-> >  #include "xe_migrate.h"
-> > +#include "xe_svm.h"
-> >  #include "xe_trace_bo.h"
-> >  #include "xe_vm.h"
-> >  
-> > @@ -125,18 +126,17 @@ static int xe_pf_begin(struct drm_exec *exec,
-> > struct xe_vma *vma,
-> >  	return 0;
-> >  }
-> >  
-> > -static int handle_vma_pagefault(struct xe_tile *tile, struct
-> > pagefault *pf,
-> > -				struct xe_vma *vma)
-> > +static int handle_vma_pagefault(struct xe_tile *tile, struct xe_vma
-> > *vma,
-> > +				bool atomic)
-> >  {
-> >  	struct xe_vm *vm = xe_vma_vm(vma);
-> >  	struct drm_exec exec;
-> >  	struct dma_fence *fence;
-> >  	ktime_t end = 0;
-> >  	int err;
-> > -	bool atomic;
-> >  
-> > +	lockdep_assert_held_write(&vm->lock);
-> >  	trace_xe_vma_pagefault(vma);
-> > -	atomic = access_is_atomic(pf->access_type);
-> >  
-> >  	/* Check if VMA is valid */
-> >  	if (vma_is_valid(tile, vma) && !atomic)
-> > @@ -207,6 +207,7 @@ static int handle_pagefault(struct xe_gt *gt,
-> > struct pagefault *pf)
-> >  	struct xe_vm *vm;
-> >  	struct xe_vma *vma = NULL;
-> >  	int err;
-> > +	bool atomic;
-> >  
-> >  	/* SW isn't expected to handle TRTT faults */
-> >  	if (pf->trva_fault)
-> > @@ -232,7 +233,13 @@ static int handle_pagefault(struct xe_gt *gt,
-> > struct pagefault *pf)
-> >  		goto unlock_vm;
-> >  	}
-> >  
-> > -	err = handle_vma_pagefault(tile, pf, vma);
-> > +	atomic = access_is_atomic(pf->access_type);
-> > +
-> > +	if (xe_vma_is_system_allocator(vma))
-> > +		err = xe_svm_handle_pagefault(vm, vma, tile,
-> > +					      pf->page_addr,
-> > atomic);
-> > +	else
-> > +		err = handle_vma_pagefault(tile, vma, atomic);
-> >  
-> >  unlock_vm:
-> >  	if (!err)
 > > diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> > index 39357e829b6d..282476c4edbd 100644
+> > index 282476c4edbd..024e4eb83408 100644
 > > --- a/drivers/gpu/drm/xe/xe_pt.c
 > > +++ b/drivers/gpu/drm/xe/xe_pt.c
-> > @@ -20,6 +20,7 @@
-> >  #include "xe_res_cursor.h"
-> >  #include "xe_sched_job.h"
-> >  #include "xe_sync.h"
-> > +#include "xe_svm.h"
-> >  #include "xe_trace.h"
-> >  #include "xe_ttm_stolen_mgr.h"
-> >  #include "xe_vm.h"
-> > @@ -829,6 +830,29 @@ bool xe_pt_zap_ptes(struct xe_tile *tile, struct
+> > @@ -587,6 +587,7 @@ static const struct xe_pt_walk_ops
+> > xe_pt_stage_bind_ops = {
+> >   * range.
+> >   * @tile: The tile we're building for.
+> >   * @vma: The vma indicating the address range.
+> > + * @range: The range indicating the address range.
+> >   * @entries: Storage for the update entries used for connecting the
+> > tree to
+> >   * the main tree at commit time.
+> >   * @num_entries: On output contains the number of @entries used.
+> > @@ -602,6 +603,7 @@ static const struct xe_pt_walk_ops
+> > xe_pt_stage_bind_ops = {
+> >   */
+> >  static int
+> >  xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+> > +		 struct xe_svm_range *range,
+> >  		 struct xe_vm_pgtable_update *entries, u32
+> > *num_entries)
+> 
+> Really the same comment here, should rework the interface to drop vma
+> and range, although since it's more involved here let's do it as a
+> follow-up.
+> 
+
+Yep agree. We have Jira open for this but is larger rework, mainly
+moving the tile_present / tile_invalidated from the VMA's / Range's to
+the PT state.
+
+> >  {
+> >  	struct xe_device *xe = tile_to_xe(tile);
+> > @@ -618,14 +620,38 @@ xe_pt_stage_bind(struct xe_tile *tile, struct
+> > xe_vma *vma,
+> >  		.vm = xe_vma_vm(vma),
+> >  		.tile = tile,
+> >  		.curs = &curs,
+> > -		.va_curs_start = xe_vma_start(vma),
+> > +		.va_curs_start = range ? range->base.va.start :
+> > +			xe_vma_start(vma),
+> >  		.vma = vma,
+> >  		.wupd.entries = entries,
+> > -		.needs_64K = (xe_vma_vm(vma)->flags &
+> > XE_VM_FLAG_64K) && is_devmem,
+> >  	};
+> >  	struct xe_pt *pt = xe_vma_vm(vma)->pt_root[tile->id];
+> >  	int ret;
+> >  
+> > +	if (range) {
+> > +		/* Move this entire thing to xe_svm.c? */
+> > +		xe_svm_notifier_lock(xe_vma_vm(vma));
+> > +		if (!xe_svm_range_pages_valid(range)) {
+> > +			xe_svm_notifier_unlock(xe_vma_vm(vma));
+> > +			return -EAGAIN;
+> > +		}
+> > +		if (xe_svm_range_has_dma_mapping(range)) {
+> > +			xe_res_first_dma(range->base.dma_addr, 0,
+> > +					 range->base.va.end - range-
+> > >base.va.start,
+> > +					 &curs);
+> > +			is_devmem = xe_res_is_vram(&curs);
+> > +		} else {
+> > +			xe_assert(xe, false);
+> > +		}
+> > +		/*
+> > +		 * Note, when unlocking the resource cursor dma
+> > addresses may become
+> > +		 * stale, but the bind will be aborted anyway att
+> > commit time.
+> > +		 */
+> > +		xe_svm_notifier_unlock(xe_vma_vm(vma));
+> > +	}
+> > +
+> > +	xe_walk.needs_64K = (xe_vma_vm(vma)->flags & XE_VM_FLAG_64K)
+> > && is_devmem;
+> > +
+> >  	/**
+> >  	 * Default atomic expectations for different allocation
+> > scenarios are as follows:
+> >  	 *
+> > @@ -647,7 +673,7 @@ xe_pt_stage_bind(struct xe_tile *tile, struct
+> > xe_vma *vma,
+> >  			 * gets migrated to LMEM, bind such
+> > allocations with
+> >  			 * device atomics enabled.
+> >  			 */
+> > -			else if (is_devmem &&
+> > !xe_bo_has_single_placement(bo))
+> > +			else if (is_devmem)
+> >  				xe_walk.default_pte |=
+> > XE_USM_PPGTT_PTE_AE;
+> >  		} else {
+> >  			xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+> > @@ -663,15 +689,16 @@ xe_pt_stage_bind(struct xe_tile *tile, struct
+> > xe_vma *vma,
+> >  
+> >  	if (is_devmem) {
+> >  		xe_walk.default_pte |= XE_PPGTT_PTE_DM;
+> > -		xe_walk.dma_offset = vram_region_gpu_offset(bo-
+> > >ttm.resource);
+> > +		xe_walk.dma_offset = bo ? vram_region_gpu_offset(bo-
+> > >ttm.resource) : 0;
+> >  	}
+> >  
+> >  	if (!xe_vma_has_no_bo(vma) && xe_bo_is_stolen(bo))
+> >  		xe_walk.dma_offset =
+> > xe_ttm_stolen_gpu_offset(xe_bo_device(bo));
+> >  
+> > -	xe_bo_assert_held(bo);
+> > +	if (!range)
+> > +		xe_bo_assert_held(bo);
+> >  
+> > -	if (!xe_vma_is_null(vma)) {
+> > +	if (!xe_vma_is_null(vma) && !range) {
+> >  		if (xe_vma_is_userptr(vma))
+> >  			xe_res_first_sg(to_userptr_vma(vma)-
+> > >userptr.sg, 0,
+> >  					xe_vma_size(vma), &curs);
+> > @@ -681,12 +708,14 @@ xe_pt_stage_bind(struct xe_tile *tile, struct
+> > xe_vma *vma,
+> >  		else
+> >  			xe_res_first_sg(xe_bo_sg(bo),
+> > xe_vma_bo_offset(vma),
+> >  					xe_vma_size(vma), &curs);
+> > -	} else {
+> > +	} else if (!range) {
+> >  		curs.size = xe_vma_size(vma);
+> >  	}
+> >  
+> > -	ret = xe_pt_walk_range(&pt->base, pt->level,
+> > xe_vma_start(vma),
+> > -			       xe_vma_end(vma), &xe_walk.base);
+> > +	ret = xe_pt_walk_range(&pt->base, pt->level,
+> > +			       range ? range->base.va.start :
+> > xe_vma_start(vma),
+> > +			       range ? range->base.va.end :
+> > xe_vma_end(vma),
+> > +			       &xe_walk.base);
+> >  
+> >  	*num_entries = xe_walk.wupd.num_used_entries;
+> >  	return ret;
+> > @@ -902,7 +931,7 @@ static void xe_pt_commit_locks_assert(struct
 > > xe_vma *vma)
-> >  	return xe_walk.needs_invalidate;
+> >  
+> >  	lockdep_assert_held(&vm->lock);
+> >  
+> > -	if (!xe_vma_is_userptr(vma) && !xe_vma_is_null(vma))
+> > +	if (!xe_vma_has_no_bo(vma))
+> >  		dma_resv_assert_held(xe_vma_bo(vma)->ttm.base.resv);
+> >  
+> >  	xe_vm_assert_held(vm);
+> > @@ -1004,12 +1033,13 @@ static void xe_pt_free_bind(struct
+> > xe_vm_pgtable_update *entries,
+> >  
+> >  static int
+> >  xe_pt_prepare_bind(struct xe_tile *tile, struct xe_vma *vma,
+> > +		   struct xe_svm_range *range,
+> >  		   struct xe_vm_pgtable_update *entries, u32
+> > *num_entries)
+> >  {
+> >  	int err;
+> >  
+> >  	*num_entries = 0;
+> > -	err = xe_pt_stage_bind(tile, vma, entries, num_entries);
+> > +	err = xe_pt_stage_bind(tile, vma, range, entries,
+> > num_entries);
+> >  	if (!err)
+> >  		xe_tile_assert(tile, *num_entries);
+> >  
+> > @@ -1115,6 +1145,8 @@ static int op_add_deps(struct xe_vm *vm, struct
+> > xe_vma_op *op,
+> >  	case DRM_GPUVA_OP_PREFETCH:
+> >  		err = vma_add_deps(gpuva_to_vma(op-
+> > >base.prefetch.va), job);
+> >  		break;
+> > +	case DRM_GPUVA_OP_USER:
+> > +		break;
+> >  	default:
+> >  		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
+> >  	}
+> > @@ -1339,6 +1371,34 @@ static int xe_pt_userptr_pre_commit(struct
+> > xe_migrate_pt_update *pt_update)
+> >  	return err;
 > >  }
 > >  
-> > +bool xe_pt_zap_ptes_range(struct xe_tile *tile, struct xe_vm *vm,
-> > +			  struct xe_svm_range *range)
-> 
-> Kerneldoc.
-> 
-
-Will add.
-
-> Here, (and I saw Oak also commented around this some time ago) ideally
-> we should make xe_pt.c unaware of vmas and svm ranges, and in this
-> case, use the same xe_pt function for both.
-> 
-
-See some of other comments, agree we should do in a follow up.
-
-> 
-> 
+> > +static int xe_pt_svm_pre_commit(struct xe_migrate_pt_update
+> > *pt_update)
 > > +{
-> > +	struct xe_pt_zap_ptes_walk xe_walk = {
-> > +		.base = {
-> > +			.ops = &xe_pt_zap_ptes_ops,
-> > +			.shifts = xe_normal_pt_shifts,
-> > +			.max_level = XE_PT_HIGHEST_LEVEL,
-> > +		},
-> > +		.tile = tile,
-> > +	};
-> > +	struct xe_pt *pt = vm->pt_root[tile->id];
-> > +	u8 pt_mask = (range->tile_present & ~range-
-> > >tile_invalidated);
+> > +	struct xe_vm *vm = pt_update->vops->vm;
+> > +	struct xe_vma_ops *vops = pt_update->vops;
+> > +	struct xe_vma_op *op;
+> > +	int err;
 > > +
-> > +	if (!(pt_mask & BIT(tile->id)))
-> > +		return false;
+> > +	err = xe_pt_pre_commit(pt_update);
+> > +	if (err)
+> > +		return err;
 > > +
-> > +	(void)xe_pt_walk_shared(&pt->base, pt->level, range-
-> > >base.va.start,
-> > +				range->base.va.end, &xe_walk.base);
+> > +	xe_svm_notifier_lock(vm);
 > > +
-> > +	return xe_walk.needs_invalidate;
-> > +}
+> > +	list_for_each_entry(op, &vops->list, link) {
+> > +		struct xe_svm_range *range = op->map_range.range;
 > > +
-> >  static void
-> >  xe_vm_populate_pgtable(struct xe_migrate_pt_update *pt_update,
-> > struct xe_tile *tile,
-> >  		       struct iosys_map *map, void *data,
-> > diff --git a/drivers/gpu/drm/xe/xe_pt.h b/drivers/gpu/drm/xe/xe_pt.h
-> > index 9ab386431cad..5f333eeedf5c 100644
-> > --- a/drivers/gpu/drm/xe/xe_pt.h
-> > +++ b/drivers/gpu/drm/xe/xe_pt.h
-> > @@ -13,6 +13,7 @@ struct dma_fence;
-> >  struct xe_bo;
-> >  struct xe_device;
-> >  struct xe_exec_queue;
-> > +struct xe_svm_range;
-> >  struct xe_sync_entry;
-> >  struct xe_tile;
-> >  struct xe_vm;
-> > @@ -42,5 +43,7 @@ void xe_pt_update_ops_fini(struct xe_tile *tile,
-> > struct xe_vma_ops *vops);
-> >  void xe_pt_update_ops_abort(struct xe_tile *tile, struct xe_vma_ops
-> > *vops);
-> >  
-> >  bool xe_pt_zap_ptes(struct xe_tile *tile, struct xe_vma *vma);
-> > +bool xe_pt_zap_ptes_range(struct xe_tile *tile, struct xe_vm *vm,
-> > +			  struct xe_svm_range *range);
-> >  
-> >  #endif
-> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
-> > b/drivers/gpu/drm/xe/xe_svm.c
-> > index 57b740367843..b2bc259978c4 100644
-> > --- a/drivers/gpu/drm/xe/xe_svm.c
-> > +++ b/drivers/gpu/drm/xe/xe_svm.c
-> > @@ -5,18 +5,188 @@
-> >  
-> >  #include "drm_gpusvm.h"
-> >  
-> > +#include "xe_gt_tlb_invalidation.h"
-> > +#include "xe_pt.h"
-> >  #include "xe_svm.h"
-> >  #include "xe_vm.h"
-> >  #include "xe_vm_types.h"
-> >  
-> > +static struct xe_vm *gpusvm_to_vm(struct drm_gpusvm *gpusvm)
-> > +{
-> > +	return container_of(gpusvm, struct xe_vm, svm.gpusvm);
-> > +}
+> > +		xe_assert(vm->xe, xe_vma_is_system_allocator(op-
+> > >map_range.vma));
+> > +		xe_assert(vm->xe, op->subop ==
+> > XE_VMA_SUBOP_MAP_RANGE);
 > > +
-> > +static struct xe_vm *range_to_vm(struct drm_gpusvm_range *r)
-> > +{
-> > +	return gpusvm_to_vm(r->gpusvm);
-> > +}
-> > +
-> > +static struct drm_gpusvm_range *
-> > +xe_svm_range_alloc(struct drm_gpusvm *gpusvm)
-> > +{
-> > +	struct xe_svm_range *range;
-> > +
-> > +	range = kzalloc(sizeof(*range), GFP_KERNEL);
-> > +	if (!range)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	xe_vm_get(gpusvm_to_vm(gpusvm));
-> > +
-> > +	return &range->base;
-> > +}
-> > +
-> > +static void xe_svm_range_free(struct drm_gpusvm_range *range)
-> > +{
-> > +	xe_vm_put(range_to_vm(range));
-> > +	kfree(range);
-> > +}
-> > +
-> > +static struct xe_svm_range *to_xe_range(struct drm_gpusvm_range *r)
-> > +{
-> > +	return container_of(r, struct xe_svm_range, base);
-> > +}
-> > +
-> > +static u8
-> > +xe_svm_range_notifier_event_begin(struct xe_vm *vm, struct
-> > drm_gpusvm_range *r,
-> > +				  const struct mmu_notifier_range
-> > *mmu_range,
-> > +				  u64 *adj_start, u64 *adj_end)
-> > +{
-> > +	struct xe_svm_range *range = to_xe_range(r);
-> > +	struct xe_device *xe = vm->xe;
-> > +	struct xe_tile *tile;
-> > +	u8 tile_mask = 0;
-> > +	u8 id;
-> > +
-> 
-> lockdep assert?
->
-
-Sure.
- 
-> > +	/* Skip if already unmapped or if no binding exist */
-> > +	if (range->base.flags.unmapped || !range->tile_present)
-> > +		return 0;
-> > +
-> > +	/* Adjust invalidation to range boundaries */
-> > +	if (range->base.va.start < mmu_range->start)
-> > +		*adj_start = range->base.va.start;
-> > +	if (range->base.va.end > mmu_range->end)
-> > +		*adj_end = range->base.va.end;
-> > +
-> > +	/*
-> > +	 * XXX: Ideally would zap PTEs in one shot in
-> > xe_svm_invalidate but the
-> > +	 * invalidation code can't correctly cope with sparse ranges
-> > or
-> > +	 * invalidations spanning multiple ranges.
-> > +	 */
-> > +	for_each_tile(tile, xe, id)
-> > +		if (xe_pt_zap_ptes_range(tile, vm, range)) {
-> > +			tile_mask |= BIT(id);
-> > +			range->tile_invalidated |= BIT(id);
-> > +		}
-> > +
-> > +	return tile_mask;
-> > +}
-> > +
-> > +static void
-> > +xe_svm_range_notifier_event_end(struct xe_vm *vm, struct
-> > drm_gpusvm_range *r,
-> > +				const struct mmu_notifier_range
-> > *mmu_range)
-> > +{
-> > +	struct drm_gpusvm_ctx ctx = { .in_notifier = true, };
-> > +
-> > +	drm_gpusvm_range_unmap_pages(&vm->svm.gpusvm, r, &ctx);
-> > +	/* TODO: Add range to garbage collector */
-> > +}
-> > +
-> >  static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
-> >  			      struct drm_gpusvm_notifier *notifier,
-> >  			      const struct mmu_notifier_range
-> > *mmu_range)
-> >  {
-> > -	/* TODO: Implement */
-> > +	struct xe_vm *vm = gpusvm_to_vm(gpusvm);
-> > +	struct xe_device *xe = vm->xe;
-> > +	struct xe_tile *tile;
-> > +	struct drm_gpusvm_range *r, *first;
-> > +	struct xe_gt_tlb_invalidation_fence
-> > +		fence[XE_MAX_TILES_PER_DEVICE * XE_MAX_GT_PER_TILE];
-> > +	u64 adj_start = mmu_range->start, adj_end = mmu_range->end;
-> > +	u8 tile_mask = 0;
-> > +	u8 id;
-> > +	u32 fence_id = 0;
-> > +	long err;
-> > +
-> > +	if (xe_vm_is_closed(vm))
-> > +		return;
-> 
-> How do we ensure we don't race here? Are we sure that all dma mappings
-> and all PTEs pointing to the range is gone at this point? Becase "They
-> will soon be gone anyway" isn't enough.
->
-
-I think this is to prevent touching PTs which are being destroyed in
-parallel which resulted in kernel explosion, so I think we need this.
-
-How to prevent a race? How about on VM close we invalidate the PT root?
-I had patch at one point which did this. We'd still have dma mappings
-too but I think if need to we can safely dma-unmap the pages if the VM
-is closed too. Thoughts?
-
-> > +
-> > +	/* Adjust invalidation to notifier boundaries */
-> > +	if (adj_start < notifier->interval.start)
-> > +		adj_start = notifier->interval.start;
-> > +	if (adj_end > notifier->interval.end)
-> > +		adj_end = notifier->interval.end;
-> > +
-> > +	first = drm_gpusvm_range_find(notifier, adj_start, adj_end);
-> > +	if (!first)
-> > +		return;
-> > +
-> > +	/*
-> > +	 * XXX: Less than ideal to always wait on VM's resv slots if
-> > an
-> > +	 * invalidation is not required. Could walk range list twice
-> > to figure
-> > +	 * out if an invalidations is need, but also not ideal.
-> > Maybe a counter
-> > +	 * within the notifier, seems like that could work.
-> > +	 */
-> > +	err = dma_resv_wait_timeout(xe_vm_resv(vm),
-> > +				    DMA_RESV_USAGE_BOOKKEEP,
-> > +				    false, MAX_SCHEDULE_TIMEOUT);
-> > +	XE_WARN_ON(err <= 0);
-> > +
-> > +	r = first;
-> > +	drm_gpusvm_for_each_range(r, notifier, adj_start, adj_end)
-> > +		tile_mask |= xe_svm_range_notifier_event_begin(vm,
-> > r, mmu_range,
-> > +							      
-> > &adj_start,
-> > +							      
-> > &adj_end);
-> > +	if (!tile_mask)
-> > +		goto range_notifier_event_end;
-> > +
-> > +	xe_device_wmb(xe);
-> > +
-> > +	for_each_tile(tile, xe, id) {
-> > +		if (tile_mask & BIT(id)) {
-> > +			int err;
-> > +
-> > +			xe_gt_tlb_invalidation_fence_init(tile-
-> > >primary_gt,
-> > +							 
-> > &fence[fence_id], true);
-> > +
-> > +			err = xe_gt_tlb_invalidation_range(tile-
-> > >primary_gt,
-> > +							  
-> > &fence[fence_id],
-> > +							  
-> > adj_start,
-> > +							   adj_end,
-> > +							   vm-
-> > >usm.asid);
-> > +			if (WARN_ON_ONCE(err < 0))
-> > +				goto wait;
-> > +			++fence_id;
-> > +
-> > +			if (!tile->media_gt)
-> > +				continue;
-> > +
-> > +			xe_gt_tlb_invalidation_fence_init(tile-
-> > >media_gt,
-> > +							 
-> > &fence[fence_id], true);
-> > +
-> > +			err = xe_gt_tlb_invalidation_range(tile-
-> > >media_gt,
-> > +							  
-> > &fence[fence_id],
-> > +							  
-> > adj_start,
-> > +							   adj_end,
-> > +							   vm-
-> > >usm.asid);
-> > +			if (WARN_ON_ONCE(err < 0))
-> > +				goto wait;
-> > +			++fence_id;
+> > +		if (!xe_svm_range_pages_valid(range)) {
+> > +			xe_svm_notifier_unlock(vm);
+> > +			return -EAGAIN;
 > > +		}
 > > +	}
 > > +
-> > +wait:
-> > +	for (id = 0; id < fence_id; ++id)
-> > +		xe_gt_tlb_invalidation_fence_wait(&fence[id]);
+> > +	return 0;
+> > +}
 > > +
-> > +range_notifier_event_end:
-> > +	r = first;
-> > +	drm_gpusvm_for_each_range(r, notifier, adj_start, adj_end)
-> > +		xe_svm_range_notifier_event_end(vm, r, mmu_range);
-> >  }
+> >  struct invalidation_fence {
+> >  	struct xe_gt_tlb_invalidation_fence base;
+> >  	struct xe_gt *gt;
+> > @@ -1632,12 +1692,12 @@ xe_pt_commit_prepare_unbind(struct xe_vma
+> > *vma,
 > >  
-> >  static const struct drm_gpusvm_ops gpusvm_ops = {
-> > +	.range_alloc = xe_svm_range_alloc,
-> > +	.range_free = xe_svm_range_free,
-> >  	.invalidate = xe_svm_invalidate,
-> >  };
-> >  
-> > @@ -36,6 +206,11 @@ int xe_svm_init(struct xe_vm *vm)
-> >  
-> >  void xe_svm_close(struct xe_vm *vm)
+> >  static void
+> >  xe_pt_update_ops_rfence_interval(struct xe_vm_pgtable_update_ops
+> > *pt_update_ops,
+> > -				 struct xe_vma *vma)
+> > +				 u64 start, u64 end)
 > >  {
-> > +	xe_assert(vm->xe, xe_vm_is_closed(vm));
-> > +
-> > +	/* Flush running notifiers making xe_vm_close() visable */
-> > +	drm_gpusvm_notifier_lock(&vm->svm.gpusvm);
-> > +	drm_gpusvm_notifier_unlock(&vm->svm.gpusvm);
-> 
-> Calling mmu_notifier_read_begin() ensures that nothing is invalidating
-> on the range. Probably a better choice.
->
-
-We'd have to call that on every notifier rather than just cycle the
-lock, so with that I'd prefer to leave it as is.
- 
+> > +	u64 last;
+> >  	u32 current_op = pt_update_ops->current_op;
+> >  	struct xe_vm_pgtable_update_op *pt_op = &pt_update_ops-
+> > >ops[current_op];
+> >  	int i, level = 0;
+> > -	u64 start, last;
+> >  
+> >  	for (i = 0; i < pt_op->num_entries; i++) {
+> >  		const struct xe_vm_pgtable_update *entry = &pt_op-
+> > >entries[i];
+> > @@ -1647,8 +1707,8 @@ xe_pt_update_ops_rfence_interval(struct
+> > xe_vm_pgtable_update_ops *pt_update_ops,
+> >  	}
+> >  
+> >  	/* Greedy (non-optimal) calculation but simple */
+> > -	start = ALIGN_DOWN(xe_vma_start(vma), 0x1ull <<
+> > xe_pt_shift(level));
+> > -	last = ALIGN(xe_vma_end(vma), 0x1ull << xe_pt_shift(level))
+> > - 1;
+> > +	start = ALIGN_DOWN(start, 0x1ull << xe_pt_shift(level));
+> > +	last = ALIGN(end, 0x1ull << xe_pt_shift(level)) - 1;
+> >  
+> >  	if (start < pt_update_ops->start)
+> >  		pt_update_ops->start = start;
+> > @@ -1690,7 +1750,7 @@ static int bind_op_prepare(struct xe_vm *vm,
+> > struct xe_tile *tile,
+> >  	if (err)
+> >  		return err;
+> >  
+> > -	err = xe_pt_prepare_bind(tile, vma, pt_op->entries,
+> > +	err = xe_pt_prepare_bind(tile, vma, NULL, pt_op->entries,
+> >  				 &pt_op->num_entries);
+> >  	if (!err) {
+> >  		xe_tile_assert(tile, pt_op->num_entries <=
+> > @@ -1698,7 +1758,9 @@ static int bind_op_prepare(struct xe_vm *vm,
+> > struct xe_tile *tile,
+> >  		xe_vm_dbg_print_entries(tile_to_xe(tile), pt_op-
+> > >entries,
+> >  					pt_op->num_entries, true);
+> >  
+> > -		xe_pt_update_ops_rfence_interval(pt_update_ops,
+> > vma);
+> > +		xe_pt_update_ops_rfence_interval(pt_update_ops,
+> > +						 xe_vma_start(vma),
+> > +						 xe_vma_end(vma));
+> >  		++pt_update_ops->current_op;
+> >  		pt_update_ops->needs_userptr_lock |=
+> > xe_vma_is_userptr(vma);
+> >  
+> > @@ -1732,6 +1794,48 @@ static int bind_op_prepare(struct xe_vm *vm,
+> > struct xe_tile *tile,
+> >  	return err;
 > >  }
 > >  
-> >  void xe_svm_fini(struct xe_vm *vm)
-> > @@ -44,3 +219,31 @@ void xe_svm_fini(struct xe_vm *vm)
-> >  
-> >  	drm_gpusvm_fini(&vm->svm.gpusvm);
-> >  }
-> > +
-> > +int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
-> > +			    struct xe_tile *tile, u64 fault_addr,
-> > +			    bool atomic)
+> > +static int bind_range_prepare(struct xe_vm *vm, struct xe_tile
+> > *tile,
+> > +			      struct xe_vm_pgtable_update_ops
+> > *pt_update_ops,
+> > +			      struct xe_vma *vma, struct
+> > xe_svm_range *range)
 > > +{
-> > +	struct drm_gpusvm_ctx ctx = { .read_only =
-> > xe_vma_read_only(vma), };
-> > +	struct drm_gpusvm_range *r;
+> > +	u32 current_op = pt_update_ops->current_op;
+> > +	struct xe_vm_pgtable_update_op *pt_op = &pt_update_ops-
+> > >ops[current_op];
 > > +	int err;
 > > +
-> > +	lockdep_assert_held_write(&vm->lock);
+> > +	xe_tile_assert(tile, xe_vma_is_system_allocator(vma));
 > > +
-> > +retry:
-> > +	/* TODO: Run garbage collector */
+> > +	vm_dbg(&xe_vma_vm(vma)->xe->drm,
+> > +	       "Preparing bind, with range [%llx...%llx)\n",
+> > +	       range->base.va.start, range->base.va.end - 1);
 > > +
-> > +	r = drm_gpusvm_range_find_or_insert(&vm->svm.gpusvm,
-> > fault_addr,
-> > +					    xe_vma_start(vma),
-> > xe_vma_end(vma),
-> > +					    &ctx);
-> > +	if (IS_ERR(r))
-> > +		return PTR_ERR(r);
+> > +	pt_op->vma = NULL;
+> > +	pt_op->bind = true;
+> > +	pt_op->rebind = BIT(tile->id) & range->tile_present;
 > > +
-> > +	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, false);
-> > +	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU
-> > mappings have change */
-> 
-> s/change/changed/
-> 
-
-Yep.
-
-> > +	       goto retry;
+> > +	err = xe_pt_prepare_bind(tile, vma, range, pt_op->entries,
+> > +				 &pt_op->num_entries);
+> > +	if (!err) {
+> > +		xe_tile_assert(tile, pt_op->num_entries <=
+> > +			       ARRAY_SIZE(pt_op->entries));
+> > +		xe_vm_dbg_print_entries(tile_to_xe(tile), pt_op-
+> > >entries,
+> > +					pt_op->num_entries, true);
 > > +
-> > +	/* TODO: Issue bind */
+> > +		xe_pt_update_ops_rfence_interval(pt_update_ops,
+> > +						 range-
+> > >base.va.start,
+> > +						 range-
+> > >base.va.end);
+> > +		++pt_update_ops->current_op;
+> > +		pt_update_ops->needs_svm_lock = true;
+> > +
+> > +		pt_op->vma = vma;
+> > +		xe_pt_commit_prepare_bind(vma, pt_op->entries,
+> > +					  pt_op->num_entries, pt_op-
+> > >rebind);
+> > +	} else {
+> > +		xe_pt_cancel_bind(vma, pt_op->entries, pt_op-
+> > >num_entries);
+> > +	}
 > > +
 > > +	return err;
 > > +}
+> > +
+> >  static int unbind_op_prepare(struct xe_tile *tile,
+> >  			     struct xe_vm_pgtable_update_ops
+> > *pt_update_ops,
+> >  			     struct xe_vma *vma)
+> > @@ -1769,7 +1873,8 @@ static int unbind_op_prepare(struct xe_tile
+> > *tile,
+> >  
+> >  	xe_vm_dbg_print_entries(tile_to_xe(tile), pt_op->entries,
+> >  				pt_op->num_entries, false);
+> > -	xe_pt_update_ops_rfence_interval(pt_update_ops, vma);
+> > +	xe_pt_update_ops_rfence_interval(pt_update_ops,
+> > xe_vma_start(vma),
+> > +					 xe_vma_end(vma));
+> >  	++pt_update_ops->current_op;
+> >  	pt_update_ops->needs_userptr_lock |= xe_vma_is_userptr(vma);
+> >  	pt_update_ops->needs_invalidation = true;
+> > @@ -1839,6 +1944,15 @@ static int op_prepare(struct xe_vm *vm,
+> >  		pt_update_ops->wait_vm_kernel = true;
+> >  		break;
+> >  	}
+> > +	case DRM_GPUVA_OP_USER:
+> > +		if (op->subop == XE_VMA_SUBOP_MAP_RANGE) {
+> 
+> See question below on subops
+> 
+> > +			xe_assert(vm->xe,
+> > xe_vma_is_system_allocator(op->map_range.vma));
+> > +
+> > +			err = bind_range_prepare(vm, tile,
+> > pt_update_ops,
+> > +						 op->map_range.vma,
+> > +						 op-
+> > >map_range.range);
+> > +		}
+> > +		break;
+> >  	default:
+> >  		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
+> >  	}
+> > @@ -2020,6 +2134,14 @@ static void op_commit(struct xe_vm *vm,
+> >  				       fence2);
+> >  		break;
+> >  	}
+> > +	case DRM_GPUVA_OP_USER:
+> > +	{
+> > +		if (op->subop == XE_VMA_SUBOP_MAP_RANGE) {
+> > +			op->map_range.range->tile_present |=
+> > BIT(tile->id);
+> > +			op->map_range.range->tile_invalidated &=
+> > ~BIT(tile->id);
+> > +		}
+> > +		break;
+> > +	}
+> >  	default:
+> >  		drm_warn(&vm->xe->drm, "NOT POSSIBLE");
+> >  	}
+> > @@ -2037,6 +2159,12 @@ static const struct xe_migrate_pt_update_ops
+> > userptr_migrate_ops = {
+> >  	.pre_commit = xe_pt_userptr_pre_commit,
+> >  };
+> >  
+> > +static const struct xe_migrate_pt_update_ops svm_migrate_ops = {
+> > +	.populate = xe_vm_populate_pgtable,
+> > +	.clear = xe_migrate_clear_pgtable_callback,
+> > +	.pre_commit = xe_pt_svm_pre_commit,
+> > +};
+> > +
+> >  /**
+> >   * xe_pt_update_ops_run() - Run PT update operations
+> >   * @tile: Tile of PT update operations
+> > @@ -2062,7 +2190,9 @@ xe_pt_update_ops_run(struct xe_tile *tile,
+> > struct xe_vma_ops *vops)
+> >  	struct xe_vma_op *op;
+> >  	int err = 0, i;
+> >  	struct xe_migrate_pt_update update = {
+> > -		.ops = pt_update_ops->needs_userptr_lock ?
+> > +		.ops = pt_update_ops->needs_svm_lock ?
+> > +			&svm_migrate_ops :
+> > +			pt_update_ops->needs_userptr_lock ?
+> >  			&userptr_migrate_ops :
+> >  			&migrate_ops,
+> >  		.vops = vops,
+> > @@ -2183,6 +2313,8 @@ xe_pt_update_ops_run(struct xe_tile *tile,
+> > struct xe_vma_ops *vops)
+> >  				  &ifence->base.base, &mfence-
+> > >base.base);
+> >  	}
+> >  
+> > +	if (pt_update_ops->needs_svm_lock)
+> > +		xe_svm_notifier_unlock(vm);
+> >  	if (pt_update_ops->needs_userptr_lock)
+> >  		up_read(&vm->userptr.notifier_lock);
+> >  
+> > diff --git a/drivers/gpu/drm/xe/xe_pt_types.h
+> > b/drivers/gpu/drm/xe/xe_pt_types.h
+> > index 384cc04de719..69eab6f37cfe 100644
+> > --- a/drivers/gpu/drm/xe/xe_pt_types.h
+> > +++ b/drivers/gpu/drm/xe/xe_pt_types.h
+> > @@ -104,6 +104,8 @@ struct xe_vm_pgtable_update_ops {
+> >  	u32 num_ops;
+> >  	/** @current_op: current operations */
+> >  	u32 current_op;
+> > +	/** @needs_svm_lock: Needs SVM lock */
+> > +	bool needs_svm_lock;
+> >  	/** @needs_userptr_lock: Needs userptr lock */
+> >  	bool needs_userptr_lock;
+> >  	/** @needs_invalidation: Needs invalidation */
+> > diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> > b/drivers/gpu/drm/xe/xe_svm.c
+> > index b2bc259978c4..a9addaea316d 100644
+> > --- a/drivers/gpu/drm/xe/xe_svm.c
+> > +++ b/drivers/gpu/drm/xe/xe_svm.c
+> > @@ -209,8 +209,8 @@ void xe_svm_close(struct xe_vm *vm)
+> >  	xe_assert(vm->xe, xe_vm_is_closed(vm));
+> >  
+> >  	/* Flush running notifiers making xe_vm_close() visable */
+> > -	drm_gpusvm_notifier_lock(&vm->svm.gpusvm);
+> > -	drm_gpusvm_notifier_unlock(&vm->svm.gpusvm);
+> > +	xe_svm_notifier_lock(vm);
+> > +	xe_svm_notifier_unlock(vm);
+> >  }
+> >  
+> >  void xe_svm_fini(struct xe_vm *vm)
+> > @@ -220,12 +220,22 @@ void xe_svm_fini(struct xe_vm *vm)
+> >  	drm_gpusvm_fini(&vm->svm.gpusvm);
+> >  }
+> >  
+> > +static bool xe_svm_range_is_valid(struct xe_svm_range *range,
+> > +				  struct xe_tile *tile)
+> > +{
+> > +	return (range->tile_present & ~range->tile_invalidated) &
+> > BIT(tile->id);
+> > +}
+> > +
+> >  int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+> >  			    struct xe_tile *tile, u64 fault_addr,
+> >  			    bool atomic)
+> >  {
+> >  	struct drm_gpusvm_ctx ctx = { .read_only =
+> > xe_vma_read_only(vma), };
+> > +	struct xe_svm_range *range;
+> >  	struct drm_gpusvm_range *r;
+> > +	struct drm_exec exec;
+> > +	struct dma_fence *fence;
+> > +	ktime_t end = 0;
+> >  	int err;
+> >  
+> >  	lockdep_assert_held_write(&vm->lock);
+> > @@ -239,11 +249,42 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> > struct xe_vma *vma,
+> >  	if (IS_ERR(r))
+> >  		return PTR_ERR(r);
+> >  
+> > -	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, false);
+> > +	range = to_xe_range(r);
+> > +	if (xe_svm_range_is_valid(range, tile))
+> > +		return 0;
+> > +
+> > +	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
+> >  	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU
+> > mappings have change */
+> >  	       goto retry;
+> > +	if (err)
+> > +		goto err_out;
+> > +
+> > +retry_bind:
+> > +	drm_exec_init(&exec, 0, 0);
+> > +	drm_exec_until_all_locked(&exec) {
+> > +		err = drm_exec_lock_obj(&exec, vm->gpuvm.r_obj);
+> > +		drm_exec_retry_on_contention(&exec);
+> > +		if (err) {
+> > +			drm_exec_fini(&exec);
+> > +			goto err_out;
+> > +		}
+> > +
+> > +		fence = xe_vm_range_rebind(vm, vma, range, BIT(tile-
+> > >id));
+> > +		if (IS_ERR(fence)) {
+> > +			drm_exec_fini(&exec);
+> > +			err = PTR_ERR(fence);
+> > +			if (err == -EAGAIN)
+> > +				goto retry;
+> > +			if (xe_vm_validate_should_retry(&exec, err,
+> > &end))
+> > +				goto retry_bind;
+> > +			goto err_out;
+> > +		}
+> > +	}
+> > +	drm_exec_fini(&exec);
+> >  
+> > -	/* TODO: Issue bind */
+> > +	dma_fence_wait(fence, false);
+> > +	dma_fence_put(fence);
+> >  
+> > +err_out:
+> >  	return err;
+> >  }
 > > diff --git a/drivers/gpu/drm/xe/xe_svm.h
 > > b/drivers/gpu/drm/xe/xe_svm.h
-> > index 376e86876a11..c91c5f538024 100644
+> > index c91c5f538024..ee0bd1ae655b 100644
 > > --- a/drivers/gpu/drm/xe/xe_svm.h
 > > +++ b/drivers/gpu/drm/xe/xe_svm.h
-> > @@ -6,14 +6,27 @@
-> >  #ifndef _XE_SVM_H_
-> >  #define _XE_SVM_H_
+> > @@ -29,4 +29,21 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> > struct xe_vma *vma,
+> >  			    struct xe_tile *tile, u64 fault_addr,
+> >  			    bool atomic);
 > >  
-> > +#include "drm_gpusvm.h"
-> >  #include "drm_pagemap.h"
-> >  
-> >  #define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
-> 
-> Not used yet
->
-
-Will remove.
- 
-> >  
-> > +struct xe_tile;
-> >  struct xe_vm;
-> > +struct xe_vma;
+> > +static inline bool xe_svm_range_pages_valid(struct xe_svm_range
+> > *range)
+> > +{
+> > +	return drm_gpusvm_range_pages_valid(range->base.gpusvm,
+> > &range->base);
+> > +}
 > > +
-> > +struct xe_svm_range {
-> > +	struct drm_gpusvm_range base;
-> > +	u8 tile_present;
-> > +	u8 tile_invalidated;
-> > +};
+> > +static inline bool xe_svm_range_has_dma_mapping(struct xe_svm_range
+> > *range)
+> > +{
+> > +	lockdep_assert_held(&range->base.gpusvm->notifier_lock);
+> > +	return range->base.flags.has_dma_mapping;
+> > +}
+> > +
+> > +#define xe_svm_notifier_lock(vm__)	\
+> > +	drm_gpusvm_notifier_lock(&(vm__)->svm.gpusvm)
+> > +
+> > +#define xe_svm_notifier_unlock(vm__)	\
+> > +	drm_gpusvm_notifier_unlock(&(vm__)->svm.gpusvm)
+> > +
+> >  #endif
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> > index b11fb0ac9520..63aa0a25d3b7 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.c
+> > +++ b/drivers/gpu/drm/xe/xe_vm.c
+> > @@ -894,6 +894,84 @@ struct dma_fence *xe_vma_rebind(struct xe_vm
+> > *vm, struct xe_vma *vma, u8 tile_ma
+> >  	return fence;
+> >  }
+> >  
+> > +static void xe_vm_populate_range_rebind(struct xe_vma_op *op,
+> > +					struct xe_vma *vma,
+> > +					struct xe_svm_range *range,
+> > +					u8 tile_mask)
+> > +{
+> > +	INIT_LIST_HEAD(&op->link);
+> > +	op->tile_mask = tile_mask;
+> > +	op->base.op = DRM_GPUVA_OP_USER;
+> > +	op->subop = XE_VMA_SUBOP_MAP_RANGE;
+> > +	op->map_range.vma = vma;
+> > +	op->map_range.range = range;
+> > +}
+> > +
+> > +static int
+> > +xe_vm_ops_add_range_rebind(struct xe_vma_ops *vops,
+> > +			   struct xe_vma *vma,
+> > +			   struct xe_svm_range *range,
+> > +			   u8 tile_mask)
+> > +{
+> > +	struct xe_vma_op *op;
+> > +
+> > +	op = kzalloc(sizeof(*op), GFP_KERNEL);
+> > +	if (!op)
+> > +		return -ENOMEM;
+> > +
+> > +	xe_vm_populate_range_rebind(op, vma, range, tile_mask);
+> > +	list_add_tail(&op->link, &vops->list);
+> > +	xe_vma_ops_incr_pt_update_ops(vops, tile_mask);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +struct dma_fence *xe_vm_range_rebind(struct xe_vm *vm,
+> > +				     struct xe_vma *vma,
+> > +				     struct xe_svm_range *range,
+> > +				     u8 tile_mask)
 > 
-> Kerneldoc
+> kerneldoc
 > 
 
 Will add.
 
-> 
-> >  
-> >  int xe_svm_init(struct xe_vm *vm);
-> >  void xe_svm_fini(struct xe_vm *vm);
-> >  void xe_svm_close(struct xe_vm *vm);
-> >  
-> > +int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
-> > +			    struct xe_tile *tile, u64 fault_addr,
-> > +			    bool atomic);
+> > +{
+> > +	struct dma_fence *fence = NULL;
+> > +	struct xe_vma_ops vops;
+> > +	struct xe_vma_op *op, *next_op;
+> > +	struct xe_tile *tile;
+> > +	u8 id;
+> > +	int err;
 > > +
-> >  #endif
+> > +	lockdep_assert_held(&vm->lock);
+> > +	xe_vm_assert_held(vm);
+> > +	xe_assert(vm->xe, xe_vm_in_fault_mode(vm));
+> > +	xe_assert(vm->xe, xe_vma_is_system_allocator(vma));
+> > +
+> > +	xe_vma_ops_init(&vops, vm, NULL, NULL, 0);
+> > +	for_each_tile(tile, vm->xe, id) {
+> > +		vops.pt_update_ops[id].wait_vm_bookkeep = true;
+> > +		vops.pt_update_ops[tile->id].q =
+> > +			xe_tile_migrate_exec_queue(tile);
+> > +	}
+> > +
+> > +	err = xe_vm_ops_add_range_rebind(&vops, vma, range,
+> > tile_mask);
+> > +	if (err)
+> > +		return ERR_PTR(err);
+> > +
+> > +	err = xe_vma_ops_alloc(&vops, false);
+> > +	if (err) {
+> > +		fence = ERR_PTR(err);
+> > +		goto free_ops;
+> > +	}
+> > +
+> > +	fence = ops_execute(vm, &vops);
+> > +
+> > +free_ops:
+> > +	list_for_each_entry_safe(op, next_op, &vops.list, link) {
+> > +		list_del(&op->link);
+> > +		kfree(op);
+> > +	}
+> > +	xe_vma_ops_fini(&vops);
+> > +
+> > +	return fence;
+> > +}
+> > +
+> >  static void xe_vma_free(struct xe_vma *vma)
+> >  {
+> >  	if (xe_vma_is_userptr(vma))
+> > @@ -2514,6 +2592,8 @@ static void op_trace(struct xe_vma_op *op)
+> >  	case DRM_GPUVA_OP_PREFETCH:
+> >  		trace_xe_vma_bind(gpuva_to_vma(op-
+> > >base.prefetch.va));
+> >  		break;
+> > +	case DRM_GPUVA_OP_USER:
+> > +		break;
+> >  	default:
+> >  		XE_WARN_ON("NOT POSSIBLE");
+> >  	}
+> > diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+> > index 1a5aed678214..8bd921b33090 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm.h
+> > +++ b/drivers/gpu/drm/xe/xe_vm.h
+> > @@ -22,6 +22,7 @@ struct ttm_validate_buffer;
+> >  struct xe_exec_queue;
+> >  struct xe_file;
+> >  struct xe_sync_entry;
+> > +struct xe_svm_range;
+> >  struct drm_exec;
+> >  
+> >  struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags);
+> > @@ -217,6 +218,10 @@ int xe_vm_userptr_check_repin(struct xe_vm *vm);
+> >  int xe_vm_rebind(struct xe_vm *vm, bool rebind_worker);
+> >  struct dma_fence *xe_vma_rebind(struct xe_vm *vm, struct xe_vma
+> > *vma,
+> >  				u8 tile_mask);
+> > +struct dma_fence *xe_vm_range_rebind(struct xe_vm *vm,
+> > +				     struct xe_vma *vma,
+> > +				     struct xe_svm_range *range,
+> > +				     u8 tile_mask);
+> >  
+> >  int xe_vm_invalidate_vma(struct xe_vma *vma);
+> >  
+> > diff --git a/drivers/gpu/drm/xe/xe_vm_types.h
+> > b/drivers/gpu/drm/xe/xe_vm_types.h
+> > index bd1c0e368238..b736e53779d2 100644
+> > --- a/drivers/gpu/drm/xe/xe_vm_types.h
+> > +++ b/drivers/gpu/drm/xe/xe_vm_types.h
+> > @@ -19,6 +19,7 @@
+> >  #include "xe_range_fence.h"
+> >  
+> >  struct xe_bo;
+> > +struct xe_svm_range;
+> >  struct xe_sync_entry;
+> >  struct xe_user_fence;
+> >  struct xe_vm;
+> > @@ -334,6 +335,14 @@ struct xe_vma_op_prefetch {
+> >  	u32 region;
+> >  };
+> >  
+> > +/** struct xe_vma_op_map_range - VMA map range operation */
+> > +struct xe_vma_op_map_range {
+> > +	/** @vma: VMA to map (system allocator VMA) */
+> > +	struct xe_vma *vma;
+> > +	/** @range: SVM range to map */
+> > +	struct xe_svm_range *range;
+> > +};
+> > +
+> >  /** enum xe_vma_op_flags - flags for VMA operation */
+> >  enum xe_vma_op_flags {
+> >  	/** @XE_VMA_OP_COMMITTED: VMA operation committed */
+> > @@ -344,6 +353,12 @@ enum xe_vma_op_flags {
+> >  	XE_VMA_OP_NEXT_COMMITTED	= BIT(2),
+> >  };
+> >  
+> > +/** enum xe_vma_subop - VMA sub-operation */
+> > +enum xe_vma_subop {
+> > +	/** @XE_VMA_SUBOP_MAP_RANGE: Map range */
+> > +	XE_VMA_SUBOP_MAP_RANGE,
+> 
+> Instead of introducing subops, should we perhaps consider
+>  DRM_GPUVMA_OP_USER plus any following op as driver defined so that the
+>                     next subop would instead be DRM_GPUVMA_OP_USER + 1?
+> 
+
+Since DRM_GPUVMA_OP_* is an enum that doesn't really work (think case
+statements + warnings). At one point I had this way but then we need to
+define a new enum for *every* driver defined op.
+
+e.g.
+
+DRM_GPUVMA_OP_USER1 -> Range MAP
+DRM_GPUVMA_OP_USER2 -> Range UNMAP
+
+So with this, I justed added 1 driver enum entry plus subops. Ofc if we
+changed DRM_GPUVMA_OP_* to define I think this problem goes away but
+that would need a larger community buy in.
+
+> > +};
+> > +
+> >  /** struct xe_vma_op - VMA operation */
+> >  struct xe_vma_op {
+> >  	/** @base: GPUVA base operation */
+> > @@ -352,6 +367,8 @@ struct xe_vma_op {
+> >  	struct list_head link;
+> >  	/** @flags: operation flags */
+> >  	enum xe_vma_op_flags flags;
+> > +	/** @subop: user defined sub-operation */
+> > +	enum xe_vma_subop subop;
+> >  	/** @tile_mask: Tile mask for operation */
+> >  	u8 tile_mask;
+> >  
+> > @@ -362,6 +379,8 @@ struct xe_vma_op {
+> >  		struct xe_vma_op_remap remap;
+> >  		/** @prefetch: VMA prefetch operation specific data
+> > */
+> >  		struct xe_vma_op_prefetch prefetch;
+> > +		/** @map: VMA map range operation specific data */
+> > +		struct xe_vma_op_map_range map_range;
+> >  	};
+> >  };
+> >  
 > 
 > Thanks,
 
