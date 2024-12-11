@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1039EC609
+	by mail.lfdr.de (Postfix) with ESMTPS id 599189EC608
 	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:54:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85E710E5FD;
-	Wed, 11 Dec 2024 07:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55F8810E576;
+	Wed, 11 Dec 2024 07:54:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="A+4jrFMe";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ebKgxwkY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2E2010E576
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:54:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A47F10E576
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:54:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1733903663;
- bh=oCfEc8Rp4c1euA6PuGNOBj1L9F+BDOGTGCqU1dbo6oo=;
+ bh=PA05YmMTaUJabHsEElMeEJ9Jyv0DQWwiI29VUGxAewI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=A+4jrFMeLzulvM0jp6druj/jYamEUBL1RuEp3NlXfotrI4wHLDYqI1QhQOJZ0k015
- 3nyrNPUdBPFXuYPsLzYqlfIgY05P/9NpNRn0AHdwaBiypSjVuBpryfTqSWyJUk/PzS
- Iu7HFdiJsJiXzdbSghklYF2YEv06xj67YpvXNjwfyavkYEY1A50EWZmKTLEpLsCOBs
- BkDMldBEWq+4HkgpD2XBN8STRUKBWf2xZbm1i3p0gs+906aFZoRaXVzuMopoSXUcmn
- pw+tcLwzpq+3WYQyqWn8xYNY20/WYOvlIa4qpTlnphLXBPm336IKyF3xwDLTkMbhuT
- Cq9FlT/D+3Bcw==
+ b=ebKgxwkYbN3QaMZsOneoQrAHJPQF/FrqaS6H15XMkGL9H23nXxzRFdGD5ijP25oJz
+ ATPsbRjaSAoUfIaj/id/BF6rZ4IxdqiFd2tJkfzd085WXg7v0SA70CBED0MP9/YQmm
+ e+u4pV/Ds57QNzmMtifHUnRmqqoqAgyVJ6YcdZQecVe1CyU+E0E+Uv7cVGoRrAAgyi
+ B1bib/0BK04+y2Bt/OT7gBZhPaXTiGGh+93aGKjj2WqEWV4irLYRLRgLVmdvOiqyU3
+ OyeyTyBG4WpsRTeGpP07TjSKrUVBF5uvEA5ZdTquxn4IH3yTyVXujNw6lCj+ZP+GgA
+ K5kdZu5cf5W8Q==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:d3ea:1c7:41fd:3038])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 07BB417E1437;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6CC1C17E14D6;
  Wed, 11 Dec 2024 08:54:23 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,10 +39,10 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH v3 1/5] drm/panthor: Preserve the result returned by
- panthor_fw_resume()
-Date: Wed, 11 Dec 2024 08:54:15 +0100
-Message-ID: <20241211075419.2333731-2-boris.brezillon@collabora.com>
+Subject: [PATCH v3 2/5] drm/panthor: Be robust against runtime PM resume
+ failures in the suspend path
+Date: Wed, 11 Dec 2024 08:54:16 +0100
+Message-ID: <20241211075419.2333731-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241211075419.2333731-1-boris.brezillon@collabora.com>
 References: <20241211075419.2333731-1-boris.brezillon@collabora.com>
@@ -63,38 +63,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-WARN() will return true if the condition is true, false otherwise.
-If we store the return of drm_WARN_ON() in ret, we lose the actual
-error code.
+The runtime PM resume operation is not guaranteed to succeed, but if it
+fails, the device should be in a suspended state. Make sure we're robust
+to resume failures in the unplug path.
 
 v3:
-- Add R-b
+- Fix typo
+- Add R-bs
+
 v2:
-- Add R-b
+- Move the bit that belonged in the next commit
+- Drop the panthor_device_unplug() changes
 
-Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panthor/panthor_fw.c  | 14 +++++++++-----
+ drivers/gpu/drm/panthor/panthor_gpu.c |  3 ++-
+ drivers/gpu/drm/panthor/panthor_mmu.c |  3 ++-
+ 3 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 984615f4ed27..e701e605d013 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -461,8 +461,8 @@ int panthor_device_resume(struct device *dev)
- 	    drm_dev_enter(&ptdev->base, &cookie)) {
- 		panthor_gpu_resume(ptdev);
- 		panthor_mmu_resume(ptdev);
--		ret = drm_WARN_ON(&ptdev->base, panthor_fw_resume(ptdev));
--		if (!ret) {
-+		ret = panthor_fw_resume(ptdev);
-+		if (!drm_WARN_ON(&ptdev->base, ret)) {
- 			panthor_sched_resume(ptdev);
- 		} else {
- 			panthor_mmu_suspend(ptdev);
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+index ebf8980ca9a3..02789558788d 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.c
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -12,6 +12,7 @@
+ #include <linux/iosys-map.h>
+ #include <linux/mutex.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ 
+ #include <drm/drm_drv.h>
+ #include <drm/drm_managed.h>
+@@ -1190,11 +1191,13 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+ 
+ 	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+ 
+-	/* Make sure the IRQ handler can be called after that point. */
+-	if (ptdev->fw->irq.irq)
+-		panthor_job_irq_suspend(&ptdev->fw->irq);
++	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev)) {
++		/* Make sure the IRQ handler cannot be called after that point. */
++		if (ptdev->fw->irq.irq)
++			panthor_job_irq_suspend(&ptdev->fw->irq);
+ 
+-	panthor_fw_stop(ptdev);
++		panthor_fw_stop(ptdev);
++	}
+ 
+ 	list_for_each_entry(section, &ptdev->fw->sections, node)
+ 		panthor_kernel_bo_destroy(section->mem);
+@@ -1207,7 +1210,8 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+ 	panthor_vm_put(ptdev->fw->vm);
+ 	ptdev->fw->vm = NULL;
+ 
+-	panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
++	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
++		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index 0f3cac6ec88e..ee85a371bc38 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -180,7 +180,8 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
+ 	unsigned long flags;
+ 
+ 	/* Make sure the IRQ handler is not running after that point. */
+-	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
++	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
++		panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+ 
+ 	/* Wake-up all waiters. */
+ 	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 9478ee2093d1..6716463903bc 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -2681,7 +2681,8 @@ int panthor_vm_prepare_mapped_bos_resvs(struct drm_exec *exec, struct panthor_vm
+  */
+ void panthor_mmu_unplug(struct panthor_device *ptdev)
+ {
+-	panthor_mmu_irq_suspend(&ptdev->mmu->irq);
++	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
++		panthor_mmu_irq_suspend(&ptdev->mmu->irq);
+ 
+ 	mutex_lock(&ptdev->mmu->as.slots_lock);
+ 	for (u32 i = 0; i < ARRAY_SIZE(ptdev->mmu->as.slots); i++) {
 -- 
 2.47.0
 
