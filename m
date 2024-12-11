@@ -2,103 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0039EC784
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 012E29EC79B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:47:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF69D10E098;
-	Wed, 11 Dec 2024 08:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 638A410E601;
+	Wed, 11 Dec 2024 08:47:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="cLSVoR9c";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="fFDwsdp2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF9810E098
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:43:15 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-4361ecebc4dso1611025e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 00:43:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1733906594; x=1734511394; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=eDl8Jb1frNHxOgKdgBmezzKCSNHw67jaTRZ7H3Dd+tA=;
- b=cLSVoR9cHbWUCpfPWWvbzW3r30d1MhahscfvmFH2wlpanhsOeaUBGMqXjJLawzLcSq
- sxNOzokg7YiNlqEhZIP2VB90/3UbSvD5HJF362ZLgKtU0sMWHOlU5XwlgIIAPoI8Bsew
- ypuvk6976IF7hZAYX4uCmbaPodYG3pyKsXEXg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733906594; x=1734511394;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eDl8Jb1frNHxOgKdgBmezzKCSNHw67jaTRZ7H3Dd+tA=;
- b=hPPOFkMFKajs249Pojird7NtictbMe9KSsA9x3cQTPDKKc+pndw/75JmyrXorwKo1D
- 6W6wXJOhijdPeoXQexQottlKYlfFWZVLoZ2ilLfsh/5nboTWBlr5LmU8YG2wuz/x1n0D
- o1xCG2RxZXZyAv84H6YSMbxmlkaaQyFsVI01b6m4Q/9ONcZ0gmNxUNspX+XHP+T3jCya
- XBcy01zEpD+zDfYT5BGyvpJNgKscWLzytsUm9bJkj2gKyYZ+vlaaB4oJM5HAAnWejhmE
- +YkpxSLEmHfHsk294nd3Atszf5gEe8jWcXZrr70O4rWRaHp04gCopobj196WoTBeRI2g
- 3+Pw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIAne1ubGKsZvkRDYx3gaBmAOVN143ASm6U5lXMwiZ6kT9pAAWk96HCbHzhsGUyUh2ARacxkf73gA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPuZ8FXYbGn1Xlz5UvU458C4zsZ1ngUQ1F/oFPOc4UxeYZPe8S
- 5fD33X8qWyjrfMQcnsAdtcBjGNi0yYnTAbJUGYmn8Fii1jDmeOcd6kBINDHcD+8=
-X-Gm-Gg: ASbGncvdD9HeHeVZw5dL0cyTv2svdS/kjeQrYpYIEu1SZsEYM/maK7oFi3ATF2nAQd1
- HF5+9c4SV3hUROQy4P/s/IItwFpTg9nUypmDwTIBmqQ9CV/lA+cult8P0sp/EPkfyGtOagbo3kP
- lhwpGQx+UHnyXe/eMxjsKKTyZenSxhuyIRkNMruE9F26ozgdeuo5H59VtdKfZZGG/Dh5IzLTyVl
- HRo3x6Ujb/rtA5ZWeZ50Y9JCgSJbbzZp/hQaL6QliLfyZXQ4COaGhK/4ZV+YZ/H1w==
-X-Google-Smtp-Source: AGHT+IEC5s1ABwh+QmwDOLYC0yNnP/Duuq98w6DzbDd3sOm9WXsmU9pvk2PMVd0L51eFeLkr3RWVKw==
-X-Received: by 2002:a05:600c:8718:b0:436:aaf:7eb9 with SMTP id
- 5b1f17b1804b1-4361c429eaamr11213005e9.20.1733906593293; 
- Wed, 11 Dec 2024 00:43:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-434da119abbsm222094855e9.43.2024.12.11.00.43.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2024 00:43:12 -0800 (PST)
-Date: Wed, 11 Dec 2024 09:43:10 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Lyude Paul <lyude@redhat.com>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com,
- cjia@nvidia.com, jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [WIP RFC v2 05/35] rust: drm/kms: Add bindings for drm_connector
-Message-ID: <Z1lQnhKmH39C7Erl@phenom.ffwll.local>
-Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com,
- cjia@nvidia.com, jhubbard@nvidia.com,
- Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-6-lyude@redhat.com>
- <02A84CFD-BE91-40E6-995C-4E81A8DAB92C@collabora.com>
- <7b57940a3987532963ce5fbd3a999665c17611ab.camel@redhat.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC82D10EAB8
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:47:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=TOB+Fxp49rSShIZTVjtd1jIBj8qsd4mGBRlOc0nOjoY=; b=fFDwsdp22wcbCT+bR3kubCHU7P
+ RgjeyO2qzR2mrXOHIzbvyXNyJmiTtyixsDWmkL+7GTA458f+BQtAlLKGR5M0koTY12SzYatQzcfAT
+ KVFy/duNKx3RB/Ay3zxnrJX+o9QFscjXydr3HfVAiNkVEWgy0R6uIce38V3EsH2n3WpWN7rkr1YGS
+ G29nCmuM0v4Ss6poRMfMmEd6faZJrAEpe7in/bMwYsBCZy1lNZqzTmHebq2W/HjDUbaka33acg0HH
+ T3kBCi086tPHtknNMKNEtd+jjETUR+6Nl5NdgwcVJf7OunvqLCf4v1iMWTNzGHjDeZFCVM+Xkx90y
+ xhDC3BFQ==;
+Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tLIN0-0000Bg-N9; Wed, 11 Dec 2024 09:46:58 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Alexandre ARNOUD <aarnoud@me.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] Add support for HDMI1 output on RK3588 SoC
+Date: Wed, 11 Dec 2024 09:46:57 +0100
+Message-ID: <12942826.iMDcRRXYNz@diego>
+In-Reply-To: <20241211-rk3588-hdmi1-v2-0-02cdca22ff68@collabora.com>
+References: <20241211-rk3588-hdmi1-v2-0-02cdca22ff68@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7b57940a3987532963ce5fbd3a999665c17611ab.camel@redhat.com>
-X-Operating-System: Linux phenom 6.11.6-amd64 
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,46 +68,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 06:41:52PM -0500, Lyude Paul wrote:
-> On Tue, 2024-11-26 at 18:25 -0300, Daniel Almeida wrote:
-> > Hi Lyude,
-> > 
-> > > On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
-> > > 
-> > > +
-> > > +impl<T: DriverConnector> Connector<T> {
-> > > +    /// Construct a new [`Connector`].
-> > > +    ///
-> > > +    /// A driver may use this to create new [`Connector`] objects.
-> > > +    ///
-> > > +    /// TODO: Add a way to handle creating connectors after device registration. Also, that's why we
-> > > +    /// don't ask for a UnregisteredKms device here.
-> > 
-> > Can you elaborate? We can try to help if you describe this a bit better :)
-> 
-> oh - totally forgot to respond to this!
-> 
-> So: out of all of the mode objects, Connectors are a bit special. They can
-> actually be created and destroyed after registration (hence why they have a
-> refcount). This is not terribly difficult to handle before registration, the
-> complication comes after registration - where we'll likely need to split
-> Connector into two different types:
-> 
-> UnregisteredConnector
-> 
-> Connector
-> 
-> Where you have to sacrifice the UnregisteredConnector to get to the Connector
-> object. I don't think this will actually be too difficult to implement, I just
-> didn't get around to it yet because there were so many other open questions I
-> had about the design here in general.
+Hi Cristian,
 
-For connnnector lifetime fun please also see Imre's patches for fixing
-some races around mst hotplug. At least on the C side I think we will
-split connectors into dynamic and static ones, to be able to handle things
-correctly. It's a bit a mess unfortuantely.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Am Mittwoch, 11. Dezember 2024, 00:06:13 CET schrieb Cristian Ciocaltea:
+> The patches provide the basic support to handle the second HDMI output
+> port found on Rockchip RK3588 SoC.
+> 
+> For now I enabled it on Radxa ROCK 5B only, the board I've been using to
+> validate this.
+> 
+> ** IMPORTANT **
+> 
+> The series has a runtime dependency on "phy: phy-rockchip-samsung-hdptx:
+> Don't use dt aliases to determine phy-id", a patch submitted recently by
+> Heiko [1].  Without applying it, the functionality on both HDMI TX ports
+> will break.
+
+Looking at the drm/rockchip patch, that should not cause disruptions on
+its own, right?
+
+Only with the dts-parts enabled would we run into phy-issue.
+(Asking, because things go through different trees and the drm
+part looks ready)
+
+
+Heiko
+
+
+> Furthermore, please note this is subject to the same limitations as
+> HDMI0 when it comes to the supported display modes.  The fixes provided
+> via [2] are not applicable to HDMI1, hence I will handle it separately
+> as soon as all dependencies are merged.
+> 
+> Thanks,
+> Cristian
+> 
+> [1] https://lore.kernel.org/lkml/20241206103401.1780416-3-heiko@sntech.de/
+> [2] https://lore.kernel.org/all/20241116-vop2-hdmi0-disp-modes-v1-0-2bca51db4898@collabora.com/
+> 
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+> Changes in v2:
+> - Override hdmi1 pinctrl-0 on rock-5b as it requires hdmim0_tx1_cec
+>   instead of hdmim2_tx1_cec (fixes a pin conflict when enabling
+>   CONFIG_SPI_ROCKCHIP_SFC)
+> - Link to v1: https://lore.kernel.org/r/20241207-rk3588-hdmi1-v1-0-ca3a99b46a40@collabora.com
+> 
+> ---
+> Cristian Ciocaltea (4):
+>       drm/rockchip: dw_hdmi_qp: Add support for RK3588 HDMI1 output
+>       arm64: dts: rockchip: Add PHY node for HDMI1 TX port on RK3588
+>       arm64: dts: rockchip: Add HDMI1 node on RK3588
+>       arm64: dts: rockchip: Enable HDMI1 on rock-5b
+> 
+>  arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi  |  62 ++++++++++++
+>  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts |  44 ++++++++-
+>  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c  | 119 +++++++++++++++++++-----
+>  3 files changed, 200 insertions(+), 25 deletions(-)
+> ---
+> base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+> change-id: 20241207-rk3588-hdmi1-704cbb7cd75f
+> 
+> 
+
+
+
+
