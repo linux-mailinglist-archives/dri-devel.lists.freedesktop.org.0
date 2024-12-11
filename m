@@ -2,57 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410269ED45B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 19:04:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B714B9ED4BB
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 19:33:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9947D10EBE6;
-	Wed, 11 Dec 2024 18:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B2D10EBE3;
+	Wed, 11 Dec 2024 18:32:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="AF9i8gno";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MRlBdk87";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB8910EBE3;
- Wed, 11 Dec 2024 18:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=mSkjN2oOpv7jPaY0oL6AlL4KmU2vGmok0JKQm2GM5UA=; b=AF9i8gnoezdKo0lEfcFt7zIqKB
- 7J2n2bzle/Wqqv5Tfy7zfg8RARSP3w5RWK95a1sniCsSruRyXNJYNJ7fx31auIBcqoBG2fVCrPCam
- fgSQsksVYp42QQ1NNmKqq/wqEcf+DthodMZE5OC4A3Rbg+ArNzgixRfnl0NpubFTMJST17Y5iRa4n
- 6G1elo6W4O1HmUW6N0WYzvbYN4rkGQzu0mhhOTh7cxMLWFcXv36Wk0c9p1mjccJMj10xzzX5bm/0p
- j/renxhAlHZQygZFbCRwIrRijcfjoS5ugh1+doPwmINW9D+CnjcwT1IMNvu2ijVthtc6Ukn/w7Uoi
- M7BTxKIA==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tLR4X-0022VR-FL; Wed, 11 Dec 2024 19:04:29 +0100
-Date: Wed, 11 Dec 2024 18:04:28 +0000
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4205110EBE9
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 18:32:56 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-53ffaaeeb76so4382029e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 10:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733941974; x=1734546774; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qwjqsNH/3nF2Q3XbWudExYhlk4EBq4Q9BHCqHdvdEaI=;
+ b=MRlBdk87yd5XRun6HxduAb3YdKzkUfpEMA9bIt/QJ+Kq4nAMlDgErn1RoQ6Q35yOQn
+ TEWHGFQHtrGuu/dYCiAl+WSTATsibcyCpwOZnm163/j8tW9QUjvEPVhUu6tIzB59rqjm
+ AcxLRhyGdmFpUhguwsbDd96u2RfhH1VyyUkDkB8mKJIFsnVnAq1ADZsxzzcDf9eM6tIX
+ nb/W4apOT4tVBW3WbeVpvx77ky1vcCGddv9jewJSsfIXKjWweeJ9YDu644P8be6Rk1Lm
+ Gde/cQI8Dn64FVHT3ZK9Y7uX8C8h7YXSb+Cd1wignrUFXbBLPBF15Qoi+B+8ggKL1GO5
+ 455g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733941974; x=1734546774;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qwjqsNH/3nF2Q3XbWudExYhlk4EBq4Q9BHCqHdvdEaI=;
+ b=KKAI41ukY/KWQO1XhC98eG7inMYntW0V76h4whUiiFxtn0Oto2aMkyBoWHNz+BNl0O
+ WUO7ShjY96NsVNynO4OvpprSSz1IIDx7G3PmtOxaFExsCNRxC2G0aDCriyflyZF+gtQL
+ BVnmXEY+sWgqnQfsZcAkX8iiI70d6TwzKCaRlzcsUeRW4l7zFA4i6Fol7tfv1zrvG4Yl
+ 3hg6eO7Hj1bz46ryhMlMOkGjSzBi2DZIzgCPpppRCdyrwQdB4i3M0oVdPvRQhUwH7cQK
+ p7z+xd/9jBSvRsCoAQzXdEToH7Ma3izPVPlccM/HwA6AKB8iMihM5fu2IBBb1e+v/3Hn
+ YAeA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtQVQ0jXqhTe4xvAb8yd/XsAEfDpWXciVXJmErGAbVlwfTZTlRrJ1Z0dPYoHlEgllLjbItV8RWMdw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyeWUXUpsF82BUtcrfYBSDatXJLHcjCLtmuPGJtGthYAOk5lHAx
+ 00Pyb+wmvG2c49ML38wWrOy59dVrnIWs3CL9+czMhIjyfUFo1zyw0/qpEt8dmLk=
+X-Gm-Gg: ASbGnct1G0tv3DQicr0w42SRWxIK3Va/QqsmT/ZYUViHE7TW8b84VIBt+ZxXxx6p7mP
+ ofFgGS6qBc2rVpEQxOyak+KNSazZBvjXv99GzMvxEAqbSThMqLChXTGn3fzCCGlgTDDO9RRF850
+ xd8olR16r++zgKNGIt3Ck3/6JawriyO0Kh80+ULcHYDVGCquI3z/Xy0k4BRbj6Djrmdthdcbtrx
+ 4xMWy9qmw7q0X3kWcaWwayZwU+samwrRX7kXlf0+FR+MmEw/nc6XV3b1rrOX8umrk8cf2SamOL8
+ Hcl/9nZ4yqoy6TAc5BFxUcwlLlvJ4xcedQ==
+X-Google-Smtp-Source: AGHT+IFmZdkDf94Jsx8fCrALITW/9iPuUY5e7Ad8TDSKUOMmNblYCFB7l7IPRhIdF6tMpVRDpdpenQ==
+X-Received: by 2002:a05:6512:1329:b0:540:1dac:c03d with SMTP id
+ 2adb3069b0e04-5402f04d0ffmr331050e87.57.1733941974289; 
+ Wed, 11 Dec 2024 10:32:54 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401d2aab5csm1134637e87.168.2024.12.11.10.32.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 10:32:52 -0800 (PST)
+Date: Wed, 11 Dec 2024 20:32:51 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Abel Vesa <abel.vesa@linaro.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-intel-fixes
-Message-ID: <Z1nULMrutE4HERvB@linux>
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v2 1/4] drm/dp: Add helper to set LTTPRs in transparent
+ mode
+Message-ID: <3omcjrgfkdmw466ok7gej2jge25vtwzaiycwz2xgejwppyvkza@rhssgk7xz4hj>
+References: <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-0-d5906ed38b28@linaro.org>
+ <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-1-d5906ed38b28@linaro.org>
+ <Z1mk08SHEd5_vc99@hovoldconsulting.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z1mk08SHEd5_vc99@hovoldconsulting.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,56 +107,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Dec 11, 2024 at 03:42:27PM +0100, Johan Hovold wrote:
+> On Wed, Dec 11, 2024 at 03:04:12PM +0200, Abel Vesa wrote:
+>  
+> > +/**
+> > + * drm_dp_lttpr_set_transparent_mode - set the LTTPR in transparent mode
+> > + * @aux: DisplayPort AUX channel
+> > + * @enable: Enable or disable transparent mode
+> > + *
+> > + * Returns 0 on success or a negative error code on failure.
+> > + */
+> > +int drm_dp_lttpr_set_transparent_mode(struct drm_dp_aux *aux, bool enable)
+> > +{
+> > +	u8 val = enable ? DP_PHY_REPEATER_MODE_TRANSPARENT :
+> > +			  DP_PHY_REPEATER_MODE_NON_TRANSPARENT;
+> > +	int ret = drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE, val);
+> > +
+> > +	return ret == 1 ? 0 : ret;
+> 
+> This looks correct, but I had to go look at drm_dp_dpcd_writeb() to make
+> sure it never returns 0 (for short transfers).
+> 
+> > +}
+> > +EXPORT_SYMBOL(drm_dp_lttpr_set_transparent_mode);
+> 
+> This appears to be what the driver currently uses, but why not
+> EXPORT_SYMBOL_GPL?
 
-Hi Dave, Sima,
+$ git grep EXPORT_SYMBOL drivers/gpu/drm/*.c | wc -l
+962
+$ git grep EXPORT_SYMBOL_GPL drivers/gpu/drm/*.c | wc -l
+93
 
-A handful of fixes for the weekly release candidate cycle:
 
-One fix for a performance regression in DSB register programming and also
-in the same area a partial fix for the legacy LUT and DSB interaction.
-Then there is a fix for a null pointer dereference in the GuC error state
-capture code. Finally a fix for a memory leak in cases when driver fails
-to load.
-
-Tvrtko
-
-drm-intel-fixes-2024-12-11:
-- Don't use indexed register writes needlessly [dsb] (Ville Syrjälä)
-- Stop using non-posted DSB writes for legacy LUT [color] (Ville Syrjälä)
-- Fix NULL pointer dereference in capture_engine (Eugene Kobyak)
-- Fix memory leak by correcting cache object name in error handler (Jiasheng Jiang)
-The following changes since commit fac04efc5c793dccbd07e2d59af9f90b7fc0dca4:
-
-  Linux 6.13-rc2 (2024-12-08 14:03:39 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-12-11
-
-for you to fetch changes up to 2828e5808bcd5aae7fdcd169cac1efa2701fa2dd:
-
-  drm/i915: Fix memory leak by correcting cache object name in error handler (2024-12-09 10:29:06 +0000)
-
-----------------------------------------------------------------
-- Don't use indexed register writes needlessly [dsb] (Ville Syrjälä)
-- Stop using non-posted DSB writes for legacy LUT [color] (Ville Syrjälä)
-- Fix NULL pointer dereference in capture_engine (Eugene Kobyak)
-- Fix memory leak by correcting cache object name in error handler (Jiasheng Jiang)
-
-----------------------------------------------------------------
-Eugene Kobyak (1):
-      drm/i915: Fix NULL pointer dereference in capture_engine
-
-Jiasheng Jiang (1):
-      drm/i915: Fix memory leak by correcting cache object name in error handler
-
-Ville Syrjälä (2):
-      drm/i915/dsb: Don't use indexed register writes needlessly
-      drm/i915/color: Stop using non-posted DSB writes for legacy LUT
-
- drivers/gpu/drm/i915/display/intel_color.c | 81 +++++++++++++++++++-----------
- drivers/gpu/drm/i915/display/intel_dsb.c   | 19 +++++--
- drivers/gpu/drm/i915/display/intel_dsb.h   |  2 +
- drivers/gpu/drm/i915/i915_gpu_error.c      | 18 +++++--
- drivers/gpu/drm/i915/i915_scheduler.c      |  2 +-
- 5 files changed, 85 insertions(+), 37 deletions(-)
+-- 
+With best wishes
+Dmitry
