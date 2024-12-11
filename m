@@ -1,77 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C0A9ED825
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 22:09:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 214D29ED829
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 22:09:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5972C10E06D;
-	Wed, 11 Dec 2024 21:09:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB8510E62F;
+	Wed, 11 Dec 2024 21:09:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="aSn3cXrY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EWsoaNA8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EA9C10E626
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 21:09:23 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-6efe5c1dea4so47575487b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 13:09:23 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBA210E62F
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 21:09:33 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-54026562221so1960403e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 13:09:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1733951362; x=1734556162;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=pQDqVSakcr3mxA+wnwNeXmA0JdxuRMpWtJWg3CDfgIg=;
- b=aSn3cXrYolr/RW5ZPvHFccII6vOoRT0pWty+cTiLnzAZwQGckmpHJxm4+Jyk02rS87
- X84Su4URFyPzOhpVRBEfvl+GuIhHsOfuFPQHLZyBzDRqbo7ZEdy1lUdSNgl3nL5DzYaP
- E9pVM7XnuNK/Vrj0oOdWh0Qz6OlpNoECIMbKM=
+ d=linaro.org; s=google; t=1733951371; x=1734556171; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=/zbqQN16b2aOiF9wSF0WnEQtgHo51A0jGYXUA3xuNJA=;
+ b=EWsoaNA8q15t6lAtJ8s4pKNFwOetDk/DDGJx51RKLPY3sMNLQzsgUD9L5HegLruXWd
+ XTdZXoVCNwtkc1HZfiZlzwx7SPBUxpxwGKVbVU0beM2k+DxmFB74PbiUbO97n+mi1VDX
+ sz+plxPckK832J+y2JLrEatlWmfpfWMWKbMye5DmcpXk/LJDTQTVeeoF5EBMKYGqH0t3
+ P55rFOaopmsDm6dyVNmdZVAz0lIYEwG96KlKhRtgNu9vpVgdMHNIc1uJxHyLZ41U0V8P
+ 1P1zxW6iHyWEeKTjM32GVvQc2Rcwhpc+9VVPVN99sNrIdNX2RBiuE/IkICdbkwQUTDrx
+ q4AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733951362; x=1734556162;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1733951371; x=1734556171;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pQDqVSakcr3mxA+wnwNeXmA0JdxuRMpWtJWg3CDfgIg=;
- b=bKib58fzR4f9M/oLGtKSkWIQBu6K6DjSiUh6nP832WjNPLGkmypMrTJ9C3c3ytqjny
- tsb7pUmjHluu+18ZdKhU6fjAdOUt+UXW/s+IOoyNGkJOnu8EBAI9/6rDP+HwRLNj801b
- RdT+BeD8uIH2jSpuxkXo7vh28dFVmuEGxsAUDHsQQE6CVKl5BKqIq+FkFalbQ/gseRuB
- kua4GIxct4IXZEBH54hz/28eFM+R3NvcY37Al9H+ATuxf4BxSaffRjlTJSrHTJ498Qi8
- l1AB1SF+ZrynhIV23beii6aFBlUC0Ak+tHq6/eo8n5YHJPT/ulUA1rx8fyqZd0XMCPvR
- ZbAA==
+ bh=/zbqQN16b2aOiF9wSF0WnEQtgHo51A0jGYXUA3xuNJA=;
+ b=I9hfNhsIJdweCXbC4V7JjyCzC/0LTkN1QG4Xep/VM64inLfVDikFUMfhTH9EI1GPVl
+ GGbuXBIPaLbdTYn5IBVeXpukaLN3QmZ4dw7KqHojPju2EL4OyPUKaLsEdzLpUQo0/6NO
+ it5txJdNFwUtpAfIgW6z/29iqnSqC4kBuYimHBSHl/zMVNW+0SGQRDslER3xC0xbxpLW
+ WVvnM26L+gfIdGecgFTdv5LR66SM5DqJ+W9e65hnhYgQbyXPklNSgjx6+9PM5u+zhDim
+ iwPlTN5TYBc+jjRC+b1SKjq+LWd0L8/UmhWO6anTJKWryPjjBVKQC6Fc6tVc8vfBPvjj
+ 8ReA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVe2/eNcLt1Sh3Lr1rxFV+rVSpIz9B/oEKui2ZtjlBPxZJbs4IMJcTgESoTyvuMtZZp6xUgO6xeUb0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypyKuxEgX5htNKwBeLx6BzIamiUO3Fjx8+5/aMdzCbZR4qGHoJ
- toKDvj7VNuPkBOpdiLKoYV0ld5a1gTua7E4xPO6yd1aOgpGOCn9HuXfezA4wsZmGJWTMzrna/18
- 9NiHiDyv83Ei9qj8FBcKCixvHfSOyZJ54zp/L
-X-Gm-Gg: ASbGncu/XdHDC+jVFjVqt3QoXh0v20RgQ4da2z6c1sC5Y+sh0o/lWJzWO80pr972IwH
- OF5tSBbvIwJ+EKub7RcrxrtzfjgHUmBx9O9jU9ADcexjv6qGUA51xpl6g187xRDA=
-X-Google-Smtp-Source: AGHT+IHQYD+rGSnTOhQP00f7jJc0s1qfCuYpNpAifu02eUFcwunSxMKsHSx1sXnfiWl+na08kVCW69bpJsghQkOvSbs=
-X-Received: by 2002:a05:690c:64c4:b0:6ef:70ae:ca16 with SMTP id
- 00721157ae682-6f19e86a455mr10895707b3.39.1733951362509; Wed, 11 Dec 2024
- 13:09:22 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Dec 2024 13:09:21 -0800
-MIME-Version: 1.0
-In-Reply-To: <20241202-fd-dp-audio-fixup-v2-5-d9187ea96dad@linaro.org>
-References: <20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org>
- <20241202-fd-dp-audio-fixup-v2-5-d9187ea96dad@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
-Date: Wed, 11 Dec 2024 13:09:21 -0800
-Message-ID: <CAE-0n53hKPr2WsGWTy24qfsSO4TbmtnY5bOQQ51UuW4RPUz0Dg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/14] drm/msm/dp: move I/O functions to global header
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ AJvYcCUhTOr8J6FGUpMGoF0VRnNibqTOUyp3fxhgpDN73hJHei2eDtpjGQml9jIoDIdjh/v1gjKHI6jeVNw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyANNVIjdJEmdM3tfty2m5yU74k/uLr6OcxYmnOk5IW/ddToZW0
+ dRynLxaZFuQ5VeHKtp/DfjA3B637QMGfxsXVvYM5PRSTIXnIrKW3Rv+5cEYibzA=
+X-Gm-Gg: ASbGncsY/yfsTRyZ62k+FDtZ2jYFF0VFLU+EyPdffxFxgC9GIPMc1jygQXGcf1lws8z
+ x3CekeiRtjlUcOaWay59HSSAuNEfayHtKYyaIEs6CZRsCz8K80ILBpgmzOX0zK8HImTjcVb+swG
+ rF+GtBbcV0hje4AVDD1NDD23LwoD7vyyFCbomdSDHD5t8vL/YS7j/itTdpdE1yJALvnFx5HhOHx
+ zPtDdCpuCPlIJaDmVcBdtLd87WmEgKHpTa6+I0BPQsW/2JMF49qs1Dw76/eJs5cHdDdasB0foNy
+ NMNmE+8xd1OXtCpJSuyqo+eWM65vHz+bGg==
+X-Google-Smtp-Source: AGHT+IE2nngXJnaAUtwl9k5Kp0+1aSGdWZRqw4X43BjQNC/SURzvx+f5grBltDBz9C5ghuG1lIXKDg==
+X-Received: by 2002:a05:6512:b11:b0:53e:3bb9:5e02 with SMTP id
+ 2adb3069b0e04-5402a60b1b0mr1317831e87.56.1733951371282; 
+ Wed, 11 Dec 2024 13:09:31 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53e3aa94b60sm1561872e87.114.2024.12.11.13.09.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 13:09:29 -0800 (PST)
+Date: Wed, 11 Dec 2024 23:09:28 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
- Paloma Arellano <quic_parellan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2] drm/msm/dpu: check dpu_plane_atomic_print_state() for
+ valid sspp
+Message-ID: <rggt2smcj547el3bovp5djilydxe5wygqasborwunejihbqygc@xanqsyxqgyke>
+References: <20241211-check-state-before-dump-v2-1-62647a501e8c@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241211-check-state-before-dump-v2-1-62647a501e8c@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,22 +94,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2024-12-02 02:06:35)
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 13486c9c8703748e69e846be681951368df0a29e..2c500dc0898edfe1d6bdac2eedf3c1b78056cf6b 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-[...]
-> +
-> +static inline u32 msm_dp_read_p0(struct msm_dp_catalog *msm_dp_catalog,
-> +                              u32 offset)
-> +{
-> +       /*
-> +        * To make sure interface reg writes happens before any other operation,
-> +        * this function uses writel() instread of writel_relaxed()
+On Wed, Dec 11, 2024 at 11:50:26AM -0800, Abhinav Kumar wrote:
+> Similar to the r_pipe sspp protect, add a check to protect
+> the pipe state prints to avoid NULL ptr dereference for cases when
+> the state is dumped without a corresponding atomic_check() where the
+> pipe->sspp is assigned.
+> 
+> Fixes: 31f7148fd370 ("drm/msm/dpu: move pstate->pipe initialization to dpu_plane_atomic_check")
+> Reported-by: Stephen Boyd <swboyd@chromium.org>
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/67
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+> To: Rob Clark <robdclark@gmail.com>
+> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> To: Sean Paul <sean@poorly.run>
+> To: Marijn Suijten <marijn.suijten@somainline.org>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> ---
+> Changes in v2:
+> - move pstate->stage out of the pipe->sspp check
+> - add reported-by credits for Stephen
+> - Link to v1: https://lore.kernel.org/r/20241209-check-state-before-dump-v1-1-7a9d8bc6048f@quicinc.com
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+> 
 
-It's readl_relaxed() below.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> +        */
-> +       return readl_relaxed(msm_dp_catalog->p0_base + offset);
-> +}
+-- 
+With best wishes
+Dmitry
