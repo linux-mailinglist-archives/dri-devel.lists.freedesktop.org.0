@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 996499ECA10
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0CA9ECA0F
 	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 11:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCFCB10EAE9;
-	Wed, 11 Dec 2024 10:15:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E001810EB04;
+	Wed, 11 Dec 2024 10:15:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Yvnsj5DW";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WUAQeTdI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 483E810EAE9
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 10:15:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2040D10EAEA
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 10:15:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1733912128;
- bh=eAufraMFMnfi2IGWNJkkS7Jvw+zFLnnar89/NtNbjiw=;
+ bh=MuR2oeRfGbazny81Gg0qjiBQGXd4zaCOkbi5lO6j2Cs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Yvnsj5DWio7ojSsr0PD02rfB0+uMYYEQE5WOnSyNKDR2HjXw2rK0L6TOU2DEitxH0
- WCmWJy+dRCAtn4kkAO2idsGzsYbsk4bSeexucu0C/CtgEMa7ntvSaBmuWJna1s3IIh
- t42y5gLCjbp0Oo8wiRKOWdoSKuyn2HUNlZW9kgHbJ/nrdpECJWYlWXnfvKEWa/lCVm
- DMrsT5+7ZE/NSQZHXmWAgh3XwHYe1o+XKAzO75BOtACPE0m88HHHrIjxCp7s0CCdji
- 6LedlVG9x8WnqtBB3ySrHevu/oYhsIa37BhZ9WjgmbvSfSfwKtOJq+tqHrTRE0RCBh
- fBXjJd1cKBCOg==
+ b=WUAQeTdInPgpiJzNdemRfTK33tu8MM4biHZJBaKYa17k0RRnmLJ2fcpGFcsn2q4/v
+ E6nxtoCDoxnDS8FJHhnZVibHrMBNDxcA3zh9l7AcjaVYIaDH2BnlhWSBqTuhRp0vPJ
+ PGPPfctSIhu8COXk5drExjddLwKUm93wE+/SzjRcWqEYsq3GFsMbDlr7HpV7W1GPDH
+ E0ppAuFoFmCeqShxvobA1MrLy7z65RQ9EF5L9VKOJnfE0keJ2CuGO3t9A9WW2gmzr+
+ 1I+4+d9E5K1r3E3WUYBVVlqRJ5+6yaeLO6JZ50HrO58kHpYF2XriNkn52KAnb/anyJ
+ 0D2TBSNeCfoOQ==
 Received: from localhost (unknown [188.27.48.199])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CD64417E35FC;
- Wed, 11 Dec 2024 11:15:27 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 93C1E17E3600;
+ Wed, 11 Dec 2024 11:15:28 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Wed, 11 Dec 2024 12:15:05 +0200
-Subject: [PATCH v2 1/5] dt-bindings: display: vop2: Add optional PLL clock
- properties
+Date: Wed, 11 Dec 2024 12:15:06 +0200
+Subject: [PATCH v2 2/5] drm/rockchip: vop2: Drop unnecessary if_pixclk_rate
+ computation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241211-vop2-hdmi0-disp-modes-v2-1-471cf5001e45@collabora.com>
+Message-Id: <20241211-vop2-hdmi0-disp-modes-v2-2-471cf5001e45@collabora.com>
 References: <20241211-vop2-hdmi0-disp-modes-v2-0-471cf5001e45@collabora.com>
 In-Reply-To: <20241211-vop2-hdmi0-disp-modes-v2-0-471cf5001e45@collabora.com>
 To: Sandy Huang <hjc@rock-chips.com>, 
@@ -70,40 +70,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On RK3588, HDMI PHY PLL can be used as an alternative and more accurate
-pixel clock source for VOP2 video ports 0, 1 and 2.
+The if_pixclk_rate variable is not being used outside of the if-block in
+rk3588_calc_cru_cfg(), hence move the superfluous assignment from the
+first branch to the inner comment-block.
 
-Document the optional PLL clock properties corresponding to the two HDMI
-PHYs available on the SoC.
-
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-index 2531726af306bd388c00c3c0a1785b2c7367e2bd..46d956e63338e196361483a668fbf5597ebce24f 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-@@ -53,6 +53,8 @@ properties:
-       - description: Pixel clock for video port 2.
-       - description: Pixel clock for video port 3.
-       - description: Peripheral(vop grf/dsi) clock.
-+      - description: Alternative pixel clock provided by HDMI0 PHY PLL.
-+      - description: Alternative pixel clock provided by HDMI1 PHY PLL.
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 9873172e3fd331f4457fb70c5416dad7af9e3536..8b2f53ffefdbf1cc8737b3a86e630a03a7fd9348 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1695,8 +1695,8 @@ static unsigned long rk3588_calc_cru_cfg(struct vop2_video_port *vp, int id,
+ 			K = 2;
+ 		}
  
-   clock-names:
-     minItems: 5
-@@ -64,6 +66,8 @@ properties:
-       - const: dclk_vp2
-       - const: dclk_vp3
-       - const: pclk_vop
-+      - const: pll_hdmiphy0
-+      - const: pll_hdmiphy1
- 
-   rockchip,grf:
-     $ref: /schemas/types.yaml#/definitions/phandle
+-		if_pixclk_rate = (dclk_core_rate << 1) / K;
+ 		/*
++		 * if_pixclk_rate = (dclk_core_rate << 1) / K;
+ 		 * if_dclk_rate = dclk_core_rate / K;
+ 		 * *if_pixclk_div = dclk_rate / if_pixclk_rate;
+ 		 * *if_dclk_div = dclk_rate / if_dclk_rate;
 
 -- 
 2.47.0
