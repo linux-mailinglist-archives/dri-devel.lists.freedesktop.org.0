@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807C89ECED8
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 15:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAFCC9ECF01
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 15:51:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E918510EB68;
-	Wed, 11 Dec 2024 14:42:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1B110EB6B;
+	Wed, 11 Dec 2024 14:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fkdcp6d2";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZwI3rRwe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9D8F10E1A3;
- Wed, 11 Dec 2024 14:42:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8F8905C606D;
- Wed, 11 Dec 2024 14:41:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFCE4C4CED2;
- Wed, 11 Dec 2024 14:42:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1733928144;
- bh=RJoGGBFcL+sQrgvZ8+9BKYWDJWcgBpREZ6n8Z69Zl9c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fkdcp6d25g6ET2VUFeJgANhn0OzBzTp74DQddva1BycAheDOFS1hA76M0cG8a1lco
- GiF+wGC8KuSSiiksMidE9H02hUmQ0Ey5QdFXdPFf/dIbCFM949pMOUVI4OnnJ/KY9z
- 8ne5hNVbTCxbkBQAwhg+mUFZ37yOrf3Gohgeo83LhkXN32EFDm2ON53j5wwL4JXq6n
- Z1stje4hyUGIKnHj5mYVbgXf6JnmM/LPNeCzyHoc6gdVQZShSJ8zniEJ4+X8TfLaXo
- mkPA9cS0HTj/ohUY/+SOZBz5fvs2mPhGWcZ18xgISbMcx59BA7q+gkp55/d/vELH5k
- QqclZZ/0OfjVg==
-Received: from johan by xi.lan with local (Exim 4.97.1)
- (envelope-from <johan@kernel.org>) id 1tLNv1-000000002rx-1zMb;
- Wed, 11 Dec 2024 15:42:28 +0100
-Date: Wed, 11 Dec 2024 15:42:27 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/4] drm/dp: Add helper to set LTTPRs in transparent
- mode
-Message-ID: <Z1mk08SHEd5_vc99@hovoldconsulting.com>
-References: <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-0-d5906ed38b28@linaro.org>
- <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-1-d5906ed38b28@linaro.org>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CED2E10EB6B
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=0JCbYZmWassaJ0J0Otjz3zROzXmBPztJsBazQNyoppU=; b=ZwI3rRwepQeP07E8LuviimnSbF
+ zBzgSdsIU7CjjBYL0VXzPd5EA1DB5FSR6TrahIpoZqc6a5sCU1+MNcJO2gv1B35uXbkWIKfVvJ2La
+ eUP5l7h0J9cQC4wuzKucyrg606euLWoLtdTeWkkifwQ6oV2GeGRP4Q0nNat1AYlH9TTC1P/zlWZ0Y
+ 4P27+qxyIk8/AQzA7RWyqdg4QQj7GGNxPNlKA6e2DwHAihSMrFuipf0ZfgrBbbACeL/kQuHm/+8Q9
+ yRhs+o6l7ZWflKX30vp3uZa5ee0i5ADyh5SHbgm0d8zvsU0v6919p3t7jk51cft0FnTc9gYJBg5qP
+ y5aHmvBQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tLO3Q-001z29-2t; Wed, 11 Dec 2024 15:51:08 +0100
+Message-ID: <9ff6e898-cc5b-474b-b969-ad4fa28634b6@igalia.com>
+Date: Wed, 11 Dec 2024 11:51:01 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-1-d5906ed38b28@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/vc4: plane: Remove WARN on state being set in
+ plane_reset
+To: Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, kernel-list@raspberrypi.com,
+ dri-devel@lists.freedesktop.org
+References: <20241202120343.33726-1-wahrenst@gmx.net>
+ <d2a0fed1-22c0-4035-9b9d-feb78c9e3ac5@igalia.com>
+ <aec79911-2ca0-466f-a620-c4426f215a6f@gmx.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <aec79911-2ca0-466f-a620-c4426f215a6f@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,83 +67,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 03:04:12PM +0200, Abel Vesa wrote:
- 
-> +/**
-> + * drm_dp_lttpr_set_transparent_mode - set the LTTPR in transparent mode
-> + * @aux: DisplayPort AUX channel
-> + * @enable: Enable or disable transparent mode
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int drm_dp_lttpr_set_transparent_mode(struct drm_dp_aux *aux, bool enable)
-> +{
-> +	u8 val = enable ? DP_PHY_REPEATER_MODE_TRANSPARENT :
-> +			  DP_PHY_REPEATER_MODE_NON_TRANSPARENT;
-> +	int ret = drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE, val);
-> +
-> +	return ret == 1 ? 0 : ret;
+Hi Stefan,
 
-This looks correct, but I had to go look at drm_dp_dpcd_writeb() to make
-sure it never returns 0 (for short transfers).
+On 11/12/24 11:07, Stefan Wahren wrote:
+> Hi Maíra,
+> 
+> Am 11.12.24 um 14:19 schrieb Maíra Canal:
+>> Hi Stefan,
+>>
+>> On 02/12/24 09:03, Stefan Wahren wrote:
+>>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>>
+>>> It is permitted on situations such as system resume for plane->state
+>>> to be non-NULL, and that should be handled by freeing it. Do so.
+>>>
+>>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+>>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+>>
+>> Was this patch applied?
+> No, but Maxime send his RB.
+>> Let me know if you would like it to be applied
+>> to drm-misc-next.
+> Yes, please.
 
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_set_transparent_mode);
+Applied to misc/kernel.git (drm-misc-next) [1].
 
-This appears to be what the driver currently uses, but why not
-EXPORT_SYMBOL_GPL?
+[1] 
+https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c5cf801914ef3e67923e5dc912e04167e665dd11
 
-> +
-> +/**
-> + * drm_dp_lttpr_init - init LTTPR transparency mode according to DP standard
-> + *
-> + * @aux: DisplayPort AUX channel
-> + * @lttpr_count: Number of LTTPRs
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> +int drm_dp_lttpr_init(struct drm_dp_aux *aux, int lttpr_count)
-> +{
-> +	if (!lttpr_count)
-> +		return 0;
-> +
-> +	/*
-> +	 * See DP Standard v2.0 3.6.6.1 about the explicit disabling of
-> +	 * non-transparent mode and the disable->enable non-transparent mode
-> +	 * sequence.
-> +	 */
-> +	drm_dp_lttpr_set_transparent_mode(aux, true);
+Best Regards,
+- Maíra
 
-Error handling?
+> 
+> Best regards
+>>
+>> Best Regards,
+>> - Maíra
+>>
+>>> ---
+>>>   drivers/gpu/drm/vc4/vc4_plane.c | 5 ++++-
+>>>   1 file changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c
+>>> b/drivers/gpu/drm/vc4/vc4_plane.c
+>>> index ba6e86d62a77..1aaa4938824b 100644
+>>> --- a/drivers/gpu/drm/vc4/vc4_plane.c
+>>> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
+>>> @@ -330,7 +330,10 @@ static void vc4_plane_reset(struct drm_plane
+>>> *plane)
+>>>   {
+>>>       struct vc4_plane_state *vc4_state;
+>>>
+>>> -    WARN_ON(plane->state);
+>>> +    if (plane->state)
+>>> + __drm_atomic_helper_plane_destroy_state(plane->state);
+>>> +
+>>> +    kfree(plane->state);
+>>>
+>>>       vc4_state = kzalloc(sizeof(*vc4_state), GFP_KERNEL);
+>>>       if (!vc4_state)
+>>> -- 
+>>> 2.34.1
+>>>
+>>
+> 
 
-> +
-> +	if (lttpr_count > 0 && !drm_dp_lttpr_set_transparent_mode(aux, false))
-
-No need to check lttpr_count again here.
-
-> +		return 0;
-
-I'd check for errors instead of success here and do the rollback before
-returning -EINVAL.
-
-> +
-> +	/*
-> +	 * Roll-back to tranparent mode if setting non-tranparent mode failed or
-> +	 * the number of LTTPRs is invalid
-> +	 */
-> +	drm_dp_lttpr_set_transparent_mode(aux, true);
-> +
-> +	return -EINVAL;
-
-And return 0 explicitly here.
-
-> +}
-> +EXPORT_SYMBOL(drm_dp_lttpr_init);
-
-In any case this works well and is needed for external display on the
-Lenovo ThinkPad T14s, while not breaking the X13s which does not need
-it:
-
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
-
-Johan
