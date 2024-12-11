@@ -1,84 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214D29ED829
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 22:09:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D029ED831
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 22:11:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB8510E62F;
-	Wed, 11 Dec 2024 21:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5DC410E626;
+	Wed, 11 Dec 2024 21:11:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EWsoaNA8";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="KE+PA0/k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CBA210E62F
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 21:09:33 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-54026562221so1960403e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 13:09:32 -0800 (PST)
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D30710E626
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 21:11:16 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id
+ 3f1490d57ef6-e387ad7abdaso6084105276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 13:11:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733951371; x=1734556171; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/zbqQN16b2aOiF9wSF0WnEQtgHo51A0jGYXUA3xuNJA=;
- b=EWsoaNA8q15t6lAtJ8s4pKNFwOetDk/DDGJx51RKLPY3sMNLQzsgUD9L5HegLruXWd
- XTdZXoVCNwtkc1HZfiZlzwx7SPBUxpxwGKVbVU0beM2k+DxmFB74PbiUbO97n+mi1VDX
- sz+plxPckK832J+y2JLrEatlWmfpfWMWKbMye5DmcpXk/LJDTQTVeeoF5EBMKYGqH0t3
- P55rFOaopmsDm6dyVNmdZVAz0lIYEwG96KlKhRtgNu9vpVgdMHNIc1uJxHyLZ41U0V8P
- 1P1zxW6iHyWEeKTjM32GVvQc2Rcwhpc+9VVPVN99sNrIdNX2RBiuE/IkICdbkwQUTDrx
- q4AQ==
+ d=chromium.org; s=google; t=1733951475; x=1734556275;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=fL4AZO7DuUqncD1hviX7Ju8fEoY0KFiDTXpqXPG3i0I=;
+ b=KE+PA0/k8tgD3ZvDfILANjaFrqvcQ5PNhBojqj20BC7Uz73CFC8NJ1t/n/nn6sC9XU
+ MjaokakvW7hlV6wdROJGm+6t2+JQmY9jYvFTQUwYcvhpfGfQxHqVlVAh5oXp4mdBSvGH
+ tNgk3NEmA5oc6Z2ShO2GWTZup6r/zfegaMDQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733951371; x=1734556171;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1733951475; x=1734556275;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/zbqQN16b2aOiF9wSF0WnEQtgHo51A0jGYXUA3xuNJA=;
- b=I9hfNhsIJdweCXbC4V7JjyCzC/0LTkN1QG4Xep/VM64inLfVDikFUMfhTH9EI1GPVl
- GGbuXBIPaLbdTYn5IBVeXpukaLN3QmZ4dw7KqHojPju2EL4OyPUKaLsEdzLpUQo0/6NO
- it5txJdNFwUtpAfIgW6z/29iqnSqC4kBuYimHBSHl/zMVNW+0SGQRDslER3xC0xbxpLW
- WVvnM26L+gfIdGecgFTdv5LR66SM5DqJ+W9e65hnhYgQbyXPklNSgjx6+9PM5u+zhDim
- iwPlTN5TYBc+jjRC+b1SKjq+LWd0L8/UmhWO6anTJKWryPjjBVKQC6Fc6tVc8vfBPvjj
- 8ReA==
+ bh=fL4AZO7DuUqncD1hviX7Ju8fEoY0KFiDTXpqXPG3i0I=;
+ b=BNmydyTViuNwyBwFOV4pGqK50yg3zNOeC5L9Il9B5KsKEpkLAcB0hXaReii7Gkfib3
+ Uood8KUhTPTsA8KCs0bNyHNOxLkLwdPXzW0YJJGbEuUBRevGb+T8wxRGMZV2JpNE3odv
+ WtnSsqSoDXDTmqD/xMd/ADxUqYjDeY4u0AeOWydbt2V5Sbr40DVDyyHzYBTEj6p5s7dX
+ 7RYiPLwd3fjNoEy7/icqUTJurkPpk6ogLkzfhpDAIeSDN9WH9sG0CVMjPb6baWkOEYcU
+ rTzFfhF9wn3cykq5hhNGJrZXVNiQjolovhWfBsPKT2A5Kf66hKIRD+l5dy245xexgNeG
+ sw3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUhTOr8J6FGUpMGoF0VRnNibqTOUyp3fxhgpDN73hJHei2eDtpjGQml9jIoDIdjh/v1gjKHI6jeVNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyANNVIjdJEmdM3tfty2m5yU74k/uLr6OcxYmnOk5IW/ddToZW0
- dRynLxaZFuQ5VeHKtp/DfjA3B637QMGfxsXVvYM5PRSTIXnIrKW3Rv+5cEYibzA=
-X-Gm-Gg: ASbGncsY/yfsTRyZ62k+FDtZ2jYFF0VFLU+EyPdffxFxgC9GIPMc1jygQXGcf1lws8z
- x3CekeiRtjlUcOaWay59HSSAuNEfayHtKYyaIEs6CZRsCz8K80ILBpgmzOX0zK8HImTjcVb+swG
- rF+GtBbcV0hje4AVDD1NDD23LwoD7vyyFCbomdSDHD5t8vL/YS7j/itTdpdE1yJALvnFx5HhOHx
- zPtDdCpuCPlIJaDmVcBdtLd87WmEgKHpTa6+I0BPQsW/2JMF49qs1Dw76/eJs5cHdDdasB0foNy
- NMNmE+8xd1OXtCpJSuyqo+eWM65vHz+bGg==
-X-Google-Smtp-Source: AGHT+IE2nngXJnaAUtwl9k5Kp0+1aSGdWZRqw4X43BjQNC/SURzvx+f5grBltDBz9C5ghuG1lIXKDg==
-X-Received: by 2002:a05:6512:b11:b0:53e:3bb9:5e02 with SMTP id
- 2adb3069b0e04-5402a60b1b0mr1317831e87.56.1733951371282; 
- Wed, 11 Dec 2024 13:09:31 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e3aa94b60sm1561872e87.114.2024.12.11.13.09.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2024 13:09:29 -0800 (PST)
-Date: Wed, 11 Dec 2024 23:09:28 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>
-Subject: Re: [PATCH v2] drm/msm/dpu: check dpu_plane_atomic_print_state() for
- valid sspp
-Message-ID: <rggt2smcj547el3bovp5djilydxe5wygqasborwunejihbqygc@xanqsyxqgyke>
-References: <20241211-check-state-before-dump-v2-1-62647a501e8c@quicinc.com>
+ AJvYcCVOO+Pecv27USGf7Kt7VFWUebDoL0DtHGmEUxbjleW/TbvurlYZVGSrJApwZjESG9hriZXQ62/WcWM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUiF2wYNUrda8ZOnu08yV2heIWNDuOjZJv2QfwrbZrdFMjd6HN
+ a4o3W3DHSCRtvanhSIrOgYPRpQqhGXvApojgRl2lXmac00MrWoWfNUb20sKF/MFf0DAV/l0ja6L
+ T3T+RVILD7j3hbH3dcZ5uz2Z628eOW6YIXqF2
+X-Gm-Gg: ASbGncuCl9YzVAzTGVjUzE9clWCaUioICtUrybWm60OC7qUbSReag1QHOseg/BQVs/3
+ Qs9J9TsVbpbq4SljXHl1/yWU97X7kk8QL8j2D5jxnuRhEs2rDh44shOIXBCQPQmk=
+X-Google-Smtp-Source: AGHT+IGR6ED4gGgHGmi77s2dwB+gnLghGdTv2zo6xXg1u+pxnZVS/4VVQlWKhmq+504JY9ZZ4GSEuX2qWpyqxoxUo7A=
+X-Received: by 2002:a05:6902:1b87:b0:e39:7a24:a5c3 with SMTP id
+ 3f1490d57ef6-e3da1eed190mr753786276.32.1733951475289; Wed, 11 Dec 2024
+ 13:11:15 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Dec 2024 13:11:14 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211-check-state-before-dump-v2-1-62647a501e8c@quicinc.com>
+In-Reply-To: <kidsjzklpxvvamct3glvoawavoi5mjuyh3on5kbtfp6gavwxxn@eack224zuqa3>
+References: <yk3xidaisbd56yndaucax7otijjauqmm7lqm6q4q633kdawlqo@qaq27lwxmvwd>
+ <gstohhcdnmnkszk4l2ikd5xiewtotgo5okia62paauj6zpaw7y@4wchyvoynm2p>
+ <CAE-0n50z6MNa7WOsg-NU7k8BpFeJJyYfHX3ov6DsthLWauSNpA@mail.gmail.com>
+ <hqmx7jtkvrwvb27n56hw7rpefhp37lhr3a5fawz7gsl76uuj5s@h7m6wpdhibkk>
+ <CAE-0n50y1O2C47zOGJPmMjKXK_m6a=jhpEAP4nW+RymZbo2xyg@mail.gmail.com>
+ <5kisfv22tgqwzjpxqrbx56ywr7l4r7pny3pl2r7crv4rijqbwk@azricdasttg7>
+ <CAE-0n50Bxi2GfnxOmMwe-F+k5jMSiyAVPDb6K8pYm-i6hpJTOA@mail.gmail.com>
+ <cartdeijkv6z23dgm7uif4lti3lahfqmuyxcmruzqbefhsp6yk@m6ocjhncs2ko>
+ <CAE-0n51-QLLje0f7T4p3xK6Q-FRk4K0NUrVVm4cxkKoevuzktw@mail.gmail.com>
+ <kidsjzklpxvvamct3glvoawavoi5mjuyh3on5kbtfp6gavwxxn@eack224zuqa3>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Wed, 11 Dec 2024 13:11:14 -0800
+Message-ID: <CAE-0n52F+cvVyXm8g8idN2eMfx4bpaEpWQRchr8=AO87N7E3fg@mail.gmail.com>
+Subject: Re: [PATCH v4 15/18] dt-bindings: usb: Add ports to
+ google,cros-ec-typec for DP altmode
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ patches@lists.linux.dev, devicetree@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>, Pin-yen Lin <treapking@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Benson Leung <bleung@chromium.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, Guenter Roeck <groeck@chromium.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Prashant Malani <pmalani@chromium.org>, 
+ Robert Foss <rfoss@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Daniel Scally <djrscally@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Ivan Orlov <ivan.orlov0322@gmail.com>, 
+ linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ "Rafael J . Wysocki" <rafael.j.wysocki@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,40 +116,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 11:50:26AM -0800, Abhinav Kumar wrote:
-> Similar to the r_pipe sspp protect, add a check to protect
-> the pipe state prints to avoid NULL ptr dereference for cases when
-> the state is dumped without a corresponding atomic_check() where the
-> pipe->sspp is assigned.
-> 
-> Fixes: 31f7148fd370 ("drm/msm/dpu: move pstate->pipe initialization to dpu_plane_atomic_check")
-> Reported-by: Stephen Boyd <swboyd@chromium.org>
-> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/67
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> ---
-> To: Rob Clark <robdclark@gmail.com>
-> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> To: Sean Paul <sean@poorly.run>
-> To: Marijn Suijten <marijn.suijten@somainline.org>
-> To: David Airlie <airlied@gmail.com>
-> To: Simona Vetter <simona@ffwll.ch>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> ---
-> Changes in v2:
-> - move pstate->stage out of the pipe->sspp check
-> - add reported-by credits for Stephen
-> - Link to v1: https://lore.kernel.org/r/20241209-check-state-before-dump-v1-1-7a9d8bc6048f@quicinc.com
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
-> 
+Quoting Dmitry Baryshkov (2024-12-05 10:47:08)
+> On Tue, Dec 03, 2024 at 03:50:58PM -0800, Stephen Boyd wrote:
+> >
+> > The easiest way to imagine this is that we took the usb-c-connector and
+> > jammed an HDMI dongle in there with some glue so that it can never be
+> > removed. There isn't any USB going there either because it can't be
+> > used. I suppose we can continue to describe this with an
+> > altmodes/displayport node but then add some compatible like
+> > "usb-c-hdmi-connector" or another property to the altmodes/displayport
+> > node like "type = hdmi" that signifies this is a connector that only
+> > outputs HDMI.
+>
+> Does that DP-to-HDMI bridge talk USB-C or just pure DP? In other words,
+> will it be properly discovered and handled if we just leave it as a
+> weird usb-c-connector (maybe with an additional annotation, we have
+> USB_PORT_CONNECT_TYPE_HARD_WIRED for USB ports, we might have something
+> similar for Type-C connectors).
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
+It is pure DP. Maybe we can have a google,cros-ec-usbc-hdmi compatible
+string here because this is a weird design.
