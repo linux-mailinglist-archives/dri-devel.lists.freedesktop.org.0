@@ -2,93 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EF29EC6CD
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291C19EC6DF
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2324210EA93;
-	Wed, 11 Dec 2024 08:16:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEB9110EA94;
+	Wed, 11 Dec 2024 08:18:31 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="QaE7KC0p";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
- [209.85.221.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 945AD10EA88
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:16:41 +0000 (UTC)
-Received: by mail-vk1-f175.google.com with SMTP id
- 71dfb90a1353d-51889930cb1so622167e0c.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 00:16:41 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A146F10EA94
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:18:30 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-3022484d4e4so28670761fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 00:18:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1733905108; x=1734509908;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XskHzUQ0wP3xisQAsDVTIVaMiwmap3TuSXWv2UwOOoE=;
+ b=QaE7KC0pAyqHaEwfAixAJUDuhlIIzm+PJTIYAqRmzjlajUJrT3lbtoMLibn4NvQ3FE
+ XdiORWf75Tif1/AGIfgsAd3ezsgMTKimdtUFct/RvFoBsO1fZttZ5eNnEmJt3B088T5q
+ kA3gQUYCRSFxAHp8K86N6c5VOO5BGlxHDysLbJp4Ykf2CVlH9AdRrgDnGy1QZHoq6ZsV
+ rIF/vVaSGGzIp1H/YDSfcVbUDyzlkSSTdlTuJ7QaWcxxzvMIdo9di08S4A0BS100XLRq
+ 9i13mGbo8dIk8fF9Oq2LnXNexj1jt0S1glqTOpOvPmMtdjOnko80Hyq3u3PRZy9sNVcr
+ oQ9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733904997; x=1734509797;
+ d=1e100.net; s=20230601; t=1733905108; x=1734509908;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=5FY0XX7TvU9anI/w2FWrAwi4RB2/V1Am38o5HNJIjvQ=;
- b=V4l6mgXpGSY/lAI2rUrBh4A7Km3D7YmZ0Yf/8tHjHktFNTsl5QQG7kioBKYveZXNO+
- Nwxx5NZVIdJC7SKSEwS3L+hWxrJAxCtiwG4oCyxUcPhxshgseoVGtY4FAy7JLd9N02Bf
- DfQC97fOAvBcdDsSjwHBeLxsDRv4H/+DBW9dot9LWcojVGMePFn0JGETKEfgAorKE8W3
- IhFo0AY9EIQvZhiMLC/PHGDThBqYskCjJRireNhRE+Hy/WUG4WeN0wbv8QnnscqP5L5j
- dSNu7SMBmVr9gxbcKjwBEg8VEU+PsNZrsCTLvJ37TCXhaE0bVHoHsR2fzlzgY/joF30y
- cc5Q==
+ bh=XskHzUQ0wP3xisQAsDVTIVaMiwmap3TuSXWv2UwOOoE=;
+ b=LSg2AuNR3lAen7MfTUQ/srsY7cjEDIk2t27iPOv1NyQaaW/5rnaBpz/yFmMZOixOeH
+ +sFcuk8DQDj88/fedbJKOgSQ+bqj+40Zo2UhW32EKiprZO3u/auuFD5uaiphf90hD0CY
+ z7BxuLCuVeEpVgUxdEA2kMvTi61vxQ86ztlp2+oLscwE6eQF2xMrABfwfwMogYPPRoC0
+ WJq5tS13HiwMTWeSVnt8zA2PTOzxQJj8bxiw5Codkpr/xD/te5Szr6vRUM/2qML2cgHB
+ L6xxDBi6fmK5mz7EPXYFtxKUZAgEJSODRGOZUoVx+MIQSQW8Dbw7WW0jMvbaOtWYb0G+
+ CQIQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUb83M1DpDLH3KKNcbaO2C9QqJkNyeYlhmjPiOo4UBB1DfcksiR2lgfgGv1Be+MrwTuopd45cNYJ7c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8AuLrGUjbooPkl9+XUhpIATbQDvrpTxtAnVyMBoBi5emZSUZ8
- CnlOmPgImHmP1ZmTQ+/OWr6k+HX8FdCJBZ0HNPr1HtccT0/DEmy1glEWO5Ck
-X-Gm-Gg: ASbGnctRri6T+zUcbsJ7KYg5taCgPstMgup7097Vee7W6hfqdJIQ0UdYUDG928IrY34
- 2HjhOgn/+Dd7D4HJX4IhZGouQv/gu5K+f+nv/hsizfpWyohJw+z+nX2tSHdxA2343l7cj+jrdG0
- VCC0YxgB1+BDt9J5Nz/nkr4mZBKxPUY1zGxzEbtjN2vlbQnViTFPk4vg7utiHSBHI+3UHdEzJxA
- V2n5L9vmymj6pQg3Df3a9i9OyW7CyiXIWuZ8GC7K2RJvq2yZP+3SBL+sUkQyA/n3HnTCZB6unlu
- WfVAklp4ZsSwD6aJ
-X-Google-Smtp-Source: AGHT+IHEawZYVvTpKZJz5xARACA3gADd3V3SnBr7wqZP2tPgRWioy1ncEJcM02zcRQPhiEBTDLfCRg==
-X-Received: by 2002:a05:6122:1782:b0:518:7777:a61e with SMTP id
- 71dfb90a1353d-518a3a3541amr1797969e0c.5.1733904997400; 
- Wed, 11 Dec 2024 00:16:37 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com.
- [209.85.222.48]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-5188c74aac0sm270157e0c.33.2024.12.11.00.16.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Dec 2024 00:16:36 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id
- a1e0cc1a2514c-85bc5d0509bso1321344241.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 00:16:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV/5EfLm0bwSWf/0vo8n9JA2FspClgiBGqNUDJSdbYrqCCyD4sUty3Z+Xysh594+BvqG+JkyJ+pdFE=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:5108:b0:4af:f275:e747 with SMTP id
- ada2fe7eead31-4b12912a99bmr1969256137.22.1733904995896; Wed, 11 Dec 2024
- 00:16:35 -0800 (PST)
+ AJvYcCX/+ioTPodxMC2oO8g/6DL/7/ptqWr/70UmSPqICfzk6ie5Bx1xQQf6ywTxhSP+1macQLkgC+oeZUY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypuT4ItC3M2saWENhW1JNxQNTM1b+MZkZh/o0nxnzDHdjqocHX
+ jh7zxg9HvHwl5jr6eeV//h7piWhSJgoeoVZ36FfmrA4LaNYzFU8jDWRGNzbYMG0PL3vFcv2z2OP
+ gpOxYhz1fRmZ+sDNyMbroboOPbgrKD0wGjBpiRw==
+X-Gm-Gg: ASbGnctxBTttDCXMtEG8EygHv7fGIxr176aLP58rN32J2ciNu5k6+5Lc/IYkjg5YZvx
+ J0lklWJZlPMRZKnpsAQj2ZS0obu2fngC4a2+9021xXry1ol0Hk3/wDZO2hXbvq7c4eVk=
+X-Google-Smtp-Source: AGHT+IEyqSnEBMMtZyEj5jF6bo6/CxMQUAS8l/Vem+Q0Tg0zwJltPimb/BXxYNi4dNa8OIsM4j3xdj7bHzlce3zdJRY=
+X-Received: by 2002:a2e:bcc6:0:b0:2ff:c95a:a067 with SMTP id
+ 38308e7fff4ca-30240d08829mr5734311fa.13.1733905108362; Wed, 11 Dec 2024
+ 00:18:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
- <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
- <CAMuHMdXMt74okJjqinLwrVmf5hZFm7YQkE5s3u2F9AOTWk+zXQ@mail.gmail.com>
- <da31d29e-6a2b-45fc-bb16-3ee78be41d66@ideasonboard.com>
-In-Reply-To: <da31d29e-6a2b-45fc-bb16-3ee78be41d66@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 11 Dec 2024 09:16:23 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXsmnPrXSWqh_JN04d+Gh=X=4SWKEWZyfUE6Mim97d06Q@mail.gmail.com>
-Message-ID: <CAMuHMdXsmnPrXSWqh_JN04d+Gh=X=4SWKEWZyfUE6Mim97d06Q@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] arm64: dts: renesas: gray-hawk-single: Add
- DisplayPort support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- LUU HOAI <hoai.luu.ub@renesas.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Sam Ravnborg <sam@ravnborg.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-8-583cc60329df@quicinc.com>
+In-Reply-To: <20241211-const_dfc_done-v4-8-583cc60329df@quicinc.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 11 Dec 2024 09:18:17 +0100
+Message-ID: <CAMRc=MdJuy9ghgLHxbygdHME2EkttZ7zBMJzCis=t94EUMbGiQ@mail.gmail.com>
+Subject: Re: [PATCH v4 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+ James Bottomley <James.Bottomley@hansenpartnership.com>, 
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+ linux-sound@vger.kernel.org, sparclinux@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, 
+ linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-serial@vger.kernel.org, netdev@vger.kernel.org, 
+ Zijun Hu <quic_zijuhu@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,61 +97,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-On Tue, Dec 10, 2024 at 7:10=E2=80=AFPM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-
-> On 10/12/2024 18:34, Geert Uytterhoeven wrote:
-> > On Fri, Dec 6, 2024 at 10:33=E2=80=AFAM Tomi Valkeinen
-> > <tomi.valkeinen@ideasonboard.com> wrote:
-> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> >>
-> >> Add support for the mini DP output on the Gray Hawk board.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com=
+On Wed, Dec 11, 2024 at 1:10=E2=80=AFAM Zijun Hu <zijun_hu@icloud.com> wrot=
+e:
 >
-> >> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.c=
-om>
-> >> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > Thanks for your patch!
-> >
-> >> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-> >> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-
-> >> +               compatible =3D "ti,sn65dsi86";
-> >> +               reg =3D <0x2c>;
-> >> +
-> >> +               clocks =3D <&sn65dsi86_refclk>;
-> >> +               clock-names =3D "refclk";
-> >> +
-> >> +               interrupt-parent =3D <&intc_ex>;
-> >> +               interrupts =3D <0 IRQ_TYPE_LEVEL_HIGH>;
-> >
-> > interrupts-extended =3D ...
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
 >
-> Is that just to use the same style in the whole dts, or is there some
-> specific need for the extended one here?
+> gpio_sim_dev_match_fwnode() is a simple wrapper of API
+> device_match_fwnode().
+>
+> Remove the needless wrapper and use the API instead.
+>
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
 
-There is no real technical need to use the extended one, but it is
-more concise. That's why we just converted all such cases in Renesas
-DTS files in v6.13-rc1.
-
-And of course it reduces the difference between
-arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi and
-arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
