@@ -2,89 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7AC9EBFA5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 00:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619029EBFBC
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 01:05:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3DF810EA0C;
-	Tue, 10 Dec 2024 23:55:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D874810EA10;
+	Wed, 11 Dec 2024 00:04:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="G1eAuNaQ";
+	dkim=pass (1024-bit key; unprotected) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="nIgvEsPj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC9F410EA0C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 23:55:41 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-53f22fd6832so3326443e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 15:55:41 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
+ [209.85.219.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 616FC10EA10
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 00:04:38 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id
+ 3f1490d57ef6-e39fb8548e2so5054738276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Dec 2024 16:04:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733874940; x=1734479740; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QaZTccrFdwBnijOAV+VQJ0MabSTqdmlDkCUExpbfNic=;
- b=G1eAuNaQf2iG4ZeBdHsJJFq63dBGBVu1E27lwr1LH75wy8RmRdGGI7C3bNJYVnYmcU
- kIFqAWFBZ5C/iQVTjA7hv8sm9hE+giGJkO+zsvZ8SO0+tl3Ne5zcGbZXuyyoXtymyX7k
- GXZsk0Ym+KPvti5vjSAAER7t0HOMCeDe4wC7t2LHtUeb79zW8fro5qDK2sZe3sbbhu3P
- AEKti+iyth8Mp6s74lWE4ue4g2kTWUAKn3l2uG1ERMI0dBIhE7zFKegdX1HAf2f13rME
- i03O5lT+UMcUDiVtWoOw44EQqBax6X7jG80fe/GTTSl/41bcwb0/Yv6RfT/MiW4yHytv
- L6/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733874940; x=1734479740;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=joelfernandes.org; s=google; t=1733875477; x=1734480277;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QaZTccrFdwBnijOAV+VQJ0MabSTqdmlDkCUExpbfNic=;
- b=ce7+4uNX5n2ld5rOUvRAs2QwIPR2jCCdV7RfJ74iwLpVwGF7Ba6ix1j61mraMZpeNH
- QAZcDJDeAAgYq8/syE8YdH0WSrOqNt5PA8Xm5qA02pDCjt9/uN3DuXpLOdPGcPR2gVU7
- 1Kf7SAMU8IFfex/amyKGxo/HEMEklJoYPhG2+DNmbOqGAHP7/pjiRm77u9V4Fc6wsxsI
- OE/EznU+WROmgenpzwOssCdmTMtGuWoDkyaFjM0uGY9ecsE0O945sJmBzUX2W1CkHnK3
- tfux4hGOniyeYyHs+s7X7VaKRXIOPgzlAiB3iwtsELuHgNBk5qt8i7SLSFj0FJ2UkMfq
- S+HQ==
+ bh=OCHV6HmvuE1qzKNAPSoYhRL/7FV4ReXNkxuSygUjwFc=;
+ b=nIgvEsPj0MXexeLmsZQaez/0CQ/jSLnCBLiomIII6Js0qTucn/BoS3ytQJwlTu93R0
+ B10NzfzWBD08BsnatRfC/edkKwTncY9A41ziCwnEeHk3nKk2aRIH55eSAErzr9GOCimB
+ pZziDXidPKTjVAaO3d8+Mvi7999KLuO2UDmQk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733875477; x=1734480277;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OCHV6HmvuE1qzKNAPSoYhRL/7FV4ReXNkxuSygUjwFc=;
+ b=RvP3OQ8lP3CVdXK5sAd2SNm0osDDcze98bexNnxOQ+e/GE7qp0An1tMd/1qGw0QJ33
+ EsDigyxXkMsQK8EAt7Qvpv0ewMwmoqo16YWLQSh627yRv5ka5t5oimnJ8H/rOVpayKXI
+ fsQNPN4ARLrbKLWlQXqVP/I72EIDgl8jrFbeYERdH7P8kZmahiBeFzV+gKIu30zzJVwa
+ t1eVYaoUk+W/+gnTQd+MblZtl1PaOs+xaT4keVC/pQ/sSJFlwr3YoGE/jO5MsLuchSLk
+ lEtCDLtAJvDIOwqBKgpIUnDLw9KdO1GxVKChIMdvDs/FK40SSjoDiBOQj1J9i9yAAFK3
+ SxkA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoVjHk8Q5ygjfFnhAba2TJdkisCK0H15ecVC/RKTVEjrkB3fTmGHy2RSAsAwEQWLvBh+wMcv1A/kc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQjnQRt8HweZWQfvbkWaqVx2rGaIGv4JCQgpSIouGxOVLWHZdM
- R4YYL2xJphQBKIXikgWPXbLrc/2SbS0GzgJ6RWjdtGXz9mSDuJw3MGGQzpxbqAo=
-X-Gm-Gg: ASbGnct8Qxf6CaTr2eQJstS1yGKnFL693ddmGSWMAozTcntAV/HBgQLQaYvXGoVX4u0
- gYI/2s/NFimPUAe2sC0HaVJ01cytudU2tzTSlBao2hGMzfJEe8ucWPFTaUE1vMP9WhtD6IqeTGj
- zK+1qS3jpBvxTVgse7Nhxf4DDeBbrZDUKX5YsQirtbrjl9057Q/4z1An1BGaQhGfwECncZOph/n
- cpt1I2Fcx3F69lo4YebUpl3sFnuJdesaMGz67C89yhE6N+o5RUrQELAjcYVIqLTL7qPwbuJ3S6C
- bpaxQr60B69YjeCkUPe+CZYrYdL0w/z5RQ==
-X-Google-Smtp-Source: AGHT+IEqR0S7rTS9VZY7JOisSWbtpL7N6GcbvhCke9+P/tEVld1+jhG0IU1pO+4oYFJYfFY5K9gtWw==
-X-Received: by 2002:a05:6512:ac8:b0:540:1dac:c042 with SMTP id
- 2adb3069b0e04-5402a5d6c4bmr171539e87.8.1733874939550; 
- Tue, 10 Dec 2024 15:55:39 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5401a5360bcsm1065405e87.174.2024.12.10.15.55.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Dec 2024 15:55:38 -0800 (PST)
-Date: Wed, 11 Dec 2024 01:55:35 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Alexandre ARNOUD <aarnoud@me.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] drm/rockchip: dw_hdmi_qp: Add support for RK3588
- HDMI1 output
-Message-ID: <vpy4foezirdhci4nvl5j4e7gf5dey3swj7xxzuzazzj6uhqnls@iyyhkpukb7yo>
-References: <20241211-rk3588-hdmi1-v2-0-02cdca22ff68@collabora.com>
- <20241211-rk3588-hdmi1-v2-1-02cdca22ff68@collabora.com>
+ AJvYcCV+mvHCoFAxdyQNe66LfbFfalIoek8/nwBsEOxFdIyWPmGDPu7KP97CHJc7W4ZPOgpAfzNhBCeRftA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9g6bmypHcnN+jRGCk0JrrmLMQWYC+tWQwvQnYuhVwaCZ7w13E
+ 9Saog8gab4a99expKqYv0Dh9mPwPCt9D8wcR9UmOnDm/VJ8sAreHuIrvVv2FQCSC5ze4kpwUsr7
+ K8m5T1HV8wRA/R3VlfDR9VByzmWFM90v3lXs8sg==
+X-Gm-Gg: ASbGncuC7ZkgxWNhQlMrJwj1dIAtvCHacbh/RV81R2Zob/lvWYY0Wxl2pGKqBxR/Dl9
+ EoaQtIbsOKQm355eFBaccOMPBUHXkwmepczGr
+X-Google-Smtp-Source: AGHT+IHAdKnSSZvTjoIr7mwXDQmX65FsKpemA7psolWqer3VHIGe/o3rpMktPHVLVXQ+RdM6hXLdwcEW5U5tsp0AJDI=
+X-Received: by 2002:a05:6902:120c:b0:e2b:e0ba:d50 with SMTP id
+ 3f1490d57ef6-e3c8e42e3a6mr1140093276.5.1733875477096; Tue, 10 Dec 2024
+ 16:04:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211-rk3588-hdmi1-v2-1-02cdca22ff68@collabora.com>
+References: <20241204-udmabuf-fixes-v2-0-23887289de1c@google.com>
+ <20241204-udmabuf-fixes-v2-1-23887289de1c@google.com>
+ <CAEXW_YRb4PsFgEvHW2QBDY5dxJ+aoMTn3qtj5v9eboxO3SxPLg@mail.gmail.com>
+ <CAG48ez2cTrD2_4iKo3+zrPH=e29znYOKLBkC4OLA3yhsu5oMNA@mail.gmail.com>
+In-Reply-To: <CAG48ez2cTrD2_4iKo3+zrPH=e29znYOKLBkC4OLA3yhsu5oMNA@mail.gmail.com>
+From: Joel Fernandes <joel@joelfernandes.org>
+Date: Tue, 10 Dec 2024 19:04:26 -0500
+Message-ID: <CAEXW_YRUVwWxuoWs1fU8OCsOf+vAWc__csX2Ed0W+yVr0Y49aA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] udmabuf: fix racy memfd sealing check
+To: Jann Horn <jannh@google.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, John Stultz <jstultz@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, Julian Orth <ju.orth@gmail.com>,
+ stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,18 +89,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 01:06:14AM +0200, Cristian Ciocaltea wrote:
-> Provide the basic support required to enable the second HDMI TX port
-> found on RK3588 SoC.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 119 ++++++++++++++++++++-----
->  1 file changed, 96 insertions(+), 23 deletions(-)
-> 
+On Tue, Dec 10, 2024 at 6:12=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
+>
+> On Tue, Dec 10, 2024 at 11:51=E2=80=AFPM Joel Fernandes <joel@joelfernand=
+es.org> wrote:
+> > On Wed, Dec 4, 2024 at 11:27=E2=80=AFAM Jann Horn <jannh@google.com> wr=
+ote:
+> > > The current check_memfd_seals() is racy: Since we first do
+> > > check_memfd_seals() and then udmabuf_pin_folios() without holding any
+> > > relevant lock across both, F_SEAL_WRITE can be set in between.
+> > > This is problematic because we can end up holding pins to pages in a
+> > > write-sealed memfd.
+> > >
+> > > Fix it using the inode lock, that's probably the easiest way.
+> > > In the future, we might want to consider moving this logic into memfd=
+,
+> > > especially if anyone else wants to use memfd_pin_folios().
+> >
+> > I am curious, why is it not possible to have a reproducer for this
+> > issue, is it not reproducible and is theoretical?
+>
+> Sorry, I think I must have forgotten about this part when I wrote the
+> cover letter: The original bug reporter (Julian) linked to a
+> reproducer that is linked in the bugzilla bug report, at
+> <https://github.com/mahkoh/udmabuf-seal>. I haven't tried running it
+> myself though.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Thanks, I appreciate the pointer to the reproducer.
 
--- 
-With best wishes
-Dmitry
+Acked-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+
+thanks,
+
+ - Joel
