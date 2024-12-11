@@ -2,95 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DA19EC9C5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 10:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E1D9EC9CB
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 10:57:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FD6B10EAE1;
-	Wed, 11 Dec 2024 09:56:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uX+Uiavo";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D058510EAE0;
+	Wed, 11 Dec 2024 09:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3AB110EAE5
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 09:56:00 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-54024ecc33dso2013294e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 01:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733910959; x=1734515759; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=5o6spnVR6ajql5nXA/7yn9qe6fHy4wd5WT4oqg7Hxjg=;
- b=uX+UiavoJnIJpbc4RZVahVPLdUAHhP2N3jeuj2S9scuX9pU2VH0QNlQhTuzzoTLHmL
- PlRmZkXED1Ly7RXAo1r6F8ncXSYTsoD5bdAdowQm+kdl6E0+E+6tjCEhms3H3yKhm6j0
- gCCJBLCNSZXUApwhkncT9XHtlCn0iH8hOo1mFjJEw3xrEYjlyvTqmfR8EnKf+FmxoPp0
- JKFXTk5bWWSyPobGSwTvQyr9lizn1FvnM1LOR9WHmImaiKn2+krEwJhDWQ5GJVAOaXM2
- F7EG4u2LOHXoecCl2vbZYUPNVtGUgpUxL/1kP9/HiETCChYZgbhSy4m1VtOhdA7f5/Wc
- 3YVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733910959; x=1734515759;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5o6spnVR6ajql5nXA/7yn9qe6fHy4wd5WT4oqg7Hxjg=;
- b=XKYSNJIeTMBrhXm65SfUTOhgdKHjg5TNDbUs8S2bpDaKYm/DuQ1yMQ6aFL4oh0mA8I
- WR4N5X6v85k61vE/k0joljv5/d9H9h4Yh5t8+z1gfEYkJ5HpCV1/omf61GO5tuy3mAWY
- f8cxYlA/iE5XYsW/24q3THBydKgz01V5ksHP0DX864LKBN5NdgKEIKSCQv3j6bELkgCZ
- 4lkPPStFjg9PgLG6EXj1TVsiKvOMm/pnKFxXDWkApZr/y4y+4rTTaXuuhQZIUjJUd/XG
- o7gbVA5UzIfhgLwTpEy0SMlSrphEsMPw+kkgZGx4LEeTeCoDpMTAt6iGzRLhtdjxaCQN
- vL1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUFLsMdoPdyHAZbvGf3eLXXF2LYNKrk2KHwV4B8iK6H5xZt95dadulvgQEBwtalZrrE8EMXHPOzr+k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZqyXUpSlKkec3IXEY4Tsi4GuzG25/ETsaa8yn/yOAim9+2pfK
- hXfw/njz9CRwhs0+67t7rRfBcfQcN1fOZfFGpiP47RLQXyGrdz3s2VTLNC+cnZ4=
-X-Gm-Gg: ASbGncsx9uIrHx2qfO9F7fiS90ZhUATyP20tfP4/VH6w/+BFq1tBB95+fpJHGoXrwQi
- 0hquZxFyc1D6T42pUJW7g3A9AqnLSLj5vdv73xFx7fZQHe71btLT86FPMELaN61ziQANfpEI1Og
- W1vJ39jT6MikrladxG+m38j0wW4cyHRUvD+JWqV0wsZPiIFoQe4RvaKsVEfi9YwnMatR2+PMwja
- OeazUjE/xuzpn9GcijG8jgdRC+lyYGTZA9UhMOri+YBrEZPvn+2iRyvHlNYq98mhnntvaOkbOEV
- p/KYUBmzGfSShCDXqHb9AbxUhDWl+2PA1g==
-X-Google-Smtp-Source: AGHT+IFChwIInqKh4toLH7hhsT9qt9s90iu0Z0ak8AysLNTaQPEcT5Yq2WRNWpMzPvyheGTGJPWcWQ==
-X-Received: by 2002:a05:6512:158b:b0:540:1fcd:1d9b with SMTP id
- 2adb3069b0e04-5402a609b3fmr630278e87.54.1733910958544; 
- Wed, 11 Dec 2024 01:55:58 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e372946dcsm1563735e87.163.2024.12.11.01.55.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Dec 2024 01:55:57 -0800 (PST)
-Date: Wed, 11 Dec 2024 11:55:54 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abel Vesa <abel.vesa@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RFC 4/4] drm/msm/dp: Add support for LTTPR handling
-Message-ID: <iqt3i5mha44wksx7zqjjccz3od5tavyxygyda2dn2fz2w77n36@gyo3dh6a6j72>
-References: <20241031-drm-dp-msm-add-lttpr-transparent-mode-set-v1-0-cafbb9855f40@linaro.org>
- <20241031-drm-dp-msm-add-lttpr-transparent-mode-set-v1-4-cafbb9855f40@linaro.org>
- <6lpeexb5menpwrzcnmr367x4lmhvzyovhdybn54mnwk55ieehy@mos4oso67boo>
- <Z1lWgDk6vzbx4ew7@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E286010EAE0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 09:57:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD0A61007
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 01:57:39 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 72A0D3F720
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 01:57:11 -0800 (PST)
+Date: Wed, 11 Dec 2024 09:57:07 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>,
+ =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v3 5/5] drm/panthor: Fix the fast-reset logic
+Message-ID: <Z1lh89StMjaO9M5G@e110455-lin.cambridge.arm.com>
+References: <20241211075419.2333731-1-boris.brezillon@collabora.com>
+ <20241211075419.2333731-6-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z1lWgDk6vzbx4ew7@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241211075419.2333731-6-boris.brezillon@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,124 +49,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 11:08:16AM +0200, Abel Vesa wrote:
-> On 24-10-31 18:54:25, Dmitry Baryshkov wrote:
-> > On Thu, Oct 31, 2024 at 05:12:48PM +0200, Abel Vesa wrote:
-> > > Link Training Tunable PHY Repeaters (LTTPRs) are defined in DisplayPort
-> > > 1.4a specification. As the name suggests, these PHY repeaters are
-> > > capable of adjusting their output for link training purposes.
-> > > 
-> > > The msm DP driver is currently lacking any handling of LTTPRs.
-> > > This means that if at least one LTTPR is found between DPTX and DPRX,
-> > > the link training would fail if that LTTPR was not already configured
-> > > in transparent mode.
-> > 
-> > It might be nice to mention what is the transparent mode, especially for
-> > those who do not have the standard at hand.
+On Wed, Dec 11, 2024 at 08:54:19AM +0100, Boris Brezillon wrote:
+> If we do a GPU soft-reset, that's no longer fast reset. This also means
+> the slow reset fallback doesn't work because the MCU state is only reset
+> after a GPU soft-reset.
 > 
-> Sorry for the late reply.
+> Let's move the retry logic to panthor_device_resume() to issue a
+> soft-reset between the fast and slow attempts, and patch
+> panthor_gpu_suspend() to only power-off the L2 when a fast reset is
+> requested.
 > 
-> Will do in the next version.
+> v3:
+> - No changes
 > 
-> > 
-> > > The section 3.6.6.1 from the DisplayPort v2.0 specification mandates
-> > > that before link training with the LTTPR is started, the DPTX may place
-> > > the LTTPR in non-transparent mode by first switching to transparent mode
-> > > and then to non-transparent mode. This operation seems to be needed only
-> > > on first link training and doesn't need to be done again until device is
-> > > unplugged.
-> > > 
-> > > It has been observed on a few X Elite-based platforms which have
-> > > such LTTPRs in their board design that the DPTX needs to follow the
-> > > procedure described above in order for the link training to be successful.
-> > > 
-> > > So add support for reading the LTTPR DPCD caps to figure out the number
-> > > of such LTTPRs first. Then, for platforms (or Type-C dongles) that have
-> > > at least one such an LTTPR, set its operation mode to transparent mode
-> > > first and then to non-transparent, just like the mentioned section of
-> > > the specification mandates.
-> > > 
-> > > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/dp/dp_display.c | 25 +++++++++++++++++++++++++
-> > >  1 file changed, 25 insertions(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > index f01980b0888a40b719d3958cb96c6341feada077..5d3d318d7b87ce3bf567d8b7435931d8e087f713 100644
-> > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > @@ -107,6 +107,8 @@ struct dp_display_private {
-> > >  	struct dp_event event_list[DP_EVENT_Q_MAX];
-> > >  	spinlock_t event_lock;
-> > >  
-> > > +	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
-> > > +
-> > >  	bool wide_bus_supported;
-> > >  
-> > >  	struct dp_audio *audio;
-> > > @@ -367,12 +369,35 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +static void dp_display_lttpr_init(struct dp_display_private *dp)
-> > > +{
-> > > +	int lttpr_count;
-> > > +
-> > > +	if (drm_dp_read_lttpr_common_caps(dp->aux, dp->panel->dpcd,
-> > > +					  dp->lttpr_caps))
-> > > +		return;
-> > > +
-> > > +	lttpr_count = drm_dp_lttpr_count(dp->lttpr_caps);
-> > > +
-> > > +	if (lttpr_count) {
-> > > +		drm_dp_lttpr_set_transparent_mode(dp->aux, true);
-> > > +
-> > > +		if (lttpr_count > 0) {
-> > > +			if (drm_dp_lttpr_set_transparent_mode(dp->aux, false) != 1)
-> > > +				drm_dp_lttpr_set_transparent_mode(dp->aux, true);
-> > > +		}
-> > > +	}
-> > > +}
-> > > +
-> > >  static int dp_display_process_hpd_high(struct dp_display_private *dp)
-> > >  {
-> > >  	struct drm_connector *connector = dp->dp_display.connector;
-> > >  	const struct drm_display_info *info = &connector->display_info;
-> > >  	int rc = 0;
-> > >  
-> > > +	if (!dp->dp_display.is_edp)
-> > > +		dp_display_lttpr_init(dp);
-> > 
-> > Why is it limited to non-eDP cases only.
+> v2:
+> - Add R-b
 > 
-> In case of eDP, I don't think that there will ever by a case that will
-> need an LTTPR in between the eDP PHY and the actual panel. It just
-> doesn't make sense.
-> 
-> IIUC, the LTTPRs, since are Training Tunnable capable, they help when
-> the physical link between the PHY and the sink can differ based on
-> different dongles and cables. This is obviously not applicable to eDP.
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
 
-I think I just have a different paradigm: if the driver explicitly skips
-calling a function in some codepath, I assume that the usecase it broken
-or expected not to work (e.g. I read your patch like: LTTPR is expected
-not to work in eDP). If you would prefer to keep two separate code
-paths, please add a comment like 'we don't expect LTTPRs in eDP
-usecase`.
+For reasons that are not clear yet to me my v2 R-bs emails seem to have not
+reached you or the dri-devel mailing lists.
 
-> > > +
-> > >  	rc = dp_panel_read_sink_caps(dp->panel, connector);
-> > >  	if (rc)
-> > >  		goto end;
-> > > 
-> > > -- 
-> > > 2.34.1
-> > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c | 32 ++++++++++----
+>  drivers/gpu/drm/panthor/panthor_device.h | 11 +++++
+>  drivers/gpu/drm/panthor/panthor_fw.c     | 54 ++++++------------------
+>  drivers/gpu/drm/panthor/panthor_gpu.c    | 11 ++---
+>  4 files changed, 53 insertions(+), 55 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index 0362101ea896..2c817e65e6be 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -431,6 +431,22 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+>  	return 0;
+>  }
+>  
+> +static int panthor_device_resume_hw_components(struct panthor_device *ptdev)
+> +{
+> +	int ret;
+> +
+> +	panthor_gpu_resume(ptdev);
+> +	panthor_mmu_resume(ptdev);
+> +
+> +	ret = panthor_fw_resume(ptdev);
+> +	if (!ret)
+> +		return 0;
+> +
+> +	panthor_mmu_suspend(ptdev);
+> +	panthor_gpu_suspend(ptdev);
+> +	return ret;
+
+My only comment was a nit here where I prefer the construct:
+
+	if (ret) {
+		panthor_mmu_suspend(ptdev);
+		panthor_gpu_suspend(ptdev);
+	}
+
+	return ret;
+
+but feel free to ignore it.
+
+For the whole series: Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> +}
+> +
+>  int panthor_device_resume(struct device *dev)
+>  {
+>  	struct panthor_device *ptdev = dev_get_drvdata(dev);
+> @@ -457,16 +473,16 @@ int panthor_device_resume(struct device *dev)
+>  
+>  	if (panthor_device_is_initialized(ptdev) &&
+>  	    drm_dev_enter(&ptdev->base, &cookie)) {
+> -		panthor_gpu_resume(ptdev);
+> -		panthor_mmu_resume(ptdev);
+> -		ret = panthor_fw_resume(ptdev);
+> -		if (!drm_WARN_ON(&ptdev->base, ret)) {
+> -			panthor_sched_resume(ptdev);
+> -		} else {
+> -			panthor_mmu_suspend(ptdev);
+> -			panthor_gpu_suspend(ptdev);
+> +		ret = panthor_device_resume_hw_components(ptdev);
+> +		if (ret && ptdev->reset.fast) {
+> +			drm_err(&ptdev->base, "Fast reset failed, trying a slow reset");
+> +			ptdev->reset.fast = false;
+> +			ret = panthor_device_resume_hw_components(ptdev);
+>  		}
+>  
+> +		if (!ret)
+> +			panthor_sched_resume(ptdev);
+> +
+>  		drm_dev_exit(cookie);
+>  
+>  		if (ret)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index b6c4f25a5d6e..da6574021664 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -157,6 +157,17 @@ struct panthor_device {
+>  
+>  		/** @pending: Set to true if a reset is pending. */
+>  		atomic_t pending;
+> +
+> +		/**
+> +		 * @fast: True if the post_reset logic can proceed with a fast reset.
+> +		 *
+> +		 * A fast reset is just a reset where the driver doesn't reload the FW sections.
+> +		 *
+> +		 * Any time the firmware is properly suspended, a fast reset can take place.
+> +		 * On the other hand, if the halt operation failed, the driver will reload
+> +		 * all FW sections to make sure we start from a fresh state.
+> +		 */
+> +		bool fast;
+>  	} reset;
+>  
+>  	/** @pm: Power management related data. */
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 02789558788d..5b68dc02b5ce 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -263,17 +263,6 @@ struct panthor_fw {
+>  	/** @booted: True is the FW is booted */
+>  	bool booted;
+>  
+> -	/**
+> -	 * @fast_reset: True if the post_reset logic can proceed with a fast reset.
+> -	 *
+> -	 * A fast reset is just a reset where the driver doesn't reload the FW sections.
+> -	 *
+> -	 * Any time the firmware is properly suspended, a fast reset can take place.
+> -	 * On the other hand, if the halt operation failed, the driver will reload
+> -	 * all sections to make sure we start from a fresh state.
+> -	 */
+> -	bool fast_reset;
+> -
+>  	/** @irq: Job irq data. */
+>  	struct panthor_irq irq;
+>  };
+> @@ -1090,7 +1079,7 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+>  	/* Make sure we won't be woken up by a ping. */
+>  	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+>  
+> -	ptdev->fw->fast_reset = false;
+> +	ptdev->reset.fast = false;
+>  
+>  	if (!on_hang) {
+>  		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> @@ -1100,7 +1089,7 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+>  		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+>  		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
+>  					status == MCU_STATUS_HALT, 10, 100000)) {
+> -			ptdev->fw->fast_reset = true;
+> +			ptdev->reset.fast = true;
+>  		} else {
+>  			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
+>  		}
+> @@ -1125,49 +1114,30 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* If this is a fast reset, try to start the MCU without reloading
+> -	 * the FW sections. If it fails, go for a full reset.
+> -	 */
+> -	if (ptdev->fw->fast_reset) {
+> +	if (!ptdev->reset.fast) {
+> +		/* On a slow reset, reload all sections, including RO ones.
+> +		 * We're not supposed to end up here anyway, let's just assume
+> +		 * the overhead of reloading everything is acceptable.
+> +		 */
+> +		panthor_reload_fw_sections(ptdev, true);
+> +	} else {
+>  		/* The FW detects 0 -> 1 transitions. Make sure we reset
+>  		 * the HALT bit before the FW is rebooted.
+>  		 * This is not needed on a slow reset because FW sections are
+>  		 * re-initialized.
+>  		 */
+>  		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+> +
+>  		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
+> -
+> -		ret = panthor_fw_start(ptdev);
+> -		if (!ret)
+> -			goto out;
+> -
+> -		/* Forcibly reset the MCU and force a slow reset, so we get a
+> -		 * fresh boot on the next panthor_fw_start() call.
+> -		 */
+> -		panthor_fw_stop(ptdev);
+> -		ptdev->fw->fast_reset = false;
+> -		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
+> -
+> -		ret = panthor_vm_flush_all(ptdev->fw->vm);
+> -		if (ret) {
+> -			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l2cache)");
+> -			return ret;
+> -		}
+>  	}
+>  
+> -	/* Reload all sections, including RO ones. We're not supposed
+> -	 * to end up here anyway, let's just assume the overhead of
+> -	 * reloading everything is acceptable.
+> -	 */
+> -	panthor_reload_fw_sections(ptdev, true);
+> -
+>  	ret = panthor_fw_start(ptdev);
+>  	if (ret) {
+> -		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
+> +		drm_err(&ptdev->base, "FW %s reset failed",
+> +			ptdev->reset.fast ?  "fast" : "slow");
+>  		return ret;
+>  	}
+>  
+> -out:
+>  	/* We must re-initialize the global interface even on fast-reset. */
+>  	panthor_fw_init_global_iface(ptdev);
+>  	return 0;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index ee85a371bc38..671049020afa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -470,11 +470,12 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+>   */
+>  void panthor_gpu_suspend(struct panthor_device *ptdev)
+>  {
+> -	/*
+> -	 * It may be preferable to simply power down the L2, but for now just
+> -	 * soft-reset which will leave the L2 powered down.
+> -	 */
+> -	panthor_gpu_soft_reset(ptdev);
+> +	/* On a fast reset, simply power down the L2. */
+> +	if (!ptdev->reset.fast)
+> +		panthor_gpu_soft_reset(ptdev);
+> +	else
+> +		panthor_gpu_power_off(ptdev, L2, 1, 20000);
+> +
+>  	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+>  }
+>  
+> -- 
+> 2.47.0
+> 
 
 -- 
-With best wishes
-Dmitry
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
