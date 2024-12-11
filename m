@@ -2,85 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14139EDA17
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:38:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A1C9EDA31
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:40:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C262710E169;
-	Wed, 11 Dec 2024 22:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18A6910E3A5;
+	Wed, 11 Dec 2024 22:40:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FsCDDLrl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VIK2v61R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A66BF10E169;
- Wed, 11 Dec 2024 22:38:15 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBHD9So027303;
- Wed, 11 Dec 2024 22:38:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- z2C7/fCtt5pTk0XOcT922hfBtdgDzW72cIzpyOZ/pDQ=; b=FsCDDLrlecHyhAW3
- KyM1GjKYg0G2WSIri5NS1Jtxcy0g2jNItQ4hKN6OLoGRejx52ZnrK5zgjm6pPk9o
- ZSyJhki4ahs+4iHDfDTGKQUNsqbOGktGJUmLG5Sta4jOfcStqrBu0pVSAUdQQK00
- PxdilWh4ktFI09EIliHMdqq1U7ZlMwyS2w+Px9HIEmEOdOnoRwh3Hwu1IjQTrx/Q
- 5kzVvNSg7JF9BqvRZZ7iSnSm+L1dQTaNBRwqzp2jYP6Oxbqi2K8WO2CJFGi+oiCs
- Z1DkkAttAt9bQSfSJRcB3q+SZhxve08X4gEKhl1TBCY1To8L+5CGEnDCeZ4wtIpX
- Zj9+Wg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43etn8v9w4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Dec 2024 22:38:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BBMcCYu008305
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 11 Dec 2024 22:38:12 GMT
-Received: from [10.110.5.240] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 11 Dec
- 2024 14:38:10 -0800
-Message-ID: <cfbadc5a-6de0-4081-948c-3542c615a992@quicinc.com>
-Date: Wed, 11 Dec 2024 14:38:09 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] drm/msm/dpu: allow using two SSPP blocks for a
- single plane
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A59F010E3A5
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:40:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733956824; x=1765492824;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2kvRBBph1xJE6pvRj6ZGPkSzRKem9ywKKkiLD48BVGA=;
+ b=VIK2v61RnHO7rjabHMAj1KvSnYwsyLLHiTCF2wDhqjhpzAEoBg8FnJYA
+ c99PuZ4sZCBf/ScENPeTBo4w+DuFbu5iLL+nNr/SXPNgQX+j2hW6cZD7f
+ gdKlOQrmZK1WNoWJJUzrwJ+7URdnXW/Q64zEotUl6exBxUdXF5yBn3wUr
+ yPdlK7O7EKU/RoR/LGzYgszILuY+2cGcaK3Gdwmpg9+iJAK5bqLuKUwq9
+ KtapYld2Jepx6rsDUcQq39b4Q8PyfXYePPt5AApLiH6TKd5J7TC/OOL5Y
+ DqkOBClqDey8fZuB+EUQxEf2D7dz363n0JXbYTf4QDkrZqQJ7KpffNY+p g==;
+X-CSE-ConnectionGUID: VVAq6rSqQ/SqBbw3wQ43Tg==
+X-CSE-MsgGUID: LWJAKO3BTc+sSrspbRqzKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="51772135"
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; d="scan'208";a="51772135"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2024 14:40:23 -0800
+X-CSE-ConnectionGUID: OCh016OeTByxsIW9zlk+Cw==
+X-CSE-MsgGUID: kTbgP8mzSsaErlQESFa1/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; d="scan'208";a="96389004"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 11 Dec 2024 14:40:19 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tLVNQ-0007AT-2d;
+ Wed, 11 Dec 2024 22:40:16 +0000
+Date: Thu, 12 Dec 2024 06:39:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241130-dpu-virtual-wide-v7-0-991053fcf63c@linaro.org>
- <20241130-dpu-virtual-wide-v7-2-991053fcf63c@linaro.org>
- <160151f0-9cc6-40f6-9f53-466185835e4d@quicinc.com>
- <hpmxj7tjmvbo55izoxgygqmysbabnpb35mprvn6w53vbtehnwe@yxmiigoeuyf3>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <hpmxj7tjmvbo55izoxgygqmysbabnpb35mprvn6w53vbtehnwe@yxmiigoeuyf3>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 1Ceqt1n_9QUXArHlCDcs3zamBR8BFko0
-X-Proofpoint-GUID: 1Ceqt1n_9QUXArHlCDcs3zamBR8BFko0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 phishscore=0 mlxscore=0
- mlxlogscore=946 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412110158
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org,
+ "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Moudy Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH v2 6/8] soc: mediatek: Add programming flow for
+ unsupported subsys ID hardware
+Message-ID: <202412120643.qzGYgONG-lkp@intel.com>
+References: <20241211032256.28494-7-jason-jh.lin@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241211032256.28494-7-jason-jh.lin@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,76 +85,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jason-JH.Lin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.13-rc2 next-20241211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/dt-bindings-mailbox-mediatek-Add-GCE-header-file-for-MT8196/20241211-112605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241211032256.28494-7-jason-jh.lin%40mediatek.com
+patch subject: [PATCH v2 6/8] soc: mediatek: Add programming flow for unsupported subsys ID hardware
+config: sparc-randconfig-001-20241212 (https://download.01.org/0day-ci/archive/20241212/202412120643.qzGYgONG-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412120643.qzGYgONG-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412120643.qzGYgONG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   sparc-linux-ld: drivers/soc/mediatek/mtk-mmsys.o: in function `mtk_mmsys_update_bits':
+>> drivers/soc/mediatek/mtk-mmsys.c:173:(.text+0x6c): undefined reference to `cmdq_subsys_is_valid'
+   sparc-linux-ld: drivers/soc/mediatek/mtk-mutex.o: in function `mtk_mutex_enable_by_cmdq':
+>> drivers/soc/mediatek/mtk-mutex.c:976:(.text+0x48c): undefined reference to `cmdq_subsys_is_valid'
 
 
-On 12/11/2024 2:24 PM, Dmitry Baryshkov wrote:
-> On Wed, Dec 11, 2024 at 01:51:51PM -0800, Abhinav Kumar wrote:
->>
->>
->> On 11/29/2024 5:55 PM, Dmitry Baryshkov wrote:
->>> Virtual wide planes give high amount of flexibility, but it is not
->>> always enough:
->>>
->>> In parallel multirect case only the half of the usual width is supported
->>> for tiled formats. Thus the whole width of two tiled multirect
->>> rectangles can not be greater than max_linewidth, which is not enough
->>> for some platforms/compositors.
->>>
->>> Another example is as simple as wide YUV plane. YUV planes can not use
->>> multirect, so currently they are limited to max_linewidth too.
->>>
->>> Now that the planes are fully virtualized, add support for allocating
->>> two SSPP blocks to drive a single DRM plane. This fixes both mentioned
->>> cases and allows all planes to go up to 2*max_linewidth (at the cost of
->>> making some of the planes unavailable to the user).
->>>
->>
->> Overall looks so much cleaner after unification!
->>
->> One small nit below,
->>
->>
->> You can still have,
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>
->> Note: we have started testing this series with sc7180 CrOS, and will report
->> our findings/ give tested-by this week.
->>
->>
->> <snip>
->>
->>> +static bool dpu_plane_try_multirect_parallel(struct dpu_sw_pipe *pipe, struct dpu_sw_pipe_cfg *pipe_cfg,
->>> +					     struct dpu_sw_pipe *r_pipe, struct dpu_sw_pipe_cfg *r_pipe_cfg,
->>> +					     struct dpu_hw_sspp *sspp, const struct msm_format *fmt,
->>> +					     uint32_t max_linewidth)
->>> +{
->>> +	r_pipe->sspp = NULL;
->>> +
->>> +	pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> +	pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +
->>> +	r_pipe->multirect_index = DPU_SSPP_RECT_SOLO;
->>> +	r_pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
->>> +
->>
->>
->> There are two places where the multirect_index and multirect_mode are reset.
->> Would it be better to just have a small api dpu_plane_reset_multirect() and
->> do this there?
-> 
-> I'm not sure, what's the benefit. We can add an API to reset one pipe
-> (to also be able to use it in _dpu_plane_atomic_disable()), but then
-> it's just deduplication for the sake of deduplication.
-> 
+vim +173 drivers/soc/mediatek/mtk-mmsys.c
 
-Yeah I was thinking something like
+   162	
+   163	static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask, u32 val,
+   164					  struct cmdq_pkt *cmdq_pkt)
+   165	{
+   166		int ret;
+   167		u32 tmp;
+   168	
+   169		if (mmsys->cmdq_base.size && cmdq_pkt) {
+   170			struct cmdq_client *cl = (struct cmdq_client *)cmdq_pkt->cl;
+   171	
+   172			offset += mmsys->cmdq_base.offset;
+ > 173			if (cmdq_subsys_is_valid(cl->chan, mmsys->cmdq_base.subsys)) {
+   174				ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
+   175							  offset, val, mask);
+   176			} else {
+   177				/* only MMIO access, no need to check mminfro_offset */
+   178				ret = cmdq_pkt_assign(cmdq_pkt, 0,
+   179						      CMDQ_ADDR_HIGH(mmsys->cmdq_base.pa_base));
+   180				ret |= cmdq_pkt_write_s_mask_value(cmdq_pkt, 0,
+   181								   CMDQ_ADDR_LOW(offset), val, mask);
+   182			}
+   183			if (ret)
+   184				pr_debug("CMDQ unavailable: using CPU write\n");
+   185			else
+   186				return;
+   187		}
+   188		tmp = readl_relaxed(mmsys->regs + offset);
+   189		tmp = (tmp & ~mask) | (val & mask);
+   190		writel_relaxed(tmp, mmsys->regs + offset);
+   191	}
+   192	
 
-dpu_plane_reset_multirect(pipe);
-dpu_plane_reset_multirect(r_pipe);
-
-But its only a minor benefit, hence as I wrote it as a nit. We can keep 
-things as it is, if its unnecessary in your opinion.
-
-
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
