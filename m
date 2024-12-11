@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BCB29EC60B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:54:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15D439EC60F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:54:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A1710EA7A;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0A9110EA85;
 	Wed, 11 Dec 2024 07:54:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YVPTdAVc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qkPsUZa3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD6D010E576
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:54:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 230C410E576
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:54:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1733903664;
- bh=3hOOmx5wAFN5IvspLRDRZNSS0DiYJ3/2S0dn334VoYQ=;
+ bh=x369bhNx1CrlN65acPcV/Tx2CMCvGgt096ZPVRp0/do=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YVPTdAVcyE9+MXsi84s7PBIv+bHoupsADSjfO2/sSHfsZCt+hGsY5IdFP108v6eOu
- zryFrS2el+wtoqZHViGXOyMBnmHURYF4eol5jlHSfR71Wz/fPIJp6/euQpy8m4VoFx
- PZ5KqaFbBLVeKfhAxEvHsxO88quRmKUYDjzguigbYLMEsTyF6d6D+WXc92HgDZU6OG
- BEUBG/z6gYsP0NjgyNJdqmffYSln3vV9bQqmimzo2nuDXaCCIGbiU6WBvmKyLGOXf1
- UbMofSQjSDOGMTxm9/1CPp/TAcXqpAhVBvq5oSFTAYsINK/t7ChDyhyV3RQ5clBxSH
- lYZLthKI/HLPw==
+ b=qkPsUZa3iubBuLC2HZblN61jXHkv+Pc0DCPy3EeGtBqAZnp/J8LtUByS8iPY+xAOR
+ WODEgjERDsiAefW9363q4TwzaToctJWeB5NUk8HSlBU9d600ORVh+Y8W/H5pYYmYdx
+ WRuSmIvqQlb5m6r4zc7YuYMzIsKiXz4ugcV9fCx1pGC5HhZ9Hu4qMrbivSW7W2bQjP
+ bodZpM8SVAx/7Y9YsXf3OLMh8jxdwlCMDZ7LW9pbV8oPBymjSQdva3cDribpGQ/6ZK
+ rAXOB61snb8DhObaSnbW8O2fNVZgmMSqXxfD6PGYCFo18+xPGZdxqmiX/B+dNL9/hA
+ gmmBM/U5+o54w==
 Received: from localhost.localdomain (unknown
  [IPv6:2a01:e0a:2c:6930:d3ea:1c7:41fd:3038])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3E9FE17E14EA;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A4B0317E14EF;
  Wed, 11 Dec 2024 08:54:24 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,9 +39,9 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
 	kernel@collabora.com
-Subject: [PATCH v3 4/5] drm/panthor: Be robust against resume failures
-Date: Wed, 11 Dec 2024 08:54:18 +0100
-Message-ID: <20241211075419.2333731-5-boris.brezillon@collabora.com>
+Subject: [PATCH v3 5/5] drm/panthor: Fix the fast-reset logic
+Date: Wed, 11 Dec 2024 08:54:19 +0100
+Message-ID: <20241211075419.2333731-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241211075419.2333731-1-boris.brezillon@collabora.com>
 References: <20241211075419.2333731-1-boris.brezillon@collabora.com>
@@ -62,125 +62,225 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the runtime PM resume callback returns an error, it puts the device
-in a state where it can't be resumed anymore. Make sure we can recover
-from such transient failures by calling pm_runtime_set_suspended()
-explicitly after a pm_runtime_resume_and_get() failure.
+If we do a GPU soft-reset, that's no longer fast reset. This also means
+the slow reset fallback doesn't work because the MCU state is only reset
+after a GPU soft-reset.
+
+Let's move the retry logic to panthor_device_resume() to issue a
+soft-reset between the fast and slow attempts, and patch
+panthor_gpu_suspend() to only power-off the L2 when a fast reset is
+requested.
 
 v3:
-- Add R-b/A-b
+- No changes
 
 v2:
-- Add a comment explaining potential races in
-  panthor_device_resume_and_get()
+- Add R-b
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Adrian Larumbe <adrian.larumbe@collabora.com>
-Acked-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c |  1 +
- drivers/gpu/drm/panthor/panthor_device.h | 26 ++++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_drv.c    |  2 +-
- drivers/gpu/drm/panthor/panthor_sched.c  |  4 ++--
- 4 files changed, 30 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panthor/panthor_device.c | 32 ++++++++++----
+ drivers/gpu/drm/panthor/panthor_device.h | 11 +++++
+ drivers/gpu/drm/panthor/panthor_fw.c     | 54 ++++++------------------
+ drivers/gpu/drm/panthor/panthor_gpu.c    | 11 ++---
+ 4 files changed, 53 insertions(+), 55 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index e3b22107b268..0362101ea896 100644
+index 0362101ea896..2c817e65e6be 100644
 --- a/drivers/gpu/drm/panthor/panthor_device.c
 +++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -500,6 +500,7 @@ int panthor_device_resume(struct device *dev)
- 
- err_set_suspended:
- 	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-+	atomic_set(&ptdev->pm.recovery_needed, 1);
- 	return ret;
+@@ -431,6 +431,22 @@ int panthor_device_mmap_io(struct panthor_device *ptdev, struct vm_area_struct *
+ 	return 0;
  }
  
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index 0e68f5a70d20..b6c4f25a5d6e 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -9,6 +9,7 @@
- #include <linux/atomic.h>
- #include <linux/io-pgtable.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/pm_runtime.h>
- #include <linux/sched.h>
- #include <linux/spinlock.h>
- 
-@@ -180,6 +181,9 @@ struct panthor_device {
- 		 * is suspended.
- 		 */
- 		struct page *dummy_latest_flush;
-+
-+		/** @recovery_needed: True when a resume attempt failed. */
-+		atomic_t recovery_needed;
- 	} pm;
- 
- 	/** @profile_mask: User-set profiling flags for job accounting. */
-@@ -243,6 +247,28 @@ int panthor_device_mmap_io(struct panthor_device *ptdev,
- int panthor_device_resume(struct device *dev);
- int panthor_device_suspend(struct device *dev);
- 
-+static inline int panthor_device_resume_and_get(struct panthor_device *ptdev)
++static int panthor_device_resume_hw_components(struct panthor_device *ptdev)
 +{
-+	int ret = pm_runtime_resume_and_get(ptdev->base.dev);
++	int ret;
 +
-+	/* If the resume failed, we need to clear the runtime_error, which
-+	 * can done by forcing the RPM state to suspended. If multiple
-+	 * threads called panthor_device_resume_and_get(), we only want
-+	 * one of them to update the state, hence the cmpxchg. Note that a
-+	 * thread might enter panthor_device_resume_and_get() and call
-+	 * pm_runtime_resume_and_get() after another thread had attempted
-+	 * to resume and failed. This means we will end up with an error
-+	 * without even attempting a resume ourselves. The only risk here
-+	 * is to report an error when the second resume attempt might have
-+	 * succeeded. Given resume errors are not expected, this is probably
-+	 * something we can live with.
-+	 */
-+	if (ret && atomic_cmpxchg(&ptdev->pm.recovery_needed, 1, 0) == 1)
-+		pm_runtime_set_suspended(ptdev->base.dev);
++	panthor_gpu_resume(ptdev);
++	panthor_mmu_resume(ptdev);
 +
++	ret = panthor_fw_resume(ptdev);
++	if (!ret)
++		return 0;
++
++	panthor_mmu_suspend(ptdev);
++	panthor_gpu_suspend(ptdev);
 +	return ret;
 +}
 +
- enum drm_panthor_exception_type {
- 	DRM_PANTHOR_EXCEPTION_OK = 0x00,
- 	DRM_PANTHOR_EXCEPTION_TERMINATED = 0x04,
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index 1498c97b4b85..b7a9adc918e3 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -763,7 +763,7 @@ static int panthor_query_timestamp_info(struct panthor_device *ptdev,
+ int panthor_device_resume(struct device *dev)
  {
- 	int ret;
+ 	struct panthor_device *ptdev = dev_get_drvdata(dev);
+@@ -457,16 +473,16 @@ int panthor_device_resume(struct device *dev)
  
--	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-+	ret = panthor_device_resume_and_get(ptdev);
+ 	if (panthor_device_is_initialized(ptdev) &&
+ 	    drm_dev_enter(&ptdev->base, &cookie)) {
+-		panthor_gpu_resume(ptdev);
+-		panthor_mmu_resume(ptdev);
+-		ret = panthor_fw_resume(ptdev);
+-		if (!drm_WARN_ON(&ptdev->base, ret)) {
+-			panthor_sched_resume(ptdev);
+-		} else {
+-			panthor_mmu_suspend(ptdev);
+-			panthor_gpu_suspend(ptdev);
++		ret = panthor_device_resume_hw_components(ptdev);
++		if (ret && ptdev->reset.fast) {
++			drm_err(&ptdev->base, "Fast reset failed, trying a slow reset");
++			ptdev->reset.fast = false;
++			ret = panthor_device_resume_hw_components(ptdev);
+ 		}
+ 
++		if (!ret)
++			panthor_sched_resume(ptdev);
++
+ 		drm_dev_exit(cookie);
+ 
+ 		if (ret)
+diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+index b6c4f25a5d6e..da6574021664 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.h
++++ b/drivers/gpu/drm/panthor/panthor_device.h
+@@ -157,6 +157,17 @@ struct panthor_device {
+ 
+ 		/** @pending: Set to true if a reset is pending. */
+ 		atomic_t pending;
++
++		/**
++		 * @fast: True if the post_reset logic can proceed with a fast reset.
++		 *
++		 * A fast reset is just a reset where the driver doesn't reload the FW sections.
++		 *
++		 * Any time the firmware is properly suspended, a fast reset can take place.
++		 * On the other hand, if the halt operation failed, the driver will reload
++		 * all FW sections to make sure we start from a fresh state.
++		 */
++		bool fast;
+ 	} reset;
+ 
+ 	/** @pm: Power management related data. */
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+index 02789558788d..5b68dc02b5ce 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.c
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -263,17 +263,6 @@ struct panthor_fw {
+ 	/** @booted: True is the FW is booted */
+ 	bool booted;
+ 
+-	/**
+-	 * @fast_reset: True if the post_reset logic can proceed with a fast reset.
+-	 *
+-	 * A fast reset is just a reset where the driver doesn't reload the FW sections.
+-	 *
+-	 * Any time the firmware is properly suspended, a fast reset can take place.
+-	 * On the other hand, if the halt operation failed, the driver will reload
+-	 * all sections to make sure we start from a fresh state.
+-	 */
+-	bool fast_reset;
+-
+ 	/** @irq: Job irq data. */
+ 	struct panthor_irq irq;
+ };
+@@ -1090,7 +1079,7 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+ 	/* Make sure we won't be woken up by a ping. */
+ 	cancel_delayed_work_sync(&ptdev->fw->watchdog.ping_work);
+ 
+-	ptdev->fw->fast_reset = false;
++	ptdev->reset.fast = false;
+ 
+ 	if (!on_hang) {
+ 		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
+@@ -1100,7 +1089,7 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+ 		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+ 		if (!readl_poll_timeout(ptdev->iomem + MCU_STATUS, status,
+ 					status == MCU_STATUS_HALT, 10, 100000)) {
+-			ptdev->fw->fast_reset = true;
++			ptdev->reset.fast = true;
+ 		} else {
+ 			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
+ 		}
+@@ -1125,49 +1114,30 @@ int panthor_fw_post_reset(struct panthor_device *ptdev)
  	if (ret)
  		return ret;
  
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 97ed5fe5a191..77b184c3fb0c 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2364,7 +2364,7 @@ static void tick_work(struct work_struct *work)
- 	if (!drm_dev_enter(&ptdev->base, &cookie))
- 		return;
- 
--	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-+	ret = panthor_device_resume_and_get(ptdev);
- 	if (drm_WARN_ON(&ptdev->base, ret))
- 		goto out_dev_exit;
- 
-@@ -3131,7 +3131,7 @@ queue_run_job(struct drm_sched_job *sched_job)
- 		return dma_fence_get(job->done_fence);
+-	/* If this is a fast reset, try to start the MCU without reloading
+-	 * the FW sections. If it fails, go for a full reset.
+-	 */
+-	if (ptdev->fw->fast_reset) {
++	if (!ptdev->reset.fast) {
++		/* On a slow reset, reload all sections, including RO ones.
++		 * We're not supposed to end up here anyway, let's just assume
++		 * the overhead of reloading everything is acceptable.
++		 */
++		panthor_reload_fw_sections(ptdev, true);
++	} else {
+ 		/* The FW detects 0 -> 1 transitions. Make sure we reset
+ 		 * the HALT bit before the FW is rebooted.
+ 		 * This is not needed on a slow reset because FW sections are
+ 		 * re-initialized.
+ 		 */
+ 		struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
++
+ 		panthor_fw_update_reqs(glb_iface, req, 0, GLB_HALT);
+-
+-		ret = panthor_fw_start(ptdev);
+-		if (!ret)
+-			goto out;
+-
+-		/* Forcibly reset the MCU and force a slow reset, so we get a
+-		 * fresh boot on the next panthor_fw_start() call.
+-		 */
+-		panthor_fw_stop(ptdev);
+-		ptdev->fw->fast_reset = false;
+-		drm_err(&ptdev->base, "FW fast reset failed, trying a slow reset");
+-
+-		ret = panthor_vm_flush_all(ptdev->fw->vm);
+-		if (ret) {
+-			drm_err(&ptdev->base, "FW slow reset failed (couldn't flush FW's AS l2cache)");
+-			return ret;
+-		}
  	}
  
--	ret = pm_runtime_resume_and_get(ptdev->base.dev);
-+	ret = panthor_device_resume_and_get(ptdev);
- 	if (drm_WARN_ON(&ptdev->base, ret))
- 		return ERR_PTR(ret);
+-	/* Reload all sections, including RO ones. We're not supposed
+-	 * to end up here anyway, let's just assume the overhead of
+-	 * reloading everything is acceptable.
+-	 */
+-	panthor_reload_fw_sections(ptdev, true);
+-
+ 	ret = panthor_fw_start(ptdev);
+ 	if (ret) {
+-		drm_err(&ptdev->base, "FW slow reset failed (couldn't start the FW )");
++		drm_err(&ptdev->base, "FW %s reset failed",
++			ptdev->reset.fast ?  "fast" : "slow");
+ 		return ret;
+ 	}
+ 
+-out:
+ 	/* We must re-initialize the global interface even on fast-reset. */
+ 	panthor_fw_init_global_iface(ptdev);
+ 	return 0;
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index ee85a371bc38..671049020afa 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -470,11 +470,12 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+  */
+ void panthor_gpu_suspend(struct panthor_device *ptdev)
+ {
+-	/*
+-	 * It may be preferable to simply power down the L2, but for now just
+-	 * soft-reset which will leave the L2 powered down.
+-	 */
+-	panthor_gpu_soft_reset(ptdev);
++	/* On a fast reset, simply power down the L2. */
++	if (!ptdev->reset.fast)
++		panthor_gpu_soft_reset(ptdev);
++	else
++		panthor_gpu_power_off(ptdev, L2, 1, 20000);
++
+ 	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+ }
  
 -- 
 2.47.0
