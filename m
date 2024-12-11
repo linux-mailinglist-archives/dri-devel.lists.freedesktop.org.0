@@ -1,77 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9FA39EDA6D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:53:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C086B9EDA70
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 23:54:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42B1910E1B1;
-	Wed, 11 Dec 2024 22:53:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5398089D9A;
+	Wed, 11 Dec 2024 22:54:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Go1ZjYYA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="V/l0xqYN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com
- [IPv6:2607:f8b0:4864:20::f31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BECC10E1B1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:53:51 +0000 (UTC)
-Received: by mail-qv1-xf31.google.com with SMTP id
- 6a1803df08f44-6d8adbda583so100076d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:53:51 -0800 (PST)
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 291F189D9A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 22:54:23 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-30227c56b11so32963061fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:54:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1733957630; x=1734562430;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=2egq6Dq3KjRKLgPQmABDsLel2na1tngRhhj74d6j2rc=;
- b=Go1ZjYYAShTbRVaDlXCnKuyjRNO8eJFruMVNNc0hwn5FcFStmIq/xqt3jHcTxWbQGl
- PGXxerg1FhovIhi2ri/h1HIJP9COewGtleQND3OAz0XwfkHQA/DVGqEJWgPkeZPkl8tb
- lFmO055bD2q5JwQxZpQck/fPq/Ci75zw4dFgs=
+ d=linaro.org; s=google; t=1733957661; x=1734562461; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wFlcrcuOuJge6epCV9BrB4p6q6J+XOMRFHObrsI8uJk=;
+ b=V/l0xqYN0jfpdvayzu8MOjuQQ/YLA3XqHwL7/d5hB8XomRXeTxPfvYgjheigSW789H
+ 2K1sg5skuU2X236gEOU+M8mPpiThuPjS7O5yAFCYbP2U0uJPjMZ/vm0rz9yHDLcInMsw
+ ZF9LrQtz9jNNjrWj/BRLc2TRIZYrdp9KE4+JbCGbRvKaKJu8m4HdgTAG5B07UamcCx5o
+ SIjmc+5tlnfhT5y5Pen8QZ5xR9ts+6aVRZoHh4xlft0I2CKsiYox6uL9F/DykXElS9DI
+ 77+r3QlcJjowWzXEz4pDuJ6EKidp5nqzPw7eLjx/0/BA0jrtePZhp3ct29Fx9Q9S8rqT
+ xoUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733957630; x=1734562430;
- h=cc:to:subject:message-id:date:user-agent:from:references
- :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1733957661; x=1734562461;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2egq6Dq3KjRKLgPQmABDsLel2na1tngRhhj74d6j2rc=;
- b=b1K6wRJsE9XrHjHz02ACnJHrsIAmj2ZZSj2q2Mj210sTkJ7H7dlFhv5VFTuWfokiAT
- Eiuk+SWlwpd+RwMBhLc6f1xcVHqDjtM0XGZs3Z7zK+NC+K1Z2Ze+jzCGJeJfh5rRtWTr
- 2DS6vTJsfuITB7Fe7uHyeJrdGiiTl9P6iOJsrrHFMvQyVbr6MSnGcSS+W/V86ql5h599
- yz9mrwrOE0ggOj2klC8OIw025NYZEaRuFYhu1OjarT5rnBaZARkLGbWl+hteJGZw1Yec
- DDJOoLxNIYlOwcH+GCA+AKbkzNdkQar4P+5gBTtzwdKnwckwFmUuBKcSr9wpQ3k+N2Fe
- JF1w==
+ bh=wFlcrcuOuJge6epCV9BrB4p6q6J+XOMRFHObrsI8uJk=;
+ b=WzZPl3Hl7OkTvXKJygirpqXwsSIKn7Vp0Qj03tr2PdlqPQCP3dxJfkT6d/Rbtb+ViK
+ IOSk4nKddmZabJ7F6BPj5EQ9gV6ydd9Ksezngrr2cx12UvdBo7m8DxHtU3IKoN9E1AnG
+ Ofr4SZOZxHEQS+M8gk4EISfJBeF5kidg7Cqm6pKMF4X4ar3ntr1BPObVdDW3HtdiqRel
+ R/4CZ0sTbMst4udyfz1thNg6rrOvwGXxNGtk4mqgGWeVtk4ip5aJk1RGPVCPfp6M5A+z
+ 3VMoJEV2y2HQTzr+ArP9IgtJOVM+04NoDhSai/WvmR8JeMj8WxM0qgKJNjJ8Qkbs90vE
+ Ch8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDOX1ZXQnh5RnOzk0qfQmGNS3vJoG/PgAECR/erNRN+1OhobLAEL2elf5Wpnhk42cdZ9JXskflE+4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxkwTT5REokuKruVzvkj/ZBdhDlfd2MEiGCW9htCDHhNgx+CPZA
- 6Aj2wcrGrO06k8PqBF1tjc3zXzrTObm3g49gkJWvDgy02mHCDdtHWJYIhsv7daUaLtTSQRFER4h
- CWdnN2kcRHmCxxmD4rOSR5DqlN5AkWiK6qY9I
-X-Gm-Gg: ASbGncul8gE/sKuQBscjJXRlSil/wpPxEGY0s6pr5Y0QkQVXL5jYBZ0vOPUGJxSo5Kr
- Q3zBQMig9AH3Np23YCwuIESeavuSFcczAK+17BS9A4KNm/Ibe6HAB2msVvJEcsog=
-X-Google-Smtp-Source: AGHT+IHPYfu5RWwg4QjV5Ft9MAhO7VJZB9xFWbSMLRysOqfixDFuOnt9+09RHZcOWbxPXE1q+wf1OmiIJ0aIfFFsbn0=
-X-Received: by 2002:a05:6214:1d0e:b0:6d8:aa45:a8a2 with SMTP id
- 6a1803df08f44-6dae38f441emr17981836d6.11.1733957630566; Wed, 11 Dec 2024
- 14:53:50 -0800 (PST)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Dec 2024 14:53:50 -0800
+ AJvYcCUdiDjcAu9gWLlEPFLaZ7f8vU0My8Ds8Vn+6vmAum4XjrCxMmrNn5PTGohQddS+yKY3OErCJw8pZRw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy0sdzKOLB7FZo4yaPOOTl25w/k385j68UI7NbJl6EIkiw6QAZa
+ 9KvNkto57QJ+gSyl4Kn8P9ypUppQWIeHgOxc5tz0yu86Lrzb3l821ki+VKt5y5Y=
+X-Gm-Gg: ASbGncv5Bmu4n6XQzvpBq317tym2+NNR84UWRdGJmr9orOFFTVVM/vZpR+3OOHb2tRY
+ nw+BdTvKYMPhh1QHqkG1e/+hdpAsgN5iComf4sNiJEOfy4oJR3bTk7ID0FASj6JaB6IB7JAJzXF
+ hmF4Hw/n9hF+HGQl8by76+FzzN0y8ZPWFgLDmE7urNWr94xdM/PwGU1g1BKKTuQgm6LNkOZyPB/
+ GV1Zd8lgMhAZOXwBenvF2yh5JCUqdmBs8vNsMr/Fd1AM9ZM1MBDDhwzQmXvZ3SJUUz0I4mlZ0Pc
+ G1HWmMnoGrNuIjOiVBnMhHLWFMd/JSKaUA==
+X-Google-Smtp-Source: AGHT+IF2beMPPMfOHzFimzjUPxZBuU5TVMSgXepIkr14Wvtkhl9EzlpO//mQAjLbZ5PlDOZrQQhhMg==
+X-Received: by 2002:a05:6512:4022:b0:540:2122:faeb with SMTP id
+ 2adb3069b0e04-5402a605bc8mr1358587e87.50.1733957661382; 
+ Wed, 11 Dec 2024 14:54:21 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401a5360bcsm1378389e87.174.2024.12.11.14.54.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 14:54:20 -0800 (PST)
+Date: Thu, 12 Dec 2024 00:54:17 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] drm: bridge: adv7511: remove s32 format from i2s
+ capabilities
+Message-ID: <ctecu2iqn4nsm2wy45ca7vt6bdj5334wafnyq32quaydjs7yf6@x4avipho6xcf>
+References: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
+ <20241210134254.2967524-3-olivier.moysan@foss.st.com>
 MIME-Version: 1.0
-In-Reply-To: <20241202-fd-dp-audio-fixup-v2-13-d9187ea96dad@linaro.org>
-References: <20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org>
- <20241202-fd-dp-audio-fixup-v2-13-d9187ea96dad@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
-Date: Wed, 11 Dec 2024 14:53:50 -0800
-Message-ID: <CAE-0n52NEHh6XnsWsg4XG0nS8cVpC-HW8snBLD86PO3-AV3jfg@mail.gmail.com>
-Subject: Re: [PATCH v2 13/14] drm/msm/dp: drop struct msm_dp_panel_in
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Paloma Arellano <quic_parellan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210134254.2967524-3-olivier.moysan@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,12 +97,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2024-12-02 02:06:43)
-> All other submodules pass arguments directly. Drop struct
-> msm_dp_panel_in that is used to wrap dp_panel's submodule args and pass
-> all data to msm_dp_panel_get() directly.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Tue, Dec 10, 2024 at 02:42:53PM +0100, Olivier Moysan wrote:
+> The ADV7511 chip allows 24 bits samples max in I2S mode, excepted for
+> direct AES3 mode (SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE format).
+> However the HDMI codec exposes S32_LE format as supported.
+> Adapt ADV7511 HDMI I2S format list to expose formats actually supported.
+> 
+> Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
 > ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> index 28ae81ca3651..ce6eda87bfe0 100644
+> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> @@ -232,6 +232,9 @@ static const struct hdmi_codec_ops adv7511_codec_ops = {
+>  
+>  static const struct hdmi_codec_pdata codec_data = {
+>  	.ops = &adv7511_codec_ops,
+> +	.i2s_formats = (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S20_3LE |
+> +			SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_LE |
+> +			SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE),
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+This will break w/o patch 3. Please change the order of the patches so
+that after each commit the kernel can still be built and work correctly.
+
+>  	.max_i2s_channels = 2,
+>  	.i2s = 1,
+>  	.no_i2s_capture = 1,
+> -- 
+> 2.25.1
+> 
+
+-- 
+With best wishes
+Dmitry
