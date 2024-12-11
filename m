@@ -2,56 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAFCC9ECF01
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 15:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424729ECF24
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 15:55:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD1B110EB6B;
-	Wed, 11 Dec 2024 14:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 896DF10E023;
+	Wed, 11 Dec 2024 14:55:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZwI3rRwe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="peUBRvN0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CED2E10EB6B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=0JCbYZmWassaJ0J0Otjz3zROzXmBPztJsBazQNyoppU=; b=ZwI3rRwepQeP07E8LuviimnSbF
- zBzgSdsIU7CjjBYL0VXzPd5EA1DB5FSR6TrahIpoZqc6a5sCU1+MNcJO2gv1B35uXbkWIKfVvJ2La
- eUP5l7h0J9cQC4wuzKucyrg606euLWoLtdTeWkkifwQ6oV2GeGRP4Q0nNat1AYlH9TTC1P/zlWZ0Y
- 4P27+qxyIk8/AQzA7RWyqdg4QQj7GGNxPNlKA6e2DwHAihSMrFuipf0ZfgrBbbACeL/kQuHm/+8Q9
- yRhs+o6l7ZWflKX30vp3uZa5ee0i5ADyh5SHbgm0d8zvsU0v6919p3t7jk51cft0FnTc9gYJBg5qP
- y5aHmvBQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tLO3Q-001z29-2t; Wed, 11 Dec 2024 15:51:08 +0100
-Message-ID: <9ff6e898-cc5b-474b-b969-ad4fa28634b6@igalia.com>
-Date: Wed, 11 Dec 2024 11:51:01 -0300
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE11C10E023
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 14:55:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 639A4A41836;
+ Wed, 11 Dec 2024 14:53:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D48C4CED2;
+ Wed, 11 Dec 2024 14:55:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733928943;
+ bh=xbrvzOnKmd+0otzRNpHPJb3BuEKlAKM+LRet5dI/QFQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=peUBRvN0IEISX29AB3ZNPIQivo4QMCveLHjUqU1w5qLySytfCtKgrGM87dp28gCp9
+ tJCkZDyJWE4g13yXcR0GATm0SsAqbV4dzTL7k4pOcMitPgoPzdfnRsvHa/CeJ931g+
+ qU5eTJ0wJXWNPZINRFip93r99B1fMjz3iYOf4MNXd9ajRtlzkVOP7n/koJblirgz3V
+ tZkvQl2jkwYAJ1MWUKqafamJSZFc8QecZEFjN2kYVaI5ppQL9S9cpHoAqg6SW2XcnD
+ TOpsszRq3AjAbFmhujMfhqjwGHtuiDIwzdlLxATMWOTsFZ+hBgeYaFmN97HE6INXDF
+ zCBUgK+TCJf/g==
+Date: Wed, 11 Dec 2024 08:55:41 -0600
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
+ kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
+ francesco@dolcini.it, frank.li@nxp.com, dmitry.baryshkov@linaro.org,
+ u.kleine-koenig@baylibre.com
+Subject: Re: [PATCH v6 01/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller processing units
+Message-ID: <20241211145541.GA2837320-robh@kernel.org>
+References: <20241209033923.3009629-1-victor.liu@nxp.com>
+ <20241209033923.3009629-2-victor.liu@nxp.com>
+ <20241210221508.GA550635-robh@kernel.org>
+ <30924a9e-7d01-46f6-9e47-405c08acdde3@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vc4: plane: Remove WARN on state being set in
- plane_reset
-To: Stefan Wahren <wahrenst@gmx.net>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, kernel-list@raspberrypi.com,
- dri-devel@lists.freedesktop.org
-References: <20241202120343.33726-1-wahrenst@gmx.net>
- <d2a0fed1-22c0-4035-9b9d-feb78c9e3ac5@igalia.com>
- <aec79911-2ca0-466f-a620-c4426f215a6f@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <aec79911-2ca0-466f-a620-c4426f215a6f@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <30924a9e-7d01-46f6-9e47-405c08acdde3@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,68 +70,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
-
-On 11/12/24 11:07, Stefan Wahren wrote:
-> Hi Maíra,
+On Wed, Dec 11, 2024 at 11:05:52AM +0800, Liu Ying wrote:
+> On 12/11/2024, Rob Herring wrote:
+> > On Mon, Dec 09, 2024 at 11:39:05AM +0800, Liu Ying wrote:
+> >> Freescale i.MX8qxp Display Controller is implemented as construction set of
+> >> building blocks with unified concept and standardized interfaces.  Document
+> >> all existing processing units.
+> >>
+> >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >> ---
+> >> v6:
+> >> * No change.
+> >>
+> >> v5:
+> >> * Document aliases for processing units which have multiple instances in
+> >>   the Display Controller.  Drop Rob's previous R-b tag. (Maxime)
+> >>
+> >> v4:
+> >> * Collect Rob's R-b tag.
+> >>
+> >> v3:
+> >> * Combine fsl,imx8qxp-dc-fetchunit-common.yaml,
+> >>   fsl,imx8qxp-dc-fetchlayer.yaml and fsl,imx8qxp-dc-fetchwarp.yaml
+> >>   into 1 schema doc fsl,imx8qxp-dc-fetchunit.yaml. (Rob)
+> >> * Document all processing units. (Rob)
+> >>
+> >> v2:
+> >> * Drop fsl,dc-*-id DT properties. (Krzysztof)
+> >> * Add port property to fsl,imx8qxp-dc-tcon.yaml. (Krzysztof)
+> >> * Fix register range sizes in examples.
+> >>
+> >>  .../display/imx/fsl,imx8qxp-dc-blitblend.yaml |  46 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-clut.yaml      |  49 ++++++
+> >>  .../imx/fsl,imx8qxp-dc-constframe.yaml        |  49 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-dither.yaml    |  49 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-extdst.yaml    |  77 +++++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-fetchunit.yaml | 147 ++++++++++++++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-filter.yaml    |  47 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-framegen.yaml  |  68 ++++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-gammacor.yaml  |  38 +++++
+> >>  .../imx/fsl,imx8qxp-dc-layerblend.yaml        |  45 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-matrix.yaml    |  48 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-rop.yaml       |  48 ++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-safety.yaml    |  34 ++++
+> >>  .../imx/fsl,imx8qxp-dc-scaling-engine.yaml    |  89 +++++++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-signature.yaml |  58 +++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-store.yaml     | 100 ++++++++++++
+> >>  .../display/imx/fsl,imx8qxp-dc-tcon.yaml      |  50 ++++++
+> >>  17 files changed, 1042 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store.yaml
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
+> >> new file mode 100644
+> >> index 000000000000..7f800e72c3f3
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend.yaml
+> >> @@ -0,0 +1,46 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-blitblend.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Freescale i.MX8qxp Display Controller Blit Blend Unit
+> >> +
+> >> +description: |
+> >> +  Combines two input frames to a single output frame, all frames having the
+> >> +  same dimension.
+> >> +
+> >> +  Each Blit Blend Unit device should have an alias in the aliases node, in the
+> >> +  form of dc<x>-blitblend<y>, where <x> is an integer specifying the Display
+> >> +  Controller instance and <y> is an integer specifying the Blit Blend Unit
+> >> +  device instance.
+> > 
+> > That's really an abuse of aliases. If you need to describe connections 
+> > between components, use the graph binding like everyone else does for 
+> > display path components.
 > 
-> Am 11.12.24 um 14:19 schrieb Maíra Canal:
->> Hi Stefan,
->>
->> On 02/12/24 09:03, Stefan Wahren wrote:
->>> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>>
->>> It is permitted on situations such as system resume for plane->state
->>> to be non-NULL, and that should be handled by freeing it. Do so.
->>>
->>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->>> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
->>
->> Was this patch applied?
-> No, but Maxime send his RB.
->> Let me know if you would like it to be applied
->> to drm-misc-next.
-> Yes, please.
+> I need to describe components' instance numbers which imply the connections
+> between components but not vice versa. If I use the graph binding, I cannot
+> get the instance numbers(0 or 1) of the two display engines(documented by
+> fsl,imx8qxp-dc-display-engine.yaml). If you have no objections, I may add the
+> instance numbers to compatible strings, like brcm,bcm2835-pixelvalve0.yaml.
+> What do you think?
 
-Applied to misc/kernel.git (drm-misc-next) [1].
+You could have dc<x> and blitblend<y> aliases and use the graph to 
+define the connections. But I'm not really a fan of adding custom 
+aliases either. Why are the instance numbers important?
 
-[1] 
-https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c5cf801914ef3e67923e5dc912e04167e665dd11
+Are the programming models or features of the instances different? If 
+so, then a different compatible or property describing the feature may 
+be appropriate.
 
-Best Regards,
-- Maíra
-
-> 
-> Best regards
->>
->> Best Regards,
->> - Maíra
->>
->>> ---
->>>   drivers/gpu/drm/vc4/vc4_plane.c | 5 ++++-
->>>   1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/vc4/vc4_plane.c
->>> b/drivers/gpu/drm/vc4/vc4_plane.c
->>> index ba6e86d62a77..1aaa4938824b 100644
->>> --- a/drivers/gpu/drm/vc4/vc4_plane.c
->>> +++ b/drivers/gpu/drm/vc4/vc4_plane.c
->>> @@ -330,7 +330,10 @@ static void vc4_plane_reset(struct drm_plane
->>> *plane)
->>>   {
->>>       struct vc4_plane_state *vc4_state;
->>>
->>> -    WARN_ON(plane->state);
->>> +    if (plane->state)
->>> + __drm_atomic_helper_plane_destroy_state(plane->state);
->>> +
->>> +    kfree(plane->state);
->>>
->>>       vc4_state = kzalloc(sizeof(*vc4_state), GFP_KERNEL);
->>>       if (!vc4_state)
->>> -- 
->>> 2.34.1
->>>
->>
-> 
-
+Rob
