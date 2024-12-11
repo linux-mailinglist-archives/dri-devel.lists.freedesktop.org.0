@@ -2,110 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3FC59EC626
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:57:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF859EC64A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 376C110EA96;
-	Wed, 11 Dec 2024 07:57:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="LCRwp+nw";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D430910E154;
+	Wed, 11 Dec 2024 08:01:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F313A10E154
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:57:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
- s=default;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=WXHIBVyZHRhc24ewhgU1WZ1VKDKdYKj0hqAHO5q1aY4=; b=LCRwp+nwHC5NUeiY58g3+jasR+
- 4vs7ZbtJGraUL5dxGxAhZEhHKJPfymXAHxnuVdurliUy8lfEKjtjiDO4kpEDqeZooaFpTbQQAhp8d
- oA2DCWfXe0UDfrTZneGYqWnemZ5yCocP/rRtWqOa8aUc/o++6H4NsoT2D3NggMYNrLY5JHgoB9jBR
- 3A3+xEkepYW/P6kmJZdYi5eyh4b8pOMHE3KwywiSgF8CyXu4dG3Qfl9Ft29n+MkuY43ZGmCjQnfVL
- p5wBdN+xQbzsAuz8rvXn6I2hIroTLy3JFnvEg8kqPFSz9FqosPDqwDTlIAN8oLRq7qzcbrL64vTQT
- 658EwENw==;
-Received: from [89.212.21.243] (port=34294 helo=[192.168.69.52])
- by cpanel.siel.si with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <andrej.picej@norik.com>) id 1tLHay-005Z0C-1R;
- Wed, 11 Dec 2024 08:57:20 +0100
-Message-ID: <519cc025-0782-4f96-a169-1fe87b280173@norik.com>
-Date: Wed, 11 Dec 2024 08:57:17 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A06710E154
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:01:09 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id DE0952115D;
+ Wed, 11 Dec 2024 08:01:07 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 926DC13983;
+ Wed, 11 Dec 2024 08:01:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id zT5tIsNGWWePLwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 11 Dec 2024 08:01:07 +0000
+Message-ID: <16c09ca8-aa73-4fc2-b693-0bfcc8dcac6d@suse.de>
+Date: Wed, 11 Dec 2024 09:01:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
- optional properties
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- upstream@lists.phytec.de
-References: <20241210091901.83028-1-andrej.picej@norik.com>
- <20241210091901.83028-3-andrej.picej@norik.com>
- <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
- <aa2de99d-21f4-4843-83b7-5d2db78be86f@norik.com>
- <qhmsobin3fsmoc7ic2jtancowfscoauyroruxdpwhmqwlogtkz@6by3s2ruwzwp>
+Subject: Re: [PATCH 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+To: Helge Deller <deller@gmx.de>, javierm@redhat.com, arnd@arndb.de,
+ simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+References: <20241210142329.660801-1-tzimmermann@suse.de>
+ <20241210142329.660801-2-tzimmermann@suse.de>
+ <b5136312-e18c-46cb-9a01-3efc61d6fd9a@gmx.de>
+ <de810def-84ac-4d55-b625-536b5781a20f@gmx.de>
+ <e7d5fba5-7ecd-4ed3-be7a-56bf82030e67@suse.de>
+ <6b543ccd-23dd-474d-9828-1eb0ecec9c5d@gmx.de>
 Content-Language: en-US
-From: Andrej Picej <andrej.picej@norik.com>
-Autocrypt: addr=andrej.picej@norik.com; keydata=
- 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
- xtT/8OxBOVSHvA==
-In-Reply-To: <qhmsobin3fsmoc7ic2jtancowfscoauyroruxdpwhmqwlogtkz@6by3s2ruwzwp>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <6b543ccd-23dd-474d-9828-1eb0ecec9c5d@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.siel.si
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - norik.com
-X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
- andrej.picej@norik.com
-X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: DE0952115D
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,309 +102,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
 
-On 10. 12. 24 14:59, Dmitry Baryshkov wrote:
-> On Tue, Dec 10, 2024 at 02:41:01PM +0100, Andrej Picej wrote:
+Am 11.12.24 um 00:37 schrieb Helge Deller:
+> On 12/10/24 16:41, Thomas Zimmermann wrote:
+>> Hi
 >>
 >>
->> On 10. 12. 24 12:43, Dmitry Baryshkov wrote:
->>> On Tue, Dec 10, 2024 at 10:19:00AM +0100, Andrej Picej wrote:
->>>> Add a optional properties to change LVDS output voltage. This should not
->>>> be static as this depends mainly on the connected display voltage
->>>> requirement. We have three properties:
->>>> - "ti,lvds-termination-ohms", which sets near end termination,
->>>> - "ti,lvds-vod-swing-data-microvolt" and
->>>> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
->>>> output voltage for data and clock lanes. They are defined as an array
->>>> with min and max values. The appropriate bitfield will be set if
->>>> selected constraints can be met.
+>> Am 10.12.24 um 15:34 schrieb Helge Deller:
+>>> On 12/10/24 15:29, Helge Deller wrote:
+>>>> On 12/10/24 15:09, Thomas Zimmermann wrote:
+>>>>> diff --git a/drivers/staging/fbtft/Kconfig 
+>>>>> b/drivers/staging/fbtft/Kconfig
+>>>>> index 77ab44362f16..577e91ff7bf6 100644
+>>>>> --- a/drivers/staging/fbtft/Kconfig
+>>>>> +++ b/drivers/staging/fbtft/Kconfig
+>>>>> @@ -3,6 +3,7 @@ menuconfig FB_TFT
+>>>>>       tristate "Support for small TFT LCD display modules"
+>>>>>       depends on FB && SPI
+>>>>>       depends on FB_DEVICE
+>>>>> +    depends on BACKLIGHT_DEVICE_CLASS
 >>>>
->>>> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
->>>> end termination will be used. Selecting only one:
->>>> "ti,lvds-vod-swing-data-microvolt" or
->>>> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
->>>> constraint for only data/clock lanes will be met. Setting both is
->>>> recommended.
->>>>
->>>> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
->>>> ---
->>>> Changes in v5:
->>>> - specify default values in sn65dsi83_parse_lvds_endpoint,
->>>> - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
->>>> Changes in v4:
->>>> - fix typo in commit message bitfiled -> bitfield
->>>> - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
->>>> of separate variables for channel A/B
->>>> - add more checks on return value of "of_property_read_u32_array"
->>>> Changes in v3:
->>>> - use microvolts for default array values 1000 mV -> 1000000 uV.
->>>> Changes in v2:
->>>> - use datasheet tables to get the proper configuration
->>>> - since major change was done change the authorship to myself
->>>> ---
->>>>    drivers/gpu/drm/bridge/ti-sn65dsi83.c | 142 +++++++++++++++++++++++++-
->>>>    1 file changed, 139 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>>> index 57a7ed13f996..f9578b38da28 100644
->>>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>>> @@ -132,6 +132,16 @@
->>>>    #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
->>>>    #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
->>>> +enum sn65dsi83_channel {
->>>> +	CHANNEL_A,
->>>> +	CHANNEL_B
->>>> +};
->>>> +
->>>> +enum sn65dsi83_lvds_term {
->>>> +	OHM_100,
->>>> +	OHM_200
->>>> +};
->>>> +
->>>>    enum sn65dsi83_model {
->>>>    	MODEL_SN65DSI83,
->>>>    	MODEL_SN65DSI84,
->>>> @@ -147,6 +157,8 @@ struct sn65dsi83 {
->>>>    	struct regulator		*vcc;
->>>>    	bool				lvds_dual_link;
->>>>    	bool				lvds_dual_link_even_odd_swap;
->>>> +	int				lvds_vod_swing_conf[2];
->>>> +	int				lvds_term_conf[2];
->>>>    };
->>>>    static const struct regmap_range sn65dsi83_readable_ranges[] = {
->>>> @@ -237,6 +249,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
->>>>    	.max_register = REG_IRQ_STAT,
->>>>    };
->>>> +static const int lvds_vod_swing_data_table[2][4][2] = {
->>>> +	{	/* 100 Ohm */
->>>> +		{ 180000, 313000 },
->>>> +		{ 215000, 372000 },
->>>> +		{ 250000, 430000 },
->>>> +		{ 290000, 488000 },
->>>> +	},
->>>> +	{	/* 200 Ohm */
->>>> +		{ 150000, 261000 },
->>>> +		{ 200000, 346000 },
->>>> +		{ 250000, 428000 },
->>>> +		{ 300000, 511000 },
->>>> +	},
->>>> +};
->>>> +
->>>> +static const int lvds_vod_swing_clock_table[2][4][2] = {
->>>> +	{	/* 100 Ohm */
->>>> +		{ 140000, 244000 },
->>>> +		{ 168000, 290000 },
->>>> +		{ 195000, 335000 },
->>>> +		{ 226000, 381000 },
->>>> +	},
->>>> +	{	/* 200 Ohm */
->>>> +		{ 117000, 204000 },
->>>> +		{ 156000, 270000 },
->>>> +		{ 195000, 334000 },
->>>> +		{ 234000, 399000 },
->>>> +	},
->>>> +};
->>>> +
->>>>    static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
->>>>    {
->>>>    	return container_of(bridge, struct sn65dsi83, bridge);
->>>> @@ -435,12 +477,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
->>>>    		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
->>>>    	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
->>>> -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
->>>> +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
->>>> +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_A]) |
->>>> +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_B]));
->>>>    	regmap_write(ctx->regmap, REG_LVDS_LANE,
->>>>    		     (ctx->lvds_dual_link_even_odd_swap ?
->>>>    		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
->>>> -		     REG_LVDS_LANE_CHA_LVDS_TERM |
->>>> -		     REG_LVDS_LANE_CHB_LVDS_TERM);
->>>> +		     (ctx->lvds_term_conf[CHANNEL_A] ?
->>>> +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
->>>> +		     (ctx->lvds_term_conf[CHANNEL_B] ?
->>>> +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
->>>>    	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
->>>>    	le16val = cpu_to_le16(mode->hdisplay);
->>>> @@ -576,10 +622,100 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
->>>>    	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
->>>>    };
->>>> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
->>>> +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
->>>> +{
->>>> +	int i;
->>>> +
->>>> +	for (i = 0; i <= 3; i++) {
->>>> +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
->>>> +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
->>>> +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
->>>> +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
->>>> +			return i;
->>>> +	}
->>>> +
->>>> +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
->>>> +	return -EINVAL;
->>>> +}
->>>> +
->>>> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
->>>> +{
->>>> +	struct device *dev = ctx->dev;
->>>> +	struct device_node *endpoint;
->>>> +	int endpoint_reg;
->>>> +	/* Set so the property can be freely selected if not defined */
->>>> +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
->>>> +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
->>>> +	u32 lvds_term;
->>>> +	u8 lvds_term_conf = 0x1;
->>>> +	int lvds_vod_swing_conf = 0x1;
->>>
->>> Magic values
+>>>> Typo. Should be BACKLIGHT_CLASS_DEVICE...
 >>
->> Can you please elaborate.
->>
->> I can use:
->> u8 lvds_term_conf = OHM_200;
->>
->> What about lvds_vod_swing_conf? Should I create additional define for it?
->> But this doesn't solve a hidden meaning? Maybe additional comment above?
->> Would like to avoid using voltages for it, since then we are reverse
->> engineering the table in datasheet to match the default reg value.
-> 
-> I think the following example solves both problems:
-> 
-> lvds_term = 200;
-> of_property_read_u32(..., &lvds_term);
-> 
-> if (lvds_term == 100)
-> 	ctx->lvds_term_conf[channel] = OHM_100;
-> else if (lvds_term == 200)
-> 	ctx->lvds_term_conf[channel] = OHM_200;
-> else
-> 	return -EINVAL;
-> 
-> The same approach can be applied to lvds_vod_swing_conf, resulting in
-> removal of magic values.
-
-Sorry, but I think it is not that easy when it comes to the 
-lvds_vod_swing_conf. We should assign default value if 
-"ti,lvds-vod-swing-data-microvolt" and 
-"ti,lvds-vod-swing-clock-microvolt" are not defined. Default value of 
-the lvds_vod_swing_conf is 0x1, but this doesn't have any straight 
-forward meaning like OHM_200 for example.
-
-What we can do in that case is that we copy the values from defined 
-datasheet tables to the "lvds_vod_swing_data[2]" and 
-"lvds_vod_swing_clk[2]" arrays and then run the
-sn65dsi83_select_lvds_vod_swing with it, which will return the default 
-value (0x1).
-
-/* If both properties are not defined assign default limits */
-if (ret_data && ret_clock) {
-	memcpy(lvds_vod_swing_data,
-	     lvds_vod_swing_data_table[ctx->lvds_term_conf[channel]][1],
-	     sizeof(lvds_vod_swing_data));
-	memcpy(lvds_vod_swing_clk,
-	    lvds_vod_swing_clock_table[ctx->lvds_term_conf[channel]][1],
-	    sizeof(lvds_vod_swing_clk));
-}
-lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
-	lvds_vod_swing_data, lvds_vod_swing_clk,
-	ctx->lvds_term_conf[channel]);
-if (lvds_vod_swing_conf < 0) {
-	ret = lvds_vod_swing_conf;
-	goto exit;
-}
-
-ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
-
-I'm not sure if using this approach gets rid of the problem with magic 
-values.
-Or maybe I'm not seeing the obvious solution so please bear with me.
-
-> 
+>> Ah, thanks. I'll better check the rest of the series for similar 
+>> mistakes.
 >>
 >>>
->>>> +	int ret = 0;
->>>> +	int ret_data;
->>>> +	int ret_clock;
->>>> +
->>>> +	if (channel == CHANNEL_A)
->>>> +		endpoint_reg = 2;
->>>> +	else
->>>> +		endpoint_reg = 3;
->>>> +
->>>> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, endpoint_reg, -1);
->>>> +	if (!of_property_read_u32(endpoint, "ti,lvds-termination-ohms", &lvds_term)) {
->>>
->>> The code has been better before:
->>> provide default for lvds_term, read the property (keeping the default in
->>> case of an error), then use the lvds_term to set up lvds_term_conf, as
->>> expected.
+>>> Beside the typo:
+>>> In this case, doesn't it make sense to "select 
+>>> BACKLIGHT_DEVICE_CLASS" instead?
 >>
->> Ok, will revert back.
+>> That causes the dependency error mentioned in the commit message. 
+>> This time it's just for fbtft instead of shmobilefb.
 >>
->>>
->>>> +		if (lvds_term == 100)
->>>> +			lvds_term_conf = OHM_100;
->>>> +		else
->>>> +			lvds_term_conf = OHM_200;
->>>> +	}
->>>> +
->>>> +	ctx->lvds_term_conf[channel] = lvds_term_conf;
->>>> +
->>>> +	ret_data = of_property_read_u32_array(endpoint,
->>>> +			"ti,lvds-vod-swing-data-microvolt", lvds_vod_swing_data,
->>>> +			ARRAY_SIZE(lvds_vod_swing_data));
->>>> +	if (ret_data != 0 && ret_data != -EINVAL) {
->>>> +		ret = ret_data;
->>>> +		goto exit;
->>>> +	}
->>>> +
->>>> +	ret_clock = of_property_read_u32_array(endpoint,
->>>> +			"ti,lvds-vod-swing-clock-microvolt", lvds_vod_swing_clk,
->>>> +			ARRAY_SIZE(lvds_vod_swing_clk));
->>>> +	if (ret_clock != 0 && ret_clock != -EINVAL) {
->>>> +		ret = ret_clock;
->>>> +		goto exit;
->>>> +	}
->>>> +
->>>> +	/* If any of the two properties is defined. */
->>>> +	if (!ret_data || !ret_clock) {
->>>> +		lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
->>>> +			lvds_vod_swing_data, lvds_vod_swing_clk,
->>>> +			lvds_term_conf);
->>>> +		if (lvds_vod_swing_conf < 0) {
->>>> +			ret = lvds_vod_swing_conf;
->>>> +			goto exit;
->>>> +		}
->>>> +	}
->>>> +
->>>> +	ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
->>>> +	ret = 0;
->>>> +exit:
->>>> +	of_node_put(endpoint);
->>>> +	return ret;
->>>> +}
->>>> +
->>>>    static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
->>>>    {
->>>>    	struct drm_bridge *panel_bridge;
->>>>    	struct device *dev = ctx->dev;
->>>> +	int ret;
->>>> +
->>>> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_A);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>> +
->>>> +	ret = sn65dsi83_parse_lvds_endpoint(ctx, CHANNEL_B);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>>    	ctx->lvds_dual_link = false;
->>>>    	ctx->lvds_dual_link_even_odd_swap = false;
->>>> -- 
->>>> 2.34.1
->>>>
->>>
-> 
+>>> If people want the fbtft, backlight support should be enabled too.
+>>
+>> As a user-visible option, it should not be auto-selected
+>> unnecessarily.
+>
+> Right, it should not be auto-selected.
+> Unless if fbtft really needs it enabled to function.
+> IMHO all fb/drm drivers have higher priority than some low-level
+> background backlight controller code.
+
+By that logic, we'd list always list all drivers and each driver would 
+auso-select the subsystems it requires. So each fbdev driver would 
+select CONFIG_FB.
+
+That's not how it works, of course. Instead, each subsystem is 
+user-selected and Kconfig offers the drivers that have their 
+dependencies met. The documentation for Kconfig clearly states that 
+select should be used carefully. [1]
+
+[1] 
+https://elixir.bootlin.com/linux/v6.12.4/source/Documentation/kbuild/kconfig-language.rst#L137
+
+>
+>> The DRM panel drivers already depend on the backlight
+>> instead of selecting it. It's the correct approach.
+>
+> Sounds wrong IMHO.
+
+Generally, it's the right approach. I guess what could be done is to 
+make backlight support optional in the driver code, and use the imply 
+attribute [2] instead of depends. So the driver would indicate a 
+preference for backlight support, but still work without. That could 
+also be done for the fbdev drivers, of course.
+
+[2] 
+https://elixir.bootlin.com/linux/v6.12.4/source/Documentation/kbuild/kconfig-language.rst#L163
+
+Best regards
+Thomas
+
+>
+>> As I mentioned
+>> in the cover letter, the few remaining driver that select it should
+>> probably be updated.
+>
+> That dependency sounds weird, but maybe I simply misunderstand your 
+> logic...?
+>
+> As a Linux end user I usually know which graphic cards are in my machine
+> and which ones I want to enable.
+> But as a normal user I think I shouldn't be expected to know
+> that I first need to enable the "backlight class device"
+> so that I'm then able to afterwards enable the fbtft (or any other 
+> drm/fb driver).
+>
+> Am I wrong?
+>
+> Helge
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
