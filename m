@@ -2,55 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 763A99EC7B5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C109EC7BC
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 09:53:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 822A310E5FB;
-	Wed, 11 Dec 2024 08:52:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCFE610EABF;
+	Wed, 11 Dec 2024 08:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="uNZ1ZfwH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oFVAzGtV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAFE10E5FB
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:52:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fAWS/sRlgeB+YbEy/eqhplKSQ984OPXnrFLfa4o96GQ=; b=uNZ1ZfwHa1YAQBxuf/XLDVsosm
- nDJww0n5aeFUeUp9Rc09P1QndQ1+eKRrRp3bAuWA5+r0SijMwzsz2XOUP9lC1sehu8rhLBUOGFG2L
- qtVX314epcUUf80JvFJWZWZBS7sgubO6kS4vdZ7k3ooOTGTHpya4Ep1/B+mVpyS/HVrzc/wtiagUv
- bDO2Fy40GXvIcnckzGKB3Z+lZZAUp5rmK5P8D2N5h5G35F76m63zP3tdLkQRVeS3WG2wsO1bK1es9
- hJfThXSrAK3/LPufn8RC1HmKbzPsLRH8zCq0Ooe7jubaPHp3f11NmxrrPchNRfkGUgQNeuXycRIK7
- eYPGTFOw==;
-Received: from i53875bc4.versanet.de ([83.135.91.196] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tLIS3-0000HG-JO; Wed, 11 Dec 2024 09:52:11 +0100
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Andy Yan <andyshrk@163.com>
-Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
- detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
-Subject: Re: [PATCH v5 01/18] drm/rockchip: vop2: Add debugfs support
-Date: Wed, 11 Dec 2024 09:52:10 +0100
-Message-ID: <3527424.cLl3JjQhRp@diego>
-In-Reply-To: <121ab3c0.68d0.193b48b32ed.Coremail.andyshrk@163.com>
-References: <20241209122943.2781431-1-andyshrk@163.com>
- <4471861.MSiuQNM8U4@diego>
- <121ab3c0.68d0.193b48b32ed.Coremail.andyshrk@163.com>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77BA810EABC
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:52:57 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-53e3c47434eso3320838e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 00:52:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733907175; x=1734511975; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PQvn4I1rIMKsaknMKxkICyEP4l6YBY0h5q6GbALy4aI=;
+ b=oFVAzGtVmMn5cH3L2iCQopJUZwa0i6Lk0JAp1iR3javRgnFtUgiO+g9L86CzEg+xDb
+ Kw3bYTlFhNYciTnzgCBqcoPnUc7/pXDAxWmoRhAP3cnIzdyMI5sw3Cr3cORizwY4fyJi
+ 6NTW/rB4CSkZ7A0O+kXlTY7UGtJ/Uglc81OrnYLBzc2TGE/ePtoF6G6WctXkTy2vzp9i
+ eHvClFURkUe1Dpj4XWW77sZq8Ja/58AQuisnML5BIqxKLL66egf658xN+7H/cQvVFGah
+ +5SzgZ4fw2uOESPVELGTBPPdvAGBovtRekHQX2+SxOhUSvZ4g/yQRkbMcn4zOXkb8yMy
+ qCiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733907175; x=1734511975;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PQvn4I1rIMKsaknMKxkICyEP4l6YBY0h5q6GbALy4aI=;
+ b=rhZNqTHGjtkds8XiVCWwb6TwoXRrnLA5No7Wi3cE4aYgkV0d707TFdJiYuV/92Ot0V
+ +zq/WEfoMpBYEbcBZwIJJeYhitQk2ltOLHYXWdtQuErNwbU3XJafV357PvwaN/FCLj0D
+ DpERrgU0Za14OAbIYbS9vmgOOl1nYhdNi/dThjn/PBiglAwViXMHFeuyqhcZoiWAYL1f
+ lCG1IIvQU9kMYeh1qtzlbM/oY+/WQfnHnBGDeZ/zFuNzgRNwfFiikQ24LmOqME8HKGAM
+ +Tiop/oRt+LoLJBizIkF5d3Pq9LjaSzh/AJYMg+dcNLid2+hk5NI6a63BaYJ6ifo5eRT
+ WLqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVSNa9x9bML2VZKShEGIX0eVKiew3KP/BgSBUIqvFPLV6HjCpyvPhzPOiz6ICJA+a/yxbwhTyAjt84=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWuOZIccKB6Qo4rXDr8W2s1MQB4uBEYr555v+JecFHcW83+S1V
+ 03/KVCzeFa5VwCQoKxmTcATxoUSvygonmNGAekQCyUkAvM2t+1FCqhuykg157mE=
+X-Gm-Gg: ASbGnctK4yL9je0Y3Z58rNQXfz2E1N5MI7+qwvtAzifl3lmxPoT1DvvLylFQIhLFd62
+ fmyOHUMLNBzR07tY8KpHAVXkiOg2LYV7KFQyg1GXCX0eHyTp6INMgQOA3yn7PAUACa6LQdbDux6
+ 3Y8bxlWW8Naw3AiGeSaAXpe01brsX3gusY1Q3smSZI4rb5A9uAwbFqW5RrOYRG0x7PTkcyWn/bE
+ +wPnt+TuF2N34lDHVrUx8a0WOukxRj4s+OrTufoqKGxbPygKFh9Qbnz1O5rsAae+uw5r4MweyEo
+ Rjj/CUrjZH4d1fm7qfsR7W6VRk1p62oliQ==
+X-Google-Smtp-Source: AGHT+IGuour6lJxXBzgCzGK78I8fo7xj6s/UcHmwFWIUOfdM9PKGmWIYOC26HeAtncqnF//cs2PKFA==
+X-Received: by 2002:a05:6512:3988:b0:540:25a6:c342 with SMTP id
+ 2adb3069b0e04-5402a5d8e27mr581372e87.4.1733907175524; 
+ Wed, 11 Dec 2024 00:52:55 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401cacc70fsm1012887e87.5.2024.12.11.00.52.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 00:52:54 -0800 (PST)
+Date: Wed, 11 Dec 2024 10:52:51 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Pavan Kondeti <quic_pkondeti@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Elliot Berman <quic_eberman@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/a6xx: Skip gpu secure fw load in EL2 mode
+Message-ID: <pndxbcduiwytfwkortyxpdqgwa4bm3ajnjpa5nedjtgndq6z5v@mziv5z36zeqr>
+References: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
+ <CAF6AEGtKfWOGpd1gMfJ96BjCqwERZzBVmj5GzmjKxw8_vmSrJg@mail.gmail.com>
+ <f4813046-5952-4d16-bae6-37303f22ad1a@quicinc.com>
+ <iyknardi445n4h74am22arpgc4vlchh6z6cvkbff2xg76pd655@nozwz7snt476>
+ <1219b46d-2aea-4377-a8ca-024039ee1499@quicinc.com>
+ <CAF6AEGs4EebrwyQZviNXqB2=3h2wgZpmbrdGHuEU4z1D014GRA@mail.gmail.com>
+ <b47d44cc-77b7-4137-97e3-b245e1394580@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b47d44cc-77b7-4137-97e3-b245e1394580@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,116 +105,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andy,
+On Wed, Dec 11, 2024 at 01:06:58PM +0530, Pavan Kondeti wrote:
+> +devicetree
+> 
+> On Tue, Dec 10, 2024 at 07:43:19PM -0800, Rob Clark wrote:
+> > On Tue, Dec 10, 2024 at 7:08 PM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> > >
+> > > On 12/11/2024 6:43 AM, Bjorn Andersson wrote:
+> > > > On Tue, Dec 10, 2024 at 02:22:27AM +0530, Akhil P Oommen wrote:
+> > > >> On 12/10/2024 1:24 AM, Rob Clark wrote:
+> > > >>> On Mon, Dec 9, 2024 at 12:20 AM Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
+> > > >>>>
+> > > >>>> When kernel is booted in EL2, SECVID registers are accessible to the
+> > > >>>> KMD. So we can use that to switch GPU's secure mode to avoid dependency
+> > > >>>> on Zap firmware. Also, we can't load a secure firmware without a
+> > > >>>> hypervisor that supports it.
+> > > >>>
+> > > >>> Shouldn't we do this based on whether zap node is in dtb (and not disabled)?
+> > > >>
+> > > >> This is better, isn't it? Otherwise, multiple overlays should be
+> > > >> maintained for each soc/board since EL2 can be toggled from bootloader.
+> > > >> And this feature is likely going to be more widely available.
+> > > >>
+> > > >
+> > > > The DeviceTree passed to the OS needs to describe the world that said OS
+> > > > is going to operate in. If you change the world you need to change the
+> > > > description.
+> > > > There are several other examples where this would be necessary
+> > > > (remoteproc and watchdog to name two examples from the Qualcomm upstream
+> > > > world).
+> > >
+> > > But basic things work without those changes, right? For eg: Desktop UI
+> > 
+> > It isn't really so much about whether certain use-cases can work with
+> > a sub-optimal description of the hw (where in this case "hw" really
+> > means "hw plus how the fw allows things to look to the HLOS").. It is
+> > more about the hw/fw/whatever providing an accurate description of
+> > what things look like to the HLOS.
+> > 
+> > I'm leaning more towards the hw+fw providing HLOS an accurate view...
+> > and the fact that that carries over into other areas of dtb (ie. it
+> > isn't the only thing that slbounce needs to patch, as I previously
+> > mentioned) reinforces my view there.  This seems like a thing to fix
+> > in fw/bootloader tbh.
+> > 
+> 
+> Thanks Rob and Bjorn for your inputs. At the moment, we don't have
+> capability in our bootloader to apply a *specific* overlay when Linux
+> kernel is starteed in EL, this is making GPU non-functional. This patch
+> from Akhil fixes the problem without depending on the bootloader.
+> 
+> From this discussion, I understand that it is recommended to provide
+> HW+FW view in dT correctly instead of doing runtime checks in the
+> kernel. We can take this as a requirement to the bootloader.
+> 
+> I would like to check how we should proceed with overlay. Should we
+> submit dtso upstream and let bootloader apply the overlay at runtime or
+> this whole overlay needs to be maintained in the bootloader. Also,
+> Should we build all board dtb for EL2 as well or just leave it at compiling
+> the EL2 dtbo (one per SoC)?
 
-Am Mittwoch, 11. Dezember 2024, 08:07:21 CET schrieb Andy Yan:
-> At 2024-12-10 19:57:44, "Heiko St=C3=BCbner" <heiko@sntech.de> wrote:
-> >Am Montag, 9. Dezember 2024, 13:29:13 CET schrieb Andy Yan:
-> >> From: Andy Yan <andy.yan@rock-chips.com>
-> >>=20
-> >> /sys/kernel/debug/dri/vop2/summary:  dump vop display state
-> >> /sys/kernel/debug/dri/vop2/regs: dump whole vop registers
-> >> /sys/kernel/debug/dri/vop2/active_regs: only dump the registers of
-> >> activated modules
-> >>=20
-> >> Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
-> >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> >> Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
-> >> Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
-> >> ---
-> >
-> >> +static void __vop2_regs_dump(struct seq_file *s, bool active_only)
-> >> +{
-> >> +	struct drm_info_node *node =3D s->private;
-> >> +	struct vop2 *vop2 =3D node->info_ent->data;
-> >> +	struct drm_minor *minor =3D node->minor;
-> >> +	struct drm_device *drm_dev =3D minor->dev;
-> >> +	const struct vop2_regs_dump *dump;
-> >> +	unsigned int i;
-> >> +
-> >> +	drm_modeset_lock_all(drm_dev);
-> >> +
-> >> +	regcache_drop_region(vop2->map, 0, vop2_regmap_config.max_register);
-> >> +
-> >> +	if (vop2->enable_count) {
-> >> +		for (i =3D 0; i < vop2->data->regs_dump_size; i++) {
-> >> +			dump =3D &vop2->data->regs_dump[i];
-> >> +			vop2_regs_print(vop2, s, dump, active_only);
-> >> +		}
-> >> +	} else {
-> >> +		seq_printf(s, "VOP disabled\n");
-> >> +	}
-> >> +	drm_modeset_unlock_all(drm_dev);
-> >> +
-> >
-> >nit: not needed empty line at the end of the function
->=20
-> Will fixed in V6.
->=20
-> >
-> >> +}
-> >> +
-> >
-> >> +static void vop2_debugfs_init(struct vop2 *vop2, struct drm_minor *mi=
-nor)
-> >> +{
-> >> +	struct dentry *root;
-> >> +	unsigned int i;
-> >> +
-> >> +	root =3D debugfs_create_dir("vop2", minor->debugfs_root);
-> >> +	if (!IS_ERR(root)) {
-> >> +		for (i =3D 0; i < ARRAY_SIZE(vop2_debugfs_list); i++)
-> >> +			vop2_debugfs_list[i].data =3D vop2;
-> >> +
-> >> +		drm_debugfs_create_files(vop2_debugfs_list,
-> >> +					 ARRAY_SIZE(vop2_debugfs_list),
-> >> +					 root, minor);
-> >> +	}
-> >> +}
-> >> +
-> >> +static int vop2_crtc_late_register(struct drm_crtc *crtc)
-> >> +{
-> >> +	struct vop2_video_port *vp =3D to_vop2_video_port(crtc);
-> >> +	struct vop2 *vop2 =3D vp->vop2;
-> >> +
-> >> +	if (drm_crtc_index(crtc) =3D=3D 0)
-> >> +		vop2_debugfs_init(vop2, crtc->dev->primary);
-> >> +
-> >> +	return 0;
-> >> +}
-> >
-> >I'm wondering about, shoudln't there be an unregister step too?
-> >I.e. the late_register callback says:
-> >"should be unregistered in the early_unregister callback" [0].
-> >
-> >And there exists drm_debugfs_remove_files(), though it doesn't
-> >seem t be used much - just by tegra.
-> >
-> >I haven't managed to find drm code handling that automatically though?
->=20
-> Did a little digging=EF=BC=9A
->  rockchip_drm_unbind --=E3=80=8Bdrm_dev_unregister(drm_dev)--=E3=80=8Bdrm=
-_debugfs_dev_fini
-> --=E3=80=8Bdebugfs_remove_recursive(dev->debugfs_root);
-> This will remove all the debugfs file under /dri/0-->display-subsystem  w=
-hen we
-> remove rockchipdrm when it build as module.
+It doesn't have to be a dtbo. Instead you might just patch the DT
+(Ideally via the https://github.com/U-Boot-EFI/EFI_DT_FIXUP_PROTOCOL).
+I think the bootloader already changes the DT (by fixing memory sizes,
+etc), so enabling or disabling ZAP & fixing several other bits and
+pieces sounds logical.
 
-thanks a lot for finding this. And yes, that covers all possible cases.
-
-> If it is builtin, whether we remove them seems to make no difference when=
- we
-> reboot or thutdown the system ?
-> I also searched for other platforms using similar late register hook, and=
- it seems they haven't remove debugfs  either.
-
-unbind can be called even if the driver is builtin - i.e. a driver
-does not need to be a module to be unbount/rebound again.
-
-But the drm_debugfs_dev_fini() function you found, solves that
-in all cases, so this patch can stay as it is - minus the empty line.
-
-Thanks a lot
-Heiko
-
-
+-- 
+With best wishes
+Dmitry
