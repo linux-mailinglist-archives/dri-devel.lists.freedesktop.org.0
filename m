@@ -2,171 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679749EDB22
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 00:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A4E9EDBC2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 00:35:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2243710EC6F;
-	Wed, 11 Dec 2024 23:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05AD10EC6D;
+	Wed, 11 Dec 2024 23:35:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KLVkfZRV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IXGMMKZo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5986810EC63;
- Wed, 11 Dec 2024 23:27:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733959676; x=1765495676;
- h=date:from:to:cc:subject:message-id:
- content-transfer-encoding:mime-version;
- bh=xZRupLihwCpuOfsxbPca2qZedXnCHPBPa/oehqwQoSw=;
- b=KLVkfZRV2rE70eQgwlmfPbh9tZZwe0CGTwW0WwvsdxTOumUhQGDDSbMS
- Ksa7PiFm6Gry+dfIOHMEwYXRE1G9ui0Kx5/itnA1BAI2fRCJ2l10vS9pH
- uv5AXQauZo4UojQy5jA9FUu7knzuK5QdQsIYtbYmmbcGZXCV9brmh9V6b
- XZLPDSTm8fT3NPtMql32HDZi+RzHKzP+XyFhvUK8DO+b88+rLS5pkOvX2
- OownTfBNRunTWxaeB29bQhPSwA9zc/nAIqYq0WL6K73aKPAIunizdgfCV
- tu+k6o6C7ELVYCJC+UHhZmDe066/oPEKKGSEnc1DWh0r4WsJcC7QyKPXa Q==;
-X-CSE-ConnectionGUID: RBoFrqqkT9SGAm3KP4Ta/w==
-X-CSE-MsgGUID: Z/ytMGNeTleYoEfoQDVIqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38293176"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="38293176"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2024 15:27:54 -0800
-X-CSE-ConnectionGUID: O7lfhaUbRSaU/XHwDgKB6g==
-X-CSE-MsgGUID: xHnJoC90SoaIfF3/CscX8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; d="scan'208";a="100839852"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 11 Dec 2024 15:27:53 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 11 Dec 2024 15:27:52 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 11 Dec 2024 15:27:52 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.49) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 11 Dec 2024 15:27:52 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qwe/sGhTXz/rlU+9O/odo05vTI4BKcSiCdZja6jV2+HlK/34aPudG8QRuyrYb8kwXJheZ64Z8PVpHFVARh53mFDXZwPXiF1dAQc81dVrRoa5McXZm1/V1vGVpVYjg04VjQAVVInW1g6642P0jWP9WYysdpYKsaFUeFka3vunJik7/WVF+wFQvWZEOYhKiBxSmJUcJcHHe3+HFPjBYDZmcOkxus9EPlhHjbDdYNFD5mAVU2KAzuH/VBj0bSt+10lxcDdjP8wlHtVAn9cuazCfgHGxDMBSbbaBp+uAog9iF5qMYx5vsJP/O4ycu/7mD7XX1ZX4Tfd0RHqzYMv8J/vnHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m5Io0PYnRI2kpZxpflvhLyAUHYmFoWm4vSVXA+ARcPU=;
- b=vvReFHGquHUqsad7JHVSAeK9wh/D/7sYFXPpNF2VDQ2cl1JkiXqWGGlX5SnlgVP8pbSqjeFuJPQ4PpH36hpAkX0BCsRQ8Lm7SuB64Igz3vY1UUXmWEWCRXn6JAhGobkbs2ILp8hDuZ7eoNCqExGM0sQtdfk74hYD1b8JkurWNiIx58eNhij+4o6jKIygF70TIpzQFvMEvnUryYwLDbN0i8TtCXORbGa5//gNhplnDAMmHT4Wpwfg1oYPn5IYIeis4K2ZSZJcppSTnnk2Vz3oitzD8gY0B7YJGcV/jtJSI6x+4wZ9GlFo3s2iFXnQSXY/pxUhk8diFUqebS0S2wpN6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11)
- by SA2PR11MB4842.namprd11.prod.outlook.com (2603:10b6:806:f8::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.15; Wed, 11 Dec
- 2024 23:27:08 +0000
-Received: from SN7PR11MB8282.namprd11.prod.outlook.com
- ([fe80::f9d9:8daa:178b:3e72]) by SN7PR11MB8282.namprd11.prod.outlook.com
- ([fe80::f9d9:8daa:178b:3e72%5]) with mapi id 15.20.8230.016; Wed, 11 Dec 2024
- 23:27:08 +0000
-Date: Wed, 11 Dec 2024 18:27:03 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
- De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <dim-tools@lists.freedesktop.org>
-Subject: [PULL] drm-xe-next
-Message-ID: <Z1ofx-fExLQKV_e4@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0239.namprd03.prod.outlook.com
- (2603:10b6:303:b9::34) To SN7PR11MB8282.namprd11.prod.outlook.com
- (2603:10b6:806:269::11)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C911D10EC6D
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 23:35:08 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-53e3a227b82so11204e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 15:35:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733960107; x=1734564907; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pFtQKTW3YPnqV5d+9muC780diDU5FOjM2EKSyQY20T8=;
+ b=IXGMMKZonqiRAc2UT0lGlNtuYl+cWwc+dAPWwdRpalghFqzYHHUv2p6tvkpI+C7z1r
+ 72YYF9vadfWzWE8CUolltblZ8xJnQuS5+pAavOKMJaxWac7rPna5FutAsM1/3yR9vP9y
+ O/Ny6kg/Z1mdHTWhLFEQJuOhu/BpPT5vgRFdYtfI7PvKAzdCPZWSFeXgr8htzRrwp0R5
+ o3p2StEYHLlv4FYAzOBBkSdv5IRVU+I9Jvv5J1rpYIM+16MQYJbHRNZkB6UTdwVxHgiS
+ uFOao2fisJ6I5S6IVpns+qgrpXYjglxY6tMx7Es47iXdZWOU2p5JBRCPNwzS1WJovWRi
+ gJGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733960107; x=1734564907;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pFtQKTW3YPnqV5d+9muC780diDU5FOjM2EKSyQY20T8=;
+ b=MVs3q4yCQYo7PDKxEN/o6JjU0qhXHCKXQ+VzYzf/tAFY4gEUW8Y33YuL3m+g6T21xM
+ UvvxPJ2Wmf7M0mTicR4UvC53oahoAUCRQfJ7WJqjXNbDq/OiLdwnjUYADdth73SwsQok
+ pOX56zAmYAxdTBG8re1XPTHZBQX4YcQ0e3z/Y9hzQvT9QWMZvwW412RPZNvwRmSx4e+U
+ 2U1WE+wb3J1uqfJ2yTt5QzaGYZxSQx/FT1FlmbNmknJr3KxC/IxvG3XG9pVL2chdWLDH
+ ik5U9fVBsCA9KBfEchrt8BYDhnlxl+ul7noEKOtTmi5uUiyDBYzgV34cdAuVYBmNzExb
+ oXxw==
+X-Gm-Message-State: AOJu0Yx39eeiPNQ//VOurm9lJNYv9TeylskZgLqjOqP1JuCc80sBSIn7
+ mcpgWNh/A8xA7Ojhw6VaNxomKz59KOZDP43btqwvjN1dgz583K66yXnsgvfmJhI=
+X-Gm-Gg: ASbGncsj/RVAV4/eLp1lsBRrLtFr7jdskQmblVktH8Qg6lKFQOTgSxLpdFZF9csHOpf
+ b7+yb4G0aRAOAJjFqLHTMJ+Wh1c7WNS6Fj73+TKbNhcXUL5kdRoc8JctdAu/FaNOBged4lvssAp
+ 6xMoGzS7Dwgg84EWKfN1LGKYa/AITJQOPO7fj1gBGHuiOqtFe85Tqaf6VN79tCNaT+zC6+6Sm6e
+ +aXwpZMipi38KJYBSgnP4v7/c4E84HGkyrAlvNPN6dpvqRd7gqZvwxOokSDjxloOwYi7m8gXRP0
+ wr5l71IX30FmvlYB6r3hxRnqchuXPyzshw==
+X-Google-Smtp-Source: AGHT+IGlTA+oXdzKmKo1fL1i5eafQy944QVMV5elKu78M9WXnKwDJM61Keezi4TE5ItnRKpRET3+oQ==
+X-Received: by 2002:a05:6512:110d:b0:540:1be6:f16a with SMTP id
+ 2adb3069b0e04-5402ef4e18emr544019e87.0.1733960106777; 
+ Wed, 11 Dec 2024 15:35:06 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-53e3a1ce70bsm1616656e87.66.2024.12.11.15.35.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 15:35:05 -0800 (PST)
+Date: Thu, 12 Dec 2024 01:35:02 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org, kishon@kernel.org, 
+ aisheng.dong@nxp.com, agx@sigxcpu.org, francesco@dolcini.it, frank.li@nxp.com, 
+ u.kleine-koenig@baylibre.com
+Subject: Re: [PATCH v6 12/19] drm/imx: Add i.MX8qxp Display Controller KMS
+Message-ID: <q6pdop6ucowtoxxr66czq7yooujyvp6qs5vcg6gpmi3q4rs4l3@szyqt5pxteoz>
+References: <20241209033923.3009629-1-victor.liu@nxp.com>
+ <20241209033923.3009629-13-victor.liu@nxp.com>
+ <3j4fguv4oienfaj4fghpiqpmnq3aczu4azhdo5jzvywc5mawm5@hh33p3dhf6xa>
+ <db4d9d4e-855f-4647-9b93-ccc5ec0202b3@nxp.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|SA2PR11MB4842:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a9f77ca-03a0-4ae7-cdd2-08dd1a3b547e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?AowFHDfxYnWC92IwyXyTPhmw6yfS/wIeJu2nZUDEu6+fEb3Uvg4vFhBDnx?=
- =?iso-8859-1?Q?DsK3DfI9+dznKoxej97Ak5SWh8Vn9FsNK+Qnpeyh3Msrbqzy7FDlLEIlCb?=
- =?iso-8859-1?Q?2V0+2t1E2OfLm5OxaLECXW285Ub17xdTX43yND6z/7UzRCnh3G0AZxcSxc?=
- =?iso-8859-1?Q?NGNH965FZFeFnJT0G9jBPKvK+vHxTEWSbOyMf7Mz8Y3JoxCObWkQynsxuw?=
- =?iso-8859-1?Q?FJHyn9huxPp2E+DUd8bhh577DvSs9xIVgxxrIGQZzlEYH0t+uSZZxs3WSA?=
- =?iso-8859-1?Q?tYMUI+FLJBan/8jgVI6p3TB7CINgch4Sf0AOEvFSZdgFQXRmKvA+ISNh5R?=
- =?iso-8859-1?Q?lD1KYU6Msg3eSPsFseiDDqaj3frP1sf5HRNAkguhzc/EWn2NI5tIGuMtPj?=
- =?iso-8859-1?Q?v4QNuPzGZ4S0LP3mzT7ryoTWEX9L+xlOtb3KmitZhw+IBcxKHba1CtKB4l?=
- =?iso-8859-1?Q?blpUj2kYCCP35k0xzz4CI3s0z3sAY4bV2RHBQV2hLU/Nq73IRqD2kZzswp?=
- =?iso-8859-1?Q?S9nw6KMwjIwTKZASiL7VOMI4HXGygDWKSWBHbSclemrYLk9sZVXayiI/sz?=
- =?iso-8859-1?Q?nAeRX1wOSzme7ZLoMBt/aDRTi9BeCYU7S7LI4ck2w+wfI34sxuc6If8aEC?=
- =?iso-8859-1?Q?dCDh6n5U7t4s5zVedhFSEr+kCnKhntKd5mKIQW/008uyqev16F+HfsDfyb?=
- =?iso-8859-1?Q?Tl+2kxJnGqPriWQ8iTfp6akekq86cMZvSfi1KxQa/a2S1YmiEbc944HAcd?=
- =?iso-8859-1?Q?RFfLEAsXPe5No7CtjJoDDqJ2t46u7dBUEZoxGX5SLIH27qVwrq6n7j5Pt+?=
- =?iso-8859-1?Q?GDm4FyAYzZT95lwsrwyoV2D8gqdY3kNznttVlXMFBuoj11mAZKM9h+xPll?=
- =?iso-8859-1?Q?k2289pJ87b2rqQxnhCprFgap1lzaSfrxPOHo8N+sSFIK4ek2DaFfmFsuX6?=
- =?iso-8859-1?Q?5Lre9w3IgS36H/0RXxTJYeTt6utHytiQRyRBax39W96tumFKAf1VA7hA7W?=
- =?iso-8859-1?Q?tOwkBnTEDw3Q5T2Wcf2fzIJKloo9w2ukYicLD6qOYfR5a88JGKUCkEuu9I?=
- =?iso-8859-1?Q?5YoNMd+8YVS1QoxO6+fh5VtB6h4MCsMYLoHYaQ0re2/qcvhN/2bn6BTy6x?=
- =?iso-8859-1?Q?Zoeg0o5J5FuueGfk8eqEgIYbqcJ0E0uHgxGWmSBP0jH1StmHAoKHyVF4QY?=
- =?iso-8859-1?Q?UKgB9FxTclb1mSpVr3vG3By8aAoh6SO/femDK72bdaljOLVa/GyrbtRWC7?=
- =?iso-8859-1?Q?4I6Y1zMYJGbcoDIYy/5lQr6Ty48Lqi5ae5hL5gb90qe2t1A8pz226HCd9K?=
- =?iso-8859-1?Q?YoRCuvyVhUN9f6n7yGg8T+5/eWMNmPuQO1/EnQ5SyzbhiTw=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR11MB8282.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?JornahECFs1pjMo9bwqWb4dlyQG1Q95qiK1qdxO5xEGSZaiuiwuM5+T5tZ?=
- =?iso-8859-1?Q?zHhWBVYrMslVYDhjaKia+f6nzIOZ0N9HrObKy7SxMdX92QuBpLic+PDgIC?=
- =?iso-8859-1?Q?b0bKPK1/kVdc6m1WSsrphVA4JCKSWkq+T9KvYPAhIYp0aBXhyA+uX8Dp9e?=
- =?iso-8859-1?Q?6jIEfpF6yVLn6aOZakq90RqppyRkKvEdCoUm/mFbc4gKCtE+9FTrbpkLKX?=
- =?iso-8859-1?Q?SEzxPxGPUlsL3Tlg9SLYw9exXcuH3q8K0KsElc+0YPggIGGtfnZGj4iIPF?=
- =?iso-8859-1?Q?zcW9+JbCipoIf1VXD6Tn7bDKEGA80Xx7Qe9ZJHzitWDKPQbWqGlW5eqwEQ?=
- =?iso-8859-1?Q?S4zoz8LwYUdyqH7ZnNZhQpChHnkvg7MQTA6p2hjLTVdjHuOk1S5m/6gtlG?=
- =?iso-8859-1?Q?J/s15uizeEQY3HkAnYK1uthaqdl+GauS48bAZxhbyjvzKcrZZ/MEKgGrUj?=
- =?iso-8859-1?Q?aueReflyuX6NLVi5nT2KcAnL8OCdCigrraTow/8Krwti7uYJ8qisXfZsF6?=
- =?iso-8859-1?Q?pMpaidXO3kENMyKjs1yZ5T0f7pJ8YtyXpxceiMN52RI5TMCSlo2f6A3Q2+?=
- =?iso-8859-1?Q?LvUND/cx7kdLRpopw1ZhGFMMXwk1DyIyScK/SYroL/Hy3zayath4HkKeDL?=
- =?iso-8859-1?Q?Ha/q174A8S5jxK4ijktnpsb7YwvTLwhLyQvaz3TfKbHSebpWUQHU/fwUpk?=
- =?iso-8859-1?Q?NkyLfzj4yg6e3OQ1jYmHeR2ow5sbaUaWBqc3ugPdD+jp1bP+jhj2M2gPF1?=
- =?iso-8859-1?Q?QuCtrmKdJKl4uMtC5Noj+4PYQbCJuyWNTy1JZaD/oM+nfuwNm4IZEl6dX2?=
- =?iso-8859-1?Q?v/02edkVCrKAA5KI2NLxYbdH6zTOcp60GYfYjiElAK/LmBO+nLCeoivf3w?=
- =?iso-8859-1?Q?suoHeFmKY1+wmXIMeLTR/7f1qLUk6yhTQFgYJjb9TPcSjuFlc8MbHDiM54?=
- =?iso-8859-1?Q?d3ydrah9r5yYEjVvgSP22+iPjatiSsma7gXw2HhsFuMVHl/BIfmkm2srSx?=
- =?iso-8859-1?Q?NPqGt44UJTplHTtyfcf5Gu8HcsZp81Ap6Hbx55mwsATflvmjAUwZ6xqHOH?=
- =?iso-8859-1?Q?1IkNKzdCyIvzgn+9FcB7v41NKMKDXwzczg0p+vwhxtGI3SRzKUEjptXgSC?=
- =?iso-8859-1?Q?59rX5Vhnyt8KA7CigCu9fntCcD9kLnI7Wu/UDwvOPwuTlaOpVxOKzTGJhh?=
- =?iso-8859-1?Q?IBPIE+PyyGcn8hn/VqwOwJc72wqb085ZJMidZ/Y1C7LKuzD0fdyDJ6yE78?=
- =?iso-8859-1?Q?SQ5LyQZDx2X5O+xVbMQXyLcOEQVm8YLecUbgEksw1grvQikOCnV6tG3SS8?=
- =?iso-8859-1?Q?iOedvcaeKB6AC1KPwzM1VceglhLdVgvYsOSpHG7p6qn0rFMc9/poujPAdO?=
- =?iso-8859-1?Q?xqGF6h4nIjXgs3+HR9yn53V5l3fRTD/5NIyCebvTtqog77nfFiKv4NUJx3?=
- =?iso-8859-1?Q?Rn3J9Bvdr0zSrD07yXy0kmkDDHtf3rX/HNwyJVnPJhMAro44jEMuG2uW/S?=
- =?iso-8859-1?Q?xmSHXD+T/65Nefp/HdfIy7A8DPo+9ggh6cxJbpHCtWO2e4xENe6H7WfVdQ?=
- =?iso-8859-1?Q?RgFrpEdPwvWOwzrwGE5i9kB0XE3lFoy9awzydaY08RS+BQ2TlKGPUtrnHx?=
- =?iso-8859-1?Q?usugbe9AXpPE/0wfGhpy43XkL2zYTYWjijjDABIznZrQdshXZpTw3/cw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a9f77ca-03a0-4ae7-cdd2-08dd1a3b547e
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8282.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2024 23:27:08.1767 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YDd05/K7+gp8shkIPmx+jbF0lh+NprwNPGkBClqBgOn2LjFqH4GwKQH1JKl4EGvcTL6VAEmq41Pv8OWKg1hgEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4842
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <db4d9d4e-855f-4647-9b93-ccc5ec0202b3@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,432 +98,1601 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Sima,
+On Wed, Dec 11, 2024 at 03:43:20PM +0800, Liu Ying wrote:
+> On 12/10/2024, Dmitry Baryshkov wrote:
+> > On Mon, Dec 09, 2024 at 11:39:16AM +0800, Liu Ying wrote:
+> >> i.MX8qxp Display Controller(DC) is comprised of three main components that
+> >> include a blit engine for 2D graphics accelerations, display controller for
+> >> display output processing, as well as a command sequencer.  Add kernel
+> >> mode setting support for the display controller part with two CRTCs and
+> >> two primary planes(backed by FetchLayer and FetchWarp respectively).  The
+> >> registers of the display controller are accessed without command sequencer
+> >> involved, instead just by using CPU.  The command sequencer is supposed to
+> >> be used by the blit engine.
+> >>
+> >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >> ---
+> >> v6:
+> >> * No change.
+> >>
+> >> v5:
+> >> * Replace .remove_new with .remove in dc-drv.c. (Uwe)
+> >>
+> >> v4:
+> >> * Move dc_fg_displaymode(), dc_fg_panic_displaymode() and dc_lb_blendcontrol()
+> >>   function calls from KMS routine to initialization stage. (Dmitry)
+> >> * Drop dc-crtc.h and dc-plane.h header files and move relevant defines to
+> >>   appropriate .h header files or .c source files. (Dmitry)
+> >> * Drop futile "else" clause from dc_crtc_common_irq_handler(). (Dmitry)
+> >> * Drop dc_drm->pe_rpm_count. (Dmitry)
+> >> * Drop DC_{CRTCS,ENCODERS,PRIMARYS} macros and only use DC_DISPLAYS. (Dmitry)
+> >> * Drop drmm_kcalloc() function call to allocate an array for storing IRQs.
+> >>   Instead, put it in struct dc_crtc.  (Dmitry)
+> >> * Call devm_request_irq() to request IRQs, instead of using drmm action.
+> >>   (Dmitry)
+> >> * Call devm_drm_of_get_bridge() to find the next bridge. (Dmitry)
+> >> * Select DRM_CLIENT_SELECTION due to rebase.
+> >> * Select the missing DRM_DISPLAY_HELPER and DRM_BRIDGE_CONNECTOR.
+> >> * Use DRM_FBDEV_DMA_DRIVER_OPS due to rebase.
+> >> * Replace drm_fbdev_dma_setup() with drm_client_setup_with_fourcc() due to
+> >>   rebase.
+> >> * Replace drmm_add_action_or_reset() with devm_add_action_or_reset() to
+> >>   register dc_drm_component_unbind_all() action.
+> >> * Request interrupts in dc_crtc_post_init() after encoder initialization to
+> >>   make sure next bridge is found first.
+> >>
+> >> v3:
+> >> * No change.
+> >>
+> >> v2:
+> >> * Find next bridge from TCon's port.
+> >> * Drop drm/drm_module.h include from dc-drv.c.
+> >>
+> >>  drivers/gpu/drm/imx/dc/Kconfig    |   5 +
+> >>  drivers/gpu/drm/imx/dc/Makefile   |   5 +-
+> >>  drivers/gpu/drm/imx/dc/dc-crtc.c  | 558 ++++++++++++++++++++++++++++++
+> >>  drivers/gpu/drm/imx/dc/dc-de.h    |   3 +
+> >>  drivers/gpu/drm/imx/dc/dc-drv.c   | 244 +++++++++++++
+> >>  drivers/gpu/drm/imx/dc/dc-drv.h   |  19 +
+> >>  drivers/gpu/drm/imx/dc/dc-kms.c   | 143 ++++++++
+> >>  drivers/gpu/drm/imx/dc/dc-kms.h   |  58 ++++
+> >>  drivers/gpu/drm/imx/dc/dc-plane.c | 241 +++++++++++++
+> >>  9 files changed, 1274 insertions(+), 2 deletions(-)
+> >>  create mode 100644 drivers/gpu/drm/imx/dc/dc-crtc.c
+> >>  create mode 100644 drivers/gpu/drm/imx/dc/dc-kms.c
+> >>  create mode 100644 drivers/gpu/drm/imx/dc/dc-kms.h
+> >>  create mode 100644 drivers/gpu/drm/imx/dc/dc-plane.c
+> >>
+> >> diff --git a/drivers/gpu/drm/imx/dc/Kconfig b/drivers/gpu/drm/imx/dc/Kconfig
+> >> index 1fc84c7475de..415993207f2e 100644
+> >> --- a/drivers/gpu/drm/imx/dc/Kconfig
+> >> +++ b/drivers/gpu/drm/imx/dc/Kconfig
+> >> @@ -1,6 +1,11 @@
+> >>  config DRM_IMX8_DC
+> >>  	tristate "Freescale i.MX8 Display Controller Graphics"
+> >>  	depends on DRM && COMMON_CLK && OF && (ARCH_MXC || COMPILE_TEST)
+> >> +	select DRM_CLIENT_SELECTION
+> >> +	select DRM_GEM_DMA_HELPER
+> >> +	select DRM_KMS_HELPER
+> >> +	select DRM_DISPLAY_HELPER
+> >> +	select DRM_BRIDGE_CONNECTOR
+> >>  	select GENERIC_IRQ_CHIP
+> >>  	select REGMAP
+> >>  	select REGMAP_MMIO
+> >> diff --git a/drivers/gpu/drm/imx/dc/Makefile b/drivers/gpu/drm/imx/dc/Makefile
+> >> index 1ce3e8a8db22..b9d33c074984 100644
+> >> --- a/drivers/gpu/drm/imx/dc/Makefile
+> >> +++ b/drivers/gpu/drm/imx/dc/Makefile
+> >> @@ -1,6 +1,7 @@
+> >>  # SPDX-License-Identifier: GPL-2.0
+> >>  
+> >> -imx8-dc-drm-objs := dc-cf.o dc-de.o dc-drv.o dc-ed.o dc-fg.o dc-fl.o dc-fu.o \
+> >> -		    dc-fw.o dc-ic.o dc-lb.o dc-pe.o dc-tc.o
+> >> +imx8-dc-drm-objs := dc-cf.o dc-crtc.o dc-de.o dc-drv.o dc-ed.o dc-fg.o dc-fl.o \
+> >> +		    dc-fu.o dc-fw.o dc-ic.o dc-kms.o dc-lb.o dc-pe.o \
+> >> +		    dc-plane.o dc-tc.o
+> >>  
+> >>  obj-$(CONFIG_DRM_IMX8_DC) += imx8-dc-drm.o
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-crtc.c b/drivers/gpu/drm/imx/dc/dc-crtc.c
+> >> new file mode 100644
+> >> index 000000000000..fd6daa1807d8
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-crtc.c
+> >> @@ -0,0 +1,558 @@
+> >> +// SPDX-License-Identifier: GPL-2.0+
+> >> +/*
+> >> + * Copyright 2024 NXP
+> >> + */
+> >> +
+> >> +#include <linux/completion.h>
+> >> +#include <linux/container_of.h>
+> >> +#include <linux/interrupt.h>
+> >> +#include <linux/irqreturn.h>
+> >> +#include <linux/pm_runtime.h>
+> >> +#include <linux/spinlock.h>
+> >> +
+> >> +#include <drm/drm_atomic.h>
+> >> +#include <drm/drm_atomic_helper.h>
+> >> +#include <drm/drm_atomic_state_helper.h>
+> >> +#include <drm/drm_crtc.h>
+> >> +#include <drm/drm_device.h>
+> >> +#include <drm/drm_drv.h>
+> >> +#include <drm/drm_modes.h>
+> >> +#include <drm/drm_modeset_helper_vtables.h>
+> >> +#include <drm/drm_plane.h>
+> >> +#include <drm/drm_print.h>
+> >> +#include <drm/drm_vblank.h>
+> >> +
+> >> +#include "dc-de.h"
+> >> +#include "dc-drv.h"
+> >> +#include "dc-kms.h"
+> >> +#include "dc-pe.h"
+> >> +
+> >> +#define dc_crtc_dbg(crtc, fmt, ...)					\
+> >> +do {									\
+> >> +	typeof(crtc) _crtc = (crtc);					\
+> > 
+> > Use exact type instead of typeof.
+> 
+> Will do.
+> 
+> > 
+> >> +	drm_dbg_kms(_crtc->dev, "[CRTC:%d:%s] " fmt,			\
+> >> +		    _crtc->base.id, _crtc->name, ##__VA_ARGS__);	\
+> >> +} while (0)
+> >> +
+> >> +#define dc_crtc_err(crtc, fmt, ...)					\
+> >> +do {									\
+> >> +	typeof(crtc) _crtc = (crtc);					\
+> >> +	drm_err(_crtc->dev, "[CRTC:%d:%s] " fmt,			\
+> >> +		_crtc->base.id, _crtc->name, ##__VA_ARGS__);		\
+> >> +} while (0)
+> >> +
+> >> +#define DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(c)				\
+> >> +do {									\
+> >> +	unsigned long ret;						\
+> >> +	ret = wait_for_completion_timeout(&dc_crtc->c, HZ);		\
+> >> +	if (ret == 0)							\
+> >> +		dc_crtc_err(crtc, "%s: wait for " #c " timeout\n",	\
+> >> +							__func__);	\
+> >> +} while (0)
+> >> +
+> >> +#define DC_CRTC_CHECK_FRAMEGEN_FIFO(fg)					\
+> >> +do {									\
+> >> +	typeof(fg) _fg = (fg);						\
+> >> +	if (dc_fg_secondary_requests_to_read_empty_fifo(_fg)) {		\
+> >> +		dc_fg_secondary_clear_channel_status(_fg);		\
+> >> +		dc_crtc_err(crtc, "%s: FrameGen FIFO empty\n",		\
+> >> +							__func__);	\
+> >> +	}								\
+> >> +} while (0)
+> >> +
+> >> +#define DC_CRTC_WAIT_FOR_FRAMEGEN_SECONDARY_SYNCUP(fg)			\
+> >> +do {									\
+> >> +	if (dc_fg_wait_for_secondary_syncup(fg))			\
+> >> +		dc_crtc_err(crtc,					\
+> >> +			"%s: FrameGen secondary channel isn't syncup\n",\
+> >> +							__func__);	\
+> >> +} while (0)
+> >> +
+> >> +static inline struct dc_crtc *to_dc_crtc(struct drm_crtc *crtc)
+> >> +{
+> >> +	return container_of(crtc, struct dc_crtc, base);
+> >> +}
+> >> +
+> >> +static u32 dc_crtc_get_vblank_counter(struct drm_crtc *crtc)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +
+> >> +	return dc_fg_get_frame_index(dc_crtc->fg);
+> >> +}
+> >> +
+> >> +static int dc_crtc_enable_vblank(struct drm_crtc *crtc)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +
+> >> +	enable_irq(dc_crtc->irq_dec_framecomplete);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static void dc_crtc_disable_vblank(struct drm_crtc *crtc)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +
+> >> +	disable_irq_nosync(dc_crtc->irq_dec_framecomplete);
+> > 
+> > Why is it _nosync?
+> 
+> Because disable_irq() can only be called from preemptible code according to
+> it's kerneldoc. If I use disable_irq() here, I get this with
+> CONFIG_DEBUG_ATOMIC_SLEEP enabled:
 
-Here goes our first Xe PR towards 6.14.
+Please add a one-line comment, like "nosync because of the atomic
+context"
 
-It's important to highlight that in couple backmerges we had to
-manually solve some silent conflicts:
+> 
+> [   50.607503] BUG: sleeping function called from invalid context at kernel/irq/manage.c:738
+> [   50.615691] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/0
+> [   50.623527] preempt_count: 10003, expected: 0
+> [   50.627888] RCU nest depth: 0, expected: 0
+> [   50.631993] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.13.0-rc2-next-20241209-00026-g800cb5b7df74 #1407
+> [   50.642092] Hardware name: Freescale i.MX8QXP MEK (DT)
+> [   50.647237] Call trace:
+> [   50.649687]  show_stack+0x18/0x24 (C)
+> [   50.653369]  dump_stack_lvl+0x80/0xb4
+> [   50.657043]  dump_stack+0x18/0x24
+> [   50.660370]  __might_resched+0x114/0x170
+> [   50.664306]  __might_sleep+0x48/0x98
+> [   50.667894]  disable_irq+0x24/0x60
+> [   50.671308]  dc_crtc_disable_vblank+0x14/0x20 [imx8_dc_drm]
+> [   50.676912]  drm_vblank_disable_and_save+0xc0/0x108 [drm]
+> [   50.682533]  vblank_disable_fn+0x78/0x9c [drm]
+> [   50.687146]  drm_handle_vblank+0x238/0x2e8 [drm]
+> [   50.691932]  drm_crtc_handle_vblank+0x1c/0x28 [drm]
+> [   50.696980]  dc_crtc_irq_handler_dec_framecomplete+0x1c/0x6c [imx8_dc_drm]
+> [   50.703886]  __handle_irq_event_percpu+0x60/0x14c
+> [   50.708604]  handle_irq_event+0x4c/0xac
+> [   50.712443]  handle_level_irq+0xc0/0x1b0
+> [   50.716379]  generic_handle_irq+0x34/0x4c
+> [   50.720392]  dc_ic_irq_handler+0x128/0x160 [imx8_dc_drm]
+> [   50.725727]  generic_handle_domain_irq+0x2c/0x44
+> [   50.730357]  imx_irqsteer_irq_handler+0xc0/0x1a0
+> [   50.734987]  generic_handle_domain_irq+0x2c/0x44
+> [   50.739609]  gic_handle_irq+0x4c/0x114
+> [   50.743362]  call_on_irq_stack+0x24/0x4c
+> [   50.747298]  do_interrupt_handler+0x80/0x84
+> [   50.751494]  el1_interrupt+0x34/0x68
+> [   50.755082]  el1h_64_irq_handler+0x18/0x24
+> [   50.759191]  el1h_64_irq+0x6c/0x70
+> [   50.762597]  default_idle_call+0x28/0x3c (P)
+> [   50.766879]  default_idle_call+0x24/0x3c (L)
+> [   50.771163]  do_idle+0x200/0x25c
+> [   50.774403]  cpu_startup_entry+0x34/0x3c
+> [   50.778338]  kernel_init+0x0/0x1d8
+> [   50.781752]  start_kernel+0x5c4/0x70c
+> [   50.785427]  __primary_switched+0x88/0x90
+> 
+> > 
+> >> +}
+> >> +
+> >> +static irqreturn_t
+> >> +dc_crtc_dec_framecomplete_irq_handler(int irq, void *dev_id)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = dev_id;
+> >> +	struct drm_crtc *crtc = &dc_crtc->base;
+> >> +	unsigned long flags;
+> >> +
+> >> +	drm_crtc_handle_vblank(crtc);
+> >> +
+> >> +	spin_lock_irqsave(&crtc->dev->event_lock, flags);
+> >> +	if (dc_crtc->event) {
+> >> +		drm_crtc_send_vblank_event(crtc, dc_crtc->event);
+> >> +		dc_crtc->event = NULL;
+> >> +		drm_crtc_vblank_put(crtc);
+> >> +	}
+> >> +	spin_unlock_irqrestore(&crtc->dev->event_lock, flags);
+> >> +
+> >> +	return IRQ_HANDLED;
+> >> +}
+> >> +
+> >> +static irqreturn_t dc_crtc_common_irq_handler(int irq, void *dev_id)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = dev_id;
+> >> +
+> >> +	if (irq == dc_crtc->irq_dec_seqcomplete)
+> >> +		complete(&dc_crtc->dec_seqcomplete_done);
+> >> +	else if (irq == dc_crtc->irq_dec_shdld)
+> >> +		complete(&dc_crtc->dec_shdld_done);
+> >> +	else if (irq == dc_crtc->irq_ed_cont_shdld)
+> >> +		complete(&dc_crtc->ed_cont_shdld_done);
+> >> +	else if (irq == dc_crtc->irq_ed_safe_shdld)
+> >> +		complete(&dc_crtc->ed_safe_shdld_done);
+> > 
+> > Is there any reason to have a single multiplex handler instead of having
+> > 4 separate handlers, each doing one simple thing?
+> 
+> Just thought that one irq handler is feasible to implement the common
+> handling logic. It's also ok to use 4 separate handlers with a little
+> performance improvement. I may change to use 4 separate handlers by
+> introducing a DEFINE_DC_CRTC_IRQ_HANDLER() marco.
 
-1. Namespace conflict issue caused by
-commit cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
-and commit 0c45e76fcc62 ("drm/xe/vsec: Support BMG devices"):
+Just define them one by one, there is no need for a macro.
 
-- MODULE_IMPORT_NS(INTEL_VSEC);
-+ MODULE_IMPORT_NS("INTEL_VSEC");
+> 
+> > 
+> >> +
+> >> +	return IRQ_HANDLED;
+> >> +}
+> >> +
+> >> +static const struct drm_crtc_funcs dc_crtc_funcs = {
+> >> +	.reset			= drm_atomic_helper_crtc_reset,
+> >> +	.destroy		= drm_crtc_cleanup,
+> >> +	.set_config		= drm_atomic_helper_set_config,
+> >> +	.page_flip		= drm_atomic_helper_page_flip,
+> >> +	.atomic_duplicate_state	= drm_atomic_helper_crtc_duplicate_state,
+> >> +	.atomic_destroy_state	= drm_atomic_helper_crtc_destroy_state,
+> >> +	.get_vblank_counter	= dc_crtc_get_vblank_counter,
+> >> +	.enable_vblank		= dc_crtc_enable_vblank,
+> >> +	.disable_vblank		= dc_crtc_disable_vblank,
+> >> +	.get_vblank_timestamp	= drm_crtc_vblank_helper_get_vblank_timestamp,
+> >> +};
+> >> +
+> >> +static void dc_crtc_queue_state_event(struct drm_crtc_state *crtc_state)
+> >> +{
+> >> +	struct drm_crtc *crtc = crtc_state->crtc;
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +
+> >> +	spin_lock_irq(&crtc->dev->event_lock);
+> >> +	if (crtc_state->event) {
+> >> +		WARN_ON(drm_crtc_vblank_get(crtc));
+> >> +		WARN_ON(dc_crtc->event);
+> >> +		dc_crtc->event = crtc_state->event;
+> >> +		crtc_state->event = NULL;
+> >> +	}
+> >> +	spin_unlock_irq(&crtc->dev->event_lock);
+> >> +}
+> >> +
+> >> +static enum drm_mode_status
+> >> +dc_crtc_check_clock(struct dc_crtc *dc_crtc, int clk_khz)
+> >> +{
+> >> +	return dc_fg_check_clock(dc_crtc->fg, clk_khz);
+> >> +}
+> > 
+> > inline
+> 
+> Will do.
+> 
+> > 
+> >> +
+> >> +static enum drm_mode_status
+> >> +dc_crtc_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode *mode)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	enum drm_mode_status status;
+> >> +
+> >> +	status = dc_crtc_check_clock(dc_crtc, mode->clock);
+> >> +	if (status != MODE_OK)
+> >> +		return status;
+> >> +
+> >> +	if (mode->crtc_clock > DC_FRAMEGEN_MAX_CLOCK_KHZ)
+> >> +		return MODE_CLOCK_HIGH;
+> >> +
+> >> +	return MODE_OK;
+> >> +}
+> >> +
+> >> +static int
+> >> +dc_crtc_atomic_check(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_crtc_state *new_crtc_state =
+> >> +				drm_atomic_get_new_crtc_state(state, crtc);
+> >> +	struct drm_display_mode *adj = &new_crtc_state->adjusted_mode;
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	enum drm_mode_status status;
+> >> +
+> >> +	status = dc_crtc_check_clock(dc_crtc, adj->clock);
+> >> +	if (status != MODE_OK)
+> >> +		return -EINVAL;
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static void
+> >> +dc_crtc_atomic_begin(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_crtc_state *new_crtc_state =
+> >> +				drm_atomic_get_new_crtc_state(state, crtc);
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	int idx, ret;
+> >> +
+> >> +	if (!drm_atomic_crtc_needs_modeset(new_crtc_state) ||
+> >> +	    !new_crtc_state->active)
+> >> +		return;
+> >> +
+> >> +	if (!drm_dev_enter(crtc->dev, &idx))
+> >> +		return;
+> >> +
+> >> +	/* request pixel engine power-on when CRTC starts to be active */
+> >> +	ret = pm_runtime_resume_and_get(dc_crtc->pe->dev);
+> >> +	if (ret)
+> >> +		dc_crtc_err(crtc, "failed to get DC pixel engine RPM: %d\n",
+> >> +			    ret);
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +}
+> >> +
+> >> +static void
+> >> +dc_crtc_atomic_flush(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_crtc_state *old_crtc_state =
+> >> +				drm_atomic_get_old_crtc_state(state, crtc);
+> >> +	struct drm_crtc_state *new_crtc_state =
+> >> +				drm_atomic_get_new_crtc_state(state, crtc);
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	int idx;
+> >> +
+> >> +	if (drm_atomic_crtc_needs_modeset(new_crtc_state) ||
+> >> +	    (!old_crtc_state->active && !new_crtc_state->active))
+> >> +		return;
+> >> +
+> >> +	if (!drm_dev_enter(crtc->dev, &idx))
+> >> +		goto out;
+> >> +
+> >> +	enable_irq(dc_crtc->irq_ed_cont_shdld);
+> >> +
+> >> +	/* flush plane update out to display */
+> >> +	dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
+> >> +
+> >> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdld_done);
+> >> +
+> >> +	disable_irq(dc_crtc->irq_ed_cont_shdld);
+> >> +
+> >> +	DC_CRTC_CHECK_FRAMEGEN_FIFO(dc_crtc->fg);
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +
+> >> +out:
+> >> +	dc_crtc_queue_state_event(new_crtc_state);
+> >> +}
+> >> +
+> >> +static void
+> >> +dc_crtc_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_crtc_state *new_crtc_state =
+> >> +				drm_atomic_get_new_crtc_state(state, crtc);
+> >> +	struct drm_display_mode *adj = &new_crtc_state->adjusted_mode;
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	enum dc_link_id cf_link;
+> >> +	int idx, ret;
+> >> +
+> >> +	dc_crtc_dbg(crtc, "mode " DRM_MODE_FMT "\n", DRM_MODE_ARG(adj));
+> >> +
+> >> +	drm_crtc_vblank_on(crtc);
+> >> +
+> >> +	if (!drm_dev_enter(crtc->dev, &idx))
+> >> +		goto out;
+> >> +
+> >> +	/* request display engine power-on when CRTC is enabled */
+> >> +	ret = pm_runtime_resume_and_get(dc_crtc->de->dev);
+> >> +	if (ret < 0)
+> >> +		dc_crtc_err(crtc, "failed to get DC display engine RPM: %d\n",
+> >> +			    ret);
+> >> +
+> >> +	enable_irq(dc_crtc->irq_dec_shdld);
+> >> +	enable_irq(dc_crtc->irq_ed_cont_shdld);
+> >> +	enable_irq(dc_crtc->irq_ed_safe_shdld);
+> >> +
+> >> +	dc_fg_cfg_videomode(dc_crtc->fg, adj);
+> >> +
+> >> +	dc_cf_framedimensions(dc_crtc->cf_cont,
+> >> +			      adj->crtc_hdisplay, adj->crtc_vdisplay);
+> >> +	dc_cf_framedimensions(dc_crtc->cf_safe,
+> >> +			      adj->crtc_hdisplay, adj->crtc_vdisplay);
+> >> +
+> >> +	/* constframe in safety stream shows blue frame */
+> >> +	dc_cf_constantcolor_blue(dc_crtc->cf_safe);
+> >> +	cf_link = dc_cf_get_link_id(dc_crtc->cf_safe);
+> >> +	dc_ed_pec_src_sel(dc_crtc->ed_safe, cf_link);
+> >> +
+> >> +	/* show CRTC background if no plane is enabled */
+> >> +	if (new_crtc_state->plane_mask == 0) {
+> >> +		/* constframe in content stream shows black frame */
+> >> +		dc_cf_constantcolor_black(dc_crtc->cf_cont);
+> >> +
+> >> +		cf_link = dc_cf_get_link_id(dc_crtc->cf_cont);
+> >> +		dc_ed_pec_src_sel(dc_crtc->ed_cont, cf_link);
+> >> +	}
+> >> +
+> >> +	dc_fg_enable_clock(dc_crtc->fg);
+> >> +	dc_ed_pec_sync_trigger(dc_crtc->ed_cont);
+> >> +	dc_ed_pec_sync_trigger(dc_crtc->ed_safe);
+> >> +	dc_fg_shdtokgen(dc_crtc->fg);
+> >> +	dc_fg_enable(dc_crtc->fg);
+> >> +
+> >> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_safe_shdld_done);
+> >> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(ed_cont_shdld_done);
+> >> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_shdld_done);
+> >> +
+> >> +	disable_irq(dc_crtc->irq_ed_safe_shdld);
+> >> +	disable_irq(dc_crtc->irq_ed_cont_shdld);
+> >> +	disable_irq(dc_crtc->irq_dec_shdld);
+> >> +
+> >> +	DC_CRTC_WAIT_FOR_FRAMEGEN_SECONDARY_SYNCUP(dc_crtc->fg);
+> >> +
+> >> +	DC_CRTC_CHECK_FRAMEGEN_FIFO(dc_crtc->fg);
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +
+> >> +out:
+> >> +	dc_crtc_queue_state_event(new_crtc_state);
+> >> +}
+> >> +
+> >> +static void
+> >> +dc_crtc_atomic_disable(struct drm_crtc *crtc, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_crtc_state *new_crtc_state =
+> >> +				drm_atomic_get_new_crtc_state(state, crtc);
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	int idx, ret;
+> >> +
+> >> +	if (!drm_dev_enter(crtc->dev, &idx))
+> >> +		goto out;
+> >> +
+> >> +	enable_irq(dc_crtc->irq_dec_seqcomplete);
+> >> +	dc_fg_disable(dc_crtc->fg);
+> >> +	DC_CRTC_WAIT_FOR_COMPLETION_TIMEOUT(dec_seqcomplete_done);
+> >> +	disable_irq(dc_crtc->irq_dec_seqcomplete);
+> >> +
+> >> +	dc_fg_disable_clock(dc_crtc->fg);
+> >> +
+> >> +	/* request pixel engine power-off as plane is off too */
+> >> +	ret = pm_runtime_put(dc_crtc->pe->dev);
+> >> +	if (ret)
+> >> +		dc_crtc_err(crtc, "failed to put DC pixel engine RPM: %d\n",
+> >> +			    ret);
+> >> +
+> >> +	/* request display engine power-off when CRTC is disabled */
+> >> +	ret = pm_runtime_put(dc_crtc->de->dev);
+> > 
+> > Can this be expressed as a devlink between PE and DE?
+> 
+> Looking at struct dc_{pe,de}, PE and DE are not dependent with each other,
+> i.e., no consumer/supplier relationship(note that blit engine in PE can work
+> by itself without DE) between them. So, it doesn't look right to link the two
+> devices.
 
-2. Duplication of a flush work chunk. In this case here the solution
-was taken as an extra patch on top of the merge:
-commit be15f0bc4a95 ("drm/xe: Fix drm-next merge")
+Ack
 
-I hope this is okay and that those are transparent to you when merging.
-Otherwise please let me know if we need to change some of the history here.
+> 
+> > 
+> >> +	if (ret < 0)
+> >> +		dc_crtc_err(crtc, "failed to put DC display engine RPM: %d\n",
+> >> +			    ret);
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +
+> >> +out:
+> >> +	drm_crtc_vblank_off(crtc);
+> >> +
+> >> +	spin_lock_irq(&crtc->dev->event_lock);
+> >> +	if (new_crtc_state->event && !new_crtc_state->active) {
+> >> +		drm_crtc_send_vblank_event(crtc, new_crtc_state->event);
+> >> +		new_crtc_state->event = NULL;
+> >> +	}
+> >> +	spin_unlock_irq(&crtc->dev->event_lock);
+> >> +}
+> >> +
+> >> +void dc_crtc_disable_at_unbind(struct drm_crtc *crtc)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	int ret;
+> >> +
+> >> +	if (!dc_fg_wait_for_frame_index_moving(dc_crtc->fg))
+> >> +		return;
+> >> +
+> >> +	dc_fg_disable_clock(dc_crtc->fg);
+> >> +
+> >> +	if (pm_runtime_active(dc_crtc->pe->dev)) {
+> >> +		ret = pm_runtime_put_sync(dc_crtc->pe->dev);
+> >> +		if (ret)
+> >> +			dc_crtc_err(crtc, "failed to put DC pixel engine RPM: %d\n",
+> >> +				    ret);
+> >> +	}
+> >> +
+> >> +	ret = pm_runtime_put_sync(dc_crtc->de->dev);
+> >> +	if (ret < 0)
+> >> +		dc_crtc_err(crtc, "failed to put DC display engine RPM: %d\n",
+> >> +			    ret);
+> >> +}
+> >> +
+> >> +static bool dc_crtc_get_scanout_position(struct drm_crtc *crtc,
+> >> +					 bool in_vblank_irq,
+> >> +					 int *vpos, int *hpos,
+> >> +					 ktime_t *stime, ktime_t *etime,
+> >> +					 const struct drm_display_mode *mode)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = to_dc_crtc(crtc);
+> >> +	int vdisplay = mode->crtc_vdisplay;
+> >> +	int vtotal = mode->crtc_vtotal;
+> >> +	bool reliable;
+> >> +	int line;
+> >> +	int idx;
+> >> +
+> >> +	if (stime)
+> >> +		*stime = ktime_get();
+> >> +
+> >> +	if (!drm_dev_enter(crtc->dev, &idx)) {
+> >> +		reliable = false;
+> >> +		*vpos = 0;
+> >> +		*hpos = 0;
+> >> +		goto out;
+> >> +	}
+> >> +
+> >> +	/* line index starts with 0 for the first active output line */
+> >> +	line = dc_fg_get_line_index(dc_crtc->fg);
+> >> +
+> >> +	if (line < vdisplay)
+> >> +		/* active scanout area - positive */
+> >> +		*vpos = line + 1;
+> >> +	else
+> >> +		/* inside vblank - negative */
+> >> +		*vpos = line - (vtotal - 1);
+> >> +
+> >> +	*hpos = 0;
+> >> +
+> >> +	reliable = true;
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +out:
+> >> +	if (etime)
+> >> +		*etime = ktime_get();
+> >> +
+> >> +	return reliable;
+> >> +}
+> >> +
+> >> +static const struct drm_crtc_helper_funcs dc_helper_funcs = {
+> >> +	.mode_valid		= dc_crtc_mode_valid,
+> >> +	.atomic_check		= dc_crtc_atomic_check,
+> >> +	.atomic_begin		= dc_crtc_atomic_begin,
+> >> +	.atomic_flush		= dc_crtc_atomic_flush,
+> >> +	.atomic_enable		= dc_crtc_atomic_enable,
+> >> +	.atomic_disable		= dc_crtc_atomic_disable,
+> >> +	.get_scanout_position	= dc_crtc_get_scanout_position,
+> >> +};
+> >> +
+> >> +static int dc_crtc_request_irqs(struct drm_device *drm, struct dc_crtc *dc_crtc)
+> >> +{
+> >> +	struct {
+> >> +		struct device *dev;
+> >> +		unsigned int irq;
+> >> +		irqreturn_t (*irq_handler)(int irq, void *dev_id);
+> >> +	} irqs[DC_CRTC_IRQS] = {
+> >> +		{
+> >> +			dc_crtc->de->dev,
+> >> +			dc_crtc->irq_dec_framecomplete,
+> >> +			dc_crtc_dec_framecomplete_irq_handler,
+> >> +		}, {
+> >> +			dc_crtc->de->dev,
+> >> +			dc_crtc->irq_dec_seqcomplete,
+> >> +			dc_crtc_common_irq_handler,
+> >> +		}, {
+> >> +			dc_crtc->de->dev,
+> >> +			dc_crtc->irq_dec_shdld,
+> >> +			dc_crtc_common_irq_handler,
+> >> +		}, {
+> >> +			dc_crtc->ed_cont->dev,
+> >> +			dc_crtc->irq_ed_cont_shdld,
+> >> +			dc_crtc_common_irq_handler,
+> >> +		}, {
+> >> +			dc_crtc->ed_safe->dev,
+> >> +			dc_crtc->irq_ed_safe_shdld,
+> >> +			dc_crtc_common_irq_handler,
+> >> +		},
+> >> +	};
+> >> +	int i, ret;
+> >> +
+> >> +	for (i = 0; i < DC_CRTC_IRQS; i++) {
+> >> +		struct dc_crtc_irq *irq = &dc_crtc->irqs[i];
+> >> +
+> >> +		ret = devm_request_irq(irqs[i].dev, irqs[i].irq,
+> >> +				       irqs[i].irq_handler, IRQF_NO_AUTOEN,
+> >> +				       dev_name(irqs[i].dev), dc_crtc);
+> >> +		if (ret) {
+> >> +			dev_err(irqs[i].dev, "failed to request irq(%u): %d\n",
+> >> +				irqs[i].irq, ret);
+> >> +			return ret;
+> >> +		}
+> >> +
+> >> +		irq->dc_crtc = dc_crtc;
+> >> +		irq->irq = irqs[i].irq;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +int dc_crtc_init(struct dc_drm_device *dc_drm, int crtc_index)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = &dc_drm->dc_crtc[crtc_index];
+> >> +	struct drm_device *drm = &dc_drm->base;
+> >> +	struct dc_de *de = dc_drm->de[crtc_index];
+> >> +	struct dc_pe *pe = dc_drm->pe;
+> >> +	struct dc_plane *dc_primary;
+> >> +	int ret;
+> >> +
+> >> +	dc_crtc->de = de;
+> >> +	dc_crtc->pe = pe;
+> >> +
+> >> +	init_completion(&dc_crtc->dec_seqcomplete_done);
+> >> +	init_completion(&dc_crtc->dec_shdld_done);
+> >> +	init_completion(&dc_crtc->ed_cont_shdld_done);
+> >> +	init_completion(&dc_crtc->ed_safe_shdld_done);
+> >> +
+> >> +	dc_crtc->cf_cont = pe->cf_cont[crtc_index];
+> >> +	dc_crtc->cf_safe = pe->cf_safe[crtc_index];
+> >> +	dc_crtc->ed_cont = pe->ed_cont[crtc_index];
+> >> +	dc_crtc->ed_safe = pe->ed_safe[crtc_index];
+> >> +	dc_crtc->fg = de->fg;
+> >> +
+> >> +	dc_crtc->irq_dec_framecomplete = de->irq_framecomplete;
+> >> +	dc_crtc->irq_dec_seqcomplete = de->irq_seqcomplete;
+> >> +	dc_crtc->irq_dec_shdld = de->irq_shdld;
+> >> +	dc_crtc->irq_ed_safe_shdld = dc_crtc->ed_safe->irq_shdld;
+> >> +	dc_crtc->irq_ed_cont_shdld = dc_crtc->ed_cont->irq_shdld;
+> >> +
+> >> +	dc_primary = &dc_drm->dc_primary[crtc_index];
+> >> +	ret = dc_plane_init(dc_drm, dc_primary);
+> >> +	if (ret) {
+> >> +		dev_err(drm->dev,
+> >> +			"failed to init primary plane for display engine%u: %d\n",
+> >> +			de->id, ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	drm_crtc_helper_add(&dc_crtc->base, &dc_helper_funcs);
+> >> +
+> >> +	ret = drm_crtc_init_with_planes(drm, &dc_crtc->base, &dc_primary->base,
+> >> +					NULL, &dc_crtc_funcs, NULL);
+> >> +	if (ret)
+> >> +		dev_err(drm->dev,
+> >> +			"failed to add CRTC for display engine%u: %d\n",
+> >> +			de->id, ret);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +int dc_crtc_post_init(struct dc_drm_device *dc_drm, int crtc_index)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = &dc_drm->dc_crtc[crtc_index];
+> >> +	struct drm_device *drm = &dc_drm->base;
+> >> +
+> >> +	return dc_crtc_request_irqs(drm, dc_crtc);
+> >> +}
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-de.h b/drivers/gpu/drm/imx/dc/dc-de.h
+> >> index 17a44362118e..8a7b6c03a222 100644
+> >> --- a/drivers/gpu/drm/imx/dc/dc-de.h
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-de.h
+> >> @@ -13,6 +13,9 @@
+> >>  
+> >>  #define DC_DISPLAYS	2
+> >>  
+> >> +#define DC_FRAMEGEN_MAX_FRAME_INDEX	0x3ffff
+> >> +#define DC_FRAMEGEN_MAX_CLOCK_KHZ	300000
+> >> +
+> >>  struct dc_fg {
+> >>  	struct device *dev;
+> >>  	struct regmap *reg;
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-drv.c b/drivers/gpu/drm/imx/dc/dc-drv.c
+> >> index fd68861f770a..1e4b8afa3eec 100644
+> >> --- a/drivers/gpu/drm/imx/dc/dc-drv.c
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-drv.c
+> >> @@ -3,11 +3,254 @@
+> >>   * Copyright 2024 NXP
+> >>   */
+> >>  
+> >> +#include <linux/clk.h>
+> >> +#include <linux/component.h>
+> >> +#include <linux/device.h>
+> >> +#include <linux/dma-mapping.h>
+> >> +#include <linux/mod_devicetable.h>
+> >>  #include <linux/module.h>
+> >> +#include <linux/of.h>
+> >> +#include <linux/of_platform.h>
+> >>  #include <linux/platform_device.h>
+> >> +#include <linux/pm.h>
+> >> +#include <linux/pm_runtime.h>
+> >>  
+> >> +#include <drm/drm_atomic_helper.h>
+> >> +#include <drm/drm_client_setup.h>
+> >> +#include <drm/drm_crtc.h>
+> >> +#include <drm/drm_drv.h>
+> >> +#include <drm/drm_fbdev_dma.h>
+> >> +#include <drm/drm_fourcc.h>
+> >> +#include <drm/drm_gem_dma_helper.h>
+> >> +#include <drm/drm_managed.h>
+> >> +#include <drm/drm_modeset_helper.h>
+> >> +#include <drm/drm_of.h>
+> >> +
+> >> +#include "dc-de.h"
+> >>  #include "dc-drv.h"
+> >>  
+> >> +struct dc_priv {
+> >> +	struct drm_device *drm;
+> >> +	struct clk *clk_cfg;
+> >> +};
+> >> +
+> >> +DEFINE_DRM_GEM_DMA_FOPS(dc_drm_driver_fops);
+> >> +
+> >> +static struct drm_driver dc_drm_driver = {
+> >> +	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+> >> +	DRM_GEM_DMA_DRIVER_OPS,
+> >> +	DRM_FBDEV_DMA_DRIVER_OPS,
+> >> +	.fops = &dc_drm_driver_fops,
+> >> +	.name = "imx8-dc",
+> >> +	.desc = "i.MX8 DC DRM graphics",
+> >> +	.date = "20240530",
+> >> +	.major = 1,
+> >> +	.minor = 0,
+> >> +	.patchlevel = 0,
+> >> +};
+> >> +
+> >> +static void
+> >> +dc_add_components(struct device *dev, struct component_match **matchptr)
+> >> +{
+> >> +	struct device_node *child, *grandchild;
+> >> +
+> >> +	for_each_available_child_of_node(dev->of_node, child) {
+> >> +		/* The interrupt controller is not a component. */
+> >> +		if (of_device_is_compatible(child, "fsl,imx8qxp-dc-intc"))
+> >> +			continue;
+> >> +
+> >> +		drm_of_component_match_add(dev, matchptr, component_compare_of,
+> >> +					   child);
+> >> +
+> >> +		for_each_available_child_of_node(child, grandchild)
+> >> +			drm_of_component_match_add(dev, matchptr,
+> >> +						   component_compare_of,
+> >> +						   grandchild);
+> >> +	}
+> >> +}
+> >> +
+> >> +static void dc_drm_component_unbind_all(void *ptr)
+> >> +{
+> >> +	struct dc_drm_device *dc_drm = ptr;
+> >> +	struct drm_device *drm = &dc_drm->base;
+> >> +
+> >> +	component_unbind_all(drm->dev, dc_drm);
+> >> +}
+> >> +
+> >> +static int dc_drm_bind(struct device *dev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(dev);
+> >> +	struct dc_drm_device *dc_drm;
+> >> +	struct drm_device *drm;
+> >> +	int ret;
+> >> +
+> >> +	dc_drm = devm_drm_dev_alloc(dev, &dc_drm_driver, struct dc_drm_device,
+> >> +				    base);
+> >> +	if (IS_ERR(dc_drm))
+> >> +		return PTR_ERR(dc_drm);
+> >> +
+> >> +	drm = &dc_drm->base;
+> >> +
+> >> +	ret = component_bind_all(dev, dc_drm);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret = devm_add_action_or_reset(dev, dc_drm_component_unbind_all,
+> >> +				       dc_drm);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret = dc_kms_init(dc_drm);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret = drm_dev_register(drm, 0);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "failed to register drm device: %d\n", ret);
+> >> +		goto err;
+> >> +	}
+> >> +
+> >> +	drm_client_setup_with_fourcc(drm, DRM_FORMAT_XRGB8888);
+> >> +
+> >> +	priv->drm = drm;
+> >> +
+> >> +	return 0;
+> >> +
+> >> +err:
+> >> +	dc_kms_uninit(dc_drm);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +static void dc_drm_unbind(struct device *dev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(dev);
+> >> +	struct dc_drm_device *dc_drm = to_dc_drm_device(priv->drm);
+> >> +	struct drm_device *drm = &dc_drm->base;
+> >> +	struct drm_crtc *crtc;
+> >> +
+> >> +	priv->drm = NULL;
+> >> +	drm_dev_unplug(drm);
+> >> +	dc_kms_uninit(dc_drm);
+> >> +	drm_atomic_helper_shutdown(drm);
+> >> +
+> >> +	drm_for_each_crtc(crtc, drm)
+> >> +		dc_crtc_disable_at_unbind(crtc);
+> > 
+> > There should be no need for that. drm_atomic_helper_shutdown() should
+> > disable all the CRTCs.
+> 
+> In case DRM device is unplugged, drm_atomic_helper_shutdown does not
+> effectively disable the CRTCs due to the bypassed logics wrapped by
+> drm_dev_{enter,exit}.  That's why dc_crtc_disable_at_unbind() is called
+> here to effectively disable the CRTCs.
 
-Thanks,
-Rodrigo.
+I see. I haven't faced drm_dev_unplug() earlier. I checked, the "not
+disabled" behaviour is documented and all other drivers don't perform
+any kind of cleanup afterwards. Thus I think it's safe to drop the
+dc_crtc_disable_at_unbind() unless it causes any kind of HW issues.
 
-drm-xe-next-2024-12-11:
-UAPI Changes:
- - Make OA buffer size configurable (Sai)
+> 
+> > 
+> > Also, who is going to do drm_dev_unregister()? I don't see it in the
+> > code.
+> 
+> drm_dev_unplug() right above calls drm_dev_unregister().
+> 
+> > 
+> >> +}
+> >> +
+> >> +static const struct component_master_ops dc_drm_ops = {
+> >> +	.bind = dc_drm_bind,
+> >> +	.unbind = dc_drm_unbind,
+> >> +};
+> >> +
+> >> +static int dc_probe(struct platform_device *pdev)
+> >> +{
+> >> +	struct component_match *match = NULL;
+> >> +	struct dc_priv *priv;
+> >> +	int ret;
+> >> +
+> >> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> >> +	if (!priv)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	priv->clk_cfg = devm_clk_get(&pdev->dev, NULL);
+> >> +	if (IS_ERR(priv->clk_cfg))
+> >> +		return dev_err_probe(&pdev->dev, PTR_ERR(priv->clk_cfg),
+> >> +				     "failed to get cfg clock\n");
+> >> +
+> >> +	dev_set_drvdata(&pdev->dev, priv);
+> >> +
+> >> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret = devm_pm_runtime_enable(&pdev->dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret = devm_of_platform_populate(&pdev->dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	dc_add_components(&pdev->dev, &match);
+> >> +
+> >> +	ret = component_master_add_with_match(&pdev->dev, &dc_drm_ops, match);
+> >> +	if (ret)
+> >> +		return dev_err_probe(&pdev->dev, ret,
+> >> +				     "failed to add component master\n");
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static void dc_remove(struct platform_device *pdev)
+> >> +{
+> >> +	component_master_del(&pdev->dev, &dc_drm_ops);
+> >> +}
+> >> +
+> >> +static int dc_runtime_suspend(struct device *dev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(dev);
+> >> +
+> >> +	clk_disable_unprepare(priv->clk_cfg);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int dc_runtime_resume(struct device *dev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(dev);
+> >> +	int ret;
+> >> +
+> >> +	ret = clk_prepare_enable(priv->clk_cfg);
+> >> +	if (ret)
+> >> +		dev_err(dev, "failed to enable cfg clock: %d\n", ret);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +static int dc_suspend(struct device *dev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(dev);
+> >> +
+> >> +	return drm_mode_config_helper_suspend(priv->drm);
+> >> +}
+> >> +
+> >> +static int dc_resume(struct device *dev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(dev);
+> >> +
+> >> +	return drm_mode_config_helper_resume(priv->drm);
+> >> +}
+> >> +
+> >> +static void dc_shutdown(struct platform_device *pdev)
+> >> +{
+> >> +	struct dc_priv *priv = dev_get_drvdata(&pdev->dev);
+> >> +
+> >> +	drm_atomic_helper_shutdown(priv->drm);
+> >> +}
+> >> +
+> >> +static const struct dev_pm_ops dc_pm_ops = {
+> >> +	RUNTIME_PM_OPS(dc_runtime_suspend, dc_runtime_resume, NULL)
+> >> +	SYSTEM_SLEEP_PM_OPS(dc_suspend, dc_resume)
+> >> +};
+> >> +
+> >> +static const struct of_device_id dc_dt_ids[] = {
+> >> +	{ .compatible = "fsl,imx8qxp-dc", },
+> >> +	{ /* sentinel */ }
+> >> +};
+> >> +MODULE_DEVICE_TABLE(of, dc_dt_ids);
+> >> +
+> >> +static struct platform_driver dc_driver = {
+> >> +	.probe = dc_probe,
+> >> +	.remove = dc_remove,
+> >> +	.shutdown = dc_shutdown,
+> >> +	.driver = {
+> >> +		.name = "imx8-dc",
+> >> +		.of_match_table	= dc_dt_ids,
+> >> +		.pm = pm_sleep_ptr(&dc_pm_ops),
+> >> +	},
+> >> +};
+> >> +
+> >>  static struct platform_driver * const dc_drivers[] = {
+> >>  	&dc_cf_driver,
+> >>  	&dc_de_driver,
+> >> @@ -19,6 +262,7 @@ static struct platform_driver * const dc_drivers[] = {
+> >>  	&dc_lb_driver,
+> >>  	&dc_pe_driver,
+> >>  	&dc_tc_driver,
+> >> +	&dc_driver,
+> >>  };
+> >>  
+> >>  static int __init dc_drm_init(void)
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-drv.h b/drivers/gpu/drm/imx/dc/dc-drv.h
+> >> index 3b11f4862c6c..39a771a13933 100644
+> >> --- a/drivers/gpu/drm/imx/dc/dc-drv.h
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-drv.h
+> >> @@ -6,19 +6,38 @@
+> >>  #ifndef __DC_DRV_H__
+> >>  #define __DC_DRV_H__
+> >>  
+> >> +#include <linux/container_of.h>
+> >>  #include <linux/platform_device.h>
+> >>  
+> >>  #include <drm/drm_device.h>
+> >> +#include <drm/drm_encoder.h>
+> >>  
+> >>  #include "dc-de.h"
+> >> +#include "dc-kms.h"
+> >>  #include "dc-pe.h"
+> >>  
+> >>  struct dc_drm_device {
+> >>  	struct drm_device base;
+> >> +	struct dc_crtc dc_crtc[DC_DISPLAYS];
+> >> +	struct dc_plane dc_primary[DC_DISPLAYS];
+> >> +	struct drm_encoder encoder[DC_DISPLAYS];
+> >>  	struct dc_de *de[DC_DISPLAYS];
+> >>  	struct dc_pe *pe;
+> >>  };
+> >>  
+> >> +static inline struct dc_drm_device *to_dc_drm_device(struct drm_device *drm)
+> >> +{
+> >> +	return container_of(drm, struct dc_drm_device, base);
+> >> +}
+> >> +
+> >> +int dc_crtc_init(struct dc_drm_device *dc_drm, int crtc_index);
+> >> +int dc_crtc_post_init(struct dc_drm_device *dc_drm, int crtc_index);
+> >> +
+> >> +int dc_kms_init(struct dc_drm_device *dc_drm);
+> >> +void dc_kms_uninit(struct dc_drm_device *dc_drm);
+> >> +
+> >> +int dc_plane_init(struct dc_drm_device *dc_drm, struct dc_plane *dc_plane);
+> >> +
+> >>  extern struct platform_driver dc_cf_driver;
+> >>  extern struct platform_driver dc_ed_driver;
+> >>  extern struct platform_driver dc_de_driver;
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-kms.c b/drivers/gpu/drm/imx/dc/dc-kms.c
+> >> new file mode 100644
+> >> index 000000000000..2b18aa37a4a8
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-kms.c
+> >> @@ -0,0 +1,143 @@
+> >> +// SPDX-License-Identifier: GPL-2.0+
+> >> +/*
+> >> + * Copyright 2024 NXP
+> >> + */
+> >> +
+> >> +#include <linux/of.h>
+> >> +#include <linux/of_graph.h>
+> >> +
+> >> +#include <drm/drm_atomic_helper.h>
+> >> +#include <drm/drm_bridge.h>
+> >> +#include <drm/drm_bridge_connector.h>
+> >> +#include <drm/drm_connector.h>
+> >> +#include <drm/drm_crtc.h>
+> >> +#include <drm/drm_device.h>
+> >> +#include <drm/drm_encoder.h>
+> >> +#include <drm/drm_gem_framebuffer_helper.h>
+> >> +#include <drm/drm_mode_config.h>
+> >> +#include <drm/drm_print.h>
+> >> +#include <drm/drm_probe_helper.h>
+> >> +#include <drm/drm_simple_kms_helper.h>
+> >> +#include <drm/drm_vblank.h>
+> >> +
+> >> +#include "dc-de.h"
+> >> +#include "dc-drv.h"
+> >> +#include "dc-kms.h"
+> >> +
+> >> +static const struct drm_mode_config_funcs dc_drm_mode_config_funcs = {
+> >> +	.fb_create = drm_gem_fb_create,
+> >> +	.atomic_check = drm_atomic_helper_check,
+> >> +	.atomic_commit = drm_atomic_helper_commit,
+> >> +};
+> >> +
+> >> +static int dc_kms_init_encoder_per_crtc(struct dc_drm_device *dc_drm,
+> >> +					int crtc_index)
+> >> +{
+> >> +	struct dc_crtc *dc_crtc = &dc_drm->dc_crtc[crtc_index];
+> >> +	struct drm_device *drm = &dc_drm->base;
+> >> +	struct drm_crtc *crtc = &dc_crtc->base;
+> >> +	struct drm_connector *connector;
+> >> +	struct device *dev = drm->dev;
+> >> +	struct drm_encoder *encoder;
+> >> +	struct drm_bridge *bridge;
+> >> +	int ret;
+> >> +
+> >> +	bridge = devm_drm_of_get_bridge(dev, dc_crtc->de->tc->dev->of_node,
+> >> +					0, 0);
+> >> +	if (IS_ERR(bridge)) {
+> >> +		ret = PTR_ERR(bridge);
+> >> +		if (ret == -ENODEV)
+> >> +			return 0;
+> >> +
+> >> +		return dev_err_probe(dev, ret,
+> >> +				     "failed to find bridge for CRTC%u\n",
+> >> +				     crtc->index);
+> >> +	}
+> >> +
+> >> +	encoder = &dc_drm->encoder[crtc_index];
+> >> +	ret = drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_NONE);
+> >> +	if (ret) {
+> >> +		dev_err(dev, "failed to initialize encoder for CRTC%u: %d\n",
+> >> +			crtc->index, ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	encoder->possible_crtcs = drm_crtc_mask(crtc);
+> >> +
+> >> +	ret = drm_bridge_attach(encoder, bridge, NULL,
+> >> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> >> +	if (ret) {
+> >> +		dev_err(dev,
+> >> +			"failed to attach bridge to encoder for CRTC%u: %d\n",
+> >> +			crtc->index, ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	connector = drm_bridge_connector_init(drm, encoder);
+> >> +	if (IS_ERR(connector)) {
+> >> +		ret = PTR_ERR(connector);
+> >> +		dev_err(dev, "failed to init bridge connector for CRTC%u: %d\n",
+> >> +			crtc->index, ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ret = drm_connector_attach_encoder(connector, encoder);
+> >> +	if (ret)
+> >> +		dev_err(dev,
+> >> +			"failed to attach encoder to connector for CRTC%u: %d\n",
+> >> +			crtc->index, ret);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +int dc_kms_init(struct dc_drm_device *dc_drm)
+> >> +{
+> >> +	struct drm_device *drm = &dc_drm->base;
+> >> +	int ret, i;
+> >> +
+> >> +	ret = drmm_mode_config_init(drm);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	drm->mode_config.min_width = 60;
+> >> +	drm->mode_config.min_height = 60;
+> >> +	drm->mode_config.max_width = 8192;
+> >> +	drm->mode_config.max_height = 8192;
+> >> +	drm->mode_config.funcs = &dc_drm_mode_config_funcs;
+> >> +
+> >> +	drm->vblank_disable_immediate = true;
+> >> +	drm->max_vblank_count = DC_FRAMEGEN_MAX_FRAME_INDEX;
+> >> +
+> >> +	for (i = 0; i < DC_DISPLAYS; i++) {
+> >> +		ret = dc_crtc_init(dc_drm, i);
+> >> +		if (ret)
+> >> +			return ret;
+> >> +
+> >> +		ret = dc_kms_init_encoder_per_crtc(dc_drm, i);
+> >> +		if (ret)
+> >> +			return ret;
+> >> +	}
+> >> +
+> >> +	for (i = 0; i < DC_DISPLAYS; i++) {
+> >> +		ret = dc_crtc_post_init(dc_drm, i);
+> > 
+> > Can you use .late_register for this?
+> 
+> Kerneldoc of struct drm_crtc_funcs::late_register says it's used to register
+> additional userspace interfaces like debugfs interfaces. And, it seems that
+> everyone implementing this uses it to add debugfs interfaces. So, it will
+> kind of abuse it to do CRTC post initialization.
 
-Display Changes (including i915):
- - Fix ttm_bo_access() usage (Auld)
- - Power request asserting/deasserting for Xe3lpd (Mika)
- - One Type-C conversion towards struct intel_display (Mika)
+Why can't they be requested earlier then?
 
-Driver Changes:
- - GuC capture related fixes (Everest, Zhanjun)
- - Move old workaround to OOB infra (Lucas)
- - Compute mode change refactoring (Bala)
- - Add ufence and g2h flushes for LNL Hybrid timeouts (Nirmoy)
- - Avoid unnecessary OOM kills (Thomas)
- - Restore system memory GGTT mappings (Brost)
- - Fix build error for XE_IOCTL_DBG macro (Gyeyoung)
- - Documentation updates and fixes (Lucas, Randy)
- - A few exec IOCTL fixes (Brost)
- - Fix potential GGTT allocation leak (Michal)
- - Fix races on fdinfo (Lucas)
- - SRIOV VF: Post-migration recovery worker basis (Tomasz)
- - GuC Communication fixes and improvements (Michal, John, Tomasz, Auld, Jonathan)
- - SRIOV PF: Add support for VF scheduling priority
- - Trace improvements (Lucas, Auld, Oak)
- - Hibernation on igpu fixes and improvements (Auld)
- - GT oriented logs/asserts improvements (Michal)
- - Take job list lock in xe_sched_first_pending_job (Nirmoy)
- - GSC: Improve SW proxy error checking and logging (Daniele)
- - GuC crash notifications & drop default log verbosity (John)
- - Fix races on fdinfo (Lucas)
- - Fix runtime_pm handling in OA (Ashutosh)
- - Allow fault injection in vm create and vm bind IOCTLs (Francois)
- - TLB invalidation fixes (Nirmoy, Daniele)
- - Devcoredump Improvements, doc and fixes (Brost, Lucas, Zhanjun, John)
- - Wake up waiters after setting ufence->signalled (Nirmoy)
- - Mark preempt fence workqueue as reclaim (Brost)
- - Trivial header/flags cleanups (Lucas)
- - VRAM drop 2G block restriction (Auld)
- - Drop useless d3cold allowed message (Brost)
- - SRIOV PF: Drop 2GiB limit of fair LMEM allocation (Michal)
- - Add another PTL PCI ID (Atwood)
- - Allow bo mapping on multiple ggtts (Niranjana)
- - Add support for GuC-to-GuC communication (John)
- - Update xe2_graphics name string (Roper)
- - VRAM: fix lpfn check (Auld)
- - Ad Xe3 workaround (Apoorva)
- - Migrate fixes (Auld)
- - Fix non-contiguous VRAM BO access (Brost)
- - Log throttle reasons (Raag)
- - Enable PMT support for BMG (Michael)
- - IRQ related fixes and improvements (Ilia)
- - Avoid evicting object of the same vm in none fault mode (Oak)
- - Fix in tests (Nirmoy)
- - Fix ERR_PTR handling (Mirsad)
- - Some reg_sr/whitelist fixes and refactors (Lucas)
-The following changes since commit fac04efc5c793dccbd07e2d59af9f90b7fc0dca4:
+> 
+> > 
+> >> +		if (ret)
+> >> +			return ret;
+> >> +	}
+> >> +
+> >> +	ret = drm_vblank_init(drm, DC_DISPLAYS);
+> >> +	if (ret) {
+> >> +		dev_err(drm->dev, "failed to init vblank support: %d\n", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	drm_mode_config_reset(drm);
+> >> +
+> >> +	drm_kms_helper_poll_init(drm);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +void dc_kms_uninit(struct dc_drm_device *dc_drm)
+> >> +{
+> >> +	drm_kms_helper_poll_fini(&dc_drm->base);
+> >> +}
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-kms.h b/drivers/gpu/drm/imx/dc/dc-kms.h
+> >> new file mode 100644
+> >> index 000000000000..57f6e0c15f57
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-kms.h
+> >> @@ -0,0 +1,58 @@
+> >> +/* SPDX-License-Identifier: GPL-2.0+ */
+> >> +/*
+> >> + * Copyright 2024 NXP
+> >> + */
+> >> +
+> >> +#ifndef __DC_KMS_H__
+> >> +#define __DC_KMS_H__
+> >> +
+> >> +#include <linux/completion.h>
+> >> +
+> >> +#include <drm/drm_crtc.h>
+> >> +#include <drm/drm_plane.h>
+> >> +#include <drm/drm_vblank.h>
+> >> +
+> >> +#include "dc-de.h"
+> >> +#include "dc-fu.h"
+> >> +#include "dc-pe.h"
+> >> +
+> >> +#define DC_CRTC_IRQS	5
+> >> +
+> >> +struct dc_crtc_irq {
+> >> +	struct dc_crtc *dc_crtc;
+> >> +	unsigned int irq;
+> >> +};
+> >> +
+> > 
+> > Please provide some documentation for the structure in the form of the
+> > kerneldoc. E.g. what is the difference between ed_cont and ed_safe?
+> 
+> Will add kerneldoc for struct dc_{crtc,plane,drm_device} and tell the
+> difference between ed_cont(content stream) and ed_safe(safety stream).
+> 
+> > The de and fg pointers are global, please don't cache them
+> > unnecessarily.
+> 
+> Global? I don't catch your meaning, sorry. To me, it's handy to access de
+> and fg via the two pointers in struct dc_crtc.
 
-  Linux 6.13-rc2 (2024-12-08 14:03:39 -0800)
+I had to spend some time understanding if they are per-CRTC or if there
+are a single instances of those subdevices. Thus I suggest to access
+them through dc_drm_device. You can ignore this suggestion though.
 
-are available in the Git repository at:
+> 
+> > 
+> >> +struct dc_crtc {
+> >> +	struct drm_crtc base;
+> >> +	struct dc_de *de;
+> >> +	struct dc_pe *pe;
+> >> +	struct dc_cf *cf_cont;
+> >> +	struct dc_cf *cf_safe;
+> >> +	struct dc_ed *ed_cont;
+> >> +	struct dc_ed *ed_safe;
+> >> +	struct dc_fg *fg;
+> >> +	unsigned int irq_dec_framecomplete;
+> >> +	unsigned int irq_dec_seqcomplete;
+> >> +	unsigned int irq_dec_shdld;
+> >> +	unsigned int irq_ed_cont_shdld;
+> >> +	unsigned int irq_ed_safe_shdld;
+> >> +	struct completion dec_seqcomplete_done;
+> >> +	struct completion dec_shdld_done;
+> >> +	struct completion ed_safe_shdld_done;
+> >> +	struct completion ed_cont_shdld_done;
+> >> +	struct drm_pending_vblank_event *event;
+> >> +	struct dc_crtc_irq irqs[DC_CRTC_IRQS];
+> >> +};
+> >> +
+> >> +struct dc_plane {
+> >> +	struct drm_plane base;
+> >> +	struct dc_fu *fu;
+> >> +	struct dc_cf *cf;
+> >> +	struct dc_lb *lb;
+> >> +	struct dc_ed *ed;
+> >> +};
+> >> +
+> >> +void dc_crtc_disable_at_unbind(struct drm_crtc *crtc);
+> >> +
+> >> +#endif /* __DC_KMS_H__ */
+> >> diff --git a/drivers/gpu/drm/imx/dc/dc-plane.c b/drivers/gpu/drm/imx/dc/dc-plane.c
+> >> new file mode 100644
+> >> index 000000000000..78d0d2cd3451
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/imx/dc/dc-plane.c
+> >> @@ -0,0 +1,241 @@
+> >> +// SPDX-License-Identifier: GPL-2.0+
+> >> +/*
+> >> + * Copyright 2024 NXP
+> >> + */
+> >> +
+> >> +#include <linux/container_of.h>
+> >> +
+> >> +#include <drm/drm_atomic.h>
+> >> +#include <drm/drm_atomic_helper.h>
+> >> +#include <drm/drm_atomic_state_helper.h>
+> >> +#include <drm/drm_crtc.h>
+> >> +#include <drm/drm_drv.h>
+> >> +#include <drm/drm_fb_dma_helper.h>
+> >> +#include <drm/drm_fourcc.h>
+> >> +#include <drm/drm_framebuffer.h>
+> >> +#include <drm/drm_gem_atomic_helper.h>
+> >> +#include <drm/drm_plane_helper.h>
+> >> +#include <drm/drm_print.h>
+> >> +
+> >> +#include "dc-drv.h"
+> >> +#include "dc-fu.h"
+> >> +#include "dc-kms.h"
+> >> +
+> >> +#define DC_PLANE_MAX_PITCH	0x10000
+> >> +#define DC_PLANE_MAX_PIX_CNT	8192
+> >> +
+> >> +#define dc_plane_dbg(plane, fmt, ...)					\
+> >> +do {									\
+> >> +	typeof(plane) _plane = (plane);					\
+> >> +	drm_dbg_kms(_plane->dev, "[PLANE:%d:%s] " fmt,			\
+> >> +		    _plane->base.id, _plane->name, ##__VA_ARGS__);	\
+> >> +} while (0)
+> >> +
+> >> +static const uint32_t dc_plane_formats[] = {
+> >> +	DRM_FORMAT_XRGB8888,
+> >> +};
+> >> +
+> >> +static const struct drm_plane_funcs dc_plane_funcs = {
+> >> +	.update_plane		= drm_atomic_helper_update_plane,
+> >> +	.disable_plane		= drm_atomic_helper_disable_plane,
+> >> +	.destroy		= drm_plane_cleanup,
+> >> +	.reset			= drm_atomic_helper_plane_reset,
+> >> +	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+> >> +	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+> >> +};
+> >> +
+> >> +static inline struct dc_plane *to_dc_plane(struct drm_plane *plane)
+> >> +{
+> >> +	return container_of(plane, struct dc_plane, base);
+> >> +}
+> >> +
+> >> +static int dc_plane_check_no_off_screen(struct drm_plane_state *state,
+> >> +					struct drm_crtc_state *crtc_state)
+> >> +{
+> >> +	if (state->dst.x1 < 0 || state->dst.y1 < 0 ||
+> >> +	    state->dst.x2 > crtc_state->adjusted_mode.hdisplay ||
+> >> +	    state->dst.y2 > crtc_state->adjusted_mode.vdisplay) {
+> >> +		dc_plane_dbg(state->plane, "no off screen\n");
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int dc_plane_check_max_source_resolution(struct drm_plane_state *state)
+> >> +{
+> >> +	int src_h = drm_rect_height(&state->src) >> 16;
+> >> +	int src_w = drm_rect_width(&state->src) >> 16;
+> >> +
+> >> +	if (src_w > DC_PLANE_MAX_PIX_CNT || src_h > DC_PLANE_MAX_PIX_CNT) {
+> >> +		dc_plane_dbg(state->plane, "invalid source resolution\n");
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int dc_plane_check_fb(struct drm_plane_state *state)
+> >> +{
+> >> +	struct drm_framebuffer *fb = state->fb;
+> >> +	dma_addr_t baseaddr = drm_fb_dma_get_gem_addr(fb, state, 0);
+> >> +
+> >> +	/* base address alignment */
+> >> +	if (baseaddr & 0x3) {
+> >> +		dc_plane_dbg(state->plane, "fb bad baddr alignment\n");
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	/* pitches[0] range */
+> >> +	if (fb->pitches[0] > DC_PLANE_MAX_PITCH) {
+> >> +		dc_plane_dbg(state->plane, "fb pitches[0] is out of range\n");
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	/* pitches[0] alignment */
+> >> +	if (fb->pitches[0] & 0x3) {
+> >> +		dc_plane_dbg(state->plane, "fb bad pitches[0] alignment\n");
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static int
+> >> +dc_plane_atomic_check(struct drm_plane *plane, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_plane_state *plane_state =
+> >> +				drm_atomic_get_new_plane_state(state, plane);
+> >> +	struct drm_crtc_state *crtc_state;
+> >> +	int ret;
+> >> +
+> >> +	/* ok to disable */
+> >> +	if (!plane_state->fb)
+> >> +		return 0;
+> >> +
+> >> +	if (!plane_state->crtc) {
+> >> +		dc_plane_dbg(plane, "no CRTC in plane state\n");
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	crtc_state =
+> >> +		drm_atomic_get_existing_crtc_state(state, plane_state->crtc);
+> >> +	if (WARN_ON(!crtc_state))
+> >> +		return -EINVAL;
+> >> +
+> >> +	ret = drm_atomic_helper_check_plane_state(plane_state, crtc_state,
+> >> +						  DRM_PLANE_NO_SCALING,
+> >> +						  DRM_PLANE_NO_SCALING,
+> >> +						  true, false);
+> >> +	if (ret) {
+> >> +		dc_plane_dbg(plane, "failed to check plane state: %d\n", ret);
+> >> +		return ret;
+> >> +	}
+> >> +
+> >> +	ret = dc_plane_check_no_off_screen(plane_state, crtc_state);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret = dc_plane_check_max_source_resolution(plane_state);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	return dc_plane_check_fb(plane_state);
+> >> +}
+> >> +
+> >> +static void
+> >> +dc_plane_atomic_update(struct drm_plane *plane, struct drm_atomic_state *state)
+> >> +{
+> >> +	struct drm_plane_state *new_state =
+> >> +				drm_atomic_get_new_plane_state(state, plane);
+> >> +	struct dc_plane *dplane = to_dc_plane(plane);
+> >> +	struct drm_framebuffer *fb = new_state->fb;
+> >> +	const struct dc_fu_ops *fu_ops;
+> >> +	struct dc_lb *lb = dplane->lb;
+> >> +	struct dc_fu *fu = dplane->fu;
+> >> +	dma_addr_t baseaddr;
+> >> +	int src_w, src_h;
+> >> +	int idx;
+> >> +
+> >> +	if (!drm_dev_enter(plane->dev, &idx))
+> >> +		return;
+> >> +
+> >> +	src_w = drm_rect_width(&new_state->src) >> 16;
+> >> +	src_h = drm_rect_height(&new_state->src) >> 16;
+> >> +
+> >> +	baseaddr = drm_fb_dma_get_gem_addr(fb, new_state, 0);
+> >> +
+> >> +	fu_ops = dc_fu_get_ops(dplane->fu);
+> >> +
+> >> +	fu_ops->set_layerblend(fu, lb);
+> >> +	fu_ops->set_burstlength(fu, baseaddr);
+> >> +	fu_ops->set_src_stride(fu, DC_FETCHUNIT_FRAC0, fb->pitches[0]);
+> >> +	fu_ops->set_src_buf_dimensions(fu, DC_FETCHUNIT_FRAC0, src_w, src_h);
+> >> +	fu_ops->set_fmt(fu, DC_FETCHUNIT_FRAC0, fb->format);
+> >> +	fu_ops->set_framedimensions(fu, src_w, src_h);
+> >> +	fu_ops->set_baseaddress(fu, DC_FETCHUNIT_FRAC0, baseaddr);
+> >> +	fu_ops->enable_src_buf(fu, DC_FETCHUNIT_FRAC0);
+> >> +
+> >> +	dc_plane_dbg(plane, "uses %s\n", fu_ops->get_name(fu));
+> >> +
+> >> +	dc_lb_pec_dynamic_prim_sel(lb, dc_cf_get_link_id(dplane->cf));
+> >> +	dc_lb_pec_dynamic_sec_sel(lb, fu_ops->get_link_id(fu));
+> >> +	dc_lb_mode(lb, LB_BLEND);
+> >> +	dc_lb_position(lb, new_state->dst.x1, new_state->dst.y1);
+> >> +	dc_lb_pec_clken(lb, CLKEN_AUTOMATIC);
+> >> +
+> >> +	dc_plane_dbg(plane, "uses LayerBlend%u\n", dc_lb_get_id(lb));
+> >> +
+> >> +	/* set ExtDst's source to LayerBlend */
+> >> +	dc_ed_pec_src_sel(dplane->ed, dc_lb_get_link_id(lb));
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +}
+> >> +
+> >> +static void dc_plane_atomic_disable(struct drm_plane *plane,
+> >> +				    struct drm_atomic_state *state)
+> >> +{
+> >> +	struct dc_plane *dplane = to_dc_plane(plane);
+> >> +	const struct dc_fu_ops *fu_ops;
+> >> +	int idx;
+> >> +
+> >> +	if (!drm_dev_enter(plane->dev, &idx))
+> >> +		return;
+> >> +
+> >> +	/* disable fetchunit in shadow */
+> >> +	fu_ops = dc_fu_get_ops(dplane->fu);
+> >> +	fu_ops->disable_src_buf(dplane->fu, DC_FETCHUNIT_FRAC0);
+> >> +
+> >> +	/* set ExtDst's source to ConstFrame */
+> >> +	dc_ed_pec_src_sel(dplane->ed, dc_cf_get_link_id(dplane->cf));
+> >> +
+> >> +	drm_dev_exit(idx);
+> >> +}
+> >> +
+> >> +static const struct drm_plane_helper_funcs dc_plane_helper_funcs = {
+> >> +	.atomic_check = dc_plane_atomic_check,
+> >> +	.atomic_update = dc_plane_atomic_update,
+> >> +	.atomic_disable = dc_plane_atomic_disable,
+> >> +};
+> >> +
+> >> +int dc_plane_init(struct dc_drm_device *dc_drm, struct dc_plane *dc_plane)
+> >> +{
+> >> +	struct drm_plane *plane = &dc_plane->base;
+> >> +	int ret;
+> >> +
+> >> +	ret = drm_universal_plane_init(&dc_drm->base, plane, 0, &dc_plane_funcs,
+> >> +				       dc_plane_formats,
+> >> +				       ARRAY_SIZE(dc_plane_formats),
+> >> +				       NULL, DRM_PLANE_TYPE_PRIMARY, NULL);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	drm_plane_helper_add(plane, &dc_plane_helper_funcs);
+> >> +
+> >> +	dc_plane->fu = dc_drm->pe->fu_disp[plane->index];
+> >> +	dc_plane->cf = dc_drm->pe->cf_cont[plane->index];
+> >> +	dc_plane->lb = dc_drm->pe->lb[plane->index];
+> >> +	dc_plane->ed = dc_drm->pe->ed_cont[plane->index];
+> >> +
+> >> +	return 0;
+> >> +}
+> >> -- 
+> >> 2.34.1
+> >>
+> > 
+> 
+> -- 
+> Regards,
+> Liu Ying
 
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2024-12-11
-
-for you to fetch changes up to 4d79a1266d4cc3c967bc8823502466cad1ac8514:
-
-  drm/xe: Make irq enabled flag atomic (2024-12-11 13:20:53 -0500)
-
-----------------------------------------------------------------
-UAPI Changes:
- - Make OA buffer size configurable (Sai)
-
-Display Changes (including i915):
- - Fix ttm_bo_access() usage (Auld)
- - Power request asserting/deasserting for Xe3lpd (Mika)
- - One Type-C conversion towards struct intel_display (Mika)
-
-Driver Changes:
- - GuC capture related fixes (Everest, Zhanjun)
- - Move old workaround to OOB infra (Lucas)
- - Compute mode change refactoring (Bala)
- - Add ufence and g2h flushes for LNL Hybrid timeouts (Nirmoy)
- - Avoid unnecessary OOM kills (Thomas)
- - Restore system memory GGTT mappings (Brost)
- - Fix build error for XE_IOCTL_DBG macro (Gyeyoung)
- - Documentation updates and fixes (Lucas, Randy)
- - A few exec IOCTL fixes (Brost)
- - Fix potential GGTT allocation leak (Michal)
- - Fix races on fdinfo (Lucas)
- - SRIOV VF: Post-migration recovery worker basis (Tomasz)
- - GuC Communication fixes and improvements (Michal, John, Tomasz, Auld, Jonathan)
- - SRIOV PF: Add support for VF scheduling priority
- - Trace improvements (Lucas, Auld, Oak)
- - Hibernation on igpu fixes and improvements (Auld)
- - GT oriented logs/asserts improvements (Michal)
- - Take job list lock in xe_sched_first_pending_job (Nirmoy)
- - GSC: Improve SW proxy error checking and logging (Daniele)
- - GuC crash notifications & drop default log verbosity (John)
- - Fix races on fdinfo (Lucas)
- - Fix runtime_pm handling in OA (Ashutosh)
- - Allow fault injection in vm create and vm bind IOCTLs (Francois)
- - TLB invalidation fixes (Nirmoy, Daniele)
- - Devcoredump Improvements, doc and fixes (Brost, Lucas, Zhanjun, John)
- - Wake up waiters after setting ufence->signalled (Nirmoy)
- - Mark preempt fence workqueue as reclaim (Brost)
- - Trivial header/flags cleanups (Lucas)
- - VRAM drop 2G block restriction (Auld)
- - Drop useless d3cold allowed message (Brost)
- - SRIOV PF: Drop 2GiB limit of fair LMEM allocation (Michal)
- - Add another PTL PCI ID (Atwood)
- - Allow bo mapping on multiple ggtts (Niranjana)
- - Add support for GuC-to-GuC communication (John)
- - Update xe2_graphics name string (Roper)
- - VRAM: fix lpfn check (Auld)
- - Ad Xe3 workaround (Apoorva)
- - Migrate fixes (Auld)
- - Fix non-contiguous VRAM BO access (Brost)
- - Log throttle reasons (Raag)
- - Enable PMT support for BMG (Michael)
- - IRQ related fixes and improvements (Ilia)
- - Avoid evicting object of the same vm in none fault mode (Oak)
- - Fix in tests (Nirmoy)
- - Fix ERR_PTR handling (Mirsad)
- - Some reg_sr/whitelist fixes and refactors (Lucas)
-
-----------------------------------------------------------------
-Apoorva Singh (1):
-      drm/xe/xe3lpg: Add Wa_16024792527
-
-Ashutosh Dixit (1):
-      drm/xe/oa: Fix "Missing outer runtime PM protection" warning
-
-Balasubramani Vivekanandan (2):
-      drm/xe: Set mask bits for CCS_MODE register
-      drm/xe: Use the filelist from drm for ccs_mode change
-
-Daniele Ceraolo Spurio (2):
-      drm/xe/gsc: Improve SW proxy error checking and logging
-      drm/xe: Call invalidation_fence_fini for PT inval fences in error state
-
-Everest K.C. (1):
-      drm/xe/guc: Fix dereference before NULL check
-
-Francois Dugast (1):
-      drm/xe: Allow fault injection in vm create and vm bind IOCTLs
-
-Gyeyoung Baek (1):
-      drm/xe: Fix build error for XE_IOCTL_DBG macro
-
-Ilia Levi (2):
-      drm/xe: Use managed BO in memirq
-      drm/xe: Make irq enabled flag atomic
-
-John Harrison (7):
-      drm/xe/guc: Reduce default GuC log verbosity
-      drm/xe/guc: Support crash dump notification from GuC
-      drm/xe/guc: Add support for G2G communications
-      drm/xe: Add a reason string to the devcoredump
-      drm/xe: Move the coredump registration to the worker thread
-      drm/xe: Add mutex locking to devcoredump
-      drm/xe/guc: Fix for dead CT dump not re-arming
-
-Jonathan Cavitt (1):
-      drm/xe/xe_guc_ads: Add nonpriv registers to write list
-
-Lucas De Marchi (19):
-      drm/xe: Move Wa 1607983814 to oob
-      drm/xe: Fix drm-next merge
-      drm/xe: Improve devcoredump documentation
-      drm/xe: Wire up devcoredump in documentation
-      drm/xe: Fix case for asserts in documentation
-      drm/xe: Add trace to lrc timestamp update
-      drm/xe: Stop accumulating LRC timestamp on job_free
-      drm/xe: Reword exec_queue and vm lock doc
-      drm/xe: Add gt_id to xe_sched_job traces
-      drm/xe: Wait on killed exec queues
-      drm/xe: Sample gpu timestamp closer to exec queues
-      drm/xe: Include xe_oa_types.h
-      drm/xe: Drop HAS_HECI_*
-      drm/xe: Split xe_gt_stat.h
-      drm/xe: Sort again the info flags
-      drm/xe/reg_sr: Remove register pool
-      drm/xe/reg_sr: Convert whitelist to gt logging
-      drm/xe/reg_sr: Stop setting all whitelist slots
-      drm/xe: Apply whitelist to engine save-restore
-
-Matt Atwood (1):
-      drm/xe/ptl: Add another PTL PCI ID
-
-Matt Roper (1):
-      drm/xe: Update xe2_graphics name string
-
-Matthew Auld (10):
-      drm/xe: improve hibernation on igpu
-      drm/xe: handle flat ccs during hibernation on igpu
-      drm/xe/vram: drop 2G block restriction
-      drm/xe/vram: fix lpfn check
-      drm/xe/trace: improve xe_sched_msg trace
-      drm/xe/guc_submit: fix race around pending_disable
-      drm/xe/guc_submit: fix race around suspend_pending
-      drm/xe/migrate: fix pat index usage
-      drm/xe/migrate: use XE_BO_FLAG_PAGETABLE
-      drm/xe/display: fix ttm_bo_access() usage
-
-Matthew Brost (21):
-      drm/xe: Restore system memory GGTT mappings
-      drm/xe: Fix possible exec queue leak in exec IOCTL
-      drm/xe: Drop VM dma-resv lock on xe_sync_in_fence_get failure in exec IOCTL
-      drm/xe: Ensure all locks released in exec IOCTL
-      drm/xe: Add xe_ring_lrc_is_idle() helper
-      drm/xe: Add ring address to LRC snapshot
-      drm/xe: Add ring start to LRC snapshot
-      drm/xe: Add exec queue param to devcoredump
-      drm/xe: Improve schedule disable response failure
-      drm/xe: Change xe_engine_snapshot_capture_for_job to be for queue
-      drm/xe: Wire devcoredump to LR TDR
-      drm/xe: Mark preempt fence workqueue as reclaim
-      drm/xe: Drop useless d3cold allowed message
-      drm/xe: Add xe_bo_vm_access
-      drm/ttm: Add ttm_bo_access
-      drm/xe: Add xe_ttm_access_memory
-      drm/xe: Take PM ref in delayed snapshot capture worker
-      drm/xe/display: Update intel_bo_read_from_page to use ttm_bo_access
-      drm/xe: Use ttm_bo_access in xe_vm_snapshot_capture_delayed
-      drm/xe: Set XE_BO_FLAG_PINNED in migrate selftest BOs
-      drm/xe: Only allow contiguous BOs to use xe_bo_vmap
-
-Michael J. Ruhl (2):
-      drm/xe/vsec: Support BMG devices
-      drm/xe/vsec: Address static checker issue
-
-Michal Wajdeczko (14):
-      drm/xe/pf: Fix potential GGTT allocation leak
-      drm/xe/guc: Log content of the failed G2H message
-      drm/xe/guc: Drop redundant logs about invalid G2H length
-      drm/xe/guc: Don't read data from G2H prior to length check
-      drm/xe/guc: Don't treat GuC generic CAT error as protocol error
-      drm/xe/guc: Add VF_CFG_SCHED_PRIORITY_KEY KLV definition
-      drm/xe/guc: Add VF_CFG_SCHED_PRIORITY to KLV helper
-      drm/xe/pf: Add functions to configure VF scheduling priority
-      drm/xe/pf: Allow to control scheduling priority using debugfs
-      drm/xe/pf: Adjust scheduling priority based on policy change
-      drm/xe/guc: Prefer GT oriented asserts in submit code
-      drm/xe/guc: Prefer GT oriented logs in submit code
-      drm/xe/pf: Drop 2GiB limit of fair LMEM allocation
-      drm/xe: Introduce xe_gt_dbg_printer()
-
-Mika Kahola (2):
-      drm/i915/xe3lpd: Power request asserting/deasserting
-      drm/i915/display: Use struct intel_display instead of struct drm_i915_private
-
-Mirsad Todorovac (1):
-      drm/xe: fix the ERR_PTR() returned on failure to allocate tiny pt
-
-Niranjana Vishwanathapura (1):
-      drm/xe: Allow bo mapping on multiple ggtts
-
-Nirmoy Das (7):
-      drm/xe: Move LNL scheduling WA to xe_device.h
-      drm/xe/ufence: Flush xe ordered_wq in case of ufence timeout
-      drm/xe/guc/tlb: Flush g2h worker in case of tlb timeout
-      drm/xe: Take job list lock in xe_sched_first_pending_job
-      drm/xe: Ignore GGTT TLB inval errors during GT reset
-      drm/xe/ufence: Wake up waiters after setting ufence->signalled
-      drm/xe/tests: Wait for clear fence operation to complete
-
-Oak Zeng (2):
-      drm/xe: Trace xe_bo_validate
-      drm/xe: Avoid evicting object of the same vm in none fault mode
-
-Raag Jadav (1):
-      drm/xe/throttle: Log throttle reasons
-
-Randy Dunlap (1):
-      drm/xe/vm_doc: fix more doc typos
-
-Rodrigo Vivi (2):
-      Merge drm/drm-next into drm-xe-next
-      Merge drm/drm-next into drm-xe-next
-
-Sai Teja Pottumuttu (1):
-      drm/xe/oa/uapi: Make OA buffer size configurable
-
-Thomas Hellström (3):
-      drm/xe: Avoid the OOM killer on buffer object memory allocation
-      drm/xe: Don't unnecessarily invoke the OOM killer on multiple binds
-      Merge drm/drm-next into drm-xe-next
-
-Tomasz Lis (6):
-      drm/xe/vf: React to MIGRATED interrupt
-      drm/xe/vf: Document SRIOV VF restore flow
-      drm/xe/vf: Send RESFIX_DONE message at end of VF restore
-      drm/xe/vf: Start post-migration fixups with provisioning query
-      drm/xe/vf: Defer fixups if migrated twice fast
-      drm/xe/guc: Do not assert CTB state while sending MMIO
-
-Zhanjun Dong (2):
-      drm/xe/guc: Remove duplicate source field
-      drm/xe/guc: Fix missing init value and add register order check
-
- Documentation/gpu/xe/index.rst                    |   1 +
- Documentation/gpu/xe/xe_devcoredump.rst           |  14 +
- drivers/gpu/drm/i915/display/intel_cx0_phy_regs.h |   7 +
- drivers/gpu/drm/i915/display/intel_tc.c           |  39 ++-
- drivers/gpu/drm/ttm/ttm_bo_vm.c                   |  40 ++-
- drivers/gpu/drm/xe/Makefile                       |   5 +-
- drivers/gpu/drm/xe/abi/guc_actions_abi.h          |  20 ++
- drivers/gpu/drm/xe/abi/guc_actions_sriov_abi.h    |  38 +++
- drivers/gpu/drm/xe/abi/guc_klvs_abi.h             |  14 +
- drivers/gpu/drm/xe/display/ext/i915_irq.c         |  13 +-
- drivers/gpu/drm/xe/display/intel_bo.c             |  25 +-
- drivers/gpu/drm/xe/display/xe_fb_pin.c            |  12 +-
- drivers/gpu/drm/xe/regs/xe_gt_regs.h              |   2 +
- drivers/gpu/drm/xe/regs/xe_oa_regs.h              |   9 +-
- drivers/gpu/drm/xe/regs/xe_pmt.h                  |  19 ++
- drivers/gpu/drm/xe/tests/xe_bo.c                  |   7 +
- drivers/gpu/drm/xe/tests/xe_migrate.c             |  17 +-
- drivers/gpu/drm/xe/xe_assert.h                    |   8 +-
- drivers/gpu/drm/xe/xe_bo.c                        | 182 ++++++++++--
- drivers/gpu/drm/xe/xe_bo.h                        |  33 ++-
- drivers/gpu/drm/xe/xe_bo_evict.c                  |  14 +-
- drivers/gpu/drm/xe/xe_bo_types.h                  |   5 +-
- drivers/gpu/drm/xe/xe_devcoredump.c               | 121 +++++---
- drivers/gpu/drm/xe/xe_devcoredump.h               |   7 +-
- drivers/gpu/drm/xe/xe_devcoredump_types.h         |  10 +-
- drivers/gpu/drm/xe/xe_device.c                    |   8 +
- drivers/gpu/drm/xe/xe_device_types.h              |  57 ++--
- drivers/gpu/drm/xe/xe_drm_client.c                |  80 ++++--
- drivers/gpu/drm/xe/xe_exec_queue.c                |   7 +
- drivers/gpu/drm/xe/xe_ggtt.c                      |  35 +--
- drivers/gpu/drm/xe/xe_gpu_scheduler.h             |  10 +-
- drivers/gpu/drm/xe/xe_gsc_proxy.c                 |  47 +++-
- drivers/gpu/drm/xe/xe_gt.c                        |   4 +-
- drivers/gpu/drm/xe/xe_gt_printk.h                 |  31 +++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c        |  78 +++++-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h        |   3 +
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config_types.h  |   2 +
- drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c       |   5 +
- drivers/gpu/drm/xe/xe_gt_sriov_pf_helpers.h       |   2 +-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_policy.c        |  27 +-
- drivers/gpu/drm/xe/xe_gt_sriov_vf.c               |  63 +++++
- drivers/gpu/drm/xe/xe_gt_sriov_vf.h               |   2 +
- drivers/gpu/drm/xe/xe_gt_stats.h                  |   8 +-
- drivers/gpu/drm/xe/xe_gt_stats_types.h            |  15 +
- drivers/gpu/drm/xe/xe_gt_throttle.c               |   2 +
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c       |  21 +-
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h       |   1 +
- drivers/gpu/drm/xe/xe_gt_types.h                  |   4 +-
- drivers/gpu/drm/xe/xe_guc.c                       | 320 +++++++++++++++++++++-
- drivers/gpu/drm/xe/xe_guc_ads.c                   |  11 +-
- drivers/gpu/drm/xe/xe_guc_capture.c               |  33 +--
- drivers/gpu/drm/xe/xe_guc_capture.h               |   6 +-
- drivers/gpu/drm/xe/xe_guc_ct.c                    |  32 ++-
- drivers/gpu/drm/xe/xe_guc_fwif.h                  |   1 +
- drivers/gpu/drm/xe/xe_guc_klv_helpers.c           |   2 +
- drivers/gpu/drm/xe/xe_guc_submit.c                | 151 +++++-----
- drivers/gpu/drm/xe/xe_guc_types.h                 |  10 +
- drivers/gpu/drm/xe/xe_heci_gsc.c                  |   8 +-
- drivers/gpu/drm/xe/xe_hw_engine.c                 |  11 +-
- drivers/gpu/drm/xe/xe_hw_engine.h                 |   4 +-
- drivers/gpu/drm/xe/xe_hw_engine_types.h           |   2 -
- drivers/gpu/drm/xe/xe_irq.c                       |  37 +--
- drivers/gpu/drm/xe/xe_lrc.c                       |  29 ++
- drivers/gpu/drm/xe/xe_lrc.h                       |   4 +
- drivers/gpu/drm/xe/xe_macros.h                    |  12 +-
- drivers/gpu/drm/xe/xe_memirq.c                    |  26 +-
- drivers/gpu/drm/xe/xe_module.c                    |   2 +-
- drivers/gpu/drm/xe/xe_oa.c                        |  55 +++-
- drivers/gpu/drm/xe/xe_oa_types.h                  |   2 +-
- drivers/gpu/drm/xe/xe_pm.c                        |   3 -
- drivers/gpu/drm/xe/xe_pt.c                        |   6 +-
- drivers/gpu/drm/xe/xe_query.c                     |   4 +-
- drivers/gpu/drm/xe/xe_reg_sr.c                    |  84 +-----
- drivers/gpu/drm/xe/xe_reg_sr_types.h              |   6 -
- drivers/gpu/drm/xe/xe_reg_whitelist.c             |  37 +++
- drivers/gpu/drm/xe/xe_sriov.c                     |   4 +
- drivers/gpu/drm/xe/xe_sriov_pf_helpers.h          |   2 +-
- drivers/gpu/drm/xe/xe_sriov_types.h               |  17 ++
- drivers/gpu/drm/xe/xe_sriov_vf.c                  | 263 ++++++++++++++++++
- drivers/gpu/drm/xe/xe_sriov_vf.h                  |  14 +
- drivers/gpu/drm/xe/xe_trace.h                     |  11 +-
- drivers/gpu/drm/xe/xe_trace_bo.h                  |   5 +
- drivers/gpu/drm/xe/xe_trace_lrc.c                 |   9 +
- drivers/gpu/drm/xe/xe_trace_lrc.h                 |  52 ++++
- drivers/gpu/drm/xe/xe_ttm_vram_mgr.c              |  53 +---
- drivers/gpu/drm/xe/xe_vm.c                        |  32 +--
- drivers/gpu/drm/xe/xe_vm_doc.h                    |  22 +-
- drivers/gpu/drm/xe/xe_vsec.c                      | 233 ++++++++++++++++
- drivers/gpu/drm/xe/xe_vsec.h                      |  11 +
- drivers/gpu/drm/xe/xe_wa.c                        |   6 +
- drivers/gpu/drm/xe/xe_wa_oob.rules                |   1 +
- include/drm/intel/xe_pciids.h                     | 235 ++++++++++++++++
- include/drm/ttm/ttm_bo.h                          |   2 +
- include/uapi/drm/xe_drm.h                         |   9 +
- 94 files changed, 2463 insertions(+), 590 deletions(-)
- create mode 100644 Documentation/gpu/xe/xe_devcoredump.rst
- create mode 100644 drivers/gpu/drm/xe/regs/xe_pmt.h
- create mode 100644 drivers/gpu/drm/xe/xe_gt_stats_types.h
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_vf.c
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_vf.h
- create mode 100644 drivers/gpu/drm/xe/xe_trace_lrc.c
- create mode 100644 drivers/gpu/drm/xe/xe_trace_lrc.h
- create mode 100644 drivers/gpu/drm/xe/xe_vsec.c
- create mode 100644 drivers/gpu/drm/xe/xe_vsec.h
- create mode 100644 include/drm/intel/xe_pciids.h
+-- 
+With best wishes
+Dmitry
