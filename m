@@ -2,74 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCE39ED1B2
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 17:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F5B9ED20F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 17:35:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5F210EBAA;
-	Wed, 11 Dec 2024 16:29:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F22110E1CE;
+	Wed, 11 Dec 2024 16:35:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bLRrrtAS";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="WHT4wOwt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC79610EBAA
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 16:29:52 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-3004028c714so42722771fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 08:29:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1733934591; x=1734539391; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=osyXKRqUv4PvfNbOFslNjYYNVIaS0mD+W2/0VCKnb7I=;
- b=bLRrrtASaxcLUUjSdvR9TYLFMfcKsAZZAqCejj+QHvEdv9Lm2OoMhfLP9dGK4dYQKt
- ipejwWaDPz8//xavWWeylwm1gDCXtRotHpL2ToW9gkMBhQjS8kIzzPG/0g/SlQ8BzoJd
- Wav6yzs6IWKovggUQA6fYvTDJ+IU5sRWL/TckkbUeJsX05ChX0FSWUkQoxOb9FyHGoo8
- R6vNF+OVbW0PaB3oHWNd3ycVhkI+nXqHK/px1ZdPU6VDaIOgwJvEBov1kOpLaFBqKvid
- z+tcol0I3s/IxJkulVw2jO0em87eTJHxk9VE6n4IE2p6IrSflW1vdE/aoWW+9yxIYj+i
- jWLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733934591; x=1734539391;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=osyXKRqUv4PvfNbOFslNjYYNVIaS0mD+W2/0VCKnb7I=;
- b=dx+R+otZyiJ2tUIwPcidoky8RLQECHjs8ipsxSxKRnLiBh5XW4WER+vhTra003zW7E
- Sm/aqvy+ufZxvHHr+209vnT3p0fSfqMs+ND3SWZcMFkr9Ec77rZILzo0EuYHUdQ2X9YK
- 0IZiSn2cfLaHrlVhXfpfggohhr6a2WJbOoPR3pE5uhhzMJVtrO2VK8hinW9vztSamdfE
- YW6N6+d/g/GCzt3+4asNELfC7+mj2z/h8TIVaVvpTLtb65P76F2wTJcS3TakNdw7r8Nb
- 3AokhvFQg1sKoz8WNRoKx1qXxj881VsP5cvfQ/iCl4VmkHe3z3QjhFNyswUtBqPdvOS6
- n9tw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWPPMnsVQF7sGGRm4cuSZt8Hwq8T6izOPimDPS96MzHIR98LHBTwNe38wQ49BNMIUPVjtOZ4gtcV6E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXqPBI0oBugfIYVpVYGHq+85ilKXHGODSAC8ixyb49FcIW0bLf
- jS8bQpl8AnaPKP7w0O3Lxxekf2nKP1amcQkPDYQz0VwGAMa0mRXUy3REp+73YLaYgDdukNIF7ll
- GzpzCwkMQID9E6NWjTVG8I5+5KT0=
-X-Gm-Gg: ASbGnctI1SBjs5xt39ynwOYH350vNUfcqVvsjN27xpGbRWTe7TraZSLKvhWy4jGV5ER
- /b6KfX4aS4OS+eXAoqi6ewiYxAwBhR1Vs1uIuLbateoN1EYRjtGcOww/xE33nTSY2PY0=
-X-Google-Smtp-Source: AGHT+IGYVMJ6W3ctYMQ7NC8ivi8cFDMpjmorS0+eO9pMHQYMNw+7Ad3Tj/sNuMyEstWHwoEfJ1/yML70vfdfCV99C5I=
-X-Received: by 2002:a05:651c:221a:b0:300:2c9f:ac51 with SMTP id
- 38308e7fff4ca-30249e0465cmr677441fa.2.1733934590663; Wed, 11 Dec 2024
- 08:29:50 -0800 (PST)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D020D10E1CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 16:35:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1733934887; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=hFwO3hozzfeWnSx24Ww8Dl5opS9oZ2SFDgQRPrbwMGpzMkdPwOqOlgeGvrVJtTI3nXqck460bTLMYDHC7jMZl6NLr5yQzod1jLjJoAen4ijThZdt64FuJtIVrhGV4ABoZhpFaF4X40T0TIGGYpR/oElW6p5Ta9JO03eayCJp5Ac=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1733934887;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HDsZiPXRiyT2DtFdDqPzRkEMG3ihCmTo/xJvACrvICs=; 
+ b=OfTVOdlf2ACd+/dHgTdkKHkZZXaIPJr/5fbwhkw300KGBIqSJyArf4oatCaFphgQg1kD+B2iYL1ibehSXOR2d0yzZP/xLdA5q2AIeKchilRlyopV/k+WyMwDhMBWqbFTqhyO+8FjwP0wuv36kRibgbViZVD8Dk8BNNfp1YJceD8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733934887; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=HDsZiPXRiyT2DtFdDqPzRkEMG3ihCmTo/xJvACrvICs=;
+ b=WHT4wOwtHDZy8dUma01ejXv1nxZd+GU6JmRJU2pav9AOdMAzkILcthe0+0Ek+cRM
+ KQ4mYnVoVd0pJ9P1zrhJAdvOgrD2HDJygbiX1jed6M2zsI1VW07gUSuoR9Tpc4JGwjN
+ DOvfl7tSSLFkgtssCtSgJuo8/otoMq+f8Xs5vWXg=
+Received: by mx.zohomail.com with SMTPS id 1733934886492542.7231123372303;
+ Wed, 11 Dec 2024 08:34:46 -0800 (PST)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] drm/panthor: Display size of internal kernel BOs
+ through fdinfo
+Date: Wed, 11 Dec 2024 16:34:30 +0000
+Message-ID: <20241211163436.381069-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-References: <20241210105705.116116-1-festevam@gmail.com>
- <yujvdu3s6v7z7th2lrdscqfxocx2zy2u4owakisvnjppz2udqv@5ok2rcf4exd4>
-In-Reply-To: <yujvdu3s6v7z7th2lrdscqfxocx2zy2u4owakisvnjppz2udqv@5ok2rcf4exd4>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 11 Dec 2024 13:29:39 -0300
-Message-ID: <CAOMZO5B3810+4RJsPUtL3ASxqpDd+UmC=GcY6t8-ad7NZXZLjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel-lvds: Add compatible
- for AUO G084SN05 V9
-To: neil.armstrong@linaro.org, shawnguo@kernel.org
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,26 +70,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+This patch series enables display of the size of driver-owned shmem BO's that aren't
+exposed to userspace through a DRM handle.
 
-On Wed, Dec 11, 2024 at 6:31=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Tue, Dec 10, 2024 at 07:57:04AM -0300, Fabio Estevam wrote:
-> > From: Fabio Estevam <festevam@denx.de>
-> >
-> > The AUO G084SN05 V9 is an 8.4" 800x600 LVDS display.
-> >
-> > Add a compatible entry for this LVDS display model.
-> >
-> > Signed-off-by: Fabio Estevam <festevam@denx.de>
-> > ---
-> > Changes since v1:
-> > - Added devicetree@vger.kernel.org on Cc.
-> >
-> >  Documentation/devicetree/bindings/display/panel/panel-lvds.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
->
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Discussion of previous revision can be found here [1].
 
-Would it be OK for you if Shawn applies both patches via his i.MX ARM tree?
+Changelog:
+
+v4:
+ - Remove unrelated formating fix
+ - Moved calculating overall size of a group's kernel BO's into
+ its own static helper.
+ - Renamed group kernel BO's size aggregation function to better
+ reflect its actual responsibility.
+
+[1] https://lore.kernel.org/dri-devel/20241205233915.2180630-1-adrian.larumbe@collabora.com/
+
+Adrián Larumbe (2):
+  drm/panthor: Expose size of driver internal BO's over fdinfo
+  Documentation/gpu: Add fdinfo meanings of drm-*-internal memory tags
+
+ Documentation/gpu/panthor.rst           | 14 +++++++
+ drivers/gpu/drm/panthor/panthor_drv.c   | 12 ++++++
+ drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++++
+ drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c   | 35 +++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.h   |  4 ++
+ drivers/gpu/drm/panthor/panthor_sched.c | 52 ++++++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_sched.h |  4 ++
+ 8 files changed, 148 insertions(+), 1 deletion(-)
+
+
+base-commit: c6eabbab359c156669e10d5dec3e71e80ff09bd2
+-- 
+2.47.0
+
