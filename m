@@ -2,58 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9508C9EDACE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 00:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE139EDACF
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 00:04:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B029110EC68;
-	Wed, 11 Dec 2024 23:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784F810EC5C;
+	Wed, 11 Dec 2024 23:04:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="THLcBzcm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A8ZaPrrz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE9EC10EC63;
- Wed, 11 Dec 2024 23:03:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733958190; x=1765494190;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=55JTnV9Cdst5xCwsFFgXYafPTCuQTDceK7wRLpkppfw=;
- b=THLcBzcmEEGfkYBbZGkX4/yPW8KvpDK/pTC9ajRiwcqVf0K6hlU2q+dF
- hAzLJCSKXNQCZuEXh3v4dNP1vMjld8AWKAPPX/fS+GqGJ23Vd8bbzC7NZ
- UE0COm8VsVozhLlqfMaQJeA/95sPa0/vPJdGJyaH25N2FsqGBlVWCpJ4g
- T459wrUAc8YZVURo8tRVkp+w2COlRE8SvisIA8CQp444GgcXm4SNeeNdg
- 36F28S/axRB7moVQGVmwGpF2bkM1b1Aml+hd2PUczmP3Im3dyn4xNiC4c
- oD0kyLmZS/82/5NFHnsIkh6d7Bd36GVQA6PWKRD0ZHQBRAMFg4l1LhdHY w==;
-X-CSE-ConnectionGUID: JxG9pNYkQsWhMvMxtEogBw==
-X-CSE-MsgGUID: 7JjOHMPmT0KY0LzagKQRJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="34401518"
-X-IronPort-AV: E=Sophos;i="6.12,226,1728975600"; d="scan'208";a="34401518"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2024 15:03:10 -0800
-X-CSE-ConnectionGUID: 4joVMooPRmWcRMh3qQosiQ==
-X-CSE-MsgGUID: rJ9voqCVTL+Oje3j5W6O5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="126962840"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2024 15:03:06 -0800
-From: Imre Deak <imre.deak@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v3 11/11] drm/i915/dp_mst: Use intel_connector vs.
- drm_connector pointer in intel_dp_mst.c
-Date: Thu, 12 Dec 2024 01:03:28 +0200
-Message-ID: <20241211230328.4012496-12-imre.deak@intel.com>
-X-Mailer: git-send-email 2.44.2
-In-Reply-To: <20241211230328.4012496-1-imre.deak@intel.com>
-References: <20241211230328.4012496-1-imre.deak@intel.com>
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A92810EC5F
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 23:04:10 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-53e3778bffdso5653718e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 15:04:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733958249; x=1734563049; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OMqUgu29dr/kC2j1L26UmKv/roqpPimVfYqNx+1TUQA=;
+ b=A8ZaPrrz1l99MGe72+Fo0rn+B8YMuYzoGRygCPpGTwvwOpJKuy/Sx6bjeBc7vHrZIR
+ ELBCbhixIy8DVNBDxgfq6+NeV6mvfVvs5kvX3Qhrv9fa7COTKv8W5OuNuqhsrHCNIGaT
+ yWCf+xx2zPS9MGxi/i07k9pciTr5E4auYtBKCYxbtXR/tDuVvU4y8cT45vTlmzpVS+nd
+ SfQ5a2bmnTkDXs7Hs8fkx/qbC9cLEEs85DMjIo8E5y0lTiV5xqmayn5lxw/J+XdEUTjn
+ Ga1689mvKixj7sigEKR2KSQxRC0dp4qIH6/uTjyYEjnwp9H0zmHljYi5RcbzZgOyTHsL
+ ijAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733958249; x=1734563049;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OMqUgu29dr/kC2j1L26UmKv/roqpPimVfYqNx+1TUQA=;
+ b=YcJ8QUN9CvyxAgtRzSlFk/hKjWKhlMWLmp+tjAWb1SzXWtOJVBX3SePb/dksomf77Y
+ yhY/fd/YJTAHyTwXiBVZwiQdAyVPVujX/c/8j98N4hQTOeD8u8X+qi1HXxcQ8LJ59bT8
+ 5KLOruObwOqL8Wu67zo1b+Lj4iWvasEQw3uXaE8jsXJxsG5MZQP/+Krcc+3Z3Yf2yv2z
+ STTaZdMLhElA6ekFo5AqIFBK6I4nfUdi+ayVV/JLt4O7hRldle00rLdR0C+909FSuh3l
+ AkbQD1ofokr/EMVhlJUGM8usB938VmjjPIBghbq6ljEPiF76RJj3ffpffGVeg3NJKW7w
+ KuNw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAm4r4Kje3Fh2X0S6jeS8fb26LW+NoiZGVzY20HfGZpA//yMC+QkRavlbi1MPTdkSF9GkJZTrxo7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyzb3mvIcq7XuF3jhy/L78KSZ3mYjGNlcBng8J2mzUIHxw95UVz
+ xecxJYQPCxfLSF9lWEHOL0Ab6XmRHBLGEudavvJl0Vj/TT9oYCVlDPObatsl0yw=
+X-Gm-Gg: ASbGnctgwkRVCBJOQe4wF7CJnBpY1sgcPJh3uAaTmzKudQuL7NAQXK1YC7Jf3503IV0
+ wwwSO3t3W4VeO2yom/Arvqkfm7ujnvuh5hpKjIzX7nMk8YNbG2nf4TSVndEbxt0cpdRMS8UtTJ0
+ W4t8ElxlfDFMqm4r/1Et5FEG52fDwB9PIKSUW28+07Ck6ZfpfaVeZHh4jL6VZT9JqCVKZLdKR3w
+ tPn2cHeR0jbzZmiziWNqhOtUfWqt9KhnTIoQsmAuHm/JLzdwbSSHLnkMGlSTEWSuza31D1bHyx9
+ 3CKYkjf7CFrq6Qk8GQNObdEd24rtveWEmg==
+X-Google-Smtp-Source: AGHT+IEhqGDw0cNCr+jN+DdXJHOmo3kKoG/lFAosZWpVVqXUd4oFiJE89F6qLxbtZeNdIPawBJHAgw==
+X-Received: by 2002:a05:6512:3c99:b0:53f:8c46:42bd with SMTP id
+ 2adb3069b0e04-5402a5e0a12mr1498950e87.15.1733958249174; 
+ Wed, 11 Dec 2024 15:04:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401fb5f496sm1102790e87.237.2024.12.11.15.04.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Dec 2024 15:04:07 -0800 (PST)
+Date: Thu, 12 Dec 2024 01:04:05 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrej Picej <andrej.picej@norik.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
+Subject: Re: [PATCH v5 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
+ optional properties
+Message-ID: <rputm4gnjj6nb66ix7dqbxr2janltia6rlb6zunhf7x3mgooxw@o3lblnyp5cci>
+References: <20241210091901.83028-1-andrej.picej@norik.com>
+ <20241210091901.83028-3-andrej.picej@norik.com>
+ <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
+ <aa2de99d-21f4-4843-83b7-5d2db78be86f@norik.com>
+ <qhmsobin3fsmoc7ic2jtancowfscoauyroruxdpwhmqwlogtkz@6by3s2ruwzwp>
+ <519cc025-0782-4f96-a169-1fe87b280173@norik.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <519cc025-0782-4f96-a169-1fe87b280173@norik.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,397 +101,239 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Follow the canonical way in intel_dp_mst.c, referencing a connector only
-via a struct intel_connector pointer and naming this pointer 'connector'
-instead of 'intel_connector', the only exception being the casting of
-a drm_connector function parameter pointer to intel_connector, calling
-the drm_connector pointer _connector.
+On Wed, Dec 11, 2024 at 08:57:17AM +0100, Andrej Picej wrote:
+> 
+> 
+> On 10. 12. 24 14:59, Dmitry Baryshkov wrote:
+> > On Tue, Dec 10, 2024 at 02:41:01PM +0100, Andrej Picej wrote:
+> > > 
+> > > 
+> > > On 10. 12. 24 12:43, Dmitry Baryshkov wrote:
+> > > > On Tue, Dec 10, 2024 at 10:19:00AM +0100, Andrej Picej wrote:
+> > > > > Add a optional properties to change LVDS output voltage. This should not
+> > > > > be static as this depends mainly on the connected display voltage
+> > > > > requirement. We have three properties:
+> > > > > - "ti,lvds-termination-ohms", which sets near end termination,
+> > > > > - "ti,lvds-vod-swing-data-microvolt" and
+> > > > > - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
+> > > > > output voltage for data and clock lanes. They are defined as an array
+> > > > > with min and max values. The appropriate bitfield will be set if
+> > > > > selected constraints can be met.
+> > > > > 
+> > > > > If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
+> > > > > end termination will be used. Selecting only one:
+> > > > > "ti,lvds-vod-swing-data-microvolt" or
+> > > > > "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
+> > > > > constraint for only data/clock lanes will be met. Setting both is
+> > > > > recommended.
+> > > > > 
+> > > > > Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+> > > > > ---
+> > > > > Changes in v5:
+> > > > > - specify default values in sn65dsi83_parse_lvds_endpoint,
+> > > > > - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
+> > > > > Changes in v4:
+> > > > > - fix typo in commit message bitfiled -> bitfield
+> > > > > - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
+> > > > > of separate variables for channel A/B
+> > > > > - add more checks on return value of "of_property_read_u32_array"
+> > > > > Changes in v3:
+> > > > > - use microvolts for default array values 1000 mV -> 1000000 uV.
+> > > > > Changes in v2:
+> > > > > - use datasheet tables to get the proper configuration
+> > > > > - since major change was done change the authorship to myself
+> > > > > ---
+> > > > >    drivers/gpu/drm/bridge/ti-sn65dsi83.c | 142 +++++++++++++++++++++++++-
+> > > > >    1 file changed, 139 insertions(+), 3 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > index 57a7ed13f996..f9578b38da28 100644
+> > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > @@ -132,6 +132,16 @@
+> > > > >    #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
+> > > > >    #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
+> > > > > +enum sn65dsi83_channel {
+> > > > > +	CHANNEL_A,
+> > > > > +	CHANNEL_B
+> > > > > +};
+> > > > > +
+> > > > > +enum sn65dsi83_lvds_term {
+> > > > > +	OHM_100,
+> > > > > +	OHM_200
+> > > > > +};
+> > > > > +
+> > > > >    enum sn65dsi83_model {
+> > > > >    	MODEL_SN65DSI83,
+> > > > >    	MODEL_SN65DSI84,
+> > > > > @@ -147,6 +157,8 @@ struct sn65dsi83 {
+> > > > >    	struct regulator		*vcc;
+> > > > >    	bool				lvds_dual_link;
+> > > > >    	bool				lvds_dual_link_even_odd_swap;
+> > > > > +	int				lvds_vod_swing_conf[2];
+> > > > > +	int				lvds_term_conf[2];
+> > > > >    };
+> > > > >    static const struct regmap_range sn65dsi83_readable_ranges[] = {
+> > > > > @@ -237,6 +249,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
+> > > > >    	.max_register = REG_IRQ_STAT,
+> > > > >    };
+> > > > > +static const int lvds_vod_swing_data_table[2][4][2] = {
+> > > > > +	{	/* 100 Ohm */
+> > > > > +		{ 180000, 313000 },
+> > > > > +		{ 215000, 372000 },
+> > > > > +		{ 250000, 430000 },
+> > > > > +		{ 290000, 488000 },
+> > > > > +	},
+> > > > > +	{	/* 200 Ohm */
+> > > > > +		{ 150000, 261000 },
+> > > > > +		{ 200000, 346000 },
+> > > > > +		{ 250000, 428000 },
+> > > > > +		{ 300000, 511000 },
+> > > > > +	},
+> > > > > +};
+> > > > > +
+> > > > > +static const int lvds_vod_swing_clock_table[2][4][2] = {
+> > > > > +	{	/* 100 Ohm */
+> > > > > +		{ 140000, 244000 },
+> > > > > +		{ 168000, 290000 },
+> > > > > +		{ 195000, 335000 },
+> > > > > +		{ 226000, 381000 },
+> > > > > +	},
+> > > > > +	{	/* 200 Ohm */
+> > > > > +		{ 117000, 204000 },
+> > > > > +		{ 156000, 270000 },
+> > > > > +		{ 195000, 334000 },
+> > > > > +		{ 234000, 399000 },
+> > > > > +	},
+> > > > > +};
+> > > > > +
+> > > > >    static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
+> > > > >    {
+> > > > >    	return container_of(bridge, struct sn65dsi83, bridge);
+> > > > > @@ -435,12 +477,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+> > > > >    		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
+> > > > >    	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+> > > > > -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+> > > > > +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
+> > > > > +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_A]) |
+> > > > > +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_B]));
+> > > > >    	regmap_write(ctx->regmap, REG_LVDS_LANE,
+> > > > >    		     (ctx->lvds_dual_link_even_odd_swap ?
+> > > > >    		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+> > > > > -		     REG_LVDS_LANE_CHA_LVDS_TERM |
+> > > > > -		     REG_LVDS_LANE_CHB_LVDS_TERM);
+> > > > > +		     (ctx->lvds_term_conf[CHANNEL_A] ?
+> > > > > +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
+> > > > > +		     (ctx->lvds_term_conf[CHANNEL_B] ?
+> > > > > +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
+> > > > >    	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+> > > > >    	le16val = cpu_to_le16(mode->hdisplay);
+> > > > > @@ -576,10 +622,100 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
+> > > > >    	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
+> > > > >    };
+> > > > > +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
+> > > > > +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
+> > > > > +{
+> > > > > +	int i;
+> > > > > +
+> > > > > +	for (i = 0; i <= 3; i++) {
+> > > > > +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
+> > > > > +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
+> > > > > +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+> > > > > +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
+> > > > > +			return i;
+> > > > > +	}
+> > > > > +
+> > > > > +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
+> > > > > +	return -EINVAL;
+> > > > > +}
+> > > > > +
+> > > > > +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
+> > > > > +{
+> > > > > +	struct device *dev = ctx->dev;
+> > > > > +	struct device_node *endpoint;
+> > > > > +	int endpoint_reg;
+> > > > > +	/* Set so the property can be freely selected if not defined */
+> > > > > +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
+> > > > > +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
+> > > > > +	u32 lvds_term;
+> > > > > +	u8 lvds_term_conf = 0x1;
+> > > > > +	int lvds_vod_swing_conf = 0x1;
+> > > > 
+> > > > Magic values
+> > > 
+> > > Can you please elaborate.
+> > > 
+> > > I can use:
+> > > u8 lvds_term_conf = OHM_200;
+> > > 
+> > > What about lvds_vod_swing_conf? Should I create additional define for it?
+> > > But this doesn't solve a hidden meaning? Maybe additional comment above?
+> > > Would like to avoid using voltages for it, since then we are reverse
+> > > engineering the table in datasheet to match the default reg value.
+> > 
+> > I think the following example solves both problems:
+> > 
+> > lvds_term = 200;
+> > of_property_read_u32(..., &lvds_term);
+> > 
+> > if (lvds_term == 100)
+> > 	ctx->lvds_term_conf[channel] = OHM_100;
+> > else if (lvds_term == 200)
+> > 	ctx->lvds_term_conf[channel] = OHM_200;
+> > else
+> > 	return -EINVAL;
+> > 
+> > The same approach can be applied to lvds_vod_swing_conf, resulting in
+> > removal of magic values.
+> 
+> Sorry, but I think it is not that easy when it comes to the
+> lvds_vod_swing_conf. We should assign default value if
+> "ti,lvds-vod-swing-data-microvolt" and "ti,lvds-vod-swing-clock-microvolt"
+> are not defined. Default value of the lvds_vod_swing_conf is 0x1, but this
+> doesn't have any straight forward meaning like OHM_200 for example.
+> 
+> What we can do in that case is that we copy the values from defined
+> datasheet tables to the "lvds_vod_swing_data[2]" and "lvds_vod_swing_clk[2]"
+> arrays and then run the
+> sn65dsi83_select_lvds_vod_swing with it, which will return the default value
+> (0x1).
+> 
+> /* If both properties are not defined assign default limits */
+> if (ret_data && ret_clock) {
+> 	memcpy(lvds_vod_swing_data,
+> 	     lvds_vod_swing_data_table[ctx->lvds_term_conf[channel]][1],
+> 	     sizeof(lvds_vod_swing_data));
+> 	memcpy(lvds_vod_swing_clk,
+> 	    lvds_vod_swing_clock_table[ctx->lvds_term_conf[channel]][1],
+> 	    sizeof(lvds_vod_swing_clk));
+> }
+> lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
+> 	lvds_vod_swing_data, lvds_vod_swing_clk,
+> 	ctx->lvds_term_conf[channel]);
+> if (lvds_vod_swing_conf < 0) {
+> 	ret = lvds_vod_swing_conf;
+> 	goto exit;
+> }
+> 
+> ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
+> 
+> I'm not sure if using this approach gets rid of the problem with magic
+> values.
+> Or maybe I'm not seeing the obvious solution so please bear with me.
 
-Suggested-by: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 180 ++++++++++----------
- 1 file changed, 88 insertions(+), 92 deletions(-)
+Yes, the defaults (0..1000000) should be fixed to result in the same
+value (0x01) as if the property wasn't specified at all.
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 99f08e31fd6e0..44cc54a87067a 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -969,33 +969,32 @@ mst_connector_atomic_topology_check(struct intel_connector *connector,
- }
- 
- static int
--mst_connector_atomic_check(struct drm_connector *connector,
-+mst_connector_atomic_check(struct drm_connector *_connector,
- 			   struct drm_atomic_state *_state)
- {
- 	struct intel_atomic_state *state = to_intel_atomic_state(_state);
--	struct intel_connector *intel_connector =
--		to_intel_connector(connector);
-+	struct intel_connector *connector = to_intel_connector(_connector);
- 	int ret;
- 
--	ret = intel_digital_connector_atomic_check(connector, &state->base);
-+	ret = intel_digital_connector_atomic_check(&connector->base, &state->base);
- 	if (ret)
- 		return ret;
- 
--	ret = mst_connector_atomic_topology_check(intel_connector, state);
-+	ret = mst_connector_atomic_topology_check(connector, state);
- 	if (ret)
- 		return ret;
- 
--	if (intel_connector_needs_modeset(state, connector)) {
-+	if (intel_connector_needs_modeset(state, &connector->base)) {
- 		ret = intel_dp_tunnel_atomic_check_state(state,
--							 intel_connector->mst_port,
--							 intel_connector);
-+							 connector->mst_port,
-+							 connector);
- 		if (ret)
- 			return ret;
- 	}
- 
- 	return drm_dp_atomic_release_time_slots(&state->base,
--						&intel_connector->mst_port->mst_mgr,
--						intel_connector->port);
-+						&connector->mst_port->mst_mgr,
-+						connector->port);
- }
- 
- static void mst_stream_disable(struct intel_atomic_state *state,
-@@ -1375,23 +1374,23 @@ static bool mst_stream_initial_fastset_check(struct intel_encoder *encoder,
- 	return intel_dp_initial_fastset_check(primary_encoder, crtc_state);
- }
- 
--static int mst_connector_get_ddc_modes(struct drm_connector *connector)
-+static int mst_connector_get_ddc_modes(struct drm_connector *_connector)
- {
--	struct intel_display *display = to_intel_display(connector->dev);
--	struct intel_connector *intel_connector = to_intel_connector(connector);
--	struct intel_dp *intel_dp = intel_connector->mst_port;
-+	struct intel_connector *connector = to_intel_connector(_connector);
-+	struct intel_display *display = to_intel_display(connector->base.dev);
-+	struct intel_dp *intel_dp = connector->mst_port;
- 	const struct drm_edid *drm_edid;
- 	int ret;
- 
--	if (drm_connector_is_unregistered(connector))
--		return intel_connector_update_modes(connector, NULL);
-+	if (drm_connector_is_unregistered(&connector->base))
-+		return intel_connector_update_modes(&connector->base, NULL);
- 
- 	if (!intel_display_driver_check_access(display))
--		return drm_edid_connector_add_modes(connector);
-+		return drm_edid_connector_add_modes(&connector->base);
- 
--	drm_edid = drm_dp_mst_edid_read(connector, &intel_dp->mst_mgr, intel_connector->port);
-+	drm_edid = drm_dp_mst_edid_read(&connector->base, &intel_dp->mst_mgr, connector->port);
- 
--	ret = intel_connector_update_modes(connector, drm_edid);
-+	ret = intel_connector_update_modes(&connector->base, drm_edid);
- 
- 	drm_edid_free(drm_edid);
- 
-@@ -1399,32 +1398,29 @@ static int mst_connector_get_ddc_modes(struct drm_connector *connector)
- }
- 
- static int
--mst_connector_late_register(struct drm_connector *connector)
-+mst_connector_late_register(struct drm_connector *_connector)
- {
--	struct intel_connector *intel_connector = to_intel_connector(connector);
-+	struct intel_connector *connector = to_intel_connector(_connector);
- 	int ret;
- 
--	ret = drm_dp_mst_connector_late_register(connector,
--						 intel_connector->port);
-+	ret = drm_dp_mst_connector_late_register(&connector->base, connector->port);
- 	if (ret < 0)
- 		return ret;
- 
--	ret = intel_connector_register(connector);
-+	ret = intel_connector_register(&connector->base);
- 	if (ret < 0)
--		drm_dp_mst_connector_early_unregister(connector,
--						      intel_connector->port);
-+		drm_dp_mst_connector_early_unregister(&connector->base, connector->port);
- 
- 	return ret;
- }
- 
- static void
--mst_connector_early_unregister(struct drm_connector *connector)
-+mst_connector_early_unregister(struct drm_connector *_connector)
- {
--	struct intel_connector *intel_connector = to_intel_connector(connector);
-+	struct intel_connector *connector = to_intel_connector(_connector);
- 
--	intel_connector_unregister(connector);
--	drm_dp_mst_connector_early_unregister(connector,
--					      intel_connector->port);
-+	intel_connector_unregister(&connector->base);
-+	drm_dp_mst_connector_early_unregister(&connector->base, connector->port);
- }
- 
- static const struct drm_connector_funcs mst_connector_funcs = {
-@@ -1438,23 +1434,25 @@ static const struct drm_connector_funcs mst_connector_funcs = {
- 	.atomic_duplicate_state = intel_digital_connector_duplicate_state,
- };
- 
--static int mst_connector_get_modes(struct drm_connector *connector)
-+static int mst_connector_get_modes(struct drm_connector *_connector)
- {
--	return mst_connector_get_ddc_modes(connector);
-+	struct intel_connector *connector = to_intel_connector(_connector);
-+
-+	return mst_connector_get_ddc_modes(&connector->base);
- }
- 
- static int
--mst_connector_mode_valid_ctx(struct drm_connector *connector,
-+mst_connector_mode_valid_ctx(struct drm_connector *_connector,
- 			     struct drm_display_mode *mode,
- 			     struct drm_modeset_acquire_ctx *ctx,
- 			     enum drm_mode_status *status)
- {
--	struct intel_display *display = to_intel_display(connector->dev);
--	struct drm_i915_private *dev_priv = to_i915(connector->dev);
--	struct intel_connector *intel_connector = to_intel_connector(connector);
--	struct intel_dp *intel_dp = intel_connector->mst_port;
-+	struct intel_connector *connector = to_intel_connector(_connector);
-+	struct intel_display *display = to_intel_display(connector->base.dev);
-+	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-+	struct intel_dp *intel_dp = connector->mst_port;
- 	struct drm_dp_mst_topology_mgr *mgr = &intel_dp->mst_mgr;
--	struct drm_dp_mst_port *port = intel_connector->port;
-+	struct drm_dp_mst_port *port = connector->port;
- 	const int min_bpp = 18;
- 	int max_dotclk = display->cdclk.max_dotclk_freq;
- 	int max_rate, mode_rate, max_lanes, max_link_clock;
-@@ -1465,7 +1463,7 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
- 	int target_clock = mode->clock;
- 	int num_joined_pipes;
- 
--	if (drm_connector_is_unregistered(connector)) {
-+	if (drm_connector_is_unregistered(&connector->base)) {
- 		*status = MODE_ERROR;
- 		return 0;
- 	}
-@@ -1503,7 +1501,7 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
- 	 *   corresponding link capabilities of the sink) in case the
- 	 *   stream is uncompressed for it by the last branch device.
- 	 */
--	num_joined_pipes = intel_dp_num_joined_pipes(intel_dp, intel_connector,
-+	num_joined_pipes = intel_dp_num_joined_pipes(intel_dp, connector,
- 						     mode->hdisplay, target_clock);
- 	max_dotclk *= num_joined_pipes;
- 
-@@ -1517,14 +1515,14 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
- 		return 0;
- 	}
- 
--	if (intel_dp_has_dsc(intel_connector)) {
-+	if (intel_dp_has_dsc(connector)) {
- 		/*
- 		 * TBD pass the connector BPC,
- 		 * for now U8_MAX so that max BPC on that platform would be picked
- 		 */
--		int pipe_bpp = intel_dp_dsc_compute_max_bpp(intel_connector, U8_MAX);
-+		int pipe_bpp = intel_dp_dsc_compute_max_bpp(connector, U8_MAX);
- 
--		if (drm_dp_sink_supports_fec(intel_connector->dp.fec_capability)) {
-+		if (drm_dp_sink_supports_fec(connector->dp.fec_capability)) {
- 			dsc_max_compressed_bpp =
- 				intel_dp_dsc_get_max_compressed_bpp(dev_priv,
- 								    max_link_clock,
-@@ -1535,7 +1533,7 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
- 								    INTEL_OUTPUT_FORMAT_RGB,
- 								    pipe_bpp, 64);
- 			dsc_slice_count =
--				intel_dp_dsc_get_slice_count(intel_connector,
-+				intel_dp_dsc_get_slice_count(connector,
- 							     target_clock,
- 							     mode->hdisplay,
- 							     num_joined_pipes);
-@@ -1559,39 +1557,39 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
- }
- 
- static struct drm_encoder *
--mst_connector_atomic_best_encoder(struct drm_connector *connector,
-+mst_connector_atomic_best_encoder(struct drm_connector *_connector,
- 				  struct drm_atomic_state *state)
- {
--	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
--											 connector);
--	struct intel_connector *intel_connector = to_intel_connector(connector);
--	struct intel_dp *intel_dp = intel_connector->mst_port;
-+	struct intel_connector *connector = to_intel_connector(_connector);
-+	struct drm_connector_state *connector_state =
-+		drm_atomic_get_new_connector_state(state, &connector->base);
-+	struct intel_dp *intel_dp = connector->mst_port;
- 	struct intel_crtc *crtc = to_intel_crtc(connector_state->crtc);
- 
- 	return &intel_dp->mst_encoders[crtc->pipe]->base.base;
- }
- 
- static int
--mst_connector_detect_ctx(struct drm_connector *connector,
-+mst_connector_detect_ctx(struct drm_connector *_connector,
- 			 struct drm_modeset_acquire_ctx *ctx, bool force)
- {
--	struct intel_display *display = to_intel_display(connector->dev);
--	struct intel_connector *intel_connector = to_intel_connector(connector);
--	struct intel_dp *intel_dp = intel_connector->mst_port;
-+	struct intel_connector *connector = to_intel_connector(_connector);
-+	struct intel_display *display = to_intel_display(connector->base.dev);
-+	struct intel_dp *intel_dp = connector->mst_port;
- 
- 	if (!intel_display_device_enabled(display))
- 		return connector_status_disconnected;
- 
--	if (drm_connector_is_unregistered(connector))
-+	if (drm_connector_is_unregistered(&connector->base))
- 		return connector_status_disconnected;
- 
- 	if (!intel_display_driver_check_access(display))
--		return connector->status;
-+		return connector->base.status;
- 
--	intel_dp_flush_connector_commits(intel_connector);
-+	intel_dp_flush_connector_commits(connector);
- 
--	return drm_dp_mst_detect_port(connector, ctx, &intel_dp->mst_mgr,
--				      intel_connector->port);
-+	return drm_dp_mst_detect_port(&connector->base, ctx, &intel_dp->mst_mgr,
-+				      connector->port);
- }
- 
- static const struct drm_connector_helper_funcs mst_connector_helper_funcs = {
-@@ -1627,29 +1625,30 @@ static bool mst_connector_get_hw_state(struct intel_connector *connector)
- }
- 
- static int mst_topology_add_connector_properties(struct intel_dp *intel_dp,
--						 struct drm_connector *connector,
-+						 struct drm_connector *_connector,
- 						 const char *pathprop)
- {
- 	struct intel_display *display = to_intel_display(intel_dp);
-+	struct intel_connector *connector = to_intel_connector(_connector);
- 
--	drm_object_attach_property(&connector->base,
-+	drm_object_attach_property(&connector->base.base,
- 				   display->drm->mode_config.path_property, 0);
--	drm_object_attach_property(&connector->base,
-+	drm_object_attach_property(&connector->base.base,
- 				   display->drm->mode_config.tile_property, 0);
- 
--	intel_attach_force_audio_property(connector);
--	intel_attach_broadcast_rgb_property(connector);
-+	intel_attach_force_audio_property(&connector->base);
-+	intel_attach_broadcast_rgb_property(&connector->base);
- 
- 	/*
- 	 * Reuse the prop from the SST connector because we're
- 	 * not allowed to create new props after device registration.
- 	 */
--	connector->max_bpc_property =
-+	connector->base.max_bpc_property =
- 		intel_dp->attached_connector->base.max_bpc_property;
--	if (connector->max_bpc_property)
--		drm_connector_attach_max_bpc_property(connector, 6, 12);
-+	if (connector->base.max_bpc_property)
-+		drm_connector_attach_max_bpc_property(&connector->base, 6, 12);
- 
--	return drm_connector_set_path_property(connector, pathprop);
-+	return drm_connector_set_path_property(&connector->base, pathprop);
- }
- 
- static void
-@@ -1722,62 +1721,59 @@ mst_topology_add_connector(struct drm_dp_mst_topology_mgr *mgr,
- 	struct intel_dp *intel_dp = container_of(mgr, struct intel_dp, mst_mgr);
- 	struct intel_display *display = to_intel_display(intel_dp);
- 	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
--	struct intel_connector *intel_connector;
--	struct drm_connector *connector;
-+	struct intel_connector *connector;
- 	enum pipe pipe;
- 	int ret;
- 
--	intel_connector = intel_connector_alloc();
--	if (!intel_connector)
-+	connector = intel_connector_alloc();
-+	if (!connector)
- 		return NULL;
- 
--	connector = &intel_connector->base;
--
--	intel_connector->get_hw_state = mst_connector_get_hw_state;
--	intel_connector->sync_state = intel_dp_connector_sync_state;
--	intel_connector->mst_port = intel_dp;
--	intel_connector->port = port;
-+	connector->get_hw_state = mst_connector_get_hw_state;
-+	connector->sync_state = intel_dp_connector_sync_state;
-+	connector->mst_port = intel_dp;
-+	connector->port = port;
- 	drm_dp_mst_get_port_malloc(port);
- 
--	intel_dp_init_modeset_retry_work(intel_connector);
-+	intel_dp_init_modeset_retry_work(connector);
- 
--	ret = drm_connector_dynamic_init(display->drm, connector, &mst_connector_funcs,
-+	ret = drm_connector_dynamic_init(display->drm, &connector->base, &mst_connector_funcs,
- 					 DRM_MODE_CONNECTOR_DisplayPort, NULL);
- 	if (ret)
- 		goto err_put_port;
- 
--	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
--	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
--	intel_connector->dp.dsc_hblank_expansion_quirk =
--		detect_dsc_hblank_expansion_quirk(intel_connector);
-+	connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
-+	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, connector);
-+	connector->dp.dsc_hblank_expansion_quirk =
-+		detect_dsc_hblank_expansion_quirk(connector);
- 
--	drm_connector_helper_add(connector, &mst_connector_helper_funcs);
-+	drm_connector_helper_add(&connector->base, &mst_connector_helper_funcs);
- 
- 	for_each_pipe(display, pipe) {
- 		struct drm_encoder *enc =
- 			&intel_dp->mst_encoders[pipe]->base.base;
- 
--		ret = drm_connector_attach_encoder(&intel_connector->base, enc);
-+		ret = drm_connector_attach_encoder(&connector->base, enc);
- 		if (ret)
- 			goto err_cleanup_connector;
- 	}
- 
--	ret = mst_topology_add_connector_properties(intel_dp, connector, pathprop);
-+	ret = mst_topology_add_connector_properties(intel_dp, &connector->base, pathprop);
- 	if (ret)
- 		goto err_cleanup_connector;
- 
--	ret = intel_dp_hdcp_init(dig_port, intel_connector);
-+	ret = intel_dp_hdcp_init(dig_port, connector);
- 	if (ret)
- 		drm_dbg_kms(display->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
--			    connector->name, connector->base.id);
-+			    connector->base.name, connector->base.base.id);
- 
--	return connector;
-+	return &connector->base;
- 
- err_cleanup_connector:
--	drm_connector_cleanup(connector);
-+	drm_connector_cleanup(&connector->base);
- err_put_port:
- 	drm_dp_mst_put_port_malloc(port);
--	intel_connector_free(intel_connector);
-+	intel_connector_free(connector);
- 
- 	return NULL;
- }
+I think the following should work:
+
+	/* artifical values to select the defaults in both cases */
+	u32 lvds_vod_swing_data[2] = { 190000, 330000 };
+	u32 lvds_vod_swing_clk[2] = { 150000, 250000 };
+
+Yes, they are artificial, as stated in the comment. Yes, I think it's
+better than special-casing in the property handling.
+
 -- 
-2.44.2
-
+With best wishes
+Dmitry
