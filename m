@@ -2,54 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE909EC556
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:07:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CC29EC565
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Dec 2024 08:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CBC710E056;
-	Wed, 11 Dec 2024 07:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECEB310E1EE;
+	Wed, 11 Dec 2024 07:12:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="aUsL7+t7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AFvVpFaD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 62F7F10E056
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:07:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=em8z400Yjxvmy5FE4gJ5vG/BboB+xasR8mAbFiKC2ig=; b=a
- UsL7+t7J3xah3PH85D0WGvuQQ0idElGilFsAVMoWKI/xxwxbwGmpuuN2oSjtY6g1
- b0q8q12oSmYQvbTiXDwKspMnDmX/LytP2PinMFERm3HxllVZ6fkhAw/hhn6shR88
- 9oPzMC5Ms3teoQUV3w67ahRxPYogRvMtRJ2zcmB2pA=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-102 (Coremail) ; Wed, 11 Dec 2024 15:07:21 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Wed, 11 Dec 2024 15:07:21 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, derek.foreman@collabora.com, 
- detlev.casanova@collabora.com, "Andy Yan" <andy.yan@rock-chips.com>, 
- "Michael Riesch" <michael.riesch@wolfvision.net>
-Subject: Re:Re: [PATCH v5 01/18] drm/rockchip: vop2: Add debugfs support
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2024 www.mailtech.cn 163com
-In-Reply-To: <4471861.MSiuQNM8U4@diego>
-References: <20241209122943.2781431-1-andyshrk@163.com>
- <20241209122943.2781431-4-andyshrk@163.com> <4471861.MSiuQNM8U4@diego>
-X-NTES-SC: AL_Qu2YAfWbv0Av5yeYZukZnEobh+Y5UcK2s/ki2YFXN5k0tCTI0SYQW29KGUD2y86DDiKsoAirUQVL5MpFRpJHY44O5ZHuAvn9d2IiHBf8lhwP
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B3DC10E1EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Dec 2024 07:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733901172; x=1765437172;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=KWGIyqOVYv+EGQom+zV3OBbUgJqR2TeXXZYELt/C9TQ=;
+ b=AFvVpFaDMuRcQ73cIHtv0nzFfa7rBbgg4ikG84pKG6oLt8PVPpve7z8z
+ 9ckOwYdPNeY8PxnNtorbfwqZQ/ohuKGvoFv9cB8QWSBLlssnOWlugXrWR
+ OPkB6C5fo2049Pr45G/UA7KrYAB4uNkdZeEfb48IdlG18Av1Fuvg/hwR4
+ ipj3Wy4OCWc37O+le7fdKhanca4gahuw6SO+gWGZIKkad/580cdtIHSLY
+ /Y9XBbkl5Q9Q6YOVSlUZtNVAsPI0ulE4PO/GN6DR3Q/SgLlQyZ3eazHGF
+ fXJFwArUIeliYaSRaddgNQKGnuI6EDHyEnnGlASVI6b2SLs/Clg+flGWq w==;
+X-CSE-ConnectionGUID: IZ0Egna8SyOlKksNRq86IQ==
+X-CSE-MsgGUID: 1/DQzP3hQaaoNwFp2J5Lmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="34408543"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="34408543"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2024 23:12:52 -0800
+X-CSE-ConnectionGUID: nTGnFpvCSt+As1J5rp7Sew==
+X-CSE-MsgGUID: arfxdkz5Szir/peURveLrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="126526305"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2024 23:12:51 -0800
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: [PATCH] drm/virtio: Lock the VGA resources during initialization
+Date: Tue, 10 Dec 2024 22:43:43 -0800
+Message-ID: <20241211064343.550153-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Message-ID: <121ab3c0.68d0.193b48b32ed.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: ZigvCgDXf2YpOllnXYI8AA--.65315W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMwCyXmdZM7GV6gAIsU
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,61 +69,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIEhlaWtvLAoKQXQgMjAyNC0xMi0xMCAxOTo1Nzo0NCwgIkhlaWtvIFN0w7xibmVyIiA8aGVp
-a29Ac250ZWNoLmRlPiB3cm90ZToKPkhpIEFuZHksCj4KPkFtIE1vbnRhZywgOS4gRGV6ZW1iZXIg
-MjAyNCwgMTM6Mjk6MTMgQ0VUIHNjaHJpZWIgQW5keSBZYW46Cj4+IEZyb206IEFuZHkgWWFuIDxh
-bmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4gCj4+IC9zeXMva2VybmVsL2RlYnVnL2RyaS92b3Ay
-L3N1bW1hcnk6ICBkdW1wIHZvcCBkaXNwbGF5IHN0YXRlCj4+IC9zeXMva2VybmVsL2RlYnVnL2Ry
-aS92b3AyL3JlZ3M6IGR1bXAgd2hvbGUgdm9wIHJlZ2lzdGVycwo+PiAvc3lzL2tlcm5lbC9kZWJ1
-Zy9kcmkvdm9wMi9hY3RpdmVfcmVnczogb25seSBkdW1wIHRoZSByZWdpc3RlcnMgb2YKPj4gYWN0
-aXZhdGVkIG1vZHVsZXMKPj4gCj4+IFJldmlld2VkLWJ5OiBTYXNjaGEgSGF1ZXIgPHMuaGF1ZXJA
-cGVuZ3V0cm9uaXguZGU+Cj4+IFNpZ25lZC1vZmYtYnk6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2Nr
-LWNoaXBzLmNvbT4KPj4gVGVzdGVkLWJ5OiBNaWNoYWVsIFJpZXNjaCA8bWljaGFlbC5yaWVzY2hA
-d29sZnZpc2lvbi5uZXQ+ICMgb24gUkszNTY4Cj4+IFRlc3RlZC1ieTogRGV0bGV2IENhc2Fub3Zh
-IDxkZXRsZXYuY2FzYW5vdmFAY29sbGFib3JhLmNvbT4KPj4gLS0tCj4KPj4gK3N0YXRpYyB2b2lk
-IF9fdm9wMl9yZWdzX2R1bXAoc3RydWN0IHNlcV9maWxlICpzLCBib29sIGFjdGl2ZV9vbmx5KQo+
-PiArewo+PiArCXN0cnVjdCBkcm1faW5mb19ub2RlICpub2RlID0gcy0+cHJpdmF0ZTsKPj4gKwlz
-dHJ1Y3Qgdm9wMiAqdm9wMiA9IG5vZGUtPmluZm9fZW50LT5kYXRhOwo+PiArCXN0cnVjdCBkcm1f
-bWlub3IgKm1pbm9yID0gbm9kZS0+bWlub3I7Cj4+ICsJc3RydWN0IGRybV9kZXZpY2UgKmRybV9k
-ZXYgPSBtaW5vci0+ZGV2Owo+PiArCWNvbnN0IHN0cnVjdCB2b3AyX3JlZ3NfZHVtcCAqZHVtcDsK
-Pj4gKwl1bnNpZ25lZCBpbnQgaTsKPj4gKwo+PiArCWRybV9tb2Rlc2V0X2xvY2tfYWxsKGRybV9k
-ZXYpOwo+PiArCj4+ICsJcmVnY2FjaGVfZHJvcF9yZWdpb24odm9wMi0+bWFwLCAwLCB2b3AyX3Jl
-Z21hcF9jb25maWcubWF4X3JlZ2lzdGVyKTsKPj4gKwo+PiArCWlmICh2b3AyLT5lbmFibGVfY291
-bnQpIHsKPj4gKwkJZm9yIChpID0gMDsgaSA8IHZvcDItPmRhdGEtPnJlZ3NfZHVtcF9zaXplOyBp
-KyspIHsKPj4gKwkJCWR1bXAgPSAmdm9wMi0+ZGF0YS0+cmVnc19kdW1wW2ldOwo+PiArCQkJdm9w
-Ml9yZWdzX3ByaW50KHZvcDIsIHMsIGR1bXAsIGFjdGl2ZV9vbmx5KTsKPj4gKwkJfQo+PiArCX0g
-ZWxzZSB7Cj4+ICsJCXNlcV9wcmludGYocywgIlZPUCBkaXNhYmxlZFxuIik7Cj4+ICsJfQo+PiAr
-CWRybV9tb2Rlc2V0X3VubG9ja19hbGwoZHJtX2Rldik7Cj4+ICsKPgo+bml0OiBub3QgbmVlZGVk
-IGVtcHR5IGxpbmUgYXQgdGhlIGVuZCBvZiB0aGUgZnVuY3Rpb24KCldpbGwgZml4ZWQgaW4gVjYu
-Cgo+Cj4+ICt9Cj4+ICsKPgo+PiArc3RhdGljIHZvaWQgdm9wMl9kZWJ1Z2ZzX2luaXQoc3RydWN0
-IHZvcDIgKnZvcDIsIHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yKQo+PiArewo+PiArCXN0cnVjdCBk
-ZW50cnkgKnJvb3Q7Cj4+ICsJdW5zaWduZWQgaW50IGk7Cj4+ICsKPj4gKwlyb290ID0gZGVidWdm
-c19jcmVhdGVfZGlyKCJ2b3AyIiwgbWlub3ItPmRlYnVnZnNfcm9vdCk7Cj4+ICsJaWYgKCFJU19F
-UlIocm9vdCkpIHsKPj4gKwkJZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUodm9wMl9kZWJ1Z2Zz
-X2xpc3QpOyBpKyspCj4+ICsJCQl2b3AyX2RlYnVnZnNfbGlzdFtpXS5kYXRhID0gdm9wMjsKPj4g
-Kwo+PiArCQlkcm1fZGVidWdmc19jcmVhdGVfZmlsZXModm9wMl9kZWJ1Z2ZzX2xpc3QsCj4+ICsJ
-CQkJCSBBUlJBWV9TSVpFKHZvcDJfZGVidWdmc19saXN0KSwKPj4gKwkJCQkJIHJvb3QsIG1pbm9y
-KTsKPj4gKwl9Cj4+ICt9Cj4+ICsKPj4gK3N0YXRpYyBpbnQgdm9wMl9jcnRjX2xhdGVfcmVnaXN0
-ZXIoc3RydWN0IGRybV9jcnRjICpjcnRjKQo+PiArewo+PiArCXN0cnVjdCB2b3AyX3ZpZGVvX3Bv
-cnQgKnZwID0gdG9fdm9wMl92aWRlb19wb3J0KGNydGMpOwo+PiArCXN0cnVjdCB2b3AyICp2b3Ay
-ID0gdnAtPnZvcDI7Cj4+ICsKPj4gKwlpZiAoZHJtX2NydGNfaW5kZXgoY3J0YykgPT0gMCkKPj4g
-KwkJdm9wMl9kZWJ1Z2ZzX2luaXQodm9wMiwgY3J0Yy0+ZGV2LT5wcmltYXJ5KTsKPj4gKwo+PiAr
-CXJldHVybiAwOwo+PiArfQo+Cj5JJ20gd29uZGVyaW5nIGFib3V0LCBzaG91ZGxuJ3QgdGhlcmUg
-YmUgYW4gdW5yZWdpc3RlciBzdGVwIHRvbz8KPkkuZS4gdGhlIGxhdGVfcmVnaXN0ZXIgY2FsbGJh
-Y2sgc2F5czoKPiJzaG91bGQgYmUgdW5yZWdpc3RlcmVkIGluIHRoZSBlYXJseV91bnJlZ2lzdGVy
-IGNhbGxiYWNrIiBbMF0uCj4KPkFuZCB0aGVyZSBleGlzdHMgZHJtX2RlYnVnZnNfcmVtb3ZlX2Zp
-bGVzKCksIHRob3VnaCBpdCBkb2Vzbid0Cj5zZWVtIHQgYmUgdXNlZCBtdWNoIC0ganVzdCBieSB0
-ZWdyYS4KPgo+SSBoYXZlbid0IG1hbmFnZWQgdG8gZmluZCBkcm0gY29kZSBoYW5kbGluZyB0aGF0
-IGF1dG9tYXRpY2FsbHkgdGhvdWdoPwoKRGlkIGEgbGl0dGxlIGRpZ2dpbmfvvJoKIHJvY2tjaGlw
-X2RybV91bmJpbmQgLS3jgItkcm1fZGV2X3VucmVnaXN0ZXIoZHJtX2RldiktLeOAi2RybV9kZWJ1
-Z2ZzX2Rldl9maW5pCi0t44CLZGVidWdmc19yZW1vdmVfcmVjdXJzaXZlKGRldi0+ZGVidWdmc19y
-b290KTsKVGhpcyB3aWxsIHJlbW92ZSBhbGwgdGhlIGRlYnVnZnMgZmlsZSB1bmRlciAvZHJpLzAt
-LT5kaXNwbGF5LXN1YnN5c3RlbSAgd2hlbiB3ZQpyZW1vdmUgcm9ja2NoaXBkcm0gd2hlbiBpdCBi
-dWlsZCBhcyBtb2R1bGUuCklmIGl0IGlzIGJ1aWx0aW4sIHdoZXRoZXIgd2UgcmVtb3ZlIHRoZW0g
-c2VlbXMgdG8gbWFrZSBubyBkaWZmZXJlbmNlIHdoZW4gd2UKcmVib290IG9yIHRodXRkb3duIHRo
-ZSBzeXN0ZW0gPwpJIGFsc28gc2VhcmNoZWQgZm9yIG90aGVyIHBsYXRmb3JtcyB1c2luZyBzaW1p
-bGFyIGxhdGUgcmVnaXN0ZXIgaG9vaywgYW5kIGl0IHNlZW1zIHRoZXkgaGF2ZW4ndCByZW1vdmUg
-ZGVidWdmcyAgZWl0aGVyLgoKPgo+Cj5IZWlrbwo+Cj4KPlswXSBodHRwczovL2VsaXhpci5ib290
-bGluLmNvbS9saW51eC92Ni4xMi40L3NvdXJjZS9pbmNsdWRlL2RybS9kcm1fY3J0Yy5oI0w3MzcK
-PlsxXSBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92Ni4xMi40L3NvdXJjZS9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyNMMjY1Cj4K
+If another driver for a VGA compatible GPU (that is passthrough'd)
+locks the VGA resources (by calling vga_get()), then virtio_gpu
+driver would encounter the following errors and fail to load during
+probe and initialization:
+
+Invalid read at addr 0x7200005014, size 1, region '(null)', reason: rejected
+Invalid write at addr 0x7200005014, size 1, region '(null)', reason: rejected
+virtio_gpu virtio0: virtio: device uses modern interface but does not have VIRTIO_F_VERSION_1
+virtio_gpu virtio0: probe with driver virtio_gpu failed with error -22
+
+This issue is only seen if virtio-gpu and the other GPU are on
+different PCI buses, which can happen if the user includes an
+additional PCIe port and associates the VGA compatible GPU with
+it while launching Qemu:
+qemu-system-x86_64...
+-device virtio-vga,max_outputs=1,xres=1920,yres=1080,blob=true
+-device pcie-root-port,id=pcie.1,bus=pcie.0,addr=1c.0,slot=1,chassis=1,multifunction=on
+-device vfio-pci,host=03:00.0,bus=pcie.1,addr=00.0 ...
+
+In the above example, the device 03:00.0 is an Intel DG2 card and
+this issue is seen when both i915 driver and virtio_gpu driver are
+loading (or initializing) concurrently or when i915 is loaded first.
+Note that during initalization, i915 driver does the following in
+intel_vga_reset_io_mem():
+vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
+outb(inb(VGA_MIS_R), VGA_MIS_W);
+vga_put(pdev, VGA_RSRC_LEGACY_IO);
+
+Although, virtio-gpu might own the VGA resources initially, the
+above call (in i915) to vga_get_uninterruptible() would result in
+these resources being taken away, which means that virtio-gpu would
+not be able to decode VGA anymore. This happens in __vga_tryget()
+when it calls
+pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
+where
+pci_bits = PCI_COMMAND_MEMORY | PCI_COMMAND_IO
+flags = PCI_VGA_STATE_CHANGE_DECODES | PCI_VGA_STATE_CHANGE_BRIDGE
+
+Therefore, to solve this issue, virtio-gpu driver needs to call
+vga_get() whenever it needs to reclaim and access VGA resources,
+which is during initial probe and setup. After that, a call to
+vga_put() would release the lock to allow other VGA compatible
+devices to access these shared VGA resources.
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Chia-I Wu <olvaffe@gmail.com>
+Reported-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.c | 40 +++++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index 6a67c6297d58..d4309dba557b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -30,6 +30,7 @@
+ #include <linux/module.h>
+ #include <linux/pci.h>
+ #include <linux/poll.h>
++#include <linux/vgaarb.h>
+ #include <linux/wait.h>
+ 
+ #include <drm/clients/drm_client_setup.h>
+@@ -41,6 +42,8 @@
+ 
+ #include "virtgpu_drv.h"
+ 
++#define PCI_DEVICE_ID_VIRTIO_GPU 0x1050
++
+ static const struct drm_driver driver;
+ 
+ static int virtio_gpu_modeset = -1;
+@@ -162,7 +165,42 @@ static struct virtio_driver virtio_gpu_driver = {
+ 	.config_changed = virtio_gpu_config_changed
+ };
+ 
+-module_virtio_driver(virtio_gpu_driver);
++static int __init virtio_gpu_driver_init(void)
++{
++	struct pci_dev *pdev;
++	int ret;
++
++	pdev = pci_get_device(PCI_VENDOR_ID_REDHAT_QUMRANET,
++			      PCI_DEVICE_ID_VIRTIO_GPU,
++			      NULL);
++	if (!pdev)
++		return -ENODEV;
++
++	if (pci_is_vga(pdev)) {
++		ret = vga_get_interruptible(pdev,
++			VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM);
++		if (ret)
++			goto error;
++	}
++
++	ret = register_virtio_driver(&virtio_gpu_driver);
++
++	if (pci_is_vga(pdev))
++		vga_put(pdev, VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM);
++
++error:
++	pci_dev_put(pdev);
++
++	return ret;
++}
++
++static void __exit virtio_gpu_driver_exit(void)
++{
++	unregister_virtio_driver(&virtio_gpu_driver);
++}
++
++module_init(virtio_gpu_driver_init);
++module_exit(virtio_gpu_driver_exit);
+ 
+ MODULE_DEVICE_TABLE(virtio, id_table);
+ MODULE_DESCRIPTION("Virtio GPU driver");
+-- 
+2.47.1
+
