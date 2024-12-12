@@ -1,50 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEA29EE662
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:11:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 141939EE674
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:17:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B81610E40D;
-	Thu, 12 Dec 2024 12:11:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98AF910ED85;
+	Thu, 12 Dec 2024 12:17:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="frbRjRAE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="DKSKcPTC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F3B10E40D;
- Thu, 12 Dec 2024 12:11:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1D719A42145;
- Thu, 12 Dec 2024 12:09:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59249C4CECE;
- Thu, 12 Dec 2024 12:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1734005484;
- bh=z4IR5aQ9BHMU6pLPaRemCvtw3/mCLG8VNTuWpfCN/AU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=frbRjRAEc9YR6sD/8xPGdYfwG5V+e0P74CnQSqB7cvBGcKUMyPUOSg4HkYVm7xqmt
- u6p81YPyIkCsQfMFMibxy+ccs4tYjrYQCaNUPullQU8pFFnuB6W5LHOy5WIDhBPL6E
- J1ghkjfTUTGJI8+DxbJCskR1eBruPGkIDwh0ccd4=
-Date: Thu, 12 Dec 2024 13:11:20 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: jianqi.ren.cn@windriver.com
-Cc: wayne.lin@amd.com, patches@lists.linux.dev, jerry.zuo@amd.com,
- zaeem.mohamed@amd.com, daniel.wheeler@amd.com,
- alexander.deucher@amd.com, stable@vger.kernel.org,
- harry.wentland@amd.com, sunpeng.li@amd.com,
- Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6.1.y] drm/amd/display: Don't refer to dc_sink in
- is_dsc_need_re_compute
-Message-ID: <2024121206-shelve-contusion-6db0@gregkh>
-References: <20241211101544.2121147-1-jianqi.ren.cn@windriver.com>
+Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB23510ED7F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
+ s=default;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=YG/3arknVcEBc34MS+ma6AlBW9H8apNRnFKOMu83Ztg=; b=DKSKcPTCf9VBE4setXzaxpxNrT
+ 6oVayJOrmXehnO11pil7joj23ZCIOdfLdiUwYXgJsbbTDOXm0g/fAUb0WNtO+mZj3D/qk/Pk52z3W
+ ZAC4SIUap/duUYqlBbj6D4p23Uy6h0ZsHZzfAsqUw7x0iI4Bih4Y0xE7e4ulKri/G3q+DH4sEG/wf
+ VpRWXSa9xaj97TNYSjIMBWdqSpahu7cInhTiO2uuK9WezVDoyRV3/HcjRPWW9g4paYxSAdgag7Hhx
+ xn3kH0awnJWPGaz9MzEcD31Zr9aY1t95UiN2KzXhjIYgWcFkdvNAWfhC14flLwPYGSsL5/nfOb/aE
+ KSnkI4tw==;
+Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:38802
+ helo=and-HP-Z4..) by cpanel.siel.si with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <andrej.picej@norik.com>) id 1tLi8W-00A8t4-0y;
+ Thu, 12 Dec 2024 13:17:44 +0100
+From: Andrej Picej <andrej.picej@norik.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, marex@denx.de
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
+Subject: [PATCH v6 0/3] SN65DSI83/4 lvds_vod_swing properties
+Date: Thu, 12 Dec 2024 13:17:09 +0100
+Message-Id: <20241212121712.214639-1-andrej.picej@norik.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211101544.2121147-1-jianqi.ren.cn@windriver.com>
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
+ andrej.picej@norik.com
+X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,42 +77,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 06:15:44PM +0800, jianqi.ren.cn@windriver.com wrote:
-> From: Wayne Lin <wayne.lin@amd.com>
-> 
-> [ Upstream commit fcf6a49d79923a234844b8efe830a61f3f0584e4 ]
-> 
-> [Why]
-> When unplug one of monitors connected after mst hub, encounter null pointer dereference.
-> 
-> It's due to dc_sink get released immediately in early_unregister() or detect_ctx(). When
-> commit new state which directly referring to info stored in dc_sink will cause null pointer
-> dereference.
-> 
-> [how]
-> Remove redundant checking condition. Relevant condition should already be covered by checking
-> if dsc_aux is null or not. Also reset dsc_aux to NULL when the connector is disconnected.
-> 
-> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
-> Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
-> Signed-off-by: Wayne Lin <wayne.lin@amd.com>
-> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 ++++
->  1 file changed, 4 insertions(+)
+Hi all,
 
-You sent this 3 times, all different, so I have no idea what to do.
+The LVDS differential voltage swing can be specified as arrays of min, max
+in microvolts. Two arrays, one for data-lanes and one for clock-lane can
+be specified. Additionally, because LVDS voltage swing depends on near-end
+termination this can now also be specified with separate property.
 
-Ok, I give up.  I'm deleting ALL of your pending stable patches from my
-review queue now due to all of the problems that these have had.
+Driver goes through the tables, taken from datasheet [1] and selects the
+appropriate configuration. If appropriate configuration can not be found
+the probe fails. If these properties are not defined default values are
+used as before.
 
-Please work with a more experienced kernel developer at your company to
-get these backports correct, and complete, and send them as a patch
-series with the correct information and documentation as to what is
-going on, so that we have a chance to get this right.
+This patch series depends on the patch
+"[PATCH v2 11/15] arm64: dts: imx8mm-phyboard-polis: Add support for PEB-AV-10"
+(https://lore.kernel.org/all/20241202072052.2195283-12-andrej.picej@norik.com/)
+which is currently under review. Please apply the dependent series first before
+applying this one.
 
-thanks,
+v1 is at: https://lore.kernel.org/all/20241127103031.1007893-1-andrej.picej@norik.com/
+v2 is at: https://lore.kernel.org/all/20241203085822.2475138-1-andrej.picej@norik.com/
+v3 is at: https://lore.kernel.org/all/20241203110054.2506123-1-andrej.picej@norik.com/
+v4 is at: https://lore.kernel.org/all/20241205134021.2592013-1-andrej.picej@norik.com/
+v5 is at: https://lore.kernel.org/all/20241210091901.83028-1-andrej.picej@norik.com/
 
-greg k-h
+[1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf?ts=1732738773429&ref_url=https%253A%252F%252Fwww.mouser.co.uk%252F
+
+Best regards,
+Andrej
+
+Andrej Picej (3):
+  dt-bindings: drm/bridge: ti-sn65dsi83: Add properties for
+    ti,lvds-vod-swing
+  drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing optional properties
+  arm64: dts: imx8mm-phyboard-polis-peb-av-10: Set lvds-vod-swing
+
+ .../bindings/display/bridge/ti,sn65dsi83.yaml |  34 ++++-
+ .../imx8mm-phyboard-polis-peb-av-10.dtso      |   2 +
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 143 +++++++++++++++++-
+ 3 files changed, 174 insertions(+), 5 deletions(-)
+
+-- 
+2.34.1
+
