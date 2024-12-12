@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D135A9EFB23
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:36:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FA79EFB1E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:36:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05EFB10EE73;
-	Thu, 12 Dec 2024 18:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A54B910EE64;
+	Thu, 12 Dec 2024 18:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="t0BnGdzs";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="t96n+dwx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5E410E642
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 18:36:44 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-385deda28b3so688846f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 10:36:44 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B80310EE5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 18:36:46 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-43618283d48so7166665e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 10:36:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1734028603; x=1734633403;
+ d=raspberrypi.com; s=google; t=1734028604; x=1734633404;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ZmY4nSeOHfUAeSRoOGUYAdGnJvM3BDuelhiAae/7ZWg=;
- b=t0BnGdzswhTviyAnnfYXBB21DP3/ApJD4v7oEAUmfGyw+P0uJrV6kCx+ijFJSBJ4mC
- P1RRKNV6cyhrjFobyQX0oZEnuA5+fvZrATzaPpWF0VAN1MSNd60Uo+oZ05/9LVk9WXB0
- 4Au7OIIsXu0zXUosOxM7m3joIMAC9cqzMRjm3vUCJQ1CYAV9SloBLnX2rmnSTkoson0R
- 9/X9fEZ41JruWCkB0IosO9Ga64HbLVoiajW3+pxY2ggikBVPv4QRGvvbZ1aPBfWVkdc4
- tKhXa2/XmM3RBw6psh435Cc1x7OZO+/OL6eJYPjA0stmXBuefaZ9MzITrgplQpTk7iB2
- WBAA==
+ :reply-to; bh=Fzut7xbqOYPi19sCzyZBocxByvsBqwohQ5FyR54rsTQ=;
+ b=t96n+dwxdWXTsXlygwqJLijX0LsstX0EX1wmZW65jQ6taqsdrqSJ6ATcVIHwv//RH6
+ A8eWfs46a0E2OS/Lb2kb+T3kmeW0DgGQwzKPiAmshATiYZG+QCWkBfU4OlYK2TbwP+d6
+ TwcURrrG2VQkJG7n21LfQbzKpUUA0I9P5EX8rJOdLAk7y75TTff4D5t+cIK9zbYinHJe
+ SbtRoQGU7x3D3gSJf/bRSLKkfZ96Y21QrM1bFHua32gyHmkW+5IilEaau8pxBjzfMTgF
+ PkAAg/XkcZNL3BYV1GErLffXiHlUZcMY9xDBi0TPJQS/w9VEXRNsXzn2UugoMdeWCMJ/
+ v69g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734028603; x=1734633403;
+ d=1e100.net; s=20230601; t=1734028604; x=1734633404;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZmY4nSeOHfUAeSRoOGUYAdGnJvM3BDuelhiAae/7ZWg=;
- b=qxcilyNWjwIHFjAYk+7swN5opQ5X71KSO51ajLu/gq+/hP2yOhqMZdX6mY0T2q1JYC
- EkzT0DzMgvYthvBiX8OKrLq7wBm3fXqs+dkm96Q3uDNN0RPpr2sWcm+TVCYosxXi7+IQ
- wn6SIXuQubbtrWqV27RCcXzkCy8OogjeZHaL9YwKDxUDXbqzMZRUuveVQzmMtI9Dn/5V
- wJSgHnEL2RMff8ioDqPZvrHEzHbHzZyceMqeTJLD560UY8WlgSeAkUXHCckuIz3Oea/N
- PM3g2dvbeIShd0DqTDaB06cRQKTDhFNAqdzylZ9h0hSF8ahHG1772UQYqR2vXPOdmUap
- Is0A==
-X-Gm-Message-State: AOJu0YwyTfalsXz1w4L3Ev6AmTCI31C1uca2JijoHv3JfBu9zuVZ7amu
- QBMRxKnIkLlQ4o//IduHnzVGsMYfltLKhdMQqrLC0hmLy7IYEsLYnut03xwquj0=
-X-Gm-Gg: ASbGnctofw+6avyCjuhWyQugVlWvoJiPC+fddMvKnaxZsotaEoGjmnKMggJWWJaxsk6
- RJIWt7uK5G6Ih21qjp33SAT/vchzYYuRZ5w3usMvGTVIGrrC9DgykhibwqKQDmPg8387IMGcCRk
- zqQRXGqU5ONMNWdzVtOFQMdXrJ3mz8KgIlbDWaHmoNNv0bXMon6xDWtvl5HLC5WH0xlcuiBSkJP
- 5oqYICgouc35TD0/J11gok0sOZZma7ATH0gHAEigqHdHJUr
-X-Google-Smtp-Source: AGHT+IFU9uMnmpDGMa3W5FkV+Zbg8mGPNRBLqmRp7s6rNpHHpbC4TqWxpZPj4otDLO2FaOF1TjZ6vQ==
-X-Received: by 2002:a05:6000:70e:b0:386:3864:5cf2 with SMTP id
- ffacd0b85a97d-38787691302mr4172021f8f.19.1734028602901; 
- Thu, 12 Dec 2024 10:36:42 -0800 (PST)
+ bh=Fzut7xbqOYPi19sCzyZBocxByvsBqwohQ5FyR54rsTQ=;
+ b=E6JdzCfNgJvYa0WRdWz5ijOzHx2/UL46JQYsJWThfvcs74pap/PdXOQBmEXSiFq577
+ fo6ZqwdjLkUkx+SsohSeumDFaHm7fJUHXnTJtAyBVNnGhRI8gmpo1FaJLona5qG6bhxZ
+ yidmDozCSnJXNc9qWwASlFrJzA78X9y0A7j7vjMRst6miQg693xOE+OKuf65s2v3AJYi
+ TOcXjZpTesyvJKo8t3wnSCdwhMLstbrqlcuEdtmWVKBovQJDdsolPXMRrBW51XVlblT6
+ Oqv0PiLAUSy4V7QkUbG+LRc9i6c6ZgA2dFF4ZNFc/IKlDVd9pr/MmvIl7irIslBA9n7G
+ S5Iw==
+X-Gm-Message-State: AOJu0YwrIYQdxGJ95dETrJRo9JlhmNKmRJn1brsRVLQo0HzHBE95TpCT
+ pugXRivOZ7Fsgj7JeRxtMRH8zByEkS7ZJxwqEPf4UufJcymeoj8C6kVpXKKixYU=
+X-Gm-Gg: ASbGncviNNKkyS75s35rjaKQ0g5VAt44x0YHJxee3Z8HoPvAyePra6Odqrd/sNoRORP
+ IaCghp19FrQWNCl3fvpfhy3/43dkTLNjtou2dgBbq+LXa65GceSG1bGKdU8zM89BS2Ji083HNQI
+ 5I4SjS39LDFpxiOXn849SbLhHf3B5FIVF6WIPBcrTj2CtpghDpwOcWDJrTOjQwKH0TN3uobxp1/
+ Q+tyzDkIO1Ra3q35McQsj+b1W1K3G3322R3dCtwzRHYfQnh
+X-Google-Smtp-Source: AGHT+IFExc0XA8Xy/C4Mx5wK8VZwnwxFl/5BahFWH3EA4rW9cmekl8fnISqr+JRBJqWQX6UGHfnMOg==
+X-Received: by 2002:a05:600c:4450:b0:436:1aa6:b8ee with SMTP id
+ 5b1f17b1804b1-4361c346a7emr72222265e9.2.1734028604531; 
+ Thu, 12 Dec 2024 10:36:44 -0800 (PST)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-436257178e3sm24651995e9.41.2024.12.12.10.36.41
+ 5b1f17b1804b1-436257178e3sm24651995e9.41.2024.12.12.10.36.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2024 10:36:41 -0800 (PST)
+ Thu, 12 Dec 2024 10:36:43 -0800 (PST)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 12 Dec 2024 18:36:29 +0000
-Subject: [PATCH v3 2/7] dt-bindings: display: Fix BCM2835 HVS bindings for
- BCM2712
+Date: Thu, 12 Dec 2024 18:36:30 +0000
+Subject: [PATCH v3 3/7] dt-bindings: gpio: brcmstb: permit gpio-line-names
+ property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241212-dt-bcm2712-fixes-v3-2-44a7f3390331@raspberrypi.com>
+Message-Id: <20241212-dt-bcm2712-fixes-v3-3-44a7f3390331@raspberrypi.com>
 References: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
 In-Reply-To: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -102,121 +102,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
-added the compatible string for BCM2712, but missed out that
-the number of interrupts and clocks changed too.
+gpio-line-names is a generic property that can be supported by any
+GPIO controller, so permit it through the binding.
 
-Update to validate clock and interrupts for the variants.
+It is permitted to have a variable number of GPIOs per node based
+on brcm,gpio-bank-widths, so define an arbitrary maximum number of
+items based on current users.
 
-Fixes: 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 ---
- .../bindings/display/brcm,bcm2835-hvs.yaml         | 83 ++++++++++++++++++----
- 1 file changed, 69 insertions(+), 14 deletions(-)
+ Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-index f91c9dce2a44..36bf8eec88a6 100644
---- a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-+++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-@@ -20,11 +20,20 @@ properties:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+index f096f286da19..fbd69b4cecc7 100644
+--- a/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml
+@@ -64,6 +64,10 @@ properties:
  
-   interrupts:
--    maxItems: 1
+   gpio-ranges: true
+ 
++  gpio-line-names:
 +    minItems: 1
-+    maxItems: 3
++    maxItems: 128
 +
-+  interrupt-names:
-+    minItems: 1
-+    maxItems: 3
- 
-   clocks:
--    maxItems: 1
--    description: Core Clock
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 2
- 
- required:
-   - compatible
-@@ -33,17 +42,63 @@ required:
- 
- additionalProperties: false
- 
--if:
--  properties:
--    compatible:
--      contains:
--        enum:
--          - brcm,bcm2711-hvs
--          - brcm,bcm2712-hvs
--
--then:
--  required:
--    - clocks
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2711-hvs
-+
-+    then:
-+      properties:
-+        clocks:
-+          items:
-+            - description: Core Clock
-+        interrupts:
-+          maxItems: 1
-+
-+      required:
-+        - clocks
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2712-hvs
-+
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 2
-+        clock-names:
-+          items:
-+            - const: core
-+            - const: disp
-+        interrupts:
-+          items:
-+            - description: Channel 0 End of frame
-+            - description: Channel 1 End of frame
-+            - description: Channel 2 End of frame
-+        interrupt-names:
-+          items:
-+            - const: ch0-eof
-+            - const: ch1-eof
-+            - const: ch2-eof
-+      required:
-+        - clocks
-+        - clock-names
-+        - interrupt-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: brcm,bcm2835-hvs
-+
-+    then:
-+      properties:
-+        interrupts:
-+          maxItems: 1
- 
- examples:
-   - |
+   wakeup-source:
+     type: boolean
+     description: >
 
 -- 
 2.34.1
