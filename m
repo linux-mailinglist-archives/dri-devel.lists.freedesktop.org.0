@@ -2,79 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA549EE703
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF45F9EE7CF
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 14:39:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F30410ED9A;
-	Thu, 12 Dec 2024 12:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1EC510E426;
+	Thu, 12 Dec 2024 13:39:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HcuFyxfV";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rRSsqAby";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0AC510ED9A
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:47:42 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- 5b1f17b1804b1-436281c8a38so1076465e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 04:47:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734007661; x=1734612461; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=B1Aa7kk3KKfy9aAdx9Y9ApzJ11F7xml9XtZy8ZKLnk0=;
- b=HcuFyxfVIBmBxvxk1dgTLaAMfFQnBpIlcpALjg9recjr42HR88NF7qQTWbM7s5Etb6
- e5egpNOL+sSwdXSvxSFZxMVp01nuZVjVePHfdnJjGGHazbvBfQLQSzK8/McicyBUQ5zU
- 47NB5bI2iQu3a1wxTj5IFfIruoXMOrM8G9rs9ZzCqgLCiyZ5VHSNoimMmKMTaQGJr8Oh
- 7iPqcAeH8+AD6HuzM9/8zD5nmRahRbve5ABSQHiXQsEn10IPYKF35KWEbGedxXNAkhiT
- wrwM9tCzV6hYzOW9qkQ0o0hANmCcnqe5D7jn1jiyHR+FUhmB/edshXgMzxW9e0GvGkuT
- DrEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734007661; x=1734612461;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B1Aa7kk3KKfy9aAdx9Y9ApzJ11F7xml9XtZy8ZKLnk0=;
- b=i2KDJ097EjYRM87MMA5F4sjy48MKW2CVF9cJ4nfYS+qr64iLQ9MvtJukuEZE+dgGn+
- nXbsAZjvsrn/Un3aXBUGrY/jLRLZH7YEoit9W9oUMuKTipwav5iXyTOdokpaP1pPqk1h
- iOgfCkn6xydkHM12qFXIyth+O1KaAZtprzvsNUBcq4b7humMLmmAgRPHwsjyPOTPEcRa
- ndsbe312WIHOjlmVzyc3XAW4tD0ZN1Iy2vD4rOdbCpgEW+XkSuZpoq9SKeaHxfJY4IXC
- MJObqfTHwRJuGT7x3aBGxQ342xpT90QmooMwFYnh8l8ZOYgaoggt0WZqy70qn+ebu37k
- dndA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUzXneqfRtdt+XALv1yU8TkKnZ8LFV5IBQ8tI5bNxMX2rV1X0ZZKkUEH0h5x5rBKdoU0reaTE9nu80=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLj6HfZzuHZHy1KcQNCUBpL5lf/fhBuDp74pjo1Eg4NN/HSazI
- XyeB6VPxWHSK+OgYbU5xFBEhkwlgrzePS67kKdX/DEUW+EymGTiG8C08DgrPHqU=
-X-Gm-Gg: ASbGncsgkeZKhXBmFHHMQA9uw+qkcDoykUer7JItK1TdAtBWXT+9GIsrPRnGilftk+8
- skxD14HE9yPeLlW3Th1CvZtFho8jg3IUZ/08eHuplyAbl7yDWTLSyHQR9UaR4dHyZV4s4MCTEMt
- YIht2Yzbwi4pt/IroXvF1+QuRjLYo+quDH//8Wsrw7Y1XdauStCrMmSH2RsoJXpw88dA0ySSx+R
- 3Te/QUnxdzMglHLQWnMEl/tLb0o2FtnxDy8IhnSK5NTq1RaKGaBHUUYTq/4Gw==
-X-Google-Smtp-Source: AGHT+IHG070ZSCDM3VoQ8IcxxgcIA8LmAYT5Wy1Ts2flXAmROuoKHKuI+kgLYIo8ua64rhinlAKIfA==
-X-Received: by 2002:a05:600c:1e0b:b0:42f:7e87:3438 with SMTP id
- 5b1f17b1804b1-4362256dc73mr30023385e9.0.1734007661208; 
- Thu, 12 Dec 2024 04:47:41 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43625553234sm16279045e9.3.2024.12.12.04.47.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2024 04:47:40 -0800 (PST)
-Date: Thu, 12 Dec 2024 15:47:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH v2 next] drm/vc4: unlock on error in
- vc4_hvs_get_fifo_frame_count()
-Message-ID: <b61a81b2-0101-43bd-a4f6-09cf3a016484@stanley.mountain>
+X-Greylist: delayed 3504 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Dec 2024 13:39:37 UTC
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0317710E426
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 13:39:36 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A24EE5C5FE2;
+ Thu, 12 Dec 2024 13:38:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E04DC4CED0;
+ Thu, 12 Dec 2024 13:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1734010775;
+ bh=/GVsZ2epC2AQhd27Zheod42Ud2/VmKAfu1dnKlAuEyA=;
+ h=Subject:To:Cc:From:Date:From;
+ b=rRSsqAby0KnOdjkqVuBVJB0DKJuUmsAkzyIfrrxVMfZPN9pG2KWV2hFWg6BlkWqKJ
+ Dg9/3FU3ab5qSEz3pQpdNkK3tU9e1KbuUwkdf08jNBvz2r6qSGkIUrJsN8l/hS/dK7
+ xP7SKNS4l4O0W26hYvgvBDwTadGXu2ckx12sCdfU=
+Subject: Patch "drm/msm: DEVFREQ_GOV_SIMPLE_ONDEMAND is no longer needed" has
+ been added to the 6.1-stable tree
+To: airlied@gmail.com, daniel@ffwll.ch, dmitry.baryshkov@linaro.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, quic_abhinavk@quicinc.com, rdunlap@infradead.org,
+ robdclark@chromium.org, robdclark@gmail.com, sean@poorly.run
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 12 Dec 2024 14:39:27 +0100
+Message-ID: <2024121227-tweet-washbasin-f16e@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,30 +60,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The default statement is never used in real life.  However, if it were
-used for some reason then call drm_dev_exit() before returning.
 
-Fixes: 8f2fc64773be ("drm/vc4: Fix reading of frame count on GEN5 / Pi4")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+This is a note to let you know that I've just added the patch titled
+
+    drm/msm: DEVFREQ_GOV_SIMPLE_ONDEMAND is no longer needed
+
+to the 6.1-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-msm-devfreq_gov_simple_ondemand-is-no-longer-needed.patch
+and it can be found in the queue-6.1 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From a722511b18268bd1f7084eee243af416b85f288f Mon Sep 17 00:00:00 2001
+From: Randy Dunlap <rdunlap@infradead.org>
+Date: Sun, 19 Feb 2023 17:04:28 -0800
+Subject: drm/msm: DEVFREQ_GOV_SIMPLE_ONDEMAND is no longer needed
+
+From: Randy Dunlap <rdunlap@infradead.org>
+
+commit a722511b18268bd1f7084eee243af416b85f288f upstream.
+
+DRM_MSM no longer needs DEVFREQ_GOV_SIMPLE_ONDEMAND (since commit
+dbd7a2a941b8 ("PM / devfreq: Fix build issues with devfreq disabled")
+in linux-next), so remove that select from the DRM_MSM Kconfig file.
+
+Fixes: 6563f60f14cb ("drm/msm/gpu: Add devfreq tuning debugfs")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+Patchwork: https://patchwork.freedesktop.org/patch/523353/
+Link: https://lore.kernel.org/r/20230220010428.16910-1-rdunlap@infradead.org
+[rob: tweak commit message to make checkpatch.pl happy]
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-v2: style fixes
+ drivers/gpu/drm/msm/Kconfig |    1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/gpu/drm/vc4/vc4_hvs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--- a/drivers/gpu/drm/msm/Kconfig
++++ b/drivers/gpu/drm/msm/Kconfig
+@@ -23,7 +23,6 @@ config DRM_MSM
+ 	select SHMEM
+ 	select TMPFS
+ 	select QCOM_SCM
+-	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+ 	select WANT_DEV_COREDUMP
+ 	select SND_SOC_HDMI_CODEC if SND_SOC
+ 	select SYNC_FILE
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hvs.c b/drivers/gpu/drm/vc4/vc4_hvs.c
-index b42027636c71..4811d794001f 100644
---- a/drivers/gpu/drm/vc4/vc4_hvs.c
-+++ b/drivers/gpu/drm/vc4/vc4_hvs.c
-@@ -522,7 +522,7 @@ u8 vc4_hvs_get_fifo_frame_count(struct vc4_hvs *hvs, unsigned int fifo)
- 		break;
- 	default:
- 		drm_err(drm, "Unknown VC4 generation: %d", vc4->gen);
--		return 0;
-+		break;
- 	}
- 
- 	drm_dev_exit(idx);
--- 
-2.45.2
 
+Patches currently in stable-queue which might be from rdunlap@infradead.org are
+
+queue-6.1/drm-msm-devfreq_gov_simple_ondemand-is-no-longer-needed.patch
+queue-6.1/fs_parser-update-mount_api-doc-to-match-function-sig.patch
+queue-6.1/scatterlist-fix-incorrect-func-name-in-kernel-doc.patch
