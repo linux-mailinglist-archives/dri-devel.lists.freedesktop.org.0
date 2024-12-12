@@ -1,81 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5819EFFDD
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 00:10:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E67739F000B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 00:24:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A1910EEB5;
-	Thu, 12 Dec 2024 23:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D35910E14F;
+	Thu, 12 Dec 2024 23:24:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QTqQRyzC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gSwEDwUg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B36B10EE9F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 23:10:00 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-e3990bbe22cso915640276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 15:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734044999; x=1734649799; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WaleLzibxZUfAGDbUadGTT7PEq5jpDmCmSJXElnaBv8=;
- b=QTqQRyzCmefDlhtq/KhWaBgxJADyNeC9X4C3g/4bd0vFsS+Gw6KybuppJLhrqoieo5
- XUs03pKuFaPIv/vsE+3l2uk3WjwMJ47290u+00XbTmiFOGHMftEp7aoD0mn6iUN5dRRi
- AeZPIPECWFAd6H9sLum6EF++fvmcLi8hrNqrfxwJeGcp4xsoJWFMFRj5h99hrCx5gTxF
- WtT7udtXGMWXZ4605/naNFM0YUl2KV24ul7OZib/Em6QVAT6yVAmY6BWm2FloIqAYg2E
- EKqmuCtcfoqOqQJ1NnsiGPdELYINr9pYEp4ecChZlb6Q3GJTVL3SfRyEC16k0BzAVg6N
- 21LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734044999; x=1734649799;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=WaleLzibxZUfAGDbUadGTT7PEq5jpDmCmSJXElnaBv8=;
- b=bAScR6FW9cmOcKbtAs5DJBhlzWxCp8K2rPoTtwpCvgZeJvv7aLEQH9JwRdfQUNvt7+
- 6+nvYfRr9CiAPCyw7uIW6y1/dzYdT2tFrehrFvYivZ9TPeLIIhZIyoptc6wUf/ms+3J4
- dbzzM5egERkF39bKvz4/e46TFSdZ84v8tqAWojSx/YUDXNbQ1Uasmw2bL5VbbOss438W
- Iab0i35J521aWaEcrM1VU0lRjIgrCKr60+2RxuBq+v2Gs0AgYL7nUalT9PdCObKhhHup
- NA3wtIq+Y91QjmLelRtRzK+DiY8PvsOAwxbjMNuORrCtWUCGkhsZXT0AQwbW5vSopvd4
- j7cg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU4ObuUh81wakRDFSSpcJ4nOrwPJzniW+KORjLnZd0VWc9Y4L2ccLycxkZoK214ytl/1lnHsqCrMRM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXCz6VCNMjiHPAzfyKnVDxJurrm5y25Fm0UxM6eoyZDH0QqSnZ
- kcx0XOsbVC3Xc0jIA0Pvwaib2fTpUfxGBpVEOy2NkEl2d6w/H5RQkB8Q/sxskGYoFxvrhM+21wS
- NZwV/XdXZYTPl4IqvFy8ijmtcYfSd0hu2qEOs7A==
-X-Gm-Gg: ASbGncuvXdDJNS+uBgQd0gppK/N6ehpYJz1hZUbHu4pqPjAvcmJ4VeKMGDcIpvV/7qK
- 2cxCrLEHCx2cmyVKD6xwEDJwTD28CABjA9aBgzg==
-X-Google-Smtp-Source: AGHT+IF/V/ux6X1mO6hXRsOgpRG5i2WaZY0ezUfxfN+Hfmp4+xxlK9dJwbtdQzgy6yG4fyhaFVSrL2l4czjoSGhEs5I=
-X-Received: by 2002:a05:690c:6510:b0:6ef:6c57:ddae with SMTP id
- 00721157ae682-6f279b960admr5713247b3.34.1734044999382; Thu, 12 Dec 2024
- 15:09:59 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7549E10E14F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 23:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734045863; x=1765581863;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=8RkAiN7aafpa/YU5vNB2TjsIPY9KF58x80E0z5e7j6Y=;
+ b=gSwEDwUgzcbfmWLnaXMaWqI9gGik2tnYxYOP/mqs2t6xGBFMLTUAVMV0
+ kB+I1a3i2xIFBAzMnjaUA+QBuNEe5yRtmBSgEDMV1oc5gtyUIbxQStBYk
+ /dQDlEBG0uV6GYnttGUoZXOm/e+UnkKAgqiRFT5ZrQ4bcfFRS/+tcs1xd
+ /R5GNiFAFBbvyfRxu1Sx6FTcoggxvOJK5CrxCxkPHwHQyASv4FBrKvAl3
+ Q6zhY0HA9OpAKkH5w6vbx+y9aH4Dpk4gazi0tc1MZsHa4N/yYZmARKGy0
+ SUvdNVxeGDxdMreW/PTLhKRUUaPfWBS313bRvw95Cg+7MnfY0+Cm7DU9I w==;
+X-CSE-ConnectionGUID: jtQNpl3tQ7iQth3laHIcLQ==
+X-CSE-MsgGUID: KG0E/ErcS9OhWd19cbKIrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="52013614"
+X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; d="scan'208";a="52013614"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 15:24:23 -0800
+X-CSE-ConnectionGUID: g3JkOje5RZSvpXvSxtNrQA==
+X-CSE-MsgGUID: 1J/Q+r1AT4qnxv1vEFkYZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; d="scan'208";a="96443567"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.129])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 15:24:20 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas
+ <javierm@redhat.com>, Simona Vetter <simona@ffwll.ch>, Dave Airlie
+ <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+In-Reply-To: <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <09edb59a-527a-4ddb-bfaf-ea74fb5a3023@gmx.de>
+ <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
+Date: Fri, 13 Dec 2024 01:24:14 +0200
+Message-ID: <87frmstrhd.fsf@intel.com>
 MIME-Version: 1.0
-References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
- <20241212-fd-dp-audio-fixup-v3-1-0b1c65e7dba3@linaro.org>
- <01f84965-8a11-4d6d-99a6-b0e37240d4cb@quicinc.com>
- <iugoc25pnh5zzzr5mamutycqohj2z2255omgh3ztyoqgyjkg23@c7axf3mg5wy5>
- <49d330b8-86fe-40a6-864b-cbb28dc2f555@quicinc.com>
- <ab2e0099-3970-4bc8-8a33-db53609838bc@quicinc.com>
-In-Reply-To: <ab2e0099-3970-4bc8-8a33-db53609838bc@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 13 Dec 2024 01:09:51 +0200
-Message-ID: <CAA8EJppefip48dAMZLLML2zoPZzVFD=29d5Nu-E1mGQpUtDvAw@mail.gmail.com>
-Subject: Re: [PATCH v3 01/14] drm/msm/dp: set safe_to_exit_level before
- printing it
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Paloma Arellano <quic_parellan@quicinc.com>, 
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,70 +76,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Dec 2024 at 20:53, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+On Thu, 12 Dec 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+> On Thu, Dec 12, 2024, at 19:44, Helge Deller wrote:
+>> On 12/12/24 11:04, Thomas Zimmermann wrote:
+>>> Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
+>>> only controls backlight support within fbdev core code and data
+>>> structures.
+>>>
+>>> Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
+>>> select it explicitly. Fixes warnings about recursive dependencies,
+>>> such as [...]
+>>
+>> I think in the fbdev drivers themselves you should do:
+>> 	select BACKLIGHT_CLASS_DEVICE
+>> instead of "depending" on it.
+>> This is the way as it's done in the DRM tiny and the i915/gma500 DRM drivers.
+>>
+>> So, something like:
+>>
+>> --- a/drivers/staging/fbtft/Kconfig
+>>         tristate "Support for small TFT LCD display modules"
+>>         depends on FB && SPI
+>>         depends on FB_DEVICE
+>>    +    select BACKLIGHT_DEVICE_CLASS
+>>         depends on GPIOLIB || COMPILE_TEST
+>>         select FB_BACKLIGHT
+>>
+>> config FB_BACKLIGHT
+>>            tristate
+>>            depends on FB
+>>    -	  select BACKLIGHT_CLASS_DEVICE
+>>    +       depends on BACKLIGHT_CLASS_DEVICE
+>>
+>>
+>> Would that fix the dependency warning?
 >
->
->
-> On 12/12/2024 10:31 AM, Abhinav Kumar wrote:
-> >
-> >
-> > On 12/12/2024 12:58 AM, Dmitry Baryshkov wrote:
-> >> On Wed, Dec 11, 2024 at 05:14:18PM -0800, Abhinav Kumar wrote:
-> >>>
-> >>>
-> >>> On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
-> >>>> Rather than printing random garbage from stack and pretending that
-> >>>> it is
-> >>>> the default safe_to_exit_level, set the variable beforehand.
-> >>>>
-> >>>> Fixes: d13e36d7d222 ("drm/msm/dp: add audio support for Display Port
-> >>>> on MSM")
-> >>>> Reported-by: kernel test robot <lkp@intel.com>
-> >>>> Closes:
-> >>>> https://lore.kernel.org/oe-kbuild-all/202411081748.0PPL9MIj-lkp@intel.com/
-> >>>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> >>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> >>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>>> ---
-> >>>>    drivers/gpu/drm/msm/dp/dp_audio.c | 2 +-
-> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>>> b/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>>> index
-> >>>> 74e01a5dd4195d5e0e04250663886f1116f25711..5cbb11986460d1e4ed1890bdf66d0913e013083c 100644
-> >>>> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>>> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>>> @@ -329,10 +329,10 @@ static void
-> >>>> msm_dp_audio_safe_to_exit_level(struct msm_dp_audio_private *audio)
-> >>>>            safe_to_exit_level = 5;
-> >>>>            break;
-> >>>>        default:
-> >>>> +        safe_to_exit_level = 14;
-> >>>>            drm_dbg_dp(audio->drm_dev,
-> >>>>                    "setting the default safe_to_exit_level = %u\n",
-> >>>>                    safe_to_exit_level);
-> >>>> -        safe_to_exit_level = 14;
-> >>>>            break;
-> >>>>        }
-> >>>>
-> >>>
-> >>> This was already picked up in -fixes, so no need to include
-> >>
-> >> I have been rebasing on linux-next. Please make sure that your -fixes
-> >> branch is a part of linux-next.
-> >>
-> >
-> > Its merged to msm-fixes not just my fixes branch. I am pretty sure
-> > msm-fixes is part of linux-next.
->
->
-> Actually, I noticed just now that msm-fixes is not part of linux-next.
-> So pls ignore my comment. drm-fixes is part of linux-next. We should be
-> sending out our PR pretty soon. So you will be able to drop this after that.
+> The above is generally a mistake and the root cause of the
+> dependency loops. With very few exceptions, the solution in
+> these cases is to find the inconsistent 'select' and change
+> it into 'depends on'.
 
-Ack. Let's get it to linux-next then.
+Agreed.
+
+> I actually have a few more patches like this that I've
+> been carrying for years now, e.g. one that changes all the
+> 'select I2C' into appropriate dependencies.
+
+I've done that for BACKLIGHT_CLASS_DEVICE and some related configs years
+ago, but there was pushback, and I gave up. Nowadays when I see this I
+just chuckle briefly and move on.
+
+Occasionally I quote Documentation/kbuild/kconfig-language.rst:
+
+	select should be used with care. select will force
+	a symbol to a value without visiting the dependencies.
+	By abusing select you are able to select a symbol FOO even
+	if FOO depends on BAR that is not set.
+	In general use select only for non-visible symbols
+	(no prompts anywhere) and for symbols with no dependencies.
+	That will limit the usefulness but on the other hand avoid
+	the illegal configurations all over.
+
+If kconfig warned about selecting symbols with dependencies it would be
+painful for a while but eventually I think life would be easier.
+
+BR,
+Jani.
+
 
 -- 
-With best wishes
-Dmitry
+Jani Nikula, Intel
