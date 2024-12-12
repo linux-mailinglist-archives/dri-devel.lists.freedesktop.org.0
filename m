@@ -2,63 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0ABE9EDEB3
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 06:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF4D9EDEEE
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 06:31:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D2A010E270;
-	Thu, 12 Dec 2024 05:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89CC410E414;
+	Thu, 12 Dec 2024 05:31:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B6rdBSCP";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="nPNTCbkf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D876010E270;
- Thu, 12 Dec 2024 05:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733980224;
- bh=hI0EGDPmpP7XnD6A+7EcRF/bfUEgIBo0whGbTy18VlA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=B6rdBSCP9h676c8clZYZaXnW6OJAvCH9vRGJFhKXO/Pfac5/85AD5LzEd/+VtM2Hl
- VOKnKCwkyqxc2+mv9wejP1ZEJTBQ3mjtNEcpqCSr18v4xzbxhrMU7ylAwjJYcp8BUf
- IIQ/CoqUKzl/R4qvazwtrygEkb9X/xry3zXqJJ5HDFHhy4RZaSkJDPaR0QZwenlFi7
- X24ZVRiaPAWSswhD6GDwMnY9xIkVfRFeGsgoO1AFMbjEGn1cJJ4TcXrQVgYpo+gFjO
- e0K3dpOYe3Ero5WIvC7P2S8yV8n2D0L+UoxpoDmv6xch5D1HR0LfnQZ5BVc1wKLbXc
- quwAsMIgDbIbg==
-Received: from [192.168.50.250] (unknown [171.76.86.135])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BBA7917E1067;
- Thu, 12 Dec 2024 06:10:19 +0100 (CET)
-Message-ID: <ed90ca8c-ed81-419f-a5db-a4e8bcd35835@collabora.com>
-Date: Thu, 12 Dec 2024 10:40:16 +0530
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25FDC10E467;
+ Thu, 12 Dec 2024 05:31:31 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBHD59G002087;
+ Thu, 12 Dec 2024 05:31:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=y9+wJ+4THMZ6aKAeDHGQEFe1
+ hJ+XvdzKUMLTnVrjnRQ=; b=nPNTCbkfWfCu1Te64iYQgIXGCFr8bTR33PE4GjrL
+ 9kVDhksvM8ujfIKTSZFleSwdeavUPq7cAvuAdyFGTD6UianYJ2zMVCK+dkESgpHn
+ Ej5e9dBFYyr3EZCwTnh1fHJa9iaKen0r3icOq5f27zqDZhlekAKrZfUrIVWpHd0u
+ ynf2kx7+zX/u0q+0Xw+suOzNnbHmotFLP0X9hLw2NmHGA1ACCZ2kuZfoUWbKhFL2
+ 0R7d/tdlT/nO7hjpuZz5+q2F8gmrv9mXFqjmbn3DHKmZzy4pqg4P+L1wo8rIsJSR
+ 63si0/SyuyHETlHcmZqV5BjP0xLY1rqB8CkCvaTL2+rFHA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43f0r9v76c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2024 05:31:24 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BC5V804029685
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2024 05:31:08 GMT
+Received: from hu-pkondeti-hyd (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 11 Dec
+ 2024 21:31:03 -0800
+Date: Thu, 12 Dec 2024 11:01:00 +0530
+From: Pavan Kondeti <quic_pkondeti@quicinc.com>
+To: Marc Zyngier <maz@kernel.org>
+CC: Pavan Kondeti <quic_pkondeti@quicinc.com>, Akhil P Oommen
+ <quic_akhilpo@quicinc.com>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Elliot Berman
+ <quic_eberman@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] drm/msm/a6xx: Skip gpu secure fw load in EL2 mode
+Message-ID: <c197264b-3791-493a-b717-3dfd844de922@quicinc.com>
+References: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
+ <87ed2fs03w.wl-maz@kernel.org>
+ <92cee905-a505-4ce9-9bbc-6fba4cea1d80@quicinc.com>
+ <86sequsdtp.wl-maz@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ci: add kms_cursor_legacy@torture-bo to apq8016 flakes
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>
-Cc: Rob Clark <robdclark@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>
-References: <20241204-cursor_tor_skip-v1-1-f5f0bba5df7b@quicinc.com>
- <193931869a5.f923adf2270026.8321075661083367617@collabora.com>
- <20a3955e-3d10-47c5-8e68-d70342805010@quicinc.com>
- <19393604e18.f9b6fe7d298023.1937039548910081216@collabora.com>
- <a03ae7e8-391e-4303-91fc-15a59979fd2a@quicinc.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <a03ae7e8-391e-4303-91fc-15a59979fd2a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <86sequsdtp.wl-maz@kernel.org>
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: tyQb_xK72c8u2XdN2OgQP_4VMJmSutu8
+X-Proofpoint-GUID: tyQb_xK72c8u2XdN2OgQP_4VMJmSutu8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ impostorscore=0 phishscore=0 spamscore=0 clxscore=1015 mlxlogscore=968
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412120037
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,140 +98,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav / Helen,
-
-On 12/12/24 01:48, Abhinav Kumar wrote:
-> Hi Helen / Vignesh
+On Wed, Dec 11, 2024 at 10:40:02AM +0000, Marc Zyngier wrote:
+> On Wed, 11 Dec 2024 00:37:34 +0000,
+> Pavan Kondeti <quic_pkondeti@quicinc.com> wrote:
+> > 
+> > On Tue, Dec 10, 2024 at 09:24:03PM +0000, Marc Zyngier wrote:
+> > > > +static int a6xx_switch_secure_mode(struct msm_gpu *gpu)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +#ifdef CONFIG_ARM64
+> > > > +	/*
+> > > > +	 * We can access SECVID_TRUST_CNTL register when kernel is booted in EL2 mode. So, use it
+> > > > +	 * to switch the secure mode to avoid the dependency on zap shader.
+> > > > +	 */
+> > > > +	if (is_kernel_in_hyp_mode())
+> > > > +		goto direct_switch;
+> > > 
+> > > No, please. To check whether you are *booted* at EL2, you need to
+> > > check for is_hyp_available(). Whether the kernel runs at EL1 or EL2 is
+> > > none of the driver's business, really. This is still absolutely
+> > > disgusting from an abstraction perspective, but I guess we don't have
+> > > much choice here.
+> > > 
+> > 
+> > Thanks Marc. Any suggestions on how we can make is_hyp_mode_available()
+> > available for modules? Do you prefer exporting
+> > kvm_protected_mode_initialized and __boot_cpu_mode symbols directly or
+> > try something like [1]?
 > 
-> On 12/4/2024 12:33 PM, Helen Mae Koike Fornazier wrote:
->>
->>
->>
->>
->> ---- On Wed, 04 Dec 2024 16:21:26 -0300 Abhinav Kumar  wrote ---
->>
->>   > Hi Helen
->>   >
->>   > On 12/4/2024 11:14 AM, Helen Mae Koike Fornazier wrote:
->>   > > Hi Abhinav,
->>   > >
->>   > > Thanks for your patch.
->>   > >
->>   > >
->>   > >
->>   > > ---- On Wed, 04 Dec 2024 15:55:17 -0300 Abhinav Kumar  wrote ---
->>   > >
->>   > >   > From the jobs [1] and [2] of pipeline [3], its clear that
->>   > >   > kms_cursor_legacy@torture-bo is most certainly a flake and
->>   > >   > not a fail for apq8016. Mark the test accordingly to match 
->> the results.
->>   > >   >
->>   > >   > [1] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481
-
-The test passes - kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
-
->>   > >   > [2] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430
-
-There are no test failures
-
->>   > >   > [3]: https://gitlab.freedesktop.org/drm/msm/-/pipelines/1322770
-
-The job is same as 2
-
-In this case, the test passes and deqp-runner does not report it as 
-flake. So we only need to remove it from fails file.
-
-
->>   > >   >
->>   > >   > Signed-off-by: Abhinav Kumar quic_abhinavk@quicinc.com>
->>   > >   > ---
->>   > >   >  drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt | 5 +++++
->>   > >   >  1 file changed, 5 insertions(+)
->>   > >   >
->>   > >   > diff --git 
->> a/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt 
->> b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
->>   > >   > new file mode 100644
->>   > >   > index 000000000000..18639853f18f
->>   > >   > --- /dev/null
->>   > >   > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
->>   > >   > @@ -0,0 +1,5 @@
->>   > >   > +# Board Name: msm-apq8016-db410c
->>   > >   > +# Failure Rate: 100
->>   > >
->>   > > Is failure rate is 100%, isn't it a fail than?
->>   > > (I know we have other cases with Failure Rate: 100, maybe we 
->> should fix them as well)
->>   > >
->>   >
->>   > Maybe I misunderstood the meaning of "Failure rate" for a flake.
->>   >
->>   > I interpreted this as this test being flaky 100% of the time :)
->>
->> Ah right, I see, inside deqp-runner (that auto-retries).
->>
->> I'd like to hear Vignesh's opinion on this.
->>
->> (In any case, we probably should document this better)
-
-deqp-runner reports new (not present in flakes file) or known (present 
-in flakes file) flakes
-
-2024-12-11 07:25:44.709666: Some new flakes found:
-2024-12-11 07:25:44.709676:   kms_lease@page-flip-implicit-plane
-
-2024-12-11 13:15:16.482890: Some known flakes found:
-2024-12-11 13:15:16.482898: 
-kms_async_flips@async-flip-with-page-flip-events-atomic
-
-we add it to flakes file if deqp runner reports new flakes. Another case 
-where we update flake tests is when a test passes in one run but fails 
-in another, but deqp-runner does not report it as flake.
-
-Regards,
-Vignesh
-
->>
->> Regards,
->> Helen
->>
+> Ideally, neither. These were bad ideas nine years ago, and they still
+> are. The least ugly hack I can come up with is the patch below, and
+> you'd write something like:
 > 
-> Can you let me know which way we need to go?
+> 	if (cpus_have_cap(ARM64_HAS_EL2_OWNERSHIP))
+> 		blah();
 > 
-> Just in case I did post a v2 fixing this, 
-> https://patchwork.freedesktop.org/patch/627276/
+> This is obviously completely untested.
 > 
-> If thats the way to go, can you pls take a look?
+
+I have tested your patch. It works as intended. Thanks Marc.
+
+> It also doesn't solve the problem of the kernel booted on bare-metal
+> at EL1, or with a hypervisor that doesn't change the programming
+> interface of the device under the guest's feet. Eventually, someone
+> will have to address these cases.
 > 
-> Thanks
-> 
-> Abhinav
->>   >
->>   > Out of the 3 runs of the test, it passed 2/3 times and failed 1/3.
->>   >
->>   > So its fail % actually is 33.33% in that case.
->>   >
->>   > I think I saw a Failure rate of 100% on msm-sm8350-hdk-flakes.txt and
->>   > mistook that as the rate at which flakes are seen.
->>   >
->>   > Let me fix this up as 33%
->>   >
->>   > > Regards,
->>   > > Helen
->>   > >
->>   > >   > +# IGT Version: 1.28-ga73311079
->>   > >   > +# Linux Version: 6.12.0-rc2
->>   > >   > +kms_cursor_legacy@torture-bo
->>   > >   >
->>   > >   > ---
->>   > >   > base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
->>   > >   > change-id: 20241204-cursor_tor_skip-9d128dd62c4f
->>   > >   >
->>   > >   > Best regards,
->>   > >   > --
->>   > >   > Abhinav Kumar quic_abhinavk@quicinc.com>
->>   > >   >
->>   > >   >
->>   > >
->>   >
->>
+
+Noted, Thanks.
+
+~Pavan
