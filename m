@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2999EFD6B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 21:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245A99EFD6F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 21:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7956B10EE96;
-	Thu, 12 Dec 2024 20:26:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B59E10EE97;
+	Thu, 12 Dec 2024 20:27:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="hwpGViZ8";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Dy7eb3eL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC5810EE96
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 20:26:47 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-6ef4084df4cso8641117b3.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:26:47 -0800 (PST)
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
+ [IPv6:2607:f8b0:4864:20::b2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014C510EE94
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 20:27:53 +0000 (UTC)
+Received: by mail-yb1-xb2e.google.com with SMTP id
+ 3f1490d57ef6-e3a0acba5feso747857276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1734035206; x=1734640006;
+ d=chromium.org; s=google; t=1734035273; x=1734640073;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:from:to:cc:subject:date:message-id
- :reply-to; bh=SW5CnNui3R97mY2cLBPEbaMn7nNMtZlM3tT/CgKujL8=;
- b=hwpGViZ8TNHu7oXSnoL/qGLhChKfhO+pcVoCrGfwrRRYrsdRjoXGcQ/rNLJSBPCvD0
- ttVNM24+WahpmC4WwLNAX+CdQ6KepMD5dcJ5na/aF6oE5PueMdzokhJQrCvaxo2rg0bx
- PbdaBJoG3IGNDk25B1Qno0XUcA9ZXZimr87QI=
+ :reply-to; bh=IyH3eYb6Cm9AtiFQGPmrG/m4h3r5bZXGHe1sNdWmzvY=;
+ b=Dy7eb3eLad+fd1kQYLI2vCFIve4xgH1FbubJrFrTvhZRUGLc1+abiGWEMFM1k9bqS8
+ ALlLDBOaLTCLE2wvw84H39hFFJo2P6OLrKM6vcS/tM+Q2VfXz5MqrLV6qJ9bkfzNn7xT
+ XhiwWDUhoLtx6cbKPd6InyykyTfR5ypsyb+jg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734035206; x=1734640006;
+ d=1e100.net; s=20230601; t=1734035273; x=1734640073;
  h=cc:to:subject:message-id:date:user-agent:from:references
  :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SW5CnNui3R97mY2cLBPEbaMn7nNMtZlM3tT/CgKujL8=;
- b=aHH4BJXhPo3XTLL/xbgj1tvyyYR+wIDMCiCiiUMXnz26whD1aINIy9PM2LiKqmcugu
- T8zCi/9ZJJhWecm6X2bod/GfEu5ja8yDPcQ+ptDYaQ3D8SJUjlt+G+y5I9vKpj4uZNJZ
- STZlHWjuID2XOMOicunrBHGN5pEf5Gpqz/uDn7YjEuKbWf+pPvp+Oh9MJ9BGu+jm21a+
- B+cRFuvT0GA3Yul4nzdF9UewQyXslqzqyThXOZsdLuu5FWJ3756zx6QogdX9rp1QAZL/
- BwIpwFi7QlDnkMsuG+P4B5DQInz04JFn8bMChygblxjmrOVn5D3YgFzedLdG6GOfywD7
- apxA==
+ bh=IyH3eYb6Cm9AtiFQGPmrG/m4h3r5bZXGHe1sNdWmzvY=;
+ b=XzrZMqZBbbITiopMBbFlGprhz1StbPbdYf4vFcBBC/CeJMahjkCpirEgT0x15kehh0
+ FVbz65TNzZ7cb8n6tigBu5g7frSoXnaeF4m4PFuRAX5n2ojLqeTvr+ih+Gql5uDCkUm2
+ L86nAKaPc74LEgk+DFPoitwApyam+as3HSAu834GS6EacgvhwyKExvPJSFSY4TT9FK6k
+ vr85kTgyXfGWSNnspqOTA0BO2w3hEcIfznq66x/OK0/1cx+Kk4BwptRQx937PvOxBafK
+ WxqC+Oi+2tls34Q4NiI1U3WAPk264h0NvdF+7W46NZ5gPicvcC/52gPv5gvRPyZM/Sf9
+ ZNEA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXQPDY6yCtb36jYKVHp3FwDT5XCiNxvVFEGuc1VH7PC+PEAvuA9VszpdqYbuSUnpPCL6fzP1LNsfsE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwXBa3yWBN2FucxKVwvwrq50ohcDpNIpbL2bexMlFQQ0/kpbiCd
- OEErB9iyfscs1IwWxvRSWpeujelcRhc3jLP2RRMZgCXxkyNvBh/s83xHERZaoD1QXfzUAu10/Qa
- VCpCUm98cxk/11VfNG4FIc/tu4WYA0HRfDMlO
-X-Gm-Gg: ASbGncsw+AYS30TxLfDJpSmR34i0eyH1lNGr5seHOPD56B2A0urUWjk5v/zpcgjyNlz
- TStqVuzQNNU1KW+bww57pXvQ8yFou5KY03U0v2+u5Dz5gc28PfP8P7HqFercQPGtYww==
-X-Google-Smtp-Source: AGHT+IGFOgDVm4CFDXe3IU7TrIeBHR0ltNsmIqxmA2AqNWpAHBHRWN40vh5Dhn/6yXzuo/xaxcnVD3/msC5W/xKQZns=
-X-Received: by 2002:a05:6902:140f:b0:e39:598a:239f with SMTP id
- 3f1490d57ef6-e434f945c4dmr88547276.49.1734035206765; Thu, 12 Dec 2024
- 12:26:46 -0800 (PST)
+ AJvYcCVzSjij3axU7XXTR7cEdIb8AYeYpS24QnnWKWhV4BAsvzSH3XleIUaJlejFObUQbtDDRgjV/8T/J9E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJ+MSrEHT/I/dV3lkheImaHdXHOz05xdoaTG7TYlW0Sze5xhO5
+ FYQtB6bbeefqjrAnlRqeT919k/0yIDNYhw9qJaFhrsqySL2DDz9b3t8J//wU9VTxhS+v0ewp+lY
+ ijUv++Djh4jEEN/XSiNLXHn1SdddwGjrpB+cE
+X-Gm-Gg: ASbGncvzfGyZcpnK/Gvkc9tC0A8HEWLTYidu7D2im94lgC6Le8i5+VVDTN3QO7LjXrW
+ UiCguzY4xCipKqBmnMim0sxVlscWDrcznYQXoucCVqyTOSZwcQCi11oxnpCwekiIBCQ==
+X-Google-Smtp-Source: AGHT+IG3KC9ssh6ekayVwqUK7Km4JQfm8yz6hlNQTxOXGgPcqzMW7GAJJi4TlQ/fXN099DQlJcEjq7UgjR3xUuloAyA=
+X-Received: by 2002:a05:6902:1b8e:b0:e3c:7fca:716e with SMTP id
+ 3f1490d57ef6-e43491ff2aamr112163276.6.1734035273092; Thu, 12 Dec 2024
+ 12:27:53 -0800 (PST)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 12 Dec 2024 12:26:46 -0800
+ HTTPREST; Thu, 12 Dec 2024 12:27:52 -0800
 MIME-Version: 1.0
-In-Reply-To: <20241212-fd-dp-audio-fixup-v3-6-0b1c65e7dba3@linaro.org>
+In-Reply-To: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
 References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
- <20241212-fd-dp-audio-fixup-v3-6-0b1c65e7dba3@linaro.org>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.12.dev1+gaa8c22fdeedb
-Date: Thu, 12 Dec 2024 12:26:46 -0800
-Message-ID: <CAE-0n52xCodsb94V2N5+ENsft81LvHrngTrcc=w+FSYmmXELHw@mail.gmail.com>
-Subject: Re: [PATCH v3 06/14] drm/msm/dp: move/inline AUX register functions
+Date: Thu, 12 Dec 2024 12:27:52 -0800
+Message-ID: <CAE-0n526i3eZbSsoyLgO=MFPb1_mU_v9c-zgMrdQGWgUvj-+Ug@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] drm/msm/dp: perform misc cleanups
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
@@ -70,7 +69,7 @@ To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,11 +86,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dmitry Baryshkov (2024-12-11 15:41:41)
-> Move all register-level functions to dp_aux.c, inlining one line
-> wrappers during this process.
+Quoting Dmitry Baryshkov (2024-12-11 15:41:35)
+> - Fix register programming in the dp_audio module
+> - Rework most of the register programming functions to be local to the
+>   calling module rather than accessing everything through huge
+>   dp_catalog monster.
 >
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+For the series
+
+Tested-by: Stephen Boyd <swboyd@chromium.org> # sc7180-trogdor
