@@ -2,72 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0AF09EEC59
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 16:33:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D699EECF8
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 16:40:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 601E010E6B4;
-	Thu, 12 Dec 2024 15:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 792DF10E7BF;
+	Thu, 12 Dec 2024 15:40:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="BPQoj00E";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q0xmnt6r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7446710E52C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 15:33:53 +0000 (UTC)
-X-UUID: 7aeee5a4b89e11ef99858b75a2457dd9-20241212
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=1mgJFotG3RcgJMHCzt5CNI6Nab3EgikzA5VpiV/4n3U=; 
- b=BPQoj00EadVPBDUYAyfGZ/uhrrpwTTtbMNfLIjudiuusvRubn3E7GCWd3sCuB0scfRsnUY5WMZSqWiZxi7q9On9PtBjuQesUgX0gtekoXgRoyiagpg3KpKyvDyua2hK3eVYIcm11zFlE8tb0nmR1X4hsDTZCuosrUUPIsraxlVk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:b75915bf-74d2-4070-83c3-f8ee4d08278d, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:ad0a6c28-d2eb-4de2-b5c9-495d1bc17256,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0,EDM:-3,IP
- :nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
- LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 7aeee5a4b89e11ef99858b75a2457dd9-20241212
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1964038408; Thu, 12 Dec 2024 23:33:47 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 12 Dec 2024 23:33:46 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 12 Dec 2024 23:33:46 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Nancy
- Lin <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Fei Shao
- <fshao@chromium.org>
-Subject: [PATCH 2/2] dts: arm64: mediatek: mt8188: Update OVL compatible from
- MT8183 to MT8195
-Date: Thu, 12 Dec 2024 23:33:44 +0800
-Message-ID: <20241212153344.27408-3-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20241212153344.27408-1-jason-jh.lin@mediatek.com>
-References: <20241212153344.27408-1-jason-jh.lin@mediatek.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC63F10E7BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 15:40:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id E1941A41D89;
+ Thu, 12 Dec 2024 15:38:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72B7CC4CEE2;
+ Thu, 12 Dec 2024 15:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734018007;
+ bh=aRKXXlVvbGjmh5A+HdJrSujq5fMFWNfh7Xt/6YwYcF4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Q0xmnt6rZpwAtD5n9ViAEkWAC3irVnIX4WZQnUaOO4mlkGExsMYKbsxUo4lghR4VY
+ mlgww7v5IWseQTJXU4Q2SqlKvMJQp4xzA7OpLfkCuYdrt2MO6sGwCesTBu6cOMfeUX
+ qg+hhAbA1ZBJfX/7aqGAu1hph3fi0KNSZSJr/FZ5SpFDKSO/n0zSmAmbDRXpcvxROC
+ FkwK8Ba5c6gY4JID4DKM/kzRRJC1C8aNKk1fPncv8BtQP1FOenLZSVH4ujPn6cTGYE
+ esqwELwPgVoT5V3f2rDUccMdFYybULluoqTekQy291yaEe5txPPBK0ILGFiGiFnSt9
+ ss+m8CTwOwpsg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jocelyn Falempe <jfalempe@redhat.com>,
+ John Ogness <john.ogness@linutronix.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andreas Larsson <andreas@gaisler.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/log: select CONFIG_FONT_SUPPORT
+Date: Thu, 12 Dec 2024 16:39:50 +0100
+Message-Id: <20241212154003.1313437-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,29 +61,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OVL hardware capabilities have changed starting from MT8195,
-making the MT8183 compatible no longer applicable.
-Therefore, it is necessary to update the OVL compatible from MT8183 to
-MT8195.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+Without fonts, this fails to link:
+
+drivers/gpu/drm/clients/drm_log.o: in function `drm_log_init_client':
+drm_log.c:(.text+0x3d4): undefined reference to `get_default_font'
+
+Select this, like the other users do.
+
+Fixes: f7b42442c4ac ("drm/log: Introduce a new boot logger to draw the kmsg on the screen")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- arch/arm64/boot/dts/mediatek/mt8188.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/clients/Kconfig | 1 +
+ lib/fonts/Kconfig               | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8188.dtsi b/arch/arm64/boot/dts/mediatek/mt8188.dtsi
-index faccc7f16259..23ec3ff6cad9 100644
---- a/arch/arm64/boot/dts/mediatek/mt8188.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8188.dtsi
-@@ -2488,7 +2488,7 @@ jpeg_decoder: jpeg-decoder@1a040000 {
- 		};
+diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
+index c18decc90200..7b81fd0f4cae 100644
+--- a/drivers/gpu/drm/clients/Kconfig
++++ b/drivers/gpu/drm/clients/Kconfig
+@@ -77,6 +77,7 @@ config DRM_CLIENT_LOG
+ 	select DRM_CLIENT
+ 	select DRM_CLIENT_SETUP
+ 	select DRM_DRAW
++	select FONT_SUPPORT
+ 	help
+ 	  This enable a drm logger, that will print the kernel messages to the
+ 	  screen until the userspace is ready to take over.
+diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
+index 3ac26bdbc3ff..ae59b5b4e225 100644
+--- a/lib/fonts/Kconfig
++++ b/lib/fonts/Kconfig
+@@ -10,7 +10,7 @@ if FONT_SUPPORT
  
- 		ovl0: ovl@1c000000 {
--			compatible = "mediatek,mt8188-disp-ovl", "mediatek,mt8183-disp-ovl";
-+			compatible = "mediatek,mt8188-disp-ovl", "mediatek,mt8195-disp-ovl";
- 			reg = <0 0x1c000000 0 0x1000>;
- 			clocks = <&vdosys0 CLK_VDO0_DISP_OVL0>;
- 			interrupts = <GIC_SPI 636 IRQ_TYPE_LEVEL_HIGH 0>;
+ config FONTS
+ 	bool "Select compiled-in fonts"
+-	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
++	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC || DRM_CLIENT_LOG
+ 	help
+ 	  Say Y here if you would like to use fonts other than the default
+ 	  your frame buffer console usually use.
 -- 
-2.43.0
+2.39.5
 
