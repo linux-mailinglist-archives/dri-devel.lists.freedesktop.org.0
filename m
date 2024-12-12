@@ -2,87 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485349EFBBC
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9B09EFBF5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7C1210E65E;
-	Thu, 12 Dec 2024 18:56:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0293A10E048;
+	Thu, 12 Dec 2024 18:59:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fvlgoC84";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Y4lto2r3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D11CE10E048;
- Thu, 12 Dec 2024 18:56:18 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCICeHO022791;
- Thu, 12 Dec 2024 18:56:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- eHPUIVDs5n/Gl5GXexFw9AKnGU1HBb2QBrWPPNCrp3s=; b=fvlgoC84WQe/6sjS
- 5LEcdEWlaneg66rOQb4kA9Y0H6R5Ml1RPhutlTIPA3tq4kQi6JHEc6W21kbA6c9o
- Zjo2RturTJogtBCZH85vsr0JY7XzpRseZCN33C/i1MYoDDS7QqwaQy/1p18d2FsE
- oCos1dVk1vLwcGDjHDjI2Jpwl0rQDaE67BzFccUQNph3Xe3eA8wrqRg80L18ovtT
- WnUkoXYadwmxvZaT6nfGm8R/xMxjdP2WP7hjPRx0KPXsm2rmB1tveMsvqEL4GFy/
- iuRjt49eh6oipc5JdtUedByikwZ7VTA3mJO0EVbBH5NEvbllXv38o6suqtLqyYJh
- j9ih4g==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43g4wn83aw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2024 18:56:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BCIu8hs026719
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2024 18:56:08 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 12 Dec
- 2024 10:56:07 -0800
-Message-ID: <3d7a82d5-3c7f-40dc-a896-daf1e564bdb0@quicinc.com>
-Date: Thu, 12 Dec 2024 10:56:06 -0800
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB2810E048
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 18:59:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5BC97A429CD;
+ Thu, 12 Dec 2024 18:57:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E61CCC4CECE;
+ Thu, 12 Dec 2024 18:59:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734029971;
+ bh=ucD7ZlOj4QbEyAyzavhmxea8rupx8Xrf7/SaQgUrG9s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Y4lto2r3Ly9Zd6tPHZIwD7YnqgTE8KIrLs2RXFBNMKXdl9UzKaSaHliYfcez9moaB
+ 9n43j37P6eV1eMDl7tCmNvI5NLtxeHQYXDDhaqvQRMQ95R4iPsZ8O/wyKCw368Thd/
+ MuKOQjhYspDcvZDnyMbMAinOXyGORj8LX7rKx5oeHEjLsL07TnU4NYEBtfc8KkAk5+
+ 2D5tbpAc/Qn/iB7YAsRSEqTAZ9Ia1kBZ2WRfyhzZ7F/1zjeQANIG3oJeQ6vFwtsW/8
+ ujUlkX+L0PMYT++3lfjAngwXRjvKxd57ztZivE4cduK5QY+3RUnmZkDljPObPkqqPQ
+ K0LMOAxsUpv/A==
+Date: Thu, 12 Dec 2024 18:59:26 +0000
+From: Lee Jones <lee@kernel.org>
+To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>
+Subject: Re: [PATCH v3 2/2] leds: lp8864: New driver
+Message-ID: <20241212185926.GL7139@google.com>
+References: <20241209084602.1199936-1-alexander.sverdlin@siemens.com>
+ <20241209084602.1199936-3-alexander.sverdlin@siemens.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/14] drm/msm/dp: drop struct msm_dp_panel_in
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paloma Arellano <quic_parellan@quicinc.com>,
- Douglas Anderson <dianders@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
- <20241212-fd-dp-audio-fixup-v3-13-0b1c65e7dba3@linaro.org>
- <3346b2fb-1366-476b-bb52-e42a2170d719@quicinc.com>
- <CAA8EJppthF3aVq0T2FmjLRNySP2pW36QnEXoWt5fFAKh+Nmz5A@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAA8EJppthF3aVq0T2FmjLRNySP2pW36QnEXoWt5fFAKh+Nmz5A@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: sDJnQmMVbzxYWel2XUlylzPKonssNJev
-X-Proofpoint-GUID: sDJnQmMVbzxYWel2XUlylzPKonssNJev
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 priorityscore=1501 mlxlogscore=702 spamscore=0
- mlxscore=0 clxscore=1015 adultscore=0 phishscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412120137
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241209084602.1199936-3-alexander.sverdlin@siemens.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,91 +62,439 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 09 Dec 2024, A. Sverdlin wrote:
 
-
-On 12/12/2024 12:53 AM, Dmitry Baryshkov wrote:
-> On Thu, 12 Dec 2024 at 05:26, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
->>> All other submodules pass arguments directly. Drop struct
->>> msm_dp_panel_in that is used to wrap dp_panel's submodule args and pass
->>> all data to msm_dp_panel_get() directly.
->>>
->>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/dp/dp_display.c |  9 +--------
->>>    drivers/gpu/drm/msm/dp/dp_panel.c   | 15 ++++++++-------
->>>    drivers/gpu/drm/msm/dp/dp_panel.h   | 10 ++--------
->>>    3 files changed, 11 insertions(+), 23 deletions(-)
->>>
->>
->> Change not necessarily tied to catalog cleanup, and can be sent
->> independently IMO.
->>
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->>> index cb02d5d5b404925707c737ed75e9e83fbec34f83..a2cdcdac042d63a59ff71aefcecb7f8b22f01167 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_display.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->>> @@ -722,9 +722,6 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
->>>    {
->>>        int rc = 0;
->>>        struct device *dev = &dp->msm_dp_display.pdev->dev;
->>> -     struct msm_dp_panel_in panel_in = {
->>> -             .dev = dev,
->>> -     };
->>>        struct phy *phy;
->>>
->>>        phy = devm_phy_get(dev, "dp");
->>> @@ -765,11 +762,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
->>>                goto error_link;
->>>        }
->>>
->>> -     panel_in.aux = dp->aux;
->>> -     panel_in.catalog = dp->catalog;
->>> -     panel_in.link = dp->link;
->>> -
->>> -     dp->panel = msm_dp_panel_get(&panel_in);
->>> +     dp->panel = msm_dp_panel_get(dev, dp->aux, dp->link, dp->catalog);
->>>        if (IS_ERR(dp->panel)) {
->>>                rc = PTR_ERR(dp->panel);
->>>                DRM_ERROR("failed to initialize panel, rc = %d\n", rc);
->>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
->>> index 25869e2ac93aba0bffeddae9f95917d81870d8cb..49bbcde8cf60ac1b297310a50191135d79b092fb 100644
->>> --- a/drivers/gpu/drm/msm/dp/dp_panel.c
->>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
->>> @@ -659,25 +659,26 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
->>>        return 0;
->>>    }
->>>
->>> -struct msm_dp_panel *msm_dp_panel_get(struct msm_dp_panel_in *in)
->>> +struct msm_dp_panel *msm_dp_panel_get(struct device *dev, struct drm_dp_aux *aux,
->>> +                           struct msm_dp_link *link, struct msm_dp_catalog *catalog)
->>>    {
->>
->> so this API, takes a filled input panel, makes a msm_dp_panel out of it
->> by filling out more information on top of what was already passed in and
->> returns a msm_dp_panel.
->>
->> So IOW, converts a msm_dp_panel_in to msm_dp_panel.
->>
->> What is the gain by passing individual params rather than passing them
->> as a struct instead? Isnt it better to have it within that struct to
->> show the conversion and moreover we dont have to pass in 4 arguments
->> instead of 1.
+> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
 > 
-> We gain uniformity. All other modules use params. And, as pointed out
-> by Maxime during HDMI Codec reviews, it's easier to handle function
-> params - it makes it more obvious that one of the params got missing.
+> Add driver for TI LP8864, LP8864S, LP8866 4/6 channel LED-backlight drivers
+> with I2C interface.
+> 
+> Link: https://www.ti.com/lit/gpn/lp8864-q1
+> Link: https://www.ti.com/lit/gpn/lp8864s-q1
+> Link: https://www.ti.com/lit/gpn/lp8866-q1
+> Link: https://www.ti.com/lit/gpn/lp8866s-q1
+> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> ---
+> Changelog:
+> v3:
+> - dropped lp8864_init(), REGCACHE_NONE, %pe in dev_err_probe(),
+>   i2c_set_clientdata()
+> - added devm_add_action_or_reset() return value check, dev_err_probe() after
+>   devm_regmap_init_i2c()
+> v2: no changes
+> 
+>  MAINTAINERS                |   7 +
+>  drivers/leds/Kconfig       |  12 ++
+>  drivers/leds/Makefile      |   1 +
+>  drivers/leds/leds-lp8864.c | 308 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 328 insertions(+)
+>  create mode 100644 drivers/leds/leds-lp8864.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 21f855fe468bc..a89f0b9d991fb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23262,6 +23262,13 @@ S:	Supported
+>  F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml
+>  F:	drivers/iio/dac/ti-dac7612.c
+>  
+> +TEXAS INSTRUMENTS' LB8864 LED BACKLIGHT DRIVER
+> +M:	Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> +L:	linux-leds@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+> +F:	drivers/leds/leds-lp8864.c
+> +
+>  TEXAS INSTRUMENTS' SYSTEM CONTROL INTERFACE (TISCI) PROTOCOL DRIVER
+>  M:	Nishanth Menon <nm@ti.com>
+>  M:	Tero Kristo <kristo@kernel.org>
+> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+> index b784bb74a8378..6d0e88e501614 100644
+> --- a/drivers/leds/Kconfig
+> +++ b/drivers/leds/Kconfig
+> @@ -511,6 +511,18 @@ config LEDS_LP8860
+>  	  on the LP8860 4 channel LED driver using the I2C communication
+>  	  bus.
+>  
+> +config LEDS_LP8864
+> +	tristate "LED support for the TI LP8864/LP8866 4/6 channel LED drivers"
+> +	depends on LEDS_CLASS && I2C && OF
+> +	select REGMAP_I2C
+> +	help
+> +	  If you say yes here you get support for the TI LP8864-Q1,
+> +	  LP8864S-Q1, LP8866-Q1, LP8866S-Q1 4/6 channel LED backlight
+> +	  drivers with I2C interface.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called leds-lp8864.
+> +
+>  config LEDS_CLEVO_MAIL
+>  	tristate "Mail LED on Clevo notebook"
+>  	depends on LEDS_CLASS && BROKEN
+> diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
+> index 18afbb5a23ee5..f66bf2e13665f 100644
+> --- a/drivers/leds/Makefile
+> +++ b/drivers/leds/Makefile
+> @@ -57,6 +57,7 @@ obj-$(CONFIG_LEDS_LP55XX_COMMON)	+= leds-lp55xx-common.o
+>  obj-$(CONFIG_LEDS_LP8501)		+= leds-lp8501.o
+>  obj-$(CONFIG_LEDS_LP8788)		+= leds-lp8788.o
+
+>  obj-$(CONFIG_LEDS_LP8860)		+= leds-lp8860.o
+> +obj-$(CONFIG_LEDS_LP8864)		+= leds-lp8864.o
+
+How different are these two devices?  Do you need a new driver?
+
+>  obj-$(CONFIG_LEDS_LT3593)		+= leds-lt3593.o
+>  obj-$(CONFIG_LEDS_MAX5970)		+= leds-max5970.o
+>  obj-$(CONFIG_LEDS_MAX77650)		+= leds-max77650.o
+> diff --git a/drivers/leds/leds-lp8864.c b/drivers/leds/leds-lp8864.c
+> new file mode 100644
+> index 0000000000000..1617aa0422d33
+> --- /dev/null
+> +++ b/drivers/leds/leds-lp8864.c
+> @@ -0,0 +1,308 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * TI LP8864/LP8866 4/6 Channel LED Driver
+> + *
+> + * Copyright (C) 2024 Siemens AG
+> + *
+> + * Based on LP8860 driver by Dan Murphy <dmurphy@ti.com>
+> + */
+> +
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> +
+> +#define LP8864_BRT_CONTROL		0x00
+> +#define LP8864_USER_CONFIG1		0x04
+> +#define   LP8864_BRT_MODE_MASK		GENMASK(9, 8)
+> +/* Brightness controlled by DISPLAY_BRT register */
+> +#define   LP8864_BRT_MODE_REG		BIT(9)
+> +#define LP8864_SUPPLY_STATUS		0x0e
+> +#define LP8864_BOOST_STATUS		0x10
+> +#define LP8864_LED_STATUS		0x12
+> +/* Writeable bits in the LED_STATUS register */
+> +#define   LP8864_LED_STATUS_WR_MASK	GENMASK(14, 9)
+
+Not keen on the comments jammed in there like that.  Consider either
+placing them at the end of the line or providing some space above them.
+
+> +
+> +/* Textual meaning for every register bit */
+> +static const char *const lp8864_supply_status_msg[] = {
+> +	NULL, "Vin under-voltage fault",
+> +	NULL, "Vin over-voltage fault",
+> +	NULL, "Vdd under-voltage fault",
+> +	NULL, "Vin over-current fault",
+> +	NULL, "Missing charge pump fault",
+> +	NULL, "Charge pump fault",
+> +	NULL, "Missing boost sync fault",
+> +	NULL, "CRC error fault ",
+> +};
+> +
+> +/* Textual meaning for every register bit */
+> +static const char *const lp8864_boost_status_msg[] = {
+> +	NULL, "Boost OVP low fault",
+> +	NULL, "Boost OVP high fault",
+> +	NULL, "Boost over-current fault",
+> +	NULL, "Missing boost FSET resistor fault",
+> +	NULL, "Missing MODE SEL resistor fault",
+> +	NULL, "Missing LED resistor fault",
+> +	NULL, "ISET resistor short to ground fault",
+> +	NULL, "Thermal shutdown fault",
+> +};
+> +
+> +/* Textual meaning for every register bit */
+> +static const char *const lp8864_led_status_msg[] = {
+> +	"LED 1 fault",
+> +	"LED 2 fault",
+> +	"LED 3 fault",
+> +	"LED 4 fault",
+> +	"LED 5 fault",
+> +	"LED 6 fault",
+> +	"LED open fault",
+> +	"LED internal short fault",
+> +	"LED short to GND fault",
+> +	NULL, NULL, NULL,
+> +	"Invalid string configuration fault",
+> +	NULL,
+> +	"I2C time out fault",
+> +};
+> +
+> +/**
+> + * struct lp8864_led
+> + * @client: Pointer to the I2C client
+> + * @led_dev: led class device pointer
+> + * @regmap: Devices register map
+> + * @led_status_mask: Helps to report LED fault only once
+> + */
+> +struct lp8864_led {
+> +	struct i2c_client *client;
+> +	struct led_classdev led_dev;
+> +	struct regmap *regmap;
+> +	u16 led_status_mask;
+> +};
+> +
+> +static int lp8864_fault_check(struct lp8864_led *led)
+> +{
+> +	int ret, i;
+> +	unsigned int buf;
+
+Buf implies an array to me.
+
+> +	ret = regmap_read(led->regmap, LP8864_SUPPLY_STATUS, &buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lp8864_supply_status_msg); i++)
+> +		if (lp8864_supply_status_msg[i] && buf & BIT(i))
+
+So are we using the NULL values in the odd indices as skip values?
+
+Either way, please add some commentary as to why this is needed.
+
+Why not 'i += 2' instead?
+
+> +			dev_err(&led->client->dev, "%s\n",
+> +				lp8864_supply_status_msg[i]);
+
+Use up to 100-chars to prevent wrapping.  It's not the 1990s. :)
+
+> +	/*
+> +	 * Clear bits have an index preceding the corresponding Status bits;
+> +	 * both have to be written "1" simultaneously to clear the corresponding
+> +	 * Status bit.
+> +	 */
+
+Nice, thanks.
+
+> +	if (buf)
+> +		ret = regmap_write(led->regmap, LP8864_SUPPLY_STATUS,
+> +				   buf >> 1 | buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_BOOST_STATUS, &buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lp8864_boost_status_msg); i++)
+> +		if (lp8864_boost_status_msg[i] && buf & BIT(i))
+> +			dev_err(&led->client->dev, "%s\n",
+> +				lp8864_boost_status_msg[i]);
+
+If you're printing an error, you must return an error.
+
+> +	if (buf)
+> +		ret = regmap_write(led->regmap, LP8864_BOOST_STATUS,
+> +				   buf >> 1 | buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_LED_STATUS, &buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	/*
+> +	 * Clear already reported faults that maintain their value until device
+> +	 * power-down
+> +	 */
+> +	buf &= ~led->led_status_mask;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(lp8864_led_status_msg); i++)
+> +		if (lp8864_led_status_msg[i] && buf & BIT(i))
+> +			dev_err(&led->client->dev, "%s\n",
+> +				lp8864_led_status_msg[i]);
+> +
+> +	/*
+> +	 * Mark those which maintain their value until device power-down as
+> +	 * "already reported"
+> +	 */
+> +	led->led_status_mask |= buf & ~LP8864_LED_STATUS_WR_MASK;
+> +
+> +	/*
+> +	 * Only bits 14, 12, 10 have to be cleared here, but others are RO,
+> +	 * we don't care what we write to them.
+> +	 */
+> +	if (buf & LP8864_LED_STATUS_WR_MASK)
+> +		ret = regmap_write(led->regmap, LP8864_LED_STATUS,
+> +				   buf >> 1 | buf);
+> +	if (ret)
+> +		goto err;
+> +
+> +	return 0;
+> +
+> +err:
+> +	dev_err(&led->client->dev, "Cannot read/clear faults (%pe)\n",
+> +		ERR_PTR(ret));
+> +
+> +	return ret;
+> +}
+> +
+> +static int lp8864_brightness_set(struct led_classdev *led_cdev,
+> +				 enum led_brightness brt_val)
+> +{
+> +	struct lp8864_led *led = container_of(led_cdev, struct lp8864_led,
+> +					      led_dev);
+> +	unsigned int val = brt_val * 0xffff / LED_FULL;
+
+Should this be bracketed?  What's 0xffff?  Better clarify with a define?
+
+> +	int ret;
+> +
+> +	ret = lp8864_fault_check(led);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(led->regmap, LP8864_BRT_CONTROL, val);
+> +	if (ret)
+> +		dev_err(&led->client->dev, "Cannot write BRT_CONTROL\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static enum led_brightness lp8864_brightness_get(struct led_classdev *led_cdev)
+> +{
+> +	struct lp8864_led *led = container_of(led_cdev, struct lp8864_led,
+> +					      led_dev);
+> +	unsigned int buf;
+> +	int ret;
+> +
+> +	ret = regmap_read(led->regmap, LP8864_BRT_CONTROL, &buf);
+> +	if (ret) {
+> +		dev_err(&led->client->dev, "Cannot read BRT_CONTROL\n");
+> +		return ret;
+> +	}
+> +
+> +	return buf * LED_FULL / 0xffff;
+> +}
+> +
+> +static const struct regmap_config lp8864_regmap_config = {
+> +	.reg_bits		= 8,
+> +	.val_bits		= 16,
+> +	.val_format_endian	= REGMAP_ENDIAN_LITTLE,
+> +};
+> +
+> +static void lp8864_disable_gpio(void *data)
+> +{
+> +	struct gpio_desc *gpio = data;
+> +
+> +	gpiod_set_value(gpio, 0);
+> +}
+> +
+> +static int lp8864_probe(struct i2c_client *client)
+> +{
+> +	int ret;
+> +	struct lp8864_led *led;
+> +	struct device_node *np = dev_of_node(&client->dev);
+> +	struct device_node *child_node;
+> +	struct led_init_data init_data = {};
+> +	struct gpio_desc *enable_gpio;
+> +
+> +	led = devm_kzalloc(&client->dev, sizeof(*led), GFP_KERNEL);
+> +	if (!led)
+> +		return -ENOMEM;
+> +
+> +	child_node = of_get_next_available_child(np, NULL);
+> +	if (!child_node) {
+> +		dev_err(&client->dev, "No LED function defined\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = devm_regulator_get_enable_optional(&client->dev, "vled");
+> +	if (ret && ret != -ENODEV)
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Failed to enable vled regulator\n");
+> +
+> +	enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
+> +					      GPIOD_OUT_HIGH);
+> +	if (IS_ERR(enable_gpio))
+> +		return dev_err_probe(&client->dev, PTR_ERR(enable_gpio),
+> +				     "Failed to get enable GPIO\n");
+> +
+> +	ret = devm_add_action_or_reset(&client->dev, lp8864_disable_gpio,
+> +				       enable_gpio);
+> +	if (ret)
+> +		return ret;
+> +
+> +	led->client = client;
+> +	led->led_dev.brightness_set_blocking = lp8864_brightness_set;
+> +	led->led_dev.brightness_get = lp8864_brightness_get;
+> +
+> +	led->regmap = devm_regmap_init_i2c(client, &lp8864_regmap_config);
+> +	if (IS_ERR(led->regmap))
+> +		return dev_err_probe(&client->dev, PTR_ERR(led->regmap),
+> +				     "Failed to allocate register map\n");
+
+If you want to shorten this 'regmap' is fine.
+
+> +	/* Control brightness by DISPLAY_BRT register */
+> +	ret = regmap_update_bits(led->regmap, LP8864_USER_CONFIG1,
+> +				 LP8864_BRT_MODE_MASK, LP8864_BRT_MODE_REG);
+> +	if (ret) {
+> +		dev_err(&led->client->dev, "Cannot write USER_CONFIG1\n");
+
+Write user friendly messages.
+
+"Failed to set the ..."
+
+> +		return ret;
+> +	}
+> +
+> +	ret = lp8864_fault_check(led);
+> +	if (ret)
+> +		return ret;
+> +
+> +	init_data.fwnode = of_fwnode_handle(child_node);
+> +	init_data.devicename = "lp8864";
+> +	init_data.default_label = ":display_cluster";
+> +
+> +	ret = devm_led_classdev_register_ext(&client->dev, &led->led_dev,
+> +					     &init_data);
+> +	if (ret)
+> +		dev_err(&client->dev, "Failed to register LED device (%pe)\n",
+> +			ERR_PTR(ret));
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct i2c_device_id lp8864_id[] = {
+> +	{ "lp8864" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, lp8864_id);
+> +
+> +static const struct of_device_id of_lp8864_leds_match[] = {
+> +	{ .compatible = "ti,lp8864" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, of_lp8864_leds_match);
+> +
+> +static struct i2c_driver lp8864_driver = {
+> +	.driver = {
+> +		.name	= "lp8864",
+> +		.of_match_table = of_lp8864_leds_match,
+> +	},
+> +	.probe		= lp8864_probe,
+> +	.id_table	= lp8864_id,
+> +};
+> +module_i2c_driver(lp8864_driver);
+> +
+> +MODULE_DESCRIPTION("Texas Instruments LP8864/LP8866 LED driver");
+> +MODULE_AUTHOR("Alexander Sverdlin <alexander.sverdlin@siemens.com>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.47.1
+> 
 > 
 
-Point noted but a very long param list also makes it harder to manage. 
-So we should really evaluate on a case-by-case basis and not generalize 
-here.
-
-Here its only 4, so i would say its kindof okay. If it goes beyond it, 
-then msm_dp_panel_in is probably going to come back.
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+-- 
+Lee Jones [李琼斯]
