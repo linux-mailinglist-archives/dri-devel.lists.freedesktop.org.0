@@ -1,77 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC0C9EF49B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 18:09:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED409EF4A6
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 18:10:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87C5410EE65;
-	Thu, 12 Dec 2024 17:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 033FC10EE6E;
+	Thu, 12 Dec 2024 17:09:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="mOpW0Osv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cjcG9pZL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yfLfvJ5/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s5+32rGE";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="AHiBep8A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zcq+nz1q";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AHiBep8A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zcq+nz1q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CF8C10E63E;
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9622C10E63E;
  Thu, 12 Dec 2024 17:09:24 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E58F91F383;
- Thu, 12 Dec 2024 17:09:22 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5815721186;
+ Thu, 12 Dec 2024 17:09:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1734023363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NEWVz73AE5VNRbDddG0sZ740zCBSSn0j0ZZhklTddJQ=;
- b=mOpW0OsvtkxkdxdOli3Y1QKVcvAcwcn5UDy4GUpExoGx8Xo0tvDKvWntcczim8lGK8Ug6M
- bCH/Q1R0DEC5z7ujQLbvc12uQzLiagXlo0gF87nGErPS4HDnoCx8A2e3CoUMJ6Yja3T6vS
- 1KKa0ZYvXyVyqOStPd3tYWO5hzwLfxQ=
+ bh=Me8nEeUL5hkARbCMF0UlrOdDPSNSZWMtbSdaNC4l5S8=;
+ b=AHiBep8AqM5DBBxx+ZRBNUNRcZHR8sWq2Mz29c7pasDQjz0oEo6b/YA4n2VYcVW3ETasVn
+ Hzf3i4t9gIs0c4bUDUS6Bq7lExKCV+gWahdQrOimW2yrv9XTjB2xQn/16llVFMCr3c/p+r
+ xCq7LrjBS4OXVPDMGIjRmmvRc61SLjo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1734023363;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NEWVz73AE5VNRbDddG0sZ740zCBSSn0j0ZZhklTddJQ=;
- b=cjcG9pZL+v5i7ab+jK0IwW+ttCRwPoh7gKDn94mZ01TKqW67pm6ULIj8XqB0BCalSVkWgl
- w8RxkXT/h7EQmDBQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="yfLfvJ5/";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=s5+32rGE
+ bh=Me8nEeUL5hkARbCMF0UlrOdDPSNSZWMtbSdaNC4l5S8=;
+ b=zcq+nz1q6gHQXl3cvz2ghp9x6kVErVmMwb119MwsCK91w8vX9+YwLJl2JydX7ZNqrGAyhY
+ 66WwpFEOWyuuPHCw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AHiBep8A;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zcq+nz1q
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734023362; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1734023363; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NEWVz73AE5VNRbDddG0sZ740zCBSSn0j0ZZhklTddJQ=;
- b=yfLfvJ5/pqqwvmZCpZ1hsbrYFYaZA1K7bK7I/SqiEylM/uOJ+H9J7P0rXhxrQJysn8RH/8
- yOrjFcJ1FOJmQ7TdxrhytOLM39CasRGzlCvO3GiNhDdsEUvUv5xed7Xl2Zff3SDd5TXQC0
- NOR8ShPYf0Gsi1uUSiPonIQranBLmnM=
+ bh=Me8nEeUL5hkARbCMF0UlrOdDPSNSZWMtbSdaNC4l5S8=;
+ b=AHiBep8AqM5DBBxx+ZRBNUNRcZHR8sWq2Mz29c7pasDQjz0oEo6b/YA4n2VYcVW3ETasVn
+ Hzf3i4t9gIs0c4bUDUS6Bq7lExKCV+gWahdQrOimW2yrv9XTjB2xQn/16llVFMCr3c/p+r
+ xCq7LrjBS4OXVPDMGIjRmmvRc61SLjo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734023362;
+ s=susede2_ed25519; t=1734023363;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NEWVz73AE5VNRbDddG0sZ740zCBSSn0j0ZZhklTddJQ=;
- b=s5+32rGEKmvgulvuL4rik3/IP32/9zc8Va5IDRBnfypVf6mXsbgvpB/aIw9gy8mCwU0Sm7
- RjQiqscEEVlwerBQ==
+ bh=Me8nEeUL5hkARbCMF0UlrOdDPSNSZWMtbSdaNC4l5S8=;
+ b=zcq+nz1q6gHQXl3cvz2ghp9x6kVErVmMwb119MwsCK91w8vX9+YwLJl2JydX7ZNqrGAyhY
+ 66WwpFEOWyuuPHCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 825ED13508;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA4A413A3D;
  Thu, 12 Dec 2024 17:09:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id OOGVHsIYW2etIQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wHH6N8IYW2etIQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 12 Dec 2024 17:09:22 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
@@ -81,16 +81,16 @@ To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
  maarten.lankhorst@linux.intel.com, jfalempe@redhat.com, javierm@redhat.com
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 06/12] drm/i915/display: fbdev: Move custom suspend code to
- new callback
-Date: Thu, 12 Dec 2024 18:08:47 +0100
-Message-ID: <20241212170913.185939-7-tzimmermann@suse.de>
+Subject: [PATCH 07/12] drm/i915/display: Remove preferred_bpp from struct
+ intel_fbdev
+Date: Thu, 12 Dec 2024 18:08:48 +0100
+Message-ID: <20241212170913.185939-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241212170913.185939-1-tzimmermann@suse.de>
 References: <20241212170913.185939-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E58F91F383
+X-Rspamd-Queue-Id: 5815721186
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
@@ -104,7 +104,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  FREEMAIL_TO(0.00)[linux.intel.com,intel.com,ursulin.net,ffwll.ch,gmail.com,kernel.org,redhat.com];
  FREEMAIL_ENVRCPT(0.00)[gmail.com];
  TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
  R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -128,134 +128,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the fbdev buffer is backed by stolen memory, it has to be cleared
-upon resume from hibernation. Move the code into the new callback
-fb_set_suspend, so that it can run from DRM's generic fbdev client.
-No functional change. Other drivers are not affected.
+The value preferred_bpp in struct intel_fbdev duplicates preferred_bpp
+in struct drm_fb_helper. Remove the former.
+
+Instead let intel_fbdev_init_bios() read the framebuffer from the
+hardware. Then derive preferred_bpp from its format and initialize
+struct drm_fb_helper with the value. The default is 32 (i.e., XRGB8888).
+
+Also removes one of those deprecated references to the cpp field of
+struct drm_format_info.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_fb_helper.c            |  9 +++++--
- drivers/gpu/drm/i915/display/intel_fbdev.c | 28 +++++++++++++---------
- include/drm/drm_fb_helper.h                | 14 +++++++++++
- 3 files changed, 38 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 29 +++++++++++++++++-----
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 05da8c398513..e800b43cfbf1 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -757,7 +757,12 @@ EXPORT_SYMBOL(drm_fb_helper_deferred_io);
-  */
- void drm_fb_helper_set_suspend(struct drm_fb_helper *fb_helper, bool suspend)
- {
--	if (fb_helper && fb_helper->info)
-+	if (!fb_helper || !fb_helper->info)
-+		return;
-+
-+	if (fb_helper->funcs->fb_set_suspend)
-+		fb_helper->funcs->fb_set_suspend(fb_helper, suspend);
-+	else
- 		fb_set_suspend(fb_helper->info, suspend);
- }
- EXPORT_SYMBOL(drm_fb_helper_set_suspend);
-@@ -803,7 +808,7 @@ void drm_fb_helper_set_suspend_unlocked(struct drm_fb_helper *fb_helper,
- 		}
- 	}
- 
--	fb_set_suspend(fb_helper->info, suspend);
-+	drm_fb_helper_set_suspend(fb_helper, suspend);
- 	console_unlock();
- }
- EXPORT_SYMBOL(drm_fb_helper_set_suspend_unlocked);
 diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 34133d01fc6f..49338a547d37 100644
+index 49338a547d37..7e935121c445 100644
 --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
 +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -284,10 +284,27 @@ static void intelfb_restore(struct drm_fb_helper *fb_helper)
- 	intel_fbdev_invalidate(ifbdev);
- }
- 
-+static void intelfb_set_suspend(struct drm_fb_helper *fb_helper, bool suspend)
-+{
-+	struct fb_info *info = fb_helper->info;
-+
-+	/*
-+	 * When resuming from hibernation, Linux restores the object's
-+	 * content from swap if the buffer is backed by shmemfs. If the
-+	 * object is stolen however, it will be full of whatever garbage
-+	 * was left in there. Clear it to zero in this case.
-+	 */
-+	if (!suspend && !intel_bo_is_shmem(intel_fb_bo(fb_helper->fb)))
-+		memset_io(info->screen_base, 0, info->screen_size);
-+
-+	fb_set_suspend(info, suspend);
-+}
-+
- static const struct drm_fb_helper_funcs intel_fb_helper_funcs = {
- 	.fb_probe = intelfb_create,
- 	.fb_dirty = intelfb_dirty,
- 	.fb_restore = intelfb_restore,
-+	.fb_set_suspend = intelfb_set_suspend,
+@@ -58,7 +58,6 @@ struct intel_fbdev {
+ 	struct intel_framebuffer *fb;
+ 	struct i915_vma *vma;
+ 	unsigned long vma_flags;
+-	int preferred_bpp;
  };
  
- /*
-@@ -456,7 +473,6 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
- {
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
--	struct fb_info *info;
- 
- 	if (!ifbdev)
- 		return;
-@@ -467,8 +483,6 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
- 	if (!ifbdev->vma)
- 		return;
- 
--	info = ifbdev->helper.info;
--
- 	if (synchronous) {
- 		/* Flush any pending work to turn the console on, and then
- 		 * wait to turn it off. It must be synchronous as we are
-@@ -498,14 +512,6 @@ void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous
- 		}
+ static struct intel_fbdev *to_intel_fbdev(struct drm_fb_helper *fb_helper)
+@@ -429,7 +428,6 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
+ 		goto out;
  	}
  
--	/* On resume from hibernation: If the object is shmemfs backed, it has
--	 * been restored from swap. If the object is stolen however, it will be
--	 * full of whatever garbage was left in there.
--	 */
--	if (state == FBINFO_STATE_RUNNING &&
--	    !intel_bo_is_shmem(intel_fb_bo(&ifbdev->fb->base)))
--		memset_io(info->screen_base, 0, info->screen_size);
--
- 	drm_fb_helper_set_suspend(&ifbdev->helper, state);
- 	console_unlock();
- }
-diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
-index a7d7a3b945ea..7de1abd2e0ea 100644
---- a/include/drm/drm_fb_helper.h
-+++ b/include/drm/drm_fb_helper.h
-@@ -112,6 +112,20 @@ struct drm_fb_helper_funcs {
- 	 * TODO: Fix i915 to not require this callback.
- 	 */
- 	void (*fb_restore)(struct drm_fb_helper *helper);
-+
-+	/**
-+	 * @fb_suspend
-+	 *
-+	 * Driver callback to suspend or resume, if set, fbdev emulation will
-+	 * invoke this callback during suspend and resume. Driver should call
-+	 * fb_set_suspend() from their implementation. If not set, fbdev
-+	 * emulation will invoke fb_set_suspend() directly.
-+	 *
-+	 * Only for i915. Do not use in new code.
-+	 *
-+	 * TODO: Fix i915 to not require this callback.
-+	 */
-+	void (*fb_set_suspend)(struct drm_fb_helper *helper, bool suspend);
- };
+-	ifbdev->preferred_bpp = fb->base.format->cpp[0] * 8;
+ 	ifbdev->fb = fb;
  
- /**
+ 	drm_framebuffer_get(&ifbdev->fb->base);
+@@ -460,6 +458,23 @@ static bool intel_fbdev_init_bios(struct drm_device *dev,
+ 	return false;
+ }
+ 
++static unsigned int intel_fbdev_color_mode(const struct drm_format_info *info)
++{
++	unsigned int bpp;
++
++	if (!info->depth || info->num_planes != 1 || info->has_alpha || info->is_yuv)
++		return 0;
++
++	bpp = drm_format_info_bpp(info, 0);
++
++	switch (bpp) {
++	case 16:
++		return info->depth; // 15 or 16
++	default:
++		return bpp;
++	}
++}
++
+ static void intel_fbdev_suspend_worker(struct work_struct *work)
+ {
+ 	intel_fbdev_set_suspend(&container_of(work,
+@@ -624,6 +639,7 @@ void intel_fbdev_setup(struct drm_i915_private *i915)
+ {
+ 	struct drm_device *dev = &i915->drm;
+ 	struct intel_fbdev *ifbdev;
++	unsigned int preferred_bpp = 0;
+ 	int ret;
+ 
+ 	if (!HAS_DISPLAY(i915))
+@@ -632,14 +648,15 @@ void intel_fbdev_setup(struct drm_i915_private *i915)
+ 	ifbdev = kzalloc(sizeof(*ifbdev), GFP_KERNEL);
+ 	if (!ifbdev)
+ 		return;
+-	drm_fb_helper_prepare(dev, &ifbdev->helper, 32, &intel_fb_helper_funcs);
+ 
+ 	i915->display.fbdev.fbdev = ifbdev;
+ 	INIT_WORK(&i915->display.fbdev.suspend_work, intel_fbdev_suspend_worker);
+ 	if (intel_fbdev_init_bios(dev, ifbdev))
+-		ifbdev->helper.preferred_bpp = ifbdev->preferred_bpp;
+-	else
+-		ifbdev->preferred_bpp = ifbdev->helper.preferred_bpp;
++		preferred_bpp = intel_fbdev_color_mode(ifbdev->fb->base.format);
++	if (!preferred_bpp)
++		preferred_bpp = 32;
++
++	drm_fb_helper_prepare(dev, &ifbdev->helper, preferred_bpp, &intel_fb_helper_funcs);
+ 
+ 	ret = drm_client_init(dev, &ifbdev->helper.client, "intel-fbdev",
+ 			      &intel_fbdev_client_funcs);
 -- 
 2.47.1
 
