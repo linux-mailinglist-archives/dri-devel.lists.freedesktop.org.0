@@ -1,98 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F389EF164
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 17:38:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDB09EF1F5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 17:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B585810E141;
-	Thu, 12 Dec 2024 16:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA94E10E28D;
+	Thu, 12 Dec 2024 16:43:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Tnuq0kSq";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="eq7CyMIH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D08B410E141
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 16:37:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734021476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2/JWnOJW6U543Vpbg6PAvnRfuu/1KbMmqtG+gC1ifEE=;
- b=Tnuq0kSqlKJYJPYHA9ITM4siziibV9w9r+gFhjTiDbh08W/32tik6xY+qizdHO6/H6MV6j
- K5pHALM3b1Z42N+QMZ4k/dVmgT1lppqnYHIcxcRYqexJdhMVzh5B3oX2koXtOaJbVmj79M
- D28bH2NcTxmJIuugwNDFKl96AFifHaM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-16-KQiD1RBHNW-SqegBY6_o-g-1; Thu, 12 Dec 2024 11:37:54 -0500
-X-MC-Unique: KQiD1RBHNW-SqegBY6_o-g-1
-X-Mimecast-MFC-AGG-ID: KQiD1RBHNW-SqegBY6_o-g
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-385ed79291eso1103225f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 08:37:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734021473; x=1734626273;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2/JWnOJW6U543Vpbg6PAvnRfuu/1KbMmqtG+gC1ifEE=;
- b=qX18gqc3Nv4rLA34WLeKx9FjXa1km8PCBGKBCVJAkDKMHJhYy95QfVy++S3DmSzp3E
- qZD8GHWzkQQEQ87yITRinWYchqf6nWUDtybjymOtOAsihegoPcPqiZsTWNb3lig03100
- xZCVMGC8JqwxL7XKOTk8bA5CakawFD3JvyS30N+mm576Pjd5hX3uMW+UDkxgNaUQd/SN
- u+SZ3neoQDAhHNGSepZ1NN+pb4AZT5GFCfYIMM6T4RUYeWj4TNaRzfyTYvwuvZdTkUqa
- 4Zb9anAhhx4ms3JbxY4pWaCXqQLCzeSGyhUVhLFeW+VicwojXLclxC3O6oBIaV2UlRH+
- AsGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWOE+Ol6tkWq1QzGP/4FbP74uuwlB7kTPk5pCrJ2DmtunzcZ2RE/JYh9rrpYRjhivS9zIfr4W6cC3w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyquQcQJf8KVeNf9KGLkaYvmm+mQX5cXnfuDUmuXgnDr4Qk0iY1
- +UO7kP+NuBzOwPoB/7nJ9TNBmHT9iKl78dKGwvvfpsPucBjQWpqLkJleQqx41bsX6c+Vy6FNIVC
- JCYgCOeapEL4bYI/SjympCSGUH0v9VY6mp+kCuw/iotMfUVvQWuDZUHSkAnBQ4o28aQ==
-X-Gm-Gg: ASbGnctFyxY62qRhu0dM7Y3l+EXLpsHypXR0l6QmCcnCprrYBKTwJDA6pDux3Pt1hmz
- ZuujgcLQLZFOzcJOCx7OM6PBcanlRdLYsiu5Jy2x8UnDdy78VXAJPrJlvWKg/ioKxuKjq2PlMFq
- FnY+SMI+Q4wVzsHTAYocIQoR5oGcB+Cpp7sBYUXVxjfGdvbPdSdAZp8hSrKtoj9XaHrrJPgGMVT
- 52pSUaAradg8gWsYS2g8I7qXHU+Gcj1H3TseCleol957KEHXKyLXqelZzGTlTTMrMTJW+E8SXML
- fHpC2Qno/i4NXx9CH1Gd
-X-Received: by 2002:a5d:4249:0:b0:386:4a16:dadb with SMTP id
- ffacd0b85a97d-387887df18amr2620130f8f.11.1734021472712; 
- Thu, 12 Dec 2024 08:37:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGCqlzDJSGcOyDg622o0aLIqYnr1Qin7+BQ7+u2XkYPDbcqPlEzDuaHUAQTIOSWuZs3wfMVew==
-X-Received: by 2002:a5d:4249:0:b0:386:4a16:dadb with SMTP id
- ffacd0b85a97d-387887df18amr2620105f8f.11.1734021472309; 
- Thu, 12 Dec 2024 08:37:52 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4362571776asm20890445e9.40.2024.12.12.08.37.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Dec 2024 08:37:51 -0800 (PST)
-Message-ID: <eaffbf5e-ecb0-4aa3-8d05-da090494f8c3@redhat.com>
-Date: Thu, 12 Dec 2024 17:37:44 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3D410E28D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 16:43:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1734021817; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Eg1TAiHA9XbZsme+uZY5ml6iDY9ReqL+1uG2J3hjRWhX+nkkhXjncuR/TlGO2ZAjglexPbMovNDDtwyUkcMMKvDSIyevuUNnT6Cr3AM6B+EceD+/dv4x38136Js4o2ukImxQ+4FL8kgcGOkj9PKlGTLRAz4PeCeAkRUIhvP9OnU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1734021817;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=OqGAa1pJnfeBRX6NwK1b4xo98HmIlAac7hOYyRw8teg=; 
+ b=nwbsX5pK5OMEjoyV86vSukne/sAuaLNeLzFNzsE0zErRL1C5xBvdLdFVuwgta2gV7o+6+LoyFxFzqlnEe8Eer0VCTQSy84fiaw6mHxov2mg6RTBSspWb/2iv4vhgGyBB+TyiGVXjJ1GkzbTqYcVl9mNp7H4u1kuHkADqQ2BrBdg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+ dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734021817; 
+ s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=OqGAa1pJnfeBRX6NwK1b4xo98HmIlAac7hOYyRw8teg=;
+ b=eq7CyMIHalewnCBMVrDeFoewU93SM6J61l/JXFGtc42e2wn54KqYodBw3C2eSlz5
+ L9UQxRXoY3pzdU47HkEyRFb8ku94N3oqorlZITwAjqAFONscOhaEkObxk7EgPTuOg4w
+ 2iE8EokQrrOsZQf+wg/pR7oE2fVHYCubzKgJUyVo=
+Received: by mx.zohomail.com with SMTPS id 1734021814471104.20975911253777;
+ Thu, 12 Dec 2024 08:43:34 -0800 (PST)
+Received: by mercury (Postfix, from userid 1000)
+ id 71F6210604B1; Thu, 12 Dec 2024 17:43:30 +0100 (CET)
+Date: Thu, 12 Dec 2024 17:43:30 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, kever.yang@rock-chips.com, 
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH] drm/rockchip: Fix Copyright description
+Message-ID: <6btdoubtb7y6xrfjkry7axad5khphnwcwtbpar7cu4p4dcp6e2@3rha7k6q2xuc>
+References: <20241212124344.3121514-1-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/log: select CONFIG_FONT_SUPPORT
-To: Arnd Bergmann <arnd@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andreas Larsson <andreas@gaisler.com>,
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241212154003.1313437-1-arnd@kernel.org>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20241212154003.1313437-1-arnd@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 3I5Jp8I_cglcpXhezYwZCeRnKWBiiU8leZD1WPWwjX8_1734021473
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="dw6ruy5jdxx73vxw"
+Content-Disposition: inline
+In-Reply-To: <20241212124344.3121514-1-andyshrk@163.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/233.870.20
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,51 +71,421 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/2024 16:39, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Without fonts, this fails to link:
-> 
-> drivers/gpu/drm/clients/drm_log.o: in function `drm_log_init_client':
-> drm_log.c:(.text+0x3d4): undefined reference to `get_default_font'
-> 
-> Select this, like the other users do.
 
-Thanks for the fix, I'm sorry I missed that dependency.
+--dw6ruy5jdxx73vxw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/rockchip: Fix Copyright description
+MIME-Version: 1.0
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Hi,
 
-> 
-> Fixes: f7b42442c4ac ("drm/log: Introduce a new boot logger to draw the kmsg on the screen")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Thu, Dec 12, 2024 at 08:43:44PM +0800, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+>=20
+> The company name has update to Rockchip Electronics Co., Ltd.
+> since 2021.
+> And change Co.Ltd to Co., Ltd. to fix mail server warning:
+> DBL_SPAM(6.50)[co.ltd:url];
+>=20
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 > ---
->   drivers/gpu/drm/clients/Kconfig | 1 +
->   lib/fonts/Kconfig               | 2 +-
->   2 files changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
-> index c18decc90200..7b81fd0f4cae 100644
-> --- a/drivers/gpu/drm/clients/Kconfig
-> +++ b/drivers/gpu/drm/clients/Kconfig
-> @@ -77,6 +77,7 @@ config DRM_CLIENT_LOG
->   	select DRM_CLIENT
->   	select DRM_CLIENT_SETUP
->   	select DRM_DRAW
-> +	select FONT_SUPPORT
->   	help
->   	  This enable a drm logger, that will print the kernel messages to the
->   	  screen until the userspace is ready to take over.
-> diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
-> index 3ac26bdbc3ff..ae59b5b4e225 100644
-> --- a/lib/fonts/Kconfig
-> +++ b/lib/fonts/Kconfig
-> @@ -10,7 +10,7 @@ if FONT_SUPPORT
->   
->   config FONTS
->   	bool "Select compiled-in fonts"
-> -	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
-> +	depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC || DRM_CLIENT_LOG
->   	help
->   	  Say Y here if you would like to use fonts other than the default
->   	  your frame buffer console usually use.
 
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>=20
+>  drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 2 +-
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c          | 2 +-
+>  drivers/gpu/drm/rockchip/cdn-dp-reg.c           | 2 +-
+>  drivers/gpu/drm/rockchip/cdn-dp-reg.h           | 2 +-
+>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +-
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c     | 2 +-
+>  drivers/gpu/drm/rockchip/inno_hdmi.c            | 2 +-
+>  drivers/gpu/drm/rockchip/inno_hdmi.h            | 2 +-
+>  drivers/gpu/drm/rockchip/rk3066_hdmi.c          | 2 +-
+>  drivers/gpu/drm/rockchip/rk3066_hdmi.h          | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.h     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.c      | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_fb.h      | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.c     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_gem.h     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.h     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h    | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_lvds.c        | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_lvds.h        | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_rgb.c         | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_rgb.h         | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c    | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.c     | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop_reg.h     | 2 +-
+>  26 files changed, 26 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gp=
+u/drm/rockchip/analogix_dp-rockchip.c
+> index 546d13f19f9b..02876eb66e94 100644
+> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Rockchip SoC DP (Display Port) interface driver.
+>   *
+> - * Copyright (C) Fuzhou Rockchip Electronics Co., Ltd.
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author: Andy Yan <andy.yan@rock-chips.com>
+>   *         Yakir Yang <ykk@rock-chips.com>
+>   *         Jeff Chen <jeff.chen@rock-chips.com>
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/roc=
+kchip/cdn-dp-core.c
+> index ff9d95e2c4d4..4b28121ffa42 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author: Chris Zhong <zyw@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.c b/drivers/gpu/drm/rock=
+chip/cdn-dp-reg.c
+> index 33fb4d05c506..924fb1d3ece2 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author: Chris Zhong <zyw@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.h b/drivers/gpu/drm/rock=
+chip/cdn-dp-reg.h
+> index c7780ae3272a..13ed8cbdbafa 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.h
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author: Chris Zhong <zyw@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gp=
+u/drm/rockchip/dw-mipi-dsi-rockchip.c
+> index 1b64b6e39cc8..3398160ad75e 100644
+> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:
+>   *      Chris Zhong <zyw@rock-chips.com>
+>   *      Nickey Yang <nickey.yang@rock-chips.com>
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/dr=
+m/rockchip/dw_hdmi-rockchip.c
+> index 42bda4ffbbbd..e7a6669c46b0 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> - * Copyright (c) 2014, Fuzhou Rockchip Electronics Co., Ltd
+> + * Copyright (c) 2014, Rockchip Electronics Co., Ltd.
+>   */
+> =20
+>  #include <linux/clk.h>
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockc=
+hip/inno_hdmi.c
+> index b58e2a29294b..898d90155057 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   *    Zheng Yang <zhengyang@rock-chips.com>
+>   *    Yakir Yang <ykk@rock-chips.com>
+>   */
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.h b/drivers/gpu/drm/rockc=
+hip/inno_hdmi.h
+> index a7edf3559e60..8b7ef3fac485 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.h
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   *    Zheng Yang <zhengyang@rock-chips.com>
+>   *    Yakir Yang <ykk@rock-chips.com>
+>   */
+> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/roc=
+kchip/rk3066_hdmi.c
+> index b0fc8ace2e41..403336397214 100644
+> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   *    Zheng Yang <zhengyang@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.h b/drivers/gpu/drm/roc=
+kchip/rk3066_hdmi.h
+> index 39a31c62a428..c3598ba7428c 100644
+> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.h
+> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   *    Zheng Yang <zhengyang@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_drv.c
+> index 3e9f590c734e..bf1d4c5599fa 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   *
+>   * based on exynos_drm_drv.c
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_drv.h
+> index 24b4ce5ceaf1..8bcce08a34d9 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   *
+>   * based on exynos_drm_drv.h
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm=
+/rockchip/rockchip_drm_fb.c
+> index cfe8b793d344..dcc1f07632c3 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h b/drivers/gpu/drm=
+/rockchip/rockchip_drm_fb.h
+> index bae4e079dfb1..5179026b12d6 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_gem.c
+> index 93ed841f5dce..6330b883efc3 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_gem.h
+> index 72f59ac6d258..cdeae36b91a1 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_vop.c
+> index 69900138295b..57747f1cff26 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/dr=
+m/rockchip/rockchip_drm_vop.h
+> index 0cf512cc1614..f04c9731ae7b 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/d=
+rm/rockchip/rockchip_drm_vop2.h
+> index 2995988ef559..ca3f1613d51c 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/r=
+ockchip/rockchip_lvds.c
+> index aba733736ff7..385cf6881504 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:
+>   *      Mark Yao <mark.yao@rock-chips.com>
+>   *      Sandy Huang <hjc@rock-chips.com>
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.h b/drivers/gpu/drm/r=
+ockchip/rockchip_lvds.h
+> index 4ce967d23813..ca83d7b6bea7 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:
+>   *      Sandy Huang <hjc@rock-chips.com>
+>   *      Mark Yao <mark.yao@rock-chips.com>
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/ro=
+ckchip/rockchip_rgb.c
+> index dbfbde24698e..811020665120 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:
+>   *      Sandy Huang <hjc@rock-chips.com>
+>   */
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.h b/drivers/gpu/drm/ro=
+ckchip/rockchip_rgb.h
+> index 1bd4e20e91eb..116f958b894d 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_rgb.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:
+>   *      Sandy Huang <hjc@rock-chips.com>
+>   */
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/d=
+rm/rockchip/rockchip_vop2_reg.c
+> index 4ee56ad7b811..cbabec73685b 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author: Andy Yan <andy.yan@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/dr=
+m/rockchip/rockchip_vop_reg.c
+> index 8998967f0c00..4e2099d86517 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h b/drivers/gpu/dr=
+m/rockchip/rockchip_vop_reg.h
+> index fbf1bcc68625..addf8ca085f6 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
+> @@ -1,6 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0-only */
+>  /*
+> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
+> + * Copyright (C) Rockchip Electronics Co., Ltd.
+>   * Author:Mark Yao <mark.yao@rock-chips.com>
+>   */
+> =20
+> --=20
+> 2.34.1
+>=20
+
+--dw6ruy5jdxx73vxw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmdbEqcACgkQ2O7X88g7
++ppMPQ/9G7xzXPLqAASevfZS5iTaIb1ist82+qkRrwkMdQWcrfl2wl3q0mW3g6fs
+QUeAbCZHg2tSFw7qpXLGK84qcTE8kxCF5Wu26CrVzhYf0TPi+EKzS4W7XGAroMce
+J4ztxf7idCVTNfsPQX2bOTS0h6J3e3zc7M4PnWvVxtwvNH20SO7M3zgV42h01jRJ
+LSoznilT1z/jTRcSCQS1HWZGc3ZMpHhnnhHT1LjeM2evK7DgY7hgmvPtgDaldvb4
+slnVT5NxlBbE6Y+7mbx9skqCNkyH3AUMZTqGVRMmuNHAKq7fFdQVw4w1Xb5i9Pk1
+HpqQHL+G58PUdp2NOnwG7cFbmmAW+R3gibXQdnruZVWtcsGG2Te7RQT423Nm2pXy
+rhUEOfEkicvnn0CQPPJXWZwZNFC07u6IbcJmBFiJQepWQD/qvUVe3EtUJxRRPWsP
+GaAsTxulDbfUK04TY8gS2hQ0jOBbmf0oCahzVu9m0lQxgUCGQfyWnagnn+0fiErd
+2/OhJWq5W1/eCs2MHcm4/7JZE/Jf6WHfy+fP+z41hmARdRuRI4/eEtNoexIWj3EG
+HOx2R8Y2pvHrPeRh3Kdzhkdt7tfrFrjVSbtiVaiRqitGNWA4fDKtu0np4cpqkFeI
+SWn3TZ7aGIssANZ9wJGgLnbBfnwE6ikhNL3k5/glIDKaMMsIqU4=
+=T+ps
+-----END PGP SIGNATURE-----
+
+--dw6ruy5jdxx73vxw--
