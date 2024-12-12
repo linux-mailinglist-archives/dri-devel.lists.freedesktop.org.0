@@ -1,67 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAAB9EE1CF
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 09:49:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE649EE1D3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 09:50:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBFEB10ED00;
-	Thu, 12 Dec 2024 08:49:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B25B210ED01;
+	Thu, 12 Dec 2024 08:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U0AOowCu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kYVVMFy4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62B5010ED00;
- Thu, 12 Dec 2024 08:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733993371; x=1765529371;
- h=message-id:subject:from:to:date:in-reply-to:references:
- content-transfer-encoding:mime-version;
- bh=nc0EXFS466VP4d7lMSVjOKJedH2T3ksIlkvVX9BTgFY=;
- b=U0AOowCux+wIAThINoIv61BooynjralI9LAKQeEIyGyjvGCeXG/IqLh0
- zr1ydHVab+JNuGH4/GRBTb+9nCLlI6O5SHG2NwdKTWLpnzh9WM/9gIee7
- awuStEub7lljtAsfP8980yOJtO2JhA6OsM5vh60YrYAZleYTfwutz94fa
- 72cGOyA6lEsJ+a6hwb6eeFfBAb0fNixePNk9tU+HXNwUTK0hCLtfOiP+4
- 0BPPkvitEk3cjkQO02GiGVhADGD5NoWLdjQbWgx6qpGCo3hbPBDsCyfAD
- UplYoKDUyMo241+I2eR5AbkpL3a0+wlYSN5C6THakDhZAV+r+0joAO2j/ Q==;
-X-CSE-ConnectionGUID: w32SRpduRraAq9iYfwz0WA==
-X-CSE-MsgGUID: hTKMVOoTTq6L1Oe13Y0Xig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45409993"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="45409993"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 00:49:31 -0800
-X-CSE-ConnectionGUID: o+iOPzLvSBy235m+9YbFuQ==
-X-CSE-MsgGUID: CwnmZe5CQrW0Geei23RsoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="96589486"
-Received: from carterle-desk.ger.corp.intel.com (HELO [10.245.246.75])
- ([10.245.246.75])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 00:49:27 -0800
-Message-ID: <3c1cc9403eb50bc8c532d180f766eb7a429e8913.camel@linux.intel.com>
-Subject: Re: [PATCH 14/26] drm/xe/eudebug: implement userptr_vma access
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Mika
- Kuoppala <mika.kuoppala@linux.intel.com>, intel-xe@lists.freedesktop.org,
- lkml	 <linux-kernel@vger.kernel.org>, Linux MM <linux-mm@kvack.org>, 
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Maciej Patelczyk <maciej.patelczyk@intel.com>, Jonathan Cavitt
- <jonathan.cavitt@intel.com>
-Date: Thu, 12 Dec 2024 09:49:24 +0100
-In-Reply-To: <Z1cNQTvGdAUPp4Y-@phenom.ffwll.local>
-References: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
- <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
- <ec42fe8b-9be0-41cc-96f4-f1869c6bb7e6@amd.com>
- <Z1cNQTvGdAUPp4Y-@phenom.ffwll.local>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
-MIME-Version: 1.0
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB95C10ED01;
+ Thu, 12 Dec 2024 08:50:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5B8EB5C5A1D;
+ Thu, 12 Dec 2024 08:49:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659C3C4CECE;
+ Thu, 12 Dec 2024 08:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733993417;
+ bh=zgsaiFELnog4Xiom7qwaEuaJS+Gl1kORV0fiEphdXaM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=kYVVMFy4ufIN76e6GyVm6iB4f5LjG16IcfW7uVpQr6sgVxpXo41AW/xv5wEGLB9Ve
+ b/B8sqnCvpDo0VwF8awAng/J8PQjLv7faesdgiqmRYautwSfLo2QQ0S9FVXDNOegUl
+ zB0J4Gc6M4WDyLtuCyQCstGVOFbYfUk1GIc+hgn1Ba+FzxsARTJaCB3AeAjBbHn5j2
+ 4yeZBiJIo9UgxbSVrp3h2w1QNHupelqwWAUHGwFp+273tckBBucRgM6FfWlglCC/7g
+ ddsvv0O0AGpvpEfaQGF3zZYNxoZ9EjjmllHH+NA1h2j2du970W2wXSoju5otbMd4s+
+ 6klzlx38+EWyQ==
+Received: from 82-132-221-83.dab.02.net ([82.132.221.83]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1tLeti-0030Yi-Rd;
+ Thu, 12 Dec 2024 08:50:15 +0000
+Date: Thu, 12 Dec 2024 08:50:12 +0000
+Message-ID: <87bjxhs2t7.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Pavan Kondeti <quic_pkondeti@quicinc.com>
+Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Elliot Berman
+ <quic_eberman@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] drm/msm/a6xx: Skip gpu secure fw load in EL2 mode
+In-Reply-To: <c197264b-3791-493a-b717-3dfd844de922@quicinc.com>
+References: <20241209-drm-msm-kvm-support-v1-1-1c983a8a8087@quicinc.com>
+ <87ed2fs03w.wl-maz@kernel.org>
+ <92cee905-a505-4ce9-9bbc-6fba4cea1d80@quicinc.com>
+ <86sequsdtp.wl-maz@kernel.org>
+ <c197264b-3791-493a-b717-3dfd844de922@quicinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 82.132.221.83
+X-SA-Exim-Rcpt-To: quic_pkondeti@quicinc.com, quic_akhilpo@quicinc.com,
+ robdclark@gmail.com, sean@poorly.run, konradybcio@kernel.org,
+ quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
+ marijn.suijten@somainline.org, airlied@gmail.com, simona@ffwll.ch,
+ quic_eberman@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,190 +87,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-12-09 at 16:31 +0100, Simona Vetter wrote:
-> On Mon, Dec 09, 2024 at 03:03:04PM +0100, Christian K=C3=B6nig wrote:
-> > Am 09.12.24 um 14:33 schrieb Mika Kuoppala:
-> > > From: Andrzej Hajda <andrzej.hajda@intel.com>
-> > >=20
-> > > Debugger needs to read/write program's vmas including
-> > > userptr_vma.
-> > > Since hmm_range_fault is used to pin userptr vmas, it is possible
-> > > to map those vmas from debugger context.
-> >=20
-> > Oh, this implementation is extremely questionable as well. Adding
-> > the LKML
-> > and the MM list as well.
-> >=20
-> > First of all hmm_range_fault() does *not* pin anything!
-> >=20
-> > In other words you don't have a page reference when the function
-> > returns,
-> > but rather just a sequence number you can check for modifications.
->=20
-> I think it's all there, holds the invalidation lock during the
-> critical
-> access/section, drops it when reacquiring pages, retries until it
-> works.
->=20
-> I think the issue is more that everyone hand-rolls userptr. Probably
-> time
-> we standardize that and put it into gpuvm as an optional part, with
-> consistent locking, naming (like not calling it _pin_pages when it's
-> unpinnged userptr), kerneldoc and all the nice things so that we
-> stop consistently getting confused by other driver's userptr code.
->=20
-> I think that was on the plan originally as an eventual step, I guess
-> time
-> to pump that up. Matt/Thomas, thoughts?
+On Thu, 12 Dec 2024 05:31:00 +0000,
+Pavan Kondeti <quic_pkondeti@quicinc.com> wrote:
+> 
+> On Wed, Dec 11, 2024 at 10:40:02AM +0000, Marc Zyngier wrote:
+> > On Wed, 11 Dec 2024 00:37:34 +0000,
+> > Pavan Kondeti <quic_pkondeti@quicinc.com> wrote:
+> > > 
+> > > On Tue, Dec 10, 2024 at 09:24:03PM +0000, Marc Zyngier wrote:
+> > > > > +static int a6xx_switch_secure_mode(struct msm_gpu *gpu)
+> > > > > +{
+> > > > > +	int ret;
+> > > > > +
+> > > > > +#ifdef CONFIG_ARM64
+> > > > > +	/*
+> > > > > +	 * We can access SECVID_TRUST_CNTL register when kernel is booted in EL2 mode. So, use it
+> > > > > +	 * to switch the secure mode to avoid the dependency on zap shader.
+> > > > > +	 */
+> > > > > +	if (is_kernel_in_hyp_mode())
+> > > > > +		goto direct_switch;
+> > > > 
+> > > > No, please. To check whether you are *booted* at EL2, you need to
+> > > > check for is_hyp_available(). Whether the kernel runs at EL1 or EL2 is
+> > > > none of the driver's business, really. This is still absolutely
+> > > > disgusting from an abstraction perspective, but I guess we don't have
+> > > > much choice here.
+> > > > 
+> > > 
+> > > Thanks Marc. Any suggestions on how we can make is_hyp_mode_available()
+> > > available for modules? Do you prefer exporting
+> > > kvm_protected_mode_initialized and __boot_cpu_mode symbols directly or
+> > > try something like [1]?
+> > 
+> > Ideally, neither. These were bad ideas nine years ago, and they still
+> > are. The least ugly hack I can come up with is the patch below, and
+> > you'd write something like:
+> > 
+> > 	if (cpus_have_cap(ARM64_HAS_EL2_OWNERSHIP))
+> > 		blah();
+> > 
+> > This is obviously completely untested.
+> > 
+> 
+> I have tested your patch. It works as intended. Thanks Marc.
 
-It looks like we have this planned and ongoing but there are some
-complications and thoughts.
+Note that you will probably get some push-back from the arm64
+maintainers on this front, because this is a fairly incomplete (and
+fragile) solution.
 
-1) A drm_gpuvm implementation would be based on vma userptrs, and would
-be pretty straightforward based on xe's current implementation and, as
-you say, renaming.
+It would be much better if the discriminant came from the device tree.
+After all, the hypervisor is fscking-up^W^Wchanging the programming
+model of the GPU, and that should be reflected in the DT. Because for
+all intent and purposes, this is not the same hardware anymore.
 
-2) Current Intel work to land this on the drm level is based on
-drm_gpusvm (minus migration to VRAM). I'm not fully sure yet how this
-will integrate with drm_gpuvm.
+The GPU isn't the only device that needs fixing in that way: the
+SMMUv3 needs to be exposed to the OS, and the PCIe ports need to be
+linked to it and the ITS. So at the end of the day, detecting EL2 only
+serves a limited purpose. You need to handle these cases, and might as
+well put the GPU in the same bag.
 
-3) Christian mentioned a plan to have a common userptr implementation
-based off drm_exec. I figure that would be bo-based like the amdgpu
-implemeentation still is. Possibly i915 would be interested in this but
-I think any VM_BIND based driver would want to use drm_gpuvm /
-drm_gpusvm implementation, which is also typically O(1), since userptrs
-are considered vm-local.
+Which means that you'd either have a pair of static DTs (one that
+exposes the brokenness of the firmware, and one that doesn't), or you
+go the dtbhack route to compose the DT at boot time.
 
-Ideas / suggestions welcome
+Thanks,
 
-> -Sima
->=20
-> >=20
-> > > v2: pin pages vs notifier, move to vm.c (Matthew)
-> > > v3: - iterate over system pages instead of DMA, fixes iommu
-> > > enabled
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 - s/xe_uvma_access/xe_vm_uvma_access/ (Matt)
-> > >=20
-> > > Signed-off-by: Andrzej Hajda <andrzej.hajda@intel.com>
-> > > Signed-off-by: Maciej Patelczyk <maciej.patelczyk@intel.com>
-> > > Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> > > Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com> #v1
-> > > ---
-> > > =C2=A0 drivers/gpu/drm/xe/xe_eudebug.c |=C2=A0 3 ++-
-> > > =C2=A0 drivers/gpu/drm/xe/xe_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 47
-> > > +++++++++++++++++++++++++++++++++
-> > > =C2=A0 drivers/gpu/drm/xe/xe_vm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 3 +++
-> > > =C2=A0 3 files changed, 52 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/xe/xe_eudebug.c
-> > > b/drivers/gpu/drm/xe/xe_eudebug.c
-> > > index 9d87df75348b..e5949e4dcad8 100644
-> > > --- a/drivers/gpu/drm/xe/xe_eudebug.c
-> > > +++ b/drivers/gpu/drm/xe/xe_eudebug.c
-> > > @@ -3076,7 +3076,8 @@ static int xe_eudebug_vma_access(struct
-> > > xe_vma *vma, u64 offset_in_vma,
-> > > =C2=A0=C2=A0		return ret;
-> > > =C2=A0=C2=A0	}
-> > > -	return -EINVAL;
-> > > +	return xe_vm_userptr_access(to_userptr_vma(vma),
-> > > offset_in_vma,
-> > > +				=C2=A0=C2=A0=C2=A0 buf, bytes, write);
-> > > =C2=A0 }
-> > > =C2=A0 static int xe_eudebug_vm_access(struct xe_vm *vm, u64 offset,
-> > > diff --git a/drivers/gpu/drm/xe/xe_vm.c
-> > > b/drivers/gpu/drm/xe/xe_vm.c
-> > > index 0f17bc8b627b..224ff9e16941 100644
-> > > --- a/drivers/gpu/drm/xe/xe_vm.c
-> > > +++ b/drivers/gpu/drm/xe/xe_vm.c
-> > > @@ -3414,3 +3414,50 @@ void xe_vm_snapshot_free(struct
-> > > xe_vm_snapshot *snap)
-> > > =C2=A0=C2=A0	}
-> > > =C2=A0=C2=A0	kvfree(snap);
-> > > =C2=A0 }
-> > > +
-> > > +int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64
-> > > offset,
-> > > +			 void *buf, u64 len, bool write)
-> > > +{
-> > > +	struct xe_vm *vm =3D xe_vma_vm(&uvma->vma);
-> > > +	struct xe_userptr *up =3D &uvma->userptr;
-> > > +	struct xe_res_cursor cur =3D {};
-> > > +	int cur_len, ret =3D 0;
-> > > +
-> > > +	while (true) {
-> > > +		down_read(&vm->userptr.notifier_lock);
-> > > +		if (!xe_vma_userptr_check_repin(uvma))
-> > > +			break;
-> > > +
-> > > +		spin_lock(&vm->userptr.invalidated_lock);
-> > > +		list_del_init(&uvma->userptr.invalidate_link);
-> > > +		spin_unlock(&vm->userptr.invalidated_lock);
-> > > +
-> > > +		up_read(&vm->userptr.notifier_lock);
-> > > +		ret =3D xe_vma_userptr_pin_pages(uvma);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > > +
-> > > +	if (!up->sg) {
-> > > +		ret =3D -EINVAL;
-> > > +		goto out_unlock_notifier;
-> > > +	}
-> > > +
-> > > +	for (xe_res_first_sg_system(up->sg, offset, len, &cur);
-> > > cur.remaining;
-> > > +	=C2=A0=C2=A0=C2=A0=C2=A0 xe_res_next(&cur, cur_len)) {
-> > > +		void *ptr =3D kmap_local_page(sg_page(cur.sgl)) +
-> > > cur.start;
-> >=20
-> > The interface basically creates a side channel to access userptrs
-> > in the way
-> > an userspace application would do without actually going through
-> > userspace.
-> >=20
-> > That is generally not something a device driver should ever do as
-> > far as I
-> > can see.
-> >=20
-> > > +
-> > > +		cur_len =3D min(cur.size, cur.remaining);
-> > > +		if (write)
-> > > +			memcpy(ptr, buf, cur_len);
-> > > +		else
-> > > +			memcpy(buf, ptr, cur_len);
-> > > +		kunmap_local(ptr);
-> > > +		buf +=3D cur_len;
-> > > +	}
-> > > +	ret =3D len;
-> > > +
-> > > +out_unlock_notifier:
-> > > +	up_read(&vm->userptr.notifier_lock);
-> >=20
-> > I just strongly hope that this will prevent the mapping from
-> > changing.
-> >=20
-> > Regards,
-> > Christian.
-> >=20
-> > > +	return ret;
-> > > +}
-> > > diff --git a/drivers/gpu/drm/xe/xe_vm.h
-> > > b/drivers/gpu/drm/xe/xe_vm.h
-> > > index 23adb7442881..372ad40ad67f 100644
-> > > --- a/drivers/gpu/drm/xe/xe_vm.h
-> > > +++ b/drivers/gpu/drm/xe/xe_vm.h
-> > > @@ -280,3 +280,6 @@ struct xe_vm_snapshot
-> > > *xe_vm_snapshot_capture(struct xe_vm *vm);
-> > > =C2=A0 void xe_vm_snapshot_capture_delayed(struct xe_vm_snapshot
-> > > *snap);
-> > > =C2=A0 void xe_vm_snapshot_print(struct xe_vm_snapshot *snap, struct
-> > > drm_printer *p);
-> > > =C2=A0 void xe_vm_snapshot_free(struct xe_vm_snapshot *snap);
-> > > +
-> > > +int xe_vm_userptr_access(struct xe_userptr_vma *uvma, u64
-> > > offset,
-> > > +			 void *buf, u64 len, bool write);
-> >=20
->=20
+	M.
 
+-- 
+Without deviation from the norm, progress is not possible.
