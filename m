@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4B39EFF6F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 23:37:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C96209EFFBD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 00:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9641C10EE9D;
-	Thu, 12 Dec 2024 22:37:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F8B10E084;
+	Thu, 12 Dec 2024 23:01:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gUxwAkSS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N0IiAuUk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FB8710EE9D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 22:37:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C572910E084
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 23:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734043055;
+ s=mimecast20190719; t=1734044472;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pjjjRtb5oebyxSS3J6kmQFkrytswzh0QMIj4xblxXAw=;
- b=gUxwAkSSOcILY0MZ8bpmKeHRSTi9DnloeyFAKm7g7KlQTmldhlchfuDuU5BTJOUCvgQ5Bi
- r1pgouVzNXQqegMF/z3AascWWb1LRvegsPW7R+6AQgiumfvhcWrLfP9ijoaGWoMvXy7z1V
- c8vcbpYWY4S5TQX6Yz3VRCeyl9iGRck=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fsu6PqHruwAv7TNP+ThhXkEoZg9r7OpLwvheoaQg5/k=;
+ b=N0IiAuUkmkyIDBjlXOgH8b+XhXPRKF0DtXSEpqlfWnO7HWPwnZifAdxVMvKsCKXslipkI/
+ SjWC3LL2YDP7ErTmMK+d0XV113q5pPhQCnnWQpdAHXVPg2+PTxs6dN7iQy5dpIPYdbFKcG
+ 5g1vUQDZpQ/tF8v12HNtMR6OAVDKuGA=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-218-5JaSymTgPAyj4Ih2o2UEXg-1; Thu, 12 Dec 2024 17:37:34 -0500
-X-MC-Unique: 5JaSymTgPAyj4Ih2o2UEXg-1
-X-Mimecast-MFC-AGG-ID: 5JaSymTgPAyj4Ih2o2UEXg
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-467948b2902so35055851cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 14:37:34 -0800 (PST)
+ us-mta-346-b7uMCjyhOm-Kh-9qJHMrQQ-1; Thu, 12 Dec 2024 18:01:11 -0500
+X-MC-Unique: b7uMCjyhOm-Kh-9qJHMrQQ-1
+X-Mimecast-MFC-AGG-ID: b7uMCjyhOm-Kh-9qJHMrQQ
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-6d8f51b49e5so22039206d6.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 15:01:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734043054; x=1734647854;
+ d=1e100.net; s=20230601; t=1734044471; x=1734649271;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pjjjRtb5oebyxSS3J6kmQFkrytswzh0QMIj4xblxXAw=;
- b=SJ/qU4TPhYAi0fpEcIO2GLx2QjvNgZjFFOOl6Qd4xW2fJwm8PwZVuUYXMiJWc/GxnZ
- BPgDWj1Vwjk4+dfkgF4Sip1MaqWDSdfLW1Msc9QETMOZoqUkAxDthX/9G47kqtfzaZKz
- YaA7tY7SsibSHFs0E81Y4N82a6YdQfN05rD3fanbsnXIOqYu68PnMJScF44xzd6FzXz1
- Wh5V9g9tjbFyna+cTf6okMqSHn4LbhIUIOXcx4qbGD3Iar39+JNhZeBiu5+PmqkkU9PA
- AC5L4LuSe3lq/NmUr7pDBZjN6bNCOZ6EI2Q2OYsRllpAkUyJzhjtGzvHOgw27VB1YvPy
- x5ZA==
-X-Gm-Message-State: AOJu0Yy2ozEv3Xd0zf9kmYC9yxSEaoLCdAW7ompoAKYc4W/DWsqm0jEr
- t3h5jpi6Fm9XKl/s4r5+UY6l6Inblm220UpL7S3KKTf46J9kxk+UdVrXYEEnpcOYDZ1F+tWL+Ns
- 13DyEKcSeE57MDqFrTWvpN3lv0jpVA0S1oLja23T1EVdKPG30mWGpJBvIfMsQnaaEYg==
-X-Gm-Gg: ASbGncv9u39czu+XEa+D9MsO+Pm532oVQqIBC62GnJdU89FUzPLsQvm5d+tlCGXOTsb
- s6Q0yKYeeibUTGCP+IR9X2DqEXM98U2TQ70ymxv37vUP1TULaX8/fEtTxyt12c6D/3QAEYW51+l
- nIWXmdlJaXc7LIRcfO0cavUxearxQyY4FJlKA28puM3TtWM05canjYKM+HsMlSmyLgYI/cTdx9I
- RqcwoXrkQGX01UYPgsnk68I1bmeBn63EF17Mfu9j70D/63sx6YrA48TqaegOpg=
-X-Received: by 2002:a05:622a:1491:b0:467:8342:a84 with SMTP id
- d75a77b69052e-467a157fea2mr32268641cf.19.1734043053697; 
- Thu, 12 Dec 2024 14:37:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEkra/Sz6MSveTbojapcRIS6RqtBkSaTV4kFVAFRK/d2kPZTZ764+6nzxS7Qivr8xlmoBn3jA==
-X-Received: by 2002:a05:622a:1491:b0:467:8342:a84 with SMTP id
- d75a77b69052e-467a157fea2mr32267951cf.19.1734043053159; 
- Thu, 12 Dec 2024 14:37:33 -0800 (PST)
+ bh=fsu6PqHruwAv7TNP+ThhXkEoZg9r7OpLwvheoaQg5/k=;
+ b=wmHkuciIpdRONJ+9vNZ5RdEn5+Mzh9mQKjyGvTv+Mycd5YCbb+Y7zzHrH0lobrUAZb
+ spkqy83KKBxrR9hXKrr54KaMqYNlpjsvVpx00awsHcruO18JdMwhsamp8ilWCqzqnwCm
+ tE7nrOqVut+2rD6YoT0P/ydLabfTt5RQJD+hkHShxdl5CxytWj0VYNHBhzsKeD+9ttFM
+ 8g7Mg7xAYP9WCpH5cJG/8WtdCE1ia4O/ekB8mTl14zQ2j3dXrmwhR8Elki9X3hNdvQVW
+ IJ+S6hQxFVvNf4YXLDbfxXm4YOYdyOINUXEHuxGRRSbDsYSWzOVWRpswFrzvMrf+vmH4
+ NNAA==
+X-Gm-Message-State: AOJu0Yyx4vEIm6AGZOv0M5PGIitTqkyh3WimK7dQePFr9jfYbcw1edcp
+ XgCYVzOIEp2csDCi0Bi3XCGRYiao0I9G0cpZw9waf7rOvnUWS9Zkcqkn9dmtnRHymzcjRv6yAgd
+ AGoq7vsuE3e0mSfs7cOCd16P4CjsRMBkxDRxvNDk/HBuBDACoH4sWpEwFJqWjVDrm5g==
+X-Gm-Gg: ASbGncvcfc4R9RkjvFrAhIefUMKWghfvWbJ5Y7Q6PGaneqdypEMhteMPpBjjy7zMOHy
+ CBLUiE6fBWX1sTt4GOM3CUMfEWWMor3OmN+aFgL/fsvHG4DWbaBIq6iSzL6wYIYhkx7Yyu+jZB2
+ TBGUNSoqt5hzUDHGCDh0UAzBhe6nNOz27oQQ2mekBqodJRUo4JrS5b7ZF4wXxasVY9xskViuHYa
+ +jyMmCxrXzGa4+e8FEpfTqA2AeOXQ+/Z3JsZ2JoS1dkOkVry/cxCWRzglzurJU=
+X-Received: by 2002:a05:6214:400b:b0:6d4:1bad:740c with SMTP id
+ 6a1803df08f44-6dc8ca3d278mr5679796d6.4.1734044471197; 
+ Thu, 12 Dec 2024 15:01:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEIIVaIghHYiniAhbPIRvmz34kNVeG4K9IxTg6wwntKVUB+b8Fr/AMMeKLYXNe/YmqaBy7V9A==
+X-Received: by 2002:a05:6214:400b:b0:6d4:1bad:740c with SMTP id
+ 6a1803df08f44-6dc8ca3d278mr5679336d6.4.1734044470806; 
+ Thu, 12 Dec 2024 15:01:10 -0800 (PST)
 Received: from ?IPv6:2600:4040:5c4c:a000::bb3? ([2600:4040:5c4c:a000::bb3])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-467296fe9bcsm89129571cf.51.2024.12.12.14.37.31
+ 6a1803df08f44-6d8e7883a0dsm76708496d6.45.2024.12.12.15.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2024 14:37:31 -0800 (PST)
-Message-ID: <59f7d998e798aeab1c8cd76c129761ef4bde9e2e.camel@redhat.com>
-Subject: Re: [WIP RFC v2 10/35] rust: drm/kms: Add DriverConnector::get_mode
- callback
+ Thu, 12 Dec 2024 15:01:09 -0800 (PST)
+Message-ID: <155960fb5a1e95cbebf607976039cf6db0ad6e56.camel@redhat.com>
+Subject: Re: [WIP RFC v2 14/35] WIP: rust: drm/kms: Add OpaqueCrtc and
+ OpaqueCrtcState
 From: Lyude Paul <lyude@redhat.com>
 To: Daniel Almeida <daniel.almeida@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Asahi
@@ -81,16 +81,16 @@ Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Asahi
  <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, Alice
  Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,  open list
  <linux-kernel@vger.kernel.org>
-Date: Thu, 12 Dec 2024 17:37:30 -0500
-In-Reply-To: <36E11299-A121-46DB-8F8D-45AC4B99BCE6@collabora.com>
+Date: Thu, 12 Dec 2024 18:01:08 -0500
+In-Reply-To: <39164069-001D-401D-A037-3C43F27373B9@collabora.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-11-lyude@redhat.com>
- <36E11299-A121-46DB-8F8D-45AC4B99BCE6@collabora.com>
+ <20240930233257.1189730-15-lyude@redhat.com>
+ <39164069-001D-401D-A037-3C43F27373B9@collabora.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2rD5uoM1eWRFl9_tP9U2AMw8wArfVeiXABHDt0sp3Ts_1734043054
+X-Mimecast-MFC-PROC-ID: snbQ03blC0bSm4e1RTa6iaiX4GJgRTi27q84tfuwHxc_1734044471
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -109,344 +109,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-11-27 at 12:03 -0300, Daniel Almeida wrote:
+On Wed, 2024-11-27 at 13:00 -0300, Daniel Almeida wrote:
 > Hi Lyude,
 >=20
 > > On 30 Sep 2024, at 20:09, Lyude Paul <lyude@redhat.com> wrote:
 > >=20
-> > Next up is filling out some of the basic connector hotplugging callback=
-s -
-> > which we'll need for setting up the fbdev helpers for KMS devices. Note
-> > that connector hotplugging in DRM follows a BFL scheme: pretty much all
->=20
-> A what scheme?
-
-"Big fucking lock".
-
-It's a bit of crude terminology, but it's the most commonly used term I've
-seen to describe this sort of thing in the kernel. In the old days of Linux
-before I even worked on the kernel we just had one big lock for SMP. As tha=
-t
-was removed and replaced with other locks, there were still quite a number =
-of
-subsystems that basically shared a big lock that protected most state - and
-DRM was one of them. To this day there's still a lot of various misc.
-connector state that's stored under this lock.
-
->=20
-> > probing is protected under the mighty drm_device->mode_config.lock, whi=
-ch
-> > of course is a bit counter-intuitive to rust's locking schemes where da=
-ta
-> > is always associated with its lock.
+> > This is the same thing as OpaqueConnector and OpaqueConnectorState, but=
+ for
+> > CRTCs now.
 > >=20
-> > Since that lock is embedded in an FFI type and not a rust type, we need=
- to
-> > introduce our own wrapper type that acts as a lock acquisition for this=
-.
-> > This brings us to introducing a few new types:
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > >=20
-> > * ModeConfigGuard - the most basic lock guard, as long as this object i=
-s
-> >  alive we are guaranteed to be holding drm_device->mode_config.lock. Th=
-is
-> >  object doesn't do much else on its own currently.
-> > * ConnectorGuard - an object which corresponds to a specific typed DRM
-> >  connector. This can only be acquired with a ModeConfigGuard, and will =
-be
-> >  used to allow calling methods that are only safe to call with
-> >  drm_device->mode_config.lock held. Since it implements
-> >  Deref<Target=3DConnector<T>> as well, it can also be used for any othe=
-r
-> >  operations that would normally be available on a DRM connector.
+> > ---
 > >=20
-> > And finally, we add the DriverConnector::get_modes() trait method which
-> > drivers can use to implement the drm_connector_helper_funcs.get_modes
-> > callback. Note that while we make this trait method mandatory, we only =
-do
-> > so for the time being since VKMS doesn't do very much with DRM connecto=
-rs -
-> > and as such we have no need yet to implement alternative connector prob=
-ing
-> > schemes outside of get_modes().
+> > TODO:
+> > * Add upcast functions
 > >=20
 > > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > > ---
-> > rust/kernel/drm/kms.rs           | 70 ++++++++++++++++++++++++++++++++
-> > rust/kernel/drm/kms/connector.rs | 57 ++++++++++++++++++++++++--
-> > 2 files changed, 124 insertions(+), 3 deletions(-)
+> > rust/kernel/drm/kms/crtc.rs | 131 ++++++++++++++++++++++++++++++++++++
+> > 1 file changed, 131 insertions(+)
 > >=20
-> > diff --git a/rust/kernel/drm/kms.rs b/rust/kernel/drm/kms.rs
-> > index d5cad598f016f..d74267c78864f 100644
-> > --- a/rust/kernel/drm/kms.rs
-> > +++ b/rust/kernel/drm/kms.rs
-> > @@ -18,6 +18,8 @@
-> >     types::*,
-> >     error::to_result,
-> >     private::Sealed,
-> > +    sync::{Mutex, MutexGuard},
-> > +    container_of
-> > };
-> > use core::{
-> >     ops::Deref,
-> > @@ -233,6 +235,21 @@ impl<T, K> KmsDriver for T
-> >     T: Driver<Kms =3D K>,
-> >     K: Kms<Driver =3D T> {}
-> >=20
-> > +impl<T: KmsDriver> Device<T> {
-> > +    /// Retrieve a pointer to the mode_config mutex
-> > +    #[inline]
-> > +    pub(crate) fn mode_config_mutex(&self) -> &Mutex<()> {
-> > +        // SAFETY: This lock is initialized for as long as `Device<T>`=
- is exposed to users
-> > +        unsafe { Mutex::from_raw(&mut (*self.as_raw()).mode_config.mut=
-ex) }
->=20
-> Again, a bit hard to understand what=E2=80=99s going on here, since every=
-thing is on a single line.
->=20
-> > +    }
-> > +
-> > +    /// Acquire the [`mode_config.mutex`] for this [`Device`].
-> > +    #[inline]
-> > +    pub fn mode_config_lock(&self) -> ModeConfigGuard<'_, T> {
-> > +        ModeConfigGuard(self.mode_config_mutex().lock(), PhantomData)
-> > +    }
-> > +}
-> > +
-> > /// A modesetting object in DRM.
-> > ///
-> > /// This is any type of object where the underlying C object contains a=
- [`struct drm_mode_object`].
-> > @@ -339,3 +356,56 @@ unsafe fn dec_ref(obj: ptr::NonNull<Self>) {
-> >         unsafe { bindings::drm_mode_object_put(obj.as_ref().raw_mode_ob=
-j()) }
+> > diff --git a/rust/kernel/drm/kms/crtc.rs b/rust/kernel/drm/kms/crtc.rs
+> > index d84db49948380..1a3c9c448afcc 100644
+> > --- a/rust/kernel/drm/kms/crtc.rs
+> > +++ b/rust/kernel/drm/kms/crtc.rs
+> > @@ -234,6 +234,41 @@ pub fn new<'a, 'b: 'a, P, C>(
+> >         // SAFETY: We don't move anything
+> >         Ok(unsafe { &*Box::into_raw(Pin::into_inner_unchecked(this)) })
 > >     }
-> > }
 > > +
-> > +/// A mode config guard.
-> > +///
-> > +/// This is an exclusive primitive that represents when [`drm_device.m=
-ode_config.mutex`] is held - as
-> > +/// some modesetting operations (particularly ones related to [`connec=
-tors`](connector)) are still
-> > +/// protected under this single lock. The lock will be dropped once th=
-is object is dropped.
-> > +///
-> > +/// # Invariants
-> > +///
-> > +/// - `self.0` is contained within a [`struct drm_mode_config`], which=
- is contained within a
-> > +///   [`struct drm_device`].
-> > +/// - The [`KmsDriver`] implementation of that [`struct drm_device`] i=
-s always `T`.
-> > +/// - This type proves that [`drm_device.mode_config.mutex`] is acquir=
-ed.
-> > +///
-> > +/// [`struct drm_mode_config`]: (srctree/include/drm/drm_device.h)
-> > +/// [`drm_device.mode_config.mutex`]: (srctree/include/drm/drm_device.=
-h)
-> > +/// [`struct drm_device`]: (srctree/include/drm/drm_device.h)
-> > +pub struct ModeConfigGuard<'a, T: KmsDriver>(MutexGuard<'a, ()>, Phant=
-omData<T>);
+> > +    /// Attempt to convert an [`OpaqueCrtc`] into a fully qualified [`=
+Crtc`].
+> > +    ///
+> > +    /// This checks if the given [`OpaqueCrtc`] uses the same [`Driver=
+Crtc`] implementation, and
+> > +    /// returns the [`OpaqueCrtc`] as a [`Crtc`] object if so.
+> > +    pub fn try_from_opaque<'a, D>(opaque: &'a OpaqueCrtc<D>) -> Option=
+<&'a Self>
+> > +    where
+> > +        D: KmsDriver,
+> > +        T: DriverCrtc<Driver =3D D>
+> > +    {
+> > +        // SAFETY: The vtables for a `Crtc` are initialized throughout=
+ the lifetime of the object
+> > +        let funcs =3D unsafe { (*opaque.crtc.get()).funcs };
 > > +
-> > +impl<'a, T: KmsDriver> ModeConfigGuard<'a, T> {
-> > +    /// Construct a new [`ModeConfigGuard`].
-> > +    ///
-> > +    /// # Safety
-> > +    ///
-> > +    /// The caller must ensure that [`drm_device.mode_config.mutex`] i=
-s acquired.
-> > +    ///
-> > +    /// [`drm_device.mode_config.mutex`]: (srctree/include/drm/drm_dev=
-ice.h)
-> > +    pub(crate) unsafe fn new(drm: &'a Device<T>) -> Self {
-> > +        // SAFETY: Our safety contract fulfills the requirements of `M=
-utexGuard::new()`
-> > +        Self(unsafe { MutexGuard::new(drm.mode_config_mutex(), ()) }, =
-PhantomData)
+> > +        // SAFETY: We only perform this transmutation if the opaque CR=
+TC shares our vtable pointers,
+> > +        // so the underlying `Crtc` must share our data layout.
+> > +        ptr::eq(funcs, &T::OPS.funcs).then(|| unsafe { mem::transmute(=
+opaque) })
 > > +    }
 > > +
-> > +    /// Return the [`Device`] that this [`ModeConfigGuard`] belongs to=
-.
-> > +    pub fn drm_dev(&self) -> &'a Device<T> {
-> > +        // SAFETY:
-> > +        // - `self` is embedded within a `drm_mode_config` via our typ=
-e invariants
-> > +        // - `self.0.lock` has an equivalent data type to `mutex` via =
-its type invariants.
-> > +        let mode_config =3D unsafe { container_of!(self.0.lock, bindin=
-gs::drm_mode_config, mutex) };
-> > +
-> > +        // SAFETY: And that `drm_mode_config` lives in a `drm_device` =
-via type invariants.
-> > +        unsafe { Device::borrow(container_of!(mode_config, bindings::d=
-rm_device, mode_config)) }
-> > +    }
-> > +
-> > +    /// Assert that the given device is the owner of this mode config =
-guard.
+> > +    /// Convert a [`OpaqueCrtc`] into its fully qualified [`Crtc`].
+> > +    ///
+> > +    /// This is an infallible version of [`Self::try_from_opaque`]. Th=
+is function is mainly useful
+> > +    /// for drivers where only a single [`DriverCrtc`] implementation =
+exists.
+>=20
+> I am confused. If a driver has a single `DriverCrtc`, why would it care f=
+or `OpaqueCrtc`?
+
+It wouldn't, but when we add iterator types for going through all of the
+crtcs, planes, connectors, etc. in an atomic state those iterators are goin=
+g
+to return types containing Opaque types by default.
+
+I haven't finished writing up all the code for this yet but an iterator for
+say, new/old states for a CRTC would look like this:
+
+struct AtomicCrtcStateUpdate<'a, T: FromRawCrtcState> {
+    crtc: &'a T::Crtc,
+    old_state: &'a T,
+    new_state: BorrowedCrtcState<'a, T>,
+}
+
+Where the driver then can "upcast" the entire type like this:
+
+let (crtc, old, new) =3D state_update.upcast::<CrtcState<DriverCrtc>>()?.ge=
+t();
+
+Since we can't really know what DriverCrtc belongs to each Crtc without hav=
+ing
+the caller try to perform an upcast.
+
+>=20
 > > +    ///
 > > +    /// # Panics
 > > +    ///
-> > +    /// Panics if `dev` is different from the owning device for this m=
-ode config guard.
-> > +    #[inline]
-> > +    pub(crate) fn assert_owner(&self, dev: &Device<T>) {
-> > +        assert!(ptr::eq(self.drm_dev(), dev));
+> > +    /// This function will panic if the underlying CRTC in the provide=
+d [`OpaqueCrtc`] does not
+> > +    /// belong to the same [`DriverCrtc`] implementation.
+> > +    pub fn from_opaque<'a, D>(opaque: &'a OpaqueCrtc<D>) -> &'a Self
+> > +    where
+> > +        D: KmsDriver,
+> > +        T: DriverCrtc<Driver =3D D>
+> > +    {
+> > +        Self::try_from_opaque(opaque)
+> > +            .expect("Passed OpaqueCrtc does not share this DriverCrtc =
+implementation")
 > > +    }
-> > +}
-> > diff --git a/rust/kernel/drm/kms/connector.rs b/rust/kernel/drm/kms/con=
-nector.rs
-> > index 54457b327c365..57ab29473c344 100644
-> > --- a/rust/kernel/drm/kms/connector.rs
-> > +++ b/rust/kernel/drm/kms/connector.rs
-> > @@ -19,7 +19,7 @@
-> > use core::{
-> >     marker::*,
-> >     ptr::null_mut,
-> > -    mem,
-> > +    mem::{self, ManuallyDrop},
-> >     ptr::{self, NonNull, addr_of_mut},
-> >     ffi::*,
-> >     ops::*,
-> > @@ -28,6 +28,7 @@
-> > use super::{
-> >     ModeObject,
-> >     RcModeObject,
-> > +    ModeConfigGuard,
-> >     encoder::*,
-> >     KmsDriver,
-> > };
-> > @@ -93,7 +94,7 @@ pub trait DriverConnector: Send + Sync + Sized {
-> >             destroy: Some(connector_destroy_callback::<Self>),
-> >             force: None,
-> >             detect: None,
-> > -            fill_modes: None,
-> > +            fill_modes: Some(bindings::drm_helper_probe_single_connect=
-or_modes),
-> >             debugfs_init: None,
-> >             oob_hotplug_event: None,
-> >             atomic_duplicate_state: Some(atomic_duplicate_state_callbac=
-k::<Self::State>),
-> > @@ -101,7 +102,7 @@ pub trait DriverConnector: Send + Sync + Sized {
-> >         helper_funcs: bindings::drm_connector_helper_funcs {
-> >             mode_valid: None,
-> >             atomic_check: None,
-> > -            get_modes: None,
-> > +            get_modes: Some(get_modes_callback::<Self>),
-> >             detect_ctx: None,
-> >             enable_hpd: None,
-> >             disable_hpd: None,
-> > @@ -132,6 +133,12 @@ pub trait DriverConnector: Send + Sync + Sized {
-> >     ///
-> >     /// Drivers may use this to instantiate their [`DriverConnector`] o=
-bject.
-> >     fn new(device: &Device<Self::Driver>, args: Self::Args) -> impl Pin=
-Init<Self, Error>;
-> > +
-> > +    /// Retrieve a list of available display modes for this [`Connecto=
-r`].
-> > +    fn get_modes<'a>(
-> > +        connector: ConnectorGuard<'a, Self>,
-> > +        guard: &ModeConfigGuard<'a, Self::Driver>
-> > +    ) -> i32;
 > > }
 > >=20
-> > /// The generated C vtable for a [`DriverConnector`].
-> > @@ -229,6 +236,19 @@ pub fn new(
-> >         })
+> > /// A trait implemented by any type that acts as a [`struct drm_crtc`] =
+interface.
+> > @@ -267,6 +302,66 @@ unsafe fn from_raw<'a>(ptr: *mut bindings::drm_crt=
+c) -> &'a Self {
 > >     }
-> >=20
-> > +    /// Acquire a [`ConnectorGuard`] for this connector from a [`ModeC=
-onfigGuard`].
-> > +    ///
-> > +    /// This verifies using the provided reference that the given guar=
-d is actually for the same
-> > +    /// device as this connector's parent.
-> > +    ///
-> > +    /// # Panics
-> > +    ///
-> > +    /// Panics if `guard` is not a [`ModeConfigGuard`] for this connec=
-tor's parent [`Device`].
-> > +    pub fn guard<'a>(&'a self, guard: &ModeConfigGuard<'a, T::Driver>)=
- -> ConnectorGuard<'a, T> {
-> > +        guard.assert_owner(self.drm_dev());
-> > +        ConnectorGuard(self)
-> > +    }
-> > +
-> >     /// Attach an encoder to this [`Connector`].
-> >     ///
-> >     /// TODO: Move this to an `UnregisteredConnector` interface somehow=
-=E2=80=A6
-> > @@ -327,6 +347,37 @@ unsafe fn from_raw<'a>(ptr: *mut bindings::drm_con=
-nector) -> &'a Self {
-> >     drop(unsafe { Box::from_raw(connector as *mut Connector<T>) });
 > > }
 > >=20
-> > +unsafe extern "C" fn get_modes_callback<T: DriverConnector>(
-> > +    connector: *mut bindings::drm_connector,
-> > +) -> c_int {
-> > +    // SAFETY: This is safe via `DriverConnector`s type invariants.
-> > +    let connector =3D unsafe { Connector::<T>::from_raw(connector) };
-> > +
-> > +    // SAFETY: This FFI callback is only called while `mode_config.loc=
-k` is held
-> > +    let guard =3D ManuallyDrop::new(unsafe { ModeConfigGuard::new(conn=
-ector.drm_dev()) });
->=20
-> I=E2=80=99m confused. Can you explain what this ManuallyDrop is being use=
-d for?
-
-So there's two different ways the mode_config lock usually gets acquired:
-
-* Explicitly by the driver, to modify some sort of state that's protected b=
-y
-it
-* Implicitly by DRM, for the duration of a callback like get_modes().
-
-Since we want to be able to support both cases in rust, we want to make sur=
-e
-that our object for exposing this lock can be manually acquired - but also
-provide a reference to the lock type for callbacks like get_modes() where t=
-he
-lock is already acquired and we need to perform actions that work on state
-protected by said lock. IMO, the most sensible way of doing this is to just
-use ManuallyDrop so that we can basically promise "the lock is held for the
-duration of this call", and avoid mistakenly unlocking it at the end of the
-callback (something that should be handled by DRM and not us).
-
->=20
-> > +
-> > +    T::get_modes(connector.guard(&guard), &guard)
-> > +}
-> > +
-> > +/// A privileged [`Connector`] obtained while holding a [`ModeConfigGu=
-ard`].
+> > +/// A [`struct drm_crtc`] without a known [`DriverCrtc`] implementatio=
+n.
 > > +///
-> > +/// This provides access to various methods for [`Connector`] that mus=
-t happen under lock, such as
-> > +/// setting resolution preferences and adding display modes.
+> > +/// This is mainly for situations where our bindings can't infer the [=
+`DriverCrtc`] implementation
+> > +/// for a [`struct drm_crtc`] automatically. It is identical to [`Crtc=
+`], except that it does not
+> > +/// provide access to the driver's private data.
+> > +///
+> > +/// It may be upcasted to a full [`Crtc`] using [`Crtc::from_opaque`] =
+or
+> > +/// [`Crtc::try_from_opaque`].
 > > +///
 > > +/// # Invariants
 > > +///
-> > +/// Shares the invariants of [`ModeConfigGuard`].
-> > +#[derive(Copy, Clone)]
-> > +pub struct ConnectorGuard<'a, T: DriverConnector>(&'a Connector<T>);
+> > +/// - `crtc` is initialized for as long as this object is made availab=
+le to users.
+> > +/// - The data layout of this structure is equivalent to [`struct drm_=
+crtc`].
+>=20
+> nit: Maybe worth clarifying that it=E2=80=99s equivalent to `bindings::dr=
+m_crtc`, not directly to
+> C=E2=80=99s `struct drm_crtc`. Although it should also be equivalent to t=
+hat in practice.
+
+Yeah I wasn't sure about this, I got the impression that the way of doing t=
+his
+typically was to link to the header where the structure is defined instead =
+of
+the bindings:: equivalent from some of the other code around the kernel tha=
+t
+I've seen.
+
+>=20
+> > +///
+> > +/// [`struct drm_crtc`]: srctree/include/drm/drm_crtc.h
+> > +#[repr(transparent)]
+> > +pub struct OpaqueCrtc<T: KmsDriver> {
+> > +    crtc: Opaque<bindings::drm_crtc>,
+> > +    _p: PhantomData<T>
+> > +}
 > > +
-> > +impl<T: DriverConnector> Deref for ConnectorGuard<'_, T> {
-> > +    type Target =3D Connector<T>;
+> > +impl<T: KmsDriver> Sealed for OpaqueCrtc<T> {}
 > > +
-> > +    fn deref(&self) -> &Self::Target {
-> > +        self.0
+> > +impl<T: KmsDriver> AsRawCrtc for OpaqueCrtc<T> {
+> > +    type State =3D OpaqueCrtcState<T>;
+> > +
+> > +    fn as_raw(&self) -> *mut bindings::drm_crtc {
+> > +        self.crtc.get()
+> > +    }
+> > +
+> > +    unsafe fn from_raw<'a>(ptr: *mut bindings::drm_crtc) -> &'a Self {
+> > +        // SAFETY: Our data layout starts with `bindings::drm_crtc`
+> > +        unsafe { &*ptr.cast() }
 > > +    }
 > > +}
 > > +
-> > // SAFETY: DRM expects this struct to be zero-initialized
-> > unsafe impl Zeroable for bindings::drm_connector_state {}
+> > +impl<T: KmsDriver> ModeObject for OpaqueCrtc<T> {
+> > +    type Driver =3D T;
+> > +
+> > +    fn drm_dev(&self) -> &Device<Self::Driver> {
+> > +        // SAFETY: The parent device for a DRM connector will never ou=
+tlive the connector, and this
+> > +        // pointer is invariant through the lifetime of the connector
+> > +        unsafe { Device::borrow((*self.as_raw()).dev) }
+> > +    }
+> > +
+> > +    fn raw_mode_obj(&self) -> *mut bindings::drm_mode_object {
+> > +        // SAFETY: We don't expose DRM connectors to users before `bas=
+e` is initialized
+> > +        unsafe { addr_of_mut!((*self.as_raw()).base) }
+> > +    }
+> > +}
+> > +
+> > +// SAFETY: CRTCs are non-refcounted modesetting objects
+> > +unsafe impl<T: KmsDriver> StaticModeObject for OpaqueCrtc<T> {}
+> > +
+> > +// SAFETY: Our CRTC interface is guaranteed to be thread-safe
+> > +unsafe impl<T: KmsDriver> Send for OpaqueCrtc<T> {}
+> > +
+> > +// SAFETY: Our CRTC interface is guaranteed to be thread-safe
+> > +unsafe impl<T: KmsDriver> Sync for OpaqueCrtc<T> {}
+> > +
+> > unsafe impl Zeroable for bindings::drm_crtc_state { }
 > >=20
+> > impl<T: DriverCrtcState> Sealed for CrtcState<T> {}
+> > @@ -400,6 +495,42 @@ unsafe fn from_raw<'a>(ptr: *const bindings::drm_c=
+rtc_state) -> &'a Self {
+> >     }
+> > }
+> >=20
+> > +/// A [`struct drm_crtc_state`] without a known [`DriverCrtcState`] im=
+plementation.
+> > +///
+> > +/// This is mainly for situations where our bindings can't infer the [=
+`DriverCrtcState`]
+> > +/// implementation for a [`struct drm_crtc_state`] automatically. It i=
+s identical to [`Crtc`],
+> > +/// except that it does not provide access to the driver's private dat=
+a.
+> > +///
+> > +/// TODO: Add upcast functions
+> > +///
+> > +/// # Invariants
+> > +///
+> > +/// - `state` is initialized for as long as this object is exposed to =
+users.
+> > +/// - The data layout of this type is identical to [`struct drm_crtc_s=
+tate`].
+> > +///
+> > +/// [`struct drm_crtc_state`]: srctree/include/drm/drm_crtc.h
+> > +#[repr(transparent)]
+> > +pub struct OpaqueCrtcState<T: KmsDriver> {
+> > +    state: Opaque<bindings::drm_crtc_state>,
+> > +    _p: PhantomData<T>
+> > +}
+> > +
+> > +impl<T: KmsDriver> AsRawCrtcState for OpaqueCrtcState<T> {
+> > +    type Crtc =3D OpaqueCrtc<T>;
+> > +}
+> > +
+> > +impl<T: KmsDriver> private::AsRawCrtcState for OpaqueCrtcState<T> {
+> > +    fn as_raw(&self) -> *mut bindings::drm_crtc_state {
+> > +        self.state.get()
+> > +    }
+> > +}
+> > +
+> > +impl<T: KmsDriver> FromRawCrtcState for OpaqueCrtcState<T> {
+> > +    unsafe fn from_raw<'a>(ptr: *const bindings::drm_crtc_state) -> &'=
+a Self {
+> > +        // SAFETY: Our data layout is identical to `bindings::drm_crtc=
+_state`
+> > +        unsafe { &*(ptr.cast()) }
+> > +    }
+> > +}
+> > unsafe extern "C" fn crtc_destroy_callback<T: DriverCrtc>(
+> >     crtc: *mut bindings::drm_crtc
+> > ) {
 > > --=20
 > > 2.46.1
+> >=20
 > >=20
 >=20
 > =E2=80=94 Daniel
