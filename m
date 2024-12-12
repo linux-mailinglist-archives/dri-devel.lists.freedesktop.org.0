@@ -1,58 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0729EFAF0
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:31:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F20829EFAF2
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:32:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA2710E1E9;
-	Thu, 12 Dec 2024 18:31:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6818710EE57;
+	Thu, 12 Dec 2024 18:32:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qciiiCWe";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="iUhTdkgu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3BD10E1E9;
- Thu, 12 Dec 2024 18:31:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zUh/YyW/cI4qga3mWzSJPGqn9vM7x5xrmfx3htv+gmM=; b=qciiiCWeSsH1CyvmDpCIANNec1
- XzMtbePqIRr3MwbVnGAok0CEMvqYOZnt2bE5q24cH0N0usNQ158oeakGf74pFuDEXyweoWPDdm6E6
- pH1Kw9Z70NVWxcFk/DCF/xjHrHGQeVaAfQAWbzwPWiNKn17qHW1nAft23gXPfVypVDGffbXz6nPx0
- GxRTi1nKHHiHWH1+1JixpFfNq1d9fLunCqDkIDpAtrvo8DiLw1644ev/SVVhirEWVT7bWkSF42g3S
- VU+YDx2zsaKIabzkob584HYUFb2J/4JBIrdXLr8f2A7XZ8OY28DCb7SgkN9LsF1Fz/DeWvOJVizRe
- tZhZaPPA==;
-Received: from [179.193.1.214] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tLnxt-002LzM-DL; Thu, 12 Dec 2024 19:31:09 +0100
-Message-ID: <9557db3c-0837-4dfb-ba69-84dbaf13f082@igalia.com>
-Date: Thu, 12 Dec 2024 15:31:01 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6C410E642;
+ Thu, 12 Dec 2024 18:32:01 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCHajns002411;
+ Thu, 12 Dec 2024 18:31:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ rv5HUNjIlXFQs6ODfZw9V74Slw/yRWWLUDImaJfgRmc=; b=iUhTdkgu+jD75nkd
+ orHiyeE6ffsov4SOfKq5LXAk/73ROjLc8+nMoZOdKNZ8zkZpRX7VaNNVQMgifqla
+ 0xqvBEQkDXxb/xR7JklF1BFaAQkvr8o7EiBpL8K7fnNVuo+gtfFajkEj4fnwTxUe
+ c3drzbCzVyq0xusoZDLjid/5dhSMkQ8JcvGU6h7THdUHLZOHEbrhbaraPNthjduc
+ EovARNDInFvWPiBCRpUipWFK1h9WiNv3LEGjpy8AipF21mb6whfweO+32SUURzYg
+ 9NyTKBIvFTzyw50unxXOySMcqn6eHA/dwI9CdEBZBc6YqL74oDQoXGyfhXyUvkVp
+ ZZlMmA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43eyg66ebd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2024 18:31:56 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BCIVt3i012317
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2024 18:31:55 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 12 Dec
+ 2024 10:31:54 -0800
+Message-ID: <49d330b8-86fe-40a6-864b-cbb28dc2f555@quicinc.com>
+Date: Thu, 12 Dec 2024 10:31:53 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 1/4] drm: Introduce device wedged event
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20241128153707.1294347-1-raag.jadav@intel.com>
- <20241128153707.1294347-2-raag.jadav@intel.com>
+Subject: Re: [PATCH v3 01/14] drm/msm/dp: set safe_to_exit_level before
+ printing it
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paloma Arellano <quic_parellan@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "kernel test robot" <lkp@intel.com>
+References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
+ <20241212-fd-dp-audio-fixup-v3-1-0b1c65e7dba3@linaro.org>
+ <01f84965-8a11-4d6d-99a6-b0e37240d4cb@quicinc.com>
+ <iugoc25pnh5zzzr5mamutycqohj2z2255omgh3ztyoqgyjkg23@c7axf3mg5wy5>
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20241128153707.1294347-2-raag.jadav@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <iugoc25pnh5zzzr5mamutycqohj2z2255omgh3ztyoqgyjkg23@c7axf3mg5wy5>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: b8rp9n-jGicYSN3nLJ3dPfkVlmIMNjsp
+X-Proofpoint-ORIG-GUID: b8rp9n-jGicYSN3nLJ3dPfkVlmIMNjsp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ mlxlogscore=957 phishscore=0 suspectscore=0 mlxscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412120134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +99,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Raag,
 
-Thank you for your patch.
 
-Em 28/11/2024 12:37, Raag Jadav escreveu:
+On 12/12/2024 12:58 AM, Dmitry Baryshkov wrote:
+> On Wed, Dec 11, 2024 at 05:14:18PM -0800, Abhinav Kumar wrote:
+>>
+>>
+>> On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
+>>> Rather than printing random garbage from stack and pretending that it is
+>>> the default safe_to_exit_level, set the variable beforehand.
+>>>
+>>> Fixes: d13e36d7d222 ("drm/msm/dp: add audio support for Display Port on MSM")
+>>> Reported-by: kernel test robot <lkp@intel.com>
+>>> Closes: https://lore.kernel.org/oe-kbuild-all/202411081748.0PPL9MIj-lkp@intel.com/
+>>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/dp/dp_audio.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+>>> index 74e01a5dd4195d5e0e04250663886f1116f25711..5cbb11986460d1e4ed1890bdf66d0913e013083c 100644
+>>> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
+>>> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+>>> @@ -329,10 +329,10 @@ static void msm_dp_audio_safe_to_exit_level(struct msm_dp_audio_private *audio)
+>>>    		safe_to_exit_level = 5;
+>>>    		break;
+>>>    	default:
+>>> +		safe_to_exit_level = 14;
+>>>    		drm_dbg_dp(audio->drm_dev,
+>>>    				"setting the default safe_to_exit_level = %u\n",
+>>>    				safe_to_exit_level);
+>>> -		safe_to_exit_level = 14;
+>>>    		break;
+>>>    	}
+>>>
+>>
+>> This was already picked up in -fixes, so no need to include
+> 
+> I have been rebasing on linux-next. Please make sure that your -fixes
+> branch is a part of linux-next.
+> 
 
-[...]
-
-> +int drm_dev_wedged_event(struct drm_device *dev, unsigned long method)
-> +{
-> +	const char *recovery = NULL;
-> +	unsigned int len, opt;
-> +	/* Event string length up to 28+ characters with available methods */
-> +	char event_string[32];
-> +	char *envp[] = { event_string, NULL };
-> +
-> +	len = scnprintf(event_string, sizeof(event_string), "%s", "WEDGED=");
-> +
-> +	for_each_set_bit(opt, &method, BITS_PER_TYPE(method)) {
-> +		recovery = drm_get_wedge_recovery(opt);
-> +		if (drm_WARN(dev, !recovery, "device wedged, invalid recovery method %u\n", opt))
-> +			break;
-> +
-> +		len += scnprintf(event_string + len, sizeof(event_string), "%s,", recovery);
-> +	}
-> +
-> +	if (recovery)
-> +		/* Get rid of trailing comma */
-> +		event_string[len - 1] = '\0';
-> +	else
-> +		/* Caller is unsure about recovery, do the best we can at this point. */
-> +		snprintf(event_string, sizeof(event_string), "%s", "WEDGED=unknown");
-> +
-> +	drm_info(dev, "device wedged, needs recovery\n");
-
-As documented in the commit message "No explicit device recovery is 
-expected from the consumer in this case", I think this should be like this:
-
-if (method != DRM_WEDGE_RECOVERY_NONE)
-     drm_info(dev, "device wedged, needs recovery\n");
-
-and maybe a note like this:
-
-else
-     drm_info(dev, "device reseted, but managed to recover\n");
-
-Either way, this patch is:
-
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
-
+Its merged to msm-fixes not just my fixes branch. I am pretty sure 
+msm-fixes is part of linux-next.
