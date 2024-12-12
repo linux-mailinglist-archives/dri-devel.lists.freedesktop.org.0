@@ -2,64 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D5D9EE256
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 10:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7179EE272
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 10:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 773CC10E0EB;
-	Thu, 12 Dec 2024 09:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09C5D10E2E6;
+	Thu, 12 Dec 2024 09:16:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZrhC6KH0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XMdc5Ira";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5913510E0EB
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 09:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1733994747;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=LzqRPciXYVZNr61lsEDxWhyTkYFjeUGoBdGD/quUZ+U=;
- b=ZrhC6KH0L4U+3SCdrWCnuEvuJWsUCcnESfW8HfeTQFRlZJXNzfFuiNEZm6UkvzqnmXJEfG
- CPPvJSHWR71OjwPY65wgyVYbc8ZGNLU+g6amJ/IbGE96J6Y4pHWO30g+/5dV8LRmr8zxxk
- Qdglaa2HtWYBWdb40JuAPl1kF5HHBYY=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-148-gAuD937WN5GLG2-G_ZYUOQ-1; Thu,
- 12 Dec 2024 04:12:24 -0500
-X-MC-Unique: gAuD937WN5GLG2-G_ZYUOQ-1
-X-Mimecast-MFC-AGG-ID: gAuD937WN5GLG2-G_ZYUOQ
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 384411955F65; Thu, 12 Dec 2024 09:12:21 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.39])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id BF941195394B; Thu, 12 Dec 2024 09:12:15 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH] drm/client: Fix drm client endless Kconfig loop
-Date: Thu, 12 Dec 2024 10:11:29 +0100
-Message-ID: <20241212091153.1592096-1-jfalempe@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80CB210E208;
+ Thu, 12 Dec 2024 09:16:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1733994969; x=1765530969;
+ h=mime-version:content-transfer-encoding:in-reply-to:
+ references:subject:from:cc:to:date:message-id;
+ bh=dHeloRYBZqsQ8YzyY7XBOB5omPuvszkfJNuWwK6lNHY=;
+ b=XMdc5IraW2VNZTWG3GXwwwrapjbQTfOYtKl+Bl/G3TPNe98FmiGcHjwO
+ pk5ZE7KgV5r2zEJtWpDOKZPBNGTHMdFk/3vsGvqKYjb9rNNl5UU12Q35+
+ ADdLdKCsy93Feydhp9Gw1xZpgsW2pfyE2PJrHydQVoSzrYiqALbXAV/H7
+ I6S3mDhNuvShV9vHQnc8yuvnDgX/159NiePGCuEaS10uXSsPhQb8/ZYHn
+ gUwnf4cqhsDvPlZxpyuX+ELeeINfeAogDFYRGDmRZ1wHPbJ35tkQQch57
+ rxHzpPQ7jInyJ/6sOwxcGM0HTvbWH1z4SBI9FZvfXQe4wAMsvJP3eOu/D A==;
+X-CSE-ConnectionGUID: 3j+ZJFfiTIyyR74G5sKlIA==
+X-CSE-MsgGUID: +mbxnEmDS0aK3pfoRnXoQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="45012968"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="45012968"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 01:16:09 -0800
+X-CSE-ConnectionGUID: m2CkNjQTSoK0df2r8N+k6Q==
+X-CSE-MsgGUID: 04tjzyQ5Tq++r5Fz+HHSxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="95928861"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.28])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 01:16:05 -0800
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <Z1fDsvIKB4j_-Tv_@infradead.org>
+References: <20241209133318.1806472-1-mika.kuoppala@linux.intel.com>
+ <20241209133318.1806472-2-mika.kuoppala@linux.intel.com>
+ <Z1fDsvIKB4j_-Tv_@infradead.org>
+Subject: Re: [PATCH 01/26] ptrace: export ptrace_may_access
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, Oleg Nesterov <oleg@redhat.com>,
+ linux-kernel@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Andi Shyti <andi.shyti@intel.com>,
+ Maciej Patelczyk <maciej.patelczyk@linux.intel.com>,
+ Dominik Grzegorzek <dominik.grzegorzek@intel.com>,
+ Jonathan Cavitt <jonathan.cavitt@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+To: Christoph Hellwig <hch@infradead.org>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Date: Thu, 12 Dec 2024 11:16:02 +0200
+Message-ID: <173399496234.20348.12425394481969055234@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,42 +81,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-if DRM_CLIENT_SELECTION is enabled, and none of the client is, the
-"Default DRM Client" choice is empty, and this makes Kconfig goes
-into an infinite loop of:
+Quoting Christoph Hellwig (2024-12-10 06:29:38)
+> On Mon, Dec 09, 2024 at 03:32:52PM +0200, Mika Kuoppala wrote:
+> > xe driver would like to allow fine grained access control
+> > for GDB debugger using ptrace. Without this export, the only
+> > option would be to check for CAP_SYS_ADMIN.
+> >=20
+> > The check intended for an ioctl to attach a GPU debugger
+> > is similar to the ptrace use case: allow a calling process
+> > to manipulate a target process if it has the necessary
+> > capabilities or the same permissions, as described in
+> > Documentation/process/adding-syscalls.rst.
+> >=20
+> > Export ptrace_may_access function to allow GPU debugger to
+> > have identical access control for debugger(s)
+> > as a CPU debugger.
+>=20
+> This seems to mis an actual user or you forgot to Cc linux-kernel on it.
 
-  Default DRM Client
-  choice[1-0?]: 0
-  Default DRM Client
-  choice[1-0?]: 0
-  Default DRM Client
-  choice[1-0?]: 0
-  ....
+Right, that is a miss on our side. For the time being, the whole series
+can be found in lore archive:
 
-So only allow the choice if at least one of the client is selected.
+https://lore.kernel.org/dri-devel/20241209133318.1806472-1-mika.kuoppala@li=
+nux.intel.com/
 
-Fixes: f7b42442c4ac ("drm/log: Introduce a new boot logger to draw the kmsg on the screen")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Tested-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/clients/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+The user is introduced in patch: [PATCH 03/26] drm/xe/eudebug: Introduce di=
+scovery for resources [1]
 
-diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/clients/Kconfig
-index c18decc90200..82a7d4e584dd 100644
---- a/drivers/gpu/drm/clients/Kconfig
-+++ b/drivers/gpu/drm/clients/Kconfig
-@@ -87,6 +87,7 @@ config DRM_CLIENT_LOG
- choice
- 	prompt "Default DRM Client"
- 	depends on DRM_CLIENT_SELECTION
-+	depends on DRM_FBDEV_EMULATION || DRM_CLIENT_LOG
- 	default DRM_CLIENT_DEFAULT_FBDEV
- 	help
- 	  Selects the default drm client.
+Essentially, we want to check if PID1 has permission to ptrace PID2, before=
+ we grant the
+permission for PID1 to debug the GPU address space/memory of PID2.
 
-base-commit: 19851fa2ba9824bede16f55234f63d9423897c3d
--- 
-2.47.1
+Mika, please do Cc the relevant other patches of the series to LKML for nex=
+t iteration.
 
+Regards, Joonas
+
+[1] https://lore.kernel.org/dri-devel/20241209133318.1806472-1-mika.kuoppal=
+a@linux.intel.com/T/#md3d005faaaac1ba01451b139a634e5545c2a266f
