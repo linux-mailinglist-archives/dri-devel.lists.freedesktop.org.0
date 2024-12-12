@@ -2,58 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7904B9EE6B5
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706D29EE6CA
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:33:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDD610ED98;
-	Thu, 12 Dec 2024 12:27:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A612610E16E;
+	Thu, 12 Dec 2024 12:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="AcEFiVzI";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="DwS46AdY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1023 seconds by postgrey-1.36 at gabe;
- Thu, 12 Dec 2024 12:27:28 UTC
-Received: from mx.denx.de (mx.denx.de
- [IPv6:2a03:4000:64:cc:545d:19ff:fe05:8172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5671C10ED98
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:27:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 7AB5B1048AF4C; Thu, 12 Dec 2024 13:27:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1734006446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mHcwm2VnyijozizWEdk9YvkCDMsezL1mm+SRcqgwyTI=;
- b=AcEFiVzIZnhFKRflGmQpq2rJGJHR0Eq0tOC7A/hJLm5NzlfgZ+GWU3fKDeeZb6PiiyrpPz
- d0ihkVK5J5dTmgjB9hs3de4oaoxdXPC3JsRpEN8b/y7nXuXF/TsY1NaQ6W0piDY5M9y7NU
- 3RwwSNFBruThL9kGDwk2ilUgBMBgvKG0vAaxWQaDqULlyS3N1C8qHMc0rjqTeVDWYBwuRU
- pc57uFR0FUqhy3w32hku2/4BlSbgCpwuVYTAg3yaJ3C31dZWczIPB32O1TMkIn9SWMbskP
- XBOLhyjIDxYTlfUb4C97W6GQpkXRUucdFnHO0M0jnAh63R4PnCDKwDsB4hpYKQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
-Subject: [PATCH 2/2] drm/panel: simple: add Multi-Inno Technology
- MI1010Z1T-1CP11
-Date: Thu, 12 Dec 2024 13:26:29 +0100
-Message-ID: <20241212122701.25305-2-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241212122701.25305-1-marex@denx.de>
-References: <20241212122701.25305-1-marex@denx.de>
+Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr
+ [80.12.242.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1118110E16E
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:33:40 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id LiNptubjiI1FGLiNptgWq8; Thu, 12 Dec 2024 13:33:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1734006819;
+ bh=UoVTbaL4YNuWYLH975v+DNNPn9DDGWZVxGYR9Qdxa6s=;
+ h=Message-ID:Date:MIME-Version:Subject:From:To;
+ b=DwS46AdYDXC+9ZAsRLRjPUp1SCcuBxmFNKhonH5F5UWdvmPdW7vVhza+qcdT3QN4s
+ Cs+Z5Al/+1IMjvmnJc+gr4Mb5fbRWLE7QLeYlZTsJDZxy5IQoIYnowlN0BgYhvEG1T
+ 3MO2M8I2/YbJAnnfN2J1udFQ/FTpo1z1iETzWtSyCOjnUp9RcQAoNO3UIgGdv6UsSz
+ UetoPuHOaS9OWFM05EPhZuzdie0Rkj8GsK3d3qHr8IILz4UHsiZXYlW1z9Fu/CsogA
+ BPlNhaljpKHp/QxwseVtkuFpdRUeUWFmaADh8ubMr9u62LkDeZrBwajpEmlxvoG0Tp
+ 9tml5snDXE3Xg==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Thu, 12 Dec 2024 13:33:39 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <45f90007-3136-4b59-a3fc-6fc0147b8ad8@wanadoo.fr>
+Date: Thu, 12 Dec 2024 13:33:32 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
+ optional properties
+References: <20241212121712.214639-1-andrej.picej@norik.com>
+ <20241212121712.214639-3-andrej.picej@norik.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, marex@denx.de
+To: Andrej Picej <andrej.picej@norik.com>
+In-Reply-To: <20241212121712.214639-3-andrej.picej@norik.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,76 +71,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Multi-Inno Technology MI1010Z1T-1CP11 10.1" 1024x600 LVDS panel support.
+Le 12/12/2024 à 13:17, Andrej Picej a écrit :
+> Add a optional properties to change LVDS output voltage. This should not
+> be static as this depends mainly on the connected display voltage
+> requirement. We have three properties:
+> - "ti,lvds-termination-ohms", which sets near end termination,
+> - "ti,lvds-vod-swing-data-microvolt" and
+> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
+> output voltage for data and clock lanes. They are defined as an array
+> with min and max values. The appropriate bitfield will be set if
+> selected constraints can be met.
+> 
+> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
+> end termination will be used. Selecting only one:
+> "ti,lvds-vod-swing-data-microvolt" or
+> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
+> constraint for only data/clock lanes will be met. Setting both is
+> recommended.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
----
- drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+...
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index d5bb850df9d20..d68662b7265ae 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3340,6 +3340,33 @@ static const struct panel_desc multi_inno_mi1010ait_1cp = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct display_timing multi_inno_mi1010z1t_1cp11_timing = {
-+	.pixelclock = { 40800000, 51200000, 67200000 },
-+	.hactive = { 1024, 1024, 1024 },
-+	.hfront_porch = { 30, 110, 130 },
-+	.hback_porch = { 30, 110, 130 },
-+	.hsync_len = { 30, 100, 116 },
-+	.vactive = { 600, 600, 600 },
-+	.vfront_porch = { 4, 13, 80 },
-+	.vback_porch = { 4, 13, 80 },
-+	.vsync_len = { 2, 9, 40 },
-+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-+		 DISPLAY_FLAGS_DE_HIGH,
-+};
-+
-+static const struct panel_desc multi_inno_mi1010z1t_1cp11 = {
-+	.timings = &multi_inno_mi1010z1t_1cp11_timing,
-+	.num_timings = 1,
-+	.bpc = 6,
-+	.size = {
-+		.width = 260,
-+		.height = 162,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-+	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct display_timing nec_nl12880bc20_05_timing = {
- 	.pixelclock = { 67000000, 71000000, 75000000 },
- 	.hactive = { 1280, 1280, 1280 },
-@@ -4944,6 +4971,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "multi-inno,mi1010ait-1cp",
- 		.data = &multi_inno_mi1010ait_1cp,
-+	}, {
-+		.compatible = "multi-inno,mi1010z1t-1cp11",
-+		.data = &multi_inno_mi1010z1t_1cp11,
- 	}, {
- 		.compatible = "nec,nl12880bc20-05",
- 		.data = &nec_nl12880bc20_05,
--- 
-2.45.2
+> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
+> +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i <= 3; i++) {
+> +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
+> +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
+> +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+> +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
 
+Adding a few spaces to align things would help reading.
+
+> +			return i;
+> +	}
+> +
+> +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
+> +	return -EINVAL;
+> +}
+> +
+> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
+> +{
+> +	struct device *dev = ctx->dev;
+> +	struct device_node *endpoint;
+> +	int endpoint_reg;
+> +	/* Set so the property can be freely selected if not defined */
+> +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
+> +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
+> +	/* Set default near end terminataion to 200 Ohm */
+> +	u32 lvds_term = 200;
+> +	int lvds_vod_swing_conf;
+> +	int ret = 0;
+> +	int ret_data;
+> +	int ret_clock;
+> +
+> +	if (channel == CHANNEL_A)
+> +		endpoint_reg = 2;
+> +	else
+> +		endpoint_reg = 3;
+> +
+> +	endpoint = of_graph_get_endpoint_by_regs(dev->of_node, endpoint_reg, -1);
+> +
+> +	of_property_read_u32(endpoint, "ti,lvds-termination-ohms", &lvds_term);
+> +	if (lvds_term == 100)
+> +		ctx->lvds_term_conf[channel] = OHM_100;
+> +	else if (lvds_term == 200)
+> +		ctx->lvds_term_conf[channel] = OHM_200;
+> +	else
+> +		return -EINVAL;
+
+Should it be:
+	else {
+		ret = -EINVAL;
+		goto exit;
+	}
+?
+
+> +
+> +	ret_data = of_property_read_u32_array(endpoint, "ti,lvds-vod-swing-data-microvolt",
+> +					lvds_vod_swing_data, ARRAY_SIZE(lvds_vod_swing_data));
+> +	if (ret_data != 0 && ret_data != -EINVAL) {
+> +		ret = ret_data;
+> +		goto exit;
+> +	}
+> +
+> +	ret_clock = of_property_read_u32_array(endpoint, "ti,lvds-vod-swing-clock-microvolt",
+> +					lvds_vod_swing_clk, ARRAY_SIZE(lvds_vod_swing_clk));
+> +	if (ret_clock != 0 && ret_clock != -EINVAL) {
+> +		ret = ret_clock;
+> +		goto exit;
+> +	}
+> +
+> +	/* Use default value if both properties are NOT defined. */
+> +	if (ret_data == -EINVAL && ret_clock == -EINVAL)
+> +		lvds_vod_swing_conf = 0x1;
+> +
+> +	/* Use lookup table if any of the two properties is defined. */
+> +	if (!ret_data || !ret_clock) {
+> +		lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev, lvds_vod_swing_data,
+> +						lvds_vod_swing_clk, ctx->lvds_term_conf[channel]);
+> +		if (lvds_vod_swing_conf < 0) {
+> +			ret = lvds_vod_swing_conf;
+> +			goto exit;
+> +		}
+> +	}
+> +
+> +	ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
+> +	ret = 0;
+> +exit:
+> +	of_node_put(endpoint);
+> +	return ret;
+> +}
+
+...
+
+CJ
