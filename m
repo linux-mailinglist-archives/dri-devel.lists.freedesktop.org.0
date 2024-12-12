@@ -1,75 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47099EE44B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 11:38:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB719EE44E
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 11:38:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CBA210ED57;
-	Thu, 12 Dec 2024 10:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA52F10E2F0;
+	Thu, 12 Dec 2024 10:38:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="INMJygM3";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="n0m5xV6Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E93C10ED50;
- Thu, 12 Dec 2024 10:38:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1733999887; x=1765535887;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=NANjHfc/NI0/qca6IEvLu8cpbit3p/ZreDXA8v2aGuo=;
- b=INMJygM3kQRtyoUFcoN603R9gHQ6zxFVcfDWo3dFvC4j/JQoWAifgbAu
- b3vfVyJsOz4oi1tU6B4Ro6qsdAVquejHfcK+HQiiyeF0065tpbWYDqCIJ
- xMDZzig9VcpPV2Sv7uoZFx3GKGcJs7nYuSq4SkESwMkeZb8J5uTfb+Acm
- tPbugTey/V5KPJAV9dvgXeXFluDwR/XmdmEScqHpJl1BMTCxzbgyVG8AU
- MUBoxTCGMSXHkgRkXxMAQfMU+5MScNTf1pWhfxQehI/aAoUVPpCRihaF8
- re4PXYc7JN+gWwTpiwM3f1vpBVLsnaUp3ykRojzd2R378TVjFlgByRKFV Q==;
-X-CSE-ConnectionGUID: VlzyNMgFTgywqc9PVK5lzQ==
-X-CSE-MsgGUID: 7YX3TmtEQFC1fdC6N/Ulmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="38342732"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="38342732"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 02:38:06 -0800
-X-CSE-ConnectionGUID: cbNnAUtGTdObUGlSeEJ7aA==
-X-CSE-MsgGUID: LXxurVpWQhuPwBliVHVNXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="96612089"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 02:38:02 -0800
-Date: Thu, 12 Dec 2024 12:37:59 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- aravind.iddamsetty@linux.intel.com, rodrigo.vivi@intel.com,
- michal.wajdeczko@intel.com, lina@asahilina.net,
- anshuman.gupta@intel.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v10 1/4] drm: Introduce device wedged event
-Message-ID: <Z1q9B4iQlQQNieS7@black.fi.intel.com>
-References: <20241128153707.1294347-1-raag.jadav@intel.com>
- <20241128153707.1294347-2-raag.jadav@intel.com>
- <1d448e67-0c28-4e21-afdd-223495346921@igalia.com>
- <Z01q1-7OF7jgANEM@black.fi.intel.com>
- <Z06QUpm3o_izNjoV@black.fi.intel.com>
- <7d0660f8-ce78-4458-a084-b65ab71e8243@amd.com>
- <Z1A6PYFCUNL9edv6@black.fi.intel.com>
- <m6ysmkxnit6kqeilkcaa3hoyfzyznymsa3eybzsl66jsn2ku67@jl3ajhxgqmvy>
+Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C326E10E2F0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 10:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
+ s=default;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=hQLoLzcTEiVKXGdksCB0pOe0DR8Djegij8YVXq8UMuI=; b=n0m5xV6QHlhDRSeobaRvpyBkEj
+ 090N328aH2ogv2dm13I6Wxlr55PtDcxENQ2tvb5nXDhbTkuXnekfZ8pXw6yAdSTbZfc/Lpy1JPFmN
+ RXso0qunumYQhNLEQcvp+wvowvIcP45U0uzBdV4AXxQiw1NqMS8Qi6vDN5Ya6rt/6loNh8FYH/XBH
+ jYDi8JwDz9uM6Mof1rIWft4k9tOfDhwkcXpGo4qHoqMld3t/lhcQaqKsgULRTuiL2rdDPP2tMhMpo
+ X7viYDAy3IsZX6XfnzIh1/TMZuNlQ481Brat1Zvkwq0tsyWjzo+333Xs+EfFaON8QcwN7QZ1RGv8P
+ k6mvQVyQ==;
+Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:39836
+ helo=[192.168.69.52]) by cpanel.siel.si with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
+ (envelope-from <andrej.picej@norik.com>) id 1tLgaS-009mt6-2X;
+ Thu, 12 Dec 2024 11:38:28 +0100
+Message-ID: <08a10b77-011d-4003-ac33-4bef45d801bd@norik.com>
+Date: Thu, 12 Dec 2024 11:38:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <m6ysmkxnit6kqeilkcaa3hoyfzyznymsa3eybzsl66jsn2ku67@jl3ajhxgqmvy>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
+ optional properties
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ upstream@lists.phytec.de
+References: <20241210091901.83028-1-andrej.picej@norik.com>
+ <20241210091901.83028-3-andrej.picej@norik.com>
+ <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
+ <aa2de99d-21f4-4843-83b7-5d2db78be86f@norik.com>
+ <qhmsobin3fsmoc7ic2jtancowfscoauyroruxdpwhmqwlogtkz@6by3s2ruwzwp>
+ <519cc025-0782-4f96-a169-1fe87b280173@norik.com>
+ <rputm4gnjj6nb66ix7dqbxr2janltia6rlb6zunhf7x3mgooxw@o3lblnyp5cci>
+ <ad8843d6-e5a3-437a-af4d-f2248b247a65@norik.com>
+ <roxosjotsh65dkecrwhhtlhkhqseezkj7ydk532shc27irzmd3@xry3ggjdq4uo>
+Content-Language: en-US
+From: Andrej Picej <andrej.picej@norik.com>
+Autocrypt: addr=andrej.picej@norik.com; keydata=
+ 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
+ xtT/8OxBOVSHvA==
+In-Reply-To: <roxosjotsh65dkecrwhhtlhkhqseezkj7ydk532shc27irzmd3@xry3ggjdq4uo>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.siel.si
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - norik.com
+X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
+ andrej.picej@norik.com
+X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,67 +125,296 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 06:14:12PM +0100, Maxime Ripard wrote:
-> On Wed, Dec 04, 2024 at 01:17:17PM +0200, Raag Jadav wrote:
-> > + misc maintainers
-> > 
-> > On Tue, Dec 03, 2024 at 11:18:00AM +0100, Christian König wrote:
-> > > Am 03.12.24 um 06:00 schrieb Raag Jadav:
-> > > > On Mon, Dec 02, 2024 at 10:07:59AM +0200, Raag Jadav wrote:
-> > > > > On Fri, Nov 29, 2024 at 10:40:14AM -0300, André Almeida wrote:
-> > > > > > Hi Raag,
-> > > > > > 
-> > > > > > Em 28/11/2024 12:37, Raag Jadav escreveu:
-> > > > > > > Introduce device wedged event, which notifies userspace of 'wedged'
-> > > > > > > (hanged/unusable) state of the DRM device through a uevent. This is
-> > > > > > > useful especially in cases where the device is no longer operating as
-> > > > > > > expected and has become unrecoverable from driver context. Purpose of
-> > > > > > > this implementation is to provide drivers a generic way to recover with
-> > > > > > > the help of userspace intervention without taking any drastic measures
-> > > > > > > in the driver.
-> > > > > > > 
-> > > > > > > A 'wedged' device is basically a dead device that needs attention. The
-> > > > > > > uevent is the notification that is sent to userspace along with a hint
-> > > > > > > about what could possibly be attempted to recover the device and bring
-> > > > > > > it back to usable state. Different drivers may have different ideas of
-> > > > > > > a 'wedged' device depending on their hardware implementation, and hence
-> > > > > > > the vendor agnostic nature of the event. It is up to the drivers to
-> > > > > > > decide when they see the need for device recovery and how they want to
-> > > > > > > recover from the available methods.
-> > > > > > > 
-> > > > > > Thank you for your work. Do you think you can add the optional PID
-> > > > > > parameter, as the PID of the app that caused the reset? For SteamOS use case
-> > > > > > it has been proved to be useful to kill the fault app as well. If the reset
-> > > > > > was caused by a kthread, no PID can be provided hence it's an optional
-> > > > > > parameter.
-> > > > > Hmm, I'm not sure if it really fits here since it doesn't seem like
-> > > > > a generic usecase.
-> > > > > 
-> > > > > I'd still be open for it if found useful by the drivers but perhaps
-> > > > > as an extended feature in a separate series.
-> > > > What do you think Chris, are we good to go with v10?
-> > > 
-> > > I agree with Andre that the PID and maybe the new DRM client name would be
-> > > really nice to have here.
-> > > 
-> > > We do have that in the device core dump we create, but if an application is
-> > > supervised by daemon for example then that would be really useful.
-> > > 
-> > > On the other hand I think we should merge the documentation and code as is
-> > > and then add the PID/name later on. That is essentially a separate
-> > > discussion.
-> > 
-> > So how do we proceed, perhaps through misc tree?
+
+
+On 12. 12. 24 10:28, Dmitry Baryshkov wrote:
+> On Thu, Dec 12, 2024 at 09:08:03AM +0100, Andrej Picej wrote:
+>>
+>>
+>> On 12. 12. 24 00:04, Dmitry Baryshkov wrote:
+>>> On Wed, Dec 11, 2024 at 08:57:17AM +0100, Andrej Picej wrote:
+>>>>
+>>>>
+>>>> On 10. 12. 24 14:59, Dmitry Baryshkov wrote:
+>>>>> On Tue, Dec 10, 2024 at 02:41:01PM +0100, Andrej Picej wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 10. 12. 24 12:43, Dmitry Baryshkov wrote:
+>>>>>>> On Tue, Dec 10, 2024 at 10:19:00AM +0100, Andrej Picej wrote:
+>>>>>>>> Add a optional properties to change LVDS output voltage. This should not
+>>>>>>>> be static as this depends mainly on the connected display voltage
+>>>>>>>> requirement. We have three properties:
+>>>>>>>> - "ti,lvds-termination-ohms", which sets near end termination,
+>>>>>>>> - "ti,lvds-vod-swing-data-microvolt" and
+>>>>>>>> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
+>>>>>>>> output voltage for data and clock lanes. They are defined as an array
+>>>>>>>> with min and max values. The appropriate bitfield will be set if
+>>>>>>>> selected constraints can be met.
+>>>>>>>>
+>>>>>>>> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
+>>>>>>>> end termination will be used. Selecting only one:
+>>>>>>>> "ti,lvds-vod-swing-data-microvolt" or
+>>>>>>>> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
+>>>>>>>> constraint for only data/clock lanes will be met. Setting both is
+>>>>>>>> recommended.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+>>>>>>>> ---
+>>>>>>>> Changes in v5:
+>>>>>>>> - specify default values in sn65dsi83_parse_lvds_endpoint,
+>>>>>>>> - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
+>>>>>>>> Changes in v4:
+>>>>>>>> - fix typo in commit message bitfiled -> bitfield
+>>>>>>>> - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
+>>>>>>>> of separate variables for channel A/B
+>>>>>>>> - add more checks on return value of "of_property_read_u32_array"
+>>>>>>>> Changes in v3:
+>>>>>>>> - use microvolts for default array values 1000 mV -> 1000000 uV.
+>>>>>>>> Changes in v2:
+>>>>>>>> - use datasheet tables to get the proper configuration
+>>>>>>>> - since major change was done change the authorship to myself
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/bridge/ti-sn65dsi83.c | 142 +++++++++++++++++++++++++-
+>>>>>>>>      1 file changed, 139 insertions(+), 3 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+>>>>>>>> index 57a7ed13f996..f9578b38da28 100644
+>>>>>>>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+>>>>>>>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+>>>>>>>> @@ -132,6 +132,16 @@
+>>>>>>>>      #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
+>>>>>>>>      #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
+>>>>>>>> +enum sn65dsi83_channel {
+>>>>>>>> +	CHANNEL_A,
+>>>>>>>> +	CHANNEL_B
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +enum sn65dsi83_lvds_term {
+>>>>>>>> +	OHM_100,
+>>>>>>>> +	OHM_200
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>>      enum sn65dsi83_model {
+>>>>>>>>      	MODEL_SN65DSI83,
+>>>>>>>>      	MODEL_SN65DSI84,
+>>>>>>>> @@ -147,6 +157,8 @@ struct sn65dsi83 {
+>>>>>>>>      	struct regulator		*vcc;
+>>>>>>>>      	bool				lvds_dual_link;
+>>>>>>>>      	bool				lvds_dual_link_even_odd_swap;
+>>>>>>>> +	int				lvds_vod_swing_conf[2];
+>>>>>>>> +	int				lvds_term_conf[2];
+>>>>>>>>      };
+>>>>>>>>      static const struct regmap_range sn65dsi83_readable_ranges[] = {
+>>>>>>>> @@ -237,6 +249,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
+>>>>>>>>      	.max_register = REG_IRQ_STAT,
+>>>>>>>>      };
+>>>>>>>> +static const int lvds_vod_swing_data_table[2][4][2] = {
+>>>>>>>> +	{	/* 100 Ohm */
+>>>>>>>> +		{ 180000, 313000 },
+>>>>>>>> +		{ 215000, 372000 },
+>>>>>>>> +		{ 250000, 430000 },
+>>>>>>>> +		{ 290000, 488000 },
+>>>>>>>> +	},
+>>>>>>>> +	{	/* 200 Ohm */
+>>>>>>>> +		{ 150000, 261000 },
+>>>>>>>> +		{ 200000, 346000 },
+>>>>>>>> +		{ 250000, 428000 },
+>>>>>>>> +		{ 300000, 511000 },
+>>>>>>>> +	},
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>> +static const int lvds_vod_swing_clock_table[2][4][2] = {
+>>>>>>>> +	{	/* 100 Ohm */
+>>>>>>>> +		{ 140000, 244000 },
+>>>>>>>> +		{ 168000, 290000 },
+>>>>>>>> +		{ 195000, 335000 },
+>>>>>>>> +		{ 226000, 381000 },
+>>>>>>>> +	},
+>>>>>>>> +	{	/* 200 Ohm */
+>>>>>>>> +		{ 117000, 204000 },
+>>>>>>>> +		{ 156000, 270000 },
+>>>>>>>> +		{ 195000, 334000 },
+>>>>>>>> +		{ 234000, 399000 },
+>>>>>>>> +	},
+>>>>>>>> +};
+>>>>>>>> +
+>>>>>>>>      static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
+>>>>>>>>      {
+>>>>>>>>      	return container_of(bridge, struct sn65dsi83, bridge);
+>>>>>>>> @@ -435,12 +477,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+>>>>>>>>      		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
+>>>>>>>>      	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+>>>>>>>> -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+>>>>>>>> +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
+>>>>>>>> +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_A]) |
+>>>>>>>> +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_B]));
+>>>>>>>>      	regmap_write(ctx->regmap, REG_LVDS_LANE,
+>>>>>>>>      		     (ctx->lvds_dual_link_even_odd_swap ?
+>>>>>>>>      		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+>>>>>>>> -		     REG_LVDS_LANE_CHA_LVDS_TERM |
+>>>>>>>> -		     REG_LVDS_LANE_CHB_LVDS_TERM);
+>>>>>>>> +		     (ctx->lvds_term_conf[CHANNEL_A] ?
+>>>>>>>> +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
+>>>>>>>> +		     (ctx->lvds_term_conf[CHANNEL_B] ?
+>>>>>>>> +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
+>>>>>>>>      	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+>>>>>>>>      	le16val = cpu_to_le16(mode->hdisplay);
+>>>>>>>> @@ -576,10 +622,100 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
+>>>>>>>>      	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
+>>>>>>>>      };
+>>>>>>>> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
+>>>>>>>> +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
+>>>>>>>> +{
+>>>>>>>> +	int i;
+>>>>>>>> +
+>>>>>>>> +	for (i = 0; i <= 3; i++) {
+>>>>>>>> +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
+>>>>>>>> +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
+>>>>>>>> +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+>>>>>>>> +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
+>>>>>>>> +			return i;
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>> +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
+>>>>>>>> +	return -EINVAL;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
+>>>>>>>> +{
+>>>>>>>> +	struct device *dev = ctx->dev;
+>>>>>>>> +	struct device_node *endpoint;
+>>>>>>>> +	int endpoint_reg;
+>>>>>>>> +	/* Set so the property can be freely selected if not defined */
+>>>>>>>> +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
+>>>>>>>> +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
+>>>>>>>> +	u32 lvds_term;
+>>>>>>>> +	u8 lvds_term_conf = 0x1;
+>>>>>>>> +	int lvds_vod_swing_conf = 0x1;
+>>>>>>>
+>>>>>>> Magic values
+>>>>>>
+>>>>>> Can you please elaborate.
+>>>>>>
+>>>>>> I can use:
+>>>>>> u8 lvds_term_conf = OHM_200;
+>>>>>>
+>>>>>> What about lvds_vod_swing_conf? Should I create additional define for it?
+>>>>>> But this doesn't solve a hidden meaning? Maybe additional comment above?
+>>>>>> Would like to avoid using voltages for it, since then we are reverse
+>>>>>> engineering the table in datasheet to match the default reg value.
+>>>>>
+>>>>> I think the following example solves both problems:
+>>>>>
+>>>>> lvds_term = 200;
+>>>>> of_property_read_u32(..., &lvds_term);
+>>>>>
+>>>>> if (lvds_term == 100)
+>>>>> 	ctx->lvds_term_conf[channel] = OHM_100;
+>>>>> else if (lvds_term == 200)
+>>>>> 	ctx->lvds_term_conf[channel] = OHM_200;
+>>>>> else
+>>>>> 	return -EINVAL;
+>>>>>
+>>>>> The same approach can be applied to lvds_vod_swing_conf, resulting in
+>>>>> removal of magic values.
+>>>>
+>>>> Sorry, but I think it is not that easy when it comes to the
+>>>> lvds_vod_swing_conf. We should assign default value if
+>>>> "ti,lvds-vod-swing-data-microvolt" and "ti,lvds-vod-swing-clock-microvolt"
+>>>> are not defined. Default value of the lvds_vod_swing_conf is 0x1, but this
+>>>> doesn't have any straight forward meaning like OHM_200 for example.
+>>>>
+>>>> What we can do in that case is that we copy the values from defined
+>>>> datasheet tables to the "lvds_vod_swing_data[2]" and "lvds_vod_swing_clk[2]"
+>>>> arrays and then run the
+>>>> sn65dsi83_select_lvds_vod_swing with it, which will return the default value
+>>>> (0x1).
+>>>>
+>>>> /* If both properties are not defined assign default limits */
+>>>> if (ret_data && ret_clock) {
+>>>> 	memcpy(lvds_vod_swing_data,
+>>>> 	     lvds_vod_swing_data_table[ctx->lvds_term_conf[channel]][1],
+>>>> 	     sizeof(lvds_vod_swing_data));
+>>>> 	memcpy(lvds_vod_swing_clk,
+>>>> 	    lvds_vod_swing_clock_table[ctx->lvds_term_conf[channel]][1],
+>>>> 	    sizeof(lvds_vod_swing_clk));
+>>>> }
+>>>> lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
+>>>> 	lvds_vod_swing_data, lvds_vod_swing_clk,
+>>>> 	ctx->lvds_term_conf[channel]);
+>>>> if (lvds_vod_swing_conf < 0) {
+>>>> 	ret = lvds_vod_swing_conf;
+>>>> 	goto exit;
+>>>> }
+>>>>
+>>>> ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
+>>>>
+>>>> I'm not sure if using this approach gets rid of the problem with magic
+>>>> values.
+>>>> Or maybe I'm not seeing the obvious solution so please bear with me.
+>>>
+>>> Yes, the defaults (0..1000000) should be fixed to result in the same
+>>> value (0x01) as if the property wasn't specified at all
+>>
+>> The defaults (0..1000000) is selected because in case if only one property
+>> is defined in dts (ti,lvds-vod-swing-data-microvolt or
+>> ti,lvds-vod-swing-clock-microvolt) the other array values don't effect the
+>> decision which "lvds_vod_swing_conf" is selected. That's why we initialized
+>> the array to be out off bounds of the datasheet tables, all values in the
+>> table match the not defined property, so lvds_vod_swing_conf is selected
+>> purely on the basis of the defined property.
 > 
-> Provided it follows the usual rules (ie, Reviewed-by, open source
-> userspace tools using it if it's a new uAPI, etc.) then yeah, we can
-> merge it through drm-misc.
+> I see, thanks for the explanation.
+> 
+>>
+>> Example:
+>> DTS
+>> ti,lvds-vod-swing-data-microvolt = <250000 428000>;
+>> //ti,lvds-vod-swing-clock-microvolt NOT DEFINED;
+>>
+>> After parsing the devicetree we will get:
+>> lvds_vod_swing_data = [ 250000, 428000 ]
+>> lvds_vod_swing_clk = [ 0, 1000000 ]
+>>
+>> In sn65dsi83_select_lvds_vod_swing lvds_vod_swing_clk[] values don't effect
+>> the decision making since
+>>
+>> lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+>> lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1]
+>>
+>> is always true.
+>>
+>>>
+>>> I think the following should work:
+>>>
+>>> 	/* artifical values to select the defaults in both cases */
+>>> 	u32 lvds_vod_swing_data[2] = { 190000, 330000 };
+>>> 	u32 lvds_vod_swing_clk[2] = { 150000, 250000 };
+>>
+>> This sets the default to 0x0. It should be:
+>> u32 lvds_vod_swing_data[2] = { 200000, 372000 };
+>> u32 lvds_vod_swing_clk[2] = { 156000, 290000 };
+>> This selects the default 0x1 in both cases, if termination is 100 or 200
+>> Ohms.
+>>
+>> Nevertheless I think I got your point. But I would still like to give the
+>> user the freedom to only specify one property if maybe connected panel only
+>> has limits on data lanes/clock lane.
+>> So maybe set the arrays lvds_vod_swing_data/clk to [0, 1000000] if
+>> of_property_read_u32_array returns -EINVAL (property does not exist).
+>> What do you say?
+> 
+> After your explanation, I think it might be better to explicitly set the
+> value to 0x1, but not at the top of the function, but next to a check
+> that both properties are (not) set.
 
-My understanding is that the core patches are to be reviewed by the
-maintainers? The rest of it (patch 2 to 4) seems already reviewed.
+Ok. Will apply this in the next version.
+Thanks.
 
-We have a documented example (patch 2) with udev rule and a reference
-script which can be setup to get this working. Does that qualify as
-a consumer?
-
-Raag
+> 
+>>
+>>>
+>>> Yes, they are artificial, as stated in the comment. Yes, I think it's
+>>> better than special-casing in the property handling.
+>>>
+> 
