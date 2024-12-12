@@ -1,120 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18539EE692
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:23:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8629EE690
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:23:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBCE10ED8C;
-	Thu, 12 Dec 2024 12:23:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DB5310E412;
+	Thu, 12 Dec 2024 12:22:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j8ctZ0tW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OOdQXahf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 18156 seconds by postgrey-1.36 at gabe;
- Thu, 12 Dec 2024 12:23:24 UTC
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E91810ED8C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:23:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 475D7A41F02;
- Thu, 12 Dec 2024 12:21:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 481F9C4CECE;
- Thu, 12 Dec 2024 12:23:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734006203;
- bh=/ls9pYCxlVKyApv0ZjmCWkI7T6wumvfIJXXnkpGns3g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=j8ctZ0tW7sx5h5ct6OyXImRl0zgNHL78YFdwFz0eRV/eo0aWnIUc4JuckgxQlduts
- K4OgiDOhy/0u8UBck8j/7xDe/bw45AJpDE05w9DjD7zcH6cR4Nnw/NwIQYnfkZzQ8v
- pe3v8R6cNhbI9+S7vtJ5jrTkwIEKoLmqN+7zRSWM2Q6tTVGExfXtOP+zUorF5Pw4cT
- MyMKa5jIJ4QQVZMUE6hVhk19NDFYVPPF16wpWZk2tbJZw4aF0OdXA2AwpuRr2JsZGU
- 4n8UAduprWL0P2oMI06v15kV12GOSVGyORHE49RLeyv02fDCBm7p4ERwBhltPreYO0
- uRB6ZNL3s1PQg==
-Message-ID: <5d48f335-7b14-487b-ba08-6354d21d8993@kernel.org>
-Date: Thu, 12 Dec 2024 13:23:13 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFEA110E412;
+ Thu, 12 Dec 2024 12:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734006174; x=1765542174;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=piJfjmMfbadcx0baayuzdZWAS8uhhslrf/12YMQxSB4=;
+ b=OOdQXahfjlzUk0QosE26O/IPf6s+fiAynMh1jKsL7HsVrRoixWdAmNqC
+ xwWd5aG/3obZHKoqUmcKI2zjSdSPDgq9gAEyz92RCwd8wJgCS4xykZeup
+ RuyJwpG/5xyNlI4zCvY7qEoXz7Kmivi8pZ1n0ZqzPs/MFVHmZJe/k9fup
+ ivBfd2ghf5HjCMZJ2A25x2sNlGlxiTQEDX2PG/YDu025PmPvliWrD3WEl
+ LTXc+Bfx0XRRxIh2/ki/LmlURd2oBih4X2m5cLotb+k3WMF0iCwMTbBYb
+ fAQQb2sAk2NLvAdR18X/4t9D2jtO5IeeG/cBevfS2KdyjskwiDIZblMh8 w==;
+X-CSE-ConnectionGUID: 2IK1il9OQcabXdSt7xtPYA==
+X-CSE-MsgGUID: sMna2rgQTRK8+1Tyh/peTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="45092236"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="45092236"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 04:22:53 -0800
+X-CSE-ConnectionGUID: D/0LavaJRNC6gz5zuckVXA==
+X-CSE-MsgGUID: J1hnWxbQQ+GxkNHOj32f3g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="96756357"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 04:22:52 -0800
+Date: Thu, 12 Dec 2024 14:23:30 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 11/11] drm/i915/dp_mst: Use intel_connector vs.
+ drm_connector pointer in intel_dp_mst.c
+Message-ID: <Z1rVwvJjWDyiC2iI@ideak-desk.fi.intel.com>
+References: <20241211230328.4012496-1-imre.deak@intel.com>
+ <20241211230328.4012496-12-imre.deak@intel.com>
+ <87ttb9w63h.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] dt-bindings: mailbox: mediatek: Add GCE header
- file for MT8196
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mchehab@kernel.org"
- <mchehab@kernel.org>, =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
- <Nancy.Lin@mediatek.com>, =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?=
- <Moudy.Ho@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "robh@kernel.org" <robh@kernel.org>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
- <20241211032256.28494-2-jason-jh.lin@mediatek.com>
- <ozifi65uycmxc5hqeu4onbths5u7dg532iufjxplsjw4jjmhf6@6bdsaabd7hl7>
- <04f7bd2a7d69ab7d02c88cf05bda5ae0c4cb6573.camel@mediatek.com>
- <e9caf0fe-a77f-40cb-9fc3-9da3d95f27ca@kernel.org>
- <ce68d58f78d12317cab689e0ee1c02dc373d50dc.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ce68d58f78d12317cab689e0ee1c02dc373d50dc.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ttb9w63h.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,195 +67,432 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/2024 12:24, Jason-JH Lin (林睿祥) wrote:
->>>>
->>>> On Wed, Dec 11, 2024 at 11:22:49AM +0800, Jason-JH.Lin wrote:
->>>>> Add the Global Command Engine (GCE) header file to define the
->>>>> GCE
->>>>> thread priority, GCE subsys ID and GCE events for MT8196.
->>>>
->>>> This we see from the diff. What we do not see is why priority is
->>>> a
->>>> binding. Looking briefly at existing code: it is not a binding,
->>>> there
->>>> is
->>>> no driver user.
->>>>
->>>
->>> This priority value is used to configure the priority level for
->>> each
->>> GCE hardware thread, so it is a necessary hardware attribute.
->>
->> I did not say these are not "hardware". I said these are not
->> bindings.
->> Bring arguments why these are bindings.
->>
+On Thu, Dec 12, 2024 at 12:25:38PM +0200, Jani Nikula wrote:
+> On Thu, 12 Dec 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > Follow the canonical way in intel_dp_mst.c, referencing a connector only
+> > via a struct intel_connector pointer and naming this pointer 'connector'
+> > instead of 'intel_connector', the only exception being the casting of
+> > a drm_connector function parameter pointer to intel_connector, calling
+> > the drm_connector pointer _connector.
+> >
+> > Suggested-by: Jani Nikula <jani.nikula@intel.com>
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
 > 
-> Not only bringing arguments, we use it to configure each GCE thread's
-> priority.
+> A few issues below that should be addressed, with those fixed,
 > 
-> Please forgive me to ask a trivial question.
-> Do you mean if there is no driver using it directly, then it can not be
-> a binding?
-
-Here:
-<qqqwdzmcnkuga6qvvszgg7o2myb26sld5i37e4konhln2n4cgc@mwtropwj3ywv>
-
-> Or could you give me an example for what should be binding and what
-> should not be binding?
-
-Look at all clock IDs of recent arm64 SoC clock controllers.
-
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 > 
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp_mst.c | 180 ++++++++++----------
+> >  1 file changed, 88 insertions(+), 92 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > index 99f08e31fd6e0..44cc54a87067a 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> > @@ -969,33 +969,32 @@ mst_connector_atomic_topology_check(struct intel_connector *connector,
+> >  }
+> >  
+> >  static int
+> > -mst_connector_atomic_check(struct drm_connector *connector,
+> > +mst_connector_atomic_check(struct drm_connector *_connector,
+> >  			   struct drm_atomic_state *_state)
+> >  {
+> >  	struct intel_atomic_state *state = to_intel_atomic_state(_state);
+> > -	struct intel_connector *intel_connector =
+> > -		to_intel_connector(connector);
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> >  	int ret;
+> >  
+> > -	ret = intel_digital_connector_atomic_check(connector, &state->base);
+> > +	ret = intel_digital_connector_atomic_check(&connector->base, &state->base);
 > 
-> Considering to these 3 points, I think GCE thread priority is suitable
-> to be part of the Device Tree Binding:
+> Clearly a bunch more of our own interfaces should be switched to
+> intel_connector. But that's for another patch, another time.
 > 
-> 1. Describing Hardware Properties
-> - The Device Tree is a data structure for describing hardware, and GCE
-> thread priority, as part of the hardware, should be described in the
-> Device Tree.
-
-I thought we talk about bindings, not DeviceTree. Where is any
-Devicetree here? Please point me to the code which is Devicetree in this
-patch.
-
-
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > -	ret = mst_connector_atomic_topology_check(intel_connector, state);
+> > +	ret = mst_connector_atomic_topology_check(connector, state);
+> >  	if (ret)
+> >  		return ret;
+> >  
+> > -	if (intel_connector_needs_modeset(state, connector)) {
+> > +	if (intel_connector_needs_modeset(state, &connector->base)) {
+> >  		ret = intel_dp_tunnel_atomic_check_state(state,
+> > -							 intel_connector->mst_port,
+> > -							 intel_connector);
+> > +							 connector->mst_port,
+> > +							 connector);
+> >  		if (ret)
+> >  			return ret;
+> >  	}
+> >  
+> >  	return drm_dp_atomic_release_time_slots(&state->base,
+> > -						&intel_connector->mst_port->mst_mgr,
+> > -						intel_connector->port);
+> > +						&connector->mst_port->mst_mgr,
+> > +						connector->port);
+> >  }
+> >  
+> >  static void mst_stream_disable(struct intel_atomic_state *state,
+> > @@ -1375,23 +1374,23 @@ static bool mst_stream_initial_fastset_check(struct intel_encoder *encoder,
+> >  	return intel_dp_initial_fastset_check(primary_encoder, crtc_state);
+> >  }
+> >  
+> > -static int mst_connector_get_ddc_modes(struct drm_connector *connector)
+> > +static int mst_connector_get_ddc_modes(struct drm_connector *_connector)
+> >  {
+> > -	struct intel_display *display = to_intel_display(connector->dev);
+> > -	struct intel_connector *intel_connector = to_intel_connector(connector);
+> > -	struct intel_dp *intel_dp = intel_connector->mst_port;
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> > +	struct intel_display *display = to_intel_display(connector->base.dev);
 > 
-> 2. Driver Usage
-> - Device Tree data is used by drivers to initialize and configure
-> hardware, and GCE thread priority is necessary configuration data for
-> the driver. After parsing the mboxes args from DTS, CMDQ driver use it
-> to configure GCE thread.
-
-We talk about bindings, so why are you describing something else?
-
+> Just to_intel_display(connector) is sufficient.
 > 
-> 3. Standardization
-> - Device Tree bindings should be standardized, and GCE thread priority
-> should have consistent meaning and usage across different hardware
-> platforms. Looking into the latest header: mediatek,mt8188-gce.h,
-> mediatek,mt6795-gce.h and mt8195-gce.h, they all have defined GCE
-> thread priority.
+> to_intel_display() intentionally doesn't handle drm_connector, so thus
+> drm_connector->dev. But intel_connector alone is fine.
 
-None of above arguments have anything related to the talk here. You
-invent some stuff like "standardization" or "driver usage".
+Agreed with this and the rest later. They are however separate changes
+than what's the commit describes. For both author and reviewer it would
+be better to do these in separate patches (even though it's good that
+you noticed this now). Are you ok with that?
 
-
-
+> > +	struct intel_dp *intel_dp = connector->mst_port;
+> >  	const struct drm_edid *drm_edid;
+> >  	int ret;
+> >  
+> > -	if (drm_connector_is_unregistered(connector))
+> > -		return intel_connector_update_modes(connector, NULL);
+> > +	if (drm_connector_is_unregistered(&connector->base))
+> > +		return intel_connector_update_modes(&connector->base, NULL);
+> >  
+> >  	if (!intel_display_driver_check_access(display))
+> > -		return drm_edid_connector_add_modes(connector);
+> > +		return drm_edid_connector_add_modes(&connector->base);
+> >  
+> > -	drm_edid = drm_dp_mst_edid_read(connector, &intel_dp->mst_mgr, intel_connector->port);
+> > +	drm_edid = drm_dp_mst_edid_read(&connector->base, &intel_dp->mst_mgr, connector->port);
+> >  
+> > -	ret = intel_connector_update_modes(connector, drm_edid);
+> > +	ret = intel_connector_update_modes(&connector->base, drm_edid);
+> >  
+> >  	drm_edid_free(drm_edid);
+> >  
+> > @@ -1399,32 +1398,29 @@ static int mst_connector_get_ddc_modes(struct drm_connector *connector)
+> >  }
+> >  
+> >  static int
+> > -mst_connector_late_register(struct drm_connector *connector)
+> > +mst_connector_late_register(struct drm_connector *_connector)
+> >  {
+> > -	struct intel_connector *intel_connector = to_intel_connector(connector);
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> >  	int ret;
+> >  
+> > -	ret = drm_dp_mst_connector_late_register(connector,
+> > -						 intel_connector->port);
+> > +	ret = drm_dp_mst_connector_late_register(&connector->base, connector->port);
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
+> > -	ret = intel_connector_register(connector);
+> > +	ret = intel_connector_register(&connector->base);
+> >  	if (ret < 0)
+> > -		drm_dp_mst_connector_early_unregister(connector,
+> > -						      intel_connector->port);
+> > +		drm_dp_mst_connector_early_unregister(&connector->base, connector->port);
+> >  
+> >  	return ret;
+> >  }
+> >  
+> >  static void
+> > -mst_connector_early_unregister(struct drm_connector *connector)
+> > +mst_connector_early_unregister(struct drm_connector *_connector)
+> >  {
+> > -	struct intel_connector *intel_connector = to_intel_connector(connector);
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> >  
+> > -	intel_connector_unregister(connector);
+> > -	drm_dp_mst_connector_early_unregister(connector,
+> > -					      intel_connector->port);
+> > +	intel_connector_unregister(&connector->base);
+> > +	drm_dp_mst_connector_early_unregister(&connector->base, connector->port);
+> >  }
+> >  
+> >  static const struct drm_connector_funcs mst_connector_funcs = {
+> > @@ -1438,23 +1434,25 @@ static const struct drm_connector_funcs mst_connector_funcs = {
+> >  	.atomic_duplicate_state = intel_digital_connector_duplicate_state,
+> >  };
+> >  
+> > -static int mst_connector_get_modes(struct drm_connector *connector)
+> > +static int mst_connector_get_modes(struct drm_connector *_connector)
+> >  {
+> > -	return mst_connector_get_ddc_modes(connector);
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> > +
+> > +	return mst_connector_get_ddc_modes(&connector->base);
+> >  }
+> >  
+> >  static int
+> > -mst_connector_mode_valid_ctx(struct drm_connector *connector,
+> > +mst_connector_mode_valid_ctx(struct drm_connector *_connector,
+> >  			     struct drm_display_mode *mode,
+> >  			     struct drm_modeset_acquire_ctx *ctx,
+> >  			     enum drm_mode_status *status)
+> >  {
+> > -	struct intel_display *display = to_intel_display(connector->dev);
+> > -	struct drm_i915_private *dev_priv = to_i915(connector->dev);
+> > -	struct intel_connector *intel_connector = to_intel_connector(connector);
+> > -	struct intel_dp *intel_dp = intel_connector->mst_port;
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> > +	struct intel_display *display = to_intel_display(connector->base.dev);
 > 
->>>
->>> It's hard to find where the priority is used in existing driver
->>> code
->>> because we parsed it from DTS.
->>
->> So not a binding.
->>
->>>
->>> It is used in all mediaTeks' DTS using the GCE.
->>> For example, in mt8195.dts:
->>>
->>> vdosys0: syscon@1c01a000 {
->>>     compatible = "mediatek,mt8195-vdosys0", "mediatek,mt8195-
->>> mmsys",
->>> "syscon";
->>>     reg = <0 0x1c01a000 0 0x1000>;
->>>     mboxes = <&gce0 0 CMDQ_THR_PRIO_4>;
->>>     #clock-cells = <1>;
->>>     mediatek,gce-client-reg = <&gce0 SUBSYS_1c01XXXX 0xa000
->>> 0x1000>;
->>> }
->>>
->>> CMDQ driver(mtk-cmdq-mailbox.c) will get the args parsed from
->>> mboxes
->>> property in cmdq_xlate() and then it will store CMDQ_THR_PRIO_4 to
->>> the
->>> specific thread structure.
->>
->> So not a binding.
->>
->>> The user of CMDQ driver will send command to CMDQ driver by
->>> cmdq_mbox_send_data(), and this priority setting will be configured
->>> to
->>> GCE hardware thread.
->>
->> And other things there are the same, we do not talk only about this
->> one
->> thing. I asked last time to drop which is not a binding.
->>
->>
+> Ditto.
 > 
-> I just reference all the previous mediatek,mtXXXX-gce.h to add the same
-> binding. Except for the GPR part I added this time, I don't know what
-> else should be dropped.
-
-Your commit msg does not help me, either. Why this is supposed to be a
-binding? Basically your rationale is: someone added headers, so I call
-it binding.
-
-This is invalid argument.
-
-Someone added junk, incorrect style or bugs, so you do the same?
-
-
+> > +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
 > 
->> ...
->>
->>>>> +
->>>>> +/*
->>>>> + * GCE General Purpose Register (GPR) support
->>>>> + * Leave note for scenario usage here
->>>>> + */
->>>>> +/* GCE: write mask */
->>>>
->>>> That's a definite no-go. Register masks are not bindings.
->>>>
->>>
->>> I'm sorry to the confusion.
->>>
->>> These defines are the index of GCE General Purpose Register for
->>> generating instructions, they are not register masks.
->>
->> Index of register is also sounding like register.
->>
->>>
->>> The comment "/* GCE: write mask */" is briefly describe that the
->>> usage
->>> of GCE_GPR_R0 and GCE_GPR_R01 is used to store the register mask
->>> when
->>> GCE executing the WRITE instruction. And it can also store the
->>> register
->>> mask of POLL and READ instruction.
->>>
->>> I will add more words to make this comment clearer, like this:
->>> /*GCE: store the mask of instruction */
->>
->> Not sure, because I feel you just avoid doing what is right and keep
->> pushing your own narrative. Where is it used in the driver?
->>
->> I just looked for "GCE_GPR_R00" - no usage at all. So not a binding.
->>
+> Could use display->drm.
 > 
-> Currently, GCE_GPR_R15 is used for generating POLL instruction and it
-> has been defined as a MACRO `#define CMDQ_POLL_ADDR_GPR (15)`
-> in mtk-cmdq-helper.c.
-
-I search for GCE_GPR_R15. No usage at all.
-
-Point me to specific line in your code. Paste it here.
-
-Above #define does not use.
-
-I am finishing replying, because you keep avoiding actual answers and
-bring some false proves forcing me to re-iterate the same over and over.
-
-Point to specific line of code and you point to something else and then
-claim this is argument in discussion.
-
-
-
-Best regards,
-Krzysztof
+> > +	struct intel_dp *intel_dp = connector->mst_port;
+> >  	struct drm_dp_mst_topology_mgr *mgr = &intel_dp->mst_mgr;
+> > -	struct drm_dp_mst_port *port = intel_connector->port;
+> > +	struct drm_dp_mst_port *port = connector->port;
+> >  	const int min_bpp = 18;
+> >  	int max_dotclk = display->cdclk.max_dotclk_freq;
+> >  	int max_rate, mode_rate, max_lanes, max_link_clock;
+> > @@ -1465,7 +1463,7 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
+> >  	int target_clock = mode->clock;
+> >  	int num_joined_pipes;
+> >  
+> > -	if (drm_connector_is_unregistered(connector)) {
+> > +	if (drm_connector_is_unregistered(&connector->base)) {
+> >  		*status = MODE_ERROR;
+> >  		return 0;
+> >  	}
+> > @@ -1503,7 +1501,7 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
+> >  	 *   corresponding link capabilities of the sink) in case the
+> >  	 *   stream is uncompressed for it by the last branch device.
+> >  	 */
+> > -	num_joined_pipes = intel_dp_num_joined_pipes(intel_dp, intel_connector,
+> > +	num_joined_pipes = intel_dp_num_joined_pipes(intel_dp, connector,
+> >  						     mode->hdisplay, target_clock);
+> >  	max_dotclk *= num_joined_pipes;
+> >  
+> > @@ -1517,14 +1515,14 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
+> >  		return 0;
+> >  	}
+> >  
+> > -	if (intel_dp_has_dsc(intel_connector)) {
+> > +	if (intel_dp_has_dsc(connector)) {
+> >  		/*
+> >  		 * TBD pass the connector BPC,
+> >  		 * for now U8_MAX so that max BPC on that platform would be picked
+> >  		 */
+> > -		int pipe_bpp = intel_dp_dsc_compute_max_bpp(intel_connector, U8_MAX);
+> > +		int pipe_bpp = intel_dp_dsc_compute_max_bpp(connector, U8_MAX);
+> >  
+> > -		if (drm_dp_sink_supports_fec(intel_connector->dp.fec_capability)) {
+> > +		if (drm_dp_sink_supports_fec(connector->dp.fec_capability)) {
+> >  			dsc_max_compressed_bpp =
+> >  				intel_dp_dsc_get_max_compressed_bpp(dev_priv,
+> >  								    max_link_clock,
+> > @@ -1535,7 +1533,7 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
+> >  								    INTEL_OUTPUT_FORMAT_RGB,
+> >  								    pipe_bpp, 64);
+> >  			dsc_slice_count =
+> > -				intel_dp_dsc_get_slice_count(intel_connector,
+> > +				intel_dp_dsc_get_slice_count(connector,
+> >  							     target_clock,
+> >  							     mode->hdisplay,
+> >  							     num_joined_pipes);
+> > @@ -1559,39 +1557,39 @@ mst_connector_mode_valid_ctx(struct drm_connector *connector,
+> >  }
+> >  
+> >  static struct drm_encoder *
+> > -mst_connector_atomic_best_encoder(struct drm_connector *connector,
+> > +mst_connector_atomic_best_encoder(struct drm_connector *_connector,
+> >  				  struct drm_atomic_state *state)
+> >  {
+> > -	struct drm_connector_state *connector_state = drm_atomic_get_new_connector_state(state,
+> > -											 connector);
+> > -	struct intel_connector *intel_connector = to_intel_connector(connector);
+> > -	struct intel_dp *intel_dp = intel_connector->mst_port;
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> > +	struct drm_connector_state *connector_state =
+> > +		drm_atomic_get_new_connector_state(state, &connector->base);
+> > +	struct intel_dp *intel_dp = connector->mst_port;
+> >  	struct intel_crtc *crtc = to_intel_crtc(connector_state->crtc);
+> >  
+> >  	return &intel_dp->mst_encoders[crtc->pipe]->base.base;
+> >  }
+> >  
+> >  static int
+> > -mst_connector_detect_ctx(struct drm_connector *connector,
+> > +mst_connector_detect_ctx(struct drm_connector *_connector,
+> >  			 struct drm_modeset_acquire_ctx *ctx, bool force)
+> >  {
+> > -	struct intel_display *display = to_intel_display(connector->dev);
+> > -	struct intel_connector *intel_connector = to_intel_connector(connector);
+> > -	struct intel_dp *intel_dp = intel_connector->mst_port;
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> > +	struct intel_display *display = to_intel_display(connector->base.dev);
+> 
+> Ditto.
+> 
+> > +	struct intel_dp *intel_dp = connector->mst_port;
+> >  
+> >  	if (!intel_display_device_enabled(display))
+> >  		return connector_status_disconnected;
+> >  
+> > -	if (drm_connector_is_unregistered(connector))
+> > +	if (drm_connector_is_unregistered(&connector->base))
+> >  		return connector_status_disconnected;
+> >  
+> >  	if (!intel_display_driver_check_access(display))
+> > -		return connector->status;
+> > +		return connector->base.status;
+> >  
+> > -	intel_dp_flush_connector_commits(intel_connector);
+> > +	intel_dp_flush_connector_commits(connector);
+> >  
+> > -	return drm_dp_mst_detect_port(connector, ctx, &intel_dp->mst_mgr,
+> > -				      intel_connector->port);
+> > +	return drm_dp_mst_detect_port(&connector->base, ctx, &intel_dp->mst_mgr,
+> > +				      connector->port);
+> >  }
+> >  
+> >  static const struct drm_connector_helper_funcs mst_connector_helper_funcs = {
+> > @@ -1627,29 +1625,30 @@ static bool mst_connector_get_hw_state(struct intel_connector *connector)
+> >  }
+> >  
+> >  static int mst_topology_add_connector_properties(struct intel_dp *intel_dp,
+> > -						 struct drm_connector *connector,
+> > +						 struct drm_connector *_connector,
+> >  						 const char *pathprop)
+> >  {
+> >  	struct intel_display *display = to_intel_display(intel_dp);
+> > +	struct intel_connector *connector = to_intel_connector(_connector);
+> >  
+> > -	drm_object_attach_property(&connector->base,
+> > +	drm_object_attach_property(&connector->base.base,
+> >  				   display->drm->mode_config.path_property, 0);
+> > -	drm_object_attach_property(&connector->base,
+> > +	drm_object_attach_property(&connector->base.base,
+> >  				   display->drm->mode_config.tile_property, 0);
+> >  
+> > -	intel_attach_force_audio_property(connector);
+> > -	intel_attach_broadcast_rgb_property(connector);
+> > +	intel_attach_force_audio_property(&connector->base);
+> > +	intel_attach_broadcast_rgb_property(&connector->base);
+> >  
+> >  	/*
+> >  	 * Reuse the prop from the SST connector because we're
+> >  	 * not allowed to create new props after device registration.
+> >  	 */
+> > -	connector->max_bpc_property =
+> > +	connector->base.max_bpc_property =
+> >  		intel_dp->attached_connector->base.max_bpc_property;
+> > -	if (connector->max_bpc_property)
+> > -		drm_connector_attach_max_bpc_property(connector, 6, 12);
+> > +	if (connector->base.max_bpc_property)
+> > +		drm_connector_attach_max_bpc_property(&connector->base, 6, 12);
+> >  
+> > -	return drm_connector_set_path_property(connector, pathprop);
+> > +	return drm_connector_set_path_property(&connector->base, pathprop);
+> >  }
+> >  
+> >  static void
+> > @@ -1722,62 +1721,59 @@ mst_topology_add_connector(struct drm_dp_mst_topology_mgr *mgr,
+> >  	struct intel_dp *intel_dp = container_of(mgr, struct intel_dp, mst_mgr);
+> >  	struct intel_display *display = to_intel_display(intel_dp);
+> >  	struct intel_digital_port *dig_port = dp_to_dig_port(intel_dp);
+> > -	struct intel_connector *intel_connector;
+> > -	struct drm_connector *connector;
+> > +	struct intel_connector *connector;
+> >  	enum pipe pipe;
+> >  	int ret;
+> >  
+> > -	intel_connector = intel_connector_alloc();
+> > -	if (!intel_connector)
+> > +	connector = intel_connector_alloc();
+> > +	if (!connector)
+> >  		return NULL;
+> >  
+> > -	connector = &intel_connector->base;
+> > -
+> > -	intel_connector->get_hw_state = mst_connector_get_hw_state;
+> > -	intel_connector->sync_state = intel_dp_connector_sync_state;
+> > -	intel_connector->mst_port = intel_dp;
+> > -	intel_connector->port = port;
+> > +	connector->get_hw_state = mst_connector_get_hw_state;
+> > +	connector->sync_state = intel_dp_connector_sync_state;
+> > +	connector->mst_port = intel_dp;
+> > +	connector->port = port;
+> >  	drm_dp_mst_get_port_malloc(port);
+> >  
+> > -	intel_dp_init_modeset_retry_work(intel_connector);
+> > +	intel_dp_init_modeset_retry_work(connector);
+> >  
+> > -	ret = drm_connector_dynamic_init(display->drm, connector, &mst_connector_funcs,
+> > +	ret = drm_connector_dynamic_init(display->drm, &connector->base, &mst_connector_funcs,
+> >  					 DRM_MODE_CONNECTOR_DisplayPort, NULL);
+> >  	if (ret)
+> >  		goto err_put_port;
+> >  
+> > -	intel_connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+> > -	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, intel_connector);
+> > -	intel_connector->dp.dsc_hblank_expansion_quirk =
+> > -		detect_dsc_hblank_expansion_quirk(intel_connector);
+> > +	connector->dp.dsc_decompression_aux = drm_dp_mst_dsc_aux_for_port(port);
+> > +	intel_dp_mst_read_decompression_port_dsc_caps(intel_dp, connector);
+> > +	connector->dp.dsc_hblank_expansion_quirk =
+> > +		detect_dsc_hblank_expansion_quirk(connector);
+> >  
+> > -	drm_connector_helper_add(connector, &mst_connector_helper_funcs);
+> > +	drm_connector_helper_add(&connector->base, &mst_connector_helper_funcs);
+> >  
+> >  	for_each_pipe(display, pipe) {
+> >  		struct drm_encoder *enc =
+> >  			&intel_dp->mst_encoders[pipe]->base.base;
+> >  
+> > -		ret = drm_connector_attach_encoder(&intel_connector->base, enc);
+> > +		ret = drm_connector_attach_encoder(&connector->base, enc);
+> >  		if (ret)
+> >  			goto err_cleanup_connector;
+> >  	}
+> >  
+> > -	ret = mst_topology_add_connector_properties(intel_dp, connector, pathprop);
+> > +	ret = mst_topology_add_connector_properties(intel_dp, &connector->base, pathprop);
+> >  	if (ret)
+> >  		goto err_cleanup_connector;
+> >  
+> > -	ret = intel_dp_hdcp_init(dig_port, intel_connector);
+> > +	ret = intel_dp_hdcp_init(dig_port, connector);
+> >  	if (ret)
+> >  		drm_dbg_kms(display->drm, "[%s:%d] HDCP MST init failed, skipping.\n",
+> > -			    connector->name, connector->base.id);
+> > +			    connector->base.name, connector->base.base.id);
+> >  
+> > -	return connector;
+> > +	return &connector->base;
+> >  
+> >  err_cleanup_connector:
+> > -	drm_connector_cleanup(connector);
+> > +	drm_connector_cleanup(&connector->base);
+> >  err_put_port:
+> >  	drm_dp_mst_put_port_malloc(port);
+> > -	intel_connector_free(intel_connector);
+> > +	intel_connector_free(connector);
+> >  
+> >  	return NULL;
+> >  }
+> 
+> -- 
+> Jani Nikula, Intel
