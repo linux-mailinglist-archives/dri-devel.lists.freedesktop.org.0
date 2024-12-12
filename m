@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8299EFB1C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCB89EFB22
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:36:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C7DF10EE5F;
-	Thu, 12 Dec 2024 18:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 868B710EE6B;
+	Thu, 12 Dec 2024 18:36:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="JGZ4SU4t";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="nJA8f6Fz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04F6410EE5F
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 18:36:48 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-4361ecebc4dso7080225e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 10:36:47 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10FDB10EE6B
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 18:36:49 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-43622354a3eso7034595e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 10:36:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1734028606; x=1734633406;
+ d=raspberrypi.com; s=google; t=1734028607; x=1734633407;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=3qoOTheHNyDXx09eLZAAbq+8+9HV4ZRvdNqNlfNALco=;
- b=JGZ4SU4txaqjg9o/70Vdxj3KSb2wtPop+8KD00lpmkksi8OUSD3wR0T26EjESYEnMO
- JXREWTrDv3DaKXFyvBv5euy4+M5Q4lCYI+A4FUmCJLAtZbz2bI5v+Sc0ABzrN7oy35oK
- BJzGsKrJ3ZpJ4lNF0tboe66YeRTRWj87IOsa76Y/rwCsAOxsl4QvfPoOnFF/E2BvEIE5
- yjvYJwSgTAZeu+6fMaxD6zJ0YiRMu2I621Y176IGj247d17IroU9ZsoDIr1UEFodqXEw
- bkBfnEyM4FaNSLhiiUStKQurfrSE776NlOZAuLRTXYdw+bIiMu3aIBz+1bujTQlkV9HG
- X65w==
+ :reply-to; bh=SDsnxHgs8pPYbt5Sxgc7PD1JuNe9FEImA9X5O9hYyxM=;
+ b=nJA8f6FzhFNF3zZqwjd45RGg/kCQZU/pVlAvElPxj3oB6MQruoO3/aWlDmNzlU47Vx
+ 7RHQB1jNw6WQVX/pQgw6t9VnA+PUZDeZD8M8hQjo3LHk+Sn3HDhtZ7ZQsDTvQq45XHQN
+ eOEt2thQquX0OHPQfn6bgndfMd07CC0/BHcQ0XJ97N6kiEejh8ffw6/lfb9NP25PMWOF
+ 9PjzSVCfBZf4085RUaA6mewzJNaA9uQIY573OHPxDjaNbsQtZei3/7m++yAOZXri/J+J
+ EWunB5j7HBnzRGkxyhlgykK+3G80TU80/eZK9BwNDN8GhzboZgKhTX1jfAZwifVUz+W+
+ zKrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734028606; x=1734633406;
+ d=1e100.net; s=20230601; t=1734028607; x=1734633407;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=3qoOTheHNyDXx09eLZAAbq+8+9HV4ZRvdNqNlfNALco=;
- b=CmYph09n5z/1IzoB7t24HiUm8btNxdX5QbhdNTfVIVDqzxvVDBORlgcQR5vyYlDTOR
- cJxNJipzjmrHwuPVsXdT92cxzgmCTYtVRLk9MXP2r7Y5vWZXRU9+tlieJo115/vhUN1l
- nJ/4mqYZMkVxWiITmSWA0MFFqJaplaMyUuSvgW3ORW6DXTyVLW2I4cZdBTkJ5DjZjQm0
- kWYvJ2aMd+Uvkqp7Fbg2a9/UAw9qSbJJCf6AktV13m2MHIg9qnOl9Ijin9iqDMR43r2/
- KaQjkfN19U7c9Q/gw7it6OW2eWGR0XbKnSBaiwPTVAcYeCbL3Gp6QxbbkGotmvv5qFM/
- Fkbg==
-X-Gm-Message-State: AOJu0YyGCYFxy4J1aUBP3jF5YxyUHRYgDO5h8vLnsZl/mAjsQDZi9N/f
- eSe5oUwfOGpb2RdgzhfbKR4AkcmVtVa94DVJGHJSXRtuBmY54byMvY1Z2WT4M44=
-X-Gm-Gg: ASbGncupuoAqjhJXyLBBuWkUUVOuD0uMEgXDWnzQYu/E00a2oK8o3tRd7+sCa5husz8
- AehSEdugYXQ9CuGDQKkFb2y53L7U5KA5AowRVZMntGqE6hew4t71fkyVCnhhJvh9siooeJ2v+hU
- s8icIExd7yoZoJMnbnPhdbPswrH1BdNCWeDFci6Cd4m2YQwv4NvsRwhoCBsKRLqKyzB9mS7ZBvL
- qInx/WY1EUeAKofz1kVDCjNifUEvODe44/K6NKGPMXwyawT
-X-Google-Smtp-Source: AGHT+IGL4E9j9A1tMS6SuUyiiajyBjok8IwHS0bLS9tymQ53Yae5HQb0IhaVfgk6fsEuOcpfD85mUQ==
-X-Received: by 2002:a05:600c:1d2a:b0:431:3bf9:3ebb with SMTP id
- 5b1f17b1804b1-4362285f769mr38353035e9.24.1734028606518; 
- Thu, 12 Dec 2024 10:36:46 -0800 (PST)
+ bh=SDsnxHgs8pPYbt5Sxgc7PD1JuNe9FEImA9X5O9hYyxM=;
+ b=pY+3azbUVbzjzAwaJ9ky7hx2F9pmY3MeNVQ9j2ToQexOQxW10+e2VLUoZQZT6akcRc
+ mqZf0SK534qYDPVWtutzd2D7s88Zl6mEbbkDM19BcE0LNx2bhdVCPA7P9sDxeuNxejfx
+ M0uc95bc3B+rLteuT9HF7E7ifhJob8e5fS3uzaCJvWVrP1YYLZwzTAFguPN+tmTN+UP1
+ y9/PmPUG8pY0ROEssCt+X+A0CVqqzNOMofxlrmyPAMnOcFDIpowdyYPw0nM/WNWIgoZ+
+ 2ay1jfBWM5JyVnDXThCPpQR6QHw8RnHLr5ugledQ99an4Wo7pW1+dBPe4g32LUn6UGt3
+ IzAw==
+X-Gm-Message-State: AOJu0Yzrf+qZ96o8Avbotmf19H9eXEusWbhX3/WLODlYdw++UDKMWEIh
+ b35ZTMtQM30M2sJ2f4FTuqcQg4kxkfAYc/kio1iETF6FHCECS/Iq4936UzbghrE=
+X-Gm-Gg: ASbGncvmjIPuGPbu866CIGRm+vpL4674quNGNaQs8I1dVIDNl0APmmmyNDRhO2363mR
+ kmjzz7fPzDydDRul+z1wn2xVh03OfIYP22mGbkTesijl04uQBDsG3Se5keBLI9fwYxcMFtcGyQF
+ 5AXjrH34EasaZNfSZBMBMCIgT2Gc+peqao/Bx42ItgFsObYH6otSWYSy20N6Ot6i6gsqKUmNQDX
+ Ogc/ziIiQw3QNL7Pe+H0xFuZRXvNYN0V0fbybmsOkf/wzeJ
+X-Google-Smtp-Source: AGHT+IEu2xL/+FXU63UNRhzK1AOzvmFc4RtXIaDc5vdsewo82JD1gWWmf7YI8MTxRmnxwh6YKbXzGQ==
+X-Received: by 2002:a05:600c:19cd:b0:434:a07d:b709 with SMTP id
+ 5b1f17b1804b1-4361c441bcdmr59652015e9.29.1734028607573; 
+ Thu, 12 Dec 2024 10:36:47 -0800 (PST)
 Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-436257178e3sm24651995e9.41.2024.12.12.10.36.45
+ 5b1f17b1804b1-436257178e3sm24651995e9.41.2024.12.12.10.36.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2024 10:36:46 -0800 (PST)
+ Thu, 12 Dec 2024 10:36:47 -0800 (PST)
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 12 Dec 2024 18:36:32 +0000
-Subject: [PATCH v3 5/7] arm64: dts: broadcom: Rename bcm2712 interrupt
- controllers
+Date: Thu, 12 Dec 2024 18:36:33 +0000
+Subject: [PATCH v3 6/7] arm64: dts: broadcom: Correct hdmi device node
+ names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241212-dt-bcm2712-fixes-v3-5-44a7f3390331@raspberrypi.com>
+Message-Id: <20241212-dt-bcm2712-fixes-v3-6-44a7f3390331@raspberrypi.com>
 References: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
 In-Reply-To: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -102,14 +102,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CHECK_DTBS produces errors on bcm2712-rpi-5-b.dtb and bcm2712-d-rpi-5-b.dtb
-of:
-intc@7d508380: $nodename:0: 'intc@7d508380' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-        from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,l2-intc.yaml#
-intc@7d508400: $nodename:0: 'intc@7d508400' does not match '^interrupt-controller(@[0-9a-f,]+)*$'
-        from schema $id: http://devicetree.org/schemas/interrupt-controller/brcm,l2-intc.yaml#
-
-Rename the nodes from intc to interrupt-controller.
+The names of the hdmi0 and hdmi1 nodes had addresses that
+didn't match the reg properties for the nodes.
 
 Fixes: f66b382affd8 ("arm64: dts: broadcom: Add display pipeline support to BCM2712")
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
@@ -118,27 +112,27 @@ Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-index 39305e0869ec..bd78af0211b6 100644
+index bd78af0211b6..f42fad2d8b37 100644
 --- a/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
 +++ b/arch/arm64/boot/dts/broadcom/bcm2712.dtsi
-@@ -336,7 +336,7 @@ ddc1: i2c@7d508280 {
- 			#size-cells = <0>;
- 		};
- 
--		bsc_irq: intc@7d508380 {
-+		bsc_irq: interrupt-controller@7d508380 {
- 			compatible = "brcm,bcm7271-l2-intc";
- 			reg = <0x7d508380 0x10>;
- 			interrupts = <GIC_SPI 242 IRQ_TYPE_LEVEL_HIGH>;
-@@ -344,7 +344,7 @@ bsc_irq: intc@7d508380 {
+@@ -352,7 +352,7 @@ main_irq: interrupt-controller@7d508400 {
  			#interrupt-cells = <1>;
  		};
  
--		main_irq: intc@7d508400 {
-+		main_irq: interrupt-controller@7d508400 {
- 			compatible = "brcm,bcm7271-l2-intc";
- 			reg = <0x7d508400 0x10>;
- 			interrupts = <GIC_SPI 244 IRQ_TYPE_LEVEL_HIGH>;
+-		hdmi0: hdmi@7ef00700 {
++		hdmi0: hdmi@7c701400 {
+ 			compatible = "brcm,bcm2712-hdmi0";
+ 			reg = <0x7c701400 0x300>,
+ 			      <0x7c701000 0x200>,
+@@ -381,7 +381,7 @@ hdmi0: hdmi@7ef00700 {
+ 			ddc = <&ddc0>;
+ 		};
+ 
+-		hdmi1: hdmi@7ef05700 {
++		hdmi1: hdmi@7c706400 {
+ 			compatible = "brcm,bcm2712-hdmi1";
+ 			reg = <0x7c706400 0x300>,
+ 			      <0x7c706000 0x200>,
 
 -- 
 2.34.1
