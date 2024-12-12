@@ -1,65 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 774109EFC7D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 20:29:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 511759EFCAE
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 20:44:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E66910EE84;
-	Thu, 12 Dec 2024 19:29:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADDD710EE90;
+	Thu, 12 Dec 2024 19:44:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RbuQB9/2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="K1495VFm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B603010EE84;
- Thu, 12 Dec 2024 19:29:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734031754; x=1765567754;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=2fkuHIblgfbuJQjrGaRp+8p80poZxRgaJo9SOWuhcVk=;
- b=RbuQB9/2Y0ghUQLyH4MSZKWNsOn1buvN3071KZHG+46InRTlDMJNi3YO
- dDPQDtzRlghj210+B4WMGskYm6f6bfY9DSPa7JySLJFD8HyRF7UKJXQ5N
- YFGug7T8Py8994KAsG8jntuHrHZqLLjeLDz6HE19baMj9UWeIAX3jxHJm
- Kokp4RBCvnjsjZWTvpRWoCwJuW8WXB/l9uKlSkDN5OL44slNYb55dzaCh
- ditxZVt+CfklRUsNli+7V9FgmvnBO5A3yhrXm/dx2Nlxw+x3VrWWJBNQB
- W4tGKQi5OChpY2aNmetAQ5CIqlBAIl/9LeentBexMuchl0ffkCvwKJvKN A==;
-X-CSE-ConnectionGUID: K7O9+T/fQkyDbyi3rLWHKQ==
-X-CSE-MsgGUID: ROdaj2tNS+6+eS13RsHCOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34376030"
-X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; d="scan'208";a="34376030"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 11:29:14 -0800
-X-CSE-ConnectionGUID: FNSwtnUdR1q+Dhu1HXo7iA==
-X-CSE-MsgGUID: 2r3WOBcBSuOT+pASeUfK8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="96167143"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO fedora)
- ([10.245.246.120])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 11:29:10 -0800
-Date: Thu, 12 Dec 2024 20:28:58 +0100
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-fixes
-Message-ID: <Z1s5elHXOyeIHnE0@fedora>
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A827410EE81
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 19:44:09 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id
+ d75a77b69052e-4678f681608so10539181cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 11:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1734032649; x=1734637449;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=UOwm6pPXwkM6tnMe7tNVUkQBZxbqhnbT7YBGfwH78PM=;
+ b=K1495VFm6BpMTQrPAJs1LVhSDQkqiupFQodeu0UQ2gWU0a4CmcHXkfe4Pait7f02Zn
+ KRPxXLHg7F+vMQupfpwuNDqmgrEqowL4ZcMrZa7KXU3p0bBK6G7cM5AgCbgvBo56Esm7
+ vZBlFR0QOG+82e/AMWkjQKh/q/3SUTMug/QhY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734032649; x=1734637449;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UOwm6pPXwkM6tnMe7tNVUkQBZxbqhnbT7YBGfwH78PM=;
+ b=hbyVCXSzbz8hEgx4N/CVO9YeiHtvfUD7r/VEtBgYow2C/GAQ0Q3chzaR/0J7MjhCR+
+ Aa62L67/fYiWdu4TxZ74gVdACbISdNm53NoFAGu4aEg1EnlHObGSHXltESK44BCM+xo2
+ /l+CaT7vp+4zwhkNyIbIUvML5LZn6HMNiHn5nD1uTia4qPJI4N/XJo5KTE4c+WeDk8Nl
+ Y02m+gff5KgP7RtQrUbrnqcxsjwi061OGu4OWwN9JEXXg16qB4FOA+w+JZc8MkWOZBfx
+ OEgP3U/ZzF6ZxmcWQFbSyMNMi/FhqCp1Bl2lgKfsDRbftvvH+dkdtXk1iURLtscR36ss
+ D1EA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXdzBd7WfULQEEJ2XAcfitsZoOpX//tEe5UKfLOOU2vGSIaxFMkcTNBWXKSMH3+VQR+HNC2pzapoPY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyc/MikGzN6itKwCMFtNgm/dtsdq/3Nla26Ifn21TbCRn1BZSdn
+ Rt6fXKS39EjfNeIpuCH3rsJaLs4aIPnwltYWcI+BtX0RWt/2lf43xICbJhNbCHKCSzrPLP+Kiun
+ YobHQBIi74UK+b8Ol2VVlOPhAy+JeGQTUXgAK
+X-Gm-Gg: ASbGncsU6sdwXQE/jcU0UbJWpVu0vtdpjmM8jrk7+7dEF1HqTZDuqJiAMQKpKSOZM9F
+ ulTy1Fcx30luEMtEe5OtY7P+YztTcg9jCHcYLbsXj/2ca+ecigin62KjipIfeecb6sg==
+X-Google-Smtp-Source: AGHT+IHlXSEQ2wG5xyF2Aa1OBgLaNUi0yxcdOEzjtF/Id9mL9j+4TPLwCfOsk3qZGjqHtCyb1hPI6wo56A7bYwjCxyw=
+X-Received: by 2002:ac8:7fc2:0:b0:467:81f0:6d63 with SMTP id
+ d75a77b69052e-467a15c7a0bmr31511991cf.17.1734032648880; Thu, 12 Dec 2024
+ 11:44:08 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 12 Dec 2024 14:44:08 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <20241211-check-state-before-dump-v2-1-62647a501e8c@quicinc.com>
+References: <20241211-check-state-before-dump-v2-1-62647a501e8c@quicinc.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Thu, 12 Dec 2024 14:44:08 -0500
+Message-ID: <CAE-0n509akHPXM8t6QCTO1cydhJzv_Tu9xTtGze8=bY-rUN=oQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/msm/dpu: check dpu_plane_atomic_print_state() for
+ valid sspp
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,48 +84,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dave, Simona
+Quoting Abhinav Kumar (2024-12-11 11:50:26)
+> Similar to the r_pipe sspp protect, add a check to protect
+> the pipe state prints to avoid NULL ptr dereference for cases when
+> the state is dumped without a corresponding atomic_check() where the
+> pipe->sspp is assigned.
+>
+> Fixes: 31f7148fd370 ("drm/msm/dpu: move pstate->pipe initialization to dpu_plane_atomic_check")
+> Reported-by: Stephen Boyd <swboyd@chromium.org>
+> Closes: https://gitlab.freedesktop.org/drm/msm/-/issues/67
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
 
-This week'd drm-xe-fixes PR.
-
-Thanks,
-Thomas
-
-drm-xe-fixes-2024-12-12:
-- Fix a KUNIT test error message (Mirsad Todorovac)
-- Fix an invalidation fence PM ref leak (Daniele)
-- Fix a register pool UAF (Lucas)
-The following changes since commit 5dce85fecb87751ec94526e1ac516dd7871e2e0c:
-
-  drm/xe: Move the coredump registration to the worker thread (2024-12-03 10:33:13 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-12-12
-
-for you to fetch changes up to d7b028656c29b22fcde1c6ee1df5b28fbba987b5:
-
-  drm/xe/reg_sr: Remove register pool (2024-12-12 16:57:28 +0100)
-
-----------------------------------------------------------------
-- Fix a KUNIT test error message (Mirsad Todorovac)
-- Fix an invalidation fence PM ref leak (Daniele)
-- Fix a register pool UAF (Lucas)
-
-----------------------------------------------------------------
-Daniele Ceraolo Spurio (1):
-      drm/xe: Call invalidation_fence_fini for PT inval fences in error state
-
-Lucas De Marchi (1):
-      drm/xe/reg_sr: Remove register pool
-
-Mirsad Todorovac (1):
-      drm/xe: fix the ERR_PTR() returned on failure to allocate tiny pt
-
- drivers/gpu/drm/xe/tests/xe_migrate.c       |  4 ++--
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c |  8 ++++++++
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h |  1 +
- drivers/gpu/drm/xe/xe_pt.c                  |  3 +--
- drivers/gpu/drm/xe/xe_reg_sr.c              | 31 ++++++-----------------------
- drivers/gpu/drm/xe/xe_reg_sr_types.h        |  6 ------
- 6 files changed, 18 insertions(+), 35 deletions(-)
+Tested-by: Stephen Boyd <swboyd@chromium.org> # sc7180-trogdor
