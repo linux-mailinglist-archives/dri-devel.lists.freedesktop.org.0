@@ -1,80 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6019EF496
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 18:09:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCA69EF497
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 18:09:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9436710EE59;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 843EE10EE56;
 	Thu, 12 Dec 2024 17:09:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="NQpgmOXv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uOp6Ce6y";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NQpgmOXv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uOp6Ce6y";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ONpjBxIX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tiAEOjYy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ONpjBxIX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tiAEOjYy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 25353 seconds by postgrey-1.36 at gabe;
- Thu, 12 Dec 2024 17:09:22 UTC
-Received: from smtp-out1.suse.de (smtp-out1.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15A9610E63E
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 742B910E48A
  for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 17:09:22 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C43E02117F;
- Thu, 12 Dec 2024 17:09:20 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 339DB1F37C;
+ Thu, 12 Dec 2024 17:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734023360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1734023361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4w0pEB/vKQvA5pLs8am71YYwxayuIRNDkfnLlR69vNk=;
- b=NQpgmOXvmxv2dCNMj6PEGaqLxyEt4QaLq1VoNfINg4S75SD9/8GwjXUSQRZDmH9BCidKxA
- DBqHr5KtC75abZOqEfMRGmncLIAQYsG8bXqbmbRBjV0CajytWdaxJSJxtle9wvBM+v8bPl
- XMT/thUq0J1zFyjqPQsyaCztE+NI26g=
+ bh=Fo53fa9Izu9Q8AodKefDict3SQ10Abm56aKsmbt4FWM=;
+ b=ONpjBxIXRCRxoM0BFzOVx8T+W6NvRMylxcApgneLo9DPRVb7Yfew6ngeGQoD4TB8eLZs02
+ ao2tJwIHCfOZ6kAlmfNFj0OJqL0z/tZEgyNIBkYJjJofhVY5JfS+F8rhU3EIKm5aBZ90Wq
+ yu14l2m31PO7AGG7Rk3wnAOpwK1ZZY8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734023360;
+ s=susede2_ed25519; t=1734023361;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4w0pEB/vKQvA5pLs8am71YYwxayuIRNDkfnLlR69vNk=;
- b=uOp6Ce6ywe1p48YD3Z/2sOn1DtWcUNlMk3OwDuslAuGvCJ3mKpxyEu/JOYqrpIPC3fnULC
- /3uD0kso8GEMEOCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NQpgmOXv;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uOp6Ce6y
+ bh=Fo53fa9Izu9Q8AodKefDict3SQ10Abm56aKsmbt4FWM=;
+ b=tiAEOjYy0JticF5SVKhBWvpSzoBza0iH+NLdHnFuzK6S+q4r92sY5+p1YloczvbtsGuiSz
+ 8Ov681TOu6o+SlAg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ONpjBxIX;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tiAEOjYy
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734023360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1734023361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4w0pEB/vKQvA5pLs8am71YYwxayuIRNDkfnLlR69vNk=;
- b=NQpgmOXvmxv2dCNMj6PEGaqLxyEt4QaLq1VoNfINg4S75SD9/8GwjXUSQRZDmH9BCidKxA
- DBqHr5KtC75abZOqEfMRGmncLIAQYsG8bXqbmbRBjV0CajytWdaxJSJxtle9wvBM+v8bPl
- XMT/thUq0J1zFyjqPQsyaCztE+NI26g=
+ bh=Fo53fa9Izu9Q8AodKefDict3SQ10Abm56aKsmbt4FWM=;
+ b=ONpjBxIXRCRxoM0BFzOVx8T+W6NvRMylxcApgneLo9DPRVb7Yfew6ngeGQoD4TB8eLZs02
+ ao2tJwIHCfOZ6kAlmfNFj0OJqL0z/tZEgyNIBkYJjJofhVY5JfS+F8rhU3EIKm5aBZ90Wq
+ yu14l2m31PO7AGG7Rk3wnAOpwK1ZZY8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734023360;
+ s=susede2_ed25519; t=1734023361;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4w0pEB/vKQvA5pLs8am71YYwxayuIRNDkfnLlR69vNk=;
- b=uOp6Ce6ywe1p48YD3Z/2sOn1DtWcUNlMk3OwDuslAuGvCJ3mKpxyEu/JOYqrpIPC3fnULC
- /3uD0kso8GEMEOCg==
+ bh=Fo53fa9Izu9Q8AodKefDict3SQ10Abm56aKsmbt4FWM=;
+ b=tiAEOjYy0JticF5SVKhBWvpSzoBza0iH+NLdHnFuzK6S+q4r92sY5+p1YloczvbtsGuiSz
+ 8Ov681TOu6o+SlAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CAA313A3D;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C672613508;
  Thu, 12 Dec 2024 17:09:20 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id wDRuFcAYW2etIQAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id UHdAL8AYW2etIQAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Thu, 12 Dec 2024 17:09:20 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
@@ -84,16 +82,15 @@ To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
  maarten.lankhorst@linux.intel.com, jfalempe@redhat.com, javierm@redhat.com
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 01/12] drm/{i915,
- xe}: Suspend/resume fbdev emulation via client interfaces
-Date: Thu, 12 Dec 2024 18:08:42 +0100
-Message-ID: <20241212170913.185939-2-tzimmermann@suse.de>
+Subject: [PATCH 02/12] drm/client: Add client-hotplug helper
+Date: Thu, 12 Dec 2024 18:08:43 +0100
+Message-ID: <20241212170913.185939-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241212170913.185939-1-tzimmermann@suse.de>
 References: <20241212170913.185939-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C43E02117F
+X-Rspamd-Queue-Id: 339DB1F37C
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
@@ -131,146 +128,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement drm_client_dev_suspend() and drm_client_dev_resume() for
-i915's fbdev emulation and call the helper via DRM client interfaces.
-This is required to convert i915 and xe to DRM's generic fbdev client.
-No functional changes.
+Move client hotplug calls to drm_client_hotplug(). We'll need this
+helper to send hotplug events after resuming.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/i915/display/intel_fbdev.c | 16 ++++++++++++++++
- drivers/gpu/drm/i915/i915_driver.c         |  9 +++++----
- drivers/gpu/drm/xe/display/xe_display.c    |  9 +++++----
- 3 files changed, 26 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/drm_client_event.c | 32 ++++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
-index 00852ff5b247..a51d1dfd1b58 100644
---- a/drivers/gpu/drm/i915/display/intel_fbdev.c
-+++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
-@@ -642,11 +642,27 @@ static int intel_fbdev_client_hotplug(struct drm_client_dev *client)
- 	return ret;
+diff --git a/drivers/gpu/drm/drm_client_event.c b/drivers/gpu/drm/drm_client_event.c
+index e303de564485..8514df4a2e65 100644
+--- a/drivers/gpu/drm/drm_client_event.c
++++ b/drivers/gpu/drm/drm_client_event.c
+@@ -49,6 +49,23 @@ void drm_client_dev_unregister(struct drm_device *dev)
  }
+ EXPORT_SYMBOL(drm_client_dev_unregister);
  
-+static int intel_fbdev_client_suspend(struct drm_client_dev *client, bool holds_console_lock)
++static void drm_client_hotplug(struct drm_client_dev *client)
 +{
-+	intel_fbdev_set_suspend(client->dev, FBINFO_STATE_SUSPENDED, true);
++	struct drm_device *dev = client->dev;
++	int ret;
 +
-+	return 0;
++	if (!client->funcs || !client->funcs->hotplug)
++		return;
++
++	if (client->hotplug_failed)
++		return;
++
++	ret = client->funcs->hotplug(client);
++	drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
++	if (ret)
++		client->hotplug_failed = true;
 +}
 +
-+static int intel_fbdev_client_resume(struct drm_client_dev *client, bool holds_console_lock)
-+{
-+	intel_fbdev_set_suspend(client->dev, FBINFO_STATE_RUNNING, false);
-+
-+	return 0;
-+}
-+
- static const struct drm_client_funcs intel_fbdev_client_funcs = {
- 	.owner		= THIS_MODULE,
- 	.unregister	= intel_fbdev_client_unregister,
- 	.restore	= intel_fbdev_client_restore,
- 	.hotplug	= intel_fbdev_client_hotplug,
-+	.suspend	= intel_fbdev_client_suspend,
-+	.resume		= intel_fbdev_client_resume,
- };
+ /**
+  * drm_client_dev_hotplug - Send hotplug event to clients
+  * @dev: DRM device
+@@ -61,7 +78,6 @@ EXPORT_SYMBOL(drm_client_dev_unregister);
+ void drm_client_dev_hotplug(struct drm_device *dev)
+ {
+ 	struct drm_client_dev *client;
+-	int ret;
  
- void intel_fbdev_setup(struct drm_i915_private *i915)
-diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
-index eb3fcc9e77a5..e385e4947a91 100644
---- a/drivers/gpu/drm/i915/i915_driver.c
-+++ b/drivers/gpu/drm/i915/i915_driver.c
-@@ -41,6 +41,8 @@
- #include <linux/vt.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-@@ -55,7 +57,6 @@
- #include "display/intel_dp.h"
- #include "display/intel_dpt.h"
- #include "display/intel_encoder.h"
--#include "display/intel_fbdev.h"
- #include "display/intel_hotplug.h"
- #include "display/intel_overlay.h"
- #include "display/intel_pch_refclk.h"
-@@ -958,7 +959,7 @@ void i915_driver_shutdown(struct drm_i915_private *i915)
- 	intel_runtime_pm_disable(&i915->runtime_pm);
- 	intel_power_domains_disable(display);
- 
--	intel_fbdev_set_suspend(&i915->drm, FBINFO_STATE_SUSPENDED, true);
-+	drm_client_dev_suspend(&i915->drm, false);
- 	if (HAS_DISPLAY(i915)) {
- 		drm_kms_helper_poll_disable(&i915->drm);
- 		intel_display_driver_disable_user_access(display);
-@@ -1041,7 +1042,7 @@ static int i915_drm_suspend(struct drm_device *dev)
- 	/* We do a lot of poking in a lot of registers, make sure they work
- 	 * properly. */
- 	intel_power_domains_disable(display);
--	intel_fbdev_set_suspend(dev, FBINFO_STATE_SUSPENDED, true);
-+	drm_client_dev_suspend(dev, false);
- 	if (HAS_DISPLAY(dev_priv)) {
- 		drm_kms_helper_poll_disable(dev);
- 		intel_display_driver_disable_user_access(display);
-@@ -1227,7 +1228,7 @@ static int i915_drm_resume(struct drm_device *dev)
- 
- 	intel_opregion_resume(display);
- 
--	intel_fbdev_set_suspend(dev, FBINFO_STATE_RUNNING, false);
-+	drm_client_dev_resume(dev, false);
- 
- 	intel_power_domains_enable(display);
- 
-diff --git a/drivers/gpu/drm/xe/display/xe_display.c b/drivers/gpu/drm/xe/display/xe_display.c
-index 317fa66adf18..bc73c9999c57 100644
---- a/drivers/gpu/drm/xe/display/xe_display.c
-+++ b/drivers/gpu/drm/xe/display/xe_display.c
-@@ -8,6 +8,8 @@
- 
- #include <linux/fb.h>
- 
-+#include <drm/drm_client.h>
-+#include <drm/drm_client_event.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
-@@ -25,7 +27,6 @@
- #include "intel_dmc_wl.h"
- #include "intel_dp.h"
- #include "intel_encoder.h"
--#include "intel_fbdev.h"
- #include "intel_hdcp.h"
- #include "intel_hotplug.h"
- #include "intel_opregion.h"
-@@ -336,7 +337,7 @@ static void __xe_display_pm_suspend(struct xe_device *xe, bool runtime)
- 	 */
- 	intel_power_domains_disable(display);
- 	if (!runtime)
--		intel_fbdev_set_suspend(&xe->drm, FBINFO_STATE_SUSPENDED, true);
-+		drm_client_dev_suspend(&xe->drm, false);
- 
- 	if (!runtime && has_display(xe)) {
- 		drm_kms_helper_poll_disable(&xe->drm);
-@@ -374,7 +375,7 @@ void xe_display_pm_shutdown(struct xe_device *xe)
+ 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
  		return;
+@@ -72,18 +88,8 @@ void drm_client_dev_hotplug(struct drm_device *dev)
+ 	}
  
- 	intel_power_domains_disable(display);
--	intel_fbdev_set_suspend(&xe->drm, FBINFO_STATE_SUSPENDED, true);
-+	drm_client_dev_suspend(&xe->drm, false);
- 	if (has_display(xe)) {
- 		drm_kms_helper_poll_disable(&xe->drm);
- 		intel_display_driver_disable_user_access(display);
-@@ -494,7 +495,7 @@ static void __xe_display_pm_resume(struct xe_device *xe, bool runtime)
- 	intel_opregion_resume(display);
- 
- 	if (!runtime)
--		intel_fbdev_set_suspend(&xe->drm, FBINFO_STATE_RUNNING, false);
-+		drm_client_dev_resume(&xe->drm, false);
- 
- 	intel_power_domains_enable(display);
+ 	mutex_lock(&dev->clientlist_mutex);
+-	list_for_each_entry(client, &dev->clientlist, list) {
+-		if (!client->funcs || !client->funcs->hotplug)
+-			continue;
+-
+-		if (client->hotplug_failed)
+-			continue;
+-
+-		ret = client->funcs->hotplug(client);
+-		drm_dbg_kms(dev, "%s: ret=%d\n", client->name, ret);
+-		if (ret)
+-			client->hotplug_failed = true;
+-	}
++	list_for_each_entry(client, &dev->clientlist, list)
++		drm_client_hotplug(client);
+ 	mutex_unlock(&dev->clientlist_mutex);
  }
+ EXPORT_SYMBOL(drm_client_dev_hotplug);
 -- 
 2.47.1
 
