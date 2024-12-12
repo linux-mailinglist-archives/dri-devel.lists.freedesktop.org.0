@@ -2,57 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6859EDF34
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 07:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471539EE026
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 08:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F55310ECC2;
-	Thu, 12 Dec 2024 06:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B054710E19D;
+	Thu, 12 Dec 2024 07:20:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NpefOtj8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JY66ghJ7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01ED510E7A4;
- Thu, 12 Dec 2024 06:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1733983599;
- bh=gQg/SM6BaV0O6607W1vHe3GKWdp7ZsBXFCJWNiK9SFw=;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC89310E0E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 07:20:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 99C8CA425B6;
+ Thu, 12 Dec 2024 07:18:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31CAC4CECE;
+ Thu, 12 Dec 2024 07:20:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1733988010;
+ bh=6Ri8IP/B/7EsHxKZjeJyUIP+NcIoxWnyAQZWysjxBVU=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NpefOtj8iRu+DwDxM1asoHnH6dziH2LfwLXKHmxJwjyTK2JN3w24yG15L61xz/p4E
- 1Q1hNWZSfjRGmpsMMSTs9jLtwssefNOSG/RM9//dKBgGoAZsPgvidKcKcmYdqNDckT
- DvXj7srS8GjxNG82ITA2ZyObZDMr+FKJHnPXJ2eCGa/aPO9skbkJH1KUiy92L5TrrG
- xe21GkQQE1jht1xTcoxCHfDQkpM7JcmrU5YdJUw6tiO4zFjK2H8i7k5fb5KgqX2LQ0
- 4RGQwkIzVXHI/rHmuP57LGp8g4Zw2YWtHmYQD+Vb8T5wcqhADpRO9HVMDW86ncn8wZ
- iSdqcwuU72+UQ==
-Received: from [192.168.50.250] (unknown [171.76.86.135])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B8F6917E11E2;
- Thu, 12 Dec 2024 07:06:32 +0100 (CET)
-Message-ID: <3e719a95-5b84-4530-9afe-c742e5c6eff7@collabora.com>
-Date: Thu, 12 Dec 2024 11:36:29 +0530
+ b=JY66ghJ74hd/i2e7ZI/W3+6ojvRb8zUSchDan/ecwDjIjGYQCmUgf5K1kiLzvguZ0
+ gfZ5NuxEbDOQrj3S85YQQbNoU778IWoEHuNNhex3tWRlgJfXdVOo9f/4629VWfsAlC
+ ap9m8pcPvg1wUBVKSiJycPqbhCf5TzLd3Y1heYxSgFKuoM4TT2wDxNpWQy2IuaNQbp
+ RTYekfoADtEIpDtZ5Oy+egjPIM8ex9UWTWNo9tkIxM3rLxBzQX2GmocTFy8sb4Kntf
+ 6EHqdk6AYXz2FwD7CJO4noDSO2DyY58M8jZyotcI+fNcXmrZYccgvSLEV247unSW5K
+ Q+Z/y4JxIQ4Dg==
+Message-ID: <8cf7e03a-7994-4dd5-b496-e00b4827ee22@kernel.org>
+Date: Thu, 12 Dec 2024 08:20:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/ci: uprev IGT
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
- helen.koike@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20241211142806.1824961-1-vignesh.raman@collabora.com>
- <f2dac4eatkajw633ksnnb3nfq7zop2l4ux2euj6jqg4hg3soqt@sv7p2r6xk7fz>
+Subject: Re: [PATCH v2 2/8] dt-bindings: mailbox: mediatek: Add MT8196 support
+ for gce-mailbox
+To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mchehab@kernel.org"
+ <mchehab@kernel.org>, =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
+ <Nancy.Lin@mediatek.com>, =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?=
+ <Moudy.Ho@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "robh@kernel.org" <robh@kernel.org>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
+ "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
+ <20241211032256.28494-3-jason-jh.lin@mediatek.com>
+ <yhfxpflyumevs66sdwgiiyuablpfxfxw3e7ybrxju7ssicmnu5@truuiuvxlq6e>
+ <64326843358d450c9172f3dea1c85e7422e20430.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <f2dac4eatkajw633ksnnb3nfq7zop2l4ux2euj6jqg4hg3soqt@sv7p2r6xk7fz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <64326843358d450c9172f3dea1c85e7422e20430.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,161 +125,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On 12/12/24 03:09, Dmitry Baryshkov wrote:
-> On Wed, Dec 11, 2024 at 07:58:05PM +0530, Vignesh Raman wrote:
->> Uprev IGT to the latest version and update expectation files.
+On 12/12/2024 04:41, Jason-JH Lin (林睿祥) wrote:
+> Hi Krzysztof,
+> 
+> Thanks for the reviews.
+> 
+> On Wed, 2024-12-11 at 10:39 +0100, Krzysztof Kozlowski wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
 >>
->> Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
->> ---
 >>
->> v1:
->>    - Pipeline link - https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1327810
->>      Will update the flake bug report link after v1 is reviewed.
+>> On Wed, Dec 11, 2024 at 11:22:50AM +0800, Jason-JH.Lin wrote:
+>>> Add compatible name and iommus property for MT8196.
+>>>
+>>> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+>>> ---
+>>>  .../devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml     | 4
+>>> ++++
+>>>  1 file changed, 4 insertions(+)
 >>
->> ---
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->> index 066d24ee3e08..7752adff05c1 100644
->> --- a/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->> +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-fails.txt
->> @@ -1,4 +1,7 @@
->>   kms_3d,Fail
->> +kms_cursor_legacy@forked-bo,Fail
->> +kms_cursor_legacy@forked-move,Fail
->> +kms_cursor_legacy@single-bo,Fail
->>   kms_cursor_legacy@torture-bo,Fail
+>> Headers are never separate from the bindings patch...
 > 
-> Interesting, DRM_MODE_CURSOR_BO tests fail
-> 
->>   kms_force_connector_basic@force-edid,Fail
->>   kms_hdmi_inject@inject-4k,Fail
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt
->> index 6dbc2080347d..581d0aa33b4f 100644
->> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt
->> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-fails.txt
->> @@ -8,6 +8,8 @@ kms_color@ctm-red-to-blue,Fail
->>   kms_color@ctm-signed,Fail
->>   kms_cursor_legacy@cursor-vs-flip-toggle,Fail
->>   kms_cursor_legacy@cursor-vs-flip-varying-size,Fail
->> +kms_display_modes@extended-mode-basic,Fail
->> +kms_display_modes@mst-extended-mode-negative,Fail
-> 
-> This is a bug in 5f7cde6a9878 ("tests/kms_display_modes: Skip test if
-> joiner display is connected"), the driver unconditionally calls
-> is_joiner_mode(), or in 88abc2d2c646 ("lib/igt_kms: Add is_joiner_mode
-> function"), the is_joiner_mode() should return false for non-Intel
-> hardware. Please fix it in the IGT instead.
+> Do you mean I need to merge [PATCH 1/8] and [PATCH 2/8] into 1 patch?
+I asked this last time.
 
-Can we add this in skips mentioning the IGT gitab issue link?
-
-> 
->>   kms_flip@flip-vs-modeset-vs-hang,Fail
->>   kms_flip@flip-vs-panning-vs-hang,Fail
->>   kms_lease@lease-uevent,Fail
->> @@ -15,4 +17,3 @@ kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
->>   kms_plane_alpha_blend@alpha-7efc,Fail
->>   kms_plane_alpha_blend@coverage-7efc,Fail
->>   kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail
->> -kms_rmfb@close-fd,Fail
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
->> index d74e04405e65..5122233b9941 100644
->> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
->> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-kingoftown-flakes.txt
->> @@ -18,3 +18,10 @@ msm/msm_shrink@copy-gpu-oom-32
->>   # IGT Version: 1.28-g0df7b9b97
->>   # Linux Version: 6.9.0-rc7
->>   msm/msm_shrink@copy-gpu-oom-8
->> +
->> +# Board Name: sc7180-trogdor-kingoftown
->> +# Bug Report:
->> +# Failure Rate: 50
->> +# IGT Version: 1.29-g33adea9eb
->> +# Linux Version: 6.13.0-rc2
->> +kms_lease@page-flip-implicit-plane
-> 
-> Do you have a failure log?
-
-
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/68026461#L3262
-
-Let me know if I can create a gitlab issue for this.
-
-Regards,
-Vginesh
-
-> 
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt
->> index 6dbc2080347d..581d0aa33b4f 100644
->> --- a/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt
->> +++ b/drivers/gpu/drm/ci/xfails/msm-sc7180-trogdor-lazor-limozeen-fails.txt
->> @@ -8,6 +8,8 @@ kms_color@ctm-red-to-blue,Fail
->>   kms_color@ctm-signed,Fail
->>   kms_cursor_legacy@cursor-vs-flip-toggle,Fail
->>   kms_cursor_legacy@cursor-vs-flip-varying-size,Fail
->> +kms_display_modes@extended-mode-basic,Fail
->> +kms_display_modes@mst-extended-mode-negative,Fail
-> 
-> Again, the same IGT issue.
-> 
->>   kms_flip@flip-vs-modeset-vs-hang,Fail
->>   kms_flip@flip-vs-panning-vs-hang,Fail
->>   kms_lease@lease-uevent,Fail
->> @@ -15,4 +17,3 @@ kms_pipe_crc_basic@compare-crc-sanitycheck-nv12,Fail
->>   kms_plane_alpha_blend@alpha-7efc,Fail
->>   kms_plane_alpha_blend@coverage-7efc,Fail
->>   kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail
->> -kms_rmfb@close-fd,Fail
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->> index fa8c7e663858..69076751af24 100644
->> --- a/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->> +++ b/drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
->> @@ -1,4 +1,3 @@
->> -drm_read@invalid-buffer,Fail
->>   kms_color@ctm-0-25,Fail
->>   kms_color@ctm-0-50,Fail
->>   kms_color@ctm-0-75,Fail
->> @@ -19,6 +18,8 @@ kms_cursor_legacy@flip-vs-cursor-atomic,Fail
->>   kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
->>   kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
->>   kms_cursor_legacy@flip-vs-cursor-legacy,Fail
->> +kms_display_modes@extended-mode-basic,Fail
->> +kms_display_modes@mst-extended-mode-negative,Fail
-> 
-> The same IGT error
-> 
->>   kms_flip@flip-vs-modeset-vs-hang,Fail
->>   kms_flip@flip-vs-panning-vs-hang,Fail
->>   kms_lease@lease-uevent,Fail
->> @@ -28,4 +29,3 @@ kms_plane_alpha_blend@coverage-7efc,Fail
->>   kms_plane_alpha_blend@coverage-vs-premult-vs-constant,Fail
->>   kms_plane_cursor@overlay,Fail
->>   kms_plane_cursor@viewport,Fail
->> -kms_rmfb@close-fd,Fail
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
->> index 4892c0c70a6d..8d26b23133aa 100644
->> --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
->> +++ b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-fails.txt
->> @@ -7,9 +7,4 @@ kms_cursor_legacy@torture-bo,Fail
->>   kms_cursor_legacy@torture-move,Fail
->>   kms_hdmi_inject@inject-4k,Fail
->>   kms_lease@lease-uevent,Fail
->> -kms_plane_alpha_blend@alpha-7efc,Fail
->> -kms_plane_alpha_blend@alpha-basic,Fail
->> -kms_plane_alpha_blend@alpha-opaque-fb,Fail
->> -kms_plane_alpha_blend@alpha-transparent-fb,Fail
->> -kms_plane_alpha_blend@constant-alpha-max,Fail
->>   msm/msm_recovery@gpu-fault-parallel,Fail
->> diff --git a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt b/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt
->> deleted file mode 100644
->> index c1859d9b165f..000000000000
->> --- a/drivers/gpu/drm/ci/xfails/msm-sm8350-hdk-flakes.txt
->> +++ /dev/null
->> @@ -1,6 +0,0 @@
->> -# Board Name: sm8350-hdk
->> -# Bug Report: https://gitlab.freedesktop.org/drm/msm/-/issues/65
->> -# Failure Rate: 100
->> -# IGT Version: 1.28-ga73311079
->> -# Linux Version: 6.12.0-rc1
->> -msm/msm_recovery@gpu-fault
-> 
+Best regards,
+Krzysztof
