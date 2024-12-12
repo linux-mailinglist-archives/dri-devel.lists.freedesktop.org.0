@@ -2,85 +2,211 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465589EDDC5
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 03:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039229EDDD0
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 04:05:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9A3610E0F0;
-	Thu, 12 Dec 2024 02:59:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6AE10E9B1;
+	Thu, 12 Dec 2024 03:05:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VS/DlV/h";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="vGnmvHYC";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="BRixVaCB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E98210E0C1;
- Thu, 12 Dec 2024 02:59:36 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBHDBCu003523;
- Thu, 12 Dec 2024 02:59:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- oZzGnC5tg5jAfdoh07hrJxRB+mVmv+cpObs3kzP043A=; b=VS/DlV/hyAOVUdff
- a/M4aBOiCr2r5AeR8dv/4ycjlI6ZV5dPAAzPhrfb8wOEAFM0VGcqhTYLykomw3Pc
- LCAan7l3FwkCjlBUnZg6IMfXyGeaGq0hGl9rJYnmARzES0WmBl3Y7/YzQpOpc4Au
- wXAt/v0imFIWpT4AwOHCYjkgjqNruElQHTcHxQpyaP+vasm6gg/jIkVTdDrvHmSq
- LeFFRFWOPqDZpcxMG7Njtg7bZ7+ERKw01e/iDNj7P6ZVrAjhNc3WdJ/VSwmItRPO
- nesU+SEVTjYwvXOJq5u+bda6HO5ASCVqysguHDoMR0iMt6bfTmjtcdmdNDRRSGYf
- B3ONPw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ee3nf2an-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2024 02:59:30 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BC2xT6K026566
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 12 Dec 2024 02:59:29 GMT
-Received: from [10.110.5.240] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 11 Dec
- 2024 18:59:27 -0800
-Message-ID: <c5090fcc-d7ec-4d49-aa21-8d1aa7f6a1c7@quicinc.com>
-Date: Wed, 11 Dec 2024 18:59:26 -0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/14] drm/msm/dp: pull I/O data out of
- msm_dp_catalog_private()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Paloma Arellano <quic_parellan@quicinc.com>
-CC: Douglas Anderson <dianders@chromium.org>, Stephen Boyd
- <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
- <20241212-fd-dp-audio-fixup-v3-4-0b1c65e7dba3@linaro.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D769310E0C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 03:05:15 +0000 (UTC)
+X-UUID: e6d9874cb83511ef99858b75a2457dd9-20241212
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=cPdEadxUC+YqInGEa1+xq4mNG/XB9nRNvruoT10JzVo=; 
+ b=vGnmvHYC//AtI1U9Z8cLhhN1/JsXMQMS4Z4aOvUIo5poLFNmgH37FLSYP5w27q3zhL9bF51hRwO9Z9lYyx3cLxMcZvKfAAAUSEkko/pvbNm2X8tyf+iObiIR9oAFoPcd2HBZ2mlpvxFWOrECDl2Ww/HZH1RvM1/pdfcZ0ZJccvw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:e0dfc9b1-a3e7-437f-ab90-ba6fddebc61c, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:6493067, CLOUDID:d88b6228-d2eb-4de2-b5c9-495d1bc17256,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0,EDM
+ :-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+ ,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: e6d9874cb83511ef99858b75a2457dd9-20241212
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 147804438; Thu, 12 Dec 2024 11:05:11 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 12 Dec 2024 11:05:08 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
+ Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 12 Dec 2024 11:05:08 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Mtu3oyG9doraZn12uAcZ0ZkbwjbbkFI9GAU5gaDp1cUlrDF6CMSg4vV34fpmfVWowjnnl+BLdR4DUpAlMd5/2Dm7yIMhrOpJRGKaYoLBT1BvtfuICD9sldi8/WeU2YoyofDyhZerebydEaltjUzS8l0LaFdZMfIxtJ9mCJeEUIuLK1tpqjAJU8wwgFIyPTot4biOk6nq8LDUAt8Rv2WPKSLCH13V7IQusL6b8u8RDMztFWppqXORnJ4VAWK/UeSHv60IViUDBtDDnK+K4hztf+eH/gJrQ0yESB1GgmWPCohQnlPvtTzIHgTRqRp86Afoac4Np4qFU/rwjq4gtQ2v4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YXsdSqviJKzqDwjQXinfmhtSPwovATQ26tqgmwnsNnA=;
+ b=iYobrM8peHnVlQqS7x4AnhUB8AWtbB6UcqtX5JbzYRWVVkrAFAB86X9H2ZbumkhxMo+S8yfpVIqkx4aC7K7ibTJCjsfbDPvid0MOMbnL0ffP23m1SqAfDa8Atb7BeaQlT7B0h5Z7E1Thu+LuKPkol340y1gWJjw318BVEXdghhdu84DMCSF4on6SYkE3IEcSgxTvetylJSamGsv/cTNt3hMaBVC19G48M96oirHWv3hIpzHh7MOmZGYByCakp81ayhcJNd0KTjExbvCQ6MM/K4zNHSD3cxGj3GzgN4J6r0DRDEZ9Y73GKFx8AkEg8oeKSY9prCJgvGAOqME7oncnEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YXsdSqviJKzqDwjQXinfmhtSPwovATQ26tqgmwnsNnA=;
+ b=BRixVaCBlU/b1JCE2It8+C4E70XcH1zXqOhIazAHyAMlmDPtf2V3wqrihX5jfai8XaXPkG60Zb8GokGbooV6ZWwpUt9aVYlywQtUg0GTDPT/pEM4tuMo27RAPHpVaA1Jx/Rg9pMLSpsl7Wcq/Nj0eCdCDXiwKC151hfXy1hkS5k=
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
+ by TY0PR03MB8176.apcprd03.prod.outlook.com (2603:1096:405:d::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.19; Thu, 12 Dec
+ 2024 03:05:05 +0000
+Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
+ ([fe80::c6cc:cbf7:59cf:62b6%5]) with mapi id 15.20.8251.008; Thu, 12 Dec 2024
+ 03:05:05 +0000
+From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
+To: "krzk@kernel.org" <krzk@kernel.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "simona@ffwll.ch"
+ <simona@ffwll.ch>, "mchehab@kernel.org" <mchehab@kernel.org>,
+ =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
+ =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "robh@kernel.org" <robh@kernel.org>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>, "airlied@gmail.com"
+ <airlied@gmail.com>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, =?utf-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?=
+ <Xavier.Chang@mediatek.com>, "jassisinghbrar@gmail.com"
+ <jassisinghbrar@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 1/8] dt-bindings: mailbox: mediatek: Add GCE header
+ file for MT8196
+Thread-Topic: [PATCH v2 1/8] dt-bindings: mailbox: mediatek: Add GCE header
+ file for MT8196
+Thread-Index: AQHbS3wqkgkOb2qikki77NU3E0fbTbLgycKAgAEkjQA=
+Date: Thu, 12 Dec 2024 03:05:05 +0000
+Message-ID: <04f7bd2a7d69ab7d02c88cf05bda5ae0c4cb6573.camel@mediatek.com>
+References: <20241211032256.28494-1-jason-jh.lin@mediatek.com>
+ <20241211032256.28494-2-jason-jh.lin@mediatek.com>
+ <ozifi65uycmxc5hqeu4onbths5u7dg532iufjxplsjw4jjmhf6@6bdsaabd7hl7>
+In-Reply-To: <ozifi65uycmxc5hqeu4onbths5u7dg532iufjxplsjw4jjmhf6@6bdsaabd7hl7>
+Accept-Language: zh-TW, en-US
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241212-fd-dp-audio-fixup-v3-4-0b1c65e7dba3@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 4SZNMlN1j_2fUJDvBrA3euvPUIv-C_Gb
-X-Proofpoint-ORIG-GUID: 4SZNMlN1j_2fUJDvBrA3euvPUIv-C_Gb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0
- malwarescore=0 spamscore=0 priorityscore=1501 mlxscore=0 impostorscore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412120020
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|TY0PR03MB8176:EE_
+x-ms-office365-filtering-correlation-id: 477f7144-62d0-4370-7e94-08dd1a59c749
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?dEFJcmQ2Tmd3TkNENURXaktuM1JheXNvZG0vY1dGYWEyQXJqakRYbE1CRERL?=
+ =?utf-8?B?YVpkT0pscTJzZ3RjekxwQzMvV1FTK3hubEVNN1NkTUxqaWl0NDFORXNBdyto?=
+ =?utf-8?B?Y1Y1a1NLbXF3OXZiV1NRVjMwRjQ3TG9vM0ZHSmg4VkphVjE1ZkhFckxxckRu?=
+ =?utf-8?B?RjN5NFgvMXE0MVFES2g2QTQwTE5NMVZwa0ZSYVB6MHlscmtoSndMdEw4OUNR?=
+ =?utf-8?B?ZnoraDIwYWRSOEEvdXdMbXB5QWN6T3RoOWllcWVadnB2VnhybDE4Y2xabHUr?=
+ =?utf-8?B?RGdMV0EzTWdCcTJwdjJVbTBOOUppWjFVb1ErSlV4NWVTSjJEeHZLbTV5TFJy?=
+ =?utf-8?B?YkFVMVh4VXdBNFRpdUJldXdGRHNPZlZ1d0NWOXo2bEdlMWUvOUdsVm5UUHRZ?=
+ =?utf-8?B?Qm5pRENaRzdCUUVkMjkwZDgrUzBiek1Jc3dudWpPQm9ndlk1eG5DSmpuaGdq?=
+ =?utf-8?B?OVRHSlF2SFdjbC9RTUlEOE16VUxrUmhteUtyaktRbDBLZ055M3FnbnNvenJM?=
+ =?utf-8?B?NmRjaDluVUpSR3g1OUhRUTdCUGp2aSs4bjdTODYzeVdVU3ZPbWhYR3JnNU95?=
+ =?utf-8?B?VzZuTExsTk1wS1FGWUU3SzVDenp2d0VTODF0VjlRbmxPNkV5L1FZUTR0TVk3?=
+ =?utf-8?B?cElWd3JZR3NxUG9RL0lhKzRGMjVXbEh3M2VsVmpOaEpVcUJ3SGFxK0kyL2xu?=
+ =?utf-8?B?SFBXWStQRWR4dUJkZ0JtRlFTZ2NLdTlYYTNjMWsxSUJPc204VUcwczRTQm5o?=
+ =?utf-8?B?OFp5bnBEQTZIbVUzQThhY3YzT21KeFZ1bjNpQ28vZ1JYN25SWXVtdnBLVmh0?=
+ =?utf-8?B?akZQNVlFTzQ0djlGQkkzVWlXbGtFbmh2M1dYMEJHSWg2QWxsRkdBWC9MdzRs?=
+ =?utf-8?B?YkNyUG4zSWpZNEZXeUVJajU4V0p0YVJwc2txZ0NLa1lBR2F2bTBjQ3pGYlJX?=
+ =?utf-8?B?eUZPY0Q4bkdOeDdBWjVvRUZRSjB6SWlOQUNRZzRkTjZ0ZFIwZ1FrSXN1cyt1?=
+ =?utf-8?B?ZXNEa2VxYWlRd0QzbFA3TkxJNzRIdTlHdHFQcEdKSENtWVVjTVNYS21GU01O?=
+ =?utf-8?B?aHd2R1ZpaitzWVVCaHdRU3RCS1lXL1k3cnFLVXVhUGJhMFVHaisxUGNhVnlL?=
+ =?utf-8?B?NWVaVXpWRm5FMVRrS3N0QVR6cWF1Mjh2STh5RjRUVGM5elZJZSsyRnl4eWdr?=
+ =?utf-8?B?TURMSThQTXVhUEtBdVNlRmdPTGR1Zll1VjU5RHR3SnJPSmRHc2Y0RThoNWl5?=
+ =?utf-8?B?SVZkTmVCVHNGWWRpbmFwbmVkUzRNL1plQTRKZzYwZm9wbTdGM2hockFsZWFp?=
+ =?utf-8?B?R2VIMlpteXg0OFJyd2VxZWx3R2swSzFGYVlBM2loUTlQS3ZIS2l5OThUaTdM?=
+ =?utf-8?B?eURhRVU0bmJWK2dKclN5eGVOcm94czFlZzF6THVSZjRpVzBoZE9ray8xbVpT?=
+ =?utf-8?B?Wmk2dFpHcTQyWWpKeGVIMFBKZy9rVXlhUkdZTk1BMVpZZGpjZ3RPTGFMQ3Vh?=
+ =?utf-8?B?NkFQWGtnK2owNXUvMnlicGtqV3NzTFF3a1BmZG9GYlk3c3BsRVVWMlNibVlJ?=
+ =?utf-8?B?WGhodjk3bjJPUGtsQWtRSjIrUSsvb2hrdTFEL21xUnVtbXZhSG9NWU9jV20z?=
+ =?utf-8?B?VnhvTkc5L1dxYVpRUlh6bnhyVmlJT0ZhWWNtVUdNYm5DZmlZWUo1cVRaMWZo?=
+ =?utf-8?B?NE4xQUZmU0t2YnlEVWhKbnpuRTZzRmN6QjhSRndqUzR5T0w3S1BCalp6c29K?=
+ =?utf-8?B?TXR4UlN2aXBWZUkwNVB2blJlNnhJZDBDTDhxNjhQWWo3Qm9xU2h0a2NSdVdK?=
+ =?utf-8?B?c21EUFozS1FzdE9xVDJXWUU0WXozMmhlbXdoNDl3dUFBWmhYSzZKb0tydEZo?=
+ =?utf-8?B?TlYxMkMzR3o0MWcxODVBTHN3TGZMQW1DRjVjZVJyQ3lwQVFrWmR5TGwreWhK?=
+ =?utf-8?Q?lvpOoEfTx/ugVrwCfxYtdxE4K8LKBcMj?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEYPR03MB7682.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K3BFdEhkOXNadkJjR0JpQ0RUREd3MFpldFpyUXhrb250TDQ2UjdqVnZUR0VW?=
+ =?utf-8?B?MXg1TXVVT20xa1daVVVrTHNxWEdkTkRBby9aZW9lQ1lxb3BVL2h0MjdSczQz?=
+ =?utf-8?B?aEF2Z3NTUTdXUVR5UnpqdnB5N0lhbmM0SWo0eWtZYUwrcjk2UjRpZnZ5L3dq?=
+ =?utf-8?B?Y2poK0dUSWNtTW5aSmRaOVNSKzVUNXVTOXZteFkyQVIyVFpEZmdBUVFKd3dB?=
+ =?utf-8?B?OXRsWHArZnQvV1lCd1puZlRWdG1IazJOSWpwOXg0UFhzWFFleHhoVGh3NVhZ?=
+ =?utf-8?B?SDB5L1NMUzdYdXJLUmtGZnc0VnZ1NjM5UjFUSWVZblFxbXdTZXl1cTVkTStW?=
+ =?utf-8?B?dEhQVk5McXhGZkRiWXZ1aUJtWUVBQW8wb2UwbzhZZEYwbzdFQktGc2d2eHNy?=
+ =?utf-8?B?endyN3pjLzNqdmdtM2pINkFYaTVmaGUvdHFiUE9pU1VET2tPYzBjZzArODZO?=
+ =?utf-8?B?SHEwS1BMNXNmVUhPSWJyOElObE1veTgxa2NPZVZWMTBRSTViNlkzcFQ1ekpW?=
+ =?utf-8?B?QmJBdmU4WEJncm1FUkg2N0ZtSGx3ZnB3WkRlUDNFdkN4aWtQSkVTMHNQV2tO?=
+ =?utf-8?B?b1hXemJRQUdlMFF4WHA0NllTVTFkVUpsY1llUmdvalcxeW1DNXI2eXA0WGFC?=
+ =?utf-8?B?YzdRYTRvbktoQ1cyKzh1UVZpUDViTFFjc1U5dXE2YkEydDIrbC8vZkN3Uk1q?=
+ =?utf-8?B?M2FHQ1BqMzdQZjNOdzBpL1JTbm0zMkNWVklKcW93SVhDN2hqWU03ZFNOTi9q?=
+ =?utf-8?B?WW41S1dpcjdxd1pnbnlhM3F4UEorOWVDWVo3YUI2aG9QUmZKaVdpUXlyNCt5?=
+ =?utf-8?B?bmoreGJTK1V5WitXUTRldTlpWUlkVWJuOWtkbStGTk55eEVKVVJMNXlOTVJ3?=
+ =?utf-8?B?cVpEeWNZWjl4aWprS3laTUJYdGxqbWd3aGt2WFJXSS84VTBBTkQzeG9uc09V?=
+ =?utf-8?B?K1NxTVhxU0lmeDhjRTdkL3kxNy84c09PZU9CdmNMaHZmTnFGZ1UxUk9JOXdv?=
+ =?utf-8?B?Y3pKMjliWTRTZXczOFFUSTUwd1NIcmhzNlZZTFV6ZDk4eWVCQmNDM2ROcmR0?=
+ =?utf-8?B?UlZWYjRYU2tueVRFM01URVpsbTBzdHNuMVBsclJhK2IvSmxHZVEzZUlTMlNI?=
+ =?utf-8?B?cUdCL2ZsYVJSTUlQZXU1Z2p3Q09VK1dXdW1janpiOVl4ZVJieTFmQUFjZnYr?=
+ =?utf-8?B?Y091NlE5NGZnTTNtOUpUMTFhc0NtcTUyMnRMRlJZWTJubnlpKzJTYVpCUG9Y?=
+ =?utf-8?B?cEZDMzlqc3FYSHRxZEFCRVNmNGJMak9lZGFGc3JGeWVKMlFmSkF3QzR1Uk0r?=
+ =?utf-8?B?bThtbXpmTktCMisrM1VURHdJZW9ZSGY3Z1hjMDg2ekkvRlhQdC90NWhCc3Ji?=
+ =?utf-8?B?a3BkbnVwTXJWeEJsN1ZsbHAwM1FRM2tsN0R3c29ZNFE5YmVoUFhHNDUzN0lV?=
+ =?utf-8?B?NlFSa3ZRUW01UWNGc0N6dUdGN3FRZzJhMVBYbHNoWXN0b2JNeXNjUkRlZi9O?=
+ =?utf-8?B?dmg1a3F1Wko3amRxWlR3Q3BqR0djSkhVYURnY29sZFR2YVd0dGhYbXNmWVVC?=
+ =?utf-8?B?NVZUL0ZrVGllYXI5a0d0bEdkSk5NNFlXL25VWTlwUU9JWnNzeS9UZllnWFJr?=
+ =?utf-8?B?b28raGs1Um1WRitlUkp0bnJ5Z0RSRXFuQzBZTkxhUTJhT25mTXN0VUVvcm1q?=
+ =?utf-8?B?Q0dYRDRtQk1vbFlYcXdMQzBFZVI1c1czMVIwNWc0THNsWGdlR0g5RWNuQTlT?=
+ =?utf-8?B?dExHdnFiYm5TRVU1SWJrcHdLVDcvT1Z1aE4zd0ZSMzdGZUpmZTRHRndFRlZn?=
+ =?utf-8?B?dEhQQ2JwY1o2V01WUXBFTG9XVzJsL3g5OTA5NnZlS1p3WVZSYUszYldSQ3ht?=
+ =?utf-8?B?Z3l3RTNFQkNXSERoMGN1Z0ZPaDlWbTBhTDg5eVRxdTFHUFUzMXF4MXNadG0r?=
+ =?utf-8?B?QnFoekJTeHVCY09QcWpKWUZERjNWMThNcER3Rk9aWjFueStzc2ovUHFRb05x?=
+ =?utf-8?B?RW5sdDU3ZUNOUmxJcWZid1Y0VjZaOVQrNm44SUsrdDRCNzFDT1IrSitoRTVy?=
+ =?utf-8?B?NXM1ZGN5RWFnYk9hMTlFL3paYXlINmlwamVZZmxDeUlTQnE2R0lNMFNHa0pw?=
+ =?utf-8?B?anhZY2ZUUmU5dE42THZnMEY3aHlreU9hN1dRTWxkdmJiSGlBUUpSUms5TDlB?=
+ =?utf-8?B?ZVE9PQ==?=
+Content-ID: <9432B9975FE7774194BAF3DBB4938AE2@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 477f7144-62d0-4370-7e94-08dd1a59c749
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2024 03:05:05.4218 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7vrvyYAQVS/Yo9ag5/2XP8oXr+Wx/enmYN7PYyLM1WIYOKJs60EWCPR1whB1nFbJePNjDZk5uRSbBcbkmzIy5YLRsls/H6qVOjBnNP8FGm4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR03MB8176
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_006_397823330.793983989"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,1154 +222,301 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--__=_Part_Boundary_006_397823330.793983989
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
+SGkgS3J6eXN6dG9mLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXdzLg0KDQpPbiBXZWQsIDIwMjQt
+MTItMTEgYXQgMTA6MzcgKzAxMDAsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+IEV4dGVy
+bmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRz
+IHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhlIGNvbnRlbnQuDQo+
+IA0KPiANCj4gT24gV2VkLCBEZWMgMTEsIDIwMjQgYXQgMTE6MjI6NDlBTSArMDgwMCwgSmFzb24t
+SkguTGluIHdyb3RlOg0KPiA+IEFkZCB0aGUgR2xvYmFsIENvbW1hbmQgRW5naW5lIChHQ0UpIGhl
+YWRlciBmaWxlIHRvIGRlZmluZSB0aGUgR0NFDQo+ID4gdGhyZWFkIHByaW9yaXR5LCBHQ0Ugc3Vi
+c3lzIElEIGFuZCBHQ0UgZXZlbnRzIGZvciBNVDgxOTYuDQo+IA0KPiBUaGlzIHdlIHNlZSBmcm9t
+IHRoZSBkaWZmLiBXaGF0IHdlIGRvIG5vdCBzZWUgaXMgd2h5IHByaW9yaXR5IGlzIGENCj4gYmlu
+ZGluZy4gTG9va2luZyBicmllZmx5IGF0IGV4aXN0aW5nIGNvZGU6IGl0IGlzIG5vdCBhIGJpbmRp
+bmcsIHRoZXJlDQo+IGlzDQo+IG5vIGRyaXZlciB1c2VyLg0KPiANCg0KVGhpcyBwcmlvcml0eSB2
+YWx1ZSBpcyB1c2VkIHRvIGNvbmZpZ3VyZSB0aGUgcHJpb3JpdHkgbGV2ZWwgZm9yIGVhY2gNCkdD
+RSBoYXJkd2FyZSB0aHJlYWQsIHNvIGl0IGlzIGEgbmVjZXNzYXJ5IGhhcmR3YXJlIGF0dHJpYnV0
+ZS4NCg0KSXQncyBoYXJkIHRvIGZpbmQgd2hlcmUgdGhlIHByaW9yaXR5IGlzIHVzZWQgaW4gZXhp
+c3RpbmcgZHJpdmVyIGNvZGUNCmJlY2F1c2Ugd2UgcGFyc2VkIGl0IGZyb20gRFRTLg0KDQpJdCBp
+cyB1c2VkIGluIGFsbCBtZWRpYVRla3MnIERUUyB1c2luZyB0aGUgR0NFLg0KRm9yIGV4YW1wbGUs
+IGluIG10ODE5NS5kdHM6DQoNCnZkb3N5czA6IHN5c2NvbkAxYzAxYTAwMCB7DQogICAgY29tcGF0
+aWJsZSA9ICJtZWRpYXRlayxtdDgxOTUtdmRvc3lzMCIsICJtZWRpYXRlayxtdDgxOTUtbW1zeXMi
+LA0KInN5c2NvbiI7DQogICAgcmVnID0gPDAgMHgxYzAxYTAwMCAwIDB4MTAwMD47DQogICAgbWJv
+eGVzID0gPCZnY2UwIDAgQ01EUV9USFJfUFJJT180PjsNCiAgICAjY2xvY2stY2VsbHMgPSA8MT47
+DQogICAgbWVkaWF0ZWssZ2NlLWNsaWVudC1yZWcgPSA8JmdjZTAgU1VCU1lTXzFjMDFYWFhYIDB4
+YTAwMCAweDEwMDA+Ow0KfQ0KDQpDTURRIGRyaXZlcihtdGstY21kcS1tYWlsYm94LmMpIHdpbGwg
+Z2V0IHRoZSBhcmdzIHBhcnNlZCBmcm9tIG1ib3hlcw0KcHJvcGVydHkgaW4gY21kcV94bGF0ZSgp
+IGFuZCB0aGVuIGl0IHdpbGwgc3RvcmUgQ01EUV9USFJfUFJJT180IHRvIHRoZQ0Kc3BlY2lmaWMg
+dGhyZWFkIHN0cnVjdHVyZS4gDQpUaGUgdXNlciBvZiBDTURRIGRyaXZlciB3aWxsIHNlbmQgY29t
+bWFuZCB0byBDTURRIGRyaXZlciBieSANCmNtZHFfbWJveF9zZW5kX2RhdGEoKSwgYW5kIHRoaXMg
+cHJpb3JpdHkgc2V0dGluZyB3aWxsIGJlIGNvbmZpZ3VyZWQgdG8NCkdDRSBoYXJkd2FyZSB0aHJl
+YWQuDQoNCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBKYXNvbi1KSC5MaW4gPGphc29uLWpoLmxp
+bkBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9kdC1iaW5kaW5ncy9tYWlsYm94L21l
+ZGlhdGVrLG10ODE5Ni1nY2UuaCB8IDE0MzkNCj4gPiArKysrKysrKysrKysrKysrKw0KPiA+ICAx
+IGZpbGUgY2hhbmdlZCwgMTQzOSBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0
+NCBpbmNsdWRlL2R0LWJpbmRpbmdzL21haWxib3gvbWVkaWF0ZWssbXQ4MTk2LQ0KPiA+IGdjZS5o
+DQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHQtYmluZGluZ3MvbWFpbGJveC9tZWRp
+YXRlayxtdDgxOTYtZ2NlLmgNCj4gPiBiL2luY2x1ZGUvZHQtYmluZGluZ3MvbWFpbGJveC9tZWRp
+YXRlayxtdDgxOTYtZ2NlLmgNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAw
+MDAwMDAwMDAwMC4uODYwZDY5MTAwMTU3DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL2lu
+Y2x1ZGUvZHQtYmluZGluZ3MvbWFpbGJveC9tZWRpYXRlayxtdDgxOTYtZ2NlLmgNCj4gPiBAQCAt
+MCwwICsxLDE0MzkgQEANCj4gPiArLyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAt
+b25seSBPUiBCU0QtMi1DbGF1c2UgKi8NCj4gPiArLyoNCj4gPiArICogQ29weXJpZ2h0IChjKSAy
+MDI0IE1lZGlhVGVrIEluYy4NCj4gPiArICoNCj4gPiArICovDQo+ID4gKw0KPiA+ICsjaWZuZGVm
+IF9EVF9CSU5ESU5HU19HQ0VfTVQ4MTk2X0gNCj4gPiArI2RlZmluZSBfRFRfQklORElOR1NfR0NF
+X01UODE5Nl9IDQo+ID4gKw0KPiA+ICsvKiBHQ0UgdGhyZWFkIHByaW9yaXR5ICovDQo+ID4gKyNk
+ZWZpbmUgQ01EUV9USFJfUFJJT19MT1dFU1QgMA0KPiA+ICsjZGVmaW5lIENNRFFfVEhSX1BSSU9f
+MSAgICAgICAgICAgICAgMQ0KPiA+ICsjZGVmaW5lIENNRFFfVEhSX1BSSU9fMiAgICAgICAgICAg
+ICAgMg0KPiA+ICsjZGVmaW5lIENNRFFfVEhSX1BSSU9fMyAgICAgICAgICAgICAgMw0KPiA+ICsj
+ZGVmaW5lIENNRFFfVEhSX1BSSU9fNCAgICAgICAgICAgICAgNA0KPiA+ICsjZGVmaW5lIENNRFFf
+VEhSX1BSSU9fNSAgICAgICAgICAgICAgNQ0KPiA+ICsjZGVmaW5lIENNRFFfVEhSX1BSSU9fNiAg
+ICAgICAgICAgICAgNg0KPiA+ICsjZGVmaW5lIENNRFFfVEhSX1BSSU9fSElHSEVTVCAgICAgICAg
+Nw0KPiA+ICsNCj4gPiArLyogR0NFIHN1YnN5cyB0YWJsZSAqLw0KPiA+ICsjZGVmaW5lIFNVQlNZ
+U18xMzAwWFhYWCAgICAgICAgICAgICAgMA0KPiA+ICsjZGVmaW5lIFNVQlNZU18xNDAwWFhYWCAg
+ICAgICAgICAgICAgMQ0KPiA+ICsjZGVmaW5lIFNVQlNZU18xNDAxWFhYWCAgICAgICAgICAgICAg
+Mg0KPiA+ICsjZGVmaW5lIFNVQlNZU18xNDAyWFhYWCAgICAgICAgICAgICAgMw0KPiA+ICsjZGVm
+aW5lIFNVQlNZU18xNTAyWFhYWCAgICAgICAgICAgICAgNA0KPiA+ICsjZGVmaW5lIFNVQlNZU18x
+ODgwWFhYWCAgICAgICAgICAgICAgNQ0KPiA+ICsjZGVmaW5lIFNVQlNZU18xODgxWFhYWCAgICAg
+ICAgICAgICAgNg0KPiA+ICsjZGVmaW5lIFNVQlNZU18xODgyWFhYWCAgICAgICAgICAgICAgNw0K
+PiA+ICsjZGVmaW5lIFNVQlNZU18xODgzWFhYWCAgICAgICAgICAgICAgOA0KPiA+ICsjZGVmaW5l
+IFNVQlNZU18xODg0WFhYWCAgICAgICAgICAgICAgOQ0KPiA+ICsjZGVmaW5lIFNVQlNZU18xMDAw
+WFhYWCAgICAgICAgICAgICAgMTANCj4gPiArI2RlZmluZSBTVUJTWVNfMTAwMVhYWFggICAgICAg
+ICAgICAgIDExDQo+ID4gKyNkZWZpbmUgU1VCU1lTXzEwMDJYWFhYICAgICAgICAgICAgICAxMg0K
+PiA+ICsjZGVmaW5lIFNVQlNZU18xMDAzWFhYWCAgICAgICAgICAgICAgMTMNCj4gPiArI2RlZmlu
+ZSBTVUJTWVNfMTAwNFhYWFggICAgICAgICAgICAgIDE0DQo+ID4gKyNkZWZpbmUgU1VCU1lTXzEw
+MDVYWFhYICAgICAgICAgICAgICAxNQ0KPiA+ICsjZGVmaW5lIFNVQlNZU18xMDIwWFhYWCAgICAg
+ICAgICAgICAgMTYNCj4gPiArI2RlZmluZSBTVUJTWVNfMTAyOFhYWFggICAgICAgICAgICAgIDE3
+DQo+ID4gKyNkZWZpbmUgU1VCU1lTXzE3MDBYWFhYICAgICAgICAgICAgICAxOA0KPiA+ICsjZGVm
+aW5lIFNVQlNZU18xNzAxWFhYWCAgICAgICAgICAgICAgMTkNCj4gPiArI2RlZmluZSBTVUJTWVNf
+MTcwMlhYWFggICAgICAgICAgICAgIDIwDQo+ID4gKyNkZWZpbmUgU1VCU1lTXzE3MDNYWFhYICAg
+ICAgICAgICAgICAyMQ0KPiA+ICsjZGVmaW5lIFNVQlNZU18xODAwWFhYWCAgICAgICAgICAgICAg
+MjINCj4gPiArI2RlZmluZSBTVUJTWVNfMTgwMVhYWFggICAgICAgICAgICAgIDIzDQo+ID4gKyNk
+ZWZpbmUgU1VCU1lTXzE4MDJYWFhYICAgICAgICAgICAgICAyNA0KPiA+ICsjZGVmaW5lIFNVQlNZ
+U18xODA0WFhYWCAgICAgICAgICAgICAgMjUNCj4gPiArI2RlZmluZSBTVUJTWVNfMTgwNVhYWFgg
+ICAgICAgICAgICAgIDI2DQo+ID4gKyNkZWZpbmUgU1VCU1lTXzE4MDhYWFhYICAgICAgICAgICAg
+ICAyNw0KPiA+ICsjZGVmaW5lIFNVQlNZU18xODBhWFhYWCAgICAgICAgICAgICAgMjgNCj4gPiAr
+I2RlZmluZSBTVUJTWVNfMTgwYlhYWFggICAgICAgICAgICAgIDI5DQo+ID4gKyNkZWZpbmUgU1VC
+U1lTX05PX1NVUFBPUlQgICAgOTkNCj4gPiArDQo+ID4gKy8qDQo+ID4gKyAqIEdDRSBHZW5lcmFs
+IFB1cnBvc2UgUmVnaXN0ZXIgKEdQUikgc3VwcG9ydA0KPiA+ICsgKiBMZWF2ZSBub3RlIGZvciBz
+Y2VuYXJpbyB1c2FnZSBoZXJlDQo+ID4gKyAqLw0KPiA+ICsvKiBHQ0U6IHdyaXRlIG1hc2sgKi8N
+Cj4gDQo+IFRoYXQncyBhIGRlZmluaXRlIG5vLWdvLiBSZWdpc3RlciBtYXNrcyBhcmUgbm90IGJp
+bmRpbmdzLg0KPiANCg0KSSdtIHNvcnJ5IHRvIHRoZSBjb25mdXNpb24uDQoNClRoZXNlIGRlZmlu
+ZXMgYXJlIHRoZSBpbmRleCBvZiBHQ0UgR2VuZXJhbCBQdXJwb3NlIFJlZ2lzdGVyIGZvcg0KZ2Vu
+ZXJhdGluZyBpbnN0cnVjdGlvbnMsIHRoZXkgYXJlIG5vdCByZWdpc3RlciBtYXNrcy4NCg0KVGhl
+IGNvbW1lbnQgIi8qIEdDRTogd3JpdGUgbWFzayAqLyIgaXMgYnJpZWZseSBkZXNjcmliZSB0aGF0
+IHRoZSB1c2FnZQ0Kb2YgR0NFX0dQUl9SMCBhbmQgR0NFX0dQUl9SMDEgaXMgdXNlZCB0byBzdG9y
+ZSB0aGUgcmVnaXN0ZXIgbWFzayB3aGVuDQpHQ0UgZXhlY3V0aW5nIHRoZSBXUklURSBpbnN0cnVj
+dGlvbi4gQW5kIGl0IGNhbiBhbHNvIHN0b3JlIHRoZSByZWdpc3Rlcg0KbWFzayBvZiBQT0xMIGFu
+ZCBSRUFEIGluc3RydWN0aW9uLg0KDQpJIHdpbGwgYWRkIG1vcmUgd29yZHMgdG8gbWFrZSB0aGlz
+IGNvbW1lbnQgY2xlYXJlciwgbGlrZSB0aGlzOg0KLypHQ0U6IHN0b3JlIHRoZSBtYXNrIG9mIGlu
+c3RydWN0aW9uICovDQoNClJlZ2FyZHMsDQpKYXNvbi1KSC5MaW4NCg0KPiA+ICsjZGVmaW5lIEdD
+RV9HUFJfUjAwICAgICAgICAgIDB4MA0KPiA+ICsjZGVmaW5lIEdDRV9HUFJfUjAxICAgICAgICAg
+IDB4MQ0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCj4gDQo=
 
-On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
-> Having I/O regions inside a msm_dp_catalog_private() results in extra
-> layers of one-line wrappers for accessing the data. Move I/O region base
-> and size to the globally visible struct msm_dp_catalog.
-> 
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_catalog.c | 457 +++++++++++++++---------------------
->   drivers/gpu/drm/msm/dp/dp_catalog.h |  12 +
->   2 files changed, 197 insertions(+), 272 deletions(-)
-> 
+--__=_Part_Boundary_006_397823330.793983989
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGkmIzMyO0tyenlzenRvZiwNCg0KVGhhbmtzJiMzMjtm
+b3ImIzMyO3RoZSYjMzI7cmV2aWV3cy4NCg0KT24mIzMyO1dlZCwmIzMyOzIwMjQtMTItMTEmIzMy
+O2F0JiMzMjsxMDozNyYjMzI7KzAxMDAsJiMzMjtLcnp5c3p0b2YmIzMyO0tvemxvd3NraSYjMzI7
+d3JvdGU6DQomZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7
+ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtzJiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNo
+bWVudHMmIzMyO3VudGlsDQomZ3Q7JiMzMjt5b3UmIzMyO2hhdmUmIzMyO3ZlcmlmaWVkJiMzMjt0
+aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7Y29udGVudC4NCiZndDsmIzMyOw0KJmd0
+OyYjMzI7DQomZ3Q7JiMzMjtPbiYjMzI7V2VkLCYjMzI7RGVjJiMzMjsxMSwmIzMyOzIwMjQmIzMy
+O2F0JiMzMjsxMToyMjo0OUFNJiMzMjsrMDgwMCwmIzMyO0phc29uLUpILkxpbiYjMzI7d3JvdGU6
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtBZGQmIzMyO3RoZSYjMzI7R2xvYmFsJiMzMjtDb21tYW5kJiMz
+MjtFbmdpbmUmIzMyOyhHQ0UpJiMzMjtoZWFkZXImIzMyO2ZpbGUmIzMyO3RvJiMzMjtkZWZpbmUm
+IzMyO3RoZSYjMzI7R0NFDQomZ3Q7JiMzMjsmZ3Q7JiMzMjt0aHJlYWQmIzMyO3ByaW9yaXR5LCYj
+MzI7R0NFJiMzMjtzdWJzeXMmIzMyO0lEJiMzMjthbmQmIzMyO0dDRSYjMzI7ZXZlbnRzJiMzMjtm
+b3ImIzMyO01UODE5Ni4NCiZndDsmIzMyOw0KJmd0OyYjMzI7VGhpcyYjMzI7d2UmIzMyO3NlZSYj
+MzI7ZnJvbSYjMzI7dGhlJiMzMjtkaWZmLiYjMzI7V2hhdCYjMzI7d2UmIzMyO2RvJiMzMjtub3Qm
+IzMyO3NlZSYjMzI7aXMmIzMyO3doeSYjMzI7cHJpb3JpdHkmIzMyO2lzJiMzMjthDQomZ3Q7JiMz
+MjtiaW5kaW5nLiYjMzI7TG9va2luZyYjMzI7YnJpZWZseSYjMzI7YXQmIzMyO2V4aXN0aW5nJiMz
+Mjtjb2RlOiYjMzI7aXQmIzMyO2lzJiMzMjtub3QmIzMyO2EmIzMyO2JpbmRpbmcsJiMzMjt0aGVy
+ZQ0KJmd0OyYjMzI7aXMNCiZndDsmIzMyO25vJiMzMjtkcml2ZXImIzMyO3VzZXIuDQomZ3Q7JiMz
+MjsNCg0KVGhpcyYjMzI7cHJpb3JpdHkmIzMyO3ZhbHVlJiMzMjtpcyYjMzI7dXNlZCYjMzI7dG8m
+IzMyO2NvbmZpZ3VyZSYjMzI7dGhlJiMzMjtwcmlvcml0eSYjMzI7bGV2ZWwmIzMyO2ZvciYjMzI7
+ZWFjaA0KR0NFJiMzMjtoYXJkd2FyZSYjMzI7dGhyZWFkLCYjMzI7c28mIzMyO2l0JiMzMjtpcyYj
+MzI7YSYjMzI7bmVjZXNzYXJ5JiMzMjtoYXJkd2FyZSYjMzI7YXR0cmlidXRlLg0KDQpJdCYjMzk7
+cyYjMzI7aGFyZCYjMzI7dG8mIzMyO2ZpbmQmIzMyO3doZXJlJiMzMjt0aGUmIzMyO3ByaW9yaXR5
+JiMzMjtpcyYjMzI7dXNlZCYjMzI7aW4mIzMyO2V4aXN0aW5nJiMzMjtkcml2ZXImIzMyO2NvZGUN
+CmJlY2F1c2UmIzMyO3dlJiMzMjtwYXJzZWQmIzMyO2l0JiMzMjtmcm9tJiMzMjtEVFMuDQoNCkl0
+JiMzMjtpcyYjMzI7dXNlZCYjMzI7aW4mIzMyO2FsbCYjMzI7bWVkaWFUZWtzJiMzOTsmIzMyO0RU
+UyYjMzI7dXNpbmcmIzMyO3RoZSYjMzI7R0NFLg0KRm9yJiMzMjtleGFtcGxlLCYjMzI7aW4mIzMy
+O210ODE5NS5kdHM6DQoNCnZkb3N5czA6JiMzMjtzeXNjb25AMWMwMWEwMDAmIzMyO3sNCiYjMzI7
+JiMzMjsmIzMyOyYjMzI7Y29tcGF0aWJsZSYjMzI7PSYjMzI7JnF1b3Q7bWVkaWF0ZWssbXQ4MTk1
+LXZkb3N5czAmcXVvdDssJiMzMjsmcXVvdDttZWRpYXRlayxtdDgxOTUtbW1zeXMmcXVvdDssDQom
+cXVvdDtzeXNjb24mcXVvdDs7DQomIzMyOyYjMzI7JiMzMjsmIzMyO3JlZyYjMzI7PSYjMzI7Jmx0
+OzAmIzMyOzB4MWMwMWEwMDAmIzMyOzAmIzMyOzB4MTAwMCZndDs7DQomIzMyOyYjMzI7JiMzMjsm
+IzMyO21ib3hlcyYjMzI7PSYjMzI7Jmx0OyZhbXA7Z2NlMCYjMzI7MCYjMzI7Q01EUV9USFJfUFJJ
+T180Jmd0OzsNCiYjMzI7JiMzMjsmIzMyOyYjMzI7I2Nsb2NrLWNlbGxzJiMzMjs9JiMzMjsmbHQ7
+MSZndDs7DQomIzMyOyYjMzI7JiMzMjsmIzMyO21lZGlhdGVrLGdjZS1jbGllbnQtcmVnJiMzMjs9
+JiMzMjsmbHQ7JmFtcDtnY2UwJiMzMjtTVUJTWVNfMWMwMVhYWFgmIzMyOzB4YTAwMCYjMzI7MHgx
+MDAwJmd0OzsNCn0NCg0KQ01EUSYjMzI7ZHJpdmVyKG10ay1jbWRxLW1haWxib3guYykmIzMyO3dp
+bGwmIzMyO2dldCYjMzI7dGhlJiMzMjthcmdzJiMzMjtwYXJzZWQmIzMyO2Zyb20mIzMyO21ib3hl
+cw0KcHJvcGVydHkmIzMyO2luJiMzMjtjbWRxX3hsYXRlKCkmIzMyO2FuZCYjMzI7dGhlbiYjMzI7
+aXQmIzMyO3dpbGwmIzMyO3N0b3JlJiMzMjtDTURRX1RIUl9QUklPXzQmIzMyO3RvJiMzMjt0aGUN
+CnNwZWNpZmljJiMzMjt0aHJlYWQmIzMyO3N0cnVjdHVyZS4mIzMyOw0KVGhlJiMzMjt1c2VyJiMz
+MjtvZiYjMzI7Q01EUSYjMzI7ZHJpdmVyJiMzMjt3aWxsJiMzMjtzZW5kJiMzMjtjb21tYW5kJiMz
+Mjt0byYjMzI7Q01EUSYjMzI7ZHJpdmVyJiMzMjtieSYjMzI7DQpjbWRxX21ib3hfc2VuZF9kYXRh
+KCksJiMzMjthbmQmIzMyO3RoaXMmIzMyO3ByaW9yaXR5JiMzMjtzZXR0aW5nJiMzMjt3aWxsJiMz
+MjtiZSYjMzI7Y29uZmlndXJlZCYjMzI7dG8NCkdDRSYjMzI7aGFyZHdhcmUmIzMyO3RocmVhZC4N
+Cg0KJmd0OyYjMzI7Jmd0OyYjMzI7DQomZ3Q7JiMzMjsmZ3Q7JiMzMjtTaWduZWQtb2ZmLWJ5OiYj
+MzI7SmFzb24tSkguTGluJiMzMjsmbHQ7amFzb24tamgubGluQG1lZGlhdGVrLmNvbSZndDsNCiZn
+dDsmIzMyOyZndDsmIzMyOy0tLQ0KJmd0OyYjMzI7Jmd0OyYjMzI7JiMzMjsuLi4vZHQtYmluZGlu
+Z3MvbWFpbGJveC9tZWRpYXRlayxtdDgxOTYtZ2NlLmgmIzMyO3wmIzMyOzE0MzkNCiZndDsmIzMy
+OyZndDsmIzMyOysrKysrKysrKysrKysrKysrDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsmIzMyOzEmIzMy
+O2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjsxNDM5JiMzMjtpbnNlcnRpb25zKCspDQomZ3Q7JiMzMjsm
+Z3Q7JiMzMjsmIzMyO2NyZWF0ZSYjMzI7bW9kZSYjMzI7MTAwNjQ0JiMzMjtpbmNsdWRlL2R0LWJp
+bmRpbmdzL21haWxib3gvbWVkaWF0ZWssbXQ4MTk2LQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Z2NlLmgN
+CiZndDsmIzMyOyZndDsmIzMyOw0KJmd0OyYjMzI7Jmd0OyYjMzI7ZGlmZiYjMzI7LS1naXQmIzMy
+O2EvaW5jbHVkZS9kdC1iaW5kaW5ncy9tYWlsYm94L21lZGlhdGVrLG10ODE5Ni1nY2UuaA0KJmd0
+OyYjMzI7Jmd0OyYjMzI7Yi9pbmNsdWRlL2R0LWJpbmRpbmdzL21haWxib3gvbWVkaWF0ZWssbXQ4
+MTk2LWdjZS5oDQomZ3Q7JiMzMjsmZ3Q7JiMzMjtuZXcmIzMyO2ZpbGUmIzMyO21vZGUmIzMyOzEw
+MDY0NA0KJmd0OyYjMzI7Jmd0OyYjMzI7aW5kZXgmIzMyOzAwMDAwMDAwMDAwMC4uODYwZDY5MTAw
+MTU3DQomZ3Q7JiMzMjsmZ3Q7JiMzMjstLS0mIzMyOy9kZXYvbnVsbA0KJmd0OyYjMzI7Jmd0OyYj
+MzI7KysrJiMzMjtiL2luY2x1ZGUvZHQtYmluZGluZ3MvbWFpbGJveC9tZWRpYXRlayxtdDgxOTYt
+Z2NlLmgNCiZndDsmIzMyOyZndDsmIzMyO0BAJiMzMjstMCwwJiMzMjsrMSwxNDM5JiMzMjtAQA0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7Ky8qJiMzMjtTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjomIzMyO0dQ
+TC0yLjAtb25seSYjMzI7T1ImIzMyO0JTRC0yLUNsYXVzZSYjMzI7Ki8NCiZndDsmIzMyOyZndDsm
+IzMyOysvKg0KJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMzI7KiYjMzI7Q29weXJpZ2h0JiMzMjsoYykm
+IzMyOzIwMjQmIzMyO01lZGlhVGVrJiMzMjtJbmMuDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsq
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsqLw0KJmd0OyYjMzI7Jmd0OyYjMzI7Kw0KJmd0OyYj
+MzI7Jmd0OyYjMzI7KyNpZm5kZWYmIzMyO19EVF9CSU5ESU5HU19HQ0VfTVQ4MTk2X0gNCiZndDsm
+IzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtfRFRfQklORElOR1NfR0NFX01UODE5Nl9IDQomZ3Q7
+JiMzMjsmZ3Q7JiMzMjsrDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrLyomIzMyO0dDRSYjMzI7dGhyZWFk
+JiMzMjtwcmlvcml0eSYjMzI7Ki8NCiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtDTURR
+X1RIUl9QUklPX0xPV0VTVCYjMzI7MA0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO0NN
+RFFfVEhSX1BSSU9fMSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYj
+MzI7Q01EUV9USFJfUFJJT18yJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOzINCiZndDsmIzMyOyZndDsmIzMyOysjZGVm
+aW5lJiMzMjtDTURRX1RIUl9QUklPXzMmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Mw0KJmd0OyYjMzI7Jmd0OyYjMzI7
+KyNkZWZpbmUmIzMyO0NNRFFfVEhSX1BSSU9fNCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs0DQomZ3Q7JiMzMjsmZ3Q7
+JiMzMjsrI2RlZmluZSYjMzI7Q01EUV9USFJfUFJJT181JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOzUNCiZndDsmIzMy
+OyZndDsmIzMyOysjZGVmaW5lJiMzMjtDTURRX1RIUl9QUklPXzYmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Ng0KJmd0
+OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO0NNRFFfVEhSX1BSSU9fSElHSEVTVCYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs3DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrDQom
+Z3Q7JiMzMjsmZ3Q7JiMzMjsrLyomIzMyO0dDRSYjMzI7c3Vic3lzJiMzMjt0YWJsZSYjMzI7Ki8N
+CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtTVUJTWVNfMTMwMFhYWFgmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7MA0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xNDAwWFhYWCYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsxDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7U1VCU1lTXzE0MDFYWFhY
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOzINCiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtTVUJTWVNfMTQw
+MlhYWFgmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7Mw0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZ
+U18xNTAyWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs0DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7
+U1VCU1lTXzE4ODBYWFhYJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOzUNCiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5l
+JiMzMjtTVUJTWVNfMTg4MVhYWFgmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7Ng0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNk
+ZWZpbmUmIzMyO1NVQlNZU18xODgyWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjs3DQomZ3Q7JiMzMjsmZ3Q7JiMz
+MjsrI2RlZmluZSYjMzI7U1VCU1lTXzE4ODNYWFhYJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOzgNCiZndDsmIzMyOyZn
+dDsmIzMyOysjZGVmaW5lJiMzMjtTVUJTWVNfMTg4NFhYWFgmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7OQ0KJmd0OyYj
+MzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xMDAwWFhYWCYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxMA0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xMDAxWFhYWCYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsxMQ0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xMDAyWFhYWCYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsxMg0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xMDAzWFhY
+WCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsxMw0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18x
+MDA0WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsxNA0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NV
+QlNZU18xMDA1WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxNQ0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUm
+IzMyO1NVQlNZU18xMDIwWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxNg0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNk
+ZWZpbmUmIzMyO1NVQlNZU18xMDI4WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxNw0KJmd0OyYjMzI7Jmd0OyYj
+MzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xNzAwWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxOA0KJmd0OyYjMzI7
+Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xNzAxWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsxOQ0KJmd0
+OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xNzAyWFhYWCYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsy
+MA0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xNzAzWFhYWCYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsyMQ0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xODAwWFhYWCYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsyMg0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xODAx
+WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsyMw0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZ
+U18xODAyWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsyNA0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMy
+O1NVQlNZU18xODA0WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsyNQ0KJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZp
+bmUmIzMyO1NVQlNZU18xODA1WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsyNg0KJmd0OyYjMzI7Jmd0OyYjMzI7
+KyNkZWZpbmUmIzMyO1NVQlNZU18xODA4WFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsyNw0KJmd0OyYjMzI7Jmd0
+OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xODBhWFhYWCYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsyOA0KJmd0OyYj
+MzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU18xODBiWFhYWCYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsyOQ0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO1NVQlNZU19OT19TVVBQT1JUJiMzMjsmIzMy
+OyYjMzI7JiMzMjs5OQ0KJmd0OyYjMzI7Jmd0OyYjMzI7Kw0KJmd0OyYjMzI7Jmd0OyYjMzI7Ky8q
+DQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsqJiMzMjtHQ0UmIzMyO0dlbmVyYWwmIzMyO1B1cnBv
+c2UmIzMyO1JlZ2lzdGVyJiMzMjsoR1BSKSYjMzI7c3VwcG9ydA0KJmd0OyYjMzI7Jmd0OyYjMzI7
+KyYjMzI7KiYjMzI7TGVhdmUmIzMyO25vdGUmIzMyO2ZvciYjMzI7c2NlbmFyaW8mIzMyO3VzYWdl
+JiMzMjtoZXJlDQomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMzMjsqLw0KJmd0OyYjMzI7Jmd0OyYjMzI7
+Ky8qJiMzMjtHQ0U6JiMzMjt3cml0ZSYjMzI7bWFzayYjMzI7Ki8NCiZndDsmIzMyOw0KJmd0OyYj
+MzI7VGhhdCYjMzk7cyYjMzI7YSYjMzI7ZGVmaW5pdGUmIzMyO25vLWdvLiYjMzI7UmVnaXN0ZXIm
+IzMyO21hc2tzJiMzMjthcmUmIzMyO25vdCYjMzI7YmluZGluZ3MuDQomZ3Q7JiMzMjsNCg0KSSYj
+Mzk7bSYjMzI7c29ycnkmIzMyO3RvJiMzMjt0aGUmIzMyO2NvbmZ1c2lvbi4NCg0KVGhlc2UmIzMy
+O2RlZmluZXMmIzMyO2FyZSYjMzI7dGhlJiMzMjtpbmRleCYjMzI7b2YmIzMyO0dDRSYjMzI7R2Vu
+ZXJhbCYjMzI7UHVycG9zZSYjMzI7UmVnaXN0ZXImIzMyO2Zvcg0KZ2VuZXJhdGluZyYjMzI7aW5z
+dHJ1Y3Rpb25zLCYjMzI7dGhleSYjMzI7YXJlJiMzMjtub3QmIzMyO3JlZ2lzdGVyJiMzMjttYXNr
+cy4NCg0KVGhlJiMzMjtjb21tZW50JiMzMjsmcXVvdDsvKiYjMzI7R0NFOiYjMzI7d3JpdGUmIzMy
+O21hc2smIzMyOyovJnF1b3Q7JiMzMjtpcyYjMzI7YnJpZWZseSYjMzI7ZGVzY3JpYmUmIzMyO3Ro
+YXQmIzMyO3RoZSYjMzI7dXNhZ2UNCm9mJiMzMjtHQ0VfR1BSX1IwJiMzMjthbmQmIzMyO0dDRV9H
+UFJfUjAxJiMzMjtpcyYjMzI7dXNlZCYjMzI7dG8mIzMyO3N0b3JlJiMzMjt0aGUmIzMyO3JlZ2lz
+dGVyJiMzMjttYXNrJiMzMjt3aGVuDQpHQ0UmIzMyO2V4ZWN1dGluZyYjMzI7dGhlJiMzMjtXUklU
+RSYjMzI7aW5zdHJ1Y3Rpb24uJiMzMjtBbmQmIzMyO2l0JiMzMjtjYW4mIzMyO2Fsc28mIzMyO3N0
+b3JlJiMzMjt0aGUmIzMyO3JlZ2lzdGVyDQptYXNrJiMzMjtvZiYjMzI7UE9MTCYjMzI7YW5kJiMz
+MjtSRUFEJiMzMjtpbnN0cnVjdGlvbi4NCg0KSSYjMzI7d2lsbCYjMzI7YWRkJiMzMjttb3JlJiMz
+Mjt3b3JkcyYjMzI7dG8mIzMyO21ha2UmIzMyO3RoaXMmIzMyO2NvbW1lbnQmIzMyO2NsZWFyZXIs
+JiMzMjtsaWtlJiMzMjt0aGlzOg0KLypHQ0U6JiMzMjtzdG9yZSYjMzI7dGhlJiMzMjttYXNrJiMz
+MjtvZiYjMzI7aW5zdHJ1Y3Rpb24mIzMyOyovDQoNClJlZ2FyZHMsDQpKYXNvbi1KSC5MaW4NCg0K
+Jmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO0dDRV9HUFJfUjAwJiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsweDANCiZndDsmIzMyOyZndDsmIzMy
+OysjZGVmaW5lJiMzMjtHQ0VfR1BSX1IwMSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7MHgxDQomZ3Q7JiMzMjsNCiZndDsmIzMyO0Jlc3QmIzMyO3JlZ2Fy
+ZHMsDQomZ3Q7JiMzMjtLcnp5c3p0b2YNCiZndDsmIzMyOw0KDQo8L3ByZT4NCjwvcD48L2JvZHk+
+PC9odG1sPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRF
+SyBDb25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3Jt
+YXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQph
+dHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQs
+IG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxh
+d3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRl
+ZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBw
+cmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBp
+dHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkg
+cHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVu
+ZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUg
+cmVjZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciAN
+CmltbWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5k
+IGFsbCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykg
+ZnJvbSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhp
+cyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
-Fundamentally, the whole point of catalog was that it needs to be the 
-only place where we want to access the registers. Thats how this really 
-started.
+--__=_Part_Boundary_006_397823330.793983989--
 
-This pre-dates my time with the DP driver but as I understand thats what 
-it was for.
-
-Basically separating out the logical abstraction vs actual register writes .
-
-If there are hardware sequence differences within the controller reset 
-OR any other register offsets which moved around, catalog should have 
-been able to absorb it without that spilling over to all the layers.
-
-So for example, if we call dp_ctrl_reset() --> ctrl->catalog->reset_ctrl()
-
-Then the reset_ctrl op of the catalog should manage any controller 
-version differences within the reset sequence.
-
-We do not use or have catalog ops today so it looks redundant as we just 
-call the dp_catalog APIs directly but that was really the intention.
-
-Another reason which was behind this split but not applicable to current 
-upstream driver is that the AUX is part of the PHY driver in upstream 
-but in downstream, that remains a part of catalog and as we know the AUX 
-component keeps changing with chipsets especially the settings. That was 
-the reason of keeping catalog separate and the only place which should 
-deal with registers and not the entire DP driver.
-
-The second point seems not applicable to this driver but first point 
-still is. I do admit there is re-direction like ctrl->catalog
-instead of just writing it within dp_ctrl itself but the redirection was 
-only because ctrl layers were not really meant to deal with the register 
-programming. So for example, now with patch 7 of this series every 
-register being written to i exposed in dp_ctrl.c and likewise for other 
-files. That seems unnecessary. Because if we do end up with some 
-variants which need separate registers written, then we will now have to 
-end up touching every file as opposed to only touching dp_catalog.
-
-
-
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 0357dec1acd5773f25707e7ebdfca4b1d2b1bb4e..cdb8685924a06e4fc79d70586630ccb9a16a676d 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -63,155 +63,128 @@
->   #define DP_DEFAULT_P0_OFFSET	0x1000
->   #define DP_DEFAULT_P0_SIZE	0x0400
->   
-> -struct dss_io_region {
-> -	size_t len;
-> -	void __iomem *base;
-> -};
-> -
-> -struct dss_io_data {
-> -	struct dss_io_region ahb;
-> -	struct dss_io_region aux;
-> -	struct dss_io_region link;
-> -	struct dss_io_region p0;
-> -};
-> -
->   struct msm_dp_catalog_private {
->   	struct device *dev;
->   	struct drm_device *drm_dev;
-> -	struct dss_io_data io;
->   	u32 (*audio_map)[DP_AUDIO_SDP_HEADER_MAX];
->   	struct msm_dp_catalog msm_dp_catalog;
->   };
->   
->   void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_disp_state *disp_state)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -			struct msm_dp_catalog_private, msm_dp_catalog);
-> -	struct dss_io_data *dss = &catalog->io;
-> -
-> -	msm_disp_snapshot_add_block(disp_state, dss->ahb.len, dss->ahb.base, "dp_ahb");
-> -	msm_disp_snapshot_add_block(disp_state, dss->aux.len, dss->aux.base, "dp_aux");
-> -	msm_disp_snapshot_add_block(disp_state, dss->link.len, dss->link.base, "dp_link");
-> -	msm_disp_snapshot_add_block(disp_state, dss->p0.len, dss->p0.base, "dp_p0");
-> +	msm_disp_snapshot_add_block(disp_state,
-> +				    msm_dp_catalog->ahb_len, msm_dp_catalog->ahb_base, "dp_ahb");
-> +	msm_disp_snapshot_add_block(disp_state,
-> +				    msm_dp_catalog->aux_len, msm_dp_catalog->aux_base, "dp_aux");
-> +	msm_disp_snapshot_add_block(disp_state,
-> +				    msm_dp_catalog->link_len, msm_dp_catalog->link_base, "dp_link");
-> +	msm_disp_snapshot_add_block(disp_state,
-> +				    msm_dp_catalog->p0_len, msm_dp_catalog->p0_base, "dp_p0");
->   }
->   
-> -static inline u32 msm_dp_read_aux(struct msm_dp_catalog_private *catalog, u32 offset)
-> +static inline u32 msm_dp_read_aux(struct msm_dp_catalog *msm_dp_catalog, u32 offset)
->   {
-> -	return readl_relaxed(catalog->io.aux.base + offset);
-> +	return readl_relaxed(msm_dp_catalog->aux_base + offset);
->   }
->   
-> -static inline void msm_dp_write_aux(struct msm_dp_catalog_private *catalog,
-> +static inline void msm_dp_write_aux(struct msm_dp_catalog *msm_dp_catalog,
->   			       u32 offset, u32 data)
->   {
->   	/*
->   	 * To make sure aux reg writes happens before any other operation,
->   	 * this function uses writel() instread of writel_relaxed()
->   	 */
-> -	writel(data, catalog->io.aux.base + offset);
-> +	writel(data, msm_dp_catalog->aux_base + offset);
->   }
->   
-> -static inline u32 msm_dp_read_ahb(const struct msm_dp_catalog_private *catalog, u32 offset)
-> +static inline u32 msm_dp_read_ahb(const struct msm_dp_catalog *msm_dp_catalog, u32 offset)
->   {
-> -	return readl_relaxed(catalog->io.ahb.base + offset);
-> +	return readl_relaxed(msm_dp_catalog->ahb_base + offset);
->   }
->   
-> -static inline void msm_dp_write_ahb(struct msm_dp_catalog_private *catalog,
-> +static inline void msm_dp_write_ahb(struct msm_dp_catalog *msm_dp_catalog,
->   			       u32 offset, u32 data)
->   {
->   	/*
->   	 * To make sure phy reg writes happens before any other operation,
->   	 * this function uses writel() instread of writel_relaxed()
->   	 */
-> -	writel(data, catalog->io.ahb.base + offset);
-> +	writel(data, msm_dp_catalog->ahb_base + offset);
->   }
->   
-> -static inline void msm_dp_write_p0(struct msm_dp_catalog_private *catalog,
-> +static inline void msm_dp_write_p0(struct msm_dp_catalog *msm_dp_catalog,
->   			       u32 offset, u32 data)
->   {
->   	/*
->   	 * To make sure interface reg writes happens before any other operation,
->   	 * this function uses writel() instread of writel_relaxed()
->   	 */
-> -	writel(data, catalog->io.p0.base + offset);
-> +	writel(data, msm_dp_catalog->p0_base + offset);
->   }
->   
-> -static inline u32 msm_dp_read_p0(struct msm_dp_catalog_private *catalog,
-> +static inline u32 msm_dp_read_p0(struct msm_dp_catalog *msm_dp_catalog,
->   			       u32 offset)
->   {
->   	/*
->   	 * To make sure interface reg writes happens before any other operation,
->   	 * this function uses writel() instread of writel_relaxed()
->   	 */
-> -	return readl_relaxed(catalog->io.p0.base + offset);
-> +	return readl_relaxed(msm_dp_catalog->p0_base + offset);
->   }
->   
-> -static inline u32 msm_dp_read_link(struct msm_dp_catalog_private *catalog, u32 offset)
-> +static inline u32 msm_dp_read_link(struct msm_dp_catalog *msm_dp_catalog, u32 offset)
->   {
-> -	return readl_relaxed(catalog->io.link.base + offset);
-> +	return readl_relaxed(msm_dp_catalog->link_base + offset);
->   }
->   
-> -static inline void msm_dp_write_link(struct msm_dp_catalog_private *catalog,
-> +static inline void msm_dp_write_link(struct msm_dp_catalog *msm_dp_catalog,
->   			       u32 offset, u32 data)
->   {
->   	/*
->   	 * To make sure link reg writes happens before any other operation,
->   	 * this function uses writel() instread of writel_relaxed()
->   	 */
-> -	writel(data, catalog->io.link.base + offset);
-> +	writel(data, msm_dp_catalog->link_base + offset);
->   }
->   
->   /* aux related catalog functions */
->   u32 msm_dp_catalog_aux_read_data(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	return msm_dp_read_aux(catalog, REG_DP_AUX_DATA);
-> +	return msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_DATA);
->   }
->   
->   int msm_dp_catalog_aux_write_data(struct msm_dp_catalog *msm_dp_catalog, u32 data)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	msm_dp_write_aux(catalog, REG_DP_AUX_DATA, data);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_DATA, data);
->   	return 0;
->   }
->   
->   int msm_dp_catalog_aux_write_trans(struct msm_dp_catalog *msm_dp_catalog, u32 data)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	msm_dp_write_aux(catalog, REG_DP_AUX_TRANS_CTRL, data);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL, data);
->   	return 0;
->   }
->   
->   int msm_dp_catalog_aux_clear_trans(struct msm_dp_catalog *msm_dp_catalog, bool read)
->   {
->   	u32 data;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
->   	if (read) {
-> -		data = msm_dp_read_aux(catalog, REG_DP_AUX_TRANS_CTRL);
-> +		data = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL);
->   		data &= ~DP_AUX_TRANS_CTRL_GO;
-> -		msm_dp_write_aux(catalog, REG_DP_AUX_TRANS_CTRL, data);
-> +		msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL, data);
->   	} else {
-> -		msm_dp_write_aux(catalog, REG_DP_AUX_TRANS_CTRL, 0);
-> +		msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL, 0);
->   	}
->   	return 0;
->   }
->   
->   int msm_dp_catalog_aux_clear_hw_interrupts(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	msm_dp_read_aux(catalog, REG_DP_PHY_AUX_INTERRUPT_STATUS);
-> -	msm_dp_write_aux(catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x1f);
-> -	msm_dp_write_aux(catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x9f);
-> -	msm_dp_write_aux(catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0);
-> +	msm_dp_read_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_STATUS);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x1f);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x9f);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0);
->   	return 0;
->   }
->   
-> @@ -230,47 +203,41 @@ int msm_dp_catalog_aux_clear_hw_interrupts(struct msm_dp_catalog *msm_dp_catalog
->   void msm_dp_catalog_aux_reset(struct msm_dp_catalog *msm_dp_catalog)
->   {
->   	u32 aux_ctrl;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	aux_ctrl = msm_dp_read_aux(catalog, REG_DP_AUX_CTRL);
-> +	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
->   
->   	aux_ctrl |= DP_AUX_CTRL_RESET;
-> -	msm_dp_write_aux(catalog, REG_DP_AUX_CTRL, aux_ctrl);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
->   	usleep_range(1000, 1100); /* h/w recommended delay */
->   
->   	aux_ctrl &= ~DP_AUX_CTRL_RESET;
-> -	msm_dp_write_aux(catalog, REG_DP_AUX_CTRL, aux_ctrl);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
->   }
->   
->   void msm_dp_catalog_aux_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable)
->   {
->   	u32 aux_ctrl;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	aux_ctrl = msm_dp_read_aux(catalog, REG_DP_AUX_CTRL);
-> +	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
->   
->   	if (enable) {
-> -		msm_dp_write_aux(catalog, REG_DP_TIMEOUT_COUNT, 0xffff);
-> -		msm_dp_write_aux(catalog, REG_DP_AUX_LIMITS, 0xffff);
-> +		msm_dp_write_aux(msm_dp_catalog, REG_DP_TIMEOUT_COUNT, 0xffff);
-> +		msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_LIMITS, 0xffff);
->   		aux_ctrl |= DP_AUX_CTRL_ENABLE;
->   	} else {
->   		aux_ctrl &= ~DP_AUX_CTRL_ENABLE;
->   	}
->   
-> -	msm_dp_write_aux(catalog, REG_DP_AUX_CTRL, aux_ctrl);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
->   }
->   
->   int msm_dp_catalog_aux_wait_for_hpd_connect_state(struct msm_dp_catalog *msm_dp_catalog,
->   					      unsigned long wait_us)
->   {
->   	u32 state;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
->   	/* poll for hpd connected status every 2ms and timeout after wait_us */
-> -	return readl_poll_timeout(catalog->io.aux.base +
-> +	return readl_poll_timeout(msm_dp_catalog->aux_base +
->   				REG_DP_DP_HPD_INT_STATUS,
->   				state, state & DP_DP_HPD_STATE_STATUS_CONNECTED,
->   				min(wait_us, 2000), wait_us);
-> @@ -278,15 +245,13 @@ int msm_dp_catalog_aux_wait_for_hpd_connect_state(struct msm_dp_catalog *msm_dp_
->   
->   u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 intr, intr_ack;
->   
-> -	intr = msm_dp_read_ahb(catalog, REG_DP_INTR_STATUS);
-> +	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS);
->   	intr &= ~DP_INTERRUPT_STATUS1_MASK;
->   	intr_ack = (intr & DP_INTERRUPT_STATUS1)
->   			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-> -	msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS, intr_ack |
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, intr_ack |
->   			DP_INTERRUPT_STATUS1_MASK);
->   
->   	return intr;
-> @@ -298,20 +263,14 @@ void msm_dp_catalog_ctrl_update_transfer_unit(struct msm_dp_catalog *msm_dp_cata
->   				u32 msm_dp_tu, u32 valid_boundary,
->   				u32 valid_boundary2)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	msm_dp_write_link(catalog, REG_DP_VALID_BOUNDARY, valid_boundary);
-> -	msm_dp_write_link(catalog, REG_DP_TU, msm_dp_tu);
-> -	msm_dp_write_link(catalog, REG_DP_VALID_BOUNDARY_2, valid_boundary2);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_VALID_BOUNDARY, valid_boundary);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_TU, msm_dp_tu);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_VALID_BOUNDARY_2, valid_boundary2);
->   }
->   
->   void msm_dp_catalog_ctrl_state_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 state)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	msm_dp_write_link(catalog, REG_DP_STATE_CTRL, state);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL, state);
->   }
->   
->   void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32 cfg)
-> @@ -321,13 +280,11 @@ void msm_dp_catalog_ctrl_config_ctrl(struct msm_dp_catalog *msm_dp_catalog, u32
->   
->   	drm_dbg_dp(catalog->drm_dev, "DP_CONFIGURATION_CTRL=0x%x\n", cfg);
->   
-> -	msm_dp_write_link(catalog, REG_DP_CONFIGURATION_CTRL, cfg);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_CONFIGURATION_CTRL, cfg);
->   }
->   
->   void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 ln_0 = 0, ln_1 = 1, ln_2 = 2, ln_3 = 3; /* One-to-One mapping */
->   	u32 ln_mapping;
->   
-> @@ -336,7 +293,7 @@ void msm_dp_catalog_ctrl_lane_mapping(struct msm_dp_catalog *msm_dp_catalog)
->   	ln_mapping |= ln_2 << LANE2_MAPPING_SHIFT;
->   	ln_mapping |= ln_3 << LANE3_MAPPING_SHIFT;
->   
-> -	msm_dp_write_link(catalog, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING,
->   			ln_mapping);
->   }
->   
-> @@ -344,17 +301,15 @@ void msm_dp_catalog_ctrl_psr_mainlink_enable(struct msm_dp_catalog *msm_dp_catal
->   						bool enable)
->   {
->   	u32 val;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	val = msm_dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +	val = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
->   
->   	if (enable)
->   		val |= DP_MAINLINK_CTRL_ENABLE;
->   	else
->   		val &= ~DP_MAINLINK_CTRL_ENABLE;
->   
-> -	msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, val);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, val);
->   }
->   
->   void msm_dp_catalog_ctrl_mainlink_ctrl(struct msm_dp_catalog *msm_dp_catalog,
-> @@ -370,25 +325,25 @@ void msm_dp_catalog_ctrl_mainlink_ctrl(struct msm_dp_catalog *msm_dp_catalog,
->   		 * To make sure link reg writes happens before other operation,
->   		 * msm_dp_write_link() function uses writel()
->   		 */
-> -		mainlink_ctrl = msm_dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +		mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
->   
->   		mainlink_ctrl &= ~(DP_MAINLINK_CTRL_RESET |
->   						DP_MAINLINK_CTRL_ENABLE);
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
->   
->   		mainlink_ctrl |= DP_MAINLINK_CTRL_RESET;
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
->   
->   		mainlink_ctrl &= ~DP_MAINLINK_CTRL_RESET;
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
->   
->   		mainlink_ctrl |= (DP_MAINLINK_CTRL_ENABLE |
->   					DP_MAINLINK_FB_BOUNDARY_SEL);
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
->   	} else {
-> -		mainlink_ctrl = msm_dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +		mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
->   		mainlink_ctrl &= ~DP_MAINLINK_CTRL_ENABLE;
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
->   	}
->   }
->   
-> @@ -400,7 +355,7 @@ void msm_dp_catalog_ctrl_config_misc(struct msm_dp_catalog *msm_dp_catalog,
->   	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
->   				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	misc_val = msm_dp_read_link(catalog, REG_DP_MISC1_MISC0);
-> +	misc_val = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
->   
->   	/* clear bpp bits */
->   	misc_val &= ~(0x07 << DP_MISC0_TEST_BITS_DEPTH_SHIFT);
-> @@ -410,16 +365,14 @@ void msm_dp_catalog_ctrl_config_misc(struct msm_dp_catalog *msm_dp_catalog,
->   	misc_val |= DP_MISC0_SYNCHRONOUS_CLK;
->   
->   	drm_dbg_dp(catalog->drm_dev, "misc settings = 0x%x\n", misc_val);
-> -	msm_dp_write_link(catalog, REG_DP_MISC1_MISC0, misc_val);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc_val);
->   }
->   
->   void msm_dp_catalog_setup_peripheral_flush(struct msm_dp_catalog *msm_dp_catalog)
->   {
->   	u32 mainlink_ctrl, hw_revision;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	mainlink_ctrl = msm_dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +	mainlink_ctrl = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
->   
->   	hw_revision = msm_dp_catalog_hw_revision(msm_dp_catalog);
->   	if (hw_revision >= DP_HW_VERSION_1_2)
-> @@ -427,7 +380,7 @@ void msm_dp_catalog_setup_peripheral_flush(struct msm_dp_catalog *msm_dp_catalog
->   	else
->   		mainlink_ctrl |= DP_MAINLINK_FLUSH_MODE_UPDATE_SDP;
->   
-> -	msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, mainlink_ctrl);
->   }
->   
->   void msm_dp_catalog_ctrl_config_msa(struct msm_dp_catalog *msm_dp_catalog,
-> @@ -485,9 +438,9 @@ void msm_dp_catalog_ctrl_config_msa(struct msm_dp_catalog *msm_dp_catalog,
->   		nvid *= 3;
->   
->   	drm_dbg_dp(catalog->drm_dev, "mvid=0x%x, nvid=0x%x\n", mvid, nvid);
-> -	msm_dp_write_link(catalog, REG_DP_SOFTWARE_MVID, mvid);
-> -	msm_dp_write_link(catalog, REG_DP_SOFTWARE_NVID, nvid);
-> -	msm_dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_SOFTWARE_MVID, mvid);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_SOFTWARE_NVID, nvid);
-> +	msm_dp_write_p0(msm_dp_catalog, MMSS_DP_DSC_DTO, 0x0);
->   }
->   
->   int msm_dp_catalog_ctrl_set_pattern_state_bit(struct msm_dp_catalog *msm_dp_catalog,
-> @@ -505,7 +458,7 @@ int msm_dp_catalog_ctrl_set_pattern_state_bit(struct msm_dp_catalog *msm_dp_cata
->   	bit = BIT(state_bit - 1) << DP_MAINLINK_READY_LINK_TRAINING_SHIFT;
->   
->   	/* Poll for mainlink ready status */
-> -	ret = readx_poll_timeout(readl, catalog->io.link.base +
-> +	ret = readx_poll_timeout(readl, msm_dp_catalog->link_base +
->   					REG_DP_MAINLINK_READY,
->   					data, data & bit,
->   					POLLING_SLEEP_US, POLLING_TIMEOUT_US);
-> @@ -526,10 +479,7 @@ int msm_dp_catalog_ctrl_set_pattern_state_bit(struct msm_dp_catalog *msm_dp_cata
->    */
->   u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	const struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	return msm_dp_read_ahb(catalog, REG_DP_HW_VERSION);
-> +	return msm_dp_read_ahb(msm_dp_catalog, REG_DP_HW_VERSION);
->   }
->   
->   /**
-> @@ -547,28 +497,24 @@ u32 msm_dp_catalog_hw_revision(const struct msm_dp_catalog *msm_dp_catalog)
->   void msm_dp_catalog_ctrl_reset(struct msm_dp_catalog *msm_dp_catalog)
->   {
->   	u32 sw_reset;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	sw_reset = msm_dp_read_ahb(catalog, REG_DP_SW_RESET);
-> +	sw_reset = msm_dp_read_ahb(msm_dp_catalog, REG_DP_SW_RESET);
->   
->   	sw_reset |= DP_SW_RESET;
-> -	msm_dp_write_ahb(catalog, REG_DP_SW_RESET, sw_reset);
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
->   	usleep_range(1000, 1100); /* h/w recommended delay */
->   
->   	sw_reset &= ~DP_SW_RESET;
-> -	msm_dp_write_ahb(catalog, REG_DP_SW_RESET, sw_reset);
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_SW_RESET, sw_reset);
->   }
->   
->   bool msm_dp_catalog_ctrl_mainlink_ready(struct msm_dp_catalog *msm_dp_catalog)
->   {
->   	u32 data;
->   	int ret;
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   
->   	/* Poll for mainlink ready status */
-> -	ret = readl_poll_timeout(catalog->io.link.base +
-> +	ret = readl_poll_timeout(msm_dp_catalog->link_base +
->   				REG_DP_MAINLINK_READY,
->   				data, data & DP_MAINLINK_READY_FOR_VIDEO,
->   				POLLING_SLEEP_US, POLLING_TIMEOUT_US);
-> @@ -583,17 +529,14 @@ bool msm_dp_catalog_ctrl_mainlink_ready(struct msm_dp_catalog *msm_dp_catalog)
->   void msm_dp_catalog_ctrl_enable_irq(struct msm_dp_catalog *msm_dp_catalog,
->   						bool enable)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
->   	if (enable) {
-> -		msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS,
-> +		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS,
->   				DP_INTERRUPT_STATUS1_MASK);
-> -		msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS2,
-> +		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
->   				DP_INTERRUPT_STATUS2_MASK);
->   	} else {
-> -		msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS, 0x00);
-> -		msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS2, 0x00);
-> +		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS, 0x00);
-> +		msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2, 0x00);
->   	}
->   }
->   
-> @@ -603,73 +546,63 @@ void msm_dp_catalog_hpd_config_intr(struct msm_dp_catalog *msm_dp_catalog,
->   	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
->   				struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	u32 config = msm_dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
-> +	u32 config = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
->   
->   	config = (en ? config | intr_mask : config & ~intr_mask);
->   
->   	drm_dbg_dp(catalog->drm_dev, "intr_mask=%#x config=%#x\n",
->   					intr_mask, config);
-> -	msm_dp_write_aux(catalog, REG_DP_DP_HPD_INT_MASK,
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK,
->   				config & DP_DP_HPD_INT_MASK);
->   }
->   
->   void msm_dp_catalog_ctrl_hpd_enable(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	u32 reftimer = msm_dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-> +	u32 reftimer = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER);
->   
->   	/* Configure REFTIMER and enable it */
->   	reftimer |= DP_DP_HPD_REFTIMER_ENABLE;
-> -	msm_dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
->   
->   	/* Enable HPD */
-> -	msm_dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, DP_DP_HPD_CTRL_HPD_EN);
->   }
->   
->   void msm_dp_catalog_ctrl_hpd_disable(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	u32 reftimer = msm_dp_read_aux(catalog, REG_DP_DP_HPD_REFTIMER);
-> +	u32 reftimer = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER);
->   
->   	reftimer &= ~DP_DP_HPD_REFTIMER_ENABLE;
-> -	msm_dp_write_aux(catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_REFTIMER, reftimer);
->   
-> -	msm_dp_write_aux(catalog, REG_DP_DP_HPD_CTRL, 0);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_CTRL, 0);
->   }
->   
-> -static void msm_dp_catalog_enable_sdp(struct msm_dp_catalog_private *catalog)
-> +static void msm_dp_catalog_enable_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   {
->   	/* trigger sdp */
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x0);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, UPDATE_SDP);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x0);
->   }
->   
->   void msm_dp_catalog_ctrl_config_psr(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 config;
->   
->   	/* enable PSR1 function */
-> -	config = msm_dp_read_link(catalog, REG_PSR_CONFIG);
-> +	config = msm_dp_read_link(msm_dp_catalog, REG_PSR_CONFIG);
->   	config |= PSR1_SUPPORTED;
-> -	msm_dp_write_link(catalog, REG_PSR_CONFIG, config);
-> +	msm_dp_write_link(msm_dp_catalog, REG_PSR_CONFIG, config);
->   
-> -	msm_dp_write_ahb(catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-> -	msm_dp_catalog_enable_sdp(catalog);
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_MASK4, DP_INTERRUPT_MASK4);
-> +	msm_dp_catalog_enable_sdp(msm_dp_catalog);
->   }
->   
->   void msm_dp_catalog_ctrl_set_psr(struct msm_dp_catalog *msm_dp_catalog, bool enter)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -			struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 cmd;
->   
-> -	cmd = msm_dp_read_link(catalog, REG_PSR_CMD);
-> +	cmd = msm_dp_read_link(msm_dp_catalog, REG_PSR_CMD);
->   
->   	cmd &= ~(PSR_ENTER | PSR_EXIT);
->   
-> @@ -678,8 +611,8 @@ void msm_dp_catalog_ctrl_set_psr(struct msm_dp_catalog *msm_dp_catalog, bool ent
->   	else
->   		cmd |= PSR_EXIT;
->   
-> -	msm_dp_catalog_enable_sdp(catalog);
-> -	msm_dp_write_link(catalog, REG_PSR_CMD, cmd);
-> +	msm_dp_catalog_enable_sdp(msm_dp_catalog);
-> +	msm_dp_write_link(msm_dp_catalog, REG_PSR_CMD, cmd);
->   }
->   
->   u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog)
-> @@ -688,7 +621,7 @@ u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog)
->   				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 status;
->   
-> -	status = msm_dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
-> +	status = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_STATUS);
->   	drm_dbg_dp(catalog->drm_dev, "aux status: %#x\n", status);
->   	status >>= DP_DP_HPD_STATE_STATUS_BITS_SHIFT;
->   	status &= DP_DP_HPD_STATE_STATUS_BITS_MASK;
-> @@ -698,14 +631,12 @@ u32 msm_dp_catalog_link_is_connected(struct msm_dp_catalog *msm_dp_catalog)
->   
->   u32 msm_dp_catalog_hpd_get_intr_status(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	int isr, mask;
->   
-> -	isr = msm_dp_read_aux(catalog, REG_DP_DP_HPD_INT_STATUS);
-> -	msm_dp_write_aux(catalog, REG_DP_DP_HPD_INT_ACK,
-> +	isr = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_STATUS);
-> +	msm_dp_write_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_ACK,
->   				 (isr & DP_DP_HPD_INT_MASK));
-> -	mask = msm_dp_read_aux(catalog, REG_DP_DP_HPD_INT_MASK);
-> +	mask = msm_dp_read_aux(msm_dp_catalog, REG_DP_DP_HPD_INT_MASK);
->   
->   	/*
->   	 * We only want to return interrupts that are unmasked to the caller.
-> @@ -719,29 +650,25 @@ u32 msm_dp_catalog_hpd_get_intr_status(struct msm_dp_catalog *msm_dp_catalog)
->   
->   u32 msm_dp_catalog_ctrl_read_psr_interrupt_status(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 intr, intr_ack;
->   
-> -	intr = msm_dp_read_ahb(catalog, REG_DP_INTR_STATUS4);
-> +	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4);
->   	intr_ack = (intr & DP_INTERRUPT_STATUS4)
->   			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-> -	msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS4, intr_ack);
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS4, intr_ack);
->   
->   	return intr;
->   }
->   
->   int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 intr, intr_ack;
->   
-> -	intr = msm_dp_read_ahb(catalog, REG_DP_INTR_STATUS2);
-> +	intr = msm_dp_read_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2);
->   	intr &= ~DP_INTERRUPT_STATUS2_MASK;
->   	intr_ack = (intr & DP_INTERRUPT_STATUS2)
->   			<< DP_INTERRUPT_STATUS_ACK_SHIFT;
-> -	msm_dp_write_ahb(catalog, REG_DP_INTR_STATUS2,
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_INTR_STATUS2,
->   			intr_ack | DP_INTERRUPT_STATUS2_MASK);
->   
->   	return intr;
-> @@ -749,13 +676,10 @@ int msm_dp_catalog_ctrl_get_interrupt(struct msm_dp_catalog *msm_dp_catalog)
->   
->   void msm_dp_catalog_ctrl_phy_reset(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	msm_dp_write_ahb(catalog, REG_DP_PHY_CTRL,
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_PHY_CTRL,
->   			DP_PHY_CTRL_SW_RESET | DP_PHY_CTRL_SW_RESET_PLL);
->   	usleep_range(1000, 1100); /* h/w recommended delay */
-> -	msm_dp_write_ahb(catalog, REG_DP_PHY_CTRL, 0x0);
-> +	msm_dp_write_ahb(msm_dp_catalog, REG_DP_PHY_CTRL, 0x0);
->   }
->   
->   void msm_dp_catalog_ctrl_send_phy_pattern(struct msm_dp_catalog *msm_dp_catalog,
-> @@ -766,66 +690,66 @@ void msm_dp_catalog_ctrl_send_phy_pattern(struct msm_dp_catalog *msm_dp_catalog,
->   	u32 value = 0x0;
->   
->   	/* Make sure to clear the current pattern before starting a new one */
-> -	msm_dp_write_link(catalog, REG_DP_STATE_CTRL, 0x0);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL, 0x0);
->   
->   	drm_dbg_dp(catalog->drm_dev, "pattern: %#x\n", pattern);
->   	switch (pattern) {
->   	case DP_PHY_TEST_PATTERN_D10_2:
-> -		msm_dp_write_link(catalog, REG_DP_STATE_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
->   				DP_STATE_CTRL_LINK_TRAINING_PATTERN1);
->   		break;
->   	case DP_PHY_TEST_PATTERN_ERROR_COUNT:
->   		value &= ~(1 << 16);
-> -		msm_dp_write_link(catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
->   					value);
->   		value |= SCRAMBLER_RESET_COUNT_VALUE;
-> -		msm_dp_write_link(catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
->   					value);
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_LEVELS,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS,
->   					DP_MAINLINK_SAFE_TO_EXIT_LEVEL_2);
-> -		msm_dp_write_link(catalog, REG_DP_STATE_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
->   					DP_STATE_CTRL_LINK_SYMBOL_ERR_MEASURE);
->   		break;
->   	case DP_PHY_TEST_PATTERN_PRBS7:
-> -		msm_dp_write_link(catalog, REG_DP_STATE_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
->   				DP_STATE_CTRL_LINK_PRBS7);
->   		break;
->   	case DP_PHY_TEST_PATTERN_80BIT_CUSTOM:
-> -		msm_dp_write_link(catalog, REG_DP_STATE_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
->   				DP_STATE_CTRL_LINK_TEST_CUSTOM_PATTERN);
->   		/* 00111110000011111000001111100000 */
-> -		msm_dp_write_link(catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG0,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG0,
->   				0x3E0F83E0);
->   		/* 00001111100000111110000011111000 */
-> -		msm_dp_write_link(catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG1,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG1,
->   				0x0F83E0F8);
->   		/* 1111100000111110 */
-> -		msm_dp_write_link(catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG2,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_TEST_80BIT_CUSTOM_PATTERN_REG2,
->   				0x0000F83E);
->   		break;
->   	case DP_PHY_TEST_PATTERN_CP2520:
-> -		value = msm_dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +		value = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
->   		value &= ~DP_MAINLINK_CTRL_SW_BYPASS_SCRAMBLER;
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, value);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, value);
->   
->   		value = DP_HBR2_ERM_PATTERN;
-> -		msm_dp_write_link(catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
->   				value);
->   		value |= SCRAMBLER_RESET_COUNT_VALUE;
-> -		msm_dp_write_link(catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_HBR2_COMPLIANCE_SCRAMBLER_RESET,
->   					value);
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_LEVELS,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS,
->   					DP_MAINLINK_SAFE_TO_EXIT_LEVEL_2);
-> -		msm_dp_write_link(catalog, REG_DP_STATE_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
->   					DP_STATE_CTRL_LINK_SYMBOL_ERR_MEASURE);
-> -		value = msm_dp_read_link(catalog, REG_DP_MAINLINK_CTRL);
-> +		value = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL);
->   		value |= DP_MAINLINK_CTRL_ENABLE;
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL, value);
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL, value);
->   		break;
->   	case DP_PHY_TEST_PATTERN_SEL_MASK:
-> -		msm_dp_write_link(catalog, REG_DP_MAINLINK_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_CTRL,
->   				DP_MAINLINK_CTRL_ENABLE);
-> -		msm_dp_write_link(catalog, REG_DP_STATE_CTRL,
-> +		msm_dp_write_link(msm_dp_catalog, REG_DP_STATE_CTRL,
->   				DP_STATE_CTRL_LINK_TRAINING_PATTERN4);
->   		break;
->   	default:
-> @@ -837,26 +761,21 @@ void msm_dp_catalog_ctrl_send_phy_pattern(struct msm_dp_catalog *msm_dp_catalog,
->   
->   u32 msm_dp_catalog_ctrl_read_phy_pattern(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
-> -
-> -	return msm_dp_read_link(catalog, REG_DP_MAINLINK_READY);
-> +	return msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_READY);
->   }
->   
->   /* panel related catalog functions */
->   int msm_dp_catalog_panel_timing_cfg(struct msm_dp_catalog *msm_dp_catalog, u32 total,
->   				u32 sync_start, u32 width_blanking, u32 msm_dp_active)
->   {
-> -	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> -				struct msm_dp_catalog_private, msm_dp_catalog);
->   	u32 reg;
->   
-> -	msm_dp_write_link(catalog, REG_DP_TOTAL_HOR_VER, total);
-> -	msm_dp_write_link(catalog, REG_DP_START_HOR_VER_FROM_SYNC, sync_start);
-> -	msm_dp_write_link(catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY, width_blanking);
-> -	msm_dp_write_link(catalog, REG_DP_ACTIVE_HOR_VER, msm_dp_active);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_TOTAL_HOR_VER, total);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_START_HOR_VER_FROM_SYNC, sync_start);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_HSYNC_VSYNC_WIDTH_POLARITY, width_blanking);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_ACTIVE_HOR_VER, msm_dp_active);
->   
-> -	reg = msm_dp_read_p0(catalog, MMSS_DP_INTF_CONFIG);
-> +	reg = msm_dp_read_p0(msm_dp_catalog, MMSS_DP_INTF_CONFIG);
->   
->   	if (msm_dp_catalog->wide_bus_en)
->   		reg |= DP_INTF_CONFIG_DATABUS_WIDEN;
-> @@ -866,42 +785,36 @@ int msm_dp_catalog_panel_timing_cfg(struct msm_dp_catalog *msm_dp_catalog, u32 t
->   
->   	DRM_DEBUG_DP("wide_bus_en=%d reg=%#x\n", msm_dp_catalog->wide_bus_en, reg);
->   
-> -	msm_dp_write_p0(catalog, MMSS_DP_INTF_CONFIG, reg);
-> +	msm_dp_write_p0(msm_dp_catalog, MMSS_DP_INTF_CONFIG, reg);
->   	return 0;
->   }
->   
->   static void msm_dp_catalog_panel_send_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog, struct dp_sdp *vsc_sdp)
->   {
-> -	struct msm_dp_catalog_private *catalog;
->   	u32 header[2];
->   	u32 val;
->   	int i;
->   
-> -	catalog = container_of(msm_dp_catalog, struct msm_dp_catalog_private, msm_dp_catalog);
-> -
->   	msm_dp_utils_pack_sdp_header(&vsc_sdp->sdp_header, header);
->   
-> -	msm_dp_write_link(catalog, MMSS_DP_GENERIC0_0, header[0]);
-> -	msm_dp_write_link(catalog, MMSS_DP_GENERIC0_1, header[1]);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_0, header[0]);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_1, header[1]);
->   
->   	for (i = 0; i < sizeof(vsc_sdp->db); i += 4) {
->   		val = ((vsc_sdp->db[i]) | (vsc_sdp->db[i + 1] << 8) | (vsc_sdp->db[i + 2] << 16) |
->   		       (vsc_sdp->db[i + 3] << 24));
-> -		msm_dp_write_link(catalog, MMSS_DP_GENERIC0_2 + i, val);
-> +		msm_dp_write_link(msm_dp_catalog, MMSS_DP_GENERIC0_2 + i, val);
->   	}
->   }
->   
->   static void msm_dp_catalog_panel_update_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   {
-> -	struct msm_dp_catalog_private *catalog;
->   	u32 hw_revision;
->   
-> -	catalog = container_of(msm_dp_catalog, struct msm_dp_catalog_private, msm_dp_catalog);
-> -
->   	hw_revision = msm_dp_catalog_hw_revision(msm_dp_catalog);
->   	if (hw_revision < DP_HW_VERSION_1_2 && hw_revision >= DP_HW_VERSION_1_0) {
-> -		msm_dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x01);
-> -		msm_dp_write_link(catalog, MMSS_DP_SDP_CFG3, 0x00);
-> +		msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x01);
-> +		msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG3, 0x00);
->   	}
->   }
->   
-> @@ -912,15 +825,15 @@ void msm_dp_catalog_panel_enable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog,
->   
->   	catalog = container_of(msm_dp_catalog, struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	cfg = msm_dp_read_link(catalog, MMSS_DP_SDP_CFG);
-> -	cfg2 = msm_dp_read_link(catalog, MMSS_DP_SDP_CFG2);
-> -	misc = msm_dp_read_link(catalog, REG_DP_MISC1_MISC0);
-> +	cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
-> +	cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
-> +	misc = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
->   
->   	cfg |= GEN0_SDP_EN;
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG, cfg);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, cfg);
->   
->   	cfg2 |= GENERIC0_SDPSIZE_VALID;
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG2, cfg2);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, cfg2);
->   
->   	msm_dp_catalog_panel_send_vsc_sdp(msm_dp_catalog, vsc_sdp);
->   
-> @@ -930,7 +843,7 @@ void msm_dp_catalog_panel_enable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog,
->   	drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=1\n");
->   
->   	pr_debug("misc settings = 0x%x\n", misc);
-> -	msm_dp_write_link(catalog, REG_DP_MISC1_MISC0, misc);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc);
->   
->   	msm_dp_catalog_panel_update_sdp(msm_dp_catalog);
->   }
-> @@ -942,15 +855,15 @@ void msm_dp_catalog_panel_disable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   
->   	catalog = container_of(msm_dp_catalog, struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	cfg = msm_dp_read_link(catalog, MMSS_DP_SDP_CFG);
-> -	cfg2 = msm_dp_read_link(catalog, MMSS_DP_SDP_CFG2);
-> -	misc = msm_dp_read_link(catalog, REG_DP_MISC1_MISC0);
-> +	cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
-> +	cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
-> +	misc = msm_dp_read_link(msm_dp_catalog, REG_DP_MISC1_MISC0);
->   
->   	cfg &= ~GEN0_SDP_EN;
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG, cfg);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, cfg);
->   
->   	cfg2 &= ~GENERIC0_SDPSIZE_VALID;
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG2, cfg2);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, cfg2);
->   
->   	/* switch back to MSA */
->   	misc &= ~DP_MISC1_VSC_SDP;
-> @@ -958,7 +871,7 @@ void msm_dp_catalog_panel_disable_vsc_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   	drm_dbg_dp(catalog->drm_dev, "vsc sdp enable=0\n");
->   
->   	pr_debug("misc settings = 0x%x\n", misc);
-> -	msm_dp_write_link(catalog, REG_DP_MISC1_MISC0, misc);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_MISC1_MISC0, misc);
->   
->   	msm_dp_catalog_panel_update_sdp(msm_dp_catalog);
->   }
-> @@ -1055,15 +968,15 @@ static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_
->   
->   static int msm_dp_catalog_get_io(struct msm_dp_catalog_private *catalog)
->   {
-> +	struct msm_dp_catalog *msm_dp_catalog = &catalog->msm_dp_catalog;
->   	struct platform_device *pdev = to_platform_device(catalog->dev);
-> -	struct dss_io_data *dss = &catalog->io;
->   
-> -	dss->ahb.base = msm_dp_ioremap(pdev, 0, &dss->ahb.len);
-> -	if (IS_ERR(dss->ahb.base))
-> -		return PTR_ERR(dss->ahb.base);
-> +	msm_dp_catalog->ahb_base = msm_dp_ioremap(pdev, 0, &msm_dp_catalog->ahb_len);
-> +	if (IS_ERR(msm_dp_catalog->ahb_base))
-> +		return PTR_ERR(msm_dp_catalog->ahb_base);
->   
-> -	dss->aux.base = msm_dp_ioremap(pdev, 1, &dss->aux.len);
-> -	if (IS_ERR(dss->aux.base)) {
-> +	msm_dp_catalog->aux_base = msm_dp_ioremap(pdev, 1, &msm_dp_catalog->aux_len);
-> +	if (IS_ERR(msm_dp_catalog->aux_base)) {
->   		/*
->   		 * The initial binding had a single reg, but in order to
->   		 * support variation in the sub-region sizes this was split.
-> @@ -1071,34 +984,34 @@ static int msm_dp_catalog_get_io(struct msm_dp_catalog_private *catalog)
->   		 * reg is specified, so fill in the sub-region offsets and
->   		 * lengths based on this single region.
->   		 */
-> -		if (PTR_ERR(dss->aux.base) == -EINVAL) {
-> -			if (dss->ahb.len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
-> +		if (PTR_ERR(msm_dp_catalog->aux_base) == -EINVAL) {
-> +			if (msm_dp_catalog->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
->   				DRM_ERROR("legacy memory region not large enough\n");
->   				return -EINVAL;
->   			}
->   
-> -			dss->ahb.len = DP_DEFAULT_AHB_SIZE;
-> -			dss->aux.base = dss->ahb.base + DP_DEFAULT_AUX_OFFSET;
-> -			dss->aux.len = DP_DEFAULT_AUX_SIZE;
-> -			dss->link.base = dss->ahb.base + DP_DEFAULT_LINK_OFFSET;
-> -			dss->link.len = DP_DEFAULT_LINK_SIZE;
-> -			dss->p0.base = dss->ahb.base + DP_DEFAULT_P0_OFFSET;
-> -			dss->p0.len = DP_DEFAULT_P0_SIZE;
-> +			msm_dp_catalog->ahb_len = DP_DEFAULT_AHB_SIZE;
-> +			msm_dp_catalog->aux_base = msm_dp_catalog->ahb_base + DP_DEFAULT_AUX_OFFSET;
-> +			msm_dp_catalog->aux_len = DP_DEFAULT_AUX_SIZE;
-> +			msm_dp_catalog->link_base = msm_dp_catalog->ahb_base + DP_DEFAULT_LINK_OFFSET;
-> +			msm_dp_catalog->link_len = DP_DEFAULT_LINK_SIZE;
-> +			msm_dp_catalog->p0_base = msm_dp_catalog->ahb_base + DP_DEFAULT_P0_OFFSET;
-> +			msm_dp_catalog->p0_len = DP_DEFAULT_P0_SIZE;
->   		} else {
-> -			DRM_ERROR("unable to remap aux region: %pe\n", dss->aux.base);
-> -			return PTR_ERR(dss->aux.base);
-> +			DRM_ERROR("unable to remap aux region: %pe\n", msm_dp_catalog->aux_base);
-> +			return PTR_ERR(msm_dp_catalog->aux_base);
->   		}
->   	} else {
-> -		dss->link.base = msm_dp_ioremap(pdev, 2, &dss->link.len);
-> -		if (IS_ERR(dss->link.base)) {
-> -			DRM_ERROR("unable to remap link region: %pe\n", dss->link.base);
-> -			return PTR_ERR(dss->link.base);
-> +		msm_dp_catalog->link_base = msm_dp_ioremap(pdev, 2, &msm_dp_catalog->link_len);
-> +		if (IS_ERR(msm_dp_catalog->link_base)) {
-> +			DRM_ERROR("unable to remap link region: %pe\n", msm_dp_catalog->link_base);
-> +			return PTR_ERR(msm_dp_catalog->link_base);
->   		}
->   
-> -		dss->p0.base = msm_dp_ioremap(pdev, 3, &dss->p0.len);
-> -		if (IS_ERR(dss->p0.base)) {
-> -			DRM_ERROR("unable to remap p0 region: %pe\n", dss->p0.base);
-> -			return PTR_ERR(dss->p0.base);
-> +		msm_dp_catalog->p0_base = msm_dp_ioremap(pdev, 3, &msm_dp_catalog->p0_len);
-> +		if (IS_ERR(msm_dp_catalog->p0_base)) {
-> +			DRM_ERROR("unable to remap p0 region: %pe\n", msm_dp_catalog->p0_base);
-> +			return PTR_ERR(msm_dp_catalog->p0_base);
->   		}
->   	}
->   
-> @@ -1135,7 +1048,7 @@ u32 msm_dp_catalog_audio_get_header(struct msm_dp_catalog *msm_dp_catalog,
->   
->   	sdp_map = catalog->audio_map;
->   
-> -	return msm_dp_read_link(catalog, sdp_map[sdp][header]);
-> +	return msm_dp_read_link(msm_dp_catalog, sdp_map[sdp][header]);
->   }
->   
->   void msm_dp_catalog_audio_set_header(struct msm_dp_catalog *msm_dp_catalog,
-> @@ -1154,7 +1067,7 @@ void msm_dp_catalog_audio_set_header(struct msm_dp_catalog *msm_dp_catalog,
->   
->   	sdp_map = catalog->audio_map;
->   
-> -	msm_dp_write_link(catalog, sdp_map[sdp][header], data);
-> +	msm_dp_write_link(msm_dp_catalog, sdp_map[sdp][header], data);
->   }
->   
->   void msm_dp_catalog_audio_config_acr(struct msm_dp_catalog *msm_dp_catalog, u32 select)
-> @@ -1173,7 +1086,7 @@ void msm_dp_catalog_audio_config_acr(struct msm_dp_catalog *msm_dp_catalog, u32
->   	drm_dbg_dp(catalog->drm_dev, "select: %#x, acr_ctrl: %#x\n",
->   					select, acr_ctrl);
->   
-> -	msm_dp_write_link(catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_AUDIO_ACR_CTRL, acr_ctrl);
->   }
->   
->   void msm_dp_catalog_audio_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable)
-> @@ -1187,7 +1100,7 @@ void msm_dp_catalog_audio_enable(struct msm_dp_catalog *msm_dp_catalog, bool ena
->   	catalog = container_of(msm_dp_catalog,
->   		struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	audio_ctrl = msm_dp_read_link(catalog, MMSS_DP_AUDIO_CFG);
-> +	audio_ctrl = msm_dp_read_link(msm_dp_catalog, MMSS_DP_AUDIO_CFG);
->   
->   	if (enable)
->   		audio_ctrl |= BIT(0);
-> @@ -1196,7 +1109,7 @@ void msm_dp_catalog_audio_enable(struct msm_dp_catalog *msm_dp_catalog, bool ena
->   
->   	drm_dbg_dp(catalog->drm_dev, "dp_audio_cfg = 0x%x\n", audio_ctrl);
->   
-> -	msm_dp_write_link(catalog, MMSS_DP_AUDIO_CFG, audio_ctrl);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_AUDIO_CFG, audio_ctrl);
->   	/* make sure audio engine is disabled */
->   	wmb();
->   }
-> @@ -1213,7 +1126,7 @@ void msm_dp_catalog_audio_config_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   	catalog = container_of(msm_dp_catalog,
->   		struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	sdp_cfg = msm_dp_read_link(catalog, MMSS_DP_SDP_CFG);
-> +	sdp_cfg = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG);
->   	/* AUDIO_TIMESTAMP_SDP_EN */
->   	sdp_cfg |= BIT(1);
->   	/* AUDIO_STREAM_SDP_EN */
-> @@ -1227,9 +1140,9 @@ void msm_dp_catalog_audio_config_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   
->   	drm_dbg_dp(catalog->drm_dev, "sdp_cfg = 0x%x\n", sdp_cfg);
->   
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG, sdp_cfg);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG, sdp_cfg);
->   
-> -	sdp_cfg2 = msm_dp_read_link(catalog, MMSS_DP_SDP_CFG2);
-> +	sdp_cfg2 = msm_dp_read_link(msm_dp_catalog, MMSS_DP_SDP_CFG2);
->   	/* IFRM_REGSRC -> Do not use reg values */
->   	sdp_cfg2 &= ~BIT(0);
->   	/* AUDIO_STREAM_HB3_REGSRC-> Do not use reg values */
-> @@ -1237,7 +1150,7 @@ void msm_dp_catalog_audio_config_sdp(struct msm_dp_catalog *msm_dp_catalog)
->   
->   	drm_dbg_dp(catalog->drm_dev, "sdp_cfg2 = 0x%x\n", sdp_cfg2);
->   
-> -	msm_dp_write_link(catalog, MMSS_DP_SDP_CFG2, sdp_cfg2);
-> +	msm_dp_write_link(msm_dp_catalog, MMSS_DP_SDP_CFG2, sdp_cfg2);
->   }
->   
->   void msm_dp_catalog_audio_init(struct msm_dp_catalog *msm_dp_catalog)
-> @@ -1292,7 +1205,7 @@ void msm_dp_catalog_audio_sfe_level(struct msm_dp_catalog *msm_dp_catalog, u32 s
->   	catalog = container_of(msm_dp_catalog,
->   		struct msm_dp_catalog_private, msm_dp_catalog);
->   
-> -	mainlink_levels = msm_dp_read_link(catalog, REG_DP_MAINLINK_LEVELS);
-> +	mainlink_levels = msm_dp_read_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS);
->   	mainlink_levels &= 0xFE0;
->   	mainlink_levels |= safe_to_exit_level;
->   
-> @@ -1300,5 +1213,5 @@ void msm_dp_catalog_audio_sfe_level(struct msm_dp_catalog *msm_dp_catalog, u32 s
->   			"mainlink_level = 0x%x, safe_to_exit_level = 0x%x\n",
->   			 mainlink_levels, safe_to_exit_level);
->   
-> -	msm_dp_write_link(catalog, REG_DP_MAINLINK_LEVELS, mainlink_levels);
-> +	msm_dp_write_link(msm_dp_catalog, REG_DP_MAINLINK_LEVELS, mainlink_levels);
->   }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 62a401d8f75a6af06445a42af657d65e3fe542c5..13486c9c8703748e69e846be681951368df0a29e 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -49,6 +49,18 @@ enum msm_dp_catalog_audio_header_type {
->   
->   struct msm_dp_catalog {
->   	bool wide_bus_en;
-> +
-> +	void __iomem *ahb_base;
-> +	size_t ahb_len;
-> +
-> +	void __iomem *aux_base;
-> +	size_t aux_len;
-> +
-> +	void __iomem *link_base;
-> +	size_t link_len;
-> +
-> +	void __iomem *p0_base;
-> +	size_t p0_len;
->   };
->   
->   /* Debug module */
-> 
