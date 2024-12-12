@@ -1,60 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46479EE67B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:18:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEA29EE662
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:11:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF1E010ED95;
-	Thu, 12 Dec 2024 12:18:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B81610E40D;
+	Thu, 12 Dec 2024 12:11:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="gy2FgI5l";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="frbRjRAE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 453 seconds by postgrey-1.36 at gabe;
- Thu, 12 Dec 2024 12:17:59 UTC
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5B910ED95
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:17:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 513A51047DC21; Thu, 12 Dec 2024 13:10:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1734005422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z5uxgXWeF42zSM0+xNA+3NBRH5J4QrQYZwCAA7BDALo=;
- b=gy2FgI5lpHsWE3+7vNVtxxA5uAGq8cXGIdI5oKNzA5t3PLoTd42ckYDJaq46Wcyc6B3sAh
- qL1fifSXfWtMbwMdqjxS4nf+ehx+0l+ZyzHr4gx2biYq4C5osLSwDtHAHBRxTCZFEOY4iZ
- pzY+e+2yo03CFBn0w+jcd/zup3yjMqUhDarZ3h8/iwu47JSnOWuUN3aZdqLj2/o22CJyFB
- QM8xH1eKR6DbeC1jclRJRQfQi7ntgUrcShNePdgHb5jTNih4q2so6Twp+kdKzEXKAl+46k
- SAtrmyeWRYae1JwqEiAGl8V8p45aWOpzeg0MDXbUhR38aYZUW9EVmAX6vDx4aQ==
-Message-ID: <1d10a13c-edc5-4efc-8de5-95fe08b11cf6@denx.de>
-Date: Thu, 12 Dec 2024 13:09:44 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F3B10E40D;
+ Thu, 12 Dec 2024 12:11:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1D719A42145;
+ Thu, 12 Dec 2024 12:09:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59249C4CECE;
+ Thu, 12 Dec 2024 12:11:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1734005484;
+ bh=z4IR5aQ9BHMU6pLPaRemCvtw3/mCLG8VNTuWpfCN/AU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=frbRjRAEc9YR6sD/8xPGdYfwG5V+e0P74CnQSqB7cvBGcKUMyPUOSg4HkYVm7xqmt
+ u6p81YPyIkCsQfMFMibxy+ccs4tYjrYQCaNUPullQU8pFFnuB6W5LHOy5WIDhBPL6E
+ J1ghkjfTUTGJI8+DxbJCskR1eBruPGkIDwh0ccd4=
+Date: Thu, 12 Dec 2024 13:11:20 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: jianqi.ren.cn@windriver.com
+Cc: wayne.lin@amd.com, patches@lists.linux.dev, jerry.zuo@amd.com,
+ zaeem.mohamed@amd.com, daniel.wheeler@amd.com,
+ alexander.deucher@amd.com, stable@vger.kernel.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com,
+ Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6.1.y] drm/amd/display: Don't refer to dc_sink in
+ is_dsc_need_re_compute
+Message-ID: <2024121206-shelve-contusion-6db0@gregkh>
+References: <20241211101544.2121147-1-jianqi.ren.cn@windriver.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/panel: simple: add Multi-Inno Technology
- MI0700A2T-30
-To: dri-devel@lists.freedesktop.org
-Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
-References: <20241125013413.160725-1-marex@denx.de>
- <20241125013413.160725-2-marex@denx.de>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20241125013413.160725-2-marex@denx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241211101544.2121147-1-jianqi.ren.cn@windriver.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,76 +60,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/25/24 2:33 AM, Marek Vasut wrote:
-> Add Multi-Inno Technology MI0700A2T-30 7" 800x480 LVDS panel support.
+On Wed, Dec 11, 2024 at 06:15:44PM +0800, jianqi.ren.cn@windriver.com wrote:
+> From: Wayne Lin <wayne.lin@amd.com>
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Neil Armstrong <neil.armstrong@linaro.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> ---
->   drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
+> [ Upstream commit fcf6a49d79923a234844b8efe830a61f3f0584e4 ]
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 06381c6282097..4e2582e1a2bd1 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3222,6 +3222,33 @@ static const struct panel_desc mitsubishi_aa084xe01 = {
->   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
->   };
->   
-> +static const struct display_timing multi_inno_mi0700a2t_30_timing = {
-> +	.pixelclock = { 26400000, 33000000, 46800000 },
-> +	.hactive = { 800, 800, 800 },
-> +	.hfront_porch = { 16, 204, 354 },
-> +	.hback_porch = { 46, 46, 46 },
-> +	.hsync_len = { 1, 6, 40 },
-> +	.vactive = { 480, 480, 480 },
-> +	.vfront_porch = { 7, 22, 147 },
-> +	.vback_porch = { 23, 23, 23 },
-> +	.vsync_len = { 1, 3, 20 },
-> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
-> +		 DISPLAY_FLAGS_DE_HIGH,
-> +};
-> +
-> +static const struct panel_desc multi_inno_mi0700a2t_30 = {
-> +	.timings = &multi_inno_mi0700a2t_30_timing,
-> +	.num_timings = 1,
-> +	.bpc = 6,
-> +	.size = {
-> +		.width = 153,
-> +		.height = 92,
-> +	},
-> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
-> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +};
-> +
->   static const struct display_timing multi_inno_mi0700s4t_6_timing = {
->   	.pixelclock = { 29000000, 33000000, 38000000 },
->   	.hactive = { 800, 800, 800 },
-> @@ -4905,6 +4932,9 @@ static const struct of_device_id platform_of_match[] = {
->   	}, {
->   		.compatible = "mitsubishi,aa084xe01",
->   		.data = &mitsubishi_aa084xe01,
-> +	}, {
-> +		.compatible = "multi-inno,mi0700a2t-30",
-> +		.data = &multi_inno_mi0700a2t_30,
->   	}, {
->   		.compatible = "multi-inno,mi0700s4t-6",
->   		.data = &multi_inno_mi0700s4t_6,
+> [Why]
+> When unplug one of monitors connected after mst hub, encounter null pointer dereference.
+> 
+> It's due to dc_sink get released immediately in early_unregister() or detect_ctx(). When
+> commit new state which directly referring to info stored in dc_sink will cause null pointer
+> dereference.
+> 
+> [how]
+> Remove redundant checking condition. Relevant condition should already be covered by checking
+> if dsc_aux is null or not. Also reset dsc_aux to NULL when the connector is disconnected.
+> 
+> Reviewed-by: Jerry Zuo <jerry.zuo@amd.com>
+> Acked-by: Zaeem Mohamed <zaeem.mohamed@amd.com>
+> Signed-off-by: Wayne Lin <wayne.lin@amd.com>
+> Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Anything I need to do /wrt this patch ?
+You sent this 3 times, all different, so I have no idea what to do.
+
+Ok, I give up.  I'm deleting ALL of your pending stable patches from my
+review queue now due to all of the problems that these have had.
+
+Please work with a more experienced kernel developer at your company to
+get these backports correct, and complete, and send them as a patch
+series with the correct information and documentation as to what is
+going on, so that we have a chance to get this right.
+
+thanks,
+
+greg k-h
