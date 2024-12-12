@@ -1,158 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F4A9EE2D2
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 10:25:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DA09EE302
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 10:28:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD4410E204;
-	Thu, 12 Dec 2024 09:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0833410ED13;
+	Thu, 12 Dec 2024 09:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="222S/KDV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OL6XONrD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02C610E204;
- Thu, 12 Dec 2024 09:25:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hACEKhCMT19z+EHVDTVbEa32zipygq46CRxVhutfYgjy3idQmP9eJIY3nZu8PtYSHkatTS0wtbSTcrErL/X+BV2EOYI70DkiEBRF6Aootkcci0fECUd8pSVdYoLzX/T0yGoojfUKQWbMxZKEWu3FJotsaiSH2FCsESIuNRmNyYA9Zhyd7ITiVqapvqnJ4FU5McrPSVNlKyD7nxJSNg+zSjObRMPilhRGQCX4v84CO8MwxYRVQPZN6FhnhRV4lHXdtjuP9Bxf+UbHXsiFb0L93pufS3onuQpe4zCGE7vwzhhx9q4i0rVumfunxj4IPeF1j1QYTND81Gg4gwtpIa7unQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d7fSfkELsyAl7RojSQtDfE/pdgoUbQbNq5LN3HepzDM=;
- b=cv1f1x4j0RWU9+mZoUzj6nuf0wjN5erpS4kxZh2OSunKWntWiqeJxI4bRwEC1wx/7yxzSSJdikFu9o/qFeh+OTRPP/snDh1vsFSs7a8T8K8PRiqYaTnp1sXxxott9n3NRF+iODZRjtzI8vXR1apPAFstaX5/pTkua0SdcT5DBuJEMIlVJiI8ZIFFAF6/NueaUAZ3tg15czrKwo/P4E4rzbBHAkF0eE3y1IDQsyOf2hEhKGlVRcBE3Pr6BYVD5bStpGljy1eWCbSyAiv4PttU48hbY43yTItauZ4FmzyBODRZW6YtJ6snTV/h24If9iy1pI0kHaEjOVnExwvuZUczAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d7fSfkELsyAl7RojSQtDfE/pdgoUbQbNq5LN3HepzDM=;
- b=222S/KDVl6E3bQPdLEDb+ATblrWS4t/3xeEuo9p3kjWCkmrxxJ2X+zsfWMGXhWrb4aLln3e2pbehJ7bnQdzMnmWyV2/GmX7gEZlp2+/P8bEwENoKt9lxk0xTW0FGzMHIs2gbC15YfDVprEddVm+uSmgzRtYPRsH7WGdbaRcv9I8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA0PR12MB4461.namprd12.prod.outlook.com (2603:10b6:806:9c::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Thu, 12 Dec
- 2024 09:25:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8230.016; Thu, 12 Dec 2024
- 09:25:12 +0000
-Message-ID: <b402ba4a-fc8b-43c9-aabb-b6e482565331@amd.com>
-Date: Thu, 12 Dec 2024 10:25:07 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 4/6] drm: consider GEM object shared when it is
- exported
-To: "Li, Yunxiang (Teddy)" <Yunxiang.Li@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "tvrtko.ursulin@igalia.com" <tvrtko.ursulin@igalia.com>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <20241210175939.2498-1-Yunxiang.Li@amd.com>
- <20241210175939.2498-5-Yunxiang.Li@amd.com>
- <674b6d62-2274-4b0d-8d27-382faad5de88@amd.com>
- <SA1PR12MB859965C4B7EEB4B131E8C7E6ED3E2@SA1PR12MB8599.namprd12.prod.outlook.com>
- <8e514b7b-7826-4870-921a-ab6dac9a65c2@amd.com>
- <SA1PR12MB8599C134256BC6E17AD66070ED3E2@SA1PR12MB8599.namprd12.prod.outlook.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <SA1PR12MB8599C134256BC6E17AD66070ED3E2@SA1PR12MB8599.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0036.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::23) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D122C10ED13
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 09:28:10 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-5401bd6cdb7so410900e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 01:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1733995689; x=1734600489; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=v5iP5AU3SA0S+hiA5JyXG9Ea3JabKZiFBzzi/FEYEOg=;
+ b=OL6XONrDVK5ySqFQ7VPtav0dyeu0E0ZHvc5oLIg2b5vFndoaK9Njuotb4i8skmLCtL
+ WDDaStitKym/pVCU3gFHOm5Z96qRBuxnBLdlg9GddNRnLvq9KlOc5+WsvpTCNzcWOO3d
+ BCRCEBLRq6IKpvG7l6nXYL/xPTy9WcAxPhERk/hNR1b7+ccH1h0K3bNiIj8PkhSt3FZr
+ T1MqUscodqiS6KtwzknD1DUg04TnrSyi/Ma/sfpY2klHzroB6TdiZj0mVuTkCAMzKCeV
+ NvhgXPK5wQviMNuHVMDy8vkn0bc6SANo17hW3xpf4lFvrH5YNeEIu4UedmpBmeNunCJM
+ 10gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1733995689; x=1734600489;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=v5iP5AU3SA0S+hiA5JyXG9Ea3JabKZiFBzzi/FEYEOg=;
+ b=Oi/ysAM3ijkbhW2HmS/FJPNK8rJbQ0S9gEGWPbTtqVflNS5DlaGVlk7FKMvdoEkKl0
+ JFukKfXaH0/Ydt6sSEYhExn2U8AoXTghQoC7fS30z66TAQHKbm8mW9TZqskb5j9Qw3OL
+ iEbwUclVujYRGaypf6PqrmYUSxGp5dHj51WzBKI5etCgLEIu1Oju9QURf1GvkV0VDXZc
+ xgKp9whsSyJWHgsHg+KBEN+uXyXteH/mwiSGVmHYsaQioDMvjV3MF6poYFZgr/QNLZYN
+ C13u9pVpCjW/LveEGNk/iJUEPLg5SKkYKQaXU6K8JMiMRVATyalNdSmLo1psfrK8NYrL
+ /M2Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVgKl26swtpEuX0VYJON7u9cdydvIF3dfOQDzOMGYQCqi6RjHTcBjgH43WZaRvYL5s4noGJzFUc7gA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZ3Uyf+4Hb6a1Tizs79z7zZ1V3bMpreaLC42SnqiFVHq5G1hqN
+ zWN43u2eCoVq+ERUBTLCyLMxR0cTzxk0cEQ/tclLUxztfOfr6vEror76riqN+VA=
+X-Gm-Gg: ASbGncs67WQE3rU4jz0USkBnzVLwLi6xsnqUUK30eazMvmJYCOJXxeMGS+lpLEP4XdM
+ frsjtRKDromRKTMH8wp1TUg3vPKEtAxf+9gZg4quQlR2pT2MOz24aljL9r0H9PAFh8dix6tLLOZ
+ VbcqsGDGgQVnH6OegbqwaXpMCR6/0Adn9DPGH/yGkLo0jp2MvsAFDWVmqU+jrtNH/NwtLD+H6Nl
+ VVRPE+Gdc2ACX+sqsVL48FHCr4W6QNapZYEiVSXffcqKVQpEHoJLEbn4Uq15so8rkqpINjjHG5u
+ /5WilOzVN5EMW3gPuNn0bsmm8KANPibYH4lM
+X-Google-Smtp-Source: AGHT+IE/c4vmh6Af7M2ezdVQBUbGSoAXhcgHS6YHWy6ChO5TB4L/GFRn3bRfqOKlrST4WI+JDw4ang==
+X-Received: by 2002:a05:6512:3984:b0:540:21d6:d679 with SMTP id
+ 2adb3069b0e04-54032c3b44bmr214346e87.31.1733995689018; 
+ Thu, 12 Dec 2024 01:28:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5401a3bc85asm1518271e87.206.2024.12.12.01.28.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Dec 2024 01:28:07 -0800 (PST)
+Date: Thu, 12 Dec 2024 11:28:05 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrej Picej <andrej.picej@norik.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
+Subject: Re: [PATCH v5 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
+ optional properties
+Message-ID: <roxosjotsh65dkecrwhhtlhkhqseezkj7ydk532shc27irzmd3@xry3ggjdq4uo>
+References: <20241210091901.83028-1-andrej.picej@norik.com>
+ <20241210091901.83028-3-andrej.picej@norik.com>
+ <irpmhq7vxjra6vhmdh7p63ajj57n3h2c4br3ija2jmwtoewist@zyxfmx6k5m4e>
+ <aa2de99d-21f4-4843-83b7-5d2db78be86f@norik.com>
+ <qhmsobin3fsmoc7ic2jtancowfscoauyroruxdpwhmqwlogtkz@6by3s2ruwzwp>
+ <519cc025-0782-4f96-a169-1fe87b280173@norik.com>
+ <rputm4gnjj6nb66ix7dqbxr2janltia6rlb6zunhf7x3mgooxw@o3lblnyp5cci>
+ <ad8843d6-e5a3-437a-af4d-f2248b247a65@norik.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA0PR12MB4461:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70d86271-bdd0-4709-0039-08dd1a8ee13b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aEpFR2dad05QR3hVM2NiY1ZqMXZSNFRWK29IL0RJZ25rMGIzNXhLNjVxRTNU?=
- =?utf-8?B?RXd1RlVySE53NW1rWUptdHYzQjc1Qld2Rmo4Zyt5dzFYTXR4OGVuSjQ2NGRO?=
- =?utf-8?B?RTFmV0hOTmxkVTJNY3lhMVZUSG83WFd2RmlPTlBoZTVkeGdheHMyV0pvZmlv?=
- =?utf-8?B?SmNwRXhJcmduM2pNd1p5UXF2Q0lCT0NrQ1hURnJmZUNDQ0sxSVAveDlzYlZH?=
- =?utf-8?B?U1E5RjU4QnozY0I2cnJiaFFlKysxampuYmlSLzVDaE1xL2FxMmFpdGx0SGcw?=
- =?utf-8?B?V0pWUHRTK25tZ1NiTzdjQ3IzRWlEOUcyMGdvYUZ5SWRRRDdUWFUrOWJ0Y3M2?=
- =?utf-8?B?eEsxNWNRaTl3MUc2amVQU1N5b2xHa0VwNDRaWlJGeThMay9ROXlDc3NwSzVq?=
- =?utf-8?B?OVdtVDVKUjVxQnV2aUo1NDBkVWhYVk0zREdMNUFMbk9nMXd4Z09QSFMzYnpU?=
- =?utf-8?B?RUZaeXR2M0s2RW5DT0NWeDRaUWplY3FuWGlwK0xkRWhES0hzd0pnaU9xdWVj?=
- =?utf-8?B?Ykw4QlYxZVgrVU9FbDJtdXpGdDRIOHk2WHRSWkRKR0FUbFRMU3dsdWJ3Y1lF?=
- =?utf-8?B?L2VYZGxicnlKc0JBTnVhRlkwRnV1R2p6Q3hzbndId3dzQi90UGhrU1dOeHlM?=
- =?utf-8?B?azNGbDBLNFBSdHFlSzk0cnpid3poVHQzZzl5dU5CN0U0YWRjUEtMcy8vL21B?=
- =?utf-8?B?ZEcwSzlEVVlrZzF5MkJPMTl0YkRtdkRvZUY2UzFTREd1V0g0b0tLcitoUjBy?=
- =?utf-8?B?SkJIVWorUFdmeUlOZ1drSW52aUhNNmdqT2xPaWNUQzR6dFVKcCs0YktkeEY3?=
- =?utf-8?B?d3NLUCtrS0IyeEkzNDkrOHdaWXZGOFp0NXdzVkdkRjVMV3lGTWVhNzNzTEpE?=
- =?utf-8?B?WWJkcHJyUXlHSEdNWWhpWXF0d3JoVDU2WVJiN3dnTElqNEtEeEx5WGZSdndX?=
- =?utf-8?B?RWNsN05wVXNlTlhYOWs3ekxCYmNaR3VxSnljSmtETFpTTmthYW1qK0lQNlZ6?=
- =?utf-8?B?aDdOQWE3YVFOVmVpMFhpVlUrUkVjZWVaRkU4NFRrMGJJakJac0psUWt2RmQy?=
- =?utf-8?B?M2h2dUJWcXpIY1JleXl6bUN0eFY4NTFqcHdZVTFPd2dUem1nNjN3OXViUVh5?=
- =?utf-8?B?S2IxZnVJUS9oWWRDdjk3ajNac1FTa0h2SXVlUkV6ZjNGa1gzWmY0di9jb05U?=
- =?utf-8?B?R0JCRDNkQXZ5b2ZaQmxTM1lyTGd2bis2b3VleElYRGh6VWZ6eUwrc3BQRTJu?=
- =?utf-8?B?ZGt5alM4dmhFUGZKbWpQYUtialZPU3A5ZDhqcU5UUWdtRTgySUVSSGZ1Y0tz?=
- =?utf-8?B?RnNzQ2l2Ung5WXNvaHFVaW90TC80OFdabmUxRitodXJpN2hrM3NWRmVJbDM1?=
- =?utf-8?B?dytvbU1iOEkyN2wxbmVwMkZNb0svM0hvUFNZOE5CS01QRmx0cVJCa2J1NWw5?=
- =?utf-8?B?MTNJSFFNQ2d4R2dmVkMwQlRlTDFSTVBxOWFzMmoycmFyNVV3REZGS1VvNUNu?=
- =?utf-8?B?b2JJa0s0WXFlOW1VM2k5WW5RaXJYWklSRXZoWTBrZ1dBUG9tbXo2S1c5cisy?=
- =?utf-8?B?MmtQMjBOVlJFMklPa3BuU0tOU3JsajUwUDBCWjJSWmg4Rkh1TU0zVTdCM1Zt?=
- =?utf-8?B?RElocUNSTnYyeDRhNmlZTllIOERUcWlRb0hrTk1KeTJZZUg1dlJ2em8ydmF6?=
- =?utf-8?B?NSt4WDVJa0xWUWZ2ZjhmWlUxelhyZDBxSGJEQXZGMHlwMCtlMWJtLzZLMmtF?=
- =?utf-8?B?YnRtb0YwcjFlbU1oelN4d1B3SFBEd3Q2TFpnWCtVam1pcmZOMjZVVUkxWGlW?=
- =?utf-8?B?U29KVitIOVU1UytBMlFKdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0F6aDY0TTE5bk45N1dZOE90U2creDdNQUVHeUZxV0p1OVpRUnhDZDJKazJF?=
- =?utf-8?B?TDlIQnhEa1pPdGI5eFc0K0FPRzlxZjgxTEZuU09rL3JIdWlleGpLc1hWM3A2?=
- =?utf-8?B?SVlidEhMTDc2MW1YdnRjYWdaZmRsZ2dJbHg5Y2FRTTZIcVpHb3NVUFlCM2gz?=
- =?utf-8?B?eTIwR2p6UGVxRWF1b2syREl6T0xHNHNaMUw2emJSTVdzRCtvS0tCTFpEWk1r?=
- =?utf-8?B?ZVpaWVlleE9pOGZuQUpmdGt5VEx2akdJQjBMWC80SkZ2VVkxY05HQWNPcGJa?=
- =?utf-8?B?ZlBMQitVU01vMUF2eXhDU0h0R1Rja0NJdXA0Y3d3S0ZlTGpXUk5IeHVHUXRq?=
- =?utf-8?B?Y3Y4T1hYTjcreEREVW02bXlOSk9qVklXL3JMbTNBUnZ4NmYyMjR5VXRwUVFY?=
- =?utf-8?B?bitqakJJUXI5M2VkMmFJVXo1am1VK0Nob1BCK0dPcnlpamwra3UyMGdkc1N6?=
- =?utf-8?B?Um41UDNyVVlxWHYwQWdXTmZ3ZVJ5RERoaVZsbE91b2hFQnhKdFd3TzZkemoy?=
- =?utf-8?B?TjkvVmpvUlJIVUxidU9uakdCK1U5bnZCeVFROFdhdENHVE1VRmExd05mNjU4?=
- =?utf-8?B?eWRmSG0vbm9JdjdvaGx1dkNEbEoxUndKemRhNEpUdENNNFlzZFJkbWFmaTdL?=
- =?utf-8?B?bVpjdnNEWEYxY1lwMzJSMWdDSUdyOEQ3a3kyL0RIZ1h2TkEzcjZKdS9SNExO?=
- =?utf-8?B?MnZpTFpsdTBZOEltQk4wZ09rbEp3ZHQ0ZVpSTWtwcnhqNTF0ayt0MktVT1VW?=
- =?utf-8?B?eXRQMGlXWWg2ZUdQUW95bEZ4UEtDQ243bUNzd0VzcjBocTU2Mm5LMGF4SGNl?=
- =?utf-8?B?RHpQbHZUT09xNjJyVXRHV3E0M1JFS3hOcGdNeUw0VWdGR1pMN2hCWmJBdEdS?=
- =?utf-8?B?Y1hjdVpsVWR5ajg0cWRRM3ZBc3U2UWpRL2hHRW0wMTRUUEVFWC9KTWdtVzRB?=
- =?utf-8?B?VWxnUjAvbmdGL3NvRHVmdjVFcmhXZ0lqcmpJNTIrZG1jWUtaZFJTdWkwK1By?=
- =?utf-8?B?YnhpaDRnQzZjakYwc2FrRElpdkJMWFhRMlFCOWM3YWtEQzc4L1NxNHNCNnpu?=
- =?utf-8?B?RzZFOXhSUmc1dGk5MUVYYUFVRXdjMUh2QzZIVFpvMkNDS2dSWUhYY3J0K0pZ?=
- =?utf-8?B?Yzc0d0dxR1ZUQmkxa1g2T2xJL1FQQmxjOFExZm5WYy92d1dUNWZqd0s5SENV?=
- =?utf-8?B?MHZSak1jK1phT3FkQVpma2dVUFlOU0ZHU2RZVFJIOUZ1KzhzZkNmTkFWclFC?=
- =?utf-8?B?SU9WMm9NZE5nQXU1R2FvSldxTHYwNDRwckk0cTM0NVJ2ak4wUHJFRENhOU0w?=
- =?utf-8?B?U3NEUlI2VHM4cXZTckVmc05Vd0xwekNuU21rTTZkNWZJTXlCNi83RURqUUxv?=
- =?utf-8?B?TVpDVXBVK3QyVVoyMisyOUp1VkJqQms3TXVyUEJVWDMveVI1Z1BMcXVtV2hs?=
- =?utf-8?B?SWZaZnVmLzIvNHdyRW54cFBWOWUrQ09pMW5lbGlmZFdFUGVlckM4c3d5QWVC?=
- =?utf-8?B?Q0hqSXVaQ3hkciswWkd5alFXT1ZlNkNjeVZNQkFKcTNKZkUzU3ZHK0lWcy94?=
- =?utf-8?B?UlcxQkVsbHZObGxIOTlwdXFJVnkvTFZ6NDgwYVNSSS9Pc0o4Ynk4VGFzNkh0?=
- =?utf-8?B?YnN4L3FadTNkOHF0Y3U4TlBmTjgzR09NQ3ZvZ1JWbmdKZ2IrNkZtSm1Sdm9v?=
- =?utf-8?B?SHpiZ0lMRWFxSGd4RHViVHRGb1NjRHlOcmErSktHcEpQK1JlQW8yaHRNUC8w?=
- =?utf-8?B?Yk5BSFc1NUM1alJ5K0FzNEFGc0VUNWUyaFN5WThJUDROUzQ5RUQ4ZXd6V1ZF?=
- =?utf-8?B?NEsvTGZHb3ZON0kzOXhURC81Y3VQOWJnN00xZk5IdFlIbXlwN01waGV3MTFX?=
- =?utf-8?B?dnNiWlBJdEd5Mk5LWlVkcU9FKzZZZ1FaMlVPMlIrdE9hbS9PR0s5ZnNBWjcz?=
- =?utf-8?B?TUpnWkhpUk5lUlhLODdCTlp4cFJySEw3c3BRckpiODdwc093L2QyRlViVkYw?=
- =?utf-8?B?SFVPdzhocVdmOWdYd0FaS0dmTlB3cXNkK1VIY0lwWGorWHhyV3VwQXlUMVd5?=
- =?utf-8?B?eUcrN3RNdUNLYzVZTkpHNjIvRTk1NytYZklvNTdTNTFFN0Rla0h4WlpsLzVt?=
- =?utf-8?Q?n6VY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70d86271-bdd0-4709-0039-08dd1a8ee13b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2024 09:25:12.5951 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oimnxes30KgK8GtUEsLNhjApYedRlHM87mSqdCX13eCoFuSirmAUu2lk3y7b3PxK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4461
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad8843d6-e5a3-437a-af4d-f2248b247a65@norik.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,159 +103,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 11.12.24 um 17:14 schrieb Li, Yunxiang (Teddy):
-> [Public]
->
->> From: Koenig, Christian <Christian.Koenig@amd.com>
->> Sent: Wednesday, December 11, 2024 10:03
->> Am 11.12.24 um 15:02 schrieb Li, Yunxiang (Teddy):
->>> [Public]
->>>
->>>> From: Koenig, Christian <Christian.Koenig@amd.com>
->>>> Sent: Wednesday, December 11, 2024 3:16 Am 10.12.24 um 18:59 schrieb
->>>> Yunxiang Li:
->>>>> Tracking the state of a GEM object for shared stats is quite
->>>>> difficult since the handle_count is managed behind driver's back. So
->>>>> instead considers GEM object shared the moment it is exported with flink ioctl.
->>>>> This makes it work the same to the dma_buf case. Add a callback for
->>>>> drivers to get notified when GEM object is being shared.
->>>> First of all GEM flink is pretty much deprecated, we only have it for
->>>> compatibility reasons. So please don't change anything here.
->>>>
->>>> Then flink is not the only way to create multiple handles for a GEM
->>>> object. So this here won't handle all cases.
->>>>
->>>> And finally we already have the .open and .close callbacks, which are
->>>> called whenever a handle for a GEM object is created/destroyed. So it
->>>> shouldn't be necessary in the first place.
->>> For the importing VM the shared stats is automatically correct by open and close,
->> but for the exporting VM we need to update the shared stat when the buffer gets
->> shared, since it is already counted as private there. As far as I could find, seems
->> like flink ioctl is the only place where the global name is assigned? The importing
->> side have multiple places to get the global name, but the exporter always needs to
->> first call flink to allocate the number right? So hooking into flink and dma-buf should
->> cover the bases?
->>
->> It's irrelevant where the global name is assigned. The problem is that there are more
->> ways to create a new handle for a GEM object than just flink and DMA-buf.
->>
->> For example you can just ask a framebuffer to give you a GEM handle for the
->> currently displayed buffer. See the call to drm_gem_handle_create() in
->> drm_mode_getfb2_ioctl().
->>
->> When you make this change here then those GEM handles are not considered
->> shared any more even if they are and you sooner or later run into warnings on VM
->> destruction.
->>
->>> I could probably make handle_count work somehow, but it looks like it's read in a
->> lot of places without locks so I'm not sure if there will be some race conditions.
->>
->> The handle count is protected by the object_name_lock of the device. The
->> drm_gem_object_is_shared_for_memory_stats() function is pretty much the only
->> case where we read the value without holding the lock since that is used only
->> opportunistically.
->>
->> What you could do is to hook into amdgpu_gem_object_open() and
->> amdgpu_gem_object_close(), call
->> drm_gem_object_is_shared_for_memory_stats() and go over all the VMs the BO
->> belongs to. (See how amdgpu_vm_bo_find() and amdgpu_vm_bo_add are used).
->>
->> Then have an additional flag inside amdgpu_bo_va who tells you if a BO was
->> previously considered shared or private and update the stats accordingly when that
->> status changes.
-> But the open and close functions are called outside the object_name_lock right, so do I regrab the lock in the amdgpu_* functions or I could move the callback into the lock?
+On Thu, Dec 12, 2024 at 09:08:03AM +0100, Andrej Picej wrote:
+> 
+> 
+> On 12. 12. 24 00:04, Dmitry Baryshkov wrote:
+> > On Wed, Dec 11, 2024 at 08:57:17AM +0100, Andrej Picej wrote:
+> > > 
+> > > 
+> > > On 10. 12. 24 14:59, Dmitry Baryshkov wrote:
+> > > > On Tue, Dec 10, 2024 at 02:41:01PM +0100, Andrej Picej wrote:
+> > > > > 
+> > > > > 
+> > > > > On 10. 12. 24 12:43, Dmitry Baryshkov wrote:
+> > > > > > On Tue, Dec 10, 2024 at 10:19:00AM +0100, Andrej Picej wrote:
+> > > > > > > Add a optional properties to change LVDS output voltage. This should not
+> > > > > > > be static as this depends mainly on the connected display voltage
+> > > > > > > requirement. We have three properties:
+> > > > > > > - "ti,lvds-termination-ohms", which sets near end termination,
+> > > > > > > - "ti,lvds-vod-swing-data-microvolt" and
+> > > > > > > - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
+> > > > > > > output voltage for data and clock lanes. They are defined as an array
+> > > > > > > with min and max values. The appropriate bitfield will be set if
+> > > > > > > selected constraints can be met.
+> > > > > > > 
+> > > > > > > If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
+> > > > > > > end termination will be used. Selecting only one:
+> > > > > > > "ti,lvds-vod-swing-data-microvolt" or
+> > > > > > > "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
+> > > > > > > constraint for only data/clock lanes will be met. Setting both is
+> > > > > > > recommended.
+> > > > > > > 
+> > > > > > > Signed-off-by: Andrej Picej <andrej.picej@norik.com>
+> > > > > > > ---
+> > > > > > > Changes in v5:
+> > > > > > > - specify default values in sn65dsi83_parse_lvds_endpoint,
+> > > > > > > - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
+> > > > > > > Changes in v4:
+> > > > > > > - fix typo in commit message bitfiled -> bitfield
+> > > > > > > - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
+> > > > > > > of separate variables for channel A/B
+> > > > > > > - add more checks on return value of "of_property_read_u32_array"
+> > > > > > > Changes in v3:
+> > > > > > > - use microvolts for default array values 1000 mV -> 1000000 uV.
+> > > > > > > Changes in v2:
+> > > > > > > - use datasheet tables to get the proper configuration
+> > > > > > > - since major change was done change the authorship to myself
+> > > > > > > ---
+> > > > > > >     drivers/gpu/drm/bridge/ti-sn65dsi83.c | 142 +++++++++++++++++++++++++-
+> > > > > > >     1 file changed, 139 insertions(+), 3 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > > > index 57a7ed13f996..f9578b38da28 100644
+> > > > > > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > > > > > > @@ -132,6 +132,16 @@
+> > > > > > >     #define  REG_IRQ_STAT_CHA_SOT_BIT_ERR		BIT(2)
+> > > > > > >     #define  REG_IRQ_STAT_CHA_PLL_UNLOCK		BIT(0)
+> > > > > > > +enum sn65dsi83_channel {
+> > > > > > > +	CHANNEL_A,
+> > > > > > > +	CHANNEL_B
+> > > > > > > +};
+> > > > > > > +
+> > > > > > > +enum sn65dsi83_lvds_term {
+> > > > > > > +	OHM_100,
+> > > > > > > +	OHM_200
+> > > > > > > +};
+> > > > > > > +
+> > > > > > >     enum sn65dsi83_model {
+> > > > > > >     	MODEL_SN65DSI83,
+> > > > > > >     	MODEL_SN65DSI84,
+> > > > > > > @@ -147,6 +157,8 @@ struct sn65dsi83 {
+> > > > > > >     	struct regulator		*vcc;
+> > > > > > >     	bool				lvds_dual_link;
+> > > > > > >     	bool				lvds_dual_link_even_odd_swap;
+> > > > > > > +	int				lvds_vod_swing_conf[2];
+> > > > > > > +	int				lvds_term_conf[2];
+> > > > > > >     };
+> > > > > > >     static const struct regmap_range sn65dsi83_readable_ranges[] = {
+> > > > > > > @@ -237,6 +249,36 @@ static const struct regmap_config sn65dsi83_regmap_config = {
+> > > > > > >     	.max_register = REG_IRQ_STAT,
+> > > > > > >     };
+> > > > > > > +static const int lvds_vod_swing_data_table[2][4][2] = {
+> > > > > > > +	{	/* 100 Ohm */
+> > > > > > > +		{ 180000, 313000 },
+> > > > > > > +		{ 215000, 372000 },
+> > > > > > > +		{ 250000, 430000 },
+> > > > > > > +		{ 290000, 488000 },
+> > > > > > > +	},
+> > > > > > > +	{	/* 200 Ohm */
+> > > > > > > +		{ 150000, 261000 },
+> > > > > > > +		{ 200000, 346000 },
+> > > > > > > +		{ 250000, 428000 },
+> > > > > > > +		{ 300000, 511000 },
+> > > > > > > +	},
+> > > > > > > +};
+> > > > > > > +
+> > > > > > > +static const int lvds_vod_swing_clock_table[2][4][2] = {
+> > > > > > > +	{	/* 100 Ohm */
+> > > > > > > +		{ 140000, 244000 },
+> > > > > > > +		{ 168000, 290000 },
+> > > > > > > +		{ 195000, 335000 },
+> > > > > > > +		{ 226000, 381000 },
+> > > > > > > +	},
+> > > > > > > +	{	/* 200 Ohm */
+> > > > > > > +		{ 117000, 204000 },
+> > > > > > > +		{ 156000, 270000 },
+> > > > > > > +		{ 195000, 334000 },
+> > > > > > > +		{ 234000, 399000 },
+> > > > > > > +	},
+> > > > > > > +};
+> > > > > > > +
+> > > > > > >     static struct sn65dsi83 *bridge_to_sn65dsi83(struct drm_bridge *bridge)
+> > > > > > >     {
+> > > > > > >     	return container_of(bridge, struct sn65dsi83, bridge);
+> > > > > > > @@ -435,12 +477,16 @@ static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+> > > > > > >     		val |= REG_LVDS_FMT_LVDS_LINK_CFG;
+> > > > > > >     	regmap_write(ctx->regmap, REG_LVDS_FMT, val);
+> > > > > > > -	regmap_write(ctx->regmap, REG_LVDS_VCOM, 0x05);
+> > > > > > > +	regmap_write(ctx->regmap, REG_LVDS_VCOM,
+> > > > > > > +			REG_LVDS_VCOM_CHA_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_A]) |
+> > > > > > > +			REG_LVDS_VCOM_CHB_LVDS_VOD_SWING(ctx->lvds_vod_swing_conf[CHANNEL_B]));
+> > > > > > >     	regmap_write(ctx->regmap, REG_LVDS_LANE,
+> > > > > > >     		     (ctx->lvds_dual_link_even_odd_swap ?
+> > > > > > >     		      REG_LVDS_LANE_EVEN_ODD_SWAP : 0) |
+> > > > > > > -		     REG_LVDS_LANE_CHA_LVDS_TERM |
+> > > > > > > -		     REG_LVDS_LANE_CHB_LVDS_TERM);
+> > > > > > > +		     (ctx->lvds_term_conf[CHANNEL_A] ?
+> > > > > > > +			  REG_LVDS_LANE_CHA_LVDS_TERM : 0) |
+> > > > > > > +		     (ctx->lvds_term_conf[CHANNEL_B] ?
+> > > > > > > +			  REG_LVDS_LANE_CHB_LVDS_TERM : 0));
+> > > > > > >     	regmap_write(ctx->regmap, REG_LVDS_CM, 0x00);
+> > > > > > >     	le16val = cpu_to_le16(mode->hdisplay);
+> > > > > > > @@ -576,10 +622,100 @@ static const struct drm_bridge_funcs sn65dsi83_funcs = {
+> > > > > > >     	.atomic_get_input_bus_fmts = sn65dsi83_atomic_get_input_bus_fmts,
+> > > > > > >     };
+> > > > > > > +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
+> > > > > > > +	u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
+> > > > > > > +{
+> > > > > > > +	int i;
+> > > > > > > +
+> > > > > > > +	for (i = 0; i <= 3; i++) {
+> > > > > > > +		if (lvds_vod_swing_data_table[lvds_term][i][0] >= lvds_vod_swing_data[0] &&
+> > > > > > > +		lvds_vod_swing_data_table[lvds_term][i][1] <= lvds_vod_swing_data[1] &&
+> > > > > > > +		lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+> > > > > > > +		lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1])
+> > > > > > > +			return i;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	dev_err(dev, "failed to find appropriate LVDS_VOD_SWING configuration\n");
+> > > > > > > +	return -EINVAL;
+> > > > > > > +}
+> > > > > > > +
+> > > > > > > +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int channel)
+> > > > > > > +{
+> > > > > > > +	struct device *dev = ctx->dev;
+> > > > > > > +	struct device_node *endpoint;
+> > > > > > > +	int endpoint_reg;
+> > > > > > > +	/* Set so the property can be freely selected if not defined */
+> > > > > > > +	u32 lvds_vod_swing_data[2] = { 0, 1000000 };
+> > > > > > > +	u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
+> > > > > > > +	u32 lvds_term;
+> > > > > > > +	u8 lvds_term_conf = 0x1;
+> > > > > > > +	int lvds_vod_swing_conf = 0x1;
+> > > > > > 
+> > > > > > Magic values
+> > > > > 
+> > > > > Can you please elaborate.
+> > > > > 
+> > > > > I can use:
+> > > > > u8 lvds_term_conf = OHM_200;
+> > > > > 
+> > > > > What about lvds_vod_swing_conf? Should I create additional define for it?
+> > > > > But this doesn't solve a hidden meaning? Maybe additional comment above?
+> > > > > Would like to avoid using voltages for it, since then we are reverse
+> > > > > engineering the table in datasheet to match the default reg value.
+> > > > 
+> > > > I think the following example solves both problems:
+> > > > 
+> > > > lvds_term = 200;
+> > > > of_property_read_u32(..., &lvds_term);
+> > > > 
+> > > > if (lvds_term == 100)
+> > > > 	ctx->lvds_term_conf[channel] = OHM_100;
+> > > > else if (lvds_term == 200)
+> > > > 	ctx->lvds_term_conf[channel] = OHM_200;
+> > > > else
+> > > > 	return -EINVAL;
+> > > > 
+> > > > The same approach can be applied to lvds_vod_swing_conf, resulting in
+> > > > removal of magic values.
+> > > 
+> > > Sorry, but I think it is not that easy when it comes to the
+> > > lvds_vod_swing_conf. We should assign default value if
+> > > "ti,lvds-vod-swing-data-microvolt" and "ti,lvds-vod-swing-clock-microvolt"
+> > > are not defined. Default value of the lvds_vod_swing_conf is 0x1, but this
+> > > doesn't have any straight forward meaning like OHM_200 for example.
+> > > 
+> > > What we can do in that case is that we copy the values from defined
+> > > datasheet tables to the "lvds_vod_swing_data[2]" and "lvds_vod_swing_clk[2]"
+> > > arrays and then run the
+> > > sn65dsi83_select_lvds_vod_swing with it, which will return the default value
+> > > (0x1).
+> > > 
+> > > /* If both properties are not defined assign default limits */
+> > > if (ret_data && ret_clock) {
+> > > 	memcpy(lvds_vod_swing_data,
+> > > 	     lvds_vod_swing_data_table[ctx->lvds_term_conf[channel]][1],
+> > > 	     sizeof(lvds_vod_swing_data));
+> > > 	memcpy(lvds_vod_swing_clk,
+> > > 	    lvds_vod_swing_clock_table[ctx->lvds_term_conf[channel]][1],
+> > > 	    sizeof(lvds_vod_swing_clk));
+> > > }
+> > > lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev,
+> > > 	lvds_vod_swing_data, lvds_vod_swing_clk,
+> > > 	ctx->lvds_term_conf[channel]);
+> > > if (lvds_vod_swing_conf < 0) {
+> > > 	ret = lvds_vod_swing_conf;
+> > > 	goto exit;
+> > > }
+> > > 
+> > > ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
+> > > 
+> > > I'm not sure if using this approach gets rid of the problem with magic
+> > > values.
+> > > Or maybe I'm not seeing the obvious solution so please bear with me.
+> > 
+> > Yes, the defaults (0..1000000) should be fixed to result in the same
+> > value (0x01) as if the property wasn't specified at all
+> 
+> The defaults (0..1000000) is selected because in case if only one property
+> is defined in dts (ti,lvds-vod-swing-data-microvolt or
+> ti,lvds-vod-swing-clock-microvolt) the other array values don't effect the
+> decision which "lvds_vod_swing_conf" is selected. That's why we initialized
+> the array to be out off bounds of the datasheet tables, all values in the
+> table match the not defined property, so lvds_vod_swing_conf is selected
+> purely on the basis of the defined property.
 
-You don't need the object_name_lock for this, the update is just 
-opportunistically.
+I see, thanks for the explanation.
 
-E.g. you go over all the VMs a BO belongs to and grab the VM spinlock to 
-update the status in the amdgpu_bo_va structure.
+> 
+> Example:
+> DTS
+> ti,lvds-vod-swing-data-microvolt = <250000 428000>;
+> //ti,lvds-vod-swing-clock-microvolt NOT DEFINED;
+> 
+> After parsing the devicetree we will get:
+> lvds_vod_swing_data = [ 250000, 428000 ]
+> lvds_vod_swing_clk = [ 0, 1000000 ]
+> 
+> In sn65dsi83_select_lvds_vod_swing lvds_vod_swing_clk[] values don't effect
+> the decision making since
+> 
+> lvds_vod_swing_clock_table[lvds_term][i][0] >= lvds_vod_swing_clk[0] &&
+> lvds_vod_swing_clock_table[lvds_term][i][1] <= lvds_vod_swing_clk[1]
+> 
+> is always true.
+> 
+> > 
+> > I think the following should work:
+> > 
+> > 	/* artifical values to select the defaults in both cases */
+> > 	u32 lvds_vod_swing_data[2] = { 190000, 330000 };
+> > 	u32 lvds_vod_swing_clk[2] = { 150000, 250000 };
+> 
+> This sets the default to 0x0. It should be:
+> u32 lvds_vod_swing_data[2] = { 200000, 372000 };
+> u32 lvds_vod_swing_clk[2] = { 156000, 290000 };
+> This selects the default 0x1 in both cases, if termination is 100 or 200
+> Ohms.
+> 
+> Nevertheless I think I got your point. But I would still like to give the
+> user the freedom to only specify one property if maybe connected panel only
+> has limits on data lanes/clock lane.
+> So maybe set the arrays lvds_vod_swing_data/clk to [0, 1000000] if
+> of_property_read_u32_array returns -EINVAL (property does not exist).
+> What do you say?
 
-It can in theory be that a concurrent process modifies handle_count at 
-the same time you update the VM status, but that doesn't matter since 
-this modification will update the status once more again.
+After your explanation, I think it might be better to explicitly set the
+value to 0x1, but not at the top of the function, but next to a check
+that both properties are (not) set.
 
-Regards,
-Christian.
+> 
+> > 
+> > Yes, they are artificial, as stated in the comment. Yes, I think it's
+> > better than special-casing in the property handling.
+> > 
 
->
->> Regards,
->> Christian.
->>
->>>> Regards,
->>>> Christian.
->>>>
->>>>> Signed-off-by: Yunxiang Li <Yunxiang.Li@amd.com>
->>>>>
->>>>> CC: dri-devel@lists.freedesktop.org
->>>>> ---
->>>>>     drivers/gpu/drm/drm_gem.c   |  3 +++
->>>>>     drivers/gpu/drm/drm_prime.c |  3 +++
->>>>>     include/drm/drm_gem.h       | 12 +++++++++++-
->>>>>     3 files changed, 17 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>>> index d4bbc5d109c8b..1ead11de31f6b 100644
->>>>> --- a/drivers/gpu/drm/drm_gem.c
->>>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>>> @@ -854,6 +854,9 @@ drm_gem_flink_ioctl(struct drm_device *dev, void
->> *data,
->>>>>                       goto err;
->>>>>
->>>>>               obj->name = ret;
->>>>> +
->>>>> +           if (obj->funcs->shared)
->>>>> +                   obj->funcs->shared(obj);
->>>>>       }
->>>>>
->>>>>       args->name = (uint64_t) obj->name; diff --git
->>>>> a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c index
->>>>> 0e3f8adf162f6..336d982d69807 100644
->>>>> --- a/drivers/gpu/drm/drm_prime.c
->>>>> +++ b/drivers/gpu/drm/drm_prime.c
->>>>> @@ -406,6 +406,9 @@ static struct dma_buf
->>>>> *export_and_register_object(struct
->>>> drm_device *dev,
->>>>>       obj->dma_buf = dmabuf;
->>>>>       get_dma_buf(obj->dma_buf);
->>>>>
->>>>> +   if (obj->funcs->shared)
->>>>> +           obj->funcs->shared(obj);
->>>>> +
->>>>>       return dmabuf;
->>>>>     }
->>>>>
->>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h index
->>>>> da11c16e212aa..8c5ffcd485752 100644
->>>>> --- a/include/drm/drm_gem.h
->>>>> +++ b/include/drm/drm_gem.h
->>>>> @@ -122,6 +122,16 @@ struct drm_gem_object_funcs {
->>>>>        */
->>>>>       struct dma_buf *(*export)(struct drm_gem_object *obj, int
->>>>> flags);
->>>>>
->>>>> +   /**
->>>>> +    * @shared:
->>>>> +    *
->>>>> +    * Callback when GEM object becomes shared, see also
->>>>> +    * drm_gem_object_is_shared_for_memory_stats
->>>>> +    *
->>>>> +    * This callback is optional.
->>>>> +    */
->>>>> +   void (*shared)(struct drm_gem_object *obj);
->>>>> +
->>>>>       /**
->>>>>        * @pin:
->>>>>        *
->>>>> @@ -568,7 +578,7 @@ int drm_gem_evict(struct drm_gem_object *obj);
->>>>>      */
->>>>>     static inline bool
->>>>> drm_gem_object_is_shared_for_memory_stats(struct
->>>> drm_gem_object *obj)
->>>>>     {
->>>>> -   return (obj->handle_count > 1) || obj->dma_buf;
->>>>> +   return obj->name || obj->dma_buf;
->>>>>     }
->>>>>
->>>>>     #ifdef CONFIG_LOCKDEP
-
+-- 
+With best wishes
+Dmitry
