@@ -2,90 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E535F9EEF5B
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 17:15:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216C89EEF9D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 17:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 625CF10EA38;
-	Thu, 12 Dec 2024 16:15:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E6710E279;
+	Thu, 12 Dec 2024 16:19:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="U4bRmfG0";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="qOc0DnVH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com
- [IPv6:2a00:1450:4864:20::531])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B49D10EE28;
- Thu, 12 Dec 2024 16:15:01 +0000 (UTC)
-Received: by mail-ed1-x531.google.com with SMTP id
- 4fb4d7f45d1cf-5d3f57582a2so3758228a12.1; 
- Thu, 12 Dec 2024 08:15:00 -0800 (PST)
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C557310E279
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 16:19:04 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-43625c4a50dso5524705e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 08:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734020099; x=1734624899; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jMUdVIB3AtcFCaaGIkOJI69lVFENlEwSIjeKiRPfszE=;
- b=U4bRmfG0HPnQxSiUaPouiukWOs5KZN7zZvLMoBT6h8vDjKZ0RvTYfstIASw4XqZqb7
- ESrioUYPGUz2zL91SOWxE5oLropE998cQNtMi9JL+xWRqcTuQ33q7X+F7Ygayva8uZjo
- uA8hPv7kdRH3sQn6k21TZw+ysHdydPxQOK0MMBzNpphM0NDUahaRKWyckWBDayNNUnDJ
- k2WqVBoNWCex3QCUmhzMJ5XMT8jUzHGEu5CRRsG5c6570lgOxORZX8Ej65lsbZMPInLQ
- gvg+QeGvjxMwEykZ94JcjXkhGTJ6rL5ysly855A51GMNVnuGfCOuK+F+SUbnHm4YQikl
- P2jg==
+ d=raspberrypi.com; s=google; t=1734020343; x=1734625143;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=68JInAhAW5Is8mwm4BYMUDXa8RJRJvDNCf4zhjotoGo=;
+ b=qOc0DnVHv21pjLEY4+PVHFk0vaXpcHftbAgSZLMzqWdLL/nk+4Y0znh7zHiWHyl+nR
+ Nw4FNHiojKKkqpVCosh9DlgPx/mFky71FK7kJ27OiwPmM2RFIVLfWjBNoBOq95CSes++
+ 46lOpl707Saxn4pplX0QP9pfMHeWV5SO4BWdP/9YP1llvGrxjh3me6lPtmA1hPmFL8Eu
+ m+egIntTc4/uyM7ABs9Ro0RqrGirOV8k9mgIAWQTEibe3yfZm7zIeJTkhQsilNLHudET
+ FtgiZXNzCadEwRm7/hZtH+CjF66PIQJfF6DzEW3Mqm9eVAOJC5RlrX4kAwgqqshKw7ak
+ 33kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734020099; x=1734624899;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jMUdVIB3AtcFCaaGIkOJI69lVFENlEwSIjeKiRPfszE=;
- b=JVt2awpLIf5qbIST6N9FLDisyOlFJMLL5tEWcnlpEmFYbjuVgMm0INy8tptP2iBYan
- h7ibZE8iNn9MzG8M4BfADIBt3n77epxPeuFDjMGOjPevEt3KGBrEvcz4AO6ynAOgYTKn
- BRFaxVS9vZqsyDc93zv8f5UgXMWEDMeHG0dZiIsU/X0JnOhoSYMeyoh7xFdkmgT9I2/a
- VbAR1n+AiCRHyHeufk8joR4f2Ztk/ePxiz9IHD7V6bnZzU5ISNAfpfuNLgJLQcUNCytb
- OdIsx0P7RKaoFrWZ8Li6nn91XPE2VKblDUJ5Adh6hRst0GW0UMTO5GPuVH49c0zCtB3N
- j2Fw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHcvu8j9bWuj2CJzn4AOJWhUq4ONJ97nE56BBxj7zA7FPkVWqaQfLihTq7kmP2uRnq084kEzJZhHk=@lists.freedesktop.org,
- AJvYcCWOD9VU/Exf28rloUo/2bSBd4QuyYOSHEZ72ZeWh0Kx0c8cggiw1X8riXJ4CaGfViY8xRTxCkxkDKR/@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIYm0peW4tTmWht5kN6sEm2u4w4mDfJCOrBpR/s5eHK+E8gRR+
- IBiMApMTRoagktK7FIm4SU/oj+GC3dLOZCXosyuLLUz8N4UUiG+m
-X-Gm-Gg: ASbGncuZijOJ9DnjuAdkuuV4IGq/QVZXjfZnIGxRT/eCf6V1dgrUdgrO1h06Z0btK+F
- ouGLeu/83TQGg+h+G4cdPFga7WXbwsz6JGNij0zTLJ4+FRFTKNH7XAIAqjzQ3dEyeDnBja1G4Ps
- TkNXDTl6xaCzB1w3LUxYaXEOO3MzPs7XFaMxUkTbIE/qo0uHo8xLmRIXV1787HD4kh4Cd8JUIKF
- XthpyYrwzggL+ES3DAmDgp45WfJTOG0d3CdyrXsZzcxQErWVm6JzdetsH7DzZskLcEJxsbrYOFV
- RX77BvSRaUwECpF42EA5yytPDcKFHeH+Zg==
-X-Google-Smtp-Source: AGHT+IHM6XB+NK/56Od2+MsZ/v5P1u5lWdb4RkRk+r1oDjsBuk6MSDLp9BjCs7i6WF3LHC+MEEMX8A==
-X-Received: by 2002:a05:6402:3709:b0:5d3:d2d0:12c9 with SMTP id
- 4fb4d7f45d1cf-5d635791f35mr991927a12.8.1734020098890; 
- Thu, 12 Dec 2024 08:14:58 -0800 (PST)
-Received: from [192.168.1.17] (host-87-20-169-101.retail.telecomitalia.it.
- [87.20.169.101]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d3e86c14ffsm7401135a12.84.2024.12.12.08.14.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Dec 2024 08:14:58 -0800 (PST)
-Message-ID: <de6cfac6-84a0-4160-b279-c23e10f96872@gmail.com>
-Date: Thu, 12 Dec 2024 17:14:56 +0100
+ d=1e100.net; s=20230601; t=1734020343; x=1734625143;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=68JInAhAW5Is8mwm4BYMUDXa8RJRJvDNCf4zhjotoGo=;
+ b=UhW6giaakBzkeq4IOM8aJQrch8bX7Sys4rsP5G9cnOVAYNgt5Ys6OFkjEgdtebrwAn
+ En/8Yrn7SRcWP37GUClTDQmP8+QJvgYwHpDIa2yPWpre25tYe0z0wbJctj7qAjOkinn6
+ 5vo0W6NmwYejXDxSVSPdknI3dRRJcWPvAycE0BsQI3xvdXpF841gh0qFENEroE0yQ3Ug
+ 8fXT2/ZeuWmEhnSmy1vF+9QxbM9/ccCyXUFQWiQZ3TR+Q/RXPrTLDwnCJn3JIp9IpRAy
+ 41fsOKOnyQlwoDwA9YGWuqwgBKR3xzof2gdbGuVyGtFbhjuYa39eMwvvEnw5Yty05Vl5
+ rX6A==
+X-Gm-Message-State: AOJu0YyI1CcKfIeE/j5f89ZpKEeo0wlPSUS4LIZzy929Q9HpQ5ya0bZ1
+ hXa4CwkxbrKK9C8BVYcocXLl9Va7CULchcY1rSp1t7BhwDXP/LxTBXShT6V+wXY=
+X-Gm-Gg: ASbGncvuRHNSG8CymKUtwANtTXE9TANYKUmLciGZ47gdQvHkOknjH4MKyKxBtO5/lgg
+ u49Ot9ltvYY1iDhfzbNNS8vObc7GAXqtpzHOL3XoicRsql0pSpng+NdbvAC7qxsIRLGflI51FNC
+ V1zi5i8VXhZI1heoYb6w/YKDt51YOITXy6XsJi/gIiN9aDgk+WMhvKF33Z1YJMD+Nc1jIzvUI2a
+ SV5Ol84gjw11k7E9Q+xSdeksFuU0WBPqMfGH6hX/wjpxbur
+X-Google-Smtp-Source: AGHT+IHBf/CkYwwV5YCDCoDlBGs3t7DJrHBFw8STBH4yNhFZK8NKI7+uk6ZO9cjpKuabgBSSS8Q7eQ==
+X-Received: by 2002:a05:600c:3acf:b0:434:a802:e99a with SMTP id
+ 5b1f17b1804b1-4361c346253mr66269165e9.4.1734020343031; 
+ Thu, 12 Dec 2024 08:19:03 -0800 (PST)
+Received: from [127.0.1.1] ([2a00:1098:3142:e::8])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-4361e322328sm44336105e9.0.2024.12.12.08.19.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Dec 2024 08:19:02 -0800 (PST)
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 0/7] drm/vc4: Fixup DT and DT binding issues from recent
+ patchset
+Date: Thu, 12 Dec 2024 16:18:50 +0000
+Message-Id: <20241212-dt-bcm2712-fixes-v2-0-35986e04d0f4@raspberrypi.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] drm/msm: Add UABI to request perfcntr usage
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- open list <linux-kernel@vger.kernel.org>
-References: <20241205165419.54080-1-robdclark@gmail.com>
- <eca60b8e-8a8a-41c4-816a-d084822646f1@quicinc.com>
-Content-Language: en-US
-From: Antonino Maniscalco <antomani103@gmail.com>
-In-Reply-To: <eca60b8e-8a8a-41c4-816a-d084822646f1@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOoMW2cC/2WNzQqDMBCEX0X23C3JImp76nsUD2vc1Bz8YSOhI
+ r57U3vsZeCbYWZ2iKJBItyLHVRSiGGeMtClADfw9BIMfWYgQ6W11GC/YudGqi2hD2+JyL4z0rD
+ hsq4g1xaVM8itZ5t5CHGddTsfkv26v7Es/2PJokHPrqqdI39r+KEcl05UtyVc3TxCexzHBw0Ef
+ TW2AAAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Eric Anholt <eric@anholt.net>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>, 
+ Stefan Wahren <wahrenst@gmx.net>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>, 
+ linux-gpio@vger.kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>
+X-Mailer: b4 0.14.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,269 +104,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/24 4:58 PM, Akhil P Oommen wrote:
-> On 12/5/2024 10:24 PM, Rob Clark wrote:
->> From: Rob Clark <robdclark@chromium.org>
->>
->> Performance counter usage falls into two categories:
->>
->> 1. Local usage, where the counter configuration, start, and end read
->>     happen within (locally to) a single SUBMIT.  In this case, there is
->>     no dependency on counter configuration or values between submits, and
->>     in fact counters are normally cleared on context switches, making it
->>     impossible to rely on cross-submit state.
->>
->> 2. Global usage, where a single privilaged daemon/process is sampling
->>     counter values across all processes for profiling.
->>
->> The two categories are mutually exclusive.  While you can have many
->> processes making local counter usage, you cannot combine global and
->> local usage without the two stepping on each others feet (by changing
->> counter configuration).
->>
->> For global counter usage, there is already a SYSPROF param (since global
->> counter usage requires disabling counter clearing on context switch).
->> This patch adds a REQ_CNTRS param to request local counter usage.  If
->> one or more processes has requested counter usage, then a SYSPROF
->> request will fail with -EBUSY.  And if SYSPROF is active, then REQ_CNTRS
->> will fail with -EBUSY, maintaining the mutual exclusivity.
->>
->> This is purely an advisory interface to help coordinate userspace.
->> There is no real means of enforcement, but the worst that can happen if
->> userspace ignores a REQ_CNTRS failure is that you'll get nonsense
->> profiling data.
->>
->> Signed-off-by: Rob Clark <robdclark@chromium.org>
->> ---
->> kgsl takes a different approach, which involves a lot more UABI for
->> assigning counters to different processes.  But I think by taking
->> advantage of the fact that mesa (freedreno+turnip) reconfigure the
->> counters they need in each SUBMIT, for their respective gl/vk perf-
->> counter extensions, we can take this simpler approach.
-> 
-> KGSL's approach is preemption and ifpc safe (also whatever HW changes
-> that will come up in future generations). How will we ensure that here?
-> 
-> I have plans to bring up IFPC support in near future. Also, I brought up
-> this point during preemption series. But from the responses, I felt that
-> profiling was not considered a serious usecase. Still I wonder how the
-> perfcounter extensions work accurately with preemption.
+I missed the DT errors from the recent patchset[1] (DT patches
+in linux-next via Florian, DRM bindings patches on dri-misc-next)
+as Rob's bot report got spam filtered, so this is a fixup set.
 
-So back then I implemented the postamble IB to clear perf counters and 
-that gets disabled when sysprof (so global usage) is happening. The 
-kernel is oblivious to "Local isage" of profiling but in that case 
-really what we want to do is disable preemption which in my 
-understanding can be done from userspace with a PKT. In my understanding 
-this had us covered for all usecases.
+Largely it was changes to number of interrupts or clocks in the
+bindings, so those are now covered.
 
-So what would you expect instead we should do kernel side to make 
-profiling preemption safe?
+I've fixed up the missing "interrupt-controller" flags for 2711
+and 2712 whilst here.
 
-> 
-> -Akhil
-> 
->>
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.c |  2 +
->>   drivers/gpu/drm/msm/msm_drv.c           |  5 ++-
->>   drivers/gpu/drm/msm/msm_gpu.c           |  1 +
->>   drivers/gpu/drm/msm/msm_gpu.h           | 29 +++++++++++++-
->>   drivers/gpu/drm/msm/msm_submitqueue.c   | 52 ++++++++++++++++++++++++-
->>   include/uapi/drm/msm_drm.h              |  1 +
->>   6 files changed, 85 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> index 31bbf2c83de4..f688e37059b8 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> @@ -441,6 +441,8 @@ int adreno_set_param(struct msm_gpu *gpu, struct msm_file_private *ctx,
->>   		if (!capable(CAP_SYS_ADMIN))
->>   			return UERR(EPERM, drm, "invalid permissions");
->>   		return msm_file_private_set_sysprof(ctx, gpu, value);
->> +	case MSM_PARAM_REQ_CNTRS:
->> +		return msm_file_private_request_counters(ctx, gpu, value);
->>   	default:
->>   		return UERR(EINVAL, drm, "%s: invalid param: %u", gpu->name, param);
->>   	}
->> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
->> index 6416d2cb4efc..bf8314ff4a25 100644
->> --- a/drivers/gpu/drm/msm/msm_drv.c
->> +++ b/drivers/gpu/drm/msm/msm_drv.c
->> @@ -377,9 +377,12 @@ static void msm_postclose(struct drm_device *dev, struct drm_file *file)
->>   	 * It is not possible to set sysprof param to non-zero if gpu
->>   	 * is not initialized:
->>   	 */
->> -	if (priv->gpu)
->> +	if (ctx->sysprof)
->>   		msm_file_private_set_sysprof(ctx, priv->gpu, 0);
->>   
->> +	if (ctx->counters_requested)
->> +		msm_file_private_request_counters(ctx, priv->gpu, 0);
->> +
->>   	context_close(ctx);
->>   }
->>   
->> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
->> index 82f204f3bb8f..013b59ca3bb1 100644
->> --- a/drivers/gpu/drm/msm/msm_gpu.c
->> +++ b/drivers/gpu/drm/msm/msm_gpu.c
->> @@ -991,6 +991,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>   	gpu->nr_rings = nr_rings;
->>   
->>   	refcount_set(&gpu->sysprof_active, 1);
->> +	refcount_set(&gpu->local_counters_active, 1);
->>   
->>   	return 0;
->>   
->> diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
->> index e25009150579..83c61e523b1b 100644
->> --- a/drivers/gpu/drm/msm/msm_gpu.h
->> +++ b/drivers/gpu/drm/msm/msm_gpu.h
->> @@ -195,12 +195,28 @@ struct msm_gpu {
->>   	int nr_rings;
->>   
->>   	/**
->> -	 * sysprof_active:
->> +	 * @sysprof_active:
->>   	 *
->> -	 * The count of contexts that have enabled system profiling.
->> +	 * The count of contexts that have enabled system profiling plus one.
->> +	 *
->> +	 * Note: refcount_t does not like 0->1 transitions.. we want to keep
->> +	 * the under/overflow checks that refcount_t provides, but allow
->> +	 * multiple on/off transitions so we track the logical value plus one.)
->>   	 */
->>   	refcount_t sysprof_active;
->>   
->> +	/**
->> +	 * @local_counters_active:
->> +	 *
->> +	 * The count of contexts that have requested local (intra-submit)
->> +	 * performance counter usage plus one.
->> +	 *
->> +	 * Note: refcount_t does not like 0->1 transitions.. we want to keep
->> +	 * the under/overflow checks that refcount_t provides, but allow
->> +	 * multiple on/off transitions so we track the logical value plus one.)
->> +	 */
->> +	refcount_t local_counters_active;
->> +
->>   	/**
->>   	 * lock:
->>   	 *
->> @@ -383,6 +399,13 @@ struct msm_file_private {
->>   	 */
->>   	int sysprof;
->>   
->> +	/**
->> +	 * @counters_requested:
->> +	 *
->> +	 * Has the context requested local perfcntr usage.
->> +	 */
->> +	bool counters_requested;
->> +
->>   	/**
->>   	 * comm: Overridden task comm, see MSM_PARAM_COMM
->>   	 *
->> @@ -626,6 +649,8 @@ void msm_submitqueue_destroy(struct kref *kref);
->>   
->>   int msm_file_private_set_sysprof(struct msm_file_private *ctx,
->>   				 struct msm_gpu *gpu, int sysprof);
->> +int msm_file_private_request_counters(struct msm_file_private *ctx,
->> +				      struct msm_gpu *gpu, int reqcntrs);
->>   void __msm_file_private_destroy(struct kref *kref);
->>   
->>   static inline void msm_file_private_put(struct msm_file_private *ctx)
->> diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
->> index 7fed1de63b5d..1e1e21e6f7ae 100644
->> --- a/drivers/gpu/drm/msm/msm_submitqueue.c
->> +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
->> @@ -10,6 +10,15 @@
->>   int msm_file_private_set_sysprof(struct msm_file_private *ctx,
->>   				 struct msm_gpu *gpu, int sysprof)
->>   {
->> +	int ret = 0;
->> +
->> +	mutex_lock(&gpu->lock);
->> +
->> +	if (sysprof && (refcount_read(&gpu->local_counters_active) > 1)) {
->> +		ret = UERR(EBUSY, gpu->dev, "Local counter usage active");
->> +		goto out_unlock;
->> +	}
->> +
->>   	/*
->>   	 * Since pm_runtime and sysprof_active are both refcounts, we
->>   	 * call apply the new value first, and then unwind the previous
->> @@ -18,7 +27,8 @@ int msm_file_private_set_sysprof(struct msm_file_private *ctx,
->>   
->>   	switch (sysprof) {
->>   	default:
->> -		return UERR(EINVAL, gpu->dev, "Invalid sysprof: %d", sysprof);
->> +		ret = UERR(EINVAL, gpu->dev, "Invalid sysprof: %d", sysprof);
->> +		goto out_unlock;
->>   	case 2:
->>   		pm_runtime_get_sync(&gpu->pdev->dev);
->>   		fallthrough;
->> @@ -43,7 +53,45 @@ int msm_file_private_set_sysprof(struct msm_file_private *ctx,
->>   
->>   	ctx->sysprof = sysprof;
->>   
->> -	return 0;
->> +out_unlock:
->> +	mutex_unlock(&gpu->lock);
->> +
->> +	return ret;
->> +}
->> +
->> +int msm_file_private_request_counters(struct msm_file_private *ctx,
->> +				      struct msm_gpu *gpu, int reqctrs)
->> +{
->> +	int ret = 0;
->> +
->> +	mutex_lock(&gpu->lock);
->> +
->> +	if (reqctrs && (refcount_read(&gpu->sysprof_active) > 1)) {
->> +		ret = UERR(EBUSY, gpu->dev, "System profiling active");
->> +		goto out_unlock;
->> +	}
->> +
->> +	if (reqctrs) {
->> +		if (ctx->counters_requested) {
->> +			ret = UERR(EINVAL, gpu->dev, "Already requested");
->> +			goto out_unlock;
->> +		}
->> +
->> +		ctx->counters_requested = true;
->> +		refcount_inc(&gpu->local_counters_active);
->> +	} else {
->> +		if (!ctx->counters_requested) {
->> +			ret = UERR(EINVAL, gpu->dev, "Not requested");
->> +			goto out_unlock;
->> +		}
->> +		refcount_dec(&gpu->local_counters_active);
->> +		ctx->counters_requested = false;
->> +	}
->> +
->> +out_unlock:
->> +	mutex_unlock(&gpu->lock);
->> +
->> +	return ret;
->>   }
->>   
->>   void __msm_file_private_destroy(struct kref *kref)
->> diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
->> index 2342cb90857e..ae7fb355e4a1 100644
->> --- a/include/uapi/drm/msm_drm.h
->> +++ b/include/uapi/drm/msm_drm.h
->> @@ -91,6 +91,7 @@ struct drm_msm_timespec {
->>   #define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
->>   #define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
->>   #define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
->> +#define MSM_PARAM_REQ_CNTRS  0x15 /* WO: request "local" (intra-submit) perfcntr usage  */
->>   
->>   /* For backwards compat.  The original support for preemption was based on
->>    * a single ring per priority level so # of priority levels equals the #
-> 
+I can't get my head around what is meant to happen with ranges:
+"soc@107c000000: firmware: 'ranges' is a required property"
+The meaning seems obvious.
 
+However if I add it then I get:
+"firmware: '#address-cells', '#size-cells', 'dma-ranges', 'ranges' do
+not match any of the regexes: 'pinctrl-[0-9]+'
+from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
+
+There's obviously some other flag I need to set in the bindings,
+but I can't work it out. We have similar errors for all the Pi
+platforms for one or more nodes.
+Please advise and I'll happily fix them all.
+
+Thanks
+  Dave
+
+[1] https://lore.kernel.org/linux-arm-kernel/20241025-drm-vc4-2712-support-v2-0-35efa83c8fc0@raspberrypi.com/
+
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+---
+Thanks to Stefan and Krzysztof for their reviews.
+Hopefully I've addressed all points raised in the correct manner.
+
+Changes in v2:
+- Commits have now be merged from drm-misc-next to linux-next, so all
+  commit hashes are valid on linux-next.
+- 1/7 Removed references to "previous commit". Fixed up indentation.
+  Added maxItems
+- 2/7 Defined widest constraints
+- 3/7 Added maxItems and removed reference to Linux
+- 4/7 Described the errors. Split into two for fix of node name vs addr
+  being wrong.
+- Added new patch removing "required" for interrupt-controller and
+  interrupt-cells for bcm2836-l1-intc
+- 5/7 (now 7/7) Removed the intc node for 2712 - it's irrelevant on 64bit systems
+- 6/7 dropped as updating the binding is the correct answer
+- 7/7 dropped. simple-bus claims ranges is required, but adding it
+  creates other errors. I'm unclear as to the right solution.
+
+- Link to v1: https://lore.kernel.org/r/20241202-dt-bcm2712-fixes-v1-0-fac67cc2f98a@raspberrypi.com
+
+---
+Dave Stevenson (7):
+      dt-bindings: display: bcm2711-hdmi: Add interrupt details for BCM2712
+      dt-bindings: display: Fix BCM2835 HVS bindings for BCM2712
+      dt-bindings: gpio: brcmstb: permit gpio-line-names property
+      dt-bindings: interrupt-controller: brcm,bcm2836-l1-intc: Drop interrupt-controller requirement
+      arm64: dts: broadcom: Rename bcm2712 interrupt controllers
+      arm64: dts: broadcom: Correct hdmi device node names
+      arm64: dts: broadcom: Remove intc controller on BCM2712.
+
+ .../bindings/display/brcm,bcm2711-hdmi.yaml        | 107 ++++++++++++++++++---
+ .../bindings/display/brcm,bcm2835-hvs.yaml         |  83 +++++++++++++---
+ .../bindings/gpio/brcm,brcmstb-gpio.yaml           |   4 +
+ .../interrupt-controller/brcm,bcm2836-l1-intc.yaml |   2 -
+ arch/arm64/boot/dts/broadcom/bcm2712.dtsi          |  13 +--
+ 5 files changed, 170 insertions(+), 39 deletions(-)
+---
+base-commit: 3a6b7ba51f16c093420959ab2bd3476d180547fa
+change-id: 20241128-dt-bcm2712-fixes-afb0e8a0a476
 
 Best regards,
 -- 
-Antonino Maniscalco <antomani103@gmail.com>
+Dave Stevenson <dave.stevenson@raspberrypi.com>
+
