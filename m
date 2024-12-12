@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3A09EE611
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:02:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C46479EE67B
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 13:18:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F35AA10ED77;
-	Thu, 12 Dec 2024 12:02:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF1E010ED95;
+	Thu, 12 Dec 2024 12:18:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DC2uv01i";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="gy2FgI5l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7F210E2F2;
- Thu, 12 Dec 2024 12:02:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734004939; x=1765540939;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=0k6aHLb7ZJcJ78gY9AGGHKEKrUJsuYzLi0fH2J83YPM=;
- b=DC2uv01ihgQG5EyHTdlm5jd54SI8hmk3PDNbMEaZNbQmG95c14CBPGgY
- 0UaLhYZ3Uin8ln2gAX5KcPBxsdhjiBZlk/oR4qv0le2UJsjX62cVLl737
- jpuiTxIEIn7KCpT+ljPf7McDrjsNey7HJ+G3x6nimOhqd3w00CaRDUk/L
- NZdM9hCMCkZM9hhw8hLDAbfccD6ciX4hH519PikxA79tCnEVYJZUjektd
- rB33kLxPlvAX/kUGG5IhfH/P0qCCPG9SQKOBxX0CiPJ+TR+emLMu/sejR
- NEeaG5SOUui8ULHzhidS3mAvtjS7jdFDjbhIJansfWtN8TrH1zQEvL4S8 w==;
-X-CSE-ConnectionGUID: FnXXD3JERFyA1lUuc01IFw==
-X-CSE-MsgGUID: myD1NwchQmqzBjPtos042A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34546756"
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="34546756"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 04:02:19 -0800
-X-CSE-ConnectionGUID: 5nscjOnyRgiDeiOXt5jrQQ==
-X-CSE-MsgGUID: LR/yQ7NbRraMXXLFIG3GFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; d="scan'208";a="95961789"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2024 04:02:17 -0800
-Date: Thu, 12 Dec 2024 14:02:58 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 03/11] drm/connector: Add deprication notes for
- drm_connector_register/unregister
-Message-ID: <Z1rQ8pvfFWlj5yLl@ideak-desk.fi.intel.com>
-References: <20241211230328.4012496-1-imre.deak@intel.com>
- <20241211230328.4012496-4-imre.deak@intel.com>
- <87ed2dxlcd.fsf@intel.com>
+X-Greylist: delayed 453 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Dec 2024 12:17:59 UTC
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A5B910ED95
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 12:17:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 513A51047DC21; Thu, 12 Dec 2024 13:10:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1734005422;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z5uxgXWeF42zSM0+xNA+3NBRH5J4QrQYZwCAA7BDALo=;
+ b=gy2FgI5lpHsWE3+7vNVtxxA5uAGq8cXGIdI5oKNzA5t3PLoTd42ckYDJaq46Wcyc6B3sAh
+ qL1fifSXfWtMbwMdqjxS4nf+ehx+0l+ZyzHr4gx2biYq4C5osLSwDtHAHBRxTCZFEOY4iZ
+ pzY+e+2yo03CFBn0w+jcd/zup3yjMqUhDarZ3h8/iwu47JSnOWuUN3aZdqLj2/o22CJyFB
+ QM8xH1eKR6DbeC1jclRJRQfQi7ntgUrcShNePdgHb5jTNih4q2so6Twp+kdKzEXKAl+46k
+ SAtrmyeWRYae1JwqEiAGl8V8p45aWOpzeg0MDXbUhR38aYZUW9EVmAX6vDx4aQ==
+Message-ID: <1d10a13c-edc5-4efc-8de5-95fe08b11cf6@denx.de>
+Date: Thu, 12 Dec 2024 13:09:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ed2dxlcd.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/panel: simple: add Multi-Inno Technology
+ MI0700A2T-30
+To: dri-devel@lists.freedesktop.org
+Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
+References: <20241125013413.160725-1-marex@denx.de>
+ <20241125013413.160725-2-marex@denx.de>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20241125013413.160725-2-marex@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +67,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 12:10:58PM +0200, Jani Nikula wrote:
-> [...]
-> On Thu, 12 Dec 2024, Imre Deak <imre.deak@intel.com> wrote:
-> > @@ -863,9 +866,14 @@ EXPORT_SYMBOL(drm_connector_dynamic_register);
-> >   * drm_connector_unregister - unregister a connector
-> >   * @connector: the connector to unregister
-> >   *
-> > - * Unregister userspace interfaces for a connector. Only call this for
-> > - * connectors which have been registered explicitly by calling
-> > - * drm_connector_register().
-> > + * Unregister userspace interfaces for a connector. Drivers should call this
-> > + * for dynamic connectors (MST) only, which were registered explicitly by
-> > + * calling drm_connector_dynamic_register(). All other - static - connectors
-> > + * will be unregistered automatically by DRM core and drivers shouldn't call
-> > + * this function for those.
+On 11/25/24 2:33 AM, Marek Vasut wrote:
+> Add Multi-Inno Technology MI0700A2T-30 7" 800x480 LVDS panel support.
 > 
-> This kind of supports my point about a single
-> drm_connector_register(). There's no
-> drm_connector_dynamic_unregister(). After all the
-> drm_connector_register() calls have been removed, we're left with the
-> asymmetric pair:
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> ---
+>   drivers/gpu/drm/panel/panel-simple.c | 30 ++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
 > 
-> - drm_connector_dynamic_register()
-> - drm_connector_unregister()
-> 
-> Then again, all of these should become internal and not for drivers?
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 06381c6282097..4e2582e1a2bd1 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3222,6 +3222,33 @@ static const struct panel_desc mitsubishi_aa084xe01 = {
+>   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+>   };
+>   
+> +static const struct display_timing multi_inno_mi0700a2t_30_timing = {
+> +	.pixelclock = { 26400000, 33000000, 46800000 },
+> +	.hactive = { 800, 800, 800 },
+> +	.hfront_porch = { 16, 204, 354 },
+> +	.hback_porch = { 46, 46, 46 },
+> +	.hsync_len = { 1, 6, 40 },
+> +	.vactive = { 480, 480, 480 },
+> +	.vfront_porch = { 7, 22, 147 },
+> +	.vback_porch = { 23, 23, 23 },
+> +	.vsync_len = { 1, 3, 20 },
+> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
+> +		 DISPLAY_FLAGS_DE_HIGH,
+> +};
+> +
+> +static const struct panel_desc multi_inno_mi0700a2t_30 = {
+> +	.timings = &multi_inno_mi0700a2t_30_timing,
+> +	.num_timings = 1,
+> +	.bpc = 6,
+> +	.size = {
+> +		.width = 153,
+> +		.height = 92,
+> +	},
+> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+>   static const struct display_timing multi_inno_mi0700s4t_6_timing = {
+>   	.pixelclock = { 29000000, 33000000, 38000000 },
+>   	.hactive = { 800, 800, 800 },
+> @@ -4905,6 +4932,9 @@ static const struct of_device_id platform_of_match[] = {
+>   	}, {
+>   		.compatible = "mitsubishi,aa084xe01",
+>   		.data = &mitsubishi_aa084xe01,
+> +	}, {
+> +		.compatible = "multi-inno,mi0700a2t-30",
+> +		.data = &multi_inno_mi0700a2t_30,
+>   	}, {
+>   		.compatible = "multi-inno,mi0700s4t-6",
+>   		.data = &multi_inno_mi0700s4t_6,
 
-Yes, drm_connector_register() - after this patchset - could be removed
-from drivers. The use of drm_connector_unregister() in drivers for
-static connectors should be also removed, left it for DRM core internal
-use only and exporting drm_connector_dynamic_unregister() for driver
-use (atm only MST).
-
-> > + *
-> > + * Note: Existing uses of this function in drivers for static connectors
-> > + * should be a nop already and are scheduled to be removed.
-> >   */
-> >  void drm_connector_unregister(struct drm_connector *connector)
-> >  {
-> 
-> -- 
-> Jani Nikula, Intel
+Anything I need to do /wrt this patch ?
