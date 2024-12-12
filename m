@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8599EFC39
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 20:20:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 774109EFC7D
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 20:29:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0547A10EE80;
-	Thu, 12 Dec 2024 19:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E66910EE84;
+	Thu, 12 Dec 2024 19:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Mk3VbTqk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RbuQB9/2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7299B10EE83;
- Thu, 12 Dec 2024 19:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=z2ipejCRyWSKv27ShitN4KY4MHhmTPh5W2J+LTJowRg=; b=Mk3VbTqksrdXuSWlApUZxWrQ84
- emq5DahrVJA8WVYeNFS5rlee5JvOMKSr7Zx1Bbzl5vEqGMxlKe2eTI5DSSgkOgzE3XC/61ehur+Yb
- q+iPttpGsVraPNhXISNtDiSdV7bFdHzgdsdJra0rUWOiwD5NBRcT32JseKjpftfBqkb/pYhECpb3e
- 5qqWuKzlmGwcVLLBJvP2kTS+0rgXXsevzHEL7d2shc4uUMchDvmHfqi+q9IFz+9TyiHDEKrLotsY5
- RLcsmTWmSdZSfB39K1sicw9z1H5mWinMBIqzynlXYuyTm5liQF8a46AFWxZVDz/vOAqJ0aV5GpgIm
- gYw0rRAw==;
-Received: from [179.193.1.214] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tLojT-002MsO-O1; Thu, 12 Dec 2024 20:20:19 +0100
-From: =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Date: Thu, 12 Dec 2024 16:19:34 -0300
-Subject: [PATCH v11 2/2] drm/amdgpu: Enable async flip on overlay planes
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B603010EE84;
+ Thu, 12 Dec 2024 19:29:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734031754; x=1765567754;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=2fkuHIblgfbuJQjrGaRp+8p80poZxRgaJo9SOWuhcVk=;
+ b=RbuQB9/2Y0ghUQLyH4MSZKWNsOn1buvN3071KZHG+46InRTlDMJNi3YO
+ dDPQDtzRlghj210+B4WMGskYm6f6bfY9DSPa7JySLJFD8HyRF7UKJXQ5N
+ YFGug7T8Py8994KAsG8jntuHrHZqLLjeLDz6HE19baMj9UWeIAX3jxHJm
+ Kokp4RBCvnjsjZWTvpRWoCwJuW8WXB/l9uKlSkDN5OL44slNYb55dzaCh
+ ditxZVt+CfklRUsNli+7V9FgmvnBO5A3yhrXm/dx2Nlxw+x3VrWWJBNQB
+ W4tGKQi5OChpY2aNmetAQ5CIqlBAIl/9LeentBexMuchl0ffkCvwKJvKN A==;
+X-CSE-ConnectionGUID: K7O9+T/fQkyDbyi3rLWHKQ==
+X-CSE-MsgGUID: ROdaj2tNS+6+eS13RsHCOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34376030"
+X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; d="scan'208";a="34376030"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 11:29:14 -0800
+X-CSE-ConnectionGUID: FNSwtnUdR1q+Dhu1HXo7iA==
+X-CSE-MsgGUID: 2r3WOBcBSuOT+pASeUfK8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="96167143"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO fedora)
+ ([10.245.246.120])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 11:29:10 -0800
+Date: Thu, 12 Dec 2024 20:28:58 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <Z1s5elHXOyeIHnE0@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241212-tonyk-async_flip-v11-2-14379434be70@igalia.com>
-References: <20241212-tonyk-async_flip-v11-0-14379434be70@igalia.com>
-In-Reply-To: <20241212-tonyk-async_flip-v11-0-14379434be70@igalia.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, dmitry.baryshkov@linaro.org, 
- Simon Ser <contact@emersion.fr>, joshua@froggi.es, 
- Xaver Hugl <xaver.hugl@gmail.com>, Daniel Stone <daniel@fooishbar.org>, 
- ville.syrjala@linux.intel.com
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- =?utf-8?q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +75,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-amdgpu can handle async flips on overlay planes, so allow it for atomic
-async checks.
+Dave, Simona
 
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+This week'd drm-xe-fixes PR.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-index 495e3cd70426db0182cb2811bc6d5d09f52f8a4b..2792d393157beec12d6e96843c43158c03f16027 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-@@ -1260,22 +1260,25 @@ static int amdgpu_dm_plane_atomic_check(struct drm_plane *plane,
- }
- 
- static int amdgpu_dm_plane_atomic_async_check(struct drm_plane *plane,
--					      struct drm_atomic_state *state)
-+					      struct drm_atomic_state *state, bool flip)
- {
- 	struct drm_crtc_state *new_crtc_state;
- 	struct drm_plane_state *new_plane_state;
- 	struct dm_crtc_state *dm_new_crtc_state;
- 
--	/* Only support async updates on cursor planes. */
--	if (plane->type != DRM_PLANE_TYPE_CURSOR)
-+	if (flip) {
-+		if (plane->type != DRM_PLANE_TYPE_OVERLAY)
-+			return -EINVAL;
-+	} else if (plane->type != DRM_PLANE_TYPE_CURSOR)
- 		return -EINVAL;
- 
- 	new_plane_state = drm_atomic_get_new_plane_state(state, plane);
- 	new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
- 	dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
- 	/* Reject overlay cursors for now*/
--	if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
-+	if (!flip && dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE) {
- 		return -EINVAL;
-+	}
- 
- 	return 0;
- }
+Thanks,
+Thomas
 
--- 
-2.47.1
+drm-xe-fixes-2024-12-12:
+- Fix a KUNIT test error message (Mirsad Todorovac)
+- Fix an invalidation fence PM ref leak (Daniele)
+- Fix a register pool UAF (Lucas)
+The following changes since commit 5dce85fecb87751ec94526e1ac516dd7871e2e0c:
 
+  drm/xe: Move the coredump registration to the worker thread (2024-12-03 10:33:13 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-12-12
+
+for you to fetch changes up to d7b028656c29b22fcde1c6ee1df5b28fbba987b5:
+
+  drm/xe/reg_sr: Remove register pool (2024-12-12 16:57:28 +0100)
+
+----------------------------------------------------------------
+- Fix a KUNIT test error message (Mirsad Todorovac)
+- Fix an invalidation fence PM ref leak (Daniele)
+- Fix a register pool UAF (Lucas)
+
+----------------------------------------------------------------
+Daniele Ceraolo Spurio (1):
+      drm/xe: Call invalidation_fence_fini for PT inval fences in error state
+
+Lucas De Marchi (1):
+      drm/xe/reg_sr: Remove register pool
+
+Mirsad Todorovac (1):
+      drm/xe: fix the ERR_PTR() returned on failure to allocate tiny pt
+
+ drivers/gpu/drm/xe/tests/xe_migrate.c       |  4 ++--
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c |  8 ++++++++
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h |  1 +
+ drivers/gpu/drm/xe/xe_pt.c                  |  3 +--
+ drivers/gpu/drm/xe/xe_reg_sr.c              | 31 ++++++-----------------------
+ drivers/gpu/drm/xe/xe_reg_sr_types.h        |  6 ------
+ 6 files changed, 18 insertions(+), 35 deletions(-)
