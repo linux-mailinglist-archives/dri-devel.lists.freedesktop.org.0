@@ -1,120 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512B39EFE80
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 22:39:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F269EFE84
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 22:41:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A21B110E462;
-	Thu, 12 Dec 2024 21:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498B710E5EB;
+	Thu, 12 Dec 2024 21:41:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IeNWADDt";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dOrHtcwD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A482910E462
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 21:39:49 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-434a766b475so11068195e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 13:39:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734039588; x=1734644388; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=I0k1fvuKT9m1wErYutTpuyN8BLsuG8GZk48OKFLo0lA=;
- b=IeNWADDtg942vi98KqGV1zkQaWSFUjTojbDeOE8Zh227Q21g0MesZPYzc5FNWDj0LA
- MNqpHQ3ij3ndQa+mmmjkqJ0L9jL7mXd7wdaGSrTBKPjL4qNOjAFtZeEGRrZaJlmS/x/b
- gOS6himSMdo4tJ0ACAgD5RMoP7WLZi2TFt7tzTypVUtC3KHjSe8TNvuashWDhHMbPBa/
- fJsn6LLQvY1EKI+VdTvItRRB9YKtKWfs/hL9Mg3o3Ah5dW2K8KkgWe5hGA/mpvZeOmK1
- m3OxoqoxkJ2FDVu0nfl9V/5DHESvy1NCKP4hX72f9b9MbVvoft3lPMlkXTgwFh1iETrR
- gGRw==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACEBC10E5EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 21:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1734039669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tR7wzsXXxQ4eqiScyh3B9fZhywf3LiZTde7cxkKtp08=;
+ b=dOrHtcwD0+HxSVvq+t5K0Wndn5wcnPBrETcr/BzTkeThricMKzrHHOQa8wapVG3Xl6/QrY
+ SqDjCDZEPJBBhC/7eLWKdzIs4M6LlEJ6zTdE/EsutcXVNPNePxP6RjuZ0oesvu8YEFxXzQ
+ mpR/tZlH72aPzxWBYJVSL/sJ0p6+0lo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-505-Q6B-1yssN6y96OqwfKZPqg-1; Thu, 12 Dec 2024 16:41:08 -0500
+X-MC-Unique: Q6B-1yssN6y96OqwfKZPqg-1
+X-Mimecast-MFC-AGG-ID: Q6B-1yssN6y96OqwfKZPqg
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43625ceae52so6277215e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 13:41:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734039588; x=1734644388;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=I0k1fvuKT9m1wErYutTpuyN8BLsuG8GZk48OKFLo0lA=;
- b=lnZgv4w021f1Hv6Kk2PMnskr7UEcpv3cr2w6qgqEMIspY37MBnnouzXHST7KcJVs7Y
- 9qyEIwVMboEhQvWvPtJ2sSfeR6HHxNFq8dELm8n7bZJ1Jo3su7gcfJNZjkfqAOjhGXFv
- bCpDnK6EhICCTFGOA+kn707Jrtsj2FwhGPpb1rd2TDl4UkiE+TJDSmgdJsWAOPA/9gfA
- Cza6mQbcLIfgz5T7mE3bz2GArpQOgaqXR1kS7PADvPSAEb1IaQdtSGNVfGLjBA6bW6YU
- t++TxT4a7CuRWsX6u+m1PSmSknrIPKGQYKzs70sfSHoc1jdzIOirnPt57x/ohfDGPSFG
- GcDQ==
+ d=1e100.net; s=20230601; t=1734039667; x=1734644467;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tR7wzsXXxQ4eqiScyh3B9fZhywf3LiZTde7cxkKtp08=;
+ b=PlCyWkFLq2Pqt11HKKcBTE/iYf7ZZGEVcH87uEG3gua7cqkXtwj44HxKzn4zJGfma8
+ pRTQHZd0aFriGdkzhyjV5U7N4hRkfbmLiPFAfWJX25l+1zAh1ngd9z+gD6xGS0RWAOyh
+ 7IrbXS+DhibC5v4Azoi+QnO/y2jzdj9rcJDuSrxejoT7HNwmL8gjV+0xA6eIhfvxn1W7
+ Vj335TqkxAIMFetiA8gjJEL6mYKeSfbbL4P/4LfZ9xQGaE2SGKRsT548VwcfUwNBwOGm
+ eH1vnagIZb8ROWz0FAYMzQ9++oVNtBTs2mFRb5jTgWHZpu/v48BjrZtfO7T6FRWEtpXK
+ qLOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXv4YqnYFvDR5YiRz6OjtCCaCsFIWeESL9dBquTbuZ7AD/x3OfRgqCdQa6WAQn5xk0C6EsOf2BU+A4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbxrNkEHF3x2CUbrcFwy3F+TjZNXmnZVKExu3Gd4gB1oBH9sin
- o7zwYud06Nni2Ex3fIhHM6uhwcNM/QoG8b2V2ApsBGU0Q63m/Zvh29O5ufG7JiqYvijFNb2oElj
- BvBY=
-X-Gm-Gg: ASbGnctYFPoBcJfo2nCHLE+B4qDmWW1KOskASqcvka0m5wbUI47h7xxPX0GaLoHBcxX
- fz1IY3guyMeUHESLuDy7cVNYw819srfMqRvM2GsfpvH83G7U4y7kHTSGRJDOG3fxB8pPCX016uR
- 4Snx4v6X4B1VabcPFOJipKauOOVPo4ANi+MiivVCtOrRU29/0YeDsxx1pnJ08tybYFzzaVB4aFD
- YlI7sGQnbam4frZI0+nnAKUBkNdgylAwvmn9rLUHsBOSsO+34UaRegukkXGqvC/zlrsNcDT93e1
- 8WYIUo9rXeWqI2z7F2pVpliDdpHXDOFQqg==
-X-Google-Smtp-Source: AGHT+IFdbMU+m/VBA7CRP6F9gkZQC7hZocBSfp3JyHJOM9EcJT7Yo+BQtQGBqVzNNych5hj5m0mWmg==
-X-Received: by 2002:a05:6000:98f:b0:382:47d0:64be with SMTP id
- ffacd0b85a97d-38880adab11mr126646f8f.29.1734039587874; 
- Thu, 12 Dec 2024 13:39:47 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:b98a:c6fe:3a5d:f20a?
- ([2a01:e0a:982:cbb0:b98a:c6fe:3a5d:f20a])
+ AJvYcCUnuOks+60/wCoqK54Td13XkajLt8+Dz+Q4H+tR65+WR8DvVLctDeXQ/NWl3ih7nDnpSBDO86Wj0to=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw5nYtWxYYq9mhO5vDb7+pHl4NnmNFU5zMzMVyY1gIUWA1uh/nr
+ /3VTd5NYDlafNxdPeALj79XrdBbzCZli2Djo6UJXq/dLg0bk9V9QHmEzDI4fFCWqJdOQAbRYpk+
+ Tqw0vr7L3LJGUvi9FMXP5C+TIw8gnA9xByEwwMo3lbt+fE+wnpriUryYeP/t/0VxQKg==
+X-Gm-Gg: ASbGnctGDJg+eSoY2ggSHnYvKfo75978PC0Ytuk/isq3cA4AUvljImSoNmM5JfniQF9
+ 3rUNiKWO87zLUTXrVztB5cwv6rWWrOD9GYoZoQZJP12YkhZi2rKcdc/8AlFmQTV2gUR9+F549I3
+ odqOL37+VR8zu028g6QXvV0ePDa6yRF+gOJfwTFjvzYooQlo+KO0l5grH9gV9D3M/QUMTLF6mac
+ zwRgg3GOrQUCHgwVZHsScQVDYFlOmJT6xntg9cWyC62V4F8qHDDQG0oOJe4t4gfw3KcmifM/TZA
+ RR/daE9D4KCmEEfrTPHW
+X-Received: by 2002:a05:600c:3d0f:b0:434:f609:1afa with SMTP id
+ 5b1f17b1804b1-4362aa34d42mr1254675e9.4.1734039667083; 
+ Thu, 12 Dec 2024 13:41:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFBEIjlQk7gBoLaQJcKagFV7fcub94Ft/J5oueYwjSMFuuqAh1fVbjgbwpxvCN3dRBCSH43Ng==
+X-Received: by 2002:a05:600c:3d0f:b0:434:f609:1afa with SMTP id
+ 5b1f17b1804b1-4362aa34d42mr1254445e9.4.1734039666732; 
+ Thu, 12 Dec 2024 13:41:06 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38782514e86sm5175242f8f.72.2024.12.12.13.39.46
+ 5b1f17b1804b1-4361ec87bc3sm41655335e9.1.2024.12.12.13.41.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Dec 2024 13:39:47 -0800 (PST)
-Message-ID: <c0e588d9-1ba4-4486-a889-df0649c40180@linaro.org>
-Date: Thu, 12 Dec 2024 22:39:46 +0100
+ Thu, 12 Dec 2024 13:41:05 -0800 (PST)
+Message-ID: <24e1c00a-b988-4b8b-bdf9-b30248070f40@redhat.com>
+Date: Thu, 12 Dec 2024 22:41:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v5 3/7] drm/msm: adreno: dynamically generate GMU bw table
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH] drm/log: select CONFIG_FONT_SUPPORT
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Arnd Bergmann <arnd@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241211-topic-sm8x50-gpu-bw-vote-v5-0-6112f9f785ec@linaro.org>
- <20241211-topic-sm8x50-gpu-bw-vote-v5-3-6112f9f785ec@linaro.org>
- <8d854f93-36da-4779-9ab0-381912aef4b4@oss.qualcomm.com>
+ John Ogness <john.ogness@linutronix.de>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andreas Larsson <andreas@gaisler.com>,
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241212154003.1313437-1-arnd@kernel.org>
+ <eaffbf5e-ecb0-4aa3-8d05-da090494f8c3@redhat.com>
+In-Reply-To: <eaffbf5e-ecb0-4aa3-8d05-da090494f8c3@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: zkCxAHQAFYh37dhRdrsHUt8xZTmF11z-FwN9ZtLmQ88_1734039667
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <8d854f93-36da-4779-9ab0-381912aef4b4@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,106 +106,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/12/2024 21:10, Konrad Dybcio wrote:
-> On 11.12.2024 9:29 AM, Neil Armstrong wrote:
->> The Adreno GPU Management Unit (GMU) can also scale the ddr
->> bandwidth along the frequency and power domain level, but for
->> now we statically fill the bw_table with values from the
->> downstream driver.
+On 12/12/2024 17:37, Jocelyn Falempe wrote:
+> On 12/12/2024 16:39, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
 >>
->> Only the first entry is used, which is a disable vote, so we
->> currently rely on scaling via the linux interconnect paths.
+>> Without fonts, this fails to link:
 >>
->> Let's dynamically generate the bw_table with the vote values
->> previously calculated from the OPPs.
+>> drivers/gpu/drm/clients/drm_log.o: in function `drm_log_init_client':
+>> drm_log.c:(.text+0x3d4): undefined reference to `get_default_font'
 >>
->> Those entries will then be used by the GMU when passing the
->> appropriate bandwidth level while voting for a gpu frequency.
+>> Select this, like the other users do.
+> 
+> Thanks for the fix, I'm sorry I missed that dependency.
+> 
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+I just pushed it to drm-misc-next, as it can break the build.
+
+Best regards,
+
+-- 
+
+Jocelyn
+
+> 
 >>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> Fixes: f7b42442c4ac ("drm/log: Introduce a new boot logger to draw the 
+>> kmsg on the screen")
+>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 >> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 48 ++++++++++++++++++++++++++++++++++-
->>   1 file changed, 47 insertions(+), 1 deletion(-)
+>>   drivers/gpu/drm/clients/Kconfig | 1 +
+>>   lib/fonts/Kconfig               | 2 +-
+>>   2 files changed, 2 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> index cb8844ed46b29c4569d05eb7a24f7b27e173190f..995526620d678cd05020315f771213e4a6943bec 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> @@ -6,6 +6,7 @@
->>   #include <linux/list.h>
->>   
->>   #include <soc/qcom/cmd-db.h>
->> +#include <soc/qcom/tcs.h>
->>   
->>   #include "a6xx_gmu.h"
->>   #include "a6xx_gmu.xml.h"
->> @@ -259,6 +260,48 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
->>   		NULL, 0);
->>   }
->>   
->> +static void a6xx_generate_bw_table(const struct a6xx_info *info, struct a6xx_gmu *gmu,
->> +				   struct a6xx_hfi_msg_bw_table *msg)
->> +{
->> +	unsigned int i, j;
->> +
->> +	for (i = 0; i < GMU_MAX_BCMS; i++) {
->> +		if (!info->bcms[i].name)
->> +			break;
->> +		msg->ddr_cmds_addrs[i] = cmd_db_read_addr(info->bcms[i].name);
->> +	}
->> +	msg->ddr_cmds_num = i;
->> +
->> +	for (i = 0; i < gmu->nr_gpu_bws; ++i)
->> +		for (j = 0; j < msg->ddr_cmds_num; j++)
->> +			msg->ddr_cmds_data[i][j] = gmu->gpu_ib_votes[i][j];
->> +	msg->bw_level_num = gmu->nr_gpu_bws;
->> +
->> +	/* Compute the wait bitmask with each BCM having the commit bit */
->> +	msg->ddr_wait_bitmask = 0;
->> +	for (j = 0; j < msg->ddr_cmds_num; j++)
->> +		if (msg->ddr_cmds_data[0][j] & BCM_TCS_CMD_COMMIT_MASK)
->> +			msg->ddr_wait_bitmask |= BIT(j);
->> +
->> +	/*
->> +	 * These are the CX (CNOC) votes - these are used by the GMU
->> +	 * The 'CN0' BCM is used on all targets, and votes are basically
->> +	 * 'off' and 'on' states with first bit to enable the path.
->> +	 */
->> +
+>> diff --git a/drivers/gpu/drm/clients/Kconfig b/drivers/gpu/drm/ 
+>> clients/Kconfig
+>> index c18decc90200..7b81fd0f4cae 100644
+>> --- a/drivers/gpu/drm/clients/Kconfig
+>> +++ b/drivers/gpu/drm/clients/Kconfig
+>> @@ -77,6 +77,7 @@ config DRM_CLIENT_LOG
+>>       select DRM_CLIENT
+>>       select DRM_CLIENT_SETUP
+>>       select DRM_DRAW
+>> +    select FONT_SUPPORT
+>>       help
+>>         This enable a drm logger, that will print the kernel messages 
+>> to the
+>>         screen until the userspace is ready to take over.
+>> diff --git a/lib/fonts/Kconfig b/lib/fonts/Kconfig
+>> index 3ac26bdbc3ff..ae59b5b4e225 100644
+>> --- a/lib/fonts/Kconfig
+>> +++ b/lib/fonts/Kconfig
+>> @@ -10,7 +10,7 @@ if FONT_SUPPORT
+>>   config FONTS
+>>       bool "Select compiled-in fonts"
+>> -    depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC
+>> +    depends on FRAMEBUFFER_CONSOLE || STI_CONSOLE || DRM_PANIC || 
+>> DRM_CLIENT_LOG
+>>       help
+>>         Say Y here if you would like to use fonts other than the default
+>>         your frame buffer console usually use.
 > 
-> /* The CNoC BCM only needs a simple off/on vote pair on all platforms */
-> 
->> +	msg->cnoc_cmds_addrs[0] = cmd_db_read_addr("CN0");
->> +	msg->cnoc_cmds_num = 1;
->> +
->> +	msg->cnoc_cmds_data[0][0] = BCM_TCS_CMD(true, false, 0, 0);
->> +	msg->cnoc_cmds_data[1][0] = BCM_TCS_CMD(true, true, 0, BIT(0));
-> 
-> While it evaluates to the same, I think this is logically 1 (as in, one
-> unit of bus rate). The question of which bit that corresponds to is
-> handled by the macro.
-
-"1" has not meaning, especially when we're supposed sending a bandwidth value, bit(0) means this bit has a special value
-
-> 
-> Also, a7xx sets values in both x and y parts here, while a6xx only does
-> so in the y part.
-> 
->> +
->> +	/* Compute the wait bitmask with each BCM having the commit bit */
->> +	msg->cnoc_wait_bitmask = 0;
->> +	for (j = 0; j < msg->cnoc_cmds_num; j++)
->> +		if (msg->cnoc_cmds_data[0][j] & BCM_TCS_CMD_COMMIT_MASK)
->> +			msg->cnoc_wait_bitmask |= BIT(j);
-> 
-> This is a very fancy way to say msg->cnoc_wait_bitmask = BIT(0)
-
-Fancy but we know how it's calculated...
-
-> 
-> Konrad
 
