@@ -1,124 +1,101 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21BB9EE145
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 09:31:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 741DA9EE166
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 09:36:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052B410ECEE;
-	Thu, 12 Dec 2024 08:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BDF910ECF8;
+	Thu, 12 Dec 2024 08:36:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fc8tOnGy";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TtZyqFCn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
- [IPv6:2a00:1450:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376F910ECF4
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 08:31:13 +0000 (UTC)
-Received: by mail-wm1-x335.google.com with SMTP id
- 5b1f17b1804b1-4361f65ca01so2879875e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 00:31:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733992272; x=1734597072; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=5XYu4I8D9gBdmo7eYgjvc8ss5lWgqbeNPvu7neTItSw=;
- b=fc8tOnGyZ3fvSMPUe+VhqnboxA0o1P76HpVyz6h7A/LLn6YE9ciRU/pusvcb9ND3HE
- KrxEU38MZajGKwcB35UZiSQ8KdgJPZtBzXfnCAB+WJHVbTFXSRdYmVrMeOt+3t3jF/q7
- 5xVsGwtKBtKh13vdXmSJB5oqNezYXR87DVRZ1V2yhVGbQEjD6Z5mtx0VN9ZOHCILTCKj
- kGa5LVzsHrpZC0VdnPC+IHzd2sCbQXj+ZvsDavDURPmHE74fsTs+4Rd82S/cYuk/BycL
- b3/TJ9ouxyr2iDe3Zg8EL1DhCDveQvBLwew9l3LXEaF4SiU+zUhKug/7UX/yUKTuOLLj
- Rv/A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDFA510ECF8
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 08:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1733992608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=b2OdCCLE8DIZKmdBcmfkMR6vuKRmVHnvlSP4k0Du3Rk=;
+ b=TtZyqFCnCg+GL+0ejWPnWHIBKn1f5bhA46s/mMRyei6shqEmJS8t/xIhaA+d2sNe/gIMKL
+ PaFu9CemYJcnKzXCA+jrvN4gB52AA67+masIDQizZsAFmn3Vu33VbrmikNGawCdhAyeXiN
+ hWVjgRX9DZHdB9CwD5/KG2QCQ3A3fRo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-43-NhD43WHOPqOF-NmeJ7PP0w-1; Thu, 12 Dec 2024 03:36:47 -0500
+X-MC-Unique: NhD43WHOPqOF-NmeJ7PP0w-1
+X-Mimecast-MFC-AGG-ID: NhD43WHOPqOF-NmeJ7PP0w
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-434fb9646efso3044765e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 00:36:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733992272; x=1734597072;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=5XYu4I8D9gBdmo7eYgjvc8ss5lWgqbeNPvu7neTItSw=;
- b=e/bExrwLCSV+ykEU+4atc6GDXbaYwAWGl6/xu7YkxhDjCOZdoro/s61U4pTlyJq8eq
- YCOclTyYqjo2XguFEG8wABNZ+ktSmFJPdiEffs+xo2fln8eOZIVPYMnD5yywOUyLAUds
- haD4zmX1Ir7N5Ghz8PL9cZ+nwL5ktuIywSPtsuryGekw9RywcZMcSoz74l6RBBVf1cyI
- Vvt/w3JvVhvtr6W7M6hXFimN++VrIijP5wT4wcDynVdguI9TBWmxDWsIDgXw6SdtKaS7
- P6DjXG5Lydc8HygrnlKTWtC5waIoQI9nLbE3WXs/WpYheDG1tlmlPPNMm/DESUgZkJAS
- y7qQ==
+ d=1e100.net; s=20230601; t=1733992606; x=1734597406;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=b2OdCCLE8DIZKmdBcmfkMR6vuKRmVHnvlSP4k0Du3Rk=;
+ b=gVnlH0Rkhlb3Dwy+w0mKAltgaIfI7sEQLqep6RfTU7QWoaD7L4BRhdxB+fcZG9ZTFx
+ 4cKrJfkR4tNddlBkfFOj9cf7HznrFaGmKSNrU5gjvo7p6gCLSZrev5tuUrL4ZxVmcLjt
+ u4PxgCH2mu55/ybbnGjKlOLOoucx7XQitQkFupONLMyVriAmLkXTcpo1e7pR2ln4vubn
+ 3rNnFj3QKySEIcGPzsmGzhfYmqFFAyR0n8TzmbZQ2J6mHOdukPBlRxacl8ndThGxon80
+ fqXu9yo6RaxXfBj3pgMZj2QcEvV2xtO25lDfzCMn9Sz0kVKbuVr4w9FP/CElIVvRCW4P
+ DTXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXiF91WPzNKwgOLuCXK4yvTkSFJd1/UhU+Fs5iziEoptum2/CENFzcQcge2rPlCLsvOJeceOre+UHI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1Bs4XucZLcxJmTkvocRUXSKz311jmCZwl3vMbRD9Qp7lUaQDs
- V0W8p4At4547u0jYRASo7/+EUPHvqHTauK8fAsNdfSDjwYeG5RGeMAazgxEiyTE=
-X-Gm-Gg: ASbGnctBhvdbfxTnjm7vvCBCAWYWkI85HyMG4QnXPhbIuDeP/z1ZdR2iwTSzhfbkBpD
- Zuq6B3SnwgZC4oyN8d5wOof7edsa3dU9eypxMC7jXCmWnhXhwI/jgDHbZKE6miA5Spwq4UVPIVT
- wMvsNCxhP0Sj8uWINNYOo0TBmeXuUUhs70mWi2daN43dFvGllNwKfLuiKZRHPxdI/a++w7zJ00x
- c5E1DfEWs0fnumBe+iYFOXFcoT0nEFROUOC2xuX4S1bijlL3TQmHWB9/DEp+MZXJ7/XwMf0y6qE
- jYF8e7BsOJQ+ZmvOjVnUfxJAv5o0dB72Sw==
-X-Google-Smtp-Source: AGHT+IFg5rVsYNoj1OLL00/jahvhS0YEuapxQEmBGH2dEHoxfZsQpcAyjRpBUgBdyI8WiwrhrVyjPA==
-X-Received: by 2002:a05:600c:348e:b0:435:14d:f61a with SMTP id
- 5b1f17b1804b1-436228638c1mr17805585e9.25.1733992271590; 
- Thu, 12 Dec 2024 00:31:11 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:b98a:c6fe:3a5d:f20a?
- ([2a01:e0a:982:cbb0:b98a:c6fe:3a5d:f20a])
+ AJvYcCXhWGgt5A0qfEXfWKfsQdbdDnRflqSPcJGrwptS/1CGk54GB/lMTkxSlyufqfpmKITYu0AJ4ooVQrU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEMlHaMxF/xsmvOQ67mxiqyGBnCViu/DFB2QCt431HSPUCawjT
+ 02xU7Vlbq5400uAVqrd/KA514M8TC7gPH2X1AOT/hiyGYGut0oxMK7mzCUNv0hARswgDx9hx3T3
+ zHsk6QXfI5PSLTTyLi1SHeluOzVP5tvEQxSRVxVQSk8aBK+HUf8T5sChv//PQPGFPwMr12eE8Cw
+ ==
+X-Gm-Gg: ASbGnctYekfJsNDcO6xikjq2upabhntNmnykUIoQeQ/RUjgplsJv8sGi+Raawbp8Ygb
+ TRPjbqOIzEApOtpUACILYrjqDZQH/EG4XUiAR1D+ugwtK06LmsOiwlLQ6jU6Co9Bnf3Y4m5qKSe
+ P7k4NaNXWALyRm2v6UCqvWVpW7gutsfQ3IXwS0PicOlIfa9P/gqFsINBDCFriub/H+A02/BvH4p
+ dy5ffs7AzptnPlr26MqEsgknvVDT2UinU5EyjXKke6CRnUCCIiJ5HLpuCKbX7EB3UIjgP6CTUkE
+ fPuP+zMlQDWYpZKePKvm
+X-Received: by 2002:a05:6000:1a86:b0:385:e4a7:df07 with SMTP id
+ ffacd0b85a97d-3864cec38ddmr5207787f8f.42.1733992605832; 
+ Thu, 12 Dec 2024 00:36:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEiOspl7lVtaRS3a8U1e3Ugidr/FeZNKHreAuxMq4nGy3oYE3I03+xyodQNvU8hH6BX6zGkHA==
+X-Received: by 2002:a05:6000:1a86:b0:385:e4a7:df07 with SMTP id
+ ffacd0b85a97d-3864cec38ddmr5207669f8f.42.1733992603982; 
+ Thu, 12 Dec 2024 00:36:43 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436255830b0sm9467275e9.18.2024.12.12.00.31.10
+ 5b1f17b1804b1-43625553208sm9569375e9.9.2024.12.12.00.36.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Dec 2024 00:31:11 -0800 (PST)
-Message-ID: <0d0a8157-32a4-4e8e-92cd-dac9a4471641@linaro.org>
-Date: Thu, 12 Dec 2024 09:31:09 +0100
+ Thu, 12 Dec 2024 00:36:43 -0800 (PST)
+Message-ID: <6e0f1727-6712-4c5e-8ca2-68ecf002deb0@redhat.com>
+Date: Thu, 12 Dec 2024 09:36:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 1/4] drm/dp: Add helper to set LTTPRs in transparent
- mode
-To: Johan Hovold <johan@kernel.org>, Abel Vesa <abel.vesa@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [v9,1/6] drm/panic: Move drawing functions to drm_draw
+To: Kees Bakker <kees@ijzerbout.nl>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-0-d5906ed38b28@linaro.org>
- <20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-1-d5906ed38b28@linaro.org>
- <Z1mk08SHEd5_vc99@hovoldconsulting.com>
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
+ Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20241204160014.1171469-2-jfalempe@redhat.com>
+ <90c892fe-e56c-49b0-b8a3-8a7d6d18fb41@ijzerbout.nl>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <90c892fe-e56c-49b0-b8a3-8a7d6d18fb41@ijzerbout.nl>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ydGfP5bLkCKERppcFgj73lE7jWkm0pgrDftZmziawco_1733992606
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <Z1mk08SHEd5_vc99@hovoldconsulting.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,96 +108,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/2024 15:42, Johan Hovold wrote:
-> On Wed, Dec 11, 2024 at 03:04:12PM +0200, Abel Vesa wrote:
->   
->> +/**
->> + * drm_dp_lttpr_set_transparent_mode - set the LTTPR in transparent mode
->> + * @aux: DisplayPort AUX channel
->> + * @enable: Enable or disable transparent mode
->> + *
->> + * Returns 0 on success or a negative error code on failure.
->> + */
->> +int drm_dp_lttpr_set_transparent_mode(struct drm_dp_aux *aux, bool enable)
+On 11/12/2024 22:34, Kees Bakker wrote:
+> Op 04-12-2024 om 16:45 schreef Jocelyn Falempe:
+>> Move the color conversions, blit and fill functions to drm_draw.c,
+>> so that they can be re-used by drm_log.
+>> drm_draw is internal to the drm subsystem, and shouldn't be used by
+>> gpu drivers.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>
+>> v5:
+>>   * Export drm_draw symbols, so they can be used if drm_client_lib is 
+>> built as module.
+>>
+>> v6:
+>>   * rebase and solve conflict with "drm/panic: Add ABGR2101010 support"
+>>
+>> v9:
+>>   * Rename drm_draw.h to drm_draw_internal.h (Jani Nikula)
+>>
+>>   drivers/gpu/drm/Kconfig             |   5 +
+>>   drivers/gpu/drm/Makefile            |   1 +
+>>   drivers/gpu/drm/drm_draw.c          | 233 +++++++++++++++++++++++++
+>>   drivers/gpu/drm/drm_draw_internal.h |  56 ++++++
+>>   drivers/gpu/drm/drm_panic.c         | 257 +++-------------------------
+>>   5 files changed, 318 insertions(+), 234 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/drm_draw.c
+>>   create mode 100644 drivers/gpu/drm/drm_draw_internal.h
+>>
+>> [...]
+>> diff --git a/drivers/gpu/drm/drm_draw.c b/drivers/gpu/drm/drm_draw.c
+>> new file mode 100644
+>> index 000000000000..cb2ad12bce57
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/drm_draw.c
+>> @@ -0,0 +1,233 @@
+>> +[...]
+>> +void drm_draw_fill24(struct iosys_map *dmap, unsigned int dpitch,
+>> +             unsigned int height, unsigned int width,
+>> +             u16 color)
 >> +{
->> +	u8 val = enable ? DP_PHY_REPEATER_MODE_TRANSPARENT :
->> +			  DP_PHY_REPEATER_MODE_NON_TRANSPARENT;
->> +	int ret = drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE, val);
+>> +    unsigned int y, x;
 >> +
->> +	return ret == 1 ? 0 : ret;
-> 
-> This looks correct, but I had to go look at drm_dp_dpcd_writeb() to make
-> sure it never returns 0 (for short transfers).
-> 
+>> +    for (y = 0; y < height; y++) {
+>> +        for (x = 0; x < width; x++) {
+>> +            unsigned int off = y * dpitch + x * 3;
+>> +
+>> +            /* write blue-green-red to output in little endianness */
+>> +            iosys_map_wr(dmap, off, u8, (color & 0x000000FF) >> 0);
+>> +            iosys_map_wr(dmap, off + 1, u8, (color & 0x0000FF00) >> 8);
+>> +            iosys_map_wr(dmap, off + 2, u8, (color & 0x00FF0000) >> 16);
+>> +        }
+>> +    }
 >> +}
->> +EXPORT_SYMBOL(drm_dp_lttpr_set_transparent_mode);
-> 
-> This appears to be what the driver currently uses, but why not
-> EXPORT_SYMBOL_GPL?
+>>
+> u16 is not wide enough for a 24bit color
 
-drivers/gpu/drm/display/drm_dp_helper.c is not GPL licenced, so
-this is the right macro to use.
+Good catch, I will send a fix when I get some time.
 
-Neil
+Best regards,
 
-> 
->> +
->> +/**
->> + * drm_dp_lttpr_init - init LTTPR transparency mode according to DP standard
->> + *
->> + * @aux: DisplayPort AUX channel
->> + * @lttpr_count: Number of LTTPRs
->> + *
->> + * Returns 0 on success or a negative error code on failure.
->> + */
->> +int drm_dp_lttpr_init(struct drm_dp_aux *aux, int lttpr_count)
->> +{
->> +	if (!lttpr_count)
->> +		return 0;
->> +
->> +	/*
->> +	 * See DP Standard v2.0 3.6.6.1 about the explicit disabling of
->> +	 * non-transparent mode and the disable->enable non-transparent mode
->> +	 * sequence.
->> +	 */
->> +	drm_dp_lttpr_set_transparent_mode(aux, true);
-> 
-> Error handling?
-> 
->> +
->> +	if (lttpr_count > 0 && !drm_dp_lttpr_set_transparent_mode(aux, false))
-> 
-> No need to check lttpr_count again here.
-> 
->> +		return 0;
-> 
-> I'd check for errors instead of success here and do the rollback before
-> returning -EINVAL.
-> 
->> +
->> +	/*
->> +	 * Roll-back to tranparent mode if setting non-tranparent mode failed or
->> +	 * the number of LTTPRs is invalid
->> +	 */
->> +	drm_dp_lttpr_set_transparent_mode(aux, true);
->> +
->> +	return -EINVAL;
-> 
-> And return 0 explicitly here.
-> 
->> +}
->> +EXPORT_SYMBOL(drm_dp_lttpr_init);
-> 
-> In any case this works well and is needed for external display on the
-> Lenovo ThinkPad T14s, while not breaking the X13s which does not need
-> it:
-> 
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> 
-> Johan
-> 
+-- 
+
+Jocelyn
 
