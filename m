@@ -2,80 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E729EF47D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 18:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BC59EF499
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 18:09:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F220210E629;
-	Thu, 12 Dec 2024 17:09:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A04410EE60;
+	Thu, 12 Dec 2024 17:09:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R+5n8DVg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xMq9icQ0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ShMS1mlC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xMq9icQ0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ShMS1mlC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 366E810E48A;
- Thu, 12 Dec 2024 17:09:04 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id
- e9e14a558f8ab-3a9cb667783so6885315ab.1; 
- Thu, 12 Dec 2024 09:09:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734023343; x=1734628143; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Wh2zFlYirOEce8wHvqNzCPR9OxzcDGMsRZId2rDGIFg=;
- b=R+5n8DVgBF83BA6meE5UhhVja/o7S1anjTTTehEL144MoMnDTNjUW7aWqll9JNCeXj
- fo/4OIkF/e20i+fb9LesGvRW4cIHj+F0QeOzPRDXVIHQLNxCXkVW+b/VsPGawKWkxj/5
- RD3MUx5EvcBkVnkv09Wr1fdDO2HTpdZ7KivZZwWeSuxI2FuYN3N7VsoNTFwU+7AIzy4L
- U4vsFHnB9C9pYBjzlX7tJBiFIuKCwpap6kPedIzUvTWGKoIK1BYGDSycr7nKli/V5uN5
- TB/EWoyk30EZ5BAx8ZuIPOpSkmqP1PuoiPfPJNET/7AMNt02iu0drG0M+myGDiBGD+7u
- nnBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734023343; x=1734628143;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Wh2zFlYirOEce8wHvqNzCPR9OxzcDGMsRZId2rDGIFg=;
- b=CsIAf71tjF5OQ9RajS3+TlEtzpWuc1pE1Vb3BWq54o3dautViZHMDD9wbqrVWZYaIb
- 1niIOnTtFH90N2QevqlpdwOyxnZpE57x+kcCu+9+CxP2rV2f+Bm6SNIuB6f+KpK5wLKa
- Qg8T+G235C5YD76iFa1Xm3nkFpWWBytIBjIvzHuK+qQsidOjFheRuYyrZXACsGo0gXa7
- nxxvxSSBGmAfPj/bcBuvQ5shjIpMboVRbJnd1ukxk3v+KrV+YIuxMmxnDsbTqvHDFQwI
- T2u6c0a9sLY8ZaJnD9zTT7rxKgNeCnPfMs8g3zaT8WLVeUgpGTbYBUkEVoEDpyJK84uT
- pmAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIIFt/xHwh9/hDc8iMkCaRnu8YWl85fNvtE1uBiYzvBfVsHK0wClT4wsqzZGEZKqFWig7KiKMzfWw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx6w89x8HzQt7+9v/6ZYeQrONzjpGf1uydjlLgpLzompPkI1Rcn
- 6C2600Eo+gBh2ho/LMNonH4VMq7w0w0WwUp8DnW7eVdw95Gw+Owmwlhx+P0+sdsXrZN1sRALmqv
- ytsX7rQJfiBQiUmPWgPKvCEcXZCM=
-X-Gm-Gg: ASbGnctPyLzooZ+rV/Ef0ew1tQt0ou35IhxbxCTMEV9KusJIisdqyEa/q2z+1lNPKD8
- qokjB470EPEaT9HD4Oyr/B19gcOtxHdXXJLEO92PJLtxVbRhsqTTkCTUMAHdH+aTKkk4=
-X-Google-Smtp-Source: AGHT+IHOBEcHwVM1L/KwA0czMrrqFBDeYsTizttyCsGI/gpxEaBww5BPzG3hTX5xxyfSq4+baRCj9nzL8F4tOLytWj4=
-X-Received: by 2002:a05:6e02:1568:b0:3a7:e452:db4 with SMTP id
- e9e14a558f8ab-3ae57ef8300mr10030475ab.16.1734023343067; Thu, 12 Dec 2024
- 09:09:03 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E484310EE46
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 17:09:25 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id A03A71F46E;
+ Thu, 12 Dec 2024 17:09:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1734023364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=abZACuWG57c8520eJPgk/YvjwvtpOcjfieW35yPTPBw=;
+ b=xMq9icQ0/OIUEo8M1qzHUzxG5txAvbySopjOEUinbKrbgg0JvI+rLDDhOqVtfoa1Tk6Zjt
+ Lp5wEEW50zE4dMPt0oNB+4H7/KJjlIaqf1aIcrdTiAZSOVGgi4FrcWZDJKmmeCBhJMEDgX
+ HT0OxoOKcs+mgy3CzP3mmRo32924bqU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1734023364;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=abZACuWG57c8520eJPgk/YvjwvtpOcjfieW35yPTPBw=;
+ b=ShMS1mlCGkCc2rmrQfqDY95ihGlH6hAgCjWKMD3z0QhMK4ZLj0aDnTGm+kipzirV0qI5g/
+ w8r8dAYvHZIkFRAg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xMq9icQ0;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ShMS1mlC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1734023364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=abZACuWG57c8520eJPgk/YvjwvtpOcjfieW35yPTPBw=;
+ b=xMq9icQ0/OIUEo8M1qzHUzxG5txAvbySopjOEUinbKrbgg0JvI+rLDDhOqVtfoa1Tk6Zjt
+ Lp5wEEW50zE4dMPt0oNB+4H7/KJjlIaqf1aIcrdTiAZSOVGgi4FrcWZDJKmmeCBhJMEDgX
+ HT0OxoOKcs+mgy3CzP3mmRo32924bqU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1734023364;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=abZACuWG57c8520eJPgk/YvjwvtpOcjfieW35yPTPBw=;
+ b=ShMS1mlCGkCc2rmrQfqDY95ihGlH6hAgCjWKMD3z0QhMK4ZLj0aDnTGm+kipzirV0qI5g/
+ w8r8dAYvHZIkFRAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E05213508;
+ Thu, 12 Dec 2024 17:09:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 4LGrDcQYW2etIQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 12 Dec 2024 17:09:24 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, jfalempe@redhat.com, javierm@redhat.com
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 10/12] drm/{i915,xe}: Run DRM default client setup
+Date: Thu, 12 Dec 2024 18:08:51 +0100
+Message-ID: <20241212170913.185939-11-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241212170913.185939-1-tzimmermann@suse.de>
+References: <20241212170913.185939-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20241205165419.54080-1-robdclark@gmail.com>
- <eca60b8e-8a8a-41c4-816a-d084822646f1@quicinc.com>
-In-Reply-To: <eca60b8e-8a8a-41c4-816a-d084822646f1@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 12 Dec 2024 09:08:51 -0800
-Message-ID: <CAF6AEGtqSW1mpN14S8ffyV=tUG=0GTmNWq_oVEXo+0RYDJfOnA@mail.gmail.com>
-Subject: Re: [RFC] drm/msm: Add UABI to request perfcntr usage
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Antonino Maniscalco <antomani103@gmail.com>, 
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: A03A71F46E
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_TWELVE(0.00)[16]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[linux.intel.com,intel.com,ursulin.net,ffwll.ch,gmail.com,kernel.org,redhat.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc)];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,307 +128,375 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 7:59=E2=80=AFAM Akhil P Oommen <quic_akhilpo@quicin=
-c.com> wrote:
->
-> On 12/5/2024 10:24 PM, Rob Clark wrote:
-> > From: Rob Clark <robdclark@chromium.org>
-> >
-> > Performance counter usage falls into two categories:
-> >
-> > 1. Local usage, where the counter configuration, start, and end read
-> >    happen within (locally to) a single SUBMIT.  In this case, there is
-> >    no dependency on counter configuration or values between submits, an=
-d
-> >    in fact counters are normally cleared on context switches, making it
-> >    impossible to rely on cross-submit state.
-> >
-> > 2. Global usage, where a single privilaged daemon/process is sampling
-> >    counter values across all processes for profiling.
-> >
-> > The two categories are mutually exclusive.  While you can have many
-> > processes making local counter usage, you cannot combine global and
-> > local usage without the two stepping on each others feet (by changing
-> > counter configuration).
-> >
-> > For global counter usage, there is already a SYSPROF param (since globa=
-l
-> > counter usage requires disabling counter clearing on context switch).
-> > This patch adds a REQ_CNTRS param to request local counter usage.  If
-> > one or more processes has requested counter usage, then a SYSPROF
-> > request will fail with -EBUSY.  And if SYSPROF is active, then REQ_CNTR=
-S
-> > will fail with -EBUSY, maintaining the mutual exclusivity.
-> >
-> > This is purely an advisory interface to help coordinate userspace.
-> > There is no real means of enforcement, but the worst that can happen if
-> > userspace ignores a REQ_CNTRS failure is that you'll get nonsense
-> > profiling data.
-> >
-> > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > ---
-> > kgsl takes a different approach, which involves a lot more UABI for
-> > assigning counters to different processes.  But I think by taking
-> > advantage of the fact that mesa (freedreno+turnip) reconfigure the
-> > counters they need in each SUBMIT, for their respective gl/vk perf-
-> > counter extensions, we can take this simpler approach.
->
-> KGSL's approach is preemption and ifpc safe (also whatever HW changes
-> that will come up in future generations). How will we ensure that here?
->
-> I have plans to bring up IFPC support in near future. Also, I brought up
-> this point during preemption series. But from the responses, I felt that
-> profiling was not considered a serious usecase. Still I wonder how the
-> perfcounter extensions work accurately with preemption.
+Rework fbdev probing to support fbdev_probe in struct drm_driver
+and remove the old fb_probe callback. Provide an initializer macro
+that sets the callback in struct drm_driver according to the kernel
+configuration. Call drm_client_setup_with_color_mode() to run the
+kernel's default client setup for DRM.
 
-Re: IFPC, I think initially we have to inhibit IFPC when SYSPROF is active
+This commit also prepares support for the kernel's drm_log client
+(or any future client) in i915. Using drm_log will also require vmap
+support in GEM objects.
 
-Longer term, I think we want to just save and restore all of the SEL
-regs as well as the counters themselves on preemption.  AFAIU
-currently only the counters themselves are saved/restored.  But there
-is only one 32b SEL reg for each 64b counter, so I'm not sure that you
-save that many cycles by not just saving/restoring the SEL regs as
-well.  (And of course with REQ_CNTRS the kernel knows which processes
-need counter save/restore and which do not, so you are only taking the
-extra context switch overhead if a process is actually using the
-perfcntrs.)
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ .../gpu/drm/i915/display/intel_display_core.h |   1 -
+ drivers/gpu/drm/i915/display/intel_fbdev.c    | 194 +-----------------
+ drivers/gpu/drm/i915/display/intel_fbdev.h    |  17 +-
+ drivers/gpu/drm/i915/i915_driver.c            |   3 +
+ drivers/gpu/drm/xe/display/xe_display.c       |   5 +
+ 5 files changed, 21 insertions(+), 199 deletions(-)
 
-Alternatively, I think we could just declare this as a userspace
-problem, and solve it with CP_SET_AMBLE PREAMBLE/POSTAMBLE?
+diff --git a/drivers/gpu/drm/i915/display/intel_display_core.h b/drivers/gpu/drm/i915/display/intel_display_core.h
+index 554870d2494b..674913d6c11d 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_core.h
++++ b/drivers/gpu/drm/i915/display/intel_display_core.h
+@@ -386,7 +386,6 @@ struct intel_display {
+ 	struct {
+ 		/* list of fbdev register on this device */
+ 		struct intel_fbdev *fbdev;
+-		struct work_struct suspend_work;
+ 	} fbdev;
+ 
+ 	struct {
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index f5dc96a9f86d..de726a9c33c5 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -37,6 +37,7 @@
+ #include <linux/tty.h>
+ #include <linux/vga_switcheroo.h>
+ 
++#include <drm/clients/drm_client_setup.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fb_helper.h>
+@@ -54,9 +55,6 @@
+ #include "intel_fbdev_fb.h"
+ #include "intel_frontbuffer.h"
+ 
+-static int intelfb_create(struct drm_fb_helper *helper,
+-			  struct drm_fb_helper_surface_size *sizes);
+-
+ struct intel_fbdev {
+ 	struct intel_framebuffer *fb;
+ 	struct i915_vma *vma;
+@@ -201,14 +199,13 @@ static void intelfb_set_suspend(struct drm_fb_helper *fb_helper, bool suspend)
+ }
+ 
+ static const struct drm_fb_helper_funcs intel_fb_helper_funcs = {
+-	.fb_probe = intelfb_create,
+ 	.fb_dirty = intelfb_dirty,
+ 	.fb_restore = intelfb_restore,
+ 	.fb_set_suspend = intelfb_set_suspend,
+ };
+ 
+-static int intelfb_create(struct drm_fb_helper *helper,
+-			  struct drm_fb_helper_surface_size *sizes)
++int intel_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
++				   struct drm_fb_helper_surface_size *sizes)
+ {
+ 	struct intel_fbdev *ifbdev = to_intel_fbdev(helper);
+ 	struct intel_framebuffer *fb = ifbdev->fb;
+@@ -272,6 +269,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+ 		goto out_unpin;
+ 	}
+ 
++	helper->funcs = &intel_fb_helper_funcs;
+ 	helper->fb = &fb->base;
+ 
+ 	info->fbops = &intelfb_ops;
+@@ -480,174 +478,11 @@ static unsigned int intel_fbdev_color_mode(const struct drm_format_info *info)
+ 	}
+ }
+ 
+-static void intel_fbdev_suspend_worker(struct work_struct *work)
+-{
+-	intel_fbdev_set_suspend(&container_of(work,
+-					      struct drm_i915_private,
+-					      display.fbdev.suspend_work)->drm,
+-				FBINFO_STATE_RUNNING,
+-				true);
+-}
+-
+-void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous)
+-{
+-	struct drm_i915_private *dev_priv = to_i915(dev);
+-	struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+-
+-	if (!ifbdev)
+-		return;
+-
+-	if (drm_WARN_ON(&dev_priv->drm, !HAS_DISPLAY(dev_priv)))
+-		return;
+-
+-	if (!ifbdev->vma)
+-		return;
+-
+-	if (synchronous) {
+-		/* Flush any pending work to turn the console on, and then
+-		 * wait to turn it off. It must be synchronous as we are
+-		 * about to suspend or unload the driver.
+-		 *
+-		 * Note that from within the work-handler, we cannot flush
+-		 * ourselves, so only flush outstanding work upon suspend!
+-		 */
+-		if (state != FBINFO_STATE_RUNNING)
+-			flush_work(&dev_priv->display.fbdev.suspend_work);
+-
+-		console_lock();
+-	} else {
+-		/*
+-		 * The console lock can be pretty contented on resume due
+-		 * to all the printk activity.  Try to keep it out of the hot
+-		 * path of resume if possible.
+-		 */
+-		drm_WARN_ON(dev, state != FBINFO_STATE_RUNNING);
+-		if (!console_trylock()) {
+-			/* Don't block our own workqueue as this can
+-			 * be run in parallel with other i915.ko tasks.
+-			 */
+-			queue_work(dev_priv->unordered_wq,
+-				   &dev_priv->display.fbdev.suspend_work);
+-			return;
+-		}
+-	}
+-
+-	drm_fb_helper_set_suspend(dev->fb_helper, state);
+-	console_unlock();
+-}
+-
+-static int intel_fbdev_restore_mode(struct drm_i915_private *dev_priv)
+-{
+-	struct intel_fbdev *ifbdev = dev_priv->display.fbdev.fbdev;
+-	struct drm_device *dev = &dev_priv->drm;
+-	int ret;
+-
+-	if (!ifbdev)
+-		return -EINVAL;
+-
+-	if (!ifbdev->vma)
+-		return -ENOMEM;
+-
+-	ret = drm_fb_helper_restore_fbdev_mode_unlocked(dev->fb_helper);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
+-}
+-
+-/*
+- * Fbdev client and struct drm_client_funcs
+- */
+-
+-static void intel_fbdev_client_unregister(struct drm_client_dev *client)
+-{
+-	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+-	struct drm_device *dev = fb_helper->dev;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-
+-	if (fb_helper->info) {
+-		vga_switcheroo_client_fb_set(pdev, NULL);
+-		drm_fb_helper_unregister_info(fb_helper);
+-	} else {
+-		drm_fb_helper_unprepare(fb_helper);
+-		drm_client_release(&fb_helper->client);
+-		kfree(fb_helper);
+-	}
+-}
+-
+-static int intel_fbdev_client_restore(struct drm_client_dev *client)
+-{
+-	struct drm_i915_private *dev_priv = to_i915(client->dev);
+-	int ret;
+-
+-	ret = intel_fbdev_restore_mode(dev_priv);
+-	if (ret)
+-		return ret;
+-
+-	vga_switcheroo_process_delayed_switch();
+-
+-	return 0;
+-}
+-
+-static int intel_fbdev_client_hotplug(struct drm_client_dev *client)
+-{
+-	struct drm_fb_helper *fb_helper = drm_fb_helper_from_client(client);
+-	struct drm_device *dev = client->dev;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	int ret;
+-
+-	if (dev->fb_helper)
+-		return drm_fb_helper_hotplug_event(dev->fb_helper);
+-
+-	ret = drm_fb_helper_init(dev, fb_helper);
+-	if (ret)
+-		goto err_drm_err;
+-
+-	ret = drm_fb_helper_initial_config(fb_helper);
+-	if (ret)
+-		goto err_drm_fb_helper_fini;
+-
+-	vga_switcheroo_client_fb_set(pdev, fb_helper->info);
+-
+-	return 0;
+-
+-err_drm_fb_helper_fini:
+-	drm_fb_helper_fini(fb_helper);
+-err_drm_err:
+-	drm_err(dev, "Failed to setup i915 fbdev emulation (ret=%d)\n", ret);
+-	return ret;
+-}
+-
+-static int intel_fbdev_client_suspend(struct drm_client_dev *client, bool holds_console_lock)
+-{
+-	intel_fbdev_set_suspend(client->dev, FBINFO_STATE_SUSPENDED, true);
+-
+-	return 0;
+-}
+-
+-static int intel_fbdev_client_resume(struct drm_client_dev *client, bool holds_console_lock)
+-{
+-	intel_fbdev_set_suspend(client->dev, FBINFO_STATE_RUNNING, false);
+-
+-	return 0;
+-}
+-
+-static const struct drm_client_funcs intel_fbdev_client_funcs = {
+-	.owner		= THIS_MODULE,
+-	.unregister	= intel_fbdev_client_unregister,
+-	.restore	= intel_fbdev_client_restore,
+-	.hotplug	= intel_fbdev_client_hotplug,
+-	.suspend	= intel_fbdev_client_suspend,
+-	.resume		= intel_fbdev_client_resume,
+-};
+-
+ void intel_fbdev_setup(struct drm_i915_private *i915)
+ {
+ 	struct drm_device *dev = &i915->drm;
+ 	struct intel_fbdev *ifbdev;
+-	struct drm_fb_helper *fb_helper;
+ 	unsigned int preferred_bpp = 0;
+-	int ret;
+ 
+ 	if (!HAS_DISPLAY(i915))
+ 		return;
+@@ -657,31 +492,12 @@ void intel_fbdev_setup(struct drm_i915_private *i915)
+ 		return;
+ 
+ 	i915->display.fbdev.fbdev = ifbdev;
+-	INIT_WORK(&i915->display.fbdev.suspend_work, intel_fbdev_suspend_worker);
+ 	if (intel_fbdev_init_bios(dev, ifbdev))
+ 		preferred_bpp = intel_fbdev_color_mode(ifbdev->fb->base.format);
+ 	if (!preferred_bpp)
+ 		preferred_bpp = 32;
+ 
+-	fb_helper = kzalloc(sizeof(*fb_helper), GFP_KERNEL);
+-	if (!fb_helper)
+-		return;
+-	drm_fb_helper_prepare(dev, fb_helper, preferred_bpp, &intel_fb_helper_funcs);
+-
+-	ret = drm_client_init(dev, &fb_helper->client, "intel-fbdev",
+-			      &intel_fbdev_client_funcs);
+-	if (ret) {
+-		drm_err(dev, "Failed to register client: %d\n", ret);
+-		goto err_drm_fb_helper_unprepare;
+-	}
+-
+-	drm_client_register(&fb_helper->client);
+-
+-	return;
+-
+-err_drm_fb_helper_unprepare:
+-	drm_fb_helper_unprepare(dev->fb_helper);
+-	kfree(fb_helper);
++	drm_client_setup_with_color_mode(dev, preferred_bpp);
+ }
+ 
+ struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev)
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.h b/drivers/gpu/drm/i915/display/intel_fbdev.h
+index 08de2d5b3433..b2ca1fe3c9ae 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.h
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.h
+@@ -6,26 +6,25 @@
+ #ifndef __INTEL_FBDEV_H__
+ #define __INTEL_FBDEV_H__
+ 
+-#include <linux/types.h>
+-
+-struct drm_device;
++struct drm_fb_helper;
++struct drm_fb_helper_surface_size;
+ struct drm_i915_private;
+ struct intel_fbdev;
+ struct intel_framebuffer;
+ 
+ #ifdef CONFIG_DRM_FBDEV_EMULATION
++int intel_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
++				   struct drm_fb_helper_surface_size *sizes);
++#define INTEL_FBDEV_DRIVER_OPS \
++	.fbdev_probe = intel_fbdev_driver_fbdev_probe
+ void intel_fbdev_setup(struct drm_i915_private *dev_priv);
+-void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous);
+ struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev);
+ #else
++#define INTEL_FBDEV_DRIVER_OPS \
++	.fbdev_probe = NULL
+ static inline void intel_fbdev_setup(struct drm_i915_private *dev_priv)
+ {
+ }
+-
+-static inline void intel_fbdev_set_suspend(struct drm_device *dev, int state, bool synchronous)
+-{
+-}
+-
+ static inline struct intel_framebuffer *intel_fbdev_framebuffer(struct intel_fbdev *fbdev)
+ {
+ 	return NULL;
+diff --git a/drivers/gpu/drm/i915/i915_driver.c b/drivers/gpu/drm/i915/i915_driver.c
+index e385e4947a91..1029bf8509b7 100644
+--- a/drivers/gpu/drm/i915/i915_driver.c
++++ b/drivers/gpu/drm/i915/i915_driver.c
+@@ -57,6 +57,7 @@
+ #include "display/intel_dp.h"
+ #include "display/intel_dpt.h"
+ #include "display/intel_encoder.h"
++#include "display/intel_fbdev.h"
+ #include "display/intel_hotplug.h"
+ #include "display/intel_overlay.h"
+ #include "display/intel_pch_refclk.h"
+@@ -1798,6 +1799,8 @@ static const struct drm_driver i915_drm_driver = {
+ 	.dumb_create = i915_gem_dumb_create,
+ 	.dumb_map_offset = i915_gem_dumb_mmap_offset,
+ 
++	INTEL_FBDEV_DRIVER_OPS,
++
+ 	.ioctls = i915_ioctls,
+ 	.num_ioctls = ARRAY_SIZE(i915_ioctls),
+ 	.fops = &i915_driver_fops,
+diff --git a/drivers/gpu/drm/xe/display/xe_display.c b/drivers/gpu/drm/xe/display/xe_display.c
+index bc73c9999c57..03554cf4894a 100644
+--- a/drivers/gpu/drm/xe/display/xe_display.c
++++ b/drivers/gpu/drm/xe/display/xe_display.c
+@@ -27,6 +27,7 @@
+ #include "intel_dmc_wl.h"
+ #include "intel_dp.h"
+ #include "intel_encoder.h"
++#include "intel_fbdev.h"
+ #include "intel_hdcp.h"
+ #include "intel_hotplug.h"
+ #include "intel_opregion.h"
+@@ -67,6 +68,10 @@ void xe_display_driver_set_hooks(struct drm_driver *driver)
+ 	if (!xe_modparam.probe_display)
+ 		return;
+ 
++#ifdef CONFIG_DRM_FBDEV_EMULATION
++	driver->fbdev_probe = intel_fbdev_driver_fbdev_probe;
++#endif
++
+ 	driver->driver_features |= DRIVER_MODESET | DRIVER_ATOMIC;
+ }
+ 
+-- 
+2.47.1
 
-Just for background, rendernode UABI is exposed to all processes that
-can use the GPU, ie. basically everything.  Which makes it an
-attractive attack surface.  This is why I prefer minimalism when it
-comes to UABI, and not adding new ioctls and complexity in the kernel
-when it is not essential ;-)
-
-BR,
--R
-
-> -Akhil
->
-> >
-> >  drivers/gpu/drm/msm/adreno/adreno_gpu.c |  2 +
-> >  drivers/gpu/drm/msm/msm_drv.c           |  5 ++-
-> >  drivers/gpu/drm/msm/msm_gpu.c           |  1 +
-> >  drivers/gpu/drm/msm/msm_gpu.h           | 29 +++++++++++++-
-> >  drivers/gpu/drm/msm/msm_submitqueue.c   | 52 ++++++++++++++++++++++++-
-> >  include/uapi/drm/msm_drm.h              |  1 +
-> >  6 files changed, 85 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/=
-msm/adreno/adreno_gpu.c
-> > index 31bbf2c83de4..f688e37059b8 100644
-> > --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> > @@ -441,6 +441,8 @@ int adreno_set_param(struct msm_gpu *gpu, struct ms=
-m_file_private *ctx,
-> >               if (!capable(CAP_SYS_ADMIN))
-> >                       return UERR(EPERM, drm, "invalid permissions");
-> >               return msm_file_private_set_sysprof(ctx, gpu, value);
-> > +     case MSM_PARAM_REQ_CNTRS:
-> > +             return msm_file_private_request_counters(ctx, gpu, value)=
-;
-> >       default:
-> >               return UERR(EINVAL, drm, "%s: invalid param: %u", gpu->na=
-me, param);
-> >       }
-> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
-v.c
-> > index 6416d2cb4efc..bf8314ff4a25 100644
-> > --- a/drivers/gpu/drm/msm/msm_drv.c
-> > +++ b/drivers/gpu/drm/msm/msm_drv.c
-> > @@ -377,9 +377,12 @@ static void msm_postclose(struct drm_device *dev, =
-struct drm_file *file)
-> >        * It is not possible to set sysprof param to non-zero if gpu
-> >        * is not initialized:
-> >        */
-> > -     if (priv->gpu)
-> > +     if (ctx->sysprof)
-> >               msm_file_private_set_sysprof(ctx, priv->gpu, 0);
-> >
-> > +     if (ctx->counters_requested)
-> > +             msm_file_private_request_counters(ctx, priv->gpu, 0);
-> > +
-> >       context_close(ctx);
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gp=
-u.c
-> > index 82f204f3bb8f..013b59ca3bb1 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.c
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> > @@ -991,6 +991,7 @@ int msm_gpu_init(struct drm_device *drm, struct pla=
-tform_device *pdev,
-> >       gpu->nr_rings =3D nr_rings;
-> >
-> >       refcount_set(&gpu->sysprof_active, 1);
-> > +     refcount_set(&gpu->local_counters_active, 1);
-> >
-> >       return 0;
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gp=
-u.h
-> > index e25009150579..83c61e523b1b 100644
-> > --- a/drivers/gpu/drm/msm/msm_gpu.h
-> > +++ b/drivers/gpu/drm/msm/msm_gpu.h
-> > @@ -195,12 +195,28 @@ struct msm_gpu {
-> >       int nr_rings;
-> >
-> >       /**
-> > -      * sysprof_active:
-> > +      * @sysprof_active:
-> >        *
-> > -      * The count of contexts that have enabled system profiling.
-> > +      * The count of contexts that have enabled system profiling plus =
-one.
-> > +      *
-> > +      * Note: refcount_t does not like 0->1 transitions.. we want to k=
-eep
-> > +      * the under/overflow checks that refcount_t provides, but allow
-> > +      * multiple on/off transitions so we track the logical value plus=
- one.)
-> >        */
-> >       refcount_t sysprof_active;
-> >
-> > +     /**
-> > +      * @local_counters_active:
-> > +      *
-> > +      * The count of contexts that have requested local (intra-submit)
-> > +      * performance counter usage plus one.
-> > +      *
-> > +      * Note: refcount_t does not like 0->1 transitions.. we want to k=
-eep
-> > +      * the under/overflow checks that refcount_t provides, but allow
-> > +      * multiple on/off transitions so we track the logical value plus=
- one.)
-> > +      */
-> > +     refcount_t local_counters_active;
-> > +
-> >       /**
-> >        * lock:
-> >        *
-> > @@ -383,6 +399,13 @@ struct msm_file_private {
-> >        */
-> >       int sysprof;
-> >
-> > +     /**
-> > +      * @counters_requested:
-> > +      *
-> > +      * Has the context requested local perfcntr usage.
-> > +      */
-> > +     bool counters_requested;
-> > +
-> >       /**
-> >        * comm: Overridden task comm, see MSM_PARAM_COMM
-> >        *
-> > @@ -626,6 +649,8 @@ void msm_submitqueue_destroy(struct kref *kref);
-> >
-> >  int msm_file_private_set_sysprof(struct msm_file_private *ctx,
-> >                                struct msm_gpu *gpu, int sysprof);
-> > +int msm_file_private_request_counters(struct msm_file_private *ctx,
-> > +                                   struct msm_gpu *gpu, int reqcntrs);
-> >  void __msm_file_private_destroy(struct kref *kref);
-> >
-> >  static inline void msm_file_private_put(struct msm_file_private *ctx)
-> > diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/ms=
-m/msm_submitqueue.c
-> > index 7fed1de63b5d..1e1e21e6f7ae 100644
-> > --- a/drivers/gpu/drm/msm/msm_submitqueue.c
-> > +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
-> > @@ -10,6 +10,15 @@
-> >  int msm_file_private_set_sysprof(struct msm_file_private *ctx,
-> >                                struct msm_gpu *gpu, int sysprof)
-> >  {
-> > +     int ret =3D 0;
-> > +
-> > +     mutex_lock(&gpu->lock);
-> > +
-> > +     if (sysprof && (refcount_read(&gpu->local_counters_active) > 1)) =
-{
-> > +             ret =3D UERR(EBUSY, gpu->dev, "Local counter usage active=
-");
-> > +             goto out_unlock;
-> > +     }
-> > +
-> >       /*
-> >        * Since pm_runtime and sysprof_active are both refcounts, we
-> >        * call apply the new value first, and then unwind the previous
-> > @@ -18,7 +27,8 @@ int msm_file_private_set_sysprof(struct msm_file_priv=
-ate *ctx,
-> >
-> >       switch (sysprof) {
-> >       default:
-> > -             return UERR(EINVAL, gpu->dev, "Invalid sysprof: %d", sysp=
-rof);
-> > +             ret =3D UERR(EINVAL, gpu->dev, "Invalid sysprof: %d", sys=
-prof);
-> > +             goto out_unlock;
-> >       case 2:
-> >               pm_runtime_get_sync(&gpu->pdev->dev);
-> >               fallthrough;
-> > @@ -43,7 +53,45 @@ int msm_file_private_set_sysprof(struct msm_file_pri=
-vate *ctx,
-> >
-> >       ctx->sysprof =3D sysprof;
-> >
-> > -     return 0;
-> > +out_unlock:
-> > +     mutex_unlock(&gpu->lock);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +int msm_file_private_request_counters(struct msm_file_private *ctx,
-> > +                                   struct msm_gpu *gpu, int reqctrs)
-> > +{
-> > +     int ret =3D 0;
-> > +
-> > +     mutex_lock(&gpu->lock);
-> > +
-> > +     if (reqctrs && (refcount_read(&gpu->sysprof_active) > 1)) {
-> > +             ret =3D UERR(EBUSY, gpu->dev, "System profiling active");
-> > +             goto out_unlock;
-> > +     }
-> > +
-> > +     if (reqctrs) {
-> > +             if (ctx->counters_requested) {
-> > +                     ret =3D UERR(EINVAL, gpu->dev, "Already requested=
-");
-> > +                     goto out_unlock;
-> > +             }
-> > +
-> > +             ctx->counters_requested =3D true;
-> > +             refcount_inc(&gpu->local_counters_active);
-> > +     } else {
-> > +             if (!ctx->counters_requested) {
-> > +                     ret =3D UERR(EINVAL, gpu->dev, "Not requested");
-> > +                     goto out_unlock;
-> > +             }
-> > +             refcount_dec(&gpu->local_counters_active);
-> > +             ctx->counters_requested =3D false;
-> > +     }
-> > +
-> > +out_unlock:
-> > +     mutex_unlock(&gpu->lock);
-> > +
-> > +     return ret;
-> >  }
-> >
-> >  void __msm_file_private_destroy(struct kref *kref)
-> > diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-> > index 2342cb90857e..ae7fb355e4a1 100644
-> > --- a/include/uapi/drm/msm_drm.h
-> > +++ b/include/uapi/drm/msm_drm.h
-> > @@ -91,6 +91,7 @@ struct drm_msm_timespec {
-> >  #define MSM_PARAM_UBWC_SWIZZLE 0x12 /* RO */
-> >  #define MSM_PARAM_MACROTILE_MODE 0x13 /* RO */
-> >  #define MSM_PARAM_UCHE_TRAP_BASE 0x14 /* RO */
-> > +#define MSM_PARAM_REQ_CNTRS  0x15 /* WO: request "local" (intra-submit=
-) perfcntr usage  */
-> >
-> >  /* For backwards compat.  The original support for preemption was base=
-d on
-> >   * a single ring per priority level so # of priority levels equals the=
- #
->
