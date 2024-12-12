@@ -2,57 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB149EFB83
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4659EFB92
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 19:53:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB6510E64C;
-	Thu, 12 Dec 2024 18:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFED110E657;
+	Thu, 12 Dec 2024 18:53:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CBk5+fbc";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="V4GbCNY0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C74510E64C;
- Thu, 12 Dec 2024 18:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JAFcxHXTlvHsT25S57LpsY+SoS6Z7yQppFWLsddyh90=; b=CBk5+fbcGtIbhrgXDirSsOB7xn
- LLdZCDl3KhEUsJGYWm49Hc/Omvh1gOI/W5QAnQl43KTUWTg+Kre1S8jc2ojcKZgj9saR6nz2QnDsG
- aDxZhRmrd3Czp4lytsF5EWv09Uk8wN1sWpaN5phYHt0rJS54lazeff5ldKnkncUUJuD6PqE4VNswF
- PHiwuB8Q2Lhf4/+gns8aa4E9Zg9XfOEFCm7eYUhm8JzJeis2gMLrTUUcfjVsEvFgeil/F34DxQ3HD
- AHp/Xfejllx+1fSi7rKXfoyWYOqjil8ELZYc0FBTrHf6r5plgTQuFLljgGW25eOuIyGu/Nwa53Ixz
- Hl4E8iRg==;
-Received: from [179.193.1.214] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tLoGq-002MJu-CG; Thu, 12 Dec 2024 19:50:44 +0100
-Message-ID: <cfb07238-841c-45ca-9a8e-c5aca80ee47c@igalia.com>
-Date: Thu, 12 Dec 2024 15:50:29 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B477110E64F;
+ Thu, 12 Dec 2024 18:53:10 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCCVrAA001154;
+ Thu, 12 Dec 2024 18:53:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ uwbHsF8yN9WteMxFcuKuZLkIjVBzI8Vo3RrjLt350d8=; b=V4GbCNY0NIX5RbY7
+ m3/wrGkWxTK9d7HLU5FiUt6nrSQZRpxmAQLw6lXwDIgIadcMhBFmEZuSoki552Qz
+ m6+JZ4Ott88G3gNWTlq/nqC3ccT4J7rN9ljn2jV+hQlXdLfDHB/D4KZXi+9rohLg
+ dKfGbmQIEWyL4+LHQTWlk0FSb2+MaxcwYe+5un3tOUSdaH8rOjMxj7uv4MSms/u/
+ tq3dqER2DQaIHiASC+ZiE9aexehOoCE9VzV0vdfY9YNKQA9H2WRwRNQj9dm9322C
+ GFKJxajqBrZOv0IQWsOCc2tpOaHoNHo/YNfhFZbTVPse9PcD5oOD1gmSAMbiZG2l
+ ar/+yg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43fqes2evt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2024 18:53:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BCIr4UB007186
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 12 Dec 2024 18:53:04 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 12 Dec
+ 2024 10:53:02 -0800
+Message-ID: <ab2e0099-3970-4bc8-8a33-db53609838bc@quicinc.com>
+Date: Thu, 12 Dec 2024 10:52:58 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/4] drm/doc: Document device wedged event
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com
-Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20241128153707.1294347-1-raag.jadav@intel.com>
- <20241128153707.1294347-3-raag.jadav@intel.com>
+Subject: Re: [PATCH v3 01/14] drm/msm/dp: set safe_to_exit_level before
+ printing it
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paloma Arellano <quic_parellan@quicinc.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Stephen Boyd <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "kernel test robot" <lkp@intel.com>
+References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
+ <20241212-fd-dp-audio-fixup-v3-1-0b1c65e7dba3@linaro.org>
+ <01f84965-8a11-4d6d-99a6-b0e37240d4cb@quicinc.com>
+ <iugoc25pnh5zzzr5mamutycqohj2z2255omgh3ztyoqgyjkg23@c7axf3mg5wy5>
+ <49d330b8-86fe-40a6-864b-cbb28dc2f555@quicinc.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20241128153707.1294347-3-raag.jadav@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <49d330b8-86fe-40a6-864b-cbb28dc2f555@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ZpLZPC6tekxuh-Lg5NvRfz4lGnU3lFLj
+X-Proofpoint-ORIG-GUID: ZpLZPC6tekxuh-Lg5NvRfz4lGnU3lFLj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 malwarescore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 phishscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412120136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,49 +102,60 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Em 28/11/2024 12:37, Raag Jadav escreveu:
-> Add documentation for device wedged event in a new 'Device wedging'
-> chapter. The describes basic definitions, prerequisites and consumer
-> expectations along with an example.
+On 12/12/2024 10:31 AM, Abhinav Kumar wrote:
 > 
->   v8: Improve documentation (Christian, Rodrigo)
->   v9: Add prerequisites section (Christian)
-> v10: Clarify mmap cleanup and consumer prerequisites (Christian, Aravind)
 > 
-> Signed-off-by: Raag Jadav <raag.jadav@intel.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> ---
->   Documentation/gpu/drm-uapi.rst | 112 ++++++++++++++++++++++++++++++++-
->   1 file changed, 109 insertions(+), 3 deletions(-)
+> On 12/12/2024 12:58 AM, Dmitry Baryshkov wrote:
+>> On Wed, Dec 11, 2024 at 05:14:18PM -0800, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
+>>>> Rather than printing random garbage from stack and pretending that 
+>>>> it is
+>>>> the default safe_to_exit_level, set the variable beforehand.
+>>>>
+>>>> Fixes: d13e36d7d222 ("drm/msm/dp: add audio support for Display Port 
+>>>> on MSM")
+>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>> Closes: 
+>>>> https://lore.kernel.org/oe-kbuild-all/202411081748.0PPL9MIj-lkp@intel.com/
+>>>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+>>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> ---
+>>>>    drivers/gpu/drm/msm/dp/dp_audio.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c 
+>>>> b/drivers/gpu/drm/msm/dp/dp_audio.c
+>>>> index 
+>>>> 74e01a5dd4195d5e0e04250663886f1116f25711..5cbb11986460d1e4ed1890bdf66d0913e013083c 100644
+>>>> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
+>>>> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+>>>> @@ -329,10 +329,10 @@ static void 
+>>>> msm_dp_audio_safe_to_exit_level(struct msm_dp_audio_private *audio)
+>>>>            safe_to_exit_level = 5;
+>>>>            break;
+>>>>        default:
+>>>> +        safe_to_exit_level = 14;
+>>>>            drm_dbg_dp(audio->drm_dev,
+>>>>                    "setting the default safe_to_exit_level = %u\n",
+>>>>                    safe_to_exit_level);
+>>>> -        safe_to_exit_level = 14;
+>>>>            break;
+>>>>        }
+>>>>
+>>>
+>>> This was already picked up in -fixes, so no need to include
+>>
+>> I have been rebasing on linux-next. Please make sure that your -fixes
+>> branch is a part of linux-next.
+>>
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index b75cc9a70d1f..da2927cde53d 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -371,9 +371,115 @@ Reporting causes of resets
+> Its merged to msm-fixes not just my fixes branch. I am pretty sure 
+> msm-fixes is part of linux-next.
 
-I think it's a good idea to add a note about "device wedged event" in 
-the section "Device reset > Kernel Mode Driver" since the idea is to 
-explain what should kernel developer add to their kernel drivers to be 
-used when a device resets.
 
->   
->   Apart from propagating the reset through the stack so apps can recover, it's
->   really useful for driver developers to learn more about what caused the reset in
-> -the first place. DRM devices should make use of devcoredump to store relevant
-> -information about the reset, so this information can be added to user bug
-> -reports.
-> +the first place. For this, drivers can make use of devcoredump to store relevant
-> +information about the reset and send device wedged event without recovery method
-
-and send a device wedged event with recovery method as "none" (as 
-explained in the chapter "Device wedging")
-
-> +(as explained in next chapter) to notify userspace, so this information can be
-> +collected and added to user bug reports.
-> +
-
-With those changes applied:
-
-Reviewed-by: André Almeida <andrealmeid@igalia.com>
-
+Actually, I noticed just now that msm-fixes is not part of linux-next. 
+So pls ignore my comment. drm-fixes is part of linux-next. We should be 
+sending out our PR pretty soon. So you will be able to drop this after that.
