@@ -1,87 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A009EE1EB
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 09:53:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C27B89EE1F3
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Dec 2024 09:53:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 919B710ECFF;
-	Thu, 12 Dec 2024 08:53:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAB9D10ED07;
+	Thu, 12 Dec 2024 08:53:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mu5VQ/ii";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oPGG7VeO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E84A10ECFF
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 08:53:28 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id
- ffacd0b85a97d-385e1fcb0e1so146737f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 00:53:28 -0800 (PST)
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F34B10ED03
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 08:53:48 +0000 (UTC)
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-6efeb120f4dso2813077b3.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 00:53:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1733993607; x=1734598407; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kcLl7kFykk32AO5ovfG3u6worF3QF2ZUK1MMUkz/PPs=;
- b=mu5VQ/ii82Bhz1lJ/3bZbDROqcTPPjbzSKfIs//HjPV8B4OTT3IyLx52tpbXE7aLuZ
- Mr8GnBtFQPFc4+TAKWcPSElMGqaC/Exiw2cIf2cqnst+QYiiMaAx7N2LwHg1o/rogZQG
- pVufXjeAuUjmr/vXM7Zt+762eoK+33Il6BGyVW4MeAfQPJD2Bl4t/AjsD3jjYAJXnUCh
- CLL8u1lYzEDlKT1ojOGpdA9+6IBcrOWUigxf+22xtGHySLTn0vIO3mm3h2RjzMEZIhq/
- FvuUhrYVsmkbwvbxeyv4U4sqkFnkcQQ33QkY67TTLkmPZ+5Jq2WVhlI7HMEJT6EBie6y
- LnIQ==
+ d=linaro.org; s=google; t=1733993627; x=1734598427; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jZEBuK4pOs6c3HTWubegCnIiZHcjHaJUyWhFqCq+52Q=;
+ b=oPGG7VeOAL1v+AMjguKSh1pq684KEVpzrGVbMnn4PoBSVWkVDQf6YFhtf//lmmrEBn
+ 9X9qQYOhn09NS4aoyHug3VdjBqWx1oTfFOulpzp6S82FDguV7SZDhe996iei8X9JChI+
+ f/j04AjrTzTdfPC+xh2PCLM1hA6Hv5zBUO+O0aNUf1wfda2dtB4xoslpmWRQxYVgDf0I
+ R3UZyFMZr4Ntriv5rg9CyS/JEI981S4OOn3BWtb4QrNC6Cn49sno5sai6qbP82/1EQDn
+ pRcSBZljwKX7LDFskw9DQK0/+1X0Sqz4b47xlvtEbWuaK3dqscBEWgSbmnx5azXbh2uv
+ ygwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1733993607; x=1734598407;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kcLl7kFykk32AO5ovfG3u6worF3QF2ZUK1MMUkz/PPs=;
- b=xGQomu0TRs5Ru+XkjJ8znAx9J6bCwknFR+QMl4Y7kcNZdw+2x7ask7gpXTdYriVeJG
- UIuzgRiJ+KpHkGb68RbyYcciOMq4DRMHbaNBPtJMx+N+nXVEnyQA7u/HEITlGy1NF9YN
- loheRB/+6jwchNtxgXVUl4NeQh5F479eBeB/pTDyxSklKBpCT4bwuUVLuK4S8vGegQ0G
- cublUBZpzp5tR+Ri57sfC0mJH9hAXmh8jA+Y4m7m99m+8HH+D6oCu+1RE1WXbyjW/0f7
- rAQ+hQh4MH+y4gl8IA97cSyKe8KAFl62P3jdMYTw1LVDRcuVUcXiQYVEvr1LyxYea5zm
- KirQ==
+ d=1e100.net; s=20230601; t=1733993627; x=1734598427;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jZEBuK4pOs6c3HTWubegCnIiZHcjHaJUyWhFqCq+52Q=;
+ b=oGRKN2iqRKnZF2NvqSF7rY40Sk5Bt7M41s+hifBuiruhVkN6aU2E36MKPtvqhYzdk5
+ AE3G7brvmdJqxKQHGhc1zvJBI3hrTVTqKNUsrkhQIgbrCDpbuP00FjxRe68r8PiKUa7r
+ 0gXIOqgv5e13PKyte7IciZ7iNF2Pe6GNmLJGyqTJ+ofYrZVgXMbfEPPqrOdYclD3OEYC
+ QKs/3SHxW5sEP1IdclANcIwHkf0p2zWAxuTXUubkdUw/gDI28XCE7yps9P/CEwtNQQj8
+ Qh+E8j+er8DcltQ3XPZGbuzGYu2QmPAk2KckfQH0jUQ6ZbfjmGuZUvSkiXIe8upVmXDI
+ H51g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUrxszJJMeBpTy4owXWr9I+zW1GqczJQ44vTWwo6vjdK1NkDw0boifD2xbbs+nA3jhVMRODj4syVhI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxpxtrXd/jPhsVr2gGgUSxEGoWAvW7ESqQaScFEJ5VnUsON0In9
- PBfajs1b1cJwcKnRU+Xy0GcddLLq46/iez+tXPnagA2AzzkMLWFmP0ff/HTZatE=
-X-Gm-Gg: ASbGncvn+mpoalDRaZvyacHRrEZpDLqmJgsHdX3Q3e0WDZAQX6VsZHyKJkdgEV53eVe
- ROL6D6y0tlhgQDIcKCtj1nUgzdGWkytFTexPawRBxxvH4nvJ76QGRyCEbqB0uRno/L5WeUWBLei
- k1yXjE/sOp54axllcCNYECMJxZrUpFjlxpIGaB9iMN7ryrO44e6fFR/TnksKu6Gz6CVAf8V4i5X
- Der2YU0qcDSX7N5dctIwR8oG1FpbRuS9/zWlrq3vcj+/ailU6eqVt1gTwQAZQ==
-X-Google-Smtp-Source: AGHT+IH0Mqy7glyRVhSSY/dK6s7PFVlMFUlCIyaLwLxpZzvDpBjrdEeUt+8GQ5R535mo+HypPJLM0A==
-X-Received: by 2002:a5d:5887:0:b0:382:5010:c8de with SMTP id
- ffacd0b85a97d-3864cec5ba6mr3695151f8f.46.1733993606736; 
- Thu, 12 Dec 2024 00:53:26 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3878248e633sm3492675f8f.4.2024.12.12.00.53.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Dec 2024 00:53:26 -0800 (PST)
-Date: Thu, 12 Dec 2024 11:53:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 2/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-Message-ID: <9fef340b-e6a5-42fc-90a3-3323d2b8175d@stanley.mountain>
-References: <20241204160014.1171469-1-jfalempe@redhat.com>
- <20241204160014.1171469-3-jfalempe@redhat.com>
- <816f862e-762d-4880-9285-5a803e657e66@stanley.mountain>
- <88abb273-13e3-4969-96c3-c7d677a082d4@redhat.com>
+ AJvYcCV7AJvriUUM0dFGUDoRFrhhR8atGaUyB0PRXiFLiVLHeHPE7kq5ruMfc+Vk4jR1kv45MrvirVBPLlo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxrHFN46cLBzma9gCX6b/dlOghdwrnIa/ZtKQVQ1vCj93nZ4kV8
+ Ui0HwEnFAR6l1VlgC8gmTSOkJN3HoD65j92eT+pLh9jUjod3UN/MnGmVyXXW82aR2xxKv/Ayz4m
+ 4oP2xtprHb3TD9lGMt8x5CJEyWkPnmeztQrk2Cg==
+X-Gm-Gg: ASbGnctfS3X3mtsS2hSn285p8TOorpXyIN4HCl8VW0ld5xtIgH7XF5ueDMzPmVExTAP
+ 0mbm9EfCDtUHTKwuwj3eSnumFGspita923fbokA==
+X-Google-Smtp-Source: AGHT+IHuMMpUZGzgJIoL8iRVB5xsC/iPL+AehWPaIVJ9O3e0hF+WNkPHFm5l3HR7vE/h6cbNRSKgt6leTQzgEfKxics=
+X-Received: by 2002:a05:690c:dd4:b0:6ef:69c4:4dac with SMTP id
+ 00721157ae682-6f19e4f3f86mr22422457b3.15.1733993627421; Thu, 12 Dec 2024
+ 00:53:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <88abb273-13e3-4969-96c3-c7d677a082d4@redhat.com>
+References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
+ <20241212-fd-dp-audio-fixup-v3-13-0b1c65e7dba3@linaro.org>
+ <3346b2fb-1366-476b-bb52-e42a2170d719@quicinc.com>
+In-Reply-To: <3346b2fb-1366-476b-bb52-e42a2170d719@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 12 Dec 2024 10:53:38 +0200
+Message-ID: <CAA8EJppthF3aVq0T2FmjLRNySP2pW36QnEXoWt5fFAKh+Nmz5A@mail.gmail.com>
+Subject: Re: [PATCH v3 13/14] drm/msm/dp: drop struct msm_dp_panel_in
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Paloma Arellano <quic_parellan@quicinc.com>, 
+ Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,36 +86,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 09:49:19AM +0100, Jocelyn Falempe wrote:
-> On 12/12/2024 08:41, Dan Carpenter wrote:
-> > This patch breaks "make oldconfig" for me.  It just gets into an endless
-> > loop of:
-> > 
-> >    Default DRM Client
-> >    choice[1-0?]: 0
-> >    Default DRM Client
-> >    choice[1-0?]: 0
-> >    Default DRM Client
-> >    choice[1-0?]: 0
-> >    Default DRM Client
-> >    choice[1-0?]: 0
-> >    ...
-> > 
-> > I don't have to type anything, it just spams that forever.  It's weird
-> > that it's 1-0 instead of 0-1.  Does that means something?  I don't know
-> > much about Kconfig.
-> 
-> I can reproduce it with your provided config.
-> 
-> It looks like it happens if DRM_CLIENT_SELECTION is enabled, but none of the
-> client is.
-> The attached patch should fix it, can you try it ?
-> 
+On Thu, 12 Dec 2024 at 05:26, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
+>
+>
+>
+> On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
+> > All other submodules pass arguments directly. Drop struct
+> > msm_dp_panel_in that is used to wrap dp_panel's submodule args and pass
+> > all data to msm_dp_panel_get() directly.
+> >
+> > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/dp/dp_display.c |  9 +--------
+> >   drivers/gpu/drm/msm/dp/dp_panel.c   | 15 ++++++++-------
+> >   drivers/gpu/drm/msm/dp/dp_panel.h   | 10 ++--------
+> >   3 files changed, 11 insertions(+), 23 deletions(-)
+> >
+>
+> Change not necessarily tied to catalog cleanup, and can be sent
+> independently IMO.
+>
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index cb02d5d5b404925707c737ed75e9e83fbec34f83..a2cdcdac042d63a59ff71aefcecb7f8b22f01167 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -722,9 +722,6 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
+> >   {
+> >       int rc = 0;
+> >       struct device *dev = &dp->msm_dp_display.pdev->dev;
+> > -     struct msm_dp_panel_in panel_in = {
+> > -             .dev = dev,
+> > -     };
+> >       struct phy *phy;
+> >
+> >       phy = devm_phy_get(dev, "dp");
+> > @@ -765,11 +762,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
+> >               goto error_link;
+> >       }
+> >
+> > -     panel_in.aux = dp->aux;
+> > -     panel_in.catalog = dp->catalog;
+> > -     panel_in.link = dp->link;
+> > -
+> > -     dp->panel = msm_dp_panel_get(&panel_in);
+> > +     dp->panel = msm_dp_panel_get(dev, dp->aux, dp->link, dp->catalog);
+> >       if (IS_ERR(dp->panel)) {
+> >               rc = PTR_ERR(dp->panel);
+> >               DRM_ERROR("failed to initialize panel, rc = %d\n", rc);
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
+> > index 25869e2ac93aba0bffeddae9f95917d81870d8cb..49bbcde8cf60ac1b297310a50191135d79b092fb 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_panel.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_panel.c
+> > @@ -659,25 +659,26 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+> >       return 0;
+> >   }
+> >
+> > -struct msm_dp_panel *msm_dp_panel_get(struct msm_dp_panel_in *in)
+> > +struct msm_dp_panel *msm_dp_panel_get(struct device *dev, struct drm_dp_aux *aux,
+> > +                           struct msm_dp_link *link, struct msm_dp_catalog *catalog)
+> >   {
+>
+> so this API, takes a filled input panel, makes a msm_dp_panel out of it
+> by filling out more information on top of what was already passed in and
+> returns a msm_dp_panel.
+>
+> So IOW, converts a msm_dp_panel_in to msm_dp_panel.
+>
+> What is the gain by passing individual params rather than passing them
+> as a struct instead? Isnt it better to have it within that struct to
+> show the conversion and moreover we dont have to pass in 4 arguments
+> instead of 1.
 
-Thanks!
+We gain uniformity. All other modules use params. And, as pointed out
+by Maxime during HDMI Codec reviews, it's easier to handle function
+params - it makes it more obvious that one of the params got missing.
 
-Tested-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
-
+-- 
+With best wishes
+Dmitry
