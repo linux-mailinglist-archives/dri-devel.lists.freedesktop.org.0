@@ -1,91 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B3D9F09FC
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:46:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 823769F0A11
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:51:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D62510EFB8;
-	Fri, 13 Dec 2024 10:46:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B4110EFB9;
+	Fri, 13 Dec 2024 10:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DCJI7pBG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FT47pd2+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
  [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1EC5610EFB8
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:46:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB68E10EFBB
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:51:26 +0000 (UTC)
 Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-53df19bf6a9so2133543e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 02:46:48 -0800 (PST)
+ 2adb3069b0e04-5401e6efffcso1794433e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 02:51:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734086806; x=1734691606; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734087085; x=1734691885; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+riqgFIVH/DYP7alTtDkk3IJ4T8e5i4UAZc0dBAEl5E=;
- b=DCJI7pBGfaQihgmChwy9+/stmay7wR6vBXD6rb4XNFvI0qzCy1jkkDg/4ppnG/TLkg
- +aIlg3J2Livv2XL0KCK9ME7LMCx7ewxINR7u6KBRbObmwrObnlkPcEof83HeeqL0FHFU
- A5/YlS91qOrTkvNT2CbMvC7s/sQ2s74H3CZ0RCDSXQD0Wm62THCKt/qBkxajHQCbJAcB
- 87Dx8/T8aWCUAKaLiQy/4cTpu2eFBerHttrTeXWHBjY2cC6OZ2pc7FSONsg3FA0fECkK
- LVljhG0N2rXHl8kPTTO3abGU75SSE19XAVOXKniFurPwVRYd82Um16HBfVEifVco/jyi
- KqYg==
+ bh=LnP8gFtJmpG9uae63t0E5cLFvDIYUTdp96d92xuKYIg=;
+ b=FT47pd2+DkeDquG0BjIfNOMnmF2/v456/6oZ30FzC0089Fq9xtjzAndCeCqEv+2TZa
+ 7mTVh/YSWnsVnLWZCL0yVaD6vv+xiaLpYSHXK0PJEk05NOlKpEGJJIIbfz276kYyTH2/
+ oAk1GBjJ69fUbm1dvHJzZ/XmpKAowq0nc6DaAjrCSLK/+NIsvWaumT0YvYp4N8W1I0KK
+ vKHHcCLKeTdujl4VYGYoxRcWDOAScwYh+QXpclNNNCfSJhb+t7yUAeOnMouCeYO4SuHR
+ 7nAroYhUfPeHqKdY/JDFwl3JnOL/+VulDHxv3CtJRYI46nhvnOMHl07BMN7TWh5A3iCq
+ traA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734086806; x=1734691606;
+ d=1e100.net; s=20230601; t=1734087085; x=1734691885;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+riqgFIVH/DYP7alTtDkk3IJ4T8e5i4UAZc0dBAEl5E=;
- b=PMzNgXfxLpC3tziSnBx+JwJBr8EMJdkP9CTrdb+98S+ITAQc3dPSWsx/RcNpiO5sC3
- 53d6K0gwSFSS/GCT7nna95SItzaf/dtlwwqAfdaLWXERAJTpuHEUFf+xKc+hqWvjqHck
- rOOhJAaM1IGcAuhpa3kQI4nf9fVZ0XBjyvGWx8aHEM86qRvm7A7+oDoen2Z1JVe3YLge
- pERzMHhEOxbKfRMyCydR/b6dnhRtuvhrf4v3MGJbCcp3lzf5kIVkukdtD5karW/uF+Gx
- TRrguSkXM1k+SCfxYKxZQK56+Fvi86wErtkWZ1sVsGfY/faGc6i3FQkTjeyfsyIkTdF8
- Y4SA==
+ bh=LnP8gFtJmpG9uae63t0E5cLFvDIYUTdp96d92xuKYIg=;
+ b=a8Xs8bzKtChDe2A9nfxy+JU+IzUa9zTM0a7wDAAggd1zYbKxC7fl8HAahwQQWtD8zb
+ L4yMQVQTrWNz/z2EPG76j3dw1Tjk04jVoyq15VN+sz62LxnhGN0vQ4R8EkuuBQYwcA0M
+ euUtkXlJO6ikaGEaeu148IwC5g27lrQQNgrlcFMmYkYhmYNr7SoxzFb+cL61qzOocjcs
+ VxgU42ujld6mJgBjvkjcy3PS+l7/Er1C1WHmQgqaaqqmz1VvnJWy7nWp7hyTcaL25ts4
+ JeYglGy5l7q/o7eBeDAAyDfVHYuyEdwb1zzhXJ9ZBe/CRMMnpr0LNh4hEQTN+LehHFkK
+ qBrA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPktA2UIGQ3S04rKPEph0kWdP/mL+5BkfEfPeTdOBozlicBszGtxM8Wu9EkkOKwUMWJReO3MHsF14=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzwKk2xtuktbWDwKrgvjj31kSHZVzFepRBIazp0qpdX+YrAR49F
- d47n6m23tjnfevyxTbO7gR9JLy9n/e1s7hbuc8zxqPR41bMMdzDlAoVE6y37Pgs=
-X-Gm-Gg: ASbGncuyQXCTjoD+pK+/Y3Xpu6sTf2P3Q1g99PtIoz+2bywdU5/Y/KKMqETv+buFbrv
- eTnBOXdjaofhgC3ywcyemXOnrsT6gwueHeHHpsp6wQ+uNWuSXlVNXeNIKZgYymZYQjMQQVwiTrd
- zAXtDWpE/MrmH9QbQyAysjgDiONbQwOadiul0hXq6DybJVjDw15mJ7+rUdqlgVRjINtYAiIAumo
- DnXt0eRsw8ipKk/ghKMxaIXH9Jbfg9KKBiQHQdnruKrTPwUTgvP7vHwAzueTEuPsw9tikTW8qIj
- lort/fqjV1HOcrcQ/MIpPF3GC4T+aO+7mVXg
-X-Google-Smtp-Source: AGHT+IEm2vjvZgyAC46ioS4Iv92mUkMOa1/KLmQj2/Q0eiaT5naaA+czP9WRIBuvwOukMwZlXd0o4w==
-X-Received: by 2002:a05:6512:3189:b0:540:2fe6:6a3a with SMTP id
- 2adb3069b0e04-54099b72e3emr649543e87.57.1734086806386; 
- Fri, 13 Dec 2024 02:46:46 -0800 (PST)
+ AJvYcCX2She5eQhg/3yI1RZp2E7mnyIeXV2HMNl8oAZ49fG2gKS9RyplDC0MNN1gXHXRd230a15ACvgPhqE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbZK/NDcn53YEdZdxfg+GWcUsrWOqj6KRttr94vOK9Cq37BXhh
+ omYWD4Yd/qwug5bVpnYSgtH2XzmDrBlVLPXhhKxJoTbt+jlVp5bX0JQd4U2VMqE=
+X-Gm-Gg: ASbGncuG3IAqKpLaEFtv+wPAkoJROdk9d6AWfwwhRXy1wmUvqdQtN4iPiz/vnt8C3zy
+ /0pej9jXEv5nun4H+ej9uYkmdzCT3jLizd+UKuP238eQ6v5wK9PXGG/M1cTVewlEq8LXlC8MbbV
+ 8GS7c9i+OuuT7MYaim+sOZLa6KVkEwPBne9BJob0bt+uePTa7ccnQ2G5lFwvFBD4bE+gvOI37Ku
+ hwNboxdNXq6hJWEIRJqHQaooQdd6V1p0eDYGruFiNGxwZckYNq6M7Z+Bvmk6jdfeK+5fAu95J7U
+ oAzljtSoXiRdEYi9IQY9MSqBLUmVdpQAmvft
+X-Google-Smtp-Source: AGHT+IEDuFoGLuIuP53DhPi1O/BDv4/qO5VgR1m2bdJZc4tElHnfEJBCyfzGGLUAk8FR/PQbgsVdxw==
+X-Received: by 2002:a05:6512:3996:b0:540:1d58:da7b with SMTP id
+ 2adb3069b0e04-5408ad7f99dmr551790e87.11.1734087085029; 
+ Fri, 13 Dec 2024 02:51:25 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e369298bbsm2226481e87.13.2024.12.13.02.46.43
+ 2adb3069b0e04-53e44a45769sm1996851e87.60.2024.12.13.02.51.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2024 02:46:45 -0800 (PST)
-Date: Fri, 13 Dec 2024 12:46:42 +0200
+ Fri, 13 Dec 2024 02:51:24 -0800 (PST)
+Date: Fri, 13 Dec 2024 12:51:22 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Bernie Liang <bliang@analogixsemi.com>, Qilin Wen <qwen@analogixsemi.com>, 
- "treapking@google.com" <treapking@google.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
- atomic_enable()
-Message-ID: <4q2jncpnmeu7ytuyuv5pjzurh3ai5663jmu2we6cebuad2r3r5@tfb6hf6unioc>
-References: <20241212055110.1862487-1-xji@analogixsemi.com>
- <vkrl7om7hepboovp2uivcnernia3ygqwrj3y3kkjydeclwvrk5@7tkdc4etkcjs>
- <BY5PR04MB673977C1DB1E774CB261C119C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>
+Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCHv3 01/10] drm/crtc: Add histogram properties
+Message-ID: <cn63on775l35olcywzhwx3hzivve4ch7h7edp7mvnn3l5x6e2i@z34t36lr2ktj>
+References: <20241209162504.2146697-1-arun.r.murthy@intel.com>
+ <20241209162504.2146697-2-arun.r.murthy@intel.com>
+ <7tho6j262nzbu6nvjgzelsu3ljjipxdhazjlzdfa3xi2lbn3vs@bx55yrrbmshg>
+ <IA0PR11MB7307E1C101F417CFAE3B114ABA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <l6dpikqfgwlio5rungx4ckvw524woz4mybkiqfp4k5fpkokj2c@zox6yfhxnzeh>
+ <IA0PR11MB73078417607420EC685A4C73BA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BY5PR04MB673977C1DB1E774CB261C119C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
+In-Reply-To: <IA0PR11MB73078417607420EC685A4C73BA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,194 +94,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2024 at 10:06:36AM +0000, Xin Ji wrote:
-> Hi Dmitry, thanks for the review, I made some changes which change ENABLE to DESIRE
-> in .atomic_disable(), I'll upstream it after testing. Thanks!
+On Tue, Dec 10, 2024 at 05:52:38PM +0000, Murthy, Arun R wrote:
+> > On Tue, Dec 10, 2024 at 08:42:36AM +0000, Murthy, Arun R wrote:
+> > > > On Mon, Dec 09, 2024 at 09:54:55PM +0530, Arun R Murthy wrote:
+> > > > > Add variables for histogram drm_property, its corrsponding
+> > > > > crtc_state variables and define the structure pointed by the blob property.
+> > > > >
+> > > > > struct drm_histogram and drm_iet defined in
+> > > > > include/uapi/drm/drm_mode.h
+> > > > >
+> > > > > The property HISTOGRAM_ENABLE allows user to enable/disable the
+> > > > > histogram feature in the hardware. Upon KMD enabling by writing to
+> > > > > the hardware registers, a histogram is generated. Histogram is
+> > > > > composed of 'n' bins with each bin being an integer(pixel count).
+> > > >
+> > > > Is it really a count of pixels that fall into one of the bins?
+> > > It's the statistics generated for each frame that is sent to the display and the
+> > value corresponds to 5 bit pixel depth.
+> > 
+> > Let me try it once more, but this is becoming tiresome. Please provide a
+> > description of the property good enough so that one can implement
+> > HISTOGRAM support for the VKMS driver. You don't have to provide Intel-
+> > specific details, but the description should be complete enough.
+> > "The number of pixels falling into each of the bins, sorted by luminosity, started
+> > from the brighest ones" might be an example of a good enough desription.
+> > Then one can add such functionality to other drivers. Just saying "statistics"
+> > doesn't give us anything.
+> > 
+> This is a hardware feature and hence for other drivers to add support for this
+> means that the hardware should have support for this.
 
-- Please don't top-post.
+OpenGL, OpenGL ES, Vulkan and other libraries also define software
+interface for hardware features. However they define it in a way that
+allows at least software implementation. I'm not arguing about the
+particular feature or its implementation. I'm not asking for the
+_hardware_ description or any other kind hardware-related information.
+But I really want to see a good documentation for the userspace
+interface that will allows other vendors to implement it in their
+drivers (including my example, VKMS). Up to now I have not seen a
+definition of properties that fits this criteria.
 
-- You still didn't explain, why do you want to do this change of HDCP
-  status. Could you please provide an explanation before sending the
-  next iteration?
+> Each bin consists of 5 bit pixel depth.
+> Example code of how to use this histogram and increase the contrast is GHE.
+
+Yes, I have taken a look. No, it's not a replacement for the
+documentation.
+
+I'm really sorry to write that, but until the documentation issue is
+resolved, please consider this patch to be:
+
+Nacked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > 
-> > -----Original Message-----
-> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Sent: Thursday, December 12, 2024 5:18 PM
-> > To: Xin Ji <xji@analogixsemi.com>
-> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong
-> > <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart
-> > <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>;
-> > Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst
-> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
-> > Thomas Zimmermann <tzimmermann@suse.de>; David Airlie
-> > <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Bernie Liang
-> > <bliang@analogixsemi.com>; Qilin Wen <qwen@analogixsemi.com>;
-> > treapking@google.com; dri-devel@lists.freedesktop.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
-> > atomic_enable()
-> > 
-> > CAUTION: This email originated from outside of the organization. Please do not
-> > click links or open attachments unless you recognize the sender, and know the
-> > content is safe.
-> > 
-> > 
-> > On Thu, Dec 12, 2024 at 01:51:10PM +0800, Xin Ji wrote:
-> > > When user enabled HDCP feature, userspace will set HDCP content to
-> > > DRM_MODE_CONTENT_PROTECTION_DESIRED. Next, anx7625 will update
-> > HDCP
-> > > content to DRM_MODE_CONTENT_PROTECTION_ENABLED if down stream
-> > support
-> > > HDCP feature.
-> > >
-> > > However once HDCP content turn to
-> > DRM_MODE_CONTENT_PROTECTION_ENABLED
-> > > userspace will not update the HDCP content to
-> > > DRM_MODE_CONTENT_PROTECTION_UNDESIRED until monitor disconnect.
-> > 
-> > It seems you've ingored a part of the previous review comment. It's the
-> > userspace who triggers the ENABLED -> UNDESIRED transition, not the kernel
-> > side. The change to move HDCP handling to atomic_enable() looks fine, the
-> > change to disable HDCP is not (unless I misunderstand something).
-> > 
-> > >
-> > > So, anx7625 driver move hdcp content value checking from bridge
-> > > interface .atomic_check() to .atomic_enable(), then update hdcp
-> > > content according from currently HDCP status. And also disabled HDCP
-> > > in bridge interface .atomic_disable().
-> > >
-> > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> > > ---
-> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 74
-> > > ++++++++++++++---------
-> > >  1 file changed, 46 insertions(+), 28 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > index a2675b121fe4..f96ce5665e8d 100644
-> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> > > @@ -861,6 +861,22 @@ static int anx7625_hdcp_disable(struct anx7625_data
-> > *ctx)
-> > >                                TX_HDCP_CTRL0, ~HARD_AUTH_EN & 0xFF);
-> > > }
-> > >
-> > > +static void anx7625_hdcp_disable_and_update_cp(struct anx7625_data
-> > > +*ctx) {
-> > > +     struct device *dev = ctx->dev;
-> > > +
-> > > +     if (!ctx->connector)
-> > > +             return;
-> > > +
-> > > +     anx7625_hdcp_disable(ctx);
-> > > +
-> > > +     ctx->hdcp_cp = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
-> > > +     drm_hdcp_update_content_protection(ctx->connector,
-> > > +                                        ctx->hdcp_cp);
-> > > +
-> > > +     dev_dbg(dev, "update CP to UNDESIRE\n"); }
-> > > +
-> > >  static int anx7625_hdcp_enable(struct anx7625_data *ctx)  {
-> > >       u8 bcap;
-> > > @@ -2149,34 +2165,6 @@ static int anx7625_connector_atomic_check(struct
-> > anx7625_data *ctx,
-> > >       if (cp == ctx->hdcp_cp)
-> > >               return 0;
-> > >
-> > > -     if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-> > > -             if (ctx->dp_en) {
-> > > -                     dev_dbg(dev, "enable HDCP\n");
-> > > -                     anx7625_hdcp_enable(ctx);
-> > > -
-> > > -                     queue_delayed_work(ctx->hdcp_workqueue,
-> > > -                                        &ctx->hdcp_work,
-> > > -                                        msecs_to_jiffies(2000));
-> > > -             }
-> > > -     }
-> > > -
-> > > -     if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> > > -             if (ctx->hdcp_cp != DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> > > -                     dev_err(dev, "current CP is not ENABLED\n");
-> > > -                     return -EINVAL;
-> > > -             }
-> > > -             anx7625_hdcp_disable(ctx);
-> > > -             ctx->hdcp_cp = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
-> > > -             drm_hdcp_update_content_protection(ctx->connector,
-> > > -                                                ctx->hdcp_cp);
-> > > -             dev_dbg(dev, "update CP to UNDESIRE\n");
-> > > -     }
-> > > -
-> > > -     if (cp == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> > > -             dev_err(dev, "Userspace illegal set to PROTECTION ENABLE\n");
-> > > -             return -EINVAL;
-> > > -     }
-> > > -
-> > >       return 0;
-> > >  }
-> > >
-> > > @@ -2425,6 +2413,8 @@ static void anx7625_bridge_atomic_enable(struct
-> > drm_bridge *bridge,
-> > >       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
-> > >       struct device *dev = ctx->dev;
-> > >       struct drm_connector *connector;
-> > > +     struct drm_connector_state *conn_state;
-> > > +     int cp;
-> > >
-> > >       dev_dbg(dev, "drm atomic enable\n");
-> > >
-> > > @@ -2439,6 +2429,32 @@ static void anx7625_bridge_atomic_enable(struct
-> > drm_bridge *bridge,
-> > >       _anx7625_hpd_polling(ctx, 5000 * 100);
-> > >
-> > >       anx7625_dp_start(ctx);
-> > > +
-> > > +     conn_state =
-> > > + drm_atomic_get_new_connector_state(state->base.state, connector);
-> > > +
-> > > +     if (WARN_ON(!conn_state))
-> > > +             return;
-> > > +
-> > > +     cp = conn_state->content_protection;
-> > > +     if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
-> > > +             if (ctx->dp_en) {
-> > > +                     dev_dbg(dev, "enable HDCP\n");
-> > > +                     anx7625_hdcp_enable(ctx);
-> > > +
-> > > +                     queue_delayed_work(ctx->hdcp_workqueue,
-> > > +                                        &ctx->hdcp_work,
-> > > +                                        msecs_to_jiffies(2000));
-> > > +             }
-> > > +     }
-> > > +
-> > > +     if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> > > +             if (ctx->hdcp_cp != DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> > > +                     dev_err(dev, "current CP is not ENABLED\n");
-> > > +                     return;
-> > > +             }
-> > > +
-> > > +             anx7625_hdcp_disable_and_update_cp(ctx);
-> > > +     }
-> > >  }
-> > >
-> > >  static void anx7625_bridge_atomic_disable(struct drm_bridge *bridge,
-> > > @@ -2449,6 +2465,8 @@ static void anx7625_bridge_atomic_disable(struct
-> > > drm_bridge *bridge,
-> > >
-> > >       dev_dbg(dev, "drm atomic disable\n");
-> > >
-> > > +     anx7625_hdcp_disable_and_update_cp(ctx);
-> > > +
-> > >       ctx->connector = NULL;
-> > >       anx7625_dp_stop(ctx);
-> > >
-> > > --
-> > > 2.25.1
-> > >
-> > 
-> > --
-> > With best wishes
-> > Dmitry
+> Thanks and Regards,
+> Arun R Murthy
+> --------------------
 
 -- 
 With best wishes
