@@ -2,83 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823769F0A11
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:51:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D899F0A1B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:53:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B4110EFB9;
-	Fri, 13 Dec 2024 10:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95D7B10EFBB;
+	Fri, 13 Dec 2024 10:53:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FT47pd2+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="awszngcr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB68E10EFBB
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:51:26 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-5401e6efffcso1794433e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 02:51:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734087085; x=1734691885; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LnP8gFtJmpG9uae63t0E5cLFvDIYUTdp96d92xuKYIg=;
- b=FT47pd2+DkeDquG0BjIfNOMnmF2/v456/6oZ30FzC0089Fq9xtjzAndCeCqEv+2TZa
- 7mTVh/YSWnsVnLWZCL0yVaD6vv+xiaLpYSHXK0PJEk05NOlKpEGJJIIbfz276kYyTH2/
- oAk1GBjJ69fUbm1dvHJzZ/XmpKAowq0nc6DaAjrCSLK/+NIsvWaumT0YvYp4N8W1I0KK
- vKHHcCLKeTdujl4VYGYoxRcWDOAScwYh+QXpclNNNCfSJhb+t7yUAeOnMouCeYO4SuHR
- 7nAroYhUfPeHqKdY/JDFwl3JnOL/+VulDHxv3CtJRYI46nhvnOMHl07BMN7TWh5A3iCq
- traA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1FD910EFBB
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:53:27 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDA3bao012385
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:53:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ irpyIGk/Q0YF6woDF/wcVcUCJnQrVPx3H7tZ92Jopi8=; b=awszngcrShQZzvPi
+ n0hEB9bmooPgpZMyxjWdWzE1FdZbWqj0rY+4baPFg33/WXHP3sYkcH1MER0bcb6Z
+ GBGQjqtFicTO4Yk9za0JTmJt2w6+krDe2OHTzo5nuRsE5p0Up7e48hfHCCIqzanN
+ ONm+ZGMnJOX6QL4cIFPm37VsovtYSR5hKAz+MfvvFwelvo1ibQl0cvbrVbt7HVYK
+ SWiU54j9uq/1MS8IVskDjcrdGgbqi0ji2l4eu3VdtD5bCBpA66+SxUMCz5pXgJPT
+ Dy4Yt8Jp5w/4gCsdPuiTxiUnxJwrrWXyjNyk7q4FVCFEYnr/JED9weoKVI/ZlaeC
+ 8P2jqg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gjudg5bx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:53:26 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-467a437e5feso1865341cf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 02:53:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734087085; x=1734691885;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LnP8gFtJmpG9uae63t0E5cLFvDIYUTdp96d92xuKYIg=;
- b=a8Xs8bzKtChDe2A9nfxy+JU+IzUa9zTM0a7wDAAggd1zYbKxC7fl8HAahwQQWtD8zb
- L4yMQVQTrWNz/z2EPG76j3dw1Tjk04jVoyq15VN+sz62LxnhGN0vQ4R8EkuuBQYwcA0M
- euUtkXlJO6ikaGEaeu148IwC5g27lrQQNgrlcFMmYkYhmYNr7SoxzFb+cL61qzOocjcs
- VxgU42ujld6mJgBjvkjcy3PS+l7/Er1C1WHmQgqaaqqmz1VvnJWy7nWp7hyTcaL25ts4
- JeYglGy5l7q/o7eBeDAAyDfVHYuyEdwb1zzhXJ9ZBe/CRMMnpr0LNh4hEQTN+LehHFkK
- qBrA==
+ d=1e100.net; s=20230601; t=1734087206; x=1734692006;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=irpyIGk/Q0YF6woDF/wcVcUCJnQrVPx3H7tZ92Jopi8=;
+ b=gC6vhlfmb1sI2k4meGVkE4N5e72lgh6RWK5N/XlZyexfvOGXu2YehvD7hHanB/ptEs
+ C6JQ9pp1UXThS/4FtATXdS+9B+nZH2KvQ1wOCuB7ewO/vgVPaqAUq0CA7N8e4dmYdDWc
+ fXkS9O5kXEzJ3Ic7S5xV8Ggf0EDg8yLpwO0e6kaE6Q/g2v3cfRhP0SEk6p6uSbz2I5CX
+ L5Wx04uiI4TplZen2gBo2o5WPxjHmbSEC4cOQVaCgGxy0wRBg4PragdjGHhfhS5Br3n2
+ NoxNKp8ROOrzP2Z7ho6Xf2/QUQtBBQB/MIPuKtzxJLLrSWnXnGMD1XZ/stGIK5VqqrKB
+ m85Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX2She5eQhg/3yI1RZp2E7mnyIeXV2HMNl8oAZ49fG2gKS9RyplDC0MNN1gXHXRd230a15ACvgPhqE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbZK/NDcn53YEdZdxfg+GWcUsrWOqj6KRttr94vOK9Cq37BXhh
- omYWD4Yd/qwug5bVpnYSgtH2XzmDrBlVLPXhhKxJoTbt+jlVp5bX0JQd4U2VMqE=
-X-Gm-Gg: ASbGncuG3IAqKpLaEFtv+wPAkoJROdk9d6AWfwwhRXy1wmUvqdQtN4iPiz/vnt8C3zy
- /0pej9jXEv5nun4H+ej9uYkmdzCT3jLizd+UKuP238eQ6v5wK9PXGG/M1cTVewlEq8LXlC8MbbV
- 8GS7c9i+OuuT7MYaim+sOZLa6KVkEwPBne9BJob0bt+uePTa7ccnQ2G5lFwvFBD4bE+gvOI37Ku
- hwNboxdNXq6hJWEIRJqHQaooQdd6V1p0eDYGruFiNGxwZckYNq6M7Z+Bvmk6jdfeK+5fAu95J7U
- oAzljtSoXiRdEYi9IQY9MSqBLUmVdpQAmvft
-X-Google-Smtp-Source: AGHT+IEDuFoGLuIuP53DhPi1O/BDv4/qO5VgR1m2bdJZc4tElHnfEJBCyfzGGLUAk8FR/PQbgsVdxw==
-X-Received: by 2002:a05:6512:3996:b0:540:1d58:da7b with SMTP id
- 2adb3069b0e04-5408ad7f99dmr551790e87.11.1734087085029; 
- Fri, 13 Dec 2024 02:51:25 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-53e44a45769sm1996851e87.60.2024.12.13.02.51.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2024 02:51:24 -0800 (PST)
-Date: Fri, 13 Dec 2024 12:51:22 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCHv3 01/10] drm/crtc: Add histogram properties
-Message-ID: <cn63on775l35olcywzhwx3hzivve4ch7h7edp7mvnn3l5x6e2i@z34t36lr2ktj>
-References: <20241209162504.2146697-1-arun.r.murthy@intel.com>
- <20241209162504.2146697-2-arun.r.murthy@intel.com>
- <7tho6j262nzbu6nvjgzelsu3ljjipxdhazjlzdfa3xi2lbn3vs@bx55yrrbmshg>
- <IA0PR11MB7307E1C101F417CFAE3B114ABA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
- <l6dpikqfgwlio5rungx4ckvw524woz4mybkiqfp4k5fpkokj2c@zox6yfhxnzeh>
- <IA0PR11MB73078417607420EC685A4C73BA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
+ AJvYcCX73NkXjoGEl4mt3ShzlD4hnfKIEAA6cIttaZfBtwqipM4Oz9ED40jRvA63Yj+UBi1j8CsVrkYuL/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw133+XvPpGZ6cLTzQ2YpBGWHLxZCZjhSh3b6KQDukEnrPivC2J
+ heq9Sec6E92OM8eODqwLkIKFKbz6Noedcg0D5tqBuOmSFqqK6Sz6IhCooqxu5okD8r/j24DIN8/
+ VBeDyfV0HLp0LCTExJAK5BuNncH1429f6+XCtTuenEOlE586Hj6iTY6ND44smCUp6A3o=
+X-Gm-Gg: ASbGncsaDH2YQyhgt7UOhLw8ooRfA23djc9O+FYHsKgOwksOI3oYjl8TDAj2LOJYN47
+ qWX2K6adIt77IJDyYjAFijpH/6NTo+O0ouLF6pF6hLlNzrqSoI+mKynA+RVp3p2XXGzYxnHW2W+
+ Wg+G6CntSD0FvqzjCR8Vg0hrWeUjxJtI4AVyLuga4wCpgxiZ7ktn7QIDX55bOnSDqf1K2bOB9Ni
+ zrHwPJzN1Xb80gneJI1n9suh2rAX5J3XiVoNOpp3gsf53lUn0sTWspa3wQt+JY2TYoX+Oe96fXV
+ F3GdwVOjIU+nz1CiVbD2EvZ9m50DHAyr6Wr3
+X-Received: by 2002:a05:622a:13d1:b0:467:825e:133b with SMTP id
+ d75a77b69052e-467a582600cmr13964361cf.13.1734087206059; 
+ Fri, 13 Dec 2024 02:53:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IECRFHuS1VOciP42gwRe9QYsYpR8HsKDaOPO2V5MwSaCuCKb67oOndG87qRS6M/GWLhkhClaA==
+X-Received: by 2002:a05:622a:13d1:b0:467:825e:133b with SMTP id
+ d75a77b69052e-467a582600cmr13964081cf.13.1734087205613; 
+ Fri, 13 Dec 2024 02:53:25 -0800 (PST)
+Received: from [192.168.58.241] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d3bf50397csm10148990a12.79.2024.12.13.02.53.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2024 02:53:24 -0800 (PST)
+Message-ID: <28bf46a5-dedb-4491-b9be-23fdfb99035f@oss.qualcomm.com>
+Date: Fri, 13 Dec 2024 11:53:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB73078417607420EC685A4C73BA3D2@IA0PR11MB7307.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] dt-bindings: display/msm/gmu: Document RGMU
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ 20241104-add_initial_support_for_qcs615-v5-4-9dde8d7b80b0@quicinc.com,
+ 20241022-qcs615-clock-driver-v4-3-3d716ad0d987@quicinc.com,
+ 20240924143958.25-2-quic_rlaggysh@quicinc.com,
+ 20241108-qcs615-mm-clockcontroller-v3-7-7d3b2d235fdf@quicinc.com,
+ 20241108-qcs615-mm-dt-nodes-v1-1-b2669cac0624@quicinc.com,
+ 20241122074922.28153-1-quic_qqzhou@quicinc.com
+References: <20241213-qcs615-gpu-dt-v2-0-6606c64f03b5@quicinc.com>
+ <20241213-qcs615-gpu-dt-v2-2-6606c64f03b5@quicinc.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241213-qcs615-gpu-dt-v2-2-6606c64f03b5@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: s6NEb0axuyUDOn5alCjlQxAN-H34UPoY
+X-Proofpoint-ORIG-GUID: s6NEb0axuyUDOn5alCjlQxAN-H34UPoY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130074
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,62 +130,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 10, 2024 at 05:52:38PM +0000, Murthy, Arun R wrote:
-> > On Tue, Dec 10, 2024 at 08:42:36AM +0000, Murthy, Arun R wrote:
-> > > > On Mon, Dec 09, 2024 at 09:54:55PM +0530, Arun R Murthy wrote:
-> > > > > Add variables for histogram drm_property, its corrsponding
-> > > > > crtc_state variables and define the structure pointed by the blob property.
-> > > > >
-> > > > > struct drm_histogram and drm_iet defined in
-> > > > > include/uapi/drm/drm_mode.h
-> > > > >
-> > > > > The property HISTOGRAM_ENABLE allows user to enable/disable the
-> > > > > histogram feature in the hardware. Upon KMD enabling by writing to
-> > > > > the hardware registers, a histogram is generated. Histogram is
-> > > > > composed of 'n' bins with each bin being an integer(pixel count).
-> > > >
-> > > > Is it really a count of pixels that fall into one of the bins?
-> > > It's the statistics generated for each frame that is sent to the display and the
-> > value corresponds to 5 bit pixel depth.
-> > 
-> > Let me try it once more, but this is becoming tiresome. Please provide a
-> > description of the property good enough so that one can implement
-> > HISTOGRAM support for the VKMS driver. You don't have to provide Intel-
-> > specific details, but the description should be complete enough.
-> > "The number of pixels falling into each of the bins, sorted by luminosity, started
-> > from the brighest ones" might be an example of a good enough desription.
-> > Then one can add such functionality to other drivers. Just saying "statistics"
-> > doesn't give us anything.
-> > 
-> This is a hardware feature and hence for other drivers to add support for this
-> means that the hardware should have support for this.
-
-OpenGL, OpenGL ES, Vulkan and other libraries also define software
-interface for hardware features. However they define it in a way that
-allows at least software implementation. I'm not arguing about the
-particular feature or its implementation. I'm not asking for the
-_hardware_ description or any other kind hardware-related information.
-But I really want to see a good documentation for the userspace
-interface that will allows other vendors to implement it in their
-drivers (including my example, VKMS). Up to now I have not seen a
-definition of properties that fits this criteria.
-
-> Each bin consists of 5 bit pixel depth.
-> Example code of how to use this histogram and increase the contrast is GHE.
-
-Yes, I have taken a look. No, it's not a replacement for the
-documentation.
-
-I'm really sorry to write that, but until the documentation issue is
-resolved, please consider this patch to be:
-
-Nacked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
+On 13.12.2024 11:35 AM, Akhil P Oommen wrote:
+> RGMU a.k.a Reduced Graphics Management Unit is a small state machine
+> with the sole purpose of providing IFPC support. Compared to GMU, it
+> doesn't manage GPU clock, voltage scaling, bw voting or any other
+> functionalities. All it does is detect an idle GPU and toggle the
+> GDSC switch. So it doesn't require iommu & opp table.
 > 
-> Thanks and Regards,
-> Arun R Murthy
-> --------------------
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
 
--- 
-With best wishes
-Dmitry
+The bindings file exists so that people that are not in the know, can
+reference it and learn about the hardware. Please spell out IFPC, as
+that's a non-obvious, hw-specific  acronym.
+
+Otherwise looks ok
+
+Konrad
