@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E789F0498
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 07:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2DF9F0484
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 07:03:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D285710EF05;
-	Fri, 13 Dec 2024 06:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8272A10EEFA;
+	Fri, 13 Dec 2024 06:03:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nfI3cDDy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C7DF10EF02
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 06:08:41 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.105])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Y8f3S5vrGzhZX7;
- Fri, 13 Dec 2024 14:06:12 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 671C6140155;
- Fri, 13 Dec 2024 14:08:39 +0800 (CST)
-Received: from localhost.huawei.com (10.169.71.169) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Fri, 13 Dec 2024 14:08:38 +0800
-From: Yongbang Shi <shiyongbang@huawei.com>
-To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v8 drm-dp 5/5] drm/hisilicon/hibmc: add dp module in hibmc
-Date: Fri, 13 Dec 2024 14:02:29 +0800
-Message-ID: <20241213060229.1191037-6-shiyongbang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20241213060229.1191037-1-shiyongbang@huawei.com>
-References: <20241213060229.1191037-1-shiyongbang@huawei.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8344810E18B;
+ Fri, 13 Dec 2024 06:03:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734069806; x=1765605806;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ufXldPvJ7JrSFy3TBryhmuw3tQ1Ea3aFcmRZm0SRbNE=;
+ b=nfI3cDDyOxzdGDGSRqoGttCelA/JGvPIvlNhrJ/Nf5BR+I3SLnoO3hxY
+ inVf5NFawUjqLPAoGynRGe1VFC4/W3sVRu62CiDvoW945Pin6N5jB1KoQ
+ uvfdWAyhwwSzaLkvboRsVHm7qtJjUIgRrNunWmujQdzHrWdQ1pClWJC70
+ rZ4IHY6tMRHqfTBRuCvIpjYZ0jwrpuwIw8MW8eugQ8UFoYmUXEEc/rl9j
+ Dx544PeDM7NRUoJqloqT+egMGGDpbtBPsjvZh4J6eNzEn3nsltnlozaYL
+ pghn0De1EkyZhgcNO3brezBzZrOpbw+SOBR5qvs1qrntgvoQWmD84Hsmr Q==;
+X-CSE-ConnectionGUID: hPnjTP9jSVWpjkWBg2rO1g==
+X-CSE-MsgGUID: zT4tUe+JR3KwxoaSz2LMbg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34646448"
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; d="scan'208";a="34646448"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2024 22:03:25 -0800
+X-CSE-ConnectionGUID: hvhphDguStSsV1YVeAbT8g==
+X-CSE-MsgGUID: QKxxe6jhQp20wpPF9hkPaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="96883949"
+Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
+ by orviesa007.jf.intel.com with ESMTP; 12 Dec 2024 22:03:23 -0800
+From: Suraj Kandpal <suraj.kandpal@intel.com>
+To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: uma.shankar@intel.com, arun.r.murthy@intel.com,
+ Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: [PATCH 0/2] Extended Wake Timeout 
+Date: Fri, 13 Dec 2024 11:33:15 +0530
+Message-Id: <20241213060317.2674290-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.169.71.169]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,236 +66,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: baihan li <libaihan@huawei.com>
+Retimers in H/w usually takes 30 to 40ms to wake up all the devices. To
+get this we use the Extended Wake Time feature in which the sink device
+tells us the minimum amount of time it requires to wake up and we need
+to do a write to grant this request else we need to wake up within 1ms
+of low power state exit.
 
-To support DP interface displaying in hibmc driver. Add
-a encoder and connector for DP modual. The HPD function
-and get_edid function will be add in next series, so temporarily
-using 1024x768 as default in hibmc_dp_connector_get_modes()
+Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 
-Signed-off-by: Baihan Li <libaihan@huawei.com>
-Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
-ChangeLog:
-v7 -> v8:
-  - adding pci_set_master() in hibmc_pci_probe().
-v6 -> v7:
-  - lowercasing hex, suggested by Dmitry Baryshkov.
-v5 -> v6:
-  - adding hpd and get_edid comments in the beginning of patch, suggested by Dmitry Baryshkov.
-v3 -> v4:
-  - static inline hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
----
- drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 ++++++++++++++++++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  14 +++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
- 4 files changed, 138 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+Suraj Kandpal (2):
+  drm/dp: Add the DPCD register required for Extended wake timeout
+  drm/i915/lttpr: Enable Extended Wake Timeout
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index 214228052ccf..95a4ed599d98 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
--	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
-+	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
- 
- obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-new file mode 100644
-index 000000000000..603d6b198a54
---- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2024 Hisilicon Limited.
-+
-+#include <linux/io.h>
-+
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
-+
-+#include "hibmc_drm_drv.h"
-+#include "dp/dp_hw.h"
-+
-+static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
-+{
-+	int count;
-+
-+	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
-+				     connector->dev->mode_config.max_height);
-+	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
-+
-+	return count;
-+}
-+
-+static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
-+	.get_modes = hibmc_dp_connector_get_modes,
-+};
-+
-+static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static inline int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
-+{
-+	int ret;
-+
-+	hibmc_dp_display_en(dp, false);
-+
-+	ret = hibmc_dp_mode_set(dp, mode);
-+	if (ret)
-+		drm_err(dp->drm_dev, "hibmc dp mode set failed: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static void hibmc_dp_encoder_enable(struct drm_encoder *drm_encoder,
-+				    struct drm_atomic_state *state)
-+{
-+	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-+	struct drm_display_mode *mode = &drm_encoder->crtc->state->mode;
-+
-+	if (hibmc_dp_prepare(dp, mode))
-+		return;
-+
-+	hibmc_dp_display_en(dp, true);
-+}
-+
-+static void hibmc_dp_encoder_disable(struct drm_encoder *drm_encoder,
-+				     struct drm_atomic_state *state)
-+{
-+	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-+
-+	hibmc_dp_display_en(dp, false);
-+}
-+
-+static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
-+	.atomic_enable = hibmc_dp_encoder_enable,
-+	.atomic_disable = hibmc_dp_encoder_disable,
-+};
-+
-+int hibmc_dp_init(struct hibmc_drm_private *priv)
-+{
-+	struct drm_device *dev = &priv->dev;
-+	struct drm_crtc *crtc = &priv->crtc;
-+	struct hibmc_dp *dp = &priv->dp;
-+	struct drm_connector *connector = &dp->connector;
-+	struct drm_encoder *encoder = &dp->encoder;
-+	int ret;
-+
-+	dp->mmio = priv->mmio;
-+	dp->drm_dev = dev;
-+
-+	ret = hibmc_dp_hw_init(&priv->dp);
-+	if (ret) {
-+		drm_err(dev, "hibmc dp hw init failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	hibmc_dp_display_en(&priv->dp, false);
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_TMDS, NULL);
-+	if (ret) {
-+		drm_err(dev, "init dp encoder failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
-+
-+	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
-+				 DRM_MODE_CONNECTOR_DisplayPort);
-+	if (ret) {
-+		drm_err(dev, "init dp connector failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_connector_helper_add(connector, &hibmc_dp_conn_helper_funcs);
-+
-+	drm_connector_attach_encoder(connector, encoder);
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 8c488c98ac97..ee1a87ac6afb 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -28,6 +28,10 @@
- #include "hibmc_drm_drv.h"
- #include "hibmc_drm_regs.h"
- 
-+#define HIBMC_DP_HOST_SERDES_CTRL		0x1f001c
-+#define HIBMC_DP_HOST_SERDES_CTRL_VAL		0x8a00
-+#define HIBMC_DP_HOST_SERDES_CTRL_MASK		0x7ffff
-+
- DEFINE_DRM_GEM_FOPS(hibmc_fops);
- 
- static irqreturn_t hibmc_interrupt(int irq, void *arg)
-@@ -118,6 +122,14 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- 		return ret;
- 	}
- 
-+	/* if DP existed, init DP */
-+	if ((readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL) &
-+	     HIBMC_DP_HOST_SERDES_CTRL_MASK) == HIBMC_DP_HOST_SERDES_CTRL_VAL) {
-+		ret = hibmc_dp_init(priv);
-+		if (ret)
-+			drm_err(dev, "failed to init dp: %d\n", ret);
-+	}
-+
- 	ret = hibmc_vdac_init(priv);
- 	if (ret) {
- 		drm_err(dev, "failed to init vdac: %d\n", ret);
-@@ -328,6 +340,8 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 		goto err_return;
- 	}
- 
-+	pci_set_master(pdev);
-+
- 	ret = hibmc_load(dev);
- 	if (ret) {
- 		drm_err(dev, "failed to load hibmc: %d\n", ret);
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 42f0ab8f9b5a..d982f1e4b958 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -20,6 +20,8 @@
- 
- #include <drm/drm_framebuffer.h>
- 
-+#include "dp/dp_hw.h"
-+
- struct hibmc_vdac {
- 	struct drm_device *dev;
- 	struct drm_encoder encoder;
-@@ -37,6 +39,7 @@ struct hibmc_drm_private {
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
- 	struct hibmc_vdac vdac;
-+	struct hibmc_dp dp;
- };
- 
- static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
-@@ -59,4 +62,6 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv);
- 
- int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *connector);
- 
-+int hibmc_dp_init(struct hibmc_drm_private *priv);
-+
- #endif
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +
+ .../drm/i915/display/intel_dp_link_training.c | 46 +++++++++++++++++++
+ .../drm/i915/display/intel_dp_link_training.h |  1 +
+ include/drm/display/drm_dp.h                  | 14 ++++++
+ 4 files changed, 63 insertions(+)
+
 -- 
-2.33.0
+2.34.1
 
