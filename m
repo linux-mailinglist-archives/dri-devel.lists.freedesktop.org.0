@@ -1,151 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778BD9F0956
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:24:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF0F9F0960
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:26:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6809C10E903;
-	Fri, 13 Dec 2024 10:24:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8ED210EF9B;
+	Fri, 13 Dec 2024 10:26:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QB3BAAvl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j6UBVK3e";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tPrPshOR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F35EiPjf";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="f2JpcbJ7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3BD110E903
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:24:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4AE222115C;
- Fri, 13 Dec 2024 10:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734085462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
- b=QB3BAAvlMjSbem64YecmVjJGmws8bfOvUTD+KKvi7kRCMKvWOApY0uIfCet5lxrNDfoDUF
- kYKima0XfjJ//cp6X9aPRpiv/cXNNNy+DfGwJ7aRzfdpnBl+Q98kMFgLY0/8dCj8FH7Eso
- yySpVrlwNrq43Uq6G/B7E43pyz64j4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734085462;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
- b=j6UBVK3eUBa8uR6nex3nUMjcfXl1CQPkSFrZPH8x2W8kQHDeRo1nrlthyHhnPsC73eZWWs
- xJe2M8NkIDdXsJAA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tPrPshOR;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=F35EiPjf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734085461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
- b=tPrPshOR8OGskNXqtHG5zsWfTFtAWkW2VMrNqELtJBW6l/2NFdcLs1OxedCw7R6xiZ51m7
- h9tq3+U4I4rCuekR9CMWLRcbws6ajAhE5g6ncB3sCzZigANSiWhCZINWRagT/etWKBQbFJ
- 69sP2Jse0IoReokkrtrtOL0MchDeYg8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734085461;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
- b=F35EiPjf6rljhpNclFMv1DDqnxhLuSBOgjJzXGatSr0F1Y6LNmfwdq48C8L2640wlOpX+G
- v8fzZgkVV3eOKTCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8DF813939;
- Fri, 13 Dec 2024 10:24:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id +v76KVQLXGdsSAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 13 Dec 2024 10:24:20 +0000
-Message-ID: <eea7e1f0-cdcf-49ca-b50b-cac9bb320f4e@suse.de>
-Date: Fri, 13 Dec 2024 11:24:20 +0100
+Received: from mail-ot1-x32a.google.com (mail-ot1-x32a.google.com
+ [IPv6:2607:f8b0:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 641BF10EF9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:26:35 +0000 (UTC)
+Received: by mail-ot1-x32a.google.com with SMTP id
+ 46e09a7af769-71e16519031so802588a34.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 02:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1734085594; x=1734690394;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gKqDqgeGFaNiglPykk1ZWFq+KoOVfgPfTAi6q8lDcbU=;
+ b=f2JpcbJ7/MUZ6jue3CL9cetRFGfLMqh6D1C8G5PUjlhjABkYxV+EwqDE/c4YR3uzz3
+ ARgTfS1JbjYRHFFINr2bfxLO5KfhwcSU/WYuLk6kY7gWVafNFN0OesHc5y2tbwKWrzGr
+ CBVn/SAFlOsj9ojHmV4WnCKjSSvNVtOXmjG4w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734085594; x=1734690394;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gKqDqgeGFaNiglPykk1ZWFq+KoOVfgPfTAi6q8lDcbU=;
+ b=bBjzaE2CsoPi7SJgG05hX3vOKzI+1mQbwRJvSwtyTDJY1DehdprNO2TEvRp+ZSI3uO
+ nfyoAwL9M5MIWxQVVXBX8F/cMibAPBzrilM/g3Ec9cZC6eNRScmHgOwvbQCsaFijgglS
+ fUNx+DvS29cj+V+r2+ijyi5OLhqn8+QTtUY6pVgJ0yo9bhvzFnxDG39LxjhLkNk9STS2
+ /U2pf4VORubrXtN+tFflRD+gujYOJG7InyB2El4QqJsADv7N6h3ex5RQCGrKJb0ZnrOR
+ O+TjPw1+xLqjYhmZEyS7QFjhMZQVUXERkhrYoqdngev33nuaL5+yQB5hhi1IXw1HL94E
+ SLVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUMfV6UhRnamCUivToVJW0ryL+Vl+hMaLU0yYjehpOOw9E9l45CyJbkEv59SWwgDFCMHe6MIO77Fwo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwWM6Vphuu/xfxu4lO4OSfjcdEzrSE8wSfR12Gfm1lVXBAgPtI
+ Vji2hAv6n+xDXwaHsVcyYl5USXMM7iDUlLU+kaL3evSSy+YROfw+7q/bHg7VIfOn/x8ZlAssfKc
+ jZEwfHeRE4rh9l2CRRk4iAEp0MGr6gnvXrUFq
+X-Gm-Gg: ASbGncvjFTkAEwGef4TLYP4XK0IL8UX71GQeecwsWlz+jbZDc2RDnqhdC+/tM0Srufj
+ HkPm04gOlyDdyg6Xawe2dQb+es53c4cJSROK2wTxhlq2dhCQ/T1G6dtgqJeyzvY/Q
+X-Google-Smtp-Source: AGHT+IENCMH98mpXyF3VrVAuDfFFYvkYege6xGr7xJlAm+RCTMb9aQXAq9gG3Wn85+C8PlkKAH60Qe9TT1gWu6utMaQ=
+X-Received: by 2002:a05:6830:448a:b0:71e:30e:e022 with SMTP id
+ 46e09a7af769-71e3be44e5bmr1104651a34.10.1734085594573; Fri, 13 Dec 2024
+ 02:26:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
- BACKLIGHT_CLASS_DEVICE
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, javierm@redhat.com,
- arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
-References: <20241212100636.45875-1-tzimmermann@suse.de>
- <20241212100636.45875-2-tzimmermann@suse.de>
- <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
- <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
- <1248a2b6-71b0-4909-917f-a5605415a816@csgroup.eu>
- <690acce6-3e57-4731-9949-f8bb06d9cb58@suse.de>
- <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4AE222115C
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[csgroup.eu,redhat.com,arndb.de,gmx.de,ffwll.ch,gmail.com];
- ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[10]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim,
- imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+References: <20241213095044.23757-1-jason-jh.lin@mediatek.com>
+ <20241213095044.23757-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20241213095044.23757-3-jason-jh.lin@mediatek.com>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Fri, 13 Dec 2024 18:26:23 +0800
+Message-ID: <CAEXTbpcp31oWOCh2c41QbWOc5F_gpD1Bia0NiZeVyDbqKo98Lw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dts: arm64: mediatek: mt8188: Update OVL
+ compatible from MT8183 to MT8195
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
+ Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ Fei Shao <fshao@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,46 +89,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Jason,
 
-
-Am 13.12.24 um 11:15 schrieb Christophe Leroy:
+On Fri, Dec 13, 2024 at 5:50=E2=80=AFPM Jason-JH.Lin <jason-jh.lin@mediatek=
+.com> wrote:
 >
+> The OVL hardware capabilities have changed starting from MT8195,
+> making the MT8183 compatible no longer applicable.
+> Therefore, it is necessary to update the OVL compatible from MT8183 to
+> MT8195.
+
+This probably doesn't need an (immediate) respin, but this patch needs:
+
+Fixes: 7075b21d1a8e ("arm64: dts: mediatek: mt8188: Add display nodes
+for vdosys0")
 >
-> Le 13/12/2024 à 09:41, Thomas Zimmermann a écrit :
->> Hi
->>
->>
->> Am 13.12.24 um 09:33 schrieb Christophe Leroy:
->>>
->>>>
->>>> The attached patch selects backlight support in the defconfigs that 
->>>> also have PMAC_BACKLIGHT=y. Can you please apply it on top of the 
->>>> patchset and report on the results?
->>>>
->>>
->>> That works for the defconfig but it is still possible to change 
->>> CONFIG_BACKLIGHT_CLASS_DEVICE manually.
->>>
->>> If it is necessary for PMAC_BACKLIGHT then it shouldn't be possible 
->>> to deselect it.
->>
->> Here's another patch that make it depend on BACKLIGHT_CLASS_DEVICE=y. 
->> Can you please try this as well?
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>  arch/arm64/boot/dts/mediatek/mt8188.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> That looks good, no build failure anymore with BACKLIGHT_CLASS_DEVICE=m
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8188.dtsi b/arch/arm64/boot/d=
+ts/mediatek/mt8188.dtsi
+> index faccc7f16259..23ec3ff6cad9 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8188.dtsi
+> +++ b/arch/arm64/boot/dts/mediatek/mt8188.dtsi
+> @@ -2488,7 +2488,7 @@ jpeg_decoder: jpeg-decoder@1a040000 {
+>                 };
+>
+>                 ovl0: ovl@1c000000 {
+> -                       compatible =3D "mediatek,mt8188-disp-ovl", "media=
+tek,mt8183-disp-ovl";
+> +                       compatible =3D "mediatek,mt8188-disp-ovl", "media=
+tek,mt8195-disp-ovl";
+>                         reg =3D <0 0x1c000000 0 0x1000>;
+>                         clocks =3D <&vdosys0 CLK_VDO0_DISP_OVL0>;
+>                         interrupts =3D <GIC_SPI 636 IRQ_TYPE_LEVEL_HIGH 0=
+>;
+> --
+> 2.43.0
+>
 
-Great, I'll add this change to the next iteration.
-
-Best regards
-Thomas
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Regards,
+Pin-yen
