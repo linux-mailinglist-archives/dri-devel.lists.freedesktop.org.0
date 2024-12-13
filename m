@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1579F0878
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 10:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EAA9F0881
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 10:52:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A25E10EF8A;
-	Fri, 13 Dec 2024 09:51:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6F010EF7E;
+	Fri, 13 Dec 2024 09:52:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="AwLN+Wc0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XpU82KBf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C395210EF85
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 09:50:55 +0000 (UTC)
-X-UUID: bc795cf4b93711ef99858b75a2457dd9-20241213
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=UdqcTZ5dYcu+1db9jRbnT2mWghupTOqEjc4U3dcloEo=; 
- b=AwLN+Wc0Cc0AQMM86Xcv+jFF1X0EgjYVqc9cfg9hgv88XXUVp5d1LoChPLsjM51uCl9GEAnk+DOa1F9PN7iWPuXl/k3xOO5Huh80PknV7vBdIP3uROpQRpFUNpPOUOBMLIY61f0ly/K48Il2wrh+3PrNj1NHbCq1G924Fsyrzmk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:4d2608ea-2a63-4b56-9be1-81cc20e8a4e0, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:2f9a7828-d2eb-4de2-b5c9-495d1bc17256,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0,EDM:-3,IP
- :nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
- LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: bc795cf4b93711ef99858b75a2457dd9-20241213
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 737203590; Fri, 13 Dec 2024 17:50:50 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 13 Dec 2024 17:50:47 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 13 Dec 2024 17:50:47 +0800
-From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, "Jason-JH . Lin"
- <jason-jh.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Nancy
- Lin" <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Fei Shao
- <fshao@chromium.org>, Pin-yen Lin <treapking@chromium.org>
-Subject: [PATCH v2 3/3] dts: arm64: mediatek: mt8195: Remove MT8183 compatible
- for OVL
-Date: Fri, 13 Dec 2024 17:50:44 +0800
-Message-ID: <20241213095044.23757-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20241213095044.23757-1-jason-jh.lin@mediatek.com>
-References: <20241213095044.23757-1-jason-jh.lin@mediatek.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 640AD10EF7E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 09:52:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 875D4A405FB;
+ Fri, 13 Dec 2024 09:50:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2FEC4CED0;
+ Fri, 13 Dec 2024 09:52:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734083530;
+ bh=BU/J16Ct4CwkI88Ev0nVluHMhJ7hjnowLd7wIxggf4M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XpU82KBfxjjRWfMsNAY4DdgnA0/pQPGsdZG4rPLMTh4hEb4kOXYKKqj3b+4MOg78/
+ tRu+VhuRVOHuFerRLkA2FNKGrxRonw0Yt/+sJvxQ1PrgSE5efYjfU2mOlmszQ5sZ3M
+ ehjWxCiJlhCx2H/ycld1AGF/50FBD3YWNYoe77GrnEjUKWudhI2UFKb7qBklwN817l
+ d0CzhlbjGta7d67iylDTQ3qHs2UsAqJ4VElcZFCgFXKvjEe7uSXB6za3vclhDTIWq2
+ qwAFMBTfXCjwLcExb5lDXuXKOFQAORlytg9s3z8c5nGQEICnxQlzcHA0KjBop0Stwd
+ EvNWACQj9X6Ig==
+Date: Fri, 13 Dec 2024 10:52:06 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Andy Yan <andyshrk@163.com>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v1 1/2] dt-bindings: display: panel: Add Raydium RM67200
+Message-ID: <7uoc7higbx772dabs6k5zvrvgfmp2otai3bz2z62wnpv6pfa5s@jpe45f3qzyu2>
+References: <20241210164333.121253-1-sebastian.reichel@collabora.com>
+ <20241210164333.121253-2-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10-0.109800-8.000000
-X-TMASE-MatchedRID: 5yyS2hWhq1jeG4FwcWqAS4v2/i8VNqeOQl/FdRYkUZLfUZT83lbkEFUP
- yEuNfDiQ4vM1YF6AJbbGJQ3BiiLAggtuKBGekqUpm+MB6kaZ2g7bq4ItpX/+OkXLunBl25srQ3I
- ZDfmS/Cx6FQax6pBNIiUC2B4XPIxH7nqbEDar1/8dr6Hp73MZ6f1ZJlBFxbQ1PYx8vsB79PVJmt
- 82E/eyBQGH0CAFIQWsmb5gmylW+PbGS+seVPx64iUa7Lz57KOX
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10-0.109800-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 6AB72FE2E5F4D780974943D808A7EACE3A86CD8C4C7E30EC064974F7EB0690EB2000:8
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241210164333.121253-2-sebastian.reichel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,28 +68,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The OVL hardware capabilities have changed starting from MT8195,
-making the MT8183 compatible no longer applicable.
-Therefore, it is necessary to remove the MT8183 compatible for OVL.
+On Tue, Dec 10, 2024 at 05:41:30PM +0100, Sebastian Reichel wrote:
+> The Rockchip W552793DBA-V10 display/touchscreen board contains a
+> Wanchanglong W552793BAA panel, which in turn is using a Raydium
+> RM67200 MIPI-DSI controller. Add a DT binding for the DSI panel.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../display/panel/raydium,rm67200.yaml        | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml b/Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml
+> new file mode 100644
+> index 000000000000..d0a6d3207811
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/raydium,rm67200.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/raydium,rm67200.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Raydium RM67200 based MIPI-DSI panels
+> +
+> +maintainers:
+> +  - Sebastian Reichel <sebastian.reichel@collabora.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - wanchanglong,w552793baa
+> +      - const: raydium,rm67200
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: 2.8V Logic voltage
+> +
+> +  iovcc-supply:
+> +    description: 1.8V IO voltage
+> +
+> +  vsp-supply:
+> +    description: positive 5.5V voltage
+> +
+> +  vsn-supply:
+> +    description: negative 5.5V voltage
+> +
+> +  backlight: true
+> +  port: true
+> +  reset-gpios: true
+> +
+> +additionalProperties: false
 
-Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8195.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This goes after required: field, as expressed in example-schema.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8195.dtsi b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-index ade685ed2190..137ee8929e01 100644
---- a/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8195.dtsi
-@@ -3138,7 +3138,7 @@ larb20: larb@1b010000 {
- 		};
- 
- 		ovl0: ovl@1c000000 {
--			compatible = "mediatek,mt8195-disp-ovl", "mediatek,mt8183-disp-ovl";
-+			compatible = "mediatek,mt8195-disp-ovl";
- 			reg = <0 0x1c000000 0 0x1000>;
- 			interrupts = <GIC_SPI 636 IRQ_TYPE_LEVEL_HIGH 0>;
- 			power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS0>;
--- 
-2.43.0
+With this change:
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
