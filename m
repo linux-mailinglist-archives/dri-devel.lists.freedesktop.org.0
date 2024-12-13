@@ -2,79 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E339F11A8
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 16:59:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6579D9F11BF
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 17:06:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE6AB10F083;
-	Fri, 13 Dec 2024 15:59:56 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Y7/tV28j";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B691110F088;
+	Fri, 13 Dec 2024 16:06:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E22A10F083
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 15:59:55 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD8D2GT032195;
- Fri, 13 Dec 2024 15:59:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- fsb3SECVtDJkMmj/b9jHVzqW8i0WukCSPo8l7jZucF0=; b=Y7/tV28j4FSQGKe3
- R2oHjZOwQyAYx12mape2gUkWrlRQAa+y1K3dorVvm5LLpzhX7CgB+jSwOdaNRx13
- +rmmK6Z029bOyQJSqqOj0zQYNcYZff4mb9TnWdgLq2hfrtmS/qv3t5lQa952yoVK
- IcOUgNPPUtLoVZvb/pqL3T1i20qC8uHAGA8RT9sqLsQ6PGR5/6PQKEjJ5l7CyMP9
- /oEclxHqutHqCUU7jE4ZR7cJHRsYniN3agtENF1R3Bbz2uV0a3UZgYUnLOl7IqPF
- 8XxalAP9h41EBVngZCnSeLdQUeeDDGO4nBrAQ6MIIX97cCQNS3/zQqTA+FzCRisN
- DZsTTg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43f6tfg3rk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 15:59:54 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDFxsML021101
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 15:59:54 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
- 2024 07:59:53 -0800
-Message-ID: <6be9a2e8-190a-4509-813c-36c917efc7d5@quicinc.com>
-Date: Fri, 13 Dec 2024 08:59:52 -0700
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E218D10F088;
+ Fri, 13 Dec 2024 16:06:08 +0000 (UTC)
+Message-ID: <5a50a992-9286-4179-8031-ffb514bca34f@lankhorst.se>
+Date: Fri, 13 Dec 2024 17:06:05 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] accel/qaic: Fix typo for struct
- qaic_manage_trans_passthrough
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
+ cgroup.
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20241204134410.1161769-1-dev@lankhorst.se>
+ <20241213-proud-kind-uakari-df3a70@houat>
+ <80c49a80-d49c-4ca5-9568-9f7950618275@lankhorst.se>
+ <20241213-gentle-glittering-salamander-22addf@houat>
 Content-Language: en-US
-To: <quic_yabdulra@quicinc.com>, <quic_carlv@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-References: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20241213-gentle-glittering-salamander-22addf@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: VUBk68yMT1jR6wOy2lGA8gIo66JLjmxQ
-X-Proofpoint-ORIG-GUID: VUBk68yMT1jR6wOy2lGA8gIo66JLjmxQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- mlxlogscore=828 malwarescore=0 spamscore=0 lowpriorityscore=0
- impostorscore=0 adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412130113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,30 +49,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/29/2024 1:28 PM, Jeffrey Hugo wrote:
-> The documentation header for struct qaic_manage_trans_passthrough has a
-> typo - "t" is missing in "transaction".
+Hey,
+
+Den 2024-12-13 kl. 16:21, skrev Maxime Ripard:
+> On Fri, Dec 13, 2024 at 03:53:13PM +0100, Maarten Lankhorst wrote:
+>>
+>>
+>> Den 2024-12-13 kl. 14:03, skrev Maxime Ripard:
+>>> Hi,
+>>>
+>>> Thanks for the new update!
+>>>
+>>> On Wed, Dec 04, 2024 at 02:44:00PM +0100, Maarten Lankhorst wrote:
+>>>> New update. Instead of calling it the 'dev' cgroup, it's now the
+>>>> 'dmem' cgroup.
+>>>>
+>>>> Because it only deals with memory regions, the UAPI has been updated
+>>>> to use dmem.min/low/max/current, and to make the API cleaner, the
+>>>> names are changed too.
+>>>
+>>> The API is much nicer, and fits much better into other frameworks too.
+>>>
+>>>> dmem.current could contain a line like:
+>>>> "drm/0000:03:00.0/vram0 1073741824"
+>>>>
+>>>> But I think using "drm/card0/vram0" instead of PCIID would perhaps be
+>>>> good too. I'm open to changing it to that based on feedback.
+>>>
+>>> Do we have any sort of guarantee over the name card0 being stable across
+>>> reboots?
+>>>
+>>> I also wonder if we should have a "total" device that limits the amount
+>>> of memory we can allocate from any region?
+>>
+>> I don't think it is useful. Say your app can use 1 GB of main memory or 2 GB
+>> of VRAM, it wouldn't make sense to limit the total of those. In a lot of
+>> cases there is only 1 region, so the total of that would still be the same.
+>>
+>> On top, we just separated the management of each region, adding a 'total'
+>> would require unseparating it again. :-)
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->   include/uapi/drm/qaic_accel.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> I didn't mean the total for a device, but for the system. It would
+> definitely not make sense for a VRAM, but for CMA for example, you have
+> a single, limited, allocator that will be accessible from heaps, v4l2
+> and DRM devices.
 > 
-> diff --git a/include/uapi/drm/qaic_accel.h b/include/uapi/drm/qaic_accel.h
-> index d3ca876a08e9..c92d0309d583 100644
-> --- a/include/uapi/drm/qaic_accel.h
-> +++ b/include/uapi/drm/qaic_accel.h
-> @@ -64,7 +64,7 @@ struct qaic_manage_trans_hdr {
->   /**
->    * struct qaic_manage_trans_passthrough - Defines a passthrough transaction.
->    * @hdr: In. Header to identify this transaction.
-> - * @data: In. Payload of this ransaction. Opaque to the driver. Userspace must
-> + * @data: In. Payload of this transaction. Opaque to the driver. Userspace must
->    *	  encode in little endian and align/pad to 64-bit.
->    */
->   struct qaic_manage_trans_passthrough {
+> If an application has to allocate both from v4l2 and DRM buffers, we
+> should be able to limit its total usage of CMA, not just on a single
+> device.
+In this case, I think it makes more sense if CMA creates a region, then 
+use that region in both v4l2 and DRM instead of a separate region for 
+both, with CMA being responsible for lifetime.
 
-
-Pushed to drm-misc-next
-
--Jeff
+Cheers,
+~Maarten
