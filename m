@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CEA9F00C5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 01:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63F6A9F0186
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 02:05:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 882B710E30C;
-	Fri, 13 Dec 2024 00:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D40B110E424;
+	Fri, 13 Dec 2024 01:05:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qe7OMpJv";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZIYaik17";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A49910E30C
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 00:28:23 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id
- 3f1490d57ef6-e39841c8fd6so921660276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 16:28:23 -0800 (PST)
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC2610E1F3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 01:05:30 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2ffd6b7d77aso13199271fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 17:05:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734049702; x=1734654502; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0kEf3pmVjhYgIaUUKMj8/qv2yfYKhGsnNuzTFcwe8d4=;
- b=qe7OMpJvx8Cn9tm+YzaL71SN1LZxevbvoxMJPaQbpbbhJkcosuup/CfOJLmBggxXHz
- qpWCqAS4SweWAb4UBIMXZIXtX4MZ2DTE0ApOD75V9eSzTGdNVoqo5QQNcZs2RrF/U/fe
- MkUTAek5OfCH9DOf3+edWoVmUoBVZJQ0+E1q9ElwgAXLQh3Op9jwSsZYYmLWQR523AlR
- 7BzjxR58AGoyY1Gpy86X/008B+8rkH1QGmqXRFQ+0ri3TTUZbqbYTN2t5SZ9ZyFwk+5x
- nhlgyPGSWzcYHKmdVxY3Rzsrao5wlc1DqDvbxL/0WR5/1t3KypuJ9RON2MaiYkZxa9fj
- xacg==
+ d=linaro.org; s=google; t=1734051929; x=1734656729; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=O84U3RWKov9iL5zvKm0AQk1apvgpcPjBJGZeGo9vHKY=;
+ b=ZIYaik17qYztaV3JrXjfQG7VjQlR1321F7xYffzur7i95ydGgzd0dV/WTGryVeVy7i
+ fp9Xze5XJM2DqTWsmnslTgbcw+YCA0LrtkUy5sCNeWfWMnU2lJnyfVoRVyalnCVx7uD/
+ Y7/xp2lyswACJnGLeP610b3JsQkt77SARAxMJrwDdswLjczEUMB5l4gAUlwjhFdgk/S9
+ 29oPvjrveTWTsKx/8IVYUsEbgrmAGN/TzP+h42ptMl7rVjZ36shUZ6OKhIYLp2BVVDjV
+ 2RHmXvAXusCk9aLHb2zRrlQBbT1CkFzc/KpnSB2lmzIJlpqcPGVfxNN1o67hW2q9kkl9
+ SGaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734049702; x=1734654502;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0kEf3pmVjhYgIaUUKMj8/qv2yfYKhGsnNuzTFcwe8d4=;
- b=SHfg8NQpuoMHowtMJ2MysjaaMmlJ3Fe4/Svr+JcX7JM2j2DP9nTVr2VrafpqMzcG7+
- kWTbiTIkczY+OXVh75LKm5MgdOv/4wyZ24RS85+T7qsWcKD6maJuq887wnbpLK8eUZwQ
- 66kvqEdDAJkn3uokLpehDP2jr6JvkDdv1gtcxiuq5+GmG6g+u8Da2raDRGJXeavyOYyZ
- VksUuDwhFoY18JjwBOEjIeXOWiJ0fmygPIwheZhzkIDVAGHeR9o8YoqJ4x+MY6fNq1Lv
- AJG8nC8VurFmiJmFY3YJ/Cux9gFResE5auplHKUFftVJQsyYawd8N8+jyJ0CrQrlHCfY
- zVtg==
+ d=1e100.net; s=20230601; t=1734051929; x=1734656729;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=O84U3RWKov9iL5zvKm0AQk1apvgpcPjBJGZeGo9vHKY=;
+ b=sdYL+5M7aoFD0yGkouWs0AkHhf540T45V76hoAKSpwQj9EmFtrUvxsXwYrY+tpJ3IN
+ 5Al+vJLBIAcXclh/iCXdOUJhGn2Ew/+ZZI8u4jCMhK+Pt9jfswGzSWr7kXKZAxKch1hx
+ jV/GzArFg1Cye7+BzXR3nKOeUen/wQ7XAtV8rIDpTpvIOPD7xTDx9tSx8eO4MuZBWOlC
+ 2O5YSPhv6l5zvfeJTh2GDWEVOYJn3Lc3E0swexXNw1nNOS5bODzmVBMOzd6iB8dQSFCp
+ 4843qyWmy4Tct5PdND4IxQ5wnF+ngmh3KU6ZqdNXnyCJ1AIsiZ+CfgBQscBg/BV1hfwL
+ Es8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUNIha6Bpp0m2BLQXAbq7FSPosQ4aep1v7UzUbk+mKnGe+aoJB0l1dI2DUtKQMyNpKqVe0Pc1bR950=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyasAJZZ78TTVAIGg3dIE+iXNO92cC172cVdh0w0S/A5L9fGwid
- RBdg/2MwrmvHEXOIPmNwFT9HUcgXneUXeyUoA2OyFzWu0KQRsEgEFkonjDTPzm53/gso9F5q9Np
- qgTcrERUXyPTzYb9VxZ71LhqoyKXPSJ5noaJLEw==
-X-Gm-Gg: ASbGncuKba/cl2uUD+oJlhjJdddy4HRIQhMgToF2WPhL69u2xUxUwS8sOxyilUs9lHE
- hsLU+CdVSbFep0fucSq0Ze/8CiaKcU88iqkpWBg==
-X-Google-Smtp-Source: AGHT+IEYPVyTc8vD6d/ItX+UznJeKgYnrfB/BFGVU0tIN+SAmCWvJ/BvkdZEmbX6bM9NlANsTaRFmznQ2EKZ2PHSVm0=
-X-Received: by 2002:a05:6902:2e0f:b0:e30:e39b:9d72 with SMTP id
- 3f1490d57ef6-e434a541645mr606573276.16.1734049702044; Thu, 12 Dec 2024
- 16:28:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org>
- <20241212-fd-dp-audio-fixup-v3-9-0b1c65e7dba3@linaro.org>
- <070dea1a-c300-4968-ba24-011625e4c133@quicinc.com>
- <CAA8EJpqO=AjVGEnZHNbM5+Mnu2gMN96kABBLM5XHh3NMMGFtjw@mail.gmail.com>
- <9a9ff3a5-5c01-45fd-a89a-b8305baac5bd@quicinc.com>
-In-Reply-To: <9a9ff3a5-5c01-45fd-a89a-b8305baac5bd@quicinc.com>
+ AJvYcCVgo5UtrgFrTU44yu+IcfyCjW8Fbe13WTbmMoQAfRkKuhJd5JWlv5B5LxceC/tRzQzhKc2SohSbBlo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpbNB8CnGro6s5VSf2LtR+TDj/3kozAK56nVr1OXswHQanuvs8
+ WWiCKqL/fK9B1ftq1JZCCXW/9bsI2kTjoSQm9kCRDRn5aqOFkT+Xb5+oGQ0AYcY=
+X-Gm-Gg: ASbGncugnhceZY9unKfvbdxZ5tFlirAer9ZdMYX+eXiIlZFFRPQvn3t/gLkAPcfpnIh
+ n45P0avD8f/K4Nd6lsmg6aHK9HUjy74LNWLohxhJw3zDj8LsgZ9GN+Brg4JgBkKIK4anl6Fj+MO
+ ai5MOTqrfP/p6lAA7P5YkgMim3tb3ZJqgHBduZSvCbi+wsYnx7HD/9fk4blD0nHH5CuXb9FTMo+
+ ykwjGlmKPn16l6Eg4nTwiJHPkTN3oOaIS6zVdCgM8M5W3Cdn8BtnMT0SnyFxrkpkRjD5bu+0sxU
+ 6Vl7BZ9p8PVjDzRdpJYD77GP8+lr+a6q7ehx
+X-Google-Smtp-Source: AGHT+IElifT8QoUNzxHAVYbqMQx4DiVI2tllM0h7CLeS8lFzZ7Esr23V8mawY8s6S56t+ueici+FJQ==
+X-Received: by 2002:a05:6512:3d0f:b0:540:22bd:e25c with SMTP id
+ 2adb3069b0e04-54099b729f6mr127691e87.50.1734051928607; 
+ Thu, 12 Dec 2024 17:05:28 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5402bfd8d20sm632306e87.26.2024.12.12.17.05.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Dec 2024 17:05:27 -0800 (PST)
+Date: Fri, 13 Dec 2024 03:05:24 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 13 Dec 2024 02:28:11 +0200
-Message-ID: <CAA8EJpoF1B4mARmSmEhq9qUfMFxCF-+W1AVDnOLniM6F67=yvw@mail.gmail.com>
-Subject: Re: [PATCH v3 09/14] drm/msm/dp: use msm_dp_utils_pack_sdp_header()
- for audio packets
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Paloma Arellano <quic_parellan@quicinc.com>, 
- Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Simona Vetter <simona@ffwll.ch>, quic_abhinavk@quicinc.com,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dpu: Filter modes based on adjusted mode clock
+Message-ID: <onavg2s7uamgwh34ozhbt56c74ktj5chp3jnn4bw5m22y5sdjr@fktyn5yt4gmw>
+References: <20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212-filter-mode-clock-v1-1-f4441988d6aa@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,442 +93,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 13 Dec 2024 at 01:53, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->
->
->
-> On 12/12/2024 2:28 PM, Dmitry Baryshkov wrote:
-> > On Thu, 12 Dec 2024 at 23:41, Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 12/11/2024 3:41 PM, Dmitry Baryshkov wrote:
-> >>> Use msm_dp_utils_pack_sdp_header() and call msm_dp_write_link() directly
-> >>> to program audio packet data. Use 0 as Packet ID, as it was not
-> >>> programmed earlier.
-> >>>
-> >>> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >>> ---
-> >>>    drivers/gpu/drm/msm/dp/dp_audio.c | 288 +++++++++-----------------------------
-> >>>    1 file changed, 66 insertions(+), 222 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>> index 5cbb11986460d1e4ed1890bdf66d0913e013083c..1aa52d5cc08684a49102e45ed6e40ac2b13497c7 100644
-> >>> --- a/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>> +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-> >>> @@ -14,6 +14,7 @@
-> >>>    #include "dp_catalog.h"
-> >>>    #include "dp_audio.h"
-> >>>    #include "dp_panel.h"
-> >>> +#include "dp_reg.h"
-> >>>    #include "dp_display.h"
-> >>>    #include "dp_utils.h"
-> >>>
-> >>> @@ -28,251 +29,94 @@ struct msm_dp_audio_private {
-> >>>        struct msm_dp_audio msm_dp_audio;
-> >>>    };
-> >>>
-> >>> -static u32 msm_dp_audio_get_header(struct msm_dp_catalog *catalog,
-> >>> -             enum msm_dp_catalog_audio_sdp_type sdp,
-> >>> -             enum msm_dp_catalog_audio_header_type header)
-> >>> -{
-> >>> -     return msm_dp_catalog_audio_get_header(catalog, sdp, header);
-> >>> -}
-> >>> -
-> >>> -static void msm_dp_audio_set_header(struct msm_dp_catalog *catalog,
-> >>> -             u32 data,
-> >>> -             enum msm_dp_catalog_audio_sdp_type sdp,
-> >>> -             enum msm_dp_catalog_audio_header_type header)
-> >>> -{
-> >>> -     msm_dp_catalog_audio_set_header(catalog, sdp, header, data);
-> >>> -}
-> >>> -
-> >>>    static void msm_dp_audio_stream_sdp(struct msm_dp_audio_private *audio)
-> >>>    {
-> >>>        struct msm_dp_catalog *catalog = audio->catalog;
-> >>> -     u32 value, new_value;
-> >>> -     u8 parity_byte;
-> >>> -
-> >>> -     /* Config header and parity byte 1 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     new_value = 0x02;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_1_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_1_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 1: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     /* Config header and parity byte 2 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_2);
-> >>> -     new_value = value;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_2_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_2_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 2: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     /* Config header and parity byte 3 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_3);
-> >>> -
-> >>> -     new_value = audio->channels - 1;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_3_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_3_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 3: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -             value, parity_byte);
-> >>> -
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_STREAM, DP_AUDIO_SDP_HEADER_3);
-> >>> +     struct dp_sdp_header sdp_hdr = {
-> >>> +             .HB0 = 0x00,
-> >>> +             .HB1 = 0x02,
-> >>> +             .HB2 = 0x00,
-> >>> +             .HB3 = audio->channels - 1,
-> >>> +     };
-> >>> +     u32 header[2];
-> >>> +
-> >>> +     msm_dp_utils_pack_sdp_header(&sdp_hdr, header);
-> >>> +
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_STREAM_0, header[0]);
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_STREAM_1, header[1]);
-> >>>    }
-> >>
-> >> This patch is changing the programming behavior.
-> >>
-> >> Earlier it was using a read/modify/write on each register. Now, its just
-> >>    a write. I checked a few chipsets, the reset value of registers was 0,
-> >> so that part is okay.
-> >
-> > Except that it was not a correct RMW, it was read, OR new data without
-> > clearing the bitfield, write. So it has been working mostly by a
-> > miracle,
-> >
-> >>
-> >> But, for the MMSS_DP_AUDIO_STREAM_0 register, earlier we were writing
-> >> only the upper nibble, that is bits 15:0 of DP_AUDIO_SDP_HEADER_0 was
-> >> kept as-it-is, but now this patch is changing that to 0. What was the
-> >> reason for that change?
-> >
-> > It is described in the commit message: "Use 0 as Packet ID, as it was not
-> > programmed earlier."
-> >
->
-> The part of using 0 as Packet ID is but not the behavior of changing the
-> RMW which is also pretty significant. That was all happening under the hood.
+On Thu, Dec 12, 2024 at 11:11:54AM -0800, Jessica Zhang wrote:
+> Filter out modes that have a clock rate greater than the max core clock
+> rate when adjusted for the perf clock factor
+> 
+> This is especially important for chipsets such as QCS615 that have lower
+> limits for the MDP max core clock.
+> 
+> Since the core CRTC clock is at least the mode clock (adjusted for the
+> perf clock factor) [1], the modes supported by the driver should be less
+> than the max core clock rate.
+> 
+> [1] https://elixir.bootlin.com/linux/v6.12.4/source/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c#L83
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 29 +++++++++++++++++++--------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  3 +++
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 12 +++++++++++
+>  3 files changed, 36 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index 6f0a37f954fe8797a4e3a34e7876a93d5e477642..0afd7c81981c722a1a9176062250c418255fe6d0 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -31,6 +31,26 @@ enum dpu_perf_mode {
+>  	DPU_PERF_MODE_MAX
+>  };
+>  
+> +/**
+> + * dpu_core_perf_adjusted_crtc_clk - Adjust given crtc clock rate according to
 
-No. It is explicitly mentioned in the commit message. It's not under the hood.
+Nit: CRTC (here and further)
 
->
-> >>
-> >> This is true for all the APIs being touched in this file.
-> >>
-> >> I guess the whole point of having that audio map in the catalog was to
-> >> preserve the read values of these registers. I have to check what was
-> >> the reason behind that as once again this was before I worked on this
-> >> driver as well.
-> >>
-> >> So technically there are two parts to this change:
-> >>
-> >> 1) dropping read for each header and directly just writing it
-> >> 2) Writing the registers directly instead of going through catalog
-> >>
-> >> It seems like (1) and (2) are independent. I hope (1) was not the reason
-> >> to have started this whole rework.
-> >
-> > Yes, the driver spends a lot of effort to preserve the data that will
-> > be rewritten when the function is called to write the next header
-> > byte. So it is useless. Only HB0 has been preserved, PacketID. If for
-> > some reason we are generating a stream with the non-zero ID, it should
-> > be explicit, not implicitly 'preserved'.
-> >
->
-> I am trying to understand why this was being preserved. Audio
-> programming is half in DP driver and half in ADSP. I dont know if the
-> expectation was that packet ID will be programmed elsewhere and not in
-> HLOS code hence it was preserved.
->
-> > So, the reasons were:
-> > - fix the RMW cycles to drop old values from the registers
-> > - use new msm_dp_utils_pack_sdp_header()
-> > - get rid of the useless indirection through the catalog and enum
-> > msm_dp_catalog_audio_header_type
-> > - write registers in an efficient way.
-> > - if we ever have a set of functions to handle DP infoframes (like we
-> > do for HDMI), make the MSM DP driver ready to be converted to such
-> > functions.
->
->
-> The only reason the current driver needed to go through the catalog map
-> was that it was trying to write one header at a time. And in the
-> registers, 2 headers are mapped to one register. So a map was needed. I
-> do not know the reason for breaking up the writes into one header at a
-> time like I already mentioned so I am trying to gather that info.
-> Without knowing the reason it might seem useless but its my duty to make
-> sure nothing was overlooked.
+> + *   the perf clock factor.
+> + * @crtc_clk_rate - Unadjusted crtc clock rate
+> + * @perf_cfg: performance configuration
+> + */
+> +u64 dpu_core_perf_adjusted_crtc_clk(u64 crtc_clk_rate,
+> +				    const struct dpu_perf_cfg *perf_cfg)
 
-Sure!
+It's not just the CRTC clocks
 
->
->
->
-> >
-> >>
-> >>>
-> >>>    static void msm_dp_audio_timestamp_sdp(struct msm_dp_audio_private *audio)
-> >>>    {
-> >>>        struct msm_dp_catalog *catalog = audio->catalog;
-> >>> -     u32 value, new_value;
-> >>> -     u8 parity_byte;
-> >>> -
-> >>> -     /* Config header and parity byte 1 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     new_value = 0x1;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_1_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_1_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 1: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     /* Config header and parity byte 2 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     new_value = 0x17;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_2_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_2_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 2: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     /* Config header and parity byte 3 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_3);
-> >>> -
-> >>> -     new_value = (0x0 | (0x11 << 2));
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_3_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_3_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 3: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_TIMESTAMP, DP_AUDIO_SDP_HEADER_3);
-> >>> +     struct dp_sdp_header sdp_hdr = {
-> >>> +             .HB0 = 0x00,
-> >>> +             .HB1 = 0x01,
-> >>> +             .HB2 = 0x17,
-> >>> +             .HB3 = 0x0 | (0x11 << 2),
-> >>> +     };
-> >>> +     u32 header[2];
-> >>> +
-> >>> +     msm_dp_utils_pack_sdp_header(&sdp_hdr, header);
-> >>> +
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_TIMESTAMP_0, header[0]);
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_TIMESTAMP_1, header[1]);
-> >>>    }
-> >>>
-> >>>    static void msm_dp_audio_infoframe_sdp(struct msm_dp_audio_private *audio)
-> >>>    {
-> >>>        struct msm_dp_catalog *catalog = audio->catalog;
-> >>> -     u32 value, new_value;
-> >>> -     u8 parity_byte;
-> >>> -
-> >>> -     /* Config header and parity byte 1 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     new_value = 0x84;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_1_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_1_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 1: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     /* Config header and parity byte 2 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     new_value = 0x1b;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_2_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_2_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 2: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     /* Config header and parity byte 3 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_3);
-> >>> -
-> >>> -     new_value = (0x0 | (0x11 << 2));
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_3_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_3_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 3: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     new_value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_INFOFRAME, DP_AUDIO_SDP_HEADER_3);
-> >>> +     struct dp_sdp_header sdp_hdr = {
-> >>> +             .HB0 = 0x00,
-> >>> +             .HB1 = 0x84,
-> >>> +             .HB2 = 0x1b,
-> >>> +             .HB3 = 0x0 | (0x11 << 2),
-> >>> +     };
-> >>> +     u32 header[2];
-> >>> +
-> >>> +     msm_dp_utils_pack_sdp_header(&sdp_hdr, header);
-> >>> +
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_INFOFRAME_0, header[0]);
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_INFOFRAME_1, header[1]);
-> >>>    }
-> >>>
-> >>>    static void msm_dp_audio_copy_management_sdp(struct msm_dp_audio_private *audio)
-> >>>    {
-> >>>        struct msm_dp_catalog *catalog = audio->catalog;
-> >>> -     u32 value, new_value;
-> >>> -     u8 parity_byte;
-> >>> -
-> >>> -     /* Config header and parity byte 1 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     new_value = 0x05;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_1_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_1_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 1: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     /* Config header and parity byte 2 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     new_value = 0x0F;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_2_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_2_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 2: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     /* Config header and parity byte 3 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_3);
-> >>> -
-> >>> -     new_value = 0x0;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_3_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_3_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 3: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_COPYMANAGEMENT, DP_AUDIO_SDP_HEADER_3);
-> >>> +     struct dp_sdp_header sdp_hdr = {
-> >>> +             .HB0 = 0x00,
-> >>> +             .HB1 = 0x05,
-> >>> +             .HB2 = 0x0f,
-> >>> +             .HB3 = 0x00,
-> >>> +     };
-> >>> +     u32 header[2];
-> >>> +
-> >>> +     msm_dp_utils_pack_sdp_header(&sdp_hdr, header);
-> >>> +
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_COPYMANAGEMENT_0, header[0]);
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_COPYMANAGEMENT_1, header[1]);
-> >>>    }
-> >>>
-> >>>    static void msm_dp_audio_isrc_sdp(struct msm_dp_audio_private *audio)
-> >>>    {
-> >>>        struct msm_dp_catalog *catalog = audio->catalog;
-> >>> -     u32 value, new_value;
-> >>> -     u8 parity_byte;
-> >>> -
-> >>> -     /* Config header and parity byte 1 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_ISRC, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     new_value = 0x06;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_1_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_1_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 1: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_ISRC, DP_AUDIO_SDP_HEADER_1);
-> >>> -
-> >>> -     /* Config header and parity byte 2 */
-> >>> -     value = msm_dp_audio_get_header(catalog,
-> >>> -                     DP_AUDIO_SDP_ISRC, DP_AUDIO_SDP_HEADER_2);
-> >>> -
-> >>> -     new_value = 0x0F;
-> >>> -     parity_byte = msm_dp_utils_calculate_parity(new_value);
-> >>> -     value |= ((new_value << HEADER_BYTE_2_BIT)
-> >>> -                     | (parity_byte << PARITY_BYTE_2_BIT));
-> >>> -     drm_dbg_dp(audio->drm_dev,
-> >>> -                     "Header Byte 2: value = 0x%x, parity_byte = 0x%x\n",
-> >>> -                     value, parity_byte);
-> >>> -     msm_dp_audio_set_header(catalog, value,
-> >>> -             DP_AUDIO_SDP_ISRC, DP_AUDIO_SDP_HEADER_2);
-> >>> +     struct dp_sdp_header sdp_hdr = {
-> >>> +             .HB0 = 0x00,
-> >>> +             .HB1 = 0x06,
-> >>> +             .HB2 = 0x0f,
-> >>> +             .HB3 = 0x00,
-> >>> +     };
-> >>> +     u32 header[2];
-> >>> +     u32 reg;
-> >>> +
-> >>> +     /* XXX: is it necessary to preserve this field? */
-> >>> +     reg = msm_dp_read_link(catalog, MMSS_DP_AUDIO_ISRC_1);
-> >>> +     sdp_hdr.HB3 = FIELD_GET(HEADER_3_MASK, reg);
-> >>> +
-> >>> +     msm_dp_utils_pack_sdp_header(&sdp_hdr, header);
-> >>> +
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_ISRC_0, header[0]);
-> >>> +     msm_dp_write_link(catalog, MMSS_DP_AUDIO_ISRC_1, header[1]);
-> >>>    }
-> >>>
-> >>>    static void msm_dp_audio_setup_sdp(struct msm_dp_audio_private *audio)
-> >>>
-> >
-> >
-> >
+> +{
+> +	u32 clk_factor;
+> +
+> +	clk_factor = perf_cfg->clk_inefficiency_factor;
+> +	if (clk_factor) {
+> +		crtc_clk_rate *= clk_factor;
+> +		do_div(crtc_clk_rate, 100);
+> +	}
+> +
+> +	return crtc_clk_rate;
+> +}
+> +
+>  /**
+>   * _dpu_core_perf_calc_bw() - to calculate BW per crtc
+>   * @perf_cfg: performance configuration
+> @@ -76,7 +96,6 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
+>  	struct dpu_plane_state *pstate;
+>  	struct drm_display_mode *mode;
+>  	u64 crtc_clk;
 
+While you are at it, could you please also add a patch, replacing height
+* vidth * vrefresh with mode->clock * 1000? The former one has limited
+precision.
 
+> -	u32 clk_factor;
+>  
+>  	mode = &state->adjusted_mode;
+>  
+> @@ -90,13 +109,7 @@ static u64 _dpu_core_perf_calc_clk(const struct dpu_perf_cfg *perf_cfg,
+>  		crtc_clk = max(pstate->plane_clk, crtc_clk);
+>  	}
+
+This function calculates crtc_clk as max(plane_clk, crtc_clk). Shouldn't
+we also reject the atomic_state if for any of the planes the corrected
+clock is lower than max_core_clk_rate
+
+>  
+> -	clk_factor = perf_cfg->clk_inefficiency_factor;
+> -	if (clk_factor) {
+> -		crtc_clk *= clk_factor;
+> -		do_div(crtc_clk, 100);
+> -	}
+> -
+> -	return crtc_clk;
+> +	return dpu_core_perf_adjusted_crtc_clk(crtc_clk, perf_cfg);
+>  }
+>  
+>  static struct dpu_kms *_dpu_crtc_get_kms(struct drm_crtc *crtc)
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> index 451bf8021114d9d4a2dfdbb81ed4150fc559c681..c3bcd567cdfb66647c83682d1feedd69e33f0680 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> @@ -54,6 +54,9 @@ struct dpu_core_perf {
+>  	u64 fix_core_ab_vote;
+>  };
+>  
+> +u64 dpu_core_perf_adjusted_crtc_clk(u64 clk_rate,
+> +				    const struct dpu_perf_cfg *perf_cfg);
+> +
+>  int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>  		struct drm_crtc_state *state);
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index ad3462476a143ec01a3b8817a2c85b0f50435a9e..cd7b84ab57a7526948c2beb7c5cefdddcbe4f6d9 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1257,6 +1257,7 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>  						const struct drm_display_mode *mode)
+>  {
+>  	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
+> +	u64 adjusted_mode_clk;
+>  
+>  	/* if there is no 3d_mux block we cannot merge LMs so we cannot
+>  	 * split the large layer into 2 LMs, filter out such modes
+> @@ -1264,6 +1265,17 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+>  	if (!dpu_kms->catalog->caps->has_3d_merge &&
+>  	    mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
+>  		return MODE_BAD_HVALUE;
+> +
+> +	adjusted_mode_clk = dpu_core_perf_adjusted_crtc_clk(mode->clock,
+> +							    dpu_kms->perf.perf_cfg);
+> +
+> +	/*
+> +	 * The given mode, adjusted for the perf clock factor, should not exceed
+> +	 * the max core clock rate
+> +	 */
+> +	if (adjusted_mode_clk > dpu_kms->perf.max_core_clk_rate / 1000)
+> +		return MODE_CLOCK_HIGH;
+> +
+>  	/*
+>  	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
+>  	 */
+> 
+> ---
+> base-commit: 423c1c96d6b2d3bb35072e33a5fdd8db6d2c0a74
+> change-id: 20241212-filter-mode-clock-8cb2e769f05b
+> 
+> Best regards,
+> -- 
+> Jessica Zhang <quic_jesszhan@quicinc.com>
+> 
 
 -- 
 With best wishes
