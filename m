@@ -1,37 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0CE19F0EBE
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 15:13:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 245489F0ED3
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 15:15:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48BD210F02F;
-	Fri, 13 Dec 2024 14:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C2410E1F1;
+	Fri, 13 Dec 2024 14:15:51 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fizE5Mk9";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B50B10F029;
- Fri, 13 Dec 2024 14:13:30 +0000 (UTC)
-Message-ID: <789d78c1-d16a-4cb3-b4ad-ba5f0ddcacaf@lankhorst.se>
-Date: Fri, 13 Dec 2024 15:13:23 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D0E310E1B6;
+ Fri, 13 Dec 2024 14:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=587hDqcnKGq/bywvORxhW/qrnyvDDPlNgcMgllHItw4=; b=fizE5Mk9MPAJ77lbIvT/XXy3s4
+ +6dEhX43NYQHMpkr4d4naK7v5ufVEg512QX0on5IqJwUmlIpyVRBNwO+6X27PqcMIsog2AShcsUlG
+ XgWgDI9hG2wYicxbDv+Dfv0Vgw9i4O1PGKDhHwo9v0UC9W0pfWstUGyfmt3N/kpVcVBGPYGGKbxiF
+ sk0AHheO/nHgk6dvnTQi854TSMqHu6kdhZsa0bhUV7A8D3NiaHssPccPWWy//h8QDggio1uvSdrln
+ 0W1ktme8f8t9/L6xf7xu8v0PhBKaM2tjcmjVeHbA51e7hToaFJd+JJfs7fIpIvyTmy4sbc7++QU26
+ o569INLw==;
+Received: from [179.193.1.214] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tM6SA-002g5A-2u; Fri, 13 Dec 2024 15:15:38 +0100
+Message-ID: <c7c498f0-2ee3-42f5-9b45-c87e52ffc3e4@igalia.com>
+Date: Fri, 13 Dec 2024 11:15:31 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-To: Maxime Ripard <mripard@kernel.org>, Friedrich Vock <friedrich.vock@gmx.de>
-Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20241204134410.1161769-1-dev@lankhorst.se>
- <29a71119-04de-4c76-a98a-d0fcb906390f@gmx.de>
- <20241213-sceptical-maize-gazelle-fadc34@houat>
+Subject: Re: [PATCH 1/1] drm/amdgpu: Use device wedged event
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241212190909.28559-1-andrealmeid@igalia.com>
+ <20241212190909.28559-2-andrealmeid@igalia.com>
+ <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
 Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <20241213-sceptical-maize-gazelle-fadc34@houat>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,58 +70,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+Hi Christian,
 
-Den 2024-12-13 kl. 14:07, skrev Maxime Ripard:
-> On Sun, Dec 08, 2024 at 01:15:34PM +0100, Friedrich Vock wrote:
->> Hi,
+Em 13/12/2024 04:34, Christian König escreveu:
+> Am 12.12.24 um 20:09 schrieb André Almeida:
+>> Use DRM's device wedged event to notify userspace that a reset had
+>> happened. For now, only use `none` method meant for telemetry
+>> capture.
 >>
->> On 04.12.24 14:44, Maarten Lankhorst wrote:
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++
+>>   1 file changed, 3 insertions(+)
 >>
->>> Because it only deals with memory regions, the UAPI has been updated
->>> to use dmem.min/low/max/current, and to make the API cleaner, the
->>> names are changed too.
->>>
->>> dmem.current could contain a line like:
->>> "drm/0000:03:00.0/vram0 1073741824"
->>>
->>> But I think using "drm/card0/vram0" instead of PCIID would perhaps
->>> be good too. I'm open to changing it to that based on feedback.
->>
->> Agree, allowing userspace to reference DRM devices via "cardN" syntax
->> sounds good.
->>
->> What about other subsystems potentially using dmem cgroups?
->> I'm not familiar with the media subsystem, but I imagine we might be
->> dealing with things like USB devices there? Is something like a
->> "deviceN" possible there as well, or would device IDs look completely
->> different?
-I'd just take what makes sense for each driver. dev_name() would be a 
-good approximation.
-
-I agree that cardN is not stable.
-
-> > I have some patches to enable the cgroup in GEM-based drivers, media
-> ones and dma-buf heaps. The dma-buf heaps are simple enough since the
-> heaps names are supposed to be stable.
-
-I've used your patch as a base enable cgroup in drivers that use the 
-VRAM manager. I didn't want to enable it for all of GEM, because it 
-would conflict with drivers using TTM. Some more discussion is needed first.
-
-For DMA-BUF heaps, I think it's fine and there is a lot less need of 
-discussion. I just felt it should be sent separately from the initial 
-enablement.
-
-> I don't think using card0 vs card1 (or v4l0 vs v4l1 for example) will
-> work because I don't think we have any sort of guarantee that these
-> names will always point to the same devices across reboots or updates.
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/ 
+>> drm/amd/amdgpu/amdgpu_device.c
+>> index 96316111300a..19e1a5493778 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -6057,6 +6057,9 @@ int amdgpu_device_gpu_recover(struct 
+>> amdgpu_device *adev,
+>>           dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
+>>       atomic_set(&adev->reset_domain->reset_res, r);
+>> +
+>> +    drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE);
 > 
-> If the module is loaded later than it used to for example, we could very
-> well end up in a situation where card0 and card1 are swapped, while the
-> constraints apply to the previous situation.
-I agree, just put it out there for discussion. I don't think the 
-benefits weigh up against the downsides :-)
+> That looks really good in general. I would just make the 
+> DRM_WEDGE_RECOVERY_NONE depend on the value of "r".
+> 
 
-Cheers,
-~Maarten
+Why depend or `r`? A reset was triggered anyway, regardless of the 
+success of it, shouldn't we tell userspace?
