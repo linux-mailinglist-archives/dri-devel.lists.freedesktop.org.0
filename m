@@ -1,154 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D179F05C7
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 08:50:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0129F05F5
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 09:05:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A175B10EF24;
-	Fri, 13 Dec 2024 07:50:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="J3p27Gib";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5208410EF2A;
+	Fri, 13 Dec 2024 08:05:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on20605.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2416::605])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D548F10EF24
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 07:50:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HBzgaIvnPV50GFpc3CivtUb8ffyZ3CtuBH/0k1t4PMYoynTxgEEvO3wTp2/5TRlxHSgsgxIfmMV15QEdKZ8OwUNfGIln4qS3N7VnwVd/BRSiAHuAHIAue+xwASOI+Lq6UjLnWyIAwmOUoa3a0ViOc8C1QFSnm+8Cab72uDgPgzQYzoxY3hLXXMgt4ad42kDAA2jKGpIWpDuheO9XLSee6PZSDam8oS0qWZOw2m6NVPRsnYfHWCUeUKQ7IJp7bPrgjSmtWuS6DdFrE/Yn+MCnTeTgKQYK35M0a4rGWrBM/K2bIwc3zJWLhTmjMdps4dg3EDNAQumF2AHpDmv3oSa3aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ux3DoWPohy048Dx7PrQRG+sJwCqcDmWvsdhL8eXGGI0=;
- b=fJqk4l9D+fqEHypbCSmkasdaUEGLDHarQHQh8As6vBXgYgY0lt+iVULpnaFb4ccfZQYUhNgG1b52o7i3+B7lvFRhUVNDPxc1BKC76oud/qh76oW+cZECnlPA/P3ldcQmZJP5BvMYbhx01wLmpGKnrGrROFffvmzKYFneJoJuYoDJvyzQlKQJ1I9CgcGEX/LLCdZR5mq/4Hr/RxGzqN83VO5k3skXf5OBI8K+MYa60g8sg9MclxzAV+Ig1MvffBwvBE+42/g7wacPtBwTohqBeU9xHCYpUBp707tdkhXs8cHPij3sXDn3oLXUEUfjCy9SxLkwibdgyZxYgwbGjdlr2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ux3DoWPohy048Dx7PrQRG+sJwCqcDmWvsdhL8eXGGI0=;
- b=J3p27GibzH2sbrK+27J7ETiSQpue8d6GqhaDD3NjNFu8Txbc5XpIOVVeCQMX9Mijg6XeMGWNCCj7gM2BrHG9gtXkuELf53/aD1WOkcYb4t3JrD6iLUCzcmCi3nQXpFYW+/yxMk/uaepLzPKf6U9/3OHt7IBmSCGg7YuNLwaz/n8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6108.namprd12.prod.outlook.com (2603:10b6:930:27::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.18; Fri, 13 Dec
- 2024 07:50:35 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8251.015; Fri, 13 Dec 2024
- 07:50:35 +0000
-Message-ID: <acd82bd1-4d75-42dc-b5bc-1e7fd18c8a5b@amd.com>
-Date: Fri, 13 Dec 2024 08:50:29 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] drm/vc4: Use DRM Execution Contexts
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20241212202337.381614-1-mcanal@igalia.com>
- <20241212202337.381614-2-mcanal@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20241212202337.381614-2-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0240.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b2::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 107FE10EF2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 08:05:40 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 59CE41F394;
+ Fri, 13 Dec 2024 08:05:38 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1192E137CF;
+ Fri, 13 Dec 2024 08:05:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NRQEA9LqW2caGQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Dec 2024 08:05:38 +0000
+Content-Type: multipart/mixed; boundary="------------nWuwnrygt0CNMuDcyFiuvcB0"
+Message-ID: <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
+Date: Fri, 13 Dec 2024 09:05:37 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6108:EE_
-X-MS-Office365-Filtering-Correlation-Id: 130edfdd-3972-4052-9337-08dd1b4ad3c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VzdIV1NWTTNRSGJQSk9EcjZEVUovRHhqT1JKeWdjdHhIU0E4VEs4azViUklW?=
- =?utf-8?B?S3JvVVIyVWFieUFaSFo4SncvWnNRR1lpZGZRbFVGbjcrK3ZUaWViSWNYN0Nh?=
- =?utf-8?B?K2kyc2FRTU9UdjdWRituejVKcjFtN0pRQU9KREJlbVo2am5QU2JENThjSlZo?=
- =?utf-8?B?RVN0cVBNVHdjRHNnWlNLbWwxZUhENllvcTRrM2hsQU5qVCtQRGNkVkhkMlZV?=
- =?utf-8?B?bnhtVnZxNGJuWnZDRzh0Q3J0TTRKVURXaGl5VnNscUpTK0hnbXdyWHdzMnVN?=
- =?utf-8?B?Ylg0Rk9UNEowUHR2TUJDeld0ZlZUVHhBdG4zNzhVZkg1YkpINFhBZy95clVH?=
- =?utf-8?B?K29pbkUvNHVORm42blNuRjdhelVMczdBM3FiQkYrSmxCSGc2Q1JkQVMxWFF6?=
- =?utf-8?B?dW1CZmFWMWs1ckQ2V3FVUDREUUJYcXMzVnYwbFhidG55VEtsdlkrdG4vRGNI?=
- =?utf-8?B?M3JHcktJSGQ0UG44bUoraXdrS29wYTRIZHc0MGpLZjRLZXRMUHFvR3hjSXpa?=
- =?utf-8?B?d252TlhKRnlwUXoxQVUzd2JneFFMZGNWcGl0WGlhZU0xWklRTnc2ZVdwVy9J?=
- =?utf-8?B?a0hFbURvS3dkbitySzhzckhhbExwZTRQaU4yZWt1eHhLQVB4WXFtVXFITVpN?=
- =?utf-8?B?ajdXRHRqQW92UEd1aFlJakUwdE9Ua0pPQ2FrVzU5cGlzQUpYRjVGVFJxN09z?=
- =?utf-8?B?aGpUUkViL2JDeFNGNC8reUlsUlB0RFo1MnZ2cFJEZ2tnN3A5ci83N0lrNXFm?=
- =?utf-8?B?MldQeDlBdVM5aks4VGdpZ0JtR2JQbUZINHQxRzgrcURDOGJKeVo3S3NvdVA3?=
- =?utf-8?B?TDErQ0hjY2tXUEpEUXhWeWVBSkJEemJoTThqR1doWjQzQ1lJc1NzTUFyNk1y?=
- =?utf-8?B?WmhuU1c3Q0g1ZGR6SHRDcUxLTXBnUWh2bHNvREVpdnNUWnVHdjNsN3pjRUtX?=
- =?utf-8?B?czVXMjdhKzBwaEhDUkFOd3IxcE1iTUNNUHBnYVIzMjE0ZWV3UWtnYmlzc2hi?=
- =?utf-8?B?Y3RXUk9ZZEZ6aWNUYTFVY1c0Z0dyVFlhZ251bWRCTTRMUEt1U1BSRXNQTWN1?=
- =?utf-8?B?aEM2YnVTNEhPRWl2d0Z2L2FzdTlOcXlxYjJjcXNRL0NSUksrYmdaMVhHRFEw?=
- =?utf-8?B?eXYyejlENFBnZkdsNm9LbzQ5NlF0UThobzdoWVJUbWhiNngwVzBjQlpxTEhv?=
- =?utf-8?B?aUpRc1ZHdFY5c0xaTnRqY3kzZTU3SjFicFVXNnVVc25vQjJJYXdvZzdmSGlw?=
- =?utf-8?B?cjQ0ZjVPcy9mRW5rWmF1czdVQjdJUDNCV0UxTGtwRlVQVTdtNUJwZ24yYUNv?=
- =?utf-8?B?THZvN2RaY2E1TUxOdHFqeXdNUEJXNXJhaEhvbmNyRDhzRkNqS1ZlajgxRzBu?=
- =?utf-8?B?L05EYUFSSlhNSk9hZlI3RzRoL0FHbTZIRlpwcDRzOFdJQmJOZmp3VUlFL0c3?=
- =?utf-8?B?dTdtWmR2dmpxL0JGdVlEOXI2RG5ObktPVWwwTUhFbE9wS05tSzJ3aEpoVzlh?=
- =?utf-8?B?aTIzY2xzSFBxZVNpcUU0cFo1b3ZmWWJvWUR4SktHaGpHc0JnSkJkNUhpNXYz?=
- =?utf-8?B?THRlUXlrKzdxTW4xSkdrUEtFQmdyVVZCVTNGQUgzcS9FYzZHcUFGWjVZL0Vv?=
- =?utf-8?B?bm5HdkVjZE5kMS9URXZ4dGVnMXhWRE4yenY5RDYxVEd4SERQbytXSnZ6SW9H?=
- =?utf-8?B?YWdCT0IvWE5MM0VlWnQ3d1pTOCtnQUxDbmY0ZXAwQmNHSGd5bTFXQlVIK3h0?=
- =?utf-8?B?RUZ6VXkrdktEeWFFWk85Tkg4bjBiUDg3MXZkN1k2dVh6dmtKeHMrVkhTcElX?=
- =?utf-8?B?eUpwS2FnUVJ0M2hhSVVyZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eVdzWDZCRXJVVndGeVlUS2FLTkI0U1c4MnNlK0QwK3pYRGloMmVkWXQxQjUv?=
- =?utf-8?B?ZWIvbDhmb21XU0ZxSDFIU05EZWp0SktmQ0IrWmVCYzFEUUF0TkpHUTlFb2VV?=
- =?utf-8?B?OXVFSFZldTFLV2FJRWs2aGZqemFEUk5KbmJmUUtwS0xEczhnUFdoQkZISW56?=
- =?utf-8?B?K1IvVUJiRmpQaExpaStrSTV1dDNMY3Z2OHV6NXFJVG9UMjIrWHBLQ1ZjRDhs?=
- =?utf-8?B?N3RBdDlDRDVzN0Z2ZHlPRk93ZEJPQ2p4b0swdTRmTlUrcEIzelc2N3dCdzZV?=
- =?utf-8?B?d0lYOVVVUkE4VHNvSnFMTFBHLzYwaDl4MjZpQ1IyUVVVN29TamtEcDZnenFp?=
- =?utf-8?B?cDJSOGRVODJSSzdXSlNFNWp4RDBHY3F3QTVLa0F4VlU2WHJXY1FXOUdYRWNL?=
- =?utf-8?B?OGFTcER1a1dMQjJCeW45eUlHbzJMWWRNT1lXMmFPRTFUTFJvVThIQ1pMM0VW?=
- =?utf-8?B?Y0hqbjk5Q2ZFb0NpMjN3cE1ZK2ljYjJUcmpzT25YRm8zN25kQkhQUWFjWUFX?=
- =?utf-8?B?cXpuREcrYk5DRHVPNWFUR2hpZXZFcStkdWg0WUxDQllubFNpM0l0K1lRYUlh?=
- =?utf-8?B?aUJENVd4OURWbU9wTnBNc0ZZdkpqQ2hQbk5XYitwQmVUdzFTQk40SjEwLzNQ?=
- =?utf-8?B?N09PUzNOdVBZSUNxNCt2dE45M2dtTlNtUHV0SmpPN2tSNlE2dzRIMmZSdUVE?=
- =?utf-8?B?bEJObVRxNnhYMGdnSmlFbk80Mno3dStZai9TeW1zV0VFZFp1S1oySmNpYXU2?=
- =?utf-8?B?TmNwTW9Qa0VHZW9MUk9jNXlITDU4aHR6OHVuSGI5c29teTdYRDVqaGd6aGpX?=
- =?utf-8?B?cHZ2WGdJaHQ0eS9UNVFvKy9VRFk3elB6NnpmYmZ3KzFkejJBbytFdWY3b1c1?=
- =?utf-8?B?b3g3Y1Rudk9UNVhlRVlXK2QzVEp4ZDJqSnFTWSsxNXV2ekZKQXMvaTcxMEFT?=
- =?utf-8?B?dHhLVVFEUFBnMnR5SnZ1MnVDZ09XeGNyUnUvUXpUNEthZFRIazdTakt0emRh?=
- =?utf-8?B?L3NxWXFHWnMyQlkxeUZVNmt2VXFrcER1TnVVbW1td0NqOHA2YndvUVJFeXZU?=
- =?utf-8?B?aVFKRDRvZmxTUGt4ZVhmZmtsTDdhSFN0dTlWSG40d0dSODJwWU1QRGw0NVdQ?=
- =?utf-8?B?SXpvSWVCSy9nZTFhaWFyYkhVa1lQMHdaaEcyRUZTWFg3ZFNCUHFLQXlhVmNi?=
- =?utf-8?B?WGc5SkRsTjFXZmF3MVpXU2lzRnQxU1h5TWZ3NEpzZjJYbVhYejFNY0ZVWTBx?=
- =?utf-8?B?eDJic1FtU2pZOGErSXVoK1d5MEhyZVRNckhkTndzaDlsTzdJR3NmN1B6T3hD?=
- =?utf-8?B?UDJ4MzVwMTcxblA2RU56cmxtOUJubzFXVEhYdkNDNjY0YjdGb0QyT3d3d3lZ?=
- =?utf-8?B?bFBMcmw5MTQzM1hGVnpWVGFLM3N1dXpUUVJDeXhyZmRiRG8vZUVUSVlrMUFk?=
- =?utf-8?B?WTREOHJGRnJyK2lMQlN6OTBMajRmZmlyYzFTSTd3SlkrS1h5R08zSGNrWWhm?=
- =?utf-8?B?eHlONW9tRlpydXhBK3FlTnZIZlFxc1VVQ3hYRHErb1psblY1TkIwSHhDOW85?=
- =?utf-8?B?MVNBOFEweEZNM3hlN1FJd3ZudUNCM0ZmZ1p1L3p2Lzl2eFlmdkRZMllEejFT?=
- =?utf-8?B?MzlwN0dnRGg2c3BXc2o3VVBJajN6Rm1CWjdESWIvbDlPYWVUQXR5UHVFbGwr?=
- =?utf-8?B?WUhKa055SE4ySXUwS0VmelNucGlNQ0NjU0EzbmYxc1FzR1hGVXhKaXBEMzEv?=
- =?utf-8?B?RmVUUGNQL05RS05nbkNzNG5kWDExQ1BnbFkzUC9EZk9jcmNicVRabUl6akhM?=
- =?utf-8?B?SkRKVW5tUUZubVloaVdGajFEd21xTWVsclJvNlpOZmk1STQxRXZjVkpWYzBx?=
- =?utf-8?B?WmJZSVR4SzBMYWxyU2ZPUjZLTjRCcWUvUnBVdHB3dVdPdDFEQTQ3dzg4OVN6?=
- =?utf-8?B?TWU1UTZqdk1OZGNiUk1yQ0ptZnFDTUJQTEhVcllDY0lDWE14SFpYSFZhNDR3?=
- =?utf-8?B?djA0Q2RUL2g1ZHpscHllelpxS1R5QVpMZHkwRHJpdnA2dmZ5aEdzWE5hb2tE?=
- =?utf-8?B?d2xWSFVlcFN5ZkNha1FNMVlRZk15M0MxbUFUYlM1S2ZNYThnWUVDbFFlanhO?=
- =?utf-8?Q?jkhjqPTP2z4F3i1eKZbYEgI1k?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 130edfdd-3972-4052-9337-08dd1b4ad3c0
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2024 07:50:35.3350 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A44Z/UJKrJrMcWGz5t6qjbM1xbGisU9IsHlh6g5mMhUO6GZ6kM2MeNUVFXC7rS0X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6108
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, javierm@redhat.com,
+ arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 59CE41F394
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,224 +99,282 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 12.12.24 um 21:20 schrieb Maíra Canal:
-> VC4 has internal copies of `drm_gem_lock_reservations()` and
-> `drm_gem_unlock_reservations()` inside the driver and ideally, we should
-> move those hard-coded functions to the generic functions provided by DRM.
-> But, instead of using the DRM GEM functions to (un)lock reservations, move
-> the new DRM Execution Contexts API.
+This is a multi-part message in MIME format.
+--------------nWuwnrygt0CNMuDcyFiuvcB0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Hi
+
+
+Am 13.12.24 um 08:44 schrieb Christophe Leroy:
 >
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-
-Oh, that looks really straight forward and clean. But I can only give an
-
-Acked-by: Christian König <christian.koenig@amd.com>
-
-since I don't know the VC4 code at all.
-
-Regards,
-Christian.
-
-> ---
->   drivers/gpu/drm/vc4/Kconfig   |  1 +
->   drivers/gpu/drm/vc4/vc4_gem.c | 99 ++++++++---------------------------
->   2 files changed, 22 insertions(+), 78 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-> index c5f30b317698..0627e826fda4 100644
-> --- a/drivers/gpu/drm/vc4/Kconfig
-> +++ b/drivers/gpu/drm/vc4/Kconfig
-> @@ -13,6 +13,7 @@ config DRM_VC4
->   	select DRM_DISPLAY_HDMI_HELPER
->   	select DRM_DISPLAY_HDMI_STATE_HELPER
->   	select DRM_DISPLAY_HELPER
-> +	select DRM_EXEC
->   	select DRM_KMS_HELPER
->   	select DRM_GEM_DMA_HELPER
->   	select DRM_PANEL_BRIDGE
-> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-> index 22bccd69eb62..1021f45cb53c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> @@ -29,6 +29,7 @@
->   #include <linux/sched/signal.h>
->   #include <linux/dma-fence-array.h>
->   
-> +#include <drm/drm_exec.h>
->   #include <drm/drm_syncobj.h>
->   
->   #include "uapi/drm/vc4_drm.h"
-> @@ -578,19 +579,6 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
->   	}
->   }
->   
-> -static void
-> -vc4_unlock_bo_reservations(struct drm_device *dev,
-> -			   struct vc4_exec_info *exec,
-> -			   struct ww_acquire_ctx *acquire_ctx)
-> -{
-> -	int i;
-> -
-> -	for (i = 0; i < exec->bo_count; i++)
-> -		dma_resv_unlock(exec->bo[i]->resv);
-> -
-> -	ww_acquire_fini(acquire_ctx);
-> -}
-> -
->   /* Takes the reservation lock on all the BOs being referenced, so that
->    * at queue submit time we can update the reservations.
->    *
-> @@ -599,70 +587,23 @@ vc4_unlock_bo_reservations(struct drm_device *dev,
->    * to vc4, so we don't attach dma-buf fences to them.
->    */
->   static int
-> -vc4_lock_bo_reservations(struct drm_device *dev,
-> -			 struct vc4_exec_info *exec,
-> -			 struct ww_acquire_ctx *acquire_ctx)
-> +vc4_lock_bo_reservations(struct vc4_exec_info *exec,
-> +			 struct drm_exec *exec_ctx)
->   {
-> -	int contended_lock = -1;
-> -	int i, ret;
-> -	struct drm_gem_object *bo;
-> -
-> -	ww_acquire_init(acquire_ctx, &reservation_ww_class);
-> -
-> -retry:
-> -	if (contended_lock != -1) {
-> -		bo = exec->bo[contended_lock];
-> -		ret = dma_resv_lock_slow_interruptible(bo->resv, acquire_ctx);
-> -		if (ret) {
-> -			ww_acquire_done(acquire_ctx);
-> -			return ret;
-> -		}
-> -	}
-> -
-> -	for (i = 0; i < exec->bo_count; i++) {
-> -		if (i == contended_lock)
-> -			continue;
-> -
-> -		bo = exec->bo[i];
-> -
-> -		ret = dma_resv_lock_interruptible(bo->resv, acquire_ctx);
-> -		if (ret) {
-> -			int j;
-> -
-> -			for (j = 0; j < i; j++) {
-> -				bo = exec->bo[j];
-> -				dma_resv_unlock(bo->resv);
-> -			}
-> -
-> -			if (contended_lock != -1 && contended_lock >= i) {
-> -				bo = exec->bo[contended_lock];
-> -
-> -				dma_resv_unlock(bo->resv);
-> -			}
-> -
-> -			if (ret == -EDEADLK) {
-> -				contended_lock = i;
-> -				goto retry;
-> -			}
-> -
-> -			ww_acquire_done(acquire_ctx);
-> -			return ret;
-> -		}
-> -	}
-> -
-> -	ww_acquire_done(acquire_ctx);
-> +	int ret;
->   
->   	/* Reserve space for our shared (read-only) fence references,
->   	 * before we commit the CL to the hardware.
->   	 */
-> -	for (i = 0; i < exec->bo_count; i++) {
-> -		bo = exec->bo[i];
-> +	drm_exec_init(exec_ctx, DRM_EXEC_INTERRUPTIBLE_WAIT, exec->bo_count);
-> +	drm_exec_until_all_locked(exec_ctx) {
-> +		ret = drm_exec_prepare_array(exec_ctx, exec->bo,
-> +					     exec->bo_count, 1);
-> +	}
->   
-> -		ret = dma_resv_reserve_fences(bo->resv, 1);
-> -		if (ret) {
-> -			vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
-> -			return ret;
-> -		}
-> +	if (ret) {
-> +		drm_exec_fini(exec_ctx);
-> +		return ret;
->   	}
->   
->   	return 0;
-> @@ -679,7 +620,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
->    */
->   static int
->   vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
-> -		 struct ww_acquire_ctx *acquire_ctx,
-> +		 struct drm_exec *exec_ctx,
->   		 struct drm_syncobj *out_sync)
->   {
->   	struct vc4_dev *vc4 = to_vc4_dev(dev);
-> @@ -708,7 +649,7 @@ vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
->   
->   	vc4_update_bo_seqnos(exec, seqno);
->   
-> -	vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
-> +	drm_exec_fini(exec_ctx);
->   
->   	list_add_tail(&exec->head, &vc4->bin_job_list);
->   
-> @@ -1123,7 +1064,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   	struct drm_vc4_submit_cl *args = data;
->   	struct drm_syncobj *out_sync = NULL;
->   	struct vc4_exec_info *exec;
-> -	struct ww_acquire_ctx acquire_ctx;
-> +	struct drm_exec exec_ctx;
->   	struct dma_fence *in_fence;
->   	int ret = 0;
->   
-> @@ -1216,7 +1157,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   	if (ret)
->   		goto fail;
->   
-> -	ret = vc4_lock_bo_reservations(dev, exec, &acquire_ctx);
-> +	ret = vc4_lock_bo_reservations(exec, &exec_ctx);
->   	if (ret)
->   		goto fail;
->   
-> @@ -1224,7 +1165,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   		out_sync = drm_syncobj_find(file_priv, args->out_sync);
->   		if (!out_sync) {
->   			ret = -EINVAL;
-> -			goto fail;
-> +			goto fail_unreserve;
->   		}
->   
->   		/* We replace the fence in out_sync in vc4_queue_submit since
-> @@ -1239,7 +1180,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   	 */
->   	exec->args = NULL;
->   
-> -	ret = vc4_queue_submit(dev, exec, &acquire_ctx, out_sync);
-> +	ret = vc4_queue_submit(dev, exec, &exec_ctx, out_sync);
->   
->   	/* The syncobj isn't part of the exec data and we need to free our
->   	 * reference even if job submission failed.
-> @@ -1248,13 +1189,15 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
->   		drm_syncobj_put(out_sync);
->   
->   	if (ret)
-> -		goto fail;
-> +		goto fail_unreserve;
->   
->   	/* Return the seqno for our job. */
->   	args->seqno = vc4->emit_seqno;
->   
->   	return 0;
->   
-> +fail_unreserve:
-> +	drm_exec_fini(&exec_ctx);
->   fail:
->   	vc4_complete_exec(&vc4->base, exec);
->   
+> Le 12/12/2024 à 11:04, Thomas Zimmermann a écrit :
+>> Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
+>> only controls backlight support within fbdev core code and data
+>> structures.
+>>
+>> Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
+>> select it explicitly. Fixes warnings about recursive dependencies,
+>> such as
+>>
+>> error: recursive dependency detected!
+>>     symbol BACKLIGHT_CLASS_DEVICE is selected by FB_BACKLIGHT
+>>     symbol FB_BACKLIGHT is selected by FB_SH_MOBILE_LCDC
+>>     symbol FB_SH_MOBILE_LCDC depends on FB_DEVICE
+>>     symbol FB_DEVICE depends on FB_CORE
+>>     symbol FB_CORE is selected by DRM_GEM_DMA_HELPER
+>>     symbol DRM_GEM_DMA_HELPER is selected by DRM_PANEL_ILITEK_ILI9341
+>>     symbol DRM_PANEL_ILITEK_ILI9341 depends on BACKLIGHT_CLASS_DEVICE
+>>
+>> BACKLIGHT_CLASS_DEVICE is user-selectable, so making drivers adapt to
+>> it is the correct approach in any case. For most drivers, backlight
+>> support is also configurable separately.
+>>
+>> v2:
+>> - s/BACKLIGHT_DEVICE_CLASS/BACKLIGHT_CLASS_DEVICE (Helge)
+>> - Fix fbdev driver-dependency corner case (Arnd)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/auxdisplay/Kconfig       |  2 +-
+>>   drivers/macintosh/Kconfig        |  1 +
+>>   drivers/staging/fbtft/Kconfig    |  1 +
+>>   drivers/video/fbdev/Kconfig      | 18 +++++++++++++-----
+>>   drivers/video/fbdev/core/Kconfig |  3 +--
+>>   5 files changed, 17 insertions(+), 8 deletions(-)
+>
+> Build fails which pmac32_defconfig :
+>
+>   LD      .tmp_vmlinux1
+> powerpc64-linux-ld: drivers/macintosh/via-pmu-backlight.o: in function 
+> `pmu_backlight_init':
+> via-pmu-backlight.c:(.init.text+0xc0): undefined reference to 
+> `backlight_device_register'
+> make[2]: *** [scripts/Makefile.vmlinux:77: vmlinux] Error 1
+> make[1]: *** [/home/chleroy/linux-powerpc/Makefile:1225: vmlinux] Error 2
 
+The attached patch selects backlight support in the defconfigs that also 
+have PMAC_BACKLIGHT=y. Can you please apply it on top of the patchset 
+and report on the results?
+
+Best regards
+Thomas
+
+>
+>
+>>
+>> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+>> index 21545ffba065..8934e6ad5772 100644
+>> --- a/drivers/auxdisplay/Kconfig
+>> +++ b/drivers/auxdisplay/Kconfig
+>> @@ -489,7 +489,7 @@ config IMG_ASCII_LCD
+>>     config HT16K33
+>>       tristate "Holtek Ht16K33 LED controller with keyscan"
+>> -    depends on FB && I2C && INPUT
+>> +    depends on FB && I2C && INPUT && BACKLIGHT_CLASS_DEVICE
+>>       select FB_SYSMEM_HELPERS
+>>       select INPUT_MATRIXKMAP
+>>       select FB_BACKLIGHT
+>> diff --git a/drivers/macintosh/Kconfig b/drivers/macintosh/Kconfig
+>> index fb38f684444f..bf3824032d61 100644
+>> --- a/drivers/macintosh/Kconfig
+>> +++ b/drivers/macintosh/Kconfig
+>> @@ -120,6 +120,7 @@ config PMAC_MEDIABAY
+>>   config PMAC_BACKLIGHT
+>>       bool "Backlight control for LCD screens"
+>>       depends on PPC_PMAC && ADB_PMU && FB = y && (BROKEN || !PPC64)
+>> +    depends on BACKLIGHT_CLASS_DEVICE
+>>       select FB_BACKLIGHT
+>>       help
+>>         Say Y here to enable Macintosh specific extensions of the 
+>> generic
+>> diff --git a/drivers/staging/fbtft/Kconfig 
+>> b/drivers/staging/fbtft/Kconfig
+>> index 77ab44362f16..dcf6a70455cc 100644
+>> --- a/drivers/staging/fbtft/Kconfig
+>> +++ b/drivers/staging/fbtft/Kconfig
+>> @@ -3,6 +3,7 @@ menuconfig FB_TFT
+>>       tristate "Support for small TFT LCD display modules"
+>>       depends on FB && SPI
+>>       depends on FB_DEVICE
+>> +    depends on BACKLIGHT_CLASS_DEVICE
+>>       depends on GPIOLIB || COMPILE_TEST
+>>       select FB_BACKLIGHT
+>>       select FB_SYSMEM_HELPERS_DEFERRED
+>> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
+>> index de035071fedb..55c6686f091e 100644
+>> --- a/drivers/video/fbdev/Kconfig
+>> +++ b/drivers/video/fbdev/Kconfig
+>> @@ -649,6 +649,7 @@ config FB_S1D13XXX
+>>   config FB_ATMEL
+>>       tristate "AT91 LCD Controller support"
+>>       depends on FB && OF && HAVE_CLK && HAS_IOMEM
+>> +    depends on BACKLIGHT_CLASS_DEVICE
+>>       depends on HAVE_FB_ATMEL || COMPILE_TEST
+>>       select FB_BACKLIGHT
+>>       select FB_IOMEM_HELPERS
+>> @@ -660,7 +661,6 @@ config FB_ATMEL
+>>   config FB_NVIDIA
+>>       tristate "nVidia Framebuffer Support"
+>>       depends on FB && PCI
+>> -    select FB_BACKLIGHT if FB_NVIDIA_BACKLIGHT
+>>       select FB_CFB_FILLRECT
+>>       select FB_CFB_COPYAREA
+>>       select FB_CFB_IMAGEBLIT
+>> @@ -700,6 +700,8 @@ config FB_NVIDIA_DEBUG
+>>   config FB_NVIDIA_BACKLIGHT
+>>       bool "Support for backlight control"
+>>       depends on FB_NVIDIA
+>> +    depends on BACKLIGHT_CLASS_DEVICE=y || 
+>> BACKLIGHT_CLASS_DEVICE=FB_NVIDIA
+>> +    select FB_BACKLIGHT
+>>       default y
+>>       help
+>>         Say Y here if you want to control the backlight of your display.
+>> @@ -707,7 +709,6 @@ config FB_NVIDIA_BACKLIGHT
+>>   config FB_RIVA
+>>       tristate "nVidia Riva support"
+>>       depends on FB && PCI
+>> -    select FB_BACKLIGHT if FB_RIVA_BACKLIGHT
+>>       select FB_CFB_FILLRECT
+>>       select FB_CFB_COPYAREA
+>>       select FB_CFB_IMAGEBLIT
+>> @@ -747,6 +748,8 @@ config FB_RIVA_DEBUG
+>>   config FB_RIVA_BACKLIGHT
+>>       bool "Support for backlight control"
+>>       depends on FB_RIVA
+>> +    depends on BACKLIGHT_CLASS_DEVICE=y || 
+>> BACKLIGHT_CLASS_DEVICE=FB_RIVA
+>> +    select FB_BACKLIGHT
+>>       default y
+>>       help
+>>         Say Y here if you want to control the backlight of your display.
+>> @@ -934,7 +937,6 @@ config FB_MATROX_MAVEN
+>>   config FB_RADEON
+>>       tristate "ATI Radeon display support"
+>>       depends on FB && PCI
+>> -    select FB_BACKLIGHT if FB_RADEON_BACKLIGHT
+>>       select FB_CFB_FILLRECT
+>>       select FB_CFB_COPYAREA
+>>       select FB_CFB_IMAGEBLIT
+>> @@ -960,6 +962,8 @@ config FB_RADEON_I2C
+>>   config FB_RADEON_BACKLIGHT
+>>       bool "Support for backlight control"
+>>       depends on FB_RADEON
+>> +    depends on BACKLIGHT_CLASS_DEVICE=y || 
+>> BACKLIGHT_CLASS_DEVICE=FB_RADEON
+>> +    select FB_BACKLIGHT
+>>       default y
+>>       help
+>>         Say Y here if you want to control the backlight of your display.
+>> @@ -975,7 +979,6 @@ config FB_RADEON_DEBUG
+>>   config FB_ATY128
+>>       tristate "ATI Rage128 display support"
+>>       depends on FB && PCI
+>> -    select FB_BACKLIGHT if FB_ATY128_BACKLIGHT
+>>       select FB_IOMEM_HELPERS
+>>       select FB_MACMODES if PPC_PMAC
+>>       help
+>> @@ -989,6 +992,8 @@ config FB_ATY128
+>>   config FB_ATY128_BACKLIGHT
+>>       bool "Support for backlight control"
+>>       depends on FB_ATY128
+>> +    depends on BACKLIGHT_CLASS_DEVICE=y || 
+>> BACKLIGHT_CLASS_DEVICE=FB_ATY128
+>> +    select FB_BACKLIGHT
+>>       default y
+>>       help
+>>         Say Y here if you want to control the backlight of your display.
+>> @@ -999,7 +1004,6 @@ config FB_ATY
+>>       select FB_CFB_FILLRECT
+>>       select FB_CFB_COPYAREA
+>>       select FB_CFB_IMAGEBLIT
+>> -    select FB_BACKLIGHT if FB_ATY_BACKLIGHT
+>>       select FB_IOMEM_FOPS
+>>       select FB_MACMODES if PPC
+>>       select FB_ATY_CT if SPARC64 && PCI
+>> @@ -1040,6 +1044,8 @@ config FB_ATY_GX
+>>   config FB_ATY_BACKLIGHT
+>>       bool "Support for backlight control"
+>>       depends on FB_ATY
+>> +    depends on BACKLIGHT_CLASS_DEVICE=y || 
+>> BACKLIGHT_CLASS_DEVICE=FB_ATY
+>> +    select FB_BACKLIGHT
+>>       default y
+>>       help
+>>         Say Y here if you want to control the backlight of your display.
+>> @@ -1528,6 +1534,7 @@ config FB_SH_MOBILE_LCDC
+>>       depends on FB && HAVE_CLK && HAS_IOMEM
+>>       depends on SUPERH || COMPILE_TEST
+>>       depends on FB_DEVICE
+>> +    depends on BACKLIGHT_CLASS_DEVICE
+>>       select FB_BACKLIGHT
+>>       select FB_DEFERRED_IO
+>>       select FB_DMAMEM_HELPERS
+>> @@ -1793,6 +1800,7 @@ config FB_SSD1307
+>>       tristate "Solomon SSD1307 framebuffer support"
+>>       depends on FB && I2C
+>>       depends on GPIOLIB || COMPILE_TEST
+>> +    depends on BACKLIGHT_CLASS_DEVICE
+>>       select FB_BACKLIGHT
+>>       select FB_SYSMEM_HELPERS_DEFERRED
+>>       help
+>> diff --git a/drivers/video/fbdev/core/Kconfig 
+>> b/drivers/video/fbdev/core/Kconfig
+>> index 0ab8848ba2f1..d554d8c543d4 100644
+>> --- a/drivers/video/fbdev/core/Kconfig
+>> +++ b/drivers/video/fbdev/core/Kconfig
+>> @@ -183,9 +183,8 @@ config FB_SYSMEM_HELPERS_DEFERRED
+>>       select FB_SYSMEM_HELPERS
+>>     config FB_BACKLIGHT
+>> -    tristate
+>> +    bool
+>>       depends on FB
+>> -    select BACKLIGHT_CLASS_DEVICE
+>>     config FB_MODE_HELPERS
+>>       bool "Enable Video Mode Handling Helpers"
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
+--------------nWuwnrygt0CNMuDcyFiuvcB0
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-add-BACKLIGHT_CLASS_DEVICE-on-PPC-defconfigs.patch"
+Content-Disposition: attachment;
+ filename="0001-add-BACKLIGHT_CLASS_DEVICE-on-PPC-defconfigs.patch"
+Content-Transfer-Encoding: base64
+
+RnJvbSBiMDI4MzM5NmFlZWQxOWNlZjhlMTM0MGMwNTEwMzkyOWNiNDFmYWY2IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
+c3VzZS5kZT4KRGF0ZTogRnJpLCAxMyBEZWMgMjAyNCAwOTowMjo0MSArMDEwMApTdWJqZWN0
+OiBbUEFUQ0hdIGFkZCBCQUNLTElHSFRfQ0xBU1NfREVWSUNFIG9uIFBQQyBkZWZjb25maWdz
+CgotLS0KIGFyY2gvcG93ZXJwYy9jb25maWdzL3BtYWMzMl9kZWZjb25maWcgfCAxICsKIGFy
+Y2gvcG93ZXJwYy9jb25maWdzL3BwYzZ4eF9kZWZjb25maWcgfCAxICsKIDIgZmlsZXMgY2hh
+bmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2NvbmZp
+Z3MvcG1hYzMyX2RlZmNvbmZpZyBiL2FyY2gvcG93ZXJwYy9jb25maWdzL3BtYWMzMl9kZWZj
+b25maWcKaW5kZXggNTdkZWQ4MmMyODQwLi5lOGIzZjY3YmYzZjUgMTAwNjQ0Ci0tLSBhL2Fy
+Y2gvcG93ZXJwYy9jb25maWdzL3BtYWMzMl9kZWZjb25maWcKKysrIGIvYXJjaC9wb3dlcnBj
+L2NvbmZpZ3MvcG1hYzMyX2RlZmNvbmZpZwpAQCAtMjA4LDYgKzIwOCw3IEBAIENPTkZJR19G
+Ql9BVFk9eQogQ09ORklHX0ZCX0FUWV9DVD15CiBDT05GSUdfRkJfQVRZX0dYPXkKIENPTkZJ
+R19GQl8zREZYPXkKK0NPTkZJR19CQUNLTElHSFRfQ0xBU1NfREVWSUNFPXkKICMgQ09ORklH
+X1ZHQV9DT05TT0xFIGlzIG5vdCBzZXQKIENPTkZJR19GUkFNRUJVRkZFUl9DT05TT0xFPXkK
+IENPTkZJR19MT0dPPXkKZGlmZiAtLWdpdCBhL2FyY2gvcG93ZXJwYy9jb25maWdzL3BwYzZ4
+eF9kZWZjb25maWcgYi9hcmNoL3Bvd2VycGMvY29uZmlncy9wcGM2eHhfZGVmY29uZmlnCmlu
+ZGV4IDRkNzdlMTc1NDFlOS4uY2EwYzkwZTk1ODM3IDEwMDY0NAotLS0gYS9hcmNoL3Bvd2Vy
+cGMvY29uZmlncy9wcGM2eHhfZGVmY29uZmlnCisrKyBiL2FyY2gvcG93ZXJwYy9jb25maWdz
+L3BwYzZ4eF9kZWZjb25maWcKQEAgLTcxNiw2ICs3MTYsNyBAQCBDT05GSUdfRkJfVFJJREVO
+VD1tCiBDT05GSUdfRkJfU001MDE9bQogQ09ORklHX0ZCX0lCTV9HWFQ0NTAwPXkKIENPTkZJ
+R19MQ0RfUExBVEZPUk09bQorQ09ORklHX0JBQ0tMSUdIVF9DTEFTU19ERVZJQ0U9eQogQ09O
+RklHX0ZSQU1FQlVGRkVSX0NPTlNPTEU9eQogQ09ORklHX0ZSQU1FQlVGRkVSX0NPTlNPTEVf
+Uk9UQVRJT049eQogQ09ORklHX0xPR089eQotLSAKMi40Ny4xCgo=
+
+--------------nWuwnrygt0CNMuDcyFiuvcB0--
