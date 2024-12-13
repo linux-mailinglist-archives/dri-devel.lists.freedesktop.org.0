@@ -1,79 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FDC9F09D9
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:41:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A76869F09DA
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FE7310EFB2;
-	Fri, 13 Dec 2024 10:41:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 292F110EFB5;
+	Fri, 13 Dec 2024 10:42:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BxDxXCHa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XIpPOtYl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEB9D10EFB2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:41:51 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD8rlVZ022838;
- Fri, 13 Dec 2024 10:41:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- F7dJuBWOlZbyLOpDMZu8mi2U03SalrRw5tG7sEM4G34=; b=BxDxXCHa3/IYd+F8
- +dDSfIf8xsLzEXOs15Xcn0TAPih40u2graBST4/4DzkIwayaudlVhvhnqYEbhGcr
- HY0Er8/ADepHb8RYsJfalHhJhPdzCU+IEOar++6EkQjScIX4/3TcJXC8iNi8RHdl
- ym+AsqOKjabTtLNgBvVyxVyKPAvU4xAA1swsZiAsLnxfWESkX1psaU1X04wj0Z4L
- SyZcofqC0H8HTfdsH3o8BRiatRaqK09ArVedTrO9XYk+aBSOrAgMjJvzpDjl0gij
- M7QNbpfxe7qRkfGSR+5I5al9bslc5o0CLJGmD2LGWVYc2dfKRA4PoZQ4viiMgzNt
- MsmvSg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43g4wna575-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 10:41:50 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDAfoZT022688
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 10:41:50 GMT
-Received: from [10.232.155.95] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
- 2024 02:41:49 -0800
-Message-ID: <8fa98b69-1a68-4cc8-9806-cd6ea3ee940b@quicinc.com>
-Date: Fri, 13 Dec 2024 10:41:37 +0000
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1895E10EFB5
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:42:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D7445A42AD0;
+ Fri, 13 Dec 2024 10:40:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 114EEC4CED0;
+ Fri, 13 Dec 2024 10:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734086537;
+ bh=YCRSfsCR0H7j5DT02vvh1WjN/AA7pKlT4vzd9klUb9c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XIpPOtYl+1Ss8ywsdiPsmsy9xA4GgA4kMKsRS9gp3SYldVavtdGgsKqf4EdP+5L/g
+ 56VMcEbMgL1Xr2mi5EZG5aThoMb3tdcEurNcY/HbNOFo4kwoBGwCn5mp5zkmU9299u
+ 3YdIMZ4CAEY1GBxn79TMcb7xIeuWBbHTx1nX2dafz0jmUt4g8kTuuzPS0NWcZ/cQrD
+ /EJIJnyuSzQVH/Jej3EiqBejmnBSuO5Y+vMb2kgEXfvbqptJnf2Kvhg2zXQ/Ht5Tq5
+ jwGJG3VgtNp6l4bSCBvvhtZFwJtnTo9yLhXeMxrDqp3Ia9gRRz9nme3zjzu9jQ5W0P
+ qYp8yeERHNPtg==
+Date: Fri, 13 Dec 2024 11:42:14 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Johnny Liu <johnliu@nvidia.com>
+Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com, 
+ luca.ceresoli@bootlin.com, mperttunen@nvidia.com,
+ maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/5] Support host1x actmon
+Message-ID: <jgqdgq6mifzex3tonl4sxbehwmcjo4jksfqmh7l4z5e2v4dqsj@uouomf3gyj7v>
+References: <20241210174554.18869-1-johnliu@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/qaic: Fix typo for struct
- qaic_manage_trans_passthrough
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <quic_carlv@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-References: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-Content-Language: en-US
-From: Youssef Samir <quic_yabdulra@quicinc.com>
-In-Reply-To: <20241129202845.3579306-1-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: MkfWWredAErxCE9fyNvneoZ4edF-EGfo
-X-Proofpoint-GUID: MkfWWredAErxCE9fyNvneoZ4edF-EGfo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 priorityscore=1501 mlxlogscore=757 spamscore=0
- mlxscore=0 clxscore=1015 adultscore=0 phishscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412130073
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241210174554.18869-1-johnliu@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,11 +63,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/29/2024 8:28 PM, Jeffrey Hugo wrote:
-> The documentation header for struct qaic_manage_trans_passthrough has a
-> typo - "t" is missing in "transaction".
+On Tue, Dec 10, 2024 at 09:45:49AM -0800, Johnny Liu wrote:
+> Activity monitoring (actmon for short) is a means to dynamically
+> measure the utilization of units in the system to help drive software
+> power management policies.
 > 
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
+
+Is this a resend or v2? Please always mark your patches appropriately -
+see submitting patches document.
+
+b4 diff '20241210174554.18869-1-johnliu@nvidia.com'
+Grabbing thread from lore.kernel.org/all/20241210174554.18869-1-johnliu@nvidia.com/t.mbox.gz
+---
+Analyzing 6 messages in the thread
+Could not find lower series to compare against.
+
+But I am sure I saw it somewhere...
+
+Or just use b4, so all this problems disappear.
+
+Best regards,
+Krzysztof
+
