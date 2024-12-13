@@ -2,85 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD94E9F14C0
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 19:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C09B9F1501
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 19:34:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20D2C10E332;
-	Fri, 13 Dec 2024 18:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46ACB10E250;
+	Fri, 13 Dec 2024 18:34:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SlTM7vNZ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="fZnO6G4P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D90210E332
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 18:11:22 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD9pb1P019094;
- Fri, 13 Dec 2024 18:11:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 3vNEMKXncV3si7ZbhyB8SSwRVuWZ8Rf/Zsvrpshae8c=; b=SlTM7vNZypBShu90
- t/kuGKpao5NfZF3Z1lz23Y/cDML9K0FOjfny0i2xxr95akOCpg7LueIxMaLuVNu0
- O8Mov1X3skOI6Mth96Ia7iHGdb8LMtS9JUywfHMVSAE/0w/gsn26jjnqnVT+RAPQ
- Ge3GaaVxPbL2ArTCYUoNeJEVNiEbH5eaDhR9dRp5bSdacfnA6gtO0RhCQVnu4bM1
- 6bHSMwZmGt22KdHb6FGfEBj18wHaQbIU5tgvN5ws+c+DbkG3GU5Mj/pFGXRkxP3M
- N/t/pmU/AWE2k8B+hoMqXGsmqnUgZ4kk4obZX/yKQT5OC46QUNDHqkhalfqkhBgP
- M7wOdg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gjnb1axe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 18:11:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDIB1k8015982
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 18:11:01 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
- 2024 10:11:00 -0800
-Message-ID: <cbb8f3f6-2ae3-c21d-478a-c0fb3dea385d@quicinc.com>
-Date: Fri, 13 Dec 2024 11:11:00 -0700
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC83210E250
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 18:34:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1734114847; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=SvAcOJY4ENjwkh4yqc8jzgQIfxnftgaq/eaNj7wJ7zOpHvNVDof2/8UZUAOZtn3UDGFiO5UxSEf2N+f/u1dwgt0JyjQfHtXqc6FyTifepQ5fDQ4Ko5ZrS2VbsJYu5zVnClkLDr/FTrfTU/4xsattOjY0e8Hye/LY6POLKztRoMw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1734114847;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=9Dm+phNaOF6lF+9DcLSZb4FaAsRUdmNhMpbAh3iEkgU=; 
+ b=ZU+D4io+X1w4oKuq6ToZYMbh5iFAGnA1sJ2JDrggylvYCBA40E49jWo6mobOBca7I+JuBE5Ynxj5o+9T6D/CoYsuSqHgy0/yIfjCIVZWtBhoEQ6IBCtHkeshC9mvDyO2sj0VW+jZZ2/zHz5m4qEsd+sLcB7XO7s1SW8DSWq+iNg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+ dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734114847; 
+ s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=9Dm+phNaOF6lF+9DcLSZb4FaAsRUdmNhMpbAh3iEkgU=;
+ b=fZnO6G4PjfRmzE1ndXHGkWFhk5VnRDMGhRwPOoouZRcQG6yh8BmRnfrVL48NL2Rv
+ 1dwxMrN/S0qxFh+9UrgVhJUs7xDWcUXFGMjz4eGbsrG1R12g3nczGvnyIphB/bMsUwa
+ v9Z+yXOwQ4Qu8fIhnte1rR7FZ0K0xbWhm1k77qOg=
+Received: by mx.zohomail.com with SMTPS id 1734114845510958.4473681288645;
+ Fri, 13 Dec 2024 10:34:05 -0800 (PST)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org,
+ s.hauer@pengutronix.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
+ kernel@collabora.com
+Subject: Re: [PATCH v5 05/18] drm/rockchip: vop2: Set AXI id for rk3588
+Date: Fri, 13 Dec 2024 13:34:03 -0500
+Message-ID: <13660005.uLZWGnKmhe@bootstrap>
+In-Reply-To: <3f1eace4.75cf.193b9daf585.Coremail.andyshrk@163.com>
+References: <20241209122943.2781431-1-andyshrk@163.com>
+ <5843712.DvuYhMxLoT@bootstrap>
+ <3f1eace4.75cf.193b9daf585.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 1/2] accel/amdxdna: use modern PM helpers
-Content-Language: en-US
-To: Lizhi Hou <lizhi.hou@amd.com>, Arnd Bergmann <arnd@kernel.org>, Min Ma
- <min.ma@amd.com>, Oded Gabbay <ogabbay@kernel.org>
-CC: Arnd Bergmann <arnd@arndb.de>, Narendra Gutta
- <VenkataNarendraKumar.Gutta@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241213090259.68492-1-arnd@kernel.org>
- <828570ae-1ff6-4bef-4bb8-51da9237e63e@quicinc.com>
- <e3d9dcd1-70bf-5656-e1a9-749c5a08a20b@amd.com>
- <6d4267db-922d-8c01-f76a-6b796422c24d@quicinc.com>
- <ba6e9400-56aa-446f-a93e-aff0ea81f357@amd.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <ba6e9400-56aa-446f-a93e-aff0ea81f357@amd.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: JwwyZN5NVlYlWnI9SCLbGeMutYpKhZis
-X-Proofpoint-GUID: JwwyZN5NVlYlWnI9SCLbGeMutYpKhZis
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 phishscore=0
- priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412130129
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,48 +71,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/2024 10:57 AM, Lizhi Hou wrote:
-> 
-> On 12/13/24 09:49, Jeffrey Hugo wrote:
->> On 12/13/2024 10:41 AM, Lizhi Hou wrote:
->>>
->>> On 12/13/24 09:07, Jeffrey Hugo wrote:
->>>> On 12/13/2024 2:02 AM, Arnd Bergmann wrote:
->>>>> From: Arnd Bergmann <arnd@arndb.de>
->>>>>
->>>>> The old SET_SYSTEM_SLEEP_PM_OPS and SET_RUNTIME_PM_OPS macros cause 
->>>>> a build
->>>>> warning when CONFIG_PM is disabled:
->>>>>
->>>>> drivers/accel/amdxdna/amdxdna_pci_drv.c:343:12: error: 
->>>>> 'amdxdna_pmops_resume' defined but not used [-Werror=unused-function]
->>>>>    343 | static int amdxdna_pmops_resume(struct device *dev)
->>>>>        |            ^~~~~~~~~~~~~~~~~~~~
->>>>> drivers/accel/amdxdna/amdxdna_pci_drv.c:328:12: error: 
->>>>> 'amdxdna_pmops_suspend' defined but not used [-Werror=unused-function]
->>>>>    328 | static int amdxdna_pmops_suspend(struct device *dev)
->>>>>        |            ^~~~~~~~~~~~~~~~~~~~~
->>>>>
->>>>> Change these to the modern replacements.
->>>>>
->>>>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
->>>>
->>>> Looks sane to me.
->>>>
->>>> Lizhi, can you verify that this works as expected for you? I'd hate 
->>>> to accidentally break something.
->>>
->>> Verified suspend/resume. It works fine.
->>
->> Excellent.  Would you like to give a reviewed-by and/or a tested-by?
-> 
-> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
-> 
-> Tested-by: Lizhi Hou <lizhi.hou@amd.com>
+On Thursday, 12 December 2024 02:52:34 EST Andy Yan wrote:
+> Hi Detlev,
+>=20
+> At 2024-12-11 23:45:01, "Detlev Casanova" <detlev.casanova@collabora.com>=
+=20
+wrote:
+> >On Wednesday, 11 December 2024 01:34:34 EST Andy Yan wrote:
+> >> Hi Detlev,
+> >>=20
+> >> At 2024-12-11 02:40:14, "Detlev Casanova" <detlev.casanova@collabora.c=
+om>
+> >
+> >wrote:
+> >> >Hi Andy,
+> >> >
+> >> >On Monday, 9 December 2024 07:29:18 EST Andy Yan wrote:
+> >> >> From: Andy Yan <andy.yan@rock-chips.com>
+> >> >>=20
+> >> >> There are two AXI bus in vop2, windows attached on the same bus must
+> >> >> have a unique channel YUV and RGB channel ID.
+> >> >>=20
+> >> >> The default IDs will conflict with each other on the rk3588, so they
+> >> >> need to be reassigned.
+> >> >>=20
+> >> >> Fixes: 5a028e8f062f ("drm/rockchip: vop2: Add support for rk3588")
+> >> >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> >> >> Tested-by: Derek Foreman <derek.foreman@collabora.com>
+> >> >>=20
+> >> >> ---
+> >> >>=20
+> >> >> Changes in v5:
+> >> >> - Added in V5
+> >> >>=20
+> >> >>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 +++++++++++
+> >> >>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  9 +++++++
+> >> >>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 26
+> >> >>  +++++++++++++++++++-
+> >> >>  3 files changed, 48 insertions(+), 1 deletion(-)
+> >> >>=20
+> >> >> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >> b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c index
+> >> >> dc4edd65bc9e..8b9ca046eeeb 100644
+> >> >> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >> @@ -1426,6 +1426,12 @@ static void vop2_plane_atomic_update(struct
+> >> >> drm_plane *plane, &fb->format->format,
+> >> >>=20
+> >> >>  		afbc_en ? "AFBC" : "", &yrgb_mst);
+> >> >>=20
+> >> >> +	if (vop2->data->soc_id > 3568) {
+> >> >
+> >> >Shouldn't this be done only for rk3588, as specified in the comments
+> >> >below
+> >> >? The test we did before showed that it is failing on rk3576 and 3576=
+ is
+> >> >>
+> >> >3588.
+> >>=20
+> >> I think this is because you tested before with the patch I gave Derek
+> >> without axi id assigned for rk3576.
+> >> I assigned axi id for rk3576 in this version 18/18=EF=BC=88The new ID =
+assignment
+> >> can adapt to more application scenarios.=EF=BC=89, can you test it wit=
+h the
+> >> whole V5 version again?
+> >
+> >Yes, I will do that. But patch 18 mentions:
+> >+       /* Read only bit on rk3576*/
+> >+       [VOP2_WIN_AXI_BUS_ID] =3D REG_FIELD(RK3568_CLUSTER_CTRL, 13, 13),
+> >
+> >And the bit is being written here. If it is indeed writable, then I would
+> >drop that comment.
+>=20
+> The AXI_BUS_ID for two Cluster windows on RK3576 are fixed by hardware, t=
+hat
+> means whether we write it or not, it won't change anything.
+> But the AXI_BUS_ID for Esmart windows on rk3576 and  AXI_YRGB/UV_R_ID for
+> all cluster/esmart windows on rk3576 are writeable.
+> I think we directly write it here as the current code can make things eas=
+y.
 
-Thanks!
+I see, saying it is read only may be a bit confusing then, but it makes sen=
+se.=20
+You could be more specific adding that writing has no effect.
 
-Pushed to drm-misc-next
+Anyway, I tested this and it works as expected:
 
--Jeff
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+
+Regards,
+Detlev.
+
+> >> >I suggest
+> >> >
+> >> >	if (vop2->data->soc_id =3D=3D 3588) {
+> >> >
+> >> >Regards,
+> >> >Detlev
+> >> >
+> >> >> +		vop2_win_write(win, VOP2_WIN_AXI_BUS_ID, win->data-
+> >> >>
+> >> >>axi_bus_id);
+> >> >>
+> >> >> +		vop2_win_write(win, VOP2_WIN_AXI_YRGB_R_ID, win->data-
+> >> >>
+> >> >>axi_yrgb_r_id);
+> >> >>
+> >> >> +		vop2_win_write(win, VOP2_WIN_AXI_UV_R_ID, win->data-
+> >> >>
+> >> >>axi_uv_r_id);
+> >> >>
+> >> >> +	}
+> >> >> +
+> >> >>=20
+> >> >>  	if (vop2_cluster_window(win))
+> >> >>  =09
+> >> >>  		vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN,
+> >> >
+> >> >half_block_en);
+> >
+> >Detlev.
+> >
+> >
+> >
+> >_______________________________________________
+> >Linux-rockchip mailing list
+> >Linux-rockchip@lists.infradead.org
+> >http://lists.infradead.org/mailman/listinfo/linux-rockchip
+
+
+
 
