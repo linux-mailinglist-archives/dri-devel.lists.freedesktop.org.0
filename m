@@ -1,187 +1,95 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279479F0B8A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 12:45:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B879F0B97
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 12:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662DC10E1AE;
-	Fri, 13 Dec 2024 11:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DFB010EFE2;
+	Fri, 13 Dec 2024 11:47:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=siemens.com header.i=@siemens.com header.b="LxS621XP";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Eeot40Q5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur02on2066.outbound.protection.outlook.com [40.107.249.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A18A210E1AE
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 11:45:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vFQBFL5sVNzFyFfCUOSf1RVXFGlm/jVY4IGotd4EW4fXao9GTlgGq8baecCPM5hB5M0fB//BCOodK5I60aZ9IJAO/2hZJGfWXv1o5l1ZnItH24L01wZvE4NOnvaD9zLwklPlahzJcIRCy9IddDRr0rqDe00WHIIQ7Q8HTrDrBTFx9ZCXs/l26LRypm0GCaw8316b3998m8XqFu3XF8LAupK844C0jOJVNeWvME6CpyzT/56g8MnecNqOHTw0ULEliqcg9kjq7TJrXdeC8zYLD+kwugtVZODSUmDKBeXB4FurSIYv6HwdvXLq+xThCRcuOOQjBmfcETX+tbagdN+Ccg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T6byf1+D7+V001QLayTSLWslpItu5EtEOa7y8yDzagM=;
- b=q0W5DOnYOP+9dxEDr6wRoJNZYdlKT2yJN1XTfCpEbAo6HfaqUMicRhW4D8iCK3PuP2vVGnJZw8+TjRGJ6ShmOOK3wi+6TLxUiWU1YExN00vGozhmHBO0W2BGr4Icz4Yu9LfBn4puA+P0h9hKLV3qfnUF5E9509dYaeUa0+m4C6AHzz21KJW7Z5Chf3fXMsw2OgR/BGwKY5ZIFZQ8QiYiwt3AEkecljPtnjb/zfL00bOSwkvTTjI6RoP1Vyl1LOMu8h4EMjKS495KxtcNw70MiUoDMHtBD8NqmPnH+eHMHZaCA9HsmVfQnLG7l/KW+pM7DIkO15mB5PsinaaNmDaMLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T6byf1+D7+V001QLayTSLWslpItu5EtEOa7y8yDzagM=;
- b=LxS621XPqcnoTQDL5UEmVSuv/6HHWeNMMOoiT2u8PcY1Qw86F9m6azWsZD1zNfuopbgvKNfa4dkfFMsDiYDKcYBu1LE1ijdF3Lxk6pyq1sWhJ9SJf146d2baO5+LU6JG78XPAr4O9F5mzVAt1N8IrKEuaWe78VkBg9IP6y/txsWA1nBPpA9Q/7JIqqnaJyNcBtSDjhiOjeQWx6Ap10l9IEdzcBSF0CrS2M1MVRC21eM/GYXhINhwLqvJySiOdMYgBWd9lkqsN3/OQJZPAjpE8pGGNatk0hcvReRAVd/jqwp/gl/3noegeeR14dyIm3gxt45iLLHM0oQM4LjujyDyhA==
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5b6::22)
- by AS4PR10MB5717.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:4f3::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.7; Fri, 13 Dec
- 2024 11:45:22 +0000
-Received: from AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::baa6:3ada:fbe6:98f4]) by AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::baa6:3ada:fbe6:98f4%7]) with mapi id 15.20.8251.008; Fri, 13 Dec 2024
- 11:45:22 +0000
-From: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-To: "luca.ceresoli@bootlin.com" <luca.ceresoli@bootlin.com>
-CC: "deller@gmx.de" <deller@gmx.de>, "paul.kocialkowski@bootlin.com"
- <paul.kocialkowski@bootlin.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
- "saravanak@google.com" <saravanak@google.com>, "derek.kiernan@amd.com"
- <derek.kiernan@amd.com>, "rfoss@kernel.org" <rfoss@kernel.org>,
- "mripard@kernel.org" <mripard@kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
- "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "rafael@kernel.org"
- <rafael@kernel.org>, "contact@paulk.fr" <contact@paulk.fr>,
- "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>,
- "arnd@arndb.de" <arnd@arndb.de>, "daniel.thompson@linaro.org"
- <daniel.thompson@linaro.org>, "airlied@gmail.com" <airlied@gmail.com>,
- "Laurent.pinchart@ideasonboard.com" <Laurent.pinchart@ideasonboard.com>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>, "robh@kernel.org"
- <robh@kernel.org>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "herve.codina@bootlin.com" <herve.codina@bootlin.com>,
- "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
- "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
- "dragan.cvetic@amd.com" <dragan.cvetic@amd.com>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "lee@kernel.org" <lee@kernel.org>, "jonas@kwiboo.se"
- <jonas@kwiboo.se>
-Subject: Re: [PATCH v4 5/8] i2c: i2c-core-of: follow i2c-parent phandle to
- probe devices from added nodes
-Thread-Topic: [PATCH v4 5/8] i2c: i2c-core-of: follow i2c-parent phandle to
- probe devices from added nodes
-Thread-Index: AQHbTMm5v8muX1xehkGdTtxZMBefBbLkCqwAgAAEuoA=
-Date: Fri, 13 Dec 2024 11:45:22 +0000
-Message-ID: <db925f92287825ba702194e867e25c4e3f40b78a.camel@siemens.com>
-References: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
- <20240917-hotplug-drm-bridge-v4-5-bc4dfee61be6@bootlin.com>
- <ad1b0f8a662d748580bef83b6f7d8d24d80bd46c.camel@siemens.com>
- <20241213122826.1c01a284@booty>
-In-Reply-To: <20241213122826.1c01a284@booty>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB6867:EE_|AS4PR10MB5717:EE_
-x-ms-office365-filtering-correlation-id: 2bea780e-1f57-4a8c-5ee8-08dd1b6ba094
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?Tm1FQ2wxbnkzMllBSzRheFRWVUVsZEVuSW4xVXNtcTcwZVlDZmplRFIxNjNi?=
- =?utf-8?B?eDZDa01TUkpONlRFVFlzQ3MzcVRDbU5ZWGFOUVFZSlR6K2tKem1Pa2RUYnpm?=
- =?utf-8?B?cGtTVUNXVnlzekQ2b3BCeVYrWFpESkFIaGJZWDVTZk5GZzd4dGRtWXRHQjJY?=
- =?utf-8?B?ZjlFc3MvV3cydUE3eHhkb1hrM2lOU1dOTUFTRHNqK0MrWEt4UE1oa3BtTlI2?=
- =?utf-8?B?M2I3MFZFMGdsTlJXNGo5QmExYlljZjJvVy85QjJhdjRzV2NrNFhVL0d2WE1D?=
- =?utf-8?B?V2FjcXVCUzh1TmtCeHBvZ2xoZTdmcm8rcldvbkF4ZUlQbm45WDBvU214MzNF?=
- =?utf-8?B?bzBTUHNCalAwKzNUYjd6OWc0ODRiUnk5UVovREZUVGNSRGdZSnVYbklNRjAx?=
- =?utf-8?B?blNMbGpmUmVMRGloT0lNZEM2U1llblpYN1g0WE5aajF1RnpKTGZXRzhKMWQ3?=
- =?utf-8?B?Q1Q2dWdyY0FBT2p1RDl5blU5Yy9Bb2lRZGViN1crbTA3WjBMRG4rYXhVZ2pw?=
- =?utf-8?B?bWRaV05HRUNmZW1QcGdvZFdaOURRNVBIVjlDTTdIRnEvQ1ZUUFEra291VVE1?=
- =?utf-8?B?eDB1S2RYZ2tFZHBudFFHUHVjWUpVTzdRbXRzaHRKUmV2SXVPVi9ZcDJtbUdY?=
- =?utf-8?B?dTl0Y0I3bkFHMmFYTFV3N25Gclh6dllsUVFCb3NSV1BjeTdjaVdCVmhkWk1u?=
- =?utf-8?B?UFd1aW80Z2NWdlN1d3VPWmoydEV2YjRNOXFsWCtDNFlxNldnazdMdU5sWXd6?=
- =?utf-8?B?b3FMWHB0K0JnN1E5V3JYL1VFaEtSVVJFSWdITmpMRDZwNmtVc2t6RElKc0dW?=
- =?utf-8?B?MUg0cW1mS1JWMEJZN2p0N2F0M1lDcCtCVVJVWEJRcXFCeVhQVzAyeEdjV0h2?=
- =?utf-8?B?SVRtNzRKWWFDVmRYdzlSRVFtY281emQ5SE5IZVlJeFJsc1JYNEN3SmIzbHRn?=
- =?utf-8?B?ZCtKS0pSQWtibTVyckM2eFdIYzBYM05ZVENrK21xVUdVdVdaeWVSL29PeGtm?=
- =?utf-8?B?SC8yVDJVbGlzZlZzQ0JrY2haZzNKMnc0QWcyWGgxMHd6MWZyK0VLUTBSNWhE?=
- =?utf-8?B?bERTZ21vTW9JVWcxVjV2enMraS80amtMeDZ3aExCNW05SmF3S3hLanZWWFd5?=
- =?utf-8?B?VGdxaFBBZ0xOTHREUklVbXdpK29Eb0IyTm43NXpab1FiMDZZbEtxNmI0WTd6?=
- =?utf-8?B?S0tyd3NEREpkdnIrSDVhTjlZaFA5cnh0UDB1eWJCYlk0dWxNSGZnVllvTEVv?=
- =?utf-8?B?QW9Gblg2ZmFZWm5yMnZwTnFkbEVNa2JoY3hjZi9PQiszV3BIaTNMVUVUcHFx?=
- =?utf-8?B?VE1TN2xFYlkyanBjZkhreVlFTUN2d2Y1QW5sR3V1dWpVcHp0aDRYSzNLVTNT?=
- =?utf-8?B?by9GZEJPeEhZaFNpcXpRTHpDZDQzc3ljcURGbjhMWGVCdlNzeDVPeHJhcER1?=
- =?utf-8?B?aFlaWlliU0pOeW9SUkNVS1lzNkg1T2tJOWZuOW92RGltQnY1enZxT2pWWkJu?=
- =?utf-8?B?NzA3bU1kWVFubm1RV1lWalVZaUxqVkRsSlNEdlpWOHRDWStxUkloTi9UeHhK?=
- =?utf-8?B?eHA0UUNuazc1b0F5YkNoVEhheXBFVkJvYnhuTEdmTnl0T2llMFMzYWdieldU?=
- =?utf-8?B?YktoYW5TQU5iSzM5MGhqOXpucEMwZ0RybWI3M1JMOXpSRWpETEVZNFZocS9h?=
- =?utf-8?B?LzFnekZoU3djbjRVa28vTm0zNUhYUkZ0RTlVaDV5NEV2akVETHN2S2tpeUNZ?=
- =?utf-8?B?WHUxVnRDaGFzUll5bmxXRVYvSjlQWVlldlZMOFVCT1Q5N2tXZUdSMjBCZmk2?=
- =?utf-8?Q?0A94vvpXl5cFYHe1rGJ4GnYJ4zzm3a5a0gXmU=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QllnQjJTb2VqZmh1RXRoaFE4amI3dnkzWUNBcXhBZ3FOWjlXenFjQzJTd2Q2?=
- =?utf-8?B?SlFyUW5hd0VBU2JjZllmRnNpWHJKQTF6MmEzYzlyRzduVjBBSWNxMmlhM0da?=
- =?utf-8?B?a2dkWWpTYU03Q2Z3bVg4N3pWd0tEZndLdmRncXVHTm5iRXNaN3VJN3h3V094?=
- =?utf-8?B?d3lsd1IvTDR2d2xnUitwOWlaaEpxWVQrZU4weDNxUFNwaysrVmFxcFhKaWNR?=
- =?utf-8?B?ZWFBN0FyU0hvUFNiZThJbTF3SldiTVZDK1ZBREhwc25UNUE4dklycE5CVkgx?=
- =?utf-8?B?MURVU0Z6RmRkOFFrdzBjYVl5RklIbHcwNHM4eTluQzZGYklteEdnVCs4SERI?=
- =?utf-8?B?R08xK1BDb0M2eGQrT29ZREdmTzA2SE1HRXBpRU9tNVhyUUhucGsxTG91Yk9B?=
- =?utf-8?B?eGh1bU9KMzMzZ0FuY0czenZUNUI4cmg3S1REeFpaNmllZnEvVTdMKytkNDdU?=
- =?utf-8?B?S2JBSWNnTndRaXV4OGNtb3QvT3M1S3R5SFFDVDZLY3ZNSWF5RDd4Wkh2ZTA2?=
- =?utf-8?B?bTRvZmhjeGczaTBUZHhFTmRqLzBkbUZZQTQrUFNBNUQ0a0h5dVYwQWhMQ2xC?=
- =?utf-8?B?cXdmODA2MHBmNU8vZEFBWk0wb0d4dHZ2SFFaNnFqeFlrT1gxTHR6RjBBWnpv?=
- =?utf-8?B?OEMyT2pRN0JxSGFXTzBWajZ0MGpSc2xVL1c3cmxDNEhVQzJaSnFyWVp0TVV2?=
- =?utf-8?B?OWNtcUJ4QytlMzFyQUtmZjBoRlpCekVqVnpDYnRSeTJkVWsyT2pkNjhvd24x?=
- =?utf-8?B?ckp1azFTQ0oyZUVwNUhReHlZcEpVSmNnTk1GUFIwd1FlbDBLMVQ3dWFTVDgw?=
- =?utf-8?B?bFd1SlhOdXVHcnIzdE40Q0hTWXZvUkNGL21kd0s4WFkra3REMXlkd2l2Ulpa?=
- =?utf-8?B?N0VxSnRXWk53S3dkemhGQUVGdm5jb09xT2ZBZCsxUXpMdWdVMmQ2aktiV1Ux?=
- =?utf-8?B?b1llQllQc0x2dGltV2xGdE54Q3diY3lsc1QzQXRvVDlDWmN0c0J6dENKMkJa?=
- =?utf-8?B?cnhKeEdpcXpwR1lYS2dpODErYlVhSGNleXdlWHVtSTFLVWFTcktJd1ZPTXVw?=
- =?utf-8?B?eGxsNmYrc0QvOUEvM0dDZTBEZkdPWS9QNWtNTjkyVlNUMjVIL2RRNFY5WnYz?=
- =?utf-8?B?UHBKL21GSWlDUzVVZTU1QXAvR3NOc2o5bk40cy9nZ1VuY3p4c21JWlZ1TnhN?=
- =?utf-8?B?cHFjYjZZRm1sRTBhck15N1VmdFpid210UEViWS9FSU9aSWRmQ1ZKK0tSRW9G?=
- =?utf-8?B?QUh1aml1R29PczRYRjREZENmT1pkc210YW9WVXIxTkROZmdmVXpacXpqYWdY?=
- =?utf-8?B?TGwycnBORkRDYTB6TFBETEFEOXR0SkkrWU1vZDBlV1hnMmdUcTdmS2dIckND?=
- =?utf-8?B?RE8zSTNaZzhocE1GVnE4cWpCU1RMK0UySXdIZE4yRHNjMmVzUjZGd25IQTB4?=
- =?utf-8?B?aTVDZ2JQYTNSNjRsbm8yRmNxUlBXUkVsdHFYUlAxM0owRkJtQ1ZBYVE0ako5?=
- =?utf-8?B?WHlCV2I2VFV0ODY4RkN5b1IveHI0WkZCZnZmZDA5Wk0wVkJ6Nm1tQ09pZ0dx?=
- =?utf-8?B?WGtqaUFNWG5vcldDdFJZcEhuN2NMTkxMdHVkeml3Z3p1VE1pSmQyMmk1ZExQ?=
- =?utf-8?B?V1gxYkRMNE4vQmxJMWkyODh0akZtOHh3WUw5RzhmeGJ0N0xVWVEzQnEzUXpU?=
- =?utf-8?B?OWtIOThibVhaUkxweng3SnFCYTRiSnhXZ2RoSEMreWlDMng2bnNLTFVIMzQ5?=
- =?utf-8?B?UElabFhaZmFLeWo5cVplN2xzSWZxb1dlT3R2STFrMTJkTXVpczhwT0lLNVJr?=
- =?utf-8?B?bEpRQ09TZ2VzOSsrSndJTXZ6WFdUR2ZpTFZMcjRCOTlCbitrVHVZbERWVlEz?=
- =?utf-8?B?akxPLzVST1JqcEI0WlZSL0Y3eG1XWEhlRXVoRzNxTCs0T0ExSXF4ZE10VFJk?=
- =?utf-8?B?SlZXNWpXemF1Zi8rRzVKTmpIaTBhcUdiZlZjbk9qbG9Xa3V4T0NNWG5ZSFZr?=
- =?utf-8?B?TnprR0dtb0lGU01hdm92dEYyTEM2MHAxamwrOWIxVUpheTRvRThVWWZ4UEQv?=
- =?utf-8?B?elQ0TGlSNnBlaU1ROGZubzZPYXR0K0ttbVpsZStoSkNoUkJZbU80ZEI5S3pp?=
- =?utf-8?B?ZHYwb05LUHhXNWNZUmorVTF6TzVidTVMUklVNlRmOCtUeTg5bHFzVWpzVTVE?=
- =?utf-8?Q?Ieu8df4Ilk/jBr/3m0RieHA=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <701151E1F030004BB8BB2BE4BAB68E0F@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A36810E1CA;
+ Fri, 13 Dec 2024 11:47:10 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD45wNU017909;
+ Fri, 13 Dec 2024 11:47:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=9c00TPaXGjBylzxiLMEcOn
+ 3RbRS5qc4bVq+xO45pylg=; b=Eeot40Q5wmo1PGnv2zbIOoBAmCssMTuEYsOLts
+ cc1Ay4iLb+EIIV2PW449tFd2pCFldDBQ3b6mYXcmKigSQSklc9/bl7cflmdH3BFN
+ DAch3MAr5LNnxcZuR8KmCYzK9bCv/+wMtJk/ZcMo0FecfhKWQOxmgU/40nLSWiD8
+ E4AiY2pJg097o2d3FXQ6hjYykGRJ1eZCpXVwZsNh1Vg/qGwyTo14W04bcJMXcdPu
+ t37z1P0a6sMtibbz3aSd6AaVX4oEStL1bINqO5y5Xf9ZSb3cUB0af/Zwmq0Mk/pq
+ 6JToUlZHzCwj1FbnvT7Ow7a1OQUv3ZJ/yRF/A9/udpEl5Otg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gdkn15x2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2024 11:47:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDBl4WK005852
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2024 11:47:04 GMT
+Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
+ 2024 03:46:59 -0800
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Date: Fri, 13 Dec 2024 17:16:42 +0530
+Subject: [PATCH v3] drm/msm/a6xx: Add support for Adreno 612
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB6867.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bea780e-1f57-4a8c-5ee8-08dd1b6ba094
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2024 11:45:22.5432 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /Puq5vG9D8y137Jp4YEDLSy/vcbF9KXkZHWuKLgtQLMrU+rX33HI05YbRWDx+k4BJJeFLZHQgkNUvXs5UfIIvNpw5DATasxx3eVJ9K2G/Ss=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5717
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAKEeXGcC/22OS47DIBBEr2Kxnh51g0M+q7nHKAsbmoQFtgPYS
+ hT57sFkMyNl+UqqV/UUiaPnJE7NU0RefPLjUEB9NcJcu+HC4G1hIVG2hIqg0yThMs2Q5mkaYwa
+ rlUJHe4vkRKlNkZ2/V+Xv+c2Rb3Mx53co+i4xmDEEn0+NjQFCCjDwPcO2AkSArdiqV5/yGB/13
+ EK1W38QfvixEBD01vHBaXtUqH/KqPGD+S5TVbfIPwq5+6CQgNDvjVEH1khH+q9Y1/UFAFwqHTA
+ BAAA=
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Jie Zhang <quic_jiezh@quicinc.com>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, "Konrad
+ Dybcio" <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734090419; l=8706;
+ i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
+ bh=OTRC5Fyb0neX+liac7A7duCulOjj1fW/TglbaZF/dy4=;
+ b=K3xaEKGV1zR9O0xrfWcJMAgeJpbuULJ6PrzjndBtRp64dt4u53zv6qz+0NqqS1wfM1vbIj2t8
+ 99HOQjGUoWsBWHej+KX7KiVox7+HyYRvgG97wHT5OPPoSBYDuJBgGc5
+X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: KY7nX912bdl5xQpOpS22KBbSodRrs8aQ
+X-Proofpoint-ORIG-GUID: KY7nX912bdl5xQpOpS22KBbSodRrs8aQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
+ phishscore=0 bulkscore=0 suspectscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130082
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -197,48 +105,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTHVjYSENCg0KT24gRnJpLCAyMDI0LTEyLTEzIGF0IDEyOjI4ICswMTAwLCBMdWNhIENlcmVz
-b2xpIHdyb3RlOg0KPiA+ID4gSG93ZXZlciBmb3IgaG90cGx1ZyBjb25uZWN0b3JzIGRlc2NyaWJl
-ZCB2aWEgZGV2aWNlIHRyZWUgb3ZlcmxheXMgdGhlcmUgaXMNCj4gPiA+IGFkZGl0aW9uYWwgbGV2
-ZWwgb2YgaW5kaXJlY3Rpb24sIHdoaWNoIGlzIG5lZWRlZCB0byBkZWNvdXBsZSB0aGUgb3Zlcmxh
-eQ0KPiA+ID4gYW5kIHRoZSBiYXNlIHRyZWU6DQo+ID4gPiANCj4gPiA+IMKgwqAgLS0tIGJhc2Ug
-ZGV2aWNlIHRyZWUgLS0tDQo+ID4gPiANCj4gPiA+IMKgwqAgaTJjMTogaTJjQGFiY2QwMDAwIHsg
-Y29tcGF0aWJsZSA9ICJ4eXosaTJjLWN0cmwiOyAuLi4gfTsNCj4gPiA+IMKgwqAgaTJjNTogaTJj
-QGNhZmUwMDAwIHsgY29tcGF0aWJsZSA9ICJ4eXosaTJjLWN0cmwiOyAuLi4gfTsNCj4gPiA+IA0K
-PiA+ID4gwqDCoCBjb25uZWN0b3Igew0KPiA+ID4gwqDCoMKgwqDCoMKgIGkyYy1jdHJsIHsNCj4g
-PiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgIGkyYy1wYXJlbnQgPSA8JmkyYzE+Ow0KPiA+ID4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+ID4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCAjc2l6ZS1jZWxscyA9IDwwPjsNCj4gPiA+IMKgwqDCoMKgwqDCoCB9Ow0KPiA+
-ID4gDQo+ID4gPiDCoMKgwqDCoMKgwqAgaTJjLXNlbnNvcnMgew0KPiA+ID4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgaTJjLXBhcmVudCA9IDwmaTJjNT47DQo+ID4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgICNzaXpl
-LWNlbGxzID0gPDA+Ow0KPiA+ID4gwqDCoMKgwqDCoMKgIH07DQo+ID4gPiDCoMKgIH07DQo+ID4g
-PiANCj4gPiA+IMKgwqAgLS0tIGRldmljZSB0cmVlIG92ZXJsYXkgLS0tDQo+ID4gPiANCj4gPiA+
-IMKgwqAgLi4uDQo+ID4gPiDCoMKgIC8vIFRoaXMgbm9kZSB3aWxsIG92ZXJsYXkgb24gdGhlIGky
-Yy1jdHJsIG5vZGUgb2YgdGhlIGJhc2UgdHJlZcKgIA0KPiA+IA0KPiA+IFdoeSBkb24ndCB5b3Ug
-b3ZlcmxheSBpdCByaWdodCBvdmVyICZpMmMxPw0KPiA+IEl0IHNob3VsZCBoYXZlIHdvcmtlZCBz
-aW5jZSBjb21taXQgZWE3NTEzYmJjMDQxDQo+ID4gKCJpMmMvb2Y6IEFkZCBPRl9SRUNPTkZJRyBu
-b3RpZmllciBoYW5kbGVyIikuDQo+ID4gRG9lc24ndCBpdCB3b3JrIGZvciB5b3VyIHVzZS1jYXNl
-Pw0KPiANCj4gT25lIHJlYXNvbiBpcyBkZWNvdXBsaW5nIHRoZSBiYXNlIGJvYXJkIGFuZCBhZGRv
-bi4gQSBkaWZmZXJlbnQgYmFzZQ0KPiBib2FyZCBtYXkgd2lyZSB0aGUgc2FtZSBjb25uZWN0b3Ig
-cGlucyB0byAnaTJjNCcgaW5zdGVhZCBvZiAnaTJjMScuIFdlDQo+IHdhbnQgYSBzaW5nbGUgb3Zl
-cmxheSB0byBkZXNjcmliZSB0aGUgYWRkb24sIGluZGVwZW5kZW50bHkgb2YgdGhlIGJhc2UNCj4g
-Ym9hcmQsIHNvIGl0IGhhcyB0byBtZW50aW9uIG9ubHkgY29ubmVjdG9yIHBpbnMsIG5vdCBiYXNl
-IGJvYXJkDQo+IGhhcmR3YXJlLg0KPiANCj4gQW5vdGhlciByZWFzb24gaXMgdGhhdCB1c2luZyBw
-aGFuZGxlcyB0byBsYWJlbHMgaW4gdGhlIGJhc2UgdHJlZSBpbiB0aGUNCj4gb3ZlcmxheSAoc3Vj
-aCBhcyAmaTJjMSkgd291bGQgbmVlZCBwcm9wZXJ0aWVzIGFkZGVkIGJ5IHRoZSBfX3N5bWJvbHNf
-Xw0KPiBub2RlLCBhbmQgb3ZlcmxheXMgYWRkaW5nIHByb3BlcnRpZXMgdG8gbm9kZXMgaW4gdGhl
-IGxpdmUgdHJlZSBhcmUgbm90DQo+IHdlbGNvbWUuIFRoaXMgaXMgYm90aCBmb3IgYSBjb25jZXB0
-dWFsIHJlYXNvbiAoYWRkaW5nIGFuIG92ZXJsYXkgPT0NCj4gYWRkaW5nIGhhcmR3YXJlIGFuZCBu
-b3QgX2NoYW5naW5nXyBoYXJkd2FyZSwgc28gYWRkaW5nIG5vZGVzIHNob3VsZCBiZQ0KPiBlbm91
-Z2gpIGFuZCBhbiBpbXBsZW1lbnRhdGlvbiBvbmUgKHByb3BlcnRpZXMgYWRkZWQgdG8gbm9kZXMg
-aW4gdGhlDQo+IGxpdmUgdHJlZSBiZWNvbWUgZGVhZHByb3BzIGFuZCB0aHVzIGxlYWsgbWVtb3J5
-Lg0KPiANCj4gVGhpcyB0b3BpYyB3YXMgZGlzY3Vzc2VkIGF0IHRoZSBsYXRlc3QgTGludXggUGx1
-bWJlcnMgQ29uZmVyZW5jZSBsYXN0DQo+IFNlcHRlbWJlci4gU2xpZGVzIGFuZCB2aWRlbyBvZiB0
-aGUgZGlzY3Vzc2lvbiBhcmUgYXZhaWxhYmxlIGhlcmU6DQo+IGh0dHBzOi8vbHBjLmV2ZW50cy9l
-dmVudC8xOC9jb250cmlidXRpb25zLzE2OTYvDQo+IA0KPiBNb3JlIGluZm8gYXJlIGluIHRoZSBj
-b3ZlciBsZXR0ZXIuIERpc2N1c3Npb24gbGVhZGluZyB0byB0aGlzDQo+IGltcGxlbWVudGF0aW9u
-IHN0YXJ0ZWQgYWZ0ZXIgdjI6DQo+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI0MDUx
-MDE2MzYyNS5HQTMzNjk4Ny1yb2JoQGtlcm5lbC5vcmcvDQoNCkkgc2VlISBUaGFuayB5b3UgZm9y
-IHRoZSBleHBsYW5hdGlvbiBhbmQgZm9yIHRoZSByZWZlcmVuY2VzIQ0KDQotLSANCkFsZXhhbmRl
-ciBTdmVyZGxpbg0KU2llbWVucyBBRw0Kd3d3LnNpZW1lbnMuY29tDQo=
+From: Jie Zhang <quic_jiezh@quicinc.com>
+
+Add support for Adreno 612 GPU found in SM6150/QCS615 chipsets.
+A612 falls under ADRENO_6XX_GEN1 family and is a cut down version
+of A615 GPU.
+
+A612 has a new IP called Reduced Graphics Management Unit or RGMU
+which is a small state machine which helps to toggle GX GDSC
+(connected to CX rail) to implement IFPC feature. It doesn't support
+any other features of a full fledged GMU like clock control, resource
+voting to rpmh etc. So we need linux clock driver support like other
+gmu-wrapper implementations to control gpu core clock and gpu GX gdsc.
+Since there is no benefit with enabling RGMU at the moment, RGMU is
+entirely skipped in this patch.
+
+Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+Mesa support is already available for A612. Verified Glmark2 with
+weston.
+
+Some dependencies for the devicetree change are not yet available
+in the mailing lists. I will send it out as a separate patch later.
+---
+Changes in v3:
+- Drop the NO_SYSCACHE quirk patch (Konrad/Rob)
+- Use the new "qcom,adreno-rgmu" compatible string (Konrad)
+- Link to v2: https://lore.kernel.org/r/20241125-a612-gpu-support-v2-0-b7cc38e60191@quicinc.com
+
+Changes in v2:
+- Added a new quirk to check LLC support (new patch). This helps to
+correct LLC handling in A612's patch.
+- Rebased on msm-next tip
+- Captured R-b from Konrad
+- Link to v1: https://lore.kernel.org/r/20241101-a612-gpu-support-v1-1-bdfe8f6d9306@quicinc.com
+---
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 15 ++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 47 ++++++++++++++++++++++---------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 11 ++++++--
+ 3 files changed, 57 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+index 0c560e84ad5a..234083b69844 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+@@ -704,6 +704,21 @@ static const struct adreno_info a6xx_gpus[] = {
+ 			{ 157, 3 },
+ 			{ 127, 4 },
+ 		),
++	}, {
++		.chip_ids = ADRENO_CHIP_IDS(0x06010200),
++		.family = ADRENO_6XX_GEN1,
++		.fw = {
++			[ADRENO_FW_SQE] = "a630_sqe.fw",
++		},
++		.gmem = (SZ_128K + SZ_4K),
++		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
++		.init = a6xx_gpu_init,
++		.a6xx = &(const struct a6xx_info) {
++			.hwcg = a612_hwcg,
++			.protect = &a630_protect,
++			.gmu_cgc_mode = 0x00000022,
++			.prim_fifo_threshold = 0x00080000,
++		},
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x06010500),
+ 		.family = ADRENO_6XX_GEN1,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 019610341df1..630932693951 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -504,15 +504,26 @@ static void a6xx_set_hwcg(struct msm_gpu *gpu, bool state)
+ 
+ 	if (adreno_is_a630(adreno_gpu))
+ 		clock_cntl_on = 0x8aa8aa02;
+-	else if (adreno_is_a610(adreno_gpu))
++	else if (adreno_is_a610(adreno_gpu) || adreno_is_a612(adreno_gpu))
+ 		clock_cntl_on = 0xaaa8aa82;
+ 	else if (adreno_is_a702(adreno_gpu))
+ 		clock_cntl_on = 0xaaaaaa82;
+ 	else
+ 		clock_cntl_on = 0x8aa8aa82;
+ 
+-	cgc_delay = adreno_is_a615_family(adreno_gpu) ? 0x111 : 0x10111;
+-	cgc_hyst = adreno_is_a615_family(adreno_gpu) ? 0x555 : 0x5555;
++	if (adreno_is_a612(adreno_gpu))
++		cgc_delay = 0x11;
++	else if (adreno_is_a615_family(adreno_gpu))
++		cgc_delay = 0x111;
++	else
++		cgc_delay = 0x10111;
++
++	if (adreno_is_a612(adreno_gpu))
++		cgc_hyst = 0x55;
++	else if (adreno_is_a615_family(adreno_gpu))
++		cgc_delay = 0x555;
++	else
++		cgc_delay = 0x5555;
+ 
+ 	gmu_write(&a6xx_gpu->gmu, REG_A6XX_GPU_GMU_AO_GMU_CGC_MODE_CNTL,
+ 			state ? adreno_gpu->info->a6xx->gmu_cgc_mode : 0);
+@@ -600,6 +611,9 @@ static void a6xx_calc_ubwc_config(struct adreno_gpu *gpu)
+ 		gpu->ubwc_config.ubwc_swizzle = 0x7;
+ 	}
+ 
++	if (adreno_is_a612(gpu))
++		gpu->ubwc_config.highest_bank_bit = 13;
++
+ 	if (adreno_is_a618(gpu))
+ 		gpu->ubwc_config.highest_bank_bit = 14;
+ 
+@@ -1165,7 +1179,7 @@ static int hw_init(struct msm_gpu *gpu)
+ 		gpu_write(gpu, REG_A6XX_CP_LPAC_PROG_FIFO_SIZE, 0x00000020);
+ 
+ 	/* Setting the mem pool size */
+-	if (adreno_is_a610(adreno_gpu)) {
++	if (adreno_is_a610(adreno_gpu) || adreno_is_a612(adreno_gpu)) {
+ 		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_SIZE, 48);
+ 		gpu_write(gpu, REG_A6XX_CP_MEM_POOL_DBG_ADDR, 47);
+ 	} else if (adreno_is_a702(adreno_gpu)) {
+@@ -1199,7 +1213,7 @@ static int hw_init(struct msm_gpu *gpu)
+ 
+ 	/* Enable fault detection */
+ 	if (adreno_is_a730(adreno_gpu) ||
+-	    adreno_is_a740_family(adreno_gpu))
++	    adreno_is_a740_family(adreno_gpu) || adreno_is_a612(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0xcfffff);
+ 	else if (adreno_is_a690(adreno_gpu))
+ 		gpu_write(gpu, REG_A6XX_RBBM_INTERFACE_HANG_INT_CNTL, (1 << 30) | 0x4fffff);
+@@ -1863,8 +1877,8 @@ static void a7xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+ 
+ static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
+ {
+-	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+-	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
++	/* A612 is actually not a gmu-wrapper and has LLCC */
++	if (adreno_has_gmu_wrapper(&a6xx_gpu->base) && !adreno_is_a612(&a6xx_gpu->base))
+ 		return;
+ 
+ 	llcc_slice_putd(a6xx_gpu->llc_slice);
+@@ -1876,8 +1890,8 @@ static void a6xx_llc_slices_init(struct platform_device *pdev,
+ {
+ 	struct device_node *phandle;
+ 
+-	/* No LLCC on non-RPMh (and by extension, non-GMU) SoCs */
+-	if (adreno_has_gmu_wrapper(&a6xx_gpu->base))
++	/* A612 is actually not a gmu-wrapper and has LLCC */
++	if (adreno_has_gmu_wrapper(&a6xx_gpu->base) && !adreno_is_a612(&a6xx_gpu->base))
+ 		return;
+ 
+ 	/*
+@@ -2081,6 +2095,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+ 	if (!ret)
+ 		msm_devfreq_resume(gpu);
+ 
++	if (adreno_is_a612(&a6xx_gpu->base))
++		a6xx_llc_activate(a6xx_gpu);
++
+ 	return ret;
+ }
+ 
+@@ -2120,6 +2137,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+ 
+ 	trace_msm_gpu_suspend(0);
+ 
++	if (adreno_is_a612(&a6xx_gpu->base))
++		a6xx_llc_deactivate(a6xx_gpu);
++
+ 	msm_devfreq_suspend(gpu);
+ 
+ 	mutex_lock(&a6xx_gpu->gmu.lock);
+@@ -2475,7 +2495,9 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 	/* FIXME: How do we gracefully handle this? */
+ 	BUG_ON(!node);
+ 
+-	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper");
++	/* We do not support RGMU at the moment, so assume it is a gmu wrapper for now */
++	adreno_gpu->gmu_is_wrapper = of_device_is_compatible(node, "qcom,adreno-gmu-wrapper") ||
++		of_device_is_compatible(node, "qcom,adreno-rgmu");
+ 
+ 	adreno_gpu->base.hw_apriv =
+ 		!!(config->info->quirks & ADRENO_QUIRK_HAS_HW_APRIV);
+@@ -2485,11 +2507,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 		  config->info->family == ADRENO_7XX_GEN2 ||
+ 		  config->info->family == ADRENO_7XX_GEN3;
+ 
+-	a6xx_llc_slices_init(pdev, a6xx_gpu, is_a7xx);
+-
+ 	ret = a6xx_set_supported_hw(&pdev->dev, config->info);
+ 	if (ret) {
+-		a6xx_llc_slices_destroy(a6xx_gpu);
+ 		kfree(a6xx_gpu);
+ 		return ERR_PTR(ret);
+ 	}
+@@ -2508,6 +2527,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	a6xx_llc_slices_init(pdev, a6xx_gpu, is_a7xx);
++
+ 	/*
+ 	 * For now only clamp to idle freq for devices where this is known not
+ 	 * to cause power supply issues:
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index e71f420f8b3a..61b9141a63ab 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -420,6 +420,11 @@ static inline int adreno_is_a610(const struct adreno_gpu *gpu)
+ 	return adreno_is_revn(gpu, 610);
+ }
+ 
++static inline int adreno_is_a612(const struct adreno_gpu *gpu)
++{
++	return gpu->info->chip_ids[0] == 0x06010200;
++}
++
+ static inline int adreno_is_a618(const struct adreno_gpu *gpu)
+ {
+ 	return adreno_is_revn(gpu, 618);
+@@ -489,9 +494,9 @@ static inline int adreno_is_a610_family(const struct adreno_gpu *gpu)
+ {
+ 	if (WARN_ON_ONCE(!gpu->info))
+ 		return false;
+-
+-	/* TODO: A612 */
+-	return adreno_is_a610(gpu) || adreno_is_a702(gpu);
++	return adreno_is_a610(gpu) ||
++	       adreno_is_a612(gpu) ||
++	       adreno_is_a702(gpu);
+ }
+ 
+ /* TODO: 615/616 */
+
+---
+base-commit: f4a867a46862c1743501bbe8c813238456ec8699
+change-id: 20241031-a612-gpu-support-d6330f17d01f
+
+Best regards,
+-- 
+Akhil P Oommen <quic_akhilpo@quicinc.com>
+
