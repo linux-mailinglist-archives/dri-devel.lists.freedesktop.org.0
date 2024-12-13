@@ -1,56 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B39B9F10CB
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 16:22:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A093C9F10DD
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 16:23:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B24A510E13B;
-	Fri, 13 Dec 2024 15:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF58610E070;
+	Fri, 13 Dec 2024 15:23:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kNV5IYVG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eF/XYGXt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E9CC10E13B;
- Fri, 13 Dec 2024 15:22:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 76810A42BFF;
- Fri, 13 Dec 2024 15:20:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F06DBC4CED0;
- Fri, 13 Dec 2024 15:22:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734103363;
- bh=mZZPTQJsNPsTvkisNXOUR5Df8ass8gl+2nYsiM1JXlA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kNV5IYVGSiAvg4nneLRmM8EESuL1qYoYf1gYdIYPnhhnv375Yc6Po7KvvI5wVwMCe
- aYoQTdWkXt3NEiY2O8EtAVhAJVg5265KWo8z/ExUjsIk2vpXUFHXLD0HBPWo/xGo85
- D5iBbgU9KnnF7kj2nTGbkC7YoFuhPk9xa6M49WfnRZ9HxT/Qk4TD5Hv+hH/tcBjsCp
- jPrr9/+LA+m/8hz33JRd4nFcDFtOpZdQ1P/z06qNTdTakZWJRSNurkxGuLRNHYrOvV
- VE6KknCGSUAKWjqUn6zFpgNKC1Ll44mFfwwMgMAQ+YTaXEVhR9ymhvez31HSfOKOzG
- yh3d5lZUj/i3A==
-Date: Fri, 13 Dec 2024 16:22:40 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: Friedrich Vock <friedrich.vock@gmx.de>, linux-kernel@vger.kernel.org, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tejun Heo <tj@kernel.org>, 
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Andrew Morton <akpm@linux-foundation.org>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-Message-ID: <20241213-flying-naughty-marmot-6a82a2@houat>
-References: <20241204134410.1161769-1-dev@lankhorst.se>
- <29a71119-04de-4c76-a98a-d0fcb906390f@gmx.de>
- <20241213-sceptical-maize-gazelle-fadc34@houat>
- <789d78c1-d16a-4cb3-b4ad-ba5f0ddcacaf@lankhorst.se>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB7F810E070
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 15:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734103429; x=1765639429;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=/L2BRum8V73qtETJCILZboD8K816tH5sCP1OEzZP+ys=;
+ b=eF/XYGXtLZZ6qD19Htvp0YPxDBKK9zh1doyRFXxpaceeLE6ZJAzl3wht
+ MRj4iKb5vNMMluL2nZLSAZPudqpHRliAbhC1k5zCwV3FUKElF+xBpjO2x
+ QvUbPVn7+dOW5z7235p20SgyjjQDyjoujvDxHCJvjkHKaYJ+1EGl2BRFW
+ jnpHp/94fGNvui8ZVPwcg64O2d3Sx18lx6zDS+Vy6aHRLwOBhym3hKOa+
+ SQBPnF63QiiUJASlVEY5YVhyJOVEtfqEHhq8mMCJE4v4ZK2K17q3+1PEC
+ 7Qts+AQyinprIj2bIzcNDHizyftsux2fBoDK8ZsKdrzetRz6qvFxU08D0 w==;
+X-CSE-ConnectionGUID: LMKsPW0vRayW45SPDC23VA==
+X-CSE-MsgGUID: +FuhaUj6QK6hmTtsdz7tSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45945116"
+X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; d="scan'208";a="45945116"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2024 07:23:49 -0800
+X-CSE-ConnectionGUID: 6OlwYim/Tau/E5xNYYaxxg==
+X-CSE-MsgGUID: JJsHhcarQ6uQPQpJ8iVJRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; d="scan'208";a="101583297"
+Received: from ldmartin-desk2.corp.intel.com (HELO ldmartin-desk2)
+ ([10.125.110.169])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2024 07:23:48 -0800
+Date: Fri, 13 Dec 2024 09:23:36 -0600
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, alsa-devel@alsa-project.org, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, 
+ Maarten Lankhorst <dev@lankhorst.se>, dri-devel@lists.freedesktop.org
+Subject: Re: hda: how to implement component master_unbind?
+Message-ID: <itxamqrgaiukl3u63zz73brvqpfr6kjdwifrvx7ntjvzdewrlb@miy5fjm4v7ds>
+References: <alpine.DEB.2.22.394.2109221456080.3554566@eliteleevi.tm.intel.com>
+ <s5ha6jxnekp.wl-tiwai@suse.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="by62sis77uqd7vzz"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
-In-Reply-To: <789d78c1-d16a-4cb3-b4ad-ba5f0ddcacaf@lankhorst.se>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <s5ha6jxnekp.wl-tiwai@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,90 +74,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks Kai to pointing me to this thread, trying to revive it.
+Also adding dri-devel as it may be relevant there and Maarten who worked
+on the xe integration recently
 
---by62sis77uqd7vzz
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-MIME-Version: 1.0
+On Tue, Sep 28, 2021 at 01:07:34PM +0200, Takashi Iwai wrote:
+>On Wed, 22 Sep 2021 14:40:19 +0200,
+>Kai Vehmanen wrote:
+>>
+>> Hi Takashi et al,
+>>
+>> I've been having multiple discussions with our i915 team w.r.t. audio
+>> driver behaviour when the aggregate component is unbound, triggered by
+>> i915 unbind. This came up again in the recent regression with devres
+>> allocations and I now dug into the topic again.
+>>
+>> In short, I'm puzzled how to really implement this. ALSA (or ASoC) don't
+>> really have support for individual components of a card disappearing in a
+>> hotplug fashion. At card level, we do have such support (USB, firewire and
+>> recent work for PCI hotplug). But not individual components of a card
+>> getting unplugged.
 
-On Fri, Dec 13, 2024 at 03:13:23PM +0100, Maarten Lankhorst wrote:
-> Hey,
->=20
-> Den 2024-12-13 kl. 14:07, skrev Maxime Ripard:
-> > On Sun, Dec 08, 2024 at 01:15:34PM +0100, Friedrich Vock wrote:
-> > > Hi,
-> > >=20
-> > > On 04.12.24 14:44, Maarten Lankhorst wrote:
-> > >=20
-> > > > Because it only deals with memory regions, the UAPI has been updated
-> > > > to use dmem.min/low/max/current, and to make the API cleaner, the
-> > > > names are changed too.
-> > > >=20
-> > > > dmem.current could contain a line like:
-> > > > "drm/0000:03:00.0/vram0 1073741824"
-> > > >=20
-> > > > But I think using "drm/card0/vram0" instead of PCIID would perhaps
-> > > > be good too. I'm open to changing it to that based on feedback.
-> > >=20
-> > > Agree, allowing userspace to reference DRM devices via "cardN" syntax
-> > > sounds good.
-> > >=20
-> > > What about other subsystems potentially using dmem cgroups?
-> > > I'm not familiar with the media subsystem, but I imagine we might be
-> > > dealing with things like USB devices there? Is something like a
-> > > "deviceN" possible there as well, or would device IDs look completely
-> > > different?
+
+I think we will need to add some support here and handle the component
+going down the same as a pci hotplug.
+
+
+>>
+>> In current code we have this:
+>> static void hdac_component_master_unbind(struct device *dev)
+>> {
+>> »       struct drm_audio_component *acomp = hdac_get_acomp(dev);
+>>
+>> »       if (acomp->audio_ops && acomp->audio_ops->master_unbind)
+>> »       »       acomp->audio_ops->master_unbind(dev, acomp);
+>> »       module_put(acomp->ops->owner);
+>> »       component_unbind_all(dev, acomp);
+>> »       WARN_ON(acomp->ops || acomp->dev);
+>> }
+>>
+>> ... when e.g. i915 driver is unbound (but could be any driver using the
+>> component framework, not jus Intel hw), i915 calls component_del() and HDA
+>> gets call to the above. After this, acomp ops are null are audio no longer
+>> has ability to talk to i915 driver (which makes sense given it's unbound).
+>>
+>> If audio was runtime suspended, this kind of works (but relies on some
+>> good luck). Upon HDA controller resume, we note acomp ops are NULL and
+>> HDMI/DP operations (like snd_hdac_display_power()) silently become no-ops.
+>> PCM streaming will go to /dev/null, but this is ok'ish since no monitor
+>> can be connected anyways.
+>>
+>> If audio was active, we start to get warnings or worse. Audio expects hw
+>> display codec to be powered and programmed, but suddenly it mey lose
+>> state. If the audio controller is actually part of the display hardware
+>> (e.g. discrete GPUs), then controller registers can stop functioning (they
+>> should be still available, but given the main diplay driver is unbound,
+>> odds of suprising behaviour are high).
+>>
+>> So this is less than ideal. I've been looking at options:
+>>
+>> 1) prevent/block the unbind if audio device is busy
+>>
+>> The component framework does not allow individual components to return
+>> -EBUSY, so there's no way to let others know that unbind is not possible
+>> now.
+
+and there's no way to block unbind from the pci level neither, so this
+is not really possible. There's nothing blocking someone to unplug the
+card if it's on a hotplug-capable bus and/or someone calling
+
+	# echo 0000:00:02.0 > /sys/module/xe/drivers/pci:xe/unbind
+
+to tell the module to unbind from the device. If that involves multiple
+components, I think they all should treat that as a device hotplug
+rather than handling it differently.
+
+>>
+>> This would force anyone testing DRM driver unbind to first unbind
+>> the audio driver and stop any active audio use-cases if needed.
+>>
+>> 2) unbind the ALSA card
+>>
+>> I've experimented doing a device_unregister() from the above callback, but
+>> this has not really worked (onion peeling exercise of new probelms). The
+>> code is shared by multiple controllers, so getting a handle to an snd_card
+>> object is not straighforward (drvdata is differnet for SOF and
+>> snd-hda-intel for instance). But with some new work, maybe we could call
+>> snd_card_disconnect() to detach the card and inform user-space.
+
+yeah, since it depends on the i915/xe side to power up the display
+engine, I think handling that esssentially the same as a hotplug would
+be ideal
+
+
+>>
+>> 3) continue as-is and try to fix bugs
+>>
+>> If audio is active, maybe we could force a acomp->put_power() to ensure
+>> a clean unregister of the display part. But this leaves a big chunk of
+>> issues especially with HDA controllers that require the display to
+>> be powered on, to function.
+>>
+>> ..
+>>
+>> Any ideas, and/or has there been prior work? It seems Takashi it's been
+>> mostly you who has been active working on the acomp integration recently.
+>> I also included Chris, Daniel and Jani who've had patches to
+>> hdac_component.c.
 >
-> I'd just take what makes sense for each driver. dev_name() would be a good
-> approximation.
+>Removing a component from the card is a PITA for now, indeed,
+>especially when its influence is over different APIs (PCM, control,
+>whatever)...
 
-Yeah, dev_name() seems good enough to me too.
+I'm not yet very familar with the sound side and checking if something changed
+from when this thread started: for cards that can't work without the
+other component, would it be hard to escalate that event to handle it
+the same as a hotplug? Because from this thread it seems usb/pci hotplug
+is already available.
 
-> I agree that cardN is not stable.
->=20
-> > > I have some patches to enable the cgroup in GEM-based drivers, media
-> > ones and dma-buf heaps. The dma-buf heaps are simple enough since the
-> > heaps names are supposed to be stable.
->=20
-> I've used your patch as a base enable cgroup in drivers that use the VRAM
-> manager. I didn't want to enable it for all of GEM, because it would
-> conflict with drivers using TTM. Some more discussion is needed first.
->=20
-> For DMA-BUF heaps, I think it's fine and there is a lot less need of
-> discussion. I just felt it should be sent separately from the initial
-> enablement.
+thanks
+Lucas De Marchi
 
-Definitely.
-
-> > I don't think using card0 vs card1 (or v4l0 vs v4l1 for example) will
-> > work because I don't think we have any sort of guarantee that these
-> > names will always point to the same devices across reboots or updates.
-> >=20
-> > If the module is loaded later than it used to for example, we could very
-> > well end up in a situation where card0 and card1 are swapped, while the
-> > constraints apply to the previous situation.
 >
-> I agree, just put it out there for discussion. I don't think the benefits
-> weigh up against the downsides :-)
-
-Oh absolutely. The way to define a stable name is going to be framework
-specific anyway. My point was that we wanted to have a stable name.
-
-Maxime
-
---by62sis77uqd7vzz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1xRQAAKCRAnX84Zoj2+
-dnZVAYDQQEA9NR6GrqKYw1CvE58OitlLlx9hVBdBfbxT1+FUZK/xhIjhLN+KQYWn
-9pAtNrABf2UM3dWX1eT1pN+ZKq5ToTS6/1SQjpboJ/ny+YN6Ir6UbyPmYugJN0AT
-+o+OtxQK8w==
-=HILO
------END PGP SIGNATURE-----
-
---by62sis77uqd7vzz--
+>One thing I can think of is to perform like the vga_switcheroo
+>handling in hda_intel.c; it's essentially a forced runtime suspend,
+>and disable the whole card.  But in the case of audio-component
+>unbind, we need to think about re-binding -- or completely ignore
+>re-binding until the whole driver gets unloaded.
+>
+>
+>Takashi
