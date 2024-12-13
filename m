@@ -1,85 +1,151 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A89619F0941
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:19:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 778BD9F0956
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 11:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6BD010EF97;
-	Fri, 13 Dec 2024 10:19:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6809C10E903;
+	Fri, 13 Dec 2024 10:24:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mgTFjeMV";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="QB3BAAvl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j6UBVK3e";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tPrPshOR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F35EiPjf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com
- [IPv6:2607:f8b0:4864:20::112e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B4610EF97
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:19:18 +0000 (UTC)
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-6eff4f0d627so14916117b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 02:19:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734085157; x=1734689957; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JzubTKIrCCyJH0pfnEBHBmZCTtcP1wgY3Y2naNN0eVk=;
- b=mgTFjeMV2Fl0CUdFiTOISyCUZlsLkO3iGyR5TgZ8QcTtzdcf9Db2AP9oB0MjhUASxB
- Kyf55NaXjo4/skwyfF6zAjx1uK0I3AC06Hwppoc/UayG+wvi0ToL8YryZf8UzzujFMw9
- o8w7LAHWy83iJwqOqIwStJC9CXfAhGOghqGy1Gbd8tA6GACcyjcBUViX4lnu65PTdATZ
- sqSvGhVkqIpbaKTavlvyMQqOWiOW1X7eV5d/oL2iiDJfl+o2lu1XETfr11Cq/Zon6mSk
- hYaNYNUkk+EOtD/Kcvrd98GxdbnQ7wELt9ooi6hbm8knpn6/rmauU0uw3nRl1qebQGHA
- 5c8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734085157; x=1734689957;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JzubTKIrCCyJH0pfnEBHBmZCTtcP1wgY3Y2naNN0eVk=;
- b=jBNTF78FnZ5nw9RsdBYrQHMEPo6Fd9UVuz0Eszb2nCccrbKUAj6+jLNbBvxjJS0qr9
- cG1+WP3MdOyDha+7722xpuZeQ4Te8k6wLGJaHm7Pb9VecUcmrXi1Kv6plIEiWMmKez7u
- +/kx6vZ2peWPoEya8Hjt8qJpRI1cjx3/eFKxSNSA9NTFpcCpvWcSH0UnOBOdNHo9ejCy
- gT1QQOwAc/M/+tecLqMW7tDPFe40QiQTJIS25qf82Siqk9mtOmNemTtZH6TyZhsfnV+0
- TNEl1Y5t4ezhAocci/Msfw8+eBikaeDRJXeivHB4lPw5DzE5aK7tNr1A18ECU5PysSAf
- KRyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXylOHtfKFMo8yRoDVcxK7gE/Epoy48Jqx6JA+N0HneRfA7KB7PXfNmM0l06/kurbIlHwJomqwMWNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyqPO7U+WuRXsyozSJqjypSy0y2+2t8XrbykDYndzNAyJPAmPUa
- SNXMnAB8W3nqITyPdJGwxGuJH0sVswkUAfQAD3dxhTXNhzrpNa2lvNkohSXEYtqUK2IKMKQg2xo
- wCb8jPM8PUrI/8je9aZKTcB6a/i42KwhfRoH1eg==
-X-Gm-Gg: ASbGncvvW+tv2KSc4vUy/6e2lwMjs4WSa+xMp6q4X6iuQo/8fUZ1tkIlXoYfxH/bIVi
- iDMrybHk7sFqb97mFhmG7izccsNuCtAwO5IsHDQ==
-X-Google-Smtp-Source: AGHT+IE+V0UDCOAU5QBdFhu4vGa18K/4xyOW5PpbJKOBiXTh72LOzIvfBG+05zrZNP3V7nBvigfrJ7wDyZaG9B3yK7Y=
-X-Received: by 2002:a05:6902:2484:b0:e3a:3a3d:40c9 with SMTP id
- 3f1490d57ef6-e4352f57b49mr1567063276.39.1734085157123; Fri, 13 Dec 2024
- 02:19:17 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3BD110E903
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 10:24:23 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 4AE222115C;
+ Fri, 13 Dec 2024 10:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1734085462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
+ b=QB3BAAvlMjSbem64YecmVjJGmws8bfOvUTD+KKvi7kRCMKvWOApY0uIfCet5lxrNDfoDUF
+ kYKima0XfjJ//cp6X9aPRpiv/cXNNNy+DfGwJ7aRzfdpnBl+Q98kMFgLY0/8dCj8FH7Eso
+ yySpVrlwNrq43Uq6G/B7E43pyz64j4Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1734085462;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
+ b=j6UBVK3eUBa8uR6nex3nUMjcfXl1CQPkSFrZPH8x2W8kQHDeRo1nrlthyHhnPsC73eZWWs
+ xJe2M8NkIDdXsJAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tPrPshOR;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=F35EiPjf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1734085461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
+ b=tPrPshOR8OGskNXqtHG5zsWfTFtAWkW2VMrNqELtJBW6l/2NFdcLs1OxedCw7R6xiZ51m7
+ h9tq3+U4I4rCuekR9CMWLRcbws6ajAhE5g6ncB3sCzZigANSiWhCZINWRagT/etWKBQbFJ
+ 69sP2Jse0IoReokkrtrtOL0MchDeYg8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1734085461;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
+ b=F35EiPjf6rljhpNclFMv1DDqnxhLuSBOgjJzXGatSr0F1Y6LNmfwdq48C8L2640wlOpX+G
+ v8fzZgkVV3eOKTCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8DF813939;
+ Fri, 13 Dec 2024 10:24:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +v76KVQLXGdsSAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Dec 2024 10:24:20 +0000
+Message-ID: <eea7e1f0-cdcf-49ca-b50b-cac9bb320f4e@suse.de>
+Date: Fri, 13 Dec 2024 11:24:20 +0100
 MIME-Version: 1.0
-References: <20241210-add-display-support-for-qcs615-platform-v4-0-2d875a67602d@quicinc.com>
- <20241210-add-display-support-for-qcs615-platform-v4-9-2d875a67602d@quicinc.com>
- <cfdyvcxdkmf4sv5f75koflayyx74wd3tuscdl7byp5peaag5ty@yhr3275jhftn>
- <92b6335e-a303-49d3-9b77-f951663fc10c@quicinc.com>
-In-Reply-To: <92b6335e-a303-49d3-9b77-f951663fc10c@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 13 Dec 2024 12:19:05 +0200
-Message-ID: <CAA8EJpqyM-r3jvY7sTpG-KKRHP9K7c3q0xfoLb_f0th7vunPYw@mail.gmail.com>
-Subject: Re: [PATCH v4 9/9] arm64: dts: qcom: Add display support for QCS615
- RIDE board
-To: fange zhang <quic_fangez@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Liu Li <quic_lliu6@quicinc.com>, 
- Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, javierm@redhat.com,
+ arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
+ <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
+ <1248a2b6-71b0-4909-917f-a5605415a816@csgroup.eu>
+ <690acce6-3e57-4731-9949-f8bb06d9cb58@suse.de>
+ <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4AE222115C
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[csgroup.eu,redhat.com,arndb.de,gmx.de,ffwll.ch,gmail.com];
+ ARC_NA(0.00)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ MID_RHS_MATCH_FROM(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[10]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,157 +161,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 13 Dec 2024 at 11:21, fange zhang <quic_fangez@quicinc.com> wrote:
->
->
->
-> On 2024/12/10 19:02, Dmitry Baryshkov wrote:
-> > On Tue, Dec 10, 2024 at 02:54:00PM +0800, Fange Zhang wrote:
-> >> From: Li Liu <quic_lliu6@quicinc.com>
-> >>
-> >> Add display MDSS and DSI configuration for QCS615 RIDE board.
-> >> QCS615 has a DP port, and DP support will be added in a later patch.
-> >>
-> >> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
-> >> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
-> >> ---
-> >>   arch/arm64/boot/dts/qcom/qcs615-ride.dts | 89 ++++++++++++++++++++++++++++++++
-> >>   1 file changed, 89 insertions(+)
-> >>
-> >> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> >> index a25928933e2b66241258e418c6e5bc36c306101e..694719a09ac46bfa2fe34f1883c0970b9d0902be 100644
-> >> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> >> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> >> @@ -32,6 +32,18 @@ xo_board_clk: xo-board-clk {
-> >>                      #clock-cells = <0>;
-> >>              };
-> >>      };
-> >> +
-> >> +    dp-connector {
-> >> +            compatible = "dp-connector";
-> >> +            label = "DP";
-> >> +            type = "mini";
-> >> +
-> >> +            port {
-> >> +                    dp_connector_out: endpoint {
-> >> +                            remote-endpoint = <&anx_7625_out>;
-> >> +                    };
-> >> +            };
-> >> +    };
-> >>   };
-> >>
-> >>   &apps_rsc {
-> >> @@ -202,6 +214,83 @@ &gcc {
-> >>               <&sleep_clk>;
-> >>   };
-> >>
-> >> +&i2c2 {
-> >> +    clock-frequency = <400000>;
-> >> +    status = "okay";
-> >> +
-> >> +    ioexp: gpio@3e {
-> >> +            compatible = "semtech,sx1509q";
-> >> +            reg = <0x3e>;
-> >> +            interrupt-parent = <&tlmm>;
-> >> +            interrupts = <58 0>;
-> >
-> > Use IRQ flags instead of just 0 (here and further on). Also it might be
-> > better to use interrupts-extended instead.
-> Got it, will use interrupts-extended instead
-> -               interrupt-parent = <&tlmm>;
-> -               interrupts = <58 0>;
-> +               interrupts-extended = <&tlmm 58 IRQ_TYPE_NONE>;
-> >
-> >> +            gpio-controller;
-> >> +            #gpio-cells = <2>;
-> >> +            interrupt-controller;
-> >> +            #interrupt-cells = <2>;
-> >> +            semtech,probe-reset;
-> >> +    };
-> >> +
-> >> +    i2c-mux@77 {
-> >> +            compatible = "nxp,pca9542";
-> >> +            reg = <0x77>;
-> >> +            #address-cells = <1>;
-> >> +            #size-cells = <0>;
-> >
-> > Add empty line before device nodes (here and furher on).
-> Sorry, will add it in next patch.
-> >
-> >> +            i2c@0 {
-> >> +                    reg = <0>;
-> >> +                    #address-cells = <1>;
-> >> +                    #size-cells = <0>;
-> >> +
-> >> +                    anx7625@58 {
-> >> +                            compatible = "analogix,anx7625";
-> >> +                            reg = <0x58>;
-> >> +                            interrupt-parent = <&ioexp>;
-> >> +                            interrupts = <0 0>;
-> will change it to interrupts-extended in next patch
-> -               interrupt-parent = <&ioexp>;
-> -               interrupts = <0 0>;
-> +               interrupts-extended = <&ioexp 0 IRQ_TYPE_NONE>;
+Hi
 
-Yes, much better. BTW: are you sure that it's really IRQ_TYPE_NONE?
 
-> >> +                            enable-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
-> >> +                            reset-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
-> >> +                            wakeup-source;
-> >> +
-> >> +                            ports {
-> >> +                                    #address-cells = <1>;
-> >> +                                    #size-cells = <0>;
-> >> +
-> >> +                                    port@0 {
-> >> +                                            reg = <0>;
-> >> +                                            anx_7625_in: endpoint {
-> >> +                                                    remote-endpoint = <&mdss_dsi0_out>;
-> >> +                                            };
-> >> +                                    };
-> >> +
-> >> +                                    port@1 {
-> >> +                                            reg = <1>;
-> >> +                                            anx_7625_out: endpoint {
-> >> +                                                    remote-endpoint = <&dp_connector_out>;
-> >> +                                            };
-> >> +                                    };
-> >> +                            };
-> >> +                    };
-> >> +            };
-> >> +    };
-> >> +};
-> >> +
-> >> +&mdss {
-> >> +    status = "okay";
-> >> +};
-> >> +
-> >> +&mdss_dsi0 {
-> >> +    vdda-supply = <&vreg_l11a>;
-> >> +    status = "okay";
-> >> +};
-> >> +
-> >> +&mdss_dsi0_out {
-> >> +    remote-endpoint = <&anx_7625_in>;
-> >> +    data-lanes = <0 1 2 3>;
-> >> +};
-> >> +
-> >> +&mdss_dsi0_phy {
-> >> +    vdds-supply = <&vreg_l5a>;
-> >> +    status = "okay";
-> >> +};
-> >> +
-> >>   &qupv3_id_0 {
-> >>      status = "okay";
-> >>   };
-> >>
-> >> --
-> >> 2.34.1
-> >>
-> >
+Am 13.12.24 um 11:15 schrieb Christophe Leroy:
 >
+>
+> Le 13/12/2024 à 09:41, Thomas Zimmermann a écrit :
+>> Hi
+>>
+>>
+>> Am 13.12.24 um 09:33 schrieb Christophe Leroy:
+>>>
+>>>>
+>>>> The attached patch selects backlight support in the defconfigs that 
+>>>> also have PMAC_BACKLIGHT=y. Can you please apply it on top of the 
+>>>> patchset and report on the results?
+>>>>
+>>>
+>>> That works for the defconfig but it is still possible to change 
+>>> CONFIG_BACKLIGHT_CLASS_DEVICE manually.
+>>>
+>>> If it is necessary for PMAC_BACKLIGHT then it shouldn't be possible 
+>>> to deselect it.
+>>
+>> Here's another patch that make it depend on BACKLIGHT_CLASS_DEVICE=y. 
+>> Can you please try this as well?
+>
+> That looks good, no build failure anymore with BACKLIGHT_CLASS_DEVICE=m
 
+Great, I'll add this change to the next iteration.
+
+Best regards
+Thomas
 
 -- 
-With best wishes
-Dmitry
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
