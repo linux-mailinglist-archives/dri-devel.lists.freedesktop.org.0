@@ -2,78 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFCA9F0330
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 04:41:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A469F044A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:46:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EED3F10E17D;
-	Fri, 13 Dec 2024 03:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B01A710E23F;
+	Fri, 13 Dec 2024 05:46:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ZQ6TkmAp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FM/iQDg7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 788F210E17D
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 03:41:53 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-71e22b2387cso987030a34.3
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Dec 2024 19:41:53 -0800 (PST)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 428E110E074;
+ Fri, 13 Dec 2024 05:46:44 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-2156e078563so10800195ad.2; 
+ Thu, 12 Dec 2024 21:46:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1734061312; x=1734666112;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7+sYwNsJPJUz8rFWIUY4qzq/70dIz9Ru6YrTek2NORE=;
- b=ZQ6TkmApEPuENrw+ppO4POIhk8BnW0R50R4V/oDcT+zj63zzh3bko7CS5/C7Z9LaEA
- a8KaX2+0F/DnKp7SrhvExeLynXjqdu+41R4gQFdsO5rHHjCJUxzPIwm9itSUhSCJUwwq
- VcY6OsKCwjbgjNtsn8dYrEMpV36RYH1l46QiU=
+ d=gmail.com; s=20230601; t=1734068804; x=1734673604; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9nDBDHl8OkOEbonP7/O/xeWGAuqOftf+4IMvf+gS1cw=;
+ b=FM/iQDg7KC4a/755IIO7QtW7lGZizb9Ij12tusXglECWpyQ9nvOTMHAcDQwxPnjnYo
+ eTsmAPsuz79GW2gDJB31OVGRJSLIvIdoV//6LhZKavKhZUdkvG49eXuYeH7FM/LeRfjP
+ hpHU4RxyoJvFZIZ5WFJINR8gs5wgEdI874DfumKMva7Hez/g9dQjQvSD0GxM57ZqiRUn
+ Ze68Q8GAR8BO+Otz3EB8MyMegI37Yf180KgHlGvecTr7RT6Z/zQ5ifdva8QEAGqA9rxV
+ 5k8tF13tb13nM2JEThwqXq215k7y81rAhUluLZI9l+xXAdlzqxQuOL4CGYB6RCQ+9rtm
+ R0aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734061312; x=1734666112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7+sYwNsJPJUz8rFWIUY4qzq/70dIz9Ru6YrTek2NORE=;
- b=p6a5WO2ZgeHDW4iu2OZig9Tdd/1ack9Cv5FQeqwgqp/Ov5cOIDMcR9SufdtTFJ0myZ
- TxD8h85O8oXA1oydubwptR4dBvG/SvlBXMHoe2FuzNrrsvW3WUqFddBdXFNMR1XXVAsv
- 1uf289fkj/GUvQlKmj5/+FNDeLZya+AhM8puPk+8TS11/jmToYOSpHiN2E73umkljBtY
- ljux2uN0nFbdIAxN5cxhK5XC/NXkfDcSgOXeG0Jd/LGLtZEWY9y/O6H7SU4mUg2FGDhZ
- 6ZLnfGvcByBPrxhiWPn2f28HOzimD1zzHBzXYELwvRy/Qq0wf0FfuMN/7tAAlyjCb5qn
- 13ZQ==
+ d=1e100.net; s=20230601; t=1734068804; x=1734673604;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9nDBDHl8OkOEbonP7/O/xeWGAuqOftf+4IMvf+gS1cw=;
+ b=mFWDB/eHGMLYTkaKvVKZ60/txoFkAnA43c4hJyKomRRG88tb4QvFogw4OsBvUIi5Vu
+ QOA8BiD/ML7hvLNsYYv1y76T6dbHHOGIsgr8EpdSQiUciT9fKaT7iu6CdSdosuYtPkw5
+ 7ZsJ9p1VmmQ9jEF20YLao+0dw8dSsHzdBGVWM+PFvLfVH4ZGFOSTwuBPh2FjbEE8/CZH
+ 2lsLwyvnIkJbBT/TAQhitGsdmuooeqm5zWKs2hTprneecYU12Y/AULYcgNn9J+wj7emC
+ uJ8yJfX211t7igSyOVZyJ0JEVpbKBTaILhPtggFQygO3LlvE+qtzr3K7CBAttlu25Dwi
+ bZHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVZIlRkJpQGEhGzWUieXrk0RdRAc5Sj3lncrchbsORHmTu7ndrGWkAcGglh2bdnKiS5YNFXRCs6Cms=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyT/a2LIGZQrEcW1kL72ZWM9CYWNRuOK2YR4MwnjWu/FE++K4RF
- cKaz6BYTJ1ATR/3kwddYUVIo7p+zvo6i9fth47iD7oKfnV8stqYGYjUR6EGDPs6JKoUBndyDyj1
- UdRd188XKZz6edj3FBPu2EPmZdDd9NJ0FBe7r
-X-Gm-Gg: ASbGncuP9lQzxsWO/dK4gFwkwIfvTeA2yas+chn2cCncYU8L/5fMzMpVuWOGCeMSzmB
- vQY/kdTGplN/qM99Nn4WT+hcb/RBHUGOwGy+r9hca3Zo2gYqGRITgCTuW+JIPidMW
-X-Google-Smtp-Source: AGHT+IGb90yBCnvxG+Hi9Pwd10WdldUyRYAIXkWApYl0He7r8e3m4xh8APMlHNhOCG/vLZzWYNxtLLt1WvD3XZbbN2w=
-X-Received: by 2002:a05:6830:6619:b0:71d:54cd:5289 with SMTP id
- 46e09a7af769-71e3ba9bef9mr613276a34.21.1734061312077; Thu, 12 Dec 2024
- 19:41:52 -0800 (PST)
+ AJvYcCVuNV/C7KDZ61vdMumNzJGhNjpMAlyZS/AhlZd4MRE3HobeUI7E6xaybrgbdXf0oeOuAQfTE9O7Q8o=@lists.freedesktop.org,
+ AJvYcCWS6LZqKveP7bsekch4g5LppcXizEU5XoTm8x26xqOm74sc+ymQcqpR+ZsPSIK/l9G4O/r2a9TBwEw=@lists.freedesktop.org,
+ AJvYcCX1nmu/3KwyscWOAguGfYweWt8GgaEE63J/Mv4yirjKB47QZeYaOYR6633KAxKNpvUJ8FCfecaQFZbl@lists.freedesktop.org,
+ AJvYcCXHM+EdtG+QH1Y0pzz6C3N1W4Ht+sgm3K+k+QTFPLB6MDAhZbO6XMyZQIrMA7ohfrnIHiXdwRg/Vw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuXR864N1lZGhEEgmYBdzJda9RMNp1aqTsCT+X4sCmUoEV9qJ5
+ mkcfAIkMKDbxUYZyAKXwTTN5LjhLbRkGq+1bDN8+prts/1ZJn/MaLsk0ziHZoGk=
+X-Gm-Gg: ASbGncsKUZK8Aboj2I69p6dCvLNo9vla2jLf07xDz2WOGJ/DMCfLjVFYERktOyE4Vt1
+ 1LBpFoIqYz9PoW40OY3QFSQXU63CBL4fUA0xOL4s9NUczjx8krGa34kIlIGEBi9BSVyBFaPVoih
+ 2BlZo8F85exj9cvo3MyGc4T9ZAqILbfUCdV85UypY+nX5lRCky69tY/cqE76hth3D9RaLKumHfv
+ m0Ct3JNbdWgQGRPvsKjZrRxqhOgspaV4r49ieGReupJvjLjjan/a52yy442Ls55tVTWhxXfL+6R
+ hsT2R6s=
+X-Google-Smtp-Source: AGHT+IHVKByQs8aQw9nFW65MyCdke95tovLrIe/teYLFc9u83Eik6guIs9oKZyvf6Ts5Rmy4R5h3SA==
+X-Received: by 2002:a17:902:ccd2:b0:216:26f1:530b with SMTP id
+ d9443c01a7336-21892a70579mr20915305ad.51.1734068803702; 
+ Thu, 12 Dec 2024 21:46:43 -0800 (PST)
+Received: from localhost.localdomain ([180.159.118.224])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.46.38
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 12 Dec 2024 21:46:43 -0800 (PST)
+From: Yafang Shao <laoar.shao@gmail.com>
+To: torvalds@linux-foundation.org,
+	akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ x86@kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
+ Yafang Shao <laoar.shao@gmail.com>
+Subject: [PATCH 0/7] vsprintf: Add %pTN to print Task Name 
+Date: Fri, 13 Dec 2024 13:46:03 +0800
+Message-Id: <20241213054610.55843-1-laoar.shao@gmail.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 MIME-Version: 1.0
-References: <20241212153344.27408-1-jason-jh.lin@mediatek.com>
- <20241212153344.27408-2-jason-jh.lin@mediatek.com>
-In-Reply-To: <20241212153344.27408-2-jason-jh.lin@mediatek.com>
-From: Pin-yen Lin <treapking@chromium.org>
-Date: Fri, 13 Dec 2024 11:41:41 +0800
-Message-ID: <CAEXTbpfc0ybrvMCuJkKAUwXXTtpZ=vU9MLfU=4CzgdTd-ck4qw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: mediatek: ovl: Modify rules for
- MT8195/MT8188
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, 
- Singo Chang <singo.chang@mediatek.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Nancy Lin <nancy.lin@mediatek.com>, linux-mediatek@lists.infradead.org, 
- Shawn Sung <shawn.sung@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-arm-kernel@lists.infradead.org, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,76 +93,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+Since task->comm is guaranteed to be NUL-terminated, it can be printed
+directly. This patch introduces a new vsnprintf format specifier, %pTN, to
+print a task's name. In this specifier, p represents the task pointer, T
+stands for "Task," and N denotes "Name." With this abstraction, users no
+longer need to manually retrieve the task name for printing purposes.
 
-On Thu, Dec 12, 2024 at 11:33=E2=80=AFPM Jason-JH.Lin <jason-jh.lin@mediate=
-k.com> wrote:
->
-> From: Hsiao Chien Sung <shawn.sung@mediatek.com>
->
-> Modify rules for both MT8195 and MT8188.
-> Hardware capabilities include color formats and AFBC are
-> changed since MT8195, stop using the settings of MT8183.
->
-> Acked-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> Reviewed-by: CK Hu <ck.hu@mediatek.com>
-> ---
->  .../bindings/display/mediatek/mediatek,ovl.yaml           | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.=
-yaml
-> index 9ea796a033b2..0ace12bbb623 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
-l
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
-l
-> @@ -36,16 +36,14 @@ properties:
->            - enum:
->                - mediatek,mt6795-disp-ovl
->            - const: mediatek,mt8173-disp-ovl
-> -      - items:
-> -          - enum:
-> -              - mediatek,mt8188-disp-ovl
-> -              - mediatek,mt8195-disp-ovl
-> -          - const: mediatek,mt8183-disp-ovl
+In this patchset, all instances of get_task_comm() used for printing the
+task name have been replaced with the new %pTN specifier. The raw uses of
+'xyz->comm' for printouts will be addressed in a subsequent patch.
 
-This breaks the schema check for mt8195.dtsi, which is currently using
-`compatible =3D "mediatek,mt8195-disp-ovl", "mediatek,mt8183-disp-ovl";`
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Link: https://lore.kernel.org/bpf/CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com 
 
-IIUC this is supposed to be a RESEND of [1], which actually added a
-binding for "mediatek,mt8195-disp-ovl". However [1] still breaks
-mt8195.dtsi because it only allows `compatible =3D
-"mediatek,mt8195-disp-ovl"` But not `compatible =3D
-"mediatek,mt8195-disp-ovl", "mediatek,mt8183-disp-ovl"`.
+Yafang Shao (7):
+  vsprintf: Add %pTN to print task name
+  kernel: Replace get_task_comm() with %pTN
+  arch: Replace get_task_comm() with %pTN
+  net: Replace get_task_comm() with %pTN
+  security: Replace get_task_comm() with %pTN
+  drivers: Repace get_task_comm() with %pTN
+  fs: Use %pTN to print task name
 
-If "mediatek,mt8183-disp-ovl" is a reasonable fallback for
-"mediatek,mt8195-disp-ovl", please keep a binding like:
+ arch/arc/kernel/unaligned.c                    |  9 ++++-----
+ arch/x86/kernel/vm86_32.c                      |  5 ++---
+ drivers/accel/habanalabs/common/context.c      |  5 ++---
+ .../accel/habanalabs/common/habanalabs_ioctl.c | 15 +++++----------
+ .../drm/i915/display/intel_display_driver.c    | 10 ++++------
+ drivers/gpu/drm/nouveau/nouveau_chan.c         |  4 +---
+ drivers/gpu/drm/nouveau/nouveau_drm.c          |  7 +++----
+ drivers/tty/tty_io.c                           |  5 ++---
+ fs/ocfs2/cluster/netdebug.c                    |  5 ++---
+ kernel/capability.c                            | 12 ++++--------
+ kernel/futex/waitwake.c                        |  5 ++---
+ lib/vsprintf.c                                 | 18 ++++++++++++++++++
+ net/wireless/wext-core.c                       |  6 ++----
+ scripts/checkpatch.pl                          |  6 ++++--
+ security/yama/yama_lsm.c                       |  6 ++----
+ 15 files changed, 57 insertions(+), 61 deletions(-)
 
-      - items:
-          - const: mediatek,mt8195-disp-ovl
-          - const: mediatek,mt8183-disp-ovl
+-- 
+2.43.5
 
-Or, fix mt8195.dtsi instead in the same series.
-
-[1]: https://patchwork.kernel.org/project/linux-mediatek/patch/202312121219=
-57.19231-4-shawn.sung@mediatek.com/
->        - items:
->            - enum:
->                - mediatek,mt8186-disp-ovl
->                - mediatek,mt8365-disp-ovl
->            - const: mediatek,mt8192-disp-ovl
-> +      - items:
-> +          - const: mediatek,mt8188-disp-ovl
-> +          - const: mediatek,mt8195-disp-ovl
->
->    reg:
->      maxItems: 1
-
-Regards,
-Pin-yen
