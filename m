@@ -1,67 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E77F9F0E96
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 15:10:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CE19F0EBE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 15:13:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EECDB10F01F;
-	Fri, 13 Dec 2024 14:10:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kBzrJd4y";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48BD210F02F;
+	Fri, 13 Dec 2024 14:13:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB12910E34E;
- Fri, 13 Dec 2024 14:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734099011; x=1765635011;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=tQUixa7++G0Mm0VJMH3JcQTbZYOq309GMrsay8fjXco=;
- b=kBzrJd4yEK//ECRFvcb9KA6cqVFvK3q+Vy2sRPC1iohz/gLmll0zmxDz
- tx3t6Oj749nwSGx3o1DpUjM4OTP7Q/fHQdNgZs7Xbw5mZLC8YttFh/s2I
- a/C0JeG4PxPyNDFgSF6WspUObK3M9eJbcXQy7bkn1wPG9Su6H4wRD+/+6
- t7TAGxlV7K4FdyUXmhZijbWPdge0mkhx+JSqMARRhk9FrSIRrazJYJYvA
- AwuR/+bYfQzdUp6pikQ2VcvfNslGixEn1Mq6YspV7pBdk1E55U8l5GTyg
- Y9pCNTJqg638I5ORkHb0rQmZibBmGKlgHp+1YClYKtDudRP39AfcSbcOM w==;
-X-CSE-ConnectionGUID: loto/mAFS2SMbHSxvMOO+w==
-X-CSE-MsgGUID: 6vRDobh4SdOla9VQ85fN4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="38229876"
-X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; d="scan'208";a="38229876"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2024 06:10:10 -0800
-X-CSE-ConnectionGUID: qe2FaLtjSh6fv1+BuWSYZg==
-X-CSE-MsgGUID: 6f3UuAjlQ7SEdWTaaT1UvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="101631675"
-Received: from ldmartin-desk2.corp.intel.com (HELO ldmartin-desk2)
- ([10.125.110.169])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2024 06:10:10 -0800
-Date: Fri, 13 Dec 2024 08:10:00 -0600
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>
-Cc: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch, 
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, 
- lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, 
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, 
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH 0/1] drm/amdgpu: Use device wedged event
-Message-ID: <yzuvo3rl3tl2dzae3rdp3hvl2f6r3mbrafzljcro7srhtmumy5@vyv6vxp2nqpy>
-References: <20241212190909.28559-1-andrealmeid@igalia.com>
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B50B10F029;
+ Fri, 13 Dec 2024 14:13:30 +0000 (UTC)
+Message-ID: <789d78c1-d16a-4cb3-b4ad-ba5f0ddcacaf@lankhorst.se>
+Date: Fri, 13 Dec 2024 15:13:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241212190909.28559-1-andrealmeid@igalia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
+ cgroup.
+To: Maxime Ripard <mripard@kernel.org>, Friedrich Vock <friedrich.vock@gmx.de>
+Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20241204134410.1161769-1-dev@lankhorst.se>
+ <29a71119-04de-4c76-a98a-d0fcb906390f@gmx.de>
+ <20241213-sceptical-maize-gazelle-fadc34@houat>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20241213-sceptical-maize-gazelle-fadc34@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,35 +47,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 04:09:08PM -0300, André Almeida wrote:
->Raag Jadav is introducing a new DRM API for generating "device wedged events",
->to notify userspace when the device needs userspace intervention after a GPU
->reset[1]. I did a simple patch to add support for it for amdgpu for the
->telemetry aspect of the event. Tested in Steam Deck. This patch requires [1] to
->be applied.
->
->Raag, if you are sending a v11 of your work you can carry this patch as well if
->you think it makes sense.
+Hey,
 
-great, more users
+Den 2024-12-13 kl. 14:07, skrev Maxime Ripard:
+> On Sun, Dec 08, 2024 at 01:15:34PM +0100, Friedrich Vock wrote:
+>> Hi,
+>>
+>> On 04.12.24 14:44, Maarten Lankhorst wrote:
+>>
+>>> Because it only deals with memory regions, the UAPI has been updated
+>>> to use dmem.min/low/max/current, and to make the API cleaner, the
+>>> names are changed too.
+>>>
+>>> dmem.current could contain a line like:
+>>> "drm/0000:03:00.0/vram0 1073741824"
+>>>
+>>> But I think using "drm/card0/vram0" instead of PCIID would perhaps
+>>> be good too. I'm open to changing it to that based on feedback.
+>>
+>> Agree, allowing userspace to reference DRM devices via "cardN" syntax
+>> sounds good.
+>>
+>> What about other subsystems potentially using dmem cgroups?
+>> I'm not familiar with the media subsystem, but I imagine we might be
+>> dealing with things like USB devices there? Is something like a
+>> "deviceN" possible there as well, or would device IDs look completely
+>> different?
+I'd just take what makes sense for each driver. dev_name() would be a 
+good approximation.
 
-when this started the plan was to merge it through drm-xe since xe was
-the only user. Now we already have 3, so I think it makes sense to go
-through drm-misc... I looked at the possible conflicts in i915 and xe
-and they are minimal.
+I agree that cardN is not stable.
 
-thanks
-Lucas De Marchi
+> > I have some patches to enable the cgroup in GEM-based drivers, media
+> ones and dma-buf heaps. The dma-buf heaps are simple enough since the
+> heaps names are supposed to be stable.
 
->
->[1] https://lore.kernel.org/dri-devel/20241128153707.1294347-1-raag.jadav@intel.com/
->
->André Almeida (1):
->  drm/amdgpu: Use device wedged event
->
-> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++
-> 1 file changed, 3 insertions(+)
->
->-- 
->2.47.1
->
+I've used your patch as a base enable cgroup in drivers that use the 
+VRAM manager. I didn't want to enable it for all of GEM, because it 
+would conflict with drivers using TTM. Some more discussion is needed first.
+
+For DMA-BUF heaps, I think it's fine and there is a lot less need of 
+discussion. I just felt it should be sent separately from the initial 
+enablement.
+
+> I don't think using card0 vs card1 (or v4l0 vs v4l1 for example) will
+> work because I don't think we have any sort of guarantee that these
+> names will always point to the same devices across reboots or updates.
+> 
+> If the module is loaded later than it used to for example, we could very
+> well end up in a situation where card0 and card1 are swapped, while the
+> constraints apply to the previous situation.
+I agree, just put it out there for discussion. I don't think the 
+benefits weigh up against the downsides :-)
+
+Cheers,
+~Maarten
