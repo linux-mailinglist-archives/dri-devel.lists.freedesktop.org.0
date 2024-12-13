@@ -1,109 +1,139 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D439F051A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 07:57:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C644E9F0571
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 08:26:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18A6210E42A;
-	Fri, 13 Dec 2024 06:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 476A610E113;
+	Fri, 13 Dec 2024 07:26:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=norik.com header.i=@norik.com header.b="VS5Q/Gm/";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Os9ePr4o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WnFZIV8E";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Os9ePr4o";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WnFZIV8E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from cpanel.siel.si (cpanel.siel.si [46.19.9.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F2610E42A
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 06:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=norik.com; 
- s=default;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Mz5+fDTTej/xbzEM2PzYBBnHKsi8dVYTYuT376akQF0=; b=VS5Q/Gm/ZPIbUPXpceSul9RGfV
- Dk+Uk/S5gS1pkNAkyBkDXwiAoYLSTJ49vMuUJuuvfUGGlp5/gpJGrMw5xkZLXZBue1owd2BKnKuw2
- 4VBGQ65S6bXec9oIgISbrUlhiUvI/iSbkt0SsiwcbZRVsOE6ie93/sAUht67RDfe2LZewRuKrE0iY
- ifTfDm14KLr3UjYUeOEdwv62QPYuTPtS0dohb2sa3wkHO7L1Jiqwvamdp3M+E9wpa+68NwaLC6vUp
- dMhRLtUBX8630QTz0xT8tvte3n7JbNm4lsTDeeCBFjpLdI7gkHdc8HOyXE5sWbYekZYtYHCVXrVGF
- jPusKcfQ==;
-Received: from 89-212-21-243.static.t-2.net ([89.212.21.243]:44300
- helo=[192.168.69.52]) by cpanel.siel.si with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96.2)
- (envelope-from <andrej.picej@norik.com>) id 1tLzcE-00CtFs-2s;
- Fri, 13 Dec 2024 07:57:34 +0100
-Message-ID: <cdf8cff7-543c-4a28-bf2e-bc7f331d0db5@norik.com>
-Date: Fri, 13 Dec 2024 07:57:30 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA3710E113
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 07:26:22 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7C8E52116C;
+ Fri, 13 Dec 2024 07:26:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1734074780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0hZK7LmqioQzS/yZ2Yu6wiWtAV1imB4AD4cwUr6OgK4=;
+ b=Os9ePr4oMfNr83SheK67Ha2lFIidz791Bt3A9sxe5DVDQtJlbv5Zcl8beakHLqUymEIk1V
+ ll03BLmcrFZBUxU5h4jq8/YKdEDdXhfKQ/0hvaWmXapx8c4XbQfUniLHypUJba2n99wBdR
+ lgxC9XVtIXi4G0SMOs9oQXWlAssZUgA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1734074780;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0hZK7LmqioQzS/yZ2Yu6wiWtAV1imB4AD4cwUr6OgK4=;
+ b=WnFZIV8E/k4krnFiJ3s+hf4Ars9rdOufRdF4xuRfhhIRGDlSpATpXNdy+Cwip5tcz5eRn+
+ A7gCkIF1ZMAxCwAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1734074780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0hZK7LmqioQzS/yZ2Yu6wiWtAV1imB4AD4cwUr6OgK4=;
+ b=Os9ePr4oMfNr83SheK67Ha2lFIidz791Bt3A9sxe5DVDQtJlbv5Zcl8beakHLqUymEIk1V
+ ll03BLmcrFZBUxU5h4jq8/YKdEDdXhfKQ/0hvaWmXapx8c4XbQfUniLHypUJba2n99wBdR
+ lgxC9XVtIXi4G0SMOs9oQXWlAssZUgA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1734074780;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=0hZK7LmqioQzS/yZ2Yu6wiWtAV1imB4AD4cwUr6OgK4=;
+ b=WnFZIV8E/k4krnFiJ3s+hf4Ars9rdOufRdF4xuRfhhIRGDlSpATpXNdy+Cwip5tcz5eRn+
+ A7gCkIF1ZMAxCwAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3679513927;
+ Fri, 13 Dec 2024 07:26:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Ik5rC5zhW2fnDAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 13 Dec 2024 07:26:20 +0000
+Message-ID: <5566a3f5-496a-4b39-a0fa-6a1a5af9a67a@suse.de>
+Date: Fri, 13 Dec 2024 08:26:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
- optional properties
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, marex@denx.de
-References: <20241212121712.214639-1-andrej.picej@norik.com>
- <20241212121712.214639-3-andrej.picej@norik.com>
- <45f90007-3136-4b59-a3fc-6fc0147b8ad8@wanadoo.fr>
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+To: Helge Deller <deller@gmx.de>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>, Javier Martinez Canillas
+ <javierm@redhat.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <09edb59a-527a-4ddb-bfaf-ea74fb5a3023@gmx.de>
+ <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
+ <87frmstrhd.fsf@intel.com> <2701e824-d330-49c0-88fa-a26658a9710c@gmx.de>
 Content-Language: en-US
-From: Andrej Picej <andrej.picej@norik.com>
-Autocrypt: addr=andrej.picej@norik.com; keydata=
- xsDNBGa0T6ABDAC4Acdg6VCJQi1O9x5GxXU1b3hDR/luNg85c1aC7bcFhy6/ZUY9suHS/kPF
- StNNiUybFZ2xE8Z18L+iQjNT3klDNUteroenx9eVhK5P1verK4GPlCB+nOwayoe/3ic5S9cC
- F76exdEtQHIt4asuwUJlV1IARn2j30QQ/1ZDVsw2FutxmPsu8zerTJAZCKPe6FUkWHaUfmlw
- d+DAdg3k33mVhURuiNfVrIHZ+Z9wrP6kHYS6nmBXNeAKy6JxJkJOUa4doBZFsvbQnNoPJTeF
- R/Pc9Nr5dRlFjq/w0RQqOngdtA2XqXhqgsgzlOTCrHSzZXqtwyRQlbb0egom+JjyrfakQa/L
- exUif7hcFiUdVImkbUwI4cS2/prNHu0aACu3DlLxE0I9fe/kfmtYWJLwMaI6pfuZdSL5N49y
- w+rllYFjOuHYEmyZWDBRKPM7TyPVdlmt6IYXR09plqIifc0jXI6/543Hjt8MK4MZSke6CLGn
- U9ovXDrlmTh5h8McjagssVsAEQEAAc0lQW5kcmVqIFBpY2VqIDxhbmRyZWoucGljZWpAbm9y
- aWsuY29tPsLBBwQTAQgAMRYhBFPRdFhqlu6CXugSybrG0Hq8HZyTBQJmtE+hAhsDBAsJCAcF
- FQgJCgsFFgIDAQAACgkQusbQerwdnJPi0QwAjuxLXKbt0KP6iKVc9dvycPDuz87yJMbGfM8f
- 6Ww6tY3GY6ZoQB2SsslHyzLCMVKs0YvbxOIRh4Hjrxyx7CqxGpsMNEsmlxfjGseA1rFJ0hFy
- bNgCgNfR6A2Kqno0CS68SgRpPy0jhlcd7Tr62bljIh/QDZ0zv3X92BPVxB9MosV8P/N5x80U
- 1IIkB8fi5YCLDDGCIhTK6/KbE/UQMPORcLwavcyBq831wGavF7g9QV5LnnOZHji+tPeWz3vz
- BvQyz0gNKS784jCQZFLx5fzKlf5Mixkn1uCFmP4usGbuctTo29oeiwNYZxmYMgFANYr+RlnA
- pUWa7/JAcICQe8zHKQOWAOCl8arvVK2gSVcUAe0NoT6GWIuEEoQnH9C86c+492NAQNJB9nd1
- bjUnFtjRKHsWr/Df11S26o8XT5YxFhn9aLld+GQcf07O/MWe+G185QSjKdA5jjpI459EPgDk
- iK4OSGx//i8n4fFtT6s+dbKyRN6z9ZHPseQtLsS7TCjEzsDNBGa0T6EBDAClk5JF2904JX5Z
- 5gHK28w+fLTmy8cThoVm3G4KbLlObrFxBy3gpDnSpPhRzJCbjVK+XZm2jGSJ1bxZxB/QHOdx
- F7HFlBE2OrO58k7dIB+6D1ibrHy++iZOEWeoOUrbckoSxP2XmNugPC1ZIBcqMamoFpz4Vul1
- JuspMmYOkvytkCtUl+nTpGq/QHxF4N2vkCY7MwtY1Au6JpeJncfv+VXlP3myl+b4wvweDCWU
- kqZrd6a+ePv4t8vbb99HLzoeGCuyaBMRzfYNN4dMbF29QHpvbvZKuSmn5wZIScAWmwhiaex9
- OwR6shKh1Eypw+CUlDbn3aieicbEpLgihali8XUcq5t6dGmvAiqmM7KpfeXkkE1rZ4TpB69+
- S2qiv2WgSIlUizuIx7u1zltCpEtp0tgTqrre8rVboOVHAytbzXTnUeL/E8frecJnk4eU3OvV
- eNDgjMe2N6qqfb6a2MmveM1tJSpEGYsOiYU69uaXifg5th7kF96U4lT24pVW2N2qsZMAEQEA
- AcLA9gQYAQgAIBYhBFPRdFhqlu6CXugSybrG0Hq8HZyTBQJmtE+iAhsMAAoJELrG0Hq8HZyT
- 4hAL/11F3ozI5QV7kdwh1H+wlfanHYFMxql/RchfZhEjr1B094KN+CySIiS/c63xflfbZqkb
- 7edAAroi78BCvkLw7MTBMgssynex/k6KxUUWSMhsHz/vHX4ybZWN15iin0HwAgQSiMbTyZCr
- IEDf6USMYfsjbh+aXlx+GyihsShn/dVy7/UP2H3F2Ok1RkyO8+gCyklDiiB7ppHu19ts55lL
- EEnImv61YwlqOZsGaRDSUM0YCPO6uTOKidTpRsdEVU7d9HiEiFa9Se3Y8UeiKKNpakqJHOlk
- X2AvHenkIyjWe6lCpq168yYmzxc1ovl0TKS+QiEqy30XJztEAP/pBRXMscQtbB9Tw67fq3Jo
- w4gWiaZTJM2lirY3/na1R8U0Qv6eodPa6OqK6N0OEdkGA1mlOzZusZGIfUyyzIThuLED/MKZ
- /398mQiv1i++TVho/54XoTtEnmV8zZmY25VIE1UXHzef+A12P9ZUmtuA3TOdDemS5EXebl/I
- xtT/8OxBOVSHvA==
-In-Reply-To: <45f90007-3136-4b59-a3fc-6fc0147b8ad8@wanadoo.fr>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <2701e824-d330-49c0-88fa-a26658a9710c@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.siel.si
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - norik.com
-X-Get-Message-Sender-Via: cpanel.siel.si: authenticated_id:
- andrej.picej@norik.com
-X-Authenticated-Sender: cpanel.siel.si: andrej.picej@norik.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Spam-Level: 
+X-Spamd-Result: default: False [-8.30 / 50.00]; REPLY(-4.00)[];
+ BAYES_HAM(-3.00)[100.00%]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCPT_COUNT_SEVEN(0.00)[10];
+ FREEMAIL_TO(0.00)[gmx.de,linux.intel.com,arndb.de,redhat.com,ffwll.ch,gmail.com];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -8.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,144 +149,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christophe,
+Hi
 
-On 12. 12. 24 13:33, Christophe JAILLET wrote:
-> Le 12/12/2024 à 13:17, Andrej Picej a écrit :
->> Add a optional properties to change LVDS output voltage. This should not
->> be static as this depends mainly on the connected display voltage
->> requirement. We have three properties:
->> - "ti,lvds-termination-ohms", which sets near end termination,
->> - "ti,lvds-vod-swing-data-microvolt" and
->> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
->> output voltage for data and clock lanes. They are defined as an array
->> with min and max values. The appropriate bitfield will be set if
->> selected constraints can be met.
+
+Am 13.12.24 um 00:56 schrieb Helge Deller:
+> On 12/13/24 00:24, Jani Nikula wrote:
+>> On Thu, 12 Dec 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+>>> On Thu, Dec 12, 2024, at 19:44, Helge Deller wrote:
+>>>> On 12/12/24 11:04, Thomas Zimmermann wrote:
+>>>>> Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
+>>>>> only controls backlight support within fbdev core code and data
+>>>>> structures.
+>>>>>
+>>>>> Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
+>>>>> select it explicitly. Fixes warnings about recursive dependencies,
+>>>>> such as [...]
+>>>>
+>>>> I think in the fbdev drivers themselves you should do:
+>>>>     select BACKLIGHT_CLASS_DEVICE
+>>>> instead of "depending" on it.
+>>>> This is the way as it's done in the DRM tiny and the i915/gma500 
+>>>> DRM drivers.
+>>>>
+>>>> So, something like:
+>>>>
+>>>> --- a/drivers/staging/fbtft/Kconfig
+>>>>          tristate "Support for small TFT LCD display modules"
+>>>>          depends on FB && SPI
+>>>>          depends on FB_DEVICE
+>>>>     +    select BACKLIGHT_DEVICE_CLASS
+>>>>          depends on GPIOLIB || COMPILE_TEST
+>>>>          select FB_BACKLIGHT
+>>>>
+>>>> config FB_BACKLIGHT
+>>>>             tristate
+>>>>             depends on FB
+>>>>     -      select BACKLIGHT_CLASS_DEVICE
+>>>>     +       depends on BACKLIGHT_CLASS_DEVICE
+>>>>
+>>>>
+>>>> Would that fix the dependency warning?
+>>>
+>>> The above is generally a mistake and the root cause of the
+>>> dependency loops. With very few exceptions, the solution in
+>>> these cases is to find the inconsistent 'select' and change
+>>> it into 'depends on'.
 >>
->> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
->> end termination will be used. Selecting only one:
->> "ti,lvds-vod-swing-data-microvolt" or
->> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
->> constraint for only data/clock lanes will be met. Setting both is
->> recommended.
-> 
-> ...
-> 
->> +static int sn65dsi83_select_lvds_vod_swing(struct device *dev,
->> +    u32 lvds_vod_swing_data[2], u32 lvds_vod_swing_clk[2], u8 lvds_term)
->> +{
->> +    int i;
->> +
->> +    for (i = 0; i <= 3; i++) {
->> +        if (lvds_vod_swing_data_table[lvds_term][i][0] >= 
->> lvds_vod_swing_data[0] &&
->> +        lvds_vod_swing_data_table[lvds_term][i][1] <= 
->> lvds_vod_swing_data[1] &&
->> +        lvds_vod_swing_clock_table[lvds_term][i][0] >= 
->> lvds_vod_swing_clk[0] &&
->> +        lvds_vod_swing_clock_table[lvds_term][i][1] <= 
->> lvds_vod_swing_clk[1])
-> 
-> Adding a few spaces to align things would help reading.
+>> Agreed.
+>
+> That's fine, but my point is that it should be consistent.
+> For example:
+>
+> ~:/git-kernel/linux$ grep -r "select.*BACKLIGHT_CLASS_DEVICE" 
+> drivers/gpu/
+> drivers/gpu/drm/tilcdc/Kconfig: select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/nouveau/Kconfig:        select BACKLIGHT_CLASS_DEVICE 
+> if DRM_NOUVEAU_BACKLIGHT
+> drivers/gpu/drm/nouveau/Kconfig:        select BACKLIGHT_CLASS_DEVICE 
+> if ACPI && X86
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/fsl-dcu/Kconfig:        select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/i915/Kconfig:   select BACKLIGHT_CLASS_DEVICE if ACPI
+> drivers/gpu/drm/gma500/Kconfig: select BACKLIGHT_CLASS_DEVICE if ACPI
+> drivers/gpu/drm/amd/amdgpu/Kconfig:     select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/xe/Kconfig:     select BACKLIGHT_CLASS_DEVICE if ACPI
+> drivers/gpu/drm/solomon/Kconfig:        select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/radeon/Kconfig: select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/renesas/shmobile/Kconfig:       select 
+> BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/gud/Kconfig:    select BACKLIGHT_CLASS_DEVICE
+> drivers/gpu/drm/bridge/Kconfig: select BACKLIGHT_CLASS_DEVICE
+>
+> All major drm graphics drivers *select* BACKLIGHT_CLASS_DEVICE.
+> Are you changing them to "depend on" as well?
 
-Ok, that makes sense, will fix.
+All these drivers should be changed to either 'depends on' or maybe 'imply'.
 
-> 
->> +            return i;
->> +    }
->> +
->> +    dev_err(dev, "failed to find appropriate LVDS_VOD_SWING 
->> configuration\n");
->> +    return -EINVAL;
->> +}
->> +
->> +static int sn65dsi83_parse_lvds_endpoint(struct sn65dsi83 *ctx, int 
->> channel)
->> +{
->> +    struct device *dev = ctx->dev;
->> +    struct device_node *endpoint;
->> +    int endpoint_reg;
->> +    /* Set so the property can be freely selected if not defined */
->> +    u32 lvds_vod_swing_data[2] = { 0, 1000000 };
->> +    u32 lvds_vod_swing_clk[2] = { 0, 1000000 };
->> +    /* Set default near end terminataion to 200 Ohm */
->> +    u32 lvds_term = 200;
->> +    int lvds_vod_swing_conf;
->> +    int ret = 0;
->> +    int ret_data;
->> +    int ret_clock;
->> +
->> +    if (channel == CHANNEL_A)
->> +        endpoint_reg = 2;
->> +    else
->> +        endpoint_reg = 3;
->> +
->> +    endpoint = of_graph_get_endpoint_by_regs(dev->of_node, 
->> endpoint_reg, -1);
->> +
->> +    of_property_read_u32(endpoint, "ti,lvds-termination-ohms", 
->> &lvds_term);
->> +    if (lvds_term == 100)
->> +        ctx->lvds_term_conf[channel] = OHM_100;
->> +    else if (lvds_term == 200)
->> +        ctx->lvds_term_conf[channel] = OHM_200;
->> +    else
->> +        return -EINVAL;
-> 
-> Should it be:
->      else {
->          ret = -EINVAL;
->          goto exit;
->      }
-> ?
+Best regards
+Thomas
 
-Of course, good catch. Thanks.
+>
+> Helge
 
-Best regards,
-Andrej.
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-> 
->> +
->> +    ret_data = of_property_read_u32_array(endpoint, 
->> "ti,lvds-vod-swing-data-microvolt",
->> +                    lvds_vod_swing_data, 
->> ARRAY_SIZE(lvds_vod_swing_data));
->> +    if (ret_data != 0 && ret_data != -EINVAL) {
->> +        ret = ret_data;
->> +        goto exit;
->> +    }
->> +
->> +    ret_clock = of_property_read_u32_array(endpoint, 
->> "ti,lvds-vod-swing-clock-microvolt",
->> +                    lvds_vod_swing_clk, ARRAY_SIZE(lvds_vod_swing_clk));
->> +    if (ret_clock != 0 && ret_clock != -EINVAL) {
->> +        ret = ret_clock;
->> +        goto exit;
->> +    }
->> +
->> +    /* Use default value if both properties are NOT defined. */
->> +    if (ret_data == -EINVAL && ret_clock == -EINVAL)
->> +        lvds_vod_swing_conf = 0x1;
->> +
->> +    /* Use lookup table if any of the two properties is defined. */
->> +    if (!ret_data || !ret_clock) {
->> +        lvds_vod_swing_conf = sn65dsi83_select_lvds_vod_swing(dev, 
->> lvds_vod_swing_data,
->> +                        lvds_vod_swing_clk, 
->> ctx->lvds_term_conf[channel]);
->> +        if (lvds_vod_swing_conf < 0) {
->> +            ret = lvds_vod_swing_conf;
->> +            goto exit;
->> +        }
->> +    }
->> +
->> +    ctx->lvds_vod_swing_conf[channel] = lvds_vod_swing_conf;
->> +    ret = 0;
->> +exit:
->> +    of_node_put(endpoint);
->> +    return ret;
->> +}
-> 
-> ...
-> 
-> CJ
