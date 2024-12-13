@@ -1,124 +1,142 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975EA9F1262
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 17:41:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE979F126A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 17:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB8C710F094;
-	Fri, 13 Dec 2024 16:41:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA3B610F099;
+	Fri, 13 Dec 2024 16:42:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OUMdlwIT";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="u7vlm8vl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C88B10F094
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 16:41:02 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-43618283dedso18697395e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 08:41:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734108061; x=1734712861; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=UhYZQe35crokcavC5cBfXzDPXtIKiULqcKxoeLDgk88=;
- b=OUMdlwITe+lG7qLcsUCoe7KLhRLRVAErEz3PDw2Nl/F995S2UL3g+w651abWPvBmXF
- h+S5X87Pnnh+gBDeLbABooPA8rf3r/l2wUAS3/Lpob3J2DbFLVJIIJEVxlxBrgSe3SMP
- mc8QgzrfcO9kEjNcOHxrfu1yGjthG97CDa2Rwa1JhCcVBOkALil5s6jW8FJSq1+YGuuO
- 9ZOHa7g+j70EtrGzgqs+sKjZSHVVG6ZBAiGRf9HqW9ao1WvL/vWISnqo53QYFy9qad+O
- bksKpOj5djZdnz5PBEBkjEjmrF0PK4L7LUTg7VYaMlXvdmTfv+j8wEh2jM0KnhofVFdc
- XkdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734108061; x=1734712861;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=UhYZQe35crokcavC5cBfXzDPXtIKiULqcKxoeLDgk88=;
- b=CukNzjght5onYSQMObyPAyBtRqIWP4aDUA1Qn06inryc5gME//qUKHMR0bupVq/FmG
- 6ZXcDuWsNeDPmiUHkpL+lOY3lK/+v19JQCjwymg9p2ODOKS/Q04buFKX5w6K+GSCMydq
- n5JOzUuCNtkK+N+4tURT5T8fcDWRbhSvNI73cEjTGGjaREnDkch8aOy6vDN7ilIcC11Y
- sDUuFoFbwlwt4d7h45GGd9xV/jlURLz9OmcxvlSUPdd7K6nT1VTgrEFtsQI/YrAdHGEf
- +rNgdBCZJJD8ArPpk+gv4T+oiaNQieuShNrQ0aXK/XdBlZFx9X1tNKFCEASLA4WmOfCM
- ILbg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8NKCMk/LmUKM7d0MPIrfRZnjTSd3O17yJhd1wQqz+ZQP5oAjDObuwwy2rYWdvqBK7xJ2MS5Zzfo8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzX8B56GA8x9CS4temQZZwQDzSjWyN1LAQ8udO8u4OWJTN6Xd8q
- JpZ+YXOk7uG0ujcKZjirdZLz6xDck25RI8NeVIve2jq6RCWgjVduxoM1IvZDgEA=
-X-Gm-Gg: ASbGnct9x9zqHRJGAU9Zj/65ZzayWSBcVEUJfRKNfcdeTgN9VfL3NaRGLz+0m5qHjao
- 3zPQlmWPe1l6BO2Q/QathIwzoytl6zLCPdX1Y8pfjzn9m/jlrS40DGG83bbiUMgWt/VzHVTgq/x
- QwS8LjZzKNfHvc7w6GVo022IIIaamOfy2zEEfOpDfxBkgFYtF3SVAAI9vp8UKO/sfXM2wpR4Fml
- 2k6E+Ov9i9dvil/FpcfDvcPHKeC2eiIod8V8pyUyZ21hgWG4e3mI2uisut+nUOvu16BAMrVSw8M
- fKLy/H3qZf2FT2g2f0ZfSSVqAkGvtCgjcg==
-X-Google-Smtp-Source: AGHT+IHhteapVHrOhIDQhnxAloCB38K7IQFWTgx0ajDWz0Pt0FetAnPdpqhRuEk0FUUisVsWd+Ja8A==
-X-Received: by 2002:a05:600c:1e8a:b0:434:f5d1:f10f with SMTP id
- 5b1f17b1804b1-4362aa52fa7mr31133025e9.17.1734108060613; 
- Fri, 13 Dec 2024 08:41:00 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:4795:2d16:2587:ed70?
- ([2a01:e0a:982:cbb0:4795:2d16:2587:ed70])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4362527ecc3sm56170105e9.0.2024.12.13.08.40.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2024 08:41:00 -0800 (PST)
-Message-ID: <9dcf26e5-1c25-4a18-ab01-58ddf3fbd607@linaro.org>
-Date: Fri, 13 Dec 2024 17:40:59 +0100
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on20601.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2405::601])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B73BC10F096
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 16:42:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JqWXnI97ewFZCk0cuBrCBWJqtX1fjmGDEv22k5l0TbZ8ze9WAIOPRDlhfqmXyRazOwvpAx9+YLRg4S6VibWRxYx/LKPl3MEABnsJ43zxuqW17x/7yuUZyKTOcoXMYzCVda1x4IVXQx/3e7ZilKbvmRLYPraA/D8/sx0CzBjnipiInBZXDjM6v47vrRAkQQ0724Zz7PMN+mYHbRvkpPH9ksyt/rig3YGQS2+mfBIoM1ehtMqy2w72A9e0EciW5E0QUTP3OPBbpcraqw0UG3HcsOVPP7OeScbq3ZIHABkAkr1kwzyIsnIFo7ocm0CpzVyPiuG8r8ZRNrOvrmIS9RJMeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=93xzTlTInOqkOPp7r4vXZv+sLdFGtLXEUlPgGcvrBAA=;
+ b=jbBYwPsZTDdoizQrqAO4Rro7KSaF3ik+mIQraUlA3CLxFSI3vusVOnQ7b5AkbVBxaHgXezTqw/k1SeCYH/K6rMNro4UZd77cn3iKw8uaW5+54+TcrKE0gJKl4H/pFzZ8mFOTdWZJg1Il2oiyKHn12rngBAQ46uq1I2nKRO05qTw6UdPwcMSl38X4BeipPhYRJSzZnCGfd2uuux1nN7wI1iERQgPNsFP0R+kWQSQIG2EEsysJfHD72XoDr++Q3BPAgH7XAMAPJK9eay0kfoK6DHipVitPGwU4s1ldIBhWQPJY82YErfaIsLK7c/ZmiM+dFoi4Y4yWoi8TI4Fnp6XnmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=93xzTlTInOqkOPp7r4vXZv+sLdFGtLXEUlPgGcvrBAA=;
+ b=u7vlm8vlDntjJTSFHyR7EubH1cn06kFNeH0HzMvRmni3pNoaN4PF2cacj5jXpWuJjKRmXFxiN67MURrf/Dly7oVOa+K+urMmncK0yzgZBbP2qynb8x59+EHIzzUw8iCuKcPnoYQSxUcsfu9IKq9eXxLc6ar2BGt2bfuLvs8F9r0=
+Received: from BN9PR03CA0223.namprd03.prod.outlook.com (2603:10b6:408:f8::18)
+ by IA1PR12MB7711.namprd12.prod.outlook.com (2603:10b6:208:421::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.17; Fri, 13 Dec
+ 2024 16:42:37 +0000
+Received: from BN2PEPF000055E0.namprd21.prod.outlook.com
+ (2603:10b6:408:f8:cafe::aa) by BN9PR03CA0223.outlook.office365.com
+ (2603:10b6:408:f8::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.16 via Frontend Transport; Fri,
+ 13 Dec 2024 16:42:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF000055E0.mail.protection.outlook.com (10.167.245.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8272.0 via Frontend Transport; Fri, 13 Dec 2024 16:42:37 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 13 Dec
+ 2024 10:42:36 -0600
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Fri, 13 Dec 2024 10:42:36 -0600
+Message-ID: <4b59099a-ca9b-576c-9583-fb54c8c594e6@amd.com>
+Date: Fri, 13 Dec 2024 08:42:30 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH v5 4/7] drm/msm: adreno: find bandwidth index of OPP and
- set it along freq index
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241211-topic-sm8x50-gpu-bw-vote-v5-0-6112f9f785ec@linaro.org>
- <20241211-topic-sm8x50-gpu-bw-vote-v5-4-6112f9f785ec@linaro.org>
- <ddf91ba2-cab2-4653-b842-65a8e82b5160@oss.qualcomm.com>
- <2f1c6deb-29f8-4144-b086-743fb0f8495c@linaro.org>
- <80bed70e-7802-4555-a15e-e06fe46214c6@quicinc.com>
- <c2d8f443-5876-4293-8d2b-ecd13eaf8285@oss.qualcomm.com>
- <268d67c0-efdf-4ad4-b5fe-5b4f04e73131@linaro.org>
- <0d4d3ca3-ec8a-4e85-9838-a2bf1e07e872@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <0d4d3ca3-ec8a-4e85-9838-a2bf1e07e872@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V2 8/8] accel/amdxdna: Add include interrupt.h to
+ amdxdna_mailbox.c
+Content-Language: en-US
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <ogabbay@kernel.org>,
+ <dri-devel@lists.freedesktop.org>
+CC: <linux-kernel@vger.kernel.org>, <min.ma@amd.com>, <max.zhen@amd.com>,
+ <sonal.santan@amd.com>, <king.tam@amd.com>, <mario.limonciello@amd.com>,
+ "Mike Lothian" <mike@fireburn.co.uk>
+References: <20241206220001.164049-1-lizhi.hou@amd.com>
+ <20241206220001.164049-9-lizhi.hou@amd.com>
+ <a7add90f-3d78-9ced-655f-a1918fb04af3@quicinc.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <a7add90f-3d78-9ced-655f-a1918fb04af3@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055E0:EE_|IA1PR12MB7711:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b9eb729-8f49-4486-a709-08dd1b9526ec
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|36860700013|82310400026|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OXJ6dXAvQ0k4eTdDMUgwUWJkZ0txLzV4elhNSEoxS3diRWFrRW5GQ0RoVGZr?=
+ =?utf-8?B?ejRQRS8wNnFncWZiandNM3NRUy9WWUd1M0xhQnVuSFZPM2hWVzB6MWluZ3Vp?=
+ =?utf-8?B?K0RsazlVbERTdDNmNFQ1aitRUEV0TjAyRm9rNHVtbnNCT2lGSGU4bmt4b2hC?=
+ =?utf-8?B?YlZtbGorbzM0NnpsUzVmQVAxMHRLVVZGVzQ2V1VVMS8veDFmSWN2eGViV1A3?=
+ =?utf-8?B?U1cveVZ3MzMwS3Yxc3BQMlB1V01FMWZnVStFSzZ3VkJTSG5YWld0WFBPS1dW?=
+ =?utf-8?B?SG1YNG5NRUlhM2JDVUdRY1R1WDIxMG9salNpQ1RzeE1hcDNCeW5QazdiTWpX?=
+ =?utf-8?B?czAyVW9xQ0JMOEt0VkxYdWVwOGFSZXZnTDh0OU52LzZrTlRRUW5MV2p6UHl2?=
+ =?utf-8?B?ZUZBQkNoeWljaHpvNm52VmRFNGpDZ1JkS3FhcGwxU0VGNFp4dHpKV0V2VmxK?=
+ =?utf-8?B?ZThnZi8wdk5EVVB0NlFoc0xHSGdnVmNPWEdpdld1VXVGSGxmZVRLVHdRYnNm?=
+ =?utf-8?B?TlpOYUZHd0x0bDBScDBEcGR2Rzk2SUhLQWNicmlmTHlpVFpTWUwxUUNqUzV3?=
+ =?utf-8?B?WUpqTUl5UXVTTEh3WHdwdHFqM2NNcXJMckkyUFJHQ2w4Zkdxdy9jUE1sbFM4?=
+ =?utf-8?B?NkJjb3FuT09Ja3piVVpWbXArVTZhRTJpN3JwdWpjMit4MDFMRnNOcXVpTGIr?=
+ =?utf-8?B?djhGVkZzdEtHWkZrK0RuV1BaMkVLWDlsU0Z6Vlp1MWJwc3lyaVJhaWU4Nnhy?=
+ =?utf-8?B?QlRRbEZWSk92Rk5oMC9SZWtKMW0yMUtERkdYbTlpRldNbnlsSitla2xzcmY0?=
+ =?utf-8?B?Zmk2bFJROW9TTGhrMDJjeTZhNTlxZzZZQUs0b3FpK1BKUkZaWkE1U3BGT1FZ?=
+ =?utf-8?B?UDdzWjArYTU1OHg1VW9DOTZiUy83R3poUHRycllnU3VuNXJVc1VRRllzZWlh?=
+ =?utf-8?B?QnlIL1MveEdjWGlxZE4rSzZ5NkJwTUxpd1pnWUJpNVV6aDVpRVorb25aRFY5?=
+ =?utf-8?B?SDNyVmlOeVd1YUlTU3lnMmt3bVlKU203L3BkeHdCU3hFdmhSNXhaZG9SeU5n?=
+ =?utf-8?B?NmhEZ05vM3R0aGxDcWJ0U3FNa043bnV1VFJhWUkwOWM1SFYwRTlnWERaWlJq?=
+ =?utf-8?B?TmZJSzB3RENkZmNCek4vT1hKSUh0dTVKb0VjRDg5UnpXanJiT0RxNVBtQnh6?=
+ =?utf-8?B?ckVqTFB6S3M1Y2FRUUZaaEpLazZ3eGpMeUxrd2xvZFhMZ04wM1hOSStoanRH?=
+ =?utf-8?B?UUNNNnJCOG5DNEhMbWFTbDZocmFFOGZ1Um9yMUwxUHNhUFhYRmxmKzkyR1Js?=
+ =?utf-8?B?SC8zUXhvaHQ5SkNoeG1tN2taS3hvdGs2VmVKZjJrZERzdVlFUlgzcGNQUmls?=
+ =?utf-8?B?dHF4ek01SzJsTFFYWkRqemk2VXBxRFJjaXRJV2xuQ1QzSVVwb3U2RXJIU05q?=
+ =?utf-8?B?VFloblVmczg5T2R6c0U0cEZNRVZZTFZVVElWSkR2TEY2SGY3UDkxK3duN09T?=
+ =?utf-8?B?TDJMZmdsNm9xVlhoejdmSmkzNlIvN0Y5YTVYRC9xQmg2NU1JeXl6WDB0bW0v?=
+ =?utf-8?B?QWlIWlhpM2NJQnNUYjFhOUVWQVRjSjd4Qm9VQnNqVHdGSC9uSThoVGd2Y1RW?=
+ =?utf-8?B?V3lBU2VsUlVYdER1OG9xWFdtMjdBUytpRG9ZRFZ6VERqaU1DWTdYZEk4KzVU?=
+ =?utf-8?B?OWNZcEVTNVdaS0pBbG16T2RRei9RcUFrT1NVcXV2K2g4RGxKaW1lRnJBNm1h?=
+ =?utf-8?B?MVRUeitjcWZNendwOUwyRmlhRXZxK3NSMTJTTDh6OXVPd0FtY0R4SmN2RU1O?=
+ =?utf-8?B?ZjF0bFEzWjUrdXNQRVRNeVJPQUZDU1E2d0E0cFF5VElSemxXUUNON3BtTXBI?=
+ =?utf-8?B?RGEwelhtNFVPUWRnNHBCckppVTVIM0dkZjJrZVhVNVo2YnoxV1pnL09ORjlK?=
+ =?utf-8?B?QWhJUmhHb0Fpd0tXbnFkZ3pMTndERTI4QlB1QmQxa3p5YjVxL1RXckVwNUM2?=
+ =?utf-8?B?MXM0YVdOYTZ3PT0=?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2024 16:42:37.2817 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b9eb729-8f49-4486-a709-08dd1b9526ec
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E0.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7711
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,113 +149,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/12/2024 17:31, Konrad Dybcio wrote:
-> On 13.12.2024 5:28 PM, neil.armstrong@linaro.org wrote:
->> On 13/12/2024 16:37, Konrad Dybcio wrote:
->>> On 13.12.2024 2:12 PM, Akhil P Oommen wrote:
->>>> On 12/13/2024 3:07 AM, Neil Armstrong wrote:
->>>>> On 12/12/2024 21:21, Konrad Dybcio wrote:
->>>>>> On 11.12.2024 9:29 AM, Neil Armstrong wrote:
->>>>>>> The Adreno GPU Management Unit (GMU) can also scale the DDR Bandwidth
->>>>>>> along the Frequency and Power Domain level, until now we left the OPP
->>>>>>> core scale the OPP bandwidth via the interconnect path.
->>>>>>>
->>>>>>> In order to enable bandwidth voting via the GPU Management
->>>>>>> Unit (GMU), when an opp is set by devfreq we also look for
->>>>>>> the corresponding bandwidth index in the previously generated
->>>>>>> bw_table and pass this value along the frequency index to the GMU.
->>>>>>>
->>>>>>> The GMU also takes another vote called AB which is a 16bit quantized
->>>>>>> value of the floor bandwidth against the maximum supported bandwidth.
->>>>>>>
->>>>>>> The AB is calculated with a default 25% of the bandwidth like the
->>>>>>> downstream implementation too inform the GMU firmware the minimal
->>>>>>> quantity of bandwidth we require for this OPP.
->>>>>>>
->>>>>>> Since we now vote for all resources via the GMU, setting the OPP
->>>>>>> is no more needed, so we can completely skip calling
->>>>>>> dev_pm_opp_set_opp() in this situation.
->>>>>>>
->>>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>>> ---
->>>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 39 ++++++++++++++++++++++++
->>>>>>> +++++++++--
->>>>>>>     drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  2 +-
->>>>>>>     drivers/gpu/drm/msm/adreno/a6xx_hfi.c |  6 +++---
->>>>>>>     drivers/gpu/drm/msm/adreno/a6xx_hfi.h |  5 +++++
->>>>>>>     4 files changed, 46 insertions(+), 6 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/
->>>>>>> msm/adreno/a6xx_gmu.c
->>>>>>> index
->>>>>>> 36696d372a42a27b26a018b19e73bc6d8a4a5235..46ae0ec7a16a41d55755ce04fb32404cdba087be 100644
->>>>>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>>>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>>>>>> @@ -110,9 +110,11 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu,
->>>>>>> struct dev_pm_opp *opp,
->>>>>>>                    bool suspended)
->>>>>>>     {
->>>>>>>         struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>>>>>> +    const struct a6xx_info *info = adreno_gpu->info->a6xx;
->>>>>>>         struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->>>>>>>         struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->>>>>>>         u32 perf_index;
->>>>>>> +    u32 bw_index = 0;
->>>>>>>         unsigned long gpu_freq;
->>>>>>>         int ret = 0;
->>>>>>>     @@ -125,6 +127,37 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu,
->>>>>>> struct dev_pm_opp *opp,
->>>>>>>             if (gpu_freq == gmu->gpu_freqs[perf_index])
->>>>>>>                 break;
->>>>>>>     +    /* If enabled, find the corresponding DDR bandwidth index */
->>>>>>> +    if (info->bcms && gmu->nr_gpu_bws > 1) {
->>>>>>
->>>>>> if (gmu->nr_gpu_bws)
->>>>>
->>>>> gmu->nr_gpu_bws == 1 means there's not BW in the OPPs (index 0 is the
->>>>> "off" state)
->>>>>
->>>>>>
->>>>>>> +        unsigned int bw = dev_pm_opp_get_bw(opp, true, 0);
->>>>>>> +
->>>>>>> +        for (bw_index = 0; bw_index < gmu->nr_gpu_bws - 1; bw_index+
->>>>>>> +) {
->>>>>>> +            if (bw == gmu->gpu_bw_table[bw_index])
->>>>>>> +                break;
->>>>>>> +        }
->>>>>>> +
->>>>>>> +        /* Vote AB as a fraction of the max bandwidth */
->>>>>>> +        if (bw) {
->>>>>>
->>>>>> This seems to only be introduced with certain a7xx too.. you should
->>>>>> ping the GMU with HFI_VALUE_GMU_AB_VOTE to check if it's supported
->>>>>
->>>>> Good point
->>>>
->>>> No no. Doing this will trigger some assert in pre-A750 gmu firmwares. We
->>>> learned it the hard way. No improvisation please. :)
->>>
->>> We shouldn't be sending that AB data to firmware that doesn't expect
->>> it either too, though..
+
+On 12/13/24 08:20, Jeffrey Hugo wrote:
+> On 12/6/2024 3:00 PM, Lizhi Hou wrote:
+>> For amdxdna_mailbox.c, linux/interrupt.h is indirectly included by
+>> trace/events/amdxdna.h. So if TRACING is disabled, driver compiling will
+>> fail.
 >>
->> Well we don't !
-> 
-> The code in the scope that I quoted above does that
+>> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+>> Reported-by: Mike Lothian <mike@fireburn.co.uk>
+>> Closes: 
+>> https://lore.kernel.org/dri-devel/CAHbf0-E+Z2O7rW-x+-EKNQ-nLbf=_ohaNzXxE7WD2cj9kFJERQ@mail.gmail.com/
+>> Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+> Slight problem with the SOB chain which prevents me from applying this.
+>
+> Mike comes first, which indicates he authored this patch.  Then you, 
+> which says you took Mike's patch and are moving it forward. However, 
+> since you sent it and it doesn't have "From: Mike", you get listed as 
+> author.
+>
+> Either Mike needs to be the listed author, or a Co-developed-by tag 
+> for Mike needs to be listed immediately before his SOB.
+>
+> With either of those:
+>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 
-No it doesn't, if the proper bcms are not declared in the gpu_info, it won't
+Got it. I added "From: Mike" and created a standalone patch for this 
+fix. 
+https://lore.kernel.org/dri-devel/20241213163856.1472207-1-lizhi.hou@amd.com/
 
-Neil
 
-> 
-> see the full explanation here
-> 
-> https://git.codelinaro.org/clo/le/platform/vendor/qcom/opensource/graphics-kernel/-/commit/6026c31a54444b712f7ea36ac1aafaaeef07fa4e
-> 
-> Konrad
+Thanks,
+
+Lizhi
 
