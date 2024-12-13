@@ -2,67 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A469F044A
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E6E9F044E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:46:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B01A710E23F;
-	Fri, 13 Dec 2024 05:46:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6ABA10E074;
+	Fri, 13 Dec 2024 05:46:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FM/iQDg7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NKATDm9k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
  [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 428E110E074;
- Fri, 13 Dec 2024 05:46:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77DE710E074;
+ Fri, 13 Dec 2024 05:46:52 +0000 (UTC)
 Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-2156e078563so10800195ad.2; 
- Thu, 12 Dec 2024 21:46:44 -0800 (PST)
+ d9443c01a7336-2161eb95317so12934855ad.1; 
+ Thu, 12 Dec 2024 21:46:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734068804; x=1734673604; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9nDBDHl8OkOEbonP7/O/xeWGAuqOftf+4IMvf+gS1cw=;
- b=FM/iQDg7KC4a/755IIO7QtW7lGZizb9Ij12tusXglECWpyQ9nvOTMHAcDQwxPnjnYo
- eTsmAPsuz79GW2gDJB31OVGRJSLIvIdoV//6LhZKavKhZUdkvG49eXuYeH7FM/LeRfjP
- hpHU4RxyoJvFZIZ5WFJINR8gs5wgEdI874DfumKMva7Hez/g9dQjQvSD0GxM57ZqiRUn
- Ze68Q8GAR8BO+Otz3EB8MyMegI37Yf180KgHlGvecTr7RT6Z/zQ5ifdva8QEAGqA9rxV
- 5k8tF13tb13nM2JEThwqXq215k7y81rAhUluLZI9l+xXAdlzqxQuOL4CGYB6RCQ+9rtm
- R0aw==
+ d=gmail.com; s=20230601; t=1734068812; x=1734673612; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Yq/q3oQ+1coBzSyYiu7PIQ9YY0FE8S8wlVnD6GFmf1s=;
+ b=NKATDm9kWEnh8wI6I25i/UyYOqc8SqyoqKlWX3z5D38k3QbBN/L3Q0SosEl5hoCXyp
+ mGXKC1g5TIqAmozRuXW+o1Nz5KkCATM3Qaxg6I57oFw4HJXhCmEpHjok7z+euo6jWb4o
+ eIckCEw3jH1VTChWGNhjrPH9YKus1ab0tUzojQfZiWobejOnhi5e8VEZ3onL8jr4uoil
+ mFpqdga0Ixa/kMMlVR2+fscvcqEvXCu9Ir7Ns1ZrU+3BOvWqcWYagi4UPbbMTlde+ykE
+ HNEBXne75ZNuI+mfvNcSM1Y12z7yXlFlhclFh9F3r7o6gWczSs2uyP2i7ZIzRtXJOzEj
+ TiOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734068804; x=1734673604;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9nDBDHl8OkOEbonP7/O/xeWGAuqOftf+4IMvf+gS1cw=;
- b=mFWDB/eHGMLYTkaKvVKZ60/txoFkAnA43c4hJyKomRRG88tb4QvFogw4OsBvUIi5Vu
- QOA8BiD/ML7hvLNsYYv1y76T6dbHHOGIsgr8EpdSQiUciT9fKaT7iu6CdSdosuYtPkw5
- 7ZsJ9p1VmmQ9jEF20YLao+0dw8dSsHzdBGVWM+PFvLfVH4ZGFOSTwuBPh2FjbEE8/CZH
- 2lsLwyvnIkJbBT/TAQhitGsdmuooeqm5zWKs2hTprneecYU12Y/AULYcgNn9J+wj7emC
- uJ8yJfX211t7igSyOVZyJ0JEVpbKBTaILhPtggFQygO3LlvE+qtzr3K7CBAttlu25Dwi
- bZHg==
+ d=1e100.net; s=20230601; t=1734068812; x=1734673612;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Yq/q3oQ+1coBzSyYiu7PIQ9YY0FE8S8wlVnD6GFmf1s=;
+ b=N1N2sYKl+olTQmXmhEcQMS+otg2RvcuVkW0gQyyHA2A6ScxgkuCkLekhMGtLcCdext
+ M4GM9Z49f8EaZPlNFj6QeWbQu8Cz2EyD6JitfIqdnetaNdqT7IIXP6oXhRy1s8x5uKrU
+ eZKLH9IXa8UKRRubT/4z0Zjr5n/2emw8MbmVHVwX6kj6TZtDKBP5FtRRrU519viZVXyM
+ 4ju07wgl5V6Y3anH6gSqZcpr+5Y9nyS1nLls2MSJZ97clzcXv/Z77vCYi94o82SbM9/M
+ 3PBZQvoFBbsju+v9bTiwSZftNE3UaEPmNhz6x609pZNJ3JBJj13C3hiL+H0OqnTIXB8A
+ RIlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVuNV/C7KDZ61vdMumNzJGhNjpMAlyZS/AhlZd4MRE3HobeUI7E6xaybrgbdXf0oeOuAQfTE9O7Q8o=@lists.freedesktop.org,
- AJvYcCWS6LZqKveP7bsekch4g5LppcXizEU5XoTm8x26xqOm74sc+ymQcqpR+ZsPSIK/l9G4O/r2a9TBwEw=@lists.freedesktop.org,
- AJvYcCX1nmu/3KwyscWOAguGfYweWt8GgaEE63J/Mv4yirjKB47QZeYaOYR6633KAxKNpvUJ8FCfecaQFZbl@lists.freedesktop.org,
- AJvYcCXHM+EdtG+QH1Y0pzz6C3N1W4Ht+sgm3K+k+QTFPLB6MDAhZbO6XMyZQIrMA7ohfrnIHiXdwRg/Vw==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyuXR864N1lZGhEEgmYBdzJda9RMNp1aqTsCT+X4sCmUoEV9qJ5
- mkcfAIkMKDbxUYZyAKXwTTN5LjhLbRkGq+1bDN8+prts/1ZJn/MaLsk0ziHZoGk=
-X-Gm-Gg: ASbGncsKUZK8Aboj2I69p6dCvLNo9vla2jLf07xDz2WOGJ/DMCfLjVFYERktOyE4Vt1
- 1LBpFoIqYz9PoW40OY3QFSQXU63CBL4fUA0xOL4s9NUczjx8krGa34kIlIGEBi9BSVyBFaPVoih
- 2BlZo8F85exj9cvo3MyGc4T9ZAqILbfUCdV85UypY+nX5lRCky69tY/cqE76hth3D9RaLKumHfv
- m0Ct3JNbdWgQGRPvsKjZrRxqhOgspaV4r49ieGReupJvjLjjan/a52yy442Ls55tVTWhxXfL+6R
- hsT2R6s=
-X-Google-Smtp-Source: AGHT+IHVKByQs8aQw9nFW65MyCdke95tovLrIe/teYLFc9u83Eik6guIs9oKZyvf6Ts5Rmy4R5h3SA==
-X-Received: by 2002:a17:902:ccd2:b0:216:26f1:530b with SMTP id
- d9443c01a7336-21892a70579mr20915305ad.51.1734068803702; 
- Thu, 12 Dec 2024 21:46:43 -0800 (PST)
+ AJvYcCUVV6c+BTdm+daVY7T4bcu20MT5YbzKYpHqniQKxKQFNh8kjjvCnPU68Hqq4TCTGAAtpa1/41rxTw==@lists.freedesktop.org,
+ AJvYcCVQMvoZsOewL0hs2GJ+a3EPDOykQI7JI4/ugNkkLc7UPpI9yL9wkSFiEaKXog6aaSfobNDNC3T9i/c=@lists.freedesktop.org,
+ AJvYcCVjf1W3hvkE8c3JCWW6e5sF7kh1jTokhjmpVgFYCoCQ5utQPXJ4LEKYNJs7oO3HGj2M3K9f0TMuMpU=@lists.freedesktop.org,
+ AJvYcCX3zU5+Vsu67wMvoG5i44kiWJdwaVvcbxW4Dw7Elo1vvt9X3SB1TEkUk13DwHSlpHYnSy6rknuG6ZF0@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6UzLbAdFP5T5w9TKeXi6Wh+VSvFtuitFJu0RaAi2hQiCuXaYQ
+ Uy50iIUm+TGsA0mpmc9w4dy3M/doW8Mh2vBQQg0RdO3zIjWGFTDx
+X-Gm-Gg: ASbGncvcR/BvKqvh6PbLuFEdV7woJZ9a/SHglt+uZPELWgfyVLPGQCB1Z65Dv2L5T9K
+ 8W8ih37ddvcpd3XFYt6EVD9Pl3GyWxMY7EWJFAp8+3Rs4N2ceDt6BIvXV/ga7/+kFneXVKOaf2l
+ qlzL1LFhnUmjR1tx0PdFQGk0o2WfT7aWjFHPnXpXV4qNpy+cgswzIQ7PelApLYqhYOdn/E2RsPI
+ NBE254HWlgytxBsVD9RfLp8zbwmqV/kyW2e1qcHP4vnST8LpIlT8qCXeTbJztCCBmpdMvMrcWHj
+ UFltnNo=
+X-Google-Smtp-Source: AGHT+IFWBnsyszL3fKLErMwBwi/nv5YJk8bNHSLutoorKV6bDApMEi8hBMM4652Yq5VqnH7LBX6qQg==
+X-Received: by 2002:a17:903:2a8d:b0:215:a3e4:d251 with SMTP id
+ d9443c01a7336-2189298bb21mr20543965ad.6.1734068811964; 
+ Thu, 12 Dec 2024 21:46:51 -0800 (PST)
 Received: from localhost.localdomain ([180.159.118.224])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.46.38
+ d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.46.44
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 12 Dec 2024 21:46:43 -0800 (PST)
+ Thu, 12 Dec 2024 21:46:51 -0800 (PST)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org,
 	akpm@linux-foundation.org
@@ -71,11 +72,20 @@ Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
  linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
- Yafang Shao <laoar.shao@gmail.com>
-Subject: [PATCH 0/7] vsprintf: Add %pTN to print Task Name 
-Date: Fri, 13 Dec 2024 13:46:03 +0800
-Message-Id: <20241213054610.55843-1-laoar.shao@gmail.com>
+ Yafang Shao <laoar.shao@gmail.com>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH 1/7] vsprintf: Add %pTN to print task name
+Date: Fri, 13 Dec 2024 13:46:04 +0800
+Message-Id: <20241213054610.55843-2-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+In-Reply-To: <20241213054610.55843-1-laoar.shao@gmail.com>
+References: <20241213054610.55843-1-laoar.shao@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,45 +103,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since task->comm is guaranteed to be NUL-terminated, it can be printed
-directly. This patch introduces a new vsnprintf format specifier, %pTN, to
-print a task's name. In this specifier, p represents the task pointer, T
-stands for "Task," and N denotes "Name." With this abstraction, users no
-longer need to manually retrieve the task name for printing purposes.
+Since the task->comm is guaranteed to be NUL-ternimated, we can print it
+directly. Add a new vsnprintf format specifier "%pTN" to print task comm,
+where 'p' represents the task Pointer, 'T' stands for Task, and 'N' denots
+Name. With this abstraction, the user no longer needs to care about
+retrieving task name.
 
-In this patchset, all instances of get_task_comm() used for printing the
-task name have been replaced with the new %pTN specifier. The raw uses of
-'xyz->comm' for printouts will be addressed in a subsequent patch.
+checkpatch.pl is updated accordingly.
 
+Link: https://lore.kernel.org/bpf/CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com
 Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Link: https://lore.kernel.org/bpf/CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com 
+Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Andy Whitcroft <apw@canonical.com>
+Cc: Joe Perches <joe@perches.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ lib/vsprintf.c        | 18 ++++++++++++++++++
+ scripts/checkpatch.pl |  6 ++++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-Yafang Shao (7):
-  vsprintf: Add %pTN to print task name
-  kernel: Replace get_task_comm() with %pTN
-  arch: Replace get_task_comm() with %pTN
-  net: Replace get_task_comm() with %pTN
-  security: Replace get_task_comm() with %pTN
-  drivers: Repace get_task_comm() with %pTN
-  fs: Use %pTN to print task name
-
- arch/arc/kernel/unaligned.c                    |  9 ++++-----
- arch/x86/kernel/vm86_32.c                      |  5 ++---
- drivers/accel/habanalabs/common/context.c      |  5 ++---
- .../accel/habanalabs/common/habanalabs_ioctl.c | 15 +++++----------
- .../drm/i915/display/intel_display_driver.c    | 10 ++++------
- drivers/gpu/drm/nouveau/nouveau_chan.c         |  4 +---
- drivers/gpu/drm/nouveau/nouveau_drm.c          |  7 +++----
- drivers/tty/tty_io.c                           |  5 ++---
- fs/ocfs2/cluster/netdebug.c                    |  5 ++---
- kernel/capability.c                            | 12 ++++--------
- kernel/futex/waitwake.c                        |  5 ++---
- lib/vsprintf.c                                 | 18 ++++++++++++++++++
- net/wireless/wext-core.c                       |  6 ++----
- scripts/checkpatch.pl                          |  6 ++++--
- security/yama/yama_lsm.c                       |  6 ++----
- 15 files changed, 57 insertions(+), 61 deletions(-)
-
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 6ac02bbb7df1..bb1018d79655 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2273,6 +2273,17 @@ char *resource_or_range(const char *fmt, char *buf, char *end, void *ptr,
+ 	return resource_string(buf, end, ptr, spec, fmt);
+ }
+ 
++static noinline_for_stack
++char *task_name_string(char *buf, char *end, struct task_struct *p,
++		       struct printf_spec spec)
++{
++	if (check_pointer(&buf, end, p, spec))
++		return buf;
++
++	buf = string(buf, end, p->comm, spec);
++	return buf;
++}
++
+ int __init no_hash_pointers_enable(char *str)
+ {
+ 	if (no_hash_pointers)
+@@ -2525,6 +2536,13 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 		default:
+ 			return error_string(buf, end, "(einval)", spec);
+ 		}
++	case 'T':
++		switch (fmt[1]) {
++		case 'N':
++			return task_name_string(buf, end, ptr, spec);
++		default:
++			return error_string(buf, end, "(einval)", spec);
++		}
+ 	default:
+ 		return default_pointer(buf, end, ptr, spec);
+ 	}
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 9eed3683ad76..fe0d80f55ce8 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6908,11 +6908,13 @@ sub process {
+ 					$specifier = $1;
+ 					$extension = $2;
+ 					$qualifier = $3;
+-					if ($extension !~ /[4SsBKRraEehMmIiUDdgVCbGNOxtf]/ ||
++					if ($extension !~ /[4SsBKRraEehMmIiUDdgVCbGNOxtfT]/ ||
+ 					    ($extension eq "f" &&
+ 					     defined $qualifier && $qualifier !~ /^w/) ||
+ 					    ($extension eq "4" &&
+-					     defined $qualifier && $qualifier !~ /^cc/)) {
++					     defined $qualifier && $qualifier !~ /^cc/) ||
++					    ($extension eq "T" &&
++					     defined $qualifier && $qualifier ne "N")) {
+ 						$bad_specifier = $specifier;
+ 						last;
+ 					}
 -- 
 2.43.5
 
