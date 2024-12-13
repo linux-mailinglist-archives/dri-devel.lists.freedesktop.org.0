@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E6E9F044E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8DCF9F044F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:47:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6ABA10E074;
-	Fri, 13 Dec 2024 05:46:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7503310E238;
+	Fri, 13 Dec 2024 05:47:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NKATDm9k";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GakuZVnt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77DE710E074;
- Fri, 13 Dec 2024 05:46:52 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-2161eb95317so12934855ad.1; 
- Thu, 12 Dec 2024 21:46:52 -0800 (PST)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01CC810E238;
+ Fri, 13 Dec 2024 05:46:59 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-21636268e43so18023675ad.2; 
+ Thu, 12 Dec 2024 21:46:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734068812; x=1734673612; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1734068819; x=1734673619; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Yq/q3oQ+1coBzSyYiu7PIQ9YY0FE8S8wlVnD6GFmf1s=;
- b=NKATDm9kWEnh8wI6I25i/UyYOqc8SqyoqKlWX3z5D38k3QbBN/L3Q0SosEl5hoCXyp
- mGXKC1g5TIqAmozRuXW+o1Nz5KkCATM3Qaxg6I57oFw4HJXhCmEpHjok7z+euo6jWb4o
- eIckCEw3jH1VTChWGNhjrPH9YKus1ab0tUzojQfZiWobejOnhi5e8VEZ3onL8jr4uoil
- mFpqdga0Ixa/kMMlVR2+fscvcqEvXCu9Ir7Ns1ZrU+3BOvWqcWYagi4UPbbMTlde+ykE
- HNEBXne75ZNuI+mfvNcSM1Y12z7yXlFlhclFh9F3r7o6gWczSs2uyP2i7ZIzRtXJOzEj
- TiOA==
+ bh=fVaAhWgLsrOIaawWt+Es3lyBYssP2HU9Cngct4cKfGw=;
+ b=GakuZVntB6g7YpyRFXN1LbQaFvhX6Tp4C8dD626BGiWJJ8miCR2UhHBtB7tF8EdU8b
+ 2+vNf/6vroXgQ6i52QtCoMPhLgm6mr1IYlqNaqXbmiTnfKa7BRDL/ff88hgD1F8EY1GA
+ TD9z/8lQPo0TY7c3/y3L7wN0fxw3p0mnUg3lFeLe+PcVwZYz/bLm8LD0pncxItqUcZql
+ 9xx2voDZ31Y3FlxQbTRPir2wXbdY8RagkuUNMf7AoKGsmi4elQ8WT5CWgxOtNvy1EPwJ
+ KMRH9FWNzxovAMm0AGEMoRTZ5PqJHU2ZA6wn4tGRIg2SXUzgZ+YBI26Nu5802I8HwGBH
+ 4CIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734068812; x=1734673612;
+ d=1e100.net; s=20230601; t=1734068819; x=1734673619;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Yq/q3oQ+1coBzSyYiu7PIQ9YY0FE8S8wlVnD6GFmf1s=;
- b=N1N2sYKl+olTQmXmhEcQMS+otg2RvcuVkW0gQyyHA2A6ScxgkuCkLekhMGtLcCdext
- M4GM9Z49f8EaZPlNFj6QeWbQu8Cz2EyD6JitfIqdnetaNdqT7IIXP6oXhRy1s8x5uKrU
- eZKLH9IXa8UKRRubT/4z0Zjr5n/2emw8MbmVHVwX6kj6TZtDKBP5FtRRrU519viZVXyM
- 4ju07wgl5V6Y3anH6gSqZcpr+5Y9nyS1nLls2MSJZ97clzcXv/Z77vCYi94o82SbM9/M
- 3PBZQvoFBbsju+v9bTiwSZftNE3UaEPmNhz6x609pZNJ3JBJj13C3hiL+H0OqnTIXB8A
- RIlA==
+ bh=fVaAhWgLsrOIaawWt+Es3lyBYssP2HU9Cngct4cKfGw=;
+ b=Z1Al96d1fL4r9t2EjTkugLXuI0xor/2ms9V8xx/IgIvWEKNPOUSYkIKJsYFbZypXWP
+ 2q6hCWXDvpT8a4WhaJWQzk6d0+jcFmkhbCs8YLvrEzmSvDgrHCELxX2OrvISz7MvK9W8
+ AIUS2bxdJMMKI/lSaHoohOkMbA3JVuM6J74JZhp5LXOITpqOnEimbsK652GPeWHSafUe
+ /q0tG8qe+eZHxiSpme018+ixhDGvDraXgECVZQjvuvFnFyReFwJ4DaYO77pgx30e44rc
+ pWrem8XZKHjYYgaGXmJJUAQbWSOUkLzUOeZuQ2P4hJBFHOd+2MbVhhuVW2ATjT/QzVO4
+ PfhA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVV6c+BTdm+daVY7T4bcu20MT5YbzKYpHqniQKxKQFNh8kjjvCnPU68Hqq4TCTGAAtpa1/41rxTw==@lists.freedesktop.org,
- AJvYcCVQMvoZsOewL0hs2GJ+a3EPDOykQI7JI4/ugNkkLc7UPpI9yL9wkSFiEaKXog6aaSfobNDNC3T9i/c=@lists.freedesktop.org,
- AJvYcCVjf1W3hvkE8c3JCWW6e5sF7kh1jTokhjmpVgFYCoCQ5utQPXJ4LEKYNJs7oO3HGj2M3K9f0TMuMpU=@lists.freedesktop.org,
- AJvYcCX3zU5+Vsu67wMvoG5i44kiWJdwaVvcbxW4Dw7Elo1vvt9X3SB1TEkUk13DwHSlpHYnSy6rknuG6ZF0@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6UzLbAdFP5T5w9TKeXi6Wh+VSvFtuitFJu0RaAi2hQiCuXaYQ
- Uy50iIUm+TGsA0mpmc9w4dy3M/doW8Mh2vBQQg0RdO3zIjWGFTDx
-X-Gm-Gg: ASbGncvcR/BvKqvh6PbLuFEdV7woJZ9a/SHglt+uZPELWgfyVLPGQCB1Z65Dv2L5T9K
- 8W8ih37ddvcpd3XFYt6EVD9Pl3GyWxMY7EWJFAp8+3Rs4N2ceDt6BIvXV/ga7/+kFneXVKOaf2l
- qlzL1LFhnUmjR1tx0PdFQGk0o2WfT7aWjFHPnXpXV4qNpy+cgswzIQ7PelApLYqhYOdn/E2RsPI
- NBE254HWlgytxBsVD9RfLp8zbwmqV/kyW2e1qcHP4vnST8LpIlT8qCXeTbJztCCBmpdMvMrcWHj
- UFltnNo=
-X-Google-Smtp-Source: AGHT+IFWBnsyszL3fKLErMwBwi/nv5YJk8bNHSLutoorKV6bDApMEi8hBMM4652Yq5VqnH7LBX6qQg==
-X-Received: by 2002:a17:903:2a8d:b0:215:a3e4:d251 with SMTP id
- d9443c01a7336-2189298bb21mr20543965ad.6.1734068811964; 
- Thu, 12 Dec 2024 21:46:51 -0800 (PST)
+ AJvYcCUJJtT0kFOWVEv3VxhQRX+oTYrbEcrbeBAzAJqAe6OdfpMQeC3y8RWwLkoD3x7sFsr1JdaOWEDuJw==@lists.freedesktop.org,
+ AJvYcCVNZ3zokedkAsWjJ7xk6cxLC0JIBVO517mcI26ATgTKKM2AkrteM3gJX7Xs3gyvDGUfwaFBr2g0sDg=@lists.freedesktop.org,
+ AJvYcCWqiMKjXEs42LwXYNTrUVfyvoqf5vYqaFN3jP52Fk9THebwvqKYrrNgj6W4hLkGhrRyF2BXcIlefvg6@lists.freedesktop.org,
+ AJvYcCXsiJS9IsxTwP0fanebPlfWVYCUXnVxjhc6t56iJszZiRTZE37psfhDTivKagEaVPtz6IXGbgd1hrs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzk7C3ITsCz1kD0wUtFddwUFHR9hcHrpvgnIk2+fwQzFrw0SbGa
+ 72+1cWCBtpVT1Eg06hlemej+27igEjUEEwmfylsPFc+27BER6j86
+X-Gm-Gg: ASbGncvrupJm5nvhOc+ls9OksrE1EbczdoNiszt90N+Lb+G9hyHlxqQzU3s7YmOrKZR
+ wp2Y2hiivTe79AEVrHihlB1Ep67zoqLI2jIvGqtkVIKFA0DZZOpbyrGf0L0fcD/dSQphSFu4n2M
+ IVnvJkKq3nHeCYgSo6UBZgnWRZtpwzo81WpEjB4WkvpLPcGpCLh4UoJz9ySVZJfDkgcZXuaxOEn
+ 490q3wAGg9f+aaCPft6bvmyUz0wh5nWorgCVDabrDGKyQFh24+NlNSpG5SR7F8CZndK2vfiy55M
+ CgeGeZI=
+X-Google-Smtp-Source: AGHT+IGnQMpyX4qO4c9TaUxIvkW9bvqpb4HtTDVE3C9gZFkXCVV6ksZB8lAWhFJzpiBj11HO1t8PNw==
+X-Received: by 2002:a17:902:e88b:b0:212:615f:c1 with SMTP id
+ d9443c01a7336-218929a19c2mr20599995ad.14.1734068819460; 
+ Thu, 12 Dec 2024 21:46:59 -0800 (PST)
 Received: from localhost.localdomain ([180.159.118.224])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.46.44
+ d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.46.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 12 Dec 2024 21:46:51 -0800 (PST)
+ Thu, 12 Dec 2024 21:46:58 -0800 (PST)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org,
 	akpm@linux-foundation.org
@@ -72,21 +72,19 @@ Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
  linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
- Yafang Shao <laoar.shao@gmail.com>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH 1/7] vsprintf: Add %pTN to print task name
-Date: Fri, 13 Dec 2024 13:46:04 +0800
-Message-Id: <20241213054610.55843-2-laoar.shao@gmail.com>
+ Yafang Shao <laoar.shao@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
+ Davidlohr Bueso <dave@stgolabs.net>,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH 2/7] kernel: Replace get_task_comm() with %pTN
+Date: Fri, 13 Dec 2024 13:46:05 +0800
+Message-Id: <20241213054610.55843-3-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20241213054610.55843-1-laoar.shao@gmail.com>
 References: <20241213054610.55843-1-laoar.shao@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,88 +101,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the task->comm is guaranteed to be NUL-ternimated, we can print it
-directly. Add a new vsnprintf format specifier "%pTN" to print task comm,
-where 'p' represents the task Pointer, 'T' stands for Task, and 'N' denots
-Name. With this abstraction, the user no longer needs to care about
-retrieving task name.
+Since task->comm is guaranteed to be NUL-terminated, we can print it
+directly without the need to copye it into a separate buffer. This
+simplifies the code and avoids unnecessary operations.
 
-checkpatch.pl is updated accordingly.
-
-Link: https://lore.kernel.org/bpf/CAHk-=wgqrwFXK-CO8-V4fwUh5ymnUZ=wJnFyufV1dM9rC1t3Lg@mail.gmail.com
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Serge Hallyn <serge@hallyn.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Darren Hart <dvhart@infradead.org>
+Cc: Davidlohr Bueso <dave@stgolabs.net>
+Cc: "André Almeida" <andrealmeid@igalia.com>
 ---
- lib/vsprintf.c        | 18 ++++++++++++++++++
- scripts/checkpatch.pl |  6 ++++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ kernel/capability.c     | 12 ++++--------
+ kernel/futex/waitwake.c |  5 ++---
+ 2 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 6ac02bbb7df1..bb1018d79655 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -2273,6 +2273,17 @@ char *resource_or_range(const char *fmt, char *buf, char *end, void *ptr,
- 	return resource_string(buf, end, ptr, spec, fmt);
+diff --git a/kernel/capability.c b/kernel/capability.c
+index dac4df77e376..4512cd797f49 100644
+--- a/kernel/capability.c
++++ b/kernel/capability.c
+@@ -38,10 +38,8 @@ __setup("no_file_caps", file_caps_disable);
+ 
+ static void warn_legacy_capability_use(void)
+ {
+-	char name[sizeof(current->comm)];
+-
+-	pr_info_once("warning: `%s' uses 32-bit capabilities (legacy support in use)\n",
+-		     get_task_comm(name, current));
++	pr_info_once("warning: `%pTN' uses 32-bit capabilities (legacy support in use)\n",
++		     current);
  }
  
-+static noinline_for_stack
-+char *task_name_string(char *buf, char *end, struct task_struct *p,
-+		       struct printf_spec spec)
-+{
-+	if (check_pointer(&buf, end, p, spec))
-+		return buf;
-+
-+	buf = string(buf, end, p->comm, spec);
-+	return buf;
-+}
-+
- int __init no_hash_pointers_enable(char *str)
+ /*
+@@ -62,10 +60,8 @@ static void warn_legacy_capability_use(void)
+ 
+ static void warn_deprecated_v2(void)
  {
- 	if (no_hash_pointers)
-@@ -2525,6 +2536,13 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
- 		default:
- 			return error_string(buf, end, "(einval)", spec);
+-	char name[sizeof(current->comm)];
+-
+-	pr_info_once("warning: `%s' uses deprecated v2 capabilities in a way that may be insecure\n",
+-		     get_task_comm(name, current));
++	pr_info_once("warning: `%pTN' uses deprecated v2 capabilities in a way that may be insecure\n",
++		     current);
+ }
+ 
+ /*
+diff --git a/kernel/futex/waitwake.c b/kernel/futex/waitwake.c
+index 3a10375d9521..df8f8c85d776 100644
+--- a/kernel/futex/waitwake.c
++++ b/kernel/futex/waitwake.c
+@@ -210,13 +210,12 @@ static int futex_atomic_op_inuser(unsigned int encoded_op, u32 __user *uaddr)
+ 
+ 	if (encoded_op & (FUTEX_OP_OPARG_SHIFT << 28)) {
+ 		if (oparg < 0 || oparg > 31) {
+-			char comm[sizeof(current->comm)];
+ 			/*
+ 			 * kill this print and return -EINVAL when userspace
+ 			 * is sane again
+ 			 */
+-			pr_info_ratelimited("futex_wake_op: %s tries to shift op by %d; fix this program\n",
+-					get_task_comm(comm, current), oparg);
++			pr_info_ratelimited("futex_wake_op: %pTN tries to shift op by %d; fix this program\n",
++					    current, oparg);
+ 			oparg &= 31;
  		}
-+	case 'T':
-+		switch (fmt[1]) {
-+		case 'N':
-+			return task_name_string(buf, end, ptr, spec);
-+		default:
-+			return error_string(buf, end, "(einval)", spec);
-+		}
- 	default:
- 		return default_pointer(buf, end, ptr, spec);
- 	}
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9eed3683ad76..fe0d80f55ce8 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6908,11 +6908,13 @@ sub process {
- 					$specifier = $1;
- 					$extension = $2;
- 					$qualifier = $3;
--					if ($extension !~ /[4SsBKRraEehMmIiUDdgVCbGNOxtf]/ ||
-+					if ($extension !~ /[4SsBKRraEehMmIiUDdgVCbGNOxtfT]/ ||
- 					    ($extension eq "f" &&
- 					     defined $qualifier && $qualifier !~ /^w/) ||
- 					    ($extension eq "4" &&
--					     defined $qualifier && $qualifier !~ /^cc/)) {
-+					     defined $qualifier && $qualifier !~ /^cc/) ||
-+					    ($extension eq "T" &&
-+					     defined $qualifier && $qualifier ne "N")) {
- 						$bad_specifier = $specifier;
- 						last;
- 					}
+ 		oparg = 1 << oparg;
 -- 
 2.43.5
 
