@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04839F116B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 16:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958999F117E
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 16:55:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2698C10F065;
-	Fri, 13 Dec 2024 15:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 101DF10F07D;
+	Fri, 13 Dec 2024 15:55:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Clo9Ugdw";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="blwDgZRR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA6ED10F065
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 15:54:21 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDBhkUJ017829;
- Fri, 13 Dec 2024 15:54:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YDOX0t7rA7DzcrhO8lKzG3JVXQEUwie1oBzTyjejceo=; b=Clo9UgdwYQ1NJc3G
- qVkecjhd40x/TiwVPoctU0DvCUVhpzIC4zZcOki+qZ7Wf2MOeorgiHY4/cq3qrHo
- OwsiBJqbtJoNhU4ZodAb/QlzXMPT8P4jsYmuovbMXoc782IBGX01a6DXDgP5cH34
- wCQ4R7MrcaROJc1G/GbKh6TmGJqs4sIwqG1e6bylg06dKPZ3taXPEt603vGd3uoN
- BxaZ2eJR2sL6TRA609oP7bDNKi0TMPQTP8U1SAJvUvlx4uypb0e4K/S6SUOhce1u
- pSD446FDa6oSuDbXQ8IbeBRtWn8sNHTh+YccehonME8tsQl8eKZMbzhq0ZsSoHqy
- +cB2uw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gmac0nqx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 15:54:17 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDFsG9I013686
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 15:54:17 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
- 2024 07:54:16 -0800
-Message-ID: <7997da94-1cc9-27a6-e918-96af461efe05@quicinc.com>
-Date: Fri, 13 Dec 2024 08:54:15 -0700
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
+ [IPv6:2607:f8b0:4864:20::d31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59EA210F079;
+ Fri, 13 Dec 2024 15:55:13 +0000 (UTC)
+Received: by mail-io1-xd31.google.com with SMTP id
+ ca18e2360f4ac-844cd85f5ebso157503239f.3; 
+ Fri, 13 Dec 2024 07:55:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1734105312; x=1734710112; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i6VmOCA+V9XQez6fdrDoIQI1Lpi009QCYLL4t5PPetk=;
+ b=blwDgZRRe7bsaPXHQ4zzubwENZyULXbAckAMfMDhY0pnoUDk2VhiduMGD54syLKoXI
+ XituCDc1IgTyAwKVsxgvnzkY9xufnVTPw+70LA6RjIwvcayA9ppsCqHivIvqtvAVGPZW
+ 13gE2d0sc7pswiEyE3yMjGWgOI10FOe5mYtvjM8ZpSYVL2JpM4MJa/RoHR6ykaHYNGRn
+ a7lXa5UcBkVzG/aGMBWhA/473xf9bziY7HzJK1TsCQ7BT/0O6t56jIDYpNyVtFQQWtVt
+ ZJgdhZHorKxTcnkXSNX2NsQGz9l5a/L5TuNpm70DnNH+FxQolSOsut4xaQ7IWUKo75dW
+ 6m0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734105312; x=1734710112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=i6VmOCA+V9XQez6fdrDoIQI1Lpi009QCYLL4t5PPetk=;
+ b=gu+wuWmvwce24tC5ZQFS9bW/TY8LbQ4+0qOqU+TZcUPbgkzzSc8cUV158z79m/clRO
+ EcRrkMh7Xsu7H4gxwinn9Lh573roGjwERBjlhT41vDILTcxCbhDPsIZ8dS8shelvGkx/
+ WAbKmJZqWkUh+jS0LFbz646FGOztPpN10h3gHb4MdqQMbG+AvZo7GqaP2x9s/0q80vE5
+ hrU1sp/Hp7XY5amhH08iOTalLeiBJLaOB5euf1oONqqLDsnsgf1T9AhwVh/Cd5G+cQDs
+ 0JglRy3ceXvNvH8BbUOydE9YU5n+C0rP6nyhzs2XLzND0m2lpDL2g+GN07NROwEFUsjG
+ vhcQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVQwwPuhZQ3xaMZmM2xwQAp9UVYjnvV83AS3LUXweFTb7NrC9mrWQ1Lv+kAS/tfRJKJwksAbSelI2s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwwjIsAwk1iWREdUKjLFOTJfEyt/3FOaecX1e52Zbv9+iEdH9a6
+ s0jcczxPP+yj1GP7/x4JUnODGhPhQH05yTBmts9EPu0fCzN1HQ6DmK4v37DeSqwurNMAsjNNHxC
+ aQnj1pjECxl5OfMs3BmrxFmBIkWc=
+X-Gm-Gg: ASbGnctuf+oemWCuVo+DfNL+ExyNvu/eZh3B6BLWU08CGYNjh/9nYtY4mjnKghs0uXc
+ 8WCqux9iWGAv9x4ZDWw6wvft41YtO7L6a/AnHRsYSAHJ/pVhGqditPk1nELnmYNkO7v+L
+X-Google-Smtp-Source: AGHT+IFMG/lnqgLL0G12YQjpdrm4/5MG+SSmjuiAuSfeDBfTY9t2xf5FtjXDqhT4YvP0OFt9oWrlNzgxsZZaqLPfv5c=
+X-Received: by 2002:a05:6e02:1c03:b0:3a7:e0c0:5f27 with SMTP id
+ e9e14a558f8ab-3afeda2f96emr30053715ab.2.1734105312417; Fri, 13 Dec 2024
+ 07:55:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 3/3] accel/ivpu: Fix WARN in
- ivpu_ipc_send_receive_internal()
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, <stable@vger.kernel.org>, Karol Wachowski
- <karol.wachowski@intel.com>
-References: <20241210130939.1575610-1-jacek.lawrynowicz@linux.intel.com>
- <20241210130939.1575610-4-jacek.lawrynowicz@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20241210130939.1575610-4-jacek.lawrynowicz@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: nc-1T3VsRyBnHfcg1yww6khCfnsCIZ36
-X-Proofpoint-GUID: nc-1T3VsRyBnHfcg1yww6khCfnsCIZ36
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=902 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412130113
+References: <20241121164858.457921-1-robdclark@gmail.com>
+ <54601d79-4156-41f4-b1b7-250c5c970641@oss.qualcomm.com>
+ <CAF6AEGtafQM7-mYy163Krry3OHgPNH3e9A=9VEhBpiQTADtULQ@mail.gmail.com>
+ <5ff5d720-ccf7-42ee-9a4b-90cc168a4b7b@oss.qualcomm.com>
+ <CAF6AEGuwjpizRy+S-xCmGdZV9MX+CDACwQp-NNKc2eBroCt1CQ@mail.gmail.com>
+ <b792f88b-71c3-4430-b194-0a627de2f05c@oss.qualcomm.com>
+In-Reply-To: <b792f88b-71c3-4430-b194-0a627de2f05c@oss.qualcomm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 13 Dec 2024 07:55:00 -0800
+Message-ID: <CAF6AEGtbSwF2NVAurJxHwb-D7=SutGtMZ-UQbFAPr0ohDsK1OA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: UAPI error reporting
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,11 +92,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2024 6:09 AM, Jacek Lawrynowicz wrote:
-> Move pm_runtime_set_active() to ivpu_pm_inti() so when
+On Fri, Dec 13, 2024 at 5:11=E2=80=AFAM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 23.11.2024 3:41 AM, Rob Clark wrote:
+> > On Fri, Nov 22, 2024 at 4:19=E2=80=AFPM Konrad Dybcio
+> > <konrad.dybcio@oss.qualcomm.com> wrote:
+> >>
+> >> On 22.11.2024 4:51 PM, Rob Clark wrote:
+> >>> On Fri, Nov 22, 2024 at 4:21=E2=80=AFAM Konrad Dybcio
+> >>> <konrad.dybcio@oss.qualcomm.com> wrote:
+> >>>>
+> >>>> On 21.11.2024 5:48 PM, Rob Clark wrote:
+> >>>>> From: Rob Clark <robdclark@chromium.org>
+> >>>>>
+> >>>>> Debugging incorrect UAPI usage tends to be a bit painful, so add a
+> >>>>> helper macro to make it easier to add debug logging which can be en=
+abled
+> >>>>> at runtime via drm.debug.
+> >>>>>
+> >>>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> >>>>> ---
+> >>>>
+> >>>> [...]
+> >>>>
+> >>>>> +/* Helper for returning a UABI error with optional logging which c=
+an make
+> >>>>> + * it easier for userspace to understand what it is doing wrong.
+> >>>>> + */
+> >>>>> +#define UERR(err, drm, fmt, ...) \
+> >>>>> +     ({ DRM_DEV_DEBUG_DRIVER((drm)->dev, fmt, ##__VA_ARGS__); -(er=
+r); })
+> >>>>> +
+> >>>>>  #define DBG(fmt, ...) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+> >>>>>  #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARG=
+S__)
+> >>>>
+> >>>> I'm generally not a fan of adding driver-specific debug prints..
+> >>>>
+> >>>> Maybe that's something that could be pushed to the drm-common layer
+> >>>> or even deeper down the stack?
+> >>>
+> >>> Even if we had something like DRM_DBG_UABI_ERROR() I'd probably still
+> >>> just #define UERR() to be a wrapper for it, since line length/wrappin=
+g
+> >>> tends to be a bit of a challenge.  And I have a fairly substantial
+> >>> patch stack on top of this adding sparse/vm_bind support.  (Debugging
+> >>> that was actually the motivation for this patch.)
+> >>
+> >> Alright, let's not get in the way then
+> >>
+> >>> I noticed that xe has something similar, but slightly different shape=
+,
+> >>> in the form of XE_IOCTL_DBG().. but that kinda just moves the line
+> >>> length problem into the if() conditional.  (And doesn't provide the
+> >>> benefit of being able to display the incorrect param.)
+> >>
+> >> Maybe rust comes one day and the lines will start growing vertically ;=
+)
+> >
+> > Rust for the userspace facing rendernode side of the driver, in
+> > particular, would be interesting for me, tbh.  Especially if handle
+> > related rust<->c layers are designed properly.  I've lost track of how
+> > many handle lifetime race condition UAF's I've seen ;-)
+> >
+> > Re-writing entire drivers is a big lift, especially when there is so
+> > much hw+features to enable.  KMS is limited to drm master (generally a
+> > somewhat privileged process), so less of a concern from a security
+> > standpoint.  Much of the GPU side of things is "boring" power related
+> > stuff (suspend/resume/devfreq).  But the rendernode ioctls are open to
+> > any process that can use the GPU in a typical setup.
+>
+> The boring part would benefit greatly from automatic scope exit
+> cleanup.. We've had lots of issues in the past with that (that are
+> hopefully? sorted out now, or should I say, for now)
 
-ivpu_pm_init()
+Maybe some of the cleanup.h stuff would be useful?
 
-With that
-
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+BR,
+-R
