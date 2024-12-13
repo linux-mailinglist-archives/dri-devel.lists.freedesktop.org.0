@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71259F0795
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 10:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6E79F0799
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 10:20:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA2210E30F;
-	Fri, 13 Dec 2024 09:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDAFF10EF73;
+	Fri, 13 Dec 2024 09:20:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f0iUqF3H";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vF+KM5OU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B7C10E30F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 09:19:52 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D28B10EF73
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 09:20:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AAFE5A42841;
- Fri, 13 Dec 2024 09:18:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A87C4CED0;
- Fri, 13 Dec 2024 09:19:50 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5A8865C68E5;
+ Fri, 13 Dec 2024 09:19:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66B2CC4CED0;
+ Fri, 13 Dec 2024 09:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734081591;
- bh=OpDp8wtg392V2T6FnFhTswBHdj/6zqNuIVtWyPvy+28=;
+ s=k20201202; t=1734081602;
+ bh=LZTssH/ZHKTvEutuJtTjkmecZUTVtynRxVs9i48YWr0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=f0iUqF3HwJN75ISShX6IWUc85jJ5fJoIxz0rk4h4c79qFl52t0Edk4wWtoMQW+oHj
- SMs8EfwpMJjyp5c/IT4Lvpobe1d1wPIJH0WYePw20buZUWYkCwAKy/3ZI2ZNuYPDDN
- 3zuOcAQaZH571Hzo/ySsX3aJ2+KHxfWVxtvW7p6KGbI0J6ZIQ1NX77Sp4D8HO5QIDt
- xXt9fQ225Q6nTxWggd5NgTzS0SIfDs4EwPIzDTgD7SUU0LUmcFjMlytnMGP5AjQ0/M
- 4tbhwSXKKRxr1ZYgBH2F8Lh/jxeAlyr95DQNDP21tIYuYQjEkiRK8A51DcrL0jP7fE
- IdgQCSzVKDL/g==
-Date: Fri, 13 Dec 2024 10:19:48 +0100
+ b=vF+KM5OUjhNimxXTCodSJDmpIOrab7qO73ZSbulEhwBCbF8TMZrYRmOk6ulg3UuHK
+ luhGa9Er4B64KWPwj1HpaVm7nnx2vyJbQ/H1VZnS4g44lK9BOcgKTk0LK+ViAGUaDD
+ HDIPLfLWRHyMT1pIC78q2I2I2VJlTQJ5sn61oFK2pSOfpcmN2u/zV4Z2Le7rTb2C3P
+ 2lMs6SI3ZcmZg6bjW298otZ/kzlh8PmgIPJv/wFrE9fc5zgSFwBUdXGwoWyLrqXhjk
+ 7DAC5HWztrvL4udgF0nZpR1dJyLAboDD7K+zw0q2nj3KUmq5z1KbVDOKWL329g+GlC
+ it3rFPbfTRQ6Q==
+Date: Fri, 13 Dec 2024 10:19:59 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,15 +51,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>, 
  linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v3 2/7] dt-bindings: display: Fix BCM2835 HVS bindings
- for BCM2712
-Message-ID: <yz2wl72uagxbwbqnvfrspwy2bgrrljzg7b5zwqcg6llajybnfv@hugmruxvngxr>
+Subject: Re: [PATCH v3 3/7] dt-bindings: gpio: brcmstb: permit
+ gpio-line-names property
+Message-ID: <atzraxqm7z7trpagw2kj4xraghb323zry5cztwadqsowfafkmm@gejykzp4hjoo>
 References: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
- <20241212-dt-bcm2712-fixes-v3-2-44a7f3390331@raspberrypi.com>
+ <20241212-dt-bcm2712-fixes-v3-3-44a7f3390331@raspberrypi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241212-dt-bcm2712-fixes-v3-2-44a7f3390331@raspberrypi.com>
+In-Reply-To: <20241212-dt-bcm2712-fixes-v3-3-44a7f3390331@raspberrypi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,113 +75,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 06:36:29PM +0000, Dave Stevenson wrote:
-> Commit 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
-> added the compatible string for BCM2712, but missed out that
-> the number of interrupts and clocks changed too.
+On Thu, Dec 12, 2024 at 06:36:30PM +0000, Dave Stevenson wrote:
+> gpio-line-names is a generic property that can be supported by any
+> GPIO controller, so permit it through the binding.
 > 
-> Update to validate clock and interrupts for the variants.
+> It is permitted to have a variable number of GPIOs per node based
+> on brcm,gpio-bank-widths, so define an arbitrary maximum number of
+> items based on current users.
 > 
-> Fixes: 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
 > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > ---
->  .../bindings/display/brcm,bcm2835-hvs.yaml         | 83 ++++++++++++++++++----
->  1 file changed, 69 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-> index f91c9dce2a44..36bf8eec88a6 100644
-> --- a/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2835-hvs.yaml
-> @@ -20,11 +20,20 @@ properties:
->      maxItems: 1
->  
->    interrupts:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 3
-> +
-> +  interrupt-names:
-> +    minItems: 1
-> +    maxItems: 3
->  
->    clocks:
-> -    maxItems: 1
-> -    description: Core Clock
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 2
->  
->  required:
->    - compatible
-> @@ -33,17 +42,63 @@ required:
->  
->  additionalProperties: false
->  
-> -if:
-> -  properties:
-> -    compatible:
-> -      contains:
-> -        enum:
-> -          - brcm,bcm2711-hvs
-> -          - brcm,bcm2712-hvs
-> -
-> -then:
-> -  required:
-> -    - clocks
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: brcm,bcm2711-hvs
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Core Clock
-> +        interrupts:
-> +          maxItems: 1
-> +
-> +      required:
-> +        - clocks
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: brcm,bcm2712-hvs
-> +
-> +    then:
-> +      properties:
-> +        clocks:
+>  Documentation/devicetree/bindings/gpio/brcm,brcmstb-gpio.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-minItems: 2
-
-> +          maxItems: 2
-> +        clock-names:
-> +          items:
-> +            - const: core
-> +            - const: disp
-> +        interrupts:
-> +          items:
-> +            - description: Channel 0 End of frame
-> +            - description: Channel 1 End of frame
-> +            - description: Channel 2 End of frame
-> +        interrupt-names:
-> +          items:
-> +            - const: ch0-eof
-> +            - const: ch1-eof
-> +            - const: ch2-eof
-> +      required:
-> +        - clocks
-> +        - clock-names
-> +        - interrupt-names
-
-Why requiring last two names? Commit msg does not explain that.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
