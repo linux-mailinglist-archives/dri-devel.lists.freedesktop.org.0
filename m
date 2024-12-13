@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9556B9F07CA
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 10:24:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD279F07CF
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 10:24:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80DF210EF79;
-	Fri, 13 Dec 2024 09:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E65010EF7A;
+	Fri, 13 Dec 2024 09:24:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uBxsvPvV";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fID6hSrR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
- [IPv6:2a00:1450:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2179F10EF79
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 09:24:24 +0000 (UTC)
-Received: by mail-wm1-x331.google.com with SMTP id
- 5b1f17b1804b1-435004228c0so18180545e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 01:24:23 -0800 (PST)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2B1410EF7A
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 09:24:49 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-385e2880606so1407650f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 01:24:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734081862; x=1734686662; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734081888; x=1734686688; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=FVIBsh6H75ToUJ73kg1JpoXbdNPaR6D/0c0Kg16Vrrw=;
- b=uBxsvPvVCaG0LiDdYaWjH9Y++Abj5evvUdjkR1VZ+IYHZgdklmMPJSDrVUsLchNwxN
- yfNxx0+aKmupIUMmCJVZwV9+m/ksj2oPtceOamkuSwAso/Ul3pqh5/fhov0ilvcpEoUC
- nASJr55Ilzkq37+JA58/vLYdXtqr3G7YLwhrn/Cy1Q77U3st97ne4K/va5TMQHenuAM5
- kwvA4d44xNv8l8NaKICyrr8+fJPh6M1pr/udxsoecSmJZlkIHXet8cEBRA8pNftfVpfp
- LokyctVd2u10jykIMWloMpEM4d5MjAaTKmMDr1103mUsQx+5v8r2w0iOdDw6MLDSlBIR
- WVsg==
+ :reply-to; bh=wutSH20sqxWpg2z4HRMnPTYhGp8Ph9hwGl0McLup9A4=;
+ b=fID6hSrRrecyHGAj6F6/DUYoheJaur1a8tAmNdQicnAOAF9LE3dw9WrVeIP859Bybm
+ y7NcAN4AGS2Z1ljSGW1mPwUzCz0RGLclwN73+8P2VWhffaJusnAtgX8J+EjWJUuW9tXt
+ lRF4YCNxlrgv3l10EB0/VfpL1l9USMKYeYH5brHWM3u/jPpTCiZ5Maq9fQClv9nHc2m4
+ ci9jpqnGV5KdR2J7P+c/MdRcJUufH1lQ5pIM/GWt2DHyiXWM/Be0jE2dlD2pjQLeVfTM
+ ZrnJgH1Jjf4mPex7OialPgcuibX9BHJlzxR550UIpt9XF544TO+M3BRB+4GdQeAs79kE
+ oSnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734081862; x=1734686662;
+ d=1e100.net; s=20230601; t=1734081888; x=1734686688;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=FVIBsh6H75ToUJ73kg1JpoXbdNPaR6D/0c0Kg16Vrrw=;
- b=pJfINauy6zecD8LLKQSge/MguMb8L/ALT1pPQCue24amfeS2RntglPx+uzK4/GhkOQ
- 6jnrCu6r17KXN7ziO9WGH+gShCA3bLG29F41wEAWhrxsZoPnQ4t0ble9LbKCxeO/yJ3v
- dCF2HB12Ckf3dAD0A1wDDlXmh9BMJ2JQCj0QLQ5LQ85zNdK9s+PERaYnmDcIsQcgwMNV
- o2F35A2wGRymAIitUiK2G3/ZFuGjh/549qDivvLFckQErDCGEHrCteHABhuIPwAim5S+
- 0A+NrSHGdwCWHVdrkBAKPeOVFgd5Zmltwhzoo7EJtsnMuQQlWD0qWCEpxqZQGh6Ct3Vz
- 3/Yg==
+ bh=wutSH20sqxWpg2z4HRMnPTYhGp8Ph9hwGl0McLup9A4=;
+ b=qMc14EzfVcB6efFrBYhsMNybVLSMqCDe9lF2+TS/KQuqUE0TGFov7ROSLdhebp86Zj
+ StcAgY+YUnUfMFN0Y0FT9P/qXNe9gGTxW61Xyh6y5/hKP0Yv830A/2Z+WKDoZs2n3esX
+ tPyVRhzKKbbkV3+P48rgPMX+IDM2ZFZjznA+h1dOSU8o1f8I3KWCh4BPjXaRmVhDw7zu
+ IRSsgxblGRtrBMaRGLIV0b76vHk7YGja1aO/E94WaIs9DzZDQPp3mvXPBeKkOTmsP3gX
+ JB6xUv1NbYVQF7a3VZgBnW6vA3Nt718DXmMCMgfXe891BOgpCTEDqvLkG+bDNW5eoG6w
+ Z20Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWiaIndKIJPd9QgE5lIdyF1nE1RbdfjePuJu+UYmrSBs6l/0oZjZvXYi7RB2ZGVApiZrzLDOd8pq1E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYy7pt9DwEnN3Nh/3OUOwQkONl+cmA0sRVH58DGaa5CcTyzZAk
- djIHnCROg+CaRjRxBjFuX38YHvCtyZf/cq6Blk3OreWVEj043jbzOgR84cnivzw=
-X-Gm-Gg: ASbGnct8MRL3a1HCUzTS9N6e3d0k5HwswwewhBXFNghi9XXubosuFK2xhUM9MNBHQ7m
- 8TPZ7C1cNpsei66RAdTYgj76FewLzAwWZNb9+amyrXO28eznQpAdE1y0f6HS8yWif2DT3hsUC1y
- 3RsZw3Jh91vmcdWmasGz6MfRcC2+ye2KyK6IhiM9Gc9R+9njCveigCSPX5gV4Wn+A6bNGFPQ0+U
- UfiozsONZ+BSubLIyM6DzTCO65Zkvvqzsl2rv3ZEAnjEf052WViXt+14BwbqHmGGYcA9ZMpz5ih
- pTIlQTSe/n/QRkI+ELxcE9d/W4xhmeTKDw==
-X-Google-Smtp-Source: AGHT+IGtHG7SvnWfkT/G7TBxknquXkATTnM0UDhdExdrI8MydS7jmmNVB5tziogoHHcYzT4JAyeTEg==
-X-Received: by 2002:a05:600c:6549:b0:434:f0df:9fd with SMTP id
- 5b1f17b1804b1-4362aa1b061mr16155975e9.2.1734081862604; 
- Fri, 13 Dec 2024 01:24:22 -0800 (PST)
+ AJvYcCUXJEDfAr5WZa2i/Q5gj9c9nMMNQLRbmIWlFl7syTYKmUVf66PsQHoaf5SDEwn9N+7rU2Uijy5ziSo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXqF9leMtzd8TglSAyAXeYZZphmpeVfKw+4YSlZ3K8Bt58BOob
+ P5QlyvLGo16xSOyOWlfd58YlPtMHwITqJq3kP31vE1eOM27DGUO2dXUesuuyaXM=
+X-Gm-Gg: ASbGnctRB0VFVkHN+mjnOP4YFj2EWPe4UHzyJf2zZ2P3FD3FlGFp1R5JqUFS1xIrV0E
+ Mwj8Q28qyFNkoDGRmvX9gFA25oIy4GIlZSYT+qIZXIx+WKdm5xGZPU8HBlMW4l+CS7a3T9r0eU0
+ wNkLoeU5q3PaU7ohXHYxhAWeLU1hEVmXWRN8xhfIB9FR0+oIm8uGI3lWdq5Bm9JMsWeGJSqFUaz
+ es+fQVo+e7I9sCbHi9CIg8nBKc4X9YRCmdYobeXg9qVwupuZKTGH3F4VdtmVCG7Iry/HqS7l4zq
+ KMImo9l1gsCv2M533EzmH4dK3nubEfBuQg==
+X-Google-Smtp-Source: AGHT+IFI074Lwn8iG2p3aXLmDgxZRpsAda5g2MDoS7aVwb7sB0VGKt4LBItRaVXvt767TAep4zOBoQ==
+X-Received: by 2002:a05:6000:1ac9:b0:385:f23a:2fec with SMTP id
+ ffacd0b85a97d-38880ac6078mr1521781f8f.11.1734081887751; 
+ Fri, 13 Dec 2024 01:24:47 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:4795:2d16:2587:ed70?
  ([2a01:e0a:982:cbb0:4795:2d16:2587:ed70])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4362557c357sm42712765e9.10.2024.12.13.01.24.21
+ ffacd0b85a97d-3878248e633sm6740011f8f.4.2024.12.13.01.24.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 13 Dec 2024 01:24:21 -0800 (PST)
-Message-ID: <8d17e493-df49-4c9e-9093-b49b227851bb@linaro.org>
-Date: Fri, 13 Dec 2024 10:24:20 +0100
+ Fri, 13 Dec 2024 01:24:47 -0800 (PST)
+Message-ID: <08a636e5-5263-47bf-a046-29da9584b673@linaro.org>
+Date: Fri, 13 Dec 2024 10:24:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Subject: Re: [PATCH 2/2] drm/panel: simple: add Multi-Inno Technology
- MI0700A2T-30
+ MI1010Z1T-1CP11
 To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
 Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Jessica Zhang <quic_jesszhan@quicinc.com>,
@@ -79,8 +79,8 @@ Cc: Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>,
  Thierry Reding <thierry.reding@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, devicetree@vger.kernel.org
-References: <20241125013413.160725-1-marex@denx.de>
- <20241125013413.160725-2-marex@denx.de>
+References: <20241212122701.25305-1-marex@denx.de>
+ <20241212122701.25305-2-marex@denx.de>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -107,7 +107,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20241125013413.160725-2-marex@denx.de>
+In-Reply-To: <20241212122701.25305-2-marex@denx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,8 +126,8 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/11/2024 02:33, Marek Vasut wrote:
-> Add Multi-Inno Technology MI0700A2T-30 7" 800x480 LVDS panel support.
+On 12/12/2024 13:26, Marek Vasut wrote:
+> Add Multi-Inno Technology MI1010Z1T-1CP11 10.1" 1024x600 LVDS panel support.
 > 
 > Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
@@ -150,52 +150,52 @@ On 25/11/2024 02:33, Marek Vasut wrote:
 >   1 file changed, 30 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 06381c6282097..4e2582e1a2bd1 100644
+> index d5bb850df9d20..d68662b7265ae 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -3222,6 +3222,33 @@ static const struct panel_desc mitsubishi_aa084xe01 = {
->   	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
+> @@ -3340,6 +3340,33 @@ static const struct panel_desc multi_inno_mi1010ait_1cp = {
+>   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 >   };
 >   
-> +static const struct display_timing multi_inno_mi0700a2t_30_timing = {
-> +	.pixelclock = { 26400000, 33000000, 46800000 },
-> +	.hactive = { 800, 800, 800 },
-> +	.hfront_porch = { 16, 204, 354 },
-> +	.hback_porch = { 46, 46, 46 },
-> +	.hsync_len = { 1, 6, 40 },
-> +	.vactive = { 480, 480, 480 },
-> +	.vfront_porch = { 7, 22, 147 },
-> +	.vback_porch = { 23, 23, 23 },
-> +	.vsync_len = { 1, 3, 20 },
+> +static const struct display_timing multi_inno_mi1010z1t_1cp11_timing = {
+> +	.pixelclock = { 40800000, 51200000, 67200000 },
+> +	.hactive = { 1024, 1024, 1024 },
+> +	.hfront_porch = { 30, 110, 130 },
+> +	.hback_porch = { 30, 110, 130 },
+> +	.hsync_len = { 30, 100, 116 },
+> +	.vactive = { 600, 600, 600 },
+> +	.vfront_porch = { 4, 13, 80 },
+> +	.vback_porch = { 4, 13, 80 },
+> +	.vsync_len = { 2, 9, 40 },
 > +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW |
 > +		 DISPLAY_FLAGS_DE_HIGH,
 > +};
 > +
-> +static const struct panel_desc multi_inno_mi0700a2t_30 = {
-> +	.timings = &multi_inno_mi0700a2t_30_timing,
+> +static const struct panel_desc multi_inno_mi1010z1t_1cp11 = {
+> +	.timings = &multi_inno_mi1010z1t_1cp11_timing,
 > +	.num_timings = 1,
 > +	.bpc = 6,
 > +	.size = {
-> +		.width = 153,
-> +		.height = 92,
+> +		.width = 260,
+> +		.height = 162,
 > +	},
 > +	.bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,
 > +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
 > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 > +};
 > +
->   static const struct display_timing multi_inno_mi0700s4t_6_timing = {
->   	.pixelclock = { 29000000, 33000000, 38000000 },
->   	.hactive = { 800, 800, 800 },
-> @@ -4905,6 +4932,9 @@ static const struct of_device_id platform_of_match[] = {
+>   static const struct display_timing nec_nl12880bc20_05_timing = {
+>   	.pixelclock = { 67000000, 71000000, 75000000 },
+>   	.hactive = { 1280, 1280, 1280 },
+> @@ -4944,6 +4971,9 @@ static const struct of_device_id platform_of_match[] = {
 >   	}, {
->   		.compatible = "mitsubishi,aa084xe01",
->   		.data = &mitsubishi_aa084xe01,
+>   		.compatible = "multi-inno,mi1010ait-1cp",
+>   		.data = &multi_inno_mi1010ait_1cp,
 > +	}, {
-> +		.compatible = "multi-inno,mi0700a2t-30",
-> +		.data = &multi_inno_mi0700a2t_30,
+> +		.compatible = "multi-inno,mi1010z1t-1cp11",
+> +		.data = &multi_inno_mi1010z1t_1cp11,
 >   	}, {
->   		.compatible = "multi-inno,mi0700s4t-6",
->   		.data = &multi_inno_mi0700s4t_6,
+>   		.compatible = "nec,nl12880bc20-05",
+>   		.data = &nec_nl12880bc20_05,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
