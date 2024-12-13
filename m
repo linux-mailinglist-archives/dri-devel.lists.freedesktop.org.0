@@ -1,83 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F679F0D4E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 14:31:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D38F39F0D66
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 14:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7398C10EFFF;
-	Fri, 13 Dec 2024 13:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50B2D10F00C;
+	Fri, 13 Dec 2024 13:37:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SjbPXjBA";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WR9W7c00";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com
- [IPv6:2607:f8b0:4864:20::112c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9EBA10EFFF
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 13:31:37 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-6f277a1ecfdso8343827b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 05:31:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734096697; x=1734701497; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sfJqbpO8fzR7hotkw8WChASKcoelnmQh7lFNBgHegyc=;
- b=SjbPXjBAfxC9XY2jwgeLrAyIA5O0Uj2AvVE+grzHIH0WR9fvBJYZf6bouispY9x8Tz
- liQhIQCaCxsrjkrAMR7Ofnqt15CBAD4Cd2wjux5XYjRSS8aPX1jusisOndw64BEUgNQT
- uWghjwaUWOVkxV3TzrKtCtbO9YTunkwSpuFrI3XPDTnc/xVl5i/2JGmhLpiFgPqDDFnp
- 6QIbsxrc3h+nRGVD3Fjn87kRyFc+P6FTPhfsIQm9MdX0ySEOXAZ+5AiZgJfgH88Djc+d
- BVR1KtlVl0ChBgAIa58fqOupqZ/nKCII1/CVed3iACA9Iw8vgHW0JMbSY+WZqKG/oUYB
- yKoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734096697; x=1734701497;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sfJqbpO8fzR7hotkw8WChASKcoelnmQh7lFNBgHegyc=;
- b=ef02SOUXv4x0jsN1R4N/P4P5SGkMyU53qnoeTervwb/9O0Hyz3T+6wOEB1LDT47eg4
- cgJcy/Z/lWG4Q5IRYn+GEO4WeKQ+H9qKMJj2Iz5l1NYVc6HeYGLAo00+k/n1XadA8NFA
- /1rMKDY7TolmJLqaXK84avy71tHZ2xAULbKQ/3iUeCBkRz6BEsxVurwRKG9Ve5kOXlI4
- s9aql4fF6X+64sazKboDMklWa/WbS3Rft8kD0RfAP2CUXgQhWoC3oSafXEmdtTI18GNS
- HV849Dp8rcIXcmxslHv5Nmmrqx+dWm+NO4YGVASvbe5prJYwVMpN6C/Y4Z+MsHoyhGpD
- uSzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyHObU47vrBzMaSnL/c9JryhsxpOQSc3n71rZv0vSRAH4AYvC/zON5E+WfaGFivf4aWea98FIq2vw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxROunHIe6jxP8KyOb4CL6hYfmTcl+G850nQAN79NSbbgaXa0ry
- j9MT0+bPHNqSXI0cIVZ7JBqQb56iQNOmBUI3VUlWoQerfRuNYxfot5k7MEm7wucHLuoW0X69HRf
- 2NS5RlQmnUfhPFJQFvZYHiFcHN2SiAFi/j5gbXw==
-X-Gm-Gg: ASbGnctOJACuy67aSzreVFv5Lktp9vgCrq1csOPk9T4dcNjiTiNcvl6KGLqbAwMy7Ul
- yUUgjwN1sJNS2JcmOL7TSJRuinwmiQw+cg2Cf
-X-Google-Smtp-Source: AGHT+IG2oQo9/pJojNxPge9b6BLy5vw+9wYfAvJ7mQMiGJU6v/4xK8PvgaXtkMMl3WrEhcVUtJlFxa3Ns2fJC50KKas=
-X-Received: by 2002:a05:690c:6e13:b0:6ef:7fdb:7d41 with SMTP id
- 00721157ae682-6f2798e0c42mr25633727b3.0.1734096696819; Fri, 13 Dec 2024
- 05:31:36 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AE3F10F009;
+ Fri, 13 Dec 2024 13:37:32 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDBhkrg017764;
+ Fri, 13 Dec 2024 13:37:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 6oSf14VYTD1Dy2OgN5EQWQcU/iRtkhJhW3V9nmUxeNA=; b=WR9W7c00T3eeYcq6
+ mlqzuu3xjHe8Pzrh8EjGXhoEFmXXPiefxmVSsUCQ6g2F1Ge7KavuyDpe8M33ZWQZ
+ 9wZT0YSP+BffhqT/wMenfdfogsYKZ6ikHyCPR8CrwcTfSp64mfvotA55AxH4ytTb
+ lcamLdaBpvNjl2yJaiaRkFcNQjIVZtuVW5Pe2xjXPROmcLd42PFZO6wdoe+dhFa6
+ OO4MBb9u1n1ObmArd1DomysBl8GMzh4xtCWEfKOMo6NUfcUnBdh28p02LI9Eizd6
+ AStpW4FYSWZk7eocJJBQIshixd6sFg+LrvFeTLtkUeu0v29r62sDKvrhSMw1wrpc
+ Rq2c+A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gmac09hu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2024 13:37:26 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDDbOnQ017995
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2024 13:37:24 GMT
+Received: from [10.204.101.130] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
+ 2024 05:37:17 -0800
+Message-ID: <e2ae139a-0285-455a-a2b1-520deeeacc0b@quicinc.com>
+Date: Fri, 13 Dec 2024 19:07:14 +0530
 MIME-Version: 1.0
-References: <20241213-qcs615-gpu-dt-v2-0-47f3b312b178@quicinc.com>
- <20241213-qcs615-gpu-dt-v2-4-47f3b312b178@quicinc.com>
-In-Reply-To: <20241213-qcs615-gpu-dt-v2-4-47f3b312b178@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 13 Dec 2024 15:31:25 +0200
-Message-ID: <CAA8EJpom2amWzH5QpXrPSdMKS6bB_8O4CU67OVNuEjkjA-wseA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v2 4/4] arm64: dts: qcom: qcs615-ride: Enable
- Adreno 612 GPU
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jie Zhang <quic_jiezh@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] dt-bindings: display/msm/gmu: Document RGMU
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>,
+ <20241104-add_initial_support_for_qcs615-v5-4-9dde8d7b80b0@quicinc.com>,
+ <20241022-qcs615-clock-driver-v4-3-3d716ad0d987@quicinc.com>,
+ <20240924143958.25-2-quic_rlaggysh@quicinc.com>,
+ <20241108-qcs615-mm-clockcontroller-v3-7-7d3b2d235fdf@quicinc.com>,
+ <20241108-qcs615-mm-dt-nodes-v1-1-b2669cac0624@quicinc.com>,
+ <20241122074922.28153-1-quic_qqzhou@quicinc.com>
+References: <20241213-qcs615-gpu-dt-v2-0-6606c64f03b5@quicinc.com>
+ <20241213-qcs615-gpu-dt-v2-2-6606c64f03b5@quicinc.com>
+ <28bf46a5-dedb-4491-b9be-23fdfb99035f@oss.qualcomm.com>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <28bf46a5-dedb-4491-b9be-23fdfb99035f@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: F2-cLpN7sj4SRHwnUinA5cU8tO6xNmBd
+X-Proofpoint-GUID: F2-cLpN7sj4SRHwnUinA5cU8tO6xNmBd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 spamscore=0 adultscore=0 mlxlogscore=999 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,48 +108,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 13 Dec 2024 at 13:32, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->
-> From: Jie Zhang <quic_jiezh@quicinc.com>
->
-> Enable GPU for qcs615-ride platform and provide path for zap
-> shader.
->
-> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
->  arch/arm64/boot/dts/qcom/qcs615-ride.dts | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/qcs615-ride.dts b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> index ee6cab3924a6d71f29934a8debba3a832882abdd..860a0db1908cfe32a250b14aac14065923c5a575 100644
-> --- a/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> +++ b/arch/arm64/boot/dts/qcom/qcs615-ride.dts
-> @@ -202,6 +202,14 @@ &gcc {
->                  <&sleep_clk>;
->  };
->
-> +&gpu {
-> +       status = "okay";
-> +};
-> +
-> +&gpu_zap_shader {
-> +       firmware-name = "qcom/qcs615/a612_zap.mbn";
+On 12/13/2024 4:23 PM, Konrad Dybcio wrote:
+> On 13.12.2024 11:35 AM, Akhil P Oommen wrote:
+>> RGMU a.k.a Reduced Graphics Management Unit is a small state machine
+>> with the sole purpose of providing IFPC support. Compared to GMU, it
+>> doesn't manage GPU clock, voltage scaling, bw voting or any other
+>> functionalities. All it does is detect an idle GPU and toggle the
+>> GDSC switch. So it doesn't require iommu & opp table.
+>>
+>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>> ---
+> 
+> The bindings file exists so that people that are not in the know, can
+> reference it and learn about the hardware. Please spell out IFPC, as
+> that's a non-obvious, hw-specific  acronym.
+> 
+> Otherwise looks ok
 
-This brings up my usual question: should it be qcom/qcs615 (fine with
-me) or qcom/sm6150 (maybe even better?)
+Ah right. Krzysztof schooled me that a while ago.
+Will update.
 
-> +};
-> +
->  &qupv3_id_0 {
->         status = "okay";
->  };
->
-> --
-> 2.45.2
->
+-Akhil.
 
+> 
+> Konrad
 
--- 
-With best wishes
-Dmitry
