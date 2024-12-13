@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DCF9F044F
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:47:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 939089F0453
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 06:47:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7503310E238;
-	Fri, 13 Dec 2024 05:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AEAE10E441;
+	Fri, 13 Dec 2024 05:47:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GakuZVnt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HKckgVgk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01CC810E238;
- Fri, 13 Dec 2024 05:46:59 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id
- d9443c01a7336-21636268e43so18023675ad.2; 
- Thu, 12 Dec 2024 21:46:59 -0800 (PST)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9276B10E441;
+ Fri, 13 Dec 2024 05:47:07 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id
+ d9443c01a7336-2165448243fso14748985ad.1; 
+ Thu, 12 Dec 2024 21:47:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734068819; x=1734673619; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1734068827; x=1734673627; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fVaAhWgLsrOIaawWt+Es3lyBYssP2HU9Cngct4cKfGw=;
- b=GakuZVntB6g7YpyRFXN1LbQaFvhX6Tp4C8dD626BGiWJJ8miCR2UhHBtB7tF8EdU8b
- 2+vNf/6vroXgQ6i52QtCoMPhLgm6mr1IYlqNaqXbmiTnfKa7BRDL/ff88hgD1F8EY1GA
- TD9z/8lQPo0TY7c3/y3L7wN0fxw3p0mnUg3lFeLe+PcVwZYz/bLm8LD0pncxItqUcZql
- 9xx2voDZ31Y3FlxQbTRPir2wXbdY8RagkuUNMf7AoKGsmi4elQ8WT5CWgxOtNvy1EPwJ
- KMRH9FWNzxovAMm0AGEMoRTZ5PqJHU2ZA6wn4tGRIg2SXUzgZ+YBI26Nu5802I8HwGBH
- 4CIQ==
+ bh=EmVT0W96xTTbgIHaje9qHPh+sH+dkYFHuEVe3qXraIA=;
+ b=HKckgVgkXR8lst/xQOO3A2Mllj2EiENfQvsczcRf40JZ8kQ4LE4Bjaf0MGldiIp9zi
+ BzxOUnDqs1inF7fjN8unovxw2On1rf3KkmAcdOWmvfzgDi7pEJDb95LFdDlpsEJAOVXL
+ ZAoFzoPmeeT0Bc5sp9nAR0rkX7OBjhXMdc6ugKMeo7gHsk2JSaEtnf1zlTrWzagDnKVX
+ t8UM0YM50PU1JaRQPj39715TJ7JGudUMJkFT8UXjHyqeE5iQ/a+F7Uais91E4Okrt7ku
+ 11Ut8avMT1uCtb7SuR87kmQymPz8K2DyddG1py8+W/fS3Fcyi23MnTk/kxevPhViBulf
+ J9BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734068819; x=1734673619;
+ d=1e100.net; s=20230601; t=1734068827; x=1734673627;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fVaAhWgLsrOIaawWt+Es3lyBYssP2HU9Cngct4cKfGw=;
- b=Z1Al96d1fL4r9t2EjTkugLXuI0xor/2ms9V8xx/IgIvWEKNPOUSYkIKJsYFbZypXWP
- 2q6hCWXDvpT8a4WhaJWQzk6d0+jcFmkhbCs8YLvrEzmSvDgrHCELxX2OrvISz7MvK9W8
- AIUS2bxdJMMKI/lSaHoohOkMbA3JVuM6J74JZhp5LXOITpqOnEimbsK652GPeWHSafUe
- /q0tG8qe+eZHxiSpme018+ixhDGvDraXgECVZQjvuvFnFyReFwJ4DaYO77pgx30e44rc
- pWrem8XZKHjYYgaGXmJJUAQbWSOUkLzUOeZuQ2P4hJBFHOd+2MbVhhuVW2ATjT/QzVO4
- PfhA==
+ bh=EmVT0W96xTTbgIHaje9qHPh+sH+dkYFHuEVe3qXraIA=;
+ b=cweL9r/SN64G1vndWKSSPAsNjvOVffgBaQy3qOo9+Aebs3KV5EMTV2ON0bIA2YWaKl
+ cR/+v0hDyozhPvmvL7cqw9f4L5ntvJkl7mMkWQerGzBYp2kk+KCLMsJTMmaoItR2+cR4
+ 2uw1Qru0v65w7PMkXp7r8t4zXD8G69kNvMIEvlyZtvSm4XbpT75GHGr7byniPXz5YGBk
+ WpyQIvqo26lwuiKwf1Sw0Rf/881kRn2hK6M3/mzVvfvsHUsm3dkrt9h2sv572fz96kjR
+ XP5zyonkQ7G2JKhPEy+zGlYeVdITo3seFGlGqzPuS6xpf510wJVxs2PkkDZMr3x4SQtj
+ BFFw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJJtT0kFOWVEv3VxhQRX+oTYrbEcrbeBAzAJqAe6OdfpMQeC3y8RWwLkoD3x7sFsr1JdaOWEDuJw==@lists.freedesktop.org,
- AJvYcCVNZ3zokedkAsWjJ7xk6cxLC0JIBVO517mcI26ATgTKKM2AkrteM3gJX7Xs3gyvDGUfwaFBr2g0sDg=@lists.freedesktop.org,
- AJvYcCWqiMKjXEs42LwXYNTrUVfyvoqf5vYqaFN3jP52Fk9THebwvqKYrrNgj6W4hLkGhrRyF2BXcIlefvg6@lists.freedesktop.org,
- AJvYcCXsiJS9IsxTwP0fanebPlfWVYCUXnVxjhc6t56iJszZiRTZE37psfhDTivKagEaVPtz6IXGbgd1hrs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzk7C3ITsCz1kD0wUtFddwUFHR9hcHrpvgnIk2+fwQzFrw0SbGa
- 72+1cWCBtpVT1Eg06hlemej+27igEjUEEwmfylsPFc+27BER6j86
-X-Gm-Gg: ASbGncvrupJm5nvhOc+ls9OksrE1EbczdoNiszt90N+Lb+G9hyHlxqQzU3s7YmOrKZR
- wp2Y2hiivTe79AEVrHihlB1Ep67zoqLI2jIvGqtkVIKFA0DZZOpbyrGf0L0fcD/dSQphSFu4n2M
- IVnvJkKq3nHeCYgSo6UBZgnWRZtpwzo81WpEjB4WkvpLPcGpCLh4UoJz9ySVZJfDkgcZXuaxOEn
- 490q3wAGg9f+aaCPft6bvmyUz0wh5nWorgCVDabrDGKyQFh24+NlNSpG5SR7F8CZndK2vfiy55M
- CgeGeZI=
-X-Google-Smtp-Source: AGHT+IGnQMpyX4qO4c9TaUxIvkW9bvqpb4HtTDVE3C9gZFkXCVV6ksZB8lAWhFJzpiBj11HO1t8PNw==
-X-Received: by 2002:a17:902:e88b:b0:212:615f:c1 with SMTP id
- d9443c01a7336-218929a19c2mr20599995ad.14.1734068819460; 
- Thu, 12 Dec 2024 21:46:59 -0800 (PST)
+ AJvYcCUN2YJJoXHS8uOMOcwhi0kBh0irYqPhWPrb/XkDwdEEjkOllaOGxwW9ZFA9Lck2fbB6KlRi729FTKAD@lists.freedesktop.org,
+ AJvYcCV+bwF/zGLLVcUMG2LEjMXjsK446F6JqEJLyUUQ8HNkzjWj+/x2tLwWNOS5+haDLXr6zyERu4bZC3g=@lists.freedesktop.org,
+ AJvYcCVIkCuDOr5mzMGO9X6ILsRQODbUJBSddIZBQKou7xp5JH7XtA9yui+S7N+Eces+wruzIQAhC9Oy+g==@lists.freedesktop.org,
+ AJvYcCXVG+IDi/KPyaih+MOts/dfhYxnXTWqdhDeXqCq9xkhrJ1Pjv0MgUyIeQVm9emswz7YCVnSIK35qPE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvC01oMfJ6XRQBJ0psznOgFjqohGH8n5B4KbLDCgmH9b7eRrM9
+ X6lAOG1KDOKkqUslA/OamNobhlZbFbKW8KWPF+2Zb/8insutdDz/
+X-Gm-Gg: ASbGnctgchtJyQbmurXVAeDNQrVAKrlWKUvNrFFtO8oGuhpdAaozgKdjWtPVvLqDsbq
+ oHcQOitf2UtzOxDoVMZDu83wQAe6TEV3+c7sh2ZSMtu6seRMaV1GxhstvPAQGXuzCnghtzIYzME
+ ik6Ym0TLZQ3A5MY+joEKljdfq0Hs/UmKLfWlq5sSwLdtJ0ZlpsYPMT1W5bsQwafcNJFye1O7mdd
+ XLBS0eBmFsIrKf3wu/Rpm6sOrwSYN7ZKRN0aDDtg3PtdYOX3JSyAR/KS9NpLCTd+LPgbsZ895dk
+ IUWc0/0=
+X-Google-Smtp-Source: AGHT+IGGw/OV/ScatMLc+XWrd5qwOO8iHzpYdxpzWycga8KUsVtQ1P1ntSP55wYL5SQs/JpC5cq7/g==
+X-Received: by 2002:a17:902:d484:b0:215:431f:268f with SMTP id
+ d9443c01a7336-21892999536mr21105555ad.10.1734068827157; 
+ Thu, 12 Dec 2024 21:47:07 -0800 (PST)
 Received: from localhost.localdomain ([180.159.118.224])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.46.52
+ d9443c01a7336-216483dd292sm82564985ad.226.2024.12.12.21.47.00
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 12 Dec 2024 21:46:58 -0800 (PST)
+ Thu, 12 Dec 2024 21:47:06 -0800 (PST)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: torvalds@linux-foundation.org,
 	akpm@linux-foundation.org
@@ -72,19 +72,17 @@ Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
  linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
- Yafang Shao <laoar.shao@gmail.com>, Serge Hallyn <serge@hallyn.com>,
+ Yafang Shao <laoar.shao@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
  Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Darren Hart <dvhart@infradead.org>,
- Davidlohr Bueso <dave@stgolabs.net>,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH 2/7] kernel: Replace get_task_comm() with %pTN
-Date: Fri, 13 Dec 2024 13:46:05 +0800
-Message-Id: <20241213054610.55843-3-laoar.shao@gmail.com>
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>
+Subject: [PATCH 3/7] arch: Replace get_task_comm() with %pTN
+Date: Fri, 13 Dec 2024 13:46:06 +0800
+Message-Id: <20241213054610.55843-4-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20241213054610.55843-1-laoar.shao@gmail.com>
 References: <20241213054610.55843-1-laoar.shao@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,72 +100,69 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Since task->comm is guaranteed to be NUL-terminated, we can print it
-directly without the need to copye it into a separate buffer. This
+directly without the need to copy it into a separate buffer. This
 simplifies the code and avoids unnecessary operations.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Serge Hallyn <serge@hallyn.com>
+Cc: Vineet Gupta <vgupta@kernel.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>
 Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Darren Hart <dvhart@infradead.org>
-Cc: Davidlohr Bueso <dave@stgolabs.net>
-Cc: "André Almeida" <andrealmeid@igalia.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
 ---
- kernel/capability.c     | 12 ++++--------
- kernel/futex/waitwake.c |  5 ++---
- 2 files changed, 6 insertions(+), 11 deletions(-)
+ arch/arc/kernel/unaligned.c | 9 ++++-----
+ arch/x86/kernel/vm86_32.c   | 5 ++---
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/kernel/capability.c b/kernel/capability.c
-index dac4df77e376..4512cd797f49 100644
---- a/kernel/capability.c
-+++ b/kernel/capability.c
-@@ -38,10 +38,8 @@ __setup("no_file_caps", file_caps_disable);
- 
- static void warn_legacy_capability_use(void)
+diff --git a/arch/arc/kernel/unaligned.c b/arch/arc/kernel/unaligned.c
+index d2f5ceaaed1b..fb8e995823e3 100644
+--- a/arch/arc/kernel/unaligned.c
++++ b/arch/arc/kernel/unaligned.c
+@@ -200,23 +200,22 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
+ 		     struct callee_regs *cregs)
  {
--	char name[sizeof(current->comm)];
+ 	struct disasm_state state;
+-	char buf[TASK_COMM_LEN];
+ 
+ 	/* handle user mode only and only if enabled by sysadmin */
+ 	if (!user_mode(regs) || !unaligned_enabled)
+ 		return 1;
+ 
+ 	if (no_unaligned_warning) {
+-		pr_warn_once("%s(%d) made unaligned access which was emulated"
++		pr_warn_once("%pTN(%d) made unaligned access which was emulated"
+ 			     " by kernel assist\n. This can degrade application"
+ 			     " performance significantly\n. To enable further"
+ 			     " logging of such instances, please \n"
+ 			     " echo 0 > /proc/sys/kernel/ignore-unaligned-usertrap\n",
+-			     get_task_comm(buf, current), task_pid_nr(current));
++			     current, task_pid_nr(current));
+ 	} else {
+ 		/* Add rate limiting if it gets down to it */
+-		pr_warn("%s(%d): unaligned access to/from 0x%lx by PC: 0x%lx\n",
+-			get_task_comm(buf, current), task_pid_nr(current),
++		pr_warn("%pTN(%d): unaligned access to/from 0x%lx by PC: 0x%lx\n",
++			current, task_pid_nr(current),
+ 			address, regs->ret);
+ 
+ 	}
+diff --git a/arch/x86/kernel/vm86_32.c b/arch/x86/kernel/vm86_32.c
+index e9e803a4d44c..1f55d5c2628d 100644
+--- a/arch/x86/kernel/vm86_32.c
++++ b/arch/x86/kernel/vm86_32.c
+@@ -246,9 +246,8 @@ static long do_sys_vm86(struct vm86plus_struct __user *user_vm86, bool plus)
+ 
+ 	/* VM86_SCREEN_BITMAP had numerous bugs and appears to have no users. */
+ 	if (v.flags & VM86_SCREEN_BITMAP) {
+-		char comm[TASK_COMM_LEN];
 -
--	pr_info_once("warning: `%s' uses 32-bit capabilities (legacy support in use)\n",
--		     get_task_comm(name, current));
-+	pr_info_once("warning: `%pTN' uses 32-bit capabilities (legacy support in use)\n",
-+		     current);
- }
+-		pr_info_once("vm86: '%s' uses VM86_SCREEN_BITMAP, which is no longer supported\n", get_task_comm(comm, current));
++		pr_info_once("vm86: '%pTN' uses VM86_SCREEN_BITMAP, which is no longer supported\n",
++			     current);
+ 		return -EINVAL;
+ 	}
  
- /*
-@@ -62,10 +60,8 @@ static void warn_legacy_capability_use(void)
- 
- static void warn_deprecated_v2(void)
- {
--	char name[sizeof(current->comm)];
--
--	pr_info_once("warning: `%s' uses deprecated v2 capabilities in a way that may be insecure\n",
--		     get_task_comm(name, current));
-+	pr_info_once("warning: `%pTN' uses deprecated v2 capabilities in a way that may be insecure\n",
-+		     current);
- }
- 
- /*
-diff --git a/kernel/futex/waitwake.c b/kernel/futex/waitwake.c
-index 3a10375d9521..df8f8c85d776 100644
---- a/kernel/futex/waitwake.c
-+++ b/kernel/futex/waitwake.c
-@@ -210,13 +210,12 @@ static int futex_atomic_op_inuser(unsigned int encoded_op, u32 __user *uaddr)
- 
- 	if (encoded_op & (FUTEX_OP_OPARG_SHIFT << 28)) {
- 		if (oparg < 0 || oparg > 31) {
--			char comm[sizeof(current->comm)];
- 			/*
- 			 * kill this print and return -EINVAL when userspace
- 			 * is sane again
- 			 */
--			pr_info_ratelimited("futex_wake_op: %s tries to shift op by %d; fix this program\n",
--					get_task_comm(comm, current), oparg);
-+			pr_info_ratelimited("futex_wake_op: %pTN tries to shift op by %d; fix this program\n",
-+					    current, oparg);
- 			oparg &= 31;
- 		}
- 		oparg = 1 << oparg;
 -- 
 2.43.5
 
