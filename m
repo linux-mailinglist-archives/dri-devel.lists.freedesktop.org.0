@@ -1,137 +1,162 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF539F057B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 08:28:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 128539F0594
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 08:34:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1A9210E235;
-	Fri, 13 Dec 2024 07:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD12110EF0D;
+	Fri, 13 Dec 2024 07:34:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dsLLdgfY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WGZmmgRI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dsLLdgfY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WGZmmgRI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ef9p/08D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8662710E235
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 07:28:37 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 537AC21165;
- Fri, 13 Dec 2024 07:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734074916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=itLMReNMeluLZhgza4d7O84w8Q+y2cT/bNHvd7G+cSA=;
- b=dsLLdgfY/l6iED+0HkvFxNs9wxqWdx8AtfwtjfNKv7z2eYPE4Vz73U/2MgqMopJqgfiC1w
- JU/Ea4ethrydfjbg/iPxyCsJV3nexoBlyx6OlhVKuuO6X6QulQ58wo4dbXuaxrItoarAq3
- wE518vIkIXon/AJbFQHiIW8aqm55PHc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734074916;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=itLMReNMeluLZhgza4d7O84w8Q+y2cT/bNHvd7G+cSA=;
- b=WGZmmgRIhSaBtMjC21GcD69fni6WHPuOx2NfRKQXAl9mxWazkpwLfw/c1GXvwjf/wqA+uN
- nnmUsHLTbV2lUACg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734074916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=itLMReNMeluLZhgza4d7O84w8Q+y2cT/bNHvd7G+cSA=;
- b=dsLLdgfY/l6iED+0HkvFxNs9wxqWdx8AtfwtjfNKv7z2eYPE4Vz73U/2MgqMopJqgfiC1w
- JU/Ea4ethrydfjbg/iPxyCsJV3nexoBlyx6OlhVKuuO6X6QulQ58wo4dbXuaxrItoarAq3
- wE518vIkIXon/AJbFQHiIW8aqm55PHc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734074916;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=itLMReNMeluLZhgza4d7O84w8Q+y2cT/bNHvd7G+cSA=;
- b=WGZmmgRIhSaBtMjC21GcD69fni6WHPuOx2NfRKQXAl9mxWazkpwLfw/c1GXvwjf/wqA+uN
- nnmUsHLTbV2lUACg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12A6713927;
- Fri, 13 Dec 2024 07:28:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id vEXRAiTiW2euDQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 13 Dec 2024 07:28:36 +0000
-Message-ID: <11d71f56-853b-47b2-b430-658343aac665@suse.de>
-Date: Fri, 13 Dec 2024 08:28:35 +0100
-MIME-Version: 1.0
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2062b.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:240a::62b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E091B10E430;
+ Fri, 13 Dec 2024 07:34:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mU1a1pnyXyDRM0HrYhHIghntZ+9sfddyreZH/8/PLEZBZnlVSe1EX7cgwHPsVpoANX5yCXbUMSqIx3ixyW27RHOcU+zXGP32Utn5pO/cxt08MGnW3LyEfquoz23xZeprtTyTyqfUbLgwzvYpYFo6jaFL6D6nibttJfwiI0WWxvgBCMTePW4y4P617Pz6JnjIo1aeFllCsbAjANEidabnF+G2F6gb9wfHLmuLK5r6yp3Vn9ITTjP/Ehi/zMHPkF32gohdvGCiHGUGLPN+PPndxiob6o+czKEJZy2ut9ErfnQ9DJWIEfWGZKcIVMUXmtv+owlklRLJVsplV0zwH2XlBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SAua9IytjDfcuu3Fv1+Ne0umCKUZxqwYYkhbvqLmyew=;
+ b=eAihYOPrjxYtsAZS4bzR2gpvcqshg1BSvdutscJRbr2dqxKoOF7+TrU/LfNIJDLRRVJTKKVJ5SBTUErDiP4vGHVFvPMXsYvhmF5K5JO6rxl4ag62a+jcjOWnEtyYLB0adnjl9vrR5pyWDdonGYdguAjwSXxvZ2hACuwVithnxYY7prAFLjo+rPPz3XVyXiAwZcD+7YBMnwuCBjEj/9ooPQf65Lyl5UmoGcd3lifomXWxaaTaj1FLsoYbCHI5AW9JVE4NJjyGArqbWrSUS8i32NMwSLRglbQM9eYTIf6olWDEWQPLnzupUcLZXwYrK5guroRO+mlVANsmIeWI2c09lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SAua9IytjDfcuu3Fv1+Ne0umCKUZxqwYYkhbvqLmyew=;
+ b=ef9p/08DYvmTmCQedWBr6IArUY8Wth/8l41L6CvpcL9NyC+A41DNm35uEi9i1ufkaziVB8JVQ98+/EAgsJdlfUsZ3lMgPp/c7N60d+0l/XkrNpi7hgdwBII5dqz78d+bcsyWs89KvzCOPgmOayErCTcIcUgpGGeY9BtyLt6wwmk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB7687.namprd12.prod.outlook.com (2603:10b6:208:421::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.15; Fri, 13 Dec
+ 2024 07:34:27 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8251.015; Fri, 13 Dec 2024
+ 07:34:27 +0000
+Message-ID: <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
+Date: Fri, 13 Dec 2024 08:34:18 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
- BACKLIGHT_CLASS_DEVICE
-To: Arnd Bergmann <arnd@arndb.de>, Helge Deller <deller@gmx.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
-References: <20241212100636.45875-1-tzimmermann@suse.de>
- <20241212100636.45875-2-tzimmermann@suse.de>
- <09edb59a-527a-4ddb-bfaf-ea74fb5a3023@gmx.de>
- <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
+Subject: Re: [PATCH 1/1] drm/amdgpu: Use device wedged event
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241212190909.28559-1-andrealmeid@igalia.com>
+ <20241212190909.28559-2-andrealmeid@igalia.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20241212190909.28559-2-andrealmeid@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -8.30
-X-Spamd-Result: default: False [-8.30 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCPT_COUNT_SEVEN(0.00)[9];
- FREEMAIL_TO(0.00)[arndb.de,gmx.de,redhat.com,ffwll.ch,gmail.com];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0033.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::16) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB7687:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6811002b-8ee1-437f-289c-08dd1b489299
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Mmp0YjNTMzFKMTNOemVFWUJSK1BPVllxNUxRcFNQZ1NKQzVaSFVxSnJsNnNI?=
+ =?utf-8?B?c2JzTHRkajVldXNpVTZpK1pSMkRpaEtzZkxxL2RmeWRpOFcwK3dpUG1VTmY4?=
+ =?utf-8?B?a0cvTXJhU3FvY0xlZ1pBazlXeldRc0NHRHFNQmtDZDhtbkpXNjVIbzFIQUNY?=
+ =?utf-8?B?T3BlSWF3S0JDVUI5cjdIZG16YzBoRUxsZFUyWTM5OTRGMnVRa1NNNCtUaFRO?=
+ =?utf-8?B?bHplWVBRTlZJaTVrNi9vRE1QTDBtMk94MEM0ZHdaOVplek9pWnJHOWRSVyt5?=
+ =?utf-8?B?OGs0SHZpaldTN2xLN2NOcnhPUUdpblY5TDRPMlRzQk9GU1VvclB3ZkJ2NHlV?=
+ =?utf-8?B?SnRVb25LSnk5Rk1IaXF2cG9hYUFyL3VRc2M3ZERncU9YWUNYUnAvZ0dkeDVq?=
+ =?utf-8?B?ZGxhRjdnL1VJYkQ4U2QrRjVNaERQSElqUEdvUXhFWE5Wd1BDWEo3YldMWU5r?=
+ =?utf-8?B?UGs1aUJ2RURXNFptQ1duWEJQanhxZnpyL2tORnBNQVlHSUtha25PdVdtTTM4?=
+ =?utf-8?B?dFI5TzhkMXVXaGVxYmJXQ3ptMFFIeHN5WVpTMEUvMWRZRGUyalFPTnJEaUtO?=
+ =?utf-8?B?RVNkQW9JbVMzMGxyTjZQVVlUNDJOaUpPazhhMkREWlRnMWcza2U2WFlXOXlG?=
+ =?utf-8?B?bkVTMzk2QXJ5aXJudy9WanVWSlR0alA5OHpsdHBzdlVMT1E5SjVaZkh0KzZy?=
+ =?utf-8?B?OFlPbWVOWGZkZlhVTGUxclJDeWZOc256VmRCRk5LZktTYldscnoyckI1ckxH?=
+ =?utf-8?B?R1Z5WUpjTlZEMzhFbTVNeUt4ZnRGZ1ZOdXFyRFpLZks3cFZwNXZyaUc0K0Jz?=
+ =?utf-8?B?MW9VNnJ3RFBVemNHaW56aGtvd21MYTdzUmRRckllbVIxS2Nwb2V3UldPa1Zi?=
+ =?utf-8?B?ZVZlaVZFN2RDVzBUM1JXZjhVbFZJYXlNMDVDNDlvUjIrcWdLMmkzdzRWYWRv?=
+ =?utf-8?B?b0lwMGRsbjFTR3YvNUE0dm1vN2d6UDZjb0YzZDIyRFlTNmpiM0d0QnBzdFlS?=
+ =?utf-8?B?SnhNejJtZDZOdjNnanUwUThDdDgxaGgxN1NyZDVXclJVVEFia0hzVFZTeVVR?=
+ =?utf-8?B?K0lnSHg4eUxGOEhYMTRFU1RNRXZ5djl1TU1Md3NxY2Q1Wnh6NGdNQnBuWVly?=
+ =?utf-8?B?S2lYOUFpM1Y3Wi9tTlltZHNrMkNjcHQ2T3hoVVI5VDg4ODhUWkRxa0tCZXRm?=
+ =?utf-8?B?ZDhheE9oK1JZQzFaWDRHY2RiQUgvSHQrOUxRejM1VUJqdGt0NzRGNHh6Q2hH?=
+ =?utf-8?B?NUZYOXFNYzBqUGw4Nnd0M0dlcG9vZklnSFpRMmFVRC9zTEFkR0g2M2N6ejIw?=
+ =?utf-8?B?b2hPSHJnUVJsNm96VTNZQXpneEhBMlltbERPVzZxWDQ5NFdrNjZnUTBBM2Ix?=
+ =?utf-8?B?YXo4bmdZS0doc3E5RnljZFhmVlo3dmRyZ0tZNXQyNmRzSk4zMktSSHdnZTZh?=
+ =?utf-8?B?bVZsK1ZCMlhpcUdhMVh0d0ZFN0x6Rnl3ZXNGVG84KytqanNLNGQwRi9mOXoz?=
+ =?utf-8?B?Zkx3MGREYlZwcUFuSXpKcVk3TzZ3V2REaENhbFI5dG96dXR2c1RURnlhVURN?=
+ =?utf-8?B?VGxSNk9nKzdWblNPYmtjZktTV1o5SFBOTk9GVkVpYXliNUhsN3lyelBURGFR?=
+ =?utf-8?B?dm5zM3FXQlZGdXBRY0c5R0l2aFFwS3dXTkg1U1pISEQweE51S1R3MkJieHlT?=
+ =?utf-8?B?dXVsdzdKRVMyaHE2ZTNyUkJYVnJZd2dNRFIzMThGOThpbGJkYzVxNnZWSFdR?=
+ =?utf-8?B?UGNpSGJPdjM5Z3d3aUlWOGtZaEdsQ1UyMmcvWHF6MmlzZVUreUlubTJ2ckQ2?=
+ =?utf-8?B?VGhMSzU5SUhYWFlvN0YzL2QxN1RWMkFrTmdkUm9TRS9FdUQ5MHdwb1RFS0NU?=
+ =?utf-8?Q?wY5CpyJvjUPCC?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWw1SEVSbHg1b3Y5SVpFOE5wenNkUWJreTMxZ0wxYzBGSTBXRkVNU3FGdGJN?=
+ =?utf-8?B?YjU0QnNxNTNKT09UV25QdUhRRGJXLzk5Q29kUUYzKzcvWVh4ZVJERzQ0OUQx?=
+ =?utf-8?B?anZ5cDFZSVcySkE2UGd4dmhveG92RWxpVTlBclJnQXpTRHAzU0xDNlc5SHBx?=
+ =?utf-8?B?NzZsOC9kdUU3dnhnancyVjZZMUNNZ1VsRHBPd3VrVFpsS3B0cmRLNUJmWFEy?=
+ =?utf-8?B?ajkycVRWb05hTnBOVUJEbUZNZHlIZkhGTUx3RFRXRzNadmtKMEJEb2t3SWRL?=
+ =?utf-8?B?V1RFY05ZU1Rhc1kwVnlFNXEzdndZM1ZVU0pKVmlFcU5MdjZndytUS21wMG50?=
+ =?utf-8?B?bnMvczFqMEIyUHNFMk9haFJXSW1OdWZLQXFPTDN6ZHkrekFLbEpKcGY5Mk5h?=
+ =?utf-8?B?NGc0NzgvcysxdVJ3a3BlWW8wQTBUM0NzQko4c05BN0RON1VDZXdwUEdVRDEx?=
+ =?utf-8?B?a1lvQ3g0TVNsd2ROWE9jK25HYVJPQitKS0ZGdlowL3d4RFBkeVlJMkhpTmRT?=
+ =?utf-8?B?QXd5cktYQ3dOMWVCTGorT2t6QkQvYXdJZGJ4ZGFGaElwWkVoTTZ3Nm1tSWox?=
+ =?utf-8?B?TEdUZ25lNm9PMHFXMjREdU16WVZ5anljaTJXS2Q0ZHVtekZGRENrTnNlV2Fy?=
+ =?utf-8?B?b3daSzk3NTNaQWwrQ3NlbzlPNnJhUytzR0NraE1sR3dWQnBNR2tHSXFpYTZX?=
+ =?utf-8?B?K1VyNFJPWVE5aW5xZjI4YU9sYW9IbHFlUG4xNWJjd3dsN0ZJc1hEQXBhUFBP?=
+ =?utf-8?B?YWlJUFZRSWJOVERwQitLb0wrZndPd2EyeWk5ZEJLOEx3MFZqV2pRdWZFZ0dH?=
+ =?utf-8?B?bi9NNGtsWEh1UDRrNzA5MElIam5vbk1rbGVtSFpLdUpPV2VQUGRkUGs5ZnFn?=
+ =?utf-8?B?Zm96SVFEbXVNVnk3SjhOdFNoSVliejdLRzJzN1VqNDU4MEpBcUtDb3FrMVNX?=
+ =?utf-8?B?SExUM2FmUk5ZU2xvWHFUUmR1ZVY4NEtkeUVZdVpESFlXODhBOURreTl6TW4x?=
+ =?utf-8?B?dHNxWFJLL3BDSW9PMDhXWFNBbVdEVVMyQ05jY0ZOc1YzaHRuWXFpZFJnOWdr?=
+ =?utf-8?B?dW8zbVBrc1ladXozYnB0c0YxaHZnY1BWTE8rY3dzTi9NV1N6TTk5ZDN4VEVO?=
+ =?utf-8?B?OFRUVU0rOUZoaU50K3BSTlptdmZDblg1dkxlR1dPZDVWRjRNT1ZWeGd5YlZu?=
+ =?utf-8?B?dDI1TmJHeWpOQThZRHNMamUvVnpWbVJqMTBrR2phZGZ1QTY0eXFLS3prMEZK?=
+ =?utf-8?B?UWkxekM5L0JMeis5RzM1NHVqSnZYaFFRaXh2a08zaGN1YzVBZzBKMUYxTUNY?=
+ =?utf-8?B?Ni90R0VqWkhZd0MrdzkrL0pua2ZqdlpKWEM4RVlWUUhpbWszMmY3dGE2eGNa?=
+ =?utf-8?B?ZEY3dDdxcy90NjV6dmtxT0lzQ1E3aVdqRmZQc09vd0h1VEhUOWVuZHc3Mjlj?=
+ =?utf-8?B?c0hMcndlSkFPelFNOEN2UkQ4NjhSNDRYeVIyeC9ieWFVbGJjSkh4Nkx4SHNF?=
+ =?utf-8?B?alRQeWdUMisrRGIxZVErTkdLN1NPQ05KVGFBVyt1RWZXQ3pFRFo2N0J0V00r?=
+ =?utf-8?B?VDRrZnU4Mk9TOHc1VDM5TlBBcXZsSkJkL2tQSTh4SzBZcU9WZUdnWld2aE1P?=
+ =?utf-8?B?TWdJbEpJWEIyNkVYemRWUERRMWFRdDZkUE9Pa0hORmdkNFRTYUEzWTRpQ2t0?=
+ =?utf-8?B?ZHZrU0pSenJXQktwMFM0UlIzMEN1ME5iZ095dUFYNEdpZGNZbERJUDVRTytP?=
+ =?utf-8?B?NlJYUHdNWVZ5VEVwa05WbVVkanRqODNQbmV0T2dQQ0RSRzk4S0JKKzUyUGZU?=
+ =?utf-8?B?dTY4RzFMa3FnOUR0ZExmRS9ESUg1dVJZS3VLTEpuNXdaczVtbFhmQ1ltSmFw?=
+ =?utf-8?B?ZDlaeXpKY0tuK3Z1QnJPSnl1TWMzYklLQmdJWEdkelNHYW8zV3IwSHNjQnNS?=
+ =?utf-8?B?M1llZkRlOE9PdVRNYWVGWjBaSUJsRThJdUhkSERPaWdtbVM2YzlrSWhINGxv?=
+ =?utf-8?B?bWx1TTNQR25oSlplZ0lDWHRVNG9LSkpZTktET1Z3d1g5UkNaYWlqdldiK09p?=
+ =?utf-8?B?cXNiY0hwNitDQThTNnc4d1dabkprb0dWV1dub05CZ3d3VWJyT09JV1dDQksr?=
+ =?utf-8?Q?hRpM=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6811002b-8ee1-437f-289c-08dd1b489299
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2024 07:34:27.0638 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wtGGtn0ZYOBqp+OakjVWy6nhfod31kmrsnvwOFaaDlzLaYs86VeXtgmbn3wTTtkl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7687
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,67 +172,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-
-Am 12.12.24 um 22:04 schrieb Arnd Bergmann:
-> On Thu, Dec 12, 2024, at 19:44, Helge Deller wrote:
->> On 12/12/24 11:04, Thomas Zimmermann wrote:
->>> Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
->>> only controls backlight support within fbdev core code and data
->>> structures.
->>>
->>> Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
->>> select it explicitly. Fixes warnings about recursive dependencies,
->>> such as [...]
->> I think in the fbdev drivers themselves you should do:
->> 	select BACKLIGHT_CLASS_DEVICE
->> instead of "depending" on it.
->> This is the way as it's done in the DRM tiny and the i915/gma500 DRM drivers.
->>
->> So, something like:
->>
->> --- a/drivers/staging/fbtft/Kconfig
->>          tristate "Support for small TFT LCD display modules"
->>          depends on FB && SPI
->>          depends on FB_DEVICE
->>     +    select BACKLIGHT_DEVICE_CLASS
->>          depends on GPIOLIB || COMPILE_TEST
->>          select FB_BACKLIGHT
->>
->> config FB_BACKLIGHT
->>             tristate
->>             depends on FB
->>     -	  select BACKLIGHT_CLASS_DEVICE
->>     +       depends on BACKLIGHT_CLASS_DEVICE
->>
->>
->> Would that fix the dependency warning?
-> The above is generally a mistake and the root cause of the
-> dependency loops. With very few exceptions, the solution in
-> these cases is to find the inconsistent 'select' and change
-> it into 'depends on'.
+Am 12.12.24 um 20:09 schrieb André Almeida:
+> Use DRM's device wedged event to notify userspace that a reset had
+> happened. For now, only use `none` method meant for telemetry
+> capture.
 >
-> I actually have a few more patches like this that I've
-> been carrying for years now, e.g. one that changes all the
-> 'select I2C' into appropriate dependencies.
-
-Thanks! If you have something for DRM, please submit. In the case of 
-i2c, it might happen that the driver is useful without i2c support. But 
-that's a discussion for the individual reviews.
-
-Best regards
-Thomas
-
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++
+>   1 file changed, 3 insertions(+)
 >
->         Arnd
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 96316111300a..19e1a5493778 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -6057,6 +6057,9 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+>   		dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
+>   
+>   	atomic_set(&adev->reset_domain->reset_res, r);
+> +
+> +	drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE);
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+That looks really good in general. I would just make the 
+DRM_WEDGE_RECOVERY_NONE depend on the value of "r".
+
+@Shashank any objections? IIRC you have worked on the AMD specific event 
+we never upstreamed.
+
+Regards,
+Christian.
+
+> +
+>   	return r;
+>   }
+>   
 
