@@ -1,79 +1,103 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409529F0AF5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 12:28:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BAE9F0B11
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 12:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D98FD10EFDF;
-	Fri, 13 Dec 2024 11:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9293610EFD9;
+	Fri, 13 Dec 2024 11:31:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RDUSqa2f";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="UiviArnH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F21210EFDB
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 11:28:33 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 10CE5C0006;
- Fri, 13 Dec 2024 11:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734089311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n5fFG4vE+vkwACpIop1Zpb8KlDP1HSG6Jo6PWR1GFGM=;
- b=RDUSqa2ff8PZtcbs78wVV5g6G6GweSxEeW37gg/ZzBhEtIEAH1xQAiQbBrxVCFDHQ3SS3t
- auF2eEcz/EtZGAMdYeeSYNEgDrXJAQroWXbFHOPnY1VrSCiyXbUhcIWiIFGlRKTs0qPGeY
- 9W9MUdHzEFiXwMRf+MBSogMMDPrSbpXw3VsrHIqd3HCNFcd5JJLrfzL90ImhuSCQbBP90S
- R+pNLq58KKjFQUOm16EjlrsQu32tVuMoJZvqb6qeDCkVecBiFhWmr+NERpKXwOTquXho9l
- BbFcTYVSYse9QBTygwZHtipwZ2348CwcqvfyGJZhhEII6culDLHEPFBqW1/Ckw==
-Date: Fri, 13 Dec 2024 12:28:26 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "Sverdlin, Alexander" <alexander.sverdlin@siemens.com>
-Cc: "rafael@kernel.org" <rafael@kernel.org>, "jingoohan1@gmail.com"
- <jingoohan1@gmail.com>, "robh@kernel.org" <robh@kernel.org>,
- "rfoss@kernel.org" <rfoss@kernel.org>, "Laurent.pinchart@ideasonboard.com"
- <Laurent.pinchart@ideasonboard.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "conor+dt@kernel.org"
- <conor+dt@kernel.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "andrzej.hajda@intel.com"
- <andrzej.hajda@intel.com>, "daniel.thompson@linaro.org"
- <daniel.thompson@linaro.org>, "wsa+renesas@sang-engineering.com"
- <wsa+renesas@sang-engineering.com>, "lee@kernel.org" <lee@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "jonas@kwiboo.se" <jonas@kwiboo.se>, "saravanak@google.com"
- <saravanak@google.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "dragan.cvetic@amd.com" <dragan.cvetic@amd.com>,
- "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
- "derek.kiernan@amd.com" <derek.kiernan@amd.com>, "deller@gmx.de"
- <deller@gmx.de>, "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>,
- "contact@paulk.fr" <contact@paulk.fr>, "herve.codina@bootlin.com"
- <herve.codina@bootlin.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "paul.kocialkowski@bootlin.com"
- <paul.kocialkowski@bootlin.com>, "linux-i2c@vger.kernel.org"
- <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v4 5/8] i2c: i2c-core-of: follow i2c-parent phandle to
- probe devices from added nodes
-Message-ID: <20241213122826.1c01a284@booty>
-In-Reply-To: <ad1b0f8a662d748580bef83b6f7d8d24d80bd46c.camel@siemens.com>
-References: <20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com>
- <20240917-hotplug-drm-bridge-v4-5-bc4dfee61be6@bootlin.com>
- <ad1b0f8a662d748580bef83b6f7d8d24d80bd46c.camel@siemens.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E532810EFD6;
+ Fri, 13 Dec 2024 11:31:46 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD1VqJH001463;
+ Fri, 13 Dec 2024 11:31:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=QWAEMClknfXnAhTk4A8QYY
+ +QNIf29dtZFi43bugEFiY=; b=UiviArnHlhnMYsmtR5tPPMJbanYfAbuZ1IoQvb
+ nAxQMU3S6tngdQfoGabHqNaPb/0vxBLfhcH8JZINaxxhuARr7zj+XltKkVtypsi2
+ V0qoDAgAFAw3OSGfvwa/MSTGLFOcEw2yCWxuJInOpfjgBJrGhkhtu4vPlUUaFmvA
+ OPaHK8vZ+8wJWkNkYbxDPZJFbdW9ZmQOemGZ0upX1uoM822vrbkfURMc2MpFqex9
+ EoLQS9nqiP6JNzWk/jaMXs5oH+RNFshZXM9wmMhUt/+RLFAXtteqkmztWv7MQVoa
+ Qgptj+4zMZs0P0cOuF5ArPMDgRIsHwl8GAGqcV/jop71clZw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43fqes4nm7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2024 11:31:39 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDBVcMC010376
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 13 Dec 2024 11:31:38 GMT
+Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
+ 2024 03:31:31 -0800
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: [PATCH RESEND v2 0/4] Devicetree changes for QCS615's GPU
+Date: Fri, 13 Dec 2024 17:01:02 +0530
+Message-ID: <20241213-qcs615-gpu-dt-v2-0-47f3b312b178@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-B4-Tracking: v=1; b=H4sIAPcaXGcC/5WSwY7bIBCGXyXyuRPBYDCOqtUeutce2mNVRZiBB
+ NU2CThWt6u8e4mTVburlbo9Duj/5huYpyq7FFyuNqunKrk55BDHUuCHVWX3Ztw5CFTqChnWnKO
+ Eo82KS9gdTkATeGM70sYKrn1VMofkfPi58L5VXx6+Pnz+VH2/nid3PBX8dLvsTHZg4zCEabMSz
+ HXKs47pjgtPKJ3haIRR3jCjZcslb5nl9tJicDmbxWuz+njVYjUYom0YwxRMv82nwyGmaetj2t5
+ 0Zwk1tEROU9Pp0ui+yNgw2nVRuHsbyxCfp7V9tD+AUphdgrkGAYIargwxanXzbxZrC68WrdTr8
+ oQFWwLb1Jvd7jHv36HCmX5WGYarjY3jlGLfX4QENNCQ6JBQSE/+v4nlJ8dILsPMgUOHSrXWWKa
+ wfg8KkTV1i7hGzaUogGW84/HXPp5e5i+rsA95iulx2biZL7tww6hXy1VkGBjdNBrbRpGhv2ELa
+ 8Y/eeTidR5LXimmrKo9E518mT+fz78BeLcnyf8CAAA=
+X-Change-ID: 20241125-qcs615-gpu-dt-facbd8ac318f
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Jie Zhang <quic_jiezh@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734089491; l=3591;
+ i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
+ bh=KCEPaTQU7EzKEn2ArSYOPblqClFbvVdeAzYKQmPsvOQ=;
+ b=V9qGhxLytAdeETZ8B3j9vTdA3M3aHlm51qCwJIlM3QiTReMngd+kTujA/9hE1VALBXouiF1+t
+ RGCBGC2EtJAA8o2Vh1a/VfhnQOtQAwQmFJFRHxdSLNTUKvbdY7Nr5+g
+X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 1p_XHtM7My_xhtYIPH2BekdSXmb1kaup
+X-Proofpoint-ORIG-GUID: 1p_XHtM7My_xhtYIPH2BekdSXmb1kaup
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 clxscore=1015 malwarescore=0
+ mlxlogscore=999 priorityscore=1501 bulkscore=0 phishscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130080
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,79 +113,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alexander,
+This series adds support for Adreno 612 to QCS615 chipset's devicetree.
+DRM driver's support was posted earlier and can be found here:
+	https://patchwork.freedesktop.org/patch/626066/
 
-On Thu, 12 Dec 2024 19:12:02 +0000
-"Sverdlin, Alexander" <alexander.sverdlin@siemens.com> wrote:
+Patch#1 & #2 are for Rob Clark and the other 2 for Bjorn
 
-> Hi Luca!
-> 
-> On Tue, 2024-09-17 at 10:53 +0200, Luca Ceresoli wrote:
-> > When device tree nodes are added, the I2C core tries to probe client
-> > devices based on the classic DT structure:
-> > 
-> >   i2c@abcd0000 {
-> >       some-client@42 { compatible = "xyz,blah"; ... };
-> >   };
-> > 
-> > However for hotplug connectors described via device tree overlays there is
-> > additional level of indirection, which is needed to decouple the overlay
-> > and the base tree:
-> > 
-> >   --- base device tree ---
-> > 
-> >   i2c1: i2c@abcd0000 { compatible = "xyz,i2c-ctrl"; ... };
-> >   i2c5: i2c@cafe0000 { compatible = "xyz,i2c-ctrl"; ... };
-> > 
-> >   connector {
-> >       i2c-ctrl {
-> >           i2c-parent = <&i2c1>;
-> >           #address-cells = <1>;
-> >           #size-cells = <0>;
-> >       };
-> > 
-> >       i2c-sensors {
-> >           i2c-parent = <&i2c5>;
-> >           #address-cells = <1>;
-> >           #size-cells = <0>;
-> >       };
-> >   };
-> > 
-> >   --- device tree overlay ---
-> > 
-> >   ...
-> >   // This node will overlay on the i2c-ctrl node of the base tree  
-> 
-> Why don't you overlay it right over &i2c1?
-> It should have worked since commit ea7513bbc041
-> ("i2c/of: Add OF_RECONFIG notifier handler").
-> Doesn't it work for your use-case?
+Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+---
+Changes in v2:
+- Completely describe RGMU in devicetree and also add necessary binding
+documentation (Konrad, feedback on the driver patch)
+- Remove smmu_vote clk from clock list (Konrad)
+- Add R-b from Dmitry
+- Link to v1: https://lore.kernel.org/r/20241126-qcs615-gpu-dt-v1-0-a87782976dad@quicinc.com
 
-One reason is decoupling the base board and addon. A different base
-board may wire the same connector pins to 'i2c4' instead of 'i2c1'. We
-want a single overlay to describe the addon, independently of the base
-board, so it has to mention only connector pins, not base board
-hardware.
+---
+Akhil P Oommen (2):
+      dt-bindings: display/msm: gpu: Document A612 GPU
+      dt-bindings: display/msm/gmu: Document RGMU
 
-Another reason is that using phandles to labels in the base tree in the
-overlay (such as &i2c1) would need properties added by the __symbols__
-node, and overlays adding properties to nodes in the live tree are not
-welcome. This is both for a conceptual reason (adding an overlay ==
-adding hardware and not _changing_ hardware, so adding nodes should be
-enough) and an implementation one (properties added to nodes in the
-live tree become deadprops and thus leak memory.
+Jie Zhang (2):
+      arm64: dts: qcom: qcs615: Add gpu and gmu nodes
+      arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
 
-This topic was discussed at the latest Linux Plumbers Conference last
-September. Slides and video of the discussion are available here:
-https://lpc.events/event/18/contributions/1696/
+ .../devicetree/bindings/display/msm/gmu.yaml       |  7 +-
+ .../devicetree/bindings/display/msm/gpu.yaml       | 36 +++++++++
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts           |  8 ++
+ arch/arm64/boot/dts/qcom/qcs615.dtsi               | 88 ++++++++++++++++++++++
+ 4 files changed, 137 insertions(+), 2 deletions(-)
+---
+base-commit: 30eb6f0b08b13fd25ea12a3a6fa0a85915190c1c
+change-id: 20241125-qcs615-gpu-dt-facbd8ac318f
+prerequisite-message-id: <20241104-add_initial_support_for_qcs615-v5-4-9dde8d7b80b0@quicinc.com>
+prerequisite-patch-id: 09782474af7eecf1013425fd34f9d2f082fb3616
+prerequisite-patch-id: 04ca722967256efddc402b7bab94136a5174b0b9
+prerequisite-patch-id: 82481c82a20345548e2cb292d3098ed51843b809
+prerequisite-patch-id: 3bd8edd83297815fcb1b81fcd891d3c14908442f
+prerequisite-patch-id: fc1cfec4ecd56e669c161c4d2c3797fc0abff0ae
+prerequisite-message-id: <20241022-qcs615-clock-driver-v4-3-3d716ad0d987@quicinc.com>
+prerequisite-patch-id: cd9fc0a399ab430e293764d0911a38109664ca91
+prerequisite-patch-id: 07f2c7378c7bbd560f26b61785b6814270647f1b
+prerequisite-patch-id: a57054b890d767b45cca87e71b4a0f6bf6914c2f
+prerequisite-patch-id: 5a8e9ea15a2c3d60b4dbdf11b4e2695742d6333c
+prerequisite-message-id: <20240924143958.25-2-quic_rlaggysh@quicinc.com>
+prerequisite-patch-id: 3c73bafb074ea339d387a6aa39e5362c8775596d
+prerequisite-patch-id: 0e224a7310d36e9a633d57c4a177ff24c1e8e767
+prerequisite-message-id: <20241108-qcs615-mm-clockcontroller-v3-7-7d3b2d235fdf@quicinc.com>
+prerequisite-patch-id: 748a4e51bbedae9c6ebdbd642b2fd1badf958788
+prerequisite-patch-id: 72a894a3b19fdbd431e1cec9397365bc5b27abfe
+prerequisite-patch-id: da2b7a74f1afd58833c6a9a4544a0e271720641f
+prerequisite-patch-id: 40b79fe0b9101f5db3bddad23551c1123572aee5
+prerequisite-patch-id: cb93e5798f6bfe8cc3044c4ce973e3ae5f20dc6b
+prerequisite-patch-id: 13b0dbf97ac1865d241791afb4b46a28ca499523
+prerequisite-patch-id: 807019bedabd47c04f7ac78e9461d0b5a6e9131b
+prerequisite-patch-id: 8e2e841401fefbd96d78dd4a7c47514058c83bf2
+prerequisite-patch-id: 125bb8cb367109ba22cededf6e78754579e1ed03
+prerequisite-patch-id: b3cc42570d5826a4704f7702e7b26af9a0fe57b0
+prerequisite-patch-id: df8e2fdd997cbf6c0a107f1871ed9e2caaa97582
+prerequisite-message-id: <20241108-qcs615-mm-dt-nodes-v1-1-b2669cac0624@quicinc.com>
+prerequisite-patch-id: bcb1328b70868bb9c87c0e4c48e5c9d38853bc60
+prerequisite-patch-id: 8844a4661902eb44406639a3b7344416a0c88ed9
+prerequisite-message-id: <20241122074922.28153-1-quic_qqzhou@quicinc.com>
+prerequisite-patch-id: 50223f2370a7ae8053b164fa5219a1690d7e4567
+prerequisite-patch-id: c71c7897d6f250b381f7a9ac66ec58f4a10d49d6
 
-More info are in the cover letter. Discussion leading to this
-implementation started after v2:
-https://lore.kernel.org/all/20240510163625.GA336987-robh@kernel.org/
-
-Luca
-
+Best regards,
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Akhil P Oommen <quic_akhilpo@quicinc.com>
+
