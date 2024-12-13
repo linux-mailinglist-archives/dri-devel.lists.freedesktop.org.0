@@ -2,163 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5889F05B6
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 08:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FE39F05BE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 08:48:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DECB210EF15;
-	Fri, 13 Dec 2024 07:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C2F10EF1B;
+	Fri, 13 Dec 2024 07:48:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="qAWrI0IJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Lmef4FYa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2040.outbound.protection.outlook.com [40.107.92.40])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27DE710EF15;
- Fri, 13 Dec 2024 07:46:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xxNbLtEEbCX5AOivxA009m7VKbs2zJY2axrlPUCAx+IjyGaazIIhOEuKlPtLtYxJwJ4BOH4kqpQTLoAgFbeO5z8qtMaKWKTseM/Val5XIWbJyrx5Us143rn/QBxeIR2mlQCGHM6E2kkjVIUvXqF+FoYbtYWFAcTrXd8uK+cSjNefl0yi72oVMyN0vkCuDHcl8aITyx8mtBYYHN8XFj8LmUNVNOZJxQ5NBcdfmDZXPLb6b71xZqzoz65B2DrfJJoJEnda1WoFucML/kt1vMvLip1nzohLgQWsmOdVAzwCG8JVfK79e0KFZ0jekGpBLTwVu1DLZGruiEwDq+9fmkyEng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EGdWl7Bs7Pf4S+vci1o9qqDfPFP2pnXpUXoEHLpbXVI=;
- b=ePbV9Q4A8SotvRstZI6+rSajEKvOUxJIV6HgeffmzalnUlON1MWZxbMjr7NdtdcjFnh2LvY8VRVuF3fAmVMqc1cyCl6CapppuGlkgNz6LneVFUYWN7fMb00p725BY432Zl5YYEiBymOE1jbXLDzhHjLXZ/v1jzlooi2t/JWkkO1Bslo5NCjKOfUqg7ulVWM7Sr1FySm+F5+ZNMXo/AR3evjpmygDN0yevSnxMwFaQE7dYGC034lZ44Aha1vUyjxLD0J6N1b3YkbxwByOWqbsproHRItQ71VUOh1H7RJnljgIG9dcaeZxxuP7tNTUFi8Uhbh2xBXCUeW3O9azflfVkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EGdWl7Bs7Pf4S+vci1o9qqDfPFP2pnXpUXoEHLpbXVI=;
- b=qAWrI0IJ5r9DOJ4S1IcgJAplxU0H+5A74LluTXmAINEVae8suNWKkcKikT+uR7p7NZZ64hrlrug4Zs228FGyAZ3LsudFtsk1J4r4Ky+7HIzRwIUGoToCWq5ZEDAyHlI6mXvnom6QBXGuc63dMD7a5tKR8ZBmCa79zl+xHVYKol4=
-Received: from MW4PR12MB5667.namprd12.prod.outlook.com (2603:10b6:303:18a::10)
- by DM4PR12MB6184.namprd12.prod.outlook.com (2603:10b6:8:a6::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.15; Fri, 13 Dec 2024 07:46:00 +0000
-Received: from MW4PR12MB5667.namprd12.prod.outlook.com
- ([fe80::6216:e70a:9c8b:7abb]) by MW4PR12MB5667.namprd12.prod.outlook.com
- ([fe80::6216:e70a:9c8b:7abb%2]) with mapi id 15.20.8251.015; Fri, 13 Dec 2024
- 07:46:00 +0000
-From: "Sharma, Shashank" <Shashank.Sharma@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>,
- =?iso-8859-1?Q?Andr=E9_Almeida?= <andrealmeid@igalia.com>, Raag Jadav
- <raag.jadav@intel.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "lucas.demarchi@intel.com"
- <lucas.demarchi@intel.com>, "rodrigo.vivi@intel.com"
- <rodrigo.vivi@intel.com>, "jani.nikula@linux.intel.com"
- <jani.nikula@linux.intel.com>, "andriy.shevchenko@linux.intel.com"
- <andriy.shevchenko@linux.intel.com>, "lina@asahilina.net"
- <lina@asahilina.net>, "michal.wajdeczko@intel.com"
- <michal.wajdeczko@intel.com>
-CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "himal.prasad.ghimiray@intel.com" <himal.prasad.ghimiray@intel.com>,
- "aravind.iddamsetty@linux.intel.com" <aravind.iddamsetty@linux.intel.com>,
- "anshuman.gupta@intel.com" <anshuman.gupta@intel.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>, "kernel-dev@igalia.com"
- <kernel-dev@igalia.com>
-Subject: Re: [PATCH 1/1] drm/amdgpu: Use device wedged event
-Thread-Topic: [PATCH 1/1] drm/amdgpu: Use device wedged event
-Thread-Index: AQHbTMln1jaNGiCVe0y5n6ii2DuogbLjyUMAgAAC7Aw=
-Date: Fri, 13 Dec 2024 07:46:00 +0000
-Message-ID: <MW4PR12MB56676914CF4E2E8C6CEF6C03F2382@MW4PR12MB5667.namprd12.prod.outlook.com>
-References: <20241212190909.28559-1-andrealmeid@igalia.com>
- <20241212190909.28559-2-andrealmeid@igalia.com>
- <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
-In-Reply-To: <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2024-12-13T07:46:00.145Z;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
- Internal Distribution
- Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW4PR12MB5667:EE_|DM4PR12MB6184:EE_
-x-ms-office365-filtering-correlation-id: a4d4ef80-403c-46de-895c-08dd1b4a3020
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|921020|7053199007|8096899003|38070700018;
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?taGWUCXybwyE2sM5+P/D5/ja3e7bHk04/pktfaXDmarJkGwUzd9U7v+SF6?=
- =?iso-8859-1?Q?/8rZB7KAA2HuaVp8jjdevo8gT2U98FGtCZ7qNMrTB/CCmRwC3zTTNy7rl+?=
- =?iso-8859-1?Q?/v2O4wXYwo3l9QPt0lqg7HmbJYxBMNJdZj3OWmOsDVt0iri/8OnEufHYkx?=
- =?iso-8859-1?Q?3YezkG6kUqxSc3v5ZLWNH9Pr/LTKmfnelxElU/AoXk3zhuvGrDQntAL1WJ?=
- =?iso-8859-1?Q?OaLjvA75mqgQSOcKU3h2ntdxWl+iPINnaXm5tAfj1eQHGHW3DwI6xrTgDR?=
- =?iso-8859-1?Q?T0Ui+0LmzZO7+GiTB3rV7gUP/kr719zBRCaoBh48CQvTracW7HWzPHyFmy?=
- =?iso-8859-1?Q?8NSv/23WAznQxee0pAcQdJEKcSHC9UafQBMScG88vEVjpzk7As4rQeVuP6?=
- =?iso-8859-1?Q?N115msBBqTVQw4L+qXs68VoIvS28PwLIr+O+KYqIbcwivVRQuXSsLSc5va?=
- =?iso-8859-1?Q?LlQ32wXOMGILLMpOMCagEEdsmpx5TiLjur31YDLj//WUIUR1k7cDcwGgxc?=
- =?iso-8859-1?Q?TbCH2i+7XiXiyI51NJs99GWvS0CzMHZMkiWCPcnnTWspoMIeQoPUKmiWbG?=
- =?iso-8859-1?Q?2id1DlTvN/5EzPccwbv9CQGW8TWNuZrAh4gMSCuqUrDrdUPRCogj5HIIIG?=
- =?iso-8859-1?Q?pPt9fWabP1SDPQvEXufr08FQV4Dg3Mm4s0ZeSLp5uuh91hJ2GlIbqTfV6F?=
- =?iso-8859-1?Q?PJnmJ/vmyiZgbs85q4D7ebNkt83fZ+wp1tg6ihP5VMc5iYXtSF7BfQa4wB?=
- =?iso-8859-1?Q?FIi5Z7duWbuPUroWp7wza1cRFJaxBsjgRmQHOV2nL8l7Q2B5qKkYbrxERu?=
- =?iso-8859-1?Q?gjBrsPn2jkX12HWWoSPHAuZswyZH6AMtm0Oniz8cUeQ0/cb0XfoyV0TEFv?=
- =?iso-8859-1?Q?31R4aFrJrOhnYqaN1swBSOoeIfqXiOYnsgCPJn8PDuiXtkMVmF+tjU5c1D?=
- =?iso-8859-1?Q?v7Lx7NknObmXT5Wc050kFcV4v1474dwywZXhAwjTGVVEwmlVy+5OC5HwLH?=
- =?iso-8859-1?Q?+Iz43Imuo8ZERVCQjc9TxR4PGiNsPB0JKUUH+mJLggDRYiGV8TzZld0klS?=
- =?iso-8859-1?Q?ujgiw1DZYT6QusxD2dEKw2KmIW++YMTI9HXRyvPQ9m38iuPYIEHd531yip?=
- =?iso-8859-1?Q?e+mZlshV/dbc7X+9vus8PHfHzUatNhSVBSlS/70iN+M6EOvbF3VVJu8yVw?=
- =?iso-8859-1?Q?rLudfJ+8LJ5wCPyakuM+G8AXcMrnWqZaI42ELYQ8C5k76LkduE3Xp0Gyhw?=
- =?iso-8859-1?Q?/KUnjpPDBALELJ5X1ZA0XgtV8C/LRPKqy1PmIp5PZ+/W6bzUhF+5G1NVgy?=
- =?iso-8859-1?Q?t670l3CUmDHgIFdGwz2z/a24GWzhquiDOLnpy2VBXsZdL6L5VrmLjhPKeH?=
- =?iso-8859-1?Q?yeTN5Gi7K0ZJYx3B+CoX2Uj5JVGRDee7gLaQ5A8hK9uqgWUDcMdgxkH0/O?=
- =?iso-8859-1?Q?wcz7oeZcRo7rI/RwyL5/FaC2pGuVz0MrZE+lAATC4qvZobA03KcxqzfV4B?=
- =?iso-8859-1?Q?I=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR12MB5667.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020)(7053199007)(8096899003)(38070700018);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?IBydiNHPYcMmCcvA0izGFQpKOQdJ5/YXJDE/IlJaa24Ega3CwMLQmLRYHy?=
- =?iso-8859-1?Q?AcupLdwRhMw5sOF+zyehx3YYvMTOXKK/m1c3fwQp6btVv5Cra+lU7QARhX?=
- =?iso-8859-1?Q?4FWaYvwj5Eo1+V5wdaPGbv1apl4bVtKVSJBwOQHMAjNyYPrefI6H54KyCT?=
- =?iso-8859-1?Q?QpVZbDvQ3F6cSgWSlYWv3WgBf8QsvGiauawtHAoh750/Sj31Al4Yfagqlc?=
- =?iso-8859-1?Q?Ulufd6Vnod1+FwzKZ54uMq1EfsjFrzsL0K6HtyzEeeY/kz2b/HU1powLgE?=
- =?iso-8859-1?Q?N8B7n6xMKh3AqIGGsx9k1hdIxuxjfxkRWLlSmayLMd1t4ZUMVxPv7HP5hG?=
- =?iso-8859-1?Q?Tm6ykjKFwfTfaeXP5AFTZ5VPcukkJBiwltJ/+Sou7N3sBVDB9+1TcQKjAU?=
- =?iso-8859-1?Q?JXzZRhWLRyi6CBKh7iso2g7qH3EA63amqs5TBsFpD+SpDenLhdJvNlzFtb?=
- =?iso-8859-1?Q?G/U2rHZ/GEvGR87crfKAT4C/SbltZ/qMD00kUQgyc9+qs0B081w7luy8lo?=
- =?iso-8859-1?Q?xFKcD9Cj3zI1Lw3eXhzxlEhBULvwHsvCYO3wkBMXsK5aou+rd4pYnAicQU?=
- =?iso-8859-1?Q?AC/96a/UHjdDsDXmlEG3955IHmMMUPwtl3dvua7AHZbipKFu1l8/2Z5ClX?=
- =?iso-8859-1?Q?HfKl7XaeR3V8R0UloyEx7vFvpTIMjn8wjMtVGDJYys9TArj/aKEAzxfA62?=
- =?iso-8859-1?Q?sMMHMgt/UdHz7vRaHOvRSPWjE6AhauddimWPy3T/ULWNt/0xA4y1mo8gi2?=
- =?iso-8859-1?Q?HugTBjdHEv1y9ScENN2SY8SwPuBuu9xAqDqfALLYA9dajQdH6sutXnTBr/?=
- =?iso-8859-1?Q?pLQrP87Jq0ULuNMnMr/77W2Yr8Izw7xaOu8VVAieTw6Mzil9soABgr3tGf?=
- =?iso-8859-1?Q?0/hcG/cWRohHoYcbnu6e4KgOGVIzWwKu4F5TH3owmTByx5g5fcROa7rFTC?=
- =?iso-8859-1?Q?1wEns/EZ/pCztyBEVH5v2j7BvcZtAfzYtnoL3Q6GXl0Tegr5adZ/LL1SF5?=
- =?iso-8859-1?Q?DLhrE8km1NZGIFCZEPrOudXCsKSV34NHt47AVz6f7A8tQwTyYAnhBg2OjG?=
- =?iso-8859-1?Q?seqMBZqLwR5Jo3Obfa0XZXYSDY2Cad7ChCUGlqEcIpCVft2uThjG3QQwfL?=
- =?iso-8859-1?Q?Z29Hase7kcLHWxGvWUYz5H6LSCrQvdymPbwmC1tzrhc7vXUiJFD7vVUc/X?=
- =?iso-8859-1?Q?n7aF7SEiL8ypiYwgWSUaSic/5VPpHNqK74b0qenFMsbMc+LknVtwOlsnD4?=
- =?iso-8859-1?Q?l4/7WaFIyybGjrScV1k907hxX6BzNe+evXGupQ9YVEuM4dyMDP8+rRNSMf?=
- =?iso-8859-1?Q?+xjwraj1fQNxuscx+ewK+vnGjbULy3MD0hb7VigyV2hpOrT/sdlIggQ81q?=
- =?iso-8859-1?Q?TH69ov3IhXIR1wFZ3LqL7YamyIuHB5/hwtSBkuinPg/v+ScgWx8u14qsNT?=
- =?iso-8859-1?Q?K0wx4jzzcQJo7CPHDyoNDe8iM/go8LWsMcVSDCNfKYbbST7dn/ilDmIqur?=
- =?iso-8859-1?Q?DFISrOryu5dvhbeYU9hYmahuTRde/ojVi711KJnHrUiaRB/o7BXV/8WPnb?=
- =?iso-8859-1?Q?pLGy+J91nzoH3hwnarjOacYyBTeyDi7gs5ZyBhqw8nlyw4uZgm81kggDMc?=
- =?iso-8859-1?Q?Gwgf+Hc6JVg1A=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_MW4PR12MB56676914CF4E2E8C6CEF6C03F2382MW4PR12MB5667namp_"
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B3810EF1B;
+ Fri, 13 Dec 2024 07:48:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5FEC65C6B1B;
+ Fri, 13 Dec 2024 07:47:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91C71C4CED0;
+ Fri, 13 Dec 2024 07:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734076090;
+ bh=4ephsHzcqtUFjd28fgyOUVnfVqA7f3eQQkM+XWxQ+LQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Lmef4FYa3aYU7MmyGYo7DBM/2C+IeNfEtm5+AzDMtzenVnxTVnar/4rDJm0GO7bGu
+ w+9Ju3lYXzRx9LMKkp9+exAbjgFM7lji81aFSnSAWvNvGuPTCZdQLlkL8pa2woQsLV
+ 8ZPmxxq8Or/dIS3wg9eTyMQUVRPTr9YP/xISr5bJwMuaRwU343Yh96qWkupwFVqCEc
+ Ceb3W8U/P/o+ihOcPIZOMPlIp/hSF3333fl6ORPlQ3pxH9PY3V5LmZHpV21PSFa5qB
+ E2aDD4MEu4Wi3wxA+v69xkEfOAoobRZxOzkIE7IfdmCrufWD+l/N9PWzpxj/7KfU1V
+ bVLVo9PT2AQ/w==
+Message-ID: <afcdadd9-07c8-4dcf-be12-7cdad1984b33@kernel.org>
+Date: Fri, 13 Dec 2024 08:48:02 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB5667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4d4ef80-403c-46de-895c-08dd1b4a3020
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2024 07:46:00.5173 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JBYV784OkwI6l3HgcQEavD2fXWwqDnN+F+dZcsEoo4FrY28To4vjPiQsmMK2+fZRPluf1GGW/em0rDsmvlKZZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6184
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6/7] drivers: Repace get_task_comm() with %pTN
+To: Yafang Shao <laoar.shao@gmail.com>, torvalds@linux-foundation.org,
+ akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ x86@kernel.org, linux-snps-arc@lists.infradead.org,
+ linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
+ Ofir Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20241213054610.55843-1-laoar.shao@gmail.com>
+ <20241213054610.55843-7-laoar.shao@gmail.com>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20241213054610.55843-7-laoar.shao@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,189 +114,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---_000_MW4PR12MB56676914CF4E2E8C6CEF6C03F2382MW4PR12MB5667namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-[AMD Official Use Only - AMD Internal Distribution Only]
-
-Looks good to me as well, With Christian's comment accommodated:
-Acked-by: Shashank Sharma <shashank.sharma@amd.com>
-
-Regards
-Shashank
-________________________________
-From: Koenig, Christian <Christian.Koenig@amd.com>
-Sent: Friday, December 13, 2024 8:34 AM
-To: Andr=E9 Almeida <andrealmeid@igalia.com>; Raag Jadav <raag.jadav@intel.=
-com>; airlied@gmail.com <airlied@gmail.com>; simona@ffwll.ch <simona@ffwll.=
-ch>; lucas.demarchi@intel.com <lucas.demarchi@intel.com>; rodrigo.vivi@inte=
-l.com <rodrigo.vivi@intel.com>; jani.nikula@linux.intel.com <jani.nikula@li=
-nux.intel.com>; andriy.shevchenko@linux.intel.com <andriy.shevchenko@linux.=
-intel.com>; lina@asahilina.net <lina@asahilina.net>; michal.wajdeczko@intel=
-.com <michal.wajdeczko@intel.com>; Sharma, Shashank <Shashank.Sharma@amd.co=
-m>
-Cc: intel-gfx@lists.freedesktop.org <intel-gfx@lists.freedesktop.org>; dri-=
-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; himal.prasad=
-.ghimiray@intel.com <himal.prasad.ghimiray@intel.com>; aravind.iddamsetty@l=
-inux.intel.com <aravind.iddamsetty@linux.intel.com>; anshuman.gupta@intel.c=
-om <anshuman.gupta@intel.com>; Deucher, Alexander <Alexander.Deucher@amd.co=
-m>; amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; kernel-d=
-ev@igalia.com <kernel-dev@igalia.com>
-Subject: Re: [PATCH 1/1] drm/amdgpu: Use device wedged event
-
-Am 12.12.24 um 20:09 schrieb Andr=E9 Almeida:
-> Use DRM's device wedged event to notify userspace that a reset had
-> happened. For now, only use `none` method meant for telemetry
-> capture.
->
-> Signed-off-by: Andr=E9 Almeida <andrealmeid@igalia.com>
+On 13. 12. 24, 6:46, Yafang Shao wrote:
+> Since task->comm is guaranteed to be NUL-terminated, we can print it
+> directly without the need to copy it into a separate buffer. This
+> simplifies the code and avoids unnecessary operations.
+> 
+> Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+> Cc: Ofir Bitton <obitton@habana.ai>
+> Cc: Oded Gabbay <ogabbay@kernel.org>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Karol Herbst <kherbst@redhat.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
 > ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm=
-/amd/amdgpu/amdgpu_device.c
-> index 96316111300a..19e1a5493778 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -6057,6 +6057,9 @@ int amdgpu_device_gpu_recover(struct amdgpu_device =
-*adev,
->                dev_info(adev->dev, "GPU reset end with ret =3D %d\n", r);
->
->        atomic_set(&adev->reset_domain->reset_res, r);
-> +
-> +     drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE);
+>   drivers/accel/habanalabs/common/context.c         |  5 ++---
+>   .../accel/habanalabs/common/habanalabs_ioctl.c    | 15 +++++----------
+>   .../gpu/drm/i915/display/intel_display_driver.c   | 10 ++++------
+>   drivers/gpu/drm/nouveau/nouveau_chan.c            |  4 +---
+>   drivers/gpu/drm/nouveau/nouveau_drm.c             |  7 +++----
+>   drivers/tty/tty_io.c                              |  5 ++---
 
-That looks really good in general. I would just make the
-DRM_WEDGE_RECOVERY_NONE depend on the value of "r".
+FOr tty:
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
 
-@Shashank any objections? IIRC you have worked on the AMD specific event
-we never upstreamed.
-
-Regards,
-Christian.
-
-> +
->        return r;
->   }
->
-
-
---_000_MW4PR12MB56676914CF4E2E8C6CEF6C03F2382MW4PR12MB5667namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<p style=3D"font-family:Calibri;font-size:10pt;color:#0000FF;margin:5pt;fon=
-t-style:normal;font-weight:normal;text-decoration:none;" align=3D"Left">
-[AMD Official Use Only - AMD Internal Distribution Only]<br>
-</p>
-<br>
-<div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Looks good to me as well, With Christian's comment accommodated:&nbsp;</div=
->
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Acked-by: Shashank Sharma &lt;shashank.sharma@amd.com&gt;</div>
-<div id=3D"appendonsend" style=3D"color: inherit;"></div>
-<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
-Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Regards</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Shashank</div>
-<hr style=3D"display: inline-block; width: 98%;">
-<div dir=3D"ltr" id=3D"divRplyFwdMsg" style=3D"color: inherit;"><span style=
-=3D"font-family: Calibri, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
-"><b>From:</b>&nbsp;Koenig, Christian &lt;Christian.Koenig@amd.com&gt;<br>
-<b>Sent:</b>&nbsp;Friday, December 13, 2024 8:34 AM<br>
-<b>To:</b>&nbsp;Andr=E9 Almeida &lt;andrealmeid@igalia.com&gt;; Raag Jadav =
-&lt;raag.jadav@intel.com&gt;; airlied@gmail.com &lt;airlied@gmail.com&gt;; =
-simona@ffwll.ch &lt;simona@ffwll.ch&gt;; lucas.demarchi@intel.com &lt;lucas=
-.demarchi@intel.com&gt;; rodrigo.vivi@intel.com &lt;rodrigo.vivi@intel.com&=
-gt;;
- jani.nikula@linux.intel.com &lt;jani.nikula@linux.intel.com&gt;; andriy.sh=
-evchenko@linux.intel.com &lt;andriy.shevchenko@linux.intel.com&gt;; lina@as=
-ahilina.net &lt;lina@asahilina.net&gt;; michal.wajdeczko@intel.com &lt;mich=
-al.wajdeczko@intel.com&gt;; Sharma, Shashank &lt;Shashank.Sharma@amd.com&gt=
-;<br>
-<b>Cc:</b>&nbsp;intel-gfx@lists.freedesktop.org &lt;intel-gfx@lists.freedes=
-ktop.org&gt;; dri-devel@lists.freedesktop.org &lt;dri-devel@lists.freedeskt=
-op.org&gt;; himal.prasad.ghimiray@intel.com &lt;himal.prasad.ghimiray@intel=
-.com&gt;; aravind.iddamsetty@linux.intel.com &lt;aravind.iddamsetty@linux.i=
-ntel.com&gt;;
- anshuman.gupta@intel.com &lt;anshuman.gupta@intel.com&gt;; Deucher, Alexan=
-der &lt;Alexander.Deucher@amd.com&gt;; amd-gfx@lists.freedesktop.org &lt;am=
-d-gfx@lists.freedesktop.org&gt;; kernel-dev@igalia.com &lt;kernel-dev@igali=
-a.com&gt;<br>
-<b>Subject:</b>&nbsp;Re: [PATCH 1/1] drm/amdgpu: Use device wedged event</s=
-pan>
-<div>&nbsp;</div>
-</div>
-<div style=3D"font-size: 11pt;">Am 12.12.24 um 20:09 schrieb Andr=E9 Almeid=
-a:<br>
-&gt; Use DRM's device wedged event to notify userspace that a reset had<br>
-&gt; happened. For now, only use `none` method meant for telemetry<br>
-&gt; capture.<br>
-&gt;<br>
-&gt; Signed-off-by: Andr=E9 Almeida &lt;andrealmeid@igalia.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp;&nbsp; drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 3 +++<br>
-&gt;&nbsp;&nbsp; 1 file changed, 3 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/=
-drm/amd/amdgpu/amdgpu_device.c<br>
-&gt; index 96316111300a..19e1a5493778 100644<br>
-&gt; --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
-&gt; +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c<br>
-&gt; @@ -6057,6 +6057,9 @@ int amdgpu_device_gpu_recover(struct amdgpu_devi=
-ce *adev,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; dev_info(adev-&gt;dev, &quot;GPU reset end with ret =3D=
- %d\n&quot;, r);<br>
-&gt;&nbsp;&nbsp;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; atomic_set(&amp;adev-&gt;res=
-et_domain-&gt;reset_res, r);<br>
-&gt; +<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; drm_dev_wedged_event(adev_to_drm(adev), DRM_=
-WEDGE_RECOVERY_NONE);<br>
-<br>
-That looks really good in general. I would just make the<br>
-DRM_WEDGE_RECOVERY_NONE depend on the value of &quot;r&quot;.<br>
-<br>
-@Shashank any objections? IIRC you have worked on the AMD specific event<br=
->
-we never upstreamed.<br>
-<br>
-Regards,<br>
-Christian.<br>
-<br>
-&gt; +<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return r;<br>
-&gt;&nbsp;&nbsp; }<br>
-&gt;&nbsp;&nbsp;<br>
-<br>
-</div>
-</div>
-</body>
-</html>
-
---_000_MW4PR12MB56676914CF4E2E8C6CEF6C03F2382MW4PR12MB5667namp_--
+thanks,
+-- 
+js
+suse labs
