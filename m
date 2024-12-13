@@ -1,75 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644779F153C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 19:51:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DFDB9F1568
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 20:02:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0CB10E041;
-	Fri, 13 Dec 2024 18:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E0FB10E444;
+	Fri, 13 Dec 2024 19:02:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="N2q6o1a3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RhftqDZj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6121410E041
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 18:51:29 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDE7D86017173;
- Fri, 13 Dec 2024 18:51:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=1xaiTnWC9VjsubjFbr1gJW
- 9bo2r170m60PrakqEreCU=; b=N2q6o1a3OuZzAbBlFxWvYTaJNfEMWKhsob7iYF
- bfJr/k9uuQ5G12a2uTWeros1BjUfWATanDnKmZHhB/L+d/bqnwhC3xohNW5ud3e3
- 1x6gIncPRyTO5DbStPESiaC7rkrTKKooU/3G7OvNaT2pfllgVvP30kY7ruRDqnjp
- mZI1Z9qrYf3iT2fHYsfjfK76OpvOetlFoKJ7a3HiZI6vcvu3r45Lbg9LOr3af7Rh
- V6Ldevwnfb1sf5s6JAj006JjBiTcFdDHpiXIgOtPQIu82VQ/Fd0fwVn4RD1a5rxR
- d3eshrAWj0h0OBrXxaWCWC3E4vcbuz74KTUmBW0KtIdYkdQQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gdkn27g4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 18:51:28 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDIpR1H014794
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 18:51:27 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 13 Dec 2024 10:51:26 -0800
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <quic_yabdulra@quicinc.com>, <quic_carlv@quicinc.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>
-Subject: [PATCH] accel/qaic: Change aic100_image_table definition
-Date: Fri, 13 Dec 2024 11:51:10 -0700
-Message-ID: <20241213185110.2469159-1-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D181B10E444;
+ Fri, 13 Dec 2024 19:02:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734116545; x=1765652545;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=+Q6oqS4L1e0hKVpIk+xmhbTXnLRNIDqiKqvbJ8/aYas=;
+ b=RhftqDZjW8t1+Cz9RVGIAcNSvT/1SiM5lKgJm2QVfLv5IWIdwzFceQVT
+ osAK70Xk2SF5psKZ+E5wDCXh5LMVwpz0L0V2x1Bu8YGmPPDmJs1di7DtY
+ EKogcR3zIIi62o/IUdjqcx6X6l9L3FzXSI3SsjLd4Uw8BWWX9YUzXOH4o
+ N8dUO8VRqLa0H9Fy8c8HdYazcbHQs3zLIumsQSJghrbbOxNVEBY24UHwL
+ y+w1ElNTzEFPiopPR2GN/mB1/3g0aFyy9SchPPZ+xYG447BTS9A4sbRp0
+ 0nJIKDRdFPLTFdSB+2SE09t7D1VFrrc/A6ewUmuV+a4AMkW8xQX2+mMRl g==;
+X-CSE-ConnectionGUID: qNrMcw9gQo+0MGgxXm6uuQ==
+X-CSE-MsgGUID: roSUwAAgRtC4Nr0htdkf2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45055484"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="45055484"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2024 11:02:25 -0800
+X-CSE-ConnectionGUID: 35aqRVB4QaiMxqMWvk0Opw==
+X-CSE-MsgGUID: 24lgRxd7TS+bZDoCk5/Vkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="133970662"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO
+ jkrzyszt-mobl2.intranet) ([10.245.246.163])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Dec 2024 11:02:22 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH] drm/i915/selftests: Use preemption timeout on cleanup
+Date: Fri, 13 Dec 2024 19:59:48 +0100
+Message-ID: <20241213190122.513709-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: baUrJS8H45Ov1NzYspAwC8lv0WfGIMA8
-X-Proofpoint-ORIG-GUID: baUrJS8H45Ov1NzYspAwC8lv0WfGIMA8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
- phishscore=0 bulkscore=0 suspectscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412130134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,45 +72,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Youssef Samir <quic_yabdulra@quicinc.com>
+Many selftests call igt_flush_test() on cleanup.  With default preemption
+timeout of compute engines raised to 7.5 seconds, hardcoded flush timeout
+of 3 seconds is too short.  That results in GPU forcibly wedged and kernel
+taineted, then IGT abort triggered.  CI BAT runs loose a part of their
+expected coverage.
 
-aic100_image_table is currently defined as a "const char *" array,
-this can potentially lead to the accidental modification of the
-pointers inside. Also, checkpatch.pl gives a warning about it.
+Calculate the flush timeout based on the longest preemption timeout
+currently configured for any engine.  That way, selftest can still report
+detected issues as non-critical, and the GPU gets a chance to recover from
+preemptible hangs and prepare for fluent execution of next test cases.
 
-Change the type to a "const char * const" array to make the pointers
-immutable, preventing accidental modification of the images' paths.
-
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Reviewed-by: Carl Vanderlip <quic_carlv@quicinc.com>
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12061
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
 ---
- drivers/accel/qaic/sahara.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/selftests/igt_flush_test.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
-index 21d58aed0deb..09c8b055aa81 100644
---- a/drivers/accel/qaic/sahara.c
-+++ b/drivers/accel/qaic/sahara.c
-@@ -160,7 +160,7 @@ struct sahara_context {
- 	struct work_struct		fw_work;
- 	struct work_struct		dump_work;
- 	struct mhi_device		*mhi_dev;
--	const char			**image_table;
-+	const char * const		*image_table;
- 	u32				table_size;
- 	u32				active_image_id;
- 	const struct firmware		*firmware;
-@@ -177,7 +177,7 @@ struct sahara_context {
- 	bool				is_mem_dump_mode;
- };
+diff --git a/drivers/gpu/drm/i915/selftests/igt_flush_test.c b/drivers/gpu/drm/i915/selftests/igt_flush_test.c
+index 29110abb4fe05..d4b216065f2eb 100644
+--- a/drivers/gpu/drm/i915/selftests/igt_flush_test.c
++++ b/drivers/gpu/drm/i915/selftests/igt_flush_test.c
+@@ -19,12 +19,21 @@ int igt_flush_test(struct drm_i915_private *i915)
+ 	int ret = 0;
  
--static const char *aic100_image_table[] = {
-+static const char * const aic100_image_table[] = {
- 	[1]  = "qcom/aic100/fw1.bin",
- 	[2]  = "qcom/aic100/fw2.bin",
- 	[4]  = "qcom/aic100/fw4.bin",
+ 	for_each_gt(gt, i915, i) {
++		struct intel_engine_cs *engine;
++		unsigned long timeout_ms = 0;
++		unsigned int id;
++
+ 		if (intel_gt_is_wedged(gt))
+ 			ret = -EIO;
+ 
++		for_each_engine(engine, gt, id) {
++			if (engine->props.preempt_timeout_ms > timeout_ms)
++				timeout_ms = engine->props.preempt_timeout_ms;
++		}
++
+ 		cond_resched();
+ 
+-		if (intel_gt_wait_for_idle(gt, HZ * 3) == -ETIME) {
++		if (intel_gt_wait_for_idle(gt, HZ * timeout_ms / 500) == -ETIME) {
+ 			pr_err("%pS timed out, cancelling all further testing.\n",
+ 			       __builtin_return_address(0));
+ 
 -- 
-2.34.1
+2.47.1
 
