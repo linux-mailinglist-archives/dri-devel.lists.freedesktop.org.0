@@ -1,79 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89E79F0633
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 09:18:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3819F065F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 09:33:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBFB110EF37;
-	Fri, 13 Dec 2024 08:18:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="m80VBn8Y";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7112110EF50;
+	Fri, 13 Dec 2024 08:33:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 119F310E0EE
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 08:15:58 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-728eccf836bso1326902b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 00:15:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734077758;
- x=1734682558; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=g8c1A5roFmu8uYlk0Vp3b25A6jP1woR9PFe4I7F0E1Y=;
- b=m80VBn8YCnb3KWkSE5dL8OW6xzu/gc56IHBMtAAuwLaxD2VtaxqaNfOeEf8vqru5cn
- iAGWuwH3Aa9bYsdm8s97ZemvgWmcJIdH6/kA3bIWFnPLMnhyj8E7wgDrUzo29WrUnl5w
- BrBFveZZuNKbOk2fZKgre5eoPuFUuq/Cm5kV9cc3UW/KGbah2BIUx41NI9lQUv+3T1Mz
- vX0oE3kPxlvhWvlvb9CKj+XcjBnfad9yRNU01RvxTGSvgN2isbYwPWLzR5/4Qs1lGT5a
- wL/aKh35YJ/Thp5teCt+7Kc/9ruA9+dNv32b7/PM85/LdgXWedIi03FWHcgdK1GZEwYT
- lr3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734077758; x=1734682558;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=g8c1A5roFmu8uYlk0Vp3b25A6jP1woR9PFe4I7F0E1Y=;
- b=vBH1Lvt5TjgCEAsFy5hI+Vn2z7mIkoH+8HgWNcwu5JApGyY83FJUfAteUnRPB35aDm
- z4qT2e/vba51GSi5TQPTjs1Lp7AlcpaufadSSqZDGq17V9apjm9itdnqUD4qfS6sN9Hd
- Z/0uQy3QvIijM9qS2ULggkzdf/pdN6jB3SWz3kUytAQo7us0NcFHdo2usAK/03KFQJUl
- 4DOMbX6uh5qyvaQYlFRwvj3hCIe8stJhzGlxRA2jeLdF1WzyE+4AEmveF5C7YiqouHpW
- 0O4K0kdZ8etgX3mbFErqjckgSBEqLcQ7REvMOVkw0WoUZcMo2mjcPOQ4TPn3LyC5TNwn
- etRA==
-X-Gm-Message-State: AOJu0Yybyb9Vffi2cWP33oFRjEHxWM3SvzTuSr6rSWNVzGRHGDpA8hPc
- vUtTqSOdH9fQUz5HCgfes2gH1CcovCWl6sIqzWQtORfryEfD1Lc0xTcqHlcHmd8=
-X-Gm-Gg: ASbGncunuyV+oPgIsJi/qouWSsqEe4Py7hVTT7YKUUaDTa2YaFmvvihO+D4Pw3ijMQF
- ejRqaFnFGrhnxo6rHCv2AHCQsOyKoubNLI5ZNvvRlcaVDiIfOuHxCtfxaeSC/1ajF+VIPpHn4OI
- zatloQwpXvZuFvLPgZxEYIIBfETyC5lYo1HUr7M2S8b1LJT2UOkDz0rsdsF3qkGC9gP5O6VVNgi
- CYZCKXxO7Qbr48aHFVn/5YR0r0zy/R7YgY4/aDGCaejh0qjWaHxRKJ8mjUcdRGfSHKzitweBsHT
- f0eYMTsdiMLQN25WIgn5urMz6Rka8REopCFnFfPCJzE=
-X-Google-Smtp-Source: AGHT+IGLiE9tkbIoi5353b7CiFubQkP8E5XSxEa4roy/nnHVYLmOaqDGTg0Xsqjk2TuQ6lghz0NfuA==
-X-Received: by 2002:a05:6a00:300d:b0:71e:2a0:b0b8 with SMTP id
- d2e1a72fcca58-7290c0dfc98mr2381364b3a.1.1734077758481; 
- Fri, 13 Dec 2024 00:15:58 -0800 (PST)
-Received: from localhost.localdomain (133-32-227-190.east.xps.vectant.ne.jp.
- [133.32.227.190]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-725eed5233esm8321789b3a.4.2024.12.13.00.15.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2024 00:15:57 -0800 (PST)
-From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: [PATCH] drm/bridge: display-connector: implement the error path of
- .probe()
-Date: Fri, 13 Dec 2024 17:15:50 +0900
-Message-Id: <20241213081550.3388074-1-joe@pf.is.s.u-tokyo.ac.jp>
-X-Mailer: git-send-email 2.34.1
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64EB210EF50
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 08:33:18 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4Y8jK90cVHz9str;
+ Fri, 13 Dec 2024 09:33:17 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YHy9DUB1OZLm; Fri, 13 Dec 2024 09:33:16 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4Y8jK86wNMz9stk;
+ Fri, 13 Dec 2024 09:33:16 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id DC30F8B773;
+ Fri, 13 Dec 2024 09:33:16 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id jaDamWOhRDNi; Fri, 13 Dec 2024 09:33:16 +0100 (CET)
+Received: from [192.168.232.97] (unknown [192.168.232.97])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 6983A8B763;
+ Fri, 13 Dec 2024 09:33:16 +0100 (CET)
+Message-ID: <1248a2b6-71b0-4909-917f-a5605415a816@csgroup.eu>
+Date: Fri, 13 Dec 2024 09:33:16 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
+ <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Fri, 13 Dec 2024 08:18:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,78 +66,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current implementation of .probe() leaks a reference of i2c_adapter.
-Implement an error path and call put_device() on the obtained
-i2c_adapter in it to fix this refcount bug.
 
-This bug was found by an experimental static analysis tool that I am
-developing.
 
-Fixes: 0c275c30176b ("drm/bridge: Add bridge driver for display connectors")
-Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
----
- drivers/gpu/drm/bridge/display-connector.c | 25 ++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+Le 13/12/2024 à 09:05, Thomas Zimmermann a écrit :
+> Hi
+> 
+> 
+> Am 13.12.24 um 08:44 schrieb Christophe Leroy:
+>>
+>>
+>> Le 12/12/2024 à 11:04, Thomas Zimmermann a écrit :
+>>> Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
+>>> only controls backlight support within fbdev core code and data
+>>> structures.
+>>>
+>>> Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
+>>> select it explicitly. Fixes warnings about recursive dependencies,
+>>> such as
+>>>
+>>> error: recursive dependency detected!
+>>>     symbol BACKLIGHT_CLASS_DEVICE is selected by FB_BACKLIGHT
+>>>     symbol FB_BACKLIGHT is selected by FB_SH_MOBILE_LCDC
+>>>     symbol FB_SH_MOBILE_LCDC depends on FB_DEVICE
+>>>     symbol FB_DEVICE depends on FB_CORE
+>>>     symbol FB_CORE is selected by DRM_GEM_DMA_HELPER
+>>>     symbol DRM_GEM_DMA_HELPER is selected by DRM_PANEL_ILITEK_ILI9341
+>>>     symbol DRM_PANEL_ILITEK_ILI9341 depends on BACKLIGHT_CLASS_DEVICE
+>>>
+>>> BACKLIGHT_CLASS_DEVICE is user-selectable, so making drivers adapt to
+>>> it is the correct approach in any case. For most drivers, backlight
+>>> support is also configurable separately.
+>>>
+>>> v2:
+>>> - s/BACKLIGHT_DEVICE_CLASS/BACKLIGHT_CLASS_DEVICE (Helge)
+>>> - Fix fbdev driver-dependency corner case (Arnd)
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> ---
+>>>   drivers/auxdisplay/Kconfig       |  2 +-
+>>>   drivers/macintosh/Kconfig        |  1 +
+>>>   drivers/staging/fbtft/Kconfig    |  1 +
+>>>   drivers/video/fbdev/Kconfig      | 18 +++++++++++++-----
+>>>   drivers/video/fbdev/core/Kconfig |  3 +--
+>>>   5 files changed, 17 insertions(+), 8 deletions(-)
+>>
+>> Build fails which pmac32_defconfig :
+>>
+>>   LD      .tmp_vmlinux1
+>> powerpc64-linux-ld: drivers/macintosh/via-pmu-backlight.o: in function 
+>> `pmu_backlight_init':
+>> via-pmu-backlight.c:(.init.text+0xc0): undefined reference to 
+>> `backlight_device_register'
+>> make[2]: *** [scripts/Makefile.vmlinux:77: vmlinux] Error 1
+>> make[1]: *** [/home/chleroy/linux-powerpc/Makefile:1225: vmlinux] Error 2
+> 
+> The attached patch selects backlight support in the defconfigs that also 
+> have PMAC_BACKLIGHT=y. Can you please apply it on top of the patchset 
+> and report on the results?
+> 
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 72bc508d4e6e..84f1c3798d32 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -332,8 +332,11 @@ static int display_connector_probe(struct platform_device *pdev)
- 		int ret;
- 
- 		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
--		if (ret < 0)
--			return dev_err_probe(&pdev->dev, ret, "failed to get DP PWR regulator\n");
-+		if (ret < 0) {
-+			ret = dev_err_probe(&pdev->dev, ret,
-+					    "failed to get DP PWR regulator\n");
-+			goto err_put;
-+		}
- 	}
- 
- 	/* enable DDC */
-@@ -345,19 +348,24 @@ static int display_connector_probe(struct platform_device *pdev)
- 
- 		if (IS_ERR(conn->ddc_en)) {
- 			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
--			return PTR_ERR(conn->ddc_en);
-+			ret = PTR_ERR(conn->ddc_en);
-+			goto err_put;
- 		}
- 
- 		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
--		if (ret < 0)
--			return dev_err_probe(&pdev->dev, ret, "failed to get HDMI +5V Power regulator\n");
-+		if (ret < 0) {
-+			ret = dev_err_probe(
-+				&pdev->dev, ret,
-+				"failed to get HDMI +5V Power regulator\n");
-+			goto err_put;
-+		}
- 	}
- 
- 	if (conn->supply) {
- 		ret = regulator_enable(conn->supply);
- 		if (ret) {
- 			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
--			return ret;
-+			goto err_put;
- 		}
- 	}
- 
-@@ -383,6 +391,11 @@ static int display_connector_probe(struct platform_device *pdev)
- 	drm_bridge_add(&conn->bridge);
- 
- 	return 0;
-+
-+err_put:
-+	if (conn->bridge.ddc)
-+		i2c_put_adapter(conn->bridge.ddc);
-+	return ret;
- }
- 
- static void display_connector_remove(struct platform_device *pdev)
--- 
-2.34.1
+That works for the defconfig but it is still possible to change 
+CONFIG_BACKLIGHT_CLASS_DEVICE manually.
 
+If it is necessary for PMAC_BACKLIGHT then it shouldn't be possible to 
+deselect it.
