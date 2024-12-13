@@ -2,92 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC12C9F0D12
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 14:13:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEE89F0D24
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 14:17:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65DDF10E012;
-	Fri, 13 Dec 2024 13:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB19110E26E;
+	Fri, 13 Dec 2024 13:16:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="c1jQTLS0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PD1Sggo9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4A2C10E012;
- Fri, 13 Dec 2024 13:13:01 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD8rlkB022838;
- Fri, 13 Dec 2024 13:12:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Xl93Qz2eNY1D1QSVG/Nk69lF2GvJgYAIh32kdEjaYWo=; b=c1jQTLS09rxxxRgm
- EcF3C+YkAyrra9gHbBLu2xvjoD5YHeZh+9hLTguKlSrOxL6nmeqCON2eYD/j9N/+
- 546y+BQdTxP9DlHd9GMfOS0Dy1RRgcnxherL6l1bSHOcKK0y4DtO0Kt2mwysEoO/
- 3r+mk3Hty7QBwGuElT6NK2p8dEvSFTWNxRDp7Q66405iqGd8cXWT2/N8Mb6mR55Z
- vimaI0q4a30W4H/HDelLFpAL9TtQN50WHXVJbgQXak3F7C0MgfYhQkxfbaA86FWX
- BhkbtsFXGdhBHgog4eD7esT3nvWSYLXLqtCTg5HBOtqPgz5XXvvVUBEFyo+Dfsou
- l6smSA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43g4wnaj4d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 13:12:56 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDDCtLS029686
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 13:12:55 GMT
-Received: from [10.204.101.130] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 13 Dec
- 2024 05:12:49 -0800
-Message-ID: <80bed70e-7802-4555-a15e-e06fe46214c6@quicinc.com>
-Date: Fri, 13 Dec 2024 18:42:47 +0530
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CD0410E26E
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 13:16:58 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id
+ 3f1490d57ef6-e3a26de697fso1247755276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 05:16:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734095817; x=1734700617; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=RVcPpLOsWmE+ba7pF6UhID0o+wua7JbONLDV04eLt58=;
+ b=PD1Sggo9+imBeYv6DD5uzBfYtNiIbqaX58Fb1W9pgGhPHXd3o2DMoDG7yV4BdtiTpp
+ LTlqno3onwK1KRDgvuEEruWp6O0Kr2mkjZKO4Qsc4rslcxb0/JpGUxUKZ0PF3fzGnjWd
+ 72xmW43TVjtqz95aq6p7A8ENX7VD8oRiNpRNEDag6DeypvdvCbfzqRVToTVteQ7dD6JH
+ w2BC8jr6ycPBWeo4MjQ/CBOf/I+cK7uQqRyIueZarEO29Ea6NrLjnhU1eyj+UGN1TVU8
+ L3CLeGra9Wn2Tj3Q55u7W3MkFB70ZHEtQWcfXCQiCigr/d+ayON0G1NKcjqJHSiNaUX1
+ 8R1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734095817; x=1734700617;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=RVcPpLOsWmE+ba7pF6UhID0o+wua7JbONLDV04eLt58=;
+ b=clvykvI9GCLZ0LNR5syMDwGal5JPlK8McJHYv0lATZkLrqS5vO9IdXcF5ziVx6MoVg
+ hlreI65Cpv2MOoI2Of03Nr9oZ1O+m9H1BxR3HRZoV0tRMPhijGN3mA0sX2QziaaplNZQ
+ QNo3fjDQAyigMiBwyHEqvqjbigpkRMi3KOSUFqemikGVZEaFRXfo97fSmPY/xDL+tPcS
+ w6AqkgkyzKyfxy5lVq+VFXFQL8KC05gC/YlnamPt+R75Vq5nsN8siVnuxa8dqXmZXSjv
+ 4sivCtxqtOfAL647+hP9apt0RHcQdh076uXQAKWXImOBRsbcAMgCRmk+8/5PeB8C3e0R
+ MtBg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVEQM0SraNv9VY8ZZjGVTyf3woMz3c9DVz+KduR5LGSrGOxaegCIGzlD5R/afUu9xVazkxeURkBQb4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx6a7QEv2utz7y577+x4l3wHt2lwtDAzh6+jDrQ7/DtBmH8BBPK
+ A7zcRrHZITtAkZ4L3kHDEpZpyprJSRQYzTS/fIdkrxzqYOmHN2nZL+aYbeAVzhF3LNStYAzaF8L
+ fGY61F0ROlEo494QWP3jBNUD3T6ZzV5CZdAwPyQ==
+X-Gm-Gg: ASbGncsZTye1hOjJiasJiw0YFf+F4zJ1LSWumdc+nxFg2vDbUh872OgVbxeaWieJgaZ
+ ohKtpH4jn0/a7OT0GuvDMV+Ce3CO0xFi1Ym1H
+X-Google-Smtp-Source: AGHT+IGAl2LYP8iV2Q3Sc2IL4UxpP1EGC86H9SzT6Tzp3ChldYwdh60ZW5iAxqwg8uWrnFB2To757YfeZZkWJFcOoO8=
+X-Received: by 2002:a05:6902:2213:b0:e3d:22a7:b969 with SMTP id
+ 3f1490d57ef6-e434d199da4mr2201350276.5.1734095815817; Fri, 13 Dec 2024
+ 05:16:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/7] drm/msm: adreno: find bandwidth index of OPP and
- set it along freq index
-To: <neil.armstrong@linaro.org>, Konrad Dybcio
- <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Bjorn Andersson
- <andersson@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>
-References: <20241211-topic-sm8x50-gpu-bw-vote-v5-0-6112f9f785ec@linaro.org>
- <20241211-topic-sm8x50-gpu-bw-vote-v5-4-6112f9f785ec@linaro.org>
- <ddf91ba2-cab2-4653-b842-65a8e82b5160@oss.qualcomm.com>
- <2f1c6deb-29f8-4144-b086-743fb0f8495c@linaro.org>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <2f1c6deb-29f8-4144-b086-743fb0f8495c@linaro.org>
+References: <20241212055110.1862487-1-xji@analogixsemi.com>
+ <vkrl7om7hepboovp2uivcnernia3ygqwrj3y3kkjydeclwvrk5@7tkdc4etkcjs>
+ <BY5PR04MB673977C1DB1E774CB261C119C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
+ <4q2jncpnmeu7ytuyuv5pjzurh3ai5663jmu2we6cebuad2r3r5@tfb6hf6unioc>
+ <BY5PR04MB673902E047FF8ADAFD8B94B3C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
+In-Reply-To: <BY5PR04MB673902E047FF8ADAFD8B94B3C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Fri, 13 Dec 2024 15:16:44 +0200
+Message-ID: <CAA8EJprGjuGFjZnXUxiMZMV=FO9O9CYt06H_nSL82fEOvPytyA@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
+ atomic_enable()
+To: Xin Ji <xji@analogixsemi.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Bernie Liang <bliang@analogixsemi.com>, Qilin Wen <qwen@analogixsemi.com>, 
+ "treapking@google.com" <treapking@google.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: raObrXIn0QEBLmTEQfp2DpvAMswJDngQ
-X-Proofpoint-GUID: raObrXIn0QEBLmTEQfp2DpvAMswJDngQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
- mlxscore=0 clxscore=1015 adultscore=0 phishscore=0 suspectscore=0
- bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412130093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,120 +95,266 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/13/2024 3:07 AM, Neil Armstrong wrote:
-> On 12/12/2024 21:21, Konrad Dybcio wrote:
->> On 11.12.2024 9:29 AM, Neil Armstrong wrote:
->>> The Adreno GPU Management Unit (GMU) can also scale the DDR Bandwidth
->>> along the Frequency and Power Domain level, until now we left the OPP
->>> core scale the OPP bandwidth via the interconnect path.
->>>
->>> In order to enable bandwidth voting via the GPU Management
->>> Unit (GMU), when an opp is set by devfreq we also look for
->>> the corresponding bandwidth index in the previously generated
->>> bw_table and pass this value along the frequency index to the GMU.
->>>
->>> The GMU also takes another vote called AB which is a 16bit quantized
->>> value of the floor bandwidth against the maximum supported bandwidth.
->>>
->>> The AB is calculated with a default 25% of the bandwidth like the
->>> downstream implementation too inform the GMU firmware the minimal
->>> quantity of bandwidth we require for this OPP.
->>>
->>> Since we now vote for all resources via the GMU, setting the OPP
->>> is no more needed, so we can completely skip calling
->>> dev_pm_opp_set_opp() in this situation.
->>>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 39 ++++++++++++++++++++++++
->>> +++++++++--
->>>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  2 +-
->>>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c |  6 +++---
->>>   drivers/gpu/drm/msm/adreno/a6xx_hfi.h |  5 +++++
->>>   4 files changed, 46 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/
->>> msm/adreno/a6xx_gmu.c
->>> index
->>> 36696d372a42a27b26a018b19e73bc6d8a4a5235..46ae0ec7a16a41d55755ce04fb32404cdba087be 100644
->>> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->>> @@ -110,9 +110,11 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu,
->>> struct dev_pm_opp *opp,
->>>                  bool suspended)
->>>   {
->>>       struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->>> +    const struct a6xx_info *info = adreno_gpu->info->a6xx;
->>>       struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->>>       struct a6xx_gmu *gmu = &a6xx_gpu->gmu;
->>>       u32 perf_index;
->>> +    u32 bw_index = 0;
->>>       unsigned long gpu_freq;
->>>       int ret = 0;
->>>   @@ -125,6 +127,37 @@ void a6xx_gmu_set_freq(struct msm_gpu *gpu,
->>> struct dev_pm_opp *opp,
->>>           if (gpu_freq == gmu->gpu_freqs[perf_index])
->>>               break;
->>>   +    /* If enabled, find the corresponding DDR bandwidth index */
->>> +    if (info->bcms && gmu->nr_gpu_bws > 1) {
->>
->> if (gmu->nr_gpu_bws)
-> 
-> gmu->nr_gpu_bws == 1 means there's not BW in the OPPs (index 0 is the
-> "off" state)
-> 
->>
->>> +        unsigned int bw = dev_pm_opp_get_bw(opp, true, 0);
->>> +
->>> +        for (bw_index = 0; bw_index < gmu->nr_gpu_bws - 1; bw_index+
->>> +) {
->>> +            if (bw == gmu->gpu_bw_table[bw_index])
->>> +                break;
->>> +        }
->>> +
->>> +        /* Vote AB as a fraction of the max bandwidth */
->>> +        if (bw) {
->>
->> This seems to only be introduced with certain a7xx too.. you should
->> ping the GMU with HFI_VALUE_GMU_AB_VOTE to check if it's supported
-> 
-> Good point
+On Fri, 13 Dec 2024 at 13:00, Xin Ji <xji@analogixsemi.com> wrote:
+>
+> Hi Dmitry, sorry, I didn't clear describe the reason.
 
-No no. Doing this will trigger some assert in pre-A750 gmu firmwares. We
-learned it the hard way. No improvisation please. :)
+Please. Do not top-post. Please paste your answer under the question,
+not somewhere at the top of the email. This allows us to have a more
+constructive dialog. Additional bonus if you can fix your email client
+to insert sensible quoting information instead of dumping the headers
+of the original email.
 
--Akhil.
+>
+> Anx7625 implement DSI to DP convert behind USB Type-C port, when user plug into USB Type-C
+> Dongle with DP monitor, the user space will enable HDCP feature, then kernel do HDCP and
+> output display and set HDCP content to ENABLE, but the issue happened if user manually
+> change the monitor's resolution later.
+>
+> Each time user change the resolution, kernel will call bridge interface .atomic_disable() and
+> .atomic_enable(), the old driver will keep HDCP state to ENABLE, this is a BUG, when user
+> change the resolution, kernel must change HDCP content too (mustn't keep to ENABLE),
 
-> 
->>
->>> +            u64 tmp;
->>> +
->>> +            /* For now, vote for 25% of the bandwidth */
->>> +            tmp = bw * 25;
->>> +            do_div(tmp, 100);
->>> +
->>> +            /*
->>> +             * The AB vote consists of a 16 bit wide quantized level
->>> +             * against the maximum supported bandwidth.
->>> +             * Quantization can be calculated as below:
->>> +             * vote = (bandwidth * 2^16) / max bandwidth
->>> +             */
->>> +            tmp *= MAX_AB_VOTE;
->>> +            do_div(tmp, gmu->gpu_bw_table[gmu->nr_gpu_bws - 1]);
->>> +
->>> +            bw_index |= AB_VOTE(clamp(tmp, 1, MAX_AB_VOTE));
->>> +            bw_index |= AB_VOTE_ENABLE;
->>> +        }
->>> +    }
->>
->> BTW, did you dump the values we send to the GMU here and in the RPMh
->> builder part & validate against downstream?
-> 
-> It matches how downstream builds the Ab vote yes
-> 
->>
->> Konrad
-> 
+Why? Could you please point me to the corresponding documentation or a
+code path in the other driver? Preferably i915, AMD or Nouveau.
 
+> as DRM doc said, kernel cannot change from ENABLE to UNDESIRE, so next patch,
+> I'll change it to DESIRE in .atomic_disable().
+>
+> Thanks!
+> Xin
+>
+> > -----Original Message-----
+> > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Sent: Friday, December 13, 2024 6:47 PM
+> > To: Xin Ji <xji@analogixsemi.com>
+> > Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong
+> > <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart
+> > <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>;
+> > Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> > Thomas Zimmermann <tzimmermann@suse.de>; David Airlie
+> > <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Bernie Liang
+> > <bliang@analogixsemi.com>; Qilin Wen <qwen@analogixsemi.com>;
+> > treapking@google.com; dri-devel@lists.freedesktop.org; linux-
+> > kernel@vger.kernel.org
+> > Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
+> > atomic_enable()
+> >
+> > CAUTION: This email originated from outside of the organization. Please do not
+> > click links or open attachments unless you recognize the sender, and know the
+> > content is safe.
+> >
+> >
+> > On Fri, Dec 13, 2024 at 10:06:36AM +0000, Xin Ji wrote:
+> > > Hi Dmitry, thanks for the review, I made some changes which change
+> > > ENABLE to DESIRE in .atomic_disable(), I'll upstream it after testing. Thanks!
+> >
+> > - Please don't top-post.
+> >
+> > - You still didn't explain, why do you want to do this change of HDCP
+> >   status. Could you please provide an explanation before sending the
+> >   next iteration?
+> >
+> > >
+> > > > -----Original Message-----
+> > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > Sent: Thursday, December 12, 2024 5:18 PM
+> > > > To: Xin Ji <xji@analogixsemi.com>
+> > > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong
+> > > > <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent
+> > > > Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman
+> > > > <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>;
+> > > > Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
+> > > > <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
+> > David
+> > > > Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Bernie
+> > > > Liang <bliang@analogixsemi.com>; Qilin Wen <qwen@analogixsemi.com>;
+> > > > treapking@google.com; dri-devel@lists.freedesktop.org; linux-
+> > > > kernel@vger.kernel.org
+> > > > Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
+> > > > atomic_enable()
+> > > >
+> > > > CAUTION: This email originated from outside of the organization.
+> > > > Please do not click links or open attachments unless you recognize
+> > > > the sender, and know the content is safe.
+> > > >
+> > > >
+> > > > On Thu, Dec 12, 2024 at 01:51:10PM +0800, Xin Ji wrote:
+> > > > > When user enabled HDCP feature, userspace will set HDCP content to
+> > > > > DRM_MODE_CONTENT_PROTECTION_DESIRED. Next, anx7625 will
+> > update
+> > > > HDCP
+> > > > > content to DRM_MODE_CONTENT_PROTECTION_ENABLED if down
+> > stream
+> > > > support
+> > > > > HDCP feature.
+> > > > >
+> > > > > However once HDCP content turn to
+> > > > DRM_MODE_CONTENT_PROTECTION_ENABLED
+> > > > > userspace will not update the HDCP content to
+> > > > > DRM_MODE_CONTENT_PROTECTION_UNDESIRED until monitor
+> > disconnect.
+> > > >
+> > > > It seems you've ingored a part of the previous review comment. It's
+> > > > the userspace who triggers the ENABLED -> UNDESIRED transition, not
+> > > > the kernel side. The change to move HDCP handling to atomic_enable()
+> > > > looks fine, the change to disable HDCP is not (unless I misunderstand
+> > something).
+> > > >
+> > > > >
+> > > > > So, anx7625 driver move hdcp content value checking from bridge
+> > > > > interface .atomic_check() to .atomic_enable(), then update hdcp
+> > > > > content according from currently HDCP status. And also disabled
+> > > > > HDCP in bridge interface .atomic_disable().
+> > > > >
+> > > > > Signed-off-by: Xin Ji <xji@analogixsemi.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 74
+> > > > > ++++++++++++++---------
+> > > > >  1 file changed, 46 insertions(+), 28 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > index a2675b121fe4..f96ce5665e8d 100644
+> > > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > > > @@ -861,6 +861,22 @@ static int anx7625_hdcp_disable(struct
+> > > > > anx7625_data
+> > > > *ctx)
+> > > > >                                TX_HDCP_CTRL0, ~HARD_AUTH_EN &
+> > > > > 0xFF); }
+> > > > >
+> > > > > +static void anx7625_hdcp_disable_and_update_cp(struct
+> > > > > +anx7625_data
+> > > > > +*ctx) {
+> > > > > +     struct device *dev = ctx->dev;
+> > > > > +
+> > > > > +     if (!ctx->connector)
+> > > > > +             return;
+> > > > > +
+> > > > > +     anx7625_hdcp_disable(ctx);
+> > > > > +
+> > > > > +     ctx->hdcp_cp = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+> > > > > +     drm_hdcp_update_content_protection(ctx->connector,
+> > > > > +                                        ctx->hdcp_cp);
+> > > > > +
+> > > > > +     dev_dbg(dev, "update CP to UNDESIRE\n"); }
+> > > > > +
+> > > > >  static int anx7625_hdcp_enable(struct anx7625_data *ctx)  {
+> > > > >       u8 bcap;
+> > > > > @@ -2149,34 +2165,6 @@ static int
+> > > > > anx7625_connector_atomic_check(struct
+> > > > anx7625_data *ctx,
+> > > > >       if (cp == ctx->hdcp_cp)
+> > > > >               return 0;
+> > > > >
+> > > > > -     if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
+> > > > > -             if (ctx->dp_en) {
+> > > > > -                     dev_dbg(dev, "enable HDCP\n");
+> > > > > -                     anx7625_hdcp_enable(ctx);
+> > > > > -
+> > > > > -                     queue_delayed_work(ctx->hdcp_workqueue,
+> > > > > -                                        &ctx->hdcp_work,
+> > > > > -                                        msecs_to_jiffies(2000));
+> > > > > -             }
+> > > > > -     }
+> > > > > -
+> > > > > -     if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+> > > > > -             if (ctx->hdcp_cp !=
+> > DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> > > > > -                     dev_err(dev, "current CP is not ENABLED\n");
+> > > > > -                     return -EINVAL;
+> > > > > -             }
+> > > > > -             anx7625_hdcp_disable(ctx);
+> > > > > -             ctx->hdcp_cp = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+> > > > > -             drm_hdcp_update_content_protection(ctx->connector,
+> > > > > -                                                ctx->hdcp_cp);
+> > > > > -             dev_dbg(dev, "update CP to UNDESIRE\n");
+> > > > > -     }
+> > > > > -
+> > > > > -     if (cp == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> > > > > -             dev_err(dev, "Userspace illegal set to PROTECTION ENABLE\n");
+> > > > > -             return -EINVAL;
+> > > > > -     }
+> > > > > -
+> > > > >       return 0;
+> > > > >  }
+> > > > >
+> > > > > @@ -2425,6 +2413,8 @@ static void
+> > > > > anx7625_bridge_atomic_enable(struct
+> > > > drm_bridge *bridge,
+> > > > >       struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+> > > > >       struct device *dev = ctx->dev;
+> > > > >       struct drm_connector *connector;
+> > > > > +     struct drm_connector_state *conn_state;
+> > > > > +     int cp;
+> > > > >
+> > > > >       dev_dbg(dev, "drm atomic enable\n");
+> > > > >
+> > > > > @@ -2439,6 +2429,32 @@ static void
+> > > > > anx7625_bridge_atomic_enable(struct
+> > > > drm_bridge *bridge,
+> > > > >       _anx7625_hpd_polling(ctx, 5000 * 100);
+> > > > >
+> > > > >       anx7625_dp_start(ctx);
+> > > > > +
+> > > > > +     conn_state =
+> > > > > + drm_atomic_get_new_connector_state(state->base.state,
+> > > > > + connector);
+> > > > > +
+> > > > > +     if (WARN_ON(!conn_state))
+> > > > > +             return;
+> > > > > +
+> > > > > +     cp = conn_state->content_protection;
+> > > > > +     if (cp == DRM_MODE_CONTENT_PROTECTION_DESIRED) {
+> > > > > +             if (ctx->dp_en) {
+> > > > > +                     dev_dbg(dev, "enable HDCP\n");
+> > > > > +                     anx7625_hdcp_enable(ctx);
+> > > > > +
+> > > > > +                     queue_delayed_work(ctx->hdcp_workqueue,
+> > > > > +                                        &ctx->hdcp_work,
+> > > > > +                                        msecs_to_jiffies(2000));
+> > > > > +             }
+> > > > > +     }
+> > > > > +
+> > > > > +     if (cp == DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+> > > > > +             if (ctx->hdcp_cp !=
+> > DRM_MODE_CONTENT_PROTECTION_ENABLED) {
+> > > > > +                     dev_err(dev, "current CP is not ENABLED\n");
+> > > > > +                     return;
+> > > > > +             }
+> > > > > +
+> > > > > +             anx7625_hdcp_disable_and_update_cp(ctx);
+> > > > > +     }
+> > > > >  }
+> > > > >
+> > > > >  static void anx7625_bridge_atomic_disable(struct drm_bridge
+> > > > > *bridge, @@ -2449,6 +2465,8 @@ static void
+> > > > > anx7625_bridge_atomic_disable(struct
+> > > > > drm_bridge *bridge,
+> > > > >
+> > > > >       dev_dbg(dev, "drm atomic disable\n");
+> > > > >
+> > > > > +     anx7625_hdcp_disable_and_update_cp(ctx);
+> > > > > +
+> > > > >       ctx->connector = NULL;
+> > > > >       anx7625_dp_stop(ctx);
+> > > > >
+> > > > > --
+> > > > > 2.25.1
+> > > > >
+> > > >
+> > > > --
+> > > > With best wishes
+> > > > Dmitry
+> >
+> > --
+> > With best wishes
+> > Dmitry
+
+
+
+-- 
+With best wishes
+Dmitry
