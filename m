@@ -1,82 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0710B9F1815
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 22:34:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E2A9F1855
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 23:14:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69CEA10F0E3;
-	Fri, 13 Dec 2024 21:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E2010E248;
+	Fri, 13 Dec 2024 22:14:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KcAHjg0n";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MLznq2oo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C6210E46C
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 21:34:19 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDEfpLa018025;
- Fri, 13 Dec 2024 21:34:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Bo/4jlG3m3Tk+nd6sOsa3Mw0gda3feFfIZhiCSJy3BA=; b=KcAHjg0nJm4ypXd/
- ki5irjaUjiBeRTzc7vzSugQZ2ABe/bTaFgNKzxr1z+7/v45X/xU8UadZqUEhUmut
- VJCtd2O911f+3NQJH4NhO5JpZf/mvRRdgxXnALQ/nNe0nmKbyr8fInjVgP6otYSD
- 7ZcAOGy/XPkoXE5TMoTLq11prx9wP4q2ia22ZlleRRSvqY6DRmbkf879cqjIKEyQ
- xQ8qMtsDLOeJTmP6vgBr6e1gOr2eyYvyHAE9mN8evs0s7XaAmyPo5N3RsjQXQm7A
- cBXubVn4S59gdReOSM05QsuQ58+Vy68ZgQtgmhJXbPWFqgMI/A+su2FCFgF77FVZ
- +ZmO6Q==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gdkn2hpx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 21:34:11 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDLYAQF028380
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 13 Dec 2024 21:34:10 GMT
-Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 13 Dec 2024 13:34:09 -0800
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-To: <quic_carlv@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
- <quic_yabdulra@quicinc.com>, <quic_mattleun@quicinc.com>,
- <quic_thanson@quicinc.com>
-CC: <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
- <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>, Jeffrey Hugo
- <quic_jhugo@quicinc.com>
-Subject: [PATCH 7/7] accel/qaic: Add AIC200 support
-Date: Fri, 13 Dec 2024 14:33:40 -0700
-Message-ID: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
+ [IPv6:2a00:1450:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6534310E248
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 22:14:38 +0000 (UTC)
+Received: by mail-lj1-x234.google.com with SMTP id
+ 38308e7fff4ca-3003d7ca01cso21277991fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 14:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734128076; x=1734732876; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=piO3iEUonvXG/YpP5cYnqXXHXA3RyScwDLylgHSdgeM=;
+ b=MLznq2oo99W1gy5dQI6nCl88YGxSqqymi9YL3WC4nUpowWUxnz6Lw+4c2z3Zkw4MTR
+ aLuTS6ucVFn0qHH0Pl1plCdISa7XuWiF1mRNfs/qXk4Dr3pAkOEWPYy7378d66eD4H5t
+ 9bdO0YZ/MSqCNhLjBoq/K0EBCzQf1uas8+2HhCtG0NewTmW3UkdqwdeuFW/cKdEBgb5D
+ rXdl/tbVa68gtR9px+tmwqyv48fMNyLpcj96W2iyPyBbfJu5+pnFOLmiSiR7DPRimgfZ
+ SLJJxZRbSZ9J1HuhIEyU/BG7yVvq4hUFs2FP3q2mSjuAr0nl5/p5awY7cPqY9rTB1Ewb
+ eQtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734128076; x=1734732876;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=piO3iEUonvXG/YpP5cYnqXXHXA3RyScwDLylgHSdgeM=;
+ b=ozw+7fNumFTmV1bprqbbRzB1iqZ/UhUZEjiX3e9SVQNKCw8k6B6D2w0n7o3DZeXbJn
+ xE8X916pYUapOy51OT0FtqtXZApE2KVuMcQbBxqHWaPUS1hvGrsWvcmPMkvnX0eLjDcK
+ vBPUC9P8/NJ4DoitaDjG+mJKOTGrfO5GcPziasqU3SnqqxOVObHbKjGVKMN8fcxCpccv
+ Zq/XMZ6MR8YPe41pimZI5Cv3m3y+I9S2E9c6yu8H+rl2dmf1xAGkSIt+ObMfCEFnXHRC
+ n2CXVASZm2ZC4TGTX42VyR02To+JTu3LW3e4oSGOTue+nbdD1PojByTrcL9kCOvRG43V
+ /N3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWz7Q+8POJB1jdx/6yWx2coBd53b9Ph/Yxel72gdNQjTU2aKMa305dHFdD/qsJT4i5H01qOWl7t+kk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxM7Sy/Zz01LpvgRr/ztXYrwKYWAJ6QF5B7xv3HucQ6emQw0NMC
+ wmJ1tMyDnfvkxo1f20mQquo7G1tWOALqfW4ZDRoYQzmU1yfG+JQl1q8O8WOhZHA=
+X-Gm-Gg: ASbGncuyFSvH4VhZYtGVQgZOwdK8Vl54tFBLOBllVrkCo/6TlAHqrODKewwmDBUdbTB
+ GTSIrj0UmOl2vl39iEbP3pRxKysH+HSpMC8092yr5TOdUBT4rj5kswDeIgS2w6DCdooolk+GG0j
+ jIaZkVy2yVgDK7lkj9i28XxPwqeEIh2qYAvL9LO0SEXpxrN5LPlObGDfxgpN4z7e9MjuqgKnvPR
+ AFlL51mCGfJSX1cGOS8FAs2r+uWn2spbNlPI0FOGOyYmAjW6zllP2uvA3xmpGMI
+X-Google-Smtp-Source: AGHT+IGbQqQ7Qu8wQL0kA96Y19GVt8yuyIETIpiRDuqRBPKtq0Iu6InmLiOUw9B5NZ9yHih+nFaIkg==
+X-Received: by 2002:a05:651c:54f:b0:300:3bcd:8d05 with SMTP id
+ 38308e7fff4ca-3025443fe17mr12038911fa.15.1734128076440; 
+ Fri, 13 Dec 2024 14:14:36 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-303441e0f43sm413451fa.125.2024.12.13.14.14.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Dec 2024 14:14:35 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 00/35] drm/msm/dpu: rework HW block feature handling
+Date: Sat, 14 Dec 2024 00:14:16 +0200
+Message-Id: <20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: T75Nh_KdmNAn92mfyg_koJOKJUCURPTQ
-X-Proofpoint-ORIG-GUID: T75Nh_KdmNAn92mfyg_koJOKJUCURPTQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999
- impostorscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
- phishscore=0 bulkscore=0 suspectscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412130152
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALixXGcC/x3MOwqAMBBF0a3I1A6YRPxtRSzEPHUaDRMVQdy7w
+ fIU9z4UoYJIXfaQ4pIo+5Zg8oymddwWsPhksoUtjTWOfTjZ6x54xnicish1VTg/OcA0LaUuKGa
+ 5/2c/vO8HvttxPGMAAAA=
+X-Change-ID: 20241213-dpu-drop-features-7603dc3ee189
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5889;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=AGT0VwRtMSmQJOGxsFl1LCGIke4RBrOxt2Uij10pqgU=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3rMxsOXTfVnHvEOViw5rhYkmXLKpKmjzXtdQezx2jJ3y
+ 5SCq8adjMYsDIxcDLJiiiw+BS1TYzYlh33YMbUeZhArE8gUBi5OAZhI7SMOhplWHlseaZ38crrJ
+ tP7onjQv+RlWLyPsQ92nzL3tvm/F7saIjT3zmuZ/vGp2+MWGrZrSHw7tyl3yeYHlIW3/jOSGAw9
+ v2StxhoiY7OV2PDg9y/DTpK8SHawJfutS/WLLUs7oKrs+ZPk0VVF+Q4Gi+2nZekMVo4kf9O72+k
+ i/kdw4+fbZZgv9i8YmAdefP7L+/abSYdaHJ87n+6rF7nHfsJ5oxjCVc21IiMikEvkb6X5bJhb5b
+ +Be1Zk3I15mJ6czNwujTqG1asDt9gUSRWGFps94RCsF3VwOSWZMjnqufMUtbW9o9pEY4y2VevrX
+ Xt25W6IUfePk19zwp1aSfgYuPexf7fyreeNvTNh06ZkGAA==
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,555 +104,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add basic support for the new AIC200 product. The PCIe Device ID is
-0xa110. With this, we can turn on the lights for AIC200 by leveraging
-much of the existing driver.
+Some time ago we started the process of converting HW blocks to use
+revision-based checks instead of having feature bits (which are easy to
+miss or to set incorrectly). Then the process of such a conversion was
+postponed. (Mostly) finish the conversion. The only blocks which still
+have feature bits are SSPP, WB and VBIF. In the rare cases where
+behaviour actually differs from platform to platform (or from block to
+block) use unsigned long bitfields, they have simpler syntax to be
+checked and don't involve test_bit() invocation.
 
-Co-developed-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/accel/qaic/mhi_controller.c | 360 ++++++++++++++++++++++++++--
- drivers/accel/qaic/mhi_controller.h |   2 +-
- drivers/accel/qaic/qaic.h           |   1 +
- drivers/accel/qaic/qaic_drv.c       |  11 +-
- drivers/accel/qaic/sahara.c         |  39 ++-
- 5 files changed, 395 insertions(+), 18 deletions(-)
+Dmitry Baryshkov (35):
+      drm/msm/dpu: skip watchdog timer programming through TOP on >= SM8450
+      drm/msm/dpu: enable DPU_WB_INPUT_CTRL for DPU 5.x
+      drm/msm/dpu: stop passing mdss_ver to setup_timing_gen()
+      drm/msm/dpu: drop INTF_SC7280_MASK
+      drm/msm/dpu: inline _setup_ctl_ops()
+      drm/msm/dpu: inline _setup_dsc_ops()
+      drm/msm/dpu: inline _setup_dspp_ops()
+      drm/msm/dpu: inline _setup_mixer_ops()
+      drm/msm/dpu: remove DSPP_SC7180_MASK
+      drm/msm/dpu: get rid of DPU_CTL_HAS_LAYER_EXT4
+      drm/msm/dpu: get rid of DPU_CTL_ACTIVE_CFG
+      drm/msm/dpu: get rid of DPU_CTL_FETCH_ACTIVE
+      drm/msm/dpu: get rid of DPU_CTL_DSPP_SUB_BLOCK_FLUSH
+      drm/msm/dpu: get rid of DPU_CTL_VM_CFG
+      drm/msm/dpu: get rid of DPU_DATA_HCTL_EN
+      drm/msm/dpu: get rid of DPU_INTF_STATUS_SUPPORTED
+      drm/msm/dpu: get rid of DPU_INTF_INPUT_CTRL
+      drm/msm/dpu: get rid of DPU_PINGPONG_DSC
+      drm/msm/dpu: get rid of DPU_PINGPONG_DITHER
+      drm/msm/dpu: get rid of DPU_MDP_VSYNC_SEL
+      drm/msm/dpu: get rid of DPU_MDP_PERIPH_0_REMOVED
+      drm/msm/dpu: get rid of DPU_MDP_AUDIO_SELECT
+      drm/msm/dpu: get rid of DPU_MIXER_COMBINED_ALPHA
+      drm/msm/dpu: get rid of DPU_DIM_LAYER
+      drm/msm/dpu: get rid of DPU_DSC_HW_REV_1_2
+      drm/msm/dpu: get rid of DPU_DSC_OUTPUT_CTRL
+      drm/msm/dpu: get rid of DPU_WB_INPUT_CTRL
+      drm/msm/dpu: get rid of DPU_SSPP_QOS_8LVL
+      drm/msm/dpu: drop unused MDP TOP features
+      drm/msm/dpu: drop ununused PINGPONG features
+      drm/msm/dpu: drop ununused MIXER features
+      drm/msm/dpu: get rid of DPU_MIXER_SOURCESPLIT
+      drm/msm/dpu: get rid of DPU_DSC_NATIVE_42x_EN
+      drm/msm/dpu: get rid of DPU_CTL_SPLIT_DISPLAY
+      drm/msm/dpu: move features out of the DPU_HW_BLK_INFO
 
-diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
-index 8ab82e78dd94..d68df2f6a7e6 100644
---- a/drivers/accel/qaic/mhi_controller.c
-+++ b/drivers/accel/qaic/mhi_controller.c
-@@ -20,6 +20,11 @@ static unsigned int mhi_timeout_ms = 2000; /* 2 sec default */
- module_param(mhi_timeout_ms, uint, 0600);
- MODULE_PARM_DESC(mhi_timeout_ms, "MHI controller timeout value");
- 
-+static const char *fw_image_paths[FAMILY_MAX] = {
-+	[FAMILY_AIC100] = "qcom/aic100/sbl.bin",
-+	[FAMILY_AIC200] = "qcom/aic200/sbl.bin",
-+};
-+
- static const struct mhi_channel_config aic100_channels[] = {
- 	{
- 		.name = "QAIC_LOOPBACK",
-@@ -439,6 +444,297 @@ static const struct mhi_channel_config aic100_channels[] = {
- 	},
- };
- 
-+static const struct mhi_channel_config aic200_channels[] = {
-+	{
-+		.name = "QAIC_LOOPBACK",
-+		.num = 0,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_LOOPBACK",
-+		.num = 1,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SAHARA",
-+		.num = 2,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SAHARA",
-+		.num = 3,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SSR",
-+		.num = 6,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_SSR",
-+		.num = 7,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_CONTROL",
-+		.num = 10,
-+		.num_elements = 128,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_CONTROL",
-+		.num = 11,
-+		.num_elements = 128,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_LOGGING",
-+		.num = 12,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_LOGGING",
-+		.num = 13,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_SBL,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_STATUS",
-+		.num = 14,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_STATUS",
-+		.num = 15,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TELEMETRY",
-+		.num = 16,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TELEMETRY",
-+		.num = 17,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TIMESYNC_PERIODIC",
-+		.num = 22,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "QAIC_TIMESYNC_PERIODIC",
-+		.num = 23,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "IPCR",
-+		.num = 24,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_TO_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = false,
-+		.wake_capable = false,
-+	},
-+	{
-+		.name = "IPCR",
-+		.num = 25,
-+		.num_elements = 32,
-+		.local_elements = 0,
-+		.event_ring = 0,
-+		.dir = DMA_FROM_DEVICE,
-+		.ee_mask = MHI_CH_EE_AMSS,
-+		.pollcfg = 0,
-+		.doorbell = MHI_DB_BRST_DISABLE,
-+		.lpm_notify = false,
-+		.offload_channel = false,
-+		.doorbell_mode_switch = false,
-+		.auto_queue = true,
-+		.wake_capable = false,
-+	},
-+};
-+
- static struct mhi_event_config aic100_events[] = {
- 	{
- 		.num_elements = 32,
-@@ -454,16 +750,44 @@ static struct mhi_event_config aic100_events[] = {
- 	},
- };
- 
--static struct mhi_controller_config aic100_config = {
--	.max_channels = 128,
--	.timeout_ms = 0, /* controlled by mhi_timeout */
--	.buf_len = 0,
--	.num_channels = ARRAY_SIZE(aic100_channels),
--	.ch_cfg = aic100_channels,
--	.num_events = ARRAY_SIZE(aic100_events),
--	.event_cfg = aic100_events,
--	.use_bounce_buf = false,
--	.m2_no_db = false,
-+static struct mhi_event_config aic200_events[] = {
-+	{
-+		.num_elements = 32,
-+		.irq_moderation_ms = 0,
-+		.irq = 0,
-+		.channel = U32_MAX,
-+		.priority = 1,
-+		.mode = MHI_DB_BRST_DISABLE,
-+		.data_type = MHI_ER_CTRL,
-+		.hardware_event = false,
-+		.client_managed = false,
-+		.offload_channel = false,
-+	},
-+};
-+
-+static struct mhi_controller_config mhi_cntrl_configs[] = {
-+	[FAMILY_AIC100] = {
-+		.max_channels = 128,
-+		.timeout_ms = 0, /* controlled by mhi_timeout */
-+		.buf_len = 0,
-+		.num_channels = ARRAY_SIZE(aic100_channels),
-+		.ch_cfg = aic100_channels,
-+		.num_events = ARRAY_SIZE(aic100_events),
-+		.event_cfg = aic100_events,
-+		.use_bounce_buf = false,
-+		.m2_no_db = false,
-+	},
-+	[FAMILY_AIC200] = {
-+		.max_channels = 128,
-+		.timeout_ms = 0, /* controlled by mhi_timeout */
-+		.buf_len = 0,
-+		.num_channels = ARRAY_SIZE(aic200_channels),
-+		.ch_cfg = aic200_channels,
-+		.num_events = ARRAY_SIZE(aic200_events),
-+		.event_cfg = aic200_events,
-+		.use_bounce_buf = false,
-+		.m2_no_db = false,
-+	},
- };
- 
- static int mhi_read_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr, u32 *out)
-@@ -545,8 +869,9 @@ static int mhi_reset_and_async_power_up(struct mhi_controller *mhi_cntrl)
- }
- 
- struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
--						    int mhi_irq, bool shared_msi)
-+						    int mhi_irq, bool shared_msi, int family)
- {
-+	struct mhi_controller_config mhi_config = mhi_cntrl_configs[family];
- 	struct mhi_controller *mhi_cntrl;
- 	int ret;
- 
-@@ -573,6 +898,13 @@ struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, voi
- 	mhi_cntrl->nr_irqs = 1;
- 	mhi_cntrl->irq = devm_kmalloc(&pci_dev->dev, sizeof(*mhi_cntrl->irq), GFP_KERNEL);
- 
-+	if (family == FAMILY_AIC200) {
-+		mhi_cntrl->name = "AIC200";
-+		mhi_cntrl->seg_len = SZ_512K;
-+	} else {
-+		mhi_cntrl->name = "AIC100";
-+	}
-+
- 	if (!mhi_cntrl->irq)
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -581,11 +913,11 @@ struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, voi
- 	if (shared_msi) /* MSI shared with data path, no IRQF_NO_SUSPEND */
- 		mhi_cntrl->irq_flags = IRQF_SHARED;
- 
--	mhi_cntrl->fw_image = "qcom/aic100/sbl.bin";
-+	mhi_cntrl->fw_image = fw_image_paths[family];
- 
- 	/* use latest configured timeout */
--	aic100_config.timeout_ms = mhi_timeout_ms;
--	ret = mhi_register_controller(mhi_cntrl, &aic100_config);
-+	mhi_config.timeout_ms = mhi_timeout_ms;
-+	ret = mhi_register_controller(mhi_cntrl, &mhi_config);
- 	if (ret) {
- 		pci_err(pci_dev, "mhi_register_controller failed %d\n", ret);
- 		return ERR_PTR(ret);
-diff --git a/drivers/accel/qaic/mhi_controller.h b/drivers/accel/qaic/mhi_controller.h
-index 500e7f4af2af..8939f6ae185e 100644
---- a/drivers/accel/qaic/mhi_controller.h
-+++ b/drivers/accel/qaic/mhi_controller.h
-@@ -8,7 +8,7 @@
- #define MHICONTROLLERQAIC_H_
- 
- struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, void __iomem *mhi_bar,
--						    int mhi_irq, bool shared_msi);
-+						    int mhi_irq, bool shared_msi, int family);
- void qaic_mhi_free_controller(struct mhi_controller *mhi_cntrl, bool link_up);
- void qaic_mhi_start_reset(struct mhi_controller *mhi_cntrl);
- void qaic_mhi_reset_done(struct mhi_controller *mhi_cntrl);
-diff --git a/drivers/accel/qaic/qaic.h b/drivers/accel/qaic/qaic.h
-index cf97fd9a7e70..0dbb8e32e4b9 100644
---- a/drivers/accel/qaic/qaic.h
-+++ b/drivers/accel/qaic/qaic.h
-@@ -34,6 +34,7 @@
- 
- enum aic_families {
- 	FAMILY_AIC100,
-+	FAMILY_AIC200,
- 	FAMILY_MAX,
- };
- 
-diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 4e63e475b389..3b415e2c9431 100644
---- a/drivers/accel/qaic/qaic_drv.c
-+++ b/drivers/accel/qaic/qaic_drv.c
-@@ -36,6 +36,7 @@ MODULE_IMPORT_NS("DMA_BUF");
- 
- #define PCI_DEVICE_ID_QCOM_AIC080	0xa080
- #define PCI_DEVICE_ID_QCOM_AIC100	0xa100
-+#define PCI_DEVICE_ID_QCOM_AIC200	0xa110
- #define QAIC_NAME			"qaic"
- #define QAIC_DESC			"Qualcomm Cloud AI Accelerators"
- #define CNTL_MAJOR			5
-@@ -66,6 +67,13 @@ static const struct qaic_device_config aic100_config = {
- 	.dbc_bar_idx = 2,
- };
- 
-+static const struct qaic_device_config aic200_config = {
-+	.family = FAMILY_AIC200,
-+	.bar_mask = BIT(0) | BIT(1) | BIT(2) | BIT(4),
-+	.mhi_bar_idx = 1,
-+	.dbc_bar_idx = 2,
-+};
-+
- bool datapath_polling;
- module_param(datapath_polling, bool, 0400);
- MODULE_PARM_DESC(datapath_polling, "Operate the datapath in polling mode");
-@@ -568,7 +576,7 @@ static int qaic_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		return ret;
- 
- 	qdev->mhi_cntrl = qaic_mhi_register_controller(pdev, qdev->bar_mhi, mhi_irq,
--						       qdev->single_msi);
-+						       qdev->single_msi, config->family);
- 	if (IS_ERR(qdev->mhi_cntrl)) {
- 		ret = PTR_ERR(qdev->mhi_cntrl);
- 		qaic_destroy_drm_device(qdev, QAIC_NO_PARTITION);
-@@ -637,6 +645,7 @@ static struct mhi_driver qaic_mhi_driver = {
- static const struct pci_device_id qaic_ids[] = {
- 	{ PCI_DEVICE_DATA(QCOM, AIC080, (kernel_ulong_t)&aic080_config), },
- 	{ PCI_DEVICE_DATA(QCOM, AIC100, (kernel_ulong_t)&aic100_config), },
-+	{ PCI_DEVICE_DATA(QCOM, AIC200, (kernel_ulong_t)&aic200_config), },
- 	{ }
- };
- MODULE_DEVICE_TABLE(pci, qaic_ids);
-diff --git a/drivers/accel/qaic/sahara.c b/drivers/accel/qaic/sahara.c
-index 09c8b055aa81..3ebcc1f7ff58 100644
---- a/drivers/accel/qaic/sahara.c
-+++ b/drivers/accel/qaic/sahara.c
-@@ -188,6 +188,34 @@ static const char * const aic100_image_table[] = {
- 	[10] = "qcom/aic100/fw10.bin",
- };
- 
-+static const char * const aic200_image_table[] = {
-+	[5]  = "qcom/aic200/uefi.elf",
-+	[12] = "qcom/aic200/aic200-nsp.bin",
-+	[23] = "qcom/aic200/aop.mbn",
-+	[32] = "qcom/aic200/tz.mbn",
-+	[33] = "qcom/aic200/hypvm.mbn",
-+	[39] = "qcom/aic200/aic200_abl.elf",
-+	[40] = "qcom/aic200/apdp.mbn",
-+	[41] = "qcom/aic200/devcfg.mbn",
-+	[42] = "qcom/aic200/sec.elf",
-+	[43] = "qcom/aic200/aic200-hlos.elf",
-+	[49] = "qcom/aic200/shrm.elf",
-+	[50] = "qcom/aic200/cpucp.elf",
-+	[51] = "qcom/aic200/aop_devcfg.mbn",
-+	[57] = "qcom/aic200/cpucp_dtbs.elf",
-+	[62] = "qcom/aic200/uefi_dtbs.elf",
-+	[63] = "qcom/aic200/xbl_ac_config.mbn",
-+	[64] = "qcom/aic200/tz_ac_config.mbn",
-+	[65] = "qcom/aic200/hyp_ac_config.mbn",
-+	[66] = "qcom/aic200/pdp.elf",
-+	[67] = "qcom/aic200/pdp_cdb.elf",
-+	[68] = "qcom/aic200/sdi.mbn",
-+	[69] = "qcom/aic200/dcd.mbn",
-+	[73] = "qcom/aic200/gearvm.mbn",
-+	[74] = "qcom/aic200/sti.bin",
-+	[75] = "qcom/aic200/pvs.bin",
-+};
-+
- static int sahara_find_image(struct sahara_context *context, u32 image_id)
- {
- 	int ret;
-@@ -748,8 +776,15 @@ static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_
- 	context->mhi_dev = mhi_dev;
- 	INIT_WORK(&context->fw_work, sahara_processing);
- 	INIT_WORK(&context->dump_work, sahara_dump_processing);
--	context->image_table = aic100_image_table;
--	context->table_size = ARRAY_SIZE(aic100_image_table);
-+
-+	if (!strcmp(mhi_dev->mhi_cntrl->name, "AIC200")) {
-+		context->image_table = aic200_image_table;
-+		context->table_size = ARRAY_SIZE(aic200_image_table);
-+	} else {
-+		context->image_table = aic100_image_table;
-+		context->table_size = ARRAY_SIZE(aic100_image_table);
-+	}
-+
- 	context->active_image_id = SAHARA_IMAGE_ID_NONE;
- 	dev_set_drvdata(&mhi_dev->dev, context);
- 
+ .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |  53 +++-----
+ .../drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h   |   4 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h   |   3 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h   |   4 -
+ .../drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h    |  15 +--
+ .../drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h    |  19 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h |  19 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h |  12 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h |  21 +---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h |   1 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  41 ++-----
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  43 ++-----
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h |  31 ++---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h |  14 ---
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  42 ++-----
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h |  14 +--
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_3_sm6115.h |   5 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h |  16 +--
+ .../drm/msm/disp/dpu1/catalog/dpu_6_5_qcm2290.h    |   5 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_9_sm6375.h |   6 -
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  44 ++-----
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h |  22 +---
+ .../drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h   |  50 ++------
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |  47 ++------
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    |  53 ++------
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  47 ++------
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |  52 ++------
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c   |   2 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c   |   3 +-
+ .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |  51 +-------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     | 134 ++-------------------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         | 106 ++++++++--------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c         |  21 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc_1_2.c     |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c        |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c        |  14 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h        |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c          |  28 ++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.h          |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_merge3d.c     |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c    |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c        |   5 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h        |   2 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_top.c         |  11 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |  17 ++-
+ 50 files changed, 295 insertions(+), 836 deletions(-)
+---
+base-commit: 789384eb1437aed94155dc0eac8a8a6ba1baf578
+change-id: 20241213-dpu-drop-features-7603dc3ee189
+
+Best regards,
 -- 
-2.34.1
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
