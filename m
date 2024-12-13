@@ -1,89 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899479F1BA8
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 02:04:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E912F9F0C8A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 13:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB53810E1E0;
-	Sat, 14 Dec 2024 01:04:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFD8810E30D;
+	Fri, 13 Dec 2024 12:39:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="q4sPn34s";
-	dkim=pass (2048-bit key; secure) header.d=sapience.com header.i=@sapience.com header.b="kh504LIt";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="G01sJSyO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAE1E10E315;
- Fri, 13 Dec 2024 12:14:09 +0000 (UTC)
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
- signature) header.d=sapience.com header.i=@sapience.com 
- header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
- header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
- (No client certificate requested)
- by s1.sapience.com (Postfix) with ESMTPS id E862D480525;
- Fri, 13 Dec 2024 07:14:08 -0500 (EST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1734092048;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=on+3kOjcl/tu3R48ep6Fp66Q8LyJDxFH/zcLNPzbXow=;
- b=q4sPn34soKydu57/9MOjEXYwGdmyeJj2hCmSyqsRycrtjy3yZwIRXBe34Y97lrnBhAqrm
- J9yAY6yvZ5xLWmRBA==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1734092048; 
- cv=none;
- b=mCeFMKbRbWJPrZtEHGL/TRg+QOJAvmLaaQ0ncKPgHKhoJaeJ562QKEct8Xayqy2MYu9go083lqz2jj1Yd72FM/HNgPcItTiHL/mQUv27I/CxfaqmtnAcbOiRQ5LIiaPUbQM0jYSlNEYZbQGQHyzr+WYDVdE82C56dz+iTWBZlEfel9Ke+PrwbYPKgW48so3oxYnMmqpgGeNhmRl88ulY8Dl0tADvFZ+Vc/ILl+U5fDFC/1mFlb7UyB8pWyAktpfv2zvKJDfk8q2qJjQzVWSxITVqibyNZhK4y2MabECkM6749LXBfo1DqWpxDffJQsaRQSG/p1L2C6DOeISMNrEHrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
- t=1734092048; c=relaxed/simple;
- bh=on+3kOjcl/tu3R48ep6Fp66Q8LyJDxFH/zcLNPzbXow=;
- h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
- In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
- MIME-Version;
- b=nAgS6qbKdI0yR3Gu075nKMDm1nY/aqPSU838DZqGbuK21hsThoP3rWs97j2ktbjKwY4NfeQcosTmTzsJiLzPFdV9RVQe1iuMu5F4OLzfBfF1fYd1CZV2o+zcJuqtabdy0ZJ/27wyfIAdlx0U5lfWYPufg5SLtQ6xdDJORZVKi57e6gGyyMjZSnoUgBAOZfv8BmNkojGqFIreUDvoGiX+WU82Vk61hhDtbWKPlkj4x6XFQru09xdUADM9iYmSifAO7/qkclq0mOdvUFrbd/UN6HHpHguvJlMYFwUA9LPSJIcOOpxoTn2Alw4HHRWk6fw4o86v8f8H53h7VIJXIzZPBA==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1734092048;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=on+3kOjcl/tu3R48ep6Fp66Q8LyJDxFH/zcLNPzbXow=;
- b=kh504LItE0Pj3pt4Wkqr//E6SOjF0D4S63h1tl240YyGFqwfOb48xV3OhaZ8xMxMEIMEL
- oD0H/yDDT1LT/fA/ae/hW9Y4HpdZsH+CeUAl3hmLPy/9eXPcN0fuccZjFEM1IkygQPWjQWh
- SgjClSUWvd8i3qqMFt1Vw8LomD/2/WGJSYdi0hbApWQ/dB//nA7n7pdm46JnPp07+o/T+CR
- AZmEt+tslcQrGRDtRXK13XQrZwP3UMO7M7NS/mBCSQCVKlZ1DJnWnbt3TsqcehPTDD1COfr
- Xul01E3Xe0eeh/+IQV+oO7FzcXPBymRWlCpAv/ThshpCo/AsQDw/FXGf3dZQ==
-Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1)
- server-digest SHA384) (No client certificate requested)
- by srv8.sapience.com (Postfix) with ESMTPS id B90A4280018;
- Fri, 13 Dec 2024 07:14:08 -0500 (EST)
-Message-ID: <dd13efc9b3fe3e3acd599ca91b714fa92f6cb9a8.camel@sapience.com>
-Subject: Re: 6.13-rc1 graphics fail
-From: Genes Lists <lists@sapience.com>
-To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
- lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
- rodrigo.vivi@intel.com, airlied@gmail.com, tzimmermann@suse.de, 
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Fri, 13 Dec 2024 07:14:07 -0500
-In-Reply-To: <7db24095f935d874fae466853b0984103f97b40f.camel@sapience.com>
-References: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
- <Z07Mg2_6y2MW22qV@intel.com>
- <7db24095f935d874fae466853b0984103f97b40f.camel@sapience.com>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
- protocol="application/pgp-signature"; boundary="=-yjX0hr7VVXVlChB9wdQW"
-User-Agent: Evolution 3.54.2 
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9617D10E30D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 12:39:55 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDA3hv8012465
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 12:39:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9F9F/oa6KnYOh6nwKXJwdcyz5bofoAigh7/wW+YIVsE=; b=G01sJSyOMKdSWUKy
+ LaCXcxmPGtWXLZkNLxN/OCa9XxxDNu7ei8eByZAdk18rLtcpxnrwU7Gd92Isvup7
+ kIk+SVcD4Zf+7mUZocVQdDRDowFqcUxhM8XwKhAC6i0NpF+Jjhnwxbk+y3hEyNlm
+ N8x62F31eEzjEmleNo6p69MLg8WHRounLOLeTnRKCnY9OW/G2RhPR8e7a5zsGwjp
+ fpgXZ4mAAujWmyZkV+TycHu56tr9QW+I67eiu5kyEjLszvFehebxW4IoDCSL51kp
+ Bmphb+AEcFvWkt6aFn3/W9WUqv07FOpaAO9FARsf3ewJ6T7tpe/plhUUm0lo0tEB
+ DBw0rQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43gjudgepm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 12:39:53 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-46748e53285so3432811cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 04:39:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734093593; x=1734698393;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9F9F/oa6KnYOh6nwKXJwdcyz5bofoAigh7/wW+YIVsE=;
+ b=TKB9trYFX+EjPiR/EcYZiazKzCShzGyuwA8PKc9iG/dHEeN1et+JLqaL6yFJJU0xmP
+ Nl4ZU6tFOls4RPlBAQcg6Rf6wyqddEufLqfUPApcqeN0oXq4OVqp6Bd3EfnmkTnlyGyc
+ HMuTvDWmEpjPwuAmyB+5JoW/trGfk4g2crFj5KY0a9c7lk0IffbvYf2GoZm3MHI7A2jm
+ AnWRIxx+OeYn8ORvfAWboZrjarOMuUqOgxVOiUDyNZAg94MJAg13EmttBIG8divIsjqq
+ XxGwkNxf5nArdHzuy4fBWjOhrJPizzN5U+FhM1KqcA56H8BwKoxWU1F0/BTv/6KdjEOv
+ j5nQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWb0IMwT7jl0bcwutqKfMZK3Oluai1/gI/McF1u1Iu+9Jpc109A39bDgn1+R0LmdV1ymTqLEXSaqHc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwaWgbCISHD74+jL7Uatr0wHfIn1XuP5VGpuS5ZLtd8yg0iEgLu
+ Zvk8ylAeyGpbU6gSxfRwP+28c/RzeUtCnY+7TPEuQlDlDZUzDJGtkjzP0ZGrVLLLThCcmKmSES+
+ 2NvTA4pK87hbom+Hcdux4Kv3galuyR/HTX7CVOof48WEhXpVNxjhIsi/LTKvARQcH1Zc=
+X-Gm-Gg: ASbGncsu1K0nk99Dm7RmATAB1h/RV7je1Z01t9K5cI1LjSwTRXhyHc8eqX2WqSf0QEw
+ +tC+FoOqAE0mWKLFC9vPD4VyoyneBwsUWUbXMXyjfUP2YGfiwlRZ7KFE1ATI7oVBTvhlcP8Q0+K
+ GCe+D776WvWMvIKLi0wo30q57s4yARaXQpqiCVyTn69CCfTbWB5R2TQYN2swfoI+jrVx9JA8dU6
+ zlUZpy37ILtbHIJQm4w2DjfB2sNIDR2qTdzXLBtRkYxwVqY1iphGRQWuwFJfKr+BYGr05xcnosH
+ ZOUJ4rODAe/NSYDS4gXuyAleuSn54/qwqOX/
+X-Received: by 2002:a05:620a:4410:b0:7b6:dc4f:8874 with SMTP id
+ af79cd13be357-7b6fbf3d252mr140862785a.12.1734093593057; 
+ Fri, 13 Dec 2024 04:39:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHizu5Ba85DKQuxdTDo+aKc1Ajo8QrAOao/BfP4OE0LSBLUvAIPd8kr45CvfnT9+hDRFnKKFg==
+X-Received: by 2002:a05:620a:4410:b0:7b6:dc4f:8874 with SMTP id
+ af79cd13be357-7b6fbf3d252mr140859185a.12.1734093592599; 
+ Fri, 13 Dec 2024 04:39:52 -0800 (PST)
+Received: from [192.168.58.241] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d149a49dc6sm11352497a12.31.2024.12.13.04.39.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Dec 2024 04:39:52 -0800 (PST)
+Message-ID: <230eb99b-b223-4d5f-92f6-27edc6827cb0@oss.qualcomm.com>
+Date: Fri, 13 Dec 2024 13:39:50 +0100
 MIME-Version: 1.0
-X-Mailman-Approved-At: Sat, 14 Dec 2024 01:04:01 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/7] drm/msm: adreno: enable GMU bandwidth for A740 and
+ A750
+To: neil.armstrong@linaro.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20241211-topic-sm8x50-gpu-bw-vote-v5-0-6112f9f785ec@linaro.org>
+ <20241211-topic-sm8x50-gpu-bw-vote-v5-5-6112f9f785ec@linaro.org>
+ <31264e68-2cdc-41b2-8d84-459dc257f0f5@oss.qualcomm.com>
+ <76592f0b-85f4-4c84-b45b-859d55c4e87d@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <76592f0b-85f4-4c84-b45b-859d55c4e87d@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: jS35m0LJ55YZE4SStZ-q5dF9UGfwylLY
+X-Proofpoint-ORIG-GUID: jS35m0LJ55YZE4SStZ-q5dF9UGfwylLY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,56 +125,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12.12.2024 10:36 PM, Neil Armstrong wrote:
+> On 12/12/2024 21:32, Konrad Dybcio wrote:
+>> On 11.12.2024 9:29 AM, Neil Armstrong wrote:
+>>> Now all the DDR bandwidth voting via the GPU Management Unit (GMU)
+>>> is in place, declare the Bus Control Modules (BCMs) and the
+>>> corresponding parameters in the GPU info struct.
+>>>
+>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>> ---
+>>>   drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 22 ++++++++++++++++++++++
+>>>   1 file changed, 22 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>> index 0c560e84ad5a53bb4e8a49ba4e153ce9cf33f7ae..edffb7737a97b268bb2986d557969e651988a344 100644
+>>> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+>>> @@ -1388,6 +1388,17 @@ static const struct adreno_info a7xx_gpus[] = {
+>>>               .pwrup_reglist = &a7xx_pwrup_reglist,
+>>>               .gmu_chipid = 0x7020100,
+>>>               .gmu_cgc_mode = 0x00020202,
+>>> +            .bcms = (const struct a6xx_bcm[]) {
+>>> +                { .name = "SH0", .buswidth = 16 },
+>>
+>> All a7xx targets use the same BCMs with the only difference being
+>> the ACV voting mask. You may want to make these non-anonymous structs.
+> 
+> it can be done in a second step
+> 
+>>
+>>> +                { .name = "MC0", .buswidth = 4 },
+>>> +                {
+>>> +                    .name = "ACV",
+>>> +                    .fixed = true,
+>>> +                    .perfmode = BIT(3),
+>>> +                    .perfmode_bw = 16500000,
+>>
+>> I think perfmode is simply supposed to be set when bw == max_bw
+> 
+> Not for a750
 
---=-yjX0hr7VVXVlChB9wdQW
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Akhil, is there any way to determine a suitable OPP for this
+dynamically?
 
-On Tue, 2024-12-03 at 06:34 -0500, Genes Lists wrote:
-> On Tue, 2024-12-03 at 11:16 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
-> > > ...
->=20
-> > Probably https://gitlab.freedesktop.org/drm/i915/kernel/-
-> > /issues/13057
-> >=20
-> Very helpful.
->=20
-> I tested your patch set on Linus' tree commit
-> cdd30ebb1b9f36159d66f088b61aee264e649d7a :
->=20
-> =C2=A0 =C2=A0=C2=A0https://patchwork.freedesktop.org/series/141911/
->=20
-> and confirm that this fixes the problem=C2=A0
->=20
-> Thank you.
->=20
->=20
-
-Just a CC to regressions list for tracking.
-
-First report here:=C2=A0
-https://lore.kernel.org/lkml/3b097dddd7095bccabe6791b90899c689f271a35.c
-amel@sapience.com/
-
-Fixed by patch set as noted above, but not yet in mainline or linux-
-next.
-
-Thank you again Ville for quickly coming up with a fix.
-
---=20
-Gene
-
-
---=-yjX0hr7VVXVlChB9wdQW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ1wlEAAKCRA5BdB0L6Ze
-2191AP9B/XFuJzoozY9SuPe5rgJMEoYgdU1lPwVq7uI22li+UAEAtoZSAumqaeVA
-FYnoRJYhHfK4M/sUzUz5a0qaLhX4Egw=
-=3Hbb
------END PGP SIGNATURE-----
-
---=-yjX0hr7VVXVlChB9wdQW--
+Konrad
