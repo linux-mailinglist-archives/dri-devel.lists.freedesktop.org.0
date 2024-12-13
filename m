@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FAF79F185B
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 23:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83899F185F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Dec 2024 23:14:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4E010F0ED;
-	Fri, 13 Dec 2024 22:14:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2448D10F0F0;
+	Fri, 13 Dec 2024 22:14:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d1yabiiH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qj+pR3hA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E537F10F0E6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 22:14:42 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-30227c56b11so20666841fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 14:14:42 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5134A10F0EB
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 22:14:45 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-3002c324e7eso23626921fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Dec 2024 14:14:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734128081; x=1734732881; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734128083; x=1734732883; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=SS2q6SbMj1ZTbJ13IzwKMNH0i4lebEKtIyHTzThKnfU=;
- b=d1yabiiHiJjsTC9qN1MjDYNjY3cADguIptz3rsE9cchJNZ7XkzDYD7401JYQ0sH95C
- plY/Q8cQPXDY4G3cHo6vMMV0O00MPYsKWk4i/5jQQU/NqFpq1GL1+lGBiyROu0WJ7Fxs
- rgVIRP+m4lP8NNfL0dDK94sPCEj3otwH36QsKhcAwgdqAd1jWAaryqzS4f85ZJgJI5bI
- vn2paSZ6lOIc60lszft3feAQsymCqLPHwxt6lkfUfys93ugxXsZFkOGFvKPD3cPd1xWC
- GOBJ1sBsFSAoNY8EYXAXEKUDwpk9KU9+6l7DRGzkfLVKmkQBl+MX8EASDaF9pSUcTfuR
- 3rmA==
+ :reply-to; bh=a6/t+UEo+o4R/5x0BVa9xiJzTng+azk8DSVw42DIL44=;
+ b=qj+pR3hAJoBcgTMzk04BB7wqxf1k5JOa/i9iQ8napD9y/ALGVTMknJbmuhbqlabqZO
+ J4pLHcFzeQpV5lAOgCzVHmQYCJ15nQkyMEVf9aGpiOfQDTWktKBy5UVAm3Bznrrzwg+O
+ FLsAzjpEJMLC2Gm0xQOQqwcb6iTdLbcv8MfUlRNiC+vRYOx6XGCg4sIGWPJ5TAJUVQt9
+ vMh561veYesQ3ApF2uW3sKDxl2h/5GWtrvUfMNp0WUhRGwAvSzxMhDEF5ERZP2DKwsty
+ 4uP3/vtV1Tr/HHwrHoB+WxNNb0A3mCCSUk8mUgishckhYK0n2hi8mvPlwrZew02Q/oDV
+ sJjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734128081; x=1734732881;
+ d=1e100.net; s=20230601; t=1734128083; x=1734732883;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SS2q6SbMj1ZTbJ13IzwKMNH0i4lebEKtIyHTzThKnfU=;
- b=aJoLYUopqkXomNqa3lhgjcT02SvkFvUJmCjQ0HDanshT8zRaZ/5aJfB5V2vflgzGQz
- DYCI5JM4XgLq9gxYJ9vZiaYAXew2CLAwfIg19mNc2HI3iK+1Fe82XDYijZGUOq9ijnlR
- rRJCW11IbcdZf28vKbWKFW02zZAS20SM+SybrbgwqexgsOiMW6V5DMthacqK9yjALzN4
- lZ9pnZdGmG5DhE8yhAJSKdRBvgHR5F07NU9HFvECc6JCxaMLUl11guqgYkBhCZosJb9k
- PIdKB1xTaM/oaLxMfccVAhWaHtQjAAdHEWY8VLYYm794vTDCuBaGpu4T6Jk7n70E99w3
- fjjA==
+ bh=a6/t+UEo+o4R/5x0BVa9xiJzTng+azk8DSVw42DIL44=;
+ b=ixzY6PVmZ0TWn0MdGivEe7WyGACue+rf9mY6R1enrvdoSxCPx1yoy2K651UFE9VTXa
+ ZCK9WuIMAdSIQOABvdZhpjXYVCsRh26xQR0hd83xXObawpQi33DfG48WwRfGHHxCUtuq
+ ruCqZsV760ILG9NkGh0dDfiUctwdhlgd9+FSZ7wRpuBxkPBfmpeGhbo536ApCvdJeFYR
+ 2ZyOAaDhR0yKJxV0gTB5EYqEGx70xC4FQjpWDXAdNoOt/MCigj2br7HLDsr8Q2fnYSY/
+ pSplyTX1MSp1LroZ8RMnExeZWC/JkDGROcF6IUbPItY6+ox6YJf0ptDj0GQ1xBYC1zuY
+ +XYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUijXDJVuyXdUpi05MTKfRZvZLLcRkgcfUtwT8P+YON8JWqLmXTais79EnZ3pvt37nuOIG7FJDnfXA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzSnq+2Ptlm3KeXGxFsXw0EehkYjq2kORp4oMhyEFPv/fcmwiZM
- 0jsSrqr28Uxj/wKw4Z9DKUWbfYC0IoVoXuhWHuF53k5GXR1TmtJxD+mUERhF7gJb3Oh6gSLlCrG
- n53VPVA==
-X-Gm-Gg: ASbGncuYNjbgE+pAKBI8O1Gqe/g7AS+DBeHsTVVIlK1Ckpjii5mo8+a9MHTXZzrolDI
- kMeUKG/P3nTowDVCJohDIvXEbqOGT2BQr2/npC5Os3tHqeGKJvx2yUhSTvgA992Qd6TzyHwHK6s
- le9W39JkVEi21r6677PMRahwk1kZwRPEL6+RL/E1hVS5RxCcnxhDCspvC74blYVlpquVCuJuF8E
- CC809YgGtY3RzallRQfIddfyNEHJen3VpwLFD7FhRo1PZ0/KLep1IRQdiv4WQ5/
-X-Google-Smtp-Source: AGHT+IGBrrmVvJpDS9YnfpMnSUZIzb0HQpXo8t39QqwgdvfxCK+0fGZtdWs7xkbeRDeRZbC/luGPuQ==
-X-Received: by 2002:a05:651c:54f:b0:300:3bcd:8d05 with SMTP id
- 38308e7fff4ca-3025443fe17mr12039131fa.15.1734128081219; 
- Fri, 13 Dec 2024 14:14:41 -0800 (PST)
+ AJvYcCWDRDXxj/nOQmFp0caHh/k21rlNKdgCrqYmUapSbrqsR0UShIcMe0eLch5J5sqRlHd5O+bedoRLafw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz684IhItKzfDTE45L7AnioX7IneEEqb+hpY5iyY8DgE5TB4Ll/
+ l6nzgOOolnUQEyGTYwbZ+JG6IuBYBD1ifAhBRYNcTIhdIfjkoEYtQ2tlPz+9jWs=
+X-Gm-Gg: ASbGncvw04Xlcnq1RUiOsibThn85dMXz8TRTN8E7dDYLUSgTiZqUW0nHoEc2CavJ3/f
+ VH8/cN8wdfRUfHfnrFcV4S4lrpWSwg6xFcBvrB9knbziokvgUxJmzHonOUs6nHrSZxHBAzR5Hy6
+ mkIG9WTkGB8swcFoH5cjNzMVleqDQwdNY4a5bCpu3i8tXyC4eDEbQ+2Yc7sqSiIIXVPriiWpQ/L
+ ORmU36SDC11SRVPnHryMriYBh8tLycOrn321bDzXCmQzKTwY06Cw9Oy4KWrjFQr
+X-Google-Smtp-Source: AGHT+IHkxr4X/C9aNnfH9bFExxSkoB1mD90El/rG/VeJ5/fjh3XHK+G1yR4l8HfLEZZZ7epTnoUyxQ==
+X-Received: by 2002:a2e:b8d0:0:b0:300:2d54:c2c8 with SMTP id
+ 38308e7fff4ca-30254521f71mr13750741fa.8.1734128083581; 
+ Fri, 13 Dec 2024 14:14:43 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303441e0f43sm413451fa.125.2024.12.13.14.14.38
+ 38308e7fff4ca-303441e0f43sm413451fa.125.2024.12.13.14.14.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Dec 2024 14:14:40 -0800 (PST)
+ Fri, 13 Dec 2024 14:14:42 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 14 Dec 2024 00:14:18 +0200
-Subject: [PATCH 02/35] drm/msm/dpu: enable DPU_WB_INPUT_CTRL for DPU 5.x
+Date: Sat, 14 Dec 2024 00:14:19 +0200
+Subject: [PATCH 03/35] drm/msm/dpu: stop passing mdss_ver to setup_timing_gen()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241214-dpu-drop-features-v1-2-988f0662cb7e@linaro.org>
+Message-Id: <20241214-dpu-drop-features-v1-3-988f0662cb7e@linaro.org>
 References: <20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org>
 In-Reply-To: <20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -76,16 +75,16 @@ To: Rob Clark <robdclark@gmail.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2734;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3649;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=GNnQV1MNYWFcAq1qZORvvRE/j1G3voHyTrPAyGRaLUk=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXLHEA5DUeYaLc+ey3XyG98NY4C1Mfo1wxlQDX
- Kh+ikM4mTGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1yxxAAKCRCLPIo+Aiko
- 1df0B/9jBfU+GAj7fHZZuu5Uzn7j6A+6HyeGnzQgDgIKMA3DCJ4VPiPdQrLzqbkY6ZVlCak1PgZ
- E8G3WR7iRTXyTZV5IItcHihX52E53KqKnlyulREA8n8O5e8yWJw6EOgKyMcYdakKDuN9MXnH6N0
- 6eHYue6PB8/IBNjXAJ6kEoG6SYGNE5Xw/fm8B7ecSm5HGXSO61ATOSKyFwyTcBTkORx+bwhY0/N
- GM27xVBM96M+LSM59Gzr8rX9cHve+5DC8CY2+rSz1EKNsbeoSWkioMZ+x9SC7k7qWnzFpW6iWeU
- VuMpVJvY1mZbQcKjZM5piAmUpFCtz1CwCfjkzo5u0fRpWMKs
+ bh=sURLU3QRO4lBSIODQBucrC/9R5zvezCH7Xkam1qgsTU=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXLHEi5r26WnowVbacpDgVif3osRU7Lls2DTJ4
+ iroXfFIqASJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1yxxAAKCRCLPIo+Aiko
+ 1Y41CACbbx/PpgDANCo/yVbuGqmVnaIiPQTqCUwPuCRDf1buhfRnGzEQg+uwE8Tn4OA8qij4tlh
+ kvQT3PKuwC3fkNBxYISHk2emM6FynDfv388JE9QZwS/kRzOByq03h42Qo6b0mqAUCiN5Qyw5rXX
+ YplnDossOA2m2Vs8o7sMj31TzVjl7JySiotc4HQ/gnjR27UnAUtP940VcMU0vMYxvowJZRL6w+Q
+ dI0xyGVVQhE5LPpolceNdxixgMZaV/8YT59gGnmRhN8Gg6arVPfzmlBo3RN8Uqu0bSAYImmIoX7
+ GU3JU32h8cB+kPUI8WVgvGDEcLX6vBN4xtQBvg0L/59kM5Ra
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,59 +102,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several DPU 5.x platforms are supposed to be using DPU_WB_INPUT_CTRL,
-to bind WB and PINGPONG blocks, but they do not. Change those platforms
-to use WB_SM8250_MASK, which includes that bit.
+As a preparation to further MDSS-revision cleanups stop passing MDSS
+revision to the setup_timing_gen() callback. Instead store a pointer to
+it inside struct dpu_hw_intf and use it diretly. It's not that the MDSS
+revision can chance between dpu_hw_intf_init() and
+dpu_encoder_phys_vid_setup_timing_engine().
 
-Fixes: 1f5bcc4316b3 ("drm/msm/dpu: enable writeback on SC8108X")
-Fixes: ab2b03d73a66 ("drm/msm/dpu: enable writeback on SM6125")
-Fixes: 47cebb740a83 ("drm/msm/dpu: enable writeback on SM8150")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h  | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h  | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 3 +--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c          | 7 ++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h          | 5 +++--
+ 3 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-index 6ccfde82fecdb4e3612df161814b16f7af40ca5f..6d413cefbcc1edaa5fe73bacff4ca708f0e04902 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-@@ -295,7 +295,7 @@ static const struct dpu_wb_cfg sm8150_wb[] = {
- 	{
- 		.name = "wb_2", .id = WB_2,
- 		.base = 0x65000, .len = 0x2c8,
--		.features = WB_SDM845_MASK,
-+		.features = WB_SM8250_MASK,
- 		.format_list = wb2_formats_rgb,
- 		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
- 		.clk_ctrl = DPU_CLK_CTRL_WB2,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-index bab19ddd1d4f97805c1bfba8ba6e117ae77c6c2e..2e833e638a0bf9ffa6ad1ae16466e1963f26af1f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h
-@@ -302,7 +302,7 @@ static const struct dpu_wb_cfg sc8180x_wb[] = {
- 	{
- 		.name = "wb_2", .id = WB_2,
- 		.base = 0x65000, .len = 0x2c8,
--		.features = WB_SDM845_MASK,
-+		.features = WB_SM8250_MASK,
- 		.format_list = wb2_formats_rgb,
- 		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
- 		.clk_ctrl = DPU_CLK_CTRL_WB2,
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
-index d039b96beb97cfeda629ef2546902f7281c53543..76f60a2df7a890c5346fe248d67d646ade574fe4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h
-@@ -144,7 +144,7 @@ static const struct dpu_wb_cfg sm6125_wb[] = {
- 	{
- 		.name = "wb_2", .id = WB_2,
- 		.base = 0x65000, .len = 0x2c8,
--		.features = WB_SDM845_MASK,
-+		.features = WB_SM8250_MASK,
- 		.format_list = wb2_formats_rgb,
- 		.num_formats = ARRAY_SIZE(wb2_formats_rgb),
- 		.clk_ctrl = DPU_CLK_CTRL_WB2,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+index abd6600046cb3a91bf88ca240fd9b9c306b0ea2e..3e0f1288ad17e19f6d0b7c5dcba19d3e5977a461 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c
+@@ -307,8 +307,7 @@ static void dpu_encoder_phys_vid_setup_timing_engine(
+ 
+ 	spin_lock_irqsave(phys_enc->enc_spinlock, lock_flags);
+ 	phys_enc->hw_intf->ops.setup_timing_gen(phys_enc->hw_intf,
+-			&timing_params, fmt,
+-			phys_enc->dpu_kms->catalog->mdss_ver);
++			&timing_params, fmt);
+ 	phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
+ 
+ 	/* setup which pp blk will connect to this intf */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+index fb1d25baa518057e74fec3406faffd48969d492b..1d56c21ac79095ab515aeb485346e1eb5793c260 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.c
+@@ -98,8 +98,7 @@
+ 
+ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
+ 		const struct dpu_hw_intf_timing_params *p,
+-		const struct msm_format *fmt,
+-		const struct dpu_mdss_version *mdss_ver)
++		const struct msm_format *fmt)
+ {
+ 	struct dpu_hw_blk_reg_map *c = &intf->hw;
+ 	u32 hsync_period, vsync_period;
+@@ -180,7 +179,7 @@ static void dpu_hw_intf_setup_timing_engine(struct dpu_hw_intf *intf,
+ 
+ 	/* TODO: handle DSC+DP case, we only handle DSC+DSI case so far */
+ 	if (p->compression_en && !dp_intf &&
+-	    mdss_ver->core_major_ver >= 7)
++	    intf->mdss_ver->core_major_ver >= 7)
+ 		intf_cfg2 |= INTF_CFG2_DCE_DATA_COMPRESS;
+ 
+ 	hsync_data_start_x = hsync_start_x;
+@@ -580,6 +579,8 @@ struct dpu_hw_intf *dpu_hw_intf_init(struct drm_device *dev,
+ 	c->idx = cfg->id;
+ 	c->cap = cfg;
+ 
++	c->mdss_ver = mdss_rev;
++
+ 	c->ops.setup_timing_gen = dpu_hw_intf_setup_timing_engine;
+ 	c->ops.setup_prg_fetch  = dpu_hw_intf_setup_prg_fetch;
+ 	c->ops.get_status = dpu_hw_intf_get_status;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+index 114be272ac0ae67fe0d4dfc0c117baa4106f77c9..f31067a9aaf1d6b96c77157135122e5e8bccb7c4 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_intf.h
+@@ -81,8 +81,7 @@ struct dpu_hw_intf_cmd_mode_cfg {
+ struct dpu_hw_intf_ops {
+ 	void (*setup_timing_gen)(struct dpu_hw_intf *intf,
+ 			const struct dpu_hw_intf_timing_params *p,
+-			const struct msm_format *fmt,
+-			const struct dpu_mdss_version *mdss_ver);
++			const struct msm_format *fmt);
+ 
+ 	void (*setup_prg_fetch)(struct dpu_hw_intf *intf,
+ 			const struct dpu_hw_intf_prog_fetch *fetch);
+@@ -126,6 +125,8 @@ struct dpu_hw_intf {
+ 	enum dpu_intf idx;
+ 	const struct dpu_intf_cfg *cap;
+ 
++	const struct dpu_mdss_version *mdss_ver;
++
+ 	/* ops */
+ 	struct dpu_hw_intf_ops ops;
+ };
 
 -- 
 2.39.5
