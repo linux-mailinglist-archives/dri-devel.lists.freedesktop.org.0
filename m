@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBCB9F2182
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 00:11:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8F69F2183
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 00:11:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0DED10E093;
-	Sat, 14 Dec 2024 23:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1759610E0B5;
+	Sat, 14 Dec 2024 23:11:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="rWx5GosI";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="RnqVn1Un";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E5310E093
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 23:11:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E5C10E0B5
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 23:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
@@ -22,29 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=P/dcvQTM5YLir1CGChPDq5O3U4OygiIvAkfxT6zYGWE=; b=rWx5GosIifj3o81oaRH7i/IVUj
- OiZVASVPZd75sZTE1/xHrV9mF+dh5vCHP9tREHi/ZUmc9SjNBBfT+I/tcyYFQyVqwVjZnQc3wYJKE
- jW/CJBkFJHJJkvlhMpW18nGLUmIoeN3GYJ550w6tpfeQ/4UeeGogJz/u97T45cz7f6JTYYGT31PvQ
- qDF+C1fdBIQoWf06XVzuz8+W1eLyMkal/2U0wewFxyczhJWr2fLjom8b4FoatPoQiWBvbpUpk6Od2
- 9En2e55rpk6E7nAu2b723DiW1jeZmEnFSnFzEasAmKsMWzSHV9tGl/m8gK0lFeRAzLjLJeW64tz4u
- vffYUgdQ==;
+ bh=XnK2zDuvd06Q2CdiF2Jh3uNypUBp9FI0ZgGJeXwzVXE=; b=RnqVn1UnoQXWoLja4YR73nNs8V
+ f4ojahwjcd60HFpXz2b0Zd3coUK1ak/NqeB6Q3bXPTRVnWcJ3EaBwBvSGBAiqfyqCtfVlzweOYtV4
+ kxTXMtq/WxATh47oyPHXSKtBloW3pWaMupYtl8h23D/oAT6EXDslUk2oFIeMHGwKmQhj/2z0tbVxu
+ dEjtwCJowbzD+pez8qS9vOtXmOz553JZnoIGLXMfC6grpNyQ9M6SROoQGOy9fE9QVrQmDb0wNZ/vy
+ MpvIiEzBEbi+hBLufxhoLPKmkVM/kxtgOchxnS8J3x5/8UdQutVHqG1sS7KnIkmPqmFWBzVI7wBib
+ HP51q6JA==;
 Received: from i53875bc4.versanet.de ([83.135.91.196] helo=phil.fritz.box)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1tMbHy-0000hg-CX; Sun, 15 Dec 2024 00:11:10 +0100
+ id 1tMbHy-0000hg-VZ; Sun, 15 Dec 2024 00:11:11 +0100
 From: Heiko Stuebner <heiko@sntech.de>
 To: Andy Yan <andyshrk@163.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, sebastian.reichel@collabora.com,
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+Cc: Heiko Stuebner <heiko@sntech.de>, hjc@rock-chips.com, krzk+dt@kernel.org,
+ s.hauer@pengutronix.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
  Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v2] drm/rockchip: Fix Copyright description
-Date: Sun, 15 Dec 2024 00:11:06 +0100
-Message-ID: <173421785405.212079.15956339456077528024.b4-ty@sntech.de>
+Subject: Re: (subset) [PATCH v6 00/16] VOP Support for rk3576
+Date: Sun, 15 Dec 2024 00:11:07 +0100
+Message-ID: <173421785408.212079.5671999900653465901.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241214071333.3325308-1-andyshrk@163.com>
-References: <20241214071333.3325308-1-andyshrk@163.com>
+In-Reply-To: <20241214081719.3330518-1-andyshrk@163.com>
+References: <20241214081719.3330518-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -64,18 +66,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Sat, 14 Dec 2024 15:13:33 +0800, Andy Yan wrote:
-> The company name has update to Rockchip Electronics Co., Ltd.
-> since 2021.
-> And change Co.Ltd to Co., Ltd. to fix mail server warning:
-> DBL_SPAM(6.50)[co.ltd:url];
+On Sat, 14 Dec 2024 16:16:59 +0800, Andy Yan wrote:
+> Thanks for the basic work from Collabora, I can bringup a HDMI
+> display out on rk3576.
 > 
+> PATCH 1 is a carryover from the working when add support for
+>     rk3588[0], is very usefull when some people want me
+>     help debug some issue online, so I really hope it can
+>     be merged at this round.
+> PATCH 2~8 are bugfix of rk3588 alpha blending which report and
+>     test by Derek
+> PATCH 9~13 are preparations for rk3576 support
+> PATCH 17~18 are real support for rk376
 > 
+> [...]
 
 Applied, thanks!
 
-[1/1] drm/rockchip: Fix Copyright description
-      commit: 041c664da0691a72aca67f72ab6a13789631358e
+[01/16] drm/rockchip: vop2: Add debugfs support
+        commit: 779964556c64cd3d76ddfeb34738ef78020fae84
+[02/16] drm/rockchip: vop2: Fix the windows switch between different layers
+        commit: 0ca953ac226eaffbe1a795f5e517095a8d494921
 
 Best regards,
 -- 
