@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB0A9F1EDB
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 14:37:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7BA19F1EE4
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 14:37:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8191410E326;
-	Sat, 14 Dec 2024 13:37:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEDC610E4AE;
+	Sat, 14 Dec 2024 13:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ofCGCaze";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ohQYl1JO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
  [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A9110E341
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 13:37:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5690410E4A4
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 13:37:20 +0000 (UTC)
 Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-54020b0dcd2so4127865e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 05:37:18 -0800 (PST)
+ 2adb3069b0e04-53df19bf6a9so3762926e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 05:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734183437; x=1734788237; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734183439; x=1734788239; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=wdwpibg0RRPk6EpwAQK84EDSpk8VUe5onS1+M5umUds=;
- b=ofCGCazeaws9lCSazFEGj9ApEUu/9WldMwn9YdjJyLGrpb/v6f9fHwextuQWg9+mYe
- ntQjxwbUaUWBRLFAKRwVbj7OlzDKlV76ZGcCQOkxKcQA6pScGwzB9OLkvdADRdV1Inph
- 7agXlFSlozivnbfHCZAqXNaqqwUP+O96zl23ZQOc+j1t7YgycNjUd/RsBmRsbcrf2UHo
- Oxsx9eB+1l7AvbbvW9EyaAmJ6OCyOaPo3sYOroh0SyHGq+V9QAZlaL5Gz025eRgSaTcg
- dg01uv2XwURLI9dUGZMYnnsLMrZvog00wdMOsaVM6j9IyY3v3R2ZR0FHF5eiT+jLdC51
- 00yw==
+ :reply-to; bh=6YJ4q6tadgk1hWcoorHO9q9AcqKR3C+KJI1u0hIFBaE=;
+ b=ohQYl1JOCp8hqNuGFUHPvu78yG2LyFs1Yr9lIgNqqYv8dSjmM8Ill2Jreh2Tm3v+Gh
+ LTZ9mLBCC79+E3XA7p6gurxzYXewq/Mh9KD64/nh6lNB25fPNE+dn4lFOG8+QZn5ise+
+ VlRXKzr8JoizrenYtDug0NhGzphREfHVno6D4wQ19KvpyClnFzoGEEqxoIiFcr1eVDwv
+ xVeR0N9XiERW7O3Pg4J0yl6GkaWE1iV7VQKAwa8SSkeebEonQTGwIozCgZtd2ql5s+OD
+ WyEf1yL0fuLQX5Et7KAkbJwaMm5X3Rm9r5GBFZNb1eidIK3dPx/KvIN50DMkSDCH8Sx8
+ gAQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734183437; x=1734788237;
+ d=1e100.net; s=20230601; t=1734183439; x=1734788239;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wdwpibg0RRPk6EpwAQK84EDSpk8VUe5onS1+M5umUds=;
- b=H1iRKNdCAUDzZ+QaLKCj0V7YFWejohrcFwiEbxVZng3DhCCRzUYg0CbbLQUJf0vsiK
- aS59yVfiCat+WsVUlOAHE6Xv2HSF97Ink3eI6/WVmMPaxO9CZ4B74giUgCvCArXPXvAr
- 11XYBC2mwCnHlmxlsHdzS7CwPn3Jf+s8TJGy6NdD/8v+yp+LxWF66TicGD/w+2KdK4cN
- 5n2Ui9o7TJxuUe5K95QosI7pWnEaSZpf1BRgaqWaazbeDOJTormx4BS6f53E2L7ZgBMr
- vDZIEHXh0pZxP/jPyQjaosyHVGlsQc9K5oD2MIU1YpcgfZEPnQfWmpswLfF1YdIwFoTt
- LwZA==
+ bh=6YJ4q6tadgk1hWcoorHO9q9AcqKR3C+KJI1u0hIFBaE=;
+ b=jpl6IqhoBIRFET2CPal9xiwnNleNqtOIc5yi8kaxmlQcYEVUhpe0evvdXrfaXy5rdD
+ 5OHt04nZ8m35RuoalWiFHCWHMIIHgsolmez3sdH/BjePznpgLSHmk5lbMnnor+k3zoiX
+ k1NnmI4TUyFfABGn1Lsw8G3zPdRlBSZhZmBACDyIQ2CVtpVyoDzJakpgHG5+/nRW00bS
+ h6+tR8Y5aKA++9NTVO6mmlL0Nf3rfzDjBdn/GUgcdudJ27YZuLPPuX9n4342C/MrSuqS
+ uyAG34dGSZsP3vraKGw0mZM5To2EXoAQe1al4WOnnGxy4nHn+gsKOxBfgMD1x0YANm5q
+ JJpQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLckbQ5vd47pEvOwqC6yJE4KIlzxgoSLAtnSqfbMPwHTG3nzi9R8ShLDLdMhgU/B/BUlus9/juveE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1eVXnPslUF4VdBZITHfoMTHJZsuLDBOzWiJ+tfIUKykAnYPkK
- s6f+JPhmcS+a2fNPeGNVwqs1GmoMt1PhZspIxdoKH9lO4vswzm2yCHa5cSb8gyA=
-X-Gm-Gg: ASbGncsjL5TKXf6KBVzpkjiFv0TDuwDpkMtKuorgpcC9VuSZY2tmKy+E9jz4OqXWQ+f
- 3dkSSz3EqAr0iz4/tfPifzzy+H5KYp4VmOIztSDIxHy5GuyPBu6LO4F5GgYnUMGjU3moEVPwXn6
- JHxVrKBO615WXT4aq7ofBj6o+xSHjEqBfM3L4/RImwEqbUkdS4t2rL18q6i9HSLpXJFTeQhispc
- x6v/zwMLT70nIXlyITNcW8rS7wqI/VRQj7Jf1Jb9c0icXkh9/OAY38ljzKEmtwJ
-X-Google-Smtp-Source: AGHT+IFDFHsf0YSq3F9U24ZzRaZqLHjwAZuUnskSeXvaHoyC4Tfjr1H/Oi+lGDIZJQoDaEfr8W2dtQ==
-X-Received: by 2002:a05:6512:1591:b0:540:20c5:f847 with SMTP id
- 2adb3069b0e04-5408ad76276mr1606863e87.22.1734183436550; 
- Sat, 14 Dec 2024 05:37:16 -0800 (PST)
+ AJvYcCWDs5ePfssldnz2aEgHQlSBRDwH39k2tVgFZqY+rgSnAouXJVe3lpDLpbTiNJLN/e8UqdXxpzJRXj8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywh732cci8ok2IM0aP+ccz2GE+HwGy+/TE1vSMWNLY22gAzV52A
+ fQkOlGCRFm4xhWIbLZPNkCdlvdV+gnckuUx8vLRNjqZA1GRN5H36I2LHcIRoRPQ=
+X-Gm-Gg: ASbGncvFniigsx3Li3QCIb69EVBEZMmzev4ayP+8xtbJSfUL1M9O9rlMqbSIFSmVoj3
+ xNobKdBwfGeQ6p7HRU+jFGFHJJN0rn6E1Vhj+UroUb0jxabvySgsOTx1j+7YBmCaTATY5ISnfgq
+ dMK9ObX0z6OV5ar+1WaM4eG2KCNQlZm72ntGGg4cOy0jpNpYBIcx0Wm1BL5Pq91QNwQ8cMZOeNA
+ Dm3XMVlRvrn3SfT55LyG1BzXG1lE6NUxuL/P1VnnPF4wRgA6hr2hfWHai1kwxQ7
+X-Google-Smtp-Source: AGHT+IFG9LRiCAbslkgJdWcTp68iI2gM9sr2Y/E6t/loWfDlKNLZ1XwCQ4KNA8IB5rjHj0E0zPcgUQ==
+X-Received: by 2002:a05:6512:b27:b0:53e:1b34:fed2 with SMTP id
+ 2adb3069b0e04-54090268d4cmr1991538e87.8.1734183438535; 
+ Sat, 14 Dec 2024 05:37:18 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120baa474sm220131e87.90.2024.12.14.05.37.14
+ 2adb3069b0e04-54120baa474sm220131e87.90.2024.12.14.05.37.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Dec 2024 05:37:16 -0800 (PST)
+ Sat, 14 Dec 2024 05:37:17 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 14 Dec 2024 15:37:06 +0200
-Subject: [PATCH v2 2/5] drm/amdgpu: don't change mode in
- amdgpu_dm_connector_mode_valid()
+Date: Sat, 14 Dec 2024 15:37:07 +0200
+Subject: [PATCH v2 3/5] drm/sti: hda: pass const struct drm_display_mode*
+ to hda_get_mode_idx()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241214-drm-connector-mode-valid-const-v2-2-4f9498a4c822@linaro.org>
+Message-Id: <20241214-drm-connector-mode-valid-const-v2-3-4f9498a4c822@linaro.org>
 References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
 In-Reply-To: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
 To: Jani Nikula <jani.nikula@linux.intel.com>, 
@@ -124,16 +124,16 @@ Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1822;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2281;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=ZBQ31V6liiRq6vidYEbRih6I4hmj1n9WetjDV7X3pNY=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXYoEN8DdEbQT15+majQu+ePNp1xNEKgZhouhG
- e8cSSkRWPuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ12KBAAKCRCLPIo+Aiko
- 1bo9CACKI34mpGW7I5SEIWTnqccfI1E5Dtim4SK/n6/h7bhcZ4fIdi1jPZNDeFfoInJlcQC8kND
- J2yGE2Waz+dJVLeD9HrrAIss+FWiq5KGvzYWgYBmjLuJJCE3PKkqoV+6+sFD44LUIBLxdTRdh6F
- 1T4gKfvqmlDPQFnUhlG3DwphgtSkVOEHHExB8YC0ysIBaeNXz7rClOEu0mGlIZuDjJS/sjgrall
- atWiYOaDofYW+7dTZ9u0SDpxMVllsbKKomyCy6kf/BSVOIp9veKIrgbybIWQXyNIZgk95KFTa4/
- BfCF2//Diwl9V4b6EJ2CMV1tWTpGoVbvzyIZV/xfq0Bc89tB
+ bh=E7JeGNI7sqGcWqcAailaiFOGnnaUQ0FrCYoy+ca8RpM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnXYoE85Irlub5li3EqAJENRTB+KxenTAd7iEfb
+ h6El8rjAnuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ12KBAAKCRCLPIo+Aiko
+ 1YUwB/48isvULWH0ldXb5Wl+P18s81zhuaBxagjYhXRzhD89tkMOOIDFKQ5NnpCsrx5cVD0yKjv
+ kMohag3LXNjhoSb6V1QEjYKbs8lQb0k42nsTdNs7eAuj6nHqn4wLZtHrpJiY5LKtehsRL1dRH8O
+ iK/UZnrOwyGKvuf1mJVxIEU5MCDqbZdSzcv6yfe/JQzyxz9wOMxr7r+/JMucbAHlMS9KNgFDAiB
+ zaFXJ8heSm1wtZf1Lk7kysjtHakzIjmO2In9a50drym8tv9jTHOWts9OrYlWCTUVDWQtfxI2NO4
+ XH8jKKBoyNjNCIHW2L3fgP2rD2Ch5f0VTLJDze5kmlwAxr8U
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -151,48 +151,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make amdgpu_dm_connector_mode_valid() duplicate the mode during the
-test rather than modifying the passed mode. This is a preparation to
+Make hda_get_mode_idx() take a const struct drm_display_mode pointer
+instead of just raw struct drm_display_mode. This is a preparation to
 converting the mode_valid() callback of drm_connector to take a const
 struct drm_display_mode argument.
 
+Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sti/sti_hda.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 5a503104e38d1514103914a4d012969105877e52..0d9d2e1c4b4fd48baa19f16fb832a9ce5ed09108 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7420,6 +7420,7 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
+diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
+index b12863bea95559c4f874eb94cea8938609d435d4..57aa260d1e4620a85d10e80a84111be885bd0842 100644
+--- a/drivers/gpu/drm/sti/sti_hda.c
++++ b/drivers/gpu/drm/sti/sti_hda.c
+@@ -280,12 +280,12 @@ static void hda_write(struct sti_hda *hda, u32 val, int offset)
+  *
+  * Return true if mode is found
+  */
+-static bool hda_get_mode_idx(struct drm_display_mode mode, int *idx)
++static bool hda_get_mode_idx(const struct drm_display_mode *mode, int *idx)
  {
- 	int result = MODE_ERROR;
- 	struct dc_sink *dc_sink;
-+	struct drm_display_mode *test_mode;
- 	/* TODO: Unhardcode stream count */
- 	struct dc_stream_state *stream;
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
-@@ -7444,11 +7445,16 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
- 		goto fail;
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(hda_supported_modes); i++)
+-		if (drm_mode_equal(&hda_supported_modes[i].mode, &mode)) {
++		if (drm_mode_equal(&hda_supported_modes[i].mode, mode)) {
+ 			*idx = i;
+ 			return true;
+ 		}
+@@ -443,7 +443,7 @@ static void sti_hda_pre_enable(struct drm_bridge *bridge)
+ 	if (clk_prepare_enable(hda->clk_hddac))
+ 		DRM_ERROR("Failed to prepare/enable hda_hddac clk\n");
+ 
+-	if (!hda_get_mode_idx(hda->mode, &mode_idx)) {
++	if (!hda_get_mode_idx(&hda->mode, &mode_idx)) {
+ 		DRM_ERROR("Undefined mode\n");
+ 		return;
  	}
+@@ -526,7 +526,7 @@ static void sti_hda_set_mode(struct drm_bridge *bridge,
  
--	drm_mode_set_crtcinfo(mode, 0);
-+	test_mode = drm_mode_duplicate(connector->dev, mode);
-+	if (!test_mode)
-+		goto fail;
-+
-+	drm_mode_set_crtcinfo(test_mode, 0);
+ 	drm_mode_copy(&hda->mode, mode);
  
--	stream = create_validate_stream_for_sink(aconnector, mode,
-+	stream = create_validate_stream_for_sink(aconnector, test_mode,
- 						 to_dm_connector_state(connector->state),
- 						 NULL);
-+	drm_mode_destroy(connector->dev, test_mode);
- 	if (stream) {
- 		dc_stream_release(stream);
- 		result = MODE_OK;
+-	if (!hda_get_mode_idx(hda->mode, &mode_idx)) {
++	if (!hda_get_mode_idx(&hda->mode, &mode_idx)) {
+ 		DRM_ERROR("Undefined mode\n");
+ 		return;
+ 	}
+@@ -614,7 +614,7 @@ sti_hda_connector_mode_valid(struct drm_connector *connector,
+ 		= to_sti_hda_connector(connector);
+ 	struct sti_hda *hda = hda_connector->hda;
+ 
+-	if (!hda_get_mode_idx(*mode, &idx)) {
++	if (!hda_get_mode_idx(mode, &idx)) {
+ 		return MODE_BAD;
+ 	} else {
+ 		result = clk_round_rate(hda->clk_pix, target);
 
 -- 
 2.39.5
