@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9429F1D69
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 09:19:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8A09F1D6D
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 09:19:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B3B010E48D;
-	Sat, 14 Dec 2024 08:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66B3810E490;
+	Sat, 14 Dec 2024 08:19:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ngZ2w9ld";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="dWcdmiTr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id AD2B010E48D
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 08:19:21 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1F0D210E490
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 08:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=ZK4AN
- dQwMthdZPgZXovlMz9cS65njBFRy3Gen4Y5IGE=; b=ngZ2w9ldYx2sC/U+G59Aw
- WRJCNiblzMO+U9PU8j/CzbHviAnUEI/YYsbfjEGPEsAaNYozxyUHtooc7I2hi3jq
- c/81g7bHVCpJYAh6/zcLWK4deLLUZd1AsyEXYIUxojt27qHqE/aFfTvMC3Zsrtzr
- oYlri8xtFBnjHSOPSdalkQ=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=d76oW
+ +hJ02vk47g5jJkDC6wrHjePHlmxkDGSNxOrV/c=; b=dWcdmiTrBSGZh80OsS/kQ
+ REwrOrBqa4BK/8vbR+aRsttMtKXqegp+xtnOP1GoDpcRqht2NTHGTCaI80skVrd+
+ BL0cnr0YoXF3jysVFSKTSKbeBcAni/27SkZ8cffd2hINoOG+g5BSWoGykO5cjP4M
+ fvtc6qFEpj6DNkCaiMhJ5g=
 Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id
- _____wD3H_F9P11nuCTuAQ--.6026S2; 
- Sat, 14 Dec 2024 16:19:12 +0800 (CST)
+ by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
+ _____wD3n7iIP11nQbPrAQ--.12732S2; 
+ Sat, 14 Dec 2024 16:19:24 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
@@ -32,22 +32,22 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
  detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
-Subject: [PATCH v6 14/16] drm/rockchip: vop2: Add uv swap for cluster window
-Date: Sat, 14 Dec 2024 16:19:06 +0800
-Message-ID: <20241214081908.3330839-1-andyshrk@163.com>
+ Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v6 15/16] dt-bindings: display: vop2: Add rk3576 support
+Date: Sat, 14 Dec 2024 16:19:18 +0800
+Message-ID: <20241214081919.3330879-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241214081719.3330518-1-andyshrk@163.com>
 References: <20241214081719.3330518-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3H_F9P11nuCTuAQ--.6026S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tFW8Ww1kAF4UAw47JFy7ZFb_yoW8XrWfpr
- 43ZrWqgr45Kw4Iq34kJFW5AFWftwnxKay7Zws7tw1F9ry3KFyDGwn0kFWUArnFyanFka17
- tF93JrW7Zr4jvrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j7TmhUUUUU=
+X-CM-TRANSID: _____wD3n7iIP11nQbPrAQ--.12732S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWrKFW5try7CFWkWw17Wrg_yoW8WF1Dpa
+ 93CF9rXry8GF17X34DGF1rCrs8XFn7Aa13GF4ktw1xtrsxKrsYgw4agrn8Zr45GFyxZaya
+ 9F4ak34UJ392vrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U_PEfUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqRS1XmddM6y6UQAAsY
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQG1XmddM6y7CQAAsU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,40 +65,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The Cluster windows of upcoming VOP on rk3576 also support
-linear YUV support, we need to set uv swap bit for it.
-
-As the VOP2_WIN_UV_SWA register defined on rk3568/rk3588 is
-0xffffffff, so this register will not be touched on these
-two platforms.
+Add vop found on rk3576, the main difference between rk3576 and the
+previous vop is that each VP has its own interrupt line.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
-Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+
 ---
 
-(no changes since v1)
+(no changes since v3)
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Changes in v3:
+- ordered by soc name
+- Add description for newly added interrupt
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 0b79f2006836..0ddfafa3c208 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1373,10 +1373,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+Changes in v2:
+- Add dt bindings
+
+ .../bindings/display/rockchip/rockchip-vop2.yaml    | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+index 2531726af306..a44964b6c36a 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+@@ -20,6 +20,7 @@ properties:
+     enum:
+       - rockchip,rk3566-vop
+       - rockchip,rk3568-vop
++      - rockchip,rk3576-vop
+       - rockchip,rk3588-vop
  
- 	rb_swap = vop2_win_rb_swap(fb->format->format);
- 	vop2_win_write(win, VOP2_WIN_RB_SWAP, rb_swap);
--	if (!vop2_cluster_window(win)) {
--		uv_swap = vop2_win_uv_swap(fb->format->format);
--		vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
--	}
-+	uv_swap = vop2_win_uv_swap(fb->format->format);
-+	vop2_win_write(win, VOP2_WIN_UV_SWAP, uv_swap);
+   reg:
+@@ -37,10 +38,14 @@ properties:
+       - const: gamma-lut
  
- 	if (fb->format->is_yuv) {
- 		vop2_win_write(win, VOP2_WIN_UV_VIR, DIV_ROUND_UP(fb->pitches[1], 4));
+   interrupts:
+-    maxItems: 1
+-    description:
+-      The VOP interrupt is shared by several interrupt sources, such as
+-      frame start (VSYNC), line flag and other status interrupts.
++    minItems: 1
++    items:
++      - description:
++          vop system interrupt, such as bus error, and vsync for vop version under
++          rk3576.
++      - description:
++          independent interrupts for each video port, such as vsync and other video
++          port related error interrupts.
+ 
+   # See compatible-specific constraints below.
+   clocks:
 -- 
 2.34.1
 
