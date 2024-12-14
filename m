@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FD29F1D3B
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 09:16:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E21519F1D3F
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Dec 2024 09:16:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F9610E44A;
-	Sat, 14 Dec 2024 08:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44E6410E447;
+	Sat, 14 Dec 2024 08:16:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="dA5TRcFx";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="OtIxROwW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 90CFC10E09C
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 08:15:51 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AB0AE10E447
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 08:15:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=lvskf
- HeZFur+tdQkBZYuUEJlRWBTke8H2+Q8m06S1DI=; b=dA5TRcFxxnvoRHqFIpuHj
- U5TtlJuqnQBmV1FHEjyn7rJ1IBwazRx+fB4RPgQQMMJaYuCBtBauyD+cq91aUzkm
- ejNdKu3y2C9L0zADTaXqN8eqW7NLrL1R9kys1psFxWXRXY/W4DQhGKzqYRzn8uRk
- olvT1IFU/NmOVE4o3CcF2k=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=25xcw
+ dNxX/lfe8oSFBT2V+pmo+tcl2WqIZwouNsSlgo=; b=OtIxROwWMXDb1NcskdTg5
+ 1ZzA2jxrTuRCX7kj3a1zSxiMCJB28fYP7JfFuqxH84WlNGpUVv7LMVGM21XQfOJj
+ d0SkOzzpWw2lNn36OubxsRmzfoKVudgmk7MspPOqM11oumQn2uwzoDNDT7LGzyao
+ Ua3cFOcO725QLh7V5hZsUQ=
 Received: from ProDesk.. (unknown [])
  by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id
- _____wD3vwGjPl1n3T_wAQ--.16730S3; 
- Sat, 14 Dec 2024 16:15:36 +0800 (CST)
+ _____wD3vwGjPl1n3T_wAQ--.16730S4; 
+ Sat, 14 Dec 2024 16:15:37 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, s.hauer@pengutronix.de,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
- detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
-Subject: [PATCH v6 01/16] drm/rockchip: vop2: Add debugfs support
-Date: Sat, 14 Dec 2024 16:15:09 +0800
-Message-ID: <20241214081529.3330243-2-andyshrk@163.com>
+ detlev.casanova@collabora.com, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v6 02/16] drm/rockchip: vop2: Fix the windows switch between
+ different layers
+Date: Sat, 14 Dec 2024 16:15:10 +0800
+Message-ID: <20241214081529.3330243-3-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241214081529.3330243-1-andyshrk@163.com>
 References: <20241209122943.2781431-1-andyshrk@163.com>
  <20241214081529.3330243-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3vwGjPl1n3T_wAQ--.16730S3
-X-Coremail-Antispam: 1Uf129KBjvAXoWfJw18WFy7GF1fKryDAF1xAFb_yoW8Aw4kCo
- ZFgFsaqr1xtFy0qrW09F48tFy29F10vFn2kryqkF98Z3ZxW345KrW8GrnIvFsxArWFkFy8
- Zanaq3WfXryxJayrn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU7yCJDUUUU
+X-CM-TRANSID: _____wD3vwGjPl1n3T_wAQ--.16730S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZw4fWF4DAFW5Zr1xXFyxKrg_yoW5try8pF
+ 15Xryagw4DKFs0qrnrtr48uF15A397Ga17X3Wxtw1fCa48tr1DGan8AF9ayr1UGFn3uryj
+ yr13ur98uFWUtF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jTPfdUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxq1XmddNBynbwAAsY
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMxq1XmddNBynbwABsZ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,597 +66,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-/sys/kernel/debug/dri/vop2/summary:  dump vop display state
-/sys/kernel/debug/dri/vop2/regs: dump whole vop registers
-/sys/kernel/debug/dri/vop2/active_regs: only dump the registers of
-activated modules
+Every layer of vop2 should bind a window, and we also need to make
+sure that this window is not used by other layer.
 
-Reviewed-by: Sascha Hauer <s.hauer@pengutronix.de>
+0x5 is a reserved layer sel value on rk3568, but it will select
+Cluster3 on rk3588, configure unused layers to 0x5  will lead
+alpha blending error on rk3588.
+
+When we bind a window from layerM to layerN, we move the old window
+on layerN to layerM.
+
+Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+Tested-by: Derek Foreman <derek.foreman@collabora.com>
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
-Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
 ---
 
 Changes in v6:
-- Remove an unnecessary blank line.
+- Limit line length not exceeds 100
 
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 259 +++++++++++++++++++
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  11 +
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 191 ++++++++++++++
- 3 files changed, 461 insertions(+)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 47 ++++++++++++++------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 2d5e2e298b86..698e40cea3fa 100644
+index 698e40cea3fa..81207a79530c 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -24,9 +24,11 @@
- #include <drm/drm_atomic_uapi.h>
- #include <drm/drm_blend.h>
- #include <drm/drm_crtc.h>
-+#include <linux/debugfs.h>
- #include <drm/drm_debugfs.h>
- #include <drm/drm_flip_work.h>
- #include <drm/drm_framebuffer.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
+@@ -2541,7 +2541,10 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
+ 	struct drm_plane *plane;
+ 	u32 layer_sel = 0;
+ 	u32 port_sel;
+-	unsigned int nlayer, ofs;
++	u8 layer_id;
++	u8 old_layer_id;
++	u8 layer_sel_id;
++	unsigned int ofs;
+ 	u32 ovl_ctrl;
+ 	int i;
+ 	struct vop2_video_port *vp0 = &vop2->vps[0];
+@@ -2585,9 +2588,30 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
+ 	for (i = 0; i < vp->id; i++)
+ 		ofs += vop2->vps[i].nlayers;
  
-@@ -186,6 +188,7 @@ struct vop2 {
- 	 */
- 	u32 registered_num_wins;
- 
-+	struct resource *res;
- 	void __iomem *regs;
- 	struct regmap *map;
- 
-@@ -237,6 +240,37 @@ struct vop2 {
- 
- #define vop2_output_if_is_dpi(x)	((x) == ROCKCHIP_VOP2_EP_RGB0)
- 
+-	nlayer = 0;
+ 	drm_atomic_crtc_for_each_plane(plane, &vp->crtc) {
+ 		struct vop2_win *win = to_vop2_win(plane);
++		struct vop2_win *old_win;
 +
-+/*
-+ * bus-format types.
-+ */
-+struct drm_bus_format_enum_list {
-+	int type;
-+	const char *name;
-+};
++		layer_id = (u8)(plane->state->normalized_zpos + ofs);
 +
-+static const struct drm_bus_format_enum_list drm_bus_format_enum_list[] = {
-+	{ DRM_MODE_CONNECTOR_Unknown, "Unknown" },
-+	{ MEDIA_BUS_FMT_RGB565_1X16, "RGB565_1X16" },
-+	{ MEDIA_BUS_FMT_RGB666_1X18, "RGB666_1X18" },
-+	{ MEDIA_BUS_FMT_RGB666_1X24_CPADHI, "RGB666_1X24_CPADHI" },
-+	{ MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, "RGB666_1X7X3_SPWG" },
-+	{ MEDIA_BUS_FMT_YUV8_1X24, "YUV8_1X24" },
-+	{ MEDIA_BUS_FMT_UYYVYY8_0_5X24, "UYYVYY8_0_5X24" },
-+	{ MEDIA_BUS_FMT_YUV10_1X30, "YUV10_1X30" },
-+	{ MEDIA_BUS_FMT_UYYVYY10_0_5X30, "UYYVYY10_0_5X30" },
-+	{ MEDIA_BUS_FMT_RGB888_3X8, "RGB888_3X8" },
-+	{ MEDIA_BUS_FMT_RGB888_1X24, "RGB888_1X24" },
-+	{ MEDIA_BUS_FMT_RGB888_1X7X4_SPWG, "RGB888_1X7X4_SPWG" },
-+	{ MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA, "RGB888_1X7X4_JEIDA" },
-+	{ MEDIA_BUS_FMT_UYVY8_2X8, "UYVY8_2X8" },
-+	{ MEDIA_BUS_FMT_YUYV8_1X16, "YUYV8_1X16" },
-+	{ MEDIA_BUS_FMT_UYVY8_1X16, "UYVY8_1X16" },
-+	{ MEDIA_BUS_FMT_RGB101010_1X30, "RGB101010_1X30" },
-+	{ MEDIA_BUS_FMT_YUYV10_1X20, "YUYV10_1X20" },
-+};
-+static DRM_ENUM_NAME_FN(drm_get_bus_format_name, drm_bus_format_enum_list)
-+
- static const struct regmap_config vop2_regmap_config;
- 
- static struct vop2_video_port *to_vop2_video_port(struct drm_crtc *crtc)
-@@ -2718,6 +2752,229 @@ static const struct drm_crtc_helper_funcs vop2_crtc_helper_funcs = {
- 	.atomic_disable = vop2_crtc_atomic_disable,
- };
- 
-+static void vop2_dump_connector_on_crtc(struct drm_crtc *crtc, struct seq_file *s)
-+{
-+	struct drm_connector_list_iter conn_iter;
-+	struct drm_connector *connector;
-+
-+	drm_connector_list_iter_begin(crtc->dev, &conn_iter);
-+	drm_for_each_connector_iter(connector, &conn_iter) {
-+		if (crtc->state->connector_mask & drm_connector_mask(connector))
-+			seq_printf(s, "    Connector: %s\n", connector->name);
-+
-+	}
-+	drm_connector_list_iter_end(&conn_iter);
-+}
-+
-+static int vop2_plane_state_dump(struct seq_file *s, struct drm_plane *plane)
-+{
-+	struct vop2_win *win = to_vop2_win(plane);
-+	struct drm_plane_state *pstate = plane->state;
-+	struct drm_rect *src, *dst;
-+	struct drm_framebuffer *fb;
-+	struct drm_gem_object *obj;
-+	struct rockchip_gem_object *rk_obj;
-+	bool xmirror;
-+	bool ymirror;
-+	bool rotate_270;
-+	bool rotate_90;
-+	dma_addr_t fb_addr;
-+	int i;
-+
-+	seq_printf(s, "    %s: %s\n", win->data->name, !pstate ?
-+		   "DISABLED" : pstate->crtc ? "ACTIVE" : "DISABLED");
-+
-+	if (!pstate || !pstate->fb)
-+		return 0;
-+
-+	fb = pstate->fb;
-+	src = &pstate->src;
-+	dst = &pstate->dst;
-+	xmirror = pstate->rotation & DRM_MODE_REFLECT_X ? true : false;
-+	ymirror = pstate->rotation & DRM_MODE_REFLECT_Y ? true : false;
-+	rotate_270 = pstate->rotation & DRM_MODE_ROTATE_270;
-+	rotate_90 = pstate->rotation & DRM_MODE_ROTATE_90;
-+
-+	seq_printf(s, "\twin_id: %d\n", win->win_id);
-+
-+	seq_printf(s, "\tformat: %p4cc%s glb_alpha[0x%x]\n",
-+		   &fb->format->format,
-+		   drm_is_afbc(fb->modifier) ? "[AFBC]" : "",
-+		   pstate->alpha >> 8);
-+	seq_printf(s, "\trotate: xmirror: %d ymirror: %d rotate_90: %d rotate_270: %d\n",
-+		   xmirror, ymirror, rotate_90, rotate_270);
-+	seq_printf(s, "\tzpos: %d\n", pstate->normalized_zpos);
-+	seq_printf(s, "\tsrc: pos[%d, %d] rect[%d x %d]\n", src->x1 >> 16,
-+		   src->y1 >> 16, drm_rect_width(src) >> 16,
-+		   drm_rect_height(src) >> 16);
-+	seq_printf(s, "\tdst: pos[%d, %d] rect[%d x %d]\n", dst->x1, dst->y1,
-+		   drm_rect_width(dst), drm_rect_height(dst));
-+
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		obj = fb->obj[i];
-+		rk_obj = to_rockchip_obj(obj);
-+		fb_addr = rk_obj->dma_addr + fb->offsets[i];
-+
-+		seq_printf(s, "\tbuf[%d]: addr: %pad pitch: %d offset: %d\n",
-+			   i, &fb_addr, fb->pitches[i], fb->offsets[i]);
-+	}
-+
-+	return 0;
-+}
-+
-+static int vop2_crtc_state_dump(struct drm_crtc *crtc, struct seq_file *s)
-+{
-+	struct vop2_video_port *vp = to_vop2_video_port(crtc);
-+	struct drm_crtc_state *cstate = crtc->state;
-+	struct rockchip_crtc_state *vcstate;
-+	struct drm_display_mode *mode;
-+	struct drm_plane *plane;
-+	bool interlaced;
-+
-+	seq_printf(s, "Video Port%d: %s\n", vp->id, !cstate ?
-+		   "DISABLED" : cstate->active ? "ACTIVE" : "DISABLED");
-+
-+	if (!cstate || !cstate->active)
-+		return 0;
-+
-+	mode = &crtc->state->adjusted_mode;
-+	vcstate = to_rockchip_crtc_state(cstate);
-+	interlaced = !!(mode->flags & DRM_MODE_FLAG_INTERLACE);
-+
-+	vop2_dump_connector_on_crtc(crtc, s);
-+	seq_printf(s, "\tbus_format[%x]: %s\n", vcstate->bus_format,
-+		    drm_get_bus_format_name(vcstate->bus_format));
-+	seq_printf(s, "\toutput_mode[%x]", vcstate->output_mode);
-+	seq_printf(s, " color_space[%d]\n", vcstate->color_space);
-+	seq_printf(s, "    Display mode: %dx%d%s%d\n",
-+		    mode->hdisplay, mode->vdisplay, interlaced ? "i" : "p",
-+		    drm_mode_vrefresh(mode));
-+	seq_printf(s, "\tclk[%d] real_clk[%d] type[%x] flag[%x]\n",
-+		    mode->clock, mode->crtc_clock, mode->type, mode->flags);
-+	seq_printf(s, "\tH: %d %d %d %d\n", mode->hdisplay, mode->hsync_start,
-+		    mode->hsync_end, mode->htotal);
-+	seq_printf(s, "\tV: %d %d %d %d\n", mode->vdisplay, mode->vsync_start,
-+		    mode->vsync_end, mode->vtotal);
-+
-+	drm_atomic_crtc_for_each_plane(plane, crtc) {
-+		vop2_plane_state_dump(s, plane);
-+	}
-+
-+	return 0;
-+}
-+
-+static int vop2_summary_show(struct seq_file *s, void *data)
-+{
-+	struct drm_info_node *node = s->private;
-+	struct drm_minor *minor = node->minor;
-+	struct drm_device *drm_dev = minor->dev;
-+	struct drm_crtc *crtc;
-+
-+	drm_modeset_lock_all(drm_dev);
-+	drm_for_each_crtc(crtc, drm_dev) {
-+		vop2_crtc_state_dump(crtc, s);
-+	}
-+	drm_modeset_unlock_all(drm_dev);
-+
-+	return 0;
-+}
-+
-+static void vop2_regs_print(struct vop2 *vop2, struct seq_file *s,
-+			    const struct vop2_regs_dump *dump, bool active_only)
-+{
-+	resource_size_t start;
-+	u32 val;
-+	int i;
-+
-+	if (dump->en_mask && active_only) {
-+		val = vop2_readl(vop2, dump->base + dump->en_reg);
-+		if ((val & dump->en_mask) != dump->en_val)
-+			return;
-+	}
-+
-+	seq_printf(s, "\n%s:\n", dump->name);
-+
-+	start = vop2->res->start + dump->base;
-+	for (i = 0; i < dump->size >> 2; i += 4) {
-+		seq_printf(s, "%08x:  %08x %08x %08x %08x\n", (u32)start + i * 4,
-+			   vop2_readl(vop2, dump->base + (4 * i)),
-+			   vop2_readl(vop2, dump->base + (4 * (i + 1))),
-+			   vop2_readl(vop2, dump->base + (4 * (i + 2))),
-+			   vop2_readl(vop2, dump->base + (4 * (i + 3))));
-+	}
-+}
-+
-+static void __vop2_regs_dump(struct seq_file *s, bool active_only)
-+{
-+	struct drm_info_node *node = s->private;
-+	struct vop2 *vop2 = node->info_ent->data;
-+	struct drm_minor *minor = node->minor;
-+	struct drm_device *drm_dev = minor->dev;
-+	const struct vop2_regs_dump *dump;
-+	unsigned int i;
-+
-+	drm_modeset_lock_all(drm_dev);
-+
-+	regcache_drop_region(vop2->map, 0, vop2_regmap_config.max_register);
-+
-+	if (vop2->enable_count) {
-+		for (i = 0; i < vop2->data->regs_dump_size; i++) {
-+			dump = &vop2->data->regs_dump[i];
-+			vop2_regs_print(vop2, s, dump, active_only);
++		/*
++		 * Find the layer this win bind in old state.
++		 */
++		for (old_layer_id = 0; old_layer_id < vop2->data->win_size; old_layer_id++) {
++			layer_sel_id = (layer_sel >> (4 * old_layer_id)) & 0xf;
++			if (layer_sel_id == win->data->layer_sel_id)
++				break;
 +		}
-+	} else {
-+		seq_printf(s, "VOP disabled\n");
-+	}
-+	drm_modeset_unlock_all(drm_dev);
-+}
 +
-+static int vop2_regs_show(struct seq_file *s, void *arg)
-+{
-+	__vop2_regs_dump(s, false);
-+
-+	return 0;
-+}
-+
-+static int vop2_active_regs_show(struct seq_file *s, void *data)
-+{
-+	__vop2_regs_dump(s, true);
-+
-+	return 0;
-+}
-+
-+static struct drm_info_list vop2_debugfs_list[] = {
-+	{ "summary", vop2_summary_show, 0, NULL },
-+	{ "active_regs", vop2_active_regs_show,   0, NULL },
-+	{ "regs", vop2_regs_show,   0, NULL },
-+};
-+
-+static void vop2_debugfs_init(struct vop2 *vop2, struct drm_minor *minor)
-+{
-+	struct dentry *root;
-+	unsigned int i;
-+
-+	root = debugfs_create_dir("vop2", minor->debugfs_root);
-+	if (!IS_ERR(root)) {
-+		for (i = 0; i < ARRAY_SIZE(vop2_debugfs_list); i++)
-+			vop2_debugfs_list[i].data = vop2;
-+
-+		drm_debugfs_create_files(vop2_debugfs_list,
-+					 ARRAY_SIZE(vop2_debugfs_list),
-+					 root, minor);
-+	}
-+}
-+
-+static int vop2_crtc_late_register(struct drm_crtc *crtc)
-+{
-+	struct vop2_video_port *vp = to_vop2_video_port(crtc);
-+	struct vop2 *vop2 = vp->vop2;
-+
-+	if (drm_crtc_index(crtc) == 0)
-+		vop2_debugfs_init(vop2, crtc->dev->primary);
-+
-+	return 0;
-+}
-+
- static struct drm_crtc_state *vop2_crtc_duplicate_state(struct drm_crtc *crtc)
- {
- 	struct rockchip_crtc_state *vcstate;
-@@ -2767,6 +3024,7 @@ static const struct drm_crtc_funcs vop2_crtc_funcs = {
- 	.atomic_destroy_state = vop2_crtc_destroy_state,
- 	.enable_vblank = vop2_crtc_enable_vblank,
- 	.disable_vblank = vop2_crtc_disable_vblank,
-+	.late_register = vop2_crtc_late_register,
- };
++		/*
++		 * Find the win bind to this layer in old state
++		 */
++		for (i = 0; i < vop2->data->win_size; i++) {
++			old_win = &vop2->win[i];
++			layer_sel_id = (layer_sel >> (4 * layer_id)) & 0xf;
++			if (layer_sel_id == old_win->data->layer_sel_id)
++				break;
++		}
  
- static irqreturn_t vop2_isr(int irq, void *data)
-@@ -3316,6 +3574,7 @@ static int vop2_bind(struct device *dev, struct device *master, void *data)
- 		return -EINVAL;
+ 		switch (win->data->phys_id) {
+ 		case ROCKCHIP_VOP2_CLUSTER0:
+@@ -2632,17 +2656,14 @@ static void vop2_setup_layer_mixer(struct vop2_video_port *vp)
+ 			break;
+ 		}
+ 
+-		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(plane->state->normalized_zpos + ofs,
+-							  0x7);
+-		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(plane->state->normalized_zpos + ofs,
+-							 win->data->layer_sel_id);
+-		nlayer++;
+-	}
+-
+-	/* configure unused layers to 0x5 (reserved) */
+-	for (; nlayer < vp->nlayers; nlayer++) {
+-		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(nlayer + ofs, 0x7);
+-		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(nlayer + ofs, 5);
++		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(layer_id, 0x7);
++		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(layer_id, win->data->layer_sel_id);
++		/*
++		 * When we bind a window from layerM to layerN, we also need to move the old
++		 * window on layerN to layerM to avoid one window selected by two or more layers.
++		 */
++		layer_sel &= ~RK3568_OVL_LAYER_SEL__LAYER(old_layer_id, 0x7);
++		layer_sel |= RK3568_OVL_LAYER_SEL__LAYER(old_layer_id, old_win->data->layer_sel_id);
  	}
  
-+	vop2->res = res;
- 	vop2->regs = devm_ioremap_resource(dev, res);
- 	if (IS_ERR(vop2->regs))
- 		return PTR_ERR(vop2->regs);
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-index 22c43a50caf0..2cb7b6b40c77 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-@@ -122,6 +122,15 @@ enum vop2_win_regs {
- 	VOP2_WIN_MAX_REG,
- };
- 
-+struct vop2_regs_dump {
-+	const char *name;
-+	u32 base;
-+	u32 size;
-+	u32 en_reg;
-+	u32 en_val;
-+	u32 en_mask;
-+};
-+
- struct vop2_win_data {
- 	const char *name;
- 	unsigned int phys_id;
-@@ -160,10 +169,12 @@ struct vop2_data {
- 	u64 feature;
- 	const struct vop2_win_data *win;
- 	const struct vop2_video_port_data *vp;
-+	const struct vop2_regs_dump *regs_dump;
- 	struct vop_rect max_input;
- 	struct vop_rect max_output;
- 
- 	unsigned int win_size;
-+	unsigned int regs_dump_size;
- 	unsigned int soc_id;
- };
- 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-index 008b70fbc33a..9247f94343f2 100644
---- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-@@ -258,6 +258,88 @@ static const struct vop2_win_data rk3568_vop_win_data[] = {
- 	},
- };
- 
-+static const struct vop2_regs_dump rk3568_regs_dump[] = {
-+	{
-+		.name = "SYS",
-+		.base = RK3568_REG_CFG_DONE,
-+		.size = 0x100,
-+		.en_reg  = 0,
-+		.en_val = 0,
-+		.en_mask = 0
-+	}, {
-+		.name = "OVL",
-+		.base = RK3568_OVL_CTRL,
-+		.size = 0x100,
-+		.en_reg = 0,
-+		.en_val = 0,
-+		.en_mask = 0,
-+	}, {
-+		.name = "VP0",
-+		.base = RK3568_VP0_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+	}, {
-+		.name = "VP1",
-+		.base = RK3568_VP1_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+	}, {
-+		.name = "VP2",
-+		.base = RK3568_VP2_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+
-+	}, {
-+		.name = "Cluster0",
-+		.base = RK3568_CLUSTER0_CTRL_BASE,
-+		.size = 0x110,
-+		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-+		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+	}, {
-+		.name = "Cluster1",
-+		.base = RK3568_CLUSTER1_CTRL_BASE,
-+		.size = 0x110,
-+		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-+		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+	}, {
-+		.name = "Esmart0",
-+		.base = RK3568_ESMART0_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	}, {
-+		.name = "Esmart1",
-+		.base = RK3568_ESMART1_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	}, {
-+		.name = "Smart0",
-+		.base = RK3568_SMART0_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	}, {
-+		.name = "Smart1",
-+		.base = RK3568_SMART1_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	},
-+};
-+
- static const struct vop2_video_port_data rk3588_vop_video_ports[] = {
- 	{
- 		.id = 0,
-@@ -438,6 +520,109 @@ static const struct vop2_win_data rk3588_vop_win_data[] = {
- 	},
- };
- 
-+static const struct vop2_regs_dump rk3588_regs_dump[] = {
-+	{
-+		.name = "SYS",
-+		.base = RK3568_REG_CFG_DONE,
-+		.size = 0x100,
-+		.en_reg  = 0,
-+		.en_val = 0,
-+		.en_mask = 0
-+	}, {
-+		.name = "OVL",
-+		.base = RK3568_OVL_CTRL,
-+		.size = 0x100,
-+		.en_reg = 0,
-+		.en_val = 0,
-+		.en_mask = 0,
-+	}, {
-+		.name = "VP0",
-+		.base = RK3568_VP0_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+	}, {
-+		.name = "VP1",
-+		.base = RK3568_VP1_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+	}, {
-+		.name = "VP2",
-+		.base = RK3568_VP2_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+
-+	}, {
-+		.name = "VP3",
-+		.base = RK3588_VP3_CTRL_BASE,
-+		.size = 0x100,
-+		.en_reg = RK3568_VP_DSP_CTRL,
-+		.en_val = 0,
-+		.en_mask = RK3568_VP_DSP_CTRL__STANDBY,
-+	}, {
-+		.name = "Cluster0",
-+		.base = RK3568_CLUSTER0_CTRL_BASE,
-+		.size = 0x110,
-+		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-+		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+	}, {
-+		.name = "Cluster1",
-+		.base = RK3568_CLUSTER1_CTRL_BASE,
-+		.size = 0x110,
-+		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-+		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+	}, {
-+		.name = "Cluster2",
-+		.base = RK3588_CLUSTER2_CTRL_BASE,
-+		.size = 0x110,
-+		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-+		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+	}, {
-+		.name = "Cluster3",
-+		.base = RK3588_CLUSTER3_CTRL_BASE,
-+		.size = 0x110,
-+		.en_reg = RK3568_CLUSTER_WIN_CTRL0,
-+		.en_val = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+		.en_mask = RK3568_CLUSTER_WIN_CTRL0__WIN0_EN,
-+	}, {
-+		.name = "Esmart0",
-+		.base = RK3568_ESMART0_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	}, {
-+		.name = "Esmart1",
-+		.base = RK3568_ESMART1_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	}, {
-+		.name = "Esmart2",
-+		.base = RK3588_ESMART2_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	}, {
-+		.name = "Esmart3",
-+		.base = RK3588_ESMART3_CTRL_BASE,
-+		.size = 0xf0,
-+		.en_reg = RK3568_SMART_REGION0_CTRL,
-+		.en_val = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+		.en_mask = RK3568_SMART_REGION0_CTRL__WIN0_EN,
-+	},
-+};
-+
- static const struct vop2_data rk3566_vop = {
- 	.feature = VOP2_FEATURE_HAS_SYS_GRF,
- 	.nr_vps = 3,
-@@ -446,6 +631,8 @@ static const struct vop2_data rk3566_vop = {
- 	.vp = rk3568_vop_video_ports,
- 	.win = rk3568_vop_win_data,
- 	.win_size = ARRAY_SIZE(rk3568_vop_win_data),
-+	.regs_dump = rk3568_regs_dump,
-+	.regs_dump_size = ARRAY_SIZE(rk3568_regs_dump),
- 	.soc_id = 3566,
- };
- 
-@@ -457,6 +644,8 @@ static const struct vop2_data rk3568_vop = {
- 	.vp = rk3568_vop_video_ports,
- 	.win = rk3568_vop_win_data,
- 	.win_size = ARRAY_SIZE(rk3568_vop_win_data),
-+	.regs_dump = rk3568_regs_dump,
-+	.regs_dump_size = ARRAY_SIZE(rk3568_regs_dump),
- 	.soc_id = 3568,
- };
- 
-@@ -469,6 +658,8 @@ static const struct vop2_data rk3588_vop = {
- 	.vp = rk3588_vop_video_ports,
- 	.win = rk3588_vop_win_data,
- 	.win_size = ARRAY_SIZE(rk3588_vop_win_data),
-+	.regs_dump = rk3588_regs_dump,
-+	.regs_dump_size = ARRAY_SIZE(rk3588_regs_dump),
- 	.soc_id = 3588,
- };
- 
+ 	vop2_writel(vop2, RK3568_OVL_LAYER_SEL, layer_sel);
 -- 
 2.34.1
 
