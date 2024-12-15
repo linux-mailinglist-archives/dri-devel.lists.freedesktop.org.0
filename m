@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3939F2207
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 04:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B819F2228
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 05:16:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC9810E36D;
-	Sun, 15 Dec 2024 03:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D10310E09E;
+	Sun, 15 Dec 2024 04:16:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="oUi/fNOW";
+	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="zyqDbASg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BF9D10E36D
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 03:22:28 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- 98e67ed59e1d1-2ef8c012913so2101831a91.3
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 19:22:28 -0800 (PST)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1DFC10E09E
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 04:16:08 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id
+ d2e1a72fcca58-725f3594965so2232755b3a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Dec 2024 20:16:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734232948;
- x=1734837748; darn=lists.freedesktop.org; 
+ d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734236168;
+ x=1734840968; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BKaaCH8tfJcoJLt++OW7uI/MHy3AUbsrG7mnbMpZLCg=;
- b=oUi/fNOWwntd5Dpw5g+40pvUkPU/dNnYQj1Mm8k4gg87Gpd6WsorGBAk6wwvuotTyP
- m5yKGGaLV8oM4eAArXQzb8J8JiArQGVEg4fANYF4H0FT44DNOs9J0TBiMjVdeG2BzGBG
- yBBs7RWjRqWikMd+6mB5cDiw3iC+gfR7RAPw5J13p47r05TVWDhga7MduCzWJj5HGaIX
- WMggcCNX/52Pmh54WFsXpOUnjuHg8evgvY90W/0XUJKRT8cjrn8rkaere40DUmhJnFLt
- nRCRsmqCm8kK7a8A8H9arZ8DJxTjKEFdFb8muZF8jth6f2ySO+HZr9LWflXoBn9fRaaW
- dHlw==
+ bh=fC1tW23wVRz6wPmTZfE0dj5oxf8Q7Wp0oKBk+AIauhM=;
+ b=zyqDbASgNrTyJdhcDc8e0IoTOfBpg6E77AdvA0vLXu629lfgofcPS4Dk3YS+HPVzbo
+ 25HdD29SmSRXN+9A/sbth9NYJbTT//zO2gnwfxgqKwA7v3u/3/QuSuOs4Y5+NrYe9iAB
+ CyEZlAx7kHLatnTTVAct7KVl83flzR7/U0ShpKX7LrI4NTIAQ3TTD8+BNO754WbJq3Y5
+ vV/+AsX1K/pLMDpckV15Ei1/Ey44qrpk/xmxxkJyz+l+P6/shMcNY0zUaydVjwgg5Jfh
+ 0v3Y9RseAfdTqEZpeL3lbwWeraibsYnlLheEA7CsO4Op4LPyxZ+pV4q2QDGzTeV9gPk5
+ tg1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734232948; x=1734837748;
+ d=1e100.net; s=20230601; t=1734236168; x=1734840968;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=BKaaCH8tfJcoJLt++OW7uI/MHy3AUbsrG7mnbMpZLCg=;
- b=mw/kjp92g2xGy1+5mMz8bqO1Gpy+ebfSfo6Yim7LGUb0ZkSTRJtIbsIsJs5cux1TwG
- k6bA2EgbgcOl6y1Pe+blBOVeyu+w+HSD0u1ylAMF9KPzwbTe0bERSwr8aX7XRoWaAaoM
- muricJVAzq19pI/zbrbdz6Ki4bFcf0yDOimEQHnOUbbqTSo1eC9TgxEOfxxrAM1kXSWF
- CEbWPtMl71PRMeGzA871oelLxQ4/YleQm12Xmsv8IIRuiZ42N7OAiHq2LUM4qycOkAz7
- 5zeyl3IW70v83Yb63qHMB698T3GdOs68bC2rg8PupaHQny8l0QTnRoazaa2t8ib6ltDY
- lfSg==
-X-Gm-Message-State: AOJu0YxupfBHkl12gEjBMUrkjKibjl340KlJx246E9JU98+fAkiLTVZF
- 4O9E8bXRNHsGEaJvRbffuo1AQrWdhp1kTQwRzhHa0/Q2aj75jngNT+HwZ2iNTrs=
-X-Gm-Gg: ASbGnctJ7pSVhPKi737nKBNFP6HgiVONajDwAj0TbSbe+8/UaXEHk7swY8Q+tT68dfj
- MVJP9BozTC3bRDNEPRqY2PN4rxVUqSglHLG6L9ba0FX9Cfn/AR0nR+AoibMN+ebR83CaUPvFfFJ
- QLrcyFI2+xM7K6fkcdzQQCkYNkPQQlbTUA2ckBsJVzwd5+vQmxEFlriHqqiIBMpuLasde8bnYaK
- zh/bPNXDnAZ9CCBv/VSIapW+5vs4NGFcnPCMqT1mhzP6A2Le9cM8mX6ZBinOOJgHKmfVCr5MeQH
- CwWxapOXwLUqKSyr0HYr8wclY5n7lXnUCMUMchRDmew=
-X-Google-Smtp-Source: AGHT+IGbKYG+nYU0cCAvUGQRfIbnP68FfhbQLJtTHqryHdMmzXERh/xvQU2zNnOGIC00GYy9lCSVsw==
-X-Received: by 2002:a17:90b:5108:b0:2ee:e18b:c1fa with SMTP id
- 98e67ed59e1d1-2f2900a986dmr10276477a91.28.1734232947670; 
- Sat, 14 Dec 2024 19:22:27 -0800 (PST)
-Received: from localhost.localdomain (133-32-227-190.east.xps.vectant.ne.jp.
- [133.32.227.190]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2f142de347esm5568883a91.25.2024.12.14.19.22.25
+ bh=fC1tW23wVRz6wPmTZfE0dj5oxf8Q7Wp0oKBk+AIauhM=;
+ b=CO9NNME9wlC5FiSzpo6MWy+5i3AqDCtejUTXIVlOgKzEQM3XoW/IUFBc3Wgu9lH+Ct
+ gPZye2TaQrf3elzzPuT5ubK5rhRayp2zctLyEKeOBSPV0hOfuBuwGL7EJ48mCOLPHYCT
+ NFIuJFZ47iH+Ms7RdMoWqA9vjp3HuCPY73TRv7MR9w/TJueGXyomidJ90AFFiVGqEHM9
+ EWhfGhGABwNd3tA7rSxNlEc/LnUR9+v9JrQx0axAJGCuElrEXs6ZzJaaWOe2gmQI5ovc
+ IQzjOW6C7TGfSnerGeTIPcLIuvYgZ6q8+NKjWtFr8f9MK5rj1r8Nv5anawQNMqkQiG7o
+ MWvA==
+X-Gm-Message-State: AOJu0YzQhxG9yezH+t9tMqBSeJGnhMSBECnu45qK9D9iskUxeEiuVySw
+ 8c8TGPBuELjpRAaTMznabT+BkLhbr/ZZvKebhJFJB9LyhHqw7simnB86rSS/gg0=
+X-Gm-Gg: ASbGncslApqr/qU8sQiGPfpsGTyvjkOCS2esfudcyHQe7WK8jxD3xcRm7q7ZDbE5tuN
+ FkXEkLyVzgACiQs0xa9/46cSJIbiJI6DelbyKCWNjKTa7BXBy43pH/QY90UEB8LoOuHglRG5r0i
+ OCQPy1lCqTygpaPQU6OFzV9bF+RSO1b6dssQ6nubyZDlS2NnRiWDpS0ukjj5Rq1sB8j2shybk2P
+ /3zv0KOx7GT341LmrKok/u4ae/m4oYyDLq6ZiRzbCsTgIKlT4mmh925muIWq+FZ+gWu6Yuhcb3J
+ 3EYI
+X-Google-Smtp-Source: AGHT+IF3mpjzGNx+qUPIVsRNKDuKV/jcnHHm86MmtnxrUKDGHM1agaTKHmqexQnUfiBTQ7CsNfAABw==
+X-Received: by 2002:a05:6a20:a11f:b0:1e1:9fef:e95c with SMTP id
+ adf61e73a8af0-1e1dfd352f1mr12340963637.12.1734236168505; 
+ Sat, 14 Dec 2024 20:16:08 -0800 (PST)
+Received: from localhost.localdomain ([2001:f70:39c0:3a00:39e1:57de:eaa2:a1ed])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-72918b78f72sm2217188b3a.116.2024.12.14.20.16.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Dec 2024 19:22:27 -0800 (PST)
+ Sat, 14 Dec 2024 20:16:08 -0800 (PST)
 From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-To: p.zabel@pengutronix.de,
-	airlied@gmail.com,
-	simona@ffwll.ch
+To: p.zabel@pengutronix.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com
 Cc: dri-devel@lists.freedesktop.org,
 	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: [PATCH] gpu: ipu-v3: fix OF node reference leaks in
- ipu_add_client_devices()
-Date: Sun, 15 Dec 2024 12:22:22 +0900
-Message-Id: <20241215032222.2507759-1-joe@pf.is.s.u-tokyo.ac.jp>
+Subject: [PATCH] drm/imx: imx-tve: release a device reference obtained in
+ .probe() on error
+Date: Sun, 15 Dec 2024 13:15:50 +0900
+Message-Id: <20241215041550.1439044-1-joe@pf.is.s.u-tokyo.ac.jp>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -87,40 +88,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ipu_add_client_devices() does not release the obtained OF node reference
-in the error path. Call of_node_put() on the OF nodes before returning
-an error.
+imx_tve_probe() calls of_find_i2c_adapter_by_node() to obtain an
+i2c_client with an incremented refcount, but does not release it on
+error. Fix this by calling devm_add_action_or_reset() with a new
+function imx_tve_release_ddc(), which releases the reference.
 
 This bug was found by an experimental static analysis tool that I am
 developing.
 
-Fixes: 17e052175039 ("gpu: ipu-v3: Do not bail out on missing optional port nodes")
+Fixes: a91cfaf6e650 ("drm/imx: imx-tve: move initialization into probe")
 Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
 ---
- drivers/gpu/ipu-v3/ipu-common.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/imx/ipuv3/imx-tve.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/ipu-v3/ipu-common.c b/drivers/gpu/ipu-v3/ipu-common.c
-index 947323f4a234..8091b959b7ea 100644
---- a/drivers/gpu/ipu-v3/ipu-common.c
-+++ b/drivers/gpu/ipu-v3/ipu-common.c
-@@ -1178,6 +1178,7 @@ static int ipu_add_client_devices(struct ipu_soc *ipu, unsigned long ipu_base)
- 			ret = platform_device_add(pdev);
- 		if (ret) {
- 			platform_device_put(pdev);
-+			of_node_put(of_node);
- 			goto err_register;
- 		}
+diff --git a/drivers/gpu/drm/imx/ipuv3/imx-tve.c b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+index 3a3c8a195119..8d7af3514128 100644
+--- a/drivers/gpu/drm/imx/ipuv3/imx-tve.c
++++ b/drivers/gpu/drm/imx/ipuv3/imx-tve.c
+@@ -525,6 +525,13 @@ static const struct component_ops imx_tve_ops = {
+ 	.bind	= imx_tve_bind,
+ };
+ 
++static void imx_tve_release_ddc(void *data)
++{
++	struct imx_tve *tve = data;
++
++	put_device(&tve->ddc->dev);
++}
++
+ static int imx_tve_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -546,6 +553,9 @@ static int imx_tve_probe(struct platform_device *pdev)
+ 	if (ddc_node) {
+ 		tve->ddc = of_find_i2c_adapter_by_node(ddc_node);
+ 		of_node_put(ddc_node);
++		ret = devm_add_action_or_reset(dev, imx_tve_release_ddc, tve);
++		if (ret)
++			return ret;
  	}
-@@ -1185,6 +1186,8 @@ static int ipu_add_client_devices(struct ipu_soc *ipu, unsigned long ipu_base)
- 	return 0;
  
- err_register:
-+	while (--i >= 0)
-+		of_node_put(client_reg[i].pdata.of_node);
- 	platform_device_unregister_children(to_platform_device(dev));
- 
- 	return ret;
+ 	tve->mode = of_get_tve_mode(np);
 -- 
 2.34.1
 
