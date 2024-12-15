@@ -2,81 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC139F241B
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 14:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 031F19F2424
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 14:13:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B212410E381;
-	Sun, 15 Dec 2024 13:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28B6710E0D5;
+	Sun, 15 Dec 2024 13:12:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uCzPSGk5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HjRy0Yfy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 317E010E21F
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 13:10:57 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-53e3a37ae07so3485372e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 05:10:57 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A22FC10E0D5
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 13:12:56 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-53e389d8dc7so3310091e87.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 05:12:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734268255; x=1734873055; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+cnbx6Y9yMJBvsPZY055b2Z+E7Q3d8VBnIiflj19jBI=;
- b=uCzPSGk58kI+3Ba2bJE33D8zsjL/oIXNKDhZ8Hlh7QcQv+yLzKSnnVaaPHb+UsBTZS
- 5REurEwLxLjPfr4+K3Dxt6N/f8A4eYTBvY/q8xzKK826a7yJLe2cWFBvbRpKQ00HbtAn
- uAhridAmV7dwpS2NI6g2QZ1stIbceodiXV4q9xe/RsgULjAFNPckWLTOLogINF7c8iXr
- UlotXV+sHXfsVLBh1AEzRA2n2OK+mbKb89HBin/9aO4PLTSFxWz+aoItkchvs4OqL5k3
- 1VHiOfW1VewtGel66zZb2AaArzwoFfeUcyOgIroRjRG3sG5b0zJKk92khR47VfjPpJHf
- uw8A==
+ d=linaro.org; s=google; t=1734268375; x=1734873175; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=buehLmGwnFS3OEkRMAySuSf7R4pwRpR3p0736Fbhkb4=;
+ b=HjRy0YfyOVd8XpG7i67OrJ3w0Wm1hsqsi7mwkcIb3wJCdjbfcholq1lmYvkaVA3FRD
+ PmvB7Y0nC24SikC1hGWXrgYCfQXuiXX0ALi4s11tqc/86q0D6PwFoUzU2PCKrIcau4BN
+ i87S57tN6pPWXo50qgZtpkxq7/7Qf5pwVIbuFQMsDaKlUYk2fmiNjXv/bkO/HXHVE1q6
+ kWAsvGfE9rnQjxVOma1CIsFCQ3nVQsBH2Vr/Faogalp7o2aRsZT3A9v3BluDtWlr33Yf
+ X2ZvV82uNgM9d0Nf8i73CkewdxW06NgOcOPg+NwZPzxoYimMmH26lXeDU5Q03nm5jGZ8
+ tMKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734268255; x=1734873055;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+cnbx6Y9yMJBvsPZY055b2Z+E7Q3d8VBnIiflj19jBI=;
- b=JDW5G7Tc16DcQD8fZEwq3O3GvP5DnHhCRwDVfdnx/mDYv460MEXxUG+BwSWdBUNKVV
- pCyrK5xrXv5trCJRbxWdaVYCaa62j54z5YUzfg36ReGNcq1VytYp313kntah8JQFw7/f
- bXiezD51PMe5B8QOA1YDCewQqLtE39T2gZEpG2tWU2aQzGoUpRvA2AHeKT+jEQkV2jyO
- KgBA/O+L7Mzl5g8Qu+nuJ2Ex4rQjSXyAshNyIECqbkDDcCDcOMgYO0nTGxkarytLztz5
- McHt7bVRdvolM/9rYgRU/gX87B10zy+XFnJEa2RoG2iFTq9hmw/rT2p0DlBmeRPG9lQG
- B2bQ==
+ d=1e100.net; s=20230601; t=1734268375; x=1734873175;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=buehLmGwnFS3OEkRMAySuSf7R4pwRpR3p0736Fbhkb4=;
+ b=o8OSj5v8f8rnd5pCgG7k4Jrr3MASko7OwPdfSVmgjqrIQW5PUQ8BUMegNyD0qtqR0p
+ bEhuVN/mt9tGv0mBOloE6OxmTDuJBykurtcPb0k93IUp12xMUiZC4l3breJSNZ/fMpXQ
+ zJgqpoTY2aSRYWrZySZZDZLw/QHozajO9LOp3bPWhdnWLCQ3bSf2kcXkHGdhiEfwKF9z
+ SdSo1XjPAwvxjvBjgfHH+2ZDxayR1+FmfEhgMwcO6LCrlYd/6LH1wHos5lYVzKAAC+zG
+ ut2iFDdenb8MgrsyCZIvzNB2cTf1VI1s8PmPSvVK2thdkqT/RkuyZrMKv1hNvAHOYHmD
+ qHVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUm5qIK0GvTcRAYT+GjyRJwD5yolMFUahx10HpqoY8/l9C9IP0t1ZyeD266/K7tc028eSvM8BSczGU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxtd8CPFC1PCjdqh7Ymf3YSmcfLTb9ULejele+7ihHoPSjBGn2r
- vL1oFK+XNuINyL1DmPaesYa3nmHdDAGdIIxg6VUbT4dKdZkPrlfKlJCHiQ3s/AQ=
-X-Gm-Gg: ASbGncuAHMaGxqFQpXz/1U/TTrNLKMREfjogYtT1J78isoAuRRjVwodAY5ZKKledqNX
- 4lJG6/8ny4+RpEkVXFB+b8rbuE+kcnG9TK5FVwx+jc1riVFPmiqeuHI/X1dTi0rDsEqkPXAxhN4
- /SZvthO/XYrr+W9U2BUDOC/h/JFOvpzr70chjedkxKPLOSXWgXJ9XujkN/GpsTkGI37pnj0NRMj
- 95PO7kUE/4l3f0OsxJhFpdMYBSxE6Xkt6AVnB1NfD8c030kCzjFNVSKI/Mi5d7MLFumqUrc
-X-Google-Smtp-Source: AGHT+IHTw20hSoY1t2S8hQDm6sAR/6CNjVdyRnyImaVn8xVxpAXP6KiR+1x/jnjFYeOmyB9D3YqAAg==
-X-Received: by 2002:a05:6512:3195:b0:53e:395c:688e with SMTP id
- 2adb3069b0e04-5408badcf28mr2596428e87.10.1734268255530; 
- Sun, 15 Dec 2024 05:10:55 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.90])
+ AJvYcCUSMAExnNbq1KftUM6mAdW1B9OJFQJOv19HJ9RBSsIT21b0he4gXfTxU/wOBgHGxM5+/uyINoz+Kx4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz2Pu4nvz7fc26NK54yVOlQl3fKKeQCQIMQp2uV/IkLgL0rgBqz
+ BV2HgToO3rtCPBLf6pokT1E6zqQGcgTtZhXTX0UYcImITE1NLpGl2o7fKEYGMfY=
+X-Gm-Gg: ASbGncvUMWI4hcXPS5/byIdL78i77SlZFP8FEO6DDQXqqycBYLVoVvE4e0M4wqh7DFt
+ ERmjFC7KF03GXAUMaYDsOMQIYRS+wr9VKLuGHOev0vEuaR44ELBSfg2PKnH2ijh8KNwFBsBlXO+
+ lm52kI1iPHscvYLBVl6FIJ9NUa//bBsrVmNtVOWvUuQktczp9l9qKywCqgS+a8FOfNyDj552JQu
+ K23Lf/v+msIH1d6W1PZRdnqE7SjnoQ7eQY5ISklJYROTZlEEJwbhQTF0k9nUlfmy1ev+E5z1sxT
+ dtgLuUESW7gBXxXjmo4cxTG+k6GuZz5hsVV8
+X-Google-Smtp-Source: AGHT+IE5nPGTX/q1n9o9XkE8kqPf6xHzAi85QGGVhuxA9aSG4CES2IXluTi/4Tyi13PULwO/mLcgrQ==
+X-Received: by 2002:a05:6512:3dac:b0:540:1d58:da75 with SMTP id
+ 2adb3069b0e04-54090553c90mr2447568e87.14.1734268374981; 
+ Sun, 15 Dec 2024 05:12:54 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120c00262sm496316e87.138.2024.12.15.05.10.52
+ 2adb3069b0e04-54120c13d69sm497511e87.217.2024.12.15.05.12.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Dec 2024 05:10:54 -0800 (PST)
+ Sun, 15 Dec 2024 05:12:53 -0800 (PST)
+Date: Sun, 15 Dec 2024 15:12:51 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: quic_abhinavk@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: Add VBIF to DPU snapshot
-Date: Sun, 15 Dec 2024 15:10:43 +0200
-Message-Id: <173426667309.2196979.11608285674325095814.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241122-vbif-snapshot-v1-1-6e8fedd16fdf@quicinc.com>
-References: <20241122-vbif-snapshot-v1-1-6e8fedd16fdf@quicinc.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/i2c: move TDA drivers under drivers/gpu/drm/bridge
+Message-ID: <opsai3edlx4cyt3vi3h2pjakh6yqozca7xl6ytseczkrgwbbxh@vyhz7i4yec6d>
+References: <20241215-drm-move-tda998x-v1-0-7817122b1d73@linaro.org>
+ <20241215-drm-move-tda998x-v1-2-7817122b1d73@linaro.org>
+ <20241215123805.GB25852@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241215123805.GB25852@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,17 +96,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Fri, 22 Nov 2024 15:09:10 -0800, Jessica Zhang wrote:
-> Add VBIF registers to the DPU snapshot to help with debugging.
+On Sun, Dec 15, 2024 at 02:38:05PM +0200, Laurent Pinchart wrote:
+> Hi Dmitry,
 > 
+> Thank you for the patch.
 > 
+> On Sun, Dec 15, 2024 at 01:09:08PM +0200, Dmitry Baryshkov wrote:
+> > TDA998x is the HDMI bridge driver, incorporating drm_connector and
+> > optional drm_encoder (created via the component bind API by the TICLDC
+> > and HDLCD drivers). Thus it should be residing together with the other
+> > DRM bridge drivers under drivers/gpu/drm/bridge/.
+> > 
+> > TDA9950 is an I2C-CEC translator, being present on-die on the TDA9989
+> > and TDA19989 chips, so it is being instantiated by the TDA998x driver.
+> > Move it together with the TDA998x under bridge drivers subdir.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  MAINTAINERS                                       |  2 +-
+> >  drivers/gpu/drm/arm/Kconfig                       |  1 +
+> >  drivers/gpu/drm/bridge/Kconfig                    |  2 ++
+> >  drivers/gpu/drm/bridge/Makefile                   |  1 +
+> >  drivers/gpu/drm/bridge/tda/Kconfig                | 13 +++++++++++++
+> >  drivers/gpu/drm/bridge/tda/Makefile               |  4 ++++
+> >  drivers/gpu/drm/{i2c => bridge/tda}/tda9950.c     |  0
+> >  drivers/gpu/drm/{i2c => bridge/tda}/tda998x_drv.c |  0
+> 
+> I probably wouldn't have created a tda/ subdirectory in bridge/, but I
+> don't mind much either way.
 
-Applied, thanks!
+I created it mostly because tda9950 isn't a bridge. It's a CEC driver
+that works in pair with the tda998x driver.
 
-[1/1] drm/msm/dpu: Add VBIF to DPU snapshot
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/1a40bb31fcf1
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+With best wishes
+Dmitry
