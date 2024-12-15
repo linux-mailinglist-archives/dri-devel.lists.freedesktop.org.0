@@ -1,46 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A08A9F2666
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 23:00:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 845049F26A3
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 23:44:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C6FA10E079;
-	Sun, 15 Dec 2024 22:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F070310E00C;
+	Sun, 15 Dec 2024 22:44:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="n0zL26eG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W159ikD4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 747 seconds by postgrey-1.36 at gabe;
- Sun, 15 Dec 2024 22:00:22 UTC
-Received: from mx.treblig.org (mx.treblig.org [IPv6:2a00:1098:5b::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49CB310E079
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 22:00:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=j25qHSApzncyRr3fV7n8eHJV1JPDpKKPKVP7ZGcHdZE=; b=n0zL26eGyIFWHeWs
- Nzie2G75r64ALTSe/EIglaUawMZ9iQfVzz6G0tbnvkoKJWosuvPgNx8X4oL0HTbNC2ouRQ9HYwCq7
- 5+GQbtIPXjKkPP6eJcXYokAvuOcJZ/6uMqG3u4RByOkjb8FHqQ+8ON9/ncZrBxmJ9YY9nfLjRFVx9
- xXlhaPlu48KDpdPJi3QBZMCziAtgkXyc45gyXq/KygNP0TM7KgV+/hkYvg/dThu1t0YvZwoaxnpT0
- Q8Kx33FSH2fKUGhVMC46p9nvaCBcA4HJdKTLD0Dt1QjfhG/mNLyzg2qEgLPpJDVza2knj4fihWd3a
- 5ef6yaeYT8LcOTWn5g==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
- by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1tMwes-005V34-2K;
- Sun, 15 Dec 2024 22:00:14 +0000
-From: linux@treblig.org
-To: hdegoede@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de
-Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] drm/vboxvideo: Remove unused hgsmi_cursor_position
-Date: Sun, 15 Dec 2024 22:00:14 +0000
-Message-ID: <20241215220014.452537-1-linux@treblig.org>
-X-Mailer: git-send-email 2.47.1
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F07A810E00C
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 22:44:15 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-3002c324e7eso40325791fa.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 14:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734302654; x=1734907454; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=wiyM++KsOVFJwW6aj3SElwGQilAMp0843gWRbVSsNyE=;
+ b=W159ikD4v62lt7lp2gI24YJiyLxeIDhNqqmi1gBF/gWHCG1J9ycBKqzYLCsRbkcVqb
+ wgmjG8RgRMnigzxs9cTQl37DN/lfJt69vTL3v80ZHXssUBcpgM0z1Q47B/YbXl7vUOPu
+ Fx5tSdUF1lcwYIaxw6nR2my3PwTlpkj9ESqWf8flx21kXIbcdySIb0ok6fdtVLK4zdDA
+ qtDKgJbTezO87Da7pyjFaZFffO91ofx1olADyUEORgdDTzOJ7dIRa4US/I5abIWCKf0W
+ 4fZs/pOuIal3Kz6btPf69pCVLeiHsuETMVHos738HIkZJ0WAWsOuG441qi3TgqWKEQft
+ R3FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734302654; x=1734907454;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wiyM++KsOVFJwW6aj3SElwGQilAMp0843gWRbVSsNyE=;
+ b=RE46idVN6DF0mI7DDlBuk44ZqWjfJndswRvpDqldbtjf5r+jjGjAhN0pYueAJwRgjL
+ 1hnk727enodjtEffII4M3aKIOUeLWyHOqETpQNlciKj78pdqNGoTInMD3/P0lVXLyomn
+ JQO2NiSnEBTg9LMdhGGbwx8iyKd07Nmt1a13WIqfPrTkRMeT+seNM5gFtWO4RDhMMHpZ
+ ajLWHG/9a8pepL/9Fk7hjvTbP9elf+4ArGhlUgdN6U4++/SRIiwYyRnimgdNzHWKPKOq
+ Lrls5OXewepTpBUNU5hmr8vWhWfNa3TvWtXhWBS+3W1vg2tNbUoBnwsReWD8JE0EKtEo
+ lN8Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXyTJwW7knwCKA/NkvOuekS2gXOoj2rkm81HHL7kfxtagKPTmruPui0o5mtBUWb1HQ25ZSWwxxflCc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyG1Urpj22srHzKijWFcxLsK4f6RSmAhuAALEyUV+W/1+dX9hpp
+ lrJ868KEAF4stNpDU+tMgNEi1xCm3wRXl+6ap8ldEpcuJwGbgx8OEXLFoLQLUWA=
+X-Gm-Gg: ASbGnctFYHa58PAgAJOGR3ghLz+Df1U0JwK5JdTJsk+sa6KhTchhjfhgk7XfIujE2Q9
+ /dSVMiI1caTG1uwEKZS419yl40Lf7psFdCXq+URA1j461sDqb0TS6diNNnH1a3NZBmuy22oaW0o
+ oBChVde8sqKHeDsdC0r3B0vqq+h/qbquTY3lUO80fNElCxAg3lz5nmll2+P1FRPk4R4EP1k04PW
+ 2sU6T0r/rvHK4IVioEJ1jLC0hxCGdpFE1a2BEJZ60YGRNhJx+omFTV06MlnSd8q
+X-Google-Smtp-Source: AGHT+IEOhOyrKe1fLpCJJfj1HpV10RlKePzB/U3HENJTDq1jhvZe00iwG9BTg13phbpjEcOYuHRqmQ==
+X-Received: by 2002:a05:651c:a0b:b0:302:1861:6df4 with SMTP id
+ 38308e7fff4ca-302545b95a2mr31173471fa.35.1734302654082; 
+ Sun, 15 Dec 2024 14:44:14 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-303441a41d1sm7201701fa.100.2024.12.15.14.44.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 15 Dec 2024 14:44:12 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v4 00/16] drm/msm/dp: perform misc cleanups
+Date: Mon, 16 Dec 2024 00:44:05 +0200
+Message-Id: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALVbX2cC/23OzQ6CMAwH8FcxOzuzDxjDk+9hPIytwBLDyCaLh
+ vDuFi5q5LL036a/biYJoodEzoeZRMg++TBgKI4HYnszdEC9w0wEEwVTvKSto26kZnI+0NY/J6x
+ robUEU0PBCO6NEXCwmdcb5t6nR4iv7UTma3fTOGd6R8ucMlowqwEaxWxbXu5+MDGcQuzIymXxI
+ fDZIwQSrua6wk8pZ9wfIb8IvktIJFjDrSqhco2RP8SyLG/EYisrOQEAAA==
+X-Change-ID: 20240615-fd-dp-audio-fixup-a92883ea9e40
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Paloma Arellano <quic_parellan@quicinc.com>
+Cc: Douglas Anderson <dianders@chromium.org>, 
+ Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3146;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=Wpqm+AyDhFEWkmbxwA9sIDOpZewkcmgIhwh63TRGv8s=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnX1u4wieuIPQwzqElGGzCtUpWfcSN8u5hmioBG
+ RarSfXTLzWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ19buAAKCRCLPIo+Aiko
+ 1RJcCACHIiksgRxZonl/xVOB+7hh+ZEPQ+0ON2piCtujhFjfY4qqgmkz0jzhN89O3CsYSmJtMca
+ Ay3TCNKsqVU/ePat29r97DSBJs6y/rR4JLt6Mznv+mSNsapkLMvzguM6O9umxUe5WzqRID52g5M
+ 8EnVYbpmp3hDmdqVUiUE+eKQdmVzNw4E9jj7c6py2rgkLv+keNS1rzyZJ7UcKs+4wgoqjrO27KN
+ LP/82VaUeROMzU8kUkSS/nYgK+PhQD44gU2b/U/5uCfNS8i8BsGUsA/IqRrptXX3vZqd9TNzIgf
+ 2x7cFeOF8A9Njdoei6P0E6bSqckwZdwML+b4jw+AYrDhbq3I
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,78 +107,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+- Fix register programming in the dp_audio module
+- Rework most of the register programming functions to be local to the
+  calling module rather than accessing everything through huge
+  dp_catalog monster.
 
-hgsmi_cursor_position() has been unused since 2018's
-commit 35f3288c453e ("staging: vboxvideo: Atomic phase 1: convert cursor to
-universal plane")
-
-Remove it.
-
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/vboxvideo/hgsmi_base.c      | 37 ---------------------
- drivers/gpu/drm/vboxvideo/vboxvideo_guest.h |  2 --
- 2 files changed, 39 deletions(-)
+Changes in v4:
+- Rebased on top of linux-next + msm-fixes, dropping picked up patches
+  (Abhinav)
+- Reordered patches to move dp_audio patches earlier (Abhinav).
+- Added several more patches, dropping dp_catalog.c completely.
+- Link to v3: https://lore.kernel.org/r/20241212-fd-dp-audio-fixup-v3-0-0b1c65e7dba3@linaro.org
 
-diff --git a/drivers/gpu/drm/vboxvideo/hgsmi_base.c b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-index 87dccaecc3e5..db994aeaa0f9 100644
---- a/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-+++ b/drivers/gpu/drm/vboxvideo/hgsmi_base.c
-@@ -181,40 +181,3 @@ int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
- 
- 	return rc;
- }
--
--/**
-- * hgsmi_cursor_position - Report the guest cursor position.  The host may
-- *                         wish to use this information to re-position its
-- *                         own cursor (though this is currently unlikely).
-- *                         The current host cursor position is returned.
-- * Return: 0 or negative errno value.
-- * @ctx:              The context containing the heap used.
-- * @report_position:  Are we reporting a position?
-- * @x:                Guest cursor X position.
-- * @y:                Guest cursor Y position.
-- * @x_host:           Host cursor X position is stored here.  Optional.
-- * @y_host:           Host cursor Y position is stored here.  Optional.
-- */
--int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
--			  u32 x, u32 y, u32 *x_host, u32 *y_host)
--{
--	struct vbva_cursor_position *p;
--
--	p = hgsmi_buffer_alloc(ctx, sizeof(*p), HGSMI_CH_VBVA,
--			       VBVA_CURSOR_POSITION);
--	if (!p)
--		return -ENOMEM;
--
--	p->report_position = report_position;
--	p->x = x;
--	p->y = y;
--
--	hgsmi_buffer_submit(ctx, p);
--
--	*x_host = p->x;
--	*y_host = p->y;
--
--	hgsmi_buffer_free(ctx, p);
--
--	return 0;
--}
-diff --git a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-index 55fcee3a6470..643c4448bdcb 100644
---- a/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-+++ b/drivers/gpu/drm/vboxvideo/vboxvideo_guest.h
-@@ -34,8 +34,6 @@ int hgsmi_query_conf(struct gen_pool *ctx, u32 index, u32 *value_ret);
- int hgsmi_update_pointer_shape(struct gen_pool *ctx, u32 flags,
- 			       u32 hot_x, u32 hot_y, u32 width, u32 height,
- 			       u8 *pixels, u32 len);
--int hgsmi_cursor_position(struct gen_pool *ctx, bool report_position,
--			  u32 x, u32 y, u32 *x_host, u32 *y_host);
- 
- bool vbva_enable(struct vbva_buf_ctx *vbva_ctx, struct gen_pool *ctx,
- 		 struct vbva_buffer *vbva, s32 screen);
+Changes in v3:
+- Fixed falce -> false typo (Abhinav)
+- Dropped wrong c&p comment from msm_dp_read_p0() (Stephen)
+- Changed msm_dp_aux_clear_hw_interrupts() to return void (Stephen)
+- Fixed most of line length warnings
+- Link to v2: https://lore.kernel.org/r/20241202-fd-dp-audio-fixup-v2-0-d9187ea96dad@linaro.org
+
+Changes in v2:
+- Set safe_to_exit_level before printing it (LKP)
+- Keep TPG-related functions (Abhinav)
+- Link to v1: https://lore.kernel.org/r/20241108-fd-dp-audio-fixup-v1-0-40c8eeb60cf5@linaro.org
+
+---
+Dmitry Baryshkov (16):
+      drm/msm/dp: drop msm_dp_panel_dump_regs() and msm_dp_catalog_dump_regs()
+      drm/msm/dp: use msm_dp_utils_pack_sdp_header() for audio packets
+      drm/msm/dp: drop obsolete audio headers access through catalog
+      drm/msm/dp: drop struct msm_dp_panel_in
+      drm/msm/dp: stop passing panel to msm_dp_audio_get()
+      drm/msm/dp: split MMSS_DP_DSC_DTO register write to a separate function
+      drm/msm/dp: pull I/O data out of msm_dp_catalog_private()
+      drm/msm/dp: move I/O functions to global header
+      drm/msm/dp: move/inline AUX register functions
+      drm/msm/dp: move/inline ctrl register functions
+      drm/msm/dp: move/inline panel related functions
+      drm/msm/dp: move/inline audio related functions
+      drm/msm/dp: move more AUX functions to dp_aux.c
+      drm/msm/dp: move interrupt handling to dp_ctrl
+      drm/msm/dp: read hw revision only once
+      drm/msm/dp: drop the msm_dp_catalog module
+
+ drivers/gpu/drm/msm/Makefile        |    1 -
+ drivers/gpu/drm/msm/dp/dp_audio.c   |  379 ++++------
+ drivers/gpu/drm/msm/dp/dp_audio.h   |    8 +-
+ drivers/gpu/drm/msm/dp/dp_aux.c     |  216 +++++-
+ drivers/gpu/drm/msm/dp/dp_aux.h     |   15 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 1340 -----------------------------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  128 ----
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    |  607 ++++++++++++++--
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |   19 +-
+ drivers/gpu/drm/msm/dp/dp_debug.c   |    1 -
+ drivers/gpu/drm/msm/dp/dp_display.c |  157 ++--
+ drivers/gpu/drm/msm/dp/dp_link.c    |    1 +
+ drivers/gpu/drm/msm/dp/dp_panel.c   |  276 +++++++-
+ drivers/gpu/drm/msm/dp/dp_panel.h   |   22 +-
+ drivers/gpu/drm/msm/dp/dp_reg.h     |   19 +
+ 15 files changed, 1278 insertions(+), 1911 deletions(-)
+---
+base-commit: 952b5ed3020b50205f223e28ab182539210089c7
+change-id: 20240615-fd-dp-audio-fixup-a92883ea9e40
+
+Best regards,
 -- 
-2.47.1
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
