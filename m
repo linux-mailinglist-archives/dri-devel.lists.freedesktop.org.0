@@ -1,64 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339089F2663
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 23:00:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 457149F261B
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 21:54:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631EE10E13F;
-	Sun, 15 Dec 2024 22:00:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7D310E2D6;
+	Sun, 15 Dec 2024 20:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=permerror (0-bit key) header.d=nerdbynature.de header.i=@nerdbynature.de header.b="4dJZX444";
-	dkim=permerror (0-bit key) header.d=nerdbynature.de header.i=@nerdbynature.de header.b="W+E0TvQx";
-	dkim=pass (2048-bit key; unprotected) header.d=nerdbynature.de header.i=@nerdbynature.de header.b="dVexOPZr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kA4HoXG3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 519 seconds by postgrey-1.36 at gabe;
- Sun, 15 Dec 2024 20:01:11 UTC
-Received: from trent.utfs.org (trent.utfs.org [IPv6:2a03:3680:0:3::67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D381D10E0ED
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 20:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/simple;
- d=nerdbynature.de; i=@nerdbynature.de; q=dns/txt; s=key1;
- t=1734292347; h=date : from : to : cc : subject : message-id :
- mime-version : content-type : from;
- bh=tiwqBk4ozPoEvxpdMpJIp6y1F9A6UZ2uc+0qtRTtF88=;
- b=4dJZX444ql9cJuzIo+PJfmuspAoEtPHngY7tfYOtPJDzRYAAmEQtetMe995eliaglj5HO
- /dQ26L2vm25dwgYBA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=nerdbynature.de;
- s=dkim; t=1734292347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=tBGUwwzsmgjikUY6vrtplG7aYnbzaEqx36oiv3+g0PY=;
- b=W+E0TvQx4vC+Yafu1Z5q/YLOaEWj1kawV54ZDvWlP75Ywi2++YiRN2Hjt4NFOtiud4HwIX
- xdB8nr8pzDQDqOBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nerdbynature.de;
- i=@nerdbynature.de; q=dns/txt; s=key0; t=1734292347; h=date : from :
- to : cc : subject : message-id : mime-version : content-type : from;
- bh=tiwqBk4ozPoEvxpdMpJIp6y1F9A6UZ2uc+0qtRTtF88=;
- b=dVexOPZrTnPxhpZf7u25tty0xy+Mp4IQ6l3Wo16qiXhBG4NcHz4YrVMQn/zOEQLjN1ALJ
- BTPMFQiJAbSfQA1N3Xt+Jf4F881bNUlPo/Lham2dPAaVMTeD5A+Q10J7wdGALlcsdtaTmZD
- lgP7EQLVhdKN+2FaYP7mWhF0eAA18Z8yhaKSS3F9bcsrC8z2kZOqC99a+LYQ+REuZk+yL7f
- KpGgzQBE+6GW0GCOtJclaxRriNNeYCo1FjnZ4J/o5bTRdtH5s7sF1dtm4bksqiNV595bzWE
- ZfAo9ZOgbnTWEEQpsfWVjdryd+ywLWaRW+kVgANDRNYoVPU9jvSrZVYlcfrQ==
-Received: from localhost (localhost [IPv6:::1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by trent.utfs.org (Postfix) with ESMTPS id F18755F9E2;
- Sun, 15 Dec 2024 20:52:26 +0100 (CET)
-Date: Sun, 15 Dec 2024 20:52:26 +0100 (CET)
-From: Christian Kujau <lists@nerdbynature.de>
-To: Hans de Goede <hdegoede@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fsdevel@vger.kernel.org
-Subject: [PATCH] vbox: arm64 support for vboxguest
-Message-ID: <5020bcc7-eea4-b0f5-30c1-1da12efdca8f@nerdbynature.de>
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A403210E042;
+ Sun, 15 Dec 2024 20:53:53 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3cd821c60so455555a12.3; 
+ Sun, 15 Dec 2024 12:53:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1734296032; x=1734900832; darn=lists.freedesktop.org;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=2+FqJZ0WnN20yWus5paC8TaBuCsMhAhFdtfoZXH3IvA=;
+ b=kA4HoXG3yBI/9+GfU2hy0T8U7YcLQMl0Ic0lIX4D+civeVgOGwdEWCZL8nI0s3e4LH
+ fzow93DdMininQK8TEMh6CXL7y/GG4k96JVS/7d2NlMowVkmdRfZeOgg7DuzBD4o3tKx
+ 8Dog9509MZY9hekFlOp0dzNDF+pkqRPjQtYzmGuUlDcfkZXXGKKVImZDa0QF4bGeaBAE
+ GSkj8BLkAVD7ewDPTIFlN5zjfj2Zh+cAx0Yq4lki7CDPHEOFPOx/XLLIEJmYOIXc1w8K
+ zWVE56F28vpiW/Zrnb7huAFLJHJvous8dt5awUNjdCvWzw00wrHdWNfwb5jPijkfk7LL
+ hgjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734296032; x=1734900832;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2+FqJZ0WnN20yWus5paC8TaBuCsMhAhFdtfoZXH3IvA=;
+ b=hvudNwoVM9mOUJpYkQJ9oYsrbmAHb57cW408lzmlKJUPQH0VayMpKCqetH3hRmvqxp
+ 6V3nlx4ukLRvSYTuBTP5oFvD1ix5/cDns+iAtvpAUTKJBHM6RgScgxGH9GGYdc80OCUB
+ BV0AgWbv6TbuRmXlbu8vww8Qhffjuc6y88XC6qaaUumYjZQgJOU7e1KMPIGhcuiegz9i
+ XlyopoxJMNgRMUBfI/E4oowWvMTB9WQuzw8Lsi/U8nViunMAE2+20PBq7q4kkZbQLEhC
+ kf7rOB8Vgq5KX2MwfSl4mcrvmBLCBQrHObCUFzj5qbCHiWLu+GgsuXfIfUWq03zEjCCD
+ f1Vg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWhRUtZ0c11BYOJHIwqxDBApgmr7IyBLh7IgVDzmxA6IhxuthI75kBXVkgn+cT9+fIsy85TSpBH@lists.freedesktop.org,
+ AJvYcCXW6+CJWdIpNRuFG6SK+/UHetky9ISby5iiNSeNzd10j7Pth+vjVy4kGuiKskbc/dYX85Fh4z1d1Ic=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyh8yonIHpQPLVsmSmXEcoTAEP7VJUYaVT+W6Jeh3gzDi9p82Y4
+ RwJYCmM0kD7lsGKxQSxcYa9T7J2pMnXUpdv4YSJubixaPYoiRT092wMA6kpIek82LbaCa5kfDDU
+ RhbsSZYtigsbiUHUCPMJaGWDlHjPF7J6Y
+X-Gm-Gg: ASbGnct4vD7QcR2ySglwnrmBN1OXD+yVjX33VUJ6CFTQnZVRE1jBrPYIxZdotbp2Dfk
+ uuFswWl9bjHj6u27AHEDh3TTJsJ2DWD9MWAmepM1J
+X-Google-Smtp-Source: AGHT+IEU63Y28K2w7blcYDp/+dS0AGZliyLQ776SYz1U0vvW1jEGL9cB7LS4hbDRrHeb+if+EQZD/SMst7LEzfMgDI4=
+X-Received: by 2002:a05:6402:50cc:b0:5cf:f1fd:c688 with SMTP id
+ 4fb4d7f45d1cf-5d63c2e81f5mr3482687a12.1.1734296030000; Sun, 15 Dec 2024
+ 12:53:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-X-Mailman-Approved-At: Sun, 15 Dec 2024 22:00:11 +0000
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Sun, 15 Dec 2024 15:53:14 -0500
+Message-ID: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
+Subject: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch alignment
+To: dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+Content-Type: multipart/alternative; boundary="000000000000cdc31d062955429c"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,71 +77,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My last email[0] still had "RFC" in the subject line, but no comments were 
-received. So, in an attempt of stupi^W boldness, this is the same patch 
-again, with RFC removed and ready for mainline, maybe?
+--000000000000cdc31d062955429c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+The comment explains the problem with DRM_FORMAT_MOD_LINEAR.
 
-now that VirtualBox able to run as a host on arm64 (e.g. the Apple M3 
-processors) I was wondering if there are any plans to port the vboxguest 
-driver to that platform? I added ARM64 to the Kconfig files (see below) on 
-vboxguest and vboxsf, and also for vboxvideo, and it compiled just like 
-that and at least vboxsf appears to work just fine.
+Signed-off-by: Marek Ol=C5=A1=C3=A1k <marek.olsak@amd.com>
 
-I don't know how to test vboxvideo yet (the module loads just fine), but 
-if we at least enable to option in the Kconfig file at least people would 
-be able to test it :-)
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index 78abd819fd62e..8ec4163429014 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -484,9 +484,27 @@ extern "C" {
+  * modifier (e.g. not setting DRM_MODE_FB_MODIFIERS in the DRM_ADDFB2
+ioctl),
+  * which tells the driver to also take driver-internal information into
+account
+  * and so might actually result in a tiled framebuffer.
++ *
++ * WARNING:
++ * There are drivers out there that expose DRM_FORMAT_MOD_LINEAR, but only
++ * support a certain pitch alignment and can't import images with this
+modifier
++ * if the pitch alignment isn't exactly the one supported. They can howeve=
+r
++ * allocate images with this modifier and other drivers can import them
+only
++ * if they support the same pitch alignment. Thus, DRM_FORMAT_MOD_LINEAR i=
+s
++ * fundamentically incompatible across devices and is the only modifier
+that
++ * has a chance of not working. The PITCH_ALIGN modifiers should be used
++ * instead.
+  */
+ #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
 
-Thanks,
-Christian.
++/* Linear layout modifiers with an explicit pitch alignment in bytes.
++ * Exposing this modifier requires that the pitch alignment is exactly
++ * the number in the definition.
++ */
++#define DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_64B fourcc_mod_code(NONE, 1)
 
-[0] https://lore.kernel.org/lkml/f088e1da-8fae-2acb-6f7a-e414708d8e67@nerdbynature.de/
+--000000000000cdc31d062955429c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Christian Kujau <lists@nerdbynature.de>
+<div dir=3D"ltr">The comment explains the problem with DRM_FORMAT_MOD_LINEA=
+R.<br>=C2=A0 =C2=A0 <br>Signed-off-by: Marek Ol=C5=A1=C3=A1k &lt;<a href=3D=
+"mailto:marek.olsak@amd.com">marek.olsak@amd.com</a>&gt;<br><br>diff --git =
+a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h<br>index 78=
+abd819fd62e..8ec4163429014 100644<br>--- a/include/uapi/drm/drm_fourcc.h<br=
+>+++ b/include/uapi/drm/drm_fourcc.h<br>@@ -484,9 +484,27 @@ extern &quot;C=
+&quot; {<br>=C2=A0 * modifier (e.g. not setting DRM_MODE_FB_MODIFIERS in th=
+e DRM_ADDFB2 ioctl),<br>=C2=A0 * which tells the driver to also take driver=
+-internal information into account<br>=C2=A0 * and so might actually result=
+ in a tiled framebuffer.<br>+ *<br>+ * WARNING:<br>+ * There are drivers ou=
+t there that expose DRM_FORMAT_MOD_LINEAR, but only<br>+ * support a certai=
+n pitch alignment and can&#39;t import images with this modifier<br>+ * if =
+the pitch alignment isn&#39;t exactly the one supported. They can however<b=
+r>+ * allocate images with this modifier and other drivers can import them =
+only<br>+ * if they support the same pitch alignment. Thus, DRM_FORMAT_MOD_=
+LINEAR is<br>+ * fundamentically incompatible across devices and is the onl=
+y modifier that<br>+ * has a chance of not working. The PITCH_ALIGN modifie=
+rs should be used<br>+ * instead.<br>=C2=A0 */<br>=C2=A0#define DRM_FORMAT_=
+MOD_LINEAR =C2=A0fourcc_mod_code(NONE, 0)<br>=C2=A0<br>+/* Linear layout mo=
+difiers with an explicit pitch alignment in bytes.<br>+ * Exposing this mod=
+ifier requires that the pitch alignment is exactly<br>+ * the number in the=
+ definition.<br>+ */<br>+#define DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_64B four=
+cc_mod_code(NONE, 1)<br></div>
 
-    vbox: Enable VBOXGUEST on ARM64
-
-diff --git a/drivers/gpu/drm/vboxvideo/Kconfig b/drivers/gpu/drm/vboxvideo/Kconfig
-index 180e30b82ab9..dfe92bf23bde 100644
---- a/drivers/gpu/drm/vboxvideo/Kconfig
-+++ b/drivers/gpu/drm/vboxvideo/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- config DRM_VBOXVIDEO
- 	tristate "Virtual Box Graphics Card"
--	depends on DRM && X86 && PCI
-+	depends on DRM && (ARM64 || X86) && PCI
- 	select DRM_CLIENT_SELECTION
- 	select DRM_KMS_HELPER
- 	select DRM_VRAM_HELPER
-diff --git a/drivers/virt/vboxguest/Kconfig b/drivers/virt/vboxguest/Kconfig
-index cc329887bfae..11b153e7454e 100644
---- a/drivers/virt/vboxguest/Kconfig
-+++ b/drivers/virt/vboxguest/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config VBOXGUEST
- 	tristate "Virtual Box Guest integration support"
--	depends on X86 && PCI && INPUT
-+	depends on (ARM64 || X86) && PCI && INPUT
- 	help
- 	  This is a driver for the Virtual Box Guest PCI device used in
- 	  Virtual Box virtual machines. Enabling this driver will add
-diff --git a/fs/vboxsf/Kconfig b/fs/vboxsf/Kconfig
-index b84586ae08b3..d4694026db8b 100644
---- a/fs/vboxsf/Kconfig
-+++ b/fs/vboxsf/Kconfig
-@@ -1,6 +1,6 @@
- config VBOXSF_FS
- 	tristate "VirtualBox guest shared folder (vboxsf) support"
--	depends on X86 && VBOXGUEST
-+	depends on (ARM64 || X86) && VBOXGUEST
- 	select NLS
- 	help
- 	  VirtualBox hosts can share folders with guests, this driver
-
--- 
-BOFH excuse #326:
-
-We need a licensed electrician to replace the light bulbs in the computer room.
+--000000000000cdc31d062955429c--
