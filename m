@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FEA9F26B1
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 23:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A0249F26AE
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 23:44:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0BA589D30;
-	Sun, 15 Dec 2024 22:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8317A10E3CF;
+	Sun, 15 Dec 2024 22:44:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oAbzapCN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ueRJhv8k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7367810E4F9
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 22:44:24 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-3004028c714so35896571fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 14:44:24 -0800 (PST)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C641810E4F9
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 22:44:26 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-30229d5b22fso37248781fa.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 14:44:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734302663; x=1734907463; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734302665; x=1734907465; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=XWnfiMNCi4KOmkp+j4DHxRsO+TL+A0SocC5CU/IrvPE=;
- b=oAbzapCNAXeqkiHigdQL2cwGFhBgxERZxP/umN/RRP/n3w1DDoE3TglpN8DhdTBQg7
- 81WM19upsZRiG9Trh10B4Eqv9KRweR9MJMwRUVb8oYI3Dh7GY+PL2rm1pYAKkc9hitER
- wZBEEMMZ8SMBNGR404TEWvToE8ik1/nFaawEy6ZfVWHEav+pSrJxD6uVe9tktGnZggpK
- MUmd9hzWoSZMABqnnY0Wam/IMsH3P+Ms6aIuD6TokZveidqraxqAPNI5bwsTvNJky30j
- cehm0m0iYcQ0wnUoVL95Jskezeg9yCDufFupJJPJ9hpzgFlrpL/DyrQzEgOmXGJTMJgW
- fNTw==
+ :reply-to; bh=s3aML7gxQK4Qe9FGAs5JaPzifxEP7lddSGDpHtcNIOE=;
+ b=ueRJhv8kf0RlzJ5fcYJclb6Oca6GhjlWfPc61yUwiFIJWdPJDOtgqaWZvkjcqUFTlc
+ piYSXTWOpnbu//ADFA0nG9ZGNk9M5+WFWq4O1OM5rhjRJ/w1O1ZZuJtlwONqnpuvDFAe
+ 8TuxZ+dn5LUlfjgCqFDCXWyoXALQj4HfycuvQS4cGRhABOjzvsrfpt5wQNEgSSZJjNln
+ mc2gb1qrZq8pJJRVfvfTJ5s+Yq+mosdyc0ONoG6Y5c2pHkzW+TypeWpZW9q6tOTBUqjk
+ pAr42KJaKa9WbEMYm+HHVjWRINOnXNzwHnfSkEjg2FnrQ9Sdos9z5b8o+oiLX4ikc+Lb
+ qZTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734302663; x=1734907463;
+ d=1e100.net; s=20230601; t=1734302665; x=1734907465;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XWnfiMNCi4KOmkp+j4DHxRsO+TL+A0SocC5CU/IrvPE=;
- b=oE3y1AiB2x/mZfWfHlR1DkqP5iJFuhoCKI1f0tZMfrw4p0FeqpOjycNeDtKgzYzecE
- dQfnnDcqfMNyFdo4t2FX8ahyhHcju+2/Y77hRa6d36PgO140iy4kloDk8e94utbTVzdO
- tGIBGz7wXOebfBUMPTuKEuNQpmh8o02PBw64RMpMjlyMdzIM8LDAjWzJxhquvsz9S6vf
- XNyjEbpqNJEfUeXXgqk//YJHdiZTAWjphurIAtoabxi+e4BVX6+w8ylR+Q53OlTjdeDj
- Z3t6lEdkGFcLwKYD3yC+02tucKZmpME6HzR/zIwnl/v0Gm+NLHXnBdOcr2t6KS0LpjkM
- ta2Q==
+ bh=s3aML7gxQK4Qe9FGAs5JaPzifxEP7lddSGDpHtcNIOE=;
+ b=G3HO0Kb+4W9SHipaofO29BSkF9663jUkkR/xa3s3jZZAULlpfmjzdVABRnweODZt+E
+ eoeWxnHfGkDb43h1PnASwAieifvIXYf5JASj4CfvEIHHUgDNu3MIkrEOr+SeRu5FAUY5
+ OYb3uqJnUVemZunxb/wy4y7sIMtXHxh7V47bLYHvuw5NX3hI+TJIbyp0eMvDSQsvftci
+ k18d7nn9g3P9aTIMsT6G5NEt3BasJBKm8btb5IGTD25G2sl5ZueovW5jrEM1FHVHtYMw
+ O+Szyj/V6yqr5MpVxoN0rK344RDoSLWQT7sIPa9e98Mr9hMW8YnAIxwVzKr9auXYG/WQ
+ t7hQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMTgXF00I+HZHFC7uXxIwjVY4w4FPxvlxcQGYujYwoLRJ/tXRFQiRXOGH9HgqltMekFddyG/I0Rrw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzt+VGv2lJYWp+cSoSEUJTYrWxGGnNTSY3dETWdq16I9oxzi8H2
- vstPLFLM9YlSbis0c9mLWv8I2ctfs49kQRlJNv3ZD1mhmRsGtEe0i2oKPrRmxaY=
-X-Gm-Gg: ASbGncsoy2jqXM2KpCy5NnbSumVw0dpDZnPKBIFHptGISPNX0njeiL32bnfaytHHiW7
- TxhjmoaBIYsIovCsvkAVEoJ7N5mFKyrZVR4W+tI+jdlQbJuL7NxFsI/C7qhYTip+LR3gMVUQfxv
- C4UE1cHt+5J9B/imlBIDa7bPWzC7i1Q3Z619kJ2X60F/RWuEn2pwWSwhWHKjgpB1x1jqV3/ET5H
- k5q0l7brBe44FiKopiNKeqOBpe0wvMe2vWP/xfXcjo7pPBn69l1J6L5c6JZ1yzo
-X-Google-Smtp-Source: AGHT+IHLBFoByH+x3/+UFbGTSbk4/0Y+TqebI1uovZeS9UilX2qFVz7bVp+R474fEQmn407fUfgEjg==
-X-Received: by 2002:a2e:a583:0:b0:2ff:a7c1:8c55 with SMTP id
- 38308e7fff4ca-302544ab007mr40923311fa.28.1734302662760; 
- Sun, 15 Dec 2024 14:44:22 -0800 (PST)
+ AJvYcCX20Y4snifvgu2wbir83mqLU9Dyjyju76MtvIWMqUBgbLeT6qdjYluKw7C6i2ys+uy3o9SEsS9KUHY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmAspv3sJhG+UgivpzRFdvu2tYjU34nUkptpIPRmyhYNfsQfAM
+ hjlqfDkLfBSsMbmuvmrqXRBp6i6p1Epe7t1dbQK1ZPGWwKXq45mX580QjwwJ4q0=
+X-Gm-Gg: ASbGnctWA+bmePExrko3Fh2zMzOPUeovCMUrs9sXgaMX0k7epfz5a6QU3Ng+lIT2i3v
+ jd+NwtMQkd+FpuJifWJLZffuFOGhXIZWNYGp2VqR/hLM1kDROx18EzT752WiJr/M74A2bdKd9Dm
+ xo3uW1EzdYGEMWi0U+cXinBbtYUFxteoheZ2QTcBxSVODqxXv0CFwY74O0ILvnV35yxiNqiAurx
+ JlQ3a0sq9hPiPkA3GGrPEzOQOWhLMHTFqZHK9fF/4GvaZUR0tlPh+Z64N9hxKmR
+X-Google-Smtp-Source: AGHT+IHgYBQaQkAuEBIaZvjJII0xL145HHOwqROw1fcPzfz0MJlC5cSUx988XIfEN/8HldbDDvn61g==
+X-Received: by 2002:a2e:a994:0:b0:300:2524:84f2 with SMTP id
+ 38308e7fff4ca-30254444a38mr36489511fa.2.1734302665117; 
+ Sun, 15 Dec 2024 14:44:25 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303441a41d1sm7201701fa.100.2024.12.15.14.44.20
+ 38308e7fff4ca-303441a41d1sm7201701fa.100.2024.12.15.14.44.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Dec 2024 14:44:21 -0800 (PST)
+ Sun, 15 Dec 2024 14:44:23 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 16 Dec 2024 00:44:09 +0200
-Subject: [PATCH v4 04/16] drm/msm/dp: drop struct msm_dp_panel_in
+Date: Mon, 16 Dec 2024 00:44:10 +0200
+Subject: [PATCH v4 05/16] drm/msm/dp: stop passing panel to msm_dp_audio_get()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241216-fd-dp-audio-fixup-v4-4-f8d1961cf22f@linaro.org>
+Message-Id: <20241216-fd-dp-audio-fixup-v4-5-f8d1961cf22f@linaro.org>
 References: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
 In-Reply-To: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -77,16 +77,16 @@ Cc: Douglas Anderson <dianders@chromium.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3950;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2659;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=3MyLXDCoSNMrI8TDXI5uVPWdVRPsKv8qwhJVKH5nFNw=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3p89M6Ju2veFlZ/qIvxPMR2hbNqtXHs3ikz/x1i9Fa0e
- q6SsWdxJ6MxCwMjF4OsmCKLT0HL1JhNyWEfdkythxnEygQyhYGLUwAm8qmTg2G5KktT4K9NZ6/f
- ez+tc0vT17pXKtLmhsY8d3jfn9FXEmvhbpR+/EjmywTRb/nLjN/8EIp6r2mt4Lxxg4so18/uKcW
- Xsm7eW9poKCzYcvgwo8nH+dpaOa8K5QR03I/URydns0VqOfJb+ff0LDjfZ+Hy9W954rv9GTl/05
- m33zLd/CNi5YZHG7ZFM1UJTzv+WHOxkm3+LSX5MMl9399XOtWkKPPMds2aaya8uX1rusp+B0+Z7
- i1VXPKeXAtEE36m6t/3PKSQV+uZo3T1ZGPirGXL/e8mGr7OXq5xNEouRKr+8y6XQ2pyGm39vPk2
- GcscN7G39zLsWnhKb6ngNLeJsbIMs28//sLSJ2/HyZUMAA==
+ bh=y//bbM3DWYF3HEdpfuzV0aVuaH3FmLoVHehWOxlGh/4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnX1u5kb1ZbcWlfFkv2I2FNncdtStLPvZRzeZjR
+ 7RfWc9OeMGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ19buQAKCRCLPIo+Aiko
+ 1WrjCACQCw3XmlmJHS23smdMsgQID06rTdcFDYjo83IbnI92bERW3cq/yFiAwL7CVi9r9NiKhmU
+ Cf4TQstar+Sj7PjNZ22jmKF7o2tZXN2N97ssGkzA/pK9i0PhHgY3zCXGUM+ciEUS3iq5ZQI2I73
+ 3M5U5PSShg0YSv71XpT6csm6UCXmYgIO7LoUQLYiDtrZExSEgnCXS25bQ/BJgLOSnwvBwQGOYyi
+ y8zV55Ofp1TADHr4HBdw/muO6KBejAnuFbbZKq1XJXSU03dOSS9uf/NBnURt0Wd/lpxit59ZSWf
+ Ydiq3bEssfRJaeVsFBkwJa9aaRBrCMg9kH04+bLvEupZ7iUV
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,112 +104,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All other submodules pass arguments directly. Drop struct
-msm_dp_panel_in that is used to wrap dp_panel's submodule args and pass
-all data to msm_dp_panel_get() directly.
+The dp_audio module doesn't make any use of the passed DP panel
+instance. Drop the argument.
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Tested-by: Stephen Boyd <swboyd@chromium.org> # sc7180-trogdor
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c |  9 +--------
- drivers/gpu/drm/msm/dp/dp_panel.c   | 15 ++++++++-------
- drivers/gpu/drm/msm/dp/dp_panel.h   | 10 ++--------
- 3 files changed, 11 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_audio.c   | 3 +--
+ drivers/gpu/drm/msm/dp/dp_audio.h   | 3 ---
+ drivers/gpu/drm/msm/dp/dp_display.c | 2 +-
+ 3 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index aff51bb973ebe0835c96420d16547ebae0c6c0f2..8d428bc633a9f2165651194797b027dbe8655e06 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -722,9 +722,6 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
+index 9e402d71b9761f640f1a8733e10e09477ff675cb..a4b792624ccc444f8912eb967d722cb94f6d4087 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.c
++++ b/drivers/gpu/drm/msm/dp/dp_audio.c
+@@ -351,14 +351,13 @@ int msm_dp_register_audio_driver(struct device *dev,
+ }
+ 
+ struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
+-			struct msm_dp_panel *panel,
+ 			struct msm_dp_catalog *catalog)
  {
  	int rc = 0;
- 	struct device *dev = &dp->msm_dp_display.pdev->dev;
--	struct msm_dp_panel_in panel_in = {
--		.dev = dev,
--	};
- 	struct phy *phy;
+ 	struct msm_dp_audio_private *audio;
+ 	struct msm_dp_audio *msm_dp_audio;
  
- 	phy = devm_phy_get(dev, "dp");
-@@ -765,11 +762,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
- 		goto error_link;
- 	}
- 
--	panel_in.aux = dp->aux;
--	panel_in.catalog = dp->catalog;
--	panel_in.link = dp->link;
--
--	dp->panel = msm_dp_panel_get(&panel_in);
-+	dp->panel = msm_dp_panel_get(dev, dp->aux, dp->link, dp->catalog);
- 	if (IS_ERR(dp->panel)) {
- 		rc = PTR_ERR(dp->panel);
- 		DRM_ERROR("failed to initialize panel, rc = %d\n", rc);
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 7d122496723a32fd591d094269397a9fdd51fe44..92415bf8aa16655a6cf4f7d6f8a5896275edf001 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -475,25 +475,26 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
- 	return 0;
- }
- 
--struct msm_dp_panel *msm_dp_panel_get(struct msm_dp_panel_in *in)
-+struct msm_dp_panel *msm_dp_panel_get(struct device *dev, struct drm_dp_aux *aux,
-+			      struct msm_dp_link *link, struct msm_dp_catalog *catalog)
- {
- 	struct msm_dp_panel_private *panel;
- 	struct msm_dp_panel *msm_dp_panel;
- 	int ret;
- 
--	if (!in->dev || !in->catalog || !in->aux || !in->link) {
-+	if (!dev || !catalog || !aux || !link) {
+-	if (!pdev || !panel || !catalog) {
++	if (!pdev || !catalog) {
  		DRM_ERROR("invalid input\n");
- 		return ERR_PTR(-EINVAL);
+ 		rc = -EINVAL;
+ 		goto error;
+diff --git a/drivers/gpu/drm/msm/dp/dp_audio.h b/drivers/gpu/drm/msm/dp/dp_audio.h
+index 1c9efaaa40e5879e54c1ed4a3d04a39a85c9402f..beea34cbab77f31b33873297dc454a9cee446240 100644
+--- a/drivers/gpu/drm/msm/dp/dp_audio.h
++++ b/drivers/gpu/drm/msm/dp/dp_audio.h
+@@ -8,7 +8,6 @@
+ 
+ #include <linux/platform_device.h>
+ 
+-#include "dp_panel.h"
+ #include "dp_catalog.h"
+ #include <sound/hdmi-codec.h>
+ 
+@@ -28,14 +27,12 @@ struct msm_dp_audio {
+  * Creates and instance of dp audio.
+  *
+  * @pdev: caller's platform device instance.
+- * @panel: an instance of msm_dp_panel module.
+  * @catalog: an instance of msm_dp_catalog module.
+  *
+  * Returns the error code in case of failure, otherwize
+  * an instance of newly created msm_dp_module.
+  */
+ struct msm_dp_audio *msm_dp_audio_get(struct platform_device *pdev,
+-			struct msm_dp_panel *panel,
+ 			struct msm_dp_catalog *catalog);
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 8d428bc633a9f2165651194797b027dbe8655e06..24dd37f1682bf5016bb0efbeb44489061deff060 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -780,7 +780,7 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
+ 		goto error_ctrl;
  	}
  
--	panel = devm_kzalloc(in->dev, sizeof(*panel), GFP_KERNEL);
-+	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
- 	if (!panel)
- 		return ERR_PTR(-ENOMEM);
- 
--	panel->dev = in->dev;
--	panel->aux = in->aux;
--	panel->catalog = in->catalog;
--	panel->link = in->link;
-+	panel->dev = dev;
-+	panel->aux = aux;
-+	panel->catalog = catalog;
-+	panel->link = link;
- 
- 	msm_dp_panel = &panel->msm_dp_panel;
- 	msm_dp_panel->max_bw_code = DP_LINK_BW_8_1;
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
-index 47c1d349be470b60596b64a7bc8c7c39d2e8fdd1..4906f4f09f2451cfed3c1007f38b4db7dfdb1d90 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.h
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.h
-@@ -21,13 +21,6 @@ struct msm_dp_display_mode {
- 	bool out_fmt_is_yuv_420;
- };
- 
--struct msm_dp_panel_in {
--	struct device *dev;
--	struct drm_dp_aux *aux;
--	struct msm_dp_link *link;
--	struct msm_dp_catalog *catalog;
--};
--
- struct msm_dp_panel_psr {
- 	u8 version;
- 	u8 capabilities;
-@@ -91,6 +84,7 @@ static inline bool is_lane_count_valid(u32 lane_count)
- 		lane_count == 4);
- }
- 
--struct msm_dp_panel *msm_dp_panel_get(struct msm_dp_panel_in *in);
-+struct msm_dp_panel *msm_dp_panel_get(struct device *dev, struct drm_dp_aux *aux,
-+			      struct msm_dp_link *link, struct msm_dp_catalog *catalog);
- void msm_dp_panel_put(struct msm_dp_panel *msm_dp_panel);
- #endif /* _DP_PANEL_H_ */
+-	dp->audio = msm_dp_audio_get(dp->msm_dp_display.pdev, dp->panel, dp->catalog);
++	dp->audio = msm_dp_audio_get(dp->msm_dp_display.pdev, dp->catalog);
+ 	if (IS_ERR(dp->audio)) {
+ 		rc = PTR_ERR(dp->audio);
+ 		pr_err("failed to initialize audio, rc = %d\n", rc);
 
 -- 
 2.39.5
