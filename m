@@ -2,78 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F8E9F23B8
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 13:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9F809F23C0
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Dec 2024 13:35:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E9F10E087;
-	Sun, 15 Dec 2024 12:29:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 468B910E0A2;
+	Sun, 15 Dec 2024 12:35:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mE3QPaCF";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kEzEYrBM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D5A110E087;
- Sun, 15 Dec 2024 12:29:02 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-5d4e2aa7ea9so5980990a12.2; 
- Sun, 15 Dec 2024 04:29:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734265740; x=1734870540; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bHWJV/LD4gPHZZNcXt29U0PATFI+oJ17IUeLcy4IdyI=;
- b=mE3QPaCFU6vw5wuG8j1PawAC5/h3/286hPfWvobkLggeH2zTMqmNDz2iQWf0rZJNnY
- ZAvkqLa0LhcLUXy9uSW9NG/cEIDtuW38mhfIMqEoJhH8Dexca3zWkahYvnFW7DVo5Th2
- 3oe6b/YE6eNFTIdXmHBW6XBU2G6ASidfSNB+muB2Q4CfYkjH1KUSD7X8v/8UNN2uVr4o
- H+B+KgABuZAOiXxX0dfjTLgOKrwgdVyBndOPdXAnBROf4zglm860Rsql0N0ET+bO4IAQ
- GXYwtvODqJFoyStWwS1xnXAsFS9BGmK+6KacHyWBo6mL+/NR6O346Hc9qyL/dNoNNF8J
- +Edg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734265740; x=1734870540;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bHWJV/LD4gPHZZNcXt29U0PATFI+oJ17IUeLcy4IdyI=;
- b=TyETxFAeAJ1C66JmdV4oe3WW4PPgb8p9rjKHntyavkA8WhELAMgHDsr9jmASBegLcn
- /HdX01pziXLAdGQ3zqZIzX8jbOsTv08tTsdEc6Ner3onl2W049x+pEsu6lyKDJr+E9gr
- el2v1ApJ81oy5pthL1gWWWunxs1g782xbf5V0Jwr7Op/DHydkyro5a85bkxT1sc9wovI
- Jq1+HLCeL/IzaOrZGmdipDtxrCNh0/U3ELNKa7lyyDS4rXMFicCwxVax5KR8efNXIdA9
- O9cQMtT6BsPhtfwRGNfD4J47HHZ24W0RuKDyv+yjb3s6xUwVkPJj9pD53vUp+ztaNmL0
- w3TA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVp3xq75mf5r6uYPUAMJsXGhU0x8Xuk+LlYBDYgbPGXrstyr0YokWYAT/427IyzETRqRuVsqiZ0@lists.freedesktop.org,
- AJvYcCWLJ8IQ75YElxQSDxAxluSAuLjQgQ4w7pDK3HuE5QAUOL6HL6yMnE7ZDcuvFCLeUiEQvcCrarKkp9Sg@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxBR+zYuhHZq2P/hEzBgcKcuPp7An16oDiC1NfxvvEo9Jvmnfyv
- MLhz7aIYozyGcPp3S+4qGdqX8Fps6IjGdzbDSrUqVB5t0vOlXGrt
-X-Gm-Gg: ASbGncutlcC128kCY3GT4ppAkSVojCpZ6iBznPU1T1T7RDkmEdn/j3CAO5arDhxLLZg
- 90ST4WCt2wrnr2CGEZWkAKX95ihjqoxhR+bIDOxFnRBcjuE5/q2n4aTKQ0GOI8riQyQbcDr/BV9
- CipD8qFZ1uGbwHjnPhoF92ixTZzZ9bN1TAVHLJtOmnEBTSVkWnhHkwBZ7B67sqSgkWcTBz3whnj
- Vt648f3pfy7oBS/O2mTaqIoR3FxS11pA5LuBK5XXZhT+VR5ts/I4yneKktjULK6YLA=
-X-Google-Smtp-Source: AGHT+IFs4h7kFQ1tBETm2pZSMvLI9Eb//palqWRPKxDQoSymF7Pdlu6jW09S5JdbUeT9M+3q91Focw==
-X-Received: by 2002:a05:6402:348b:b0:5d0:8197:7ab3 with SMTP id
- 4fb4d7f45d1cf-5d63c2e5275mr7998238a12.3.1734265740122; 
- Sun, 15 Dec 2024 04:29:00 -0800 (PST)
-Received: from localhost.localdomain ([83.168.79.145])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d652ad187dsm2055327a12.28.2024.12.15.04.28.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Dec 2024 04:28:59 -0800 (PST)
-From: Karol Przybylski <karprzy7@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, srinivasan.shanmugam@amd.com,
- Hawking.Zhang@amd.com, Jack.Xiao@amd.com, lijo.lazar@amd.com,
- Jesse.zhang@amd.com, tao.zhou1@amd.com
-Cc: Karol Przybylski <karprzy7@gmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/amdgpu: Fix potential integer overflow in scheduler mask
- calculations
-Date: Sun, 15 Dec 2024 13:28:57 +0100
-Message-Id: <20241215122857.927606-1-karprzy7@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 711BC10E0A2
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 12:35:23 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33BED99F;
+ Sun, 15 Dec 2024 13:34:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1734266086;
+ bh=Cw/4s1cnTdpvoGxzO73Vu8Phx08ECrq4JjmSBktXtWs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kEzEYrBMorH93mkgbR+HewocUmhkfsj0+NKNtW2wApjmoIa3La8TUteD2Xg3zn41G
+ R1vGtMwcVFHG04u72DKfaj0+Qc+uc9IzFiaY7dgsILW4Vk0yCY+UTY0TuwGeW3A8ga
+ AyKSuaNrfjpqc/H2Uo2OpPePoj274C3Kd07j6yKA=
+Date: Sun, 15 Dec 2024 14:35:05 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/i2c: tda998x: drop support for platform_data
+Message-ID: <20241215123505.GA25852@pendragon.ideasonboard.com>
+References: <20241215-drm-move-tda998x-v1-0-7817122b1d73@linaro.org>
+ <20241215-drm-move-tda998x-v1-1-7817122b1d73@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241215-drm-move-tda998x-v1-1-7817122b1d73@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,61 +63,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The use of 1 << i in scheduler mask calculations can result in an
-unintentional integer overflow due to the expression being
-evaluated as a 32-bit signed integer.
+Hi Dmitry,
 
-This patch replaces 1 << i with 1ULL << i to ensure the operation
-is performed as a 64-bit unsigned integer, preventing overflow
+Thank you for the patch.
 
-Discovered in coverity scan, CID 1636393, 1636175, 1636007, 1635853
+On Sun, Dec 15, 2024 at 01:09:07PM +0200, Dmitry Baryshkov wrote:
+> After the commit 0fb2970b4b6b ("drm/armada: remove non-component
+> support") there are no remaining users of the struct
+> tda998x_encoder_params. Drop the header and corresponding API from the
+> TDA998x driver.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Fixes: c5c63d9cb5d3b drm/amdgpu: add amdgpu_gfx_sched_mask and amdgpu_compute_sched_mask debugfs
-Signed-off-by: Karol Przybylski <karprzy7@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-index 69a6b6dba0a5..8fb6c5f6a060 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c
-@@ -2050,7 +2050,7 @@ static int amdgpu_debugfs_gfx_sched_mask_set(void *data, u64 val)
- 	if (!adev)
- 		return -ENODEV;
- 
--	mask = (1 << adev->gfx.num_gfx_rings) - 1;
-+	mask = (1ULL << adev->gfx.num_gfx_rings) - 1;
- 	if ((val & mask) == 0)
- 		return -EINVAL;
- 
-@@ -2078,7 +2078,7 @@ static int amdgpu_debugfs_gfx_sched_mask_get(void *data, u64 *val)
- 	for (i = 0; i < adev->gfx.num_gfx_rings; ++i) {
- 		ring = &adev->gfx.gfx_ring[i];
- 		if (ring->sched.ready)
--			mask |= 1 << i;
-+			mask |= 1ULL << i;
- 	}
- 
- 	*val = mask;
-@@ -2120,7 +2120,7 @@ static int amdgpu_debugfs_compute_sched_mask_set(void *data, u64 val)
- 	if (!adev)
- 		return -ENODEV;
- 
--	mask = (1 << adev->gfx.num_compute_rings) - 1;
-+	mask = (1ULL << adev->gfx.num_compute_rings) - 1;
- 	if ((val & mask) == 0)
- 		return -EINVAL;
- 
-@@ -2149,7 +2149,7 @@ static int amdgpu_debugfs_compute_sched_mask_get(void *data, u64 *val)
- 	for (i = 0; i < adev->gfx.num_compute_rings; ++i) {
- 		ring = &adev->gfx.compute_ring[i];
- 		if (ring->sched.ready)
--			mask |= 1 << i;
-+			mask |= 1ULL << i;
- 	}
- 
- 	*val = mask;
+> ---
+>  MAINTAINERS                       |  1 -
+>  drivers/gpu/drm/i2c/tda998x_drv.c | 49 ++++-----------------------------------
+>  include/drm/i2c/tda998x.h         | 40 --------------------------------
+>  3 files changed, 4 insertions(+), 86 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 81348dbce8ca7c877bd9c2d88cb093368eca5a0a..9a23e80abf309cbd918a74683895f8dbe0507a6e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16983,7 +16983,6 @@ S:	Maintained
+>  T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-devel
+>  T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-fixes
+>  F:	drivers/gpu/drm/i2c/tda998x_drv.c
+> -F:	include/drm/i2c/tda998x.h
+>  F:	include/dt-bindings/display/tda998x.h
+>  K:	"nxp,tda998x"
+>  
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+> index 2160f05bbd16d2346e27365e5549b75ad26fdcb9..67480dcbbfde4da68ffaeaf20935af467d4da92a 100644
+> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+> @@ -21,10 +21,11 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_simple_kms_helper.h>
+> -#include <drm/i2c/tda998x.h>
+>  
+>  #include <media/cec-notifier.h>
+>  
+> +#include <dt-bindings/display/tda998x.h>
+> +
+>  #define DBG(fmt, ...) DRM_DEBUG(fmt"\n", ##__VA_ARGS__)
+>  
+>  enum {
+> @@ -1717,10 +1718,10 @@ static int tda998x_get_audio_ports(struct tda998x_priv *priv,
+>  		u8 ena_ap = be32_to_cpup(&port_data[2*i+1]);
+>  
+>  		switch (afmt) {
+> -		case AFMT_I2S:
+> +		case TDA998x_I2S:
+>  			route = AUDIO_ROUTE_I2S;
+>  			break;
+> -		case AFMT_SPDIF:
+> +		case TDA998x_SPDIF:
+>  			route = AUDIO_ROUTE_SPDIF;
+>  			break;
+>  		default:
+> @@ -1746,44 +1747,6 @@ static int tda998x_get_audio_ports(struct tda998x_priv *priv,
+>  	return 0;
+>  }
+>  
+> -static int tda998x_set_config(struct tda998x_priv *priv,
+> -			      const struct tda998x_encoder_params *p)
+> -{
+> -	priv->vip_cntrl_0 = VIP_CNTRL_0_SWAP_A(p->swap_a) |
+> -			    (p->mirr_a ? VIP_CNTRL_0_MIRR_A : 0) |
+> -			    VIP_CNTRL_0_SWAP_B(p->swap_b) |
+> -			    (p->mirr_b ? VIP_CNTRL_0_MIRR_B : 0);
+> -	priv->vip_cntrl_1 = VIP_CNTRL_1_SWAP_C(p->swap_c) |
+> -			    (p->mirr_c ? VIP_CNTRL_1_MIRR_C : 0) |
+> -			    VIP_CNTRL_1_SWAP_D(p->swap_d) |
+> -			    (p->mirr_d ? VIP_CNTRL_1_MIRR_D : 0);
+> -	priv->vip_cntrl_2 = VIP_CNTRL_2_SWAP_E(p->swap_e) |
+> -			    (p->mirr_e ? VIP_CNTRL_2_MIRR_E : 0) |
+> -			    VIP_CNTRL_2_SWAP_F(p->swap_f) |
+> -			    (p->mirr_f ? VIP_CNTRL_2_MIRR_F : 0);
+> -
+> -	if (p->audio_params.format != AFMT_UNUSED) {
+> -		unsigned int ratio, route;
+> -		bool spdif = p->audio_params.format == AFMT_SPDIF;
+> -
+> -		route = AUDIO_ROUTE_I2S + spdif;
+> -
+> -		priv->audio.route = &tda998x_audio_route[route];
+> -		priv->audio.cea = p->audio_params.cea;
+> -		priv->audio.sample_rate = p->audio_params.sample_rate;
+> -		memcpy(priv->audio.status, p->audio_params.status,
+> -		       min(sizeof(priv->audio.status),
+> -			   sizeof(p->audio_params.status)));
+> -		priv->audio.ena_ap = p->audio_params.config;
+> -		priv->audio.i2s_format = I2S_FORMAT_PHILIPS;
+> -
+> -		ratio = spdif ? 64 : p->audio_params.sample_width * 2;
+> -		return tda998x_derive_cts_n(priv, &priv->audio, ratio);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static void tda998x_destroy(struct device *dev)
+>  {
+>  	struct tda998x_priv *priv = dev_get_drvdata(dev);
+> @@ -1982,10 +1945,6 @@ static int tda998x_create(struct device *dev)
+>  		if (priv->audio_port_enable[AUDIO_ROUTE_I2S] ||
+>  		    priv->audio_port_enable[AUDIO_ROUTE_SPDIF])
+>  			tda998x_audio_codec_init(priv, &client->dev);
+> -	} else if (dev->platform_data) {
+> -		ret = tda998x_set_config(priv, dev->platform_data);
+> -		if (ret)
+> -			goto fail;
+>  	}
+>  
+>  	priv->bridge.funcs = &tda998x_bridge_funcs;
+> diff --git a/include/drm/i2c/tda998x.h b/include/drm/i2c/tda998x.h
+> deleted file mode 100644
+> index 3cb25ccbe5e68bf95ce13249f15549b7e2582281..0000000000000000000000000000000000000000
+> --- a/include/drm/i2c/tda998x.h
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#ifndef __DRM_I2C_TDA998X_H__
+> -#define __DRM_I2C_TDA998X_H__
+> -
+> -#include <linux/hdmi.h>
+> -#include <dt-bindings/display/tda998x.h>
+> -
+> -enum {
+> -	AFMT_UNUSED =	0,
+> -	AFMT_SPDIF =	TDA998x_SPDIF,
+> -	AFMT_I2S =	TDA998x_I2S,
+> -};
+> -
+> -struct tda998x_audio_params {
+> -	u8 config;
+> -	u8 format;
+> -	unsigned sample_width;
+> -	unsigned sample_rate;
+> -	struct hdmi_audio_infoframe cea;
+> -	u8 status[5];
+> -};
+> -
+> -struct tda998x_encoder_params {
+> -	u8 swap_b:3;
+> -	u8 mirr_b:1;
+> -	u8 swap_a:3;
+> -	u8 mirr_a:1;
+> -	u8 swap_d:3;
+> -	u8 mirr_d:1;
+> -	u8 swap_c:3;
+> -	u8 mirr_c:1;
+> -	u8 swap_f:3;
+> -	u8 mirr_f:1;
+> -	u8 swap_e:3;
+> -	u8 mirr_e:1;
+> -
+> -	struct tda998x_audio_params audio_params;
+> -};
+> -
+> -#endif
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
