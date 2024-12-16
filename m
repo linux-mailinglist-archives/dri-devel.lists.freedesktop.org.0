@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D899F3135
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4119F3137
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:08:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04AE810E65D;
-	Mon, 16 Dec 2024 13:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37B310E669;
+	Mon, 16 Dec 2024 13:08:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Jj4POjvv";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="TAgnL/Vl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2062a.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2412::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C9510E60A;
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on20619.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2009::619])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BCCC10E60A;
  Mon, 16 Dec 2024 13:07:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wtF6aQFChIHDaIGnj8tg8eNgnJVbM5oNmIFmsgtUEN517RJV4syuNDYu1Cl5IZYZQwTTgjoEmy0Tj2Dpg70C88odWVhinNl3aG56MkTqT9y/IVev5kbL6krAv+YH198WNVaKy4ugV6tQkv1CQP0N94gUVFsKOeP8M6eSFHu5gp0WDdlU2WXNfdicMo7tPzt/YaR6C9AWZQZJNpcmB+lRRCuvZMyTAhgqyw+T3n3oHE1ogbQDLEStB+qozuhxyRFzK1qSLNl++eAblJMpxmkN8u99dKzyufDsxuPpat7bOEMSOHiyUHlj6fGf8fwGcOFqJVLYj0nWBdCruxkVx5816w==
+ b=U3FUdzPw0gjsId9tBsERVDKjx7nPwlfutZw/b9PDoe4QzVMyOrCwhSPa1IkdzjOmxjju7DWpnJD9THBJcvizgU1UngJwX7a9hBTtRAFY7YgKBfJ/nYGMiOGzfSGzrv58zZGsUkB8ZObCkh2eTadyoS7WfeIlC+95107CV8+iGo6mYS+dijMKC15LT+SOOvSSvcxApQDG0Qrwg80iKW/vMHRpqIhuuyAkBR8CNOVzPxSy2U5288CxQm2DEmPO8bvj81olkOmpanuToKqRlwoS6F0vTwTKXRIqX/SVh7jB1wRF91CcZBajlF+NypgIRpFvsSWcTjL4EHm4Y9NOOJV0hA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qq/EPqYxpPIWZB6ifTuweea9NtWpXryCJNPdoxCBEjo=;
- b=QNHULf4YuJe4jX8GSdFUFRfBxJ7IZy1Vw+Vsw+Y4D7vA06SdUYj7lgPovp+Kk7L3sfLeOKu+mAaenFeEsE0orbUdU9JsNlFBEIimWECz8P8BYjsJUFF4J/+r6ciFFq6NZm7Nul92M9e+lYFCQdjLeIiXBwq2pbYfuXCFGExAd3PwEtkguuHhbG2/hIVHRPdf+QazgAGoh20FVHNotyloTv14ZGzqS/48drKnEZML0+vUXkz4VxTI7G1STShEHmjCB6ycchmofs933oFSR/kntYK4jJ9Hfoa+an1R1pF/rGOVVfNls4/j7It8MfkEqJcUh1UMDfwgmThQV6k+LRbQwQ==
+ bh=yRqaJkdrv+Hw6epPdb2GqiKhQTOH3ELRp3bVoSrJXBc=;
+ b=asQLeZPyciXUczLqEmlj1LCcvXLMCoj6/5k27mJsAp3edhCLFrrA+chaaOHLopE4Q8Dr/iQjaMlLDjk/MVnnx804leE9heItxWi1/n9SNYht/tVJCoJEf1+AYc6oDgAJs8kcR8rrHo59MK514pfDnJ7+9WYAs7ZqxcdRfxNGKboANrOXoKYnR7Bm0VJ6AySD3HNb9FAYXr7TDiDFvqKovIIy6704fR/WIRlx0ANVkooIpQBn7pCMoaLzPdUvjnPb2wXIvqT8/75C8gdf7ja3ELfnN8HrX9WroVfQWewwYx+UMtEz73R/XZX/ACMqdFNvsaz0CEjAz1LZ6B1MpYjw1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qq/EPqYxpPIWZB6ifTuweea9NtWpXryCJNPdoxCBEjo=;
- b=Jj4POjvv3NovQ8sSjWS9umXfJ9jBvQM6xG9mX3zZPvhkk2nQhMj/g1uBvo2cQuqHpHz0dTTQIRh+wVS39IsTne4efC6bP1hz0nI3gaXFIBY1VbCKOBLjZP5n9ikt8FlWihTDDbhBVQUy1dgMFH4k/Xr6GLcNGqomI8OhYwFJq+s=
-Received: from SJ0PR05CA0045.namprd05.prod.outlook.com (2603:10b6:a03:33f::20)
- by CYXPR12MB9318.namprd12.prod.outlook.com (2603:10b6:930:de::22)
+ bh=yRqaJkdrv+Hw6epPdb2GqiKhQTOH3ELRp3bVoSrJXBc=;
+ b=TAgnL/Vlk5c4jp1gU8UmSlT31MpOwg6kVGw/n9Y6dEPUZGCaWGyXbS7W+KzMVMNbqgrb9jLKhDNGt++LV/qBNU3AG5eBh9hHZjJfplvk92dXISVSUQjSCxTbs7ujRLXbomLRAEDm+iKBaSf/CqNU/k0M9YwyCsKHnudcgUy8O20=
+Received: from BYAPR05CA0088.namprd05.prod.outlook.com (2603:10b6:a03:e0::29)
+ by SA1PR12MB8096.namprd12.prod.outlook.com (2603:10b6:806:326::22)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Mon, 16 Dec
- 2024 13:07:52 +0000
-Received: from SJ1PEPF000023D1.namprd02.prod.outlook.com
- (2603:10b6:a03:33f:cafe::54) by SJ0PR05CA0045.outlook.office365.com
- (2603:10b6:a03:33f::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.10 via Frontend Transport; Mon,
- 16 Dec 2024 13:07:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.22; Mon, 16 Dec
+ 2024 13:07:54 +0000
+Received: from SJ1PEPF000023CE.namprd02.prod.outlook.com
+ (2603:10b6:a03:e0:cafe::b3) by BYAPR05CA0088.outlook.office365.com
+ (2603:10b6:a03:e0::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8158.22 via Frontend Transport; Mon,
+ 16 Dec 2024 13:07:54 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,24 +49,25 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF000023D1.mail.protection.outlook.com (10.167.244.7) with Microsoft
+ SJ1PEPF000023CE.mail.protection.outlook.com (10.167.244.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Mon, 16 Dec 2024 13:07:51 +0000
+ 15.20.8251.15 via Frontend Transport; Mon, 16 Dec 2024 13:07:54 +0000
 Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
  SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 16 Dec 2024 07:07:48 -0600
+ 15.1.2507.39; Mon, 16 Dec 2024 07:07:51 -0600
 From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
  <matthew.auld@intel.com>
 CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>, "Arunpravin
  Paneer Selvam" <Arunpravin.PaneerSelvam@amd.com>, "Lin . Cao"
  <lincao12@amd.com>
-Subject: [PATCH 1/2] drm/buddy: fix issue that force_merge cannot free all
- roots
-Date: Mon, 16 Dec 2024 18:37:34 +0530
-Message-ID: <20241216130735.314298-1-Arunpravin.PaneerSelvam@amd.com>
+Subject: [PATCH 2/2] drm/buddy: Add a testcase to verify the multiroot fini
+Date: Mon, 16 Dec 2024 18:37:35 +0530
+Message-ID: <20241216130735.314298-2-Arunpravin.PaneerSelvam@amd.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241216130735.314298-1-Arunpravin.PaneerSelvam@amd.com>
+References: <20241216130735.314298-1-Arunpravin.PaneerSelvam@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -75,52 +76,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D1:EE_|CYXPR12MB9318:EE_
-X-MS-Office365-Filtering-Correlation-Id: c93dc199-76ff-47f6-8110-08dd1dd2a5c5
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000023CE:EE_|SA1PR12MB8096:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfdac878-393c-424c-d5e5-08dd1dd2a74c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ku703lK/wvnbRBsFZ/hB44t34GDJgcCJmGL8Pa7P1yVat2oZuDUgwiNTYTuL?=
- =?us-ascii?Q?QEY/3aMJ5un6LmeU6+aHUsC7SbhEiLBReqRkyqNk8/GjGSXnNichjkpRpnhk?=
- =?us-ascii?Q?7ki2sAtYnPoAd7Zj7DZw/T9jcFEuUwHebLuAdzUx+QnO2EKWmNz1I170xh6y?=
- =?us-ascii?Q?bxyNL8018S52/8dS2e3w4B5dEs6YET4ZYoo3ajP2g7jvaJLQ6ckUG5izT4YA?=
- =?us-ascii?Q?DmiVUv6h9V+ysUZEtEWUb967teHzBtLwk2H4oyn5Zud4Q2xdpCGTpAvhyurT?=
- =?us-ascii?Q?NBGPnugI/29At1XWyOw9Y48pmu6c5hMqjY6bCn57PiMrdtu+OAdyvnRQ1TgJ?=
- =?us-ascii?Q?0H71u5ZfKRcNUcJlm4ae/2ZTSpAqrsR6j3NgbbxStX3rhMeGz83iCPYGtJYk?=
- =?us-ascii?Q?vxFEI16i3DnxzqKwe7hl778tgtFkhs4oSr5GxZA75QYtigHoBp34JtYiDKXj?=
- =?us-ascii?Q?db9xzFtLqeAsrO4ZeLQZ2tcuzb0NqmfKyrpS4iKRX9XBdK4NocJvvyGS9Pxe?=
- =?us-ascii?Q?wwvYN3mhCAXdiIYmFw8Nh09m7rov2NuGzkpZQoYZ6ZMx7GKMQ0gEbe9Zx5ZX?=
- =?us-ascii?Q?Ilhg8K3V9lnzF7rwKe26hSRDzMwqUEB0RlRnvNeQ1JF8sg6auU7FIQ+NlvS/?=
- =?us-ascii?Q?54ZkFJE03BRVF1TdybP8o1c9o2q1rHOiWDYcDLuzSb9b0WfbAbtScFvG6L/O?=
- =?us-ascii?Q?9KCFYtlok3GxgyHS8SNsRgkixtSREj8RAu0sInNjn1DQKFjxeFc2DBqMWteV?=
- =?us-ascii?Q?38ENf597dZPacjMFyeZdA2aThDpbJro29N3X7jpi6R+nCC2CvYk9UP6Hhcef?=
- =?us-ascii?Q?1O5v1NvAdNpXoakpIZp2O0pnhfWDinlDHfkAhqJj1TJA+6ByO2lkDiZcNGTd?=
- =?us-ascii?Q?V9bH1Rx3RRoV1jeR6Cv4LgGxHdtSINfqUC9oeOb4h6RzyhBnumNIrgajoI2y?=
- =?us-ascii?Q?X93/JPf3dxiKgxaQ1dW778L6C2qDjSm8xywYUz55NjNiEBFOMIDcaLSxdlwO?=
- =?us-ascii?Q?Ju0m/mAlp1nzVDKsxzjeA01Sm6EinhYgD0Rv7NEfP9hSJbTOZDsFHKsM2NOk?=
- =?us-ascii?Q?mjmVjg9P27EF8Cll4Mp9F+8QAYFLniXiBLQo2NxXKAy1u/NQYaPYtAPrUJ/4?=
- =?us-ascii?Q?x3lNd2h6J/CFfr2WI0egrU6GdZXZQR1t+kNRfjB1aek5NuocnKIepr+dqMTW?=
- =?us-ascii?Q?eHcxDIAOynAaNdLrkSVkDkOp3Dsq8RiKf8OtfTXeD4HxYd1CB/Dd16L+7/jC?=
- =?us-ascii?Q?deaM6QbTCqFVVhPYQelgAAh1/rJ+/T1BlkOFT3ofNbdZDz7MGaaEjwex/D1n?=
- =?us-ascii?Q?siHY134msmWFVUD69AZYRRJr8OESkq5aNwlNrPpY99PzXMnXEWTHrGe+ByjK?=
- =?us-ascii?Q?UMTAPbrc2B2yqFuuLFGNe4amDKZtkn3dU2OIN8Y1nkYl7DYclHW/F0zdPxld?=
- =?us-ascii?Q?kb5e+w/mAOunX5t3l/Gui4lfRjqYmZauJxkJGcC9zpVHJRicE4Y3RuSNYS5d?=
- =?us-ascii?Q?utwYPsCeVl5i3qI=3D?=
+ ARA:13230040|82310400026|1800799024|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?M5N+IhKq+OZIe+Zp4GvQckfoVs5VPqd4Ah/GGeO9eJSG9mo3t7EJovAm0d+p?=
+ =?us-ascii?Q?FY4XaP2svtawJg70c0b6jUKfflVYNuwWg7rr7pG24QCIgNUKGEA7Sn2vABg6?=
+ =?us-ascii?Q?VQ8VMyr3OUHbugTPWXqBnrcq5Uwvn1Puf/fp2wy1oaLJrdIs4/vUXfiKvqGJ?=
+ =?us-ascii?Q?ys0v/yJWQC36LhwqHfz8IN7HFQaSQoQdVo5tEv+eqbnOoUnLABLatZZO2yDA?=
+ =?us-ascii?Q?XSM9BJ0B1Qtlp49S5D/HSouVKblY47tv2oTWalK14xTiEyfCRO6Y/fpVRDKu?=
+ =?us-ascii?Q?BtQ2XEhRMhpDDjSNrqr24KBrj/jqejVFHiZSrZlGbbE2sJA1hSLsoKNU++F7?=
+ =?us-ascii?Q?7NUoBHa7XW6/fNADosjv0phN6e7uncRg8zXljytW5VhLpfXx0zS89355Tc+k?=
+ =?us-ascii?Q?cqnc4NH0sw8KwailB8SFlydDZ9b5+lNsu1p7VwjK5YPTVr25RCDBuHLB68Ea?=
+ =?us-ascii?Q?X9HP9LdOn70zqGSX3AFCMqmTzBeUs046VCsHvKDFU4hO6b80W7yHWyGQOeJ0?=
+ =?us-ascii?Q?3gH/pKkAL/m8rsNzFVyyuLOIFkdVxK8oQQYP+89RQNxAKOuWF+vIH8iA7Y0Q?=
+ =?us-ascii?Q?8RyP1iuLt5rSqhdXjTsydJ1CzRBlBNnr9q4EsIWMsCjQQfhxlh4/bnC7XRp7?=
+ =?us-ascii?Q?rB9ROMdS0HscNEpPoRDKZxmZgVNs/UYHe93J9At/3vqC2LwIDmktA5lQx5qb?=
+ =?us-ascii?Q?gAkq4s+oWRuRmohXkoJ88zRFGRJdQe9lU+Rk8XYKCMXV5ks8CBs2ineq7Rl9?=
+ =?us-ascii?Q?dDBuhnhIzwSqRH3Cg3Yuy3T6dcqb4my2N75ErpQmRH0IEpajCOCPVBTfOVHr?=
+ =?us-ascii?Q?mzvKDMzn8m8iehFSCs4VTLawXZqmECH7RaJhbxvxktIGNANJ9MCUoE+kVs+2?=
+ =?us-ascii?Q?Bwxms9fa5BkgHEWJSKawSJ+TkBZPjrCCWGEMThnhx/Z3bd+XV54riGykNv+l?=
+ =?us-ascii?Q?70hrrNQN/qgDdCCaV4cVrgJe7i0GuxGto2bH0QO01vCZptER5AJbb+AOoMF2?=
+ =?us-ascii?Q?OJED+F6TgDwhaP8i/66zSOkHnEF2CoK2vgM4/BB37ci84mDvSxAnH/CTdpQR?=
+ =?us-ascii?Q?cZXwNTwNIU/QXb26QNau/tpoIitGsgz/gLX2MBaP6Xcjz0QToliDDO0jBLGH?=
+ =?us-ascii?Q?vZqzemFwtl93WxZVvEwL+IV22m98dJOYQwjVFNKGd8wEtzngt3EKZcX8sHxW?=
+ =?us-ascii?Q?VPP+XXmPtAzMY2I7qYQweO7gZWrKWXLYOLK78iAuot8U7SLF/1E3OHywBPgt?=
+ =?us-ascii?Q?ryUmhOziRKn0VgL+Rm/JmPUsV/toG8l/IOWPiLJ5xVlV6ZsJPNgSDhEEbzHq?=
+ =?us-ascii?Q?iSOhMeids6s7eHhqHWz3b494rzPq3HggfEy9I2l0m5TrV4UQ3wUej11NMceN?=
+ =?us-ascii?Q?7AELvDL7XunfHhz4FlkmO6lPJknqlx4m5SI+rDtfPJg2oWrMkdArDmZnGxW3?=
+ =?us-ascii?Q?FAAKsIiXon7mMiB6mqK8JW/OecWesynPhomg9iA63IpRInCsAMHpkbT72wFa?=
+ =?us-ascii?Q?/MZdNh3HybuVstQ=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(376014)(1800799024); DIR:OUT;
+ SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2024 13:07:51.6437 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c93dc199-76ff-47f6-8110-08dd1dd2a5c5
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2024 13:07:54.1615 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfdac878-393c-424c-d5e5-08dd1dd2a74c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023D1.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023CE.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9318
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,46 +137,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lin.Cao <lincao12@amd.com>
+- Added a testcase to verify the multiroot force merge fini.
+- Added a new field in_use to track the mm freed status.
 
-If buddy manager have more than one roots and each root have sub-block
-need to be free. When drm_buddy_fini called, the first loop of
-force_merge will merge and free all of the sub block of first root,
-which offset is 0x0 and size is biggest(more than have of the mm size).
-In subsequent force_merge rounds, if we use 0 as start and use remaining
-mm size as end, the block of other roots will be skipped in
-__force_merge function. It will cause the other roots can not be freed.
-
-Solution: use roots' offset as the start could fix this issue.
-
+Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
 Signed-off-by: Lin.Cao <lincao12@amd.com>
 ---
- drivers/gpu/drm/drm_buddy.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_buddy.c            | 20 ++++++++++++++++-
+ drivers/gpu/drm/tests/drm_buddy_test.c | 30 ++++++++++++++++++--------
+ include/drm/drm_buddy.h                |  2 ++
+ 3 files changed, 42 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index 103c185bb1c8..ca42e6081d27 100644
+index ca42e6081d27..39ce918b3a65 100644
 --- a/drivers/gpu/drm/drm_buddy.c
 +++ b/drivers/gpu/drm/drm_buddy.c
-@@ -324,7 +324,7 @@ EXPORT_SYMBOL(drm_buddy_init);
-  */
- void drm_buddy_fini(struct drm_buddy *mm)
+@@ -102,6 +102,18 @@ static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
+ 	return s1 <= s2 && e1 >= e2;
+ }
+ 
++static bool is_roots_freed(struct drm_buddy *mm)
++{
++	int i;
++
++	for (i = 0; i < mm->n_roots; ++i) {
++		if (!drm_buddy_block_is_free(mm->roots[i]))
++			return false;
++	}
++
++	return true;
++}
++
+ static struct drm_buddy_block *
+ __get_buddy(struct drm_buddy_block *block)
  {
--	u64 root_size, size;
-+	u64 root_size, size, start;
- 	unsigned int order;
- 	int i;
+@@ -303,6 +315,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 size, u64 chunk_size)
+ 		i++;
+ 	} while (size);
  
-@@ -332,7 +332,8 @@ void drm_buddy_fini(struct drm_buddy *mm)
++	mm->in_use = true;
++
+ 	return 0;
  
- 	for (i = 0; i < mm->n_roots; ++i) {
- 		order = ilog2(size) - ilog2(mm->chunk_size);
--		__force_merge(mm, 0, size, order);
-+		start = drm_buddy_block_offset(mm->roots[i]);
-+		__force_merge(mm, start, start + size, order);
+ out_free_roots:
+@@ -335,13 +349,17 @@ void drm_buddy_fini(struct drm_buddy *mm)
+ 		start = drm_buddy_block_offset(mm->roots[i]);
+ 		__force_merge(mm, start, start + size, order);
  
- 		WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
+-		WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
  		drm_block_free(mm, mm->roots[i]);
+ 
+ 		root_size = mm->chunk_size << order;
+ 		size -= root_size;
+ 	}
+ 
++	mm->in_use = false;
++
++	if (WARN_ON(!is_roots_freed(mm)))
++		mm->in_use = true;
++
+ 	WARN_ON(mm->avail != mm->size);
+ 
+ 	kfree(mm->roots);
+diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
+index 9662c949d0e3..694b058ddd6d 100644
+--- a/drivers/gpu/drm/tests/drm_buddy_test.c
++++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+@@ -385,19 +385,31 @@ static void drm_test_buddy_alloc_clear(struct kunit *test)
+ 	drm_buddy_fini(&mm);
+ 
+ 	/*
+-	 * Create a new mm with a non power-of-two size. Allocate a random size, free as
+-	 * cleared and then call fini. This will ensure the multi-root force merge during
+-	 * fini.
++	 * Create a new mm with a non power-of-two size. Allocate a random size from each
++	 * root, free as cleared and then call fini. This will ensure the multi-root
++	 * force merge during fini.
+ 	 */
+-	mm_size = 12 * SZ_4K;
+-	size = max(round_up(prandom_u32_state(&prng) % mm_size, ps), ps);
++	mm_size = (SZ_4K << max_order) + (SZ_4K << (max_order - 2));
++
+ 	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
+-	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
+-							    size, ps, &allocated,
+-							    DRM_BUDDY_TOPDOWN_ALLOCATION),
+-				"buddy_alloc hit an error size=%u\n", size);
++	KUNIT_EXPECT_EQ(test, mm.max_order, max_order);
++	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, SZ_4K << max_order,
++							    4 * ps, ps, &allocated,
++							    DRM_BUDDY_RANGE_ALLOCATION),
++				"buddy_alloc hit an error size=%lu\n", 4 * ps);
++	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
++	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, SZ_4K << max_order,
++							    2 * ps, ps, &allocated,
++							    DRM_BUDDY_CLEAR_ALLOCATION),
++				"buddy_alloc hit an error size=%lu\n", 2 * ps);
++	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
++	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, SZ_4K << max_order, mm_size,
++							    ps, ps, &allocated,
++							    DRM_BUDDY_RANGE_ALLOCATION),
++				"buddy_alloc hit an error size=%lu\n", ps);
+ 	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
+ 	drm_buddy_fini(&mm);
++	KUNIT_EXPECT_EQ(test, mm.in_use, false);
+ }
+ 
+ static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+index 9689a7c5dd36..d692d831ffdd 100644
+--- a/include/drm/drm_buddy.h
++++ b/include/drm/drm_buddy.h
+@@ -86,6 +86,8 @@ struct drm_buddy {
+ 	unsigned int n_roots;
+ 	unsigned int max_order;
+ 
++	bool in_use;
++
+ 	/* Must be at least SZ_4K */
+ 	u64 chunk_size;
+ 	u64 size;
 -- 
 2.25.1
 
