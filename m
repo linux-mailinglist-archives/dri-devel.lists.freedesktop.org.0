@@ -1,54 +1,171 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B499F31CA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:43:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C15CA9F31DB
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4899B10E68B;
-	Mon, 16 Dec 2024 13:43:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D56D10E687;
+	Mon, 16 Dec 2024 13:44:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hb1upfRo";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QhgPnUR6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDAF10E687;
- Mon, 16 Dec 2024 13:43:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1A7845C4299;
- Mon, 16 Dec 2024 13:42:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88EC4C4CED0;
- Mon, 16 Dec 2024 13:43:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734356599;
- bh=e2opvldajuZelV/o6BcZbkHj/D8nGe5IIPLsT48a3kA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hb1upfRoPQAyrn/M5Mff3OXQCfmQFPW+gJolS8uBi76DkLLsxPQ1BnLMzDKyG5YJH
- k6ynsWFgSIc4pahXCvIZcz6SzWKLqhzBE2+57EzXrCsNjkSvz4WVo8dKs5l+8Fo2lb
- hkO+Jq9B69NWbnUs3spA625Wz54Cp7El1Fimapvu0t/bBIUUxBlqUqr2/cF7zvheN3
- NR+pNTJ01NC6O3DDEOag6Hm+fJImFM/5RAee0F77oiuxdSb50TpQdBVU6aM1NEIiRH
- SQXnNFtNE/MmioHDJinbITT+hXEeX0+1p3ZjXLi6DRiAzi9LbIFrZuyQmPOxTzRSnj
- J25rvpJ0PWusA==
-Date: Mon, 16 Dec 2024 14:43:13 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 1/2] drm/nouveau: incorporate I2C TV encoder drivers
-Message-ID: <Z2AucVR_QAWQp27S@cassiopeiae>
-References: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
- <20241215-nouveau-encoder-slave-v2-1-ef7a0e687242@linaro.org>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2069.outbound.protection.outlook.com [40.107.243.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB96110E683;
+ Mon, 16 Dec 2024 13:44:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Etl0HL/NybgRpnunbGGCziPKgUuqb5/68an6WzYfbbhPGu36UyJIkNuW2Px2HU8hyhDC2Ad4QCxSK979YQeqmXerFrx5C+ikNLlIraZ96tVfQChoVtT9plsMb2aHFCK976TycpOrUN2ZF4/VtIk4FVC4d57lDd7MzhHPk3C7nvqIPRGuLsBNvnefjvfilo8VqAhMfw7Xb134/SXhR7LFS6a757wGBkP+GijIZmCj66QDwSgjtAgPT3fL8yz92oX42tysPFWHf76miLhLaaD6n+bg0jVXB06hycst6DysUKDPxzrJkdM2VV3b/m7ljNUenWvs/yC2+fcmwm4gh2RfMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2P151CmXS3jmMec7D+i0kqzATQcfDyZcPO38Bz6s6fM=;
+ b=bERgFfKn6vqMoYJ9/VJXYH8pqvD6RNRA+jvq7wm+3f+n1YLC6hvJwGvUROmqsc6hzqka5lgSatT6RWMDRBUwHqeSG93qSv4imKzPeudQMrsq5m6GXDdjqxtyDPGJ6EpuhFFeNxivjydbNMmld88gGaMU09WEVmIb/n0kLyXSvxuMVVLW/RmVQuXjOcXhTDB1/fPqTq00VTC6i56YZru5bJziTCD3oegrVzGMIWU+gYGMw6xtvJWRsCXDxYbA68V3w2zLmpoV3MhbVstCEJ0Z18vVUf1ieKM1+XR7+8eYwkw/Ty539KWjEAnoF2bApTPfYrCJef5OzRByP3hQo1hUcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2P151CmXS3jmMec7D+i0kqzATQcfDyZcPO38Bz6s6fM=;
+ b=QhgPnUR6XzkDYTGB8+3H+BZjHAyhbGnKyBs1NKPwMJK683BYfX90kOtkGNMWJ1/555NepufoRZo1cieCdMcgAlLKit5sckY3MjilU1h5Ff/ub2dtnzJm0MWVMRmLrp/6RNJgcYvhCWIqCOnXkMd6ewLrTx2GOZmu5FGQjqbMg9s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0PR12MB7804.namprd12.prod.outlook.com (2603:10b6:8:142::5) by
+ CY8PR12MB7193.namprd12.prod.outlook.com (2603:10b6:930:5b::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8251.18; Mon, 16 Dec 2024 13:44:49 +0000
+Received: from DS0PR12MB7804.namprd12.prod.outlook.com
+ ([fe80::8327:d71a:ce21:a290]) by DS0PR12MB7804.namprd12.prod.outlook.com
+ ([fe80::8327:d71a:ce21:a290%7]) with mapi id 15.20.8251.015; Mon, 16 Dec 2024
+ 13:44:49 +0000
+Message-ID: <7fbcacfc-7ade-4ae5-8e2c-b2793a63c1e4@amd.com>
+Date: Mon, 16 Dec 2024 19:14:37 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] drm/amdgpu: Use device wedged event
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, Raag Jadav <raag.jadav@intel.com>,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+References: <20241212190909.28559-1-andrealmeid@igalia.com>
+ <20241212190909.28559-2-andrealmeid@igalia.com>
+ <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
+ <c7c498f0-2ee3-42f5-9b45-c87e52ffc3e4@igalia.com>
+ <Z1xGe1X_XzB00J1Q@black.fi.intel.com>
+ <ed83b0a1-62d1-48e5-ac7b-478be3043733@igalia.com>
+ <28d7dcd8-ed3f-4e52-b7fa-c348a827085d@amd.com>
+ <7c64746a-c1f6-46c6-a97f-cfd87e9ec3b7@amd.com>
+ <5f7dd8ac-e8cc-4a40-b636-9917d82e27f5@igalia.com>
+ <84b6dc5b-8c97-4c8d-8995-78cf88b883fc@amd.com>
+ <8d6395fc-8143-4099-a9d6-b13d450d7fd7@igalia.com>
+ <6028b434-2be7-453a-9be8-bf2e85c0756f@amd.com>
+ <18343eaf-7eb3-481c-ad99-9e6fcd837c39@amd.com>
+Content-Language: en-US
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <18343eaf-7eb3-481c-ad99-9e6fcd837c39@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BMXPR01CA0081.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::21) To DS0PR12MB7804.namprd12.prod.outlook.com
+ (2603:10b6:8:142::5)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241215-nouveau-encoder-slave-v2-1-ef7a0e687242@linaro.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7804:EE_|CY8PR12MB7193:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0727b5b7-86fe-4d33-d470-08dd1dd7cf26
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dHQ1S1VGYkZYUmFER1RuOTBrSlNDME5aQnRSd09zN3d3VlVIS0pSa0dGUjhZ?=
+ =?utf-8?B?MTd3T0ZkZTk1WWYzVE52N09mWHhpTXVBMlBzb0Uwd1F1bzRXUm5XZXVSWHZq?=
+ =?utf-8?B?L0crMncrSWUzSVI5eE9LTlhCM0d4MmpaNDRTZGV5eUpZWHlsd2g1OGlWM2g4?=
+ =?utf-8?B?YjgwbWpmRDR2N2h0VDA4TG4xcVFzR0QwMm1QcEtQWTBxNzFTNlZqSHozZkJT?=
+ =?utf-8?B?cEk1T3RUQ08vSGZrS3hxWUZHQ1lIdmhzcHhmMjV0cTJvaCtKaDhFdlZhVUFM?=
+ =?utf-8?B?ZjBkV0dOMzU4cGtMcjR0NFNYNTZCd3ltNCtIaUpTSlJaQzdnL0FFUnFRS2dZ?=
+ =?utf-8?B?dUMwdUROOXVTRGJUTnZ0Nlc5NVJ4QUlLNUEvcmxCRUhmVk1KcDBYRllsamFi?=
+ =?utf-8?B?dmw1M3hVMGRnOU5ZU1J1M3BHTG5QRXBjMmVQNjlUM2ZtTFUwb0J0ZDhsSjJB?=
+ =?utf-8?B?Umk3K3dzc0dQYjEycDBzcU9TeC83aW1HdkxUeC9wZnpyTUV6ODgxblRQTG12?=
+ =?utf-8?B?RE83ejVNaS9yTksrWVU4S2xPOE5IN1drN1JIRHI4L3FZb2l4MTZzVURPTS82?=
+ =?utf-8?B?cXZTSkIrZUFOSzg4WXRaQlhwWEVDQ1F1VHhGMUpGZzlCdWt6T29QUzVpL0lD?=
+ =?utf-8?B?WFYvbDR1TzRFME93WVV5N3dIOWpZZkxwaFVsNmkyUDZ3aWZ4Y1R4QVlCVE5X?=
+ =?utf-8?B?SFIzS0U1bnlPb0ZnZW9tWWtRRmhVdFpNVVM1bGNWRVNLUlFwbTh3endzN00x?=
+ =?utf-8?B?UEpaWVFRRFJEd0xLVFlzUk80Z1FXb2piSkM3Yk5UWERrVTBtWjYyTFE3ZERZ?=
+ =?utf-8?B?VENBUEdibDhPOE41bTc4Qi9xVWxVREYxVzZEVXR2VE1MVlR5U3FqanJrZk9j?=
+ =?utf-8?B?ZWFXSnlab1ZRT1lRK2tjeXFWZnkwTEtCQ2RzOURVWFl1TGZ0RHFFOCtpRzlF?=
+ =?utf-8?B?TG1pT3hVcDl4K1pRdzVtZUYrSlJPYWhNT3JFOVcvOXN6QzN0b2dkbDF6TDZD?=
+ =?utf-8?B?TmxPWE9mTTlncWRwei9oL2cxd1pheG9GYmwzc0J6ZzVsemkzdElRTGtVSXJI?=
+ =?utf-8?B?OFE5OCtOME11elZwekRuaXhHMHc2cnFZUEk5T3NNV2FhRDk0cmk2SEora3Q3?=
+ =?utf-8?B?ZnZqL0c5TGQ3d0ZWT2tWZDMzenBFM0hMQUgvNGU0VjhnM3ZzODkvTmJOU3Rq?=
+ =?utf-8?B?WlJSMUh5YTh6WkVDekhkYkhBWXA1SU1SZFdZdHRNY2k3bzFuZ3lsREEvMm9n?=
+ =?utf-8?B?am5JK3Rsd1RxZFp6aWk3a1pUOHQyRFJDb2ZzUXN4RGNVNis1RjdlUGR3QUw4?=
+ =?utf-8?B?L2R3QzdjbSs2WStMZFJTWXkrVXY0UzMzZEFkdVdMaUltSkhIS1lDQzBySEx0?=
+ =?utf-8?B?Q0JJcUozNHVZb3RkR0U2VGV5TE82ZFR6OTdjd25CNUlzb0F6RWxUQ3FTbWdV?=
+ =?utf-8?B?cG1qRkVPNHZzS1NQOWxOR2RtbTNpZUFPNEhpR2JQYUVRQ0dhbTFZRnA2YzFh?=
+ =?utf-8?B?M0pqTGdhYXJ5VGF3QjkzV29mY3ZuREZkNEhXQlNDU3JNbXk2b0lSNmtMWVhO?=
+ =?utf-8?B?bjJhZUszYVRQSXRuQjhKNGFIVkNGaHBJRHpkZjlFWWg1TjN1VlExaGdZWDE5?=
+ =?utf-8?B?clRleEhqbnJQTVhjLzlPS2ZSVE9rM0lKdDRmOW5ucjdFY0RaT2o1WUU2dlZi?=
+ =?utf-8?B?QWdhNWxXcHVvR3YwTG1UY1JDQnBmZHd4bUJRT3dKM1ZoZlhBekg0NzJoQzBU?=
+ =?utf-8?B?ZXIvR3R1ZkVpZDJSUUI3Q2hkbDFsNkdHWTc2RmxyTXAyMjVVNStTdndFUlI3?=
+ =?utf-8?B?K1FiQXZwUjRXWEV2WmIzVjhKTlZCd1VKSWVFZktENWYvSUszMW9OTGdaWHMv?=
+ =?utf-8?Q?NinfuwtqLvHVj?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7804.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGVJalAwcTZtWlpsZnJQVzN0TGxiaCswd0RMZU0xK1BkaUNJMzllVXh3b3Vh?=
+ =?utf-8?B?aUhtZFIvZXpZMVJEK20vcHVWL2dTdTdMLzNJYXl6SExTUWxSai95UzdjVUwx?=
+ =?utf-8?B?LzAwUTVBWTdaeGRIdmVmdUJZeHpJY2xSWlB0Vmtpd0hLM04zQzY3ODRkb0p5?=
+ =?utf-8?B?YkNndE1rRmJRdkJFNkNHT0RheGlFaWhKYkE5enRpeHFNRFFYQUgvT20rM0Ji?=
+ =?utf-8?B?MmVSVS9pUzI2QWh3ZEoyTnNkdmE5TWVXM2tWRGRRaGxtWGlQRCtwc01uNndB?=
+ =?utf-8?B?L0lYV3lHeCtmaWl2Mko4ZE04dUVraGZXTzNJM0VWVGQwN3ZVcUNHMWszKys2?=
+ =?utf-8?B?M1NpN1dlV2E5dHAzN0ZJZCtLNkN6OWFCS3BvdGd6QVBTZHJRZnp4RE91R3Ft?=
+ =?utf-8?B?ME40Z2dUcHdMZzlxOXRWRFRxemd4T2EwVk5IQ3IvMFRxbG5RUzhxM2Ezcmxm?=
+ =?utf-8?B?SXFBdk9aMVN5eUpGU3NLWVIyWmxkUGIyUUxzY3dEMEdNdkdabHBQUFJQZmJH?=
+ =?utf-8?B?S1kwSjVXK3h1aG4vaE5kZ3lFMHorV0wxN1MvTitJQ1M2VXI2eEM2T2tjNThR?=
+ =?utf-8?B?UE0yTEhVVkxxaEdiUjhqOUdaOXFwQWM0ZHZPdklUMkJGQjZSMGJlSWg1MTEx?=
+ =?utf-8?B?KzVKWG42WFEyZ0FQS0FCUGw1bUUySFhKWHpzVDUvK1lTQ3ZwcXRyK2JVS29Y?=
+ =?utf-8?B?WlBYd1EzdFJoQ2l3OVVFaXFQYTdQb280dnk5YTY4MkY4T01FdDYyYVZPcmpU?=
+ =?utf-8?B?WnBFSUlJSE1HbDRiN1BCSEkzdTRZTjcwV29oTGVJcEMrczVZMU55bFRYTGpD?=
+ =?utf-8?B?emFDTmRwZUxEbTJudWw5MnJWTWNYcjZIejhGNXExc0k5bE5FcVJoVVNFME9a?=
+ =?utf-8?B?ckcrNzB1K056QkV5ei9XREtmUzB3cW1JRVFmS3JWdjNIOTdOMWpxS21SOHRF?=
+ =?utf-8?B?MjZ1TXpEaVNESzZtVWpLemd1QmtZOFFPS3FMelNWdDdNUDJ4K05EVjBtNHBE?=
+ =?utf-8?B?bStUMzhzNURUeC9lUEJRdzZIWUw5RlA0S2JPWUYwVTZjZDdGdURJK3NkbVpB?=
+ =?utf-8?B?VXZvVVk3QWRnRGhtOUdXanpySDBYaFVBbkMrampXK1puK0pWVVRNS3hzaE91?=
+ =?utf-8?B?Z1lSQkNvOFJiRFRUcFMyQzJmOUVLaXNoVGJEMk5XNzVSbklSTjhTZzZiYzZH?=
+ =?utf-8?B?a2dPYUsyMG50Rnd4UVhCeGFKT1l4Nk5TajJLdFMwVllNUXJsUG5JV3AwOGlK?=
+ =?utf-8?B?djNOa0tPcmRESEY1bGZaakUxYzVDend1Z1FkS1U5eUE3aDdwRVZvaC9FUjhI?=
+ =?utf-8?B?RFdwU3o3cGNQMUtJNzl2SmFGUDVoeSs0VXNGOFJvbW95NEc3LzFJUWdTWlZW?=
+ =?utf-8?B?MmpWOURicXZId3dKZ3RtUXlCVUptV2VoblQwNjljUER2a2txdCswTEZJQXlz?=
+ =?utf-8?B?Q25MNGMwZ1pFbjRZZzFNNUZ0WlZyRDRkNVByYWRyd1U5Q1RLSGp1b0lxeGho?=
+ =?utf-8?B?dVppYzA5UnMvWWJtSVdUMnV0eGo1WlByQW9JaFZmbmE3ODNzQUcwb05Qeko4?=
+ =?utf-8?B?RE1lZjV4cFR2aGo0dVppU1M3V1FxVW5ZNEFJN3ZXdWVaQURtTlNQN3VZTXZz?=
+ =?utf-8?B?QzQrZVcyelFrdlJhL2FpeDFPYjR6d2k2eG8zVENPUFoxVmo0eDl4NVVsZ0Nl?=
+ =?utf-8?B?TTVXOEpwS2FpeUFIY3dCcmtTL3djU3FIQWJkenYyU1pTcVlPazhSeVNCckZL?=
+ =?utf-8?B?cFRzb1J4MWxVNEVVbnppN25qU1hQL3habVc1NUdvQzVuNXZmenRVZUQwbVBU?=
+ =?utf-8?B?d1pHOHhmQ1RxUGlkNWtoVEVtbDJKK2Joc01QYVpkZnNKTmJueittcjZHaTVF?=
+ =?utf-8?B?dFc1NHFQWmR5VWJ5cXRjTkhzUm9LazYxYmE5SjJhQlhtb2tmVW1NT2JNNU9Y?=
+ =?utf-8?B?dWxxQ2swUnRZRXZhWndLZWZ0MFdOL1RzYjRneTE5Z3ZXVXBjREZuQVgxWmNk?=
+ =?utf-8?B?TnJpa3dpOEczZUtGOERwLytTZ2lZVk9HOExhZ3FIWWg2Wld5dzU5Q1NqU1lU?=
+ =?utf-8?B?TFZkNGZZNjZBRVozTmNjL0U4STdIYVFrNUgyNTJzTzQydkcyWVpScUc0T2Fw?=
+ =?utf-8?Q?zYshLOTyeq1LeFG+quHV32Qwf?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0727b5b7-86fe-4d33-d470-08dd1dd7cf26
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7804.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2024 13:44:49.0727 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PZg+rzXHdext1ESfSlJl2YeiHw6eGy/yicifr8xlY3lGr1HRTdaE81EKbKyh+7P+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7193
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,302 +181,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 15, 2024 at 12:19:23PM +0200, Dmitry Baryshkov wrote:
-> Chrontel CH7006 and Silicon Image sil164 drivers use drm_encoder_slave
-> interface which is being used only by the nouveau driver. It doesn't
-> make sense to keep this interface inside the DRM subsystem. In
-> preparation to moving this set of helpers to the nouveau driver, move
-> the only two I2C driver that use that interface to the nouveau driver
-> too.
+
+
+On 12/16/2024 7:09 PM, Christian König wrote:
+> Am 16.12.24 um 14:36 schrieb Lazar, Lijo:
+>>>>>> I had asked earlier about the utility of this one here. If this is just
+>>>>>> to inform userspace that driver has done a reset and recovered, it
+>>>>>> would
+>>>>>> need some additional context also. We have a mechanism in KFD which
+>>>>>> sends the context in which a reset has to be done. Currently, that's
+>>>>>> restricted to compute applications, but if this is in a similar
+>>>>>> line, we
+>>>>>> would like to pass some additional info like job timeout, RAS error
+>>>>>> etc.
+>>>>>>
+>>>>> DRM_WEDGE_RECOVERY_NONE is to inform userspace that driver has done a
+>>>>> reset and recovered, but additional data about like which job
+>>>>> timeout, RAS error and such belong to devcoredump I guess, where all
+>>>>> data is gathered and collected later.
+>>>> I think somebody else mentioned it as well that the source of the
+>>>> issue, e.g. the PID of the submitting process would be helpful as well
+>>>> for supervising daemons which need to restart processes when they
+>>>> caused some issue.
+>>>>
+>>> It was me :) we have a use case that we would need the PID for the
+>>> daemon indeed, but the daemon doesn't need to know what's the RAS error
+>>> or the job name that timeouted, there's no immediate action to be taken
+>>> with this information, contrary to the PID that we need to know.
+>>>
+>> Regarding devcoredump - it's not done every time. For ex: RAS errors
+>> have a different way to identify the source of error, hence we don't
+>> need a coredump in such cases.
+>>
+>> The intention is only to let the user know the reason for reset at a
+>> high level, and probably add more things later like the engines or
+>> queues that have reset etc.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  arch/arm/configs/multi_v7_defconfig                  |  4 ++--
->  arch/parisc/configs/generic-32bit_defconfig          |  4 ++--
->  arch/parisc/configs/generic-64bit_defconfig          |  4 ++--
->  drivers/gpu/drm/i2c/Kconfig                          | 18 ------------------
->  drivers/gpu/drm/i2c/Makefile                         |  6 ------
->  drivers/gpu/drm/nouveau/Kconfig                      | 20 ++++++++++++++++++++
->  drivers/gpu/drm/nouveau/dispnv04/Kbuild              |  2 ++
->  drivers/gpu/drm/nouveau/dispnv04/dfp.c               |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild          |  5 +++++
->  .../gpu/drm/{ => nouveau/dispnv04}/i2c/ch7006_drv.c  |  0
->  .../gpu/drm/{ => nouveau/dispnv04}/i2c/ch7006_mode.c |  0
->  .../gpu/drm/{ => nouveau/dispnv04}/i2c/ch7006_priv.h |  7 ++++---
->  .../gpu/drm/{ => nouveau/dispnv04}/i2c/sil164_drv.c  |  3 ++-
->  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c            |  2 +-
->  .../gpu/drm/nouveau/include}/i2c/ch7006.h            |  4 ++--
->  .../gpu/drm/nouveau/include}/i2c/sil164.h            |  4 ++--
+> Well what is the use case for that? That doesn't looks valuable to me.
 
-Please move this one (and the one above) to include/dispnv04/i2c/ch7006.h
+It's mostly for in-band telemetry reporting through tools like amd-smi -
+ more for admin purpose rather than any debug.
 
->  16 files changed, 45 insertions(+), 40 deletions(-)
+Thanks,
+Lijo
+
 > 
-> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-> index 9d4336261e450ce5bf99a1aa53e603bd7c0037bb..7fb24a4fb9f697c0c726204d0ba3754e87000e6a 100644
-> --- a/arch/arm/configs/multi_v7_defconfig
-> +++ b/arch/arm/configs/multi_v7_defconfig
-> @@ -713,10 +713,10 @@ CONFIG_VIDEO_ADV7604_CEC=y
->  CONFIG_VIDEO_ML86V7667=m
->  CONFIG_IMX_IPUV3_CORE=m
->  CONFIG_DRM=y
-> -# CONFIG_DRM_I2C_CH7006 is not set
-> -# CONFIG_DRM_I2C_SIL164 is not set
->  CONFIG_DRM_I2C_NXP_TDA998X=m
->  CONFIG_DRM_NOUVEAU=m
-> +# CONFIG_DRM_NOUVEAU_CH7006 is not set
-> +# CONFIG_DRM_NOUVEAU_SIL164 is not set
->  CONFIG_DRM_EXYNOS=m
->  CONFIG_DRM_EXYNOS_FIMD=y
->  CONFIG_DRM_EXYNOS_MIXER=y
-> diff --git a/arch/parisc/configs/generic-32bit_defconfig b/arch/parisc/configs/generic-32bit_defconfig
-> index 5ce258f3fffaf0e3aac5f8f5450dd65bad305879..f5fffc24c3bc5baf0d77b845e3ac77fae49b276e 100644
-> --- a/arch/parisc/configs/generic-32bit_defconfig
-> +++ b/arch/parisc/configs/generic-32bit_defconfig
-> @@ -132,11 +132,11 @@ CONFIG_I2C=y
->  CONFIG_HWMON=m
->  CONFIG_DRM=m
->  CONFIG_DRM_DISPLAY_DP_AUX_CEC=y
-> -# CONFIG_DRM_I2C_CH7006 is not set
-> -# CONFIG_DRM_I2C_SIL164 is not set
->  CONFIG_DRM_RADEON=m
->  CONFIG_DRM_NOUVEAU=m
->  # CONFIG_DRM_NOUVEAU_BACKLIGHT is not set
-> +# CONFIG_DRM_NOUVEAU_CH7006 is not set
-> +# CONFIG_DRM_NOUVEAU_SIL164 is not set
->  CONFIG_DRM_VGEM=m
->  CONFIG_DRM_UDL=m
->  CONFIG_DRM_MGAG200=m
-> diff --git a/arch/parisc/configs/generic-64bit_defconfig b/arch/parisc/configs/generic-64bit_defconfig
-> index 19a804860ed5b355f82396c2314bd0d8f3fb768a..704f68fbf960fb865206c8f8ab1751c9f0db6de3 100644
-> --- a/arch/parisc/configs/generic-64bit_defconfig
-> +++ b/arch/parisc/configs/generic-64bit_defconfig
-> @@ -193,11 +193,11 @@ CONFIG_MEDIA_SUPPORT=m
->  CONFIG_AGP=y
->  CONFIG_AGP_PARISC=y
->  CONFIG_DRM=y
-> -# CONFIG_DRM_I2C_CH7006 is not set
-> -# CONFIG_DRM_I2C_SIL164 is not set
->  CONFIG_DRM_RADEON=y
->  CONFIG_DRM_NOUVEAU=m
->  # CONFIG_DRM_NOUVEAU_BACKLIGHT is not set
-> +# CONFIG_DRM_NOUVEAU_CH7006 is not set
-> +# CONFIG_DRM_NOUVEAU_SIL164 is not set
->  CONFIG_DRM_MGAG200=m
->  CONFIG_FB=y
->  CONFIG_FB_PM2=m
-> diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
-> index 6f19e1c35e30b0e595c1a60628a6b8cf313fcabc..d5200f67958e68a8ec73401f1d3b79cbe0aa303d 100644
-> --- a/drivers/gpu/drm/i2c/Kconfig
-> +++ b/drivers/gpu/drm/i2c/Kconfig
-> @@ -2,24 +2,6 @@
->  menu "I2C encoder or helper chips"
->       depends on DRM && DRM_KMS_HELPER && I2C
->  
-> -config DRM_I2C_CH7006
-> -	tristate "Chrontel ch7006 TV encoder"
-> -	default m if DRM_NOUVEAU
-> -	help
-> -	  Support for Chrontel ch7006 and similar TV encoders, found
-> -	  on some nVidia video cards.
-> -
-> -	  This driver is currently only useful if you're also using
-> -	  the nouveau driver.
-> -
-> -config DRM_I2C_SIL164
-> -	tristate "Silicon Image sil164 TMDS transmitter"
-> -	default m if DRM_NOUVEAU
-> -	help
-> -	  Support for sil164 and similar single-link (or dual-link
-> -	  when used in pairs) TMDS transmitters, used in some nVidia
-> -	  video cards.
-> -
->  config DRM_I2C_NXP_TDA998X
->  	tristate "NXP Semiconductors TDA998X HDMI encoder"
->  	default m if DRM_TILCDC
-> diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
-> index a962f6f085686674ed33010345730db776815ebe..31fd35527d99d7eb23851d290175a3ff0c756772 100644
-> --- a/drivers/gpu/drm/i2c/Makefile
-> +++ b/drivers/gpu/drm/i2c/Makefile
-> @@ -1,10 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
-> -ch7006-y := ch7006_drv.o ch7006_mode.o
-> -obj-$(CONFIG_DRM_I2C_CH7006) += ch7006.o
-> -
-> -sil164-y := sil164_drv.o
-> -obj-$(CONFIG_DRM_I2C_SIL164) += sil164.o
-> -
->  tda998x-y := tda998x_drv.o
->  obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
->  obj-$(CONFIG_DRM_I2C_NXP_TDA9950) += tda9950.o
-> diff --git a/drivers/gpu/drm/nouveau/Kconfig b/drivers/gpu/drm/nouveau/Kconfig
-> index ce840300578d8a4011c448b61caf830cef3805bf..4cffac26f90ae6130ef30ba389b2a8c9b732058c 100644
-> --- a/drivers/gpu/drm/nouveau/Kconfig
-> +++ b/drivers/gpu/drm/nouveau/Kconfig
-> @@ -109,3 +109,23 @@ config DRM_NOUVEAU_GSP_DEFAULT
->  	help
->  	  Say Y here if you want to use the GSP codepaths by default on
->  	  Turing and Ampere GPUs.
-> +
-> +config DRM_NOUVEAU_CH7006
-> +	tristate "Chrontel ch7006 TV encoder"
-> +	depends on DRM_NOUVEAU
-> +	default m
-> +	help
-> +	  Support for Chrontel ch7006 and similar TV encoders, found
-
-This help text should probably end right after "TV encoders".
-
-> +	  on some nVidia video cards.
-> +
-> +	  This driver is currently only useful if you're also using
-> +	  the nouveau driver.
-> +
-> +config DRM_NOUVEAU_SIL164
-> +	tristate "Silicon Image sil164 TMDS transmitter"
-> +	depends on DRM_NOUVEAU
-> +	default m
-> +	help
-> +	  Support for sil164 and similar single-link (or dual-link
-> +	  when used in pairs) TMDS transmitters, used in some nVidia
-> +	  video cards.
-
-I think we can remove everything after "TMDS transmitters".
-
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/Kbuild b/drivers/gpu/drm/nouveau/dispnv04/Kbuild
-> index 975c4e2269366d57e928eedbbbc669d24744379f..949802882ebd53c15e124c218a092af9693d36bc 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/Kbuild
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/Kbuild
-> @@ -10,3 +10,5 @@ nouveau-y += dispnv04/overlay.o
->  nouveau-y += dispnv04/tvmodesnv17.o
->  nouveau-y += dispnv04/tvnv04.o
->  nouveau-y += dispnv04/tvnv17.o
-> +
-> +include $(src)/dispnv04/i2c/Kbuild
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-> index 504c421aa176ef3d944592a0109cb72e21fd47b7..28a42ab5cb900ebe8a526e154f9e90598333356c 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
-> @@ -35,7 +35,7 @@
->  #include "hw.h"
->  #include "nvreg.h"
->  
-> -#include <drm/i2c/sil164.h>
-> +#include <i2c/sil164.h>
->  
->  #include <subdev/i2c.h>
->  
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild b/drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..3fddfc97bcb399ef3821c6065e5868363883ac74
-> --- /dev/null
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild
-> @@ -0,0 +1,5 @@
-> +ch7006-y := dispnv04/i2c/ch7006_drv.o dispnv04/i2c/ch7006_mode.o
-> +obj-$(CONFIG_DRM_NOUVEAU_CH7006) += ch7006.o
-> +
-> +sil164-y := dispnv04/i2c/sil164_drv.o
-> +obj-$(CONFIG_DRM_NOUVEAU_SIL164) += sil164.o
-> diff --git a/drivers/gpu/drm/i2c/ch7006_drv.c b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c
-> similarity index 100%
-> rename from drivers/gpu/drm/i2c/ch7006_drv.c
-> rename to drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c
-> diff --git a/drivers/gpu/drm/i2c/ch7006_mode.c b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c
-> similarity index 100%
-> rename from drivers/gpu/drm/i2c/ch7006_mode.c
-> rename to drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c
-> diff --git a/drivers/gpu/drm/i2c/ch7006_priv.h b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h
-> similarity index 99%
-> rename from drivers/gpu/drm/i2c/ch7006_priv.h
-> rename to drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h
-> index 052bdc48a339df47073ab305f224f96c8630d66c..8136f8cd8f9b859ccf915e295c783f9fc8321c2e 100644
-> --- a/drivers/gpu/drm/i2c/ch7006_priv.h
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h
-> @@ -24,12 +24,13 @@
->   *
->   */
->  
-> -#ifndef __DRM_I2C_CH7006_PRIV_H__
-> -#define __DRM_I2C_CH7006_PRIV_H__
-> +#ifndef __NOUVEAU_I2C_CH7006_PRIV_H__
-> +#define __NOUVEAU_I2C_CH7006_PRIV_H__
->  
->  #include <drm/drm_encoder_slave.h>
->  #include <drm/drm_probe_helper.h>
-> -#include <drm/i2c/ch7006.h>
-> +
-> +#include <i2c/ch7006.h>
->  
->  typedef int64_t fixed;
->  #define fixed1 (1LL << 32)
-> diff --git a/drivers/gpu/drm/i2c/sil164_drv.c b/drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c
-> similarity index 99%
-> rename from drivers/gpu/drm/i2c/sil164_drv.c
-> rename to drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c
-> index ff23422727fce290a188e495d343e32bc2c373ec..74fc961c0d0de06f1fe8dd93d351452cd20cead7 100644
-> --- a/drivers/gpu/drm/i2c/sil164_drv.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c
-> @@ -30,7 +30,8 @@
->  #include <drm/drm_encoder_slave.h>
->  #include <drm/drm_print.h>
->  #include <drm/drm_probe_helper.h>
-> -#include <drm/i2c/sil164.h>
-> +
-> +#include <i2c/sil164.h>
->  
->  struct sil164_priv {
->  	struct sil164_encoder_params config;
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-> index d3014027a8122be499b85459b038fdcce5800720..67f3e0ac0e109b223ca8ec4ddc4e688247373b2e 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
-> @@ -32,7 +32,7 @@
->  #include "hw.h"
->  #include <drm/drm_modeset_helper_vtables.h>
->  
-> -#include <drm/i2c/ch7006.h>
-> +#include <i2c/ch7006.h>
->  
->  static struct nvkm_i2c_bus_probe nv04_tv_encoder_info[] = {
->  	{
-> diff --git a/include/drm/i2c/ch7006.h b/drivers/gpu/drm/nouveau/include/i2c/ch7006.h
-> similarity index 97%
-> rename from include/drm/i2c/ch7006.h
-> rename to drivers/gpu/drm/nouveau/include/i2c/ch7006.h
-> index 5305b9797f938626c8f6c464ddc9bf424a39b4a0..1a6fa405f85b2a0d0f9a4d1c786defc527fa1d3b 100644
-> --- a/include/drm/i2c/ch7006.h
-> +++ b/drivers/gpu/drm/nouveau/include/i2c/ch7006.h
-> @@ -24,8 +24,8 @@
->   *
->   */
->  
-> -#ifndef __DRM_I2C_CH7006_H__
-> -#define __DRM_I2C_CH7006_H__
-> +#ifndef __NOUVEAU_I2C_CH7006_H__
-> +#define __NOUVEAU_I2C_CH7006_H__
->  
->  /**
->   * struct ch7006_encoder_params
-> diff --git a/include/drm/i2c/sil164.h b/drivers/gpu/drm/nouveau/include/i2c/sil164.h
-> similarity index 96%
-> rename from include/drm/i2c/sil164.h
-> rename to drivers/gpu/drm/nouveau/include/i2c/sil164.h
-> index ddf248693c8be8809777723c272f82af8d334c99..b86750d7abe1c2e7142eac32898398475fd42531 100644
-> --- a/include/drm/i2c/sil164.h
-> +++ b/drivers/gpu/drm/nouveau/include/i2c/sil164.h
-> @@ -24,8 +24,8 @@
->   *
->   */
->  
-> -#ifndef __DRM_I2C_SIL164_H__
-> -#define __DRM_I2C_SIL164_H__
-> +#ifndef __NOUVEAU_I2C_SIL164_H__
-> +#define __NOUVEAU_I2C_SIL164_H__
->  
->  /**
->   * struct sil164_encoder_params
+> RAS errors should generally be reported to the application who issued
+> the submission.
 > 
-> -- 
-> 2.39.5
+> As a system wide event they are only useful in things like logfiles I think.
 > 
+> Regards,
+> Christian.
+> 
+>> Thanks,
+>> Lijo
+>>
+>>>> We just postponed adding that till later.
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>> Thanks,
+>>>>>> Lijo
+>>>>>>
+>>>>>>> Regards,
+>>>>>>> Christian.
+> 
+
