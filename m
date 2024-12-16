@@ -2,57 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFD49F3184
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:31:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D02D9F3193
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:33:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBE9210E12D;
-	Mon, 16 Dec 2024 13:31:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d3yjP0Cl";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0AB10E67B;
+	Mon, 16 Dec 2024 13:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DE210E12D;
- Mon, 16 Dec 2024 13:31:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B1A65A40F38;
- Mon, 16 Dec 2024 13:29:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9ECC4CEDE;
- Mon, 16 Dec 2024 13:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734355861;
- bh=hBw7RRtzB4nbDxsid/Mm8Wl2admJ4GL8pyzglKXg2xU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d3yjP0Cl53AVXVcQEDyPQI6GJR3n6ckCK7SopJur72blRDZiPwibK8Mm+K8aE/1XZ
- ZPdCV+uwbu1CY3hfAZzzSkdgAXxrORNR4GziMlpis/R1vgcJ19OiFdUT7cc8nDQ8ah
- H5n19MZUmjtt1nTAxf77hk24/zu+Sp1qN18qnvpPk9ad+VZTTs1+e0A2T1NQC1JB4f
- 2DhJR87A3rEhWUcQkqTxOZI/hkGxAETkJ8TAcp3L73tbiy5MI/pms9F+DN20vnXFX8
- c/x1BqYASNjNHM+GeQinYAP8SHTnUT11d5bodTsJgifMCSZRY6dUTUXcWknwXwnpWM
- DTG/GK1cvwHvg==
-Date: Mon, 16 Dec 2024 14:30:55 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v2 0/2] drm/nouveau: remove drm_encoder_slave interface
-Message-ID: <Z2Arj_cLW-aY5cnD@cassiopeiae>
-References: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
- <Z2ASy3TQ4suupdvd@cassiopeiae>
- <fw7i3kusogrrsslb5sjdid27uqnwey5qa5yhyrfa677n4iqqhq@tfh5s6bmqgna>
- <20241216121651.GP32204@pendragon.ideasonboard.com>
- <Z2AgFHV2BaaZYGTx@cassiopeiae>
- <2p2rx6zmuph4bdwjork5aqp5n3xkho7cohapvgfijka64vbpop@nse4i55pkyy7>
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+ [209.85.217.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C975E10E67B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 13:33:32 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id
+ ada2fe7eead31-4affd0fb6adso1040356137.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 05:33:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734356011; x=1734960811;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2YeQ/juaU1aTYjB8NikAS7tXvAIBonFs53JoSLLpdzU=;
+ b=UXdjRGMrQ3Ygn7cDse/ZYEvC5IRK/dTT2qkzKpba57SYfc1KTqA21Z+XQZh2yF9+RZ
+ GQ3I3UKERyySOF+qBSrpza93GBlP1cuNuhOX4CKIXV2hu2VFxHcL4mgcXBJDTr7FC/KS
+ mp4MOc6byquZirTffKx1Faa6rD4fs+lbXnQ+wCEc0SF9u5MVSEBZMGn9R3ypVCp/LOuV
+ 6WqCsjcAFVONLg9SA2WJ16i96InamabN69t3sKAZwQCUXQhuZFno8Lncki9XwN2ck3kl
+ ZosB4cOomqQQBYUpqSSeAebh6Nxe5zB4PK1HK5I10aIZqZKX+2P6l+nOr9RgZ0mHS+Wr
+ QoSA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUFhU6rmooon4uzxqDnT5BO8C6NZNrnvf0NsFOJ3DsSmQFlvlHO3pYAVr7Ox56Aov37MNZ12gfD2Yg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyX/SrP3yehLdL+5u4Rhfp+cVjiU8ovBcLvC7HS+S6lcQM1hJFH
+ qvb9mgxyI7ZNxILxPzJRrqv8avWx4tXfjXI0jbAKIF4U7gd7Epi1jNgbVga8
+X-Gm-Gg: ASbGncsdFEBIKn0qqqLMKdP8gzr1rzc8OCVA7pMDf/IfMvUQsLDq5EE4xcixelSkX37
+ VwGD+avRHy66F+FbbMpk77nqk/RY6STTIbge0Cm+pQHNlIzkaGTAlva/qzf43o07ebTB0186gB0
+ fxXYFJfRYEOAoHqKWnQ/L+rBVOe8BtAa7RV1mVZwwe96FtwAzdxFE5tMQ+H/sHlqzHvkdAN2c9E
+ LEY+hrcwO6U+lMqYe2ORcmLMj2vMJwnSXsZTv1ScBBSmKO4i3nKLd8ptE5xCmKzGRZoE+iyvA1a
+ T4RbIAA58JanQdW5e3o=
+X-Google-Smtp-Source: AGHT+IEgvGU5p1BlN7T29eKc/iHNAH09DEBy41MVhQYkXrRbZ1rn/tOpAMYPQJtvBZg5zy6qDILbyw==
+X-Received: by 2002:a05:6102:b02:b0:4af:dcbe:4767 with SMTP id
+ ada2fe7eead31-4b25d98d34bmr10283150137.10.1734356011125; 
+ Mon, 16 Dec 2024 05:33:31 -0800 (PST)
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com.
+ [209.85.217.47]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-860ab74b611sm818066241.36.2024.12.16.05.33.30
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Dec 2024 05:33:30 -0800 (PST)
+Received: by mail-vs1-f47.google.com with SMTP id
+ ada2fe7eead31-4afe70b41a8so1129062137.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 05:33:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3goZROBXTanfyyGTEEy6NvqY1FuLheiPt1ftsmZdisTfJtMYS90mw2FlK9ilfSFxVH9vbkUxiBl4=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:b02:b0:4af:dcbe:4767 with SMTP id
+ ada2fe7eead31-4b25d98d34bmr10283091137.10.1734356010555; Mon, 16 Dec 2024
+ 05:33:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2p2rx6zmuph4bdwjork5aqp5n3xkho7cohapvgfijka64vbpop@nse4i55pkyy7>
+References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
+ <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
+In-Reply-To: <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Dec 2024 14:33:19 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXkXx6+0nJn+uLCAWOXvEYWLJXzLu9J7ksinn_z3bEfHQ@mail.gmail.com>
+Message-ID: <CAMuHMdXkXx6+0nJn+uLCAWOXvEYWLJXzLu9J7ksinn_z3bEfHQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/10] arm64: dts: renesas: gray-hawk-single: Add
+ DisplayPort support
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ LUU HOAI <hoai.luu.ub@renesas.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Sam Ravnborg <sam@ravnborg.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,125 +104,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 02:58:59PM +0200, Dmitry Baryshkov wrote:
-> On Mon, Dec 16, 2024 at 01:41:56PM +0100, Danilo Krummrich wrote:
-> > On Mon, Dec 16, 2024 at 02:16:51PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Dec 16, 2024 at 02:11:41PM +0200, Dmitry Baryshkov wrote:
-> > > > On Mon, Dec 16, 2024 at 12:45:15PM +0100, Danilo Krummrich wrote:
-> > > > > On Sun, Dec 15, 2024 at 12:19:22PM +0200, Dmitry Baryshkov wrote:
-> > > > > > The nouveau driver is the only user of the drm_encoder_slave interface.
-> > > > > > Demote it from KMS helpers module to the nouveau driver itself, moving
-> > > > > > corresponding I2C encoders to be handled by nouveau driver too.
-> > > > > 
-> > > > > I understand nouveau is the only driver using this interface (and the
-> > > > > corresponding i2c encoders).
-> > > > > 
-> > > > > However, I'm not quite seeing the advantage of folding the interface (including
-> > > > > the two i2c drivers) into nouveau. I don't think this legacy interface does harm
-> > > > > the subsystem in any way / does prevent the subsystem from moving forward.
-> > > > > 
-> > > > > Can't we just keep it as it is?
-> > > > 
-> > > > Well, drm_encoder_slave is a part of the DRM KMS helpers module, so it
-> > > > take (a little bit) of space on every system. The nouveau situation
-> > > > isn't unique, other drivers (i915, ast) also incorporate the code for
-> > > > I2C backends. For the further discussion see the thread starting from
-> > > > Laurent's email ([1]).
-> > > > 
-> > > > [1] https://lore.kernel.org/all/20241117205426.GE12409@pendragon.ideasonboard.com/
-> > 
-> > The drm_encoder_slave code it's rather small, but I guess this can be used as
-> > argument for both, keeping it where it is and moving it.
-> > 
-> > If you want to move it to nouveau, I'm not going to object. But please fold the
-> > helper code, such that we aren't left with unused functions and unnecessary
-> > function pointer indirections through struct drm_encoder_slave_funcs.
-> 
-> This is more or less what I've done. Or would you prefer to keep the
-> wrapping functions that just execute the callback? I can change the
-> patchset accordingly.
+Hi Tomi,
 
-No, I think it's good indeed -- st a first glance it looked like there's more to
-get rid of.
+On Fri, Dec 6, 2024 at 10:33=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>
+> Add support for the mini DP output on the Gray Hawk board.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-There are just a few more nits, I'll go ahead and add comments in the
-corresponding patches.
+Thanks for your patch, which is now commit b1000645dc29701f
+("arm64: dts: renesas: gray-hawk-single: Add DisplayPort support")
+in renesas-devel/renesas-dts-for-v6.14.
 
-> 
-> > 
-> > > 
-> > > It's also a question of whether maintenance of this code based used by
-> > > the nouveau driver only should be the responsibility of the drm-misc
-> > > community or the nouveau driver maintainers.
-> > 
-> > Good question. It's common infrastructure; do we expect / require the last user
-> > of such infrastructure to take ownership?
-> 
-> Unfortunately it's more like 'the only one' :-( In other words, if we
+Apparently this patch breaks s2idle on Gray Hawk Single when "[PATCH
+v3 06/10] drm/rcar-du: dsi: Add r8a779h0 support" is not present, or
+when CONFIG_DRM_RCAR_USE_MIPI_DSI is not enabled. If the DSI driver
+is not available, the ti_sn65dsi86.bridge part fails to probe with
+-EPROBE_DEFER and "failed to attach dsi host".  Still, the sn65dsi86
+driver must do something critical, as resuming from s2idle now hangs.
+I haven't identified yet where exactly it hangs.
 
-I can't see a major difference between "last one" and "only one" in this
-context.
+As a result, s2idle is broken in current renesas-devel, which only
+has the DTS changes.  Perhaps I should drop the DTS until the issue
+is resolved?
 
-> were expecting other users, there would not be such a move. But
-> hopefully all new drivers will use bridges infrastructure.
+However, I suspect White Hawk has the same issue (if
+CONFIG_DRM_RCAR_USE_MIPI_DSI=3Dn), but I cannot verify as my local White
+Hawk is currently not available for kernel testing.
 
-Agreed, but I don't think it answers my question.
+Do you have a clue?
+Thanks!
 
-> 
-> > 
-> > > 
-> > > > > > Ideally those two drivers should be converted to the drm_bridge
-> > > > > > interface, but it's unclear if it's worth spending time on that.
-> > > > > 
-> > > > > Probably not.
-> > > > > 
-> > > > > > 
-> > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > > ---
-> > > > > > Changes in v2:
-> > > > > > - Renamed symbols in defconfig (Laurent)
-> > > > > > - Added missing Kbuild file (Laurent, LKP)
-> > > > > > - Renamed guarding defines in include files.
-> > > > > > - Dropped mentions of two removed functions.
-> > > > > > - Link to v1: https://lore.kernel.org/r/20241214-nouveau-encoder-slave-v1-0-beda767472e3@linaro.org
-> > > > > > 
-> > > > > > ---
-> > > > > > Dmitry Baryshkov (2):
-> > > > > >       drm/nouveau: incorporate I2C TV encoder drivers
-> > > > > >       drm/nouveau: vendor in drm_encoder_slave API
-> > > > > > 
-> > > > > >  arch/arm/configs/multi_v7_defconfig                |   4 +-
-> > > > > >  arch/parisc/configs/generic-32bit_defconfig        |   4 +-
-> > > > > >  arch/parisc/configs/generic-64bit_defconfig        |   4 +-
-> > > > > >  drivers/gpu/drm/Makefile                           |   1 -
-> > > > > >  drivers/gpu/drm/i2c/Kconfig                        |  18 ----
-> > > > > >  drivers/gpu/drm/i2c/Makefile                       |   6 --
-> > > > > >  drivers/gpu/drm/nouveau/Kconfig                    |  20 ++++
-> > > > > >  drivers/gpu/drm/nouveau/dispnv04/Kbuild            |   3 +
-> > > > > >  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  12 +--
-> > > > > >  drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild        |   5 +
-> > > > > >  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_drv.c    |  30 +++---
-> > > > > >  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_mode.c   |   8 +-
-> > > > > >  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_priv.h   |  11 ++-
-> > > > > >  .../drm/{ => nouveau/dispnv04}/i2c/sil164_drv.c    |  33 ++++---
-> > > > > >  .../dispnv04/nouveau_i2c_encoder.c}                |  85 +++++-----------
-> > > > > >  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  20 ++--
-> > > > > >  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |   4 +-
-> > > > > >  .../gpu/drm/nouveau/include}/i2c/ch7006.h          |   4 +-
-> > > > > >  .../gpu/drm/nouveau/include/i2c/encoder_i2c.h      | 109 ++++++++-------------
-> > > > > >  .../gpu/drm/nouveau/include}/i2c/sil164.h          |   4 +-
-> > > > > >  drivers/gpu/drm/nouveau/nouveau_connector.c        |   6 +-
-> > > > > >  drivers/gpu/drm/nouveau/nouveau_encoder.h          |  13 +--
-> > > > > >  22 files changed, 172 insertions(+), 232 deletions(-)
-> > > > > > ---
-> > > > > > base-commit: 4176cf5c5651c33769de83bb61b0287f4ec7719f
-> > > > > > change-id: 20241214-nouveau-encoder-slave-a6dd422fa4a9
-> > > 
-> > > -- 
-> > > Regards,
-> > > 
-> > > Laurent Pinchart
-> 
-> -- 
-> With best wishes
-> Dmitry
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
