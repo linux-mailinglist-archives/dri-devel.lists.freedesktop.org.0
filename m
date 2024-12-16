@@ -1,87 +1,98 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868579F2C91
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 10:06:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F9869F2C98
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 10:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6793910E154;
-	Mon, 16 Dec 2024 09:06:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38AF010E098;
+	Mon, 16 Dec 2024 09:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xYtEFEgd";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="S/IxvpTt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86DCD10E549
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 09:06:08 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-53e399e3310so4646570e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 01:06:08 -0800 (PST)
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6A010E098
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 09:09:05 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ 5b1f17b1804b1-434b3e32e9dso42283485e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 01:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734339967; x=1734944767; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ybFr+xBF+04SsTx9tZHOi4dPPshGyMog5vNkLi99Q50=;
- b=xYtEFEgd8qWF4K0SYYjEfoYXzvOJ05x0u5tqgaxcHYqxj31x+g4CykAK75UW74APW+
- dd5g3IweEF+Np093JzOm6VXKtzEefX5moVo2J9LmstlpdaTYrRvqspIxTQl9lSpJfe6v
- yeZqL6ZJXHoDA+nl5fzTGSkjaESmtuZKE9JyF6jgWO6Jl2qmhlAaiGBjxdZokEd+nfyy
- pPOCDn7UM2ygdkoDcYV5QRko0WzvgEVQC7lW7NFnbgaVQ4qDUjvudeM9X1VpDm/RDFgn
- cvqx3/yrF+rmLEV8WcrV+L9KWjS7RhFecejpejgrNvWauynQQQhbc1493jVdmx1ULmzw
- kHKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734339967; x=1734944767;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1734340143; x=1734944943;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ybFr+xBF+04SsTx9tZHOi4dPPshGyMog5vNkLi99Q50=;
- b=dkoJvIJkS25tjzDcLUis2rgsV+h72+YSkr3327XEQc7yhDIQ9UzRu0xGNVyUfRGdu6
- G9CjSMl4NLU+fIONEz21zQLNds/OMyJBJ5gBAmualhzam/DduRQhCphizbuZ6qDvUP2G
- 3bujoWssAkFVw2W8xa0gKFjwwLhj29GJaR3PoL2EBXjpRXXisOuPIsa+wjREtpbGppcF
- LbLxpxn6/O0J5zJtcnDur/ENG7WVg8tXqto8rMF4WBam34yJ/7Yk/N4trBYo9fGE/MA8
- uekF19cC6KjqY4CRTzJIJTZCZCmVbze24R35Z7lv2a1fj74vA8Awdcm+kgk2atxYTteo
- crEQ==
+ bh=cGBHS4QHf1CsUcSFjaZXRI9YWCCVYzt2h/iHstQ0laA=;
+ b=S/IxvpTtKnKVGHmGzZtd0Z711zrx2QIULAAdRBnMvsb8P2NmJajnmBLqi2EEtRUNni
+ KdJj5tIUVa6Nj32eTq9XmA7k9fsuj92p3rcwyGG2cXlBzbsb26CP2/1ZVLCkPo4G1+mn
+ GSKeuOuhM3xt5ZAZYgTRhPu5rffy3JIUNsVjZbiloNJb5BzQw6GZRzC6BoagjeC2iWIr
+ H1B9vf93u7+yVpffKw3LfjTRn3mRcsprTtwTndRlW9seAgIxNsMgLapiqPPOGOvE9x4b
+ wPhlkyyY8rC6KkrjeJgL1mRFtuEjZPFLR+HYemNSBYlJkroiL8+mry251tYInlMXvXPr
+ J5jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734340143; x=1734944943;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cGBHS4QHf1CsUcSFjaZXRI9YWCCVYzt2h/iHstQ0laA=;
+ b=xAO3TmqupsYnGRmdF/gCJxwdpoe0a55LSJjwWvEzL/jMWsPJmYZTgQt2HNK7tJG3bv
+ SROSgswzCpLjuE4cGNNU2sqyRqgg7oQavQvWCx7YsMHEb4zXiyH6Tzv1EI+lJHEqDZLO
+ n7n1djfQstEtmAGv6zdoG8rE1IoJFI560cSvPItK8n8Vw61D1jguC/weP/SU6o4wTQqg
+ 3mch6ZR3DLyL1fImQY/Ux6GLejE+EhJtZV+qZuzKn561YsDRorlQp08AcaxHIZYKSexg
+ dJTZC5asBvuMJGsgNnzCvIaEsGzYvXipHtwurxU1ksxGFycOrewzX2qWNSQj5MVv1JjW
+ qyUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU3BT/VjYQz7A78KUDL3mlpJg368XScu7nlkHn/7cLVKChmhD3wh0kadbQoJ1+fhFxpuXcvUwDGj8M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPdCYUNIeSVFSBQf8Lx8BP9KXU8GI12niLkwBM9diLTrbcAdSd
- +O2Ax8t7xaTT3SXwNdUj5H1IqOQ/QELCRKE0lcHjE/qNKJR3xTD++EJUXkZx6iQ=
-X-Gm-Gg: ASbGncubDwI/AKE96UJeP9kmglNlMeiFx8C59Tcy5XaWHiAGB7thXte7wC195c0D5lS
- e8vmIX0aizjXY5uxXfIqtQnw86A997/BSjeS7wY9YpyCJEYHoPZAORWbsUiji4qph2dQyoFO904
- PvwV7RUGpFzNf3NzPc9RMKVlXtXoAMfQfEnSgnk8iNTAfb+kkBwmsdXGgLFOn0sBCkyAEAE5S1N
- IyZPR+38lYy7fOCPiHGal37gtNsmI4OsNuFj78OoJCiA7ctKY8kejSIIJ1XJJuGZS7HdVRd3ZOU
- 60nCEOXECW3c6F0pPRIDZU+7pZSsF4RD/UxH
-X-Google-Smtp-Source: AGHT+IE2z+Yrxqh/d+CbdTI/ZEFbpY0tdfpWkjP3iId/t6e4EaPLDgQ5n81rb49OUv0YGO/PEvgPOg==
-X-Received: by 2002:a05:6512:b96:b0:540:2a6e:3882 with SMTP id
- 2adb3069b0e04-540905616b3mr3205171e87.29.1734339966797; 
- Mon, 16 Dec 2024 01:06:06 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCVOXobxuH3VAhr7mk5hcTLs2mss9gw+u3LnkitFQUgKOE8WDMLjbF0LwO5tvpakgxu7CkFrpjMwMYo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkqgVMl0+akVARS+5w5xGCZkVWrKO8mtUjxIQTcO1axUSSG468
+ pvEZ9mY3tz9XwiYHRAxRQqL5sJUlu+Qv7cjW0DYDiJHG1YrJbtXJf1G+/+Hb1Q8=
+X-Gm-Gg: ASbGnctx2DNRpmWBlG/6f2n9tkqs/mJqqY3vc59ojk9q0NP24xUs2kHGJvOrBNfEzjr
+ LquVq/1WBgAxJAnSZOvt0kBg1E9pHH75mZItpSRPchpAK4VEHgn9NkjgEHq7qmnwJr01UGAYNAU
+ vDcqZ4b6sh9f9Gj0i4nkbzDfeOIgAZENwbWNz8OG5cc6OzXPc8EbDmJGYz9pRsZGu/rYokzMqwE
+ 2QZynGc9+ntA4/xq5wUU+uO+G4jWMN5vv1WUthxVMNGxhaNVYvltA5g
+X-Google-Smtp-Source: AGHT+IH72Dfr5eQ52hfcPTD2JDNeTzGbEvM+MfJLbWyJGQJuX1wyKsEB2Yp2W1KGB/T0MXX4Wu47cg==
+X-Received: by 2002:a05:600c:871b:b0:434:e9ee:c3d with SMTP id
+ 5b1f17b1804b1-4362aa93cb0mr85374005e9.20.1734340143532; 
+ Mon, 16 Dec 2024 01:09:03 -0800 (PST)
+Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:ddd7:943f:c7de:9971])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120c00166sm768988e87.159.2024.12.16.01.06.04
+ 5b1f17b1804b1-4362559ef45sm133677185e9.26.2024.12.16.01.09.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 01:06:05 -0800 (PST)
-Date: Mon, 16 Dec 2024 11:06:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- l.stach@pengutronix.de, 
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 10/11] arm64: dts: rockchip: Enable eDP0 display on
- RK3588S EVB1 board
-Message-ID: <ay2im4itrj3k4p2ksobgsk77b7m4laaxctkfcpffqxj5ttxenm@mzdizmf3mlcb>
-References: <20241216031225.3746-1-damon.ding@rock-chips.com>
- <20241216031225.3746-11-damon.ding@rock-chips.com>
+ Mon, 16 Dec 2024 01:09:03 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Eric Anholt <eric@anholt.net>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>,
+ Stefan Wahren <wahrenst@gmx.net>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
+ linux-gpio@vger.kernel.org
+Subject: Re: (subset) [PATCH v3 0/7] drm/vc4: Fixup DT and DT binding issues
+ from recent patchset
+Date: Mon, 16 Dec 2024 10:09:01 +0100
+Message-ID: <173434013318.38429.808413721248542013.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
+References: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241216031225.3746-11-damon.ding@rock-chips.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,61 +108,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 11:12:24AM +0800, Damon Ding wrote:
-> Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
-> - Add edp-panel node
-> - Set pinctrl of pwm12 for backlight
-> - Enable edp0/hdptxphy0/vp2
-> 
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - Remove brightness-levels and default-brightness-level properties in
->   backlight node.
-> - Add the detail DT changes to commit message.
-> ---
->  .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 50 +++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> index bc4077575beb..5c1ea25b6524 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> @@ -9,6 +9,7 @@
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
->  #include <dt-bindings/pinctrl/rockchip.h>
-> +#include <dt-bindings/soc/rockchip,vop2.h>
->  #include <dt-bindings/usb/pd.h>
->  #include "rk3588s.dtsi"
->  
-> @@ -120,6 +121,18 @@ backlight: backlight {
->  		pwms = <&pwm12 0 25000 0>;
->  	};
->  
-> +	edp_panel: edp-panel {
-> +		compatible = "lg,lp079qx1-sp0v";
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-Please use aux-bus and a generic "edp-panel" entry for newer platforms
-instead of declaring the panel on the platform bus. Placing eDP panels
-on the platform bus has been deprecated for quite a while.
 
-> +		backlight = <&backlight>;
-> +		power-supply = <&vcc3v3_lcd_edp>;
-> +
-> +		port {
-> +			panel_in_edp: endpoint {
-> +				remote-endpoint = <&edp_out_panel>;
-> +			};
-> +		};
-> +	};
-> +
->  	combophy_avdd0v85: regulator-combophy-avdd0v85 {
->  		compatible = "regulator-fixed";
->  		regulator-name = "combophy_avdd0v85";
+On Thu, 12 Dec 2024 18:36:27 +0000, Dave Stevenson wrote:
+> I missed the DT errors from the recent patchset[1] (DT patches
+> in linux-next via Florian, DRM bindings patches on dri-misc-next)
+> as Rob's bot report got spam filtered, so this is a fixup set.
+> 
+> Largely it was changes to number of interrupts or clocks in the
+> bindings, so those are now covered.
+> 
+> [...]
 
+Applied, thanks!
+
+[3/7] dt-bindings: gpio: brcmstb: permit gpio-line-names property
+      commit: 83a9752729c455a6bd9b7cf62198506180691931
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
