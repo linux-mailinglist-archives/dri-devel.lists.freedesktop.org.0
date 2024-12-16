@@ -1,53 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2EB9F2FB3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 12:45:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 186649F2FC1
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 12:47:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8713410E5D6;
-	Mon, 16 Dec 2024 11:45:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FB010E5D9;
+	Mon, 16 Dec 2024 11:47:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HBtpCDPi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hMacY/PD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24A8210E5D0;
- Mon, 16 Dec 2024 11:45:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 847675C5C19;
- Mon, 16 Dec 2024 11:44:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6361C4CED0;
- Mon, 16 Dec 2024 11:45:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734349521;
- bh=WTOoaCm/YBEOFwnlmetmHLAw1bQPebroxLWPCI/KuzE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HBtpCDPiiLGdhIMrs2nzQ0gaX8GQiSsbg9IRMMdwgeEWTJCnNRfPkkmDlopn93+fP
- u5oSbwSqUdfqmE7hS5WiQX1dzbzp45l3N5c4e1ehPquM9rmKBbnMys3d+m7/y4n1H5
- bQ8ad1/0Pm75iGknuobmgc+RpZi27qyyPKi2Hgc6wOPPiSkZnW2oVouZWDszqNicHG
- XCZdZTb6GR2y6wanoeCcIoaaSmBmm7B3dgC5u0IThQejxFZQO1OcPn1+wAVQD92V/c
- UHnZVrhmspfqU2KxRdnpsLGXuFBB6DvgjYcHmDphhnmKJHYNmqUFcotBPusfs+7u2B
- vqn1QQEUnY/vg==
-Date: Mon, 16 Dec 2024 12:45:15 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 0/2] drm/nouveau: remove drm_encoder_slave interface
-Message-ID: <Z2ASy3TQ4suupdvd@cassiopeiae>
-References: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263FE10E5C7;
+ Mon, 16 Dec 2024 11:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734349667; x=1765885667;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=b/jnVnpWxsgsujPLPcohF02Om3SRNnOQCq/3TSfEFrg=;
+ b=hMacY/PDMGImbV80bGQ35VpGevSR6FdkGGwvQKAUZInpLWEkI0hn2d7+
+ Hw58P3UYYk6uN3f98egRzycMF0IGp8rrmDOy28w74PP22tKZ42FwDjIi7
+ 2ib/wt9WfJY+qT+5Q1xp3Ptfk7JnGnD892LhOx9emSRc6hqiuXJ+T22mx
+ 9XF1YAvzrr6siZnzNgwmpXMwTwN1/Xnm0zdmSyzKCpidduVsSB7JXJSFw
+ Ha4FgRHY8W7kfqhLp0ZG6pWhsaIIkDO4ObeOoLzZrVgtMZLMbOSGovx/Z
+ mbXjAQLHrgCX0F5DI424tMZju40jUlYgt1aOIweWXB2rzk/8T3DoECsHx A==;
+X-CSE-ConnectionGUID: 6cJItNuHQ5ycHyLhWvy7xQ==
+X-CSE-MsgGUID: yLFF5jPrQTuBMCNdZ7bMZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="52144727"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; d="scan'208";a="52144727"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 03:47:47 -0800
+X-CSE-ConnectionGUID: ibVkrFHNQ56/atLPvsZSZg==
+X-CSE-MsgGUID: dFEPEd+kTEamIvmrKVQJlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; d="scan'208";a="102046463"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.245])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 03:47:40 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Qiang Yu <yuq825@gmail.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Alex
+ Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, Harry
+ Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo
+ Siqueira <Rodrigo.Siqueira@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ lima@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
+ <linux@weissschuh.net>
+Subject: Re: [PATCH 1/5] drm/sysfs: Constify 'struct bin_attribute'
+In-Reply-To: <20241216-sysfs-const-bin_attr-drm-v1-1-210f2b36b9bf@weissschuh.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241216-sysfs-const-bin_attr-drm-v1-0-210f2b36b9bf@weissschuh.net>
+ <20241216-sysfs-const-bin_attr-drm-v1-1-210f2b36b9bf@weissschuh.net>
+Date: Mon, 16 Dec 2024 13:47:37 +0200
+Message-ID: <87r067svc6.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +82,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 15, 2024 at 12:19:22PM +0200, Dmitry Baryshkov wrote:
-> The nouveau driver is the only user of the drm_encoder_slave interface.
-> Demote it from KMS helpers module to the nouveau driver itself, moving
-> corresponding I2C encoders to be handled by nouveau driver too.
+On Mon, 16 Dec 2024, Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
+> The sysfs core now allows instances of 'struct bin_attribute' to be
+> moved into read-only memory. Make use of that to protect them against
+> accidental or malicious modifications.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 
-I understand nouveau is the only driver using this interface (and the
-corresponding i2c encoders).
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-However, I'm not quite seeing the advantage of folding the interface (including
-the two i2c drivers) into nouveau. I don't think this legacy interface does harm
-the subsystem in any way / does prevent the subsystem from moving forward.
-
-Can't we just keep it as it is?
-
-> 
-> Ideally those two drivers should be converted to the drm_bridge
-> interface, but it's unclear if it's worth spending time on that.
-
-Probably not.
-
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
-> Changes in v2:
-> - Renamed symbols in defconfig (Laurent)
-> - Added missing Kbuild file (Laurent, LKP)
-> - Renamed guarding defines in include files.
-> - Dropped mentions of two removed functions.
-> - Link to v1: https://lore.kernel.org/r/20241214-nouveau-encoder-slave-v1-0-beda767472e3@linaro.org
-> 
-> ---
-> Dmitry Baryshkov (2):
->       drm/nouveau: incorporate I2C TV encoder drivers
->       drm/nouveau: vendor in drm_encoder_slave API
-> 
->  arch/arm/configs/multi_v7_defconfig                |   4 +-
->  arch/parisc/configs/generic-32bit_defconfig        |   4 +-
->  arch/parisc/configs/generic-64bit_defconfig        |   4 +-
->  drivers/gpu/drm/Makefile                           |   1 -
->  drivers/gpu/drm/i2c/Kconfig                        |  18 ----
->  drivers/gpu/drm/i2c/Makefile                       |   6 --
->  drivers/gpu/drm/nouveau/Kconfig                    |  20 ++++
->  drivers/gpu/drm/nouveau/dispnv04/Kbuild            |   3 +
->  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  12 +--
->  drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild        |   5 +
->  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_drv.c    |  30 +++---
->  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_mode.c   |   8 +-
->  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_priv.h   |  11 ++-
->  .../drm/{ => nouveau/dispnv04}/i2c/sil164_drv.c    |  33 ++++---
->  .../dispnv04/nouveau_i2c_encoder.c}                |  85 +++++-----------
->  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  20 ++--
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |   4 +-
->  .../gpu/drm/nouveau/include}/i2c/ch7006.h          |   4 +-
->  .../gpu/drm/nouveau/include/i2c/encoder_i2c.h      | 109 ++++++++-------------
->  .../gpu/drm/nouveau/include}/i2c/sil164.h          |   4 +-
->  drivers/gpu/drm/nouveau/nouveau_connector.c        |   6 +-
->  drivers/gpu/drm/nouveau/nouveau_encoder.h          |  13 +--
->  22 files changed, 172 insertions(+), 232 deletions(-)
-> ---
-> base-commit: 4176cf5c5651c33769de83bb61b0287f4ec7719f
-> change-id: 20241214-nouveau-encoder-slave-a6dd422fa4a9
-> 
-> Best regards,
-> -- 
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
+>  drivers/gpu/drm/drm_sysfs.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
+> index fb3bbb6adcd16f3f325a2ae8e35f41851c00b272..60c1f26edb6fad23153c32a29=
+fd3be02700fc938 100644
+> --- a/drivers/gpu/drm/drm_sysfs.c
+> +++ b/drivers/gpu/drm/drm_sysfs.c
+> @@ -261,7 +261,7 @@ static ssize_t enabled_show(struct device *device,
+>  }
+>=20=20
+>  static ssize_t edid_show(struct file *filp, struct kobject *kobj,
+> -			 struct bin_attribute *attr, char *buf, loff_t off,
+> +			 const struct bin_attribute *attr, char *buf, loff_t off,
+>  			 size_t count)
+>  {
+>  	struct device *connector_dev =3D kobj_to_dev(kobj);
+> @@ -315,21 +315,21 @@ static struct attribute *connector_dev_attrs[] =3D {
+>  	NULL
+>  };
+>=20=20
+> -static struct bin_attribute edid_attr =3D {
+> +static const struct bin_attribute edid_attr =3D {
+>  	.attr.name =3D "edid",
+>  	.attr.mode =3D 0444,
+>  	.size =3D 0,
+> -	.read =3D edid_show,
+> +	.read_new =3D edid_show,
+>  };
+>=20=20
+> -static struct bin_attribute *connector_bin_attrs[] =3D {
+> +static const struct bin_attribute *const connector_bin_attrs[] =3D {
+>  	&edid_attr,
+>  	NULL
+>  };
+>=20=20
+>  static const struct attribute_group connector_dev_group =3D {
+>  	.attrs =3D connector_dev_attrs,
+> -	.bin_attrs =3D connector_bin_attrs,
+> +	.bin_attrs_new =3D connector_bin_attrs,
+>  };
+>=20=20
+>  static const struct attribute_group *connector_dev_groups[] =3D {
+
+--=20
+Jani Nikula, Intel
