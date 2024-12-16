@@ -2,84 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8FC9F3A1B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 20:46:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2349F3A22
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 20:47:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F50B10E789;
-	Mon, 16 Dec 2024 19:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1917E10E794;
+	Mon, 16 Dec 2024 19:47:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KvftCxGn";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Pyp8ZAgn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB1D110E789;
- Mon, 16 Dec 2024 19:46:27 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGFgVke015402;
- Mon, 16 Dec 2024 19:46:25 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B06D10E784;
+ Mon, 16 Dec 2024 19:47:10 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGIbjQj010023;
+ Mon, 16 Dec 2024 19:47:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- EZX1kqIMLz6GdpHdIEmLG54+LmHa25JfHQjG5BAGSMM=; b=KvftCxGnxFlSx1yh
- rHIZsr2++G/odbS0eRoCbSU9G0JpbmUFji0PBhIcU7uB+A5DuS+ZbxmtgKKnARMI
- xJIh7IgLTd81qfj2K1acU8D6ZMki2qDInB4okt/wyPotWF68pLpXoE3u/nVTTftS
- En+EsTN6P17vD1G/qCdI2khjrknHQsqMUgLVgiAT9umgPzfFVgt2VJPan5Fqw66i
- dC5AE3XUEbpKCaoe9F6oYI+nOYBGK9rvZbpImaFOaur15J5KtrsApxQXQOfM0qJg
- GM2qVVb1DHunyg9lV3vo72ANZ88hGMYAwIc/QRZOv9mCczx6UqeRi3uC2aEfsY5V
- dl2TRA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jq350m91-1
+ R2mp61jP/WcNaDZR1PYIjaKroxYOLzI15eeolVPyUfw=; b=Pyp8ZAgnZmF3cNDe
+ hlHFWWrdyAWk+4ie2eZwryPMQ2jXNX40isg3vXLgwhjAusjIxr1lKEPDM6BnBCBN
+ +XY6xf+6KumxNa+nr2RQRneEY1CUaM12Ez/lYI+qXvDQ5w47sOeTZGGrzYNetjgd
+ MRLlrlMl6U1hqpFuJcliZIOaK0BwtJmzbzxeqoiEl13MxpFO6tiOyfv2PC9MwI27
+ wVXOq16LxlijsFb+xlVBxLH9hPfiQCE+7zqwnpUwjjlsa20oOen9/MdoS5Le1UzD
+ 0BF3qlCLrW919z+6+z7qetRXK+AEwWDWvpJnMA1GsXNVWZ+ulowlwNT+DT27KDGm
+ VNVqTg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jsn9g4ys-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 19:46:25 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BGJkOsC005915
+ Mon, 16 Dec 2024 19:47:03 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BGJl2Z6032729
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 19:46:24 GMT
-Received: from [10.110.88.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 16 Dec 2024 19:47:02 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
- 2024 11:46:22 -0800
-Message-ID: <9fb5986b-f375-4300-b50c-92bb9c0b4399@quicinc.com>
-Date: Mon, 16 Dec 2024 11:46:21 -0800
+ 2024 11:47:02 -0800
+Message-ID: <7563faa3-a326-4cb8-9eeb-93ba53a22215@quicinc.com>
+Date: Mon, 16 Dec 2024 11:47:01 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/16] drm/msm/dp: split MMSS_DP_DSC_DTO register write
- to a separate function
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Paloma Arellano <quic_parellan@quicinc.com>
-CC: Douglas Anderson <dianders@chromium.org>, Stephen Boyd
- <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
- <20241216-fd-dp-audio-fixup-v4-6-f8d1961cf22f@linaro.org>
+Subject: Re: [PATCH v2 02/22] drm: Add valid clones check
+To: Maxime Ripard <mripard@kernel.org>
+CC: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, <quic_ebharadw@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-2-7849f900e863@quicinc.com>
+ <20240925-hasty-bald-caribou-eedbf5@houat>
+ <80d08449-71de-4a7f-8b2a-8af565d8d701@quicinc.com>
+ <20241216-elated-vagabond-numbat-14fe8f@houat>
 Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241216-fd-dp-audio-fixup-v4-6-f8d1961cf22f@linaro.org>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20241216-elated-vagabond-numbat-14fe8f@houat>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: EvqjYVgfZqa5_ucbbtS9wEPbQs__TbEy
-X-Proofpoint-ORIG-GUID: EvqjYVgfZqa5_ucbbtS9wEPbQs__TbEy
+X-Proofpoint-GUID: vJkNvjTdj1vVk_U3K0W-hIjwWMl2onF3
+X-Proofpoint-ORIG-GUID: vJkNvjTdj1vVk_U3K0W-hIjwWMl2onF3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 malwarescore=0 clxscore=1015 mlxlogscore=999 impostorscore=0
- mlxscore=0 suspectscore=0 bulkscore=0 adultscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ bulkscore=0
+ priorityscore=1501 spamscore=0 malwarescore=0 mlxscore=0 clxscore=1015
+ suspectscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2412160163
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,72 +103,89 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 12/15/2024 2:44 PM, Dmitry Baryshkov wrote:
-> It's the dp_panel's duty to clear the MMSS_DP_DSC_DTO register. Once DP
-> driver gets DSC support, it will handle that register in other places
-> too. Split a call to write 0x0 to that register to a separate function.
+On 12/16/2024 6:47 AM, Maxime Ripard wrote:
+> On Fri, Dec 06, 2024 at 04:48:43PM -0800, Jessica Zhang wrote:
+>> On 9/25/2024 12:23 AM, Maxime Ripard wrote:
+>>> On Tue, Sep 24, 2024 at 03:59:18PM GMT, Jessica Zhang wrote:
+>>>> Check that all encoders attached to a given CRTC are valid
+>>>> possible_clones of each other.
+>>>>
+>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_atomic_helper.c | 23 +++++++++++++++++++++++
+>>>>    1 file changed, 23 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+>>>> index 43cdf39019a4..cc4001804fdc 100644
+>>>> --- a/drivers/gpu/drm/drm_atomic_helper.c
+>>>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+>>>> @@ -574,6 +574,25 @@ mode_valid(struct drm_atomic_state *state)
+>>>>    	return 0;
+>>>>    }
+>>>> +static int drm_atomic_check_valid_clones(struct drm_atomic_state *state,
+>>>> +					 struct drm_crtc *crtc)
+>>>> +{
+>>>> +	struct drm_encoder *drm_enc;
+>>>> +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+>>>> +									  crtc);
+>>>> +
+>>>> +	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
+>>>> +		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=
+>>>> +		    crtc_state->encoder_mask) {
+>>>> +			DRM_DEBUG("crtc%d failed valid clone check for mask 0x%x\n",
+>>>> +				  crtc->base.id, crtc_state->encoder_mask);
+>>>> +			return -EINVAL;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * drm_atomic_helper_check_modeset - validate state object for modeset changes
+>>>>     * @dev: DRM device
+>>>> @@ -745,6 +764,10 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+>>>>    		ret = drm_atomic_add_affected_planes(state, crtc);
+>>>>    		if (ret != 0)
+>>>>    			return ret;
+>>>> +
+>>>> +		ret = drm_atomic_check_valid_clones(state, crtc);
+>>>> +		if (ret != 0)
+>>>> +			return ret;
+>>>>    	}
+>>>
+>>> Pretty much the same comment, we should have kunit tests for this.
+>>
+>> Hey Maxime,
+>>
+>> I'm working on the kunit test for this and had a question on the design for
+>> the unit test:
+>>
+>> Since this is a static helper that returns a pretty common error code, how
+>> would you recommend going about making sure that
+>> `drm_atomic_check_valid_clones()` specifically is returning the error (and
+>> not a different part of check_modeset) when testing the check_valid_clones()
+>> failure path?
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_catalog.c | 8 ++++++++
->   drivers/gpu/drm/msm/dp/dp_catalog.h | 2 ++
->   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 2 ++
->   3 files changed, 12 insertions(+)
+> There's two ways to go about it. Either you can unit test it, prepare a
+> series of custom states and use
+> EXPORT_SYMBOL_FOR_TESTS_ONLY/EXPORT_SYMBOL_IF_KUNIT, or you can go the
+> integration test way and just test that drm_atomic_check is rejected for
+> unsafe combinations.
 > 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> index 7b7eadb2f83b169d8df27ee93589abe05b38f3ae..354ec834f9357c4797fc08a4532e69acc67b4317 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-> @@ -1039,6 +1039,14 @@ void msm_dp_catalog_panel_tpg_disable(struct msm_dp_catalog *msm_dp_catalog)
->   	msm_dp_write_p0(catalog, MMSS_DP_TIMING_ENGINE_EN, 0x0);
->   }
->   
-> +void msm_dp_catalog_panel_clear_dsc_dto(struct msm_dp_catalog *msm_dp_catalog)
-> +{
-> +	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
-> +				struct msm_dp_catalog_private, msm_dp_catalog);
-> +
-> +	msm_dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
-> +}
+> I guess I'd prefer the former, but the latter also makes sense and
+> eventually, it checks what we want: to make sure that we reject such a
+> state. What part of the code does or with what error code is less
+> important imo.
 
-This is already done msm_dp_catalog_ctrl_config_msa(), this is either a 
-duplicate or redundant.
+Thanks for confirming! The changes I made are based on the latter 
+approach. Will post the changes later today if you have no objections on 
+this
 
-void msm_dp_catalog_ctrl_config_msa(..........)
-{
-	**********
-         msm_dp_write_link(catalog, REG_DP_SOFTWARE_NVID, nvid);
-         msm_dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
-}
+Thanks,
 
-> +
->   static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
->   {
->   	struct resource *res;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> index 6678b0ac9a67881244884d59487fa288d33d1be7..08bb42e91b779633875dbeb4130bc55a6571cfb1 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-> @@ -92,6 +92,8 @@ void msm_dp_catalog_panel_tpg_enable(struct msm_dp_catalog *msm_dp_catalog,
->   				struct drm_display_mode *drm_mode);
->   void msm_dp_catalog_panel_tpg_disable(struct msm_dp_catalog *msm_dp_catalog);
->   
-> +void msm_dp_catalog_panel_clear_dsc_dto(struct msm_dp_catalog *msm_dp_catalog);
-> +
->   struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev);
->   
->   /* DP Audio APIs */
-> diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> index 9c463ae2f8fae916661fef1c7e225f55c1026478..b9c461fee96f8fae9259ce03a32e1155b42d17bb 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-> @@ -2011,6 +2011,8 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
->   		pixel_rate_orig,
->   		ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420);
->   
-> +	msm_dp_catalog_panel_clear_dsc_dto(ctrl->catalog);
-> +
->   	msm_dp_ctrl_setup_tr_unit(ctrl);
->   
->   	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
+Jessica Zhang
+
 > 
+> Maxime
+
