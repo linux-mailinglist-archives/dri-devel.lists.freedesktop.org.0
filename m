@@ -1,90 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8789F2DB9
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 11:05:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A1F9F2DBE
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 11:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C96F610E130;
-	Mon, 16 Dec 2024 10:05:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CBEC10E189;
+	Mon, 16 Dec 2024 10:05:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sYrTFDFd";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fgIHBJrE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4204610E130
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:05:01 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-3022c61557cso41338051fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 02:05:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734343499; x=1734948299; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=HLzU3OoGAZg1lvIIB2cj0SjgTHG2tkXZPV4oMUjorKM=;
- b=sYrTFDFdwfBFY9ukM2jXyo+UvCDUDu6nd7zO3x0DNP+w6BnK9Z8gVrlpmQfVWNS639
- cF3Fecn7M/0bs+SKldzTElmeZzEJG8cX/Xg+Yle2iTt/X6isGrbIeHCZkocX9gdi2Abv
- Zz8hQ6X5WiPvULoifd08yv2Ew8gM/0mrzMtloc3iHrpfmfhpMf+dAjTmtubgv461luBK
- 5oNjTEbLrV7FUEPe44XBirsLh4MD2/CGU8yV6OxRzRW6iKm1sPQGXWvbTlYcIvuHmIVI
- oaF5TGzQ/QlaEDsf3AR38FSqzqci04/sOs4JmxfgwsHIa2MmUZiv5KPtRiw28gHH8Pwi
- Ww5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734343499; x=1734948299;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HLzU3OoGAZg1lvIIB2cj0SjgTHG2tkXZPV4oMUjorKM=;
- b=TnLH702w8XMVfhn+Q6M7CGZjje96ueRYwGnDfv3KrqXmn2FS9YSwQBe4czyvBOwWB6
- +t8/R7aaJWYUR5R89N7RUkvUOB/J3UzyubIlfRH1MtlTkH0LxYgqqM+HpY3Y9HX69RRJ
- bWAG7cqZiFarDiKJRoR9Z6A+8MDQRTSngYNxJt+J5Mx22oZnAWP5ZAfVXE3ojuTpe23J
- A6RSeGVZ/h/TQikl/uJG094bCUxFopx39ctPOTqKvSV87AkTRz49xPR/9ppACjGH+hba
- Q2MgXsgEdit2hVfOVj+Av0qcHgegV60edirtTt4Nzq/MmoHMPupsN1wk8FB5W6EHkSQV
- Ctaw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWWDzd4bxJhdlBaDrdQxUzY4WSzZemLN5VuUnyaSvsjCyOJqNirfg3qnN0sh0tHGsI5wlPhxTI9Ark=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyiBa3iczl+HEAYmw5KQ6oQJeKXEh3EzwCMbwzN8XJKbTsA4Yb6
- t+c86m3F8PMuWHR//xxGrsTDQPXPAfSoW4RO6wxKAzObqu47j1MHbvDO5QUnbvs=
-X-Gm-Gg: ASbGnctBPg9XrE9byPQNwqPp5Jjmc2uNO0XKPIixSGXBp7OMOhxxtXP6TQKTD95AG5J
- 1AwGDUfW39Oj71fvGTwXe5pxm8U2zkEMGFuliC9Au5S69oA0gKJa0k4ANZK2RO3fL8qYqxt0BFm
- zx8X2LBR1lOsyKjXMs9ty5PsnYQ7UMpDQqRNMxeVrjRFPFLy61UOviUmJYMBykoeVa80nLoPMjX
- 32tWU1cfY2/M2EcbGFuHrI43eCB7n8/WmjJzekE1IIJu5kmrcUIYPSX+tD2lXTCgbcz5hkQguxF
- 8lZXWNM1VSBeSMEVjrm0BENfnq3cqX3jtYp9
-X-Google-Smtp-Source: AGHT+IEANV1rjeOcZD+mfElWFOCdmwQitk5ard7G/sdmw/kgz+ZvJnKtp9SusUqTBt+TDbtuy27Lww==
-X-Received: by 2002:a2e:a99e:0:b0:302:16da:a052 with SMTP id
- 38308e7fff4ca-302544ae804mr44008281fa.27.1734343499432; 
- Mon, 16 Dec 2024 02:04:59 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30344045239sm8283241fa.36.2024.12.16.02.04.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 02:04:58 -0800 (PST)
-Date: Mon, 16 Dec 2024 12:04:56 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>
-Cc: Damon Ding <damon.ding@rock-chips.com>, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- l.stach@pengutronix.de, 
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 03/11] drm/rockchip: analogix_dp: Add support for RK3588
-Message-ID: <25bh2uy6wg3kcoqmnzt5dwfamc32bjyjlivkqq4cvne6kryj3z@svlz45bbaoy7>
-References: <20241216031225.3746-1-damon.ding@rock-chips.com>
- <20241216031225.3746-4-damon.ding@rock-chips.com>
- <gwogudb5vae7wu452zwuqmdlyaibenoso4f5pjmu3uttckhy2w@shndol4mz5n4>
- <4395748.ejJDZkT8p0@diego>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3DEA10E189
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:05:48 +0000 (UTC)
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
+ [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DCD922F;
+ Mon, 16 Dec 2024 11:05:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1734343511;
+ bh=9J3sA45LFryKQq31g6p0pJDzVfbzEf35dJB6L24U/es=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fgIHBJrE3vCUyu+BLbxAzKin36KE0r7WW2Jy1/v217aaf2NpQXetpsJQUDI7rDMYh
+ cy/6HNOOut3nFcAVGpCgQwUnWBENQ6b2eOu7DGARykB5KSmNzYrXnzDDHrQcU6qkOo
+ SHCdH30Bo1Bi1E4MoKbQ7QM89ojQw0ipouDK5ZS0=
+Message-ID: <062e6b9d-44ca-49e8-8be0-f6a853938c53@ideasonboard.com>
+Date: Mon, 16 Dec 2024 12:05:43 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4395748.ejJDZkT8p0@diego>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3] drm: zynqmp_dp: Fix integer overflow in
+ zynqmp_dp_rate_get()
+To: Karol Przybylski <karprzy7@gmail.com>, laurent.pinchart@ideasonboard.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, michal.simek@amd.com
+Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241215125355.938953-1-karprzy7@gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241215125355.938953-1-karprzy7@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,164 +102,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 10:11:54AM +0100, Heiko Stübner wrote:
-> Am Montag, 16. Dezember 2024, 09:57:41 CET schrieb Dmitry Baryshkov:
-> > On Mon, Dec 16, 2024 at 11:12:17AM +0800, Damon Ding wrote:
-> > > RK3588 integrates the analogix eDP 1.3 TX controller IP and the HDMI/eDP
-> > > TX Combo PHY based on a Samsung IP block, and there are also two
-> > > independent eDP display interface on RK3588 Soc.
-> > > 
-> > > Add just the basic support for now, i.e. RGB output up to 4K@60Hz, without
-> > > the tests of audio, PSR and other eDP 1.3 specific features.
-> > > 
-> > > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> > > 
-> > > ---
-> > > 
-> > > Changes in v2:
-> > > - Add support for the other eDP output edp1
-> > > ---
-> > >  .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 82 ++++++++++++++++---
-> > >  include/drm/bridge/analogix_dp.h              |  3 +-
-> > >  2 files changed, 74 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> > > index 871606a31ef1..4c9a55776ada 100644
-> > > --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> > > +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> > > @@ -51,10 +51,12 @@ struct rockchip_grf_reg_field {
-> > >  /**
-> > >   * struct rockchip_dp_chip_data - splite the grf setting of kind of chips
-> > >   * @lcdc_sel: grf register field of lcdc_sel
-> > > + * @edp_mode: grf register field of edp_mode
-> > >   * @chip_type: specific chip type
-> > >   */
-> > >  struct rockchip_dp_chip_data {
-> > >  	const struct rockchip_grf_reg_field lcdc_sel;
-> > > +	const struct rockchip_grf_reg_field edp_mode;
-> > >  	u32	chip_type;
-> > >  };
-> > >  
-> > > @@ -134,12 +136,21 @@ static int rockchip_dp_poweron(struct analogix_dp_plat_data *plat_data)
-> > >  		return ret;
-> > >  	}
-> > >  
-> > > +	ret = rockchip_grf_field_write(dp->grf, &dp->data->edp_mode, 1);
-> > > +	if (ret != 0)
-> > > +		DRM_DEV_ERROR(dp->dev, "failed to set edp mode %d\n", ret);
-> > 
-> > Is it to be called for non-eDP hosts too? Or for older hosts?
-> 
-> The implementation of rockchip_grf_field_write (in patch1) seems to
-> take care of checking if that field actually exists and doing nothing if
-> not.
-> 
-> I think eDP/DP is more a naming thing, the Analogix controller is called
-> an eDP controller in all documentation things.
-> 
-> Even back on rk3288, the Analogix-DP, still is called an eDP controller in
-> documentation, with the only difference being that it does not contain
-> another additional "dedicated" DP controller
+Hi,
 
-At the very least this should be mentioned in the commit message.
+On 15/12/2024 14:53, Karol Przybylski wrote:
+> This patch fixes a potential integer overflow in the zynqmp_dp_rate_get()
+> 
+> The issue comes up when the expression
+> drm_dp_bw_code_to_link_rate(dp->test.bw_code) * 10000 is evaluated using 32-bit
+> Now the constant is a compatible 64-bit type.
+> 
+> Resolves coverity issues: CID 1636340 and CID 1635811
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 28edaacb821c6 ("drm: zynqmp_dp: Add debugfs interface for compliance testing")
+> Signed-off-by: Karol Przybylski <karprzy7@gmail.com>
+> ---
+> Changes from previous versions:
+> Added Fixes tag
+> Added Cc for stable kernel version
+> Fixed formatting
+> 
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> index 25c5dc61ee88..56a261a40ea3 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
+> @@ -2190,7 +2190,7 @@ static int zynqmp_dp_rate_get(void *data, u64 *val)
+>   	struct zynqmp_dp *dp = data;
+>   
+>   	mutex_lock(&dp->lock);
+> -	*val = drm_dp_bw_code_to_link_rate(dp->test.bw_code) * 10000;
+> +	*val = drm_dp_bw_code_to_link_rate(dp->test.bw_code) * 10000ULL;
+>   	mutex_unlock(&dp->lock);
+>   	return 0;
+>   }
 
-> > > +	i = 0;
-> > > +	while (is_rockchip(dp_data[i].chip_type))
-> > > +		i++;
-> > > +
-> > > +	if (id >= i) {
-> > > +		DRM_DEV_ERROR(dev, "invalid edp id: %d\n", id);
-> > > +		return -ENODEV;
-> > > +	}
-> > 
-> > Is it applicable to non-eDP case?
-> 
-> same as above, it's always called eDP in all pieces of documentation,
-> (Compliant with DP 1.2 and eDP 1.3)
+Thanks, pushed to drm-misc-next.
 
-Ack
+  Tomi
 
-> 
-> Heiko
-> 
-> > > +
-> > >  	dp->dev = dev;
-> > >  	dp->adp = ERR_PTR(-ENODEV);
-> > > -	dp->data = dp_data;
-> > > +	dp->data = &dp_data[id];
-> > >  	dp->plat_data.panel = panel;
-> > >  	dp->plat_data.dev_type = dp->data->chip_type;
-> > >  	dp->plat_data.power_on = rockchip_dp_poweron;
-> > > @@ -464,19 +507,38 @@ static int rockchip_dp_resume(struct device *dev)
-> > >  static DEFINE_RUNTIME_DEV_PM_OPS(rockchip_dp_pm_ops, rockchip_dp_suspend,
-> > >  		rockchip_dp_resume, NULL);
-> > >  
-> > > -static const struct rockchip_dp_chip_data rk3399_edp = {
-> > > -	.lcdc_sel = GRF_REG_FIELD(0x6250, 5, 5),
-> > > -	.chip_type = RK3399_EDP,
-> > > +static const struct rockchip_dp_chip_data rk3399_edp[] = {
-> > > +	{
-> > > +		.lcdc_sel = GRF_REG_FIELD(0x6250, 5, 5),
-> > > +		.chip_type = RK3399_EDP,
-> > > +	},
-> > > +	{ /* sentinel */ }
-> > > +};
-> > > +
-> > > +static const struct rockchip_dp_chip_data rk3288_dp[] = {
-> > > +	{
-> > > +		.lcdc_sel = GRF_REG_FIELD(0x025c, 5, 5),
-> > > +		.chip_type = RK3288_DP,
-> > > +	},
-> > > +	{ /* sentinel */ }
-> > >  };
-> > >  
-> > > -static const struct rockchip_dp_chip_data rk3288_dp = {
-> > > -	.lcdc_sel = GRF_REG_FIELD(0x025c, 5, 5),
-> > > -	.chip_type = RK3288_DP,
-> > > +static const struct rockchip_dp_chip_data rk3588_edp[] = {
-> > > +	{
-> > > +		.edp_mode = GRF_REG_FIELD(0x0000, 0, 0),
-> > > +		.chip_type = RK3588_EDP,
-> > > +	},
-> > > +	{
-> > > +		.edp_mode = GRF_REG_FIELD(0x0004, 0, 0),
-> > > +		.chip_type = RK3588_EDP,
-> > > +	},
-> > > +	{ /* sentinel */ }
-> > >  };
-> > >  
-> > >  static const struct of_device_id rockchip_dp_dt_ids[] = {
-> > >  	{.compatible = "rockchip,rk3288-dp", .data = &rk3288_dp },
-> > >  	{.compatible = "rockchip,rk3399-edp", .data = &rk3399_edp },
-> > > +	{.compatible = "rockchip,rk3588-edp", .data = &rk3588_edp },
-> > >  	{}
-> > >  };
-> > >  MODULE_DEVICE_TABLE(of, rockchip_dp_dt_ids);
-> > > diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
-> > > index 6002c5666031..54086cb2d97d 100644
-> > > --- a/include/drm/bridge/analogix_dp.h
-> > > +++ b/include/drm/bridge/analogix_dp.h
-> > > @@ -15,11 +15,12 @@ enum analogix_dp_devtype {
-> > >  	EXYNOS_DP,
-> > >  	RK3288_DP,
-> > >  	RK3399_EDP,
-> > > +	RK3588_EDP,
-> > >  };
-> > >  
-> > >  static inline bool is_rockchip(enum analogix_dp_devtype type)
-> > >  {
-> > > -	return type == RK3288_DP || type == RK3399_EDP;
-> > > +	return type == RK3288_DP || type == RK3399_EDP || type == RK3588_EDP;
-> > >  }
-> > >  
-> > >  struct analogix_dp_plat_data {
-> > 
-> > 
-> 
-> 
-> 
-> 
-
--- 
-With best wishes
-Dmitry
