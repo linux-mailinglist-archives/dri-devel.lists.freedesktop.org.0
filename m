@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB34A9F4959
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6059F495C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7895A10E90D;
-	Tue, 17 Dec 2024 10:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9038A10E909;
+	Tue, 17 Dec 2024 10:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.nfschina.com (unknown [42.101.60.213])
- by gabe.freedesktop.org (Postfix) with SMTP id 3636E10E66F;
- Mon, 16 Dec 2024 12:47:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with SMTP id CBE6210E652;
+ Mon, 16 Dec 2024 13:04:29 +0000 (UTC)
 Received: from localhost.localdomain (unknown [103.163.180.3])
- by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 297C1602A5E6F; 
- Mon, 16 Dec 2024 20:47:01 +0800 (CST)
+ by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 635BE602A5E7F; 
+ Mon, 16 Dec 2024 21:04:26 +0800 (CST)
 X-MD-Sfrom: zhanxin@nfschina.com
 X-MD-SrcIP: 103.163.180.3
 From: Zhanxin Qi <zhanxin@nfschina.com>
@@ -24,8 +24,8 @@ Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  Zhanxin Qi <zhanxin@nfschina.com>, Duanjun Li <duanjun@nfschina.com>
 Subject: [PATCH v1 v1] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
-Date: Mon, 16 Dec 2024 20:46:52 +0800
-Message-Id: <20241216124652.244776-1-zhanxin@nfschina.com>
+Date: Mon, 16 Dec 2024 21:03:03 +0800
+Message-Id: <20241216130303.246223-1-zhanxin@nfschina.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <Z1_2sugsla44LgIz@cassiopeiae>
 MIME-Version: 1.0
@@ -52,6 +52,7 @@ leak. Add proper cleanup to free the allocated memory.
 
 Fixes: 39b7e6e547ff ("drm/nouveau/nvbios/iccsense: add parsing of the SENSE table")
 
+Cc: stable@vger.kernel.org
 Signed-off-by: Zhanxin Qi <zhanxin@nfschina.com>
 Signed-off-by: Duanjun Li <duanjun@nfschina.com>
 Signed-off-by: Danilo Krummrich <dakr@redhat.com>
