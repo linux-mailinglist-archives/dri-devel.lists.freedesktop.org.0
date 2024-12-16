@@ -2,86 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B7A9F3360
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:41:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595B99F337A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 707AD10E6AD;
-	Mon, 16 Dec 2024 14:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E11410E6AF;
+	Mon, 16 Dec 2024 14:47:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eNQog1+v";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d/EnnraE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB1210E6AD
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:41:34 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-3862d6d5765so2922211f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:41:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1734360093; x=1734964893; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=h4e0o/EChopge9iHDGlCcrGi54fhpHon4WXwZ2Or538=;
- b=eNQog1+v7JQYmfA2ENxQSW9Y8UqnFYL+AEznt14TwClwIE3HFttpKfLQla3jRocDmI
- ZFjKLLwoCWO5MpemfOvH3DE3Mut+aQTWs1a9xtXXRJp4pgg/YrObjdWBLzN1/vbYsm43
- VLTLinAMAJ75XiWyC/IdTKFBfxBlTUuDcKZ3U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734360093; x=1734964893;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=h4e0o/EChopge9iHDGlCcrGi54fhpHon4WXwZ2Or538=;
- b=TsfUUhBRXVvEKyutSXLZ3RBfPOsQxyhiIucd0Cin4UzQ3ZWyybQ8yYJB+/Dmyocu6R
- PKl7Sz6lvfjxXhyXnfh2X8UsH2VDMniyS9gnlVfaD/+zsY80B/acTR2YFvPqHTYiKNFC
- JwBZLo8KIObvVrTdrQItxLhes7wMMptf9wctKUGi1S72W303LLKldtPzl4YJK5+CykcP
- sH3/hbu1Z7xyeY3dbmektiIWiyaVyhfsJRP7Wj+vxbdtmR9XaugjMWhcFOx/14CWo/ES
- bOSy7NMNNr3U2bAb51YoyQE6pUsvKkS9ecY7Dvi0uJj6NfDtLiSknDk7rTbuhWMLA46N
- goBQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVLe90kdKQiPPpzf9J4dobLNPdWKeLrCvKcOYoIc7EB6AYhZKM6BjgUNfY0MWrISMbJU15jt+5UPfY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw6W9M5cyNjLfmI6iDKI0w2VjJ7Jg4ZaAfUA6rzQ2HHtY0TztHk
- KcOLeRC/+1aQmLcpoMoGUMlgdjcJs+zF+eWa6Oj0FM3vRZhPwrmzYLXgAHKGMZU=
-X-Gm-Gg: ASbGnctO/mf7zV8FOXRkt+bmMYeDbjUbpLfXM5fnX1GzfeEC6ITyYrqQuMXDUxHTw9p
- Wh8T7VGLwLp28dofFxYcy0hS6p2sYDEiGkDYMRnr9RvRf77ZGBkOx51XDeL0g2vTEMZSFg2zPGS
- 2WYImSPUxOjkXuZxBUWJoVdzxi0WwUWJr7EuY9vy+BAwxSFLzeWWagcjNIuDNMUn4n+apwT6USE
- vdrnmy7kWCgrP5q+8apvxqGiA8nQsFbodV8KjEe/Rotl7+scBjP/Bd3W3wRkFt6M8/b
-X-Google-Smtp-Source: AGHT+IHNuXaQbcaOzWDlJLVdH2VVVV7M1p7IawdDEoc0b+Y3XGEWD6gvsewijzhv1O9NvZ73cJsOkA==
-X-Received: by 2002:a05:6000:1544:b0:385:f47a:e9d1 with SMTP id
- ffacd0b85a97d-38880ac7641mr8437760f8f.17.1734360092860; 
- Mon, 16 Dec 2024 06:41:32 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-388c8016c0bsm8410974f8f.42.2024.12.16.06.41.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 06:41:32 -0800 (PST)
-Date: Mon, 16 Dec 2024 15:41:30 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Helge Deller <deller@gmx.de>, Jani Nikula <jani.nikula@linux.intel.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
- BACKLIGHT_CLASS_DEVICE
-Message-ID: <Z2A8Guea5d7cZoBj@phenom.ffwll.local>
-References: <20241212100636.45875-1-tzimmermann@suse.de>
- <20241212100636.45875-2-tzimmermann@suse.de>
- <09edb59a-527a-4ddb-bfaf-ea74fb5a3023@gmx.de>
- <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
- <87frmstrhd.fsf@intel.com>
- <2701e824-d330-49c0-88fa-a26658a9710c@gmx.de>
- <5566a3f5-496a-4b39-a0fa-6a1a5af9a67a@suse.de>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8461810E6AF;
+ Mon, 16 Dec 2024 14:47:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7BD8A5C55D7;
+ Mon, 16 Dec 2024 14:46:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BB8C4CED0;
+ Mon, 16 Dec 2024 14:47:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734360446;
+ bh=JQufBhYNhvxemBcGpIoxhHbHqphKAzJDmPsAsEkOhew=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=d/EnnraE9mjVdIfzyMutxmv6JeMj6ZZa2SM1/70AWS9R01elsduJ/hUY0EoG+oofQ
+ /srgzi19y3pk0rUrLhWAbg/oeX9zUC/p1RRS1FYkR0g1CNJn1Nplcf6DUh6U6W+Z+X
+ 8zVp3nNfjHYqb6TjOKc4EXf0sZO7Q5baDuZYyu4nCZLKlx4XCxDi/Yuq8J+USAXTX1
+ cxK80wiaw09FupuVy4ihLq64CoNO/88J/T1UBio85uOkJhBsThegelr2RK+VAy0Qxf
+ cm/pRpM8wGueJiBuDnxN9OQPq11x7bVl/jDW/Rmd1DS8zH+XUJqVj9XztwkT+5ZRXX
+ uDt9oNACU/uCA==
+Date: Mon, 16 Dec 2024 15:47:23 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, quic_abhinavk@quicinc.com,
+ Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, quic_ebharadw@quicinc.com,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v2 02/22] drm: Add valid clones check
+Message-ID: <20241216-elated-vagabond-numbat-14fe8f@houat>
+References: <20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com>
+ <20240924-concurrent-wb-v2-2-7849f900e863@quicinc.com>
+ <20240925-hasty-bald-caribou-eedbf5@houat>
+ <80d08449-71de-4a7f-8b2a-8af565d8d701@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="bbi22kupiprxbtcg"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5566a3f5-496a-4b39-a0fa-6a1a5af9a67a@suse.de>
-X-Operating-System: Linux phenom 6.12.3-amd64 
+In-Reply-To: <80d08449-71de-4a7f-8b2a-8af565d8d701@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,117 +70,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2024 at 08:26:19AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> 
-> Am 13.12.24 um 00:56 schrieb Helge Deller:
-> > On 12/13/24 00:24, Jani Nikula wrote:
-> > > On Thu, 12 Dec 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
-> > > > On Thu, Dec 12, 2024, at 19:44, Helge Deller wrote:
-> > > > > On 12/12/24 11:04, Thomas Zimmermann wrote:
-> > > > > > Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
-> > > > > > only controls backlight support within fbdev core code and data
-> > > > > > structures.
-> > > > > > 
-> > > > > > Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
-> > > > > > select it explicitly. Fixes warnings about recursive dependencies,
-> > > > > > such as [...]
-> > > > > 
-> > > > > I think in the fbdev drivers themselves you should do:
-> > > > >     select BACKLIGHT_CLASS_DEVICE
-> > > > > instead of "depending" on it.
-> > > > > This is the way as it's done in the DRM tiny and the
-> > > > > i915/gma500 DRM drivers.
-> > > > > 
-> > > > > So, something like:
-> > > > > 
-> > > > > --- a/drivers/staging/fbtft/Kconfig
-> > > > >          tristate "Support for small TFT LCD display modules"
-> > > > >          depends on FB && SPI
-> > > > >          depends on FB_DEVICE
-> > > > >     +    select BACKLIGHT_DEVICE_CLASS
-> > > > >          depends on GPIOLIB || COMPILE_TEST
-> > > > >          select FB_BACKLIGHT
-> > > > > 
-> > > > > config FB_BACKLIGHT
-> > > > >             tristate
-> > > > >             depends on FB
-> > > > >     -      select BACKLIGHT_CLASS_DEVICE
-> > > > >     +       depends on BACKLIGHT_CLASS_DEVICE
-> > > > > 
-> > > > > 
-> > > > > Would that fix the dependency warning?
-> > > > 
-> > > > The above is generally a mistake and the root cause of the
-> > > > dependency loops. With very few exceptions, the solution in
-> > > > these cases is to find the inconsistent 'select' and change
-> > > > it into 'depends on'.
-> > > 
-> > > Agreed.
-> > 
-> > That's fine, but my point is that it should be consistent.
-> > For example:
-> > 
-> > ~:/git-kernel/linux$ grep -r "select.*BACKLIGHT_CLASS_DEVICE"
-> > drivers/gpu/
-> > drivers/gpu/drm/tilcdc/Kconfig: select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/nouveau/Kconfig:        select BACKLIGHT_CLASS_DEVICE if
-> > DRM_NOUVEAU_BACKLIGHT
-> > drivers/gpu/drm/nouveau/Kconfig:        select BACKLIGHT_CLASS_DEVICE if
-> > ACPI && X86
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/fsl-dcu/Kconfig:        select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/i915/Kconfig:   select BACKLIGHT_CLASS_DEVICE if ACPI
-> > drivers/gpu/drm/gma500/Kconfig: select BACKLIGHT_CLASS_DEVICE if ACPI
-> > drivers/gpu/drm/amd/amdgpu/Kconfig:     select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/xe/Kconfig:     select BACKLIGHT_CLASS_DEVICE if ACPI
-> > drivers/gpu/drm/solomon/Kconfig:        select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/radeon/Kconfig: select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/renesas/shmobile/Kconfig:       select
-> > BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/gud/Kconfig:    select BACKLIGHT_CLASS_DEVICE
-> > drivers/gpu/drm/bridge/Kconfig: select BACKLIGHT_CLASS_DEVICE
-> > 
-> > All major drm graphics drivers *select* BACKLIGHT_CLASS_DEVICE.
-> > Are you changing them to "depend on" as well?
-> 
-> All these drivers should be changed to either 'depends on' or maybe 'imply'.
 
-Yeah, select on non-leaf/library function Kconfig symbols tends to be a
-complete pain. There's some push to use select so it's easier for people
-to enable complex drivers, but I honestly don't think it's worth it.
-menuconfig can give you a list of things you need to enable first, so it's
-all discoverable enough (but a bit painful to get them all if it's a
-really complex driver with lots of dependencies).
+--bbi22kupiprxbtcg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 02/22] drm: Add valid clones check
+MIME-Version: 1.0
 
-tldr; I concur fully, please no more select but instead less.
--Sima
+On Fri, Dec 06, 2024 at 04:48:43PM -0800, Jessica Zhang wrote:
+> On 9/25/2024 12:23 AM, Maxime Ripard wrote:
+> > On Tue, Sep 24, 2024 at 03:59:18PM GMT, Jessica Zhang wrote:
+> > > Check that all encoders attached to a given CRTC are valid
+> > > possible_clones of each other.
+> > >=20
+> > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> > > ---
+> > >   drivers/gpu/drm/drm_atomic_helper.c | 23 +++++++++++++++++++++++
+> > >   1 file changed, 23 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/dr=
+m_atomic_helper.c
+> > > index 43cdf39019a4..cc4001804fdc 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > > @@ -574,6 +574,25 @@ mode_valid(struct drm_atomic_state *state)
+> > >   	return 0;
+> > >   }
+> > > +static int drm_atomic_check_valid_clones(struct drm_atomic_state *st=
+ate,
+> > > +					 struct drm_crtc *crtc)
+> > > +{
+> > > +	struct drm_encoder *drm_enc;
+> > > +	struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state=
+(state,
+> > > +									  crtc);
+> > > +
+> > > +	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_m=
+ask) {
+> > > +		if ((crtc_state->encoder_mask & drm_enc->possible_clones) !=3D
+> > > +		    crtc_state->encoder_mask) {
+> > > +			DRM_DEBUG("crtc%d failed valid clone check for mask 0x%x\n",
+> > > +				  crtc->base.id, crtc_state->encoder_mask);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >   /**
+> > >    * drm_atomic_helper_check_modeset - validate state object for mode=
+set changes
+> > >    * @dev: DRM device
+> > > @@ -745,6 +764,10 @@ drm_atomic_helper_check_modeset(struct drm_devic=
+e *dev,
+> > >   		ret =3D drm_atomic_add_affected_planes(state, crtc);
+> > >   		if (ret !=3D 0)
+> > >   			return ret;
+> > > +
+> > > +		ret =3D drm_atomic_check_valid_clones(state, crtc);
+> > > +		if (ret !=3D 0)
+> > > +			return ret;
+> > >   	}
+> >=20
+> > Pretty much the same comment, we should have kunit tests for this.
+>=20
+> Hey Maxime,
+>=20
+> I'm working on the kunit test for this and had a question on the design f=
+or
+> the unit test:
+>=20
+> Since this is a static helper that returns a pretty common error code, how
+> would you recommend going about making sure that
+> `drm_atomic_check_valid_clones()` specifically is returning the error (and
+> not a different part of check_modeset) when testing the check_valid_clone=
+s()
+> failure path?
 
-> 
-> Best regards
-> Thomas
-> 
-> > 
-> > Helge
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
+There's two ways to go about it. Either you can unit test it, prepare a
+series of custom states and use
+EXPORT_SYMBOL_FOR_TESTS_ONLY/EXPORT_SYMBOL_IF_KUNIT, or you can go the
+integration test way and just test that drm_atomic_check is rejected for
+unsafe combinations.
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I guess I'd prefer the former, but the latter also makes sense and
+eventually, it checks what we want: to make sure that we reject such a
+state. What part of the code does or with what error code is less
+important imo.
+
+Maxime
+
+--bbi22kupiprxbtcg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2A9dAAKCRAnX84Zoj2+
+dvOyAYCJ4MTDUUUPjeWVnpgIpqjsSEwawghU1myFJzpEbTpc94o9ACzrWCGWDmrQ
+w7jb6WsBfRa5TaXfLn7f5pbM7JonoSiDpJxURO/cLrxjGLw/MLU1eum1wk0zjKGS
+hcULQUGaAw==
+=wlD1
+-----END PGP SIGNATURE-----
+
+--bbi22kupiprxbtcg--
