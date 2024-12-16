@@ -1,85 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B83B9F38EA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 19:28:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 452649F38EC
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 19:28:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A776A10E755;
-	Mon, 16 Dec 2024 18:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B9610E759;
+	Mon, 16 Dec 2024 18:28:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="JTWIjAq0";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="RjghAhZK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B32F10E755
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 18:27:55 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGFgKgq015320;
- Mon, 16 Dec 2024 18:27:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- P3MBJgkWNt+1zBLdfIRA/UwIK+aKTPriY9UIm2BDsow=; b=JTWIjAq0wEeJj0lG
- za1U3OhU2EIKD31fsMk9PItVxQF6dyvdVUYlqbF7jXhS38wyt0qT0+v3UxWg/k/g
- ZWpMLVtiYuukDvjdZRq38PKqDzHYUJfokP69Y4JELAEbnxh2WLpLgAv+P7Aigxw2
- lAuxkbEFrpV5x4omSs4XzM+mBuz3lFQ0qK1LG2BAjumFCGdbkWlP2RJs1DQlKB7b
- Vgo+dRvVKeGIc3m51iU1fnpN22Ulms4viCHTZHYlejCCN19ZfyQ7H7A2n0tZdr8A
- pJ1xhGMFGgEwP0j3ljhbNoOSbQNzd4E6o0+YjqkJamrarM0rgFEKY1IpQPfg8PTN
- F73rBw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jq350e9g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 18:27:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BGIRlBJ013326
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 18:27:47 GMT
-Received: from [10.110.88.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
- 2024 10:27:46 -0800
-Message-ID: <8484df79-6ad8-4702-853f-31d985178607@quicinc.com>
-Date: Mon, 16 Dec 2024 10:27:44 -0800
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F51210E759
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 18:28:34 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-6eff5ad69a1so35947507b3.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:28:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1734373713; x=1734978513;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+ :reply-to; bh=rO0fP7kC0ChLCdFf2h9Dk5fHEcQ84J84WudIRLZjttI=;
+ b=RjghAhZKmDRNBYCHUXzycX9Gr6Avl6uCgipbCyiy/A6IjwyjRCHd3sAr79yWPpzz4+
+ JWlvNEwonxrQz7ajNjqiFJBA+57Q3gZnMPh0A6lYG2CFeMLJFaKEb4eW+ZxBUAom5VLj
+ WhzV6MgKLFSqPMhu8PhsRSL407sp+8psfRYyQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734373713; x=1734978513;
+ h=cc:to:subject:message-id:date:user-agent:from:references
+ :in-reply-to:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rO0fP7kC0ChLCdFf2h9Dk5fHEcQ84J84WudIRLZjttI=;
+ b=G47NV2kXJKRIzumT2tsiNPpUsYBpvTkqm/AWccIp0+iDOLInkQndrXfZzl4czwEdxD
+ GBIpSnuSrZKzWXuI3Z3g8plXdzglqrxUeMceoc751ojcaA+hIQB7XUu2317AEoIHQMFI
+ H68oj8uv0nzerM1IyO2MQ+IxGdaQBOzkPkxGyLHjjEqGdaEweLmgNTQTXDJGUpMIZ0GM
+ eqAQ8fqQDdhvmehcwmNEVzEa2Se6PtV5f1/t9lzNZE1sZ7p8J1TBBBOcTOIDpPQn/e92
+ MasOENVVco1fbqVz+i+luTd5aPMHyUxsFYZjDqTwpalQeqnGHsPK0zhvRssCWDXktQSA
+ 3Icw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLDZoA/6a5AnP9lvYlKX/awO5IQfdWxzrjoM5XlPDGQCUTn1+9pstwcPgq6zkChWnZwnsHi3tsvjI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXdqk7yz2MmOEFTEmyK5k3cbdFpLMXTin1ct9zTcWOYYBKT+Um
+ CZmW39H5SllbhDsRdVU47WFPQfcLKxCyOGbp3gv+TQv5kyIn/1RWHJzLZo8mnqO1F6OC9OuRA6J
+ bMshOKLvWMaGIsgj6unUUZvZZoPrcqiC3LTnw
+X-Gm-Gg: ASbGncvr1IX2ONf/K05rp8XN3y95NtpVg3AJ2JTbZ5UbWd9OE1WbnwcynwIzUTMlB7e
+ giDecP740lB3SABKPk6VbOuezjGFr9emHL7Y98EiEeV30ELaq/RF3pxkEmflKtUqDuw==
+X-Google-Smtp-Source: AGHT+IE4CdB36DYH9vipsU7nBQzIha3QX2anHYVsV1wQT8Ge+vTgkTSbipalEX/mJfncpySK3J6yzUz+Iw2WBcHVy54=
+X-Received: by 2002:a05:690c:6408:b0:6ef:6d61:c249 with SMTP id
+ 00721157ae682-6f2bb3a54c2mr8410207b3.39.1734373713619; Mon, 16 Dec 2024
+ 10:28:33 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 16 Dec 2024 10:28:33 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] drm: Allow encoder modeset when connectors are
- changed
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <dmitry.baryshkov@linaro.org>, <robdclark@gmail.com>
-References: <20241211-abhinavk-modeset-fix-v3-0-0de4bf3e7c32@quicinc.com>
- <20241216-daring-opalescent-herring-bfdc8f@houat>
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241216-daring-opalescent-herring-bfdc8f@houat>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: A9NOT-SK5Om6gI5TeVP1qvnD4OBy27UW
-X-Proofpoint-ORIG-GUID: A9NOT-SK5Om6gI5TeVP1qvnD4OBy27UW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 malwarescore=0 clxscore=1015 mlxlogscore=820 impostorscore=0
- mlxscore=0 suspectscore=0 bulkscore=0 adultscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412160154
+In-Reply-To: <20241216-fd-dp-audio-fixup-v4-2-f8d1961cf22f@linaro.org>
+References: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
+ <20241216-fd-dp-audio-fixup-v4-2-f8d1961cf22f@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Date: Mon, 16 Dec 2024 10:28:32 -0800
+Message-ID: <CAE-0n52uH4q5=QbU7V1jvRmvccAWTF1bOSXZ32j2NxKEKQVhMQ@mail.gmail.com>
+Subject: Re: [PATCH v4 02/16] drm/msm/dp: use msm_dp_utils_pack_sdp_header()
+ for audio packets
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Paloma Arellano <quic_parellan@quicinc.com>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,20 +88,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Quoting Dmitry Baryshkov (2024-12-15 14:44:07)
+> Use msm_dp_utils_pack_sdp_header() and call msm_dp_write_link() directly
+> to program audio packet data. Use 0 as Packet ID, as it was not
+> programmed earlier.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-
-On 12/16/2024 3:06 AM, Maxime Ripard wrote:
-> On Wed, Dec 11, 2024 at 01:18:41PM -0800, Jessica Zhang wrote:
->> Call encoder mode_set() when connectors are changed. This avoids issues
->> for cases where the connectors are changed but CRTC mode is not.
-> 
-> Looks great, thanks a lot for doing the tests :)
-> 
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> 
-> Maxime
-
-Thanks for your feedback.
-
-Can we get an ack to land this through msm tree as part of the series 
-which needed it?
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org> # sc7180-trogdor
