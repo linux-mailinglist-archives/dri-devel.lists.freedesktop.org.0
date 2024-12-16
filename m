@@ -1,59 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9243F9F2F7D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 12:35:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2EB9F2FB3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 12:45:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E9A10E5CC;
-	Mon, 16 Dec 2024 11:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8713410E5D6;
+	Mon, 16 Dec 2024 11:45:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="I1LoHCoq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HBtpCDPi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CF4210E5C1;
- Mon, 16 Dec 2024 11:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
- s=mail; t=1734348890;
- bh=y5VdIlFmZrN99wi17sHDS/2XA6J1JYaGxHyZF4VUIi4=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=I1LoHCoq945+zGqi2IJw4PxdFgsNnMEsCh+MDvewdAwWOrbvQ6KLSiNTIbLg5yzn1
- jcN/lq3bd/ulKW8+VJAlilAJWJHswSCyZg3KwsVTXZlMx816S/1SrZ9k6QbcliP1NA
- lz2vqXg8r3nA+XBY8L+mzkSccVgIdg/yYTKDS9KM=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 16 Dec 2024 12:34:51 +0100
-Subject: [PATCH 5/5] drm/amd/display: Constify 'struct bin_attribute'
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24A8210E5D0;
+ Mon, 16 Dec 2024 11:45:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 847675C5C19;
+ Mon, 16 Dec 2024 11:44:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6361C4CED0;
+ Mon, 16 Dec 2024 11:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734349521;
+ bh=WTOoaCm/YBEOFwnlmetmHLAw1bQPebroxLWPCI/KuzE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HBtpCDPiiLGdhIMrs2nzQ0gaX8GQiSsbg9IRMMdwgeEWTJCnNRfPkkmDlopn93+fP
+ u5oSbwSqUdfqmE7hS5WiQX1dzbzp45l3N5c4e1ehPquM9rmKBbnMys3d+m7/y4n1H5
+ bQ8ad1/0Pm75iGknuobmgc+RpZi27qyyPKi2Hgc6wOPPiSkZnW2oVouZWDszqNicHG
+ XCZdZTb6GR2y6wanoeCcIoaaSmBmm7B3dgC5u0IThQejxFZQO1OcPn1+wAVQD92V/c
+ UHnZVrhmspfqU2KxRdnpsLGXuFBB6DvgjYcHmDphhnmKJHYNmqUFcotBPusfs+7u2B
+ vqn1QQEUnY/vg==
+Date: Mon, 16 Dec 2024 12:45:15 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 0/2] drm/nouveau: remove drm_encoder_slave interface
+Message-ID: <Z2ASy3TQ4suupdvd@cassiopeiae>
+References: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241216-sysfs-const-bin_attr-drm-v1-5-210f2b36b9bf@weissschuh.net>
-References: <20241216-sysfs-const-bin_attr-drm-v1-0-210f2b36b9bf@weissschuh.net>
-In-Reply-To: <20241216-sysfs-const-bin_attr-drm-v1-0-210f2b36b9bf@weissschuh.net>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Qiang Yu <yuq825@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, Harry Wentland <harry.wentland@amd.com>, 
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- lima@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734348889; l=1989;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=y5VdIlFmZrN99wi17sHDS/2XA6J1JYaGxHyZF4VUIi4=;
- b=CINJ3HLrSMhMcfUsU7NZIyH1+y1/TzIm0rkb5ETIxXa+H/f3F/O5bIuXKhuLkCFAOgO1NyygM
- 0FozzyXfHeLAjv++M4Tndb+I24Twp4TVweWBj+rGRLNhapMZs6RYICv
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,49 +63,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The sysfs core now allows instances of 'struct bin_attribute' to be
-moved into read-only memory. Make use of that to protect them against
-accidental or malicious modifications.
+On Sun, Dec 15, 2024 at 12:19:22PM +0200, Dmitry Baryshkov wrote:
+> The nouveau driver is the only user of the drm_encoder_slave interface.
+> Demote it from KMS helpers module to the nouveau driver itself, moving
+> corresponding I2C encoders to be handled by nouveau driver too.
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+I understand nouveau is the only driver using this interface (and the
+corresponding i2c encoders).
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-index e339c7a8d541c962aa44ae25ad97b864285394b8..e27d077396327bbe25014aec5b978293b1c20dac 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_hdcp.c
-@@ -614,7 +614,7 @@ static void update_config(void *handle, struct cp_psp_stream_config *config)
-  *	incorrect/corrupted and we should correct our SRM by getting it from PSP
-  */
- static ssize_t srm_data_write(struct file *filp, struct kobject *kobj,
--			      struct bin_attribute *bin_attr, char *buffer,
-+			      const struct bin_attribute *bin_attr, char *buffer,
- 			      loff_t pos, size_t count)
- {
- 	struct hdcp_workqueue *work;
-@@ -638,7 +638,7 @@ static ssize_t srm_data_write(struct file *filp, struct kobject *kobj,
- }
- 
- static ssize_t srm_data_read(struct file *filp, struct kobject *kobj,
--			     struct bin_attribute *bin_attr, char *buffer,
-+			     const struct bin_attribute *bin_attr, char *buffer,
- 			     loff_t pos, size_t count)
- {
- 	struct hdcp_workqueue *work;
-@@ -698,8 +698,8 @@ static ssize_t srm_data_read(struct file *filp, struct kobject *kobj,
- static const struct bin_attribute data_attr = {
- 	.attr = {.name = "hdcp_srm", .mode = 0664},
- 	.size = PSP_HDCP_SRM_FIRST_GEN_MAX_SIZE, /* Limit SRM size */
--	.write = srm_data_write,
--	.read = srm_data_read,
-+	.write_new = srm_data_write,
-+	.read_new = srm_data_read,
- };
- 
- struct hdcp_workqueue *hdcp_create_workqueue(struct amdgpu_device *adev,
+However, I'm not quite seeing the advantage of folding the interface (including
+the two i2c drivers) into nouveau. I don't think this legacy interface does harm
+the subsystem in any way / does prevent the subsystem from moving forward.
 
--- 
-2.47.1
+Can't we just keep it as it is?
 
+> 
+> Ideally those two drivers should be converted to the drm_bridge
+> interface, but it's unclear if it's worth spending time on that.
+
+Probably not.
+
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Changes in v2:
+> - Renamed symbols in defconfig (Laurent)
+> - Added missing Kbuild file (Laurent, LKP)
+> - Renamed guarding defines in include files.
+> - Dropped mentions of two removed functions.
+> - Link to v1: https://lore.kernel.org/r/20241214-nouveau-encoder-slave-v1-0-beda767472e3@linaro.org
+> 
+> ---
+> Dmitry Baryshkov (2):
+>       drm/nouveau: incorporate I2C TV encoder drivers
+>       drm/nouveau: vendor in drm_encoder_slave API
+> 
+>  arch/arm/configs/multi_v7_defconfig                |   4 +-
+>  arch/parisc/configs/generic-32bit_defconfig        |   4 +-
+>  arch/parisc/configs/generic-64bit_defconfig        |   4 +-
+>  drivers/gpu/drm/Makefile                           |   1 -
+>  drivers/gpu/drm/i2c/Kconfig                        |  18 ----
+>  drivers/gpu/drm/i2c/Makefile                       |   6 --
+>  drivers/gpu/drm/nouveau/Kconfig                    |  20 ++++
+>  drivers/gpu/drm/nouveau/dispnv04/Kbuild            |   3 +
+>  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  12 +--
+>  drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild        |   5 +
+>  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_drv.c    |  30 +++---
+>  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_mode.c   |   8 +-
+>  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_priv.h   |  11 ++-
+>  .../drm/{ => nouveau/dispnv04}/i2c/sil164_drv.c    |  33 ++++---
+>  .../dispnv04/nouveau_i2c_encoder.c}                |  85 +++++-----------
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  20 ++--
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |   4 +-
+>  .../gpu/drm/nouveau/include}/i2c/ch7006.h          |   4 +-
+>  .../gpu/drm/nouveau/include/i2c/encoder_i2c.h      | 109 ++++++++-------------
+>  .../gpu/drm/nouveau/include}/i2c/sil164.h          |   4 +-
+>  drivers/gpu/drm/nouveau/nouveau_connector.c        |   6 +-
+>  drivers/gpu/drm/nouveau/nouveau_encoder.h          |  13 +--
+>  22 files changed, 172 insertions(+), 232 deletions(-)
+> ---
+> base-commit: 4176cf5c5651c33769de83bb61b0287f4ec7719f
+> change-id: 20241214-nouveau-encoder-slave-a6dd422fa4a9
+> 
+> Best regards,
+> -- 
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
