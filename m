@@ -1,53 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54259F28D6
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 04:39:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 778BA9F29B2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 06:45:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A714810E50C;
-	Mon, 16 Dec 2024 03:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F8C110E08F;
+	Mon, 16 Dec 2024 05:45:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="bUWM8lu7";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gmA9RupJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m127170.xmail.ntesmail.com
- (mail-m127170.xmail.ntesmail.com [115.236.127.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68E8910E50C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 03:39:03 +0000 (UTC)
-Received: from [172.16.12.67] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 5d068538;
- Mon, 16 Dec 2024 11:39:00 +0800 (GMT+08:00)
-Message-ID: <2c1331d8-5b3c-45ef-b116-01a0b11abf34@rock-chips.com>
-Date: Mon, 16 Dec 2024 11:39:00 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 207DC10E08F;
+ Mon, 16 Dec 2024 05:45:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734327935;
+ bh=NFnPSyCtd3ps3+TJDsq8UKYTFYz9rkyKLyypRCEEKE0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=gmA9RupJYdqiZ5WAtJIcA7FVRT/WYvzjGt083zjvZGti+W8H7BEziuMuV9Rc7L4e8
+ ct7bz7ajOqtyQtEYsxHCKdaFLlKOgbSznw4Pc7A6gUlq9BwFtuScEhPsTcCLlcNNkN
+ KhEsi6Ok9gyixXZfH40KJsqdjPuOBQYt4wAZ50Xx7XHqynmIyuwwW3yWHMqJysce8D
+ QYRMVP2ilWqozEDBYFtlho+8YFdGNgyfjuOxJJd+i7Re8eTSwWoRQn+40OIoKq5P2w
+ /jCnkF6wcqy8whklKd5HBJKhMkeG2E9oJvztnbA1cQg9CdvWv8xgWy/3PAkSlqo5KD
+ cKe1GjtN4SCtQ==
+Received: from [192.168.50.250] (unknown [171.76.86.135])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C069517E10C2;
+ Mon, 16 Dec 2024 06:45:29 +0100 (CET)
+Message-ID: <8edba6c9-cf7d-4616-8791-65abd108f538@collabora.com>
+Date: Mon, 16 Dec 2024 11:15:24 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/rockchip: Fix Copyright description
-To: Andy Yan <andyshrk@163.com>, heiko@sntech.de
-Cc: sebastian.reichel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- Andy Yan <andy.yan@rock-chips.com>
-References: <20241212124344.3121514-1-andyshrk@163.com>
+Subject: Re: [PATCH] drm/ci: add kms_cursor_legacy@torture-bo to apq8016 flakes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+References: <20241204-cursor_tor_skip-v1-1-f5f0bba5df7b@quicinc.com>
+ <193931869a5.f923adf2270026.8321075661083367617@collabora.com>
+ <20a3955e-3d10-47c5-8e68-d70342805010@quicinc.com>
+ <19393604e18.f9b6fe7d298023.1937039548910081216@collabora.com>
+ <a03ae7e8-391e-4303-91fc-15a59979fd2a@quicinc.com>
+ <ed90ca8c-ed81-419f-a5db-a4e8bcd35835@collabora.com>
+ <ac13139d-1cbf-47dd-b200-1a511ffc9453@quicinc.com>
 Content-Language: en-US
-From: Kever Yang <kever.yang@rock-chips.com>
-In-Reply-To: <20241212124344.3121514-1-andyshrk@163.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <ac13139d-1cbf-47dd-b200-1a511ffc9453@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkkZSFZLGENLTE8ZH09MSkhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a93cd8c3d9703afkunm5d068538
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MU06Sjo*GTIPLiE#TjYcSE0a
- TFYwFCNVSlVKTEhPSElLSE9KTktPVTMWGhIXVRAeDR4JVQIaFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKTklPSzcG
-DKIM-Signature: a=rsa-sha256;
- b=bUWM8lu7JaVdvNeO/oa/b00QZke+CcONJbMiFMcGq3GOvmFaqPm465RuuUIuVdgeKJCb1YG1ejGMilMthIeT990cUTMA/vQP0ljPfsdBnA+YyIGDb9rnBoZbmXjtZfBFx3myHObzZJawg4uytWhw9y9kWZjU7b/fSuS6R155Iho=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=MlYAOJJvUyoj9w3d0T4l2FqUYXNERU/TZG70Faevmwc=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,360 +76,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Abhinav,
 
-On 2024/12/12 20:43, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
->
-> The company name has update to Rockchip Electronics Co., Ltd.
-> since 2021.
-> And change Co.Ltd to Co., Ltd. to fix mail server warning:
-> DBL_SPAM(6.50)[co.ltd:url];
->
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Reviewed-by: Kever Yang <kever.yang@rock-chips. com>
+On 14/12/24 01:09, Abhinav Kumar wrote:
+> Hi Vignesh
+> 
+> On 12/11/2024 9:10 PM, Vignesh Raman wrote:
+>> Hi Abhinav / Helen,
+>>
+>> On 12/12/24 01:48, Abhinav Kumar wrote:
+>>> Hi Helen / Vignesh
+>>>
+>>> On 12/4/2024 12:33 PM, Helen Mae Koike Fornazier wrote:
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> ---- On Wed, 04 Dec 2024 16:21:26 -0300 Abhinav Kumar  wrote ---
+>>>>
+>>>>   > Hi Helen
+>>>>   >
+>>>>   > On 12/4/2024 11:14 AM, Helen Mae Koike Fornazier wrote:
+>>>>   > > Hi Abhinav,
+>>>>   > >
+>>>>   > > Thanks for your patch.
+>>>>   > >
+>>>>   > >
+>>>>   > >
+>>>>   > > ---- On Wed, 04 Dec 2024 15:55:17 -0300 Abhinav Kumar  wrote ---
+>>>>   > >
+>>>>   > >   > From the jobs [1] and [2] of pipeline [3], its clear that
+>>>>   > >   > kms_cursor_legacy@torture-bo is most certainly a flake and
+>>>>   > >   > not a fail for apq8016. Mark the test accordingly to match 
+>>>> the results.
+>>>>   > >   >
+>>>>   > >   > [1] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481
+>>
+>> The test passes - 
+>> kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
+>>
+> 
+> Yes, thats the problem
+> 
+> https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481/viewer#L2696
+> 
+> 24-12-04 03:51:55 R SERIAL> [  179.241309] [IGT] kms_cursor_legacy: 
+> finished subtest all-pipes, SUCCESS
+> 24-12-04 03:51:55 R SERIAL> [  179.241812] [IGT] kms_cursor_legacy: 
+> finished subtest torture-bo, SUCCESS
+> 
+> Here it passes whereas it was marked a failure. Hence pipeline fails.
 
-Thanks,
-- Kever
-> ---
->
->   drivers/gpu/drm/rockchip/analogix_dp-rockchip.c | 2 +-
->   drivers/gpu/drm/rockchip/cdn-dp-core.c          | 2 +-
->   drivers/gpu/drm/rockchip/cdn-dp-reg.c           | 2 +-
->   drivers/gpu/drm/rockchip/cdn-dp-reg.h           | 2 +-
->   drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 2 +-
->   drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c     | 2 +-
->   drivers/gpu/drm/rockchip/inno_hdmi.c            | 2 +-
->   drivers/gpu/drm/rockchip/inno_hdmi.h            | 2 +-
->   drivers/gpu/drm/rockchip/rk3066_hdmi.c          | 2 +-
->   drivers/gpu/drm/rockchip/rk3066_hdmi.h          | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.c     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_drv.h     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_fb.c      | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_fb.h      | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_gem.c     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_gem.h     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_vop.c     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_vop.h     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_drm_vop2.h    | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_lvds.c        | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_lvds.h        | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_rgb.c         | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_rgb.h         | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_vop2_reg.c    | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_vop_reg.c     | 2 +-
->   drivers/gpu/drm/rockchip/rockchip_vop_reg.h     | 2 +-
->   26 files changed, 26 insertions(+), 26 deletions(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> index 546d13f19f9b..02876eb66e94 100644
-> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
-> @@ -2,7 +2,7 @@
->   /*
->    * Rockchip SoC DP (Display Port) interface driver.
->    *
-> - * Copyright (C) Fuzhou Rockchip Electronics Co., Ltd.
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author: Andy Yan <andy.yan@rock-chips.com>
->    *         Yakir Yang <ykk@rock-chips.com>
->    *         Jeff Chen <jeff.chen@rock-chips.com>
-> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-> index ff9d95e2c4d4..4b28121ffa42 100644
-> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author: Chris Zhong <zyw@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.c b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-> index 33fb4d05c506..924fb1d3ece2 100644
-> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author: Chris Zhong <zyw@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-reg.h b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
-> index c7780ae3272a..13ed8cbdbafa 100644
-> --- a/drivers/gpu/drm/rockchip/cdn-dp-reg.h
-> +++ b/drivers/gpu/drm/rockchip/cdn-dp-reg.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author: Chris Zhong <zyw@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> index 1b64b6e39cc8..3398160ad75e 100644
-> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0+
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:
->    *      Chris Zhong <zyw@rock-chips.com>
->    *      Nickey Yang <nickey.yang@rock-chips.com>
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> index 42bda4ffbbbd..e7a6669c46b0 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-or-later
->   /*
-> - * Copyright (c) 2014, Fuzhou Rockchip Electronics Co., Ltd
-> + * Copyright (c) 2014, Rockchip Electronics Co., Ltd.
->    */
->   
->   #include <linux/clk.h>
-> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> index b58e2a29294b..898d90155057 100644
-> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    *    Zheng Yang <zhengyang@rock-chips.com>
->    *    Yakir Yang <ykk@rock-chips.com>
->    */
-> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.h b/drivers/gpu/drm/rockchip/inno_hdmi.h
-> index a7edf3559e60..8b7ef3fac485 100644
-> --- a/drivers/gpu/drm/rockchip/inno_hdmi.h
-> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    *    Zheng Yang <zhengyang@rock-chips.com>
->    *    Yakir Yang <ykk@rock-chips.com>
->    */
-> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-> index b0fc8ace2e41..403336397214 100644
-> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    *    Zheng Yang <zhengyang@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.h b/drivers/gpu/drm/rockchip/rk3066_hdmi.h
-> index 39a31c62a428..c3598ba7428c 100644
-> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.h
-> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0 */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    *    Zheng Yang <zhengyang@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> index 3e9f590c734e..bf1d4c5599fa 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    *
->    * based on exynos_drm_drv.c
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-> index 24b4ce5ceaf1..8bcce08a34d9 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    *
->    * based on exynos_drm_drv.h
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> index cfe8b793d344..dcc1f07632c3 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
-> index bae4e079dfb1..5179026b12d6 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> index 93ed841f5dce..6330b883efc3 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> index 72f59ac6d258..cdeae36b91a1 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_gem.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> index 69900138295b..57747f1cff26 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-> index 0cf512cc1614..f04c9731ae7b 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> index 2995988ef559..ca3f1613d51c 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-> index aba733736ff7..385cf6881504 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:
->    *      Mark Yao <mark.yao@rock-chips.com>
->    *      Sandy Huang <hjc@rock-chips.com>
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.h b/drivers/gpu/drm/rockchip/rockchip_lvds.h
-> index 4ce967d23813..ca83d7b6bea7 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:
->    *      Sandy Huang <hjc@rock-chips.com>
->    *      Mark Yao <mark.yao@rock-chips.com>
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> index dbfbde24698e..811020665120 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:
->    *      Sandy Huang <hjc@rock-chips.com>
->    */
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.h b/drivers/gpu/drm/rockchip/rockchip_rgb.h
-> index 1bd4e20e91eb..116f958b894d 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_rgb.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0 */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:
->    *      Sandy Huang <hjc@rock-chips.com>
->    */
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> index 4ee56ad7b811..cbabec73685b 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author: Andy Yan <andy.yan@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-> index 8998967f0c00..4e2099d86517 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.c
-> @@ -1,6 +1,6 @@
->   // SPDX-License-Identifier: GPL-2.0-only
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
-> index fbf1bcc68625..addf8ca085f6 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_vop_reg.h
-> @@ -1,6 +1,6 @@
->   /* SPDX-License-Identifier: GPL-2.0-only */
->   /*
-> - * Copyright (C) Fuzhou Rockchip Electronics Co.Ltd
-> + * Copyright (C) Rockchip Electronics Co., Ltd.
->    * Author:Mark Yao <mark.yao@rock-chips.com>
->    */
->   
+Yes it fails due to,
+
+Unexpected results:
+  kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
+
+In this case, we need to remove this test from fails.txt
+
+> 
+>>>>   > >   > [2] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430
+>>
+>> There are no test failures
+>>
+> 
+> No, thats not true
+> 
+> https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430/viewer#L2694
+> 
+> 24-12-04 04:18:38 R SERIAL> [  170.379649] Console: switching to colour 
+> dummy device 80x25
+> 24-12-04 04:18:38 R SERIAL> [  170.379938] [IGT] kms_cursor_legacy: 
+> executing
+> 24-12-04 04:18:38 R SERIAL> [  170.393868] [IGT] kms_cursor_legacy: 
+> starting subtest torture-bo
+> 24-12-04 04:18:38 R SERIAL> [  170.394186] [IGT] kms_cursor_legacy: 
+> starting dynamic subtest pipe-A
+> 24-12-04 04:18:38 R SERIAL> [  170.661749] [IGT] kms_cursor_legacy: 
+> finished subtest pipe-A, FAIL
+> 24-12-04 04:18:38 R SERIAL> [  170.662060] [IGT] kms_cursor_legacy: 
+> starting dynamic subtest all-pipes
+> 24-12-04 04:18:38 R SERIAL> [  170.713237] [IGT] kms_cursor_legacy: 
+> finished subtest all-pipes, FAIL
+> 24-12-04 04:18:38 R SERIAL> [  170.713513] [IGT] kms_cursor_legacy: 
+> finished subtest torture-bo, FAIL
+> 24-12-04 04:18:38 R SERIAL> [  170.721263] [IGT] kms_cursor_legacy: 
+> exiting, ret=98
+> 24-12-04 04:18:38 R SERIAL> [  170.737857] Console: switching to colour 
+> frame buffer device 128x48
+> 
+> Please check these logs, the torture-bo test-case did fail. The pipeline 
+> was marked pass because it was an expected fail.
+> 
+> So we have two pipelines, where one failed and the other passed. So 
+> thats a flake for me.
+
+Yes agree. So if we had removed the test from fails, deqp-runner would 
+have reported this as flake.
+
+deqp-runner runs the test and if it fails, it retries. If the test 
+passes on retry, it is reported as a flake.
+
+> 
+>>>>   > >   > [3]: 
+>>>> https://gitlab.freedesktop.org/drm/msm/-/pipelines/1322770
+>>
+>> The job is same as 2
+>>
+>> In this case, the test passes and deqp-runner does not report it as 
+>> flake. So we only need to remove it from fails file.
+>>
+> 
+> No, like I mentioned above we have a pass and a fail.
+> 
+>>
+>>>>   > >   >
+>>>>   > >   > Signed-off-by: Abhinav Kumar quic_abhinavk@quicinc.com>
+>>>>   > >   > ---
+>>>>   > >   >  drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt | 5 +++++
+>>>>   > >   >  1 file changed, 5 insertions(+)
+>>>>   > >   >
+>>>>   > >   > diff --git 
+>>>> a/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt 
+>>>> b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>>>>   > >   > new file mode 100644
+>>>>   > >   > index 000000000000..18639853f18f
+>>>>   > >   > --- /dev/null
+>>>>   > >   > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>>>>   > >   > @@ -0,0 +1,5 @@
+>>>>   > >   > +# Board Name: msm-apq8016-db410c
+>>>>   > >   > +# Failure Rate: 100
+>>>>   > >
+>>>>   > > Is failure rate is 100%, isn't it a fail than?
+>>>>   > > (I know we have other cases with Failure Rate: 100, maybe we 
+>>>> should fix them as well)
+>>>>   > >
+>>>>   >
+>>>>   > Maybe I misunderstood the meaning of "Failure rate" for a flake.
+>>>>   >
+>>>>   > I interpreted this as this test being flaky 100% of the time :)
+>>>>
+>>>> Ah right, I see, inside deqp-runner (that auto-retries).
+>>>>
+>>>> I'd like to hear Vignesh's opinion on this.
+>>>>
+>>>> (In any case, we probably should document this better)
+>>
+>> deqp-runner reports new (not present in flakes file) or known (present 
+>> in flakes file) flakes
+>>
+>> 2024-12-11 07:25:44.709666: Some new flakes found:
+>> 2024-12-11 07:25:44.709676:   kms_lease@page-flip-implicit-plane
+>>
+>> 2024-12-11 13:15:16.482890: Some known flakes found:
+>> 2024-12-11 13:15:16.482898: 
+>> kms_async_flips@async-flip-with-page-flip-events-atomic
+>>
+>> we add it to flakes file if deqp runner reports new flakes. Another 
+>> case where we update flake tests is when a test passes in one run but 
+>> fails in another, but deqp-runner does not report it as flake.
+>>
+>> Regards,
+>> Vignesh
+>>
+> 
+> The confusion here i guess is about what to mention as a "Failure rate"
+> 
+> Failure rate means how many times it fails (like normally) ? In that 
+> case 100% which I used is wrong and I used 33% instead for which I have 
+> pushed v2.
+
+Yes, 33% is correct and please remove this test from fails.txt
+
+Regards,
+Vignesh
+
+> 
+>>>>
+>>>> Regards,
+>>>> Helen
+>>>>
+>>>
+>>> Can you let me know which way we need to go?
+>>>
+>>> Just in case I did post a v2 fixing this, 
+>>> https://patchwork.freedesktop.org/patch/627276/
+>>>
+>>> If thats the way to go, can you pls take a look?
+>>>
+>>> Thanks
+>>>
+>>> Abhinav
+>>>>   >
+>>>>   > Out of the 3 runs of the test, it passed 2/3 times and failed 1/3.
+>>>>   >
+>>>>   > So its fail % actually is 33.33% in that case.
+>>>>   >
+>>>>   > I think I saw a Failure rate of 100% on 
+>>>> msm-sm8350-hdk-flakes.txt and
+>>>>   > mistook that as the rate at which flakes are seen.
+>>>>   >
+>>>>   > Let me fix this up as 33%
+>>>>   >
+>>>>   > > Regards,
+>>>>   > > Helen
+>>>>   > >
+>>>>   > >   > +# IGT Version: 1.28-ga73311079
+>>>>   > >   > +# Linux Version: 6.12.0-rc2
+>>>>   > >   > +kms_cursor_legacy@torture-bo
+>>>>   > >   >
+>>>>   > >   > ---
+>>>>   > >   > base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
+>>>>   > >   > change-id: 20241204-cursor_tor_skip-9d128dd62c4f
+>>>>   > >   >
+>>>>   > >   > Best regards,
+>>>>   > >   > --
+>>>>   > >   > Abhinav Kumar quic_abhinavk@quicinc.com>
+>>>>   > >   >
+>>>>   > >   >
+>>>>   > >
+>>>>   >
+>>>>
