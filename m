@@ -2,170 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15CA9F31DB
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBC39F31E7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:47:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D56D10E687;
-	Mon, 16 Dec 2024 13:44:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEB410E688;
+	Mon, 16 Dec 2024 13:46:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QhgPnUR6";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="RBJaotQr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2069.outbound.protection.outlook.com [40.107.243.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB96110E683;
- Mon, 16 Dec 2024 13:44:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Etl0HL/NybgRpnunbGGCziPKgUuqb5/68an6WzYfbbhPGu36UyJIkNuW2Px2HU8hyhDC2Ad4QCxSK979YQeqmXerFrx5C+ikNLlIraZ96tVfQChoVtT9plsMb2aHFCK976TycpOrUN2ZF4/VtIk4FVC4d57lDd7MzhHPk3C7nvqIPRGuLsBNvnefjvfilo8VqAhMfw7Xb134/SXhR7LFS6a757wGBkP+GijIZmCj66QDwSgjtAgPT3fL8yz92oX42tysPFWHf76miLhLaaD6n+bg0jVXB06hycst6DysUKDPxzrJkdM2VV3b/m7ljNUenWvs/yC2+fcmwm4gh2RfMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2P151CmXS3jmMec7D+i0kqzATQcfDyZcPO38Bz6s6fM=;
- b=bERgFfKn6vqMoYJ9/VJXYH8pqvD6RNRA+jvq7wm+3f+n1YLC6hvJwGvUROmqsc6hzqka5lgSatT6RWMDRBUwHqeSG93qSv4imKzPeudQMrsq5m6GXDdjqxtyDPGJ6EpuhFFeNxivjydbNMmld88gGaMU09WEVmIb/n0kLyXSvxuMVVLW/RmVQuXjOcXhTDB1/fPqTq00VTC6i56YZru5bJziTCD3oegrVzGMIWU+gYGMw6xtvJWRsCXDxYbA68V3w2zLmpoV3MhbVstCEJ0Z18vVUf1ieKM1+XR7+8eYwkw/Ty539KWjEAnoF2bApTPfYrCJef5OzRByP3hQo1hUcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2P151CmXS3jmMec7D+i0kqzATQcfDyZcPO38Bz6s6fM=;
- b=QhgPnUR6XzkDYTGB8+3H+BZjHAyhbGnKyBs1NKPwMJK683BYfX90kOtkGNMWJ1/555NepufoRZo1cieCdMcgAlLKit5sckY3MjilU1h5Ff/ub2dtnzJm0MWVMRmLrp/6RNJgcYvhCWIqCOnXkMd6ewLrTx2GOZmu5FGQjqbMg9s=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS0PR12MB7804.namprd12.prod.outlook.com (2603:10b6:8:142::5) by
- CY8PR12MB7193.namprd12.prod.outlook.com (2603:10b6:930:5b::16) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8251.18; Mon, 16 Dec 2024 13:44:49 +0000
-Received: from DS0PR12MB7804.namprd12.prod.outlook.com
- ([fe80::8327:d71a:ce21:a290]) by DS0PR12MB7804.namprd12.prod.outlook.com
- ([fe80::8327:d71a:ce21:a290%7]) with mapi id 15.20.8251.015; Mon, 16 Dec 2024
- 13:44:49 +0000
-Message-ID: <7fbcacfc-7ade-4ae5-8e2c-b2793a63c1e4@amd.com>
-Date: Mon, 16 Dec 2024 19:14:37 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/amdgpu: Use device wedged event
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, Raag Jadav <raag.jadav@intel.com>,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com,
- "Sharma, Shashank" <Shashank.Sharma@amd.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20241212190909.28559-1-andrealmeid@igalia.com>
- <20241212190909.28559-2-andrealmeid@igalia.com>
- <d9f2583d-da79-4532-90fc-85028e977ceb@amd.com>
- <c7c498f0-2ee3-42f5-9b45-c87e52ffc3e4@igalia.com>
- <Z1xGe1X_XzB00J1Q@black.fi.intel.com>
- <ed83b0a1-62d1-48e5-ac7b-478be3043733@igalia.com>
- <28d7dcd8-ed3f-4e52-b7fa-c348a827085d@amd.com>
- <7c64746a-c1f6-46c6-a97f-cfd87e9ec3b7@amd.com>
- <5f7dd8ac-e8cc-4a40-b636-9917d82e27f5@igalia.com>
- <84b6dc5b-8c97-4c8d-8995-78cf88b883fc@amd.com>
- <8d6395fc-8143-4099-a9d6-b13d450d7fd7@igalia.com>
- <6028b434-2be7-453a-9be8-bf2e85c0756f@amd.com>
- <18343eaf-7eb3-481c-ad99-9e6fcd837c39@amd.com>
-Content-Language: en-US
-From: "Lazar, Lijo" <lijo.lazar@amd.com>
-In-Reply-To: <18343eaf-7eb3-481c-ad99-9e6fcd837c39@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BMXPR01CA0081.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:54::21) To DS0PR12MB7804.namprd12.prod.outlook.com
- (2603:10b6:8:142::5)
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D8810E688
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 13:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=9ui19pdFWI6XU8mJCKSrpFmXJFE2UkYGp8t6YsQ9Mj4=; b=RBJaotQr9PEwYK5r
+ MbP3Zeo0v7tgJ8suCINaU/eWxkbK5XGBcq8Q7WMrby8xh6uTDxxZujyt0t5PR0qqHjINa0fWpIuJj
+ /V6p9b5TWfoW3LWE+/+jWn9mUZwyp+bx01dt0fCbBhZ2eMACAYVBy2eCzbSTA4SLnrDc6v9xk1QWP
+ GbANvvGTHjW2UeBdEc8QhQGq1AOWUpk01EDvsf7wKEAeLuzdZf5Ocz3WHsvEPGCJMFtxdH024weAV
+ bz/cfGJ3NmottId76FZhaZ3vimwNGNe3GRuHZSrRAJSGpOB2ZFL7bkGBlLKLMyQ8qCaHfLRkFJE6G
+ pisPZRdbk2CXQ7tU4g==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1tNBQx-005cGx-0m;
+ Mon, 16 Dec 2024 13:46:51 +0000
+Date: Mon, 16 Dec 2024 13:46:51 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: kraxel@redhat.com, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: a bochs-drm (?) oops on head
+Message-ID: <Z2AvS_8xgBhnF4CW@gallifrey>
+References: <Z18dbfDAiFadsSdg@gallifrey>
+ <b2e2a217-dced-472f-9084-9822f7e6803c@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7804:EE_|CY8PR12MB7193:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0727b5b7-86fe-4d33-d470-08dd1dd7cf26
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dHQ1S1VGYkZYUmFER1RuOTBrSlNDME5aQnRSd09zN3d3VlVIS0pSa0dGUjhZ?=
- =?utf-8?B?MTd3T0ZkZTk1WWYzVE52N09mWHhpTXVBMlBzb0Uwd1F1bzRXUm5XZXVSWHZq?=
- =?utf-8?B?L0crMncrSWUzSVI5eE9LTlhCM0d4MmpaNDRTZGV5eUpZWHlsd2g1OGlWM2g4?=
- =?utf-8?B?YjgwbWpmRDR2N2h0VDA4TG4xcVFzR0QwMm1QcEtQWTBxNzFTNlZqSHozZkJT?=
- =?utf-8?B?cEk1T3RUQ08vSGZrS3hxWUZHQ1lIdmhzcHhmMjV0cTJvaCtKaDhFdlZhVUFM?=
- =?utf-8?B?ZjBkV0dOMzU4cGtMcjR0NFNYNTZCd3ltNCtIaUpTSlJaQzdnL0FFUnFRS2dZ?=
- =?utf-8?B?dUMwdUROOXVTRGJUTnZ0Nlc5NVJ4QUlLNUEvcmxCRUhmVk1KcDBYRllsamFi?=
- =?utf-8?B?dmw1M3hVMGRnOU5ZU1J1M3BHTG5QRXBjMmVQNjlUM2ZtTFUwb0J0ZDhsSjJB?=
- =?utf-8?B?Umk3K3dzc0dQYjEycDBzcU9TeC83aW1HdkxUeC9wZnpyTUV6ODgxblRQTG12?=
- =?utf-8?B?RE83ejVNaS9yTksrWVU4S2xPOE5IN1drN1JIRHI4L3FZb2l4MTZzVURPTS82?=
- =?utf-8?B?cXZTSkIrZUFOSzg4WXRaQlhwWEVDQ1F1VHhGMUpGZzlCdWt6T29QUzVpL0lD?=
- =?utf-8?B?WFYvbDR1TzRFME93WVV5N3dIOWpZZkxwaFVsNmkyUDZ3aWZ4Y1R4QVlCVE5X?=
- =?utf-8?B?SFIzS0U1bnlPb0ZnZW9tWWtRRmhVdFpNVVM1bGNWRVNLUlFwbTh3endzN00x?=
- =?utf-8?B?UEpaWVFRRFJEd0xLVFlzUk80Z1FXb2piSkM3Yk5UWERrVTBtWjYyTFE3ZERZ?=
- =?utf-8?B?VENBUEdibDhPOE41bTc4Qi9xVWxVREYxVzZEVXR2VE1MVlR5U3FqanJrZk9j?=
- =?utf-8?B?ZWFXSnlab1ZRT1lRK2tjeXFWZnkwTEtCQ2RzOURVWFl1TGZ0RHFFOCtpRzlF?=
- =?utf-8?B?TG1pT3hVcDl4K1pRdzVtZUYrSlJPYWhNT3JFOVcvOXN6QzN0b2dkbDF6TDZD?=
- =?utf-8?B?TmxPWE9mTTlncWRwei9oL2cxd1pheG9GYmwzc0J6ZzVsemkzdElRTGtVSXJI?=
- =?utf-8?B?OFE5OCtOME11elZwekRuaXhHMHc2cnFZUEk5T3NNV2FhRDk0cmk2SEora3Q3?=
- =?utf-8?B?ZnZqL0c5TGQ3d0ZWT2tWZDMzenBFM0hMQUgvNGU0VjhnM3ZzODkvTmJOU3Rq?=
- =?utf-8?B?WlJSMUh5YTh6WkVDekhkYkhBWXA1SU1SZFdZdHRNY2k3bzFuZ3lsREEvMm9n?=
- =?utf-8?B?am5JK3Rsd1RxZFp6aWk3a1pUOHQyRFJDb2ZzUXN4RGNVNis1RjdlUGR3QUw4?=
- =?utf-8?B?L2R3QzdjbSs2WStMZFJTWXkrVXY0UzMzZEFkdVdMaUltSkhIS1lDQzBySEx0?=
- =?utf-8?B?Q0JJcUozNHVZb3RkR0U2VGV5TE82ZFR6OTdjd25CNUlzb0F6RWxUQ3FTbWdV?=
- =?utf-8?B?cG1qRkVPNHZzS1NQOWxOR2RtbTNpZUFPNEhpR2JQYUVRQ0dhbTFZRnA2YzFh?=
- =?utf-8?B?M0pqTGdhYXJ5VGF3QjkzV29mY3ZuREZkNEhXQlNDU3JNbXk2b0lSNmtMWVhO?=
- =?utf-8?B?bjJhZUszYVRQSXRuQjhKNGFIVkNGaHBJRHpkZjlFWWg1TjN1VlExaGdZWDE5?=
- =?utf-8?B?clRleEhqbnJQTVhjLzlPS2ZSVE9rM0lKdDRmOW5ucjdFY0RaT2o1WUU2dlZi?=
- =?utf-8?B?QWdhNWxXcHVvR3YwTG1UY1JDQnBmZHd4bUJRT3dKM1ZoZlhBekg0NzJoQzBU?=
- =?utf-8?B?ZXIvR3R1ZkVpZDJSUUI3Q2hkbDFsNkdHWTc2RmxyTXAyMjVVNStTdndFUlI3?=
- =?utf-8?B?K1FiQXZwUjRXWEV2WmIzVjhKTlZCd1VKSWVFZktENWYvSUszMW9OTGdaWHMv?=
- =?utf-8?Q?NinfuwtqLvHVj?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR12MB7804.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGVJalAwcTZtWlpsZnJQVzN0TGxiaCswd0RMZU0xK1BkaUNJMzllVXh3b3Vh?=
- =?utf-8?B?aUhtZFIvZXpZMVJEK20vcHVWL2dTdTdMLzNJYXl6SExTUWxSai95UzdjVUwx?=
- =?utf-8?B?LzAwUTVBWTdaeGRIdmVmdUJZeHpJY2xSWlB0Vmtpd0hLM04zQzY3ODRkb0p5?=
- =?utf-8?B?YkNndE1rRmJRdkJFNkNHT0RheGlFaWhKYkE5enRpeHFNRFFYQUgvT20rM0Ji?=
- =?utf-8?B?MmVSVS9pUzI2QWh3ZEoyTnNkdmE5TWVXM2tWRGRRaGxtWGlQRCtwc01uNndB?=
- =?utf-8?B?L0lYV3lHeCtmaWl2Mko4ZE04dUVraGZXTzNJM0VWVGQwN3ZVcUNHMWszKys2?=
- =?utf-8?B?M1NpN1dlV2E5dHAzN0ZJZCtLNkN6OWFCS3BvdGd6QVBTZHJRZnp4RE91R3Ft?=
- =?utf-8?B?ME40Z2dUcHdMZzlxOXRWRFRxemd4T2EwVk5IQ3IvMFRxbG5RUzhxM2Ezcmxm?=
- =?utf-8?B?SXFBdk9aMVN5eUpGU3NLWVIyWmxkUGIyUUxzY3dEMEdNdkdabHBQUFJQZmJH?=
- =?utf-8?B?S1kwSjVXK3h1aG4vaE5kZ3lFMHorV0wxN1MvTitJQ1M2VXI2eEM2T2tjNThR?=
- =?utf-8?B?UE0yTEhVVkxxaEdiUjhqOUdaOXFwQWM0ZHZPdklUMkJGQjZSMGJlSWg1MTEx?=
- =?utf-8?B?KzVKWG42WFEyZ0FQS0FCUGw1bUUySFhKWHpzVDUvK1lTQ3ZwcXRyK2JVS29Y?=
- =?utf-8?B?WlBYd1EzdFJoQ2l3OVVFaXFQYTdQb280dnk5YTY4MkY4T01FdDYyYVZPcmpU?=
- =?utf-8?B?WnBFSUlJSE1HbDRiN1BCSEkzdTRZTjcwV29oTGVJcEMrczVZMU55bFRYTGpD?=
- =?utf-8?B?emFDTmRwZUxEbTJudWw5MnJWTWNYcjZIejhGNXExc0k5bE5FcVJoVVNFME9a?=
- =?utf-8?B?ckcrNzB1K056QkV5ei9XREtmUzB3cW1JRVFmS3JWdjNIOTdOMWpxS21SOHRF?=
- =?utf-8?B?MjZ1TXpEaVNESzZtVWpLemd1QmtZOFFPS3FMelNWdDdNUDJ4K05EVjBtNHBE?=
- =?utf-8?B?bStUMzhzNURUeC9lUEJRdzZIWUw5RlA0S2JPWUYwVTZjZDdGdURJK3NkbVpB?=
- =?utf-8?B?VXZvVVk3QWRnRGhtOUdXanpySDBYaFVBbkMrampXK1puK0pWVVRNS3hzaE91?=
- =?utf-8?B?Z1lSQkNvOFJiRFRUcFMyQzJmOUVLaXNoVGJEMk5XNzVSbklSTjhTZzZiYzZH?=
- =?utf-8?B?a2dPYUsyMG50Rnd4UVhCeGFKT1l4Nk5TajJLdFMwVllNUXJsUG5JV3AwOGlK?=
- =?utf-8?B?djNOa0tPcmRESEY1bGZaakUxYzVDend1Z1FkS1U5eUE3aDdwRVZvaC9FUjhI?=
- =?utf-8?B?RFdwU3o3cGNQMUtJNzl2SmFGUDVoeSs0VXNGOFJvbW95NEc3LzFJUWdTWlZW?=
- =?utf-8?B?MmpWOURicXZId3dKZ3RtUXlCVUptV2VoblQwNjljUER2a2txdCswTEZJQXlz?=
- =?utf-8?B?Q25MNGMwZ1pFbjRZZzFNNUZ0WlZyRDRkNVByYWRyd1U5Q1RLSGp1b0lxeGho?=
- =?utf-8?B?dVppYzA5UnMvWWJtSVdUMnV0eGo1WlByQW9JaFZmbmE3ODNzQUcwb05Qeko4?=
- =?utf-8?B?RE1lZjV4cFR2aGo0dVppU1M3V1FxVW5ZNEFJN3ZXdWVaQURtTlNQN3VZTXZz?=
- =?utf-8?B?QzQrZVcyelFrdlJhL2FpeDFPYjR6d2k2eG8zVENPUFoxVmo0eDl4NVVsZ0Nl?=
- =?utf-8?B?TTVXOEpwS2FpeUFIY3dCcmtTL3djU3FIQWJkenYyU1pTcVlPazhSeVNCckZL?=
- =?utf-8?B?cFRzb1J4MWxVNEVVbnppN25qU1hQL3habVc1NUdvQzVuNXZmenRVZUQwbVBU?=
- =?utf-8?B?d1pHOHhmQ1RxUGlkNWtoVEVtbDJKK2Joc01QYVpkZnNKTmJueittcjZHaTVF?=
- =?utf-8?B?dFc1NHFQWmR5VWJ5cXRjTkhzUm9LazYxYmE5SjJhQlhtb2tmVW1NT2JNNU9Y?=
- =?utf-8?B?dWxxQ2swUnRZRXZhWndLZWZ0MFdOL1RzYjRneTE5Z3ZXVXBjREZuQVgxWmNk?=
- =?utf-8?B?TnJpa3dpOEczZUtGOERwLytTZ2lZVk9HOExhZ3FIWWg2Wld5dzU5Q1NqU1lU?=
- =?utf-8?B?TFZkNGZZNjZBRVozTmNjL0U4STdIYVFrNUgyNTJzTzQydkcyWVpScUc0T2Fw?=
- =?utf-8?Q?zYshLOTyeq1LeFG+quHV32Qwf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0727b5b7-86fe-4d33-d470-08dd1dd7cf26
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7804.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2024 13:44:49.0727 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PZg+rzXHdext1ESfSlJl2YeiHw6eGy/yicifr8xlY3lGr1HRTdaE81EKbKyh+7P+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7193
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <b2e2a217-dced-472f-9084-9822f7e6803c@suse.de>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 13:41:58 up 222 days, 56 min,  1 user,  load average: 0.02, 0.02,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,71 +60,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+* Thomas Zimmermann (tzimmermann@suse.de) wrote:
+> Hi
 
+Hi Thomas,
+  Thanks for the reply.
 
-On 12/16/2024 7:09 PM, Christian König wrote:
-> Am 16.12.24 um 14:36 schrieb Lazar, Lijo:
->>>>>> I had asked earlier about the utility of this one here. If this is just
->>>>>> to inform userspace that driver has done a reset and recovered, it
->>>>>> would
->>>>>> need some additional context also. We have a mechanism in KFD which
->>>>>> sends the context in which a reset has to be done. Currently, that's
->>>>>> restricted to compute applications, but if this is in a similar
->>>>>> line, we
->>>>>> would like to pass some additional info like job timeout, RAS error
->>>>>> etc.
->>>>>>
->>>>> DRM_WEDGE_RECOVERY_NONE is to inform userspace that driver has done a
->>>>> reset and recovered, but additional data about like which job
->>>>> timeout, RAS error and such belong to devcoredump I guess, where all
->>>>> data is gathered and collected later.
->>>> I think somebody else mentioned it as well that the source of the
->>>> issue, e.g. the PID of the submitting process would be helpful as well
->>>> for supervising daemons which need to restart processes when they
->>>> caused some issue.
->>>>
->>> It was me :) we have a use case that we would need the PID for the
->>> daemon indeed, but the daemon doesn't need to know what's the RAS error
->>> or the job name that timeouted, there's no immediate action to be taken
->>> with this information, contrary to the PID that we need to know.
->>>
->> Regarding devcoredump - it's not done every time. For ex: RAS errors
->> have a different way to identify the source of error, hence we don't
->> need a coredump in such cases.
->>
->> The intention is only to let the user know the reason for reset at a
->> high level, and probably add more things later like the engines or
->> queues that have reset etc.
+> Am 15.12.24 um 19:18 schrieb Dr. David Alan Gilbert:
+> > Hey Gerd, Thomas,
+> >    I've got the following oops that looks bochs-drm related on the current
+> > HEAD ( 4800575d8c0b2f354ab05ab1c4749e45e213bf73 ) and it's been there
+> > for at least a few days; this is
+> [...]
+> > 
+> > The oops has :
+> > [   78.463760][    T1]  bochs_pci_driver_init+0x8a/0xc0
+> > 
+> > in it, hence why I'm blaming that.
+> > (Other odd observation, the Tuxen flicker heavily during booting!)
+> > 
+> > [   72.756014][    T1] bochs-drm 0000:00:02.0: vgaarb: deactivate vga console
+> > [   72.758258][    T1] [drm] Found bochs VGA, ID 0xb0c5.
+> > [   72.758793][    T1] [drm] Framebuffer size 16384 kB @ 0xfd000000, mmio @ 0xfebf0000.
+> > [   72.767777][    T1] [drm] Initialized bochs-drm 1.0.0 for 0000:00:02.0 on minor 2
+> > [   72.839222][    T1] fbcon: bochs-drmdrmfb (fb1) is primary device
+> > [   72.839311][    T1] fbcon: Remapping primary device, fb1, to tty 1-63
+> > [   78.402163][    T1] bochs-drm 0000:00:02.0: [drm] fb1: bochs-drmdrmfb frame buffer device
+> > [   78.459984][    T1] BUG: unable to handle page fault for address: ffff8dd345604004
+> > [   78.463246][    T1] #PF: supervisor write access in kernel mode
+> > [   78.463760][    T1] #PF: error_code(0x0002) - not-present page
+> > [   78.463760][    T1] PGD 72001067 P4D 72001067 PUD 72002067 PMD 7fbe1067 PTE 800ffffffa9fb060
+> > [   78.463760][    T1] Oops: Oops: 0002 [#1] PREEMPT SMP DEBUG_PAGEALLOC NOPTI
+> > [   78.463760][    T1] CPU: 2 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W        N 6.13.0-rc2+ #363 6c653a430ed30aae3dac648429c492a2726da3d7
+> > [   78.463760][    T1] Tainted: [W]=WARN, [N]=TEST
+> > [   78.463760][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
+> > [   78.463760][    T1] RIP: 0010:devm_drm_dev_init_release+0x4e/0x140
+> [...]
+> > 
+> > [   78.463760][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
+> > 
+> > 
+> > The config is a fairly full yes-config ish; see attached.
 > 
-> Well what is the use case for that? That doesn't looks valuable to me.
+> Thanks for reporting. I've been able to reproduce the problem by setting
+> CONFIG_DEBUG_TEST_DRIVER_REMOVE <https://elixir.bootlin.com/linux/v6.13-rc2/K/ident/CONFIG_DEBUG_TEST_DRIVER_REMOVE>=y.
 
-It's mostly for in-band telemetry reporting through tools like amd-smi -
- more for admin purpose rather than any debug.
+Ah OK, so fairly obscure (I'm running something close to a all-yes-config
+because I'm mostly build testing obscure stuff).
 
-Thanks,
-Lijo
+> The attached patch fixes the problem for me. Could you please test and
+> report back the results.
 
+That gets me a different oops; this was run with:
+qemu-system-x86_64  -M pc -cpu host --enable-kvm -smp 4 -m 2G -kernel /discs/fast/kernel/arch/x86/boot/bzImage -append "console=tty0 console=ttyS0 root=/dev/vdb1 single" -drive if=virtio,file=/discs/more/images/debian12-64scan.qcow2
+
+It looks to me if it made the mistake of trying to print something in the middle of being removed:
+
+[   73.569852][    T1] bochs-drm 0000:00:02.0: vgaarb: deactivate vga console
+[   73.571802][    T1] [drm] Found bochs VGA, ID 0xb0c5.
+[   73.572787][    T1] [drm] Framebuffer size 16384 kB @ 0xfd000000, mmio @ 0xfebf0000.
+[   73.581626][    T1] [drm] Initialized bochs-drm 1.0.0 for 0000:00:02.0 on minor 2
+[   73.650048][    T1] fbcon: bochs-drmdrmfb (fb1) is primary device
+[   73.650134][    T1] fbcon: Remapping primary device, fb1, to tty 1-63
+[   79.276550][    T1] bochs-drm 0000:00:02.0: [drm] fb1: bochs-drmdrmfb frame buffer device
+[   79.346726][    T1] bochs-drm 0000:00:02.0: vgaarb: deactivate vga console
+[   79.348731][    T1] BUG: kernel NULL pointer dereference, address: 000000000000020c
+[   79.348799][    T1] #PF: supervisor write access in kernel mode
+[   79.348857][    T1] #PF: error_code(0x0002) - not-present page
+[   79.348913][    T1] PGD 0 P4D 0 
+[   79.348999][    T1] Oops: Oops: 0002 [#1] PREEMPT SMP DEBUG_PAGEALLOC NOPTI
+[   79.349107][    T1] CPU: 2 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W        N 6.13.0-rc2+ #373 5a5c0ce8f09b0b72067981f01985e201a0118bb6
+[   79.349268][    T1] Tainted: [W]=WARN, [N]=TEST
+[   79.349313][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
+[   79.349377][    T1] RIP: 0010:fbcon_cursor+0xa9/0x3c0
+[   79.349524][    T1] Code: c0 05 00 00 66 89 44 24 06 e8 f3 35 2a fd 0f b7 bb c0 05 00 00 e8 27 b8 e9 fc 49 8d bc 24 0c 02 00 00 49 89 c7 e8 d7 3d 2a fd <45> 89 bc 24 0c 02 00 00 48 8d bd e0 05 00 00 e8 c3 3b 2a fd 44 8b
+[   79.349628][    T1] RSP: 0018:ffffb927800136c0 EFLAGS: 00010046
+[   79.349716][    T1] RAX: 0000000000000000 RBX: ffff9835810a8800 RCX: 0000000000000000
+[   79.349808][    T1] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[   79.349879][    T1] RBP: ffff983585d07000 R08: 0000000000000000 R09: 0000000000000000
+[   79.349952][    T1] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[   79.350024][    T1] R13: 0000000000000000 R14: ffff983585d075e8 R15: 0000000000000032
+[   79.350101][    T1] FS:  0000000000000000(0000) GS:ffff9835fd200000(0000) knlGS:0000000000000000
+[   79.350196][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   79.350278][    T1] CR2: 000000000000020c CR3: 000000004d920000 CR4: 0000000000350ef0
+[   79.350344][    T1] Call Trace:
+[   79.350373][    T1]  <TASK>
+[   79.350413][    T1]  ? __die+0x23/0x80
+[   79.350540][    T1]  ? page_fault_oops+0x21c/0x240
+[   79.350675][    T1]  ? do_user_addr_fault+0x893/0x1180
+[   79.350798][    T1]  ? srso_return_thunk+0x5/0x7f
+[   79.350904][    T1]  ? exc_page_fault+0x3f/0x180
+[   79.351066][    T1]  ? exc_page_fault+0x87/0x180
+[   79.351211][    T1]  ? asm_exc_page_fault+0x26/0x40
+[   79.351379][    T1]  ? fbcon_cursor+0xa9/0x3c0
+[   79.351542][    T1]  hide_cursor+0x66/0x1c0
+[   79.351656][    T1]  vt_console_print+0x9b1/0xa40
+[   79.351813][    T1]  ? srso_return_thunk+0x5/0x7f
+[   79.351920][    T1]  ? irq_trace+0x84/0xc0
+[   79.352029][    T1]  ? srso_return_thunk+0x5/0x7f
+[   79.352153][    T1]  ? console_emit_next_record+0x1fe/0x440
+[   79.352254][    T1]  console_emit_next_record+0x232/0x440
+[   79.352333][    T1]  ? console_emit_next_record+0x1fe/0x440
+[   79.352450][    T1]  console_flush_all+0x590/0x7c0
+[   79.352531][    T1]  ? console_flush_all+0x26/0x7c0
+[   79.352601][    T1]  console_unlock+0xf9/0x280
+[   79.352601][    T1]  vprintk_emit+0x572/0x5c0
+[   79.352601][    T1]  dev_vprintk_emit+0x70/0xc0
+[   79.352601][    T1]  ? __mutex_lock+0x380/0xd40
+[   79.352601][    T1]  dev_printk_emit+0x7f/0xc0
+[   79.352601][    T1]  __dev_printk+0x89/0x100
+[   79.352601][    T1]  _dev_info+0xba/0xf5
+[   79.352601][    T1]  vga_remove_vgacon.cold+0x18/0xc0
+[   79.352601][    T1]  aperture_remove_conflicting_pci_devices+0x142/0x1c0
+[   79.352601][    T1]  ? __pfx_bochs_pci_probe+0x40/0x40
+[   79.352601][    T1]  bochs_pci_probe+0x30/0x380
+[   79.352601][    T1]  local_pci_probe+0x88/0x100
+[   79.352601][    T1]  pci_call_probe+0x126/0x340
+[   79.352601][    T1]  ? srso_return_thunk+0x5/0x7f
+[   79.352601][    T1]  ? pci_match_device+0x287/0x380
+[   79.352601][    T1]  pci_device_probe+0x154/0x280
+[   79.352601][    T1]  ? __pfx_pci_device_probe+0x40/0x40
+[   79.352601][    T1]  really_probe+0x411/0x780
+[   79.352601][    T1]  __driver_probe_device+0x194/0x280
+[   79.352601][    T1]  driver_probe_device+0x6f/0x1c0
+[   79.352601][    T1]  __driver_attach+0x204/0x380
+[   79.352601][    T1]  ? __pfx___driver_attach+0x40/0x40
+[   79.352601][    T1]  bus_for_each_dev+0xe3/0x180
+[   79.352601][    T1]  driver_attach+0x3a/0x80
+[   79.352601][    T1]  bus_add_driver+0x1fd/0x3c0
+[   79.352601][    T1]  driver_register+0x11d/0x1c0
+[   79.352601][    T1]  __pci_register_driver+0x105/0x140
+[   79.352601][    T1]  bochs_pci_driver_init+0x8a/0xc0
+[   79.352601][    T1]  ? __pfx_bochs_pci_driver_init+0x40/0x40
+[   79.352601][    T1]  do_one_initcall+0xa7/0x500
+[   79.352601][    T1]  do_initcalls+0x1d5/0x240
+[   79.352601][    T1]  kernel_init_freeable+0x1e4/0x280
+[   79.352601][    T1]  ? __pfx_kernel_init+0x40/0x40
+[   79.352601][    T1]  kernel_init+0x2a/0x280
+[   79.352601][    T1]  ret_from_fork+0x4d/0x80
+[   79.352601][    T1]  ? __pfx_kernel_init+0x40/0x40
+[   79.352601][    T1]  ret_from_fork_asm+0x22/0x80
+[   79.352601][    T1]  </TASK>
+[   79.352601][    T1] Modules linked in:
+[   79.352601][    T1] CR2: 000000000000020c
+[   79.352601][    T1] ---[ end trace 0000000000000000 ]---
+[   79.352601][    T1] RIP: 0010:fbcon_cursor+0xa9/0x3c0
+[   79.352601][    T1] Code: c0 05 00 00 66 89 44 24 06 e8 f3 35 2a fd 0f b7 bb c0 05 00 00 e8 27 b8 e9 fc 49 8d bc 24 0c 02 00 00 49 89 c7 e8 d7 3d 2a fd <45> 89 bc 24 0c 02 00 00 48 8d bd e0 05 00 00 e8 c3 3b 2a fd 44 8b
+[   79.352601][    T1] RSP: 0018:ffffb927800136c0 EFLAGS: 00010046
+[   79.352601][    T1] RAX: 0000000000000000 RBX: ffff9835810a8800 RCX: 0000000000000000
+[   79.352601][    T1] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[   79.352601][    T1] RBP: ffff983585d07000 R08: 0000000000000000 R09: 0000000000000000
+[   79.352601][    T1] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+[   79.352601][    T1] R13: 0000000000000000 R14: ffff983585d075e8 R15: 0000000000000032
+[   79.352601][    T1] FS:  0000000000000000(0000) GS:ffff9835fd200000(0000) knlGS:0000000000000000
+[   79.352601][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   79.352601][    T1] CR2: 000000000000020c CR3: 000000004d920000 CR4: 0000000000350ef0
+[   79.352601][    T1] Kernel panic - not syncing: Fatal exception
+[   79.352601][    T1] Kernel Offset: 0xf800000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
+[   79.352601][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
+
+> Best regards
+> Thomas
 > 
-> RAS errors should generally be reported to the application who issued
-> the submission.
 > 
-> As a system wide event they are only useful in things like logfiles I think.
+> > 
+> > Dave
+> > 
 > 
-> Regards,
-> Christian.
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+
+> From bebba3b34d5df5aa7c882f080633b43ddb87f4ad Mon Sep 17 00:00:00 2001
+> From: Thomas Zimmermann <tzimmermann@suse.de>
+> Date: Mon, 16 Dec 2024 09:21:46 +0100
+> Subject: [PATCH] drm/bochs: Do not put DRM device in PCI remove callback
 > 
->> Thanks,
->> Lijo
->>
->>>> We just postponed adding that till later.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>> Thanks,
->>>>>> Lijo
->>>>>>
->>>>>>> Regards,
->>>>>>> Christian.
+> Removing the bochs PCI device should mark the DRM device as unplugged
+> without removing it. Hence clear the respective call to drm_dev_put()
+> from bochs_pci_remove().
+> 
+> Fixes a double unref in devm_drm_dev_init_release(). An example error
+> message is shown below:
+> 
+> [   32.958338] BUG: KASAN: use-after-free in drm_dev_put.part.0+0x1b/0x90
+> [   32.958850] Write of size 4 at addr ffff888152134004 by task (udev-worker)/591
+> [   32.959574] CPU: 3 UID: 0 PID: 591 Comm: (udev-worker) Tainted: G            E      6.13.0-rc2-1-default+ #3417
+> [   32.960316] Tainted: [E]=UNSIGNED_MODULE
+> [   32.960637] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.3-2-gc13ff2cd-prebuilt.qemu.org 04/01/2014
+> [   32.961429] Call Trace:
+> [   32.961433]  <TASK>
+> [   32.961439]  dump_stack_lvl+0x68/0x90
+> [   32.961452]  print_address_description.constprop.0+0x88/0x330
+> [   32.961461]  ? preempt_count_sub+0x14/0xc0
+> [   32.961473]  print_report+0xe2/0x1d0
+> [   32.961479]  ? srso_alias_return_thunk+0x5/0xfbef5
+> [   32.963725]  ? __virt_addr_valid+0x143/0x320
+> [   32.964077]  ? srso_alias_return_thunk+0x5/0xfbef5
+> [   32.964463]  ? drm_dev_put.part.0+0x1b/0x90
+> [   32.964817]  kasan_report+0xce/0x1a0
+> [   32.965123]  ? drm_dev_put.part.0+0x1b/0x90
+> [   32.965474]  kasan_check_range+0xff/0x1c0
+> [   32.965806]  drm_dev_put.part.0+0x1b/0x90
+> [   32.966138]  release_nodes+0x84/0xc0
+> [   32.966447]  devres_release_all+0xd2/0x110
+> [   32.966788]  ? __pfx_devres_release_all+0x10/0x10
+> [   32.967177]  ? preempt_count_sub+0x14/0xc0
+> [   32.967523]  device_unbind_cleanup+0x16/0xc0
+> [   32.967886]  really_probe+0x1b7/0x570
+> [   32.968207]  __driver_probe_device+0xca/0x1b0
+> [   32.968568]  driver_probe_device+0x4a/0xf0
+> [   32.968907]  __driver_attach+0x10b/0x290
+> [   32.969239]  ? __pfx___driver_attach+0x10/0x10
+> [   32.969598]  bus_for_each_dev+0xc0/0x110
+> [   32.969923]  ? __pfx_bus_for_each_dev+0x10/0x10
+> [   32.970291]  ? bus_add_driver+0x17a/0x2b0
+> [   32.970622]  ? srso_alias_return_thunk+0x5/0xfbef5
+> [   32.971011]  bus_add_driver+0x19a/0x2b0
+> [   32.971335]  driver_register+0xd8/0x160
+> [   32.971671]  ? __pfx_bochs_pci_driver_init+0x10/0x10 [bochs]
+> [   32.972130]  do_one_initcall+0xba/0x390
+> [...]
+> 
+> After unplugging the DRM device, clients will close their references.
+> Closing the final reference will also release the DRM device.
+> 
+> Reported-by: Dr. David Alan Gilbert <dave@treblig.org>
+> Closes: https://lore.kernel.org/lkml/Z18dbfDAiFadsSdg@gallifrey/
+> Fixes: 04826f588682 ("drm/bochs: Allocate DRM device in struct bochs_device")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: virtualization@lists.linux.dev
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/tiny/bochs.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> index 89a699370a59..c67e1f906785 100644
+> --- a/drivers/gpu/drm/tiny/bochs.c
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -757,7 +757,6 @@ static void bochs_pci_remove(struct pci_dev *pdev)
+>  
+>  	drm_dev_unplug(dev);
+>  	drm_atomic_helper_shutdown(dev);
+> -	drm_dev_put(dev);
+>  }
+>  
+>  static void bochs_pci_shutdown(struct pci_dev *pdev)
+> -- 
+> 2.47.1
 > 
 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
