@@ -2,210 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788399F29D5
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 07:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CE09F29DF
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 07:10:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EE7810E19E;
-	Mon, 16 Dec 2024 06:05:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78A9210E1F0;
+	Mon, 16 Dec 2024 06:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="d3JNy3Yh";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="LhsuFkZ/";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="FcJeMfTy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8929510E19E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:05:42 +0000 (UTC)
-X-UUID: c50cbb02bb7311ef99858b75a2457dd9-20241216
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=dBCoS2ynUg2TRCeztANEGjOHF31Jgx0jKDeRS8rymFU=; 
- b=d3JNy3YhCPMc+6JPLAu3BnxmVbe4herUGnYGxGurlaajTYZKUXAhWqcihgui8yreC3mKIOOg1gM8y3II4vXV5lDW6yIhgNo1gqFWyt7Tcflq4u25loLb5CoQB4H/1zQPyf3ph2f4YFBf28YHownexDuHDOGEIl2/FAzr/79L5V8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45, REQID:cd3e8d36-eadd-4de1-92e9-6b28a18d8a90, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:6493067, CLOUDID:483e073c-e809-4df3-83cd-88f012b9e9ba,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0,EDM
- :-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
- ,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c50cbb02bb7311ef99858b75a2457dd9-20241216
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
- mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 720018711; Mon, 16 Dec 2024 14:05:37 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 16 Dec 2024 14:05:36 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
- Server id
- 15.2.1118.26 via Frontend Transport; Mon, 16 Dec 2024 14:05:35 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=edJJZyai3NkflPRbwNr/CjuAfGyA9hLOOQM1LuFdaBfHtv0X9xXtko06t6BTkOzjSf4ajIWWkLM6IyU0uRFpKzGOLXrkBk9tC3g3ZIX0i9lsK15yyM8sXX/FBFZNVpq+TQ5nWcpLcEkdLONeBxQJlsvUPyl8OGcGYJWOcJ6OTMopQvXMxx87STD7HoRCWzL6O6dCPem3MRBQVdjKJ9iuKiHFhNHOW1i3xZQVB2VwiWapIv/pEPYLjnmc8lKWrniJeyL2ilCvgpde0Z5oQ+JW0ijx07EcbANjaMnNj+9KpKKAlDZo1LfZ7+CoEiu6WZ/xGUWLJ0+HpVvztlePipt/rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wVpM7lXJOZ1tG0RO/cyJMht944EIIkBI2DQvcPP2ZRQ=;
- b=gIJ98iIEz7mUuKB+3scOdzWwAb47DWK5KeCsgxhbMMfHsotSgaFZLbFn0WNtg5pYfQVsVNVEUz+20TG8f6s6KV+AyUwvZw1Ouf0Nutl70+ZA+oY7Q0oq68osq5QGA7HjiuFG7xkpik3YDxhiNDmty+2FSM09rkO8bTaNK+VOWrTiy2YxWIftDPcb789sEggw4M4LiyH+zeLRtp9eaL/3x5F7jLTfBJIzzu90ZLDEGS4Mr4MiCh1PYxqzfpRMWGOoYukgutC3Q0eal5opWubJW3HSW19RVfBa3PuxLzGEoeKBBfB0DQVMuiSFou9yJJCXhU6d8+36AkBssICn2kWuhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wVpM7lXJOZ1tG0RO/cyJMht944EIIkBI2DQvcPP2ZRQ=;
- b=LhsuFkZ/bWgkKLcNK6fo/HmISo0gq6vnv6nRyrru/HxYAUiZM1qPVXwi4mTxcJA5A5EyxZMM+mpQt5wZ6IveUU8wqLBnyKy1mBZsidNibfJ6tNsxJSRlpOnOvgU72r3UtRuF7zA/UXV73v+xTEN0Euie59jIW2zyOyaunAqjmeM=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by TYZPR03MB8725.apcprd03.prod.outlook.com (2603:1096:405:67::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.20; Mon, 16 Dec
- 2024 06:05:33 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%3]) with mapi id 15.20.8251.015; Mon, 16 Dec 2024
- 06:05:33 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-CC: "robh@kernel.org" <robh@kernel.org>, "jie.qiu@mediatek.com"
- <jie.qiu@mediatek.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, =?utf-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>, "linux-mediatek@lists.infradead.org"
- <linux-mediatek@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "kernel@collabora.com" <kernel@collabora.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "p.zabel@pengutronix.de"
- <p.zabel@pengutronix.de>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>, "junzhi.zhao@mediatek.com"
- <junzhi.zhao@mediatek.com>
-Subject: Re: [PATCH v2 12/15] drm/mediatek: mtk_hdmi: Split driver and add
- common probe function
-Thread-Topic: [PATCH v2 12/15] drm/mediatek: mtk_hdmi: Split driver and add
- common probe function
-Thread-Index: AQHbRwuDKzLMLP8gmEqSnf1CFqiN77LocvAA
-Date: Mon, 16 Dec 2024 06:05:33 +0000
-Message-ID: <4e18327e7ab92fd987d379110cfa36f33666e015.camel@mediatek.com>
-References: <20241205114518.53527-1-angelogioacchino.delregno@collabora.com>
- <20241205114518.53527-13-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20241205114518.53527-13-angelogioacchino.delregno@collabora.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|TYZPR03MB8725:EE_
-x-ms-office365-filtering-correlation-id: 2deed56a-9863-42b9-a48d-08dd1d97a6f7
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|1800799024|7416014|366016|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?ckJReWpqdUVLdmZuWnVjcmZablZQMVQzdlZBaElTM2VHdnhBMUxuVjk1dmFp?=
- =?utf-8?B?S3lueHZEdGZ2MG9FNVRwK1BicS9weEZjNUZGblRZWkxoRENDd3hMcjN5MTFV?=
- =?utf-8?B?V1VabytyYUVjZHJDTnNNL2JFRGxzdmFlNThYOEpZVVFRcWUvYjU2ZE5yZlNX?=
- =?utf-8?B?ajBKYkl0TS9DcmdPWUFHYkdwY25zeDVTREZZRDJZa21GUEVtQ3VVNXRLM1Zi?=
- =?utf-8?B?Y0lZc0I3ME85OFhJK1FjSm94ejU4Y0RwUXJIcEFTbCtOUzI1WGZtOVNwS3BX?=
- =?utf-8?B?cmx3UEU2S1poRG9sYkpDSzloSlBrNjUvUFIyaUFpVmZmMzFNbmF6NWNrSWl3?=
- =?utf-8?B?ZEpzb0xiTVliaTZVbmxoUEVGc2VEKzhFVHAxczYvWjV1ejRhdzQ0MncxbXlG?=
- =?utf-8?B?VEtVNmJPZDlJQURZcVVpaEdXaEE2VE9KWnpWbHVEdmRDR2ZSSVcyTGpUWU1o?=
- =?utf-8?B?TzVvaTJ2MEFsOUVzbXBQTk1WU1ZLeHhVOXNUUS9sdFllbE1MOWlTUG96RXNw?=
- =?utf-8?B?ZXZjMDB2R3paTWpFekpRWUtnMXowYWRYTzJDeitsNU9BVWJWaDMwTjhjZEpq?=
- =?utf-8?B?NDd0YUczNStJNStiSFNPNXRnMmJJdEF6UlRTWFVVODl0eGloMHJVQk5nUmpK?=
- =?utf-8?B?Z09OOHhrMlhiQjZRclpYcTZ1YnFRK2JkNHFYSFhLd0l6MGdGcHRienZ1RmtZ?=
- =?utf-8?B?d2RaMEx3V2VxUkpFREQvMDZZNjJGZ0VhamRNb1l4aGNUZlhvZUdlRlNUcUVW?=
- =?utf-8?B?T01oKzgwZHhqR1Z3N005RmYzcnpoR0ZNQ1hDSzJMbjZXdWEzN1BHVjFCVWRr?=
- =?utf-8?B?VGZRSktSZXZJYWIwSks2TUhBa3N3VXZUUTRwRDZpRy9ZeElmaGU3SUxYcjJJ?=
- =?utf-8?B?bWlFbjkvRGVaT3A4Y1FlbTllZmJ0eXF3aUlMay90K08yS012TzFVQmlnVnkz?=
- =?utf-8?B?SSsyWUh4d2FXT2NQUjBBdEJNUTV2bjBXUVRKUTdpdXM2OHp3WjZpZVdqeXFj?=
- =?utf-8?B?a3E1bUxHYis1ZWdMaWNWTWZ4STVjVGRHQVFldHhoRW01L2QvMVZpbDdCWWQ0?=
- =?utf-8?B?dXFOOFpoT3ZzUnljaGZXUFhrUVlmb0c4UE9obm1yMUVYUElubGovQmliUi81?=
- =?utf-8?B?VVV6dER0YS8rZFFnY3ExdDlpYndDdWdZREJuekJYcm5zdjE3UGdGWlVDOTNn?=
- =?utf-8?B?U1J2NHVXWTE0TWtSMmVsZ1dZS2p6dHdNZGhlM0JQOXVocjR0WFg3MjA0V3JC?=
- =?utf-8?B?RThFZVljNFFXTkZrQjhNL1FSN2oyTE1VdTI5elUzcGxYSEh0RWZZY1RTSE5t?=
- =?utf-8?B?M1dSRE9Vczl2Qm9mTVNOTWJ6cHBoeTFsejFOekFMY2RKM29reWRlTUFHYVFO?=
- =?utf-8?B?dENFaURNeVBReGs5Y1I0T21aak9zM1gzQWdLeGVtZ21lOGFpTFE2QVk2M3d0?=
- =?utf-8?B?QzR1R240RXB1S2prVnowZVFPeEpQY3VoQ0RmVndKa0MwSGRiOVVhaVVodnFo?=
- =?utf-8?B?MkZMc1pyVTQ4Qkg0dUlQc1RvN3NObW5GZHBoOS9sSTR2Y3ZhWTVLVWd5aVBQ?=
- =?utf-8?B?MGkxWllESVh5RHZwbFJTS05hMVUxRjBFYzZaTll0aHRlQWswNWgyNXJCVjI5?=
- =?utf-8?B?MFlSSjBST2hUdHBhN3c1RzQvS0RlNHZEampTaERpUjVSWTFSbW5nWk9BcjI4?=
- =?utf-8?B?RjdVT3dIbFIxWlZRVjY2bjYzazVCRmRxTHRYejRNS3FFM2czaWVkcWxFRU5I?=
- =?utf-8?B?cFZqaHNWOExIMkIxcEZmWXBmWjBra2trb1o1WjJsWUowbThoekJYbWF6ZEdJ?=
- =?utf-8?B?REhrUHFUMzk4NGl1dTdZNDltMjBFVEdHQlBsMWYyL0xMYXltNGhhV0IyMUpN?=
- =?utf-8?B?a0FMQ2syVjBIQ3R0SWdvVU5WbGR6UTFyT2ZYNDJiTDhWaHNjaXc4VUdvZW9N?=
- =?utf-8?Q?SQ5mq78xNoJT2LUyZ2MyD/jwmtISRwfl?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(7416014)(366016)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cXBxREtoVGxOb1JCVGdjTzZxcVJ3cGw4bk85N0I0RXFJWWJzSHkyMmtSdEl2?=
- =?utf-8?B?eDBpK0NicmFIREJjVVJlVEpBZi9FY3AzbXdhc1pIL1pNVE1MdmMwK1p5dEdx?=
- =?utf-8?B?NllrUS9uVTlqaEQvRUsyNExUaFFyMFFteFhMNVJaWWl3WE5Kckt3K0ZxZWZC?=
- =?utf-8?B?L3VwT21ZWFRyN1d2T3ZZcVQyWVNVTEUvTmdCWVNvQll0cC92TzBBb0V6a2VN?=
- =?utf-8?B?ZmM5VHRQWExWbXdOWXJ0SEM4UFBRU0QxTW83dERNekFGOTJtU05OMUR4R05W?=
- =?utf-8?B?Y3dhbnJNVURoOXZWcUVyT3o0WW5JYWs3emxwRFVTUXpRbkYwd0lvaERXTzFv?=
- =?utf-8?B?bXRUU0ppT0xDNUhWaTA4Z3U3TjJlT2xON1pIbXJtNVVIeEZYcFBKQ2NoYnVV?=
- =?utf-8?B?ejM3R28xMFlCSVdnNnZvOFMxbEE1c01iUEFZdnZlWTFPdVVXdWh3bUxMRGlz?=
- =?utf-8?B?M2JTc3RUYS9tanFhV2xYbUYzSXY0ZmJJd1BvdmVRLzc3dVlNbG93MGM5Y3oy?=
- =?utf-8?B?cUN2VXV3bWZOV1FROVc3TGlZejhoV2pzYTAvUEhDN3pMZGxkaEZQREVXc1li?=
- =?utf-8?B?SnNKWGFlZkhxWGVuMVZFREtiMzc2NDhWc1VtUFVCTUFkcjBNSE10Qk1jUjVG?=
- =?utf-8?B?UExoNmNmcVVCVGpFSFlsV2NzWkxWRitxZUpDeE9wYVkrZG9HUnc2TXZoL21y?=
- =?utf-8?B?QmQzSVowcFNuTXdRcmlkTmRaYTlxRE0zWk9UL3UrdnluTW9EbU9vRDBZZmpW?=
- =?utf-8?B?SXU3UWpic05IQkMwMmNuVjZBTzlvVkpsKzUwY3hqSGpkd2RuWDNzZWlINFlR?=
- =?utf-8?B?ckxXbmQxTFF4YU9HLzdSQVRxK0xlRFJoZCtMaFh4LzNLOTBWVUdGa0FieVFt?=
- =?utf-8?B?T0dpWE8rNTNCMlF6em9CNXdwTUZnbHJpczVBazJNcGhKN09Wa2RHQ2VWbkMw?=
- =?utf-8?B?VTByWnVsL0lXQi9mZS8zeTh6TzhvMDliRkx6ZDN4Z210N3dRTDY5T0pjOS9W?=
- =?utf-8?B?RUlvL3hHenpNeFFZdDQyM2JMa0h4MVlWdVNUd3cvYks4RFViQ2I3MWtjd1Vx?=
- =?utf-8?B?UEZ5OHpQRU8xdGJhYzZZV3QrU0xpOGVtazAvRFUvM0g2RUVXQVkrSi9OOWJ2?=
- =?utf-8?B?TmtxUXlOVlBtclNlWGlhN1ZRSUlScFp1V0p3N09DNHUxUEU5bjc4Y1RXSXlp?=
- =?utf-8?B?bUlIRmRxYlhJYVhpeDViU3plRWM5NzU1dE5TdW4zQ3ZocTRiQnVIYXc3d1Zt?=
- =?utf-8?B?TVU2Y1lteWprajdvcVc1MUJsRjJqQkRxVzhvV2RtSEFjZ21IUk04OUhIZENY?=
- =?utf-8?B?bFFROHFyeUNZTTlsSEo3ZWIvb1AwR2IyR0RrTERyNGZ1WDhFbmZOcDk2NVNL?=
- =?utf-8?B?NFdENFd4OUo1Q0lXZGFTeWg1Q2szVkh3aXRnOFFIZ2M3V2g5MklhT3MxSzBB?=
- =?utf-8?B?MUVLVHB5UFRxSlgraForUUFXQ3RTV0lmamhRMk9sakFpNkpKRDJjZjVBMElW?=
- =?utf-8?B?SzA3MVA1MnhudUt3M1JZeVdkdC9UcDZPMWtsU2crTkRSdGFBRXlDb1NFS29q?=
- =?utf-8?B?TUNYMlJ5VlFUVHF5YVowV1lnakxJdW93Y0RRMXl1ekdkalBicTc0YzUvclM5?=
- =?utf-8?B?TWROL3I0TW8wYlRNaURLOVJGMVFwUnQ0dVo5V3hBTDZYOFdwV3kxME1JUXVq?=
- =?utf-8?B?WXFhb1RlaytIaFdzWG04ckJFRmJReU5VWkxReXNRUmNEaUhnU2RUektlSWly?=
- =?utf-8?B?M3JwR0R6Q2J5UnRYSHJpYTI2QmNrb2x5WmZZUG5rdUEvK3NjR0VRejNIcnlP?=
- =?utf-8?B?WmJEQ3Z3VndGR3h4U2RQZjAyblJIWU1VS1E4aWpEY3FrMG9ITkp5Y09vV29D?=
- =?utf-8?B?RnRtZDF5K29sM2FaVW9yc1BQdE1VN05uMU8rTU5LWjRPdUd3bVBjUWZMU1dR?=
- =?utf-8?B?dzdlbStuYXVlK3RUOEQ4V0ZweE13U1BoTFJVNXFjM1V5Q0I1UWIralRCOTli?=
- =?utf-8?B?cVorcGVZOWVPNXVHMEpMUm9XWW5sRndWQThrUTBTbGt1czhuVnZxaEIzOFZp?=
- =?utf-8?B?cVBETWpNaXg3ampiU3oxd1o0TTV2cDFQUzl0T1RObU1GRWh2eUFWZXVKbVFF?=
- =?utf-8?B?bmF0cmtsVktHVm5WTFBNb21SQllqNWxIYkovd1NFL1VVMWZEejFzQ01LQzJr?=
- =?utf-8?B?L3c9PQ==?=
-Content-ID: <24D7ADD0C160844A8BAEB7DD9A5E02A0@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92D6210E1AD;
+ Mon, 16 Dec 2024 06:10:04 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BFNecwI008209;
+ Mon, 16 Dec 2024 06:09:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ AcvzuNPngltImk5uUcCBRUKmFK2+eqam7+P2bDzqP/I=; b=FcJeMfTy4uKQL7im
+ IpDU47Iqcsm4eaWhtbBoIZBp7Tv7FdnzVlXqgHGPmRHHL8QnZ6c8ksngWIlb8Fm7
+ THkchv+Ju9CCoXQ7Tt2fsRyqA5+EucSx32fydXxfXT2bEuczXiALer6dQsXKpPOM
+ rx8iyHq6nhSI104Ett1gVg8u0dXZF4irx8bCsCq13ZmbldgL5gYFfrSk4oP7wPty
+ 4RKWD979oIrvcCy1gQcwC4f8BPUhHNGmnTEYqL2nHhBti8PxTQ+HeeL4qH44PmU+
+ F2C0kJFTc6dJw2AFvr1petljFvH0UJRYbWUAWg4MUL/eydKmTYlKn0zu48EWsE3b
+ ya856g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43hjc2a9b2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Dec 2024 06:09:57 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BG69tgl016995
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Dec 2024 06:09:55 GMT
+Received: from [10.110.102.127] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 15 Dec
+ 2024 22:09:53 -0800
+Message-ID: <adea523d-df80-413c-97c1-92cf3923f4e3@quicinc.com>
+Date: Sun, 15 Dec 2024 22:09:46 -0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2deed56a-9863-42b9-a48d-08dd1d97a6f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2024 06:05:33.4638 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g/+0lbMEwNm5bGqt923weUExgU/tz9sG22hlWOYLdLbcxfFtf3OvpdXtNe+xnCQHvHdMhB5Ik0uSCUDRcwcdhw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB8725
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_001_1307407324.1577158757"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ci: add kms_cursor_legacy@torture-bo to apq8016 flakes
+To: Vignesh Raman <vignesh.raman@collabora.com>, Helen Mae Koike Fornazier
+ <helen.koike@collabora.com>
+CC: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, freedreno
+ <freedreno@lists.freedesktop.org>
+References: <20241204-cursor_tor_skip-v1-1-f5f0bba5df7b@quicinc.com>
+ <193931869a5.f923adf2270026.8321075661083367617@collabora.com>
+ <20a3955e-3d10-47c5-8e68-d70342805010@quicinc.com>
+ <19393604e18.f9b6fe7d298023.1937039548910081216@collabora.com>
+ <a03ae7e8-391e-4303-91fc-15a59979fd2a@quicinc.com>
+ <ed90ca8c-ed81-419f-a5db-a4e8bcd35835@collabora.com>
+ <ac13139d-1cbf-47dd-b200-1a511ffc9453@quicinc.com>
+ <8edba6c9-cf7d-4616-8791-65abd108f538@collabora.com>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <8edba6c9-cf7d-4616-8791-65abd108f538@collabora.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pzcRdAR_iPmV3mebmygfZ2V_1rLR5iNu
+X-Proofpoint-ORIG-GUID: pzcRdAR_iPmV3mebmygfZ2V_1rLR5iNu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0
+ adultscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 impostorscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412160048
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -221,195 +105,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_001_1307407324.1577158757
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
 
-SGksIEFuZ2VsbzoNCg0KT24gVGh1LCAyMDI0LTEyLTA1IGF0IDEyOjQ1ICswMTAwLCBBbmdlbG9H
-aW9hY2NoaW5vIERlbCBSZWdubyB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8g
-bm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZp
-ZWQgdGhlIHNlbmRlciBvciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBJbiBwcmVwYXJhdGlvbiBm
-b3IgYWRkaW5nIGEgbmV3IGRyaXZlciBmb3IgdGhlIEhETUkgVFggdjIgSVAsDQo+IHNwbGl0IG91
-dCB0aGUgZnVuY3Rpb25zIHRoYXQgd2lsbCBiZSBjb21tb24gYmV0d2VlbiB0aGUgYWxyZWFkeQ0K
-PiBwcmVzZW50IG10a19oZG1pICh2MSkgZHJpdmVyIGFuZCB0aGUgbmV3IG9uZS4NCj4gDQo+IFNp
-bmNlIHRoZSBwcm9iZSBmbG93IGZvciBib3RoIGRyaXZlcnMgaXMgOTAlIHNpbWlsYXIsIGFkZCBh
-IGNvbW1vbg0KPiBwcm9iZSBmdW5jdGlvbiB0aGF0IHdpbGwgYmUgY2FsbGVkIGZyb20gZWFjaCBk
-cml2ZXIncyAucHJvYmUoKQ0KPiBjYWxsYmFjaywgYXZvaWRpbmcgbG90cyBvZiBjb2RlIGR1cGxp
-Y2F0aW9uLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8g
-PGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT4NCj4gLS0tDQoNCltzbmlw
-XQ0KDQo+ICtzdGF0aWMgdm9pZCBtdGtfaGRtaV91bnJlZ2lzdGVyX2F1ZGlvX2RyaXZlcih2b2lk
-ICpkYXRhKQ0KPiArew0KPiArICAgICAgIHBsYXRmb3JtX2RldmljZV91bnJlZ2lzdGVyKGRhdGEp
-Ow0KPiArfQ0KPiArDQo+ICtzdGF0aWMgaW50IG10a19oZG1pX3JlZ2lzdGVyX2F1ZGlvX2RyaXZl
-cihzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ICt7DQo+ICsgICAgICAgc3RydWN0IG10a19oZG1pICpo
-ZG1pID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ICsgICAgICAgc3RydWN0IGhkbWlfYXVkaW9f
-cGFyYW0gKmF1ZF9wYXJhbSA9ICZoZG1pLT5hdWRfcGFyYW07DQo+ICsgICAgICAgc3RydWN0IGhk
-bWlfY29kZWNfcGRhdGEgY29kZWNfZGF0YSA9IHsNCj4gKyAgICAgICAgICAgICAgIC5pMnMgPSAx
-LA0KPiArICAgICAgICAgICAgICAgLm1heF9pMnNfY2hhbm5lbHMgPSAyLA0KPiArICAgICAgICAg
-ICAgICAgLmRhdGEgPSBoZG1pLA0KPiArICAgICAgICAgICAgICAgLm9wcyA9IGhkbWktPmNvbmYt
-PnZlcl9jb25mLT5jb2RlY19vcHMNCj4gKyAgICAgICB9Ow0KPiArICAgICAgIGludCByZXQ7DQo+
-ICsNCj4gKyAgICAgICBhdWRfcGFyYW0tPmF1ZF9jb2RlYyA9IEhETUlfQVVESU9fQ09ESU5HX1RZ
-UEVfUENNOw0KPiArICAgICAgIGF1ZF9wYXJhbS0+YXVkX3NhbXBsZV9zaXplID0gSERNSV9BVURJ
-T19TQU1QTEVfU0laRV8xNjsNCj4gKyAgICAgICBhdWRfcGFyYW0tPmF1ZF9pbnB1dF90eXBlID0g
-SERNSV9BVURfSU5QVVRfSTJTOw0KPiArICAgICAgIGF1ZF9wYXJhbS0+YXVkX2kyc19mbXQgPSBI
-RE1JX0kyU19NT0RFX0kyU18yNEJJVDsNCj4gKyAgICAgICBhdWRfcGFyYW0tPmF1ZF9tY2xrID0g
-SERNSV9BVURfTUNMS18xMjhGUzsNCj4gKyAgICAgICBhdWRfcGFyYW0tPmF1ZF9pbnB1dF9jaGFu
-X3R5cGUgPSBIRE1JX0FVRF9DSEFOX1RZUEVfMl8wOw0KDQpZb3Ugc3F1YXNoIG10a19oZG1pX291
-dG91dF9pbml0KCkgaW50byB0aGlzIGZ1bmN0aW9uLg0KSSdtIG5vdCBzdXJlIHRoaXMgaXMgbmVj
-ZXNzYXJ5IG9yIG5vdC4NCklmIGl0J3MgbmVjZXNzYXJ5LCBJIHdvdWxkIGxpa2UgdGhpcyBtb2Rp
-ZmljYXRpb24gdG8gYmUgYSBzZXBhcmF0ZSBwYXRjaCBhbmQgaXQncyBlYXNpZXIgdG8gcmV2aWV3
-Lg0KSSB3YW50IHRoaXMgcGF0Y2ggaXMgc2ltcGx5IG1vdmluZyBjb21tb24gY29kZS4NCg0KQW5k
-IHRoaXMgcGF0Y2ggcmVtb3ZlIGhkbWktPmNzcCBhbmQgaXQgaXMgcmVhbGx5IG5vdCBuZWNlc3Nh
-cnkuDQpMZXQgcmVtb3ZpbmcgaGRtaS0+Y3NwIGJlIGEgY2xlYW4gdXAgcGF0Y2guDQoNCj4gKw0K
-PiArICAgICAgIGhkbWktPmF1ZGlvX3BkZXYgPSBwbGF0Zm9ybV9kZXZpY2VfcmVnaXN0ZXJfZGF0
-YShkZXYsDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIEhETUlfQ09ERUNfRFJWX05BTUUsDQo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFBMQVRGT1JNX0RFVklEX0FVVE8sDQo+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICZjb2RlY19kYXRhLA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBzaXplb2YoY29kZWNfZGF0YSkpOw0KPiArICAgICAgIGlmIChJU19F
-UlIoaGRtaS0+YXVkaW9fcGRldikpDQo+ICsgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUiho
-ZG1pLT5hdWRpb19wZGV2KTsNCj4gKw0KPiArICAgICAgIHJldCA9IGRldm1fYWRkX2FjdGlvbl9v
-cl9yZXNldChkZXYsIG10a19oZG1pX3VucmVnaXN0ZXJfYXVkaW9fZHJpdmVyLA0KPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBoZG1pLT5hdWRpb19wZGV2KTsNCg0KVGhp
-cyBhZGRpbmcgYWN0aW9uIG9yIHJlc2V0IGlzIG90aGVyIHRoYW4gbW92aW5nIGNvbW1vbiBmdW5j
-dGlvbi4NClNvIHNlcGFyYXRlIHRoaXMgdG8gYSByZWZpbmVtZW50IHBhdGNoLg0KDQpSZWdhcmRz
-LA0KQ0sNCg0KPiArICAgICAgIGlmIChyZXQpIHsNCj4gKyAgICAgICAgICAgICAgIHBsYXRmb3Jt
-X2RldmljZV91bnJlZ2lzdGVyKGhkbWktPmF1ZGlvX3BkZXYpOw0KPiArICAgICAgICAgICAgICAg
-cmV0dXJuIHJldDsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAgICAgICByZXR1cm4gMDsNCj4gK30N
-Cj4gKw0KDQoNCg==
 
---__=_Part_Boundary_001_1307407324.1577158757
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+On 12/15/2024 9:45 PM, Vignesh Raman wrote:
+> Hi Abhinav,
+> 
+> On 14/12/24 01:09, Abhinav Kumar wrote:
+>> Hi Vignesh
+>>
+>> On 12/11/2024 9:10 PM, Vignesh Raman wrote:
+>>> Hi Abhinav / Helen,
+>>>
+>>> On 12/12/24 01:48, Abhinav Kumar wrote:
+>>>> Hi Helen / Vignesh
+>>>>
+>>>> On 12/4/2024 12:33 PM, Helen Mae Koike Fornazier wrote:
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>> ---- On Wed, 04 Dec 2024 16:21:26 -0300 Abhinav Kumar  wrote ---
+>>>>>
+>>>>>   > Hi Helen
+>>>>>   >
+>>>>>   > On 12/4/2024 11:14 AM, Helen Mae Koike Fornazier wrote:
+>>>>>   > > Hi Abhinav,
+>>>>>   > >
+>>>>>   > > Thanks for your patch.
+>>>>>   > >
+>>>>>   > >
+>>>>>   > >
+>>>>>   > > ---- On Wed, 04 Dec 2024 15:55:17 -0300 Abhinav Kumar  wrote ---
+>>>>>   > >
+>>>>>   > >   > From the jobs [1] and [2] of pipeline [3], its clear that
+>>>>>   > >   > kms_cursor_legacy@torture-bo is most certainly a flake and
+>>>>>   > >   > not a fail for apq8016. Mark the test accordingly to 
+>>>>> match the results.
+>>>>>   > >   >
+>>>>>   > >   > [1] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481
+>>>
+>>> The test passes - 
+>>> kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
+>>>
+>>
+>> Yes, thats the problem
+>>
+>> https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481/viewer#L2696
+>>
+>> 24-12-04 03:51:55 R SERIAL> [  179.241309] [IGT] kms_cursor_legacy: 
+>> finished subtest all-pipes, SUCCESS
+>> 24-12-04 03:51:55 R SERIAL> [  179.241812] [IGT] kms_cursor_legacy: 
+>> finished subtest torture-bo, SUCCESS
+>>
+>> Here it passes whereas it was marked a failure. Hence pipeline fails.
+> 
+> Yes it fails due to,
+> 
+> Unexpected results:
+>   kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
+> 
+> In this case, we need to remove this test from fails.txt
+> 
+>>
+>>>>>   > >   > [2] : https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430
+>>>
+>>> There are no test failures
+>>>
+>>
+>> No, thats not true
+>>
+>> https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430/viewer#L2694
+>>
+>> 24-12-04 04:18:38 R SERIAL> [  170.379649] Console: switching to 
+>> colour dummy device 80x25
+>> 24-12-04 04:18:38 R SERIAL> [  170.379938] [IGT] kms_cursor_legacy: 
+>> executing
+>> 24-12-04 04:18:38 R SERIAL> [  170.393868] [IGT] kms_cursor_legacy: 
+>> starting subtest torture-bo
+>> 24-12-04 04:18:38 R SERIAL> [  170.394186] [IGT] kms_cursor_legacy: 
+>> starting dynamic subtest pipe-A
+>> 24-12-04 04:18:38 R SERIAL> [  170.661749] [IGT] kms_cursor_legacy: 
+>> finished subtest pipe-A, FAIL
+>> 24-12-04 04:18:38 R SERIAL> [  170.662060] [IGT] kms_cursor_legacy: 
+>> starting dynamic subtest all-pipes
+>> 24-12-04 04:18:38 R SERIAL> [  170.713237] [IGT] kms_cursor_legacy: 
+>> finished subtest all-pipes, FAIL
+>> 24-12-04 04:18:38 R SERIAL> [  170.713513] [IGT] kms_cursor_legacy: 
+>> finished subtest torture-bo, FAIL
+>> 24-12-04 04:18:38 R SERIAL> [  170.721263] [IGT] kms_cursor_legacy: 
+>> exiting, ret=98
+>> 24-12-04 04:18:38 R SERIAL> [  170.737857] Console: switching to 
+>> colour frame buffer device 128x48
+>>
+>> Please check these logs, the torture-bo test-case did fail. The 
+>> pipeline was marked pass because it was an expected fail.
+>>
+>> So we have two pipelines, where one failed and the other passed. So 
+>> thats a flake for me.
+> 
+> Yes agree. So if we had removed the test from fails, deqp-runner would 
+> have reported this as flake.
+> 
+> deqp-runner runs the test and if it fails, it retries. If the test 
+> passes on retry, it is reported as a flake.
+> 
+>>
+>>>>>   > >   > [3]: 
+>>>>> https://gitlab.freedesktop.org/drm/msm/-/pipelines/1322770
+>>>
+>>> The job is same as 2
+>>>
+>>> In this case, the test passes and deqp-runner does not report it as 
+>>> flake. So we only need to remove it from fails file.
+>>>
+>>
+>> No, like I mentioned above we have a pass and a fail.
+>>
+>>>
+>>>>>   > >   >
+>>>>>   > >   > Signed-off-by: Abhinav Kumar quic_abhinavk@quicinc.com>
+>>>>>   > >   > ---
+>>>>>   > >   >  drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt | 5 +++++
+>>>>>   > >   >  1 file changed, 5 insertions(+)
+>>>>>   > >   >
+>>>>>   > >   > diff --git 
+>>>>> a/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt 
+>>>>> b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>>>>>   > >   > new file mode 100644
+>>>>>   > >   > index 000000000000..18639853f18f
+>>>>>   > >   > --- /dev/null
+>>>>>   > >   > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>>>>>   > >   > @@ -0,0 +1,5 @@
+>>>>>   > >   > +# Board Name: msm-apq8016-db410c
+>>>>>   > >   > +# Failure Rate: 100
+>>>>>   > >
+>>>>>   > > Is failure rate is 100%, isn't it a fail than?
+>>>>>   > > (I know we have other cases with Failure Rate: 100, maybe we 
+>>>>> should fix them as well)
+>>>>>   > >
+>>>>>   >
+>>>>>   > Maybe I misunderstood the meaning of "Failure rate" for a flake.
+>>>>>   >
+>>>>>   > I interpreted this as this test being flaky 100% of the time :)
+>>>>>
+>>>>> Ah right, I see, inside deqp-runner (that auto-retries).
+>>>>>
+>>>>> I'd like to hear Vignesh's opinion on this.
+>>>>>
+>>>>> (In any case, we probably should document this better)
+>>>
+>>> deqp-runner reports new (not present in flakes file) or known 
+>>> (present in flakes file) flakes
+>>>
+>>> 2024-12-11 07:25:44.709666: Some new flakes found:
+>>> 2024-12-11 07:25:44.709676:   kms_lease@page-flip-implicit-plane
+>>>
+>>> 2024-12-11 13:15:16.482890: Some known flakes found:
+>>> 2024-12-11 13:15:16.482898: 
+>>> kms_async_flips@async-flip-with-page-flip-events-atomic
+>>>
+>>> we add it to flakes file if deqp runner reports new flakes. Another 
+>>> case where we update flake tests is when a test passes in one run but 
+>>> fails in another, but deqp-runner does not report it as flake.
+>>>
+>>> Regards,
+>>> Vignesh
+>>>
+>>
+>> The confusion here i guess is about what to mention as a "Failure rate"
+>>
+>> Failure rate means how many times it fails (like normally) ? In that 
+>> case 100% which I used is wrong and I used 33% instead for which I 
+>> have pushed v2.
+> 
+> Yes, 33% is correct and please remove this test from fails.txt
+> 
+> Regards,
+> Vignesh
+> 
 
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtBbmdlbG86DQoNCk9uJiMzMjtUaHUsJiMz
-MjsyMDI0LTEyLTA1JiMzMjthdCYjMzI7MTI6NDUmIzMyOyswMTAwLCYjMzI7QW5nZWxvR2lvYWNj
-aGlubyYjMzI7RGVsJiMzMjtSZWdubyYjMzI7d3JvdGU6DQomZ3Q7JiMzMjtFeHRlcm5hbCYjMzI7
-ZW1haWwmIzMyOzomIzMyO1BsZWFzZSYjMzI7ZG8mIzMyO25vdCYjMzI7Y2xpY2smIzMyO2xpbmtz
-JiMzMjtvciYjMzI7b3BlbiYjMzI7YXR0YWNobWVudHMmIzMyO3VudGlsJiMzMjt5b3UmIzMyO2hh
-dmUmIzMyO3ZlcmlmaWVkJiMzMjt0aGUmIzMyO3NlbmRlciYjMzI7b3ImIzMyO3RoZSYjMzI7Y29u
-dGVudC4NCiZndDsmIzMyOw0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtJbiYjMzI7cHJlcGFyYXRpb24m
-IzMyO2ZvciYjMzI7YWRkaW5nJiMzMjthJiMzMjtuZXcmIzMyO2RyaXZlciYjMzI7Zm9yJiMzMjt0
-aGUmIzMyO0hETUkmIzMyO1RYJiMzMjt2MiYjMzI7SVAsDQomZ3Q7JiMzMjtzcGxpdCYjMzI7b3V0
-JiMzMjt0aGUmIzMyO2Z1bmN0aW9ucyYjMzI7dGhhdCYjMzI7d2lsbCYjMzI7YmUmIzMyO2NvbW1v
-biYjMzI7YmV0d2VlbiYjMzI7dGhlJiMzMjthbHJlYWR5DQomZ3Q7JiMzMjtwcmVzZW50JiMzMjtt
-dGtfaGRtaSYjMzI7KHYxKSYjMzI7ZHJpdmVyJiMzMjthbmQmIzMyO3RoZSYjMzI7bmV3JiMzMjtv
-bmUuDQomZ3Q7JiMzMjsNCiZndDsmIzMyO1NpbmNlJiMzMjt0aGUmIzMyO3Byb2JlJiMzMjtmbG93
-JiMzMjtmb3ImIzMyO2JvdGgmIzMyO2RyaXZlcnMmIzMyO2lzJiMzMjs5MCUmIzMyO3NpbWlsYXIs
-JiMzMjthZGQmIzMyO2EmIzMyO2NvbW1vbg0KJmd0OyYjMzI7cHJvYmUmIzMyO2Z1bmN0aW9uJiMz
-Mjt0aGF0JiMzMjt3aWxsJiMzMjtiZSYjMzI7Y2FsbGVkJiMzMjtmcm9tJiMzMjtlYWNoJiMzMjtk
-cml2ZXImIzM5O3MmIzMyOy5wcm9iZSgpDQomZ3Q7JiMzMjtjYWxsYmFjaywmIzMyO2F2b2lkaW5n
-JiMzMjtsb3RzJiMzMjtvZiYjMzI7Y29kZSYjMzI7ZHVwbGljYXRpb24uDQomZ3Q7JiMzMjsNCiZn
-dDsmIzMyO1NpZ25lZC1vZmYtYnk6JiMzMjtBbmdlbG9HaW9hY2NoaW5vJiMzMjtEZWwmIzMyO1Jl
-Z25vJiMzMjsmbHQ7YW5nZWxvZ2lvYWNjaGluby5kZWxyZWdub0Bjb2xsYWJvcmEuY29tJmd0Ow0K
-Jmd0OyYjMzI7LS0tDQoNCltzbmlwXQ0KDQomZ3Q7JiMzMjsrc3RhdGljJiMzMjt2b2lkJiMzMjtt
-dGtfaGRtaV91bnJlZ2lzdGVyX2F1ZGlvX2RyaXZlcih2b2lkJiMzMjsqZGF0YSkNCiZndDsmIzMy
-Oyt7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtwbGF0Zm9y
-bV9kZXZpY2VfdW5yZWdpc3RlcihkYXRhKTsNCiZndDsmIzMyOyt9DQomZ3Q7JiMzMjsrDQomZ3Q7
-JiMzMjsrc3RhdGljJiMzMjtpbnQmIzMyO210a19oZG1pX3JlZ2lzdGVyX2F1ZGlvX2RyaXZlcihz
-dHJ1Y3QmIzMyO2RldmljZSYjMzI7KmRldikNCiZndDsmIzMyOyt7DQomZ3Q7JiMzMjsrJiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO210a19oZG1pJiMzMjsqaGRt
-aSYjMzI7PSYjMzI7ZGV2X2dldF9kcnZkYXRhKGRldik7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtzdHJ1Y3QmIzMyO2hkbWlfYXVkaW9fcGFyYW0mIzMyOyph
-dWRfcGFyYW0mIzMyOz0mIzMyOyZhbXA7aGRtaS0mZ3Q7YXVkX3BhcmFtOw0KJmd0OyYjMzI7KyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7c3RydWN0JiMzMjtoZG1pX2NvZGVjX3Bk
-YXRhJiMzMjtjb2RlY19kYXRhJiMzMjs9JiMzMjt7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7LmkycyYjMzI7PSYjMzI7MSwNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsubWF4X2ky
-c19jaGFubmVscyYjMzI7PSYjMzI7MiwNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsuZGF0
-YSYjMzI7PSYjMzI7aGRtaSwNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsub3BzJiMzMjs9
-JiMzMjtoZG1pLSZndDtjb25mLSZndDt2ZXJfY29uZi0mZ3Q7Y29kZWNfb3BzDQomZ3Q7JiMzMjsr
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt9Ow0KJmd0OyYjMzI7KyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7aW50JiMzMjtyZXQ7DQomZ3Q7JiMzMjsrDQomZ3Q7
-JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjthdWRfcGFyYW0tJmd0O2F1
-ZF9jb2RlYyYjMzI7PSYjMzI7SERNSV9BVURJT19DT0RJTkdfVFlQRV9QQ007DQomZ3Q7JiMzMjsr
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjthdWRfcGFyYW0tJmd0O2F1ZF9zYW1w
-bGVfc2l6ZSYjMzI7PSYjMzI7SERNSV9BVURJT19TQU1QTEVfU0laRV8xNjsNCiZndDsmIzMyOysm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2F1ZF9wYXJhbS0mZ3Q7YXVkX2lucHV0
-X3R5cGUmIzMyOz0mIzMyO0hETUlfQVVEX0lOUFVUX0kyUzsNCiZndDsmIzMyOysmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2F1ZF9wYXJhbS0mZ3Q7YXVkX2kyc19mbXQmIzMyOz0m
-IzMyO0hETUlfSTJTX01PREVfSTJTXzI0QklUOw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7YXVkX3BhcmFtLSZndDthdWRfbWNsayYjMzI7PSYjMzI7SERNSV9B
-VURfTUNMS18xMjhGUzsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyO2F1ZF9wYXJhbS0mZ3Q7YXVkX2lucHV0X2NoYW5fdHlwZSYjMzI7PSYjMzI7SERNSV9BVURf
-Q0hBTl9UWVBFXzJfMDsNCg0KWW91JiMzMjtzcXVhc2gmIzMyO210a19oZG1pX291dG91dF9pbml0
-KCkmIzMyO2ludG8mIzMyO3RoaXMmIzMyO2Z1bmN0aW9uLg0KSSYjMzk7bSYjMzI7bm90JiMzMjtz
-dXJlJiMzMjt0aGlzJiMzMjtpcyYjMzI7bmVjZXNzYXJ5JiMzMjtvciYjMzI7bm90Lg0KSWYmIzMy
-O2l0JiMzOTtzJiMzMjtuZWNlc3NhcnksJiMzMjtJJiMzMjt3b3VsZCYjMzI7bGlrZSYjMzI7dGhp
-cyYjMzI7bW9kaWZpY2F0aW9uJiMzMjt0byYjMzI7YmUmIzMyO2EmIzMyO3NlcGFyYXRlJiMzMjtw
-YXRjaCYjMzI7YW5kJiMzMjtpdCYjMzk7cyYjMzI7ZWFzaWVyJiMzMjt0byYjMzI7cmV2aWV3Lg0K
-SSYjMzI7d2FudCYjMzI7dGhpcyYjMzI7cGF0Y2gmIzMyO2lzJiMzMjtzaW1wbHkmIzMyO21vdmlu
-ZyYjMzI7Y29tbW9uJiMzMjtjb2RlLg0KDQpBbmQmIzMyO3RoaXMmIzMyO3BhdGNoJiMzMjtyZW1v
-dmUmIzMyO2hkbWktJmd0O2NzcCYjMzI7YW5kJiMzMjtpdCYjMzI7aXMmIzMyO3JlYWxseSYjMzI7
-bm90JiMzMjtuZWNlc3NhcnkuDQpMZXQmIzMyO3JlbW92aW5nJiMzMjtoZG1pLSZndDtjc3AmIzMy
-O2JlJiMzMjthJiMzMjtjbGVhbiYjMzI7dXAmIzMyO3BhdGNoLg0KDQomZ3Q7JiMzMjsrDQomZ3Q7
-JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pLSZndDthdWRpb19w
-ZGV2JiMzMjs9JiMzMjtwbGF0Zm9ybV9kZXZpY2VfcmVnaXN0ZXJfZGF0YShkZXYsDQomZ3Q7JiMz
-MjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO0hE
-TUlfQ09ERUNfRFJWX05BTUUsDQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO1BMQVRGT1JNX0RFVklEX0FVVE8sDQomZ3Q7JiMzMjsr
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyZhbXA7
-Y29kZWNfZGF0YSwNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7c2l6ZW9mKGNvZGVjX2RhdGEpKTsNCiZndDsmIzMyOysmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2lmJiMzMjsoSVNfRVJSKGhkbWktJmd0O2F1ZGlv
-X3BkZXYpKQ0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldHVybiYjMzI7UFRSX0VSUiho
-ZG1pLSZndDthdWRpb19wZGV2KTsNCiZndDsmIzMyOysNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldCYjMzI7PSYjMzI7ZGV2bV9hZGRfYWN0aW9uX29yX3Jl
-c2V0KGRldiwmIzMyO210a19oZG1pX3VucmVnaXN0ZXJfYXVkaW9fZHJpdmVyLA0KJmd0OyYjMzI7
-KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7JiMzMjtoZG1pLSZndDthdWRpb19wZGV2KTsNCg0KVGhpcyYjMzI7YWRk
-aW5nJiMzMjthY3Rpb24mIzMyO29yJiMzMjtyZXNldCYjMzI7aXMmIzMyO290aGVyJiMzMjt0aGFu
-JiMzMjttb3ZpbmcmIzMyO2NvbW1vbiYjMzI7ZnVuY3Rpb24uDQpTbyYjMzI7c2VwYXJhdGUmIzMy
-O3RoaXMmIzMyO3RvJiMzMjthJiMzMjtyZWZpbmVtZW50JiMzMjtwYXRjaC4NCg0KUmVnYXJkcywN
-CkNLDQoNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO2lmJiMz
-MjsocmV0KSYjMzI7ew0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
-MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3BsYXRmb3JtX2Rldmlj
-ZV91bnJlZ2lzdGVyKGhkbWktJmd0O2F1ZGlvX3BkZXYpOw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyO3JldHVybiYjMzI7cmV0Ow0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7Kw0KJmd0OyYjMzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7
-JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMzMjswOw0KJmd0OyYjMzI7K30NCiZndDsmIzMyOysNCg0K
-DQoNCjwvcHJlPg0KPC9wPjwvYm9keT48L2h0bWw+PCEtLXR5cGU6dGV4dC0tPjwhLS17LS0+PHBy
-ZT4qKioqKioqKioqKioqIE1FRElBVEVLIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioq
-KioqKioqKioqKioNClRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVz
-c2FnZSAoaW5jbHVkaW5nIGFueSANCmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBw
-cm9wcmlldGFyeSwgcHJpdmlsZWdlZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9z
-dXJlIHVuZGVyIGFwcGxpY2FibGUgbGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXll
-ZCBvbmx5IHRvIHRoZSBkZXNpZ25hdGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5h
-dGlvbiwgDQpkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0
-aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJl
-Y2lwaWVudChzKSBpcyBzdHJpY3RseSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4g
-SWYgeW91IGFyZSBub3QgYW4gaW50ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBi
-ZWxpZXZlIA0KdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxl
-YXNlIG5vdGlmeSB0aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMg
-ZS1tYWlsKSwgZGVsZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNs
-dWRpbmcgYW55IGF0dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNj
-bG9zZSB0aGUgY29udGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFu
-ayB5b3UhDQo8L3ByZT48IS0tfS0tPg==
+Ack, let me remove this test from fails and keep it only in flakes.
 
---__=_Part_Boundary_001_1307407324.1577158757--
+Thanks
 
+Abhinav
+>>
+>>>>>
+>>>>> Regards,
+>>>>> Helen
+>>>>>
+>>>>
+>>>> Can you let me know which way we need to go?
+>>>>
+>>>> Just in case I did post a v2 fixing this, 
+>>>> https://patchwork.freedesktop.org/patch/627276/
+>>>>
+>>>> If thats the way to go, can you pls take a look?
+>>>>
+>>>> Thanks
+>>>>
+>>>> Abhinav
+>>>>>   >
+>>>>>   > Out of the 3 runs of the test, it passed 2/3 times and failed 1/3.
+>>>>>   >
+>>>>>   > So its fail % actually is 33.33% in that case.
+>>>>>   >
+>>>>>   > I think I saw a Failure rate of 100% on 
+>>>>> msm-sm8350-hdk-flakes.txt and
+>>>>>   > mistook that as the rate at which flakes are seen.
+>>>>>   >
+>>>>>   > Let me fix this up as 33%
+>>>>>   >
+>>>>>   > > Regards,
+>>>>>   > > Helen
+>>>>>   > >
+>>>>>   > >   > +# IGT Version: 1.28-ga73311079
+>>>>>   > >   > +# Linux Version: 6.12.0-rc2
+>>>>>   > >   > +kms_cursor_legacy@torture-bo
+>>>>>   > >   >
+>>>>>   > >   > ---
+>>>>>   > >   > base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
+>>>>>   > >   > change-id: 20241204-cursor_tor_skip-9d128dd62c4f
+>>>>>   > >   >
+>>>>>   > >   > Best regards,
+>>>>>   > >   > --
+>>>>>   > >   > Abhinav Kumar quic_abhinavk@quicinc.com>
+>>>>>   > >   >
+>>>>>   > >   >
+>>>>>   > >
+>>>>>   >
+>>>>>
