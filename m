@@ -1,92 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4399C9F2BAC
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:20:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFAE9F2BC0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:27:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED5D710E0B7;
-	Mon, 16 Dec 2024 08:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9724210E3DD;
+	Mon, 16 Dec 2024 08:27:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bNz6KW+w";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ll797d2z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C79D10E0B7
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:20:41 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-5401ab97206so4005627e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 00:20:41 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B04F10E09F
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:27:28 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-30227c56b11so37988751fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 00:27:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734337240; x=1734942040; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YbfXvKOjtQu6oW6OVlC1iMgsVrQx7zWveYPYCO9K2UI=;
- b=bNz6KW+wpr9T1X3bnKViF103EVgdcoxIxPkmgaqjkLerBWjKSgutyOJvq2U3IUmEjB
- CWsPmgBVH4UOq67DJPqTOMXNhR/UBnhDfVRevWbKac5cwQgawVKu9RqKIGlcelCANiam
- Yknk4w/237wrAKEyhqmrE9Ju5NaT3TIwZrvdFNDW59BIpBNuuz6/qFHoGJ4vM5DAxyhI
- OWz8Il46vZKsZXVjZIucFs22pnDjK23OjyKGB8MIjs2flSIstILjPf20sbN8ckPG22HC
- harpVDVbWD7FoYPTlhz2JnttY1KT4J6x7Q5qc2svNL6OK6OHTfgc5lgF9TJ3+tJDUNPe
- i2qQ==
+ d=linaro.org; s=google; t=1734337646; x=1734942446; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=TrrxPcocFaYUg6/aaiKr4KpBya9ZDGEcbUvoC1inEjc=;
+ b=Ll797d2zG8NLiXtqY/q/TzbqbtLLhsAjAzUlADtRgUadcENGiVvBJX6yVHnekQGJFu
+ XCBApuTOitONyPZ6lvcZeMe0ezGvdfNA7tFWrp1UdDUIQlPMzDrBUYW1UzxfK0W8o32t
+ MDwXGUdQD3lppAOs8U7gaO98M+gdiQq4W523pSPA69f/gb3I/z2fLWw0OOHCDdxHV5zC
+ /ByMDXoV9fbcbIopwyKgAwGqdrYFgKZT1D95YUm34PTDHmjUi3PnaxjB3scnAC6A1uvF
+ PnlnyfaNM+QlBRJHKmmDKGDMXgEwGjUAYc00Tumv1+HCCti02dfY7uqlXwgzDKOjHE7A
+ JJ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734337240; x=1734942040;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1734337646; x=1734942446;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YbfXvKOjtQu6oW6OVlC1iMgsVrQx7zWveYPYCO9K2UI=;
- b=J652BR3POMNN2ds7AN2e1GwjIiibDlWogerEvWCN5sC8QOq+dHk7vskbdSGYX2Akjl
- sZUjoBNceiLL7Q5z3I1qr05DqhbTlCzP5RtF7WImf03DTYm+i+lqLKk8c4E6V5c0yxcH
- 5IH+uTjGM/hN3KLIb0dGLY3W8FCH1eLDOALtYzkohBX04aKdyiPegaU6xdOmhy9leuW1
- QwpNXm7AAHqoEhRAq78AJE97qcCweOkrTd3MilwexNE+JnVROKNM4/zSIWugcMiZJqLf
- hzba6Ujr2T7gPdlpMNF8aHVfz12aGzv5tLV7fGvXojHb+lfnTJid0hD1DzuBkrUczF4i
- 48Mw==
+ bh=TrrxPcocFaYUg6/aaiKr4KpBya9ZDGEcbUvoC1inEjc=;
+ b=YM3du8xETYYJs1OoUxF88D+oxNYUyrKM2UUSth6JsXtkT4TljKONXG3UB75RrU0dlS
+ rwDmTpMO6PtfS1TPLR4q3FMamiSVjacWd1aGKa5EjC5PCxB6ycobGzqYKJ0HqmlkpoWR
+ Kdl2Aw7Nu8P+DWAFok0FNC4PXDtaO7hXUnwZZjd2gf9HCJq7F8YwuxMf/NScKdHzpFg4
+ FzxsxthvrdinmxBbAJyhGevOsSgefifZS7PnOPEd6vpdnhFqZYfh1ssHHXPM/2tnJLtF
+ wFwb1jhfCrNb64B6PmL+Yv7uzJqrJvLFA7rG8FArvOC0mcmS9uu2fDu2dIkPy9qWRYfV
+ 2L1w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV9ucC88Ie86LC284cWVT1sUJhHFBRgfJr8fLMMAzMQsxswSkg7pTq5eUsb3Gdk376lHZsvYlUwl60=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8TWgVvVR+AszFUW+mDb4vImLyU00u+GW/zptvrBY4RVsGkBfZ
- 6Vc9v3/qlKhETbgT5QlPTmr20fxGZWvWZV/CI/3SNDaPOaKJH9zXscoTrcIwpfs=
-X-Gm-Gg: ASbGncunQiOVY/WoHeM2TZzpZTn8QqdyvEahEge2PSVgeJwkYnt45DhTq44rPkiA4WY
- CObS8Xkao6nCUQAN3cdj2xIsVtKMe9QRQH9yKzkNjbSe/wxAb9ws7eHanJo3FvjRACjdJlMZ1Te
- aNxepj2oDg0+y471V+NIcKbyY8elcuTJtVV+FMOz2KGwto+BEBwb6LezOU2RAvl3seVMoiIRWYU
- jVwRQb7LoTHYXgrIchdcTEAiDA1QlZJ8O51vpptzY3YDYIdPMCS3h90DAgl5qu5
-X-Google-Smtp-Source: AGHT+IGzenR2jl87nMf97W1enF+uDtS5ypA2j8yTcUnPoV9iEHOCI2uxIt76PAu02Tox+YY54Iz5kg==
-X-Received: by 2002:a05:6512:3dac:b0:53e:39f0:4bbd with SMTP id
- 2adb3069b0e04-5409054e4a5mr2594490e87.21.1734337239738; 
- Mon, 16 Dec 2024 00:20:39 -0800 (PST)
+ AJvYcCX/iCDYQd6TN8REXjb/9mfOMd/1gSPOTrmRKUQwdh+DZdDxI0UNdCDcbdYqw2t0168WtdvQwhZKFdg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwterRcawDLgBdi2R+6nHpavAH2qsgNOsXwvKLFxhOs5nwBxHCv
+ d8KjxeqXKWfCYqii6QP+rR4oHvWmytBNA8WQaWuvXkl0lzcWHZfo61Z5T1X+y3k=
+X-Gm-Gg: ASbGncup2iftgIXSrK8j2jv7U3Vbqprl6fN+5RrJAkRW9K4C6yLYplDp4uaBues0jtm
+ 12n8mvA6k4qOpxU+C6B3yPygfJn0xrwU9qsupyH9ec14WvBi7+ZTTjfriNo+oa+Y9vUNH6jQOmM
+ pD1Fqg7hmiKAzRQFMwcqygSUDPXSsKwGrHE9IPisF25mLerojjzFUE7NqW760d3XZpJD302oe2s
+ ZiaYGb/SlECwvdZRdmUM5m+eISZ65aVXsIXelExDT5i/m9HFsM2iaGlQ0RMGZjJ
+X-Google-Smtp-Source: AGHT+IHJD+NR/PgyKHAepDFxbWTM+bPz0btqfBlgq5msCTR8EAXGlLoqNe5rUltrMZ1fu4+D0KYY+w==
+X-Received: by 2002:a2e:a304:0:b0:2ff:d7cf:ba1d with SMTP id
+ 38308e7fff4ca-302544d3e10mr22023831fa.41.1734337646540; 
+ Mon, 16 Dec 2024 00:27:26 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120c137e5sm754516e87.184.2024.12.16.00.20.37
+ 38308e7fff4ca-30344045342sm8543371fa.33.2024.12.16.00.27.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 00:20:38 -0800 (PST)
+ Mon, 16 Dec 2024 00:27:26 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 16 Dec 2024 10:20:36 +0200
-Subject: [PATCH] drm/msm/dpu: correct LM pairing for SM6150
+Subject: [PATCH 0/8] drm/msm/dpu: catalog corrections
+Date: Mon, 16 Dec 2024 10:27:21 +0200
+Message-Id: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241216-dpu-fix-sm6150-v1-1-9fd7ce2ff606@linaro.org>
-X-B4-Tracking: v=1; b=H4sIANPiX2cC/x2MywqAIBAAf0X23IJr734lOkSutYcslCKQ/j3pO
- AwzCSIH4QiDShD4liiHz0CFgmWb/cooNjMYbSoy1KA9L3TyYNwbqjVS63Rb9q5zrCFHZ+Bs/+E
- 4ve8H2Rd72WAAAAA=
-X-Change-ID: 20241216-dpu-fix-sm6150-17f0739f8fe0
+X-B4-Tracking: v=1; b=H4sIAGrkX2cC/x2MSQqAMBDAvlLm7EAX6cGviIcuYx2QKq2KIP7d4
+ jGE5IFKhanCIB4odHHlLTdQnYCwuJwIOTYGLXWvtLIY9xNnvjG4w61bQmuc8UFGbxRBq/ZCTf/
+ HcXrfD2b2XZ5hAAAA
+X-Change-ID: 20241216-dpu-fix-catalog-63a3bc0db31e
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Li Liu <quic_lliu6@quicinc.com>, Fange Zhang <quic_fangez@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Robert Foss <rfoss@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Abel Vesa <abel.vesa@linaro.org>, Richard Acayan <mailingradian@gmail.com>
+Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1469;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1531;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=uUJA3/TZsxZSLGQ3iJa9Q98/lgULeCMhq5QBKWADGSU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnX+LV2CEVo6lAAyY1ot+m4rawCBEiNbmKI0V0H
- +juU3EvY9iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1/i1QAKCRCLPIo+Aiko
- 1ZGXB/9aO6ZYG+gIxJb5oe7hQ1dXAs82EbfevXvtGTdQVCnxun+PDjw8B1Aui2HOARJcXI++Tvs
- Mrb4cmy3DvJu36eTg8diFOjJAOMa7gEfLZe3RsMsilSkGjVti/XpkQ83zgspXFA0kDwHaIMSppa
- qulF6sCTzWjzG3V75X/ezks+tZjzi2xF1QiGJ1WHFdsohZYOZEaG89/SoORUguCDm0gHKWT8l8j
- Oek+oRlCB/h4b23/7VnSw2zWwZ0lY/5mT830UlmwNbtHQTtPoqiz5k9Ykda4M5rFRX1wWnBlWzR
- j3YvhI65dGIlbxHx83z/SV1ncEyeME5+srWX5L1yhgODf1rB
+ bh=Ykwoi/viuVCnZ52OOZsyH+WMXqN9YSgRldwQks5nM6I=;
+ b=owEBbAGT/pANAwAKAYs8ij4CKSjVAcsmYgBnX+Rrj5j0J476K3SjRlnLe3dn/SHhLoulfsOer
+ 1SNLqNKw46JATIEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1/kawAKCRCLPIo+Aiko
+ 1eNiB/jdFVPQLWJTAqF2b7SQPaUkr+lMQqnqZ9FD2Trnx1/ZwVfm7m97liH9CqMc1xRiYyQm9LC
+ QGIsgTt/kCynT3KiZA0e/5vQHw2lkoMLl/EejnQm7EaePkGl2yqfKbgfUoQpq7JYQdeRpDzz8PB
+ y2HV5jzJGaL2nUP1e4QFMrYxCogCHfegRm2VX5N4iC0Hd1n4A93U6gw4Prfts7LK2R5kin9NPqk
+ Gkfz/q0yXlD3JOYX5CoohmqcIazE2VVpsVzCmrJ7Ok997COxERZe6msT8Qln7MPcbuq/amWQrmo
+ amx6DuPtTNU720Yf4ywYQnULpgnaWBPjP7olviV/DG6O/JU=
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,46 +106,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to the vendor devicetree on SM6150 LM_0 is paired with LM_2
-rather than LM_1. Correct pairing indices.
+After checking the DSPP units in the catalog vs the vendor devicetrees,
+link several DSPP units to the corresponding LM units. Each correction
+is submitted separately in order to be able to track and apply / skip
+them separately based on the feedback from Qualcomm.
 
-Fixes: cb2f9144693b ("drm/msm/dpu: Add SM6150 support")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Dmitry Baryshkov (8):
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8150
+      drm/msm/dpu: link DSPP_2/_3 blocks on SC8180X
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8250
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8350
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8550
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8650
+      drm/msm/dpu: link DSPP_2/_3 blocks on X1E80100
+      drm/msm/dpu: provide DSPP and correct LM config for SDM670
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-index 621a2140f675fa28b3a7fcd8573e59b306cd6832..81eb274cc7000a3b70b0f6650088ddcd24648eab 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-@@ -116,20 +116,20 @@ static const struct dpu_lm_cfg sm6150_lm[] = {
- 		.sblk = &sdm845_lm_sblk,
- 		.pingpong = PINGPONG_0,
- 		.dspp = DSPP_0,
--		.lm_pair = LM_1,
-+		.lm_pair = LM_2,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
- 		.base = 0x45000, .len = 0x320,
- 		.features = MIXER_QCM2290_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.pingpong = PINGPONG_1,
--		.lm_pair = LM_0,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
- 		.base = 0x46000, .len = 0x320,
- 		.features = MIXER_QCM2290_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.pingpong = PINGPONG_2,
-+		.lm_pair = LM_0,
- 	},
- };
- 
-
+ .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |  2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h | 54 +++++++++++++++++++++-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  2 +
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  2 +
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |  2 +
+ 8 files changed, 66 insertions(+), 2 deletions(-)
 ---
-base-commit: a3d570eace66b4016f2692a6f1045742ee70c6b1
-change-id: 20241216-dpu-fix-sm6150-17f0739f8fe0
+base-commit: 4172e9bbb583a2af5f1a3db437caf72a90714ad9
+change-id: 20241216-dpu-fix-catalog-63a3bc0db31e
 
 Best regards,
 -- 
