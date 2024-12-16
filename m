@@ -2,94 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842F99F4649
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 09:43:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C9B9F4958
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDAF10E20A;
-	Tue, 17 Dec 2024 08:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4FC10E906;
+	Tue, 17 Dec 2024 10:55:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="K6XBX4P4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zJRlPaJK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K6XBX4P4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zJRlPaJK";
+	dkim=pass (1024-bit key; unprotected) header.d=fb.com header.i=@fb.com header.b="E8eooEj2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF60810E20A
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 08:43:37 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 986291F449;
- Tue, 17 Dec 2024 08:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734425016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Vex7xKbmiMw00Z6gg7me9Xn6FewnCUQLvXk+yrg9GUI=;
- b=K6XBX4P4DIlYd317heif18vVh+WiLwYjK6mwffo6DZtcFkAMtNUqC01YVxY2Tugx0iSvtW
- PMKFlt6k5f9GrZ32tAaKiQDHup01W31HKMmOtl/Z99J5qcUgYFe0bXR74ilMtpDzV7QcPY
- 6zCuFjTHufQf2vMc0iyzExTWpWFcTK8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734425016;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Vex7xKbmiMw00Z6gg7me9Xn6FewnCUQLvXk+yrg9GUI=;
- b=zJRlPaJKennVsp9HzxZ3sHY6I4UrV2OlfBfMja1S6RbnNnHL71rTYAD2ncCxDEZeAMd8rQ
- DtTxLoT6oovorFDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1734425016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Vex7xKbmiMw00Z6gg7me9Xn6FewnCUQLvXk+yrg9GUI=;
- b=K6XBX4P4DIlYd317heif18vVh+WiLwYjK6mwffo6DZtcFkAMtNUqC01YVxY2Tugx0iSvtW
- PMKFlt6k5f9GrZ32tAaKiQDHup01W31HKMmOtl/Z99J5qcUgYFe0bXR74ilMtpDzV7QcPY
- 6zCuFjTHufQf2vMc0iyzExTWpWFcTK8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1734425016;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Vex7xKbmiMw00Z6gg7me9Xn6FewnCUQLvXk+yrg9GUI=;
- b=zJRlPaJKennVsp9HzxZ3sHY6I4UrV2OlfBfMja1S6RbnNnHL71rTYAD2ncCxDEZeAMd8rQ
- DtTxLoT6oovorFDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57568132EA;
- Tue, 17 Dec 2024 08:43:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ooj4E7g5YWfOIAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 17 Dec 2024 08:43:36 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kraxel@redhat.com, dave@treblig.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/bochs: Do not put DRM device in PCI remove callback
-Date: Tue, 17 Dec 2024 09:43:17 +0100
-Message-ID: <20241217084328.225045-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.47.1
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9800610E57C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:16:32 +0000 (UTC)
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG3qqT2028463
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 02:16:32 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+ :content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=facebook; bh=sTfnkfxHXTxcB2wIt/fTc9u
+ wkU0mLwrZp2zwSBHHzv0=; b=E8eooEj2YAxV1im+CgF4AVhgswNBim6sEmpdbzd
+ 8JolI0EZyuzu0q0w+TsLfprRxiIu8klOp4Ge5YPNKwTmwDV1ryhORzpNwdhg745A
+ 0uTe+FbQ1ycyAokkBx7pZs4Il77mlPujSq1fKn0oNoexZh+CI+xyO+cTKQlqSEGT
+ RkXs=
+Received: from mail.thefacebook.com ([163.114.134.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43jcpkhee4-2
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 02:16:31 -0800 (PST)
+Received: from twshared60378.16.frc2.facebook.com (2620:10d:c085:108::150d) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP
+ Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.11; Mon, 16 Dec 2024 10:16:28 +0000
+Received: by devvm12370.nha0.facebook.com (Postfix, from userid 624418)
+ id D3AB310A1F003; Mon, 16 Dec 2024 01:55:55 -0800 (PST)
+From: Wei Lin Guay <wguay@fb.com>
+To: <alex.williamson@redhat.com>, <dri-devel@lists.freedesktop.org>,
+ <kvm@vger.kernel.org>, <linux-rdma@vger.kernel.org>
+CC: <jgg@nvidia.com>, <vivek.kasireddy@intel.com>, <dagmoxnes@meta.com>,
+ <kbusch@kernel.org>, <nviljoen@meta.com>,
+ Wei Lin Guay <wguay@meta.com>, Oded Gabbay <ogabbay@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Leon
+ Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>
+Subject: [PATCH 0/4] cover-letter: Allow MMIO regions to be exported through
+ dmabuf
+Date: Mon, 16 Dec 2024 01:54:14 -0800
+Message-ID: <20241216095429.210792-1-wguay@fb.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; RCPT_COUNT_SEVEN(0.00)[9];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[redhat.com,treblig.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+X-Proofpoint-GUID: pYL8sqGi9uHuNu6fpt1VFMN2cEN1wc4C
+X-Proofpoint-ORIG-GUID: pYL8sqGi9uHuNu6fpt1VFMN2cEN1wc4C
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
+X-Mailman-Approved-At: Tue, 17 Dec 2024 10:55:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,78 +76,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Removing the bochs PCI device should mark the DRM device as unplugged
-without removing it. Hence clear the respective call to drm_dev_put()
-from bochs_pci_remove().
+From: Wei Lin Guay <wguay@meta.com>
 
-Fixes a double unref in devm_drm_dev_init_release(). An example error
-message is shown below:
+This is another attempt to revive the patches posted by Jason
+Gunthorpe and Vivek Kasireddy, at
+https://patchwork.kernel.org/project/linux-media/cover/0-v2-472615b3877e+=
+28f7-vfio_dma_buf_jgg@nvidia.com/
+https://lwn.net/Articles/970751/
 
-[   32.958338] BUG: KASAN: use-after-free in drm_dev_put.part.0+0x1b/0x90
-[   32.958850] Write of size 4 at addr ffff888152134004 by task (udev-worker)/591
-[   32.959574] CPU: 3 UID: 0 PID: 591 Comm: (udev-worker) Tainted: G            E      6.13.0-rc2-1-default+ #3417
-[   32.960316] Tainted: [E]=UNSIGNED_MODULE
-[   32.960637] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.3-2-gc13ff2cd-prebuilt.qemu.org 04/01/2014
-[   32.961429] Call Trace:
-[   32.961433]  <TASK>
-[   32.961439]  dump_stack_lvl+0x68/0x90
-[   32.961452]  print_address_description.constprop.0+0x88/0x330
-[   32.961461]  ? preempt_count_sub+0x14/0xc0
-[   32.961473]  print_report+0xe2/0x1d0
-[   32.961479]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   32.963725]  ? __virt_addr_valid+0x143/0x320
-[   32.964077]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   32.964463]  ? drm_dev_put.part.0+0x1b/0x90
-[   32.964817]  kasan_report+0xce/0x1a0
-[   32.965123]  ? drm_dev_put.part.0+0x1b/0x90
-[   32.965474]  kasan_check_range+0xff/0x1c0
-[   32.965806]  drm_dev_put.part.0+0x1b/0x90
-[   32.966138]  release_nodes+0x84/0xc0
-[   32.966447]  devres_release_all+0xd2/0x110
-[   32.966788]  ? __pfx_devres_release_all+0x10/0x10
-[   32.967177]  ? preempt_count_sub+0x14/0xc0
-[   32.967523]  device_unbind_cleanup+0x16/0xc0
-[   32.967886]  really_probe+0x1b7/0x570
-[   32.968207]  __driver_probe_device+0xca/0x1b0
-[   32.968568]  driver_probe_device+0x4a/0xf0
-[   32.968907]  __driver_attach+0x10b/0x290
-[   32.969239]  ? __pfx___driver_attach+0x10/0x10
-[   32.969598]  bus_for_each_dev+0xc0/0x110
-[   32.969923]  ? __pfx_bus_for_each_dev+0x10/0x10
-[   32.970291]  ? bus_add_driver+0x17a/0x2b0
-[   32.970622]  ? srso_alias_return_thunk+0x5/0xfbef5
-[   32.971011]  bus_add_driver+0x19a/0x2b0
-[   32.971335]  driver_register+0xd8/0x160
-[   32.971671]  ? __pfx_bochs_pci_driver_init+0x10/0x10 [bochs]
-[   32.972130]  do_one_initcall+0xba/0x390
-[...]
+In addition to the initial proposal by Jason, another promising
+application is exposing memory from an AI accelerator (bound to VFIO)
+to an RDMA device. This would allow the RDMA device to directly access
+the accelerator's memory, thereby facilitating direct data
+transactions between the RDMA device and the accelerator.
 
-After unplugging the DRM device, clients will close their references.
-Closing the final reference will also release the DRM device.
+Below is from the text/motivation from the orginal cover letter.
 
-Reported-by: Dr. David Alan Gilbert <dave@treblig.org>
-Closes: https://lore.kernel.org/lkml/Z18dbfDAiFadsSdg@gallifrey/
-Fixes: 04826f588682 ("drm/bochs: Allocate DRM device in struct bochs_device")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: virtualization@lists.linux.dev
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/tiny/bochs.c | 1 -
- 1 file changed, 1 deletion(-)
+dma-buf has become a way to safely acquire a handle to non-struct page
+memory that can still have lifetime controlled by the exporter. Notably
+RDMA can now import dma-buf FDs and build them into MRs which allows for
+PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
+from PCI device BARs.
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 89a699370a59..c67e1f906785 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -757,7 +757,6 @@ static void bochs_pci_remove(struct pci_dev *pdev)
- 
- 	drm_dev_unplug(dev);
- 	drm_atomic_helper_shutdown(dev);
--	drm_dev_put(dev);
- }
- 
- static void bochs_pci_shutdown(struct pci_dev *pdev)
--- 
-2.47.1
+This series supports a use case for SPDK where a NVMe device will be owne=
+d
+by SPDK through VFIO but interacting with a RDMA device. The RDMA device
+may directly access the NVMe CMB or directly manipulate the NVMe device's
+doorbell using PCI P2P.
 
+However, as a general mechanism, it can support many other scenarios with
+VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
+generic and safe P2P mappings.
+
+This series goes after the "Break up ioctl dispatch functions to one
+function per ioctl" series.
+
+v2:
+ - Name the new file dma_buf.c
+ - Restore orig_nents before freeing
+ - Fix reversed logic around priv->revoked
+ - Set priv->index
+ - Rebased on v2 "Break up ioctl dispatch functions"
+v1: https://lore.kernel.org/r/0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvid=
+ia.com
+Cc: linux-rdma@vger.kernel.org
+Cc: Oded Gabbay <ogabbay@kernel.org>
+Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Leon Romanovsky <leon@kernel.org>
+Cc: Maor Gottlieb <maorg@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+
+Jason Gunthorpe (3):
+  vfio: Add vfio_device_get()
+  dma-buf: Add dma_buf_try_get()
+  vfio/pci: Allow MMIO regions to be exported through dma-buf
+
+Wei Lin Guay (1):
+  vfio/pci: Allow export dmabuf without move_notify from importer
+
+ drivers/vfio/pci/Makefile          |   1 +
+ drivers/vfio/pci/dma_buf.c         | 291 +++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_config.c |   8 +-
+ drivers/vfio/pci/vfio_pci_core.c   |  44 ++++-
+ drivers/vfio/pci/vfio_pci_priv.h   |  30 +++
+ drivers/vfio/vfio_main.c           |   1 +
+ include/linux/dma-buf.h            |  13 ++
+ include/linux/vfio.h               |   6 +
+ include/linux/vfio_pci_core.h      |   1 +
+ include/uapi/linux/vfio.h          |  18 ++
+ 10 files changed, 405 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/vfio/pci/dma_buf.c
+
+--
+2.43.5
