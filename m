@@ -2,87 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61EC29F2D37
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 10:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12ECC9F2D93
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 10:59:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F233510E570;
-	Mon, 16 Dec 2024 09:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A1910E037;
+	Mon, 16 Dec 2024 09:59:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QM3Vol3G";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YexdHixK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C993D10E56A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 09:45:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734342329;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mUEqVhqEm411y2btyANp0nQYhhxxqt+IdHIRX6Fy7yA=;
- b=QM3Vol3GXTJ7BNjcP+KwoJhydUdIpmJ2UB6dA1/xZBrnPxDEguuG7cx3+AMd6KhXh0C9Jm
- 3XDL2elXlu4qSKfGBib8csQXg5yzOsmjzkytQecgpg4CKQwWg2goK/yDKbTYq1snsx1Xlt
- sHkrZ6sR6bFsbNIbPYRUUtsrPHr5w7o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-29-rrfgzZqMP3e02Tm0oErYyQ-1; Mon, 16 Dec 2024 04:45:27 -0500
-X-MC-Unique: rrfgzZqMP3e02Tm0oErYyQ-1
-X-Mimecast-MFC-AGG-ID: rrfgzZqMP3e02Tm0oErYyQ
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-aa683e90dd3so115175266b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 01:45:27 -0800 (PST)
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
+ [IPv6:2a00:1450:4864:20::236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68E1610E037
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 09:59:39 +0000 (UTC)
+Received: by mail-lj1-x236.google.com with SMTP id
+ 38308e7fff4ca-2ffa49f623cso48945271fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 01:59:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734343178; x=1734947978; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=FnJu3tNx6PFynXYk1/Woga2+QSGZXsPiestKM7hs3xI=;
+ b=YexdHixK93R0jBO2r9EvUywA0fuQdurgQTmOY/oRmRwo0qRi+Omq0WgwugSQwttGAD
+ WPUH4v3nf+hs6OknekyoGmSG+ylZtjlXdhdmOiVtBrCfKHGbKGPtkSxw++gtDahnVge0
+ izDWDtxVHXsEPGd5TnB1NQ5TKLvCBQ/RMlSA2gXIO9YAnGnTt5fGkOaSE5UJRfLCbzw4
+ 0Gl9k80w/wz/PjltZAxLiIJuasB4EYNEtWlYgjf0C8q/Hg/uqANLzaY5QpO1zxoEKSpw
+ 2TzcBCnvQ/Sfpc83Y4tz2HAsvO1n8i6CbqBR/LycXAv7Vnr76vi0u3hL3vnddkChL1+B
+ seLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734342326; x=1734947126;
+ d=1e100.net; s=20230601; t=1734343178; x=1734947978;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=mUEqVhqEm411y2btyANp0nQYhhxxqt+IdHIRX6Fy7yA=;
- b=Ymr9Ng5HCWFHviLmDp27NURQmY4FHy8MsKLEZkWFIhE/feDfNpkqqcFNHUssHnAQ0Q
- GbxdEt5pBHkhfhx4lubpLbpjzyoMqnll0VxRxlJobCHo5VreWYNdQZMWnFOJB6SjsyEm
- o+FgVz3+Y/ijCRilljQcBj6nRalaW+7V+vn1o+4TlIsEZgWlLp+yh7CJBq8y0rg3oIPE
- WGqrWONc7Uinuy9tb7MuPSl2jk5PcGEDFb7Up8q4mIySHocLEFiRRjs1+/TkI2yurlVf
- nx/9bIEPoLAXIkiMUtwOq6pA4Q2Nz5hOpgNc74Xuh3hCb+NZ2SLpbA7opeBNywI1PvGC
- eK9Q==
+ bh=FnJu3tNx6PFynXYk1/Woga2+QSGZXsPiestKM7hs3xI=;
+ b=A1ia+Gsmelo4eIgwcDmtT/zRrX6PQPoLBdQKUAzlD20xCM1eHPhS3G1zhs7xRy8Uyq
+ YIADQMIG39mBZlKROvqbqTiErxr+F3hhv02fxcFseOIv4fvasSTpNKp4qI8JIfjyDnJ1
+ uLP+DJ8XdPFhrwJoUWVRw2IOtbD0q2mf63skhXeQST3j2iE7F5T2cHpzukO59nZpQ7nT
+ EgVSXUKNk5YsX7GpO09yTvGJniUFbf70vlWVRJtqASxUnEhVNlopb5Ht5JbOyut5KJRb
+ WEx34uL6ONW4wSFNA+ksTpYhao84BqgoQdP/HgmBdyOF6AKkEsU1PoDNnzarU09hHefm
+ jAlw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUV801eF48e2Suuwd3IC4O7MXURQRMiZNujmi/uluKntjpQ3jV1+OoqfsRNbI+3w5StoWyE2mDA2M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywk7czxPJrBCyGlgF7dM3ubi9k+POBK6ZLJY2t8SW/aeVqojy6n
- gEndoZ1zjMBYSuTGohNNYiAA33JoRA7oew43xGgG8sqVlZSIAhcUWKfsaYkWGPFoiscVfBRKiXk
- CQRnt4VEpGi6atqjfsFcGU7VF5XzYDx7JxbszMMS6xVr1wWxO18iT2LZnTORiBT9q5w==
-X-Gm-Gg: ASbGncvip33UaVLXx80NV0tF1a8xtf72t6DZAJBfAApl8ZN7a++QpED9VyZHhtcoj5x
- P68iUVvMcyvekRr4Y4MNvC/v8CCaAcmWIofiFFfSDuNOhK/cu75gH5QQF0EQwfMSsFQcYHl33/T
- amA9AqGGomxJAn8pFCArfrTfdnsMET+010qzQA+iYqLKpNQ5TKgb8kHE91pIjkwMnYyrHJazALe
- 5IY3jXqlo0Ue/N/VXt/4l4z/QKdABSgK8t/I3F6Sh78iC8d0upA
-X-Received: by 2002:a17:906:3289:b0:aa6:7470:8efe with SMTP id
- a640c23a62f3a-aab77907930mr922252666b.13.1734342326534; 
- Mon, 16 Dec 2024 01:45:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHZ1z2lzdh2iwu9u26o1qjT8nMT8Dfj1jXT3HMa99NlV9SwaueXBmTZhsa9d+oTc6bnLe3cWQ==
-X-Received: by 2002:a17:906:3289:b0:aa6:7470:8efe with SMTP id
- a640c23a62f3a-aab77907930mr922251066b.13.1734342326159; 
- Mon, 16 Dec 2024 01:45:26 -0800 (PST)
-Received: from cassiopeiae ([2a00:79c0:644:6900:642:1aff:fe31:a19f])
+ AJvYcCUEDl9lUDKPDaPpOZGKYolgmoJJJKFb7SYhPadPHi11onhtV6+ny840BO0t8xSqzfyZOQs5ezMzwCw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNIIAJtO3s7N4alyk4gcwfhWz+h60MSuOLYtQhj8Rbc68KXRhI
+ E4ET/Hpbx2Z9aMKOk5NOmJUCWFpw6cWCr4rO2bwppTdCIW+Z9FRrTIYp3iBXUFI=
+X-Gm-Gg: ASbGncvDs9On1rUEWuYvE7LRKbYuQ4sf+JYXioYNayHb1qg2gZqvQSts6uz1K5SMadC
+ rj+QADszaF6wMhtMx6QT7821qpjjPeAQWSVmvw8yq7lyLr+6NtNtsEWWEKcBBleOS/q75qA0ZeH
+ 5nKqiasEKu6fbYnaagSws58aCb+JFboRzr6YGei59AsUs/O4DmrdeqBN1VzTlRhj8E5oA2U0AU2
+ Iwk5x3K2zaoIzztXMDzW0BdfKd3CRcPSlKPoSXg/wlPDd7DBAhCMnyB/Hcp7RZ1t5sm1B/mZRT+
+ x7lWnj9SD2B/BBp9gVjboSWzLNjKeP+N8JXJ
+X-Google-Smtp-Source: AGHT+IGzuyIoz4RW4zE50l9A5GROziEsvDO7/q2gt1gPF1DlZnBaj2q1Sy1bt91ZKI974j+OroEhRg==
+X-Received: by 2002:a2e:a9a8:0:b0:2ff:8e69:77ef with SMTP id
+ 38308e7fff4ca-302544230e1mr44031131fa.1.1734343177585; 
+ Mon, 16 Dec 2024 01:59:37 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d652f35365sm3093068a12.80.2024.12.16.01.45.23
+ 38308e7fff4ca-303441a5a75sm8674571fa.99.2024.12.16.01.59.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 01:45:25 -0800 (PST)
-Date: Mon, 16 Dec 2024 10:45:22 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: Zhanxin Qi <zhanxin@nfschina.com>
-Cc: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
-Message-ID: <Z1_2sugsla44LgIz@cassiopeiae>
-References: <20241216015246.141006-1-zhanxin@nfschina.com>
+ Mon, 16 Dec 2024 01:59:36 -0800 (PST)
+Date: Mon, 16 Dec 2024 11:59:33 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrej Picej <andrej.picej@norik.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+ festevam@gmail.com, marex@denx.de, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, upstream@lists.phytec.de
+Subject: Re: [PATCH v7 2/3] drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing
+ optional properties
+Message-ID: <75aewnwpb6y73gqlrqmelzeia7bdar5ihm3ety5gfjaqalkuby@gwv4xjpomoit>
+References: <20241216085410.1968634-1-andrej.picej@norik.com>
+ <20241216085410.1968634-3-andrej.picej@norik.com>
 MIME-Version: 1.0
-In-Reply-To: <20241216015246.141006-1-zhanxin@nfschina.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FsZ7lq9cpXhQo-iHPc7LEVDWs2kpKC78D0vEORt0kGc_1734342327
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241216085410.1968634-3-andrej.picej@norik.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,45 +97,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the patch, some notes below.
-
-On Mon, Dec 16, 2024 at 09:52:46AM +0800, Zhanxin Qi wrote:
-> The nvbios_iccsense_parse function allocates memory for sensor data
-> but fails to free it when the function exits, leading to a memory
-> leak. Add proper cleanup to free the allocated memory.
+On Mon, Dec 16, 2024 at 09:54:09AM +0100, Andrej Picej wrote:
+> Add a optional properties to change LVDS output voltage. This should not
+> be static as this depends mainly on the connected display voltage
+> requirement. We have three properties:
+> - "ti,lvds-termination-ohms", which sets near end termination,
+> - "ti,lvds-vod-swing-data-microvolt" and
+> - "ti,lvds-vod-swing-clock-microvolt" which both set LVDS differential
+> output voltage for data and clock lanes. They are defined as an array
+> with min and max values. The appropriate bitfield will be set if
+> selected constraints can be met.
 > 
-> Signed-off-by: Zhanxin Qi <zhanxin@nfschina.com>
-
-Please also add a "Fixes:" tag and "Cc: stable@vger.kernel.org" for this.
-
+> If "ti,lvds-termination-ohms" is not defined the default of 200 Ohm near
+> end termination will be used. Selecting only one:
+> "ti,lvds-vod-swing-data-microvolt" or
+> "ti,lvds-vod-swing-clock-microvolt" can be done, but the output voltage
+> constraint for only data/clock lanes will be met. Setting both is
+> recommended.
+> 
+> Signed-off-by: Andrej Picej <andrej.picej@norik.com>
 > ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-> index 8f0ccd3664eb..502608d575f7 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-> @@ -291,6 +291,9 @@ nvkm_iccsense_oneinit(struct nvkm_subdev *subdev)
->  			list_add_tail(&rail->head, &iccsense->rails);
->  		}
->  	}
-> +
-> +	kfree(stbl.rail);
-
-I think it's a bit subtile why this is needed here; better add a new inline
-function (nvbios_iccsense_cleanup()) to include/nvkm/subdev/bios/iccsense.h that
-frees the memory and call this one instead.
-
-While at it, you may also want to send a separate patch, adding a brief comment
-to nvbios_iccsense_parse() which notes, that after a successful call to
-nvbios_iccsense_parse() it must be cleaned up with nvbios_iccsense_cleanup().
-
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.30.2
+> Changes in v7:
+> - decrement refcount of the endpoint in all error cases,
+> - add spaces to improve the readability of the long if statement conditions in
+> sn65dsi83_select_lvds_vod_swing.
+> Changes in v6:
+> - rework termination resistor logic, default is now set by resistor value, not
+> reg value,
+> - move setting lvds_vod_swing_conf to default value of 0x1 inside if statement
+> which checks if both properties are not set
+> Changes in v5:
+> - specify default values in sn65dsi83_parse_lvds_endpoint,
+> - move sn65dsi83_parse_lvds_endpoint for channel B up, outside if,
+> Changes in v4:
+> - fix typo in commit message bitfiled -> bitfield
+> - use arrays (lvds_vod_swing_conf and lvds_term_conf) in private data, instead
+> of separate variables for channel A/B
+> - add more checks on return value of "of_property_read_u32_array"
+> Changes in v3:
+> - use microvolts for default array values 1000 mV -> 1000000 uV.
+> Changes in v2:
+> - use datasheet tables to get the proper configuration
+> - since major change was done change the authorship to myself
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 145 +++++++++++++++++++++++++-
+>  1 file changed, 142 insertions(+), 3 deletions(-)
 > 
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
