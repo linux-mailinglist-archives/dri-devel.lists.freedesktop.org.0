@@ -1,86 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74049F3D58
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:21:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC9B9F3D62
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:23:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEB6710E627;
-	Mon, 16 Dec 2024 22:21:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD3AA10E7D0;
+	Mon, 16 Dec 2024 22:23:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hCL5SwWd";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="B//1y3li";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B74BF10E62E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:21:53 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-5401bd6cdb7so4739498e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:21:53 -0800 (PST)
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
+ [IPv6:2a00:1450:4864:20::22e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C490D10E62E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:23:35 +0000 (UTC)
+Received: by mail-lj1-x22e.google.com with SMTP id
+ 38308e7fff4ca-2ffa49f623cso57118831fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:23:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734387712; x=1734992512; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734387814; x=1734992614; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=np9l1SxTtZSdosqDOIcl3yLnm6oukk5vBVkET6t6L00=;
- b=hCL5SwWdFgEcalCKRlvC3BaQgQ06lEVkXg7G6ZOPQ6wLI5qFXdfmVRuysnxsBBTVoB
- yaF+wYOxEyjQlMOQWsxOy2ulqDo7z01ex8sRRTpNeeBjtjdxYyVRVvz9QiRh7/Yie6i3
- U2Qa7wBJfHq0AqQcOHSlfoULt5XJMh48uVQhNwUFWhjn8oj7DUhuJqOYZ31FFQBs+eZt
- cgxynYeJImQrPckdmDAhvK6e1PkHMEDDHToWotRQywwXFOuIC4ubXVStBAPiiPBEwDzT
- pwikP+4M3PooOgkDBSYrVgAO46B/8dD9t5DDTHiQWSRasdA8xk+47JIt3xzj6AIpTxKG
- CRkw==
+ bh=/Mcq9gMedaNCczRwr6HjVU6c+vHbhB80maUVC1Rq2gc=;
+ b=B//1y3liBQ2gh0A1V+aFEI9cbfj7MqWHse6AYra+1NdxOO/Tm8Xv+l2a2WlLUuwk5D
+ jPMOMdbTXQ/NYK/jIararV+ysJes6iJrn4Omdf6O8r8nlesMta1GC8CsfOKoGQZfgZ5L
+ RP2Sth35s+NupUXiErkcVVS+NbQbg5gp4bwfUCyhmrhB2C9YRcrMzM82u3uFUHT6kcMG
+ ZA5d39iai2WP5atRDwBA2mJV3Eyc14jonOwtPFXSWEITId8TwuRJ44WGjSmwltQ2tCpK
+ EftE52y8e0GIHVEuWkdOCpT2q24p9ViCyYHaH6CGfh9AMFidgJKL8GwhzB02ScpIHwC7
+ adwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734387712; x=1734992512;
+ d=1e100.net; s=20230601; t=1734387814; x=1734992614;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=np9l1SxTtZSdosqDOIcl3yLnm6oukk5vBVkET6t6L00=;
- b=qtMHMbPMhTPUOeFIBebNZOoEnqZFnqgfnyJWea2vYFd/aDYQk83JMpokfaazIDnTVW
- SkWESngKrN6fydubIW/ulvxIPiopsT6ytKLURQ8Xc4d/A15wo8dkTxVsfEPfGZS3zRFl
- ZSgeHyhxaQ7W/nMD93UBZsJBLLV1ajdmAngn1tgQtCpDK0mmshFqkyOGYq4CnObLOPg+
- ZnW20jDt26/ovZNG8xFQmX8RLUCnf2u8fVD6VuPGlmwl8ApGkvsurepaYJXJFQIWBvpu
- eFvyRRjHqSu9Vf+mmZNye3JZg0u9zoNxDa1Fo2kTHGDOXjxcuhb7Ndbem5mOUSjXByHb
- Fcng==
+ bh=/Mcq9gMedaNCczRwr6HjVU6c+vHbhB80maUVC1Rq2gc=;
+ b=xIfgAuyMc0TNpivN4s8rAfHdojHEyC49yQEkVIFLh4xHkdj+d2HstChxC9UrbG9Hlv
+ 2VtOT/qHzl8Nz1EN2MqDISUQschAv6TKSZnCVuZOmLqLbNCrwjwhVxOhhiUSvkkTK/2m
+ zrAWoWEsqFxM5SND4Gm1bzkNPg9t//bGwhmV9aEXnlrISbsjTih6KPFQ78AlGGcwylp+
+ r7t2tHQUMysvDEVeN9UC9zG+u53jEQJJbw3UECBAnCUxs8bQP5+ziizH25vQCOLX3KD1
+ I/avrJ5HhDmak/zZ4m6KQzGFmkHCu9IkITAhdgPgCvu66slkA9ixM8N6aPCIrpgzuhRR
+ 8tWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzSbtbx4Nor7qVLTGAB1yaleaNJRSE2A1IY6ZDKySOGbeT0HGPD1ciMcryRjSwJGxqGKgf+/OsuNo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0uGYrmdWU8YcyX9Fs03PgbbHwItZ/ozd3GNdkHpaHEBkLDYs/
- Vw9RYmlZ1pp16MmCTI+AGsZIMswtQoBVQgOj9lmMDyhZ98rKgTZ/YKrNRHngeRM=
-X-Gm-Gg: ASbGncsLM+zhBTt4FyS3gkALHL1bqY+TZLZ2ci9rYMFZRywkQzAHgU7/SRq9pvm66zx
- mlAI5Bv3ashFLsJfPlJ0m2nudjAjqDY6c3NvBcecQmwIWnTuCzru6jAdq1hrEQSr0hHgM4UwGcR
- wXOLGxATO4TSnkTBKr/dIzN+bldqMLmD9EjXTZTMMLxrHf3/qFsagW8OQiyvLOK+pUQVFCH+Z/L
- tcsvxpl8SYVsftYyyRDdiVNm1glZvCBKswgIJ1bzAvD97MDUwSczsJ1rKFHX3DM9gm20IgniZ+B
- g2+cjhWDmaQhn07iTMfRP88w91Hos/zACNWU
-X-Google-Smtp-Source: AGHT+IEnVvJJwRCeSyiKHoHt+hZL09awH4q3F+CSQYY24saJkz00Ofn+xL3gjf2WmIFrEYiDjuRo3w==
-X-Received: by 2002:a05:6512:3b2b:b0:540:1d6c:f1c1 with SMTP id
- 2adb3069b0e04-5408ad81cc1mr3830374e87.2.1734387711878; 
- Mon, 16 Dec 2024 14:21:51 -0800 (PST)
+ AJvYcCXLRjs+epDoMgQ/6zq6gQ02GSpofJeBK/FAYkxOZM4TFcjCiKXNvtTWcIe+TczaEE6wW0ofRY4yYqM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzxw4FX8r0S9s8oqjeA1JX0XvZRNFSN5IZ6enQAmVM50VhCWtJP
+ HR9tDWy9vXaOVCFcwf1wRCZfHQfikQhbh5dCJxYpBT5YME9alyYPSH93yOY4y4o=
+X-Gm-Gg: ASbGnctojFLOYPi3JzJbMyEwdWeaCMHzJmvK72ADKJKgv0rffsnfs4c9J50yoXrS/C2
+ pMKHDbe264/02GonO30bhy6BrfhKisz7IyFOo1KtM5mD5Ld1zl+8v4tJBbi446GZoOSvG01St+X
+ va58WvnShYT6/+z19uWoSMDUJHNiy5ahiDtZP8bnshC2x0AMt1dq6ZBtveuBp+eBqwUD842PVas
+ JEnJbfmICSV37JGaPANEI4HTHxDY+TgXvyQ7wPsvoPEPvgnkGJd+JHf+A9y776+v+2wobtVwY+A
+ 2/9yEmUwy6x7UgWYNvBQsoXf2MXNlK2iLHr5
+X-Google-Smtp-Source: AGHT+IFSCeRUjfR8fMtVy6j8Hm4BkcxvjiUW4q/+aff5Osc4iiR7i3258tq0eqpUXGQgHrhC+BFpsg==
+X-Received: by 2002:a05:651c:19a7:b0:300:418e:768a with SMTP id
+ 38308e7fff4ca-302544ae81dmr51479041fa.31.1734387813858; 
+ Mon, 16 Dec 2024 14:23:33 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120c13d5esm980911e87.216.2024.12.16.14.21.49
+ 38308e7fff4ca-3034406234bsm10618891fa.60.2024.12.16.14.23.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 14:21:50 -0800 (PST)
-Date: Tue, 17 Dec 2024 00:21:48 +0200
+ Mon, 16 Dec 2024 14:23:32 -0800 (PST)
+Date: Tue, 17 Dec 2024 00:23:30 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Robert Foss <rfoss@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Abel Vesa <abel.vesa@linaro.org>, 
- Richard Acayan <mailingradian@gmail.com>, Rob Clark <robdclark@chromium.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, Li Liu <quic_lliu6@quicinc.com>, 
+ Fange Zhang <quic_fangez@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/8] drm/msm/dpu: link DSPP_2/_3 blocks on SM8150
-Message-ID: <og2qlg7fy3gwh3uv7nvmqxmjbzqpdeuekefflzgdet4vnltdtr@q7suuz4ujxp5>
-References: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
- <20241216-dpu-fix-catalog-v1-1-15bf0807dba1@linaro.org>
- <d6be6564-ce24-4a27-a014-45aa9ff28d24@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dpu: correct LM pairing for SM6150
+Message-ID: <55dalo6ecncyceb6wmu7nm6hco4vixxox5grelykkdw5q6yjys@tac57c5nowsd>
+References: <20241216-dpu-fix-sm6150-v1-1-9fd7ce2ff606@linaro.org>
+ <54edef24-b27a-4d79-aff1-672d4e65b5a3@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d6be6564-ce24-4a27-a014-45aa9ff28d24@quicinc.com>
+In-Reply-To: <54edef24-b27a-4d79-aff1-672d4e65b5a3@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,60 +94,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 01:11:35PM -0800, Abhinav Kumar wrote:
+On Mon, Dec 16, 2024 at 11:26:37AM -0800, Abhinav Kumar wrote:
 > 
 > 
-> On 12/16/2024 12:27 AM, Dmitry Baryshkov wrote:
-> > Link DSPP_2 to the LM_2 and DSPP_3 to the LM_3 mixer blocks.
+> On 12/16/2024 12:20 AM, Dmitry Baryshkov wrote:
+> > According to the vendor devicetree on SM6150 LM_0 is paired with LM_2
+> > rather than LM_1. Correct pairing indices.
 > > 
-> > Fixes: 05ae91d960fd ("drm/msm/dpu: enable DSPP support on SM8[12]50")
+> > Fixes: cb2f9144693b ("drm/msm/dpu: Add SM6150 support")
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 2 ++
-> >   1 file changed, 2 insertions(+)
+> >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
 > > 
-> 
-> Change looks fine
-> 
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> One question below (not tied to the change but arose due to it):
-> 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> > index 6ccfde82fecdb4e3612df161814b16f7af40ca5f..421afacb7248039abd9fb66bcb73b756ae0d640a 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
-> > @@ -164,6 +164,7 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+> > index 621a2140f675fa28b3a7fcd8573e59b306cd6832..81eb274cc7000a3b70b0f6650088ddcd24648eab 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+> > @@ -116,20 +116,20 @@ static const struct dpu_lm_cfg sm6150_lm[] = {
 > >   		.sblk = &sdm845_lm_sblk,
-> >   		.lm_pair = LM_3,
+> >   		.pingpong = PINGPONG_0,
+> >   		.dspp = DSPP_0,
+> > -		.lm_pair = LM_1,
+> > +		.lm_pair = LM_2,
+> >   	}, {
+> >   		.name = "lm_1", .id = LM_1,
+> >   		.base = 0x45000, .len = 0x320,
+> >   		.features = MIXER_QCM2290_MASK,
+> >   		.sblk = &sdm845_lm_sblk,
+> >   		.pingpong = PINGPONG_1,
+> > -		.lm_pair = LM_0,
+> >   	}, {
+> >   		.name = "lm_2", .id = LM_2,
+> >   		.base = 0x46000, .len = 0x320,
+> >   		.features = MIXER_QCM2290_MASK,
+> >   		.sblk = &sdm845_lm_sblk,
 > >   		.pingpong = PINGPONG_2,
-> > +		.dspp = DSPP_2,
-> >   	}, {
-> >   		.name = "lm_3", .id = LM_3,
-> >   		.base = 0x47000, .len = 0x320,
-> > @@ -171,6 +172,7 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
-> >   		.sblk = &sdm845_lm_sblk,
-> >   		.lm_pair = LM_2,
-> >   		.pingpong = PINGPONG_3,
-> > +		.dspp = DSPP_3,
-> >   	}, {
-> >   		.name = "lm_4", .id = LM_4,
-> >   		.base = 0x48000, .len = 0x320,
-> > 
+> > +		.lm_pair = LM_0,
+> >   	},
+> >   };
 > 
-> the consumer of .dspp seems to be in the RM code which is used to map the
-> DSPP to encoder_id but is there really any case where lm_id != dspp_id ... I
-> guess I am missing the context of why DSPP id needs to be tracked as LMs and
-> DSPPs go together. Let me also check this part internally.
+> Have a basic question here. We check the peer only if we will have more than
+> one LM needed in the topology but sm6150 does not have 3dmux, so the number
+> of LMs will not go beyond one.
+> 
+> 318 		/* Valid primary mixer found, find matching peers */
+> 319 		if (lm_count < reqs->topology.num_lm) {
+> 
+> It seems like this fix will be unused or does not really matter.
+> 
+> Downstream has a different implementation for lm_pair, its used even to
+> decide the LM pair for CWB mux. Upstream has a simpler implementation of
+> just doing that in the code of using ODD LMs for ODD CWB muxes and even LMs
+> for even CWB muxes. So fix is okay but not needed.
 
-For example check the SDM845, the LM_5 is tied to DSPP_3.
+So which topology is supposed to work with LM_0 / LM_2 pair?
 
-LM | DSPP
----------
-0  |  0
-1  |  1
-2  |  2
-5  |  3
+I'd still prefer to land the fix for the sake of catalog having the
+correct data.
+
+> 
+> > 
+> > ---
+> > base-commit: a3d570eace66b4016f2692a6f1045742ee70c6b1
+> > change-id: 20241216-dpu-fix-sm6150-17f0739f8fe0
+> > 
+> > Best regards,
 
 -- 
 With best wishes
