@@ -1,86 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D409F3A28
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 20:48:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF839F3A33
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 20:50:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DBD10E795;
-	Mon, 16 Dec 2024 19:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E9C10E40C;
+	Mon, 16 Dec 2024 19:50:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="g4vcnG7V";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="siAbRoHl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713C010E795;
- Mon, 16 Dec 2024 19:48:19 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGJ2hZq022389;
- Mon, 16 Dec 2024 19:48:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- s0zZcPlo3tHkTRYO5SgHaIgAlb70ko1PBgevt8qzsIs=; b=g4vcnG7VE1FaPm59
- WCAz8/uuP4PZFcsUdz3Ms67i3CjedNJpH4VfbWA9N9HEExthpMWqjYguH2gIGA0Q
- CqIFfgS2oYVERWkpag9ve/qaoSkFTVzvg+kELu9h4ZCHu8XcwTKIe/NjYj3t1/1a
- Tn8Ec6jKMVrOorGsNh20174U7rWEAPu5sBuqtco/DUXSfHS8AgCggoUCSPFAySWS
- 5S1MF6DBMce2Nk0PuUTod8w5PukR7DJEwYSZtGEGAUP+Xxxz4yOOLLGAtv027Kdp
- MxpCjoBzs2746L41y4HvOgk695m6MKYI3SbLrKqYtICQzgcpB8DK8M0tiK3am0Xi
- it55CA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jgrr9t1q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 19:48:15 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BGJmE7o031120
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 19:48:14 GMT
-Received: from [10.110.88.253] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
- 2024 11:48:13 -0800
-Message-ID: <18399e79-3c4a-402c-8ab9-7fd08f4bb639@quicinc.com>
-Date: Mon, 16 Dec 2024 11:48:11 -0800
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DDE810E40C
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 19:49:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=OZISpXPW/5f5Q0+8LiBQWTg45PvOea3NmAqPAzNmUR0=; b=siAbRoHlT0wcEWtNZsWzYqVajx
+ xNwajsKzXxoXZJZ1C9nZ46k3YcmSEtuFYTviSdlsO68AqLAmxppVHXlewkqUKFEc9iZKZ7kpbJh2l
+ fbrbqHsF/oP8psDRjWiwVDrkwGvDhFirdYB9g0qxAIjKKLTh96auHORavBKF5I/7+9bd2uBG6pWh7
+ WH7dBTco0fRb6MwmRTKJkCqEh2FpCy1cF3/xsrgq4862MNnPAZMDzwZeZTGW444Tz6v5X/iiEYoyJ
+ +TKDzhz61IbVhlWHSTCpLNFCHL5/HM0kWfx0ZnTLB9krPSusuAr2YacPJhR1geEWcLyM5hLsYmx+F
+ W9W5bGxw==;
+Received: from [179.214.71.67] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tNH6A-003vEr-Sq; Mon, 16 Dec 2024 20:49:47 +0100
+Date: Mon, 16 Dec 2024 16:49:37 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v2 2/4] drm/vc4: Use DMA Resv to implement VC4 wait BO
+ IOCTL
+Message-ID: <qo5ijpin3tbj7o6375k7v4wzcvmbxnnve2avplbd2nzy2bsr6l@6kcxzr7vgpiq>
+References: <20241212202337.381614-1-mcanal@igalia.com>
+ <20241212202337.381614-3-mcanal@igalia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/16] drm/msm/dp: pull I/O data out of
- msm_dp_catalog_private()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Paloma Arellano <quic_parellan@quicinc.com>
-CC: Douglas Anderson <dianders@chromium.org>, Stephen Boyd
- <swboyd@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
- <20241216-fd-dp-audio-fixup-v4-7-f8d1961cf22f@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241216-fd-dp-audio-fixup-v4-7-f8d1961cf22f@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: r0VP-AsitkxvAIg3OH--S6KGel3lFxci
-X-Proofpoint-GUID: r0VP-AsitkxvAIg3OH--S6KGel3lFxci
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 impostorscore=0 adultscore=0 spamscore=0 mlxscore=0
- mlxlogscore=953 clxscore=1015 priorityscore=1501 bulkscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412160163
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241212202337.381614-3-mcanal@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,24 +65,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 12/12, Maíra Canal wrote:
+> As the BOs used by VC4 have DMA Reservation Objects attached to it,
+> there is no need to use seqnos wait for the BOs availability. Instead,
+> we can use `dma_gem_dma_resv_wait()`.
 
-
-On 12/15/2024 2:44 PM, Dmitry Baryshkov wrote:
-> Having I/O regions inside a msm_dp_catalog_private() results in extra
-> layers of one-line wrappers for accessing the data. Move I/O region base
-> and size to the globally visible struct msm_dp_catalog.
+typo: drm_gem_dma_resc_wait()
 > 
-> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> Tested-by: Stephen Boyd <swboyd@chromium.org> # sc7180-trogdor
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->   drivers/gpu/drm/msm/dp/dp_catalog.c | 542 +++++++++++++++---------------------
->   drivers/gpu/drm/msm/dp/dp_catalog.h |  12 +
->   2 files changed, 232 insertions(+), 322 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_drv.h | 10 ++++++++++
+>  drivers/gpu/drm/vc4/vc4_gem.c | 31 +++++++++++++++++++------------
+>  2 files changed, 29 insertions(+), 12 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
+> index 4a078ffd9f82..03ed40ab9a93 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -924,6 +924,16 @@ struct vc4_validated_shader_info {
+>  						   (Wmax))
+>  #define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
+>  
+> +static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
+> +{
+> +	/* nsecs_to_jiffies64() does not guard against overflow */
+> +	if ((NSEC_PER_SEC % HZ) != 0 &&
+> +	    div_u64(n, NSEC_PER_SEC) >= MAX_JIFFY_OFFSET / HZ)
+> +		return MAX_JIFFY_OFFSET;
+> +
+> +	return min_t(u64, MAX_JIFFY_OFFSET, nsecs_to_jiffies64(n) + 1);
+> +}
+> +
 
-For the reminder of this series, please wait for the discussion at [1] 
-to complete.
+Should nsecs_to_jiffies_timeout become common code?
+
+>  /* vc4_bo.c */
+>  struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size);
+>  struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t size,
+> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+> index 1021f45cb53c..4037c65eb269 100644
+> --- a/drivers/gpu/drm/vc4/vc4_gem.c
+> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+> @@ -1017,11 +1017,13 @@ int
+>  vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
+>  		  struct drm_file *file_priv)
+>  {
+> -	struct vc4_dev *vc4 = to_vc4_dev(dev);
+>  	int ret;
+> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
+>  	struct drm_vc4_wait_bo *args = data;
+> -	struct drm_gem_object *gem_obj;
+> -	struct vc4_bo *bo;
+> +	unsigned long timeout_jiffies =
+> +		nsecs_to_jiffies_timeout(args->timeout_ns);
+> +	ktime_t start = ktime_get();
+> +	u64 delta_ns;
+>  
+>  	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
+>  		return -ENODEV;
+> @@ -1029,17 +1031,22 @@ vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
+>  	if (args->pad != 0)
+>  		return -EINVAL;
+>  
+> -	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
+> -	if (!gem_obj) {
+> -		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
+> -		return -EINVAL;
+> -	}
+> -	bo = to_vc4_bo(gem_obj);
+> +	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
+> +				    true, timeout_jiffies);
+>  
+> -	ret = vc4_wait_for_seqno_ioctl_helper(dev, bo->seqno,
+> -					      &args->timeout_ns);
+> +	/* Decrement the user's timeout, in case we got interrupted
+> +	 * such that the ioctl will be restarted.
+> +	 */
+> +	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
+> +	if (delta_ns < args->timeout_ns)
+> +		args->timeout_ns -= delta_ns;
+> +	else
+> +		args->timeout_ns = 0;
+> +
+> +	/* Asked to wait beyond the jiffy/scheduler precision? */
+> +	if (ret == -ETIME && args->timeout_ns)
+> +		ret = -EAGAIN;
+>  
+> -	drm_gem_object_put(gem_obj);
+
+Just left some comments above.
+
+This change sounds sensible and the patch LGTM.
+Thanks!
+
+Reviewed-by: Melissa Wen <mwen@igalia.com>
 
 
-[1] : https://patchwork.freedesktop.org/patch/628449/?series=141074&rev=3
+>  	return ret;
+>  }
+>  
+> -- 
+> 2.47.1
+> 
