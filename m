@@ -2,87 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4ABE9F3DB6
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6709F3DC9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:54:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E6710E7D4;
-	Mon, 16 Dec 2024 22:46:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1EA10E0AD;
+	Mon, 16 Dec 2024 22:54:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Wc48ARLE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Nl/1ALuF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BEEE10E7D4;
- Mon, 16 Dec 2024 22:46:18 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGKM93f030386;
- Mon, 16 Dec 2024 22:46:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- O8GwVu2m059IicnAysIcT3Yi14FZ4JYh3//9QPPQ3lQ=; b=Wc48ARLElOIA3hul
- XiNoLTDh250LhRHbXwf7Pcum8UE+3mD91R3IUHbAWAK3lO/DSuYeR0hqUXXao7Is
- g1EKz/VWZW0LJdLLzXyHanJLP7HcaGvzA3KHDbLT/rwYmFSpk1Yvp//DY9lkkmCv
- y//b78Wur8qzLXvQuNJJqS+iJIWuU3EGDP/eDcxAEm9g+vnfpUof+aO0AmI0qydd
- Ee/GQARreIfz2tqEs7JYFaCtDCiEppbR6TrOa1b/LNDnUYekFUGDQ3bE+8WHUq7o
- snxKfZ5vfXLwMq7hrXbQaN3a81UkAkLkQDHNYrVaf0CdWunQyUTBUOXoT0Y52Wc1
- tTczcA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ju61r8sy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 22:46:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BGMkBTj001585
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Dec 2024 22:46:11 GMT
-Received: from [10.110.119.169] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
- 2024 14:46:10 -0800
-Message-ID: <ee04bf79-5a47-4a91-9aa2-cf0b909c6dea@quicinc.com>
-Date: Mon, 16 Dec 2024 14:46:09 -0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A3710E0AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:54:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734389682;
+ bh=NH3AgonOJDLYtaMkD1sV08KHOIcuLuMJl/JutU6HH7U=;
+ h=From:Subject:Date:To:Cc:From;
+ b=Nl/1ALuFWj3sUR3E4s/v6QMzrysbxrVcF5j3O7Wd2Y3monQfvs6cMST3MZT2wMggZ
+ CWUqDl+pGrrVsF6m7H6I0jq/iwAElHQ0v8Q/JxDOv5iEm6YJjpJWEmDTGoyYtoKpJF
+ 4QNfLEWdHwdc4WjY0Jv2HR5tInnWGQJfgBKaN0Vw0rRlbGH6NMowkE2mjw1dj5uCPu
+ CAi7OIJTUXm0LupMHNwfDgw9ww0wWlB6TzCDh5j/DwenGXyzpP64L+VslCxpqcIjnJ
+ QbiFNytHL246GcB873p9TW+bqIgJJ8MOjJ8qetYJF76rh++0Qw3Uz6DwUIWfn4lbA9
+ too6snvtzUTeQ==
+Received: from localhost (unknown [188.27.48.199])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9430217E3830;
+ Mon, 16 Dec 2024 23:54:42 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Subject: [PATCH v3 0/2] Fix ycbcr_420_allowed inconsistency for HDMI
+ bridges
+Date: Tue, 17 Dec 2024 00:54:06 +0200
+Message-Id: <20241217-bridge-conn-fmt-prio-v3-0-3ecb3c8fc06f@collabora.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] drm/msm/dpu: link DSPP_2/_3 blocks on SM8150
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Robert Foss <rfoss@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Abel Vesa <abel.vesa@linaro.org>, Richard Acayan <mailingradian@gmail.com>,
- Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
- <20241216-dpu-fix-catalog-v1-1-15bf0807dba1@linaro.org>
- <d6be6564-ce24-4a27-a014-45aa9ff28d24@quicinc.com>
- <og2qlg7fy3gwh3uv7nvmqxmjbzqpdeuekefflzgdet4vnltdtr@q7suuz4ujxp5>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <og2qlg7fy3gwh3uv7nvmqxmjbzqpdeuekefflzgdet4vnltdtr@q7suuz4ujxp5>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: mrUyvHh6U7jX1oCMrakJ1MxamOyn5_Ev
-X-Proofpoint-ORIG-GUID: mrUyvHh6U7jX1oCMrakJ1MxamOyn5_Ev
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- mlxscore=0 spamscore=0 malwarescore=0 clxscore=1015 phishscore=0
- adultscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2412160187
+X-B4-Tracking: v=1; b=H4sIAI6vYGcC/4XNTQrDIBAF4KsU17U4Gn/aVe9RuohGGyHRoEFaQ
+ u5ek02hUMqs3oP3zYKyTd5mdDksKNnis4+hBnY8INO34WGx72pGlNAGgBGsk+9qa2II2I0znpK
+ P2HCQBhoibcdRnU7JOv/c2du95t7nOabX/qXA1v4BC+B6jdBCMAfSsauJw9DqmNqTiSPa0EI/E
+ CXiB0QrpLhRIDk9a6W+oXVd31MPNtsFAQAA
+X-Change-ID: 20241130-bridge-conn-fmt-prio-c517c1407ed5
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,65 +72,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Bridges with DRM_BRIDGE_OP_HDMI set in drm_bridge->ops are expected to
+rely on drm_bridge->supported_formats to advertise the supported
+colorspaces, including HDMI_COLORSPACE_YUV420.
 
+However, when drm_bridge_connector gets initialised, only
+drm_bridge->ycbcr_420_allowed is considered in the process of adjusting
+the drm_connector->ycbcr_420_allowed, which effectively discards the
+formats advertised by the HDMI bridge.
 
-On 12/16/2024 2:21 PM, Dmitry Baryshkov wrote:
-> On Mon, Dec 16, 2024 at 01:11:35PM -0800, Abhinav Kumar wrote:
->>
->>
->> On 12/16/2024 12:27 AM, Dmitry Baryshkov wrote:
->>> Link DSPP_2 to the LM_2 and DSPP_3 to the LM_3 mixer blocks.
->>>
->>> Fixes: 05ae91d960fd ("drm/msm/dpu: enable DSPP support on SM8[12]50")
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 2 ++
->>>    1 file changed, 2 insertions(+)
->>>
->>
->> Change looks fine
->>
->> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>
->> One question below (not tied to the change but arose due to it):
->>
->>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
->>> index 6ccfde82fecdb4e3612df161814b16f7af40ca5f..421afacb7248039abd9fb66bcb73b756ae0d640a 100644
->>> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
->>> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
->>> @@ -164,6 +164,7 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
->>>    		.sblk = &sdm845_lm_sblk,
->>>    		.lm_pair = LM_3,
->>>    		.pingpong = PINGPONG_2,
->>> +		.dspp = DSPP_2,
->>>    	}, {
->>>    		.name = "lm_3", .id = LM_3,
->>>    		.base = 0x47000, .len = 0x320,
->>> @@ -171,6 +172,7 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
->>>    		.sblk = &sdm845_lm_sblk,
->>>    		.lm_pair = LM_2,
->>>    		.pingpong = PINGPONG_3,
->>> +		.dspp = DSPP_3,
->>>    	}, {
->>>    		.name = "lm_4", .id = LM_4,
->>>    		.base = 0x48000, .len = 0x320,
->>>
->>
->> the consumer of .dspp seems to be in the RM code which is used to map the
->> DSPP to encoder_id but is there really any case where lm_id != dspp_id ... I
->> guess I am missing the context of why DSPP id needs to be tracked as LMs and
->> DSPPs go together. Let me also check this part internally.
-> 
-> For example check the SDM845, the LM_5 is tied to DSPP_3.
-> 
-> LM | DSPP
-> ---------
-> 0  |  0
-> 1  |  1
-> 2  |  2
-> 5  |  3
-> 
+This patchset tries to address the issue by prioritizing
+supported_formats over ycbcr_420_allowed.
 
-Ah ... yes ... seems like sdm845 is the only one having this anomaly.
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+Changes in v3:
+- Simplified the inconsistency handling by overwriting ycbcr_420_allowed
+  for HDMI bridges before adding them to the global bridge list
+- Added a 2nd patch to check if supported_formats matches
+  ycbcr_420_allowed on HDMI connector initialization (Dmitry)
+- Link to v2: https://lore.kernel.org/r/20241206-bridge-conn-fmt-prio-v2-1-85c817529b88@collabora.com
 
-Thanks for clarifying.
+Changes in v2:
+- Wrapped HDMI_COLORSPACE_YUV420 flag in the BIT() macro to properly
+  check its presence in supported_formats
+- Ensured YUV420 gets removed from the bitmask passed to
+  drmm_connector_hdmi_init() when ycbcr_420_allowed is not set
+- Link to v1: https://lore.kernel.org/r/20241130-bridge-conn-fmt-prio-v1-1-146b663f17f3@collabora.com
+
+---
+Cristian Ciocaltea (2):
+      drm/bridge-connector: Prioritize supported_formats over ycbcr_420_allowed
+      drm/connector: hdmi: Validate supported_formats matches ycbcr_420_allowed
+
+ drivers/gpu/drm/display/drm_bridge_connector.c | 8 ++++++--
+ drivers/gpu/drm/drm_bridge.c                   | 4 ++++
+ drivers/gpu/drm/drm_connector.c                | 3 +++
+ 3 files changed, 13 insertions(+), 2 deletions(-)
+---
+base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
+change-id: 20241130-bridge-conn-fmt-prio-c517c1407ed5
+
