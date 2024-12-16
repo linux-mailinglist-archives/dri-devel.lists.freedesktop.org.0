@@ -2,78 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F639F3356
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1B09F335F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:41:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45FAB10E6AC;
-	Mon, 16 Dec 2024 14:37:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="UGwLdgEV";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7C110E6A8;
+	Mon, 16 Dec 2024 14:41:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E158010E6AA
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:37:41 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-385e87b25f0so3413368f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1734359860; x=1734964660; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yrESZw/En081PSbiXgevMbDjSYkok7om/KLb20cYOfA=;
- b=UGwLdgEVdw44bNlDcQ/d0ma5mcfOyoLKj3MAnQ3hfMtJHk/rYnw+DNA/hofPXH1CXM
- vlaKfFigrTwWzNDZa5W0829P1Hd+gvq51vbO8O9cnmy1QxCe/mn6E1dRhuKS940YgO2P
- BNoj67wU2+ymVZxm/UFjK8sYOft5ngN54kcmM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734359860; x=1734964660;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yrESZw/En081PSbiXgevMbDjSYkok7om/KLb20cYOfA=;
- b=aeVKNuW0BjcnVEUfIxO7s6xxblQpVuRqGsukRqbDn0UFgZt2+lADKULhZPDG7haifO
- +00gWaQzC1bLOGoRkTvMLfv8zDf1LOkzD/sKEaIyMU29QBWdwsYqFA8HZP7MB0GyHO3p
- e6Oc6kd8Y6RHkH5NOW1Ixu4c5DJiOJIK2uUDqS5xJMmYlbaspz0ZmjCs86D+6l6aSwDY
- D2S0q6cOA04m4B6ILLE9hmjDHL5g4wpO3Rbx381i/1oYq5uDgln3mPPI7LetZDiWiNO1
- Zs5ljWSJi6yd67M4+XOHQCilYhMhoeawodQGG+Ba7dKsLwMzvf/TQPCG3lUQjeBSipKI
- qVrw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBeMKyqdm6QQ6kD0DMnnwGI7sm7aNCG0hTWFKpUc+6i/iOXixAUeGwZ4Ql/61f139dOCFKfjdHeJc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc8yElNFon/kraqaG1Hqo/3Cai6ptxMpsM85dJCKc1B08n4JpU
- NG+x1wDVKlbF/nN+YbZk2Lu5FdE5W/r3rK7CkxQ+lfnpWJkiZ+I+GF0mcqYNn/i0tNSJkUWkxkP
- IueA=
-X-Gm-Gg: ASbGncso0h7eFnEPI/hoFh+wKVGhGV6eW55l3frCNGOhrFmJ8xAdMwUnU67U9RL8zJJ
- fmFzDnfREPSVvMfbAj77BJxVFL0lp/wCLK3SKs7KaA8wPmOF09WduXv63SZZUWx5jDa2wM88Mg3
- hLPmitS2dDTBT9MhuWBV3bB0FnTsHWda2c9QVfDuAumfuLlZj/oPkWDkU9baIkO4vrMSeIzgHSF
- dtPEbuvHOYQPAaJgBrCQIMB1b50Yf25GfTUWuE60pdXPTY+W1Db0M80pjSvlblCLVch
-X-Google-Smtp-Source: AGHT+IHQAE1+ZiBY7NHVgVWlllGKn5NQ+5AWIWZQinPR5u/hZAOXW5icb//z2r0MiIJQq3hTfx3aUA==
-X-Received: by 2002:a05:6000:2ae:b0:386:3c93:70ff with SMTP id
- ffacd0b85a97d-387887df1a0mr14788552f8f.8.1734359860319; 
- Mon, 16 Dec 2024 06:37:40 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-388c801626asm8345461f8f.29.2024.12.16.06.37.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 06:37:39 -0800 (PST)
-Date: Mon, 16 Dec 2024 15:37:38 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Imre Deak <imre.deak@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 03/11] drm/connector: Add deprication notes for
- drm_connector_register/unregister
-Message-ID: <Z2A7Mgo5nE1saCVR@phenom.ffwll.local>
-References: <20241211230328.4012496-1-imre.deak@intel.com>
- <20241211230328.4012496-4-imre.deak@intel.com>
- <87ed2dxlcd.fsf@intel.com>
- <Z1rQ8pvfFWlj5yLl@ideak-desk.fi.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1C7B210E6A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:41:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3D4F113E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:41:54 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8F96A3F58B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:41:26 -0800 (PST)
+Date: Mon, 16 Dec 2024 14:41:16 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] drm/panthor: Expose size of driver internal BO's
+ over fdinfo
+Message-ID: <Z2A8DEIPSZY8kKG8@e110455-lin.cambridge.arm.com>
+References: <20241211163436.381069-1-adrian.larumbe@collabora.com>
+ <20241211163436.381069-2-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z1rQ8pvfFWlj5yLl@ideak-desk.fi.intel.com>
-X-Operating-System: Linux phenom 6.12.3-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241211163436.381069-2-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,57 +55,314 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 02:02:58PM +0200, Imre Deak wrote:
-> On Thu, Dec 12, 2024 at 12:10:58PM +0200, Jani Nikula wrote:
-> > [...]
-> > On Thu, 12 Dec 2024, Imre Deak <imre.deak@intel.com> wrote:
-> > > @@ -863,9 +866,14 @@ EXPORT_SYMBOL(drm_connector_dynamic_register);
-> > >   * drm_connector_unregister - unregister a connector
-> > >   * @connector: the connector to unregister
-> > >   *
-> > > - * Unregister userspace interfaces for a connector. Only call this for
-> > > - * connectors which have been registered explicitly by calling
-> > > - * drm_connector_register().
-> > > + * Unregister userspace interfaces for a connector. Drivers should call this
-> > > + * for dynamic connectors (MST) only, which were registered explicitly by
-> > > + * calling drm_connector_dynamic_register(). All other - static - connectors
-> > > + * will be unregistered automatically by DRM core and drivers shouldn't call
-> > > + * this function for those.
-> > 
-> > This kind of supports my point about a single
-> > drm_connector_register(). There's no
-> > drm_connector_dynamic_unregister(). After all the
-> > drm_connector_register() calls have been removed, we're left with the
-> > asymmetric pair:
-> > 
-> > - drm_connector_dynamic_register()
-> > - drm_connector_unregister()
-> > 
-> > Then again, all of these should become internal and not for drivers?
+On Wed, Dec 11, 2024 at 04:34:31PM +0000, Adrián Larumbe wrote:
+> This will display the sizes of kenrel BO's bound to an open file, which are
+> otherwise not exposed to UM through a handle.
 > 
-> Yes, drm_connector_register() - after this patchset - could be removed
-> from drivers. The use of drm_connector_unregister() in drivers for
-> static connectors should be also removed, left it for DRM core internal
-> use only and exporting drm_connector_dynamic_unregister() for driver
-> use (atm only MST).
-
-Yup that's been the plan for a while for static connectors, unfortunately
-there's some fun around dp connectors and dp aux specifically that make
-the cleanup not entirely a cocci job :-/
--Sima
-
+> The sizes recorded are as follows:
+>  - Per group: suspend buffer, protm-suspend buffer, syncobjcs
+>  - Per queue: ringbuffer, profiling slots, firmware interface
+>  - For all heaps in all heap pools across all VM's bound to an open file,
+>  record size of all heap chuks, and for each pool the gpu_context BO too.
 > 
-> > > + *
-> > > + * Note: Existing uses of this function in drivers for static connectors
-> > > + * should be a nop already and are scheduled to be removed.
-> > >   */
-> > >  void drm_connector_unregister(struct drm_connector *connector)
-> > >  {
-> > 
-> > -- 
-> > Jani Nikula, Intel
+> This does not record the size of FW regions, as these aren't bound to a
+> specific open file and remain active through the whole life of the driver.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+
+With the issue that Boris pointed fixed,
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 12 ++++++
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++++
+>  drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
+>  drivers/gpu/drm/panthor/panthor_mmu.c   | 35 +++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.h   |  4 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 52 ++++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_sched.h |  4 ++
+>  7 files changed, 134 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index ac7e53f6e3f0..8e27d0429019 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1457,12 +1457,24 @@ static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
+>  	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequency);
+>  }
+>  
+> +static void panthor_show_internal_memory_stats(struct drm_printer *p, struct drm_file *file)
+> +{
+> +	struct panthor_file *pfile = file->driver_priv;
+> +	struct drm_memory_stats status = {0};
+> +
+> +	panthor_group_kbo_sizes(pfile, &status);
+> +	panthor_vm_heaps_sizes(pfile, &status);
+> +
+> +	drm_print_memory_stats(p, &status, DRM_GEM_OBJECT_RESIDENT, "internal");
+> +}
+> +
+>  static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+>  {
+>  	struct drm_device *dev = file->minor->dev;
+>  	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+>  
+>  	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
+> +	panthor_show_internal_memory_stats(p, file);
+>  
+>  	drm_show_memory_stats(p, file);
+>  }
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
+> index 3796a9eb22af..e4464c5e93ef 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -603,3 +603,29 @@ void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
+>  
+>  	panthor_heap_pool_put(pool);
+>  }
+> +
+> +/**
+> + * panthor_heap_pool_size() - Calculate size of all chunks across all heaps in a pool
+> + * @pool: Pool whose total chunk size to calculate.
+> + *
+> + * This function adds the size of all heap chunks across all heaps in the
+> + * argument pool. It also adds the size of the gpu contexts kernel bo.
+> + * It is meant to be used by fdinfo for displaying the size of internal
+> + * driver BO's that aren't exposed to userspace through a GEM handle.
+> + *
+> + */
+> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
+> +{
+> +	struct panthor_heap *heap;
+> +	unsigned long i;
+> +	size_t size = 0;
+> +
+> +	down_write(&pool->lock);
+> +	xa_for_each(&pool->xa, i, heap)
+> +		size += heap->chunk_size * heap->chunk_count;
+> +	up_write(&pool->lock);
+> +
+> +	size += pool->gpu_contexts->obj->size;
+> +
+> +	return size;
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
+> index 25a5f2bba445..e3358d4e8edb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.h
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.h
+> @@ -27,6 +27,8 @@ struct panthor_heap_pool *
+>  panthor_heap_pool_get(struct panthor_heap_pool *pool);
+>  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
+>  
+> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
+> +
+>  int panthor_heap_grow(struct panthor_heap_pool *pool,
+>  		      u64 heap_gpu_va,
+>  		      u32 renderpasses_in_flight,
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index c3f0b0225cf9..72387c95d103 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1941,6 +1941,41 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool c
+>  	return pool;
+>  }
+>  
+> +/**
+> + * panthor_vm_heaps_size() - Calculate size of all heap chunks across all
+> + * heaps over all the heap pools in a VM
+> + * @pfile: File.
+> + * @status: Memory status to be updated.
+> + *
+> + * Calculate all heap chunk sizes in all heap pools bound to a VM. If the VM
+> + * is active, record the size as active as well.
+> + */
+> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats *status)
+> +{
+> +	struct panthor_vm *vm;
+> +	unsigned long i;
+> +
+> +	if (!pfile->vms)
+> +		return;
+> +
+> +	xa_for_each(&pfile->vms->xa, i, vm) {
+> +		size_t size;
+> +
+> +		mutex_lock(&vm->heaps.lock);
+> +		if (!vm->heaps.pool) {
+> +			mutex_unlock(&vm->heaps.lock);
+> +			continue;
+> +		}
+> +		size = panthor_heap_pool_size(vm->heaps.pool);
+> +		mutex_unlock(&vm->heaps.lock);
+> +
+> +		status->resident += size;
+> +		status->private += size;
+> +		if (vm->as.id >= 0)
+> +			status->active += size;
+> +	}
+> +}
+> +
+>  static u64 mair_to_memattr(u64 mair, bool coherent)
+>  {
+>  	u64 memattr = 0;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> index 8d21e83d8aba..2aeb2522cdfa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -5,10 +5,12 @@
+>  #ifndef __PANTHOR_MMU_H__
+>  #define __PANTHOR_MMU_H__
+>  
+> +#include <linux/types.h>
+>  #include <linux/dma-resv.h>
+>  
+>  struct drm_exec;
+>  struct drm_sched_job;
+> +struct drm_memory_stats;
+>  struct panthor_gem_object;
+>  struct panthor_heap_pool;
+>  struct panthor_vm;
+> @@ -37,6 +39,8 @@ int panthor_vm_flush_all(struct panthor_vm *vm);
+>  struct panthor_heap_pool *
+>  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
+>  
+> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats *status);
+> +
+>  struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
+>  void panthor_vm_put(struct panthor_vm *vm);
+>  struct panthor_vm *panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index ef4bec7ff9c7..93497dadf085 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -618,7 +618,7 @@ struct panthor_group {
+>  	 */
+>  	struct panthor_kernel_bo *syncobjs;
+>  
+> -	/** @fdinfo: Per-file total cycle and timestamp values reference. */
+> +	/** @fdinfo: Per-group total cycle and timestamp values and kernel BO sizes. */
+>  	struct {
+>  		/** @data: Total sampled values for jobs in queues from this group. */
+>  		struct panthor_gpu_usage data;
+> @@ -628,6 +628,9 @@ struct panthor_group {
+>  		 * and job post-completion processing function
+>  		 */
+>  		struct mutex lock;
+> +
+> +		/** @bo_sizes: Aggregate size of private kernel BO's held by the group. */
+> +		size_t kbo_sizes;
+>  	} fdinfo;
+>  
+>  	/** @state: Group state. */
+> @@ -3365,6 +3368,29 @@ group_create_queue(struct panthor_group *group,
+>  	return ERR_PTR(ret);
+>  }
+>  
+> +static void add_group_kbo_sizes(struct panthor_device *ptdev,
+> +				struct panthor_group *group)
+> +{
+> +	struct panthor_queue *queue;
+> +	int i;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(group)))
+> +		return;
+> +	if (drm_WARN_ON(&ptdev->base, ptdev != group->ptdev))
+> +		return;
+> +
+> +	group->fdinfo.kbo_sizes += group->suspend_buf->obj->size;
+> +	group->fdinfo.kbo_sizes += group->protm_suspend_buf->obj->size;
+> +	group->fdinfo.kbo_sizes += group->syncobjs->obj->size;
+> +
+> +	for (i = 0; i < group->queue_count; i++) {
+> +		queue =	group->queues[i];
+> +		group->fdinfo.kbo_sizes += queue->ringbuf->obj->size;
+> +		group->fdinfo.kbo_sizes += queue->iface.mem->obj->size;
+> +		group->fdinfo.kbo_sizes += queue->profiling.slots->obj->size;
+> +	}
+> +}
+> +
+>  #define MAX_GROUPS_PER_POOL		128
+>  
+>  int panthor_group_create(struct panthor_file *pfile,
+> @@ -3489,6 +3515,7 @@ int panthor_group_create(struct panthor_file *pfile,
+>  	}
+>  	mutex_unlock(&sched->reset.lock);
+>  
+> +	add_group_kbo_sizes(group->ptdev, group);
+>  	mutex_init(&group->fdinfo.lock);
+>  
+>  	return gid;
+> @@ -3606,6 +3633,29 @@ void panthor_group_pool_destroy(struct panthor_file *pfile)
+>  	pfile->groups = NULL;
+>  }
+>  
+> +/**
+> + * panthor_group_kbo_sizes() - Retrieve aggregate size of all private kernel BO's
+> + * belonging to all the groups owned by an open Panthor file
+> + * @pfile: File.
+> + * @status: Memory status to be updated.
+> + *
+> + */
+> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memory_stats *status)
+> +{
+> +	struct panthor_group_pool *gpool = pfile->groups;
+> +	struct panthor_group *group;
+> +	unsigned long i;
+> +
+> +	if (IS_ERR_OR_NULL(gpool))
+> +		return;
+> +	xa_for_each(&gpool->xa, i, group) {
+> +		status->resident += group->fdinfo.kbo_sizes;
+> +		status->private += group->fdinfo.kbo_sizes;
+> +		if (group->csg_id >= 0)
+> +			status->active += group->fdinfo.kbo_sizes;
+> +	}
+> +}
+> +
+>  static void job_release(struct kref *ref)
+>  {
+>  	struct panthor_job *job = container_of(ref, struct panthor_job, refcount);
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
+> index 5ae6b4bde7c5..4dd6a7fc8fbd 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> @@ -4,11 +4,14 @@
+>  #ifndef __PANTHOR_SCHED_H__
+>  #define __PANTHOR_SCHED_H__
+>  
+> +#include <linux/types.h>
+> +
+>  struct drm_exec;
+>  struct dma_fence;
+>  struct drm_file;
+>  struct drm_gem_object;
+>  struct drm_sched_job;
+> +struct drm_memory_stats;
+>  struct drm_panthor_group_create;
+>  struct drm_panthor_queue_create;
+>  struct drm_panthor_group_get_state;
+> @@ -36,6 +39,7 @@ void panthor_job_update_resvs(struct drm_exec *exec, struct drm_sched_job *job);
+>  
+>  int panthor_group_pool_create(struct panthor_file *pfile);
+>  void panthor_group_pool_destroy(struct panthor_file *pfile);
+> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memory_stats *status);
+>  
+>  int panthor_sched_init(struct panthor_device *ptdev);
+>  void panthor_sched_unplug(struct panthor_device *ptdev);
+> -- 
+> 2.47.0
+> 
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
