@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08569F2BCB
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:27:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B1C9F2BCC
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:27:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41D0B10E526;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8AA710E52D;
 	Mon, 16 Dec 2024 08:27:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Bn2no3ic";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kTqdLT0E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E8610E52A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:27:37 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-30227c56b11so37989531fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 00:27:37 -0800 (PST)
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com
+ [IPv6:2a00:1450:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1487B10E52A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:27:40 +0000 (UTC)
+Received: by mail-lj1-x232.google.com with SMTP id
+ 38308e7fff4ca-3003c82c95cso31943001fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 00:27:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734337656; x=1734942456; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734337658; x=1734942458; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EjeVcGMhalEWw9xcCqMUL7so98QwVZkPwRwD7ozFXS8=;
- b=Bn2no3icAca6YuSkw1CYAM++AO3bGqR6YojhWhUorNs7SjizgOYw9Ooi3qYK6QxC/V
- NhqRMLQIq+npWxsNkFschMRXdHC44DaSd0sH76k+2uy/xXuEeVuio3m6XXBJO71fWwZo
- XZu/rB1xLz0ny5Ow3rRYsSDX/YiG+J2X7CkNz8I60qz3snlPrYs3LGmdYVuSBUs0sopG
- lGDcvd2NxV6scLFjNTxB4mKegBW5glgSaIIQPwY8Bm8XKEyXC8DG4TIRSXXoQMjXmv/C
- nKdULW66/Q66XNV7Nbda1aKoYVESJcjU+ciF3Ac9SzCp+cvw42Csze8o5CeFwvoiYLf4
- 9J6g==
+ :reply-to; bh=ZbJUsGouyvpdIwJ5KdGKXUaM1AeXWb7FKeLRpP8lHmo=;
+ b=kTqdLT0EiaQkf0Qsmwo2qc4Mqpig1oK1Z9tw76v//nG8ydwdVyvUtZx58fowzdghkY
+ 9nJeBniqYXtEP00FLlCVnyWERsxrtfsDd8qFRAYtzJTOZjkBMhfVwQ5CNMFWxRvfnzC6
+ i0QxEpXvgHQquofiPAiS3ngrNJgE1LiaLB3OzFe+690+qX38NnsmAI0BGCuVQZ3qesIU
+ qeEp2f+YlCtxzBmPhnXCrHvIC8xz/CB26GPAd87tE2UDDMA6zdfWVhHvRyanzSV3jIPV
+ vNHOQyvIqs004eRovIwgJx/u+adKL2bHsrmSE9vgH2Wdf1g7rzTSHDgGz0/twXt3RJds
+ ts5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734337656; x=1734942456;
+ d=1e100.net; s=20230601; t=1734337658; x=1734942458;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EjeVcGMhalEWw9xcCqMUL7so98QwVZkPwRwD7ozFXS8=;
- b=WpBSNhEdiB8BxAbHndQBtEM6KL/MVoVIrYGkU61fzf8jZkCSTBKfnInKQHBC04fY7K
- v2aOK7TUcJ4ltxf3D88InKZ/1pGLKTm28vXQ2YlF6FK7e5pcBoQ8EJ1h6ovv630YIvgx
- 9ANEvacj5mBCGrrGMc8ulJqpGLNGSaKPrjaKqRG0tyyOZJKBxIr/acubMyuQe62p2O9J
- sSqIkc4jgUJxjwvi7bPxr+q8Btdb5Cy3Pg8aCCKb/pfTTT/G49jkW/Fm4pixjZJSRSNd
- Of+BNYnImdpI4CQWouukyi0mOgN/EdmrI2FlSzAy3c0/gUIRsbEyyNOZcTkIeGH0utRZ
- xzpg==
+ bh=ZbJUsGouyvpdIwJ5KdGKXUaM1AeXWb7FKeLRpP8lHmo=;
+ b=LF/zzHw13SdafrzYIggzz9+ARa+XdpIm3Jy1iw6KfvDsi1cHt91PYPWHZwytGg47CP
+ Sa1vK3KwaszJ5p9qqZ4x3f67w04LSOOz6zZkYnG71gnbaya0kYrQQm03PijQDwVmD0W5
+ 2iWyJlKvP3oVqktt+YnOiFfiBamJZOU71rpkDDMlG2FQHPDhpQhhkvAYuNNttl8Ijk6j
+ 50Hs/lnnOkW9xQpjmUFFCf++1KZdNiqQdcXIISHNuJ+8iAomybiXrfY+Rr2h1OLrvyzD
+ v0r6CPrYWMCQ0WcoWdtt1l9EBHUdfoe9EiXxvaPsWuYwKY0nA14K/rfHISHJcV/FUnGj
+ HjoQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUd1Fn0zSJoh3GlJHnFwqyuntr4BjhdvMPbjWkyX5weP8x2PzOWZnNwASVBlyeYU8D4W4uC4gXPp1Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzzWe8wPhvym0zfX8deYnxkQZaQDz8KxdLDX70UjnagEXwa/1DS
- Uphhu17/BMf3RUC/FxMkJ3Dw0iYmGJVKMILTy73OXi9F5mMX+rAaaSQzoZi/fD8=
-X-Gm-Gg: ASbGncvZ3nmg2PkP6nwb1NF8qqRuhl0749Q/oMEP6zd2Ocdd7I47nky+usfy9Vs/hqg
- 1LOAhf7V3qxCx2ePtYcVG3AVHlAjFwvkTzBX4hDmzJT0vVVpw4yI/r3vSTT7C0TjJrd6cgFlEYD
- phhNdNT4jB8ShtxtCLC8CpS+107z6jj0GgvwGY0D68Hm3qg11vYckUIE5RCwzI4DiPyay0bJXaT
- LDxHvOmT6Jgt+wK56abnAyG9+0f4cLIj5xbEF5Dd5MUEizhH2fGMLTwwbvnsBXx
-X-Google-Smtp-Source: AGHT+IGaM+ZRb1OFrc1yp/HQm0eQzzmfQ0sLJ440wGVKdOn2/mFn3Nd/997hnnex+AYrS7uGr6kzuw==
-X-Received: by 2002:a05:651c:198e:b0:302:26ff:d0ca with SMTP id
- 38308e7fff4ca-302544233ebmr31569821fa.3.1734337655950; 
- Mon, 16 Dec 2024 00:27:35 -0800 (PST)
+ AJvYcCV4zhNs9DoN0I50a8L7Np/Qtccn+tNKaOvtmDhtA6S3xCasfjmdnpwRu+KzUSjfSWeqegZfueZzMaE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyjnu0G+Gj2AREUpmidWfQ7SMJwV2R2YE4tN8pA6JkNnrh4N803
+ q6k1xMwOXtbmPCwwT+gV8TBmPZv3Q+oTdn/PQM+mfvAf87WefWX+CmrcsWSGRcI=
+X-Gm-Gg: ASbGncvm2VmfL9S6xPaVTC3gtKtLAQBG79CtkK/2M15tfPT84owt8gZ/AKi4L+KGqAU
+ TpZ+hLv/g7Ev2UYCRGv/KWEV9AnO3734hLpJADjY+e/lzxC6Pnt07hXFtwharIE53iGFaSrEdpW
+ ylTujqg0sZIXz5QDZd7ArG92Xec8cSRx/ZGlBlAfKIBmz8c9kDF6Z0GJeGLnoq4TvzMuuose+bv
+ OEERZD3n84KcDgeCIC6+DbiATFte8vCEyeVaMx4TS+6Wbu3vI4QgNR5++fQxm7Q
+X-Google-Smtp-Source: AGHT+IE09YmVD4DRB6LYkgBX9GgTyicLTyLwxzWmsrV39R4MSiGMzGiG8tc7FZFrp00POVfsz/KMrQ==
+X-Received: by 2002:a2e:bc1a:0:b0:302:3610:a50f with SMTP id
+ 38308e7fff4ca-302544ae74emr31223591fa.30.1734337658383; 
+ Mon, 16 Dec 2024 00:27:38 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30344045342sm8543371fa.33.2024.12.16.00.27.33
+ 38308e7fff4ca-30344045342sm8543371fa.33.2024.12.16.00.27.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 00:27:34 -0800 (PST)
+ Mon, 16 Dec 2024 00:27:37 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 16 Dec 2024 10:27:25 +0200
-Subject: [PATCH 4/8] drm/msm/dpu: link DSPP_2/_3 blocks on SM8350
+Date: Mon, 16 Dec 2024 10:27:26 +0200
+Subject: [PATCH 5/8] drm/msm/dpu: link DSPP_2/_3 blocks on SM8550
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241216-dpu-fix-catalog-v1-4-15bf0807dba1@linaro.org>
+Message-Id: <20241216-dpu-fix-catalog-v1-5-15bf0807dba1@linaro.org>
 References: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
 In-Reply-To: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -77,16 +77,16 @@ Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1139;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=bJyPESVKaUC+ChFiQF2ba+YGs7hcFzITyl26AyryJho=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnX+RsYj676nOMBUcWu0Fh7OCpAZdVSpsOyhgCY
- g8rKfv/T8aJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1/kbAAKCRCLPIo+Aiko
- 1fHPB/9Ao9hXUP9x6qbAqEBuksJCbxQyxmcXfPawdhm1QBaFs+qx2p/0VL5mXxsIMBUTsyftJ6G
- dSrnR4ASCTdvqedczP2FEqlgSTBic6YfXSrVrOo+ItdlTr/VhRiLjteBhqB18AAf2ONl6jNi0Am
- Wn5+9BRKSJDMFmbCXWUUIB+/Kycn2oAzv9UNnT9/Aqu9M/W43FuLjVbq71NJZmXM1GKmY2Ls0hi
- fE1v7zBkd4g98r+/avL33ho1dqMHjK5JcmTWZpebpFdbaOW8Rd4CaqmiH80NSY0ZgaXde3Bt7Yu
- THMpfE2x0NdM3+G4NdLTbNPEhEoSs9w74OkEsDYNoTNMVSFp
+ bh=1HhOvQdDTQpfgdgbG47ZEhiTKbhwKeluJd76grZHFQ4=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnX+Rs2FhUYx9q2yNDoYbhnSjaGb+un7b3T7HUG
+ VoAKEcGX0iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1/kbAAKCRCLPIo+Aiko
+ 1eZRB/4rtFczYnTmybdWYQxDY4DO9biNQKJsf8ktMkqNBxfoBOm6geGnYjdFg4JaRtD03g5YKl3
+ 6UFn4R5as6rx8Zak+ZhimIcttpvhOUzURUykldcuGbs7WqYhaGp2qs2DlvqgiVQb2Z0KkNDMDeY
+ QsdD+kpGHf+FnoV8HiCFJgrNJ95+Y3vKe0HgoHPA7NRy1eu3MUZ3DTpFwswhjuzoz/WIrviOUaB
+ OT9Qb4erHsNqFFizJ7TgR+cPeXPik04uohYxBeKtt9K/hRMA9258n2yU7rZUYUPuICEzVyoZ7i5
+ JM67FnF5p5GaeujazKkpq2Vww/uULSfevN1y3671rWbyPXp2
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,17 +106,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Link DSPP_2 to the LM_2 and DSPP_3 to the LM_3 mixer blocks.
 
-Fixes: 0e91bcbb0016 ("drm/msm/dpu: Add SM8350 to hw catalog")
+Fixes: efcd0107727c ("drm/msm/dpu: add support for SM8550")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h | 2 ++
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-index aced16e350daa1bf5d24078b2468b5095a40ce07..f7c08e89c882038aa658955ca1202bda3d928e80 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h
-@@ -162,6 +162,7 @@ static const struct dpu_lm_cfg sm8350_lm[] = {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+index ad48defa154f7d808c695860fd91e60bbb08f42a..a1dbbf5c652ff9f21c02af2e2520f019702f29c1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h
+@@ -160,6 +160,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
  		.sblk = &sdm845_lm_sblk,
  		.lm_pair = LM_3,
  		.pingpong = PINGPONG_2,
@@ -124,7 +124,7 @@ index aced16e350daa1bf5d24078b2468b5095a40ce07..f7c08e89c882038aa658955ca1202bda
  	}, {
  		.name = "lm_3", .id = LM_3,
  		.base = 0x47000, .len = 0x320,
-@@ -169,6 +170,7 @@ static const struct dpu_lm_cfg sm8350_lm[] = {
+@@ -167,6 +168,7 @@ static const struct dpu_lm_cfg sm8550_lm[] = {
  		.sblk = &sdm845_lm_sblk,
  		.lm_pair = LM_2,
  		.pingpong = PINGPONG_3,
