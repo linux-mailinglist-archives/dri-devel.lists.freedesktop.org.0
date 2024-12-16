@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3839F3679
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7D09F368C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:50:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 277AA10E3FD;
-	Mon, 16 Dec 2024 16:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0457610E3ED;
+	Mon, 16 Dec 2024 16:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bXQMh5TL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oXu1PLji";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AB8F10E3FD
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:47:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 06B14C0004;
- Mon, 16 Dec 2024 16:47:43 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C788610E3ED
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:50:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3B311240010;
+ Mon, 16 Dec 2024 16:50:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734367665;
+ t=1734367811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+07CD4fY5x2B4CMxa+xHnzg0KR8i+mbynhseDFBUxRs=;
- b=bXQMh5TLnYxpUUDpy5CMqGm9fuSW/tMoAqTtjC6GxIxKjP4uAVgGJxnvfN+zgGYfeXRSEb
- sKlw0WJvsEqvnYJfJnSqUARqcTODcXh9q2VLtJsEIO8lbk9UFw70Em1PFbeySG3XS3cfM/
- loNaB8Ie52xQ5/2mEg7t36qbq4gxLMmwiIxmMl3RkQCpWGQghHifnbKaTNlT+PK0lj1up2
- vsXe5wFL1zCIEd3TTCDtDjFtpnP0DyI9kkddexiKYv+ZUTA8s0jX/rlIxCeY83NeAKnRSS
- PNJ6RipEEpa954eDQmknMRYJal9CA0WBd8+XUves1NXlQDtWsks1gEAqnl4UXA==
-Date: Mon, 16 Dec 2024 17:47:42 +0100
+ bh=zfMhMkW/a+1TMO5UzQynBO30fRRDOQ5DSRCkSiAREG8=;
+ b=oXu1PLji4PEH9RI5YEBdZPvs76V8Q3qtfuFXuUwWd3Hrg6Y1r+0LbWIbBzkSjz+elekQQr
+ /sJp9iysS8NR+xqElZwYThooqECUYPyAyFtU/s/zD73gLly6/1opnt8Eo6RlAbBYqnsYBp
+ L7SMXQ+nr+JEVIaseGPYw8dVVZU8MvyDHxKM4EuruwwCTPGbh2jTkDRN7fhiyN/IYrfXil
+ 0puHd74/TcmhAEVQ0jPtet9IZOQfCaEzT5nujUnQXe0RCyhBrjQmWQ6TtOzM29TSIzOSTX
+ nQD9PX11/m/QECDKnCh3B0FJ3KEfje3G6zWSwSYTTktA0OYHIaTn4FUD+KYxwQ==
+Date: Mon, 16 Dec 2024 17:50:08 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -40,9 +40,8 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v3 3/4] drm/mode_object: add
- drm_mode_object_read_refcount()
-Message-ID: <Z2BZrpx9Bhr6q1C8@louis-chauvet-laptop>
+Subject: Re: [PATCH RESEND v3 1/4] drm/drm_mode_object: fix typo in kerneldoc
+Message-ID: <Z2BaQLufuadQuLyi@louis-chauvet-laptop>
 Mail-Followup-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -53,11 +52,11 @@ Mail-Followup-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20241216-drm-small-improvements-v3-0-78bbc95ac776@bootlin.com>
- <20241216-drm-small-improvements-v3-3-78bbc95ac776@bootlin.com>
+ <20241216-drm-small-improvements-v3-1-78bbc95ac776@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216-drm-small-improvements-v3-3-78bbc95ac776@bootlin.com>
+In-Reply-To: <20241216-drm-small-improvements-v3-1-78bbc95ac776@bootlin.com>
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,70 +74,30 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 16/12/24 - 17:40, Luca Ceresoli wrote:
-> Add a wrapper to kref_read() just like the ones already in place for
-> kref_get() and kref_put(). This will be used for sanity checks on object
-> lifetime.
+> Remove unintended extra word.
 > 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 Acked-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-Thanks,
-Louis Chauvet
- 
 > ---
+>  include/drm/drm_mode_object.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Changed in v3:
-> 
->  * use conventions for 'Returns' doc syntax
->  * ditch DRM_DEBUG() and as a consequence rework and simplify the entire
->    function
->  * fix function name in kerneldoc
-> ---
->  drivers/gpu/drm/drm_mode_object.c | 17 +++++++++++++++++
->  include/drm/drm_mode_object.h     |  1 +
->  2 files changed, 18 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> index df4cc0e8e263d5887a799cf1a61d998234be7158..b9a16aceb926782eb033434eb6967ce9fd2e94f7 100644
-> --- a/drivers/gpu/drm/drm_mode_object.c
-> +++ b/drivers/gpu/drm/drm_mode_object.c
-> @@ -217,6 +217,23 @@ void drm_mode_object_get(struct drm_mode_object *obj)
->  }
->  EXPORT_SYMBOL(drm_mode_object_get);
->  
-> +/**
-> + * drm_mode_object_read_refcount - read the refcount for a mode object
-> + * @obj: DRM mode object
-> + *
-> + * Returns:
-> + * The current object refcount if it is a refcounted modeset object, or 0
-> + * for any other object.
-> + */
-> +unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj)
-> +{
-> +	if (obj->free_cb)
-> +		return kref_read(&obj->refcount);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_mode_object_read_refcount);
-> +
->  /**
->   * drm_object_attach_property - attach a property to a modeset object
->   * @obj: drm modeset object
 > diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
-> index c68edbd126d04d51221f50aa2b4166475543b59f..3d2c739e703888bf4520c61594d480f128d50e56 100644
+> index 08d7a7f0188fea79e2d8ad5ee6cc5044300f1a26..c68edbd126d04d51221f50aa2b4166475543b59f 100644
 > --- a/include/drm/drm_mode_object.h
 > +++ b/include/drm/drm_mode_object.h
-> @@ -123,6 +123,7 @@ struct drm_mode_object *drm_mode_object_find(struct drm_device *dev,
->  					     uint32_t id, uint32_t type);
->  void drm_mode_object_get(struct drm_mode_object *obj);
->  void drm_mode_object_put(struct drm_mode_object *obj);
-> +unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj);
->  
->  int drm_object_property_set_value(struct drm_mode_object *obj,
->  				  struct drm_property *property,
+> @@ -35,7 +35,7 @@ struct drm_file;
+>   * @id: userspace visible identifier
+>   * @type: type of the object, one of DRM_MODE_OBJECT\_\*
+>   * @properties: properties attached to this object, including values
+> - * @refcount: reference count for objects which with dynamic lifetime
+> + * @refcount: reference count for objects with dynamic lifetime
+>   * @free_cb: free function callback, only set for objects with dynamic lifetime
+>   *
+>   * Base structure for modeset objects visible to userspace. Objects can be
 > 
 > -- 
 > 2.34.1
