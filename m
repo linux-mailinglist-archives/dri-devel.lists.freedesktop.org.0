@@ -1,42 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6669F2BBA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:25:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E40D9F2BB9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:25:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B72610E3FE;
-	Mon, 16 Dec 2024 08:25:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05DE10E3F5;
+	Mon, 16 Dec 2024 08:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1059 seconds by postgrey-1.36 at gabe;
- Sun, 15 Dec 2024 22:27:34 UTC
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org
- [IPv6:2a07:2ec0:3002::65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5DA810E00C
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Dec 2024 22:27:34 +0000 (UTC)
-Received: from local
- by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
- (Exim 4.98) (envelope-from <daniel@makrotopia.org>)
- id 1tMwo8-000000002oV-1Trq; Sun, 15 Dec 2024 22:09:48 +0000
-Date: Sun, 15 Dec 2024 22:09:41 +0000
-From: Daniel Golle <daniel@makrotopia.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Justin Green <greenjustin@chromium.org>,
- Frank Wunderlich <frank-w@public-files.de>,
- John Crispin <john@phrozen.org>, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org
-Subject: [PATCH] drm/mediatek: only touch DISP_REG_OVL_PITCH_MSB if AFBC is
- supported
-Message-ID: <8c001c8e70d93d64d3ee6bf7dc5078d2783d4e32.1734300345.git.daniel@makrotopia.org>
+Received: from mail.nfschina.com (unknown [42.101.60.213])
+ by gabe.freedesktop.org (Postfix) with SMTP id EA49010E08B;
+ Mon, 16 Dec 2024 01:53:07 +0000 (UTC)
+Received: from localhost.localdomain (unknown [103.163.180.3])
+ by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id B1EE860272AA8; 
+ Mon, 16 Dec 2024 09:53:02 +0800 (CST)
+X-MD-Sfrom: zhanxin@nfschina.com
+X-MD-SrcIP: 103.163.180.3
+From: Zhanxin Qi <zhanxin@nfschina.com>
+To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Zhanxin Qi <zhanxin@nfschina.com>
+Subject: [PATCH] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
+Date: Mon, 16 Dec 2024 09:52:46 +0800
+Message-Id: <20241216015246.141006-1-zhanxin@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 16 Dec 2024 08:25:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,33 +44,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Touching DISP_REG_OVL_PITCH_MSB leads to video overlay on MT2701, MT7623N
-and probably other older SoCs being broken.
+The nvbios_iccsense_parse function allocates memory for sensor data
+but fails to free it when the function exits, leading to a memory
+leak. Add proper cleanup to free the allocated memory.
 
-Only touching it on hardware which actually supports AFBC like it was
-before commit c410fa9b07c3 ("drm/mediatek: Add AFBC support to Mediatek
-DRM driver") fixes it.
-
-Fixes: c410fa9b07c3 ("drm/mediatek: Add AFBC support to Mediatek DRM driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+Signed-off-by: Zhanxin Qi <zhanxin@nfschina.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index f731d4fbe8b6..321b40a387cd 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -545,7 +545,7 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
- 				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
- 		mtk_ddp_write_relaxed(cmdq_pkt, hdr_pitch, &ovl->cmdq_reg, ovl->regs,
- 				      DISP_REG_OVL_HDR_PITCH(ovl, idx));
--	} else {
-+	} else if (ovl->data->supports_afbc) {
- 		mtk_ddp_write_relaxed(cmdq_pkt,
- 				      overlay_pitch.split_pitch.msb,
- 				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
+index 8f0ccd3664eb..502608d575f7 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
+@@ -291,6 +291,9 @@ nvkm_iccsense_oneinit(struct nvkm_subdev *subdev)
+ 			list_add_tail(&rail->head, &iccsense->rails);
+ 		}
+ 	}
++
++	kfree(stbl.rail);
++
+ 	return 0;
+ }
+ 
 -- 
-2.47.1
+2.30.2
 
