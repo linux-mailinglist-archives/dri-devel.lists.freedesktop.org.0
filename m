@@ -1,97 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0229F2DEB
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 11:13:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7F39F2DFF
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 11:15:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F299D10E577;
-	Mon, 16 Dec 2024 10:13:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 549CF10E185;
+	Mon, 16 Dec 2024 10:15:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="E4Wy5Iut";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="qDCud6QC";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="TC9dxZs/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a6-smtp.messagingengine.com
- (fout-a6-smtp.messagingengine.com [103.168.172.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B16910E577
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:13:18 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfout.phl.internal (Postfix) with ESMTP id 26BA91383AB0;
- Mon, 16 Dec 2024 05:13:18 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Mon, 16 Dec 2024 05:13:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1734343998;
- x=1734430398; bh=wivUGdcXYn6VwelfaLekmpNak5Bcy3xhV06KWiQzClA=; b=
- E4Wy5IutbDxBHk8+mFIuN+1AMbV4u7yWjqcjs/ohVZLVVAHXszEUEfWI3EsvKgD4
- uGHO1ky7A2JnKY2b5V/o9gedVq3mfvmB0O8n/hZ9Zdp6sjQsjJ0Ss/M3xVECN9Y2
- 285OVJ2qtUIguSLeU1h+ZUU/0jzDa2LhbSBGEWhfrYt//H/yqE4YoxhEepgVE6Te
- gNB7/czcXQQcRG1Vxod/itgte84EX/Q50lRxM6pbOhkBoOGrrtMn61f5hcZb2CT/
- pxYTDGtgm6ItwrkMC6ymMSxThAJ8e9LXE6jI2YFP6qlw9dU2yn4dzM10/fS9bSAM
- kdE7SyinUJAW3+lsJ47EdA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734343998; x=
- 1734430398; bh=wivUGdcXYn6VwelfaLekmpNak5Bcy3xhV06KWiQzClA=; b=q
- DCud6QCp0V1iCaJmCs2gPw/rtFX7/5LQjHdNzXb950CIQJV2tBHWlSTERH+wu5mU
- OcvaV78TQd0hdsZM555o6WkvKoVqP/ThqsQ5QxDAJmiS0GiDXkPrQmva0u9BYBWJ
- hOP9ulZksMG4v43kVrklzDxoEllOTLJFKOdL3SFyLL0UqZBJ4WK/qYX+i9w0oZRf
- Q+cO07omolM2Kd2chyN+Seph2Kh1dWLA1dU+ybfR9BhQjBUEF2I4IQk8ysq+CHQP
- KXMuytkmU+Fs8vuZprFplJNUjlBIZLud0IFNOTjYeMd58fGjiSlvdG3w25P2Wih6
- Ak7fL31c0qlMcGiu8+1LA==
-X-ME-Sender: <xms:Pf1fZwQL3IFh4yAdP0IZXTOYWupixVQKRIR2VXACtF0FIwMKs2bbnw>
- <xme:Pf1fZ9xkPOTDIun49Y_r06EpTBwZraZgBdfcPadFOjHKiCOZrw5Mvrr9hLtoeI0-O
- qduH0dY9WYQkb8KUtk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleefgddufecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
- tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
- hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
- ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
- gvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffg
- vedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
- grihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduuddp
- mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghhrhhishhtohhphhgvrdhlvghroh
- ihsegtshhgrhhouhhprdgvuhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
- pdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopeguvg
- hllhgvrhesghhmgidruggvpdhrtghpthhtohepjhgrnhhirdhnihhkuhhlrgeslhhinhhu
- gidrihhnthgvlhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrd
- hfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqshhtrghgihhn
- gheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigphhptgdqug
- gvvheslhhishhtshdrohiilhgrsghsrdhorhhgpdhrtghpthhtohepjhgrvhhivghrmhes
- rhgvughhrghtrdgtohhm
-X-ME-Proxy: <xmx:Pf1fZ93xhCqySX7gHNrptVHxhMGCe3rk4EOLDa7frWmCUGYK_WrnNQ>
- <xmx:Pf1fZ0D1hm5-bVL5XAY4NjKbP6tXldx00oItEU-lMwIamAYLcIOwQw>
- <xmx:Pf1fZ5iwESOtKK7P3N9JqntnJqIadOwfNE_dBBE1NGPtU5ub9ty3eA>
- <xmx:Pf1fZwpdN_CUM20AQx7drnZuBhUmFQoV_uy_M_QXfCL0YxMag_ob-g>
- <xmx:Pv1fZ-aYJaDSAZC-h4tgh1CAopr3btq1o-_2Lt81K2X-t6HIex-fugaU>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 52B3A2220072; Mon, 16 Dec 2024 05:13:17 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+X-Greylist: delayed 25365 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Dec 2024 10:15:41 UTC
+Received: from mail-m15586.qiye.163.com (mail-m15586.qiye.163.com
+ [101.71.155.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E183810E185
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:15:41 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 5dd55b80;
+ Mon, 16 Dec 2024 18:15:38 +0800 (GMT+08:00)
+Message-ID: <d0f89644-77b9-4bcd-9fab-42a10185c72f@rock-chips.com>
+Date: Mon, 16 Dec 2024 18:15:38 +0800
 MIME-Version: 1.0
-Date: Mon, 16 Dec 2024 11:12:32 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Javier Martinez Canillas" <javierm@redhat.com>,
- "Helge Deller" <deller@gmx.de>, "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Simona Vetter" <simona@ffwll.ch>, "Dave Airlie" <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
-Message-Id: <1dcda6ee-dc0f-4d2e-b234-6f03b5637d01@app.fastmail.com>
-In-Reply-To: <20241216074450.8590-1-tzimmermann@suse.de>
-References: <20241216074450.8590-1-tzimmermann@suse.de>
-Subject: Re: [PATCH v3 0/3] drm,fbdev: Fix module dependencies
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/11] arm64: dts: rockchip: Enable eDP0 display on
+ RK3588S EVB1 board
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20241216031225.3746-1-damon.ding@rock-chips.com>
+ <20241216031225.3746-11-damon.ding@rock-chips.com>
+ <ay2im4itrj3k4p2ksobgsk77b7m4laaxctkfcpffqxj5ttxenm@mzdizmf3mlcb>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <ay2im4itrj3k4p2ksobgsk77b7m4laaxctkfcpffqxj5ttxenm@mzdizmf3mlcb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh0fHVYYQxlMQh9DS0lMGEhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
+ NVSktLVUpCS0tZBg++
+X-HM-Tid: 0a93cef75dd303a3kunm5dd55b80
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pxw6TCo6LjIREBkNNwNINi8T
+ VjAwCw1VSlVKTEhPSE9PSkhCQkhCVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJS09KNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=TC9dxZs/icAtO8OBygxS0RnpXEPu9qYtxe8eogDOgm3/nfYNDxZL7DAwNK72v5fA1kE1RnEuSUkU6dFhcd5nbWBqLdG0NiliydADY/owu7A8t1jtyNkaGpqpmRY3ifAaE2oMxgKBvn2obvJIaxk6h2pfI+KeVfL0pujMSR5MSyY=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=bIZOhBSbBlumClO+5WBpvKWp8vXqGKwf+GCHshUCQ6I=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,33 +73,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024, at 08:42, Thomas Zimmermann wrote:
-> Fix the dependencies among the various graphics modules.
->
-> Before addressing the FB_CORE issue, patch 1 first resolves a problem
-> with BACKLIGHT_CLASS_DEVICE. A number of fbdev drivers select it, which
-> results in a recursive-dependency error after patch has been applied.
-> Making these drivers (or parts of them) depend on BACKLIGHT_CLASS_DEVICE
-> fixes this.
->
-> Patch 2 selects FB_CORE for DRM_GEM_DMA_HELPER and DRM_TTM_HELPER.
-> This is necessary with the recently added DRM client library.
->
-> Patch 3 is the second half of the patch provided by Arnd at [1]. It
-> could not yet be merged because of the issues fixed by patch 1.
->
-> Side note: For the majority of graphics drivers, backlight functionality
-> depends on BACKLIGHT_CLASS_DEVICE. In a few cases drivers select the
-> Kconfig token automatically. These drivers should be updated to depend
-> on the token as well, such that backlight functionality is fully user-
-> controlled.
->
-> v3:
-> - Fix PMAC_BACKLIGHT case (Christophe)
-> v2:
+Hi Dmitry,
 
-The patches look good to me. I've had a slightly different version
-in my randconfig test tree and have replaced it with yours now
-to do some more regression testing, but I expect this to be fine.
+On 2024/12/16 17:06, Dmitry Baryshkov wrote:
+> On Mon, Dec 16, 2024 at 11:12:24AM +0800, Damon Ding wrote:
+>> Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
+>> - Add edp-panel node
+>> - Set pinctrl of pwm12 for backlight
+>> - Enable edp0/hdptxphy0/vp2
+>>
+>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>>
+>> ---
+>>
+>> Changes in v2:
+>> - Remove brightness-levels and default-brightness-level properties in
+>>    backlight node.
+>> - Add the detail DT changes to commit message.
+>> ---
+>>   .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 50 +++++++++++++++++++
+>>   1 file changed, 50 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
+>> index bc4077575beb..5c1ea25b6524 100644
+>> --- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
+>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
+>> @@ -9,6 +9,7 @@
+>>   #include <dt-bindings/gpio/gpio.h>
+>>   #include <dt-bindings/input/input.h>
+>>   #include <dt-bindings/pinctrl/rockchip.h>
+>> +#include <dt-bindings/soc/rockchip,vop2.h>
+>>   #include <dt-bindings/usb/pd.h>
+>>   #include "rk3588s.dtsi"
+>>   
+>> @@ -120,6 +121,18 @@ backlight: backlight {
+>>   		pwms = <&pwm12 0 25000 0>;
+>>   	};
+>>   
+>> +	edp_panel: edp-panel {
+>> +		compatible = "lg,lp079qx1-sp0v";
+> 
+> Please use aux-bus and a generic "edp-panel" entry for newer platforms
+> instead of declaring the panel on the platform bus. Placing eDP panels
+> on the platform bus has been deprecated for quite a while.
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+I will apply the aux-bus in the next version. :-)
+
+> 
+>> +		backlight = <&backlight>;
+>> +		power-supply = <&vcc3v3_lcd_edp>;
+>> +
+>> +		port {
+>> +			panel_in_edp: endpoint {
+>> +				remote-endpoint = <&edp_out_panel>;
+>> +			};
+>> +		};
+>> +	};
+>> +
+>>   	combophy_avdd0v85: regulator-combophy-avdd0v85 {
+>>   		compatible = "regulator-fixed";
+>>   		regulator-name = "combophy_avdd0v85";
+> 
+Best regards,
+Damon
