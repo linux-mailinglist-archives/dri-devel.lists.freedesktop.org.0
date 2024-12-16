@@ -2,90 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454299F323E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:07:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528F89F32AF
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:15:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEDFD10E69C;
-	Mon, 16 Dec 2024 14:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5871D10E69D;
+	Mon, 16 Dec 2024 14:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bfnpS8kf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="TNEzDvFI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CF5710E69A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:07:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734358032;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Vx9u29TJnDx+NQoG8CYOpQFQkYPuT5i21NbIJ3rQxpI=;
- b=bfnpS8kfi5ykgZAlfo5rPgxRphMY/dMO7o3tPF0+szbtViFeNsRmSa9badb47uzHJ4Vgiw
- gVd9BeQeJb7Mhzfj0YpKDifbVXr/HSMQDsX5UpXvzTD4HTo9mL3PxnVH+XUXg8f2WjNug2
- 4fWuS/66cEJTNV4R1a/PSBPF17uTUVo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-396-OQYJE26UNmG_tU0gzLXG6w-1; Mon, 16 Dec 2024 09:07:11 -0500
-X-MC-Unique: OQYJE26UNmG_tU0gzLXG6w-1
-X-Mimecast-MFC-AGG-ID: OQYJE26UNmG_tU0gzLXG6w
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3862a49fbdaso1180469f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:07:10 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 862A410E1CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:15:11 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5401be44b58so4186975e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:15:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734358510; x=1734963310; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UKSczxnLoUJAPWSomZ621XIOP46vr1LWagGXlu/bsRA=;
+ b=TNEzDvFIbiI+vuMQVlfkEoCjkLnbOj0mltn+rZw5WokSoT61d1mDsUWJPCekAF5es8
+ 0rrPhMQF8NAEVnBlBGd4QdmEoVGT5G5iYZ6Lmm2a7JAmhaQ/qpOyPnUHiRa/PBgutZXB
+ G99iLmmXrFBDec0N2tXlLB0Yva2C/IRq5D3tGgDjqKNULb3zoESutCk7Wo+z5qrxK24F
+ DQHrzIDziU9/X+TgMotZ/v9SyazpnGM1Dh84shhQ1t0ajsEA0FCBQfNJ7eeyJgm5ax7l
+ /kHa/ot4Dlr/UQHIECn+4+gdUT1G4Cgr0FXiV3H+WBSP3z4YQXntdr5DtkSGKFzO8eP0
+ KzRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734358030; x=1734962830;
+ d=1e100.net; s=20230601; t=1734358510; x=1734963310;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Vx9u29TJnDx+NQoG8CYOpQFQkYPuT5i21NbIJ3rQxpI=;
- b=BSxsYPO2gyTajCCNHkpfZ70wVaMrlRmI+ejirpo37Waimkzq6mTuPxAEo/suyrD6O2
- d42w0ZnwXEtr5tiOys+r7DjOfeckB2KmzrYQBi7SD5b10rz3Lkda2hXVb+toOfQvcWKC
- wKN8Chdq1fUkIqmFq45d7CDutghoVMi4EwB2rtF5p1bvbz7t6jAxjKI27yi/xrTW3xin
- zKSYJNuxqi8nvhlmbB4qgSn8tfyJkrNqUzxXKvvsdn8x2AClPE/DLhpaeyBEXNx5Sij/
- Zl0I29LLVQd+vwvsZDvWfAjZajNdla0xYpbgK22Isoh07HyXaQBIe6h32JJXyIbj/4Dk
- vp9Q==
+ bh=UKSczxnLoUJAPWSomZ621XIOP46vr1LWagGXlu/bsRA=;
+ b=wMJEOeu1nYUI5FKTP3/RKqqM3A3zHvD3xk3Gu8cH/wZZwr5J4Svv6rUI37huKwb2QS
+ ul2fJ8ptUVm54iScnQPKqEeb64nZhiQu2PnbNaydhA8vmOSTu5myUGZoMhk22kGeeJ/i
+ 18JNpFvpIeDsln8J7lstmA4tzsZSeyge9Hr33lCCBIv6VyW3iErkpPMvFATB9E6NgXOf
+ +rFi7L4iJgZEM1LbtLIuQOOWLytWVDMdAC7DOjsWJxaHRoch6NKOANG0l9RW/Zkb3PIl
+ 7dLT8mR8pf0SUd+yD7kYvKSQ0ePaTA1UTldQHWebSZME9ZH4h3FhnKRCsmzwPy+cvKEc
+ if4Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXsmvMqoqfwqj8ubdnwWhOVB19e1RJNqK8iSpp99EwbhJmoEIXUg7i89eiL5pLUfBu/eo4mFE4Debs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwaPnfmvmmPNaYWXQzfgdMQV0VwlIeFs3ZPZJb9aE4keiLXXfY4
- Lsv69UnuB0YQJr4tOEURvt2TZL1t4wcswRXVGLlOST1VSaqFBnZbp3XmE7+CJ/T1XD+ShnCOilg
- 6LlLZJbdqlsbxa2Wk+I/cbanLDnFGoBDfv/TDNig+N/kRq7Cy0CnRc+I5yCgwZTN4aw==
-X-Gm-Gg: ASbGncu68BX01MUv119YcGQqjAXSw4nCdSHYsC7kIZJcfjtnKmyEwc1RNFAvKxSV0ib
- C7AZb65E7kJrWsWzyLDEY0MfmcGTpH/D1JF/4duMPd6WR03YK88licfg3g2+KC0HCAAJ2fYOKLl
- 5tjk4DevSQoFbfy9z1eAavz1q4Lc1mVlOpbpz49ivMyxb87CHzbjZTqMS5K2QgrL6tMtwuFhu69
- /FrLVr0/ENixLmimXutsaV5NWq+LJ+/ac+Gd2LlHwI5/+EhvrUZ
-X-Received: by 2002:a05:6000:400b:b0:385:f398:3e2 with SMTP id
- ffacd0b85a97d-3888e0b8ac2mr10303695f8f.37.1734358029444; 
- Mon, 16 Dec 2024 06:07:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGyZ0+O4kIxKWHQmAwP9mPVHk0LghHzqDQ6QyhAYSUm6qYdEdlC5E3x4M+gkrrJ6yoDU0YReQ==
-X-Received: by 2002:a05:6000:400b:b0:385:f398:3e2 with SMTP id
- ffacd0b85a97d-3888e0b8ac2mr10303638f8f.37.1734358028978; 
- Mon, 16 Dec 2024 06:07:08 -0800 (PST)
-Received: from cassiopeiae ([2a00:79c0:644:6900:642:1aff:fe31:a19f])
+ AJvYcCVsT16UcqbDton1Y3zYohm5sni7G1RZM2VH4piy27M/8tqEm9qA3QFOlJEdxdNCbJhWpWUfzA5ncOs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yybc+wN1LrkJSTjpIH0GIOBcBCI+l+64Wn+ECbJZ8VEQ/VXHOkk
+ XN1wFnjBxUMbMzq+om0HameUl6LUi9BtXaE8WEAxqWTpASIGYL6Llngdm8Y5Dyg=
+X-Gm-Gg: ASbGnctUUV7yoBW8/pl3CRK5BySxIBNCXLBffbYCQtVgTbr74U9gJ/5Nq3K20CN4vAg
+ U3gK9fmeRg/RVBm43gFzQ22N3eE0UjYD8c4UyhFehTmVdLzDuQHhQxC2eUuahbdBSMjknnmo/3T
+ DttPtO1oIS7tdgJP1gYv8n7HSGjbPI9imCSw5jfmLDJivkwuObg971Vy/iy+a/qAs2UiUku8HmO
+ JqJo4nxiyICQzxOoU05TY2F8f8ERrDsTnTeNkHvcBtOU88IRy+zLZJ9t9+/pYrRfApbqt9IoJut
+ /ueLdBydqwcN7qFb0L6WBNpW2iQ4TLJlaE5d
+X-Google-Smtp-Source: AGHT+IHbHSLczqY5nj/2VfoD1kdLMoq1Dp5yoiXtRZ5jCeqQsP9C363sZLJ5c9AJ/IeUMH19P3sgNg==
+X-Received: by 2002:a05:6512:110e:b0:540:241d:d74e with SMTP id
+ 2adb3069b0e04-54090558390mr4985254e87.24.1734358509762; 
+ Mon, 16 Dec 2024 06:15:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-388c80613a9sm8199671f8f.101.2024.12.16.06.07.07
+ 2adb3069b0e04-54120b9f686sm868000e87.49.2024.12.16.06.15.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 06:07:08 -0800 (PST)
-Date: Mon, 16 Dec 2024 15:07:06 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: Zhanxin Qi <zhanxin@nfschina.com>
-Cc: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Duanjun Li <duanjun@nfschina.com>
-Subject: Re: [PATCH v1 v1] drm/nouveau: Fix memory leak in
- nvbios_iccsense_parse
-Message-ID: <Z2A0CuGRJD-asF3y@cassiopeiae>
-References: <Z1_2sugsla44LgIz@cassiopeiae>
- <20241216130303.246223-1-zhanxin@nfschina.com>
+ Mon, 16 Dec 2024 06:15:08 -0800 (PST)
+Date: Mon, 16 Dec 2024 16:15:06 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/2] drm/nouveau: remove drm_encoder_slave interface
+Message-ID: <bpvyq543f4o3uusbjrivlymxeiqjcrnzb3atae2bp2vjleiggc@eolxb6jdep57>
+References: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
+ <Z2ASy3TQ4suupdvd@cassiopeiae>
+ <fw7i3kusogrrsslb5sjdid27uqnwey5qa5yhyrfa677n4iqqhq@tfh5s6bmqgna>
+ <20241216121651.GP32204@pendragon.ideasonboard.com>
+ <Z2AgFHV2BaaZYGTx@cassiopeiae>
+ <2p2rx6zmuph4bdwjork5aqp5n3xkho7cohapvgfijka64vbpop@nse4i55pkyy7>
+ <Z2Arj_cLW-aY5cnD@cassiopeiae>
 MIME-Version: 1.0
-In-Reply-To: <20241216130303.246223-1-zhanxin@nfschina.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: cmFHt3B0xXVEQMo_4sqXmD-puNZzctYFNPjnIFuItkI_1734358030
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <Z2Arj_cLW-aY5cnD@cassiopeiae>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,113 +100,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The version after the inital one should be "v2". You can use
-
-git format-patch -v{VERSION_NUMBER} for this.
-
-On Mon, Dec 16, 2024 at 09:03:03PM +0800, Zhanxin Qi wrote:
-> The nvbios_iccsense_parse function allocates memory for sensor data
-> but fails to free it when the function exits, leading to a memory
-> leak. Add proper cleanup to free the allocated memory.
+On Mon, Dec 16, 2024 at 02:30:55PM +0100, Danilo Krummrich wrote:
+> On Mon, Dec 16, 2024 at 02:58:59PM +0200, Dmitry Baryshkov wrote:
+> > On Mon, Dec 16, 2024 at 01:41:56PM +0100, Danilo Krummrich wrote:
+> > > On Mon, Dec 16, 2024 at 02:16:51PM +0200, Laurent Pinchart wrote:
+> > > > On Mon, Dec 16, 2024 at 02:11:41PM +0200, Dmitry Baryshkov wrote:
+> > > > > On Mon, Dec 16, 2024 at 12:45:15PM +0100, Danilo Krummrich wrote:
+> > > > > > On Sun, Dec 15, 2024 at 12:19:22PM +0200, Dmitry Baryshkov wrote:
+> > > > > > > The nouveau driver is the only user of the drm_encoder_slave interface.
+> > > > > > > Demote it from KMS helpers module to the nouveau driver itself, moving
+> > > > > > > corresponding I2C encoders to be handled by nouveau driver too.
+> > > > > > 
+> > > > > > I understand nouveau is the only driver using this interface (and the
+> > > > > > corresponding i2c encoders).
+> > > > > > 
+> > > > > > However, I'm not quite seeing the advantage of folding the interface (including
+> > > > > > the two i2c drivers) into nouveau. I don't think this legacy interface does harm
+> > > > > > the subsystem in any way / does prevent the subsystem from moving forward.
+> > > > > > 
+> > > > > > Can't we just keep it as it is?
+> > > > > 
+> > > > > Well, drm_encoder_slave is a part of the DRM KMS helpers module, so it
+> > > > > take (a little bit) of space on every system. The nouveau situation
+> > > > > isn't unique, other drivers (i915, ast) also incorporate the code for
+> > > > > I2C backends. For the further discussion see the thread starting from
+> > > > > Laurent's email ([1]).
+> > > > > 
+> > > > > [1] https://lore.kernel.org/all/20241117205426.GE12409@pendragon.ideasonboard.com/
+> > > 
+> > > The drm_encoder_slave code it's rather small, but I guess this can be used as
+> > > argument for both, keeping it where it is and moving it.
+> > > 
+> > > If you want to move it to nouveau, I'm not going to object. But please fold the
+> > > helper code, such that we aren't left with unused functions and unnecessary
+> > > function pointer indirections through struct drm_encoder_slave_funcs.
+> > 
+> > This is more or less what I've done. Or would you prefer to keep the
+> > wrapping functions that just execute the callback? I can change the
+> > patchset accordingly.
 > 
-> Fixes: 39b7e6e547ff ("drm/nouveau/nvbios/iccsense: add parsing of the SENSE table")
+> No, I think it's good indeed -- st a first glance it looked like there's more to
+> get rid of.
+> 
+> There are just a few more nits, I'll go ahead and add comments in the
+> corresponding patches.
+> 
+> > 
+> > > 
+> > > > 
+> > > > It's also a question of whether maintenance of this code based used by
+> > > > the nouveau driver only should be the responsibility of the drm-misc
+> > > > community or the nouveau driver maintainers.
+> > > 
+> > > Good question. It's common infrastructure; do we expect / require the last user
+> > > of such infrastructure to take ownership?
+> > 
+> > Unfortunately it's more like 'the only one' :-( In other words, if we
+> 
+> I can't see a major difference between "last one" and "only one" in this
+> context.
 
-This should be
-
-Fixes: b71c0892631a ("drm/nouveau/iccsense: implement for ina209, ina219 and ina3221")
-
-instead.
-
-The function introduced by 39b7e6e547ff ("drm/nouveau/nvbios/iccsense: add
-parsing of the SENSE table") is correct, but the other commit did not clean up
-after using it.
+I was thinkinkg between "the last one" and "the only one, there will be
+more in future". Excuse me.
 
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Zhanxin Qi <zhanxin@nfschina.com>
-> Signed-off-by: Duanjun Li <duanjun@nfschina.com>
-
-Why is there also Duanjun's SOB? If there is a co-author, this should be
-indicated with a "Co-developed-by" tag. Adding the SOB only is not sufficient,
-please see [1].
-
-> Signed-off-by: Danilo Krummrich <dakr@redhat.com>
-
-Please don't add my SOB to your commits -- I'll add it when I apply the patch.
-Please also see [1].
-
-[1] https://docs.kernel.org/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
-
-> ---
->  .../include/nvkm/subdev/bios/iccsense.h       |  2 ++
->  .../drm/nouveau/nvkm/subdev/bios/iccsense.c   | 20 +++++++++++++++++++
->  .../drm/nouveau/nvkm/subdev/iccsense/base.c   |  3 +++
->  3 files changed, 25 insertions(+)
+> > were expecting other users, there would not be such a move. But
+> > hopefully all new drivers will use bridges infrastructure.
 > 
-> diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h
-> index 4c108fd2c805..8bfc28c3f7a7 100644
-> --- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h
-> +++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h
-> @@ -20,4 +20,6 @@ struct nvbios_iccsense {
->  };
->  
->  int nvbios_iccsense_parse(struct nvkm_bios *, struct nvbios_iccsense *);
-> +
-> +void nvbios_iccsense_cleanup(struct nvbios_iccsense *iccsense);
->  #endif
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-> index dea444d48f94..38fcc91ffea6 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-> @@ -56,6 +56,19 @@ nvbios_iccsense_table(struct nvkm_bios *bios, u8 *ver, u8 *hdr, u8 *cnt,
->  	return 0;
->  }
->  
-> +/**
-> + * nvbios_iccsense_parse - Parse ICCSENSE table from VBIOS
-> + * @bios: VBIOS base pointer
-> + * @iccsense: ICCSENSE table structure to fill
-> + *
-> + * Parses the ICCSENSE table from VBIOS and fills the provided structure.
-> + * The caller must invoke nvbios_iccsense_cleanup() after successful parsing
-> + * to free the allocated rail resources.
-> + *
-> + * Returns:
-> + *   0        - Success
-> + *   -ENODEV  - Table not found
-> + */
+> Agreed, but I don't think it answers my question.
 
-Looks good, thanks for adding this!
+Anyway, yes (in my humble opinion). it's usually easier to push bits of
+infrasrucure towards the last user. Frequently it allows us to simplify
+both the framework and the last user.
 
->  int
->  nvbios_iccsense_parse(struct nvkm_bios *bios, struct nvbios_iccsense *iccsense)
->  {
-> @@ -127,3 +140,10 @@ nvbios_iccsense_parse(struct nvkm_bios *bios, struct nvbios_iccsense *iccsense)
->  
->  	return 0;
->  }
-> +
-> +void
-> +nvbios_iccsense_cleanup(struct nvbios_iccsense *iccsense)
-> +{
-> +	kfree(iccsense->rail);
-> +	iccsense->rail = NULL;
-> +}
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-> index 8f0ccd3664eb..4c1759ecce38 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-> @@ -291,6 +291,9 @@ nvkm_iccsense_oneinit(struct nvkm_subdev *subdev)
->  			list_add_tail(&rail->head, &iccsense->rails);
->  		}
->  	}
-> +
-> +	nvbios_iccsense_cleanup(&stbl);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.30.2
-> 
-
+-- 
+With best wishes
+Dmitry
