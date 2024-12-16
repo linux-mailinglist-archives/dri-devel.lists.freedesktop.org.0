@@ -1,41 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E19B9F2AE2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 08:26:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E329F2AE8
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 08:27:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A667910E058;
-	Mon, 16 Dec 2024 07:26:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C61C10E20B;
+	Mon, 16 Dec 2024 07:27:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FSNYHbsj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SnOCABwD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD9A110E058
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 07:26:45 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D787610E20B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 07:27:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C4756A40C79;
- Mon, 16 Dec 2024 07:24:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED83DC4CED0;
- Mon, 16 Dec 2024 07:26:38 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E6E80A40C7B;
+ Mon, 16 Dec 2024 07:25:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D482AC4CED0;
+ Mon, 16 Dec 2024 07:27:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734334004;
- bh=AO+d3vwcLxV5oqRuz6ObSl1tPwnqfw7u16272gBobyI=;
+ s=k20201202; t=1734334037;
+ bh=0QCTZGtEFDlm0TcurRpWITUvpOa+7C6VzG5wAcvq2tE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FSNYHbsjWrfem51iWZ0El6uetUMxh8A974Gbwf2LpV17rL9yLSCJo8LuPKFPV5gA3
- Lf+KCuW9ZJo/53aVKkwWf4B1ybaZ7d0YPfkdUT6N2M6v8S62PyvGOtTA5poiYalu7L
- 2kfayDqZ1bSn2oKqeVnDX9n/vlxQUcfR2pxrsOSwnd4zh2+0a+brsgMV60zgOTp6D/
- eDvB3VG248GYNGWlyEe8jsjNwllPolr2D7o/XndaYskkR78ohC+VD347UVnTl24Jdc
- nndl4/g/GSkv4+jTIBJ76q3L2HsBom5N3WooEUsx5OhH37BRQh3514OF/RTntnLToH
- jpoRSzzk5vRNA==
-Message-ID: <262c8d8f-f53c-455b-9bca-3440afb7bcd6@kernel.org>
-Date: Mon, 16 Dec 2024 08:26:36 +0100
+ b=SnOCABwDbsOckTV1PNg/+EgChr8KpLYELPB18NCFt/o+F93Y2ooZxmMptSSqiPpmH
+ BoaMgsmKWo3dKS4VoDknqiHOxoyUQaWekPKK5w4nhQebURQZfwwEZBTdo7sXuWj28F
+ 0LbzziTS80zwtV8xjh0cgqZgR8Mqc/0yPlmGJFyR2lQc5wmzP+uI9W1YEN9K8nVZL8
+ GwHjdf9CnEOPrxaHjq8RKj76MccsDYDMl680n3ZPR9wAREssfVltzS+roowhCnxNoA
+ wbdTLVf62SfyVnkwjF2aul3/KogtrL5CVrgjV9gOYklzwdGrdNf1KYmFa5l7B+5+ir
+ VA9r3v33RZYAQ==
+Message-ID: <853fbb4a-c36c-41d0-8ce3-3cb0d0c4b2f6@kernel.org>
+Date: Mon, 16 Dec 2024 08:27:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/5] dt-bindings: display: tegra: Add actmon information
+Subject: Re: [PATCH v1 0/5] Support host1x actmon
 To: Johnny Liu <johnliu@nvidia.com>
 Cc: airlied@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, jonathanh@nvidia.com, krzk+dt@kernel.org,
@@ -44,8 +43,8 @@ Cc: airlied@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mperttunen@nvidia.com,
  mripard@kernel.org, robh@kernel.org, simona@ffwll.ch,
  skomatineni@nvidia.com, thierry.reding@gmail.com, tzimmermann@suse.de
-References: <34kg2aoaeem3bjqh6vli43hc63tvfx7uumkmkre3wkvek2neyu@jhj5n3om7vzd>
- <20241213232933.4661-1-johnliu@nvidia.com>
+References: <jgqdgq6mifzex3tonl4sxbehwmcjo4jksfqmh7l4z5e2v4dqsj@uouomf3gyj7v>
+ <20241213231726.2568-1-johnliu@nvidia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,7 +90,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241213232933.4661-1-johnliu@nvidia.com>
+In-Reply-To: <20241213231726.2568-1-johnliu@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,32 +108,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/12/2024 00:29, Johnny Liu wrote:
->> On Tue, Dec 10, 2024 at 09:45:50AM -0800, Johnny Liu wrote:
->>> An activity monitor (actmon) is used to measure the device runtime
->>> utilization to help drive software power management policies.
+On 14/12/2024 00:17, Johnny Liu wrote:
+>> On Tue, Dec 10, 2024 at 09:45:49AM -0800, Johnny Liu wrote:
+>>> Activity monitoring (actmon for short) is a means to dynamically
+>>> measure the utilization of units in the system to help drive software
+>>> power management policies.
 >>>
->>> Extend the reg space to include actmon aperture for actmon configuration
->>> through host1x.
 >>
->> We kind of see that from the diff. Say what we do not see, e.g. ABI
->> impact or why this is flexible/optional for existing devices.
+>> Is this a resend or v2? Please always mark your patches appropriately -
+>> see submitting patches document.
+>>
+>> b4 diff '20241210174554.18869-1-johnliu@nvidia.com'
+>> Grabbing thread from lore.kernel.org/all/20241210174554.18869-1-johnliu@nvidia.com/t.mbox.gz
+>> ---
+>> Analyzing 6 messages in the thread
+>> Could not find lower series to compare against.
+>>
+>> But I am sure I saw it somewhere...
+>>
+>> Or just use b4, so all this problems disappear.
 > 
-> Since actmon is not well-supported for the previous chips (e.g. T210,
-> T186, T194, and etc) in this patch series, it's essential to make the
-> specification of regs property optional for the previous chips.
+> This is a resend actually to include all necessary To/Cc entries based on your comment
+> in the previous patch series:
 
-Then your schema should express it.
+Then mark patches as RESEND. Please carefully read submitting patches
+before posting anything.
 
-> 
-> Enablement/Disablement of actmon won't affect the host1x main functionality.
-> Its main job is to monitor the engines behind the host1x and serve for
-> telemetry purpose.
-> 
-> I could update the commit message to include the above reason. Please
-> let me know if more information is required.
-
-And fix the schema to make it optional only for older variants.
 
 
 Best regards,
