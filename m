@@ -1,65 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB2F9F32D8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:17:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E59BC9F331B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:25:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0A6F10E6A0;
-	Mon, 16 Dec 2024 14:17:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iTiuGk2f";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E2AC10E192;
+	Mon, 16 Dec 2024 14:25:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D0AB10E692;
- Mon, 16 Dec 2024 14:17:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734358641; x=1765894641;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=4OHPMDOAAPb8J5rJXxpYnRqkgZC9AeDOeomzy/3ci3A=;
- b=iTiuGk2fBy8hKGMngFO7GI5C8gJiErfVVFer/ixub0HXbtidWlbNspz0
- SUa9ePJ2r8uo/ESNLfSxK+QN0ncOTsv5fwsCe/udK7iCzJ6oHPJp+h672
- hOIX7fBxm83M/CvJbJiF9gdLaj/fb7MIALzxmcOtc6BwScwKzf4wZouXz
- UJT3pZmk011bEkWZgTw+ej3HJOzkEmICWvAu1kYbAG/KypW8EXVvw6VDx
- qtqZo/WsJsgWVUxlZDtxYQx9L3sm1Nln8uwa+mjVC2pR5EaihuE5KNLAV
- fg9VMhydeVtLMWY8wOKN4A+uXTzD23sOqH6FsGsoTkRClXE/p2dRkA6xm A==;
-X-CSE-ConnectionGUID: U26B8ZqISraPDWV2PxMBYw==
-X-CSE-MsgGUID: 22xdzEH8Q8eDzRiJlWTPjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="46137106"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; d="scan'208";a="46137106"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2024 06:17:20 -0800
-X-CSE-ConnectionGUID: +YzmFvWdRw22i/zzVM/HIg==
-X-CSE-MsgGUID: llG1kUl/R4uLI1ko3Vb+Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="102306430"
-Received: from mkuoppal-desk.fi.intel.com ([10.237.72.193])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2024 06:17:18 -0800
-From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 13/26] RFC drm/xe/eudebug: userptr vm pread/pwrite
-Date: Mon, 16 Dec 2024 16:17:21 +0200
-Message-ID: <20241216141721.2051279-1-mika.kuoppala@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
-References: <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D12D310E192
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:25:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50E7816A3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:25:48 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E9BC3F58B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:25:19 -0800 (PST)
+Date: Mon, 16 Dec 2024 14:25:10 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] Documentation/gpu: Add fdinfo meanings of
+ drm-*-internal memory tags
+Message-ID: <Z2A4RjVe8gPWpRua@e110455-lin.cambridge.arm.com>
+References: <20241211163436.381069-1-adrian.larumbe@collabora.com>
+ <20241211163436.381069-3-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241211163436.381069-3-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,97 +55,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement debugger vm access for userptrs.
+On Wed, Dec 11, 2024 at 04:34:32PM +0000, Adrián Larumbe wrote:
+> A previous commit enabled display of driver-internal kernel BO sizes
+> through the device file's fdinfo interface.
+> 
+> Expand the description of the relevant driver-specific key:value pairs
+> with the definitions of the new drm-*-internal ones.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  Documentation/gpu/panthor.rst | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
+> index 3f8979fa2b86..c6d8236e3665 100644
+> --- a/Documentation/gpu/panthor.rst
+> +++ b/Documentation/gpu/panthor.rst
+> @@ -26,6 +26,10 @@ the currently possible format options:
+>       drm-cycles-panthor:     94439687187
+>       drm-maxfreq-panthor:    1000000000 Hz
+>       drm-curfreq-panthor:    1000000000 Hz
+> +     drm-total-internal:     10396 KiB
+> +     drm-shared-internal:    0
+> +     drm-active-internal:    10396 KiB
+> +     drm-resident-internal:  10396 KiB
+>       drm-total-memory:       16480 KiB
+>       drm-shared-memory:      0
+>       drm-active-memory:      16200 KiB
+> @@ -44,3 +48,13 @@ driver by writing into the appropriate sysfs node::
+>  
+>  Where `N` is a bit mask where cycle and timestamp sampling are respectively
+>  enabled by the first and second bits.
+> +
+> +Possible `drm-*-internal` key names are: `total`, `active` and `resident`.
 
-When bind is done, take ref to current task so that
-we know from which vm the address was bound. Then during
-debugger pread/pwrite we use this target task as
-parameter to access the debuggee vm with access_process_vm().
+I think Mihail's comment stands. There is no harm in being thorough, so either
+we list `shared` as a possible key name, or we remove it from the example and
+re-introduce it later with a patch.
 
-This is based on suggestions from Thomas, Joonas and Simona.
+> +These values convey the sizes of the internal driver-owned shmem BO's that
+> +aren't exposed to user-space through a DRM handle, like queue ring buffers,
+> +sync object arrays and heap chunks. Because they are all allocated and pinned
+> +at creation time, `drm-resident-internal` and `drm-total-internal` should always
+> +be equal. `drm-active-internal` shows the size of kernel BO's associated with
+> +VM's and groups currently being scheduled for execution by the GPU.
+> +`drm-shared-memory` is unused at present, but in the future it might stand for
+> +the size of the Firmware regions, since they do not belong to an open file context.
 
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
----
- drivers/gpu/drm/xe/xe_eudebug.c  | 12 ++++++++++++
- drivers/gpu/drm/xe/xe_vm.c       | 11 +++++++++++
- drivers/gpu/drm/xe/xe_vm_types.h |  6 ++++++
- 3 files changed, 29 insertions(+)
+But there are firmware regions that are per context, like the save/restore buffers.
+Also, I think we are creating confusion there between drm-shared-memory and
+drm-shared-internal. I'm fine with having a note here regarding `drm-shared-memory`
+as long as `drm-shared-internal` also gets a note to explain the difference with its
+cousin.
 
-diff --git a/drivers/gpu/drm/xe/xe_eudebug.c b/drivers/gpu/drm/xe/xe_eudebug.c
-index 9d87df75348b..980b5a1383ad 100644
---- a/drivers/gpu/drm/xe/xe_eudebug.c
-+++ b/drivers/gpu/drm/xe/xe_eudebug.c
-@@ -3074,6 +3074,18 @@ static int xe_eudebug_vma_access(struct xe_vma *vma, u64 offset_in_vma,
- 		xe_bo_put(bo);
- 
- 		return ret;
-+	} else if (xe_vma_is_userptr(vma)) {
-+		struct xe_userptr *userptr = &to_userptr_vma(vma)->userptr;
-+
-+		/*
-+		 * XXX: access_remote_vm() would fit as userptr notifier has
-+		 * mm ref so we would not need to carry task ref at all.
-+		 * But access_remote_vm is not exported. access_process_vm()
-+		 * is exported so use it instead.
-+		 */
-+		return access_process_vm(userptr->eudebug.task,
-+					 xe_vma_userptr(vma), buf, bytes,
-+					 write ? FOLL_WRITE : 0);
- 	}
- 
- 	return -EINVAL;
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 0f17bc8b627b..c23bb4547d66 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -999,6 +999,14 @@ static struct xe_vma *xe_vma_create(struct xe_vm *vm,
- 			}
- 
- 			userptr->notifier_seq = LONG_MAX;
-+#if IS_ENABLED(CONFIG_DRM_XE_EUDEBUG)
-+			/*
-+			 * We could use the mm which is on notifier. But
-+			 * the access_remote_vm() is not exported. Thus
-+			 * we get reference to task for access_process_vm()
-+			 */
-+			userptr->eudebug.task = get_task_struct(current);
-+#endif
- 		}
- 
- 		xe_vm_get(vm);
-@@ -1023,6 +1031,9 @@ static void xe_vma_destroy_late(struct xe_vma *vma)
- 		if (userptr->sg)
- 			xe_hmm_userptr_free_sg(uvma);
- 
-+#if IS_ENABLED(CONFIG_DRM_XE_EUDEBUG)
-+		put_task_struct(userptr->eudebug.task);
-+#endif
- 		/*
- 		 * Since userptr pages are not pinned, we can't remove
- 		 * the notifer until we're sure the GPU is not accessing
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-index 557b047ebdd7..26176ccbcbbc 100644
---- a/drivers/gpu/drm/xe/xe_vm_types.h
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -68,6 +68,12 @@ struct xe_userptr {
- #if IS_ENABLED(CONFIG_DRM_XE_USERPTR_INVAL_INJECT)
- 	u32 divisor;
- #endif
-+
-+#if IS_ENABLED(CONFIG_DRM_XE_EUDEBUG)
-+	struct {
-+		struct task_struct *task;
-+	} eudebug;
-+#endif
- };
- 
- struct xe_vma {
+Best regards,
+Liviu
+
+> -- 
+> 2.47.0
+> 
+
 -- 
-2.43.0
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
