@@ -1,66 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E039F354F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:07:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A439F3559
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67C1310E2FD;
-	Mon, 16 Dec 2024 16:07:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D138810E401;
+	Mon, 16 Dec 2024 16:08:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jFJaFujX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="C7+opFE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCDC310E15B;
- Mon, 16 Dec 2024 16:07:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BF0A95C5B8F;
- Mon, 16 Dec 2024 16:06:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 565DAC4CED4;
- Mon, 16 Dec 2024 16:07:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734365224;
- bh=AM/8aKA98AZ889JcW0STJ3XuC0MMP8g8wFOlSiAd6Nk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jFJaFujXUgK6lTHxCB3Ow6w7gMm9d2l0z4seD9UJ3AidNDOoRvTlTQGMqHOHnuvgM
- aOgft41I+6EOFSJh8ejSPJbZld3D8ot/iOook7Ic8jWR4Y/2N4zFHk+nDymp5RVOmQ
- /ol6lbEUc5aXbI5Ay4U55QLEogzpxuWOnTmlPGlOtkBl+7tmAOinA3tVE/+9sfNTqK
- du2IIe/uzKGbLrWe1BHjUdALaqlRRkrTBPbTeltJCfhzuB551rHI6oHUkxCs5L01cv
- qY7slCPmT1u9qCey8iWK2yTTmxSN5+FPtHUvNSciBPusICvSyFUdzjd/BS56fSVFMz
- byLzGJbRcDgMg==
-Date: Mon, 16 Dec 2024 17:07:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, 
- =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com, 
- aravind.iddamsetty@linux.intel.com, rodrigo.vivi@intel.com,
- michal.wajdeczko@intel.com, 
- lina@asahilina.net, anshuman.gupta@intel.com, alexander.deucher@amd.com, 
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, airlied@gmail.com,
- simona@ffwll.ch, lucas.demarchi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com
-Subject: Re: [PATCH v10 1/4] drm: Introduce device wedged event
-Message-ID: <20241216-grinning-stimulating-jackal-a5fea0@houat>
-References: <20241128153707.1294347-1-raag.jadav@intel.com>
- <20241128153707.1294347-2-raag.jadav@intel.com>
- <1d448e67-0c28-4e21-afdd-223495346921@igalia.com>
- <Z01q1-7OF7jgANEM@black.fi.intel.com>
- <Z06QUpm3o_izNjoV@black.fi.intel.com>
- <7d0660f8-ce78-4458-a084-b65ab71e8243@amd.com>
- <Z1A6PYFCUNL9edv6@black.fi.intel.com>
- <m6ysmkxnit6kqeilkcaa3hoyfzyznymsa3eybzsl66jsn2ku67@jl3ajhxgqmvy>
- <Z1q9B4iQlQQNieS7@black.fi.intel.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
+ [IPv6:2a00:1450:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70C5F10E15B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:08:48 +0000 (UTC)
+Received: by mail-lj1-x22d.google.com with SMTP id
+ 38308e7fff4ca-3003e203acaso40646191fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:08:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734365327; x=1734970127; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gimIjr0V+IvVPSAkV2M5qKEwFz/7JaI3Yve9R66BZE0=;
+ b=C7+opFE8bNuCaN6mJXyylXN6CVTNsSjv9NhIxakzQY7Zsfscu0gs0DnXPX6ra2VNzb
+ 6cEIE2ugJ2T6uRXijcmG7rRuuL/lzdFWJRxdp8ZoPxx5hc2w7+qkcg7VppA4dHlUUK+M
+ I6yPHisc007bVMWuMAw9HnRX+eBui6R3hGXjoX1dTiG85Hx5xJQBUgigW2sZaEB75XsE
+ z63u/nkZVSTeaECtVR6EVmvEkYt8JwD6lN4dYufU/5WoTsttiJ+qo6FXIqu0wPL7xzEi
+ ESn3bHwoy4YVN0y5aeTx3rZ4tVcU447wFvXW5vb1QGj39iX5BiexW8yLkBXBztcgcc75
+ levg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734365327; x=1734970127;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=gimIjr0V+IvVPSAkV2M5qKEwFz/7JaI3Yve9R66BZE0=;
+ b=Q9xtA1hUAq7cCZBpzDowrF4H3f7oxG2WkiNIw5ile3O0bXa7hWIW6kdUSVUJoClNYK
+ AQtPtQOGakvL3MNjSNWuoX9d2wqHv6sdnMGUtU+c5HvbGoTk+l5m/To6HJH22LfVYk/Y
+ 7TSyZexTSkDMRop2B1sNe7nXwz0fPDAo18TUPahb+mlJwrVHxyuYtaponrTjCtzBY6OV
+ aPjoCdpH94UZSKKvhMPqIzGGpcuEWCT7kSJ3MJ6kVkTcVVeZIJyGfW0nQmT/HDlcTb5o
+ UHWl65aaiNJcYrBu/65EXW3FmCgRJnANrOPie/1g+aisFJtDOy6qxfwSvczQgaQ+bcpY
+ dAbw==
+X-Gm-Message-State: AOJu0Yy4dXwF3nYDVSG/g9hV+K/zXiuBKhI2nVjHVwiwxvGY/o/dlbQT
+ j7snvpSmxI/9z05ES8Ym4HE2yoGYonWaZXYxHP19DTR8E0QnNa0lv7FbLJMerfY=
+X-Gm-Gg: ASbGncsOgCaf553O8abt6APhzjghyZt6DcOTr+I41OCWrfLwNTmUcwuioYhGQcl6cK+
+ zG0m2RMmVUbPpZcreR4Z/JMiFj7iDu2yObobSJJ9CgcR8oIb7ZBEl6GnsoMdCGButApuGp2WwN9
+ QpMrRowVuQ3KJZduLTGlZqZ2/UH5/+RoSWgIlORrpyTRsxRR09aO1CX5sP++OMv6mMyC28FdkmB
+ jf/JToicOyCZWcpvCVSU2mQjWuRWfPXJfOxhqRK8NWrcXBN7Q5Wi8eTetKg4jhXfjbjGM43N4UR
+ iY11kkzyqgnhkqQpvthSe+qp
+X-Google-Smtp-Source: AGHT+IEyHnHgkF8cGHfAxniJoLZXJ011DOlAgQIhnT5vzkhPcJthnAGY9LbeypdGeJjm5mrh2qegoQ==
+X-Received: by 2002:a2e:a591:0:b0:302:17e7:e17e with SMTP id
+ 38308e7fff4ca-302543460f4mr50630091fa.0.1734365326654; 
+ Mon, 16 Dec 2024 08:08:46 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-30344175ad0sm9665241fa.84.2024.12.16.08.08.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2024 08:08:44 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 00/10] drm/connector: add eld_mutex to protect
+ connector->eld
+Date: Mon, 16 Dec 2024 18:08:41 +0200
+Message-ID: <173436531753.3257291.12458012077695445848.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241206-drm-connector-eld-mutex-v2-0-c9bce1ee8bea@linaro.org>
+References: <20241206-drm-connector-eld-mutex-v2-0-c9bce1ee8bea@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="nxbd5nusaiy7kazk"
-Content-Disposition: inline
-In-Reply-To: <Z1q9B4iQlQQNieS7@black.fi.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,127 +118,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, 06 Dec 2024 11:43:03 +0200, Dmitry Baryshkov wrote:
+> The connector->eld is accessed by the .get_eld() callback. This access
+> can collide with the drm_edid_to_eld() updating the data at the same
+> time. Add drm_connector.eld_mutex to protect the data from concurrenct
+> access.
+> 
+> The individual drivers were just compile tested. I propose to merge the
+> drm_connector and bridge drivers through drm-misc, allowing other
+> maintainers either to ack merging through drm-misc or merging the
+> drm-misc into their tree and then picking up correcponding patch.
+> 
+> [...]
 
---nxbd5nusaiy7kazk
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v10 1/4] drm: Introduce device wedged event
-MIME-Version: 1.0
+Applied to drm-misc-next, thanks!
 
-Hi,
+[01/10] drm/connector: add mutex to protect ELD from concurrent access
+        commit: df7c8e3dde37a9d81c0613285b43600f3cc70f34
+[02/10] drm/bridge: anx7625: use eld_mutex to protect access to connector->eld
+        commit: e72bf423a60afd744d13e40ab2194044a3af5217
+[03/10] drm/bridge: ite-it66121: use eld_mutex to protect access to connector->eld
+        commit: 39ead6e02ea7d19b421e9d42299d4293fed3064e
+[04/10] drm/amd/display: use eld_mutex to protect access to connector->eld
+        commit: 819bee01eea06282d7bda17d46caf29cae4f6d84
+[05/10] drm/exynos: hdmi: use eld_mutex to protect access to connector->eld
+        commit: 5e8436d334ed7f6785416447c50b42077c6503e0
+[06/10] drm/i915/audio: use eld_mutex to protect access to connector->eld
+        commit: 5db44dd1528625c73a31542df2a68972327c9897
+[07/10] drm/msm/dp: use eld_mutex to protect access to connector->eld
+        commit: 9aad030dc64f6994dc5de7bb81ceca55dbc555c3
+[08/10] drm/radeon: use eld_mutex to protect access to connector->eld
+        commit: b54c14f82428c8a602392d4cae1958a71a578132
+[09/10] drm/sti: hdmi: use eld_mutex to protect access to connector->eld
+        commit: e99c0b517bcd53cf61f998a3c4291333401cb391
+[10/10] drm/vc4: hdmi: use eld_mutex to protect access to connector->eld
+        commit: 81a9a93b169a273ccc4a9a1ee56f17e9981d3f98
 
-On Thu, Dec 12, 2024 at 12:37:59PM +0200, Raag Jadav wrote:
-> On Wed, Dec 11, 2024 at 06:14:12PM +0100, Maxime Ripard wrote:
-> > On Wed, Dec 04, 2024 at 01:17:17PM +0200, Raag Jadav wrote:
-> > > + misc maintainers
-> > >=20
-> > > On Tue, Dec 03, 2024 at 11:18:00AM +0100, Christian K=F6nig wrote:
-> > > > Am 03.12.24 um 06:00 schrieb Raag Jadav:
-> > > > > On Mon, Dec 02, 2024 at 10:07:59AM +0200, Raag Jadav wrote:
-> > > > > > On Fri, Nov 29, 2024 at 10:40:14AM -0300, Andr=E9 Almeida wrote:
-> > > > > > > Hi Raag,
-> > > > > > >=20
-> > > > > > > Em 28/11/2024 12:37, Raag Jadav escreveu:
-> > > > > > > > Introduce device wedged event, which notifies userspace of =
-'wedged'
-> > > > > > > > (hanged/unusable) state of the DRM device through a uevent.=
- This is
-> > > > > > > > useful especially in cases where the device is no longer op=
-erating as
-> > > > > > > > expected and has become unrecoverable from driver context. =
-Purpose of
-> > > > > > > > this implementation is to provide drivers a generic way to =
-recover with
-> > > > > > > > the help of userspace intervention without taking any drast=
-ic measures
-> > > > > > > > in the driver.
-> > > > > > > >=20
-> > > > > > > > A 'wedged' device is basically a dead device that needs att=
-ention. The
-> > > > > > > > uevent is the notification that is sent to userspace along =
-with a hint
-> > > > > > > > about what could possibly be attempted to recover the devic=
-e and bring
-> > > > > > > > it back to usable state. Different drivers may have differe=
-nt ideas of
-> > > > > > > > a 'wedged' device depending on their hardware implementatio=
-n, and hence
-> > > > > > > > the vendor agnostic nature of the event. It is up to the dr=
-ivers to
-> > > > > > > > decide when they see the need for device recovery and how t=
-hey want to
-> > > > > > > > recover from the available methods.
-> > > > > > > >=20
-> > > > > > > Thank you for your work. Do you think you can add the optiona=
-l PID
-> > > > > > > parameter, as the PID of the app that caused the reset? For S=
-teamOS use case
-> > > > > > > it has been proved to be useful to kill the fault app as well=
-=2E If the reset
-> > > > > > > was caused by a kthread, no PID can be provided hence it's an=
- optional
-> > > > > > > parameter.
-> > > > > > Hmm, I'm not sure if it really fits here since it doesn't seem =
-like
-> > > > > > a generic usecase.
-> > > > > >=20
-> > > > > > I'd still be open for it if found useful by the drivers but per=
-haps
-> > > > > > as an extended feature in a separate series.
-> > > > > What do you think Chris, are we good to go with v10?
-> > > >=20
-> > > > I agree with Andre that the PID and maybe the new DRM client name w=
-ould be
-> > > > really nice to have here.
-> > > >=20
-> > > > We do have that in the device core dump we create, but if an applic=
-ation is
-> > > > supervised by daemon for example then that would be really useful.
-> > > >=20
-> > > > On the other hand I think we should merge the documentation and cod=
-e as is
-> > > > and then add the PID/name later on. That is essentially a separate
-> > > > discussion.
-> > >=20
-> > > So how do we proceed, perhaps through misc tree?
-> >=20
-> > Provided it follows the usual rules (ie, Reviewed-by, open source
-> > userspace tools using it if it's a new uAPI, etc.) then yeah, we can
-> > merge it through drm-misc.
->=20
-> My understanding is that the core patches are to be reviewed by the
-> maintainers? The rest of it (patch 2 to 4) seems already reviewed.
->=20
-> We have a documented example (patch 2) with udev rule and a reference
-> script which can be setup to get this working. Does that qualify as
-> a consumer?
+Best regards,
+-- 
+With best wishes
+Dmitry
 
-Given the description you stated above, I'd expect a compositor to be
-the expected user, right?
-
-Our doc
-(https://docs.kernel.org/gpu/drm-uapi.html#open-source-userspace-requiremen=
-ts)
-states:
-
-  The open-source userspace must not be a toy/test application, but the
-  real thing. Specifically it needs to handle all the usual error and
-  corner cases. These are often the places where new uAPI falls apart
-  and hence essential to assess the fitness of a proposed interface.
-
-Maxime
-
---nxbd5nusaiy7kazk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2BQIQAKCRAnX84Zoj2+
-drhfAX9mPXpDK7b9lAQTMkeulf9d78L3Yk31TxHyY0Df+hmLgDsXqyD85JOfk2AC
-Ahe+5Q8Bf2+/43VF5ukum62mTd38WMc+kqx9L7goTASLt5sd7lBBG9JnOLgUTWWY
-nG+jR9uAsQ==
-=IMCP
------END PGP SIGNATURE-----
-
---nxbd5nusaiy7kazk--
