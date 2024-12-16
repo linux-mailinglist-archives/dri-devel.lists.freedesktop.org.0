@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7593F9F2CF2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 10:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A2D9F2D0A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 10:33:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D3D10E55B;
-	Mon, 16 Dec 2024 09:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D94E610E562;
+	Mon, 16 Dec 2024 09:33:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="eNz6lWkz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KlYjIsnB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA75310E557;
- Mon, 16 Dec 2024 09:27:19 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4YBZN42ckmz9sFn;
- Mon, 16 Dec 2024 10:27:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1734341236;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+NtkO2Xhf8nxzP/ehXM+41u0WU5dv5qLl/KeRVlfHA0=;
- b=eNz6lWkzf9AvIc1PtCH2i+eQUjliy8Q89w9p8hXL0v19R+m3AqJnN8D+5+Qaz01yioJMGF
- jiA5h64Vl1dnkSWQ9XKiOHvrNdsRj8nuyEjp37NUPzdfsmJNjZsfg0N+tytsQLmjeGATIQ
- T4Cx2+xW/v4SIwogvMrPlmv9WHnykFf1SIZjSVEm5P2kPgVGOjJWUi+cdE8uHUdBMK8urx
- EC+r33AAi6OlWFX/KNrq/EtkmLShMqEbAE9lb8/1w/bZCRrZKKu5+XduhWgauYZX4prCA8
- jJe057xhD7UuWe8GR6e4BbF1x2U+S/YUqS3cg3vkTXzvsmcCzRrxlC8+OEf+Hw==
-Message-ID: <340ed70a-a576-43c6-86ff-9b58ed513c72@mailbox.org>
-Date: Mon, 16 Dec 2024 10:27:15 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A791310E562;
+ Mon, 16 Dec 2024 09:33:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 986195C1101;
+ Mon, 16 Dec 2024 09:32:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02CD2C4CED0;
+ Mon, 16 Dec 2024 09:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734341597;
+ bh=yndVn34bCyl1mk7624b3uy12Ns2e5Qunxm39WYYBdts=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KlYjIsnBEL4QGqc+5XEvmXKjI9BYHk2jAGISl3dcIy6WB3L/Go8Hde9JbdNRaABg/
+ 5CuPLu9J43l7Q9SbWGUGlCBcwl2+yLzInKyrobgT2mdvAWJmAiUAjpjIsthSUFLBev
+ Jxvi+VhWZJ8RCmKAAzJtif9WnKBTUy+lfWKpD6MG6vHOhfQRx+cdbD3LdRMjd5k7GC
+ kJ9mEX5eqKmWt9UsfeT1bsOAL0P6OnNjjag4be6LE1mwediA8y3MimeP00gqZoEqEz
+ H83HllpQgXB32Wgxtpdk88dFA4fLyC46ezfaXfdWh1tSHzc0opwF2lzSpYLFZhCkO8
+ ozOKCR0Rb89tQ==
+Date: Mon, 16 Dec 2024 10:33:15 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 1/4] dt-bindings: display/msm: gpu: Document
+ A612 GPU
+Message-ID: <zzqp3ejgdtaala6ksdwnlmfv7c32o43eghqbmulp2f2p4pqlvs@5ihzuzav3tah>
+References: <20241213-qcs615-gpu-dt-v2-0-47f3b312b178@quicinc.com>
+ <20241213-qcs615-gpu-dt-v2-1-47f3b312b178@quicinc.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 705e921a0385482e9b5
-X-MBO-RS-META: 69cnhhzumprqzd1btpghuegq46uih1px
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241213-qcs615-gpu-dt-v2-1-47f3b312b178@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,41 +71,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-12-15 21:53, Marek Olšák wrote:
-> The comment explains the problem with DRM_FORMAT_MOD_LINEAR.
->    
-> Signed-off-by: Marek Olšák <marek.olsak@amd.com <mailto:marek.olsak@amd.com>>
+On Fri, Dec 13, 2024 at 05:01:03PM +0530, Akhil P Oommen wrote:
+> A612 GPU requires an additional smmu_vote clock. Update the bindings to
+> reflect this.
 > 
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index 78abd819fd62e..8ec4163429014 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -484,9 +484,27 @@ extern "C" {
->   * modifier (e.g. not setting DRM_MODE_FB_MODIFIERS in the DRM_ADDFB2 ioctl),
->   * which tells the driver to also take driver-internal information into account
->   * and so might actually result in a tiled framebuffer.
-> + *
-> + * WARNING:
-> + * There are drivers out there that expose DRM_FORMAT_MOD_LINEAR, but only
-> + * support a certain pitch alignment and can't import images with this modifier
-> + * if the pitch alignment isn't exactly the one supported. They can however
-> + * allocate images with this modifier and other drivers can import them only
-> + * if they support the same pitch alignment. Thus, DRM_FORMAT_MOD_LINEAR is
-> + * fundamentically incompatible across devices and is the only modifier that
-> + * has a chance of not working. The PITCH_ALIGN modifiers should be used
-> + * instead.
->   */
->  #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
->  
-> +/* Linear layout modifiers with an explicit pitch alignment in bytes.
-> + * Exposing this modifier requires that the pitch alignment is exactly
-> + * the number in the definition.
-> + */
-> +#define DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_64B fourcc_mod_code(NONE, 1)
+> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+> ---
+>  .../devicetree/bindings/display/msm/gpu.yaml       | 36 ++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/msm/gpu.yaml b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> index 6ddc72fd85b04537ea270754a897b4e7eb269641..1276331cb262e64cc94d6a9973463b3c1ff8b7a8 100644
+> --- a/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> +++ b/Documentation/devicetree/bindings/display/msm/gpu.yaml
+> @@ -217,6 +217,42 @@ allOf:
+>        required:
+>          - clocks
+>          - clock-names
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - qcom,adreno-612.0
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +          maxItems: 5
+> +
+> +        clock-names:
+> +          items:
+> +            - const: core
+> +              description: GPU Core clock
+> +            - const: mem_iface
+> +              description: GPU Memory Interface clock
+> +            - const: alt_mem_iface
+> +              description: GPU Alternative Memory Interface clock
+> +            - const: gmu
+> +              description: CX GMU clock
+> +            - const: xo
+> +              description: GPUCC clocksource clock
+> +
 
-It's not clear what you mean by "requires that the pitch alignment is exactly the number in the definition", since a pitch which is aligned to 256 bytes is also aligned to 128 & 64 bytes. Do you mean the pitch must be exactly the width rounded up to the next / smallest possible multiple of the specified number of bytes?
+Missing constraints for reg. xxx and xxx-names cannot be different.
 
+Best regards,
+Krzysztof
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
