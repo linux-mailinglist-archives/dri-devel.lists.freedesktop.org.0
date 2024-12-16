@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E0B9F3645
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:41:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3BD89F3646
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:41:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0694310E3EC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E844210E611;
 	Mon, 16 Dec 2024 16:41:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gtREOcAP";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cE4GTZU3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4627C8926F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF51B8926F
  for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:41:10 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B290CE0002;
- Mon, 16 Dec 2024 16:41:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AEA09E0005;
+ Mon, 16 Dec 2024 16:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734367268;
+ t=1734367269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=trb/73fr8oplgOFNAbd36nCrZAk6oSoc9zUaNRyfOSY=;
- b=gtREOcAPR0Sa0uNd7CyF/HGlB9KIuf97MfeAeY7kA9HiphnbKKNZnR7lue8fSwoQmP4Agi
- /9NsLDwQu7/wKyQZIYFNmhz6Zy1ePTHiBU6qjhFZm1044Sm17GnsK+rIAu+DK9rDH/0E7F
- g/+Je1FZIu1VfRBFs9VvotZMtng1BtR/7Ob0wxixhMNCzKMvG9a6QRrwrhQX6q4wLtNFuW
- Gi+NPAT/UjuAcRS//wLhBSxTLDJJUOd8lwJ4XccEiQ+2Y6Pvm6YtTK8uX5EAV3V6DvVHLO
- fN+DPsFplnijmxOTWRF+S5rFGtv0+h8nGALXOFSG5qvubQP3l/cjWHDLMEuV8Q==
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lEuh5s/boyvsj4t0oSTEvebQYcCGEo5tXwMo58H8NSk=;
+ b=cE4GTZU3uqWFWv29TL9UYBSslHc1DczAnFW1lIsv4PL6n1dGO9LipTmMQp6T8BocMyeGjP
+ WH/bbU0LhymdJymJ3j/7nshI3T+mk6+eUFN56UYgkBeM1RzB+w6kzCnWifVlVZgdKzCWhY
+ 5K4sY3o7QljE0noo+qCsi/QCzPImVBnaTvzlfpvOLh6L5cONxx2z8Mtuzl6gXQnuNaT4tj
+ L/ZeNooXLPgrXypfFrTCsu41IyOHaA9h8Qn3lqdgj8KPb+gtuz/lMd+z4BORdKv2/sB3vs
+ sFOVAjOMgwp9/Y1pfpaB2NXpdRzrvsWE/WFqezg1hZKUE19KCt5FlaV7ATRbuQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: [PATCH RESEND v3 0/4] DRM: small improvements
-Date: Mon, 16 Dec 2024 17:40:47 +0100
-Message-Id: <20241216-drm-small-improvements-v3-0-78bbc95ac776@bootlin.com>
+Date: Mon, 16 Dec 2024 17:40:48 +0100
+Subject: [PATCH RESEND v3 1/4] drm/drm_mode_object: fix typo in kerneldoc
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20241216-drm-small-improvements-v3-1-78bbc95ac776@bootlin.com>
+References: <20241216-drm-small-improvements-v3-0-78bbc95ac776@bootlin.com>
+In-Reply-To: <20241216-drm-small-improvements-v3-0-78bbc95ac776@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
@@ -62,38 +65,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series brings small improvements to the DRM documentation, logging and
-a warning on an incorrect code path.
+Remove unintended extra word.
 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-Changes in v3:
-- patch 3: various fixes suggested by Jani Nikula and kernel test robot
-- Updated reviewed-by tags
-- Link to v2: https://lore.kernel.org/r/20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com
+ include/drm/drm_mode_object.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-- Added patches 3 and 4
-- Updated reviewed-by tags
-- Link to v1: https://lore.kernel.org/r/20241018-drm-small-improvements-v1-0-cc316e1a98c9@bootlin.com
+diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+index 08d7a7f0188fea79e2d8ad5ee6cc5044300f1a26..c68edbd126d04d51221f50aa2b4166475543b59f 100644
+--- a/include/drm/drm_mode_object.h
++++ b/include/drm/drm_mode_object.h
+@@ -35,7 +35,7 @@ struct drm_file;
+  * @id: userspace visible identifier
+  * @type: type of the object, one of DRM_MODE_OBJECT\_\*
+  * @properties: properties attached to this object, including values
+- * @refcount: reference count for objects which with dynamic lifetime
++ * @refcount: reference count for objects with dynamic lifetime
+  * @free_cb: free function callback, only set for objects with dynamic lifetime
+  *
+  * Base structure for modeset objects visible to userspace. Objects can be
 
----
-Luca Ceresoli (4):
-      drm/drm_mode_object: fix typo in kerneldoc
-      drm/atomic-helper: improve CRTC enabled/connectors mismatch logging message
-      drm/mode_object: add drm_mode_object_read_refcount()
-      drm/connector: warn when cleaning up a refcounted connector
-
- drivers/gpu/drm/drm_atomic_helper.c |  5 +++--
- drivers/gpu/drm/drm_connector.c     |  6 ++++++
- drivers/gpu/drm/drm_mode_object.c   | 17 +++++++++++++++++
- include/drm/drm_mode_object.h       |  3 ++-
- 4 files changed, 28 insertions(+), 3 deletions(-)
----
-base-commit: 42f7652d3eb527d03665b09edac47f85fb600924
-change-id: 20241018-drm-small-improvements-1d104cc10280
-
-Best regards,
 -- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
+2.34.1
 
