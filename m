@@ -1,56 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 020849F35BE
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:21:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED64E9F35C3
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 17:21:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3514B10E15B;
-	Mon, 16 Dec 2024 16:21:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF9E10E03E;
+	Mon, 16 Dec 2024 16:21:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VBC7F9dy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IkTkBLd4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E93D610E1C8;
- Mon, 16 Dec 2024 16:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=ZbebpDFFFNf13wUEwMhbDOAbWmM9tWxfWhhdGNIFxd0=; b=VBC7F9dy65FOnCwO3xcNxaIn2F
- Pg1+qTmL/XcPUQW1nrFUp16n9vNnQHHeKy7qTqiT4ihV/Q+1oefgruzXdEcgf63e7pL8U5zKb/fKy
- RSITB9aHakfYQ1jBksabcbY9LVmN3sIhwOj0y4+zyJ969zv07/cZPITI/A67A1BuwclVN5ThC/320
- 3xkLPUxjRMcrV+ypYldCRTYsCAu6Sq99dHS3Xpx7pTYvJEPyKGyzfxgvtwZLsW/Qrkc5sEIh5xrP6
- WX7YE7KyB6bMbQu8SIJ7gSBzqMukeHUdpatSHUjwd47An1XA12/Mi+4BfWTss3n/5op6/mg66ax2Z
- w2aHnuHQ==;
-Received: from [179.193.1.214] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tNDqQ-003qch-0z; Mon, 16 Dec 2024 17:21:18 +0100
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, alexander.deucher@amd.com,
- andrealmeid@igalia.com, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, Shashank Sharma <shashank.sharma@amd.com>
-Subject: [PATCH v3 1/1] drm/amdgpu: Use device wedged event
-Date: Mon, 16 Dec 2024 13:21:04 -0300
-Message-ID: <20241216162104.58241-2-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241216162104.58241-1-andrealmeid@igalia.com>
-References: <20241216162104.58241-1-andrealmeid@igalia.com>
+X-Greylist: delayed 1671 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Dec 2024 16:21:43 UTC
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::223])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4083310E03E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:21:43 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 23F0860009;
+ Mon, 16 Dec 2024 16:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1734366101;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t1mh2dckR/amPlNQm3YVhlVqC5XhRzRpWGW62xADCBE=;
+ b=IkTkBLd4/DVxLmXLHac44D051wZMPkIS6PddyzGN5OSNQ6UcCSNZQdUTy0Ia5kIoMEqfnu
+ DAQnigY7Y5J6X+DvPRIuvN3T4ycAredKkHnDbRUz7KzqwTGEiaj5okALbnkBpamkcFjNj/
+ fXcTiUr3dq9KxYkd9jfFXg6mjTHp/tNazDLTEmHk58FCCHNyolENiyn6vSnsrVZOEpcW8z
+ e+CRwEiUYoJ1udsHrrhHULKmdT3Q8EfdVJtZ+Kq+cS9A/CUyvtxp074rfT2U25LuzwDd5z
+ ceGxHIJDjBazuEadew49E+YFRl1/oH4LKCxY+EVAhtZNvQW38888rQj0zh2RgQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 0/2] drm/panel: simple: Add Tianma TM070JDHG34-00 DT
+ bindings and driver support
+Date: Mon, 16 Dec 2024 17:21:33 +0100
+Message-Id: <20241216-tianma_tm070jdhg34-v2-0-0b319a0bac39@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI1TYGcC/32NQQ7CIBBFr9LMWsyAhKqr3sM0Bii0YywYII2m6
+ d3FHsDle8l/f4XsErkM12aF5BbKFEMFcWjATjqMjtFQGQQKyQVHVkiHWd/LjC0+hmk8SabQmrO
+ UaLiSUIev5Dy99+itrzxRLjF99o+F/+zf3MIZsos3rXfKKOuxMzGWJ4WjjTP027Z9AZj98lC2A
+ AAA
+X-Change-ID: 20241210-tianma_tm070jdhg34-60cb8440b164
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,37 +72,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use DRM's device wedged event to notify userspace that a reset had
-happened. For now, only use `none` method meant for telemetry
-capture.
+This small series adds DT bindings and panel-simple implementation for the
+Tianma TM070JDHG34-00 7" panel. Due to how the datasheet computes the
+blanking time, a quirk is needed in the timing implementation. A comment
+documents that in patch 2.
 
-In the future we might want to report a recovery method if the reset didn't
-succeed.
-
-Acked-by: Shashank Sharma <shashank.sharma@amd.com>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
-v3: fix if condition
-v2: Only report reset if reset succedded
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes in v2:
+- Fix bindings patch
+- add Reviewed-by tag
+- Link to v1: https://lore.kernel.org/r/20241210-tianma_tm070jdhg34-v1-0-9fb7fe6b6cf0@bootlin.com
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 96316111300a..c8012253ebed 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -6057,6 +6057,10 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 		dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
- 
- 	atomic_set(&adev->reset_domain->reset_res, r);
-+
-+	if (!r)
-+		drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE);
-+
- 	return r;
- }
- 
+---
+Luca Ceresoli (2):
+      dt-bindings: display: simple: Add Tianma TM070JDHG34-00 panel
+      drm/panel: simple: Add Tianma TM070JDHG34-00 panel support
+
+ .../bindings/display/panel/panel-simple.yaml       |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c               | 42 ++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+---
+base-commit: 2ade8304e5fce7b972ef46011946186f1466c9bf
+change-id: 20241210-tianma_tm070jdhg34-60cb8440b164
+
+Best regards,
 -- 
-2.47.1
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
