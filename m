@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFAE9F2BC0
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E3AD9F2BC2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 09:27:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9724210E3DD;
-	Mon, 16 Dec 2024 08:27:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71A8C10E405;
+	Mon, 16 Dec 2024 08:27:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ll797d2z";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Gimgf/s7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
  [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B04F10E09F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:27:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9235110E3E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 08:27:30 +0000 (UTC)
 Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-30227c56b11so37988751fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 00:27:28 -0800 (PST)
+ 38308e7fff4ca-30167f4c1e3so41673031fa.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 00:27:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734337646; x=1734942446; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TrrxPcocFaYUg6/aaiKr4KpBya9ZDGEcbUvoC1inEjc=;
- b=Ll797d2zG8NLiXtqY/q/TzbqbtLLhsAjAzUlADtRgUadcENGiVvBJX6yVHnekQGJFu
- XCBApuTOitONyPZ6lvcZeMe0ezGvdfNA7tFWrp1UdDUIQlPMzDrBUYW1UzxfK0W8o32t
- MDwXGUdQD3lppAOs8U7gaO98M+gdiQq4W523pSPA69f/gb3I/z2fLWw0OOHCDdxHV5zC
- /ByMDXoV9fbcbIopwyKgAwGqdrYFgKZT1D95YUm34PTDHmjUi3PnaxjB3scnAC6A1uvF
- PnlnyfaNM+QlBRJHKmmDKGDMXgEwGjUAYc00Tumv1+HCCti02dfY7uqlXwgzDKOjHE7A
- JJ5A==
+ d=linaro.org; s=google; t=1734337649; x=1734942449; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=p3QX07TGdBq1gHdO6oikHZ2FbBQpzQ564YrLte+zAm0=;
+ b=Gimgf/s7+gNjS3oImRAAzxnEHmRffhvenWIxoNUvzDISt7tHoDvw64Nm2NcyG+4jqT
+ MKYgROv27oMWsJJzzW+DquJv6p1n1iA6RrvGsyEwTRLy1rwDbGTtZe+xRPKhVIwb9/Z6
+ jrIwvZOK5kJNsQPxEHUg0/IlZ/gEkwCb/+YvMJnJDTWybhXjipUeWqJ0B2uhpIEu5YTJ
+ 13gmIzH4TcSp7joEz+NNKYVj3HvO4ARbOUYezDwMsbkJJjkjiJZ+7ZEjnM4siALonWcM
+ dlN+PeQF3Peakh9C0m41d4UasdslTkkMLvVrPZKKMfPZxr6WmcMTfJIPWJ1uKNZqDF1M
+ LmuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734337646; x=1734942446;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TrrxPcocFaYUg6/aaiKr4KpBya9ZDGEcbUvoC1inEjc=;
- b=YM3du8xETYYJs1OoUxF88D+oxNYUyrKM2UUSth6JsXtkT4TljKONXG3UB75RrU0dlS
- rwDmTpMO6PtfS1TPLR4q3FMamiSVjacWd1aGKa5EjC5PCxB6ycobGzqYKJ0HqmlkpoWR
- Kdl2Aw7Nu8P+DWAFok0FNC4PXDtaO7hXUnwZZjd2gf9HCJq7F8YwuxMf/NScKdHzpFg4
- FzxsxthvrdinmxBbAJyhGevOsSgefifZS7PnOPEd6vpdnhFqZYfh1ssHHXPM/2tnJLtF
- wFwb1jhfCrNb64B6PmL+Yv7uzJqrJvLFA7rG8FArvOC0mcmS9uu2fDu2dIkPy9qWRYfV
- 2L1w==
+ d=1e100.net; s=20230601; t=1734337649; x=1734942449;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=p3QX07TGdBq1gHdO6oikHZ2FbBQpzQ564YrLte+zAm0=;
+ b=PQ5pgerV5fuZWgv8Y3vB+9JFOqkWWlu3BQIDwjXN9CSFKiKDGvNaViUuTcswtInJ3N
+ QrE4jOVQl+M+0W9sAMkmr/XJ4rRsFSAGL6wHgGtk0pVa4Og/Jug5xLlQCm6GBIqPZKjM
+ HlfuBxiYrG9d/DplWYaDR/oVD6bRKB/BYGUp5pfUmSYkScG7+9mRBWzla8ahv+n1I5Cd
+ cPCrpd7Q2FN0uWyRYhquduMXptgf9gAYt6U6NJQFdjqyCtPIe0z44KHGq1vqUWJhz4gd
+ nFh6N0I+tAdDI6r6igoLOcTn5Nc7Xvv1+Ytm3aIhH+gfIOZkGWPAU03EiYD+XiLdeUGH
+ 5nUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX/iCDYQd6TN8REXjb/9mfOMd/1gSPOTrmRKUQwdh+DZdDxI0UNdCDcbdYqw2t0168WtdvQwhZKFdg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwterRcawDLgBdi2R+6nHpavAH2qsgNOsXwvKLFxhOs5nwBxHCv
- d8KjxeqXKWfCYqii6QP+rR4oHvWmytBNA8WQaWuvXkl0lzcWHZfo61Z5T1X+y3k=
-X-Gm-Gg: ASbGncup2iftgIXSrK8j2jv7U3Vbqprl6fN+5RrJAkRW9K4C6yLYplDp4uaBues0jtm
- 12n8mvA6k4qOpxU+C6B3yPygfJn0xrwU9qsupyH9ec14WvBi7+ZTTjfriNo+oa+Y9vUNH6jQOmM
- pD1Fqg7hmiKAzRQFMwcqygSUDPXSsKwGrHE9IPisF25mLerojjzFUE7NqW760d3XZpJD302oe2s
- ZiaYGb/SlECwvdZRdmUM5m+eISZ65aVXsIXelExDT5i/m9HFsM2iaGlQ0RMGZjJ
-X-Google-Smtp-Source: AGHT+IHJD+NR/PgyKHAepDFxbWTM+bPz0btqfBlgq5msCTR8EAXGlLoqNe5rUltrMZ1fu4+D0KYY+w==
-X-Received: by 2002:a2e:a304:0:b0:2ff:d7cf:ba1d with SMTP id
- 38308e7fff4ca-302544d3e10mr22023831fa.41.1734337646540; 
- Mon, 16 Dec 2024 00:27:26 -0800 (PST)
+ AJvYcCWuUlF9uX5M+RH1YkpwpXf0mpOjLYgbkoN1eie/PM0aTAL7QsNFh6b2n4jrvZCmM9ymU2Xd+rxYTwk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwI1YmVMd8AmHFCgk3MvlHkTT/TMy9b9EbwDGIy10yeArNj8suD
+ IpxieLuscJjIdDhxJSHmORbbFD42P3VoAeQBVxixLx8pSklioKgRKmdlSEB4uaQ=
+X-Gm-Gg: ASbGncutaUumNfcR+9qxJg4I3fIoX/ND6B1gVouDAaECbhkrDAdq5rXI+ffEKw5HcIX
+ 2Q6DG2AIoObQf8CxIr2QFMO/FkHPX+SNi9YmJ91VYEryUQX7VevO6ei+YFMuPdslDIJ7C3dV/rD
+ eMuLoquWSpp+x2v6WHzfj4fLcSpytW/r5JJqlGOV9lFzYpSQCl5osb9i0fHhkjPqOaW7tRDVMPW
+ iuGG4GA0LS/RTwUc4zO2UZvBpWuty59ZY1UhLgmruqDmwFD7l/W1L//+MbLXFje
+X-Google-Smtp-Source: AGHT+IFx724whJM/3tgOtZRukuS/DQOvI/WHlmOjoQuMlO70R1sWXtGolZHOH0q3MJfJtAKMP/bH+g==
+X-Received: by 2002:a2e:a5cb:0:b0:300:27fd:a7cd with SMTP id
+ 38308e7fff4ca-30254464080mr42374541fa.19.1734337648920; 
+ Mon, 16 Dec 2024 00:27:28 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30344045342sm8543371fa.33.2024.12.16.00.27.25
+ 38308e7fff4ca-30344045342sm8543371fa.33.2024.12.16.00.27.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 00:27:26 -0800 (PST)
+ Mon, 16 Dec 2024 00:27:27 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/8] drm/msm/dpu: catalog corrections
-Date: Mon, 16 Dec 2024 10:27:21 +0200
-Message-Id: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
+Date: Mon, 16 Dec 2024 10:27:22 +0200
+Subject: [PATCH 1/8] drm/msm/dpu: link DSPP_2/_3 blocks on SM8150
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGrkX2cC/x2MSQqAMBDAvlLm7EAX6cGviIcuYx2QKq2KIP7d4
- jGE5IFKhanCIB4odHHlLTdQnYCwuJwIOTYGLXWvtLIY9xNnvjG4w61bQmuc8UFGbxRBq/ZCTf/
- HcXrfD2b2XZ5hAAAA
-X-Change-ID: 20241216-dpu-fix-catalog-63a3bc0db31e
+Message-Id: <20241216-dpu-fix-catalog-v1-1-15bf0807dba1@linaro.org>
+References: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
+In-Reply-To: <20241216-dpu-fix-catalog-v1-0-15bf0807dba1@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -79,16 +77,16 @@ Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1531;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1147;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Ykwoi/viuVCnZ52OOZsyH+WMXqN9YSgRldwQks5nM6I=;
- b=owEBbAGT/pANAwAKAYs8ij4CKSjVAcsmYgBnX+Rrj5j0J476K3SjRlnLe3dn/SHhLoulfsOer
- 1SNLqNKw46JATIEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ1/kawAKCRCLPIo+Aiko
- 1eNiB/jdFVPQLWJTAqF2b7SQPaUkr+lMQqnqZ9FD2Trnx1/ZwVfm7m97liH9CqMc1xRiYyQm9LC
- QGIsgTt/kCynT3KiZA0e/5vQHw2lkoMLl/EejnQm7EaePkGl2yqfKbgfUoQpq7JYQdeRpDzz8PB
- y2HV5jzJGaL2nUP1e4QFMrYxCogCHfegRm2VX5N4iC0Hd1n4A93U6gw4Prfts7LK2R5kin9NPqk
- Gkfz/q0yXlD3JOYX5CoohmqcIazE2VVpsVzCmrJ7Ok997COxERZe6msT8Qln7MPcbuq/amWQrmo
- amx6DuPtTNU720Yf4ywYQnULpgnaWBPjP7olviV/DG6O/JU=
+ bh=9MObEe5KzGyCABZYczA3jsFGPjAHvUO1PrGscQg+Yd8=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3r8k2yTndeVZTf/++P01X49twj3domE3+FdLPFdf7jMA
+ mwT2w52MhqzMDByMciKKbL4FLRMjdmUHPZhx9R6mEGsTCBTGLg4BWAin/PZ/7vnCGkdk3tiWteX
+ uPGqhuc0xeKKy9IesoUVn0Mm7CgzL8sq6z97evsLbSbJF4vy+pc//sjQ6nIn8SfLnLu8zZx7HqS
+ o2P521re/VyWyaVf6Lneno+eihGMbky0amdPPvfRbdWrifa6p5ZdK8hLX3+5/bxZx8LPhYf+g/F
+ WRzxp7p9p8ElTbfDLqale0x0yVrnK+H/EpfW3p1uecuM8EdDW47T11Z9dfmX+O3J/nhXen5uXZL
+ 2zf3beke9mnMtVQBV2rJsnH9yfpzP0y7arzzeyqO6/+2XZW77+bcJgtW59RIYW1KjAh4vbkaLt7
+ FXFPjlyX3VXFevWQSOcPhW9/HI86/HT4W3T0KsvPUzHJAA==
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,37 +104,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-After checking the DSPP units in the catalog vs the vendor devicetrees,
-link several DSPP units to the corresponding LM units. Each correction
-is submitted separately in order to be able to track and apply / skip
-them separately based on the feedback from Qualcomm.
+Link DSPP_2 to the LM_2 and DSPP_3 to the LM_3 mixer blocks.
 
+Fixes: 05ae91d960fd ("drm/msm/dpu: enable DSPP support on SM8[12]50")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (8):
-      drm/msm/dpu: link DSPP_2/_3 blocks on SM8150
-      drm/msm/dpu: link DSPP_2/_3 blocks on SC8180X
-      drm/msm/dpu: link DSPP_2/_3 blocks on SM8250
-      drm/msm/dpu: link DSPP_2/_3 blocks on SM8350
-      drm/msm/dpu: link DSPP_2/_3 blocks on SM8550
-      drm/msm/dpu: link DSPP_2/_3 blocks on SM8650
-      drm/msm/dpu: link DSPP_2/_3 blocks on X1E80100
-      drm/msm/dpu: provide DSPP and correct LM config for SDM670
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |  2 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h | 54 +++++++++++++++++++++-
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |  2 +
- .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |  2 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |  2 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |  2 +
- .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |  2 +
- .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |  2 +
- 8 files changed, 66 insertions(+), 2 deletions(-)
----
-base-commit: 4172e9bbb583a2af5f1a3db437caf72a90714ad9
-change-id: 20241216-dpu-fix-catalog-63a3bc0db31e
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+index 6ccfde82fecdb4e3612df161814b16f7af40ca5f..421afacb7248039abd9fb66bcb73b756ae0d640a 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h
+@@ -164,6 +164,7 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_3,
+ 		.pingpong = PINGPONG_2,
++		.dspp = DSPP_2,
+ 	}, {
+ 		.name = "lm_3", .id = LM_3,
+ 		.base = 0x47000, .len = 0x320,
+@@ -171,6 +172,7 @@ static const struct dpu_lm_cfg sm8150_lm[] = {
+ 		.sblk = &sdm845_lm_sblk,
+ 		.lm_pair = LM_2,
+ 		.pingpong = PINGPONG_3,
++		.dspp = DSPP_3,
+ 	}, {
+ 		.name = "lm_4", .id = LM_4,
+ 		.base = 0x48000, .len = 0x320,
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
