@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55799F3D66
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:24:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B59F3D6C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:24:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6F610E7D1;
-	Mon, 16 Dec 2024 22:24:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B5310E7D2;
+	Mon, 16 Dec 2024 22:24:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RQD0PjnE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aaPiBPKz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
- [IPv6:2a00:1450:4864:20::235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F1C810E62E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:24:08 +0000 (UTC)
-Received: by mail-lj1-x235.google.com with SMTP id
- 38308e7fff4ca-3002c324e7eso52263841fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:24:08 -0800 (PST)
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98BD110E62E
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:24:55 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id
+ 2adb3069b0e04-5401c52000dso5079696e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:24:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734387846; x=1734992646; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734387894; x=1734992694; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=t7TrH1UvKd3oaC2SonGHzYdfePQRSyRbTdYf+pidBv8=;
- b=RQD0PjnED1ZX9+XFVHcAZVJ0+QGDrVq4EPlGRoxM8hbJUgXCWXKSxPfbiX3j+dpX1c
- IS7bVTPeUH6mfKk4mLGJnA/DNag18aIqC9Dw8SukQq9GE8saxtgdj9fPTLkNpTPTE5SI
- l0Wc9UnMlPNlMZExA35hczCZeLjmejCug1wMa5x44BgIxTdClMmwtHpohJgbo7wYlFQy
- +tt7usmR7NTgnt77MgUl0KDz1u2+9r7Lzd/C0tSUOwxUhXFMSWgrkwOPfGyfe2FbHbVV
- aWQY5ICliN90wCyJW7GmThFyoOE4/dNTzrbluS7ui/fMao5luOLjMSuA3Dhdj7EWXsPQ
- 31Lg==
+ bh=4lUKNdC2kAAGBCwC8ulcU+ZnvIc3yXrgdr0jrnZTuug=;
+ b=aaPiBPKz3JrBrkEYbH/ecDCN1fzwhjnY9s+SvqMi4yG5GRKGJw65EwBtBAHFgRr4pz
+ zk/N1HVqVJmRyNJLVd/BQgbYMOQZU6CUL0pDIVeWgc1RRcFZJYqF01KHVh5cvZ22m+bI
+ J/0OWeO1M11sojgHzoPlmr4Dg1PzwolbmaENEeb2gLbRgMcn1Y7K2pFKXuulnSlvMJu8
+ F4/qi5BYLy145A+aBKQETP3eYyqsMqwqi0SWeGan/TlnuVSE/kaWaNx9P+JGfHKZsaI/
+ XJegU07FtDW4OG1pICx3L8DEfqBCnsuUYb1cA0yLxaDpiVfDrfKfQGnoLYEUD3fPegj6
+ ulcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734387846; x=1734992646;
+ d=1e100.net; s=20230601; t=1734387894; x=1734992694;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=t7TrH1UvKd3oaC2SonGHzYdfePQRSyRbTdYf+pidBv8=;
- b=XFY4YFU5wLUmuHhSmgdMrhXf3a9t7GgmsG6EZ+5/QAqUQRFWZ75KFevuYC9PCFxU2n
- Ri3+r0LNjp+w77GlG+l1YSL1WYy7/ZsjlJdFT0g9FThggN4c1xUP8SjlAhki5QOWMwPu
- UCVcyOiN1+ZwxIKvLs5mdh7nEl8LJfAXDEIXYr0VqlKaMbmMEL1EkxQhkXjDjnDETVao
- +9R4R9VX20GJzY2fzXpUcDYIGTI5biYVmNMgJD40Hoed4AP30JtRGWXKQXgM1Pnw7qpO
- QcUZd4aHcO3l01w4AKyBoA0eW8G8DKPIoVfivYSfLLZ43IXLEBVcZpNiOC9Y4xjAePV6
- gd0Q==
+ bh=4lUKNdC2kAAGBCwC8ulcU+ZnvIc3yXrgdr0jrnZTuug=;
+ b=MzPc1Ogs+z/tK/JQzNQcNai4yjjaKrPzgbnB3P5cDvRXPCtZs5NV4BFMV7Cr6Kp05V
+ onvdTzW7ta74EFvgVpLISIqALH10imDHu0Cy9i1+dWsnu3nyofNeyqF3pdAmspqFjvw6
+ mhFbjndlKmpbg2UEIjj/IjYiRq4n/lRJFiDPrmTicKZS3/TnmXWJ1w6es8eoU5WZpUOx
+ 4udqaC+O6srPEiWlUvx8iuuj1ywM9xAOAGds4mQUBxgJKixYBx/eb6ZiNPFyQvZbv6Zy
+ nH0F0vueZ+n3wJ+fcBuMV7B1FFmnmHKoZRsI7WNKiDj4nt7KmMY9Wsf5CQYxZzjdZ/E6
+ OT/Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWjbvqG9nYLygOk2jQmtCGqjEX+3DhFjLVc9NVCrU4bLihjIEcXWnApWKuvyueK8ijV1/OIKAXseOM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfSsuCINSeGnM5bm3LzQGO6qqQWdOgkIMsQkRpp040drpEv2EE
- 9qcBu+2GmechUwL0HQuzN43wpiuzlb/HFGnyijSB4FWwzIoZN4TutzD0fpHkjRM=
-X-Gm-Gg: ASbGncvdlyp1uavsEOgDFbibF0+NRXbfILkFGblVCdur08Mb/iK/xoLoqWeLHf3DKla
- XXo2vlBvbBxOO4xT8WbS2F9oK5KC4A5uQB7sYbMB1wBKb2RjLeF6y/VNARLgfFZ8Y3wIPwg4jtg
- 14zvuU08G6vevC72SeX5ZTTJDplh3qT2sWG2qG0jvyN/REDNighLREedq6Rn6tzuwjaDL3KKaJO
- 1AR6uPQENySx4W2/y/xnuSGrfza9fjsGvLi8Xt4NWONVfIk2w3Cy3jKQrfOqtJ9WgFAWntbjOxv
- FHJZHCPalaSYfBB74GvFaw7pYG46XrXQhkub
-X-Google-Smtp-Source: AGHT+IGVrNsBIuWVRv0FfM+cys7dHh0GLTm6LZ/EdLm6AhlrYBZqk0DuZoUJzXDknWjG4LoS58j5OA==
-X-Received: by 2002:a05:651c:1a0b:b0:2ff:cb47:3c77 with SMTP id
- 38308e7fff4ca-3025459d373mr53682521fa.26.1734387846495; 
- Mon, 16 Dec 2024 14:24:06 -0800 (PST)
+ AJvYcCUyeSG7JAVztSo/8/UC4NgofuYGK7et1oyaWg21b6WmGAQhMMfx0g+oHPaEv8g7gyc+a/NId+G83Ak=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyiIm7b8gQYXgH7luh2ds5uXjnRBYiIxdV4Kc2VZd2GNO0QetQ8
+ OGniOiG3h4oziWDbe9JsTzttokgqsnHK55xvJc1IoZgGP5Si+SMnSjSUOetKwVs=
+X-Gm-Gg: ASbGncu31OO6J9wNae7Cd2nuUDYo5XNsx72hphBWCLbgRaDbH8jGtuRKo0ALqxHZLQb
+ Bh9p4qecthGUmuwO9w1n9ji8m2MMdz7XHRRz7MqtYTKdtlB+zTOBv8z32w3vDtHuLALTyKHOMsH
+ 2jDcS8UMZu1LMMVqLKlkG1XREfTMrtBHIHrkIP2vc3LGc2BII59WbMpJFVMwvBYUxbuPvYnHTVt
+ 30NR4JmNiALSly1D771jrQzhaEIsbkRXYNPCBO5kETJTkylj/zGzoBxPmXwHuTNU8LJAFxF1nny
+ D/WcYjfgiiQXbMX8b5hHLSqKdXHkQ7ZAFbDz
+X-Google-Smtp-Source: AGHT+IGeM80+qzSI85ogwxR7TJc35MFGjDldBmFT9FD2cLdQVLMDcDnI76ZKZkotwpop5fLoExBoFw==
+X-Received: by 2002:a05:6512:3b89:b0:53f:afae:7364 with SMTP id
+ 2adb3069b0e04-540905a6f62mr4232404e87.40.1734387893905; 
+ Mon, 16 Dec 2024 14:24:53 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303441a43desm10440181fa.98.2024.12.16.14.24.04
+ 2adb3069b0e04-54120bffd77sm972047e87.136.2024.12.16.14.24.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 14:24:05 -0800 (PST)
-Date: Tue, 17 Dec 2024 00:24:03 +0200
+ Mon, 16 Dec 2024 14:24:52 -0800 (PST)
+Date: Tue, 17 Dec 2024 00:24:50 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -71,16 +71,16 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Douglas Anderson <dianders@chromium.org>, Stephen Boyd <swboyd@chromium.org>, 
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/16] drm/msm/dp: use msm_dp_utils_pack_sdp_header()
- for audio packets
-Message-ID: <wfgn4oomnlsgckazp6z2cqoj5lk76gd5wmphrg6kwiomfvo2j2@rinnzg2ml7is>
+Subject: Re: [PATCH v4 06/16] drm/msm/dp: split MMSS_DP_DSC_DTO register
+ write to a separate function
+Message-ID: <6nt7cacoik4nxbjpgpidmovzilxf7q2gld64ch2p7ltatkzl4p@sg4ltm7jt47c>
 References: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
- <20241216-fd-dp-audio-fixup-v4-2-f8d1961cf22f@linaro.org>
- <0cbe48cd-b830-444a-8de0-529343d86192@quicinc.com>
+ <20241216-fd-dp-audio-fixup-v4-6-f8d1961cf22f@linaro.org>
+ <9fb5986b-f375-4300-b50c-92bb9c0b4399@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0cbe48cd-b830-444a-8de0-529343d86192@quicinc.com>
+In-Reply-To: <9fb5986b-f375-4300-b50c-92bb9c0b4399@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,39 +96,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 11:32:57AM -0800, Abhinav Kumar wrote:
+On Mon, Dec 16, 2024 at 11:46:21AM -0800, Abhinav Kumar wrote:
 > 
 > 
 > On 12/15/2024 2:44 PM, Dmitry Baryshkov wrote:
-> > Use msm_dp_utils_pack_sdp_header() and call msm_dp_write_link() directly
-> > to program audio packet data. Use 0 as Packet ID, as it was not
-> > programmed earlier.
+> > It's the dp_panel's duty to clear the MMSS_DP_DSC_DTO register. Once DP
+> > driver gets DSC support, it will handle that register in other places
+> > too. Split a call to write 0x0 to that register to a separate function.
 > > 
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >   drivers/gpu/drm/msm/dp/dp_audio.c   | 268 ++++++------------------------------
-> >   drivers/gpu/drm/msm/dp/dp_catalog.c |  71 ++++++++++
-> >   drivers/gpu/drm/msm/dp/dp_catalog.h |  10 ++
-> >   3 files changed, 122 insertions(+), 227 deletions(-)
+> >   drivers/gpu/drm/msm/dp/dp_catalog.c | 8 ++++++++
+> >   drivers/gpu/drm/msm/dp/dp_catalog.h | 2 ++
+> >   drivers/gpu/drm/msm/dp/dp_ctrl.c    | 2 ++
+> >   3 files changed, 12 insertions(+)
 > > 
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_audio.c b/drivers/gpu/drm/msm/dp/dp_audio.c
-> > index 5cbb11986460d1e4ed1890bdf66d0913e013083c..46fbf8601eea8e43a152049dfd1dc1d77943d922 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_audio.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_audio.c
-> > @@ -14,6 +14,7 @@
-> >   #include "dp_catalog.h"
-> >   #include "dp_audio.h"
-> >   #include "dp_panel.h"
-> > +#include "dp_reg.h"
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> > index 7b7eadb2f83b169d8df27ee93589abe05b38f3ae..354ec834f9357c4797fc08a4532e69acc67b4317 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> > @@ -1039,6 +1039,14 @@ void msm_dp_catalog_panel_tpg_disable(struct msm_dp_catalog *msm_dp_catalog)
+> >   	msm_dp_write_p0(catalog, MMSS_DP_TIMING_ENGINE_EN, 0x0);
+> >   }
+> > +void msm_dp_catalog_panel_clear_dsc_dto(struct msm_dp_catalog *msm_dp_catalog)
+> > +{
+> > +	struct msm_dp_catalog_private *catalog = container_of(msm_dp_catalog,
+> > +				struct msm_dp_catalog_private, msm_dp_catalog);
+> > +
+> > +	msm_dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
+> > +}
 > 
-> This change still does reg writes through catalog. Why do you need to
-> include dp_reg.h here?
+> This is already done msm_dp_catalog_ctrl_config_msa(), this is either a
+> duplicate or redundant.
+> 
+> void msm_dp_catalog_ctrl_config_msa(..........)
+> {
+> 	**********
+>         msm_dp_write_link(catalog, REG_DP_SOFTWARE_NVID, nvid);
+>         msm_dp_write_p0(catalog, MMSS_DP_DSC_DTO, 0x0);
+> }
 
-A leftover from the previous patchset.
+The chunk to remove it got squashed into a different patch.
 
 > 
-> >   #include "dp_display.h"
-> >   #include "dp_utils.h"
+> > +
+> >   static void __iomem *msm_dp_ioremap(struct platform_device *pdev, int idx, size_t *len)
+> >   {
+> >   	struct resource *res;
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> > index 6678b0ac9a67881244884d59487fa288d33d1be7..08bb42e91b779633875dbeb4130bc55a6571cfb1 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
+> > +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
+> > @@ -92,6 +92,8 @@ void msm_dp_catalog_panel_tpg_enable(struct msm_dp_catalog *msm_dp_catalog,
+> >   				struct drm_display_mode *drm_mode);
+> >   void msm_dp_catalog_panel_tpg_disable(struct msm_dp_catalog *msm_dp_catalog);
+> > +void msm_dp_catalog_panel_clear_dsc_dto(struct msm_dp_catalog *msm_dp_catalog);
+> > +
+> >   struct msm_dp_catalog *msm_dp_catalog_get(struct device *dev);
+> >   /* DP Audio APIs */
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > index 9c463ae2f8fae916661fef1c7e225f55c1026478..b9c461fee96f8fae9259ce03a32e1155b42d17bb 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+> > @@ -2011,6 +2011,8 @@ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train
+> >   		pixel_rate_orig,
+> >   		ctrl->panel->msm_dp_mode.out_fmt_is_yuv_420);
+> > +	msm_dp_catalog_panel_clear_dsc_dto(ctrl->catalog);
+> > +
+> >   	msm_dp_ctrl_setup_tr_unit(ctrl);
+> >   	msm_dp_catalog_ctrl_state_ctrl(ctrl->catalog, DP_STATE_CTRL_SEND_VIDEO);
+> > 
 
 -- 
 With best wishes
