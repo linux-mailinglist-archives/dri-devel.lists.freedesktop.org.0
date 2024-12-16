@@ -1,79 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8D59F375B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 18:20:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5550B9F3769
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 18:22:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3C010E3F2;
-	Mon, 16 Dec 2024 17:20:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2E0710E728;
+	Mon, 16 Dec 2024 17:22:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YBaGcecK";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HQFwuLt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF67010E3F2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 17:20:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C40A0A418A0;
- Mon, 16 Dec 2024 17:18:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C29F4C4CED0;
- Mon, 16 Dec 2024 17:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734369607;
- bh=lsZu4CW9iz0IkO0ux+aw5Ej8/2IsGxdLj0arY9En0D0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YBaGcecKJuSIX6KQhirAa1qTy7d84RJx1mtuyV3FWFyFtShxsSx6ncZ2o+pLNkYbd
- 1LbAMTvJ3sHvy+/+nd9xPMX+gWvGfHzc5fb+jUNeCi/es8c6cGxlvhDz+BwkPCRtL1
- FkjvbaBKWFXSNMZEXy85Lh8kQyuhu3Meb7GopQEEpT/JFAo/R90CQ8FonvliIuXpps
- JPc24HcLyqUOT4LztFZufzutbjjeOGBE8GJVg25Lu2rOrLijZN2UjNpHUaSciQYsOf
- DqEVe1T4PIX0x4vxk/JFWnIraTws+pa3/QcNk1wHgUysyA0GCxkYxdN0jxTvRkcU7U
- uGXHMk9e3hSng==
-Date: Mon, 16 Dec 2024 18:20:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Phong LE <ple@baylibre.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v6 06/10] drm/display/hdmi: implement hotplug functions
-Message-ID: <20241216-courageous-mysterious-pelican-5a8d2e@houat>
-References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
- <20241206-drm-bridge-hdmi-connector-v6-6-50dc145a9c06@linaro.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F26210E724;
+ Mon, 16 Dec 2024 17:22:12 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGFHqo2022103;
+ Mon, 16 Dec 2024 17:21:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 57mXg//zJJ5EQoQavecLesiluqversb+hD+IQZmv2X0=; b=HQFwuLt5sGfKR+6d
+ jkHdPU/asp+BVmnhZ83kQMJrInyJ7Z7WO6a1bWXuggos5bfu9UlLOrBJQ7zhUgEo
+ q5sG4LCIVwCB63nZYVaAtmAVfLDQNRm4xAFf1vH/27f+EWi6Nb8NrjZ96YIiBYap
+ dGY/w1w8vO24PzqB3Cse4TLi4yN8x4fBCFP7c7+JwTkUfnoocjO79prNpBNY4MZT
+ PbAcPC6uUnwBlgFZopDaMXDnF7z/6rJomYFvdtIM/MbnxmIdG4yu9OSSrgwLi7Gv
+ xXyHsjMGNSJxrTXd11nAKS7qS0GoTLRlHcgS+77Lsr/PM2qw/6uWXyqDInFxYvNL
+ xovcKg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jpqmgaxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Dec 2024 17:21:58 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BGHLvSJ028436
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 16 Dec 2024 17:21:57 GMT
+Received: from [10.110.102.127] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 16 Dec
+ 2024 09:21:55 -0800
+Message-ID: <99148f0a-e46c-47a7-a910-12269817a0e6@quicinc.com>
+Date: Mon, 16 Dec 2024 09:21:53 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="b5r2eocu5g4kytpy"
-Content-Disposition: inline
-In-Reply-To: <20241206-drm-bridge-hdmi-connector-v6-6-50dc145a9c06@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm: fix -Wformat-security warnings
+To: Arnd Bergmann <arnd@kernel.org>, Rob Clark <robdclark@gmail.com>, "Dmitry
+ Baryshkov" <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+CC: Arnd Bergmann <arnd@arndb.de>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jinjie Ruan <ruanjinjie@huawei.com>,
+ =?UTF-8?B?QmFybmFiw6FzIEN6w6ltw6Fu?= <barnabas.czeman@mainlining.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20241216083319.1838449-1-arnd@kernel.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20241216083319.1838449-1-arnd@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: esH0aAL_b0cg8n4lb3vzFaKfR5wwSlig
+X-Proofpoint-GUID: esH0aAL_b0cg8n4lb3vzFaKfR5wwSlig
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ spamscore=0 malwarescore=0 lowpriorityscore=0 mlxscore=0 phishscore=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412160145
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,129 +98,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---b5r2eocu5g4kytpy
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 06/10] drm/display/hdmi: implement hotplug functions
-MIME-Version: 1.0
 
-On Fri, Dec 06, 2024 at 12:16:00PM +0200, Dmitry Baryshkov wrote:
-> The HDMI Connectors need to perform a variety of tasks when the HDMI
-> connector state changes. Such tasks include setting or invalidating CEC
-> address, notifying HDMI codec driver, updating scrambler data, etc.
->=20
-> Implementing such tasks in a driver-specific callbacks is error prone.
-> Start implementing the generic helper function (currently handling only
-> the HDMI Codec framework) to be used by drivers utilizing HDMI Connector
-> framework.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 12/16/2024 12:33 AM, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> Passing a variable string as a printf style format is potentially
+> dangerous that -Wformat-security can warn about if enabled. A new
+> instance just got added:
+> 
+> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c: In function 'dpu_kms_mdp_snapshot':
+> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:1046:49: error: format not a string literal and no format arguments [-Werror=format-security]
+>   1046 |                                             vbif->name);
+>        |                                             ~~~~^~~~~~
+> 
+> Fix this one and the preexisting -Wformat-security warnings the in the
+> DRM code for snapdragon.
+> 
+> Fixes: 1a40bb31fcf1 ("drm/msm/dpu: Add VBIF to DPU snapshot") # and others
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 61 +++++++++++++++++++=
-++++++
->  include/drm/display/drm_hdmi_state_helper.h     |  8 ++++
->  2 files changed, 69 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index 80bf2829ba89b5f84fed4fa9eb1d6302e10a4f9e..4cdeb63688b9e48acd8e8ae87=
-a45b6253f7dd12b 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -769,3 +769,64 @@ drm_atomic_helper_connector_hdmi_clear_audio_infofra=
-me(struct drm_connector *con
->  	return ret;
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_clear_audio_infoframe);
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_hotplug_edid - Handle the hotplug ev=
-ent for the HDMI connector passing custom EDID
-> + * @connector: A pointer to the HDMI connector
-> + * @status: Connection status
-> + * @drm_edid: EDID to process
-> + *
-> + * This function should be called as a part of the .detect() / .detect_c=
-tx()
-> + * and .force() callbacks, updating the HDMI-specific connector's data. =
-Most
-> + * drivers should be able to use @drm_atomic_helper_connector_hdmi_hotpl=
-ug()
-> + * instead.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int
-> +drm_atomic_helper_connector_hdmi_hotplug_edid(struct drm_connector *conn=
-ector,
-> +					      enum drm_connector_status status,
-> +					      const struct drm_edid *drm_edid)
-> +{
-> +	if (status =3D=3D connector_status_disconnected) {
-> +		// TODO: also handle CEC and scramber, HDMI sink disconnected.
-> +		drm_connector_hdmi_codec_plugged_notify(connector, false);
-> +	}
-> +
-> +	drm_edid_connector_update(connector, drm_edid);
-> +
-> +	if (status =3D=3D connector_status_connected) {
-> +		// TODO: also handle CEC and scramber, HDMI sink is now connected.
-> +		drm_connector_hdmi_codec_plugged_notify(connector, true);
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_hotplug_edid);
+> I have a larger series that I still plan to send eventually, sending this
+> one now as I just saw another one get added. The warning is enabled by
+> default because there are still over 100 other files with the same problem.
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c   |  2 +-
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 28 ++++++++++++++++---------
+>   2 files changed, 19 insertions(+), 11 deletions(-)
+> 
 
-I think we discussed it in a previous version's thread after you sent
-that one, but I'd rather have that helper call an edid retrieval
-function than passing it edids.
-
-Also, EDIDs are mandatory for HDMI, so I'd call the function
-drm_atomic_helper_connector_hdmi_hotplug.
-
-> +/**
-> + * drm_atomic_helper_connector_hdmi_hotplug - Handle the hotplug event f=
-or the HDMI connector
-> + * @connector: A pointer to the HDMI connector
-> + * @status: Connection status
-> + *
-> + * This function should be called as a part of the .detect() / .detect_c=
-tx()
-> + * and .force() callbacks, updating the HDMI-specific connector's data.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int
-> +drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
-> +					 enum drm_connector_status status)
-> +{
-> +	const struct drm_edid *drm_edid;
-> +	int ret;
-> +
-> +	drm_edid =3D drm_edid_read(connector);
-> +	ret =3D drm_atomic_helper_connector_hdmi_hotplug_edid(connector, status=
-, drm_edid);
-> +	drm_edid_free(drm_edid);
-
-Oh. Why do we need the two variants? Or is it to deal with drivers that
-don't set connector->ddc?
-
-Maxime
-
---b5r2eocu5g4kytpy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2BhRAAKCRAnX84Zoj2+
-duMGAYDwCfVmRQt5W/JuFEAWhXLZLjo4CeJIKFXnit8/2S+ODRFntJMw/cPpQN7U
-HE28DAcBfAyu8qSgYzb4NIvRrHkIsi2wL3YWiVUclrh01Haso0u/clDsW8282oLw
-FBFc2NqiHA==
-=shxs
------END PGP SIGNATURE-----
-
---b5r2eocu5g4kytpy--
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
