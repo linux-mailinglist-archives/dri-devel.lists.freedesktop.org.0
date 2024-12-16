@@ -2,107 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9589F34AE
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 16:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FD2D9F34D1
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 16:42:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E673210E1CF;
-	Mon, 16 Dec 2024 15:39:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33A5110E6DC;
+	Mon, 16 Dec 2024 15:42:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FmB3d/UV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="p31Y9KGq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C3A010E1CF
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 15:39:34 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id
- 3f1490d57ef6-e455bf1f4d3so2075779276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 07:39:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734363573; x=1734968373; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XE8Rp1QeAFeNcwGnjINgL1qZo7r+EId51k/PevPG3+0=;
- b=FmB3d/UV5abFEaEi1IURSo7CR4wq33KDmBWQwEciKcFGkOwZSDf/3efB9WYcSW9afu
- lh4Rt7Ek2cuhpKO4yl3thgizcVS1zgpTjhgouOseSQaaieZaDzx7Id+LHIvg3IDr1Ucm
- oeL7Vh33XiNpUnDSQdeOS/vD1yDqIgeUrerAG1t9rUPzZM2iR/CCVxcaqte8luMnBXy6
- cn28j2fRubBL8gtdY8eFTmD6aP/QcCqX3pWH16bkt3e9R4s1uvh4DArLK9LMtDgwJve6
- MSqXBPUmVQdTi14sncB2aH+USLrtfro5gYPw92VeoBjxFjtsCIme9QndaMqJXcpzAx+O
- /I9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734363573; x=1734968373;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XE8Rp1QeAFeNcwGnjINgL1qZo7r+EId51k/PevPG3+0=;
- b=revDShcWNp95Eo1YY1T1KduX75ciME4FiU9+cJJOi14HRmzi4qhJYurB4WrlsDqESR
- SqeZvOxDgzRykDVX6N7huyAYVOTU0zJYqIP3DvCL848PV9KY9zE6pKBYKZ5JhpFxPQDD
- S37S5iKFO/xpW4Fa33+S5+ZxCG9nc5ljn71IowIMRarLcp0JP40cgjAaaiYNL8BktMas
- ULBzTNahXICjfJZBKuX7qnjqv7sLFzVc4JJPeYHf4MmW2f2ggiDsR4LeMuA9aOggwRZb
- 1vDJIO8Vv+IxUNUh6oasd6ILAJxyrJYNWeDGszqlOEftp/2V1SYJ2q83sQKgGZ6hfINa
- nXEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW/Mgp0l6iRs6ub/e9pBUqZ0RmnjXm2KM9lsesxsNNJQMfwhw+isp9qlKTitV/2LbjDzLz01Hd+E9M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YysjEnU0nMJHTccRgGvWdUfnCIHwlukIuPYUP1ckLyWdIEWq/Yh
- lpiwc0OkES6kuEV65mfZl4ZTJSjcCh2EjgDSTNHtEk/OeUeRvqkKqe2ElIeQ5iFI9q4MKBT8+Xc
- P+ly+DDSthCcoRHM3mJGgOlqosGhQ1fFyaAXxyg==
-X-Gm-Gg: ASbGncvAB8fgnBZ83rbluSLq7/t6S4x4aQ79Cyw+WNWfZDarxiUXak4kruI6OY2+FB7
- hsIgSMBB2vl6vH8TCD06oLUIULk/n90FUDKu/n4yFx58A5TOxw78i
-X-Google-Smtp-Source: AGHT+IG+H16BKk2N9qAAZI58ZkiAMWnWq2KJ5i2xrkWhHJZG86PFBQyzzbHk+XT6vSRTQXHuY/aP5XO15EqLEv61aT4=
-X-Received: by 2002:a05:6902:70b:b0:e33:1096:f2e1 with SMTP id
- 3f1490d57ef6-e434fd23319mr9276225276.40.1734363573390; Mon, 16 Dec 2024
- 07:39:33 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B40D610E3F3;
+ Mon, 16 Dec 2024 15:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=NshrB6r3ZRNacQ8/Ihm6ny01LxTZ756F2VqKtAIFRf8=; b=p31Y9KGqEJ5D2EqBljznQG1QFh
+ 4Qeh1m/NDFW3PF6PzOM6xf2b1NMvxtI1meLMLUB/x0/0WQVl5pSZvBBN9vaYXr4076sVIMR8svoYw
+ /RlefwXuJ/IoylcvACOCq5myXqO1A2X/Cx88WMq7Nyb/paaeBsDxiVoi5fqFGB/M0g2SuObfJrt1t
+ Dr7nAxe8W506MHMppkIlVjAuXeua4k6Qf7hvF67atqB0CQKKRvB8R+xEpVyhYkJRdSJMBtJLY2e5X
+ Ci2psxqcK2k3bgDdig3PxPSQDychc1OgL19he4f6LpPz5/sP4zjfz56ayeUXgRbr47eQJku2AElNp
+ Ph5oSorg==;
+Received: from [179.193.1.214] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tNDEd-003pln-Bh; Mon, 16 Dec 2024 16:42:15 +0100
+Message-ID: <bbf965fd-5c3e-4c1b-9b1e-cd178aeb1038@igalia.com>
+Date: Mon, 16 Dec 2024 12:42:07 -0300
 MIME-Version: 1.0
-References: <20241206-drm-connector-eld-mutex-v2-0-c9bce1ee8bea@linaro.org>
- <20241206-drm-connector-eld-mutex-v2-4-c9bce1ee8bea@linaro.org>
- <pgi7p3aemxm3db2k27vi5euh6q6ppayrw6y7tcfeq4g5z23hzr@xousag2qhobp>
- <fc8e80dd-bcea-4515-b446-158649719569@amd.com>
- <CAA8EJpoR8HYq9ATDfmR5ksSnttBzj=DY+BKp5=OuVNF1WDJ-fg@mail.gmail.com>
- <CADnq5_M8jC2w=XWB4BG+id60zfGFMMkSegmeg-y=VpSHC+FvFQ@mail.gmail.com>
-In-Reply-To: <CADnq5_M8jC2w=XWB4BG+id60zfGFMMkSegmeg-y=VpSHC+FvFQ@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 16 Dec 2024 17:39:22 +0200
-Message-ID: <CAA8EJpqYs92T9x3omDa5XR21GC04Kcc75eVRr6w3pt0W7qPX-w@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] drm/amd/display: use eld_mutex to protect access
- to connector->eld
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Phong LE <ple@baylibre.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] drm/amdgpu: Use device wedged event
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, alexander.deucher@amd.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ Shashank Sharma <shashank.sharma@amd.com>
+References: <20241216150250.38242-1-andrealmeid@igalia.com>
+ <20241216150250.38242-2-andrealmeid@igalia.com>
+ <127f135d-72f2-47bc-a8af-93add181e7b2@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <127f135d-72f2-47bc-a8af-93add181e7b2@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,95 +70,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 Dec 2024 at 17:32, Alex Deucher <alexdeucher@gmail.com> wrote:
->
-> On Mon, Dec 16, 2024 at 10:12=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> >
-> > On Mon, 16 Dec 2024 at 16:53, Harry Wentland <harry.wentland@amd.com> w=
-rote:
-> > >
-> > >
-> > >
-> > > On 2024-12-10 16:20, Dmitry Baryshkov wrote:
-> > > > On Fri, Dec 06, 2024 at 11:43:07AM +0200, Dmitry Baryshkov wrote:
-> > > >> Reading access to connector->eld can happen at the same time the
-> > > >> drm_edid_to_eld() updates the data. Take the newly added eld_mutex=
- in
-> > > >> order to protect connector->eld from concurrent access.
-> > > >>
-> > > >> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > > >> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > >> ---
-> > > >>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 ++
-> > > >>  1 file changed, 2 insertions(+)
-> > > >
-> > > > Harry, Leo, Rodrigo, Alex, Christian, Xinhui, any response to this =
-one
-> > > > and to the radeon patches? I'd like to be able to pick the series f=
-or
-> > > > drm-misc and these two are not reviewed by you.
-> > > >
-> > > >>
-> > > >> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/d=
-rivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > >> index 19a58630e774029767bf2a27eb4ddf17e3c21129..04c68c320252b5ce96=
-47f0606fb86fe57f347639 100644
-> > > >> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > >> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> > > >> @@ -1037,8 +1037,10 @@ static int amdgpu_dm_audio_component_get_el=
-d(struct device *kdev, int port,
-> > > >>                      continue;
-> > > >>
-> > > >>              *enabled =3D true;
-> > > >> +            mutex_lock(&connector->eld_mutex);
-> > > >>              ret =3D drm_eld_size(connector->eld);
-> > > >>              memcpy(buf, connector->eld, min(max_bytes, ret));
-> > > >> +            mutex_unlock(&connector->eld_mutex);
-> > >
-> > > All of this is wrapped by the adev->dm.audio_lock mutex. It might
-> > > be safer to modify the audio_lock mutex so it only guards the
-> > > aconnector->audio_inst access.
-> > >
-> > > But I don't see any way these mutexes would otherwise interact,
-> > > so this change should be good as-is.
-> > >
-> > > Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-> >
-> > Would you ack it to merge it through drm-misc? Or would you prefer to
-> > pick up those two patches after merging drm-misc-next once the rest of
-> > the series lands?
->
-> Merging through drm-misc is fine with me.
+Em 16/12/2024 12:27, Christian König escreveu:
+> Am 16.12.24 um 16:02 schrieb André Almeida:
+>> Use DRM's device wedged event to notify userspace that a reset had
+>> happened. For now, only use `none` method meant for telemetry
+>> capture.
+>>
+>> In the future we might want to report a recovery method if the reset 
+>> didn't
+>> succeed.
+>>
+>> Acked-by: Shashank Sharma <shashank.sharma@amd.com>
+>> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+>> ---
+>> v2: Only report reset if reset succeeded
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/ 
+>> drm/amd/amdgpu/amdgpu_device.c
+>> index 96316111300a..b0079d66d9e6 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>> @@ -6057,6 +6057,10 @@ int amdgpu_device_gpu_recover(struct 
+>> amdgpu_device *adev,
+>>           dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
+>>       atomic_set(&adev->reset_domain->reset_res, r);
+>> +
+>> +    if (r)
+>> +        drm_dev_wedged_event(adev_to_drm(adev), 
+>> DRM_WEDGE_RECOVERY_NONE);
+> 
+> 
+> That was not what I meant. The idea was more like:
+> 
+> drm_dev_wedged_event(adev_to_drm(adev), r ? TBD : DRM_WEDGE_RECOVERY_NONE);
+> 
 
-Thanks!
+Ops, I did it wrong indeed, I meant `if (!r)`. Sending a v3 now.
 
->
-> Thanks,
->
-> Alex
->
-> >
-> > >
-> > > Harry
-> > >
-> > > >>
-> > > >>              break;
-> > > >>      }
-> > > >>
-> > > >> --
-> > > >> 2.39.5
-> > > >>
-> > > >
-> > >
-> >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+> Regards,
+> Christian.
+> 
+> 
+>> +
+>>       return r;
+>>   }
+> 
 
-
-
---=20
-With best wishes
-Dmitry
