@@ -1,60 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D31E9F390A
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 19:34:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AC29F3914
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 19:35:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFE4B10E75C;
-	Mon, 16 Dec 2024 18:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C0610E769;
+	Mon, 16 Dec 2024 18:35:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="odN/eE6L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bUDq8/D5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C9710E75C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 18:34:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 580075C5EED;
- Mon, 16 Dec 2024 18:33:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E155C4CED0;
- Mon, 16 Dec 2024 18:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734374044;
- bh=nw8UVxaMbWL48QkwsLr0oUgQdps5wyPksK5zCKSYkLk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=odN/eE6LX2KpPfc0YITRoNGsqnYJWctCV8Ur+IosRPS1CM/UqFacRE3qLooqwPCpP
- DIoL8S3WXwPuK9XzAdmo6EiqPjK3TwQ6MmIKdMD60lpYaSs/OdDqMKMLofoDeIDx+/
- uHIVAdOsxHBphHhFUmdxv2Sh8IC0V53OzS8UhpfUkJevqgRp4Yu6Y6ktPmwuoIsj/+
- cCzE1bAteLlSKtTvSGehVLRs3bILDPhTddZDIly0y7FrxJx+D+/U/eXb7CDAKIxjEW
- TmQktcsN8cuab51JIfFajVCL3hoETzyS8fnwG1lnEKEllP4P8uPbm+fSyi+xmO0X/2
- nVcNVzCVtTwkA==
-Date: Mon, 16 Dec 2024 18:33:58 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: simple: Add Tianma
- TM070JDHG34-00 panel
-Message-ID: <20241216-keg-retaining-ea61c056a4d3@spud>
-References: <20241216-tianma_tm070jdhg34-v2-0-0b319a0bac39@bootlin.com>
- <20241216-tianma_tm070jdhg34-v2-1-0b319a0bac39@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B884610E768;
+ Mon, 16 Dec 2024 18:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734374154; x=1765910154;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Qdn3fI5lj6Tj1U0ErF9OaeZrxuIrUFFAYAvNW9VmQ0U=;
+ b=bUDq8/D5xsucEgBnUXTwc2TA9ci0Zk5siDA9UXXsvTKssN+02lP2l2km
+ nNQ1AhlrGC9Hu9BQdG7FtqI0oPUGMNY02IB2YThjtvLZTz05sKgxFQk8J
+ sHv/8Z45mf8n4gYb9+T3amFK1PVvLWhPj/L+aSmHSG3I9O+GyEHUPhVUm
+ qnDa5L0MH+HuyKGtdR8upU2Acxx/MDKqpDA1WxmgZeR2/13iy4Pdregto
+ Ddlg6B01Y4iIeoFEDuzwSvSKSWaoBr/rcyn87CoXwyzJ/soJKRJGX9Akp
+ RhyF2HYVGzuv9qBYUXl33V6xxV2SwXjqRzyMVhopqDHz3RNGeO4OdR9iZ Q==;
+X-CSE-ConnectionGUID: VagtirsmROS0xkB9DOAqBw==
+X-CSE-MsgGUID: UcNTgAy7SuGHt63OvCBjvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34998794"
+X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; d="scan'208";a="34998794"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 10:35:53 -0800
+X-CSE-ConnectionGUID: mCVjxT6qRXK5aDl9uwKxuw==
+X-CSE-MsgGUID: d9W5U2HXS/2V9sXpMRIOLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,239,1728975600"; d="scan'208";a="128084201"
+Received: from dhhellew-desk2.ger.corp.intel.com.ger.corp.intel.com (HELO
+ [10.245.244.246]) ([10.245.244.246])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 10:35:52 -0800
+Message-ID: <7745ad07-8300-4625-a443-21e82bdc992d@intel.com>
+Date: Mon, 16 Dec 2024 18:35:49 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GFVoHBN/mStFRhus"
-Content-Disposition: inline
-In-Reply-To: <20241216-tianma_tm070jdhg34-v2-1-0b319a0bac39@bootlin.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/buddy: fix issue that force_merge cannot free all
+ roots
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
+ "Lin . Cao" <lincao12@amd.com>
+References: <20241216130735.314298-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20241216130735.314298-1-Arunpravin.PaneerSelvam@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,28 +73,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 16/12/2024 13:07, Arunpravin Paneer Selvam wrote:
+> From: Lin.Cao <lincao12@amd.com>
+> 
+> If buddy manager have more than one roots and each root have sub-block
+> need to be free. When drm_buddy_fini called, the first loop of
+> force_merge will merge and free all of the sub block of first root,
+> which offset is 0x0 and size is biggest(more than have of the mm size).
+> In subsequent force_merge rounds, if we use 0 as start and use remaining
+> mm size as end, the block of other roots will be skipped in
+> __force_merge function. It will cause the other roots can not be freed.
+> 
+> Solution: use roots' offset as the start could fix this issue.
+> 
+> Signed-off-by: Lin.Cao <lincao12@amd.com>
 
---GFVoHBN/mStFRhus
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 16, 2024 at 05:21:34PM +0100, Luca Ceresoli wrote:
-> Add the Tianma Micro-electronics TM070JDHG34-00 7.0" LVDS LCD TFT panel.
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
---GFVoHBN/mStFRhus
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ2BylgAKCRB4tDGHoIJi
-0ipbAQCBhb4DomJO24VJv8xhyhUlmVBc4kF+R7hA6Coun2tA2AEA1BzTLldvymsr
-18PFr2/GDimTXv2gy3Y0FukunfTPKws=
-=sJ9X
------END PGP SIGNATURE-----
-
---GFVoHBN/mStFRhus--
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
