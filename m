@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C9B9F4958
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2769F4952
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4FC10E906;
-	Tue, 17 Dec 2024 10:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D465810E904;
+	Tue, 17 Dec 2024 10:55:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=fb.com header.i=@fb.com header.b="E8eooEj2";
+	dkim=pass (1024-bit key; unprotected) header.d=fb.com header.i=@fb.com header.b="B7qmAEfd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 343 seconds by postgrey-1.36 at gabe;
+ Mon, 16 Dec 2024 10:01:49 UTC
 Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
  [67.231.145.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9800610E57C
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:16:32 +0000 (UTC)
-Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG3qqT2028463
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 02:16:32 -0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17F6A10E184
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:01:49 +0000 (UTC)
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG7ulGr031870
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 01:56:05 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
- :content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=facebook; bh=sTfnkfxHXTxcB2wIt/fTc9u
- wkU0mLwrZp2zwSBHHzv0=; b=E8eooEj2YAxV1im+CgF4AVhgswNBim6sEmpdbzd
- 8JolI0EZyuzu0q0w+TsLfprRxiIu8klOp4Ge5YPNKwTmwDV1ryhORzpNwdhg745A
- 0uTe+FbQ1ycyAokkBx7pZs4Il77mlPujSq1fKn0oNoexZh+CI+xyO+cTKQlqSEGT
- RkXs=
-Received: from mail.thefacebook.com ([163.114.134.16])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43jcpkhee4-2
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=facebook; bh=f
+ 0d7e7vgSwFquFJynHv37WoE8Ih8RaPc8Rz59bR6mwY=; b=B7qmAEfd6Hw1WrqBY
+ rI6Id5raq5HcPYbzvpRd92TkRoruGjZCL4ESORWNJi3LIv3lFfvYpddgUUyqfK4x
+ iaDkbnsI4jfNF8dS/c0qSjt5rhcsLgNOKc8NsSVWM2TfTVrN+yIelnSpQs+G2QTu
+ ogBvp27b++9IdRhaGkDu2h/kh8=
+Received: from maileast.thefacebook.com ([163.114.135.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 43jg8pghwv-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 02:16:31 -0800 (PST)
-Received: from twshared60378.16.frc2.facebook.com (2620:10d:c085:108::150d) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP
- Server
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 01:56:05 -0800 (PST)
+Received: from twshared60378.16.frc2.facebook.com (2620:10d:c0a8:1c::1b) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.11; Mon, 16 Dec 2024 10:16:28 +0000
+ 15.2.1544.11; Mon, 16 Dec 2024 09:56:01 +0000
 Received: by devvm12370.nha0.facebook.com (Postfix, from userid 624418)
- id D3AB310A1F003; Mon, 16 Dec 2024 01:55:55 -0800 (PST)
+ id D5AF610A1F005; Mon, 16 Dec 2024 01:55:55 -0800 (PST)
 From: Wei Lin Guay <wguay@fb.com>
 To: <alex.williamson@redhat.com>, <dri-devel@lists.freedesktop.org>,
  <kvm@vger.kernel.org>, <linux-rdma@vger.kernel.org>
 CC: <jgg@nvidia.com>, <vivek.kasireddy@intel.com>, <dagmoxnes@meta.com>,
- <kbusch@kernel.org>, <nviljoen@meta.com>,
- Wei Lin Guay <wguay@meta.com>, Oded Gabbay <ogabbay@kernel.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Leon
- Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>
-Subject: [PATCH 0/4] cover-letter: Allow MMIO regions to be exported through
- dmabuf
-Date: Mon, 16 Dec 2024 01:54:14 -0800
-Message-ID: <20241216095429.210792-1-wguay@fb.com>
+ <kbusch@kernel.org>, <nviljoen@meta.com>, Wei Lin Guay <wguay@meta.com>
+Subject: [PATCH 1/4] vfio: Add vfio_device_get()
+Date: Mon, 16 Dec 2024 01:54:15 -0800
+Message-ID: <20241216095429.210792-2-wguay@fb.com>
 X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20241216095429.210792-1-wguay@fb.com>
+References: <20241216095429.210792-1-wguay@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
-X-Proofpoint-GUID: pYL8sqGi9uHuNu6fpt1VFMN2cEN1wc4C
-X-Proofpoint-ORIG-GUID: pYL8sqGi9uHuNu6fpt1VFMN2cEN1wc4C
+Content-Type: text/plain
+X-Proofpoint-GUID: SLwHb5fScTUkqMeX0vFPTX4We-jAS-P5
+X-Proofpoint-ORIG-GUID: SLwHb5fScTUkqMeX0vFPTX4We-jAS-P5
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-05_03,2024-10-04_01,2024-09-30_01
@@ -76,78 +74,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Wei Lin Guay <wguay@meta.com>
+From: Jason Gunthorpe <jgg@nvidia.com>
 
-This is another attempt to revive the patches posted by Jason
-Gunthorpe and Vivek Kasireddy, at
-https://patchwork.kernel.org/project/linux-media/cover/0-v2-472615b3877e+=
-28f7-vfio_dma_buf_jgg@nvidia.com/
-https://lwn.net/Articles/970751/
+Summary:
+To increment a reference the caller already holds. Export
+vfio_device_put() to pair with it.
 
-In addition to the initial proposal by Jason, another promising
-application is exposing memory from an AI accelerator (bound to VFIO)
-to an RDMA device. This would allow the RDMA device to directly access
-the accelerator's memory, thereby facilitating direct data
-transactions between the RDMA device and the accelerator.
-
-Below is from the text/motivation from the orginal cover letter.
-
-dma-buf has become a way to safely acquire a handle to non-struct page
-memory that can still have lifetime controlled by the exporter. Notably
-RDMA can now import dma-buf FDs and build them into MRs which allows for
-PCI P2P operations. Extend this to allow vfio-pci to export MMIO memory
-from PCI device BARs.
-
-This series supports a use case for SPDK where a NVMe device will be owne=
-d
-by SPDK through VFIO but interacting with a RDMA device. The RDMA device
-may directly access the NVMe CMB or directly manipulate the NVMe device's
-doorbell using PCI P2P.
-
-However, as a general mechanism, it can support many other scenarios with
-VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
-generic and safe P2P mappings.
-
-This series goes after the "Break up ioctl dispatch functions to one
-function per ioctl" series.
-
-v2:
- - Name the new file dma_buf.c
- - Restore orig_nents before freeing
- - Fix reversed logic around priv->revoked
- - Set priv->index
- - Rebased on v2 "Break up ioctl dispatch functions"
-v1: https://lore.kernel.org/r/0-v1-9e6e1739ed95+5fa-vfio_dma_buf_jgg@nvid=
-ia.com
-Cc: linux-rdma@vger.kernel.org
-Cc: Oded Gabbay <ogabbay@kernel.org>
-Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Leon Romanovsky <leon@kernel.org>
-Cc: Maor Gottlieb <maorg@nvidia.com>
-Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Signed-off-by: Wei Lin Guay <wguay@meta.com>
+Reviewed-by: Dag Moxnes <dagmoxnes@meta.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Nic Viljoen <nviljoen@meta.com>
+---
+ drivers/vfio/vfio_main.c | 1 +
+ include/linux/vfio.h     | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-Jason Gunthorpe (3):
-  vfio: Add vfio_device_get()
-  dma-buf: Add dma_buf_try_get()
-  vfio/pci: Allow MMIO regions to be exported through dma-buf
+diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+index a5a62d9d963f..7e318e15abd5 100644
+--- a/drivers/vfio/vfio_main.c
++++ b/drivers/vfio/vfio_main.c
+@@ -171,6 +171,7 @@ void vfio_device_put_registration(struct vfio_device =
+*device)
+ 	if (refcount_dec_and_test(&device->refcount))
+ 		complete(&device->comp);
+ }
++EXPORT_SYMBOL_GPL(vfio_device_put_registration);
 
-Wei Lin Guay (1):
-  vfio/pci: Allow export dmabuf without move_notify from importer
+ bool vfio_device_try_get_registration(struct vfio_device *device)
+ {
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index 000a6cab2d31..d7c790be4bbc 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -279,6 +279,12 @@ static inline void vfio_put_device(struct vfio_devic=
+e *device)
+ int vfio_register_group_dev(struct vfio_device *device);
+ int vfio_register_emulated_iommu_dev(struct vfio_device *device);
+ void vfio_unregister_group_dev(struct vfio_device *device);
++void vfio_device_put_registration(struct vfio_device *device);
++
++static inline void vfio_device_get(struct vfio_device *device)
++{
++	refcount_inc(&device->refcount);
++}
 
- drivers/vfio/pci/Makefile          |   1 +
- drivers/vfio/pci/dma_buf.c         | 291 +++++++++++++++++++++++++++++
- drivers/vfio/pci/vfio_pci_config.c |   8 +-
- drivers/vfio/pci/vfio_pci_core.c   |  44 ++++-
- drivers/vfio/pci/vfio_pci_priv.h   |  30 +++
- drivers/vfio/vfio_main.c           |   1 +
- include/linux/dma-buf.h            |  13 ++
- include/linux/vfio.h               |   6 +
- include/linux/vfio_pci_core.h      |   1 +
- include/uapi/linux/vfio.h          |  18 ++
- 10 files changed, 405 insertions(+), 8 deletions(-)
- create mode 100644 drivers/vfio/pci/dma_buf.c
-
+ int vfio_assign_device_set(struct vfio_device *device, void *set_id);
+ unsigned int vfio_device_set_open_count(struct vfio_device_set *dev_set)=
+;
 --
 2.43.5
