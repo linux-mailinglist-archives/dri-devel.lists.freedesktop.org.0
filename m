@@ -2,78 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5572E9F3E3F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 00:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715F69F3E40
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 00:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E6810E633;
-	Mon, 16 Dec 2024 23:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E790410E636;
+	Mon, 16 Dec 2024 23:32:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fsFeHhbk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kmQx/pS+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBFC610E633
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 23:31:18 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id
- 2adb3069b0e04-54021daa6cbso5383382e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 15:31:18 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA1610E636
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 23:32:22 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-30229d5b21cso41606581fa.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 15:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734391877; x=1734996677; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734391940; x=1734996740; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0myHXndV0qV5Q6G/Mq88Gi+ACvREZlQwsyRsJV9SPdQ=;
- b=fsFeHhbk6NGxfVzJgPjHjhkjf0ADu24vo6PxHHWRKepim+M6FiNViwkAEulpMLAd7a
- OvTWLKHAiOtATNfQms6SP8m13u6cYsjUekcBWNf0M0iFy+U+4PVHOD6dVhJ9xAHwmkSl
- lEK4zDrx8ErJKKp6F+akeVKi4+zgNUm5hq9j0SV8M+weBs1B3d07rRfjCJDPNN5vq19X
- upX6kDWfTPaOWIyoTF+E+IPMc5n9dWy4EhYlaKTM5dokkwkC68A2823jBoQ1VW/PMFZN
- Q4oa/W3bFUO8vZBhZlnc6Q+0dqsowNSDXBlrOPEb/35c1f6uQaxdekj5xn4G/t9uFHKE
- m/Iw==
+ bh=1Cfk/7g+t1GRw1goaFtL/LZY8tayLYomKg/dpZTcZpQ=;
+ b=kmQx/pS+jZds4kb2olX1FB9rij0iIdWVQH5ddcH/w9VxL29oRhOC1UqDSpSN9yyvgs
+ c0aT6CMZLimFqnuTjTjXSOPGU35KTj7pjVf61Bl4ym7W3+1xoDuBlu5zrRl0OE7v66cu
+ CSPg4aV7CEIWgR65Zom0ij8K89WomcPUaxX3L/tnviAyLKVcLw65kseBGpn4a8r1YQ2U
+ cuBWaaUstwsQHHclybtZSZOjF4o11ry7u4sbsSwQgWMtqQPXDbwm7EYyWLj9EbobSTiW
+ Hxobfuup8qMTF7yMIvg/ySXmI5I30PqYhW7TbvVESk/WSWebnOKigGUw+0GW+fyFDbrk
+ +lXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734391877; x=1734996677;
+ d=1e100.net; s=20230601; t=1734391940; x=1734996740;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0myHXndV0qV5Q6G/Mq88Gi+ACvREZlQwsyRsJV9SPdQ=;
- b=fzAEiyl6QBj5ohADT7Nuqm8ajGGdnDLmP6jf1NJPJ92qL7s/Vvh1XoFzhOBtkLqN7x
- 87Cvbk4gj1O5jKxeCKHFVCwZKbPy/fG2aW+xJslwziI+0KLnuw0DqX5TsnvuC/ByRwh+
- 4YFEqlUeBkaQF31966zqF1oyfPzWuJBCNMiYY5Ft+pPUZfs6zyg3l0TVDhKXcVgBvzxh
- PPj9ek5cmuZmMlzSspi/d7knn3XGdHbkRf7SEWb+njqMwqW6qVZaGz3TdztlHY2tgN2m
- hoM7tdSLLrJO6jutnbRfJsMFk8P4leAaghT8bMLFL9MF1r2eYQHiCvv7Tk3gQpxf16e4
- z9Xw==
-X-Gm-Message-State: AOJu0YzgHVL4Lk/oNYVL4LgQPVe8hmgi7uClTK/fpUyFov2AkJK/5E9Q
- OU7QERA8Zv0b/r87j7YvZuWo30bmJxgOlR9p+9rwtPl2bnru0USbQYAb9ngDTJQ=
-X-Gm-Gg: ASbGncsC+Rbm0tHowl6OAL9JWpECu8gcmNC3TcSrzw6lBvgihAXnY2qkKpIJnY5oslo
- 1rDuSQ83qOTjSXccqOjQlvgPyEFYbBIbsPpGdl+fjeW6MaSUeglT490BhmnpMCuXqjWdYl3RkJH
- B4B4SVOoJ0S5eTBQ4Yq3nZR7pDmxRSES6is4B3QIAmuw6RoYfe9fTNAva7+JPWAetUtf7ReBPsq
- gn6WHr+LPJiCJbjZmlAOVJIckXf7LwY2io6++OxY/lJwgkqEAjJS0wJwn7tOhM6W57U/rGUAua7
- 5zVrsD1DqITWs9WHOqy6yJXkiOUJZfG5Fj+/
-X-Google-Smtp-Source: AGHT+IEoifryj/0BI7jdLUNnQVMMdkVDQQGF3GziQCGMhBY9ZxZsOW20zlYILYcNKpUyZw0OESJV3A==
-X-Received: by 2002:a05:6512:3b9d:b0:540:1dac:c042 with SMTP id
- 2adb3069b0e04-5408ad82317mr4936022e87.8.1734391877205; 
- Mon, 16 Dec 2024 15:31:17 -0800 (PST)
+ bh=1Cfk/7g+t1GRw1goaFtL/LZY8tayLYomKg/dpZTcZpQ=;
+ b=XsPnCyzNMbZMsxsu6W+OJzlxGYqEbMi/MKbCPGPJU/GcTZNPM9Omm60WQxyU3xiICp
+ owj3nZuHPJ4vwrue/sTn+SdA3u3dEFLowgnWOyZ2+DDhZq1dCiIzt//FUaLWkwJ7Q7MV
+ dnR4GbJrMwBE9Eb9S+c6E8kpWeKQhlxWmRL3rWjPMl52qAIxRt1ZQ+XWctTDAZrrP5Zd
+ 2ZbFDFgzrJ9/9jRsMAxrKz5r1iRLhBJTP5x5AZD670l9Fs/uuCqjml4apa8+XklqvX7k
+ eQmsDzxxdoEsskmMHZyuR893ho0JZGlguWwR6z2XwVPSDs/JfBP7mA1GtYXkZVj9VPwV
+ 9G+g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUW7N2k7TgngJwsmre8dMlcorJH9ZC8TN8VYGqzml/tcTfJhA3Cb9qnHaJkKq82p0Fcw7nAYZYljKI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTADLqYe/sWizVFm/oRRYwKC+qQW1rSWuNS6GyZJX9N/fs0B1G
+ UTbcOoqqHy3uKiijYJFFRRWSuWhLzgA8pDM2hois3+CSdnQ2tDu5agqV9opVl+A=
+X-Gm-Gg: ASbGncvZJlj4+/Nf3qc9voMrv3fm0ADkdYcnJA9Pvz6ZVKk70GzKfZoZx+lr+aD2mG+
+ Af4YYfehtTw+ne2W62/tLfKvDGyK4HvSyfqIRkZWv582wNFu+DUXpv2KMs3RIV8A0+TTKIkBPwx
+ dbQH1qtp0OWLbCTufryHI9PKMXfHjvU8XFFHWP9ZBKuurVRqjg+yyF1P6djxQAoLzbEmu9pXVc9
+ V7IYnolOGGKrF1f7c2H5MOmF1SL4GO4DBmSC7SJYbe2qlmODYvLTvAk3BydKGNmYTqZoozK5BMK
+ fkles4gdLogr+B016VhEGy9Tqlv1UGqppz9d
+X-Google-Smtp-Source: AGHT+IExbDP4ZD+38wPFlh6U/Y0lAF16Pi2yC5D/nYasWPaCFGvjIV4X6v/981M69tb+UUwL3mWvhg==
+X-Received: by 2002:a05:651c:995:b0:300:1947:a28c with SMTP id
+ 38308e7fff4ca-302544b12a7mr59678521fa.26.1734391940315; 
+ Mon, 16 Dec 2024 15:32:20 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120c0038bsm974734e87.147.2024.12.16.15.31.15
+ 38308e7fff4ca-30344046c9asm10636321fa.50.2024.12.16.15.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 15:31:16 -0800 (PST)
-Date: Tue, 17 Dec 2024 01:31:14 +0200
+ Mon, 16 Dec 2024 15:32:19 -0800 (PST)
+Date: Tue, 17 Dec 2024 01:32:16 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Derek Foreman <derek.foreman@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, mripard@kernel.org, 
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  kernel@collabora.com, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] drm/connector: Allow clearing HDMI infoframes
-Message-ID: <oqiyvwu5b44bqs47oulg6su2pid43mwa37jqd4nfpnpq36j46x@gghpkaebbaj4>
-References: <20241202181939.724011-1-derek.foreman@collabora.com>
- <1d60edf3-1977-45cd-af10-e5085518afe0@collabora.com>
- <01020193cff2c151-dd394f31-4b16-44b4-a101-3db2003051d5-000000@eu-west-1.amazonses.com>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/bridge-connector: Prioritize supported_formats
+ over ycbcr_420_allowed
+Message-ID: <dn625hkcujqlre74wu3hezlcbkxza5urydgcl3kvs3exbr4tl7@rpznp2zefpoe>
+References: <20241206-bridge-conn-fmt-prio-v2-1-85c817529b88@collabora.com>
+ <uw7uqw6zsmoe2cyxe3mqm3ok43afut47jms37nny6ecl44b5xe@byagwnayplse>
+ <d1fe66a7-c495-429d-9908-6f4076a994da@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <01020193cff2c151-dd394f31-4b16-44b4-a101-3db2003051d5-000000@eu-west-1.amazonses.com>
+In-Reply-To: <d1fe66a7-c495-429d-9908-6f4076a994da@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,35 +99,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 02:50:13PM +0000, Derek Foreman wrote:
-> Just a ping - is there anything further I need to do here?
+On Tue, Dec 17, 2024 at 01:17:48AM +0200, Cristian Ciocaltea wrote:
+> Hi Dmitry,
+> 
+> On 12/10/24 3:12 AM, Dmitry Baryshkov wrote:
+> > On Fri, Dec 06, 2024 at 10:00:46PM +0200, Cristian Ciocaltea wrote:
+> >> Bridges having the DRM_BRIDGE_OP_HDMI flag set in drm_bridge->ops are
+> >> supposed to rely on drm_bridge->supported_formats bitmask to advertise
+> >> the supported colorspaces, including HDMI_COLORSPACE_YUV420.  Therefore,
+> >> the newly introduced drm_bridge->ycbcr_420_allowed flag becomes
+> >> redundant in this particular context.
+> >>
+> >> Moreover, when drm_bridge_connector gets initialised, only
+> >> drm_bridge->ycbcr_420_allowed is considered in the process of adjusting
+> >> the equivalent property of the base drm_connector, which effectively
+> >> discards the formats advertised by the HDMI bridge.
+> > 
+> > I think this should be handled in a different way: during HDMI connector
+> > init verify that HDMI_COLORSPACE_YUV420 matches the
+> > drm_connector->ycbcr_420_allowed value and rejects incompatible
+> > connectors.
+> 
+> I added a 2nd patch in v3 [1] to perform this verification on HDMI
+> connector init, but I think we still need a proper handling of the
+> inconsistency at bridge[-connector] level. I simplified a bit the initial
+> approach, hopefully that would bring us closer to an acceptable solution.
 
-I expected that the patch should have been reviewed by Maxime. I'll
-check if it's okay to push it with Angelo's and mine reviews.
+I'm sorry, I first commented on the new patchseries. I think that the
+second patch is enough.
 
 > 
-> On 2024-12-03 03:45, AngeloGioacchino Del Regno wrote:
-> > Il 02/12/24 19:19, Derek Foreman ha scritto:
-> > > Our infoframe setting code currently lacks the ability to clear
-> > > infoframes. For some of the infoframes, we only need to replace them,
-> > > so if an error occurred when generating a new infoframe we would leave
-> > > a stale frame instead of clearing the frame.
-> > > 
-> > > However, the Dynamic Range and Mastering (DRM) infoframe should only
-> > > be present when displaying HDR content (ie: the HDR_OUTPUT_METADATA blob
-> > > is set). If we can't clear infoframes, the stale DRM infoframe will
-> > > remain and we can never set the display back to SDR mode.
-> > > 
-> > > With this change, we clear infoframes when they can not, or should not,
-> > > be generated. This fixes switching to an SDR mode from an HDR one.
-> > > 
-> > > Fixes: f378b77227bc4 ("drm/connector: hdmi: Add Infoframes generation")
-> > > Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-> > 
-> > Reviewed-by: AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com>
-> > 
-> > 
+> Thanks,
+> Cristian
+> 
+> [1] https://lore.kernel.org/lkml/20241217-bridge-conn-fmt-prio-v3-0-3ecb3c8fc06f@collabora.com/
 
 -- 
 With best wishes
