@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD2D9F34D1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 16:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0B49F3502
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 16:53:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33A5110E6DC;
-	Mon, 16 Dec 2024 15:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCDC710E27F;
+	Mon, 16 Dec 2024 15:53:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="p31Y9KGq";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="eLPC5Mtx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B40D610E3F3;
- Mon, 16 Dec 2024 15:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=NshrB6r3ZRNacQ8/Ihm6ny01LxTZ756F2VqKtAIFRf8=; b=p31Y9KGqEJ5D2EqBljznQG1QFh
- 4Qeh1m/NDFW3PF6PzOM6xf2b1NMvxtI1meLMLUB/x0/0WQVl5pSZvBBN9vaYXr4076sVIMR8svoYw
- /RlefwXuJ/IoylcvACOCq5myXqO1A2X/Cx88WMq7Nyb/paaeBsDxiVoi5fqFGB/M0g2SuObfJrt1t
- Dr7nAxe8W506MHMppkIlVjAuXeua4k6Qf7hvF67atqB0CQKKRvB8R+xEpVyhYkJRdSJMBtJLY2e5X
- Ci2psxqcK2k3bgDdig3PxPSQDychc1OgL19he4f6LpPz5/sP4zjfz56ayeUXgRbr47eQJku2AElNp
- Ph5oSorg==;
-Received: from [179.193.1.214] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tNDEd-003pln-Bh; Mon, 16 Dec 2024 16:42:15 +0100
-Message-ID: <bbf965fd-5c3e-4c1b-9b1e-cd178aeb1038@igalia.com>
-Date: Mon, 16 Dec 2024 12:42:07 -0300
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F4310E27F
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 15:53:54 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A2F21BF209;
+ Mon, 16 Dec 2024 15:53:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1734364430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZuTRv0vuTZ0VwJUnE4hrLu3RN+h0ws0emLL1w4UELQ4=;
+ b=eLPC5MtxucGs6C9aYXHpAlqhEfz1wsdFGZ1JzX1vaiuvk5pRwSaVQKU2lLOSsLFQE18gua
+ 1/IgTr+KSPcfUB03mc4kZN7+8pFjHPsVy/p+t1nRLQw/TlERLXH9Q4HODNSALgNm+mOb7O
+ PUKU50LLlnq+TkncnOyu5S71QT6AMTQOf7WJmsmmMioQj45JfYakM2mVozxJh9cxInsimI
+ SDffBlHhzAWlW0230I1MQckdmvQ6ZP5PknhgeeJiBmXXVRqILfya4v26NZtCi7zb55VGV7
+ j1mhcTzzNGUfXkf9yDV3LK2muAZAN8sjEr5QQ2llMe6l64WJ3jOXYhCp59++3Q==
+Date: Mon, 16 Dec 2024 16:53:46 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thierry
+ Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display: simple: Add Tianma
+ TM070JDHG34-00 panel
+Message-ID: <20241216165346.4b522b25@booty>
+In-Reply-To: <egqtfrmretlglzhizdgq32bioxqtydcz7ftv7j6ftj2or6vhch@tre2xmuz3pry>
+References: <20241210-tianma_tm070jdhg34-v1-0-9fb7fe6b6cf0@bootlin.com>
+ <20241210-tianma_tm070jdhg34-v1-1-9fb7fe6b6cf0@bootlin.com>
+ <egqtfrmretlglzhizdgq32bioxqtydcz7ftv7j6ftj2or6vhch@tre2xmuz3pry>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] drm/amdgpu: Use device wedged event
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
- jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
- lina@asahilina.net, michal.wajdeczko@intel.com
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, alexander.deucher@amd.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- Shashank Sharma <shashank.sharma@amd.com>
-References: <20241216150250.38242-1-andrealmeid@igalia.com>
- <20241216150250.38242-2-andrealmeid@igalia.com>
- <127f135d-72f2-47bc-a8af-93add181e7b2@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <127f135d-72f2-47bc-a8af-93add181e7b2@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,52 +70,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em 16/12/2024 12:27, Christian König escreveu:
-> Am 16.12.24 um 16:02 schrieb André Almeida:
->> Use DRM's device wedged event to notify userspace that a reset had
->> happened. For now, only use `none` method meant for telemetry
->> capture.
->>
->> In the future we might want to report a recovery method if the reset 
->> didn't
->> succeed.
->>
->> Acked-by: Shashank Sharma <shashank.sharma@amd.com>
->> Signed-off-by: André Almeida <andrealmeid@igalia.com>
->> ---
->> v2: Only report reset if reset succeeded
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/ 
->> drm/amd/amdgpu/amdgpu_device.c
->> index 96316111300a..b0079d66d9e6 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->> @@ -6057,6 +6057,10 @@ int amdgpu_device_gpu_recover(struct 
->> amdgpu_device *adev,
->>           dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
->>       atomic_set(&adev->reset_domain->reset_res, r);
->> +
->> +    if (r)
->> +        drm_dev_wedged_event(adev_to_drm(adev), 
->> DRM_WEDGE_RECOVERY_NONE);
-> 
-> 
-> That was not what I meant. The idea was more like:
-> 
-> drm_dev_wedged_event(adev_to_drm(adev), r ? TBD : DRM_WEDGE_RECOVERY_NONE);
-> 
+Hello Krzysztof,
 
-Ops, I did it wrong indeed, I meant `if (!r)`. Sending a v3 now.
+On Mon, 16 Dec 2024 11:09:37 +0100
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-> Regards,
-> Christian.
+> On Tue, Dec 10, 2024 at 06:28:03PM +0100, Luca Ceresoli wrote:
+> > Add the Tianma Micro-electronics TM070JDHG34-00 7.0" LVDS LCD TFT panel.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > ---
+> >  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> > index 18b63f356bb4bbf6d2c8e58b13ebb14c5f4004ad..30f655e82666bb1aa227edd26bd8d3621a39e74f 100644
+> > --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> > +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> > @@ -281,6 +281,8 @@ properties:
+> >          # Tianma Micro-electronics TM070JDHG30 7.0" WXGA TFT LCD panel
+> >        - tianma,tm070jdhg30
+> >          # Tianma Micro-electronics TM070JVHG33 7.0" WXGA TFT LCD panel
+> > +      - tianma,tm070jdhg34-00  
 > 
-> 
->> +
->>       return r;
->>   }
-> 
+> So tm070jdhg34 or tm070jvhg33? Comment says one, implementation different.
 
+My bad, I swapped the two lines. Apologies, v2 on its way.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
