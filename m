@@ -1,62 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E719F3075
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 13:23:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05E599F307E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 13:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D12410E5F4;
-	Mon, 16 Dec 2024 12:23:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C9110E5FA;
+	Mon, 16 Dec 2024 12:25:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JQ/65wiV";
+	dkim=pass (1024-bit key; unprotected) header.d=weissschuh.net header.i=@weissschuh.net header.b="UxT2AXiL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A19510E5F3;
- Mon, 16 Dec 2024 12:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734351793; x=1765887793;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=ppI5iU3AtS1G5rRYVLkr8Lo5tQOvi3yH4QlfZBVljBw=;
- b=JQ/65wiV/+Hc02e86b7t2WuZAPn2/C3yMVXNmEriMkWno4fNboYe3XoN
- ccasH9fFSmU8nD4lbosiDVBhoM5QDv4wX4BokjE0pSpwMrXL9G3OgmFEa
- S7okGhncF8yooAFf7aRa+5cUF6Pgw28vfT0tc14rHHo4kE8X6gZ1/3d8o
- acl8Kq9T5ElVyknVyhsAW93tAJDugLNnYFg2mn28bBC2TJnglJqb0r7oZ
- F+xRaf+EwTe0wIiAKTRiWdT4GityChn/GPE85rvUhiZPHYoOr38hLgBos
- suGDcqR8wz7Hv1ffuAe2jgkFU6FwRohirbiVbisIRyTewnGST8NWe3Ouk Q==;
-X-CSE-ConnectionGUID: /sMpPaNNRBu32Z7ujVY6WA==
-X-CSE-MsgGUID: nkJDpfTFRuyvFK2mtAufeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="46142168"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="46142168"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2024 04:23:12 -0800
-X-CSE-ConnectionGUID: ajFll0UcSZC06C7qzc497Q==
-X-CSE-MsgGUID: U0og3NJWR4iOR8tTKbuWmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="97618896"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2024 04:23:10 -0800
-Date: Mon, 16 Dec 2024 14:23:51 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Alex Deucher <alexander.deucher@amd.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lyude Paul <lyude@redhat.com>, Karol Herbst <kherbst@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 04/11] drm/dp_mst: Register connectors via
- drm_connector_dynamic_register()
-Message-ID: <Z2Ab14yzMJNoRNE8@ideak-desk.fi.intel.com>
-References: <20241211230328.4012496-1-imre.deak@intel.com>
- <20241211230328.4012496-5-imre.deak@intel.com>
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D83D10E5FA
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 12:25:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+ s=mail; t=1734351914;
+ bh=RA82AkSXi61D6nUmUNT7oSNDv8q3l7RKH4P+1ooMy8Y=;
+ h=From:Date:Subject:To:Cc:From;
+ b=UxT2AXiLbLGPc4bbt2HSvMzZe5Ai8TLCtDg7zxs8t5FeXdf3N5pPQvCLicHAD2TYR
+ +iHtHDIJmbe+gBaQj/qM4vKnPpu0YH/wrQOZnXX9QYojZiRLd0Mevoi4lrtJjmrji8
+ LGNEhKaJPNd7mnUeFuPHnHaO+29MUAyBL4jEYLxE=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 16 Dec 2024 13:25:12 +0100
+Subject: [PATCH] accel/habanalabs: constify 'struct bin_attribute'
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211230328.4012496-5-imre.deak@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241216-sysfs-const-bin_attr-habanalabs-v1-1-b35463197efb@weissschuh.net>
+X-B4-Tracking: v=1; b=H4sIACccYGcC/x3N0QqDMAxA0V+RPC+wljm6/YoMSds4AyNKU8Qh/
+ vvKHs/LvQcYF2GDZ3dA4U1MFm1wlw7STPpmlNwM/upvzrs72tcmw7SoVYyiI9VacKZISh+KhiE
+ 9eg69zzkQtMpaeJL9fxhe5/kDCYLO5XEAAAA=
+X-Change-ID: 20241216-sysfs-const-bin_attr-habanalabs-8c95e852dd8a
+To: Ofir Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734351913; l=2078;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=RA82AkSXi61D6nUmUNT7oSNDv8q3l7RKH4P+1ooMy8Y=;
+ b=OxYVpD7XCbhY4fhUwtBnLpZA0zeWUdS30JDxhVpWu8msJfjhMPB2GHAQI9HYTc+D/HqlA0Gq1
+ SKaUCGk2U0dCOwsVHg/tq5aUjI5802594mnJmGFpJ8ZvtnaUhI5xh6f
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,57 +56,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Harry, Leo, Alex, Wayne,
+The sysfs core now allows instances of 'struct bin_attribute' to be
+moved into read-only memory. Make use of that to protect them against
+accidental or malicious modifications.
 
-could you please ack this change?
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ drivers/accel/habanalabs/common/sysfs.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Thanks,
-Imre
+diff --git a/drivers/accel/habanalabs/common/sysfs.c b/drivers/accel/habanalabs/common/sysfs.c
+index e9f8ccc0bbf9d4dabec1b51072d07170c51ffc9e..9d58efa2ff380c8773bd79bea613dc79a5a98020 100644
+--- a/drivers/accel/habanalabs/common/sysfs.c
++++ b/drivers/accel/habanalabs/common/sysfs.c
+@@ -368,7 +368,7 @@ static ssize_t max_power_store(struct device *dev,
+ }
+ 
+ static ssize_t eeprom_read_handler(struct file *filp, struct kobject *kobj,
+-			struct bin_attribute *attr, char *buf, loff_t offset,
++			const struct bin_attribute *attr, char *buf, loff_t offset,
+ 			size_t max_size)
+ {
+ 	struct device *dev = kobj_to_dev(kobj);
+@@ -443,10 +443,10 @@ static DEVICE_ATTR_RO(security_enabled);
+ static DEVICE_ATTR_RO(module_id);
+ static DEVICE_ATTR_RO(parent_device);
+ 
+-static struct bin_attribute bin_attr_eeprom = {
++static const struct bin_attribute bin_attr_eeprom = {
+ 	.attr = {.name = "eeprom", .mode = (0444)},
+ 	.size = PAGE_SIZE,
+-	.read = eeprom_read_handler
++	.read_new = eeprom_read_handler
+ };
+ 
+ static struct attribute *hl_dev_attrs[] = {
+@@ -472,14 +472,14 @@ static struct attribute *hl_dev_attrs[] = {
+ 	NULL,
+ };
+ 
+-static struct bin_attribute *hl_dev_bin_attrs[] = {
++static const struct bin_attribute *const hl_dev_bin_attrs[] = {
+ 	&bin_attr_eeprom,
+ 	NULL
+ };
+ 
+ static struct attribute_group hl_dev_attr_group = {
+ 	.attrs = hl_dev_attrs,
+-	.bin_attrs = hl_dev_bin_attrs,
++	.bin_attrs_new = hl_dev_bin_attrs,
+ };
+ 
+ static struct attribute_group hl_dev_clks_attr_group;
 
-On Thu, Dec 12, 2024 at 01:03:21AM +0200, Imre Deak wrote:
-> MST connectors should be initialized/registered by calling
-> drm_connector_dynamic_init()/drm_connector_dynamic_register(). The
-> previous patch adding these functions explains the issue with the
-> current drm_connector_init*()/drm_connector_register() interface for
-> MST connectors.
-> 
-> Based on the above adjust here the registration part and change the
-> initialization part in follow-up patches for each driver.
-> 
-> For now, drivers are allowed to keep using the drm_connector_init*()
-> functions, by drm_connector_dynamic_register() checking for this (see
-> drm_connector_add()). A patch later will change this to WARN in such
-> cases.
-> 
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Wayne Lin <wayne.lin@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Karol Herbst <kherbst@redhat.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
-> ---
->  drivers/gpu/drm/display/drm_dp_mst_topology.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> index 687c70308d82b..f8cd094efa3c0 100644
-> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-> @@ -2281,7 +2281,7 @@ drm_dp_mst_port_add_connector(struct drm_dp_mst_branch *mstb,
->  		port->cached_edid = drm_edid_read_ddc(port->connector,
->  						      &port->aux.ddc);
->  
-> -	drm_connector_register(port->connector);
-> +	drm_connector_dynamic_register(port->connector);
->  	return;
->  
->  error:
-> -- 
-> 2.44.2
-> 
+---
+base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+change-id: 20241216-sysfs-const-bin_attr-habanalabs-8c95e852dd8a
+
+Best regards,
+-- 
+Thomas Weißschuh <linux@weissschuh.net>
+
