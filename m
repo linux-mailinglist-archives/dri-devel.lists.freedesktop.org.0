@@ -2,112 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443799F2E5C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 11:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E129F2E6D
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 11:45:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3687710E587;
-	Mon, 16 Dec 2024 10:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 536A910E3E4;
+	Mon, 16 Dec 2024 10:44:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LjgO2erg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TLeFIrA8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3E6F10E587
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 10:42:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B1B235C1713;
- Mon, 16 Dec 2024 10:42:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C56AC4CED0;
- Mon, 16 Dec 2024 10:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734345763;
- bh=cOxCgIlxyJLgv2zm3KG3CPzYrl+Z/jFPIxKjceSqlGo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LjgO2ergYevyAx4UNykaYA0aDtAwBQ7z79oQchkNdZ3qw8LnuHgr57pkCi2iWZ7LI
- uKUZgCOQ3SMbYgb7yX3R7BedhBkcnNFM+6sKE+rldsMlqVcJzhqbfbphbCi44D/Y4T
- qY2ESHNTw46+nqoB3HPU9TA6qRvZf8d2p6GWaQ82HU4vCktceZTTuIWqJODOgqnzcM
- FUYYZhvn5l1MlRVoN/3XzZt/tdtDI9lZMFSxgEnEKKu+oCUHZtbuWiS6Xm4sCELGod
- Bqxr38E9AUE4QIbUKYWjKmy9fatycULf0jVUjHHMeG/EKSLuXaNftfsonB89n7gzkM
- WbLvi2GTvl3ew==
-Message-ID: <12d157af-e309-4c8d-9c14-bd0e9da8194d@kernel.org>
-Date: Mon, 16 Dec 2024 11:42:30 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3E810E3E4;
+ Mon, 16 Dec 2024 10:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734345898; x=1765881898;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=so/6GcuJk+HQIrVMylw/ElVjpzHKK/h9VgR/7RbiKTg=;
+ b=TLeFIrA8KPoMG53C/Ae1ukmZRvu56lQkK2WR5emiQ95sGdpk/D2yGLO/
+ gN+5MXyAhc2MJoVv9v/jveP+lDM142zDYhjdSa1hW4zl4Hvo3t0G3/9E7
+ a11goHqaFU4b1GD0Uae7ZW7Y820N2+SVTPOEcnKbOG1nA/UPk1l9hF7zZ
+ MIPVD4WHQUfJegXdUQhTIAGLGIFU47GVGR7XmQbOKiUeTdnMkKi2E3q8A
+ Otlwa+rOHVivdI22iKMOYI87qCNShm0Kwg79H2ziaboq8hQBAAQTI6iEl
+ lmyeXWk6899RKsW3EY+V9nM2rpEtR7rKrNM2KiU1+4UG/U+sQPYb7XNdg w==;
+X-CSE-ConnectionGUID: 3G9Rm3zkSJ23x5F1MIh/Sw==
+X-CSE-MsgGUID: 4VWAb696TvKh8H4ZGAYm3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45728083"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="45728083"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 02:44:58 -0800
+X-CSE-ConnectionGUID: dtAURxieSv+vKYMtHOesjw==
+X-CSE-MsgGUID: C2n9PDd8SEaTGE6e0M+24A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; d="scan'208";a="102193904"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.246])
+ ([10.245.246.246])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 02:44:54 -0800
+Message-ID: <ac9553b60fd7a6794b284b5e830898e42819e43e.camel@linux.intel.com>
+Subject: Re: [PATCH v2 23/29] drm/xe: Add BO flags required for SVM
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ apopple@nvidia.com, airlied@gmail.com, christian.koenig@amd.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Mon, 16 Dec 2024 11:44:51 +0100
+In-Reply-To: <Z1oHV0F2sjhY1YsF@lstrano-desk.jf.intel.com>
+References: <20241016032518.539495-1-matthew.brost@intel.com>
+ <20241016032518.539495-24-matthew.brost@intel.com>
+ <a2377c7b0cacc4c437a0defdb410565b774e6250.camel@linux.intel.com>
+ <Z1oHV0F2sjhY1YsF@lstrano-desk.jf.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/7] dt-bindings: display: renesas,du: Add missing
- maxItems
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-References: <20241213-rcar-gh-dsi-v4-0-f8e41425207b@ideasonboard.com>
- <20241213-rcar-gh-dsi-v4-3-f8e41425207b@ideasonboard.com>
- <l2r53ipif43k7kkjqc66z2mq6tyw6niiz4t4nnfge23hygx2pw@xrgk4mv5ljzx>
- <20241216083239.GC32204@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241216083239.GC32204@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,30 +75,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/12/2024 09:32, Laurent Pinchart wrote:
-> Hi Krzysztof,
-> 
-> On Mon, Dec 16, 2024 at 08:58:49AM +0100, Krzysztof Kozlowski wrote:
->> On Fri, Dec 13, 2024 at 04:02:59PM +0200, Tomi Valkeinen wrote:
->>> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>>
->>> The binding is missing maxItems for all renesas,cmms and renesas,vsps
->>> properties. As the amount of cmms or vsps is always a fixed amount, set
->>> the maxItems to match the minItems.
->>>
->>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->>> ---
->>>  Documentation/devicetree/bindings/display/renesas,du.yaml | 10 ++++++++++
->>>  1 file changed, 10 insertions(+)
->>
->> The top level property should define widest constraints as well.
-> 
-> I'm curious, why is that ? I understand why a top-level default would
-> make sense when it's optionally overridden by model-specific values, but
-> in this case there's no such default. Every SoC has its own fixed value.
+On Wed, 2024-12-11 at 13:42 -0800, Matthew Brost wrote:
+> On Mon, Dec 02, 2024 at 11:44:47AM +0100, Thomas Hellstr=C3=B6m wrote:
+> > On Tue, 2024-10-15 at 20:25 -0700, Matthew Brost wrote:
+> > > Add XE_BO_FLAG_SYSTEM_ALLOC to indicate BO is tied to SVM range.
+> > >=20
+> > > Add XE_BO_FLAG_SKIP_CLEAR to indicate BO does not need to
+> > > cleared.
+> > >=20
+> > > v2:
+> > > =C2=A0- Take VM ref for system allocator BOs
+> > >=20
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > ---
+> > > =C2=A0drivers/gpu/drm/xe/xe_bo.c | 15 +++++++++------
+> > > =C2=A0drivers/gpu/drm/xe/xe_bo.h |=C2=A0 2 ++
+> > > =C2=A02 files changed, 11 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/xe/xe_bo.c
+> > > b/drivers/gpu/drm/xe/xe_bo.c
+> > > index a02d63e322ae..dbd03383878e 100644
+> > > --- a/drivers/gpu/drm/xe/xe_bo.c
+> > > +++ b/drivers/gpu/drm/xe/xe_bo.c
+> > > @@ -685,8 +685,9 @@ static int xe_bo_move(struct
+> > > ttm_buffer_object
+> > > *ttm_bo, bool evict,
+> > > =C2=A0	move_lacks_source =3D !old_mem || (handle_system_ccs ?
+> > > (!bo-
+> > > > ccs_cleared) :
+> > > =C2=A0				=09
+> > > (!mem_type_is_vram(old_mem_type) && !tt_has_data));
+> > > =C2=A0
+> > > -	needs_clear =3D (ttm && ttm->page_flags &
+> > > TTM_TT_FLAG_ZERO_ALLOC) ||
+> > > -		(!ttm && ttm_bo->type =3D=3D ttm_bo_type_device);
+> > > +	needs_clear =3D !(bo->flags & XE_BO_FLAG_SKIP_CLEAR) &&
+> > > +		((ttm && ttm->page_flags &
+> > > TTM_TT_FLAG_ZERO_ALLOC)
+> > > > >=20
+> > > +		(!ttm && ttm_bo->type =3D=3D ttm_bo_type_device));
+> >=20
+> > It should be worth adding a note about how clearing for svm bos is
+> > intended to work. From what I can tell, there is an option to clear
+> > on
+> > migration from system to vram if no system pages are present?
+> >=20
+>=20
+> Sure can add a comment. The migration from system to vram doesn't do
+> a
+> clear currently because when 'check_pages' is set we only migrate CPU
+> faulted in pages. If we remove that, then yes we'd need a clear on
+> migration.=20
+>=20
+> > > =C2=A0
+> > > =C2=A0	if (new_mem->mem_type =3D=3D XE_PL_TT) {
+> > > =C2=A0		ret =3D xe_tt_map_sg(ttm);
+> > > @@ -1145,7 +1146,7 @@ static void xe_ttm_bo_destroy(struct
+> > > ttm_buffer_object *ttm_bo)
+> > > =C2=A0		xe_drm_client_remove_bo(bo);
+> > > =C2=A0#endif
+> > > =C2=A0
+> > > -	if (bo->vm && xe_bo_is_user(bo))
+> > > +	if (bo->vm && (xe_bo_is_user(bo) || bo->flags &
+> > > XE_BO_FLAG_SYSTEM_ALLOC))
+> > > =C2=A0		xe_vm_put(bo->vm);
+> > > =C2=A0
+> > > =C2=A0	mutex_lock(&xe->mem_access.vram_userfault.lock);
+> > > @@ -1301,7 +1302,8 @@ struct xe_bo *___xe_bo_create_locked(struct
+> > > xe_device *xe, struct xe_bo *bo,
+> > > =C2=A0	int err;
+> > > =C2=A0
+> > > =C2=A0	/* Only kernel objects should set GT */
+> > > -	xe_assert(xe, !tile || type =3D=3D ttm_bo_type_kernel);
+> > > +	xe_assert(xe, !tile || type =3D=3D ttm_bo_type_kernel ||
+> > > +		=C2=A0 flags & XE_BO_FLAG_SYSTEM_ALLOC);
+> > > =C2=A0
+> > > =C2=A0	if (XE_WARN_ON(!size)) {
+> > > =C2=A0		xe_bo_free(bo);
+> > > @@ -1493,7 +1495,7 @@ __xe_bo_create_locked(struct xe_device *xe,
+> > > =C2=A0	 * by having all the vm's bo refereferences released at
+> > > vm
+> > > close
+> > > =C2=A0	 * time.
+> > > =C2=A0	 */
+> > > -	if (vm && xe_bo_is_user(bo))
+> > > +	if (vm && (xe_bo_is_user(bo) || bo->flags &
+> > > XE_BO_FLAG_SYSTEM_ALLOC))
+> > > =C2=A0		xe_vm_get(vm);
+> > > =C2=A0	bo->vm =3D vm;
+> > > =C2=A0
+> > > @@ -2333,7 +2335,8 @@ bool xe_bo_needs_ccs_pages(struct xe_bo
+> > > *bo)
+> > > =C2=A0	 * can't be used since there's no CCS storage associated
+> > > with
+> > > =C2=A0	 * non-VRAM addresses.
+> > > =C2=A0	 */
+> > > -	if (IS_DGFX(xe) && (bo->flags & XE_BO_FLAG_SYSTEM))
+> > > +	if (IS_DGFX(xe) && ((bo->flags & XE_BO_FLAG_SYSTEM) ||
+> > > +	=C2=A0=C2=A0=C2=A0 (bo->flags & XE_BO_FLAG_SYSTEM_ALLOC)))
+> > > =C2=A0		return false;
+> >=20
+> > Can we support CCS with system allocator? Perhaps add a TODO
+> > comment if
+> > so. I figure it should be possible if we resolve on migration to
+> > system, which we do on BMG.
+> >=20
+>=20
+> Honestly don't really understand how CCS works, so unsure if
+> possible.
+> Can add a TODO comment and we can circle back.
 
-Because otherwise top level property does not have proper description
-and we expect properties to be defined at top-level.
+Sounds good. We should probably also discuss with UMD if they see a
+performance use-case.
 
-Best regards,
-Krzysztof
+/Thomas
+
+
+>=20
+> Matt
+>=20
+> >=20
+> > Thanks,
+> > Thomas
+> >=20
+> >=20
+> > > =C2=A0
+> > > =C2=A0	return true;
+> > > diff --git a/drivers/gpu/drm/xe/xe_bo.h
+> > > b/drivers/gpu/drm/xe/xe_bo.h
+> > > index 7fa44a0138b0..caf0459d16ad 100644
+> > > --- a/drivers/gpu/drm/xe/xe_bo.h
+> > > +++ b/drivers/gpu/drm/xe/xe_bo.h
+> > > @@ -39,6 +39,8 @@
+> > > =C2=A0#define XE_BO_FLAG_NEEDS_64K		BIT(15)
+> > > =C2=A0#define XE_BO_FLAG_NEEDS_2M		BIT(16)
+> > > =C2=A0#define XE_BO_FLAG_GGTT_INVALIDATE	BIT(17)
+> > > +#define XE_BO_FLAG_SYSTEM_ALLOC		BIT(18)
+> > > +#define XE_BO_FLAG_SKIP_CLEAR		BIT(19)
+> > > =C2=A0/* this one is trigger internally only */
+> > > =C2=A0#define XE_BO_FLAG_INTERNAL_TEST	BIT(30)
+> > > =C2=A0#define XE_BO_FLAG_INTERNAL_64K		BIT(31)
+> >=20
+
