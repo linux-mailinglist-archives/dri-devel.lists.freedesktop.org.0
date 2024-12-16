@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 186649F2FC1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 12:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA569F2FC5
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 12:48:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85FB010E5D9;
-	Mon, 16 Dec 2024 11:47:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCC010E5DE;
+	Mon, 16 Dec 2024 11:48:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hMacY/PD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FUVAurrk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 263FE10E5C7;
- Mon, 16 Dec 2024 11:47:47 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08B1B10E5D8;
+ Mon, 16 Dec 2024 11:48:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734349667; x=1765885667;
+ t=1734349704; x=1765885704;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version:content-transfer-encoding;
- bh=b/jnVnpWxsgsujPLPcohF02Om3SRNnOQCq/3TSfEFrg=;
- b=hMacY/PDMGImbV80bGQ35VpGevSR6FdkGGwvQKAUZInpLWEkI0hn2d7+
- Hw58P3UYYk6uN3f98egRzycMF0IGp8rrmDOy28w74PP22tKZ42FwDjIi7
- 2ib/wt9WfJY+qT+5Q1xp3Ptfk7JnGnD892LhOx9emSRc6hqiuXJ+T22mx
- 9XF1YAvzrr6siZnzNgwmpXMwTwN1/Xnm0zdmSyzKCpidduVsSB7JXJSFw
- Ha4FgRHY8W7kfqhLp0ZG6pWhsaIIkDO4ObeOoLzZrVgtMZLMbOSGovx/Z
- mbXjAQLHrgCX0F5DI424tMZju40jUlYgt1aOIweWXB2rzk/8T3DoECsHx A==;
-X-CSE-ConnectionGUID: 6cJItNuHQ5ycHyLhWvy7xQ==
-X-CSE-MsgGUID: yLFF5jPrQTuBMCNdZ7bMZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="52144727"
-X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; d="scan'208";a="52144727"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2024 03:47:47 -0800
-X-CSE-ConnectionGUID: ibVkrFHNQ56/atLPvsZSZg==
-X-CSE-MsgGUID: dFEPEd+kTEamIvmrKVQJlA==
+ bh=WccTDUXeXhePOUttIF4J+L90bqrAF5cuKGFhbSdR4fk=;
+ b=FUVAurrkY9OYXY8VORWriKB+63DksBRFa+hint8HozChMhkqrWPlbsOZ
+ ARa/Eu2uOLw9wJDVcCvRGqyTSMQ9KX5ucnRt7+BN+CxDjevN9b2NRp+ur
+ T193siUXzrhQtH3VPoXkLeeVJpao05SCxAdWkQQrDTcmA9k1ZiYgEgVhH
+ W6bhn9uPVV6CVl+THkvrBTinh4tLjzsWPaxw4I5w+TBp5ZHLOsMjBx8Ly
+ SLi+2RREEH/vT6icZyMGvZ+z1/S83yrifccyqdQq7HhNcSyj10Ihbi73j
+ lvNplfDmRksWfypFp6sD8VsRpelRGDsWM5F2YblkxoyPZHUDyK0WZSLIs A==;
+X-CSE-ConnectionGUID: sqGogNiVSqmwiaGYPw8t+g==
+X-CSE-MsgGUID: jM0OiI/PQ8iptH9+wRn/Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="22314241"
+X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; d="scan'208";a="22314241"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 03:48:23 -0800
+X-CSE-ConnectionGUID: yauVPYWOSeCqWubREGgkwA==
+X-CSE-MsgGUID: WabXx/a6QmqXkbcTLhmGGA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; d="scan'208";a="102046463"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="102157451"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.245])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Dec 2024 03:47:40 -0800
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Dec 2024 03:48:16 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -57,13 +57,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  lima@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, Thomas =?utf-8?Q?Wei=C3=9Fschuh?=
  <linux@weissschuh.net>
-Subject: Re: [PATCH 1/5] drm/sysfs: Constify 'struct bin_attribute'
-In-Reply-To: <20241216-sysfs-const-bin_attr-drm-v1-1-210f2b36b9bf@weissschuh.net>
+Subject: Re: [PATCH 3/5] drm/i915: Constify 'struct bin_attribute'
+In-Reply-To: <20241216-sysfs-const-bin_attr-drm-v1-3-210f2b36b9bf@weissschuh.net>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20241216-sysfs-const-bin_attr-drm-v1-0-210f2b36b9bf@weissschuh.net>
- <20241216-sysfs-const-bin_attr-drm-v1-1-210f2b36b9bf@weissschuh.net>
-Date: Mon, 16 Dec 2024 13:47:37 +0200
-Message-ID: <87r067svc6.fsf@intel.com>
+ <20241216-sysfs-const-bin_attr-drm-v1-3-210f2b36b9bf@weissschuh.net>
+Date: Mon, 16 Dec 2024 13:48:13 +0200
+Message-ID: <87o71bsvb6.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -92,49 +92,96 @@ On Mon, 16 Dec 2024, Thomas Wei=C3=9Fschuh <linux@weissschuh.net> wrote:
 Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
 > ---
->  drivers/gpu/drm/drm_sysfs.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/i915/i915_gpu_error.c |  8 ++++----
+>  drivers/gpu/drm/i915/i915_sysfs.c     | 12 ++++++------
+>  2 files changed, 10 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> index fb3bbb6adcd16f3f325a2ae8e35f41851c00b272..60c1f26edb6fad23153c32a29=
-fd3be02700fc938 100644
-> --- a/drivers/gpu/drm/drm_sysfs.c
-> +++ b/drivers/gpu/drm/drm_sysfs.c
-> @@ -261,7 +261,7 @@ static ssize_t enabled_show(struct device *device,
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915=
+/i915_gpu_error.c
+> index 71c0daef19962660086b37fe55ca2d6b01f2bb9a..a4cb4e731bdd72201c91541fb=
+86e827e96214a8b 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> @@ -2491,7 +2491,7 @@ void i915_gpu_error_debugfs_register(struct drm_i91=
+5_private *i915)
 >  }
 >=20=20
->  static ssize_t edid_show(struct file *filp, struct kobject *kobj,
-> -			 struct bin_attribute *attr, char *buf, loff_t off,
-> +			 const struct bin_attribute *attr, char *buf, loff_t off,
->  			 size_t count)
+>  static ssize_t error_state_read(struct file *filp, struct kobject *kobj,
+> -				struct bin_attribute *attr, char *buf,
+> +				const struct bin_attribute *attr, char *buf,
+>  				loff_t off, size_t count)
 >  {
->  	struct device *connector_dev =3D kobj_to_dev(kobj);
-> @@ -315,21 +315,21 @@ static struct attribute *connector_dev_attrs[] =3D {
->  	NULL
->  };
 >=20=20
-> -static struct bin_attribute edid_attr =3D {
-> +static const struct bin_attribute edid_attr =3D {
->  	.attr.name =3D "edid",
->  	.attr.mode =3D 0444,
+> @@ -2527,7 +2527,7 @@ static ssize_t error_state_read(struct file *filp, =
+struct kobject *kobj,
+>  }
+>=20=20
+>  static ssize_t error_state_write(struct file *file, struct kobject *kobj,
+> -				 struct bin_attribute *attr, char *buf,
+> +				 const struct bin_attribute *attr, char *buf,
+>  				 loff_t off, size_t count)
+>  {
+>  	struct device *kdev =3D kobj_to_dev(kobj);
+> @@ -2543,8 +2543,8 @@ static const struct bin_attribute error_state_attr =
+=3D {
+>  	.attr.name =3D "error",
+>  	.attr.mode =3D S_IRUSR | S_IWUSR,
 >  	.size =3D 0,
-> -	.read =3D edid_show,
-> +	.read_new =3D edid_show,
+> -	.read =3D error_state_read,
+> -	.write =3D error_state_write,
+> +	.read_new =3D error_state_read,
+> +	.write_new =3D error_state_write,
 >  };
 >=20=20
-> -static struct bin_attribute *connector_bin_attrs[] =3D {
-> +static const struct bin_attribute *const connector_bin_attrs[] =3D {
->  	&edid_attr,
->  	NULL
->  };
+>  void i915_gpu_error_sysfs_setup(struct drm_i915_private *i915)
+> diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i91=
+5_sysfs.c
+> index 8775beab9cb8438c2e8abb0f9d8104dcba7c0df3..f936e8f1f12942287a5a7d6aa=
+7db6ed3a4c28281 100644
+> --- a/drivers/gpu/drm/i915/i915_sysfs.c
+> +++ b/drivers/gpu/drm/i915/i915_sysfs.c
+> @@ -60,7 +60,7 @@ static int l3_access_valid(struct drm_i915_private *i91=
+5, loff_t offset)
 >=20=20
->  static const struct attribute_group connector_dev_group =3D {
->  	.attrs =3D connector_dev_attrs,
-> -	.bin_attrs =3D connector_bin_attrs,
-> +	.bin_attrs_new =3D connector_bin_attrs,
->  };
+>  static ssize_t
+>  i915_l3_read(struct file *filp, struct kobject *kobj,
+> -	     struct bin_attribute *attr, char *buf,
+> +	     const struct bin_attribute *attr, char *buf,
+>  	     loff_t offset, size_t count)
+>  {
+>  	struct device *kdev =3D kobj_to_dev(kobj);
+> @@ -88,7 +88,7 @@ i915_l3_read(struct file *filp, struct kobject *kobj,
 >=20=20
->  static const struct attribute_group *connector_dev_groups[] =3D {
+>  static ssize_t
+>  i915_l3_write(struct file *filp, struct kobject *kobj,
+> -	      struct bin_attribute *attr, char *buf,
+> +	      const struct bin_attribute *attr, char *buf,
+>  	      loff_t offset, size_t count)
+>  {
+>  	struct device *kdev =3D kobj_to_dev(kobj);
+> @@ -140,8 +140,8 @@ i915_l3_write(struct file *filp, struct kobject *kobj,
+>  static const struct bin_attribute dpf_attrs =3D {
+>  	.attr =3D {.name =3D "l3_parity", .mode =3D (S_IRUSR | S_IWUSR)},
+>  	.size =3D GEN7_L3LOG_SIZE,
+> -	.read =3D i915_l3_read,
+> -	.write =3D i915_l3_write,
+> +	.read_new =3D i915_l3_read,
+> +	.write_new =3D i915_l3_write,
+>  	.mmap =3D NULL,
+>  	.private =3D (void *)0
+>  };
+> @@ -149,8 +149,8 @@ static const struct bin_attribute dpf_attrs =3D {
+>  static const struct bin_attribute dpf_attrs_1 =3D {
+>  	.attr =3D {.name =3D "l3_parity_slice_1", .mode =3D (S_IRUSR | S_IWUSR)=
+},
+>  	.size =3D GEN7_L3LOG_SIZE,
+> -	.read =3D i915_l3_read,
+> -	.write =3D i915_l3_write,
+> +	.read_new =3D i915_l3_read,
+> +	.write_new =3D i915_l3_write,
+>  	.mmap =3D NULL,
+>  	.private =3D (void *)1
+>  };
 
 --=20
 Jani Nikula, Intel
