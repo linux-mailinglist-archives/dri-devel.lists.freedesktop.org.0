@@ -1,45 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1B09F335F
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:41:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B7A9F3360
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 15:41:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7C110E6A8;
-	Mon, 16 Dec 2024 14:41:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 707AD10E6AD;
+	Mon, 16 Dec 2024 14:41:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eNQog1+v";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1C7B210E6A8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:41:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D3D4F113E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:41:54 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8F96A3F58B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:41:26 -0800 (PST)
-Date: Mon, 16 Dec 2024 14:41:16 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] drm/panthor: Expose size of driver internal BO's
- over fdinfo
-Message-ID: <Z2A8DEIPSZY8kKG8@e110455-lin.cambridge.arm.com>
-References: <20241211163436.381069-1-adrian.larumbe@collabora.com>
- <20241211163436.381069-2-adrian.larumbe@collabora.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB1210E6AD
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 14:41:34 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id
+ ffacd0b85a97d-3862d6d5765so2922211f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 06:41:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1734360093; x=1734964893; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=h4e0o/EChopge9iHDGlCcrGi54fhpHon4WXwZ2Or538=;
+ b=eNQog1+v7JQYmfA2ENxQSW9Y8UqnFYL+AEznt14TwClwIE3HFttpKfLQla3jRocDmI
+ ZFjKLLwoCWO5MpemfOvH3DE3Mut+aQTWs1a9xtXXRJp4pgg/YrObjdWBLzN1/vbYsm43
+ VLTLinAMAJ75XiWyC/IdTKFBfxBlTUuDcKZ3U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734360093; x=1734964893;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h4e0o/EChopge9iHDGlCcrGi54fhpHon4WXwZ2Or538=;
+ b=TsfUUhBRXVvEKyutSXLZ3RBfPOsQxyhiIucd0Cin4UzQ3ZWyybQ8yYJB+/Dmyocu6R
+ PKl7Sz6lvfjxXhyXnfh2X8UsH2VDMniyS9gnlVfaD/+zsY80B/acTR2YFvPqHTYiKNFC
+ JwBZLo8KIObvVrTdrQItxLhes7wMMptf9wctKUGi1S72W303LLKldtPzl4YJK5+CykcP
+ sH3/hbu1Z7xyeY3dbmektiIWiyaVyhfsJRP7Wj+vxbdtmR9XaugjMWhcFOx/14CWo/ES
+ bOSy7NMNNr3U2bAb51YoyQE6pUsvKkS9ecY7Dvi0uJj6NfDtLiSknDk7rTbuhWMLA46N
+ goBQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLe90kdKQiPPpzf9J4dobLNPdWKeLrCvKcOYoIc7EB6AYhZKM6BjgUNfY0MWrISMbJU15jt+5UPfY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6W9M5cyNjLfmI6iDKI0w2VjJ7Jg4ZaAfUA6rzQ2HHtY0TztHk
+ KcOLeRC/+1aQmLcpoMoGUMlgdjcJs+zF+eWa6Oj0FM3vRZhPwrmzYLXgAHKGMZU=
+X-Gm-Gg: ASbGnctO/mf7zV8FOXRkt+bmMYeDbjUbpLfXM5fnX1GzfeEC6ITyYrqQuMXDUxHTw9p
+ Wh8T7VGLwLp28dofFxYcy0hS6p2sYDEiGkDYMRnr9RvRf77ZGBkOx51XDeL0g2vTEMZSFg2zPGS
+ 2WYImSPUxOjkXuZxBUWJoVdzxi0WwUWJr7EuY9vy+BAwxSFLzeWWagcjNIuDNMUn4n+apwT6USE
+ vdrnmy7kWCgrP5q+8apvxqGiA8nQsFbodV8KjEe/Rotl7+scBjP/Bd3W3wRkFt6M8/b
+X-Google-Smtp-Source: AGHT+IHNuXaQbcaOzWDlJLVdH2VVVV7M1p7IawdDEoc0b+Y3XGEWD6gvsewijzhv1O9NvZ73cJsOkA==
+X-Received: by 2002:a05:6000:1544:b0:385:f47a:e9d1 with SMTP id
+ ffacd0b85a97d-38880ac7641mr8437760f8f.17.1734360092860; 
+ Mon, 16 Dec 2024 06:41:32 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-388c8016c0bsm8410974f8f.42.2024.12.16.06.41.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Dec 2024 06:41:32 -0800 (PST)
+Date: Mon, 16 Dec 2024 15:41:30 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Helge Deller <deller@gmx.de>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+Message-ID: <Z2A8Guea5d7cZoBj@phenom.ffwll.local>
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <09edb59a-527a-4ddb-bfaf-ea74fb5a3023@gmx.de>
+ <88ce6863-4458-47cb-9b28-274c91bd8764@app.fastmail.com>
+ <87frmstrhd.fsf@intel.com>
+ <2701e824-d330-49c0-88fa-a26658a9710c@gmx.de>
+ <5566a3f5-496a-4b39-a0fa-6a1a5af9a67a@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241211163436.381069-2-adrian.larumbe@collabora.com>
+In-Reply-To: <5566a3f5-496a-4b39-a0fa-6a1a5af9a67a@suse.de>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,314 +97,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 11, 2024 at 04:34:31PM +0000, AdriÃ¡n Larumbe wrote:
-> This will display the sizes of kenrel BO's bound to an open file, which are
-> otherwise not exposed to UM through a handle.
+On Fri, Dec 13, 2024 at 08:26:19AM +0100, Thomas Zimmermann wrote:
+> Hi
 > 
-> The sizes recorded are as follows:
->  - Per group: suspend buffer, protm-suspend buffer, syncobjcs
->  - Per queue: ringbuffer, profiling slots, firmware interface
->  - For all heaps in all heap pools across all VM's bound to an open file,
->  record size of all heap chuks, and for each pool the gpu_context BO too.
 > 
-> This does not record the size of FW regions, as these aren't bound to a
-> specific open file and remain active through the whole life of the driver.
+> Am 13.12.24 um 00:56 schrieb Helge Deller:
+> > On 12/13/24 00:24, Jani Nikula wrote:
+> > > On Thu, 12 Dec 2024, "Arnd Bergmann" <arnd@arndb.de> wrote:
+> > > > On Thu, Dec 12, 2024, at 19:44, Helge Deller wrote:
+> > > > > On 12/12/24 11:04, Thomas Zimmermann wrote:
+> > > > > > Do not select BACKLIGHT_CLASS_DEVICE from FB_BACKLIGHT. The latter
+> > > > > > only controls backlight support within fbdev core code and data
+> > > > > > structures.
+> > > > > > 
+> > > > > > Make fbdev drivers depend on BACKLIGHT_CLASS_DEVICE and let users
+> > > > > > select it explicitly. Fixes warnings about recursive dependencies,
+> > > > > > such as [...]
+> > > > > 
+> > > > > I think in the fbdev drivers themselves you should do:
+> > > > >     select BACKLIGHT_CLASS_DEVICE
+> > > > > instead of "depending" on it.
+> > > > > This is the way as it's done in the DRM tiny and the
+> > > > > i915/gma500 DRM drivers.
+> > > > > 
+> > > > > So, something like:
+> > > > > 
+> > > > > --- a/drivers/staging/fbtft/Kconfig
+> > > > >          tristate "Support for small TFT LCD display modules"
+> > > > >          depends on FB && SPI
+> > > > >          depends on FB_DEVICE
+> > > > >     +    select BACKLIGHT_DEVICE_CLASS
+> > > > >          depends on GPIOLIB || COMPILE_TEST
+> > > > >          select FB_BACKLIGHT
+> > > > > 
+> > > > > config FB_BACKLIGHT
+> > > > >             tristate
+> > > > >             depends on FB
+> > > > >     -      select BACKLIGHT_CLASS_DEVICE
+> > > > >     +       depends on BACKLIGHT_CLASS_DEVICE
+> > > > > 
+> > > > > 
+> > > > > Would that fix the dependency warning?
+> > > > 
+> > > > The above is generally a mistake and the root cause of the
+> > > > dependency loops. With very few exceptions, the solution in
+> > > > these cases is to find the inconsistent 'select' and change
+> > > > it into 'depends on'.
+> > > 
+> > > Agreed.
+> > 
+> > That's fine, but my point is that it should be consistent.
+> > For example:
+> > 
+> > ~:/git-kernel/linux$ grep -r "select.*BACKLIGHT_CLASS_DEVICE"
+> > drivers/gpu/
+> > drivers/gpu/drm/tilcdc/Kconfig: select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/nouveau/Kconfig:        select BACKLIGHT_CLASS_DEVICE if
+> > DRM_NOUVEAU_BACKLIGHT
+> > drivers/gpu/drm/nouveau/Kconfig:        select BACKLIGHT_CLASS_DEVICE if
+> > ACPI && X86
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/tiny/Kconfig:   select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/fsl-dcu/Kconfig:        select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/i915/Kconfig:   select BACKLIGHT_CLASS_DEVICE if ACPI
+> > drivers/gpu/drm/gma500/Kconfig: select BACKLIGHT_CLASS_DEVICE if ACPI
+> > drivers/gpu/drm/amd/amdgpu/Kconfig:     select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/xe/Kconfig:     select BACKLIGHT_CLASS_DEVICE if ACPI
+> > drivers/gpu/drm/solomon/Kconfig:        select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/radeon/Kconfig: select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/renesas/shmobile/Kconfig:       select
+> > BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/gud/Kconfig:    select BACKLIGHT_CLASS_DEVICE
+> > drivers/gpu/drm/bridge/Kconfig: select BACKLIGHT_CLASS_DEVICE
+> > 
+> > All major drm graphics drivers *select* BACKLIGHT_CLASS_DEVICE.
+> > Are you changing them to "depend on" as well?
 > 
-> Signed-off-by: AdriÃ¡n Larumbe <adrian.larumbe@collabora.com>
+> All these drivers should be changed to either 'depends on' or maybe 'imply'.
 
-With the issue that Boris pointed fixed,
+Yeah, select on non-leaf/library function Kconfig symbols tends to be a
+complete pain. There's some push to use select so it's easier for people
+to enable complex drivers, but I honestly don't think it's worth it.
+menuconfig can give you a list of things you need to enable first, so it's
+all discoverable enough (but a bit painful to get them all if it's a
+really complex driver with lots of dependencies).
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+tldr; I concur fully, please no more select but instead less.
+-Sima
 
-Best regards,
-Liviu
-
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c   | 12 ++++++
->  drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++++
->  drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
->  drivers/gpu/drm/panthor/panthor_mmu.c   | 35 +++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_mmu.h   |  4 ++
->  drivers/gpu/drm/panthor/panthor_sched.c | 52 ++++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_sched.h |  4 ++
->  7 files changed, 134 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index ac7e53f6e3f0..8e27d0429019 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1457,12 +1457,24 @@ static void panthor_gpu_show_fdinfo(struct panthor_device *ptdev,
->  	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequency);
->  }
->  
-> +static void panthor_show_internal_memory_stats(struct drm_printer *p, struct drm_file *file)
-> +{
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_memory_stats status = {0};
-> +
-> +	panthor_group_kbo_sizes(pfile, &status);
-> +	panthor_vm_heaps_sizes(pfile, &status);
-> +
-> +	drm_print_memory_stats(p, &status, DRM_GEM_OBJECT_RESIDENT, "internal");
-> +}
-> +
->  static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->  {
->  	struct drm_device *dev = file->minor->dev;
->  	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
->  
->  	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
-> +	panthor_show_internal_memory_stats(p, file);
->  
->  	drm_show_memory_stats(p, file);
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 3796a9eb22af..e4464c5e93ef 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -603,3 +603,29 @@ void panthor_heap_pool_destroy(struct panthor_heap_pool *pool)
->  
->  	panthor_heap_pool_put(pool);
->  }
-> +
-> +/**
-> + * panthor_heap_pool_size() - Calculate size of all chunks across all heaps in a pool
-> + * @pool: Pool whose total chunk size to calculate.
-> + *
-> + * This function adds the size of all heap chunks across all heaps in the
-> + * argument pool. It also adds the size of the gpu contexts kernel bo.
-> + * It is meant to be used by fdinfo for displaying the size of internal
-> + * driver BO's that aren't exposed to userspace through a GEM handle.
-> + *
-> + */
-> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
-> +{
-> +	struct panthor_heap *heap;
-> +	unsigned long i;
-> +	size_t size = 0;
-> +
-> +	down_write(&pool->lock);
-> +	xa_for_each(&pool->xa, i, heap)
-> +		size += heap->chunk_size * heap->chunk_count;
-> +	up_write(&pool->lock);
-> +
-> +	size += pool->gpu_contexts->obj->size;
-> +
-> +	return size;
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/panthor/panthor_heap.h
-> index 25a5f2bba445..e3358d4e8edb 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.h
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.h
-> @@ -27,6 +27,8 @@ struct panthor_heap_pool *
->  panthor_heap_pool_get(struct panthor_heap_pool *pool);
->  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
->  
-> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
-> +
->  int panthor_heap_grow(struct panthor_heap_pool *pool,
->  		      u64 heap_gpu_va,
->  		      u32 renderpasses_in_flight,
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index c3f0b0225cf9..72387c95d103 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1941,6 +1941,41 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool(struct panthor_vm *vm, bool c
->  	return pool;
->  }
->  
-> +/**
-> + * panthor_vm_heaps_size() - Calculate size of all heap chunks across all
-> + * heaps over all the heap pools in a VM
-> + * @pfile: File.
-> + * @status: Memory status to be updated.
-> + *
-> + * Calculate all heap chunk sizes in all heap pools bound to a VM. If the VM
-> + * is active, record the size as active as well.
-> + */
-> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats *status)
-> +{
-> +	struct panthor_vm *vm;
-> +	unsigned long i;
-> +
-> +	if (!pfile->vms)
-> +		return;
-> +
-> +	xa_for_each(&pfile->vms->xa, i, vm) {
-> +		size_t size;
-> +
-> +		mutex_lock(&vm->heaps.lock);
-> +		if (!vm->heaps.pool) {
-> +			mutex_unlock(&vm->heaps.lock);
-> +			continue;
-> +		}
-> +		size = panthor_heap_pool_size(vm->heaps.pool);
-> +		mutex_unlock(&vm->heaps.lock);
-> +
-> +		status->resident += size;
-> +		status->private += size;
-> +		if (vm->as.id >= 0)
-> +			status->active += size;
-> +	}
-> +}
-> +
->  static u64 mair_to_memattr(u64 mair, bool coherent)
->  {
->  	u64 memattr = 0;
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
-> index 8d21e83d8aba..2aeb2522cdfa 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-> @@ -5,10 +5,12 @@
->  #ifndef __PANTHOR_MMU_H__
->  #define __PANTHOR_MMU_H__
->  
-> +#include <linux/types.h>
->  #include <linux/dma-resv.h>
->  
->  struct drm_exec;
->  struct drm_sched_job;
-> +struct drm_memory_stats;
->  struct panthor_gem_object;
->  struct panthor_heap_pool;
->  struct panthor_vm;
-> @@ -37,6 +39,8 @@ int panthor_vm_flush_all(struct panthor_vm *vm);
->  struct panthor_heap_pool *
->  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
->  
-> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memory_stats *status);
-> +
->  struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
->  void panthor_vm_put(struct panthor_vm *vm);
->  struct panthor_vm *panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index ef4bec7ff9c7..93497dadf085 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -618,7 +618,7 @@ struct panthor_group {
->  	 */
->  	struct panthor_kernel_bo *syncobjs;
->  
-> -	/** @fdinfo: Per-file total cycle and timestamp values reference. */
-> +	/** @fdinfo: Per-group total cycle and timestamp values and kernel BO sizes. */
->  	struct {
->  		/** @data: Total sampled values for jobs in queues from this group. */
->  		struct panthor_gpu_usage data;
-> @@ -628,6 +628,9 @@ struct panthor_group {
->  		 * and job post-completion processing function
->  		 */
->  		struct mutex lock;
-> +
-> +		/** @bo_sizes: Aggregate size of private kernel BO's held by the group. */
-> +		size_t kbo_sizes;
->  	} fdinfo;
->  
->  	/** @state: Group state. */
-> @@ -3365,6 +3368,29 @@ group_create_queue(struct panthor_group *group,
->  	return ERR_PTR(ret);
->  }
->  
-> +static void add_group_kbo_sizes(struct panthor_device *ptdev,
-> +				struct panthor_group *group)
-> +{
-> +	struct panthor_queue *queue;
-> +	int i;
-> +
-> +	if (drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(group)))
-> +		return;
-> +	if (drm_WARN_ON(&ptdev->base, ptdev != group->ptdev))
-> +		return;
-> +
-> +	group->fdinfo.kbo_sizes += group->suspend_buf->obj->size;
-> +	group->fdinfo.kbo_sizes += group->protm_suspend_buf->obj->size;
-> +	group->fdinfo.kbo_sizes += group->syncobjs->obj->size;
-> +
-> +	for (i = 0; i < group->queue_count; i++) {
-> +		queue =	group->queues[i];
-> +		group->fdinfo.kbo_sizes += queue->ringbuf->obj->size;
-> +		group->fdinfo.kbo_sizes += queue->iface.mem->obj->size;
-> +		group->fdinfo.kbo_sizes += queue->profiling.slots->obj->size;
-> +	}
-> +}
-> +
->  #define MAX_GROUPS_PER_POOL		128
->  
->  int panthor_group_create(struct panthor_file *pfile,
-> @@ -3489,6 +3515,7 @@ int panthor_group_create(struct panthor_file *pfile,
->  	}
->  	mutex_unlock(&sched->reset.lock);
->  
-> +	add_group_kbo_sizes(group->ptdev, group);
->  	mutex_init(&group->fdinfo.lock);
->  
->  	return gid;
-> @@ -3606,6 +3633,29 @@ void panthor_group_pool_destroy(struct panthor_file *pfile)
->  	pfile->groups = NULL;
->  }
->  
-> +/**
-> + * panthor_group_kbo_sizes() - Retrieve aggregate size of all private kernel BO's
-> + * belonging to all the groups owned by an open Panthor file
-> + * @pfile: File.
-> + * @status: Memory status to be updated.
-> + *
-> + */
-> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memory_stats *status)
-> +{
-> +	struct panthor_group_pool *gpool = pfile->groups;
-> +	struct panthor_group *group;
-> +	unsigned long i;
-> +
-> +	if (IS_ERR_OR_NULL(gpool))
-> +		return;
-> +	xa_for_each(&gpool->xa, i, group) {
-> +		status->resident += group->fdinfo.kbo_sizes;
-> +		status->private += group->fdinfo.kbo_sizes;
-> +		if (group->csg_id >= 0)
-> +			status->active += group->fdinfo.kbo_sizes;
-> +	}
-> +}
-> +
->  static void job_release(struct kref *ref)
->  {
->  	struct panthor_job *job = container_of(ref, struct panthor_job, refcount);
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/panthor/panthor_sched.h
-> index 5ae6b4bde7c5..4dd6a7fc8fbd 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.h
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
-> @@ -4,11 +4,14 @@
->  #ifndef __PANTHOR_SCHED_H__
->  #define __PANTHOR_SCHED_H__
->  
-> +#include <linux/types.h>
-> +
->  struct drm_exec;
->  struct dma_fence;
->  struct drm_file;
->  struct drm_gem_object;
->  struct drm_sched_job;
-> +struct drm_memory_stats;
->  struct drm_panthor_group_create;
->  struct drm_panthor_queue_create;
->  struct drm_panthor_group_get_state;
-> @@ -36,6 +39,7 @@ void panthor_job_update_resvs(struct drm_exec *exec, struct drm_sched_job *job);
->  
->  int panthor_group_pool_create(struct panthor_file *pfile);
->  void panthor_group_pool_destroy(struct panthor_file *pfile);
-> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memory_stats *status);
->  
->  int panthor_sched_init(struct panthor_device *ptdev);
->  void panthor_sched_unplug(struct panthor_device *ptdev);
+> Best regards
+> Thomas
+> 
+> > 
+> > Helge
+> 
 > -- 
-> 2.47.0
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
 > 
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    Â¯\_(ãƒ„)_/Â¯
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
