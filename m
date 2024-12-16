@@ -2,49 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CBC39F31E7
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B973F9F31F4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 14:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEB410E688;
-	Mon, 16 Dec 2024 13:46:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1CFE10E69B;
+	Mon, 16 Dec 2024 13:50:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="RBJaotQr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fV7UTKxO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51D8810E688
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 13:46:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
- ; s=bytemarkmx;
- h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
- :Subject; bh=9ui19pdFWI6XU8mJCKSrpFmXJFE2UkYGp8t6YsQ9Mj4=; b=RBJaotQr9PEwYK5r
- MbP3Zeo0v7tgJ8suCINaU/eWxkbK5XGBcq8Q7WMrby8xh6uTDxxZujyt0t5PR0qqHjINa0fWpIuJj
- /V6p9b5TWfoW3LWE+/+jWn9mUZwyp+bx01dt0fCbBhZ2eMACAYVBy2eCzbSTA4SLnrDc6v9xk1QWP
- GbANvvGTHjW2UeBdEc8QhQGq1AOWUpk01EDvsf7wKEAeLuzdZf5Ocz3WHsvEPGCJMFtxdH024weAV
- bz/cfGJ3NmottId76FZhaZ3vimwNGNe3GRuHZSrRAJSGpOB2ZFL7bkGBlLKLMyQ8qCaHfLRkFJE6G
- pisPZRdbk2CXQ7tU4g==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
- (envelope-from <dg@treblig.org>) id 1tNBQx-005cGx-0m;
- Mon, 16 Dec 2024 13:46:51 +0000
-Date: Mon, 16 Dec 2024 13:46:51 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: kraxel@redhat.com, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: a bochs-drm (?) oops on head
-Message-ID: <Z2AvS_8xgBhnF4CW@gallifrey>
-References: <Z18dbfDAiFadsSdg@gallifrey>
- <b2e2a217-dced-472f-9084-9822f7e6803c@suse.de>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A21D10E692;
+ Mon, 16 Dec 2024 13:50:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1323EA40F87;
+ Mon, 16 Dec 2024 13:48:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C02A0C4CED0;
+ Mon, 16 Dec 2024 13:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734357037;
+ bh=OsAABgpPjsyUgkRL4kx5Y9LfM29A9YFV5t8bcY8pOxE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fV7UTKxOf9ZgjleJ2MyQzG7qSsr9qYr7k76oSRBzTWFlu9VW4tIYlLxLsVS26/Evy
+ gtJZ3yR/SUstmPnnI+yNs330wz5Kh5LmU54N/l/ZC7qSlZBWBmdSpOCTI9+vacP/1m
+ IxRPhPn4Y+KXd5S7udfBUQuBrtO4jJ5/fbC8aK+mfniSo40uiM+6AwBXdKrJKaLbUg
+ C8v12OeIq/t0CE+g2yt1pQB5XItLD3c6cgXEvvBoxR8aqFr+Ze3FVTLbALPI0oDFtj
+ aLjdzvzMjaYFxlHNAR0pB5n2nqJkAmjmzKYL8e0P+SJ/MI6j1p72iRbgYQOZxngO9j
+ U2BnVJORRvHlA==
+Date: Mon, 16 Dec 2024 14:50:32 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 2/2] drm/nouveau: vendor in drm_encoder_slave API
+Message-ID: <Z2AwKOHCKUbCK6IJ@cassiopeiae>
+References: <20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org>
+ <20241215-nouveau-encoder-slave-v2-2-ef7a0e687242@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b2e2a217-dced-472f-9084-9822f7e6803c@suse.de>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 13:41:58 up 222 days, 56 min,  1 user,  load average: 0.02, 0.02,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20241215-nouveau-encoder-slave-v2-2-ef7a0e687242@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,265 +64,994 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-* Thomas Zimmermann (tzimmermann@suse.de) wrote:
-> Hi
+On Sun, Dec 15, 2024 at 12:19:24PM +0200, Dmitry Baryshkov wrote:
+> Nouveau driver is the only user of the drm_encoder_slave API. Rework
+> necessary bits of drm_encoder_slave into the nouveau_i2c_encoder API and
+> drop drm_encoder_slave.c from the DRM KMS helper.
 
-Hi Thomas,
-  Thanks for the reply.
+Please fix the CHECK warnings produced by `./scripts/checkpatch.pl --strict`.
 
-> Am 15.12.24 um 19:18 schrieb Dr. David Alan Gilbert:
-> > Hey Gerd, Thomas,
-> >    I've got the following oops that looks bochs-drm related on the current
-> > HEAD ( 4800575d8c0b2f354ab05ab1c4749e45e213bf73 ) and it's been there
-> > for at least a few days; this is
-> [...]
-> > 
-> > The oops has :
-> > [   78.463760][    T1]  bochs_pci_driver_init+0x8a/0xc0
-> > 
-> > in it, hence why I'm blaming that.
-> > (Other odd observation, the Tuxen flicker heavily during booting!)
-> > 
-> > [   72.756014][    T1] bochs-drm 0000:00:02.0: vgaarb: deactivate vga console
-> > [   72.758258][    T1] [drm] Found bochs VGA, ID 0xb0c5.
-> > [   72.758793][    T1] [drm] Framebuffer size 16384 kB @ 0xfd000000, mmio @ 0xfebf0000.
-> > [   72.767777][    T1] [drm] Initialized bochs-drm 1.0.0 for 0000:00:02.0 on minor 2
-> > [   72.839222][    T1] fbcon: bochs-drmdrmfb (fb1) is primary device
-> > [   72.839311][    T1] fbcon: Remapping primary device, fb1, to tty 1-63
-> > [   78.402163][    T1] bochs-drm 0000:00:02.0: [drm] fb1: bochs-drmdrmfb frame buffer device
-> > [   78.459984][    T1] BUG: unable to handle page fault for address: ffff8dd345604004
-> > [   78.463246][    T1] #PF: supervisor write access in kernel mode
-> > [   78.463760][    T1] #PF: error_code(0x0002) - not-present page
-> > [   78.463760][    T1] PGD 72001067 P4D 72001067 PUD 72002067 PMD 7fbe1067 PTE 800ffffffa9fb060
-> > [   78.463760][    T1] Oops: Oops: 0002 [#1] PREEMPT SMP DEBUG_PAGEALLOC NOPTI
-> > [   78.463760][    T1] CPU: 2 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W        N 6.13.0-rc2+ #363 6c653a430ed30aae3dac648429c492a2726da3d7
-> > [   78.463760][    T1] Tainted: [W]=WARN, [N]=TEST
-> > [   78.463760][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
-> > [   78.463760][    T1] RIP: 0010:devm_drm_dev_init_release+0x4e/0x140
-> [...]
-> > 
-> > [   78.463760][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
-> > 
-> > 
-> > The config is a fairly full yes-config ish; see attached.
 > 
-> Thanks for reporting. I've been able to reproduce the problem by setting
-> CONFIG_DEBUG_TEST_DRIVER_REMOVE <https://elixir.bootlin.com/linux/v6.13-rc2/K/ident/CONFIG_DEBUG_TEST_DRIVER_REMOVE>=y.
-
-Ah OK, so fairly obscure (I'm running something close to a all-yes-config
-because I'm mostly build testing obscure stuff).
-
-> The attached patch fixes the problem for me. Could you please test and
-> report back the results.
-
-That gets me a different oops; this was run with:
-qemu-system-x86_64  -M pc -cpu host --enable-kvm -smp 4 -m 2G -kernel /discs/fast/kernel/arch/x86/boot/bzImage -append "console=tty0 console=ttyS0 root=/dev/vdb1 single" -drive if=virtio,file=/discs/more/images/debian12-64scan.qcow2
-
-It looks to me if it made the mistake of trying to print something in the middle of being removed:
-
-[   73.569852][    T1] bochs-drm 0000:00:02.0: vgaarb: deactivate vga console
-[   73.571802][    T1] [drm] Found bochs VGA, ID 0xb0c5.
-[   73.572787][    T1] [drm] Framebuffer size 16384 kB @ 0xfd000000, mmio @ 0xfebf0000.
-[   73.581626][    T1] [drm] Initialized bochs-drm 1.0.0 for 0000:00:02.0 on minor 2
-[   73.650048][    T1] fbcon: bochs-drmdrmfb (fb1) is primary device
-[   73.650134][    T1] fbcon: Remapping primary device, fb1, to tty 1-63
-[   79.276550][    T1] bochs-drm 0000:00:02.0: [drm] fb1: bochs-drmdrmfb frame buffer device
-[   79.346726][    T1] bochs-drm 0000:00:02.0: vgaarb: deactivate vga console
-[   79.348731][    T1] BUG: kernel NULL pointer dereference, address: 000000000000020c
-[   79.348799][    T1] #PF: supervisor write access in kernel mode
-[   79.348857][    T1] #PF: error_code(0x0002) - not-present page
-[   79.348913][    T1] PGD 0 P4D 0 
-[   79.348999][    T1] Oops: Oops: 0002 [#1] PREEMPT SMP DEBUG_PAGEALLOC NOPTI
-[   79.349107][    T1] CPU: 2 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W        N 6.13.0-rc2+ #373 5a5c0ce8f09b0b72067981f01985e201a0118bb6
-[   79.349268][    T1] Tainted: [W]=WARN, [N]=TEST
-[   79.349313][    T1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-3.fc41 04/01/2014
-[   79.349377][    T1] RIP: 0010:fbcon_cursor+0xa9/0x3c0
-[   79.349524][    T1] Code: c0 05 00 00 66 89 44 24 06 e8 f3 35 2a fd 0f b7 bb c0 05 00 00 e8 27 b8 e9 fc 49 8d bc 24 0c 02 00 00 49 89 c7 e8 d7 3d 2a fd <45> 89 bc 24 0c 02 00 00 48 8d bd e0 05 00 00 e8 c3 3b 2a fd 44 8b
-[   79.349628][    T1] RSP: 0018:ffffb927800136c0 EFLAGS: 00010046
-[   79.349716][    T1] RAX: 0000000000000000 RBX: ffff9835810a8800 RCX: 0000000000000000
-[   79.349808][    T1] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[   79.349879][    T1] RBP: ffff983585d07000 R08: 0000000000000000 R09: 0000000000000000
-[   79.349952][    T1] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-[   79.350024][    T1] R13: 0000000000000000 R14: ffff983585d075e8 R15: 0000000000000032
-[   79.350101][    T1] FS:  0000000000000000(0000) GS:ffff9835fd200000(0000) knlGS:0000000000000000
-[   79.350196][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   79.350278][    T1] CR2: 000000000000020c CR3: 000000004d920000 CR4: 0000000000350ef0
-[   79.350344][    T1] Call Trace:
-[   79.350373][    T1]  <TASK>
-[   79.350413][    T1]  ? __die+0x23/0x80
-[   79.350540][    T1]  ? page_fault_oops+0x21c/0x240
-[   79.350675][    T1]  ? do_user_addr_fault+0x893/0x1180
-[   79.350798][    T1]  ? srso_return_thunk+0x5/0x7f
-[   79.350904][    T1]  ? exc_page_fault+0x3f/0x180
-[   79.351066][    T1]  ? exc_page_fault+0x87/0x180
-[   79.351211][    T1]  ? asm_exc_page_fault+0x26/0x40
-[   79.351379][    T1]  ? fbcon_cursor+0xa9/0x3c0
-[   79.351542][    T1]  hide_cursor+0x66/0x1c0
-[   79.351656][    T1]  vt_console_print+0x9b1/0xa40
-[   79.351813][    T1]  ? srso_return_thunk+0x5/0x7f
-[   79.351920][    T1]  ? irq_trace+0x84/0xc0
-[   79.352029][    T1]  ? srso_return_thunk+0x5/0x7f
-[   79.352153][    T1]  ? console_emit_next_record+0x1fe/0x440
-[   79.352254][    T1]  console_emit_next_record+0x232/0x440
-[   79.352333][    T1]  ? console_emit_next_record+0x1fe/0x440
-[   79.352450][    T1]  console_flush_all+0x590/0x7c0
-[   79.352531][    T1]  ? console_flush_all+0x26/0x7c0
-[   79.352601][    T1]  console_unlock+0xf9/0x280
-[   79.352601][    T1]  vprintk_emit+0x572/0x5c0
-[   79.352601][    T1]  dev_vprintk_emit+0x70/0xc0
-[   79.352601][    T1]  ? __mutex_lock+0x380/0xd40
-[   79.352601][    T1]  dev_printk_emit+0x7f/0xc0
-[   79.352601][    T1]  __dev_printk+0x89/0x100
-[   79.352601][    T1]  _dev_info+0xba/0xf5
-[   79.352601][    T1]  vga_remove_vgacon.cold+0x18/0xc0
-[   79.352601][    T1]  aperture_remove_conflicting_pci_devices+0x142/0x1c0
-[   79.352601][    T1]  ? __pfx_bochs_pci_probe+0x40/0x40
-[   79.352601][    T1]  bochs_pci_probe+0x30/0x380
-[   79.352601][    T1]  local_pci_probe+0x88/0x100
-[   79.352601][    T1]  pci_call_probe+0x126/0x340
-[   79.352601][    T1]  ? srso_return_thunk+0x5/0x7f
-[   79.352601][    T1]  ? pci_match_device+0x287/0x380
-[   79.352601][    T1]  pci_device_probe+0x154/0x280
-[   79.352601][    T1]  ? __pfx_pci_device_probe+0x40/0x40
-[   79.352601][    T1]  really_probe+0x411/0x780
-[   79.352601][    T1]  __driver_probe_device+0x194/0x280
-[   79.352601][    T1]  driver_probe_device+0x6f/0x1c0
-[   79.352601][    T1]  __driver_attach+0x204/0x380
-[   79.352601][    T1]  ? __pfx___driver_attach+0x40/0x40
-[   79.352601][    T1]  bus_for_each_dev+0xe3/0x180
-[   79.352601][    T1]  driver_attach+0x3a/0x80
-[   79.352601][    T1]  bus_add_driver+0x1fd/0x3c0
-[   79.352601][    T1]  driver_register+0x11d/0x1c0
-[   79.352601][    T1]  __pci_register_driver+0x105/0x140
-[   79.352601][    T1]  bochs_pci_driver_init+0x8a/0xc0
-[   79.352601][    T1]  ? __pfx_bochs_pci_driver_init+0x40/0x40
-[   79.352601][    T1]  do_one_initcall+0xa7/0x500
-[   79.352601][    T1]  do_initcalls+0x1d5/0x240
-[   79.352601][    T1]  kernel_init_freeable+0x1e4/0x280
-[   79.352601][    T1]  ? __pfx_kernel_init+0x40/0x40
-[   79.352601][    T1]  kernel_init+0x2a/0x280
-[   79.352601][    T1]  ret_from_fork+0x4d/0x80
-[   79.352601][    T1]  ? __pfx_kernel_init+0x40/0x40
-[   79.352601][    T1]  ret_from_fork_asm+0x22/0x80
-[   79.352601][    T1]  </TASK>
-[   79.352601][    T1] Modules linked in:
-[   79.352601][    T1] CR2: 000000000000020c
-[   79.352601][    T1] ---[ end trace 0000000000000000 ]---
-[   79.352601][    T1] RIP: 0010:fbcon_cursor+0xa9/0x3c0
-[   79.352601][    T1] Code: c0 05 00 00 66 89 44 24 06 e8 f3 35 2a fd 0f b7 bb c0 05 00 00 e8 27 b8 e9 fc 49 8d bc 24 0c 02 00 00 49 89 c7 e8 d7 3d 2a fd <45> 89 bc 24 0c 02 00 00 48 8d bd e0 05 00 00 e8 c3 3b 2a fd 44 8b
-[   79.352601][    T1] RSP: 0018:ffffb927800136c0 EFLAGS: 00010046
-[   79.352601][    T1] RAX: 0000000000000000 RBX: ffff9835810a8800 RCX: 0000000000000000
-[   79.352601][    T1] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[   79.352601][    T1] RBP: ffff983585d07000 R08: 0000000000000000 R09: 0000000000000000
-[   79.352601][    T1] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-[   79.352601][    T1] R13: 0000000000000000 R14: ffff983585d075e8 R15: 0000000000000032
-[   79.352601][    T1] FS:  0000000000000000(0000) GS:ffff9835fd200000(0000) knlGS:0000000000000000
-[   79.352601][    T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   79.352601][    T1] CR2: 000000000000020c CR3: 000000004d920000 CR4: 0000000000350ef0
-[   79.352601][    T1] Kernel panic - not syncing: Fatal exception
-[   79.352601][    T1] Kernel Offset: 0xf800000 from 0xffffffff81000000 (relocation range: 0xffffffff80000000-0xffffffffbfffffff)
-[   79.352601][    T1] ---[ end Kernel panic - not syncing: Fatal exception ]---
-
-> Best regards
-> Thomas
-> 
-> 
-> > 
-> > Dave
-> > 
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-
-> From bebba3b34d5df5aa7c882f080633b43ddb87f4ad Mon Sep 17 00:00:00 2001
-> From: Thomas Zimmermann <tzimmermann@suse.de>
-> Date: Mon, 16 Dec 2024 09:21:46 +0100
-> Subject: [PATCH] drm/bochs: Do not put DRM device in PCI remove callback
-> 
-> Removing the bochs PCI device should mark the DRM device as unplugged
-> without removing it. Hence clear the respective call to drm_dev_put()
-> from bochs_pci_remove().
-> 
-> Fixes a double unref in devm_drm_dev_init_release(). An example error
-> message is shown below:
-> 
-> [   32.958338] BUG: KASAN: use-after-free in drm_dev_put.part.0+0x1b/0x90
-> [   32.958850] Write of size 4 at addr ffff888152134004 by task (udev-worker)/591
-> [   32.959574] CPU: 3 UID: 0 PID: 591 Comm: (udev-worker) Tainted: G            E      6.13.0-rc2-1-default+ #3417
-> [   32.960316] Tainted: [E]=UNSIGNED_MODULE
-> [   32.960637] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.3-2-gc13ff2cd-prebuilt.qemu.org 04/01/2014
-> [   32.961429] Call Trace:
-> [   32.961433]  <TASK>
-> [   32.961439]  dump_stack_lvl+0x68/0x90
-> [   32.961452]  print_address_description.constprop.0+0x88/0x330
-> [   32.961461]  ? preempt_count_sub+0x14/0xc0
-> [   32.961473]  print_report+0xe2/0x1d0
-> [   32.961479]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [   32.963725]  ? __virt_addr_valid+0x143/0x320
-> [   32.964077]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [   32.964463]  ? drm_dev_put.part.0+0x1b/0x90
-> [   32.964817]  kasan_report+0xce/0x1a0
-> [   32.965123]  ? drm_dev_put.part.0+0x1b/0x90
-> [   32.965474]  kasan_check_range+0xff/0x1c0
-> [   32.965806]  drm_dev_put.part.0+0x1b/0x90
-> [   32.966138]  release_nodes+0x84/0xc0
-> [   32.966447]  devres_release_all+0xd2/0x110
-> [   32.966788]  ? __pfx_devres_release_all+0x10/0x10
-> [   32.967177]  ? preempt_count_sub+0x14/0xc0
-> [   32.967523]  device_unbind_cleanup+0x16/0xc0
-> [   32.967886]  really_probe+0x1b7/0x570
-> [   32.968207]  __driver_probe_device+0xca/0x1b0
-> [   32.968568]  driver_probe_device+0x4a/0xf0
-> [   32.968907]  __driver_attach+0x10b/0x290
-> [   32.969239]  ? __pfx___driver_attach+0x10/0x10
-> [   32.969598]  bus_for_each_dev+0xc0/0x110
-> [   32.969923]  ? __pfx_bus_for_each_dev+0x10/0x10
-> [   32.970291]  ? bus_add_driver+0x17a/0x2b0
-> [   32.970622]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [   32.971011]  bus_add_driver+0x19a/0x2b0
-> [   32.971335]  driver_register+0xd8/0x160
-> [   32.971671]  ? __pfx_bochs_pci_driver_init+0x10/0x10 [bochs]
-> [   32.972130]  do_one_initcall+0xba/0x390
-> [...]
-> 
-> After unplugging the DRM device, clients will close their references.
-> Closing the final reference will also release the DRM device.
-> 
-> Reported-by: Dr. David Alan Gilbert <dave@treblig.org>
-> Closes: https://lore.kernel.org/lkml/Z18dbfDAiFadsSdg@gallifrey/
-> Fixes: 04826f588682 ("drm/bochs: Allocate DRM device in struct bochs_device")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: virtualization@lists.linux.dev
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/tiny/bochs.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/gpu/drm/Makefile                           |   1 -
+>  drivers/gpu/drm/nouveau/dispnv04/Kbuild            |   1 +
+>  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  10 +-
+>  drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c  |  30 +++---
+>  drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c |   8 +-
+>  drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h |   4 +-
+>  drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c  |  30 +++---
+>  .../dispnv04/nouveau_i2c_encoder.c}                |  85 +++++-----------
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  18 ++--
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |   4 +-
+>  .../gpu/drm/nouveau/include/i2c/encoder_i2c.h      | 109 ++++++++-------------
+>  drivers/gpu/drm/nouveau/nouveau_connector.c        |   6 +-
+>  drivers/gpu/drm/nouveau/nouveau_encoder.h          |  13 +--
+>  13 files changed, 127 insertions(+), 192 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index 89a699370a59..c67e1f906785 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -757,7 +757,6 @@ static void bochs_pci_remove(struct pci_dev *pdev)
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 19fb370fbc56772077973c864df71e4b8e0bf99b..85af94bb907d6cdbad7078e2667426e479b1069f 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -135,7 +135,6 @@ drm_kms_helper-y := \
+>  	drm_atomic_state_helper.o \
+>  	drm_crtc_helper.o \
+>  	drm_damage_helper.o \
+> -	drm_encoder_slave.o \
+>  	drm_flip_work.o \
+>  	drm_format_helper.o \
+>  	drm_gem_atomic_helper.o \
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/Kbuild b/drivers/gpu/drm/nouveau/dispnv04/Kbuild
+> index 949802882ebd53c15e124c218a092af9693d36bc..4c7bc6bb81b325ac22286372b0a3e4f1390e78be 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/Kbuild
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/Kbuild
+> @@ -6,6 +6,7 @@ nouveau-y += dispnv04/dac.o
+>  nouveau-y += dispnv04/dfp.o
+>  nouveau-y += dispnv04/disp.o
+>  nouveau-y += dispnv04/hw.o
+> +nouveau-y += dispnv04/nouveau_i2c_encoder.o
+>  nouveau-y += dispnv04/overlay.o
+>  nouveau-y += dispnv04/tvmodesnv17.o
+>  nouveau-y += dispnv04/tvnv04.o
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/dfp.c b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+> index 28a42ab5cb900ebe8a526e154f9e90598333356c..e211602298a5fb9f513203720b3ee5d37cd21122 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/dfp.c
+> @@ -171,7 +171,7 @@ static struct drm_encoder *get_tmds_slave(struct drm_encoder *encoder)
+>  	list_for_each_entry(slave, &dev->mode_config.encoder_list, head) {
+>  		struct dcb_output *slave_dcb = nouveau_encoder(slave)->dcb;
 >  
->  	drm_dev_unplug(dev);
->  	drm_atomic_helper_shutdown(dev);
-> -	drm_dev_put(dev);
+> -		if (slave_dcb->type == DCB_OUTPUT_TMDS && get_slave_funcs(slave) &&
+> +		if (slave_dcb->type == DCB_OUTPUT_TMDS && get_encoder_i2c_funcs(slave) &&
+>  		    slave_dcb->tmdsconf.slave_addr == dcb->tmdsconf.slave_addr)
+>  			return slave;
+>  	}
+> @@ -473,7 +473,7 @@ static void nv04_dfp_commit(struct drm_encoder *encoder)
+>  	/* Init external transmitters */
+>  	slave_encoder = get_tmds_slave(encoder);
+>  	if (slave_encoder)
+> -		get_slave_funcs(slave_encoder)->mode_set(
+> +		get_encoder_i2c_funcs(slave_encoder)->mode_set(
+>  			slave_encoder, &nv_encoder->mode, &nv_encoder->mode);
+>  
+>  	helper->dpms(encoder, DRM_MODE_DPMS_ON);
+> @@ -614,8 +614,8 @@ static void nv04_dfp_destroy(struct drm_encoder *encoder)
+>  {
+>  	struct nouveau_encoder *nv_encoder = nouveau_encoder(encoder);
+>  
+> -	if (get_slave_funcs(encoder))
+> -		get_slave_funcs(encoder)->destroy(encoder);
+> +	if (get_encoder_i2c_funcs(encoder))
+> +		get_encoder_i2c_funcs(encoder)->destroy(encoder);
+>  
+>  	drm_encoder_cleanup(encoder);
+>  	kfree(nv_encoder);
+> @@ -649,7 +649,7 @@ static void nv04_tmds_slave_init(struct drm_encoder *encoder)
+>  	if (type < 0)
+>  		return;
+>  
+> -	drm_i2c_encoder_init(dev, to_encoder_slave(encoder),
+> +	nouveau_i2c_encoder_init(dev, to_encoder_i2c(encoder),
+>  			     &bus->i2c, &info[type].dev);
 >  }
 >  
->  static void bochs_pci_shutdown(struct pci_dev *pdev)
-> -- 
-> 2.47.1
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c
+> index 131512a5f3bd996ad1e2eb869ffa09837daba0c7..c9249b58e65459ae61898a246c36da2c3bfe0844 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_drv.c
+> @@ -47,14 +47,14 @@ static void ch7006_encoder_destroy(struct drm_encoder *encoder)
+>  	drm_property_destroy(encoder->dev, priv->scale_property);
+>  
+>  	kfree(priv);
+> -	to_encoder_slave(encoder)->slave_priv = NULL;
+> +	to_encoder_i2c(encoder)->encoder_i2c_priv = NULL;
+>  
+> -	drm_i2c_encoder_destroy(encoder);
+> +	nouveau_i2c_encoder_destroy(encoder);
+>  }
+>  
+>  static void  ch7006_encoder_dpms(struct drm_encoder *encoder, int mode)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	struct ch7006_state *state = &priv->state;
+>  
+> @@ -71,7 +71,7 @@ static void  ch7006_encoder_dpms(struct drm_encoder *encoder, int mode)
+>  
+>  static void ch7006_encoder_save(struct drm_encoder *encoder)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  
+>  	ch7006_dbg(client, "\n");
+> @@ -81,7 +81,7 @@ static void ch7006_encoder_save(struct drm_encoder *encoder)
+>  
+>  static void ch7006_encoder_restore(struct drm_encoder *encoder)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  
+>  	ch7006_dbg(client, "\n");
+> @@ -116,7 +116,7 @@ static void ch7006_encoder_mode_set(struct drm_encoder *encoder,
+>  				     struct drm_display_mode *drm_mode,
+>  				     struct drm_display_mode *adjusted_mode)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	struct ch7006_encoder_params *params = &priv->params;
+>  	struct ch7006_state *state = &priv->state;
+> @@ -179,7 +179,7 @@ static void ch7006_encoder_mode_set(struct drm_encoder *encoder,
+>  static enum drm_connector_status ch7006_encoder_detect(struct drm_encoder *encoder,
+>  						       struct drm_connector *connector)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	struct ch7006_state *state = &priv->state;
+>  	int det;
+> @@ -285,7 +285,7 @@ static int ch7006_encoder_set_property(struct drm_encoder *encoder,
+>  				       struct drm_property *property,
+>  				       uint64_t val)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	struct ch7006_state *state = &priv->state;
+>  	struct drm_mode_config *conf = &encoder->dev->mode_config;
+> @@ -370,7 +370,7 @@ static int ch7006_encoder_set_property(struct drm_encoder *encoder,
+>  	return 0;
+>  }
+>  
+> -static const struct drm_encoder_slave_funcs ch7006_encoder_funcs = {
+> +static const struct nouveau_i2c_encoder_funcs ch7006_encoder_funcs = {
+>  	.set_config = ch7006_encoder_set_config,
+>  	.destroy = ch7006_encoder_destroy,
+>  	.dpms = ch7006_encoder_dpms,
+> @@ -437,7 +437,7 @@ static int ch7006_resume(struct device *dev)
+>  
+>  static int ch7006_encoder_init(struct i2c_client *client,
+>  			       struct drm_device *dev,
+> -			       struct drm_encoder_slave *encoder)
+> +			       struct nouveau_i2c_encoder *encoder)
+>  {
+>  	struct ch7006_priv *priv;
+>  	int i;
+> @@ -448,8 +448,8 @@ static int ch7006_encoder_init(struct i2c_client *client,
+>  	if (!priv)
+>  		return -ENOMEM;
+>  
+> -	encoder->slave_priv = priv;
+> -	encoder->slave_funcs = &ch7006_encoder_funcs;
+> +	encoder->encoder_i2c_priv = priv;
+> +	encoder->encoder_i2c_funcs = &ch7006_encoder_funcs;
+>  
+>  	priv->norm = TV_NORM_PAL;
+>  	priv->select_subconnector = DRM_MODE_SUBCONNECTOR_Automatic;
+> @@ -495,7 +495,7 @@ static const struct dev_pm_ops ch7006_pm_ops = {
+>  	.resume = ch7006_resume,
+>  };
+>  
+> -static struct drm_i2c_encoder_driver ch7006_driver = {
+> +static struct nouveau_i2c_encoder_driver ch7006_driver = {
+>  	.i2c_driver = {
+>  		.probe = ch7006_probe,
+>  		.remove = ch7006_remove,
+> @@ -516,12 +516,12 @@ static struct drm_i2c_encoder_driver ch7006_driver = {
+>  
+>  static int __init ch7006_init(void)
+>  {
+> -	return drm_i2c_encoder_register(THIS_MODULE, &ch7006_driver);
+> +	return i2c_add_driver(&ch7006_driver.i2c_driver);
+>  }
+>  
+>  static void __exit ch7006_exit(void)
+>  {
+> -	drm_i2c_encoder_unregister(&ch7006_driver);
+> +	i2c_del_driver(&ch7006_driver.i2c_driver);
+>  }
+>  
+>  int ch7006_debug;
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c
+> index 6afe6d0ee6306db57c3e3bafe2bf1b0b1b49aea5..e58d94451959a2afc01f570ea620d8e6721cb7af 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_mode.c
+> @@ -198,7 +198,7 @@ const struct ch7006_mode *ch7006_lookup_mode(struct drm_encoder *encoder,
+>  
+>  void ch7006_setup_levels(struct drm_encoder *encoder)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	uint8_t *regs = priv->state.regs;
+>  	const struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+> @@ -229,7 +229,7 @@ void ch7006_setup_levels(struct drm_encoder *encoder)
+>  
+>  void ch7006_setup_subcarrier(struct drm_encoder *encoder)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	struct ch7006_state *state = &priv->state;
+>  	const struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+> @@ -253,7 +253,7 @@ void ch7006_setup_subcarrier(struct drm_encoder *encoder)
+>  
+>  void ch7006_setup_pll(struct drm_encoder *encoder)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	uint8_t *regs = priv->state.regs;
+>  	const struct ch7006_mode *mode = priv->mode;
+> @@ -324,7 +324,7 @@ void ch7006_setup_power_state(struct drm_encoder *encoder)
+>  
+>  void ch7006_setup_properties(struct drm_encoder *encoder)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+>  	struct ch7006_state *state = &priv->state;
+>  	const struct ch7006_tv_norm_info *norm = &ch7006_tv_norms[priv->norm];
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h
+> index 8136f8cd8f9b859ccf915e295c783f9fc8321c2e..70c4fc8a181035b8960a8fcce12b5a1ad76e58b7 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/ch7006_priv.h
+> @@ -27,9 +27,9 @@
+>  #ifndef __NOUVEAU_I2C_CH7006_PRIV_H__
+>  #define __NOUVEAU_I2C_CH7006_PRIV_H__
+>  
+> -#include <drm/drm_encoder_slave.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> +#include <i2c/encoder_i2c.h>
+>  #include <i2c/ch7006.h>
+>  
+>  typedef int64_t fixed;
+> @@ -100,7 +100,7 @@ struct ch7006_priv {
+>  };
+>  
+>  #define to_ch7006_priv(x) \
+> -	((struct ch7006_priv *)to_encoder_slave(x)->slave_priv)
+> +	((struct ch7006_priv *)to_encoder_i2c(x)->encoder_i2c_priv)
+>  
+>  extern int ch7006_debug;
+>  extern char *ch7006_tv_norm;
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c b/drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c
+> index 74fc961c0d0de06f1fe8dd93d351452cd20cead7..80758e796b5d794f8e05c1b68b3383e1af3d0df5 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/i2c/sil164_drv.c
+> @@ -27,10 +27,10 @@
+>  #include <linux/module.h>
+>  
+>  #include <drm/drm_drv.h>
+> -#include <drm/drm_encoder_slave.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> +#include <i2c/encoder_i2c.h>
+>  #include <i2c/sil164.h>
+>  
+>  struct sil164_priv {
+> @@ -42,7 +42,7 @@ struct sil164_priv {
+>  };
+>  
+>  #define to_sil164_priv(x) \
+> -	((struct sil164_priv *)to_encoder_slave(x)->slave_priv)
+> +	((struct sil164_priv *)to_encoder_i2c(x)->encoder_i2c_priv)
+>  
+>  #define sil164_dbg(client, format, ...) do {				\
+>  		if (drm_debug_enabled(DRM_UT_KMS))			\
+> @@ -222,7 +222,7 @@ sil164_encoder_dpms(struct drm_encoder *encoder, int mode)
+>  	bool on = (mode == DRM_MODE_DPMS_ON);
+>  	bool duallink = (on && encoder->crtc->mode.clock > 165000);
+>  
+> -	sil164_set_power_state(drm_i2c_encoder_get_client(encoder), on);
+> +	sil164_set_power_state(nouveau_i2c_encoder_get_client(encoder), on);
+>  
+>  	if (priv->duallink_slave)
+>  		sil164_set_power_state(priv->duallink_slave, duallink);
+> @@ -233,7 +233,7 @@ sil164_encoder_save(struct drm_encoder *encoder)
+>  {
+>  	struct sil164_priv *priv = to_sil164_priv(encoder);
+>  
+> -	sil164_save_state(drm_i2c_encoder_get_client(encoder),
+> +	sil164_save_state(nouveau_i2c_encoder_get_client(encoder),
+>  			  priv->saved_state);
+>  
+>  	if (priv->duallink_slave)
+> @@ -246,7 +246,7 @@ sil164_encoder_restore(struct drm_encoder *encoder)
+>  {
+>  	struct sil164_priv *priv = to_sil164_priv(encoder);
+>  
+> -	sil164_restore_state(drm_i2c_encoder_get_client(encoder),
+> +	sil164_restore_state(nouveau_i2c_encoder_get_client(encoder),
+>  			     priv->saved_state);
+>  
+>  	if (priv->duallink_slave)
+> @@ -278,7 +278,7 @@ sil164_encoder_mode_set(struct drm_encoder *encoder,
+>  	struct sil164_priv *priv = to_sil164_priv(encoder);
+>  	bool duallink = adjusted_mode->clock > 165000;
+>  
+> -	sil164_init_state(drm_i2c_encoder_get_client(encoder),
+> +	sil164_init_state(nouveau_i2c_encoder_get_client(encoder),
+>  			  &priv->config, duallink);
+>  
+>  	if (priv->duallink_slave)
+> @@ -292,7 +292,7 @@ static enum drm_connector_status
+>  sil164_encoder_detect(struct drm_encoder *encoder,
+>  		      struct drm_connector *connector)
+>  {
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(encoder);
+>  
+>  	if (sil164_read(client, SIL164_DETECT) & SIL164_DETECT_HOTPLUG_STAT)
+>  		return connector_status_connected;
+> @@ -331,10 +331,10 @@ sil164_encoder_destroy(struct drm_encoder *encoder)
+>  	i2c_unregister_device(priv->duallink_slave);
+>  
+>  	kfree(priv);
+> -	drm_i2c_encoder_destroy(encoder);
+> +	nouveau_i2c_encoder_destroy(encoder);
+>  }
+>  
+> -static const struct drm_encoder_slave_funcs sil164_encoder_funcs = {
+> +static const struct nouveau_i2c_encoder_funcs sil164_encoder_funcs = {
+>  	.set_config = sil164_encoder_set_config,
+>  	.destroy = sil164_encoder_destroy,
+>  	.dpms = sil164_encoder_dpms,
+> @@ -394,7 +394,7 @@ sil164_detect_slave(struct i2c_client *client)
+>  static int
+>  sil164_encoder_init(struct i2c_client *client,
+>  		    struct drm_device *dev,
+> -		    struct drm_encoder_slave *encoder)
+> +		    struct nouveau_i2c_encoder *encoder)
+>  {
+>  	struct sil164_priv *priv;
+>  	struct i2c_client *slave_client;
+> @@ -403,8 +403,8 @@ sil164_encoder_init(struct i2c_client *client,
+>  	if (!priv)
+>  		return -ENOMEM;
+>  
+> -	encoder->slave_priv = priv;
+> -	encoder->slave_funcs = &sil164_encoder_funcs;
+> +	encoder->encoder_i2c_priv = priv;
+> +	encoder->encoder_i2c_funcs = &sil164_encoder_funcs;
+>  
+>  	slave_client = sil164_detect_slave(client);
+>  	if (!IS_ERR(slave_client))
+> @@ -419,7 +419,7 @@ static const struct i2c_device_id sil164_ids[] = {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, sil164_ids);
+>  
+> -static struct drm_i2c_encoder_driver sil164_driver = {
+> +static struct nouveau_i2c_encoder_driver sil164_driver = {
+>  	.i2c_driver = {
+>  		.probe = sil164_probe,
+>  		.driver = {
+> @@ -435,13 +435,13 @@ static struct drm_i2c_encoder_driver sil164_driver = {
+>  static int __init
+>  sil164_init(void)
+>  {
+> -	return drm_i2c_encoder_register(THIS_MODULE, &sil164_driver);
+> +	return i2c_add_driver(&sil164_driver.i2c_driver);
+>  }
+>  
+>  static void __exit
+>  sil164_exit(void)
+>  {
+> -	drm_i2c_encoder_unregister(&sil164_driver);
+> +	i2c_del_driver(&sil164_driver.i2c_driver);
+>  }
+>  
+>  MODULE_AUTHOR("Francisco Jerez <currojerez@riseup.net>");
+> diff --git a/drivers/gpu/drm/drm_encoder_slave.c b/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
+> similarity index 57%
+> rename from drivers/gpu/drm/drm_encoder_slave.c
+> rename to drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
+> index e464429d32df6e2eeb541d92c5a486b4ee7a21ec..58270719cc3db6a2a0205196bf18aba139da2df4 100644
+> --- a/drivers/gpu/drm/drm_encoder_slave.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
+> @@ -26,10 +26,10 @@
+>  
+>  #include <linux/module.h>
+>  
+> -#include <drm/drm_encoder_slave.h>
+> +#include <i2c/encoder_i2c.h>
+>  
+>  /**
+> - * drm_i2c_encoder_init - Initialize an I2C slave encoder
+> + * nouveau_i2c_encoder_init - Initialize an I2C slave encoder
+>   * @dev:	DRM device.
+>   * @encoder:    Encoder to be attached to the I2C device. You aren't
+>   *		required to have called drm_encoder_init() before.
+> @@ -40,7 +40,7 @@
+>   *
+>   * Create an I2C device on the specified bus (the module containing its
+>   * driver is transparently loaded) and attach it to the specified
+> - * &drm_encoder_slave. The @slave_funcs field will be initialized with
+> + * &nouveau_i2c_encoder. The @encoder_i2c_funcs field will be initialized with
+>   * the hooks provided by the slave driver.
+>   *
+>   * If @info.platform_data is non-NULL it will be used as the initial
+> @@ -49,14 +49,14 @@
+>   * Returns 0 on success or a negative errno on failure, in particular,
+>   * -ENODEV is returned when no matching driver is found.
+>   */
+> -int drm_i2c_encoder_init(struct drm_device *dev,
+> -			 struct drm_encoder_slave *encoder,
+> +int nouveau_i2c_encoder_init(struct drm_device *dev,
+> +			 struct nouveau_i2c_encoder *encoder,
+>  			 struct i2c_adapter *adap,
+>  			 const struct i2c_board_info *info)
+>  {
+>  	struct module *module = NULL;
+>  	struct i2c_client *client;
+> -	struct drm_i2c_encoder_driver *encoder_drv;
+> +	struct nouveau_i2c_encoder_driver *encoder_drv;
+>  	int err = 0;
+>  
+>  	request_module("%s%s", I2C_MODULE_PREFIX, info->type);
+> @@ -73,16 +73,16 @@ int drm_i2c_encoder_init(struct drm_device *dev,
+>  		goto fail_unregister;
+>  	}
+>  
+> -	encoder->bus_priv = client;
+> +	encoder->i2c_client = client;
+>  
+> -	encoder_drv = to_drm_i2c_encoder_driver(to_i2c_driver(client->dev.driver));
+> +	encoder_drv = to_nouveau_i2c_encoder_driver(to_i2c_driver(client->dev.driver));
+>  
+>  	err = encoder_drv->encoder_init(client, dev, encoder);
+>  	if (err)
+>  		goto fail_module_put;
+>  
+>  	if (info->platform_data)
+> -		encoder->slave_funcs->set_config(&encoder->base,
+> +		encoder->encoder_i2c_funcs->set_config(&encoder->base,
+>  						 info->platform_data);
+>  
+>  	return 0;
+> @@ -93,90 +93,53 @@ int drm_i2c_encoder_init(struct drm_device *dev,
+>  	i2c_unregister_device(client);
+>  	return err;
+>  }
+> -EXPORT_SYMBOL(drm_i2c_encoder_init);
+>  
+>  /**
+> - * drm_i2c_encoder_destroy - Unregister the I2C device backing an encoder
+> + * nouveau_i2c_encoder_destroy - Unregister the I2C device backing an encoder
+>   * @drm_encoder:	Encoder to be unregistered.
+>   *
+>   * This should be called from the @destroy method of an I2C slave
+>   * encoder driver once I2C access is no longer needed.
+>   */
+> -void drm_i2c_encoder_destroy(struct drm_encoder *drm_encoder)
+> +void nouveau_i2c_encoder_destroy(struct drm_encoder *drm_encoder)
+>  {
+> -	struct drm_encoder_slave *encoder = to_encoder_slave(drm_encoder);
+> -	struct i2c_client *client = drm_i2c_encoder_get_client(drm_encoder);
+> +	struct nouveau_i2c_encoder *encoder = to_encoder_i2c(drm_encoder);
+> +	struct i2c_client *client = nouveau_i2c_encoder_get_client(drm_encoder);
+>  	struct module *module = client->dev.driver->owner;
+>  
+>  	i2c_unregister_device(client);
+> -	encoder->bus_priv = NULL;
+> +	encoder->i2c_client = NULL;
+>  
+>  	module_put(module);
+>  }
+> -EXPORT_SYMBOL(drm_i2c_encoder_destroy);
+> +EXPORT_SYMBOL(nouveau_i2c_encoder_destroy);
+>  
+>  /*
+>   * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
+>   */
+>  
+> -static inline const struct drm_encoder_slave_funcs *
+> -get_slave_funcs(struct drm_encoder *enc)
+> -{
+> -	return to_encoder_slave(enc)->slave_funcs;
+> -}
+> -
+> -void drm_i2c_encoder_dpms(struct drm_encoder *encoder, int mode)
+> -{
+> -	get_slave_funcs(encoder)->dpms(encoder, mode);
+> -}
+> -EXPORT_SYMBOL(drm_i2c_encoder_dpms);
+> -
+> -bool drm_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
+> +bool nouveau_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
+>  		const struct drm_display_mode *mode,
+>  		struct drm_display_mode *adjusted_mode)
+>  {
+> -	if (!get_slave_funcs(encoder)->mode_fixup)
+> +	if (!get_encoder_i2c_funcs(encoder)->mode_fixup)
+>  		return true;
+>  
+> -	return get_slave_funcs(encoder)->mode_fixup(encoder, mode, adjusted_mode);
+> -}
+> -EXPORT_SYMBOL(drm_i2c_encoder_mode_fixup);
+> -
+> -void drm_i2c_encoder_prepare(struct drm_encoder *encoder)
+> -{
+> -	drm_i2c_encoder_dpms(encoder, DRM_MODE_DPMS_OFF);
+> -}
+> -EXPORT_SYMBOL(drm_i2c_encoder_prepare);
+> -
+> -void drm_i2c_encoder_commit(struct drm_encoder *encoder)
+> -{
+> -	drm_i2c_encoder_dpms(encoder, DRM_MODE_DPMS_ON);
+> -}
+> -EXPORT_SYMBOL(drm_i2c_encoder_commit);
+> -
+> -void drm_i2c_encoder_mode_set(struct drm_encoder *encoder,
+> -		struct drm_display_mode *mode,
+> -		struct drm_display_mode *adjusted_mode)
+> -{
+> -	get_slave_funcs(encoder)->mode_set(encoder, mode, adjusted_mode);
+> +	return get_encoder_i2c_funcs(encoder)->mode_fixup(encoder, mode, adjusted_mode);
+>  }
+> -EXPORT_SYMBOL(drm_i2c_encoder_mode_set);
+>  
+> -enum drm_connector_status drm_i2c_encoder_detect(struct drm_encoder *encoder,
+> +enum drm_connector_status nouveau_i2c_encoder_detect(struct drm_encoder *encoder,
+>  	    struct drm_connector *connector)
+>  {
+> -	return get_slave_funcs(encoder)->detect(encoder, connector);
+> +	return get_encoder_i2c_funcs(encoder)->detect(encoder, connector);
+>  }
+> -EXPORT_SYMBOL(drm_i2c_encoder_detect);
+>  
+> -void drm_i2c_encoder_save(struct drm_encoder *encoder)
+> +void nouveau_i2c_encoder_save(struct drm_encoder *encoder)
+>  {
+> -	get_slave_funcs(encoder)->save(encoder);
+> +	get_encoder_i2c_funcs(encoder)->save(encoder);
+>  }
+> -EXPORT_SYMBOL(drm_i2c_encoder_save);
+>  
+> -void drm_i2c_encoder_restore(struct drm_encoder *encoder)
+> +void nouveau_i2c_encoder_restore(struct drm_encoder *encoder)
+>  {
+> -	get_slave_funcs(encoder)->restore(encoder);
+> +	get_encoder_i2c_funcs(encoder)->restore(encoder);
+>  }
+> -EXPORT_SYMBOL(drm_i2c_encoder_restore);
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
+> index 67f3e0ac0e109b223ca8ec4ddc4e688247373b2e..0ce369d7b773ac3753fe907acdee3b402644cc0e 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv04.c
+> @@ -99,7 +99,7 @@ static void nv04_tv_dpms(struct drm_encoder *encoder, int mode)
+>  
+>  	NVWriteRAMDAC(dev, 0, NV_PRAMDAC_PLL_COEFF_SELECT, state->pllsel);
+>  
+> -	get_slave_funcs(encoder)->dpms(encoder, mode);
+> +	get_encoder_i2c_funcs(encoder)->dpms(encoder, mode);
+>  }
+>  
+>  static void nv04_tv_bind(struct drm_device *dev, int head, bool bind)
+> @@ -158,7 +158,7 @@ static void nv04_tv_mode_set(struct drm_encoder *encoder,
+>  	regp->tv_vskew = 1;
+>  	regp->tv_vsync_delay = 1;
+>  
+> -	get_slave_funcs(encoder)->mode_set(encoder, mode, adjusted_mode);
+> +	get_encoder_i2c_funcs(encoder)->mode_set(encoder, mode, adjusted_mode);
+>  }
+>  
+>  static void nv04_tv_commit(struct drm_encoder *encoder)
+> @@ -178,7 +178,7 @@ static void nv04_tv_commit(struct drm_encoder *encoder)
+>  
+>  static void nv04_tv_destroy(struct drm_encoder *encoder)
+>  {
+> -	get_slave_funcs(encoder)->destroy(encoder);
+> +	get_encoder_i2c_funcs(encoder)->destroy(encoder);
+>  	drm_encoder_cleanup(encoder);
+>  
+>  	kfree(encoder->helper_private);
+> @@ -191,11 +191,11 @@ static const struct drm_encoder_funcs nv04_tv_funcs = {
+>  
+>  static const struct drm_encoder_helper_funcs nv04_tv_helper_funcs = {
+>  	.dpms = nv04_tv_dpms,
+> -	.mode_fixup = drm_i2c_encoder_mode_fixup,
+> +	.mode_fixup = nouveau_i2c_encoder_mode_fixup,
+>  	.prepare = nv04_tv_prepare,
+>  	.commit = nv04_tv_commit,
+>  	.mode_set = nv04_tv_mode_set,
+> -	.detect = drm_i2c_encoder_detect,
+> +	.detect = nouveau_i2c_encoder_detect,
+>  };
+>  
+>  int
+> @@ -226,8 +226,8 @@ nv04_tv_create(struct drm_connector *connector, struct dcb_output *entry)
+>  			 NULL);
+>  	drm_encoder_helper_add(encoder, &nv04_tv_helper_funcs);
+>  
+> -	nv_encoder->enc_save = drm_i2c_encoder_save;
+> -	nv_encoder->enc_restore = drm_i2c_encoder_restore;
+> +	nv_encoder->enc_save = nouveau_i2c_encoder_save;
+> +	nv_encoder->enc_restore = nouveau_i2c_encoder_restore;
+>  
+>  	encoder->possible_crtcs = entry->heads;
+>  	encoder->possible_clones = 0;
+> @@ -235,14 +235,14 @@ nv04_tv_create(struct drm_connector *connector, struct dcb_output *entry)
+>  	nv_encoder->or = ffs(entry->or) - 1;
+>  
+>  	/* Run the slave-specific initialization */
+> -	ret = drm_i2c_encoder_init(dev, to_encoder_slave(encoder),
+> +	ret = nouveau_i2c_encoder_init(dev, to_encoder_i2c(encoder),
+>  				   &bus->i2c,
+>  				   &nv04_tv_encoder_info[type].dev);
+>  	if (ret < 0)
+>  		goto fail_cleanup;
+>  
+>  	/* Attach it to the specified connector. */
+> -	get_slave_funcs(encoder)->create_resources(encoder, connector);
+> +	get_encoder_i2c_funcs(encoder)->create_resources(encoder, connector);
+>  	drm_connector_attach_encoder(connector, encoder);
+>  
+>  	return 0;
+> diff --git a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> index 3ecb101d23e949b753b873d24eec01ad6fe7f5d6..50326691444322f282729e108b4ab88bd9cbc14a 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c
+> @@ -779,7 +779,7 @@ static const struct drm_encoder_helper_funcs nv17_tv_helper_funcs = {
+>  	.detect = nv17_tv_detect,
+>  };
+>  
+> -static const struct drm_encoder_slave_funcs nv17_tv_slave_funcs = {
+> +static const struct nouveau_i2c_encoder_funcs nv17_tv_encoder_i2c_funcs = {
+>  	.get_modes = nv17_tv_get_modes,
+>  	.mode_valid = nv17_tv_mode_valid,
+>  	.create_resources = nv17_tv_create_resources,
+> @@ -818,7 +818,7 @@ nv17_tv_create(struct drm_connector *connector, struct dcb_output *entry)
+>  	drm_encoder_init(dev, encoder, &nv17_tv_funcs, DRM_MODE_ENCODER_TVDAC,
+>  			 NULL);
+>  	drm_encoder_helper_add(encoder, &nv17_tv_helper_funcs);
+> -	to_encoder_slave(encoder)->slave_funcs = &nv17_tv_slave_funcs;
+> +	to_encoder_i2c(encoder)->encoder_i2c_funcs = &nv17_tv_encoder_i2c_funcs;
+>  
+>  	tv_enc->base.enc_save = nv17_tv_save;
+>  	tv_enc->base.enc_restore = nv17_tv_restore;
+> diff --git a/include/drm/drm_encoder_slave.h b/drivers/gpu/drm/nouveau/include/i2c/encoder_i2c.h
+> similarity index 62%
+> rename from include/drm/drm_encoder_slave.h
+> rename to drivers/gpu/drm/nouveau/include/i2c/encoder_i2c.h
+> index 49172166a164474f43e4afb2eeeb3cde8ae7c61a..f12f44415b79c336e6ecfa163cc780a0bcbc5ca5 100644
+> --- a/include/drm/drm_encoder_slave.h
+> +++ b/drivers/gpu/drm/nouveau/include/i2c/encoder_i2c.h
+> @@ -24,8 +24,8 @@
+>   *
+>   */
+>  
+> -#ifndef __DRM_ENCODER_SLAVE_H__
+> -#define __DRM_ENCODER_SLAVE_H__
+> +#ifndef __NOUVEAU_ENCODER_I2C_H__
+> +#define __NOUVEAU_ENCODER_I2C_H__
+>  
+>  #include <linux/i2c.h>
+>  
+> @@ -33,7 +33,7 @@
+>  #include <drm/drm_encoder.h>
+>  
+>  /**
+> - * struct drm_encoder_slave_funcs - Entry points exposed by a slave encoder driver
+> + * struct nouveau_i2c_encoder_funcs - Entry points exposed by a I2C encoder driver
+>   *
+>   * Most of its members are analogous to the function pointers in
+>   * &drm_encoder_helper_funcs and they can optionally be used to
+> @@ -41,7 +41,7 @@
+>   * @set_property) will typically be wrapped around and only be called
+>   * if the encoder is the currently selected one for the connector.
+>   */
+> -struct drm_encoder_slave_funcs {
+> +struct nouveau_i2c_encoder_funcs {
+>  	/**
+>  	 * @set_config: Initialize any encoder-specific modesetting parameters.
+>  	 * The meaning of the @params parameter is implementation dependent. It
+> @@ -58,24 +58,23 @@ struct drm_encoder_slave_funcs {
+>  	void (*destroy)(struct drm_encoder *encoder);
+>  
+>  	/**
+> -	 * @dpms: Analogous to &drm_encoder_helper_funcs @dpms callback. Wrapped
+> -	 * by drm_i2c_encoder_dpms().
+> +	 * @dpms: Analogous to &drm_encoder_helper_funcs @dpms callback.
+>  	 */
+>  	void (*dpms)(struct drm_encoder *encoder, int mode);
+>  
+>  	/**
+> -	 * @save: Save state. Wrapped by drm_i2c_encoder_save().
+> +	 * @save: Save state. Wrapped by nouveau_i2c_encoder_save().
+>  	 */
+>  	void (*save)(struct drm_encoder *encoder);
+>  
+>  	/**
+> -	 * @restore: Restore state. Wrapped by drm_i2c_encoder_restore().
+> +	 * @restore: Restore state. Wrapped by nouveau_i2c_encoder_restore().
+>  	 */
+>  	void (*restore)(struct drm_encoder *encoder);
+>  
+>  	/**
+>  	 * @mode_fixup: Analogous to &drm_encoder_helper_funcs @mode_fixup
+> -	 * callback. Wrapped by drm_i2c_encoder_mode_fixup().
+> +	 * callback. Wrapped by nouveau_i2c_encoder_mode_fixup().
+>  	 */
+>  	bool (*mode_fixup)(struct drm_encoder *encoder,
+>  			   const struct drm_display_mode *mode,
+> @@ -88,7 +87,7 @@ struct drm_encoder_slave_funcs {
+>  			  struct drm_display_mode *mode);
+>  	/**
+>  	 * @mode_set: Analogous to &drm_encoder_helper_funcs @mode_set
+> -	 * callback. Wrapped by drm_i2c_encoder_mode_set().
+> +	 * callback.
+>  	 */
+>  	void (*mode_set)(struct drm_encoder *encoder,
+>  			 struct drm_display_mode *mode,
+> @@ -96,7 +95,7 @@ struct drm_encoder_slave_funcs {
+>  
+>  	/**
+>  	 * @detect: Analogous to &drm_encoder_helper_funcs @detect
+> -	 * callback. Wrapped by drm_i2c_encoder_detect().
+> +	 * callback. Wrapped by nouveau_i2c_encoder_detect().
+>  	 */
+>  	enum drm_connector_status (*detect)(struct drm_encoder *encoder,
+>  					    struct drm_connector *connector);
+> @@ -120,54 +119,59 @@ struct drm_encoder_slave_funcs {
+>  };
+>  
+>  /**
+> - * struct drm_encoder_slave - Slave encoder struct
+> + * struct nouveau_i2c_encoder - I2C encoder struct
+>   *
+> - * A &drm_encoder_slave has two sets of callbacks, @slave_funcs and the
+> + * A &nouveau_i2c_encoder has two sets of callbacks, @encoder_i2c_funcs and the
+>   * ones in @base. The former are never actually called by the common
+>   * CRTC code, it's just a convenience for splitting the encoder
+>   * functions in an upper, GPU-specific layer and a (hopefully)
+>   * GPU-agnostic lower layer: It's the GPU driver responsibility to
+> - * call the slave methods when appropriate.
+> + * call the nouveau_i2c_encoder methods when appropriate.
+>   *
+> - * drm_i2c_encoder_init() provides a way to get an implementation of
+> + * nouveau_i2c_encoder_init() provides a way to get an implementation of
+>   * this.
+>   */
+> -struct drm_encoder_slave {
+> +struct nouveau_i2c_encoder {
+>  	/**
+>  	 * @base: DRM encoder object.
+>  	 */
+>  	struct drm_encoder base;
+>  
+>  	/**
+> -	 * @slave_funcs: Slave encoder callbacks.
+> +	 * @encoder_i2c_funcs: I2C encoder callbacks.
+>  	 */
+> -	const struct drm_encoder_slave_funcs *slave_funcs;
+> +	const struct nouveau_i2c_encoder_funcs *encoder_i2c_funcs;
+>  
+>  	/**
+> -	 * @slave_priv: Slave encoder private data.
+> +	 * @encoder_i2c_priv: I2C encoder private data.
+>  	 */
+> -	void *slave_priv;
+> +	void *encoder_i2c_priv;
+>  
+>  	/**
+> -	 * @bus_priv: Bus specific data.
+> +	 * @i2c_client: corresponding I2C client structure
+>  	 */
+> -	void *bus_priv;
+> +	struct i2c_client *i2c_client;
+>  };
+> -#define to_encoder_slave(x) container_of((x), struct drm_encoder_slave, base)
+> +#define to_encoder_i2c(x) container_of((x), struct nouveau_i2c_encoder, base)
+>  
+> -int drm_i2c_encoder_init(struct drm_device *dev,
+> -			 struct drm_encoder_slave *encoder,
+> +int nouveau_i2c_encoder_init(struct drm_device *dev,
+> +			 struct nouveau_i2c_encoder *encoder,
+>  			 struct i2c_adapter *adap,
+>  			 const struct i2c_board_info *info);
+>  
+> +static inline const struct nouveau_i2c_encoder_funcs *
+> +get_encoder_i2c_funcs(struct drm_encoder *enc)
+> +{
+> +	return to_encoder_i2c(enc)->encoder_i2c_funcs;
+> +}
+>  
+>  /**
+> - * struct drm_i2c_encoder_driver
+> + * struct nouveau_i2c_encoder_driver
+>   *
+>   * Describes a device driver for an encoder connected to the GPU through an I2C
+>   * bus.
+>   */
+> -struct drm_i2c_encoder_driver {
+> +struct nouveau_i2c_encoder_driver {
+>  	/**
+>  	 * @i2c_driver: I2C device driver description.
+>  	 */
+> @@ -175,67 +179,40 @@ struct drm_i2c_encoder_driver {
+>  
+>  	/**
+>  	 * @encoder_init: Callback to allocate any per-encoder data structures
+> -	 * and to initialize the @slave_funcs and (optionally) @slave_priv
+> +	 * and to initialize the @encoder_i2c_funcs and (optionally) @encoder_i2c_priv
+>  	 * members of @encoder.
+>  	 */
+>  	int (*encoder_init)(struct i2c_client *client,
+>  			    struct drm_device *dev,
+> -			    struct drm_encoder_slave *encoder);
+> +			    struct nouveau_i2c_encoder *encoder);
+>  
+>  };
+> -#define to_drm_i2c_encoder_driver(x) container_of((x),			\
+> -						  struct drm_i2c_encoder_driver, \
+> +#define to_nouveau_i2c_encoder_driver(x) container_of((x),			\
+> +						  struct nouveau_i2c_encoder_driver, \
+>  						  i2c_driver)
+>  
+>  /**
+> - * drm_i2c_encoder_get_client - Get the I2C client corresponding to an encoder
+> + * nouveau_i2c_encoder_get_client - Get the I2C client corresponding to an encoder
+>   * @encoder: The encoder
+>   */
+> -static inline struct i2c_client *drm_i2c_encoder_get_client(struct drm_encoder *encoder)
+> -{
+> -	return (struct i2c_client *)to_encoder_slave(encoder)->bus_priv;
+> -}
+> -
+> -/**
+> - * drm_i2c_encoder_register - Register an I2C encoder driver
+> - * @owner:	Module containing the driver.
+> - * @driver:	Driver to be registered.
+> - */
+> -static inline int drm_i2c_encoder_register(struct module *owner,
+> -					   struct drm_i2c_encoder_driver *driver)
+> +static inline struct i2c_client *nouveau_i2c_encoder_get_client(struct drm_encoder *encoder)
+>  {
+> -	return i2c_register_driver(owner, &driver->i2c_driver);
+> +	return to_encoder_i2c(encoder)->i2c_client;
+>  }
+>  
+> -/**
+> - * drm_i2c_encoder_unregister - Unregister an I2C encoder driver
+> - * @driver:	Driver to be unregistered.
+> - */
+> -static inline void drm_i2c_encoder_unregister(struct drm_i2c_encoder_driver *driver)
+> -{
+> -	i2c_del_driver(&driver->i2c_driver);
+> -}
+> -
+> -void drm_i2c_encoder_destroy(struct drm_encoder *encoder);
+> -
+> +void nouveau_i2c_encoder_destroy(struct drm_encoder *encoder);
+>  
+>  /*
+>   * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
+>   */
+>  
+> -void drm_i2c_encoder_dpms(struct drm_encoder *encoder, int mode);
+> -bool drm_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
+> +bool nouveau_i2c_encoder_mode_fixup(struct drm_encoder *encoder,
+>  		const struct drm_display_mode *mode,
+>  		struct drm_display_mode *adjusted_mode);
+> -void drm_i2c_encoder_prepare(struct drm_encoder *encoder);
+> -void drm_i2c_encoder_commit(struct drm_encoder *encoder);
+> -void drm_i2c_encoder_mode_set(struct drm_encoder *encoder,
+> -		struct drm_display_mode *mode,
+> -		struct drm_display_mode *adjusted_mode);
+> -enum drm_connector_status drm_i2c_encoder_detect(struct drm_encoder *encoder,
+> +enum drm_connector_status nouveau_i2c_encoder_detect(struct drm_encoder *encoder,
+>  	    struct drm_connector *connector);
+> -void drm_i2c_encoder_save(struct drm_encoder *encoder);
+> -void drm_i2c_encoder_restore(struct drm_encoder *encoder);
+> +void nouveau_i2c_encoder_save(struct drm_encoder *encoder);
+> +void nouveau_i2c_encoder_restore(struct drm_encoder *encoder);
+>  
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> index 8d5c9c74cbb90927036cee75f173f687617f14ec..c69a57d8d9ec456de510e5c1bb195c9dcc91b595 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
+> @@ -797,7 +797,7 @@ nouveau_connector_set_property(struct drm_connector *connector,
+>  						    property, value);
+>  	if (ret) {
+>  		if (nv_encoder && nv_encoder->dcb->type == DCB_OUTPUT_TV)
+> -			return get_slave_funcs(encoder)->set_property(
+> +			return get_encoder_i2c_funcs(encoder)->set_property(
+>  				encoder, connector, property, value);
+>  		return ret;
+>  	}
+> @@ -1015,7 +1015,7 @@ nouveau_connector_get_modes(struct drm_connector *connector)
+>  		nouveau_connector_detect_depth(connector);
+>  
+>  	if (nv_encoder->dcb->type == DCB_OUTPUT_TV)
+> -		ret = get_slave_funcs(encoder)->get_modes(encoder, connector);
+> +		ret = get_encoder_i2c_funcs(encoder)->get_modes(encoder, connector);
+>  
+>  	if (nv_connector->type == DCB_CONNECTOR_LVDS ||
+>  	    nv_connector->type == DCB_CONNECTOR_LVDS_SPWG ||
+> @@ -1100,7 +1100,7 @@ nouveau_connector_mode_valid(struct drm_connector *connector,
+>  			max_clock = 350000;
+>  		break;
+>  	case DCB_OUTPUT_TV:
+> -		return get_slave_funcs(encoder)->mode_valid(encoder, mode);
+> +		return get_encoder_i2c_funcs(encoder)->mode_valid(encoder, mode);
+>  	case DCB_OUTPUT_DP:
+>  		return nv50_dp_mode_valid(nv_encoder, mode, NULL);
+>  	default:
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_encoder.h b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+> index 333042fc493faec360b8d9713ab687836b986431..a7d06564f4c46cb766d6907f47ded3f8a7f5d33f 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_encoder.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_encoder.h
+> @@ -31,7 +31,8 @@
+>  
+>  #include <drm/display/drm_dp_helper.h>
+>  #include <drm/display/drm_dp_mst_helper.h>
+> -#include <drm/drm_encoder_slave.h>
+> +
+> +#include <i2c/encoder_i2c.h>
+>  
+>  #include "dispnv04/disp.h"
+>  
+> @@ -43,7 +44,7 @@ struct nouveau_connector;
+>  struct nvkm_i2c_port;
+>  
+>  struct nouveau_encoder {
+> -	struct drm_encoder_slave base;
+> +	struct nouveau_i2c_encoder base;
+>  
+>  	struct dcb_output *dcb;
+>  	struct nvif_outp outp;
+> @@ -137,7 +138,7 @@ find_encoder(struct drm_connector *connector, int type);
+>  
+>  static inline struct nouveau_encoder *nouveau_encoder(struct drm_encoder *enc)
+>  {
+> -	struct drm_encoder_slave *slave = to_encoder_slave(enc);
+> +	struct nouveau_i2c_encoder *slave = to_encoder_i2c(enc);
+>  
+>  	return container_of(slave, struct nouveau_encoder, base);
+>  }
+> @@ -147,12 +148,6 @@ static inline struct drm_encoder *to_drm_encoder(struct nouveau_encoder *enc)
+>  	return &enc->base.base;
+>  }
+>  
+> -static inline const struct drm_encoder_slave_funcs *
+> -get_slave_funcs(struct drm_encoder *enc)
+> -{
+> -	return to_encoder_slave(enc)->slave_funcs;
+> -}
+> -
+>  /* nouveau_dp.c */
+>  enum nouveau_dp_status {
+>  	NOUVEAU_DP_NONE,
 > 
-
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+> -- 
+> 2.39.5
+> 
