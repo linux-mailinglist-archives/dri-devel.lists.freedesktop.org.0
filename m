@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B6709F3DC9
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:54:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4CB9F3DCA
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Dec 2024 23:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F1EA10E0AD;
-	Mon, 16 Dec 2024 22:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15BBA10E12B;
+	Mon, 16 Dec 2024 22:54:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Nl/1ALuF";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="W8Kd9QKZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A3710E0AD
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:54:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48B8310E12B
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 22:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734389682;
- bh=NH3AgonOJDLYtaMkD1sV08KHOIcuLuMJl/JutU6HH7U=;
- h=From:Subject:Date:To:Cc:From;
- b=Nl/1ALuFWj3sUR3E4s/v6QMzrysbxrVcF5j3O7Wd2Y3monQfvs6cMST3MZT2wMggZ
- CWUqDl+pGrrVsF6m7H6I0jq/iwAElHQ0v8Q/JxDOv5iEm6YJjpJWEmDTGoyYtoKpJF
- 4QNfLEWdHwdc4WjY0Jv2HR5tInnWGQJfgBKaN0Vw0rRlbGH6NMowkE2mjw1dj5uCPu
- CAi7OIJTUXm0LupMHNwfDgw9ww0wWlB6TzCDh5j/DwenGXyzpP64L+VslCxpqcIjnJ
- QbiFNytHL246GcB873p9TW+bqIgJJ8MOjJ8qetYJF76rh++0Qw3Uz6DwUIWfn4lbA9
- too6snvtzUTeQ==
+ s=mail; t=1734389683;
+ bh=8KCcfXAcnrbBrAylr/pecwYM1mZvQEg1BZbBmlSGq7U=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=W8Kd9QKZiVWBcdl6rqQn3oscAs6jehydIya4lzzUuEI3EJD8ojlV7cvC8JBvQea2Y
+ rfeWy/0H9sxpLQDW0RWj2ImgSeEsFTgTp8fxe36rcb+LQaxno5InK1j/uTGB3xa1m3
+ a9epkpomoIPijzdW2zgeNVC1gOvuiseElfAMSWjmyGc/ZXIPwrwfK0U+8M5YANhCVn
+ m+rsBqtfCxyZ49/aJ1ys5fqAFE/emcVFnJbxJ7cnqLH2OHYr59stRV5x7oyUkgZggX
+ 8F3Ym0oyWZRm9ryIms4v8u7QjKJZB76ryYweaTxVVK6wNFE3eU6W0eNFtMGL09xlcj
+ 7JkVzhTi0M5qg==
 Received: from localhost (unknown [188.27.48.199])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9430217E3830;
- Mon, 16 Dec 2024 23:54:42 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6BFD117E3832;
+ Mon, 16 Dec 2024 23:54:43 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: [PATCH v3 0/2] Fix ycbcr_420_allowed inconsistency for HDMI
- bridges
-Date: Tue, 17 Dec 2024 00:54:06 +0200
-Message-Id: <20241217-bridge-conn-fmt-prio-v3-0-3ecb3c8fc06f@collabora.com>
+Date: Tue, 17 Dec 2024 00:54:07 +0200
+Subject: [PATCH v3 1/2] drm/bridge-connector: Prioritize supported_formats
+ over ycbcr_420_allowed
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAI6vYGcC/4XNTQrDIBAF4KsU17U4Gn/aVe9RuohGGyHRoEFaQ
- u5ek02hUMqs3oP3zYKyTd5mdDksKNnis4+hBnY8INO34WGx72pGlNAGgBGsk+9qa2II2I0znpK
- P2HCQBhoibcdRnU7JOv/c2du95t7nOabX/qXA1v4BC+B6jdBCMAfSsauJw9DqmNqTiSPa0EI/E
- CXiB0QrpLhRIDk9a6W+oXVd31MPNtsFAQAA
-X-Change-ID: 20241130-bridge-conn-fmt-prio-c517c1407ed5
+Message-Id: <20241217-bridge-conn-fmt-prio-v3-1-3ecb3c8fc06f@collabora.com>
+References: <20241217-bridge-conn-fmt-prio-v3-0-3ecb3c8fc06f@collabora.com>
+In-Reply-To: <20241217-bridge-conn-fmt-prio-v3-0-3ecb3c8fc06f@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -72,44 +69,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bridges with DRM_BRIDGE_OP_HDMI set in drm_bridge->ops are expected to
-rely on drm_bridge->supported_formats to advertise the supported
-colorspaces, including HDMI_COLORSPACE_YUV420.
+Bridges having the DRM_BRIDGE_OP_HDMI flag set in drm_bridge->ops are
+supposed to rely on drm_bridge->supported_formats bitmask to advertise
+the supported colorspaces, including HDMI_COLORSPACE_YUV420.  Therefore,
+the newly introduced drm_bridge->ycbcr_420_allowed flag becomes
+redundant in this particular context.
 
-However, when drm_bridge_connector gets initialised, only
+Moreover, when drm_bridge_connector gets initialised, only
 drm_bridge->ycbcr_420_allowed is considered in the process of adjusting
-the drm_connector->ycbcr_420_allowed, which effectively discards the
-formats advertised by the HDMI bridge.
+the equivalent property of the base drm_connector, which effectively
+discards the formats advertised by the HDMI bridge.
 
-This patchset tries to address the issue by prioritizing
-supported_formats over ycbcr_420_allowed.
+Handle the inconsistency by overwriting drm_bridge->ycbcr_420_allowed
+for HDMI bridges according to drm_bridge->supported_formats, before
+adding them to the global bridge list.
 
+Additionally, ensure the YUV420 related bit is removed from the bitmask
+passed to drmm_connector_hdmi_init() when the final ycbcr_420_allowed
+flag for the connector ends up not being set (i.e. the case of having at
+least one non-HDMI bridge in the pipeline that didn't enable it).
+
+Fixes: 3ced1c687512 ("drm/display: bridge_connector: handle ycbcr_420_allowed")
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
-Changes in v3:
-- Simplified the inconsistency handling by overwriting ycbcr_420_allowed
-  for HDMI bridges before adding them to the global bridge list
-- Added a 2nd patch to check if supported_formats matches
-  ycbcr_420_allowed on HDMI connector initialization (Dmitry)
-- Link to v2: https://lore.kernel.org/r/20241206-bridge-conn-fmt-prio-v2-1-85c817529b88@collabora.com
-
-Changes in v2:
-- Wrapped HDMI_COLORSPACE_YUV420 flag in the BIT() macro to properly
-  check its presence in supported_formats
-- Ensured YUV420 gets removed from the bitmask passed to
-  drmm_connector_hdmi_init() when ycbcr_420_allowed is not set
-- Link to v1: https://lore.kernel.org/r/20241130-bridge-conn-fmt-prio-v1-1-146b663f17f3@collabora.com
-
----
-Cristian Ciocaltea (2):
-      drm/bridge-connector: Prioritize supported_formats over ycbcr_420_allowed
-      drm/connector: hdmi: Validate supported_formats matches ycbcr_420_allowed
-
  drivers/gpu/drm/display/drm_bridge_connector.c | 8 ++++++--
  drivers/gpu/drm/drm_bridge.c                   | 4 ++++
- drivers/gpu/drm/drm_connector.c                | 3 +++
- 3 files changed, 13 insertions(+), 2 deletions(-)
----
-base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
-change-id: 20241130-bridge-conn-fmt-prio-c517c1407ed5
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 320c297008aaa8b6ef5b1f4c71928849b202e8ac..3a5a4f92c979accaa2a8f79ca0f15396dd579429 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -459,7 +459,10 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 	if (connector_type == DRM_MODE_CONNECTOR_Unknown)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	if (bridge_connector->bridge_hdmi)
++	if (bridge_connector->bridge_hdmi) {
++		if (!connector->ycbcr_420_allowed)
++			supported_formats &= ~BIT(HDMI_COLORSPACE_YUV420);
++
+ 		ret = drmm_connector_hdmi_init(drm, connector,
+ 					       bridge_connector->bridge_hdmi->vendor,
+ 					       bridge_connector->bridge_hdmi->product,
+@@ -468,10 +471,11 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 					       connector_type, ddc,
+ 					       supported_formats,
+ 					       max_bpc);
+-	else
++	} else {
+ 		ret = drmm_connector_init(drm, connector,
+ 					  &drm_bridge_connector_funcs,
+ 					  connector_type, ddc);
++	}
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index c6af46dd02bfa9e15b59e4c460debdd7fd84be44..241a384ebce39b4a3db58c208af27960904fc662 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -207,6 +207,10 @@ void drm_bridge_add(struct drm_bridge *bridge)
+ {
+ 	mutex_init(&bridge->hpd_mutex);
+ 
++	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
++		bridge->ycbcr_420_allowed = !!(bridge->supported_formats &
++					       BIT(HDMI_COLORSPACE_YUV420));
++
+ 	mutex_lock(&bridge_lock);
+ 	list_add_tail(&bridge->list, &bridge_list);
+ 	mutex_unlock(&bridge_lock);
+
+-- 
+2.47.0
 
