@@ -1,47 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F120B9F5780
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 21:17:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34AD19F57D7
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 21:36:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A111E10E9D7;
-	Tue, 17 Dec 2024 20:17:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9587910E168;
+	Tue, 17 Dec 2024 20:36:01 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kirq7Q2L";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBCA610E671;
- Tue, 17 Dec 2024 20:17:27 +0000 (UTC)
-Message-ID: <61b95c08-a3c2-4f92-b6e5-df77fd2491e2@lankhorst.se>
-Date: Tue, 17 Dec 2024 21:17:24 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D6DB10E168
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 20:36:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 81E7FA40B0B;
+ Tue, 17 Dec 2024 20:34:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 871DEC4CED3;
+ Tue, 17 Dec 2024 20:35:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734467758;
+ bh=SZGp4CTjOcCd0WqvLX/C50ngjabrzlSD0TRHgdbC4BE=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=kirq7Q2LQQV5FEB/0mqwL3QNWxPg7bH1f2k3Ek3ba/2d/H3SX/cfJH2oAP2ou8IhT
+ xO1LjRCc8CNQvlQMLtV/Vad2wYLQ4mskd+a8z+YrJ+SG7tJfs3vtyvnMJJ+RbhJQqU
+ aI3JOiN7Y7as2Izf1VzA1xn/noqhxMTAQ1SK6A7dZzHKRDg8foTzsPv7meNZlEEXY4
+ Hla0/QiSB+/dWJWBEW9eL2NYgcJvgypIQrrWJepWaME9j1v+VEw3Uc9Cfoyr72GIm1
+ YHzs9lRzlfiqkk4/wZo0lhlJ5j+Nh1JDjctClGWKbiEk5bgZfy7x9LSvBor3fac9qL
+ cdWJb/0fXU0fw==
+Date: Tue, 17 Dec 2024 14:35:57 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-To: Tejun Heo <tj@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- Dave Airlie <airlied@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20241204134410.1161769-1-dev@lankhorst.se>
- <20241213-proud-kind-uakari-df3a70@houat>
- <80c49a80-d49c-4ca5-9568-9f7950618275@lankhorst.se>
- <20241213-gentle-glittering-salamander-22addf@houat>
- <5a50a992-9286-4179-8031-ffb514bca34f@lankhorst.se>
- <20241217-meek-bullfinch-of-luck-2c3468@houat>
- <a69a3500-be17-4899-bdb9-c6a63bf8dc81@lankhorst.se>
- <Z2GwpOQDVshpv-ml@slm.duckdns.org>
- <c0a539e7-0f1b-496a-9848-73a7ada66bfb@lankhorst.se>
- <Z2HBqtKDSTkd1lST@slm.duckdns.org>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <Z2HBqtKDSTkd1lST@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: conor+dt@kernel.org, linux-arm-kernel@lists.infradead.org, 
+ tzimmermann@suse.de, mripard@kernel.org, junzhi.zhao@mediatek.com, 
+ simona@ffwll.ch, p.zabel@pengutronix.de, airlied@gmail.com, 
+ linux-mediatek@lists.infradead.org, maarten.lankhorst@linux.intel.com, 
+ matthias.bgg@gmail.com, kernel@collabora.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, 
+ jie.qiu@mediatek.com, ck.hu@mediatek.com, krzk+dt@kernel.org, 
+ chunkuang.hu@kernel.org, dri-devel@lists.freedesktop.org, 
+ jitao.shi@mediatek.com
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20241217154345.276919-8-angelogioacchino.delregno@collabora.com>
+References: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
+ <20241217154345.276919-8-angelogioacchino.delregno@collabora.com>
+Message-Id: <173446775715.3082463.16696683643191966577.robh@kernel.org>
+Subject: Re: [PATCH v3 07/33] dt-bindings: display: mediatek: Add binding
+ for MT8195 HDMI-TX v2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,46 +66,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
 
-Den 2024-12-17 kl. 19:23, skrev Tejun Heo:
-> Hello,
+On Tue, 17 Dec 2024 16:43:19 +0100, AngeloGioacchino Del Regno wrote:
+> Add a binding for the HDMI TX v2 Encoder found in MediaTek MT8195
+> and MT8188 SoCs.
 > 
-> On Tue, Dec 17, 2024 at 06:37:22PM +0100, Maarten Lankhorst wrote:
->> Den 2024-12-17 kl. 18:11, skrev Tejun Heo:
->>> On Tue, Dec 17, 2024 at 03:28:50PM +0100, Maarten Lankhorst wrote:
->>>> Now that all patches look good, what is needed to merge the series? Without
->>>> patch 6/7 as it is a hack for testing.
->>>
->>> There were some questions raised about device naming. One thing we want to
->>> get right from the beginning is the basic interface.
->>>
->>> Thanks.
->>>
->> I believe it was solved. The conclusion appears to be that we go with how we
->> defined it in this series. drm/$pciid/$regionname. With the only regions
->> defined now being VRAM. Main memory will be a followup, but requires some
->> discussions on hwo to be prevent double accounting, and what to do with the
->> limited amount of mappable memory.
+> This fully supports the HDMI Specification 2.0b, hence it provides
+> support for 3D-HDMI, Polarity inversion, up to 16 bits Deep Color,
+> color spaces including RGB444, YCBCR420/422/444 (ITU601/ITU709) and
+> xvYCC, with output resolutions up to 3840x2160p@60Hz.
 > 
-> Provided Johannes is okay with the series, how do you want to route the
-> series? If you want to route it through drm, that's fine by me and please
-> feel free to add:
+> Moreover, it also supports HDCP 1.4 and 2.3, Variable Refresh Rate
+> (VRR) and Consumer Electronics Control (CEC).
 > 
->   Acked-by: Tejun Heo <tj@kernel.org>
+> This IP also includes support for HDMI Audio, including IEC60958
+> and IEC61937 SPDIF, 8-channel PCM, DSD, and other lossless audio
+> according to HDMI 2.0.
 > 
-> Thanks.
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../mediatek/mediatek,mt8195-hdmi.yaml        | 154 ++++++++++++++++++
+>  1 file changed, 154 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
 > 
 
-Thank you!
+My bot found errors running 'make dt_binding_check' on your patch:
 
-I've discussed this with the DRM maintainers. What was suggested is to 
-create a topic branch, merge it to drm-misc whichwhere it will be picked 
-up into drm.git during the next pull request. At the same time the topic 
-branch can be also be merged into the cgroup tree if needed.
+yamllint warnings/errors:
 
-The drm-misc tree already handles dma-buf and fbdev core, think DMEM 
-could fit in there too.
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml:
+Error in referenced schema matching $id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.example.dtb: hdmi-tx@1c300000: i2c: False schema does not allow {'compatible': ['mediatek,mt8195-hdmi-ddc'], 'clocks': [[4294967295]]}
+	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.example.dtb: hdmi-tx@1c300000: i2c: Unevaluated properties are not allowed ('clocks', 'compatible' were unexpected)
+	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
+Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.example.dtb: /example-0/soc/hdmi-tx@1c300000/i2c: failed to match any schema with compatible: ['mediatek,mt8195-hdmi-ddc']
 
-Cheers,
-~Maarten
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241217154345.276919-8-angelogioacchino.delregno@collabora.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
