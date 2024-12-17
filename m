@@ -1,65 +1,126 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA519F516A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 17:53:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 070699F516E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 17:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E28C10E0A4;
-	Tue, 17 Dec 2024 16:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 784E910E72F;
+	Tue, 17 Dec 2024 16:55:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KlS7YtpF";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="avB3tEYP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B28E10E0A4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 16:53:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A5A89A41D2C;
- Tue, 17 Dec 2024 16:51:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E537C4CED3;
- Tue, 17 Dec 2024 16:53:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734454412;
- bh=EOJspbm7MP7wG0IjvVUNU+l636arDNGqBCyTzRfpfbA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KlS7YtpFsL/gTqOzHFp9lpkcIkTrozL//Q/lMLNXbPW3Y6m2sgkt5CGABkkAjo0u2
- es6xqBqUBVJ+EEjVk4ljZzWGXLhxrWbnql7aU1x/Gq+smMLm85OG8Q4XnOdNUdbKuJ
- B9Kal/JswAvNPqnL3Fh80lNcUqkppz8sIqWUxhfVxzXvG+lxc+eHJf9YZXGWncIn1y
- sB07MUtRE4rm4aIbIuWtq+9lB3CpP9P1A4+LvzRvIMVMluirSZAJ8DNP7m56yyYOgw
- uesQmgEIrWcTGXVvI0gUxJdSoTfKoyJjYajgaslXGUBGUXTsPak061NnMfyBj6yWs1
- CoVcBpdw3jrCw==
-Date: Tue, 17 Dec 2024 17:53:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- kernel@collabora.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- FUKAUMI Naoki <naoki@radxa.com>
-Subject: Re: [PATCH v2 3/5] drm/rockchip: vop2: Improve display modes
- handling on RK3588 HDMI0
-Message-ID: <20241217-zealous-boisterous-llama-52bfcc@houat>
-References: <20241211-vop2-hdmi0-disp-modes-v2-0-471cf5001e45@collabora.com>
- <1820767.5KxKD5qtyk@diego>
- <a4ex3s23r4k6wehyoaw3aylpcexfrclrxxykjpabhdfne2jgmu@ii6riiiga2zj>
- <1756448.izSxrag8PF@diego>
- <20241217-ubiquitous-refreshing-finch-aceade@houat>
- <c45ff74a-c9a4-4cf1-8530-04087e06b07a@collabora.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2050.outbound.protection.outlook.com [40.107.223.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA67510E283
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 16:55:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PElnOUJc7fA3D0JWA+IdpZgc55XWdCjjXWSnjsgCmic34O2yshcsAfH0+Mf0gS6iyuZRym8M9D5eGiYQz90zgV0CvfjwBNmkMSQBMktpwwZGks/MhT55iooohYMzWDdrrrC1ALTCmkr5oK6UsasKZBzeEjKNmtPZum4bfeoiWYOAanOvQsl3bdP2d4VvET8lAIcmcyVfWzBTeLa4rbgxKzIU5FxCFvv8mVTTgQMgx9DrR00iA+7EUOwRfMgh11pvDCq4NkpjV4Phm9jvsqDMtSdv43K+h5xNcZUPxntvwRDIwlfymXf+vlJ2j6Ke60JRe/l+u+ExYFUboJ/m5F4K8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5VrqIn8sGIpZs2MteK2ACxFjELnBUlDRUvOk8O0vZs4=;
+ b=F7H9xLwiPp/xFxgQzYn2EcsnOycf8seb2AHsLEGSfDRVIjadrORiB7kn21xPyZLU1NAj9eiQ1FZlx2pX36LXdbMdQLyuXPGOH6rzsBSQDTftKKWYg9MivqgSJX5RpsrBF3EuekkbCyC6TT3gqqmYxx/iy4fmFFqQddXVKfBmrRDSu70ft4OI3FOs57oN4q5PRz75LQFr/OWUMxYJbEgj4VpU3cUB/L7dA8+BzdOVfPY9TdveFKNpAwqoG3tc3MKw2i8SkAQ4VNvNWC31skn0TpxV68wZngZF5Vd6et7ABg0AEUCA77R66IVHQJ+7EW6QgdtFubQ9cn3JjV7muOe0Jg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5VrqIn8sGIpZs2MteK2ACxFjELnBUlDRUvOk8O0vZs4=;
+ b=avB3tEYPkAhbRQCfRaTgUtKdnEqNdiljU1yswCa5mTOalHqd4+WTzROY7s8AdStcypWcq6aWRsZc8APgsHhXFIN731CYVYLohDVLg5d7zi4VacCBQtuOU/4+mDbBDHuEUnoW+XWF41nYORElrVUvqSCLY9Yd3aIvfcd3Sxc7UEw=
+Received: from BN0PR08CA0019.namprd08.prod.outlook.com (2603:10b6:408:142::12)
+ by DS7PR12MB9043.namprd12.prod.outlook.com (2603:10b6:8:db::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8251.21; Tue, 17 Dec 2024 16:55:12 +0000
+Received: from BN3PEPF0000B06B.namprd21.prod.outlook.com
+ (2603:10b6:408:142:cafe::42) by BN0PR08CA0019.outlook.office365.com
+ (2603:10b6:408:142::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.21 via Frontend Transport; Tue,
+ 17 Dec 2024 16:55:12 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN3PEPF0000B06B.mail.protection.outlook.com (10.167.243.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8293.6 via Frontend Transport; Tue, 17 Dec 2024 16:55:11 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 17 Dec
+ 2024 10:55:10 -0600
+Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Tue, 17 Dec 2024 10:55:09 -0600
+From: Lizhi Hou <lizhi.hou@amd.com>
+To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
+ <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
+ <king.tam@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH V1 1/2] accel/amdxdna: Add zero check for pad in ioctl input
+ structures
+Date: Tue, 17 Dec 2024 08:54:45 -0800
+Message-ID: <20241217165446.2607585-1-lizhi.hou@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="j4mpk3mpmbzuirpe"
-Content-Disposition: inline
-In-Reply-To: <c45ff74a-c9a4-4cf1-8530-04087e06b07a@collabora.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06B:EE_|DS7PR12MB9043:EE_
+X-MS-Office365-Filtering-Correlation-Id: 631930d5-6fc8-461a-107e-08dd1ebb9244
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UOzAcDgVce3ShoS5CE6rxUxK1zRZgFXHi0JHJY614OnbsuNbdrc6KMvTS2Zr?=
+ =?us-ascii?Q?Xo0T0shhWPywVBpVwFwIr/tmSfvsEu5Ieb0VFh0ZJPOsVTRqAEbaty/HFvcz?=
+ =?us-ascii?Q?ftdlWV1sJV2lHBshiBB+EFdEf2aP5Y172X7A8w1B9XOxH++M/9iiitx8RGs8?=
+ =?us-ascii?Q?s9VgUlUudn3c9kiL6NJ+Bc0uVXH0NnyjuETxb2x4JJBQsW1bPuGq5usWTvLV?=
+ =?us-ascii?Q?oFU5asnCTtcZ9yinoqCcKz3WWtK82VI+Xx2crxM5hMqxQU+2BXpDRo0MgpuS?=
+ =?us-ascii?Q?NxgXyHS/yoXm43GAaQCIqW6llhMnuOGo84Zx/Wu0Y6p1mfHDeLxgooz6A9Fd?=
+ =?us-ascii?Q?ury0dDkmOR1KPRaIXfeKy3WG2pDn6WYJmn4bvca+WvRediW7noZDyOx8Galw?=
+ =?us-ascii?Q?dY3ZXF0H5/BHFcjUG6sZe+8pbOZ6a62FSGn+GwQTwPZyjOxgC8+4UZ0r/Us7?=
+ =?us-ascii?Q?wjHgFS7OyyQUok+26nQ1rdwinprbpNdocDf8wZLpM+pzDohxjmIkNTZUMXn2?=
+ =?us-ascii?Q?TdaUciCXWyauIVynBPwn41MljA+bIo8q0EuCmFa3NVDPQTfYKfoo5mO7/kDw?=
+ =?us-ascii?Q?XUfjn7TsdQTxQBpDFTZ0n+gkLxrf6tCHauHecONZdEZxTC2sPfwh2dXvT56k?=
+ =?us-ascii?Q?ZiBVLL18cOQYkasCPWExy+ZMKcIxMKKLxVfK8zfPp0Ee1Gta1U3iQilTu6WB?=
+ =?us-ascii?Q?JXvmZctY0T9So69eMU6d9iNpAeynk2stDvJYQFLWgh56GqumzaUvqZIqEyxk?=
+ =?us-ascii?Q?MJ1Sy/RWNhowvEqhXTpGNg4SdbsgF3ywy79clAc5Ers8p3wWUh90hLPibO3g?=
+ =?us-ascii?Q?9lFxbJirIhtGQa8IbKiDjUciymbjmaJ7QUkzT3FNd2oib7+E+uWF8SMGCtFs?=
+ =?us-ascii?Q?TCuitpmtDUEBFyi8KSRv++jnw0u0I9mSS+zjmI16WdokhGeJrg22ImXf/uBZ?=
+ =?us-ascii?Q?+/RpB0dYM/+UVrgdyHgciurAYRzTx2Fo9L6Y1PI5R14hAeb/OSsJ5WScwzdb?=
+ =?us-ascii?Q?k7OteLvnnlErjLRkHC4ER7il4rm5JWUD28C+i/IAr6s6aKvd3X7tjW3KfE7i?=
+ =?us-ascii?Q?/lxk3Eo9rneKjVaaP2I0F6YWv49cVW4atl4Oj+h+VxejoXtmvlwiCUU6MeRP?=
+ =?us-ascii?Q?dVUk5URnPr2JbexfeZcR2QXufFESjfGrnZG8TQrjfg3BqhyBN7emK65ORZIT?=
+ =?us-ascii?Q?ty8uNQTKpkIAQdbSoQ7/+py7n7pQtk/mbBGEa9mkcYMeG0BWAt1kRytjZJxR?=
+ =?us-ascii?Q?NxZYN89HmjNnrIyeKmJv3LbvXCSZ1oPucA1LNimX7HGkA+qdh31GTC9ElGtG?=
+ =?us-ascii?Q?cAlNXWDar3KSMV90L34gecqDBIx87MVZfhprlCaSuUAZZarHPhZB94iaGLwp?=
+ =?us-ascii?Q?vgipwS9Ahgkn6t8ZCQEBWB/nt9J9hi9S/FdbuvEyuFcJs3l69RqRCMdnLj+F?=
+ =?us-ascii?Q?MBRFBHpRmZeMyiW0gh3iD0y0ScT3dk9se3Jw8TQSQTqLScUstgqIMQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 16:55:11.7349 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 631930d5-6fc8-461a-107e-08dd1ebb9244
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B06B.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9043
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,197 +136,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+For input ioctl structures, it is better to check if the pad is zero.
+Thus, the pad bytes might be usable in the future.
 
---j4mpk3mpmbzuirpe
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/5] drm/rockchip: vop2: Improve display modes
- handling on RK3588 HDMI0
-MIME-Version: 1.0
+Suggested-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+---
+ drivers/accel/amdxdna/aie2_ctx.c     |  3 +++
+ drivers/accel/amdxdna/aie2_message.c |  3 +++
+ drivers/accel/amdxdna/amdxdna_ctx.c  |  6 ++++++
+ drivers/accel/amdxdna/amdxdna_gem.c  |  2 +-
+ include/uapi/drm/amdxdna_accel.h     | 10 +++++-----
+ 5 files changed, 18 insertions(+), 6 deletions(-)
 
-On Tue, Dec 17, 2024 at 06:36:41PM +0200, Cristian Ciocaltea wrote:
-> On 12/17/24 5:00 PM, Maxime Ripard wrote:
-> > On Wed, Dec 11, 2024 at 07:01:15PM +0100, Heiko St=FCbner wrote:
-> >> Am Mittwoch, 11. Dezember 2024, 18:47:44 CET schrieb Maxime Ripard:
-> >>> On Wed, Dec 11, 2024 at 06:23:03PM +0100, Heiko St=FCbner wrote:
-> >>>> Am Mittwoch, 11. Dezember 2024, 18:07:57 CET schrieb Maxime Ripard:
-> >>>>> On Wed, Dec 11, 2024 at 12:15:07PM +0200, Cristian Ciocaltea wrote:
-> >>>>>> The RK3588 specific implementation is currently quite limited in t=
-erms
-> >>>>>> of handling the full range of display modes supported by the conne=
-cted
-> >>>>>> screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are ju=
-st a
-> >>>>>> few of them.
-> >>>>>>
-> >>>>>> Additionally, it doesn't cope well with non-integer refresh rates =
-like
-> >>>>>> 59.94, 29.97, 23.98, etc.
-> >>>>>>
-> >>>>>> Make use of HDMI0 PHY PLL as a more accurate DCLK source to handle
-> >>>>>> all display modes up to 4K@60Hz.
-> >>>>>>
-> >>>>>> Tested-by: FUKAUMI Naoki <naoki@radxa.com>
-> >>>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.co=
-m>
-> >>>>>> ---
-> >>>>>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 34 +++++++++++++++=
-+++++++++++++
-> >>>>>>  1 file changed, 34 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/driver=
-s/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >>>>>> index 8b2f53ffefdbf1cc8737b3a86e630a03a7fd9348..393fe6aa170aaee966=
-3c4a6d98c1cd6a5ef79392 100644
-> >>>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >>>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> >>>>>> @@ -158,6 +158,7 @@ struct vop2_video_port {
-> >>>>>>  	struct drm_crtc crtc;
-> >>>>>>  	struct vop2 *vop2;
-> >>>>>>  	struct clk *dclk;
-> >>>>>> +	struct clk *dclk_src;
-> >>>>>>  	unsigned int id;
-> >>>>>>  	const struct vop2_video_port_data *data;
-> >>>>>> =20
-> >>>>>> @@ -212,6 +213,7 @@ struct vop2 {
-> >>>>>>  	struct clk *hclk;
-> >>>>>>  	struct clk *aclk;
-> >>>>>>  	struct clk *pclk;
-> >>>>>> +	struct clk *pll_hdmiphy0;
-> >>>>>> =20
-> >>>>>>  	/* optional internal rgb encoder */
-> >>>>>>  	struct rockchip_rgb *rgb;
-> >>>>>> @@ -220,6 +222,8 @@ struct vop2 {
-> >>>>>>  	struct vop2_win win[];
-> >>>>>>  };
-> >>>>>> =20
-> >>>>>> +#define VOP2_MAX_DCLK_RATE		600000 /* kHz */
-> >>>>>> +
-> >>>>>>  #define vop2_output_if_is_hdmi(x)	((x) =3D=3D ROCKCHIP_VOP2_EP_HD=
-MI0 || \
-> >>>>>>  					 (x) =3D=3D ROCKCHIP_VOP2_EP_HDMI1)
-> >>>>>> =20
-> >>>>>> @@ -1033,6 +1037,9 @@ static void vop2_crtc_atomic_disable(struct =
-drm_crtc *crtc,
-> >>>>>> =20
-> >>>>>>  	vop2_crtc_disable_irq(vp, VP_INT_DSP_HOLD_VALID);
-> >>>>>> =20
-> >>>>>> +	if (vp->dclk_src)
-> >>>>>> +		clk_set_parent(vp->dclk, vp->dclk_src);
-> >>>>>> +
-> >>>>>>  	clk_disable_unprepare(vp->dclk);
-> >>>>>> =20
-> >>>>>>  	vop2->enable_count--;
-> >>>>>> @@ -2049,6 +2056,27 @@ static void vop2_crtc_atomic_enable(struct =
-drm_crtc *crtc,
-> >>>>>> =20
-> >>>>>>  	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
-> >>>>>> =20
-> >>>>>> +	/*
-> >>>>>> +	 * Switch to HDMI PHY PLL as DCLK source for display modes up
-> >>>>>> +	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
-> >>>>>> +	 */
-> >>>>>> +	if (vop2->pll_hdmiphy0 && mode->crtc_clock <=3D VOP2_MAX_DCLK_RA=
-TE) {
-> >>>>>> +		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encod=
-er_mask) {
-> >>>>>> +			struct rockchip_encoder *rkencoder =3D to_rockchip_encoder(enc=
-oder);
-> >>>>>> +
-> >>>>>> +			if (rkencoder->crtc_endpoint_id =3D=3D ROCKCHIP_VOP2_EP_HDMI0)=
- {
-> >>>>>> +				if (!vp->dclk_src)
-> >>>>>> +					vp->dclk_src =3D clk_get_parent(vp->dclk);
-> >>>>>> +
-> >>>>>> +				ret =3D clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
-> >>>>>> +				if (ret < 0)
-> >>>>>> +					drm_warn(vop2->drm,
-> >>>>>> +						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
-> >>>>>> +				break;
-> >>>>>> +			}
-> >>>>>> +		}
-> >>>>>> +	}
-> >>>>>> +
-> >>>>>
-> >>>>> It seems pretty fragile to do it at atomic_enable time, even more so
-> >>>>> since you don't lock the parent either.
-> >>>>>
-> >>>>> Any reason not to do it in the DRM or clock driver probe, and make =
-sure
-> >>>>> you never change the parent somehow?
-> >>>>
-> >>>> On rk3588 we have 3 dclk_s and 2 hdmi controllers. Each video-port c=
-an
-> >>>> use the clock generated from either the hdmi0phy or hdmi1phy, depend=
-ing
-> >>>> on which hdmi-controller it uses.
-> >>>>
-> >>>> So you actually need to know which vpX will output to which hdmiY to=
- then
-> >>>> reparent that dclk to the hdmiphy output.
-> >>>
-> >>> The Rockchip nomenclature isn't super obvious to me, sorry. Is there a
-> >>> datasheet for this somewhere? Also, does this vpX -> HDMI-Y mapping n=
-eed
-> >>> to be dynamic?
-> >>
-> >> VPs are CRTCs in drm-language and each of them can drive a differing
-> >> number of output encoders. Those video-ports also have differing output
-> >> characteristics in terms of supported resolution and other properties.
-> >>
-> >> The rk3588 TRM has leaked in a number of places, and if you find a
-> >> TRM-part2, there is a section labeled "Display Output Interface Descri=
-ption"
-> >> that has a nice graphic for that.
-> >>
-> >> Or in short:
-> >> - CRTC(VP)0 supports 8K resolution and can drive DP0+1, HDMI0+1, eDP0+1
-> >>   [if I'm reading things correctly, 8K together with CRTC1 somehow)
-> >> - CRTC(VP)1 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP0+1
-> >> - CRTC(VP)2 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP01=
-, DSI0+1
-> >> - CRTC(VP)3 supports 2K resolution and can drive DSI0+1 and some BT112=
-0,BT656
-> >>
-> >> so for the 3 higher resolution CRTCs there are essentially 6 or 8 outp=
-ut options
-> >> depending on the board design
-> >=20
-> > That's much clearer, thanks. I'm not entirely sure how that links to the
-> > need for the PLL to change its parent depending on the ouput. Do you
-> > need to always have all the outputs on the same PLL?
->=20
-> One of the problems is that the PHY PLLs cannot be used as clock sources
-> for resolutions above 4K@60Hz, while VOP2 on RK3588 supports up to 8K@60H=
-z,
-> which is supposed to be handled by the system CRU.
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index cdeead75c6f5..9facf45818f9 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -690,6 +690,9 @@ static int aie2_hwctx_cu_config(struct amdxdna_hwctx *hwctx, void *buf, u32 size
+ 	int ret;
+ 
+ 	XDNA_DBG(xdna, "Config %d CU to %s", config->num_cus, hwctx->name);
++	if (XDNA_MBZ_DBG(xdna, config->pad, sizeof(config->pad)))
++		return -EINVAL;
++
+ 	if (hwctx->status != HWCTX_STAT_INIT) {
+ 		XDNA_ERR(xdna, "Not support re-config CU");
+ 		return -EINVAL;
+diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
+index b2ca78cfd0a7..9e2c9a44f76a 100644
+--- a/drivers/accel/amdxdna/aie2_message.c
++++ b/drivers/accel/amdxdna/aie2_message.c
+@@ -395,6 +395,9 @@ int aie2_config_cu(struct amdxdna_hwctx *hwctx)
+ 	for (i = 0; i < hwctx->cus->num_cus; i++) {
+ 		struct amdxdna_cu_config *cu = &hwctx->cus->cu_configs[i];
+ 
++		if (XDNA_MBZ_DBG(xdna, cu->pad, sizeof(cu->pad)))
++			return -EINVAL;
++
+ 		gobj = drm_gem_object_lookup(hwctx->client->filp, cu->cu_bo);
+ 		if (!gobj) {
+ 			XDNA_ERR(xdna, "Lookup GEM object failed");
+diff --git a/drivers/accel/amdxdna/amdxdna_ctx.c b/drivers/accel/amdxdna/amdxdna_ctx.c
+index 324f35c43f6c..d11b1c83d9c3 100644
+--- a/drivers/accel/amdxdna/amdxdna_ctx.c
++++ b/drivers/accel/amdxdna/amdxdna_ctx.c
+@@ -243,6 +243,9 @@ int amdxdna_drm_destroy_hwctx_ioctl(struct drm_device *dev, void *data, struct d
+ 	struct amdxdna_hwctx *hwctx;
+ 	int ret = 0, idx;
+ 
++	if (XDNA_MBZ_DBG(xdna, &args->pad, sizeof(args->pad)))
++		return -EINVAL;
++
+ 	if (!drm_dev_enter(dev, &idx))
+ 		return -ENODEV;
+ 
+@@ -277,6 +280,9 @@ int amdxdna_drm_config_hwctx_ioctl(struct drm_device *dev, void *data, struct dr
+ 	void *buf;
+ 	u64 val;
+ 
++	if (XDNA_MBZ_DBG(xdna, &args->pad, sizeof(args->pad)))
++		return -EINVAL;
++
+ 	if (!xdna->dev_info->ops->hwctx_config)
+ 		return -EOPNOTSUPP;
+ 
+diff --git a/drivers/accel/amdxdna/amdxdna_gem.c b/drivers/accel/amdxdna/amdxdna_gem.c
+index 4dfeca306d98..606433d73236 100644
+--- a/drivers/accel/amdxdna/amdxdna_gem.c
++++ b/drivers/accel/amdxdna/amdxdna_gem.c
+@@ -552,7 +552,7 @@ int amdxdna_drm_get_bo_info_ioctl(struct drm_device *dev, void *data, struct drm
+ 	struct drm_gem_object *gobj;
+ 	int ret = 0;
+ 
+-	if (args->ext || args->ext_flags)
++	if (args->ext || args->ext_flags || args->pad)
+ 		return -EINVAL;
+ 
+ 	gobj = drm_gem_object_lookup(filp, args->handle);
+diff --git a/include/uapi/drm/amdxdna_accel.h b/include/uapi/drm/amdxdna_accel.h
+index e4edb52bc27b..92eff83fac1f 100644
+--- a/include/uapi/drm/amdxdna_accel.h
++++ b/include/uapi/drm/amdxdna_accel.h
+@@ -87,7 +87,7 @@ struct amdxdna_drm_create_hwctx {
+ /**
+  * struct amdxdna_drm_destroy_hwctx - Destroy hardware context.
+  * @handle: Hardware context handle.
+- * @pad: Structure padding.
++ * @pad: MBZ.
+  */
+ struct amdxdna_drm_destroy_hwctx {
+ 	__u32 handle;
+@@ -98,7 +98,7 @@ struct amdxdna_drm_destroy_hwctx {
+  * struct amdxdna_cu_config - configuration for one CU
+  * @cu_bo: CU configuration buffer bo handle.
+  * @cu_func: Function of a CU.
+- * @pad: Structure padding.
++ * @pad: MBZ.
+  */
+ struct amdxdna_cu_config {
+ 	__u32 cu_bo;
+@@ -109,7 +109,7 @@ struct amdxdna_cu_config {
+ /**
+  * struct amdxdna_hwctx_param_config_cu - configuration for CUs in hardware context
+  * @num_cus: Number of CUs to configure.
+- * @pad: Structure padding.
++ * @pad: MBZ.
+  * @cu_configs: Array of CU configurations of struct amdxdna_cu_config.
+  */
+ struct amdxdna_hwctx_param_config_cu {
+@@ -133,7 +133,7 @@ enum amdxdna_drm_config_hwctx_param {
+  * @param_val: A structure specified by the param_type struct member.
+  * @param_val_size: Size of the parameter buffer pointed to by the param_val.
+  *		    If param_val is not a pointer, driver can ignore this.
+- * @pad: Structure padding.
++ * @pad: MBZ.
+  *
+  * Note: if the param_val is a pointer pointing to a buffer, the maximum size
+  * of the buffer is 4KiB(PAGE_SIZE).
+@@ -175,7 +175,7 @@ struct amdxdna_drm_create_bo {
+  * @ext: MBZ.
+  * @ext_flags: MBZ.
+  * @handle: DRM buffer object handle.
+- * @pad: Structure padding.
++ * @pad: MBZ.
+  * @map_offset: Returned DRM fake offset for mmap().
+  * @vaddr: Returned user VA of buffer. 0 in case user needs mmap().
+  * @xdna_addr: Returned XDNA device virtual address.
+-- 
+2.34.1
 
-But can that system CRU drive resolutions lower than 4k@60? If so, why
-do we bother with PHYs?
-
-> Moreover, the 2 PLLs are shared between 3 out of the 4 video ports already
-> mentioned by Heiko.  There is quite a bit of complexity in downstream
-> driver to handle all possible usecases - see [1] for a brief description =
-on
-> how was that designed to work.
-
-That's a generic allocation issue. Multiple drivers (vc4 for example)
-has this issue for other components. It can be fairly easily dealt with
-at atomic_check time.
-
-Maxime
-
---j4mpk3mpmbzuirpe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2GsgQAKCRAnX84Zoj2+
-dujIAX96ph7wCOEKhEVEvFE7nIYDouKQ48JPrJAUDi5plPwo1A/2ruUYjui/h6aO
-6e/R4ugBgM2dKMjhL2GPa78I2aqbjLCG/FGj4quQcjpkH3nmXDPHdkz5FaZJO0ee
-9vQJK4Wzqw==
-=+Pvw
------END PGP SIGNATURE-----
-
---j4mpk3mpmbzuirpe--
