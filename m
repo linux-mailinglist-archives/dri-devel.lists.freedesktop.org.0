@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254439F4FB7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3AA9F4FB2
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:44:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AA4610E9E2;
-	Tue, 17 Dec 2024 15:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F7B10E9DE;
+	Tue, 17 Dec 2024 15:44:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="h7m++wRu";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YKWmqhB6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [IPv6:2a01:4f8:201:9162::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E96DD10E9BF
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:44:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3FCC10E9BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734450239;
- bh=s1zzEfNSvXRi+IqB+kwd0bhxobUdKK+YYX+/7wrN7us=;
+ s=mail; t=1734450240;
+ bh=uPC7d2PZhR6VYtSMBuY3w/VZxXfnYYEEedsTFX2S8Xg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h7m++wRuvR/+1JINTYosG1vjBAgNNn3DE55bSCOV6h8VxWLnG/3wYcWGVvSW/sAaW
- nGrki4yfpz2aunZ+5QMgXTyuFLxuTm5dHj7/mdJbAFTMzmeKiW5elGA9PRisOBgqIo
- G29fOZeN6fZaN0/FtWYJyT8lxZIxb88R/0JvJFV5WiU9LHgtMJmGLgVda/IpJZ0yoA
- ydSn5XedkDIkmQGiMfQKT2isE9YTjcYxG7ZUyMItLwRddKTVSw4v1NziNSOX4ZNxSt
- sAtyKmh7S0MHgrvFMt+g9SYsIin47xYSx+g7l+2kJuiYWeBDvBBntI1EvaTk4/v2SK
- j4gTOkYl5L2rQ==
+ b=YKWmqhB600sPgbQXOhmUNbU9YFBEQhfL9DRtOP00qTMqplS8cCwnViyZV7hFDtMVl
+ lPnlX/7gkI136OLeuZtUiPc3p77iGQiQEQqsOCrs0XKl3SuKxIEWi2E3N9S851IiYz
+ ZIDMlo+CN28jFdoMu9XqYRXVlGHVTYQWLMuat3skXlrqRb8S3p+PUyJVvj5UcL7W1B
+ mzhqgJlaY9NhO5h0rZBC2Hp/thc0kl9x8LvPO7pmuO/YGW/wcDsTQoGrb/bMp6jB0L
+ JRUCrHxa5Do2/++E7B/G47agQllGK880/tZ0DC7zZhskHCBKQISeqPdZ/Pwf7JpKUp
+ P9JYNVy9xYPqg==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 19D2C17E37AF;
- Tue, 17 Dec 2024 16:43:58 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 832FB17E37B0;
+ Tue, 17 Dec 2024 16:43:59 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -44,10 +44,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, dmitry.baryshkov@linaro.org
-Subject: [PATCH v3 06/33] drm/mediatek: Add support for MT8195 Digital
- Parallel Interface
-Date: Tue, 17 Dec 2024 16:43:18 +0100
-Message-ID: <20241217154345.276919-7-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 07/33] dt-bindings: display: mediatek: Add binding for
+ MT8195 HDMI-TX v2
+Date: Tue, 17 Dec 2024 16:43:19 +0100
+Message-ID: <20241217154345.276919-8-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
 References: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
@@ -68,190 +68,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the DPI block found in the MT8195 and MT8188 SoCs.
-Inside of the SoC, this block is directly connected to the HDMI IP.
+Add a binding for the HDMI TX v2 Encoder found in MediaTek MT8195
+and MT8188 SoCs.
+
+This fully supports the HDMI Specification 2.0b, hence it provides
+support for 3D-HDMI, Polarity inversion, up to 16 bits Deep Color,
+color spaces including RGB444, YCBCR420/422/444 (ITU601/ITU709) and
+xvYCC, with output resolutions up to 3840x2160p@60Hz.
+
+Moreover, it also supports HDCP 1.4 and 2.3, Variable Refresh Rate
+(VRR) and Consumer Electronics Control (CEC).
+
+This IP also includes support for HDMI Audio, including IEC60958
+and IEC61937 SPDIF, 8-channel PCM, DSD, and other lossless audio
+according to HDMI 2.0.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c      | 55 ++++++++++++++++++++++---
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  6 +++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  2 +
- 3 files changed, 58 insertions(+), 5 deletions(-)
+ .../mediatek/mediatek,mt8195-hdmi.yaml        | 154 ++++++++++++++++++
+ 1 file changed, 154 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index ed9849ad3e79..334ab9be2f31 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -144,6 +144,7 @@ struct mtk_dpi_factor {
-  * @csc_enable_bit: Enable bit of CSC.
-  * @pixels_per_iter: Quantity of transferred pixels per iteration.
-  * @edge_cfg_in_mmsys: If the edge configuration for DPI's output needs to be set in MMSYS.
-+ * @is_internal_hdmi: Specifies whether the DPI is internally connected to the HDMI block
-  */
- struct mtk_dpi_conf {
- 	const struct mtk_dpi_factor *dpi_factor;
-@@ -164,6 +165,7 @@ struct mtk_dpi_conf {
- 	u32 csc_enable_bit;
- 	u32 pixels_per_iter;
- 	bool edge_cfg_in_mmsys;
-+	bool is_internal_hdmi;
- };
- 
- static void mtk_dpi_mask(struct mtk_dpi *dpi, u32 offset, u32 val, u32 mask)
-@@ -492,6 +494,7 @@ static void mtk_dpi_power_off(struct mtk_dpi *dpi)
- 
- 	mtk_dpi_disable(dpi);
- 	clk_disable_unprepare(dpi->pixel_clk);
-+	clk_disable_unprepare(dpi->tvd_clk);
- 	clk_disable_unprepare(dpi->engine_clk);
- }
- 
-@@ -508,6 +511,12 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 		goto err_refcount;
- 	}
- 
-+	ret = clk_prepare_enable(dpi->tvd_clk);
-+	if (ret) {
-+		dev_err(dpi->dev, "Failed to enable tvd pll: %d\n", ret);
-+		goto err_engine;
-+	}
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+new file mode 100644
+index 000000000000..73b1dfaa1adb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+@@ -0,0 +1,154 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	ret = clk_prepare_enable(dpi->pixel_clk);
- 	if (ret) {
- 		dev_err(dpi->dev, "Failed to enable pixel clock: %d\n", ret);
-@@ -517,6 +526,8 @@ static int mtk_dpi_power_on(struct mtk_dpi *dpi)
- 	return 0;
- 
- err_pixel:
-+	clk_disable_unprepare(dpi->tvd_clk);
-+err_engine:
- 	clk_disable_unprepare(dpi->engine_clk);
- err_refcount:
- 	dpi->refcount--;
-@@ -584,7 +595,9 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
- 	struct videomode vm = { 0 };
- 
- 	drm_display_mode_to_videomode(mode, &vm);
--	mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
++title: MediaTek HDMI-TX v2 Encoder
 +
-+	if (!dpi->conf->is_internal_hdmi)
-+		mtk_dpi_set_pixel_clk(dpi, &vm, mode->clock);
- 
- 	dpi_pol.ck_pol = MTK_DPI_POLARITY_FALLING;
- 	dpi_pol.de_pol = MTK_DPI_POLARITY_RISING;
-@@ -647,10 +660,18 @@ static int mtk_dpi_set_display_mode(struct mtk_dpi *dpi,
- 	if (dpi->conf->support_direct_pin) {
- 		mtk_dpi_config_yc_map(dpi, dpi->yc_map);
- 		mtk_dpi_config_2n_h_fre(dpi);
--		mtk_dpi_dual_edge(dpi);
-+		/* DPI can connect to either an external bridge or the internal HDMI encoder */
-+		if (dpi->conf->is_internal_hdmi) {
-+			mtk_dpi_mask(dpi, DPI_CON, DPI_OUTPUT_1T1P_EN, DPI_OUTPUT_1T1P_EN);
-+			mtk_dpi_mask(dpi, DPI_CON,
-+				     dpi->conf->input_2pixel ? DPI_INPUT_2P_EN : 0,
-+				     DPI_INPUT_2P_EN);
-+		} else {
-+			mtk_dpi_dual_edge(dpi);
-+		}
- 		mtk_dpi_config_disable_edge(dpi);
- 	}
--	if (dpi->conf->input_2pixel) {
-+	if (dpi->conf->input_2pixel && !dpi->conf->is_internal_hdmi) {
- 		mtk_dpi_mask(dpi, DPI_CON, DPINTF_INPUT_2P_EN,
- 			     DPINTF_INPUT_2P_EN);
- 	}
-@@ -919,14 +940,16 @@ void mtk_dpi_start(struct device *dev)
- {
- 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
- 
--	mtk_dpi_power_on(dpi);
-+	if (!dpi->conf->is_internal_hdmi)
-+		mtk_dpi_power_on(dpi);
- }
- 
- void mtk_dpi_stop(struct device *dev)
- {
- 	struct mtk_dpi *dpi = dev_get_drvdata(dev);
- 
--	mtk_dpi_power_off(dpi);
-+	if (!dpi->conf->is_internal_hdmi)
-+		mtk_dpi_power_off(dpi);
- }
- 
- unsigned int mtk_dpi_encoder_index(struct device *dev)
-@@ -1021,6 +1044,8 @@ static const struct mtk_dpi_factor dpi_factor_mt8195_dp_intf[] = {
- 	{ 70000 - 1, 4 }, { 200000 - 1, 2 }, { U32_MAX, 1 }
- };
- 
-+static const struct mtk_dpi_factor dpi_factor_mt8195_dpi = { U32_MAX, 1 };
++maintainers:
++  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
++  - CK Hu <ck.hu@mediatek.com>
 +
- static const struct mtk_dpi_conf mt8173_conf = {
- 	.dpi_factor = dpi_factor_mt8173,
- 	.num_dpi_factor = ARRAY_SIZE(dpi_factor_mt8173),
-@@ -1113,6 +1138,25 @@ static const struct mtk_dpi_conf mt8192_conf = {
- 	.csc_enable_bit = CSC_ENABLE,
- };
- 
-+static const struct mtk_dpi_conf mt8195_conf = {
-+	.dpi_factor = &dpi_factor_mt8195_dpi,
-+	.num_dpi_factor = 1,
-+	.max_clock_khz = 594000,
-+	.output_fmts = mt8183_output_fmts,
-+	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.pixels_per_iter = 1,
-+	.is_ck_de_pol = true,
-+	.swap_input_support = true,
-+	.support_direct_pin = true,
-+	.dimension_mask = HPW_MASK,
-+	.hvsize_mask = HSIZE_MASK,
-+	.channel_swap_shift = CH_SWAP,
-+	.yuv422_en_bit = YUV422_EN,
-+	.csc_enable_bit = CSC_ENABLE,
-+	.is_internal_hdmi = true,
-+	.input_2pixel = true,
-+};
++description:
++  The MediaTek HDMI-TX v2 encoder can generate HDMI format data based on
++  the HDMI Specification 2.0b.
 +
- static const struct mtk_dpi_conf mt8195_dpintf_conf = {
- 	.dpi_factor = dpi_factor_mt8195_dp_intf,
- 	.num_dpi_factor = ARRAY_SIZE(dpi_factor_mt8195_dp_intf),
-@@ -1216,6 +1260,7 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8188-dp-intf", .data = &mt8195_dpintf_conf },
- 	{ .compatible = "mediatek,mt8192-dpi", .data = &mt8192_conf },
- 	{ .compatible = "mediatek,mt8195-dp-intf", .data = &mt8195_dpintf_conf },
-+	{ .compatible = "mediatek,mt8195-dpi", .data = &mt8195_conf },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-index a0b1d18bbbf7..3c24d9e9f241 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-@@ -40,6 +40,12 @@
- #define FAKE_DE_LEVEN			BIT(21)
- #define FAKE_DE_RODD			BIT(22)
- #define FAKE_DE_REVEN			BIT(23)
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8188-hdmi-tx
++      - mediatek,mt8195-hdmi-tx
 +
-+/* DPI_CON: DPI instances */
-+#define DPI_OUTPUT_1T1P_EN		BIT(24)
-+#define DPI_INPUT_2P_EN			BIT(25)
++  reg:
++    maxItems: 1
 +
-+/* DPI_CON: DPINTF instances */
- #define DPINTF_YUV422_EN		BIT(24)
- #define DPINTF_CSC_ENABLE		BIT(26)
- #define DPINTF_INPUT_2P_EN		BIT(29)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 49af2b19a85a..ad1eb91067c0 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -805,6 +805,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8195-dp-intf",
- 	  .data = (void *)MTK_DP_INTF },
-+	{ .compatible = "mediatek,mt8195-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8173-dsi",
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: HDMI Peripheral Bus (APB) clock
++      - description: HDCP and HDMI_TOP clock
++      - description: HDCP and HDMI_TOP reference clock
++      - description: VPP HDMI Split clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: hdcp
++      - const: hdcp24m
++      - const: hdmi-split
++
++  i2c:
++    type: object
++    $ref: /schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
++    unevaluatedProperties: false
++    description: HDMI DDC I2C controller
++
++  phys:
++    maxItems: 1
++    description: PHY providing clocking TMDS and pixel to controller
++
++  phy-names:
++    items:
++      - const: hdmi
++
++  pinctrl-0: true
++
++  pinctrl-names:
++    items:
++      - const: default
++
++  power-domains:
++    maxItems: 1
++
++  '#sound-dai-cells':
++    const: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Input port, usually connected to the output port of a DPI
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Output port that must be connected either to the input port of
++          a HDMI connector node containing a ddc-i2c-bus, or to the input
++          port of an attached bridge chip, such as a SlimPort transmitter.
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - power-domains
++  - phys
++  - phy-names
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/mt8195-clk.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/mt8195-power.h>
++
++    soc {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        hdmi-tx@1c300000 {
++            compatible = "mediatek,mt8195-hdmi-tx";
++            reg = <0 0x1c300000 0 0x1000>;
++            clocks = <&topckgen CLK_TOP_HDMI_APB>,
++                     <&topckgen CLK_TOP_HDCP>,
++                     <&topckgen CLK_TOP_HDCP_24M>,
++                     <&vppsys1 CLK_VPP1_VPP_SPLIT_HDMI>;
++            clock-names = "bus", "hdcp", "hdcp24m", "hdmi-split";
++            interrupts = <GIC_SPI 677 IRQ_TYPE_LEVEL_HIGH 0>;
++            phys = <&hdmi_phy>;
++            phy-names = "hdmi";
++            power-domains = <&spm MT8195_POWER_DOMAIN_HDMI_TX>;
++            pinctrl-names = "default";
++            pinctrl-0 = <&hdmi_pins>;
++            #sound-dai-cells = <1>;
++
++            hdmitx_ddc: i2c {
++                compatible = "mediatek,mt8195-hdmi-ddc";
++                clocks = <&clk26m>;
++            };
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++
++                    hdmi_in: endpoint {
++                        remote-endpoint = <&dpi1_out>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++
++                    hdmi_out: endpoint {
++                        remote-endpoint = <&hdmi_connector_in>;
++                    };
++                };
++            };
++        };
++    };
 -- 
 2.47.0
 
