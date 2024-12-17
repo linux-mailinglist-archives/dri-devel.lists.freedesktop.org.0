@@ -2,104 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90F39F4E5A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D9B9F4E80
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:54:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 718E310E9AB;
-	Tue, 17 Dec 2024 14:51:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hroTZ7Ew";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B06210E9B2;
+	Tue, 17 Dec 2024 14:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72F9310E9B7
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 14:51:31 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id
- 5b1f17b1804b1-43622267b2eso57222435e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:51:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734447090; x=1735051890; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=B4/tn0+NaXoZvCxd7DO6dwQt1/7UILyIFVNQSPfY62g=;
- b=hroTZ7EwQjnubEGhoiYEGdHO90iZQWug0TZGxo9i9SFt/ThJ5ROp8JR+CWDBRKvWQK
- Hd4vZgda5Nn0UHxNfsZek/AYGERPdAnhaeG6uS4UBWASQ/MoQqsGQmPdV/+Ykya++ziI
- Lt5ytk76S5Vqi3Qr2l/qZdiBMDA05UXwElc4f0SHndP+wLWT3WREZgR6hbmJYeC6OL1o
- GJ+8xtC/AC4Cxy8qGn2h16xbWVHjI6AeCckXJ9LYOjIu1h7OpjG12v22rbtQ5DwrQIHx
- FFvdGXbpwuKRVXIhG+Pbb+ixFNmjAM51jLA14GrDebiBE+4OpKChKRuUmQy+ANiqwLgY
- AfVA==
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com
+ [209.85.221.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CA3C10E9B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 14:54:48 +0000 (UTC)
+Received: by mail-vk1-f174.google.com with SMTP id
+ 71dfb90a1353d-5188e0c2b52so1504285e0c.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:54:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734447090; x=1735051890;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1734447285; x=1735052085;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B4/tn0+NaXoZvCxd7DO6dwQt1/7UILyIFVNQSPfY62g=;
- b=P99VBIiZblyoYeFwTS4iOqwP15/WYzGNR/oNv0KLTrynykn059wrqGibKd/F+XV1tK
- TB5GVoX9JX1GOacujwBLwNn7diyJ3OAPuCd7ZxjGIABxdyGd7QeZnmPFOBvP4lJtd1S3
- llcWK67KQytx8IC5/IVamTFdN6zzrlYYR1AVOJiGSB7Dc9RAM5bKRATuoTufbyE6z5Zz
- 5c6KcWjsDuopgThFNqcndCy1fxMax21qqzBxssbblB/5TMmo++W0/I+zpC9X8ZbCp05j
- d3zqApFZBkjCDvQpdTdvuwAGFCFrxYx9wHPkAVH1CWRmbw6UXF/INOms9NHKfju5WuqC
- AfZg==
+ bh=JdmJj7Bit7IiUWRERL1dUMIdyUMl4mYcreSSKLZ0A1g=;
+ b=Y54QzacChjfS4D0vMhivhrdf/IqaZSnlhvk9/ol9QFefcXA0Meb9hJJTmGnT0AIgP3
+ +ssSldV9kAJSRyn/VE1E/ULjr1gsUJEeFIOq00ZyuPplH0VMm2h88v728oL3+gOPjx56
+ c3io8Ndw4shkbQtWKGE/WjgL+Q6o2qazRug9LorbKEQBJNnSQrAFdN9JTRV7woTN1mWv
+ ZOljdn/oAT10pqOi4DfwgnFEz6n9lLTTBug1kxhWVRKGa3z+4vhvqZQDtoTmQuZ3GE7k
+ 5RtP0Eudb+SYxRMpqIebjrZg4NxKLFGg/55khd0uJc2fVnPOGptndTwsdFg2rCDIL+s5
+ vxcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOLrF8vaYjIKShPNxAKDcivrn8XLKLWMVPqkVpLly2TogaT60x31vXm0JoxvTtD3ETvd6tjkr9DLE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRCEUbRyjFl87c/L/dXxH8nuhldp7u0WM6vxqp6ajsXNQw9LDs
- z7mdL4iHh/yTcan1J3IYm0eu6JDRxp29SVr9Cm5io9xCl6zg0It1ha6sfCkT5ZE=
-X-Gm-Gg: ASbGnctLrSMwsccWE3OqSdnuGd4CgMMvRKJFBQvhWzdcd2gyCewJqamkezBfjHUWYUI
- a1P+iyeilmEpSJY7afQlmpr6SaruKYk5+9VtD2agCk8dk+SPdMr9tLRUVkXw+AYN6JFiMC08zgO
- G8iBWzUI3aYHXazlysjhlsHuHwC+14H+i+kbjaS2i59vCaMK0sltVTk3Q8vJvbYP2ZQ02B2/UeG
- XNkTa5L8H3/IzkETz6DIv41w7jWtPWZIZzZ5Xyra8Q18/DAtAJl1Zl8iEbwKu2Hpvom0qLu9toN
- yA==
-X-Google-Smtp-Source: AGHT+IH/5sriNzAD6IaFFPEiS4CWanvVfWJxtccBMyLLxpopN0MCzfz2fRQvDKyhFZ41uHBFsZ98Mw==
-X-Received: by 2002:a05:600c:1f0b:b0:434:a94f:f8a9 with SMTP id
- 5b1f17b1804b1-4362aaa495emr130893345e9.28.1734447089987; 
- Tue, 17 Dec 2024 06:51:29 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43636066f51sm118417375e9.22.2024.12.17.06.51.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 06:51:29 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Tue, 17 Dec 2024 15:51:20 +0100
-Subject: [PATCH v6 7/7] arm64: qcom: dts: sm8650: add interconnect and
- opp-peak-kBps for GPU
+ AJvYcCXXloryKdwWFHY0ZdUwrQg5Wxwjuxv5mq1Z0tsfLnUK0OepqHOTNfyMZus6SVfJZ0lZpXE9DWIHxnM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxWGSkxuBf1zTFrtNplU90g/SfmMqO0bCm72nQq1eFVbvHqGcd
+ agciUDxl2giYo49kJtEO9cjH+3ECM1ZbcyIgPUgp2eh/AmkejEwEJhKTMxIq
+X-Gm-Gg: ASbGncu1Ht03VbnDDYdTtqPkM5jOjUHJOUfoyCHnyGriTw5DMebCvKqMBmwJrm7Ual/
+ DEL8d8YCKU7t5swGfDinq4VSDzOFYzAslpQj/+M2fFe0BEbOI0VbqajHtd3vDa9tgqwiJ6o5CBc
+ MoGJ0iR5PeuuJn+z1YQuGSIiBfIzJ5LnWtDsmTpfU4ijswczvZsJuhkAe3bpY8BDfMl/ThE/e5a
+ EBnuOA9NC8SN6gbhyqoGlKRL7zpgXQGN10FDAOg4AkiJMdo+vD5WusP3c3XfPDLHyj/j9O/igky
+ dDqwikSN4+M5RH525YY=
+X-Google-Smtp-Source: AGHT+IGD6umcQbHC/yk/fJ1rijOjYdqChGnNWW0JGLYkf8eCcI09nAMO/DIMjIwTsL70yXRgOEIlGA==
+X-Received: by 2002:a05:6122:920:b0:518:7c13:d191 with SMTP id
+ 71dfb90a1353d-518ca2af698mr15537870e0c.8.1734447284702; 
+ Tue, 17 Dec 2024 06:54:44 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com.
+ [209.85.217.49]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-519e35e25dasm940601e0c.13.2024.12.17.06.54.43
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Dec 2024 06:54:43 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id
+ ada2fe7eead31-4aff31b77e8so1715453137.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:54:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVPMIBGt+p1s7A6/cm4WkWcAPfn1+48KP8gP8xJIxMT1PG+DzuFpMG51d2POz4RWKMf/CTEqj8iqFY=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:5122:b0:4b1:ed1:569d with SMTP id
+ ada2fe7eead31-4b25de51c53mr14854492137.27.1734447283528; Tue, 17 Dec 2024
+ 06:54:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-topic-sm8x50-gpu-bw-vote-v6-7-1adaf97e7310@linaro.org>
-References: <20241217-topic-sm8x50-gpu-bw-vote-v6-0-1adaf97e7310@linaro.org>
-In-Reply-To: <20241217-topic-sm8x50-gpu-bw-vote-v6-0-1adaf97e7310@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2681;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=mRmcybJomrA8DtYq9fiyqS6rR7q297sl5lRf/i/VlGk=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnYY/obfz13xZbRrotrGQIw50hlz2scCvq+FWxJcUZ
- 9RBFiZeJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ2GP6AAKCRB33NvayMhJ0TEbD/
- 9LdU33QP0qcYGWuG7UuVR7KT5vp8m/DQImoa/Hpl51HouhcVrZshNZwY4bSn1uMlj2v8iCcI8lQ006
- UnDSdei+wedcHwZdYM5t4ME6EPDaIBWI0PDVozWIUy4jbDaCp6G/0zWgJIoY4nCRCnA7RGaeusFVXa
- 9rVGS0aCsmF2uiYynvpqgrsc5Z6FHtKVNTb9lCIXBpfzIXlDsFGTKQzKRjJvOHBmEKJB3APvjextbd
- EOw0N6KiAsCHqysZgpIW1BpjcwEfW3Sh2ko4kYiBBzl0Qbz20wAbg8HAMj/LGQQ747ajKjICqZzZTd
- 1FS3N4LWO59SmtPLRImaDO14GFniJkLyhtptdiT/R/7RY9i6gDHdBe1ZZoiBN9AHHt3qyc2rvMxxxE
- Ml5iK0AkBQZYdGUR6moLrQlAybVFqlOAdikPA7bXQpsNiAIME3tQXBZFQtK0gzhMQd5HBkgNU+o5it
- sbrod/DJiHI1NFK7+U0XA8+/lEr3xvurM5EWKsdh6W4vYBU73vGogyNpDNfg6SH2GFk20qSIrRD9Gq
- 6pLjhanFozPRudSjnyN5HBmvBsNeGKv8LBNsmicf24Yq33zlyKFFC21DcjTbEscCyjaoR3zK9/k/eo
- vpF8hw9h9kDloT50VlK1fAuWdBaf/CjJgQq1B93WyYgl87GZe1X9OmlTiyLA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+References: <20241204160014.1171469-1-jfalempe@redhat.com>
+ <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
+ <301714d8-0723-4881-83e8-24523c121bfe@redhat.com>
+In-Reply-To: <301714d8-0723-4881-83e8-24523c121bfe@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Dec 2024 15:54:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
+Message-ID: <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
+Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>, bluescreen_avenger@verizon.net, 
+ Caleb Connolly <caleb.connolly@linaro.org>, Petr Mladek <pmladek@suse.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,98 +94,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each GPU OPP requires a specific peak DDR bandwidth, let's add
-those to each OPP and also the related interconnect path.
+Hi Jocelyn.
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- arch/arm64/boot/dts/qcom/sm8650.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+On Tue, Dec 17, 2024 at 3:46=E2=80=AFPM Jocelyn Falempe <jfalempe@redhat.co=
+m> wrote:
+> On 17/12/2024 15:19, Geert Uytterhoeven wrote:
+> > On Wed, Dec 4, 2024 at 6:41=E2=80=AFPM Jocelyn Falempe <jfalempe@redhat=
+.com> wrote:
+> >> drm_log is a simple logger that uses the drm_client API to print the k=
+msg boot log on the screen.
+> >> This is not a full replacement to fbcon, as it will only print the kms=
+g.
+> >> It will never handle user input, or a terminal because this is better =
+done in userspace.
+> >>
+> >> If you're curious on how it looks like, I've put a small demo here:
+> >> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
+> >>
+> >> Design decisions:
+> >>    * It uses the drm_client API, so it should work on all drm drivers =
+from the start.
+> >>    * It doesn't scroll the message, that way it doesn't need to redraw=
+ the whole screen for each new message.
+> >>      It also means it doesn't have to keep drawn messages in memory, t=
+o redraw them when scrolling.
+> >>    * It uses the new non-blocking console API, so it should work well =
+with PREEMPT_RT
+> >
+> > I gave this a try on Koelsch (R-Car M2-W), using rcar-du.
+> > Unfortunately I don't see any kernel messages, and my monitor complains
+> > about no signal. Does this require special support from the driver?
+>
+> It doesn't require a special support from the driver. But as it is the
+> first drm client other than fbdev emulation, I'm not surprised it's
+> broken on some driver.
+> I know it works on virtio-gpu, nouveau, amdgpu, and even on a OnePlus 6
+> (Qualcomm SDM845/freedreno), without requiring driver changes.
+>
+> Do you have a serial console on this device, to check if there is
+> something in kmsg?
 
-diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-index 25e47505adcb790d09f1d2726386438487255824..c76c0038c35ab048c88be9870b14c3a0b24b4183 100644
---- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-@@ -2636,6 +2636,10 @@ gpu: gpu@3d00000 {
- 			qcom,gmu = <&gmu>;
- 			#cooling-cells = <2>;
- 
-+			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-+			interconnect-names = "gfx-mem";
-+
- 			status = "disabled";
- 
- 			zap-shader {
-@@ -2649,56 +2653,67 @@ gpu_opp_table: opp-table {
- 				opp-231000000 {
- 					opp-hz = /bits/ 64 <231000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D2>;
-+					opp-peak-kBps = <2136718>;
- 				};
- 
- 				opp-310000000 {
- 					opp-hz = /bits/ 64 <310000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
-+					opp-peak-kBps = <2136718>;
- 				};
- 
- 				opp-366000000 {
- 					opp-hz = /bits/ 64 <366000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D0>;
-+					opp-peak-kBps = <6074218>;
- 				};
- 
- 				opp-422000000 {
- 					opp-hz = /bits/ 64 <422000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
-+					opp-peak-kBps = <8171875>;
- 				};
- 
- 				opp-500000000 {
- 					opp-hz = /bits/ 64 <500000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_L1>;
-+					opp-peak-kBps = <8171875>;
- 				};
- 
- 				opp-578000000 {
- 					opp-hz = /bits/ 64 <578000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
-+					opp-peak-kBps = <8171875>;
- 				};
- 
- 				opp-629000000 {
- 					opp-hz = /bits/ 64 <629000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L0>;
-+					opp-peak-kBps = <10687500>;
- 				};
- 
- 				opp-680000000 {
- 					opp-hz = /bits/ 64 <680000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
-+					opp-peak-kBps = <12449218>;
- 				};
- 
- 				opp-720000000 {
- 					opp-hz = /bits/ 64 <720000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
-+					opp-peak-kBps = <12449218>;
- 				};
- 
- 				opp-770000000 {
- 					opp-hz = /bits/ 64 <770000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
-+					opp-peak-kBps = <12449218>;
- 				};
- 
- 				opp-834000000 {
- 					opp-hz = /bits/ 64 <834000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
-+					opp-peak-kBps = <14398437>;
- 				};
- 			};
- 		};
+Nothing interesting to see. Compared to the fbdev client:
 
--- 
-2.34.1
+     rcar-du feb00000.display: [drm] Registered 2 planes with drm panic
+     [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
+     rcar-du feb00000.display: [drm] Device feb00000.display probed
+    -Console: switching to colour frame buffer device 240x67
+    -rcar-du feb00000.display: [drm] fb0: rcar-dudrmfb frame buffer device
 
+I did verify (by adding my own debug prints) that the code does
+get to the success case in drm_log_register().
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
