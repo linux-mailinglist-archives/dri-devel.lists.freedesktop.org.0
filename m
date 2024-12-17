@@ -1,56 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB909F4EB7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:02:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9E89F4F4C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:22:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1D8310E23E;
-	Tue, 17 Dec 2024 15:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B4710E231;
+	Tue, 17 Dec 2024 15:22:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RqQWliJY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FoSHTKDv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C292D10E23E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:02:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774E410E231
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:22:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B8D245C4BB4;
- Tue, 17 Dec 2024 15:01:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41D8EC4CED3;
- Tue, 17 Dec 2024 15:02:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C92CD5C6037;
+ Tue, 17 Dec 2024 15:21:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 522D2C4CED3;
+ Tue, 17 Dec 2024 15:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734447743;
- bh=ARZxDTKwcrtJRmGfSLGzQJE1LGMCzV+FHKBTe+Cfy1c=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RqQWliJY0C9K4Xu+VSJPhnAIlil4VSlAt8+nzsmVua4BVFT95zgqOc4XpryJV81iT
- CtRVQUSMLfZoSSf0+wdVrkGMI8ahToWUnzgg+3xXVQTnqm95Hl6PJDHiI78/XHEPXc
- q6ONHxtFQ3J62oGccTBrhbS3EwJCzimZ1XPX1u9hcnbXeu2L+HaLv0pmrrSSjgf8hr
- diOSb/Gt9ydHj7lDiwRSkmoOiswfWjSlkZBvUnmeZY99s48OBSRRZBBcMqui+i4acD
- CXPI0ZhNlkH8DHA98s4AQ56sVB3SESs5pI6l9b8byJ0yIA3zJk1A+TJclPEHX1LXJi
- vxRWihj6+I0bw==
-Date: Tue, 17 Dec 2024 16:02:21 +0100
+ s=k20201202; t=1734448960;
+ bh=4p0fQwWK3PT2nkfbpSRG13XJ5cEho/hFa4rRFg1VZ5E=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=FoSHTKDvT6ykhJWQDsiaLNkWkVkwM0hSg+G/qfwmz5iK9pMP1W67WmqGOU6Lj+JL2
+ GHg8aKM6cs5JHdw0tAIHHguYMNC3Uu8GtmmK4ZrwkaiYL3iV/QSi8tJ7C1H6JIW44M
+ r3uor1ErS8L2Skuy4cGKCqBhjdlmDhUFnozxTds242TPcvLaA1/WcQ3HVDfq/WUYiT
+ Tw56fEj2ESsE+YOUCvH8ZAbW5w04l0FPrgrtVJtNqttjF5LxhwjvQ0klnfT6PpY9zS
+ FHvFz/90CnXpi6YnJlPW/tMpM4c1G09ZhyHenLOJsDyz68BV+o1QVp45T+VJSbsYAY
+ wW/ledNBKXSiw==
 From: Maxime Ripard <mripard@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, dmitry.baryshkov@linaro.org, robdclark@gmail.com
-Subject: Re: [PATCH v3 0/2] drm: Allow encoder modeset when connectors are
- changed
-Message-ID: <20241217-fervent-hot-teal-dc3516@houat>
-References: <20241211-abhinavk-modeset-fix-v3-0-0de4bf3e7c32@quicinc.com>
- <20241216-daring-opalescent-herring-bfdc8f@houat>
- <8484df79-6ad8-4702-853f-31d985178607@quicinc.com>
+To: dri-devel@lists.freedesktop.org, 
+ Derek Foreman <derek.foreman@collabora.com>
+Cc: kernel@collabora.com, dmitry.baryshkov@linaro.org
+In-Reply-To: <20241202181939.724011-1-derek.foreman@collabora.com>
+References: <20241202181939.724011-1-derek.foreman@collabora.com>
+Subject: Re: [PATCH] drm/connector: Allow clearing HDMI infoframes
+Message-Id: <173444895813.895781.12953047517299319623.b4-ty@kernel.org>
+Date: Tue, 17 Dec 2024 16:22:38 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="evowgftqcey6meiq"
-Content-Disposition: inline
-In-Reply-To: <8484df79-6ad8-4702-853f-31d985178607@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,52 +59,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 02 Dec 2024 12:19:39 -0600, Derek Foreman wrote:
+> Our infoframe setting code currently lacks the ability to clear
+> infoframes. For some of the infoframes, we only need to replace them,
+> so if an error occurred when generating a new infoframe we would leave
+> a stale frame instead of clearing the frame.
+> 
+> However, the Dynamic Range and Mastering (DRM) infoframe should only
+> be present when displaying HDR content (ie: the HDR_OUTPUT_METADATA blob
+> is set). If we can't clear infoframes, the stale DRM infoframe will
+> remain and we can never set the display back to SDR mode.
+> 
+> [...]
 
---evowgftqcey6meiq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 0/2] drm: Allow encoder modeset when connectors are
- changed
-MIME-Version: 1.0
+Applied to misc/kernel.git (drm-misc-next).
 
-On Mon, Dec 16, 2024 at 10:27:44AM -0800, Abhinav Kumar wrote:
->=20
->=20
-> On 12/16/2024 3:06 AM, Maxime Ripard wrote:
-> > On Wed, Dec 11, 2024 at 01:18:41PM -0800, Jessica Zhang wrote:
-> > > Call encoder mode_set() when connectors are changed. This avoids issu=
-es
-> > > for cases where the connectors are changed but CRTC mode is not.
-> >=20
-> > Looks great, thanks a lot for doing the tests :)
-> >=20
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> >=20
-> > Maxime
->=20
-> Thanks for your feedback.
->=20
-> Can we get an ack to land this through msm tree as part of the series whi=
-ch
-> needed it?
-
-If possible, I'd rather merge it through drm-misc. We merge a
-significant number of patches affecting the framework there, so a
-conflict would be less likely there.
-
+Thanks!
 Maxime
 
---evowgftqcey6meiq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2GSfAAKCRAnX84Zoj2+
-dlidAYC/XbhyMAkyZHI74Sg0WUgq8YO/a98h5oA7AWtzou8q/eVbVGW04jMEEN8Z
-bhMxJpYBgMelkeecYMqiu8NR9/Nyl+AqXRh7Acrp3jpFU7byFh+/DoMfGo2LEGCc
-0/wS6heh4A==
-=eOA/
------END PGP SIGNATURE-----
-
---evowgftqcey6meiq--
