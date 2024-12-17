@@ -2,96 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7849F4C96
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 14:42:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D4B9F4CCA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 14:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26C4310E275;
-	Tue, 17 Dec 2024 13:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3250810E977;
+	Tue, 17 Dec 2024 13:50:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="o6iNpUoS";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
- [209.85.217.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BF5A10E275
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 13:42:24 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id
- ada2fe7eead31-4b24bc0cc65so3099782137.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:42:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734442941; x=1735047741;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=55x747loPYs9UKeI6ysGYmeJmLBuEdA1brrJreZX3rI=;
- b=ZY3+PnG6HB9D1U1AFsnYXyFDmJ26dESKZFOpN9iTiqMGOMy2U5nSHj18E+h7uif0Hh
- MBbUghCzJg8uye5/XzyoIE0uhg/ebZo5QA65Td9m/hxPJX7fitdW0r7jEeIM0C1MDASr
- l17lo1BFfEOI4UPuKuzfiDKWNL2iIoRhrqyYa1YQG93sPzKJZ5K5ooFXvmF3UMDwfFOv
- zz1eBFeHmMlSUrU3aPNAkwb52yErMS7j0ob6DX4UEkgWBkaSRLw8a8KM0oFla0O0IuZ0
- Gp1dZw9FSWVrl8gDp30OPdiYoJUoAR4I254rfmdE2VdmgUPqC7kXNooSH2/widx1v7ry
- pAow==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWJqbwwxxF5GA5ol/9aQAbe/oHrck3CcxhOY8qNhhBZUpwZrkFdD3n7J7JghIL26WKF6zr2ZKUmsEg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxyBJb7qKkZbWaJgQ+NymlCr7ho8ro2h1VnHkkoZSOZMy0gRDUx
- k+bWOTTvm0B6dqztU2pmfZmO6qq6LW2chK/1POllKwGdOGQHeRI1QO17hxtT
-X-Gm-Gg: ASbGncuB4dHGtr+GJNSCH/xCf4KokNdf+/a4Dl1SjRZP/fvTfqqzq4/5QJeDBwvUx2+
- nLfCOPJNgWzcwp8jum+4q2gPHJ8x4jTTz/SljH9TV2m7N3Ox+q/ztWOISr+ePRvkXB2V7Bu5wOj
- Vv9ZjmUIJuEAT/CBiAoNNyXNWLE1NPk+rAPdnW5uy8ocNQMbZacNXnPKMNeOb1TubuVz1trtQT2
- OQUyJjmFjjl1pa2stPmCFnYTvuklkAp43KvvcRmSzPPbwMiOtfHLwYTHRMEWsxuamN08uVKNQQu
- sxS6kFVxtY4+MSi3jDE=
-X-Google-Smtp-Source: AGHT+IGbx6s0uBBMUpdwpkHaxsa3Ck5QZAHwynUwaj3LTzYuI64dq4i/ff92JzQrc5ElbrpmP/oZlQ==
-X-Received: by 2002:a05:6102:148c:b0:4b1:102a:5834 with SMTP id
- ada2fe7eead31-4b25ddc652dmr16130509137.21.1734442941062; 
- Tue, 17 Dec 2024 05:42:21 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com.
- [209.85.222.47]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4b27024d0e7sm1106737137.13.2024.12.17.05.42.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Dec 2024 05:42:20 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id
- a1e0cc1a2514c-85c5a913cffso2620941241.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:42:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV8UP9mdB55amDKOAGE6YMGN6UB04UkQw4vTX9EoGMIk5RQxtyjy/8vWWMASPxvVFMdTQ67zmDvJTE=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:1591:b0:4af:597b:ef with SMTP id
- ada2fe7eead31-4b25dca388dmr15489033137.8.1734442939984; Tue, 17 Dec 2024
- 05:42:19 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E6BD10E976
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 13:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=IJKFG5cQHei9U1IPucijS5NTd1N3dq4WD3+G3QUY3Jc=; b=o6iNpUoSxtmZzmsvamn+scac2A
+ 4nxTgPHc0Ge4tiRacIsljc0AsMb7kH++PDL0Z9YQIiNsF7tw1o1X1ypMaLIBW7tu1kePhpQe2FSTI
+ 2JX7XbU4dxAqV4Ht5lMHuOFDl98IMfp9SGHXmjmio/jDI+Bdfo3drBsGIPTX75pH7MyBjgwDVNtVy
+ SMZ8sN76KlMPY5b5LJ6kjk9qFeVxQoUk0KUgS/Ah+0NO9vFh+tI5EwZDg2cfGB94ljMCYr5hp747S
+ riTdkXsKia2zyUGUoh4L/M93joKtiJYxJPrpQNhnmkUC2831ja3Eo8tJvrUpl2ZslUOqMjAmiqO2y
+ zF6YPjHA==;
+Received: from [179.214.71.67] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tNXxo-004OGy-GS; Tue, 17 Dec 2024 14:50:17 +0100
+Date: Tue, 17 Dec 2024 10:49:53 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v2 1/4] drm/vc4: Use DRM Execution Contexts
+Message-ID: <xs2zorfxnzi4awpopaphh3hjxxxit5bscqffvbjpjmb53jtswy@hgtprzdut6gf>
+References: <20241212202337.381614-1-mcanal@igalia.com>
+ <20241212202337.381614-2-mcanal@igalia.com>
+ <tmg5jqpts47oqwuohcutyw44nlhvjz44ctsxogtwvjeky7hdwv@ykux7b3rrsco>
+ <2147b626-f305-4b3c-93a0-14b5b0845e89@amd.com>
+ <479af980-8895-47c8-87fd-cae9a32b454e@igalia.com>
+ <d878121e-df17-4eee-a4c3-09b7b2973721@amd.com>
 MIME-Version: 1.0
-References: <20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com>
- <20241206-rcar-gh-dsi-v3-10-d74c2166fa15@ideasonboard.com>
- <CAMuHMdXkXx6+0nJn+uLCAWOXvEYWLJXzLu9J7ksinn_z3bEfHQ@mail.gmail.com>
- <CAMuHMdWx5v24UMV7DabxUcYJUeetGeiWidGurT2vEWRw4BTrNg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWx5v24UMV7DabxUcYJUeetGeiWidGurT2vEWRw4BTrNg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Dec 2024 14:42:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX+baSFtX-U-w4CBSqMsceDS+RoQY55qs=SmyydK6BLVA@mail.gmail.com>
-Message-ID: <CAMuHMdX+baSFtX-U-w4CBSqMsceDS+RoQY55qs=SmyydK6BLVA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] arm64: dts: renesas: gray-hawk-single: Add
- DisplayPort support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- LUU HOAI <hoai.luu.ub@renesas.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Sam Ravnborg <sam@ravnborg.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Saravana Kannan <saravanak@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d878121e-df17-4eee-a4c3-09b7b2973721@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,83 +68,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CC Saravana
+On 12/17, Christian König wrote:
+> Am 17.12.24 um 12:09 schrieb Maíra Canal:
+> > Hi Christian,
+> > 
+> > On 17/12/24 07:30, Christian König wrote:
+> > > Am 16.12.24 um 20:08 schrieb Melissa Wen:
+> > > > On 12/12, Maíra Canal wrote:
+> > > > > VC4 has internal copies of `drm_gem_lock_reservations()` and
+> > > > > `drm_gem_unlock_reservations()` inside the driver and
+> > > > > ideally, we should
+> > > > > move those hard-coded functions to the generic functions
+> > > > > provided by DRM.
+> > > > > But, instead of using the DRM GEM functions to (un)lock
+> > > > > reservations, move
+> > > > > the new DRM Execution Contexts API.
+> > > > > 
+> > > > > Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> > > > > ---
+> > > > >   drivers/gpu/drm/vc4/Kconfig   |  1 +
+> > > > >   drivers/gpu/drm/vc4/vc4_gem.c | 99
+> > > > > ++++++++---------------------------
+> > > > >   2 files changed, 22 insertions(+), 78 deletions(-)
+> > > > > 
+> > 
+> > [...]
+> > 
+> > > > > -
+> > > > > -    ww_acquire_done(acquire_ctx);
+> > > > > +    int ret;
+> > > > >       /* Reserve space for our shared (read-only) fence references,
+> > > > >        * before we commit the CL to the hardware.
+> > > > >        */
+> > > > > -    for (i = 0; i < exec->bo_count; i++) {
+> > > > > -        bo = exec->bo[i];
+> > > > > +    drm_exec_init(exec_ctx, DRM_EXEC_INTERRUPTIBLE_WAIT,
+> > > > > exec- >bo_count);
+> > > > > +    drm_exec_until_all_locked(exec_ctx) {
+> > > > > +        ret = drm_exec_prepare_array(exec_ctx, exec->bo,
+> > > > > +                         exec->bo_count, 1);
+> > > > Hi Maíra,
+> > > > 
+> > > > So, I'm not familiar too drm_exec, but the original implementation of
+> > > > vc4_lock_bo_reservations() has a retry of locks from the contention and
+> > > > I don't see it inside the drm_exec_prepare_array(), why don't use the
+> > > > loop drm_exec_prepare_obj() plus drm_exec_retry_on_contention()
+> > > > (similar
+> > > > to the typical usage documented for drm_exec)?
+> > > 
+> > > The way how drm_exec and drm_exec_prepare_array is used seems to be
+> > > correct here.
+> > > 
+> > > drm_exec_prepare_array() basically just loops over all the GEM BOs
+> > > in the array and calls drm_exec_prepare_obj() on them, so no need to
+> > > open code that.
+> > > 
+> > > drm_exec_retry_on_contention() is only needed if you have multiple
+> > > calls to drm_exec_prepare_array() or drm_exec_prepare_obj(), so that
+> > > the loop is restarted in between the calls.
+> > 
+> > But doesn't `drm_exec_prepare_array()` have multiple calls to
+> > `drm_exec_prepare_obj()`? The fact that the multiple calls are wrapped
+> > in the function makes a difference?
+> 
+> Yeah. I know, it's not so easy to understand :)
+> 
+> What drm_exec_until_all_locked() and drm_exec_retry_on_contention() are
+> basically doing is nicely wrapped error handling.
+> 
+> In other words drm_exec_retry_on_contention() does a "goto
+> *__drm_exec_retry_ptr" if it detects that we have a contention. But you
+> can't goto from a label in a function back into the caller.
+> 
+> So what drm_exec_prepare_array() does is to abort as soon as it sees the
+> first error:
+> 
+>                 ret = drm_exec_prepare_obj(exec, objects[i], num_fences);
+>                 if (unlikely(ret))
+>                         return ret;
+> 
+> 
+> And in the caller we have:
+> 
+> drm_exec_until_all_locked(exec_ctx) {
+>     ret = drm_exec_prepare_array(exec_ctx, exec->bo, exec->bo_count, 1);
+> }
+> 
+> So the loop restarts after drm_exec_prepare_array() anyway and because of
+> this using drm_exec_retry_on_contention() is not explicitly necessary.
 
-On Tue, Dec 17, 2024 at 2:29=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Mon, Dec 16, 2024 at 2:33=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Fri, Dec 6, 2024 at 10:33=E2=80=AFAM Tomi Valkeinen
-> > <tomi.valkeinen@ideasonboard.com> wrote:
-> > > From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-> > >
-> > > Add support for the mini DP output on the Gray Hawk board.
-> > >
-> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.co=
-m>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > Thanks for your patch, which is now commit b1000645dc29701f
-> > ("arm64: dts: renesas: gray-hawk-single: Add DisplayPort support")
-> > in renesas-devel/renesas-dts-for-v6.14.
-> >
-> > Apparently this patch breaks s2idle on Gray Hawk Single when "[PATCH
-> > v3 06/10] drm/rcar-du: dsi: Add r8a779h0 support" is not present, or
-> > when CONFIG_DRM_RCAR_USE_MIPI_DSI is not enabled. If the DSI driver
-> > is not available, the ti_sn65dsi86.bridge part fails to probe with
-> > -EPROBE_DEFER and "failed to attach dsi host".  Still, the sn65dsi86
-> > driver must do something critical, as resuming from s2idle now hangs.
-> > I haven't identified yet where exactly it hangs.
-> >
-> > As a result, s2idle is broken in current renesas-devel, which only
-> > has the DTS changes.  Perhaps I should drop the DTS until the issue
-> > is resolved?
-> >
-> > However, I suspect White Hawk has the same issue (if
-> > CONFIG_DRM_RCAR_USE_MIPI_DSI=3Dn), but I cannot verify as my local Whit=
-e
-> > Hawk is currently not available for kernel testing.
->
-> Confirmed on White Hawk by Tomi and me.
->
-> When the hang occurs, magic sysrq no longer works. However, the system
-> still prints "nfs server not responding" once in a while, so I added
-> calls to various sysrq print functions to rpc_check_timeout().
-> This revealed that the system is blocked on wait_for_completion()
-> in dpm_wait_for_superior(), called from device_resume_noirq().
-> Printing the actual device and parent gives:
->
->     platform fed80000.dsi-encoder: PM: device_resume_noirq
->     platform fed80000.dsi-encoder: PM: dpm_wait_for_superior: parent fed8=
-0000.dsi-encoder
+Ah, got it now. Thanks for explaining.
 
-So it's waiting for itself, i.e. deadlock :-(
+Melissa
 
-When the DSI driver is available:
-
-    rcar-mipi-dsi fed80000.dsi-encoder: PM: device_resume_noirq:627
-    rcar-mipi-dsi fed80000.dsi-encoder: PM: dpm_wait_for_superior:280
-    rcar-mipi-dsi fed80000.dsi-encoder: PM: dpm_wait_for_superior:296:
-parent fed80000.dsi-encoder
-
-still waiting for itself, but it does continue!
-Note that the fed80000.dsi-encoder block is now bound, and
-"rcar-mipi-dsi" is printed instead of "platform".
-
-fw_devlink issue?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Best Regards,
+> > - Maíra
+> > 
+> > > 
+> > > Regards,
+> > > Christian.
+> > > 
+> > > > 
+> > > > Also, probably you already considered that: we can extend this
+> > > > update to
+> > > > v3d, right?
+> > > > 
+> > > > Melissa
+> > > > 
+> > > > > +    }
+> > > > > -        ret = dma_resv_reserve_fences(bo->resv, 1);
+> > > > > -        if (ret) {
+> > > > > -            vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
+> > > > > -            return ret;
+> > > > > -        }
+> > > > > +    if (ret) {
+> > > > > +        drm_exec_fini(exec_ctx);
+> > > > > +        return ret;
+> > > > >       }
+> > > > >       return 0;
+> > > > > @@ -679,7 +620,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+> > > > >    */
+> > > > >   static int
+> > > > >   vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
+> > > > > -         struct ww_acquire_ctx *acquire_ctx,
+> > > > > +         struct drm_exec *exec_ctx,
+> > > > >            struct drm_syncobj *out_sync)
+> > > > >   {
+> > > > >       struct vc4_dev *vc4 = to_vc4_dev(dev);
+> > > > > @@ -708,7 +649,7 @@ vc4_queue_submit(struct drm_device *dev,
+> > > > > struct vc4_exec_info *exec,
+> > > > >       vc4_update_bo_seqnos(exec, seqno);
+> > > > > -    vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
+> > > > > +    drm_exec_fini(exec_ctx);
+> > > > >       list_add_tail(&exec->head, &vc4->bin_job_list);
+> > > > > @@ -1123,7 +1064,7 @@ vc4_submit_cl_ioctl(struct drm_device
+> > > > > *dev, void *data,
+> > > > >       struct drm_vc4_submit_cl *args = data;
+> > > > >       struct drm_syncobj *out_sync = NULL;
+> > > > >       struct vc4_exec_info *exec;
+> > > > > -    struct ww_acquire_ctx acquire_ctx;
+> > > > > +    struct drm_exec exec_ctx;
+> > > > >       struct dma_fence *in_fence;
+> > > > >       int ret = 0;
+> > > > > @@ -1216,7 +1157,7 @@ vc4_submit_cl_ioctl(struct drm_device
+> > > > > *dev, void *data,
+> > > > >       if (ret)
+> > > > >           goto fail;
+> > > > > -    ret = vc4_lock_bo_reservations(dev, exec, &acquire_ctx);
+> > > > > +    ret = vc4_lock_bo_reservations(exec, &exec_ctx);
+> > > > >       if (ret)
+> > > > >           goto fail;
+> > > > > @@ -1224,7 +1165,7 @@ vc4_submit_cl_ioctl(struct drm_device
+> > > > > *dev, void *data,
+> > > > >           out_sync = drm_syncobj_find(file_priv, args->out_sync);
+> > > > >           if (!out_sync) {
+> > > > >               ret = -EINVAL;
+> > > > > -            goto fail;
+> > > > > +            goto fail_unreserve;
+> > > > >           }
+> > > > >           /* We replace the fence in out_sync in
+> > > > > vc4_queue_submit since
+> > > > > @@ -1239,7 +1180,7 @@ vc4_submit_cl_ioctl(struct drm_device
+> > > > > *dev, void *data,
+> > > > >        */
+> > > > >       exec->args = NULL;
+> > > > > -    ret = vc4_queue_submit(dev, exec, &acquire_ctx, out_sync);
+> > > > > +    ret = vc4_queue_submit(dev, exec, &exec_ctx, out_sync);
+> > > > >       /* The syncobj isn't part of the exec data and we need
+> > > > > to free our
+> > > > >        * reference even if job submission failed.
+> > > > > @@ -1248,13 +1189,15 @@ vc4_submit_cl_ioctl(struct
+> > > > > drm_device *dev, void *data,
+> > > > >           drm_syncobj_put(out_sync);
+> > > > >       if (ret)
+> > > > > -        goto fail;
+> > > > > +        goto fail_unreserve;
+> > > > >       /* Return the seqno for our job. */
+> > > > >       args->seqno = vc4->emit_seqno;
+> > > > >       return 0;
+> > > > > +fail_unreserve:
+> > > > > +    drm_exec_fini(&exec_ctx);
+> > > > >   fail:
+> > > > >       vc4_complete_exec(&vc4->base, exec);
+> > > > > -- 
+> > > > > 2.47.1
+> > > > > 
+> > > 
+> > 
+> 
