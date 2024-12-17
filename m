@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAC49F4833
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:00:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0849C9F483B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:00:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7329810E8F1;
-	Tue, 17 Dec 2024 10:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64CA110E05D;
+	Tue, 17 Dec 2024 10:00:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="LaAJueVT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xp5uCOGa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2736 seconds by postgrey-1.36 at gabe;
- Tue, 17 Dec 2024 10:00:02 UTC
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA7810E8DD;
- Tue, 17 Dec 2024 10:00:02 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4YCC3M1tpWz9skF;
- Tue, 17 Dec 2024 10:59:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1734429599;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uCr3X9r00OTxTHC+yOJMvT6QCQy9u9XxzrPt9Y/x1Rg=;
- b=LaAJueVTUF+0C6O7B2Y4AUHzsK2ERC//+KK/yG+BAjjRzIQeALL4s3ViKfiMS+A9jpyzEA
- ZN24PhyBh2RDKcy3Zlg3FCmyCy2LsY4sbcl5IQq4oQ4jdxArPtfup7VbY0ZXTEpEC48Ulo
- uPS55HjjqIsEh9jdLYBy9YH6y9+4mQyo0g/+GvJyBSp7fiAxYGKc2DU2ISoPsSyBRVmEP+
- VHzpoVdiFYTBnP7tJvyIf6SLAcXENCyUm3voFDQpPZxr2A5/UK4fEB9hi/kvR8Vt6LOWSd
- 83wOR4PxPCRj1mrdsMQIKWK7Q+a8GApvvygiY3dpmKLur+h1VkPHA0vVjMQHTw==
-Message-ID: <9e6c68d7-abb6-4cf1-b1f5-56260a6f0417@mailbox.org>
-Date: Tue, 17 Dec 2024 10:59:56 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89B0210E05D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 10:00:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734429639; x=1765965639;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CtfIqk3uPJ2IuBo3XN3BNCRkMC3iY5oG8llYhj1HIdc=;
+ b=Xp5uCOGaEOHC8L23xxfRZ6aoc0ZeD3O7rw/9twxB8B8FFW8d0q3DhlAx
+ SrcqeX0KelG4K5eAaWJKt4aoXjOfbAdqOyg3gBsgYS8WI13Qi2ZscbaCE
+ FM3GIJz0PafXBK0g4IvUst58z11l7e+pmNZBBUj64IA7dVZTewQUdH+qR
+ pO/KDqpLSH8yKIGecYJDXTcP9GuSYTUm0IvIgB5x2k0ChUAIXqZEWHm4D
+ iCuz5VoEwoofC1jQtH/fw7SB2loiAMmWekjUBhs4D1IxRpns42AcOWFXi
+ 7WVWNeu2R8onaHLt2P7zJqX9QTxrTTCHIswLGD5aESMCA+C1z5JRxJoxv w==;
+X-CSE-ConnectionGUID: Jkogr5nMQqS4sUP5T8jJrg==
+X-CSE-MsgGUID: cXhzgY7AQ2izbi5juzYZfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34997739"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; d="scan'208";a="34997739"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2024 02:00:39 -0800
+X-CSE-ConnectionGUID: RUDqX4cXRBq4r5JHKar7hg==
+X-CSE-MsgGUID: LwtswJwQRjiYxv6pskKNJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="97937903"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.55])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Dec 2024 02:00:36 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, jani.nikula@intel.com,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v2] media: cec: include linux/debugfs.h and linux/seq_file.h
+ where needed
+Date: Tue, 17 Dec 2024 12:00:24 +0200
+Message-Id: <20241217100024.1858704-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- Lucas Stach <l.stach@pengutronix.de>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <340ed70a-a576-43c6-86ff-9b58ed513c72@mailbox.org>
- <a42981617e880d48e9614c9ab5a8892f7ae0a315.camel@pengutronix.de>
- <CAAxE2A6WVzkfeG-yU8QzM=V4qrWWKw7N1i2Ado=iNQMn5v4gGQ@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <CAAxE2A6WVzkfeG-yU8QzM=V4qrWWKw7N1i2Ado=iNQMn5v4gGQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 3a814d31abc28a42f50
-X-MBO-RS-META: 4ffd399di87zubwjq848br1nqbkadd3j
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,74 +69,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-12-16 22:54, Marek Olšák wrote:
-> On Mon, Dec 16, 2024 at 5:46 AM Lucas Stach <l.stach@pengutronix.de <mailto:l.stach@pengutronix.de>> wrote:
-> 
->     Am Montag, dem 16.12.2024 um 10:27 +0100 schrieb Michel Dänzer:
->     > On 2024-12-15 21:53, Marek Olšák wrote:
->     > > The comment explains the problem with DRM_FORMAT_MOD_LINEAR.
->     > >    
->     > > Signed-off-by: Marek Olšák <marek.olsak@amd.com <mailto:marek.olsak@amd.com> <mailto:marek.olsak@amd.com <mailto:marek.olsak@amd.com>>>
->     > >
->     > > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
->     > > index 78abd819fd62e..8ec4163429014 100644
->     > > --- a/include/uapi/drm/drm_fourcc.h
->     > > +++ b/include/uapi/drm/drm_fourcc.h
->     > > @@ -484,9 +484,27 @@ extern "C" {
->     > >   * modifier (e.g. not setting DRM_MODE_FB_MODIFIERS in the DRM_ADDFB2 ioctl),
->     > >   * which tells the driver to also take driver-internal information into account
->     > >   * and so might actually result in a tiled framebuffer.
->     > > + *
->     > > + * WARNING:
->     > > + * There are drivers out there that expose DRM_FORMAT_MOD_LINEAR, but only
->     > > + * support a certain pitch alignment and can't import images with this modifier
->     > > + * if the pitch alignment isn't exactly the one supported. They can however
->     > > + * allocate images with this modifier and other drivers can import them only
->     > > + * if they support the same pitch alignment. Thus, DRM_FORMAT_MOD_LINEAR is
->     > > + * fundamentically incompatible across devices and is the only modifier that
->     > > + * has a chance of not working. The PITCH_ALIGN modifiers should be used
->     > > + * instead.
->     > >   */
->     > >  #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
->     > >  
->     > > +/* Linear layout modifiers with an explicit pitch alignment in bytes.
->     > > + * Exposing this modifier requires that the pitch alignment is exactly
->     > > + * the number in the definition.
->     > > + */
->     > > +#define DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_64B fourcc_mod_code(NONE, 1)
->     >
->     > It's not clear what you mean by "requires that the pitch alignment is exactly
->     > the number in the definition", since a pitch which is aligned to 256 bytes is
->     > also aligned to 128 & 64 bytes. Do you mean the pitch must be exactly the width
->     > rounded up to the next / smallest possible multiple of the specified number of bytes?
-> 
->     I guess that's the intention here, as some AMD GPUs apparently have
->     this limitation that they need an exact aligned pitch.
-> 
->     If we open the can of worms to overhaul the linear modifier, I think it
->     would make sense to also add modifiers for the more common restriction,
->     where the pitch needs to be aligned to a specific granule, but the
->     engine doesn't care if things get overaligned to a multiple of the
->     granule. Having both sets would probably make it easier for the reader
->     to see the difference to the exact pitch modifiers proposed in this
->     patch.
-> 
-> 
-> That's a good point.
-> 
-> It could be:
-> - LINEAR_PITCH_ALIGN_EXACT_#B
-> - LINEAR_PITCH_ALIGN_MULTIPLE_#B
-ALIGN seems fundamentally confusing to me, since any multiple of #B is "aligned to #B".
+Having cec.h include linux/debugfs.h leads to all users of all cec
+headers include and depend on debugfs.h and its dependencies for no
+reason. Drop the include from cec.h, and include debugfs.h and
+seq_file.h where needed.
 
-Maybe something like:
+Sort all the modified include lists while at it.
 
-LINEAR_PITCH_MIN_MULTIPLE_#B
-LINEAR_PITCH_ANY_MULTIPLE_#B
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-"minimal multiple of #B" vs "any multiple of #B"
+---
 
+v2: Rebase, update cec-pin-error-inj.c and cec-gpio.c too
 
+Depends on commit ae19ba915eb7 ("drm/i915/display: include
+media/cec-notifier.h and linux/debugfs.h where needed") in v6.13-rc1
+---
+ drivers/media/cec/core/cec-adap.c              | 5 +++--
+ drivers/media/cec/core/cec-core.c              | 5 +++--
+ drivers/media/cec/core/cec-pin-error-inj.c     | 3 ++-
+ drivers/media/cec/core/cec-pin.c               | 3 ++-
+ drivers/media/cec/platform/cec-gpio/cec-gpio.c | 7 ++++---
+ include/media/cec.h                            | 1 -
+ 6 files changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index c7d36010c890..ba6828ef540e 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -7,12 +7,13 @@
+ 
+ #include <linux/errno.h>
+ #include <linux/init.h>
+-#include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/kmod.h>
+ #include <linux/ktime.h>
+-#include <linux/slab.h>
+ #include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/seq_file.h>
++#include <linux/slab.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
+ 
+diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+index ca0db8d457b4..e10bd588a586 100644
+--- a/drivers/media/cec/core/cec-core.c
++++ b/drivers/media/cec/core/cec-core.c
+@@ -5,13 +5,14 @@
+  * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+  */
+ 
++#include <linux/debugfs.h>
+ #include <linux/errno.h>
+ #include <linux/init.h>
+-#include <linux/module.h>
+ #include <linux/kernel.h>
+ #include <linux/kmod.h>
+-#include <linux/slab.h>
+ #include <linux/mm.h>
++#include <linux/module.h>
++#include <linux/slab.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
+ 
+diff --git a/drivers/media/cec/core/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
+index fc0968b9d40e..6e61a04b8168 100644
+--- a/drivers/media/cec/core/cec-pin-error-inj.c
++++ b/drivers/media/cec/core/cec-pin-error-inj.c
+@@ -4,8 +4,9 @@
+  */
+ 
+ #include <linux/delay.h>
+-#include <linux/slab.h>
+ #include <linux/sched/types.h>
++#include <linux/seq_file.h>
++#include <linux/slab.h>
+ 
+ #include <media/cec-pin.h>
+ #include "cec-pin-priv.h"
+diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+index 330d5d5d86ab..a70451d99ebc 100644
+--- a/drivers/media/cec/core/cec-pin.c
++++ b/drivers/media/cec/core/cec-pin.c
+@@ -4,8 +4,9 @@
+  */
+ 
+ #include <linux/delay.h>
+-#include <linux/slab.h>
+ #include <linux/sched/types.h>
++#include <linux/seq_file.h>
++#include <linux/slab.h>
+ 
+ #include <media/cec-pin.h>
+ #include "cec-pin-priv.h"
+diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+index cf64e8871fe5..50cdc557c943 100644
+--- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
++++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+@@ -3,11 +3,12 @@
+  * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+  */
+ 
+-#include <linux/module.h>
+-#include <linux/interrupt.h>
+ #include <linux/delay.h>
+-#include <linux/platform_device.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/seq_file.h>
+ #include <media/cec-notifier.h>
+ #include <media/cec-pin.h>
+ 
+diff --git a/include/media/cec.h b/include/media/cec.h
+index 16b412b3131b..0c8e86115b6f 100644
+--- a/include/media/cec.h
++++ b/include/media/cec.h
+@@ -10,7 +10,6 @@
+ 
+ #include <linux/poll.h>
+ #include <linux/fs.h>
+-#include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/cdev.h>
+ #include <linux/kthread.h>
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+2.39.5
+
