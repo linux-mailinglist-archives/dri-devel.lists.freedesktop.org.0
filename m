@@ -2,43 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD779F42CB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212719F42D1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60BD010E2E3;
-	Tue, 17 Dec 2024 05:32:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D59710E852;
+	Tue, 17 Dec 2024 05:32:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aWnuJW76";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ascbri/1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C836010E18F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:32:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5092010E18F
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:32:26 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2AC03E;
- Tue, 17 Dec 2024 06:31:44 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95B5455;
+ Tue, 17 Dec 2024 06:31:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1734413506;
- bh=HdtBvsbTGHsxmfWL54oA5X/bE+Zp9SwVPyMQpH8+GGQ=;
- h=From:Subject:Date:To:Cc:From;
- b=aWnuJW76Bslpm0CRI9Puy8pOfeOIFU9AICsC1IrjHHiKcd8d9/RG3FZ3LDiS81frU
- Uf8WYTSDsGyfUL9iuW8qqfvflrGEIlt3/iSBAXc8torPfMufGjiq8BcP40mPFW+eIP
- uKtDBXH1zUCxAMeFB56kzIvJhAByV38SC42NjXkQ=
+ s=mail; t=1734413508;
+ bh=avI8ClOrtHzD2SipA/Fyk+O8iRhwsleato1FpezpTWY=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=ascbri/1u93szfYgP25SSr857XPCHi19Xxk75o3Uuyt6a0yr3rlQOOx+jtAM4ELOO
+ HZW5wGirgk5wEjLt7hZtZuWre2fR6/Urijr2e0PyFNa+2aJ5Gh/rB6KDtvGc6kzI3V
+ HyHILpRgRQsw6/Oy2w0u7OKSdEu49Hp99em50UZA=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v5 0/7] drm: Add DSI/DP support for Renesas r8a779h0 V4M
- and grey-hawk board
-Date: Tue, 17 Dec 2024 07:31:34 +0200
-Message-Id: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
+Date: Tue, 17 Dec 2024 07:31:35 +0200
+Subject: [PATCH v5 1/7] drm/rcar-du: dsi: Fix PHY lock bit check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALcMYWcC/3XPQW7DIBCF4atErEPFjMEmWfUeVRcTGGIWMRFEV
- ivLdy9xN3YUL/8nzSfNJArnyEWcD5PIPMYS01DDHA/C9TRcWUZfW6BCDUpZmR1lee2lL1GenIJ
- gPDM5K+rFPXOIP4v29V27j+WR8u+Cj/Bc/x1UzcYZQSrZNZYY6GQ80mf0TCUNl0TZf7h0E09ux
- DVhtgRWQqPuwBrwwbY7RLMm2i3RVMJ32iG0bSAwO4ReEfDyiK5EsKxBo0HVXd4Q8zz/ARNwzt1
- 2AQAA
+Message-Id: <20241217-rcar-gh-dsi-v5-1-e77421093c05@ideasonboard.com>
+References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
+In-Reply-To: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
  Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -61,24 +57,23 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  linux-clk@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- stable@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ stable@vger.kernel.org
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2782;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2124;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=HdtBvsbTGHsxmfWL54oA5X/bE+Zp9SwVPyMQpH8+GGQ=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnYQze8lHfUWPEkg55zHzELzk2Y+Kopngu3clvr
- BGx5RyS2IWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2EM3gAKCRD6PaqMvJYe
- 9TcvD/9IWDTL0RawT8b8w4CDfMh2GBDFPB6y9Dv0SJZeXO0+Mjg7x43rOKzHK+UdlGyjIXvPzZn
- LZL4NmlaqIABCQWcA0lo4BZG3GH19FUxLLCTLuDsQ0nn4m9HNYUlm7HPATcblCF91fdD7yU3Khs
- X7hgvlVOvqc1Ktt5k0IeysjfOp5bBMcrak4+HhYCSJlMiTo4UoFKiXOzdVi4NZyOegOYx6ikM+7
- PgGUkucTma3HwsaKF+MvHE8Wkvl9LpCoiuB2y58QqO5AgP9J6Dsdhdvspvpd3rY5vOUjuhoH/7m
- DpGKmMG6AX4tyX3Ol5WRKC555A2o0tHQawcpWT1Hd3+KxpvMgtzG0Hj2GNxds2b9fNrmdx2nqQB
- w3vGBI1VHL3RBu736tOpg0qrSxCOwBbLXf08Su6dq+Ad0eezYkmeSRcvqvOxuUlL4ocyyyvs9zg
- CU4sNKb/QKjwxdcUFmQwlqPIT0+JxSL9RAWCvHDxp8/D0BTQmKsbZe8F8gz3w89yeSUKLzDcuCA
- KOhfWTcMLsktR7X0Ni2jru5BP/FaoHs2Y9ize+lG1tuJG2dWE7qOnEllrTIXdpejetlMTITqX5i
- w22UmWZB9Uokpc2zNJymaOo8Dwxm0XC/0usNSNwqdH5UKWEzZmFUVXccr5ICn5JNi9sYdHCwNiH
- WCUj6pI5kLm58VQ==
+ bh=oDefLvswOZixERy//YecN6qGggsNckidLEErkzhvvTE=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnYQziJXZaCRqtyAepVhFqXvRuXc7hmQtry8RBi
+ vb+pezoR5+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2EM4gAKCRD6PaqMvJYe
+ 9fpzD/98xI478iBWlIUKmY8TkYpK9YSt/GywTd/lEUxSQPNX4pbS6yEF4M20oDZT3JotFemFaV1
+ DcBidbJnDoR+OOwktWAv6n0nbZn6klPFHFDq2c4dWW5b+7DIpZj7Hw+I5trhok5xBirxOlscrII
+ NJt4rTo6oMGZaRwB0nyiBf8sNnwva0m/auJ5zldAzlGWrC//LEAaxZ9th0RU5HK02UY6tzpsGou
+ rYZUx6UqBXFj7TckZwSvWU9Hf2qpSBbtM9YHh4nWqUPcrxL6PtWFWRUw41EChcOC2nR8gVwqhh9
+ EPmK+vkZxtf6aYEfOUiT4dKELd+SHoVXINkiXLiFTJRRK1NdI5vKgOCwvJvRqckfdkkuhc1TuUc
+ YwJVH71Ck+p8YEgw15JJnf3W88sxrYyGj2xkZBll55FwWGwAzckqSlP+IxFHftxM01Bej5a0MIW
+ t46SFnbK+Tn+MRgXep1T70W8RlkEMNlL2sfWjsUFLBnWi8OFhQx7akQfJdRb2164t7KufLR0/b1
+ iLOmMfbsc/A4bsGjrxBAcPts0m7Db0Xqd/fje1Tg7NeW12r4loOOkJ+p9tL+BrdMcfJylwm4CdI
+ j7tzBKhjKJcaQ7pG76UmbJ+aEOZmp18aEfHsKpFSkGCFdbeanEGwnMQkEjQPPKzmj9M+DcrjB4z
+ kDeh8xdiSBFxqdQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -96,69 +91,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add everything needed to support the DSI output on Renesas r8a779h0
-(V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
-Renesas grey-hawk board.
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Overall the DSI and the board design is almost identical to Renesas
-r8a779g0 and white-hawk board.
+The driver checks for bit 16 (using CLOCKSET1_LOCK define) in CLOCKSET1
+register when waiting for the PPI clock. However, the right bit to check
+is bit 17 (CLOCKSET1_LOCK_PHY define). Not only that, but there's
+nothing in the documents for bit 16 for V3U nor V4H.
 
-Note: the v4 no longer has the dts and the clk patches, as those have
-been merged to renesas-devel.
+So, fix the check to use bit 17, and drop the define for bit 16.
 
+Fixes: 155358310f01 ("drm: rcar-du: Add R-Car DSI driver")
+Fixes: 11696c5e8924 ("drm: Place Renesas drivers in a separate dir")
+Cc: stable@vger.kernel.org
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Changes in v5:
-- Add minItems/maxItems to the top level cmms & vsps properties
-- Drop "minItems: 1" when not needed
-- Link to v4: https://lore.kernel.org/r/20241213-rcar-gh-dsi-v4-0-f8e41425207b@ideasonboard.com
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c      | 2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-Changes in v4:
-- Dropped patches merged to renesas-devel
-- Added new patch "dt-bindings: display: renesas,du: Add missing
-  maxItems" to fix the bindings
-- Add the missing maxItems to "dt-bindings: display: renesas,du: Add
-  r8a779h0"
-- Link to v3: https://lore.kernel.org/r/20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 2dba7c5ffd2c..92f4261305bd 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -587,7 +587,7 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
+ 	for (timeout = 10; timeout > 0; --timeout) {
+ 		if ((rcar_mipi_dsi_read(dsi, PPICLSR) & PPICLSR_STPST) &&
+ 		    (rcar_mipi_dsi_read(dsi, PPIDLSR) & PPIDLSR_STPST) &&
+-		    (rcar_mipi_dsi_read(dsi, CLOCKSET1) & CLOCKSET1_LOCK))
++		    (rcar_mipi_dsi_read(dsi, CLOCKSET1) & CLOCKSET1_LOCK_PHY))
+ 			break;
+ 
+ 		usleep_range(1000, 2000);
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+index f8114d11f2d1..a6b276f1d6ee 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h
+@@ -142,7 +142,6 @@
+ 
+ #define CLOCKSET1			0x101c
+ #define CLOCKSET1_LOCK_PHY		(1 << 17)
+-#define CLOCKSET1_LOCK			(1 << 16)
+ #define CLOCKSET1_CLKSEL		(1 << 8)
+ #define CLOCKSET1_CLKINSEL_EXTAL	(0 << 2)
+ #define CLOCKSET1_CLKINSEL_DIG		(1 << 2)
 
-Changes in v3:
-- Update "Write DPTSR only if there are more than one crtc" patch to
-  "Write DPTSR only if the second source exists"
-- Add Laurent's Rb
-- Link to v2: https://lore.kernel.org/r/20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com
-
-Changes in v2:
-- Add the DT binding with a new conditional block, so that we can set
-  only the port@0 as required
-- Drop port@1 from r8a779h0.dtsi (there's no port@1)
-- Add a new patch to write DPTSR only if num_crtcs > 1
-- Drop RCAR_DU_FEATURE_NO_DPTSR (not needed anymore)
-- Add Cc: stable to the fix, and move it as first patch
-- Added the tags from reviews
-- Link to v1: https://lore.kernel.org/r/20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com
-
----
-Tomi Valkeinen (7):
-      drm/rcar-du: dsi: Fix PHY lock bit check
-      drm/rcar-du: Write DPTSR only if the second source exists
-      dt-bindings: display: renesas,du: Add missing constraints
-      dt-bindings: display: renesas,du: Add r8a779h0
-      dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779h0
-      drm/rcar-du: dsi: Add r8a779h0 support
-      drm/rcar-du: Add support for r8a779h0
-
- .../display/bridge/renesas,dsi-csi2-tx.yaml        |  1 +
- .../devicetree/bindings/display/renesas,du.yaml    | 67 ++++++++++++++++++++--
- drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c      | 18 ++++++
- drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c    | 24 ++++++--
- drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |  4 +-
- .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |  1 -
- 6 files changed, 102 insertions(+), 13 deletions(-)
----
-base-commit: adc218676eef25575469234709c2d87185ca223a
-change-id: 20241008-rcar-gh-dsi-9c01f5deeac8
-
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.43.0
 
