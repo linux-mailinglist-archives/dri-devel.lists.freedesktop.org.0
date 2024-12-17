@@ -2,65 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 865669F5179
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:00:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F0F9F518A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 148B910E422;
-	Tue, 17 Dec 2024 17:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E28510E0C5;
+	Tue, 17 Dec 2024 17:04:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Pj3RxCaV";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="QUVwDYtb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [IPv6:2a01:4f8:201:9162::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A71A10E422
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 17:00:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734454800;
- bh=uuSw8aKFWxqFiQ4Pleowz22gxsmtmaYoLcqkORPkNzc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Pj3RxCaVg96G3ZKZ8XbKBInT9EL3zwrj0kTU17n4DShb5kITQRoUB/3aGkKTcZMjN
- v8nmEtfGKNzaq5+ToRCpKwgZcXLnyxSXyyXNyFbdFlRnVVecof2tTh3VypPTLLLEME
- Jb5iBAt1p3eDvdXkaMQb3N6OhkSmYnlWMAy1s9rK1H7FmjqdQf+zb29M+oeFgNT3A2
- yYCgO1cy7vD8tWht72XtDXCRri1l/wJXYwvETuUysrVtO6eEKpVLT5oiQln8jedKe5
- DtiVf3PLjiS1ikZXScPb1ehfBg8TfqIejK/ZfGmsOWvMjSc+JTKsiPzclL+QZmFd6n
- AQv0Bn4XVEDbA==
-Received: from [192.168.1.90] (unknown [84.232.140.38])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 809C617E37C0;
- Tue, 17 Dec 2024 17:59:59 +0100 (CET)
-Message-ID: <2ba24dc6-b6e7-4964-af84-a5374903ce36@collabora.com>
-Date: Tue, 17 Dec 2024 18:59:57 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 870D510E0C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 17:04:48 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHAFs1C002391;
+ Tue, 17 Dec 2024 17:04:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-type:date:from:message-id:mime-version:subject:to; s=
+ qcppdkim1; bh=we4B4jYqo4Ge6cAdc577dzC/9pZbE67WdClCWa4ghfY=; b=QU
+ VwDYtb2RhgC9+JzaARk5gbtcnlPlRUwXwtetbDTIX/n32AMzT+1iyd95XMW3xNG7
+ OSuyw93dFkFya/5Flfgy1R/ZliRvWlOZ3exGsiWgfJX/jzATfzWtp9YfxCtzKb2l
+ T8tdpN3Av6TgkZrlNseEDkiGoutkKg/6XbE7rSLrJEti9rzrYuRtDyFwqEifcGm2
+ q8DA1Pu1nmUploPTWIGwgLQbPrJqC2M7+LYEIAL7FmEa4HGYnhkE1Dp1MbNhZq1+
+ bZH0qbu4hsdNxu0qdM0+XygQyVMDnkNKz4FlFA9LnAqB9b0DyBgGMeGIyWLB7f0G
+ /ZWBn9GdobU6QywUVvPA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43k7d2933j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Dec 2024 17:04:43 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BHH4gI9014584
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Dec 2024 17:04:42 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 17 Dec 2024 09:04:38 -0800
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
+ <quic_vtanuku@quicinc.com>
+Subject: [PATCH v4 0/2] Add Block event interrupt support for I2C protocol
+Date: Tue, 17 Dec 2024 22:34:22 +0530
+Message-ID: <20241217170424.14703-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] drm/rockchip: vop2: Improve display modes handling
- on RK3588 HDMI0
-To: Maxime Ripard <mripard@kernel.org>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, FUKAUMI Naoki <naoki@radxa.com>
-References: <20241211-vop2-hdmi0-disp-modes-v2-0-471cf5001e45@collabora.com>
- <1820767.5KxKD5qtyk@diego>
- <a4ex3s23r4k6wehyoaw3aylpcexfrclrxxykjpabhdfne2jgmu@ii6riiiga2zj>
- <1756448.izSxrag8PF@diego>
- <20241217-ubiquitous-refreshing-finch-aceade@houat>
- <c45ff74a-c9a4-4cf1-8530-04087e06b07a@collabora.com>
- <20241217-zealous-boisterous-llama-52bfcc@houat>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20241217-zealous-boisterous-llama-52bfcc@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: ANa2GwEQbNPJLYjdoV2XIo9D4R5EPuuP
+X-Proofpoint-ORIG-GUID: ANa2GwEQbNPJLYjdoV2XIo9D4R5EPuuP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ lowpriorityscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,154 +89,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/24 6:53 PM, Maxime Ripard wrote:
-> On Tue, Dec 17, 2024 at 06:36:41PM +0200, Cristian Ciocaltea wrote:
->> On 12/17/24 5:00 PM, Maxime Ripard wrote:
->>> On Wed, Dec 11, 2024 at 07:01:15PM +0100, Heiko Stübner wrote:
->>>> Am Mittwoch, 11. Dezember 2024, 18:47:44 CET schrieb Maxime Ripard:
->>>>> On Wed, Dec 11, 2024 at 06:23:03PM +0100, Heiko Stübner wrote:
->>>>>> Am Mittwoch, 11. Dezember 2024, 18:07:57 CET schrieb Maxime Ripard:
->>>>>>> On Wed, Dec 11, 2024 at 12:15:07PM +0200, Cristian Ciocaltea wrote:
->>>>>>>> The RK3588 specific implementation is currently quite limited in terms
->>>>>>>> of handling the full range of display modes supported by the connected
->>>>>>>> screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are just a
->>>>>>>> few of them.
->>>>>>>>
->>>>>>>> Additionally, it doesn't cope well with non-integer refresh rates like
->>>>>>>> 59.94, 29.97, 23.98, etc.
->>>>>>>>
->>>>>>>> Make use of HDMI0 PHY PLL as a more accurate DCLK source to handle
->>>>>>>> all display modes up to 4K@60Hz.
->>>>>>>>
->>>>>>>> Tested-by: FUKAUMI Naoki <naoki@radxa.com>
->>>>>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>>>>>> ---
->>>>>>>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 34 ++++++++++++++++++++++++++++
->>>>>>>>  1 file changed, 34 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>> index 8b2f53ffefdbf1cc8737b3a86e630a03a7fd9348..393fe6aa170aaee9663c4a6d98c1cd6a5ef79392 100644
->>>>>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>>>>>> @@ -158,6 +158,7 @@ struct vop2_video_port {
->>>>>>>>  	struct drm_crtc crtc;
->>>>>>>>  	struct vop2 *vop2;
->>>>>>>>  	struct clk *dclk;
->>>>>>>> +	struct clk *dclk_src;
->>>>>>>>  	unsigned int id;
->>>>>>>>  	const struct vop2_video_port_data *data;
->>>>>>>>  
->>>>>>>> @@ -212,6 +213,7 @@ struct vop2 {
->>>>>>>>  	struct clk *hclk;
->>>>>>>>  	struct clk *aclk;
->>>>>>>>  	struct clk *pclk;
->>>>>>>> +	struct clk *pll_hdmiphy0;
->>>>>>>>  
->>>>>>>>  	/* optional internal rgb encoder */
->>>>>>>>  	struct rockchip_rgb *rgb;
->>>>>>>> @@ -220,6 +222,8 @@ struct vop2 {
->>>>>>>>  	struct vop2_win win[];
->>>>>>>>  };
->>>>>>>>  
->>>>>>>> +#define VOP2_MAX_DCLK_RATE		600000 /* kHz */
->>>>>>>> +
->>>>>>>>  #define vop2_output_if_is_hdmi(x)	((x) == ROCKCHIP_VOP2_EP_HDMI0 || \
->>>>>>>>  					 (x) == ROCKCHIP_VOP2_EP_HDMI1)
->>>>>>>>  
->>>>>>>> @@ -1033,6 +1037,9 @@ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
->>>>>>>>  
->>>>>>>>  	vop2_crtc_disable_irq(vp, VP_INT_DSP_HOLD_VALID);
->>>>>>>>  
->>>>>>>> +	if (vp->dclk_src)
->>>>>>>> +		clk_set_parent(vp->dclk, vp->dclk_src);
->>>>>>>> +
->>>>>>>>  	clk_disable_unprepare(vp->dclk);
->>>>>>>>  
->>>>>>>>  	vop2->enable_count--;
->>>>>>>> @@ -2049,6 +2056,27 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
->>>>>>>>  
->>>>>>>>  	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
->>>>>>>>  
->>>>>>>> +	/*
->>>>>>>> +	 * Switch to HDMI PHY PLL as DCLK source for display modes up
->>>>>>>> +	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
->>>>>>>> +	 */
->>>>>>>> +	if (vop2->pll_hdmiphy0 && mode->crtc_clock <= VOP2_MAX_DCLK_RATE) {
->>>>>>>> +		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
->>>>>>>> +			struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
->>>>>>>> +
->>>>>>>> +			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
->>>>>>>> +				if (!vp->dclk_src)
->>>>>>>> +					vp->dclk_src = clk_get_parent(vp->dclk);
->>>>>>>> +
->>>>>>>> +				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
->>>>>>>> +				if (ret < 0)
->>>>>>>> +					drm_warn(vop2->drm,
->>>>>>>> +						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
->>>>>>>> +				break;
->>>>>>>> +			}
->>>>>>>> +		}
->>>>>>>> +	}
->>>>>>>> +
->>>>>>>
->>>>>>> It seems pretty fragile to do it at atomic_enable time, even more so
->>>>>>> since you don't lock the parent either.
->>>>>>>
->>>>>>> Any reason not to do it in the DRM or clock driver probe, and make sure
->>>>>>> you never change the parent somehow?
->>>>>>
->>>>>> On rk3588 we have 3 dclk_s and 2 hdmi controllers. Each video-port can
->>>>>> use the clock generated from either the hdmi0phy or hdmi1phy, depending
->>>>>> on which hdmi-controller it uses.
->>>>>>
->>>>>> So you actually need to know which vpX will output to which hdmiY to then
->>>>>> reparent that dclk to the hdmiphy output.
->>>>>
->>>>> The Rockchip nomenclature isn't super obvious to me, sorry. Is there a
->>>>> datasheet for this somewhere? Also, does this vpX -> HDMI-Y mapping need
->>>>> to be dynamic?
->>>>
->>>> VPs are CRTCs in drm-language and each of them can drive a differing
->>>> number of output encoders. Those video-ports also have differing output
->>>> characteristics in terms of supported resolution and other properties.
->>>>
->>>> The rk3588 TRM has leaked in a number of places, and if you find a
->>>> TRM-part2, there is a section labeled "Display Output Interface Description"
->>>> that has a nice graphic for that.
->>>>
->>>> Or in short:
->>>> - CRTC(VP)0 supports 8K resolution and can drive DP0+1, HDMI0+1, eDP0+1
->>>>   [if I'm reading things correctly, 8K together with CRTC1 somehow)
->>>> - CRTC(VP)1 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP0+1
->>>> - CRTC(VP)2 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP01, DSI0+1
->>>> - CRTC(VP)3 supports 2K resolution and can drive DSI0+1 and some BT1120,BT656
->>>>
->>>> so for the 3 higher resolution CRTCs there are essentially 6 or 8 output options
->>>> depending on the board design
->>>
->>> That's much clearer, thanks. I'm not entirely sure how that links to the
->>> need for the PLL to change its parent depending on the ouput. Do you
->>> need to always have all the outputs on the same PLL?
->>
->> One of the problems is that the PHY PLLs cannot be used as clock sources
->> for resolutions above 4K@60Hz, while VOP2 on RK3588 supports up to 8K@60Hz,
->> which is supposed to be handled by the system CRU.
-> 
-> But can that system CRU drive resolutions lower than 4k@60? If so, why
-> do we bother with PHYs?
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
 
-It can, but it's not accurate enough to support all modes, e.g. those
-having fractional refresh rates, among others.  That's actually the
-reason we'd want to make use of the PHY PLLs.
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
 
->> Moreover, the 2 PLLs are shared between 3 out of the 4 video ports already
->> mentioned by Heiko.  There is quite a bit of complexity in downstream
->> driver to handle all possible usecases - see [1] for a brief description on
->> how was that designed to work.
-> 
-> That's a generic allocation issue. Multiple drivers (vc4 for example)
-> has this issue for other components. It can be fairly easily dealt with
-> at atomic_check time.
-> 
-> Maxime
+Large I2C transfer can be divided into chunks of 8 messages internally.
+Interrupts are not expected for the first 7 message completions, only
+the last message triggers an interrupt, indicating the completion of
+8 messages. This BEI mechanism enhances overall transfer efficiency.
+
+This optimization reduces transfer time from 168 ms to 48 ms for a
+series of 200 I2C write messages in a single transfer, with a
+clock frequency support of 100 kHz.
+
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
+
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is 
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
+
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
+
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
+
+
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
+
+ drivers/dma/qcom/gpi.c             |   3 +
+ drivers/i2c/busses/i2c-qcom-geni.c | 275 ++++++++++++++++++++++++++---
+ include/linux/dma/qcom-gpi-dma.h   |   9 +
+ 3 files changed, 262 insertions(+), 25 deletions(-)
+
+-- 
+2.17.1
 
