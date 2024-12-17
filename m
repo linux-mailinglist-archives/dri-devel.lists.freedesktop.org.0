@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060009F3EEB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 01:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12BF29F3EED
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 01:40:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63BF210E7FC;
-	Tue, 17 Dec 2024 00:40:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79F3A10E7FE;
+	Tue, 17 Dec 2024 00:40:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ai/53IOX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M0jWyWZz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
  [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6263510E7FE
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:40:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9F8510E7FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:40:49 +0000 (UTC)
 Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-54025432becso4777784e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:40:47 -0800 (PST)
+ 2adb3069b0e04-53df6322ea7so6520176e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 16:40:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734396046; x=1735000846; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734396048; x=1735000848; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Kk1NgVU9MqJJyiCuMa+6xWyC5169sd0WY/Qbv8YeNNg=;
- b=Ai/53IOXoEyfLXX+3EjCOqFMpSk6H8yZQdN13mwHpgEwtZbdEbTgD/gsfGruh0CW4n
- SpLKuZIJfc1aF6NFUVoR0ujsodvHMywIzAJPy1oqzbTV2LKwPG7NVW1FmjvYc+yRkrW4
- Jq+iuWDn6YKUSCT5jGLS4BwjPpysx3YgGTQZwhPIH9JAs16/BTMoZFybXd4XBDNvQa3Y
- Dy/JJecu9cheOLmahVQfSNlDkuz3hr4hvnBF5WMF8zz9WHnhzraB7gKA+GLA2lmEB7ub
- D+el6kjURD5DLdFY766RjKBLliqFoqROuPzOqwt94Ucc7gN5xd7oBy6mTXfs8xVXOdZy
- fBvg==
+ :reply-to; bh=paTb+2HTrTNp9hvm1OCA2iLmtmvZyo4+owE4qzdFaRE=;
+ b=M0jWyWZzIEYGlG3u41ejuKWuDNyYJWq3WOwqHUEl92XToNAkMOrAGUNwG8sHIC2PrF
+ 7oCMPGgkaF8lBuWNHr1g83AGqg+IwMT88zugjUM95IXpmLEHZtFAjMWouSg6VG6SKyEU
+ 4uvKzx1Ro0cyJhtiq75s8uBNOtNYB47408LArgjOG3EVhdfhcRSJLH5l/EGwbyNfKO+U
+ I2rzIhIAFL4b+MiZM+m49Fj2mWG0zW/6SG2BxiC7PssRL2M+zSWIh50dtZc5aXRKM+OJ
+ YGrjVi9ifR9gm7e3Z9wlzlFYGUVUqjTZjQ5Qa9m8F/Hfj3KVdUbNdTRG+rlcKIBjMy9k
+ e5GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734396046; x=1735000846;
+ d=1e100.net; s=20230601; t=1734396048; x=1735000848;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Kk1NgVU9MqJJyiCuMa+6xWyC5169sd0WY/Qbv8YeNNg=;
- b=vcQksubA0brEl4d+8RntksBkmSDVX4uaM3MmaaaovFMaqP/I+nCZu5ed1R0Bh00GZH
- v7ddV73JvjMWjLdEeEXVhqta9qL851A7w9hLwV/UygEb4jUxaswBVi4An0x+Z1OKLqSb
- 9vtmCuSW0ooYG7QVNXRY/CjfSvhq/j5x//foif3uOFqeGw2Eb0d47zj3IXN5mWiyIm/Q
- 2e4/KSXqSZ17WWvOXDq9VigY70bBdpKuztpM6YWdmr/YYX73VLltEhTrRRPb/WgOLNmV
- GYe5wcXh1uOfalqylRCI3l1bXsui4KqvlCf+5TjLbZUJtTyC8R13bxzuMqh3y2F1yEmJ
- p36w==
+ bh=paTb+2HTrTNp9hvm1OCA2iLmtmvZyo4+owE4qzdFaRE=;
+ b=qxuGCkDypAmPA5CU8eZ1xIe9z3iIjdwD7SgYiQlrEGC8SN2MmdWA6xw6qgBX9IHbjv
+ C1FOmhaceaWXSoujmxNdxHNjPZB5lwiZvtVlMWLN690kfrs2K+HoAXH94EfBvYXC1GGj
+ iH3owZa8TQ6Bf0kJuNr1UdsHF/N4vQAErAD11uYvYb7oTnzhWErz2BoGDwFVfQXEi7CC
+ liTB12c2p/qetHqQS4suy6KPFCsqojSxozZD4R5mUH9Bc6suUHszxZ006kaRg9CY4mJ9
+ 1LIkDZDGUDWYHZ4BQdV+KOPp5ZBlHqjky4MPnID93pqeM5f+5Gip3ZU76pMrJKp2DToA
+ jsmg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWL1UtafiW0pTh+SH9uT/MPviLuScs/rQQTDb5rp9AeBbDWzit+s6J/CPQMt3XZ2P9FRWMsLqMOJ8k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzu/uy0HapyWKNF+13TGihYo2fkbKgTgM99Q24TRE9FqIohDC3t
- MA2Mx80J5SbefZ/a84f0F/c0TKfCGUuV0aWdVW6UroFfigd/zGEycVGYBET1ymM=
-X-Gm-Gg: ASbGnctO0bCA2aIsbCLBlrWbVK4Yz8b+5WsPEjSl+MV28JW7CbVQ/7WR1bsri880VKU
- slYKrMde6xOi4zf2J+HUVmddSszR3StKipAeWnusuZ1b6yXp2zOZFvlJDDrAJIulqq0Xw1l+b/H
- VyApXaIgyGIdLXyfoO8yNdvC7IQYEP6Ih5BnS1JaxUdNEXoLQAupPdGbQxw2gCsv4fDvMGyxuIO
- H2+5vNt6rRv2EdyD6rKjgL+T0itKNwpbfSQxiFNaPIrvwaCrFF9Rr60A0mizK0N
-X-Google-Smtp-Source: AGHT+IET2hsK0OXoi9N+0DoJgdc3STTzo/Y1LCeRb61WgG4K30Ajpfu7jwJe7zMdAQ8z86I/brROdw==
-X-Received: by 2002:ac2:4c49:0:b0:540:357a:a0e9 with SMTP id
- 2adb3069b0e04-54090560c03mr5833698e87.31.1734396045638; 
- Mon, 16 Dec 2024 16:40:45 -0800 (PST)
+ AJvYcCVg+scALfh2spiyUklNntQmYbKuuqhQyKxe9h47XmxAAhcFmn55clVypnjf0JX2Muw+IdeEy7NaSKQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4V3wQBMIGL6O+jMhcOZxPq/QfiQqELSppV+Z+0qibbLISqpVh
+ f9+MCfeD9l7uT2/WSp9yFEg0Ymx3pRDm1k/8yhaQZIiQn8oK9LIe60/LMIQS8vY=
+X-Gm-Gg: ASbGncvbwVQhF5hXWZrhyKJGy2WtsTwyE3zGyY+ioAdLHbu+MB7J2XO5p1YvorHgXKp
+ WxGdYpuEAndN5mV54JleOrfcRvfCmC6P1nNhScDi3ktvFh2cDPN3QN18+fI5oBiB8c+wFGlG0yA
+ bqX3aUnCMzuCYs7gAev3ycDagtk1pX9+XEKesshf2XbIC53DOAYtF/8TVpt3FEf/Rg7b4rWVbvf
+ Q6rVSMhAfRGoiEiwLmCm62sCF8+V2fBCOX2h7fzzNptEV+fRD9gbYaxREkD7Kx9
+X-Google-Smtp-Source: AGHT+IH4tL02rlsAd817EjeB0oQHTErm5C29t27CuFjcVt+3R8fvkOnGop7QdrSYReMUeYzTeVvb4Q==
+X-Received: by 2002:a05:6512:3049:b0:540:1b41:c75f with SMTP id
+ 2adb3069b0e04-5409054bf54mr5505928e87.16.1734396048212; 
+ Mon, 16 Dec 2024 16:40:48 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120ba9ab2sm1009122e87.74.2024.12.16.16.40.43
+ 2adb3069b0e04-54120ba9ab2sm1009122e87.74.2024.12.16.16.40.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Dec 2024 16:40:45 -0800 (PST)
+ Mon, 16 Dec 2024 16:40:46 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 17 Dec 2024 02:40:29 +0200
-Subject: [PATCH v7 07/10] drm/bridge_connector: hook
- drm_atomic_helper_connector_hdmi_hotplug()
+Date: Tue, 17 Dec 2024 02:40:30 +0200
+Subject: [PATCH v7 08/10] drm/vc4: hdmi: switch to using generic HDMI Codec
+ infrastructure
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-drm-bridge-hdmi-connector-v7-7-cb9df2b6a515@linaro.org>
+Message-Id: <20241217-drm-bridge-hdmi-connector-v7-8-cb9df2b6a515@linaro.org>
 References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
 In-Reply-To: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -99,16 +99,16 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
  linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4204;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6709;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=pAvR5YZJCNBmhdGZoqKZfJpmIHLV5ppYUTPIUoiUc9U=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnYMh5ja5pCrotWtSWn+8ziDDwUoBX/oLBj0chS
- dbg/ZRFEfaJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2DIeQAKCRCLPIo+Aiko
- 1Qq2B/0VnneaHJMvRwVb6YfJDzbyhliurPCaV/7H2ECjfBfZWIQuk0ftoOjwQ7d1PkhHnMUFXDK
- PmRMZ1NGkdME6oKsNuQMEwkmbCcy7AAfAGKBD+xa1xscEqY2pRGjlEy/h7QYT7d9OaCe23peZb2
- uGnH9NHBgiuSLQZt7gTSqFHQMPhbO5wJ5O8KCXfVAqD6h4aePy8j9TZU8W6nP9qlnyG6WMGcEEW
- HaVKeKuY3bjcRA/2ADaF6YAUjAsz/s/4i8S8LfTLfJwk1IUwsEnYSuI3R1ZWc8Ig8My7GZiHTfL
- LdoDZoLu/0eJ4k2FMRY/9Gv3Hw0M5jkk0fMkbYEf3v6whYxA
+ bh=6Y1sm65Qo2Q/7xl+pyz1/J9UMGUgCYPyoG1qbt4lRyk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnYMh5fP0aFF2grOUxQSROkIswl03VxBNpkLqR7
+ 4wtYX6ownOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2DIeQAKCRCLPIo+Aiko
+ 1fzWB/4r9PIwuX0nnImWs9/4IvVacPdvBIoD9XK2Fw8ymXagQsGGDCIIEaTAMHCA5Ixtz288OM9
+ LdxorGylln4TDSQeSM4om3ulO7DaHvOOxOUg+B79Jkdkz6uTjlvs7gYgCfektpZ8Y5UZHjHLC1t
+ 37rV6Y8PU+FCeOgZwPTA238IvVuKnXsw7vSP0HzjOf3NOwS94l+avMAOM/eSDPWY1+PySDLXRtQ
+ UcqOO7k/epIOpu0vV0tNxGP/JcuN9/eD8WMXZO3go0ikLl78tlETnlmdWnEBx9blxml4PRcHwJl
+ OEJ7xDq5LYdZ+Samj/H2FJrcvs5d9kFatiZViv6YSJX1vZkk
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -126,110 +126,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extend drm_bridge_connector code to read the EDID and use it to update
-connector status if the bridge chain implements HDMI bridge. Performing
-it from the generic location minimizes individual bridge's code and
-enforces standard behaviour from all corresponding drivers.
+Drop driver-specific implementation and use the generic HDMI Codec
+framework in order to implement the HDMI audio support.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 39 ++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 69 ++++++++++--------------------------------
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  2 --
+ 2 files changed, 16 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index be46d2e7cb5cec262ca5dd6f42f8f31b0187a0f7..4bc044e73fbd8c9fa32ea11f54f268acf024f55f 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -17,6 +17,7 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_managed.h>
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
-@@ -180,11 +181,15 @@ drm_bridge_connector_detect(struct drm_connector *connector, bool force)
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
- 	struct drm_bridge *detect = bridge_connector->bridge_detect;
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
- 	enum drm_connector_status status;
- 
- 	if (detect) {
- 		status = detect->funcs->detect(detect);
- 
-+		if (hdmi)
-+			drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-+
- 		drm_bridge_connector_hpd_notify(connector, status);
- 	} else {
- 		switch (connector->connector_type) {
-@@ -203,6 +208,16 @@ drm_bridge_connector_detect(struct drm_connector *connector, bool force)
- 	return status;
- }
- 
-+static void drm_bridge_connector_force(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *hdmi = bridge_connector->bridge_hdmi;
-+
-+	if (hdmi)
-+		drm_atomic_helper_connector_hdmi_force(connector);
-+}
-+
- static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 					      struct dentry *root)
- {
-@@ -231,6 +246,7 @@ static void drm_bridge_connector_reset(struct drm_connector *connector)
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
- 	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
-+	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-@@ -276,6 +292,14 @@ static int drm_bridge_connector_get_modes(struct drm_connector *connector)
- 		to_drm_bridge_connector(connector);
- 	struct drm_bridge *bridge;
- 
-+	/*
-+	 * If there is a HDMI bridge, EDID has been updated as a part of
-+	 * the .detect(). Just update the modes here.
-+	 */
-+	bridge = bridge_connector->bridge_hdmi;
-+	if (bridge)
-+		return drm_edid_connector_add_modes(connector);
-+
- 	/*
- 	 * If display exposes EDID, then we parse that in the normal way to
- 	 * build table of supported modes.
-@@ -368,10 +392,25 @@ static int drm_bridge_connector_write_infoframe(struct drm_connector *connector,
- 	return bridge->funcs->hdmi_write_infoframe(bridge, type, buffer, len);
- }
- 
-+static const struct drm_edid *
-+drm_bridge_connector_read_edid(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_edid;
-+	if (!bridge)
-+		return NULL;
-+
-+	return drm_bridge_edid_read(bridge, connector);
-+}
-+
- static const struct drm_connector_hdmi_funcs drm_bridge_connector_hdmi_funcs = {
- 	.tmds_char_rate_valid = drm_bridge_connector_tmds_char_rate_valid,
- 	.clear_infoframe = drm_bridge_connector_clear_infoframe,
- 	.write_infoframe = drm_bridge_connector_write_infoframe,
-+	.read_edid = drm_bridge_connector_read_edid,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 203293a8beca738dbfeaaf15f350026e263e646b..2a2aca7017994779a7163935df3fc87ca312d6dd 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -584,6 +584,7 @@ static const struct drm_connector_helper_funcs vc4_hdmi_connector_helper_funcs =
  };
  
- static int drm_bridge_connector_audio_startup(struct drm_connector *connector)
+ static const struct drm_connector_hdmi_funcs vc4_hdmi_hdmi_connector_funcs;
++static const struct drm_connector_hdmi_codec_funcs vc4_hdmi_codec_funcs;
+ 
+ static int vc4_hdmi_connector_init(struct drm_device *dev,
+ 				   struct vc4_hdmi *vc4_hdmi)
+@@ -609,6 +610,12 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = drm_connector_hdmi_audio_init(connector, dev->dev,
++					    &vc4_hdmi_codec_funcs,
++					    8, false, -1);
++	if (ret)
++		return ret;
++
+ 	drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
+ 
+ 	/*
+@@ -1921,9 +1928,9 @@ static bool vc4_hdmi_audio_can_stream(struct vc4_hdmi *vc4_hdmi)
+ 	return true;
+ }
+ 
+-static int vc4_hdmi_audio_startup(struct device *dev, void *data)
++static int vc4_hdmi_audio_startup(struct drm_connector *connector)
+ {
+-	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
++	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+ 	struct drm_device *drm = vc4_hdmi->connector.dev;
+ 	unsigned long flags;
+ 	int ret = 0;
+@@ -1985,9 +1992,9 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
+ 	spin_unlock_irqrestore(&vc4_hdmi->hw_lock, flags);
+ }
+ 
+-static void vc4_hdmi_audio_shutdown(struct device *dev, void *data)
++static void vc4_hdmi_audio_shutdown(struct drm_connector *connector)
+ {
+-	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
++	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+ 	struct drm_device *drm = vc4_hdmi->connector.dev;
+ 	unsigned long flags;
+ 	int idx;
+@@ -2057,13 +2064,12 @@ static int sample_rate_to_mai_fmt(int samplerate)
+ }
+ 
+ /* HDMI audio codec callbacks */
+-static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
++static int vc4_hdmi_audio_prepare(struct drm_connector *connector,
+ 				  struct hdmi_codec_daifmt *daifmt,
+ 				  struct hdmi_codec_params *params)
+ {
+-	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
++	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
+ 	struct drm_device *drm = vc4_hdmi->connector.dev;
+-	struct drm_connector *connector = &vc4_hdmi->connector;
+ 	struct vc4_dev *vc4 = to_vc4_dev(drm);
+ 	unsigned int sample_rate = params->sample_rate;
+ 	unsigned int channels = params->channels;
+@@ -2075,7 +2081,7 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
+ 	int ret = 0;
+ 	int idx;
+ 
+-	dev_dbg(dev, "%s: %u Hz, %d bit, %d channels\n", __func__,
++	dev_dbg(&vc4_hdmi->pdev->dev, "%s: %u Hz, %d bit, %d channels\n", __func__,
+ 		sample_rate, params->sample_width, channels);
+ 
+ 	mutex_lock(&vc4_hdmi->mutex);
+@@ -2214,40 +2220,12 @@ static const struct snd_dmaengine_pcm_config pcm_conf = {
+ 	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
+ };
+ 
+-static int vc4_hdmi_audio_get_eld(struct device *dev, void *data,
+-				  uint8_t *buf, size_t len)
+-{
+-	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+-	struct drm_connector *connector = &vc4_hdmi->connector;
+-
+-	mutex_lock(&connector->eld_mutex);
+-	memcpy(buf, connector->eld, min(sizeof(connector->eld), len));
+-	mutex_unlock(&connector->eld_mutex);
+-
+-	return 0;
+-}
+-
+-static const struct hdmi_codec_ops vc4_hdmi_codec_ops = {
+-	.get_eld = vc4_hdmi_audio_get_eld,
++static const struct drm_connector_hdmi_codec_funcs vc4_hdmi_codec_funcs = {
+ 	.prepare = vc4_hdmi_audio_prepare,
+ 	.audio_shutdown = vc4_hdmi_audio_shutdown,
+ 	.audio_startup = vc4_hdmi_audio_startup,
+ };
+ 
+-static struct hdmi_codec_pdata vc4_hdmi_codec_pdata = {
+-	.ops = &vc4_hdmi_codec_ops,
+-	.max_i2s_channels = 8,
+-	.i2s = 1,
+-};
+-
+-static void vc4_hdmi_audio_codec_release(void *ptr)
+-{
+-	struct vc4_hdmi *vc4_hdmi = ptr;
+-
+-	platform_device_unregister(vc4_hdmi->audio.codec_pdev);
+-	vc4_hdmi->audio.codec_pdev = NULL;
+-}
+-
+ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ {
+ 	const struct vc4_hdmi_register *mai_data =
+@@ -2255,7 +2233,6 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 	struct snd_soc_dai_link *dai_link = &vc4_hdmi->audio.link;
+ 	struct snd_soc_card *card = &vc4_hdmi->audio.card;
+ 	struct device *dev = &vc4_hdmi->pdev->dev;
+-	struct platform_device *codec_pdev;
+ 	const __be32 *addr;
+ 	int index, len;
+ 	int ret;
+@@ -2348,20 +2325,6 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 		return ret;
+ 	}
+ 
+-	codec_pdev = platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
+-						   PLATFORM_DEVID_AUTO,
+-						   &vc4_hdmi_codec_pdata,
+-						   sizeof(vc4_hdmi_codec_pdata));
+-	if (IS_ERR(codec_pdev)) {
+-		dev_err(dev, "Couldn't register the HDMI codec: %ld\n", PTR_ERR(codec_pdev));
+-		return PTR_ERR(codec_pdev);
+-	}
+-	vc4_hdmi->audio.codec_pdev = codec_pdev;
+-
+-	ret = devm_add_action_or_reset(dev, vc4_hdmi_audio_codec_release, vc4_hdmi);
+-	if (ret)
+-		return ret;
+-
+ 	dai_link->cpus		= &vc4_hdmi->audio.cpu;
+ 	dai_link->codecs	= &vc4_hdmi->audio.codec;
+ 	dai_link->platforms	= &vc4_hdmi->audio.platform;
+@@ -2374,7 +2337,7 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
+ 	dai_link->stream_name = "MAI PCM";
+ 	dai_link->codecs->dai_name = "i2s-hifi";
+ 	dai_link->cpus->dai_name = dev_name(dev);
+-	dai_link->codecs->name = dev_name(&codec_pdev->dev);
++	dai_link->codecs->name = dev_name(&vc4_hdmi->connector.hdmi_codec.codec_pdev->dev);
+ 	dai_link->platforms->name = dev_name(dev);
+ 
+ 	card->dai_link = dai_link;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index b2424a21da230db99db207efa293417faccd254d..e3d989ca302b72533c374dfa3fd0d5bd7fe64a82 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -104,8 +104,6 @@ struct vc4_hdmi_audio {
+ 	struct snd_soc_dai_link_component codec;
+ 	struct snd_soc_dai_link_component platform;
+ 	struct snd_dmaengine_dai_dma_data dma_data;
+-	struct hdmi_audio_infoframe infoframe;
+-	struct platform_device *codec_pdev;
+ 	bool streaming;
+ };
+ 
 
 -- 
 2.39.5
