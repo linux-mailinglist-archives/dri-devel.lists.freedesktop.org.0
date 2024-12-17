@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9464B9F4FCA
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:44:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C619F4FC8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:44:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A249C10EA03;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5286710EA02;
 	Tue, 17 Dec 2024 15:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="TXYb7j8I";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bpuaXE48";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [IPv6:2a01:4f8:201:9162::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCC3210E9F9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:44:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 730D110E9FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734450266;
- bh=vD8T5R3i/xb217YiGqCPRSsxlhMnzbBTogkNqWoL7vY=;
+ s=mail; t=1734450268;
+ bh=K3NExiNqHDr/dH0KkasiqAHlrrm5EPcA/B5tJUWXD5o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TXYb7j8Ix20ZURydgQwuCSVb+Z+/QIr+legbkI4aqFsMsnTp9rT+4o2SLRaY/PxPi
- AJ55Q+so+G3HdulK43EzI1IaVhJ1pzbHp9u8bDiBVYUwvE5LC06BXKmukU6lp4G5+G
- 4dyQDDaEGzOBlAdFU/QOf9g982ltVxwQxGbjjqF0Ozvi36j5EnYD6LBQGR+DjQipdW
- GF9hTDEzGCX6DhARxv3AboBknvF3dxxr9gt5VHwjjgRUdY3QII78wECdJ+nfGOoGIQ
- hvBVzCyXbf99bFUJCWurPgxJ11g7TIYCe2nQVGbdVtMLRr5U6VJQCuyQZwvp67RriA
- lod4IgvgSIFjA==
+ b=bpuaXE48nGNtBHXtgMR0j7EMyBgsvcNAvTnh3/bLBSKGp6d2u8W8LGH6+kxrAW+Nr
+ plgoWmNb46qrN9DzWucPbKlM+ayuniMNAo0p+T5LazKUgb6ROHroMtsNr280cdC8so
+ aAmENhxodxLywM5v5raZUOOexlWkcTTwY/sPaRGWHg5jYxteU9ZpnVjEIBbtHUMs/J
+ 4Voxf689aa95Zxo3+4Gug/Gb7/TQfbb9gjPaTpncnv8Z3aF26Avht4WUmAJAdZAAzb
+ U6PCVTQsGbS8s6z9Slm6mN8U+ILBxW++CiIWPHVieE6vc6yj6fX0Xw6+ChuruBqIBE
+ q7eA6sPJW8DkA==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5B3BA17E3786;
- Tue, 17 Dec 2024 16:44:25 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C4A1717E37B0;
+ Tue, 17 Dec 2024 16:44:26 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -44,10 +44,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, dmitry.baryshkov@linaro.org
-Subject: [PATCH v3 25/33] drm/mediatek: mtk_hdmi: Remove goto in
- mtk_hdmi_clk_enable_audio()
-Date: Tue, 17 Dec 2024 16:43:37 +0100
-Message-ID: <20241217154345.276919-26-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 26/33] drm/mediatek: mtk_hdmi: Cleanup function
+ mtk_hdmi_resume()
+Date: Tue, 17 Dec 2024 16:43:38 +0100
+Message-ID: <20241217154345.276919-27-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
 References: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
@@ -68,40 +68,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the clk_prepare_enable() call for the SPDIF clock fails, just
-disable and unprepare the clock in the error check branch and
-return immediately instead of jumping to the end with a goto,
-slightly reducing code size.
-
-This commit brings no functional changes.
+Remove the error print in case of mtk_hdmi_clk_enable_audio()
+failures: since the APIs will already print on their own, having
+one in there is redundant.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 7e4536391cfb..dbcb9fb09edd 100644
+index dbcb9fb09edd..6c9d046809b2 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1095,13 +1095,12 @@ static int mtk_hdmi_clk_enable_audio(struct mtk_hdmi *hdmi)
- 		return ret;
+@@ -1705,15 +1705,8 @@ static __maybe_unused int mtk_hdmi_suspend(struct device *dev)
+ static __maybe_unused int mtk_hdmi_resume(struct device *dev)
+ {
+ 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+-	int ret = 0;
  
- 	ret = clk_prepare_enable(hdmi->clk[MTK_HDMI_CLK_AUD_SPDIF]);
--	if (ret)
--		goto err;
-+	if (ret) {
-+		clk_disable_unprepare(hdmi->clk[MTK_HDMI_CLK_AUD_BCLK]);
-+		return ret;
-+	}
- 
- 	return 0;
--err:
--	clk_disable_unprepare(hdmi->clk[MTK_HDMI_CLK_AUD_BCLK]);
--	return ret;
+-	ret = mtk_hdmi_clk_enable_audio(hdmi);
+-	if (ret) {
+-		dev_err(dev, "hdmi resume failed!\n");
+-		return ret;
+-	}
+-
+-	return 0;
++	return mtk_hdmi_clk_enable_audio(hdmi);
  }
  
- static void mtk_hdmi_clk_disable_audio(struct mtk_hdmi *hdmi)
+ static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops, mtk_hdmi_suspend, mtk_hdmi_resume);
 -- 
 2.47.0
 
