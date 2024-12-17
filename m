@@ -1,20 +1,20 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6059F495C
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9199F495A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9038A10E909;
-	Tue, 17 Dec 2024 10:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E8510E90E;
+	Tue, 17 Dec 2024 10:55:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.nfschina.com (unknown [42.101.60.213])
- by gabe.freedesktop.org (Postfix) with SMTP id CBE6210E652;
- Mon, 16 Dec 2024 13:04:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with SMTP id BD96510E832;
+ Tue, 17 Dec 2024 01:54:12 +0000 (UTC)
 Received: from localhost.localdomain (unknown [103.163.180.3])
- by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 635BE602A5E7F; 
- Mon, 16 Dec 2024 21:04:26 +0800 (CST)
+ by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 566BE6017097D; 
+ Tue, 17 Dec 2024 09:54:09 +0800 (CST)
 X-MD-Sfrom: zhanxin@nfschina.com
 X-MD-SrcIP: 103.163.180.3
 From: Zhanxin Qi <zhanxin@nfschina.com>
@@ -23,11 +23,11 @@ To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org,
  Zhanxin Qi <zhanxin@nfschina.com>, Duanjun Li <duanjun@nfschina.com>
-Subject: [PATCH v1 v1] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
-Date: Mon, 16 Dec 2024 21:03:03 +0800
-Message-Id: <20241216130303.246223-1-zhanxin@nfschina.com>
+Subject: [PATCH v2] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
+Date: Tue, 17 Dec 2024 09:53:02 +0800
+Message-Id: <20241217015302.281769-1-zhanxin@nfschina.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Z1_2sugsla44LgIz@cassiopeiae>
+In-Reply-To: <Z2A0CuGRJD-asF3y@cassiopeiae>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 17 Dec 2024 10:55:20 +0000
@@ -50,12 +50,11 @@ The nvbios_iccsense_parse function allocates memory for sensor data
 but fails to free it when the function exits, leading to a memory
 leak. Add proper cleanup to free the allocated memory.
 
-Fixes: 39b7e6e547ff ("drm/nouveau/nvbios/iccsense: add parsing of the SENSE table")
+Fixes: b71c0892631a ("drm/nouveau/iccsense: implement for ina209, ina219 and ina3221")
 
 Cc: stable@vger.kernel.org
+Co-developed-by: Duanjun Li <duanjun@nfschina.com>
 Signed-off-by: Zhanxin Qi <zhanxin@nfschina.com>
-Signed-off-by: Duanjun Li <duanjun@nfschina.com>
-Signed-off-by: Danilo Krummrich <dakr@redhat.com>
 ---
  .../include/nvkm/subdev/bios/iccsense.h       |  2 ++
  .../drm/nouveau/nvkm/subdev/bios/iccsense.c   | 20 +++++++++++++++++++
@@ -74,7 +73,7 @@ index 4c108fd2c805..8bfc28c3f7a7 100644
 +void nvbios_iccsense_cleanup(struct nvbios_iccsense *iccsense);
  #endif
 diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-index dea444d48f94..38fcc91ffea6 100644
+index dea444d48f94..ca7c27b92f16 100644
 --- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
 +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
 @@ -56,6 +56,19 @@ nvbios_iccsense_table(struct nvkm_bios *bios, u8 *ver, u8 *hdr, u8 *cnt,
@@ -92,7 +91,7 @@ index dea444d48f94..38fcc91ffea6 100644
 + *
 + * Returns:
 + *   0        - Success
-+ *   -ENODEV  - Table not found
++ *   -EINVAL  - Table not found
 + */
  int
  nvbios_iccsense_parse(struct nvkm_bios *bios, struct nvbios_iccsense *iccsense)
