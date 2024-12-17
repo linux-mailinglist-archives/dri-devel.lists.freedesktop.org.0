@@ -2,81 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4909F4D75
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B399F4DB3
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:28:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B66810E987;
-	Tue, 17 Dec 2024 14:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD59210E986;
+	Tue, 17 Dec 2024 14:28:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
- [209.85.222.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 745F610E987
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 14:20:07 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id
- a1e0cc1a2514c-85bc5d0509bso1035908241.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:20:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734445205; x=1735050005;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=aXPkplgvFfsbNTNn42otx4BMRNpKHlQWJuCfcyWJJJc=;
- b=L+MRBPs/9dNCQCleAv0vKvfpd6EcBriZ9de9fHTakKmA2YGHnqlgfghFeZ+43z2AOL
- OgRDVvVyOnUF4vLjx4rQtOzjQco3EqgdvYXU1bTYQ/R3Ggqjpmg9ASfZIrIJh4n1GwVA
- eg9ZtDIC4mtuGr1ln/O/ycRtrTcYjTsZ8tw8w8iOvmg2mfcVxJrEal0SAvTOaHb+KAhJ
- QrRLPNOsWMHu+H+Y4mhzeR53vzKvcgu9rXyd87E4kGChBcfb7QvO4cIR0uUPmIdqCXpE
- kf12WGapoa95iWJ9f9ABNRZLcu4I4rgxBy4+d7r77fQcqrNxk3u0ZBaH9WTtllGec3dI
- A7gw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWfmNRfg7w/zRVhgp5F/5WP6l53+xlyOXo9H2BTGmBuULbqZfN3muqf6rik4ITx3BcU6Lv7ITU9J74=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxbe2i8qj4uQ6JvzhDWQiJHPHM2gXVce9ww+qinBbOh6r6ZNSrW
- e7YcDmZblMshlszsvD/qRO9pKiujYmy6cRoJVchu1gaZVyyNxdCS4CUkV/qy
-X-Gm-Gg: ASbGncvFCmKBRIb6qqcUvHRwmEBT1NShIU0ZIdlN8j6v0qEFshfp57W/6L4s2Ao6Mhf
- neWRHPOEofA9FbHSMI2Qdo3ICNgJKkBIimbBNIxs+26mXjd6biOxghxQ5Y14cafsRKzzkLh57TQ
- rlvPUgrsneIl/d8G0E/7+xaWty+i0qKR/Pn3OyWdzZELOEkPXEv5RFV0w4nEW7V6Vo6EQs0VFD7
- nA+m/ImWQWWGK2sljDY4PIS/Ks7nuFvr72y67B34plonguswyWjBNJi513shKxJykP5Ge83Ql3v
- Uj32JWYsS7Vh6U26TcY=
-X-Google-Smtp-Source: AGHT+IE15eiD37MOmF90tQEaI0GpRLfdQDGn2o1rf4ND5b0Ju+M4CV2YYwE+ETM8dcEzrwiXRIIRFw==
-X-Received: by 2002:a05:6122:906:b0:518:859e:87ae with SMTP id
- 71dfb90a1353d-518ca463e04mr14960421e0c.7.1734445205269; 
- Tue, 17 Dec 2024 06:20:05 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com.
- [209.85.217.41]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-519eb72a077sm891185e0c.43.2024.12.17.06.20.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Dec 2024 06:20:04 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id
- ada2fe7eead31-4afde39e360so1376343137.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:20:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX/3MtpTvG2N4fC20WI07Vn8atLRbMfS1IDHqYvS9tgjusCMJAlUdcPYzbgBD1vHBU+a5E889kd26E=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:c0d:b0:4af:de38:dff7 with SMTP id
- ada2fe7eead31-4b25d6d83a1mr19193213137.0.1734445204670; Tue, 17 Dec 2024
- 06:20:04 -0800 (PST)
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BCC10E22F;
+ Tue, 17 Dec 2024 14:28:52 +0000 (UTC)
+Message-ID: <a69a3500-be17-4899-bdb9-c6a63bf8dc81@lankhorst.se>
+Date: Tue, 17 Dec 2024 15:28:50 +0100
 MIME-Version: 1.0
-References: <20241204160014.1171469-1-jfalempe@redhat.com>
-In-Reply-To: <20241204160014.1171469-1-jfalempe@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Dec 2024 15:19:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
-Message-ID: <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
-Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>, bluescreen_avenger@verizon.net, 
- Caleb Connolly <caleb.connolly@linaro.org>, Petr Mladek <pmladek@suse.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
+ cgroup.
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20241204134410.1161769-1-dev@lankhorst.se>
+ <20241213-proud-kind-uakari-df3a70@houat>
+ <80c49a80-d49c-4ca5-9568-9f7950618275@lankhorst.se>
+ <20241213-gentle-glittering-salamander-22addf@houat>
+ <5a50a992-9286-4179-8031-ffb514bca34f@lankhorst.se>
+ <20241217-meek-bullfinch-of-luck-2c3468@houat>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20241217-meek-bullfinch-of-luck-2c3468@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,60 +51,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+Hey,
 
-On Wed, Dec 4, 2024 at 6:41=E2=80=AFPM Jocelyn Falempe <jfalempe@redhat.com=
-> wrote:
-> drm_log is a simple logger that uses the drm_client API to print the kmsg=
- boot log on the screen.
-> This is not a full replacement to fbcon, as it will only print the kmsg.
-> It will never handle user input, or a terminal because this is better don=
-e in userspace.
->
-> If you're curious on how it looks like, I've put a small demo here:
-> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
->
-> Design decisions:
->   * It uses the drm_client API, so it should work on all drm drivers from=
- the start.
->   * It doesn't scroll the message, that way it doesn't need to redraw the=
- whole screen for each new message.
->     It also means it doesn't have to keep drawn messages in memory, to re=
-draw them when scrolling.
->   * It uses the new non-blocking console API, so it should work well with=
- PREEMPT_RT
+Now that all patches look good, what is needed to merge the series? 
+Without patch 6/7 as it is a hack for testing.
 
-I gave this a try on Koelsch (R-Car M2-W), using rcar-du.
-Unfortunately I don't see any kernel messages, and my monitor complains
-about no signal. Does this require special support from the driver?
+I've also posted a IGT for verifying read/write works (rule out 
+copy/paste errors) and min, max semantics work as intended.
 
-    CONFIG_DRM_CLIENT=3Dy
-    CONFIG_DRM_CLIENT_LIB=3Dy
-    CONFIG_DRM_CLIENT_SELECTION=3Dy
-    CONFIG_DRM_CLIENT_SETUP=3Dy
-    CONFIG_DRM_CLIENT_LOG=3Dy
-    # CONFIG_DRM_CLIENT_DEFAULT_FBDEV is not set
-    CONFIG_DRM_CLIENT_DEFAULT_LOG=3Dy
-    CONFIG_DRM_CLIENT_DEFAULT=3D"log"
+https://lists.freedesktop.org/archives/igt-dev/2024-December/083345.html
 
-Switching to fbdev gives a working display, as before:
+Cheers,
+~Maarten
 
-    CONFIG_DRM_CLIENT_DEFAULT_FBDEV=3Dy
-    # CONFIG_DRM_CLIENT_DEFAULT_LOG is not set
-    CONFIG_DRM_CLIENT_DEFAULT=3D"fbdev"
 
-Thanks!
+Den 2024-12-17 kl. 08:46, skrev Maxime Ripard:
+> On Fri, Dec 13, 2024 at 05:06:05PM +0100, Maarten Lankhorst wrote:
+>> Hey,
+>>
+>> Den 2024-12-13 kl. 16:21, skrev Maxime Ripard:
+>>> On Fri, Dec 13, 2024 at 03:53:13PM +0100, Maarten Lankhorst wrote:
+>>>>
+>>>>
+>>>> Den 2024-12-13 kl. 14:03, skrev Maxime Ripard:
+>>>>> Hi,l
+>>>>>
+>>>>> Thanks for the new update!
+>>>>>
+>>>>> On Wed, Dec 04, 2024 at 02:44:00PM +0100, Maarten Lankhorst wrote:
+>>>>>> New update. Instead of calling it the 'dev' cgroup, it's now the
+>>>>>> 'dmem' cgroup.
+>>>>>>
+>>>>>> Because it only deals with memory regions, the UAPI has been updated
+>>>>>> to use dmem.min/low/max/current, and to make the API cleaner, the
+>>>>>> names are changed too.
+>>>>>
+>>>>> The API is much nicer, and fits much better into other frameworks too.
+>>>>>
+>>>>>> dmem.current could contain a line like:
+>>>>>> "drm/0000:03:00.0/vram0 1073741824"
+>>>>>>
+>>>>>> But I think using "drm/card0/vram0" instead of PCIID would perhaps be
+>>>>>> good too. I'm open to changing it to that based on feedback.
+>>>>>
+>>>>> Do we have any sort of guarantee over the name card0 being stable across
+>>>>> reboots?
+>>>>>
+>>>>> I also wonder if we should have a "total" device that limits the amount
+>>>>> of memory we can allocate from any region?
+>>>>
+>>>> I don't think it is useful. Say your app can use 1 GB of main memory or 2 GB
+>>>> of VRAM, it wouldn't make sense to limit the total of those. In a lot of
+>>>> cases there is only 1 region, so the total of that would still be the same.
+>>>>
+>>>> On top, we just separated the management of each region, adding a 'total'
+>>>> would require unseparating it again. :-)
+>>>
+>>> I didn't mean the total for a device, but for the system. It would
+>>> definitely not make sense for a VRAM, but for CMA for example, you have
+>>> a single, limited, allocator that will be accessible from heaps, v4l2
+>>> and DRM devices.
+>>>
+>>> If an application has to allocate both from v4l2 and DRM buffers, we
+>>> should be able to limit its total usage of CMA, not just on a single
+>>> device.
+>>
+>> In this case, I think it makes more sense if CMA creates a region, then use
+>> that region in both v4l2 and DRM instead of a separate region for both, with
+>> CMA being responsible for lifetime.
+> 
+> Ack, thanks for your feedback :)
+> 
+> Maxime
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
