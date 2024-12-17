@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520EF9F59FB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 00:00:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF989F5A09
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 00:01:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCB5210E27C;
-	Tue, 17 Dec 2024 23:00:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 845EA10E2E9;
+	Tue, 17 Dec 2024 23:01:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Bk+A/hDr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AZ6MiMAB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AACD410E27C;
- Tue, 17 Dec 2024 23:00:43 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-aa69077b93fso873125566b.0; 
- Tue, 17 Dec 2024 15:00:43 -0800 (PST)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
+ [IPv6:2a00:1450:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 296D210E304;
+ Tue, 17 Dec 2024 23:01:07 +0000 (UTC)
+Received: by mail-ej1-x62a.google.com with SMTP id
+ a640c23a62f3a-aab6fa3e20eso843877366b.2; 
+ Tue, 17 Dec 2024 15:01:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734476442; x=1735081242; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1734476465; x=1735081265; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4XEz6rhnsFVB96wbkpW+lhU7b364boMylDpIEeHqrE4=;
- b=Bk+A/hDr2BTE6XRhtutSMEv+cqgYWqeK+q7j2ZYJ1GBjWC5O6uYKLze8DfmLpoiW1K
- hKQB4W3B9WYU71jKdFVisdmNUQTpedLYklO+8yQMjoGt8bxka2UunaiZR0DrU3+Ofwre
- 3CFNXIbW68tOAU8c00BPNDuGDRAuD/MSORqSs8L75E06iGJ81aLLbNzNAz7yNZVgEjQT
- uUE/haRVg70NeEYvLbCpn0aZxsORxIk07yrPsaBoEEgkeyGkMOGYeNZ3fqm98CNl9lOM
- rCYwm5y3LTL7SRwZWbJI1uQns9uCWr4Krxmnn+sNSmV12yMX9SEyL0dycGpDadArAPlS
- cPuQ==
+ bh=K2Q+5lZ93c/1180fBGK9dFi80vfh3bKphGjr5C1ObCA=;
+ b=AZ6MiMAB751qfA0J7wk+VKzJOJzXdgL0Z4Tq75tbcLLuNxZs3ZvIpSb3KVux7sZoMo
+ 82O8RpEI7yjHMilv1igCK0NaQnkutWDYxALcGjES8MtzxGxSVbw5obNHDm5SnFuAm3YV
+ NqLkh0NBhxRoOB+IIqlmExzOz2kXw4upeXvGTPlDoTL8Z63VyZ9/XZ0CJ9CRA/daHnEY
+ rj92OEGuZ4NtoRKgz+fGB1San6/uYnlFcmucDmUl8vVFF0Hm+/cy9esqxus8YvjGMlgi
+ 3vSXy8kPHYjZOtUKm4qlzsdjuarbIRk3leziZaL/ozBMtGD3ZJJmPwmxqC7qCt4c4MHe
+ 6e3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734476442; x=1735081242;
+ d=1e100.net; s=20230601; t=1734476465; x=1735081265;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4XEz6rhnsFVB96wbkpW+lhU7b364boMylDpIEeHqrE4=;
- b=IgbY4D89AIVcRAKbCNK2EnBQBEw0p4lSPTPmrk5X/ZnaFUQmnbt7iP0SBztYhAnwHP
- GXAdGUFIpzHeGfJantMTApyaEBD/TTgecVXex0OpokFFTuq/jjiEgloRz3suLz56/jiJ
- GlJmHwrPmw5n3p/kr3BnF8El9xqIZ9w9fXvEVV3q0/inKvpg82ZR93cT4Y06rBcMbNZQ
- lURe49PM/nS8MpwJ0XmRrxsz0EAWjQe/+GsVi6Y1RBQNPUuX56tIzAZ7oK7yg0lkfn1e
- otTNu9sqJCZ87Mwo0HdIBg8uYbjWevpyn7IRtWUZnjY4QO3vCED8cnPn0QYIRUuycCe7
- u0kA==
+ bh=K2Q+5lZ93c/1180fBGK9dFi80vfh3bKphGjr5C1ObCA=;
+ b=LOwj0/DUcI0MnSIE91P09dehHnjAuQoFtQIYNFIoYHgEHmSHoS+z2/oIOhWPfTWJJJ
+ dWfx7gXlsHwLX5U93w9Nok3a2yx913LzucxJnCgPxzwNT1v/nlpdoc58Oa5LNgQLFGZ+
+ W/eD20cMSfsjJutGvnJANchwRhBdlIqZgMfcq6lTqjkGF0TeJGDxadiXGMUirFqwaGjg
+ zAF3jVreKOC0kyBJyPKCJTqd90PyXW6CqK4PTQuqz4kEe9Epf8zqNTY+6NWXsHmfpZUW
+ UFe7Ak/PlN607h+ge/Ggu2/5UN6MNlJk7+Cj1biIDv8Psa/bi4s7ZZOQu6UH6COyjRqa
+ ylaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4HdYyb7ov17siqopXuBTHQmNH9vGXU8nDTEZSU5jPppY9WfoUPN0R6zX4FusynJ5jUYe1CXjA@lists.freedesktop.org,
- AJvYcCXZKPmzFq425NHs4z/qVJE710YaLk0IwmjBcY7LCesCjvvMlPXfTFdRfbX4yfCDms0GtpJ1y74Hq7Z0@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoSnhWJI3P5cUcWF0JKLigDqzMLAA6tTPpKulNGRsYSIgzRzOZ
- E+uHxLEJuIjs4zkanQQ/uDW4C3z8uqpUwrGvxgN3dMk52ng+Bh5J
-X-Gm-Gg: ASbGncuDL6grs4GsmkJwqT5WnfMiIw5OqW4MEI06Y2UMwTOfTkkLe2IeQeu+e5/VD3g
- FpMCtJc0VNTNACgBJ0wrpdWhh9m6hlSPcOE2muKOeObU1hJji9d19fvAmx3sCV5U+dJl/E2mjWH
- kTZdRbzDBiQaanJEkNHjSZl5M9nf7sPhQPb6xMTv7tnnLZ5be2ks7NuWlL6Qp05dVQk4DF5AEuw
- c6MlyNPGwC21zY5xuOMchcVOGfT15zmcDchX2QnPZby3WZrDWwRIsLY6tdbFTZqSG19ew9m
-X-Google-Smtp-Source: AGHT+IFQX77wgpGspEiR873ojumfcvZFoep/771Bg+U3/cA+lXsvCwJn7F5mSufydfw/ldrxkhTLGg==
-X-Received: by 2002:a17:907:da8:b0:aa6:a228:afa9 with SMTP id
- a640c23a62f3a-aabf46fbf1emr45475166b.3.1734476441886; 
- Tue, 17 Dec 2024 15:00:41 -0800 (PST)
+ AJvYcCUjekN9CR7yysym3E829Co4vT9FieOgbROZPBJylpZFEQJ1Qdmwm3DPfznwHgPLwhxGZrm43G21@lists.freedesktop.org,
+ AJvYcCXFA4o/UjAvxezhhY4ykDpxs81slh6m/Ol97XQuqIf5nGxUk5dh/FbZ8Zv75vY7r33A9RXQGLt8to2O@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwV02y6i+gteHr6G3AS0PAI6mfXw3tUaZdFKZRtchYFvpCYpR4J
+ O7+9K/pFIiIdrWJFFW6YzVfMjvKDeyaFYI0M4gvSsNzJZgfDVjsZ
+X-Gm-Gg: ASbGncuxNMTG4RI2929+fqw0qQPAfpCnETY25qy+Z+/hplRaJ3qu3u8r5Kt/J0vXEcH
+ O5/GQgJO4YXcQ4wYaAbIzw2tSEveP7nr+nXjiagRc0nmGJw6IQQMC6Ldp/3GK8SY3xbLYkkJUYx
+ /fDZsfW0MEcyHoXDkfaIqcM6142f10yfTjFFVL+PrbBFG8RqzjzepXW6vbqevMAFYoAEIp+s9Oc
+ BdrDN6b725Tsq0O4DOQk3vrusYmotdzUkJPtTkZWwsi30UBDZu38AEl5PrX1cE3RmY2OegH
+X-Google-Smtp-Source: AGHT+IGDgT1XC/54LMv/yuGZqK7CHwcriAKun+hCdwFovWUgDOgR+DiY5cNn7w+69HSV/VlAf9rmcw==
+X-Received: by 2002:a17:907:2d12:b0:aa6:8d51:8fe2 with SMTP id
+ a640c23a62f3a-aabf48f9900mr33660766b.42.1734476465330; 
+ Tue, 17 Dec 2024 15:01:05 -0800 (PST)
 Received: from localhost (dh207-43-57.xnet.hr. [88.207.43.57])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aab9c3eb5e0sm468944766b.44.2024.12.17.15.00.41
+ a640c23a62f3a-aab960065f2sm494726366b.29.2024.12.17.15.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 15:00:41 -0800 (PST)
+ Tue, 17 Dec 2024 15:01:04 -0800 (PST)
 From: Mirsad Todorovac <mtodorovac69@gmail.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  Victor Skvortsov <victor.skvortsov@amd.com>, amd-gfx@lists.freedesktop.org,
@@ -68,13 +68,11 @@ To: Alex Deucher <alexander.deucher@amd.com>,
 Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Mirsad Todorovac <mtodorovac69@gmail.com>,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Chandan Babu R <chandanbabu@kernel.org>,
- Dave Chinner <dchinner@redhat.com>, linux-xfs@vger.kernel.org
-Subject: [PATCH v1 2/3] xfs/libxfs: replace kmalloc() and memcpy() with
- kmemdup()
-Date: Tue, 17 Dec 2024 23:58:12 +0100
-Message-ID: <20241217225811.2437150-4-mtodorovac69@gmail.com>
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ David Sterba <dsterba@suse.com>, linux-btrfs@vger.kernel.org
+Subject: [PATCH v1 3/3] btrfs: replace kmalloc() and memcpy() with kmemdup()
+Date: Tue, 17 Dec 2024 23:58:14 +0100
+Message-ID: <20241217225811.2437150-6-mtodorovac69@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241217225811.2437150-2-mtodorovac69@gmail.com>
 References: <20241217225811.2437150-2-mtodorovac69@gmail.com>
@@ -96,58 +94,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The source static analysis tool gave the following advice:
+The static analyser tool gave the following advice:
 
-./fs/xfs/libxfs/xfs_dir2.c:382:15-22: WARNING opportunity for kmemdup
+./fs/btrfs/ioctl.c:4987:9-16: WARNING opportunity for kmemdup
 
- → 382         args->value = kmalloc(len,
-   383                          GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_RETRY_MAYFAIL);
-   384         if (!args->value)
-   385                 return -ENOMEM;
-   386
- → 387         memcpy(args->value, name, len);
-   388         args->valuelen = len;
-   389         return -EEXIST;
+   4986                 if (!iov) {
+ → 4987                         iov = kmalloc(sizeof(struct iovec) * args.iovcnt, GFP_NOFS);
+   4988                         if (!iov) {
+   4989                                 unlock_extent(io_tree, start, lockend, &cached_state);
+   4990                                 btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+   4991                                 ret = -ENOMEM;
+   4992                                 goto out_acct;
+   4993                         }
+   4994
+ → 4995                         memcpy(iov, iovstack, sizeof(struct iovec) * args.iovcnt);
+   4996                 }
 
 Replacing kmalloc() + memcpy() with kmemdump() doesn't change semantics.
 Original code works without fault, so this is not a bug fix but proposed improvement.
 
 Link: https://lwn.net/Articles/198928/
-Fixes: 94a69db2367ef ("xfs: use __GFP_NOLOCKDEP instead of GFP_NOFS")
-Fixes: 384f3ced07efd ("[XFS] Return case-insensitive match for dentry cache")
-Fixes: 2451337dd0439 ("xfs: global error sign conversion")
-Cc: Carlos Maiolino <cem@kernel.org>
-Cc: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Chandan Babu R <chandanbabu@kernel.org>
-Cc: Dave Chinner <dchinner@redhat.com>
-Cc: linux-xfs@vger.kernel.org
+Fixes: 34310c442e175 ("btrfs: add io_uring command for encoded reads (ENCODED_READ ioctl)")
+Cc: Chris Mason <clm@fb.com>
+Cc: Josef Bacik <josef@toxicpanda.com>
+Cc: David Sterba <dsterba@suse.com>
+Cc: linux-btrfs@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Mirsad Todorovac <mtodorovac69@gmail.com>
 ---
  v1:
 	initial version.
 
- fs/xfs/libxfs/xfs_dir2.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ fs/btrfs/ioctl.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/fs/xfs/libxfs/xfs_dir2.c b/fs/xfs/libxfs/xfs_dir2.c
-index 202468223bf9..24251e42bdeb 100644
---- a/fs/xfs/libxfs/xfs_dir2.c
-+++ b/fs/xfs/libxfs/xfs_dir2.c
-@@ -379,12 +379,11 @@ xfs_dir_cilookup_result(
- 					!(args->op_flags & XFS_DA_OP_CILOOKUP))
- 		return -EEXIST;
+diff --git a/fs/btrfs/ioctl.c b/fs/btrfs/ioctl.c
+index 3af8bb0c8d75..c2f769334d3c 100644
+--- a/fs/btrfs/ioctl.c
++++ b/fs/btrfs/ioctl.c
+@@ -4984,15 +4984,13 @@ static int btrfs_uring_encoded_read(struct io_uring_cmd *cmd, unsigned int issue
+ 		 * undo this.
+ 		 */
+ 		if (!iov) {
+-			iov = kmalloc(sizeof(struct iovec) * args.iovcnt, GFP_NOFS);
++			iov = kmemdup(iovstack, sizeof(struct iovec) * args.iovcnt, GFP_NOFS);
+ 			if (!iov) {
+ 				unlock_extent(io_tree, start, lockend, &cached_state);
+ 				btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+ 				ret = -ENOMEM;
+ 				goto out_acct;
+ 			}
+-
+-			memcpy(iov, iovstack, sizeof(struct iovec) * args.iovcnt);
+ 		}
  
--	args->value = kmalloc(len,
-+	args->value = kmemdup(name, len,
- 			GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_RETRY_MAYFAIL);
- 	if (!args->value)
- 		return -ENOMEM;
- 
--	memcpy(args->value, name, len);
- 	args->valuelen = len;
- 	return -EEXIST;
- }
+ 		count = min_t(u64, iov_iter_count(&iter), disk_io_size);
 -- 
 2.43.0
 
