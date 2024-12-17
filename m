@@ -2,53 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249FC9F4290
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FD779F42CB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:32:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1DA910E15D;
-	Tue, 17 Dec 2024 05:25:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60BD010E2E3;
+	Tue, 17 Dec 2024 05:32:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UcaPKcwZ";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aWnuJW76";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4D5210E15D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734413108;
- bh=2f+ZqjAke4iwHTR3GFedpFF4D+O1tQcfClogyNIP9aU=;
- h=Date:To:Cc:From:Subject:From;
- b=UcaPKcwZ4mjOq0DS7zkxVoTCYSjWFRlhFgDOXKO2NhUsKAha1gtstN7nGjdV1KuH6
- ovnW0hIesyC5coGCFkD4MSbMUhGFTWxJnqml5AJr8q9ycGmL+uX7ZzyVWda/4dbzJ5
- m3G4uoUiW2Pg0g40cct1EX6Fhh0+rhIR0/HK/gi6L1qUDspw38QH2bbVcTGtAogyS/
- 2RLUE9VKtnkLMoLzNzGsVLZrWkb0Qube6E0FTd2TYW2zsVJzcF3/OSRKD0TE3DcQFq
- LNw3jtsYdI9bnCG0vGAFkPeQsCxKcQ604a6NZle4f+ic8jXGjHEMp7dwKLeknOqboB
- 8FGUvgn9nuf7w==
-Received: from [192.168.50.250] (unknown [171.76.86.135])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0D2DC17E108D;
- Tue, 17 Dec 2024 06:25:04 +0100 (CET)
-Message-ID: <c0b4cded-0971-4abb-9965-2acf4602d7cd@collabora.com>
-Date: Tue, 17 Dec 2024 10:54:57 +0530
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C836010E18F
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:32:24 +0000 (UTC)
+Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2AC03E;
+ Tue, 17 Dec 2024 06:31:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1734413506;
+ bh=HdtBvsbTGHsxmfWL54oA5X/bE+Zp9SwVPyMQpH8+GGQ=;
+ h=From:Subject:Date:To:Cc:From;
+ b=aWnuJW76Bslpm0CRI9Puy8pOfeOIFU9AICsC1IrjHHiKcd8d9/RG3FZ3LDiS81frU
+ Uf8WYTSDsGyfUL9iuW8qqfvflrGEIlt3/iSBAXc8torPfMufGjiq8BcP40mPFW+eIP
+ uKtDBXH1zUCxAMeFB56kzIvJhAByV38SC42NjXkQ=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v5 0/7] drm: Add DSI/DP support for Renesas r8a779h0 V4M
+ and grey-hawk board
+Date: Tue, 17 Dec 2024 07:31:34 +0200
+Message-Id: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- airlied@gmail.com, daniel@ffwll.ch, Daniel Stone <daniels@collabora.com>,
- Helen Mae Koike Fornazier <helen.koike@collabora.com>,
- Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
- Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: drm-ci: flake test:
- kms_bw@connected-linear-tiling-1-displays-2160x1440p
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALcMYWcC/3XPQW7DIBCF4atErEPFjMEmWfUeVRcTGGIWMRFEV
+ ivLdy9xN3YUL/8nzSfNJArnyEWcD5PIPMYS01DDHA/C9TRcWUZfW6BCDUpZmR1lee2lL1GenIJ
+ gPDM5K+rFPXOIP4v29V27j+WR8u+Cj/Bc/x1UzcYZQSrZNZYY6GQ80mf0TCUNl0TZf7h0E09ux
+ DVhtgRWQqPuwBrwwbY7RLMm2i3RVMJ32iG0bSAwO4ReEfDyiK5EsKxBo0HVXd4Q8zz/ARNwzt1
+ 2AQAA
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ linux-clk@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ stable@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2782;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=HdtBvsbTGHsxmfWL54oA5X/bE+Zp9SwVPyMQpH8+GGQ=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnYQze8lHfUWPEkg55zHzELzk2Y+Kopngu3clvr
+ BGx5RyS2IWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2EM3gAKCRD6PaqMvJYe
+ 9TcvD/9IWDTL0RawT8b8w4CDfMh2GBDFPB6y9Dv0SJZeXO0+Mjg7x43rOKzHK+UdlGyjIXvPzZn
+ LZL4NmlaqIABCQWcA0lo4BZG3GH19FUxLLCTLuDsQ0nn4m9HNYUlm7HPATcblCF91fdD7yU3Khs
+ X7hgvlVOvqc1Ktt5k0IeysjfOp5bBMcrak4+HhYCSJlMiTo4UoFKiXOzdVi4NZyOegOYx6ikM+7
+ PgGUkucTma3HwsaKF+MvHE8Wkvl9LpCoiuB2y58QqO5AgP9J6Dsdhdvspvpd3rY5vOUjuhoH/7m
+ DpGKmMG6AX4tyX3Ol5WRKC555A2o0tHQawcpWT1Hd3+KxpvMgtzG0Hj2GNxds2b9fNrmdx2nqQB
+ w3vGBI1VHL3RBu736tOpg0qrSxCOwBbLXf08Su6dq+Ad0eezYkmeSRcvqvOxuUlL4ocyyyvs9zg
+ CU4sNKb/QKjwxdcUFmQwlqPIT0+JxSL9RAWCvHDxp8/D0BTQmKsbZe8F8gz3w89yeSUKLzDcuCA
+ KOhfWTcMLsktR7X0Ni2jru5BP/FaoHs2Y9ize+lG1tuJG2dWE7qOnEllrTIXdpejetlMTITqX5i
+ w22UmWZB9Uokpc2zNJymaOo8Dwxm0XC/0usNSNwqdH5UKWEzZmFUVXccr5ICn5JNi9sYdHCwNiH
+ WCUj6pI5kLm58VQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +96,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+Add everything needed to support the DSI output on Renesas r8a779h0
+(V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
+Renesas grey-hawk board.
 
-There are some flake tests reported for mediatek driver testing in drm-ci.
+Overall the DSI and the board design is almost identical to Renesas
+r8a779g0 and white-hawk board.
 
-# Board Name: mt8173-elm-hana
-# Failure Rate: 100
-# IGT Version: 1.29-g33adea9eb
-# Linux Version: 6.13.0-rc2
-kms_bw@connected-linear-tiling-1-displays-2160x1440p
+Note: the v4 no longer has the dts and the clk patches, as those have
+been merged to renesas-devel.
 
-command: cd "/igt/libexec/igt-gpu-tools" && 
-"/igt/libexec/igt-gpu-tools/kms_bw" "--run-subtest" 
-"connected-linear-tiling-1-displays-2160x1440p"
-pid: 329
-exit status: exit status: 98
-stdout:
--------
-IGT-Version: 1.29-g33adea9eb (aarch64) (Linux: 6.13.0-rc2-g1f006005ebf8 
-aarch64)
-Using IGT_SRANDOM=1734348965 for randomisation
-Opened device: /dev/dri/card0
-Starting subtest: connected-linear-tiling-1-displays-2160x1440p
-Stack trace:
-   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-   #1 ../lib/igt_pipe_crc.c:236 pipe_crc_new()
-   #2 ../tests/kms_bw.c:133 run_test_linear_tiling()
-   #3 ../tests/kms_bw.c:295 __igt_unique____real_main264()
-   #4 ../tests/kms_bw.c:264 main()
-   #5 [__libc_init_first+0x80]
-   #6 [__libc_start_main+0x98]
-   #7 [_start+0x30]
-Subtest connected-linear-tiling-1-displays-2160x1440p: FAIL (0.336s)
-stderr:
--------
-(kms_bw:329) igt_pipe_crc-CRITICAL: Test assertion failure function 
-pipe_crc_new, file ../lib/igt_pipe_crc.c:240:
-(kms_bw:329) igt_pipe_crc-CRITICAL: Failed assertion: pipe_crc->ctl_fd != -1
-(kms_bw:329) igt_pipe_crc-CRITICAL: Last errno: 2, No such file or directory
-Subtest connected-linear-tiling-1-displays-2160x1440p failed.
-**** DEBUG ****
-(kms_bw:329) DEBUG: Test requirement passed: !(pipe >= num_pipes)
-(kms_bw:329) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 && 
-plane_idx < pipe->n_planes
-(kms_bw:329) igt_pipe_crc-CRITICAL: Test assertion failure function 
-pipe_crc_new, file ../lib/igt_pipe_crc.c:240:
-(kms_bw:329) igt_pipe_crc-CRITICAL: Failed assertion: pipe_crc->ctl_fd != -1
-(kms_bw:329) igt_pipe_crc-CRITICAL: Last errno: 2, No such file or directory
-(kms_bw:329) igt_core-INFO: Stack trace:
-(kms_bw:329) igt_core-INFO:   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-(kms_bw:329) igt_core-INFO:   #1 ../lib/igt_pipe_crc.c:236 pipe_crc_new()
-(kms_bw:329) igt_core-INFO:   #2 ../tests/kms_bw.c:133 
-run_test_linear_tiling()
-(kms_bw:329) igt_core-INFO:   #3 ../tests/kms_bw.c:295 
-__igt_unique____real_main264()
-(kms_bw:329) igt_core-INFO:   #4 ../tests/kms_bw.c:264 main()
-(kms_bw:329) igt_core-INFO:   #5 [__libc_init_first+0x80]
-(kms_bw:329) igt_core-INFO:   #6 [__libc_start_main+0x98]
-(kms_bw:329) igt_core-INFO:   #7 [_start+0x30]
-****  END  ****
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v5:
+- Add minItems/maxItems to the top level cmms & vsps properties
+- Drop "minItems: 1" when not needed
+- Link to v4: https://lore.kernel.org/r/20241213-rcar-gh-dsi-v4-0-f8e41425207b@ideasonboard.com
 
-Pipeline link: 
-https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/68249775
+Changes in v4:
+- Dropped patches merged to renesas-devel
+- Added new patch "dt-bindings: display: renesas,du: Add missing
+  maxItems" to fix the bindings
+- Add the missing maxItems to "dt-bindings: display: renesas,du: Add
+  r8a779h0"
+- Link to v3: https://lore.kernel.org/r/20241206-rcar-gh-dsi-v3-0-d74c2166fa15@ideasonboard.com
 
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
+Changes in v3:
+- Update "Write DPTSR only if there are more than one crtc" patch to
+  "Write DPTSR only if the second source exists"
+- Add Laurent's Rb
+- Link to v2: https://lore.kernel.org/r/20241205-rcar-gh-dsi-v2-0-42471851df86@ideasonboard.com
 
-Regards,
-Vignesh
+Changes in v2:
+- Add the DT binding with a new conditional block, so that we can set
+  only the port@0 as required
+- Drop port@1 from r8a779h0.dtsi (there's no port@1)
+- Add a new patch to write DPTSR only if num_crtcs > 1
+- Drop RCAR_DU_FEATURE_NO_DPTSR (not needed anymore)
+- Add Cc: stable to the fix, and move it as first patch
+- Added the tags from reviews
+- Link to v1: https://lore.kernel.org/r/20241203-rcar-gh-dsi-v1-0-738ae1a95d2a@ideasonboard.com
+
+---
+Tomi Valkeinen (7):
+      drm/rcar-du: dsi: Fix PHY lock bit check
+      drm/rcar-du: Write DPTSR only if the second source exists
+      dt-bindings: display: renesas,du: Add missing constraints
+      dt-bindings: display: renesas,du: Add r8a779h0
+      dt-bindings: display: bridge: renesas,dsi-csi2-tx: Add r8a779h0
+      drm/rcar-du: dsi: Add r8a779h0 support
+      drm/rcar-du: Add support for r8a779h0
+
+ .../display/bridge/renesas,dsi-csi2-tx.yaml        |  1 +
+ .../devicetree/bindings/display/renesas,du.yaml    | 67 ++++++++++++++++++++--
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_drv.c      | 18 ++++++
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_group.c    | 24 ++++++--
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |  4 +-
+ .../gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h   |  1 -
+ 6 files changed, 102 insertions(+), 13 deletions(-)
+---
+base-commit: adc218676eef25575469234709c2d87185ca223a
+change-id: 20241008-rcar-gh-dsi-9c01f5deeac8
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
