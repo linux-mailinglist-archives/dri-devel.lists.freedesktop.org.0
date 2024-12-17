@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64B79F4EA0
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:59:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C941A9F4EA1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F032610E9CF;
-	Tue, 17 Dec 2024 14:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEDB410E9C4;
+	Tue, 17 Dec 2024 14:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P2ce8T5g";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="oAN/XkpK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EDB510E9D6;
- Tue, 17 Dec 2024 14:59:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD6D10E9D8;
+ Tue, 17 Dec 2024 14:59:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734447569; x=1765983569;
+ t=1734447571; x=1765983571;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QbBd7v0jbNi3X6x95eHIusi/kMNaTkZqfaoHa1cwKiE=;
- b=P2ce8T5gIMP/+WKezxKK8IUyUZimWRtjAkgKMNcHQK7sbLMGNjRHBbX2
- CaE2uh9fT17Sc7cfdnpp4cMoa6ayaBAXcJq8j6B9YQoyk/mU8aM7br4em
- CovdP0mDRa3EBtYEMMc1vI5khH/NDVq4KtPWSgantrRPpeNXbbtmFyfJp
- 8NF4D1Uh+Rs0WobpFOV97w4qIdAjx8vfdDluOA5Pj7egP6bL+QarX1UQ/
- 3UBsIdlp5Il/AhQtofk8KXhYtsFMQA+tIoWhKCHBxv12zvYCuFaweveYF
- m+na5Fm+QnQ7ckN3Y1B6pKnM8sFDsNdkNmAwt9fmoqnOLnQ8mCR9LH49w w==;
-X-CSE-ConnectionGUID: 5qplczlTQbSnlq+l+ABdzg==
-X-CSE-MsgGUID: 1+V2JfgdTiOXlzlY7GArpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34914477"
-X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; d="scan'208";a="34914477"
+ bh=H/QVKC0w+Q5tnWASZDjluY+lKg4KWXmSAmbBXxHRHdc=;
+ b=oAN/XkpKtpF9svbRLBDjUXVuvQdMX0tTFizSDC7fJ18Ps+O7rHMcoIV6
+ mXLwBnAF+6vzHj6kUEY9MbM+kikxJuMkXfKRzKbxi8GWzILKutjM6Axim
+ kgZgefdSXT6FNAb6dW0fbERq6E+7+o7twh0S9jsosNBQvyGGV00Nt5K/9
+ E1xMhYHJ5wlKY974YxaPFsJpcYNwC/7hetrykdsjTTlIRDp/e5C78AcLh
+ xmfBBFoT5S1knFqOcd7squc1i1tMzbbx2iAMXnpk0Sd8iKh48IsOAX/HP
+ CB7GBgLX5o5Uqe6DSEIEohoUUocrfcUXdzd0AwPz3gItRzQAkNXH0Vaby Q==;
+X-CSE-ConnectionGUID: hTDfpasARruQWIJiDxUrYw==
+X-CSE-MsgGUID: EEcMe6WCTsKZnDymcfNLdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34914482"
+X-IronPort-AV: E=Sophos;i="6.12,242,1728975600"; d="scan'208";a="34914482"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2024 06:59:29 -0800
-X-CSE-ConnectionGUID: gYuewK+5QHO9BBqkPLfSuA==
-X-CSE-MsgGUID: grhREsZ/QuuPRqObpJQTmw==
+ 17 Dec 2024 06:59:31 -0800
+X-CSE-ConnectionGUID: /O5sRKryQh+eiu/I1ZLOng==
+X-CSE-MsgGUID: cNLGm5qWThyGrF96grPOQQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="101694352"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="101694361"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO fedora..)
  ([10.245.246.49])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Dec 2024 06:59:26 -0800
+ 17 Dec 2024 06:59:28 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
  Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v15 7/9] drm/ttm: Add helpers for shrinking
-Date: Tue, 17 Dec 2024 15:58:50 +0100
-Message-ID: <20241217145852.37342-8-thomas.hellstrom@linux.intel.com>
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [PATCH v15 8/9] drm/xe: Add a shrinker for xe bos
+Date: Tue, 17 Dec 2024 15:58:51 +0100
+Message-ID: <20241217145852.37342-9-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241217145852.37342-1-thomas.hellstrom@linux.intel.com>
 References: <20241217145852.37342-1-thomas.hellstrom@linux.intel.com>
@@ -74,229 +74,844 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a number of helpers for shrinking that access core TTM and
-core MM functionality in a way that make them unsuitable for
-driver open-coding.
+Rather than relying on the TTM watermark accounting add a shrinker
+for xe_bos in TT or system memory.
 
+Leverage the newly added TTM per-page shrinking and shmem backup
+support.
+
+Although xe doesn't fully support WONTNEED (purgeable) bos yet,
+introduce and add shrinker support for purgeable ttm_tts.
+
+v2:
+- Cleanups bugfixes and a KUNIT shrinker test.
+- Add writeback support, and activate if kswapd.
+v3:
+- Move the try_shrink() helper to core TTM.
+- Minor cleanups.
+v4:
+- Add runtime pm for the shrinker. Shrinking may require an active
+  device for CCS metadata copying.
+v5:
+- Separately purge ghost- and zombie objects in the shrinker.
+- Fix a format specifier - type inconsistency. (Kernel test robot).
+v7:
+- s/long/s64/ (Christian König)
+- s/sofar/progress/ (Matt Brost)
+v8:
+- Rebase on Xe KUNIT update.
+- Add content verifying to the shrinker kunit test.
+- Split out TTM changes to a separate patch.
+- Get rid of multiple bool arguments for clarity (Matt Brost)
+- Avoid an error pointer dereference (Matt Brost)
+- Avoid an integer overflow (Matt Auld)
+- Address misc review comments by Matt Brost.
+v9:
+- Fix a compliation error.
+- Rebase.
+v10:
+- Update to new LRU walk interface.
+- Rework ghost-, zombie and purged object shrinking.
+- Rebase.
 v11:
-- New patch (split off from previous) and additional helpers.
+- Use additional TTM helpers.
+- Honor __GFP_FS and __GFP_IO
+- Rebase.
 v13:
-- Adapt to ttm_backup interface change.
-- Take resource off LRU when backed up.
+- Use ttm_tt_setup_backup().
+v14:
+- Don't set up backup on imported bos.
+v15:
+- Rebase on backup interface changes.
 
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: <dri-devel@lists.freedesktop.org>
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> #v11
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo_util.c | 107 +++++++++++++++++++++++++++++-
- drivers/gpu/drm/ttm/ttm_tt.c      |  29 ++++++++
- include/drm/ttm/ttm_bo.h          |  21 ++++++
- include/drm/ttm/ttm_tt.h          |   2 +
- 4 files changed, 158 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/Makefile          |   1 +
+ drivers/gpu/drm/xe/tests/xe_bo.c     |   6 +-
+ drivers/gpu/drm/xe/xe_bo.c           | 202 +++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_bo.h           |  36 ++++
+ drivers/gpu/drm/xe/xe_device.c       |   8 +
+ drivers/gpu/drm/xe/xe_device_types.h |   2 +
+ drivers/gpu/drm/xe/xe_shrinker.c     | 258 +++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_shrinker.h     |  18 ++
+ 8 files changed, 513 insertions(+), 18 deletions(-)
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.c
+ create mode 100644 drivers/gpu/drm/xe/xe_shrinker.h
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 0cac02a9764c..15cab9bda17f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -28,7 +28,7 @@
- /*
-  * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
-  */
--
-+#include <linux/swap.h>
- #include <linux/vmalloc.h>
+diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+index 5c97ad6ed738..45cdaab71126 100644
+--- a/drivers/gpu/drm/xe/Makefile
++++ b/drivers/gpu/drm/xe/Makefile
+@@ -94,6 +94,7 @@ xe-y += xe_bb.o \
+ 	xe_ring_ops.o \
+ 	xe_sa.o \
+ 	xe_sched_job.o \
++	xe_shrinker.o \
+ 	xe_step.o \
+ 	xe_sync.o \
+ 	xe_tile.o \
+diff --git a/drivers/gpu/drm/xe/tests/xe_bo.c b/drivers/gpu/drm/xe/tests/xe_bo.c
+index c9ec7a313c6b..a61da9ce9ab3 100644
+--- a/drivers/gpu/drm/xe/tests/xe_bo.c
++++ b/drivers/gpu/drm/xe/tests/xe_bo.c
+@@ -515,8 +515,13 @@ static int shrink_test_run_device(struct xe_device *xe)
+ 		 * other way around, they may not be subject to swapping...
+ 		 */
+ 		if (alloced < purgeable) {
++			xe_ttm_tt_account_subtract(&xe_tt->ttm);
+ 			xe_tt->purgeable = true;
++			xe_ttm_tt_account_add(&xe_tt->ttm);
+ 			bo->ttm.priority = 0;
++			spin_lock(&bo->ttm.bdev->lru_lock);
++			ttm_bo_move_to_lru_tail(&bo->ttm);
++			spin_unlock(&bo->ttm.bdev->lru_lock);
+ 		} else {
+ 			int ret = shrink_test_fill_random(bo, &prng, link);
  
- #include <drm/ttm/ttm_bo.h>
-@@ -1052,3 +1052,108 @@ struct ttm_buffer_object *ttm_bo_lru_cursor_first(struct ttm_bo_lru_cursor *curs
- 	return bo ? bo : ttm_bo_lru_cursor_next(curs);
+@@ -571,7 +576,6 @@ static int shrink_test_run_device(struct xe_device *xe)
+ 				if (ret == -EINTR)
+ 					intr = true;
+ 			} while (ret == -EINTR && !signal_pending(current));
+-
+ 			if (!ret && !purgeable)
+ 				failed = shrink_test_verify(test, bo, count, &prng, link);
+ 
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index e6c896ad5602..ad5496530079 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -10,6 +10,7 @@
+ #include <drm/drm_drv.h>
+ #include <drm/drm_gem_ttm_helper.h>
+ #include <drm/drm_managed.h>
++#include <drm/ttm/ttm_backup.h>
+ #include <drm/ttm/ttm_device.h>
+ #include <drm/ttm/ttm_placement.h>
+ #include <drm/ttm/ttm_tt.h>
+@@ -25,6 +26,7 @@
+ #include "xe_pm.h"
+ #include "xe_preempt_fence.h"
+ #include "xe_res_cursor.h"
++#include "xe_shrinker.h"
+ #include "xe_trace_bo.h"
+ #include "xe_ttm_stolen_mgr.h"
+ #include "xe_vm.h"
+@@ -281,9 +283,11 @@ static void xe_evict_flags(struct ttm_buffer_object *tbo,
+ 	}
  }
- EXPORT_SYMBOL(ttm_bo_lru_cursor_first);
-+
-+/**
-+ * ttm_bo_shrink() - Helper to shrink a ttm buffer object.
-+ * @ctx: The struct ttm_operation_ctx used for the shrinking operation.
-+ * @bo: The buffer object.
-+ * @flags: Flags governing the shrinking behaviour.
-+ *
-+ * The function uses the ttm_tt_back_up functionality to back up or
-+ * purge a struct ttm_tt. If the bo is not in system, it's first
-+ * moved there.
-+ *
-+ * Return: The number of pages shrunken or purged, or
-+ * negative error code on failure.
+ 
++/* struct xe_ttm_tt - Subclassed ttm_tt for xe */
+ struct xe_ttm_tt {
+ 	struct ttm_tt ttm;
+-	struct device *dev;
++	/** @xe - The xe device */
++	struct xe_device *xe;
+ 	struct sg_table sgt;
+ 	struct sg_table *sg;
+ 	/** @purgeable: Whether the content of the pages of @ttm is purgeable. */
+@@ -296,7 +300,8 @@ static int xe_tt_map_sg(struct ttm_tt *tt)
+ 	unsigned long num_pages = tt->num_pages;
+ 	int ret;
+ 
+-	XE_WARN_ON(tt->page_flags & TTM_TT_FLAG_EXTERNAL);
++	XE_WARN_ON((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
++		   !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE));
+ 
+ 	if (xe_tt->sg)
+ 		return 0;
+@@ -304,13 +309,13 @@ static int xe_tt_map_sg(struct ttm_tt *tt)
+ 	ret = sg_alloc_table_from_pages_segment(&xe_tt->sgt, tt->pages,
+ 						num_pages, 0,
+ 						(u64)num_pages << PAGE_SHIFT,
+-						xe_sg_segment_size(xe_tt->dev),
++						xe_sg_segment_size(xe_tt->xe->drm.dev),
+ 						GFP_KERNEL);
+ 	if (ret)
+ 		return ret;
+ 
+ 	xe_tt->sg = &xe_tt->sgt;
+-	ret = dma_map_sgtable(xe_tt->dev, xe_tt->sg, DMA_BIDIRECTIONAL,
++	ret = dma_map_sgtable(xe_tt->xe->drm.dev, xe_tt->sg, DMA_BIDIRECTIONAL,
+ 			      DMA_ATTR_SKIP_CPU_SYNC);
+ 	if (ret) {
+ 		sg_free_table(xe_tt->sg);
+@@ -326,7 +331,7 @@ static void xe_tt_unmap_sg(struct ttm_tt *tt)
+ 	struct xe_ttm_tt *xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
+ 
+ 	if (xe_tt->sg) {
+-		dma_unmap_sgtable(xe_tt->dev, xe_tt->sg,
++		dma_unmap_sgtable(xe_tt->xe->drm.dev, xe_tt->sg,
+ 				  DMA_BIDIRECTIONAL, 0);
+ 		sg_free_table(xe_tt->sg);
+ 		xe_tt->sg = NULL;
+@@ -341,21 +346,47 @@ struct sg_table *xe_bo_sg(struct xe_bo *bo)
+ 	return xe_tt->sg;
+ }
+ 
++/*
++ * Account ttm pages against the device shrinker's shrinkable and
++ * purgeable counts.
 + */
-+long ttm_bo_shrink(struct ttm_operation_ctx *ctx, struct ttm_buffer_object *bo,
-+		   const struct ttm_bo_shrink_flags flags)
++static void xe_ttm_tt_account_add(struct ttm_tt *tt)
 +{
-+	static const struct ttm_place sys_placement_flags = {
-+		.fpfn = 0,
-+		.lpfn = 0,
-+		.mem_type = TTM_PL_SYSTEM,
-+		.flags = 0,
-+	};
-+	static struct ttm_placement sys_placement = {
-+		.num_placement = 1,
-+		.placement = &sys_placement_flags,
-+	};
-+	struct ttm_tt *tt = bo->ttm;
-+	long lret;
++	struct xe_ttm_tt *xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
 +
-+	dma_resv_assert_held(bo->base.resv);
++	if (xe_tt->purgeable)
++		xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, 0, tt->num_pages);
++	else
++		xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, tt->num_pages, 0);
++}
 +
-+	if (flags.allow_move && bo->resource->mem_type != TTM_PL_SYSTEM) {
-+		int ret = ttm_bo_validate(bo, &sys_placement, ctx);
++static void xe_ttm_tt_account_subtract(struct ttm_tt *tt)
++{
++	struct xe_ttm_tt *xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
 +
-+		/* Consider -ENOMEM and -ENOSPC non-fatal. */
-+		if (ret) {
-+			if (ret == -ENOMEM || ret == -ENOSPC)
-+				ret = -EBUSY;
-+			return ret;
++	if (xe_tt->purgeable)
++		xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, 0, -(long)tt->num_pages);
++	else
++		xe_shrinker_mod_pages(xe_tt->xe->mem.shrinker, -(long)tt->num_pages, 0);
++}
++
+ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+ 				       u32 page_flags)
+ {
+ 	struct xe_bo *bo = ttm_to_xe_bo(ttm_bo);
+ 	struct xe_device *xe = xe_bo_device(bo);
+-	struct xe_ttm_tt *tt;
++	struct xe_ttm_tt *xe_tt;
++	struct ttm_tt *tt;
+ 	unsigned long extra_pages;
+ 	enum ttm_caching caching = ttm_cached;
+ 	int err;
+ 
+-	tt = kzalloc(sizeof(*tt), GFP_KERNEL);
+-	if (!tt)
++	xe_tt = kzalloc(sizeof(*xe_tt), GFP_KERNEL);
++	if (!xe_tt)
+ 		return NULL;
+ 
+-	tt->dev = xe->drm.dev;
++	tt = &xe_tt->ttm;
++	xe_tt->xe = xe;
+ 
+ 	extra_pages = 0;
+ 	if (xe_bo_needs_ccs_pages(bo))
+@@ -401,42 +432,66 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+ 		caching = ttm_uncached;
+ 	}
+ 
+-	err = ttm_tt_init(&tt->ttm, &bo->ttm, page_flags, caching, extra_pages);
++	if (ttm_bo->type != ttm_bo_type_sg)
++		page_flags |= TTM_TT_FLAG_EXTERNAL | TTM_TT_FLAG_EXTERNAL_MAPPABLE;
++
++	err = ttm_tt_init(tt, &bo->ttm, page_flags, caching, extra_pages);
+ 	if (err) {
+-		kfree(tt);
++		kfree(xe_tt);
+ 		return NULL;
+ 	}
+ 
+-	return &tt->ttm;
++	if (ttm_bo->type != ttm_bo_type_sg) {
++		err = ttm_tt_setup_backup(tt);
++		if (err) {
++			ttm_tt_fini(tt);
++			kfree(xe_tt);
++			return NULL;
 +		}
 +	}
 +
-+	ttm_bo_unmap_virtual(bo);
-+	lret = ttm_bo_wait_ctx(bo, ctx);
-+	if (lret < 0)
-+		return lret;
++	return tt;
+ }
+ 
+ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
+ 			      struct ttm_operation_ctx *ctx)
+ {
++	struct xe_ttm_tt *xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
+ 	int err;
+ 
+ 	/*
+ 	 * dma-bufs are not populated with pages, and the dma-
+ 	 * addresses are set up when moved to XE_PL_TT.
+ 	 */
+-	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
++	if ((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
++	    !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE))
+ 		return 0;
+ 
+-	err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
++	if (ttm_tt_is_backed_up(tt) && !xe_tt->purgeable) {
++		err = ttm_tt_restore(ttm_dev, tt, ctx);
++	} else {
++		ttm_tt_clear_backed_up(tt);
++		err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
++	}
+ 	if (err)
+ 		return err;
+ 
+-	return err;
++	xe_tt->purgeable = false;
++	xe_ttm_tt_account_add(tt);
 +
-+	if (bo->bulk_move) {
-+		spin_lock(&bo->bdev->lru_lock);
-+		ttm_resource_del_bulk_move(bo->resource, bo);
-+		spin_unlock(&bo->bdev->lru_lock);
++	return 0;
+ }
+ 
+ static void xe_ttm_tt_unpopulate(struct ttm_device *ttm_dev, struct ttm_tt *tt)
+ {
+-	if (tt->page_flags & TTM_TT_FLAG_EXTERNAL)
++	if ((tt->page_flags & TTM_TT_FLAG_EXTERNAL) &&
++	    !(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE))
+ 		return;
+ 
+ 	xe_tt_unmap_sg(tt);
+ 
+-	return ttm_pool_free(&ttm_dev->pool, tt);
++	ttm_pool_free(&ttm_dev->pool, tt);
++	xe_ttm_tt_account_subtract(tt);
+ }
+ 
+ static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct ttm_tt *tt)
+@@ -871,6 +926,111 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+ 	return ret;
+ }
+ 
++static long xe_bo_shrink_purge(struct ttm_operation_ctx *ctx,
++			       struct ttm_buffer_object *bo,
++			       unsigned long *scanned)
++{
++	long lret;
++
++	/* Fake move to system, without copying data. */
++	if (bo->resource->mem_type != XE_PL_SYSTEM) {
++		struct ttm_resource *new_resource;
++
++		lret = ttm_bo_wait_ctx(bo, ctx);
++		if (lret)
++			return lret;
++
++		lret = ttm_bo_mem_space(bo, &sys_placement, &new_resource, ctx);
++		if (lret)
++			return lret;
++
++		xe_tt_unmap_sg(bo->ttm);
++		ttm_bo_move_null(bo, new_resource);
 +	}
 +
-+	lret = ttm_tt_backup(bo->bdev, tt, (struct ttm_backup_flags)
-+			     {.purge = flags.purge,
-+			      .writeback = flags.writeback});
++	*scanned += bo->ttm->num_pages;
++	lret = ttm_bo_shrink(ctx, bo, (struct ttm_bo_shrink_flags)
++			     {.purge = true,
++			      .writeback = false,
++			      .allow_move = false});
 +
-+	if (lret <= 0 && bo->bulk_move) {
-+		spin_lock(&bo->bdev->lru_lock);
-+		ttm_resource_add_bulk_move(bo->resource, bo);
-+		spin_unlock(&bo->bdev->lru_lock);
-+	}
-+
-+	if (lret < 0 && lret != -EINTR)
-+		return -EBUSY;
++	if (lret > 0)
++		xe_ttm_tt_account_subtract(bo->ttm);
 +
 +	return lret;
 +}
-+EXPORT_SYMBOL(ttm_bo_shrink);
 +
 +/**
-+ * ttm_bo_shrink_suitable() - Whether a bo is suitable for shinking
-+ * @ctx: The struct ttm_operation_ctx governing the shrinking.
-+ * @bo: The candidate for shrinking.
++ * xe_bo_shrink() - Try to shrink an xe bo.
++ * @ctx: The struct ttm_operation_ctx used for shrinking.
++ * @bo: The TTM buffer object whose pages to shrink.
++ * @flags: Flags governing the shrink behaviour.
++ * @scanned: Pointer to a counter of the number of pages
++ * attempted to shrink.
 + *
-+ * Check whether the object, given the information available to TTM,
-+ * is suitable for shinking, This function can and should be used
-+ * before attempting to shrink an object.
++ * Try to shrink- or purge a bo, and if it succeeds, unmap dma.
++ * Note that we need to be able to handle also non xe bos
++ * (ghost bos), but only if the struct ttm_tt is embedded in
++ * a struct xe_ttm_tt. When the function attempts to shrink
++ * the pages of a buffer object, The value pointed to by @scanned
++ * is updated.
 + *
-+ * Return: true if suitable. false if not.
++ * Return: The number of pages shrunken or purged, or negative error
++ * code on failure.
 + */
-+bool ttm_bo_shrink_suitable(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx)
++long xe_bo_shrink(struct ttm_operation_ctx *ctx, struct ttm_buffer_object *bo,
++		  const struct xe_bo_shrink_flags flags,
++		  unsigned long *scanned)
 +{
-+	return bo->ttm && ttm_tt_is_populated(bo->ttm) && !bo->pin_count &&
-+		(!ctx->no_wait_gpu ||
-+		 dma_resv_test_signaled(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP));
++	struct ttm_tt *tt = bo->ttm;
++	struct xe_ttm_tt *xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
++	struct ttm_place place = {.mem_type = bo->resource->mem_type};
++	struct xe_bo *xe_bo = ttm_to_xe_bo(bo);
++	struct xe_device *xe = xe_tt->xe;
++	bool needs_rpm;
++	long lret = 0L;
++
++	if (!(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE) ||
++	    (flags.purge && !xe_tt->purgeable))
++		return -EBUSY;
++
++	if (!ttm_bo_eviction_valuable(bo, &place))
++		return -EBUSY;
++
++	if (!xe_bo_is_xe_bo(bo) || !xe_bo_get_unless_zero(xe_bo))
++		return xe_bo_shrink_purge(ctx, bo, scanned);
++
++	if (xe_tt->purgeable) {
++		if (bo->resource->mem_type != XE_PL_SYSTEM)
++			lret = xe_bo_move_notify(xe_bo, ctx);
++		if (!lret)
++			lret = xe_bo_shrink_purge(ctx, bo, scanned);
++		goto out_unref;
++	}
++
++	/* System CCS needs gpu copy when moving PL_TT -> PL_SYSTEM */
++	needs_rpm = (!IS_DGFX(xe) && bo->resource->mem_type != XE_PL_SYSTEM &&
++		     xe_bo_needs_ccs_pages(xe_bo));
++	if (needs_rpm && !xe_pm_runtime_get_if_active(xe))
++		goto out_unref;
++
++	*scanned += tt->num_pages;
++	lret = ttm_bo_shrink(ctx, bo, (struct ttm_bo_shrink_flags)
++			     {.purge = false,
++			      .writeback = flags.writeback,
++			      .allow_move = true});
++	if (needs_rpm)
++		xe_pm_runtime_put(xe);
++
++	if (lret > 0)
++		xe_ttm_tt_account_subtract(tt);
++
++out_unref:
++	xe_bo_put(xe_bo);
++
++	return lret;
 +}
-+EXPORT_SYMBOL(ttm_bo_shrink_suitable);
-+
-+/**
-+ * ttm_bo_shrink_avoid_wait() - Whether to avoid waiting for GPU
-+ * during shrinking
-+ *
-+ * In some situations, like direct reclaim, waiting (in particular gpu waiting)
-+ * should be avoided since it may stall a system that could otherwise make progress
-+ * shrinking something else less time consuming.
-+ *
-+ * Return: true if gpu waiting should be avoided, false if not.
-+ */
-+bool ttm_bo_shrink_avoid_wait(void)
-+{
-+	return !current_is_kswapd();
-+}
-+EXPORT_SYMBOL(ttm_bo_shrink_avoid_wait);
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 00b7c28f2329..df0aa6c4b8b8 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -531,3 +531,32 @@ unsigned long ttm_tt_pages_limit(void)
- 	return ttm_pages_limit;
- }
- EXPORT_SYMBOL(ttm_tt_pages_limit);
-+
-+/**
-+ * ttm_tt_setup_backup() - Allocate and assign a backup structure for a ttm_tt
-+ * @tt: The ttm_tt for wich to allocate and assign a backup structure.
-+ *
-+ * Assign a backup structure to be used for tt backup. This should
-+ * typically be done at bo creation, to avoid allocations at shrinking
-+ * time.
-+ *
-+ * Return: 0 on success, negative error code on failure.
-+ */
-+int ttm_tt_setup_backup(struct ttm_tt *tt)
-+{
-+	struct ttm_backup *backup =
-+		ttm_backup_shmem_create(((loff_t)tt->num_pages) << PAGE_SHIFT);
-+
-+	if (WARN_ON_ONCE(!(tt->page_flags & TTM_TT_FLAG_EXTERNAL_MAPPABLE)))
-+		return -EINVAL;
-+
-+	if (IS_ERR(backup))
-+		return PTR_ERR(backup);
-+
-+	if (tt->backup)
-+		ttm_backup_fini(tt->backup);
-+
-+	tt->backup = backup;
-+	return 0;
-+}
-+EXPORT_SYMBOL(ttm_tt_setup_backup);
-diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-index 1509268849c0..903cd1030110 100644
---- a/include/drm/ttm/ttm_bo.h
-+++ b/include/drm/ttm/ttm_bo.h
-@@ -225,6 +225,27 @@ struct ttm_lru_walk {
- s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
- 			   struct ttm_resource_manager *man, s64 target);
- 
-+/**
-+ * struct ttm_bo_shrink_flags - flags to govern the bo shrinking behaviour
-+ * @purge: Purge the content rather than backing it up.
-+ * @writeback: Attempt to immediately write content to swap space.
-+ * @allow_move: Allow moving to system before shrinking. This is typically
-+ * not desired for zombie- or ghost objects (with zombie object meaning
-+ * objects with a zero gem object refcount)
-+ */
-+struct ttm_bo_shrink_flags {
-+	u32 purge : 1;
-+	u32 writeback : 1;
-+	u32 allow_move : 1;
-+};
-+
-+long ttm_bo_shrink(struct ttm_operation_ctx *ctx, struct ttm_buffer_object *bo,
-+		   const struct ttm_bo_shrink_flags flags);
-+
-+bool ttm_bo_shrink_suitable(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx);
-+
-+bool ttm_bo_shrink_avoid_wait(void);
 +
  /**
-  * ttm_bo_get - reference a struct ttm_buffer_object
-  *
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index c736c01ac2ca..13cf47f3322f 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -298,6 +298,8 @@ long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt *tt,
- int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt *tt,
- 		   const struct ttm_operation_ctx *ctx);
+  * xe_bo_evict_pinned() - Evict a pinned VRAM object to system memory
+  * @bo: The buffer object to move.
+@@ -1885,6 +2045,8 @@ int xe_bo_pin_external(struct xe_bo *bo)
+ 	}
  
-+int ttm_tt_setup_backup(struct ttm_tt *tt);
+ 	ttm_bo_pin(&bo->ttm);
++	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
++		xe_ttm_tt_account_subtract(bo->ttm.ttm);
+ 
+ 	/*
+ 	 * FIXME: If we always use the reserve / unreserve functions for locking
+@@ -1944,6 +2106,8 @@ int xe_bo_pin(struct xe_bo *bo)
+ 	}
+ 
+ 	ttm_bo_pin(&bo->ttm);
++	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
++		xe_ttm_tt_account_subtract(bo->ttm.ttm);
+ 
+ 	/*
+ 	 * FIXME: If we always use the reserve / unreserve functions for locking
+@@ -1978,6 +2142,8 @@ void xe_bo_unpin_external(struct xe_bo *bo)
+ 	spin_unlock(&xe->pinned.lock);
+ 
+ 	ttm_bo_unpin(&bo->ttm);
++	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
++		xe_ttm_tt_account_add(bo->ttm.ttm);
+ 
+ 	/*
+ 	 * FIXME: If we always use the reserve / unreserve functions for locking
+@@ -2001,6 +2167,8 @@ void xe_bo_unpin(struct xe_bo *bo)
+ 		spin_unlock(&xe->pinned.lock);
+ 	}
+ 	ttm_bo_unpin(&bo->ttm);
++	if (bo->ttm.ttm && ttm_tt_is_populated(bo->ttm.ttm))
++		xe_ttm_tt_account_add(bo->ttm.ttm);
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index d9386ab03140..f39a218a73d2 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -146,6 +146,28 @@ static inline struct xe_bo *xe_bo_get(struct xe_bo *bo)
+ 
+ void xe_bo_put(struct xe_bo *bo);
+ 
++/*
++ * xe_bo_get_unless_zero() - Conditionally obtain a GEM object refcount on an
++ * xe bo
++ * @bo: The bo for which we want to obtain a refcount.
++ *
++ * There is a short window between where the bo's GEM object refcount reaches
++ * zero and where we put the final ttm_bo reference. Code in the eviction- and
++ * shrinking path should therefore attempt to grab a gem object reference before
++ * trying to use members outside of the base class ttm object. This function is
++ * intended for that purpose. On successful return, this function must be paired
++ * with an xe_bo_put().
++ *
++ * Return: @bo on success, NULL on failure.
++ */
++static inline __must_check struct xe_bo *xe_bo_get_unless_zero(struct xe_bo *bo)
++{
++	if (!bo || !kref_get_unless_zero(&bo->ttm.base.refcount))
++		return NULL;
 +
- #if IS_ENABLED(CONFIG_AGP)
- #include <linux/agp_backend.h>
++	return bo;
++}
++
+ static inline void __xe_bo_unset_bulk_move(struct xe_bo *bo)
+ {
+ 	if (bo)
+@@ -341,6 +363,20 @@ static inline unsigned int xe_sg_segment_size(struct device *dev)
+ 	return round_down(max / 2, PAGE_SIZE);
+ }
  
++/**
++ * struct xe_bo_shrink_flags - flags governing the shrink behaviour.
++ * @purge: Only purging allowed. Don't shrink if bo not purgeable.
++ * @writeback: Attempt to immediately move content to swap.
++ */
++struct xe_bo_shrink_flags {
++	u32 purge : 1;
++	u32 writeback : 1;
++};
++
++long xe_bo_shrink(struct ttm_operation_ctx *ctx, struct ttm_buffer_object *bo,
++		  const struct xe_bo_shrink_flags flags,
++		  unsigned long *scanned);
++
+ #if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
+ /**
+  * xe_bo_is_mem_type - Whether the bo currently resides in the given
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index bf36e4fb4679..e1475b75dbfd 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -50,6 +50,7 @@
+ #include "xe_pcode.h"
+ #include "xe_pm.h"
+ #include "xe_query.h"
++#include "xe_shrinker.h"
+ #include "xe_sriov.h"
+ #include "xe_tile.h"
+ #include "xe_ttm_stolen_mgr.h"
+@@ -289,6 +290,9 @@ static void xe_device_destroy(struct drm_device *dev, void *dummy)
+ 	if (xe->unordered_wq)
+ 		destroy_workqueue(xe->unordered_wq);
+ 
++	if (!IS_ERR_OR_NULL(xe->mem.shrinker))
++		xe_shrinker_destroy(xe->mem.shrinker);
++
+ 	if (xe->destroy_wq)
+ 		destroy_workqueue(xe->destroy_wq);
+ 
+@@ -321,6 +325,10 @@ struct xe_device *xe_device_create(struct pci_dev *pdev,
+ 	if (err)
+ 		goto err;
+ 
++	xe->mem.shrinker = xe_shrinker_create(xe);
++	if (IS_ERR(xe->mem.shrinker))
++		return ERR_CAST(xe->mem.shrinker);
++
+ 	xe->info.devid = pdev->device;
+ 	xe->info.revid = pdev->revision;
+ 	xe->info.force_execlist = xe_modparam.force_execlist;
+diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+index 8a7b15972413..20161344709d 100644
+--- a/drivers/gpu/drm/xe/xe_device_types.h
++++ b/drivers/gpu/drm/xe/xe_device_types.h
+@@ -375,6 +375,8 @@ struct xe_device {
+ 		struct xe_mem_region vram;
+ 		/** @mem.sys_mgr: system TTM manager */
+ 		struct ttm_resource_manager sys_mgr;
++		/** @mem.sys_mgr: system memory shrinker. */
++		struct xe_shrinker *shrinker;
+ 	} mem;
+ 
+ 	/** @sriov: device level virtualization data */
+diff --git a/drivers/gpu/drm/xe/xe_shrinker.c b/drivers/gpu/drm/xe/xe_shrinker.c
+new file mode 100644
+index 000000000000..8184390f9c7b
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_shrinker.c
+@@ -0,0 +1,258 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#include <linux/shrinker.h>
++
++#include <drm/ttm/ttm_backup.h>
++#include <drm/ttm/ttm_bo.h>
++#include <drm/ttm/ttm_tt.h>
++
++#include "xe_bo.h"
++#include "xe_pm.h"
++#include "xe_shrinker.h"
++
++/**
++ * struct xe_shrinker - per-device shrinker
++ * @xe: Back pointer to the device.
++ * @lock: Lock protecting accounting.
++ * @shrinkable_pages: Number of pages that are currently shrinkable.
++ * @purgeable_pages: Number of pages that are currently purgeable.
++ * @shrink: Pointer to the mm shrinker.
++ * @pm_worker: Worker to wake up the device if required.
++ */
++struct xe_shrinker {
++	struct xe_device *xe;
++	rwlock_t lock;
++	long shrinkable_pages;
++	long purgeable_pages;
++	struct shrinker *shrink;
++	struct work_struct pm_worker;
++};
++
++static struct xe_shrinker *to_xe_shrinker(struct shrinker *shrink)
++{
++	return shrink->private_data;
++}
++
++/**
++ * xe_shrinker_mod_pages() - Modify shrinker page accounting
++ * @shrinker: Pointer to the struct xe_shrinker.
++ * @shrinkable: Shrinkable pages delta. May be negative.
++ * @purgeable: Purgeable page delta. May be negative.
++ *
++ * Modifies the shrinkable and purgeable pages accounting.
++ */
++void
++xe_shrinker_mod_pages(struct xe_shrinker *shrinker, long shrinkable, long purgeable)
++{
++	write_lock(&shrinker->lock);
++	shrinker->shrinkable_pages += shrinkable;
++	shrinker->purgeable_pages += purgeable;
++	write_unlock(&shrinker->lock);
++}
++
++static s64 xe_shrinker_walk(struct xe_device *xe,
++			    struct ttm_operation_ctx *ctx,
++			    const struct xe_bo_shrink_flags flags,
++			    unsigned long to_scan, unsigned long *scanned)
++{
++	unsigned int mem_type;
++	s64 freed = 0, lret;
++
++	for (mem_type = XE_PL_SYSTEM; mem_type <= XE_PL_TT; ++mem_type) {
++		struct ttm_resource_manager *man = ttm_manager_type(&xe->ttm, mem_type);
++		struct ttm_bo_lru_cursor curs;
++		struct ttm_buffer_object *ttm_bo;
++
++		if (!man || !man->use_tt)
++			continue;
++
++		ttm_bo_lru_for_each_reserved_guarded(&curs, man, ctx, ttm_bo) {
++			if (!ttm_bo_shrink_suitable(ttm_bo, ctx))
++				continue;
++
++			lret = xe_bo_shrink(ctx, ttm_bo, flags, scanned);
++			if (lret < 0)
++				return lret;
++
++			freed += lret;
++			if (*scanned >= to_scan)
++				break;
++		}
++	}
++
++	return freed;
++}
++
++static unsigned long
++xe_shrinker_count(struct shrinker *shrink, struct shrink_control *sc)
++{
++	struct xe_shrinker *shrinker = to_xe_shrinker(shrink);
++	unsigned long num_pages;
++	bool can_backup = !!(sc->gfp_mask & __GFP_FS);
++
++	num_pages = ttm_backup_bytes_avail() >> PAGE_SHIFT;
++	read_lock(&shrinker->lock);
++
++	if (can_backup)
++		num_pages = min_t(unsigned long, num_pages, shrinker->shrinkable_pages);
++	else
++		num_pages = 0;
++
++	num_pages += shrinker->purgeable_pages;
++	read_unlock(&shrinker->lock);
++
++	return num_pages ? num_pages : SHRINK_EMPTY;
++}
++
++/*
++ * Check if we need runtime pm, and if so try to grab a reference if
++ * already active. If grabbing a reference fails, queue a worker that
++ * does it for us outside of reclaim, but don't wait for it to complete.
++ * If bo shrinking needs an rpm reference and we don't have it (yet),
++ * that bo will be skipped anyway.
++ */
++static bool xe_shrinker_runtime_pm_get(struct xe_shrinker *shrinker, bool force,
++				       unsigned long nr_to_scan, bool can_backup)
++{
++	struct xe_device *xe = shrinker->xe;
++
++	if (IS_DGFX(xe) || !xe_device_has_flat_ccs(xe) ||
++	    !ttm_backup_bytes_avail())
++		return false;
++
++	if (!force) {
++		read_lock(&shrinker->lock);
++		force = (nr_to_scan > shrinker->purgeable_pages && can_backup);
++		read_unlock(&shrinker->lock);
++		if (!force)
++			return false;
++	}
++
++	if (!xe_pm_runtime_get_if_active(xe)) {
++		if (xe_rpm_reclaim_safe(xe) && !ttm_bo_shrink_avoid_wait()) {
++			xe_pm_runtime_get(xe);
++			return true;
++		}
++		queue_work(xe->unordered_wq, &shrinker->pm_worker);
++		return false;
++	}
++
++	return true;
++}
++
++static void xe_shrinker_runtime_pm_put(struct xe_shrinker *shrinker, bool runtime_pm)
++{
++	if (runtime_pm)
++		xe_pm_runtime_put(shrinker->xe);
++}
++
++static unsigned long xe_shrinker_scan(struct shrinker *shrink, struct shrink_control *sc)
++{
++	struct xe_shrinker *shrinker = to_xe_shrinker(shrink);
++	struct ttm_operation_ctx ctx = {
++		.interruptible = false,
++		.no_wait_gpu = ttm_bo_shrink_avoid_wait(),
++	};
++	unsigned long nr_to_scan, nr_scanned = 0, freed = 0;
++	struct xe_bo_shrink_flags shrink_flags = {
++		.purge = true,
++		/* Don't request writeback without __GFP_IO. */
++		.writeback = !ctx.no_wait_gpu && (sc->gfp_mask & __GFP_IO),
++	};
++	bool runtime_pm;
++	bool purgeable;
++	bool can_backup = !!(sc->gfp_mask & __GFP_FS);
++	s64 lret;
++
++	nr_to_scan = sc->nr_to_scan;
++
++	read_lock(&shrinker->lock);
++	purgeable = !!shrinker->purgeable_pages;
++	read_unlock(&shrinker->lock);
++
++	/* Might need runtime PM. Try to wake early if it looks like it. */
++	runtime_pm = xe_shrinker_runtime_pm_get(shrinker, false, nr_to_scan, can_backup);
++
++	if (purgeable && nr_scanned < nr_to_scan) {
++		lret = xe_shrinker_walk(shrinker->xe, &ctx, shrink_flags,
++					nr_to_scan, &nr_scanned);
++		if (lret >= 0)
++			freed += lret;
++	}
++
++	sc->nr_scanned = nr_scanned;
++	if (nr_scanned >= nr_to_scan || !can_backup)
++		goto out;
++
++	/* If we didn't wake before, try to do it now if needed. */
++	if (!runtime_pm)
++		runtime_pm = xe_shrinker_runtime_pm_get(shrinker, true, 0, can_backup);
++
++	shrink_flags.purge = false;
++	lret = xe_shrinker_walk(shrinker->xe, &ctx, shrink_flags,
++				nr_to_scan, &nr_scanned);
++	if (lret >= 0)
++		freed += lret;
++
++	sc->nr_scanned = nr_scanned;
++out:
++	xe_shrinker_runtime_pm_put(shrinker, runtime_pm);
++	return nr_scanned ? freed : SHRINK_STOP;
++}
++
++/* Wake up the device for shrinking. */
++static void xe_shrinker_pm(struct work_struct *work)
++{
++	struct xe_shrinker *shrinker =
++		container_of(work, typeof(*shrinker), pm_worker);
++
++	xe_pm_runtime_get(shrinker->xe);
++	xe_pm_runtime_put(shrinker->xe);
++}
++
++/**
++ * xe_shrinker_create() - Create an xe per-device shrinker
++ * @xe: Pointer to the xe device.
++ *
++ * Returns: A pointer to the created shrinker on success,
++ * Negative error code on failure.
++ */
++struct xe_shrinker *xe_shrinker_create(struct xe_device *xe)
++{
++	struct xe_shrinker *shrinker = kzalloc(sizeof(*shrinker), GFP_KERNEL);
++
++	if (!shrinker)
++		return ERR_PTR(-ENOMEM);
++
++	shrinker->shrink = shrinker_alloc(0, "xe system shrinker");
++	if (!shrinker->shrink) {
++		kfree(shrinker);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	INIT_WORK(&shrinker->pm_worker, xe_shrinker_pm);
++	shrinker->xe = xe;
++	rwlock_init(&shrinker->lock);
++	shrinker->shrink->count_objects = xe_shrinker_count;
++	shrinker->shrink->scan_objects = xe_shrinker_scan;
++	shrinker->shrink->private_data = shrinker;
++	shrinker_register(shrinker->shrink);
++
++	return shrinker;
++}
++
++/**
++ * xe_shrinker_destroy() - Destroy an xe per-device shrinker
++ * @shrinker: Pointer to the shrinker to destroy.
++ */
++void xe_shrinker_destroy(struct xe_shrinker *shrinker)
++{
++	xe_assert(shrinker->xe, !shrinker->shrinkable_pages);
++	xe_assert(shrinker->xe, !shrinker->purgeable_pages);
++	shrinker_free(shrinker->shrink);
++	flush_work(&shrinker->pm_worker);
++	kfree(shrinker);
++}
+diff --git a/drivers/gpu/drm/xe/xe_shrinker.h b/drivers/gpu/drm/xe/xe_shrinker.h
+new file mode 100644
+index 000000000000..28a038f4fcbf
+--- /dev/null
++++ b/drivers/gpu/drm/xe/xe_shrinker.h
+@@ -0,0 +1,18 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2024 Intel Corporation
++ */
++
++#ifndef _XE_SHRINKER_H_
++#define _XE_SHRINKER_H_
++
++struct xe_shrinker;
++struct xe_device;
++
++void xe_shrinker_mod_pages(struct xe_shrinker *shrinker, long shrinkable, long purgeable);
++
++struct xe_shrinker *xe_shrinker_create(struct xe_device *xe);
++
++void xe_shrinker_destroy(struct xe_shrinker *shrinker);
++
++#endif
 -- 
 2.47.1
 
