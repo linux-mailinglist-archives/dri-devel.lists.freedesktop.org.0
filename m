@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19DE9F42CD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:32:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786769F42CE
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:32:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8067110E4DC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF4910E84D;
 	Tue, 17 Dec 2024 05:32:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c9MuJnbw";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="V/v6+HEW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2F410E18F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:32:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 444A610E4DC
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:32:31 +0000 (UTC)
 Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DFCB75A;
- Tue, 17 Dec 2024 06:31:50 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE718F88;
+ Tue, 17 Dec 2024 06:31:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1734413511;
- bh=Hus/T97HgEgFTqyUE8sStdGYE5byY6Tb6X0trmbmS5I=;
+ s=mail; t=1734413513;
+ bh=zdX+BCuAKKQPRTtLESLknPTWT46cERQimII1RexZUwY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=c9MuJnbwp1vXW17BJb5iosvmbremHmGEBEo9Jca6wzkuvv30jHrm2FDljhgr9IBkq
- 9iI7ijjaz2Nos+ED1RM+ZTtB7XwA/sXgwod4q+DwbqLaL+2kT7BKt0bodvyBmx5HoV
- 4XkchFCkkuxdTVgzNGqaHVWSC1k3ztlCqzThU5pQ=
+ b=V/v6+HEWhx42+XBKxnsINSRkF8Je/d0EIYpTJYOpckGaHDigjU87v3d0HT4ryJDUH
+ RF/GbGZZfGu2VmT3R3JhmwUfBmGmP3kASkdWyI6TdQdFVtYiOvkYl6A5sxmc1T8ZRx
+ livx0OlNZjtSvqLmYiq35JzeXpA7fNRMsu9yloe4=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 17 Dec 2024 07:31:37 +0200
-Subject: [PATCH v5 3/7] dt-bindings: display: renesas,du: Add missing
- constraints
+Date: Tue, 17 Dec 2024 07:31:38 +0200
+Subject: [PATCH v5 4/7] dt-bindings: display: renesas,du: Add r8a779h0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+Message-Id: <20241217-rcar-gh-dsi-v5-4-e77421093c05@ideasonboard.com>
 References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
 In-Reply-To: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -59,21 +58,21 @@ Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  linux-clk@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2444;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2543;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=0F0zzA1pJtSNqVdCbuXR3kSh++mHWPjwSztFEJXr+DI=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnYQzj7yBoF9yowGgXRC6lpUDVWJUcpA/Z5V2zW
- Q5kDQcM6CCJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2EM4wAKCRD6PaqMvJYe
- 9VvgD/9RsRP9qC1mJi4au24oLpqT+W9zYIPdCrn30xOMsPahjO9CHK86aThFpcYh6S2Gnt/fope
- kEzLP8AJAf0FwZFtgKOkqpKcKdzQwZ2j/P2WFBAMAi3CiHMf4LquKRhWGXY+LEHwhZvYg1gpNE4
- yn7kxGuXUQaI1wkzrstsuR9uW85kryLZ6G50Roewgj2mt10498IoFqdqAHu2PDkkFLFI/t6tOXn
- ubhqUYXsv46KDZh+O3Hs/ANbr1BoP3nrnsMq3I7aHwxiLCY2F0HZbS+q5XL88IB4fP4OqGRhiQg
- DcdAve9sPmiHpYgqeRwq3/caGzTHoV/E7M5yrDOqymS8hBRVl0lrmGI35+h1eOKVfCXDUm+Nu16
- r3lYtjwBRjjrCEwlbr1SP9G2g+WOd5671zPRNJdlYrLTKUSmAE0c2qtNFpSOoKgIvf7tKQXwCCD
- O7pSZbIjDF5tBohJh5AyByxtHna/Ek0YiVj92ma7M3a5MbYivGnsYwq7M4OPF7aNSWiXedagWh1
- l5H7EzcLxi5PKJo0VA7x6OSdbngy/j4mPDFLMdtEBz1rnlvZFYy85WdbBUb/hw22L1kUqXhoR0z
- cv5ULkentJO0nwMqjMqt417URhOi9SUrkJ4BmGvoIlWrwUPwLFhFUx4yNkaJPzeVxeJpFCkAsLi
- p45GaMl1J61QdLw==
+ bh=Ub0dswzwl1j3G+wVcHApbdhjxJxX11yllUqt+veC0nY=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnYQzjNM/sWg/9f3GPg5FpVbwolOq3579AamQBm
+ pwwIlmdoTSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2EM4wAKCRD6PaqMvJYe
+ 9d3ID/4rWecJAZ0uXRSSEk99SCkURwu3nVhMyZQU9N4smTyDIW6wwZwbnQ3e/tIohv8mRBnAXq4
+ crlSB/Zdj+OuIG95yc0ZmWWMD0HxrAKfY4C8iBvlbOdhc4K6fiTk8x5ADIiZSyxq5YK36AZz8b/
+ 2DX1qYmLEOfAk2npBBtE9KsG1zbELuG/AlTcCdsxAg+PSUUliteYf01d1I5aGYOdNELQXiDLjp2
+ jts2KhpO1S33FQDZ30rt5DaYhWzouUYUmbxYQHFEJPCwjYbPTu1jquyRV85mOHF4c+uZkZsNF+K
+ 976w/JSn7kYPfWJpsWo9AF+DOyajqXWFQHyqe+TxEiOig6rEmF/90ljG5Z/kLGtBg8jhrT3c+V3
+ /qVyaX9ygd0aiTqwIroOx07ajKzrt6TgLKVnRcw6k8kTvoM1ldtR0StzT2bUu7urYJ4eR605nRe
+ ceCepykdUShWzo/dChNSrCYPUYS2TzfNlzMT5KHcAScT5MkjFffttXEBYdCS2KFCAKPcoAq7kCS
+ Acc2xqItecErFVCclMFhEYCM6VfiWLZ/2KhXhOdEdERey3vBDI+/UgQMaC63m+32mu7q05GBwZx
+ WFQlXVjuzCxyO2z45GNdULcuYxPDo6HxofYVDbhdsR0MbMs5+EENgek2Q4RljaC+W2jJJwUNA/1
+ mFHxOikGhQBo0UQ==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -93,104 +92,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-The binding is missing maxItems for all renesas,cmms and renesas,vsps
-properties. As the amount of cmms or vsps is always a fixed amount, set
-the maxItems to match the minItems.
+Extend the Renesas DU display bindings to support the r8a779h0 V4M.
 
-Also add the minItems and maxItems to the top level properties.
+Note that we remove the requirement for two ports from the global part
+of the bindings, as each conditional part defines the number of required
+ports already. This came up with r8a779h0 as it's the first one that has
+only one port.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/devicetree/bindings/display/renesas,du.yaml | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/renesas,du.yaml    | 52 ++++++++++++++++++++--
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-index c5b9e6812bce..ef4568118e94 100644
+index ef4568118e94..3880b4c2ea9a 100644
 --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
 +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -77,6 +77,8 @@ properties:
+@@ -41,6 +41,7 @@ properties:
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
+       - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+       - renesas,du-r8a779g0 # for R-Car V4H compatible DU
++      - renesas,du-r8a779h0 # for R-Car V4M compatible DU
+ 
+   reg:
+     maxItems: 1
+@@ -69,10 +70,6 @@ properties:
+         $ref: /schemas/graph.yaml#/properties/port
+         unevaluatedProperties: false
+ 
+-    required:
+-      - port@0
+-      - port@1
+-
+     unevaluatedProperties: false
  
    renesas,cmms:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-+    minItems: 1
-+    maxItems: 4
-     items:
-       maxItems: 1
-     description:
-@@ -85,6 +87,8 @@ properties:
+@@ -820,6 +817,53 @@ allOf:
+         - reset-names
+         - renesas,vsps
  
-   renesas,vsps:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-+    minItems: 1
-+    maxItems: 4
-     items:
-       items:
-         - description: phandle to VSP instance that serves the DU channel
-@@ -489,9 +493,11 @@ allOf:
- 
-         renesas,cmms:
-           minItems: 4
-+          maxItems: 4
- 
-         renesas,vsps:
-           minItems: 4
-+          maxItems: 4
- 
-       required:
-         - clock-names
-@@ -558,9 +564,11 @@ allOf:
- 
-         renesas,cmms:
-           minItems: 3
-+          maxItems: 3
- 
-         renesas,vsps:
-           minItems: 3
-+          maxItems: 3
- 
-       required:
-         - clock-names
-@@ -627,9 +635,11 @@ allOf:
- 
-         renesas,cmms:
-           minItems: 3
-+          maxItems: 3
- 
-         renesas,vsps:
-           minItems: 3
-+          maxItems: 3
- 
-       required:
-         - clock-names
-@@ -683,7 +693,7 @@ allOf:
-             - port@1
- 
-         renesas,vsps:
--          minItems: 1
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,du-r8a779h0
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Functional clock
++
++        clock-names:
++          items:
++            - const: du.0
++
++        interrupts:
 +          maxItems: 1
++
++        resets:
++          maxItems: 1
++
++        reset-names:
++          items:
++            - const: du.0
++
++        ports:
++          properties:
++            port@0:
++              description: DSI 0
++            port@1: false
++            port@2: false
++            port@3: false
++
++          required:
++            - port@0
++
++        renesas,vsps:
++          maxItems: 1
++
++      required:
++        - clock-names
++        - interrupts
++        - resets
++        - reset-names
++        - renesas,vsps
++
+ additionalProperties: false
  
-       required:
-         - clock-names
-@@ -746,9 +756,11 @@ allOf:
- 
-         renesas,cmms:
-           minItems: 2
-+          maxItems: 2
- 
-         renesas,vsps:
-           minItems: 2
-+          maxItems: 2
- 
-       required:
-         - clock-names
-@@ -799,6 +811,7 @@ allOf:
- 
-         renesas,vsps:
-           minItems: 2
-+          maxItems: 2
- 
-       required:
-         - clock-names
+ examples:
 
 -- 
 2.43.0
