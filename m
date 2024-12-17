@@ -1,94 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370509F4B08
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:35:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E1D9F4B0C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:36:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8845210E2F4;
-	Tue, 17 Dec 2024 12:35:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1032D10E95A;
+	Tue, 17 Dec 2024 12:36:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FgTeD6tq";
+	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="WrnXm66o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89B6D10E2F4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:35:45 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-5401c52000dso5654294e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 04:35:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734438944; x=1735043744; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=EqFVcsq/1P38IrP8o1pPFwny5Xr5j1nP95SEUyFOxg4=;
- b=FgTeD6tqrVLIwNvWD9me4yWcfXAFp+2O2wQGzuCrH3qUWqVrS6kRiGx+wHChjjfbb6
- fwcD3zjd2rUMCCwWvn7Ko32vPR24VoLDuJQBm5LZWfGfpuHIu0HgFc2FLg9JTkIN01Np
- ydFJgoVlpGjGQHbhOa518hIUPzkCw97nmlYwQ6pMx/Ns9gNnxGB5TTQ/39JR6aQLWcPr
- aXeHndp9z3XfCI7TD0BCD7M9/hDGjPCWYFI867wRD44EJYOepzk/S3aej5CmKRuxUCwq
- wmD+q38gqGcGJn6cGPcRugLdgZnEJLuX1VV4MscZ6QJa4kBTksS7qQq0VaIzouOGPTBt
- pQ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734438944; x=1735043744;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EqFVcsq/1P38IrP8o1pPFwny5Xr5j1nP95SEUyFOxg4=;
- b=YSbQaE+w6C4h8IsA23vnbQibrsMZU1OVjNOvU/xEDEnB06Qls/1BxZ/gwngxUKS3ni
- JiccCleMEpAj3TUQ4TKEaQMvgubfY2TuqxnBEF17QAd8DMSyQMOFR8o0AwPoe5U0Fusc
- ycq2C8rp1QyTpceC9FzdkHAXUV6my9/4TIsiOyY0wu9TtICV6idmS+dsmxyiI+cVm2vS
- EWbRYcgmSWh+Ww1u0K44QBJa44gpWOiL3z3kbc0wJMnUYoveIfGB/xUmcWcNRhTtjCqv
- c0wVQ8RV79v9lvueyWs68hSq/T1FO7C73xMegWUcA0ZgD+bqZvyGjfXtzWPtkRqiRJBR
- +FwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU08jb9AWBZys2nEAEyqt4IElJzCnt4hbDT3ItMRyCaFxFKFdeLt4blbmOqbMEBeTqwd2wCmXDBD4E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxtwT6Pa1B/YGSeUrGYWSN1+XK3eeVYcjfHnS324s1/SI7oMXbz
- imFApQIWwXGt8qW128wlHbx0nhlrylIvK8VnPu/BxzPBC6OzpMABPTG8CdJo96c=
-X-Gm-Gg: ASbGncsMYaoxs5FkHsQfFRILM7Ac9YNon3BNTbIVw8kueWdrOl+Nce4SjtKr5jFADWk
- KBknpHZwCB2ZeK3h6S6SyYcuV+TuDC8RLTmLv4QQ6lmNlT0Bijxqd6WXLejbmvGubkAvcCXbj2H
- Mq6NIOZGAErblTj0d+6Y6pfwqj4oBQ92RW3Ddck3H0+QvEq7ytxSClYTxvrp9J0oBH3bs4RvF/U
- NkR0h9509YeZoSSbyqcyzYZTVJ45uaaTI/EMNB8EGy11dctVk3t/VIUFMzOaJh1
-X-Google-Smtp-Source: AGHT+IGwO6ExXNEcA0R2FoxKWS83ev2naGxk2+ZyD+jgIUG5jEqO7Ox1e2tGWV3q6r+L5CxjhdwD1g==
-X-Received: by 2002:a05:6512:158e:b0:540:3566:5397 with SMTP id
- 2adb3069b0e04-5409054f33fmr4655941e87.22.1734438943729; 
- Tue, 17 Dec 2024 04:35:43 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120c164b1sm1137065e87.223.2024.12.17.04.35.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 04:35:42 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 17 Dec 2024 14:35:40 +0200
-Subject: [PATCH v2] drm/msm/dpu: correct LM pairing for SM6150
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-dpu-fix-sm6150-v2-1-9acc8f5addf3@linaro.org>
-X-B4-Tracking: v=1; b=H4sIABtwYWcC/3WMQQ6CMBBFr0Jm7ZhO1VZceQ/DgtAZmEQpaZVoC
- He3snf5/s97C2ROyhku1QKJZ80axwJ2V0E3tGPPqKEwWGOPZMlhmF4o+sb8cHQySF6MP9RyFjZ
- QpClxebfgrSk8aH7G9Nn6M/3Wv6mZkLCW4Du2Is64613HNsV9TD0067p+AYimqTetAAAA
-X-Change-ID: 20241216-dpu-fix-sm6150-17f0739f8fe0
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Li Liu <quic_lliu6@quicinc.com>, Fange Zhang <quic_fangez@quicinc.com>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1582;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=P72G89o/YCMWCzZLIM5D+qksevbQkKdaRlhBYiPrFaw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnYXAdGjNdaXabT0YqQhED4A+ccplPzuyiib3mB
- 0PMvSkpahGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2FwHQAKCRCLPIo+Aiko
- 1ePjCACAduQzUrmv2UvoKsCLEFcnmXD4PjXKpskER7W/cYTmm1XdZPXFmTk5RY0EqzMl5GaIMEW
- VRMx14YUs0iTTFUk9ihEWyZ+bg2+N9wownr+WOw57pwuHLR0/0BWQJ/9rK5oDGsIn0Vvj6ZnpGn
- X+ufNaMY5tVD6tGqy7oX5g7wD3VOQ6Z28aIYIW6bNu3dtC1VCIEs5mmqBsx2TJ2kfF/XHekHG94
- /CzLIy973QNfb2sk7/f4rwsq5LuyOOmMuTBrzu5L4VoPRVYj1CJcwCxjlyHBASAZviWPlTPBkQP
- b+cqywM+uIjO4zlF1MYJMPvdy47FqhyjBc7UFU7g0/8qTOaF
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com
+ [95.215.58.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BAC410E95A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:36:45 +0000 (UTC)
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+ t=1734439003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RolKsme1G9Rjox6sw68grNTuofAMfeweMCbeaFaOjdE=;
+ b=WrnXm66oWyjzl5/KX5EDjjmy8k7gwxzTP0hDuvZDpj1vGd/1V7BBy61LdZaM5wSNYAjoXj
+ FnPekO+HSxOYXxOIIoW+7HgnRyQlCdmWs3uMcVxDzMYbEns3wmGenx0D2dzkfH6HdiiTxV
+ QtU7idQ6FjTQmrXHPWjFWO9yfp7MCANXq3Svn8ytWYeGIeiCMf3GYKb+i+J6nOqVHRgP/+
+ XIa2cUnJ8EppY4xpTSJQTwcrVpDLqGmSQHRChEs0mQvjWib/fprlCbFw7GlXcE1cLBKvId
+ 84zo5MHicnENQIC+c1VQLKfyj2A0lXBQXWzen4IfKjBWGQMtbqrepa8h8eDALg==
+Content-Type: multipart/signed;
+ boundary=213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Tue, 17 Dec 2024 13:36:29 +0100
+Message-Id: <D6DZB443IQ7A.3P1135M6DMF2S@cknow.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
+ <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Phong LE"
+ <ple@baylibre.com>, "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Russell King" <linux@armlinux.org.uk>,
+ "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Sandy Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Alain Volmat"
+ <alain.volmat@foss.st.com>, "Raphael Gallais-Pou" <rgallaispou@gmail.com>,
+ "Dave Stevenson" <dave.stevenson@raspberrypi.com>,
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Raspberry Pi Kernel
+ Maintenance" <kernel-list@raspberrypi.com>
+Cc: "Jani Nikula" <jani.nikula@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-rockchip@lists.infradead.org>
+Subject: Re: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
+In-Reply-To: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,46 +83,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SM6150 platform doesn't have 3DMux (MERGE_3D) block, so it can not
-split the screen between two LMs. Drop lm_pair fields as they don't make
-sense for this platform.
+--213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Suggested-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Fixes: cb2f9144693b ("drm/msm/dpu: Add SM6150 support")
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
-Changes in v2:
-- Dropped lm_pair field as recommended by Abhinav.
-- Link to v1: https://lore.kernel.org/r/20241216-dpu-fix-sm6150-v1-1-9fd7ce2ff606@linaro.org
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 2 --
- 1 file changed, 2 deletions(-)
+On Tue Dec 17, 2024 at 1:40 AM CET, Dmitry Baryshkov wrote:
+> This series depends on the ELD mutex series [1]
+>
+> [1] https://lore.kernel.org/r/20241201-drm-connector-eld-mutex-v1-0-ba56a=
+6545c03@linaro.org
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-index 621a2140f675fa28b3a7fcd8573e59b306cd6832..d761ed705bac30d9ffef3c0c9140e5e8a5e930ad 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-@@ -116,14 +116,12 @@ static const struct dpu_lm_cfg sm6150_lm[] = {
- 		.sblk = &sdm845_lm_sblk,
- 		.pingpong = PINGPONG_0,
- 		.dspp = DSPP_0,
--		.lm_pair = LM_1,
- 	}, {
- 		.name = "lm_1", .id = LM_1,
- 		.base = 0x45000, .len = 0x320,
- 		.features = MIXER_QCM2290_MASK,
- 		.sblk = &sdm845_lm_sblk,
- 		.pingpong = PINGPONG_1,
--		.lm_pair = LM_0,
- 	}, {
- 		.name = "lm_2", .id = LM_2,
- 		.base = 0x46000, .len = 0x320,
+There's a v2 of that patch series here:
+https://lore.kernel.org/all/20241206-drm-connector-eld-mutex-v2-0-c9bce1ee8=
+bea@linaro.org/
 
----
-base-commit: a3d570eace66b4016f2692a6f1045742ee70c6b1
-change-id: 20241216-dpu-fix-sm6150-17f0739f8fe0
+HTH,
+  Diederik
 
-Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+--213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ2FwVAAKCRDXblvOeH7b
+btcgAQCrCEekrUY/E2pSYqYaHT6HKwkoEGuruBblZdydAr68eAEAsy2oRKKCWk/8
+hitjosySt34ZoKPme2E/QoeOAZUr1gA=
+=oJtw
+-----END PGP SIGNATURE-----
+
+--213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646--
