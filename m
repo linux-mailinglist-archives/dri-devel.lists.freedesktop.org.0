@@ -2,104 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3B59F5494
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EE39F5508
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF0E10EA41;
-	Tue, 17 Dec 2024 17:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEFA610E2F7;
+	Tue, 17 Dec 2024 17:52:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VkPXr4Q5";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Lk+mI58y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id D061910E423;
- Tue, 17 Dec 2024 17:43:34 +0000 (UTC)
-Received: from [192.168.35.166] (c-73-118-245-227.hsd1.wa.comcast.net
- [73.118.245.227])
- by linux.microsoft.com (Postfix) with ESMTPSA id 4C1542171F87;
- Tue, 17 Dec 2024 09:43:32 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4C1542171F87
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1734457414;
- bh=qz8oz73s4rCDJSC1TgNUQNYJjOVU8exHA2BYkyw+ZD0=;
- h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
- b=VkPXr4Q51kSzYXC6iV4Rnt0hdXMx9YWH59To4VTRyzVF/4SXLeJpUxO01knfWumzM
- CzAbcmQnzc2Qsz94yaL1AgsNLmsei1LV793lD8Qkn1YDLJvzyEf9X476Tc2IwzAabU
- HeEAso29uXPVkfVcznz9hizNBAvL5QWBolCDD9Qs=
-Message-ID: <f3f9a686-8be3-49f0-bcfb-10b864fa5a11@linux.microsoft.com>
-Date: Tue, 17 Dec 2024 09:43:31 -0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99C0210E0E8;
+ Tue, 17 Dec 2024 17:52:41 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHFlfp1002919;
+ Tue, 17 Dec 2024 17:52:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ X7hlMd/FaZ0PUinVQ7uhLnPJtp3fAZlrCPqFWnHaizs=; b=Lk+mI58yDwLy+t7l
+ u7gmMzXVXCCPuTblH+fCg0iWfBfiA1qCek3IT5mAAxx+OO5qc8oTggOIsNKZi8AM
+ fo0npBnXmp7ba0OULhYXtmjpds9k4trnHTBA0fGu4WaGy85awicX+oWfm79qNds9
+ S9AsxQQXv5KLNA0bzgqBsJkxJFwa45Jn6nqPaJvxzpmOweauzHZdBWDQuhAYGvSX
+ 1eg3gAP5zwdtv2CdyQfxnJ1/n1TGFhPA1RWhheeuET+hOooGMjG9HWMuPpE27ZsC
+ ttOtmOz069I2gHaZk0ICQ3pyi2KXhAXpXUPuShxtQU8X5+Qx6Vz3hSEkejgiZqTf
+ mSIAkA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43kc8m8bgg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Dec 2024 17:52:36 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BHHqaNN028967
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Dec 2024 17:52:36 GMT
+Received: from [10.216.20.10] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
+ 2024 09:52:30 -0800
+Message-ID: <44f0bdee-5d85-4544-a91f-23804073237f@quicinc.com>
+Date: Tue, 17 Dec 2024 23:22:27 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: eahariha@linux.microsoft.com, Pablo Neira Ayuso <pablo@netfilter.org>,
- Jozsef Kadlecsik <kadlec@netfilter.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Nicolas Palix <nicolas.palix@imag.fr>,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Russell King
- <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>,
- Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
- Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann
- <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>,
- Ilya Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Louis Peens <louis.peens@corigine.com>, Michael Ellerman
- <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
- oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org,
- Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: [PATCH v3 02/19] coccinelle: misc: Add secs_to_jiffies script
-To: Julia Lawall <julia.lawall@inria.fr>,
- Alexander Gordeev <agordeev@linux.ibm.com>
-References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
- <20241210-converge-secs-to-jiffies-v3-2-ddfefd7e9f2a@linux.microsoft.com>
- <Z2G02RN7VelcrjNT@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
- <alpine.DEB.2.22.394.2412171831300.3566@hadrien>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: Re: [PATCH v6 3/7] drm/msm: adreno: dynamically generate GMU bw table
+To: Neil Armstrong <neil.armstrong@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+References: <20241217-topic-sm8x50-gpu-bw-vote-v6-0-1adaf97e7310@linaro.org>
+ <20241217-topic-sm8x50-gpu-bw-vote-v6-3-1adaf97e7310@linaro.org>
 Content-Language: en-US
-In-Reply-To: <alpine.DEB.2.22.394.2412171831300.3566@hadrien>
-Content-Type: text/plain; charset=UTF-8
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <20241217-topic-sm8x50-gpu-bw-vote-v6-3-1adaf97e7310@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: Hf9Xvo-hgUZr1ATiwos_YVRuf9ofXIvW
+X-Proofpoint-GUID: Hf9Xvo-hgUZr1ATiwos_YVRuf9ofXIvW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0
+ mlxlogscore=999 bulkscore=0 phishscore=0 mlxscore=0 impostorscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170137
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,73 +98,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/17/2024 9:33 AM, Julia Lawall wrote:
+On 12/17/2024 8:21 PM, Neil Armstrong wrote:
+> The Adreno GPU Management Unit (GMU) can also scale the ddr
+> bandwidth along the frequency and power domain level, but for
+> now we statically fill the bw_table with values from the
+> downstream driver.
 > 
+> Only the first entry is used, which is a disable vote, so we
+> currently rely on scaling via the linux interconnect paths.
 > 
-> On Tue, 17 Dec 2024, Alexander Gordeev wrote:
+> Let's dynamically generate the bw_table with the vote values
+> previously calculated from the OPPs.
 > 
->> On Tue, Dec 10, 2024 at 10:02:33PM +0000, Easwar Hariharan wrote:
->>
->> Hi Easwar,
->>
->>> This script finds and suggests conversions of timeout patterns that
->>> result in seconds-denominated timeouts to use the new secs_to_jiffies()
->>> API in include/linux/jiffies.h for better readability.
->>>
->>> Suggested-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
->>> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
->>> ---
->>>  scripts/coccinelle/misc/secs_to_jiffies.cocci | 22 ++++++++++++++++++++++
->>>  1 file changed, 22 insertions(+)
->>>
->>> diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
->>> new file mode 100644
->>> index 0000000000000000000000000000000000000000..8bbb2884ea5db939c63fd4513cf5ca8c977aa8cb
->>> --- /dev/null
->>> +++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
->>> @@ -0,0 +1,22 @@
->>> +// SPDX-License-Identifier: GPL-2.0-only
->>> +///
->>> +/// Find usages of:
->>> +/// - msecs_to_jiffies(value*1000)
->>> +/// - msecs_to_jiffies(value*MSEC_PER_SEC)
->>> +///
->>> +// Confidence: High
->>> +// Copyright: (C) 2024 Easwar Hariharan, Microsoft
->>> +// Keywords: secs, seconds, jiffies
->>> +//
->>> +
->>> +virtual patch
->>> +
->>> +@depends on patch@ constant C; @@
->>> +
->>> +- msecs_to_jiffies(C * 1000)
->>> ++ secs_to_jiffies(C)
->>> +
->>> +@depends on patch@ constant C; @@
->>> +
->>> +- msecs_to_jiffies(C * MSEC_PER_SEC)
->>> ++ secs_to_jiffies(C)
->>
->> If you used this script only, then it did not seem to recognize line arch/s390/mm/cmm.c:207
->>
->> 	mod_timer(&cmm_timer, jiffies + msecs_to_jiffies(cmm_timeout_seconds * MSEC_PER_SEC));
+> Those entries will then be used by the GMU when passing the
+> appropriate bandwidth level while voting for a gpu frequency.
 > 
-> There is the requirement that C is a constant, and cmm_timeout_seconds is
-> not considered to be a constant, ie it is not all capital letters.
-> Indeed, it doesn't seem to be a constant at all.  I don't know if the
-> requirement of being a comstant is really necessary.
-> 
-> julia
-> 
->>
->> Thanks!
->>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-As the cover letter says, this is part 1. I intend to do further parts
-that address the cases where the multiplicand is an expression, as well
-as the cases where the timeout provided to msecs_to_jiffies() is
-denominated in seconds (i.e. ends in 000)
+Reviewed-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 
-Thanks,
-Easwar
+-Akhil
+
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 48 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> index cb8844ed46b29c4569d05eb7a24f7b27e173190f..995526620d678cd05020315f771213e4a6943bec 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/list.h>
+>  
+>  #include <soc/qcom/cmd-db.h>
+> +#include <soc/qcom/tcs.h>
+>  
+>  #include "a6xx_gmu.h"
+>  #include "a6xx_gmu.xml.h"
+> @@ -259,6 +260,48 @@ static int a6xx_hfi_send_perf_table(struct a6xx_gmu *gmu)
+>  		NULL, 0);
+>  }
+>  
+> +static void a6xx_generate_bw_table(const struct a6xx_info *info, struct a6xx_gmu *gmu,
+> +				   struct a6xx_hfi_msg_bw_table *msg)
+> +{
+> +	unsigned int i, j;
+> +
+> +	for (i = 0; i < GMU_MAX_BCMS; i++) {
+> +		if (!info->bcms[i].name)
+> +			break;
+> +		msg->ddr_cmds_addrs[i] = cmd_db_read_addr(info->bcms[i].name);
+> +	}
+> +	msg->ddr_cmds_num = i;
+> +
+> +	for (i = 0; i < gmu->nr_gpu_bws; ++i)
+> +		for (j = 0; j < msg->ddr_cmds_num; j++)
+> +			msg->ddr_cmds_data[i][j] = gmu->gpu_ib_votes[i][j];
+> +	msg->bw_level_num = gmu->nr_gpu_bws;
+> +
+> +	/* Compute the wait bitmask with each BCM having the commit bit */
+> +	msg->ddr_wait_bitmask = 0;
+> +	for (j = 0; j < msg->ddr_cmds_num; j++)
+> +		if (msg->ddr_cmds_data[0][j] & BCM_TCS_CMD_COMMIT_MASK)
+> +			msg->ddr_wait_bitmask |= BIT(j);
+> +
+> +	/*
+> +	 * These are the CX (CNOC) votes - these are used by the GMU
+> +	 * The 'CN0' BCM is used on all targets, and votes are basically
+> +	 * 'off' and 'on' states with first bit to enable the path.
+> +	 */
+> +
+> +	msg->cnoc_cmds_addrs[0] = cmd_db_read_addr("CN0");
+> +	msg->cnoc_cmds_num = 1;
+> +
+> +	msg->cnoc_cmds_data[0][0] = BCM_TCS_CMD(true, false, 0, 0);
+> +	msg->cnoc_cmds_data[1][0] = BCM_TCS_CMD(true, true, 0, BIT(0));
+> +
+> +	/* Compute the wait bitmask with each BCM having the commit bit */
+> +	msg->cnoc_wait_bitmask = 0;
+> +	for (j = 0; j < msg->cnoc_cmds_num; j++)
+> +		if (msg->cnoc_cmds_data[0][j] & BCM_TCS_CMD_COMMIT_MASK)
+> +			msg->cnoc_wait_bitmask |= BIT(j);
+> +}
+> +
+>  static void a618_build_bw_table(struct a6xx_hfi_msg_bw_table *msg)
+>  {
+>  	/* Send a single "off" entry since the 618 GMU doesn't do bus scaling */
+> @@ -664,6 +707,7 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+>  	struct a6xx_hfi_msg_bw_table *msg;
+>  	struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+>  	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+> +	const struct a6xx_info *info = adreno_gpu->info->a6xx;
+>  
+>  	if (gmu->bw_table)
+>  		goto send;
+> @@ -672,7 +716,9 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu *gmu)
+>  	if (!msg)
+>  		return -ENOMEM;
+>  
+> -	if (adreno_is_a618(adreno_gpu))
+> +	if (info->bcms && gmu->nr_gpu_bws > 1)
+> +		a6xx_generate_bw_table(info, gmu, msg);
+> +	else if (adreno_is_a618(adreno_gpu))
+>  		a618_build_bw_table(msg);
+>  	else if (adreno_is_a619(adreno_gpu))
+>  		a619_build_bw_table(msg);
+> 
+
