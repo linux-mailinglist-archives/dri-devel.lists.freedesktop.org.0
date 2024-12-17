@@ -2,93 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13729F45C8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 09:14:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B019F4621
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 09:35:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA6D10E86A;
-	Tue, 17 Dec 2024 08:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0EC10E1B8;
+	Tue, 17 Dec 2024 08:35:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="D4m5Akb5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
- [209.85.222.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA01C10E86A
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 08:14:41 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id
- a1e0cc1a2514c-85bc5d0509bso962551241.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:14:41 -0800 (PST)
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 972F710E1B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 08:35:17 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id
+ d2e1a72fcca58-725ecc42d43so4257089b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:35:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1734424517;
+ x=1735029317; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6T3nxNZsTtm6HapI0ZCIF2ZP6Z01lkg3GaUKIVcPns=;
+ b=D4m5Akb5dyI++1ZV4rdmmcwZaxh48cq3EfFz+tVmBaFUhUjCZI0Q2EhAefQ451nCJx
+ 8Z/VWdEXx8Pwm8lVgIukrAr/YNixGPFAYjG9s3KOEF7vW0tBFaURTDXkjSZZObgMC3Xn
+ LYqAXf4/sP5ES8vrOuEWNKWm+b1Zy0Cs2yjEzhJuDf180Xz368yeAhFSIKGOYG1Bty6m
+ p5WG8ZeyuRkNyR/1ENa/F9x3xBxgLINBX77FLp+SIoEvzrSA19fEupRMCAjA6BfTrQ0H
+ +IyqslsKr8HZ9eOqzTefM/nWAKLtGPy0ijHx3OUczx7b/tGMeInHNWdoZJkeiJsYT0my
+ +fJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734423280; x=1735028080;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=BPpiGaA1e5dMiDjkAszyfRMBt3SwUPjlRJm/tlaPvdg=;
- b=EHe9wx/a6w+0BOGRdwhzlmn3WuW3ny0Ea9DG2qcGyraHip8ze+Z0vHVOreKX7QKB0H
- ogKN+CGnVDCuwgVghV2llU/y9iIde189M7kif5gNp5i+abmcyx6nuDlf0KbUvUtjBAZd
- aosNxeUf+upOrV2uRbEtkv8nxIOXk3JbmFcFHq1R6tCWIlej1TlJ3FxNawlw4qgqcniy
- E1MSTfTso2GMVmnpgqT6leXehT66D/2lWVPgWuufmgJmf0k8qIre8z7Mqd+NWXoeTTwD
- 2+Flv8ZwFciMExIEqYkawIO5MS4UnYWgk1LBQgIq26HYliyIejkADPO7fTgtw3dkCjPC
- BvwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTYvC65p6HqJVeACdQGI9E+VtWId6pepsommfkKNhRkIFMHjae3j3WsT1+xO+RjhQdDOhd9G4x/ks=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw37tabdTm6IzdrMaVeoswPIRrklOeO2jKH6ziC53Cv8Fs1L7tI
- P3Hs3pen9gYBtRMNCHOC8sqWcwpkskxbtzASzfxKTkrhDs13rFAXpdkl1arI
-X-Gm-Gg: ASbGncv8k0D9fckXSb3/LWgHd+9MoPDY84NHo+MNJU9eWo/Mx0XBKT5IMFuDAv9SpsC
- GotVCdhOeYwEz4Q4IfuG1lP+50KY6qFD86JpvNVLi+3TBR4mNYvqWjTQhFcFwMfY4piPcEI6kgb
- oeez7BmcKZ3f1LtR7sKzup4SgmY7ZNPL0Hq+IxJgqsT3BpaQV8P9/TZNJTSQpnHdesoU/nvg6t4
- Dt0L5Cb1//ZZXmNVR5vH/vNPa0heW1foAqvREXDWLUdWJ1oMKXtArfmPHh/Le7LnR3AW0QkfrCs
- j9AOC0dVu/YDJNQcATkzg8I=
-X-Google-Smtp-Source: AGHT+IFrHiLHj1r+IEZOm+T2x5LeJwf2YiyEje4ayG8yUxQlwasc+1rJbhRY01+VFgJViNZsfdso/Q==
-X-Received: by 2002:a05:6102:4d:b0:4b2:77df:466f with SMTP id
- ada2fe7eead31-4b277df4b89mr7062944137.8.1734423280241; 
- Tue, 17 Dec 2024 00:14:40 -0800 (PST)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com.
- [209.85.221.176]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4b2703c7a2asm1090940137.30.2024.12.17.00.14.40
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Dec 2024 00:14:40 -0800 (PST)
-Received: by mail-vk1-f176.google.com with SMTP id
- 71dfb90a1353d-518808ef4a1so1496151e0c.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:14:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX+iIRRbRbb32hYhpaZEuwbz29mqKmqVTQBlpEaxcL/cCsYdci8s6g108acOJsowyVLCGxs5xZWLNE=@lists.freedesktop.org
-X-Received: by 2002:a05:6122:2a09:b0:518:7777:a61e with SMTP id
- 71dfb90a1353d-518ca39a80fmr14871103e0c.5.1734423279879; Tue, 17 Dec 2024
- 00:14:39 -0800 (PST)
+ d=1e100.net; s=20230601; t=1734424517; x=1735029317;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y6T3nxNZsTtm6HapI0ZCIF2ZP6Z01lkg3GaUKIVcPns=;
+ b=iTRPqeDynGq4ajQZiy6jpFIEyxqhA2aeFvPkJmO2ZVnFA0xoBxn+eHcnXkb2lmwwTo
+ 60w4Ews2nlJxY0/rcec0bwqupaKcGAr9IvAvcnYU+mHKSVekYnT+GYkQHI22T6K517CB
+ QJrdbN++DA6+ecDH8IuDTqju+YaMr/RMZSED2YNdRs+ux/w+qbHqgQ2aXsNc9V4yjLF0
+ 1Az7Qnt99wRL9nE1fc1LRS/oDg5n35y8Q3jdUZM9uHHAAIyYSth3HAOBynWjOIPXR+Lw
+ zgdcFsD5pq2LfpeNzkpBZaje8oRJLZj0oouhEnetzZ6eSI1wNqlrs58ogsPI2Ac2620o
+ +Rkg==
+X-Gm-Message-State: AOJu0YyJIuh0tXuvR+waOqI4g9V+6hzB+pgVTk3hk7fVW/Y8Ulox98sU
+ 6hjJnxV6QilIUbhVM/MiQfs84HvYdrq8qY2MjIAha6a/WR83/8kOfjx67YsgapM=
+X-Gm-Gg: ASbGncsP3qkZ0GVjuzB0+4Pv0KcqbirBsPLBhi1wHerdKcCzpydxRlNeWDHd2fEBNRK
+ /17wb7B/U+2INCW67fyP/LOW34Ez7tMLgSjH4zF5kjN0tj/uDs+heLuSxM2j8GjcPkQpIfZXrJc
+ iEOVWgdA0dSBkm7LMAB5dvXzDQpjDDAWm4vYQGsY+yK1Wi7LQnmvzJ5AUOAbG1CkNj0mogAohl8
+ fa7XGZlXoeAjQgtfbdgkYPbrp2XvNK8prpCvumsEgyvzRZaTHFb+U9RgTUk23O/Gi8ebIEU2YL5
+ FQPo
+X-Google-Smtp-Source: AGHT+IG9r2E020to3EivbbvzUfJ4UJL8Hh6Orxu6UF5gYPQTiKsD3uD1fNNWLLou4WmbDKfxRRVjWw==
+X-Received: by 2002:a05:6a20:a11f:b0:1dc:2365:4d7d with SMTP id
+ adf61e73a8af0-1e1dfd54832mr24303077637.16.1734424517043; 
+ Tue, 17 Dec 2024 00:35:17 -0800 (PST)
+Received: from localhost.localdomain ([2001:f70:39c0:3a00:fdbb:f275:7572:b1a3])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-72918bae6e0sm6087076b3a.165.2024.12.17.00.35.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Dec 2024 00:35:16 -0800 (PST)
+From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+To: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
+ simona@ffwll.ch, jonathanh@nvidia.com
+Cc: dri-devel@lists.freedesktop.org,
+	Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+Subject: [PATCH] drm/tegra: dsi: fix the reference leak of the ganged mode
+ device
+Date: Tue, 17 Dec 2024 17:35:11 +0900
+Message-Id: <20241217083511.106397-1-joe@pf.is.s.u-tokyo.ac.jp>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
- <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
-In-Reply-To: <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 17 Dec 2024 09:14:28 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
-Message-ID: <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
-Subject: Re: [PATCH v5 3/7] dt-bindings: display: renesas,
- du: Add missing constraints
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,68 +86,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+tegra_dsi_driver leaks a device reference, which is obtained by
+of_find_device_by_node() in tegra_dsi_ganged_probe(). Add a function
+tegra_dsi_ganged_put() and call it in the error path of .probe() and in
+.remove().
 
-On Tue, Dec 17, 2024 at 6:32=E2=80=AFAM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->
-> The binding is missing maxItems for all renesas,cmms and renesas,vsps
-> properties. As the amount of cmms or vsps is always a fixed amount, set
-> the maxItems to match the minItems.
->
-> Also add the minItems and maxItems to the top level properties.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+This bug was found by an experimental verification tool that I am
+developing.
 
-Thanks for your patch!
+Fixes: e94236cde4d5 ("drm/tegra: dsi: Add ganged mode support")
+Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+---
+ drivers/gpu/drm/tegra/dsi.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-> @@ -77,6 +77,8 @@ properties:
->
->    renesas,cmms:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        maxItems: 1
->      description:
-> @@ -85,6 +87,8 @@ properties:
->
->    renesas,vsps:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 1
-> +    maxItems: 4
->      items:
->        items:
->          - description: phandle to VSP instance that serves the DU channe=
-l
-> @@ -489,9 +493,11 @@ allOf:
->
->          renesas,cmms:
->            minItems: 4
-> +          maxItems: 4
->
->          renesas,vsps:
->            minItems: 4
-> +          maxItems: 4
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 4a8cd9ed0a94..4225b1979f64 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -1561,6 +1561,12 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
+ 	return 0;
+ }
+ 
++static void tegra_dsi_ganged_put(struct tegra_dsi *dsi)
++{
++	if (dsi->slave)
++		put_device(dsi->slave->dev);
++}
++
+ static int tegra_dsi_probe(struct platform_device *pdev)
+ {
+ 	struct tegra_dsi *dsi;
+@@ -1581,7 +1587,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 
+ 	err = tegra_output_probe(&dsi->output);
+ 	if (err < 0)
+-		return err;
++		goto put_ganged;
+ 
+ 	dsi->output.connector.polled = DRM_CONNECTOR_POLL_HPD;
+ 
+@@ -1681,6 +1687,8 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 	tegra_mipi_free(dsi->mipi);
+ remove:
+ 	tegra_output_remove(&dsi->output);
++put_ganged:
++	tegra_dsi_ganged_put(dsi);
+ 	return err;
+ }
+ 
+@@ -1694,6 +1702,8 @@ static void tegra_dsi_remove(struct platform_device *pdev)
+ 
+ 	tegra_output_remove(&dsi->output);
+ 
++	tegra_dsi_ganged_put(dsi);
++
+ 	mipi_dsi_host_unregister(&dsi->host);
+ 	tegra_mipi_free(dsi->mipi);
+ }
+-- 
+2.34.1
 
-AFAIK these two additions are not needed, as they already match the
-values defined at the top level.
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
