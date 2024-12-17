@@ -1,55 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570949F4BA8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 14:12:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 321529F4BBB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 14:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 824E010E967;
-	Tue, 17 Dec 2024 13:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F82510E2F9;
+	Tue, 17 Dec 2024 13:14:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vNlo9qLO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I6xrl8kr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 74559 seconds by postgrey-1.36 at gabe;
- Tue, 17 Dec 2024 13:12:06 UTC
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72FE910E967
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 13:12:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5F2075C63CA;
- Tue, 17 Dec 2024 13:11:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2D1AC4CED3;
- Tue, 17 Dec 2024 13:12:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734441125;
- bh=D/SJURUuzN5/fZOaZjKkoURarq2fLgSwyYakD0IggJ8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vNlo9qLORpH0vDQdyIaIIfK+qBScqcqEdglH/20lJBrIBjfATyJL0vKBgWcR1LPZI
- /PSuYzyFvcZVdyn/7dDUw0Yv+IkubGzxWPIeA0mJhrPO7bJQgwh7Km6RtIXumTr10b
- oi55thkRvdJZE+tIimhsXDKez+yBogZFnfbXt1jI97eoROf65z63bjP7+HI8+aTAOw
- eP/jTOn3m412AI7VpS0MaKJYuHbVG5+xCB0AZqiCmnqLnD1D0Ksp8kD8vqpHCuohyl
- qFKq6wxUOi3lQibB+lpVmNu+1T077LkPD15eVGWcXKDWPw7a951QUM43z3ZhbNZ7w7
- 8SaJQ2hHh6xPA==
-Date: Tue, 17 Dec 2024 07:12:03 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: "A. Sverdlin" <alexander.sverdlin@siemens.com>
-Cc: devicetree@vger.kernel.org, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, Daniel Thompson <danielt@kernel.org>,
- Andrew Davis <afd@ti.com>, Jingoo Han <jingoohan1@gmail.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: backlight: add TI LP8864/LP8866
- LED-backlight drivers
-Message-ID: <173444111812.1260250.17926048342741894289.robh@kernel.org>
-References: <20241209084602.1199936-1-alexander.sverdlin@siemens.com>
- <20241209084602.1199936-2-alexander.sverdlin@siemens.com>
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 976F810E2F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 13:14:40 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id
+ d2e1a72fcca58-725dc290c00so4847493b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:14:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1734441280; x=1735046080; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=axyAQhPj9nhVil4KAAnIiakdiidmvsJlf9IRfQkGvmI=;
+ b=I6xrl8krvf5wXRTNRyKUVYmd7eFrkFj5O3711VZ6E4uSiKsPE/eLgFBmUGA1iKPs4E
+ V598XOMj6rjt4uFDFwsGenf0EOC8H3U5nr6gH8w0IaMl61ZZ6m3n+eAKFZXYFcsE3V09
+ CGqq8f+OLaYsaXynzswUdVWt/sZdSMeLMKwR0B1VI3RYNzmH0gSF66Y5I3vkEAb1bE5I
+ hSo+2UBUOzrDFQee+LTMlu7JT4MDHzP7SB6LGTgpSpVN6gEI74ykXcxlJ5P0pkljA8o5
+ u6CddODPSyQyvM5CUuVqj8NMnmalJfZMwfRL8nfbV+2RYdzn7x9568UpQUpXiXCZC31q
+ g0cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734441280; x=1735046080;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=axyAQhPj9nhVil4KAAnIiakdiidmvsJlf9IRfQkGvmI=;
+ b=GlofNpUpoWeHjhfDgXnucvTOKKe8X4fXXsMp3NKT3x9fiz97xU73E6r9n4hmdkDe2j
+ VxUd0c7/PBKjWtn3AVH4DFuSNem0REL+CecfC78baxQN73zxG12y4niJTgj+DqN4+6I/
+ BsSjZqEuLGe5z05uf86vM/p4N3SHboEQkecjw5AHoRgChxx1pHOCrTPPk3UPeXU+Q96F
+ OGHpTM6jtkIgCuvdmVX0+KHWZYo7FysueoC/ahU/he2yCOwxjX3MLxIroRo40F+xPtNm
+ yTogOkJIR1uN5zxfNmjdtUHGP+/dgDobk91EfCkCB3vbxltai7Sk8MuVSf0LdsLVlYeV
+ FuGw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWR/NAaEBX2lsQWNquE933YGTSmlIQHdy2D9Wj0RMpQV4Y7cbptnvsGek/pANCCQjpZezh78oB9BVc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGTj9QCShVgc5LB87ygh9ml1zCBJm3I7y7KctyA7+hFwTGl1xv
+ hTsPdkc4Qvpp/8ZT3VVlAw46zyFVJCkWHs/DjlT/lLas7WAu6viSZMEsQQ==
+X-Gm-Gg: ASbGncvptZwP7/FSxirneeeULtAR1MlZo5M0a/cxdI32OIkpk5j/epkdl7rJERN1doz
+ ceINp8KPgsfjwjhl1z+4+oX/4+SUxD/ChwouPQNvxWITb586mWo23iZEyj0aiAyLbt9lKhoMr0y
+ d0ZVRxGCUmkm0C4KHZgXANVOEYX2zBuWqeulk2of/gOXJtRVAgJ1ej+8n8t/i8vex16r1F3wS8g
+ zyJbkX2UrrZtQLutEn2YxknnJATOUFsaF9PLn+GN/ECDRBR2pgvf6OeTrfOAoHAY8FZyg==
+X-Google-Smtp-Source: AGHT+IGHcV/NHnllfqv7fR/hLPWE8KERD+FbPGD/o3fwg+D3eyN5ic8pO6VhkBpEn8TBSM1LxM5IEg==
+X-Received: by 2002:a05:6a21:3398:b0:1e2:5c9:6831 with SMTP id
+ adf61e73a8af0-1e4e779760amr5123201637.14.1734441279972; 
+ Tue, 17 Dec 2024 05:14:39 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:2d08:94b1:8dd:a583])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-801d5acf064sm5821625a12.40.2024.12.17.05.14.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Dec 2024 05:14:39 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: Laurent.pinchart@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] dt-bindings: samsung,mipi-dsim: Document fsl,imx7d-mipi-dsim
+Date: Tue, 17 Dec 2024 10:14:31 -0300
+Message-Id: <20241217131431.1464983-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241209084602.1199936-2-alexander.sverdlin@siemens.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,25 +85,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Fabio Estevam <festevam@denx.de>
 
-On Mon, 09 Dec 2024 09:45:53 +0100, A. Sverdlin wrote:
-> From: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> 
-> Add bindings for Texas Instruments' LP8864/LP8866 LED-backlight drivers.
-> Note that multiple channels in these models are used for load-balancing and
-> brightness is controlled gobally, so from a user perspective it's only one
-> LED.
-> 
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
-> ---
-> Changelog:
-> v3: no changes
-> v2: ti,8860 has been decoupled from this series and converted to YAML separately
-> 
->  .../bindings/leds/backlight/ti,lp8864.yaml    | 80 +++++++++++++++++++
->  1 file changed, 80 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
-> 
+The i.MX7D MIPI DSIM block is compatible with i.MX8MM.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+imx7s.dtsi uses the following compatible string:
+
+compatible = "fsl,imx7d-mipi-dsim", "fsl,imx8mm-mipi-dsim";
+
+Document "fsl,imx7d-mipi-dsim" to fix the following dt-schema warning:
+
+['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+index 4ed7a799ba26..a036c2dcfd86 100644
+--- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+@@ -29,6 +29,10 @@ properties:
+       - items:
+           - const: fsl,imx8mn-mipi-dsim
+           - const: fsl,imx8mm-mipi-dsim
++      - items:
++          - enum:
++              - fsl,imx7d-mipi-dsim
++          - const: fsl,imx8mm-mipi-dsim
+ 
+   reg:
+     maxItems: 1
+-- 
+2.34.1
 
