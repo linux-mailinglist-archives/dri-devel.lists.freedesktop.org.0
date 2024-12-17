@@ -1,129 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157DF9F516F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 17:55:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 865669F5179
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:00:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 809A910E54E;
-	Tue, 17 Dec 2024 16:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 148B910E422;
+	Tue, 17 Dec 2024 17:00:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SILm+u3b";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Pj3RxCaV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2062d.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2417::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D08210E59F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 16:55:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wqCTqD89NSksiO1m24ftQGcH1aNbDbn/CHMnhnN8L1SC0OQgCpzwVpUTbmEeXpMuTWf2saEWUJqTGkfnhay2sdC5I5K9xI5VEUFxmmAao7t6DIjYjHzSOINq5Cbo9aEoqRLoNEaEKj5eAeSOl1zoIZDff5lEhYNYVlPATluYoqw7HYrNnm0ldzth86iEG1kkyqdJTUduQNGVO0ObUVvI9I6kKemsNmVZVjRJQcVDxZgWApe0ErmfQy8VpLqiHlHLkep2NXNrTjy3V3cvF615MLJeePJW8UJrbAC2PQqfRioPkRxdYpHbfUbbSJbMbm2ciCOK24hyJbhaseRZYQFpng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qUL+u/FwXBcT+hUXbI0apcTDpqrpGHSh0/gIJvaNK/8=;
- b=ftUcsRELIIGCZWanWce67VML9o0PIfPFqJsfRKyg/c2ce+xXV7IqgsCasqoQU6UvA8CMOD+0fsKH+khy1W1DBEfFu+0RWIg/kkKSPTY2Vy06UOD+NAM50U4vTBkcRmt/lG4OdogXS6ROXGO/SKB2/wLi/Pkq/M+AK+JsLNjM8dyDJg9TK/Y/gpblLrlvSHCQRbGg/a2A4VUnOKVNQB3798wyDPiFFt/6OgNl9Dwl4XqO36N+d6rCa+U5PoQpK0HnRrRUl5AwXGJh1e9iDXd3hK3SV0zzacoOQhTMlaM0y0V7s58hDKOA3ULLUM2tqGgnIpfwBrv77PPo1nwc5hj09A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qUL+u/FwXBcT+hUXbI0apcTDpqrpGHSh0/gIJvaNK/8=;
- b=SILm+u3bvYYMPmGnf/j+SprWJy9Lx7FQ7+zEVUdX760fc3ygrDSN3zD8DNhKhxqU9yZAgDcmvio0k2a/atLjG+hU48Xz/v0gXaXxdu6M501wakcp/UY8GDThNi4jm4B8YjSRKbRC8N/0f051oETyarseIZvP8P8AGMs//QtQors=
-Received: from BY3PR04CA0023.namprd04.prod.outlook.com (2603:10b6:a03:217::28)
- by BY1PR12MB8445.namprd12.prod.outlook.com (2603:10b6:a03:523::6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.20; Tue, 17 Dec
- 2024 16:55:12 +0000
-Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
- (2603:10b6:a03:217:cafe::db) by BY3PR04CA0023.outlook.office365.com
- (2603:10b6:a03:217::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.22 via Frontend Transport; Tue,
- 17 Dec 2024 16:55:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Tue, 17 Dec 2024 16:55:12 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 17 Dec
- 2024 10:55:11 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 17 Dec 2024 10:55:10 -0600
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
- <king.tam@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V1 2/2] accel/amdxdna: Remove DRM_AMDXDNA_HWCTX_CONFIG_NUM
-Date: Tue, 17 Dec 2024 08:54:46 -0800
-Message-ID: <20241217165446.2607585-2-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241217165446.2607585-1-lizhi.hou@amd.com>
-References: <20241217165446.2607585-1-lizhi.hou@amd.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [IPv6:2a01:4f8:201:9162::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A71A10E422
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 17:00:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734454800;
+ bh=uuSw8aKFWxqFiQ4Pleowz22gxsmtmaYoLcqkORPkNzc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Pj3RxCaVg96G3ZKZ8XbKBInT9EL3zwrj0kTU17n4DShb5kITQRoUB/3aGkKTcZMjN
+ v8nmEtfGKNzaq5+ToRCpKwgZcXLnyxSXyyXNyFbdFlRnVVecof2tTh3VypPTLLLEME
+ Jb5iBAt1p3eDvdXkaMQb3N6OhkSmYnlWMAy1s9rK1H7FmjqdQf+zb29M+oeFgNT3A2
+ yYCgO1cy7vD8tWht72XtDXCRri1l/wJXYwvETuUysrVtO6eEKpVLT5oiQln8jedKe5
+ DtiVf3PLjiS1ikZXScPb1ehfBg8TfqIejK/ZfGmsOWvMjSc+JTKsiPzclL+QZmFd6n
+ AQv0Bn4XVEDbA==
+Received: from [192.168.1.90] (unknown [84.232.140.38])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 809C617E37C0;
+ Tue, 17 Dec 2024 17:59:59 +0100 (CET)
+Message-ID: <2ba24dc6-b6e7-4964-af84-a5374903ce36@collabora.com>
+Date: Tue, 17 Dec 2024 18:59:57 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] drm/rockchip: vop2: Improve display modes handling
+ on RK3588 HDMI0
+To: Maxime Ripard <mripard@kernel.org>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, FUKAUMI Naoki <naoki@radxa.com>
+References: <20241211-vop2-hdmi0-disp-modes-v2-0-471cf5001e45@collabora.com>
+ <1820767.5KxKD5qtyk@diego>
+ <a4ex3s23r4k6wehyoaw3aylpcexfrclrxxykjpabhdfne2jgmu@ii6riiiga2zj>
+ <1756448.izSxrag8PF@diego>
+ <20241217-ubiquitous-refreshing-finch-aceade@houat>
+ <c45ff74a-c9a4-4cf1-8530-04087e06b07a@collabora.com>
+ <20241217-zealous-boisterous-llama-52bfcc@houat>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241217-zealous-boisterous-llama-52bfcc@houat>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB04.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|BY1PR12MB8445:EE_
-X-MS-Office365-Filtering-Correlation-Id: 160804ea-d0f1-4cec-d0ff-08dd1ebb92ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fRxvIdwgshQX76NBJhJn2ODwRigi1huAFJECzBXMNKWgZlgdUABvo7kw9Rh8?=
- =?us-ascii?Q?7BqNsg+rmX1qNpUq+jRu9WzqlUYlRheEHjm0GzPQL4BxbZ7gBhe+xZZjW7+S?=
- =?us-ascii?Q?ymS5s3aAWHX0y0Ij5mCBXrOy6j/80rfP8IkUgl47+ksTNFMi1ibT0RK6rrkA?=
- =?us-ascii?Q?ZVdUB0LpElvOvz9kS1NIzQAojkqs/gd1haHFDHctMy7bjNkdFJyh05/XkCFe?=
- =?us-ascii?Q?AEK+ACPwdGL+XSczeE4jN3ryrU+wycyoTamo7kZse+MmSUG4vGw68B4OgQ5W?=
- =?us-ascii?Q?dG6JictxhBBsDkd7CgL2ykik+EC0SwWf7m1EBFetvKFzKoUrj6cJG86fNqEu?=
- =?us-ascii?Q?91dQBhdalhk+8oD9PN6dVgmSuhOTanT8PYKvHt/C5aqVy/NNvX0gA2H9uvP4?=
- =?us-ascii?Q?K6cF8FiFNHoPmDJAnyv9wJ0Tz8i2v75O+8NBWwxqMMHTU2Szl91u6y8e7rGJ?=
- =?us-ascii?Q?7LCjfR96YOmSNrieiamUaByD7Hk0/HtEI1NHqOgECpsH+OSSURTyolkdkWGA?=
- =?us-ascii?Q?M1CBNB+aey+30OSnXHq9pdQfUwYOX4AW4AmkVftvESnK8Ywl1amSBVKfpDxM?=
- =?us-ascii?Q?yHYY1drTdUcFWsJAqip+FHhQPAapvwZuGE2GvAZNUr/2mtMApXKBRG7ckJWI?=
- =?us-ascii?Q?pD7G5zdWCgzYYnocjGBEO2ZUmOmqfauK4NKiRCJOF0fWfceDE6k+BPVt4U8r?=
- =?us-ascii?Q?hPnUgJvBJ7o1OvEaOs9Wm3tWWB5/jz4ni4TpF2gQAcCuKeGuZFb5FVUmysd8?=
- =?us-ascii?Q?7jD5Y1q0NFdsbgJHar8dT5y/zc/PSpQlLun22CXM8O/FLGqkh0Mu1PTncyUc?=
- =?us-ascii?Q?LX44iz9QtA39NLMeJRca/mGyuk3nicW9/7FoG7pWdcoe3FF4lmapUzWxI+jg?=
- =?us-ascii?Q?DC681XlzHOdwNGM13RB8pqg7+JzLNeBm9jk/IMGx+VtPk/hJ5pdnZAsh8YtF?=
- =?us-ascii?Q?F1CNGkQPIqUZRoVQt7KwX/Cfx5vPUHj9GV/5yUy3ba8vdJzDUDKWY7V9HOES?=
- =?us-ascii?Q?ql04sgooPsWkj5NBnJCHl0zHrpdpHedtQmPdL3vZ1+T6cjdr6+QVcOl3gR8K?=
- =?us-ascii?Q?eCtFuCtfQRBfaVWDD+gwKunoK0A0tu0BapDF+2kZ+35Lzih6Sd0hn+BIRMkZ?=
- =?us-ascii?Q?ICP5nJuGp/YtcwCmV/Z48Xu57ZmLEitaT0n3soIrCL8BFmcezHcsDHOjgpmm?=
- =?us-ascii?Q?qcjsdVqBhrZaz9GwE8xn4jcyNrSiV+xdvGZAbYvFSxegurMCwQZ827JYSOpg?=
- =?us-ascii?Q?zelBOrLGfgpwSpUfISFk6VJtiXWpp7OnYlF/lT6+wt7gvYgTzRfB9skkVNSm?=
- =?us-ascii?Q?p17S5Wht04YIFU+6/EIJD2wqaa7JMmYrk/6Sqrz+ov83fvxlaCCB1D140Zfy?=
- =?us-ascii?Q?2xVFNZn92uTP0miTrFe8lMx3yPW/TaR5UH4tAJsHjVWLh/i/IKDuFpwiTrkp?=
- =?us-ascii?Q?ye+sRXPsQHvse7jY6Wm44mXVSPgXLDF3/LEaIkU/7QW/QvZoekO5EqbdAgOs?=
- =?us-ascii?Q?HRC215Up1EHH4CM=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 16:55:12.6127 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 160804ea-d0f1-4cec-d0ff-08dd1ebb92ce
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE37.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR12MB8445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,27 +76,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Defining a number of enum elements in uapi header is meaningless. It will
-not be used as expected and can potentially lead to incompatible issue
-between user space application and driver.
+On 12/17/24 6:53 PM, Maxime Ripard wrote:
+> On Tue, Dec 17, 2024 at 06:36:41PM +0200, Cristian Ciocaltea wrote:
+>> On 12/17/24 5:00 PM, Maxime Ripard wrote:
+>>> On Wed, Dec 11, 2024 at 07:01:15PM +0100, Heiko Stübner wrote:
+>>>> Am Mittwoch, 11. Dezember 2024, 18:47:44 CET schrieb Maxime Ripard:
+>>>>> On Wed, Dec 11, 2024 at 06:23:03PM +0100, Heiko Stübner wrote:
+>>>>>> Am Mittwoch, 11. Dezember 2024, 18:07:57 CET schrieb Maxime Ripard:
+>>>>>>> On Wed, Dec 11, 2024 at 12:15:07PM +0200, Cristian Ciocaltea wrote:
+>>>>>>>> The RK3588 specific implementation is currently quite limited in terms
+>>>>>>>> of handling the full range of display modes supported by the connected
+>>>>>>>> screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are just a
+>>>>>>>> few of them.
+>>>>>>>>
+>>>>>>>> Additionally, it doesn't cope well with non-integer refresh rates like
+>>>>>>>> 59.94, 29.97, 23.98, etc.
+>>>>>>>>
+>>>>>>>> Make use of HDMI0 PHY PLL as a more accurate DCLK source to handle
+>>>>>>>> all display modes up to 4K@60Hz.
+>>>>>>>>
+>>>>>>>> Tested-by: FUKAUMI Naoki <naoki@radxa.com>
+>>>>>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>>>>>> ---
+>>>>>>>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 34 ++++++++++++++++++++++++++++
+>>>>>>>>  1 file changed, 34 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>>>>>> index 8b2f53ffefdbf1cc8737b3a86e630a03a7fd9348..393fe6aa170aaee9663c4a6d98c1cd6a5ef79392 100644
+>>>>>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>>>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+>>>>>>>> @@ -158,6 +158,7 @@ struct vop2_video_port {
+>>>>>>>>  	struct drm_crtc crtc;
+>>>>>>>>  	struct vop2 *vop2;
+>>>>>>>>  	struct clk *dclk;
+>>>>>>>> +	struct clk *dclk_src;
+>>>>>>>>  	unsigned int id;
+>>>>>>>>  	const struct vop2_video_port_data *data;
+>>>>>>>>  
+>>>>>>>> @@ -212,6 +213,7 @@ struct vop2 {
+>>>>>>>>  	struct clk *hclk;
+>>>>>>>>  	struct clk *aclk;
+>>>>>>>>  	struct clk *pclk;
+>>>>>>>> +	struct clk *pll_hdmiphy0;
+>>>>>>>>  
+>>>>>>>>  	/* optional internal rgb encoder */
+>>>>>>>>  	struct rockchip_rgb *rgb;
+>>>>>>>> @@ -220,6 +222,8 @@ struct vop2 {
+>>>>>>>>  	struct vop2_win win[];
+>>>>>>>>  };
+>>>>>>>>  
+>>>>>>>> +#define VOP2_MAX_DCLK_RATE		600000 /* kHz */
+>>>>>>>> +
+>>>>>>>>  #define vop2_output_if_is_hdmi(x)	((x) == ROCKCHIP_VOP2_EP_HDMI0 || \
+>>>>>>>>  					 (x) == ROCKCHIP_VOP2_EP_HDMI1)
+>>>>>>>>  
+>>>>>>>> @@ -1033,6 +1037,9 @@ static void vop2_crtc_atomic_disable(struct drm_crtc *crtc,
+>>>>>>>>  
+>>>>>>>>  	vop2_crtc_disable_irq(vp, VP_INT_DSP_HOLD_VALID);
+>>>>>>>>  
+>>>>>>>> +	if (vp->dclk_src)
+>>>>>>>> +		clk_set_parent(vp->dclk, vp->dclk_src);
+>>>>>>>> +
+>>>>>>>>  	clk_disable_unprepare(vp->dclk);
+>>>>>>>>  
+>>>>>>>>  	vop2->enable_count--;
+>>>>>>>> @@ -2049,6 +2056,27 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+>>>>>>>>  
+>>>>>>>>  	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
+>>>>>>>>  
+>>>>>>>> +	/*
+>>>>>>>> +	 * Switch to HDMI PHY PLL as DCLK source for display modes up
+>>>>>>>> +	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
+>>>>>>>> +	 */
+>>>>>>>> +	if (vop2->pll_hdmiphy0 && mode->crtc_clock <= VOP2_MAX_DCLK_RATE) {
+>>>>>>>> +		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encoder_mask) {
+>>>>>>>> +			struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+>>>>>>>> +
+>>>>>>>> +			if (rkencoder->crtc_endpoint_id == ROCKCHIP_VOP2_EP_HDMI0) {
+>>>>>>>> +				if (!vp->dclk_src)
+>>>>>>>> +					vp->dclk_src = clk_get_parent(vp->dclk);
+>>>>>>>> +
+>>>>>>>> +				ret = clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
+>>>>>>>> +				if (ret < 0)
+>>>>>>>> +					drm_warn(vop2->drm,
+>>>>>>>> +						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
+>>>>>>>> +				break;
+>>>>>>>> +			}
+>>>>>>>> +		}
+>>>>>>>> +	}
+>>>>>>>> +
+>>>>>>>
+>>>>>>> It seems pretty fragile to do it at atomic_enable time, even more so
+>>>>>>> since you don't lock the parent either.
+>>>>>>>
+>>>>>>> Any reason not to do it in the DRM or clock driver probe, and make sure
+>>>>>>> you never change the parent somehow?
+>>>>>>
+>>>>>> On rk3588 we have 3 dclk_s and 2 hdmi controllers. Each video-port can
+>>>>>> use the clock generated from either the hdmi0phy or hdmi1phy, depending
+>>>>>> on which hdmi-controller it uses.
+>>>>>>
+>>>>>> So you actually need to know which vpX will output to which hdmiY to then
+>>>>>> reparent that dclk to the hdmiphy output.
+>>>>>
+>>>>> The Rockchip nomenclature isn't super obvious to me, sorry. Is there a
+>>>>> datasheet for this somewhere? Also, does this vpX -> HDMI-Y mapping need
+>>>>> to be dynamic?
+>>>>
+>>>> VPs are CRTCs in drm-language and each of them can drive a differing
+>>>> number of output encoders. Those video-ports also have differing output
+>>>> characteristics in terms of supported resolution and other properties.
+>>>>
+>>>> The rk3588 TRM has leaked in a number of places, and if you find a
+>>>> TRM-part2, there is a section labeled "Display Output Interface Description"
+>>>> that has a nice graphic for that.
+>>>>
+>>>> Or in short:
+>>>> - CRTC(VP)0 supports 8K resolution and can drive DP0+1, HDMI0+1, eDP0+1
+>>>>   [if I'm reading things correctly, 8K together with CRTC1 somehow)
+>>>> - CRTC(VP)1 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP0+1
+>>>> - CRTC(VP)2 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP01, DSI0+1
+>>>> - CRTC(VP)3 supports 2K resolution and can drive DSI0+1 and some BT1120,BT656
+>>>>
+>>>> so for the 3 higher resolution CRTCs there are essentially 6 or 8 output options
+>>>> depending on the board design
+>>>
+>>> That's much clearer, thanks. I'm not entirely sure how that links to the
+>>> need for the PLL to change its parent depending on the ouput. Do you
+>>> need to always have all the outputs on the same PLL?
+>>
+>> One of the problems is that the PHY PLLs cannot be used as clock sources
+>> for resolutions above 4K@60Hz, while VOP2 on RK3588 supports up to 8K@60Hz,
+>> which is supposed to be handled by the system CRU.
+> 
+> But can that system CRU drive resolutions lower than 4k@60? If so, why
+> do we bother with PHYs?
 
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- include/uapi/drm/amdxdna_accel.h | 1 -
- 1 file changed, 1 deletion(-)
+It can, but it's not accurate enough to support all modes, e.g. those
+having fractional refresh rates, among others.  That's actually the
+reason we'd want to make use of the PHY PLLs.
 
-diff --git a/include/uapi/drm/amdxdna_accel.h b/include/uapi/drm/amdxdna_accel.h
-index 92eff83fac1f..a706ead39082 100644
---- a/include/uapi/drm/amdxdna_accel.h
-+++ b/include/uapi/drm/amdxdna_accel.h
-@@ -122,7 +122,6 @@ enum amdxdna_drm_config_hwctx_param {
- 	DRM_AMDXDNA_HWCTX_CONFIG_CU,
- 	DRM_AMDXDNA_HWCTX_ASSIGN_DBG_BUF,
- 	DRM_AMDXDNA_HWCTX_REMOVE_DBG_BUF,
--	DRM_AMDXDNA_HWCTX_CONFIG_NUM
- };
- 
- /**
--- 
-2.34.1
+>> Moreover, the 2 PLLs are shared between 3 out of the 4 video ports already
+>> mentioned by Heiko.  There is quite a bit of complexity in downstream
+>> driver to handle all possible usecases - see [1] for a brief description on
+>> how was that designed to work.
+> 
+> That's a generic allocation issue. Multiple drivers (vc4 for example)
+> has this issue for other components. It can be fairly easily dealt with
+> at atomic_check time.
+> 
+> Maxime
 
