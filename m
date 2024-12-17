@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A72219F4FC1
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC329F4FCD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 16:44:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3C210E9F0;
-	Tue, 17 Dec 2024 15:44:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0B9610E9F8;
+	Tue, 17 Dec 2024 15:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SvNVIkGL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="P8n03g3C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA61510E9E6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:44:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4E610E9E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 15:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734450259;
- bh=xvqKAlwxZi5qMu/HhzZvjBB2nmVM7/aMNaTJlpT98iY=;
+ s=mail; t=1734450260;
+ bh=URSrD6DN9P/iN3W3e2XkeBkAqsZckLwEcyr6LKzK2aQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SvNVIkGLkBS5bE7e/Pw4Af1qqvKKE3V0AexhP6DAih7ilYSyGjq9ThGme4gjsRC1g
- vrME19hUEKWr11FnboIlS3UXfKmbbfRUsU4KN2rwW05hSuUll1GfTS+u2yxZ5u3HLT
- XbCPSPcykO9kRAX9Gzp3V+bmZkQkRSftW4SwHVBwRQ/hgJ4EuMFtees+9IWLPdhII6
- H0D3a1Y044hLsyWaNR84n9V2WkZNYSiVGj3andujZYIFal20ekDGuy6TS/PbFvJN9c
- f3TWxQalODnkcMZEY78mnX9vBKHHYeNapcSvaQAZH6Iylxu1JOHfB+mWXTFBTh2H2r
- ULRqAA5KQQhmg==
+ b=P8n03g3CTZRr0RRq75m7FFgyghq4XR1pFL5Sl5Xr6RRk/rjrc/sb5RLYW6cTIC2+S
+ q4x09nz763iHKZVRLYvxgaUXWTTuwAm785MEWoLEwMi9AB7G9tGnpoBYc/4QY27cxS
+ Z+4kLD0U0Wr1Z/VpIXrw2YwFoCwU4Mo1fwXKdF1mnpzdZuSm8igK08yL34ywY+lTAE
+ pKHgS4E7Yh0baY0RVSnEksAjAfkcBgjH8/HH1sKu9xEeD6fXLwPCgoLqFxZ8CtNgS3
+ XuWNs3lxL73HPqcV5dWuqdJ+3sFI7+V+9JgPpsLYtvPk7S6wsHvYqZ49IjfJ1/3EAo
+ PEZr37Tqa2JfQ==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 364E917E37CB;
- Tue, 17 Dec 2024 16:44:18 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9E75B17E37A4;
+ Tue, 17 Dec 2024 16:44:19 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -44,10 +44,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  kernel@collabora.com, dmitry.baryshkov@linaro.org
-Subject: [PATCH v3 20/33] drm/mediatek: mtk_hdmi: Move CEC device parsing in
- new function
-Date: Tue, 17 Dec 2024 16:43:32 +0100
-Message-ID: <20241217154345.276919-21-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v3 21/33] drm/mediatek: mtk_hdmi: Remove unused members of
+ struct mtk_hdmi
+Date: Tue, 17 Dec 2024 16:43:33 +0100
+Message-ID: <20241217154345.276919-22-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
 References: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
@@ -68,151 +68,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the CEC device parsing logic to a new function called
-mtk_hdmi_get_cec_dev(), and move the parsing action to the end
-of mtk_hdmi_dt_parse_pdata(), allowing to remove gotos in this
-function, reducing code size and improving readability.
+The hdmi_colorspace csp member of struct mtk_hdmi is initialized
+once but then it's never used at all.
+Remove said member and the only assignment to it as a cleanup.
+
+Also remove the ibias, ibias_up, min_clock, max_clock, min_hdisplay
+and max_vdisplay members, as those were really completely unused.
+
+This commit brings no functional changes.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 84 ++++++++++++++---------------
- 1 file changed, 40 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index c20d42ec387a..c95c7b55998c 100644
+index c95c7b55998c..3ecd0ed59851 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1367,24 +1367,16 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
- 	.edid_read = mtk_hdmi_bridge_edid_read,
- };
- 
--static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
--				   struct platform_device *pdev)
-+static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, struct device_node *np)
+@@ -162,16 +162,9 @@ struct mtk_hdmi {
+ 	struct clk *clk[MTK_HDMI_CLK_COUNT];
+ 	struct drm_display_mode mode;
+ 	bool dvi_mode;
+-	u32 min_clock;
+-	u32 max_clock;
+-	u32 max_hdisplay;
+-	u32 max_vdisplay;
+-	u32 ibias;
+-	u32 ibias_up;
+ 	struct regmap *sys_regmap;
+ 	unsigned int sys_offset;
+ 	struct regmap *regs;
+-	enum hdmi_colorspace csp;
+ 	struct platform_device *audio_pdev;
+ 	struct hdmi_audio_param aud_param;
+ 	bool audio_enable;
+@@ -1036,7 +1029,6 @@ static int mtk_hdmi_output_init(struct mtk_hdmi *hdmi)
  {
--	struct device *dev = &pdev->dev;
--	struct device_node *np = dev->of_node;
--	struct device_node *remote, *i2c_np;
- 	struct platform_device *cec_pdev;
--	struct regmap *regmap;
-+	struct device_node *cec_np;
- 	int ret;
+ 	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
  
--	ret = mtk_hdmi_get_all_clk(hdmi, np);
--	if (ret)
--		return dev_err_probe(dev, ret, "Failed to get clocks\n");
--
- 	/* The CEC module handles HDMI hotplug detection */
- 	cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
- 	if (!cec_np)
--		return dev_err_probe(dev, -EINVAL, "Failed to find CEC node\n");
-+		return dev_err_probe(dev, -ENOTSUPP, "Failed to find CEC node\n");
- 
- 	cec_pdev = of_find_device_by_node(cec_np);
- 	if (!cec_pdev) {
-@@ -1393,65 +1385,69 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
- 		return -EPROBE_DEFER;
- 	}
- 	of_node_put(cec_np);
--	hdmi->cec_dev = &cec_pdev->dev;
- 
- 	/*
- 	 * The mediatek,syscon-hdmi property contains a phandle link to the
- 	 * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
- 	 * registers it contains.
- 	 */
--	regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
--	ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1,
--					 &hdmi->sys_offset);
--	if (IS_ERR(regmap))
--		ret = PTR_ERR(regmap);
--	if (ret) {
--		dev_err_probe(dev, ret,
--			      "Failed to get system configuration registers\n");
--		goto put_device;
--	}
--	hdmi->sys_regmap = regmap;
-+	hdmi->sys_regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
-+	if (IS_ERR(hdmi->sys_regmap))
-+		return PTR_ERR(hdmi->sys_regmap);
-+
-+	ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1, &hdmi->sys_offset);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "Failed to get system configuration registers\n");
-+
-+	hdmi->cec_dev = &cec_pdev->dev;
-+	return 0;
-+}
-+
-+static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
-+				   struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct device_node *np = dev->of_node;
-+	struct device_node *remote, *i2c_np;
-+	int ret;
-+
-+	ret = mtk_hdmi_get_all_clk(hdmi, np);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get clocks\n");
- 
- 	hdmi->regs = device_node_to_regmap(dev->of_node);
--	if (IS_ERR(hdmi->regs)) {
--		ret = PTR_ERR(hdmi->regs);
--		goto put_device;
--	}
-+	if (IS_ERR(hdmi->regs))
-+		return PTR_ERR(hdmi->regs);
- 
- 	remote = of_graph_get_remote_node(np, 1, 0);
--	if (!remote) {
--		ret = -EINVAL;
--		goto put_device;
--	}
-+	if (!remote)
-+		return -EINVAL;
- 
- 	if (!of_device_is_compatible(remote, "hdmi-connector")) {
- 		hdmi->next_bridge = of_drm_find_bridge(remote);
- 		if (!hdmi->next_bridge) {
- 			dev_err(dev, "Waiting for external bridge\n");
- 			of_node_put(remote);
--			ret = -EPROBE_DEFER;
--			goto put_device;
-+			return -EPROBE_DEFER;
- 		}
- 	}
- 
- 	i2c_np = of_parse_phandle(remote, "ddc-i2c-bus", 0);
- 	of_node_put(remote);
--	if (!i2c_np) {
--		ret = dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
--		goto put_device;
--	}
-+	if (!i2c_np)
-+		return dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
- 
- 	hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
- 	of_node_put(i2c_np);
--	if (!hdmi->ddc_adpt) {
--		ret = dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
--		goto put_device;
--	}
-+	if (!hdmi->ddc_adpt)
-+		return dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
-+
-+	ret = mtk_hdmi_get_cec_dev(hdmi, dev, np);
-+	if (ret)
-+		return ret;
- 
- 	return 0;
--put_device:
--	put_device(hdmi->cec_dev);
--	return ret;
- }
- 
- /*
+-	hdmi->csp = HDMI_COLORSPACE_RGB;
+ 	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+ 	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+ 	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
 -- 
 2.47.0
 
