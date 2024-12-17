@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404539F530B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:25:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC2A9F5310
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 18:25:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6FF410EA2F;
-	Tue, 17 Dec 2024 17:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E86410EA31;
+	Tue, 17 Dec 2024 17:25:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EogvqqU9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IXeMSPbb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4020310EA2F
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 17:24:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F46810EA31
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 17:25:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 55A1F5C5E33;
- Tue, 17 Dec 2024 17:24:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB3A0C4CED7;
- Tue, 17 Dec 2024 17:24:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5B8205C66F5;
+ Tue, 17 Dec 2024 17:24:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70CBCC4CEE2;
+ Tue, 17 Dec 2024 17:25:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734456295;
- bh=1neTtSopNryfSXJpUTztXfgdin2CdL3yui9SkHic7sc=;
+ s=k20201202; t=1734456309;
+ bh=nCvy4GS2XUqGmqTA94soHiboSzyVX7nHBtkKXyCp+Cw=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=EogvqqU9oOnJ5EIFzyyngkskqdGRCP/nWMjNGQJtCFKlESW9sUMqjJVTyNyVoQnq+
- 4yNdtA2nMz0N1XY2WBX1TdDY+vqBXBMoOHrORVPaD+OOb1J/1G7Dttwkf65CrfLYsA
- qiKUoUCw4nKMckzclhvvPO3LcLATPPlSJhGbmKJZAT3FXKUfKqVLnHkSVxKAx5Cs97
- /F6P3waG2AKau25BW5taRar4r1CPCr3bVwUimy9TR5Mh/vjduIIlAuZmwMOAUI1Pkk
- zjqJQOKuyDMXS6Nkhys8TXhpfnApHj8yLwZTaVkPcMvjTzmaYhpRa149+pxMeY2N8f
- 5XHqodI69Xq+w==
-Message-ID: <2dad2c52bb2babf3af0196f17c74a9fa@kernel.org>
-Date: Tue, 17 Dec 2024 17:24:52 +0000
+ b=IXeMSPbb3US4V7xq2w1X5bwx6pWIgZ1xAGN84LaSw+VEEftIbRMCd01KUZ5qcUAjg
+ G1jk8Rt5EUqTwLddGOxGxiddJ4ShkICVMy2YcaF10CzWd2RxBSar788si2r9ARNs6c
+ SgB59cekKqtIDCouRcMPnHWTFbeEj6CzKP5gUL/IDRfI/4jZZeqaXIvFRd/nB1AkJ+
+ SMzNWBYv6x53Fo92UjsXX/SlszevX4pGC9xvsLAFsGdmZ/POgQvP9jLhNAc3f3SSYE
+ Ac0jgrgXf6ngEt3C0M0M0/ud0oNx/c0mZgyv9+f1JDI5YcENrN1CK5HwuneZd4Jn09
+ l+f3EDeTJTHAA==
+Message-ID: <b2ad15d2d5049701f34099e0df7fb727@kernel.org>
+Date: Tue, 17 Dec 2024 17:25:06 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v7 06/10] drm/display/hdmi: implement hotplug functions
-In-Reply-To: <20241217-drm-bridge-hdmi-connector-v7-6-cb9df2b6a515@linaro.org>
-References: <20241217-drm-bridge-hdmi-connector-v7-6-cb9df2b6a515@linaro.org>
+Subject: Re: [PATCH v7 07/10] drm/bridge_connector: hook
+ drm_atomic_helper_connector_hdmi_hotplug()
+In-Reply-To: <20241217-drm-bridge-hdmi-connector-v7-7-cb9df2b6a515@linaro.org>
+References: <20241217-drm-bridge-hdmi-connector-v7-7-cb9df2b6a515@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
@@ -84,12 +85,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Dec 2024 02:40:28 +0200, Dmitry Baryshkov wrote:
-> The HDMI Connectors need to perform a variety of tasks when the HDMI
-> connector state changes. Such tasks include setting or invalidating CEC
-> address, notifying HDMI codec driver, updating scrambler data, etc.
+On Tue, 17 Dec 2024 02:40:29 +0200, Dmitry Baryshkov wrote:
+> Extend drm_bridge_connector code to read the EDID and use it to update
+> connector status if the bridge chain implements HDMI bridge. Performing
+> it from the generic location minimizes individual bridge's code and
+> enforces standard behaviour from all corresponding drivers.
 > 
-> Implementing such tasks in a driver-specific callbacks is error prone.
 > 
 > [ ... ]
 
