@@ -2,91 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A0609F3FB9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 02:08:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 520839F3FE1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 02:18:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDA4310E821;
-	Tue, 17 Dec 2024 01:08:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Ng/LOFFn";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8108C10E634;
+	Tue, 17 Dec 2024 01:18:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 28FDA10E816
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 01:08:32 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id
- 4fb4d7f45d1cf-5d0d32cd31aso5812809a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 17:08:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1734397711; x=1735002511;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=x5HbsH3y11AUtX77RP9ShUJxU46vkQ8YNLD+VoIrduA=;
- b=Ng/LOFFnpfNeS7KVGqme+5pWyFl9oejhEHSt0KUJLe29w3wWNqSP76CfU9k6+6vQPL
- pu1vtH2GLoX+2qTS0mujV/SzhXffygVC5cAbaU15o99tD7Gwt9sbo8dq4bLagNKnrEME
- H2TgBFZfONRnaAWZ6T1ts8idJCdxSfRACc4B8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734397711; x=1735002511;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=x5HbsH3y11AUtX77RP9ShUJxU46vkQ8YNLD+VoIrduA=;
- b=E9d+GtcpAqmNw0IqnmAkj7LbjHIm7LLSfAGCvVh/qC+/q0ORNElD1zGZoY3eIaQ3Zz
- 3xmhQOnWAPXpseoEZxgIx/OWubXICYzm0hJ2jEN6ywub3/ak7bc1ZZLel12ngTdtq/TQ
- TK2nh1jmidDdyn/o2KfW4zHHdMLcy+mp7NCHEQxz7J1H840Jj6BcM4G+jfQ5sRd2QWOD
- 5UXbUUiOI99UOHsl6BUGNuM7SfYL792l9b8TvR/FYRSSj9vOMx+rtFBfqcnNBlJcOBpp
- NIjTNRpjt4YDBN3mYZfOaTBiB7yizcjCzcOxBlDgCmDTx6RE4Hmf9uS1fTDyM+73wJco
- BN8g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVpiWTs+ejd0mR/goQXxCJWKZNzXcB73o3Hdnqd7ffCejNT0UXq6/Ck0dj3fH1WIu+Cp22yvRc2k90=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx97FBCaKLbK2vXbKqchKCP9Uzx1tT5W0FLzn5Sd8ODYJJjkZ5f
- kiwmsHA/z1sSGM6WrNKDRWRR93nVIn4xHIqBR8jbbPR3QDKbfWdz5x6hfDjFswJDm75aL7EPVet
- inHg=
-X-Gm-Gg: ASbGncsT94WeWgMF3fy9tOpPUnRkc2TfEsQy9pAoCvB6RNS9Wrpo8xxz7DGsu1vbwG5
- 3nSfAUfTFun7e/4Brf7bIJwPX5u8pKeV0tIT+3ROF7YmjXG43Tdp/XtjdkTDZ3rzjzbtcDgzy36
- mNH4RQpierUEN7NMYALSg+dHEIjTnxsUwqkiZpVyXNEdnBfJxzQ3lDZolk9oHgdZqg8hmdowQuR
- RpuNaz2rwiFUHe8XM26DAaUXvIv99bH3uR0S4EUsDV2GZfVC3ESt+Ou/u97P3MWTsGt86i9A2+m
- vVgoE93UOxHD/LgNHZPYzfVj/gONO78=
-X-Google-Smtp-Source: AGHT+IGLWpr3CBeeBiadp6EfkbhMCnkVlpEX1vlpaKxq9qjKaoYdxtg6TdNH0hAoc8IBFFwfftydIw==
-X-Received: by 2002:a05:6402:528c:b0:5d0:c697:1f02 with SMTP id
- 4fb4d7f45d1cf-5d63c3408e7mr38561710a12.17.1734397711276; 
- Mon, 16 Dec 2024 17:08:31 -0800 (PST)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com.
- [209.85.218.48]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d652f25acesm3678524a12.62.2024.12.16.17.08.30
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Dec 2024 17:08:30 -0800 (PST)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-aa6b4cc7270so640809766b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Dec 2024 17:08:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtq1Nv5gQuSuYxy1NMGDTRbNCOyOCtNdvL8cb+YqYmTjW3HeDJVzTJgc7GInswyOULCg1ZH/T36OU=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:27d4:b0:5d0:d91d:c197 with SMTP id
- 4fb4d7f45d1cf-5d63c3db906mr36599487a12.27.1734397709817; Mon, 16 Dec 2024
- 17:08:29 -0800 (PST)
+Received: from pidgin.makrotopia.org (pidgin.makrotopia.org
+ [IPv6:2a07:2ec0:3002::65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6854210E634
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 01:18:11 +0000 (UTC)
+Received: from local
+ by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256)
+ (Exim 4.98) (envelope-from <daniel@makrotopia.org>)
+ id 1tNMDs-000000004YP-4BIn; Tue, 17 Dec 2024 01:18:05 +0000
+Date: Tue, 17 Dec 2024 01:18:01 +0000
+From: Daniel Golle <daniel@makrotopia.org>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Justin Green <greenjustin@chromium.org>,
+ Frank Wunderlich <frank-w@public-files.de>,
+ John Crispin <john@phrozen.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2] drm/mediatek: only touch DISP_REG_OVL_PITCH_MSB if AFBC
+ is supported
+Message-ID: <c7fbd3c3e633c0b7dd6d1cd78ccbdded31e1ca0f.1734397800.git.daniel@makrotopia.org>
 MIME-Version: 1.0
-References: <20241213054610.55843-1-laoar.shao@gmail.com>
- <20241213054610.55843-6-laoar.shao@gmail.com>
-In-Reply-To: <20241213054610.55843-6-laoar.shao@gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Dec 2024 17:08:13 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj=W-4Eu=g83QPUDB+thtL=uY=_1OAVRvXJP=zay+K4Qg@mail.gmail.com>
-Message-ID: <CAHk-=wj=W-4Eu=g83QPUDB+thtL=uY=_1OAVRvXJP=zay+K4Qg@mail.gmail.com>
-Subject: Re: [PATCH 5/7] security: Replace get_task_comm() with %pTN
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: akpm@linux-foundation.org, linux-kernel@vger.kernel.org, 
- linux-security-module@vger.kernel.org, x86@kernel.org, 
- linux-snps-arc@lists.infradead.org, linux-wireless@vger.kernel.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- ocfs2-devel@lists.linux.dev, Kees Cook <kees@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
- "Serge E. Hallyn" <serge@hallyn.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,17 +50,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Dec 2024 at 21:47, Yafang Shao <laoar.shao@gmail.com> wrote:
->
-> Since task->comm is guaranteed to be NUL-terminated, we can print it
-> directly without the need to copy it into a separate buffer.
+Touching DISP_REG_OVL_PITCH_MSB leads to video overlay on MT2701, MT7623N
+and probably other older SoCs being broken.
 
-So i think we should do the "without copying into a separate buffer"
-part of this series, but I do think we should just accept "%s" and
-"task->comm".
+Move setting up AFBC layer configuration into a separate function only
+being called on hardware which actually supports AFBC which restores the
+behavior as it was before commit c410fa9b07c3 ("drm/mediatek: Add AFBC
+support to Mediatek DRM driver") on non-AFBC hardware.
 
-IOW - getting rid of get_task_comm() is good.
+Fixes: c410fa9b07c3 ("drm/mediatek: Add AFBC support to Mediatek DRM driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+---
+v2: move AFBC layer config into a new function
 
-But the "%pTN" pointer format ends up being unnecessary.
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 57 +++++++++++++------------
+ 1 file changed, 29 insertions(+), 28 deletions(-)
 
-          Linus
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index f731d4fbe8b6..e0e24f0a6edd 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -460,6 +460,29 @@ static unsigned int mtk_ovl_fmt_convert(struct mtk_disp_ovl *ovl,
+ 	}
+ }
+ 
++static void mtk_ovl_afbc_layer_config(struct mtk_disp_ovl *ovl,
++				      unsigned int idx,
++				      struct mtk_plane_pending_state *pending,
++				      struct cmdq_pkt *cmdq_pkt)
++{
++	unsigned int pitch_msb = pending->pitch >> 16;
++	unsigned int hdr_pitch = pending->hdr_pitch;
++	unsigned int hdr_addr = pending->hdr_addr;
++
++	if (pending->modifier != DRM_FORMAT_MOD_LINEAR) {
++		mtk_ddp_write_relaxed(cmdq_pkt, hdr_addr, &ovl->cmdq_reg, ovl->regs,
++				      DISP_REG_OVL_HDR_ADDR(ovl, idx));
++		mtk_ddp_write_relaxed(cmdq_pkt,
++				      OVL_PITCH_MSB_2ND_SUBBUF | pitch_msb,
++				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
++		mtk_ddp_write_relaxed(cmdq_pkt, hdr_pitch, &ovl->cmdq_reg, ovl->regs,
++				      DISP_REG_OVL_HDR_PITCH(ovl, idx));
++	} else {
++		mtk_ddp_write_relaxed(cmdq_pkt, pitch_msb,
++				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
++	}
++}
++
+ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 			  struct mtk_plane_state *state,
+ 			  struct cmdq_pkt *cmdq_pkt)
+@@ -467,25 +490,13 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 	struct mtk_disp_ovl *ovl = dev_get_drvdata(dev);
+ 	struct mtk_plane_pending_state *pending = &state->pending;
+ 	unsigned int addr = pending->addr;
+-	unsigned int hdr_addr = pending->hdr_addr;
+-	unsigned int pitch = pending->pitch;
+-	unsigned int hdr_pitch = pending->hdr_pitch;
++	unsigned int pitch_lsb = pending->pitch & GENMASK(15, 0);
+ 	unsigned int fmt = pending->format;
+ 	unsigned int offset = (pending->y << 16) | pending->x;
+ 	unsigned int src_size = (pending->height << 16) | pending->width;
+ 	unsigned int blend_mode = state->base.pixel_blend_mode;
+ 	unsigned int ignore_pixel_alpha = 0;
+ 	unsigned int con;
+-	bool is_afbc = pending->modifier != DRM_FORMAT_MOD_LINEAR;
+-	union overlay_pitch {
+-		struct split_pitch {
+-			u16 lsb;
+-			u16 msb;
+-		} split_pitch;
+-		u32 pitch;
+-	} overlay_pitch;
+-
+-	overlay_pitch.pitch = pitch;
+ 
+ 	if (!pending->enable) {
+ 		mtk_ovl_layer_off(dev, idx, cmdq_pkt);
+@@ -524,11 +535,12 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 	}
+ 
+ 	if (ovl->data->supports_afbc)
+-		mtk_ovl_set_afbc(ovl, cmdq_pkt, idx, is_afbc);
++		mtk_ovl_set_afbc(ovl, cmdq_pkt, idx,
++				 pending->modifier != DRM_FORMAT_MOD_LINEAR);
+ 
+ 	mtk_ddp_write_relaxed(cmdq_pkt, con, &ovl->cmdq_reg, ovl->regs,
+ 			      DISP_REG_OVL_CON(idx));
+-	mtk_ddp_write_relaxed(cmdq_pkt, overlay_pitch.split_pitch.lsb | ignore_pixel_alpha,
++	mtk_ddp_write_relaxed(cmdq_pkt, pitch_lsb | ignore_pixel_alpha,
+ 			      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH(idx));
+ 	mtk_ddp_write_relaxed(cmdq_pkt, src_size, &ovl->cmdq_reg, ovl->regs,
+ 			      DISP_REG_OVL_SRC_SIZE(idx));
+@@ -537,19 +549,8 @@ void mtk_ovl_layer_config(struct device *dev, unsigned int idx,
+ 	mtk_ddp_write_relaxed(cmdq_pkt, addr, &ovl->cmdq_reg, ovl->regs,
+ 			      DISP_REG_OVL_ADDR(ovl, idx));
+ 
+-	if (is_afbc) {
+-		mtk_ddp_write_relaxed(cmdq_pkt, hdr_addr, &ovl->cmdq_reg, ovl->regs,
+-				      DISP_REG_OVL_HDR_ADDR(ovl, idx));
+-		mtk_ddp_write_relaxed(cmdq_pkt,
+-				      OVL_PITCH_MSB_2ND_SUBBUF | overlay_pitch.split_pitch.msb,
+-				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
+-		mtk_ddp_write_relaxed(cmdq_pkt, hdr_pitch, &ovl->cmdq_reg, ovl->regs,
+-				      DISP_REG_OVL_HDR_PITCH(ovl, idx));
+-	} else {
+-		mtk_ddp_write_relaxed(cmdq_pkt,
+-				      overlay_pitch.split_pitch.msb,
+-				      &ovl->cmdq_reg, ovl->regs, DISP_REG_OVL_PITCH_MSB(idx));
+-	}
++	if (ovl->data->supports_afbc)
++		mtk_ovl_afbc_layer_config(ovl, idx, pending, cmdq_pkt);
+ 
+ 	mtk_ovl_set_bit_depth(dev, idx, fmt, cmdq_pkt);
+ 	mtk_ovl_layer_on(dev, idx, cmdq_pkt);
+-- 
+2.47.1
