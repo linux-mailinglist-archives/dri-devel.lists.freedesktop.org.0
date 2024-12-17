@@ -2,165 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38669F4B39
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F15179F4B3C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:50:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A2D110E961;
-	Tue, 17 Dec 2024 12:48:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04C1A10E964;
+	Tue, 17 Dec 2024 12:50:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yclppoex";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FwI+XeuR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2045.outbound.protection.outlook.com [40.107.92.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C22E910E965
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:48:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M7/gbMWchcYAxUmw3o27yQANb5FKuHAnzR7UDnSE5REl8lyn4lRyhQLBmUESLjqrLKP7rpw6j+f1Ahwd0SNssm+HXo6U4oFqSjUpihaJmLJcMism5oo4nigvROJ9d3uJROz5pI9BTv3RIVuoJidrcq/J/uvvNWwIVfIV6VXeB1i/HlqKkLwLjvRHOjssYCo0a8p16zDl0LkVck86WVuGKltSm8de//Wejbnlr+H24Laf27gQCBSXRLUrZYUhnHe/f6paWNVjvezXtJujOVDC2d3pYYzv8IlG+Kw1uqcZQY+eTcyOgGY+z6XITulfu2KAPXWeK3da0s3Z6wd6oYT+FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DqNWNP003BycMSYVoEMe3I0kboMTYghxxFlobcfn9co=;
- b=PuX78QoiQpW+671hoidTJLhyruiLqjwZDUjEzyoH2/Z2xBmZ9LxEgjAdgjdJSsrFFRRQzYKpRabIBtvsDllOiaL2hWsZ9tL60EBf8oRt70DPpppBYT0MnjwbprmMdcwdENROGYj0ATlqiPMQLdnFTqHZkCJPvzGXRsYSFHV+WRABBCL4+QwtaSFtKLDNq4LSPxvhUSQmv2tUw88jHb/RZtc7Zgu+fmf6gdBxSY/JS5vQIQqh3hjSJtnM+uOulYsH3/3LOva/W4+o6Ot+yzdMQDXOhV5X2Yi0Ia3tqiOc3jUMannhSVBGYU3YaiUBhfvpTmDGkQbYuTpitpXxXVPnGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DqNWNP003BycMSYVoEMe3I0kboMTYghxxFlobcfn9co=;
- b=yclppoexhdCc+gq0bgTw6hI44eMn4yRWBH73JjdokwITKhXtxFVFju8cPPXSLgeAGIN/vh+SVHh576BhbirhVfgA46YpLDd+N0tZ0SrpYiO4ZJB1BvdWgcO6l+MLdDZMPMtGDvj0eXwpKUwZxpKtDlBVdBFBMtGPZHwos+ntXcE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH7PR12MB7139.namprd12.prod.outlook.com (2603:10b6:510:1ef::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Tue, 17 Dec
- 2024 12:48:06 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8272.005; Tue, 17 Dec 2024
- 12:48:06 +0000
-Content-Type: multipart/alternative;
- boundary="------------255vZAZTU7Fn2quDOZnB1Kfy"
-Message-ID: <e8759159-b141-410b-be08-aad54eaed41f@amd.com>
-Date: Tue, 17 Dec 2024 13:47:57 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] cover-letter: Allow MMIO regions to be exported
- through dmabuf
-To: Wei Lin Guay <wguay@meta.com>
-Cc: Keith Busch <kbusch@kernel.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "jgg@nvidia.com" <jgg@nvidia.com>,
- "vivek.kasireddy@intel.com" <vivek.kasireddy@intel.com>,
- Dag Moxnes <dagmoxnes@meta.com>, Nicolaas Viljoen <nviljoen@meta.com>,
- Oded Gabbay <ogabbay@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>
-References: <20241216095429.210792-1-wguay@fb.com>
- <89d9071b-0d3e-4fcd-963b-7aa234031a38@amd.com>
- <Z2BbPKvbxm7jvJL9@kbusch-mbp.dhcp.thefacebook.com>
- <0f207bf8-572a-4d32-bd24-602a0bf02d90@amd.com>
- <C369F330-5BAD-4AC6-A13C-EEABD29F2F08@meta.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <C369F330-5BAD-4AC6-A13C-EEABD29F2F08@meta.com>
-X-ClientProxiedBy: FR2P281CA0131.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::14) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 725E210E967
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
+ :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=jNmgbU6IsFHVUPTr4H0JAC4/T1HxsECMRSHE6c8AFR0=; b=FwI+XeuR6XBVOaipuGj/OMkAmo
+ 9iymHfUSfAhojZ5IAmJhU3ehd1QzqbuSj4zBrSPxsRjyo7fw++yfJgHxZJYHGYXIVRyRBkD6oWMJz
+ h7Rq6MBLOQjcjS6GhzSmFA3X5HO2y90wlHJzwoNdI1KInJUpHLPJ3NotL8+lqeo9KjOM2CysZ+4Fc
+ xkigDRNk5Sb/FsotCEzoNVG/C0JuDPVpqvTN3CiIiwuxGXFAtL4BSLwnupYa+NEG+X9OvGLGD7nnU
+ RJjM5AzXf7zAJIJ9YfPs9GgAESkWIw0530NGl+2rd31PxTb7beLtTU/eH7z2gndNrDjs8oWH/XMHs
+ gdUuTEvg==;
+Received: from [179.214.71.67] (helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tNX22-004N4A-3a; Tue, 17 Dec 2024 13:50:34 +0100
+Date: Tue, 17 Dec 2024 09:50:16 -0300
+From: Melissa Wen <mwen@igalia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Maxime Ripard <mripard@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v2 1/4] drm/vc4: Use DRM Execution Contexts
+Message-ID: <dusu3mdjxapqlvh7u4mybyn3et652mvqgehdqp2hwgg3jvean3@3nlvrv7afth2>
+References: <20241212202337.381614-1-mcanal@igalia.com>
+ <20241212202337.381614-2-mcanal@igalia.com>
+ <tmg5jqpts47oqwuohcutyw44nlhvjz44ctsxogtwvjeky7hdwv@ykux7b3rrsco>
+ <2147b626-f305-4b3c-93a0-14b5b0845e89@amd.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB7139:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8fb1834-0413-4557-4dd2-08dd1e990d60
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|1800799024|376014|366016|8096899003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UURuQndrUHc1VEIzUm02SmtyNGV5VDUxL3hxZHdvQ1I3MWFseVBJWnpMMUZX?=
- =?utf-8?B?T2dzL1E0ZGVmbWNQQklKRXFubGdsTmQzUkpHWUVEQXc3SEMxU0RsMXdaTysw?=
- =?utf-8?B?ZnMvUU9wRTI3YWNCQlpwU0NQZG9SOVU5dTAxUFpjUzNSZWFZTzNVcVVzWkN5?=
- =?utf-8?B?QmUyVzdnTlJxK0NMN1dscXJqK0taZlhYODJibFhmamxGTjBpb0VZVnErcGRs?=
- =?utf-8?B?V1RleTIvbGJNZy9YcmZaNkxCTHFpVE9sLzcwaFdURUxVZUEwOWkwU25wV25O?=
- =?utf-8?B?ZzZuMzJVQW5tRHorVmhneWxCYjJzTm9hZ04zT1JTbkNjSFJKNjBMbTh6Zldk?=
- =?utf-8?B?ZzBlMXE1NFNBZ1dNc211cWY3T05xZGROWTJJa2ROcHRFMDZNMnNpci84VWQv?=
- =?utf-8?B?c0xNbExZZlB0cjVrOTJyS3U0V2RoYUJ1aUlRUUlzcUJodzhhSHlxMk1qaGxV?=
- =?utf-8?B?aUwwUW9JcGpmYVNuYmpsdWdCdTNGUytFczVzK3U0ejlXUXE2ZG9DUE9YQlF6?=
- =?utf-8?B?OG9DME5pa2t4NmNsUzlXb0dtUWoyUUo0Um9MRGZBTFZaOEVhL01hL3djcnlL?=
- =?utf-8?B?UElqRCtxejk0OGpndW5uZ21DbSswVWtocEpGSEpEbU12V1VKRExwWEZ6OHBS?=
- =?utf-8?B?NUk4M3R0bVNMbzUrR0pPL29BTFEwL3duUDVXTklXTkRzTVM0anBQNFU3R1Bh?=
- =?utf-8?B?YytISFM3bWpFQU10SFdjWUZwblVGQ1Jwb25pZlBXN3RCaHFUeE1WQys5LzhC?=
- =?utf-8?B?ZjFMVzB4NnZCbUg2eUYxMDJMQUthaW8zSFJMRjhLZ2Q0UmhtNE5CSzBsRm4v?=
- =?utf-8?B?UEZkSTMxbExLdVU4VHBSVU5oQlhvaW0xTXkyb3hQeXZzbC83RVZxRmNUN29X?=
- =?utf-8?B?eTl4Y29scXBVdTdmTVFFMlA0M3FOaXB5UWtqUVVLb0oveHFoRmZiQnY2Nnkz?=
- =?utf-8?B?aGhrQ2hxcGRWMDVWVjNkdXNKL1lWaHE0VUVyY0ozVEFTbnRTVHlldGZnR3lE?=
- =?utf-8?B?WWx5eDExcTk0UXhHQmwybEpvdlcyVFVodHJtZnJndWNiRG91YXozc0RNREsx?=
- =?utf-8?B?eVl3cGdRV3ZZR0pKMkxJOStBSjhnVlhOb1VDZkVUVkxWeVlMRGxIV0M0WTlz?=
- =?utf-8?B?YURtdFR2L3FHUW5tTHVUYm1OaEdrNTFwajZZb1FRM2VpYXFQTWc0UzJMZ0JM?=
- =?utf-8?B?Zi8xU2dpMXY3Rzc3b05xVnFyUmxqZkxSeTMvRkkrbm03TVJTdXBiaVhBQzNl?=
- =?utf-8?B?alNuMXdvOUJWakJjN2xGMzlhQlBvTnA3VGIzMVNjcXRCeFNEZXR2VlZFUWxy?=
- =?utf-8?B?K3JnUXRvUUpmRXZPNXNWdU9lQ1BpQy9mbFhUaXJGaDRteng5eWlzMUJVQWdM?=
- =?utf-8?B?NkM2Q0dlTC9zeGZXaCtqM3BXc0lUeXQvYzZDdTRGczlHbFgwUUJJV2dHdXNk?=
- =?utf-8?B?bFIzWkRVRWZ4eEtlQWVRY2I1WUIxc2MzZHRuSm9SMGVyRnVBZUNjV2N2TThF?=
- =?utf-8?B?OWtqV2NkenNrMXpSRUVDQ3NHTndUNklXNFg1bWh3ME9KRm1OM3BDOW9PdVNr?=
- =?utf-8?B?YTZxenh1b2doNEpCWExFbklDVUo2RnVBMHN2Z3lWZGFNZ3BGN0JBbHd3dmg3?=
- =?utf-8?B?RHB6M0VTTDZEWGFWUjgzTXRqRUx4b3VJQWYyNjQ0THg0TmxKZU04ZGR5VlRa?=
- =?utf-8?B?eHdNS254dU9nZUQ2QnF0Q2ExOTFtQnhndkpzMEdHdUpLdHBDM3pSK2lpU3l6?=
- =?utf-8?B?dDczNmljTHYrMlFlZHlQdUZHQy8vT2F4MExYNnhVcUxTcVRaaDY1L0g4RDh6?=
- =?utf-8?B?cUVuQUhQL2FzRmtTUldOekFFZ3RqbWR0NGtGTW1CZzEyazBWL3E1YndlM1Fr?=
- =?utf-8?Q?ezO3TqeY6aXSZ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016)(8096899003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TXhEdXUvS3JQL2xtUzZsRGhCMWlra0xHcmhVZHRUTkE1eWlRRUlMenZqLzVn?=
- =?utf-8?B?ZUtpOWUzQWo5NStUUENlYStOVGNiRXNWYW9sUVg5SHAxeHVVSHMyMlVOWnhu?=
- =?utf-8?B?YzRxeHhHbTk3cWFybExQYjBpLzN3RUdrNG9uTFk1ei9FUHpxYndPUGF6NEhH?=
- =?utf-8?B?Z2svNXpsbHZZRG1pSHppZjViUEEwbVBlOW1JTzMwSGtiQnZHcG9ZVEVyekda?=
- =?utf-8?B?bFJJMmhaNXIzMERrVVAyWHExNmNGZjAzOVVlMVovOFU2QVdhZDdyL1NYTDl2?=
- =?utf-8?B?K0ZLcjhvemRkVXpERWY1eGNCNUZXeE9TZTd4Y2VOcGtLZ0NsY2dEcmIwY2x1?=
- =?utf-8?B?WkVjRkdYaC9CUWdhbmF5ZXhOSTVwMW9TcWprSHFhK21qL3hPZHpVSGYxTllv?=
- =?utf-8?B?MTBTa3VMNHJhZ0R0VG92VHM0dkkxRUR6aGcyd01RS2I1WnNxOUlmMkhTUHMz?=
- =?utf-8?B?cVg1V2FCSXFtcmZocVh2T1Z1b1o1STZiSGNXUFdXcFVGVDdFditBU2JURnhu?=
- =?utf-8?B?MGNzY0xGR1YyUHZiSnlTMHZueDJ6QTdwRWFVSWprU1BOQWE3WnRqS2JqUmJx?=
- =?utf-8?B?M1dFQzc2aTgyUkFlVkM1SnB4aWZ5emQvdWYwNlNtVTl3MW54VmFEZXF3NlAr?=
- =?utf-8?B?ajZURDMwVDN3eVI1UW5yOVE2cldvRzRxNzFsaUhOekhXWStoejh2aEljWlIy?=
- =?utf-8?B?b1dpSDJOeFVFMFRDTHNsT21yNEg3M2ZUeEJXUjFVQVBqN1Z3ZWxlMXpqT3Rq?=
- =?utf-8?B?cEtyZVNsanR1VGdaUzc5MWI1NzhXTjh4RTBOWVJNeTQ5R3ZNd09HNCtLY01X?=
- =?utf-8?B?a0RFVUtsZTVBZkxhQ1ZWT2NKSmRodlVJY09NN0g0M1NWYzRseXl0ejlKTThQ?=
- =?utf-8?B?bnhJYkkvNzJGLzBrTTdNZUdTMklvVktxQmU3dFQrcVVtYXVOVzUxQitrNEFj?=
- =?utf-8?B?SW96THFMbTM1UExOdFFwUGQvREdXTzVNWlNlb01VQngrRkl3Zk9leGpsUnhM?=
- =?utf-8?B?Sy9YcUFUUFZLSTdjTTd3QzQ3Z3MvNVJLOGNyR3ZIWHViRTlCOHVpM2RsNFlO?=
- =?utf-8?B?WVdjM3ZWZ0RVbTZxWHZlL0sxWm1nVjQyZVF0K2oyN2dFdTI3Q24rQS9PYVVn?=
- =?utf-8?B?TGw1RExudmp4RFZ3NWZFbVVvN00zOE1yWlJ1WjI1ZUlGYTdmdkE2azhKanNV?=
- =?utf-8?B?TVZ1dkNhZFpTRWdvaDZYVVI2OHJrbWs5cDFiSUpsbTdiTFN0UkFCWVpzNUtQ?=
- =?utf-8?B?Z3E0bGJXUks1VU9vODN2ajgvL1JWMndwa3JWVC8ydWptNWxnQUhJRUprYXd3?=
- =?utf-8?B?akE1WnJiWnlDMkdoM1NPV1Fxak1keG5MQ1lzeXp1Q0doZytaRlNyOTVKcjM1?=
- =?utf-8?B?Y05PRUNqMkpWZWlUS0xqaEJzQ3duclJEVzA3NVhYV0tXSVptaElnMTZaSlkr?=
- =?utf-8?B?YjNqeHVBZDFDQ1dTRHl3M3dDWTJyQnFwVDJNaVB5N2ovWWpVSUhybVB5aTVE?=
- =?utf-8?B?RTdYN0pncWZYSUZ6NVRZSC9VRXVRemJraEVHZ1lwWG9jdHNpN1RQb3cvT1p1?=
- =?utf-8?B?NWplLytBQUowNXA1dUtvTWJHMFpiNUdWV2NTbnRFYlJwUFJKUzB1bnMzTmNo?=
- =?utf-8?B?TzlGNDVmNlpBTW5BT0xwT05ibXFIRWNiWXpsUmhkL0cxRXJ0VGFEYzNQbFBq?=
- =?utf-8?B?WDI4OXlab2hadURsT0VDTmIrbTZOS09SYVlUU1FNWTh6MjMwRzYweTVNUUU2?=
- =?utf-8?B?d0szUkpEeHY5eFF1U1dPYURZdHpGMWNlTlRFZityUVhSUWhKOG5XRXUzSmZP?=
- =?utf-8?B?cVdTN0xXTzdoZEN5Ums2ZEN3ZitPRVdHMy9hd1pmVWJRZFJncHEyM21RcjBS?=
- =?utf-8?B?bGFYTjBCcW40ZUJjaU1Vbzk4MWFranF3cUY4a3A1K2lxR1dpeHNPakVJYTZN?=
- =?utf-8?B?eTJSWnpsdXE4Mjh2eFVwZFdudk43ZTg0TDNSUi9lc0t5NUV4TW5FQnR6dlRI?=
- =?utf-8?B?aHR0Y3JnRldBZTAzVnBvejBSSzl3UUVGK0lyM09ody8wZ0Vqd2U5R294dXdt?=
- =?utf-8?B?TjREWUVjNHlMNFA0M0tPdGhxM0hmUWlQbHFaMVhrODZ0UHBXRmRQOS9odExr?=
- =?utf-8?Q?04XLeedMb+09OQ12raJJVUL+G?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8fb1834-0413-4557-4dd2-08dd1e990d60
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 12:48:06.4096 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iPC960Aj1KgK0h7oFj2eWgkQcPppgVzcpWHES1pTXFi/WmqKZTfzkiVNnGIy6rOp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7139
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2147b626-f305-4b3c-93a0-14b5b0845e89@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,168 +66,260 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------255vZAZTU7Fn2quDOZnB1Kfy
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 12/17, Christian K�nig wrote:
+> Am 16.12.24 um 20:08 schrieb Melissa Wen:
+> > On 12/12, Ma�ra Canal wrote:
+> > > VC4 has internal copies of `drm_gem_lock_reservations()` and
+> > > `drm_gem_unlock_reservations()` inside the driver and ideally, we should
+> > > move those hard-coded functions to the generic functions provided by DRM.
+> > > But, instead of using the DRM GEM functions to (un)lock reservations, move
+> > > the new DRM Execution Contexts API.
+> > > 
+> > > Signed-off-by: Ma�ra Canal <mcanal@igalia.com>
+> > > ---
+> > >   drivers/gpu/drm/vc4/Kconfig   |  1 +
+> > >   drivers/gpu/drm/vc4/vc4_gem.c | 99 ++++++++---------------------------
+> > >   2 files changed, 22 insertions(+), 78 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+> > > index c5f30b317698..0627e826fda4 100644
+> > > --- a/drivers/gpu/drm/vc4/Kconfig
+> > > +++ b/drivers/gpu/drm/vc4/Kconfig
+> > > @@ -13,6 +13,7 @@ config DRM_VC4
+> > >   	select DRM_DISPLAY_HDMI_HELPER
+> > >   	select DRM_DISPLAY_HDMI_STATE_HELPER
+> > >   	select DRM_DISPLAY_HELPER
+> > > +	select DRM_EXEC
+> > >   	select DRM_KMS_HELPER
+> > >   	select DRM_GEM_DMA_HELPER
+> > >   	select DRM_PANEL_BRIDGE
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
+> > > index 22bccd69eb62..1021f45cb53c 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_gem.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_gem.c
+> > > @@ -29,6 +29,7 @@
+> > >   #include <linux/sched/signal.h>
+> > >   #include <linux/dma-fence-array.h>
+> > > +#include <drm/drm_exec.h>
+> > >   #include <drm/drm_syncobj.h>
+> > >   #include "uapi/drm/vc4_drm.h"
+> > > @@ -578,19 +579,6 @@ vc4_update_bo_seqnos(struct vc4_exec_info *exec, uint64_t seqno)
+> > >   	}
+> > >   }
+> > > -static void
+> > > -vc4_unlock_bo_reservations(struct drm_device *dev,
+> > > -			   struct vc4_exec_info *exec,
+> > > -			   struct ww_acquire_ctx *acquire_ctx)
+> > > -{
+> > > -	int i;
+> > > -
+> > > -	for (i = 0; i < exec->bo_count; i++)
+> > > -		dma_resv_unlock(exec->bo[i]->resv);
+> > > -
+> > > -	ww_acquire_fini(acquire_ctx);
+> > > -}
+> > > -
+> > >   /* Takes the reservation lock on all the BOs being referenced, so that
+> > >    * at queue submit time we can update the reservations.
+> > >    *
+> > > @@ -599,70 +587,23 @@ vc4_unlock_bo_reservations(struct drm_device *dev,
+> > >    * to vc4, so we don't attach dma-buf fences to them.
+> > >    */
+> > >   static int
+> > > -vc4_lock_bo_reservations(struct drm_device *dev,
+> > > -			 struct vc4_exec_info *exec,
+> > > -			 struct ww_acquire_ctx *acquire_ctx)
+> > > +vc4_lock_bo_reservations(struct vc4_exec_info *exec,
+> > > +			 struct drm_exec *exec_ctx)
+> > >   {
+> > > -	int contended_lock = -1;
+> > > -	int i, ret;
+> > > -	struct drm_gem_object *bo;
+> > > -
+> > > -	ww_acquire_init(acquire_ctx, &reservation_ww_class);
+> > > -
+> > > -retry:
+> > > -	if (contended_lock != -1) {
+> > > -		bo = exec->bo[contended_lock];
+> > > -		ret = dma_resv_lock_slow_interruptible(bo->resv, acquire_ctx);
+> > > -		if (ret) {
+> > > -			ww_acquire_done(acquire_ctx);
+> > > -			return ret;
+> > > -		}
+> > > -	}
+> > > -
+> > > -	for (i = 0; i < exec->bo_count; i++) {
+> > > -		if (i == contended_lock)
+> > > -			continue;
+> > > -
+> > > -		bo = exec->bo[i];
+> > > -
+> > > -		ret = dma_resv_lock_interruptible(bo->resv, acquire_ctx);
+> > > -		if (ret) {
+> > > -			int j;
+> > > -
+> > > -			for (j = 0; j < i; j++) {
+> > > -				bo = exec->bo[j];
+> > > -				dma_resv_unlock(bo->resv);
+> > > -			}
+> > > -
+> > > -			if (contended_lock != -1 && contended_lock >= i) {
+> > > -				bo = exec->bo[contended_lock];
+> > > -
+> > > -				dma_resv_unlock(bo->resv);
+> > > -			}
+> > > -
+> > > -			if (ret == -EDEADLK) {
+> > > -				contended_lock = i;
+> > > -				goto retry;
+> > > -			}
+> > > -
+> > > -			ww_acquire_done(acquire_ctx);
+> > > -			return ret;
+> > > -		}
+> > > -	}
+> > > -
+> > > -	ww_acquire_done(acquire_ctx);
+> > > +	int ret;
+> > >   	/* Reserve space for our shared (read-only) fence references,
+> > >   	 * before we commit the CL to the hardware.
+> > >   	 */
+> > > -	for (i = 0; i < exec->bo_count; i++) {
+> > > -		bo = exec->bo[i];
+> > > +	drm_exec_init(exec_ctx, DRM_EXEC_INTERRUPTIBLE_WAIT, exec->bo_count);
+> > > +	drm_exec_until_all_locked(exec_ctx) {
+> > > +		ret = drm_exec_prepare_array(exec_ctx, exec->bo,
+> > > +					     exec->bo_count, 1);
+> > Hi Ma�ra,
+> > 
+> > So, I'm not familiar too drm_exec, but the original implementation of
+> > vc4_lock_bo_reservations() has a retry of locks from the contention and
+> > I don't see it inside the drm_exec_prepare_array(), why don't use the
+> > loop drm_exec_prepare_obj() plus drm_exec_retry_on_contention() (similar
+> > to the typical usage documented for drm_exec)?
+> 
+> The way how drm_exec and drm_exec_prepare_array is used seems to be correct
+> here.
+> 
+> drm_exec_prepare_array() basically just loops over all the GEM BOs in the
+> array and calls drm_exec_prepare_obj() on them, so no need to open code
+> that.
+> 
+> drm_exec_retry_on_contention() is only needed if you have multiple calls to
+> drm_exec_prepare_array() or drm_exec_prepare_obj(), so that the loop is
+> restarted in between the calls.
 
-Am 17.12.24 um 12:06 schrieb Wei Lin Guay:
-> [SNIP]
->> Please send that out once more with me on explicit CC.
-> I will resend the patch series. I was experiencing issues with my email client, which inadvertently split the series into two separate emails.
+Current behavior of vc4 is to retry locking the contended lock and then
+all others, instead of just return on error, and I don't see this being
+covered by drm_exec_prepare_array(). vc4 behavior seems closer to what
+is done by MSM, a loop of drm_exec_prepare_obj() plus
+drm_exec_retry_on_contention().
 
-Alternatively I can also copy the code from the list archive and explain 
-why that doesn't work:
+Moreover, I don't see any DRM driver using drm_exec_prepare_array(), so
+maybe updating this function would make it more useful and meet vc4
+current behavior too. Something as below:
 
-+void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
-+{
-+    struct vfio_pci_dma_buf *priv;
-+    struct vfio_pci_dma_buf *tmp;
-+
-+    lockdep_assert_held_write(&vdev->memory_lock);
+```
+int drm_exec_prepare_array(struct drm_exec *exec,
+			   struct drm_gem_object **objects,
+			   unsigned int num_objects,
+			   unsigned int num_fences)
+{
+	int ret;
 
-This makes sure that the caller is holding vdev->memory_lock.
+	for (unsigned int i = 0; i < num_objects; ++i) {
+		ret = drm_exec_prepare_obj(exec, objects[i], num_fences);
+		drm_exec_retry_on_contention(exec); <----- here
+		if (unlikely(ret))
+			return ret;
+	}
 
-+
-+    list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
-+        if (!dma_buf_try_get(priv->dmabuf))
+	return 0;
+}
+```
 
-This here only works because vfio_pci_dma_buf_release() also grabs 
-vdev->memory_lock and so we are protected against concurrent releases.
+WDYT?
 
-+            continue;
-+        if (priv->revoked != revoked) {
-+            dma_resv_lock(priv->dmabuf->resv, NULL);
-+            priv->revoked = revoked;
-+            dma_buf_move_notify(priv->dmabuf);
-+            dma_resv_unlock(priv->dmabuf->resv);
-+        }
-+        dma_buf_put(priv->dmabuf);
+Melissa
 
-The problem is now that this here might drop the last reference which in 
-turn calls vfio_pci_dma_buf_release() which also tries to grab 
-vdev->memory_lock and so results in a deadlock.
-
-+    }
-+}
-
-This pattern was suggested multiple times and I had to rejected it every 
-time because the whole idea is just fundamentally broken.
-
-It's really astonishing how people always come up with the same broken 
-pattern.
-
-Regards,
-Christian.
-
->
->> Apart from that I have to reject the adding of dma_buf_try_get(), that is clearly not something we should do.
->
-> Understood. It appears that Vivek has confirmed that his v2 has resolved the issue. I will follow up with him to determine if he plans to resume his patch, and if so, I will apply my last patch on top of his updated patch series
->
-> Thanks,
-> Wei Lin
->> Thanks,
->> Christian.
->
-
---------------255vZAZTU7Fn2quDOZnB1Kfy
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 17.12.24 um 12:06 schrieb Wei Lin Guay:<br>
-    <blockquote type="cite" cite="mid:C369F330-5BAD-4AC6-A13C-EEABD29F2F08@meta.com">[SNIP]<span style="white-space: pre-wrap">
-</span>
-      <blockquote type="cite">
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap=""></pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-Please send that out once more with me on explicit CC.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I will resend the patch series. I was experiencing issues with my email client, which inadvertently split the series into two separate emails.</pre>
-    </blockquote>
-    <br>
-    Alternatively I can also copy the code from the list archive and
-    explain why that doesn't work:<br>
-    <br>
-    +void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool
-    revoked)<br>
-    +{<br>
-    +&nbsp;&nbsp;&nbsp; struct vfio_pci_dma_buf *priv;<br>
-    +&nbsp;&nbsp;&nbsp; struct vfio_pci_dma_buf *tmp;<br>
-    +<br>
-    +&nbsp;&nbsp;&nbsp; lockdep_assert_held_write(&amp;vdev-&gt;memory_lock);<br>
-    <br>
-    This makes sure that the caller is holding vdev-&gt;memory_lock.<br>
-    <br>
-    +<br>
-    +&nbsp;&nbsp;&nbsp; list_for_each_entry_safe(priv, tmp, &amp;vdev-&gt;dmabufs,
-    dmabufs_elm) {<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (!dma_buf_try_get(priv-&gt;dmabuf))<br>
-    <br>
-    This here only works because vfio_pci_dma_buf_release() also grabs
-    vdev-&gt;memory_lock and so we are protected against concurrent
-    releases.<br>
-    <br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; continue;<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (priv-&gt;revoked != revoked) {<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dma_resv_lock(priv-&gt;dmabuf-&gt;resv, NULL);<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; priv-&gt;revoked = revoked;<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dma_buf_move_notify(priv-&gt;dmabuf);<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dma_resv_unlock(priv-&gt;dmabuf-&gt;resv);<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }<br>
-    +&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; dma_buf_put(priv-&gt;dmabuf);<br>
-    <br>
-    The problem is now that this here might drop the last reference
-    which in turn calls vfio_pci_dma_buf_release() which also tries to
-    grab vdev-&gt;memory_lock and so results in a deadlock.<br>
-    <br>
-    +&nbsp;&nbsp;&nbsp; }<br>
-    +}<br>
-    <br>
-    This pattern was suggested multiple times and I had to rejected it
-    every time because the whole idea is just fundamentally broken.<br>
-    <br>
-    It's really astonishing how people always come up with the same
-    broken pattern.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:C369F330-5BAD-4AC6-A13C-EEABD29F2F08@meta.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Apart from that I have to reject the adding of dma_buf_try_get(), that is clearly not something we should do.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-Understood. It appears that Vivek has confirmed that his v2 has resolved the issue. I will follow up with him to determine if he plans to resume his patch, and if so, I will apply my last patch on top of his updated patch series 
-
-Thanks,
-Wei Lin
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-Thanks,
-Christian.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------255vZAZTU7Fn2quDOZnB1Kfy--
+> 
+> Regards,
+> Christian.
+> 
+> > 
+> > Also, probably you already considered that: we can extend this update to
+> > v3d, right?
+> > 
+> > Melissa
+> > 
+> > > +	}
+> > > -		ret = dma_resv_reserve_fences(bo->resv, 1);
+> > > -		if (ret) {
+> > > -			vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
+> > > -			return ret;
+> > > -		}
+> > > +	if (ret) {
+> > > +		drm_exec_fini(exec_ctx);
+> > > +		return ret;
+> > >   	}
+> > >   	return 0;
+> > > @@ -679,7 +620,7 @@ vc4_lock_bo_reservations(struct drm_device *dev,
+> > >    */
+> > >   static int
+> > >   vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
+> > > -		 struct ww_acquire_ctx *acquire_ctx,
+> > > +		 struct drm_exec *exec_ctx,
+> > >   		 struct drm_syncobj *out_sync)
+> > >   {
+> > >   	struct vc4_dev *vc4 = to_vc4_dev(dev);
+> > > @@ -708,7 +649,7 @@ vc4_queue_submit(struct drm_device *dev, struct vc4_exec_info *exec,
+> > >   	vc4_update_bo_seqnos(exec, seqno);
+> > > -	vc4_unlock_bo_reservations(dev, exec, acquire_ctx);
+> > > +	drm_exec_fini(exec_ctx);
+> > >   	list_add_tail(&exec->head, &vc4->bin_job_list);
+> > > @@ -1123,7 +1064,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+> > >   	struct drm_vc4_submit_cl *args = data;
+> > >   	struct drm_syncobj *out_sync = NULL;
+> > >   	struct vc4_exec_info *exec;
+> > > -	struct ww_acquire_ctx acquire_ctx;
+> > > +	struct drm_exec exec_ctx;
+> > >   	struct dma_fence *in_fence;
+> > >   	int ret = 0;
+> > > @@ -1216,7 +1157,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+> > >   	if (ret)
+> > >   		goto fail;
+> > > -	ret = vc4_lock_bo_reservations(dev, exec, &acquire_ctx);
+> > > +	ret = vc4_lock_bo_reservations(exec, &exec_ctx);
+> > >   	if (ret)
+> > >   		goto fail;
+> > > @@ -1224,7 +1165,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+> > >   		out_sync = drm_syncobj_find(file_priv, args->out_sync);
+> > >   		if (!out_sync) {
+> > >   			ret = -EINVAL;
+> > > -			goto fail;
+> > > +			goto fail_unreserve;
+> > >   		}
+> > >   		/* We replace the fence in out_sync in vc4_queue_submit since
+> > > @@ -1239,7 +1180,7 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+> > >   	 */
+> > >   	exec->args = NULL;
+> > > -	ret = vc4_queue_submit(dev, exec, &acquire_ctx, out_sync);
+> > > +	ret = vc4_queue_submit(dev, exec, &exec_ctx, out_sync);
+> > >   	/* The syncobj isn't part of the exec data and we need to free our
+> > >   	 * reference even if job submission failed.
+> > > @@ -1248,13 +1189,15 @@ vc4_submit_cl_ioctl(struct drm_device *dev, void *data,
+> > >   		drm_syncobj_put(out_sync);
+> > >   	if (ret)
+> > > -		goto fail;
+> > > +		goto fail_unreserve;
+> > >   	/* Return the seqno for our job. */
+> > >   	args->seqno = vc4->emit_seqno;
+> > >   	return 0;
+> > > +fail_unreserve:
+> > > +	drm_exec_fini(&exec_ctx);
+> > >   fail:
+> > >   	vc4_complete_exec(&vc4->base, exec);
+> > > -- 
+> > > 2.47.1
+> > > 
+> 
