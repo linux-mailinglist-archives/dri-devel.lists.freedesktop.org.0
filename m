@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B1F9F445E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 07:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DA239F44A8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 08:00:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A2D10E400;
-	Tue, 17 Dec 2024 06:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D32510E77E;
+	Tue, 17 Dec 2024 07:00:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gDKArG+i";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="h3NIqfy6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1D6910E400
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:53:05 +0000 (UTC)
+ [IPv6:2a01:4f8:201:9162::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97D3D10E414
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 07:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734418384;
- bh=8pybKnNblGBBO5m98T2VCI4WkKLKpY2CIqzKDo5X3NE=;
+ s=mail; t=1734418825;
+ bh=ta6/RfirTMv6/TmEdMRAfKedVPrY5UfkkZ9TaGPE3gs=;
  h=Date:To:Cc:From:Subject:From;
- b=gDKArG+iHtedQF1+0BijosfQx3/b3tS2RsQQnIaAp1kkAirCt1g/+RiVGNOHkr6cs
- bDhwaAN1BYyYeCXJUc8CcK4ptjYu+wWfYwQcnBC3TsznO7PTX85OiMeteiQwFe6Or5
- KyVSCj2KeBvx9GggStP5vgx6zP8q9ZY01mhxVFkjGLU/GG2oX8GtFqpS3Sproq9auG
- BEjPg7zvla6u4LjoK0yTRbV//ARbKaVyyLcSBApimnNmyF8pIPqpsFECB1dDwR0lEY
- gnJ3ljNstQhmH6VWNrjvqiCwzYdzy4tiE1P8UtVFs2jY2HehMXexZIFuiVKq65k5Pe
- Uln+lfinAvUwQ==
+ b=h3NIqfy6KEw9cxag/hB07uhrFPmmP/JIEsCAjglqx4YdEhEBB/DH1MyZLPfD4cOrQ
+ mwsq2PH6/ly5XXb8q9NgN0fxPATnJM8z6mGOl6HsBURBFnrKZIAJrawAmKNeJ8JQmx
+ 0pX8H2WrqvQ8+Z1Dt3lEF2DDjE/L8csyD3scBlWpbebXpi6OVEXu/ztUz+p+08fM9C
+ uLel/2+2kO30x73PSHKAbRxnnp0w9iDsyiJdp8TDZi4DjEeLeiOs9nshhbdtwydIgf
+ hPpLJbBcHadhTt34zKSIiKADi4v0Rt3J+qCZtRyqMXQ0J3NTbShEyasBHnYVFkQhNk
+ QLt2KKEpT5w3Q==
 Received: from [192.168.50.250] (unknown [171.76.86.135])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D63A317E125E;
- Tue, 17 Dec 2024 07:52:58 +0100 (CET)
-Message-ID: <616aa015-9574-4527-9d07-d8d698bbcc3c@collabora.com>
-Date: Tue, 17 Dec 2024 12:22:52 +0530
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C03B117E12AC;
+ Tue, 17 Dec 2024 08:00:20 +0100 (CET)
+Message-ID: <7a1b888f-d7db-4ed7-96cd-3975ace837fb@collabora.com>
+Date: Tue, 17 Dec 2024 12:30:16 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US
@@ -47,7 +47,7 @@ Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
  Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
  Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>
 From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: drm-ci: rockchip: kms_plane@plane-position-hole-dpms flake
+Subject: Re: drm-ci: rockchip: kms_flip@flip-vs-absolute-wf_vblank flake
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,327 +70,147 @@ Hi Maintainers,
 There are some flake test reported for rockchip driver testing in drm-ci.
 
 # Board Name: hp-11A-G6-EE-grunt
+# Bug Report:
 # Failure Rate: 100
 # IGT Version: 1.29-g33adea9eb
 # Linux Version: 6.13.0-rc2
-kms_plane@plane-position-hole-dpms
+kms_flip@flip-vs-absolute-wf_vblank
 
 command: cd "/igt/libexec/igt-gpu-tools" && 
-"/igt/libexec/igt-gpu-tools/kms_plane" "--run-subtest" 
-"plane-position-hole-dpms"
-pid: 920
+"/igt/libexec/igt-gpu-tools/kms_flip" "--run-subtest" 
+"flip-vs-absolute-wf_vblank"
+pid: 1137
 exit status: exit status: 98
 stdout:
 -------
-IGT-Version: 1.29-g33adea9eb (aarch64) (Linux: 6.13.0-rc2-gc72a8c362509 
+IGT-Version: 1.29-g33adea9eb (aarch64) (Linux: 6.13.0-rc2-g1f006005ebf8 
 aarch64)
-Using IGT_SRANDOM=1734342282 for randomisation
+Using IGT_SRANDOM=1734349644 for randomisation
 Opened device: /dev/dri/card1
-Starting subtest: plane-position-hole-dpms
-Using (pipe A + eDP-1) to run the subtest.
-Starting dynamic subtest: pipe-A-plane-1
+Using monotonic timestamps
+Starting subtest: flip-vs-absolute-wf_vblank
+Starting dynamic subtest: A-eDP1
+   2400x1600: 60 266666 2400 2448 2480 2564 1600 1603 1613 1733 0x48 0xa
+Expected frametime: 16663us; measured 16660.9us +- 46.199us accuracy 0.83%
 Stack trace:
    #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-   #1 ../lib/igt_pipe_crc.c:125 igt_check_crc_equal()
-   #2 ../tests/kms_plane.c:320 test_plane_position()
-   #3 ../tests/kms_plane.c:1327 run_test.constprop.0()
-   #4 ../tests/kms_plane.c:1387 run_tests_for_pipe_plane.constprop.0()
-   #5 ../tests/kms_plane.c:1457 __igt_unique____real_main1444()
-   #6 ../tests/kms_plane.c:1444 main()
-   #7 [__libc_init_first+0x80]
-   #8 [__libc_start_main+0x98]
-   #9 [_start+0x30]
-Dynamic subtest pipe-A-plane-1: FAIL (1.054s)
-Starting dynamic subtest: pipe-A-plane-2
+   #1 ../tests/kms_flip.c:1434 run_test_on_crtc_set.constprop.0()
+   #2 ../tests/kms_flip.c:1829 run_test()
+   #3 ../tests/kms_flip.c:2078 __igt_unique____real_main2001()
+   #4 ../tests/kms_flip.c:2001 main()
+   #5 [__libc_init_first+0x80]
+   #6 [__libc_start_main+0x98]
+   #7 [_start+0x30]
+Dynamic subtest A-eDP1: FAIL (1.704s)
+Starting dynamic subtest: B-eDP1
+   2400x1600: 60 266666 2400 2448 2480 2564 1600 1603 1613 1733 0x48 0xa
+Expected frametime: 16663us; measured 16662.9us +- 39.823us accuracy 0.72%
 Stack trace:
    #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-   #1 ../lib/igt_pipe_crc.c:125 igt_check_crc_equal()
-   #2 ../tests/kms_plane.c:320 test_plane_position()
-   #3 ../tests/kms_plane.c:1327 run_test.constprop.0()
-   #4 ../tests/kms_plane.c:1387 run_tests_for_pipe_plane.constprop.0()
-   #5 ../tests/kms_plane.c:1457 __igt_unique____real_main1444()
-   #6 ../tests/kms_plane.c:1444 main()
-   #7 [__libc_init_first+0x80]
-   #8 [__libc_start_main+0x98]
-   #9 [_start+0x30]
-Dynamic subtest pipe-A-plane-2: FAIL (0.272s)
-Starting dynamic subtest: pipe-A-plane-3
-Stack trace:
-   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-   #1 ../lib/igt_pipe_crc.c:125 igt_check_crc_equal()
-   #2 ../tests/kms_plane.c:320 test_plane_position()
-   #3 ../tests/kms_plane.c:1327 run_test.constprop.0()
-   #4 ../tests/kms_plane.c:1387 run_tests_for_pipe_plane.constprop.0()
-   #5 ../tests/kms_plane.c:1457 __igt_unique____real_main1444()
-   #6 ../tests/kms_plane.c:1444 main()
-   #7 [__libc_init_first+0x80]
-   #8 [__libc_start_main+0x98]
-   #9 [_start+0x30]
-Dynamic subtest pipe-A-plane-3: FAIL (0.289s)
-Using (pipe B + eDP-1) to run the subtest.
-Stack trace:
-   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
-   #1 ../lib/igt_pipe_crc.c:433 igt_pipe_crc_get_crcs()
-   #2 ../lib/igt_pipe_crc.c:592 igt_pipe_crc_collect_crc()
-   #3 ../tests/kms_plane.c:232 test_grab_crc()
-   #4 ../tests/kms_plane.c:357 test_plane_position()
-   #5 ../tests/kms_plane.c:1327 run_test.constprop.0()
-   #6 ../tests/kms_plane.c:1387 run_tests_for_pipe_plane.constprop.0()
-   #7 ../tests/kms_plane.c:1457 __igt_unique____real_main1444()
-   #8 ../tests/kms_plane.c:1444 main()
-   #9 [__libc_init_first+0x80]
-   #10 [__libc_start_main+0x98]
-   #11 [_start+0x30]
-Subtest plane-position-hole-dpms: FAIL (3.234s)
+   #1 ../tests/kms_flip.c:1434 run_test_on_crtc_set.constprop.0()
+   #2 ../tests/kms_flip.c:1829 run_test()
+   #3 ../tests/kms_flip.c:2078 __igt_unique____real_main2001()
+   #4 ../tests/kms_flip.c:2001 main()
+   #5 [__libc_init_first+0x80]
+   #6 [__libc_start_main+0x98]
+   #7 [_start+0x30]
+Dynamic subtest B-eDP1: FAIL (1.582s)
+Subtest flip-vs-absolute-wf_vblank: FAIL (3.315s)
 stderr:
 -------
-(kms_plane:920) igt_pipe_crc-WARNING: Warning on condition all_zero in 
-function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
-(kms_plane:920) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch || 
-igt_skip_crc_compare
-Dynamic subtest pipe-A-plane-1 failed.
+(kms_flip:1137) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1454:
+(kms_flip:1137) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+Dynamic subtest A-eDP1 failed.
 **** DEBUG ****
-(kms_plane:920) DEBUG: Testing connector eDP-1 using pipe A plane 1
-(kms_plane:920) igt_kms-DEBUG: display: eDP-1: set_pipe(A)
-(kms_plane:920) igt_kms-DEBUG: display: eDP-1: Selecting pipe A
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
 height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=1, 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=1, 
 pitch=9600)
-(kms_plane:920) ioctl_wrappers-DEBUG: Test requirement passed: 
+(kms_flip:1137) ioctl_wrappers-DEBUG: Test requirement passed: 
 igt_has_fb_modifiers(fd)
-(kms_plane:920) igt_fb-DEBUG: Test requirement passed: 
-cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_plane:920) igt_kms-DEBUG: display: A.0: plane_set_fb(56)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: plane_set_size (2400x1600)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: fb_set_size(2400x1600)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=64, 
-height=64, format=XR24(0x34325258), modifier=0x0, size=0)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=2, 
-pitch=256)
-(kms_plane:920) ioctl_wrappers-DEBUG: Test requirement passed: 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=2, 
+pitch=9600)
+(kms_flip:1137) ioctl_wrappers-DEBUG: Test requirement passed: 
 igt_has_fb_modifiers(fd)
-(kms_plane:920) igt_fb-DEBUG: Test requirement passed: 
+(kms_flip:1137) igt_fb-DEBUG: Test requirement passed: 
 cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_plane:920) igt_kms-DEBUG: display: A.1: plane_set_fb(57)
-(kms_plane:920) igt_kms-DEBUG: display: A.1: plane_set_size (64x64)
-(kms_plane:920) igt_kms-DEBUG: display: A.1: fb_set_position(0,0)
-(kms_plane:920) igt_kms-DEBUG: display: A.1: fb_set_size(64x64)
-(kms_plane:920) igt_kms-DEBUG: display: A.1: plane_set_position(132,132)
-(kms_plane:920) igt_kms-DEBUG: display: commit {
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display:     eDP-1: SetCrtc pipe A, fb 
-56, src (0, 0), mode 2400x1600
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display:     SetPlane A.1, fb 57, src = 
-(0, 0) 64x64 dst = (132, 132) 64x64
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display: }
-(kms_plane:920) igt_pipe_crc-DEBUG: CRC mismatch at index 1: 0x0 != 0x2e30
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch || 
-igt_skip_crc_compare
-(kms_plane:920) igt_core-INFO: Stack trace:
-(kms_plane:920) igt_core-INFO:   #0 ../lib/igt_core.c:2051 
+(kms_flip:1137) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:1137) igt_kms-INFO:   2400x1600: 60 266666 2400 2448 2480 2564 
+1600 1603 1613 1733 0x48 0xa
+(kms_flip:1137) DEBUG: No stale events found
+(kms_flip:1137) INFO: Expected frametime: 16663us; measured 16660.9us +- 
+46.199us accuracy 0.83%
+(kms_flip:1137) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1454:
+(kms_flip:1137) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1137) igt_core-INFO: Stack trace:
+(kms_flip:1137) igt_core-INFO:   #0 ../lib/igt_core.c:2051 
 __igt_fail_assert()
-(kms_plane:920) igt_core-INFO:   #1 ../lib/igt_pipe_crc.c:125 
-igt_check_crc_equal()
-(kms_plane:920) igt_core-INFO:   #2 ../tests/kms_plane.c:320 
-test_plane_position()
-(kms_plane:920) igt_core-INFO:   #3 ../tests/kms_plane.c:1327 
-run_test.constprop.0()
-(kms_plane:920) igt_core-INFO:   #4 ../tests/kms_plane.c:1387 
-run_tests_for_pipe_plane.constprop.0()
-(kms_plane:920) igt_core-INFO:   #5 ../tests/kms_plane.c:1457 
-__igt_unique____real_main1444()
-(kms_plane:920) igt_core-INFO:   #6 ../tests/kms_plane.c:1444 main()
-(kms_plane:920) igt_core-INFO:   #7 [__libc_init_first+0x80]
-(kms_plane:920) igt_core-INFO:   #8 [__libc_start_main+0x98]
-(kms_plane:920) igt_core-INFO:   #9 [_start+0x30]
+(kms_flip:1137) igt_core-INFO:   #1 ../tests/kms_flip.c:1434 
+run_test_on_crtc_set.constprop.0()
+(kms_flip:1137) igt_core-INFO:   #2 ../tests/kms_flip.c:1829 run_test()
+(kms_flip:1137) igt_core-INFO:   #3 ../tests/kms_flip.c:2078 
+__igt_unique____real_main2001()
+(kms_flip:1137) igt_core-INFO:   #4 ../tests/kms_flip.c:2001 main()
+(kms_flip:1137) igt_core-INFO:   #5 [__libc_init_first+0x80]
+(kms_flip:1137) igt_core-INFO:   #6 [__libc_start_main+0x98]
+(kms_flip:1137) igt_core-INFO:   #7 [_start+0x30]
 ****  END  ****
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch || 
-igt_skip_crc_compare
-Dynamic subtest pipe-A-plane-2 failed.
+(kms_flip:1137) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1454:
+(kms_flip:1137) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1137) CRITICAL: Last errno: 22, Invalid argument
+Dynamic subtest B-eDP1 failed.
 **** DEBUG ****
-(kms_plane:920) DEBUG: Testing connector eDP-1 using pipe A plane 2
-(kms_plane:920) igt_kms-DEBUG: display: eDP-1: set_pipe(A)
-(kms_plane:920) igt_kms-DEBUG: display: eDP-1: Selecting pipe A
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
 height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=3, 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=3, 
 pitch=9600)
-(kms_plane:920) ioctl_wrappers-DEBUG: Test requirement passed: 
+(kms_flip:1137) ioctl_wrappers-DEBUG: Test requirement passed: 
 igt_has_fb_modifiers(fd)
-(kms_plane:920) igt_fb-DEBUG: Test requirement passed: 
-cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_plane:920) igt_kms-DEBUG: display: A.0: plane_set_fb(59)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: plane_set_size (2400x1600)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: fb_set_size(2400x1600)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=64, 
-height=64, format=XR24(0x34325258), modifier=0x0, size=0)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=4, 
-pitch=256)
-(kms_plane:920) ioctl_wrappers-DEBUG: Test requirement passed: 
-igt_has_fb_modifiers(fd)
-(kms_plane:920) igt_fb-DEBUG: Test requirement passed: 
-cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_plane:920) igt_kms-DEBUG: display: A.2: plane_set_fb(60)
-(kms_plane:920) igt_kms-DEBUG: display: A.2: plane_set_size (64x64)
-(kms_plane:920) igt_kms-DEBUG: display: A.2: fb_set_position(0,0)
-(kms_plane:920) igt_kms-DEBUG: display: A.2: fb_set_size(64x64)
-(kms_plane:920) igt_kms-DEBUG: display: A.2: plane_set_position(132,132)
-(kms_plane:920) igt_kms-DEBUG: display: commit {
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display:     eDP-1: SetCrtc pipe A, fb 
-59, src (0, 0), mode 2400x1600
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display:     SetPlane A.2, fb 60, src = 
-(0, 0) 64x64 dst = (132, 132) 64x64
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display: }
-(kms_plane:920) igt_pipe_crc-DEBUG: CRC mismatch at index 1: 0x0 != 0x62d0
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch || 
-igt_skip_crc_compare
-(kms_plane:920) igt_core-INFO: Stack trace:
-(kms_plane:920) igt_core-INFO:   #0 ../lib/igt_core.c:2051 
-__igt_fail_assert()
-(kms_plane:920) igt_core-INFO:   #1 ../lib/igt_pipe_crc.c:125 
-igt_check_crc_equal()
-(kms_plane:920) igt_core-INFO:   #2 ../tests/kms_plane.c:320 
-test_plane_position()
-(kms_plane:920) igt_core-INFO:   #3 ../tests/kms_plane.c:1327 
-run_test.constprop.0()
-(kms_plane:920) igt_core-INFO:   #4 ../tests/kms_plane.c:1387 
-run_tests_for_pipe_plane.constprop.0()
-(kms_plane:920) igt_core-INFO:   #5 ../tests/kms_plane.c:1457 
-__igt_unique____real_main1444()
-(kms_plane:920) igt_core-INFO:   #6 ../tests/kms_plane.c:1444 main()
-(kms_plane:920) igt_core-INFO:   #7 [__libc_init_first+0x80]
-(kms_plane:920) igt_core-INFO:   #8 [__libc_start_main+0x98]
-(kms_plane:920) igt_core-INFO:   #9 [_start+0x30]
-****  END  ****
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch || 
-igt_skip_crc_compare
-Dynamic subtest pipe-A-plane-3 failed.
-**** DEBUG ****
-(kms_plane:920) DEBUG: Testing connector eDP-1 using pipe A plane 3
-(kms_plane:920) igt_kms-DEBUG: display: eDP-1: set_pipe(A)
-(kms_plane:920) igt_kms-DEBUG: display: eDP-1: Selecting pipe A
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
 height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=5, 
+(kms_flip:1137) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=4, 
 pitch=9600)
-(kms_plane:920) ioctl_wrappers-DEBUG: Test requirement passed: 
+(kms_flip:1137) ioctl_wrappers-DEBUG: Test requirement passed: 
 igt_has_fb_modifiers(fd)
-(kms_plane:920) igt_fb-DEBUG: Test requirement passed: 
+(kms_flip:1137) igt_fb-DEBUG: Test requirement passed: 
 cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_plane:920) igt_kms-DEBUG: display: A.0: plane_set_fb(61)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: plane_set_size (2400x1600)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: fb_set_position(0,0)
-(kms_plane:920) igt_kms-DEBUG: display: A.0: fb_set_size(2400x1600)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=64, 
-height=64, format=XR24(0x34325258), modifier=0x0, size=0)
-(kms_plane:920) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=6, 
-pitch=256)
-(kms_plane:920) ioctl_wrappers-DEBUG: Test requirement passed: 
-igt_has_fb_modifiers(fd)
-(kms_plane:920) igt_fb-DEBUG: Test requirement passed: 
+(kms_flip:1137) igt_fb-DEBUG: Test requirement passed: 
 cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
-(kms_plane:920) igt_kms-DEBUG: display: A.3: plane_set_fb(62)
-(kms_plane:920) igt_kms-DEBUG: display: A.3: plane_set_size (64x64)
-(kms_plane:920) igt_kms-DEBUG: display: A.3: fb_set_position(0,0)
-(kms_plane:920) igt_kms-DEBUG: display: A.3: fb_set_size(64x64)
-(kms_plane:920) igt_kms-DEBUG: display: A.3: plane_set_position(132,132)
-(kms_plane:920) igt_kms-DEBUG: display: commit {
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display:     eDP-1: SetCrtc pipe A, fb 
-61, src (0, 0), mode 2400x1600
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display:     SetCursor pipe A, fb 6 64x64
-(kms_plane:920) igt_kms-DEBUG: display:     MoveCursor pipe A, (132, 132)
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: Test requirement passed: plane_idx >= 0 
-&& plane_idx < pipe->n_planes
-(kms_plane:920) igt_kms-DEBUG: display: }
-(kms_plane:920) igt_pipe_crc-DEBUG: CRC mismatch at index 1: 0x0 != 0x62d0
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_assert_crc_equal, file ../lib/igt_pipe_crc.c:112:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: !mismatch || 
-igt_skip_crc_compare
-(kms_plane:920) igt_core-INFO: Stack trace:
-(kms_plane:920) igt_core-INFO:   #0 ../lib/igt_core.c:2051 
+(kms_flip:1137) igt_kms-INFO:   2400x1600: 60 266666 2400 2448 2480 2564 
+1600 1603 1613 1733 0x48 0xa
+(kms_flip:1137) DEBUG: No stale events found
+(kms_flip:1137) INFO: Expected frametime: 16663us; measured 16662.9us +- 
+39.823us accuracy 0.72%
+(kms_flip:1137) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1454:
+(kms_flip:1137) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1137) CRITICAL: Last errno: 22, Invalid argument
+(kms_flip:1137) igt_core-INFO: Stack trace:
+(kms_flip:1137) igt_core-INFO:   #0 ../lib/igt_core.c:2051 
 __igt_fail_assert()
-(kms_plane:920) igt_core-INFO:   #1 ../lib/igt_pipe_crc.c:125 
-igt_check_crc_equal()
-(kms_plane:920) igt_core-INFO:   #2 ../tests/kms_plane.c:320 
-test_plane_position()
-(kms_plane:920) igt_core-INFO:   #3 ../tests/kms_plane.c:1327 
-run_test.constprop.0()
-(kms_plane:920) igt_core-INFO:   #4 ../tests/kms_plane.c:1387 
-run_tests_for_pipe_plane.constprop.0()
-(kms_plane:920) igt_core-INFO:   #5 ../tests/kms_plane.c:1457 
-__igt_unique____real_main1444()
-(kms_plane:920) igt_core-INFO:   #6 ../tests/kms_plane.c:1444 main()
-(kms_plane:920) igt_core-INFO:   #7 [__libc_init_first+0x80]
-(kms_plane:920) igt_core-INFO:   #8 [__libc_start_main+0x98]
-(kms_plane:920) igt_core-INFO:   #9 [_start+0x30]
+(kms_flip:1137) igt_core-INFO:   #1 ../tests/kms_flip.c:1434 
+run_test_on_crtc_set.constprop.0()
+(kms_flip:1137) igt_core-INFO:   #2 ../tests/kms_flip.c:1829 run_test()
+(kms_flip:1137) igt_core-INFO:   #3 ../tests/kms_flip.c:2078 
+__igt_unique____real_main2001()
+(kms_flip:1137) igt_core-INFO:   #4 ../tests/kms_flip.c:2001 main()
+(kms_flip:1137) igt_core-INFO:   #5 [__libc_init_first+0x80]
+(kms_flip:1137) igt_core-INFO:   #6 [__libc_start_main+0x98]
+(kms_flip:1137) igt_core-INFO:   #7 [_start+0x30]
 ****  END  ****
-(kms_plane:920) igt_pipe_crc-CRITICAL: Test assertion failure function 
-igt_pipe_crc_start, file ../lib/igt_pipe_crc.c:387:
-(kms_plane:920) igt_pipe_crc-CRITICAL: Failed assertion: 
-pipe_crc->crc_fd != -1
-(kms_plane:920) igt_pipe_crc-CRITICAL: Last errno: 5, Input/output error
+(kms_flip:1137) igt_kms-CRITICAL: Test assertion failure function 
+kmstest_set_connector_dpms, file ../lib/igt_kms.c:2246:
+(kms_flip:1137) igt_kms-CRITICAL: Failed assertion: found_it
+(kms_flip:1137) igt_kms-CRITICAL: Last errno: 9, Bad file descriptor
+(kms_flip:1137) igt_kms-CRITICAL: DPMS property not found on 53
 
-Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/68246514
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/68249818
 
 Please could you have a look at these test results and let us know if 
 you need more information. Thank you.
