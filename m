@@ -2,101 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016279F4AED
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:30:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9027A9F4AF6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:31:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 623CA10E21B;
-	Tue, 17 Dec 2024 12:30:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7419A10E458;
+	Tue, 17 Dec 2024 12:31:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RJmY9KIH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uaHWtLpL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com
- [IPv6:2a00:1450:4864:20::236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B6D810E21B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:30:09 +0000 (UTC)
-Received: by mail-lj1-x236.google.com with SMTP id
- 38308e7fff4ca-3022484d4e4so59300911fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 04:30:09 -0800 (PST)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D347B10E458
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:31:52 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-5401c68b89eso5687691e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 04:31:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734438608; x=1735043408; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Cpeg+OoZlAk/avwRjAkuR0FSLO7wRA76WtZnvtz5hp4=;
- b=RJmY9KIHJpZd5VvLBwWGfBNmp4U6tcNV2eCJa9W8Y6GxQLM815s66kqdTxX+UQkw7a
- IY8XxApGF+ig2XXbCOcXsLJSR1mYI1ZVqtpSQ0HYVmw1ET0j3q740WwoeAZBqYl4J6iC
- hq0KLwwvqfmoVkZRfCmV1O1Upr4jQV5OBcLmtx1YUFc+x54nn1RP5NUwVMPLgmtW8ffH
- bgFtMrTp30ev8ZabAQP9gW0q1vgxaBDBY+KMUXTnzkFAVrUOpLUQ49/Qm2lIU5bHeZbM
- DYvfdArUZ3spH2GmB0/REAc7oVtgi0XVTkhGKOu/Jttpieh5QtkGQtDE6vEXqnSgg0Ac
- 19ZA==
+ d=linaro.org; s=google; t=1734438711; x=1735043511; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=OD2airYmXEIM5XCQfXb6/TEVO/ZX203WR6AY+SunHbs=;
+ b=uaHWtLpLp02uSLldNsvnFok/nmEmc4fQpKkiFXWbPY1494EkiArJzdYt3gw3NdPaHS
+ A7M2LALGmoCz5WlW4v6MQAgG4vs9mHGuIdAx5ArTpnJbqbEF+2KKzLvpkQ8j0apLl/cY
+ vhHEPyghKgU49LPWCI+rGRetrF9v52GV5FBTgdkrb5hYq5CqpvRS9iU9IWnRRsnY8UKr
+ hpQHA2P0lFkdVEK1/fK+tccnLYKbl/nJXaOD+WNwcQyVzqrLrKlmUSt2df6blWTUKjmn
+ toeO2hoBmRD4y9T80tnsLUX7g3pi64i+ONBJNT2FCa+CJim2jvJi96UXne5/uFzjRV+L
+ y8RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734438608; x=1735043408;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Cpeg+OoZlAk/avwRjAkuR0FSLO7wRA76WtZnvtz5hp4=;
- b=bE++gjXCh2Ayzb4eCspaSEBiiXFFncRA0cnlZz7Qh3mc1zpRzmXKAXbF1PCAocZsr8
- Zgl8yAvmq4D83Bl5M1g/KA3jha6wUl71P6zlFGkKrzlTu5W4z693iJsJhIl53xdugnp5
- tBw8oluJk4hWyBWkSBdLX3DmVJkfNU1MzSCnPJF5aW3yaC59WTF1w1mxOtiqj6rMxMpB
- ICl2BrBz82zitRTBs6aRhIECrmPxQfIwYBe6FFrrZi1nh2MZQSpEE+7WNdZZXsbKjJjc
- 4T0vkWccHgJsBmXmQijG2tHQATCGdJLCkiA+REpA9ojUiuSXEMzSw4Isachd+N2wy9Q3
- uB+g==
+ d=1e100.net; s=20230601; t=1734438711; x=1735043511;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OD2airYmXEIM5XCQfXb6/TEVO/ZX203WR6AY+SunHbs=;
+ b=Zmu1xdnxsLBVjM3Bs8JO1L6HW+7W0HODVKijNtYpES7R5LZohDwR59Frw77uewU6Ei
+ MvMFGqVOV7Jz7GJVajdH3vWUyICqQU+P6FzR7cqVXKxRq2tjjoXTZn79T6AhswytFb4Q
+ UCBC5xDsVYuIJwCQ8SNVkN92PYhkbGS9P9c+ROU5JCxMrXYWnk8YfnVq1eb31tofqHC6
+ mtIlc5Y1fW7da2vyxlKN6BxGt5U8XVGYpUhVbwbHcqE/TwXRxv+zFn/aYt1B4j5EahNx
+ 1NOYjejCYJt7uD0wc6+aq/kcT3OSO4xjeNfrwRJQ6/RbVTh3ZTnT0Rw4uI1h2XtZ2HAY
+ W29Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURc+Hi7Eg4iSyKGb95vIsCeq1B8b2PmexjPcdh9EUhCRuKwltzYJh2jzHteLJdyrw4ZNa9rqRcOhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywj4NkHNawTWFTVfpfDcRu/Gfn+3ZjBJro2MuGp4uq9lNyhJRRN
- EdEBbURF8aKarI+J0jGpw6jH/bgf2dUzasUIviRCYCnhNvCHX2QNbfTs+IlyFJs=
-X-Gm-Gg: ASbGnctclnBC//JOU42xm5w0kH5mNFwBHB1CfYc85AmehfSHvN2nE0Twbz5zACS7Bfi
- gLfvEbW8QFRXoXrE1qFIQv4A/bRi15PsMBdWVHecFV8ZWDf796Ght+0So6aImTSvjHBkk3e14LI
- uPsM/6YV0Ilbw0NoitPxXYgUkSUNPGRFdirjbt5sFf6kb+tA6Y0Xw41g0JcPrKTqDW0NJAHf2HU
- V2qzePO9xKkn3A5KfxAArYQaN6svOkEDTQYlxr53yxCJhX6Uqa/xt6wpuYi6EzUfGgIXhkg46Gk
- 812em1QnlLvM7tOCYohy9SQbMf426fdwUt55
-X-Google-Smtp-Source: AGHT+IG/o83HRTYlBKwHjBbNkkDbTOVwon5AjYEKHu8C9oNpfKtoWKENsqidPqi+Ggy0KZ4EaXhgqA==
-X-Received: by 2002:a2e:bc1d:0:b0:302:2620:ec84 with SMTP id
- 38308e7fff4ca-304434d9d6emr11629731fa.7.1734438607708; 
- Tue, 17 Dec 2024 04:30:07 -0800 (PST)
+ AJvYcCUAApvcUyMCTgdOs5Hhl8n9wNTdpiNueRvUi28d2U6CQOQE408V+g0ZOHtIhaf3savkTARs5OYC4s8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxO+6fhyD8cqj+ymzFwv+mRBoAhRc7H+ttrRMEuCiWuhZIhJWd5
+ wfLQ73Mf/nvQTAUMFv4aPvhHiqUlNorAE1BzAk4XFHaSHRduW8v1KyauJZyTXg4=
+X-Gm-Gg: ASbGncsbx3itNjFpjP0KJ/j+WBC5ZkqIRPgOdPAqruo/tWNmlSdSD6eYpHqVbeZ+XYa
+ AfTptr1wPm81vm12TW+CNNGTBOyFrdAcHo+8rifIN7EspA0UPDsnElnrfn/CJEVzBwOy2GtOZSh
+ p7QzWC+9Bw672gPC+KEUL0NRqzBF212ZSF+f4rUdSJxNiFQhYnIAk1fBCgB+RNVYlKCT3k+lXIu
+ +EpxnfkGEsjvvjGqWxYpFJ/pP+8CWFInkgB46HJwJJ07+SKaRIvtFYprI0dLFmAZWps5baD7LPy
+ IZYQ3tEXcJDKfZNSwrgi+C4eyPDoygphtwE5
+X-Google-Smtp-Source: AGHT+IGLqNfuo6dVnZwB0IG9CYkUL75QpM9W/HERVzyQaVYoG4TeHcNOZSSbW2843k7yE5uyrSEtJA==
+X-Received: by 2002:a05:6512:3e0c:b0:540:1fec:f331 with SMTP id
+ 2adb3069b0e04-541315ac7a5mr947299e87.27.1734438711130; 
+ Tue, 17 Dec 2024 04:31:51 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303441a5a75sm12573331fa.99.2024.12.17.04.30.05
+ 2adb3069b0e04-54120b9f3d0sm1145293e87.30.2024.12.17.04.31.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 04:30:06 -0800 (PST)
-Date: Tue, 17 Dec 2024 14:30:04 +0200
+ Tue, 17 Dec 2024 04:31:49 -0800 (PST)
+Date: Tue, 17 Dec 2024 14:31:47 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Pin-yen Lin <treapking@chromium.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Bernie Liang <bliang@analogixsemi.com>, 
- Qilin Wen <qwen@analogixsemi.com>,
- "treapking@google.com" <treapking@google.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
- atomic_enable()
-Message-ID: <6xyyujq7pizt6a2ztjfuapz7pphz33lxgvsjextlrhnefkjaq2@lhpy4bo4wajd>
-References: <20241212055110.1862487-1-xji@analogixsemi.com>
- <vkrl7om7hepboovp2uivcnernia3ygqwrj3y3kkjydeclwvrk5@7tkdc4etkcjs>
- <BY5PR04MB673977C1DB1E774CB261C119C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
- <4q2jncpnmeu7ytuyuv5pjzurh3ai5663jmu2we6cebuad2r3r5@tfb6hf6unioc>
- <BY5PR04MB673902E047FF8ADAFD8B94B3C7382@BY5PR04MB6739.namprd04.prod.outlook.com>
- <CAA8EJprGjuGFjZnXUxiMZMV=FO9O9CYt06H_nSL82fEOvPytyA@mail.gmail.com>
- <BY5PR04MB6739C5804F0E9764EFD3A3EBC73B2@BY5PR04MB6739.namprd04.prod.outlook.com>
- <fyltwqxyrmy3rz75nosc4wn6z5zglwv7pelzdf5g6ztloq4ncj@yigwmszuhigb>
- <CAEXTbpf3Bipid7bgnYzGJ6C6d+pgPcA2mjwFijSBwz_6Ub4aaw@mail.gmail.com>
- <BY5PR04MB6739B4BEAEFD0292C1AC9E3FC7042@BY5PR04MB6739.namprd04.prod.outlook.com>
+ Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Phong LE <ple@baylibre.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 03/10] drm/connector: implement generic HDMI codec
+ helpers
+Message-ID: <buem3nnscnyh7latovvnsbhp2ci6pbjpckfmrft2267afzwdwq@2roahluiow7t>
+References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
+ <20241206-drm-bridge-hdmi-connector-v6-3-50dc145a9c06@linaro.org>
+ <20241216-heretic-mackerel-of-wholeness-fcfed7@houat>
+ <exocd3b65cy6cy5w47cwx3ykn54ncf34hwyj7ffihs5jjzean5@y677uywnlah2>
+ <20241217-heretic-hopeful-jaguar-aeabec@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BY5PR04MB6739B4BEAEFD0292C1AC9E3FC7042@BY5PR04MB6739.namprd04.prod.outlook.com>
+In-Reply-To: <20241217-heretic-hopeful-jaguar-aeabec@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,137 +122,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 17, 2024 at 01:50:00AM +0000, Xin Ji wrote:
-> > -----Original Message-----
-> > From: Pin-yen Lin <treapking@chromium.org>
-> > Sent: Monday, December 16, 2024 8:05 PM
-> > To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Cc: Xin Ji <xji@analogixsemi.com>; Andrzej Hajda <andrzej.hajda@intel.com>;
-> > Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>;
-> > Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman
-> > <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten
-> > Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
-> > <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David
-> > Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Bernie Liang
-> > <bliang@analogixsemi.com>; Qilin Wen <qwen@analogixsemi.com>;
-> > treapking@google.com; dri-devel@lists.freedesktop.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
-> > atomic_enable()
+On Tue, Dec 17, 2024 at 08:43:10AM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Mon, Dec 16, 2024 at 07:47:32PM +0200, Dmitry Baryshkov wrote:
+> > On Mon, Dec 16, 2024 at 06:04:41PM +0100, Maxime Ripard wrote:
+> > > > +struct drm_connector_hdmi_codec_funcs {
+> > > > +	/**
+> > > > +	 * @audio_startup:
+> > > > +	 *
+> > > > +	 * Called when ASoC starts an audio stream setup. The
+> > > > +	 * @hdmi_audio_startup is optional.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 * 0 on success, a negative error code otherwise
+> > > > +	 */
+> > > > +	int (*audio_startup)(struct drm_connector *connector);
+> > > > +
+> > > > +	/**
+> > > > +	 * @prepare:
+> > > > +	 * Configures HDMI-encoder for audio stream. Can be called
+> > > > +	 * multiple times for each setup. Mandatory.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 * 0 on success, a negative error code otherwise
+> > > > +	 */
+> > > > +	int (*prepare)(struct drm_connector *connector,
+> > > > +		       struct hdmi_codec_daifmt *fmt,
+> > > > +		       struct hdmi_codec_params *hparms);
+> > > 
+> > > Missing newline
+> > > 
+> > > > +	/**
+> > > > +	 * @audio_shutdown:
+> > > > +	 *
+> > > > +	 * Shut down the audio stream. Mandatory.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 * 0 on success, a negative error code otherwise
+> > > > +	 */
+> > > > +	void (*audio_shutdown)(struct drm_connector *connector);
+> > > 
+> > > And thus we can probably just call that one shutdown?
 > > 
-> > 
-> > Hi Dmitry,
-> > 
-> > On Mon, Dec 16, 2024 at 7:59 PM Dmitry Baryshkov
-> > <dmitry.baryshkov@linaro.org> wrote:
-> > >
-> > > On Mon, Dec 16, 2024 at 08:33:23AM +0000, Xin Ji wrote:
-> > > > > -----Original Message-----
-> > > > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > > Sent: Friday, December 13, 2024 9:17 PM
-> > > > > To: Xin Ji <xji@analogixsemi.com>
-> > > > > Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong
-> > > > > <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>;
-> > > > > Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas
-> > > > > Karlman <jonas@kwiboo.se>; Jernej Skrabec
-> > > > > <jernej.skrabec@gmail.com>; Maarten Lankhorst
-> > > > > <maarten.lankhorst@linux.intel.com>; Maxime Ripard
-> > > > > <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
-> > > > > David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>;
-> > > > > Bernie Liang <bliang@analogixsemi.com>; Qilin Wen
-> > > > > <qwen@analogixsemi.com>; treapking@google.com;
-> > > > > dri-devel@lists.freedesktop.org; linux- kernel@vger.kernel.org
-> > > > > Subject: Re: [PATCH v3] drm/bridge:anx7625: Update HDCP status at
-> > > > > atomic_enable()
-> > > > >
-> > > > > CAUTION: This email originated from outside of the organization.
-> > > > > Please do not click links or open attachments unless you recognize
-> > > > > the sender, and know the content is safe.
-> > > > >
-> > > > >
-> > > > > On Fri, 13 Dec 2024 at 13:00, Xin Ji <xji@analogixsemi.com> wrote:
-> > > > > >
-> > > > > > Hi Dmitry, sorry, I didn't clear describe the reason.
-> > > > >
-> > > > > Please. Do not top-post. Please paste your answer under the
-> > > > > question, not somewhere at the top of the email. This allows us to
-> > > > > have a more constructive dialog. Additional bonus if you can fix
-> > > > > your email client to insert sensible quoting information instead of dumping
-> > the headers of the original email.
-> > > > Hi Dmitry, OK, sorry about it. Currently, we have problem to fetch
-> > > > email from Microsoft on Ubuntu. I'll try to fix it later.
-> > > > >
-> > > > > >
-> > > > > > Anx7625 implement DSI to DP convert behind USB Type-C port, when
-> > > > > > user plug into USB Type-C Dongle with DP monitor, the user space
-> > > > > > will enable HDCP feature, then kernel do HDCP and output display
-> > > > > > and set HDCP content to ENABLE, but the issue happened if user
-> > > > > > manually change the
-> > > > > monitor's resolution later.
-> > > > > >
-> > > > > > Each time user change the resolution, kernel will call bridge
-> > > > > > interface .atomic_disable() and .atomic_enable(), the old driver
-> > > > > > will keep HDCP state to ENABLE, this is a BUG, when user change
-> > > > > > the resolution, kernel must change HDCP content too (mustn't
-> > > > > > keep to ENABLE),
-> > > > >
-> > > > > Why? Could you please point me to the corresponding documentation
-> > > > > or a code path in the other driver? Preferably i915, AMD or Nouveau.
-> > > > As
-> > https://elixir.bootlin.com/linux/v6.12.5/source/drivers/gpu/drm/drm_connecto
-> > r.c#L1423:
-> > > >         - ENABLED -> DESIRED (termination of authentication) As
-> > > > there is no other interface to tell anx7625 bridge driver, so the I
-> > > > think best place to handle ENABLE -> DESIRED in .atomic_disable().
-> > >
-> > > I was looking for something like cdns_mhdp_connector_atomic_check(),
-> > > which switches to UNDESIRED if there is no new CRTC. Likewise i915
-> > > driver performs this in intel_hdcp_atomic_check() if there is a need
-> > > for modeset.
-> Hi Dmitry, the bridge driver is different with i915, anx7625 bridge driver
-> only implement some passive callback interface. There is no HDCP status
-> checking while do resolution switch.
+> > It should be called automatically by the sound system. I'd rather not
+> > call items directly that we are not supposed to call.
+> 
+> I meant that with my suggestion to call the function
+> drm_connector_hdmi_audio_init, that structure would be called
+> drm_connector_hdmi_audio_funcs, and thus the audio prefix in
+> audio_shutdown is redundant.
 
-Does that mean that you _have_ to reestablish HDCP after mode switching
-in order for it to work?
-
-> > 
-> > I believe you mean "DESIRED" here.
-> > >
-> > > For the "termination of authentication" case see
-> > > cdns_mhdp_hdcp_check_link(), which detects if the HDCP got disabled by
-> > > HW and then updates the status accordingly.
-> > >
-> > > >
-> > > > >
-> > > > > > as DRM doc said, kernel cannot change from ENABLE to UNDESIRE,
-> > > > > > so next patch, I'll change it to DESIRE in .atomic_disable().
-> > >
-> > > This e.g. will result in HDCP being restarted for all modesets. Is
-> > > this an expected behaviour?
-> > 
-> > The bridge could be powered off between .atomic_disable()
-> > and .atomic_enable(), though I'm not sure if this would be a concern for
-> > anx7625. I'll let Xin to comment on this.
-> The flow of resolution switch is:
->     -> .atomic_disable().
->         -> .atomic_enable().
->             -> HDCP status check and enable.
-> As resolution switch is triggered by user space, at this moment, the HDCP
-> works fine(cannot get disabled event from HW).
-> So, I think, .atomic_disable() is
-> the best place to do termination of authentication (turn HDCP status to DESIRED).
-> This is the only entrance which can do termination of authentication, I cannot
-> find others.
-
-I'm probably still missing a reference to the standard (please excuse
-me, I don't know it by heart). Is it a standard requirement to
-reauthenticate on the mode switch?
-
-BTW, while reading the anx7625 code, I noticed that there is a possible
-race between .atomic_enable() / .atomic_disable() which set
-ctx->connector and the hdcp_check_work_func() which reads ctx->connector
-without any protection.
+I see. I posted the next iteration already, but I'll try to remember
+this change for the next iteration.
 
 -- 
 With best wishes
