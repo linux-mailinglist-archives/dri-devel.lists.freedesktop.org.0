@@ -1,66 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19749F4879
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:08:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2867F9F487A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2358B10E8F5;
-	Tue, 17 Dec 2024 10:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87A7010E8E3;
+	Tue, 17 Dec 2024 10:08:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yfaiWpcY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zft8DNYP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
- [IPv6:2a00:1450:4864:20::233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359A010E8E4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 10:08:26 +0000 (UTC)
-Received: by mail-lj1-x233.google.com with SMTP id
- 38308e7fff4ca-30219437e63so64311531fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 02:08:26 -0800 (PST)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3ABB10E8F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 10:08:28 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-3003d7ca01cso51156711fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 02:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734430104; x=1735034904; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734430107; x=1735034907; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nSDQWd9UZqV/STl4BJjbppPEGE1hH0ufO/G2aXdmVa4=;
- b=yfaiWpcYAXmSo5X+CvcMYy9j8R2NwF82HtBZHLVOJcyk5tDnuivGf6saehjTLyXeSj
- GQJ7Llfow919ds3+3AipNZJSxbZsnXiXfC8jv+UsOm7liFp3JJPOczYqD7Pll6WQ6sPN
- JkP8pol1EwPpD8qLpyk9pSg2F1Uoc2jQkn+0bHuWTdUhLWkN+jGqhK2t2ybNdj6Kdh0U
- PkgSZV9NIaKKmIOTVEihAEP1sVrJxXRkRxskFxyF07YtK6JcJfoVKRcuEISKtFXHr72/
- wmpOAkVpymYlPRMQDcdblAix/OlOeTLJ50qeoYidvI01jUKXBGRyFzzV7y8VKXJpTNHy
- LaaA==
+ bh=ZsHfNNOgspKsrUQD+qKEISSMRmQtLOnKljJs9VS4jY4=;
+ b=zft8DNYPVPKzVmg/Y29SGUmihP1opGp3alDdysrqiSCe4AuQPEhl3cT5IqecQkr85O
+ V9y1KiD9M0yOC0FcCQZD8a4t2eYUjM0IUafwq5WAzQke3zcEzWlMq9Hf94qCmgnvZgNx
+ OofPTtnafQDY9cycfK5xKAtQRouJ5jpS8x32z8OOBkaNllsxjIw3MmbYjo88URlw1ueN
+ waE4XdAvPCE3dAWp0kIRSNf/rAEVZLBy4H8W3Gs/XHK16BiMeg1Pjdry9FvEzdEeyTMw
+ JVPWaJbsbd6hijdskERNfJmWpb+A5maOHThvQ5MyuFJZ9FeexYkytnafbZaDg4aUXJir
+ FIRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734430104; x=1735034904;
+ d=1e100.net; s=20230601; t=1734430107; x=1735034907;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nSDQWd9UZqV/STl4BJjbppPEGE1hH0ufO/G2aXdmVa4=;
- b=sVSDCg2qnzbnyL68nkLZ1zNYQD7HwH1g1oIg/C7y0yh+aJtM/dtW5palpdGPE4jPZ6
- 88Vi6KAbrm+kW3VAFiEuhGOXJ92l3wZwHtCpdEcSrXX1dQVelq8212u63KLcWFE96ZYw
- q76bAvT01VkgwF+GSJCgEEhQ7f70u/yRw9m/EpOsO+EdHZ6Ty/NFOp7LnXj3yCiOrjDJ
- PAypv4AZyex8+6f5xW8V6+ZJc0IlIRKxg7lABJxDWfpsVA4McZmYiIOgl+LY2GA0ttYt
- aICLEcjJ1TsZdTMeRaCrN0vPoYF84OBkx8DKm0M9gOIR7b+5xelm8v7Tjsrq++95v19C
- 794g==
+ bh=ZsHfNNOgspKsrUQD+qKEISSMRmQtLOnKljJs9VS4jY4=;
+ b=rsWR2bPfsFZmoLSk7W3x+PwHsbp3OyuJU8OhcakJ1dr1P1EehjIM97eqkMWzTn1bbe
+ GL/5n8GBVv3JTD7RcnsbdzGE47Zu/kFReWQM+a3AAmQuOhPC6SHmdKs8RHq5pkF9pRkd
+ qIvj3yFMuR0ccLDRs0ukGwUr8w6hJlx68il/BUa5+g3IqLMfjYZykE5UKmgHONffbJis
+ atnMYixQsoRmbrFW7Qh/gU0tONqjvWQh9qu6FdxQt/PMziMDfl5uc3gU7fhIdNf+bBgo
+ g6E9MyScUbS8Du5solHBJLKk7HccfGbpiMvyFScavKvHigjqzLMv5kaOclfPRx+sS78x
+ mXDg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWISkcD9l7tc2A6R8m4E7BWnbe7uIAJpMppWnQ1/GOOIDp96xg/Bvood8Ay508ZwpMJW5jfb/TgZZ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMDbwgPGy88J8fWBF+eMj4dIkrmMZLbZxPGwenKNjm1rzcZWVW
- s6BCufoTSm4YwANoyOKnkowaYHGqmkqkVo5SIjUz1Of3+euLtKIQVbmB6XkqSGA=
-X-Gm-Gg: ASbGncubCnffws5V6sBmAW9m5V6r/wc5nniM1jACyJ0orGj9a07/Qpy2kFJeWf4EJ+Q
- 8CECqTrhgB6fdNZDA8hIonOgfhMeljiVMKkObd0u+EEOR541AdoKtI/G9W/TJbkqAD9JUpXJyrI
- o8C7bSob2ZsMuXxtIqwSWl4PRtx/BjjzHZ60n6JzCNv1KGKQ6691MCSqs/GnGcIStwnwkODyKuy
- eoiyUv+KfqmKU3vUD8cQingFUEUKKU9Eg6YXzR//BXHA43fCWy4mqhdS9m5kIj/CzPYqQmXVa42
- XHVa0/mMQm0FD8Pn/oqtvSn5JaZP1YxkIg==
-X-Google-Smtp-Source: AGHT+IEtjY0/rVmAAmysPZn+RkJB4B5RPeKFpWGw44q2aLAfjDfv8nhbfo/a70jIZEXCvuM/nLZU3w==
-X-Received: by 2002:a05:651c:508:b0:2ff:df01:2b4c with SMTP id
- 38308e7fff4ca-304442d51ecmr9298431fa.4.1734430104387; 
- Tue, 17 Dec 2024 02:08:24 -0800 (PST)
+ AJvYcCWPhdNjTHagWJ2OJFlVlR2KY9s3JnA16wgS2+lUqGwKmUEuA3PwULcIES+JAx46hCC6pFJEa+ERs6s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYVzHr4j5IOuXjpBW1nmQMniPSf2Zrv0xJYzA8xuCs+cZ71lc/
+ 7SWmObvj461dcf2Ls1dmP9d+E55UOHrLsYmi9T+PP5zrzMZaZw0jNdkdhHP+Y98=
+X-Gm-Gg: ASbGncvEyKKzS1HpvPGnGDQH7e+7XZWVTRpBRIzczx79eNg1wmFMwmQ83kmSEc6dnWL
+ K1c/Y6x/yxU9JTygBp4wQ6CGSN9ui1tVUXh9H37/aT1ztBS6qhQCKZgXTIcTyio/ieZVUmnNIdL
+ hHLX34fn7sEX8MkaLTJfl8BMAavq6dX8QWuXyG2oikdKn95sHEpeZ27nNiVUn7B8oGLs122XxoV
+ rBkUrnR3OfzMNzaYj2Sn3eXnMziwLM+hFBA2LMdkP90H/wKQFPIQt40xoC6lG1DmmYkyeTcrGqp
+ sTPBCMtmwSCNeFh+bUxHIwFZflURYUBaiA==
+X-Google-Smtp-Source: AGHT+IGDOkQVBaM/y6DukXghEAM34NJKr73J8WRGV4NrI9jkGGB6d/Wycr2K7m3r8PvaIOQNbzWNGw==
+X-Received: by 2002:a2e:b8cb:0:b0:302:4115:b69 with SMTP id
+ 38308e7fff4ca-304434d9f6dmr11314101fa.8.1734430106896; 
+ Tue, 17 Dec 2024 02:08:26 -0800 (PST)
 Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se.
  [98.128.140.123]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303441a69ecsm12122681fa.111.2024.12.17.02.08.22
+ 38308e7fff4ca-303441a69ecsm12122681fa.111.2024.12.17.02.08.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 02:08:23 -0800 (PST)
+ Tue, 17 Dec 2024 02:08:25 -0800 (PST)
 From: Jens Wiklander <jens.wiklander@linaro.org>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
@@ -76,9 +76,9 @@ Cc: Olivier Masse <olivier.masse@nxp.com>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  azarrabi@qti.qualcomm.com, Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v4 3/6] optee: sync secure world ABI headers
-Date: Tue, 17 Dec 2024 11:07:39 +0100
-Message-ID: <20241217100809.3962439-4-jens.wiklander@linaro.org>
+Subject: [PATCH v4 4/6] optee: support restricted memory allocation
+Date: Tue, 17 Dec 2024 11:07:40 +0100
+Message-ID: <20241217100809.3962439-5-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241217100809.3962439-1-jens.wiklander@linaro.org>
 References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
@@ -99,288 +99,319 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the header files describing the secure world ABI, both with and
-without FF-A. The ABI is extended to deal with restricted memory, but as
-usual backward compatible.
+Add support in the OP-TEE backend driver for restricted memory
+allocation. The support is limited to only the SMC ABI and for secure
+video buffers.
+
+OP-TEE is probed for the range of restricted physical memory and a
+memory pool allocator is initialized if OP-TEE have support for such
+memory.
 
 Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 ---
- drivers/tee/optee/optee_ffa.h | 27 ++++++++++---
- drivers/tee/optee/optee_msg.h | 65 ++++++++++++++++++++++++++++++--
- drivers/tee/optee/optee_smc.h | 71 ++++++++++++++++++++++++++++++++++-
- 3 files changed, 154 insertions(+), 9 deletions(-)
+ drivers/tee/optee/Makefile        |  1 +
+ drivers/tee/optee/core.c          |  1 +
+ drivers/tee/optee/optee_private.h | 23 ++++++++++
+ drivers/tee/optee/rstmem.c        | 76 +++++++++++++++++++++++++++++++
+ drivers/tee/optee/smc_abi.c       | 69 ++++++++++++++++++++++++++--
+ 5 files changed, 167 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/tee/optee/rstmem.c
 
-diff --git a/drivers/tee/optee/optee_ffa.h b/drivers/tee/optee/optee_ffa.h
-index 257735ae5b56..7bd037200343 100644
---- a/drivers/tee/optee/optee_ffa.h
-+++ b/drivers/tee/optee/optee_ffa.h
-@@ -81,7 +81,7 @@
-  *                   as the second MSG arg struct for
-  *                   OPTEE_FFA_YIELDING_CALL_WITH_ARG.
-  *        Bit[31:8]: Reserved (MBZ)
-- * w5:	  Bitfield of secure world capabilities OPTEE_FFA_SEC_CAP_* below,
-+ * w5:	  Bitfield of OP-TEE capabilities OPTEE_FFA_SEC_CAP_*
-  * w6:	  The maximum secure world notification number
-  * w7:	  Not used (MBZ)
-  */
-@@ -94,6 +94,8 @@
- #define OPTEE_FFA_SEC_CAP_ASYNC_NOTIF	BIT(1)
- /* OP-TEE supports probing for RPMB device if needed */
- #define OPTEE_FFA_SEC_CAP_RPMB_PROBE	BIT(2)
-+/* OP-TEE supports Restricted Memory for secure data path */
-+#define OPTEE_FFA_SEC_CAP_RSTMEM	BIT(3)
+diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
+index a6eff388d300..498969fb8e40 100644
+--- a/drivers/tee/optee/Makefile
++++ b/drivers/tee/optee/Makefile
+@@ -4,6 +4,7 @@ optee-objs += core.o
+ optee-objs += call.o
+ optee-objs += notif.o
+ optee-objs += rpc.o
++optee-objs += rstmem.o
+ optee-objs += supp.o
+ optee-objs += device.o
+ optee-objs += smc_abi.o
+diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+index c75fddc83576..f4fa494789a4 100644
+--- a/drivers/tee/optee/core.c
++++ b/drivers/tee/optee/core.c
+@@ -182,6 +182,7 @@ void optee_remove_common(struct optee *optee)
+ 	tee_device_unregister(optee->teedev);
  
- #define OPTEE_FFA_EXCHANGE_CAPABILITIES OPTEE_FFA_BLOCKING_CALL(2)
- 
-@@ -108,7 +110,7 @@
-  *
-  * Return register usage:
-  * w3:    Error code, 0 on success
-- * w4-w7: Note used (MBZ)
-+ * w4-w7: Not used (MBZ)
-  */
- #define OPTEE_FFA_UNREGISTER_SHM	OPTEE_FFA_BLOCKING_CALL(3)
- 
-@@ -119,16 +121,31 @@
-  * Call register usage:
-  * w3:    Service ID, OPTEE_FFA_ENABLE_ASYNC_NOTIF
-  * w4:	  Notification value to request bottom half processing, should be
-- *	  less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE.
-+ *	  less than OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE
-  * w5-w7: Not used (MBZ)
-  *
-  * Return register usage:
-  * w3:    Error code, 0 on success
-- * w4-w7: Note used (MBZ)
-+ * w4-w7: Not used (MBZ)
-  */
- #define OPTEE_FFA_ENABLE_ASYNC_NOTIF	OPTEE_FFA_BLOCKING_CALL(5)
- 
--#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE 64
-+#define OPTEE_FFA_MAX_ASYNC_NOTIF_VALUE	64
-+
-+/*
-+ * Release Restricted memory
-+ *
-+ * Call register usage:
-+ * w3:    Service ID, OPTEE_FFA_RECLAIM_RSTMEM
-+ * w4:    Shared memory handle, lower bits
-+ * w5:    Shared memory handle, higher bits
-+ * w6-w7: Not used (MBZ)
-+ *
-+ * Return register usage:
-+ * w3:    Error code, 0 on success
-+ * w4-w7: Note used (MBZ)
-+ */
-+#define OPTEE_FFA_RELEASE_RSTMEM	OPTEE_FFA_BLOCKING_CALL(8)
- 
- /*
-  * Call with struct optee_msg_arg as argument in the supplied shared memory
-diff --git a/drivers/tee/optee/optee_msg.h b/drivers/tee/optee/optee_msg.h
-index e8840a82b983..1b558526e7d9 100644
---- a/drivers/tee/optee/optee_msg.h
-+++ b/drivers/tee/optee/optee_msg.h
-@@ -133,13 +133,13 @@ struct optee_msg_param_rmem {
+ 	tee_shm_pool_free(optee->pool);
++	optee_rstmem_pools_uninit(optee);
+ 	optee_supp_uninit(&optee->supp);
+ 	mutex_destroy(&optee->call_queue.mutex);
+ 	rpmb_dev_put(optee->rpmb_dev);
+diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+index 20eda508dbac..0491889e5b0e 100644
+--- a/drivers/tee/optee/optee_private.h
++++ b/drivers/tee/optee/optee_private.h
+@@ -193,6 +193,20 @@ struct optee_ops {
+ 			      bool update_out);
  };
  
++/**
++ * struct optee_rstmem_pools - restricted memory pools
++ * @mutex:	serializes write access to @xa when adding a new pool.
++ * @xa:		XArray of struct tee_shm_pool where the index is the
++ *		use case ID TEE_IOC_UC_* supplied for TEE_IOC_RSTMEM_ALLOC.
++ */
++struct optee_rstmem_pools {
++	/*
++	 * Serializes write access to @xa when adding a new pool.
++	 */
++	struct mutex mutex;
++	struct xarray xa;
++};
++
  /**
-- * struct optee_msg_param_fmem - ffa memory reference parameter
-+ * struct optee_msg_param_fmem - FF-A memory reference parameter
-  * @offs_lower:	   Lower bits of offset into shared memory reference
-  * @offs_upper:	   Upper bits of offset into shared memory reference
-  * @internal_offs: Internal offset into the first page of shared memory
-  *		   reference
-  * @size:	   Size of the buffer
-- * @global_id:	   Global identifier of Shared memory
-+ * @global_id:	   Global identifier of the shared memory
-  */
- struct optee_msg_param_fmem {
- 	u32 offs_low;
-@@ -165,7 +165,7 @@ struct optee_msg_param_value {
-  * @attr:	attributes
-  * @tmem:	parameter by temporary memory reference
-  * @rmem:	parameter by registered memory reference
-- * @fmem:	parameter by ffa registered memory reference
-+ * @fmem:	parameter by FF-A registered memory reference
-  * @value:	parameter by opaque value
-  * @octets:	parameter by octet string
-  *
-@@ -296,6 +296,18 @@ struct optee_msg_arg {
-  */
- #define OPTEE_MSG_FUNCID_GET_OS_REVISION	0x0001
+  * struct optee - main service struct
+  * @supp_teedev:	supplicant device
+@@ -206,6 +220,7 @@ struct optee_ops {
+  * @notif:		notification synchronization struct
+  * @supp:		supplicant synchronization struct for RPC to supplicant
+  * @pool:		shared memory pool
++ * @rstmem_pool:	restricted memory pool for secure data path
+  * @mutex:		mutex protecting @rpmb_dev
+  * @rpmb_dev:		current RPMB device or NULL
+  * @rpmb_scan_bus_done	flag if device registation of RPMB dependent devices
+@@ -230,6 +245,7 @@ struct optee {
+ 	struct optee_notif notif;
+ 	struct optee_supp supp;
+ 	struct tee_shm_pool *pool;
++	struct optee_rstmem_pools *rstmem_pools;
+ 	/* Protects rpmb_dev pointer */
+ 	struct mutex rpmb_dev_mutex;
+ 	struct rpmb_dev *rpmb_dev;
+@@ -286,6 +302,9 @@ void optee_supp_init(struct optee_supp *supp);
+ void optee_supp_uninit(struct optee_supp *supp);
+ void optee_supp_release(struct optee_supp *supp);
  
-+/*
-+ * Values used in OPTEE_MSG_CMD_LEND_RSTMEM below
-+ * OPTEE_MSG_RSTMEM_RESERVED		Reserved
-+ * OPTEE_MSG_RSTMEM_SECURE_VIDEO_PLAY	Secure Video Playback
-+ * OPTEE_MSG_RSTMEM_TRUSTED_UI		Trused UI
-+ * OPTEE_MSG_RSTMEM_SECURE_VIDEO_RECORD	Secure Video Recording
-+ */
-+#define OPTEE_MSG_RSTMEM_RESERVED		0
-+#define OPTEE_MSG_RSTMEM_SECURE_VIDEO_PLAY	1
-+#define OPTEE_MSG_RSTMEM_TRUSTED_UI		2
-+#define OPTEE_MSG_RSTMEM_SECURE_VIDEO_RECORD	3
++int optee_rstmem_pools_init(struct optee *optee);
++void optee_rstmem_pools_uninit(struct optee *optee);
++
+ int optee_supp_recv(struct tee_context *ctx, u32 *func, u32 *num_params,
+ 		    struct tee_param *param);
+ int optee_supp_send(struct tee_context *ctx, u32 ret, u32 num_params,
+@@ -378,6 +397,10 @@ void optee_rpc_cmd(struct tee_context *ctx, struct optee *optee,
+ int optee_do_bottom_half(struct tee_context *ctx);
+ int optee_stop_async_notif(struct tee_context *ctx);
+ 
++int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
++		       u32 flags, u32 use_case, size_t size);
++void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm);
 +
  /*
-  * Do a secure call with struct optee_msg_arg as argument
-  * The OPTEE_MSG_CMD_* below defines what goes in struct optee_msg_arg::cmd
-@@ -337,6 +349,49 @@ struct optee_msg_arg {
-  * OPTEE_MSG_CMD_STOP_ASYNC_NOTIF informs secure world that from now is
-  * normal world unable to process asynchronous notifications. Typically
-  * used when the driver is shut down.
-+ *
-+ * OPTEE_MSG_CMD_LEND_RSTMEM lends restricted memory. The passed normal
-+ * physical memory is restricted from normal world access. The memory
-+ * should be unmapped prior to this call since it becomes inaccessible
-+ * during the request.
-+ * Parameters are passed as:
-+ * [in] param[0].attr			OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
-+ * [in] param[0].u.value.a		OPTEE_MSG_RSTMEM_* defined above
-+ * [in] param[1].attr			OPTEE_MSG_ATTR_TYPE_TMEM_INPUT
-+ * [in] param[1].u.tmem.buf_ptr		physical address
-+ * [in] param[1].u.tmem.size		size
-+ * [in] param[1].u.tmem.shm_ref		holds restricted memory reference
-+ *
-+ * OPTEE_MSG_CMD_RECLAIM_RSTMEM reclaims a previously lent restricted
-+ * memory reference. The physical memory is accessible by the normal world
-+ * after this function has return and can be mapped again. The information
-+ * is passed as:
-+ * [in] param[0].attr			OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
-+ * [in] param[0].u.value.a		holds restricted memory cookie
-+ *
-+ * OPTEE_MSG_CMD_GET_RSTMEM_CONFIG get configuration for a specific
-+ * restricted memory use case. Parameters are passed as:
-+ * [in] param[0].attr			OPTEE_MSG_ATTR_TYPE_VALUE_INOUT
-+ * [in] param[0].value.a		OPTEE_MSG_RSTMEM_*
-+ * [in] param[1].attr			OPTEE_MSG_ATTR_TYPE_{R,F}MEM_OUTPUT
-+ * [in] param[1].u.{r,f}mem		Buffer or NULL
-+ * [in] param[1].u.{r,f}mem.size	Provided size of buffer or 0 for query
-+ * output for the restricted use case:
-+ * [out] param[0].value.a		Minimal size of SDP memory
-+ * [out] param[0].value.b		Required alignment of size and start of
-+ *					restricted memory
-+ * [out] param[1].{r,f}mem.size		Size of output data
-+ * [out] param[1].{r,f}mem		If non-NULL, contains an array of
-+ *					uint16_t holding endpoints that
-+ *					must be included when lending
-+ *					memory for this use case
-+ *
-+ * OPTEE_MSG_CMD_ASSIGN_RSTMEM assigns use-case to restricted memory
-+ * previously lent using the FFA_LEND framework ABI. Parameters are passed
-+ * as:
-+ * [in] param[0].attr			OPTEE_MSG_ATTR_TYPE_VALUE_INPUT
-+ * [in] param[0].u.value.a		holds restricted memory cookie
-+ * [in] param[0].u.value.b		OPTEE_MSG_RSTMEM_* defined above
+  * Small helpers
   */
- #define OPTEE_MSG_CMD_OPEN_SESSION	0
- #define OPTEE_MSG_CMD_INVOKE_COMMAND	1
-@@ -346,6 +401,10 @@ struct optee_msg_arg {
- #define OPTEE_MSG_CMD_UNREGISTER_SHM	5
- #define OPTEE_MSG_CMD_DO_BOTTOM_HALF	6
- #define OPTEE_MSG_CMD_STOP_ASYNC_NOTIF	7
-+#define OPTEE_MSG_CMD_LEND_RSTMEM	8
-+#define OPTEE_MSG_CMD_RECLAIM_RSTMEM	9
-+#define OPTEE_MSG_CMD_GET_RSTMEM_CONFIG	10
-+#define OPTEE_MSG_CMD_ASSIGN_RSTMEM	11
- #define OPTEE_MSG_FUNCID_CALL_WITH_ARG	0x0004
- 
- #endif /* _OPTEE_MSG_H */
-diff --git a/drivers/tee/optee/optee_smc.h b/drivers/tee/optee/optee_smc.h
-index 879426300821..abc379ce190c 100644
---- a/drivers/tee/optee/optee_smc.h
-+++ b/drivers/tee/optee/optee_smc.h
-@@ -264,7 +264,6 @@ struct optee_smc_get_shm_config_result {
- #define OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM	BIT(0)
- /* Secure world can communicate via previously unregistered shared memory */
- #define OPTEE_SMC_SEC_CAP_UNREGISTERED_SHM	BIT(1)
--
- /*
-  * Secure world supports commands "register/unregister shared memory",
-  * secure world accepts command buffers located in any parts of non-secure RAM
-@@ -280,6 +279,10 @@ struct optee_smc_get_shm_config_result {
- #define OPTEE_SMC_SEC_CAP_RPC_ARG		BIT(6)
- /* Secure world supports probing for RPMB device if needed */
- #define OPTEE_SMC_SEC_CAP_RPMB_PROBE		BIT(7)
-+/* Secure world supports Secure Data Path */
-+#define OPTEE_SMC_SEC_CAP_SDP			BIT(8)
-+/* Secure world supports dynamic restricted memory */
-+#define OPTEE_SMC_SEC_CAP_DYNAMIC_RSTMEM	BIT(9)
- 
- #define OPTEE_SMC_FUNCID_EXCHANGE_CAPABILITIES	9
- #define OPTEE_SMC_EXCHANGE_CAPABILITIES \
-@@ -451,6 +454,72 @@ struct optee_smc_disable_shm_cache_result {
- 
- /* See OPTEE_SMC_CALL_WITH_REGD_ARG above */
- #define OPTEE_SMC_FUNCID_CALL_WITH_REGD_ARG	19
+diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
+new file mode 100644
+index 000000000000..01456bc3e2f6
+--- /dev/null
++++ b/drivers/tee/optee/rstmem.c
+@@ -0,0 +1,76 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Get Secure Data Path memory config
-+ *
-+ * Returns the Secure Data Path memory config.
-+ *
-+ * Call register usage:
-+ * a0   SMC Function ID, OPTEE_SMC_GET_SDP_CONFIG
-+ * a2-6	Not used, must be zero
-+ * a7	Hypervisor Client ID register
-+ *
-+ * Have config return register usage:
-+ * a0	OPTEE_SMC_RETURN_OK
-+ * a1	Physical address of start of SDP memory
-+ * a2	Size of SDP memory
-+ * a3	Not used
-+ * a4-7	Preserved
-+ *
-+ * Not available register usage:
-+ * a0	OPTEE_SMC_RETURN_ENOTAVAIL
-+ * a1-3 Not used
-+ * a4-7	Preserved
++ * Copyright (c) 2024, Linaro Limited
 + */
-+#define OPTEE_SMC_FUNCID_GET_SDP_CONFIG		20
-+#define OPTEE_SMC_GET_SDP_CONFIG \
-+	OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_SDP_CONFIG)
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +
-+struct optee_smc_get_sdp_config_result {
-+	unsigned long status;
-+	unsigned long start;
-+	unsigned long size;
-+	unsigned long flags;
-+};
++#include <linux/dma-map-ops.h>
++#include <linux/errno.h>
++#include <linux/genalloc.h>
++#include <linux/slab.h>
++#include <linux/string.h>
++#include <linux/tee_core.h>
++#include <linux/types.h>
++#include "optee_private.h"
 +
-+/*
-+ * Get Secure Data Path dynamic memory config
-+ *
-+ * Returns the Secure Data Path dynamic memory config.
-+ *
-+ * Call register usage:
-+ * a0	SMC Function ID, OPTEE_SMC_GET_DYN_SHM_CONFIG
-+ * a2-6	Not used, must be zero
-+ * a7	Hypervisor Client ID register
-+ *
-+ * Have config return register usage:
-+ * a0	OPTEE_SMC_RETURN_OK
-+ * a1	Minamal size of SDP memory
-+ * a2	Required alignment of size and start of registered SDP memory
-+ * a3	Not used
-+ * a4-7	Preserved
-+ *
-+ * Not available register usage:
-+ * a0	OPTEE_SMC_RETURN_ENOTAVAIL
-+ * a1-3 Not used
-+ * a4-7	Preserved
-+ */
++int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
++		       u32 flags, u32 use_case, size_t size)
++{
++	struct optee *optee = tee_get_drvdata(ctx->teedev);
++	struct tee_shm_pool *pool;
 +
-+#define OPTEE_SMC_FUNCID_GET_DYN_SDP_CONFIG	21
-+#define OPTEE_SMC_GET_DYN_SDP_CONFIG \
-+	OPTEE_SMC_FAST_CALL_VAL(OPTEE_SMC_FUNCID_GET_DYN_SDP_CONFIG)
++	if (!optee->rstmem_pools)
++		return -EINVAL;
++	if (flags)
++		return -EINVAL;
 +
-+struct optee_smc_get_dyn_sdp_config_result {
-+	unsigned long status;
-+	unsigned long size;
-+	unsigned long align;
-+	unsigned long flags;
-+};
++	pool = xa_load(&optee->rstmem_pools->xa, use_case);
++	if (!pool)
++		return -EINVAL;
++
++	return pool->ops->alloc(pool, shm, size, 0);
++}
++
++void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm)
++{
++	struct optee *optee = tee_get_drvdata(ctx->teedev);
++	struct tee_shm_pool *pool;
++
++	pool = xa_load(&optee->rstmem_pools->xa, shm->use_case);
++	if (pool)
++		pool->ops->free(pool, shm);
++	else
++		pr_err("Can't find pool for use_case %u\n", shm->use_case);
++}
++
++int optee_rstmem_pools_init(struct optee *optee)
++{
++	struct optee_rstmem_pools *pools;
++
++	pools = kmalloc(sizeof(*pools), GFP_KERNEL);
++	if (!pools)
++		return -ENOMEM;
++
++	mutex_init(&pools->mutex);
++	xa_init(&pools->xa);
++	optee->rstmem_pools = pools;
++	return 0;
++}
++
++void optee_rstmem_pools_uninit(struct optee *optee)
++{
++	if (optee->rstmem_pools) {
++		struct tee_shm_pool *pool;
++		u_long idx;
++
++		xa_for_each(&optee->rstmem_pools->xa, idx, pool) {
++			xa_erase(&optee->rstmem_pools->xa, idx);
++			pool->ops->destroy_pool(pool);
++		}
++
++		xa_destroy(&optee->rstmem_pools->xa);
++		mutex_destroy(&optee->rstmem_pools->mutex);
++		kfree(optee->rstmem_pools);
++		optee->rstmem_pools = NULL;
++	}
++}
+diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+index 788919a473d6..f5fd5f1d9a6b 100644
+--- a/drivers/tee/optee/smc_abi.c
++++ b/drivers/tee/optee/smc_abi.c
+@@ -1201,6 +1201,8 @@ static void optee_get_version(struct tee_device *teedev,
+ 		v.gen_caps |= TEE_GEN_CAP_REG_MEM;
+ 	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_MEMREF_NULL)
+ 		v.gen_caps |= TEE_GEN_CAP_MEMREF_NULL;
++	if (optee->rstmem_pools)
++		v.gen_caps |= TEE_GEN_CAP_RSTMEM;
+ 	*vers = v;
+ }
  
- /*
-  * Resume from RPC (for example after processing a foreign interrupt)
+@@ -1223,6 +1225,8 @@ static const struct tee_driver_ops optee_clnt_ops = {
+ 	.cancel_req = optee_cancel_req,
+ 	.shm_register = optee_shm_register,
+ 	.shm_unregister = optee_shm_unregister,
++	.rstmem_alloc = optee_rstmem_alloc,
++	.rstmem_free = optee_rstmem_free,
+ };
+ 
+ static const struct tee_desc optee_clnt_desc = {
+@@ -1239,6 +1243,8 @@ static const struct tee_driver_ops optee_supp_ops = {
+ 	.supp_send = optee_supp_send,
+ 	.shm_register = optee_shm_register_supp,
+ 	.shm_unregister = optee_shm_unregister_supp,
++	.rstmem_alloc = optee_rstmem_alloc,
++	.rstmem_free = optee_rstmem_free,
+ };
+ 
+ static const struct tee_desc optee_supp_desc = {
+@@ -1619,6 +1625,57 @@ static inline int optee_load_fw(struct platform_device *pdev,
+ }
+ #endif
+ 
++static int optee_sdp_pool_init(struct optee *optee)
++{
++	bool sdp = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP;
++	struct tee_shm_pool *pool;
++	int rc;
++
++	/*
++	 * optee_sdp_pools_init() must be called if secure world has any
++	 * SDP capability. If the static carvout is available initialize
++	 * and add a pool for that.
++	 */
++	if (!sdp)
++		return 0;
++
++	rc = optee_rstmem_pools_init(optee);
++	if (rc)
++		return rc;
++
++	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
++		union {
++			struct arm_smccc_res smccc;
++			struct optee_smc_get_sdp_config_result result;
++		} res;
++
++		optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0,
++				     0, &res.smccc);
++		if (res.result.status != OPTEE_SMC_RETURN_OK) {
++			pr_err("Secure Data Path service not available\n");
++			goto err;
++		}
++
++		pool = tee_rstmem_gen_pool_alloc(res.result.start,
++						 res.result.size);
++		if (IS_ERR(pool)) {
++			rc = PTR_ERR(pool);
++			goto err;
++		}
++		rc = xa_insert(&optee->rstmem_pools->xa,
++			       TEE_IOC_UC_SECURE_VIDEO_PLAY, pool, GFP_KERNEL);
++		if (rc) {
++			pool->ops->destroy_pool(pool);
++			goto err;
++		}
++	}
++
++	return 0;
++err:
++	optee_rstmem_pools_uninit(optee);
++	return rc;
++}
++
+ static int optee_probe(struct platform_device *pdev)
+ {
+ 	optee_invoke_fn *invoke_fn;
+@@ -1714,7 +1771,7 @@ static int optee_probe(struct platform_device *pdev)
+ 	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
+ 	if (!optee) {
+ 		rc = -ENOMEM;
+-		goto err_free_pool;
++		goto err_free_shm_pool;
+ 	}
+ 
+ 	optee->ops = &optee_ops;
+@@ -1726,10 +1783,14 @@ static int optee_probe(struct platform_device *pdev)
+ 	    (sec_caps & OPTEE_SMC_SEC_CAP_RPMB_PROBE))
+ 		optee->in_kernel_rpmb_routing = true;
+ 
++	rc = optee_sdp_pool_init(optee);
++	if (rc)
++		goto err_free_optee;
++
+ 	teedev = tee_device_alloc(&optee_clnt_desc, NULL, pool, optee);
+ 	if (IS_ERR(teedev)) {
+ 		rc = PTR_ERR(teedev);
+-		goto err_free_optee;
++		goto err_rstmem_pools_uninit;
+ 	}
+ 	optee->teedev = teedev;
+ 
+@@ -1836,9 +1897,11 @@ static int optee_probe(struct platform_device *pdev)
+ 	tee_device_unregister(optee->supp_teedev);
+ err_unreg_teedev:
+ 	tee_device_unregister(optee->teedev);
++err_rstmem_pools_uninit:
++	optee_rstmem_pools_uninit(optee);
+ err_free_optee:
+ 	kfree(optee);
+-err_free_pool:
++err_free_shm_pool:
+ 	tee_shm_pool_free(pool);
+ 	if (memremaped_shm)
+ 		memunmap(memremaped_shm);
 -- 
 2.43.0
 
