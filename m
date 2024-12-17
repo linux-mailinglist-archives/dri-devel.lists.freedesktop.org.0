@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2867F9F487A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69B39F487B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:08:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87A7010E8E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB26710E8DB;
 	Tue, 17 Dec 2024 10:08:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zft8DNYP";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Tzf8QlM9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3ABB10E8F5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 10:08:28 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id
- 38308e7fff4ca-3003d7ca01cso51156711fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 02:08:28 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30C3210E8E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 10:08:31 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-30037784fceso50320091fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 02:08:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734430107; x=1735034907; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734430109; x=1735034909; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZsHfNNOgspKsrUQD+qKEISSMRmQtLOnKljJs9VS4jY4=;
- b=zft8DNYPVPKzVmg/Y29SGUmihP1opGp3alDdysrqiSCe4AuQPEhl3cT5IqecQkr85O
- V9y1KiD9M0yOC0FcCQZD8a4t2eYUjM0IUafwq5WAzQke3zcEzWlMq9Hf94qCmgnvZgNx
- OofPTtnafQDY9cycfK5xKAtQRouJ5jpS8x32z8OOBkaNllsxjIw3MmbYjo88URlw1ueN
- waE4XdAvPCE3dAWp0kIRSNf/rAEVZLBy4H8W3Gs/XHK16BiMeg1Pjdry9FvEzdEeyTMw
- JVPWaJbsbd6hijdskERNfJmWpb+A5maOHThvQ5MyuFJZ9FeexYkytnafbZaDg4aUXJir
- FIRA==
+ bh=xbm9RgiC0A+b4FFTQuA/i8N2UKqzx9cRim+m924TLoM=;
+ b=Tzf8QlM9IwZaXq3lisUJ+IAG/cMu/6do2HruhlWLjjwkJMWWtIJDgx6p+UDbr/iqTH
+ udU2aCg0aikanG59HHK+Ek7mrp9hdkn5Bm2JAWpRELCothDBDUXH3lDnBmQZMFPXiqmC
+ OZZi6srLSK0kH1KuOs0BwXrK4CJBcpfDY/BdxgfWd2b3ZkLDRaPGsCNobl6UeHzycx1g
+ 4noSBxlei39ijCNtpM/4j2gxWYSQJRG7iC3wYl8GNTBsKozA1C1fYL2aTBTfsmz2VtzA
+ x2H6kQtbPUYTIz8vbBzSqRGKZuJb6EUyVYYOiK5f/5hglsiSs927H8LN92dr0kQm1TqQ
+ V2wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734430107; x=1735034907;
+ d=1e100.net; s=20230601; t=1734430109; x=1735034909;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ZsHfNNOgspKsrUQD+qKEISSMRmQtLOnKljJs9VS4jY4=;
- b=rsWR2bPfsFZmoLSk7W3x+PwHsbp3OyuJU8OhcakJ1dr1P1EehjIM97eqkMWzTn1bbe
- GL/5n8GBVv3JTD7RcnsbdzGE47Zu/kFReWQM+a3AAmQuOhPC6SHmdKs8RHq5pkF9pRkd
- qIvj3yFMuR0ccLDRs0ukGwUr8w6hJlx68il/BUa5+g3IqLMfjYZykE5UKmgHONffbJis
- atnMYixQsoRmbrFW7Qh/gU0tONqjvWQh9qu6FdxQt/PMziMDfl5uc3gU7fhIdNf+bBgo
- g6E9MyScUbS8Du5solHBJLKk7HccfGbpiMvyFScavKvHigjqzLMv5kaOclfPRx+sS78x
- mXDg==
+ bh=xbm9RgiC0A+b4FFTQuA/i8N2UKqzx9cRim+m924TLoM=;
+ b=fOf+ajkHEhK/DfcecRFi4h9ZZsPG4Ep0pVpcZFkLPqWC3Km5WMc3GWV3eCU17RU8I1
+ 1K+7SEwrfXfR4CMUJDdAxUFn69Jl0xQRxSJqUQwX8JRztuJPLg0zxuITagb8tFVfkzWo
+ NZA/U4NXv422zr27+iz01jQM3kZMZsAALSXWKghMyTDMusTqDelhlhwx0Jnd8sh7D61O
+ H/kOqoFwusiwGe6mvrE5zqpP6PRg/lQmrKnj7+am5ct+LX9MQqHuMu7SAJxeUViSyFky
+ pRKYRHc8pcb/BxbTCsYqW7+qdcIhP0Sp9cCWtAu5k29bd6h1YVET5g4m57ZlJaRA8cbu
+ lEmw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWPhdNjTHagWJ2OJFlVlR2KY9s3JnA16wgS2+lUqGwKmUEuA3PwULcIES+JAx46hCC6pFJEa+ERs6s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYVzHr4j5IOuXjpBW1nmQMniPSf2Zrv0xJYzA8xuCs+cZ71lc/
- 7SWmObvj461dcf2Ls1dmP9d+E55UOHrLsYmi9T+PP5zrzMZaZw0jNdkdhHP+Y98=
-X-Gm-Gg: ASbGncvEyKKzS1HpvPGnGDQH7e+7XZWVTRpBRIzczx79eNg1wmFMwmQ83kmSEc6dnWL
- K1c/Y6x/yxU9JTygBp4wQ6CGSN9ui1tVUXh9H37/aT1ztBS6qhQCKZgXTIcTyio/ieZVUmnNIdL
- hHLX34fn7sEX8MkaLTJfl8BMAavq6dX8QWuXyG2oikdKn95sHEpeZ27nNiVUn7B8oGLs122XxoV
- rBkUrnR3OfzMNzaYj2Sn3eXnMziwLM+hFBA2LMdkP90H/wKQFPIQt40xoC6lG1DmmYkyeTcrGqp
- sTPBCMtmwSCNeFh+bUxHIwFZflURYUBaiA==
-X-Google-Smtp-Source: AGHT+IGDOkQVBaM/y6DukXghEAM34NJKr73J8WRGV4NrI9jkGGB6d/Wycr2K7m3r8PvaIOQNbzWNGw==
-X-Received: by 2002:a2e:b8cb:0:b0:302:4115:b69 with SMTP id
- 38308e7fff4ca-304434d9f6dmr11314101fa.8.1734430106896; 
- Tue, 17 Dec 2024 02:08:26 -0800 (PST)
+ AJvYcCVG5tCJ/41XxflyquBu9tmL0QsXyBGaY01+xQ7CCdCv/p5nb7cpCn+u1T3F2TGVT3kY+8YeiAPKBSw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yza63Nucb6rtOj/WstClJLGCnuRxN1jU9/Q/9xINZsQXhwPD9ZT
+ /dWmAAI4J/CdybOPcvdmwnPz2lrmD+6jsOWflip/FoTHbO8vjL1KJqsdSYevPGI=
+X-Gm-Gg: ASbGncs8ffXYP0E+pwl6qMO4Oxp+uCQAGIz4azWtWvIqoWYhvhWRhxbHNsj1JR0FDBH
+ y5kpGUhtk0WweUVB1lTCl5p4q5p8iRCdKyGF1wOhR0FPUOS3/aRF7lBX/oi/DV/WdcE1jtnj2n6
+ bsIKStRNlQjdkZ6WUJ5F7mRa/cJLmoC4YtLfVC6zYia5m+krPt/qg2AJARS8YlvXWQx9+Htcnjt
+ Tf3KGZ5KY/lQXIbUhtpGRH7duSOY+D8VZJvmvgRpPR++MUhoyoo71Di5qoI7Q0FOIURbzTfDimi
+ l1DeMhL8lJPaAxi1JRD6w44/v/WTaxBvNg==
+X-Google-Smtp-Source: AGHT+IEkynZim7Ht/B/0ZvfWgTfGFpvIEhNX+GH2ilm2ujRWpZ9WuW4C9Sc1yyZCi5mT0TUAdIAFWQ==
+X-Received: by 2002:a2e:b8d0:0:b0:302:3a28:76cf with SMTP id
+ 38308e7fff4ca-3025461123dmr60578281fa.25.1734430109415; 
+ Tue, 17 Dec 2024 02:08:29 -0800 (PST)
 Received: from rayden.urgonet (h-98-128-140-123.A175.priv.bahnhof.se.
  [98.128.140.123]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303441a69ecsm12122681fa.111.2024.12.17.02.08.24
+ 38308e7fff4ca-303441a69ecsm12122681fa.111.2024.12.17.02.08.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 02:08:25 -0800 (PST)
+ Tue, 17 Dec 2024 02:08:28 -0800 (PST)
 From: Jens Wiklander <jens.wiklander@linaro.org>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
@@ -76,9 +76,9 @@ Cc: Olivier Masse <olivier.masse@nxp.com>,
  Matthias Brugger <matthias.bgg@gmail.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  azarrabi@qti.qualcomm.com, Jens Wiklander <jens.wiklander@linaro.org>
-Subject: [PATCH v4 4/6] optee: support restricted memory allocation
-Date: Tue, 17 Dec 2024 11:07:40 +0100
-Message-ID: <20241217100809.3962439-5-jens.wiklander@linaro.org>
+Subject: [PATCH v4 5/6] optee: FF-A: dynamic restricted memory allocation
+Date: Tue, 17 Dec 2024 11:07:41 +0100
+Message-ID: <20241217100809.3962439-6-jens.wiklander@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241217100809.3962439-1-jens.wiklander@linaro.org>
 References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
@@ -99,319 +99,594 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support in the OP-TEE backend driver for restricted memory
-allocation. The support is limited to only the SMC ABI and for secure
-video buffers.
+Add support in the OP-TEE backend driver dynamic restricted memory
+allocation with FF-A.
 
-OP-TEE is probed for the range of restricted physical memory and a
-memory pool allocator is initialized if OP-TEE have support for such
+The restricted memory pools for dynamically allocated restrict memory
+are instantiated when requested by user-space. This instantiation can
+fail if OP-TEE doesn't support the requested use-case of restricted
 memory.
+
+Restricted memory pools based on a static carveout or dynamic allocation
+can coexist for different use-cases. We use only dynamic allocation with
+FF-A.
 
 Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 ---
- drivers/tee/optee/Makefile        |  1 +
- drivers/tee/optee/core.c          |  1 +
- drivers/tee/optee/optee_private.h | 23 ++++++++++
- drivers/tee/optee/rstmem.c        | 76 +++++++++++++++++++++++++++++++
- drivers/tee/optee/smc_abi.c       | 69 ++++++++++++++++++++++++++--
- 5 files changed, 167 insertions(+), 3 deletions(-)
- create mode 100644 drivers/tee/optee/rstmem.c
+ drivers/tee/optee/ffa_abi.c       | 135 ++++++++++++-
+ drivers/tee/optee/optee_private.h |  10 +-
+ drivers/tee/optee/rstmem.c        | 316 +++++++++++++++++++++++++++++-
+ 3 files changed, 457 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
-index a6eff388d300..498969fb8e40 100644
---- a/drivers/tee/optee/Makefile
-+++ b/drivers/tee/optee/Makefile
-@@ -4,6 +4,7 @@ optee-objs += core.o
- optee-objs += call.o
- optee-objs += notif.o
- optee-objs += rpc.o
-+optee-objs += rstmem.o
- optee-objs += supp.o
- optee-objs += device.o
- optee-objs += smc_abi.o
-diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
-index c75fddc83576..f4fa494789a4 100644
---- a/drivers/tee/optee/core.c
-+++ b/drivers/tee/optee/core.c
-@@ -182,6 +182,7 @@ void optee_remove_common(struct optee *optee)
- 	tee_device_unregister(optee->teedev);
+diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+index 02e6175ac5f0..f500cf101c8d 100644
+--- a/drivers/tee/optee/ffa_abi.c
++++ b/drivers/tee/optee/ffa_abi.c
+@@ -672,6 +672,122 @@ static int optee_ffa_do_call_with_arg(struct tee_context *ctx,
+ 	return optee_ffa_yielding_call(ctx, &data, rpc_arg, system_thread);
+ }
  
- 	tee_shm_pool_free(optee->pool);
-+	optee_rstmem_pools_uninit(optee);
- 	optee_supp_uninit(&optee->supp);
- 	mutex_destroy(&optee->call_queue.mutex);
- 	rpmb_dev_put(optee->rpmb_dev);
-diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
-index 20eda508dbac..0491889e5b0e 100644
---- a/drivers/tee/optee/optee_private.h
-+++ b/drivers/tee/optee/optee_private.h
-@@ -193,6 +193,20 @@ struct optee_ops {
- 			      bool update_out);
- };
- 
-+/**
-+ * struct optee_rstmem_pools - restricted memory pools
-+ * @mutex:	serializes write access to @xa when adding a new pool.
-+ * @xa:		XArray of struct tee_shm_pool where the index is the
-+ *		use case ID TEE_IOC_UC_* supplied for TEE_IOC_RSTMEM_ALLOC.
-+ */
-+struct optee_rstmem_pools {
-+	/*
-+	 * Serializes write access to @xa when adding a new pool.
-+	 */
-+	struct mutex mutex;
-+	struct xarray xa;
-+};
++static int do_call_lend_rstmem(struct optee *optee, u64 cookie, u32 use_case)
++{
++	struct optee_shm_arg_entry *entry;
++	struct optee_msg_arg *msg_arg;
++	struct tee_shm *shm;
++	u_int offs;
++	int rc;
 +
- /**
-  * struct optee - main service struct
-  * @supp_teedev:	supplicant device
-@@ -206,6 +220,7 @@ struct optee_ops {
-  * @notif:		notification synchronization struct
-  * @supp:		supplicant synchronization struct for RPC to supplicant
-  * @pool:		shared memory pool
-+ * @rstmem_pool:	restricted memory pool for secure data path
-  * @mutex:		mutex protecting @rpmb_dev
-  * @rpmb_dev:		current RPMB device or NULL
-  * @rpmb_scan_bus_done	flag if device registation of RPMB dependent devices
-@@ -230,6 +245,7 @@ struct optee {
- 	struct optee_notif notif;
- 	struct optee_supp supp;
- 	struct tee_shm_pool *pool;
-+	struct optee_rstmem_pools *rstmem_pools;
- 	/* Protects rpmb_dev pointer */
- 	struct mutex rpmb_dev_mutex;
- 	struct rpmb_dev *rpmb_dev;
-@@ -286,6 +302,9 @@ void optee_supp_init(struct optee_supp *supp);
- void optee_supp_uninit(struct optee_supp *supp);
- void optee_supp_release(struct optee_supp *supp);
- 
-+int optee_rstmem_pools_init(struct optee *optee);
-+void optee_rstmem_pools_uninit(struct optee *optee);
++	msg_arg = optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs);
++	if (IS_ERR(msg_arg))
++		return PTR_ERR(msg_arg);
 +
- int optee_supp_recv(struct tee_context *ctx, u32 *func, u32 *num_params,
- 		    struct tee_param *param);
- int optee_supp_send(struct tee_context *ctx, u32 ret, u32 num_params,
-@@ -378,6 +397,10 @@ void optee_rpc_cmd(struct tee_context *ctx, struct optee *optee,
- int optee_do_bottom_half(struct tee_context *ctx);
- int optee_stop_async_notif(struct tee_context *ctx);
- 
-+int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
-+		       u32 flags, u32 use_case, size_t size);
-+void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm);
++	msg_arg->cmd = OPTEE_MSG_CMD_ASSIGN_RSTMEM;
++	msg_arg->params[0].attr = OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
++	msg_arg->params[0].u.value.a = cookie;
++	msg_arg->params[0].u.value.b = use_case;
++
++	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
++	if (rc)
++		goto out;
++	if (msg_arg->ret != TEEC_SUCCESS) {
++		rc = -EINVAL;
++		goto out;
++	}
++
++out:
++	optee_free_msg_arg(optee->ctx, entry, offs);
++	return rc;
++}
++
++static int optee_ffa_lend_rstmem(struct optee *optee, struct tee_shm *rstmem,
++				 u16 *end_points, unsigned int ep_count)
++{
++	struct ffa_device *ffa_dev = optee->ffa.ffa_dev;
++	const struct ffa_mem_ops *mem_ops = ffa_dev->ops->mem_ops;
++	const struct ffa_msg_ops *msg_ops = ffa_dev->ops->msg_ops;
++	struct ffa_send_direct_data data;
++	struct ffa_mem_region_attributes *mem_attr;
++	struct ffa_mem_ops_args args = {
++		.use_txbuf = true,
++		.tag = rstmem->use_case,
++	};
++	struct page *page;
++	struct scatterlist sgl;
++	unsigned int n;
++	int rc;
++
++	mem_attr = kcalloc(ep_count, sizeof(*mem_attr), GFP_KERNEL);
++	for (n = 0; n < ep_count; n++) {
++		mem_attr[n].receiver = end_points[n];
++		mem_attr[n].attrs = FFA_MEM_RW;
++	}
++	args.attrs = mem_attr;
++	args.nattrs = ep_count;
++
++	page = phys_to_page(rstmem->paddr);
++	sg_init_table(&sgl, 1);
++	sg_set_page(&sgl, page, rstmem->size, 0);
++
++	args.sg = &sgl;
++	rc = mem_ops->memory_lend(&args);
++	kfree(mem_attr);
++	if (rc)
++		return rc;
++
++	rc = do_call_lend_rstmem(optee, args.g_handle, rstmem->use_case);
++	if (rc)
++		goto err_reclaim;
++
++	rc = optee_shm_add_ffa_handle(optee, rstmem, args.g_handle);
++	if (rc)
++		goto err_unreg;
++
++	rstmem->sec_world_id = args.g_handle;
++
++	return 0;
++
++err_unreg:
++	data = (struct ffa_send_direct_data){
++		.data0 = OPTEE_FFA_RELEASE_RSTMEM,
++		.data1 = (u32)args.g_handle,
++		.data2 = (u32)(args.g_handle >> 32),
++	};
++	msg_ops->sync_send_receive(ffa_dev, &data);
++err_reclaim:
++	mem_ops->memory_reclaim(args.g_handle, 0);
++	return rc;
++}
++
++static int optee_ffa_reclaim_rstmem(struct optee *optee, struct tee_shm *rstmem)
++{
++	struct ffa_device *ffa_dev = optee->ffa.ffa_dev;
++	const struct ffa_msg_ops *msg_ops = ffa_dev->ops->msg_ops;
++	const struct ffa_mem_ops *mem_ops = ffa_dev->ops->mem_ops;
++	u64 global_handle = rstmem->sec_world_id;
++	struct ffa_send_direct_data data = {
++		.data0 = OPTEE_FFA_RELEASE_RSTMEM,
++		.data1 = (u32)global_handle,
++		.data2 = (u32)(global_handle >> 32)
++	};
++	int rc;
++
++	optee_shm_rem_ffa_handle(optee, global_handle);
++	rstmem->sec_world_id = 0;
++
++	rc = msg_ops->sync_send_receive(ffa_dev, &data);
++	if (rc)
++		pr_err("Release SHM id 0x%llx rc %d\n", global_handle, rc);
++
++	rc = mem_ops->memory_reclaim(global_handle, 0);
++	if (rc)
++		pr_err("mem_reclaim: 0x%llx %d", global_handle, rc);
++
++	return rc;
++}
 +
  /*
-  * Small helpers
-  */
-diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
-new file mode 100644
-index 000000000000..01456bc3e2f6
---- /dev/null
-+++ b/drivers/tee/optee/rstmem.c
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2024, Linaro Limited
-+ */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/dma-map-ops.h>
-+#include <linux/errno.h>
-+#include <linux/genalloc.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/tee_core.h>
-+#include <linux/types.h>
-+#include "optee_private.h"
-+
-+int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
-+		       u32 flags, u32 use_case, size_t size)
-+{
-+	struct optee *optee = tee_get_drvdata(ctx->teedev);
-+	struct tee_shm_pool *pool;
-+
-+	if (!optee->rstmem_pools)
-+		return -EINVAL;
-+	if (flags)
-+		return -EINVAL;
-+
-+	pool = xa_load(&optee->rstmem_pools->xa, use_case);
-+	if (!pool)
-+		return -EINVAL;
-+
-+	return pool->ops->alloc(pool, shm, size, 0);
-+}
-+
-+void optee_rstmem_free(struct tee_context *ctx, struct tee_shm *shm)
-+{
-+	struct optee *optee = tee_get_drvdata(ctx->teedev);
-+	struct tee_shm_pool *pool;
-+
-+	pool = xa_load(&optee->rstmem_pools->xa, shm->use_case);
-+	if (pool)
-+		pool->ops->free(pool, shm);
-+	else
-+		pr_err("Can't find pool for use_case %u\n", shm->use_case);
-+}
-+
-+int optee_rstmem_pools_init(struct optee *optee)
-+{
-+	struct optee_rstmem_pools *pools;
-+
-+	pools = kmalloc(sizeof(*pools), GFP_KERNEL);
-+	if (!pools)
-+		return -ENOMEM;
-+
-+	mutex_init(&pools->mutex);
-+	xa_init(&pools->xa);
-+	optee->rstmem_pools = pools;
-+	return 0;
-+}
-+
-+void optee_rstmem_pools_uninit(struct optee *optee)
-+{
-+	if (optee->rstmem_pools) {
-+		struct tee_shm_pool *pool;
-+		u_long idx;
-+
-+		xa_for_each(&optee->rstmem_pools->xa, idx, pool) {
-+			xa_erase(&optee->rstmem_pools->xa, idx);
-+			pool->ops->destroy_pool(pool);
-+		}
-+
-+		xa_destroy(&optee->rstmem_pools->xa);
-+		mutex_destroy(&optee->rstmem_pools->mutex);
-+		kfree(optee->rstmem_pools);
-+		optee->rstmem_pools = NULL;
-+	}
-+}
-diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
-index 788919a473d6..f5fd5f1d9a6b 100644
---- a/drivers/tee/optee/smc_abi.c
-+++ b/drivers/tee/optee/smc_abi.c
-@@ -1201,6 +1201,8 @@ static void optee_get_version(struct tee_device *teedev,
- 		v.gen_caps |= TEE_GEN_CAP_REG_MEM;
- 	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_MEMREF_NULL)
- 		v.gen_caps |= TEE_GEN_CAP_MEMREF_NULL;
+  * 6. Driver initialization
+  *
+@@ -785,7 +901,10 @@ static void optee_ffa_get_version(struct tee_device *teedev,
+ 		.gen_caps = TEE_GEN_CAP_GP | TEE_GEN_CAP_REG_MEM |
+ 			    TEE_GEN_CAP_MEMREF_NULL,
+ 	};
++	struct optee *optee = tee_get_drvdata(teedev);
+ 
 +	if (optee->rstmem_pools)
 +		v.gen_caps |= TEE_GEN_CAP_RSTMEM;
  	*vers = v;
  }
  
-@@ -1223,6 +1225,8 @@ static const struct tee_driver_ops optee_clnt_ops = {
+@@ -804,6 +923,8 @@ static const struct tee_driver_ops optee_ffa_clnt_ops = {
  	.cancel_req = optee_cancel_req,
- 	.shm_register = optee_shm_register,
- 	.shm_unregister = optee_shm_unregister,
+ 	.shm_register = optee_ffa_shm_register,
+ 	.shm_unregister = optee_ffa_shm_unregister,
 +	.rstmem_alloc = optee_rstmem_alloc,
 +	.rstmem_free = optee_rstmem_free,
  };
  
- static const struct tee_desc optee_clnt_desc = {
-@@ -1239,6 +1243,8 @@ static const struct tee_driver_ops optee_supp_ops = {
+ static const struct tee_desc optee_ffa_clnt_desc = {
+@@ -820,6 +941,8 @@ static const struct tee_driver_ops optee_ffa_supp_ops = {
  	.supp_send = optee_supp_send,
- 	.shm_register = optee_shm_register_supp,
- 	.shm_unregister = optee_shm_unregister_supp,
+ 	.shm_register = optee_ffa_shm_register, /* same as for clnt ops */
+ 	.shm_unregister = optee_ffa_shm_unregister_supp,
 +	.rstmem_alloc = optee_rstmem_alloc,
 +	.rstmem_free = optee_rstmem_free,
  };
  
- static const struct tee_desc optee_supp_desc = {
-@@ -1619,6 +1625,57 @@ static inline int optee_load_fw(struct platform_device *pdev,
- }
- #endif
+ static const struct tee_desc optee_ffa_supp_desc = {
+@@ -833,6 +956,8 @@ static const struct optee_ops optee_ffa_ops = {
+ 	.do_call_with_arg = optee_ffa_do_call_with_arg,
+ 	.to_msg_param = optee_ffa_to_msg_param,
+ 	.from_msg_param = optee_ffa_from_msg_param,
++	.lend_rstmem = optee_ffa_lend_rstmem,
++	.reclaim_rstmem = optee_ffa_reclaim_rstmem,
+ };
  
-+static int optee_sdp_pool_init(struct optee *optee)
-+{
-+	bool sdp = optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP;
-+	struct tee_shm_pool *pool;
-+	int rc;
-+
-+	/*
-+	 * optee_sdp_pools_init() must be called if secure world has any
-+	 * SDP capability. If the static carvout is available initialize
-+	 * and add a pool for that.
-+	 */
-+	if (!sdp)
-+		return 0;
-+
-+	rc = optee_rstmem_pools_init(optee);
-+	if (rc)
-+		return rc;
-+
-+	if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
-+		union {
-+			struct arm_smccc_res smccc;
-+			struct optee_smc_get_sdp_config_result result;
-+		} res;
-+
-+		optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0, 0, 0,
-+				     0, &res.smccc);
-+		if (res.result.status != OPTEE_SMC_RETURN_OK) {
-+			pr_err("Secure Data Path service not available\n");
-+			goto err;
-+		}
-+
-+		pool = tee_rstmem_gen_pool_alloc(res.result.start,
-+						 res.result.size);
-+		if (IS_ERR(pool)) {
-+			rc = PTR_ERR(pool);
-+			goto err;
-+		}
-+		rc = xa_insert(&optee->rstmem_pools->xa,
-+			       TEE_IOC_UC_SECURE_VIDEO_PLAY, pool, GFP_KERNEL);
-+		if (rc) {
-+			pool->ops->destroy_pool(pool);
-+			goto err;
-+		}
-+	}
-+
-+	return 0;
-+err:
-+	optee_rstmem_pools_uninit(optee);
-+	return rc;
-+}
-+
- static int optee_probe(struct platform_device *pdev)
- {
- 	optee_invoke_fn *invoke_fn;
-@@ -1714,7 +1771,7 @@ static int optee_probe(struct platform_device *pdev)
- 	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
- 	if (!optee) {
- 		rc = -ENOMEM;
--		goto err_free_pool;
-+		goto err_free_shm_pool;
- 	}
- 
- 	optee->ops = &optee_ops;
-@@ -1726,10 +1783,14 @@ static int optee_probe(struct platform_device *pdev)
- 	    (sec_caps & OPTEE_SMC_SEC_CAP_RPMB_PROBE))
+ static void optee_ffa_remove(struct ffa_device *ffa_dev)
+@@ -937,11 +1062,17 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
+ 	    (sec_caps & OPTEE_FFA_SEC_CAP_RPMB_PROBE))
  		optee->in_kernel_rpmb_routing = true;
  
-+	rc = optee_sdp_pool_init(optee);
-+	if (rc)
-+		goto err_free_optee;
++	if (sec_caps & OPTEE_FFA_SEC_CAP_RSTMEM) {
++		rc = optee_rstmem_pools_init(optee);
++		if (rc)
++			goto err_free_pool;
++	}
 +
- 	teedev = tee_device_alloc(&optee_clnt_desc, NULL, pool, optee);
+ 	teedev = tee_device_alloc(&optee_ffa_clnt_desc, NULL, optee->pool,
+ 				  optee);
  	if (IS_ERR(teedev)) {
  		rc = PTR_ERR(teedev);
--		goto err_free_optee;
-+		goto err_rstmem_pools_uninit;
+-		goto err_free_pool;
++		goto err_free_rstmem_pools;
  	}
  	optee->teedev = teedev;
  
-@@ -1836,9 +1897,11 @@ static int optee_probe(struct platform_device *pdev)
- 	tee_device_unregister(optee->supp_teedev);
- err_unreg_teedev:
+@@ -1020,6 +1151,8 @@ static int optee_ffa_probe(struct ffa_device *ffa_dev)
  	tee_device_unregister(optee->teedev);
-+err_rstmem_pools_uninit:
+ err_free_pool:
+ 	tee_shm_pool_free(pool);
++err_free_rstmem_pools:
 +	optee_rstmem_pools_uninit(optee);
  err_free_optee:
  	kfree(optee);
--err_free_pool:
-+err_free_shm_pool:
- 	tee_shm_pool_free(pool);
- 	if (memremaped_shm)
- 		memunmap(memremaped_shm);
+ 	return rc;
+diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/optee_private.h
+index 0491889e5b0e..dd2a3a2224bc 100644
+--- a/drivers/tee/optee/optee_private.h
++++ b/drivers/tee/optee/optee_private.h
+@@ -174,9 +174,14 @@ struct optee;
+  * @do_call_with_arg:	enters OP-TEE in secure world
+  * @to_msg_param:	converts from struct tee_param to OPTEE_MSG parameters
+  * @from_msg_param:	converts from OPTEE_MSG parameters to struct tee_param
++ * @lend_rstmem:	lends physically contiguous memory as restricted
++ *			memory, inaccessible by the kernel
++ * @reclaim_rstmem:	reclaims restricted memory previously lent with
++ *			@lend_rstmem() and makes it accessible by the
++ *			kernel again
+  *
+  * These OPs are only supposed to be used internally in the OP-TEE driver
+- * as a way of abstracting the different methogs of entering OP-TEE in
++ * as a way of abstracting the different methods of entering OP-TEE in
+  * secure world.
+  */
+ struct optee_ops {
+@@ -191,6 +196,9 @@ struct optee_ops {
+ 			      size_t num_params,
+ 			      const struct optee_msg_param *msg_params,
+ 			      bool update_out);
++	int (*lend_rstmem)(struct optee *optee, struct tee_shm *rstmem,
++			   u16 *end_points, unsigned int ep_count);
++	int (*reclaim_rstmem)(struct optee *optee, struct tee_shm *rstmem);
+ };
+ 
+ /**
+diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
+index 01456bc3e2f6..8c561d638733 100644
+--- a/drivers/tee/optee/rstmem.c
++++ b/drivers/tee/optee/rstmem.c
+@@ -4,6 +4,7 @@
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <linux/cma.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/errno.h>
+ #include <linux/genalloc.h>
+@@ -13,11 +14,313 @@
+ #include <linux/types.h>
+ #include "optee_private.h"
+ 
++#ifdef CONFIG_CMA
++struct optee_rstmem_cma_pool {
++	struct tee_shm_pool pool;
++	struct page *page;
++	struct optee *optee;
++	size_t page_count;
++	u16 *end_points;
++	u_int end_point_count;
++	u_int align;
++	refcount_t refcount;
++	struct tee_shm rstmem;
++	/* Protects when initializing and tearing down this struct */
++	struct mutex mutex;
++};
++
++static struct optee_rstmem_cma_pool *
++to_rstmem_cma_pool(struct tee_shm_pool *pool)
++{
++	return container_of(pool, struct optee_rstmem_cma_pool, pool);
++}
++
++static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
++{
++	struct cma *cma = dev_get_cma_area(&rp->optee->teedev->dev);
++	int rc;
++
++	rp->page = cma_alloc(cma, rp->page_count, rp->align, true/*no_warn*/);
++	if (!rp->page)
++		return -ENOMEM;
++
++	/*
++	 * TODO unmap the memory range since the physical memory will
++	 * become inaccesible after the lend_rstmem() call.
++	 */
++
++	rp->rstmem.paddr = page_to_phys(rp->page);
++	rp->rstmem.size = rp->page_count * PAGE_SIZE;
++	rc = rp->optee->ops->lend_rstmem(rp->optee, &rp->rstmem,
++					 rp->end_points, rp->end_point_count);
++	if (rc)
++		goto err_release;
++
++	rp->pool.private_data = gen_pool_create(PAGE_SHIFT, -1);
++	if (!rp->pool.private_data) {
++		rc = -ENOMEM;
++		goto err_reclaim;
++	}
++
++	rc = gen_pool_add(rp->pool.private_data, rp->rstmem.paddr,
++			  rp->rstmem.size, -1);
++	if (rc)
++		goto err_free_pool;
++
++	refcount_set(&rp->refcount, 1);
++	return 0;
++
++err_free_pool:
++	gen_pool_destroy(rp->pool.private_data);
++err_reclaim:
++	rp->optee->ops->reclaim_rstmem(rp->optee, &rp->rstmem);
++err_release:
++	cma_release(cma, rp->page, rp->page_count);
++	rp->rstmem.paddr = 0;
++	rp->rstmem.size = 0;
++	rp->rstmem.sec_world_id = 0;
++	return rc;
++}
++
++static int get_cma_rstmem(struct optee_rstmem_cma_pool *rp)
++{
++	int rc = 0;
++
++	if (!refcount_inc_not_zero(&rp->refcount)) {
++		mutex_lock(&rp->mutex);
++		if (rp->pool.private_data) {
++			/*
++			 * Another thread has already initialized the pool
++			 * before us, or the pool was just about to be torn
++			 * down. Either way we only need to increase the
++			 * refcount and we're done.
++			 */
++			refcount_inc(&rp->refcount);
++		} else {
++			rc = init_cma_rstmem(rp);
++		}
++		mutex_unlock(&rp->mutex);
++	}
++
++	return rc;
++}
++
++static void release_cma_rstmem(struct optee_rstmem_cma_pool *rp)
++{
++	gen_pool_destroy(rp->pool.private_data);
++	rp->optee->ops->reclaim_rstmem(rp->optee, &rp->rstmem);
++	cma_release(dev_get_cma_area(&rp->optee->teedev->dev), rp->page,
++		    rp->page_count);
++
++	rp->pool.private_data = NULL;
++	rp->page = NULL;
++	rp->rstmem.paddr = 0;
++	rp->rstmem.size = 0;
++	rp->rstmem.sec_world_id = 0;
++}
++
++static void put_cma_rstmem(struct optee_rstmem_cma_pool *rp)
++{
++	if (refcount_dec_and_test(&rp->refcount)) {
++		mutex_lock(&rp->mutex);
++		if (rp->pool.private_data)
++			release_cma_rstmem(rp);
++		mutex_unlock(&rp->mutex);
++	}
++}
++
++static int rstmem_pool_op_cma_alloc(struct tee_shm_pool *pool,
++				    struct tee_shm *shm, size_t size,
++				    size_t align)
++{
++	struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
++	size_t sz = ALIGN(size, PAGE_SIZE);
++	phys_addr_t pa;
++	int rc;
++
++	rc = get_cma_rstmem(rp);
++	if (rc)
++		return rc;
++
++	pa = gen_pool_alloc(rp->pool.private_data, sz);
++	if (!pa) {
++		put_cma_rstmem(rp);
++		return -ENOMEM;
++	}
++
++	shm->size = sz;
++	shm->paddr = pa;
++	shm->offset = pa - page_to_phys(rp->page);
++	shm->sec_world_id = rp->rstmem.sec_world_id;
++
++	return 0;
++}
++
++static void rstmem_pool_op_cma_free(struct tee_shm_pool *pool,
++				    struct tee_shm *shm)
++{
++	struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
++
++	gen_pool_free(rp->pool.private_data, shm->paddr, shm->size);
++	shm->size = 0;
++	shm->paddr = 0;
++	shm->offset = 0;
++	shm->sec_world_id = 0;
++	put_cma_rstmem(rp);
++}
++
++static void pool_op_cma_destroy_pool(struct tee_shm_pool *pool)
++{
++	struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
++
++	mutex_destroy(&rp->mutex);
++	kfree(rp);
++}
++
++static struct tee_shm_pool_ops rstmem_pool_ops_cma = {
++	.alloc = rstmem_pool_op_cma_alloc,
++	.free = rstmem_pool_op_cma_free,
++	.destroy_pool = pool_op_cma_destroy_pool,
++};
++
++static int get_rstmem_config(struct optee *optee, u32 use_case,
++			     size_t *min_size, u_int *min_align,
++			     u16 *end_points, u_int *ep_count)
++{
++	struct tee_param params[2] = {
++		[0] = {
++			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT,
++			.u.value.a = use_case,
++		},
++		[1] = {
++			.attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT,
++		},
++	};
++	struct optee_shm_arg_entry *entry;
++	struct tee_shm *shm_param = NULL;
++	struct optee_msg_arg *msg_arg;
++	struct tee_shm *shm;
++	u_int offs;
++	int rc;
++
++	if (end_points && *ep_count) {
++		params[1].u.memref.size = *ep_count * sizeof(*end_points);
++		shm_param = tee_shm_alloc_priv_buf(optee->ctx,
++						   params[1].u.memref.size);
++		if (IS_ERR(shm_param))
++			return PTR_ERR(shm_param);
++		params[1].u.memref.shm = shm_param;
++	}
++
++	msg_arg = optee_get_msg_arg(optee->ctx, ARRAY_SIZE(params), &entry,
++				    &shm, &offs);
++	if (IS_ERR(msg_arg)) {
++		rc = PTR_ERR(msg_arg);
++		goto out_free_shm;
++	}
++	msg_arg->cmd = OPTEE_MSG_CMD_GET_RSTMEM_CONFIG;
++
++	rc = optee->ops->to_msg_param(optee, msg_arg->params,
++				      ARRAY_SIZE(params), params,
++				      false /*!update_out*/);
++	if (rc)
++		goto out_free_msg;
++
++	rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
++	if (rc)
++		goto out_free_msg;
++	if (msg_arg->ret && msg_arg->ret != TEEC_ERROR_SHORT_BUFFER) {
++		rc = -EINVAL;
++		goto out_free_msg;
++	}
++
++	rc = optee->ops->from_msg_param(optee, params, ARRAY_SIZE(params),
++					msg_arg->params, true /*update_out*/);
++	if (rc)
++		goto out_free_msg;
++
++	if (!msg_arg->ret && end_points &&
++	    *ep_count < params[1].u.memref.size / sizeof(u16)) {
++		rc = -EINVAL;
++		goto out_free_msg;
++	}
++
++	*min_size = params[0].u.value.a;
++	*min_align = params[0].u.value.b;
++	*ep_count = params[1].u.memref.size / sizeof(u16);
++
++	if (msg_arg->ret == TEEC_ERROR_SHORT_BUFFER) {
++		rc = -ENOSPC;
++		goto out_free_msg;
++	}
++
++	if (end_points)
++		memcpy(end_points, tee_shm_get_va(shm_param, 0),
++		       params[1].u.memref.size);
++
++out_free_msg:
++	optee_free_msg_arg(optee->ctx, entry, offs);
++out_free_shm:
++	if (shm_param)
++		tee_shm_free(shm_param);
++	return rc;
++}
++
++static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee, u32 use_case)
++{
++	struct optee_rstmem_cma_pool *rp;
++	size_t min_size;
++	int rc;
++
++	rp = kzalloc(sizeof(*rp), GFP_KERNEL);
++	if (!rp)
++		return ERR_PTR(-ENOMEM);
++	rp->rstmem.use_case = use_case;
++
++	rc = get_rstmem_config(optee, use_case, &min_size, &rp->align, NULL,
++			       &rp->end_point_count);
++	if (rc) {
++		if (rc != -ENOSPC)
++			goto err;
++		rp->end_points = kcalloc(rp->end_point_count,
++					 sizeof(*rp->end_points), GFP_KERNEL);
++		if (!rp->end_points) {
++			rc = -ENOMEM;
++			goto err;
++		}
++		rc = get_rstmem_config(optee, use_case, &min_size, &rp->align,
++				       rp->end_points, &rp->end_point_count);
++		if (rc)
++			goto err_kfree_eps;
++	}
++
++	rp->pool.ops = &rstmem_pool_ops_cma;
++	rp->optee = optee;
++	rp->page_count = min_size / PAGE_SIZE;
++	mutex_init(&rp->mutex);
++
++	return &rp->pool;
++
++err_kfree_eps:
++	kfree(rp->end_points);
++err:
++	kfree(rp);
++	return ERR_PTR(rc);
++}
++#else /*CONFIG_CMA*/
++static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
++					      u32 use_case __unused)
++{
++	return ERR_PTR(-EINVAL);
++}
++#endif /*CONFIG_CMA*/
++
+ int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
+ 		       u32 flags, u32 use_case, size_t size)
+ {
+ 	struct optee *optee = tee_get_drvdata(ctx->teedev);
+ 	struct tee_shm_pool *pool;
++	int rc;
+ 
+ 	if (!optee->rstmem_pools)
+ 		return -EINVAL;
+@@ -25,8 +328,17 @@ int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
+ 		return -EINVAL;
+ 
+ 	pool = xa_load(&optee->rstmem_pools->xa, use_case);
+-	if (!pool)
+-		return -EINVAL;
++	if (!pool) {
++		pool = alloc_rstmem_pool(optee, use_case);
++		if (IS_ERR(pool))
++			return PTR_ERR(pool);
++		rc = xa_insert(&optee->rstmem_pools->xa, use_case, pool,
++			       GFP_KERNEL);
++		if (rc) {
++			pool->ops->destroy_pool(pool);
++			return rc;
++		}
++	}
+ 
+ 	return pool->ops->alloc(pool, shm, size, 0);
+ }
 -- 
 2.43.0
 
