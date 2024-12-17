@@ -2,35 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9199F495A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 11:55:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06209F4702
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 10:14:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98E8510E90E;
-	Tue, 17 Dec 2024 10:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74DBA10E45A;
+	Tue, 17 Dec 2024 09:14:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="v3Ld4ue/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.nfschina.com (unknown [42.101.60.213])
- by gabe.freedesktop.org (Postfix) with SMTP id BD96510E832;
- Tue, 17 Dec 2024 01:54:12 +0000 (UTC)
-Received: from localhost.localdomain (unknown [103.163.180.3])
- by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 566BE6017097D; 
- Tue, 17 Dec 2024 09:54:09 +0800 (CST)
-X-MD-Sfrom: zhanxin@nfschina.com
-X-MD-SrcIP: 103.163.180.3
-From: Zhanxin Qi <zhanxin@nfschina.com>
-To: kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Zhanxin Qi <zhanxin@nfschina.com>, Duanjun Li <duanjun@nfschina.com>
-Subject: [PATCH v2] drm/nouveau: Fix memory leak in nvbios_iccsense_parse
-Date: Tue, 17 Dec 2024 09:53:02 +0800
-Message-Id: <20241217015302.281769-1-zhanxin@nfschina.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <Z2A0CuGRJD-asF3y@cassiopeiae>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E00910E0FE;
+ Tue, 17 Dec 2024 09:14:28 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YCB2l2964z9stj;
+ Tue, 17 Dec 2024 10:14:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1734426863;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ksNkl0DtHPa2EbcU5GeG5cHLr/UJn4PPo/rTI4kbE8U=;
+ b=v3Ld4ue/jeEeN/my9nerI9uNHEwRRLFF+cBQuVDpStaEA/wEX4JtyJUQhoEcd2KHg2PKy7
+ 9ASsd4qW1GFpeM8VBfiF/Bjv+0MevcXtcXlvew6jFbMrp9sbVxTPYE717rjgsHTyrMTrkp
+ K3wOD3G0RYZ60dQSKE2ZcqHpj8Q/NIJNKszg7id/Zr9Ymnrtf+TGKfk9wJnvsWA/eDt4Xu
+ S1gscDGmODUki3xYx2csfql/3mGE50YumRGKkQlp6kPHmgINs1Fzt3q8d1KxYjieWV9Duv
+ t3jN+C2C0alv7ED5QfpF03J/bAk1Mhm0IpEAS2soR/QgIZleAoR3h7/7s3nHQg==
+Message-ID: <0f15e4b9-f867-4cf0-9c97-a4736dde29b1@mailbox.org>
+Date: Tue, 17 Dec 2024 10:14:21 +0100
 MIME-Version: 1.0
+Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
+ alignment
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>
+References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
+ <340ed70a-a576-43c6-86ff-9b58ed513c72@mailbox.org>
+ <CAAxE2A4+6fMd+Ly_5UgAnLxWP3NTYyc=boCK_H7-_qsrgsE2eA@mail.gmail.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA, de-CH-frami
+In-Reply-To: <CAAxE2A4+6fMd+Ly_5UgAnLxWP3NTYyc=boCK_H7-_qsrgsE2eA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 17 Dec 2024 10:55:20 +0000
+X-MBO-RS-ID: a2450feaa1ec58d42a0
+X-MBO-RS-META: hu1g5ifknxys33nmcoj5ciraarh484bp
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,81 +68,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The nvbios_iccsense_parse function allocates memory for sensor data
-but fails to free it when the function exits, leading to a memory
-leak. Add proper cleanup to free the allocated memory.
+On 2024-12-16 22:29, Marek Olšák wrote:
+> On Mon, Dec 16, 2024 at 4:27 AM Michel Dänzer <michel.daenzer@mailbox.org <mailto:michel.daenzer@mailbox.org>> wrote:
+> 
+>     On 2024-12-15 21:53, Marek Olšák wrote:
+>     > The comment explains the problem with DRM_FORMAT_MOD_LINEAR.
+>     >    
+>     > Signed-off-by: Marek Olšák <marek.olsak@amd.com <mailto:marek.olsak@amd.com> <mailto:marek.olsak@amd.com <mailto:marek.olsak@amd.com>>>
+>     >
+>     > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+>     > index 78abd819fd62e..8ec4163429014 100644
+>     > --- a/include/uapi/drm/drm_fourcc.h
+>     > +++ b/include/uapi/drm/drm_fourcc.h
+>     > @@ -484,9 +484,27 @@ extern "C" {
+>     >   * modifier (e.g. not setting DRM_MODE_FB_MODIFIERS in the DRM_ADDFB2 ioctl),
+>     >   * which tells the driver to also take driver-internal information into account
+>     >   * and so might actually result in a tiled framebuffer.
+>     > + *
+>     > + * WARNING:
+>     > + * There are drivers out there that expose DRM_FORMAT_MOD_LINEAR, but only
+>     > + * support a certain pitch alignment and can't import images with this modifier
+>     > + * if the pitch alignment isn't exactly the one supported. They can however
+>     > + * allocate images with this modifier and other drivers can import them only
+>     > + * if they support the same pitch alignment. Thus, DRM_FORMAT_MOD_LINEAR is
+>     > + * fundamentically incompatible across devices and is the only modifier that
+>     > + * has a chance of not working. The PITCH_ALIGN modifiers should be used
+>     > + * instead.
+>     >   */
+>     >  #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
+>     >  
+>     > +/* Linear layout modifiers with an explicit pitch alignment in bytes.
+>     > + * Exposing this modifier requires that the pitch alignment is exactly
+>     > + * the number in the definition.
+>     > + */
+>     > +#define DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_64B fourcc_mod_code(NONE, 1)
+> 
+>     It's not clear what you mean by "requires that the pitch alignment is exactly the number in the definition", since a pitch which is aligned to 256 bytes is also aligned to 128 & 64 bytes. Do you mean the pitch must be exactly the width rounded up to the next / smallest possible multiple of the specified number of bytes?
+> 
+> 
+> The pitch must be width*Bpp aligned to the number of bytes in the definition.
 
-Fixes: b71c0892631a ("drm/nouveau/iccsense: implement for ina209, ina219 and ina3221")
+The comment above the modifier define should spell that out unambiguously.
 
-Cc: stable@vger.kernel.org
-Co-developed-by: Duanjun Li <duanjun@nfschina.com>
-Signed-off-by: Zhanxin Qi <zhanxin@nfschina.com>
----
- .../include/nvkm/subdev/bios/iccsense.h       |  2 ++
- .../drm/nouveau/nvkm/subdev/bios/iccsense.c   | 20 +++++++++++++++++++
- .../drm/nouveau/nvkm/subdev/iccsense/base.c   |  3 +++
- 3 files changed, 25 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h
-index 4c108fd2c805..8bfc28c3f7a7 100644
---- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h
-+++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/bios/iccsense.h
-@@ -20,4 +20,6 @@ struct nvbios_iccsense {
- };
- 
- int nvbios_iccsense_parse(struct nvkm_bios *, struct nvbios_iccsense *);
-+
-+void nvbios_iccsense_cleanup(struct nvbios_iccsense *iccsense);
- #endif
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-index dea444d48f94..ca7c27b92f16 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/bios/iccsense.c
-@@ -56,6 +56,19 @@ nvbios_iccsense_table(struct nvkm_bios *bios, u8 *ver, u8 *hdr, u8 *cnt,
- 	return 0;
- }
- 
-+/**
-+ * nvbios_iccsense_parse - Parse ICCSENSE table from VBIOS
-+ * @bios: VBIOS base pointer
-+ * @iccsense: ICCSENSE table structure to fill
-+ *
-+ * Parses the ICCSENSE table from VBIOS and fills the provided structure.
-+ * The caller must invoke nvbios_iccsense_cleanup() after successful parsing
-+ * to free the allocated rail resources.
-+ *
-+ * Returns:
-+ *   0        - Success
-+ *   -EINVAL  - Table not found
-+ */
- int
- nvbios_iccsense_parse(struct nvkm_bios *bios, struct nvbios_iccsense *iccsense)
- {
-@@ -127,3 +140,10 @@ nvbios_iccsense_parse(struct nvkm_bios *bios, struct nvbios_iccsense *iccsense)
- 
- 	return 0;
- }
-+
-+void
-+nvbios_iccsense_cleanup(struct nvbios_iccsense *iccsense)
-+{
-+	kfree(iccsense->rail);
-+	iccsense->rail = NULL;
-+}
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-index 8f0ccd3664eb..4c1759ecce38 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/iccsense/base.c
-@@ -291,6 +291,9 @@ nvkm_iccsense_oneinit(struct nvkm_subdev *subdev)
- 			list_add_tail(&rail->head, &iccsense->rails);
- 		}
- 	}
-+
-+	nvbios_iccsense_cleanup(&stbl);
-+
- 	return 0;
- }
- 
 -- 
-2.30.2
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
