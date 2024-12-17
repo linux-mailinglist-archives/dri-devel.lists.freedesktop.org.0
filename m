@@ -1,72 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B45E9F514F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 17:43:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA519F516A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 17:53:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC7B10E279;
-	Tue, 17 Dec 2024 16:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E28C10E0A4;
+	Tue, 17 Dec 2024 16:53:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GJ9vAQ/r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KlS7YtpF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D0B10E279
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 16:43:00 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A973D24000E;
- Tue, 17 Dec 2024 16:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734453779;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=y3On92C8rwOU59YJ8LWHk+H1D2wQBNVBymTC7a95pjM=;
- b=GJ9vAQ/rwPcfcxoYjcP19kiCoZifzmpSw2T5cignF/Q6CI11xsZQHHpR7j5XXLQMlqjFWE
- dMN0Tx+W7lXjuJRTbxP1rqV9vRxSTMLJ50i2VP72OwD9Ln3C+CQBANspyBIhwMx5u6lOTY
- zP/wO30hthkzLOFHpH5MYMc/A9j63OF2Z9ZpE4iqSKDjsL+w5GbARqxJDmru2C6EBk8z8b
- M+sxZB2xTE1GXjKdeitB3z4nr+ma9HXw2Sj11vpScuJFh8GLpK7dWNPt/8GzXY4xXcOz8q
- WUdLwV7eJOEpUKX+Xhu6OMy4KQNYYmSx+xZXzNDQ4fiUmpXUgctOLjWUpsHP4w==
-Date: Tue, 17 Dec 2024 17:42:56 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B28E10E0A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 16:53:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id A5A89A41D2C;
+ Tue, 17 Dec 2024 16:51:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E537C4CED3;
+ Tue, 17 Dec 2024 16:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734454412;
+ bh=EOJspbm7MP7wG0IjvVUNU+l636arDNGqBCyTzRfpfbA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KlS7YtpFsL/gTqOzHFp9lpkcIkTrozL//Q/lMLNXbPW3Y6m2sgkt5CGABkkAjo0u2
+ es6xqBqUBVJ+EEjVk4ljZzWGXLhxrWbnql7aU1x/Gq+smMLm85OG8Q4XnOdNUdbKuJ
+ B9Kal/JswAvNPqnL3Fh80lNcUqkppz8sIqWUxhfVxzXvG+lxc+eHJf9YZXGWncIn1y
+ sB07MUtRE4rm4aIbIuWtq+9lB3CpP9P1A4+LvzRvIMVMluirSZAJ8DNP7m56yyYOgw
+ uesQmgEIrWcTGXVvI0gUxJdSoTfKoyJjYajgaslXGUBGUXTsPak061NnMfyBj6yWs1
+ CoVcBpdw3jrCw==
+Date: Tue, 17 Dec 2024 17:53:29 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>, jose.exposito89@gmail.com,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH RFC v2 00/16] drm/vkms: ConfigFS interface
-Message-ID: <Z2GqEOiVkdgB3IXy@louis-chauvet-laptop>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>, jose.exposito89@gmail.com,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com
-References: <20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com>
- <Z0DC8nd1ZFN4A82-@louis-chauvet-laptop>
- <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ FUKAUMI Naoki <naoki@radxa.com>
+Subject: Re: [PATCH v2 3/5] drm/rockchip: vop2: Improve display modes
+ handling on RK3588 HDMI0
+Message-ID: <20241217-zealous-boisterous-llama-52bfcc@houat>
+References: <20241211-vop2-hdmi0-disp-modes-v2-0-471cf5001e45@collabora.com>
+ <1820767.5KxKD5qtyk@diego>
+ <a4ex3s23r4k6wehyoaw3aylpcexfrclrxxykjpabhdfne2jgmu@ii6riiiga2zj>
+ <1756448.izSxrag8PF@diego>
+ <20241217-ubiquitous-refreshing-finch-aceade@houat>
+ <c45ff74a-c9a4-4cf1-8530-04087e06b07a@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="j4mpk3mpmbzuirpe"
 Content-Disposition: inline
-In-Reply-To: <20241126-overjoyed-knowing-cuttlefish-c8d0f6@houat>
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <c45ff74a-c9a4-4cf1-8530-04087e06b07a@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,167 +75,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-> > Hi all,
-> > 
-> > I am also currently working on MST emulation for VKMS. If someone can read 
-> > what I already did and at tell me if my implementation seems on the right 
-> > track it could be nice.
-> > 
-> > The current status is not very advanced: I can emulate a mst HUB, but not 
-> > a screen. I am currently working on properly emulating the HUB by using an 
-> > other hub.
-> > 
-> > You can find the branch for this work here:
-> > https://gitlab.freedesktop.org/louischauvet/kernel/-/tree/b4/vkms-mst
-> 
-> I think this is exactly the kind of things where we'll want eBPF I
-> think. There's no way you'll be able to model each possible test
-> scenarios for MST through configfs, even more so with a stable
-> interface.
+--j4mpk3mpmbzuirpe
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/5] drm/rockchip: vop2: Improve display modes
+ handling on RK3588 HDMI0
+MIME-Version: 1.0
 
-I just spent some time to think about it. I agree that eBPF seems 
-applicable: we want to allows userspace to emulate any MST device, and we 
-don't want to create huge uAPI + whole emulation in the kernel.
+On Tue, Dec 17, 2024 at 06:36:41PM +0200, Cristian Ciocaltea wrote:
+> On 12/17/24 5:00 PM, Maxime Ripard wrote:
+> > On Wed, Dec 11, 2024 at 07:01:15PM +0100, Heiko St=FCbner wrote:
+> >> Am Mittwoch, 11. Dezember 2024, 18:47:44 CET schrieb Maxime Ripard:
+> >>> On Wed, Dec 11, 2024 at 06:23:03PM +0100, Heiko St=FCbner wrote:
+> >>>> Am Mittwoch, 11. Dezember 2024, 18:07:57 CET schrieb Maxime Ripard:
+> >>>>> On Wed, Dec 11, 2024 at 12:15:07PM +0200, Cristian Ciocaltea wrote:
+> >>>>>> The RK3588 specific implementation is currently quite limited in t=
+erms
+> >>>>>> of handling the full range of display modes supported by the conne=
+cted
+> >>>>>> screens, e.g. 2560x1440@75Hz, 2048x1152@60Hz, 1024x768@60Hz are ju=
+st a
+> >>>>>> few of them.
+> >>>>>>
+> >>>>>> Additionally, it doesn't cope well with non-integer refresh rates =
+like
+> >>>>>> 59.94, 29.97, 23.98, etc.
+> >>>>>>
+> >>>>>> Make use of HDMI0 PHY PLL as a more accurate DCLK source to handle
+> >>>>>> all display modes up to 4K@60Hz.
+> >>>>>>
+> >>>>>> Tested-by: FUKAUMI Naoki <naoki@radxa.com>
+> >>>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.co=
+m>
+> >>>>>> ---
+> >>>>>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 34 +++++++++++++++=
++++++++++++++
+> >>>>>>  1 file changed, 34 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/driver=
+s/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >>>>>> index 8b2f53ffefdbf1cc8737b3a86e630a03a7fd9348..393fe6aa170aaee966=
+3c4a6d98c1cd6a5ef79392 100644
+> >>>>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >>>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >>>>>> @@ -158,6 +158,7 @@ struct vop2_video_port {
+> >>>>>>  	struct drm_crtc crtc;
+> >>>>>>  	struct vop2 *vop2;
+> >>>>>>  	struct clk *dclk;
+> >>>>>> +	struct clk *dclk_src;
+> >>>>>>  	unsigned int id;
+> >>>>>>  	const struct vop2_video_port_data *data;
+> >>>>>> =20
+> >>>>>> @@ -212,6 +213,7 @@ struct vop2 {
+> >>>>>>  	struct clk *hclk;
+> >>>>>>  	struct clk *aclk;
+> >>>>>>  	struct clk *pclk;
+> >>>>>> +	struct clk *pll_hdmiphy0;
+> >>>>>> =20
+> >>>>>>  	/* optional internal rgb encoder */
+> >>>>>>  	struct rockchip_rgb *rgb;
+> >>>>>> @@ -220,6 +222,8 @@ struct vop2 {
+> >>>>>>  	struct vop2_win win[];
+> >>>>>>  };
+> >>>>>> =20
+> >>>>>> +#define VOP2_MAX_DCLK_RATE		600000 /* kHz */
+> >>>>>> +
+> >>>>>>  #define vop2_output_if_is_hdmi(x)	((x) =3D=3D ROCKCHIP_VOP2_EP_HD=
+MI0 || \
+> >>>>>>  					 (x) =3D=3D ROCKCHIP_VOP2_EP_HDMI1)
+> >>>>>> =20
+> >>>>>> @@ -1033,6 +1037,9 @@ static void vop2_crtc_atomic_disable(struct =
+drm_crtc *crtc,
+> >>>>>> =20
+> >>>>>>  	vop2_crtc_disable_irq(vp, VP_INT_DSP_HOLD_VALID);
+> >>>>>> =20
+> >>>>>> +	if (vp->dclk_src)
+> >>>>>> +		clk_set_parent(vp->dclk, vp->dclk_src);
+> >>>>>> +
+> >>>>>>  	clk_disable_unprepare(vp->dclk);
+> >>>>>> =20
+> >>>>>>  	vop2->enable_count--;
+> >>>>>> @@ -2049,6 +2056,27 @@ static void vop2_crtc_atomic_enable(struct =
+drm_crtc *crtc,
+> >>>>>> =20
+> >>>>>>  	vop2_vp_write(vp, RK3568_VP_MIPI_CTRL, 0);
+> >>>>>> =20
+> >>>>>> +	/*
+> >>>>>> +	 * Switch to HDMI PHY PLL as DCLK source for display modes up
+> >>>>>> +	 * to 4K@60Hz, if available, otherwise keep using the system CRU.
+> >>>>>> +	 */
+> >>>>>> +	if (vop2->pll_hdmiphy0 && mode->crtc_clock <=3D VOP2_MAX_DCLK_RA=
+TE) {
+> >>>>>> +		drm_for_each_encoder_mask(encoder, crtc->dev, crtc_state->encod=
+er_mask) {
+> >>>>>> +			struct rockchip_encoder *rkencoder =3D to_rockchip_encoder(enc=
+oder);
+> >>>>>> +
+> >>>>>> +			if (rkencoder->crtc_endpoint_id =3D=3D ROCKCHIP_VOP2_EP_HDMI0)=
+ {
+> >>>>>> +				if (!vp->dclk_src)
+> >>>>>> +					vp->dclk_src =3D clk_get_parent(vp->dclk);
+> >>>>>> +
+> >>>>>> +				ret =3D clk_set_parent(vp->dclk, vop2->pll_hdmiphy0);
+> >>>>>> +				if (ret < 0)
+> >>>>>> +					drm_warn(vop2->drm,
+> >>>>>> +						 "Could not switch to HDMI0 PHY PLL: %d\n", ret);
+> >>>>>> +				break;
+> >>>>>> +			}
+> >>>>>> +		}
+> >>>>>> +	}
+> >>>>>> +
+> >>>>>
+> >>>>> It seems pretty fragile to do it at atomic_enable time, even more so
+> >>>>> since you don't lock the parent either.
+> >>>>>
+> >>>>> Any reason not to do it in the DRM or clock driver probe, and make =
+sure
+> >>>>> you never change the parent somehow?
+> >>>>
+> >>>> On rk3588 we have 3 dclk_s and 2 hdmi controllers. Each video-port c=
+an
+> >>>> use the clock generated from either the hdmi0phy or hdmi1phy, depend=
+ing
+> >>>> on which hdmi-controller it uses.
+> >>>>
+> >>>> So you actually need to know which vpX will output to which hdmiY to=
+ then
+> >>>> reparent that dclk to the hdmiphy output.
+> >>>
+> >>> The Rockchip nomenclature isn't super obvious to me, sorry. Is there a
+> >>> datasheet for this somewhere? Also, does this vpX -> HDMI-Y mapping n=
+eed
+> >>> to be dynamic?
+> >>
+> >> VPs are CRTCs in drm-language and each of them can drive a differing
+> >> number of output encoders. Those video-ports also have differing output
+> >> characteristics in terms of supported resolution and other properties.
+> >>
+> >> The rk3588 TRM has leaked in a number of places, and if you find a
+> >> TRM-part2, there is a section labeled "Display Output Interface Descri=
+ption"
+> >> that has a nice graphic for that.
+> >>
+> >> Or in short:
+> >> - CRTC(VP)0 supports 8K resolution and can drive DP0+1, HDMI0+1, eDP0+1
+> >>   [if I'm reading things correctly, 8K together with CRTC1 somehow)
+> >> - CRTC(VP)1 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP0+1
+> >> - CRTC(VP)2 supports 4K resolution and can drive DP0+1, HDMI0+1, eDP01=
+, DSI0+1
+> >> - CRTC(VP)3 supports 2K resolution and can drive DSI0+1 and some BT112=
+0,BT656
+> >>
+> >> so for the 3 higher resolution CRTCs there are essentially 6 or 8 outp=
+ut options
+> >> depending on the board design
+> >=20
+> > That's much clearer, thanks. I'm not entirely sure how that links to the
+> > need for the PLL to change its parent depending on the ouput. Do you
+> > need to always have all the outputs on the same PLL?
+>=20
+> One of the problems is that the PHY PLLs cannot be used as clock sources
+> for resolutions above 4K@60Hz, while VOP2 on RK3588 supports up to 8K@60H=
+z,
+> which is supposed to be handled by the system CRU.
 
-As most of the protocol is similar accros device kind, I currently built 
-my code around the struct vkms_mst_sideband_helpers to specify only the 
-changed behavior (this way the "write to registers" "parse command"... is 
-only done in one place). The choice of function is not definitive at all 
-(it was just practical at this moment).
+But can that system CRU drive resolutions lower than 4k@60? If so, why
+do we bother with PHYs?
 
-With eBPF, I know three different way to attach programs to the kernel:
- - Using a kprobe/attaching to a function: I can change the behavior of 
-   all the device, there is no way "attach prog1 to hub" and "attach prog2 
-   to screen1", it will be "attach prog1 to the function 
-   `vkms_mst_emulator_handle_transfer_write`, and all the device will be 
-   affected. This should be very easy to implement (maybe it already 
-   works without modification?), but very limited / make userspace stuff 
-   very ugly => Not ideal at all
- - Creating a whole architecture to attach eBPF programs in vkms: VKMS 
-   manage the list of attached eBPF programs, call them when it needs... 
-   This is probably the "most flexible" option (in the sense "VKMS can do 
-   whatever we need to fit our usecase"). This seems not trivial to 
-   implement (drm complexity + MST complexity + BPF complexity in the same 
-   driver seems a bad idea, espicially because VKMS don't have a lot of 
-   maintainance and I don't feel confident introducing more complexity)
-   => Can work, require some work, but may bring more complexity in VKMS
- - Using BPF struct_ops: I can "simply" create/complete a struct ops for 
-   diverse mst callbacks (see the proposition bellow). I looked at some 
-   example, this seems to be "easy" to do, and the work in VKMS should be 
-   limited.
-   => Can work, a bit less flexible than the previous solution, but avoid 
-   a lot of complexity
+> Moreover, the 2 PLLs are shared between 3 out of the 4 video ports already
+> mentioned by Heiko.  There is quite a bit of complexity in downstream
+> driver to handle all possible usecases - see [1] for a brief description =
+on
+> how was that designed to work.
 
-I don't know if I will be able to finish the implementation but I imagine 
-something like that may be a nice interface (may be not possible "as is"):
+That's a generic allocation issue. Multiple drivers (vc4 for example)
+has this issue for other components. It can be fairly easily dealt with
+at atomic_check time.
 
-// vkms_mst.c struct_ops that can be filled by userspace with custom 
-// functions
-// Known limitation: maximum 64 functions in this table
-struct vkms_mst_ops {
-	// Completly overide the transfer function, so the userspace can 
-	// do whatever he wants (even emulating a complex MST tree 
-	// without using stuff in vkms)
-	handle_transfer(drm_dp_aux_msg); 
+Maxime
 
-	// If default transfer function is used, those are the callback 
-	// you can use (again, they will come with default 
-	// implementation)
-	clear_payload_id_table(..);
-	link_address(..);
-	enum_path_ressources(..);
-	[...]
+--j4mpk3mpmbzuirpe
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	// Used to identify this kind of device, in my example the 
-	// userspace could register "LG_screen", "dell dock", "HP screen", 
-	// and then configure each mst device with the correct kind
-	name = "<unique name for this device kind>",
+-----BEGIN PGP SIGNATURE-----
 
-	// If you want to use the default "hub" implementation, but only 
-	// tweak one specific behavior, you can use this
-	base = "<name of the other structops>"
-}
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2GsgQAKCRAnX84Zoj2+
+dujIAX96ph7wCOEKhEVEvFE7nIYDouKQ48JPrJAUDi5plPwo1A/2ruUYjui/h6aO
+6e/R4ugBgM2dKMjhL2GPa78I2aqbjLCG/FGj4quQcjpkH3nmXDPHdkz5FaZJO0ee
+9vQJK4Wzqw==
+=+Pvw
+-----END PGP SIGNATURE-----
 
-
-// Needed to implement eBPF struct_ops, called when userspace registers a
-// struct_ops of type vkms_mst_ops
-void register_struct_ops(new_ops...) {
-	vkms_registered_ops.append(new_ops).
-}
-
-// In vkms_connector.c
-// Callback called by drm core to do transfer on the connector
-void vkms_mst_transfer(aux, msg) {
-	mst_emulator = get_mst_emulator(aux);
-
-	ops = vkms_registered_ops.search_for(mst_emulator.name);
-	ops->handle_transfer(msg);
-}
-
-// mst_ebpf.c In the BPF program, userspace side
-void handle_transfer(...) {
-	[...]
-}
-struct vkms_mst_ops {
-	handle_transfer = handle_transfer;
-	name = "lg-screen";
-	base = "default-screen"
-}
-
-How to use it (screen directly connected to connector, or complete
-emulation by the eBPF program):
-
-	gcc mst_ebpf.c
-	bpftool register structops mst_ebpf
-	# Create vkms device + connector
-	mkdir -p /configfs/vkms/mydev/connectors/connector1
-	#[skipped initialization of plane/crtc...]
-	mkdir -p /configfs/vkms/mydev/mst_devices/device1
-	echo "lg-screen" > /configfs/vkms/mydev/mst_devices/device1/name
-	ln -s /configfs/vkms/mydev/connectors/connector1/device /configfs/vkms/mydev/mst_devices/device1
-
-How to use it (hub + two screens, using vkms scaffolding to make the
-emulation easier) (the idea is to do something like the tcp_congestion 
-algorithm, where a few of them are implemented in the kernel, but 
-userspace can inject custom implementations):
-
-	bpftool register mst_ebpf_screen1 # struct_ops with name=lg-screen
-	bpftool register mst_ebpf_screen2 # struct_ops with name=hp-screen
-	#[skiped initialization of vkms dev]
-	mkdir -p /configfs/vkms/mydev/mst_devices/screen1
-	mkdir -p /configfs/vkms/mydev/mst_devices/screen2
-	mkdir -p /configfs/vkms/mydev/mst_devices/hub
-	echo "lg-screen" > /configfs/vkms/mydev/mst_devices/screen1/name
-	echo "hp-screen" > /configfs/vkms/mydev/mst_devices/screen2/name
-	# default-hub is the default hub emulation provided by VKMS
-	echo "default-hub" > configfs/vkms/mydev/mst_devices/hub/name
-	ln -s /configfs/vkms/mydev/connectors/connector1/device /configfs/vkms/mydev/mst_devices/hub
-	ln -s /configfs/vkms/mydev/mst_devices/hub/child1 /configfs/vkms/mydev/mst_devices/screen1
-	ln -s /configfs/vkms/mydev/mst_devices/hub/child2 /configfs/vkms/mydev/mst_devices/screen2
-
-A few things that this approach can bring:
- - Full emulation by userspace (just add one device and provide an eBPF
-   program that emulates the whole MST chain)
- - Partial emulation of devices (e.g., the default-screen implementation is
-   sufficient, but you want to tweak something inside)
- - Full emulation by the kernel, using default implementations (I think
-   only hub and screen, just to be able to emulate the "basic"
-   configurations)
- - And cool new to reduce the "it should be perfect from the start", if we 
-   use kfunc + struct_ops, both can change a little bit over time (kfunc 
-   are not part of uAPI and struct_ops allows to add argument/functions). 
-   Stabilisation can come later.
-
-What do you think about this idea ?
-
-My current plan is to continue on the "kernel-only" implementation, so I 
-can have a working poc, and then switch to the eBPF work after.
-
-Thanks,
-Louis Chauvet
-
-> Maxime
-
-
+--j4mpk3mpmbzuirpe--
