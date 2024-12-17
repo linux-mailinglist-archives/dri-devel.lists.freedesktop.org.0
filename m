@@ -1,41 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B399F4DB3
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:28:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B0FE9F4DFB
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 15:39:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD59210E986;
-	Tue, 17 Dec 2024 14:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D391310E02B;
+	Tue, 17 Dec 2024 14:39:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iFNOpBKp";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00BCC10E22F;
- Tue, 17 Dec 2024 14:28:52 +0000 (UTC)
-Message-ID: <a69a3500-be17-4899-bdb9-c6a63bf8dc81@lankhorst.se>
-Date: Tue, 17 Dec 2024 15:28:50 +0100
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBED10E98C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 14:39:53 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 9BB8DC1153
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 14:32:25 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id BEB8E1C000C;
+ Tue, 17 Dec 2024 14:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1734445941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RJk9qBtezG93whbc4qcM7rABQiYrdK5pxBplOn1zues=;
+ b=iFNOpBKpS32h7qqai9Zn0/dxy6KYb0atFUdgcfFCy5B2vm8+BS9yeQPXRQwgLfJ4yJ1A5g
+ 3aullRb7dbf/GVFAF1Nr0nIhFHIXtbRTmjKjW0Al2Xm+iidCvcz1zGigsv50bV/RxBBxJQ
+ iYhqTMRBKpvrE/u5KS1/4FrAVo5YdWBIvNiyd3xa//xuMBiGhZjpuYH8XGNBQAECIJFKbD
+ UclH+990s8FZJc7ENQ6HQyhvpu4ytGd9iuk/OPfdoXYkvunydIiEKPwG5sCk9P5k9E2s6s
+ kTNVwu9wFyXmsq5QnJW1b+4qq3LLNJeln2Kqz3alj7h4wEhU9FHKe38Bs+lzWg==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v2 0/3] Add support for errors recovery in the TI SN65DSI83
+ bridge driver
+Date: Tue, 17 Dec 2024 15:32:12 +0100
+Message-ID: <20241217143216.658461-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-To: Maxime Ripard <mripard@kernel.org>
-Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
- Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20241204134410.1161769-1-dev@lankhorst.se>
- <20241213-proud-kind-uakari-df3a70@houat>
- <80c49a80-d49c-4ca5-9568-9f7950618275@lankhorst.se>
- <20241213-gentle-glittering-salamander-22addf@houat>
- <5a50a992-9286-4179-8031-ffb514bca34f@lankhorst.se>
- <20241217-meek-bullfinch-of-luck-2c3468@houat>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <20241217-meek-bullfinch-of-luck-2c3468@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,76 +71,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+Hi,
 
-Now that all patches look good, what is needed to merge the series? 
-Without patch 6/7 as it is a hack for testing.
+Usually the TI SN65DSI83 recovers from error by itself but during ESD
+tests, we have some cases where the TI SN65DSI83 didn't recover.
 
-I've also posted a IGT for verifying read/write works (rule out 
-copy/paste errors) and min, max semantics work as intended.
+In order to handle those cases, this series adds support for a recovery
+mechanism.
 
-https://lists.freedesktop.org/archives/igt-dev/2024-December/083345.html
+Compare to the previous iteration, this v2 series mainly:
+  - Rebase patches on top of v6.13-rc3.
+  - Reset the output path where the bridge is located instead of the
+    full pipeline.
+  - Add more information in a commit log.
 
-Cheers,
-~Maarten
+Best regards,
+Hervé Codina
 
+Changes v1 -> v2
+  v1: https://lore.kernel.org/lkml/20241024095539.1637280-1-herve.codina@bootlin.com/
 
-Den 2024-12-17 kl. 08:46, skrev Maxime Ripard:
-> On Fri, Dec 13, 2024 at 05:06:05PM +0100, Maarten Lankhorst wrote:
->> Hey,
->>
->> Den 2024-12-13 kl. 16:21, skrev Maxime Ripard:
->>> On Fri, Dec 13, 2024 at 03:53:13PM +0100, Maarten Lankhorst wrote:
->>>>
->>>>
->>>> Den 2024-12-13 kl. 14:03, skrev Maxime Ripard:
->>>>> Hi,l
->>>>>
->>>>> Thanks for the new update!
->>>>>
->>>>> On Wed, Dec 04, 2024 at 02:44:00PM +0100, Maarten Lankhorst wrote:
->>>>>> New update. Instead of calling it the 'dev' cgroup, it's now the
->>>>>> 'dmem' cgroup.
->>>>>>
->>>>>> Because it only deals with memory regions, the UAPI has been updated
->>>>>> to use dmem.min/low/max/current, and to make the API cleaner, the
->>>>>> names are changed too.
->>>>>
->>>>> The API is much nicer, and fits much better into other frameworks too.
->>>>>
->>>>>> dmem.current could contain a line like:
->>>>>> "drm/0000:03:00.0/vram0 1073741824"
->>>>>>
->>>>>> But I think using "drm/card0/vram0" instead of PCIID would perhaps be
->>>>>> good too. I'm open to changing it to that based on feedback.
->>>>>
->>>>> Do we have any sort of guarantee over the name card0 being stable across
->>>>> reboots?
->>>>>
->>>>> I also wonder if we should have a "total" device that limits the amount
->>>>> of memory we can allocate from any region?
->>>>
->>>> I don't think it is useful. Say your app can use 1 GB of main memory or 2 GB
->>>> of VRAM, it wouldn't make sense to limit the total of those. In a lot of
->>>> cases there is only 1 region, so the total of that would still be the same.
->>>>
->>>> On top, we just separated the management of each region, adding a 'total'
->>>> would require unseparating it again. :-)
->>>
->>> I didn't mean the total for a device, but for the system. It would
->>> definitely not make sense for a VRAM, but for CMA for example, you have
->>> a single, limited, allocator that will be accessible from heaps, v4l2
->>> and DRM devices.
->>>
->>> If an application has to allocate both from v4l2 and DRM buffers, we
->>> should be able to limit its total usage of CMA, not just on a single
->>> device.
->>
->> In this case, I think it makes more sense if CMA creates a region, then use
->> that region in both v4l2 and DRM instead of a separate region for both, with
->> CMA being responsible for lifetime.
-> 
-> Ack, thanks for your feedback :)
-> 
-> Maxime
+  - Patch 1:
+    Add 'Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>'
+    Add 'Acked-by: Conor Dooley <conor.dooley@microchip.com>'
+
+  - Patch 2 (new patch in v2)
+    Introduce drm_atomic_helper_disable_connector()
+
+  - Patch 3 (patch 2 in v1)
+    Reset the output path instead of the full pipeline.
+    Update and add more information related to the bridge in commit log.
+
+Herve Codina (3):
+  dt-bindings: display: bridge: sn65dsi83: Add interrupt
+  drm/atomic-helpers: Introduce drm_atomic_helper_disable_connector()
+  drm: bridge: ti-sn65dsi83: Add error recovery mechanism
+
+ .../bindings/display/bridge/ti,sn65dsi83.yaml |   3 +
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 142 ++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_helper.c           |  67 +++++++++
+ include/drm/drm_atomic_helper.h               |   2 +
+ 4 files changed, 214 insertions(+)
+
+-- 
+2.47.0
 
