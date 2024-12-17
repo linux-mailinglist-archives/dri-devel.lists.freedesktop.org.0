@@ -2,74 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321529F4BBB
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 14:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 201F99F4BDD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 14:20:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F82510E2F9;
-	Tue, 17 Dec 2024 13:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE7AA10E16E;
+	Tue, 17 Dec 2024 13:20:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I6xrl8kr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DPP4tAbp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 976F810E2F9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 13:14:40 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-725dc290c00so4847493b3a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:14:40 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2766910E16E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 13:20:19 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5401d3ea5a1so5843678e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:20:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734441280; x=1735046080; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=axyAQhPj9nhVil4KAAnIiakdiidmvsJlf9IRfQkGvmI=;
- b=I6xrl8krvf5wXRTNRyKUVYmd7eFrkFj5O3711VZ6E4uSiKsPE/eLgFBmUGA1iKPs4E
- V598XOMj6rjt4uFDFwsGenf0EOC8H3U5nr6gH8w0IaMl61ZZ6m3n+eAKFZXYFcsE3V09
- CGqq8f+OLaYsaXynzswUdVWt/sZdSMeLMKwR0B1VI3RYNzmH0gSF66Y5I3vkEAb1bE5I
- hSo+2UBUOzrDFQee+LTMlu7JT4MDHzP7SB6LGTgpSpVN6gEI74ykXcxlJ5P0pkljA8o5
- u6CddODPSyQyvM5CUuVqj8NMnmalJfZMwfRL8nfbV+2RYdzn7x9568UpQUpXiXCZC31q
- g0cg==
+ d=gmail.com; s=20230601; t=1734441617; x=1735046417; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FstVX3CFTj+42MS9laftTg04okRbVpQOvmKeh9DZMHs=;
+ b=DPP4tAbpCzmPfTViiZOTZemJH8UL+TMmbfUmPR0NSUWqpXWe1SwBjK38/cQ+PU8n/t
+ Q7HTOi0PKhVuJ5rIeLylFax65tPd5RoUiMbBUy2upDnGJ12/B7HhWrLpjV8aH7nFoOCF
+ PM6xTpqi8e1FXpy9QdBuhkEiTboKvq9dlXAMse4NZlVml3EZA3pj3hQAbsodfMB9YbvB
+ TnDYouu4iIkAcScY1+KnzyXtehqWO3C4cAsjNGeBsXORdUrchxh+TSuw1nBO3O9EYa3E
+ 0ad7p5pjlo0bUS3mm5T4SQoxv0Zypl69fyK5JTu+OG9cZAEA/7VQ6wouVsDpC+6csvDL
+ f31A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734441280; x=1735046080;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=axyAQhPj9nhVil4KAAnIiakdiidmvsJlf9IRfQkGvmI=;
- b=GlofNpUpoWeHjhfDgXnucvTOKKe8X4fXXsMp3NKT3x9fiz97xU73E6r9n4hmdkDe2j
- VxUd0c7/PBKjWtn3AVH4DFuSNem0REL+CecfC78baxQN73zxG12y4niJTgj+DqN4+6I/
- BsSjZqEuLGe5z05uf86vM/p4N3SHboEQkecjw5AHoRgChxx1pHOCrTPPk3UPeXU+Q96F
- OGHpTM6jtkIgCuvdmVX0+KHWZYo7FysueoC/ahU/he2yCOwxjX3MLxIroRo40F+xPtNm
- yTogOkJIR1uN5zxfNmjdtUHGP+/dgDobk91EfCkCB3vbxltai7Sk8MuVSf0LdsLVlYeV
- FuGw==
+ d=1e100.net; s=20230601; t=1734441617; x=1735046417;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FstVX3CFTj+42MS9laftTg04okRbVpQOvmKeh9DZMHs=;
+ b=w9o4ZPevqZaI0S+mwsqkzj7QxnhnSEF4htrxScNp1/YND/EdE9EtNwKAEOTUMAnOIl
+ m+FFELWXzyX92tmP4B+nw15CqPmA9QEjUGb3tcDHQO73++snVOV7L9gUm8iEGD2QcxAz
+ 5PcRoatll+CYGpNTpaICk1VxcocQtZ4aLfAlHf4b7SjGpxknFJarJav9VC/hGCuEZENb
+ ZKpA7r0wJHRdgOlRa3d4vd+9Ii6Unh72VoktzhzS28SzT4MCz2W7mmq3lXYA57isodaa
+ KhD5BPEAaMBLGz6HxJSOXPAvSQUCq+ePaX2Q4hsAtKOyYG8PWDbjsUVCAXyS0q/B4dXb
+ Yg5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWR/NAaEBX2lsQWNquE933YGTSmlIQHdy2D9Wj0RMpQV4Y7cbptnvsGek/pANCCQjpZezh78oB9BVc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGTj9QCShVgc5LB87ygh9ml1zCBJm3I7y7KctyA7+hFwTGl1xv
- hTsPdkc4Qvpp/8ZT3VVlAw46zyFVJCkWHs/DjlT/lLas7WAu6viSZMEsQQ==
-X-Gm-Gg: ASbGncvptZwP7/FSxirneeeULtAR1MlZo5M0a/cxdI32OIkpk5j/epkdl7rJERN1doz
- ceINp8KPgsfjwjhl1z+4+oX/4+SUxD/ChwouPQNvxWITb586mWo23iZEyj0aiAyLbt9lKhoMr0y
- d0ZVRxGCUmkm0C4KHZgXANVOEYX2zBuWqeulk2of/gOXJtRVAgJ1ej+8n8t/i8vex16r1F3wS8g
- zyJbkX2UrrZtQLutEn2YxknnJATOUFsaF9PLn+GN/ECDRBR2pgvf6OeTrfOAoHAY8FZyg==
-X-Google-Smtp-Source: AGHT+IGHcV/NHnllfqv7fR/hLPWE8KERD+FbPGD/o3fwg+D3eyN5ic8pO6VhkBpEn8TBSM1LxM5IEg==
-X-Received: by 2002:a05:6a21:3398:b0:1e2:5c9:6831 with SMTP id
- adf61e73a8af0-1e4e779760amr5123201637.14.1734441279972; 
- Tue, 17 Dec 2024 05:14:39 -0800 (PST)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:2d08:94b1:8dd:a583])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-801d5acf064sm5821625a12.40.2024.12.17.05.14.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Dec 2024 05:14:39 -0800 (PST)
-From: Fabio Estevam <festevam@gmail.com>
-To: neil.armstrong@linaro.org
-Cc: Laurent.pinchart@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] dt-bindings: samsung,mipi-dsim: Document fsl,imx7d-mipi-dsim
-Date: Tue, 17 Dec 2024 10:14:31 -0300
-Message-Id: <20241217131431.1464983-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ AJvYcCV3qcmqVFAi+UdgaSGJ/wDbF3PqX7phPdOQ7cQ9vram3OiqtLJOkYJcyIO7mQiE38/ng021JMRnO2E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhZYV0EtAxhk1LP8JDijsWCjqbruloalbdQyyxCfkvw0MPXhi4
+ qt9no1LVp0H3tfZAEGYiuHpU/2urmEpWHpG1cM1ie3J4vLr36/aORL6pgW7i+IaWLYp0uzaLGVA
+ TGW/tF2oZIxeo99BY1FELflPmLsA=
+X-Gm-Gg: ASbGncuvi+3bgiiIJ0ePDPphSe3/9YjzrWG8q6XmCCaUmfSTrYvl9R9LUXBmxe4XvQ+
+ M999dZvj74oKYwmh7/2kmM4rwKk3XR37LWZcA7mSlaW6kD+043aqw5zcgmz0CidG0sZrU
+X-Google-Smtp-Source: AGHT+IFFx90kPbpMheYOE1177/QLK8nVCI4FlXeGlR99M7gIZTPd37rucl/NQo0g2oJIrbiMhA6SNFXFscAA/m2smM4=
+X-Received: by 2002:ac2:4e04:0:b0:540:21d6:d681 with SMTP id
+ 2adb3069b0e04-54090555494mr4984098e87.19.1734441616935; Tue, 17 Dec 2024
+ 05:20:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241101135406.47836-1-festevam@gmail.com>
+ <173073495749.210192.9138587910771237679.robh@kernel.org>
+In-Reply-To: <173073495749.210192.9138587910771237679.robh@kernel.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Tue, 17 Dec 2024 10:20:05 -0300
+Message-ID: <CAOMZO5BVLpQecZH4vvmRi=KfZ=MvCgUQ_tUKjvUzMGO=wTU-MA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: lcdif: Document a imx6sx-lcdif
+ fallback
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, shawnguo@kernel.org, imx@lists.linux.dev, 
+ conor+dt@kernel.org, Fabio Estevam <festevam@denx.de>, 
+ linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, 
+ krzk+dt@kernel.org, a.fatoum@pengutronix.de, dri-devel@lists.freedesktop.org, 
+ andreas@kemnade.info, marex@denx.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,38 +86,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabio Estevam <festevam@denx.de>
+Rob,
 
-The i.MX7D MIPI DSIM block is compatible with i.MX8MM.
+On Mon, Nov 4, 2024 at 12:42=E2=80=AFPM Rob Herring (Arm) <robh@kernel.org>=
+ wrote:
+>
+>
+> On Fri, 01 Nov 2024 10:54:04 -0300, Fabio Estevam wrote:
+> > From: Fabio Estevam <festevam@denx.de>
+> >
+> > imx6sx.dtsi has the following lcdif entries:
+> >
+> > compatible =3D "fsl,imx6sx-lcdif", "fsl,imx28-lcdif";
+> >
+> > This causes the following dt-schema warning:
+> >
+> > ['fsl,imx6sx-lcdif', 'fsl,imx28-lcdif'] is too long
+> >
+> > To keep DT compatibility, document 'fsl,imx28-lcdif' as a possible
+> > 'fsl,imx6sx-lcdif' fallback.
+> >
+> > Signed-off-by: Fabio Estevam <festevam@denx.de>
 
-imx7s.dtsi uses the following compatible string:
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-compatible = "fsl,imx7d-mipi-dsim", "fsl,imx8mm-mipi-dsim";
-
-Document "fsl,imx7d-mipi-dsim" to fix the following dt-schema warning:
-
-['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
-
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-index 4ed7a799ba26..a036c2dcfd86 100644
---- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
-@@ -29,6 +29,10 @@ properties:
-       - items:
-           - const: fsl,imx8mn-mipi-dsim
-           - const: fsl,imx8mm-mipi-dsim
-+      - items:
-+          - enum:
-+              - fsl,imx7d-mipi-dsim
-+          - const: fsl,imx8mm-mipi-dsim
- 
-   reg:
-     maxItems: 1
--- 
-2.34.1
-
+Can you apply 1/3 and 2/3?
