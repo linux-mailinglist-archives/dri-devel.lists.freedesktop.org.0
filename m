@@ -2,82 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569079F4A9B
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE0C9F4A9F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 13:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 494DA10E948;
-	Tue, 17 Dec 2024 12:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4499C10E94C;
+	Tue, 17 Dec 2024 12:08:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n6NqXr5l";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="iNOEDdEG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38B410E94C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:06:53 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-e39779a268bso4128344276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 04:06:53 -0800 (PST)
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com
+ [IPv6:2607:f8b0:4864:20::f32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9D2710E94C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 12:08:06 +0000 (UTC)
+Received: by mail-qv1-xf32.google.com with SMTP id
+ 6a1803df08f44-6d8f75b31bfso44490826d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 04:08:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734437213; x=1735042013; darn=lists.freedesktop.org;
+ d=fooishbar.org; s=google; t=1734437286; x=1735042086;
+ darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xtcNS4WYNQ7vwgcHRVs06xAqqZt34Z8yAs31pHoB2MM=;
- b=n6NqXr5l53ALWLMr25ftXM93mMm9AfKl4xhmpoNCbzW8tWoexZ5IeUMt0R+7UmC17O
- q7kvFOa4zfan5pmjVwgqST4IdhuoNU2z/ldnqe5xmJ3W8zJwSeLwzW7/TUhWjsDw48lT
- 3yVnS8p9YGwYPfwt5UVTLt8HV5h3TCpuDgt4qCPwTMVAxeR3tAbMYurYJ/9yFmQPJT2W
- Z3bSG63AnQePAvvfRltiX2GRyP6riNj65zlyEiQZBLoCTH0xvJEkMOwm7p/0JERtKXbz
- DUOOM7y/n2kRdVwdEwsUE04P9LyFlL/52PfRQUf8TlVAmIaxp2DL0rQXSKCVOg6o8Ccq
- CArQ==
+ bh=j+dl3ly0rdbKwmGKotpv1oO2gk374L+s+XxGWg7hHC4=;
+ b=iNOEDdEGOOAetrw4hO1gpbiUUfZUSwAKyb0sGwsBy3ZpUBOch71VnknGZLG+1eIh5b
+ FgUczlivTIpln/vf6T4xP+FtlSELL2a4yP1FTlERJ58XVE3zvCUIfTIB4ITX5Ry05w4b
+ nzVIxsCGA0yDWJMoElf1/17raSVe2Bou/lV3gV+biZ5JKIqVCqT9R85YXa8fdHLMo6bm
+ cmA4xXo0FyVSJpuhU+uwlmUoupQK5I36RoZsPU2gRczvewQFubkAHgyEgPY8F0vaqjKl
+ 3G12lTCRCLglEv7afkpVFj2lv46LttR4Ml+E8mi/VBNo5ZVgejNcJom/RMJ3wC5TjwL5
+ FLBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734437213; x=1735042013;
+ d=1e100.net; s=20230601; t=1734437286; x=1735042086;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=xtcNS4WYNQ7vwgcHRVs06xAqqZt34Z8yAs31pHoB2MM=;
- b=kMzrgRUMWe7RXLdsOXTle0fZ/XBxcmFnBSImgccYQhb5IQRCCail05zS4wiVTZss9+
- 6g7mp404YM5Rs1scg/17vUcMFJym+KjEdx46w00LQu0lrvTA0xwUfA3HGqNAFsJVhzeW
- Hv7D547YOr3uY8fcglzHs1B5ScKjCgFzoUCnUa/s6xTaIzE7cG1eZzuwJES+Ph7UoPig
- 1AxuwLBWkc9fa2D9nbW/7AXdTOtmpX7ozt8g3QnaIrOR9VNhEV+heaPTvl9059xbyWz/
- doNwn038+8XsBzRXwzTvk33JIzhfiAPhLvNh/n/v4KPuU9KHCeP/IoOaGhLL5dn5voh4
- nkHA==
+ bh=j+dl3ly0rdbKwmGKotpv1oO2gk374L+s+XxGWg7hHC4=;
+ b=Z6LxyrwwOmOzl3/fJEbF4SSF/pd6qgYVe92InN0glc8YPAXKyWHWp3T2hfNpVGqJze
+ JqCSjqWbA8lnWBGRt5hvKQo22Ac/EqZHTXq4SiCfybO5Y9k3+t6V49Y85TbTq4meOMOw
+ Hb5M7PkXaXHNvVwCLPSYt9Iow9U78wFKjHBTKp9AtyzFr/v3I1EgpTTVV2JUBr5z6mKB
+ U0g8qIzwObM1ghr/46BVhbBbpLBn4kHnQaRel0gdDzfLA/KVGC4eolpxgN38NHwr9sEu
+ V33TvYmkeDs8GEBe/qXTlioaN8egOqxdgaVSmB64l0ZEbL+E17bL8Rj7tcFdTEbUoXQU
+ AF7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUIvPVzDsQLS8UhyJF1XTMrXJROnT94q7B5Kr2JqQDxWh/vjHNjIQjAoHosypQ7RwRp243JdQu/rx4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycMaIcdcgIiS+JxdO2UKC3tCxn1KV4YEmx1Efp80x+QP+/TujN
- CvVNzM59rmEo70PlktzcEz7CieTqdtHVHmMvttgLuRXxu39HouwXB3EbRDVXwIe1z1kZgrFKx8T
- DwexSu0vmtBEZedtxAjlYUPmWW9pmS2nscxJkMQ==
-X-Gm-Gg: ASbGncvksKKBQjTExY7bVTTGfofLUR/IAAfGSCkU8Lic36NMKPQfm1LqcLOteU+sC0F
- wWxOwbYvHm7nGKGYYtOU+thc4TKqahxATkbedXwymaY7TyArb4WpZ
-X-Google-Smtp-Source: AGHT+IHA892uAzKw6cPgSlziTULlXbGE7tU9YemAvZukjV0KTn0lzS8KUSWqbZi8euRBjZNVY3gThecx/TV6P6m2k58=
-X-Received: by 2002:a25:acce:0:b0:e38:8d3b:66e0 with SMTP id
- 3f1490d57ef6-e53299709aemr2594135276.19.1734437212629; Tue, 17 Dec 2024
- 04:06:52 -0800 (PST)
+ AJvYcCXHO8yxMa+hUT/DUnMTd5H9cX7E3PoAGh6Jm/AS/nnl5QBC1cTpIKUOcOEdubAatxLtGlL8UGDZFS0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoD5mf+i7SGqrcx8TOlOzxOiwwwLd1E130iI4cfjImAgFPUXrN
+ I6PwKX1rxCIOcHXU5Qe19NllSwm/c9Od8VLPW9jtGtIxhxWxAk505U0N64LGDnHoosRwEtIe0Wh
+ cDGIFuxONdEsSbLW+G16eMgYXAXEV/aEdN4Y5hg==
+X-Gm-Gg: ASbGncsbygenAo3EyXtvBwKGzBtZakxlhSJPqVNyhzlbJOq5LD2Q/YeR/tTrGap61ej
+ usm8y4zusqc9mJD6OAApJ8xraUXi3uvF0EOIC
+X-Google-Smtp-Source: AGHT+IENXkFl1sf/3x7p8kafThXQqXSZZrmYVwhsRzFtxsCkGCBTgLsddU6Li0qrlY45bm/mZ6nEZU9yLbhu5otz4j4=
+X-Received: by 2002:a05:6214:d48:b0:6d8:a754:9647 with SMTP id
+ 6a1803df08f44-6dc8ca57509mr252459736d6.17.1734437285918; Tue, 17 Dec 2024
+ 04:08:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20241210-add-display-support-for-qcs615-platform-v4-0-2d875a67602d@quicinc.com>
- <20241210-add-display-support-for-qcs615-platform-v4-5-2d875a67602d@quicinc.com>
- <ntffm2jwr44m77z2bvuifv3itkpywco3cemgzkizzdp7e2ekdv@htfktmyyoe3k>
- <ba59f164-2ccd-4cf9-9426-9b6a2c199224@quicinc.com>
-In-Reply-To: <ba59f164-2ccd-4cf9-9426-9b6a2c199224@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 17 Dec 2024 14:06:41 +0200
-Message-ID: <CAA8EJpqApTLaNTkfHyfg5vgPtDQZs1cWjBSgdGULP=xRm+WmMw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/9] drm/msm/dpu: Add SM6150 support
-To: fange zhang <quic_fangez@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Liu Li <quic_lliu6@quicinc.com>, 
- Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241214081719.3330518-1-andyshrk@163.com>
+ <20241214081719.3330518-9-andyshrk@163.com>
+ <CAPj87rOjqZdyht2y8MK7gVyk_eqEzk1Sy0DcxFtQRuhrHQ_oxA@mail.gmail.com>
+ <165af58a.697.193d2100239.Coremail.andyshrk@163.com>
+In-Reply-To: <165af58a.697.193d2100239.Coremail.andyshrk@163.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 17 Dec 2024 12:07:54 +0000
+Message-ID: <CAPj87rMfFXkbyh7UEJQw4JV1R18KLXC3GyF0CznrN1k3UdL0Lw@mail.gmail.com>
+Subject: Re: Re: [PATCH v6 08/16] drm/rockchip: vop2: Support 32x8 superblock
+ afbc
+To: Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org, 
+ s.hauer@pengutronix.de, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ derek.foreman@collabora.com, detlev.casanova@collabora.com, 
+ Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,71 +90,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Dec 2024 at 13:02, fange zhang <quic_fangez@quicinc.com> wrote:
->
->
->
-> On 2024/12/17 18:54, Dmitry Baryshkov wrote:
-> > On Tue, Dec 10, 2024 at 02:53:56PM +0800, Fange Zhang wrote:
-> >> From: Li Liu <quic_lliu6@quicinc.com>
+Hi Andy,
+
+On Tue, 17 Dec 2024 at 00:41, Andy Yan <andyshrk@163.com> wrote:
+> At 2024-12-16 21:06:07, "Daniel Stone" <daniel@fooishbar.org> wrote:
+> >On Sat, 14 Dec 2024 at 08:18, Andy Yan <andyshrk@163.com> wrote:
+> >> This is the only afbc format supported by the upcoming
+> >> VOP for rk3576.
 > >>
-> >> Add definitions for the display hardware used on the Qualcomm SM6150
-> >> platform.
-> >>
-> >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >> Signed-off-by: Li Liu <quic_lliu6@quicinc.com>
-> >> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
-> >> ---
-> >>   .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 254 +++++++++++++++++++++
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |   1 +
-> >>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   1 +
-> >>   4 files changed, 257 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
-> >> new file mode 100644
-> >> index 0000000000000000000000000000000000000000..621a2140f675fa28b3a7fcd8573e59b306cd6832
-> >> --- /dev/null
-> >> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+> >> Add support for it.
 > >
-> > [...]
-> >
-> >> +
-> >> +const struct dpu_mdss_cfg dpu_sm6150_cfg = {
-> >> +    .mdss_ver = &sm6150_mdss_ver,
-> >> +    .caps = &sm6150_dpu_caps,
-> >> +    .mdp = &sm6150_mdp,
-> >> +    .ctl_count = ARRAY_SIZE(sm6150_ctl),
-> >> +    .ctl = sm6150_ctl,
-> >> +    .sspp_count = ARRAY_SIZE(sm6150_sspp),
-> >> +    .sspp = sm6150_sspp,
-> >> +    .mixer_count = ARRAY_SIZE(sm6150_lm),
-> >> +    .mixer = sm6150_lm,
-> >> +    .dspp_count = ARRAY_SIZE(sm6150_dspp),
-> >> +    .dspp = sm6150_dspp,
-> >> +    .pingpong_count = ARRAY_SIZE(sm6150_pp),
-> >> +    .pingpong = sm6150_pp,
-> >> +    .intf_count = ARRAY_SIZE(sm6150_intf),
-> >> +    .intf = sm6150_intf,
-> >> +    .vbif_count = ARRAY_SIZE(sdm845_vbif),
-> >> +    .vbif = sdm845_vbif,
-> >> +    .perf = &sm6150_perf_data,
-> >
-> > I noticed that the catalog entry doesn't provide writeback configuration
-> > although the vendor DTSi specified that there is WB_2 on this platform.
-> > Please send a followup patch enabling writeback on this platform.
-> ok, will update it in next update
-
-Just a followup patch is fine.
-
-> >
-> >> +};
-> >> +
-> >> +#endif
-> >
+> >Out of interest, how was this tested? There is no 32x8 modifier in the
+> >format list in format_modifiers_afbc[], so it seems like it shouldn't
+> >be possible to get a 32x8 buffer on a plane at all.
 >
+> The 32x8 modifier  added in PATCH 16/16:
+>
+> +/* used from rk3576, afbc 32*8 half mode */
+> +static const uint64_t format_modifiers_rk3576_afbc[] = {
+> +       DRM_FORMAT_MOD_ARM_AFBC(AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 |
+> +                               AFBC_FORMAT_MOD_SPLIT),
+> +
 
+Hmmm, that's strange; I applied the whole series with b4 but wasn't
+seeing that block defined. Maybe a bad conflict resolution. Sorry for
+the confusion.
 
--- 
-With best wishes
-Dmitry
+> I write an ovltest[0] tool which can take linear/AFBC rgb/yuv data from a file, then
+> commit to drm driver, I use this tool for most basic format test.
+>
+> But when tested on weston, I found that weston does not use the AFBC format for display,
+> don't know why.
+
+You'll need a Mesa tree with e0f48568c7f2 included; if you have this
+then it should just work out of the box.
+
+Cheers,
+Daniel
