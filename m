@@ -1,108 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAE69F57E7
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 21:39:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FF49F581A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 21:50:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C68410E7F2;
-	Tue, 17 Dec 2024 20:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDA5B10EA67;
+	Tue, 17 Dec 2024 20:50:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="PG/yu+KT";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="3S/Q4XAN";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="czV657ph";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b7-smtp.messagingengine.com
- (fout-b7-smtp.messagingengine.com [202.12.124.150])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D777B10E7F2;
- Tue, 17 Dec 2024 20:39:36 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal
- [10.202.2.50])
- by mailfout.stl.internal (Postfix) with ESMTP id A19D21140119;
- Tue, 17 Dec 2024 15:39:35 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
- by phl-compute-10.internal (MEProxy); Tue, 17 Dec 2024 15:39:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm1; t=1734467975;
- x=1734554375; bh=aNNu1aV97H2ywQy9HYkfKUll79gVGt2TM223JqGvvs0=; b=
- PG/yu+KTPMi3QOwd5YeCYAtnAO6GxkyhDpWZ2jHJ9e01an0XFJbkp6HpHakcJYwH
- tRvpllFJCZJEtzW+eDTT4tuEmQZhrLjq/qux+HIuPGTVUwWQBXbSxA6iBLTO7Hkf
- MpLc7cqCb7wx5yNEc4nw7drIyKRc/cgwY79sWTGjR1Xxs858JDD15mRe5sSccrrX
- EMbyRqQ7sef7mhuGx0x0M2zvTrmM8TEgeHpHLXv3Ewy3AR5AWkpjiRdpITbAgUOO
- q/fsqvtmv+oVx6r1QotMq+8TFGjNjmpm4qI2TORKNxt7h6xbuNNnfLoHSdcav+qt
- dmVfNU8x3ojd3tvGHdeieA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734467975; x=
- 1734554375; bh=aNNu1aV97H2ywQy9HYkfKUll79gVGt2TM223JqGvvs0=; b=3
- S/Q4XANwWKlgrl/i7TYzGY72PYpt+m85aWZjas1aIUZApsDV7Ny1s9IqKQrf/i+k
- hS8by/eS8C15wL6wU4envoksEiT7CtDWeSQfSZr6p9BP96ZP1m8JIwyqBP9nwwm5
- kjAZnbVGhXnHc1Ew4wEoZ94uiZlLga0PIOYPnViDQU/6RdnD9He2ZFwU2hiPblzG
- DZ+BMPtSxQC4h5jhaokMx6YeGI9fmZYbe/tbofqeMdvqr107T3Da4JZmTaYywoRw
- I50EJeO6H2gDnvsspkEY7IkgOZm5jWxbRzYWOl8jNocebskev8K9PDCoaKEqoztX
- 8Jn04avWDmRKyM47ktPkQ==
-X-ME-Sender: <xms:huFhZ8nWOvZQNR5YlOk6sqCGUb3c9SzKtqUS_QjIHE02A0aYRy8VNA>
- <xme:huFhZ70lSEuLQlyy9Fyi9y0Ps7EbgMQXXcPKM5aQnwxD5DACV3x7GaFh9MXGChrxn
- Sdbs6MqGwJtbVEL0Lk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleehgddugeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
- necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
- guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
- gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvddt
- pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtg
- hhpdhrtghpthhtohepghgvvghrthdorhgvnhgvshgrshesghhlihguvghrrdgsvgdprhgt
- phhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgrnhhird
- hnihhkuhhlrgesihhnthgvlhdrtghomhdprhgtphhtthhopehluhgtrghsrdguvghmrghr
- tghhihesihhnthgvlhdrtghomhdprhgtphhtthhopehmihgthhgrvghlrdhjrdhruhhhlh
- esihhnthgvlhdrtghomhdprhgtphhtthhopehrohgurhhighhordhvihhvihesihhnthgv
- lhdrtghomhdprhgtphhtthhopehtvghjrghsrdhuphgrughhhigrhiesihhnthgvlhdrtg
- homhdprhgtphhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:huFhZ6o3PIeEpGurKiZPOHW9JFqxqE_8LZVNdJFg49vroloUkSsc-w>
- <xmx:huFhZ4nbQbB4TglMJFBGU3_7GtoavkYQXDV_gyg9BA0FrC_VG8xqOA>
- <xmx:huFhZ61T16NpWd6YgawPOxTa4xrYnj_oTK6kcwFZ2ZUFqOAJtEhLOA>
- <xmx:huFhZ_uqPuI3czVIk9bfMBNBoonyUDRaFxnKODpiVrt9Uq2WqGv-7A>
- <xmx:h-FhZz74-Q_kyHp3KUj066zcjlIn67let4IegfEblM4E4ih3i-teIKBy>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id 88DA52220072; Tue, 17 Dec 2024 15:39:34 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 678B610E090;
+ Tue, 17 Dec 2024 20:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=7mGh5BOud1iBcSK4bHOV27UVzeac5Tmql3qIg/8sObA=; b=czV657phUnops84AB5VgYGgZFF
+ KQHKD2yUB4i6oi9DAqDtVJaw15HTbdqPlfM72Ssvzzb634X6TZP5yqznlSFVS32fYI1R5WhTM1fqw
+ NW+9Rxm4tK6u6TjtFm4fCXrAKNCttNXfoNKoHZuDRWoKEoEI5KFeGYhg+wn4VVDd2vNRmy/hLxQm+
+ rvpp1kQHnfHSJpszN7HGo48KbnbUxn9yJTfbuhmi0He/WgsGoBlrXcZ8d57xf28vhJHbz7OgyaAIX
+ ayfneokzY8Odi0TwI7Rt1/cqr6KL322eJucLaXMLvHSnzX17E/CzdjZjojLY3ZWooTrKIttK7g3UB
+ Fm8zrwMw==;
+Received: from [179.214.71.67] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tNeWc-004X2k-76; Tue, 17 Dec 2024 21:50:38 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ daniel@ffwll.ch, harry.wentland@amd.com, pekka.paalanen@collabora.com,
+ Rodrigo.Siqueira@amd.com, sunpeng.li@amd.com, Xinhui.Pan@amd.com,
+ zaeem.mohamed@amd.com
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+ Timur Kristof <timur.kristof@gmail.com>,
+ Victoria Brekenfeld <victoria@system76.com>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <mdaenzer@redhat.com>,
+ Fabio Scaccabarozzi <fsvm88@gmail.com>,
+ Matthew Schwartz <mattschwartz@gwmail.gwu.edu>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+Subject: [PATCH 0/3] drm/amd/display: fixes for kernel crashes since cursor
+ overlay mode
+Date: Tue, 17 Dec 2024 17:45:02 -0300
+Message-ID: <20241217205029.39850-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Date: Tue, 17 Dec 2024 21:39:13 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Lucas De Marchi" <lucas.demarchi@intel.com>
-Cc: "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Arnd Bergmann" <arnd@kernel.org>, michael.j.ruhl@intel.com,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Dave Airlie" <airlied@gmail.com>, 
- "Simona Vetter" <simona@ffwll.ch>,
- "David E. Box" <david.e.box@linux.intel.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
- "Jani Nikula" <jani.nikula@intel.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Tejas Upadhyay" <tejas.upadhyay@intel.com>,
- "Hans de Goede" <hdegoede@redhat.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-Id: <640211a8-9516-4574-99a6-e61354d613ff@app.fastmail.com>
-In-Reply-To: <fjforguil5lcij77tgmjk5sw5bzuwg7m34nsdmrzbinnmt2xte@moz3kbsg6tgi>
-References: <20241217071852.2261858-1-arnd@kernel.org>
- <Z2HIW4c-S_IA9bWb@intel.com>
- <36bae0e6-9153-4cb4-9c85-8a582a47044b@app.fastmail.com>
- <fjforguil5lcij77tgmjk5sw5bzuwg7m34nsdmrzbinnmt2xte@moz3kbsg6tgi>
-Subject: Re: [PATCH] drm/xe/vsec: enforce CONFIG_INTEL_VSEC dependency
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,28 +67,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 17, 2024, at 21:14, Lucas De Marchi wrote:
-> On Tue, Dec 17, 2024 at 08:28:59PM +0100, Arnd Bergmann wrote:
->>On Tue, Dec 17, 2024, at 19:52, Rodrigo Vivi wrote:
->>> On Tue, Dec 17, 2024 at 08:18:44AM +0100, Arnd Bergmann wrote:
->>>> From: Arnd Bergmann <arnd@arndb.de>
->>>>
->>>> When INTEL_VSEC is in a loadable module, XE cannot be built-in any more:
->>>>
->>>> x86_64-linux-ld: vmlinux.o: in function `xe_vsec_init':
->>>> (.text+0x19861bf): undefined reference to `intel_vsec_register'
->>>>
->>>> This could be enforced using a 'depends on INTEL_VSEC || !INTEL_VSEC'
->>>> style dependency to allow building with VSEC completely disabled.
->>>> My impression here is that this was not actually intended, and that
->>>> continuing to support that combination would lead to more build bugs.
->
-> why? if xe is built-in, vsec needs to be built-in as well. If xe is a
-> module, vsec can be either built-in or a module.
+Hi,
 
-"depends on INTEL_VSEC" enforces that hard dependency. The difference
-with "depends on INTEL_VSEC || !INTEL_VSEC" is that it also allows
-XE to be either built-in or a module if INTEL_VSEC is turned off,
-as it would be the case on non-x86.
+Some issues have been found by Cosmic users of AMD display since the
+introduction of cursor overlay mode: page fault and divide errors
+causing interface freezes. Both are 100% reproducible and affects
+multiple HW versions.
 
-       Arnd
+Patch 1 addresses the page fault error by resolving the definition
+mismatch around the number of surfaces supported by the hw, where two
+different values (MAX_SURFACES and MAX_SURFACE_NUM) would be taken
+through the DC surface updates flow. The regular flow take MAX_SURFACES
+== 3 into account and commit_minimal_transition_state uses
+MAX_SURFACE_NUM == 6. I noticed that Leo Li has proposed this change in
+a previous discussion [1], so I added a Suggested-by tag.
+
+Patch 2 expands the maximum number of surfaces to four, since it's
+supported by the hw. Also, this amount accomodates current needs,
+avoiding `dc_state_add_plane` complaints of not enough resource. Note
+that it somehow reverts the change proposed by [2].
+
+Related AMD issues:
+- https://gitlab.freedesktop.org/drm/amd/-/issues/3693
+- https://gitlab.freedesktop.org/drm/amd/-/issues/3594
+
+Patch 3 fixes a kernel oops due to division by zero error by checking if
+the destination scale size is zero, avoiding calculation and just
+setting the out-scale size to zero, similar to what is  done by
+drm_calc_scale(). Even though the missing check in dm_get_plane_scale()
+wasn't introduced by cursor overlay mode, AFAIU the cursor mode
+assessment happens before plane state checks, so
+amdgpu_dm_plane_helper_check_state() can't prevent
+dm_crtc_get_cursor_mode() taking an invisible plane into account.
+
+Related AMD issue:
+- https://gitlab.freedesktop.org/drm/amd/-/issues/3729
+
+Other previous discussions can be found at:
+- https://lore.kernel.org/amd-gfx/20241114143741.627128-1-zaeem.mohamed@amd.com/
+- https://lore.kernel.org/amd-gfx/20240925154324.348774-1-mwen@igalia.com/
+
+Thanks in advance for any feedback.
+
+Melissa
+
+[1] https://lore.kernel.org/amd-gfx/20241025193727.765195-2-zaeem.mohamed@amd.com/
+[2] https://gitlab.freedesktop.org/agd5f/linux/-/commit/3cfd03b79425c
+
+Melissa Wen (3):
+  drm/amd/display: fix page fault due to max surface definition mismatch
+  drm/amd/display: increase MAX_SURFACES to the value supported by hw
+  drm/amd/display: fix divide error in DM plane scale calcs
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       | 4 ++--
+ drivers/gpu/drm/amd/display/dc/core/dc.c                | 2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_state.c          | 8 ++++----
+ drivers/gpu/drm/amd/display/dc/dc.h                     | 4 ++--
+ drivers/gpu/drm/amd/display/dc/dc_stream.h              | 2 +-
+ drivers/gpu/drm/amd/display/dc/dc_types.h               | 1 -
+ drivers/gpu/drm/amd/display/dc/dml2/dml2_mall_phantom.c | 2 +-
+ 7 files changed, 11 insertions(+), 12 deletions(-)
+
+-- 
+2.45.2
+
