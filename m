@@ -2,58 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6989F45AC
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 09:06:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13729F45C8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 09:14:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7A610E0D6;
-	Tue, 17 Dec 2024 08:06:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X+vowBXn";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA6D10E86A;
+	Tue, 17 Dec 2024 08:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24CD310E0D6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 08:06:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6566AA41D95;
- Tue, 17 Dec 2024 08:04:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0607FC4CED3;
- Tue, 17 Dec 2024 08:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734422800;
- bh=lezp6EOr1sTrbOd8jVW8DSk++wf4bf36AnptRA4PyH8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X+vowBXnjBaLUcuH3ZNTlxuYXFlQoFs+HB+3snpwxM1GcMu32ovTLikNU/IGawtnc
- r3cwON5Peqm4GfLiMitiu+BtPNNxdYI8go7HgZO2CYqt9dw1OWu9tKL71pWVzzY++4
- vZB2IcRIxWiznIJeOfvJzgWru5L9OGuWaUBz711FfpLvLU7lx3S95Jfwz57W8GzpM+
- 28k3ygSVqpUKOCM03xWFzm7svkTDrNjht5c0paP7Y5FDr0ng6aTkQiUpTA3uN2vL2a
- swxqAfXJIO6wbed7cknFYAUCK3x/CJxvG2mIu2B1jqCZ4tLzKzFUY2JSUaoWL/DohT
- OvNixEsVkwTJg==
-Date: Tue, 17 Dec 2024 09:06:37 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Sandor Yu <Sandor.yu@nxp.com>
-Cc: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- festevam@gmail.com, 
- vkoul@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, 
- kernel@pengutronix.de, linux-imx@nxp.com, oliver.brown@nxp.com, 
- alexander.stein@ew.tq-group.com, sam@ravnborg.org
-Subject: Re: [PATCH v20 5/9] drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
-Message-ID: <20241217-judicious-stereotyped-centipede-5ddb27@houat>
-References: <cover.1734340233.git.Sandor.yu@nxp.com>
- <fbd12029fab1f60e2ba4fad75ef650298a59cb15.1734340233.git.Sandor.yu@nxp.com>
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA01C10E86A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 08:14:41 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id
+ a1e0cc1a2514c-85bc5d0509bso962551241.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:14:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734423280; x=1735028080;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=BPpiGaA1e5dMiDjkAszyfRMBt3SwUPjlRJm/tlaPvdg=;
+ b=EHe9wx/a6w+0BOGRdwhzlmn3WuW3ny0Ea9DG2qcGyraHip8ze+Z0vHVOreKX7QKB0H
+ ogKN+CGnVDCuwgVghV2llU/y9iIde189M7kif5gNp5i+abmcyx6nuDlf0KbUvUtjBAZd
+ aosNxeUf+upOrV2uRbEtkv8nxIOXk3JbmFcFHq1R6tCWIlej1TlJ3FxNawlw4qgqcniy
+ E1MSTfTso2GMVmnpgqT6leXehT66D/2lWVPgWuufmgJmf0k8qIre8z7Mqd+NWXoeTTwD
+ 2+Flv8ZwFciMExIEqYkawIO5MS4UnYWgk1LBQgIq26HYliyIejkADPO7fTgtw3dkCjPC
+ BvwA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTYvC65p6HqJVeACdQGI9E+VtWId6pepsommfkKNhRkIFMHjae3j3WsT1+xO+RjhQdDOhd9G4x/ks=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw37tabdTm6IzdrMaVeoswPIRrklOeO2jKH6ziC53Cv8Fs1L7tI
+ P3Hs3pen9gYBtRMNCHOC8sqWcwpkskxbtzASzfxKTkrhDs13rFAXpdkl1arI
+X-Gm-Gg: ASbGncv8k0D9fckXSb3/LWgHd+9MoPDY84NHo+MNJU9eWo/Mx0XBKT5IMFuDAv9SpsC
+ GotVCdhOeYwEz4Q4IfuG1lP+50KY6qFD86JpvNVLi+3TBR4mNYvqWjTQhFcFwMfY4piPcEI6kgb
+ oeez7BmcKZ3f1LtR7sKzup4SgmY7ZNPL0Hq+IxJgqsT3BpaQV8P9/TZNJTSQpnHdesoU/nvg6t4
+ Dt0L5Cb1//ZZXmNVR5vH/vNPa0heW1foAqvREXDWLUdWJ1oMKXtArfmPHh/Le7LnR3AW0QkfrCs
+ j9AOC0dVu/YDJNQcATkzg8I=
+X-Google-Smtp-Source: AGHT+IFrHiLHj1r+IEZOm+T2x5LeJwf2YiyEje4ayG8yUxQlwasc+1rJbhRY01+VFgJViNZsfdso/Q==
+X-Received: by 2002:a05:6102:4d:b0:4b2:77df:466f with SMTP id
+ ada2fe7eead31-4b277df4b89mr7062944137.8.1734423280241; 
+ Tue, 17 Dec 2024 00:14:40 -0800 (PST)
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com.
+ [209.85.221.176]) by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-4b2703c7a2asm1090940137.30.2024.12.17.00.14.40
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Dec 2024 00:14:40 -0800 (PST)
+Received: by mail-vk1-f176.google.com with SMTP id
+ 71dfb90a1353d-518808ef4a1so1496151e0c.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 00:14:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+iIRRbRbb32hYhpaZEuwbz29mqKmqVTQBlpEaxcL/cCsYdci8s6g108acOJsowyVLCGxs5xZWLNE=@lists.freedesktop.org
+X-Received: by 2002:a05:6122:2a09:b0:518:7777:a61e with SMTP id
+ 71dfb90a1353d-518ca39a80fmr14871103e0c.5.1734423279879; Tue, 17 Dec 2024
+ 00:14:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="f3jzfinrd3s3htcj"
-Content-Disposition: inline
-In-Reply-To: <fbd12029fab1f60e2ba4fad75ef650298a59cb15.1734340233.git.Sandor.yu@nxp.com>
+References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
+ <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+In-Reply-To: <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Dec 2024 09:14:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
+Message-ID: <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/7] dt-bindings: display: renesas,
+ du: Add missing constraints
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,56 +104,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi,
 
---f3jzfinrd3s3htcj
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v20 5/9] drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
-MIME-Version: 1.0
+On Tue, Dec 17, 2024 at 6:32=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>
+> The binding is missing maxItems for all renesas,cmms and renesas,vsps
+> properties. As the amount of cmms or vsps is always a fixed amount, set
+> the maxItems to match the minItems.
+>
+> Also add the minItems and maxItems to the top level properties.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Hi,
+Thanks for your patch!
 
-On Tue, Dec 17, 2024 at 02:51:47PM +0800, Sandor Yu wrote:
-> +static ssize_t firmware_version_show(struct device *dev,
-> +				     struct device_attribute *attr, char *buf);
-> +static struct device_attribute firmware_version = __ATTR_RO(firmware_version);
-> +
-> +ssize_t firmware_version_show(struct device *dev,
-> +			      struct device_attribute *attr, char *buf)
-> +{
-> +	struct cdns_mhdp8501_device *mhdp = dev_get_drvdata(dev);
-> +
-> +	u32 version = readl(mhdp->base.regs + VER_L) | readl(mhdp->base.regs + VER_H) << 8;
-> +	u32 lib_version = readl(mhdp->base.regs + VER_LIB_L_ADDR) |
-> +			  readl(mhdp->base.regs + VER_LIB_H_ADDR) << 8;
-> +
-> +	return sprintf(buf, "FW version %d, Lib version %d\n", version, lib_version);
-> +}
-> +
-> +static void cdns_mhdp8501_create_device_files(struct cdns_mhdp8501_device *mhdp)
-> +{
-> +	if (device_create_file(mhdp->dev, &firmware_version)) {
-> +		DRM_ERROR("Unable to create firmware_version sysfs\n");
-> +		device_remove_file(mhdp->dev, &firmware_version);
-> +	}
-> +}
+> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -77,6 +77,8 @@ properties:
+>
+>    renesas,cmms:
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    minItems: 1
+> +    maxItems: 4
+>      items:
+>        maxItems: 1
+>      description:
+> @@ -85,6 +87,8 @@ properties:
+>
+>    renesas,vsps:
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    minItems: 1
+> +    maxItems: 4
+>      items:
+>        items:
+>          - description: phandle to VSP instance that serves the DU channe=
+l
+> @@ -489,9 +493,11 @@ allOf:
+>
+>          renesas,cmms:
+>            minItems: 4
+> +          maxItems: 4
+>
+>          renesas,vsps:
+>            minItems: 4
+> +          maxItems: 4
 
-sysfs files are part of the uABI, and need to be stable and documented.
+AFAIK these two additions are not needed, as they already match the
+values defined at the top level.
 
-For these kind of things, you should use debugfs.
+The rest LGTM.
 
-Maxime
+Gr{oetje,eeting}s,
 
---f3jzfinrd3s3htcj
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2ExDQAKCRAnX84Zoj2+
-dnc4AYCqAZF9d60JM6qP2gOgYAn6lAKF42a7J9At1vpspnjLkxWeo82wwxsVUN3q
-dX1sPvsBf0FnUgCipeCjavvQGCADOKKD3bokWMMWhfpqBINEp3TxubYkPBBuPx7Q
-x5ViCYwzhw==
-=BgFt
------END PGP SIGNATURE-----
-
---f3jzfinrd3s3htcj--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
