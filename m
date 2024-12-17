@@ -1,97 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4A19F4306
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 06:39:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4386F9F433F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 07:02:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 215BC10E85C;
-	Tue, 17 Dec 2024 05:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9755D10E861;
+	Tue, 17 Dec 2024 06:02:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ILe50VH0";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="M03+S0dW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 784C410E85C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 05:39:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DECC8A41DAE;
- Tue, 17 Dec 2024 05:37:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AF8CC4CED3;
- Tue, 17 Dec 2024 05:39:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734413955;
- bh=tqu7Z0ImV0mICFkBydV+d50QKxdqZ/2PTdCswVNZgNM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ILe50VH0mKOFqAYZQP08uohC6xn+KEQNLmmdWe/VVRfBJnoZnQV9TUsXtzVccPm/i
- na0EmxFBKcUX4w23PawQLcijhr/WHXhYsMgAZL2pA2XPsbmnZr6VCypZ39BDoBiGFr
- fFn+/C29gk+RpmLzhEuekGApHA8jkgShHAETTJgmmWVJF8GthXn6P477IrvG37u1vX
- ZrdWkItP5pe9J73oWSpAGoeziR8EzsMc8tLvjNDH9CaW/oN34RFt7bWWwSBXKcXX9g
- G56sBSaG8f3sRWvCxvda0QU0Pc455lWT90wjwbpltbp8Ddw8U56cEQIEuzl4W7iBxX
- peq8bCVTJLvXQ==
-Message-ID: <b7bd87f8-d651-4d27-bfc7-040a5192f285@kernel.org>
-Date: Tue, 17 Dec 2024 06:39:06 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E77F110E861
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 06:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734415325;
+ bh=lCU1aXMJ0kLeiqEbWov2MHIs3RJ0XBwmMuJMA5EqFRc=;
+ h=Date:To:Cc:From:Subject:From;
+ b=M03+S0dWES9KIMkxyEdNEWP0XqNJoki2YEfrJp/e30OPTgqk49KhJZUXmd8lNdRIH
+ D/rzbVuIfCTLTA0JnkcaGHr7oFNMfYQrOVI9zaEzoge8CtdZ6gcfTaWF5PpojUyTu/
+ LzErVdC6KFcdazz9mbPKAlq3Jbc+5O1j4enEbCFtwdjRwDzUzcznMMeGmJ2T9vlcBD
+ yJbeSFDlwixugVuxYg+w9f2wuUIuODmcA3xSwZeNn5gr8Dn5rs6KoA0+llamy4hR/s
+ WXKUVtCcOwSg1xoWDI0R6kzokx2IFXMMyRME0Pt3SVoNO4MjC6KxFfiwnV6HxrQvGs
+ /41PuURuisu/A==
+Received: from [192.168.50.250] (unknown [171.76.86.135])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 982A117E1131;
+ Tue, 17 Dec 2024 07:02:00 +0100 (CET)
+Message-ID: <afa2d3bf-29f2-488d-8cc9-f30d461444b0@collabora.com>
+Date: Tue, 17 Dec 2024 11:31:55 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/5] gpu: host1x: Support device monitoring with actmon
-To: Johnny Liu <johnliu@nvidia.com>, thierry.reding@gmail.com,
- jonathanh@nvidia.com, skomatineni@nvidia.com, luca.ceresoli@bootlin.com,
- mperttunen@nvidia.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241210174554.18869-1-johnliu@nvidia.com>
- <20241210174554.18869-4-johnliu@nvidia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241210174554.18869-4-johnliu@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+To: linux-rockchip@lists.infradead.org,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, Maxime Ripard <mripard@kernel.org>,
+ tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>,
+ Sergi Blanch Torne <sergi.blanch.torne@collabora.com>,
+ Guilherme Alcarde Gallo <guilherme.gallo@collabora.com>
+From: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: drm-ci: rockchip: kms_plane_multiple@tiling-none flake
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -108,59 +65,386 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/2024 18:45, Johnny Liu wrote:
 
-> +
-> +static int host1x_actmon_sample_period_set(void *data, u64 val)
-> +{
-> +	struct host1x_actmon *actmon = (struct host1x_actmon *)data;
-> +
-> +	actmon->usecs_per_sample = (u32)val;
-> +	host1x_actmon_update_sample_period(actmon);
-> +
-> +	return 0;
-> +}
-> +
-> +DEFINE_SIMPLE_ATTRIBUTE(host1x_actmon_sample_period_fops,
-> +			host1x_actmon_sample_period_get,
-> +		host1x_actmon_sample_period_set,
-> +		"%lld\n");
-> +
-> +/**
-> + * host1x_actmon_debug_init - Initialize actmon debugfs
+Hi Maintainers,
 
+There are some flake tests reported for rockchip driver testing in drm-ci.
 
-No, debugfs is only for debugging, not for usual interfaces. You now
-added several driver knobs bypassing any ABI documentation.
+# Board Name: hp-11A-G6-EE-grunt
+# Failure Rate: 80
+# IGT Version: 1.29-g33adea9eb
+# Linux Version: 6.13.0-rc2
+kms_plane_multiple@tiling-none
 
+command: cd "/igt/libexec/igt-gpu-tools" && 
+"/igt/libexec/igt-gpu-tools/kms_plane_multiple" "--run-subtest" 
+"tiling-none"
+pid: 260
+exit status: exit status: 98
+stdout:
+-------
+IGT-Version: 1.29-g33adea9eb (aarch64) (Linux: 6.13.0-rc2-g1f006005ebf8 
+aarch64)
+Using IGT_SRANDOM=1734349612 for randomisation
+Opened device: /dev/dri/card1
+Starting subtest: tiling-none
+Starting dynamic subtest: pipe-A-eDP-1
+Using (pipe A + eDP-1) to run the subtest.
+Testing connector eDP-1 using pipe A with 3 planes for 1 iteration with 
+seed 1734349612
+Dynamic subtest pipe-A-eDP-1: SUCCESS (3.099s)
+Starting dynamic subtest: pipe-B-eDP-1
+Using (pipe B + eDP-1) to run the subtest.
+Testing connector eDP-1 using pipe B with 3 planes for 1 iteration with 
+seed 1734349615
+Stack trace:
+   #0 ../lib/igt_core.c:2051 __igt_fail_assert()
+   #1 ../lib/igt_pipe_crc.c:433 igt_pipe_crc_get_crcs()
+   #2 ../tests/kms_plane_multiple.c:372 run_test.constprop.0()
+   #3 ../tests/kms_plane_multiple.c:505 __igt_unique____real_main488()
+   #4 ../tests/kms_plane_multiple.c:488 main()
+   #5 [__libc_init_first+0x80]
+   #6 [__libc_start_main+0x98]
+   #7 [_start+0x30]
+Dynamic subtest pipe-B-eDP-1: FAIL (4.221s)
+Subtest tiling-none: FAIL (7.354s)
+stderr:
+-------
+(kms_plane_multiple:260) igt_pipe_crc-CRITICAL: Test assertion failure 
+function igt_pipe_crc_start, file ../lib/igt_pipe_crc.c:387:
+(kms_plane_multiple:260) igt_pipe_crc-CRITICAL: Failed assertion: 
+pipe_crc->crc_fd != -1
+(kms_plane_multiple:260) igt_pipe_crc-CRITICAL: Last errno: 5, 
+Input/output error
+Dynamic subtest pipe-B-eDP-1 failed.
+**** DEBUG ****
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_size (0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_size(0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_fb(0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_size (0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_size(0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: set_pipe(None)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: Selecting pipe None
+(kms_plane_multiple:260) igt_kms-DEBUG: display: commit {
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"MODE_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"ACTIVE" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.0, fb 0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"FB_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.1, fb 0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"FB_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     eDP-1: preparing 
+atomic, pipe: None
+(kms_plane_multiple:260) igt_kms-DEBUG: eDP-1: Setting property 
+"CRTC_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display: }
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: set_pipe(B)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: Selecting pipe B
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) DEBUG: Test requirement passed: 
+!(!igt_plane_has_format_mod(plane, plane_format, plane_modifier))
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=128, height=128, 
+format=AR24(0x34325241), modifier=0x0, size=0)
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=3, pitch=512)
+(kms_plane_multiple:260) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_plane_multiple:260) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: 
+plane_set_position(214,735)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_fb(60)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_size 
+(128x128)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_size(128x128)
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=2400, height=1600, 
+format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=4, pitch=9600)
+(kms_plane_multiple:260) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_plane_multiple:260) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_fb(61)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_size 
+(2400x1600)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_size(2400x1600)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: commit {
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"MODE_ID" to 0x39/57
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"ACTIVE" to 0x1/1
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.0, fb 61
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_W" to 0x9600000/157286400
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_H" to 0x6400000/104857600
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_W" to 0x960/2400
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_H" to 0x640/1600
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"FB_ID" to 0x3d/61
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_ID" to 0x33/51
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.1, fb 60
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_W" to 0x800000/8388608
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_H" to 0x800000/8388608
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_X" to 0xd6/214
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_Y" to 0x2df/735
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_W" to 0x80/128
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_H" to 0x80/128
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"FB_ID" to 0x3c/60
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_ID" to 0x33/51
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     eDP-1: preparing 
+atomic, pipe: B
+(kms_plane_multiple:260) igt_kms-DEBUG: eDP-1: Setting property 
+"CRTC_ID" to 0x33/51
+(kms_plane_multiple:260) igt_kms-DEBUG: display: }
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_fb(0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_size (0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_size(0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_fb(0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_size (0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_size(0x0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: set_pipe(None)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: Selecting pipe None
+(kms_plane_multiple:260) igt_kms-DEBUG: display: commit {
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"MODE_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"ACTIVE" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.0, fb 0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"FB_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.1, fb 0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_W" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_H" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"FB_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     eDP-1: preparing 
+atomic, pipe: None
+(kms_plane_multiple:260) igt_kms-DEBUG: eDP-1: Setting property 
+"CRTC_ID" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: display: }
+(kms_plane_multiple:260) INFO: Testing connector eDP-1 using pipe B with 
+3 planes for 1 iteration with seed 1734349615
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: set_pipe(B)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: eDP-1: Selecting pipe B
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) DEBUG: Test requirement passed: 
+!(!igt_plane_has_format_mod(plane, plane_format, plane_modifier))
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=128, height=128, 
+format=AR24(0x34325241), modifier=0x0, size=0)
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=3, pitch=512)
+(kms_plane_multiple:260) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_plane_multiple:260) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: 
+plane_set_position(1261,1440)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_fb(60)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: plane_set_size 
+(128x128)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.1: fb_set_size(128x128)
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_kms-DEBUG: Test requirement passed: 
+plane_idx >= 0 && plane_idx < pipe->n_planes
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(width=2400, height=1600, 
+format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_plane_multiple:260) igt_fb-DEBUG: 
+igt_create_fb_with_bo_size(handle=4, pitch=9600)
+(kms_plane_multiple:260) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_plane_multiple:260) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_fb(61)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: plane_set_size 
+(2400x1600)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_position(0,0)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: B.0: fb_set_size(2400x1600)
+(kms_plane_multiple:260) igt_kms-DEBUG: display: commit {
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"MODE_ID" to 0x39/57
+(kms_plane_multiple:260) igt_kms-DEBUG: Pipe B: Setting property 
+"ACTIVE" to 0x1/1
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.0, fb 61
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_W" to 0x9600000/157286400
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"SRC_H" to 0x6400000/104857600
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_W" to 0x960/2400
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_H" to 0x640/1600
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"FB_ID" to 0x3d/61
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.0: Setting property 
+"CRTC_ID" to 0x33/51
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     populating plane 
+data: B.1, fb 60
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_X" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_Y" to 0x0/0
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_W" to 0x800000/8388608
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"SRC_H" to 0x800000/8388608
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_X" to 0x4ed/1261
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_Y" to 0x5a0/1440
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_W" to 0x80/128
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_H" to 0x80/128
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"FB_ID" to 0x3c/60
+(kms_plane_multiple:260) igt_kms-DEBUG: plane B.1: Setting property 
+"CRTC_ID" to 0x33/51
+(kms_plane_multiple:260) igt_kms-DEBUG: display:     eDP-1: preparing 
+atomic, pipe: B
+(kms_plane_multiple:260) igt_kms-DEBUG: eDP-1: Setting property 
+"CRTC_ID" to 0x33/51
+(kms_plane_multiple:260) igt_kms-DEBUG: display: }
+(kms_plane_multiple:260) igt_pipe_crc-CRITICAL: Test assertion failure 
+function igt_pipe_crc_start, file ../lib/igt_pipe_crc.c:387:
+(kms_plane_multiple:260) igt_pipe_crc-CRITICAL: Failed assertion: 
+pipe_crc->crc_fd != -1
+(kms_plane_multiple:260) igt_pipe_crc-CRITICAL: Last errno: 5, 
+Input/output error
+(kms_plane_multiple:260) igt_core-INFO: Stack trace:
+(kms_plane_multiple:260) igt_core-INFO:   #0 ../lib/igt_core.c:2051 
+__igt_fail_assert()
+(kms_plane_multiple:260) igt_core-INFO:   #1 ../lib/igt_pipe_crc.c:433 
+igt_pipe_crc_get_crcs()
+(kms_plane_multiple:260) igt_core-INFO:   #2 
+../tests/kms_plane_multiple.c:372 run_test.constprop.0()
+(kms_plane_multiple:260) igt_core-INFO:   #3 
+../tests/kms_plane_multiple.c:505 __igt_unique____real_main488()
+(kms_plane_multiple:260) igt_core-INFO:   #4 
+../tests/kms_plane_multiple.c:488 main()
+(kms_plane_multiple:260) igt_core-INFO:   #5 [__libc_init_first+0x80]
+(kms_plane_multiple:260) igt_core-INFO:   #6 [__libc_start_main+0x98]
+(kms_plane_multiple:260) igt_core-INFO:   #7 [_start+0x30]
+****  END  ****
 
-> + * @actmon: the actmon instance being configured
-> + * @name: an unique name of the actmon
-> + *
-> + * There are multiple modules available inside the actmon, and they perform the
-> + * signal sampling at the same rate. The debugfs of an actmon will expose this
-> + * shared configuration, sample_period, via a debugfs node:
-> + * - sample_period:
-> + *   Sampling period in micro-second of modules inside the actmon
-> + */
-> +static void host1x_actmon_debug_init(struct host1x_actmon *actmon, const char *name)
-> +{
-> +	struct host1x *host = dev_get_drvdata(actmon->client->host->parent);
-> +
-> +	if (!host->debugfs) {
-> +		dev_warn(host->dev, "debugfs is unavailable\n");
-> +		return;
-> +	}
-> +
-> +	if (!host->actmon_debugfs)
-> +		host->actmon_debugfs = debugfs_create_dir("actmon", host->debugfs);
-> +
-> +	actmon->debugfs = debugfs_create_dir(name, host->actmon_debugfs);
-> +
-> +	/* R/W files */
-> +	debugfs_create_file("sample_period", 0644, actmon->debugfs, actmon,
-> +			    &host1x_actmon_sample_period_fops);
-> +}
-> +
-Best regards,
-Krzysztof
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/linux/-/jobs/68249817
+
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
+
+Regards,
+Vignesh
