@@ -2,40 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 612189F49B9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 12:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C14D39F4A1B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Dec 2024 12:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAE910E91B;
-	Tue, 17 Dec 2024 11:21:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDC510E224;
+	Tue, 17 Dec 2024 11:42:33 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o06c0iOV";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6668B10E91B
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 11:21:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 091B51063
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 03:21:43 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B90EF3F528
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 03:21:14 -0800 (PST)
-Date: Tue, 17 Dec 2024 11:21:11 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org,
- Christopher Healy <healych@amazon.com>, kernel@collabora.com
-Subject: Re: [PATCH] drm/panthor: Fix a race between the reset and suspend path
-Message-ID: <Z2Fep855nZ7bRuAJ@e110455-lin.cambridge.arm.com>
-References: <20241217092457.1582053-1-boris.brezillon@collabora.com>
- <Z2FYzqCkhKQRwxYU@e110455-lin.cambridge.arm.com>
- <20241217120659.6b05ddb8@collabora.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC82E10E224
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Dec 2024 11:42:31 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC1BF4C7;
+ Tue, 17 Dec 2024 12:41:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1734435713;
+ bh=/rYOAc8y4xEE7cn1aBZucNkEfLE/Pmtkk79KqNgF9j4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=o06c0iOVU3ndycoPKNCasdwF6VUpwytQgSQfuOK2rjZjt886XIfFjQKhMLoxNlaYC
+ nughHi0KMlOrmN0MTWSKmWRMqc6VpZ11qW8xzDbDaAsCDRtmsE9QR3H0EaOG8CHrol
+ 85GqP6uN+co5qb9NY/ayyJ7pA1eGGQq+TsmhgUCs=
+Date: Tue, 17 Dec 2024 13:42:27 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: Re: [PATCH v5 3/7] dt-bindings: display: renesas,du: Add missing
+ constraints
+Message-ID: <20241217114227.GB32392@pendragon.ideasonboard.com>
+References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
+ <20241217-rcar-gh-dsi-v5-3-e77421093c05@ideasonboard.com>
+ <CAMuHMdUczNArF7JSfjrb11OTpd8LvHv5-gUFPFCayr+Qezsbbg@mail.gmail.com>
+ <f10be07d-6bfa-4d09-9a45-81179592ec5c@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241217120659.6b05ddb8@collabora.com>
+In-Reply-To: <f10be07d-6bfa-4d09-9a45-81179592ec5c@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,108 +77,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 17, 2024 at 12:06:59PM +0100, Boris Brezillon wrote:
-> On Tue, 17 Dec 2024 10:56:14 +0000
-> Liviu Dudau <liviu.dudau@arm.com> wrote:
+On Tue, Dec 17, 2024 at 11:59:53AM +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> > On Tue, Dec 17, 2024 at 10:24:57AM +0100, Boris Brezillon wrote:
-> > > If a reset is scheduled when the suspend happens, we drop the
-> > > reset-pending info on the floor assuming the resume will fix things,
-> > > but the resume logic might try a fast reset. If we're lucky, the
-> > > fast reset fails and we fallback to a slow reset, but if the FW was
-> > > corrupted in a way that makes it partially functional (it boots but
-> > > doesn't quite do what it's expected to do), we won't notice immediately
-> > > that things are not working correctly, leading to a new reset further
-> > > down the road.
-> > > 
-> > > Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/panthor/panthor_device.c | 22 ++++++++++++----------
-> > >  1 file changed, 12 insertions(+), 10 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> > > index 2c817e65e6be..3285ac42d2cd 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_device.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> > > @@ -128,14 +128,11 @@ static void panthor_device_reset_work(struct work_struct *work)
-> > >  	struct panthor_device *ptdev = container_of(work, struct panthor_device, reset.work);
-> > >  	int ret = 0, cookie;
-> > >  
-> > > -	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE) {
-> > > -		/*
-> > > -		 * No need for a reset as the device has been (or will be)
-> > > -		 * powered down
-> > > -		 */
-> > > -		atomic_set(&ptdev->reset.pending, 0);
-> > > +	/* If the device is entering suspend, we don't reset. A slow reset will
-> > > +	 * be forced at resume time instead.
-> > > +	 */
-> > > +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE)
-> > >  		return;
-> > > -	}
-> > >  
-> > >  	if (!drm_dev_enter(&ptdev->base, &cookie))
-> > >  		return;
-> > > @@ -473,6 +470,14 @@ int panthor_device_resume(struct device *dev)
-> > >  
-> > >  	if (panthor_device_is_initialized(ptdev) &&
-> > >  	    drm_dev_enter(&ptdev->base, &cookie)) {
-> > > +		/* If there was a reset pending at the time we suspended the
-> > > +		 * device, we force a slow reset.
-> > > +		 */
-> > > +		if (atomic_read(&ptdev->reset.pending)) {
-> > > +			ptdev->reset.fast = false;
-> > > +			atomic_set(&ptdev->reset.pending, 0);
-> > > +		}
-> > > +
-> > >  		ret = panthor_device_resume_hw_components(ptdev);
-> > >  		if (ret && ptdev->reset.fast) {
-> > >  			drm_err(&ptdev->base, "Fast reset failed, trying a slow reset");
-> > > @@ -489,9 +494,6 @@ int panthor_device_resume(struct device *dev)
-> > >  			goto err_suspend_devfreq;
-> > >  	}
-> > >  
-> > > -	if (atomic_read(&ptdev->reset.pending))
-> > > -		queue_work(ptdev->reset.wq, &ptdev->reset.work);
-> > > -  
+> On 17/12/2024 10:14, Geert Uytterhoeven wrote:
+> > Hi Tomi,
 > > 
-> > If you remove this, why do we need a reset workqueue at all? Nothing gets scheduled in it.
+> > On Tue, Dec 17, 2024 at 6:32 AM Tomi Valkeinen
+> > <tomi.valkeinen@ideasonboard.com> wrote:
+> >> From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> >>
+> >> The binding is missing maxItems for all renesas,cmms and renesas,vsps
+> >> properties. As the amount of cmms or vsps is always a fixed amount, set
+> >> the maxItems to match the minItems.
+> >>
+> >> Also add the minItems and maxItems to the top level properties.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> > 
+> > Thanks for your patch!
+> > 
+> >> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> >> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> >> @@ -77,6 +77,8 @@ properties:
+> >>
+> >>     renesas,cmms:
+> >>       $ref: /schemas/types.yaml#/definitions/phandle-array
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >>       items:
+> >>         maxItems: 1
+> >>       description:
+> >> @@ -85,6 +87,8 @@ properties:
+> >>
+> >>     renesas,vsps:
+> >>       $ref: /schemas/types.yaml#/definitions/phandle-array
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >>       items:
+> >>         items:
+> >>           - description: phandle to VSP instance that serves the DU channel
+> >> @@ -489,9 +493,11 @@ allOf:
+> >>
+> >>           renesas,cmms:
+> >>             minItems: 4
+> >> +          maxItems: 4
+> >>
+> >>           renesas,vsps:
+> >>             minItems: 4
+> >> +          maxItems: 4
+> > 
+> > AFAIK these two additions are not needed, as they already match the
+> > values defined at the top level.
 > 
-> git grep reset\.wq drivers/gpu/drm/panthor/ reports a few users ;-).
+> But if we add a new SoC, which has 5 vsps, we would need to increase the 
+> values in the top level. Which would then mean these are needed, and I'm 
+> sure adding them could be missed.
 
-Sorry, I've only looked at panthor_device.c and brain was not fully engaged.
-
-I think a more relevant comment is that panthor_device_schedule_reset() is still called in a few
-places and that in turn queues work in reset.wq. Also, the firmware watchdog uses that workqueue.
-
-Patch looks good to me,
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Best regards,
-Liviu
-
-> 
-> > 
-> > Best regards,
-> > Liviu
-> > 
-> > >  	/* Clear all IOMEM mappings pointing to this device after we've
-> > >  	 * resumed. This way the fake mappings pointing to the dummy pages
-> > >  	 * are removed and the real iomem mapping will be restored on next
-> > > -- 
-> > > 2.47.0
-> > >   
-> > 
-> 
+Let's keep things consistent with maxItems specified everywhere (my
+preference is to not specify the items count at the top level hereas I
+don't see any value in doing so, but I won't fight on that one if it's
+what it takes to get the bindings merged).
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Regards,
+
+Laurent Pinchart
