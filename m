@@ -1,86 +1,106 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60909F6439
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:00:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A34899F644A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:06:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23A7610E241;
-	Wed, 18 Dec 2024 11:00:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92F1010E1F9;
+	Wed, 18 Dec 2024 11:06:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="X/XVwi5J";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
- [209.85.221.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB62810E241
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:00:24 +0000 (UTC)
-Received: by mail-vk1-f178.google.com with SMTP id
- 71dfb90a1353d-5188311e61cso1889659e0c.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:00:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734519623; x=1735124423;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1B2010E1F9
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:06:36 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id
+ ffacd0b85a97d-385e1fcb0e1so3458066f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:06:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1734519995; x=1735124795; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=R/U69elco9zkiQh0yXZq7MKvg1aCO2Nz91Fs7NLtUtc=;
- b=dP72n/gYR9vNy2ME55DbqEutk2qcJOimVOI2Iq+qS5EhBh2hNtWe2BV81VyIN7JT9t
- U7buIBxfLse2H9Gt3d75ghqSTLakx3y34C/s/BOghZIyILnaMPHbR900RCVGzjEXGnQ7
- NU1vyAI7a85YdDqAFwviEOBnDghKviT/YSv3Vx/vWDABdAyjSgsjVx8i8hyEIJlpoPLg
- IvmywUs/v6KJ9868DMZe44Wi9viYZclikZlVnh2Chu+I04fENrMCC7uv8qB1eo9s16+Y
- oeFTb5oSrCPJBl8L6/OKaGgdPMhU0lav6MahJhWlhaYAYS9yngjAYtyt23W5xQFXL3MA
- /lBA==
+ bh=dVmmteTH5HJmiV06ONEEcP4hGxtq/aqul7G3lNsssoY=;
+ b=X/XVwi5JC3OZrLTw7m7wD/lXghFLbQnEUMT8pcHc7Kmr+T043U8goGPkkrdnrjXWPZ
+ 5z6WQMa8alL027Ub5S7+LkaoA6tiANSZIksfCS2Un7tuhgV10Nt75djztmPoOgCuuB7U
+ X/pgPwcjW4H62Dc5VIYUGhNtH7ht8rj81ZDUY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734519995; x=1735124795;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dVmmteTH5HJmiV06ONEEcP4hGxtq/aqul7G3lNsssoY=;
+ b=Kj3JhbH2U028XMbBwZO16orZL0JdZhJTK0xnWnKmzaQGEhmHqbMbJ62lV95rFTxf8x
+ zyWgE0OFeOXWekNY70CCBO6YeGaCjdXPr/S3zXOoOllhe0Vd5U3z9yknDIep/QNYMNx/
+ kmfxUgyjgiR/Xw1LC04ileT1de0Tr6rVCuc39PjMHFeHmwCFt446mhpAq8O+r3ZCf5iw
+ OOj7N1uEv5SfOfPoeFc6dGnGKoRs1XDaU/eqhsOW72KIwtxjxw9lSRi8LQxyNfAuycZ1
+ G7kcnm/3tLYKADQy7G3ozxORC/+k1xfVdHlsoKUpqpQP722Kp5qZtJ0+/1bEp1LPeWb/
+ 3z2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4s39ydr9s8/ez+Kdi4+YQixaxMzWMjRWS/vtQ0ZTXarAqNHP+0fcKj3j3HS0T+VVliCBGc9khN8I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyf+CMTl8xJ3iuAKH0KLJ1uvzOGGH0LLE0/jqRZMff6u7qUsl33
- lqLEWbSSADqpgPCUOkzgX34XuRSbINVFf0MD8LeD2e04s9LRAQ465t2tack1
-X-Gm-Gg: ASbGnct+hfzVKXns0rs94EP9eKo3cgy/e7HQ0ppWJGNDEGbOaujR+LKeJvW1RlXzPWH
- PMLQox1mlbSvsyESa1U4h9ogxDFdX3pyJKNLgi63ZQxRs8arJzENBrXXnr1rAynkBvv6WjLCmLk
- e9cH3BBa9omqVTwYGdUyvtT7JE/t03CSQXXcrnKTPArY/PfrukRujC00fuZklOObcViX/ss0RPT
- 9PJLTpbFjEp8QVdIk+jNRM54EiWKuoIzHN8BJL+e78pZD6TlC4dguS9uvJkjyXWA0tOjyEvm4Qf
- +l2iqhJI68RhBqWq5g4=
-X-Google-Smtp-Source: AGHT+IGEfyIdX6unHq/LDiz7LGjEJf+sJVzSRCt0VhAG+ZXKY4y9hw+Kj5IVB/uXfNYCj3KV7UQ8IQ==
-X-Received: by 2002:a05:6122:1e05:b0:518:a261:adca with SMTP id
- 71dfb90a1353d-51a36db37c0mr1753419e0c.8.1734519623082; 
- Wed, 18 Dec 2024 03:00:23 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com.
- [209.85.222.50]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-519eb6fc69esm1132507e0c.37.2024.12.18.03.00.22
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2024 03:00:22 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id
- a1e0cc1a2514c-85c4e74e2baso1506828241.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:00:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVYMstMbpEN1VBS75ZJgUKmkgbAf6N16P6yU1FkYbbeFdgna4Y9V8VcdKsKVnmcJzVMmoyFqiSM6U0=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:32ca:b0:4b2:48cc:5c5a with SMTP id
- ada2fe7eead31-4b2ae7774demr1552774137.15.1734519622627; Wed, 18 Dec 2024
- 03:00:22 -0800 (PST)
+ AJvYcCWFPC8pWRbviRqRHXTepZ42x3pM9OUY8nZztZGfavbxchehHrFS7z6mu26tXZ8GqNrPfcih3Kzzmwk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhOGH5opBj9dbNVHteUAjw8AcxUN4L+JFagQB/tcFN6/G5oOjw
+ rb+Z8HfJYxxEB1KVn1hbChnS3EtLEZD6PlKkJQ21kU9zCGT9O6lj2Uqmvpz7Ao39Nh/sYV3gT2U
+ 2ycs=
+X-Gm-Gg: ASbGnctaZigikuI6NV7L/X0xq1Y1ptbNoR6ZPBFLDyxAQ9w+U3TgR6I7eZrf8kDGwhS
+ cMyG+WwQiY/X9XyedWRBYmiJu0Gyca1TyHfv/Pp7rMujQo5e1jHTM5jL+MH/yK3HoVvOTS3GZ5k
+ ULK7q2O+X++zxWscxzDaywagjkzt0OyqYbro0s+Fiac4AWo0TVrTNN29AG38XyV/4NOxo2yPFm3
+ zf3lMwdRnd6JB6e8krYJpUpiz7OMzNlW6tycB9WTk2I2MQZ9dwGUBI/fq43EJNeeARM
+X-Google-Smtp-Source: AGHT+IGO+lveh3Jbb8AZu1Ge8phdM2oV+2GRJ4PUelkWtjliAilPaysJVfHfANDTcu/J9rlhBMtD5Q==
+X-Received: by 2002:a05:6000:1ac8:b0:385:f9db:3c4b with SMTP id
+ ffacd0b85a97d-388e4d2df3cmr2192735f8f.10.1734519995037; 
+ Wed, 18 Dec 2024 03:06:35 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-388c80120dcsm14048491f8f.8.2024.12.18.03.06.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Dec 2024 03:06:34 -0800 (PST)
+Date: Wed, 18 Dec 2024 12:06:32 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sumit Garg <sumit.garg@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+Message-ID: <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
+Mail-Followup-To: Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org,
+ linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sumit Garg <sumit.garg@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com
+References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-References: <20241204160014.1171469-1-jfalempe@redhat.com>
- <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
- <301714d8-0723-4881-83e8-24523c121bfe@redhat.com>
- <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
- <d4c249fa-624e-4f73-9aed-e04b405b4079@redhat.com>
-In-Reply-To: <d4c249fa-624e-4f73-9aed-e04b405b4079@redhat.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 18 Dec 2024 12:00:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXEK-2u3th=5QVd6-pkBj_JhgEfFAe_ocGEAz=Dyi_h+g@mail.gmail.com>
-Message-ID: <CAMuHMdXEK-2u3th=5QVd6-pkBj_JhgEfFAe_ocGEAz=Dyi_h+g@mail.gmail.com>
-Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>, bluescreen_avenger@verizon.net, 
- Caleb Connolly <caleb.connolly@linaro.org>, Petr Mladek <pmladek@suse.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241217100809.3962439-1-jens.wiklander@linaro.org>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,91 +116,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn,
+On Tue, Dec 17, 2024 at 11:07:36AM +0100, Jens Wiklander wrote:
+> Hi,
+> 
+> This patch set allocates the restricted DMA-bufs via the TEE subsystem.
+> 
+> The TEE subsystem handles the DMA-buf allocations since it is the TEE
+> (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QCOMTEE) which sets up the
+> restrictions for the memory used for the DMA-bufs.
+> 
+> I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
+> DMA-bufs. This IOCTL reaches the backend TEE driver, allowing it to choose
+> how to allocate the restricted physical memory.
+> 
+> TEE_IOC_RSTMEM_ALLOC takes in addition to a size and flags parameters also
+> a use-case parameter. This is used by the backend TEE driver to decide on
+> allocation policy and which devices should be able to access the memory.
+> 
+> Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
+> Recording) has been identified so far to serve as examples of what can be
+> expected. More use-cases can be added in userspace ABI, but it's up to the
+> backend TEE drivers to provide the implementation.
+> 
+> Each use-case has it's own restricted memory pool since different use-cases
+> requires isolation from different parts of the system. A restricted memory
+> pool can be based on a static carveout instantiated while probing the TEE
+> backend driver, or dynamically allocated from CMA and made restricted as
+> needed by the TEE.
+> 
+> This can be tested on QEMU with the following steps:
+> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
+>         -b prototype/sdp-v4
+> repo sync -j8
+> cd build
+> make toolchains -j$(nproc)
+> make SPMC_AT_EL=1 all -j$(nproc)
+> make SPMC_AT_EL=1 run-only
+> # login and at the prompt:
+> xtest --sdp-basic
+> 
+> The SPMC_AT_EL=1 parameter configures the build with FF-A and an SPMC at
+> S-EL1 inside OP-TEE. The parameter can be changed into SPMC_AT_EL=n to test
+> without FF-A using the original SMC ABI instead. Please remember to do
+> %rm -rf ../trusted-firmware-a/build/qemu
+> for TF-A to be rebuilt properly using the new configuration.
+> 
+> https://optee.readthedocs.io/en/latest/building/prerequisites.html
+> list dependencies needed to build the above.
+> 
+> The tests are pretty basic, mostly checking that a Trusted Application in
+> the secure world can access and manipulate the memory. There are also some
+> negative tests for out of bounds buffers etc.
 
-On Wed, Dec 18, 2024 at 11:14=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
-om> wrote:
-> On 17/12/2024 15:54, Geert Uytterhoeven wrote:
-> > On Tue, Dec 17, 2024 at 3:46=E2=80=AFPM Jocelyn Falempe <jfalempe@redha=
-t.com> wrote:
-> >> On 17/12/2024 15:19, Geert Uytterhoeven wrote:
-> >>> On Wed, Dec 4, 2024 at 6:41=E2=80=AFPM Jocelyn Falempe <jfalempe@redh=
-at.com> wrote:
-> >>>> drm_log is a simple logger that uses the drm_client API to print the=
- kmsg boot log on the screen.
-> >>>> This is not a full replacement to fbcon, as it will only print the k=
-msg.
-> >>>> It will never handle user input, or a terminal because this is bette=
-r done in userspace.
-> >>>>
-> >>>> If you're curious on how it looks like, I've put a small demo here:
-> >>>> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
-> >>>>
-> >>>> Design decisions:
-> >>>>     * It uses the drm_client API, so it should work on all drm drive=
-rs from the start.
-> >>>>     * It doesn't scroll the message, that way it doesn't need to red=
-raw the whole screen for each new message.
-> >>>>       It also means it doesn't have to keep drawn messages in memory=
-, to redraw them when scrolling.
-> >>>>     * It uses the new non-blocking console API, so it should work we=
-ll with PREEMPT_RT
-> >>>
-> >>> I gave this a try on Koelsch (R-Car M2-W), using rcar-du.
-> >>> Unfortunately I don't see any kernel messages, and my monitor complai=
-ns
-> >>> about no signal. Does this require special support from the driver?
-> >>
-> >> It doesn't require a special support from the driver. But as it is the
-> >> first drm client other than fbdev emulation, I'm not surprised it's
-> >> broken on some driver.
-> >> I know it works on virtio-gpu, nouveau, amdgpu, and even on a OnePlus =
-6
-> >> (Qualcomm SDM845/freedreno), without requiring driver changes.
-> >>
-> >> Do you have a serial console on this device, to check if there is
-> >> something in kmsg?
-> >
-> > Nothing interesting to see. Compared to the fbdev client:
-> >
-> >       rcar-du feb00000.display: [drm] Registered 2 planes with drm pani=
-c
-> >       [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
-> >       rcar-du feb00000.display: [drm] Device feb00000.display probed
-> >      -Console: switching to colour frame buffer device 240x67
-> >      -rcar-du feb00000.display: [drm] fb0: rcar-dudrmfb frame buffer de=
-vice
-> >
-> > I did verify (by adding my own debug prints) that the code does
-> > get to the success case in drm_log_register().
-> > Thanks!
->
-> Maybe you need to add console=3Ddrm_log to your kernel command line, so
-> the kernel will actually use this console.
+I think I've dropped this on earlier encrypted dma-buf discussions for
+TEE, but can't find one right now ...
 
-Thanks, that does the trick!
+Do we have some open source userspace for this? To my knowledge we have
+two implementations of encrypted/content protected dma-buf in upstream
+right now in the amd and intel gpu drivers, and unless I'm mistaken they
+both have some minimal userspace supporting EXT_protected_textures:
 
-Note that I do not need to specify any console=3D kernel command line
-parameter for the fbdev console.
+https://github.com/KhronosGroup/OpenGL-Registry/blob/main/extensions/EXT/EXT_protected_textures.txt
 
-With
+It's not great, but it does just barely clear the bar in my opinion. I
+guess something in gstreamer or similar video pipeline framework would
+also do the job.
 
-    CONFIG_VT_CONSOLE=3Dy
-    CONFIG_DRM_CLIENT_DEFAULT_FBDEV=3Dy
+Especially with the context of the uapi discussion in the v1/RFC thread I
+think we need more than a bare-bones testcase to make sure this works in
+actual use.
 
-I see all console messages on both the emulated fbdev console and on
-the serial console by default.
+Cheers, Sima
 
-Gr{oetje,eeting}s,
+> 
+> Thanks,
+> Jens
+> 
+> Changes since V3:
+> * Make the use_case and flags field in struct tee_shm u32's instead of
+>   u16's
+> * Add more description for TEE_IOC_RSTMEM_ALLOC in the header file
+> * Import namespace DMA_BUF in module tee, reported by lkp@intel.com
+> * Added a note in the commit message for "optee: account for direction
+>   while converting parameters" why it's needed
+> * Factor out dynamic restricted memory allocation from
+>   "optee: support restricted memory allocation" into two new commits
+>   "optee: FF-A: dynamic restricted memory allocation" and
+>   "optee: smc abi: dynamic restricted memory allocation"
+> * Guard CMA usage with #ifdef CONFIG_CMA, effectively disabling dynamic
+>   restricted memory allocate if CMA isn't configured
+> 
+> Changes since the V2 RFC:
+> * Based on v6.12
+> * Replaced the flags for SVP and Trusted UID memory with a u32 field with
+>   unique id for each use case
+> * Added dynamic allocation of restricted memory pools
+> * Added OP-TEE ABI both with and without FF-A for dynamic restricted memory
+> * Added support for FF-A with FFA_LEND
+> 
+> Changes since the V1 RFC:
+> * Based on v6.11
+> * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALLOC
+> 
+> Changes since Olivier's post [2]:
+> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
+>   the generic restricted heap
+> * Simplifications and cleanup
+> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
+>   support"
+> * Replaced the word "secure" with "restricted" where applicable
+> 
+> Jens Wiklander (6):
+>   tee: add restricted memory allocation
+>   optee: account for direction while converting parameters
+>   optee: sync secure world ABI headers
+>   optee: support restricted memory allocation
+>   optee: FF-A: dynamic restricted memory allocation
+>   optee: smc abi: dynamic restricted memory allocation
+> 
+>  drivers/tee/Makefile              |   1 +
+>  drivers/tee/optee/Makefile        |   1 +
+>  drivers/tee/optee/call.c          |  10 +-
+>  drivers/tee/optee/core.c          |   1 +
+>  drivers/tee/optee/ffa_abi.c       | 178 +++++++++++++-
+>  drivers/tee/optee/optee_ffa.h     |  27 ++-
+>  drivers/tee/optee/optee_msg.h     |  65 ++++-
+>  drivers/tee/optee/optee_private.h |  75 ++++--
+>  drivers/tee/optee/optee_smc.h     |  71 +++++-
+>  drivers/tee/optee/rpc.c           |  31 ++-
+>  drivers/tee/optee/rstmem.c        | 388 ++++++++++++++++++++++++++++++
+>  drivers/tee/optee/smc_abi.c       | 213 ++++++++++++++--
+>  drivers/tee/tee_core.c            |  38 ++-
+>  drivers/tee/tee_private.h         |   2 +
+>  drivers/tee/tee_rstmem.c          | 201 ++++++++++++++++
+>  drivers/tee/tee_shm.c             |   2 +
+>  drivers/tee/tee_shm_pool.c        |  69 +++++-
+>  include/linux/tee_core.h          |  15 ++
+>  include/linux/tee_drv.h           |   2 +
+>  include/uapi/linux/tee.h          |  44 +++-
+>  20 files changed, 1358 insertions(+), 76 deletions(-)
+>  create mode 100644 drivers/tee/optee/rstmem.c
+>  create mode 100644 drivers/tee/tee_rstmem.c
+> 
+> 
+> base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+> -- 
+> 2.43.0
+> 
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
