@@ -2,89 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46A69F67AC
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 14:51:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E429F67C6
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 14:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5392A10E31D;
-	Wed, 18 Dec 2024 13:51:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6CB310E0E2;
+	Wed, 18 Dec 2024 13:57:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="d7xJD5OH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="X6q9nV5K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3F610E31D
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 13:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734529889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CBRqOwC98UAa3SaYMdmEgqwI4ubnu6hJAFqJAz83z+o=;
- b=d7xJD5OHRW2oX1ViimswMqv3lq2//+rjUvf2BggAVUseSmDyt1X74i4fXxKxwS2E2pJ458
- AxstCnuUftbExoXKoMwDMFIuKMxysFLWdYjSQWHA3osf2rKP2cofSshNWxAq4UoxFOEgMz
- iEErZ6iSPlUX7xXuqhgeSYi4NQwpKVk=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-678-HvBL6BFXMFWrEpWTbh_MSw-1; Wed, 18 Dec 2024 08:51:27 -0500
-X-MC-Unique: HvBL6BFXMFWrEpWTbh_MSw-1
-X-Mimecast-MFC-AGG-ID: HvBL6BFXMFWrEpWTbh_MSw
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-aa622312962so659456466b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 05:51:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734529886; x=1735134686;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CBRqOwC98UAa3SaYMdmEgqwI4ubnu6hJAFqJAz83z+o=;
- b=MTm80xJ0z5yoD2YydV4EU/RMbOJqfnSR2XotDA5zUMjhcuRWPnUhzLGqIkFo6fZsov
- pj7EtzcYgbXgdRxOGa9KxM65RxRaUisXXkdkYgQhxl9pfwA1c8t1PGvFdoBMUNcCsvqR
- VUAGti72yiz2cwYgqJyq9zNSSj3nCHi/uPVsKg2FmxaqH8uD1F5vjyMPBsCtpHdFC3tl
- GqkY4Ci44zMD84o1p1XgBD6ELaxseCNqDWW4K8G5M1V8X+kwu3QmrmE4q9NqtFNuO41e
- lC5/CgbHI1Y+9JB0/l5bG1hLexfF2+LDHksbhPAkQ4WuS5bViPrh8zDCdZ7Ilw6TP849
- x/mA==
-X-Gm-Message-State: AOJu0YwDgEOXSDz//OhBG8DQVPpiY8z0GagVHULtJRak+g1kb3CELE6X
- 6DeKj+MkRm5mGluw9YIg+o0s9evRisU5MoCJ9Mg34VjTlpLEMnSSEe2gk/m4SyZkfWEb6URaDod
- GXpAyZDfJGQTY9dhSXklH7RloArqV3Rj9MBCzz+lO5bSmtWs5QMMmAucuTYUHov2rO85IaPajUh
- KGu+xEECiu/l/R+0XMCamgRvyet6ZLa1jPV9gUIUqLjwte49JqXw==
-X-Gm-Gg: ASbGncubGKN2Ujf64fkSrcMufjIC9e8Jr9K0QgbEKN8uoflJvx2YOkjZloPwPu5oWTP
- Vz33TI5XLHJoBPujS2yHkSdzhflclKUaBPVyQSKurAIm4a5511OMSl5C1GKY2DoYJ2bXp+gVrkQ
- BQ5pHfEDjh9T7otttcY/DQyPXA6+2+gHcHIh8TYdd+VAgSUsprs2pZV03QvELvU3IRViXCDGH36
- 86ieaDX8Bb13Ko/3y/niqmyDmTTiOeU3RQxl80gZ7DoV+u0ZtCOtf9MAHfjF7vZiG60v6bYkvhH
- BXusi4+oREy7v7zu2c0Q
-X-Received: by 2002:a17:906:30ca:b0:aa6:5385:90ef with SMTP id
- a640c23a62f3a-aabf49a55a8mr205437466b.61.1734529886230; 
- Wed, 18 Dec 2024 05:51:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHmyh7auueECthJ3kBRU4j2gzdSHEYyNkqePasiyvj525R8OL44ainqPOjNdq4CTy8r4c3tZg==
-X-Received: by 2002:a17:906:30ca:b0:aa6:5385:90ef with SMTP id
- a640c23a62f3a-aabf49a55a8mr205435366b.61.1734529885745; 
- Wed, 18 Dec 2024 05:51:25 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aab9606839csm571270366b.61.2024.12.18.05.51.24
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2024 05:51:25 -0800 (PST)
-Message-ID: <6660b69e-4cd3-4d94-8617-365b043aece5@redhat.com>
-Date: Wed, 18 Dec 2024 14:51:24 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59F8410E0E2;
+ Wed, 18 Dec 2024 13:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734530243;
+ bh=Vc/ZM9fAvz09aWlUkt1tgjwmGq/TmY7xSsGfE0yV9pQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=X6q9nV5KSijo9GZAWpqJ5ytDPQ9aWfV7WRw5Mnhew/vWo/qEnHr0KrDfjP3VEuud5
+ F8Bh8VLz+uK4BefvbhHZLcWd2sxoIzHDh0zhvKp7cuVkCNpQSqsoiXtaTv+TZnyqyE
+ yD40DmXrgZwl02e45GfmVqWSwIv6rcgzUnx6K1AFWi/AZuK/2wkscnhVlpuxK8E8gA
+ CEGWSDGDC4YJH4zB9p+HUtW2mQmZ9NeUIm41d5tfDLIMRnegU5YyvPvgxFu39TzU6s
+ jTdoEP4CrW3aEFROSFeNBGUWhDbOFVLq+mkGx+E05mOJk86KZN4hwGhPlnutDt0lOL
+ ayyn+GWoaTvOg==
+Received: from [192.168.50.250] (unknown [171.76.86.135])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A989B17E376D;
+ Wed, 18 Dec 2024 14:57:20 +0100 (CET)
+Message-ID: <58005033-5708-4a3a-a5b1-58898ce3fbac@collabora.com>
+Date: Wed, 18 Dec 2024 19:27:12 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: dri-devel@lists.freedesktop.org
-References: <20241204160014.1171469-3-jfalempe@redhat.com>
- <feb72a8c-06c1-48d9-abb0-d680c11922a7@web.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <feb72a8c-06c1-48d9-abb0-d680c11922a7@web.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: A42qGXOy13ZoFBs9KLD_ksmBdjXhUD_7lJVkLFlPEMk_1734529887
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH] drm/ci: add kms_cursor_legacy@torture-bo to apq8016 flakes
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Helen Mae Koike Fornazier <helen.koike@collabora.com>
+Cc: Rob Clark <robdclark@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>
+References: <20241204-cursor_tor_skip-v1-1-f5f0bba5df7b@quicinc.com>
+ <193931869a5.f923adf2270026.8321075661083367617@collabora.com>
+ <20a3955e-3d10-47c5-8e68-d70342805010@quicinc.com>
+ <19393604e18.f9b6fe7d298023.1937039548910081216@collabora.com>
+ <a03ae7e8-391e-4303-91fc-15a59979fd2a@quicinc.com>
+ <ed90ca8c-ed81-419f-a5db-a4e8bcd35835@collabora.com>
+ <ac13139d-1cbf-47dd-b200-1a511ffc9453@quicinc.com>
+ <8edba6c9-cf7d-4616-8791-65abd108f538@collabora.com>
+ <adea523d-df80-413c-97c1-92cf3923f4e3@quicinc.com>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <adea523d-df80-413c-97c1-92cf3923f4e3@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,42 +78,249 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/12/2024 13:25, Markus Elfring wrote:
-> …
->> +++ b/drivers/gpu/drm/clients/drm_log.c
->> @@ -0,0 +1,370 @@
-> …
->> +static int drm_log_count_modeset(struct drm_client_dev *client)
->> +{
->> +	struct drm_mode_set *mode_set;
->> +	int count = 0;
->> +
->> +	mutex_lock(&client->modeset_mutex);
->> +	drm_client_for_each_modeset(mode_set, client)
->> +		count++;
->> +	mutex_unlock(&client->modeset_mutex);
->> +	return count;
->> +}
-> …
+Hi Abhinav,
+
+On 16/12/24 11:39, Abhinav Kumar wrote:
 > 
-> Under which circumstances would you become interested to apply a statement
-> like “guard(mutex)(&client->modeset_mutex);”?
-> https://elixir.bootlin.com/linux/v6.13-rc3/source/include/linux/mutex.h#L201
-
-Ok, I didn't know about this new syntax, thanks for pointing this to me.
-Regarding drm_log, I kept the mutex usage simple, as there is only one 
-mutex_lock() and one mutex_unlock() in each function, which means there 
-is not much benefit to use the guard syntax.
-I will keep that in mind, and if there is a need to have more complex 
-mutex handling, I will probably use this.
-
-Best regards,
-
--- 
-
-Jocelyn
 > 
-> Regards,
-> Markus
+> On 12/15/2024 9:45 PM, Vignesh Raman wrote:
+>> Hi Abhinav,
+>>
+>> On 14/12/24 01:09, Abhinav Kumar wrote:
+>>> Hi Vignesh
+>>>
+>>> On 12/11/2024 9:10 PM, Vignesh Raman wrote:
+>>>> Hi Abhinav / Helen,
+>>>>
+>>>> On 12/12/24 01:48, Abhinav Kumar wrote:
+>>>>> Hi Helen / Vignesh
+>>>>>
+>>>>> On 12/4/2024 12:33 PM, Helen Mae Koike Fornazier wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> ---- On Wed, 04 Dec 2024 16:21:26 -0300 Abhinav Kumar  wrote ---
+>>>>>>
+>>>>>>   > Hi Helen
+>>>>>>   >
+>>>>>>   > On 12/4/2024 11:14 AM, Helen Mae Koike Fornazier wrote:
+>>>>>>   > > Hi Abhinav,
+>>>>>>   > >
+>>>>>>   > > Thanks for your patch.
+>>>>>>   > >
+>>>>>>   > >
+>>>>>>   > >
+>>>>>>   > > ---- On Wed, 04 Dec 2024 15:55:17 -0300 Abhinav Kumar  wrote 
+>>>>>> ---
+>>>>>>   > >
+>>>>>>   > >   > From the jobs [1] and [2] of pipeline [3], its clear that
+>>>>>>   > >   > kms_cursor_legacy@torture-bo is most certainly a flake and
+>>>>>>   > >   > not a fail for apq8016. Mark the test accordingly to 
+>>>>>> match the results.
+>>>>>>   > >   >
+>>>>>>   > >   > [1] : 
+>>>>>> https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481
+>>>>
+>>>> The test passes - 
+>>>> kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
+>>>>
+>>>
+>>> Yes, thats the problem
+>>>
+>>> https://gitlab.freedesktop.org/drm/msm/-/jobs/67676481/viewer#L2696
+>>>
+>>> 24-12-04 03:51:55 R SERIAL> [  179.241309] [IGT] kms_cursor_legacy: 
+>>> finished subtest all-pipes, SUCCESS
+>>> 24-12-04 03:51:55 R SERIAL> [  179.241812] [IGT] kms_cursor_legacy: 
+>>> finished subtest torture-bo, SUCCESS
+>>>
+>>> Here it passes whereas it was marked a failure. Hence pipeline fails.
+>>
+>> Yes it fails due to,
+>>
+>> Unexpected results:
+>>   kms_cursor_legacy@torture-bo,UnexpectedImprovement(Pass)
+>>
+>> In this case, we need to remove this test from fails.txt
+>>
+>>>
+>>>>>>   > >   > [2] : 
+>>>>>> https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430
+>>>>
+>>>> There are no test failures
+>>>>
+>>>
+>>> No, thats not true
+>>>
+>>> https://gitlab.freedesktop.org/drm/msm/-/jobs/67677430/viewer#L2694
+>>>
+>>> 24-12-04 04:18:38 R SERIAL> [  170.379649] Console: switching to 
+>>> colour dummy device 80x25
+>>> 24-12-04 04:18:38 R SERIAL> [  170.379938] [IGT] kms_cursor_legacy: 
+>>> executing
+>>> 24-12-04 04:18:38 R SERIAL> [  170.393868] [IGT] kms_cursor_legacy: 
+>>> starting subtest torture-bo
+>>> 24-12-04 04:18:38 R SERIAL> [  170.394186] [IGT] kms_cursor_legacy: 
+>>> starting dynamic subtest pipe-A
+>>> 24-12-04 04:18:38 R SERIAL> [  170.661749] [IGT] kms_cursor_legacy: 
+>>> finished subtest pipe-A, FAIL
+>>> 24-12-04 04:18:38 R SERIAL> [  170.662060] [IGT] kms_cursor_legacy: 
+>>> starting dynamic subtest all-pipes
+>>> 24-12-04 04:18:38 R SERIAL> [  170.713237] [IGT] kms_cursor_legacy: 
+>>> finished subtest all-pipes, FAIL
+>>> 24-12-04 04:18:38 R SERIAL> [  170.713513] [IGT] kms_cursor_legacy: 
+>>> finished subtest torture-bo, FAIL
+>>> 24-12-04 04:18:38 R SERIAL> [  170.721263] [IGT] kms_cursor_legacy: 
+>>> exiting, ret=98
+>>> 24-12-04 04:18:38 R SERIAL> [  170.737857] Console: switching to 
+>>> colour frame buffer device 128x48
+>>>
+>>> Please check these logs, the torture-bo test-case did fail. The 
+>>> pipeline was marked pass because it was an expected fail.
+>>>
+>>> So we have two pipelines, where one failed and the other passed. So 
+>>> thats a flake for me.
+>>
+>> Yes agree. So if we had removed the test from fails, deqp-runner would 
+>> have reported this as flake.
+>>
+>> deqp-runner runs the test and if it fails, it retries. If the test 
+>> passes on retry, it is reported as a flake.
+>>
+>>>
+>>>>>>   > >   > [3]: 
+>>>>>> https://gitlab.freedesktop.org/drm/msm/-/pipelines/1322770
+>>>>
+>>>> The job is same as 2
+>>>>
+>>>> In this case, the test passes and deqp-runner does not report it as 
+>>>> flake. So we only need to remove it from fails file.
+>>>>
+>>>
+>>> No, like I mentioned above we have a pass and a fail.
+>>>
+>>>>
+>>>>>>   > >   >
+>>>>>>   > >   > Signed-off-by: Abhinav Kumar quic_abhinavk@quicinc.com>
+>>>>>>   > >   > ---
+>>>>>>   > >   >  drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt | 5 +++++
+>>>>>>   > >   >  1 file changed, 5 insertions(+)
+>>>>>>   > >   >
+>>>>>>   > >   > diff --git 
+>>>>>> a/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt 
+>>>>>> b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>>>>>>   > >   > new file mode 100644
+>>>>>>   > >   > index 000000000000..18639853f18f
+>>>>>>   > >   > --- /dev/null
+>>>>>>   > >   > +++ b/drivers/gpu/drm/ci/xfails/msm-apq8016-flakes.txt
+>>>>>>   > >   > @@ -0,0 +1,5 @@
+>>>>>>   > >   > +# Board Name: msm-apq8016-db410c
+>>>>>>   > >   > +# Failure Rate: 100
+>>>>>>   > >
+>>>>>>   > > Is failure rate is 100%, isn't it a fail than?
+>>>>>>   > > (I know we have other cases with Failure Rate: 100, maybe we 
+>>>>>> should fix them as well)
+>>>>>>   > >
+>>>>>>   >
+>>>>>>   > Maybe I misunderstood the meaning of "Failure rate" for a flake.
+>>>>>>   >
+>>>>>>   > I interpreted this as this test being flaky 100% of the time :)
+>>>>>>
+>>>>>> Ah right, I see, inside deqp-runner (that auto-retries).
+>>>>>>
+>>>>>> I'd like to hear Vignesh's opinion on this.
+>>>>>>
+>>>>>> (In any case, we probably should document this better)
+>>>>
+>>>> deqp-runner reports new (not present in flakes file) or known 
+>>>> (present in flakes file) flakes
+>>>>
+>>>> 2024-12-11 07:25:44.709666: Some new flakes found:
+>>>> 2024-12-11 07:25:44.709676:   kms_lease@page-flip-implicit-plane
+>>>>
+>>>> 2024-12-11 13:15:16.482890: Some known flakes found:
+>>>> 2024-12-11 13:15:16.482898: 
+>>>> kms_async_flips@async-flip-with-page-flip-events-atomic
+>>>>
+>>>> we add it to flakes file if deqp runner reports new flakes. Another 
+>>>> case where we update flake tests is when a test passes in one run 
+>>>> but fails in another, but deqp-runner does not report it as flake.
+>>>>
+>>>> Regards,
+>>>> Vignesh
+>>>>
+>>>
+>>> The confusion here i guess is about what to mention as a "Failure rate"
+>>>
+>>> Failure rate means how many times it fails (like normally) ? In that 
+>>> case 100% which I used is wrong and I used 33% instead for which I 
+>>> have pushed v2.
+>>
+>> Yes, 33% is correct and please remove this test from fails.txt
+>>
+>> Regards,
+>> Vignesh
+>>
 > 
+> Ack, let me remove this test from fails and keep it only in flakes.
 
+Can you remove it from the fails without adding it to the flakes, and 
+rerun the pipeline a few times to see if deqp-runner reports it as a flake?
+
+Thanks.
+
+Regards,
+Vignesh
+
+> 
+> Thanks
+> 
+> Abhinav
+>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>> Helen
+>>>>>>
+>>>>>
+>>>>> Can you let me know which way we need to go?
+>>>>>
+>>>>> Just in case I did post a v2 fixing this, 
+>>>>> https://patchwork.freedesktop.org/patch/627276/
+>>>>>
+>>>>> If thats the way to go, can you pls take a look?
+>>>>>
+>>>>> Thanks
+>>>>>
+>>>>> Abhinav
+>>>>>>   >
+>>>>>>   > Out of the 3 runs of the test, it passed 2/3 times and failed 
+>>>>>> 1/3.
+>>>>>>   >
+>>>>>>   > So its fail % actually is 33.33% in that case.
+>>>>>>   >
+>>>>>>   > I think I saw a Failure rate of 100% on 
+>>>>>> msm-sm8350-hdk-flakes.txt and
+>>>>>>   > mistook that as the rate at which flakes are seen.
+>>>>>>   >
+>>>>>>   > Let me fix this up as 33%
+>>>>>>   >
+>>>>>>   > > Regards,
+>>>>>>   > > Helen
+>>>>>>   > >
+>>>>>>   > >   > +# IGT Version: 1.28-ga73311079
+>>>>>>   > >   > +# Linux Version: 6.12.0-rc2
+>>>>>>   > >   > +kms_cursor_legacy@torture-bo
+>>>>>>   > >   >
+>>>>>>   > >   > ---
+>>>>>>   > >   > base-commit: 798bb342e0416d846cf67f4725a3428f39bfb96b
+>>>>>>   > >   > change-id: 20241204-cursor_tor_skip-9d128dd62c4f
+>>>>>>   > >   >
+>>>>>>   > >   > Best regards,
+>>>>>>   > >   > --
+>>>>>>   > >   > Abhinav Kumar quic_abhinavk@quicinc.com>
+>>>>>>   > >   >
+>>>>>>   > >   >
+>>>>>>   > >
+>>>>>>   >
+>>>>>>
