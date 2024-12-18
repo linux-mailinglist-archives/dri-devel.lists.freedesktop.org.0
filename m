@@ -1,59 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5359F63DF
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:53:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B60909F6439
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:00:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7A5110E25C;
-	Wed, 18 Dec 2024 10:53:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ntvmkr39";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A7610E241;
+	Wed, 18 Dec 2024 11:00:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62D6910EB67
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 10:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734519215;
- bh=oHInoFKV1Ce6P5X4JUe0sCGpE0lzfHPR7NJroYS7CEo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ntvmkr391FOZWh1cIVu8FdHeF3IxyOCQGJT9VCdDrCaRth2en3r4iAVQkc4nT1jFD
- xMF2CQw538knrNzAhEkPdRUaBTOW4WHCs6kM+51Z4m/oaKxxK6+knO3J6sjIYywNUn
- t2jcWxemBhhNX4B+9XfPsxrvuK+KLdYjMBuupl+nTnpn7QLMPkz36HbMrIFAokdfW/
- z0sZXNaRBvlGu2mmzAAEsp+lohOQVnWqw3v552D9OlsZyFsDA83nJeiGnviIR7/4mP
- Y3YzTUYD19Us+eYHFmXgIBUhszspqJCXwcRjikdjLtczxhdbD5ufogkuXd+5jBxNev
- bU9BYi2CGUoVw==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EED2517E3620;
- Wed, 18 Dec 2024 11:53:33 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mchehab@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, moudy.ho@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, sebastian.fricke@collabora.com,
- macpaul.lin@mediatek.com
-Subject: [PATCH v1 3/3] arm64: dts: mediatek: mt8188: Add all Multimedia Data
- Path 3 nodes
-Date: Wed, 18 Dec 2024 11:53:20 +0100
-Message-ID: <20241218105320.38980-4-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241218105320.38980-1-angelogioacchino.delregno@collabora.com>
-References: <20241218105320.38980-1-angelogioacchino.delregno@collabora.com>
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB62810E241
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:00:24 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id
+ 71dfb90a1353d-5188311e61cso1889659e0c.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:00:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734519623; x=1735124423;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=R/U69elco9zkiQh0yXZq7MKvg1aCO2Nz91Fs7NLtUtc=;
+ b=dP72n/gYR9vNy2ME55DbqEutk2qcJOimVOI2Iq+qS5EhBh2hNtWe2BV81VyIN7JT9t
+ U7buIBxfLse2H9Gt3d75ghqSTLakx3y34C/s/BOghZIyILnaMPHbR900RCVGzjEXGnQ7
+ NU1vyAI7a85YdDqAFwviEOBnDghKviT/YSv3Vx/vWDABdAyjSgsjVx8i8hyEIJlpoPLg
+ IvmywUs/v6KJ9868DMZe44Wi9viYZclikZlVnh2Chu+I04fENrMCC7uv8qB1eo9s16+Y
+ oeFTb5oSrCPJBl8L6/OKaGgdPMhU0lav6MahJhWlhaYAYS9yngjAYtyt23W5xQFXL3MA
+ /lBA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4s39ydr9s8/ez+Kdi4+YQixaxMzWMjRWS/vtQ0ZTXarAqNHP+0fcKj3j3HS0T+VVliCBGc9khN8I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyf+CMTl8xJ3iuAKH0KLJ1uvzOGGH0LLE0/jqRZMff6u7qUsl33
+ lqLEWbSSADqpgPCUOkzgX34XuRSbINVFf0MD8LeD2e04s9LRAQ465t2tack1
+X-Gm-Gg: ASbGnct+hfzVKXns0rs94EP9eKo3cgy/e7HQ0ppWJGNDEGbOaujR+LKeJvW1RlXzPWH
+ PMLQox1mlbSvsyESa1U4h9ogxDFdX3pyJKNLgi63ZQxRs8arJzENBrXXnr1rAynkBvv6WjLCmLk
+ e9cH3BBa9omqVTwYGdUyvtT7JE/t03CSQXXcrnKTPArY/PfrukRujC00fuZklOObcViX/ss0RPT
+ 9PJLTpbFjEp8QVdIk+jNRM54EiWKuoIzHN8BJL+e78pZD6TlC4dguS9uvJkjyXWA0tOjyEvm4Qf
+ +l2iqhJI68RhBqWq5g4=
+X-Google-Smtp-Source: AGHT+IGEfyIdX6unHq/LDiz7LGjEJf+sJVzSRCt0VhAG+ZXKY4y9hw+Kj5IVB/uXfNYCj3KV7UQ8IQ==
+X-Received: by 2002:a05:6122:1e05:b0:518:a261:adca with SMTP id
+ 71dfb90a1353d-51a36db37c0mr1753419e0c.8.1734519623082; 
+ Wed, 18 Dec 2024 03:00:23 -0800 (PST)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com.
+ [209.85.222.50]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-519eb6fc69esm1132507e0c.37.2024.12.18.03.00.22
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Dec 2024 03:00:22 -0800 (PST)
+Received: by mail-ua1-f50.google.com with SMTP id
+ a1e0cc1a2514c-85c4e74e2baso1506828241.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:00:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYMstMbpEN1VBS75ZJgUKmkgbAf6N16P6yU1FkYbbeFdgna4Y9V8VcdKsKVnmcJzVMmoyFqiSM6U0=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:32ca:b0:4b2:48cc:5c5a with SMTP id
+ ada2fe7eead31-4b2ae7774demr1552774137.15.1734519622627; Wed, 18 Dec 2024
+ 03:00:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241204160014.1171469-1-jfalempe@redhat.com>
+ <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
+ <301714d8-0723-4881-83e8-24523c121bfe@redhat.com>
+ <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
+ <d4c249fa-624e-4f73-9aed-e04b405b4079@redhat.com>
+In-Reply-To: <d4c249fa-624e-4f73-9aed-e04b405b4079@redhat.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 18 Dec 2024 12:00:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXEK-2u3th=5QVd6-pkBj_JhgEfFAe_ocGEAz=Dyi_h+g@mail.gmail.com>
+Message-ID: <CAMuHMdXEK-2u3th=5QVd6-pkBj_JhgEfFAe_ocGEAz=Dyi_h+g@mail.gmail.com>
+Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, John Ogness <john.ogness@linutronix.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ "Guilherme G . Piccoli" <gpiccoli@igalia.com>, bluescreen_avenger@verizon.net, 
+ Caleb Connolly <caleb.connolly@linaro.org>, Petr Mladek <pmladek@suse.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,356 +96,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add all of the Multimedia Data Path 3 (MDP3) related nodes
-including its Mutex instances, one for each VPPSYS block, and
-all of its DMA controllers, Film Grain (FG), HDR, Adaptive Ambient
-Light (AAL), Frame Resizer (RSZ), Tone Curve Conversion (TCC),
-Two-Dimensional Sharpness (TDSHP), and others, enabling the entire
-MDP3 macro-block.
+Hi Jocelyn,
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- arch/arm64/boot/dts/mediatek/mt8188.dtsi | 313 +++++++++++++++++++++++
- 1 file changed, 313 insertions(+)
+On Wed, Dec 18, 2024 at 11:14=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
+om> wrote:
+> On 17/12/2024 15:54, Geert Uytterhoeven wrote:
+> > On Tue, Dec 17, 2024 at 3:46=E2=80=AFPM Jocelyn Falempe <jfalempe@redha=
+t.com> wrote:
+> >> On 17/12/2024 15:19, Geert Uytterhoeven wrote:
+> >>> On Wed, Dec 4, 2024 at 6:41=E2=80=AFPM Jocelyn Falempe <jfalempe@redh=
+at.com> wrote:
+> >>>> drm_log is a simple logger that uses the drm_client API to print the=
+ kmsg boot log on the screen.
+> >>>> This is not a full replacement to fbcon, as it will only print the k=
+msg.
+> >>>> It will never handle user input, or a terminal because this is bette=
+r done in userspace.
+> >>>>
+> >>>> If you're curious on how it looks like, I've put a small demo here:
+> >>>> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
+> >>>>
+> >>>> Design decisions:
+> >>>>     * It uses the drm_client API, so it should work on all drm drive=
+rs from the start.
+> >>>>     * It doesn't scroll the message, that way it doesn't need to red=
+raw the whole screen for each new message.
+> >>>>       It also means it doesn't have to keep drawn messages in memory=
+, to redraw them when scrolling.
+> >>>>     * It uses the new non-blocking console API, so it should work we=
+ll with PREEMPT_RT
+> >>>
+> >>> I gave this a try on Koelsch (R-Car M2-W), using rcar-du.
+> >>> Unfortunately I don't see any kernel messages, and my monitor complai=
+ns
+> >>> about no signal. Does this require special support from the driver?
+> >>
+> >> It doesn't require a special support from the driver. But as it is the
+> >> first drm client other than fbdev emulation, I'm not surprised it's
+> >> broken on some driver.
+> >> I know it works on virtio-gpu, nouveau, amdgpu, and even on a OnePlus =
+6
+> >> (Qualcomm SDM845/freedreno), without requiring driver changes.
+> >>
+> >> Do you have a serial console on this device, to check if there is
+> >> something in kmsg?
+> >
+> > Nothing interesting to see. Compared to the fbdev client:
+> >
+> >       rcar-du feb00000.display: [drm] Registered 2 planes with drm pani=
+c
+> >       [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
+> >       rcar-du feb00000.display: [drm] Device feb00000.display probed
+> >      -Console: switching to colour frame buffer device 240x67
+> >      -rcar-du feb00000.display: [drm] fb0: rcar-dudrmfb frame buffer de=
+vice
+> >
+> > I did verify (by adding my own debug prints) that the code does
+> > get to the success case in drm_log_register().
+> > Thanks!
+>
+> Maybe you need to add console=3Ddrm_log to your kernel command line, so
+> the kernel will actually use this console.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8188.dtsi b/arch/arm64/boot/dts/mediatek/mt8188.dtsi
-index faccc7f16259..137bd39808ea 100644
---- a/arch/arm64/boot/dts/mediatek/mt8188.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8188.dtsi
-@@ -2164,6 +2164,126 @@ vppsys0: syscon@14000000 {
- 			#clock-cells = <1>;
- 		};
- 
-+		dma-controller@14001000 {
-+			compatible = "mediatek,mt8188-mdp3-rdma", "mediatek,mt8195-mdp3-rdma";
-+			reg = <0 0x14001000 0 0x1000>;
-+			#dma-cells = <1>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_RDMA>,
-+				 <&topckgen CLK_TOP_CFGREG_CLOCK_EN_VPP0>,
-+				 <&topckgen CLK_TOP_CFGREG_F26M_VPP0>,
-+				 <&vppsys0 CLK_VPP0_WARP0_ASYNC_TX>,
-+				 <&vppsys0 CLK_VPP0_WARP0_RELAY>,
-+				 <&vppsys0 CLK_VPP0_WARP0_ASYNC>,
-+				 <&vppsys0 CLK_VPP02VPP1_RELAY>,
-+				 <&vppsys1 CLK_VPP1_VPP0_DL_ASYNC>,
-+				 <&vppsys1 CLK_VPP1_VPP0_DL1_RELAY>,
-+				 <&vppsys0 CLK_VPP0_VPP12VPP0_ASYNC>;
-+			mboxes = <&gce0 13 CMDQ_THR_PRIO_1>,
-+				 <&gce0 14 CMDQ_THR_PRIO_1>,
-+				 <&gce0 16 CMDQ_THR_PRIO_1>,
-+				 <&gce0 21 CMDQ_THR_PRIO_1>;
-+			iommus = <&vpp_iommu M4U_PORT_L4_MDP_RDMA>,
-+				 <&vpp_iommu M4U_PORT_L4_MDP_WROT>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>,
-+					<&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x1000 0x1000>;
-+			mediatek,gce-events = <CMDQ_EVENT_VPP0_MDP_RDMA_SOF>,
-+					      <CMDQ_EVENT_VPP0_MDP_RDMA_FRAME_DONE>;
-+			mediatek,scp = <&scp>;
-+		};
-+
-+		display@14002000 {
-+			compatible = "mediatek,mt8188-mdp3-fg", "mediatek,mt8195-mdp3-fg";
-+			reg = <0 0x14002000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_FG>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x2000 0x1000>;
-+		};
-+
-+		display@14004000 {
-+			compatible = "mediatek,mt8188-mdp3-hdr", "mediatek,mt8195-mdp3-hdr";
-+			reg = <0 0x14004000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_HDR>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x4000 0x1000>;
-+		};
-+
-+		display@14005000 {
-+			compatible = "mediatek,mt8188-mdp3-aal", "mediatek,mt8195-mdp3-aal";
-+			reg = <0 0x14005000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_AAL>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x5000 0x1000>;
-+		};
-+
-+		display@14006000 {
-+			compatible = "mediatek,mt8188-mdp3-rsz", "mediatek,mt8183-mdp3-rsz";
-+			reg = <0 0x14006000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_RSZ>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x6000 0x1000>;
-+		};
-+
-+		display@14007000 {
-+			compatible = "mediatek,mt8188-mdp3-tdshp", "mediatek,mt8195-mdp3-tdshp";
-+			reg = <0 0x14007000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_TDSHP>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x7000 0x1000>;
-+		};
-+
-+		display@14008000 {
-+			compatible = "mediatek,mt8188-mdp3-color", "mediatek,mt8195-mdp3-color";
-+			reg = <0 0x14008000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_COLOR>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x8000 0x1000>;
-+		};
-+
-+		display@14009000 {
-+			compatible = "mediatek,mt8188-mdp3-ovl", "mediatek,mt8195-mdp3-ovl";
-+			reg = <0 0x14009000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_OVL>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0x9000 0x1000>;
-+		};
-+
-+		display@1400a000 {
-+			compatible = "mediatek,mt8188-mdp3-padding", "mediatek,mt8195-mdp3-padding";
-+			reg = <0 0x1400a000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_PADDING>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0xa000 0x1000>;
-+		};
-+
-+		display@1400b000 {
-+			compatible = "mediatek,mt8188-mdp3-tcc", "mediatek,mt8195-mdp3-tcc";
-+			reg = <0 0x1400b000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_TCC>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0xb000 0x1000>;
-+		};
-+
-+		display@1400c000 {
-+			compatible = "mediatek,mt8188-mdp3-wrot", "mediatek,mt8183-mdp3-wrot";
-+			reg = <0 0x1400c000 0 0x1000>;
-+			clocks = <&vppsys0 CLK_VPP0_MDP_WROT>;
-+			iommus = <&vpp_iommu M4U_PORT_L4_MDP_WROT>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0xc000 0x1000>;
-+			mediatek,gce-events = <CMDQ_EVENT_VPP0_MDP_WROT_SOF>,
-+					      <CMDQ_EVENT_VPP0_MDP_WROT_VIDO_WDONE>;
-+		};
-+
-+		mutex@1400f000 {
-+			compatible = "mediatek,mt8188-vpp-mutex";
-+			reg = <0 0x1400f000 0 0x1000>;
-+			interrupts = <GIC_SPI 592 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vppsys0 CLK_VPP0_MUTEX>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS0>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_1400XXXX 0xf000 0x1000>;
-+		};
-+
- 		vpp_smi_common: smi@14012000 {
- 			compatible = "mediatek,mt8188-smi-common-vpp";
- 			reg = <0 0x14012000 0 0x1000>;
-@@ -2195,6 +2315,190 @@ vpp_iommu: iommu@14018000 {
- 			mediatek,larbs = <&larb1 &larb3 &larb4 &larb6 &larb7 &larb23>;
- 		};
- 
-+		dma-controller@14f09000 {
-+			compatible = "mediatek,mt8188-mdp3-rdma", "mediatek,mt8195-mdp3-rdma";
-+			reg = <0 0x14f09000 0 0x1000>;
-+			#dma-cells = <1>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_RDMA>,
-+				 <&topckgen CLK_TOP_CFGREG_CLOCK_EN_VPP1>,
-+				 <&topckgen CLK_TOP_CFGREG_F26M_VPP1>;
-+			iommus = <&vdo_iommu M4U_PORT_L5_SVPP2_MDP_RDMA>,
-+				 <&vdo_iommu M4U_PORT_L5_SVPP2_MDP_WROT>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f0XXXX 0x9000 0x1000>;
-+			mediatek,gce-events = <CMDQ_EVENT_VPP1_SVPP2_MDP_RDMA_SOF>,
-+					      <CMDQ_EVENT_VPP1_SVPP2_MDP_RDMA_FRAME_DONE>;
-+		};
-+
-+		dma-controller@14f0a000 {
-+			compatible = "mediatek,mt8188-mdp3-rdma", "mediatek,mt8195-mdp3-rdma";
-+			reg = <0 0x14f0a000 0 0x1000>;
-+			#dma-cells = <1>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_RDMA>,
-+				 <&topckgen CLK_TOP_CFGREG_CLOCK_EN_VPP1>,
-+				 <&topckgen CLK_TOP_CFGREG_F26M_VPP1>;
-+			iommus = <&vpp_iommu M4U_PORT_L6_SVPP3_MDP_RDMA>,
-+				 <&vpp_iommu M4U_PORT_L6_SVPP3_MDP_WROT>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f0XXXX 0xa000 0x1000>;
-+			mediatek,gce-events = <CMDQ_EVENT_VPP1_SVPP3_MDP_RDMA_SOF>,
-+					      <CMDQ_EVENT_VPP1_SVPP3_MDP_RDMA_FRAME_DONE>;
-+		};
-+
-+		display@14f0c000 {
-+			compatible = "mediatek,mt8188-mdp3-fg", "mediatek,mt8195-mdp3-fg";
-+			reg = <0 0x14f0c000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_FG>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f0XXXX 0xc000 0x1000>;
-+		};
-+
-+		display@14f0d000 {
-+			compatible = "mediatek,mt8188-mdp3-fg", "mediatek,mt8195-mdp3-fg";
-+			reg = <0 0x14f0d000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_FG>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f0XXXX 0xd000 0x1000>;
-+		};
-+
-+		display@14f0f000 {
-+			compatible = "mediatek,mt8188-mdp3-hdr", "mediatek,mt8195-mdp3-hdr";
-+			reg = <0 0x14f0f000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_HDR>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f0XXXX 0xf000 0x1000>;
-+		};
-+
-+		display@14f10000 {
-+			compatible = "mediatek,mt8188-mdp3-hdr", "mediatek,mt8195-mdp3-hdr";
-+			reg = <0 0x14f10000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_HDR>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0 0x1000>;
-+		};
-+
-+		display@14f12000 {
-+			compatible = "mediatek,mt8188-mdp3-aal", "mediatek,mt8195-mdp3-aal";
-+			reg = <0 0x14f12000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_AAL>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0x2000 0x1000>;
-+		};
-+
-+		display@14f13000 {
-+			compatible = "mediatek,mt8188-mdp3-aal", "mediatek,mt8195-mdp3-aal";
-+			reg = <0 0x14f13000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_AAL>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0x3000 0x1000>;
-+		};
-+
-+		display@14f15000 {
-+			compatible = "mediatek,mt8188-mdp3-rsz", "mediatek,mt8183-mdp3-rsz";
-+			reg = <0 0x14f15000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_RSZ>,
-+				 <&vppsys1 CLK_VPP1_SVPP2_VPP_MERGE>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0x5000 0x1000>;
-+		};
-+
-+		display@14f16000 {
-+			compatible = "mediatek,mt8188-mdp3-rsz", "mediatek,mt8183-mdp3-rsz";
-+			reg = <0 0x14f16000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_RSZ>,
-+				 <&vppsys1 CLK_VPP1_SVPP3_VPP_MERGE>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0x6000 0x1000>;
-+		};
-+
-+		display@14f18000 {
-+			compatible = "mediatek,mt8188-mdp3-tdshp", "mediatek,mt8195-mdp3-tdshp";
-+			reg = <0 0x14f18000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_TDSHP>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0x8000 0x1000>;
-+		};
-+
-+		display@14f19000 {
-+			compatible = "mediatek,mt8188-mdp3-tdshp", "mediatek,mt8195-mdp3-tdshp";
-+			reg = <0 0x14f19000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_TDSHP>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0x9000 0x1000>;
-+		};
-+
-+		display@14f1a000 {
-+			compatible = "mediatek,mt8188-mdp3-merge", "mediatek,mt8195-mdp3-merge";
-+			reg = <0 0x14f1a000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_VPP_MERGE>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0xa000 0x1000>;
-+		};
-+
-+		display@14f1b000 {
-+			compatible = "mediatek,mt8188-mdp3-merge", "mediatek,mt8195-mdp3-merge";
-+			reg = <0 0x14f1b000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_VPP_MERGE>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0xb000 0x1000>;
-+		};
-+
-+		display@14f1d000 {
-+			compatible = "mediatek,mt8188-mdp3-color", "mediatek,mt8195-mdp3-color";
-+			reg = <0 0x14f1d000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_COLOR>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0xd000 0x1000>;
-+		};
-+
-+		display@14f1e000 {
-+			compatible = "mediatek,mt8188-mdp3-color", "mediatek,mt8195-mdp3-color";
-+			reg = <0 0x14f1e000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_COLOR>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f1XXXX 0xe000 0x1000>;
-+		};
-+
-+		display@14f21000 {
-+			compatible = "mediatek,mt8188-mdp3-padding",
-+				     "mediatek,mt8195-mdp3-padding";
-+			reg = <0 0x14f21000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_VPP_PAD>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f2XXXX 0x1000 0x1000>;
-+		};
-+
-+		display@14f22000 {
-+			compatible = "mediatek,mt8188-mdp3-padding",
-+				     "mediatek,mt8195-mdp3-padding";
-+			reg = <0 0x14f22000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_VPP_PAD>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f2XXXX 0x2000 0x1000>;
-+		};
-+
-+		display@14f24000 {
-+			compatible = "mediatek,mt8188-mdp3-wrot", "mediatek,mt8183-mdp3-wrot";
-+			reg = <0 0x14f24000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP2_MDP_WROT>;
-+			iommus = <&vdo_iommu M4U_PORT_L5_SVPP2_MDP_WROT>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f2XXXX 0x4000 0x1000>;
-+			mediatek,gce-events = <CMDQ_EVENT_VPP1_SVPP2_MDP_WROT_SOF>,
-+					      <CMDQ_EVENT_VPP1_SVPP2_MDP_WROT_FRAME_DONE>;
-+		};
-+
-+		display@14f25000 {
-+			compatible = "mediatek,mt8188-mdp3-wrot", "mediatek,mt8183-mdp3-wrot";
-+			reg = <0 0x14f25000 0 0x1000>;
-+			clocks = <&vppsys1 CLK_VPP1_SVPP3_MDP_WROT>;
-+			iommus = <&vpp_iommu M4U_PORT_L6_SVPP3_MDP_WROT>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f2XXXX 0x5000 0x1000>;
-+			mediatek,gce-events = <CMDQ_EVENT_VPP1_SVPP3_MDP_WROT_SOF>,
-+					      <CMDQ_EVENT_VPP1_SVPP3_MDP_WROT_FRAME_DONE>;
-+		};
-+
- 		wpesys: clock-controller@14e00000 {
- 			compatible = "mediatek,mt8188-wpesys";
- 			reg = <0 0x14e00000 0 0x1000>;
-@@ -2224,6 +2528,15 @@ vppsys1: syscon@14f00000 {
- 			#clock-cells = <1>;
- 		};
- 
-+		mutex@14f01000 {
-+			compatible = "mediatek,mt8188-vpp-mutex";
-+			reg = <0 0x14f01000 0 0x1000>;
-+			interrupts = <GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&vppsys1 CLK_VPP1_DISP_MUTEX>;
-+			power-domains = <&spm MT8188_POWER_DOMAIN_VPPSYS1>;
-+			mediatek,gce-client-reg = <&gce1 SUBSYS_14f0XXXX 0x1000 0x1000>;
-+		};
-+
- 		larb5: smi@14f02000 {
- 			compatible = "mediatek,mt8188-smi-larb";
- 			reg = <0 0x14f02000 0 0x1000>;
--- 
-2.46.1
+Thanks, that does the trick!
 
+Note that I do not need to specify any console=3D kernel command line
+parameter for the fbdev console.
+
+With
+
+    CONFIG_VT_CONSOLE=3Dy
+    CONFIG_DRM_CLIENT_DEFAULT_FBDEV=3Dy
+
+I see all console messages on both the emulated fbdev console and on
+the serial console by default.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
