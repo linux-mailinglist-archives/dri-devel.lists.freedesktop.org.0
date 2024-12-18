@@ -1,106 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0479F6510
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:41:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC9F9F6527
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:44:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95CFF10EB75;
-	Wed, 18 Dec 2024 11:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37B8E10EB7A;
+	Wed, 18 Dec 2024 11:44:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ME/hTpgs";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yjRsJXZa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34B9810E16C
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734522104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8w4RSJ8nHm6xZnbZl8MO53LyH2t95hK0oK0jZZXulZ4=;
- b=ME/hTpgsfKHLqJe9pRui2xxghlsEUETCXjQxrd2A+e3YFjCFsRXfEO3pJMY97I4aqPmlVN
- pSraiMHzn7c+OLAJL45AqNF6VPPehDxF4u87i+smLoocUGRYh+D0SClmGBB9GVKoo1Am9o
- knWS7Oqlw+4wfK0TKAKlrzLLKnnwHz4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-595-qkVYzV7nMwyCbKV8ctwmGg-1; Wed, 18 Dec 2024 06:41:43 -0500
-X-MC-Unique: qkVYzV7nMwyCbKV8ctwmGg-1
-X-Mimecast-MFC-AGG-ID: qkVYzV7nMwyCbKV8ctwmGg
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-385d80576abso4377645f8f.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:41:42 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5D8310EB7A
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:44:15 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-540218726d5so6637072e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734522254; x=1735127054; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=qSgyFmNiySJi9cKbnTzSvCSa7bOHhr/DX1wpZmOFD6I=;
+ b=yjRsJXZaPSz4ifyKdpootIxXkRALoFva/BLd2H5XiBUk+xewsGP47PP13u0PDkGnbO
+ sCBrDkuOyB44KFj9O09t1XMA24TdvyheW/OU3S2P0cyOpGPe0jZOgvbAAK71PQV0dGvQ
+ ETE+v+ERBE7sVxiJ0BTfylCXPeKMZ/amWseJAXj+xNPkHm9kBGOlMf8djtY34OgaKq58
+ uJB0D8YefnxkzFHWFnrXBkYRFln1w8wvWBi9whP+yn+WqbOHBwom+/Seo9W4DroxK0PZ
+ xP6fGUXHLsvKDLRrKlZIvlxcxdmM2vV3I4VwFOWYNtUssb4NN8sOOW2yLLE0O/pZejPd
+ G7rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734522102; x=1735126902;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1734522254; x=1735127054;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8w4RSJ8nHm6xZnbZl8MO53LyH2t95hK0oK0jZZXulZ4=;
- b=HdZzDkhoZvrB7Rto0q7F+QAqVqeq675Y3n3YEI+XPULbFHvKWd0aYDKEhFb4NGhfeK
- 8dEoC8zkB3eCWg0MH5jdzaSk2I/uv/pEgPUc/QN1GfFLvrD99WITh2a/pCyedfKUnWLf
- jzEhn0yCRuB0ik5uydX2jgDrfLo/su2jhaXK35tecbcl3zWOFHUjOZoY+7tHfH4ZUhAT
- PY++KpSOiYWXnfLheNSevJ5eKtws5wGluPfXXeTVDhMTMVZvI/PiHRnEGoHARNuCjWj5
- 7dhjLuLQ3WUByOzOp09OVTThoqZiMMR/Cqo8p4JTZvGsk+FUrC2FcZqTSCxRTWvKr+x4
- gBOA==
+ bh=qSgyFmNiySJi9cKbnTzSvCSa7bOHhr/DX1wpZmOFD6I=;
+ b=iHITU6rMjjwqst6GIcxCkWhV8su3nEw6rLC6my7nbdV+yoSQaUtXdPxjG4Wyd/c/fX
+ p6hKB6oX17z+fHU6gdKkhJ3ijsJSEI+ISUZpX6nPIhr0mgZIe2Uftsms2bDZ89wkXKWH
+ 9xcVoO9PX7kaCq5L8kzovBlzvOcFANPjdJeFeA1ml/F1LPSlPXPlZ2KuiXVAXjynBVtW
+ uo/mhucPOaHiULWs/0RobMKFSKZRf5XhTJn843w76n0EwZZzSUluQnlitnqkAxyX55xU
+ p6CnPZhI2ztIWK/8nLw7QWhSziEiqndg9YmI4juJLYyJ6Glt5QQvGzglRn6IKQDnkNzr
+ e8CA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW/Lh+41ovOU7o8d9heObvwXwwQPYZZ7HLXFwPr5hN33kz+4XOCqwmiS2vqvR2VIi1m2uiPBwNW13k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypQnQ57EoCrcCwUCYdHnwj3MtxVLPqM6z6uzKXno5A1kvVjgO1
- uGS7StqrdaNtJ1trdaa7g0o7In6vdX9rhH02ZM6WoNk0cz++HRlnpa/fPGrZAhKmwS0huhlkf9D
- Jw3uxBJUvuoKO+xaI6l3sCBVst9MUxlWa2mqhd/WtwIpGnrkq9dfO7mFgf1aGsrus/g==
-X-Gm-Gg: ASbGncusl/2mHPDLZUiqLUWcEBXezTFYydsPiukTT9NVzTDY/lGVyZRJQrAzWzwPu+t
- DC9/EV6UUTU2LKd7LMWZK68hUcQVXh7+rFL1C3UTO5S+5K1QpLwlK4SgOKdqCburYhgPtyxSI0d
- 0Khr7zFt81HiFOjbjL97V6PSJhgF1dSaz0KFjDQdltszD4gqg9dcO9Sd060nPlsY5wodl7tmi2c
- nz3UA+vKoMo0JfVmmI4DDOM7qoHoJ4+py7LPzEVNBkrsowvzOZ5L54R8s+IU7nNlRZKDBhRxAey
- Aqy/gnr7Spw8uJZyjOLE
-X-Received: by 2002:a05:6000:1a8e:b0:385:fe66:9f32 with SMTP id
- ffacd0b85a97d-388e4db8a93mr2188139f8f.52.1734522101857; 
- Wed, 18 Dec 2024 03:41:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGXwpUv6qcQVeCE77pziR/wtsBppfqPmsEt6PaG1JXb/0c4W+XnvCzSR8Ny47ykr835iY1UfQ==
-X-Received: by 2002:a05:6000:1a8e:b0:385:fe66:9f32 with SMTP id
- ffacd0b85a97d-388e4db8a93mr2188100f8f.52.1734522101347; 
- Wed, 18 Dec 2024 03:41:41 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ AJvYcCXRiAlrpMOReBQo5lZdfpApc+sgqFE8Zwe/r9U8UCZXS99JL/OXsBtG8kfkUVZJ2JCxSSK0yJ4xoz4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXjEPIHnezdvLITmFll5ZW1ymc2+fpy4f/bBFXuGO1fBaV8kPS
+ otUezYahGEOE0/2zcY2cuTr3CCb7C3YFDouC7l7XX6Nb/Q9Hrp4csPPsHr5A8AU=
+X-Gm-Gg: ASbGnctDDDG1DpzcurxOKcr5giNzUyHUz50MpZkOFqV059/f833glXUeQo8YmcPNVSS
+ j5wJ3+WWgB10xjmpO2U6ofbsDwPgUSL5z7i625UJDBksBNmWZKdBC+xpEM1dDRn5GXfb6hPlFL+
+ 3F/8U1ahtN8d8su9xCpOgKNsUpVOvPIl79YFobNyVy/cl5tJndUxZ8lKvjncyYnBIJAZifkXBOT
+ LGwkoOBlnBHGSJpY9klt/ghFLMu4j/pcoK1IA0dxCqQOmA2K6OVrda2LvpbWMuTjwqTXEjd0iZp
+ iN89zqpq20eT0SgQOVWFhoEZMMuOfEOxC67L
+X-Google-Smtp-Source: AGHT+IFOi3R771oIo+m0pKp+iNRn3sNMW4xr+wpxXaN11mWnrJ8W+5ljdDjN5QfOFxC9hMEiYHevEQ==
+X-Received: by 2002:a05:6512:2212:b0:53e:395c:6888 with SMTP id
+ 2adb3069b0e04-541f46c442dmr1008761e87.36.1734522254000; 
+ Wed, 18 Dec 2024 03:44:14 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43656b01b7esm17783255e9.13.2024.12.18.03.41.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2024 03:41:40 -0800 (PST)
-Message-ID: <f407194f-ae8e-4e0d-96af-9984e8f2123c@redhat.com>
-Date: Wed, 18 Dec 2024 12:41:39 +0100
+ 2adb3069b0e04-54120c002fcsm1378275e87.127.2024.12.18.03.44.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Dec 2024 03:44:13 -0800 (PST)
+Date: Wed, 18 Dec 2024 13:44:11 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: fange zhang <quic_fangez@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Liu Li <quic_lliu6@quicinc.com>, 
+ Xiangxu Yin <quic_xiangxuy@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 9/9] arm64: dts: qcom: Add display support for QCS615
+ RIDE board
+Message-ID: <bwnsxcimgl7oqnzhrxurn3gs2ea3r6n4o5fulyhpooqnzbjllb@t7nljbwf3t3n>
+References: <20241210-add-display-support-for-qcs615-platform-v4-0-2d875a67602d@quicinc.com>
+ <20241210-add-display-support-for-qcs615-platform-v4-9-2d875a67602d@quicinc.com>
+ <cfdyvcxdkmf4sv5f75koflayyx74wd3tuscdl7byp5peaag5ty@yhr3275jhftn>
+ <92b6335e-a303-49d3-9b77-f951663fc10c@quicinc.com>
+ <CAA8EJpqyM-r3jvY7sTpG-KKRHP9K7c3q0xfoLb_f0th7vunPYw@mail.gmail.com>
+ <baab6fc5-755a-4675-a42d-ba7ba7facf0c@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20241204160014.1171469-1-jfalempe@redhat.com>
- <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
- <301714d8-0723-4881-83e8-24523c121bfe@redhat.com>
- <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
- <d4c249fa-624e-4f73-9aed-e04b405b4079@redhat.com>
- <CAMuHMdXEK-2u3th=5QVd6-pkBj_JhgEfFAe_ocGEAz=Dyi_h+g@mail.gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CAMuHMdXEK-2u3th=5QVd6-pkBj_JhgEfFAe_ocGEAz=Dyi_h+g@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ToPQZf9rQicXtUAE1GbIUEefXaErbBLEECacICPOZbU_1734522102
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <baab6fc5-755a-4675-a42d-ba7ba7facf0c@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,85 +109,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/12/2024 12:00, Geert Uytterhoeven wrote:
-> Hi Jocelyn,
+On Wed, Dec 18, 2024 at 11:18:01AM +0800, fange zhang wrote:
 > 
-> On Wed, Dec 18, 2024 at 11:14 AM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->> On 17/12/2024 15:54, Geert Uytterhoeven wrote:
->>> On Tue, Dec 17, 2024 at 3:46 PM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>>> On 17/12/2024 15:19, Geert Uytterhoeven wrote:
->>>>> On Wed, Dec 4, 2024 at 6:41 PM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>>>>> drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
->>>>>> This is not a full replacement to fbcon, as it will only print the kmsg.
->>>>>> It will never handle user input, or a terminal because this is better done in userspace.
->>>>>>
->>>>>> If you're curious on how it looks like, I've put a small demo here:
->>>>>> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
->>>>>>
->>>>>> Design decisions:
->>>>>>      * It uses the drm_client API, so it should work on all drm drivers from the start.
->>>>>>      * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
->>>>>>        It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
->>>>>>      * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
->>>>>
->>>>> I gave this a try on Koelsch (R-Car M2-W), using rcar-du.
->>>>> Unfortunately I don't see any kernel messages, and my monitor complains
->>>>> about no signal. Does this require special support from the driver?
->>>>
->>>> It doesn't require a special support from the driver. But as it is the
->>>> first drm client other than fbdev emulation, I'm not surprised it's
->>>> broken on some driver.
->>>> I know it works on virtio-gpu, nouveau, amdgpu, and even on a OnePlus 6
->>>> (Qualcomm SDM845/freedreno), without requiring driver changes.
->>>>
->>>> Do you have a serial console on this device, to check if there is
->>>> something in kmsg?
->>>
->>> Nothing interesting to see. Compared to the fbdev client:
->>>
->>>        rcar-du feb00000.display: [drm] Registered 2 planes with drm panic
->>>        [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
->>>        rcar-du feb00000.display: [drm] Device feb00000.display probed
->>>       -Console: switching to colour frame buffer device 240x67
->>>       -rcar-du feb00000.display: [drm] fb0: rcar-dudrmfb frame buffer device
->>>
->>> I did verify (by adding my own debug prints) that the code does
->>> get to the success case in drm_log_register().
->>> Thanks!
->>
->> Maybe you need to add console=drm_log to your kernel command line, so
->> the kernel will actually use this console.
 > 
-> Thanks, that does the trick!
-> 
-> Note that I do not need to specify any console= kernel command line
-> parameter for the fbdev console.
+> On 2024/12/13 18:19, Dmitry Baryshkov wrote:
+> > On Fri, 13 Dec 2024 at 11:21, fange zhang <quic_fangez@quicinc.com> wrote:
+> > > 
+> > > 
+> > > 
+> > > On 2024/12/10 19:02, Dmitry Baryshkov wrote:
+> > > > On Tue, Dec 10, 2024 at 02:54:00PM +0800, Fange Zhang wrote:
 
-Yes, the fbcon console is tty0, which is hardcoded for historical reason.
-Some architectures use add_preferred_console() to enable specific 
-consoles, I'm not sure it's allowed to use that from the 
-drm_log_register() code.
+> > > > 
+> > > > > +            i2c@0 {
+> > > > > +                    reg = <0>;
+> > > > > +                    #address-cells = <1>;
+> > > > > +                    #size-cells = <0>;
+> > > > > +
+> > > > > +                    anx7625@58 {
+> > > > > +                            compatible = "analogix,anx7625";
+> > > > > +                            reg = <0x58>;
+> > > > > +                            interrupt-parent = <&ioexp>;
+> > > > > +                            interrupts = <0 0>;
+> > > will change it to interrupts-extended in next patch
+> > > -               interrupt-parent = <&ioexp>;
+> > > -               interrupts = <0 0>;
+> > > +               interrupts-extended = <&ioexp 0 IRQ_TYPE_NONE>;
+> > 
+> > Yes, much better. BTW: are you sure that it's really IRQ_TYPE_NONE?
+> We extensively tested FALLING and BOTH type, and they all work. However, I
+> believe it’s better to use the default type, which is the same as the
+> downstream approach. This way, it will be more stable.
 
-I will still send a patch to add update the Kconfig help for drm_log, as 
-this command line argument is required to have it working.
-
-Best regards,
+Following downstream is a lame reason. Downstream kernels are frequently
+wrong in many ways. So please check the actual documentation for ANX7625
+and specify correct interrupt type.
 
 -- 
-
-Jocelyn
-
-> 
-> With
-> 
->      CONFIG_VT_CONSOLE=y
->      CONFIG_DRM_CLIENT_DEFAULT_FBDEV=y
-> 
-> I see all console messages on both the emulated fbdev console and on
-> the serial console by default.
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
-> 
-
+With best wishes
+Dmitry
