@@ -1,60 +1,102 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7E109F6946
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 16:02:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 509EB9F6917
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 15:52:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3310C10EBDE;
-	Wed, 18 Dec 2024 15:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2E0D10EBD1;
+	Wed, 18 Dec 2024 14:52:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W/CW2Po8";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="bblH6obs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B74810EBDA;
- Wed, 18 Dec 2024 15:02:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734534136; x=1766070136;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=xlpWJPaaUMWaNR0lC667XgbjZCYBsdCy7l/KnObWHTg=;
- b=W/CW2Po8LAW4mvCv7jFWZsZTJ1Kc1fCm3Iq2W81z1IjBdYFviYXVCWWs
- HJYd7MfVohqlb77Gw3wEFdijtt0zVLZELd+MT2tUhapPf5/JOkQuWijgf
- qPKQtAE5cBswFv1bqv0CSVVPSr6I45TmtEu7mcSJWcO3p3DoAvlfZ9bMM
- QTdF1lrC90DmlBc1EC/0d9XjEXjxkG6oACZaafLs24eesJB9tR4220MIo
- P0qNLEcK6o9p7hPS2f3ZT3GxQLWBwVPBmnK8A+sfzP1r6QrDb3x6wTqvI
- 8QJpSLNxirubAYNUTFZFYW0GV2UkPw4eBwgXXnzVzoAVN/htDQteP8CF+ A==;
-X-CSE-ConnectionGUID: Vu2Y5nXdSSOO/YefBc7q3A==
-X-CSE-MsgGUID: LSgbco6oRQCEN75/NXzDdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45502467"
-X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="45502467"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Dec 2024 07:02:16 -0800
-X-CSE-ConnectionGUID: R6BlSBjIQL2PEzeorlXocQ==
-X-CSE-MsgGUID: LwKVeupUS/OU5fqJwV27FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="102025385"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa003.fm.intel.com with ESMTP; 18 Dec 2024 07:02:14 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 18 Dec 2024 20:22:04 +0530
-Subject: [PATCH v7 1/4] drm: Define histogram structures exposed to user
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
+ [IPv6:2607:f8b0:4864:20::112a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5156810EBD1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 14:52:23 +0000 (UTC)
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-6f14626c5d3so51854937b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 06:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1734533542; x=1735138342;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jikMDVImI7Pf9+NM113vi4yTRoWYSpkiHuuI1ghgiGU=;
+ b=bblH6obs/sM6swIDM1syDwRedokH4zw2SHDZvd4ABzlO23votCFxNXZ0eOmHMR9EU+
+ ujreDyjlBuJs0350ZgktC4iLhTYCzuYp91TLe785cfPzyUtWevGxuKXFpRpnQF4JGkjF
+ OT+uS8EzwnVHcVu678Em8llideaXS/AvhBh7z7AtT2l9nbE7Aq9bp8fKU+oQVGjN585i
+ NXQpA0ZfiUIyK3VRtFDhcEX3RHrblBUBHCLeNS4F5xrHFdTIUF07iXtk2Pd7IETNlXRL
+ /3zrVssmhjlLmHaAi98extfpRblVnLGL6qPAh2fQopitIzJwgDzo/+b219rFmjwNBMPG
+ 143Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734533542; x=1735138342;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jikMDVImI7Pf9+NM113vi4yTRoWYSpkiHuuI1ghgiGU=;
+ b=osXAL5hPL7tBSor0aShAMVoaVrCzANmPdcSvzirjts6OzXz5TqEZTTJXf2cgmc35VD
+ lEutU3pJAB0q3uI6K5d3l0RqPP0g5vaN2GL++s/PjP6LInPxLnS/DJWSbWyqloO7gDDw
+ k9eQ+GD4xatQTCVaZv8EVDbol3eMpqyfdcgj1Vc3uG0mcNzaft23EV/CAq5/kV6RFpa5
+ YuPZxp1hkos1JNlm66Ng6k5V9DOBGgVZaMpb3tym3Uii/T1TIplBOsySHUsMt2xAdP6T
+ WcUiRsnXEEN1cBpBpZxdqlUO60hZiKdR6YmK8eFDZYD3yasD8oEIp+EzD/Qs1nyy89df
+ Lhtw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVTujd/j4FcAtsrkf67jXXAbr6FXnDYe4sOTcsnV3/dj/CLtvY8JIz+nbFDOUG+joRaieBUN3+7l8w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxNmR1ZKMxzSbotHxrTEwb96+6zo/qNUGxK+FR3huhXf/9YBff0
+ d6ta0UbQHaEtAxQTOjCB5t89iM7ZtSIibN5TyPialXydS0drBnTXSzay/viNSUspx/HIXYINHOU
+ OmxZZolCp3W1M45Zs+8EoGXNjvvWXzh5UT1R2gg==
+X-Gm-Gg: ASbGncumKTlzuXVR7AgdB3LwasTxCUMnQvnuuNdB7Ybd5EgweVdVP8Z5/p7rfmANVll
+ MjLEScHAACY1kbzeWfQX7b6Gl2qmcbXytVtn2rA==
+X-Google-Smtp-Source: AGHT+IFROOIaavezTSB4qbIDqYTANawNmOriE8EjpWA/iXMqK2VjNXjnSwbVB0kRn8qDDZTN6lGUdQkOSisxyeutzXQ=
+X-Received: by 2002:a05:690c:6c91:b0:6ef:a4bc:8bc9 with SMTP id
+ 00721157ae682-6f3d22573a0mr22613297b3.21.1734533540880; Wed, 18 Dec 2024
+ 06:52:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241218-dpst-v7-1-81bfe7d08c2d@intel.com>
-References: <20241218-dpst-v7-0-81bfe7d08c2d@intel.com>
-In-Reply-To: <20241218-dpst-v7-0-81bfe7d08c2d@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: 20240705091333.328322-1-mohammed.thasleem@intel.com, 
- Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
+ <20241217-vivacious-chameleon-of-swiftness-f1edc4@houat>
+ <CAA8EJprjCyWBNkRrc4W24uCwPtf_kxZLqNeNP8EJffbutYQ21w@mail.gmail.com>
+ <20241218-wild-red-manatee-bb2a34@houat>
+In-Reply-To: <20241218-wild-red-manatee-bb2a34@houat>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 18 Dec 2024 14:52:04 +0000
+Message-ID: <CAPY8ntDdcOXuWVgx6+cbgX5ct_-MXcE7CWDKgGP57EX6bvBLaw@mail.gmail.com>
+Subject: Re: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, 
+ Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Russell King <linux@armlinux.org.uk>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,110 +112,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Display Histogram is an array of bins and can be generated in many ways
-referred to as modes.
-Ex: HSV max(RGB), Wighted RGB etc.
+Hi Maxime & Dmitry
 
-Understanding the histogram data format(Ex: HSV max(RGB))
-Histogram is just the pixel count.
-For a maximum resolution of 10k (10240 x 4320 = 44236800)
-25 bits should be sufficient to represent this along with a buffer of 7
-bits(future use) u32 is being considered.
-max(RGB) can be 255 i.e 0xFF 8 bit, considering the most significant 5
-bits, hence 32 bins.
-Below mentioned algorithm illustrates the histogram generation in
-hardware.
+On Wed, 18 Dec 2024 at 07:59, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Wed, Dec 18, 2024 at 07:24:23AM +0200, Dmitry Baryshkov wrote:
+> > On Tue, 17 Dec 2024 at 19:21, Maxime Ripard <mripard@kernel.org> wrote:
+> > > On Tue, Dec 17, 2024 at 02:40:22AM +0200, Dmitry Baryshkov wrote:
+> > > > While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+> > > > framework, I stumbled upon an issue while handling the Audio InfoFrames.
+> > > > The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+> > > > there was no simple way to get the drm_connector that stayed at the end
+> > > > of the bridge chain. At the same point the drm_hdmi_connector functions
+> > > > expected to get drm_connector instance.
+> > > >
+> > > > While looking for a way to solve the issue, I stumbled upon several
+> > > > deficiencies in existing hdmi_codec_ops implementations. Only few of the
+> > > > implementations were able to handle codec's 'plugged' callback. One
+> > > > third of the drivers didn't implement the get_eld() callback.
+> > > >
+> > > > Most of the issues can be solved if drm_connector handles
+> > > > hdmi-audio-codec on its own, delegating functionality to the actual
+> > > > implementation, be it a driver that implements drm_connector or
+> > > > drm_bridge.
+> > > >
+> > > > Implement such high-level framework, adding proper support for Audio
+> > > > InfoFrame generation to the LT9611 driver.
+> > > >
+> > > > Several design decisions to be kept in mind:
+> > > >
+> > > > - drm_connector_hdmi_codec is kept as simple as possible. It implements
+> > > >   generic functionality (ELD, hotplug, registration).
+> > > >
+> > > > - drm_hdmi_connector sets up HDMI codec device if the connector
+> > > >   is setup correspondingly (either I2S or S/PDIF is marked as
+> > > >   supported).
+> > > >
+> > > > - drm_bridge_connector provides a way to link HDMI audio codec
+> > > >   funcionality in the drm_bridge with the drm_connector_hdmi_codec
+> > > >   framework.
+> > > >
+> > > > - It might be worth reverting the no_i2s_capture / no_spdif_capture
+> > > >   bits. Only TDA889x driver sets them, while it's safe to assume that
+> > > >   most of HDMI / DP devices do not support ARC / capture. I think the
+> > > >   drivers should opt-in capture support rather than having to opt-out of
+> > > >   it.
+> > >
+> > > Sorry if this isn't clear to me and I'm quite late to the party, but did
+> > > you test this on vc4 with both a pi3 and pi4, or was it just compile
+> > > tested?
+> >
+> > LT9611 is actually tested, VC4 is only compile-tested. Should I put an RFT tag?
+>
+> Yeah, we definitely need to test it on the pi3 (polling-based) and the
+> pi4 (irq-based) at least.
+>
+> Dave, Maira, could you give it a try?
 
-hist[32] = {0};
-for (i = 0; i < resolution; i++) {
-	bin = max(RGB[i]);
-	bin = bin >> 3;	/* consider the most significant bits */
-	hist[bin]++;
-}
-If the entire image is Red color then max(255,0,0) is 255 so the pixel
-count of each pixels will be placed in the last bin. Hence except
-hist[31] all other bins will have a value zero.
-Generated histogram in this case would be hist[32] = {0,0,....44236800}
+I'm on it.
 
-Description of the structures, properties defined are documented in the
-header file include/uapi/drm/drm_mode.h
+  Dave
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- include/uapi/drm/drm_mode.h | 59 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..7a7039381142bb5dba269bdaec42c18be34e2d05 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1355,6 +1355,65 @@ struct drm_mode_closefb {
- 	__u32 pad;
- };
- 
-+/*
-+ * Maximum resolution at present 10k, 10240x4320 = 44236800
-+ * can be denoted in 25bits. With an additional 7 bits in buffer each bin
-+ * can be a u32 value.
-+ * Maximum value of max(RGB) is 255, so max 255 bins.
-+ * If the most significant 5 bits are considered, then bins = 0xff >> 3
-+ * will be 32 bins.
-+ * For illustration consider a full RED image of 10k resolution considering all
-+ * 8 bits histogram would look like hist[255] = {0,0,....44236800}
-+ */
-+#define DRM_MODE_HISTOGRAM_HSV_MAX_RGB			(1 << 0)
-+
-+/**
-+ * struct drm_histogram_caps
-+ *
-+ * @histogram_mode: histogram generation modes, defined in the above macros
-+ * @bins_count: number of bins for a chosen histogram mode. For illustration
-+ *		refer the above defined histogram mode.
-+ */
-+struct drm_histogram_caps {
-+	u8 histogram_mode;
-+	u32 bins_count;
-+};
-+
-+/**
-+ * struct drm_histogram_config
-+ *
-+ * @enable: flag to enable/disable histogram
-+ * @hist_mode: histogram mode(HSV max(RGB), RGB, LUMA etc)
-+ * @reserved1: Reserved for future use
-+ * @reserved2: Reserved for future use
-+ * @reserved3: Reserved for future use
-+ * @reserved4: Reserved for future use
-+ */
-+struct drm_histogram_config {
-+	bool enable;
-+	u8 hist_mode;
-+	u32 reserved1;
-+	u32 reserved2;
-+	u32 reserved3;
-+	u32 reserved4;
-+};
-+
-+/**
-+ * struct drm_histogram
-+ *
-+ * @config: histogram configuration data pointed by struct drm_histogram_config
-+ * @data_ptr: pointer to the array of histogram.
-+ *	      Histogram is an array of bins. Data format for each bin depends
-+ *	      on the histogram mode. Refer to the above histogram modes for
-+ *	      more information.
-+ * @nr_elements: number of bins in the histogram.
-+ */
-+struct drm_histogram {
-+	struct drm_histogram_config config;
-+	__u64 data_ptr;
-+	__u32 nr_elements;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
-
--- 
-2.25.1
-
+> Maxime
