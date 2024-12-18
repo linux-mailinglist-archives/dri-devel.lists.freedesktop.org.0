@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093019F646B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:12:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 263179F6486
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:14:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 745A110EB68;
-	Wed, 18 Dec 2024 11:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9499110EB70;
+	Wed, 18 Dec 2024 11:14:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r2xBz9of";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PysA/nE2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05DB010EB68
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:12:44 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-3035046d4bfso32631351fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:12:44 -0800 (PST)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF12310EB6D
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:14:53 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-30229d5b22fso66763621fa.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734520363; x=1735125163; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734520492; x=1735125292; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=M8fJWDW28aqL8+QYcN+FgyuL9HZ8n5LHNGBtm/RG46M=;
- b=r2xBz9of982J21ngK8ZvHV8zM9fBv6Uw48YfK+I9FQWCqUc0UiTtJDTqwNy6srl8/Y
- yZyRVhhvzbxKRGHbrV4EFFfNGhF5aqbTo56DDOcFcIGWJerwVZCfPkUJpErs4J8lRGsN
- clytk79XNe7BHta+LPvOy5e8dF9WAXLDYBMTYr1BU8NLcKi8MWPW9V5wrER9iv3FoQ3g
- YcL4d0vECSRQqek/AVCUfcS9W8YDxIgBxlenICd0wiw39787o9kACEyaPa6s+Dcz61YP
- jwzUZTlWqEzNyCP/IqB/iPESCVh/IR5GqjxfqQJcuPm6L0061/C3HyGx0BH4UGucGW5w
- V73A==
+ bh=CQXGzcBLUuhgC9zgbmH7cd1iWvRUarAb5IMePyYysIc=;
+ b=PysA/nE2meXBfR4EkGSD5HP/IEVqxRVMbWNczA4QZVzzAkaPERixTHyu+6tt+VNJEM
+ vgXPgTv4opvaJ3W+c3IfG9WOtN2pXdgRsUKpfP8a7LKS2eLqOq8JgvV7ntuTY3DwWPCP
+ PlbQ0Ovp5Y8ZWkWP4XbBP625z7aoeTdbpgm2bjdKlVj34ZVPeOU+JeHBuB12KYAY86yw
+ wK3pWqf/YiZ6cMi+uroMUl/kA6xMXWRbtLNsznJhomb1lnXBHMAu8lCt9TV3tO/48pLu
+ XUcJeXJ/MWGQRCxfiWoG/FK57cWjp0BZ0zxvKMHx0EKzkKE//IrlBUZ+/ddL5fNlQnZY
+ iOuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734520363; x=1735125163;
+ d=1e100.net; s=20230601; t=1734520492; x=1735125292;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M8fJWDW28aqL8+QYcN+FgyuL9HZ8n5LHNGBtm/RG46M=;
- b=gln1p9FD+UT4rFmDm8dzowXF7dN65u1g6CNWRk5v5j94HSWjqt7G7MOBW64jiNQI6Q
- uPnMTxgk65Pc1uGIIEG2ONmTDL89QMUnJppPuDzCfQ/kPmkwdKS8HIEzFtxL3Ndax81O
- 2km5m58doHqmnfM+Arf/nHBZ4X7oSBJl/In045Xyd5Qfn+Kt3bvulTyZhfHVOuoVDrcp
- BbMsl5+68sRacNCD3OkW8tXeFVuZIhcNRuu9QbMYAKeX6r0YcYnuVwYuOlx3ULT9ghOD
- Y2NaWBVHz1vIJTbinJC5OL1D59etamBWfExXo1TyTqLyF8kSFFfFFnegbsq+Lep9KYOE
- 15NA==
+ bh=CQXGzcBLUuhgC9zgbmH7cd1iWvRUarAb5IMePyYysIc=;
+ b=LztSxTLG6Clz8/qknHlg+2vD+K9Qx55aZBae2qKtWnIn4FMqWDxGJhPiOrloYhlYbr
+ 7BTcsiPivDIfVLSJCgi7IPwKhGyULiQvjCgpEiUNR1imaKUnF+Yl19e14gSp2sXsraEY
+ zHnz4MdfYGQwyIXHYZz2HzavdOb3sGrCuQMrvfWqn/W7bFGjvWYlGHJeHwSWou2M/GhT
+ 06ZF1Hm+CA01ZzSGNomcuZp6nayAzEiEk0lWIH1eblu8ltlFDDWBFLxcqWIoHEqgTSvo
+ LfjzwzsL7W+saDkTfDdeJ0axgaUb5ikFsiKrOEehXabdtVK48xqnx74ep8wuRzaLPySS
+ dhXg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWe2TRXl2VJDvNL6oGeege2LYrc++OkmKEiaUjL9l+2oY39ob+Ee7juMVj2rU3iTgZSrlQk2FIoiEQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+8str+1ZthTFhsGBDFzxriimXqUcF7tlEDgYDxOc6n7RCiC/N
- ny/lZ0OSbpQ/zxp16rWt5b3X/Mxf8kVqQrqGb+F2ic3VEZGh+FMCq/eiGf/S0qk=
-X-Gm-Gg: ASbGnct/hPC9B+7MnDTnj7P7YiGdvphTHrQlpW2608ztVwyaqRppnxYl2Mj//+cXa0n
- O5LOaldZb8Zn4jEinydlBxzL3Q/M8/sk1SiZCVOvE/uLg7NS4hBI68qFmksF0xQD6EPoRLR6AWM
- XrQZYPu8e85H1hgT5/M8ZUKWrA/HGvIVTLVVJGVmXFqmtCvxFBgA3ghzjCZDo1Wy7MSyTUsKSuX
- 1IlC3m/Fs/jV3kxSDYCrD1djpML5jdhJ+rbqGGpBMWQrvzqMEEtPHqa7PCBDOBXy5kwEal3mOt1
- HEAM5h88K5mJlSNGNOm9ASjDufMPNY0q7Qdj
-X-Google-Smtp-Source: AGHT+IFuXGztV8sXG+rRud35O75Nb0WUWHo3POitPYANEMAxnuB8yJlLwo5eYu7L75ovdSyOgRJzlw==
-X-Received: by 2002:a2e:a7ca:0:b0:300:324e:3506 with SMTP id
- 38308e7fff4ca-3044daab8demr8003641fa.13.1734520363212; 
- Wed, 18 Dec 2024 03:12:43 -0800 (PST)
+ AJvYcCVb7OzeizIa3S0jLQdVYX5eoWY05gnRTOtIpxSY3+l4dahFCjvt1jc5LkibYf/rELBc7JmPc/UMHbg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyR/C3prnKhfK7wJ6vJ/eTnmpDdF2OYBk7hvT+TZFovCTi2Oi7X
+ bnSKLT+Fs9IMqg15FyIWz/K36BXcJEtbFZ2W2bEqPyL/nEs/BZWaB1H/Ee9uOK8=
+X-Gm-Gg: ASbGnctczZMKolT7XKae8sy72VPU34Wf+G5nNS/zfdAkqlI37heQ+zve8MVIRrG/A9d
+ zCgbKJQtEd+TciZmfLciDWmV8wD3EDAJ+IACKZXPaT65s9lev1YFUPZ9YP62H4l5eCMo5iX8KMF
+ 10ypAIwTd4Zc+0eLwlpatkb4CkwJYMJhbE71DxaTMOqdytKNlqlpDH1BehsbSOmn9LGiaKfB3Fm
+ qwzy2MTwfb5M9+DqFVvR/MTT+crcC2LJ8hogow/EmH9LO63VyY+YCaUeaiJ8YM2YrOMWBJ829JT
+ iV+OwjX4Xj/yqJf9J10xdwVebixewHrgsKOF
+X-Google-Smtp-Source: AGHT+IF35Qn0v9SRDK1fTSpGFNEC2eNTW/0l9pru1MmKVrUdfP4sXGIPiEDLn5BpGB8GYjkaJSJaaQ==
+X-Received: by 2002:a05:6512:3193:b0:540:353a:5b13 with SMTP id
+ 2adb3069b0e04-541e674d6e6mr1018964e87.22.1734520491990; 
+ Wed, 18 Dec 2024 03:14:51 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-303440452a8sm15586311fa.40.2024.12.18.03.12.42
+ 2adb3069b0e04-54120bffc8csm1414480e87.146.2024.12.18.03.14.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2024 03:12:42 -0800 (PST)
-Date: Wed, 18 Dec 2024 13:12:41 +0200
+ Wed, 18 Dec 2024 03:14:51 -0800 (PST)
+Date: Wed, 18 Dec 2024 13:14:50 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Ekansh Gupta <quic_ekangupt@quicinc.com>
 Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
@@ -69,14 +69,14 @@ Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
  quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
  stable <stable@kernel.org>
-Subject: Re: [PATCH v1 1/2] misc: fastrpc: Fix registered buffer page address
-Message-ID: <rhy3yvsnhdud45mesempnwyv5faxfkbj2ba76k6dbm7krwl77y@mnpi5jzykjg3>
+Subject: Re: [PATCH v1 2/2] misc: fastrpc: Fix copy buffer page size
+Message-ID: <f47spqrlkrwotgt3ibu6rn6bt4lfkrblh37yubrvsbeo6j7svl@44amfzlpor62>
 References: <20241218102429.2026460-1-quic_ekangupt@quicinc.com>
- <20241218102429.2026460-2-quic_ekangupt@quicinc.com>
+ <20241218102429.2026460-3-quic_ekangupt@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241218102429.2026460-2-quic_ekangupt@quicinc.com>
+In-Reply-To: <20241218102429.2026460-3-quic_ekangupt@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,42 +92,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 18, 2024 at 03:54:28PM +0530, Ekansh Gupta wrote:
-> For registered  buffers, fastrpc driver sends the buffer information
-> to remote subsystem. There is a problem with current implementation
-> where the page address is being sent with an offset leading to
-> improper buffer address on DSP. This is leads to functional failures
-> as DSP expects base address in page information and extracts offset
-> information from remote arguments. Mask the offset and pass the base
-> page address to DSP.
+On Wed, Dec 18, 2024 at 03:54:29PM +0530, Ekansh Gupta wrote:
+> For non-registered buffer, fastrpc driver copies the buffer and
+> pass it to the remote subsystem. There is a problem with current
+> implementation of page size calculation which is not considering
+> the offset in the calculation. This might lead to passing of
+> improper and out-of-bounds page size which could result in
+> memory issue. Calculate page start and page end using the offset
+> adjusted address instead of absolute address.
+
+Which offset?
+
 > 
-> Fixes: 80f3afd72bd4 ("misc: fastrpc: consider address offset before sending to DSP")
-
-This was committed in 2019. Are you saying that the driver has been
-broken since that time? If so, what is the impact? Because I've
-definitely been running fastrpc workload after that moment.
-
-Also, is there any reason for neglecting checkpatch warning?
-
+> Fixes: 02b45b47fbe8 ("misc: fastrpc: fix remote page size calculation")
 > Cc: stable <stable@kernel.org>
 > Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
 > ---
->  drivers/misc/fastrpc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/misc/fastrpc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 48d08eeb2d20..cfa1546c9e3f 100644
+> index cfa1546c9e3f..00154c888c45 100644
 > --- a/drivers/misc/fastrpc.c
 > +++ b/drivers/misc/fastrpc.c
-> @@ -992,7 +992,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
->  			mmap_read_lock(current->mm);
->  			vma = find_vma(current->mm, ctx->args[i].ptr);
->  			if (vma)
-> -				pages[i].addr += ctx->args[i].ptr -
-> +				pages[i].addr += (ctx->args[i].ptr & PAGE_MASK) -
->  						 vma->vm_start;
->  			mmap_read_unlock(current->mm);
+> @@ -1019,8 +1019,8 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+>  					(pkt_size - rlen);
+>  			pages[i].addr = pages[i].addr &	PAGE_MASK;
 >  
+> -			pg_start = (args & PAGE_MASK) >> PAGE_SHIFT;
+> -			pg_end = ((args + len - 1) & PAGE_MASK) >> PAGE_SHIFT;
+> +			pg_start = (rpra[i].buf.pv & PAGE_MASK) >> PAGE_SHIFT;
+> +			pg_end = ((rpra[i].buf.pv + len - 1) & PAGE_MASK) >> PAGE_SHIFT;
+>  			pages[i].size = (pg_end - pg_start + 1) * PAGE_SIZE;
+>  			args = args + mlen;
+>  			rlen -= mlen;
 > -- 
 > 2.34.1
 > 
