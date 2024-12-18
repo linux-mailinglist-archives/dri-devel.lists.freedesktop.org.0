@@ -2,100 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EC19F6641
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 13:56:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B719F6636
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 13:51:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5327010E1C5;
-	Wed, 18 Dec 2024 12:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A47D10E315;
+	Wed, 18 Dec 2024 12:51:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="R2IMnZh0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ev71BIAn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890AB10E1C5;
- Wed, 18 Dec 2024 12:56:13 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BI5D5hK014164;
- Wed, 18 Dec 2024 12:56:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5EFi+D8L1sliDzm+pZs/Y3qUJhXMvOXHIkiSpJAY964=; b=R2IMnZh0orlzs4SL
- eW0O4wZHHWPWVDijHIoLvsYcMV2tLz8i+62up42gexTgKbj+K1RUlKSu+6vydKgJ
- caMaBIamhC4QeJVyKSMhIgPUgQuFMUNlwOFvE+syE72WUCb/OaXv2m3jxr97oaOu
- wu4KzAsAsVrU7CDyDOXFKl0Xk2i1rmoold72Lipioy14pEJ4Xbvh5P0nil6iJJGu
- AnQxNpjvfjyn7L/w/TdlO9cOzG1fvM5wc1N+OZD3c/zLmmA8v45UKo/aHHSWmICd
- 42VA1nU/fFZ9/VGrfbyuAauYW5X+DxMyZQ7kTYMebu0nL1zzpOWSes1o2q+Nzd4H
- RKxq4Q==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43kr1xs4jd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Dec 2024 12:56:05 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
- [10.45.79.139])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BICu438019784
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Dec 2024 12:56:04 GMT
-Received: from [10.64.16.135] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 18 Dec
- 2024 04:55:57 -0800
-Message-ID: <df1a4457-129e-452c-8089-ee1e6f9a3e12@quicinc.com>
-Date: Wed, 18 Dec 2024 20:55:54 +0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 520AA10E1C5;
+ Wed, 18 Dec 2024 12:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734526301; x=1766062301;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9HQXochbOO8bhM+YUVYwc7dQOS72+c1SHopORFBCcWA=;
+ b=ev71BIAnbWq22Kec8G1lWUB6uFx53hkIxEahPEDDU1U0i9leS57Hp0qp
+ HdhGhpo7NygFcNCNZ/pZ8KKzq6G7h+mYSSgxqFyl6UdzLK10a1tk5iz1x
+ BEKOMnfKZI+b0v+QVxpqt7g7IMgtibfLnIJWIRiMla69N9mwRwCRf4xVh
+ sAL8ZD4I8ZDllvh121eC62CVqKvjdf4KV6fndEuhluo2XPUAxNmTIKLbO
+ YDpoeXvnFYaeaIRMjAqG89OFCUGLRkXzS8xGn/rgAIzzyu0jEknD9pX7K
+ aI++ZO2/aR/5M4WkxszIvT4obBsxPIMsM/5xZ453lJuj6/+clyq0/ILO2 Q==;
+X-CSE-ConnectionGUID: 1KZp+m1aQhSxGNYV7XtcIw==
+X-CSE-MsgGUID: ndNDG0XJT0m6UJ4SBCk42w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45597860"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="45597860"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 04:51:41 -0800
+X-CSE-ConnectionGUID: 1s4eMU+7T32NOOBOePkHrA==
+X-CSE-MsgGUID: PY2peh7ZTqSZm3w66/EwPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="102846020"
+Received: from tejas-super-server.iind.intel.com ([10.145.169.166])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 04:51:39 -0800
+From: Tejas Upadhyay <tejas.upadhyay@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, christian.koenig@amd.com,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Michal Mrozek <michal.mrozek@intel.com>
+Subject: [PATCH V6] drm/xe/mmap: Add mmap support for PCI memory barrier
+Date: Wed, 18 Dec 2024 18:26:28 +0530
+Message-Id: <20241218125628.2270030-1-tejas.upadhyay@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] phy: qcom: qmp-usbc: Add DP phy mode support on QCS615
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, "Kuogee
- Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
- Vijay Abraham I" <kishon@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, <quic_lliu6@quicinc.com>,
- <quic_fangez@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>
-References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
- <20241129-add-displayport-support-for-qcs615-platform-v1-3-09a4338d93ef@quicinc.com>
- <CAA8EJppOR_UXoVpMt-dhfWdCz3UNfsXGdz8X9NqpaSmYj3AZDg@mail.gmail.com>
- <5ea14162-567b-462d-be02-b73b954b7507@quicinc.com>
- <5whv4z7u6fkfwlv5muox5dmv6fow4mga76ammapw7wph7vwv3f@xibcjdfqorgf>
- <iqcofcntirmlwcpyfr4yabymqfcgyrij57bibf337tmxpa73t6@npkt6wquenf6>
- <527baded-f348-48a8-81cd-3f84c0ff1077@quicinc.com>
- <t5vcjlf44fhae4f2h75cfs3f7r6tdstw4ysmkapvvawj6xp23x@xnxqnxvyhshe>
- <d5151b82-5f05-4826-99b4-e925c20550b4@quicinc.com>
- <7vdaasc3flhpabnorjty5qjorlbp22honuscgpbteakgagg2tq@frqa6flk2mmv>
-From: Xiangxu Yin <quic_xiangxuy@quicinc.com>
-In-Reply-To: <7vdaasc3flhpabnorjty5qjorlbp22honuscgpbteakgagg2tq@frqa6flk2mmv>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: -kPUvlmlGHd-fDfNQ53Dseg79wQrHHl1
-X-Proofpoint-ORIG-GUID: -kPUvlmlGHd-fDfNQ53Dseg79wQrHHl1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 spamscore=0 mlxscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412180103
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,140 +68,275 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In order to avoid having userspace to use MI_MEM_FENCE,
+we are adding a mechanism for userspace to generate a
+PCI memory barrier with low overhead (avoiding IOCTL call
+as well as writing to VRAM will adds some overhead).
 
+This is implemented by memory-mapping a page as uncached
+that is backed by MMIO on the dGPU and thus allowing userspace
+to do memory write to the page without invoking an IOCTL.
+We are selecting the MMIO so that it is not accessible from
+the PCI bus so that the MMIO writes themselves are ignored,
+but the PCI memory barrier will still take action as the MMIO
+filtering will happen after the memory barrier effect.
 
-On 12/12/2024 3:15 AM, Dmitry Baryshkov wrote:
-> On Wed, Dec 11, 2024 at 08:50:02PM +0800, Xiangxu Yin wrote:
->>
->>
->> On 12/11/2024 5:46 PM, Dmitry Baryshkov wrote:
->>> On Wed, Dec 11, 2024 at 08:46:16AM +0800, Xiangxu Yin wrote:
->>>>
->>>>
->>>> On 12/10/2024 11:09 PM, Dmitry Baryshkov wrote:
->>>>> On Thu, Dec 05, 2024 at 08:31:24PM +0200, Dmitry Baryshkov wrote:
->>>>>> On Thu, Dec 05, 2024 at 09:26:47PM +0800, Xiangxu Yin wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 11/29/2024 10:33 PM, Dmitry Baryshkov wrote:
->>>>>>>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
->>>>>>>>>
->>>>>>>>> Extended DP support for QCS615 USB or DP phy. Differentiated between
->>>>>>>>> USBC and DP PHY using the match table’s type, dynamically generating
->>>>>>>>> different types of cfg and layout attributes during initialization based
->>>>>>>>> on this type. Static variables are stored in cfg, while parsed values
->>>>>>>>> are organized into the layout structure.
->>>>>>>>
->>>>>>>> We didn't have an understanding / conclusion whether
->>>>>>>> qcom,usb-ssphy-qmp-usb3-or-dp PHYs are actually a single device / PHY
->>>>>>>> or two PHYs being placed next to each other. Could you please start
->>>>>>>> your commit message by explaining it? Or even better, make that a part
->>>>>>>> of the cover letter for a new series touching just the USBC PHY
->>>>>>>> driver. DP changes don't have anything in common with the PHY changes,
->>>>>>>> so you can split the series into two.
->>>>>>>>
->>>>>>> Before implement DP extension, we have discussed with abhinav and krishna about whether use combo, usbc or separate phy.
->>>>>>
->>>>>> What is "DP extension"?
->>>>>>
->>>> I'm sorry confusion casued by my description. It's means extend DP implemnt for USBC phy driver.
->>>>>>>
->>>>>>> We identified that DP and USB share some common controls for phy_mode and orientation.
->>>>>>> Specifically, 'TCSR_USB3_0_DP_PHYMODE' controls who must use the lanes - USB or DP,
->>>>>>> while PERIPH_SS_USB0_USB3PHY_PCS_MISC_TYPEC_CTRL controls the orientation.
->>>>>>> It would be more efficient for a single driver to manage these controls. 
->>>>>>
->>>>>> The question is about the hardware, not about the driver.
->>>>>>
->>>>>>> Additionally, this PHY does not support Alt Mode, and the two control registers are located in separate address spaces. 
->>>>>>> Therefore, even though the orientation for DP on this platform is always normal and connected to the video output board, 
->>>>>>> we still decided to base it on the USBC extension.
->>>>>>
->>>>>> Could you please clarify, do usb3-or-dp PHYs support DP-over-USB-C? I
->>>>>> thought that usbc-or-dp platforms support that, but they don't
->>>>>> support DP+USB pin configuration. Note, the question is broader than
->>>>>> just QCS615, it covers the PHY type itself.
->>>>>>
->>>>>> Also, is TCSR configuration read/write or read-only? Are we supposed to
->>>>>> set the register from OS or are we supposed to read it and thus detemine
->>>>>> the PHY mode?
->>>>>
->>>>> Any updates on these two topics?
->>>>>
->>>> Still confirming detail info with HW & design team.
->>>> I’ll update the information that has been confirmed so far.
->>>> This phy support DP-over-USB-C,but it's not support alt-mode which 2 lane work for DP, other 2 lane work for USB.
->>>> TCSR phy mode is read/write reg and we can read for determine phy mode.
->>>
->>> Ok, thanks for the explanation. From my point of view:
->>>
->>> - Implement the DP PHY to be a part of the same driver. Each device
->>>   supported by the usbc driver should get both PHYs.
->>>
->>> - Make sure not to break the ABI: #phy-cells = <0> should still work and
->>>   return USB PHY, keeping backwards compatibility. Newer devices or
->>>   upgraded DT for old devices should return USB PHY for <... 0> and DP
->>>   PHY for <... 1>.
->>>
->> Yes, currently we have implemented like your description,
->> Each deivce shoud get both PHYs, DP PHY for <... 1> and USB PHY for <... 0>.
-> 
-> Please note the backwards compatibility clause.
-> 
-For the USB node, we kept the same implementation as the original function interface, and the devicetree node definition also remains unchanged.
-In subsequent patches, I will follow Krzysztof’s suggestion to use a separate DT-binding to describe the DP PHY configuration, 
-without making changes to the USB devicetree and DT-binding implementation.
->>> - I'm not shure how to handle the USB and DP coexistence, especially in
->>>   your case of the USB-or-DP PHY.
->>>
->> For coexistence process:
->>
->> When we start implement DP part, usb driver team said only need config TCSR phy mode and orientation during switch in USB-C port.
->> Based on your previous comments avout SW_PWRDN, I'm confirming with the USB team whether SW_REST/SWPWRDN/START_CTRL registers might affect DP.
-> 
-> Thanks!
-> 
->> Anyway, even though the original SoC design supports DP or USB over Type-C，
->> but on QCS615 ADP AIR platform, there are only four USB-A port which works with 'qcs615-qmp-usb3-phy' driver, and no USB-C port.
->> DP port is mappped from usb pin to the video out sub-board.
->> so we are unable to verify the switching case between DP and USB devices under USB-C.
-> 
-> That's also fine. We will get to that point once MSM8998 / SDM660
-> get USB-C support (the only current blocker is the support for the
-> TYPEC block of the PMI8998).
-> 
-I can't access MSM8998 / SDM660 documents now, but I have confirmed detail info about USB & DP phy design for sm6150.
+When we detect special defined offset in mmap(), We are mapping
+4K page which contains the last of page of doorbell MMIO range
+to userspace for same purpose.
 
-The 'usb-ssphy-qmp-usb3-or-dp PHY' on the current platform is essentially composed of three sub-PHYs, 
-which can even be considered as three separate PHYs: USB3 primary PHY, USB3 secondary PHY, and USB3 DP PHY.
+For user to query special offset we are adding special flag in
+mmap_offset ioctl which needs to be passed as follows,
+struct drm_xe_gem_mmap_offset mmo = {
+        .handle = 0, /* this must be 0 */
+        .flags = DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER,
+};
+igt_ioctl(fd, DRM_IOCTL_XE_GEM_MMAP_OFFSET, &mmo);
+map = mmap(NULL, size, PROT_WRITE, MAP_SHARED, fd, mmo);
 
-On the QCS615, the USB primary PHY is currently used to handle USB 3.0 communication for the previously mentioned four USB Type-A ports, 
-while the USB3 secondary PHY and USB3 DP PHY are used for the output of the Type-C port,
-but since the Type-C port is forcibly pin-to-pin configured to the video out board, the Type-C port will always configure as DP PHY.
+Note: Test coverage for this is added by IGT
+      https://patchwork.freedesktop.org/series/140368/  here.
+      UMD implementing test, once PR is ready will attach with
+      this patch.
 
-The internal registers of these three PHYs are independent of each other, Neither their respective SWPWR_DN nor SWRST will affect the other two PHYs.
-Additionally, there was a misunderstanding about the orientation previously.
-The USB orientation setting only affects the current PHY and does not impact the DP PHY. The DP PHY is configured in the DP_PHY_CFG_1.
+V6(MAuld)
+  - Move physical mmap to fault handler
+  - Modify kernel-doc and attach UMD PR when ready
+V5(MAuld)
+  - Return invalid early in case of non 4K PAGE_SIZE
+  - Format kernel-doc and add note for 4K PAGE_SIZE HW limit
+V4(MAuld)
+  - Add kernel-doc for uapi change
+  - Restrict page size to 4K
+V3(MAuld)
+  - Remove offset defination from UAPI to be able to change later
+  - Edit commit message for special flag addition
+V2(MAuld)
+  - Add fault handler with dummy page to handle unplug device
+  - Add Build check for special offset to be below normal start page
+  - Test d3hot, mapping seems to be valid in d3hot as well
+  - Add more info to commit message
 
-TSCR_PHY_MODE can specify which PHY outputs to the Type-C port, and the global reset will simultaneously reset the two associated PHYs. 
-Therefore, the correct switching process is as follows.
-When switching the inserted device:
-	1.Identify the PHY type.
-	2.Enable the regulator.
-	3.Trigger a reset.
-	4.Enable the clock.
-	5.Configure PHY type related orientation
-	6.switch the TCSR PHY mode.
-	7.Configure the registers of PHY.
-During release:
-	1.Reset.
-	2.Disable the clock.
-	3.Disable the regulator.
+Test-with: 20241118113606.1490397-1-tejas.upadhyay@intel.com
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
+---
+ drivers/gpu/drm/xe/xe_bo.c     |  16 ++++-
+ drivers/gpu/drm/xe/xe_bo.h     |   2 +
+ drivers/gpu/drm/xe/xe_device.c | 103 ++++++++++++++++++++++++++++++++-
+ include/uapi/drm/xe_drm.h      |  29 +++++++++-
+ 4 files changed, 147 insertions(+), 3 deletions(-)
 
-Our current design overall complies with this process, but it lacks the configuration for DP_PHY_CFG_1.
-
-Shall we continue the discussion to clarify remain comments of the USBC driver?
-
->> However, I'm also confirming whether anything other will affect USB and DP each other.
-> 
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index e6c896ad5602..86f2c00a0afd 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -2263,9 +2263,23 @@ int xe_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+ 	    XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
+ 		return -EINVAL;
+ 
+-	if (XE_IOCTL_DBG(xe, args->flags))
++	if (XE_IOCTL_DBG(xe, args->flags &
++			 ~DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER))
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER) {
++		if (XE_IOCTL_DBG(xe, args->handle))
++			return -EINVAL;
++
++		if (XE_IOCTL_DBG(xe, PAGE_SIZE > SZ_4K))
++			return -EINVAL;
++
++		BUILD_BUG_ON(((XE_PCI_BARRIER_MMAP_OFFSET >> XE_PTE_SHIFT) +
++			      SZ_4K) >= DRM_FILE_PAGE_OFFSET_START);
++		args->offset = XE_PCI_BARRIER_MMAP_OFFSET;
++		return 0;
++	}
++
+ 	gem_obj = drm_gem_object_lookup(file, args->handle);
+ 	if (XE_IOCTL_DBG(xe, !gem_obj))
+ 		return -ENOENT;
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index d9386ab03140..04995c5ced32 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -75,6 +75,8 @@
+ 
+ #define XE_BO_PROPS_INVALID	(-1)
+ 
++#define XE_PCI_BARRIER_MMAP_OFFSET	(0x50 << XE_PTE_SHIFT)
++
+ struct sg_table;
+ 
+ struct xe_bo *xe_bo_alloc(void);
+diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+index 7f021ec5f8e7..bacfeec9dc0b 100644
+--- a/drivers/gpu/drm/xe/xe_device.c
++++ b/drivers/gpu/drm/xe/xe_device.c
+@@ -232,12 +232,113 @@ static long xe_drm_compat_ioctl(struct file *file, unsigned int cmd, unsigned lo
+ #define xe_drm_compat_ioctl NULL
+ #endif
+ 
++static void barrier_open(struct vm_area_struct *vma)
++{
++	drm_dev_get(vma->vm_private_data);
++}
++
++static void barrier_close(struct vm_area_struct *vma)
++{
++	drm_dev_put(vma->vm_private_data);
++}
++
++static void barrier_release_dummy_page(struct drm_device *dev, void *res)
++{
++	struct page *dummy_page = (struct page *)res;
++
++	__free_page(dummy_page);
++}
++
++static vm_fault_t barrier_fault(struct vm_fault *vmf)
++{
++	struct drm_device *dev = vmf->vma->vm_private_data;
++	struct vm_area_struct *vma = vmf->vma;
++	vm_fault_t ret = VM_FAULT_NOPAGE;
++	pgprot_t prot;
++	int idx;
++
++	prot = vm_get_page_prot(vma->vm_flags);
++
++	if (drm_dev_enter(dev, &idx)) {
++		unsigned long pfn;
++
++#define LAST_DB_PAGE_OFFSET 0x7ff001
++		pfn = PHYS_PFN(pci_resource_start(to_pci_dev(dev->dev), 0) +
++				LAST_DB_PAGE_OFFSET);
++		ret = vmf_insert_pfn_prot(vma, vma->vm_start, pfn,
++					  pgprot_noncached(prot));
++		drm_dev_exit(idx);
++	} else {
++		struct page *page;
++
++		/* Allocate new dummy page to map all the VA range in this VMA to it*/
++		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
++		if (!page)
++			return VM_FAULT_OOM;
++
++		/* Set the page to be freed using drmm release action */
++		if (drmm_add_action_or_reset(dev, barrier_release_dummy_page, page))
++			return VM_FAULT_OOM;
++
++		ret = vmf_insert_pfn_prot(vma, vma->vm_start, page_to_pfn(page),
++					  prot);
++	}
++
++	return ret;
++}
++
++static const struct vm_operations_struct vm_ops_barrier = {
++	.open = barrier_open,
++	.close = barrier_close,
++	.fault = barrier_fault,
++};
++
++static int xe_pci_barrier_mmap(struct file *filp,
++			       struct vm_area_struct *vma)
++{
++	struct drm_file *priv = filp->private_data;
++	struct drm_device *dev = priv->minor->dev;
++
++	if (vma->vm_end - vma->vm_start > SZ_4K)
++		return -EINVAL;
++
++	if (is_cow_mapping(vma->vm_flags))
++		return -EINVAL;
++
++	if (vma->vm_flags & (VM_READ | VM_EXEC))
++		return -EINVAL;
++
++	vm_flags_clear(vma, VM_MAYREAD | VM_MAYEXEC);
++	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP | VM_IO);
++	vma->vm_ops = &vm_ops_barrier;
++	vma->vm_private_data = dev;
++	drm_dev_get(vma->vm_private_data);
++
++	return 0;
++}
++
++static int xe_mmap(struct file *filp, struct vm_area_struct *vma)
++{
++	struct drm_file *priv = filp->private_data;
++	struct drm_device *dev = priv->minor->dev;
++
++	if (drm_dev_is_unplugged(dev))
++		return -ENODEV;
++
++	switch (vma->vm_pgoff) {
++	case XE_PCI_BARRIER_MMAP_OFFSET >> XE_PTE_SHIFT:
++		return xe_pci_barrier_mmap(filp, vma);
++	}
++
++	return drm_gem_mmap(filp, vma);
++}
++
+ static const struct file_operations xe_driver_fops = {
+ 	.owner = THIS_MODULE,
+ 	.open = drm_open,
+ 	.release = drm_release_noglobal,
+ 	.unlocked_ioctl = xe_drm_ioctl,
+-	.mmap = drm_gem_mmap,
++	.mmap = xe_mmap,
+ 	.poll = drm_poll,
+ 	.read = drm_read,
+ 	.compat_ioctl = xe_drm_compat_ioctl,
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index f62689ca861a..cac607a30f6d 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -811,6 +811,32 @@ struct drm_xe_gem_create {
+ 
+ /**
+  * struct drm_xe_gem_mmap_offset - Input of &DRM_IOCTL_XE_GEM_MMAP_OFFSET
++ *
++ * The @flags can be:
++ *  - %DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER - For user to query special offset
++ *  for use in mmap ioctl. Writing to the returned mmap address will generate a
++ *  PCI memory barrier with low overhead (avoiding IOCTL call as well as writing
++ *  to VRAM which would also add overhead), acting like an MI_MEM_FENCE
++ *  instruction.
++ *
++ *  Note: The mmap size can be at most 4K, due to HW limitations. As a result
++ *  this interface is only supported on CPU architectures that support 4K page
++ *  size. The mmap_offset ioctl will detect this and gracefully return an
++ *  error, where userspace is expected to have a different fallback method for
++ *  triggering a barrier.
++ *
++ *  Roughly the usage would be as follows:
++ *
++ *  .. code-block:: C
++ *
++ *  struct drm_xe_gem_mmap_offset mmo = {
++ *	.handle = 0, // must be set to 0
++ *	.flags = DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER,
++ *  };
++ *
++ *  err = ioctl(fd, DRM_IOCTL_XE_GEM_MMAP_OFFSET, &mmo);
++ *  map = mmap(NULL, size, PROT_WRITE, MAP_SHARED, fd, mmo.offset);
++ *  map[i] = 0xdeadbeaf; // issue barrier
+  */
+ struct drm_xe_gem_mmap_offset {
+ 	/** @extensions: Pointer to the first extension struct, if any */
+@@ -819,7 +845,8 @@ struct drm_xe_gem_mmap_offset {
+ 	/** @handle: Handle for the object being mapped. */
+ 	__u32 handle;
+ 
+-	/** @flags: Must be zero */
++#define DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER     (1 << 0)
++	/** @flags: Flags */
+ 	__u32 flags;
+ 
+ 	/** @offset: The fake offset to use for subsequent mmap call */
+-- 
+2.34.1
 
