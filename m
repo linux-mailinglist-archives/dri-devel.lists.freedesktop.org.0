@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F1D9F5C7E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 02:59:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790A99F5C86
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 03:01:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F31CB10E484;
-	Wed, 18 Dec 2024 01:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BC4310E41B;
+	Wed, 18 Dec 2024 02:01:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="g/C4WVSU";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="opR4lpxn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.treblig.org (mx.treblig.org [IPv6:2a00:1098:5b::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7817810E484
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 01:59:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 365E410E41B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 02:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
  ; s=bytemarkmx;
  h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
- :Subject; bh=fvWjV+WoCvCiUYH1QrxuKTN+iR1HO0UZuMqDsRyqOqw=; b=g/C4WVSUvDeIq7GW
- w7cysvSH60gmvv+5KYRAzatIkkHzvqaUF5zREVdCB84OlYw1lKSRBlIaWK74DSotn8/0kCNNuP8cc
- GThBcrYgZRf8v7BDHEQ0NiHYazHtDjqTtn4ckwqCc8rW34NzVXuJuL/hckWDLmKE9soDygakcGscP
- 3sFdWp6B5g80DqhhJTMkxPCWdT6X41tKUj0zmrWJ+4DAZ2YJJkaSdTYqXsyRnnQvlwpbdobC+NN0F
- lwLsKEYqvW92lW5yNsAPE8HqsGiJybz1WS68rSa69eLjcEDAymgeubZGFe7/nRYalpRdEE2O5YQdh
- sv7IHIj4ctn/Zyi8og==;
+ :Subject; bh=Qh0nWV41X9SryCodaXXT0A6zUdLXy8TkuLue1NyLu8w=; b=opR4lpxnI5RG5RTd
+ 087i1mpbbAzJh/MvjVCIrzuaPgorloDdpemzBc33M+1361Zvv4GBqkd+gnQ6zjfBNS6z+D/erqriW
+ lxOvRjmgvTkxVdEmcla4VKHdxnl1qQ7QlojY9nGCHHjNVZ2eRolWFOTrA26BKiIyhLIk/AAfngW3y
+ WK8fOybMTiIxpjRmHZ1vVOB42PeEx88aYJpwnghwhPy7p42eP31mExDkFV2pNaKBcQCpoSiti1bUu
+ T4WPd/4xQGinSLoNyy8671ddMgj3tRu8i0JBEojJAYzEsoIInQZP4+Rx3BfOiTLBW1mYxi223JWUX
+ OzYSJdDfxE6I3o7rEQ==;
 Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
  by mx.treblig.org with esmtp (Exim 4.96)
- (envelope-from <linux@treblig.org>) id 1tNjLe-0060Ro-17;
- Wed, 18 Dec 2024 01:59:38 +0000
+ (envelope-from <linux@treblig.org>) id 1tNjNN-0060St-1q;
+ Wed, 18 Dec 2024 02:01:25 +0000
 From: linux@treblig.org
-To: deller@gmx.de,
-	linux-omap@vger.kernel.org
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, "Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] fbdev: omapfb: Remove unused hdmi5_core_handle_irqs
-Date: Wed, 18 Dec 2024 01:59:37 +0000
-Message-ID: <20241218015937.278817-1-linux@treblig.org>
+To: tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] drm/omap: Remove hdmi5_core_handle_irqs()
+Date: Wed, 18 Dec 2024 02:01:24 +0000
+Message-ID: <20241218020124.278925-1-linux@treblig.org>
 X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -56,22 +56,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-hdmi5_core_handle_irqs() has been unused since
-commit f5bab2229190 ("OMAPDSS: HDMI: Add OMAP5 HDMI support")
+hdmi5_core_handle_irqs() is a function that was copied from omapdss by
+commit f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
+
+but it wasn't used in the original anyway.
 
 Remove it.
 
 Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- .../video/fbdev/omap2/omapfb/dss/hdmi5_core.c   | 17 -----------------
- .../video/fbdev/omap2/omapfb/dss/hdmi5_core.h   |  1 -
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.c | 17 -----------------
+ drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  1 -
  2 files changed, 18 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
-index b33f62c5cb22..bb7fe54dd019 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
-@@ -567,23 +567,6 @@ static void hdmi_core_enable_interrupts(struct hdmi_core_data *core)
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+index 21564c38234f..12ef47cd232b 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+@@ -545,23 +545,6 @@ static void hdmi_core_enable_interrupts(struct hdmi_core_data *core)
  	REG_FLD_MOD(core->base, HDMI_CORE_IH_MUTE, 0x0, 1, 0);
  }
  
@@ -95,13 +97,13 @@ index b33f62c5cb22..bb7fe54dd019 100644
  void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
  		struct hdmi_config *cfg)
  {
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h
-index 192c9b6e2f7b..493857374a15 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h
-@@ -283,7 +283,6 @@ struct csc_table {
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+index 070cbf5fb57d..b8ed21156e8c 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+@@ -286,7 +286,6 @@ int hdmi5_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len);
+ void hdmi5_core_ddc_uninit(struct hdmi_core_data *core);
  
- int hdmi5_read_edid(struct hdmi_core_data *core, u8 *edid, int len);
  void hdmi5_core_dump(struct hdmi_core_data *core, struct seq_file *s);
 -int hdmi5_core_handle_irqs(struct hdmi_core_data *core);
  void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
