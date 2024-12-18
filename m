@@ -2,117 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59E09F627A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E08E9F6280
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:15:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41B4E10E91E;
-	Wed, 18 Dec 2024 10:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFA510EB42;
+	Wed, 18 Dec 2024 10:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wkbDWcLy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Fd8m+opN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD0510E91E
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 10:14:45 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id
- ffacd0b85a97d-3862ca8e0bbso5279190f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 02:14:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734516884; x=1735121684; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=pP8Ga7mE2+pnxKoG6TAWzyjb7hUhPfz5H4HvWCT0CdA=;
- b=wkbDWcLy/C95SU6wC42NdMnf5XR9gmFLEWq4/gS5saoM6vGZONnvkux4Wa4niTFNap
- A4TTHN8E9wy7gT4heSx44O3afAZ1iBnGyPM9x6sHmqpLMxykk9LX6pwYzoi9/n3Kcxiw
- A0kobDTMKDqtiSPPKbyOk9KwSmAb39jbk40XuvM62gQV26hjLOGNwvCZlmIZTDlBLCjb
- R/dyhvL1T8gm6G7kvDrOSFIlcCSbnJvMbspaW/L4SmAytUrAfRO7Ker8qWI3O827dkcY
- p3vPeB0nuvanzOtvNJu7WO+1iD9SSlXrOZzg0HGZIcN1jlq+M0J7URgG7mZlntFQX3oe
- z7QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734516884; x=1735121684;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=pP8Ga7mE2+pnxKoG6TAWzyjb7hUhPfz5H4HvWCT0CdA=;
- b=XlmpQVpah+j06oH219+xTBbmnb7ibs0sVk2++DSlxersJZ13jrnHDda0NVfkx6r7HV
- Z3G6sDGtosXBb0hFkcSI0a1jWeEZQW6YoOMK1xFLzvXg46sJfjBoWEoGSLCUkVsUeNKi
- g8uq/1z8a9SYLRB5VNb/RwWxVZOgzckmJOXriyOZ0eX34gTkiBsUwwC0fl1eMQYFgLnb
- mW3mXIVhs2ASJiuUbd/URiJqAIKx7igWMMhFOFuGKTcGtaL0X9I9S9itiqNodFDKWI2I
- aRSvoZgkQPog4BM1TodHcLwWs7Q7gUyVtmE9oKDq2s02UoS6+gdZIUk802CcocTiOe1c
- keGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW2C9wW6G/Uvc8khZ99MifFVZszLFd/geFpggWaw/hQhhj+4bG6R5MFRtNv9BVam0t/9KAaXgWNSDc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz77Y4V7WBnQUlgMGa0HaSSjd4QRrI2dTIAQQZlavnMkfzaXJ5Z
- HB7Xjt2dEdHQqshZTrv3RyHEK18BuOJ+04Vx1XQjRo5ZOgDF2qG5cWc3k33EDsI=
-X-Gm-Gg: ASbGncsld0mSKivmrj6U676ksZp+l2wO07fyBauKHpjyXGkSiKS+ito9Qrv2a0TqQR7
- 0/KcDHirdWheRPK9+bBSPDkILvkfw+YPc7+bUn7RKxFC+OBiphu8GQd/gha3ptXPieBa7g5fhu9
- ImVdZosK+RrkaXr6ERw04mxJndc0S0QYX1Jz3DbKF/hgMELTx7VkzVqlJzvsLWQI5Vs0IS/pSXJ
- 4BZyVAOLk6c6e7hb0MCQUhiq6KULy7VYvw4iJOr4wzqO0lC3yWzq1p1Bqp5iYI2JA+zvV/giGkS
- C/N64YRSaUz2zUL6hAw5T+X/yYWlqE4=
-X-Google-Smtp-Source: AGHT+IG085+Ib0G6qfwB057TYlTktE1vEADdk4wuAgkthQ5MdEhBToOH7qND/4ihOVTaEBN04YpGew==
-X-Received: by 2002:a05:6000:1a86:b0:385:ee3f:5cbf with SMTP id
- ffacd0b85a97d-388e4d84651mr2137485f8f.20.1734516884262; 
- Wed, 18 Dec 2024 02:14:44 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:e596:468d:657e:c30?
- ([2a01:e0a:982:cbb0:e596:468d:657e:c30])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-388c8046ca6sm13826738f8f.83.2024.12.18.02.14.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2024 02:14:43 -0800 (PST)
-Message-ID: <d5160e46-7f72-4a3b-ad31-f26c33d5f22a@linaro.org>
-Date: Wed, 18 Dec 2024 11:14:42 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54FA110EB40;
+ Wed, 18 Dec 2024 10:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734516923; x=1766052923;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=zPR6Vu+jyxEVGtaGlHA9wM84vimIooBOwK7FQRw4RSw=;
+ b=Fd8m+opNJzI5YXCO9x4EAW2XhU33XoWj3AW3pVppb2X8mzRkQE35tjr6
+ 3fxg5ZNmT4famZl2en65G7Daua2r94g29c5AJGmAoFAKMWARcRIQ7Cnwl
+ Y7rJLr8QXxsq9TQMgiqhaMoxCWvhXJtokFoaxzwYCz+V4G2MuzQJ2RzzF
+ Hkht7ENXXc0GSflmWqxHUGprB/RgJ0yPl6JVAZ/Gb6kl3KtXeojmKIF3J
+ Lw++yzLnDTFCb0/pwh2C557Hb50JbSIbWWaFpK8kCl8I5JuKXG5Ck7TAG
+ Q8thrYTO2mVEwc531Uj489BWOWLpgx+A6O5aZ9Afx2O5d68g0/g2pMLNa w==;
+X-CSE-ConnectionGUID: 9Wwqo1r1R86Z93scg4L5fA==
+X-CSE-MsgGUID: UVruB/YHTjyB1gEuiMyLTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="35134326"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="35134326"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 02:15:09 -0800
+X-CSE-ConnectionGUID: tUdJRlzoSlOglfpjDQt+WA==
+X-CSE-MsgGUID: PyEPSASdRNO//bvJNI5xQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="98232558"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.105])
+ ([10.245.246.105])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 02:15:06 -0800
+Message-ID: <f130c073fdc2338292010e5c737155d9ad696618.camel@linux.intel.com>
+Subject: Re: [PATCH v14 3/8] drm/ttm/pool: Provide a helper to shrink pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ intel-xe@lists.freedesktop.org
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>, Matthew Brost
+ <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, Paulo Zanoni
+ <paulo.r.zanoni@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Date: Wed, 18 Dec 2024 11:15:04 +0100
+In-Reply-To: <d1e33436-9c1c-43d4-a86a-956926a7096c@amd.com>
+References: <20241115150120.3280-1-thomas.hellstrom@linux.intel.com>
+ <20241115150120.3280-4-thomas.hellstrom@linux.intel.com>
+ <800ee040-7c2e-47d0-81e6-a352f5f689fb@amd.com>
+ <a07c93704bc7f59f51b5a6a13aeb3e13eee28e3c.camel@linux.intel.com>
+ <d1e33436-9c1c-43d4-a86a-956926a7096c@amd.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH RESEND] drm/bridge: ti-sn65dsi83: use dev_err_probe when
- failing to get panel bridge
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Herve Codina <herve.codina@bootlin.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Andi Shyti <andi.shyti@linux.intel.com>
-References: <20241217-ti-sn65dsi83-dev_err_probe-v1-1-3fdce386400c@bootlin.com>
- <20241217170635.2ba35c08@booty>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20241217170635.2ba35c08@booty>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,35 +74,342 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 2024-12-03 at 15:51 +0100, Christian K=C3=B6nig wrote:
+> Am 03.12.24 um 14:42 schrieb Thomas Hellstr=C3=B6m:
+> > On Tue, 2024-12-03 at 14:12 +0100, Christian K=C3=B6nig wrote:
+> > > Am 15.11.24 um 16:01 schrieb Thomas Hellstr=C3=B6m:
+> > > > Provide a helper to shrink ttm_tt page-vectors on a per-page
+> > > > basis. A ttm_backup backend could then in theory get away with
+> > > > allocating a single temporary page for each struct ttm_tt.
+> > > >=20
+> > > > This is accomplished by splitting larger pages before trying to
+> > > > back them up.
+> > > >=20
+> > > > In the future we could allow ttm_backup to handle backing up
+> > > > large pages as well, but currently there's no benefit in
+> > > > doing that, since the shmem backup backend would have to
+> > > > split those anyway to avoid allocating too much temporary
+> > > > memory, and if the backend instead inserts pages into the
+> > > > swap-cache, those are split on reclaim by the core.
+> > > >=20
+> > > > Due to potential backup- and recover errors, allow partially
+> > > > swapped
+> > > > out struct ttm_tt's, although mark them as swapped out stopping
+> > > > them
+> > > > from being swapped out a second time. More details in the
+> > > > ttm_pool.c
+> > > > DOC section.
+> > > >=20
+> > > > v2:
+> > > > - A couple of cleanups and error fixes in ttm_pool_back_up_tt.
+> > > > - s/back_up/backup/
+> > > > - Add a writeback parameter to the exported interface.
+> > > > v8:
+> > > > - Use a struct for flags for readability (Matt Brost)
+> > > > - Address misc other review comments (Matt Brost)
+> > > > v9:
+> > > > - Update the kerneldoc for the ttm_tt::backup field.
+> > > > v10:
+> > > > - Rebase.
+> > > > v13:
+> > > > - Rebase on ttm_backup interface change. Update kerneldoc.
+> > > > - Rebase and adjust ttm_tt_is_swapped().
+> > > >=20
+> > > > Cc: Christian K=C3=B6nig<christian.koenig@amd.com>
+> > > > Cc: Somalapuram Amaranath<Amaranath.Somalapuram@amd.com>
+> > > > Cc: Matthew Brost<matthew.brost@intel.com>
+> > > > Cc:<dri-devel@lists.freedesktop.org>
+> > > > Signed-off-by: Thomas
+> > > > Hellstr=C3=B6m<thomas.hellstrom@linux.intel.com>
+> > > > Reviewed-by: Matthew Brost<matthew.brost@intel.com>
+> > > > ---
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_pool.c | 396
+> > > > +++++++++++++++++++++++++++++++--
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/ttm/ttm_tt.c=C2=A0=C2=A0 |=C2=A0 37 ++=
++
+> > > > =C2=A0=C2=A0 include/drm/ttm/ttm_pool.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 6 +
+> > > > =C2=A0=C2=A0 include/drm/ttm/ttm_tt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 32 ++-
+> > > > =C2=A0=C2=A0 4 files changed, 457 insertions(+), 14 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > index 8504dbe19c1a..f58864439edb 100644
+> > > > --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> > > > @@ -41,6 +41,7 @@
+> > > > =C2=A0=C2=A0 #include <asm/set_memory.h>
+> > > > =C2=A0=C2=A0 #endif
+> > > > =C2=A0=C2=A0=20
+> > > > +#include <drm/ttm/ttm_backup.h>
+> > > > =C2=A0=C2=A0 #include <drm/ttm/ttm_pool.h>
+> > > > =C2=A0=C2=A0 #include <drm/ttm/ttm_tt.h>
+> > > > =C2=A0=C2=A0 #include <drm/ttm/ttm_bo.h>
+> > > > @@ -58,6 +59,32 @@ struct ttm_pool_dma {
+> > > > =C2=A0=C2=A0=C2=A0	unsigned long vaddr;
+> > > > =C2=A0=C2=A0 };
+> > > > =C2=A0=C2=A0=20
+> > > > +/**
+> > > > + * struct ttm_pool_tt_restore - State representing restore
+> > > > from
+> > > > backup
+> > > > + * @alloced_pages: Total number of already allocated pages for
+> > > > the
+> > > > ttm_tt.
+> > > > + * @restored_pages: Number of (sub) pages restored from swap
+> > > > for
+> > > > this
+> > > > + *		=C2=A0=C2=A0=C2=A0=C2=A0 chunk of 1 << @order pages.
+> > > > + * @first_page: The ttm page ptr representing for
+> > > > @old_pages[0].
+> > > > + * @caching_divide: Page pointer where subsequent pages are
+> > > > cached.
+> > > > + * @old_pages: Backup copy of page pointers that were replaced
+> > > > by
+> > > > the new
+> > > > + *	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page allocation.
+> > > > + * @pool: The pool used for page allocation while restoring.
+> > > > + * @order: The order of the last page allocated while
+> > > > restoring.
+> > > > + *
+> > > > + * Recovery from backup might fail when we've recovered less
+> > > > than
+> > > > the
+> > > > + * full ttm_tt. In order not to loose any data (yet), keep
+> > > > information
+> > > > + * around that allows us to restart a failed ttm backup
+> > > > recovery.
+> > > > + */
+> > > > +struct ttm_pool_tt_restore {
+> > > > +	pgoff_t alloced_pages;
+> > > > +	pgoff_t restored_pages;
+> > > > +	struct page **first_page;
+> > > > +	struct page **caching_divide;
+> > > > +	struct ttm_pool *pool;
+> > > > +	unsigned int order;
+> > > > +	struct page *old_pages[];
+> > > > +};
+> > > > +
+> > > > =C2=A0=C2=A0 static unsigned long page_pool_size;
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0 MODULE_PARM_DESC(page_pool_size, "Number of pages in t=
+he
+> > > > WC/UC/DMA pool");
+> > > > @@ -354,11 +381,105 @@ static unsigned int
+> > > > ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+> > > > =C2=A0=C2=A0=C2=A0	return p->private;
+> > > > =C2=A0=C2=A0 }
+> > > > =C2=A0=C2=A0=20
+> > > > +/*
+> > > > + * To be able to insert single pages into backup directly,
+> > > > + * we need to split multi-order page allocations and make them
+> > > > look
+> > > > + * like single-page allocations.
+> > > > + */
+> > > > +static void ttm_pool_split_for_swap(struct ttm_pool *pool,
+> > > > struct
+> > > > page *p)
+> > > > +{
+> > > > +	unsigned int order =3D ttm_pool_page_order(pool, p);
+> > > > +	pgoff_t nr;
+> > > > +
+> > > > +	if (!order)
+> > > > +		return;
+> > > > +
+> > > > +	split_page(p, order);
+> > > What exactly should split_page() do here and why is that
+> > > necessary?
+> > >=20
+> > > IIRC that function just updated the reference count and updated
+> > > things
+> > > like page owner tracking and memcg accounting. Which should both
+> > > be
+> > > completely irrelevant here.
+> > >=20
+> > > Or do you just do that so that you can free each page
+> > > individually?
+> > Yes, exactly. Like For a 2MiB page we'd otherwise have to allocate
+> > 2MiB
+> > of shmem backing storage, potentially from kernel reserves before
+> > we
+> > could actually free anything. Since (currently) the shmem objects
+> > we
+> > use are 4K-page only, this should make the process "allocate shmem
+> > and
+> > back up" much less likely to deplete the kernel memory reserves.
+>=20
+> Ah, yes that makes totally sense now.
+>=20
+> >=20
+> > Taking a step back and looking at potentially other solution, like
+> > direct insertion into the swap cache, then even if inserting a 2MiB
+> > page into the swap cache, vmscan would split it before writeback,
+> > and
+> > still it didn't appear very stable. So inserting one 4K page at a
+> > time
+> > seemed neccessary. If I were to take a guess that's why shmem, when
+> > configured for 2MiB pages, like with i915, also splits the pages
+> > before
+> > moving to swap-cache / writeback.
+> >=20
+> >=20
+> > > > +	nr =3D 1UL << order;
+> > > > +	while (nr--)
+> > > > +		(p++)->private =3D 0;
+> > > > +}
+> > > > +
+> > > > +/**
+> > > > + * DOC: Partial backup and restoration of a struct ttm_tt.
+> > > > + *
+> > > > + * Swapout using ttm_backup_backup_page() and swapin using
+> > > > + * ttm_backup_copy_page() may fail.
+> > > > + * The former most likely due to lack of swap-space or memory,
+> > > > the
+> > > > latter due
+> > > > + * to lack of memory or because of signal interruption during
+> > > > waits.
+> > > > + *
+> > > > + * Backup failure is easily handled by using a ttm_tt pages
+> > > > vector
+> > > > that holds
+> > > > + * both swap entries and page pointers. This has to be taken
+> > > > into
+> > > > account when
+> > > > + * restoring such a ttm_tt from backup, and when freeing it
+> > > > while
+> > > > backed up.
+> > > > + * When restoring, for simplicity, new pages are actually
+> > > > allocated from the
+> > > > + * pool and the contents of any old pages are copied in and
+> > > > then
+> > > > the old pages
+> > > > + * are released.
+> > > > + *
+> > > > + * For restoration failures, the struct ttm_pool_tt_restore
+> > > > holds
+> > > > sufficient state
+> > > > + * to be able to resume an interrupted restore, and that
+> > > > structure
+> > > > is freed once
+> > > > + * the restoration is complete. If the struct ttm_tt is
+> > > > destroyed
+> > > > while there
+> > > > + * is a valid struct ttm_pool_tt_restore attached, that is
+> > > > also
+> > > > properly taken
+> > > > + * care of.
+> > > > + */
+> > > > +
+> > > > +static bool ttm_pool_restore_valid(const struct
+> > > > ttm_pool_tt_restore *restore)
+> > > > +{
+> > > > +	return restore && restore->restored_pages < (1 <<
+> > > > restore-
+> > > > > order);
+> > > > +}
+> > > > +
+> > > > +static int ttm_pool_restore_tt(struct ttm_pool_tt_restore
+> > > > *restore,
+> > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_backup *backup,
+> > > > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct ttm_operation_ctx *=
+ctx)
+> > > > +{
+> > > > +	unsigned int i, nr =3D 1 << restore->order;
+> > > > +	int ret =3D 0;
+> > > > +
+> > > > +	if (!ttm_pool_restore_valid(restore))
+> > > > +		return 0;
+> > > > +
+> > > > +	for (i =3D restore->restored_pages; i < nr; ++i) {
+> > > > +		struct page *p =3D restore->old_pages[i];
+> > > > +
+> > > > +		if (ttm_backup_page_ptr_is_handle(p)) {
+> > > > +			unsigned long handle =3D
+> > > > ttm_backup_page_ptr_to_handle(p);
+> > > > +
+> > > > +			if (handle =3D=3D 0)
+> > > > +				continue;
+> > > > +
+> > > > +			ret =3D ttm_backup_copy_page
+> > > > +				(backup, restore-
+> > > > >first_page[i],
+> > > > +				 handle, ctx->interruptible);
+> > > That coding style looks really odd, I didn't even notice that it
+> > > is a
+> > > function call initially.
+> > >=20
+> > > Maybe put everything under the if into a separate function.
+> > At a minimum, I'll fix up the formatting here.
+> >=20
+> > > > +			if (ret)
+> > > > +				break;
+> > > > +
+> > > > +			ttm_backup_drop(backup, handle);
+> > > > +		} else if (p) {
+> > > > +			/*
+> > > > +			 * We could probably avoid splitting
+> > > > the
+> > > > old page
+> > > > +			 * using clever logic, but ATM we
+> > > > don't
+> > > > care, as
+> > > > +			 * we prioritize releasing memory
+> > > > ASAP.
+> > > > Note that
+> > > > +			 * here, the old retained page is
+> > > > always
+> > > > write-back
+> > > > +			 * cached.
+> > > > +			 */
+> > > > +			ttm_pool_split_for_swap(restore->pool,
+> > > > p);
+> > > > +			copy_highpage(restore->first_page[i],
+> > > > p);
+> > > > +			__free_pages(p, 0);
+> > > > +		}
+> > > > +
+> > > > +		restore->restored_pages++;
+> > > > +		restore->old_pages[i] =3D NULL;
+> > > > +		cond_resched();
+> > > There is a push to remove cond_resched(), see here:
+> > > https://patchwork.kernel.org/project/linux-mm/patch/20231107230822.37=
+1443-30-ankur.a.arora@oracle.com/
+> > >=20
+> > > Not sure in which discussion that removal went, but IIRC we
+> > > should
+> > > not
+> > > add any new users of it.
+> > I'll read up on that and remove if needed. I'm curious how / if
+> > voluntary preemption is going to be handled.
+>=20
+> I didn't fully understood it either, but the push kind of seems to be
+> that drivers or in this cases subsystems are not supposed to mess
+> with=20
+> cond_resched() any more and just rely on preemptive kernels.
+>=20
+> > >=20
 
-On 17/12/2024 17:06, Luca Ceresoli wrote:
-> Hello,
-> 
-> On Tue, 17 Dec 2024 17:02:51 +0100
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> 
->> When devm_drm_of_get_bridge() fails, the probe fails silently. Use
->> dev_err_probe() instead to log an error or report the deferral reason,
->> whichever is applicable.
->>
->> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> This patch got a reviewed-by from Andi Shyti when I sent it the first
-> time [0], but b4 didn't keep it when resending. I think it is fair for
-> me to add it now, even though I'm not sure patchwork and b4 will catch
-> it:
-> 
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-> 
-> [0] https://lore.kernel.org/all/ZrtuksiarZNS8L79@ashyti-mobl2.lan/
-> 
+So I took a deeper look into this. From what I can tell, cond_resched()
+is replaced by some other implicit preemption mechanism, and it seems
+the series is still being worked on, but meanwhile there's nothing
+ensuring that latency-causing long loops will be preempted.
 
-Added it manually!
+So IMHO it should be easy to just remove the cond_resched() when that
+series lands, and if it is deemed necessary to add it meanwhile.
 
-Thanks
-Neil
+But OTOH, the cond_resched() in this code was added without benchmark
+justification, so I have removed it. If needed could be re-added
+pending the merge of the new preemption code.
+
+Thanks,
+Thomas
+
+
+
+
+
+
