@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8600F9F65E1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 13:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827889F65FE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 13:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89FF710E052;
-	Wed, 18 Dec 2024 12:25:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A65C10E10F;
+	Wed, 18 Dec 2024 12:35:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="RyABgzY2";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="lIuwHm8C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D80210E052
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 12:25:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1734524725; x=1735129525; i=markus.elfring@web.de;
- bh=rEI9/XBB9+wI1zK7bvLcnE0IuS6BujqC43ua8YifnMM=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=RyABgzY2NHjvWPrmrM8mGKczH3Ivb3emw1GnXemSYm+jqnNPD4bwcwWnED9BJg4a
- OBnpAR68Yh9ExCvEbWcl93oGUNPfp9KT9wyU0OIleEQfyhAsz3yT1TwDmMyN3dfay
- zuzB0oNauuZUuICXx8AczlMGA+5nfpofuJj3ustKv1WkRQeJEIsZ3rLQjASkkIm1M
- bZOC41S4rPZDr2sFEmWCB3u0YYPnIRESugfdjM1ElNXyxOCH0SPw3eE2Ci/NYdqG0
- 7U7YTvrSGd9LUdLONnZ5WQUaR/Szx4geByD6AE5wYJhonC2YpB4s1oC5u2y6zBxLS
- 0DmTt9WijhMHRbyw6A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.70.41]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MwR4R-1tgmwa2dXx-00ruAz; Wed, 18
- Dec 2024 13:25:25 +0100
-Message-ID: <feb72a8c-06c1-48d9-abb0-d680c11922a7@web.de>
-Date: Wed, 18 Dec 2024 13:25:17 +0100
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4B710E10F
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 12:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=phZjJ8Vd0a6a/KUNLyGQpPa9OxsPWwxJsNWkp8oFdNc=; b=lIuwHm8C3o0XdtMfisDH16HFrk
+ xW2eZCC0NsEyhgo1QgwipjBohy3XKMwfemabXrMubtE3JQsgBlBhjxNCxzvSPsOKftOgk+npqLDSf
+ eFcNtJT4PNdAkgiVD7bkntXI+XJwnWMmxMEd/3rdATt3pjh4CSCQ6Voajw1xEDtkoan5lyLsuJxdT
+ +kfKXb8SsDni0xHBr61qMlBNjF53ldb0qlaD0DSRhy3WP8adBNHKzmwdOUjPH131INjHuFoNaizkW
+ WpmFGXwgxswGU3P/RkGbheMpkqPUKzWDgYlhcdWCOvLG2Zf8GuPjgmWCmV3d+sbWwrRsJ5NDBhy6O
+ YOP8x3ug==;
+Received: from i53875bfb.versanet.de ([83.135.91.251] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tNtGw-0000Hd-65; Wed, 18 Dec 2024 13:35:26 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com,
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v2 04/11] phy: phy-rockchip-samsung-hdptx: Add support for
+ eDP mode
+Date: Wed, 18 Dec 2024 13:35:24 +0100
+Message-ID: <867267676.0ifERbkFSE@diego>
+In-Reply-To: <20241216031225.3746-5-damon.ding@rock-chips.com>
+References: <20241216031225.3746-1-damon.ding@rock-chips.com>
+ <20241216031225.3746-5-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
- Caleb Connolly <caleb.connolly@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, "Guilherme G. Piccoli"
- <gpiccoli@igalia.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- John Ogness <john.ogness@linutronix.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, bluescreen_avenger@verizon.net
-Cc: LKML <linux-kernel@vger.kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
-References: <20241204160014.1171469-3-jfalempe@redhat.com>
-Subject: Re: [PATCH v9 2/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241204160014.1171469-3-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:puXIM79LzTyOh/fToopcbY3TNmb4NiVa+nbSGO5VrPYGNEwFsxu
- ckFdXZBpCPg9QWvd4jqgYbjzBdl2HVSD9bsDlxf3lVHHS/pwddLHT7yOjf+pKXVHF4mlpcz
- xNxhHK36dpA7Zg2oCDZHSuJu/+hSK82MRhu8HQFiiUMyOGZK+FRcGN+t653qbF3bAyMugF3
- ydwZdQyFrYVSFvgEQ21Ww==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:/PpFgzxPh7o=;rawjLivMRgirlrzTE0O6YTKFVOe
- kIfdD9Q9NY7oOC9l44FWwfXWpEnOdbTUD3ihReOps0lZzMHPYFwc41/HvL1Plt48ax7K2JLSh
- JxRcNgqPt41YIcJ9hispVEVDkr54/c7GLFgQAgCxUulPXgOUDUJfyiBzzx25t0hqpPeIyRxbC
- ZHQ+tRLVnSrYaZ7nQjjxzXtFbFpoV5OsgcV7wm6Vft3ol5RqZtZQCYpTW8DYGGBXyVOv2ewAs
- BXUcrQ1ZsB5nK58rWrcelZJMF/zEKI+NDTtX7PZvEROQda44aENUifADrZ+dROCUBtI+Hv0zc
- nE2VfiHQ9jyGVYL9WXCDdDEvMrdwG7hWBIOlqZBIQHOIxJrGuey4SWVzZmjLAsONiPZlYa+HE
- 7Twdl/pMeZqMtAvIO959pTtehKlIS2WLLnf2la5U9zkLewsxeABV9R5YZcL1VbGlmInuDgeXD
- 4AJipwfcJvR7A8zdwu8SA6bMbyVM6rNv+xLM2Lbi8aFCQJedst+PrVA092CIMmCKbL5np/W5z
- DP/Au16BrqQ7DpjfehPRcKCqqooNWeAOl1HYGWy4L+PrtivNHQnSr174rV/Vyr64ixl72RKzw
- Ne+rAAu2uQsCtgBIxDUxKk7kWbtxhfOtwwGTrkw370coSFbUmXgVpa5FV3xlAN74cIlKiioJd
- XTiBALlKcESmWPDrzV37ah4aKuJ6jFrxBdwJe3hbwfZqdpPm5e/cjPRUw7jklc8FZQErF9Gv7
- L7SV+EFXI8WvR/92ayRH14BnYZpENLvc2cKzogl9XQ67/HN64kPtfFHABcKLwWMep2Qtq58kj
- hR1JEe9hZupERndlWOodARHJxoJTH3phFI7SUZM6IX+oGI9rPMDbX/k5M6/gqUh1UQnpPQ6Zd
- JV/tssU3yRkfVKkNwp/5KS2mezUX/9wTeQXRKDqVXuRj44ATlBJM1Gh2Vto1IFEoi3b57E1/B
- 9kfyWADPzAKVFyhdGV/I8K1hJmgmYXZRqZZzybfRQ2qnjzgl6jxMpuIbj0kg9YEJwCBY22S7u
- /yvawhqX3M1RpxpWVIKpvXQuYS+4g+vqCNyNOlnUDC2OoHLqT41FKzT2dXBViNK888WHX+RAr
- 391Vb3l7s=
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,27 +68,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E2=80=A6
-> +++ b/drivers/gpu/drm/clients/drm_log.c
-> @@ -0,0 +1,370 @@
-=E2=80=A6
-> +static int drm_log_count_modeset(struct drm_client_dev *client)
-> +{
-> +	struct drm_mode_set *mode_set;
-> +	int count =3D 0;
+Hi Damon,
+
+Am Montag, 16. Dezember 2024, 04:12:18 CET schrieb Damon Ding:
+> Add basic support for RBR/HBR/HBR2 link rates, and the voltage swing and
+> pre-emphasis configurations of each link rate have been verified according
+> to the eDP 1.3 requirements.
+> 
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> 
+> ---
+> 
+> Changes in v2:
+> - Add the module author
+> ---
+
+> @@ -255,6 +364,19 @@ struct ropll_config {
+>  	u8 cd_tx_ser_rate_sel;
+>  };
+>  
+> +struct tx_drv_ctrl {
+> +	u8 tx_drv_lvl_ctrl;
+> +	u8 tx_drv_post_lvl_ctrl;
+> +	u8 ana_tx_drv_idrv_idn_ctrl;
+> +	u8 ana_tx_drv_idrv_iup_ctrl;
+> +	u8 ana_tx_drv_accdrv_en;
+> +	u8 ana_tx_drv_accdrv_ctrl;
+> +	u8 tx_drv_pre_lvl_ctrl;
+> +	u8 ana_tx_jeq_en;
+> +	u8 tx_jeq_even_ctrl;
+> +	u8 tx_jeq_odd_ctrl;
+> +};
 > +
-> +	mutex_lock(&client->modeset_mutex);
-> +	drm_client_for_each_modeset(mode_set, client)
-> +		count++;
-> +	mutex_unlock(&client->modeset_mutex);
-> +	return count;
-> +}
-=E2=80=A6
+>  enum rk_hdptx_reset {
+>  	RST_PHY = 0,
+>  	RST_APB,
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&client->modeset_mutex);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.13-rc3/source/include/linux/mutex.h#L2=
-01
+not a full review (yet), but this part conflicts with
+commit f2dbca169790 ("phy: phy-rockchip-samsung-hdptx: Don't request RST_PHY/RST_ROPLL/RST_LCPLL")
 
-Regards,
-Markus
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=f2dbca169790ea1e436ffdd9ef37d7c3a4401c46
+
+
