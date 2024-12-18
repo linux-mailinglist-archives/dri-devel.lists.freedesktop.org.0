@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327CB9F69AA
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 16:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EAE9F69FE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 16:26:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A60AC10EBD8;
-	Wed, 18 Dec 2024 15:12:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D012410EBF8;
+	Wed, 18 Dec 2024 15:26:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="N1zSb1NH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NYNkKLJG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB7510EBD8
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 15:12:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734534767;
- bh=/WpAFEF2F//sHkizT2Rkt9wmQRdw0Tc769M5Q7NH2Dw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=N1zSb1NHDcwcImQKkK83d7SaYQbZ8eq6iwR4QFs1Ej1e7qzGO+fiIay3UHVzKMvLR
- SyrLlrBr+wIOpIEr1LJYA0Ps4cfi8Ul7yvoZTXB/6uBrbCi+il25h0iXOnBA2vgHCE
- aod8nZ/Mi9QTMSp2cZfr4NMBM4oGhnU2weBvvGYqlp9Y/zZ0u5QztQYqoPWg4lTT8v
- 9hdh6s3vDmjM+Ft3GkrvQ8MJOpxs4taQhPJDrlQW5b9hr6aaebQraCzXpxxLAZbRlr
- QDdC4Xc+RHiviMQBrFQQKM8pJGFNJwa+DtT4Jek0LCzw7brmg6luNZQQ52Xe5YBODp
- fOzcjDefCp4Sw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 43AFB17E377F;
- Wed, 18 Dec 2024 16:12:46 +0100 (CET)
-Message-ID: <db89c62e-5346-4e46-b6b3-6cc6b3e5a256@collabora.com>
-Date: Wed, 18 Dec 2024 16:12:45 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6C5510E1F1;
+ Wed, 18 Dec 2024 15:26:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=LQHHZOyQkFg+4Td5pA9rjjJfsQwYhLeVbm+T71a74zs=; b=NYNkKLJGJcv7fetEMBvIwavPzz
+ cNwXj5RJe31Afd3wGCARxyRChFgC0P4LeGhMa+QTqiVl17tL8vbKcWWUtXjCKSIUWEdOoWEVO9jfl
+ b9ydLLxVLho5SVTkigNWk6nTSwRBaOtSR6uJSTeKeCnwYEtz3vyiJA5PpuyjMhFf2FWg3eC7EzKuJ
+ eovUGeopm2QGdkOut47olHN5+nr/uxNRB4SRXo/Z097Shc3RIBaR9dOWPgjL2M5e+T3WymXzjlbQ+
+ wQlWdih5jCGkN745NI1l+wJKJtxBDRNTVMYvY7UTkn1q/0oWnlY8u0Dbv8/onMgbtjwfZuwqW5Pfh
+ rA/f5AVA==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tNvwU-004qMt-Pj; Wed, 18 Dec 2024 16:26:30 +0100
+Date: Wed, 18 Dec 2024 15:26:29 +0000
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <Z2LppUZudGKXwWjW@linux>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mediatek: stop selecting foreign drivers
-To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Dave Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- CK Hu <ck.hu@mediatek.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Zimmermann <tzimmermann@suse.de>, Chen-Yu Tsai <wenst@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20241218085837.2670434-1-arnd@kernel.org>
- <46f871e3-bb1e-4bee-95f3-2121c6a6eef7@collabora.com>
- <1d8c6f65-5baa-459e-ba34-4e45ca20baf6@app.fastmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <1d8c6f65-5baa-459e-ba34-4e45ca20baf6@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,26 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 18/12/24 12:44, Arnd Bergmann ha scritto:
-> On Wed, Dec 18, 2024, at 11:50, AngeloGioacchino Del Regno wrote:
->> Il 18/12/24 09:58, Arnd Bergmann ha scritto:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>
->> The problem is - no PHY no party, it's not going to work without... but
->> I get the
->> reasons behind this change.
->>
->> Are we sure that we can't just add a `depends on PHY_MTK_xxxx` (or extend
->> depends on DRM_MEDIATEK && PHY_MTK_xxx)?
-> 
-> Doing this wouldn't cause any problems, but it also doesn't
-> really help much, you just have to know which devices are
-> present and enable all their drivers anyway.
-> 
-> We used to just select all drivers from arch/arm/mach-*/Kconfig
-> on some older platforms, but this was too much of a hassle.
-> 
->        Arnd
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Hi Dave, Sima,
 
+This week a few fixes around GuC engine busyness reporting. Fixing some
+races relating to engine and GT reset, and in general.
+
+Regards,
+
+Tvrtko
+
+drm-intel-fixes-2024-12-18:
+- Reset engine utilization buffer before registration (Umesh Nerlige Ramappa)
+- Ensure busyness counter increases motonically (Umesh Nerlige Ramappa)
+- Accumulate active runtime on gt reset (Umesh Nerlige Ramappa)
+The following changes since commit 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8:
+
+  Linux 6.13-rc3 (2024-12-15 15:58:23 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-12-18
+
+for you to fetch changes up to 1622ed27d26ab4c234476be746aa55bcd39159dd:
+
+  i915/guc: Accumulate active runtime on gt reset (2024-12-17 10:15:15 +0000)
+
+----------------------------------------------------------------
+- Reset engine utilization buffer before registration (Umesh Nerlige Ramappa)
+- Ensure busyness counter increases motonically (Umesh Nerlige Ramappa)
+- Accumulate active runtime on gt reset (Umesh Nerlige Ramappa)
+
+----------------------------------------------------------------
+Umesh Nerlige Ramappa (3):
+      i915/guc: Reset engine utilization buffer before registration
+      i915/guc: Ensure busyness counter increases motonically
+      i915/guc: Accumulate active runtime on gt reset
+
+ drivers/gpu/drm/i915/gt/intel_engine_types.h      |  5 +++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 41 +++++++++++++++++++++--
+ 2 files changed, 44 insertions(+), 2 deletions(-)
