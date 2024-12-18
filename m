@@ -2,55 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331959F638B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA7C9F639E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B19C210EB5B;
-	Wed, 18 Dec 2024 10:41:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84A2610E903;
+	Wed, 18 Dec 2024 10:44:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="puKyDylp";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HSHR7tOw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 048F810EB5B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 10:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wZEniM/2Nn6hjg1ZC00ZDvQ1FUtTUX37QQl4uIZPIwA=; b=puKyDylpER8GPNY7zwlSASMnIz
- OAOXZ3GXBZs6ibCfR2hBf1xZ0oiin8bGLLucGxLtyXxxYcggU4fhai8E2G2MJU9s7/eMlgeTUS3Oo
- YlJ/1/ELjhgSCJh8hVEkh61o43GHXkYzwNyrZ6st+WLk6seDka6ww1w9kvNTIyR6VOI/CphkErWJN
- LwOjiNhWgXIPAHhpPeegcUi1ltixHPVOQ7459qICyOUoQiHGJNXW2GXGX1Wm7u0XFA8EBPIR0R2WW
- aF2iWRrOzbkqgCdEZa9WvAQD0XU/9Aw2QVFZq11AmfXvICj2LeKEJCar0zGf3OcTPbRoGNr44bkSj
- WkGFIlRg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tNrUP-004kdl-M1; Wed, 18 Dec 2024 11:41:13 +0100
-Message-ID: <37e139ad-d2e0-4f60-b032-96be4f6ea9dc@igalia.com>
-Date: Wed, 18 Dec 2024 10:41:12 +0000
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9628F10E903
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 10:44:43 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-38637614567so2910531f8f.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 02:44:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1734518682; x=1735123482; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NQPNbO4Jh28X15Px0+LkPPkbR4yLtap4Vaw9U0pvMDM=;
+ b=HSHR7tOwF2k4QY/Vtrh/EA/tzrFB4zQNiaZCcJutKeEe3dHSuI/MceOsZm+oFbti9M
+ rW/XUsnCT7nipvsVDIJbYv2Mqxmt9kJKaR43HSW8EIs6gO83axcRfEse5N6jSiUwPKI1
+ tAnbeSTNckAgViYEHcG2WaF7LcI1kGn4nMgUU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734518682; x=1735123482;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NQPNbO4Jh28X15Px0+LkPPkbR4yLtap4Vaw9U0pvMDM=;
+ b=bvPlt7Xs0J92ovHQii23uskIHuAODp/nB898EpGfs5bb92NuZ0IT6AHClS/J63XpD/
+ 5kNz46Up1ay/uPSaaH2hkGjxjBaMgYY6O/wDdYPRLUA52mFnI7HrXbJEbIgVV/7rbjp8
+ 44Q1VMDRfkgJ6L6qkFhwI0tDCUQFUFV6Kl8nE9GzofCZvwjGI11LUuFbJ39WbaYg9gxr
+ QmrxBJyfg/zlYMFidaRiyfIhsWDoBuEGlB0C7lK6eQBuGWAb+HLTtdMu6LRonxSjz9PR
+ P/SoyiNm/V1G4PanF1yeVaUjHhhXxjIHMque9+D+VNSAkTR2MWCmaCgcTd/tLCzzVz2+
+ NMPQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWqpzeA9gGlNpATHUK6hkZ1RGF4s0YPR9tki0cFRIwHnu8Ba7W7DO77+4mlyM3dmF7pDNifLdstVek=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/etryeqrfY+x9XdERWVSUPnpXx+mztDtDTr596CLVEvvQGeAs
+ ZUWpEh5deufJdvlJYTl532OqPGL8SPmsurX1E9vMCzasdgVi8jQDDM3FCbXnw+s=
+X-Gm-Gg: ASbGnctFd32I+3He9SVXkX+7+rMJ9MbXS7mLSv2tlSM96bY4/f3YUAh/F99SxWXsSmb
+ wwezahgCzFly5hamoMPcY/RJA6jrYAps6bcf+4KKy9PCb3EQg4v9YYmSIGtLxJeKS0xhd3g9oD0
+ /KpttC3f3I1e289ZM2PZtabWV4EUoxmV+FjBsVtZ0RD3s4iDkx1d17oNWV6yS8M6rcoh/hlDl4w
+ MoVca/jE5EAATDfpymAxm6vt4hvi7bpVhH1P3I7BGwHwRFBep0vbo0pnxsfKfR6ochU
+X-Google-Smtp-Source: AGHT+IHcanVPmRLlzM2e6vfR41Z6Bf/R2ewaujydkQ7EOTyW5LtKeaoeAxoDwby+iMKdhpEeJt9o4w==
+X-Received: by 2002:a5d:6da6:0:b0:382:6f3:a20f with SMTP id
+ ffacd0b85a97d-388e4d2de58mr2369209f8f.11.1734518682020; 
+ Wed, 18 Dec 2024 02:44:42 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-388c8046c05sm13901360f8f.73.2024.12.18.02.44.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Dec 2024 02:44:41 -0800 (PST)
+Date: Wed, 18 Dec 2024 11:44:39 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Keith Busch <kbusch@kernel.org>, Wei Lin Guay <wguay@fb.com>,
+ alex.williamson@redhat.com, dri-devel@lists.freedesktop.org,
+ kvm@vger.kernel.org, linux-rdma@vger.kernel.org, jgg@nvidia.com,
+ vivek.kasireddy@intel.com, dagmoxnes@meta.com, nviljoen@meta.com,
+ Wei Lin Guay <wguay@meta.com>, Oded Gabbay <ogabbay@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>
+Subject: Re: [PATCH 0/4] cover-letter: Allow MMIO regions to be exported
+ through dmabuf
+Message-ID: <Z2Knl1omccV-8Oa7@phenom.ffwll.local>
+References: <20241216095429.210792-1-wguay@fb.com>
+ <89d9071b-0d3e-4fcd-963b-7aa234031a38@amd.com>
+ <Z2BbPKvbxm7jvJL9@kbusch-mbp.dhcp.thefacebook.com>
+ <0f207bf8-572a-4d32-bd24-602a0bf02d90@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] drm/vc4: Use DMA Resv to implement VC4 wait BO
- IOCTL
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Maxime Ripard <mripard@kernel.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20241212202337.381614-1-mcanal@igalia.com>
- <20241212202337.381614-3-mcanal@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20241212202337.381614-3-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <0f207bf8-572a-4d32-bd24-602a0bf02d90@amd.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,104 +95,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 12/12/2024 20:20, Ma√≠ra Canal wrote:
-> As the BOs used by VC4 have DMA Reservation Objects attached to it,
-> there is no need to use seqnos wait for the BOs availability. Instead,
-> we can use `dma_gem_dma_resv_wait()`.
+On Tue, Dec 17, 2024 at 10:53:32AM +0100, Christian Kˆnig wrote:
+> Am 16.12.24 um 17:54 schrieb Keith Busch:
+> > On Mon, Dec 16, 2024 at 11:21:39AM +0100, Christian Kˆnig wrote:
+> > > Am 16.12.24 um 10:54 schrieb Wei Lin Guay:
+> > > > From: Wei Lin Guay <wguay@meta.com>
+> > > > However, as a general mechanism, it can support many other scenarios with
+> > > > VFIO. I imagine this dmabuf approach to be usable by iommufd as well for
+> > > > generic and safe P2P mappings.
+> > > > 
+> > > > This series goes after the "Break up ioctl dispatch functions to one
+> > > > function per ioctl" series.
+> > > Yeah that sounds like it should work.
+> > > 
+> > > But where is the rest of the series, I only see the cover letter?
+> > Should be here:
+> > 
+> >    https://lore.kernel.org/linux-rdma/20241216095429.210792-2-wguay@fb.com/T/#u
 > 
-> Signed-off-by: Ma√≠ra Canal <mcanal@igalia.com>
-> ---
->   drivers/gpu/drm/vc4/vc4_drv.h | 10 ++++++++++
->   drivers/gpu/drm/vc4/vc4_gem.c | 31 +++++++++++++++++++------------
->   2 files changed, 29 insertions(+), 12 deletions(-)
+> Please send that out once more with me on explicit CC.
 > 
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 4a078ffd9f82..03ed40ab9a93 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -924,6 +924,16 @@ struct vc4_validated_shader_info {
->   						   (Wmax))
->   #define wait_for(COND, MS)		_wait_for((COND), (MS) * 1000, 10, 1000)
->   
-> +static inline unsigned long nsecs_to_jiffies_timeout(const u64 n)
-> +{
-> +	/* nsecs_to_jiffies64() does not guard against overflow */
-> +	if ((NSEC_PER_SEC % HZ) != 0 &&
-> +	    div_u64(n, NSEC_PER_SEC) >= MAX_JIFFY_OFFSET / HZ)
-> +		return MAX_JIFFY_OFFSET;
-> +
-> +	return min_t(u64, MAX_JIFFY_OFFSET, nsecs_to_jiffies64(n) + 1);
-> +}
-> +
->   /* vc4_bo.c */
->   struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size);
->   struct vc4_bo *vc4_bo_create(struct drm_device *dev, size_t size,
-> diff --git a/drivers/gpu/drm/vc4/vc4_gem.c b/drivers/gpu/drm/vc4/vc4_gem.c
-> index 1021f45cb53c..4037c65eb269 100644
-> --- a/drivers/gpu/drm/vc4/vc4_gem.c
-> +++ b/drivers/gpu/drm/vc4/vc4_gem.c
-> @@ -1017,11 +1017,13 @@ int
->   vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
->   		  struct drm_file *file_priv)
->   {
-> -	struct vc4_dev *vc4 = to_vc4_dev(dev);
->   	int ret;
-> +	struct vc4_dev *vc4 = to_vc4_dev(dev);
->   	struct drm_vc4_wait_bo *args = data;
-> -	struct drm_gem_object *gem_obj;
-> -	struct vc4_bo *bo;
-> +	unsigned long timeout_jiffies =
-> +		nsecs_to_jiffies_timeout(args->timeout_ns);
+> Apart from that I have to reject the adding of dma_buf_try_get(), that is
+> clearly not something we should do.
 
-What about a potentially simpler alternative:
-
-timeout_jiffies = usecs_to_jiffies(div_u64(args->timeout_ns, 1000));
-
-No need for a new helper and code cannot sleep for less than one jiffy 
-anyway.
-
-> +	ktime_t start = ktime_get();
-> +	u64 delta_ns;
->   
->   	if (WARN_ON_ONCE(vc4->gen > VC4_GEN_4))
->   		return -ENODEV;
-> @@ -1029,17 +1031,22 @@ vc4_wait_bo_ioctl(struct drm_device *dev, void *data,
->   	if (args->pad != 0)
->   		return -EINVAL;
->   
-> -	gem_obj = drm_gem_object_lookup(file_priv, args->handle);
-> -	if (!gem_obj) {
-> -		DRM_DEBUG("Failed to look up GEM BO %d\n", args->handle);
-> -		return -EINVAL;
-> -	}
-> -	bo = to_vc4_bo(gem_obj);
-> +	ret = drm_gem_dma_resv_wait(file_priv, args->handle,
-> +				    true, timeout_jiffies);
->   
-> -	ret = vc4_wait_for_seqno_ioctl_helper(dev, bo->seqno,
-> -					      &args->timeout_ns);
-> +	/* Decrement the user's timeout, in case we got interrupted
-> +	 * such that the ioctl will be restarted.
-> +	 */
-> +	delta_ns = ktime_to_ns(ktime_sub(ktime_get(), start));
-> +	if (delta_ns < args->timeout_ns)
-> +		args->timeout_ns -= delta_ns;
-> +	else
-> +		args->timeout_ns = 0;
-> +
-> +	/* Asked to wait beyond the jiffy/scheduler precision? */
-> +	if (ret == -ETIME && args->timeout_ns)
-> +		ret = -EAGAIN;
-
-EAGAIN is new from here, right? Will userspace cope in the right way?
-
-Regards,
-
-Tvrtko
-
->   
-> -	drm_gem_object_put(gem_obj);
->   	return ret;
->   }
->   
+Yeah if we do try_get it would need to be at least on a specific dma_buf
+type (so checking for dma_buf->ops), since in general this does not work
+(unless we add the general code in dma_buf.c somehow to make it work).
+Aside from any other design concerns.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
