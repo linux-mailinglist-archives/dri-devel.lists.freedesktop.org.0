@@ -1,59 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208329F6205
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 10:44:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D5469F6222
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 10:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B2110E24B;
-	Wed, 18 Dec 2024 09:44:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE6D10EB43;
+	Wed, 18 Dec 2024 09:48:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vk3hJD0A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ut0uabf3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5773F10E24B;
- Wed, 18 Dec 2024 09:44:23 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YCpfq19rgz9tPc;
- Wed, 18 Dec 2024 10:44:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1734515059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fop8eHOTRMY4TBTOG39Dc+IvevBhBUxCELddBDSsyng=;
- b=vk3hJD0AILyl+0AQy35//DmkjDjQ4EPw/AtUXl3ryzt4MKxmDDGZRBFtXM2UiSvq/Jw/tV
- JToEhbXtfWUVs31MQ9+OlzJY9ZLEgVIb+eY5fLjNT/s51SZFZ1v2URgA6QwtswYhB/a3OY
- 5cqsmRNERiIg7pgHuswt3J+oGbbl44qHyYvh3WM0YSf/hRU1Dkv4f2No+8u8FRNvPWgSr0
- 986el8z9NzWbX7/SpkYkl7ng8beUuHaAgI3aU5T3nvaHs5v3Rf4l80/f7XT2R/l0WZ7HQt
- TbXSwFskb2JxmmRqdxHlk3gQ3eJcF0idN66Kv6SI5m7IXCKDKnju0hjFbnRKeg==
-Message-ID: <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
-Date: Wed, 18 Dec 2024 10:44:17 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF6810EB4B;
+ Wed, 18 Dec 2024 09:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734515324; x=1766051324;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=s4ocDH7UmrOpvtqpngizXg9vgWT/WeFW9fcb+JcuNrA=;
+ b=Ut0uabf3HvR/+IQDzTNs8ZCvAOpEwNBjbepPezXdi8B9VNEAIAwt7PVn
+ X4UmMDt8moZNCcj4fDR1O6rLtmrCfzm9EXLP+kyyLdUldfFlBQSL40ZBa
+ ehexKXX/mADH9p8S78+tm1VTmETuIngxMfvxPMZUl8wnt7CtH37o03jNB
+ IRfaeEgEJ8KdQMETO+MKOr765w+pmFEEzQNeMtd+ngHiUBClZzlSuAulq
+ pF9YzV420NgQio71SNM9GOTFJWXgiNnMFVyvFIRIwHUnuyliSwilHyWDa
+ sYzWRyCTxRcsauBowWF7k5Qsz1ApPxcAVK63bjSCL4PSHWvMvZi9hxFun Q==;
+X-CSE-ConnectionGUID: QdS0fit6TBC7oDhSSc+uMg==
+X-CSE-MsgGUID: O5DPLLgcStCbJOcHOQO0mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="34863611"
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="34863611"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 01:48:43 -0800
+X-CSE-ConnectionGUID: geOzY59jQGaw66s7WtDnmw==
+X-CSE-MsgGUID: 4DuAxdA6TM+7wIJIyfqaEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; d="scan'208";a="102646360"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.42])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 01:48:39 -0800
+Date: Wed, 18 Dec 2024 11:48:36 +0200
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <Z2KadNXgumx1aQMP@jlahtine-mobl.ger.corp.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: Brian Starkey <brian.starkey@arm.com>
-Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
- <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
- <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 45ueczqnrkz58p6in8unteqm5x3rehfp
-X-MBO-RS-ID: 1266e0373c64f166735
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,51 +76,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-12-17 12:03, Brian Starkey wrote:
-> On Tue, Dec 17, 2024 at 11:13:05AM +0000, Michel Dänzer wrote:
->> On 2024-12-17 10:14, Brian Starkey wrote:
->>
->>> Modifiers are meant to describe framebuffers, and this pitch alignment
->>> requirement isn't really a framebuffer property - it's a device
->>> constraint. It feels out of place to overload modifiers with it.
+Hi Dave & Sima,
 
-FWIW, KMS framebuffers aren't the only use case for sharing buffers between devices.
+Here goes the pre-holidays drm-intel-gt-next PR towards 6.14 as promised.
 
+As the main improvement there is engine busyness accuracy improvements
+for GuC submission platforms and fixup for BO mapping corner cases.
 
->>> I'm not saying we don't need a way to describe constraints to
->>> allocators, but I question if modifiers the right mechanism to
->>> communicate them?
->> While I agree with your concern in general, AFAIK there's no other
->> solution for this even on the horizon, after years of talking about
->> it. The solution proposed here seems like an acceptable stop gap,
->> assuming it won't result in a gazillion linear modifiers.
-> 
-> UAPI is baked forever, so it's worth being a little wary IMO.
-> 
-> This sets a precedent for describing constraints via modifiers. The
-> reason no other proposal is on the horizon is because describing the
-> plethora of constraints across devices is a hard problem; and the
-> answer so far has been "userspace needs to know" (à la Android's
-> gralloc).
-> 
-> If we start down the road of describing constraints with modifiers, I
-> fear we'll end up in a mess. The full enumeration of modifiers is
-> already horrendous for parameterized types, please let's not
-> combinatorially multiply those by constraints.
+The rest is smaller refactoring and improvements.
 
-I agree there's a slippery slope.
+Happy Holidays!
 
-That said, linear buffers are special in that they're the only possibility which can work for sharing buffers between devices in many cases, in particular when the devices are from different vendors or even different generations from the same vendor.
+Regards, Joonas
 
-So as long as device vendors don't get too creative with their linear pitch alignment restrictions, it still seems like this might be workable stop-gap solution for that specific purpose alone, until a better solution for handling constraints arrives.
+***
 
+drm-intel-gt-next-2024-12-18:
 
-> P.S. "is the only modifier that has a chance of not working" is
-> fundamentally false.
+Driver Changes:
 
-My reading of that part of the comment is that pitch alignment shouldn't be an issue with non-linear modifiers, since the constraints for pitch should be part of the modifier definition. Maybe that could be clarified in the comment.
+- More accurate engine busyness metrics with GuC submission (Umesh)
+- Ensure BO segment offset never exceeds allowed max (Krzysztof)
+- Flush GuC CT receive tasklet during reset preparation (Zhanjun)
 
+- Code cleanups and refactoring (David, Lucas)
+- Debugging improvements (Jesus)
+- Selftest improvements (Sk)
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+The following changes since commit 6ef0e3ef2662db71d363af77ce31fa940bb7d525:
+
+  drm/i915/gt: Retry RING_HEAD reset until it get sticks (2024-10-22 11:35:07 +0200)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2024-12-18
+
+for you to fetch changes up to f373ebec18a75d671908e81ed9925aebf279ec2f:
+
+  drm/i915/guc: Update guc_err message to show outstanding g2h responses (2024-12-17 11:38:50 -0800)
+
+----------------------------------------------------------------
+Driver Changes:
+
+- More accurate engine busyness metrics with GuC submission (Umesh)
+- Ensure partial BO segment offset never exceeds allowed max (Krzysztof)
+- Flush GuC CT receive tasklet during reset preparation (Zhanjun)
+
+- Code cleanups and refactoring (David, Lucas)
+- Debugging improvements (Jesus)
+- Selftest improvements (Sk)
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (1):
+      drm/i915/gt: Remove unused execlists_unwind_incomplete_requests
+
+Jesus Narvaez (1):
+      drm/i915/guc: Update guc_err message to show outstanding g2h responses
+
+Krzysztof Karas (1):
+      drm/i915: ensure segment offset never exceeds allowed max
+
+Lucas De Marchi (4):
+      drm/i915/pmu: Rename cpuhp_slot to cpuhp_state
+      drm/i915/pmu: Stop setting event_init to NULL
+      drm/i915/pmu: Replace closed with registered
+      drm/i915/pmu: Remove pointless synchronize_rcu() call
+
+Sk Anirban (1):
+      drm/i915/selftests: Add delay to stabilize frequency in live_rps_power
+
+Umesh Nerlige Ramappa (3):
+      i915/guc: Reset engine utilization buffer before registration
+      i915/guc: Ensure busyness counter increases motonically
+      i915/guc: Accumulate active runtime on gt reset
+
+Zhanjun Dong (1):
+      drm/i915/guc: Flush ct receive tasklet during reset preparation
+
+ drivers/gpu/drm/i915/gt/intel_engine.h             |  3 --
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       |  5 ++
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |  9 ----
+ drivers/gpu/drm/i915/gt/selftest_rps.c             |  1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  | 53 ++++++++++++++++++++--
+ drivers/gpu/drm/i915/i915_mm.c                     |  4 +-
+ drivers/gpu/drm/i915/i915_pmu.c                    | 50 ++++++++------------
+ drivers/gpu/drm/i915/i915_pmu.h                    |  4 +-
+ 8 files changed, 79 insertions(+), 50 deletions(-)
