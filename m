@@ -2,170 +2,202 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC69E9F6A91
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 16:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8985A9F6A9E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 16:59:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D1210E9C7;
-	Wed, 18 Dec 2024 15:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5204E10EBFC;
+	Wed, 18 Dec 2024 15:59:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Nk9oH7LC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZWLfbNW2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on20609.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2416::609])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA3DB10E9C7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 15:57:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60B0D10E0E9;
+ Wed, 18 Dec 2024 15:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734537564; x=1766073564;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=xuqtzwsu1vdMwn3EmGfIYYwXT2/+CHNJuY1m/SCL3AY=;
+ b=ZWLfbNW23tWIzPYBu7uAiyP3NtHJwD0Pj0lJ2Xz/GbU98JT5JbEb2uiE
+ eO0dqfbLp7k9/wM0aj1rzXRrQRuWhCpPvTGicpQ/+nLaHS6/UqqIZvJfc
+ HK2EPoqYpcZK9sVbZSazTQos5lqivTBiy4nkycs0m/pQZtaMR3dj/B+dZ
+ R2EzxLx1TN02VlbLb9n0taaaGCU4bvHhwq6gkpzGRfRYi+5YnOoDxM3d7
+ Jf48LDrmp4sWSDEgHuQ7vMj8CoNbzUsQg+x0daxA53fSg7rNV4jXJ78v3
+ ijSSWAxpfKZcVqwtRGR5d30bNqDoZemF3LNM/23DJo/MTPyq86iKhCwJR g==;
+X-CSE-ConnectionGUID: LsPdrCL0SSyyIqJzE6BhWA==
+X-CSE-MsgGUID: N6jGaA3ZQrmCZ025XZbw+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="37860214"
+X-IronPort-AV: E=Sophos;i="6.12,245,1728975600"; d="scan'208";a="37860214"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Dec 2024 07:59:24 -0800
+X-CSE-ConnectionGUID: 3E7QcLEbQSuQyPy1nse0Xg==
+X-CSE-MsgGUID: 9pnvBEdqRg6TbjKxAk+qvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="135234014"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 18 Dec 2024 07:59:24 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 18 Dec 2024 07:59:23 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 18 Dec 2024 07:59:23 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 18 Dec 2024 07:59:18 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oSNeVpHs9p7N7vP7eOmOH739ztWMnnJmvMWcsK1cLKggNGeId0kLPLS7r9TV+MCaouvi2acHKRctdp3ypVdYqx0OvqZEWcEN0CXouI+5oypT0na/ZsCDxh79BTNfYxs0YrB4S9/xMwFgB3AxJjwphYakRFZZ06dptMzMclclL0DbSMDfCGoy3jXKb/kz1XEaCR8O6OwETKeo0W67MxdM6JNTXG/BGHy7V7UAS0UR0NOL2aVFzVdi9zwaSWiLpFbhzcmwoS0irV/+V5yM+cmi30YRcbv08eR9gqbwLRfChp2/jya5tZzlW27WEuTWJaqCmsfZVogiLq0H/3WpUusQAQ==
+ b=r4jf7h0XPcu8nfuQFASJKeZtPri7FI1AWl6d2FlGz7sXfYN/Y3GvIFRSpYPDgVVwlCoDfKfC2UKxnXhQYDKre9PM9GqrZDdRbN7pEtcddL4yI8Nh6Yl5t+KYHn1SO/j7xjkSR+Ne9+vUKcBF3odHV/vlSbkLDKqbpT20LWYAPXjaFO8TBzUI5RWJXWsHt2c/TT/W9bFxQ6gSIEdI2PLISZubS/LIsjJDxgiIDa6LenAqoGNPpjAGW4SnEcYDe5ov0TMVsOrPx5pYQN9ctYqUwM4r/ELp7dA74YyT90V+9gpMPqShBH1eyjh5ZmnC2s6eYg7E2VpFlRW0ezaI5pcDmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1DdqWUl+s3R3MDplAeBSSbURgIkjeRTKz06qZ0BFY60=;
- b=LjkjENTeIkVi/opOCNzAf2rFThie0M270Ikcc+uuHXEcwKyfgX0elSd6HnU8Hyo7O4zHUdw/fXgdqZaB3nfaZyqNyXGrF97gruG02+ZuvNwBzuVQi+zveHqjpwLQGFgZxYkWBE/aG2eb/ejw8mKlYyG5/vonhel0XH0/DyD8q264IcxOwPTgoNlVpPj4NSHLyRdUYq3JY2Wgh/3rl/kdjaBGDEZxiGAqHuwoGzdKjt/aNMRv9AJysHO6/5P6vWgXIaAtWe9DldbRNHxFpitmvBjQdrXCfVwN9Iyvhy4btVW3SbYpftUZyFm1MpXHdKeAg6oAINulE02tmUn+rpu8Ng==
+ bh=xuqtzwsu1vdMwn3EmGfIYYwXT2/+CHNJuY1m/SCL3AY=;
+ b=OCZo7UIdd79jFiLUg4JrnHTeby8w1r6W2FXSswRyC74gx9xkZjSm2M2HYlHbXm3/2naL63igXvrkJ4LFEkmNTkYkHI+qCbcLzU7aSO4ZtMwchtoxAHs+n2Hq8g4mVwx4kKfUEAhtUaL2dSjD5+X5sZnQfgOyhDuHqPETEOOf12MoHOI6zv+FSLKCdcOkwEEHduUz6PkalgWgR4AlZS33Zc4UkHGklpWqnfe/w2ygEL+aOaT9kzxBoR8/Mq7Os4VD02jJI3oRQa2ndtCG41DnOz51BprYIrTvqtrBUZtdOTfj/YAhgY//+XQ5te9RZCMNe0yHEnruFeogHF9JsCoACA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1DdqWUl+s3R3MDplAeBSSbURgIkjeRTKz06qZ0BFY60=;
- b=Nk9oH7LCS4Y4cJ6ulcSLybEop+Zu9Q52k8mQOxZ3fd4VpS7O0RnmzlbsP7bsV5SbKPAQt6vgZBNRQvPrcWeuRg2J7Z1wLMU/Ivq1yoGOxWgrg2tneg8H8Il0kU++RRcLDipNIqpzEzyOvsfzpjtYU/kQ5X711ahHrXUJ5lNGdag=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5969.namprd12.prod.outlook.com (2603:10b6:208:398::7)
- by SJ2PR12MB7919.namprd12.prod.outlook.com (2603:10b6:a03:4cc::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Wed, 18 Dec
- 2024 15:57:16 +0000
-Received: from BL1PR12MB5969.namprd12.prod.outlook.com
- ([fe80::fe76:56e0:4c10:9a3c]) by BL1PR12MB5969.namprd12.prod.outlook.com
- ([fe80::fe76:56e0:4c10:9a3c%3]) with mapi id 15.20.8272.005; Wed, 18 Dec 2024
- 15:57:16 +0000
-Message-ID: <4f93b51f-ec7b-48e2-974c-9514194c6a07@amd.com>
-Date: Wed, 18 Dec 2024 16:57:05 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] drm: xlnx: zynqmp_dpsub: Add DP audio support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
- Markus Elfring <Markus.Elfring@web.de>
-References: <20241023-xilinx-dp-audio-v4-0-5128881457be@ideasonboard.com>
- <20241023-xilinx-dp-audio-v4-3-5128881457be@ideasonboard.com>
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com (2603:10b6:930:3a::8)
+ by PH8PR11MB6950.namprd11.prod.outlook.com (2603:10b6:510:226::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Wed, 18 Dec
+ 2024 15:58:36 +0000
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::6826:6928:9e6:d778]) by CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::6826:6928:9e6:d778%4]) with mapi id 15.20.8251.015; Wed, 18 Dec 2024
+ 15:58:36 +0000
+From: "Usyskin, Alexander" <alexander.usyskin@intel.com>
+To: "Poosa, Karthik" <karthik.poosa@intel.com>, "Vivi, Rodrigo"
+ <rodrigo.vivi@intel.com>, Miquel Raynal <miquel.raynal@bootlin.com>
+CC: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra
+ <vigneshr@ti.com>, "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?= <thomas.hellstrom@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Weil, Oren jer" <oren.jer.weil@intel.com>, "linux-mtd@lists.infradead.org"
+ <linux-mtd@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 06/10] mtd: intel-dg: wake card on operations
+Thread-Topic: [PATCH v3 06/10] mtd: intel-dg: wake card on operations
+Thread-Index: AQHbOo1AUWIZth7q1kuLhA0cCsqn17LrNrOAgABrRYCAACSGoIAAjmVQ
+Date: Wed, 18 Dec 2024 15:58:35 +0000
+Message-ID: <CY5PR11MB6366CBE2D1AA392AD3F745F7ED052@CY5PR11MB6366.namprd11.prod.outlook.com>
+References: <20241119140112.790720-1-alexander.usyskin@intel.com>
+ <20241119140112.790720-7-alexander.usyskin@intel.com>
+ <Z2H_7Xry3R2fWpMZ@intel.com> <24725a85-47c2-49c3-b2ae-443279b2bd13@intel.com>
+ <CY5PR11MB63663382E44A258B0BAEF1BAED052@CY5PR11MB6366.namprd11.prod.outlook.com>
+In-Reply-To: <CY5PR11MB63663382E44A258B0BAEF1BAED052@CY5PR11MB6366.namprd11.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: "Sagar, Vishal" <vishal.sagar@amd.com>
-In-Reply-To: <20241023-xilinx-dp-audio-v4-3-5128881457be@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0125.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::20) To BL1PR12MB5969.namprd12.prod.outlook.com
- (2603:10b6:208:398::7)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6366:EE_|PH8PR11MB6950:EE_
+x-ms-office365-filtering-correlation-id: f9a012c1-5e78-46fb-87d9-08dd1f7cd4a3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|7416014|376014|1800799024|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?dkViQUxKWGpZeldXQm5HYSt3R01Ud05FMkc3eHlDa3pzc0RTWFRQaWl1QjZT?=
+ =?utf-8?B?ODFLKzA0ZW1yc21xemgwNnVhQWpxWW8xWFBPUmVvVk5mM1RoL2lrRkdVZjkv?=
+ =?utf-8?B?bm1jOE51VWgyellxRjdydEFxaXBLSEJkS054SDFkaTJCTENQR01zQUs0Q0h3?=
+ =?utf-8?B?dUFNZHFxdHlXcTlLVU9neFV6RXVwMy9TMnJxd296UGtpWFNqeDJWV3E2RXNN?=
+ =?utf-8?B?STZuNTl0dWpFK3FNMmp4blkvS3RiYXZLWjZyU1FlbXRKeXgrN2F5VERaQ2M4?=
+ =?utf-8?B?UVVoU2x5N09xeWJGRjlTUXhLL2IwUHpwaHAydG5COXBiWmF5N09vWHpYT0ZR?=
+ =?utf-8?B?YVFxU21SR0p4b2VraXI5dmJwMll2cmxCZjdBNHJUaDRXenRrNHB1VFRUa0tL?=
+ =?utf-8?B?SVB0ZWRPRWdFR29BNEpmK2FJem9oSzZEK1AweW1BTVZxNEZaV3hUbVk0SnV4?=
+ =?utf-8?B?S2J1RUswWmM4NnZDY1kwcmZaUDVMSUJ2bCtqcEdiL1FkVEVQaC91bmc1S0po?=
+ =?utf-8?B?Vm90UlRrN2xVOUQ2VGtsd2xueU5BWUVza2tjeHorN3c2U29SdmJndTF1VjZ1?=
+ =?utf-8?B?OHZXUyt6S3EzNVNiTU44VkZ2NTU3WWVPS09GRGFoSTQ0cVd0QVh3ckxUdHpT?=
+ =?utf-8?B?QVVvanZjY2pkeGVWZWl5UE15VVg3cTNiSFp6bEFDWVJDSFFUMkIwSENXT1RY?=
+ =?utf-8?B?S29QRUg2NEh2eUxEZ0tMUWgxdjR1eEFwNEZSRlhlcWtlRXdyYWJheVRiUmlu?=
+ =?utf-8?B?U1YweGhWTU1Zb1Rzelg5UXF6RjA0UTBoRGxlb1VEMlliYkt5Q0wzeHhhZUVh?=
+ =?utf-8?B?WGs3UWtDekQxRmQ5QXgvYlg1eCtTamJzRHdKWFRmc3lJRWZVU3VxckJxbURl?=
+ =?utf-8?B?K3JrWDljRWx2aTJRYnNXaFNqQzZtamJxMS9BVHc1NU95aFZTRmltVlZkaVFh?=
+ =?utf-8?B?OTc1UjBSYW00djZlK1NzWmRHTjZWTGhlREY3R3VMc291SmZyT1VzQmFTOXZn?=
+ =?utf-8?B?elZRQWFVaytVNUFRbFQxbEMzMEdHUE0ybTd2ZGVNZThDVE85d3VUZENJdkQv?=
+ =?utf-8?B?WjFuOXRkTHdWUnNFNEMvQlFiS1ZHZ0h2UFNsTFNiQWk1L0VNNE1oWTdGendG?=
+ =?utf-8?B?QmZyTWthaVA1aWM2dXRVNi9uVTV3S21jRTlHaXVhODI0bmFtZFZhZHZ6eWlm?=
+ =?utf-8?B?cXQ0K1J4VzdqRDNKeFVCa2xrVWRYNlN2Z00wRURRTmhGSGxNdXhxMEFXbU41?=
+ =?utf-8?B?TXVzUjVTZk5kVm5zZUNFZ2JHL3QrMndEVndRWVlhdUNHSzhERDdNYTJQOCtC?=
+ =?utf-8?B?cEZPMHA2eE9CN2JwRVkxbC9uMTZHWXQ3MDB0VlNhK1NOWnE1YUgzZ29FbzZ4?=
+ =?utf-8?B?V3ljNXJpeXVieWMrRWQzOXliTlNNSmhmOTh5RWRjYlhiM25LZ1k1RExsMnRV?=
+ =?utf-8?B?bmxoaGdlZ0xYaWgydExRK211dmgrTUxib2NFVWNvUjhMY2JQcExjQmxsU1hE?=
+ =?utf-8?B?dSs4aGFtbXZrcXF0Uk84VWdDY3BFVmZVQXpNQW1PTHNYcmYvU2J2YVpDN3Np?=
+ =?utf-8?B?djFKenc1YW5Zb1VWT2kvNXhITHFyZmFocHBYb1g0dzRQOTBqUkJoRHhxbEp0?=
+ =?utf-8?B?RCs1UjNlK0lGSWloT3NQUzFjeEVEejdrUlp4bzg4c0tPYnptaGZveHdaVW5h?=
+ =?utf-8?B?aU43a2U1SUNBOFdNenhQbVJCdHlseWhCWTJSNkNmdjFFb2NxbFIrTFpnSE1x?=
+ =?utf-8?B?VjhVR3hPVEt4RkRJRE9MeHc2S1pqVjBHbWFvWmJiTnNFOWtaYzg3dEZGaTJp?=
+ =?utf-8?B?eFpITjRML3dxanlseTFBU3RNK0VrWnlrNEg3RGZUQWNmZWJPUmJ0VjNZamwz?=
+ =?utf-8?B?bjdYTE5wU2psdFZNUW5jQUFRQytTZTBkSTlIczBGY2ZsWjRhRCtLaStnT1Vm?=
+ =?utf-8?Q?uM6YGWOH6ACPm3xH9XjU45Sl2Cm4mYJ8?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6366.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QXhLeURTTi93eG9jQjVBRjBiaWVFNnBsdkxIaVh4VkE1NFVJYVJmY1NGWTRl?=
+ =?utf-8?B?RHdGYWxReVB3cEpySG5CNHJjNHNjNmpnZlkzYW5ZbGRxUUMzM2k4U0VNcS9H?=
+ =?utf-8?B?ZG9XZWhybjEvRENrYytRdW40aC9RWFBHR09rQlpHRVlTR1FKMWVDRFNoSGdS?=
+ =?utf-8?B?Z25rbkE2d1JYd0prbkZnWW9zZmNWQ0tGd2JBUDRRMTc4OUNBdks1Z0dGVjVB?=
+ =?utf-8?B?cW9nY3liSVY4UGQ5bVN5czBSYzh4Mnl6SGJwYm9abWZ5bW1CQVA3TFVPeGsr?=
+ =?utf-8?B?cjNraHZuQWg0K3FaNDhiRWx2eU1ZTldWM1JndHNRS0Z0SmI3QURYZ0Rmekxm?=
+ =?utf-8?B?dTR2ODRpem52VU1QVEVOTHh5WTc1ZUZsVWdlMjRYb0FQM2U2V0Zac29PU29T?=
+ =?utf-8?B?Zi9vOThNZS85cC9SN3pyK3Z5djhsUFdJNEltUC81eVp4RG5JOUJzVlRURngr?=
+ =?utf-8?B?c3RtcnF2cFJ4cHQxZ09EYTVCU2RvMjRrd0RrM1dmRWRlWFJvQkxqTm1Lc1dx?=
+ =?utf-8?B?c043T05lRS9BL0xWd1pQODR1YVBRSDcvSU5yc0VNSU54dWZDUjZ0ck9SblJl?=
+ =?utf-8?B?eC9DYkl1bHlSeTdsUUVBTzIxOGdlWHNEU2wyOFZDZlJUV1QrdHM0b3J2bk9K?=
+ =?utf-8?B?akxFSnBHcDFlSmN1TWgxdko2SllHM0dOK3NHRm8yaDVJemFXYVFLSkFkSWZV?=
+ =?utf-8?B?RUxTMlkxVy9TR2M5OVZvM0hYOXdSQ3lSK0ZvMWJ4amo0UCs4SU5TU2VrYVdZ?=
+ =?utf-8?B?VGtRWU9ZMnE4Q1RMV01PUkVxeUp6bk5DOXlqWFViYk5Oc1pic3B5Z0JHVEs3?=
+ =?utf-8?B?akE2QlZGeTVlTExyWm1PNGZSMWc0ckF0anJheEZxdy9FYXZRc3I0QVZmS2p6?=
+ =?utf-8?B?ZElEQVJzZStuUzFtYkF2T0YvUDJseFVyd0plSnh2UWNlQU1UN0FuT0x3bVVO?=
+ =?utf-8?B?TUp6cWRrMHpOTjg5TUVrVlZpWE9QSDZQWWpaQ2hFdTE0dnl4TkNHeDNCS3Iz?=
+ =?utf-8?B?WGF1blFMVmRheG81d0F3WDErYTFzWVdINkcyMVY0ZHdidUhobGlZN2dDSWV4?=
+ =?utf-8?B?MS8rdEZBaWx4Z0w2R0lLa0VDcm1nY2t1QjJoU0dpcm9iaTNKMDZSZmtMeTRz?=
+ =?utf-8?B?VHJQZkhEU2pNVG9OM2QwRGZFVmFqZzRMRlVHTXhIbVdBcXpmMFE3aEdYWkJr?=
+ =?utf-8?B?T0VDWGMzZGhUeU1ZTktzdStxUng3UFluTWk0M20wRjZJQk5weExiY1JMOVdL?=
+ =?utf-8?B?UFhVSEVmcFByNVFkRTY1V0hMbldxbW84ZGNqb3ZRYlUra21jMk5rU2d1UWho?=
+ =?utf-8?B?VzVjdlQ4RWViS0tTdUxOSStYV3hyMUhxOVlVTlJmNVhxZGtTc1VzdGxYZUkv?=
+ =?utf-8?B?YUtuZ2pNanNNdFpYa0lNOWFiblhKT3hyYmgvUzVFUDR6RzVlVzRrNkEvZ3Q5?=
+ =?utf-8?B?cDI0bjRPYzNCYWljK0VFSWRjRktHMXpTRGNNazltbXZJR1V0VEdsQ01vYVkx?=
+ =?utf-8?B?K1BIZ0lqRWVsenVNbmZxYjdJTy9wejFWMzkxZzFLbDl4UVJHRnhEdmJnalBm?=
+ =?utf-8?B?SldDN3oxeUYxMDcwQzV0SGpFWVlieWxhTVRlMFQrR3VxSUQ0UmtWVmwrYUNy?=
+ =?utf-8?B?K0g4RDE2aTFyRC9tZlBSNlQwckFsWmk0TlBaeDFYSHJsVmFRV2FVeW0rN1ZS?=
+ =?utf-8?B?UngzVCtLS0Rmb3g4ZHRnS0k3OE5lS29hTGg4TEtzNFpQdW90eERZNTFFdnZD?=
+ =?utf-8?B?ZHJ5TlZxd1dpUFptQWxOQSswVWgwMmRBV2toRWRrdlplSjFEeUVrd05NTlpM?=
+ =?utf-8?B?M1Z1OVQ4dWRReFhRdnZJTmhrWk9lY0pRRXNidFM3aTdSajNhUjRBUFFVMFNM?=
+ =?utf-8?B?cWx0UGJPeGQ3MUVDbWNJT2lRN2tYaHBUbVR3SlR5dWhIb2FNUTlXb3ZtU0dq?=
+ =?utf-8?B?S2pwNmVTakRZcXVjZUhWKzNXeTgwbnMzWm1BdlFnZm0reittQXBNTkxZZU9I?=
+ =?utf-8?B?Q3htOXFud3poTlVHUll6b2tPMi9zTjNaQWFpS1NEZTk2emVBQi9acXZOQXBa?=
+ =?utf-8?B?cnVhLzQzWVZxNUpzMW5oTzBQb3F6UUtOd1NheDBRYW1ZK0JqSTdxUWF1T0N2?=
+ =?utf-8?Q?ysp9aY/DYGxynU5xH5kVwv0nE?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5969:EE_|SJ2PR12MB7919:EE_
-X-MS-Office365-Filtering-Correlation-Id: e52318bb-1d1b-48cb-ef67-08dd1f7ca539
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N0NPTWZOYUVwUXFYOXlZUWtaY2NDQXFkVnJCc1Y2M2M4SG5LRk5NQkc1bUZJ?=
- =?utf-8?B?V3R0M3dSYmtHODhIdEVpNy9CclA4WXg5VEhLeDBYeWRxbWVBMHNpYnNBenVB?=
- =?utf-8?B?aFNBdm1zYWR1YUdLZ0xud1JwOUFyMUUwTm4vY0REK1BCRHBtcFM4SEdTRG90?=
- =?utf-8?B?anE2MWlkM1hsbHFSWE8zSGtjaExBUVJmMGtCQ2hxOU5iRDF6cHIreVBGUHFG?=
- =?utf-8?B?Y0M5UWIxTWQ2K2p0UlpDMUxvdWVPMXRaWTIybUViNnlNczhsMzVmcHVRblpN?=
- =?utf-8?B?L2hyNGo1V1RjSndyaFhpRnFyMi81QnhoaVFyV1NubmI2UGQrbm1aLzR6d1hU?=
- =?utf-8?B?d3JwYnF2ODUvblFHNjF4TE90Qlo1Wkl1QUdwV1NpUEFqazRaUTRqcEFRSisv?=
- =?utf-8?B?VHB6aEdRUCtyYzRkdk5jazF2YXh6WXpqYk10Uk85Sk93SzF4aUJFRDlEdkZQ?=
- =?utf-8?B?ODNSOWhmNmtPa3FaNzVFNWhFaWZwb3hnditvTFJMVVhSKzB4aHhCTml5S3k1?=
- =?utf-8?B?UTcvTlZJbWNuOHJnQUJNaEEvT2h3eGt1Q3Jyc2dBREdIOW1TNm9WOHo3RHZS?=
- =?utf-8?B?MXJMT1Frb2NlUit2WWdiSWIyTEl4eUhSNDBOVVgvV0FmZ1NuTHlxTUNmcVNN?=
- =?utf-8?B?RkZxWThtQXRVdmtzSm1rSlMrU053T21VSDF2cWdYeURuVll6S1Z6VnhCWnVv?=
- =?utf-8?B?a3lhZG12Vld4Mi9BdWkvekdGNEJ6Y1lXaEZ3aFFOWkJTbkxKYUFuSWVLYXN3?=
- =?utf-8?B?QTJCdGxaN1dnbW9YMHFSc29EcDd4MS96R3VTRFl2VWU5OVV6YWdCQ1JsdUlq?=
- =?utf-8?B?cmVZUnVrRVpUbEwwbzVhWnR1QUdIS2NxaW1wWDhlLzltTjNoL0phQ3FERDFi?=
- =?utf-8?B?YkdvTUpkNnJJbVVCbXA1TlZpU2NoTEUxZE4zemxuN0NBWS9UcUxBZHNKcXpx?=
- =?utf-8?B?RFlPZFZROXZaYmwyMDNxSzJzdjl1T2tlbEtMTzlDT21XbXY1NW80eWRSNlJa?=
- =?utf-8?B?d1c3WkY0UnA3SFgzQkRWRGFMbGRvSmFyM1FIdVY4cFRSbVJ5RnJqdkc2T0sw?=
- =?utf-8?B?UkpvTWw4NUZkMXRaMDJXOWZ2cG1hbVVLZWJ4N2U2a1lOMzRaUktUOThzREVy?=
- =?utf-8?B?OXVUYmZGeXBwaHBpaWU1UERIakp0UmxVMGVLN1RkWTl1MjNqS2FYL3dmaW9q?=
- =?utf-8?B?REN2OU0wTFRYb3RmRzlISFpXbDczNlE3WDYySTlFZHdBbVNXdjJFMnlWRlZv?=
- =?utf-8?B?ZXV4S3VYeVlJN0FqY0NwcVNuZ21GT2tZbHk5dGlFOFpBM1FUNC9VNUE2dWNy?=
- =?utf-8?B?ckVqMkVQM3JPYkxscDM4cjRqekNGYjBwRlFnU1hMSXNFU3owTGFFcEpkTW9Z?=
- =?utf-8?B?a2lHVlVUdEIrTWM4SXVPODl1WVk5eWMyNTBaR0lwRG9nVGhoWFdzVkFMbmQx?=
- =?utf-8?B?RUx4UjNNd3VhRkhvY0hNNXZwSkd2bjdyaVFsWUpqaXZqamp5TE5BNDNGZ1RE?=
- =?utf-8?B?eFZxb3lDbzZoY01kVkowaGxVNWZVaVBqODBoV3pvMjNYaG53QjZsdzFWQjlB?=
- =?utf-8?B?K0c3RVBZTDlNaVpHVFc0aXp2bGVhMk1sMWI2SkRLQ25FTmtiUklhNjk4cUhX?=
- =?utf-8?B?M3p4QzhDeU0wWVBGZnczaThpWmhDQk81Um9LcmtzbG5hSEtsVERPUGo4T3FJ?=
- =?utf-8?B?NUpPTWRUZHR1SEY5Q21QeWJqKzFveFozZGRoeEpjc2MvNENwVkVONWhaS2J4?=
- =?utf-8?B?ZG41bnQxQVFjUlNxaTJIdUg2aWxQcVFsUUhsMGdlckxPSjAwTnFqaHo3Q1A3?=
- =?utf-8?B?VE5WR3gyT1phbE9meG1oSmsxWEg4emlRZUZoWU1BMUdjblBUMjBmbFJXQ1VE?=
- =?utf-8?B?WlZUdG9DMEpvWU01dTdtNzh5OGtqb0Fld0JFRzQrMnNQYzJIQng5WUg1akVk?=
- =?utf-8?Q?qe3IkNv6wmU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5969.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVB0U1Z3eWdkMnUwU3FYY3pJekJSZjlFaXoxQ1VaRWltMzJNZmlCWnRlaE9E?=
- =?utf-8?B?SXRHTXNWb0RnT0trUGtkUFVNVnRzSk9mY0NpZHRjNUNMZUZhUDdpUGl0OTRt?=
- =?utf-8?B?RlFSTXZjU3lWMnZVbE1yUDA2ckhyU0R1MFpxUjVzRFRMQUxhR3NzN2x1REdF?=
- =?utf-8?B?azR0Z0I4cXcxaElOcjNQbEZvV2t2cHp1bDI5RWdlZlp6aWppZUowU2xSR1Yy?=
- =?utf-8?B?Qk9LSlQ2M3lvMGZwNkNYejRES1ZZaVUxMVRBMDBGZ3ZOM2Q5cjFXbm9WRU90?=
- =?utf-8?B?ZWFtK2syTEQ4ODMyQlNTMjA0QkszUnBMRlA0dTdBSDc2TEpITCttVHJJSW1x?=
- =?utf-8?B?R1hjMUtQVjZ5OTBmUzlRQXNnd2kzUUpGMTZNb3k2UW5FamhwRUdZNnZQU1B3?=
- =?utf-8?B?RU1ObzJGV0dxV2xSaGZJZEVhdmNaYnJkb3JVbSswSDBCZmNROVVsc09SK095?=
- =?utf-8?B?d2RhbkpmMnZKcmRYbGNNRG9HOE1HMm5ZZHp6Uys0WTE2L0FNZU1xTTVxSk5Y?=
- =?utf-8?B?UXp3YjFkK1dLVzk3a0VUYWZkbXBCNGM1K0tJYzZ5UnlKVUxnb2RTYlRFajJP?=
- =?utf-8?B?cTY1b0w5bmpzMWZJTGtNWjFNendleWRtdVBuQlljRXo3a2ZjWFdGYWFiem1s?=
- =?utf-8?B?VVJReXNvckdUb2cveUEwWGw1Q09yMVlENWJrRjRtbndSdExJN3NNQW05Skgx?=
- =?utf-8?B?ZzFhNjNxS2VDYklVRFJuTDhiT1BlN2ozR2k0ZlNMbC9VMDhub3ovODlIeVdB?=
- =?utf-8?B?SHZVdTV5NUFYbTdGUk1ZTXFPWTU1TXlDZmtYbTZCVlpieEpzdkMvb2lYRzlq?=
- =?utf-8?B?U2w4NjBxRlo0eEp3ajRmNlR3UmRQY2tEeFE0bHpwaWgvTTZreWtIMk9xK0la?=
- =?utf-8?B?ZnlRVUdZbFVNWFF2V2gwa0kyUmNia0Z0Ujh2RnJxNWZPNW5VQ2tZSTBKVW15?=
- =?utf-8?B?YVhVVGpyWUhKV3JMOXpPdTI4SloyUmRvYjZ4YTFONDVNaWQ2bUYwbFJ1S3p3?=
- =?utf-8?B?MFl1dTNTTno0WUJiLzZ1TXNXUEVqQ0dVdU5rQW13RkFWK1VOclhNS1JFam1V?=
- =?utf-8?B?SG5kSFRVYVAzaGptc3cyb25OU0RyN2ZDa1RtRnRMQlppeDJIQVJwaU5QMWZk?=
- =?utf-8?B?NWxVVmx6L0dSSVl2U1VaZVUrenptSU83aXYyQXV3Qmo5aWsySnJWZ0owUGs0?=
- =?utf-8?B?MmplOHU3OGZCNHV6UlNDbWd0bWdVbGkyN1FTd0xiUVA3U3NWbU9rbHlDUjNi?=
- =?utf-8?B?eXBaNll0akZQM2dXdmswdXlVOCtnaDdZZ3NFREpBeW5TM3BadGUvNWpMTlht?=
- =?utf-8?B?bjcySDFPMVMwNmF3cWNSV0xTQ1E3Vm5idFYwR21WbWJ0bk1JRHV2YTNVM3U0?=
- =?utf-8?B?cGxDYnZBOUxUYjgrUlFtSlJtQUljaXpzL2d6SFRaSnJGUkJnTWhpODFqczhh?=
- =?utf-8?B?UWl5bk9IU2lKd2Q3dS9vUWpVNHVWcm5oQk5pS2E0cDIyYVNaZkFLREJVRVpP?=
- =?utf-8?B?M2ljUC9vai9WVkl1NnVzTjFVUU9HSFJFTmhUYy9rTWtXbVJRd0c0eDBDZVJw?=
- =?utf-8?B?Z1kxR1Ewdzd6MFBzZWZWMWhIMzZFYms1aUJHemZNU01NMDEwUmgzSVRzT1N5?=
- =?utf-8?B?dkdxYUxXa0hmNkg4WUxETk5nUzBqQUxwZ0VFR1hJZG81RDVyajF6N2NDRDRt?=
- =?utf-8?B?TXlYZFJFalErN3liZW1DbGJKZDRVRytyK0RUMG9PSi9zNWlwbEcxaUdKUmZx?=
- =?utf-8?B?dHVnNHl4clpCVjNtV09kcDNhbU9VQ1M4NkwvSHJoUkYxc2RCU3ZWcjV1L3ZK?=
- =?utf-8?B?OVNESG15MmlDVXN6Rkd5bnlmRWN0Z2d5L1B6Ym1LZFdsMHBNV0JTSEpWMmFo?=
- =?utf-8?B?SXFnY0NlS1BCSnN0YjBCNm5xODI4OFUrQlpOdU44eFpKMy8wbEtQTlEvQjFt?=
- =?utf-8?B?RjYzU1krKzRQZ2xRbW5jQ3VaMXZhb01PUVFnNG9JWkQrU3FuNVFnM3c0cXha?=
- =?utf-8?B?NDlsaE9JTFdMYzBXMlMvT0dIdU55OUVlQnpuSDJVTExyeWxWZDFicFV1N3ZL?=
- =?utf-8?B?bGhYdmkxdTdhcDFzaE5nWEtSK2xaV2g3Q2VwdVN3cUxrbXJWOE1FbWtLVXRU?=
- =?utf-8?Q?Sl8Oj5fYtRJaTUIo+g+NG2IAq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e52318bb-1d1b-48cb-ef67-08dd1f7ca539
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5969.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2024 15:57:16.7058 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ozbK5wAB3ljKtJASKkxXQZm0sF8DpKwmsaSKjPuSxz7attb+VxN7k9B+j6GUZ5sx
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7919
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6366.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9a012c1-5e78-46fb-87d9-08dd1f7cd4a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2024 15:58:36.0290 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5h9M+WJLogXHr2PRt/dIEZ5/BsLmyvMN6TUF75ObfxWTP5gLf8FXe8ppfsKz1OJpXJD4bCabHHeYzTtmCSMydJwmcf9C3STbddO8vYxdZLU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6950
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,855 +213,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thanks for the patch.
-
-On 10/23/2024 1:52 PM, Tomi Valkeinen wrote:
-> Add basic DisplayPort audio support.
-> 
-> Support non-live audio playback from two PCMs (DMA channels), and the
-> volume control in the audio mixer.
-> 
-> As older dtb files may not have the audio DMA channels defined, the
-> driver will just mark the audio support as disabled if the audio DMA is
-> missing, and will continue with only display support.
-> 
-> Note: Reset doesn't seem to work (ZYNQMP_DISP_AUD_SOFT_RESET). If we do
-> a reset, audio playback won't start again even if, afaics, we do set up
-> all the necessary registers. So, at the moment, resetting the audio
-> block in dp_dai_hw_free() is commented out.
-> 
-> Tested-by: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/gpu/drm/xlnx/Kconfig            |   9 +
->   drivers/gpu/drm/xlnx/Makefile           |   1 +
->   drivers/gpu/drm/xlnx/zynqmp_disp.c      |  48 ----
->   drivers/gpu/drm/xlnx/zynqmp_disp_regs.h |   7 +-
->   drivers/gpu/drm/xlnx/zynqmp_dp.c        |  54 ++--
->   drivers/gpu/drm/xlnx/zynqmp_dp.h        |   7 +
->   drivers/gpu/drm/xlnx/zynqmp_dp_audio.c  | 447 ++++++++++++++++++++++++++++++++
->   drivers/gpu/drm/xlnx/zynqmp_dpsub.c     |  39 +--
->   drivers/gpu/drm/xlnx/zynqmp_dpsub.h     |  15 +-
->   9 files changed, 526 insertions(+), 101 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/Kconfig b/drivers/gpu/drm/xlnx/Kconfig
-> index 626e5ac4c33d..ecd7be347300 100644
-> --- a/drivers/gpu/drm/xlnx/Kconfig
-> +++ b/drivers/gpu/drm/xlnx/Kconfig
-> @@ -16,3 +16,12 @@ config DRM_ZYNQMP_DPSUB
->   	  This is a DRM/KMS driver for ZynqMP DisplayPort controller. Choose
->   	  this option if you have a Xilinx ZynqMP SoC with DisplayPort
->   	  subsystem.
-> +
-> +config DRM_ZYNQMP_DPSUB_AUDIO
-> +	bool "ZynqMP DisplayPort Audio Support"
-> +	depends on DRM_ZYNQMP_DPSUB
-> +	depends on SND && SND_SOC
-> +	select SND_SOC_GENERIC_DMAENGINE_PCM
-> +	help
-> +	  Choose this option to enable DisplayPort audio support in the ZynqMP
-> +	  DisplayPort driver.
-> diff --git a/drivers/gpu/drm/xlnx/Makefile b/drivers/gpu/drm/xlnx/Makefile
-> index ea1422a39502..ab6e2ffd7e8d 100644
-> --- a/drivers/gpu/drm/xlnx/Makefile
-> +++ b/drivers/gpu/drm/xlnx/Makefile
-> @@ -1,2 +1,3 @@
->   zynqmp-dpsub-y := zynqmp_disp.o zynqmp_dpsub.o zynqmp_dp.o zynqmp_kms.o
-> +zynqmp-dpsub-$(CONFIG_DRM_ZYNQMP_DPSUB_AUDIO) += zynqmp_dp_audio.o
->   obj-$(CONFIG_DRM_ZYNQMP_DPSUB) += zynqmp-dpsub.o
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> index 9368acf56eaf..77dc485c0887 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> @@ -143,7 +143,6 @@ struct zynqmp_disp_layer {
->    * @dpsub: Display subsystem
->    * @blend: Register I/O base address for the blender
->    * @avbuf: Register I/O base address for the audio/video buffer manager
-> - * @audio: Registers I/O base address for the audio mixer
->    * @layers: Layers (planes)
->    */
->   struct zynqmp_disp {
-> @@ -152,7 +151,6 @@ struct zynqmp_disp {
->   
->   	void __iomem *blend;
->   	void __iomem *avbuf;
-> -	void __iomem *audio;
->   
->   	struct zynqmp_disp_layer layers[ZYNQMP_DPSUB_NUM_LAYERS];
->   };
-> @@ -865,42 +863,6 @@ static void zynqmp_disp_blend_layer_disable(struct zynqmp_disp *disp,
->   					csc_zero_offsets);
->   }
->   
-> -/* -----------------------------------------------------------------------------
-> - * Audio Mixer
-> - */
-> -
-> -static void zynqmp_disp_audio_write(struct zynqmp_disp *disp, int reg, u32 val)
-> -{
-> -	writel(val, disp->audio + reg);
-> -}
-> -
-> -/**
-> - * zynqmp_disp_audio_enable - Enable the audio mixer
-> - * @disp: Display controller
-> - *
-> - * Enable the audio mixer by de-asserting the soft reset. The audio state is set to
-> - * default values by the reset, set the default mixer volume explicitly.
-> - */
-> -static void zynqmp_disp_audio_enable(struct zynqmp_disp *disp)
-> -{
-> -	/* Clear the audio soft reset register as it's an non-reset flop. */
-> -	zynqmp_disp_audio_write(disp, ZYNQMP_DISP_AUD_SOFT_RESET, 0);
-> -	zynqmp_disp_audio_write(disp, ZYNQMP_DISP_AUD_MIXER_VOLUME,
-> -				ZYNQMP_DISP_AUD_MIXER_VOLUME_NO_SCALE);
-> -}
-> -
-> -/**
-> - * zynqmp_disp_audio_disable - Disable the audio mixer
-> - * @disp: Display controller
-> - *
-> - * Disable the audio mixer by asserting its soft reset.
-> - */
-> -static void zynqmp_disp_audio_disable(struct zynqmp_disp *disp)
-> -{
-> -	zynqmp_disp_audio_write(disp, ZYNQMP_DISP_AUD_SOFT_RESET,
-> -				ZYNQMP_DISP_AUD_SOFT_RESET_AUD_SRST);
-> -}
-> -
->   /* -----------------------------------------------------------------------------
->    * ZynqMP Display Layer & DRM Plane
->    */
-> @@ -1338,8 +1300,6 @@ void zynqmp_disp_enable(struct zynqmp_disp *disp)
->   					     disp->dpsub->vid_clk_from_ps);
->   	zynqmp_disp_avbuf_enable_channels(disp);
->   	zynqmp_disp_avbuf_enable_audio(disp);
-> -
-> -	zynqmp_disp_audio_enable(disp);
->   }
->   
->   /**
-> @@ -1348,8 +1308,6 @@ void zynqmp_disp_enable(struct zynqmp_disp *disp)
->    */
->   void zynqmp_disp_disable(struct zynqmp_disp *disp)
->   {
-> -	zynqmp_disp_audio_disable(disp);
-> -
->   	zynqmp_disp_avbuf_disable_audio(disp);
->   	zynqmp_disp_avbuf_disable_channels(disp);
->   	zynqmp_disp_avbuf_disable(disp);
-> @@ -1418,12 +1376,6 @@ int zynqmp_disp_probe(struct zynqmp_dpsub *dpsub)
->   		goto error;
->   	}
->   
-> -	disp->audio = devm_platform_ioremap_resource_byname(pdev, "aud");
-> -	if (IS_ERR(disp->audio)) {
-> -		ret = PTR_ERR(disp->audio);
-> -		goto error;
-> -	}
-> -
->   	ret = zynqmp_disp_create_layers(disp);
->   	if (ret)
->   		goto error;
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-> index fa3935384834..9a4ff094e276 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_disp_regs.h
-> @@ -177,12 +177,7 @@
->   #define ZYNQMP_DISP_AUD_MIXER_VOLUME			0x0
->   #define ZYNQMP_DISP_AUD_MIXER_VOLUME_NO_SCALE		0x20002000
->   #define ZYNQMP_DISP_AUD_MIXER_META_DATA			0x4
-> -#define ZYNQMP_DISP_AUD_CH_STATUS0			0x8
-> -#define ZYNQMP_DISP_AUD_CH_STATUS1			0xc
-> -#define ZYNQMP_DISP_AUD_CH_STATUS2			0x10
-> -#define ZYNQMP_DISP_AUD_CH_STATUS3			0x14
-> -#define ZYNQMP_DISP_AUD_CH_STATUS4			0x18
-> -#define ZYNQMP_DISP_AUD_CH_STATUS5			0x1c
-> +#define ZYNQMP_DISP_AUD_CH_STATUS(x)			(0x8 + ((x) * 4))
->   #define ZYNQMP_DISP_AUD_CH_A_DATA0			0x20
->   #define ZYNQMP_DISP_AUD_CH_A_DATA1			0x24
->   #define ZYNQMP_DISP_AUD_CH_A_DATA2			0x28
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> index 129beac4c073..af1b4b104067 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-> @@ -1221,7 +1221,6 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
->   {
->   	u8 lane_cnt = dp->mode.lane_cnt;
->   	u32 reg, wpl;
-> -	unsigned int rate;
->   
->   	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_HTOTAL, mode->htotal);
->   	zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_VTOTAL, mode->vtotal);
-> @@ -1246,18 +1245,8 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
->   		reg = drm_dp_bw_code_to_link_rate(dp->mode.bw_code);
->   		zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_N_VID, reg);
->   		zynqmp_dp_write(dp, ZYNQMP_DP_MAIN_STREAM_M_VID, mode->clock);
-> -		rate = zynqmp_dpsub_get_audio_clk_rate(dp->dpsub);
-> -		if (rate) {
-> -			dev_dbg(dp->dev, "Audio rate: %d\n", rate / 512);
-> -			zynqmp_dp_write(dp, ZYNQMP_DP_TX_N_AUD, reg);
-> -			zynqmp_dp_write(dp, ZYNQMP_DP_TX_M_AUD, rate / 1000);
-> -		}
->   	}
->   
-> -	/* Only 2 channel audio is supported now */
-> -	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
-> -		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CHANNELS, 1);
-> -
->   	zynqmp_dp_write(dp, ZYNQMP_DP_USER_PIX_WIDTH, 1);
->   
->   	/* Translate to the native 16 bit datapath based on IP core spec */
-> @@ -1266,6 +1255,44 @@ static void zynqmp_dp_encoder_mode_set_stream(struct zynqmp_dp *dp,
->   	zynqmp_dp_write(dp, ZYNQMP_DP_USER_DATA_COUNT_PER_LANE, reg);
->   }
->   
-> +/* -----------------------------------------------------------------------------
-> + * Audio
-> + */
-> +
-> +void zynqmp_dp_audio_set_channels(struct zynqmp_dp *dp,
-> +				  unsigned int num_channels)
-> +{
-> +	zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CHANNELS, num_channels - 1);
-> +}
-> +
-> +void zynqmp_dp_audio_enable(struct zynqmp_dp *dp)
-> +{
-> +	zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 1);
-> +}
-> +
-> +void zynqmp_dp_audio_disable(struct zynqmp_dp *dp)
-> +{
-> +	zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
-> +}
-> +
-> +void zynqmp_dp_audio_write_n_m(struct zynqmp_dp *dp)
-> +{
-> +	unsigned int rate;
-> +	u32 link_rate;
-> +
-> +	if (!(dp->config.misc0 & ZYNQMP_DP_MAIN_STREAM_MISC0_SYNC_LOCK))
-> +		return;
-> +
-> +	link_rate = drm_dp_bw_code_to_link_rate(dp->mode.bw_code);
-> +
-> +	rate = clk_get_rate(dp->dpsub->aud_clk);
-> +
-> +	dev_dbg(dp->dev, "Audio rate: %d\n", rate / 512);
-> +
-> +	zynqmp_dp_write(dp, ZYNQMP_DP_TX_N_AUD, link_rate);
-> +	zynqmp_dp_write(dp, ZYNQMP_DP_TX_M_AUD, rate / 1000);
-> +}
-> +
->   /* -----------------------------------------------------------------------------
->    * DISP Configuration
->    */
-> @@ -1453,8 +1480,7 @@ static void zynqmp_dp_bridge_atomic_enable(struct drm_bridge *bridge,
->   	/* Enable the encoder */
->   	dp->enabled = true;
->   	zynqmp_dp_update_misc(dp);
-> -	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
-> -		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 1);
-> +
->   	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN, 0);
->   	if (dp->status == connector_status_connected) {
->   		for (i = 0; i < 3; i++) {
-> @@ -1487,8 +1513,6 @@ static void zynqmp_dp_bridge_atomic_disable(struct drm_bridge *bridge,
->   	drm_dp_dpcd_writeb(&dp->aux, DP_SET_POWER, DP_SET_POWER_D3);
->   	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
->   			ZYNQMP_DP_TX_PHY_POWER_DOWN_ALL);
-> -	if (zynqmp_dpsub_audio_enabled(dp->dpsub))
-> -		zynqmp_dp_write(dp, ZYNQMP_DP_TX_AUDIO_CONTROL, 0);
->   
->   	zynqmp_dp_disp_disable(dp, old_bridge_state);
->   
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.h b/drivers/gpu/drm/xlnx/zynqmp_dp.h
-> index f077d7fbd0ad..a3257793e23a 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dp.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp.h
-> @@ -22,4 +22,11 @@ void zynqmp_dp_disable_vblank(struct zynqmp_dp *dp);
->   int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub);
->   void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub);
->   
-> +void zynqmp_dp_audio_set_channels(struct zynqmp_dp *dp,
-> +				  unsigned int num_channels);
-> +void zynqmp_dp_audio_enable(struct zynqmp_dp *dp);
-> +void zynqmp_dp_audio_disable(struct zynqmp_dp *dp);
-> +
-> +void zynqmp_dp_audio_write_n_m(struct zynqmp_dp *dp);
-> +
->   #endif /* _ZYNQMP_DP_H_ */
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
-> new file mode 100644
-> index 000000000000..fa5f0ace6084
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
-> @@ -0,0 +1,447 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * ZynqMP DisplayPort Subsystem Driver - Audio support
-> + *
-> + * Copyright (C) 2015 - 2024 Xilinx, Inc.
-> + *
-> + * Authors:
-> + * - Hyun Woo Kwon <hyun.kwon@xilinx.com>
-> + * - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/device.h>
-> +#include <linux/mutex.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include <sound/asoundef.h>
-> +#include <sound/core.h>
-> +#include <sound/dmaengine_pcm.h>
-> +#include <sound/initval.h>
-> +#include <sound/pcm.h>
-> +#include <sound/soc.h>
-> +#include <sound/tlv.h>
-> +
-> +#include "zynqmp_disp_regs.h"
-> +#include "zynqmp_dp.h"
-> +#include "zynqmp_dpsub.h"
-> +
-> +#define ZYNQMP_DISP_AUD_SMPL_RATE_TO_CLK 512
-> +#define ZYNQMP_NUM_PCMS 2
-> +
-> +struct zynqmp_dpsub_audio {
-> +	void __iomem *base;
-> +
-> +	struct snd_soc_card card;
-> +
-> +	const char *dai_name;
-> +	const char *link_names[ZYNQMP_NUM_PCMS];
-> +	const char *pcm_names[ZYNQMP_NUM_PCMS];
-> +
-> +	struct snd_soc_dai_driver dai_driver;
-> +	struct snd_dmaengine_pcm_config pcm_configs[2];
-> +
-> +	struct snd_soc_dai_link links[ZYNQMP_NUM_PCMS];
-> +
-> +	struct {
-> +		struct snd_soc_dai_link_component cpu;
-> +		struct snd_soc_dai_link_component codec;
-> +		struct snd_soc_dai_link_component platform;
-> +	} components[ZYNQMP_NUM_PCMS];
-> +
-> +	/*
-> +	 * Protects:
-> +	 * - enabled_streams
-> +	 * - volumes
-> +	 * - current_rate
-> +	 */
-> +	struct mutex enable_lock;
-> +
-> +	u32 enabled_streams;
-> +	u32 current_rate;
-> +
-> +	u16 volumes[2];
-> +};
-> +
-> +static const struct snd_pcm_hardware zynqmp_dp_pcm_hw = {
-> +	.info = SNDRV_PCM_INFO_MMAP |
-> +		SNDRV_PCM_INFO_MMAP_VALID |
-> +		SNDRV_PCM_INFO_INTERLEAVED |
-> +		SNDRV_PCM_INFO_PAUSE |
-> +		SNDRV_PCM_INFO_RESUME |
-> +		SNDRV_PCM_INFO_NO_PERIOD_WAKEUP,
-> +
-> +	.buffer_bytes_max       = 128 * 1024,
-> +	.period_bytes_min       = 256,
-> +	.period_bytes_max       = 1024 * 1024,
-> +	.periods_min            = 2,
-> +	.periods_max            = 256,
-> +};
-> +
-> +static int zynqmp_dp_startup(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +
-> +	snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
-> +				   256);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct snd_soc_ops zynqmp_dp_ops = {
-> +	.startup = zynqmp_dp_startup,
-> +};
-> +
-> +static void zynqmp_dp_audio_write(struct zynqmp_dpsub_audio *audio, int reg,
-> +				  u32 val)
-> +{
-> +	writel(val, audio->base + reg);
-> +}
-> +
-> +static int dp_dai_hw_params(struct snd_pcm_substream *substream,
-> +			    struct snd_pcm_hw_params *params,
-> +			    struct snd_soc_dai *socdai)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct zynqmp_dpsub *dpsub =
-> +		snd_soc_dai_get_drvdata(snd_soc_rtd_to_cpu(rtd, 0));
-> +	struct zynqmp_dpsub_audio *audio = dpsub->audio;
-> +	int ret;
-> +	u32 sample_rate;
-> +	struct snd_aes_iec958 iec = { 0 };
-> +	unsigned long rate;
-> +
-> +	sample_rate = params_rate(params);
-> +
-> +	if (sample_rate != 48000 && sample_rate != 44100)
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&audio->enable_lock);
-> +
-> +	if (audio->enabled_streams && audio->current_rate != sample_rate) {
-> +		dev_err(dpsub->dev,
-> +			"Can't change rate while playback enabled\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (audio->enabled_streams > 0) {
-> +		/* Nothing to do */
-> +		audio->enabled_streams++;
-> +		return 0;
-> +	}
-> +
-> +	audio->current_rate = sample_rate;
-> +
-> +	/* Note: clock rate can only be changed if the clock is disabled */
-> +	ret = clk_set_rate(dpsub->aud_clk,
-> +			   sample_rate * ZYNQMP_DISP_AUD_SMPL_RATE_TO_CLK);
-> +	if (ret) {
-> +		dev_err(dpsub->dev, "can't set aud_clk to %u err:%d\n",
-> +			sample_rate * ZYNQMP_DISP_AUD_SMPL_RATE_TO_CLK, ret);
-> +		return ret;
-> +	}
-> +
-> +	clk_prepare_enable(dpsub->aud_clk);
-> +
-> +	rate = clk_get_rate(dpsub->aud_clk);
-> +
-> +	/* Ignore some offset +- 10 */
-> +	if (abs(sample_rate * ZYNQMP_DISP_AUD_SMPL_RATE_TO_CLK - rate) > 10) {
-> +		dev_err(dpsub->dev, "aud_clk offset is higher: %ld\n",
-> +			sample_rate * ZYNQMP_DISP_AUD_SMPL_RATE_TO_CLK - rate);
-> +		clk_disable_unprepare(dpsub->aud_clk);
-> +		return -EINVAL;
-> +	}
-> +
-> +	pm_runtime_get_sync(dpsub->dev);
-> +
-> +	zynqmp_dp_audio_write(audio, ZYNQMP_DISP_AUD_MIXER_VOLUME,
-> +			      audio->volumes[0] | (audio->volumes[1] << 16));
-> +
-> +	/* Clear the audio soft reset register as it's an non-reset flop. */
-> +	zynqmp_dp_audio_write(audio, ZYNQMP_DISP_AUD_SOFT_RESET, 0);
-> +
-> +	/* Only 2 channel audio is supported now */
-> +	zynqmp_dp_audio_set_channels(dpsub->dp, 2);
-> +
-> +	zynqmp_dp_audio_write_n_m(dpsub->dp);
-> +
-> +	/* Channel status */
-> +
-> +	if (sample_rate == 48000)
-> +		iec.status[3] = IEC958_AES3_CON_FS_48000;
-> +	else
-> +		iec.status[3] = IEC958_AES3_CON_FS_44100;
-> +
-> +	for (unsigned int i = 0; i < AES_IEC958_STATUS_SIZE / 4; ++i) {
-> +		u32 v;
-> +
-> +		v = (iec.status[(i * 4) + 0] << 0) |
-> +		    (iec.status[(i * 4) + 1] << 8) |
-> +		    (iec.status[(i * 4) + 2] << 16) |
-> +		    (iec.status[(i * 4) + 3] << 24);
-> +
-> +		zynqmp_dp_audio_write(audio, ZYNQMP_DISP_AUD_CH_STATUS(i), v);
-> +	}
-> +
-> +	zynqmp_dp_audio_enable(dpsub->dp);
-> +
-> +	audio->enabled_streams++;
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp_dai_hw_free(struct snd_pcm_substream *substream,
-> +			  struct snd_soc_dai *socdai)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct zynqmp_dpsub *dpsub =
-> +		snd_soc_dai_get_drvdata(snd_soc_rtd_to_cpu(rtd, 0));
-> +	struct zynqmp_dpsub_audio *audio = dpsub->audio;
-> +
-> +	guard(mutex)(&audio->enable_lock);
-> +
-> +	/* Nothing to do */
-> +	if (audio->enabled_streams > 1) {
-> +		audio->enabled_streams--;
-> +		return 0;
-> +	}
-> +
-> +	pm_runtime_put(dpsub->dev);
-> +
-> +	zynqmp_dp_audio_disable(dpsub->dp);
-> +
-> +	/*
-> +	 * Reset doesn't work. If we assert reset between audio stop and start,
-> +	 * the audio won't start anymore. Probably we are missing writing
-> +	 * some audio related registers. A/B buf?
-> +	 */
-> +	/*
-> +	zynqmp_disp_audio_write(audio, ZYNQMP_DISP_AUD_SOFT_RESET,
-> +				ZYNQMP_DISP_AUD_SOFT_RESET_AUD_SRST);
-> +	*/
-> +
-> +	clk_disable_unprepare(dpsub->aud_clk);
-> +
-> +	audio->current_rate = 0;
-> +	audio->enabled_streams--;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct snd_soc_dai_ops zynqmp_dp_dai_ops = {
-> +	.hw_params	= dp_dai_hw_params,
-> +	.hw_free	= dp_dai_hw_free,
-> +};
-> +
-> +/*
-> + * Min = 10 * log10(0x1 / 0x2000) = -39.13
-> + * Max = 10 * log10(0xffffff / 0x2000) = 9.03
-> + */
-> +static const DECLARE_TLV_DB_RANGE(zynqmp_dp_tlv,
-> +	0x0, 0x0, TLV_DB_SCALE_ITEM(TLV_DB_GAIN_MUTE, -3913, 1),
-> +	0x1, 0x2000, TLV_DB_LINEAR_ITEM(-3913, 0),
-> +	0x2000, 0xffff, TLV_DB_LINEAR_ITEM(0, 903),
-> +);
-> +
-> +static const struct snd_kcontrol_new zynqmp_dp_snd_controls[] = {
-> +	SOC_SINGLE_TLV("Input0 Playback Volume", 0,
-> +		       0, 0xffff, 0, zynqmp_dp_tlv),
-> +	SOC_SINGLE_TLV("Input1 Playback Volume", 1,
-> +		       0, 0xffff, 0, zynqmp_dp_tlv),
-> +};
-> +
-> +/*
-> + * Note: these read & write functions only support two "registers", 0 and 1,
-> + * for volume 0 and 1. In other words, these are not real register read/write
-> + * functions.
-> + *
-> + * This is done to support caching the volume value for the case where the
-> + * hardware is not enabled, and also to support locking as volumes 0 and 1
-> + * are in the same register.
-> + */
-> +static unsigned int zynqmp_dp_dai_read(struct snd_soc_component *component,
-> +				       unsigned int reg)
-> +{
-> +	struct zynqmp_dpsub *dpsub = dev_get_drvdata(component->dev);
-> +	struct zynqmp_dpsub_audio *audio = dpsub->audio;
-> +
-> +	return audio->volumes[reg];
-> +}
-> +
-> +static int zynqmp_dp_dai_write(struct snd_soc_component *component,
-> +			       unsigned int reg, unsigned int val)
-> +{
-> +	struct zynqmp_dpsub *dpsub = dev_get_drvdata(component->dev);
-> +	struct zynqmp_dpsub_audio *audio = dpsub->audio;
-> +
-> +	guard(mutex)(&audio->enable_lock);
-> +
-> +	audio->volumes[reg] = val;
-> +
-> +	if (audio->enabled_streams)
-> +		zynqmp_dp_audio_write(audio, ZYNQMP_DISP_AUD_MIXER_VOLUME,
-> +				      audio->volumes[0] |
-> +				      (audio->volumes[1] << 16));
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct snd_soc_component_driver zynqmp_dp_component_driver = {
-> +	.idle_bias_on		= 1,
-> +	.use_pmdown_time	= 1,
-> +	.endianness		= 1,
-> +	.controls		= zynqmp_dp_snd_controls,
-> +	.num_controls		= ARRAY_SIZE(zynqmp_dp_snd_controls),
-> +	.read			= zynqmp_dp_dai_read,
-> +	.write			= zynqmp_dp_dai_write,
-> +};
-> +
-> +int zynqmp_audio_init(struct zynqmp_dpsub *dpsub)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dpsub->dev);
-> +	struct device *dev = dpsub->dev;
-> +	struct zynqmp_dpsub_audio *audio;
-> +	struct snd_soc_card *card;
-> +	void *dev_data;
-> +	int ret;
-> +
-> +	if (!dpsub->aud_clk)
-> +		return 0;
-> +
-> +	audio = devm_kzalloc(dev, sizeof(*audio), GFP_KERNEL);
-> +	if (!audio)
-> +		return -ENOMEM;
-> +
-> +	dpsub->audio = audio;
-> +
-> +	mutex_init(&audio->enable_lock);
-> +
-> +	/* 0x2000 is the zero level, no change */
-> +	audio->volumes[0] = 0x2000;
-> +	audio->volumes[1] = 0x2000;
-> +
-> +	audio->dai_name = devm_kasprintf(dev, GFP_KERNEL,
-> +					 "%s-dai", dev_name(dev));
-> +
-> +	for (unsigned int i = 0; i < ZYNQMP_NUM_PCMS; ++i) {
-> +		audio->link_names[i] = devm_kasprintf(dev, GFP_KERNEL,
-> +						      "%s-dp-%u", dev_name(dev), i);
-> +		audio->pcm_names[i] = devm_kasprintf(dev, GFP_KERNEL,
-> +						     "%s-pcm-%u", dev_name(dev), i);
-> +	}
-> +
-> +	audio->base = devm_platform_ioremap_resource_byname(pdev, "aud");
-> +	if (IS_ERR(audio->base))
-> +		return PTR_ERR(audio->base);
-> +
-> +	/* Create CPU DAI */
-> +
-> +	audio->dai_driver = (struct snd_soc_dai_driver) {
-> +		.name		= audio->dai_name,
-> +		.ops		= &zynqmp_dp_dai_ops,
-> +		.playback	= {
-> +			.channels_min	= 2,
-> +			.channels_max	= 2,
-> +			.rates		= SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000,
-> +			.formats	= SNDRV_PCM_FMTBIT_S16_LE,
-> +		},
-> +	};
-> +
-> +	ret = devm_snd_soc_register_component(dev, &zynqmp_dp_component_driver,
-> +					      &audio->dai_driver, 1);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register CPU DAI\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Create PCMs */
-> +
-> +	for (unsigned int i = 0; i < ZYNQMP_NUM_PCMS; ++i) {
-> +		struct snd_dmaengine_pcm_config *pcm_config =
-> +			&audio->pcm_configs[i];
-> +
-> +		*pcm_config = (struct snd_dmaengine_pcm_config){
-> +			.name = audio->pcm_names[i],
-> +			.pcm_hardware = &zynqmp_dp_pcm_hw,
-> +			.prealloc_buffer_size = 64 * 1024,
-> +			.chan_names[SNDRV_PCM_STREAM_PLAYBACK] =
-> +				i == 0 ? "aud0" : "aud1",
-> +		};
-> +
-> +		ret = devm_snd_dmaengine_pcm_register(dev, pcm_config, 0);
-> +		if (ret) {
-> +			dev_err(dev, "Failed to register PCM %u\n", i);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	/* Create card */
-> +
-> +	card = &audio->card;
-> +	card->name = "DisplayPort";
-> +	card->long_name = "DisplayPort Monitor";
-> +	card->driver_name = "zynqmp_dpsub";
-> +	card->dev = dev;
-> +	card->owner = THIS_MODULE;
-> +	card->num_links = ZYNQMP_NUM_PCMS;
-> +	card->dai_link = audio->links;
-> +
-> +	for (unsigned int i = 0; i < ZYNQMP_NUM_PCMS; ++i) {
-> +		struct snd_soc_dai_link *link = &card->dai_link[i];
-> +
-> +		link->ops = &zynqmp_dp_ops;
-> +
-> +		link->name = audio->link_names[i];
-> +		link->stream_name = audio->link_names[i];
-> +
-> +		link->cpus = &audio->components[i].cpu;
-> +		link->num_cpus = 1;
-> +		link->cpus[0].dai_name = audio->dai_name;
-> +
-> +		link->codecs = &audio->components[i].codec;
-> +		link->num_codecs = 1;
-> +		link->codecs[0].name = "snd-soc-dummy";
-> +		link->codecs[0].dai_name = "snd-soc-dummy-dai";
-> +
-> +		link->platforms = &audio->components[i].platform;
-> +		link->num_platforms = 1;
-> +		link->platforms[0].name = audio->pcm_names[i];
-> +	}
-> +
-> +	/*
-> +	 * HACK: devm_snd_soc_register_card() overwrites current drvdata
-> +	 * so we need to hack it back.
-> +	 */
-> +	dev_data = dev_get_drvdata(dev);
-> +	ret = devm_snd_soc_register_card(dev, card);
-> +	dev_set_drvdata(dev, dev_data);
-> +	if (ret) {
-> +		/*
-> +		 * As older dtbs may not have the audio channel dmas defined,
-> +		 * instead of returning an error here we'll continue and just
-> +		 * mark the audio as disabled.
-> +		 */
-> +		dev_err(dev, "Failed to register sound card, disabling audio support\n");
-> +
-> +		devm_kfree(dev, audio);
-> +		dpsub->audio = NULL;
-> +
-> +		return 0;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void zynqmp_audio_uninit(struct zynqmp_dpsub *dpsub)
-> +{
-> +	struct zynqmp_dpsub_audio *audio = dpsub->audio;
-> +
-> +	if (!audio)
-> +		return;
-> +
-> +	if (!dpsub->aud_clk)
-> +		return;
-> +
-> +	mutex_destroy(&audio->enable_lock);
-> +}
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> index f5781939de9c..a72ffb31a2e8 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
-> @@ -56,36 +56,6 @@ static const struct dev_pm_ops zynqmp_dpsub_pm_ops = {
->   	SET_SYSTEM_SLEEP_PM_OPS(zynqmp_dpsub_suspend, zynqmp_dpsub_resume)
->   };
->   
-> -/* -----------------------------------------------------------------------------
-> - * DPSUB Configuration
-> - */
-> -
-> -/**
-> - * zynqmp_dpsub_audio_enabled - If the audio is enabled
-> - * @dpsub: DisplayPort subsystem
-> - *
-> - * Return if the audio is enabled depending on the audio clock.
-> - *
-> - * Return: true if audio is enabled, or false.
-> - */
-> -bool zynqmp_dpsub_audio_enabled(struct zynqmp_dpsub *dpsub)
-> -{
-> -	return !!dpsub->aud_clk;
-> -}
-> -
-> -/**
-> - * zynqmp_dpsub_get_audio_clk_rate - Get the current audio clock rate
-> - * @dpsub: DisplayPort subsystem
-> - *
-> - * Return: the current audio clock rate.
-> - */
-> -unsigned int zynqmp_dpsub_get_audio_clk_rate(struct zynqmp_dpsub *dpsub)
-> -{
-> -	if (zynqmp_dpsub_audio_enabled(dpsub))
-> -		return 0;
-> -	return clk_get_rate(dpsub->aud_clk);
-> -}
-> -
->   /* -----------------------------------------------------------------------------
->    * Probe & Remove
->    */
-> @@ -264,10 +234,17 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
->   			goto err_disp;
->   	}
->   
-> +	ret = zynqmp_audio_init(dpsub);
-> +	if (ret)
-> +		goto err_drm_cleanup;
-> +
->   	dev_info(&pdev->dev, "ZynqMP DisplayPort Subsystem driver probed");
->   
->   	return 0;
->   
-> +err_drm_cleanup:
-> +	if (dpsub->drm)
-> +		zynqmp_dpsub_drm_cleanup(dpsub);
->   err_disp:
->   	drm_bridge_remove(dpsub->bridge);
->   	zynqmp_disp_remove(dpsub);
-> @@ -287,6 +264,8 @@ static void zynqmp_dpsub_remove(struct platform_device *pdev)
->   {
->   	struct zynqmp_dpsub *dpsub = platform_get_drvdata(pdev);
->   
-> +	zynqmp_audio_uninit(dpsub);
-> +
->   	if (dpsub->drm)
->   		zynqmp_dpsub_drm_cleanup(dpsub);
->   
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-> index b18554467e9c..49875529c2a4 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-> @@ -12,6 +12,8 @@
->   #ifndef _ZYNQMP_DPSUB_H_
->   #define _ZYNQMP_DPSUB_H_
->   
-> +#include <linux/types.h>
-> +
->   struct clk;
->   struct device;
->   struct drm_bridge;
-> @@ -39,6 +41,8 @@ enum zynqmp_dpsub_format {
->   	ZYNQMP_DPSUB_FORMAT_YONLY,
->   };
->   
-> +struct zynqmp_dpsub_audio;
-> +
->   /**
->    * struct zynqmp_dpsub - ZynqMP DisplayPort Subsystem
->    * @dev: The physical device
-> @@ -77,10 +81,17 @@ struct zynqmp_dpsub {
->   	struct zynqmp_dp *dp;
->   
->   	unsigned int dma_align;
-> +
-> +	struct zynqmp_dpsub_audio *audio;
->   };
->   
-> -bool zynqmp_dpsub_audio_enabled(struct zynqmp_dpsub *dpsub);
-> -unsigned int zynqmp_dpsub_get_audio_clk_rate(struct zynqmp_dpsub *dpsub);
-> +#ifdef CONFIG_DRM_ZYNQMP_DPSUB_AUDIO
-> +int zynqmp_audio_init(struct zynqmp_dpsub *dpsub);
-> +void zynqmp_audio_uninit(struct zynqmp_dpsub *dpsub);
-> +#else
-> +static inline int zynqmp_audio_init(struct zynqmp_dpsub *dpsub) { return 0; }
-> +static inline void zynqmp_audio_uninit(struct zynqmp_dpsub *dpsub) { }
-> +#endif
->   
->   void zynqmp_dpsub_release(struct zynqmp_dpsub *dpsub);
->   
-> 
-
-This looks good to me. Please feel free to add -
-
-Reviewed-by: Vishal Sagar <vishal.sagar@amd.com>
-
-Regards
-Vishal Sagar
+PiA+ID4+IEBAIC00NzQsMjAgKzQ3OCwyOCBAQCBzdGF0aWMgaW50IGludGVsX2RnX210ZF9lcmFz
+ZShzdHJ1Y3QgbXRkX2luZm8NCj4gPiAqbXRkLCBzdHJ1Y3QgZXJhc2VfaW5mbyAqaW5mbykNCj4g
+PiA+PiAgIAl0b3RhbF9sZW4gPSBpbmZvLT5sZW47DQo+ID4gPj4gICAJYWRkciA9IGluZm8tPmFk
+ZHI7DQo+ID4gPj4NCj4gPiA+PiArCXJldCA9IHBtX3J1bnRpbWVfcmVzdW1lX2FuZF9nZXQobXRk
+LT5kZXYucGFyZW50KTsNCj4gPiA+IG9uIHRoaXMsIEkgcmVhbGx5IGRvbid0IGJlbGlldmUgdGhp
+cyBpcyByaWdodCBhbmQgd2Ugc2hvdWxkIHVzZQ0KPiA+ID4gdGhlIHBhcmVudCBjaGlsZCByZWxh
+dGlvbiBzaGlwIGluIG91ciBmYXZvciBhbmQgb25seSBoYXZlIHRoZSBtdGQNCj4gPiA+IGRldmlj
+ZSB0byBoYW5kbGUgdGhlaXIgb3duIHJ1bnRpbWUgcG0uLi4NCj4gPiBJIGNvbmN1ciB3aXRoIFJv
+ZHJpZ28uIElmIHRoZSBwYXJlbnQtY2hpbGQgcmVsYXRpb25zaGlwIGlzIHByZXNlcnZlZCwNCj4g
+PiB0aGUgcGFyZW50IHdpbGwgcmVzdW1lIGJlZm9yZSB0aGUgY2hpbGQsIGVsaW1pbmF0aW5nIHRo
+ZSBuZWVkIHRvDQo+ID4gZXhwbGljaXRseSB3YWtlIHRoZSBwYXJlbnQuDQo+ID4gUGxlYXNlIHJl
+ZmVyIHRvIGh0dHBzOi8vZG9jcy5rZXJuZWwub3JnL2RyaXZlci1hcGkvcG0vZGV2aWNlcy5odG1s
+DQo+ID4NCj4gPiBUaGUgb3JkZXJpbmcgb2YgdGhlIGRldmljZSBoaWVyYXJjaHkgaXMgZGVmaW5l
+ZCBieSB0aGUgb3JkZXIgaW4gd2hpY2gNCj4gPiBkZXZpY2VzIGdldCByZWdpc3RlcmVkOg0KPiA+
+ICJhIGNoaWxkIGNhbiBuZXZlciBiZSByZWdpc3RlcmVkLCBwcm9iZWQgb3INCj4gPiByZXN1bWVk
+IGJlZm9yZSBpdHMgcGFyZW50OyAiDQo+ID4gYW5kIGNhbuKAmXQgYmUgcmVtb3ZlZCBvciBzdXNw
+ZW5kZWQgYWZ0ZXIgdGhhdCBwYXJlbnQuDQo+ID4gPg0KPiANCj4gSWYgc28sIEkgaGF2ZSB0byBh
+ZGQgcGF0Y2ggZm9yIG10ZCBzdWJzeXN0ZW0gdG8gYWx3YXlzIGhhdmUgZGV2aWNlIGZvciBtYXN0
+ZXINCj4gaW5pdGlhbGl6ZWQgcmVnYXJkbGVzcyBvZiBrZXJuZWwgZmxhZy4NCj4gT25seSB0byBp
+bml0aWFsaXplIHN0cnVjdCBkZXZpY2UsIG5vdCB0byBjcmVhdGUgZnVsbCBtdGQgbm9kZS4NCj4g
+DQo+IE1pcXVlbCAtIGFyZSB5b3UgYWdyZWUgdG8gdGhpcz8NCg0KSSd2ZSBsb29rZWQgZGVlcGx5
+IGluIHRoZSBtdGQgY29kZSBhbmQgdGhlcmUgaXMgc29tZSBpbnRlcmVzdGluZyBkaXNjcmVwYW5j
+eToNCi0gdGhlIG10ZCBwYXJ0aXRpb24gY3JlYXRlcyBkZXZpY2UgYW5kIHB1dHMgcGFyZW50IG9m
+IHBhcmVudCBpbiBpdHMgcGFyZW50IHBvaW50ZXIgaWYgbWFzdGVyIGRvZXMgbm90IGV4aXN0DQot
+IHRoZSBjYWxsYmFja3MsIGxpa2UgX3dyaXRlL19yZWFkL19lcmFzZSByZWNlaXZlIG1hc3RlciBv
+YmplY3QgcG9pbnRlcg0KVGh1cywgd2UgY2FuJ3QgdXNlIGdvb2QgcGFydGl0aW9uIGRldmljZSBm
+b3IgcG93ZXIgbWFuYWdlbWVudC4uLg0KDQpNYXliZSByZXdyaXRlIHRoZXNlIGNhbGxiYWNrcyB0
+byByZWNlaXZlIGFjdHVhbCBwYXJ0aXRpb24gKGh1Z2UgY2hhbmdlIGFsbCBvdmVyKT8NCg0KPiAN
+Cj4gLSAtDQo+IFRoYW5rcywNCj4gU2FzaGENCj4gDQoNCg==
