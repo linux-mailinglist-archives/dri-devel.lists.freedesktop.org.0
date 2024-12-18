@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945EF9F612A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 10:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208329F6205
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 10:44:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6D710E0EE;
-	Wed, 18 Dec 2024 09:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09B2110E24B;
+	Wed, 18 Dec 2024 09:44:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SwfvaUxu";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vk3hJD0A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA53010E0EE
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 09:15:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6FD05A42092;
- Wed, 18 Dec 2024 09:13:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EAF9C4CECE;
- Wed, 18 Dec 2024 09:15:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734513317;
- bh=fbWSISg3pqwIP3gp/FXBpL6JXIqp0/i4mzGvP6dEieY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SwfvaUxuNabK48hCNq0fMTSo9p8Pbil63clvCW98USkYSOTvsHZpHiEa+EekRsX6K
- U25tvqI0dMKdIUVo2u4zuGoGRXZvxFrifNwoOuyhoeq6KYD99VOtde2lnh/osEwOUd
- r+7GXex44fQkvDMBfJRlEthMg7vWj99bjueJfG/hOhHI2U+zh1DvW5wrLn1qjBrLUt
- No5sHjxfHAIUWnECmHRFIkcgIVrn5PrBh6fDq3tyfNLF8ONCtIiy5PDz2jmnsoesUO
- GV+3VzPCJCTL3llr3oqIVemH3ilLbQtShBOeY5277hPLmM6KRS7iWaiyiPggA00h0c
- YbWrK2l9+RiSg==
-Date: Wed, 18 Dec 2024 10:15:14 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sandor Yu <Sandor.yu@nxp.com>
-Cc: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com, 
- neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, 
- jernej.skrabec@gmail.com, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
- festevam@gmail.com, 
- vkoul@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, 
- mripard@kernel.org, kernel@pengutronix.de, linux-imx@nxp.com,
- oliver.brown@nxp.com, alexander.stein@ew.tq-group.com, sam@ravnborg.org
-Subject: Re: [PATCH v20 4/9] dt-bindings: display: bridge: Add Cadence MHDP8501
-Message-ID: <euujxcd22nake5s4wioc7ew4rxhqwijh5vucozjorotn3nqdvc@q65uqqj2bjwj>
-References: <cover.1734340233.git.Sandor.yu@nxp.com>
- <f2b7beebeb99ca69021ca24744e29af3454f5620.1734340233.git.Sandor.yu@nxp.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5773F10E24B;
+ Wed, 18 Dec 2024 09:44:23 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YCpfq19rgz9tPc;
+ Wed, 18 Dec 2024 10:44:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1734515059;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fop8eHOTRMY4TBTOG39Dc+IvevBhBUxCELddBDSsyng=;
+ b=vk3hJD0AILyl+0AQy35//DmkjDjQ4EPw/AtUXl3ryzt4MKxmDDGZRBFtXM2UiSvq/Jw/tV
+ JToEhbXtfWUVs31MQ9+OlzJY9ZLEgVIb+eY5fLjNT/s51SZFZ1v2URgA6QwtswYhB/a3OY
+ 5cqsmRNERiIg7pgHuswt3J+oGbbl44qHyYvh3WM0YSf/hRU1Dkv4f2No+8u8FRNvPWgSr0
+ 986el8z9NzWbX7/SpkYkl7ng8beUuHaAgI3aU5T3nvaHs5v3Rf4l80/f7XT2R/l0WZ7HQt
+ TbXSwFskb2JxmmRqdxHlk3gQ3eJcF0idN66Kv6SI5m7IXCKDKnju0hjFbnRKeg==
+Message-ID: <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
+Date: Wed, 18 Dec 2024 10:44:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f2b7beebeb99ca69021ca24744e29af3454f5620.1734340233.git.Sandor.yu@nxp.com>
+Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
+ alignment
+To: Brian Starkey <brian.starkey@arm.com>
+Cc: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
+References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
+ <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
+ <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
+ <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 45ueczqnrkz58p6in8unteqm5x3rehfp
+X-MBO-RS-ID: 1266e0373c64f166735
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,16 +69,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 17, 2024 at 02:51:46PM +0800, Sandor Yu wrote:
-> Add bindings for Cadence MHDP8501 DisplayPort/HDMI bridge.
+On 2024-12-17 12:03, Brian Starkey wrote:
+> On Tue, Dec 17, 2024 at 11:13:05AM +0000, Michel Dänzer wrote:
+>> On 2024-12-17 10:14, Brian Starkey wrote:
+>>
+>>> Modifiers are meant to describe framebuffers, and this pitch alignment
+>>> requirement isn't really a framebuffer property - it's a device
+>>> constraint. It feels out of place to overload modifiers with it.
+
+FWIW, KMS framebuffers aren't the only use case for sharing buffers between devices.
+
+
+>>> I'm not saying we don't need a way to describe constraints to
+>>> allocators, but I question if modifiers the right mechanism to
+>>> communicate them?
+>> While I agree with your concern in general, AFAIK there's no other
+>> solution for this even on the horizon, after years of talking about
+>> it. The solution proposed here seems like an acceptable stop gap,
+>> assuming it won't result in a gazillion linear modifiers.
 > 
-> Signed-off-by: Sandor Yu <Sandor.yu@nxp.com>
-> ---
-> v19->v20:
-> - remove data type link of data-lanes.
+> UAPI is baked forever, so it's worth being a little wary IMO.
+> 
+> This sets a precedent for describing constraints via modifiers. The
+> reason no other proposal is on the horizon is because describing the
+> plethora of constraints across devices is a hard problem; and the
+> answer so far has been "userspace needs to know" (à la Android's
+> gralloc).
+> 
+> If we start down the road of describing constraints with modifiers, I
+> fear we'll end up in a mess. The full enumeration of modifiers is
+> already horrendous for parameterized types, please let's not
+> combinatorially multiply those by constraints.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+I agree there's a slippery slope.
 
-Best regards,
-Krzysztof
+That said, linear buffers are special in that they're the only possibility which can work for sharing buffers between devices in many cases, in particular when the devices are from different vendors or even different generations from the same vendor.
 
+So as long as device vendors don't get too creative with their linear pitch alignment restrictions, it still seems like this might be workable stop-gap solution for that specific purpose alone, until a better solution for handling constraints arrives.
+
+
+> P.S. "is the only modifier that has a chance of not working" is
+> fundamentally false.
+
+My reading of that part of the comment is that pitch alignment shouldn't be an issue with non-linear modifiers, since the constraints for pitch should be part of the modifier definition. Maybe that could be clarified in the comment.
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
