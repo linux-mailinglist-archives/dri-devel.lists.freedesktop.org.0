@@ -1,104 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDAA9F6279
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:14:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C59E09F627A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 11:14:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2861010E259;
-	Wed, 18 Dec 2024 10:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41B4E10E91E;
+	Wed, 18 Dec 2024 10:14:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="awaayPae";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wkbDWcLy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 153A110E259
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 10:14:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734516877;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YBGu2KOb4IgBv3uEmXMWgs1fb3G8K3utYYOyJ/CpZkU=;
- b=awaayPaegmbWjRCxp8CrP9QskI9OqIeaTeLH+U1L+4B0cgdU8SjwM0in7AUP1gv6a8Wk4z
- lBwn54CKFk0XKXAoLn/eHOGOUsYA1cpKMpcoSZDtQO9ll+C953ZdgYSKladJqLQdjX1EfZ
- qtoksGJv01+03zCColdugEgLpGoaBnU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-459-W14cdSTpMfyO8mZpQKQNgQ-1; Wed, 18 Dec 2024 05:14:35 -0500
-X-MC-Unique: W14cdSTpMfyO8mZpQKQNgQ-1
-X-Mimecast-MFC-AGG-ID: W14cdSTpMfyO8mZpQKQNgQ
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-43610eba55bso21635715e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 02:14:35 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD0510E91E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 10:14:45 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id
+ ffacd0b85a97d-3862ca8e0bbso5279190f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 02:14:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734516884; x=1735121684; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=pP8Ga7mE2+pnxKoG6TAWzyjb7hUhPfz5H4HvWCT0CdA=;
+ b=wkbDWcLy/C95SU6wC42NdMnf5XR9gmFLEWq4/gS5saoM6vGZONnvkux4Wa4niTFNap
+ A4TTHN8E9wy7gT4heSx44O3afAZ1iBnGyPM9x6sHmqpLMxykk9LX6pwYzoi9/n3Kcxiw
+ A0kobDTMKDqtiSPPKbyOk9KwSmAb39jbk40XuvM62gQV26hjLOGNwvCZlmIZTDlBLCjb
+ R/dyhvL1T8gm6G7kvDrOSFIlcCSbnJvMbspaW/L4SmAytUrAfRO7Ker8qWI3O827dkcY
+ p3vPeB0nuvanzOtvNJu7WO+1iD9SSlXrOZzg0HGZIcN1jlq+M0J7URgG7mZlntFQX3oe
+ z7QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734516875; x=1735121675;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YBGu2KOb4IgBv3uEmXMWgs1fb3G8K3utYYOyJ/CpZkU=;
- b=WxegL/3L+qNu3z6v/wWR7nHXIwywgs+cRK18mlRPHubmEp92BfRPzYweZnoUnkdC+7
- kbkgQQP4kYmSyu2PLOhl63nQHzYhySIF3aenteRwsC9642vxjFmWW/7NSJ3LS0tSWKdD
- BX36/yfdFT5kg7WohWDEodo9ASqcHwFBIo8VqbQXLvwahU/XJ0R4V5lYXn/KL6dy9d/R
- dx2V4byiVCLtY90xXEj8q+6l12tFva6bB/La2LYzyp24KeDNI6s7Zcp9CGCBcQa60XA8
- Zxmd8BDD+3ADb8HpYin/Hqup9Iu+E2TH21GLbw4kVTN2gaPhLNuA/Ken3s8USaSL1RnY
- Pjag==
+ d=1e100.net; s=20230601; t=1734516884; x=1735121684;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=pP8Ga7mE2+pnxKoG6TAWzyjb7hUhPfz5H4HvWCT0CdA=;
+ b=XlmpQVpah+j06oH219+xTBbmnb7ibs0sVk2++DSlxersJZ13jrnHDda0NVfkx6r7HV
+ Z3G6sDGtosXBb0hFkcSI0a1jWeEZQW6YoOMK1xFLzvXg46sJfjBoWEoGSLCUkVsUeNKi
+ g8uq/1z8a9SYLRB5VNb/RwWxVZOgzckmJOXriyOZ0eX34gTkiBsUwwC0fl1eMQYFgLnb
+ mW3mXIVhs2ASJiuUbd/URiJqAIKx7igWMMhFOFuGKTcGtaL0X9I9S9itiqNodFDKWI2I
+ aRSvoZgkQPog4BM1TodHcLwWs7Q7gUyVtmE9oKDq2s02UoS6+gdZIUk802CcocTiOe1c
+ keGA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWHAlmRLKnq0mFn+XI4lOiNVPuYKQj9eloS6WJep86h9YpDBnSBgb8AO7/sqEWfpTBy7JWRya5jqrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyOp94h5aOsN5YSqb3JXVb3caxBiVtKDYKOh7Oll0RN2AAPrrL9
- +Qi4KZOsruQsGN3Rp484deZmKe3SX44iaIilHkmSSEPNS0/hnWcUAn4cZv1XOeho/erR5Kk2M32
- J36Di1evkG0vGCsa1yvZ+5hFYeOMe1OSN6A0YfC9JJ+AmcpPHw0Lhe4j1+rqDOLWcgA==
-X-Gm-Gg: ASbGncvRfvNVTXKfqwTTT9nx8TkiUYplAq0PGCluUB+DzMMIabuOchoxY3a1wW9EI5W
- xqNkn3WQUQ179QHt1nWLPEc5IYtcOEYhZ92tra38IpbYn8x8iVg6Hy0ONBnZ9DawNbK3C44qy/i
- Wr5UzJIUAvng7//30z4VN7Yiz/kFzHOs0jBqCuLPCQzrOH+hz58Vpqv1EOBCoYvP2nVDMdFJy7z
- KxUr68c9p8r6+Whb2e0payRuCz7XAC6/LldbmyAsGGUfB0wTQ2K3/HcSetcPJK/8/KL+ZEV6eB4
- iR6iVjRZML4qp817Fe15
-X-Received: by 2002:a5d:6d09:0:b0:387:8604:5023 with SMTP id
- ffacd0b85a97d-388e4d8edf2mr2025160f8f.44.1734516874638; 
- Wed, 18 Dec 2024 02:14:34 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFEiaP5T6kOStWVjcP3at+Jf03VWaZaNLHjGjBcrqmhuYhyjkR3wz7Dka1Wg9fgkGmlREj7A==
-X-Received: by 2002:a5d:6d09:0:b0:387:8604:5023 with SMTP id
- ffacd0b85a97d-388e4d8edf2mr2025135f8f.44.1734516874216; 
- Wed, 18 Dec 2024 02:14:34 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ AJvYcCW2C9wW6G/Uvc8khZ99MifFVZszLFd/geFpggWaw/hQhhj+4bG6R5MFRtNv9BVam0t/9KAaXgWNSDc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz77Y4V7WBnQUlgMGa0HaSSjd4QRrI2dTIAQQZlavnMkfzaXJ5Z
+ HB7Xjt2dEdHQqshZTrv3RyHEK18BuOJ+04Vx1XQjRo5ZOgDF2qG5cWc3k33EDsI=
+X-Gm-Gg: ASbGncsld0mSKivmrj6U676ksZp+l2wO07fyBauKHpjyXGkSiKS+ito9Qrv2a0TqQR7
+ 0/KcDHirdWheRPK9+bBSPDkILvkfw+YPc7+bUn7RKxFC+OBiphu8GQd/gha3ptXPieBa7g5fhu9
+ ImVdZosK+RrkaXr6ERw04mxJndc0S0QYX1Jz3DbKF/hgMELTx7VkzVqlJzvsLWQI5Vs0IS/pSXJ
+ 4BZyVAOLk6c6e7hb0MCQUhiq6KULy7VYvw4iJOr4wzqO0lC3yWzq1p1Bqp5iYI2JA+zvV/giGkS
+ C/N64YRSaUz2zUL6hAw5T+X/yYWlqE4=
+X-Google-Smtp-Source: AGHT+IG085+Ib0G6qfwB057TYlTktE1vEADdk4wuAgkthQ5MdEhBToOH7qND/4ihOVTaEBN04YpGew==
+X-Received: by 2002:a05:6000:1a86:b0:385:ee3f:5cbf with SMTP id
+ ffacd0b85a97d-388e4d84651mr2137485f8f.20.1734516884262; 
+ Wed, 18 Dec 2024 02:14:44 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:e596:468d:657e:c30?
+ ([2a01:e0a:982:cbb0:e596:468d:657e:c30])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43656b01b7esm15415895e9.13.2024.12.18.02.14.32
+ ffacd0b85a97d-388c8046ca6sm13826738f8f.83.2024.12.18.02.14.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Dec 2024 02:14:33 -0800 (PST)
-Message-ID: <d4c249fa-624e-4f73-9aed-e04b405b4079@redhat.com>
-Date: Wed, 18 Dec 2024 11:14:32 +0100
+ Wed, 18 Dec 2024 02:14:43 -0800 (PST)
+Message-ID: <d5160e46-7f72-4a3b-ad31-f26c33d5f22a@linaro.org>
+Date: Wed, 18 Dec 2024 11:14:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH RESEND] drm/bridge: ti-sn65dsi83: use dev_err_probe when
+ failing to get panel bridge
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- John Ogness <john.ogness@linutronix.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
- bluescreen_avenger@verizon.net, Caleb Connolly <caleb.connolly@linaro.org>,
- Petr Mladek <pmladek@suse.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Herve Codina <herve.codina@bootlin.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20241204160014.1171469-1-jfalempe@redhat.com>
- <CAMuHMdU925NiJDy4fOcQhA=jp8=79rZ3h5-TYxCjzkGwqQdKOg@mail.gmail.com>
- <301714d8-0723-4881-83e8-24523c121bfe@redhat.com>
- <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <CAMuHMdXxwv2WgeAoO5w41cRpXgVBr0PhrgCP3A0X_nsFVM+6Gg@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Px4C6IgWXNwQ9_ZfdQzCAca8i-Vo5AAvPCbM7C1XAbE_1734516875
-X-Mimecast-Originator: redhat.com
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+References: <20241217-ti-sn65dsi83-dev_err_probe-v1-1-3fdce386400c@bootlin.com>
+ <20241217170635.2ba35c08@booty>
 Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20241217170635.2ba35c08@booty>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,59 +125,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/12/2024 15:54, Geert Uytterhoeven wrote:
-> Hi Jocelyn.
+Hi,
+
+On 17/12/2024 17:06, Luca Ceresoli wrote:
+> Hello,
 > 
-> On Tue, Dec 17, 2024 at 3:46 PM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->> On 17/12/2024 15:19, Geert Uytterhoeven wrote:
->>> On Wed, Dec 4, 2024 at 6:41 PM Jocelyn Falempe <jfalempe@redhat.com> wrote:
->>>> drm_log is a simple logger that uses the drm_client API to print the kmsg boot log on the screen.
->>>> This is not a full replacement to fbcon, as it will only print the kmsg.
->>>> It will never handle user input, or a terminal because this is better done in userspace.
->>>>
->>>> If you're curious on how it looks like, I've put a small demo here:
->>>> https://people.redhat.com/jfalempe/drm_log/drm_log_draft_boot_v2.mp4
->>>>
->>>> Design decisions:
->>>>     * It uses the drm_client API, so it should work on all drm drivers from the start.
->>>>     * It doesn't scroll the message, that way it doesn't need to redraw the whole screen for each new message.
->>>>       It also means it doesn't have to keep drawn messages in memory, to redraw them when scrolling.
->>>>     * It uses the new non-blocking console API, so it should work well with PREEMPT_RT
->>>
->>> I gave this a try on Koelsch (R-Car M2-W), using rcar-du.
->>> Unfortunately I don't see any kernel messages, and my monitor complains
->>> about no signal. Does this require special support from the driver?
+> On Tue, 17 Dec 2024 17:02:51 +0100
+> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> 
+>> When devm_drm_of_get_bridge() fails, the probe fails silently. Use
+>> dev_err_probe() instead to log an error or report the deferral reason,
+>> whichever is applicable.
 >>
->> It doesn't require a special support from the driver. But as it is the
->> first drm client other than fbdev emulation, I'm not surprised it's
->> broken on some driver.
->> I know it works on virtio-gpu, nouveau, amdgpu, and even on a OnePlus 6
->> (Qualcomm SDM845/freedreno), without requiring driver changes.
->>
->> Do you have a serial console on this device, to check if there is
->> something in kmsg?
+>> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
-> Nothing interesting to see. Compared to the fbdev client:
+> This patch got a reviewed-by from Andi Shyti when I sent it the first
+> time [0], but b4 didn't keep it when resending. I think it is fair for
+> me to add it now, even though I'm not sure patchwork and b4 will catch
+> it:
 > 
->       rcar-du feb00000.display: [drm] Registered 2 planes with drm panic
->       [drm] Initialized rcar-du 1.0.0 for feb00000.display on minor 0
->       rcar-du feb00000.display: [drm] Device feb00000.display probed
->      -Console: switching to colour frame buffer device 240x67
->      -rcar-du feb00000.display: [drm] fb0: rcar-dudrmfb frame buffer device
+> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 > 
-> I did verify (by adding my own debug prints) that the code does
-> get to the success case in drm_log_register().
-> Thanks!
-
-Maybe you need to add console=drm_log to your kernel command line, so 
-the kernel will actually use this console.
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                          Geert
+> [0] https://lore.kernel.org/all/ZrtuksiarZNS8L79@ashyti-mobl2.lan/
 > 
 
+Added it manually!
+
+Thanks
+Neil
