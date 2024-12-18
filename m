@@ -2,95 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31AD9F657C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 13:03:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8600F9F65E1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 13:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE4810EB80;
-	Wed, 18 Dec 2024 12:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89FF710E052;
+	Wed, 18 Dec 2024 12:25:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JKt8It7Z";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="RyABgzY2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20DEF10EB80
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 12:03:35 +0000 (UTC)
-Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi
- [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91A9A34D;
- Wed, 18 Dec 2024 13:02:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1734523376;
- bh=TSrUAda1iBvqokKZb5S2qgfqyhmMIHo0M87Zvav80xc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JKt8It7Zrd6vPZB6Fh+qNRT1Hr4iRNiXFu/5rZyTIETqS2tllGvW6m6whLs279JOc
- dXb+Yj0T3ZLBmEpD6ymVC9wuwOz2zTgW2iiE0KcrFu2qmzSkYG0U1CdBNKWkZ4dRHw
- nmNYHv8S/InBIFoikYWYX+0M5gXZ73+5wvDGWXyM=
-Message-ID: <a4949e09-b4f3-4224-80fc-913ab5dace64@ideasonboard.com>
-Date: Wed, 18 Dec 2024 14:03:30 +0200
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D80210E052
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 12:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1734524725; x=1735129525; i=markus.elfring@web.de;
+ bh=rEI9/XBB9+wI1zK7bvLcnE0IuS6BujqC43ua8YifnMM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=RyABgzY2NHjvWPrmrM8mGKczH3Ivb3emw1GnXemSYm+jqnNPD4bwcwWnED9BJg4a
+ OBnpAR68Yh9ExCvEbWcl93oGUNPfp9KT9wyU0OIleEQfyhAsz3yT1TwDmMyN3dfay
+ zuzB0oNauuZUuICXx8AczlMGA+5nfpofuJj3ustKv1WkRQeJEIsZ3rLQjASkkIm1M
+ bZOC41S4rPZDr2sFEmWCB3u0YYPnIRESugfdjM1ElNXyxOCH0SPw3eE2Ci/NYdqG0
+ 7U7YTvrSGd9LUdLONnZ5WQUaR/Szx4geByD6AE5wYJhonC2YpB4s1oC5u2y6zBxLS
+ 0DmTt9WijhMHRbyw6A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.70.41]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MwR4R-1tgmwa2dXx-00ruAz; Wed, 18
+ Dec 2024 13:25:25 +0100
+Message-ID: <feb72a8c-06c1-48d9-abb0-d680c11922a7@web.de>
+Date: Wed, 18 Dec 2024 13:25:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
-To: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
+ Caleb Connolly <caleb.connolly@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, "Guilherme G. Piccoli"
+ <gpiccoli@igalia.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ John Ogness <john.ogness@linutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20241204-xilinx-formats-v1-0-0bf2c5147db1@ideasonboard.com>
- <20241204-xilinx-formats-v1-4-0bf2c5147db1@ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20241204-xilinx-formats-v1-4-0bf2c5147db1@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>, Petr Mladek <pmladek@suse.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, bluescreen_avenger@verizon.net
+Cc: LKML <linux-kernel@vger.kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20241204160014.1171469-3-jfalempe@redhat.com>
+Subject: Re: [PATCH v9 2/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241204160014.1171469-3-jfalempe@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:puXIM79LzTyOh/fToopcbY3TNmb4NiVa+nbSGO5VrPYGNEwFsxu
+ ckFdXZBpCPg9QWvd4jqgYbjzBdl2HVSD9bsDlxf3lVHHS/pwddLHT7yOjf+pKXVHF4mlpcz
+ xNxhHK36dpA7Zg2oCDZHSuJu/+hSK82MRhu8HQFiiUMyOGZK+FRcGN+t653qbF3bAyMugF3
+ ydwZdQyFrYVSFvgEQ21Ww==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:/PpFgzxPh7o=;rawjLivMRgirlrzTE0O6YTKFVOe
+ kIfdD9Q9NY7oOC9l44FWwfXWpEnOdbTUD3ihReOps0lZzMHPYFwc41/HvL1Plt48ax7K2JLSh
+ JxRcNgqPt41YIcJ9hispVEVDkr54/c7GLFgQAgCxUulPXgOUDUJfyiBzzx25t0hqpPeIyRxbC
+ ZHQ+tRLVnSrYaZ7nQjjxzXtFbFpoV5OsgcV7wm6Vft3ol5RqZtZQCYpTW8DYGGBXyVOv2ewAs
+ BXUcrQ1ZsB5nK58rWrcelZJMF/zEKI+NDTtX7PZvEROQda44aENUifADrZ+dROCUBtI+Hv0zc
+ nE2VfiHQ9jyGVYL9WXCDdDEvMrdwG7hWBIOlqZBIQHOIxJrGuey4SWVzZmjLAsONiPZlYa+HE
+ 7Twdl/pMeZqMtAvIO959pTtehKlIS2WLLnf2la5U9zkLewsxeABV9R5YZcL1VbGlmInuDgeXD
+ 4AJipwfcJvR7A8zdwu8SA6bMbyVM6rNv+xLM2Lbi8aFCQJedst+PrVA092CIMmCKbL5np/W5z
+ DP/Au16BrqQ7DpjfehPRcKCqqooNWeAOl1HYGWy4L+PrtivNHQnSr174rV/Vyr64ixl72RKzw
+ Ne+rAAu2uQsCtgBIxDUxKk7kWbtxhfOtwwGTrkw370coSFbUmXgVpa5FV3xlAN74cIlKiioJd
+ XTiBALlKcESmWPDrzV37ah4aKuJ6jFrxBdwJe3hbwfZqdpPm5e/cjPRUw7jklc8FZQErF9Gv7
+ L7SV+EFXI8WvR/92ayRH14BnYZpENLvc2cKzogl9XQ67/HN64kPtfFHABcKLwWMep2Qtq58kj
+ hR1JEe9hZupERndlWOodARHJxoJTH3phFI7SUZM6IX+oGI9rPMDbX/k5M6/gqUh1UQnpPQ6Zd
+ JV/tssU3yRkfVKkNwp/5KS2mezUX/9wTeQXRKDqVXuRj44ATlBJM1Gh2Vto1IFEoi3b57E1/B
+ 9kfyWADPzAKVFyhdGV/I8K1hJmgmYXZRqZZzybfRQ2qnjzgl6jxMpuIbj0kg9YEJwCBY22S7u
+ /yvawhqX3M1RpxpWVIKpvXQuYS+4g+vqCNyNOlnUDC2OoHLqT41FKzT2dXBViNK888WHX+RAr
+ 391Vb3l7s=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,49 +91,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+=E2=80=A6
+> +++ b/drivers/gpu/drm/clients/drm_log.c
+> @@ -0,0 +1,370 @@
+=E2=80=A6
+> +static int drm_log_count_modeset(struct drm_client_dev *client)
+> +{
+> +	struct drm_mode_set *mode_set;
+> +	int count =3D 0;
+> +
+> +	mutex_lock(&client->modeset_mutex);
+> +	drm_client_for_each_modeset(mode_set, client)
+> +		count++;
+> +	mutex_unlock(&client->modeset_mutex);
+> +	return count;
+> +}
+=E2=80=A6
 
-On 04/12/2024 11:31, Tomi Valkeinen wrote:
-> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed into
-> 32-bit container.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/gpu/drm/drm_fourcc.c  | 4 ++++
->   include/uapi/drm/drm_fourcc.h | 1 +
->   2 files changed, 5 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
-> index d721d9fdbe98..6048e0a191dc 100644
-> --- a/drivers/gpu/drm/drm_fourcc.c
-> +++ b/drivers/gpu/drm/drm_fourcc.c
-> @@ -327,6 +327,10 @@ const struct drm_format_info *__drm_format_info(u32 format)
->   		  .num_planes = 2, .char_per_block = { 4, 8, 0 },
->   		  .block_w = { 3, 3, 0 }, .block_h = { 1, 1, 0 }, .hsub = 2,
->   		  .vsub = 1, .is_yuv = true },
-> +		{ .format = DRM_FORMAT_Y10_LE32,        .depth = 0,
-> +		  .num_planes = 1, .char_per_block =  { 4, 0, 0 },
-> +		  .block_w = { 3, 0, 0 }, .block_h = { 1, 0, 0 }, .hsub = 1,
-> +		  .vsub = 1, .is_yuv = true },
->   	};
->   
->   	unsigned int i;
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index f79ee3b93f09..82f255eb3d1b 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -408,6 +408,7 @@ extern "C" {
->   /* Greyscale formats */
->   
->   #define DRM_FORMAT_Y8		fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
-> +#define DRM_FORMAT_Y10_LE32	fourcc_code('Y', '1', '0', 'P')  /* [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian */
+Under which circumstances would you become interested to apply a statement
+like =E2=80=9Cguard(mutex)(&client->modeset_mutex);=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.13-rc3/source/include/linux/mutex.h#L2=
+01
 
-I realized that V4L2 already has "Y10P" fourcc: V4L2_PIX_FMT_Y10P, which 
-is MIPI CSI style packed 10-bit format.
-
-While it's not strictly speaking a problem, maybe it's best to try to 
-avoid overlapping fourccs. So... "Y04P"? I'm being a bit inventive here 
-=). 0 would be for "10". 4 as in 4 bytes. P for packed.
-
-  Tomi
-
+Regards,
+Markus
