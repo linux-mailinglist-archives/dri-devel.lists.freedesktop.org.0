@@ -1,82 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263179F6486
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:14:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2D09F64AD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 12:20:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9499110EB70;
-	Wed, 18 Dec 2024 11:14:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B221E10EB73;
+	Wed, 18 Dec 2024 11:20:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PysA/nE2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bZdGe+h8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF12310EB6D
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:14:53 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-30229d5b22fso66763621fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:14:53 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F079110EB72
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 11:20:12 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-3003d7ca01cso62891491fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 03:20:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734520492; x=1735125292; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734520811; x=1735125611; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CQXGzcBLUuhgC9zgbmH7cd1iWvRUarAb5IMePyYysIc=;
- b=PysA/nE2meXBfR4EkGSD5HP/IEVqxRVMbWNczA4QZVzzAkaPERixTHyu+6tt+VNJEM
- vgXPgTv4opvaJ3W+c3IfG9WOtN2pXdgRsUKpfP8a7LKS2eLqOq8JgvV7ntuTY3DwWPCP
- PlbQ0Ovp5Y8ZWkWP4XbBP625z7aoeTdbpgm2bjdKlVj34ZVPeOU+JeHBuB12KYAY86yw
- wK3pWqf/YiZ6cMi+uroMUl/kA6xMXWRbtLNsznJhomb1lnXBHMAu8lCt9TV3tO/48pLu
- XUcJeXJ/MWGQRCxfiWoG/FK57cWjp0BZ0zxvKMHx0EKzkKE//IrlBUZ+/ddL5fNlQnZY
- iOuA==
+ bh=Qjj+KlXAewunzNPcgO1iCpfTnrF5Imc7Y+KKQVgYXa0=;
+ b=bZdGe+h8PfepLb1dn8TXlgWwOnp2Go4BlekislIETEJ1Npw9bxndY8rGv+Wt9m7Mjl
+ RWTfhsPWjFcNnjfRZHxHnenJUc2r0rpW6wz0HolIFoNwYU+7fSIQ4gto1jSLeTvheZ9p
+ OBmmX/F+IRlpnHur6JXNLDEccCPQbX26zZP5CssRpgBuSycExevVZIAlUMVvOPJayxl5
+ r3EkcwtizduPZofgaoeqB3UOm4N+NZ8EDej2/DilPoyv08VuRcB/8ofyTxIje9xqQSLw
+ REFb5ChygL5meeevt5SLhsedYlKRMiDl0Dz0kaeilGq6bPHK8XeM0LIH7H/h3R+h94tF
+ 2Flg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734520492; x=1735125292;
+ d=1e100.net; s=20230601; t=1734520811; x=1735125611;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CQXGzcBLUuhgC9zgbmH7cd1iWvRUarAb5IMePyYysIc=;
- b=LztSxTLG6Clz8/qknHlg+2vD+K9Qx55aZBae2qKtWnIn4FMqWDxGJhPiOrloYhlYbr
- 7BTcsiPivDIfVLSJCgi7IPwKhGyULiQvjCgpEiUNR1imaKUnF+Yl19e14gSp2sXsraEY
- zHnz4MdfYGQwyIXHYZz2HzavdOb3sGrCuQMrvfWqn/W7bFGjvWYlGHJeHwSWou2M/GhT
- 06ZF1Hm+CA01ZzSGNomcuZp6nayAzEiEk0lWIH1eblu8ltlFDDWBFLxcqWIoHEqgTSvo
- LfjzwzsL7W+saDkTfDdeJ0axgaUb5ikFsiKrOEehXabdtVK48xqnx74ep8wuRzaLPySS
- dhXg==
+ bh=Qjj+KlXAewunzNPcgO1iCpfTnrF5Imc7Y+KKQVgYXa0=;
+ b=xGC1GGH9TyoijMqtetGQT+TYkZJ8og9ce2Yv5Q/GS3G5MNK6+TVoRegVnVu9FIIk5o
+ X0YQO68ITaTDV4MpYBBLTPPq/YisBbdvveZuQw+PNZ02g4rubkW/CWJJc7DzdrWRM1ll
+ bbCHpXbwEXDNxxlr+Vx4qV36BSTN3BlQgClBtOfWjA5u0h5A+xRpHTHuiV/rk/tQs7AB
+ 5WzMTKjH7TzPZUNJtjPC7CYTU85jLCemtG2ei6aECTnKj7ebMLSl0KaBtRLdaaA7P26t
+ F1xGvS2mXbSTLm3sEhyySWpn5IyiFMUovFMoIQfoMaCT1cBoilrqIWJWGZlo9z0ndrBS
+ 68dA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVb7OzeizIa3S0jLQdVYX5eoWY05gnRTOtIpxSY3+l4dahFCjvt1jc5LkibYf/rELBc7JmPc/UMHbg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyR/C3prnKhfK7wJ6vJ/eTnmpDdF2OYBk7hvT+TZFovCTi2Oi7X
- bnSKLT+Fs9IMqg15FyIWz/K36BXcJEtbFZ2W2bEqPyL/nEs/BZWaB1H/Ee9uOK8=
-X-Gm-Gg: ASbGnctczZMKolT7XKae8sy72VPU34Wf+G5nNS/zfdAkqlI37heQ+zve8MVIRrG/A9d
- zCgbKJQtEd+TciZmfLciDWmV8wD3EDAJ+IACKZXPaT65s9lev1YFUPZ9YP62H4l5eCMo5iX8KMF
- 10ypAIwTd4Zc+0eLwlpatkb4CkwJYMJhbE71DxaTMOqdytKNlqlpDH1BehsbSOmn9LGiaKfB3Fm
- qwzy2MTwfb5M9+DqFVvR/MTT+crcC2LJ8hogow/EmH9LO63VyY+YCaUeaiJ8YM2YrOMWBJ829JT
- iV+OwjX4Xj/yqJf9J10xdwVebixewHrgsKOF
-X-Google-Smtp-Source: AGHT+IF35Qn0v9SRDK1fTSpGFNEC2eNTW/0l9pru1MmKVrUdfP4sXGIPiEDLn5BpGB8GYjkaJSJaaQ==
-X-Received: by 2002:a05:6512:3193:b0:540:353a:5b13 with SMTP id
- 2adb3069b0e04-541e674d6e6mr1018964e87.22.1734520491990; 
- Wed, 18 Dec 2024 03:14:51 -0800 (PST)
+ AJvYcCXbNuVoFevbAzrq7rBYqsN0Cl+KVbczgCKuNZO1WFlSXPxuPIfFr3zC76uj4OlikvtHHaH17ZYdcxY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+BFVmXvckU2yXe40o92PgoaKfnEUc1A/4taMl9ARnbHwP3u06
+ fyVraVj7tJ67ou4UZX8Wl7YtxkT1IO9TnhopqOA14ELEvMAj6cdJkxe/syi4O5g=
+X-Gm-Gg: ASbGncuCjCx0BEJrqDU5AKvdtLkw00lUNIOq5czVTYROQAVHyCQn67gUG3cB2wBeV/x
+ s0m4ZM9kEkucXWjCDxtTEW+OeHFvrIvTnpCbZtaAJ6lhYlPMmStwmpOSeC5J08+iZ6jpPkNhKLO
+ Fpy4YEatuEmTjxeMJrPOpLq/EcaCYEV/TTBum7+puLtdxhW3giKt2CVdLupsFPYrdQprucIEP/9
+ ETX97DuAv3I6b8YHkp998vKYwKmK2dKJU01+lYGy72TphjtyRpI89yaDbAR/4YSCKTq51IZ0gwE
+ mk5tpD4TK0F7/TmEgbKhRIie1plYjc9rBJiA
+X-Google-Smtp-Source: AGHT+IGoMLpfK0AlU4GXbEuAfh2gfaHTUuRjjC5sL5Ab5KUlHrgJDsb/9UEzt0pS0syIvxRwbaMgOQ==
+X-Received: by 2002:a05:6512:15a2:b0:540:c349:a80f with SMTP id
+ 2adb3069b0e04-541ed90142fmr1009563e87.38.1734520811195; 
+ Wed, 18 Dec 2024 03:20:11 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54120bffc8csm1414480e87.146.2024.12.18.03.14.51
+ 2adb3069b0e04-54120c00262sm1412055e87.138.2024.12.18.03.20.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2024 03:14:51 -0800 (PST)
-Date: Wed, 18 Dec 2024 13:14:50 +0200
+ Wed, 18 Dec 2024 03:20:09 -0800 (PST)
+Date: Wed, 18 Dec 2024 13:20:08 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
- stable <stable@kernel.org>
-Subject: Re: [PATCH v1 2/2] misc: fastrpc: Fix copy buffer page size
-Message-ID: <f47spqrlkrwotgt3ibu6rn6bt4lfkrblh37yubrvsbeo6j7svl@44amfzlpor62>
-References: <20241218102429.2026460-1-quic_ekangupt@quicinc.com>
- <20241218102429.2026460-3-quic_ekangupt@quicinc.com>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, quic_abhinavk@quicinc.com,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] drm/msm/dpu: rate limit snapshot capture for mmu
+ faults
+Message-ID: <mbtwyyfryvltkeicgmrzrfas3u35ocathehswi4rme5tbs6r37@plcl6gzpl2ld>
+References: <20241217-abhinavk-smmu-fault-handler-v2-0-451377666cad@quicinc.com>
+ <20241217-abhinavk-smmu-fault-handler-v2-5-451377666cad@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241218102429.2026460-3-quic_ekangupt@quicinc.com>
+In-Reply-To: <20241217-abhinavk-smmu-fault-handler-v2-5-451377666cad@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +95,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 18, 2024 at 03:54:29PM +0530, Ekansh Gupta wrote:
-> For non-registered buffer, fastrpc driver copies the buffer and
-> pass it to the remote subsystem. There is a problem with current
-> implementation of page size calculation which is not considering
-> the offset in the calculation. This might lead to passing of
-> improper and out-of-bounds page size which could result in
-> memory issue. Calculate page start and page end using the offset
-> adjusted address instead of absolute address.
-
-Which offset?
-
+On Tue, Dec 17, 2024 at 04:27:57PM -0800, Jessica Zhang wrote:
+> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 > 
-> Fixes: 02b45b47fbe8 ("misc: fastrpc: fix remote page size calculation")
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+> There is no recovery mechanism in place yet to recover from mmu
+> faults for DPU. We can only prevent the faults by making sure there
+> is no misconfiguration.
+> 
+> Rate-limit the snapshot capture for mmu faults to once per
+> msm_atomic_commit_tail() as that should be sufficient to capture
+> the snapshot for debugging otherwise there will be a lot of DPU
+> snapshots getting captured for the same fault which is redundant
+> and also might affect capturing even one snapshot accurately.
+> 
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  drivers/misc/fastrpc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/msm/msm_atomic.c | 2 ++
+>  drivers/gpu/drm/msm/msm_kms.c    | 5 ++++-
+>  drivers/gpu/drm/msm/msm_kms.h    | 3 +++
+>  3 files changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index cfa1546c9e3f..00154c888c45 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -1019,8 +1019,8 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
->  					(pkt_size - rlen);
->  			pages[i].addr = pages[i].addr &	PAGE_MASK;
+> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+> index 9c45d641b5212c11078ab38c13a519663d85e10a..9ad7eeb14d4336abd9d8a8eb1382bdddce80508a 100644
+> --- a/drivers/gpu/drm/msm/msm_atomic.c
+> +++ b/drivers/gpu/drm/msm/msm_atomic.c
+> @@ -228,6 +228,8 @@ void msm_atomic_commit_tail(struct drm_atomic_state *state)
+>  	if (kms->funcs->prepare_commit)
+>  		kms->funcs->prepare_commit(kms, state);
 >  
-> -			pg_start = (args & PAGE_MASK) >> PAGE_SHIFT;
-> -			pg_end = ((args + len - 1) & PAGE_MASK) >> PAGE_SHIFT;
-> +			pg_start = (rpra[i].buf.pv & PAGE_MASK) >> PAGE_SHIFT;
-> +			pg_end = ((rpra[i].buf.pv + len - 1) & PAGE_MASK) >> PAGE_SHIFT;
->  			pages[i].size = (pg_end - pg_start + 1) * PAGE_SIZE;
->  			args = args + mlen;
->  			rlen -= mlen;
+> +	kms->fault_snapshot_capture = 0;
+> +
+
+- Please move it before the prepare_commit().
+- You are accessing the same variable from different threads / cores.
+  There should be some kind of a sync barrier.
+
+>  	/*
+>  	 * Push atomic updates down to hardware:
+>  	 */
+> diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+> index 78830e446355f77154fa21a5d107635bc88ba3ed..3327caf396d4fc905dc127f09515559c12666dc8 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.c
+> +++ b/drivers/gpu/drm/msm/msm_kms.c
+> @@ -168,7 +168,10 @@ static int msm_kms_fault_handler(void *arg, unsigned long iova, int flags, void
+>  {
+>  	struct msm_kms *kms = arg;
+>  
+> -	msm_disp_snapshot_state(kms->dev);
+> +	if (!kms->fault_snapshot_capture) {
+> +		msm_disp_snapshot_state(kms->dev);
+> +		kms->fault_snapshot_capture++;
+> +	}
+>  
+>  	return -ENOSYS;
+>  }
+> diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+> index e60162744c669773b6e5aef824a173647626ab4e..3ac089e26e14b824567f3cd2c62f82a1b9ea9878 100644
+> --- a/drivers/gpu/drm/msm/msm_kms.h
+> +++ b/drivers/gpu/drm/msm/msm_kms.h
+> @@ -128,6 +128,9 @@ struct msm_kms {
+>  	int irq;
+>  	bool irq_requested;
+>  
+> +	/* rate limit the snapshot capture to once per attach */
+> +	int fault_snapshot_capture;
+> +
+>  	/* mapper-id used to request GEM buffer mapped for scanout: */
+>  	struct msm_gem_address_space *aspace;
+>  
+> 
 > -- 
 > 2.34.1
 > 
