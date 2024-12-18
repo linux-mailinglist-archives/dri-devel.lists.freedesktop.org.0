@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA269F6E5B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 20:45:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3229F6E5D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 20:45:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F29210E333;
-	Wed, 18 Dec 2024 19:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6BD210E253;
+	Wed, 18 Dec 2024 19:45:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 170D110E253
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 19:45:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7097710E253
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 19:45:22 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.whiteo.stw.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <a.fatoum@pengutronix.de>)
- id 1tNzyo-0006vE-KF; Wed, 18 Dec 2024 20:45:10 +0100
+ id 1tNzyo-0006vG-KF; Wed, 18 Dec 2024 20:45:10 +0100
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <a.fatoum@pengutronix.de>) id 1tNzym-0045EY-0m;
+ (envelope-from <a.fatoum@pengutronix.de>) id 1tNzym-0045EZ-0m;
  Wed, 18 Dec 2024 20:45:09 +0100
 Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
  by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
- (envelope-from <a.fatoum@pengutronix.de>) id 1tNzym-00DT63-2y;
+ (envelope-from <a.fatoum@pengutronix.de>) id 1tNzym-00DT63-2z;
  Wed, 18 Dec 2024 20:45:08 +0100
 From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH 0/3] drm: panel-simple: support TOPLAND TIAN G07017 LCD panel
-Date: Wed, 18 Dec 2024 20:44:57 +0100
-Message-Id: <20241218-topland-tian-g07017-v1-0-d5e411c199e3@pengutronix.de>
+Date: Wed, 18 Dec 2024 20:44:58 +0100
+Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: add prefix for Topland
+ Electronics (H.K)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADkmY2cC/x3MQQqAIBBA0avErBtQK4yuEi0kRxsIE5UIwrsnL
- d/i/xcyJaYMS/dCopszX6FB9h3shwmekG0zKKFGqeSM5YqnCRYLm4BeaCE1TooGO9JMRjhoZUz
- k+Pmv61brBwq8RoRlAAAA
-X-Change-ID: 20241218-topland-tian-g07017-52e3d4e8ea0f
+Message-Id: <20241218-topland-tian-g07017-v1-1-d5e411c199e3@pengutronix.de>
+References: <20241218-topland-tian-g07017-v1-0-d5e411c199e3@pengutronix.de>
+In-Reply-To: <20241218-topland-tian-g07017-v1-0-d5e411c199e3@pengutronix.de>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -70,27 +69,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TIAN-G07017-01 is a 7" TFT-LCD module by TOPLAND ELECTRONICS (H.K).
-The panel features 1024x600 24-bit RGB pixels driven over LVDS as well
-as a PWM backlight and I2C-connected  ft5506-compatible capacitive touch.
+Topland is a professional supplier of photoelectric display and touch
+integrated products from Hong Kong: https://www.topland.com.hk/aboutus/
 
-This series adds DT binding and Linux driver support for this panel.
-
+Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 ---
-Ahmad Fatoum (3):
-      dt-bindings: vendor-prefixes: add prefix for Topland Electronics (H.K)
-      dt-bindings: display: panel-simple: Document Topland TIAN-G07017-01
-      drm: panel-simple: support TOPLAND TIAN G07017 LCD panel
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/display/panel/panel-simple.yaml       |  2 ++
- .../devicetree/bindings/vendor-prefixes.yaml       |  2 ++
- drivers/gpu/drm/panel/panel-simple.c               | 34 ++++++++++++++++++++++
- 3 files changed, 38 insertions(+)
----
-base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-change-id: 20241218-topland-tian-g07017-52e3d4e8ea0f
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index da01616802c76830a520594a69bd6a2e0231df0d..42d14899d584ca724439fdf500274a729ddbc455 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1524,6 +1524,8 @@ patternProperties:
+     description: Topeet
+   "^topic,.*":
+     description: Topic Embedded Systems
++  "^topland,.*":
++    description: Topland Electronics (H.K) Co., Ltd.
+   "^toppoly,.*":
+     description: TPO (deprecated, use tpo)
+     deprecated: true
 
-Best regards,
 -- 
-Ahmad Fatoum <a.fatoum@pengutronix.de>
+2.39.5
 
