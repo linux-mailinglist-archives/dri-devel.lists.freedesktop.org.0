@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E88C29F6B50
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 17:37:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DF89F6B67
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Dec 2024 17:42:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B755010EC16;
-	Wed, 18 Dec 2024 16:37:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D2A10E13B;
+	Wed, 18 Dec 2024 16:42:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UF3PAu0U";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="b9NzLt6a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::225])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 798DC10EC16
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 16:37:33 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 484A51C0006;
- Wed, 18 Dec 2024 16:37:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734539851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JA0ch8v2VsP+tystLeNWffsKcceld7wq+L1p02Q0OMI=;
- b=UF3PAu0UCEs1s0EkEHnCGhhKYhFBiHh6h/K5qfkw3yTcaYY+NocFa6jtr35+12rn8iGgJV
- Q0mQnAd0/5+MoTIUrGNAbpvV/UEbeviLNa4VlZGH3eLhvN842sUFaS9KeCgwYbZ3ff9UJI
- 0a4mtaL0rbk2X54UPE9iR7ldCDPgK58borPUo5oCfq6NRFm8tSQTZE+FVufZUrBMgiKarp
- l7oEOFCJt87ACFtjBmQHQI9PGU7tgPwWWpzjw9VZ1cqYQ3/qRIPv7soQuXJqOvWOor81B+
- ukiyJvshcXnN1UpV62Hwko+1DXlY7kPLh+bt1xQYVl9TaG9BSPIQkY851UmkEA==
-Date: Wed, 18 Dec 2024 17:37:28 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Marek Vasut
- <marex@denx.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Louis Chauvet
- <louis.chauvet@bootlin.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <20241218173728.5a7690fe@bootlin.com>
-In-Reply-To: <20241218-armored-fearless-dugong-ccd72d@houat>
-References: <20241217143216.658461-1-herve.codina@bootlin.com>
- <20241217143216.658461-4-herve.codina@bootlin.com>
- <20241217-tangible-nostalgic-salamander-27edaa@houat>
- <20241218092407.559a204e@bootlin.com>
- <20241218-armored-fearless-dugong-ccd72d@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE4FB10E1CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 16:42:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=obxeOv5xS3pelA9rBXGzBgBDhhTmHuY1TLuS9kkDxuM=; b=b9NzLt6aR6WEi8aZiCa9QDGKFj
+ b5YEFDWiz6NiZ/qWC1v+BzaqszvXu8Kb5OgZXrYqdP0anWHF4JBVyLg9NinBO32bGdfqkt3gwJwDR
+ fRNc4miuzUebN8mYkOL65cCvvEFLUj6dqdSPA/KR1aON1oqT1f9iB2ll85DvYVuPYu5MQCSjvkAgv
+ 1N4ffaWNDWZo0e0llTBpcoBDmUQEbNbsV4hjDvKgtQCu/AFDRnQk/ml3nEcoHrFvRfgBzNpgF7Jma
+ YtBaW72DPcF240N1J5K/8fi3nUvaF6nHqYGNCRbAsfGDN/ff/tt0r2iwcz/D/sG3qRq2XU4B0OCEY
+ ChVAMQRg==;
+Received: from i53875bfb.versanet.de ([83.135.91.251]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tNx8C-0002kl-87; Wed, 18 Dec 2024 17:42:40 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, hjc@rock-chips.com, krzk+dt@kernel.org,
+ s.hauer@pengutronix.de, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: (subset) [PATCH v6 00/16] VOP Support for rk3576
+Date: Wed, 18 Dec 2024 17:42:29 +0100
+Message-ID: <173454013836.591676.16677827979094919661.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241214081719.3330518-1-andyshrk@163.com>
+References: <20241214081719.3330518-1-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,104 +66,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-On Wed, 18 Dec 2024 16:54:02 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
+On Sat, 14 Dec 2024 16:16:59 +0800, Andy Yan wrote:
+> Thanks for the basic work from Collabora, I can bringup a HDMI
+> display out on rk3576.
+> 
+> PATCH 1 is a carryover from the working when add support for
+>     rk3588[0], is very usefull when some people want me
+>     help debug some issue online, so I really hope it can
+>     be merged at this round.
+> PATCH 2~8 are bugfix of rk3588 alpha blending which report and
+>     test by Derek
+> PATCH 9~13 are preparations for rk3576 support
+> PATCH 17~18 are real support for rk376
+> 
+> [...]
 
-> > > > +static int sn65dsi83_reset_drm_output(struct sn65dsi83 *sn65dsi83)
-> > > > +{
-> > > > +	struct drm_atomic_state *state = ERR_PTR(-EINVAL);
-> > > > +	struct drm_device *dev = sn65dsi83->bridge.dev;
-> > > > +	struct drm_modeset_acquire_ctx ctx;
-> > > > +	struct drm_connector *connector;
-> > > > +	int err;
-> > > > +
-> > > > +	/*
-> > > > +	 * Reset components available from the encoder to the connector.
-> > > > +	 * To do that, we disable then re-enable the connector linked to the
-> > > > +	 * encoder.
-> > > > +	 *
-> > > > +	 * This way, drm core will reconfigure each components. In our case,
-> > > > +	 * this will force the previous component to go back in LP11 mode and
-> > > > +	 * so allow the reconfiguration of SN64DSI83 bridge.
-> > > > +	 *
-> > > > +	 * Keep the lock during the whole operation to be atomic.
-> > > > +	 */
-> > > > +
-> > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-> > > > +
-> > > > +	state = drm_atomic_helper_duplicate_state(dev, &ctx);
-> > > > +	if (IS_ERR(state)) {
-> > > > +		err = PTR_ERR(state);
-> > > > +		goto unlock;
-> > > > +	}
-> > > > +
-> > > > +	connector = drm_atomic_get_old_connector_for_encoder(state,
-> > > > +							     sn65dsi83->bridge.encoder);
-> > > > +	if (!connector) {
-> > > > +		err = -EINVAL;
-> > > > +		goto unlock;
-> > > > +	}
-> > > > +
-> > > > +	err = drm_atomic_helper_disable_connector(connector, &ctx);
-> > > > +	if (err < 0)
-> > > > +		goto unlock;
-> > > > +
-> > > > +	/* Restore original state to re-enable the connector */
-> > > > +	err = drm_atomic_helper_commit_duplicated_state(state, &ctx);
-> > > > +
-> > > > +unlock:
-> > > > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
-> > > > +	if (!IS_ERR(state))
-> > > > +		drm_atomic_state_put(state);
-> > > > +	return err;
-> > > > +}    
-> > > 
-> > > In the previous version, we advised to create a generic helper similar
-> > > to vc4 and i915 reset_pipe() and and intel_modeset_commit_pipes().
-> > > 
-> > > It looks like you chose a different path. Can you expand why?
-> > >   
-> > 
-> > I didn't choose a different path.
-> > I created the drm_atomic_helper_disable_connector(). Maybe it is not enough.  
-> 
-> It's not that it's not enough, it's that you're not doing the same
-> thing, see below.
-> 
-> > I can move (copy/paste) sn65dsi83_reset_drm_output() to a new helper:
-> >   int drm_atomic_helper_disable_output(struct drm_encoder *encoder)
-> > 
-> > Is it what you expect?
-> > 
-> > Also, are operations done in current sn65dsi83_reset_drm_output() correct
-> > in order to reset the output? It works on my system but what is your
-> > feedback on operations performed.  
-> 
-> You don't need any of that. Both the reset_pipe() and
-> intel_modeset_commit_pipes() functions will flag the connectors as
-> updated in the commit, and the core will consider that it needs to
-> disable / enable the encoders and bridges below that CRTC.
-> 
-> See
-> https://elixir.bootlin.com/linux/v6.12.5/source/drivers/gpu/drm/drm_atomic_helper.c#L1155
-> https://elixir.bootlin.com/linux/v6.12.5/source/drivers/gpu/drm/drm_atomic_helper.c#L1476
-> 
-> So you really only need to convert any of these two functions into a
-> helper, and it does exactly what you need.
-> 
+Applied, thanks!
 
-I see but if I set crtc_state->connectors_changed = true; as it is done in
-reset_pipe(), in my understanding, all outputs will be reset.
-
-I understood during v1 review that I need to reset only one output path, the
-path where the bridge is present. In other words, the path from the encoder
-attached to the bridge to the related connector and not all connectors
-related to all encoders attached to the crtc.
-
-Do you confirm that setting crtc_state->connectors_changed = true is the
-correct way to do?
+[03/16] drm/rockchip: vop2: Set AXI id for rk3588
+        commit: 7b256880fdb2d7f23393b87bb557090f049e686a
+[04/16] drm/rockchip: vop2: Setup delay cycle for Esmart2/3
+        commit: c766998ba6df126ab6934d32ff2ff080316ec630
+[05/16] drm/rockchip: vop2: Check linear format for Cluster windows on rk3566/8
+        commit: df063c0b8ffbdca486ab2f802e716973985d8f86
+[06/16] drm/rockchip: vop2: Add check for 32 bpp format for rk3588
+        commit: 7e8a56c703c67bfa8d3f71a0c1c297bb1252b897
+[07/16] drm/rockchip: vop2: include rockchip_drm_drv.h
+        commit: 77b1ccb2a27c7b3b118a03bf1730def92070d31b
 
 Best regards,
-Hervé
+-- 
+Heiko Stuebner <heiko@sntech.de>
