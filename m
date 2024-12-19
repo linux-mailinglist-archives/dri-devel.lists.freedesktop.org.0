@@ -2,233 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE4A9F79A7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 11:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD0F9F79A9
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 11:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6767A10E48B;
-	Thu, 19 Dec 2024 10:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D91910E495;
+	Thu, 19 Dec 2024 10:36:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="NeW2C9HT";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NeW2C9HT";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KA+4sjqq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on20616.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2612::616])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5299610E2BB;
- Thu, 19 Dec 2024 10:32:33 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=WXrEo44p9vsaMu0zw1QJ3o8w+PpCoK+SDvBLpKDx1WlvsOCgsy0xlxTHVtDNSKtgN+CsWMaoYw8v+o4YvlQxCrWiqLMSO52QG+W+bWophROorwqmX3p+/daPFqDhigiabtO0d622hkITiYPTboCdjn9vFZoqWjCBG7yjc4rqq5r01xCEpjqTny7PsNpcCDtcZUGgzXwWwaMhk1pwJH87s+WR6pQlySFegGbLa86fvKmVuIstE2eef5EP0K/iqEVJFeI8rqKITmkWIkUFyyaKMMJK0Iwb5fDP6drwHpLePbxEiCsJul2rxM+no5rK0oP6YITLy/qOm4cwGBPaR7UDwQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rDsNfL/oQrggMzCHIN+o+UC9lSWh22iv/nzGlvSC/6k=;
- b=jQ/ZwK13vBwIVdtVdrY4w8TQMDn1LspUgJX33UYJeS9zSReaMIXDbKZlSkMKlm9fe1woO8xPlxlt4nz06iOzqiypMl5OV9rf/vFRckNqdRy/fjOeKCemBbXCZ2obG3g2OPZYa2mgFN0YXU6oXQ8BzkEEHeGCaYE4v/Vo9lNw2MQto9YTQ4vOuvBFdq4YOCKZI8f7Hozyzrw5X0dAlHv5XPqcAtOC0/rv3WWS4MpzOAQ24mMvZEUMaZQXDBZ200LHG2dnb72NoL8JG9JUTjUiUqY0YfTbeXkb+TUvg+keXQejfXfZz4LP29vJjxNpqCtNmAfJqvfGKQ95LQZVFR35Xg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rDsNfL/oQrggMzCHIN+o+UC9lSWh22iv/nzGlvSC/6k=;
- b=NeW2C9HTKW5IHdXtBMcpBbBk7JwK2BzuIekI1koOmv/5qRELQ66W7apLhPcOkmvL1tx42yA5d2vwdnjwXr4LPDk5dTBS9vXNR5VVHgQzVv2aXWTq+iR3rmTNglxLh5v0ScoIRWWUG7K1F0wIED9YywehHIiQaZ9rxPjbbPexsP4=
-Received: from DU7PR01CA0020.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:50f::25) by AS4PR08MB8072.eurprd08.prod.outlook.com
- (2603:10a6:20b:58b::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Thu, 19 Dec
- 2024 10:32:26 +0000
-Received: from DU2PEPF00028D13.eurprd03.prod.outlook.com
- (2603:10a6:10:50f:cafe::93) by DU7PR01CA0020.outlook.office365.com
- (2603:10a6:10:50f::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.23 via Frontend Transport; Thu,
- 19 Dec 2024 10:32:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU2PEPF00028D13.mail.protection.outlook.com (10.167.242.27) with
- Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.15
- via Frontend Transport; Thu, 19 Dec 2024 10:32:25 +0000
-Received: ("Tessian outbound 8c86f99b1b13:v528");
- Thu, 19 Dec 2024 10:32:25 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 2aeb068eb300bb33
-X-TessianGatewayMetadata: 2p/kpCwyXN62aIp+Aos/IN3Mxw4PRAERwNhQ/QYSwx3jbtlOcFz27oLEXqNKx9G3v7ObADN2L5M7HN4ZpZ4Ocfy4tJ0rK7JQXblU7IFKecrEfdHCTayNOl5MdLjPH8b5H+iNK8sUqnsDZUyC1gzDsLHmHlRzLkqt7rTOGv0XXCUcK6Zm9H4R7MyHqwygwZmf
-X-CR-MTA-TID: 64aa7808
-Received: from L0792dc63cc4d.1
- by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 8CFF8B01-3211-4CD7-8494-BEA9E1B17790.1; 
- Thu, 19 Dec 2024 10:32:18 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- L0792dc63cc4d.1 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Thu, 19 Dec 2024 10:32:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dQmDQf2Aju9pKELenh/zJeBiRq4UiSMdL36DJTd8A/Y58mNArAQPlTEaAezoRtnuKH8Lq2WlH6WS2aLs/iUlMpcFm9k8nHgTN7QyrkL+e18VaHtI2tm3/iaf/x85lDvRcEj+NVIccdW82wFv/rECnAkSe3ImHHuFfLgyHQ3SsYrg+agMqLLZ3VMxSP3ndJi1e5frSu+F0+vlVrU8E7C29Vg1QxKy1rk4ng1D7AvvyORM6y+BvNJMQuhYkIWjLYoBwhApjZ1yyvmANGY/TkGh/bPIXF4RVOA1pOD2gA6jzxRHpanIeekaluWB8lw51Nxf86loOnZ+QXcxRfucYBy/Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rDsNfL/oQrggMzCHIN+o+UC9lSWh22iv/nzGlvSC/6k=;
- b=R8nrubTZPNCNik3+nxTNdgrKSBF3McY3wT2D//N1/3lODQ6D+z/BcCN2H872hsQg43CrkDLIUu92NmaF92HoWvIcbYw79IGkpTRC72fxUoLE6zTMP87OVP7taxEvoLftABab2RMRb8E9pbF/2uLD0oI3ueHuP89sFOjRPZy5P15DfB9QTU72nKVMq6Kqimjiy5S2dsPD/3Djtd8kGH7UjxPgXIDN3Q0qa0kehrGpIDmNIWbZdNdAZHiK4CQ/ZH+VpwmM8IILRx87oUfraA4fuPw9Jl2w6nuUC3ekiDtwQhHTJobSIODXoeJm1YD3GEXOPITDb1/wgUr764ruCuhTlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rDsNfL/oQrggMzCHIN+o+UC9lSWh22iv/nzGlvSC/6k=;
- b=NeW2C9HTKW5IHdXtBMcpBbBk7JwK2BzuIekI1koOmv/5qRELQ66W7apLhPcOkmvL1tx42yA5d2vwdnjwXr4LPDk5dTBS9vXNR5VVHgQzVv2aXWTq+iR3rmTNglxLh5v0ScoIRWWUG7K1F0wIED9YywehHIiQaZ9rxPjbbPexsP4=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DU0PR08MB8563.eurprd08.prod.outlook.com (2603:10a6:10:404::17)
- by GV1PR08MB7802.eurprd08.prod.outlook.com (2603:10a6:150:59::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.15; Thu, 19 Dec
- 2024 10:32:16 +0000
-Received: from DU0PR08MB8563.eurprd08.prod.outlook.com
- ([fe80::3f5f:95b1:c5ed:1895]) by DU0PR08MB8563.eurprd08.prod.outlook.com
- ([fe80::3f5f:95b1:c5ed:1895%2]) with mapi id 15.20.8272.005; Thu, 19 Dec 2024
- 10:32:16 +0000
-Date: Thu, 19 Dec 2024 10:32:15 +0000
-From: Brian Starkey <brian.starkey@arm.com>
-To: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, 
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-Message-ID: <zfjnuz2pfg7j2g2zrbt5ryde223plzr4rdyk4f4ans5znicw3l@kbebotesmobf>
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
- <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
- <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
- <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
- <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
- <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
- <CAAxE2A5+=QVAFXXCbe3qEgY-Mzb-5XW73CYdANEO+N_xA+ivaw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAxE2A5+=QVAFXXCbe3qEgY-Mzb-5XW73CYdANEO+N_xA+ivaw@mail.gmail.com>
-X-ClientProxiedBy: LO4P123CA0409.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:189::18) To DU0PR08MB8563.eurprd08.prod.outlook.com
- (2603:10a6:10:404::17)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A77C210E495;
+ Thu, 19 Dec 2024 10:36:57 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BJ8eudY012641;
+ Thu, 19 Dec 2024 10:36:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ pCrif/Wig+0ouaXxxKWwhGq+PeMSEo0hXVQU6kifTJU=; b=KA+4sjqqUw/LncAL
+ 8GfLTZzvUwDmSLAZDpjiGqlk8JksbvRQSX9MREg0yTVPyjJaUT4D4elk1omvrEv+
+ uXaD7MjqGtgX1vx5BGVdzp7P7T+WrYMMs/gCPeAxw2bvSvbd6iEQU4CGHA0bM3f+
+ IicV23B01u6P+LF9tlsD/JJkDIL0rOBpKwyQz7LS1kd8em34SlCPbv3k2M3+YBIz
+ g9J7UAyEWIpJ1pM+pDKJOXQv5P/HGDnFNmUfA9kJx6dbuKozJPiataP1hIN6oLT/
+ r7i/GhMMC2qQAqQ1BaMLhdgLMw8fT00PJQG45+fpjNq5EmVzemj0nAJO7VYIsIDm
+ irCMVg==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43mg6hr9tq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Dec 2024 10:36:49 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BJAam1B004914
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Dec 2024 10:36:48 GMT
+Received: from [10.64.16.135] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 19 Dec
+ 2024 02:36:41 -0800
+Message-ID: <e647d143-dc6e-483d-ac81-2733fb526fc3@quicinc.com>
+Date: Thu, 19 Dec 2024 18:36:38 +0800
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: DU0PR08MB8563:EE_|GV1PR08MB7802:EE_|DU2PEPF00028D13:EE_|AS4PR08MB8072:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0fe730a8-618d-4cd3-8da6-08dd20186e36
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
- ARA:13230040|376014|1800799024|366016|27256017; 
-X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?ZzlwbUkxSmZlSFFkRjB6dXh5SCtnQmpNb2lqQzdiOHg0WmtFNE9RdFBYakNZ?=
- =?utf-8?B?SUxWU0EyaVAyVTIrOXQ4M2gzaUY3L0RJZUtYd1NYVytTaVJWcjZtMndjYTdM?=
- =?utf-8?B?djhUU1JXSEpJNWhMVUNHd20wZ2trSm05RGhtclV0Q3Nsc1lXemZMNUlidUVY?=
- =?utf-8?B?MmkweG1JakZ4UW90T1BSL29CNTFhNVhOeVJRRTBjdFZ6K0IrY2RlNzFXWGs2?=
- =?utf-8?B?MGEvMnZUNk1WWmZHc29WcUF1S2QvVnlQa2ZIcFptNjhWU05hMnZIeEprZjZU?=
- =?utf-8?B?QUVXNU1aK1hxUUdKSFo3U3U3cWpPdkhJZ2FGTG84QWlGVCtMUU52blIrMFZq?=
- =?utf-8?B?WjJSc2VJRkJtWU9vMXVtVWhOdVJlUU9UaFZWSGt5T0liM3VHdGloRHhvTy9S?=
- =?utf-8?B?WUUwVS9WOXFtVHRCWk0xamtEYjFrRlpKcHdiVHdubDdHcC9vcGYrUkIrbVd0?=
- =?utf-8?B?bFVkd1BCQm9LYW1mTm9KSGFUc1V5K3VxejB3N3RLdXR4bUVxWjlsTlpvVTh0?=
- =?utf-8?B?aTA5R1IxOWk0MURtd0lYTWh1WlJreWVueC94STF6VTlzbklQd3JhRno4QWhC?=
- =?utf-8?B?RU9RY2lncG9JSSs1QStPb2U1N1lwcWFCS2lDNGc3dTBLWkRpRjZpNzQ0S0ZR?=
- =?utf-8?B?MmhGaUQ0RVhGQ1A1K2tVQS9GTm4yZWhwRnJuY1F2T2NEbFk1SUExb2FRSlVP?=
- =?utf-8?B?U3NiK0FnOFJ1aGVlOFN4ZzJkMlEzVkdGMGpkVVlidmxNcm5LUDBWOGZPN3lQ?=
- =?utf-8?B?TFUwdWEvNGRCMDJLVTJnRkhmQ2dHczM3VTduTXBXb29Ub3JoVDRIUW0wT0sx?=
- =?utf-8?B?UkhPQzV5d0hnYk1ROS9QQU5sUkd1bmZ4SGFBVjRHVmVCbzRzQjJmNkZtTW5m?=
- =?utf-8?B?RXQ1ZzRyRXJtWDV6UFlHdkV0NXFORDFUZXpSbytjVUtWZUFoZ2l6VWpRWHdL?=
- =?utf-8?B?SGpJaDNob3UzN0VUY1VNbTlDYXBzK2hFQ2F3YmNHNWFIUThxN3FIMzZwUHVo?=
- =?utf-8?B?L0VuM3lHSDd2aE93OHB4YXdIb0l4V3grRTNZc1FjTlR1UHlJRDFFNFVXdU51?=
- =?utf-8?B?S04wbHIvajFGSS81L2ZrbUx1ZEdKeWlkVGhwdDZXNG9ONG5GOW1kOHhPYWFN?=
- =?utf-8?B?NTBTc1BFbmpKcWtxWFQ0R3dGTGJHUC9IZDFBQmVzWHpkT0g1cDRUUU9GWXdw?=
- =?utf-8?B?MHpGZmtPMEs0dmcxVmRtZnhtdnV1azFub0RML0U3dG5yWDJ4cXVKTFdmT0th?=
- =?utf-8?B?UW1CZkRzTXplaTNSRVpvQytPVlNMdUx2Rk9qNTdic1dzelNLbG1kK0x3d0xa?=
- =?utf-8?B?MkNpZVY2bUREeFNjMU1GdEhqakZOY3BqWXRNejhiSVB4RmVWMzltWXBzSTJ4?=
- =?utf-8?B?V2R2VFQ0clFnVFluSTRkdlYwcVF2cjRnTnpCTms3Z3NqTHYzeG43MDFqS2Zq?=
- =?utf-8?B?SzAxR2plVG4vZEkrd1lXSU94WnFGY1VaUkZWV1Bqc2huTHo1MVhZRVM2dnRC?=
- =?utf-8?B?RWFnTGVOby9CQU44eGFsUk5zZ0FsQzYyeHdFekhlT2FFZ2hwbVJrZFYvekxi?=
- =?utf-8?B?UHVzUEhWdXhuZzlxbTRScXpXTWd4eU0zK3ZtSTVWaHdrV3BhUG5nQUMwVUxt?=
- =?utf-8?B?WGVYWmdtMkF0cm12ZFRpQURTbXdKWkRUWGgxYVhiaExSZUNKanZZVDRjR0xH?=
- =?utf-8?B?dmtOZ09uQU1CVjRoMTQwYUVSLzZRNHBQMk4zMUJDQ0N0Y0lOMGZKRWZaK1Vt?=
- =?utf-8?B?VzFvdVZCMHRTWFBBVjE0aVJzV1YxUnlFWjZRc0xiWmh2Ty84a29HVy9CK2sx?=
- =?utf-8?B?K3lack9YaW1wSzd3U1VQYmV3NWNjYm9PVUtPTFVmRDFGbG9TRExqZVhCaVVN?=
- =?utf-8?B?aEh5ejJIeGp3Q1l0alpMMG8zQnhzQnlBcWt5dGsxSVdKVVc2ZTcxNG8vOGVo?=
- =?utf-8?Q?EYx5LN/P2fwodWvMq8c9lU15LD5f8raS?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:DU0PR08MB8563.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(376014)(1800799024)(366016)(27256017); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB7802
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:10:404::17];
- domain=DU0PR08MB8563.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF00028D13.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 8f31afa3-2991-4b87-316b-08dd20186889
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|30052699003|36860700013|1800799024|82310400026|35042699022|14060799003|27256017;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L2Q2M1cxQ2UwQnZhc0N4ck9PZDFhZXhWYVZoeE1pSDRvclVQdFRPWmYyZEpr?=
- =?utf-8?B?SWdTZkdjVlMwWU82a3Zjb0N4QzZnRm5SUExXYjJ4S3lxcDZlRzgrZ2ZjN0U5?=
- =?utf-8?B?ODkvQjN1SnlmSnFsREVCTm1udGNoOE5UazRxR29Hd3BjaFVYZ0tzcmlwcUVh?=
- =?utf-8?B?U2J2UkcyUmpudkxsOW9XN0NvejdBemszQXpEdm04R1VoRlNEUjMvQktrUGRF?=
- =?utf-8?B?YnJaQ0xWTUd5cll2dXM2WXgzRG9jaXV5MHB3OFhlKzRyRUoyWDIwOXd4cEVM?=
- =?utf-8?B?Um5qQ1dVYkxOTHN5S3JIOHBFNHVWWVBJdlNtNVJMTks5MHkxZkcva2s5dEJU?=
- =?utf-8?B?L012a0UvM2ZDRG10SFJsMnJsL1hPaUNWWHZ4cGJyM3EvWHFHMXFOK3dCNEgw?=
- =?utf-8?B?N3B0OUNCVWpuZW5iZ2lsQmx2QlhlTmhHR21vMmVOOHpZbERadlR1ZUFXY0gw?=
- =?utf-8?B?bHorZnJnMEsrWTBnek9RZ0VGbFg5RGJwcm1nRlZEQW4zczlpdzJOWFFjQ2lY?=
- =?utf-8?B?ZDVEM01mNFNmMUt6QzZqNWtaUi9CZW14K1N0SHJ3YXB1ZVpmSnhjVkljMHNa?=
- =?utf-8?B?cGVialNjNHptQmJjTTYwVnFnanFKbHNlbU5KL2dZWUdOSk56cTR4QnV3MkRh?=
- =?utf-8?B?MWtGNVJkQ0dXbHNCcW81WjNSTEduZ00vbmFieDJBamZ1cUZ0eXk5WlNDV0t2?=
- =?utf-8?B?VTBMRncybkJqS2p2K1JlZHpEMGtDcjZ3Yy8xaW9SRlFCTWovQkdEQmJ6d05z?=
- =?utf-8?B?MU9WZ09BckpuL2Q5TXpCZDUwYzdFeXBOTllWaTBadXpIVVNNRThyVEZwSm9L?=
- =?utf-8?B?cGd5ZW5nU1VLbjI4UENBeSs2TjRYU0Z4VW5yK2NSc09xYXNici9ZNXAyT2xl?=
- =?utf-8?B?cFliS1lMK01OaUs4cUpnQTJvemFTMVp1dUNsYzFldW02VEhqQnllWWhFLzhr?=
- =?utf-8?B?ZTBJTjR1TytoOGJ2Q2tET2Q3OXhsZjloNWZZV2szTW9nUUovdk1mQlN2Ymxt?=
- =?utf-8?B?bFArVHQxOG5iUnVSRzVweE92SnlGWVRmc2UzeXk1WFN4NXB3Y2pBTjVQQ21F?=
- =?utf-8?B?a2RPVzB6UG1KSDNFcDgvQ29acjBLMWl3a2h5ZWJIenAxTURrb2FLb2dZc1VL?=
- =?utf-8?B?SFE2RUkxMlJmd2szTFlFU2JmZGRMK1JvSkl2RHVFQnAwWDgrNjlMRlk4TDMz?=
- =?utf-8?B?aGUxeStmTkZ1OGgzdWFuOURBeVVlZ2tpL0ZSV25XZnhCb3YzUTVrYWNaWGdB?=
- =?utf-8?B?NG1NOFZ3NDlBY0sxQi9WSllmTU84ajV4ajdXbFN0RGtGSGRpOWtkbHd1YURt?=
- =?utf-8?B?eWRmSnFBL2NxK2dkcTAwR1Z3M0JtUU40SEUvM0IydVdRYkUvQzlIZ1RneTAr?=
- =?utf-8?B?YURiTHdrK09xUy90KzhobDJWMlJKQzRZQWxhbjU0M29EMjl3L0llK1FaOHBr?=
- =?utf-8?B?OVM1bmx1dExwb09qZUJPTHZlNm1ITGNRQjlJb2dVL3JpdEw3VVh6b0tCMGp0?=
- =?utf-8?B?V0JsZ3JKVVlxdzFhUWhhUklvVHNhOHl3UVh1V3FRYWF4b0VLRXlHVUM3MlFP?=
- =?utf-8?B?OTZQUm1idmJBZzZPM2VGeXl0YjFEL1B2VTFjQkdwRERWK3JJajdQUVJFODNG?=
- =?utf-8?B?UUFabnJvcFVSUFpCY1RwQXNJbklBb3VxeFowekwxMEZlQmk0SFNXam1FaUo3?=
- =?utf-8?B?YTAxMnQzeDR1ellPTTN3TEFQRVViZ014SEVCa2d2REQ0Z21HRitqbC96R0dn?=
- =?utf-8?B?c3dzY2Vpa0E5TEdLV1lYRVZuOW1meThETGttZHhqdUtOSWpEa1p2SWNPeldN?=
- =?utf-8?B?a0ZIR0Jla1BOdkNKRnRwamVDeWRXYi9kOTVDRVVrdENPWFdpdWErNHVWSnJo?=
- =?utf-8?B?K3luZStZUk0xaTlmdkZrYVg1VXZIdUxwckQvVDFnSEk3ZWxCNEc4U2VMSjhu?=
- =?utf-8?B?cEFoN2YyMm9jUjhCV1JpSjlVWU9EaS9WUmowcHFOS0RSbnEvVFhSZ3p1dDZi?=
- =?utf-8?B?WTVLWE9sMDhJOVFxTkViNllORG42akhHTU0zMWl1eHlJaGNFRlJaZ1l4UXBK?=
- =?utf-8?B?RTZmZ2JUSGJrWkxraDJpWElqNmppbmQ0MitSQT09?=
-X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
- PTR:64aa7808-outbound-1.mta.getcheckrecipient.com; CAT:NONE;
- SFS:(13230040)(376014)(30052699003)(36860700013)(1800799024)(82310400026)(35042699022)(14060799003)(27256017);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 10:32:25.6851 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fe730a8-618d-4cd3-8da6-08dd20186e36
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
- Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D13.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB8072
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/8] drm/msm/dp: Add support for lane mapping configuration
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
+ Vijay Abraham I" <kishon@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, <quic_lliu6@quicinc.com>,
+ <quic_fangez@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, <linux-gpio@vger.kernel.org>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-5-09a4338d93ef@quicinc.com>
+ <CAA8EJpoY8hySQd00yODGeHjSpVZpEBLjF3aBiKGJPUhpr-2mgw@mail.gmail.com>
+ <d2a3cd6f-1077-4edb-9f0c-0c940a639050@quicinc.com>
+ <zvapsvfftai4fp6vwrn33edqsyuuprq2pxz6spij6j7t4y6xmn@zzgp7gbsivbk>
+ <93ddb63c-42da-43c8-9a77-c517ca5d6432@quicinc.com>
+ <CAA8EJprAFYD6ykN10-r=JwHM4A4XeDDcZVcVWYp_5A5FP-=RyA@mail.gmail.com>
+From: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+In-Reply-To: <CAA8EJprAFYD6ykN10-r=JwHM4A4XeDDcZVcVWYp_5A5FP-=RyA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: wxzrlFx43WZNn-Zm0bSs9-eoV8Sr55IG
+X-Proofpoint-GUID: wxzrlFx43WZNn-Zm0bSs9-eoV8Sr55IG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ mlxlogscore=999 clxscore=1015 impostorscore=0 adultscore=0
+ lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2412190086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -244,124 +108,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 18, 2024 at 09:53:56PM +0000, Marek Olšák wrote:
-> On Wed, Dec 18, 2024 at 5:32 AM Brian Starkey <brian.starkey@arm.com> wrote:
+
+
+On 12/5/2024 7:40 PM, Dmitry Baryshkov wrote:
+> On Thu, 5 Dec 2024 at 13:28, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 12/2/2024 6:46 PM, Dmitry Baryshkov wrote:
+>>> On Mon, Dec 02, 2024 at 04:40:05PM +0800, Xiangxu Yin wrote:
+>>>>
+>>>>
+>>>> On 11/29/2024 9:50 PM, Dmitry Baryshkov wrote:
+>>>>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+>>>>>>
+>>>>>> Add the ability to configure lane mapping for the DP controller. This is
+>>>>>> required when the platform's lane mapping does not follow the default
+>>>>>> order (0, 1, 2, 3). The mapping rules are now configurable via the
+>>>>>> `data-lane` property in the devicetree. This property defines the
+>>>>>> logical-to-physical lane mapping sequence, ensuring correct lane
+>>>>>> assignment for non-default configurations.
+>>>>>>
+>>>>>> Signed-off-by: Xiangxu Yin <quic_xiangxuy@quicinc.com>
+>>>>>> ---
+>>>>>>  drivers/gpu/drm/msm/dp/dp_catalog.c | 11 +++++------
+>>>>>>  drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
+>>>>>>  drivers/gpu/drm/msm/dp/dp_ctrl.c    |  2 +-
+>>>>>>  drivers/gpu/drm/msm/dp/dp_panel.c   | 13 ++++++++++---
+>>>>>>  drivers/gpu/drm/msm/dp/dp_panel.h   |  3 +++
+>>>>>>  5 files changed, 20 insertions(+), 11 deletions(-)
+>>>>>>
+>>>
+>>>>>> @@ -461,6 +460,7 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+>>>>>>         struct msm_dp_panel_private *panel;
+>>>>>>         struct device_node *of_node;
+>>>>>>         int cnt;
+>>>>>> +       u32 lane_map[DP_MAX_NUM_DP_LANES] = {0, 1, 2, 3};
+>>>>>>
+>>>>>>         panel = container_of(msm_dp_panel, struct msm_dp_panel_private, msm_dp_panel);
+>>>>>>         of_node = panel->dev->of_node;
+>>>>>> @@ -474,10 +474,17 @@ static int msm_dp_panel_parse_dt(struct msm_dp_panel *msm_dp_panel)
+>>>>>>                 cnt = drm_of_get_data_lanes_count(of_node, 1, DP_MAX_NUM_DP_LANES);
+>>>>>>         }
+>>>>>>
+>>>>>> -       if (cnt > 0)
+>>>>>> +       if (cnt > 0) {
+>>>>>> +               struct device_node *endpoint;
+>>>>>> +
+>>>>>>                 msm_dp_panel->max_dp_lanes = cnt;
+>>>>>> -       else
+>>>>>> +               endpoint = of_graph_get_endpoint_by_regs(of_node, 1, -1);
+>>>>>> +               of_property_read_u32_array(endpoint, "data-lanes", lane_map, cnt);
+>>>>>> +       } else {
+>>>>>>                 msm_dp_panel->max_dp_lanes = DP_MAX_NUM_DP_LANES; /* 4 lanes */
+>>>>>> +       }
+>>>>>
+>>>>> Why? This sounds more like dp_catalog or (after the refactoring at
+>>>>> [1]) dp_ctrl. But not the dp_panel.
+>>>>>
+>>>>> [1] https://patchwork.freedesktop.org/project/freedreno/series/?ordering=-last_updated
+>>>>>
+>>>> We are used the same prop 'data-lanes = <3 2 0 1>' in mdss_dp_out to keep similar behaviour with dsi_host_parse_lane_data.
+>>>> From the modules used, catalog seems more appropriate, but since the max_dp_lanes is parsed at dp_panel, it has been placed here.
+>>>> Should lane_map parsing in msm_dp_catalog_get, and keep max_dp_lanes parsing at the dp_panel?
+>>>
+>>> msm_dp_catalog_get() is going to be removed. Since the functions that
+>>> are going to use it are in dp_ctrl module, I thought that dp_ctrl.c is
+>>> the best place. A better option might be to move max_dp_lanes and
+>>> max_dp_link_rate to dp_link.c as those are link params. Then
+>>> lane_mapping also logically becomes a part of dp_link module.
+>>>
+>>> But now I have a more important question (triggered by Krishna's email
+>>> about SAR2130P's USB): if the lanes are swapped, does USB 3 work on that
+>>> platform? Or is it being demoted to USB 2 with nobody noticing that?
+>>>
+>>> If lanes 0/1 and 2/3 are swapped, shouldn't it be handled in the QMP
+>>> PHY, where we handle lanes and orientation switching?
+>>>
+>> I have checked the DP hardware programming guide and also discussed it with Krishna.
+>>
+>> According to the HPG section '3.4.2 PN and Lane Swap: PHY supports PN swap for mainlink and AUX, but it doesn't support lane swap feature.'
+>>
+>> The lane swap mainly refers to the logical to physical mapping between the DP controller and the DP PHY. The PHY handles polarity inversion, and the lane map does not affect USB behavior.
+>>
+>> On the QCS615 platform, we have also tested when DP works with lane swap, other USB 3.0 ports can works normally at super speed.
 > 
-> > On Wed, Dec 18, 2024 at 11:24:58AM +0000, Simona Vetter wrote:
-> > >
-> > > For that reason I think linear modifiers with explicit pitch/size
-> > > alignment constraints is a sound concept and fits into how modifiers work
-> > > overall.
-> > > -Sima
-> >
-> > Could we make it (more) clear that pitch alignment is a "special"
-> > constraint (in that it's really a description of the buffer layout),
-> > and that constraints in-general shouldn't be exposed via modifiers?
-> >
+> "Other USB 3.0 ports"? What does that mean? Please correct me if I'm
+> wrong, you should have a USB+DP combo port that is being managed with
+> combo PHY. Does USB 3 work on that port?
 > 
-> Modifiers uniquely identify image layouts. That's why they exist and it's
-> their only purpose.
-
-Well you've quoted me saying "it's really a description of the buffer
-layout", but actually I'm still unconvinced that pitch alignment is a
-layout description rather than a constraint on an allocation.
-
-To me, the layout is described by the "pitch" field of the framebuffer
-object (and yes, modifiers are not only used for DRM framebuffers, but
-every API which passes around linear surfaces has a pitch/stride
-parameter of some sort).
-
+> In other words, where the order of lanes is actually inverted? Between
+> DP and combo PHY? Within combo PHY? Between the PHY and the pinout?
+> Granted that SM6150 was supported in msm-4.14 could you possibly point
+> out a corresponding commit or a set of commits from that kernel?
 > 
-> It doesn't matter how many modifiers we have. No app should ever parse the
-> modifier bits. All apps must treat modifiers as opaque numbers. Likewise,
-> documentation of all modifiers in drm_fourcc.h is only meant for driver
-> developers. No developers of apps should ever use the documentation. There
-> can be a million modifiers and a million different devices, and the whole
-> system of modifiers would fall apart if every app developer had to learn
-> all of them.
+For "Other USB 3.0 ports", as replied in USBC driver, USB3 primary phy works for other four USB type-A port.
 
-My concern isn't with app developers, my concern is with drivers and
-their authors needing to expose ever larger and more complex sets of
-modifiers.
+The REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING mapping determines how logical lanes (0, 1, 2, 3) map to physical lanes sent to the PHY.
+This ensures alignment with hardware requirements.
+The PHY’s polarity inversion only adjusts signal polarity and doesn’t affect lane mapping.
+Both DP ctrl and PHY lane related config will not affect USB phy.
 
-There _is_ a problem with having a million modifiers. The opaque set
-intersection means that all authors from all vendors need to expose
-the correct sets. The harder that is to do, the less likely things are
-to work.
+Without extra Type-C mapping, the DP controller’s mapping indirectly decides how signals are transmitted through Type-C.
+Mapping ensures proper data transmission and compatibility across interfaces.
 
-Look at GENERIC_16_16_TILE. We spotted that our layout was the same as
-something already defined under SAMSUNG. If there were a million
-modifiers, we wouldn't be able to spot that commonality, and you'd end
-up with disjoint sets even when you have layouts in common.
+We only found sm6150 need this lane mapping config, 
+For msm 4.14, please refer these links,
+https://android.googlesource.com/kernel/msm/+/af03eef7d4c3cbd1fe26c67d4f1915b05d0c1488/arch/arm64/boot/dts/qcom/sm6150-sde.dtsi (qcom,logical2physical-lane-map)
+https://android.googlesource.com/kernel/msm/+/af03eef7d4c3cbd1fe26c67d4f1915b05d0c1488/drivers/gpu/drm/msm/dp/dp_parser.c (dp_parser_misc)
+https://android.googlesource.com/kernel/msm/+/af03eef7d4c3cbd1fe26c67d4f1915b05d0c1488/drivers/gpu/drm/msm/dp/dp_catalog_v200.c (dp_catalog_ctrl_lane_mapping_v200)
 
-For this specific case of pitch alignment it seems like the consensus
-is we should add a modifier, but I still strongly disagree that
-modifiers are the right place in-general for trying to describe device
-buffer usage constraints.
+If need process orientation info like dp_catalog_ctrl_lane_mapping_v200, 
+then 
+if implement in DP phy, then we need config dp_link register in PHY,
+if implement in DP link, then we need pass orientation info to DP driver, perhaps we could add a new attribute to the phy_configure_opts_dp structure to pass this.
+Do you have any suggestions?
 
-I'm worried that adding these alignment constraints without any
-statement on future intention pushes us down the slippery slope, and
-it's *very* slippery.
-
-Up-thread you mentioned offset alignment. If we start putting that in
-modifiers then we have:
-
-* Pitch alignment
-  * Arbitrary, 1 byte
-  * At least 16 byte aligned, arbitrary padding (Arm needs this)
-  * Exactly the next 64 bytes (AMD?)
-* Offset alignment
-  * Arbitrary, 1 byte
-  * You mentioned 4096 bytes (AMD?)
-  * Arm needs 16, 8, 4 or 2 bytes, depending on format. Oh and it's
-    different for the chroma plane of planar YUV too, so it's more
-    like 16, 8, 4, 2, 2Y_1CbCr
-
-We would need a new modifier value for each *combination* of
-constraints, so 3 (pitch) * 7 (offset) gives 21 new LINEAR modifiers
-which need defining, and a device with no pitch/offset constraints
-needs to expose *all* of them to make sure it can interop with an
-Arm/AMD device.
-
-I'm certain that 3 * 7 is not the full gamut of pitch/offset
-constraints across all devices.
-
-Then we come up with one new constraint, let's take Daniel's example
-of contiguous. So I need contiguous/non-contiguous versions of all 21+
-LINEAR modifiers and I'm up to at-least 42 modifiers, just for
-describing a tiny subset of device constraints on a single layout.
-
-It's obvious that this doesn't scale.
-
+>>
+>> Additionally, if it were placed on the PHY side, the PHY would need access to dp_link’s domain which can access REG_DP_LOGICAL2PHYSICAL_LANE_MAPPING.
 > 
-> The only thing applications are allowed to do is query modifier lists from
-> all clients, compute their intersection, and pass it to one of the clients
-> for allocation. All clients must allocate the exact same layout, otherwise
-> the whole system of modifiers would fall apart. If the modifier dictates
-> that the pitch and alignment are not variables, but fixed values derived
-> from width/height/bpp, then that's what all clients must allocate.
+> I was thinking about inverting the SW_PORTSEL_VAL bit.
 > 
-> If any app uses DRM_FORMAT_MOD_LINEAR directly instead of querying
-> supported modifiers from clients, it's a misuse of the API.
+>> Therefore, we believe that the  max_dp_link_rate,max_dp_lanes and lane_map move to dp_link side is better.
+>>
+>>>>>> +
+>>>>>> +       memcpy(msm_dp_panel->lane_map, lane_map, msm_dp_panel->max_dp_lanes * sizeof(u32));
+>>>>>>
+>>>>>>         msm_dp_panel->max_dp_link_rate = msm_dp_panel_link_frequencies(of_node);
+>>>>>>         if (!msm_dp_panel->max_dp_link_rate)
+>>>>>> diff --git a/drivers/gpu/drm/msm/dp/dp_panel.h b/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>>> index 0e944db3adf2f187f313664fe80cf540ec7a19f2..7603b92c32902bd3d4485539bd6308537ff75a2c 100644
+>>>>>> --- a/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>>> +++ b/drivers/gpu/drm/msm/dp/dp_panel.h
+>>>>>> @@ -11,6 +11,8 @@
+>>>>>>  #include "dp_aux.h"
+>>>>>>  #include "dp_link.h"
+>>>>>>
+>>>>>> +#define DP_MAX_NUM_DP_LANES    4
+>>>>>> +
+>>>>>>  struct edid;
+>>>>>>
+>>>>>>  struct msm_dp_display_mode {
+>>>>>> @@ -46,6 +48,7 @@ struct msm_dp_panel {
+>>>>>>         bool video_test;
+>>>>>>         bool vsc_sdp_supported;
+>>>>>>
+>>>>>> +       u32 lane_map[DP_MAX_NUM_DP_LANES];
+>>>>>>         u32 max_dp_lanes;
+>>>>>>         u32 max_dp_link_rate;
+>>>>>>
+>>>>>>
+>>>>>> --
+>>>>>> 2.25.1
+>>>>>>
+>>>>>
+>>>>>
+>>>>
+>>>>
+>>>> --
+>>>> linux-phy mailing list
+>>>> linux-phy@lists.infradead.org
+>>>> https://lists.infradead.org/mailman/listinfo/linux-phy
+>>>
+>>
 > 
-> DRM_FORMAT_MOD_LINEAR will be deprecated because it's the only modifier
-> that is generally non-functional (it's only functional in special cases).
-> After new linear modifiers land, drivers will stop
-> supporting DRM_FORMAT_MOD_LINEAR if they can't support all pitches and
-> alignments because we only want to have functional software.
-
-As part of this change will you be adding some core code to
-automatically add aligned versions of LINEAR to any devices which only
-expose (unaligned) FORMAT_MOD_LINEAR?
-
-I'm also curious to understand how deprecation works here. Will LINEAR
-be removed from drivers which currently expose it but actually have
-pitch alignment constraints? I think that risks userspace breakage.
-Or userspace should start interpreting modifier lists so that it
-can ignore LINEAR? Or something else?
-
-Thanks,
--Brian
-
 > 
-> Marek
+
