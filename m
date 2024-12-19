@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E560F9F75D9
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 08:40:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76E49F75D5
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 08:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03AA210EC87;
-	Thu, 19 Dec 2024 07:40:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4DC10E475;
+	Thu, 19 Dec 2024 07:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="hY1Msfr4";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="IgAazdgw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id D51F210EC8F
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ECB2810EC93
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 07:40:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=B6bBn
- hQ+Yihvnob8cdt9x+XWI3cSDJeBWRRdp8mfg8Y=; b=hY1Msfr4b51Z/y2FwVrS7
- wAxtMk3NoMueuRYIgmqhDuj4qdsv1mKFbgOUZUTA1YZQDL9A7EFOvnx3MUm38TlS
- ExzFYbVO7P/3cikxyaXF90nOpEFFnSK38PrHQLfoqiOanDrga29DbVEufYm9SCa4
- eo7i0tP2qNjRxuIvIrK6X4=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=n9kqw
+ reHTXNHZZbYtIN60/GfMBmJOUF2KyeKvQKAMa0=; b=IgAazdgwBSPEiE8U7WbIC
+ kb6QmvWjOHXZeWQ9QelVConMdjwY9z02lfFTz/2wfBozIoQ3hUyqMvI+4PrTsWx7
+ JVHAqCUJqvlSa6W3gQzUtz732FzcVMnKalVQGEe8nN819ITUMuR6rLOE2ul1B88J
+ uwmtWlEyRA7aqDZ05fJM5M=
 Received: from ProDesk.. (unknown [])
  by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id
- _____wBnUtq0zWNnL5jUAA--.6492S2; 
- Thu, 19 Dec 2024 15:39:36 +0800 (CST)
+ _____wBnUtq0zWNnL5jUAA--.6492S3; 
+ Thu, 19 Dec 2024 15:39:37 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, sebastian.reichel@collabora.com,
@@ -32,20 +32,23 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, sebastian.reichel@collabora.com,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  derek.foreman@collabora.com, detlev.casanova@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v7 0/9] VOP Support for rk3576
-Date: Thu, 19 Dec 2024 15:39:08 +0800
-Message-ID: <20241219073931.3997788-1-andyshrk@163.com>
+ Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>
+Subject: [PATCH v7 1/9] drm/rockchip: vop2: Support 32x8 superblock afbc
+Date: Thu, 19 Dec 2024 15:39:09 +0800
+Message-ID: <20241219073931.3997788-2-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241219073931.3997788-1-andyshrk@163.com>
+References: <20241219073931.3997788-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBnUtq0zWNnL5jUAA--.6492S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Zr4Dtry3Kw1UJr48uFWrAFb_yoW8KrW5pa
- 98CFyrZrWxGFy2qrs7Jw4UCrWrKFnayayxG393K3WfJ342yry7Kr1a9F15Zr9xX3WxZr4j
- 93yfCa47KF42vFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UEeHgUUUUU=
+X-CM-TRANSID: _____wBnUtq0zWNnL5jUAA--.6492S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCrW3XFyUGw4xGFykuryUWrg_yoW5Gryrpr
+ W3ZrWqgw4UKF1jqa1DJrWDZF43Aan2k3y7XrnrGr1YqryYkr9rG34DKFyDZrWDt3yfGFW0
+ vFn3GrW7Zw1Fyr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j5kucUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQS6XmdjzK8brAAAsZ
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gm6Xmdjx5evBwAAsD
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,74 +66,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
+This is the only afbc format supported by the upcoming
+VOP for rk3576.
 
-Here is the V7, because I find that I missed sync with Heiko's
-dp+dsi maxclk verification patch[0]:
+Add support for it.
 
-Patches that have already been merged in V6 are dropped.
+Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
-PATCH 1~7 are preparations for rk3576 support
-PATCH 8~9 are real support for rk376
+---
 
-I test it with a 1080P/4K HDMI output with modetest and weston
-output.
-
-If there are some one want to have a try, I have a tree based on
-Linux 6.13-rc2 here[1]
-
-[0]https://lore.kernel.org/linux-rockchip/20241115151131.416830-1-heiko@sntech.de/
-[1]https://github.com/andyshrk/linux/tree/rk3576-vop2-upstream-v6
-
-Changes in v7:
-- Fix rk3588 dp+dsi maxclk verification
-
-Changes in v6:
-- Add a blank line after hardware version check code
--  More specific explanation about the AXI_BUS_ID register bit of
-   cluster window.
-
-Changes in v5:
-- Add axi id configuration
-- Remove the non-existent CBCR scale register.
-
-Changes in v4:
-- Typo fix: selet->select
-
-Changes in v3:
-- Add comments for why we should treat rk3566 with special care.
-- Add hardware version check
-- Add comments for why we should treat rk3566 with special care.
-- ordered by soc name
-- Add description for newly added interrupt
-- Share the alpha setup function with rk3568
-- recoder the code block by soc
+(no changes since v2)
 
 Changes in v2:
 - split it from main patch add support for rk3576
-- Add platform specific callback
-- Introduce vop hardware version
-- Add dt bindings
-- Add platform specific callback
 
-Andy Yan (9):
-  drm/rockchip: vop2: Support 32x8 superblock afbc
-  drm/rockchip: vop2: Add platform specific callback
-  drm/rockchip: vop2: Support for different layer select configuration
-    between VPs
-  drm/rockchip: vop2: Introduce vop hardware version
-  drm/rockchip: vop2: Register the primary plane and overlay plane
-    separately
-  drm/rockchip: vop2: Set plane possible crtcs by possible vp mask
-  drm/rockchip: vop2: Add uv swap for cluster window
-  dt-bindings: display: vop2: Add rk3576 support
-  drm/rockchip: vop2: Add support for rk3576
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
- .../display/rockchip/rockchip-vop2.yaml       |   13 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 1454 +++----------
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  271 ++-
- drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 1797 ++++++++++++++++-
- 4 files changed, 2307 insertions(+), 1228 deletions(-)
-
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index b5f35839d5e8..efe7d0cbe155 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -1454,16 +1454,18 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		vop2_win_write(win, VOP2_WIN_AFBC_HALF_BLOCK_EN, half_block_en);
+ 
+ 	if (afbc_en) {
+-		u32 stride;
++		u32 stride, block_w;
++
++		/* the afbc superblock is 16 x 16 or 32 x 8 */
++		block_w = fb->modifier & AFBC_FORMAT_MOD_BLOCK_SIZE_32x8 ? 32 : 16;
+ 
+-		/* the afbc superblock is 16 x 16 */
+ 		afbc_format = vop2_convert_afbc_format(fb->format->format);
+ 
+ 		/* Enable color transform for YTR */
+ 		if (fb->modifier & AFBC_FORMAT_MOD_YTR)
+ 			afbc_format |= (1 << 4);
+ 
+-		afbc_tile_num = ALIGN(actual_w, 16) >> 4;
++		afbc_tile_num = ALIGN(actual_w, block_w) / block_w;
+ 
+ 		/*
+ 		 * AFBC pic_vir_width is count by pixel, this is different
+@@ -1474,6 +1476,9 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 			drm_dbg_kms(vop2->drm, "vp%d %s stride[%d] not 64 pixel aligned\n",
+ 				    vp->id, win->data->name, stride);
+ 
++		 /* It's for head stride, each head size is 16 byte */
++		stride = ALIGN(stride, block_w) / block_w * 16;
++
+ 		uv_swap = vop2_afbc_uv_swap(fb->format->format);
+ 		/*
+ 		 * This is a workaround for crazy IC design, Cluster
+@@ -1504,7 +1509,11 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		else
+ 			vop2_win_write(win, VOP2_WIN_AFBC_AUTO_GATING_EN, 1);
+ 
+-		vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
++		if (fb->modifier & AFBC_FORMAT_MOD_SPLIT)
++			vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 1);
++		else
++			vop2_win_write(win, VOP2_WIN_AFBC_BLOCK_SPLIT_EN, 0);
++
+ 		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+ 		vop2_win_write(win, VOP2_WIN_AFBC_PIC_SIZE, act_info);
 -- 
 2.34.1
 
