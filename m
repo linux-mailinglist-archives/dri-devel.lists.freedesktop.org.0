@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9C29F8108
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 18:06:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA3D9F8105
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 18:06:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE30510ED49;
-	Thu, 19 Dec 2024 17:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8901289701;
+	Thu, 19 Dec 2024 17:05:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="ZCP4gAbb";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZCP4gAbb";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="Kcd06dLz";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Kcd06dLz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2059.outbound.protection.outlook.com [40.107.22.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CEE210E217
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 17:06:01 +0000 (UTC)
+ (mail-am6eur05on2077.outbound.protection.outlook.com [40.107.22.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C26D89701
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 17:05:57 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=jBpqdmyVCiyMOdI31g5cusi6rQzlZb7zBXpOtGflhtePIx/EXF2SCVWqhv8u0z0eSCv7ao1ZYU/JBgKy3U8DxrJn//jvYLdRRor9u8DHiAQNHjfyfabGntebDs7MESLc66WtofbmsOvJ3m6OXx7jmll7D0agyJ3dQL6ynjdOCCgf+ghNEeMtV5w/Ut/vsLBa6MsfOqM4zi6i8HdmSXSvqVhoyXrRKlA28yzdj2rikLeEfY2CEa97h1v5yG4D4u7pYpCDiDO8dALxRcLaKq1/u4ymRwYNwgPTWhzkq2WUcgCW3BqrGaDhd00VMH9d1qIAf8obLTCE50wHvDuHb1TQ3g==
+ b=gZK867k99uC8Xl/Nt8eBdVSrcoSNV3+wA91NPwPGCxJkyiOjimRqGppJlCZ47+gf61nphxGoSnr2irEx7hPE4bKw2vK2A1P7Aiu0Ax1Mm2cy75rNmjt0hCtOMYuWLJkBpkcls78SW5SOIkuK2rlnNClh7UhGwmQUnPbzJxUxiUbe9xUcR96TVlfF6ZUf3+pJKIUzmZtitlfuQ/fllYbctPME2klAE/hBcT+QCoZBnczlIEjeYvJsMOqi9pfHrAKIQsPuCRewz6eD3FyotLhKDAAR97U7hm/C00OHAQN7oM3VwlFClr+4QX8x0+I1yIOsszeR5X3TGYdgOE52+4X+ug==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gfk1R7JlEZrO+jq1m13lBa7PpiEkiI2lHDGzswTHYu4=;
- b=wz2ousoroD09hqf5jGwz9zPs5Pko8euN6d+/qc1h/7MGh8fwu4eYv0TvG+mk18QEfZ8hvmPTQJqq8GzzLVWdbaVJV/Y/79zc8zzH0dhsQp54bYmqSzRH7Ih1iP3m+Ea0eb/NNWWNQBqB0z0wxWDiYs6SFoPA+gakOW79eyXXzxmHluZgrbEabOphpHYjJWGyWePtAMhxgNKUp8gNkDZ2DuySTKhXVhU/6i7IJf/8jlH73Bgn04EeOzNz5wld2sJQVhxyBru2MXWtTjxA59WNQvK1y/npRH9RKhON7qMvwOhTNww/7K5JeEWX/VNzmYy95zaobqQfX0feOLq8hRd7hg==
+ bh=/WdZl8mgKzbjhVrvvE0l9KsplOgP5IptXxnMUitDinc=;
+ b=JWizDbCFFoI0/uUl7R4ekFB+VTXPn/9QjituKP+qqECxNPN3Mg6nTACVMX+zQyt+yEFHfcOteaFlaRGKCzJYP4XoUaqb7Z1BGT3Bta44851kHMc3PmP7aGkRGNwLWL9XsKZxI2j1LGBrqorBSQe/Xyakk9SyfHzkALlB0B0OMzL8d08RlroOzjsifV3c2lWAvQZczLzTQFZEz78lP1D3B8nKIT8haXXh3jbSb389PQlFbRQmMp5PzLD5W2FmXebl//o68Wuxe9Gb/XGRiaqrz+cNJUeO2rr+z2rtHXltWrLUpRDANCuamRhqRchoxInlwp5EHQjjdmw29J8RYtBTlw==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gfk1R7JlEZrO+jq1m13lBa7PpiEkiI2lHDGzswTHYu4=;
- b=ZCP4gAbbUX0ExZZlHILGS/RLHITXen2ZmTIv0urBFIWbuVUpb7Z7AgI3nDxmztx7ChEhBJBUFB9PKGH5Ikfc+n+CdVgfdzQCVWuCGEyHNxteLntpJX7rQAkjGCw3DRd7CId1+CsBFvFpWwNPLY8BEOfN2SIuRe1NdUxVDHTHCj4=
-Received: from PA7P264CA0166.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:36f::17)
- by DBAPR08MB5589.eurprd08.prod.outlook.com (2603:10a6:10:1a2::23)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=/WdZl8mgKzbjhVrvvE0l9KsplOgP5IptXxnMUitDinc=;
+ b=Kcd06dLzx0Xi2tHhU9tFdgfXbTBhE0+9p67hk+0CYesm34YMgUpOZ36L7acLwGTtnLnbtYUh39eYiPPifPLcAQ3Wtqk4UsO8dbMEoFAo80mTgFsTcsR8MrDTyBFNo8TtXzQNXCYr+FF2VElG+eIs1MOQXq2WvWu3Ghb6vAVChVE=
+Received: from PR1P264CA0196.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:34d::7)
+ by PR3PR08MB5660.eurprd08.prod.outlook.com (2603:10a6:102:8d::5) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.15; Thu, 19 Dec
- 2024 17:05:55 +0000
-Received: from AM1PEPF000252DF.eurprd07.prod.outlook.com
- (2603:10a6:102:36f:cafe::fb) by PA7P264CA0166.outlook.office365.com
- (2603:10a6:102:36f::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.24 via Frontend Transport; Thu,
- 19 Dec 2024 17:05:55 +0000
+ 2024 17:05:51 +0000
+Received: from AM4PEPF00025F9A.EURPRD83.prod.outlook.com
+ (2603:10a6:102:34d:cafe::96) by PR1P264CA0196.outlook.office365.com
+ (2603:10a6:102:34d::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.23 via Frontend Transport; Thu,
+ 19 Dec 2024 17:05:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -52,49 +52,49 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
  pr=C
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AM1PEPF000252DF.mail.protection.outlook.com (10.167.16.57) with
- Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.15
- via Frontend Transport; Thu, 19 Dec 2024 17:05:55 +0000
-Received: ("Tessian outbound a83af2b57fa1:v528");
- Thu, 19 Dec 2024 17:05:54 +0000
+ AM4PEPF00025F9A.mail.protection.outlook.com (10.167.16.9) with
+ Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8293.6 via
+ Frontend Transport; Thu, 19 Dec 2024 17:05:50 +0000
+Received: ("Tessian outbound 867970499bdc:v528");
+ Thu, 19 Dec 2024 17:05:50 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 2f65668693b8e44a
-X-TessianGatewayMetadata: DLWguZjAEK9JDWwTlA8GkD4179bsmK2c8VAym1TUb+J4BN8VHw19rSaRSPcziTBhns/ACaL0cIijF02i0amqhv6FlRWXOLzOl1h1mylqR4jYvQNZv9Hvrn83aEbOPHAbrRc7rlAJnMnS8kZUgIci88ybmJWbUp8EoLGR44yV3IM=
+X-CR-MTA-CID: e582596346a2c76f
+X-TessianGatewayMetadata: ESwNnYDQsedH6LD+IFa2urXFJulHhWdwKS8oketnUOCuMagnmdbbuSzJO7HPtGpZBZfH6ilINO/6UFZ0dVn6ky0GnRvVj+ezjS+MsYCIEaP0AXBy8qMgemOPzDGJ6UybJhbnU5W5s97veG5BC2+wWC5eGLtWOGA47aJ0gKbhcjU=
 X-CR-MTA-TID: 64aa7808
-Received: from Laeb471f382c8.5
+Received: from Laeb471f382c8.7
  by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 6C3D1BE1-A0EC-42C4-B816-7FE3A35D9C48.1; 
+ 93E54F76-ABE9-4F6E-A8E5-633DA394EC93.1; 
  Thu, 19 Dec 2024 17:05:43 +0000
 Received: from EUR02-DB5-obe.outbound.protection.outlook.com
  by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- Laeb471f382c8.5 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Thu, 19 Dec 2024 17:05:42 +0000
+ Laeb471f382c8.7 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 19 Dec 2024 17:05:43 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=roqaZZibvVJRP1Zpdp4eHmmRG7IyMsu2rukByN6o+gj+aEP4i5/VqV94CZTRxC+0AYiJ9J+I2aWSI7UFblkJm7e1dtKNdahKQwXWg+9D+tn4lcozMHSs9RrBs9r8LEcx/rWjK3sg8DhJk2F0gtQZmJ5kBhkt7YU82r7vDqlF7YZ8xIAiqIpaiUGt1NqI2KTLKgkwYJePrRp3YXk1ghaZ9rhytCCb9eeD6iZJVMhOWWB+pKOx3nR1bJUIHEwuG2lK0v+DbcYiVpzRDbG/OBk4CeiTuxmFW6qVwiYk9l1eKVdUxLbREmBEKBLeLM5h6gDtJkMR/97ug4P7K+PRs6ugdg==
+ b=RGDAUMmpOlQ7phC6y9jw8geAcYXIGWVejIbkki1+fam6e9BQ05WqamdECYw/DnSbZohyMpJ1s+z/QRal/4DfYxpO658GgOqFrzJ8D0oudApCVuoo32YqdwLSLeSVP9OxXXqhgP4Jdm/DYuXITILwnxSmmAUDI047aNB/Vm2hhVASxbtM5Mk97jhrn3XwiO+vdxFeJf3/ECOzw9UihAhIFtAxeOwOhrnG0Z/EBV2ntDeWylGrRXC1nxIhoNk2ZEdf5v9iAIWGJgHrlNh0FnHEl5EJPHXwxsWCmIJK8YNI2rJv+1zkE1KX7WbQx1sXRW6iDspWWltROYK8lW5txPMfsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gfk1R7JlEZrO+jq1m13lBa7PpiEkiI2lHDGzswTHYu4=;
- b=qQBWdAt9W5M1kNHn5o6bqGDRbcOwOgGtTUAviTEqTwn3fAsrWH5Ng69zfGdKkCyLoIxJQTKTc4XTfKkbkcjqYHGWu46QM6eOQbXHITiGsnD1KkI92gwrppdpe4GwkC6uq/feB7fZNpLd8+47EDVeIdN1fvBd3SFaL3bpGGZCoS/ppRusIbo6muszQ4Ww5W5+qx8APU2I++75eIlaXDGHC/fBBXhfvGY5fO2I55QHOZbHDPQtbQmHP2Lr38S1zWP8FKbTUZWAXEd/3wmnH2mj03dD4Bsas8G1iIF04GT5+hf5VHaYmO0fQ52PJ0nvtXLJhYXw5mkKqORctGeVZ44sYw==
+ bh=/WdZl8mgKzbjhVrvvE0l9KsplOgP5IptXxnMUitDinc=;
+ b=OWckIH5DBLczJMOAC/g+0467omBB4nQNqWDaFAVYFuKTPscVE3+JHIuIoxpE8BiCQ0YB6wlv6ifO9PIU4vEY+yty/Jy1DMXse7h0qXf07RIAoJqxMJIR7bLD0wL59LkbleIRuJIeq8EqQoeoKIQ26QeahKzSwpZ+TRBQpgG5jcAlXLR8T3g1gJQzXZk7Ljd2BrsqtT/3qlE4rD9EMfZ+ycpglhIdLoXQz2UCgIOUJEBeY+uvHuF4ysHE+aA+J1ppypcM1OZNShzY1lh8br2TGE+wnCQ5QCXJtNImt8Kkm3rubV+JJU7gaQg+6ZojAG4z+At/ThvlmUe+WDJSrrsxdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gfk1R7JlEZrO+jq1m13lBa7PpiEkiI2lHDGzswTHYu4=;
- b=ZCP4gAbbUX0ExZZlHILGS/RLHITXen2ZmTIv0urBFIWbuVUpb7Z7AgI3nDxmztx7ChEhBJBUFB9PKGH5Ikfc+n+CdVgfdzQCVWuCGEyHNxteLntpJX7rQAkjGCw3DRd7CId1+CsBFvFpWwNPLY8BEOfN2SIuRe1NdUxVDHTHCj4=
+ bh=/WdZl8mgKzbjhVrvvE0l9KsplOgP5IptXxnMUitDinc=;
+ b=Kcd06dLzx0Xi2tHhU9tFdgfXbTBhE0+9p67hk+0CYesm34YMgUpOZ36L7acLwGTtnLnbtYUh39eYiPPifPLcAQ3Wtqk4UsO8dbMEoFAo80mTgFsTcsR8MrDTyBFNo8TtXzQNXCYr+FF2VElG+eIs1MOQXq2WvWu3Ghb6vAVChVE=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
  (2603:10a6:800:257::18) by DB3PR08MB9109.eurprd08.prod.outlook.com
  (2603:10a6:10:430::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Thu, 19 Dec
- 2024 17:05:35 +0000
+ 2024 17:05:36 +0000
 Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
  ([fe80::d594:64a:dfc:db74%5]) with mapi id 15.20.8251.015; Thu, 19 Dec 2024
- 17:05:34 +0000
+ 17:05:36 +0000
 From: Karunika Choo <karunika.choo@arm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
@@ -103,50 +103,50 @@ Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/4] drm/panthor: Add parsed gpu properties
-Date: Thu, 19 Dec 2024 17:05:19 +0000
-Message-ID: <20241219170521.64879-3-karunika.choo@arm.com>
+Subject: [RFC PATCH 3/4] drm/panthor: Add gpu specific initialization framework
+Date: Thu, 19 Dec 2024 17:05:20 +0000
+Message-ID: <20241219170521.64879-4-karunika.choo@arm.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241219170521.64879-1-karunika.choo@arm.com>
 References: <20241219170521.64879-1-karunika.choo@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO3P265CA0028.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:387::11) To VI0PR08MB11200.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0033.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:151::20) To VI0PR08MB11200.eurprd08.prod.outlook.com
  (2603:10a6:800:257::18)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|DB3PR08MB9109:EE_|AM1PEPF000252DF:EE_|DBAPR08MB5589:EE_
-X-MS-Office365-Filtering-Correlation-Id: 030d9f0f-4a18-4f04-62e8-08dd204f6688
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|DB3PR08MB9109:EE_|AM4PEPF00025F9A:EE_|PR3PR08MB5660:EE_
+X-MS-Office365-Filtering-Correlation-Id: d9514f9f-c09f-4a10-653c-08dd204f640b
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?eHybJMUst4M1Rj7mmGpke03D1LZ16wy9KqRPXiLkEKmWx8Ksq2cFu7G7GsVo?=
- =?us-ascii?Q?ay//iOSI2f7IzpGDw+9oJw+KWe9qTjl0Cy9C3Xx8ctWkuvMCZKK+i7fCOYPP?=
- =?us-ascii?Q?2gSN5Gi/iW4eFyrk+orGYM8oGvZL2wse2FwtPqKen8Xu/OikH+T/RfoJHqMs?=
- =?us-ascii?Q?7gQRSI8/C1pbhPGITxhbHRLNWs4L42K+rwfR0BMFOTJDwOnid2DoTS2uypr5?=
- =?us-ascii?Q?QDXwnZLSTajferHPa/KHSWb14uG/u3S4RFg8XteF/k10nw8+DDkEZpTNZAhQ?=
- =?us-ascii?Q?kGnjIEVk9Nw5lmSo7XiuDazpWpkLUQ1pgZkuWzyZIy2hn+cwMZku+9Qm8Uyr?=
- =?us-ascii?Q?HD6cwTpucZjoXZpOlLLTZb3CxRHJ5XL8GByxkBAv1y7q0qnrKNe7fNVClRX5?=
- =?us-ascii?Q?pv650YzyxcgNnNA+Xu0CGgOU60Pg3Wj+AfAyJ/CHUpAg6mqmwZErsNoCGLzx?=
- =?us-ascii?Q?aG8kAe2cL19TJ2zQ7vmxKE2+C8Bc3hVjCMiG046YhGRQZTDuQxtxv+sW77a8?=
- =?us-ascii?Q?aPhDAFD0Kl7kOIDCTLUvYfcvA6UJ/evA8w6SokYi5GgsBCiuN2ET1Sd2IXT5?=
- =?us-ascii?Q?J/A9NByURFdZ7mOnV/k4Zz5EVcDE7k9mtqkmO7LRMlTRr0dx+FAIHflfegar?=
- =?us-ascii?Q?P5Lo3rMBEtwbDdCcFGyQ5UafgGrqrlptW+MtM8tH+twZUTjlwnXcn9EPTObM?=
- =?us-ascii?Q?PPRe634e68ldZhaALaZCBsxh9Q/d+gxV9z5qAoflTal7rPPe5bEIkf8AkJzo?=
- =?us-ascii?Q?anDR7avnTihVBoCNGfIU3FFDqCDPLbK8dpEaMMhnvFR+JLpfu3mR/Ay1hvPD?=
- =?us-ascii?Q?qwDc0rjF6dr/ENe/OLo1ya+de9YRVQrbNNFJaW5BXLgeCidZxIO4DEwP/n2+?=
- =?us-ascii?Q?VTNuaqBK0Llume8YBQsUnOsRm2pZATzBeQ4bnhSm7bEMMRpEaJH/k/2AGoId?=
- =?us-ascii?Q?cll0nxw5iWwVSFwDx4I2d7GbBzIJ3OMUvUksVCGrSVeqBxVGEJdrL4cliSdB?=
- =?us-ascii?Q?wrUiy1B63ZwLl8D8dVu+y+8c0bOEpaScKC7Q383d8zQMdISwDs8VfHZQgbGK?=
- =?us-ascii?Q?Icawy+kmnb+ATQeFtfKq7IYj/QlGaKsZIwPtCKfQvXF9dpYkFmvg0Cnx9vah?=
- =?us-ascii?Q?8vkEMCXHu4FuJCbuQVAF4CwflhMJBy7RuknUsFgot82qNXL1CvLHw57NWkUL?=
- =?us-ascii?Q?a5YQwCd6WhvT1bX5GxJPEf7ukbDrW6iIwCUzkPGfFeD5rwySjFLHi4+Hho1U?=
- =?us-ascii?Q?cG+ipKkKfkqNWwhllZOydrouEyDmGDUJl6cMYCOFDcxVNq1Yu1Ue0o/66ZLx?=
- =?us-ascii?Q?t+VO6UBiwGpvBMpqm4axLjiOAC/lE7KVmysmnT7aLI8pSb9KMUgqbW0u5Hdi?=
- =?us-ascii?Q?79yhe1DXuC+8Q5Cco8GGzEnGN1YP?=
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?yiVcV2DGCrYFb+UvoQrqRvmelqgmSjsJVLVi8c1rIHi1KEFjp5GOb2jA/pVs?=
+ =?us-ascii?Q?WSF2YXsKX5v4RRhZ11cPG0PB55LAjvAEUUHMZfmgSfM4Oqr55mdUVJrR8V8X?=
+ =?us-ascii?Q?nJA1bPMwLYjgS1DU/j/0jCZYL0lYEdoM81mPygmYqQUA7v/xg6eWli8rQE7x?=
+ =?us-ascii?Q?uwtTfavqOVEDqARBiLPPhtU3TBhuma+XdqBmwdVScfpzDH8XJVmTib9zO3Z/?=
+ =?us-ascii?Q?iAIYbwIHN+6S6rvS2XcUqFn3lRcpi7z/L/uYLb1wXke4Skf405akNJTKbPfL?=
+ =?us-ascii?Q?JB/RLwCDZiaeHeCjywORthgeSu1dzXidzHf589GHOqGu8N5hK6zAr0dtMnqg?=
+ =?us-ascii?Q?TWJJp+lz3OK6CX0REjuKN/uYvrhNPh0xJlmzGXcNO7CziejYb0bfeWVa9Rp/?=
+ =?us-ascii?Q?MhKwnTGnBCrbojKYbU7fh7oF9qFas93kQtyuoJWxvNT7HpfwbjjhVrVf0EQA?=
+ =?us-ascii?Q?JS00KDV4DXPU/0PldbDqYmBzmKffiAKx0v/+RS6pA+rsVZcbzYxC4/UuMTDq?=
+ =?us-ascii?Q?eqVTePkbwB2Al4UnPt6sjeAXzfCfCchOg/pb/GGTdPIWOnbKKuF1zyltnj0K?=
+ =?us-ascii?Q?Q4KZ6abSv1MKyNyu4p/dvqyAsGN8SuZSugQTzQH7br3WZcLswElQ06L//161?=
+ =?us-ascii?Q?NoLP7OP1zsExZQPuWrAWeVMS6FAOfAFBfrJY30XTwreD6t9IsfLUXAEPRwVD?=
+ =?us-ascii?Q?emdm0a7b4r/OygvjR6qfz56myI0v8PtEy6P5GHHtiuvdMluq+wRbwikcRqhk?=
+ =?us-ascii?Q?yXjaZDnzEO9zXoERpx46AKbnh7SDYsCPMA1OQmNgJHHJ8XwoRDmG+Qgzo8QJ?=
+ =?us-ascii?Q?+MEWAs3Q/MR75zDzhSzmiCRDQwCnuo+vVbxoCGEV7TluJzXQ3i4o3tPtzjbJ?=
+ =?us-ascii?Q?ldOddi/+/OUV29CB9GSAOTKzwXTBJUyFg/RjChr0dlmcSZZmoq1Dd38ImKqV?=
+ =?us-ascii?Q?8tIjG42ZmIVgIJ5kjCyQBb5jqKBvOKxtoZyjg5fJen3hntf2UF9WIi5VRsZh?=
+ =?us-ascii?Q?UDEL7JPJ4WQHgvmHhteBUW0xGrgEcr9TbY50JdINyvnQPrg59CGQVlOX9MRn?=
+ =?us-ascii?Q?eDKwqK9Po4CqHJJobtl8xMCi/1CtJRDNafWfSlRBSDEqD9ktPmLPHln41e69?=
+ =?us-ascii?Q?eJffzMSptKDc7uuWV/EH+mJwLgBfcXjeYJOXn7ZdRPxDO90y9T7iik9RWLyp?=
+ =?us-ascii?Q?+E+FfW3ukmsxNuGSAbV6E7k0o2tRAuslFTlfeqkwqqLXOCxewl4ywBLhztY3?=
+ =?us-ascii?Q?14V1NXLLMXv8eGf2z+ykz7vR0/lX0wBHMGM8PsZxPhptI0Hv66yUMHWOP0OC?=
+ =?us-ascii?Q?dEHFFysQwZpzt9x6mYLPxZODS+46Rz8KVwK58vY9mKuOOnTu7NA0SXZdxz0c?=
+ =?us-ascii?Q?s/2z+AIgqm3RI4LuWW+KKiM57mCB?=
 X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
  PTR:; CAT:NONE; SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101;
@@ -156,52 +156,52 @@ Original-Authentication-Results: dkim=none (message not signed)
 X-EOPAttributedMessage: 0
 X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:800:257::18];
  domain=VI0PR08MB11200.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM1PEPF000252DF.eurprd07.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00025F9A.EURPRD83.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: d1bcc7d7-b846-4a0a-7cfb-08dd204f598c
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 48fe6a20-98e5-424d-c37c-08dd204f5a4d
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|14060799003|1800799024|36860700013|35042699022|82310400026;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?WTK/OkThREA+LVkfUuWuY9UuYsu5vPSLrn216N1QM2Ncv2imK5HWRp1bM8n4?=
- =?us-ascii?Q?DyqMBugTy4ZCAbB4iPgvRwtugRdT0Ssat2A6WJwKJLeUwuKsOQ3mJToP+m7F?=
- =?us-ascii?Q?4lDWusNaAx+QhPoOBdqt2Xrk2xokPWbKO0SnRO3DQI/+d8UkXmVWZTtFgK20?=
- =?us-ascii?Q?0oevUpwGj7Mqk5LLaEJJFgB7LjFwI5W2j3rkXuFdiyEeIcSqXDqFcCP1l1Xd?=
- =?us-ascii?Q?Xa3Djk5xZTkxduGJbPfsUkbqwrXfSStlM5VL+38LCsDlott4+LGCaohzh6lB?=
- =?us-ascii?Q?JSLB0Fz9VCCoIuuwZ6aBbQflsP93vKpFMP0VR1s8ZvPwv0j+B1bO96KfjfU3?=
- =?us-ascii?Q?dbq4zumQVq9Jv/xTB1+tjASj+Y/WQixqtbfaEX5lQ3P0LEjlUlLrf+JRW1L0?=
- =?us-ascii?Q?v/yeoe1yJ5kK1lUNhxPC6QOVcxtNTq4G0D5zHEWb4eE/HGhxdFko69bxv0Qm?=
- =?us-ascii?Q?pkUN+jURY5+CDeiJUIxncy2MIN8R29L1npZhWsxYrGd0MJGzcLZfDh6aQM/e?=
- =?us-ascii?Q?E1zyLbn76zsEhCPOHk+TazmN7PdpnQD/A+A2/sIAXPGCjetYN1qmTfC26O05?=
- =?us-ascii?Q?LwHZntkiBL7jvh8AkvK6akcLXIDVR7CtXa3MKb76OkLHNaH/gNSeW9fujQdi?=
- =?us-ascii?Q?HPO2d//+Z9uP56Dkft2iwK13ZaDHKUMDGYLai7RaxlKopwYN9ll8ro7o5lST?=
- =?us-ascii?Q?wVS7rgWZv9ODk9kCly7pqww66bCNuo1mYdftr1cwleG7ZwdLZorWsODVdM4r?=
- =?us-ascii?Q?JMSaRCT24RCZNNpvsZ7wCbcWL0hThXC8uSPznTz7/O36mwM9bSt3gnz+zH2k?=
- =?us-ascii?Q?RWFp8rGCa4jIUGA1oxoTdRb9/kv4PssmQbhfan4YOPHl9pa5XT0FkN7B1sA5?=
- =?us-ascii?Q?rObcVNLZQFvg9eP4zWwtoiJjsPc5jXQWTCOCCAuVuBfLid4pv4L1PJna+TZl?=
- =?us-ascii?Q?I9AahRrhQfRvJeiJTE2ezv4uDw2plSTABId8BmppNhdJBbwItp1di0swFflD?=
- =?us-ascii?Q?doZB/gMag2FXXEOwW6Zx3fILmL9v4fv6cRmlCTp7NnsHghGdVW7n/m4QgF6Q?=
- =?us-ascii?Q?AG1mFkIneRndwrOicDqt0OeE7Q8oi1yAc4HNVAYsrN8rfb8pRDy7pzKd5y2R?=
- =?us-ascii?Q?UuwnAq8vzlF9S6QhlaOCMtMKJwWyb0UYOEMxHH30uUgvxcDlyXWGIBZCclC0?=
- =?us-ascii?Q?SS9Ev/XrYKjLlf9/gK8ALKouCBD+VD+acx/20ZSKSvloSH6JzZKQ84J7bf1a?=
- =?us-ascii?Q?sV/RryFQ3sqsPga2JTJLG83b8VoDf1nwtD7vuulVRFB8qQSgJeNowWOOCPF7?=
- =?us-ascii?Q?bksZJ0bN1Ka7RCNjmxD/+P9rMimXfyQk0GkgY6N0KBtO8lswKAV2OQS1t6GF?=
- =?us-ascii?Q?y4fV/WDYw7wgIJoafdCxALdwsArreiwfoFkdjkwuKMT5PLk936b3dCQE7qmZ?=
- =?us-ascii?Q?kCdSiFpWIVuPb6CcuKdCcn9geBUSu+nHiu8+Uoat1yNP2Z4K3ukxSRDkxRoZ?=
- =?us-ascii?Q?ip4i+dFElGpeFLM=3D?=
+ ARA:13230040|1800799024|14060799003|36860700013|376014|82310400026|35042699022;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EF6Nt3lr5IIyzT/Odzw7MOOZVidlUwHbTx9wPO9zePxmvdqA5TK42LiBBq/H?=
+ =?us-ascii?Q?t/0bnNYIotnLXzx0Lz/X/nbrtk5OWd6uF/lXEB7y9oB+J6214ivH6OMU7Xy/?=
+ =?us-ascii?Q?WQFPoiFeJ31ffHZDvikxUNjkDxTx+mu2js1G02qzZUmQx+D2XNkksqeBgYBe?=
+ =?us-ascii?Q?4KNzWUOc79GTXKN6vRHBxrTo6iHHoP/7FeUmZ8652fdQF82hFjXOm8QUPZCR?=
+ =?us-ascii?Q?73qnUZTLkIxze+johE3azMTJXsDVcS434OAXHZggYgPsOXwt/hB8yM4fOq5I?=
+ =?us-ascii?Q?m4t+JsdZ8s7DE/ve5JGdH4XrNjLpcyIsgtj44ZDnfOYC9iFkEY2ciGuDcywE?=
+ =?us-ascii?Q?KcuwG4EiVDuoiWUGX700rkPxaq4TuXkemy+Bcj3A1X7X2fH15fmWRwDgQ6vF?=
+ =?us-ascii?Q?ZAndTaiY5lPgN96aiF3aMSgTBr5OCWxXAFEOlE2fQEbpDM/Uic4npC31Za7l?=
+ =?us-ascii?Q?WlqxW9/g0MEFzygF3s2j4FXQ9RjkjqiUzX7f6LaZFxMgU904lb+shuRc5MLt?=
+ =?us-ascii?Q?y+HdEga2s3qCnz7mROwoCqg9eU+7JWr21VlXL2cscjC1ejMAp9QWSUtFYkjq?=
+ =?us-ascii?Q?NSRsvFOrdjR4H6s1j8NHO5KouTmCbQrbzrSnKDZ3tS7n/ESNAwtqhoRwZ2vq?=
+ =?us-ascii?Q?G7KtfJv+wloLCjRA9GbAUdJL0aA0YDiYdKHkMy/oW1gTwZoSnFeI0n3lhv+m?=
+ =?us-ascii?Q?J+fy5TwkKBlyVSam8uKDnwUSU+/WvINX0sgd+sWpNFFBgtCkKLjivjSruG5E?=
+ =?us-ascii?Q?8hWWxuHuXcia0wzzEHzXa3bItG36XIiP8514d+hg894HnZ38UvppXwrPfqDe?=
+ =?us-ascii?Q?w8k822PimZN0xhJX4ddzeSERknsb8VFhr7moqyADlOBupjsfqNWZoFSDD9Ie?=
+ =?us-ascii?Q?PHS7xr7ykr7Ytj/8yR+7RTV/6D0KplB6DXIcZkcdF7/OvV3gGDfICVNu/5HH?=
+ =?us-ascii?Q?N/EEzC5cdFBUbi9x/pFeyzbd755ajhEgplj3kbPnyAHAMNzIYUKj0tD/H5Ak?=
+ =?us-ascii?Q?W9H9SmZGCXVk31iB4BoasPWjwRRajVyn+avbaYrT5z3ODbQjctN/LHD+u0jh?=
+ =?us-ascii?Q?RxpKm2T5F5tUwdFM8hScjuafmHyJDth1WhpBwi6t5ObA8h4PHvp333sEvy5f?=
+ =?us-ascii?Q?vvaEVvLPucTMPQrlrJO403r6NXE1mH68mv7vM+Q/OIfQI0axhsSdTmgBp81N?=
+ =?us-ascii?Q?GqhiEVBMrDuTFepzstTXoTrr4xftWrF/ywGkJtx90JSrC4tQmfGMXHqnN0CA?=
+ =?us-ascii?Q?yKZLx21rZpbEqMT/8SK0JWgV9t5AbXMT73NXVVoukFhPb9u6CTbpHKt8NZdw?=
+ =?us-ascii?Q?ndtZUW/Wnk6clejwzy0J7ymg+nCne5fcWii/uTRgiMkDsOwQtXR5oU9ujVEX?=
+ =?us-ascii?Q?iKqzSdcETO2bAI2HyODbZFsfsMslZrYP0a+OCYoRN6O8xXK10vDtsz1JN143?=
+ =?us-ascii?Q?lSIpDi43cdplTLFxzJC4dP9Q9LzTmJGaS8mhqlZ+7GrmH2v/yrUHAZ9dIdb3?=
+ =?us-ascii?Q?qUWMpArXCTq/5XI=3D?=
 X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
  PTR:64aa7808-outbound-1.mta.getcheckrecipient.com; CAT:NONE;
- SFS:(13230040)(376014)(14060799003)(1800799024)(36860700013)(35042699022)(82310400026);
+ SFS:(13230040)(1800799024)(14060799003)(36860700013)(376014)(82310400026)(35042699022);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 17:05:55.0416 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 030d9f0f-4a18-4f04-62e8-08dd204f6688
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 17:05:50.8827 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9514f9f-c09f-4a10-653c-08dd204f640b
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
  Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM1PEPF000252DF.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00025F9A.EURPRD83.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR08MB5589
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5660
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -217,613 +217,914 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds parsing of GPU register fields on initialization instead of
-parsing the fields each time it is needed.
+This patch adds a framework for adding GPU specific code which adds the
+following gpu-specific features:
+- register base addresses
+- feature bits
+- function pointers
+
+The above allows the handling of changes to register and register set
+offsets, as well as logical changes to the code between GPUs.
 
 Signed-off-by: Karunika Choo <karunika.choo@arm.com>
 ---
- drivers/gpu/drm/panthor/Makefile         |   1 +
- drivers/gpu/drm/panthor/panthor_device.c |   1 +
- drivers/gpu/drm/panthor/panthor_device.h |   4 +
- drivers/gpu/drm/panthor/panthor_fw.c     |   5 +-
- drivers/gpu/drm/panthor/panthor_gpu.c    | 105 ++--------------
- drivers/gpu/drm/panthor/panthor_heap.c   |   6 +-
- drivers/gpu/drm/panthor/panthor_mmu.c    |  21 +---
- drivers/gpu/drm/panthor/panthor_props.c  | 151 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_props.h  |  70 +++++++++++
- drivers/gpu/drm/panthor/panthor_regs.h   |   5 +
- drivers/gpu/drm/panthor/panthor_sched.c  |   6 +-
- 11 files changed, 252 insertions(+), 123 deletions(-)
- create mode 100644 drivers/gpu/drm/panthor/panthor_props.c
- create mode 100644 drivers/gpu/drm/panthor/panthor_props.h
+ drivers/gpu/drm/panthor/Makefile         |  1 +
+ drivers/gpu/drm/panthor/panthor_device.c | 22 ++++--
+ drivers/gpu/drm/panthor/panthor_device.h | 28 +++++--
+ drivers/gpu/drm/panthor/panthor_fw.c     | 27 ++++---
+ drivers/gpu/drm/panthor/panthor_gpu.c    | 44 ++++++-----
+ drivers/gpu/drm/panthor/panthor_gpu.h    |  1 +
+ drivers/gpu/drm/panthor/panthor_hw.c     | 94 ++++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_hw.h     | 92 +++++++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.c    | 41 ++++++-----
+ drivers/gpu/drm/panthor/panthor_regs.h   | 62 ++++++++--------
+ drivers/gpu/drm/panthor/panthor_sched.c  |  1 +
+ 11 files changed, 323 insertions(+), 90 deletions(-)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_hw.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_hw.h
 
 diff --git a/drivers/gpu/drm/panthor/Makefile b/drivers/gpu/drm/panthor/Makefile
-index 15294719b09c..ab297637d172 100644
+index ab297637d172..e1f06396bd1d 100644
 --- a/drivers/gpu/drm/panthor/Makefile
 +++ b/drivers/gpu/drm/panthor/Makefile
-@@ -9,6 +9,7 @@ panthor-y := \
+@@ -8,6 +8,7 @@ panthor-y := \
+ 	panthor_gem.o \
  	panthor_gpu.o \
  	panthor_heap.o \
++	panthor_hw.o \
  	panthor_mmu.o \
-+	panthor_props.o \
+ 	panthor_props.o \
  	panthor_sched.o
- 
- obj-$(CONFIG_DRM_PANTHOR) += panthor.o
 diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 0a37cfeeb181..0b74dc628489 100644
+index 0b74dc628489..fd261e525b7b 100644
 --- a/drivers/gpu/drm/panthor/panthor_device.c
 +++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -19,6 +19,7 @@
+@@ -18,6 +18,7 @@
+ #include "panthor_device.h"
  #include "panthor_fw.h"
  #include "panthor_gpu.h"
++#include "panthor_hw.h"
  #include "panthor_mmu.h"
-+#include "panthor_props.h"
+ #include "panthor_props.h"
  #include "panthor_regs.h"
- #include "panthor_sched.h"
+@@ -116,6 +117,11 @@ void panthor_device_unplug(struct panthor_device *ptdev)
+ 	complete_all(&ptdev->unplug.done);
+ }
  
++static bool panthor_device_is_initialized(struct panthor_device *ptdev)
++{
++	return !!ptdev->scheduler;
++}
++
+ static void panthor_device_reset_cleanup(struct drm_device *ddev, void *data)
+ {
+ 	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+@@ -141,11 +147,14 @@ static void panthor_device_reset_work(struct work_struct *work)
+ 	if (!drm_dev_enter(&ptdev->base, &cookie))
+ 		return;
+ 
++	if (!panthor_device_is_initialized(ptdev))
++		return;
++
+ 	panthor_sched_pre_reset(ptdev);
+ 	panthor_fw_pre_reset(ptdev, true);
+ 	panthor_mmu_pre_reset(ptdev);
+-	panthor_gpu_soft_reset(ptdev);
+-	panthor_gpu_l2_power_on(ptdev);
++	ptdev->hw->ops.soft_reset(ptdev);
++	ptdev->hw->ops.l2_power_on(ptdev);
+ 	panthor_mmu_post_reset(ptdev);
+ 	ret = panthor_fw_post_reset(ptdev);
+ 	atomic_set(&ptdev->reset.pending, 0);
+@@ -158,11 +167,6 @@ static void panthor_device_reset_work(struct work_struct *work)
+ 	}
+ }
+ 
+-static bool panthor_device_is_initialized(struct panthor_device *ptdev)
+-{
+-	return !!ptdev->scheduler;
+-}
+-
+ static void panthor_device_free_page(struct drm_device *ddev, void *data)
+ {
+ 	__free_page(data);
+@@ -247,6 +251,10 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 			return ret;
+ 	}
+ 
++	ret = panthor_hw_init(ptdev);
++	if (ret)
++		goto err_rpm_put;
++
+ 	ret = panthor_gpu_init(ptdev);
+ 	if (ret)
+ 		goto err_rpm_put;
 diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index da6574021664..60c9a67fb4a2 100644
+index 60c9a67fb4a2..a984d5f9a68a 100644
 --- a/drivers/gpu/drm/panthor/panthor_device.h
 +++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -26,6 +26,7 @@ struct panthor_group_pool;
+@@ -24,6 +24,7 @@ struct panthor_device;
+ struct panthor_gpu;
+ struct panthor_group_pool;
  struct panthor_heap_pool;
++struct panthor_hw;
  struct panthor_job;
  struct panthor_mmu;
-+struct panthor_props;
- struct panthor_fw;
- struct panthor_perfcnt;
- struct panthor_vm;
-@@ -117,6 +118,9 @@ struct panthor_device {
- 	/** @gpu_info: GPU information. */
- 	struct drm_panthor_gpu_info gpu_info;
- 
-+	/** @props: Parsed GPU properties */
-+	struct panthor_props *props;
-+
+ struct panthor_props;
+@@ -124,6 +125,9 @@ struct panthor_device {
  	/** @csif_info: Command stream interface information. */
  	struct drm_panthor_csif_info csif_info;
  
++	/** @hw: GPU specific data */
++	struct panthor_hw *hw;
++
+ 	/** @gpu: GPU management data. */
+ 	struct panthor_gpu *gpu;
+ 
+@@ -365,13 +369,14 @@ static irqreturn_t panthor_ ## __name ## _irq_raw_handler(int irq, void *data)
+ {												\
+ 	struct panthor_irq *pirq = data;							\
+ 	struct panthor_device *ptdev = pirq->ptdev;						\
++	const u64 base = ptdev->hw->map.__name ## _irq.base;					\
+ 												\
+ 	if (atomic_read(&pirq->suspended))							\
+ 		return IRQ_NONE;								\
+-	if (!gpu_read(ptdev, __reg_prefix ## _INT_STAT))					\
++	if (!gpu_read(ptdev, base + __reg_prefix ## _INT_STAT))					\
+ 		return IRQ_NONE;								\
+ 												\
+-	gpu_write(ptdev, __reg_prefix ## _INT_MASK, 0);						\
++	gpu_write(ptdev, base + __reg_prefix ## _INT_MASK, 0);					\
+ 	return IRQ_WAKE_THREAD;									\
+ }												\
+ 												\
+@@ -379,40 +384,47 @@ static irqreturn_t panthor_ ## __name ## _irq_threaded_handler(int irq, void *da
+ {												\
+ 	struct panthor_irq *pirq = data;							\
+ 	struct panthor_device *ptdev = pirq->ptdev;						\
++	const u64 base = ptdev->hw->map.__name ## _irq.base;					\
+ 	irqreturn_t ret = IRQ_NONE;								\
+ 												\
+ 	while (true) {										\
+-		u32 status = gpu_read(ptdev, __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
++		u32 status = gpu_read(ptdev, base + __reg_prefix ## _INT_RAWSTAT) & pirq->mask;	\
+ 												\
+ 		if (!status)									\
+ 			break;									\
+ 												\
+-		gpu_write(ptdev, __reg_prefix ## _INT_CLEAR, status);				\
++		gpu_write(ptdev, base + __reg_prefix ## _INT_CLEAR, status);			\
+ 												\
+ 		__handler(ptdev, status);							\
+ 		ret = IRQ_HANDLED;								\
+ 	}											\
+ 												\
+ 	if (!atomic_read(&pirq->suspended))							\
+-		gpu_write(ptdev, __reg_prefix ## _INT_MASK, pirq->mask);			\
++		gpu_write(ptdev, base + __reg_prefix ## _INT_MASK, pirq->mask);			\
+ 												\
+ 	return ret;										\
+ }												\
+ 												\
+ static inline void panthor_ ## __name ## _irq_suspend(struct panthor_irq *pirq)			\
+ {												\
++	struct panthor_device *ptdev = pirq->ptdev;						\
++	const u64 base = ptdev->hw->map.__name ## _irq.base;					\
++												\
+ 	pirq->mask = 0;										\
+-	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, 0);					\
++	gpu_write(pirq->ptdev, base + __reg_prefix ## _INT_MASK, 0);				\
+ 	synchronize_irq(pirq->irq);								\
+ 	atomic_set(&pirq->suspended, true);							\
+ }												\
+ 												\
+ static inline void panthor_ ## __name ## _irq_resume(struct panthor_irq *pirq, u32 mask)	\
+ {												\
++	struct panthor_device *ptdev = pirq->ptdev;						\
++	const u64 base = ptdev->hw->map.__name ## _irq.base;					\
++												\
+ 	atomic_set(&pirq->suspended, false);							\
+ 	pirq->mask = mask;									\
+-	gpu_write(pirq->ptdev, __reg_prefix ## _INT_CLEAR, mask);				\
+-	gpu_write(pirq->ptdev, __reg_prefix ## _INT_MASK, mask);				\
++	gpu_write(pirq->ptdev, base + __reg_prefix ## _INT_CLEAR, mask);			\
++	gpu_write(pirq->ptdev, base + __reg_prefix ## _INT_MASK, mask);				\
+ }												\
+ 												\
+ static int panthor_request_ ## __name ## _irq(struct panthor_device *ptdev,			\
 diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 8f1b9eff66ef..51b63d258c7a 100644
+index 51b63d258c7a..27c2e950927b 100644
 --- a/drivers/gpu/drm/panthor/panthor_fw.c
 +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -22,6 +22,7 @@
+@@ -21,6 +21,7 @@
+ #include "panthor_fw.h"
  #include "panthor_gem.h"
  #include "panthor_gpu.h"
++#include "panthor_hw.h"
  #include "panthor_mmu.h"
-+#include "panthor_props.h"
+ #include "panthor_props.h"
  #include "panthor_regs.h"
- #include "panthor_sched.h"
+@@ -34,6 +35,9 @@
+ #define IDLE_HYSTERESIS_US			800
+ #define PWROFF_HYSTERESIS_US			10000
  
-@@ -746,8 +747,8 @@ static int panthor_fw_load(struct panthor_device *ptdev)
- 	int ret;
++#define MCU_BASE(ptdev) (ptdev->hw->map.mcu_control_base)
++#define JOB_BASE(ptdev) (ptdev->hw->map.job_irq.base)
++
+ /**
+  * struct panthor_fw_binary_hdr - Firmware binary header.
+  */
+@@ -1030,13 +1034,13 @@ static int panthor_fw_start(struct panthor_device *ptdev)
  
- 	snprintf(fw_path, sizeof(fw_path), "arm/mali/arch%d.%d/%s",
--		 (u32)GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id),
--		 (u32)GPU_ARCH_MINOR(ptdev->gpu_info.gpu_id),
-+		 ptdev->props->gpu_id.arch_major,
-+		 ptdev->props->gpu_id.arch_minor,
- 		 CSF_FW_NAME);
+ 	ptdev->fw->booted = false;
+ 	panthor_job_irq_resume(&ptdev->fw->irq, ~0);
+-	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_AUTO);
++	gpu_write(ptdev, MCU_BASE(ptdev) + MCU_CONTROL, MCU_CONTROL_AUTO);
  
- 	ret = request_firmware(&fw, fw_path, ptdev->base.dev);
+ 	if (!wait_event_timeout(ptdev->fw->req_waitqueue,
+ 				ptdev->fw->booted,
+ 				msecs_to_jiffies(1000))) {
+ 		if (!ptdev->fw->booted &&
+-		    !(gpu_read(ptdev, JOB_INT_STAT) & JOB_INT_GLOBAL_IF))
++		    !(gpu_read(ptdev, JOB_BASE(ptdev) + JOB_INT_STAT) & JOB_INT_GLOBAL_IF))
+ 			timedout = true;
+ 	}
+ 
+@@ -1047,7 +1051,7 @@ static int panthor_fw_start(struct panthor_device *ptdev)
+ 			[MCU_STATUS_HALT] = "halt",
+ 			[MCU_STATUS_FATAL] = "fatal",
+ 		};
+-		u32 status = gpu_read(ptdev, MCU_STATUS);
++		u32 status = gpu_read(ptdev, MCU_BASE(ptdev) + MCU_STATUS);
+ 
+ 		drm_err(&ptdev->base, "Failed to boot MCU (status=%s)",
+ 			status < ARRAY_SIZE(status_str) ? status_str[status] : "unknown");
+@@ -1061,8 +1065,8 @@ static void panthor_fw_stop(struct panthor_device *ptdev)
+ {
+ 	u32 status;
+ 
+-	gpu_write(ptdev, MCU_CONTROL, MCU_CONTROL_DISABLE);
+-	if (gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
++	gpu_write(ptdev, MCU_BASE(ptdev) + MCU_CONTROL, MCU_CONTROL_DISABLE);
++	if (gpu_read_poll_timeout(ptdev, MCU_BASE(ptdev) + MCU_STATUS, status,
+ 				  status == MCU_STATUS_DISABLED, 10, 100000))
+ 		drm_err(&ptdev->base, "Failed to stop MCU");
+ }
+@@ -1088,10 +1092,10 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+ 
+ 		panthor_fw_update_reqs(glb_iface, req, GLB_HALT, GLB_HALT);
+ 		gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
+-		if (!gpu_read_poll_timeout(ptdev, MCU_STATUS, status,
+-					   status == MCU_STATUS_HALT, 10,
+-					   100000)) {
+-			ptdev->fw->fast_reset = true;
++		if (!gpu_read_poll_timeout(ptdev, MCU_BASE(ptdev) + MCU_STATUS,
++					   status, status == MCU_STATUS_HALT,
++					   10, 100000)) {
++			ptdev->reset.fast = true;
+ 		} else {
+ 			drm_warn(&ptdev->base, "Failed to cleanly suspend MCU");
+ 		}
+@@ -1183,7 +1187,7 @@ void panthor_fw_unplug(struct panthor_device *ptdev)
+ 	ptdev->fw->vm = NULL;
+ 
+ 	if (!IS_ENABLED(CONFIG_PM) || pm_runtime_active(ptdev->base.dev))
+-		panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present, 20000);
++		ptdev->hw->ops.l2_power_off(ptdev);
+ }
+ 
+ /**
+@@ -1352,7 +1356,8 @@ int panthor_fw_init(struct panthor_device *ptdev)
+ 	INIT_LIST_HEAD(&fw->sections);
+ 	INIT_DELAYED_WORK(&fw->watchdog.ping_work, panthor_fw_ping_work);
+ 
+-	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "job");
++	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev),
++				      ptdev->hw->map.job_irq.name);
+ 	if (irq <= 0)
+ 		return -ENODEV;
+ 
 diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-index a7d5022d34be..ec1780fe2638 100644
+index ec1780fe2638..9dadcea67a39 100644
 --- a/drivers/gpu/drm/panthor/panthor_gpu.c
 +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-@@ -18,6 +18,7 @@
+@@ -18,9 +18,12 @@
  
  #include "panthor_device.h"
  #include "panthor_gpu.h"
-+#include "panthor_props.h"
++#include "panthor_hw.h"
+ #include "panthor_props.h"
  #include "panthor_regs.h"
  
++#define GPU_BASE(ptdev) (ptdev->hw->map.gpu_control_base)
++
  /**
-@@ -37,40 +38,6 @@ struct panthor_gpu {
- 	wait_queue_head_t reqs_acked;
- };
+  * struct panthor_gpu - GPU block management data.
+  */
+@@ -46,15 +49,15 @@ struct panthor_gpu {
  
--/**
-- * struct panthor_model - GPU model description
-- */
--struct panthor_model {
--	/** @name: Model name. */
--	const char *name;
--
--	/** @arch_major: Major version number of architecture. */
--	u8 arch_major;
--
--	/** @product_major: Major version number of product. */
--	u8 product_major;
--};
--
--/**
-- * GPU_MODEL() - Define a GPU model. A GPU product can be uniquely identified
-- * by a combination of the major architecture version and the major product
-- * version.
-- * @_name: Name for the GPU model.
-- * @_arch_major: Architecture major.
-- * @_product_major: Product major.
-- */
--#define GPU_MODEL(_name, _arch_major, _product_major) \
--{\
--	.name = __stringify(_name),				\
--	.arch_major = _arch_major,				\
--	.product_major = _product_major,			\
--}
--
--static const struct panthor_model gpu_models[] = {
--	GPU_MODEL(g610, 10, 7),
--	{},
--};
--
- #define GPU_INTERRUPTS_MASK	\
- 	(GPU_IRQ_FAULT | \
- 	 GPU_IRQ_PROTM_FAULT | \
-@@ -83,66 +50,6 @@ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+ {
+-	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
++	gpu_write(ptdev, GPU_BASE(ptdev) + GPU_COHERENCY_PROTOCOL,
  		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
  }
  
--static void panthor_gpu_init_info(struct panthor_device *ptdev)
--{
--	const struct panthor_model *model;
--	u32 arch_major, product_major;
--	u32 major, minor, status;
--	unsigned int i;
--
--	ptdev->gpu_info.gpu_id = gpu_read(ptdev, GPU_ID);
--	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
--	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
--	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
--	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
--	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
--	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
--	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
--	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
--	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
--	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
--	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
--	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
--	for (i = 0; i < 4; i++)
--		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
--
--	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
--
--	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
--	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
--	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
--
--	arch_major = GPU_ARCH_MAJOR(ptdev->gpu_info.gpu_id);
--	product_major = GPU_PROD_MAJOR(ptdev->gpu_info.gpu_id);
--	major = GPU_VER_MAJOR(ptdev->gpu_info.gpu_id);
--	minor = GPU_VER_MINOR(ptdev->gpu_info.gpu_id);
--	status = GPU_VER_STATUS(ptdev->gpu_info.gpu_id);
--
--	for (model = gpu_models; model->name; model++) {
--		if (model->arch_major == arch_major &&
--		    model->product_major == product_major)
--			break;
--	}
--
--	drm_info(&ptdev->base,
--		 "mali-%s id 0x%x major 0x%x minor 0x%x status 0x%x",
--		 model->name ?: "unknown", ptdev->gpu_info.gpu_id >> 16,
--		 major, minor, status);
--
--	drm_info(&ptdev->base,
--		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
--		 ptdev->gpu_info.l2_features,
--		 ptdev->gpu_info.tiler_features,
--		 ptdev->gpu_info.mem_features,
--		 ptdev->gpu_info.mmu_features,
--		 ptdev->gpu_info.as_present);
--
--	drm_info(&ptdev->base,
--		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
--		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
--		 ptdev->gpu_info.tiler_present);
--}
--
  static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
  {
  	if (status & GPU_IRQ_FAULT) {
-@@ -193,7 +100,6 @@ void panthor_gpu_unplug(struct panthor_device *ptdev)
- int panthor_gpu_init(struct panthor_device *ptdev)
- {
- 	struct panthor_gpu *gpu;
--	u32 pa_bits;
- 	int ret, irq;
+-		u32 fault_status = gpu_read(ptdev, GPU_FAULT_STATUS);
+-		u64 address = gpu_read64(ptdev, GPU_FAULT_ADDR_LO);
++		u32 fault_status = gpu_read(ptdev, GPU_BASE(ptdev) + GPU_FAULT_STATUS);
++		u64 address = gpu_read64(ptdev, GPU_BASE(ptdev) + GPU_FAULT_ADDR_LO);
  
- 	gpu = drmm_kzalloc(&ptdev->base, sizeof(*gpu), GFP_KERNEL);
-@@ -203,11 +109,14 @@ int panthor_gpu_init(struct panthor_device *ptdev)
- 	spin_lock_init(&gpu->reqs_lock);
+ 		drm_warn(&ptdev->base, "GPU Fault 0x%08x (%s) at 0x%016llx\n",
+ 			 fault_status, panthor_exception_name(ptdev, fault_status & 0xFF),
+@@ -110,17 +113,14 @@ int panthor_gpu_init(struct panthor_device *ptdev)
  	init_waitqueue_head(&gpu->reqs_acked);
  	ptdev->gpu = gpu;
--	panthor_gpu_init_info(ptdev);
-+
-+	ret = panthor_props_init(ptdev);
-+	if (ret)
-+		return ret;
  
+-	ret = panthor_props_init(ptdev);
+-	if (ret)
+-		return ret;
+-
  	dma_set_max_seg_size(ptdev->base.dev, UINT_MAX);
--	pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
--	ret = dma_set_mask_and_coherent(ptdev->base.dev, DMA_BIT_MASK(pa_bits));
-+	ret = dma_set_mask_and_coherent(ptdev->base.dev,
-+					DMA_BIT_MASK(ptdev->props->mmu_pa_bits));
+ 	ret = dma_set_mask_and_coherent(ptdev->base.dev,
+ 					DMA_BIT_MASK(ptdev->props->mmu_pa_bits));
  	if (ret)
  		return ret;
  
-diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-index 3796a9eb22af..995649081a66 100644
---- a/drivers/gpu/drm/panthor/panthor_heap.c
-+++ b/drivers/gpu/drm/panthor/panthor_heap.c
-@@ -10,6 +10,7 @@
- #include "panthor_gem.h"
- #include "panthor_heap.h"
- #include "panthor_mmu.h"
-+#include "panthor_props.h"
- #include "panthor_regs.h"
+-	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "gpu");
++	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev),
++				      ptdev->hw->map.gpu_irq.name);
+ 	if (irq < 0)
+ 		return irq;
  
- /*
-@@ -101,10 +102,7 @@ struct panthor_heap_pool {
- 
- static int panthor_heap_ctx_stride(struct panthor_device *ptdev)
- {
--	u32 l2_features = ptdev->gpu_info.l2_features;
--	u32 gpu_cache_line_size = GPU_L2_FEATURES_LINE_SIZE(l2_features);
--
--	return ALIGN(HEAP_CONTEXT_SIZE, gpu_cache_line_size);
-+	return ALIGN(HEAP_CONTEXT_SIZE, ptdev->props->l2_line_size);
+@@ -216,6 +216,12 @@ int panthor_gpu_block_power_on(struct panthor_device *ptdev,
+ 	return 0;
  }
  
- static int panthor_get_heap_ctx_offset(struct panthor_heap_pool *pool, int id)
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index bed13089bbd4..2b6d147a2f0d 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -31,6 +31,7 @@
- #include "panthor_gem.h"
- #include "panthor_heap.h"
- #include "panthor_mmu.h"
-+#include "panthor_props.h"
- #include "panthor_regs.h"
- #include "panthor_sched.h"
++int panthor_gpu_l2_power_off(struct panthor_device *ptdev)
++{
++	return panthor_gpu_power_off(ptdev, L2, ptdev->gpu_info.l2_present,
++				     20000);
++}
++
+ /**
+  * panthor_gpu_l2_power_on() - Power-on the L2-cache
+  * @ptdev: Device.
+@@ -264,7 +270,7 @@ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+ 	if (!drm_WARN_ON(&ptdev->base,
+ 			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+ 		ptdev->gpu->pending_reqs |= GPU_IRQ_CLEAN_CACHES_COMPLETED;
+-		gpu_write(ptdev, GPU_CMD, GPU_FLUSH_CACHES(l2, lsc, other));
++		gpu_write(ptdev, GPU_BASE(ptdev) + GPU_CMD, GPU_FLUSH_CACHES(l2, lsc, other));
+ 	}
+ 	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
  
-@@ -695,7 +696,6 @@ static void panthor_vm_release_as_locked(struct panthor_vm *vm)
- int panthor_vm_active(struct panthor_vm *vm)
- {
- 	struct panthor_device *ptdev = vm->ptdev;
--	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
- 	struct io_pgtable_cfg *cfg = &io_pgtable_ops_to_pgtable(vm->pgtbl_ops)->cfg;
- 	int ret = 0, as, cookie;
- 	u64 transtab, transcfg;
-@@ -756,7 +756,7 @@ int panthor_vm_active(struct panthor_vm *vm)
- 	transcfg = AS_TRANSCFG_PTW_MEMATTR_WB |
- 		   AS_TRANSCFG_PTW_RA |
- 		   AS_TRANSCFG_ADRMODE_AARCH64_4K |
--		   AS_TRANSCFG_INA_BITS(55 - va_bits);
-+		   AS_TRANSCFG_INA_BITS(55 - ptdev->props->mmu_va_bits);
- 	if (ptdev->coherent)
- 		transcfg |= AS_TRANSCFG_PTW_SH_OS;
+@@ -272,8 +278,10 @@ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+ 				!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED),
+ 				msecs_to_jiffies(100))) {
+ 		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+-		if ((ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED) != 0 &&
+-		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_CLEAN_CACHES_COMPLETED))
++		if ((ptdev->gpu->pending_reqs &
++		     GPU_IRQ_CLEAN_CACHES_COMPLETED) != 0 &&
++		    !(gpu_read(ptdev, GPU_BASE(ptdev) + GPU_INT_RAWSTAT) &
++		      GPU_IRQ_CLEAN_CACHES_COMPLETED))
+ 			timedout = true;
+ 		else
+ 			ptdev->gpu->pending_reqs &= ~GPU_IRQ_CLEAN_CACHES_COMPLETED;
+@@ -303,8 +311,8 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+ 	if (!drm_WARN_ON(&ptdev->base,
+ 			 ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED)) {
+ 		ptdev->gpu->pending_reqs |= GPU_IRQ_RESET_COMPLETED;
+-		gpu_write(ptdev, GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
+-		gpu_write(ptdev, GPU_CMD, GPU_SOFT_RESET);
++		gpu_write(ptdev, GPU_BASE(ptdev) + GPU_INT_CLEAR, GPU_IRQ_RESET_COMPLETED);
++		gpu_write(ptdev, GPU_BASE(ptdev) + GPU_CMD, GPU_SOFT_RESET);
+ 	}
+ 	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
  
-@@ -1456,8 +1456,7 @@ panthor_vm_create_check_args(const struct panthor_device *ptdev,
- 			     const struct drm_panthor_vm_create *args,
- 			     u64 *kernel_va_start, u64 *kernel_va_range)
- {
--	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
--	u64 full_va_range = 1ull << va_bits;
-+	u64 full_va_range = 1ull << ptdev->props->mmu_va_bits;
- 	u64 user_va_range;
+@@ -313,7 +321,7 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+ 				msecs_to_jiffies(100))) {
+ 		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+ 		if ((ptdev->gpu->pending_reqs & GPU_IRQ_RESET_COMPLETED) != 0 &&
+-		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_RESET_COMPLETED))
++		    !(gpu_read(ptdev, GPU_BASE(ptdev) + GPU_INT_RAWSTAT) & GPU_IRQ_RESET_COMPLETED))
+ 			timedout = true;
+ 		else
+ 			ptdev->gpu->pending_reqs &= ~GPU_IRQ_RESET_COMPLETED;
+@@ -341,7 +349,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
+ 	if (!ptdev->reset.fast)
+ 		panthor_gpu_soft_reset(ptdev);
+ 	else
+-		panthor_gpu_power_off(ptdev, L2, 1, 20000);
++		ptdev->hw->ops.l2_power_off(ptdev);
  
- 	if (args->flags & ~PANTHOR_VM_CREATE_FLAGS)
-@@ -2258,8 +2257,8 @@ panthor_vm_create(struct panthor_device *ptdev, bool for_mcu,
- 		  u64 kernel_va_start, u64 kernel_va_size,
- 		  u64 auto_kernel_va_start, u64 auto_kernel_va_size)
+ 	panthor_gpu_irq_suspend(&ptdev->gpu->irq);
+ }
+@@ -356,7 +364,7 @@ void panthor_gpu_suspend(struct panthor_device *ptdev)
+ void panthor_gpu_resume(struct panthor_device *ptdev)
  {
--	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
--	u32 pa_bits = GPU_MMU_FEATURES_PA_BITS(ptdev->gpu_info.mmu_features);
-+	u32 va_bits = ptdev->props->mmu_va_bits;
-+	u32 pa_bits = ptdev->props->mmu_pa_bits;
- 	u64 full_va_range = 1ull << va_bits;
- 	struct drm_gem_object *dummy_gem;
- 	struct drm_gpu_scheduler *sched;
-@@ -2688,7 +2687,6 @@ static void panthor_mmu_release_wq(struct drm_device *ddev, void *res)
+ 	panthor_gpu_irq_resume(&ptdev->gpu->irq, GPU_INTERRUPTS_MASK);
+-	panthor_gpu_l2_power_on(ptdev);
++	ptdev->hw->ops.l2_power_on(ptdev);
+ }
+ 
+ /**
+@@ -367,7 +375,7 @@ void panthor_gpu_resume(struct panthor_device *ptdev)
   */
- int panthor_mmu_init(struct panthor_device *ptdev)
+ u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
  {
--	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
- 	struct panthor_mmu *mmu;
- 	int ret, irq;
- 
-@@ -2722,15 +2720,6 @@ int panthor_mmu_init(struct panthor_device *ptdev)
- 	if (!mmu->vm.wq)
- 		return -ENOMEM;
- 
--	/* On 32-bit kernels, the VA space is limited by the io_pgtable_ops abstraction,
--	 * which passes iova as an unsigned long. Patch the mmu_features to reflect this
--	 * limitation.
--	 */
--	if (va_bits > BITS_PER_LONG) {
--		ptdev->gpu_info.mmu_features &= ~GENMASK(7, 0);
--		ptdev->gpu_info.mmu_features |= BITS_PER_LONG;
--	}
--
- 	return drmm_add_action_or_reset(&ptdev->base, panthor_mmu_release_wq, mmu->vm.wq);
+-	return gpu_read64_sync(ptdev, GPU_TIMESTAMP_LO);
++	return gpu_read64_sync(ptdev, GPU_BASE(ptdev) + GPU_TIMESTAMP_LO);
  }
  
-diff --git a/drivers/gpu/drm/panthor/panthor_props.c b/drivers/gpu/drm/panthor/panthor_props.c
+ /**
+@@ -378,5 +386,5 @@ u64 panthor_gpu_read_timestamp(struct panthor_device *ptdev)
+  */
+ u64 panthor_gpu_read_timestamp_offset(struct panthor_device *ptdev)
+ {
+-	return gpu_read64(ptdev, GPU_TIMESTAMP_OFFSET_LO);
++	return gpu_read64(ptdev, GPU_BASE(ptdev) + GPU_TIMESTAMP_OFFSET_LO);
+ }
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.h b/drivers/gpu/drm/panthor/panthor_gpu.h
+index 7f6133a66127..887075a7b4d6 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.h
++++ b/drivers/gpu/drm/panthor/panthor_gpu.h
+@@ -46,6 +46,7 @@ int panthor_gpu_block_power_off(struct panthor_device *ptdev,
+ 				   type ## _PWRTRANS_LO, \
+ 				   mask, timeout_us)
+ 
++int panthor_gpu_l2_power_off(struct panthor_device *ptdev);
+ int panthor_gpu_l2_power_on(struct panthor_device *ptdev);
+ int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+ 			     u32 l2, u32 lsc, u32 other);
+diff --git a/drivers/gpu/drm/panthor/panthor_hw.c b/drivers/gpu/drm/panthor/panthor_hw.c
 new file mode 100644
-index 000000000000..0a379feaf12d
+index 000000000000..0fb3adc093bc
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_props.c
-@@ -0,0 +1,151 @@
++++ b/drivers/gpu/drm/panthor/panthor_hw.c
+@@ -0,0 +1,94 @@
 +// SPDX-License-Identifier: GPL-2.0 or MIT
 +/* Copyright 2024 ARM Limited. All rights reserved. */
++
++#include <linux/types.h>
 +
 +#include <drm/drm_managed.h>
 +
 +#include "panthor_device.h"
++#include "panthor_gpu.h"
++#include "panthor_hw.h"
 +#include "panthor_props.h"
 +#include "panthor_regs.h"
 +
-+static void panthor_props_arch_10_8_init_info(struct panthor_device *ptdev)
-+{
-+	unsigned int i;
++enum {
++	PANTHOR_ARCH_10_8 = 0,
++	PANTHOR_ARCH_COUNT
++};
 +
-+	ptdev->gpu_info.csf_id = gpu_read(ptdev, GPU_CSF_ID);
-+	ptdev->gpu_info.gpu_rev = gpu_read(ptdev, GPU_REVID);
-+	ptdev->gpu_info.core_features = gpu_read(ptdev, GPU_CORE_FEATURES);
-+	ptdev->gpu_info.l2_features = gpu_read(ptdev, GPU_L2_FEATURES);
-+	ptdev->gpu_info.tiler_features = gpu_read(ptdev, GPU_TILER_FEATURES);
-+	ptdev->gpu_info.mem_features = gpu_read(ptdev, GPU_MEM_FEATURES);
-+	ptdev->gpu_info.mmu_features = gpu_read(ptdev, GPU_MMU_FEATURES);
-+	ptdev->gpu_info.thread_features = gpu_read(ptdev, GPU_THREAD_FEATURES);
-+	ptdev->gpu_info.max_threads = gpu_read(ptdev, GPU_THREAD_MAX_THREADS);
-+	ptdev->gpu_info.thread_max_workgroup_size = gpu_read(ptdev, GPU_THREAD_MAX_WORKGROUP_SIZE);
-+	ptdev->gpu_info.thread_max_barrier_size = gpu_read(ptdev, GPU_THREAD_MAX_BARRIER_SIZE);
-+	ptdev->gpu_info.coherency_features = gpu_read(ptdev, GPU_COHERENCY_FEATURES);
-+	for (i = 0; i < 4; i++)
-+		ptdev->gpu_info.texture_features[i] = gpu_read(ptdev, GPU_TEXTURE_FEATURES(i));
-+}
++static struct panthor_hw panthor_hw_devices[] = {
++	[PANTHOR_ARCH_10_8] = {
++		.arch_id = GPU_ARCH_ID_MAKE(10, 8, 0),
++		.arch_mask = GPU_ARCH_ID_MAKE(0xFF, 0, 0),
++		.map = {
++			.mmu_as_base = ARCH_10_8_MMU_AS_BASE,
++			.mmu_as_stride = ARCH_10_8_MMU_AS_STRIDE,
++			.mcu_control_base = ARCH_10_8_MCU_CONTROL_BASE,
++			.gpu_control_base = ARCH_10_8_GPU_CONTROL_BASE,
++			.gpu_irq = {
++				.name = "gpu",
++				.base = ARCH_10_8_GPU_CONTROL_BASE,
++			},
++			.job_irq = {
++				.name = "job",
++				.base = JOB_CONTROL_BASE,
++			},
++			.mmu_irq = {
++				.name = "mmu",
++				.base = MMU_CONTROL_BASE,
++			}
++		},
++		.ops = {
++			.soft_reset = panthor_gpu_soft_reset,
++			.l2_power_off = panthor_gpu_l2_power_off,
++			.l2_power_on = panthor_gpu_l2_power_on,
++		}
++	},
++};
 +
-+static void panthor_props_arch_10_8_parse_props(struct panthor_device *ptdev)
-+{
-+	struct panthor_props *props = ptdev->props;
-+	struct drm_panthor_gpu_info *info = &ptdev->gpu_info;
-+
-+	props->shader_core_count = hweight64(info->shader_present);
-+	props->mmu_va_bits = GPU_MMU_FEATURES_VA_BITS(info->mmu_features);
-+	props->mmu_pa_bits = GPU_MMU_FEATURES_PA_BITS(info->mmu_features);
-+	props->mmu_as_count = hweight32(info->as_present);
-+	props->l2_line_size = GPU_L2_FEATURES_LINE_SIZE(info->l2_features);
-+
-+	/* On 32-bit kernels, the VA space is limited by the io_pgtable_ops abstraction,
-+	 * which passes iova as an unsigned long. Patch the mmu_features to reflect this
-+	 * limitation.
-+	 */
-+	if (props->mmu_va_bits > BITS_PER_LONG) {
-+		props->mmu_va_bits = BITS_PER_LONG;
-+		info->mmu_features &= ~GENMASK(7, 0);
-+		info->mmu_features |= BITS_PER_LONG;
-+	}
-+}
-+
-+static void panthor_props_arch_10_8_get_present_regs(struct panthor_device *ptdev)
-+{
-+	ptdev->gpu_info.as_present = gpu_read(ptdev, GPU_AS_PRESENT);
-+	ptdev->gpu_info.shader_present = gpu_read64(ptdev, GPU_SHADER_PRESENT_LO);
-+	ptdev->gpu_info.tiler_present = gpu_read64(ptdev, GPU_TILER_PRESENT_LO);
-+	ptdev->gpu_info.l2_present = gpu_read64(ptdev, GPU_L2_PRESENT_LO);
-+}
-+
-+static char *panthor_props_get_gpu_name(struct panthor_device *ptdev)
++static int bind_hw_device(struct panthor_device *ptdev)
 +{
 +	struct panthor_gpu_id_props *gpu_id = &ptdev->props->gpu_id;
++	struct panthor_hw *hdev = NULL;
++	int i;
 +
-+	switch (gpu_id->product_id) {
-+	case GPU_PRODUCT_ID_MAKE(10, 2):
-+		return "Mali-G710";
-+	case GPU_PRODUCT_ID_MAKE(10, 7):
-+		return "Mali-G610";
-+	case GPU_PRODUCT_ID_MAKE(10, 3):
-+		return "Mali-G510";
-+	case GPU_PRODUCT_ID_MAKE(10, 4):
-+		return "Mali-G310";
++	for (i = 0; i < ARRAY_SIZE(panthor_hw_devices); i++) {
++		u32 mask = panthor_hw_devices[i].arch_mask;
++		u32 arch_id = panthor_hw_devices[i].arch_id;
++
++		if ((gpu_id->arch_id & mask) == (arch_id & mask)) {
++			hdev = &panthor_hw_devices[i];
++			break;
++		}
 +	}
 +
-+	return "(Unknown Mali GPU)";
-+}
++	if (!hdev)
++		return -ENODEV;
 +
-+static void panthor_props_show_info(struct panthor_device *ptdev)
-+{
-+	struct panthor_gpu_id_props *gpu_id = &ptdev->props->gpu_id;
-+
-+	drm_info(&ptdev->base, "%s id 0x%x major 0x%x minor 0x%x status 0x%x",
-+		 panthor_props_get_gpu_name(ptdev), gpu_id->arch_id,
-+		 gpu_id->version_major, gpu_id->version_minor,
-+		 gpu_id->version_status);
-+
-+	drm_info(&ptdev->base,
-+		 "Features: L2:%#x Tiler:%#x Mem:%#x MMU:%#x AS:%#x",
-+		 ptdev->gpu_info.l2_features,
-+		 ptdev->gpu_info.tiler_features,
-+		 ptdev->gpu_info.mem_features,
-+		 ptdev->gpu_info.mmu_features,
-+		 ptdev->gpu_info.as_present);
-+
-+	drm_info(&ptdev->base,
-+		 "shader_present=0x%0llx l2_present=0x%0llx tiler_present=0x%0llx",
-+		 ptdev->gpu_info.shader_present, ptdev->gpu_info.l2_present,
-+		 ptdev->gpu_info.tiler_present);
-+}
-+
-+int panthor_props_gpu_id_init(struct panthor_device *ptdev)
-+{
-+	struct panthor_gpu_id_props *gpu_id = &ptdev->props->gpu_id;
-+	struct drm_panthor_gpu_info *info = &ptdev->gpu_info;
-+
-+	info->gpu_id = gpu_read(ptdev, GPU_ID);
-+	if (!info->gpu_id)
-+		return -ENXIO;
-+
-+	gpu_id->arch_major = GPU_ARCH_MAJOR(info->gpu_id);
-+	gpu_id->arch_minor = GPU_ARCH_MINOR(info->gpu_id);
-+	gpu_id->arch_rev = GPU_ARCH_REV(info->gpu_id);
-+	gpu_id->product_major = GPU_PROD_MAJOR(info->gpu_id);
-+	gpu_id->version_major = GPU_VER_MAJOR(info->gpu_id);
-+	gpu_id->version_minor = GPU_VER_MINOR(info->gpu_id);
-+	gpu_id->version_status = GPU_VER_STATUS(info->gpu_id);
-+
-+	gpu_id->arch_id = GPU_ARCH_ID_MAKE(
-+		gpu_id->arch_major, gpu_id->arch_minor, gpu_id->arch_rev);
-+	gpu_id->product_id =
-+		GPU_PRODUCT_ID_MAKE(gpu_id->arch_major, gpu_id->product_major);
++	ptdev->hw = hdev;
 +
 +	return 0;
 +}
 +
-+void panthor_props_load(struct panthor_device *ptdev)
++int panthor_hw_init(struct panthor_device *ptdev)
 +{
-+	panthor_props_arch_10_8_init_info(ptdev);
-+	panthor_props_arch_10_8_get_present_regs(ptdev);
-+	panthor_props_arch_10_8_parse_props(ptdev);
++	int err;
 +
-+	panthor_props_show_info(ptdev);
-+}
++	err = panthor_props_init(ptdev);
++	if (err)
++		return err;
 +
-+int panthor_props_init(struct panthor_device *ptdev)
-+{
-+	struct panthor_props *props;
-+	int ret;
++	err = bind_hw_device(ptdev);
++	if (err)
++		return err;
 +
-+	props = drmm_kzalloc(&ptdev->base, sizeof(*props), GFP_KERNEL);
-+	if (!props)
-+		return -ENOMEM;
-+
-+	ptdev->props = props;
-+
-+	ret = panthor_props_gpu_id_init(ptdev);
-+	if (ret)
-+		return ret;
++	panthor_props_load(ptdev);
 +
 +	return 0;
 +}
-diff --git a/drivers/gpu/drm/panthor/panthor_props.h b/drivers/gpu/drm/panthor/panthor_props.h
++
++bool panthor_hw_supports(struct panthor_device *ptdev,
++			 enum panthor_hw_feature feature)
++{
++	return test_bit(feature, ptdev->hw->features);
++}
+diff --git a/drivers/gpu/drm/panthor/panthor_hw.h b/drivers/gpu/drm/panthor/panthor_hw.h
 new file mode 100644
-index 000000000000..af39a7c7433f
+index 000000000000..3409083d09d0
 --- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_props.h
-@@ -0,0 +1,70 @@
++++ b/drivers/gpu/drm/panthor/panthor_hw.h
+@@ -0,0 +1,92 @@
 +/* SPDX-License-Identifier: GPL-2.0 or MIT */
 +/* Copyright 2024 ARM Limited. All rights reserved. */
 +
-+#ifndef __PANTHOR_PROPS_H__
-+#define __PANTHOR_PROPS_H__
++#ifndef __PANTHOR_HW_H__
++#define __PANTHOR_HW_H__
 +
 +struct panthor_device;
 +
 +/**
-+ * struct panthor_gpu_id_props - Parsed GPU_ID properties
++ * enum panthor_hw_feature - Bit position of each HW feature
++ *
++ * Used to define GPU specific features based on the GPU architecture ID.
++ * New feature flags will be added with support for newer GPU architectures.
 + */
-+struct panthor_gpu_id_props {
-+	/** @arch_major: Architecture major revision */
-+	u8 arch_major;
++enum panthor_hw_feature {
++	PANTHOR_HW_FEATURES_END
++};
 +
-+	/** @arch_minor: Architecture minor revision */
-+	u8 arch_minor;
++struct panthor_hw_irq_regmap {
++	/** @name:  IRQ name in devicetree */
++	const char *name;
 +
-+	/** @arch_rev: Architecture patch revision */
-+	u8 arch_rev;
-+
-+	/** @product_major: Product identifier */
-+	u8 product_major;
-+
-+	/** @version_major: Major release version number */
-+	u8 version_major;
-+
-+	/** @version_minor: Minor release version number */
-+	u8 version_minor;
-+
-+	/** @version_status: Status of the GPU release */
-+	u8 version_status;
-+
-+	/** @arch_id: Composite ID of arch_major, arch_minor and arch_rev */
-+	u32 arch_id;
-+
-+	/** @arch_id: Composite ID of arch_major and product_major */
-+	u32 product_id;
++	/** @base: Base address of IRQ register block */
++	const u64 base;
 +};
 +
 +/**
-+ * struct panthor_props - Parsed GPU properties
++ * struct panthor_hw_regmap - Register offsets for specific register blocks
 + */
-+struct panthor_props {
-+	/** @gpu_id: parsed GPU_ID properties */
-+	struct panthor_gpu_id_props gpu_id;
++struct panthor_hw_regmap {
++	/** @mmu_as_base: Base address of MMU address space 0 */
++	const u64 mmu_as_base;
 +
-+	/** @shader_core_count: Number of shader cores present */
-+	u8 shader_core_count;
++	/** @mmu_as_stride: Address offset between subsequent MMU address spaces */
++	const u64 mmu_as_stride;
 +
-+	/** @mmu_va_bits: Number of bits supported in virtual addresses */
-+	u8 mmu_va_bits;
++	/** @mcu_control_base: Base address of MCU_CONTROL */
++	const u64 mcu_control_base;
 +
-+	/** @mmu_pa_bits: Number of bits supported in physical addresses */
-+	u8 mmu_pa_bits;
++	/** @gpu_control_base: Base address of GPU_CONTROL */
++	const u64 gpu_control_base;
 +
-+	/** @mmu_as_count: Number of address spaces present */
-+	u8 mmu_as_count;
++	/** @gpu_irq: GPU IRQ regmap */
++	const struct panthor_hw_irq_regmap gpu_irq;
 +
-+	/** @l2_line_size: L2 cache line size */
-+	u8 l2_line_size;
++	/** @job_irq: JOB IRQ regmap */
++	const struct panthor_hw_irq_regmap job_irq;
++
++	/** @mmu_irq: MMU IRQ regmap */
++	const struct panthor_hw_irq_regmap mmu_irq;
 +};
 +
-+int panthor_props_gpu_id_init(struct panthor_device *ptdev);
++/**
++ * struct panthor_hw_ops - HW operations that are specific to a GPU
++ */
++struct panthor_hw_ops {
++	/** @soft_reset: Soft reset function pointer */
++	int (*soft_reset)(struct panthor_device *ptdev);
 +
-+void panthor_props_load(struct panthor_device *ptdev);
++	/** @l2_power_off: L2 power off function pointer */
++	int (*l2_power_off)(struct panthor_device *ptdev);
 +
-+int panthor_props_init(struct panthor_device *ptdev);
++	/** @l2_power_on: L2 power on function pointer */
++	int (*l2_power_on)(struct panthor_device *ptdev);
++};
 +
-+#endif /* __PANTHOR_PROPS_H__ */
-diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
-index 269c2c68dde2..bad172b8af82 100644
---- a/drivers/gpu/drm/panthor/panthor_regs.h
-+++ b/drivers/gpu/drm/panthor/panthor_regs.h
-@@ -22,6 +22,11 @@
- #define   GPU_VER_MINOR(x)				(((x) & GENMASK(11, 4)) >> 4)
- #define   GPU_VER_STATUS(x)				((x) & GENMASK(3, 0))
- 
-+#define GPU_ARCH_ID_MAKE(major, minor, rev) \
-+	(((major) << 16) | ((minor) << 8) | (rev))
-+#define GPU_PRODUCT_ID_MAKE(arch_major, product_major) \
-+	(((arch_major) << 24) | (product_major))
++/**
++ * struct panthor_hw - GPU specific register mapping and functions
++ */
++struct panthor_hw {
++	/** @arch_id: Architecture id to match against */
++	u32 arch_id;
 +
- #define GPU_L2_FEATURES					0x4
- #define  GPU_L2_FEATURES_LINE_SIZE(x)			(1 << ((x) & GENMASK(7, 0)))
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 77b184c3fb0c..209fd9576969 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -29,6 +29,7 @@
- #include "panthor_gpu.h"
++	/** @arch_mask: Mask for architecture id comparison */
++	u32 arch_mask;
++
++	/** @features: Bitmap containing panthor_hw_feature */
++	DECLARE_BITMAP(features, PANTHOR_HW_FEATURES_END);
++
++	/** @map: Panthor regmap */
++	struct panthor_hw_regmap map;
++
++	/** @ops: Panthor HW specific operations */
++	struct panthor_hw_ops ops;
++};
++
++int panthor_hw_init(struct panthor_device *ptdev);
++
++bool panthor_hw_supports(struct panthor_device *ptdev,
++			 enum panthor_hw_feature feature);
++
++#endif /* __PANTHOR_HW_H__ */
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 2b6d147a2f0d..8a190dd2e06c 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -30,12 +30,17 @@
+ #include "panthor_device.h"
+ #include "panthor_gem.h"
  #include "panthor_heap.h"
++#include "panthor_hw.h"
  #include "panthor_mmu.h"
-+#include "panthor_props.h"
+ #include "panthor_props.h"
  #include "panthor_regs.h"
  #include "panthor_sched.h"
  
-@@ -3832,10 +3833,9 @@ int panthor_sched_init(struct panthor_device *ptdev)
- 	num_groups = min_t(u32, MAX_CSG_PRIO + 1, num_groups);
+ #define MAX_AS_SLOTS			32
++#define MMU_AS(ptdev, as) \
++	(ptdev->hw->map.mmu_as_base + ((as) * ptdev->hw->map.mmu_as_stride))
++
++#define MMU_BASE(ptdev) (ptdev->hw->map.mmu_irq.base)
  
- 	/* We need at least one AS for the MCU and one for the GPU contexts. */
--	gpu_as_count = hweight32(ptdev->gpu_info.as_present & GENMASK(31, 1));
--	if (!gpu_as_count) {
-+	if (ptdev->props->mmu_as_count < 2) {
- 		drm_err(&ptdev->base, "Not enough AS (%d, expected at least 2)",
--			gpu_as_count + 1);
-+			ptdev->props->mmu_as_count);
- 		return -EINVAL;
+ struct panthor_vm;
+ 
+@@ -510,9 +515,9 @@ static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
+ 	/* Wait for the MMU status to indicate there is no active command, in
+ 	 * case one is pending.
+ 	 */
+-	ret = gpu_read_relaxed_poll_timeout_atomic(ptdev, AS_STATUS(as_nr), val,
+-						   !(val & AS_STATUS_AS_ACTIVE),
+-						   10, 100000);
++	ret = gpu_read_relaxed_poll_timeout_atomic(
++		ptdev, MMU_AS(ptdev, as_nr) + AS_STATUS, val,
++		!(val & AS_STATUS_AS_ACTIVE), 10, 100000);
+ 
+ 	if (ret) {
+ 		panthor_device_schedule_reset(ptdev);
+@@ -529,7 +534,7 @@ static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
+ 	/* write AS_COMMAND when MMU is ready to accept another command */
+ 	status = wait_ready(ptdev, as_nr);
+ 	if (!status)
+-		gpu_write(ptdev, AS_COMMAND(as_nr), cmd);
++		gpu_write(ptdev, MMU_AS(ptdev, as_nr) + AS_COMMAND, cmd);
+ 
+ 	return status;
+ }
+@@ -564,7 +569,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+ 	region = region_width | region_start;
+ 
+ 	/* Lock the region that needs to be updated */
+-	gpu_write64(ptdev, AS_LOCKADDR_LO(as_nr), region);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_LOCKADDR_LO, region);
+ 	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
+ }
+ 
+@@ -614,9 +619,9 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+ 	if (ret)
+ 		return ret;
+ 
+-	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), transtab);
+-	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), memattr);
+-	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), transcfg);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_TRANSTAB_LO, transtab);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_MEMATTR_LO, memattr);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_TRANSCFG_LO, transcfg);
+ 
+ 	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
+ }
+@@ -629,9 +634,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+ 	if (ret)
+ 		return ret;
+ 
+-	gpu_write64(ptdev, AS_TRANSTAB_LO(as_nr), 0);
+-	gpu_write64(ptdev, AS_MEMATTR_LO(as_nr), 0);
+-	gpu_write64(ptdev, AS_TRANSCFG_LO(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_TRANSTAB_LO, 0);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_MEMATTR_LO, 0);
++	gpu_write64(ptdev, MMU_AS(ptdev, as_nr) + AS_TRANSCFG_LO, AS_TRANSCFG_ADRMODE_UNMAPPED);
+ 
+ 	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
+ }
+@@ -767,9 +772,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+ 	 * before enabling the AS.
+ 	 */
+ 	if (ptdev->mmu->as.faulty_mask & panthor_mmu_as_fault_mask(ptdev, as)) {
+-		gpu_write(ptdev, MMU_INT_CLEAR, panthor_mmu_as_fault_mask(ptdev, as));
++		gpu_write(ptdev, MMU_BASE(ptdev) + MMU_INT_CLEAR,
++			  panthor_mmu_as_fault_mask(ptdev, as));
+ 		ptdev->mmu->as.faulty_mask &= ~panthor_mmu_as_fault_mask(ptdev, as);
+-		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
++		gpu_write(ptdev, MMU_BASE(ptdev) + MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
  	}
  
+ 	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
+@@ -1664,8 +1670,8 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+ 		u32 access_type;
+ 		u32 source_id;
+ 
+-		fault_status = gpu_read(ptdev, AS_FAULTSTATUS(as));
+-		addr = gpu_read64(ptdev, AS_FAULTADDRESS_LO(as));
++		fault_status = gpu_read(ptdev, MMU_AS(ptdev, as) + AS_FAULTSTATUS);
++		addr = gpu_read64(ptdev, MMU_AS(ptdev, as) + AS_FAULTADDRESS_LO);
+ 
+ 		/* decode the fault status */
+ 		exception_type = fault_status & 0xFF;
+@@ -1697,7 +1703,7 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+ 		 * re-enabled.
+ 		 */
+ 		ptdev->mmu->irq.mask = new_int_mask;
+-		gpu_write(ptdev, MMU_INT_MASK, new_int_mask);
++		gpu_write(ptdev, MMU_BASE(ptdev) + MMU_INT_MASK, new_int_mask);
+ 
+ 		if (ptdev->mmu->as.slots[as].vm)
+ 			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
+@@ -2707,7 +2713,8 @@ int panthor_mmu_init(struct panthor_device *ptdev)
+ 
+ 	ptdev->mmu = mmu;
+ 
+-	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev), "mmu");
++	irq = platform_get_irq_byname(to_platform_device(ptdev->base.dev),
++				      ptdev->hw->map.mmu_irq.name);
+ 	if (irq <= 0)
+ 		return -ENODEV;
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_regs.h b/drivers/gpu/drm/panthor/panthor_regs.h
+index bad172b8af82..9f22c16e5dac 100644
+--- a/drivers/gpu/drm/panthor/panthor_regs.h
++++ b/drivers/gpu/drm/panthor/panthor_regs.h
+@@ -12,7 +12,6 @@
+ 
+ #include <linux/iopoll.h>
+ 
+-/* GX10 registers */
+ #define GPU_ID						0x0
+ #define   GPU_ARCH_MAJOR(x)				((x) >> 28)
+ #define   GPU_ARCH_MINOR(x)				(((x) & GENMASK(27, 24)) >> 24)
+@@ -42,6 +41,8 @@
+ #define GPU_AS_PRESENT					0x18
+ #define GPU_CSF_ID					0x1C
+ 
++#define ARCH_10_8_GPU_CONTROL_BASE			0x0
++
+ #define GPU_INT_RAWSTAT					0x20
+ #define GPU_INT_CLEAR					0x24
+ #define GPU_INT_MASK					0x28
+@@ -145,41 +146,46 @@
+ #define   GPU_COHERENCY_ACE_LITE			1
+ #define   GPU_COHERENCY_NONE				31
+ 
+-#define MCU_CONTROL					0x700
++#define ARCH_10_8_MCU_CONTROL_BASE			0x700
++
++#define MCU_CONTROL					0x0
+ #define MCU_CONTROL_ENABLE				1
+ #define MCU_CONTROL_AUTO				2
+ #define MCU_CONTROL_DISABLE				0
+ 
+-#define MCU_STATUS					0x704
++#define MCU_STATUS					0x4
+ #define MCU_STATUS_DISABLED				0
+ #define MCU_STATUS_ENABLED				1
+ #define MCU_STATUS_HALT					2
+ #define MCU_STATUS_FATAL				3
+ 
+ /* Job Control regs */
+-#define JOB_INT_RAWSTAT					0x1000
+-#define JOB_INT_CLEAR					0x1004
+-#define JOB_INT_MASK					0x1008
+-#define JOB_INT_STAT					0x100c
++#define JOB_CONTROL_BASE				0x1000
++
++#define JOB_INT_RAWSTAT					0x0
++#define JOB_INT_CLEAR					0x4
++#define JOB_INT_MASK					0x8
++#define JOB_INT_STAT					0xc
+ #define   JOB_INT_GLOBAL_IF				BIT(31)
+ #define   JOB_INT_CSG_IF(x)				BIT(x)
+ 
+ /* MMU regs */
+-#define MMU_INT_RAWSTAT					0x2000
+-#define MMU_INT_CLEAR					0x2004
+-#define MMU_INT_MASK					0x2008
+-#define MMU_INT_STAT					0x200c
++#define MMU_CONTROL_BASE				0x2000
++
++#define MMU_INT_RAWSTAT					0x0
++#define MMU_INT_CLEAR					0x4
++#define MMU_INT_MASK					0x8
++#define MMU_INT_STAT					0xc
+ 
+ /* AS_COMMAND register commands */
+ 
+-#define MMU_BASE					0x2400
+-#define MMU_AS_SHIFT					6
+-#define MMU_AS(as)					(MMU_BASE + ((as) << MMU_AS_SHIFT))
++#define ARCH_10_8_MMU_AS_BASE				0x2400
++#define ARCH_10_8_MMU_AS_STRIDE				0x40
+ 
+-#define AS_TRANSTAB_LO(as)				(MMU_AS(as) + 0x0)
+-#define AS_TRANSTAB_HI(as)				(MMU_AS(as) + 0x4)
+-#define AS_MEMATTR_LO(as)				(MMU_AS(as) + 0x8)
+-#define AS_MEMATTR_HI(as)				(MMU_AS(as) + 0xC)
++#define AS_TRANSTAB_LO					0x0
++#define AS_TRANSTAB_HI					0x4
++#define AS_MEMATTR_LO					0x8
++#define AS_MEMATTR_HI					0xC
+ #define   AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL		(2 << 2)
+ #define   AS_MEMATTR_AARCH64_INNER_ALLOC_EXPL(w, r)	((3 << 2) | \
+ 							 ((w) ? BIT(0) : 0) | \
+@@ -191,9 +197,9 @@
+ #define   AS_MEMATTR_AARCH64_INNER_OUTER_NC		(1 << 6)
+ #define   AS_MEMATTR_AARCH64_INNER_OUTER_WB		(2 << 6)
+ #define   AS_MEMATTR_AARCH64_FAULT			(3 << 6)
+-#define AS_LOCKADDR_LO(as)				(MMU_AS(as) + 0x10)
+-#define AS_LOCKADDR_HI(as)				(MMU_AS(as) + 0x14)
+-#define AS_COMMAND(as)					(MMU_AS(as) + 0x18)
++#define AS_LOCKADDR_LO					0x10
++#define AS_LOCKADDR_HI					0x14
++#define AS_COMMAND					0x18
+ #define   AS_COMMAND_NOP				0
+ #define   AS_COMMAND_UPDATE				1
+ #define   AS_COMMAND_LOCK				2
+@@ -201,18 +207,18 @@
+ #define   AS_COMMAND_FLUSH_PT				4
+ #define   AS_COMMAND_FLUSH_MEM				5
+ #define   AS_LOCK_REGION_MIN_SIZE			(1ULL << 15)
+-#define AS_FAULTSTATUS(as)				(MMU_AS(as) + 0x1C)
++#define AS_FAULTSTATUS					0x1C
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_MASK		(0x3 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC		(0x0 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_EX			(0x1 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_READ		(0x2 << 8)
+ #define  AS_FAULTSTATUS_ACCESS_TYPE_WRITE		(0x3 << 8)
+-#define AS_FAULTADDRESS_LO(as)				(MMU_AS(as) + 0x20)
+-#define AS_FAULTADDRESS_HI(as)				(MMU_AS(as) + 0x24)
+-#define AS_STATUS(as)					(MMU_AS(as) + 0x28)
++#define AS_FAULTADDRESS_LO				0x20
++#define AS_FAULTADDRESS_HI				0x24
++#define AS_STATUS					0x28
+ #define   AS_STATUS_AS_ACTIVE				BIT(0)
+-#define AS_TRANSCFG_LO(as)				(MMU_AS(as) + 0x30)
+-#define AS_TRANSCFG_HI(as)				(MMU_AS(as) + 0x34)
++#define AS_TRANSCFG_LO					0x30
++#define AS_TRANSCFG_HI					0x34
+ #define   AS_TRANSCFG_ADRMODE_UNMAPPED			(1 << 0)
+ #define   AS_TRANSCFG_ADRMODE_IDENTITY			(2 << 0)
+ #define   AS_TRANSCFG_ADRMODE_AARCH64_4K		(6 << 0)
+@@ -230,8 +236,6 @@
+ #define   AS_TRANSCFG_DISABLE_AF_FAULT			BIT(34)
+ #define   AS_TRANSCFG_WXN				BIT(35)
+ #define   AS_TRANSCFG_XREADABLE				BIT(36)
+-#define AS_FAULTEXTRA_LO(as)				(MMU_AS(as) + 0x38)
+-#define AS_FAULTEXTRA_HI(as)				(MMU_AS(as) + 0x3C)
+ 
+ #define CSF_GPU_LATEST_FLUSH_ID				0x10000
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 209fd9576969..0c420e8c0acb 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -3838,6 +3838,7 @@ int panthor_sched_init(struct panthor_device *ptdev)
+ 			ptdev->props->mmu_as_count);
+ 		return -EINVAL;
+ 	}
++	gpu_as_count = ptdev->props->mmu_as_count - 1;
+ 
+ 	sched->ptdev = ptdev;
+ 	sched->sb_slot_count = CS_FEATURES_SCOREBOARDS(cs_iface->control->features);
 -- 
 2.47.1
 
