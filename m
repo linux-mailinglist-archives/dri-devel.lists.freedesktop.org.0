@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8494D9F87F4
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 23:37:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E6D89F87F8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 23:37:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C914A10EE05;
-	Thu, 19 Dec 2024 22:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FF2910EE07;
+	Thu, 19 Dec 2024 22:37:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gme6LWei";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m/H3M8G7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE2FE10EE05;
- Thu, 19 Dec 2024 22:37:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6893110EE07;
+ Thu, 19 Dec 2024 22:37:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 311F25C6A1A;
- Thu, 19 Dec 2024 22:36:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8E9C4CED0;
- Thu, 19 Dec 2024 22:37:12 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C1CB45C6A2C;
+ Thu, 19 Dec 2024 22:36:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F771C4CECE;
+ Thu, 19 Dec 2024 22:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734647836;
- bh=5JceoXzU5Yg3ouAA1PCndCQY5/QheWRZBh69JeWleiE=;
+ s=k20201202; t=1734647841;
+ bh=BXmHxRjbMYvi05HUYGxRCT9+m9iRMoBeThzeq5sctFE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=gme6LWeigl6oKT1DbN5uIBwUrSPRg+JQRfygKX30wVuFp2ZxgrUdVyHfQAzmXi9NI
- oZj96dkAoJQ0JQYAxsecJ4ZT+OmbBqdo/xxAIZ/oIthOts91EsOc0CqQ9NfwtbNN7W
- DXy53N99DAtPzljliM0p2EDaWtN+UiDeTUC9i+IRdI3cNKsh3SBDW4+lFuYc2igQNF
- M0TvXkSkekAaJwuVO6rKA4VxDrG1UYwxtrkVnQc5cItgoejDZbGp/ZZJcJ+NLh/SKT
- vvytchuba6fUK91+OpJ7H0pI69hXxzs8Qu71juf2rjXolDsw3m1YUIyj+/ZnuOffaK
- Uo13WuDXVKBMg==
+ b=m/H3M8G7uKq8FVmrLoCZEfswMbp/AkILH6cBoiKIqIWt7bgNow85aVpm7UNEz/IBw
+ cb7fudpjjYH0Ctm6L/54DczaE8JVJagscWlylKJslsBUzGjV3F5wrHBYEQxyJrB6yp
+ LmqKdB3F9fN7PHIpc/kxgFnzca4HMtYqUOMqCdatBJhCWkTw39rSVczP4xyAmwcbY0
+ LIKqbFrhYtw+C+RAAT6SGOBCLseyBW22q+WjXXxD/hDbfhrn3QfR1gi07gbbCIl6lB
+ AzD/CNRitqq1+NHCkL8s2625YTo4S9XfwGia3wvhN4+j3gxPcTaWzNf8odwciGkKXN
+ khGfWamIekf7A==
 From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Thu, 19 Dec 2024 23:36:55 +0100
-Subject: [PATCH 1/2] drm/msm: registers: Add GMU FW version register
+Date: Thu, 19 Dec 2024 23:36:56 +0100
+Subject: [PATCH 2/2] drm/msm/a6xx: Print GMU core firmware version at boot
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-topic-gmu_fw_ver-v1-1-d403a70052d8@oss.qualcomm.com>
+Message-Id: <20241219-topic-gmu_fw_ver-v1-2-d403a70052d8@oss.qualcomm.com>
 References: <20241219-topic-gmu_fw_ver-v1-0-d403a70052d8@oss.qualcomm.com>
 In-Reply-To: <20241219-topic-gmu_fw_ver-v1-0-d403a70052d8@oss.qualcomm.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -50,11 +50,11 @@ Cc: Marijn Suijten <marijn.suijten@somainline.org>,
  Akhil P Oommen <quic_akhilpo@quicinc.com>, 
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734647828; l=1317;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734647828; l=1525;
  i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=l8e6hgJJ3wHD0AXLfem9C5MHVdg/XyBRaZCNsfY8mx0=;
- b=9otI/+RG58QIZQbBtuTG0HG3syXLlaXSrcCpwvglXgvY2gy8+JAcKWIyIXowYNskOkPkqGfZy
- nZ45p1a6bFrCe6mUHvMRRHqfks7CGWxH1mUBBBU0T18NpqSxwsbJxB8
+ bh=aoD1omnv30HwSwtIB66YPTfZG+VP+p+pQKMUtkvGd7g=;
+ b=0Hgm0N3l/9kovPlli67XIRYIo4KRtswUlxP7o0iG2kfBS50vDyNnxRhq45igMzj29bd7yvg6y
+ IaJ+ikGL17aC8yjrMHUD48pUy5P+l+/B0QMqwLroSNnobikvUhKOUQD
 X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
  pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,33 +74,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-Add a register that contains the GMU core firmware version on non-
-legacy (non-sdm845-family) SoCs.
+Log the version for informational purposes, such as for keeping track
+of possible GMU fw-related failures in crash / CI logs.
 
-The name is guesstimated based on what it does downstream, but it'll
-do.
+Intentionally not implemented on the if (gmu->legacy) codepath, as
+these registers seem not to be used on there.
+
+Downstream additionally warns if the firmware version is too old for
+a given GPU, but we already pair the binary to a given GPU, so let's
+not go there at the moment.
 
 Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml
-index 6531749d30f4e4e57ca4f7b43a28b7829504a9f3..3d2cc339b8f19c8d24b2c9144569b2364afc5ebc 100644
---- a/drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml
-@@ -52,6 +52,11 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
- 	<reg32 offset="0x23fd" name="GMU_DCVS_PERF_SETTING"/>
- 	<reg32 offset="0x23fe" name="GMU_DCVS_BW_SETTING"/>
- 	<reg32 offset="0x23ff" name="GMU_DCVS_RETURN"/>
-+	<reg32 offset="0x2bf8" name="GMU_CORE_FW_VERSION">
-+		<bitfield name="MAJOR" low="28" high="31"/>
-+		<bitfield name="MINOR" low="16" high="27"/>
-+		<bitfield name="STEP" low="0" high="15"/>
-+	</reg32>
- 	<reg32 offset="0x4c00" name="GMU_ICACHE_CONFIG"/>
- 	<reg32 offset="0x4c01" name="GMU_DCACHE_CONFIG"/>
- 	<reg32 offset="0x4c0f" name="GMU_SYS_BUS_CONFIG"/>
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 14db7376c712d19446b38152e480bd5a1e0a5198..a7ea2b2af1dc3816906236df929df36e37d8f606 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -729,6 +729,7 @@ static int a6xx_gmu_fw_load(struct a6xx_gmu *gmu)
+ 	const struct firmware *fw_image = adreno_gpu->fw[ADRENO_FW_GMU];
+ 	const struct block_header *blk;
+ 	u32 reg_offset;
++	u32 ver;
+ 
+ 	u32 itcm_base = 0x00000000;
+ 	u32 dtcm_base = 0x00040000;
+@@ -775,6 +776,12 @@ static int a6xx_gmu_fw_load(struct a6xx_gmu *gmu)
+ 		}
+ 	}
+ 
++	ver = gmu_read(gmu, REG_A6XX_GMU_CORE_FW_VERSION);
++	DRM_INFO("Loaded GMU firmware v%u.%u.%u\n",
++		 FIELD_GET(A6XX_GMU_CORE_FW_VERSION_MAJOR__MASK, ver),
++		 FIELD_GET(A6XX_GMU_CORE_FW_VERSION_MINOR__MASK, ver),
++		 FIELD_GET(A6XX_GMU_CORE_FW_VERSION_STEP__MASK, ver));
++
+ 	return 0;
+ }
+ 
 
 -- 
 2.47.1
