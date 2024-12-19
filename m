@@ -2,67 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E3D9F88A6
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 00:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE529F88A3
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 00:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3AAA10E358;
-	Thu, 19 Dec 2024 23:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9461210E2C1;
+	Thu, 19 Dec 2024 23:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uziCFrfE";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="h+88dtzU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 23645 seconds by postgrey-1.36 at gabe;
- Thu, 19 Dec 2024 23:46:50 UTC
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 761D810E2C2;
- Thu, 19 Dec 2024 23:46:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 01277A42A51;
- Thu, 19 Dec 2024 23:44:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86459C4CED4;
- Thu, 19 Dec 2024 23:46:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734652009;
- bh=VlgIxjX59zEAgQYr06DoizAEZuBLCR+PtLTOfL+NXJw=;
- h=From:Date:Subject:To:Cc:From;
- b=uziCFrfEeAh8k+2m+V9C/N36gBo4Jn29A1NYTu9fcDAa87m9o7r/n/1+Fi1NwypHy
- Emv/qVcNACtrMkU/P3KKu2mxfSs0pk3gF0ARII+rR0O8uIWKFNS4ot8y7lduqhRhO4
- msmOe95d7sTkRcgIiKyRLBDwF9etdrLDA9CS0s+gEkAAVqbFTpD4BVKcoEwPM8ke3V
- 8AmQhxPE0BQFV4+iicZ7Ff+mfWJDEc8y2u4R/rO6t0JN2Od3PtCX7hEgr/xKZEbumC
- sPrgN+xqxHn76GNwsjqubiHp7lLC0/cVqVJd49viYdg1r9nKF4cN2CBWdG2QZCPTWm
- oUkMuhIbyKW/A==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 19 Dec 2024 16:46:35 -0700
-Subject: [PATCH] drm/amd/display: Increase sanitizer frame larger than
- limit when compile testing with clang
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E707C10E2C1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 23:46:43 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6887so1185086e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 15:46:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734652002; x=1735256802; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=RVr8VxD2pcxwgmwMDWGN/YB6MB4xQo2dMxkaSNKw++4=;
+ b=h+88dtzUW3+3+IyhLKy9hegv4L8YH9woyTPACld1DpSgofRMc8WJpccPFGbGsSiZLA
+ yB3gaErmaAjraQu24qMQcHwHSi620mPnC/YGJnuEx6Tm9xGoBT0GBU5M/1pdxOsz5ASt
+ Q31NSgF4pU5HhZTMrDati5aNvLnHVENqmj3OXB82LvYvQE5HSTnNRgQ80vMtvEFTzDaK
+ h/uipUjxx2JjiCj3ICLFNvKGunggi9J+PLrQYQKtB3tIJHJYaGo9Tkysl04OE6P1WlD0
+ qf03/8U0Tf+kDM7cdqnu69JPF8FIABY6z9hmfL1HLQQQtFRIz5kYvb2JzoS8Q7vtD/VS
+ GDEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734652002; x=1735256802;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RVr8VxD2pcxwgmwMDWGN/YB6MB4xQo2dMxkaSNKw++4=;
+ b=ZDOIOJ5u4Bo+1+C3sZOTpxQTe7HERlhdHGWRcRRXXIuDcRGS3DDnROYEk3enNEAwoO
+ 4cmWAvCcqS20lpgleIXuj0RAps2J++RgXbfIHlzWQ5KNaGGODdhqJe3KLLgrBeUuCbWd
+ ZY8o/Dn9jgHSRbhvm57z+pNHMI/FbW6V+9kqPeffXRl+Yo293eHg+JQ7NAJqcYk0/Odm
+ J/E3AEiWmYKZk0MwdxQZMpxbBUGLJCCJg96uSWnygY9vw3/UAXVfSUlebNyvOsbz8OAN
+ r5XVZ8uWRjLsqeo/qUPA1FIxg0JOhpbtfQs359058tSlVEpkZL66M+vh7elIS+A0lyop
+ YIBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWR3MgpD6ubLZcYA6/yi7lQ2iz8Kr5wlfFVuYZ64dvn9CkRIlPBIedhA1ezsTH5rDbcz0e+DAE4YkE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTabyBXj70ZnNGF1zTTlVrXo6sjHKwMHTMHYLWQvtwd8AzcR+Z
+ geco0ismUCnpfHqYTYTk/L5LmX5ePmo0G5AR4dvobVHz5sswlECHeKT8jyxoDXM=
+X-Gm-Gg: ASbGncsTb/Oe4ecBraWYCoe0jX66J7NpuSFKaX7HFcaw1HGBlw69DW1qxRL2JW07nTV
+ DPQcSkzmiLdMUa5KJ1dNPipd60mGA+2wL0UsPm6FysKcQF+uTG5dWpxDGjahJ0mbZe7JbDi5Gkg
+ jb90eYkdCFM+eMw5+WBc133vAKilQ2UNDQRtSlA5ObScMQ3z0fE0iv/u9y56xle2ufuRoYwCPK9
+ xg45rzj5S0WG350QDj9JSqEoCkONkntDKW3DTwHbAwMjymAq1c1E/vJ+Yr22M0KPEP6ieEmp4aT
+ xK3ld+t018/Qv2WVFxgqSrOsKeCLQnJHWx0J
+X-Google-Smtp-Source: AGHT+IH/+oseyR/T/CfJg4IAhC4J8FNVL3lP/XAKLkUKPfNBt0T5dQ36i8WzkNZ2cS9DJyhvWtaTdA==
+X-Received: by 2002:a05:6512:128f:b0:540:251b:fe09 with SMTP id
+ 2adb3069b0e04-54229533e70mr129311e87.19.1734652002018; 
+ Thu, 19 Dec 2024 15:46:42 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223600724sm316981e87.90.2024.12.19.15.46.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2024 15:46:41 -0800 (PST)
+Date: Fri, 20 Dec 2024 01:46:39 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] drm/msm/dpu: Enable quad-pipe for DSC and
+ dual-DSI case
+Message-ID: <etci547cjykqlqfswhkzdbdfx7cuyrszzswxv2qaghzu2fnu3y@fgitftlhe3oh>
+References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
+ <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-15-92c7c0a228e3@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAFqwZGcC/x2N0QrCMAxFf2Xk2cBaJzh/RXwITVoD7TZSFWHs3
- w0+Hu499+7QxVQ63IYdTD7adV0cwmmA9KSlCCo7QxzjFGKYkRqX7Y3cakRiNukdU/UmZqMmWMm
- KGL5cRqo1rUtWz8bzxHO6hHAV8O3NJOv3/3t/HMcPwaEKSYcAAAA=
-X-Change-ID: 20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-f034d9c5118e
-To: Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- llvm@lists.linux.dev, patches@lists.linux.dev, 
- kernel test robot <lkp@intel.com>, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3854; i=nathan@kernel.org;
- h=from:subject:message-id; bh=VlgIxjX59zEAgQYr06DoizAEZuBLCR+PtLTOfL+NXJw=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDOkpG9KSRZ5tMNrsnDf3up++trOTeLpqh/b+034S29esU
- VWS33G4o5SFQYyLQVZMkaX6sepxQ8M5ZxlvnJoEM4eVCWQIAxenAExk6m9Ghlu3bC5ZOf9kclF0
- OsFnqnljfdjd+YILG/j7orwNrjw0lWX4X/45xv60ZWn0bG4dBaX5Kf/Y5d9OKLy0/832A+FnD/+
- qZgQA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-15-92c7c0a228e3@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,80 +95,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 24909d9ec7c3 ("drm/amd/display: Overwriting dualDPP UBF values
-before usage") added a new warning in dml2/display_mode_core.c when
-building allmodconfig with clang:
+On Thu, Dec 19, 2024 at 03:49:33PM +0800, Jun Nie wrote:
+> Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC are
+> enabled. We prefer to use 4 pipes for dual DSI case for it is power optimal
+> for DSC.
+> 
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++++++++++++------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  3 ++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        |  2 +-
+>  7 files changed, 30 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index bad75af4e50ab..3c51c199f3e05 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
+>  		struct dpu_crtc_state *crtc_state)
+>  {
+>  	struct dpu_crtc_mixer *m;
+> -	u32 crcs[CRTC_DUAL_MIXERS];
+> +	u32 crcs[CRTC_QUAD_MIXERS];
+>  
+>  	int rc = 0;
+>  	int i;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> index d1bb3f84fe440..ce41fb364f3db 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> @@ -210,7 +210,7 @@ struct dpu_crtc_state {
+>  
+>  	bool bw_control;
+>  	bool bw_split_vote;
+> -	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
+> +	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
+>  
+>  	uint64_t input_fence_timeout_ns;
+>  
+> @@ -218,10 +218,10 @@ struct dpu_crtc_state {
+>  
+>  	/* HW Resources reserved for the crtc */
+>  	u32 num_mixers;
+> -	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
+> +	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
+>  
+>  	u32 num_ctls;
+> -	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
+> +	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
+>  
+>  	enum dpu_crtc_crc_source crc_source;
+>  	int crc_frame_skip_count;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 96d06db3e4be5..6e54ddeaffacd 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -54,7 +54,7 @@
+>  #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
+>  	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
+>  
+> -#define MAX_CHANNELS_PER_ENC 2
+> +#define MAX_CHANNELS_PER_ENC 4
+>  
+>  #define IDLE_SHORT_TIMEOUT	1
+>  
+> @@ -664,15 +664,19 @@ static struct msm_display_topology dpu_encoder_get_topology(
+>  
+>  	/* Datapath topology selection
+>  	 *
+> -	 * Dual display
+> +	 * Dual display without DSC
+>  	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
+>  	 *
+> +	 * Dual display with DSC
+> +	 * 4 LM, 2 INTF ( Split display using 2 interfaces)
+> +	 *
+>  	 * Single display
+>  	 * 1 LM, 1 INTF
+>  	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
+>  	 *
+>  	 * Add dspps to the reservation requirements if ctm is requested
+>  	 */
+> +
+>  	if (intf_count == 2)
+>  		topology.num_lm = 2;
+>  	else if (!dpu_kms->catalog->caps->has_3d_merge)
+> @@ -691,10 +695,20 @@ static struct msm_display_topology dpu_encoder_get_topology(
+>  		 * 2 DSC encoders, 2 layer mixers and 1 interface
+>  		 * this is power optimal and can drive up to (including) 4k
+>  		 * screens
+> +		 * But for dual display case, we prefer 4 layer mixers. Because
+> +		 * the resolution is always high in the case and 4 DSCs are more
+> +		 * power optimal.
+>  		 */
+> -		topology.num_dsc = 2;
+> -		topology.num_lm = 2;
+> -		topology.num_intf = 1;
+> +
+> +		if (intf_count == 2) {
+> +			topology.num_dsc = 4;
+> +			topology.num_lm = 4;
+> +			topology.num_intf = 2;
+> +		} else {
+> +			topology.num_dsc = 2;
+> +			topology.num_lm = 2;
+> +			topology.num_intf = 1;
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6268:13: error: stack frame size (3128) exceeds limit (3072) in 'dml_prefetch_check' [-Werror,-Wframe-larger-than]
-   6268 | static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
-        |             ^
+Why is it only enabled for the DSC case? Also I'd like to point out
+platforms like sm7150 or msm8998 which have only 2 DSC blocks. The
+condition here needs more work to work with those platforms too.
 
-Commit be4e3509314a ("drm/amd/display: DML21 Reintegration For Various
-Fixes") introduced one in dml2_core/dml2_core_dcn4_calcs.c with the same
-configuration:
+> +		}
+>  	}
+>  
+>  	return topology;
+> @@ -2195,8 +2209,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
+>  	struct dpu_hw_mixer_cfg mixer;
+>  	int i, num_lm;
+>  	struct dpu_global_state *global_state;
+> -	struct dpu_hw_blk *hw_lm[2];
+> -	struct dpu_hw_mixer *hw_mixer[2];
+> +	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+> +	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
+>  	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
+>  
+>  	memset(&mixer, 0, sizeof(mixer));
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> index 63f09857025c2..d378a990cc0fb 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> @@ -302,7 +302,8 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+>  
+>  	/* Use merge_3d unless DSC MERGE topology is used */
+>  	if (phys_enc->split_role == ENC_ROLE_SOLO &&
+> -	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
+> +	    (dpu_cstate->num_mixers == CRTC_DUAL_MIXERS ||
+> +		dpu_cstate->num_mixers == CRTC_QUAD_MIXERS) &&
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7236:13: error: stack frame size (3256) exceeds limit (3072) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
-   7236 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out_params)
-        |             ^
+Misaligned. Also isn't it enough to check that num_mixers != 1?
 
-In the case of the first warning, the stack usage was already at the
-limit at the parent change, so the offending change was rather
-innocuous. In the case of the second warning, there was a rather
-dramatic increase in stack usage compared to the parent:
+>  	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
+>  		return BLEND_3D_H_ROW_INT;
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index 3ab79092a7f25..d9cc84b081b1f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -25,6 +25,7 @@
+>  #define DPU_MAX_IMG_HEIGHT 0x3fff
+>  
+>  #define CRTC_DUAL_MIXERS	2
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7032:13: error: stack frame size (2696) exceeds limit (2048) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
-   7032 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out_params)
-        |             ^
+Do we still need this define?
 
-This is an unfortunate interaction between an issue with stack slot
-reuse in LLVM that gets exacerbated by sanitization (which gets enabled
-with all{mod,yes}config) and function calls using a much higher number
-of parameters than is typical in the kernel, necessitating passing most
-of these values on the stack.
+> +#define CRTC_QUAD_MIXERS	4
+>  
+>  #define MAX_XIN_COUNT 16
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> index 27ef0771da5d2..1fe21087a141a 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> @@ -33,8 +33,8 @@
+>  #endif
+>  
+>  #define STAGES_PER_PLANE		2
+> -#define PIPES_PER_PLANE			2
+>  #define PIPES_PER_STAGE			2
+> +#define PIPES_PER_PLANE			(STAGES_PER_PLANE * STAGES_PER_PLANE)
 
-While it is possible that there should be source code changes to address
-these warnings, this code is difficult to modify for various reasons, as
-has been noted in other changes that have occurred for similar reasons,
-such as commit 6740ec97bcdb ("drm/amd/display: Increase frame warning
-limit with KASAN or KCSAN in dml2").
+This is incorrect.
 
-Increase the frame larger than limit when compile testing with clang and
-the sanitizers enabled to avoid this breakage in all{mod,yes}config, as
-they are commonly used and valuable testing targets. While it is not the
-best to hide this issue, it is not really relevant when compile testing,
-as the sanitizers are commonly stressful on optimizations and they are
-only truly useful at runtime, which COMPILE_TEST states will not occur
-with the current build.
+>  #ifndef DPU_MAX_DE_CURVES
+>  #define DPU_MAX_DE_CURVES		3
+>  #endif
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> index 57ccb73c45683..b5c1ad2a75594 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> @@ -1474,7 +1474,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+>  		trace_dpu_plane_disable(DRMID(plane), false,
+>  					pstate->pipe[i].multirect_mode);
+>  
+> -		if (pipe->sspp && i == 1) {
+> +		if (pipe->sspp && pipe->multirect_index == DPU_SSPP_RECT_1) {
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202412121748.chuX4sap-lkp@intel.com/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/gpu/drm/amd/display/dc/dml2/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+Separate change, please. Also I'm not sure how does that work with the
+shared SSPP case that I pointed to in one of the previous replies.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-index d9c27ebe12ee08d6330eb199cd8ca9c8489fa5b2..91c4f3b4bd5f46ac5c1c74f665b06dbe61081917 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-@@ -29,7 +29,11 @@ dml2_rcflags := $(CC_FLAGS_NO_FPU)
- 
- ifneq ($(CONFIG_FRAME_WARN),0)
- ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-+ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
-+frame_warn_flag := -Wframe-larger-than=4096
-+else
- frame_warn_flag := -Wframe-larger-than=3072
-+endif
- else
- frame_warn_flag := -Wframe-larger-than=2048
- endif
+>  			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+>  			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+>  
+> 
+> -- 
+> 2.34.1
+> 
 
----
-base-commit: 695c2c745e5dff201b75da8a1d237ce403600d04
-change-id: 20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-f034d9c5118e
-
-Best regards,
 -- 
-Nathan Chancellor <nathan@kernel.org>
-
+With best wishes
+Dmitry
