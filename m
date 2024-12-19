@@ -1,69 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95439F72A3
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 03:35:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D959F72A5
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 03:35:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE3E10E276;
-	Thu, 19 Dec 2024 02:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 640DC10E44B;
+	Thu, 19 Dec 2024 02:35:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="louE8tOR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wiz4x8jd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5AC210E276;
- Thu, 19 Dec 2024 02:35:11 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id
- d2e1a72fcca58-728f1525565so395032b3a.1; 
- Wed, 18 Dec 2024 18:35:11 -0800 (PST)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16C6210E44B;
+ Thu, 19 Dec 2024 02:35:16 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id
+ d2e1a72fcca58-728ea1573c0so290410b3a.0; 
+ Wed, 18 Dec 2024 18:35:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734575711; x=1735180511; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1734575715; x=1735180515; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=GFcOX4O91tQFD6muydW9g9dtgYf4vZjGzF6jEGHBeGo=;
- b=louE8tOR+kUhbQ+RyuqH7dQ5YQoKfVXulHTuHvRxbuelUOe/BEpKuOIRLcYpCxbC7y
- +GgycZ1O5tMl+SgeCT/s2V4jgaOCOOBYsw5ThLh5LDayG0f+RkeLVxhjsGKRswiFCNa3
- A757U2HVx234Dz4/16JzNf/SJPhc/OcxcuEz53Fkm+Nzhka0fa2XXsYYV+MtmuE2qHBi
- 5ZwkSMtbXPQT/vpqfVvrSdHtXAXciKAUMR5fNRPT1SNmqqzdtw+243BL7Y3iQ4slw2r3
- v+xnt9iZUWlQF8yTB1BdAFqEUze0cYatgQWT5kHq0xq6LNtDhM4SXp0CxgAF6wfEUHoL
- WQ1A==
+ bh=Zz5f2fkK5TyUEN5/ypHLYKDvnfLQ33CHwDb71kc+wK0=;
+ b=Wiz4x8jdikthKgCfv6BY5z67V7JYaJliEV1ndcCl67DVrn08zmI/h/JgYqudBEgMow
+ aRMh56JFW8Nf74QsTm7oW7d7NrasB6faZRSj/crpa16yETcu5sXgF3eOHx+B60ifGe6H
+ qMy0zLH+9gKpb2jJsvbd7y4G9iOmj0S6A/RwWWSGz1UIgpotZo1MgLjaYUSADEYhKzll
+ aMERShPNH1nqKaBdOUs8/JpR6DwknNk0P5ekj/KOVZSr1fB3X15SUp3CmpiSaLU0JVzd
+ gKQR3EBV1js6MpInv2z92gAMSMsrVxhECcp8gblalsM96BbdrHt3krNJA7EnRGWCj/yp
+ ZeOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734575711; x=1735180511;
+ d=1e100.net; s=20230601; t=1734575715; x=1735180515;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=GFcOX4O91tQFD6muydW9g9dtgYf4vZjGzF6jEGHBeGo=;
- b=dDxRMoRCmTgJgGDIkJ9zrD6yNDS0BQrEi7LbFK82/idZJC10uaq88qEQvb+kQ26bnz
- U3/pVxI3XDT7nXoJIRjgFHCfDaYJ2vn2pN6GIX5siKrRZH1PQJ4thZbU/OR/HPFBoUFf
- gAPzWfAZjkbedv70NgX6IzCpDGtyz5+FWqqLWmxEUjoNabbLPQHxDuVhaWjiL1HW7EeP
- qKH3lpKgtAOyoUrvbipDd1/YdIxNcPRxbPYTNBv0MKNFBxDSK5h9mzlzlvOVIbFKEAV3
- gEBPS3lQ8HPwkqHHg+7BXUymN6BP+OtWD+E7WrXcBtrjY4oWvoAj6veGBENui78XmgiF
- Ww+w==
+ bh=Zz5f2fkK5TyUEN5/ypHLYKDvnfLQ33CHwDb71kc+wK0=;
+ b=kXk+nJ4lr9Do6Fd7ZlBJ+mofqwRIrjfztuau5Ul3ZvzDKJAmX+IfrsTYrgxvFvEmk3
+ AN7qQmAOAe2RkCZ4T2mwJi460N8ubL7t7INT7Pq4kSK7QuI3Ms6HQqzO5Mu+e717+GUB
+ JEy5UloTnOp0cSOP19zW2dZS3o2MEadfUR1cHwSozWFi5nTtOOt79kKbH4NlQSx6Oaec
+ dURr7ucxigIxT2ami+rwVxkny2ut/h0aG2G7YQPENvrXvdHvxU1S9Ti1G7bepKSwuOfr
+ Sk1M25DZK4WqMkh+ep1XTKxXsuhhD+hSIFyfULXjnIfTysgp0OCjXsuE6EWUMj20sU6h
+ g6zw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWMU2Xvd40qo22wQZ05SrUuMI8SNwJqq51O40d+ZOzL7XrXDZi/jUE4+ZS1US5bZCf6HyseaU4vjA==@lists.freedesktop.org,
- AJvYcCX9ZMrKxziyaBjBFsJb7DWlN1sFcRQOeilNuzXdr9DeLf026cfn15p1rkROnCIZeU7WFzdBdsJGaj0=@lists.freedesktop.org,
- AJvYcCXb8y6UiTcinDF0a2l96ma+tBo6BLb07O4BBpKG3j+4qhu/sbZJMjtvF2Todcz/lR9xgKdl0pn/99t9@lists.freedesktop.org,
- AJvYcCXvOM7tY2o9Jp55SZpmVr4PDD/JOcjw40magbneSAOwhYZoK+vxSXPnYA1o+QrJX6+Y7RpscWGvdo8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvtVJuNNdAD2i/io51JG+3tuH6h68uUefnQj3CLaK2Rgo9y4XV
- tYlVM+CdqoycKQUb/43jj2ZCxiDBwqLzCzSUsCB0uC3DqFp6fY1T
-X-Gm-Gg: ASbGncv2ye3gZlCf2ZDjevekWizjHO5D9N4emvwKcj5Cj95bClan/xXOadH4qP/Ywo+
- 0PvM/Wve8vMI3LSzCTl3+dv5rdSLz0IuQX5eJXT+oJo24BILoVVNQnYqyRq7H6c0LX6emPKsjKc
- WlD2ePXh28pgbI1TDr9jx+0EMgM+sllnSpfDMfVthxEQSjxekLl5U2xn7YdSNBLSnNXfkFKXAvv
- V2raxNf2zmm+3q6yrIms9voV0T8R8juwkOuUrwJMGbMKMZMboBRFTxZbOE+nRnnj+zs/XI4b2HK
- D9lXLm0=
-X-Google-Smtp-Source: AGHT+IF8uDHPAeHRKoSWXDpZOfxN83+9I3jRkG5wW7qXuv+87XI+9vIxsP70Tcc6kEOf0TdmQfwRSg==
-X-Received: by 2002:a05:6a20:c6c2:b0:1e1:ca25:8da3 with SMTP id
- adf61e73a8af0-1e5b4820f26mr9200947637.20.1734575711218; 
- Wed, 18 Dec 2024 18:35:11 -0800 (PST)
+ AJvYcCU4regOXPovfBhD8VXxLf2WNWaeiCYRpiNpfzmdU9dmNFTE1CO1kY6Y+u9VR+tal3dixVcvAK1EBD9m@lists.freedesktop.org,
+ AJvYcCVZuY78NbdJEaA7v7AG83E8VGWluVGIxmTGAkqp95E1Fa6amVMB9Cdd6EAwH3y9SBMgHuLMzL5zP1c=@lists.freedesktop.org,
+ AJvYcCXjbbcvWNA7zAwbz0jipdrJAHzebU5Row9Pn05ymx8vSjaOlXnymBwc4iOiZD/qA2ASN/fCdWaGMQ==@lists.freedesktop.org,
+ AJvYcCXlN+EwkGWDVKmQ6kCmAvI/DXXPGfDgHEbIm9sQQ2r7LJ+2vNmpYcYRi0cqwaeu7QDfVemLUF/kx7E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxA9jo4oW5XVAsHwdPZOCaawQuBHJFdG31jktfI27o1X3zKfygL
+ ILlXpdqbCXoDqTC4heV2UZiNaoghjmEx+cxG9BFK8sJ2ZV9XwrRK
+X-Gm-Gg: ASbGncuWFXqxAbdzoSNL2LhzNmFTC09k0UtsN4/Hzw+ylNxrofxZqkqFo4hoW4naInG
+ e7SZb8rrKVvINWnjF3N5H7HOIc3oYavl0K/14ZzNz4QMQM8ktHFNk8GLAJb8Kjr9Dq+vd84c+WX
+ L6CN7Vt0WYe7cfK/kqqEW8R7+iMUpbHwDQJ+7lo+aLFznTzQ3guyOP5vzlpUk32G9nUaKkAPznQ
+ c8nGiYV22lhU2t9AwToESXlUvyuUlpMDFzKIF/W/SzqR1HMr6SALeYwLx26wVmIzIVFXKNQYMdN
+ 5dDyjVc=
+X-Google-Smtp-Source: AGHT+IE+5BVERtvEj0uFGUNd3NBBPkGat0lwCNqupmyw0FAX2xvKE0cJmTowKcGod/Hmj9SrgliLyA==
+X-Received: by 2002:a05:6a20:a11f:b0:1e0:c0fa:e088 with SMTP id
+ adf61e73a8af0-1e5b4810ff0mr7532504637.18.1734575715510; 
+ Wed, 18 Dec 2024 18:35:15 -0800 (PST)
 Received: from localhost.localdomain ([180.159.118.224])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-842b821da83sm142163a12.40.2024.12.18.18.35.06
+ 41be03b00d2f7-842b821da83sm142163a12.40.2024.12.18.18.35.11
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Wed, 18 Dec 2024 18:35:10 -0800 (PST)
+ Wed, 18 Dec 2024 18:35:15 -0800 (PST)
 From: Yafang Shao <laoar.shao@gmail.com>
 To: akpm@linux-foundation.org
 Cc: torvalds@linux-foundation.org, pmladek@suse.com, kvalo@kernel.org,
@@ -73,13 +73,12 @@ Cc: torvalds@linux-foundation.org, pmladek@suse.com, kvalo@kernel.org,
  linux-wireless@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, ocfs2-devel@lists.linux.dev,
- Yafang Shao <laoar.shao@gmail.com>, Vineet Gupta <vgupta@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>
-Subject: [PATCH v2 2/5] arch: Remove get_task_comm() and print task comm
+ Yafang Shao <laoar.shao@gmail.com>,
+ Johannes Berg <johannes@sipsolutions.net>
+Subject: [PATCH v2 3/5] net: Remove get_task_comm() and print task comm
  directly
-Date: Thu, 19 Dec 2024 10:34:49 +0800
-Message-Id: <20241219023452.69907-3-laoar.shao@gmail.com>
+Date: Thu, 19 Dec 2024 10:34:50 +0800
+Message-Id: <20241219023452.69907-4-laoar.shao@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20241219023452.69907-1-laoar.shao@gmail.com>
 References: <20241219023452.69907-1-laoar.shao@gmail.com>
@@ -105,58 +104,26 @@ directly without the need to copy it into a separate buffer. This
 simplifies the code and avoids unnecessary operations.
 
 Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: Vineet Gupta <vgupta@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Johannes Berg <johannes@sipsolutions.net>
 ---
- arch/arc/kernel/unaligned.c | 5 ++---
- arch/x86/kernel/vm86_32.c   | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ net/wireless/wext-core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/arch/arc/kernel/unaligned.c b/arch/arc/kernel/unaligned.c
-index d2f5ceaaed1b..3b2d8b1bd271 100644
---- a/arch/arc/kernel/unaligned.c
-+++ b/arch/arc/kernel/unaligned.c
-@@ -200,7 +200,6 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
- 		     struct callee_regs *cregs)
+diff --git a/net/wireless/wext-core.c b/net/wireless/wext-core.c
+index 3bb04b05c5ce..bea70eb6f034 100644
+--- a/net/wireless/wext-core.c
++++ b/net/wireless/wext-core.c
+@@ -640,10 +640,8 @@ EXPORT_SYMBOL(wireless_send_event);
+ #ifdef CONFIG_CFG80211_WEXT
+ static void wireless_warn_cfg80211_wext(void)
  {
- 	struct disasm_state state;
--	char buf[TASK_COMM_LEN];
- 
- 	/* handle user mode only and only if enabled by sysadmin */
- 	if (!user_mode(regs) || !unaligned_enabled)
-@@ -212,11 +211,11 @@ int misaligned_fixup(unsigned long address, struct pt_regs *regs,
- 			     " performance significantly\n. To enable further"
- 			     " logging of such instances, please \n"
- 			     " echo 0 > /proc/sys/kernel/ignore-unaligned-usertrap\n",
--			     get_task_comm(buf, current), task_pid_nr(current));
-+			     current->comm, task_pid_nr(current));
- 	} else {
- 		/* Add rate limiting if it gets down to it */
- 		pr_warn("%s(%d): unaligned access to/from 0x%lx by PC: 0x%lx\n",
--			get_task_comm(buf, current), task_pid_nr(current),
-+			current->comm, task_pid_nr(current),
- 			address, regs->ret);
- 
- 	}
-diff --git a/arch/x86/kernel/vm86_32.c b/arch/x86/kernel/vm86_32.c
-index e9e803a4d44c..e6cc84143f3e 100644
---- a/arch/x86/kernel/vm86_32.c
-+++ b/arch/x86/kernel/vm86_32.c
-@@ -246,9 +246,8 @@ static long do_sys_vm86(struct vm86plus_struct __user *user_vm86, bool plus)
- 
- 	/* VM86_SCREEN_BITMAP had numerous bugs and appears to have no users. */
- 	if (v.flags & VM86_SCREEN_BITMAP) {
--		char comm[TASK_COMM_LEN];
+-	char name[sizeof(current->comm)];
 -
--		pr_info_once("vm86: '%s' uses VM86_SCREEN_BITMAP, which is no longer supported\n", get_task_comm(comm, current));
-+		pr_info_once("vm86: '%s' uses VM86_SCREEN_BITMAP, which is no longer supported\n",
-+			     current->comm);
- 		return -EINVAL;
- 	}
+ 	pr_warn_once("warning: `%s' uses wireless extensions which will stop working for Wi-Fi 7 hardware; use nl80211\n",
+-		     get_task_comm(name, current));
++		     current->comm);
+ }
+ #endif
  
 -- 
 2.43.5
