@@ -2,33 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63D29F79E3
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 11:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017489F79E0
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 11:54:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDDA10E0AB;
-	Thu, 19 Dec 2024 10:54:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD5E110E03F;
+	Thu, 19 Dec 2024 10:54:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BKQJ395a";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.steuer-voss.de (mail.steuer-voss.de [85.183.69.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2472110E0AB
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 10:54:41 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.steuer-voss.de
-Received: by mail.steuer-voss.de (Postfix, from userid 1000)
- id 4AE0D1201; Thu, 19 Dec 2024 11:54:16 +0100 (CET)
-From: Nikolaus Voss <nv@vosn.de>
-Date: Thur, 19 Dec 2024 11:54:01 +0100
-Subject: [PATCH v4] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Fabio Estevam <festevam@denx.de>, Marek Vasut <marex@denx.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- miquel.raynal@bootlin.com, nikolaus.voss@haag-streit.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-Id: <20241219105416.4AE0D1201@mail.steuer-voss.de>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [IPv6:2a01:4f8:201:9162::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD35510E03F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 10:54:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734605654;
+ bh=6DnBAetO0n/Dt6GuKQiaQjG4sHkyUy/qLhkhpG6lREU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BKQJ395aphVnmIKWFGKR7MYowS/uaeNkIdyc3+FbEH+RDwQ2n8YzBZKSniaLpT3td
+ lBImymLI0EVILte+Nh3YXqhHNjbehfrVQ9JTAhQEsNufY2SS0CzqLMV6yHK9z59D0q
+ pDmeqzq7MN3BZael32voW88hN8cWgX1e/IaHsPWBwEExo4T/puTKRwHEZEymzxvwqQ
+ hO3pnzTH9U3pUInPhMHC2LcG8XfbVB/I0ibVKxUFDqKzYtoj4Y0ZZfaMO6LuKMiqPU
+ /hTDVv3Ux3whEJ7iYvW4X+A2w4F05h8eUX3Q8va7rzzaeNUOblc+6wxMlzj5iRVdrc
+ WRiGPms7XSrDw==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 31D5617E3612;
+ Thu, 19 Dec 2024 11:54:13 +0100 (CET)
+Message-ID: <9a75e88c-d90d-4ea8-b5c3-6d056d4f0498@collabora.com>
+Date: Thu, 19 Dec 2024 11:54:12 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/33] dt-bindings: display: mediatek: Add binding for
+ MT8195 HDMI-TX v2
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, matthias.bgg@gmail.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+ dmitry.baryshkov@linaro.org
+References: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
+ <20241217154345.276919-8-angelogioacchino.delregno@collabora.com>
+ <rsnyljmkdf7i74bkrlf5nesp2sa3n6xcnzsqao4znmczjpfyq2@dsakz56s4ypt>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <rsnyljmkdf7i74bkrlf5nesp2sa3n6xcnzsqao4znmczjpfyq2@dsakz56s4ypt>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,106 +72,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-LDB clock has to be a fixed multiple of the pixel clock.
-Although LDB and pixel clock have a common source, this
-constraint cannot be satisfied for any pixel clock at a
-fixed source clock.
+Il 18/12/24 09:20, Krzysztof Kozlowski ha scritto:
+> On Tue, Dec 17, 2024 at 04:43:19PM +0100, AngeloGioacchino Del Regno wrote:
+>> +  i2c:
+>> +    type: object
+>> +    $ref: /schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+>> +    unevaluatedProperties: false
+>> +    description: HDMI DDC I2C controller
+>> +
+>> +  phys:
+>> +    maxItems: 1
+>> +    description: PHY providing clocking TMDS and pixel to controller
+>> +
+>> +  phy-names:
+>> +    items:
+>> +      - const: hdmi
+>> +
+>> +  pinctrl-0: true
+>> +
+>> +  pinctrl-names:
+>> +    items:
+>> +      - const: default
+> 
+> Drop both pinctrl entries.
+> 
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  '#sound-dai-cells':
+>> +    const: 1
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          Input port, usually connected to the output port of a DPI
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description:
+>> +          Output port that must be connected either to the input port of
+>> +          a HDMI connector node containing a ddc-i2c-bus, or to the input
+>> +          port of an attached bridge chip, such as a SlimPort transmitter.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+> 
+> Please keep the same order of things here and in main properties
+> section.
+> 
+>> +  - interrupts
+>> +  - power-domains
+>> +  - phys
+>> +  - phy-names
+>> +  - ports
+>> +
+> 
+> You need allOf: with ref to dai-common.yaml.
+> 
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/mt8195-clk.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/power/mt8195-power.h>
+>> +
+>> +    soc {
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        hdmi-tx@1c300000 {
+> 
+> hdmi@
+> 
+> Best regards,
+> Krzysztof
+> 
 
-Violating this constraint leads to flickering and distorted
-lines on the attached display.
+Thanks for the great review krzk.
 
-To overcome this, there are these approches:
+I was wondering if it'd be more straightforward to just send the bindings in a
+different series, instead of sending another batch of 33 (actually, 34, because
+I forgot one commit adding the DDC binding, ugh!) patches...
 
-1. Modify the base PLL clock statically by changing the
-   device tree, implies calculating the PLL clock by
-   hand, e.g. commit 4fbb73416b10 ("arm64: dts:
-   imx8mp-phyboard-pollux: Set Video PLL1 frequency to 506.8 MHz")
+CK, any objections?
 
-2. Walk down the clock tree and modify the source clock.
-   Proposed patch series by Miquel Raynal:
-   [PATCH 0/5] clk: Fix simple video pipelines on i.MX8
-
-3. This patch: check constraint violation in
-   drm_bridge_funcs.atomic_check() and adapt the pixel
-   clock in drm_display_mode.adjusted_mode accordingly.
-
-Fixes: 463db5c2ed4a ("drm: bridge: ldb: Implement simple Freescale i.MX8MP LDB bridge")
-Cc: <stable@vger.kernel.org> # 6.12.x, 6.6.x
-Signed-off-by: Nikolaus Voss <nv@vosn.de>
-
----
-v2:
-- use .atomic_check() instead of .mode_fixup() (Dmitry Baryshkov)
-- add Fixes tag (Liu Ying)
-- use fsl_ldb_link_frequency() and drop const qualifier for
-  struct fsl_ldb* (Liu Ying)
-
-v3:
-- fix kernel test robot warning: fsl-ldb.c:125:30:
-  warning: omitting the parameter name in a function definition
-  is a C23 extension [-Wc23-extensions]
-- fix/rephrase commit text due to discussion with Marek Vasut,
-  Liu Ying and Miquel Raynal
-- only calculate and set pixel clock if ldb is not already
-  configured to the matching frequency
-
-v4:
-- handle mode changes correctly: recalculate pixel clock when
-  mode changes occur
-- tested on 6.12.x and 6.6.x stable branches
-
- drivers/gpu/drm/bridge/fsl-ldb.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/gpu/drm/bridge/fsl-ldb.c b/drivers/gpu/drm/bridge/fsl-ldb.c
-index 0e4bac7dd04ff..97ca522556718 100644
---- a/drivers/gpu/drm/bridge/fsl-ldb.c
-+++ b/drivers/gpu/drm/bridge/fsl-ldb.c
-@@ -121,6 +121,36 @@ static int fsl_ldb_attach(struct drm_bridge *bridge,
- 				 bridge, flags);
- }
- 
-+static int fsl_ldb_atomic_check(struct drm_bridge *bridge,
-+				struct drm_bridge_state *bridge_state,
-+				struct drm_crtc_state *crtc_state,
-+				struct drm_connector_state *connector_state)
-+{
-+	struct fsl_ldb *fsl_ldb = to_fsl_ldb(bridge);
-+	const struct drm_display_mode *mode = &crtc_state->mode;
-+	unsigned long requested_freq =
-+		fsl_ldb_link_frequency(fsl_ldb, mode->clock);
-+	unsigned long freq = clk_round_rate(fsl_ldb->clk, requested_freq);
-+
-+	if (crtc_state->mode_changed && (freq != requested_freq)) {
-+		/*
-+		 * this will lead to flicker and incomplete lines on
-+		 * the attached display, adjust the CRTC clock
-+		 * accordingly.
-+		 */
-+		struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
-+		int pclk = freq / fsl_ldb_link_frequency(fsl_ldb, 1);
-+
-+		dev_warn(fsl_ldb->dev, "Adjusted pixel clk to match LDB clk (%d kHz -> %d kHz)!\n",
-+			 adjusted_mode->clock, pclk);
-+
-+		adjusted_mode->clock = pclk;
-+		adjusted_mode->crtc_clock = pclk;
-+	}
-+
-+	return 0;
-+}
-+
- static void fsl_ldb_atomic_enable(struct drm_bridge *bridge,
- 				  struct drm_bridge_state *old_bridge_state)
- {
-@@ -280,6 +310,7 @@ fsl_ldb_mode_valid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs funcs = {
- 	.attach = fsl_ldb_attach,
-+	.atomic_check = fsl_ldb_atomic_check,
- 	.atomic_enable = fsl_ldb_atomic_enable,
- 	.atomic_disable = fsl_ldb_atomic_disable,
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
--- 
-2.43.0
-
+Cheers,
+Angelo
