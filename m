@@ -2,44 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CFC9F7BF4
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 14:06:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95119F7CD2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 15:08:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE34610E085;
-	Thu, 19 Dec 2024 13:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 883BB10E31B;
+	Thu, 19 Dec 2024 14:08:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PB6Q5Jgm";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D636010E085
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 13:06:36 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8FD1A1758
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 05:07:04 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4B2E73F528
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 05:06:36 -0800 (PST)
-Date: Thu, 19 Dec 2024 13:06:26 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: =?utf-8?B?QWRyacOhbiBNYXJ0w61uZXo=?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Mihail Atanassov <mihail.atanassov@arm.com>;
-Subject: Re: [PATCH v5 2/2] Documentation/gpu: Add fdinfo meanings of
- drm-*-internal memory tags
-Message-ID: <Z2QaUjCrgT3FkCjD@e110455-lin.cambridge.arm.com>
-References: <20241218181844.886043-1-adrian.larumbe@collabora.com>
- <20241218181844.886043-3-adrian.larumbe@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40F4510E22A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 14:08:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734617306; x=1766153306;
+ h=date:from:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=c7D41ZzagNhqWWNZmCWnkgbrWY21o93XuI9h6+fDFlY=;
+ b=PB6Q5JgmZCacFRx9ZrJMcKUqVIqAWNNYa6pkk8sJYu2eF1iMvzZkBQBn
+ p5Lfe0Z5icnGmmQx1KBeF8YT8UxZlSqhRm+GkufLQXdvtb2BkH/n6AZg6
+ vtCrP5riJINoRcv76yHq/nqtVO16fEAtYzEDUH8pqePZJ3+YLDZcGX6pv
+ ebFgcFXjBnC7QNjZRJLy5JWK2Z/hqxKGF6cXqDdN8VAD6n32EiEd7RhM5
+ yeKCTl40sDEvAXh8kg5q3MH1vwgIYoF+DT/DuoHRNh7gPKURb+wnu9GEL
+ uGSb56QZKEd1zt0siQ2aLjzHSkyKNZ6fgTMOUHzfKi1TIRWPTmOcBdZG5 A==;
+X-CSE-ConnectionGUID: hGzu+b+sS/Ol2abOIlIfkA==
+X-CSE-MsgGUID: xe0e9GgWToupWCqysxUDGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45725111"
+X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; d="scan'208";a="45725111"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2024 06:08:25 -0800
+X-CSE-ConnectionGUID: maLhaODsQK20okSYH5k8dQ==
+X-CSE-MsgGUID: KEG5wSuUQqamjpXHiNQyeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,247,1728975600"; d="scan'208";a="98262780"
+Received: from eliteleevi.tm.intel.com ([10.237.54.20])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2024 06:08:23 -0800
+Date: Thu, 19 Dec 2024 16:00:08 +0200 (EET)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+X-X-Sender: kvehmane@eliteleevi.tm.intel.com
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+cc: Takashi Iwai <tiwai@suse.de>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Alsa-devel <alsa-devel@alsa-project.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Chris Wilson <chris@chris-wilson.co.uk>, 
+ Maarten Lankhorst <dev@lankhorst.se>, dri-devel@lists.freedesktop.org
+Subject: Re: hda: how to implement component master_unbind?
+In-Reply-To: <itxamqrgaiukl3u63zz73brvqpfr6kjdwifrvx7ntjvzdewrlb@miy5fjm4v7ds>
+Message-ID: <alpine.DEB.2.22.394.2412191343280.14041@eliteleevi.tm.intel.com>
+References: <alpine.DEB.2.22.394.2109221456080.3554566@eliteleevi.tm.intel.com>
+ <s5ha6jxnekp.wl-tiwai@suse.de>
+ <itxamqrgaiukl3u63zz73brvqpfr6kjdwifrvx7ntjvzdewrlb@miy5fjm4v7ds>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241218181844.886043-3-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=US-ASCII
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,66 +76,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2024 at 02:18:42AM +0800, Adrián Martínez Larumbe wrote:
-> From: Adrián Larumbe <adrian.larumbe@collabora.com>
-> 
-> A previous commit enabled display of driver-internal kernel BO sizes
-> through the device file's fdinfo interface.
-> 
-> Expand the description of the relevant driver-specific key:value pairs
-> with the definitions of the new drm-*-internal ones.
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
+Hi,
 
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+On Fri, 13 Dec 2024, Lucas De Marchi wrote:
 
-Best regards,
-Liviu
+> Thanks Kai to pointing me to this thread, trying to revive it.
+> Also adding dri-devel as it may be relevant there and Maarten who worked
+> on the xe integration recently
 
-> ---
->  Documentation/gpu/panthor.rst | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+ack, given fresh wave of bugs this year (even if these are all (?) bugs 
+triggered in test configurations), probably warrants another look.
+
+[1) prevent/block the unbind if audio device is busy]
+> and there's no way to block unbind from the pci level neither, so this
+> is not really possible. There's nothing blocking someone to unplug the
+> card if it's on a hotplug-capable bus and/or someone calling
 > 
-> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
-> index 3f8979fa2b86..23aa3d67c9d2 100644
-> --- a/Documentation/gpu/panthor.rst
-> +++ b/Documentation/gpu/panthor.rst
-> @@ -26,6 +26,10 @@ the currently possible format options:
->       drm-cycles-panthor:     94439687187
->       drm-maxfreq-panthor:    1000000000 Hz
->       drm-curfreq-panthor:    1000000000 Hz
-> +     drm-total-internal:     10396 KiB
-> +     drm-shared-internal:    0
-> +     drm-active-internal:    10396 KiB
-> +     drm-resident-internal:  10396 KiB
->       drm-total-memory:       16480 KiB
->       drm-shared-memory:      0
->       drm-active-memory:      16200 KiB
-> @@ -44,3 +48,13 @@ driver by writing into the appropriate sysfs node::
->  
->  Where `N` is a bit mask where cycle and timestamp sampling are respectively
->  enabled by the first and second bits.
-> +
-> +Possible `drm-*-internal` keys are: `total`, `active`, `resident` and `shared`.
-> +These values convey the sizes of the internal driver-owned shmem BO's that
-> +aren't exposed to user-space through a DRM handle, like queue ring buffers,
-> +sync object arrays and heap chunks. Because they are all allocated and pinned
-> +at creation time, `drm-resident-internal` and `drm-total-internal` should always
-> +be equal. `drm-active-internal` shows the size of kernel BO's associated with
-> +VM's and groups currently being scheduled for execution by the GPU.
-> +`drm-shared-internal` is unused at present, but in the future it might stand for
-> +the size of executable FW regions, since they do not belong to an open file context.
-> -- 
-> 2.47.0
+> 	# echo 0000:00:02.0 > /sys/module/xe/drivers/pci:xe/unbind
 > 
+> to tell the module to unbind from the device. If that involves multiple
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Ack, I think we can put this option to rest. 
+
+[unbind the ALSA card]
+> yeah, since it depends on the i915/xe side to power up the display
+> engine, I think handling that esssentially the same as a hotplug would
+> be ideal
+[...]
+> I'm not yet very familar with the sound side and checking if something changed
+> from when this thread started: for cards that can't work without the
+> other component, would it be hard to escalate that event to handle it
+> the same as a hotplug? Because from this thread it seems usb/pci hotplug
+> is already available.
+
+I don't think much has changed. I think this is (still) a doable option, 
+but just requires effort put in (which so far has not happened). I think 
+the problem can be roughly divided in two categories:
+
+1) discrete graphics - controller on discrete PCI device
+
+Here the problem is more acute (as may affect register accesses done from 
+audio driver), but potentially also easier to fix. There is a single 
+driver (snd-hda-intel) to handle this case in ALSA and the sound card 
+created only exposes the HDMI/DP PCMs, so if graphics side unbinds, 
+disconnecting the ALSA card seems ok as well. The open I have is how do we 
+recreate the ALSA card. Audio driver probe is triggered by attach of the 
+PCI device, but here the PCI device is not unplugged, just unbound by one 
+of the drivers. But doesn't sound like a unique problem to audio, so I'm 
+sure there's some example solution to follow.
+
+2) integrated display codecs
+
+The regular laptop case is a bit more iffy as there are more audio drivers 
+using the display codec driver stack (each need support), and in most 
+cases, the ALSA card is a mix of HDMI/DP but also internal codec and 
+speaker PCMs. If we use the card disconnect infra in ALSA (i.e. same infra 
+as USB hotplug), this means display unbind will not just disconnect the 
+HDMI/DP PCM device, but alsl the interal audio codec and speakers. And 
+there's a bigger issue how we reenumerate the full card again.
+
+I think the longterm solution is to move the HDMI/DP PCMs to their own 
+ALSA card. We in fact some work going on to this direction in the SOF 
+driver, but it's far from complete, and we are not sure whether we can 
+change the existing platforms to use this approach (as changing the card 
+topologies will be visible to user-space as well and potentially break
+stuff).
+
+I did file a bug to track this in SOF 
+https://github.com/thesofproject/linux/issues/5276 .
+
+Br, Kai
