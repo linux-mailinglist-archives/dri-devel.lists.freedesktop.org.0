@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F8E9F76B5
+	by mail.lfdr.de (Postfix) with ESMTPS id ECABE9F76B6
 	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:06:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A21C10ECC0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFB4A10ECBD;
 	Thu, 19 Dec 2024 08:06:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Dto21Bsc";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="PbC2+UZ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3277.qiye.163.com (mail-m3277.qiye.163.com
- [220.197.32.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C86D10ECBD
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:06:41 +0000 (UTC)
+Received: from mail-m1973193.qiye.163.com (mail-m1973193.qiye.163.com
+ [220.197.31.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD8910ECBD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:06:43 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 633dd674;
- Thu, 19 Dec 2024 16:06:37 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 633dd684;
+ Thu, 19 Dec 2024 16:06:39 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: heiko@sntech.de
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
@@ -29,28 +29,28 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v3 09/15] drm/bridge: analogix_dp: Add support to get panel
- from the DP AUX bus
-Date: Thu, 19 Dec 2024 16:05:58 +0800
-Message-Id: <20241219080604.1423600-10-damon.ding@rock-chips.com>
+Subject: [PATCH v3 10/15] dt-bindings: display: rockchip: analogix-dp: Add
+ support to get panel from the DP AUX bus
+Date: Thu, 19 Dec 2024 16:05:59 +0800
+Message-Id: <20241219080604.1423600-11-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241219080604.1423600-1-damon.ding@rock-chips.com>
 References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk8ZGFZNSUpDTR0eTB1JS0lWFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk4dQlYdTExJSE9JT0oYS05WFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
  NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a93ddf454c003a3kunm633dd674
+X-HM-Tid: 0a93ddf45b8603a3kunm633dd684
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6K1E6CSo5CTISCBUMTDkeDDoz
- TTUKFB5VSlVKTEhPTkJOTkJCSklKVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJS0pINwY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MRw6PDo5STIWPhU6HzkDDB86
+ AxhPCyFVSlVKTEhPTkJOTUtLQkhLVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFDQks3Bg++
 DKIM-Signature: a=rsa-sha256;
- b=Dto21BscgW0101JfwaimT5Svfhl2CPBIYvaS6Fky4ktCusr5eblGNzB/q0xXOuzouQdDnqOYyFNK7F55dxp9SOOD9gsnLh/O+NAHxkGCN3rrzWlVUxg7WrrvrRGZHh4zAy57FQCJR6Byv4ixaVHYNcc1cnI/wElgXIuIOcyTFNA=;
+ b=PbC2+UZ5ue2tIuXkb1z3GNOb7tfnQf9ktP+fPC6SE6KZjNO/Ghxtohp7/N8ugEPwVn2zbJR4TFRSTb0DxAvnbV1hM45nqXJ/a3BUGR5Lzao5onqN8RwgcRw1aCpMFDveunOOfCPHsuPfPnRd011VXamn69fqC5lianD9MC+UIhs=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=ls2SQ381Ul5xwwUhCAde3y5OqsDlvqQOV6lShYVjzW0=;
+ bh=jdZLRbj5Qu9T/Yq8V2XQTDpxqJDXZsuKPPN9ZHB0moQ=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,59 +67,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the panel can not be found in the beginning of rockchip_dp_probe()
-using the platform bus, we can still try to find it in analogix_dp_bind()
-through the DP AUX bus after the &analogix_dp_device.aux has been
-initialized.
+According to Documentation/devicetree/bindings/display/dp-aux-bus.yaml,
+it is a good way to get panel through the DP AUX bus.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 ---
- .../drm/bridge/analogix/analogix_dp_core.c    | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ .../bindings/display/rockchip/rockchip,analogix-dp.yaml        | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 9429c50cc1bc..eae02819e3bb 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -19,12 +19,14 @@
- #include <linux/platform_device.h>
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+index 4f84e8849876..c45d92a2d901 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+@@ -49,6 +49,9 @@ properties:
+     description:
+       This SoC makes use of GRF regs.
  
- #include <drm/bridge/analogix_dp.h>
-+#include <drm/display/drm_dp_aux_bus.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_edid.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-@@ -1733,6 +1735,23 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
- 		goto err_disable_pm_runtime;
- 	}
- 
-+	if (!dp->plat_data->panel) {
-+		/*
-+		 * If the edp-panel module has not yet been initialized, the
-+		 * devm_of_dp_aux_populate_bus() function will return 0 and
-+		 * the done_probing() callback will not be called either.
-+		 * Consequently, the panel will never be found.
-+		 *
-+		 * This is the reason why we do not use the done_probing()
-+		 * callback and do not check the reture value here.
-+		 */
-+		devm_of_dp_aux_populate_bus(&dp->aux, NULL);
-+		ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 1, 0,
-+						  &dp->plat_data->panel, NULL);
-+		if (ret)
-+			goto err_unregister_aux;
-+	}
++  aux-bus:
++    $ref: /schemas/display/dp-aux-bus.yaml#
 +
- 	ret = analogix_dp_create_bridge(drm_dev, dp);
- 	if (ret) {
- 		DRM_ERROR("failed to create bridge (%d)\n", ret);
+ required:
+   - compatible
+   - clocks
 -- 
 2.34.1
 
