@@ -1,43 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B01C9F773D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:28:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB979F778E
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:38:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A84610E274;
-	Thu, 19 Dec 2024 08:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2FD10E29E;
+	Thu, 19 Dec 2024 08:38:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PFfIWyK6";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0904A10E60D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:28:08 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 880A610E29E
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:38:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2C04F5C6633;
- Thu, 19 Dec 2024 08:27:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446BCC4CECE;
- Thu, 19 Dec 2024 08:28:05 +0000 (UTC)
-Date: Thu, 19 Dec 2024 09:28:03 +0100
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- l.stach@pengutronix.de, 
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ by nyc.source.kernel.org (Postfix) with ESMTP id DBABAA41F59;
+ Thu, 19 Dec 2024 08:36:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA01C4CECE;
+ Thu, 19 Dec 2024 08:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734597526;
+ bh=z973hMVDazsCaCVq8CENGRtlOUvc9ByRfPeM4Ms7dU0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PFfIWyK61aTMR54PQitKrC2N0LdJnnRc9g/5O97Q2QYgZuPDulZXoqcwcO0IlnNLh
+ TYDzDy2UD3Y68bObfHSnA3lC9/76U8eKKTgALWeU/Kbws9yxPKEy69eRz+JTbGclw+
+ FbTY+dDeSyqllmVgCWuS+GD/U/8j37bRPvROwG4ay/3R2uDoRpb2n+d5BAEpuP/TJj
+ Ie3pwJbpc0O7+DQsW2bmEpiu1cXDIMOq/ayX6Bhjqvz5NPFVO525izpn0AV+7EvELL
+ UcnH5t3nuA/LTsr207BNNHzb7NwK90S58hjjFHRUbETCt3qr2YoWdpGN1j3ghmJ92B
+ K6ztB/94y6/Og==
+Date: Thu, 19 Dec 2024 09:38:42 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Eric Anholt <eric@anholt.net>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>, 
+ Stefan Wahren <wahrenst@gmx.net>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v3 02/15] dt-bindings: display: rockchip: analogix-dp:
- Add support for RK3588
-Message-ID: <tdhs45ac2ivdke7idrzxrhlgsqlnswkb2maorau3guzrrwpce3@emdq7xx6cpwz>
-References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
- <20241219080604.1423600-3-damon.ding@rock-chips.com>
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>, 
+ linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: bcm2711-hdmi: Add interrupt
+ details for BCM2712
+Message-ID: <7sgvdwyu2o7kli4eslg6o4mmzystoszrd6srw5pp6ikrmgq5ox@bvjz7j4d7v3l>
+References: <20241218-dt-bcm2712-fixes-v4-0-54cc88b6c229@raspberrypi.com>
+ <20241218-dt-bcm2712-fixes-v4-1-54cc88b6c229@raspberrypi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241219080604.1423600-3-damon.ding@rock-chips.com>
+In-Reply-To: <20241218-dt-bcm2712-fixes-v4-1-54cc88b6c229@raspberrypi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,79 +76,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2024 at 04:05:51PM +0800, Damon Ding wrote:
-> Compared with RK3288/RK3399, the HBR2 link rate support is the main
-> improvement of RK3588 eDP TX controller, and there are also two
-> independent eDP display interfaces on RK3588 Soc.
+On Wed, Dec 18, 2024 at 02:48:32PM +0000, Dave Stevenson wrote:
+> Commit 62948c62abca ("dt-bindings: display: Add BCM2712 HDMI bindings")
+> added the compatible strings for BCM2712, but missed out that the
+> number of interrupts changed.
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Drop, patch was very different.
-
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> Update the schema to include the interrupt requirements.
 > 
+> Fixes: 62948c62abca ("dt-bindings: display: Add BCM2712 HDMI bindings")
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > ---
+>  .../bindings/display/brcm,bcm2711-hdmi.yaml        | 81 ++++++++++++++++++----
+>  1 file changed, 67 insertions(+), 14 deletions(-)
 > 
-> Changes in v2:
-> - Add the main defferences of the RK3588 eDP and the previous versions
->   in commit message
-> 
-> Changes in v3:
-> - expand the property clock-names, resets and reset-names
-
-Adding new properties invalidates reviews. The patch is entirely, really
-significantly different so keeping the review is not acceptable.
-
-> ---
->  .../display/rockchip/rockchip,analogix-dp.yaml     | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-> index 60dedf9b2be7..4f84e8849876 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-> @@ -15,6 +15,7 @@ properties:
->      enum:
->        - rockchip,rk3288-dp
->        - rockchip,rk3399-edp
-> +      - rockchip,rk3588-edp
+> diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> index 6d11f5955b51..83c058728ef1 100644
+> --- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> +++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+> @@ -56,22 +56,12 @@ properties:
+>        - const: cec
 >  
->    clocks:
->      minItems: 2
-> @@ -25,16 +26,23 @@ properties:
->      items:
->        - const: dp
->        - const: pclk
-> -      - const: grf
-> +      - enum:
-> +          - grf
-> +          - spdif
-
-No, this cannot be flexible for existing variants.
-
+>    interrupts:
+> -    items:
+> -      - description: CEC TX interrupt
+> -      - description: CEC RX interrupt
+> -      - description: CEC stuck at low interrupt
+> -      - description: Wake-up interrupt
+> -      - description: Hotplug connected interrupt
+> -      - description: Hotplug removed interrupt
+> +    minItems: 5
+> +    maxItems: 6
 >  
->    power-domains:
->      maxItems: 1
+>    interrupt-names:
+> -    items:
+> -      - const: cec-tx
+> -      - const: cec-rx
+> -      - const: cec-low
+> -      - const: wakeup
+> -      - const: hpd-connected
+> -      - const: hpd-removed
+> +    minItems: 5
+> +    maxItems: 6
 >  
->    resets:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
-
-No, you must list the items.
-
+>    ddc:
+>      $ref: /schemas/types.yaml#/definitions/phandle
+> @@ -112,6 +102,66 @@ required:
 >  
->    reset-names:
-> -    const: dp
-> +    minItems: 1
-> +    items:
-> +      - const: dp
-> +      - enum:
-> +          - apb
+>  additionalProperties: false
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - brcm,bcm2711-hdmi0
+> +              - brcm,bcm2711-hdmi1
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          items:
+> +            - description: CEC TX interrupt
+> +            - description: CEC RX interrupt
+> +            - description: CEC stuck at low interrupt
+> +            - description: Wake-up interrupt
+> +            - description: Hotplug connected interrupt
+> +            - description: Hotplug removed interrupt
+> +        interrupt-names:
+> +          items:
+> +            - const: cec-tx
+> +            - const: cec-rx
+> +            - const: cec-low
+> +            - const: wakeup
+> +            - const: hpd-connected
+> +            - const: hpd-removed
+> +
+> +
 
-I don't understand what happened here but all this is NAK. Why suddenly
-existing variants became different/changed? Nothing in commit msg
+Only one blank line
+
+> +      required:
+> +        - interrupts
+> +        - interrupt-names
+
+But anyway this is unusual. Why this was added? Nothing in commit msg
 explains this.
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - brcm,bcm2712-hdmi0
+> +              - brcm,bcm2712-hdmi1
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          items:
+> +            - description: CEC TX interrupt
+> +            - description: CEC RX interrupt
+> +            - description: CEC stuck at low interrupt
+> +            - description: Hotplug connected interrupt
+> +            - description: Hotplug removed interrupt
+> +        interrupts-names:
+> +          items:
+> +            - const: cec-tx
+> +            - const: cec-rx
+> +            - const: cec-low
+> +            - const: hpd-connected
+> +            - const: hpd-removed
+> +
+> +      required:
+> +        - interrupts
+> +        - interrupt-names
+
+Same question.
+
+> +
+>  examples:
+>    - |
+>      hdmi0: hdmi@7ef00700 {
+> @@ -136,6 +186,9 @@ examples:
+>                      "hd";
+>          clocks = <&firmware_clocks 13>, <&firmware_clocks 14>, <&dvp 1>, <&clk_27MHz>;
+>          clock-names = "hdmi", "bvb", "audio", "cec";
+> +        interrupts = <0>, <1>, <2>, <3>, <4>, <5>;
+> +        interrupt-names = "cec-tx", "cec-rx", "cec-low", "wakeup",
+> +                "hpd-connected", "hpd-removed";
+
+Fix alignment with opening " from earlier line (see DTS coding style).
 
 Best regards,
 Krzysztof
