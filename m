@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECABE9F76B6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:06:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD6F9F76B7
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB4A10ECBD;
-	Thu, 19 Dec 2024 08:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367F810ECC1;
+	Thu, 19 Dec 2024 08:06:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="PbC2+UZ5";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Jw24EbCu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m1973193.qiye.163.com (mail-m1973193.qiye.163.com
- [220.197.31.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD8910ECBD
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:06:43 +0000 (UTC)
+Received: from mail-m32114.qiye.163.com (mail-m32114.qiye.163.com
+ [220.197.32.114])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9C2E10ECBD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:06:45 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 633dd684;
- Thu, 19 Dec 2024 16:06:39 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 633f41d6;
+ Thu, 19 Dec 2024 16:06:41 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: heiko@sntech.de
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
@@ -29,28 +29,28 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v3 10/15] dt-bindings: display: rockchip: analogix-dp: Add
- support to get panel from the DP AUX bus
-Date: Thu, 19 Dec 2024 16:05:59 +0800
-Message-Id: <20241219080604.1423600-11-damon.ding@rock-chips.com>
+Subject: [PATCH v3 11/15] dt-bindings: display: rockchip: Fix label name of
+ hdptxphy for RK3588 HDMI TX Controller
+Date: Thu, 19 Dec 2024 16:06:00 +0800
+Message-Id: <20241219080604.1423600-12-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241219080604.1423600-1-damon.ding@rock-chips.com>
 References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk4dQlYdTExJSE9JT0oYS05WFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh1ISFZPSh0ZGkJOTRpNTUlWFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
  NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a93ddf45b8603a3kunm633dd684
+X-HM-Tid: 0a93ddf4629c03a3kunm633f41d6
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MRw6PDo5STIWPhU6HzkDDB86
- AxhPCyFVSlVKTEhPTkJOTUtLQkhLVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFDQks3Bg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OjY6Hyo6QjIIEBVLHzgTDBoD
+ GTEaCzVVSlVKTEhPTkJOTUtJTUJCVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKSEtPNwY+
 DKIM-Signature: a=rsa-sha256;
- b=PbC2+UZ5ue2tIuXkb1z3GNOb7tfnQf9ktP+fPC6SE6KZjNO/Ghxtohp7/N8ugEPwVn2zbJR4TFRSTb0DxAvnbV1hM45nqXJ/a3BUGR5Lzao5onqN8RwgcRw1aCpMFDveunOOfCPHsuPfPnRd011VXamn69fqC5lianD9MC+UIhs=;
+ b=Jw24EbCuxzrULC/IulMLk3axdYC4L0nGxGa+amTLlJhbfQJs+orY8B5B1eOQDnKxu+uZK2IxokQXAXQv/1yPczUZtIImsqZAfnoxHjQqntvLnRjbN6pOCDOm66t/r3dPHVH1OY1ouksBnl3i/tGaJG9XldZJnkgs/Qb4QX88yzg=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=jdZLRbj5Qu9T/Yq8V2XQTDpxqJDXZsuKPPN9ZHB0moQ=;
+ bh=DsE1WkVNoF+Jwn/u5/eTYNhUxfmsWFSRl9E2p5GwmYk=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,28 +67,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to Documentation/devicetree/bindings/display/dp-aux-bus.yaml,
-it is a good way to get panel through the DP AUX bus.
+The hdptxphy is a combo transmit-PHY for HDMI2.1 TMDS Link, FRL Link, DP
+and eDP Link. Therefore, it is better to name it hdptxphy0 other than
+hdptxphy_hdmi0, which will be referenced by both hdmi0 and edp0 nodes.
 
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 ---
- .../bindings/display/rockchip/rockchip,analogix-dp.yaml        | 3 +++
- 1 file changed, 3 insertions(+)
+ .../bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-index 4f84e8849876..c45d92a2d901 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-@@ -49,6 +49,9 @@ properties:
-     description:
-       This SoC makes use of GRF regs.
- 
-+  aux-bus:
-+    $ref: /schemas/display/dp-aux-bus.yaml#
-+
- required:
-   - compatible
-   - clocks
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+index d8e761865f27..7a1ae31cc535 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
+@@ -156,7 +156,7 @@ examples:
+                      <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH 0>,
+                      <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH 0>;
+         interrupt-names = "avp", "cec", "earc", "main", "hpd";
+-        phys = <&hdptxphy_hdmi0>;
++        phys = <&hdptxphy0>;
+         power-domains = <&power RK3588_PD_VO1>;
+         resets = <&cru SRST_HDMITX0_REF>, <&cru SRST_HDMIHDP0>;
+         reset-names = "ref", "hdp";
 -- 
 2.34.1
 
