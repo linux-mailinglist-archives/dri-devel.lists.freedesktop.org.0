@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9569F76BC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:07:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EFE9F76BA
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 09:06:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4866610ECC8;
-	Thu, 19 Dec 2024 08:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0386110ECC5;
+	Thu, 19 Dec 2024 08:06:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="QcCXeYnt";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="T5qoj/nU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m12799.qiye.163.com (mail-m12799.qiye.163.com
- [115.236.127.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1D6410ECC2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:06:50 +0000 (UTC)
+Received: from mail-m11883.qiye.163.com (mail-m11883.qiye.163.com
+ [115.236.118.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B616E10ECC2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 08:06:52 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 633f41f4;
- Thu, 19 Dec 2024 16:06:46 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 633f41ff;
+ Thu, 19 Dec 2024 16:06:48 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: heiko@sntech.de
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
@@ -29,28 +29,27 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v3 14/15] arm64: dts: rockchip: Enable eDP0 display on RK3588S
- EVB1 board
-Date: Thu, 19 Dec 2024 16:06:03 +0800
-Message-Id: <20241219080604.1423600-15-damon.ding@rock-chips.com>
+Subject: [PATCH v3 15/15] arm64: dts: rockchip: Add eDP1 node for RK3588
+Date: Thu, 19 Dec 2024 16:06:04 +0800
+Message-Id: <20241219080604.1423600-16-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241219080604.1423600-1-damon.ding@rock-chips.com>
 References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxlNGVYZT0waSEkZHRlOHR1WFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0wZH1YeH09CGUkZThgZTE1WFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
  NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a93ddf4792403a3kunm633f41f4
+X-HM-Tid: 0a93ddf4808a03a3kunm633f41ff
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NQw6Exw*TjIRIhUdHz8vDBka
- SzcwFCpVSlVKTEhPTkJOTUtDTkJJVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJSk1JNwY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PAw6MBw5FDIXHBUIDzNJUVY5
+ HDQaFEtVSlVKTEhPTkJOTUpLT0NCVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJTUtNNwY+
 DKIM-Signature: a=rsa-sha256;
- b=QcCXeYnt/g2OnvNJFEktVv5pH/zvKN6LPZnKY2AhfSr7OgVg5nwvCrTXBGytHrRe8EJnx9JofT9HNJLf96cmMZ1ffyGb71xuSDZwRCCOUlGOjIuPUS+0DZW+CdoNL1n95IkRWYcA48qrdbs7yFBUgvMjedU72P5sHLSgctClcHo=;
+ b=T5qoj/nUfPFODVZdYQUhe0g63NApXTeUetqK/OcCY9upqHzf3+QgK9J1IjBk/iZ5Gf8JIrtZseVQMonBdG0gHr/kwoIztzvgKPRqW2dZcUptQkdp/AW5fMxtGkICciNuaiQNYSBd3BpywVEseACeWBMfk9OBLA0twdp01KsKyJk=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=qjeeJAHsiqDBQFfxqzbtwKog7iKBf9oYKl6SL/TvwRQ=;
+ bh=7+2fjj059heOpf+rpe3kbPL1qR7hg06xGUuoQg4x/Os=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,107 +66,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
-- Add edp-panel node
-- Set pinctrl of pwm12 for backlight
-- Enable edp0/hdptxphy0/vp2
+Add support for the eDP1 output on RK3588 SoC.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 
 ---
 
-Changes in v2:
-- Remove brightness-levels and default-brightness-level properties in
-  backlight node.
-- Add the detail DT changes to commit message.
-
 Changes in v3:
-- Use aux-bus instead of platform bus for edp-panel.
+- remove unexpected alias/hdptxphy1_grf/hdptxphy1 configurations
+- remove currently unsupported property '#sound-dai-cells'
 ---
- .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 52 +++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 49 +++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-index bc4077575beb..9547ab18e596 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-@@ -9,6 +9,7 @@
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/pinctrl/rockchip.h>
-+#include <dt-bindings/soc/rockchip,vop2.h>
- #include <dt-bindings/usb/pd.h>
- #include "rk3588s.dtsi"
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
+index 0ce0934ec6b7..ad96fe25814e 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
+@@ -67,6 +67,11 @@ u2phy1_otg: otg-port {
+ 		};
+ 	};
  
-@@ -238,6 +239,41 @@ &combphy2_psu {
- 	status = "okay";
- };
++	hdptxphy1_grf: syscon@fd5e4000 {
++		compatible = "rockchip,rk3588-hdptxphy-grf", "syscon";
++		reg = <0x0 0xfd5e4000 0x0 0x100>;
++	};
++
+ 	i2s8_8ch: i2s@fddc8000 {
+ 		compatible = "rockchip,rk3588-i2s-tdm";
+ 		reg = <0x0 0xfddc8000 0x0 0x1000>;
+@@ -135,6 +140,34 @@ i2s10_8ch: i2s@fde00000 {
+ 		status = "disabled";
+ 	};
  
-+&edp0 {
-+	force-hpd;
-+	status = "okay";
++	edp1: edp@fded0000 {
++		compatible = "rockchip,rk3588-edp";
++		reg = <0x0 0xfded0000 0x0 0x1000>;
++		clocks = <&cru CLK_EDP1_24M>, <&cru PCLK_EDP1>, <&cru CLK_EDP1_200M>;
++		clock-names = "dp", "pclk", "spdif";
++		interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH 0>;
++		phys = <&hdptxphy1>;
++		phy-names = "dp";
++		power-domains = <&power RK3588_PD_VO1>;
++		resets = <&cru SRST_EDP1_24M>, <&cru SRST_P_EDP1>;
++		reset-names = "dp", "apb";
++		rockchip,grf = <&vo1_grf>;
++		status = "disabled";
 +
-+	aux-bus {
-+		panel {
-+			compatible = "lg,lp079qx1-sp0v";
-+			backlight = <&backlight>;
-+			power-supply = <&vcc3v3_lcd_edp>;
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+			port {
-+				panel_in_edp: endpoint {
-+					remote-endpoint = <&edp_out_panel>;
-+				};
++			edp1_in: port@0 {
++				reg = <0>;
++			};
++
++			edp1_out: port@1 {
++				reg = <1>;
 +			};
 +		};
 +	};
-+};
 +
-+&edp0_in {
-+	edp0_in_vp2: endpoint {
-+		remote-endpoint = <&vp2_out_edp0>;
-+	};
-+};
-+
-+&edp0_out {
-+	edp_out_panel: endpoint {
-+		remote-endpoint = <&panel_in_edp>;
-+	};
-+};
-+
-+&hdptxphy0 {
-+	status = "okay";
-+};
-+
- &i2c3 {
- 	status = "okay";
- 
-@@ -399,6 +435,7 @@ usbc0_int: usbc0-int {
- };
- 
- &pwm12 {
-+	pinctrl-0 = <&pwm12m1_pins>;
- 	status = "okay";
- };
- 
-@@ -1168,3 +1205,18 @@ usbdp_phy0_dp_altmode_mux: endpoint@1 {
+ 	pcie3x4: pcie@fe150000 {
+ 		compatible = "rockchip,rk3588-pcie", "rockchip,rk3568-pcie";
+ 		#address-cells = <3>;
+@@ -395,6 +428,22 @@ sata-port@0 {
  		};
  	};
- };
-+
-+&vop_mmu {
-+	status = "okay";
-+};
-+
-+&vop {
-+	status = "okay";
-+};
-+
-+&vp2 {
-+	vp2_out_edp0: endpoint@ROCKCHIP_VOP2_EP_EDP0 {
-+		reg = <ROCKCHIP_VOP2_EP_EDP0>;
-+		remote-endpoint = <&edp0_in_vp2>;
+ 
++	hdptxphy1: phy@fed70000 {
++		compatible = "rockchip,rk3588-hdptx-phy";
++		reg = <0x0 0xfed70000 0x0 0x2000>;
++		clocks = <&cru CLK_USB2PHY_HDPTXRXPHY_REF>, <&cru PCLK_HDPTX1>;
++		clock-names = "ref", "apb";
++		#phy-cells = <0>;
++		resets = <&cru SRST_HDPTX1>, <&cru SRST_P_HDPTX1>,
++			 <&cru SRST_HDPTX1_INIT>, <&cru SRST_HDPTX1_CMN>,
++			 <&cru SRST_HDPTX1_LANE>, <&cru SRST_HDPTX1_ROPLL>,
++			 <&cru SRST_HDPTX1_LCPLL>;
++		reset-names = "phy", "apb", "init", "cmn", "lane", "ropll",
++			      "lcpll";
++		rockchip,grf = <&hdptxphy1_grf>;
++		status = "disabled";
 +	};
-+};
++
+ 	usbdp_phy1: phy@fed90000 {
+ 		compatible = "rockchip,rk3588-usbdp-phy";
+ 		reg = <0x0 0xfed90000 0x0 0x10000>;
 -- 
 2.34.1
 
