@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3859F7A5D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 12:27:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3359F7A9B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 12:45:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E62110E4AC;
-	Thu, 19 Dec 2024 11:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0024910E125;
+	Thu, 19 Dec 2024 11:45:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e5+nyAya";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="n/uCD5Bf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [IPv6:2a01:4f8:201:9162::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9F7E10E499
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 11:27:45 +0000 (UTC)
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0379E10E125
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 11:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1734607664;
- bh=jGr7l1XjdNoaC0hYd6vP62G59dS8Dz8DoHtLTvY76g0=;
- h=From:To:Cc:Subject:Date:From;
- b=e5+nyAyamOIu7fWUIPaXaf/Vs/tR7aquS0QbTD8itJHfrii2AAZ/gAutWBabmxe9N
- MTfRPQ1sYyFdImTI92AE7rdtnpw5jfoRf+ogq3YRUnAIIj7v18Y4eCsZkoH+WfAJP7
- aGUvEC8ygCDMu4T8BOnjtoQL5lQa5WgMfzJrBaCND0JvEIVCbQx9UghBDuCHHaekn1
- 6Z+G7sx5KY8hUIkurpFtTcTsk8mOaEv14YklKJtkBg+JIVfFHYsv6OOwMV8Ash0kao
- 3/Q/hkhtJP50sm6kQF2H9+mjBbxW8XNlbdUtwUXLDFMTWRE4vBNBKlkIfeRrwGcaH1
- uSu7h6R9BGOcA==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ s=mail; t=1734608751;
+ bh=FvKWY5Dn+EtwsvTCeNjgb22EUTjVTToaIGGtR8PVDzw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=n/uCD5Bf3PoU6OGg8Mt3+dzkqzWNGmA0X7gfQCaNW9362gD82+rSVeSPT8VXKAoQX
+ /CmHljsjP8pZZBOpK7uS7PFCWg1fqdtL7OZjAdK7eHOgJUc17F/EMPZHaNFmIp6/X3
+ E3sY/1UlqLub5xDJoPHS2lB41y7pXpvB6+yxSW46frhch1ZIurchvuXrfYCZ0hLVpK
+ cQGR3XOMrCawCFr/fpx6GUHYnD7reGTKJroLLmnrJqGxSGEBUnDFWTps3vA5EFoefD
+ 5twGdU41/o4FfA55SQReozlghVxfsfGpyjoRftbHifXJFUBPf7a1j9XT7UnobmVFif
+ dZui3XDJRaXKg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 92A8217E35FC;
- Thu, 19 Dec 2024 12:27:43 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- rex-bc.chen@mediatek.com, xinlei.lee@mediatek.com,
- shuijing.li@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com
-Subject: [PATCH] drm/mediatek: mtk_dsi: Add registers to pdata to fix
- MT8186/MT8188
-Date: Thu, 19 Dec 2024 12:27:33 +0100
-Message-ID: <20241219112733.47907-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.47.0
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9145A17E362A;
+ Thu, 19 Dec 2024 12:45:50 +0100 (CET)
+Message-ID: <ba260dd3-a487-4b80-b52b-83cf8a45be79@collabora.com>
+Date: Thu, 19 Dec 2024 12:45:49 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: mediatek: ovl: Modify rules
+ for MT8195/MT8188
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fei Shao <fshao@chromium.org>, Pin-yen Lin <treapking@chromium.org>
+References: <20241213095044.23757-1-jason-jh.lin@mediatek.com>
+ <20241213095044.23757-2-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241213095044.23757-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,109 +71,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Registers DSI_VM_CMD and DSI_SHADOW_DEBUG start at different
-addresses in both MT8186 and MT8188 compared to the older IPs.
+Il 13/12/24 10:50, Jason-JH.Lin ha scritto:
+> From: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> 
+> Modify rules for both MT8195 and MT8188.
+> Hardware capabilities include color formats and AFBC are
+> changed since MT8195, stop using the settings of MT8183.
+> 
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
 
-Add two members in struct mtk_dsi_driver_data to specify the
-offsets for these two registers on a per-SoC basis, then do
-specify those in all of the currently present SoC driver data.
+CK, can you please Ack this so that I can make it go through the mediatek tree
+along with the devicetree changes?
 
-This fixes writes to the Video Mode Command Packet Control
-register, fixing enablement of command packet transmission
-(VM_CMD_EN) and allowance of this transmission during the
-VFP period (TS_VFP_EN) on both MT8186 and MT8188.
+Thanks,
+Angelo
 
-Fixes: 03d7adc41027 ("drm/mediatek: Add mt8186 dsi compatible to mtk_dsi.c")
-Fixes: 814d5341f314 ("drm/mediatek: Add mt8188 dsi compatible to mtk_dsi.c")
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_dsi.c | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+> ---
+>   .../bindings/display/mediatek/mediatek,ovl.yaml          | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> index 9ea796a033b2..8ca8e5966b9a 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> @@ -26,6 +26,7 @@ properties:
+>             - mediatek,mt8173-disp-ovl
+>             - mediatek,mt8183-disp-ovl
+>             - mediatek,mt8192-disp-ovl
+> +          - mediatek,mt8195-disp-ovl
+>             - mediatek,mt8195-mdp3-ovl
+>         - items:
+>             - enum:
+> @@ -36,16 +37,14 @@ properties:
+>             - enum:
+>                 - mediatek,mt6795-disp-ovl
+>             - const: mediatek,mt8173-disp-ovl
+> -      - items:
+> -          - enum:
+> -              - mediatek,mt8188-disp-ovl
+> -              - mediatek,mt8195-disp-ovl
+> -          - const: mediatek,mt8183-disp-ovl
+>         - items:
+>             - enum:
+>                 - mediatek,mt8186-disp-ovl
+>                 - mediatek,mt8365-disp-ovl
+>             - const: mediatek,mt8192-disp-ovl
+> +      - items:
+> +          - const: mediatek,mt8188-disp-ovl
+> +          - const: mediatek,mt8195-disp-ovl
+>   
+>     reg:
+>       maxItems: 1
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e61b9bc68e9a..978332cd52f5 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -139,11 +139,11 @@
- #define CLK_HS_POST			GENMASK(15, 8)
- #define CLK_HS_EXIT			GENMASK(23, 16)
- 
--#define DSI_VM_CMD_CON		0x130
-+/* DSI_VM_CMD_CON */
- #define VM_CMD_EN			BIT(0)
- #define TS_VFP_EN			BIT(5)
- 
--#define DSI_SHADOW_DEBUG	0x190U
-+/* DSI_SHADOW_DEBUG */
- #define FORCE_COMMIT			BIT(0)
- #define BYPASS_SHADOW			BIT(1)
- 
-@@ -187,6 +187,8 @@ struct phy;
- 
- struct mtk_dsi_driver_data {
- 	const u32 reg_cmdq_off;
-+	const u32 reg_vm_cmd_off;
-+	const u32 reg_shadow_dbg_off;
- 	bool has_shadow_ctl;
- 	bool has_size_ctl;
- 	bool cmdq_long_packet_ctl;
-@@ -367,8 +369,8 @@ static void mtk_dsi_set_mode(struct mtk_dsi *dsi)
- 
- static void mtk_dsi_set_vm_cmd(struct mtk_dsi *dsi)
- {
--	mtk_dsi_mask(dsi, DSI_VM_CMD_CON, VM_CMD_EN, VM_CMD_EN);
--	mtk_dsi_mask(dsi, DSI_VM_CMD_CON, TS_VFP_EN, TS_VFP_EN);
-+	mtk_dsi_mask(dsi, dsi->driver_data->reg_vm_cmd_off, VM_CMD_EN, VM_CMD_EN);
-+	mtk_dsi_mask(dsi, dsi->driver_data->reg_vm_cmd_off, TS_VFP_EN, TS_VFP_EN);
- }
- 
- static void mtk_dsi_rxtx_control(struct mtk_dsi *dsi)
-@@ -714,7 +716,7 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 
- 	if (dsi->driver_data->has_shadow_ctl)
- 		writel(FORCE_COMMIT | BYPASS_SHADOW,
--		       dsi->regs + DSI_SHADOW_DEBUG);
-+		       dsi->regs + dsi->driver_data->reg_shadow_dbg_off);
- 
- 	mtk_dsi_reset_engine(dsi);
- 	mtk_dsi_phy_timconfig(dsi);
-@@ -1263,26 +1265,36 @@ static void mtk_dsi_remove(struct platform_device *pdev)
- 
- static const struct mtk_dsi_driver_data mt8173_dsi_driver_data = {
- 	.reg_cmdq_off = 0x200,
-+	.reg_vm_cmd_off = 0x130,
-+	.reg_shadow_dbg_off = 0x190
- };
- 
- static const struct mtk_dsi_driver_data mt2701_dsi_driver_data = {
- 	.reg_cmdq_off = 0x180,
-+	.reg_vm_cmd_off = 0x130,
-+	.reg_shadow_dbg_off = 0x190
- };
- 
- static const struct mtk_dsi_driver_data mt8183_dsi_driver_data = {
- 	.reg_cmdq_off = 0x200,
-+	.reg_vm_cmd_off = 0x130,
-+	.reg_shadow_dbg_off = 0x190,
- 	.has_shadow_ctl = true,
- 	.has_size_ctl = true,
- };
- 
- static const struct mtk_dsi_driver_data mt8186_dsi_driver_data = {
- 	.reg_cmdq_off = 0xd00,
-+	.reg_vm_cmd_off = 0x200,
-+	.reg_shadow_dbg_off = 0xc00,
- 	.has_shadow_ctl = true,
- 	.has_size_ctl = true,
- };
- 
- static const struct mtk_dsi_driver_data mt8188_dsi_driver_data = {
- 	.reg_cmdq_off = 0xd00,
-+	.reg_vm_cmd_off = 0x200,
-+	.reg_shadow_dbg_off = 0xc00,
- 	.has_shadow_ctl = true,
- 	.has_size_ctl = true,
- 	.cmdq_long_packet_ctl = true,
--- 
-2.47.0
+
 
