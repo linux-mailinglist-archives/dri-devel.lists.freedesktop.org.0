@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202789F7612
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 08:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A179A9F7615
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 08:49:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83CC610EC9F;
-	Thu, 19 Dec 2024 07:49:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1497610ECA1;
+	Thu, 19 Dec 2024 07:49:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ifndbKNj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nU16alIa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
  [IPv6:2607:f8b0:4864:20::632])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459E610EC9F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 07:49:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBBD510ECA1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 07:49:45 +0000 (UTC)
 Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-21644aca3a0so5549295ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 23:49:40 -0800 (PST)
+ d9443c01a7336-2163dc5155fso4251275ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 23:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734594580; x=1735199380; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734594585; x=1735199385; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4KnECnBShXY3h8fLirhSC2vujN3PJRN+mScj8HCQ30M=;
- b=ifndbKNj1Cdmj3PUqU8wVrFj0tPTxYpSvzbnuKG3NLXK4MULhamEmJqnep+hxkyuT2
- YjP8an56CSMv8cydcLjTxh+xDaoGkLIlPzUE+gah0pVBWdrHtrOP/mxbXMPTMvnjAAkE
- tOJHmWNmmTpn/rmEIfAUxInqE+owjflXrcZaoodlePsa3Fz7qxuv9gn1eR1jdsGu7Q5X
- cRBkM9u1Phme9jQDOriOwT76gv1nv0v5C7ZHYi1C9E+GAncpmzIQuJFb17ZNWU7Ipdu5
- s7Km2jy6iARB2KzFk5PWey56PBPnd7xkBpiFXxWaWy8krpzQgsfHFffEhTJymOWf6Kr5
- So2A==
+ :reply-to; bh=YL0eJAJsn+bF1xqyLJhetwK7icVAiboBpbquincLAUk=;
+ b=nU16alIa/lbOMn3BdsOxFkj1Ft2+md4DNkWcx8KH0GfE0W1iFP8Y8aLLYESE92OAmV
+ 1IdKPOYc7ljjOiUNwcYeUQpbPutYmgoHgmaP+NBlaBcx9kQYNw5TWhfp6Ppt+PZ5T0Gv
+ nGtAaglKrwRn8kJXzwVj2w/P1ncNendtlGNE4gPo1stulwhw6trau5diG5vaUnMZFHi/
+ ybnWEqOS8VoNOAJOJs8HCDmc6MFM510N6zFJpyMAw3UC2FHfZAbXffA/Y2GIFOob6Mli
+ 8TZuzT/4Qy7hI1xd2pE0hR7uKa3Tbkkj0cM8oXrofvbEC5r19bBBFkO11uuSMMiayawL
+ kUiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734594580; x=1735199380;
+ d=1e100.net; s=20230601; t=1734594585; x=1735199385;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4KnECnBShXY3h8fLirhSC2vujN3PJRN+mScj8HCQ30M=;
- b=YFTlUzIgb6Dy0zKTwivM8mZz8eNUntrZqeU0+sFaHbhR/QrH6/liawIu0JyL3xSYpi
- 3PlV0eKmsdlaeOKn7jPPTxGRHKbC8OuYQ6BaDEIYCNBnP5VhbJN/JET4sjHMaUH/rUb8
- hN7+Ote1fURHeIxMb/U4QRIeH7zf7cf1UmqTfq5sKIq5qKSHDYra7aONibxQancx4ZN3
- F0rN9NAUMt4qgulZqqfyh/enVZYuOfoYo2xczFQfV08oBm8fAW6BePCz9d4DjsY4Wzjb
- vQqVwHWAEz3i0yRzTyVEyPTbJoooPmhIo9vQi9lVizWOHrwbglnv9+sTWMxN5IJi9qNT
- LrsA==
+ bh=YL0eJAJsn+bF1xqyLJhetwK7icVAiboBpbquincLAUk=;
+ b=h9rNHj8GmTyFQ7tFJPiejR6+bxTXaP/0mEVbKuFWxj9bKSLv6iWU6GWapM39Guhiwf
+ JUvRWO2vdrzyFKvo8iXg+b95pXJXOiAoeXShKVWTTkFUMO1hk/lb9fxlvzcJx+Zn7b5t
+ bbft6T0A+9Tp52b4HxBS1MOZvSNnHAHfjwtHseKkdobnMWS2clfVdcFcm/rGn6fIlv49
+ MJi/+5QVIbKN+DmnSXLL7TyoDSKdCTeJsEHY8GEhmS9Vw0p3O7ACqA8Gd10kZiMcGSvh
+ AKNTUwYaoLpzODGN3/2HlZZZVTWCWTzCOyVRIF1VAuOHJaU6WSYp7j5ewHXz/Iookfik
+ iMKg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVfjR5qDZuQIZG6WScZpu+nhiCekcMbLSoo3Cy7Stmu/urWaST+iimN+Cir8dAvBlxdIfJce+dyOQs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1T7x9PgxJ4b+f+fiNqlKyhHl7a1SfZQ18fhR6bwnBeujuT766
- m2uFL/bBwIMPZ335sthbjJrsxjSo3+LuF+rmEeM/cU5ZGASiCzqLG0dd62y2Xz0=
-X-Gm-Gg: ASbGncvHngr6O+avqe1HRYy3QMg84yoAJ+zD7ilAcvcLNXx+y3o5CjNqtnbz4JP3y99
- mJjBPeBvoxU/pnSo82YAq0d5fpxQQ2oCaXg4Z7ApcjK3aoYmG51iJaXYLyflUt0O77BVlPDr0wY
- aPI4itab4nR5cHsCFRZ+pjBLUIy6/BwKqbP65KY38u4m6UaAxIcunsKxDEW5h0jzpwxqFTSTBcZ
- OhR253GzvCtBtc+6G2HyB/YX0AX1GDn0TDAyVn2aAfN76CmrBTimg==
-X-Google-Smtp-Source: AGHT+IEabF9aXtQp3aenhR64WxS1g9cOj/1L2FSLUAESIqxrn8JkRWX1Txmn+76M6Wb3sexpEyps+Q==
-X-Received: by 2002:a17:902:d483:b0:216:3c36:69a7 with SMTP id
- d9443c01a7336-219d96e8fb1mr29034205ad.45.1734594579793; 
- Wed, 18 Dec 2024 23:49:39 -0800 (PST)
+ AJvYcCWKkeW2geqfHL+nNKfQv9J+uUkcUnoCYl5hkkbHDgGllUyvkkDNYquBuT/hCElXtxSueOybHaZeY9g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzB3N1Nk1gPFgTuFcg2zYkwph7WfMJZpYzNz69epLnN73+1nBFk
+ LHTV6SvzhO/wg0euKFkIf/Lh8ejbEM/3MrpFSbsrthrA8zfVi8ludw5a839khqQ=
+X-Gm-Gg: ASbGncsJiJHAr/uZ/YJcLPs0rs0LOM0hesJnhK1A42WwGXe0pnKSBmLKdp7dhyq23Qb
+ O0okb1gwR+sS5olxPKvLU6PHFmXwT8fyYXKFYB9MRWp+A5cvTBuFK9y/Bfr5hQRcTE5NlVu9BrX
+ KjqXz3IKRE0WA/2L08nsKnaVXW7R/dajTi8nwrcXaHtvYUxJ8XdXm6gH/mRGqGlZWikwYBLb9DR
+ oyZc4dlmha6ZXhZupb5ghCMkNDPPdTAkmVjOSAgUpwDaytQP0F+sw==
+X-Google-Smtp-Source: AGHT+IG8rv5UfI7SqBNEnpsP6TqIUeKqwCRsTWaZTqEBm7avzTjZMTdrTbSgeuVwf1Up9AP+9yofcg==
+X-Received: by 2002:a17:902:f542:b0:216:554a:212c with SMTP id
+ d9443c01a7336-218d725b78dmr84056735ad.46.1734594585506; 
+ Wed, 18 Dec 2024 23:49:45 -0800 (PST)
 Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dc97432dsm6784445ad.110.2024.12.18.23.49.33
+ d9443c01a7336-219dc97432dsm6784445ad.110.2024.12.18.23.49.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2024 23:49:39 -0800 (PST)
+ Wed, 18 Dec 2024 23:49:45 -0800 (PST)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 19 Dec 2024 15:49:19 +0800
-Subject: [PATCH v3 01/15] drm/msm/dpu: Do not fix number of DSC
+Date: Thu, 19 Dec 2024 15:49:20 +0800
+Subject: [PATCH v3 02/15] drm/msm/dpu: configure DSC per number in use
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-1-92c7c0a228e3@linaro.org>
+Message-Id: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-2-92c7c0a228e3@linaro.org>
 References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
 In-Reply-To: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -76,11 +76,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jun Nie <jun.nie@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734594567; l=1800;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1734594567; l=1681;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=H71UugjG5IQJFjXijgWx29ezewCBoV9AAKOOrWRKHwk=;
- b=dUzlSdGY5e36I0gVxFwpQEvjNoLa0A1wdKlZECUaxHkjySXlll3b9Uyws+NzCj8x2f+Y9BgKm
- sggNoaJFPFdAts/tP1G4bwB5pARZ8tdxN6l7vnKa8WC8Acwxaq2KQoZ
+ bh=dEsdzF1H8mOIfM+sxcd5TqOuqI1FUZfMvRVAMT2Swjc=;
+ b=rrqwTWpMtEAIaU36uDB76/XIvHkIBNMil6khUbR4tZDKfFmCUSldk1LyQIc7lN+lIjC8yU/yR
+ uHMpx/08OwiCFgHnHxKMoea7xtwZyW5YCHEUxhMwkxJ2WVoHoyjsUse
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,54 +98,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If DSC is enabled, the only case is with 2 DSC engines so far. More
-usage case will be added, such as 4 DSC in 4:4:2 topoplogy.
-So get real number of DSCs to decide whether DSC merge is needed.
+Currently if DSC support is requested, the driver only supports using
+2 DSC blocks. We need 4 DSC in quad-pipe topology in future. So let's
+only configure DSC engines in use, instead of the maximum number of
+DSC engines.
 
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index ddc60e658d63f..650df585138cd 100644
+index 650df585138cd..cc23f364dd080 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -164,6 +164,7 @@ enum dpu_enc_rc_states {
-  *				clks and resources after IDLE_TIMEOUT time.
-  * @topology:                   topology of the display
-  * @idle_timeout:		idle timeout duration in milliseconds
-+ * @num_dscs:			Number of DSCs in use
-  * @wide_bus_en:		wide bus is enabled on this interface
-  * @dsc:			drm_dsc_config pointer, for DSC-enabled encoders
-  */
-@@ -204,6 +205,7 @@ struct dpu_encoder_virt {
- 	struct msm_display_topology topology;
+@@ -2028,6 +2028,7 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+ 				 struct drm_dsc_config *dsc)
+ {
+ 	/* coding only for 2LM, 2enc, 1 dsc config */
++	int num_dsc = dpu_enc->num_dscs;
+ 	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
+ 	struct dpu_hw_ctl *ctl = enc_master->hw_ctl;
+ 	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
+@@ -2039,7 +2040,7 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+ 	u32 initial_lines;
+ 	int i;
  
- 	u32 idle_timeout;
-+	u32 num_dscs;
+-	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
++	for (i = 0; i < num_dsc; i++) {
+ 		hw_pp[i] = dpu_enc->hw_pp[i];
+ 		hw_dsc[i] = dpu_enc->hw_dsc[i];
  
- 	bool wide_bus_en;
+@@ -2068,7 +2069,7 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
+ 	enc_ip_w = intf_ip_w / 2;
+ 	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
  
-@@ -622,9 +624,8 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
- 		if (dpu_enc->phys_encs[i])
- 			intf_count++;
- 
--	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
- 	if (dpu_enc->dsc)
--		num_dsc = 2;
-+		num_dsc = dpu_enc->num_dscs;
- 
- 	return (num_dsc > 0) && (num_dsc > intf_count);
+-	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
++	for (i = 0; i < num_dsc; i++)
+ 		dpu_encoder_dsc_pipe_cfg(ctl, hw_dsc[i], hw_pp[i],
+ 					 dsc, dsc_common_mode, initial_lines);
  }
-@@ -1261,6 +1262,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
- 		dsc_mask |= BIT(dpu_enc->hw_dsc[i]->idx - DSC_0);
- 	}
- 
-+	dpu_enc->num_dscs = num_dsc;
- 	dpu_enc->dsc_mask = dsc_mask;
- 
- 	if ((dpu_enc->disp_info.intf_type == INTF_WB && conn_state->writeback_job) ||
 
 -- 
 2.34.1
