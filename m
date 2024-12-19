@@ -1,65 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988079F7EF2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 17:09:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7DE9F7F24
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 17:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F175710E4B5;
-	Thu, 19 Dec 2024 16:09:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE52410ED39;
+	Thu, 19 Dec 2024 16:15:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="iC/KV4KB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j3MQm17k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org
- [IPv6:2001:67c:2050:0:465::101])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F12610E4B5;
- Thu, 19 Dec 2024 16:09:39 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4YDb8v518pz9scS;
- Thu, 19 Dec 2024 17:09:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1734624575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7dQmhWuInElh0V3ajtYHLVaKOzhyS8c4Tx/s+IfdoM4=;
- b=iC/KV4KBDK84iPP5RnxfsFXB6LWah57Su5H1pfP6ahgpNKcfavT/wdk9zQFK5w+C5p5XBz
- jGC0QQNBea5dFIB7psfKDLU5GPGU/xmVk0hfYnKMLOxFR63/5h0PQCguOGk4P+ATfamC4+
- f9GkH1tXDjz3JPHi+VKc5kaHGLZhOJBZTKTFR/4dXIo8OcMxd0pYmM4xU/SWf6sa11NtJ8
- KfwZGJIBccetr8H0piUSVAUjCLU53xpZhgpmq5qOvUVqFqH5Gy4sjUJiat4+W/DVAC+NCr
- Ieulbq1ILC2AnSqdWZpfE5Q6KUw2/tEhAAHX/e3w7Yhd8A2gIdEx1CRe0b784g==
-Message-ID: <688f69c5-a7b7-46eb-89ef-379c3f5c7632@mailbox.org>
-Date: Thu, 19 Dec 2024 17:09:33 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F030A10ED38;
+ Thu, 19 Dec 2024 16:15:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5C0E3A41D81;
+ Thu, 19 Dec 2024 16:13:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FBC5C4CECE;
+ Thu, 19 Dec 2024 16:15:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734624927;
+ bh=o+xdoDzhAyW5Kcho4dZEyqpLXH34N9lPGzm1TKuiaC8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=j3MQm17kEMix4Lu1GVlZUUMFVLTUwqQcryIcm/qtFm2NNM8U/4vjVW03G+K+mEc9e
+ NJ/EiQFkP0vHzEvUmdIaatL7C3LG+qtBcOpUJKHo+RB2lQ7u9jYjbZC+wT9bS5/N/L
+ sI41ETeoLeRw+LFIuNc/aaaZkkBki9QgIYBHIC57pI0Ac8t3iSkTxaW63CQXfo4T6S
+ poHClpo1e1tjtFTRzNq8l23DHgQEH7+8kXiqbhaT5HLM//BkOloifH5J0G7l59gw0u
+ IdCLgAKdThueSRZKE3Ela/25Y124mYNGTboIcgkzE7yatR6bGQR8++aqeB7kOLopBg
+ 54Zf4Qfs1ofFw==
+Date: Thu, 19 Dec 2024 06:15:26 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Tvrtko Ursulin <tursulin@igalia.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, linux-kernel@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] workqueue: Do not warn when cancelling WQ_MEM_RECLAIM
+ work from !WQ_MEM_RECLAIM worker
+Message-ID: <Z2RGnlAUB4vsXYCi@slm.duckdns.org>
+References: <20241219093030.52080-1-tursulin@igalia.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: Daniel Stone <daniel@fooishbar.org>, Brian Starkey <brian.starkey@arm.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
- <maraeo@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
- <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
- <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
- <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
- <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
- <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
- <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 4qypms4dm9oqnhm7zze3xq9ftmfnrdt5
-X-MBO-RS-ID: 8d13fff367ea8b0ba47
+In-Reply-To: <20241219093030.52080-1-tursulin@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,45 +64,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2024-12-19 10:02, Daniel Stone wrote:
+On Thu, Dec 19, 2024 at 09:30:30AM +0000, Tvrtko Ursulin wrote:
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 > 
-> How this would be used in practice is also way too underdocumented. We
-> need to document that exact-round-up 64b is more restrictive than
-> any-multiple-of 64b is more restrictive than 'classic' linear. We need
-> to document what people should advertise - if we were starting from
-> scratch, the clear answer would be that anything which doesn't care
-> should advertise all three, anything advertising any-multiple-of
-> should also advertise exact-round-up, etc.
+> After commit
+> 746ae46c1113 ("drm/sched: Mark scheduler work queues with WQ_MEM_RECLAIM")
+> amdgpu started seeing the following warning:
 > 
-> But we're not starting from scratch, and since linear is 'special',
-> userspace already has explicit knowledge of it. So AMD is going to
-> have to advertise LINEAR forever, because media frameworks know about
-> DRM_FORMAT_MOD_LINEAR and pass that around explicitly when they know
-> that the buffer is linear. That and not breaking older userspace
-> running in containers or as part of a bisect or whatever.
+>  [ ] workqueue: WQ_MEM_RECLAIM sdma0:drm_sched_run_job_work [gpu_sched] is flushing !WQ_MEM_RECLAIM events:amdgpu_device_delay_enable_gfx_off [amdgpu]
+> ...
+>  [ ] Workqueue: sdma0 drm_sched_run_job_work [gpu_sched]
+> ...
+>  [ ] Call Trace:
+>  [ ]  <TASK>
+> ...
+>  [ ]  ? check_flush_dependency+0xf5/0x110
+> ...
+>  [ ]  cancel_delayed_work_sync+0x6e/0x80
+>  [ ]  amdgpu_gfx_off_ctrl+0xab/0x140 [amdgpu]
+>  [ ]  amdgpu_ring_alloc+0x40/0x50 [amdgpu]
+>  [ ]  amdgpu_ib_schedule+0xf4/0x810 [amdgpu]
+>  [ ]  ? drm_sched_run_job_work+0x22c/0x430 [gpu_sched]
+>  [ ]  amdgpu_job_run+0xaa/0x1f0 [amdgpu]
+>  [ ]  drm_sched_run_job_work+0x257/0x430 [gpu_sched]
+>  [ ]  process_one_work+0x217/0x720
+> ...
+>  [ ]  </TASK>
 > 
-> There's also the question of what e.g. gbm_bo_get_modifier() should
-> return. Again, if we were starting from scratch, most restrictive
-> would make sense. But we're not, so I think it has to return LINEAR
-> for maximum compatibility (because modifiers can't be morphed into
-> other ones for fun), which further cements that we're not removing
-> LINEAR.
+> The intent of the verifcation done in check_flush_depedency is to ensure
+> forward progress during memory reclaim, by flagging cases when either a
+> memory reclaim process, or a memory reclaim work item is flushed from a
+> context not marked as memory reclaim safe.
 > 
-> And how should allocators determine what to go for? Given that, I
-> think the only sensible semantics are, when only LINEAR has been
-> passed, to pick the most restrictive set possible; when LINEAR
-> variants have been passed as well as LINEAR, to act as if LINEAR were
-> not passed at all.
+> This is correct when flushing, but when called from the
+> cancel(_delayed)_work_sync() paths it is a false positive because work is
+> either already running, or will not be running at all. Therefore
+> cancelling it is safe and we can relax the warning criteria by letting the
+> helper know of the calling context.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Fixes: fca839c00a12 ("workqueue: warn if memory reclaim tries to flush !WQ_MEM_RECLAIM workqueue")
+> References: 746ae46c1113 ("drm/sched: Mark scheduler work queues with WQ_MEM_RECLAIM")
+> Cc: Tejun Heo <tj@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian König <christian.koenig@amd.com
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <stable@vger.kernel.org> # v4.5+
 
-These are all very good points, which call for stricter-than-usual application of the "new UAPI requires corresponding user-space patches" rule:
+Applied to wq/for-6.13-fixes.
 
-* Patches adding support for the new modifiers in Mesa (and kernel) drivers for at least two separate vendors
-* Patches adding support in at least one non-Mesa user-space component, e.g. a Wayland compositor which has code using the existing linear modifier (e.g. mutter)
-
-
-Ideally also describe a specific multi-vendor scenario which can't work with the existing linear modifier, and validate that it works with the new ones.
-
+Thanks.
 
 -- 
-Earthling Michel DÃ¤nzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+tejun
