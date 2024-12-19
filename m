@@ -1,89 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B929F7639
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 08:51:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A2399F7651
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 08:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7962410ECB2;
-	Thu, 19 Dec 2024 07:51:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 881CE10ECB5;
+	Thu, 19 Dec 2024 07:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="M7DwhgD9";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="w9Sh0JKl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9BBD10ECB2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 07:51:10 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-216395e151bso3290345ad.0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 23:51:10 -0800 (PST)
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0F7D10ECB5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 07:53:50 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-6eff5ad69a1so4278447b3.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Dec 2024 23:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734594670; x=1735199470; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ncMQeFnI8FyNCTzJzx/U9WczMhrNIAA5qgalqkzfgpM=;
- b=M7DwhgD9o4mN74skr2Piqif5zKh3KgfRjnQCSeR233tFok/dsTRAWXVCUHoEtIx4ib
- +aJkV9z7PZsxLHVdBRBm4+jfyNsEx7cmknKS8PD8djp1AFlSFY0d+S9az2PmTb3hG6vw
- y7ZS4hJR5AgH9W3+Wrk6vfc2NarzAwhj0PTKaGWsbXP9vboQ895k3Jz5KOo380sGGOh6
- tgVq4zoeM4BMi7p0D7/aUciJ0OHu60Vzu7eQwvwqMRRgocz8K1hZXQCCKOHB1Fr6wQNV
- 0jTFB7gzMsU94YGhK8scJnK2SfvFhThzxp1VzXIss8vgp/kQAAzT9iqLPgD4zy3zW+SS
- 4vzg==
+ d=linaro.org; s=google; t=1734594830; x=1735199630; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tZhKlO/IptDE5jyqk3Xmfuu5iUOAfV8BaMvi98b0zJY=;
+ b=w9Sh0JKlh9+vYE/MlEIOvKgh/cpsZtKLyLzvIq3QVyAemdqEIq63K4u1otVK28UVl2
+ wD0LOnevLu9ueEoMYEAqi5qQCvP24XVyC89TlZDTCewnktx0eI7ridKRB239jfyWcFue
+ 9YJ0oyFCTTIKU8ozFZTPjd21BC+kpvRzfjsCInUmgXezpc8Iz8y2GmDsjpAO/S1u+F4a
+ EgEZqnEFlJpuHuBYpenErw82KJwS4Yir0TzrNFJyV1a16/R23+tZEbfAeSD9OJNDIxax
+ MCFkfh+q2SzElle9hEibldj6IaQbU+xn3hLx4vuuivMH+J3EWMqOUOmBvi0ExECJ6aTQ
+ mhiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734594670; x=1735199470;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1734594830; x=1735199630;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ncMQeFnI8FyNCTzJzx/U9WczMhrNIAA5qgalqkzfgpM=;
- b=MRH5LDYXljbbednpYxBlMBfTmOTQVHjdOdrN99xV7IgFRP6oNIr57phYwDMhtCWo5/
- 89idTsedp7JITWr13R09qOHTnQG5DWC0LEACsRA4T1srug2IZGSY+uubdeVyB5Pzp532
- x1qvqS16P5iKiyUFzs6ZkIbw1Oycdabr107DKK4dHcRR5AYBDDtQWachyETEQgTz8djE
- KFu9fztSPFohofsjmQKX9tE/qn5E226A+tMvoG/Lttudo2v6ncI3toIIYbprLDM726V+
- 73tUyAZZD9JcLDW/2MTMGNzn2qr0NRBZuwR0pCGpR/Jo9YE8gZqtNF6H67I8tj1EwgO7
- +xIQ==
+ bh=tZhKlO/IptDE5jyqk3Xmfuu5iUOAfV8BaMvi98b0zJY=;
+ b=mYi37IVV7YVwECb6/7y9VTuonmF7pg5dx8e5knPglD9UDCheevVDlott0HWBokLMI6
+ Wt8PNgsV72wjNLrofA8Kazp2fgDtXP+VzhxU0XWPqZHW3mftyQYVEUZTT5unOs3YkC01
+ RtsAyYZN6T2r+s9T/kSuOPWznuYFSydjiIziawSMrA2AisL49AFFtv8+54dsAbB4AA3e
+ EBIbqxO3nacIpBga/qDgER9Q2YPiRGl7caoyT2m9IZkpl1rLmCZeaMITSOZNC32uad8Q
+ qdJvDapW4CiF7z4xQuGj6HXqeRuO2NwcfWLUmPGIULDNJZEnABocRvII/SeSmPQkc9df
+ +Umg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWs5xAb001KDD3L9dOL5E/W5/VVY3L8awjB7uSPPIbphEJf0Br9TjCk2odivRnFTrddGSfYTFlEC68=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHWNJAAPTE/mVFbSiAeYv8Z/XmEAMRLlRPx0BT27Zy3rIVJ5xm
- uHVSexRPCJS31Isdr8xGv2KUiR/hjToyq2en078ValQ1JhI8+KGwItSyuF8F6lo=
-X-Gm-Gg: ASbGncuxXVF0dAS3KMKWE+4/MnLl0Bf4eZDdzIdcuGJ69pJmvPY/hmq22wlB8QyF6PG
- 2FsV1LpQ8KqRTMYB08obd0pL3S3O0kofc3yzyFvWqk1N6kc9uVbPGasmhQrKKc7mMjQrt9NNeL7
- BKjzS3OsRo8BVr6TBGT+xTHaeKgvx6nJftWA57kzIl3392Vwx4/XIGYHoQq7n79eXW4ldD0Y4Z9
- azGAaBgUrna9b47ehbJYWLG8EL1SnTXDOxHuz9BAFpYv/Bx0F8hPw==
-X-Google-Smtp-Source: AGHT+IE6wutQ9rGCjIBHFXRUP8U2cudK8bKqUGf+H0wx8eea9x5QHkaF7AyJwuwtdVhfnshpWOkZ7w==
-X-Received: by 2002:a17:902:da81:b0:216:59f1:c7d9 with SMTP id
- d9443c01a7336-219da6eabaemr34112635ad.19.1734594670471; 
- Wed, 18 Dec 2024 23:51:10 -0800 (PST)
-Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dc97432dsm6784445ad.110.2024.12.18.23.51.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Dec 2024 23:51:10 -0800 (PST)
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 19 Dec 2024 15:49:33 +0800
-Subject: [PATCH v3 15/15] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
+ AJvYcCX2iw6jMIaG+SJV9asUCHfcF/KfStRKysnyr/UR/lSEqnl/3khMCKL7OuVUXHGBcXxtl5jRZ+6sDvM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzmsEi/uN4EKjbv9w8B/UGb3cHsHpFOpzNQbebZs2mjhNBuay4C
+ bMFRhRpk9HU5AmmkGxN7xt8Vv+Jp1JBxwr4BgOro8+LF98BwGc/Kl6/SHyFmujwb6QdO5Ug1aeC
+ QukIFPPMHFsIdQrPmieJh6zm/mhUF7c1lFI/1vg==
+X-Gm-Gg: ASbGnctMIbAy2YY9j/iQgaCR2S7BXIy1tYM+8PO0Vp6sSaZ3WpdZlGcg3yaHjyUuJwq
+ +xsrEchM/zWlrGqMA6DaZiWj2j4INWjhuxZGUyXQ=
+X-Google-Smtp-Source: AGHT+IHWrLjcvkgONZ+j/BKJ3YumZP/eZvJ2y2xElKYDKii2UHE9RCFq3yxovVi3IZ6O2JaUt8yiyGK5pHM15WJDTq8=
+X-Received: by 2002:a05:690c:6404:b0:6ee:a81e:6191 with SMTP id
+ 00721157ae682-6f3d11239d9mr51702047b3.22.1734594829867; Wed, 18 Dec 2024
+ 23:53:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-15-92c7c0a228e3@linaro.org>
 References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
 In-Reply-To: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+From: Jun Nie <jun.nie@linaro.org>
+Date: Thu, 19 Dec 2024 15:53:39 +0800
+Message-ID: <CABymUCN_17o7xpvv1DjfAe+o07-Ns85G+d4W-8bmz=t9hWS6NA@mail.gmail.com>
+Subject: [PATCH v3 00/15] drm/msm/dpu: Support quad pipe with dual-DSI
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1734594568; l=6569;
- i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=Kgvxz+JddimpExknfUGmCF8U+2CnnDWzoXq631c2AJ8=;
- b=IVh/pEC+zDsiWrKgIH1DqGmvx8qOE4k3X8IdEM3/dTiXEa5wLm4olw4osrKyvaGNlOBhMWFJ7
- KLSTqXVzqnQAaIwcDd+r75zXKTztI0vY3Zw8qAwibtxfiN5SybfAveG
-X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
- pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
+ freedreno@lists.freedesktop.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,183 +85,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC are
-enabled. We prefer to use 4 pipes for dual DSI case for it is power optimal
-for DSC.
+Jun Nie <jun.nie@linaro.org> =E4=BA=8E2024=E5=B9=B412=E6=9C=8819=E6=97=A5=
+=E5=91=A8=E5=9B=9B 15:49=E5=86=99=E9=81=93=EF=BC=9A
+>
+> To: Rob Clark <robdclark@gmail.com>
+> To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> To: Sean Paul <sean@poorly.run>
+> To: Marijn Suijten <marijn.suijten@somainline.org>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: freedreno@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> drm/msm/dpu: Support quad pipe with dual-DSI
+>
+> 2 or more SSPPs and dual-DSI interface are need for super wide DSI panel.
+> And 4 DSC are preferred for power optimal in this case. This patch set
+> extend number of pipes to 4 and revise related mixer blending logic
+> to support quad pipe.  All these changes depends on the virtual plane
+> feature to split a super wide drm plane horizontally into 2 or more sub
+> clip. Thus DMA of multiple SSPPs can share the effort of fetching the
+> whole drm plane.
+>
+> The first pipe pair co-work with the first mixer pair to cover the left
+> half of screen and 2nd pair of pipes and mixers are for the right half
+> of screen. If a plane is only for the right half of screen, only one
+> or two of pipes in the 2nd pipe pair are valid, and no SSPP or mixer is
+> assinged for invalid pipe.
+>
+> For those panel that does not require quad-pipe, only 1 or 2 pipes in
+> the 1st pipe pair will be used. There is no concept of right half of
+> screen.
+>
+> For legacy non virtual plane mode, the first 1 or 2 pipes are used for
+> the single SSPP and its multi-rect mode.
+>
+> This patch set depends on virtual plane patch set v7:
+> https://lore.kernel.org/all/20241130-dpu-virtual-wide-v7-0-991053fcf63c@l=
+inaro.org/
+>
+> Changes in v3:
+> - Split change in trace into a separate patch.
+> - Rebase to latest msm-next branch.
+> - Reorder patch sequence to make sure valid flag is set in earlier patch
+> - Rectify rewrite patch to move logic change into other patch
+> - Polish commit messages and code comments.
+> - Link to v2: https://lore.kernel.org/dri-devel/20241009-sm8650-v6-11-hmd=
+-pocf-mdss-quad-upstream-21-v2-0-76d4f5d413bf@linaro.org/
+>
+> Changes in v2:
+> - Revise the patch sequence with changing to 2 pipes topology first. Then
+>   prepare for quad-pipe setup, then enable quad-pipe at last.
+> - Split DSI patches into other patch set.
+> - Link to v1: https://lore.kernel.org/all/20240829-sm8650-v6-11-hmd-pocf-=
+mdss-quad-upstream-8-v1-0-bdb05b4b5a2e@linaro.org/
+>
+> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> ---
+> Jun Nie (15):
+>       drm/msm/dpu: Do not fix number of DSC
+>       drm/msm/dpu: configure DSC per number in use
+>       drm/msm/dpu: polish log for resource allocation
+>       drm/msm/dpu: decide right side per last bit
+>       drm/msm/dpu: fix mixer number counter on allocation
+>       drm/msm/dpu: switch RM to use crtc_id rather than enc_id for alloca=
+tion
+>       drm/msm/dpu: bind correct pingpong for quad pipe
+>       drm/msm/dpu: handle pipes as array
+>       drm/msm/dpu: split PIPES_PER_STAGE definition per plane and mixer
+>       drm/msm/dpu: Add pipe as trace argument
+>       drm/msm/dpu: blend pipes per mixer pairs config
+>       drm/msm/dpu: support plane splitting in quad-pipe case
+>       drm/msm/dpu: Support quad-pipe in SSPP checking
+>       drm/msm/dpu: support SSPP assignment for quad-pipe case
+>       drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
+>
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  77 +++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  12 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      |  74 +++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |   3 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |   1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |   2 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h      |   2 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h          |  12 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        | 403 ++++++++++++++---=
+------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h        |  12 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c           | 219 ++++++------
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h           |  32 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h        |  10 +-
+>  13 files changed, 511 insertions(+), 348 deletions(-)
+> ---
+> base-commit: a9b9ea7b45d661fff0f3fd2937703a536f528cd2
+> change-id: 20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-2bdbc2=
+2f5131
+>
+> Best regards,
+> --
+> Jun Nie <jun.nie@linaro.org>
+>
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  3 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        |  2 +-
- 7 files changed, 30 insertions(+), 14 deletions(-)
+Sorry to have no title for cover due to miss handling the b4 tool . So
+reply to this thread with the title in it.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index bad75af4e50ab..3c51c199f3e05 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
- 		struct dpu_crtc_state *crtc_state)
- {
- 	struct dpu_crtc_mixer *m;
--	u32 crcs[CRTC_DUAL_MIXERS];
-+	u32 crcs[CRTC_QUAD_MIXERS];
- 
- 	int rc = 0;
- 	int i;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index d1bb3f84fe440..ce41fb364f3db 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -210,7 +210,7 @@ struct dpu_crtc_state {
- 
- 	bool bw_control;
- 	bool bw_split_vote;
--	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
-+	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
- 
- 	uint64_t input_fence_timeout_ns;
- 
-@@ -218,10 +218,10 @@ struct dpu_crtc_state {
- 
- 	/* HW Resources reserved for the crtc */
- 	u32 num_mixers;
--	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
-+	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
- 
- 	u32 num_ctls;
--	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
-+	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
- 
- 	enum dpu_crtc_crc_source crc_source;
- 	int crc_frame_skip_count;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 96d06db3e4be5..6e54ddeaffacd 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -54,7 +54,7 @@
- #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
- 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
- 
--#define MAX_CHANNELS_PER_ENC 2
-+#define MAX_CHANNELS_PER_ENC 4
- 
- #define IDLE_SHORT_TIMEOUT	1
- 
-@@ -664,15 +664,19 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 
- 	/* Datapath topology selection
- 	 *
--	 * Dual display
-+	 * Dual display without DSC
- 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
- 	 *
-+	 * Dual display with DSC
-+	 * 4 LM, 2 INTF ( Split display using 2 interfaces)
-+	 *
- 	 * Single display
- 	 * 1 LM, 1 INTF
- 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
- 	 *
- 	 * Add dspps to the reservation requirements if ctm is requested
- 	 */
-+
- 	if (intf_count == 2)
- 		topology.num_lm = 2;
- 	else if (!dpu_kms->catalog->caps->has_3d_merge)
-@@ -691,10 +695,20 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 		 * 2 DSC encoders, 2 layer mixers and 1 interface
- 		 * this is power optimal and can drive up to (including) 4k
- 		 * screens
-+		 * But for dual display case, we prefer 4 layer mixers. Because
-+		 * the resolution is always high in the case and 4 DSCs are more
-+		 * power optimal.
- 		 */
--		topology.num_dsc = 2;
--		topology.num_lm = 2;
--		topology.num_intf = 1;
-+
-+		if (intf_count == 2) {
-+			topology.num_dsc = 4;
-+			topology.num_lm = 4;
-+			topology.num_intf = 2;
-+		} else {
-+			topology.num_dsc = 2;
-+			topology.num_lm = 2;
-+			topology.num_intf = 1;
-+		}
- 	}
- 
- 	return topology;
-@@ -2195,8 +2209,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
- 	struct dpu_hw_mixer_cfg mixer;
- 	int i, num_lm;
- 	struct dpu_global_state *global_state;
--	struct dpu_hw_blk *hw_lm[2];
--	struct dpu_hw_mixer *hw_mixer[2];
-+	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
- 
- 	memset(&mixer, 0, sizeof(mixer));
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 63f09857025c2..d378a990cc0fb 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -302,7 +302,8 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
- 
- 	/* Use merge_3d unless DSC MERGE topology is used */
- 	if (phys_enc->split_role == ENC_ROLE_SOLO &&
--	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
-+	    (dpu_cstate->num_mixers == CRTC_DUAL_MIXERS ||
-+		dpu_cstate->num_mixers == CRTC_QUAD_MIXERS) &&
- 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
- 		return BLEND_3D_H_ROW_INT;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 3ab79092a7f25..d9cc84b081b1f 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -25,6 +25,7 @@
- #define DPU_MAX_IMG_HEIGHT 0x3fff
- 
- #define CRTC_DUAL_MIXERS	2
-+#define CRTC_QUAD_MIXERS	4
- 
- #define MAX_XIN_COUNT 16
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 27ef0771da5d2..1fe21087a141a 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -33,8 +33,8 @@
- #endif
- 
- #define STAGES_PER_PLANE		2
--#define PIPES_PER_PLANE			2
- #define PIPES_PER_STAGE			2
-+#define PIPES_PER_PLANE			(STAGES_PER_PLANE * STAGES_PER_PLANE)
- #ifndef DPU_MAX_DE_CURVES
- #define DPU_MAX_DE_CURVES		3
- #endif
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 57ccb73c45683..b5c1ad2a75594 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -1474,7 +1474,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
- 		trace_dpu_plane_disable(DRMID(plane), false,
- 					pstate->pipe[i].multirect_mode);
- 
--		if (pipe->sspp && i == 1) {
-+		if (pipe->sspp && pipe->multirect_index == DPU_SSPP_RECT_1) {
- 			pipe->multirect_index = DPU_SSPP_RECT_SOLO;
- 			pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
- 
-
--- 
-2.34.1
-
+- Jun
