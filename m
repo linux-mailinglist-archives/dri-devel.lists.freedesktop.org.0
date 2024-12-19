@@ -1,77 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D149F8DC5
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 09:15:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDAF79F8DC7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 09:15:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6781010EF13;
-	Fri, 20 Dec 2024 08:15:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C1D010EF16;
+	Fri, 20 Dec 2024 08:15:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GIrVFvBP";
+	dkim=pass (2048-bit key; secure) header.d=posteo.de header.i=@posteo.de header.b="RpPKrtBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3138310E2BB
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 10:25:17 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-21619108a6bso4740305ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 02:25:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734603916; x=1735208716; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=v5t3NsXxQS/8hO+c8HYTuaHhM+7bct6zTH1hMsA61Ho=;
- b=GIrVFvBPx8YjHx8ykiU59NYb3eKxtIB836kpiJJzRkFQEytBUIT2ORLyBwUmdYxXmT
- Slqg3ZaEYtHJKVGNV7ylFgtDlcr8/XOuzFbfHTwp6+uHJhiGqLX5+kWueXifYPLGcrvU
- n56roDd9trqyqqxf7IUjwm/qWMomXuu4vEOqnrXNGIHWao/HtwC6zE2wCoCYgmhD1F7X
- rMh1lp7RO8tMsn1+llm4KfX+g6MVvYQfrk2Gc05tdDsauQRG80b6gPcZ/6UBLddDOkB+
- TrRJqQZJT6oiID6+1NJ6shkHUdIOrpSfKxsunqzF187nrAW+lhEmBp3U7zw/DvY93oFy
- kmvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734603916; x=1735208716;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v5t3NsXxQS/8hO+c8HYTuaHhM+7bct6zTH1hMsA61Ho=;
- b=MzVZ6GmmkaQ8wn901AXJWraO4JNx4vHiwX6wOS8BBOwiLSOYM1SnHIKzzMqgugQ5r+
- 1522IItgEw/IOmyNZTeqafhMEe0KJxYMVZG7b+QsXipf49GPhZQp7Y2mywQdQ01lA/nC
- lt6EQTptRqlx8OZVHfwtTgap+dCHStdwwZojhcat84IHC15q9bSnRJGfozrtt5Qwnu43
- FXPpm0YseN2Xlwu7DDrsNmle914f+rlAGWvLMYh6PxEFkWk72BT1FyMPsgJN1m9QbmCZ
- Sopy5a8i+prG+oiQCw65VLlhqUy0yoHDtsCnejaVl/jHLV7V2HdLRUbCcOVlhyqmpsQB
- qqIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcBH2nE0D/Yqu6BNDHbqplU+kYbDUtGOtOlrohwbhXFc02dj5HE+KmkFFGKfHmb/Zp1PxKO0MZQJQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy47h0UBmQhSCv8DTgxDhU4qrb180Img9e1CHeZxSV4CI7KpihT
- vh1NSdHDghKea4Ae2BpY2f+pwli6tF93YnvZnAN3tI/9ip+XQFNcNV4//Q==
-X-Gm-Gg: ASbGncuBh3pZ4F4fS86FKX40tpzl8NP3cJXJ07vcIxjZZ2kTb++JW7Yi3ye5lEWvc1p
- CG3N8hDsqAjCBMZFSRRawPsasbj2Tq/xsSheFxk5APn0iyYTz7MoCX4+mumd14WjOtnpG+93wL7
- +23dSlcUUy57zpQc7yfmI+MT+7CJip2LjwxC4sPia9KUF86unqX+N4cXRc9EKCqQYcC7dROWsbO
- XVvkRQPHaScCznMLRLRcucxLo5D0zEToBq73VDor3ZaGBsc9bW6jVVO1HII+g==
-X-Google-Smtp-Source: AGHT+IFathZ4hGE1Y4fxVfONYzsiy25juwWRdtU1U4Y2tvVnW1dgPkWw9OQ+jCOqDNrSYI7nWyuIDA==
-X-Received: by 2002:a17:903:2281:b0:20f:aee9:d8b8 with SMTP id
- d9443c01a7336-219d9626689mr43000985ad.20.1734603916409; 
- Thu, 19 Dec 2024 02:25:16 -0800 (PST)
-Received: from HOME-PC ([223.185.132.235]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dc9705ccsm9424545ad.92.2024.12.19.02.25.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 02:25:16 -0800 (PST)
-Date: Thu, 19 Dec 2024 15:55:13 +0530
-From: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
-Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: follow-up: Clarification on color parameter in drm_draw_fill24
- function
-Message-ID: <Z2P0iY+EyIr7u7DM@HOME-PC>
-References: <Z1rLpV+Rx7U0h2J/@HOME-PC>
+X-Greylist: delayed 391 seconds by postgrey-1.36 at gabe;
+ Thu, 19 Dec 2024 12:45:42 UTC
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDFFE10ED0A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 12:45:42 +0000 (UTC)
+Received: from submission (posteo.de [185.67.36.169]) 
+ by mout01.posteo.de (Postfix) with ESMTPS id 61C63240028
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 13:39:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.de; s=2017;
+ t=1734611949; bh=L74dMVx88KTA7DV/87aIkjTn2/Y81JeQnX2mT3u4BOg=;
+ h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:From;
+ b=RpPKrtBoTUTa9Qo61fntcH2tSNriCChOEvkl2CS450adWL7vUNfiYt1FvCMjp0iPI
+ JcPWp4YZoZuiNSJ27Dfj+8Y2cA6oZXK5JvBezt6hQJcb71eMn+CI9N49iipAXPjyV5
+ m0aYTrR1PLFjR9ndmEjBZNwYRKM9Om8rYLOj2blTmYOYUGVc+/KByt2gijE85GUja/
+ PcUtVLLLQ2UGpY8vO/KSnPxW3Lz0fxhd3tBPsKKObu0BH22BgkG653CWUCIEhmdXT3
+ Q8r+eSqjTmvkJxBae8kjvs1KpVZeunHXYBljddtCl6oyZdujwiWlOtJYAch6CFN7CF
+ nmDbC/PajW+qA==
+Received: from customer (localhost [127.0.0.1])
+ by submission (posteo.de) with ESMTPSA id 4YDVV210BVz9rxR;
+ Thu, 19 Dec 2024 13:39:06 +0100 (CET)
+Message-ID: <80cdb6d83f37c1c87a71ad567b2c4f2433219465.camel@posteo.de>
+Subject: Re: [PATCH v4] drm: bridge: fsl-ldb: fixup mode on freq mismatch
+From: Martin Kepplinger <martink@posteo.de>
+To: Nikolaus Voss <nv@vosn.de>, Alexander Stein
+ <alexander.stein@ew.tq-group.com>, Liu Ying <victor.liu@nxp.com>, Luca
+ Ceresoli <luca.ceresoli@bootlin.com>, Fabio Estevam <festevam@denx.de>,
+ Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ miquel.raynal@bootlin.com, nikolaus.voss@haag-streit.com
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Thu, 19 Dec 2024 12:39:05 +0000
+In-Reply-To: <20241219105416.4AE0D1201@mail.steuer-voss.de>
+References: <20241219105416.4AE0D1201@mail.steuer-voss.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z1rLpV+Rx7U0h2J/@HOME-PC>
 X-Mailman-Approved-At: Fri, 20 Dec 2024 08:15:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,58 +68,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 12, 2024 at 05:10:21PM +0530, Dheeraj Reddy Jonnalagadda wrote:
-> Dear Maintainers,
-> 
-> I am writing to seek clarification regarding the implementation of the
-> drm_draw_fill24 function in the DRM subsystem. Specifically, Coverity has
-> flagged (CID 1602416) the issue in the following line in drm/drm_draw.c
-> 
-> --> iosys_map_wr(dmap, off + 2, u8, (color & 0x00FF0000) >> 16);
-> 
-> I have some questions about handling of the color parameter in the function.
-> 
-> The function currently accepts a u16 value as the color parameter and uses
-> bitwise operations to extract the RGB components. However, the mask 0x00FF0000
-> refers to bits 16–23, which are always zero for a u16 value. Therefore, the
-> expression (color & 0x00FF0000) will always result in 0.
-> 
-> Could you please confirm:
-> 
->   1. Is the truncation of 32-bit color value to 16 bits the intended behavior?
->   2. Alternatively, should the function be updated to accept 32-bit values
->      as input as the function is called with 32 bit values elsewhere?
-> 
-> Thank you for your time. Please let me know if further information or context
-> is required.
-> 
-> -Dheeraj
+QW0gRG9ubmVyc3RhZywgZGVtIDE5LjEyLjIwMjQgdW0gMTE6NTQgKzAxMDAgc2NocmllYiBOaWtv
+bGF1cyBWb3NzOgo+IExEQiBjbG9jayBoYXMgdG8gYmUgYSBmaXhlZCBtdWx0aXBsZSBvZiB0aGUg
+cGl4ZWwgY2xvY2suCj4gQWx0aG91Z2ggTERCIGFuZCBwaXhlbCBjbG9jayBoYXZlIGEgY29tbW9u
+IHNvdXJjZSwgdGhpcwo+IGNvbnN0cmFpbnQgY2Fubm90IGJlIHNhdGlzZmllZCBmb3IgYW55IHBp
+eGVsIGNsb2NrIGF0IGEKPiBmaXhlZCBzb3VyY2UgY2xvY2suCj4gCj4gVmlvbGF0aW5nIHRoaXMg
+Y29uc3RyYWludCBsZWFkcyB0byBmbGlja2VyaW5nIGFuZCBkaXN0b3J0ZWQKPiBsaW5lcyBvbiB0
+aGUgYXR0YWNoZWQgZGlzcGxheS4KPiAKPiBUbyBvdmVyY29tZSB0aGlzLCB0aGVyZSBhcmUgdGhl
+c2UgYXBwcm9jaGVzOgo+IAo+IDEuIE1vZGlmeSB0aGUgYmFzZSBQTEwgY2xvY2sgc3RhdGljYWxs
+eSBieSBjaGFuZ2luZyB0aGUKPiDCoMKgIGRldmljZSB0cmVlLCBpbXBsaWVzIGNhbGN1bGF0aW5n
+IHRoZSBQTEwgY2xvY2sgYnkKPiDCoMKgIGhhbmQsIGUuZy4gY29tbWl0IDRmYmI3MzQxNmIxMCAo
+ImFybTY0OiBkdHM6Cj4gwqDCoCBpbXg4bXAtcGh5Ym9hcmQtcG9sbHV4OiBTZXQgVmlkZW8gUExM
+MSBmcmVxdWVuY3kgdG8gNTA2LjggTUh6IikKPiAKPiAyLiBXYWxrIGRvd24gdGhlIGNsb2NrIHRy
+ZWUgYW5kIG1vZGlmeSB0aGUgc291cmNlIGNsb2NrLgo+IMKgwqAgUHJvcG9zZWQgcGF0Y2ggc2Vy
+aWVzIGJ5IE1pcXVlbCBSYXluYWw6Cj4gwqDCoCBbUEFUQ0ggMC81XSBjbGs6IEZpeCBzaW1wbGUg
+dmlkZW8gcGlwZWxpbmVzIG9uIGkuTVg4Cj4gCj4gMy4gVGhpcyBwYXRjaDogY2hlY2sgY29uc3Ry
+YWludCB2aW9sYXRpb24gaW4KPiDCoMKgIGRybV9icmlkZ2VfZnVuY3MuYXRvbWljX2NoZWNrKCkg
+YW5kIGFkYXB0IHRoZSBwaXhlbAo+IMKgwqAgY2xvY2sgaW4gZHJtX2Rpc3BsYXlfbW9kZS5hZGp1
+c3RlZF9tb2RlIGFjY29yZGluZ2x5Lgo+IAo+IEZpeGVzOiA0NjNkYjVjMmVkNGEgKCJkcm06IGJy
+aWRnZTogbGRiOiBJbXBsZW1lbnQgc2ltcGxlIEZyZWVzY2FsZQo+IGkuTVg4TVAgTERCIGJyaWRn
+ZSIpCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIDYuMTIueCwgNi42LngKPiBTaWdu
+ZWQtb2ZmLWJ5OiBOaWtvbGF1cyBWb3NzIDxudkB2b3NuLmRlPgo+IAo+IC0tLQo+IHYyOgo+IC0g
+dXNlIC5hdG9taWNfY2hlY2soKSBpbnN0ZWFkIG9mIC5tb2RlX2ZpeHVwKCkgKERtaXRyeSBCYXJ5
+c2hrb3YpCj4gLSBhZGQgRml4ZXMgdGFnIChMaXUgWWluZykKPiAtIHVzZSBmc2xfbGRiX2xpbmtf
+ZnJlcXVlbmN5KCkgYW5kIGRyb3AgY29uc3QgcXVhbGlmaWVyIGZvcgo+IMKgIHN0cnVjdCBmc2xf
+bGRiKiAoTGl1IFlpbmcpCj4gCj4gdjM6Cj4gLSBmaXgga2VybmVsIHRlc3Qgcm9ib3Qgd2Fybmlu
+ZzogZnNsLWxkYi5jOjEyNTozMDoKPiDCoCB3YXJuaW5nOiBvbWl0dGluZyB0aGUgcGFyYW1ldGVy
+IG5hbWUgaW4gYSBmdW5jdGlvbiBkZWZpbml0aW9uCj4gwqAgaXMgYSBDMjMgZXh0ZW5zaW9uIFst
+V2MyMy1leHRlbnNpb25zXQo+IC0gZml4L3JlcGhyYXNlIGNvbW1pdCB0ZXh0IGR1ZSB0byBkaXNj
+dXNzaW9uIHdpdGggTWFyZWsgVmFzdXQsCj4gwqAgTGl1IFlpbmcgYW5kIE1pcXVlbCBSYXluYWwK
+PiAtIG9ubHkgY2FsY3VsYXRlIGFuZCBzZXQgcGl4ZWwgY2xvY2sgaWYgbGRiIGlzIG5vdCBhbHJl
+YWR5Cj4gwqAgY29uZmlndXJlZCB0byB0aGUgbWF0Y2hpbmcgZnJlcXVlbmN5Cj4gCj4gdjQ6Cj4g
+LSBoYW5kbGUgbW9kZSBjaGFuZ2VzIGNvcnJlY3RseTogcmVjYWxjdWxhdGUgcGl4ZWwgY2xvY2sg
+d2hlbgo+IMKgIG1vZGUgY2hhbmdlcyBvY2N1cgo+IC0gdGVzdGVkIG9uIDYuMTIueCBhbmQgNi42
+Lnggc3RhYmxlIGJyYW5jaGVzCj4gCj4gwqBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2ZzbC1sZGIu
+YyB8IDMxCj4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwo+IMKgMSBmaWxlIGNoYW5n
+ZWQsIDMxIGluc2VydGlvbnMoKykKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9mc2wtbGRiLmMKPiBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZnNsLWxkYi5jCj4gaW5k
+ZXggMGU0YmFjN2RkMDRmZi4uOTdjYTUyMjU1NjcxOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
+dS9kcm0vYnJpZGdlL2ZzbC1sZGIuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvZnNs
+LWxkYi5jCj4gQEAgLTEyMSw2ICsxMjEsMzYgQEAgc3RhdGljIGludCBmc2xfbGRiX2F0dGFjaChz
+dHJ1Y3QgZHJtX2JyaWRnZQo+ICpicmlkZ2UsCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBicmlkZ2UsIGZsYWdzKTsKPiDC
+oH0KPiDCoAo+ICtzdGF0aWMgaW50IGZzbF9sZGJfYXRvbWljX2NoZWNrKHN0cnVjdCBkcm1fYnJp
+ZGdlICpicmlkZ2UsCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgc3RydWN0IGRybV9icmlkZ2Vfc3RhdGUKPiAqYnJpZGdlX3N0
+YXRlLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoHN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqY3J0Y19zdGF0ZSwKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBz
+dHJ1Y3QgZHJtX2Nvbm5lY3Rvcl9zdGF0ZQo+ICpjb25uZWN0b3Jfc3RhdGUpCj4gK3sKPiArwqDC
+oMKgwqDCoMKgwqBzdHJ1Y3QgZnNsX2xkYiAqZnNsX2xkYiA9IHRvX2ZzbF9sZGIoYnJpZGdlKTsK
+PiArwqDCoMKgwqDCoMKgwqBjb25zdCBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSA9ICZj
+cnRjX3N0YXRlLT5tb2RlOwo+ICvCoMKgwqDCoMKgwqDCoHVuc2lnbmVkIGxvbmcgcmVxdWVzdGVk
+X2ZyZXEgPQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmc2xfbGRiX2xpbmtfZnJl
+cXVlbmN5KGZzbF9sZGIsIG1vZGUtPmNsb2NrKTsKPiArwqDCoMKgwqDCoMKgwqB1bnNpZ25lZCBs
+b25nIGZyZXEgPSBjbGtfcm91bmRfcmF0ZShmc2xfbGRiLT5jbGssCj4gcmVxdWVzdGVkX2ZyZXEp
+Owo+ICsKPiArwqDCoMKgwqDCoMKgwqBpZiAoY3J0Y19zdGF0ZS0+bW9kZV9jaGFuZ2VkICYmIChm
+cmVxICE9IHJlcXVlc3RlZF9mcmVxKSkgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAvKgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiB0aGlzIHdpbGwgbGVhZCB0
+byBmbGlja2VyIGFuZCBpbmNvbXBsZXRlIGxpbmVzIG9uCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCAqIHRoZSBhdHRhY2hlZCBkaXNwbGF5LCBhZGp1c3QgdGhlIENSVEMgY2xvY2sK
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICogYWNjb3JkaW5nbHkuCj4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqLwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqYWRqdXN0ZWRfbW9kZSA9ICZjcnRjX3N0YXRl
+LQo+ID5hZGp1c3RlZF9tb2RlOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpbnQg
+cGNsayA9IGZyZXEgLyBmc2xfbGRiX2xpbmtfZnJlcXVlbmN5KGZzbF9sZGIsIDEpOwo+ICsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZGV2X3dhcm4oZnNsX2xkYi0+ZGV2LCAiQWRq
+dXN0ZWQgcGl4ZWwgY2xrIHRvIG1hdGNoCj4gTERCIGNsayAoJWQga0h6IC0+ICVkIGtIeikhXG4i
+LAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGFkanVz
+dGVkX21vZGUtPmNsb2NrLCBwY2xrKTsKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoGFkanVzdGVkX21vZGUtPmNsb2NrID0gcGNsazsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgYWRqdXN0ZWRfbW9kZS0+Y3J0Y19jbG9jayA9IHBjbGs7Cj4gK8KgwqDCoMKgwqDC
+oMKgfQo+ICsKPiArwqDCoMKgwqDCoMKgwqByZXR1cm4gMDsKPiArfQo+ICsKPiDCoHN0YXRpYyB2
+b2lkIGZzbF9sZGJfYXRvbWljX2VuYWJsZShzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLAo+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBzdHJ1Y3QgZHJtX2JyaWRnZV9zdGF0ZQo+ICpvbGRfYnJpZGdlX3N0YXRlKQo+IMKg
+ewo+IEBAIC0yODAsNiArMzEwLDcgQEAgZnNsX2xkYl9tb2RlX3ZhbGlkKHN0cnVjdCBkcm1fYnJp
+ZGdlICpicmlkZ2UsCj4gwqAKPiDCoHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2JyaWRnZV9mdW5j
+cyBmdW5jcyA9IHsKPiDCoMKgwqDCoMKgwqDCoMKgLmF0dGFjaCA9IGZzbF9sZGJfYXR0YWNoLAo+
+ICvCoMKgwqDCoMKgwqDCoC5hdG9taWNfY2hlY2sgPSBmc2xfbGRiX2F0b21pY19jaGVjaywKPiDC
+oMKgwqDCoMKgwqDCoMKgLmF0b21pY19lbmFibGUgPSBmc2xfbGRiX2F0b21pY19lbmFibGUsCj4g
+wqDCoMKgwqDCoMKgwqDCoC5hdG9taWNfZGlzYWJsZSA9IGZzbF9sZGJfYXRvbWljX2Rpc2FibGUs
+Cj4gwqDCoMKgwqDCoMKgwqDCoC5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0KPiBkcm1fYXRvbWlj
+X2hlbHBlcl9icmlkZ2VfZHVwbGljYXRlX3N0YXRlLAoKd2l0aG91dCBqdWRnaW5nIHRoZSBhcHBy
+b2FjaGVzIHlvdSBsaXN0IGFib3ZlLCB0aGlzIHdvcmtzIGZvciBtZSBvbgppbXg4bXAgYXMgd2Vs
+bCwKClRlc3RlZC1ieTogTWFydGluIEtlcHBsaW5nZXIgPG1hcnRpbmtAcG9zdGVvLmRlPgoKdGhh
+bmsgeW91LAoKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbWFydGluCg==
 
-Dear Maintainers,
-
-I am following up on my earlier query regarding the potential issue flagged by
-Coverity (CID 1602416) in the drm_draw_fill24 function in drm/drm_draw.c.
-
-Link to the Coverity issue:
-https://scan7.scan.coverity.com/#/project-view/52348/11354?selectedIssue=1602416
-
-The action field on Coverity has also been changed to "Fix required" for
-this issue.
-
-To summarize:
-
-	1. The color parameter is declared as a u16, but the bitwise operation
-	   (color & 0x00FF0000) targets bits that do not exist within a u16
-	   range, effectively always resulting in 0.
-
-	2. My query is whether this truncation is intentional or if the
-	   function should be updated to accept a 32-bit color value, aligning
-	   with its usage elsewhere.
-
-I wanted to kindly ask if there has been any decision or additional insight
-regarding this issue. If needed, I can provide a proposed patch to address the
-problem once the intended behavior is clarified.
-
-Thank you again for your time.
-
--Dheeraj
