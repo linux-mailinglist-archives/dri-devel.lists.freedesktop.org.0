@@ -1,79 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654729F79F3
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 11:59:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D3C9F7A16
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 12:09:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D45610ECD6;
-	Thu, 19 Dec 2024 10:59:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899F410E49A;
+	Thu, 19 Dec 2024 11:09:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="O9T+RKcw";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="buLi9nq+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD7B110ECCF
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 10:59:39 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-388cae9eb9fso342623f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 02:59:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734605978; x=1735210778; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2DrhlfxHBds/4kHdRY9eVwoEqBd4q+1/KO6/J4NzLC4=;
- b=O9T+RKcwictzXZ8Cl7k46EOCkXemWlHtgI+BFREFVDPO1F/EnxMwOwy6DGm828bMGH
- VyKQlLh3bvbKgZM9MZ/eNjckCgDdfuDseq99DhTFQdcoI3AVc8TLxszgP/aMYzsJpRmY
- 7kdN7lMWOLAo7721VWmrDhUNT5XvFBSKg53CsEWAswp5TL6Jja+iLwtnj4cj+bTNqOtx
- mOxTVlvm/WGQqfl7AFqDxo2Ue0Xp0Bt0SRX4R9R4PcZh6NXjnwcqZkp8oUt+ZmviV+Uq
- 6L97ZnYzu8+ICbiiuMzdhKVy9i57FBddspLcV4Rpzl50rc4b8fMJcrj9KUgE/LkpJ0yL
- gMlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734605978; x=1735210778;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2DrhlfxHBds/4kHdRY9eVwoEqBd4q+1/KO6/J4NzLC4=;
- b=Y7/sm28Ib03+qeIUqZ65/OefBWijuxmkZsNjv1++ZqvQqTk2TGRMDsBnVF0NlppCIc
- qFkSbhvZo6fgv7Wk8M3j/ZeK4KVPDprx+Paf3yw/Jof1eDV8JDUiuIwFBcmshBFA6gWs
- W59kX/gFCZiHf/muVe9ZYi8LhCZWQ0V/+7lIXnWHFATm/Wc3Boi38VYIsAvthh78+9lS
- NKEBU7UlbQ8zL3GTJUegZHBnuOwUE3VrkPn0QgpWFkiQpp3EsFXN6q3YFEYc6+h9WHst
- ZdMewbBBXcIvMq4YH4+IquawZd4NB7BgkSaExSE+BcwDP46YAPc+iKXnrfi6p0c70M41
- bXHw==
-X-Gm-Message-State: AOJu0YzNfHfpwat3KxUyBMFxgZQMkdM8C/1EIEUtqsuhBVlvOXmDhog7
- clQAncKWm0WH1cbFZ1Md65t2bFn4UD1L238n3Os6P0CA2GA6ruuIPZd3yhBvZsY=
-X-Gm-Gg: ASbGncsNt9FdmDC+fzG2mtA0t/Wq5HGE0K+6qizL4lRpwIwQf5rIebtcV/KOwkIM8qm
- w98JpsrEXGlwovBbRT1KYaCD9/JIhhBTxRvIaRLhUYk+YtFRShhDe6ZpR/VIyUS5AHYj37dhfYk
- Ac4MpzqTCAZckaTBRQliAKho29+DPOHu6dbBX7prUYPNU+NNaXRzesM7Rw7u6YimDTTzMGlN9NU
- f0vl191t9hbe/ZhRzC8AKJNIcX4d6l93PRx8gjCmjQGbHTIIcstwrel8vGmqA1aW3Zh8aF3vY5e
- zw==
-X-Google-Smtp-Source: AGHT+IFaF9sWd3quh/UU9qvPXWvBKQnkNWaZJoNMcICLp2IvxJVyKbJxKlNIvT7vBUe4q4BIMxiEXg==
-X-Received: by 2002:a05:6000:1f86:b0:385:e88b:1a76 with SMTP id
- ffacd0b85a97d-38a19b16589mr2501593f8f.30.1734605978427; 
- Thu, 19 Dec 2024 02:59:38 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c89e2d2sm1289920f8f.71.2024.12.19.02.59.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 02:59:38 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: mripard@kernel.org, cristian.ciocaltea@collabora.com, 
- Andy Yan <andyshrk@163.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
-In-Reply-To: <20241216101015.3726517-1-andyshrk@163.com>
-References: <20241216101015.3726517-1-andyshrk@163.com>
-Subject: Re: [PATCH v2] drm/bridge: synopsys: Fix Copyright Writing Style
- of dw-hdmi-qp
-Message-Id: <173460597776.883073.16665531257709362285.b4-ty@linaro.org>
-Date: Thu, 19 Dec 2024 11:59:37 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17D2410E49A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 11:09:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1734606593;
+ bh=0arSN+ejbNxnapjrbQiLEUStjChiAuTl6JrFXXXpcUU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=buLi9nq+OCoBZJowmY4W6AkR4JdD7GxHQq9GckVJ1VY7AI8sqCxrep0EAQVb5Z8+v
+ Qjm9TTQ9SKdSa+U+9sa0xGE2i6CZoUpmekIPB6enfigGV8lWInx4lGOFZOfpQ6nwLf
+ lL+QPqXW9aEI4gFDcrBoSd4BPxMJVi9PGzp8ma3lA7ZKpMIvVwSVGCdPoHnkF2RSVV
+ FuSEj0nYHniVGvJRmWcn0Zsu/zy86tlTbiRV+OS0kQwd0S+S5wjTkelv28O4U/MKoU
+ gH6Wj3DjLwNhzjlI3PiNXXcfV4eN1qLcW4YXze3bWRcCEkK/5g2dY4/B0PTQeC6pBB
+ TMZEB6aUzpH9g==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CED7717E3615;
+ Thu, 19 Dec 2024 12:09:52 +0100 (CET)
+Message-ID: <6f92c81f-84d0-4306-96d2-1cfc2ddb72e0@collabora.com>
+Date: Thu, 19 Dec 2024 12:09:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: mediatek: ovl: Modify rules
+ for MT8195/MT8188
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+ Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ Fei Shao <fshao@chromium.org>, Pin-yen Lin <treapking@chromium.org>
+References: <20241213095044.23757-1-jason-jh.lin@mediatek.com>
+ <20241213095044.23757-2-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241213095044.23757-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,20 +71,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, 16 Dec 2024 18:10:03 +0800, Andy Yan wrote:
-> The standard writing style should be: Co., Ltd.
-> This fix the mail server warning:
-> DBL_SPAM(6.50)[co.ltd:url];
+Il 13/12/24 10:50, Jason-JH.Lin ha scritto:
+> From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 > 
+> Modify rules for both MT8195 and MT8188.
+> Hardware capabilities include color formats and AFBC are
+> changed since MT8195, stop using the settings of MT8183.
 > 
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>   .../bindings/display/mediatek/mediatek,ovl.yaml          | 9 ++++-----
+>   1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> index 9ea796a033b2..8ca8e5966b9a 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yaml
+> @@ -26,6 +26,7 @@ properties:
+>             - mediatek,mt8173-disp-ovl
+>             - mediatek,mt8183-disp-ovl
+>             - mediatek,mt8192-disp-ovl
+> +          - mediatek,mt8195-disp-ovl
+>             - mediatek,mt8195-mdp3-ovl
+>         - items:
+>             - enum:
+> @@ -36,16 +37,14 @@ properties:
+>             - enum:
+>                 - mediatek,mt6795-disp-ovl
+>             - const: mediatek,mt8173-disp-ovl
+> -      - items:
+> -          - enum:
+> -              - mediatek,mt8188-disp-ovl
+> -              - mediatek,mt8195-disp-ovl
+> -          - const: mediatek,mt8183-disp-ovl
+>         - items:
+>             - enum:
+>                 - mediatek,mt8186-disp-ovl
+>                 - mediatek,mt8365-disp-ovl
+>             - const: mediatek,mt8192-disp-ovl
+> +      - items:
+> +          - const: mediatek,mt8188-disp-ovl
+> +          - const: mediatek,mt8195-disp-ovl
+>   
+>     reg:
+>       maxItems: 1
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/1] drm/bridge: synopsys: Fix Copyright Writing Style of dw-hdmi-qp
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1e93f594285faef57651a0c89f61a7d976db7def
+Jason, while doing MDP3 bindings for MT8188, I noticed that the binding for OVL is
+missing; can you please add a commit on top of this series adding the following
+snippet?
 
--- 
-Neil
+       - items:
+           - const: mediatek,mt8188-mdp3-ovl
+           - const: mediatek,mt8195-mdp3-ovl
 
+...with a suggested-by tag it's going to be fine :-)
+
+P.S.: Please refer to 
+https://lore.kernel.org/r/20241218105320.38980-1-angelogioacchino.delregno@collabora.com
+
+Thanks,
+Angelo
