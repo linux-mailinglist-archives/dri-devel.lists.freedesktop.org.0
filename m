@@ -1,55 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0289F86FD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 22:34:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB849F8702
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Dec 2024 22:34:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C436B10E340;
-	Thu, 19 Dec 2024 21:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFE210EDC2;
+	Thu, 19 Dec 2024 21:34:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CJaWPy5u";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QLzzBBnE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3E3910E34B;
- Thu, 19 Dec 2024 21:34:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5F910EDBD;
+ Thu, 19 Dec 2024 21:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734644072; x=1766180072;
+ t=1734644077; x=1766180077;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=JS34CxpUH0VntzIm/vmO+AgNKJEPTSr5XiaL/RF2M0I=;
- b=CJaWPy5uwj4RNeoDEREg/Mt7ekuNPgQ4YYOgI7JunivQ/IVqP7/lkiML
- 7R9RdBqVkuHdObGDEmdFmXigz7ILtktSEwZWn7PbDby59KfOfEOKhaYmq
- BED5hMkDxB4EqWSrkcS/V2YJ+oni8XYq3Ya8RO3WgR/58blA5d8hvBw0i
- T4ILSzHy6PR/xM9t6v0TS6G0PIdxwsI+JS7bosJLCQr+LtPSKpG8fGnR0
- ZXuSA8qhIWGZamDChz7rYy5siyXk+3gpfZoXLo/r2Cn5+Zdgfyzo6mPEn
- PBUIW3FO1EctBLR9SC5a/FxRsRJ9Rl04+kQBuxg3aT+Nt2tkMfKIh47Fx Q==;
-X-CSE-ConnectionGUID: 10tCVM4+RAaHGmJ38N4WeA==
-X-CSE-MsgGUID: uZxHDoKpSoy4UWZVcBTKdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="34900121"
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; d="scan'208";a="34900121"
+ bh=Z28yGT4/mZ7vdk+3Z3LTZqmOIA99jXKmtwQHYz2HOy8=;
+ b=QLzzBBnE3OL/XFuXeM7WYdHJXL1mhDHWZ8srnMfSFrZrzeBrZJvkQMMD
+ Z//UueLWJcyp4lvw44X6aSZck1MHYLZbpCqZJsIC4QtPGNl/S0M1wSIHk
+ gVr/FeMXIuitQj27sRvZqNhs3DV3kAhYN3o3nCdygVT/Mjxff10wkKtN2
+ Rz8gJymR0nSFE9zKxwR0Nu8Mt7jUr4eEQl2QWYcG5jbETafqdDXY3GRFQ
+ SWAbrH3FcXRD0YBrDmSD57UiXW7wDxgqthg2BX89ONrZVWS58F29FwoQS
+ cJu/aHPzIXHiJFsUWgGrVYdDdUs09K23UEJTD+axxMqjO4nujFP7xzZMz Q==;
+X-CSE-ConnectionGUID: 6kcQ6nPBR6m65P8jHOjZfA==
+X-CSE-MsgGUID: QyPBLZE0SW6Upb+mQb3I+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="34900128"
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; d="scan'208";a="34900128"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2024 13:34:32 -0800
-X-CSE-ConnectionGUID: K3bO9qIBTnqj5Bbzryb5yw==
-X-CSE-MsgGUID: COlU6MlASVi6KxTenb74rg==
+ 19 Dec 2024 13:34:37 -0800
+X-CSE-ConnectionGUID: qCU4oOsmTXKW8u450019Yw==
+X-CSE-MsgGUID: KNS3th5IQ1m7v5bnmxyBhA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="99140768"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="99140826"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.246.207])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2024 13:34:30 -0800
+ 19 Dec 2024 13:34:36 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, jani.nikula@intel.com, imre.deak@intel.com
-Subject: [PATCH v2 03/16] drm/i915/mst: drop connector parameter from
- intel_dp_mst_compute_m_n()
-Date: Thu, 19 Dec 2024 23:33:52 +0200
-Message-Id: <d775bd84208f4739ff178305162fc9b32f165acc.1734643485.git.jani.nikula@intel.com>
+Subject: [PATCH v2 04/16] drm/i915/mst: change return value of
+ mst_stream_find_vcpi_slots_for_bpp()
+Date: Thu, 19 Dec 2024 23:33:53 +0200
+Message-Id: <5c5db1f5bdbb90e896d4ac792586d2af6c60c68c.1734643485.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1734643485.git.jani.nikula@intel.com>
 References: <cover.1734643485.git.jani.nikula@intel.com>
@@ -71,35 +71,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-intel_dp_mst_compute_m_n() doesn't need the connector. Remove the
-parameter.
+The callers of mst_stream_find_vcpi_slots_for_bpp() don't need the
+returned slots for anything. On the contrary, they need to jump through
+hoops to just distinguish between success and failure. Just return 0
+instead of slots from mst_stream_find_vcpi_slots_for_bpp() for success,
+and simplify the callers.
+
+There's a pointless ret local variable that we can drop in the process.
 
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dp_mst.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp_mst.c | 52 +++++++--------------
+ 1 file changed, 18 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 50426ba5bdeb..f52f9c968adb 100644
+index f52f9c968adb..f7b91cf32b5b 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -167,7 +167,6 @@ static int intel_dp_mst_bw_overhead(const struct intel_crtc_state *crtc_state,
+@@ -226,7 +226,6 @@ static int mst_stream_find_vcpi_slots_for_bpp(struct intel_dp *intel_dp,
+ 	int bpp, slots = -EINVAL;
+ 	int dsc_slice_count = 0;
+ 	int max_dpt_bpp;
+-	int ret = 0;
+ 
+ 	mst_state = drm_atomic_get_mst_topology_state(state, &intel_dp->mst_mgr);
+ 	if (IS_ERR(mst_state))
+@@ -340,23 +339,21 @@ static int mst_stream_find_vcpi_slots_for_bpp(struct intel_dp *intel_dp,
+ 		}
+ 	}
+ 
+-	/* We failed to find a proper bpp/timeslots, return error */
+-	if (ret)
+-		slots = ret;
+-
+ 	if (slots < 0) {
+ 		drm_dbg_kms(display->drm, "failed finding vcpi slots:%d\n",
+ 			    slots);
+-	} else {
+-		if (!dsc)
+-			crtc_state->pipe_bpp = bpp;
+-		else
+-			crtc_state->dsc.compressed_bpp_x16 = fxp_q4_from_int(bpp);
+-		drm_dbg_kms(display->drm, "Got %d slots for pipe bpp %d dsc %d\n",
+-			    slots, bpp, dsc);
++		return slots;
+ 	}
+ 
+-	return slots;
++	if (!dsc)
++		crtc_state->pipe_bpp = bpp;
++	else
++		crtc_state->dsc.compressed_bpp_x16 = fxp_q4_from_int(bpp);
++
++	drm_dbg_kms(display->drm, "Got %d slots for pipe bpp %d dsc %d\n",
++		    slots, bpp, dsc);
++
++	return 0;
  }
  
- static void intel_dp_mst_compute_m_n(const struct intel_crtc_state *crtc_state,
--				     const struct intel_connector *connector,
- 				     int overhead,
- 				     int bpp_x16,
- 				     struct intel_link_m_n *m_n)
-@@ -282,7 +281,7 @@ static int mst_stream_find_vcpi_slots_for_bpp(struct intel_dp *intel_dp,
- 		remote_bw_overhead = intel_dp_mst_bw_overhead(crtc_state,
- 							      true, dsc_slice_count, link_bpp_x16);
+ static int mst_stream_compute_link_config(struct intel_dp *intel_dp,
+@@ -364,22 +361,15 @@ static int mst_stream_compute_link_config(struct intel_dp *intel_dp,
+ 					  struct drm_connector_state *conn_state,
+ 					  struct link_config_limits *limits)
+ {
+-	int slots = -EINVAL;
+-
+ 	/*
+ 	 * FIXME: allocate the BW according to link_bpp, which in the case of
+ 	 * YUV420 is only half of the pipe bpp value.
+ 	 */
+-	slots = mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state,
+-						   fxp_q4_to_int(limits->link.max_bpp_x16),
+-						   fxp_q4_to_int(limits->link.min_bpp_x16),
+-						   limits,
+-						   conn_state, 2 * 3, false);
+-
+-	if (slots < 0)
+-		return slots;
+-
+-	return 0;
++	return mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state,
++						  fxp_q4_to_int(limits->link.max_bpp_x16),
++						  fxp_q4_to_int(limits->link.min_bpp_x16),
++						  limits,
++						  conn_state, 2 * 3, false);
+ }
  
--		intel_dp_mst_compute_m_n(crtc_state, connector,
-+		intel_dp_mst_compute_m_n(crtc_state,
- 					 local_bw_overhead,
- 					 link_bpp_x16,
- 					 &crtc_state->dp_m_n);
+ static int mst_stream_dsc_compute_link_config(struct intel_dp *intel_dp,
+@@ -389,7 +379,6 @@ static int mst_stream_dsc_compute_link_config(struct intel_dp *intel_dp,
+ {
+ 	struct intel_display *display = to_intel_display(intel_dp);
+ 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
+-	int slots = -EINVAL;
+ 	int i, num_bpc;
+ 	u8 dsc_bpc[3] = {};
+ 	int min_bpp, max_bpp, sink_min_bpp, sink_max_bpp;
+@@ -451,14 +440,9 @@ static int mst_stream_dsc_compute_link_config(struct intel_dp *intel_dp,
+ 	min_compressed_bpp = intel_dp_dsc_nearest_valid_bpp(display, min_compressed_bpp,
+ 							    crtc_state->pipe_bpp);
+ 
+-	slots = mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state, max_compressed_bpp,
+-						   min_compressed_bpp, limits,
+-						   conn_state, 1, true);
+-
+-	if (slots < 0)
+-		return slots;
+-
+-	return 0;
++	return mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state, max_compressed_bpp,
++						  min_compressed_bpp, limits,
++						  conn_state, 1, true);
+ }
+ 
+ static int mst_stream_update_slots(struct intel_dp *intel_dp,
 -- 
 2.39.5
 
