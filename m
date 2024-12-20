@@ -1,79 +1,89 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678CC9F8BE8
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 06:38:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51FF29F8BEC
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 06:41:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACDF110E4E3;
-	Fri, 20 Dec 2024 05:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26FDE10EEC1;
+	Fri, 20 Dec 2024 05:41:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sS8Q0JaX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jduIpkuK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com
- [IPv6:2607:f8b0:4864:20::112d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D7F210E4E3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 05:38:24 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-6eff5ad69a1so13919707b3.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 21:38:24 -0800 (PST)
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFDED10EEC1
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 05:41:42 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id
+ 38308e7fff4ca-303548a9361so13731291fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 21:41:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734673103; x=1735277903; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rIKarjSguBzb5vvGdGEBWsVx805GOCvvnK6El20HXXg=;
- b=sS8Q0JaXIn/sZ49PXjtsvcAfIfiqoz9DdS+w0irfy8+NoUn2IepzYHEZRpySsRvuDF
- E7kb+j9GkX733C/cFUE+fQTMSxYjBK9Cf4b7FMexQRyWfmrHpPQ3MeuzDwdQgz8+3wKM
- p51ORWRAXgO647rxVdrjdjhn7mzGru8+qMfH6uGjliehQ2WZVnixHKR5SmeJ3BwNu94X
- in7fLYWggODC6QH+bspPxjW8r0dDDs6fLAVx7AE7wsHV6kHrJdmPh/+nxQUPRZWsAbk5
- 2Ke58zLZi2l9SihBwwXVScZRkvjkShmdqbfezzZny901p1dZKnzB0W0pz82329iQIEzC
- KzRA==
+ d=linaro.org; s=google; t=1734673301; x=1735278101; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=zSd9RPD5SkoaoogLe4rfM84xfHjo1V6oblWgx/m35FM=;
+ b=jduIpkuK2FVtn/cBHQh26lpobLcuD8dsxsUNs5SnXJ6nkLNxQQ7sA6NGW+uLiJqzb5
+ 5N8kusU0bwTldkCokd4pzJYdqUiMo5ut5oGe0LmZr2ap+rdWA4EDb+EFMBpvcLE5Qokl
+ R1CZIeCZxCuh9PPoF0cpytGil1Dng/Q82rG3Bat+mH65xiakRqlpA1Zbbu+RT1MgrEB5
+ ON4eTtbcISnbviAKgkR4qUAYgRdYHtyKQ8ZFVhvFcSKD5OPBIRR7T1+iZ8/hWXOyo4pv
+ 0Y4p+jCa/0n8jAWQ5cbXGFOs5A+wVRUOBxIK9p9cHb12r0phx3Bddqav8frcJvsW3PNQ
+ aQMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734673103; x=1735277903;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rIKarjSguBzb5vvGdGEBWsVx805GOCvvnK6El20HXXg=;
- b=GUO/TOlBs+qcPkn5GXKBOvbVksiDkbf1l03kRooZRrvmN2Ya/8ZY+mNfJ/++1ke5Tf
- 2nkVnrZksiCRCZy96vkTPz+zV2GzRUBUYv9vHM9KWAxVlpAb2KjH3hS1tVVwLYIQ3cuI
- SEgcKBNknbjxnWH0IgjVeG/ObgELUjUzqdq1dVh67PXRSJxBppuOlpo9gLK58EMe5a7P
- XZ+uAg5UHfnvAa2RlgwCsdQHsOtkvKrYF6hCg682SHoSo9YJrF0BQjHT3G3m4eRo2Uxy
- /ImzBp/J9LjNuPCUq/0GfZhCDpIqw2pb6zBM+vlM+4AAj5ViIGErfPFqee+cGqj4le3C
- 2LGg==
+ d=1e100.net; s=20230601; t=1734673301; x=1735278101;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zSd9RPD5SkoaoogLe4rfM84xfHjo1V6oblWgx/m35FM=;
+ b=nEk2sIzJ6ep/sVOJ8/1N5/jJvCdS/xecCMIZKc+DXzIifrOeFZuy/+cgrpOVsWhrVx
+ BeVO/cji0cRUzx+rDLcoXwR0NmM8L8rmK/VD0SdJGmabNNiKEtcIUKT8wHWJ4BRiqZhS
+ VJoLprBKJd9d3YVTGlRbPe9uY6n0PM26WeLwB+K2mtn0UJKRQyE7sv0tYb7gbj0f4BA1
+ o4hqOhElqKBmW/Pq4DJypL/a8s17DrBmBx99nazWheSdZGHNUhEhOoZ5FITzSRfrsdtz
+ rVfvd9zreY56ympVDOiwgU5WxlQfMXsn89559H7pqwyJtng3CDP4HFVICwQqzcLaGC+1
+ 9EVQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVe5OgufR34AadCDu8VRo8TYAYVCa1jKzaaVLa0Dnb4NcMLYfYoz6Pjn/Rhfj8eKsgZbje5lJOhMbM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyf1e0mWQvM27NK7ssNB30zw8PVL6pmamsVgb+XNncjzYpRNxWr
- zmuEraZpIIB4x8+1EncYCprGQFo2VsdnFaDGd9YTVWgMeF4I6Ivxk6KYRBOzXlfiRdxh7zpqphH
- zE5iBywdLD5ZNoGE6wUpOIYVI6IWnyvi1ppAfhg==
-X-Gm-Gg: ASbGnctNpJNeGxcrNN+LiFxOyDEcuYJTFeKfSPBzX3Si6nxrXlmlO4O0SaMWrobWipc
- 4tDf/lskJFCx4TdvfHvPJu4cZ9Kfok1xB4OEP5UHWGPYGuCOYzBh1
-X-Google-Smtp-Source: AGHT+IFzw4UTk3bYJjTLjWStSiQBoWV4fWweBYuliIxs6rVCPb45P2NhqG9sK5ndMaNn705CQufJ7trl8MkIav7ihTk=
-X-Received: by 2002:a05:690c:6e0d:b0:6e5:9cb7:853c with SMTP id
- 00721157ae682-6f3f822204cmr13331197b3.31.1734673103176; Thu, 19 Dec 2024
- 21:38:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
- <20241219080604.1423600-15-damon.ding@rock-chips.com>
- <cg7bnhol4gvzji7agxazas7nkxy7zammzy67rjvhp35yqyraju@73daepsbmuae>
- <d2b47813-45fa-4148-8a4a-6cf4a18ee7ca@rock-chips.com>
-In-Reply-To: <d2b47813-45fa-4148-8a4a-6cf4a18ee7ca@rock-chips.com>
+ AJvYcCV4gBxoYcRObytCABhnDVU4yMHDVe6rgEuq3DEB42WemlLla9x5rvvEXvAr5RVW+pRBYcpCEIR8zLM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxsX+ZGFqje7z5D8Ya1hxgydzRw5LNGqHyOFutBbkwtZO9L6g4i
+ hv9cS+TBKd0EiG7ZjyY9h5V8vfiKmo0jYA3IjmsITN2sqW9EGGmXXD2xdq66OFw=
+X-Gm-Gg: ASbGncv3ppt6iAju1e81BrLhABHJf1zEwzJiGoasac/vXz6ZO0lbQxvrx9KIcfo8E18
+ 19tWs9DU1h29vMbB9pSDNG5tPt43g1DXlRMmFh4lhAjpEjZX+YzaywzYm/IWAQIjCUdDq/EMGXW
+ fF/zbkPj4HmdlFIAwugRVHAo91yrTvIr+XeN1vePx5P98PhAa7pak88z/ZPVRce3ar31x5UVwjr
+ QxSxDpcYRvYAXnqMZcmuWDGKoY6Wu8ty7ehpEQ4lWodWbZ3vx7bV6PIB9sAjH//nMaV54qEiNf/
+ K//DpSBxA60gf5Ow8tlQHVXY5OF+L5grdw4B
+X-Google-Smtp-Source: AGHT+IE0SzyvkJ12RI8b+pvSj1Fq06vfOqKQF7hZ9uZpOQiOErELhSiSLImozHQHQDEUoLxuo7BCWA==
+X-Received: by 2002:a2e:a588:0:b0:304:4e03:f9d9 with SMTP id
+ 38308e7fff4ca-30468608fb9mr5166751fa.28.1734673301233; 
+ Thu, 19 Dec 2024 21:41:41 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045ad99d51sm4547741fa.32.2024.12.19.21.41.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2024 21:41:40 -0800 (PST)
+Date: Fri, 20 Dec 2024 07:41:37 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 20 Dec 2024 07:38:12 +0200
-Message-ID: <CAA8EJpp0Smtqx7VQ5zdg9x3EhuLpk4u4vGv=rv8DHJ0rhei18w@mail.gmail.com>
-Subject: Re: [PATCH v3 14/15] arm64: dts: rockchip: Enable eDP0 display on
- RK3588S EVB1 board
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com, 
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de, 
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v4 16/25] drm/msm/dpu: Require modeset if clone mode
+ status changes
+Message-ID: <x6q3jvoi452wql5wg3bizmrn657iyhyhrc3ffk5g3g26i6e4vo@n6hnqyjtuwg3>
+References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
+ <20241216-concurrent-wb-v4-16-fe220297a7f0@quicinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241216-concurrent-wb-v4-16-fe220297a7f0@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,134 +99,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 20 Dec 2024 at 04:38, Damon Ding <damon.ding@rock-chips.com> wrote:
->
-> Hi Dmitry,
->
-> On 2024/12/20 8:20, Dmitry Baryshkov wrote:
-> > On Thu, Dec 19, 2024 at 04:06:03PM +0800, Damon Ding wrote:
-> >> Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
-> >> - Add edp-panel node
-> >> - Set pinctrl of pwm12 for backlight
-> >> - Enable edp0/hdptxphy0/vp2
-> >>
-> >> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> >>
-> >> ---
-> >>
-> >> Changes in v2:
-> >> - Remove brightness-levels and default-brightness-level properties in
-> >>    backlight node.
-> >> - Add the detail DT changes to commit message.
-> >>
-> >> Changes in v3:
-> >> - Use aux-bus instead of platform bus for edp-panel.
-> >> ---
-> >>   .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 52 +++++++++++++++++++
-> >>   1 file changed, 52 insertions(+)
-> >>
-> >> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> >> index bc4077575beb..9547ab18e596 100644
-> >> --- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> >> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> >> @@ -9,6 +9,7 @@
-> >>   #include <dt-bindings/gpio/gpio.h>
-> >>   #include <dt-bindings/input/input.h>
-> >>   #include <dt-bindings/pinctrl/rockchip.h>
-> >> +#include <dt-bindings/soc/rockchip,vop2.h>
-> >>   #include <dt-bindings/usb/pd.h>
-> >>   #include "rk3588s.dtsi"
-> >>
-> >> @@ -238,6 +239,41 @@ &combphy2_psu {
-> >>      status = "okay";
-> >>   };
-> >>
-> >> +&edp0 {
-> >> +    force-hpd;
-> >> +    status = "okay";
-> >> +
-> >> +    aux-bus {
-> >> +            panel {
-> >> +                    compatible = "lg,lp079qx1-sp0v";
-> >
-> > Why do you need the particular compat string here? Can you use the
-> > generic "edp-panel" instead? What if the user swaps the panel?
-> >
->
-> The eDP panels used in conjunction with the RK3588S EVB1 have broken
-> identification, which is one of the valid reasons for using a particular
-> compat string. So the generic_edp_panel_probe() can not return success
-> when using the "edp-panel".
+On Mon, Dec 16, 2024 at 04:43:27PM -0800, Jessica Zhang wrote:
+> If the clone mode enabled status is changing, a modeset needs to happen
+> so that the resources can be reassigned
+> 
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+> 
+> NOTE: As noted by Sima in the v1 [1], the DPU driver doesn't handle
+> crtc_state->mode_changed correctly. However, fixing this is out of the
+> scope of this series.
+> 
+> We will post a separate series addressing these issues across the driver
 
-Broken how? I don't see such info in the commit message.
+I'd rather fix the isssue first, as suggested by Sima, then we can see
+how this function will evolve.
 
->
-> >> +                    backlight = <&backlight>;
-> >> +                    power-supply = <&vcc3v3_lcd_edp>;
-> >> +
-> >> +                    port {
-> >> +                            panel_in_edp: endpoint {
-> >> +                                    remote-endpoint = <&edp_out_panel>;
-> >> +                            };
-> >> +                    };
-> >> +            };
-> >> +    };
-> >> +};
-> >> +
-> >> +&edp0_in {
-> >> +    edp0_in_vp2: endpoint {
-> >> +            remote-endpoint = <&vp2_out_edp0>;
-> >> +    };
-> >> +};
-> >> +
-> >> +&edp0_out {
-> >> +    edp_out_panel: endpoint {
-> >> +            remote-endpoint = <&panel_in_edp>;
-> >> +    };
-> >> +};
-> >> +
-> >> +&hdptxphy0 {
-> >> +    status = "okay";
-> >> +};
-> >> +
-> >>   &i2c3 {
-> >>      status = "okay";
-> >>
-> >> @@ -399,6 +435,7 @@ usbc0_int: usbc0-int {
-> >>   };
-> >>
-> >>   &pwm12 {
-> >> +    pinctrl-0 = <&pwm12m1_pins>;
-> >>      status = "okay";
-> >>   };
-> >>
-> >> @@ -1168,3 +1205,18 @@ usbdp_phy0_dp_altmode_mux: endpoint@1 {
-> >>              };
-> >>      };
-> >>   };
-> >> +
-> >> +&vop_mmu {
-> >> +    status = "okay";
-> >> +};
-> >> +
-> >> +&vop {
-> >> +    status = "okay";
-> >> +};
-> >> +
-> >> +&vp2 {
-> >> +    vp2_out_edp0: endpoint@ROCKCHIP_VOP2_EP_EDP0 {
-> >> +            reg = <ROCKCHIP_VOP2_EP_EDP0>;
-> >> +            remote-endpoint = <&edp0_in_vp2>;
-> >> +    };
-> >> +};
-> >> --
-> >> 2.34.1
-> >>
-> >
-> Best regards,
-> Damon
-
-
+> 
+> [1] https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index b063c8fe4c0594772d84401fa56c9c21afc0ad18..9bb920d28bae2706b3892c167fe2bec3fd8857f4 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1297,6 +1297,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>  {
+>  	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+>  									  crtc);
+> +	struct drm_crtc_state *old_crtc_state = drm_atomic_get_old_crtc_state(state,
+> +									      crtc);
+>  	struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
+>  	struct dpu_crtc_state *cstate = to_dpu_crtc_state(crtc_state);
+>  
+> @@ -1308,6 +1310,8 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>  	int rc = 0;
+>  
+>  	bool needs_dirtyfb = dpu_crtc_needs_dirtyfb(crtc_state);
+> +	bool clone_mode_enabled = drm_crtc_in_clone_mode(old_crtc_state);
+> +	bool clone_mode_requested = drm_crtc_in_clone_mode(crtc_state);
+>  
+>  	/* there might be cases where encoder needs a modeset too */
+>  	drm_for_each_encoder_mask(drm_enc, crtc->dev, crtc_state->encoder_mask) {
+> @@ -1315,6 +1319,10 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>  			crtc_state->mode_changed = true;
+>  	}
+>  
+> +	if ((clone_mode_requested && !clone_mode_enabled) ||
+> +	    (!clone_mode_requested && clone_mode_enabled))
+> +		crtc_state->mode_changed = true;
+> +
+>  	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>  		rc = dpu_crtc_assign_resources(crtc, crtc_state);
+>  		if (rc < 0)
+> 
+> -- 
+> 2.34.1
+> 
 
 -- 
 With best wishes
