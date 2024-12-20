@@ -1,101 +1,176 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A909F93FE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 15:11:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E409F942D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 15:22:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6821510E2A0;
-	Fri, 20 Dec 2024 14:11:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97A9610E387;
+	Fri, 20 Dec 2024 14:22:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ieTRQKRT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YmT/ff11";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB22E10E2A0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 14:11:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1734703899;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Po9j/kDHQSkOO7bkIrssGn4bx0ZxNo9Mz1APVM6CbfM=;
- b=ieTRQKRTBih37mL1nWUKULsZN6m5RieawkCWmnnwIGEv0RtLbKQFmOX0hrZhEe3e4N1w1T
- LdIR9fQQqbqhsfrPEqX339q+v7RcJ4y0DHfebBVHxE+yTRBiLbOpJh31+v1HDmgBIQqM3D
- kdn0gA9ImUYc2DJmjH8A29KlP8hzGfM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-76-ksa-uOPbMI-hR6ynIVnL2Q-1; Fri, 20 Dec 2024 09:11:37 -0500
-X-MC-Unique: ksa-uOPbMI-hR6ynIVnL2Q-1
-X-Mimecast-MFC-AGG-ID: ksa-uOPbMI-hR6ynIVnL2Q
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4362552ce62so11119955e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 06:11:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734703896; x=1735308696;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KR/Ybg3lzFNNrynj6GP2dfr+h48F8Y8mlhL1ZrgmhI0=;
- b=i5Rer1d8JedQbe3bOPkYrMNisSK1aEevpYsWjX/S8rrEDQ/WZX2FaADuRMPt97Jsp9
- +OOHbsetxTHmKyVLMaukMXtedK4eOucj63oXTwWTyPBFXLGqNZN1YGxJWwWXMm8sNc55
- fBgE30Y4x7LMEeepsTB8yhfhg+Uovb0YsvCpYNHDxYufZWrbs5m16hGQvdUfVHBB+xoK
- /BvK1Qn/z/mxGS+BXyRx9lsW+Ui6YzgUXxBOrC6P8HBN4to3BfdEIYxE6CpdZKSavuGK
- Y88aQWTalKhNRdVuCIHQw5TKcAmR6tlexLbXxehLjJsGKZeAZdCofzFFKgzti8Z9bXET
- 6JPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUj3qTsNUx1f1Sb8n7qrH4aSo8UqWVfaKMeBJ8YUyqXlKaF9GxPIwn4aUQE4+efG0LHUv2mfvfD+ME=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YykMR/WqPmETetRRvq9V6HbNec6mQ0jMkCiVeiT/5j+MC99NoR+
- Uz1hgNMjYDs+iJgol1fWJ7fU2qAoU9VHMqIJHQrTYORSp4+yVIu0V22zfo5Cs3PvZ7tipzFIZQw
- C2LKu0y0OAMqOyhLHbQVU8FyF0v6+fmKbMrndXrEm2bhFo2l+V5eUZDYIVAVoQaGsoA==
-X-Gm-Gg: ASbGnctAtQ/0BrF+FZju5rrKB50A3J0E+jDBroJFuEX5eJwFs0TcZlkTPbkVDsDn+5A
- 0k8CKxDSN1RYF2778egDzRgYw6amlKnwaX7+G5l00ZTGRkqVqdd0ihVO+fE2nYGUo2oJvIZxdov
- ykP6GHPYSPtobQL8/6YECW++refM6Rdauf4WLZhLo7tUTXenwWjNfwXF/qSFKTrHS/x3y4M2Ztj
- Nq3MRoM6kBryYH+WhPN+NZto8Ts0eV1D/mZFSglK5K/ITdqGdq2/HvPB2ZbVUmrNrH0P+1B19VD
- nY2M6BU8MvlrjVDJ3gjx24XtcX1sY6o=
-X-Received: by 2002:a7b:c459:0:b0:434:ff30:a165 with SMTP id
- 5b1f17b1804b1-436712441e2mr5994485e9.8.1734703896337; 
- Fri, 20 Dec 2024 06:11:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFvm84P8soawQWG7WWO+ebyxGNN7WWXWb2n1BSpHTBIQgvoW1jO1ClH+ywj0Fo/WaCNkr7iYw==
-X-Received: by 2002:a7b:c459:0:b0:434:ff30:a165 with SMTP id
- 5b1f17b1804b1-436712441e2mr5994205e9.8.1734703895893; 
- Fri, 20 Dec 2024 06:11:35 -0800 (PST)
-Received: from ?IPv6:2001:16b8:3db8:2e00:4b6c:c773:a3e0:8035?
- ([2001:16b8:3db8:2e00:4b6c:c773:a3e0:8035])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4366127c4fcsm47460175e9.29.2024.12.20.06.11.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2024 06:11:35 -0800 (PST)
-Message-ID: <46f22193d960c0a0960c2ceaa525e9ff57fc09b6.camel@redhat.com>
-Subject: Re: [PATCH] drm/sched: Document run_job() refcount hazard
-From: Philipp Stanner <pstanner@redhat.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
- Krummrich <dakr@kernel.org>
-Cc: Philipp Stanner <phasta@kernel.org>, Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org,  linaro-mm-sig@lists.linaro.org, Tvrtko
- Ursulin <tursulin@ursulin.net>, Andrey Grodzovsky
- <andrey.grodzovsky@amd.com>
-Date: Fri, 20 Dec 2024 15:11:34 +0100
-In-Reply-To: <e366a206-9fa3-4c6b-b307-d48855a7b183@amd.com>
-References: <20241220124515.93169-2-phasta@kernel.org>
- <5c4c610e-26ec-447c-b4db-ad38e994720b@amd.com> <Z2VunIJ4ltfW_xqD@pollux>
- <e366a206-9fa3-4c6b-b307-d48855a7b183@amd.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0E1B10E0D5;
+ Fri, 20 Dec 2024 14:22:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734704573; x=1766240573;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=fTIstZS8VDCGSOVrlj6cX6squJAlhWdq+dbYuZlnPVA=;
+ b=YmT/ff11/+HDTHph4Q0Q7YE9aGFZED4trvGVGq6xR766WE2kq4eeCLxJ
+ yxgv4OOTzhoy/CvZC842gUN8Ed+qjvw2dljzkKZ8QiXxURM9XcAG9xqDF
+ LWqF9M6kmlA5+FVgQ6iz60IBEI57tJ6Un5WfHDtA4ztngfsCBp2gUgmzm
+ cnJOWFYZA7Nemzjp4n+iKEtntXFaGyXAOW+rn96ZX/Iany5/boQFlGaNB
+ sXwFuK10Q/C+afhBBPbrFJC38tGP+rfrkk/V10sc8CTHho5PEEZhxg/2Q
+ CiIIFFQvKd4SPQe9vfkI/SI7U0tJOPLvWcuEsDIWJOEIJqHNZurxeff+b g==;
+X-CSE-ConnectionGUID: UTmxbTchRK+RGFgG9nFjWQ==
+X-CSE-MsgGUID: F3TX01EgTC+/+D9/UHR4Tw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="35145195"
+X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; d="scan'208";a="35145195"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2024 06:22:52 -0800
+X-CSE-ConnectionGUID: xY00Ceq8T0yHuTTEpC+/Uw==
+X-CSE-MsgGUID: Rjzv02YfRRi8GgtfUHPF2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="135868073"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Dec 2024 06:22:53 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 20 Dec 2024 06:22:52 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Fri, 20 Dec 2024 06:22:52 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.174)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 20 Dec 2024 06:22:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vUZp1SlN9RnZUk2NXZZwJYbgc7D/yNkrWnrv7hdNxDoJ641a0c2spYClji58Mi4BWjCTTY0AGK4djhrXzNbg/ym4pvVezRneaQ6PSk+pCnFGuhjwgSk/FtFUkUHneh9IdzEcra16nVnbgJGQiSMKP9f45Lgn7ty5lVzUfiw987DZPKTAL7Qa0iOVtc733m2UvKpRPyUeonRfeZ9fWRBAGvtMPy4viFTrwe8J1Tu5oKWXJ8CLP/WpM2J5oBKFk1YFpHD0b8Zsdty8+zjj4YSk3nLDijthxPwMALx7qo65wWrhPyj9ucYgD1YAtzFuNABef2RMlgoHtXmj4PnyMay0gA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N4ZDY9GkxZBoUFuw9MsML2+zjBLUbFolUWR9Btsv1IQ=;
+ b=bHcI7aqVbR4BfiAYhBaHRWTGmDbDNDSjn67MI52tUMpTiOqyWmo8QdralsbWMIK21neAxcn/Jgurv83pnFMokVSxwTX0VV2YlBVnvYRbWbA6MT2JnhVCS1NxOz2YXQ2OkhU7X2BfCO+IlI7zqZOhROO0FVeQf5SfiEMyGZ0Sg8P8wifc57KJdkK1WXBGsAB/YXxx3enowjVNQmkY/PscXAZHVYPFACwgy15biCpjjmCzPGzn+3nqeyeIN3t/DEywyEeyVxgoavysZJp3i3lFRvPKwOhUdJ3hV4OAp0aPv+sL3KAfRlqkso8DS29oTeWXyRmcKmxCv2y6HpJfhx+uzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11)
+ by MW4PR11MB6714.namprd11.prod.outlook.com (2603:10b6:303:20f::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.16; Fri, 20 Dec
+ 2024 14:22:45 +0000
+Received: from SN7PR11MB8282.namprd11.prod.outlook.com
+ ([fe80::f9d9:8daa:178b:3e72]) by SN7PR11MB8282.namprd11.prod.outlook.com
+ ([fe80::f9d9:8daa:178b:3e72%5]) with mapi id 15.20.8272.013; Fri, 20 Dec 2024
+ 14:22:45 +0000
+Date: Fri, 20 Dec 2024 09:22:39 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, "Maarten
+ Lankhorst" <dev@lankhorst.se>, <linux-kernel@vger.kernel.org>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Tejun
+ Heo" <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner
+ <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>, "Friedrich
+ Vock" <friedrich.vock@gmx.de>, <cgroups@vger.kernel.org>,
+ <linux-mm@kvack.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH v2 4/7] drm/xe: Implement cgroup for vram
+Message-ID: <Z2V9r80L2IgKdgvJ@intel.com>
+References: <20241204134410.1161769-1-dev@lankhorst.se>
+ <20241204134410.1161769-5-dev@lankhorst.se>
+ <20241219-banana-pudu-of-radiance-aa62db@houat>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241219-banana-pudu-of-radiance-aa62db@houat>
+X-ClientProxiedBy: MW4P223CA0013.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:303:80::18) To SN7PR11MB8282.namprd11.prod.outlook.com
+ (2603:10b6:806:269::11)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JRGsntJAqmRAUGDec2JH1pf8pF7avybNN53B7veeHBg_1734703896
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|MW4PR11MB6714:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c1a7c35-2e42-4b14-3755-08dd2101c588
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tRi8gj+uuow0RcN67sBDj/uJLEK0/6YxqsapTbLnHTs4OTn3IjC1eY/1BBfO?=
+ =?us-ascii?Q?Erdmp8Oukhgeh7406ujNiTli9BSEEG5zgYmiH8F9ncL0f2siT77sf+k/IUm2?=
+ =?us-ascii?Q?3Bp7t3g6FEnIFEj6Xjx6ymoB83O5z7OnzxpChauKFU1KsyaCBedjikdvd9Ut?=
+ =?us-ascii?Q?eHZoJ97kbvQjKynyaHR1O+mkkHdFYQv43bWlYfxow6Fu8QcTE3MO8pcUM5Fl?=
+ =?us-ascii?Q?UTzWSkJkFe8N+5NC9dO5/RHc77kSNUzwqq7wuB/sEhnIXKStVuX2cYNBOo0Z?=
+ =?us-ascii?Q?G8PfjT/GdwfdFMznI/V0xb/ijVao2uQ7Zj2fMy7oTxxrG88z5VYqM9rIYlG+?=
+ =?us-ascii?Q?idk22vSsux9izOtdIp9axwgxps8g4FpgNQ+NdMMmEoPurZJJPjRQitwOoPC5?=
+ =?us-ascii?Q?kW7EVjcM8iAzG2WZ7G5cecMg/szUQuc5jnajb9FbvxEgR7/DFfD9Xw5X8qSu?=
+ =?us-ascii?Q?Csm6bXpIpSTGoJfDx3ZivNV7+3wg4/KU4x0wRUsmzzdUes8aUd8znvxjCUrx?=
+ =?us-ascii?Q?h+E1+ybJ0KOtZAy34qVk+J/f1eUe9Hy8bDaREMU1ibixih/7wko0DFXqzOyR?=
+ =?us-ascii?Q?7TUuglT9TAZ/SRJntpTj2dcuUx+QqJFTAJQtZw8X0VjTUYUtbYigzZsBZKpS?=
+ =?us-ascii?Q?JS3VJARVW/3JkQjyj6R7dvoXPRaq8XhiRf/NE8EVU5zw1Fb4+NS3Dy+GaSFl?=
+ =?us-ascii?Q?D3Ext5uVbfsXkYzP3sgU0U7dVBVzftyWeJK713rMGFBvgDjBh65L+IxibTIK?=
+ =?us-ascii?Q?vfAmG1lS1aOxV+61gP8yEmo/sYCBWDX/dJXvepnDUAuwflx+c6sG27j+R0kC?=
+ =?us-ascii?Q?neN7Q/zP/u+IMbpTn/WSQfAAUYAGpSF+RB7uNKD/o0/0iCCqM1s+oZmIS+7r?=
+ =?us-ascii?Q?1HboVjvabIC8661lqF9YlGGytBD9/VUSj6cJdZsO2Qfd7wtT3M3WfIVl06r9?=
+ =?us-ascii?Q?7O3keVnMDyldLp4KMNmqDh5ZLpZyhklXuYQ3AKj4cVEKQLWT6qIWYo6XA760?=
+ =?us-ascii?Q?NMVRM4P9IWPOCsNw/XBkS2sUCU2Wwnu3RTDsUVxUAmnK13CE8HKHzap01ZK0?=
+ =?us-ascii?Q?LHEXtaLkxzH10QoDBJ6kVrKJ4ZgMwt/AiSYiFt9IS4nc6MHFgXKkiFb7ObEa?=
+ =?us-ascii?Q?TrvhOdnl8GYCQ2qIv+fnXjRZETaweTVV5OnuzcNiGYpVPkwRomeoaACbGxdG?=
+ =?us-ascii?Q?v0bdOzjwKJhPkh3zwLzXnfZE0CIXdeRODqAQtSBLGym5eJ8omGKp9TRady6I?=
+ =?us-ascii?Q?X7IXVEzi7eBx02U6tfUp3akk19iKvXPcFuBBoY3vJKtRlPSt6kO2eiYdFn//?=
+ =?us-ascii?Q?5aXc358gYktXoGKAZS6mFQFNuzSBpVhpDDKNq6a17oeDv+zsFJ27ggJiODrR?=
+ =?us-ascii?Q?6UGW4IW4Jo7hJ4mEFuKQtyvu//A/?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR11MB8282.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yzappZCtEi3jqYLgfwuJCJ2Bzs+ba5EcuxB57ehmq8Ob1ID4heIPYNgBxE/c?=
+ =?us-ascii?Q?ByUDyK5/FcbZVMDBR632qFdHK4gKl8aAvvjItoIvYKNutXT7g6teVR82rJ+3?=
+ =?us-ascii?Q?JhlmMnN/NrpVoHkhbjccgjn2p03FCAcuNdvTGmM9fxplNmd7Ok08+mPOOG1e?=
+ =?us-ascii?Q?6PVP+fF+CSu0ZYm+WspGdzXGdBc6iLUt2R4Qt2PwfsXKF+SeB+qbQetVxAx/?=
+ =?us-ascii?Q?ygBvtwCcwEEyAnoKv/BqmvuTpmLm6GuM4Tn8MxOFJA9OQi6ZaMP0XZgijTpD?=
+ =?us-ascii?Q?vfRJeG9SKuYm+SiQwg/77V7dKlfoL+xiNfPP/23sMrFC0fFK83wu4av5BzKX?=
+ =?us-ascii?Q?vZYd/H3XSAbIkbY2nDJF+HXsc5DpxCBELg1orBjLuiXvM/Yda3C3Hc11KbXF?=
+ =?us-ascii?Q?AZYNXgGQM9QzcmSwBCfnD+BxfqrnRu+yknDxkvdv2efaskfbnE7mRixXJvF+?=
+ =?us-ascii?Q?QVMyX06814/kRawg5+rNnYT5H5zBO76/BegOO6rKevAy3wd0umEvbv8EcKWh?=
+ =?us-ascii?Q?aHnKKyrg1CxNp931Aers0p/q8Bh9t1FTTmhtwk/OX6hoAi42TnYn42MzepI8?=
+ =?us-ascii?Q?rhFN3YcnbsAksUhdlTpgHDLaJXuVq9RwSPjp/rdVBInXwoLFMTmNPMB2GHBz?=
+ =?us-ascii?Q?bJE9CBDkw2ICEdNRjUDNb43oz7H6lM6S7Qk8Sh4Rv0+MZwFQi62KkYT0Tf06?=
+ =?us-ascii?Q?l4I6i6IHH1kEv0LAC2Y/FvjjbnP1e9RpsjkfC4bqg5YxOE/DzM5ThzUVsf09?=
+ =?us-ascii?Q?ywzqxPmOCzN6xVYC0Wy+GpI+Snt7NAWFD152KIw3NFXykp+ZNkrcFnnrDTwK?=
+ =?us-ascii?Q?Vz1KLReTSb1YcFT9okQSjwKv5ebPLUpducmXzkFA8kaEnhs/R88o+NA1EDJP?=
+ =?us-ascii?Q?LErbYIlHwBzEsWOGdXz+exYUiGhAQgNnJIi5qoZliqF9uYit/MGnNuAIHUHa?=
+ =?us-ascii?Q?omklVuGWHkQ2/yB9JCXP6Pfr7Qi/pQz+AZiw6k17bybywDmxja6aFJ58YsP0?=
+ =?us-ascii?Q?pl1/96bgTMW2jng11JYv5stuYqK5vFVR+ao0+GMmr7tGs1XLZweC4DtjPXNu?=
+ =?us-ascii?Q?Pc92XEX/IkBzfF+2ByOAoYbOLzrP3sSheC8o98Wcqg8wdc8TzdwWy+p+shYD?=
+ =?us-ascii?Q?UiE+VQpEDnl+ITd3ij6wyKzgZFv6EEdFkJYvL6ZSYo+1wdkbiBZaJ7VXRtnp?=
+ =?us-ascii?Q?UXNcCt4bjcQcskG76VMhkE60lYMDAEuioosiAUrHbWA34T8oK4sAjq42rUWD?=
+ =?us-ascii?Q?dr+TRS5nLVMQ9blgmwzYFAYiGRZf0q17I2tEa7YTKlOm0lSioecjjiMKR1HR?=
+ =?us-ascii?Q?4IxKY5+moySFKIJcND99wGTukSW5/5B/4TVqH4VLZultNyinhTooNvRq0NrU?=
+ =?us-ascii?Q?9+b/zdBOJOu+m1b/88/nNaOHsR1MaS9/u4PpvNE7uG6+UVHWuK/kgEb4p2Q1?=
+ =?us-ascii?Q?6ztmQZN08izlS4HLJUtGpUt7IlIl8KOlkAtreEU3i0Ku7Gd4/d3Icx4Xatdd?=
+ =?us-ascii?Q?/2UKIauGUamX2QY7MY4KSTEqwaIQwN+y55XD1b2jmwgsJNV8CBa4afy6W/J8?=
+ =?us-ascii?Q?gk6cnp5D3paXLeaJ3ULe56sMu/hQgK9iAlZ6rBvD6EJfhaqn+8IIEzSKeEpL?=
+ =?us-ascii?Q?nw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c1a7c35-2e42-4b14-3755-08dd2101c588
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8282.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 14:22:45.1376 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V9XMm57ypYrnSyRhz2peQEYH9zbuc3cMsZj7o/jwC6H2qu+dvqDR7g1M02LYkl9W9gDtMHYOwLaBs6hLtn2i5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6714
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,136 +186,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2024-12-20 at 14:25 +0100, Christian K=C3=B6nig wrote:
-> Am 20.12.24 um 14:18 schrieb Danilo Krummrich:
-> > On Fri, Dec 20, 2024 at 01:53:34PM +0100, Christian K=C3=B6nig wrote:
-> > > Am 20.12.24 um 13:45 schrieb Philipp Stanner:
-> > > > From: Philipp Stanner <pstanner@redhat.com>
-> > > >=20
-> > > > drm_sched_backend_ops.run_job() returns a dma_fence for the
-> > > > scheduler.
-> > > > That fence is signalled by the driver once the hardware
-> > > > completed the
-> > > > associated job. The scheduler does not increment the reference
-> > > > count on
-> > > > that fence, but implicitly expects to inherit this fence from
-> > > > run_job().
-> > > >=20
-> > > > This is relatively subtle and prone to misunderstandings.
-> > > >=20
-> > > > This implies that, to keep a reference for itself, a driver
-> > > > needs to
-> > > > call dma_fence_get() in addition to dma_fence_init() in that
-> > > > callback.
-> > > >=20
-> > > > It's further complicated by the fact that the scheduler even
-> > > > decrements
-> > > > the refcount in drm_sched_run_job_work() since it created a new
-> > > > reference in drm_sched_fence_scheduled(). It does, however,
-> > > > still use
-> > > > its pointer to the fence after calling dma_fence_put() - which
-> > > > is safe
-> > > > because of the aforementioned new reference, but actually still
-> > > > violates
-> > > > the refcounting rules.
-> > > >=20
-> > > > Improve the explanatory comment for that decrement.
-> > > >=20
-> > > > Move the call to dma_fence_put() to the position behind the
-> > > > last usage
-> > > > of the fence.
-> > > >=20
-> > > > Document the necessity to increment the reference count in
-> > > > drm_sched_backend_ops.run_job().
-> > > >=20
-> > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> > > > Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > > ---
-> > > > =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
-> > > > =C2=A0=C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 20
-> > > > ++++++++++++++++----
-> > > > =C2=A0=C2=A0 2 files changed, 23 insertions(+), 7 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > index 7ce25281c74c..d6f8df39d848 100644
-> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > +=09 *
-> > > > +=09 * @sched_job: the job to run
-> > > > +=09 *
-> > > > +=09 * Returns: dma_fence the driver must signal once the
-> > > > hardware has
-> > > > +=09 *=09completed the job ("hardware fence").
-> > > > +=09 *
-> > > > +=09 * Note that the scheduler expects to 'inherit' its
-> > > > own reference to
-> > > > +=09 * this fence from the callback. It does not invoke an
-> > > > extra
-> > > > +=09 * dma_fence_get() on it. Consequently, this callback
-> > > > must return a
-> > > > +=09 * fence whose refcount is at least 2: One for the
-> > > > scheduler's
-> > > > +=09 * reference returned here, another one for the
-> > > > reference kept by the
-> > > > +=09 * driver.
-> > > Well the driver actually doesn't need any extra reference. The
-> > > scheduler
-> > > just needs to guarantee that this reference isn't dropped before
-> > > it is
-> > > signaled.
-> > I think he means the reference the driver's fence context has to
-> > have in order
-> > to signal that thing eventually.
->=20
-> Yeah, but this is usually a weak reference. IIRC most drivers don't=20
-> increment the reference count for the reference they keep to signal a
-> fence.
->=20
-> It's expected that the consumers of the dma_fence keep the fence
-> alive=20
-> at least until it is signaled.
+On Thu, Dec 19, 2024 at 01:03:48PM +0100, Maxime Ripard wrote:
+> Hi Lucas, Thomas, Rodrigo,
+> 
+> We forgot to Cc you on this series, sorry. Could you have a look at it,
+> and especially the following patch?
 
-So are you saying that the driver having an extra reference (without
-having obtained it with dma_fence_get()) is not an issue because the
-driver is the one who will signal the fence [and then be done with it]?
-
->  That's why we have this nice warning in=20
-> dma_fence_release().
->=20
-> On the other hand I completely agree it would be more defensive if=20
-> drivers increment the reference count for the reference they keep for
-> signaling.
->=20
-> So if we want to document that the fence reference count should at
-> least=20
-> be 2 we somehow need to enforce this with a warning for example.
-
-We could =E2=80=93 but I'm not sure whether it really needs to be "enforced=
-",
-especially if it were only to be a minor issue, as you seem to hint at
-above.
-Document it is the minimum IMO
+I'm sorry for the delay here.
+I was following the thread on the side.
+I'm glad to see that we are finally going to get some cgroups support!
 
 
-P.
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
->=20
-> Regards,
-> Christian.
->=20
->=20
->=20
-> >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > =C2=A0=C2=A0=C2=A0=09 */
-> > > > =C2=A0=C2=A0=C2=A0=09struct dma_fence *(*run_job)(struct drm_sched_=
-job
-> > > > *sched_job);
->=20
+Fell free to push this through any tree...
+
+> 
+> 
+> 
+> On Wed, Dec 04, 2024 at 02:44:04PM +0100, Maarten Lankhorst wrote:
+> > Add vram based cgroup eviction to Xe.
+> > Most hardware with VRAM uses TTM for its management, and can be
+> > similarly trivially enabled.
+> > 
+> > Co-developed-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+> > ---
+> >  drivers/gpu/drm/xe/xe_ttm_vram_mgr.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> > index c95728c45ea48..f4a16e5fa7700 100644
+> > --- a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> > +++ b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> > @@ -5,6 +5,7 @@
+> >   */
+> >  
+> >  #include <drm/drm_managed.h>
+> > +#include <drm/drm_drv.h>
+> >  
+> >  #include <drm/ttm/ttm_placement.h>
+> >  #include <drm/ttm/ttm_range_manager.h>
+> > @@ -311,6 +312,13 @@ int __xe_ttm_vram_mgr_init(struct xe_device *xe, struct xe_ttm_vram_mgr *mgr,
+> >  	struct ttm_resource_manager *man = &mgr->manager;
+> >  	int err;
+> >  
+> > +	if (mem_type != XE_PL_STOLEN) {
+> > +		const char *name = mem_type == XE_PL_VRAM0 ? "vram0" : "vram1";
+> > +		man->cg = drmm_cgroup_register_region(&xe->drm, name, size);
+> > +		if (IS_ERR(man->cg))
+> > +			return PTR_ERR(man->cg);
+> > +	}
+> > +
+> >  	man->func = &xe_ttm_vram_mgr_func;
+> >  	mgr->mem_type = mem_type;
+> >  	mutex_init(&mgr->lock);
+> > -- 
+> > 2.43.0
+> > 
+
 
