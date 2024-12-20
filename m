@@ -2,67 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B8799F8D47
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 08:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAA89F8D66
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 08:43:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 693C210E0F8;
-	Fri, 20 Dec 2024 07:30:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38BB10E100;
+	Fri, 20 Dec 2024 07:42:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QElZ+k/5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UwGHsMWa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0BF310E0F8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 07:30:18 +0000 (UTC)
-Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B0DB4D4;
- Fri, 20 Dec 2024 08:29:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1734679778;
- bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
- h=From:Date:Subject:To:Cc:From;
- b=QElZ+k/5PGjLgZmmhrUEhvC/u1JCLUiiX1Yp/QuT4LQEDkz6kUByO+KSP6aYRl41q
- qWKOnRCedDOleW0sW9ehbs8P/rbCYqAQPnb7uKALS/C6UU2wAhpHWxXb2wvQoL9Ed9
- egKNlM8lEnmyFR7ndg4oYZO2+9DyJh81nrDP3+XU=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 20 Dec 2024 09:29:40 +0200
-Subject: [PATCH] drm: xlnx: zynqmp_dpsub: Fix kernel doc
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F03810E100
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 07:42:50 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id
+ 2adb3069b0e04-53df80eeeedso1572795e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 23:42:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734680569; x=1735285369; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=MMf0ktzYAxvbWhoZv2EKwNd/4v1glW65xIb5pyiK7eo=;
+ b=UwGHsMWa2GEHd0JdTX6rYwJf86eC8EnuXYZrLLJ+XsB1pu/i3AD4hWZotGBzTmuyXi
+ vc5lyxy9djmgkL92PFALRvgdyHMMSTGEmIVLOHlikb3b+O1AjGrv/exhowkytzehQpsZ
+ YoDVysbarnQ1eJShVW5zNxS2PgWQOmn2jFpfHJsGyj8FpC9eSNQNRb6TtjUayfq786qU
+ ee5zy5u+fRxg/NQScsQV2VAZoPmXUftaZXQiHY75UECCHl+gptkG4XFsGA1w+WSQ9hw6
+ hOqzXZ1hXRWkih00G0fgJsPWXKP/wZbKwXbflNzN1Z9UUdB/jTnYwN+tjOOzP5MlZ0BL
+ oYvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734680569; x=1735285369;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MMf0ktzYAxvbWhoZv2EKwNd/4v1glW65xIb5pyiK7eo=;
+ b=Ae2bW7tD3YzNEzlj5Jgjq5Cc6tSpgAJMXIIC6E2hBAQT0cOiKeA3NLdMJ9LmE60gHJ
+ g1frecRE29VIVkDpBUjhnTE95GWLmjpCUEbIfo0lYax5FCLEWeu0aJKmgH0gpWBkemyS
+ wASIiib/dJ2qIWy6RGZsba4SaJ5blxMD/pLSoZOs/DsKUXCGhuHfrxRJWN94SUGYNUJW
+ ormWEDUMrv+k8unvlh8YYJcbsrXxqoyCSGt0lJPR4Ql6YCgW4p7oyAHvlKEei0hITpfL
+ TZ/M4GhD/01PfzMQ8ZKO7+aCQ+oIUwZfOiXSQKZHt+HvP4KmvBxl1BoyO8gaiTDXIFC0
+ QuGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVU/ODEyMo1xOMXayP7yUIZusIUZqrSzcreQx/FR+Kbp+HGvD0VYp92WePv5cFIvpgVOdG00ok0MqM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/u81N3f65QU3LHEaK9T7/45i2u0XApt6MCtRf1MLmmjzc/ip3
+ XyTvmsQOx6Ns8WiZRbgcVnQBfNiwKCl+kpCoXE2NUG2N+kkxVwIbSSNYsBXmPhc=
+X-Gm-Gg: ASbGncstF19u0EAnoQDeJpmCyQxlTQGLc7lsQwVtuFPfPW75vLYuwu23F66zEOiWXyw
+ bKgX4BW5B7l7fCONPX1uOUpTamrQ8HuwuLojRGGKT8NaPvBhfE7kHYdbnWwDG1a18paIF61aN8g
+ FRmvi1+ciw/t9XrgTWnWBD1DTGo0T8XtvYL071NjWJrBAFXNdEnPMOTGKLr6DslCVa+vBNXE6dN
+ qhzfLm8tOB6jf1KlCuGHpDONMxCoijePhk8rFlb7fj/+gDa926zjSmO30XUER5ZGcVGPP+VtTkZ
+ kQE7zHsL8ARtW4bQmNzKRTuq032ExFRGh+VA
+X-Google-Smtp-Source: AGHT+IEr2m5nVAnM2oVA+XlqIyj+MGkgyIXH0Mvf++9V/yDvxNczxdMg0p3NVrqpyxhiC1HTBPjDLQ==
+X-Received: by 2002:a05:6512:1055:b0:540:2223:9b20 with SMTP id
+ 2adb3069b0e04-54229597f42mr515113e87.53.1734680568766; 
+ Thu, 19 Dec 2024 23:42:48 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045b096d3csm4541681fa.122.2024.12.19.23.42.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2024 23:42:47 -0800 (PST)
+Date: Fri, 20 Dec 2024 09:42:45 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: ANANDU KRISHNAN E <quic_anane@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, 
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
+Subject: Re: [PATCH v1 1/2] misc: fastrpc: Deregister device nodes properly
+ in error scenarios
+Message-ID: <gq4wy7omvudevcmkb4ksfimul4ftfpmd622kxxlbvodao7gxoo@7nzx44jocn4s>
+References: <20241220061854.24428-1-quic_anane@quicinc.com>
+ <20241220061854.24428-2-quic_anane@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-xilinx-dp-audio-doc-fix-v1-1-cc488996e463@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAOQcZWcC/x2MQQqAIBAAvxJ7bkGXMuor0SF0q4VQUQoh+nvSc
- QZmHsichDNMzQOJb8kSfAXdNmCP1e+M4ioDKeo0kcIip/iCLuJ6OQnogsVNCirTa0Wj0YYHqHV
- MXPV/npf3/QBudexDaQAAAA==
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Michal Simek <michal.simek@amd.com>, 
- Vishal Sagar <vishal.sagar@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1647;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnZR0EBS6sDhJBZMeydtixlq2kEKFKXkr/tY3uv
- A95KZPbT+KJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2UdBAAKCRD6PaqMvJYe
- 9bKrD/9ByB3EZ0lZNkh4O44fFwTO4Tr5XDSkcwNT+1Ep0NST2BlUgoNbQZvqYZSnkJpUAa2dpo6
- bGrjgAxRTkUJNmObLh4siTrPPCfzOuP0HPkWj20RPLIc3BsYFmh44PfrQWrZQH3JJwrR12Sim/r
- tGZBdo8luyqtJrCPThwN1U5pDVekzGSV2jtyuy1FL2dHlU91iczv7XCY8gV2Kt5OamUxXaz6wos
- ibtZ2040+bRH9udk7ffBWqAS/TyafYVhD4N9SUtEKzcMxkqLDUsLgNuWgxRaFdqo9VB7uemKBDT
- lp/uzccXvAF75Z4++mAgsxrhYZOyv77LHj8KTsu8U6NVLE8rTRjbecxmFWat1pXM9EtBdTjnjN6
- UlzevpvRche0r7LPQ5LUES/aquX/SFiK/Iqx7KfKkFzasjREY5NQW7fAxJRf2i2B16z0C7bRyuU
- X6XtUiffrdMqNg+EaMYhGucIA9rUoeiqjG66XEuD3LCRvusJvfczH5UWOiPfr1rr64RHmjp8jUu
- PUm8V9CJBfPwO4HNnjiHWIRGiLk2nPdOCGj7hoUCbrv88ZPFf1JMeGwelIwttO/0um63Uuo2N0C
- lysHSrcPbq+OhGIpS/hCwSVPmD6rttExjDcKa+JsWxX0LXt7bRT2VfGcw1hAv72/UUTrjMzMjCT
- 7p8qGp3lUUCJbfw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241220061854.24428-2-quic_anane@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,49 +92,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix two kernel doc warnings introduced by the recent DP audio patch:
+On Fri, Dec 20, 2024 at 11:48:53AM +0530, ANANDU KRISHNAN E wrote:
+> During fastrpc_rpmsg_probe, if secure device node registration
+> succeeds but non-secure device node registration fails, the secure
+> device node deregister is not called during error cleanup. Add proper
+> exit paths to ensure proper cleanup in case of error.
+> 
+> Signed-off-by: ANANDU KRISHNAN E <quic_anane@quicinc.com>
 
-- Add a doc line for the new "audio" field
-- Remove a reference to zynqmp_dpsub.c from zynqmp.rst, as the .c file
-  no longer has structured comments
+Please fix your name in your Git setup. The patch misses Fixes: tag and
+also cc:stable.
 
-Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
-Closes: https://lore.kernel.org/all/20241220154208.720d990b@canb.auug.org.au/
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- Documentation/gpu/zynqmp.rst        | 2 --
- drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
- 2 files changed, 1 insertion(+), 2 deletions(-)
+> ---
+>  drivers/misc/fastrpc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 48d08eeb2d20..ff144f0aa337 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -2344,7 +2344,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  
+>  		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
+>  		if (err)
+> -			goto fdev_error;
+> +			goto populate_error;
+>  		break;
+>  	default:
+>  		err = -EINVAL;
+> -- 
+> 2.17.1
+> 
 
-diff --git a/Documentation/gpu/zynqmp.rst b/Documentation/gpu/zynqmp.rst
-index f57bfa0ad6ec..1a6f9193de22 100644
---- a/Documentation/gpu/zynqmp.rst
-+++ b/Documentation/gpu/zynqmp.rst
-@@ -144,6 +144,4 @@ Internals
- 
- .. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_dp.c
- 
--.. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_dpsub.c
--
- .. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_kms.c
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-index 49875529c2a4..d771b8b199e0 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-@@ -60,6 +60,7 @@ struct zynqmp_dpsub_audio;
-  * @layers: Video and graphics layers
-  * @dp: The DisplayPort controller
-  * @dma_align: DMA alignment constraint (must be a power of 2)
-+ * @audio: DP audio data
-  */
- struct zynqmp_dpsub {
- 	struct device *dev;
-
----
-base-commit: 74ef9527bd87ead62deabe749a6d867af748d448
-change-id: 20241220-xilinx-dp-audio-doc-fix-0651029616e7
-
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
+With best wishes
+Dmitry
