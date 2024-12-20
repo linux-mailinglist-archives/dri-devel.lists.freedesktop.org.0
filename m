@@ -1,67 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B2C9F8C23
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 06:55:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BA49F8C3F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 07:00:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B71C10EEE2;
-	Fri, 20 Dec 2024 05:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D51310EECD;
+	Fri, 20 Dec 2024 06:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DXT1W3+O";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uAP4YjT9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 131B510EEE2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 05:55:43 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-540254357c8so1419016e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 21:55:42 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2742D10E06F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 06:00:32 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6832so1511309e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 22:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734674141; x=1735278941; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734674430; x=1735279230; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OJhpuoBbKLElyofoNozRR7fNdcqH/mOd7wB7B78IPAU=;
- b=DXT1W3+OuihnYT176GRHKv+xwRPBOLjvhaiEDKlfVVERt5RQpzmSWYWqHoxPQP852p
- ttN7HQW5OWLdDUB8HGEM6NRQMMQF4c1+Q8s09JGmFPYI2sT05J9obDP2hZDzgaIiJ9Ey
- C3uaAflbYSICr9yKL/eoIPb7ebrlpCFZH3edmNjA4jvyopRzTcJkBkTl5Ic6QAl/gzFw
- cgmLhJCWonViWcUTwAhq1hQ7rj+XIgrWEzvRnFzV4Va6p6Q8CECWSzUlvcSt2ufZVcPp
- z5an2/wlLiKMpX8vwUwfA5QzJ4sFn36pVrKyp4ynqG/HAEjgxwFTt++/U7Gpjy8NqOW5
- 6MSQ==
+ bh=lztogWLUolK8A0gjuG8auzrWDWfVBR792pZiblADSI0=;
+ b=uAP4YjT94G8JRuvf8F0ETy0dm9UXrwmnebyLJjHENOuTS9uoklDyRMEQ7mxHbkw5zW
+ v5tejYkP3IVwm+X03sclUFipaN3iT99aKxLl4YRyj+/nXJrrSYG+AdhPOhKLZULX1jTE
+ QLQm6hBEwow1vxjXJ2zgiNcsGpielZSWkddMuxMXrJkwH/3zhWaxoHPpYYEKG+ikAs3j
+ fxtqReu/AnlyE4HOZyswN8gMUr3HWA2oq/U9pSgQRBaeHt45+1oq+Wf59f4pGyLr6qDH
+ UnNA1NxIvKpbczfGLHWq3cpG0eG58LTyWO5sWGQUBzBtFrDv2Is7GiwNoKYsNd6VIm/y
+ SBWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734674141; x=1735278941;
+ d=1e100.net; s=20230601; t=1734674430; x=1735279230;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OJhpuoBbKLElyofoNozRR7fNdcqH/mOd7wB7B78IPAU=;
- b=YGn3sciupnWvp9CCeKUItZ3DY6EjdC3uve0shXjbCeCH5RikzOwGPEaed6IKqD5C3K
- J8gNvpRMb7/SufubjKrYhHBslV3Zda9V51lqRiaSh9i15A6rgh2Dqwf895+83CXTE6Zx
- WWuKYxK4cQiCA7e73fVcwHuk6Xq0boRWxmXohMLNowSXfLDSOIbLjsmw1njw51Vf+YCX
- rHKI0PfjOHyF21WkiB+kALMsxlqxuqZvNChdzBjvg9faB0uMBHvn9GMAR+kVHaHt9Sxv
- opf1iIilmRFajE4ZCPUKSfb57St/64cv5xFaUb22qbUsHLFSf/VsF1Ud2jPFJBERLkEb
- mcBQ==
+ bh=lztogWLUolK8A0gjuG8auzrWDWfVBR792pZiblADSI0=;
+ b=fFVXHXcZ8oFL47zVBspagCgRWIcx7MGZH2CUPP9FeiNkD4VtihODsCo2n0CUhNoWzc
+ shzwYEDGEIhGt4aU2N1siEm2TmPjc8LfmD6/s0CatPpDjMOIT9UuDlhiDQv2Lp/JYdM5
+ 3l2tc0ltkrCZsNx0x1OK4EED+yz05/NIvpX9ftP91aX4qZ9Ta7VlSccKLRw0a3UZe3FV
+ 4TJ5KCBCVxawmkqaF8aSjq20go4A/Y8appedGtB7pmM7ed6bbw6bavqM2AI/YDUMI7ih
+ g10hYHP6dGmYZ4XvmBh1v+XCgWrIbHb1soGJ300d7NshRzfHABAci9HOmeGpKEwbhrgt
+ lwIg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfSDvIhTtwFUVSVLk1dnykdmi0r54sMwJ9SpH2d68h3JZSJRTWi+GMomAXhm31M2/mp4bxGDGrDj0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmcDcy4/2w2cHwie6JwqV4LjCpOwFMic4OyXtKxNpks2Uumiin
- Th7BCdnR4EemQLTzl8qiwx5reIOv8dhJUOLTXiXZAbNvDX9xqNduaRVHE/05lvY=
-X-Gm-Gg: ASbGnct0SWMJREOfbrMhrAyVkj8Gik5ZU4fVVcl7e1xLNQ4Jo8yGAYFobXqiYTzO5Ne
- ys8ILv4ttycBfLFuK6dAzftgyVV2zhY9p8xMjrGwiU9hTyAVLuApeBigHjRQDFr6rkEX2o923SU
- 3tG6LrCy1RlTxWSZAo2yMqhxKVTy7ZPdYTAMUv9/cSZMGUB5nh3/3uB+2wbi4q1vctq2UQFYyOx
- Qu8Yk29UlOBz5WOHyP8RvuiGcBAAHwDKCPc2AAz5M+MEYQ1p/suAj0ckysuWiPopmOpeVzAPKJB
- I/6aMhdBK/DWtd+TFOsD+zDVC8AfzzVay5gE
-X-Google-Smtp-Source: AGHT+IETemAVTmQyZ9rbwPDBncgy1nlOXafMgvgGBZDfwJJZOMq7B3fJHMrkOYNfkHSOT4TqKqybDw==
-X-Received: by 2002:a05:6512:350e:b0:542:2991:e984 with SMTP id
- 2adb3069b0e04-5422991e989mr241894e87.9.1734674141403; 
- Thu, 19 Dec 2024 21:55:41 -0800 (PST)
+ AJvYcCVNoWzy+LV2GF6C/3ibAPJJ8JnHl7sGtsnLHpJ5WHlsl4X696tnYHVr5rUWO4VbqWhdtHtnAlbwT6U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4bLtS2rtpyxoQzw7x3dyTnu3iIwmKg8+zr96tFM8t2oL051hK
+ pICkj7KoQGIoWHo4+Lp3TyUWfIAIArIIY0fvQkzq0RKk9XWU3RaDcT2/vu0sZxc=
+X-Gm-Gg: ASbGncseRPZRDMUUD1lZQL1Tj0+Q4VKI2+KhuqK+xEiUtZ6qjz04shmKJd4xU5yQudU
+ 5Oi4WcJ80TxMid/UfvIykpR6NA16fvaek5lUF1YLTjAa97gS2nGCtRGnte2dnkIBCJQRfmmg9Zl
+ +vSUuEsdHVXBhzH1XOWuqeQaw5KI6ae6CIQpaBxEPDHFII2Pgg2eUKR2CH3kDGAeZGlPrrT4yoX
+ NqzMiAvEuRnYbjeLlTAMl0Dy7TUWiMTGloFT5lMQNZ2g3DgRvHv0B1QexqM/GZCM4igrOaNnVlZ
+ h6yNOOSv6WYqI97FbKlTP9OZiJrzc6V5Qr7d
+X-Google-Smtp-Source: AGHT+IFiEdq38m3N3tZdESWDddegsXGp5KSA4zDLDiDMTHVXrl2c04WWztsil1xL9Q1eYop5O6E+PA==
+X-Received: by 2002:a05:6512:3405:b0:542:2a8b:d56f with SMTP id
+ 2adb3069b0e04-5422a8bd614mr136330e87.4.1734674430475; 
+ Thu, 19 Dec 2024 22:00:30 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235f5f57sm386381e87.33.2024.12.19.21.55.39
+ 2adb3069b0e04-54223835779sm379307e87.282.2024.12.19.22.00.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 21:55:41 -0800 (PST)
-Date: Fri, 20 Dec 2024 07:55:38 +0200
+ Thu, 19 Dec 2024 22:00:29 -0800 (PST)
+Date: Fri, 20 Dec 2024 08:00:26 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jessica Zhang <quic_jesszhan@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
@@ -75,14 +75,14 @@ Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Rob Clark <robdclark@chromium.org>, 
  Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v4 19/25] drm/msm/dpu: Configure CWB in writeback encoder
-Message-ID: <i6xj5p5jbn6hdu6uip5q3k4umz4b4daqmbwsgfuaw2guf23kjj@lkq42furh3sh>
+Subject: Re: [PATCH v4 24/25] drm/msm/dpu: Reorder encoder kickoff for CWB
+Message-ID: <dszctcu5mm4hudc53gqpjklcugah5lisvvfkbmejeywgceqyl5@dqzopvt2lb7s>
 References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
- <20241216-concurrent-wb-v4-19-fe220297a7f0@quicinc.com>
+ <20241216-concurrent-wb-v4-24-fe220297a7f0@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216-concurrent-wb-v4-19-fe220297a7f0@quicinc.com>
+In-Reply-To: <20241216-concurrent-wb-v4-24-fe220297a7f0@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,17 +98,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 16, 2024 at 04:43:30PM -0800, Jessica Zhang wrote:
-> Cache the CWB block mask in the DPU virtual encoder and configure CWB
-> according to the CWB block mask within the writeback phys encoder
+On Mon, Dec 16, 2024 at 04:43:35PM -0800, Jessica Zhang wrote:
+> Add a helper that will handle the correct order of the encoder kickoffs
+> for concurrent writeback.
+> 
+> For concurrent writeback, the realtime encoder must always kickoff last
+> as it will call the trigger flush and start.
+> 
+> This avoids the following scenario where the writeback encoder
+> increments the pending kickoff count after the WB_DONE interrupt is
+> fired:
+> 
+> If the realtime encoder is kicked off first, the encoder kickoff will
+> flush/start the encoder and increment the pending kickoff count. The
+> WB_DONE interrupt then fires (before the writeback encoder is kicked
+> off). When the writeback encoder enters its kickoff, it will skip the
+> flush/start (due to CWB being enabled) and hit a frame done timeout
+> as the frame was kicked off (and the WB_DONE interrupt fired) without
+> the pending kickoff count being incremented.
+> 
+> In addition, the writeback timer should only start after the realtime
+> encoder is kicked off to ensure that we don't get timeouts when the
+> system has a heavy load (ex. when debug logs are enabled)
 > 
 > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 75 +++++++++++++++++++++-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |  7 +-
->  .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  4 +-
->  3 files changed, 83 insertions(+), 3 deletions(-)
-> 
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 74 ++++++++++++++++++++++++++------
+>  1 file changed, 60 insertions(+), 14 deletions(-)
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
