@@ -2,57 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC47F9F88E4
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 01:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D11CF9F88E2
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 01:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5291910E4C8;
-	Fri, 20 Dec 2024 00:18:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4922F10E35D;
+	Fri, 20 Dec 2024 00:17:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=cknow.org header.i=@cknow.org header.b="RL++tx/G";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v7CO5E0A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
- [91.218.175.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B53C10E4C8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 00:18:00 +0000 (UTC)
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
- t=1734653876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S/RK+iCwMDOjsz6qGHyrgosuNTC74b/O0wp4fma2qaQ=;
- b=RL++tx/GUnwLN9G3bQCBvzqbyINV1kneBL1xXtIsv/Kn9nBODpK6zMbUJIcvfASm1ZlFc5
- VtM3aR/JJkN+2RW1IuI1KnbudmdXs1kQjcyecZDgGytPV6s9wQqfKwITLly7LHBEqZulKj
- rD5AX57YauDEvqdc/SRum3I1y1KgTt0gTDDEqitA+iUXkalBDAGN7m5Fcc9ZLAScwTy39Z
- msnxadguluUjlinKAd4BwJ3oylD4gCTvIjnoyLQO6p2pVdKbW3ijZB1I0BG2AYZgWFTMSL
- P4nN9CSajxcslzBNFzmXXQWRUJUZerOLj4Lv1/25v0OJcTABH9Ccs825K0KveA==
-Content-Type: multipart/signed;
- boundary=011e6b374dd8cc6329fed8e851dfa8c3e80f3228d231932c98a778791d9f;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Fri, 20 Dec 2024 01:17:42 +0100
-Message-Id: <D6G3H3AXXVAJ.3F1WMBTWLX2KV@cknow.org>
-Cc: <robh@kernel.org>, <conor+dt@kernel.org>, <algea.cao@rock-chips.com>,
- <rfoss@kernel.org>, <heiko@sntech.de>, <devicetree@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <sebastian.reichel@collabora.com>, <dri-devel@lists.freedesktop.org>,
- <hjc@rock-chips.com>, <kever.yang@rock-chips.com>,
- <linux-rockchip@lists.infradead.org>, <vkoul@kernel.org>,
- <andy.yan@rock-chips.com>, <krzk+dt@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <l.stach@pengutronix.de>
-Subject: Re: [PATCH v3 07/15] drm/bridge: analogix_dp: Add support for phy
- configuration.
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Damon Ding"
- <damon.ding@rock-chips.com>
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B003010E35D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 00:17:55 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-3022484d4e4so15418201fa.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 16:17:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734653874; x=1735258674; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=88ypJKEjfY/PQxYw2dDvihxL+GlYw4/eG83FW6BzWoY=;
+ b=v7CO5E0AkHynOungOSP474YLlJmSwCBeqI625PvdS1wYUFkLdcjOnqUAJsdTepn3B0
+ tHNQq4+sQl5xzyfMUbPisClOwwhVwWqIXYD9iveCGE1VV/vo2WhZW62SYFQ4gxsZl0Ja
+ VaS3+Wc17wXRjYMjP1KAunf+HnYY4tBN2vEwclV3Ss1G1Pn39wYyRh0BUszK68PyquWB
+ PYNwt/iP+WslH11vEPqlS97IgFS6fEh/u6HR21vAxcniyk2XerjOvzrCzCZGe9O9VAyi
+ btnuAyO/I8z2SK6IL8ppKHj3IWWAUrrgzfW8SendWl59cp3dm9idwYWBbHjIwV3jfmC1
+ 0Sqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734653874; x=1735258674;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=88ypJKEjfY/PQxYw2dDvihxL+GlYw4/eG83FW6BzWoY=;
+ b=oSGRvl66tbAwdvLiQegiiYcGbNek8n4nGZADuXjnFcgt9ycmeOUSBqEZzp2RdCg647
+ KBB2hHUZeYsjYvX9MqvE1cpqhnQzhG28KJAW/295qkmx4pMI+bpwdM0ZezSEI974NpSN
+ XMF/7HYpuTv3afgHn2Nxfc+20wP8CKUYbWNLst0/pCnJps09M/+5OuHSiTJbwSEkA8iS
+ pfaGuEJ5wX0833sm7FiwRUfoPQB3BzSvFUMXEDYdoq1tw8sBGSAlwyM9CLyvxT0gN32b
+ hj9O0d64GmIrMl9MjFVtqfjGSoYV3vliowmyKr+FlnLYlxBPhlHq6YI48rIhWplF2Bz6
+ HJ0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/yFp0znSq8m/sztAi1AcrAwfXsa/+UOqtGn0/Imxiqt8ZYBHzSBrYgII7KDY+DHkINqL2E0HrFRU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9fVb2REPtcv7vnQFUkErPtvMM2mOw5gich0oiKU4eAaN20ki/
+ A8PdqStBBx+d/hQ7rW8ELIlDsvtYve94xmioPZHKwfTAWuMP5xMoNfuoxYxZFgQ=
+X-Gm-Gg: ASbGncuDrOCzTKwf8I2vnecra5OFcagg5DDv6TIvtPu7i0eI1/2QdrBFUB6VOdoj4Qx
+ Lj/wuLEk11ByMjZwAIFQtLwM8UczJ8KX6YoRqdlSszyTdpUOKypIe4AF7teoPJ6umjGypNltiaI
+ rWWbP5yngMwDcBbnmXTpCFJGmh0OEU9zZ2JKrGLTRiyoD4kqEiao62W0wyH+fum97l5JZ9DKLqJ
+ urZNIcn273RO3BoWvxqEUBvD7PROBgVnfhm0rSUGYyoNsceO3Q1+3+g3hSDS74rt0/DZa29mfzD
+ 6YqQDJy39KuePpwHcbaiDMjmg+PE9dGOH0V5
+X-Google-Smtp-Source: AGHT+IFB2i5vKnWXGFFd2MWZqu6ISfQEn6gsPEZ+iz0AquMdjU/HdGNzEaZYfYTM6DlCEi0nsU27SA==
+X-Received: by 2002:a05:651c:4ca:b0:302:4130:e19c with SMTP id
+ 38308e7fff4ca-30468571039mr2038491fa.19.1734653874050; 
+ Thu, 19 Dec 2024 16:17:54 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045ad6cb8asm3815281fa.18.2024.12.19.16.17.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2024 16:17:52 -0800 (PST)
+Date: Fri, 20 Dec 2024 02:17:50 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, 
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v3 09/15] drm/bridge: analogix_dp: Add support to get
+ panel from the DP AUX bus
+Message-ID: <irh3rei7to7gevrr5dqwa3qr3nl2lunenyvvvlqnpiyplbk2vj@ooedydnvl4df>
 References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
- <20241219080604.1423600-8-damon.ding@rock-chips.com>
- <a6vvydjbx3hbckoy74iiyzguyyacwvdh6iirqydjfvhwgocw3a@knecggjcbcid>
-In-Reply-To: <a6vvydjbx3hbckoy74iiyzguyyacwvdh6iirqydjfvhwgocw3a@knecggjcbcid>
-X-Migadu-Flow: FLOW_OUT
+ <20241219080604.1423600-10-damon.ding@rock-chips.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241219080604.1423600-10-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,74 +97,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---011e6b374dd8cc6329fed8e851dfa8c3e80f3228d231932c98a778791d9f
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Thu, Dec 19, 2024 at 04:05:58PM +0800, Damon Ding wrote:
+> If the panel can not be found in the beginning of rockchip_dp_probe()
+> using the platform bus, we can still try to find it in analogix_dp_bind()
+> through the DP AUX bus after the &analogix_dp_device.aux has been
+> initialized.
+> 
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> ---
+>  .../drm/bridge/analogix/analogix_dp_core.c    | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index 9429c50cc1bc..eae02819e3bb 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -19,12 +19,14 @@
+>  #include <linux/platform_device.h>
+>  
+>  #include <drm/bridge/analogix_dp.h>
+> +#include <drm/display/drm_dp_aux_bus.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_print.h>
+>  #include <drm/drm_probe_helper.h>
+> @@ -1733,6 +1735,23 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+>  		goto err_disable_pm_runtime;
+>  	}
+>  
+> +	if (!dp->plat_data->panel) {
+> +		/*
+> +		 * If the edp-panel module has not yet been initialized, the
+> +		 * devm_of_dp_aux_populate_bus() function will return 0 and
+> +		 * the done_probing() callback will not be called either.
+> +		 * Consequently, the panel will never be found.
+> +		 *
+> +		 * This is the reason why we do not use the done_probing()
+> +		 * callback and do not check the reture value here.
 
-On Fri Dec 20, 2024 at 1:13 AM CET, Dmitry Baryshkov wrote:
-> On Thu, Dec 19, 2024 at 04:05:56PM +0800, Damon Ding wrote:
-> >  void analogix_dp_get_lane_count(struct analogix_dp_device *dp, u32 *co=
-unt)
-> > @@ -546,10 +575,37 @@ void analogix_dp_get_lane_count(struct analogix_d=
-p_device *dp, u32 *count)
-> >  void analogix_dp_set_lane_link_training(struct analogix_dp_device *dp)
-> >  {
-> >  	u8 lane;
-> > +	int ret;
-> > =20
-> >  	for (lane =3D 0; lane < dp->link_train.lane_count; lane++)
-> >  		writel(dp->link_train.training_lane[lane],
-> >  		       dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL + 4 * lane);
-> > +
-> > +	if (dp->phy) {
-> > +		union phy_configure_opts phy_cfg =3D {0};
-> > +
-> > +		for (lane =3D 0; lane < dp->link_train.lane_count; lane++) {
-> > +			u8 training_lane =3D dp->link_train.training_lane[lane];
-> > +			u8 vs, pe;
-> > +
-> > +			vs =3D (training_lane & DP_TRAIN_VOLTAGE_SWING_MASK) >>
-> > +			     DP_TRAIN_VOLTAGE_SWING_SHIFT;
-> > +			pe =3D (training_lane & DP_TRAIN_PRE_EMPHASIS_MASK) >>
-> > +			     DP_TRAIN_PRE_EMPHASIS_SHIFT;
-> > +			phy_cfg.dp.voltage[lane] =3D vs;
-> > +			phy_cfg.dp.pre[lane] =3D pe;
-> > +		}
-> > +
-> > +		phy_cfg.dp.lanes =3D dp->link_train.lane_count;
-> > +		phy_cfg.dp.link_rate =3D
-> > +			drm_dp_bw_code_to_link_rate(dp->link_train.link_rate) / 100;
->
-> This two should not be necessary, please drop them.
+NAK. It is there for exactly this reason, to account for the panel
+driver being not present yet. Please make a use of the done_probing()
+callback.
 
-This too or These two (statements)?
+> +		 */
+> +		devm_of_dp_aux_populate_bus(&dp->aux, NULL);
+> +		ret = drm_of_find_panel_or_bridge(dp->dev->of_node, 1, 0,
+> +						  &dp->plat_data->panel, NULL);
+> +		if (ret)
+> +			goto err_unregister_aux;
+> +	}
+> +
+>  	ret = analogix_dp_create_bridge(drm_dev, dp);
+>  	if (ret) {
+>  		DRM_ERROR("failed to create bridge (%d)\n", ret);
+> -- 
+> 2.34.1
+> 
 
-> > +		phy_cfg.dp.set_voltages =3D true;
-> > +		ret =3D phy_configure(dp->phy, &phy_cfg);
-> > +		if (ret && ret !=3D -EOPNOTSUPP) {
-> > +			dev_err(dp->dev, "%s: phy_configure() failed: %d\n", __func__, ret)=
-;
-> > +			return;
-> > +		}
-> > +	}
-> >  }
-> > =20
-> >  u32 analogix_dp_get_lane_link_training(struct analogix_dp_device *dp, =
-u8 lane)
-> > --=20
-> > 2.34.1
-> >=20
-
-
---011e6b374dd8cc6329fed8e851dfa8c3e80f3228d231932c98a778791d9f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ2S3qwAKCRDXblvOeH7b
-brvoAP9rdY+F/m1jGw+mxL5qmV8ze/WQGLInbKNxmBNiT7RnnAEAmpHkct6n5nur
-t6M6q47PJP6EzzpfIfsmJOaAH0THJwM=
-=RI0b
------END PGP SIGNATURE-----
-
---011e6b374dd8cc6329fed8e851dfa8c3e80f3228d231932c98a778791d9f--
+-- 
+With best wishes
+Dmitry
