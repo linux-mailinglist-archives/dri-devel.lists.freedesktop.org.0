@@ -1,93 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5989F9367
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 14:41:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2199F93DE
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 15:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C55410E04A;
-	Fri, 20 Dec 2024 13:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0CA10E394;
+	Fri, 20 Dec 2024 14:02:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="cGtBT/5K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MdigE332";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3DF510E04A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 13:40:57 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id
- 2adb3069b0e04-54025432becso2049577e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 05:40:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1734702056; x=1735306856;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Wb7iNHmEf3kwk8PZ83J0Vflb2+dZOrkblrsPmP2Xs6k=;
- b=cGtBT/5KOqpghsoXmzbP+zi61F1zIwZAGAS1QGoo1JWEJnrPb74zntwSKskbe8RZHC
- fWZgdOzMQF0Mf95lPvMDggY8WBFwh/qVChvAhVVjfp76nYbc1lIouMOixOpI3ZxeQqE1
- zOtKpfPGXi/4ZuiPVXZdGYL9hTlTAir1Ryp6aW5qS5/jGxPzlzA2+eikWdEPli6AqFYh
- xgx/4OtickPntCvS1vy7SMy7zCuFhTXq6TL1SqnRG/I0iZpPSy1MH9udYXxh7fFvC8i8
- AD72xh8jj7nucpixr9gIc1d7bHkR2e+RKNwoGMIgxVhscjMXRT92TNUbnbLa+JQ59rok
- W+Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734702056; x=1735306856;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Wb7iNHmEf3kwk8PZ83J0Vflb2+dZOrkblrsPmP2Xs6k=;
- b=vlEWvb2Y4nbpiTqQXmIoXR8PhpBrBY8/YP2LFbq6FqobFzmOhvoJRPZM2hdtyxs5Km
- gNxMRYdPpA5M2Koyn2C8xpw1zi5cc+l4qFQXll2N4uqCeZuwweZPd73HysTMGCrHR0MV
- tQxbfNV0Oi6mSuc6svmIoWfoIDbt0fIfTAr4iqBdXlBFzYlq7frH1cv6Rq9wRAQz/LWU
- PSTeTr/gH4eHMh/NI/wQ6eHSTd2WugsKK4s1aDGDfUlolilB5DSXSWVbQP6DEBuTjibh
- Yga4AeGgHp9N2SUe4jIM9CipZAy9eb/n55pg+KryJ42gZ5SyJFxUokerucgTutfAImGW
- 0LjQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUjQXTBBMnANzWtwOKziMTVhwJN+cIIcQAV5xdXa4y4EMaZXzh3turgLUxxqenM4XSG3x++96AOAY4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy75KI7oBrhQYYpvWWNf5pAgJitaLbvzzEaHG2XR2NPdRO9QSTi
- JArDzGv9KCdpSoIIVq4bsLpcDKH5XgHvVGKIohjrIVkq8EpPFmjjh06wKF8aH0h+txPLUyAAtWJ
- oeOz6B6JwgbOa/7O95EE6w2RXsjHFGUBvupdX6g==
-X-Gm-Gg: ASbGncuia7428jwIEdGld1j7GWJmevDkdcglZ3Dpvmra3MV7vTaRi4jN3zw8cNS7mrh
- iJrbtVLbV7OPUHFXfg8s8/TlDVTSJAXsYCh9nUe8Awi4KBJYxfN1Rf+9+tALYbn8+RD/x/g==
-X-Google-Smtp-Source: AGHT+IEMcr6UeakjvG9LcaBj7crEG/f7t7TlT4cYf0tYtIrj73ltbIs/soNZTMABMCsyh5ylcV4ql8R8oH3XQgmpM/I=
-X-Received: by 2002:a05:6512:398d:b0:540:1a40:ab0f with SMTP id
- 2adb3069b0e04-5422954b160mr821931e87.27.1734702055700; Fri, 20 Dec 2024
- 05:40:55 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 610CB10E010;
+ Fri, 20 Dec 2024 14:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734703329; x=1766239329;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=4cTIKXr1S1dEJ782PWHvr044+s65lxE3k2QJ4qEbKHQ=;
+ b=MdigE332V2c1JQd4CFIucKVGNUHLlHIUkxGqt329/RxcOU1orqK2yH/u
+ WIJks4HOIPCYQmTYrkbml+Cspza0NLvU4/4KLrwR+OZxji3qAcoXdsctu
+ Wt5E3wn+KJpWdppwLCRclkpPh1973BGtvqwQPnRUkIFSMTruBkFsAbLZb
+ dgAJTWoboBT4yDSV1O6JWMGOmNLULwAriBcTSml5BoqTALKyErq6Z5N7t
+ Z07Ggpo7jbhnP+Yuz81g1mllAyl+Z3wsXWewbkIB3exWQ7XHNPqG12ey8
+ pJ+PvPoBrbTwkQUjKka96y6jJGuv1jbZ3/0syBMBOA0vv+y4wdQGVwwSN Q==;
+X-CSE-ConnectionGUID: NqTNQAh4St+ZbWD7A9MGDw==
+X-CSE-MsgGUID: kho6JT6+RWuwd3xtafPahg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46259679"
+X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; d="scan'208";a="46259679"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2024 06:02:09 -0800
+X-CSE-ConnectionGUID: Pbahd9JTSDytOOvvW74VwA==
+X-CSE-MsgGUID: L0bhNJO4TSeHIMXV2MnrPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="135863035"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.245])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2024 06:02:06 -0800
+Date: Fri, 20 Dec 2024 15:02:01 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH] drm/i915/selftests: Use preemption timeout on cleanup
+Message-ID: <Z2V42dj-XvHF-bvN@ashyti-mobl2.lan>
+References: <20241213190122.513709-2-janusz.krzysztofik@linux.intel.com>
+ <1986305.PYKUYFuaPT@jkrzyszt-mobl2.ger.corp.intel.com>
+ <Z2Gw6J1qteGPB3o4@ashyti-mobl2.lan>
+ <2414218.NG923GbCHz@jkrzyszt-mobl2.ger.corp.intel.com>
 MIME-Version: 1.0
-References: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
- <20241212-dt-bcm2712-fixes-v3-3-44a7f3390331@raspberrypi.com>
- <CACRpkdaB9kqcjmhaXd5RxpYvqdSVMZkj0wHAtEgdqDs03+wzJg@mail.gmail.com>
- <CAPY8ntBJqukSJs7VUXvUFAsiKqNWknL8VjgtQG_VAEmw576EPQ@mail.gmail.com>
-In-Reply-To: <CAPY8ntBJqukSJs7VUXvUFAsiKqNWknL8VjgtQG_VAEmw576EPQ@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 20 Dec 2024 14:40:44 +0100
-Message-ID: <CAMRc=McmtEuc06YdEOXho8hkW30hYEYOtbOR3+mttmg4yrzrxg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] dt-bindings: gpio: brcmstb: permit gpio-line-names
- property
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Eric Anholt <eric@anholt.net>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Ray Jui <rjui@broadcom.com>, 
- Scott Branden <sbranden@broadcom.com>, Doug Berger <opendmb@gmail.com>, 
- Thomas Gleixner <tglx@linutronix.de>, Stefan Wahren <wahrenst@gmx.net>,
- dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Florian Fainelli <f.fainelli@gmail.com>, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2414218.NG923GbCHz@jkrzyszt-mobl2.ger.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,40 +77,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 20, 2024 at 2:02=E2=80=AFPM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
->
-> Hi Linus
->
-> On Fri, 20 Dec 2024 at 12:50, Linus Walleij <linus.walleij@linaro.org> wr=
-ote:
-> >
-> > On Thu, Dec 12, 2024 at 7:36=E2=80=AFPM Dave Stevenson
-> > <dave.stevenson@raspberrypi.com> wrote:
-> >
-> > > gpio-line-names is a generic property that can be supported by any
-> > > GPIO controller, so permit it through the binding.
-> > >
-> > > It is permitted to have a variable number of GPIOs per node based
-> > > on brcm,gpio-bank-widths, so define an arbitrary maximum number of
-> > > items based on current users.
-> > >
-> > > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->
-> Thank you.
->
-> > Perhaps Bartosz can just apply this one patch separately?
->
-> I believe he already has, but commented against the cover letter
-> rather than this patch -
-> https://lore.kernel.org/linux-arm-kernel/173434013318.38429.8084137212485=
-42013.b4-ty@linaro.org/
->
+Hi Janusz,
 
-Ah, this is how b4 works. Even if you apply a single patch, it
-responds to the cover letter (or the first patch in the series if
-there's no cover letter).
+> > > > > +
+> > > > >  		cond_resched();
+> > > > >  
+> > > > > -		if (intel_gt_wait_for_idle(gt, HZ * 3) == -ETIME) {
+> > > > > +		if (intel_gt_wait_for_idle(gt, HZ * timeout_ms / 500) == -
+> > > ETIME) {
+> > > > 
+> > > > where is this 500 coming from?
+> > > 
+> > > / 1000 would convert it to seconds as needed, and / 500 used instead was 
+> > > supposed to to mean that we are willing to wait for preempt_timeout_ms * 
+> 2.  
+> > > Sorry for that shortcut.  Would you like me to provide a clarifying 
+> comment, 
+> > > or maybe better use explicit 2 * preempt_timeout / 1000 ?
+> > 
+> > It was clear that you were doubling it, but what's more
+> > interesting to know (perhaps in a comment) is why you are
+> > choosing to use the double of the timeout_ms instead of other
+> > values.
+> > 
+> > Makes sense?
+> 
+> Yes, good question.
+> 
+> Is it possible for more than one bb to hang?  If yes then should we wait 
+> longer than the longest preemption timeout?  Before I assumed that maybe we 
+> should, just in case, but now, having that revisited and reconsidered, I tend 
+> to agree that the longest preempt timeout, perhaps with a small margin (let's 
+> say +100ms) should be enough to recover from a single failing test case.  Let 
+> me verify if that works for the linked case.
 
-Bart
+As we agreed offline, I'm going to add this comment you suggested
+to your change as a justification to the "/ 500":
+
+/* 2x longest preempt timeout, experimentally determined */
+
+With this:
+
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+
+Thanks,
+Andi
