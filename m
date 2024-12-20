@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13CB9F8B6A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 05:39:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7749F8B6D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 05:40:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFDC10EE99;
-	Fri, 20 Dec 2024 04:39:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C02610EE9B;
+	Fri, 20 Dec 2024 04:40:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="T6tAVkjt";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="asWE8xuV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2083.outbound.protection.outlook.com [40.107.94.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343A710EE92;
- Fri, 20 Dec 2024 04:39:57 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFBD10EE96;
+ Fri, 20 Dec 2024 04:40:09 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JeYaxm0GhgTORCa+nbQ+x/W/P8GrN0FhExSul4ocz6xA9Ca5s0aiwGKc24XYtlwKBtIvc1VzbvbxOh/iHw7IlwAbN1vXcFyVgEOgQ3U2lN2RcggmuICdu9z6D+RA8KDnUjLr6xAytJZBqXM9bLUvrULjnVOeh22dJwfI3Ic9HyNzbykCF+REJGyFbOTh/lcc5Rsv+tCPPDXlvA1EGLgrO39WS9paYC82aAD3eGvBtIJcW7gF9qaJwAQlLcbUQn6VX611jeL9hIb+eFmmOWWrrSiI+R2Akdw52pFODKUjnYh1hKMUR3U5upyUGgf3k1MZXbAglw1XT3ICG7SvhgIpvg==
+ b=GkzeSsfvmIl12YE4PD5yqBHuXmzt1gz2yPh/YDR4GhWV8qEzSi37dnLr0JRnkiFLZjTB7b0cyKh9HICHAfLrwMC11RIy8WQL1w86ctrH/iX65QocBp3xt2zR+F5HDwk3R6EylvN3G6SmXrO0vMOxfVFCYGqUdfqIxdJ99gV/CCVVlrJmOwzSIxEYeqh+Xc6piUilV15heZreRXc4d/unu2NrYifhOpEjZE2MwmWR+E7kYlwZzKK3dU24JCm0Ka5icIKx8B/uEshau5Ao/M6UJGKit4AmYSTY/WE4efCC5ZqYsuR6BA2FdtjlQdcWv8djb+GHqzzeR4iZfi4SBv/0eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DZOlLeiY4cXoI7elrlniD1wJBiQlfeceApv9mklfuzQ=;
- b=qdCVCCp4NVZbZcro4+3exruKMZ7iCOTeAF3u1GTXLf1rW2v4ZAWeRDk1qyryP28b+Qvpahgl3c+PAPqTPuVt+IVux04Ndozm6zwu/KsixQMK3CoPp6Tm96Rt7L/BJw1/WEu6zi5ZMZHJ/pTD9ywryP8MHA/eKeF6+dpXZbSouh0y/ZX7mgHu3z636bgIkh0dLEP4zXhDQOUbjXy63ciuqjTVemGG9Cicldy70sgLgAvfhIV7yR5IOVida0lZxQzW6bAwTLT4TXQr7N1lSRgjLz8EQ9zRNZ4H2IVsS1A79YQE3n9gtZXsWEWMk9Ss2FQ4WsBN6CfcenU4CK94K5qSNA==
+ bh=IfOl/b6EJRVOdMjN/1IIcgsE2LJvVOt1tJjJkwBnn1g=;
+ b=sDxWSzjHTx+SW35t2s7T3yYKMVxXturZ0QFbIH3+qQK0p7CwYB664A6YTfdZVXLaNaCYa84HAQpQOb6QcOPCwMUbQ4ZDKxbWZZimd/ZyH5ui6phUieOo3Fu1R5E8ntSDU5UxEouNU/zODdtF93iBHz96VQZW+MaoPTdbeH7ENlvjJDoTos6kjn75FhywNk4STVQEyDAlJpT53XolsTPU646OJXoraYO9kiXl7xrao2+BGlLsUru/H5a/mWT7w1zAv+LkBuRHw2uxMWa3ClQau4HxDd4HRpZAhZKqNLjEQQ/wPA+eavPdYIpuxSkJtV1KFWVM2bJsjRP+n8GF8+/2uQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DZOlLeiY4cXoI7elrlniD1wJBiQlfeceApv9mklfuzQ=;
- b=T6tAVkjtkMr07X67er8Cxosmw4Ns8wB5PQe/w4EqhdXrd2cixH0DOoiqu1MITnz5lY+tFU+AImtKhlGtIOeVnxnajdcaRb+1vJow47vicMLJydYie9BXKlRA9HwCIW4t5eA1PvmO160k/KouMxuKiKtz5BUh806yxQDoKwr5HD4=
-Received: from SN7P222CA0030.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::25)
- by SJ2PR12MB8928.namprd12.prod.outlook.com (2603:10b6:a03:53e::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.15; Fri, 20 Dec
- 2024 04:39:54 +0000
-Received: from SN1PEPF0002BA51.namprd03.prod.outlook.com
- (2603:10b6:806:124:cafe::e9) by SN7P222CA0030.outlook.office365.com
- (2603:10b6:806:124::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.25 via Frontend Transport; Fri,
- 20 Dec 2024 04:39:54 +0000
+ bh=IfOl/b6EJRVOdMjN/1IIcgsE2LJvVOt1tJjJkwBnn1g=;
+ b=asWE8xuVR+Oi2t7NHTCtYom3YFAHyv6yxs83IvQIV5BBSHbXFRCbvYbf4y5gBY4iUOA2vuNTvN9WCtNy5Iep0mFFcxO8f5xNvfJRUCthiebGOPYk/YWguyKNL1IzCgQLcuQYFgmPZYzm2flox3qQPSeZcwjdAUEbCcdKoIKwuXI=
+Received: from SN6PR2101CA0009.namprd21.prod.outlook.com
+ (2603:10b6:805:106::19) by SA1PR12MB6822.namprd12.prod.outlook.com
+ (2603:10b6:806:25d::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Fri, 20 Dec
+ 2024 04:40:05 +0000
+Received: from SN1PEPF0002BA4C.namprd03.prod.outlook.com
+ (2603:10b6:805:106:cafe::67) by SN6PR2101CA0009.outlook.office365.com
+ (2603:10b6:805:106::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8293.8 via Frontend Transport; Fri,
+ 20 Dec 2024 04:40:05 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,20 +48,20 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF0002BA51.mail.protection.outlook.com (10.167.242.74) with Microsoft
+ SN1PEPF0002BA4C.mail.protection.outlook.com (10.167.242.69) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Fri, 20 Dec 2024 04:39:53 +0000
+ 15.20.8251.15 via Frontend Transport; Fri, 20 Dec 2024 04:40:05 +0000
 Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 19 Dec
- 2024 22:39:51 -0600
+ 2024 22:40:04 -0600
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
- <alex.hung@amd.com>
-Subject: [V7 18/45] drm/vkms: add 3x4 matrix in color pipeline
-Date: Thu, 19 Dec 2024 21:33:24 -0700
-Message-ID: <20241220043410.416867-19-alex.hung@amd.com>
+ <alex.hung@amd.com>, Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [V7 19/45] drm/tests: Add a few tests around drm_fixed.h
+Date: Thu, 19 Dec 2024 21:33:25 -0700
+Message-ID: <20241220043410.416867-20-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241220043410.416867-1-alex.hung@amd.com>
 References: <20241220043410.416867-1-alex.hung@amd.com>
@@ -73,52 +73,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA51:EE_|SJ2PR12MB8928:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0992a89-9d5f-464c-3a74-08dd20b058fa
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4C:EE_|SA1PR12MB6822:EE_
+X-MS-Office365-Filtering-Correlation-Id: 645e9874-13ad-44e5-e69f-08dd20b0602c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9k9X9J5dK4+rLFuwUaOcYoLx5A2yiC0aCAzvbTIKT7x5xXWKt780ndJsUgRZ?=
- =?us-ascii?Q?gXFTZbm5tEyHhN2GiJDex+jBgS/l5pfuBOYHcbbpl+Qua1dETl+IOPSk5bYo?=
- =?us-ascii?Q?1uYQYhZWlAXUJMmpdpGvemjMamHqthjJi6nK/JuTBlOMJPqkiv0uPODomDBf?=
- =?us-ascii?Q?fMGzxH1R+JvYIMnwBeE4oIe5gtbej6dfB4NmpfLIs/dYBuU5OD8L/0F1MBUF?=
- =?us-ascii?Q?yDjBCpR1+NOn0rOLi8XAosH2l1N6A8YJOF888tMAnOYMiBpbww/+XMd3x5J6?=
- =?us-ascii?Q?f0Z44sqHOFE2McQvLySfkT+pZFnUl6X4K3glEQYD6VD/J0sNA6Yq5fTN+Sgc?=
- =?us-ascii?Q?QCDwH28rw1VxB3nngFxUgy1wHWHbC6U8UrP23NTNreYmeYEtgkvlB1tRUXDP?=
- =?us-ascii?Q?90o2xyiT45g2b1pl+Rz6epY1Cv4wm9ReTpcR3huOFOeJJI4mQHqvq2m16G4E?=
- =?us-ascii?Q?j58weP8aUZjcQA0jFSgmC60caUiuPLut8CPLz3NxgTdfO8zMTMY+G85BBDsu?=
- =?us-ascii?Q?4qN2VTJg5Q15CvIZ727VJ3qenHWpl27TnUGECj3SYXumGD7Ks+kJJ2aEZO7u?=
- =?us-ascii?Q?0reR393p5XdTA+JhBuitUzuknFcj5igOXgetiLeO6FS9dC22KomwjFpq/qdX?=
- =?us-ascii?Q?ES5RmMW8GYZ6VxsO1Ulo1lCybxdgv4oolWM4RAPce6+7HCsdBHy0IbFJVH7z?=
- =?us-ascii?Q?/cjnTQZyh01rwyLIBh1tHR83adLQAU6Il1FZa2aCN2pKKrTFhYUAedxNx7LU?=
- =?us-ascii?Q?e5TuFRNrw9UD9uFO96u3AYc2qad0d/cEXA3XOeWm9KtwnhEU1SPEhslMh2Qf?=
- =?us-ascii?Q?D9hrhKRhGLeSMsn/AdNCwjUZ+L/rmtPNVcKd7+Rdo+TyDVsjKabpg4/7JfSK?=
- =?us-ascii?Q?LVuiMsgmNLDK9o+APzUDbMExSBocH2661ZZSbwF2E+fihhdrjt1UJ/AWM2oL?=
- =?us-ascii?Q?whpALYt3uoofksomuzZrkRRo3Zmqt49KlIKZAZRmPMXwMeuw2L8fGjWWoZTI?=
- =?us-ascii?Q?Mzo6WhI3cZOT7sLM0U9MQ0GXkJ41eeBbYzArHXAxYU5mM/fHTMuhzG4+mJeW?=
- =?us-ascii?Q?zys2QOEcXRY+mocX5gYlTIcEDPJb0qGwNzZotGcUQaQzpJgE9ACSt3rLY2nX?=
- =?us-ascii?Q?AvzURDiOUwCQVNCvG53ZOeF21HM30+qCEjRZIGvMQJmupexD+9B7R/12bzXD?=
- =?us-ascii?Q?/6Q8bCpVaDUHF+SpgFsPqGA5w64FyR/a3njZ5ProdqpNXrjVDpacAVoejMGK?=
- =?us-ascii?Q?Dsa4OsE2qXcOxu9UUvzuj+BflOv5jESKUf9JpkJ/36h7DFvIU+Nvdka/f9Gw?=
- =?us-ascii?Q?yFu2zEQBO4DVzLYC8tZY3dLmmt0b9xYYQpL2fMy1mp2eZ5Ui4HDSiTtfOqfj?=
- =?us-ascii?Q?l92YpySJzVBL+RtTDKf0Mic5UvPAST1eupC2baaKQ/HHeb9Bx5NIdCfx52P9?=
- =?us-ascii?Q?Ug/zR56fAYyyXOyhojaCJB9p1GacWcg1zMyGoCMlNTtrYuEBPq9/z8VgwsH3?=
- =?us-ascii?Q?z+je2EItrweo098=3D?=
+ ARA:13230040|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2QS/aHAX05XpccQRANi2Ws+r8E/GEk+QL80UdAVeKJM/gyUkAiOrEgwWl5fh?=
+ =?us-ascii?Q?FIzBdjLPLheWAxZONxcnkgvzQg+pRMzU/piz0sgGZLLKoJ1sqU6yiX2WNo+v?=
+ =?us-ascii?Q?HF/eTnceACW+jXLs4Qnp7s2+Z3OFSJdv8YosBtyuY60K8DNMJbr5tGrXahSH?=
+ =?us-ascii?Q?QJaj2F5JIhiB93LYtD3na4ZCSo7BqL0q33ctFIo3HmIvoOIdhgC1cf7ItNv6?=
+ =?us-ascii?Q?DUGh1bnIOoPfY0xmThy+t6hGXNkKoMkTtKGsEyYZCSS8Y8FUQyspkcPT0+on?=
+ =?us-ascii?Q?zyhHcDLQjtU5zJj15MNUrkkEhnCXL3LcV2CmOSNgqtafE+KPArh1P6Hrbh+z?=
+ =?us-ascii?Q?uB9rWJPi5DFyuUq7ZS6j6Z+gfD0cWYuTk1hDxPzHEXVMtI+2dzdGK6n/wVjS?=
+ =?us-ascii?Q?koTKSYFUQCsMEIAbhciexM6i+CF4iof1Fxfvrz/XXxxqSD7StTrSUrAkIp7Y?=
+ =?us-ascii?Q?1l+rTSVrxodSiVaSApNUSU7ZItEsJA+yaN2+oz31dy9N6JJqh55GbAb41oZU?=
+ =?us-ascii?Q?ekMiOYUtl5V3fxOuq1+NBlfJ243hq0A2qSe1gTgAOsz5/atV77ykluYy2Zei?=
+ =?us-ascii?Q?cG4gm3mpzQ4F3ETmPRFEFvfkhgrOlaIf3d45FdFF2HdNb/VbLZOhrX2JMuz+?=
+ =?us-ascii?Q?iGRafdalFV26fKi921HHV1g77YADVJf9PkBLrcJHXiXIYvZS0o5Rc/PM+SD1?=
+ =?us-ascii?Q?XukUJVPzm84pUhYwXgtmBBVC0H0jKAW3RjQZ+VfOCNYaX5xkZFsYAqQsVqd9?=
+ =?us-ascii?Q?XIITsYfAUOyQJFkXsQgkDAw9ZuFb6yP6dI0+qDX6PB64lmJtNVbZ6kWjTRPE?=
+ =?us-ascii?Q?6A6ZK8rTntqvOB9S+uAfZ33h54UUmP0qkayAZTMEHQgV3qmQO+nYupR4adDz?=
+ =?us-ascii?Q?Rq0f4Ye3qu/tF2qchKHvxplWQ2Zm8O5dkoMRmyDtZUdXFONLTjDbK4MA92az?=
+ =?us-ascii?Q?RxzHCeDkM7XJJGhBVTgt6KUmOcxidhAx/m0aSLH/dNmGwCFIFypDqxeJ7FBX?=
+ =?us-ascii?Q?F+K9XGTg+oxgmwaWrtlOGTAMBkqm0eoXwwHNm1vFNazLNZjliKgChmwqa+R6?=
+ =?us-ascii?Q?/9a/M4nT44G8IHN0sixGEnHGXZMWCML6ZUcMD546vG++Fs532sFKuJdTqQdZ?=
+ =?us-ascii?Q?VARUuR9GzF6VGiyy5BM8Nn5VtEg9KEaKk26YPTGlZ3gvGpXXLnA5VUUJjF7N?=
+ =?us-ascii?Q?1YAZTPH6lqFAz9QVY2Fau46ePzN3gtLn0FeVnmIvcmLKf9uv0HnCligh4y9i?=
+ =?us-ascii?Q?1AHbmgyvqs/WcY3LoPuP3SjuRabWC6BX+/TQ6udBfKkAukswPsZ/Rm2qNDaf?=
+ =?us-ascii?Q?obIlRl+qASc+XiHwwxIxnkDak+0PzuSxSToIY3dHSZNLyU0edvKy9GogYy1Q?=
+ =?us-ascii?Q?XpIxhSEDLxZ9TItERy6J4zf7XB3xsoHzr7Bbqgliwz1nBFGqwRNCWIT7KtKN?=
+ =?us-ascii?Q?eGAtC+OZThuQ5I+NvA0jTOeNDokLN7dQ7g/Sx5RQcpwfjd00UNJgn6D6MLtc?=
+ =?us-ascii?Q?a24NVkw/ieZZOZ4=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013); DIR:OUT;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 04:39:53.4824 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0992a89-9d5f-464c-3a74-08dd20b058fa
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 04:40:05.5585 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 645e9874-13ad-44e5-e69f-08dd20b0602c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA51.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA4C.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8928
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6822
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,137 +136,124 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-We add two 3x4 matrices into the VKMS color pipeline. The reason
-we're adding matrices is so that we can test that application
-of a matrix and its inverse yields an output equal to the input
-image.
+While working on the CTM implementation of VKMS I had to ascertain
+myself of a few assumptions. One of those is whether drm_fixed.h
+treats its numbers using signed-magnitude or twos-complement. It is
+twos-complement.
 
-One complication with the matrix implementation has to do with
-the fact that the matrix entries are in signed-magnitude fixed
-point, whereas the drm_fixed.h implementation uses 2s-complement.
-The latter one is the one that we want for easy addition and
-subtraction, so we convert all entries to 2s-complement.
+In order to make someone else's day easier I am adding the
+drm_test_int2fixp test that validates the above assumption.
 
+I am also adding a test for the new sm2fixp function that converts
+from a signed-magnitude fixed point to the twos-complement fixed
+point.
+
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 ---
 v7:
- - Fix checkpatch warnings
-  - Change kzalloc(sizeof(struct drm_colorop) ...) to kzalloc(sizeof(*ops[i]) ...)
-  - Change i-1to i - 1
-  - Add a new line at EOF
+ - Fix checkpatch warnings (Louis Chauvet)
 
 v6:
- - pre-compute colors (Louis Chauvet)
- - round matrix output (Louis Chauvet)
+ - add missing MODULE_DESCRIPTION (Jeff Johnson)
+ - fix buffer overflow
 
- drivers/gpu/drm/vkms/vkms_colorop.c  | 34 +++++++++++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_composer.c | 33 +++++++++++++++++++++++++++
- 2 files changed, 66 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/tests/Makefile        |  3 +-
+ drivers/gpu/drm/tests/drm_fixp_test.c | 71 +++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/tests/drm_fixp_test.c
 
-diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
-index af319cd3de23..b407f8ae758d 100644
---- a/drivers/gpu/drm/vkms/vkms_colorop.c
-+++ b/drivers/gpu/drm/vkms/vkms_colorop.c
-@@ -12,7 +12,7 @@ static const u64 supported_tfs =
- 	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
- 	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
+diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
+index 56dab563abd7..bd69df0eee33 100644
+--- a/drivers/gpu/drm/tests/Makefile
++++ b/drivers/gpu/drm/tests/Makefile
+@@ -20,6 +20,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
+ 	drm_modes_test.o \
+ 	drm_plane_helper_test.o \
+ 	drm_probe_helper_test.o \
+-	drm_rect_test.o
++	drm_rect_test.o	\
++	drm_fixp_test.o
  
--#define MAX_COLOR_PIPELINE_OPS 2
-+#define MAX_COLOR_PIPELINE_OPS 4
- 
- static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
- {
-@@ -48,6 +48,38 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
- 		goto cleanup;
- 	}
- 
-+	ret = drm_colorop_ctm_3x4_init(dev, ops[i], plane);
-+	if (ret)
-+		goto cleanup;
+ CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
+diff --git a/drivers/gpu/drm/tests/drm_fixp_test.c b/drivers/gpu/drm/tests/drm_fixp_test.c
+new file mode 100644
+index 000000000000..de91177af213
+--- /dev/null
++++ b/drivers/gpu/drm/tests/drm_fixp_test.c
+@@ -0,0 +1,71 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright 2022 Advanced Micro Devices, Inc.
++ */
 +
-+	drm_colorop_set_next_property(ops[i - 1], ops[i]);
++#include <kunit/test.h>
++#include <drm/drm_fixed.h>
 +
-+	i++;
-+
-+	/* 3rd op: 3x4 matrix */
-+	ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
-+	if (!ops[i]) {
-+		DRM_ERROR("KMS: Failed to allocate colorop\n");
-+		ret = -ENOMEM;
-+		goto cleanup;
-+	}
-+
-+	ret = drm_colorop_ctm_3x4_init(dev, ops[i], plane);
-+	if (ret)
-+		goto cleanup;
-+
-+	drm_colorop_set_next_property(ops[i - 1], ops[i]);
-+
-+	i++;
-+
-+	/* 4th op: 1d curve */
-+	ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
-+	if (!ops[i]) {
-+		DRM_ERROR("KMS: Failed to allocate colorop\n");
-+		ret = -ENOMEM;
-+		goto cleanup;
-+	}
-+
- 	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
- 	if (ret)
- 		goto cleanup;
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index b009e607a310..cdcaaf8cdb68 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -159,6 +159,35 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
- 	}
- }
- 
-+static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
++static void drm_test_sm2fixp(struct kunit *test)
 +{
-+	s64 rf, gf, bf;
-+	s64 r, g, b;
++	KUNIT_EXPECT_EQ(test, 0x7fffffffffffffffll, ((1ull << 63) - 1));
 +
-+	r = drm_int2fixp(pixel->r);
-+	g = drm_int2fixp(pixel->g);
-+	b = drm_int2fixp(pixel->b);
++	/* 1 */
++	KUNIT_EXPECT_EQ(test, drm_int2fixp(1), drm_sm2fixp(1ull << DRM_FIXED_POINT));
 +
-+	rf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[0]), r) +
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[1]), g) +
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[2]), b) +
-+	     drm_sm2fixp(matrix->matrix[3]);
++	/* -1 */
++	KUNIT_EXPECT_EQ(test, drm_int2fixp(-1),
++			drm_sm2fixp((1ull << 63) | (1ull << DRM_FIXED_POINT)));
 +
-+	gf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[4]), r) +
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[5]), g) +
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[6]), b) +
-+	     drm_sm2fixp(matrix->matrix[7]);
++	/* 0.5 */
++	KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(1, 2),
++			drm_sm2fixp(1ull << (DRM_FIXED_POINT - 1)));
 +
-+	bf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[8]), r) +
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[9]), g) +
-+	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[10]), b) +
-+	     drm_sm2fixp(matrix->matrix[11]);
-+
-+	pixel->r = drm_fixp2int_round(rf);
-+	pixel->g = drm_fixp2int_round(gf);
-+	pixel->b = drm_fixp2int_round(bf);
++	/* -0.5 */
++	KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(-1, 2),
++			drm_sm2fixp((1ull << 63) | (1ull << (DRM_FIXED_POINT - 1))));
 +}
 +
- static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colorop)
- {
- 	struct drm_colorop_state *colorop_state = colorop->state;
-@@ -180,6 +209,10 @@ static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colo
- 				      colorop_state->curve_1d_type);
- 			break;
- 		}
-+	} else if (colorop->type == DRM_COLOROP_CTM_3X4) {
-+		if (colorop_state->data)
-+			apply_3x4_matrix(pixel,
-+					 (struct drm_color_ctm_3x4 *) colorop_state->data->data);
- 	}
- }
- 
++static void drm_test_int2fixp(struct kunit *test)
++{
++	/* 1 */
++	KUNIT_EXPECT_EQ(test, 1ll << 32, drm_int2fixp(1));
++
++	/* -1 */
++	KUNIT_EXPECT_EQ(test, -(1ll << 32), drm_int2fixp(-1));
++
++	/* 1 + (-1) = 0 */
++	KUNIT_EXPECT_EQ(test, 0, drm_int2fixp(1) + drm_int2fixp(-1));
++
++	/* 1 / 2 */
++	KUNIT_EXPECT_EQ(test, 1ll << 31, drm_fixp_from_fraction(1, 2));
++
++	/* -0.5 */
++	KUNIT_EXPECT_EQ(test, -(1ll << 31), drm_fixp_from_fraction(-1, 2));
++
++	/* (1 / 2) + (-1) = 0.5 */
++	KUNIT_EXPECT_EQ(test, 1ll << 31, drm_fixp_from_fraction(-1, 2) + drm_int2fixp(1));
++
++	/* (1 / 2) - 1) = 0.5 */
++	KUNIT_EXPECT_EQ(test, -(1ll << 31), drm_fixp_from_fraction(1, 2) + drm_int2fixp(-1));
++
++	/* (1 / 2) - 1) = 0.5 */
++	KUNIT_EXPECT_EQ(test, -(1ll << 31), drm_fixp_from_fraction(1, 2) - drm_int2fixp(1));
++}
++
++static struct kunit_case drm_fixp_tests[] = {
++	KUNIT_CASE(drm_test_int2fixp),
++	KUNIT_CASE(drm_test_sm2fixp),
++	{ }
++};
++
++static struct kunit_suite drm_rect_test_suite = {
++	.name = "drm_fixp",
++	.test_cases = drm_fixp_tests,
++};
++
++kunit_test_suite(drm_rect_test_suite);
++
++MODULE_AUTHOR("AMD");
++MODULE_LICENSE("GPL and additional rights");
++MODULE_DESCRIPTION("Unit tests for drm_fixed.h");
 -- 
 2.43.0
 
