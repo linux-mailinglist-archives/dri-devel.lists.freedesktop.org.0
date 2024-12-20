@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C199F990B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 19:07:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D62F9F9915
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 19:08:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9863710F026;
-	Fri, 20 Dec 2024 18:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93EC789561;
+	Fri, 20 Dec 2024 18:08:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SP5iT7Zx";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wvSZ/8gw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 945D210F024
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 18:07:24 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2087.outbound.protection.outlook.com [40.107.223.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 342A889561
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 18:08:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RhAvDrp5o9uBb+ztvuTIk2ENyE7G1B0CQ50s9mFq3CL1IoHak6jdqzpajcVqwlfaIfFn9Xu401qgcIkvJjk1PG4QBuocwoVFR9e6remIueVorZ7iyTwZupx3w68V9HqteQ8mbmtz2pq10C8BpiQl0B7TM+Wz83mlosqztx3mjKK9fPtV0K9i1t2cJSVbml+cUKla2JyaYB8muNOf3BHE+JgiVKjgf52r5bPKDZFlpnRjo+qMWrrW9Rv2/7I658a6pqnxnrPr09EE/Q5GrVVWgkIg2GlIupAy5OUcy/Heyhtjr8YGqZTLgzzOyckesPFpauVq2x/V5/lBi9Kk1ORubQ==
+ b=u8doWQP+MzAdTpp70DczvT2Qfg0EitT6aMcZnYsgmS8Zer8StpxZ27TTKNvObgUwt+pN9KEOEKMfzMoNZUHNrbSElto6D11P0eb+c12PxzxAEXvEn7B5YNwE97dPnhs5aM1uJnnZgzemgeUlQ12WuQogqKE+lffpKoJtRSiYpyuS83nj7hDtWhMac/I3nkP+QZQsrCtnbnqr4/V5Wybk2dpj/jCa+zOiUbWpo7+Tb3rkz7I9cR1r951a4Diocn8oT7aHz0DG1WFwe29ITgsjnSXJvn0ffcKGcFMdpGmSpZqLyRPUGpqkZqINIjZ+l50/VLAwYBD92Qd5MePU2fVDHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hk1DPUxb5VpOJRhExIA2DLyEWgeMEHC6LOtcMYNZ0G4=;
- b=TLoU2Cj7V/OaO2u9Q79qucT/5qi5bOuUIDmtsg6e7Gy8eQLxp1Rr7RBdfokWJ0QjbjIZfIqGDaqjxgpiJA5B2De4PpUDCJqylVdbQ5fuOIa3sFZrmn83XiNNgijkT1Pu3u/35KvwXAD//uDIerTMNggv/UEfEMs9mBS2E0SJb114fWG+IZN26q5xHDl6nD75xu1+HJ1lI3WN6XHpAZ5j7BA9pTqpShXcJo5sA18IrM8QO2ImRdoRYd6Hig52C370VynlYRumVycvuYNxHJSfWx2F41GUaqNjF7230la9CFXVCvjIpHoZZ8HyCpS1Hl4QoobnF4tF4vGdOdZdKrKORg==
+ bh=1fbxS/JUp8RexRkw5nr5R5y9lTopazc/X+vgmXs2bd4=;
+ b=Cc20I2Syj1aDJbnBPohdxLADRd8fMvFfV7scR+ejZwg0fMbyPmXXwkfaTtQpYhxz8xkL8GNYMNbWK6AGG7Lv1XjvNY3WXWdtat41efKbmNMtYVw9lZoN/M/o7AL6lFAhezdT8noV+LTa2YhAs0oTDeqZKMuH21iD9/NI3N50ynFs+XPz/0C4meBpJNcG2KOHfNfNAQPGPXgtTCPBGioByCZH5tOV1m+073WUnSOjR5jh3RXnR2bYW+/PGCfaUgjNL0Kbv9dm3F7VRLH+m0tkhrCXj/xINF5yHRFZgI2Vq9uUZmLGmaoz4dScy5lWWZw7CZXMzfcewqDK8vF8bibDww==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=quicinc.com smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hk1DPUxb5VpOJRhExIA2DLyEWgeMEHC6LOtcMYNZ0G4=;
- b=SP5iT7ZxE+dLaQ211CpWmK+JPTFlmbFmCiuhlgiAXiKKR9TM5QWN6LXvOtWfrspBDS/o79kBWtsqblNJpdIHvhb11M1Thpq6TlLUIFiaimuNbD1H/SHXxVct4VfPIpdTuS19EVlqzKmts2MIjuNXthVf8LHHfk8fRBqmyeUFJZ0=
-Received: from MW4PR04CA0038.namprd04.prod.outlook.com (2603:10b6:303:6a::13)
- by BN5PR12MB9511.namprd12.prod.outlook.com (2603:10b6:408:2a9::14)
+ bh=1fbxS/JUp8RexRkw5nr5R5y9lTopazc/X+vgmXs2bd4=;
+ b=wvSZ/8gwMkN6qLHrbvyGTCnGfafvC+Doy5tzA6IaY/MgDVSIcJ6nOzfgPC6Md9zlT5bBdvsb6KYchyLWyxskE196yCjNxFJRjw1lQK9vslBvQsIoveFJWEw6Zf01qVpILoF/n+7/0hAuREMp5zPN4LdNlIycnFW8Eg+z0eeFTc4=
+Received: from BYAPR02CA0061.namprd02.prod.outlook.com (2603:10b6:a03:54::38)
+ by PH8PR12MB6769.namprd12.prod.outlook.com (2603:10b6:510:1c4::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.16; Fri, 20 Dec
- 2024 18:07:19 +0000
-Received: from MWH0EPF000971E5.namprd02.prod.outlook.com
- (2603:10b6:303:6a:cafe::6a) by MW4PR04CA0038.outlook.office365.com
- (2603:10b6:303:6a::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.16 via Frontend Transport; Fri,
- 20 Dec 2024 18:07:19 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Fri, 20 Dec
+ 2024 18:08:44 +0000
+Received: from MWH0EPF000971E8.namprd02.prod.outlook.com
+ (2603:10b6:a03:54:cafe::5f) by BYAPR02CA0061.outlook.office365.com
+ (2603:10b6:a03:54::38) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.23 via Frontend Transport; Fri,
+ 20 Dec 2024 18:08:44 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,26 +48,22 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
- MWH0EPF000971E5.mail.protection.outlook.com (10.167.243.73) with Microsoft
+ MWH0EPF000971E8.mail.protection.outlook.com (10.167.243.68) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Fri, 20 Dec 2024 18:07:19 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
+ 15.20.8251.15 via Frontend Transport; Fri, 20 Dec 2024 18:08:43 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Dec
- 2024 12:07:17 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 20 Dec
- 2024 12:07:17 -0600
+ 2024 12:08:42 -0600
 Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 20 Dec 2024 12:07:16 -0600
-Message-ID: <fb92e217-8f0f-3bf2-1b81-ab0705e47732@amd.com>
-Date: Fri, 20 Dec 2024 10:07:11 -0800
+ Transport; Fri, 20 Dec 2024 12:08:41 -0600
+Message-ID: <d0a2059e-7c81-1eb8-6c59-0f72c0688ef5@amd.com>
+Date: Fri, 20 Dec 2024 10:08:36 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 7/7] accel/qaic: Add AIC200 support
+Subject: Re: [PATCH 6/7] accel/qaic: Add config structs for supported cards
 Content-Language: en-US
 To: Jeffrey Hugo <quic_jhugo@quicinc.com>, <quic_carlv@quicinc.com>,
  <manivannan.sadhasivam@linaro.org>, <quic_yabdulra@quicinc.com>,
@@ -76,73 +72,71 @@ CC: <ogabbay@kernel.org>, <jacek.lawrynowicz@linux.intel.com>,
  <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <mhi@lists.linux.dev>
 References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-8-quic_jhugo@quicinc.com>
- <65a59247-f028-28f9-1a65-5e4dd62dadec@amd.com>
- <dd83ba8c-0b37-7d1e-39a7-4b25ef7e5faf@quicinc.com>
- <ce41ab48-a923-7a29-1c50-3338fed39ea6@amd.com>
- <ed88797f-9094-ed93-5036-0af42767dbe3@quicinc.com>
+ <20241213213340.2551697-7-quic_jhugo@quicinc.com>
+ <cd442cee-a37d-7d3b-8acf-59a3b5138bf4@amd.com>
+ <c24e081b-7e2a-4bb0-9445-458e21e964f3@quicinc.com>
 From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <ed88797f-9094-ed93-5036-0af42767dbe3@quicinc.com>
+In-Reply-To: <c24e081b-7e2a-4bb0-9445-458e21e964f3@quicinc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB05.amd.com: lizhi.hou@amd.com does not designate
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
  permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000971E5:EE_|BN5PR12MB9511:EE_
-X-MS-Office365-Filtering-Correlation-Id: 58a9b5ad-9f7b-478a-516b-08dd21212508
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E8:EE_|PH8PR12MB6769:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67545e91-df36-41fc-0230-08dd21215737
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|82310400026|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cnRZOG45NDkzeHlRc2JOYklGb1FRZ3c5RDhUdDlZejRmakZFekdZcWFMZ3g4?=
- =?utf-8?B?Mlhrb05veDc3RDBVSFZqMUtWbjduQWJXVlZrZW4vcDgySmhUd0VrZjdLK0V0?=
- =?utf-8?B?WmF0SHpFam5SRFA5VkhTTllxWWppb3NtZjJYRy9zMFcvRHozNVV0MDVBbWp3?=
- =?utf-8?B?eUlzcXJwaXlqaHFzYVBuY2tKSlF5cW05eXR5QkU1UjJEVUZ0RjRVUlUzVjJt?=
- =?utf-8?B?U2NQM1ZkcEI3aW5WNVJSakRubHlHZXZoKzNOLzlIWTQyOVBXVzBNYzZEeEpK?=
- =?utf-8?B?NTVLeWIzenBwU2U0QXhBWWl1NHIvOWtUd1BnT1BUTmFxeC80Ty84NGpjOG51?=
- =?utf-8?B?bS9jNXc0MkIrZFlwLzJPRHI2Um1RQkJzSmxrZ2JBUWwwMTJNUnRPZmdqa0Vx?=
- =?utf-8?B?TUtsbDVLUnRsSjlycnZQc3YwbXpBMGkydGN1Z2Z4VEdSVld0dGdzWERnRWJ4?=
- =?utf-8?B?Y3JRejhLMmVDY2txSkRkZjdEQXpLdEpiMG0vd2xRUWQyQTV4TlgyOGVnNWdm?=
- =?utf-8?B?NitwOGZ1RUVtT0p3UUlnY3lPZFVSUTNyMzdONUcrZE84bmNJL0x6MWkwSktU?=
- =?utf-8?B?VWtXTTRaYkh0dFRhWEc0MDR5dlRzRzk2WERnT1ZJOTl0K0M0eU01YnhIeWh2?=
- =?utf-8?B?eEtvRVVpcTEvSmsyOFRHZ0lPaDVVTE50cG9OZy8yNUcrS2hLQ0VKYXlCZFBG?=
- =?utf-8?B?NUNLOVcrU2ZlcXpxK21iTEhLdVFyS1QzVWZmbmQ3ZndpWHVXTlMrdEVBOXBM?=
- =?utf-8?B?S2VpY1JUWmdQLzBJNTRLREpacm5WbVRDMUYwalZ3MmgwbUt0NkhTOHllaXN1?=
- =?utf-8?B?bG1Fb1I0Mk0wcmVFR3huMC9maUg4T0lqYXUyTExKRUNiZllwbVRBTnVkU21G?=
- =?utf-8?B?QWIydjN2RHdWbit3VndCa3Q5eWtxNjhmWkZLcXRhR2VWRnNKR2wvbXEvUENV?=
- =?utf-8?B?WXdHWGh3bHhrblMzRGVuQjV0UDRiTVpZZ3NhMnBYTGl3QlpxdkowNFBNekwy?=
- =?utf-8?B?N3hwY3ppY1YzM3oyK1VlcVhlTmlwRUpEQmduWlVuUlo5NUM1UHB0T1lEeHo1?=
- =?utf-8?B?MThTdXVRSlB1ZFB1TTJWSmMzN1pTUFdqaTFMK2hGL3lRN2NleWFDcjBZUU5v?=
- =?utf-8?B?dzRPT3FNRE4zRXZrZW9Rdk82UHd0b0crYW56OHk0cWp2VXFaRUh2cUxtd2FF?=
- =?utf-8?B?LzJqMnVWU0xrMFd3Ni9OQ20vL0xueXg5QkZFd1hxUDY1M1QvbVlJOWdnZk9h?=
- =?utf-8?B?alRRNGQ4eDYvRi83cGpmY2xLQ1NNZUg1cTdlbXovM1NUUEFMVHRZTkpuMmRD?=
- =?utf-8?B?NmN5Tkt0OTUwVzFGc3p4RFh0Rm1TZXB5VjhJS1AvVG5zZ1JHOEx3Zk8vRmhY?=
- =?utf-8?B?Uy9vdHlBRVVHQmM3ZFpLQ2ZEaDltaEVCbnBnTGx2Y09BazFKLzVvU0h2dWFN?=
- =?utf-8?B?SE9xK1RSWWJuUWhQZkQwTTNEWXhXT01KMU1haW10QlBxT0R0bHMxQjlLOXZG?=
- =?utf-8?B?WWliWE5xT0x3YWkyakFScUQzNC9kM0dlYzdaTWRmV3Jsc2lDYXNwaUd4WkpX?=
- =?utf-8?B?Zzg0bUVkaFNqZ0JkTXR3MURiMTcwb1BtVElJRDhKYTY1UFRIQmtWRjcvb29X?=
- =?utf-8?B?YzJtRHhXQndENHhOOHMyTno4UU01MzJNMisvZ1hidW1xT0hIaTluVE9KdjJE?=
- =?utf-8?B?K3NPdDJYVlYzaDlJOUtGTFQ1VXdqOEkzYldWd2hXSzdndkVuUThLWXQ0elRX?=
- =?utf-8?B?UTgxT055M3puUnpxNGVPT2FnVVZwaHJwbnJnL1N2N3JpKzdMYzlwQWxzZnZp?=
- =?utf-8?B?L0F0Z0ZVRVN0eDRJaE9QL2lYSERlQ2pmbG5BMjV4bmVmSllHRnBGbnJTZEYx?=
- =?utf-8?B?ZFVmYVJEYVo5SGRtZ0RLZzl1d0FuY2YrZkkvMG1wWWtYNUpuUnZtNlBEWFFH?=
- =?utf-8?B?QVRSTURkdERUR3hqWWhpbFlwZkhRcXBzdzM4U0NQSmJDNmJHOWhuOXhGa01R?=
- =?utf-8?Q?lbfyYxAu32jt2QdB7w6C1jgMEGxz98=3D?=
+ ARA:13230040|1800799024|376014|7416014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QWp4OW5GNEJ6RWlJeCtpczhuNVNDQTV6VzZ1QVRFYUxaRVlOYUVnaVg1a2Jx?=
+ =?utf-8?B?OXZVQ0JYVVRBM1VIM2Jsbm5hMVZ5TmZTeWxpM0dlUll6NTArcWZ5RWEyclhS?=
+ =?utf-8?B?K0x3TEFTbEdKRWprUVhVRTdpaDBhK3ZRaXZpREg3VTVBeE5PYU1hK3NXYmlI?=
+ =?utf-8?B?NktjazYwVlhWOVNqSXdTcVB1TGF1Zm9iaU9wWXg0Q2VqQVRtNzFRWTQvR1pO?=
+ =?utf-8?B?dmtBaXN3SXFQVmdSZHhWbllpZEhJZGs1RVhveTB6ZVFmZmZLQmNmRnJyL3lB?=
+ =?utf-8?B?ejJIZVlNZHVuMU1sZjR1Y3doZXNXNE1ZZEVmL2F6TjFGSnhLMnplS0ZmWnNx?=
+ =?utf-8?B?WU1FalpLZTIvdk14eEM2QTdoSFBtZW9wYlQramZVK3dlR2pvaVdsS0k2dlhP?=
+ =?utf-8?B?SUlYOG5KWDB3WlU1QkQ4K0xuYThvRlM5MjM5UXo3OVFlaTI1ZDBMSG90dHBP?=
+ =?utf-8?B?TTR4S1B2TGZnUk1UNGVoRG5nVkMyT0NvMW84WXFKZ0xVNk96YU40bzVFWE5u?=
+ =?utf-8?B?aGlPS3RxVE1PQlM1V2JWSEd5VmFreXdqVHhZR2p4dk13MEZsSEdQbnBrSFUv?=
+ =?utf-8?B?U1hUYVdFc1dRZjFjK0d5bnNka010YllGUDhBL1ZHTnRHc3MyaGlhOU5PUGVr?=
+ =?utf-8?B?VldDKzBHV1IwMEJFclVpVHVlSWdkRllaaVE1WFl5TmlhQ1IwTWtMc0c5aXJU?=
+ =?utf-8?B?NUhZY25vV0FFTGFqTnlOQnZGT1JYeThsS1ZQeFpGbks3ajlYckFVK0xWSkFu?=
+ =?utf-8?B?K1dwZ0FBZXduc2dmeUdZK3ZObkx6dzBGNllwdVZKRG5PZFhZOUVrRFRhNjFv?=
+ =?utf-8?B?QjFXek4wNlJvVkQ4Yndza3hYWWtaUWgwMy9xYWE0NU5ITE90ZGxOUjJnK0g4?=
+ =?utf-8?B?K2VRYktqYys4cnFhMXZnVEd4WXVOOEEzQnVwcmo1M0VsL2p6WUxLdlJpeVZu?=
+ =?utf-8?B?YTEreDZ4RFhpVG9NTk9pVnVHb1l6SndVbnhGR0RXbGE3R29XSFFCN2RoS0Rh?=
+ =?utf-8?B?c2J6bmdiN2ErY3RvNktZOHd4Ry9LWTdhRUtKLytFd1BVRGFwYnVISy96alBs?=
+ =?utf-8?B?S0dIaGhoTVp6cFhJano3Q2VKMUViSlRDdTIzSnBFUmVhWXlxY09HZ2wyK0F0?=
+ =?utf-8?B?YVIybGxKUEpRWnhZQzMxUVVHeVVRK3UzM3FIb0cvWS9hN0ZHUXU1b0NPWW5G?=
+ =?utf-8?B?UTM5YTRITDhyVGxXNFdDbzBrNlE0dVp3UmhoWWE0b2FXdk9uR0laVmNSWSs5?=
+ =?utf-8?B?dm1iYmtOd1R2enJPU3FWaER5SHFIM1o1Yk1hMERrQy9RQUErQzJUcE1hWGRX?=
+ =?utf-8?B?UjdoQ3ZISU5Lb3RjN0RNWWMxNXY5RTIzYXdqTkFPM2xvRDRBa1hDYU5LZVJU?=
+ =?utf-8?B?L0Y3UnlHQXFkZE1QbVBITkN5VjliN3M0ZGJVMkpGK0lDZUd5VEZtaVNrWUFP?=
+ =?utf-8?B?Zkx0L21pSmUzTENibExiMDdyOEpiaWVnVHRMOUUvSExkOE1TM1FqMjYrVm9u?=
+ =?utf-8?B?M3phNkdWbm1kWjZ3dzVwbmdlU2pwT3ZFSWJQK2JPK25nNENtMHZHS3lhMXFP?=
+ =?utf-8?B?T1RZemZ5TzRxWWdFRDJVNUUwWGtyQ01qcW1FWTdLdHF6a3lnSC9UeFAreUp6?=
+ =?utf-8?B?RGZyMFdPYWdhWCtjUUVsUUYrVDhtZVdLeG8rSjRZNUpHTnA1QkVQayt6aXVl?=
+ =?utf-8?B?L1hoYU5DNWVQblFucTFhTS9tN2NrSk12WSs1MVI4TndLS1JnSmFWa1hUbVIv?=
+ =?utf-8?B?c0VLbURNbHgyS1puTEU1RG4zTHJxeVBnVTE5M21meDZ0NTcyYVk0U3BkV29u?=
+ =?utf-8?B?ZGNHOUVXSjI0N2VWR2M2NEExYmV6a2tMa1pqZUxORUtRNDFHT013OFR3ZEhv?=
+ =?utf-8?B?SzhlU2ltbFRpYWxxVVoraVBhUTIzTDgwbUJPb3RHUXBQQk1DdEZYbDFhcFdi?=
+ =?utf-8?B?cTk3Q3ViTFRLbnhkdWQ4a21lK3JuN2ZXdlM2UkRUY0NhcVFmNFVvVUxJbENq?=
+ =?utf-8?Q?oSQLFEcCc3Cw2SFsrH6FN1vABC5Q0s=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013); DIR:OUT;
+ SFS:(13230040)(1800799024)(376014)(7416014)(36860700013)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 18:07:19.3699 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 58a9b5ad-9f7b-478a-516b-08dd21212508
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 18:08:43.5463 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67545e91-df36-41fc-0230-08dd21215737
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E5.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000971E8.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9511
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6769
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,41 +153,44 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 12/20/24 09:50, Jeffrey Hugo wrote:
-> On 12/20/2024 10:33 AM, Lizhi Hou wrote:
+On 12/20/24 09:15, Jeffrey Hugo wrote:
+> On 12/13/2024 5:35 PM, Lizhi Hou wrote:
 >>
->> On 12/20/24 09:26, Jeffrey Hugo wrote:
->>> On 12/13/2024 5:49 PM, Lizhi Hou wrote:
->>>>
->>>> On 12/13/24 13:33, Jeffrey Hugo wrote:
->>>>> +static const struct qaic_device_config aic200_config = {
->>>>> +    .family = FAMILY_AIC200,
->>>>> +    .bar_mask = BIT(0) | BIT(1) | BIT(2) | BIT(4),
->>>>
->>>> Will this pass the BAR mask check in init_pci()?
->>>
->>> Yes, BITs 0, 1, 2, 4 would be 0x17 and that value is & with 0x3f 
->>> (masking off upper bits).  The result would be 0x17.
+>> On 12/13/24 13:33, Jeffrey Hugo wrote:
+>>> -static struct qaic_device *create_qdev(struct pci_dev *pdev, const 
+>>> struct pci_device_id *id)
+>>> +static struct qaic_device *create_qdev(struct pci_dev *pdev,
+>>> +                       const struct qaic_device_config *config)
+>>>   {
+>>>       struct device *dev = &pdev->dev;
+>>>       struct qaic_drm_device *qddev;
+>>> @@ -365,12 +391,10 @@ static struct qaic_device *create_qdev(struct 
+>>> pci_dev *pdev, const struct pci_de
+>>>           return NULL;
+>>>       qdev->dev_state = QAIC_OFFLINE;
+>>> -    if (id->device == PCI_DEV_AIC080 || id->device == 
+>>> PCI_DEV_AIC100) {
+>>> -        qdev->num_dbc = 16;
+>>> -        qdev->dbc = devm_kcalloc(dev, qdev->num_dbc, 
+>>> sizeof(*qdev->dbc), GFP_KERNEL);
+>>> -        if (!qdev->dbc)
+>>> -            return NULL;
+>>> -    }
+>>> +    qdev->num_dbc = 16;
 >>
->> It seems BIT(1) is not expected in init_pci?
->>
->>      if (bars != (BIT(0) | BIT(2) | BIT(4))) {
+>> Is it better to put num_dbc in qaic_device_config?
 >
-> I think you are only referencing patch 5, when you should also 
-> reference patch 6.  This check gets modified in patch 6 -
+> I think there is no clear "right answer".  All known devices use 16. 
+> There may be a future device which has a different value, at which 
+> point I think this needs to be in qaic_device_config.  For this patch, 
+> I was conservative and only included items in qaic_device_config which 
+> do vary between the known devices.
 >
-> -    if (bars != (BIT(0) | BIT(2) | BIT(4))) {
-> -        pci_dbg(pdev, "%s: expected BARs 0, 2, and 4 not found in 
-> device. Found 0x%x\n",
-> -            __func__, bars);
-> +    if (bars != config->bar_mask) {
-> +        pci_dbg(pdev, "%s: expected BARs %#x not found in device. 
-> Found %#x\n",
-> +            __func__, config->bar_mask, bars);
->          return -EINVAL;
->      }
->
->
-> Do you still see an issue?
-No. :)
+> I'll think in this a bit more.
 Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>
+>>
+>> Thanks,
+>>
+>> Lizhi
+>>
