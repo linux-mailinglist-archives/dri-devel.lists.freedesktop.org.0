@@ -1,154 +1,88 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32449F8BA9
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 06:02:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0499F8BAF
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 06:03:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 144C010EE94;
-	Fri, 20 Dec 2024 05:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60ABE10EEB6;
+	Fri, 20 Dec 2024 05:03:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SX3DxPap";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xGAIgjVJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2043.outbound.protection.outlook.com [40.107.96.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2B010EE94;
- Fri, 20 Dec 2024 05:02:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ecpQAkohY1alySWnLVxrZMoksGokdz4wHygxWkCM2pAh9nJtsm4LddcLTic7jDrTohb3CWhQbr+tigXn5bGjlIxijtik/2bGd7qXejAHyfF/z8IvGrs2KNB2+K24bs5FbL9KEQ0qtekxh35UFVmhtbXrQ8VK+dOaGOVh+FbVYuXVWdqTOIHkTzAU0R2+kKCDZzazYCGW3DhzaMAoS5C0u4aZSPUSHJi4iW4liV5wYz1JNGGxm7H4DefBDFkzDCfOylPAKn23LTclTfzBtseJRvh8jSnL8EqONJpFgnTY6HWhltfqVGx9tG/ri88gI+7d7b9bHAb3xUrByrS7wApirQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8iTc/RhDNUDPjaN5HCCyQTcOtWapU5VV127OmucGJVE=;
- b=DMc49nk2GUUdhKCRUPF0HNWXbvWjI98mTJlj9jqGNQlme3lt8c5G2hic5mBZqMHXmIKI+FTiWcyCkAR+zSIx14kPi2zwwYnMJtstyRD/t/zHHS/cb8OvPC4fybnz5UC+MiO/ZdMUsxg1j40BmLn3nG9/DQrD5KJLWDkUJfvU8FuVOuxZwgdYdFAHyNmt2jH9Z19kE7KC4u2b3g5JVwWgv9gm3V+2Ka6Rpc3GtOPzJsW3lNxpqjPNQKXWOSsRNGC3Y0z5soRHDT4v2Mw4vw8X+Q/Ttx+3qlcJOOPXXyQe1uf1OrMgop+zkaEHwIgzZUE0e/D+dvwAcmciF7a7Xwx1lA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8iTc/RhDNUDPjaN5HCCyQTcOtWapU5VV127OmucGJVE=;
- b=SX3DxPapYom9Eko7mbXJ0+FcwDWmFJjX0ws60EYhnh+dhyu0O48qDO0/u+HOaDUEoA8fyDWDBUIMqm9y/mUNVFSKMsmsQwyYxTgcuKIUGQht4h5R5kVl5ijuM0ZwYBDyq+NoOZnJh7cI5CQM4o6Ew9RnpYCIjJzLBQJbcqrmqaQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by DM4PR12MB8523.namprd12.prod.outlook.com (2603:10b6:8:18e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.15; Fri, 20 Dec
- 2024 05:02:34 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%3]) with mapi id 15.20.8272.005; Fri, 20 Dec 2024
- 05:02:34 +0000
-Message-ID: <94b94e92-3c75-4707-b262-20a6a316ece5@amd.com>
-Date: Thu, 19 Dec 2024 22:02:31 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 41/44] drm/colorop: allow non-bypass colorops
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Harry Wentland <harry.wentland@amd.com>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org
-References: <20241003200129.1732122-1-harry.wentland@amd.com>
- <20241003200129.1732122-42-harry.wentland@amd.com>
- <Zv_U3h146lThx__w@louis-chauvet-laptop>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <Zv_U3h146lThx__w@louis-chauvet-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0061.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:88::22) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7209F10EEB6
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 05:03:11 +0000 (UTC)
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-3003943288bso15539061fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 21:03:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734670990; x=1735275790; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=m702/HGl5sKTUjvEqn+7bLtl2eVmqJKkLeGGTpjyQLw=;
+ b=xGAIgjVJ02aEYVNc8MDiuq6qLpwHJ6hghvocgMpb4q81odKjewwmKnzXezdeb8D9d7
+ bL/S1Mc1QsoPbdxHQGaBmPF4yMXmwSb8LcNT7HNvebLNIIRkeZw0XMcRua2QLA2hlQTy
+ ypEknrsenQTPDPbVTLmxMPdY6BAVjfghpmxl3lmhR5Kh40UlDH1CK/j+QE6NI3MqfV2N
+ RzLh/GoxUbJEjuiOChb2aWaFBsFMtYYyjbNUkiBlTRXB0KFY0eKmFW89Ny7v4hB46A+C
+ 1PKW+tLV/yUnychxkx6piYQg4BqTLQTN2ye3RARKUcgv+Yi0E+fTt2MwrErvz33jIT5L
+ piVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734670990; x=1735275790;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m702/HGl5sKTUjvEqn+7bLtl2eVmqJKkLeGGTpjyQLw=;
+ b=dfP+9qcj7hsOzV0EtaaOaBUGQNf5dn5ineNmN6NfNbmqNnuFchaf0n1hpd/0S+ul8Q
+ uJDaZ/Y/hk2DXRw8ZL5Uyu8TdWkQfFeZwBPKILdzyqNTUl3ELj20IIabrGTK4cuHQHRD
+ Di0SYJvJJak6UE5eIqvDoKz7P0S6culJ9Zzt5VoXTt7ztJ4zAV4K0K1D2OfnHjwR6/ii
+ l573C+E5/bnr/JJxLbshXl1+YQRyvLcNPbORvdbKnSaG1zNkYrdVqx9o27npCmr4sDS3
+ O3i92WK87JSpuRjAIURcPF5AG53JtpbUavUzyJqkCmPFqtD3m6E8WNIxUkV2YWjwOhW0
+ mhlw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVYOMuqRf1DzHRsiZmmK02SnHU2ZfcT1W/CDpiOazq7TWlbm1+iS7wR5X9xJwMPMwgZukPeUvy6tXg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQOUNzo1Mw0c3lHIjcZq1s//6pNrwsLW6DzMRCqaXFPRlNRCVq
+ m/11UVL/wKUNuKbiJmcRjJpTxf1AOYvrvrk2W3JZoiLyl6sejLiwkHoIx3JpdKk=
+X-Gm-Gg: ASbGncsytaD7dyMN7ektVE4bU3eq9kcXh6JFrDXMdo9XY0u7wMiqQTExHDxWe8eR6vO
+ 3aHUaK38g9KxuRjFjOra8dhqWKBqnILyPBRYa2Ge/ZhQYlM2oUna+ATMlaxY5wUcYKcEkpNXYL8
+ WSFw+4ATP/WqYVwRpO4HomNUSR7a8sYEkm0cbDRY0McFvyZKiedpT1rAveklgKhKVf7YK0Lf1i/
+ DPgw2hnXrf5VLtnSWau1Sei9WpLgqQ4rHFhSlvduWZNrpQaKPUxIInRKi7fHYQLmWZw+vNWpb2S
+ FAIIzrM053TKrq4mjmrG3Tbe0gsf3jYIiyOZ
+X-Google-Smtp-Source: AGHT+IE7AMACdhYOmI1DWAlHJNG3mIkrNXzU71mUgxUjugwDV+QiqhXSa9rYSZx7k0oSHhKzOfItNw==
+X-Received: by 2002:a05:651c:549:b0:300:1f2d:97a with SMTP id
+ 38308e7fff4ca-30468556d69mr4794531fa.16.1734670989582; 
+ Thu, 19 Dec 2024 21:03:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045adac5bbsm4333921fa.53.2024.12.19.21.03.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Dec 2024 21:03:08 -0800 (PST)
+Date: Fri, 20 Dec 2024 07:03:06 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH v4 15/25] drm/msm/dpu: Add CWB to msm_display_topology
+Message-ID: <ki35rornnos35r3fzg5yyqzxnqua3dyfb6ewq2aefrh4u74vfi@opdnf44ntten>
+References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
+ <20241216-concurrent-wb-v4-15-fe220297a7f0@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DM4PR12MB8523:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff99c531-e829-4cdd-e2f2-08dd20b383e3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?b3lzWkRaeFhYSHZXNXhldzFWbzFUU1JKbElOZ05udXNTSHpSYyt4SUlIclZm?=
- =?utf-8?B?QmQ4aytHcWxRRW9UM1hpMFhFUkp5MEN1bHpsRy9XSU5kVmpRT014bDVqRFJz?=
- =?utf-8?B?aXlseWM3UVJZN0FoSUxsWFpJWXNWdlp0amxXaTJpY0l2MnFVcDBIaS9CQzFt?=
- =?utf-8?B?MFlZNlV0YTgwYVNYckpTT0RvZzZEbkRxUDFybkpONjFFQVE4YVhpVkI5clFZ?=
- =?utf-8?B?aldyY1Y1MGNETTZQTzhlaCtQek44KzBjUVFsQXpjbTdBVWpkMGJ3SEhHdVBh?=
- =?utf-8?B?YjlFWUNweUorSnFWd1Q4bFppOFh1bnd4L2huVW9wK1VreE16amdOUzR6NnNW?=
- =?utf-8?B?SENXK014UVp4VTdrTGNJY21QWEM4dENISGFIc3RuNEdXeFEzUWhhdThCd2hB?=
- =?utf-8?B?MHQ1K3QveWpXU09Ta3lKR2NWWFlLU2hnSGVpWG9UekloRmgzUmxTZk52WXZL?=
- =?utf-8?B?c1VYZkpqZ2tZSXFxRlJWRU5XYUZoMjMvem1od1JKMTN6Z1R3d0krT0UvMmV4?=
- =?utf-8?B?cHF0Wmxxdkd3SHdiNTFFUXZscG50TkNFbHBRYnZEUlNNYVRlZmxvREtxVVhB?=
- =?utf-8?B?RStDem9uWUdRTStIVlFPa0Jiako1WjkxWVAxeGQvbEtYMGRoazlJMnRWWnRG?=
- =?utf-8?B?NkJxbjd6SXF4MDlxdFI5TjV1UmJIeTBzMXpOTHNDNTd2NVljM3V4WmRUcGRP?=
- =?utf-8?B?TjNGNS8zblRJS2ZPQmpzMzd2K1hHZW05eEV5T0g1NExoN05YOGVXTnp1Mk9J?=
- =?utf-8?B?WG9ZUW1vSVVyZHAyL1FRbnk2dmhSQjc2MkhjZ3hEWEczZmkra1FqVFREOG4z?=
- =?utf-8?B?UnAyT1ltbXNzRUhNNXJZejBSRXpSZ0x6Y3AyNEZMQ3VVTFdVcktjZnVrKzJ4?=
- =?utf-8?B?T1hqSDUxbk9XZit5Nnl0R1BETXhFRy84T2laelY0N2txSm5zQmVCdlRlb3Vw?=
- =?utf-8?B?QVdjVHV0aXNleUVXSm1IRnZsL1FJeGhJbXJWYnBjc3RWbThsaDVuYUEwQUF3?=
- =?utf-8?B?SXArTVlQUjlVZnBmT25JTHhsV0RYY25FdFJQc0pVc0d2azFmTmVENHJ6ZDJW?=
- =?utf-8?B?UTRxVXAzWUhybXo5WHMvUHNJcWMrWWlabHdNaEIzTmFOTWVpWDJLK0pBOXJF?=
- =?utf-8?B?Znd4RmluNUFyNTFoeUlMS1NBd2Y1SkEwUE92TnQ5cjlNUzVSejhjR3oxeGlL?=
- =?utf-8?B?RlBETTJVY0tYYURoNTJaU1lrN3haamxwbzM1MDdYWHd3OUpvOStoQUExdE9k?=
- =?utf-8?B?dkYvdW41Sy9XUUppODVacUltQndHemJOdU8wNW9CR1haemRQNDRpUGM4aVkr?=
- =?utf-8?B?YzJmUkhuWmxGMGJKbk1qNC8wR0tqWkd1dEJyd1p2WnBSRVdoeUtJaGh2UzJF?=
- =?utf-8?B?amtnbkdndG9KckdzOFVsZUkzZjQ2VjZwM1JJMmx2aSt3dlcvcy82MmNSQmx4?=
- =?utf-8?B?VHNHWU5sUmlFU3BXWis4WWEzTUdia0NIODVhbEZuclAvc05Vajg2OERRMkNn?=
- =?utf-8?B?L2FVTFFLdDNFbFJHUUtkUTBwdm10K2M3NDZkSWdlRmtJUlBXSk0yMGgyL1R3?=
- =?utf-8?B?YmRLQnRDYVdoekNzb0tOQWhBL21GWEk1QWxjTFVmVm9QTFV4RkptdU9LZjcw?=
- =?utf-8?B?Z2ZEdFpPeGJJNnZLY0puMzJkdG9qNHdBRFlvSVhKc2hkRFZPQmx1TEwvUUtS?=
- =?utf-8?B?d1R5c3Y2UVN1dmVGOWNNT1ZaYjFpSFZNbDNCY1pORTZXTXB6MkdwR2YrYVpX?=
- =?utf-8?B?UzgxRDJkN3lRVStqN0R4cTZ0ZWJWOEdpL0VxcnJoVWxuWkZtYWZGYXdHdGVW?=
- =?utf-8?B?UEhCRnVXTnVjZG4yRGtkSnMwNWxuZ214VTcxR3JZNmpTNmJ2aEQyVDhzSmpB?=
- =?utf-8?Q?xAPWc91Yf4NPB?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2dQakxvU2dlZ0VjcnRwMCtEdVNhWE9hMksxellNampOTm5oSUpJSGZrbUtj?=
- =?utf-8?B?a1o4MjAvMGtrUmh0M2EzeC90amRxU2dCQjFYbFJtTDRqS0tFaWFxaTFlL284?=
- =?utf-8?B?U1VLVk0xcVk4N09QczF1QVk4d0trdUM0WFlXdlFRTVUrdDRpSWM5OE8yVkZW?=
- =?utf-8?B?ckRJUkprV2locHBab0FMcW9ycnBQdlpLbjdBYmpQWi9jZ2pHd1B6RDVvYVhS?=
- =?utf-8?B?OThCcDBhS1J3dmI4Rk90UkFSOWRNcitaQ2FPaXNPNWZYcVJUY3piL0VSK0VZ?=
- =?utf-8?B?RWNvS01wbnc4NEFQZ1hyR2VWdFZ1L0hjYjFCNzlDUFJ6dGRKYnBmWEUvd2hJ?=
- =?utf-8?B?b054T3lOYW5UQnNwNndLNkx5LytlTENiOHFpQndWSUM1VExOZHVsclJxaktP?=
- =?utf-8?B?WUMzZEg2SkJjYVFYQXpMVTZoZjhsMVAwcXViZ3Vla2pESWFxaUlJMXVRYzl3?=
- =?utf-8?B?MTl4VW5ZVlczazVEVTlEOFJqcWQ1WXJnbTJLTXZsK0N2bi9QVllneWlCQ0VJ?=
- =?utf-8?B?RjJsREw4RFZ3QVVUMThkK0o2cWZtTU1xS25ybWdPSDdJa0dCS2VDMDJiS0NK?=
- =?utf-8?B?b3h3YzUyREhYR214V3ZNenVHSjV6c1BtMHBuelR0OUtVTFhzTzBJVDAzYkZa?=
- =?utf-8?B?NHlEOFV1U1BreU9zZ24rVlZ4dU9zdHlpbWwyZVpBd2g0RUxiMEFFUGpOSUJi?=
- =?utf-8?B?M3dMK1A4UTBYM2YvVzlRUmdOUGVvQWhGeEY2QW80WmlXY2NFSWZweDR6UThY?=
- =?utf-8?B?TjBQbC9mVGN3ZXI5dWJ4MHhiL2RWWnBrTTBIOWVxWGJvSU5rb0dVbkp0eHcv?=
- =?utf-8?B?U1JzQ3d6R0lWZUJCUTB6blhrcm1NRlVHQVRJbVRKelNKQVYwQTdoZnl6RWFW?=
- =?utf-8?B?Tkk4VG41NUhrM2N4TnRvc3MyWTZNR1kwb0RjNnZNT0puV1ZtMnFLNmNSMnFv?=
- =?utf-8?B?MnJzS1h6VFh0MjJQaGZuT2ZkYUdob1BXTldLSCtuTEhIMDZEeTBGUTloQXJ1?=
- =?utf-8?B?Q2dMVVlwa3Mwd2xmYlhDd1VVdFlDa1BsYWs2WE1XejZ6UjhubS9tZFMwSkVa?=
- =?utf-8?B?R0owREgvZVlUNXl4bUNCYlkrTGFWd3VTMUg4N1NiZHRqZ2k5aEs5SGk4UFVZ?=
- =?utf-8?B?RnNOeWFub3Bodm1sT2ZnVWdERzg0Uk5GNGlJL0lEVEo2RzdSUnJOcm1taC9W?=
- =?utf-8?B?KzVaM2o1Qlp3Z3k2RzZjSlNzVjVCK09FVDlkcVZsNkZWb2NjTmdNbCthbEI1?=
- =?utf-8?B?ZWgyL3pBSElvaWYwTDB6eEdPOFFrdjQyaW8ydHVTbUw4ZTh0c3RYVWJxUW5y?=
- =?utf-8?B?MEVjUTlYakpQSjZrWmlManhyK013TXZ5R2I0dGlmYjRMU1pscHRQdnBmckJh?=
- =?utf-8?B?OC91RG1BeEk1RzJZL1JzQStRTC9QVThmbkpwa0NyZFNSZ3Y2Q0JVT3lJMCsr?=
- =?utf-8?B?TFNIN0F5ZE9QWCs5MENFOS82TjZDNlBGRm1xRnN1dHNDc3M5VVIzekZBKzdt?=
- =?utf-8?B?a3l6bktIcXRUMlZuZlladlIzZnlmb0tPL2M2QjAvVGpsZWE0QXFhTVFvRE1l?=
- =?utf-8?B?bnExaDRlTHplUk9VdHFubjMrOXNrM2MxV1dMNGNBakJ6MTdVSjFkc2t3U1JG?=
- =?utf-8?B?TTRKRG8rbWxLRkxiVnI3SlJDRnQ4VUF6UzdUckJ2RURXTHdIUHZyRE02VG9T?=
- =?utf-8?B?dk1rd3FPeFdXRC9SZUlHQjhlWDRwVGIydllSQkVWalB4Rkd0bE1vLzV2RVJw?=
- =?utf-8?B?NlM2SkhtVzNEMFRxVVUxTE5iejNHaUttWXExejZLeHdvMStRQUg4R2M4ZzRs?=
- =?utf-8?B?RWt4UDl1VDgzakxuWGRTM3ZaR3BvbmF5UzRwQUhsWDBHdjFTNjNCVGl6VnhC?=
- =?utf-8?B?Zy9Tdk1kVW4rbGJYZThOVFlORXoxUERiSkFRTnVyMU15d0kwRTE0K29nUXUy?=
- =?utf-8?B?K3RMditJVU1zcytWbzg5ems1c2RFalphWWxQNmpJY09jamo0TFJpaThOM1hN?=
- =?utf-8?B?RG1uTTkyZzExOW9tZmpXcUE1bTdqYkJmd0tlQVpDdUZEZS9IeUQyemZTdC9x?=
- =?utf-8?B?djk0YmNOMlJ0QWE1Q3IyUVlCQ2s5TUorYnlPc25HWS91YmhudSsvalhRN3Q0?=
- =?utf-8?Q?d7Sqy7nvJaDdzGl8dRIQWojHq?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff99c531-e829-4cdd-e2f2-08dd20b383e3
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 05:02:34.1552 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AybnLoYTaqQCBfDwQbFfGPPeqDVWCGHReIVOUcVyro7AiTx4HzbtBZXP15cjB3yST/nJeWBTs1Rge4HdpK4iRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8523
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241216-concurrent-wb-v4-15-fe220297a7f0@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,107 +98,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 16, 2024 at 04:43:26PM -0800, Jessica Zhang wrote:
+> Add the cwb_enabled flag to msm_display topology and adjust the toplogy
+> to account for concurrent writeback
 
-
-On 10/4/24 05:43, Louis Chauvet wrote:
-> On 03/10/24 - 16:01, Harry Wentland wrote:
->> Not all HW will be able to do bypass on all color
->> operations. Introduce an 'allow_bypass' boolean for
->> all colorop init functions and only create the BYPASS
->> property when it's true.
->>
->> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
->> ---
->>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 22 +++++---
->>   drivers/gpu/drm/drm_atomic.c                  |  3 +-
->>   drivers/gpu/drm/drm_colorop.c                 | 51 ++++++++++++-------
->>   drivers/gpu/drm/vkms/vkms_colorop.c           |  8 +--
->>   include/drm/drm_colorop.h                     | 10 ++--
->>   5 files changed, 60 insertions(+), 34 deletions(-)
->>
-> 
-> [...]
-> 
->> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
->> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
->> @@ -31,7 +31,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
->>   		goto cleanup;
->>   	}
->>   
->> -	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
->> +	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs, true);
->>   	if (ret)
->>   		goto cleanup;
->>   
->> @@ -48,7 +48,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
->>   		goto cleanup;
->>   	}
->>   
->> -	ret = drm_colorop_ctm_3x4_init(dev, ops[i], plane);
->> +	ret = drm_colorop_ctm_3x4_init(dev, ops[i], plane, true);
->>   	if (ret)
->>   		goto cleanup;
->>   
->> @@ -64,7 +64,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
->>   		goto cleanup;
->>   	}
->>   
->> -	ret = drm_colorop_ctm_3x4_init(dev, ops[i], plane);
->> +	ret = drm_colorop_ctm_3x4_init(dev, ops[i], plane, true);
->>   	if (ret)
->>   		goto cleanup;
->>   
->> @@ -80,7 +80,7 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
->>   		goto cleanup;
->>   	}
->>   
->> -	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
->> +	ret = drm_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs, true);
->>   	if (ret)
->>   		goto cleanup;
-> 
-> You allow the bypass here, but you forgot to add a check in apply_colorop
-> to bypass the colorop when this is set. It seems to be the case in the AMD
-> driver too. Or maybe you wanted to pass false in "allow_bypass"?
-
-
-The bypass is used in each color transform. For example, it is used in 
-pre_blend_color_transform() of vkms_composer.c, before calling 
-apply_colorop().
-
-Similarly, it is checked before calling each color transformation in 
-amdgpu_dm_color.c, such as __set_colorop_in_tf_1d_curve(), 
-__set_dm_plane_colorop_3x4_matrix() and etc.
-
+Why?
 
 > 
->>   
->> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
->> index d3a00296973d..b8c1c4da3444 100644
->> --- a/include/drm/drm_colorop.h
->> +++ b/include/drm/drm_colorop.h
->> @@ -333,14 +333,16 @@ static inline struct drm_colorop *drm_colorop_find(struct drm_device *dev,
->>   }
->>   
->>   int drm_colorop_curve_1d_init(struct drm_device *dev, struct drm_colorop *colorop,
->> -			      struct drm_plane *plane, u64 supported_tfs);
->> +			      struct drm_plane *plane, u64 supported_tfs,
->> +			      bool allow_bypass);
->>   int drm_colorop_curve_1d_lut_init(struct drm_device *dev, struct drm_colorop *colorop,
->>   				  struct drm_plane *plane, uint32_t lut_size,
->> -				  enum drm_colorop_lut1d_interpolation_type lut1d_interpolation);
->> +				  enum drm_colorop_lut1d_interpolation_type lut1d_interpolation,
->> +				  bool allow_bypass);
->>   int drm_colorop_ctm_3x4_init(struct drm_device *dev, struct drm_colorop *colorop,
->> -			     struct drm_plane *plane);
->> +			     struct drm_plane *plane, bool allow_bypass);
->>   int drm_colorop_mult_init(struct drm_device *dev, struct drm_colorop *colorop,
->> -			      struct drm_plane *plane);
->> +			      struct drm_plane *plane, bool allow_bypass);
->>   
->>   struct drm_colorop_state *
->>   drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
->> -- 
->> 2.46.2
->>
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 11 ++++++++++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c   | 10 ++++++++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h   |  2 ++
+>  3 files changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index b4bfded3d53025853cee112ca598533ece290318..b063c8fe4c0594772d84401fa56c9c21afc0ad18 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1198,6 +1198,8 @@ static struct msm_display_topology dpu_crtc_get_topology(
+>  		dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
+>  					    &crtc_state->adjusted_mode);
+>  
+> +	topology.cwb_enabled = drm_crtc_in_clone_mode(crtc_state);
+> +
+>  	/*
+>  	 * Datapath topology selection
+>  	 *
+> @@ -1209,9 +1211,16 @@ static struct msm_display_topology dpu_crtc_get_topology(
+>  	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
+>  	 *
+>  	 * Add dspps to the reservation requirements if ctm is requested
+> +	 *
+> +	 * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
+> +	 * enabled. This is because in cases where CWB is enabled, num_intf will
+> +	 * count both the WB and real-time phys encoders.
+> +	 *
+> +	 * For non-DSC CWB usecases, have the num_lm be decided by the
+> +	 * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check.
+>  	 */
+>  
+> -	if (topology.num_intf == 2)
+> +	if (topology.num_intf == 2 && !topology.cwb_enabled)
+>  		topology.num_lm = 2;
+>  	else if (topology.num_dsc == 2)
+>  		topology.num_lm = 2;
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index b763ef19f4c60ae8a35df6a6ffb19e8411bc63f8..85adaf256b2c705d2d7df378b6ffc0e578f52bc3 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -382,8 +382,14 @@ static int _dpu_rm_reserve_ctls(
+>  	int i = 0, j, num_ctls;
+>  	bool needs_split_display;
+>  
+> -	/* each hw_intf needs its own hw_ctrl to program its control path */
+> -	num_ctls = top->num_intf;
+> +	/*
+> +	 * For non-CWB mode, each hw_intf needs its own hw_ctl to program its
+> +	 * control path. Hardcode num_ctls to 1 if CWB is enabled
+> +	 */
 
+Why?
+
+> +	if (top->cwb_enabled)
+> +		num_ctls = 1;
+> +	else
+> +		num_ctls = top->num_intf;
+>  
+>  	needs_split_display = _dpu_rm_needs_split_display(top);
+>  
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> index b061dfdab52e04ab7d777e912a30173273cb3db7..12db21a2403ec6930894c36a58e898c5d94c2568 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
+> @@ -46,6 +46,7 @@ struct dpu_rm {
+>   * @num_dspp:     number of dspp blocks used
+>   * @num_dsc:      number of Display Stream Compression (DSC) blocks used
+>   * @needs_cdm:    indicates whether cdm block is needed for this display topology
+> + * @cwb_enabled:  indicates whether CWB is enabled for this display topology
+>   */
+>  struct msm_display_topology {
+>  	u32 num_lm;
+> @@ -53,6 +54,7 @@ struct msm_display_topology {
+>  	u32 num_dspp;
+>  	u32 num_dsc;
+>  	bool needs_cdm;
+> +	bool cwb_enabled;
+>  };
+>  
+>  int dpu_rm_init(struct drm_device *dev,
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
