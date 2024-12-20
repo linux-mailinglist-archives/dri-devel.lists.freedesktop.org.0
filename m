@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A979F9787
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 18:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE59F9F978D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 18:13:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B83610EFF4;
-	Fri, 20 Dec 2024 17:12:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641E210E3BE;
+	Fri, 20 Dec 2024 17:13:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lbrNWuI1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TD5dAWMt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DA9D10EFE6;
- Fri, 20 Dec 2024 17:12:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3287110E3B8;
+ Fri, 20 Dec 2024 17:13:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 56341A42169;
- Fri, 20 Dec 2024 17:10:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CE4AC4CED7;
- Fri, 20 Dec 2024 17:12:44 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E0C9BA420B7;
+ Fri, 20 Dec 2024 17:11:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96FA0C4CECD;
+ Fri, 20 Dec 2024 17:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734714766;
- bh=0quJlJrytXMoCnAhb0nScBGYZhFX18a2z8dNjVm4MsE=;
+ s=k20201202; t=1734714802;
+ bh=O6yyjd6RLmHP5OglLWF1BgVMEYacizO9aZ9WNZQoSXQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lbrNWuI1ohsgvNIAkBEu/R69J2R/1LmKWpnHLn8AskIsAJI00kRTYD91QDOuVR6Zg
- ba79C2eZoMcT7F9rN1ce5TMqApsrdUsDxjLLjkBqbeCLEJC5pHwXRud9eCSRzAM3ha
- jNhkI1DyuZte/6Ij8057pcoJGtnzBgRtCrUJ88+/kcG1nRTYE+6tyxZ6NIW1f4A/N2
- hXTrgHAfSVMDvzk06pPi3T/kZh5MpUI1CNc5kAwFP97d0u6GOYoKfL2cWoMIIalwTJ
- gd0Wsn8SzMtiXEFvZClrc1bRmYZ4vOIWENW1sIcbKuLcXsjrASrBXFoEA71ZuZDKfc
- 1dT1+FICLxpeA==
+ b=TD5dAWMtYciroDF/WxZjQOJiieVRAh4k3zB21T/im0nb8FUC7mrDod43TxcBra20Q
+ gKzM4Z4wfWUVUspERV47ZeEmftOQX71adcizc8/47doMTEWB0SrTTm8OGnyuPOoEnz
+ TK2cspwcbvhQ6iGoMGkp0Ek2GOqxWPjOxn4ZZJGm6Ha9brK+i37S7oQJH3HqAYnc6r
+ I0ZiqauuoRByiQXT6PJSSEifeehi2XwoPDrjNrjbLAHYR5SJc0Q8O/vNu5yEOjUdGh
+ 5nWR2KF+A4EEAq+A2ISp1TC1N7OmR6rikqMU95MgUMgVGXG+oasVNsIM4kWST6HM0F
+ 12iK6ncjvU12A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,17 +38,17 @@ Cc: Prike Liang <Prike.Liang@amd.com>, Felix Kuehling <felix.kuehling@amd.com>,
  Felix.Kuehling@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
  airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 03/16] drm/amdkfd: Correct the migration DMA map
+Subject: [PATCH AUTOSEL 6.1 02/12] drm/amdkfd: Correct the migration DMA map
  direction
-Date: Fri, 20 Dec 2024 12:12:27 -0500
-Message-Id: <20241220171240.511904-3-sashal@kernel.org>
+Date: Fri, 20 Dec 2024 12:13:07 -0500
+Message-Id: <20241220171317.512120-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171240.511904-1-sashal@kernel.org>
-References: <20241220171240.511904-1-sashal@kernel.org>
+In-Reply-To: <20241220171317.512120-1-sashal@kernel.org>
+References: <20241220171317.512120-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.67
+X-stable-base: Linux 6.1.121
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -190,11 +190,11 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd=
 /amdkfd/kfd_migrate.c
-index 3263b5fa182d..f99e3b812ee4 100644
+index 8a7705db0b9a..a7ed47cb5bf6 100644
 --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
 +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -319,7 +319,7 @@ svm_migrate_copy_to_vram(struct kfd_node *node, struct =
-svm_range *prange,
+@@ -324,7 +324,7 @@ svm_migrate_copy_to_vram(struct amdgpu_device *adev, st=
+ruct svm_range *prange,
  		spage =3D migrate_pfn_to_page(migrate->src[i]);
  		if (spage && !is_zone_device_page(spage)) {
  			src[i] =3D dma_map_page(dev, spage, 0, PAGE_SIZE,
@@ -202,8 +202,8 @@ svm_range *prange,
 +					      DMA_BIDIRECTIONAL);
  			r =3D dma_mapping_error(dev, src[i]);
  			if (r) {
- 				dev_err(dev, "%s: fail %d dma_map_page\n",
-@@ -634,7 +634,7 @@ svm_migrate_copy_to_ram(struct amdgpu_device *adev, str=
+ 				dev_err(adev->dev, "%s: fail %d dma_map_page\n",
+@@ -623,7 +623,7 @@ svm_migrate_copy_to_ram(struct amdgpu_device *adev, str=
 uct svm_range *prange,
  			goto out_oom;
  		}
