@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA7239F9A26
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 20:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AF19F9A29
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 20:17:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 86B8F10F041;
-	Fri, 20 Dec 2024 19:17:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A206310F042;
+	Fri, 20 Dec 2024 19:17:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gYwt+qsB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zuJQ65XK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AC5710F039
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F133F10F042
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 19:17:28 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-54026562221so2176683e87.1
+Received: by mail-lf1-x12b.google.com with SMTP id
+ 2adb3069b0e04-53e3a90336eso2430522e87.3
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 11:17:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734722246; x=1735327046; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734722247; x=1735327047; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1M6HwiDjtz6MVhwJBxGtnK97LOfqJCVvtnZY32TOfk0=;
- b=gYwt+qsBMkbTh6r1M1NuTcpVeoSeCoA/uzRXOx5nna9UbyhOYNQC5B1AD0iS7Ke7AA
- CXWJblCj54BrkdELbX5lTF6vUY+L6K01BWIsEjWE2jbSIKbbUew9aKCyUoe06Bhjrb6b
- Xs8vRg39UAx4GnG8yTX45cw4rFlXnVQVFlRdkgBwMMSrwYUdx5obFguqsj+uh0z8Oyln
- KvXnullHN51cblM8PMcW4HwVYfo+KSZq2fFzFrOFj224I4X+VtZBQ02sHSqmzGD9/T06
- OnT/1ONVBM7PYlTzu9PpFe8wVlaHA7M4atyVx76jkgk+k2uQKe/4ImYHzauL/OHzz3kD
- 12Uw==
+ :reply-to; bh=+6v2ksJ04CWu1mQJ1yZzlo4VCCiYvzQqRtU1InzFo7k=;
+ b=zuJQ65XK/b7pBNS5MRjGfXsU7jn6cu5V4AUfpRPI7XpKqB8tevfOMtRemuPzlwI+w2
+ 6Zy/7J/S6IOgSRfHoE3yesQx5bCOQiGtSvoaAhl9+YV27oIGXrIwZgu4rFSpFyqVxQp7
+ H5EcuNSVCMlGzXbWjg7s2AbG1NH7NzUE8FkOc5VbtU/YCKvfAQrjjXi7Gp8Tki0fM7Jp
+ NbRB6/u03cRjKiUy3qvOrLU4iIyXgJ4h1Jvm8zln0qsrV9IW4/W8XtRYRA6hsIKkr0SM
+ KTQmsLRT2dCp/mgWVeFbT2nkgBxAGQYUDrc2TIl//l4WGgtdfLhonQNwsYrdKxbMSNKS
+ jiyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734722246; x=1735327046;
+ d=1e100.net; s=20230601; t=1734722247; x=1735327047;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1M6HwiDjtz6MVhwJBxGtnK97LOfqJCVvtnZY32TOfk0=;
- b=jNcLPhdK5Gbpk9aCuS958s9TGGhKAzdd4vuhxzRynU7YiJah6bc6d8mNT248ggTtZg
- SQMYClXw6+XC+h/dLcTXf4OHooKktKRR3tt3R0knYBOEV0ho3SKzPlR6J4wyb+z36WMp
- oloLciaINg1exxRTvcH7YT4/Dcm7CSsp9Y8h0oZBeD02ACgBzsNL3Pj4MowRylVgSXfE
- J0RJLq63I+qDdL5Nrm5s0e2wTQNTgtER3v3J9nnXY/4P/SF5fZJnwMdWm4FwCUUsYHB+
- FhxVmfsquursfO2ltEnl2U1LpysS8pYQ/IjW5J0aWZhml7zUwr+ZQBkeAVGUh3VPMNEC
- Hhcw==
+ bh=+6v2ksJ04CWu1mQJ1yZzlo4VCCiYvzQqRtU1InzFo7k=;
+ b=dSalNHdrTSkedKYzfJVY7fd/UP4l/4rYolz0g63iD6fUpmN+tIBCNCiI7GuVJfqG9J
+ vOCYfPJG/VjVwRgAAOLD0MGVv7Y+rJxBG+MC9Iey/2x7ywR0Tbs++h2cuWHacmlsU1Lq
+ TV2nIcRYEAQ5FTq9/qMSE8o4PGwBFEd1Y+2PiXMl4CG5ZCCG5Anw2eC5bBNXJyieX/TP
+ 0FKlECFAQmQf9xtUrwzgwy9xFMNOZYix2PUikqaTWuy3JMxAG0fBlmsw2X2Irp/Ai+Jk
+ xxpvYLSQtLym17pH4InM/mWG6fs2vIm8tDHSF1pF3wO8Zrn4G6Y/ToEBFJaZ+sr8E+L7
+ F/ag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWKFa++sUaCOClpX0Sr7K1+TocJvdJDYidPkelqeLnc7JyY/bPkEuM3ySeVD8ZQVajL3/pHEd3VzWA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy40BL5v0qChFyHdui/nJdeEap52w290UczQnvsKR+S3n+5hRJY
- GW7adQZlqzbsgbrkvKzWo0GJI6wzY6A9O+DNwNkkbrZ/RlEXLCfdp1UXpwee6GQ=
-X-Gm-Gg: ASbGncsSJQanpA04AssMpEpfHivOFnoEMLpYBC+Kb4MPv6t9o5eIU3eKiipDj8sxy20
- 6PEuotnAn4o/I06PTDr06Mg/Qm8jyBYbQL0pXKP4zK0Y0LzePPtdU2IOblDxKo+w/IFtEL1DCGX
- itT9T6yUmK4pzUPfllXZPK7/5/rHJyF3xbi4pJOtieVCTY9ef8H9fbWvozWcV85ml5R3kyrKb5d
- AZ6R7Nxl4mv1Xqbz3X2jM1Qz95lZJ2hMZ2tyriXvdrBgTPU0ZIeLKIZR5BVvlbL
-X-Google-Smtp-Source: AGHT+IG6IFV0Usn+06DX+/zaMrThIrt7paHBBkdwNJGqDNn/1W/onv1N2MVoOyFetqejTIcJnFPd6A==
-X-Received: by 2002:a05:6512:398d:b0:542:23a9:bd44 with SMTP id
- 2adb3069b0e04-5422952e712mr1506321e87.17.1734722246359; 
- Fri, 20 Dec 2024 11:17:26 -0800 (PST)
+ AJvYcCWGq/JarLHI/RkIyHQjvh8WRhHyLS2HTWkbzyYoM7mZ6sAhkV4AJB27+cBVQB+jh/I279nFfoOMPRM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyw4PR/EtgoUKw1xD5Wi0j/tdk5GI10Wu9+QGE9N0DcCPEYkp+7
+ lVxNG4uc4BJbchqJ123GSiEJ7IYC7bxIEa+6U4wUVvXk2Gs82HMMRhJVXhvchAI=
+X-Gm-Gg: ASbGnctPmpHCMX69UqMrXO0VVW5b5yWakjDHVncmJmk24K3+WTP7yAitKZ1vKUwBXnO
+ vC+X4H5VwCBRLXjzF5IGez2PMeW+pvMLulKTCjmaJupLB0lHuSOXzj1bjkDKyaE6PD+1S+CR4xN
+ IOjNYmAW/JDNY4Tg3hqbcixY3ZaS/G5QHg0QPJSmxmphO44KaAbVHDpFn4OA+ylyFdnQm1OxAmQ
+ PFPUSsHsMYxMRj7ij5cg3hAsCU7XZtFNf2r9t6aCv+N3nfTDa2IBtMLdHV4umTh
+X-Google-Smtp-Source: AGHT+IHe0mc2T0S/fidLlcXnIvV7arb5jH5l4ZSKmlo5D0G6qA4hbXh5msEHs+cmKpxC6EOLciu+6g==
+X-Received: by 2002:a05:6512:4019:b0:540:202f:4955 with SMTP id
+ 2adb3069b0e04-542295603c8mr1276517e87.46.1734722247275; 
+ Fri, 20 Dec 2024 11:17:27 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223813877sm545141e87.149.2024.12.20.11.17.23
+ 2adb3069b0e04-54223813877sm545141e87.149.2024.12.20.11.17.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Dec 2024 11:17:24 -0800 (PST)
+ Fri, 20 Dec 2024 11:17:26 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 20 Dec 2024 21:17:06 +0200
-Subject: [PATCH v8 09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
+Date: Fri, 20 Dec 2024 21:17:07 +0200
+Subject: [PATCH v8 10/10] drm/vc4: hdmi: use
+ drm_atomic_helper_connector_hdmi_hotplug()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-drm-bridge-hdmi-connector-v8-9-2399dbae2990@linaro.org>
+Message-Id: <20241220-drm-bridge-hdmi-connector-v8-10-2399dbae2990@linaro.org>
 References: <20241220-drm-bridge-hdmi-connector-v8-0-2399dbae2990@linaro.org>
 In-Reply-To: <20241220-drm-bridge-hdmi-connector-v8-0-2399dbae2990@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -98,16 +99,16 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
  linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1990;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1974;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=zd/Y8mBxMdBApDi5CzqJHH1RW7mj7RyJYMvyUl/+gqU=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3rqofWGWfG2miK9Nk/kt60LsekVXBu+uC1vw6n5PZ3JJ
- /mC567uZDRmYWDkYpAVU2TxKWiZGrMpOezDjqn1MINYmUCmMHBxCsBE7E6y/w9W9tSe7sVjbvzR
- 8FBbRt5itZZTS70/l66Un94pOkuWwdH5lK71svhJ7IVTW8v/1E+7um8Oq/SHghieD8s8E36nX22
- dYGtvPbPjkG758bt7Azk9c/X7bd+um6nE2PPeUjfWRN2Gr2P7Ce30e0Wr4+6KWfuXijlJxD0qzG
- gT5extinq5dKNmBvuX+iVXf9esOtz1siHufcyqFG19p2yZy68X5z4IvpRutuFxufLa2D/85/sCA
- 7/nH2SZf2G25Ulhz2zR7KP7F0Y3i/VcX1Jt2vEozPjs6pcbPiy4kXkuZvpnPaknzj3r2nPNcl0t
- rX6qH1qxql3BNHpX5armvlVFP34LG4pxvVDZeeS+x+2ZAA==
+ bh=XEE5uVlLO0AwRnx9UbXjwAPIkR4mEqLYJ4bDyDXWCRU=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZcKve9DZuQ8ppU/Q/ZnyEt45kRCo+xjVXVr/0
+ f2RRu93maOJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2XCrwAKCRCLPIo+Aiko
+ 1eW0B/93izm2Wfmdhsv3zy3rGU9m1u1l5dcOmfJb35f/JiJzpMofuBUPhBiSOWvd/xJyc4tPmAi
+ V80XUFJHu877in1Juq8fESbqqMCPvLTEDfMXFnmUvu8oboli6HpOqnnb6g9JhbJvNtL6HsDxvZt
+ KgZFkLtZeGCpHWBDeaWXihbv2a7VhnSpusAa0AcqSAdlvM9psDa1JF8yYo3tkqxTeRODSb+QDKu
+ l9biQtscdPSlOgu/xKywBpVtaNFC0rbQj12YLxzL/BOf6Q60quSYWiwXp4pC/0A2NjFTe9Bby7o
+ nutFS8MabwTox6OJ+b76xLxzmyaD1PeBBPIoGgP5pBsG2cop
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -125,54 +126,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vc4_hdmi_connector_detect_ctx() via vc4_hdmi_handle_hotplug()
-already reads EDID and propagates it to the drm_connector. Stop
-rereading EDID as a part of the .get_modes() callback and just update
-the list of modes. This matches the behaviour of the i915 driver.
+Use the helper function to update the connector's information. This
+makes sure that HDMI-related events are handled in a generic way.
+Currently it is limited to the HDMI state reporting to the sound system.
 
 Acked-by: Maxime Ripard <mripard@kernel.org>
 Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 24199b511f2ee1bc3aa5f4a30e9d3d928d556ff1..5282dd765cc9478361a705dca85f615015b12e8e 100644
+index 5282dd765cc9478361a705dca85f615015b12e8e..82eeb08c183420b000b351da1e05f9a47baeda90 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -470,31 +470,10 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
- 
- static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+@@ -383,7 +383,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+ 				    enum drm_connector_status status)
  {
--	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
 -	const struct drm_edid *drm_edid;
- 	int ret = 0;
+ 	int ret;
  
--	/*
--	 * NOTE: This function should really take vc4_hdmi->mutex, but doing so
--	 * results in reentrancy issues since cec_s_phys_addr() might call
--	 * .adap_enable, which leads to that funtion being called with our mutex
--	 * held.
--	 *
--	 * Concurrency isn't an issue at the moment since we don't share
--	 * any state with any of the other frameworks so we can ignore
--	 * the lock for now.
--	 */
--
+ 	/*
+@@ -405,17 +404,14 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+ 		return;
+ 	}
+ 
 -	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
--	drm_edid_connector_update(connector, drm_edid);
--	cec_s_phys_addr(vc4_hdmi->cec_adap,
--			connector->display_info.source_physical_address, false);
--	if (!drm_edid)
--		return 0;
--
- 	ret = drm_edid_connector_add_modes(connector);
--	drm_edid_free(drm_edid);
++	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
  
- 	if (!vc4->hvs->vc5_hdmi_enable_hdmi_20) {
- 		struct drm_device *drm = connector->dev;
+-	drm_edid_connector_update(connector, drm_edid);
+ 	cec_s_phys_addr(vc4_hdmi->cec_adap,
+ 			connector->display_info.source_physical_address, false);
+ 
+-	if (!drm_edid)
++	if (status != connector_status_connected)
+ 		return;
+ 
+-	drm_edid_free(drm_edid);
+-
+ 	for (;;) {
+ 		ret = vc4_hdmi_reset_link(connector, ctx);
+ 		if (ret == -EDEADLK) {
+@@ -549,6 +545,7 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
+ }
+ 
+ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
++	.force = drm_atomic_helper_connector_hdmi_force,
+ 	.fill_modes = drm_helper_probe_single_connector_modes,
+ 	.reset = vc4_hdmi_connector_reset,
+ 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
 
 -- 
 2.39.5
