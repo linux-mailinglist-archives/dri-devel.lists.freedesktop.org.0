@@ -2,93 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D34889F8978
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 02:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534AD9F8986
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 02:30:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F71610EE22;
-	Fri, 20 Dec 2024 01:28:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A4510EE34;
+	Fri, 20 Dec 2024 01:30:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="viTYzHgp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wUku5OPX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B433310EE32
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 01:28:50 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-53f22fd6832so1344048e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 17:28:50 -0800 (PST)
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50B8510EE33
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 01:30:11 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id
+ 2adb3069b0e04-5401be44b58so1405696e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 17:30:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734658129; x=1735262929; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=g+UxLeMEKZ0drgg5vIKf6D6FbqGDQrxrvZvv2J0cYAE=;
- b=viTYzHgpStXVqI17dPHkeoGVuxt1vhJabrZeo3mNxEz5X1rJ1ZrdFdwfNZWXH/OT/a
- Kk8HsFVqALaDpu52Pq0azF9ILGjPp3WC+Ab/BSa7HJceuKrh2f8d4wwLmlkrrJJYHsJ9
- Jb2NrQkEo3DhWJzM1lpJx46Jpra2oWUEqFuWYNUTQQSdc5vipSyGu+LpdNNArJPY96Cp
- Whpus/iRJi7ha3/NMx7zQfkgKXNlJFDmXfkC1cIsjHVK4vCTs6NG4tt4WMoAj2DF5xe3
- Cyh0RbCh/2J7O5OB29jitbNvhy4OUOVJrtRWoTzwr913DZWcPB3yFAhrZw2u5vESfe0u
- 8gvA==
+ d=linaro.org; s=google; t=1734658209; x=1735263009; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=IRqTKoAE7HJ98npVyFYsMRTsxnV+I4SmvSDZ0TuvMfs=;
+ b=wUku5OPX14H+dX9NTcdby9rAMfNbB23UsE6NbdrKyP79XeA8Zuh0YN8407ymRANn/v
+ GRfEdavRcRzEaFkBecX2XsbHcA6tT3DJwlth32Hz7ZFOIGHwGzNhu6TJ517WWPgZZCt/
+ zn3jAoToeZOBrshinRR7WmGU0CMZ/uYctKDkCQs8vDKAasHiXPpyt46FzdbOvwyr2VrO
+ iq65CFQNU1oG8j0vqQ9RRZRbcCxdheBnvS6gLYt6abRYVABL//A2FgCsK3bYlh2NZ5qw
+ FyUIRllCBTFag29CvyVkLau0Yot41aNtKTlcLYRaN/W++rf35njR+UEffIRCVVCizphb
+ BwSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734658129; x=1735262929;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g+UxLeMEKZ0drgg5vIKf6D6FbqGDQrxrvZvv2J0cYAE=;
- b=P04LoRyLccEQ6j7VtOVnRn/w8Xl6OI8dC2eDaN4GWa5YoPsXOdyBCowrRaYA4mhiv3
- gATYKUdnY+LrJ4mcWlYS8EpX5oNkEEVJtpnH5RjrXk1VjnqFt2GCXKojTuaevcxPn8P4
- tkgg9pHRC9kwvBe9jKT//tzyRvv90lyt0GbIMz1x45xQVVdBJwUsRbNyCoW/r+nMyqKa
- iN8DDhl2719MF7Ike1exXgqUF+85iWR2KKnBGKX5pTbdiXV9//32aQfs1UfccfrTMOU3
- /THnqCBuL1BnWalCutr9y3z5O/ZtaeMP8GIlAGunRTIhVoW89pcvxsR5s512sA6u03OL
- ELrw==
+ d=1e100.net; s=20230601; t=1734658209; x=1735263009;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IRqTKoAE7HJ98npVyFYsMRTsxnV+I4SmvSDZ0TuvMfs=;
+ b=gypkPZ2lRRbPumBCouCSGe8Ra6n+YIF1rrPIgLIm+Hp2uHExRxOdEzu2FltSW2Uufg
+ vFt58kord5pLEw89xQRephT8GYBP3DGEmbJkySSCz2gSVWSaTulns5xP9GdLVIO8qNZk
+ k8a3hW5P+QnF+bNtVwtEUb4zbqYCB6EsMi7n4GqJ2sXJzD8z/HFuzxQPHnMeIRZGmVtV
+ lwEjcACbiHfFiC++MWa2wfeg4JuGJ1wRo8iqqb0r/vB4B3cXrw9tqi/jMgJzPi7dstU7
+ 0QYG8g19n4T2UDzREgYpIno9gEr9gDjKf3Kqziw6WM01X1YFEPRx1Hnb38NmdhjgZth9
+ C3Lg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUXF3IAnpKi9yEwx3UyYGa6+UGbjjBPu2Gla6G1jt5ufhp8IAxrVV3lgzid0FjKZ3NniA2WcsZDWMs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxHYtDlp5aFw3plVAdts6T5+m58KthPYS2OH/yjjqtT3WFV2uuN
- g7pcAuutujCiu1PUP6CdUNmY8bu8eHo4eEpGvX3HzHEdrpbfR+cOwv/6SQJL15o=
-X-Gm-Gg: ASbGncuttpFOl7iqTggXVSnJH/1RNR+/bYCYEGNWK4EFdXFXBfwl7XlgfHvboPflRn1
- EBvuijRXfe+m16fouLIE5aTMMVKbbcEXDgDKCdeXPi5TVerzqAKb119wsln2b0sRebXr3W4LTvm
- 6wcEViGhinpOlCyKwGP1nRoFRhnDVYtZ8y6wMtlT6gUe1BgWLCMECXQ7/JLLDYvBOvzPLd+Hz2S
- v5J5yJlHgC+ZFDaIn2wwsG7fDq6mb1SteePjacnuh4h1XJcbujYm7Ru9fwqTR9p
-X-Google-Smtp-Source: AGHT+IH5Icut19CrQRKgtDSzCRG8qNy2m4CTSKGxVWKKTUEhiYw6FKBa1WmLIGAIiUsb9ae8mcxHFQ==
-X-Received: by 2002:a05:6512:1055:b0:53e:39e6:a1c1 with SMTP id
- 2adb3069b0e04-54229560360mr232733e87.43.1734658129064; 
- Thu, 19 Dec 2024 17:28:49 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54227a89c2csm170540e87.71.2024.12.19.17.28.47
+ AJvYcCVrIo9flBSCTcsPTxjtyBMpaz8RmhtTZFbDwy464cgrW+bbulPglYx7q0IuQZdXIiGXO5RSNoHvH9c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxJYtjVFW0RzH4XfuE08UN5dkddHdMtlfV7h3H7MCiq6VKrQWGZ
+ Yq6Rej6YgAc9ih7dIsfeYHLsrGUFeFhOcOp8a1XDgR8KA/XY8c0cH4/S2UZidJw=
+X-Gm-Gg: ASbGncvwLYItihF76Y/6taeh/QA5+50CSop8qzyANqWhgoDb1faYG4NMWwe9jyCcGQf
+ TDJnIPcmrGP01mgIQLSkiD64yM8Rwvlx9hmj8eTb0T9GyUosLHi+jUeNEP0ti5QYTgD6wpRWyu2
+ y2p/6VjNerkqw3l7PYuyAbfIF2BOqJAA5B5wULVCPMz2Jp9J96zf41fx+C7gauGBrIsDWVRRqPK
+ hc0ttE5Yz3cVXtI/6xj9Muq3jEpeEvJltt8p3EXCkpQPNBreL4d87uzXk1Qe6808W+c/GDYvEWL
+ pQm85uoNS29zhbuXUysXv79hGqO6kc0A1THK
+X-Google-Smtp-Source: AGHT+IGlquI8KKTUHzMHBoJBkZ6k2s0Y3Yu3ZQlvtmHOQTkOMz1/CtvlXpiwmQGSPgAbRD9wIb6Z3Q==
+X-Received: by 2002:a05:6512:2308:b0:540:3530:5a83 with SMTP id
+ 2adb3069b0e04-54229561aa3mr212914e87.36.1734658209611; 
+ Thu, 19 Dec 2024 17:30:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223813687sm331812e87.137.2024.12.19.17.30.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 17:28:47 -0800 (PST)
+ Thu, 19 Dec 2024 17:30:08 -0800 (PST)
+Date: Fri, 20 Dec 2024 03:30:06 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 20 Dec 2024 03:28:36 +0200
-Subject: [PATCH v2 8/8] drm/msm/dpu: link DSPP_2/_3 blocks on X1E80100
+To: Olivier MOYSAN <olivier.moysan@foss.st.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] drm: bridge: adv7511: fill i2s stream capabilities
+Message-ID: <g4beidwfuz7dtavflyovtkokdz5kcjgbmnw3q2r2ceycezxrwd@wlsorpagke3h>
+References: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
+ <20241210134254.2967524-2-olivier.moysan@foss.st.com>
+ <rilzmak24odk34q3rglnkmi23e7warmd6dytx2opkhjl3kjujm@fqxqydwhcluy>
+ <1a92bf78-1e29-4b84-8513-12ecb12c61bd@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-dpu-fix-catalog-v2-8-38fa961ea992@linaro.org>
-References: <20241220-dpu-fix-catalog-v2-0-38fa961ea992@linaro.org>
-In-Reply-To: <20241220-dpu-fix-catalog-v2-0-38fa961ea992@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Robert Foss <rfoss@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Abel Vesa <abel.vesa@linaro.org>, Richard Acayan <mailingradian@gmail.com>
-Cc: Rob Clark <robdclark@chromium.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1307;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=5058CHEvuHi6y1shjj/7LSsaLqFOGpH0zSafsGTeHak=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZMg/RB+Fi7NOIgUKpxxiaLrBsE7s80wm6VMMl
- UTR4BMn15uJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2TIPwAKCRCLPIo+Aiko
- 1QbaB/9MRXkpbzcxPF0Rcp5LR396dEkAkPli7KvHNg1toaDhWPRd5C5qR8G8fog0tXC0vQP8SLm
- zqaHgaRd+nheWQRf69qtmv5FXJoNt0oiyjgtNcxeokyocr3GYy07Y3hR592MYN5EJwu6aE9X+5+
- HCHKAZDNf2apKR+GPHPXPoZZ1UVJLScMigOzkAX72Sq5+kUzu2XB3OvlVhrXMQPBb0BTbvEtPCp
- rkHncfnva1A2cFkxmw5imydwNGwSq4yiGLKiiaW+cOf/jdDMnCs9KdR7a/28KDRO1a4ZxiD+oEp
- pAcUn1XMmvDK83Iy5U4XmQGl8eaE4EtvxRff50IJWybEfSH3
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1a92bf78-1e29-4b84-8513-12ecb12c61bd@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,38 +98,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link DSPP_2 to the LM_2 and DSPP_3 to the LM_3 mixer blocks. This allows
-using colour transformation matrix (aka night mode) with more outputs at
-the same time.
+On Thu, Dec 19, 2024 at 03:49:45PM +0100, Olivier MOYSAN wrote:
+> Hi Dmitry,
+> 
+> On 12/11/24 23:52, Dmitry Baryshkov wrote:
+> > On Tue, Dec 10, 2024 at 02:42:52PM +0100, Olivier Moysan wrote:
+> > > Set no_i2s_capture flag in hdmi_codec_pdata structure to report
+> > > that the ADV7511 HDMI bridge does not support i2s audio capture.
+> > > 
+> > > Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+> > > ---
+> > >   drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> > > index 61f4a38e7d2b..28ae81ca3651 100644
+> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
+> > > @@ -234,6 +234,7 @@ static const struct hdmi_codec_pdata codec_data = {
+> > >   	.ops = &adv7511_codec_ops,
+> > >   	.max_i2s_channels = 2,
+> > >   	.i2s = 1,
+> > > +	.no_i2s_capture = 1,
+> > 
+> > Does it support spdif capture?
+> > 
+> 
+> "no_i2s_spdif = 1" is relevant also for adv7511 bridge.
+> I can add it in this serie.
 
-Fixes: e3b1f369db5a ("drm/msm/dpu: Add X1E80100 support")
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 2 ++
- 1 file changed, 2 insertions(+)
+I think you mean no_spdif_playback / no_spdif_capture. Yes, please.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-index d61895bb396fb4287e9b41807a3bb0cdb25d4e25..4f110be6b750d30e158d517aaa507c7b4eda0af4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-@@ -159,6 +159,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_3,
- 		.pingpong = PINGPONG_2,
-+		.dspp = DSPP_2,
- 	}, {
- 		.name = "lm_3", .id = LM_3,
- 		.base = 0x47000, .len = 0x320,
-@@ -166,6 +167,7 @@ static const struct dpu_lm_cfg x1e80100_lm[] = {
- 		.sblk = &sdm845_lm_sblk,
- 		.lm_pair = LM_2,
- 		.pingpong = PINGPONG_3,
-+		.dspp = DSPP_3,
- 	}, {
- 		.name = "lm_4", .id = LM_4,
- 		.base = 0x48000, .len = 0x320,
+> 
+> > >   	.spdif = 1,
+> > >   };
+> > > -- 
+> > > 2.25.1
+> > > 
+> > 
+> 
+> BRs
+> Olivier
 
 -- 
-2.39.5
-
+With best wishes
+Dmitry
