@@ -2,84 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76679F943B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 15:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4879F949F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 15:39:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3CEA10E397;
-	Fri, 20 Dec 2024 14:25:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E569610E282;
+	Fri, 20 Dec 2024 14:39:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="U1YqOaww";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iYJupZyn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 138EC10E38C;
- Fri, 20 Dec 2024 14:25:38 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id
- 4fb4d7f45d1cf-5d3d69e5b63so284571a12.1; 
- Fri, 20 Dec 2024 06:25:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1734704736; x=1735309536; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=oW8Yx4GvJ17pe4zJBq56RpWHLJJBmzwKnHD3q58YDlY=;
- b=U1YqOawwbosz1Ymufh+pHUrWGixhm8Es6JEM2/8TSJ3/gZ6zlze6yGJg8YzTtYQLaP
- p5Wxxpb/z72HcW0Q8jhLuui/NQhMHMUBx697xC+nrT1aEbarU1EsaSUdGLvnBFpay/qu
- NYOBdeJzA8qK5JWR5s6m3nqcmKd5Yb1p4cI4TGjfVpzjQFHNmVPkjghuuS1MRtG+gos3
- VXAJ1sqReMkSHRWBSgDan11XhACmpF/fmH+RmioJ3l5fKwDtmB2m4HQiI8HdhMlHgm1+
- kjxsD41QF4/RVaMhO4jr/sJBy3p4oDvxBRQ1+2cU9ffM2xLN9d2etcfUE17hMWcYVBtZ
- 5iVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734704736; x=1735309536;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oW8Yx4GvJ17pe4zJBq56RpWHLJJBmzwKnHD3q58YDlY=;
- b=cemWorSwWo6bHl28xLHC1qFmSpQbibwsCN+m9LqDsQnnB4xuNxqPJQpaIukWF40RgQ
- jTRFal5hc5KuIb3tWOEENRFAh68da7pmOyfK2KKSB7q9hIevARgWVSId4QVW1Aax9pQO
- hNhI6JRTm0i1SAn0yT0Ki4WQQ56sGYjDXdXedKDvdsCdpox4qaeW15CNHrNuwVXKmul0
- 5Rziw9ykX+G8u0HIVMF371EUxzUgWa65msIWR6oUjyENvz7gx5aQSspE3HLvmPjOSgzL
- new/fluZPGMhWnGspLrwmJYwe8gUvU08Sw/CtWiKL2w979Tr4h0/jsAzgvQoh22FK8Up
- t+vg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUTmd7Ti0uyRp7pSZ+vkKYepQcrEVz75bTJZsPVhaFKl3f8QKrS143KLIpCZGHrUhC7FHRWacnOtJMZ@lists.freedesktop.org,
- AJvYcCWDf06A2LopLukq2spmzI1xr+20H9hgbU/+vsSOdGnLOn+t83MuQcjv+GGFe5webdInwQnh5CE9@lists.freedesktop.org,
- AJvYcCXSRbcXlmATW49lfuhLTplml+uFFF5iNXOem7xF9QnkJHT/GZT/B2YyNJqLnvmCoPZQrcZuwZX2W4s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwjIxrl6yHMi91+NVgvAHKX7Mx3b+8Pr7CllEv2o3i4myLCsZ7
- xdbV1I2SmAcNcLpf1gbTpw8jKrN/kz+uz3kpmPsxj8i4eTVjIaSa2bTGChZHPlvaFelNlyU6vxp
- a8PYpMjg406CugcNITvGdt7n1ymlCFQ==
-X-Gm-Gg: ASbGnctV0hVRtdKgf/dJ8S7pWeyjYsdVXpQhcyPU0QhA0+O2fl548QTHmjSzMVlRCYF
- 3AItSB03ENjRwMpucBS1xgvjWOmSPDsphDglVuvvi
-X-Google-Smtp-Source: AGHT+IH/lcPM376/rfg8KhebaerOuj8LAx1NxEwjVXaCO8RYHN8NRR6/5SK3Cb3QuG/yCBy8EQPDoo8IC6zqeUmm6V8=
-X-Received: by 2002:a05:6402:5246:b0:5d2:d72a:7803 with SMTP id
- 4fb4d7f45d1cf-5d81dd83c73mr1047222a12.4.1734704736234; Fri, 20 Dec 2024
- 06:25:36 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9E210E282
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 14:39:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734705578; x=1766241578;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=sOmJNa/Hhe5XFaDXpS4COomViHvCXO7/i6xVU89uBIE=;
+ b=iYJupZynwJDEUKCQmpHNYWXSE8+3hjifCJH3CYBzLF3dVW3siAK3ZzUL
+ YlUChwAn0xheASH7SFupS+hDWVeWDEyogoWThAQgpjEFJW2FKbeXPKETJ
+ 4goP8eVwPPMllKCnuFJ0HSnCrCnn9P2aDv3NpmqRPaBqEZnmZl0oLYHGF
+ 2kQueMsrC9e+vptFTGHWjairuFuZEpjf2BbhpXb1Isu4CC0tuYjOol8Fx
+ mEAOBTE9Pzdl4e1MMWqLTsayJq616h11uZaxsaJVHvKTIPxIgN2L+gZbz
+ rxQmxO7Gx0BxyTRUnCOcBmXT4Ivr7k2ahL3RIjDz5eM+2GPoQr16YRAyr Q==;
+X-CSE-ConnectionGUID: ISZxdbkpT2C2JYPC1r4uPQ==
+X-CSE-MsgGUID: nTjE1II7RuuHm9/IAhhB0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="34576143"
+X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; d="scan'208";a="34576143"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2024 06:39:37 -0800
+X-CSE-ConnectionGUID: wUDdKprFQWmiQUA2fp4c2A==
+X-CSE-MsgGUID: wYszqG/7TYGV/vME6GN0Qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,251,1728975600"; d="scan'208";a="98429513"
+Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
+ by orviesa009.jf.intel.com with ESMTP; 20 Dec 2024 06:39:33 -0800
+Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tOeA6-0001FJ-0S;
+ Fri, 20 Dec 2024 14:39:30 +0000
+Date: Fri, 20 Dec 2024 22:38:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Sumit Garg <sumit.garg@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Jens Wiklander <jens.wiklander@linaro.org>
+Subject: Re: [PATCH v4 5/6] optee: FF-A: dynamic restricted memory allocation
+Message-ID: <202412202214.OdgzpOke-lkp@intel.com>
+References: <20241217100809.3962439-6-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
- <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
- <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
- <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
- <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
- <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
- <CAAxE2A5+=QVAFXXCbe3qEgY-Mzb-5XW73CYdANEO+N_xA+ivaw@mail.gmail.com>
- <zfjnuz2pfg7j2g2zrbt5ryde223plzr4rdyk4f4ans5znicw3l@kbebotesmobf>
- <CAAxE2A6u4Ee=yBJHo9uKr0Be8Ta3MwSxvt79GcbF8D0R952_FQ@mail.gmail.com>
- <nlcq3xjef3mapwumuelnspinmgucersb5gazk2p7yxqv5aops7@t3p2e4sze75b>
-In-Reply-To: <nlcq3xjef3mapwumuelnspinmgucersb5gazk2p7yxqv5aops7@t3p2e4sze75b>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Fri, 20 Dec 2024 09:24:59 -0500
-Message-ID: <CAAxE2A77DVSWM0vOZcBSmM+1sbt2kOdCC7SRDMRpeBPsW_J2Vg@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: Brian Starkey <brian.starkey@arm.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
-Content-Type: multipart/alternative; boundary="00000000000097f93e0629b46bf4"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241217100809.3962439-6-jens.wiklander@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,68 +83,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000097f93e0629b46bf4
-Content-Type: text/plain; charset="UTF-8"
+Hi Jens,
 
->
->  * Modifiers must uniquely encode buffer layout. In other words, a buffer
-> must
->  * match only a single modifier.
->
+kernel test robot noticed the following build errors:
 
-That sentence is misleading and impossible to meet. Specifications are
-sometimes changed to reflect the overwhelming reality. Multiple modifiers
-can represent identical layouts - they already do between vendors, between
-generations of the same vendor, and accidentally even between chips of the
-same generation. Modifiers have already become 64-bit structures of
-bitfields with currently 2^16 possible modifiers for some vendors, and
-possibly exceeding 100k for all vendors combined. Encoding all linear
-constraints into the 64 bits is one option. It needs more thought, but
-encoding at least some constraints in the modifier is not totally off the
-table.
+[auto build test ERROR on fac04efc5c793dccbd07e2d59af9f90b7fc0dca4]
 
-The semi-functional LINEAR modifier needs to go. The idea of modifiers is
-that nobody should have to expose one that is unsupported to keep things
-working for a subset of apps. If the LINEAR modifier is a requirement
-everywhere because of apps, and even drivers that can't support it must
-expose it, that's a problem. It causes GBM/EGL to fail to import a DMABUF
-for a random reason and it can't be prevented without, say, looking at PCI
-IDs. If that happened for any other API, it would be considered unusable.
-We can either fix it (by replacing/deprecating/removing LINEAR) or abandon
-modifiers and replace them with something that works.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jens-Wiklander/tee-add-restricted-memory-allocation/20241217-181101
+base:   fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
+patch link:    https://lore.kernel.org/r/20241217100809.3962439-6-jens.wiklander%40linaro.org
+patch subject: [PATCH v4 5/6] optee: FF-A: dynamic restricted memory allocation
+config: arm64-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241220/202412202214.OdgzpOke-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412202214.OdgzpOke-lkp@intel.com/reproduce)
 
-Marek
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412202214.OdgzpOke-lkp@intel.com/
 
---00000000000097f93e0629b46bf4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+All errors (new ones prefixed by >>):
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0* Modifiers must=
- uniquely encode buffer layout. In other words, a buffer must<br>
-=C2=A0* match only a single modifier.<br></blockquote><div><br></div>That s=
-entence is misleading and impossible to meet. Specifications are sometimes =
-changed to reflect the overwhelming reality. Multiple modifiers can represe=
-nt identical layouts - they already do between vendors, between generations=
- of the same vendor, and accidentally even between chips of the same genera=
-tion. Modifiers have already become 64-bit structures of bitfields with cur=
-rently 2^16 possible modifiers for some vendors, and possibly exceeding 100=
-k for all vendors combined. Encoding all linear constraints into the 64 bit=
-s is one option. It needs more thought, but encoding at least some constrai=
-nts in the modifier is not totally off the table.</div><div class=3D"gmail_=
-quote"><br></div><div class=3D"gmail_quote">The semi-functional LINEAR modi=
-fier needs to go. The idea of modifiers is that nobody should have to expos=
-e one that is unsupported to keep things working for a subset of apps. If t=
-he LINEAR modifier is a requirement everywhere because of apps, and even dr=
-ivers that can&#39;t support it must expose it, that&#39;s a problem. It ca=
-uses GBM/EGL to fail to import a DMABUF for a random reason and it can&#39;=
-t be prevented without, say, looking at PCI IDs. If that happened for any o=
-ther API, it would be considered unusable. We can either fix it (by replaci=
-ng/deprecating/removing LINEAR) or abandon modifiers and replace them with =
-something that works.<br></div><div class=3D"gmail_quote"><br></div><div cl=
-ass=3D"gmail_quote">Marek<br></div></div>
-</div>
-</div>
+   In file included from drivers/tee/optee/rstmem.c:8:
+   In file included from include/linux/dma-map-ops.h:9:
+   In file included from include/linux/dma-mapping.h:8:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/tee/optee/rstmem.c:311:67: error: expected ')'
+     311 | static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
+         |                                                                   ^
+   drivers/tee/optee/rstmem.c:311:46: note: to match this '('
+     311 | static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
+         |                                              ^
+>> drivers/tee/optee/rstmem.c:332:35: error: too many arguments to function call, expected single argument 'optee', have 2 arguments
+     332 |                 pool = alloc_rstmem_pool(optee, use_case);
+         |                        ~~~~~~~~~~~~~~~~~        ^~~~~~~~
+   drivers/tee/optee/rstmem.c:311:29: note: 'alloc_rstmem_pool' declared here
+     311 | static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
+         |                             ^                 ~~~~~~~~~~~~~~~~~~~
+   1 warning and 2 errors generated.
 
---00000000000097f93e0629b46bf4--
+
+vim +311 drivers/tee/optee/rstmem.c
+
+   268	
+   269	static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee, u32 use_case)
+   270	{
+   271		struct optee_rstmem_cma_pool *rp;
+   272		size_t min_size;
+   273		int rc;
+   274	
+   275		rp = kzalloc(sizeof(*rp), GFP_KERNEL);
+   276		if (!rp)
+   277			return ERR_PTR(-ENOMEM);
+   278		rp->rstmem.use_case = use_case;
+   279	
+   280		rc = get_rstmem_config(optee, use_case, &min_size, &rp->align, NULL,
+   281				       &rp->end_point_count);
+   282		if (rc) {
+   283			if (rc != -ENOSPC)
+   284				goto err;
+   285			rp->end_points = kcalloc(rp->end_point_count,
+   286						 sizeof(*rp->end_points), GFP_KERNEL);
+   287			if (!rp->end_points) {
+   288				rc = -ENOMEM;
+   289				goto err;
+   290			}
+   291			rc = get_rstmem_config(optee, use_case, &min_size, &rp->align,
+   292					       rp->end_points, &rp->end_point_count);
+   293			if (rc)
+   294				goto err_kfree_eps;
+   295		}
+   296	
+   297		rp->pool.ops = &rstmem_pool_ops_cma;
+   298		rp->optee = optee;
+   299		rp->page_count = min_size / PAGE_SIZE;
+   300		mutex_init(&rp->mutex);
+   301	
+   302		return &rp->pool;
+   303	
+   304	err_kfree_eps:
+   305		kfree(rp->end_points);
+   306	err:
+   307		kfree(rp);
+   308		return ERR_PTR(rc);
+   309	}
+   310	#else /*CONFIG_CMA*/
+ > 311	static struct tee_shm_pool *alloc_rstmem_pool(struct optee *optee __unused,
+   312						      u32 use_case __unused)
+   313	{
+   314		return ERR_PTR(-EINVAL);
+   315	}
+   316	#endif /*CONFIG_CMA*/
+   317	
+   318	int optee_rstmem_alloc(struct tee_context *ctx, struct tee_shm *shm,
+   319			       u32 flags, u32 use_case, size_t size)
+   320	{
+   321		struct optee *optee = tee_get_drvdata(ctx->teedev);
+   322		struct tee_shm_pool *pool;
+   323		int rc;
+   324	
+   325		if (!optee->rstmem_pools)
+   326			return -EINVAL;
+   327		if (flags)
+   328			return -EINVAL;
+   329	
+   330		pool = xa_load(&optee->rstmem_pools->xa, use_case);
+   331		if (!pool) {
+ > 332			pool = alloc_rstmem_pool(optee, use_case);
+   333			if (IS_ERR(pool))
+   334				return PTR_ERR(pool);
+   335			rc = xa_insert(&optee->rstmem_pools->xa, use_case, pool,
+   336				       GFP_KERNEL);
+   337			if (rc) {
+   338				pool->ops->destroy_pool(pool);
+   339				return rc;
+   340			}
+   341		}
+   342	
+   343		return pool->ops->alloc(pool, shm, size, 0);
+   344	}
+   345	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
