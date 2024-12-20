@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534AD9F8986
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 02:30:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8FD9F898B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 02:30:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54A4510EE34;
-	Fri, 20 Dec 2024 01:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42A9B10EE40;
+	Fri, 20 Dec 2024 01:30:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wUku5OPX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kiW5ErkX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B8510EE33
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 01:30:11 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id
- 2adb3069b0e04-5401be44b58so1405696e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 17:30:11 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7DA10EE3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 01:30:55 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-53df80eeeedso1312601e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 17:30:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734658209; x=1735263009; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734658254; x=1735263054; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=IRqTKoAE7HJ98npVyFYsMRTsxnV+I4SmvSDZ0TuvMfs=;
- b=wUku5OPX14H+dX9NTcdby9rAMfNbB23UsE6NbdrKyP79XeA8Zuh0YN8407ymRANn/v
- GRfEdavRcRzEaFkBecX2XsbHcA6tT3DJwlth32Hz7ZFOIGHwGzNhu6TJ517WWPgZZCt/
- zn3jAoToeZOBrshinRR7WmGU0CMZ/uYctKDkCQs8vDKAasHiXPpyt46FzdbOvwyr2VrO
- iq65CFQNU1oG8j0vqQ9RRZRbcCxdheBnvS6gLYt6abRYVABL//A2FgCsK3bYlh2NZ5qw
- FyUIRllCBTFag29CvyVkLau0Yot41aNtKTlcLYRaN/W++rf35njR+UEffIRCVVCizphb
- BwSw==
+ bh=IzTtQjuhpCjVrIgeBhHjNDNPAoY696uerkKb/GkTgyE=;
+ b=kiW5ErkXuMuhi5f25Ho92rE+wfo2Hmq8cnL9X0yTDOM5D/lcp7BWIvIdbny1jHNUNO
+ Nx88CA15mTNigIhXnEiqOgNLGsk0ZDHNj5la+yYYBsT0iP1PlTiUL4E39XmXgPQQL2af
+ EPeYxAyBULNd6OQHiwnQW5OZ1WaVnM1+PLSMdPgAwq9ofjyl98ZrpiqBLoqyfRSdVpza
+ RbecOF21P3m9eOA7nDsjhD2FsKB52ZK6jsiQBeFnpo1HhsBMrnOMMJNMjy1zdoz2uVSU
+ jZ9u3o2z/YiRTY+GVharMVkvxCuFsfHB9UdALLbNAmXjbWFpFFb0VCU6uM+Y+9zM9hsy
+ lLNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734658209; x=1735263009;
+ d=1e100.net; s=20230601; t=1734658254; x=1735263054;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=IRqTKoAE7HJ98npVyFYsMRTsxnV+I4SmvSDZ0TuvMfs=;
- b=gypkPZ2lRRbPumBCouCSGe8Ra6n+YIF1rrPIgLIm+Hp2uHExRxOdEzu2FltSW2Uufg
- vFt58kord5pLEw89xQRephT8GYBP3DGEmbJkySSCz2gSVWSaTulns5xP9GdLVIO8qNZk
- k8a3hW5P+QnF+bNtVwtEUb4zbqYCB6EsMi7n4GqJ2sXJzD8z/HFuzxQPHnMeIRZGmVtV
- lwEjcACbiHfFiC++MWa2wfeg4JuGJ1wRo8iqqb0r/vB4B3cXrw9tqi/jMgJzPi7dstU7
- 0QYG8g19n4T2UDzREgYpIno9gEr9gDjKf3Kqziw6WM01X1YFEPRx1Hnb38NmdhjgZth9
- C3Lg==
+ bh=IzTtQjuhpCjVrIgeBhHjNDNPAoY696uerkKb/GkTgyE=;
+ b=NBWNIqDFN5INjX6I5tptlB6aj/HX8LoP3NDtdtCWBYldt5+JeZDlyoD8tJ7ebJ+/ew
+ AZ7VDN7DfJsMc2Uf5gxg+gWZLwEyOtO9Uo/djZ8a+5j372exi64RzqYIZhqpPMTZpjwB
+ 3BewOkJvwd+CLlYHWP6919MEsv7vfXsRjLehypdg6FPf9wupPyIJGDPyDVAEzgoeJBmd
+ ucMKbsKhRsNRRwigvpn7DTYTKdyetkygJc505KvHJn+mYzLCP1+SAO9Wa8etOMJC966t
+ Zy3E+KxqbzyAqRdDEvvqImblDky53/4tBT4i+pLNVYJd8wHexs9GocYepIAEjVcF33mX
+ KcWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVrIo9flBSCTcsPTxjtyBMpaz8RmhtTZFbDwy464cgrW+bbulPglYx7q0IuQZdXIiGXO5RSNoHvH9c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJYtjVFW0RzH4XfuE08UN5dkddHdMtlfV7h3H7MCiq6VKrQWGZ
- Yq6Rej6YgAc9ih7dIsfeYHLsrGUFeFhOcOp8a1XDgR8KA/XY8c0cH4/S2UZidJw=
-X-Gm-Gg: ASbGncvwLYItihF76Y/6taeh/QA5+50CSop8qzyANqWhgoDb1faYG4NMWwe9jyCcGQf
- TDJnIPcmrGP01mgIQLSkiD64yM8Rwvlx9hmj8eTb0T9GyUosLHi+jUeNEP0ti5QYTgD6wpRWyu2
- y2p/6VjNerkqw3l7PYuyAbfIF2BOqJAA5B5wULVCPMz2Jp9J96zf41fx+C7gauGBrIsDWVRRqPK
- hc0ttE5Yz3cVXtI/6xj9Muq3jEpeEvJltt8p3EXCkpQPNBreL4d87uzXk1Qe6808W+c/GDYvEWL
- pQm85uoNS29zhbuXUysXv79hGqO6kc0A1THK
-X-Google-Smtp-Source: AGHT+IGlquI8KKTUHzMHBoJBkZ6k2s0Y3Yu3ZQlvtmHOQTkOMz1/CtvlXpiwmQGSPgAbRD9wIb6Z3Q==
-X-Received: by 2002:a05:6512:2308:b0:540:3530:5a83 with SMTP id
- 2adb3069b0e04-54229561aa3mr212914e87.36.1734658209611; 
- Thu, 19 Dec 2024 17:30:09 -0800 (PST)
+ AJvYcCXCIa7jW1qBg5BRJLgzfBi9wiwmEv6HEKBfeJT9Ix6ljE5rEoTrpAv9/uxvhpNMOeItBg/QtFKjgvw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoPHQJ+HgqP3+wBcEBVQzs91QC4Wue/b4kNN5E5MJATNncuLzG
+ ERR9+3TxMnSJWBfCkhyLJlte9nEJJA0h2/24+kIO5QaqXMu8RHAocZCllmMa/Ac=
+X-Gm-Gg: ASbGnctcgHinbwOVWYbMdS7xGKw87+zmeO/cYuCs3nOIQZsH6+71elE5J/u77EhBKGQ
+ a0/c/a6scaVCTyxPaTQp/APLP9jl3CPDrO5XQYBFxweum4q5vD4B8Z2wNEw6PO78z8+HJYDjFUc
+ h282Setl6cZ6LiyZHVKBqyH6YIwNFVSMfDpBLlTDvSJPhZh36XxVe8mqebM76ydDVbVR8DsBMU+
+ itTWoDlgVKzbTKVeb5IgUJLexFlLPgDRTvPUTRHI51CJDfn4GhCijE0K6ScvBcVxzVuiZ6p9vpi
+ u+Ksf0olq7Yxq0+tbZhE7UiMJWCQEB+pIcpx
+X-Google-Smtp-Source: AGHT+IHdJ9hhUuTWasllcN07J9evI4uSKaQYhemK2gVhtQ3JoeUtiyvLdaFFgPjMSuptdLf8CoAAmQ==
+X-Received: by 2002:a05:6512:3c98:b0:53e:239b:6097 with SMTP id
+ 2adb3069b0e04-54229597f58mr165121e87.50.1734658253608; 
+ Thu, 19 Dec 2024 17:30:53 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223813687sm331812e87.137.2024.12.19.17.30.08
+ 2adb3069b0e04-54223600099sm336151e87.78.2024.12.19.17.30.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 17:30:08 -0800 (PST)
-Date: Fri, 20 Dec 2024 03:30:06 +0200
+ Thu, 19 Dec 2024 17:30:52 -0800 (PST)
+Date: Fri, 20 Dec 2024 03:30:50 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Olivier MOYSAN <olivier.moysan@foss.st.com>
+To: Stefan Ekenberg <stefan.ekenberg@axis.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
@@ -72,17 +72,17 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] drm: bridge: adv7511: fill i2s stream capabilities
-Message-ID: <g4beidwfuz7dtavflyovtkokdz5kcjgbmnw3q2r2ceycezxrwd@wlsorpagke3h>
-References: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
- <20241210134254.2967524-2-olivier.moysan@foss.st.com>
- <rilzmak24odk34q3rglnkmi23e7warmd6dytx2opkhjl3kjujm@fqxqydwhcluy>
- <1a92bf78-1e29-4b84-8513-12ecb12c61bd@foss.st.com>
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, kernel@axis.com,
+ Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v4] drm/bridge: adv7511_audio: Update Audio InfoFrame
+ properly
+Message-ID: <hahl4w56e23duuehcvqeaq7orrm77o7cobwpbgl5xh56fynefc@lapt2cdjuhai>
+References: <20241119-adv7511-audio-info-frame-v4-1-4ae68e76c89c@axis.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1a92bf78-1e29-4b84-8513-12ecb12c61bd@foss.st.com>
+In-Reply-To: <20241119-adv7511-audio-info-frame-v4-1-4ae68e76c89c@axis.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,47 +98,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2024 at 03:49:45PM +0100, Olivier MOYSAN wrote:
-> Hi Dmitry,
+On Tue, Nov 19, 2024 at 08:40:29AM +0100, Stefan Ekenberg wrote:
+> AUDIO_UPDATE bit (Bit 5 of MAIN register 0x4A) needs to be set to 1
+> while updating Audio InfoFrame information and then set to 0 when done.
+> Otherwise partially updated Audio InfoFrames could be sent out. Two
+> cases where this rule were not followed are fixed:
+>  - In adv7511_hdmi_hw_params() make sure AUDIO_UPDATE bit is updated
+>    before/after setting ADV7511_REG_AUDIO_INFOFRAME.
+>  - In audio_startup() use the correct register for clearing
+>    AUDIO_UPDATE bit.
 > 
-> On 12/11/24 23:52, Dmitry Baryshkov wrote:
-> > On Tue, Dec 10, 2024 at 02:42:52PM +0100, Olivier Moysan wrote:
-> > > Set no_i2s_capture flag in hdmi_codec_pdata structure to report
-> > > that the ADV7511 HDMI bridge does not support i2s audio capture.
-> > > 
-> > > Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
-> > > ---
-> > >   drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 1 +
-> > >   1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> > > index 61f4a38e7d2b..28ae81ca3651 100644
-> > > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> > > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-> > > @@ -234,6 +234,7 @@ static const struct hdmi_codec_pdata codec_data = {
-> > >   	.ops = &adv7511_codec_ops,
-> > >   	.max_i2s_channels = 2,
-> > >   	.i2s = 1,
-> > > +	.no_i2s_capture = 1,
-> > 
-> > Does it support spdif capture?
-> > 
+> The problem with corrupted audio infoframes were discovered by letting
+> a HDMI logic analyser check the output of ADV7535.
 > 
-> "no_i2s_spdif = 1" is relevant also for adv7511 bridge.
-> I can add it in this serie.
+> Note that this patchs replaces writing REG_GC(1) with
+> REG_INFOFRAME_UPDATE. Bit 5 of REG_GC(1) is positioned within field
+> GC_PP[3:0] and that field doesn't control audio infoframe and is read-
+> only. My conclusion therefore was that the author if this code meant to
+> clear bit 5 of REG_INFOFRAME_UPDATE from the very beginning.
+> 
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Fixes: 53c515befe28 ("drm/bridge: adv7511: Add Audio support")
+> Signed-off-by: Stefan Ekenberg <stefan.ekenberg@axis.com>
+> ---
+> Changes in v4:
+> - Add Tested-by tag
+> - Link to v3: https://lore.kernel.org/r/20241118-adv7511-audio-info-frame-v3-1-31edd9931856@axis.com
+> 
+> Changes in v3:
+> - Extend commit message and explain replacement of REG_GC(1)
+> - Link to v2: https://lore.kernel.org/r/20241115-adv7511-audio-info-frame-v2-1-ca4793ef3a91@axis.com
+> 
+> Changes in v2:
+> - Add Fixes tag
+> - Link to v1: https://lore.kernel.org/r/20241113-adv7511-audio-info-frame-v1-1-49b368b995a5@axis.com
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+> 
 
-I think you mean no_spdif_playback / no_spdif_capture. Yes, please.
-
-> 
-> > >   	.spdif = 1,
-> > >   };
-> > > -- 
-> > > 2.25.1
-> > > 
-> > 
-> 
-> BRs
-> Olivier
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
