@@ -1,87 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5461D9F88F5
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 01:24:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C41979F8900
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 01:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDEAB10E0B6;
-	Fri, 20 Dec 2024 00:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 128C010E4D6;
+	Fri, 20 Dec 2024 00:33:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mUGMmP0P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SNVnTKR3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3A610E0B6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 00:24:35 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-303548a933aso10684731fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 16:24:35 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAFB10E4D6;
+ Fri, 20 Dec 2024 00:33:45 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3ea2a5a9fso205059a12.2; 
+ Thu, 19 Dec 2024 16:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734654274; x=1735259074; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=j9aA+J4KAEL9ckXuLkeGovDW+0nmkLkY7QB9nHqUkr8=;
- b=mUGMmP0P8B15lJj7bH2B5NKDp1Mm49LYfJnAxLGiTv2ymsTTtibUtpLRjpCw14TIdu
- 0g2roGiOrnu8NLKjl3l4mDIpAPF2i/g1AZqaiN6EX1uENnFwiiuVO4SvsAxbfnjVT76g
- OoxtvxKZ0VLOvRxSv4m6oQoj0DpXnBZzohRcZZyrGOHsJPUhcu/UFshG7dPyVdDbRqAH
- uB1wFCXI1qmSoDQ+BMUX7PcX+oUYYYvFBZQv8j/XgDr7kFIziwiR2EmnINyLRnjHWB2e
- lwC6gL+/lwSv+sF5nmS6ENlp0g71Fp0/aheapuwO1ahaSxnxQMO9/yViKTyEPFJwisqh
- w1RA==
+ d=gmail.com; s=20230601; t=1734654824; x=1735259624; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qn+CoENf8FKcczfWcnL2uzS1/O4SDGddoHtu0UUGbq4=;
+ b=SNVnTKR3LjJ+4ChWyLuGs2hngbZSfomYrJ2pcOqgVHBtiXZ6hbOnkeH6l6YjQkqBNM
+ /ymgtDN/wTSGy8jSVeDoYAP4ah+m3808sSpJWXtJr9MW9Rvz+nc0oo/PoE3NHpFC9nZP
+ ffm/E8qYZW+xCmTkqcEXcYUQ97bAXic66fG/XVve0mC9w8VhK5ZB2X7rVdI1RASw6bZt
+ glikyXUMEKYV0RPeH+zy9vogGtm8es/eIaGNynByHFe5a4SD8fFrPHkNIDd7bmNIXbIk
+ bk7zMKqWd/hkyiUjAQ55ORL99Vojn7H70F5iCXzOYLIERapfx7uFoIBMZCFAzqdeXBsk
+ 9Oew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734654274; x=1735259074;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j9aA+J4KAEL9ckXuLkeGovDW+0nmkLkY7QB9nHqUkr8=;
- b=lkkft9dUgqZ+JQ2a8qPF9aCiHz5+Z5eAoP6gbeAvZk036RYIX5Bt+9iDHVqyRDq7FS
- fcYKtxweeI+RDb05gMQ3urPn7a9Eqrr5D5jBQkqj+0z0mXk2qSEVYNsPKlte8VDIN2Kc
- ixFUE9PnHPq2ZTAz1O7EPCyegYaFWYpHeKhp3nzKlpp8exXGwZwJfipY9Jt/03wFAekh
- 10uWTt9ouGm31SH1pEkf1uKx4of5SnazkzeEmzU09sQaSZUVX++l01A3UHNsnQ9KN1O7
- 8RkH9PDup2V9wPJSe0GmZ1YbGlcWykd4GtohesReofIj1/o88g/W/i1cNuGPYG2GKlHW
- TXGA==
+ d=1e100.net; s=20230601; t=1734654824; x=1735259624;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qn+CoENf8FKcczfWcnL2uzS1/O4SDGddoHtu0UUGbq4=;
+ b=cinar1WKlcmsB3jIwS5XOiahgEt+Qg7d31dgtAWSP24udGMoih4gE55uBJHTIZhEoo
+ Hhnx7HGdQp9xk3UbRAGncAmh2Ou7eNrjyeVPg2kvghsmBkHtLOWw6RzvCh2bsgHXdkH4
+ euN5kiHPsen8EppJiMHEhEHHBWVRv15TfbRJUMtVzqXrLOicpMDmYfBf2+wYUg0/WnuJ
+ QC9wX2yfCpebI3svOkd4QKIErxeGpvmPhVgTSZhrnwhIk40CNEfnjAI4TcZHHkynuayM
+ PsfbLOO472OYPLcpxoQ1NJe6ZQleZPYczkxRSsSmIa6w8KERJ9HHhS1ufZqpfz0nb3N1
+ pyPQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWdrfVcJU54FTU1hvlFVbV2GmdQs6HiT3xvrv7zrD8N+NcLAD93kwHcbz57kVWw6EsgwEAGa8S3gv4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzR7Cb0ULb3FlDz3v8XJpZfMaaV/3ykFRP04Y+YKT7cxsmltgw8
- 6Id/EyHJv7b1i6VnYVeBwpNc7TuaxljbrlyJKSXMTvwEM5UGpnIqOjyUCRS1YOE=
-X-Gm-Gg: ASbGnctTENeV+tYjKII+3oISkmKbmMqCKu9uhq03typlRqGhI9kjekBeG96WzHDGNjn
- MwoSHgZ92XYhIhf4uxhEDflUVNx4db8TSosloJs8b+OD1zSbcmisXnJ7mWCQSYZNRXxwTbC5oN6
- Y1K2yz6i2StTifwvo4JbEOpkXUQAPwcUSEGa48QXF9nyyVyzNnMACePbhRiEc6AJQLC08uaBobJ
- jISnrZQwShdPhB4+wxYDWh7SORPJcsFLJhDaA5cocoX/L+PzbI4bnAMo0MrUqKgw2guPXb5lpJg
- SOy+JPsgXbHf3kYK24RqEBonaYkenQxbkF0l
-X-Google-Smtp-Source: AGHT+IGppx8Kmkryfb0GYdlOCxHA4tLNUnggUumXDpfxWFzDsbli5xdvOY0HQOWHJriZ9xmqK4yo7Q==
-X-Received: by 2002:a2e:a685:0:b0:302:2598:dec5 with SMTP id
- 38308e7fff4ca-30468639cb1mr2096551fa.40.1734654273949; 
- Thu, 19 Dec 2024 16:24:33 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3045b082dc8sm3673401fa.108.2024.12.19.16.24.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 16:24:32 -0800 (PST)
-Date: Fri, 20 Dec 2024 02:24:30 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- bliang@analogixsemi.com, 
- qwen@analogixsemi.com, treapking@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] drm/bridge:anx7625: Update HDCP content status
-Message-ID: <f5ff3gailkpkxx24jkt4z7dp2r2laazpr6oj5wiqqnoyvefd5p@5dhkmugqthjq>
-References: <20241219070330.224996-1-xji@analogixsemi.com>
+ AJvYcCUxpwJi2UIaAJUChRiU2YtsoeNwOL4xHXqs7euahtBPu0Evkc4hScUzfrFDKXLA7ztjJgRE6QsECOY=@lists.freedesktop.org,
+ AJvYcCVcYVVs1WZ3wsuQO8jcfAGGiNjB0H78eKPewkz4aGDcqVURs52sP9QxLjX/5oKRM3u6gPJRNum/@lists.freedesktop.org,
+ AJvYcCWiboD3FxaNoAtDx1qsbf7yz1yYR3+b6OR8I8rMd9IyhE0o3R2WQGy367Vp27U44uY94u5CCEaTb57S@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyUOZDh2zbDZY15OULEe1eugXs46iRY/ZFAiW7MvzQ26bN9UZig
+ QztxdswnasD1UW/8A2BZffpw4AK8IIxsyxLCrPoYmJ3doKi68NWoaiSDhT4kS5riRxX5eyYAwL4
+ imvuraDB7skYrQgUw2l67NebQ84E=
+X-Gm-Gg: ASbGncsTgv4liSgLDDy4Od/OrfAUgaaN98eXliHzVVZtnvKcdv4FrIuj0WRb9H76FOo
+ FZzhP8mijvNVjt8AanY6tNKQpEcGC1gK8SzkIIg4m
+X-Google-Smtp-Source: AGHT+IGquZggTk/gr0MrcE57NT85SUobRPJ7sN5GmySeA1UWZTydCSIskbotGcejOsPcUcueuLWOELl70I0NNZaUGy8=
+X-Received: by 2002:a05:6402:5246:b0:5d2:d72a:7803 with SMTP id
+ 4fb4d7f45d1cf-5d81dd83c73mr279206a12.4.1734654823643; Thu, 19 Dec 2024
+ 16:33:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241219070330.224996-1-xji@analogixsemi.com>
+References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
+ <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
+ <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
+ <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
+ <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
+ <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
+ <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
+ <CAAxE2A5+=QVAFXXCbe3qEgY-Mzb-5XW73CYdANEO+N_xA+ivaw@mail.gmail.com>
+ <zfjnuz2pfg7j2g2zrbt5ryde223plzr4rdyk4f4ans5znicw3l@kbebotesmobf>
+In-Reply-To: <zfjnuz2pfg7j2g2zrbt5ryde223plzr4rdyk4f4ans5znicw3l@kbebotesmobf>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Thu, 19 Dec 2024 19:33:07 -0500
+Message-ID: <CAAxE2A6u4Ee=yBJHo9uKr0Be8Ta3MwSxvt79GcbF8D0R952_FQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
+ alignment
+To: Brian Starkey <brian.starkey@arm.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
+Content-Type: multipart/alternative; boundary="0000000000009244860629a8cc55"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,37 +93,293 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2024 at 03:03:29PM +0800, Xin Ji wrote:
-> When user enabled HDCP feature, userspace will set HDCP content
-> to DRM_MODE_CONTENT_PROTECTION_DESIRED. Next, anx7625 will update
-> HDCP content to DRM_MODE_CONTENT_PROTECTION_ENABLED if down stream
-> support HDCP feature.
-> 
-> As anx7625 bridge IC will be power down after call .atomic_disable(),
-> then all HDCP status will be lost on chip. So we should reestablish
-> HDCP again in .atomic_enable(), and update hdcp content to DESIRE if
-> current HDCP content is ENABLE in .atomic_disable().
-> 
-> v4:
->  - Change HDCP content value to DESIRED if HDCP status is ENABLE in bridge
-> interface .atomic_enable().
-> 
-> v3:
->  - Move hdcp content value checking from bridge interface
-> .atomic_check() to .atomic_enable()
-> 
-> v2:
->  - Add more details in commit message
-> 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 73 +++++++++--------------
->  1 file changed, 29 insertions(+), 44 deletions(-)
+--0000000000009244860629a8cc55
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Thu, Dec 19, 2024 at 5:32=E2=80=AFAM Brian Starkey <brian.starkey@arm.co=
+m> wrote:
 
-Thank you for going through the reviews and explaining the issue!
+> On Wed, Dec 18, 2024 at 09:53:56PM +0000, Marek Ol=C5=A1=C3=A1k wrote:
+> > On Wed, Dec 18, 2024 at 5:32=E2=80=AFAM Brian Starkey <brian.starkey@ar=
+m.com>
+> wrote:
+> >
+> > > On Wed, Dec 18, 2024 at 11:24:58AM +0000, Simona Vetter wrote:
+> > > >
+> > > > For that reason I think linear modifiers with explicit pitch/size
+> > > > alignment constraints is a sound concept and fits into how modifier=
+s
+> work
+> > > > overall.
+> > > > -Sima
+> > >
+> > > Could we make it (more) clear that pitch alignment is a "special"
+> > > constraint (in that it's really a description of the buffer layout),
+> > > and that constraints in-general shouldn't be exposed via modifiers?
+> > >
+> >
+> > Modifiers uniquely identify image layouts. That's why they exist and it=
+'s
+> > their only purpose.
+>
+> Well you've quoted me saying "it's really a description of the buffer
+> layout", but actually I'm still unconvinced that pitch alignment is a
+> layout description rather than a constraint on an allocation.
+>
+> To me, the layout is described by the "pitch" field of the framebuffer
+> object (and yes, modifiers are not only used for DRM framebuffers, but
+> every API which passes around linear surfaces has a pitch/stride
+> parameter of some sort).
+>
 
--- 
-With best wishes
-Dmitry
+The pitch doesn't always describe the layout. In practice, the pitch has no
+effect on any tiled layouts (on AMD), and it also has no effect on linear
+layouts if the pitch must be equal to a specifically rounded up width. In
+that case, the only function of the pitch is to reject importing a DMABUF
+if it's incorrect with respect to the width. In other cases, the pitch is a
+parameter of the modifier (i.e. the pitch augments the layout, so the
+layout is described by {modifier, width, height, bpp, pitch} instead of
+just {modifier, width, height, bpp}).
+
+
+>
+> >
+> > It doesn't matter how many modifiers we have. No app should ever parse
+> the
+> > modifier bits. All apps must treat modifiers as opaque numbers. Likewis=
+e,
+> > documentation of all modifiers in drm_fourcc.h is only meant for driver
+> > developers. No developers of apps should ever use the documentation.
+> There
+> > can be a million modifiers and a million different devices, and the who=
+le
+> > system of modifiers would fall apart if every app developer had to lear=
+n
+> > all of them.
+>
+> My concern isn't with app developers, my concern is with drivers and
+> their authors needing to expose ever larger and more complex sets of
+> modifiers.
+>
+> There _is_ a problem with having a million modifiers. The opaque set
+> intersection means that all authors from all vendors need to expose
+> the correct sets. The harder that is to do, the less likely things are
+> to work.
+>
+
+No, exposing the correct set is never required. You only expose your set,
+and then also expose those modifiers where you need interop. Interop
+between every pair of devices is generally unsupported (since LINEAR
+between devices is practically unsupported).
+
+
+>
+> Look at GENERIC_16_16_TILE. We spotted that our layout was the same as
+> something already defined under SAMSUNG. If there were a million
+> modifiers, we wouldn't be able to spot that commonality, and you'd end
+> up with disjoint sets even when you have layouts in common.
+>
+
+This is unrelated.
+
+
+>
+> For this specific case of pitch alignment it seems like the consensus
+> is we should add a modifier, but I still strongly disagree that
+> modifiers are the right place in-general for trying to describe device
+> buffer usage constraints.
+>
+> I'm worried that adding these alignment constraints without any
+> statement on future intention pushes us down the slippery slope, and
+> it's *very* slippery.
+>
+> Up-thread you mentioned offset alignment. If we start putting that in
+> modifiers then we have:
+>
+> * Pitch alignment
+>   * Arbitrary, 1 byte
+>   * At least 16 byte aligned, arbitrary padding (Arm needs this)
+>   * Exactly the next 64 bytes (AMD?)
+> * Offset alignment
+>   * Arbitrary, 1 byte
+>   * You mentioned 4096 bytes (AMD?)
+>   * Arm needs 16, 8, 4 or 2 bytes, depending on format. Oh and it's
+>     different for the chroma plane of planar YUV too, so it's more
+>     like 16, 8, 4, 2, 2Y_1CbCr
+>
+> We would need a new modifier value for each *combination* of
+> constraints, so 3 (pitch) * 7 (offset) gives 21 new LINEAR modifiers
+> which need defining, and a device with no pitch/offset constraints
+> needs to expose *all* of them to make sure it can interop with an
+> Arm/AMD device.
+>
+
+No, it's not needed to expose all of them. Again, you just expose what you
+need to interop with.
+
+We know that the LINEAR modifier doesn't work with 1B pitch and offset
+alignment pretty much everywhere. What are you going to do about it?
+
+Perhaps the solution is what Intel has done to interop with AMD: Intel's
+image allocator was changed to align the linear pitch to 256B. We can
+demand that all drivers must align the pitch to 256B in their allocators
+too. If they don't want to do it, they will likely be forced to do it by
+their management, which is likely why Intel did it. Is that the future we
+want? It's already happening.
+
+Minimum alignment requirements (for AMD):
+* Offset: 256B
+* Pitch: 128B or 256B (only minimum or any multiple - different chips have
+different limits)
+* Slice size alignment: 256B
+* Contiguous pages (not visible to uAPI since the kernel can reallocate to
+enforce this constraint when needed)
+
+Marek
+
+--0000000000009244860629a8cc55
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, Dec 19, 2024 at 5:32=E2=80=AFAM Brian=
+ Starkey &lt;<a href=3D"mailto:brian.starkey@arm.com">brian.starkey@arm.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Wed, Dec 18, 2024 at 09:53:56PM +0000, Marek Ol=C5=A1=C3=A1k wrote:<br>
+&gt; On Wed, Dec 18, 2024 at 5:32=E2=80=AFAM Brian Starkey &lt;<a href=3D"m=
+ailto:brian.starkey@arm.com" target=3D"_blank">brian.starkey@arm.com</a>&gt=
+; wrote:<br>
+&gt; <br>
+&gt; &gt; On Wed, Dec 18, 2024 at 11:24:58AM +0000, Simona Vetter wrote:<br=
+>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; For that reason I think linear modifiers with explicit pitch=
+/size<br>
+&gt; &gt; &gt; alignment constraints is a sound concept and fits into how m=
+odifiers work<br>
+&gt; &gt; &gt; overall.<br>
+&gt; &gt; &gt; -Sima<br>
+&gt; &gt;<br>
+&gt; &gt; Could we make it (more) clear that pitch alignment is a &quot;spe=
+cial&quot;<br>
+&gt; &gt; constraint (in that it&#39;s really a description of the buffer l=
+ayout),<br>
+&gt; &gt; and that constraints in-general shouldn&#39;t be exposed via modi=
+fiers?<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; Modifiers uniquely identify image layouts. That&#39;s why they exist a=
+nd it&#39;s<br>
+&gt; their only purpose.<br>
+<br>
+Well you&#39;ve quoted me saying &quot;it&#39;s really a description of the=
+ buffer<br>
+layout&quot;, but actually I&#39;m still unconvinced that pitch alignment i=
+s a<br>
+layout description rather than a constraint on an allocation.<br>
+<br>
+To me, the layout is described by the &quot;pitch&quot; field of the frameb=
+uffer<br>
+object (and yes, modifiers are not only used for DRM framebuffers, but<br>
+every API which passes around linear surfaces has a pitch/stride<br>
+parameter of some sort).<br></blockquote><div><br></div><div>The pitch does=
+n&#39;t always describe the layout. In practice, the pitch has no effect on=
+ any tiled layouts (on AMD), and it also has no effect on linear layouts if=
+ the pitch must be equal to a specifically rounded up width. In that case, =
+the only function of the pitch is to reject importing a DMABUF if it&#39;s =
+incorrect with respect to the width. In other cases, the pitch is a paramet=
+er of the modifier (i.e. the pitch augments the layout, so the layout is de=
+scribed by {modifier, width, height, bpp, pitch} instead of just {modifier,=
+ width, height, bpp}).<br></div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">
+<br>
+&gt; <br>
+&gt; It doesn&#39;t matter how many modifiers we have. No app should ever p=
+arse the<br>
+&gt; modifier bits. All apps must treat modifiers as opaque numbers. Likewi=
+se,<br>
+&gt; documentation of all modifiers in drm_fourcc.h is only meant for drive=
+r<br>
+&gt; developers. No developers of apps should ever use the documentation. T=
+here<br>
+&gt; can be a million modifiers and a million different devices, and the wh=
+ole<br>
+&gt; system of modifiers would fall apart if every app developer had to lea=
+rn<br>
+&gt; all of them.<br>
+<br>
+My concern isn&#39;t with app developers, my concern is with drivers and<br=
+>
+their authors needing to expose ever larger and more complex sets of<br>
+modifiers.<br>
+<br>
+There _is_ a problem with having a million modifiers. The opaque set<br>
+intersection means that all authors from all vendors need to expose<br>
+the correct sets. The harder that is to do, the less likely things are<br>
+to work.<br></blockquote><div><br></div><div>No, exposing the correct set i=
+s never required. You only expose your set, and then also expose those modi=
+fiers where you need interop. Interop between every pair of devices is gene=
+rally unsupported (since LINEAR between devices is practically unsupported)=
+.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+<br>
+Look at GENERIC_16_16_TILE. We spotted that our layout was the same as<br>
+something already defined under SAMSUNG. If there were a million<br>
+modifiers, we wouldn&#39;t be able to spot that commonality, and you&#39;d =
+end<br>
+up with disjoint sets even when you have layouts in common.<br></blockquote=
+><div><br></div><div>This is unrelated.<br></div><div>=C2=A0</div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+<br>
+For this specific case of pitch alignment it seems like the consensus<br>
+is we should add a modifier, but I still strongly disagree that<br>
+modifiers are the right place in-general for trying to describe device<br>
+buffer usage constraints.<br>
+<br>
+I&#39;m worried that adding these alignment constraints without any<br>
+statement on future intention pushes us down the slippery slope, and<br>
+it&#39;s *very* slippery.<br>
+<br>
+Up-thread you mentioned offset alignment. If we start putting that in<br>
+modifiers then we have:<br>
+<br>
+* Pitch alignment<br>
+=C2=A0 * Arbitrary, 1 byte<br>
+=C2=A0 * At least 16 byte aligned, arbitrary padding (Arm needs this)<br>
+=C2=A0 * Exactly the next 64 bytes (AMD?)<br>
+* Offset alignment<br>
+=C2=A0 * Arbitrary, 1 byte<br>
+=C2=A0 * You mentioned 4096 bytes (AMD?)<br>
+=C2=A0 * Arm needs 16, 8, 4 or 2 bytes, depending on format. Oh and it&#39;=
+s<br>
+=C2=A0 =C2=A0 different for the chroma plane of planar YUV too, so it&#39;s=
+ more<br>
+=C2=A0 =C2=A0 like 16, 8, 4, 2, 2Y_1CbCr<br>
+<br>
+We would need a new modifier value for each *combination* of<br>
+constraints, so 3 (pitch) * 7 (offset) gives 21 new LINEAR modifiers<br>
+which need defining, and a device with no pitch/offset constraints<br>
+needs to expose *all* of them to make sure it can interop with an<br>
+Arm/AMD device.<br></blockquote><div><br></div><div>No, it&#39;s not needed=
+ to expose all of them. Again, you just expose what you need to interop wit=
+h.<br></div><div><br></div><div></div><div>We know that the LINEAR modifier=
+ doesn&#39;t work with 1B pitch and offset alignment pretty much everywhere=
+. What are you going to do about it?<br></div><div><br></div><div>Perhaps t=
+he solution is what Intel has done to interop with AMD: Intel&#39;s image a=
+llocator was changed to align the linear pitch to 256B. We can demand that =
+all drivers must align the pitch to 256B in their allocators too. If they d=
+on&#39;t want to do it, they will likely be forced to do it by their manage=
+ment, which is likely why Intel did it. Is that the future we want? It&#39;=
+s already happening.<br></div><div><br></div><div>Minimum alignment require=
+ments (for AMD):</div><div>* Offset: 256B</div><div>* Pitch: 128B or 256B (=
+only minimum or any multiple - different chips have different limits)</div>=
+<div>* Slice size alignment: 256B<br></div><div>* Contiguous pages (not vis=
+ible to uAPI since the kernel can reallocate to enforce this constraint whe=
+n needed)<br></div><div><br></div><div>Marek<br></div></div></div>
+
+--0000000000009244860629a8cc55--
