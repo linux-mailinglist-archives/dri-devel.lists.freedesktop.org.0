@@ -1,98 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDB09F9208
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 13:22:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1FD9F9271
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 13:46:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E75C110E382;
-	Fri, 20 Dec 2024 12:22:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA9D510E00F;
+	Fri, 20 Dec 2024 12:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Yq+tb1ps";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SM14lkqI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 793AE10E382
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 12:21:58 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70E0910E00F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 12:45:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EBEE4A41B25;
- Fri, 20 Dec 2024 12:20:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B3BC4CECD;
- Fri, 20 Dec 2024 12:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1734697316;
- bh=JduFaswRmxN5tGLStvzwUiaywMEIItZVTSmKsVx9nOI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Yq+tb1psbAD0EEaGVo62BeRkwh9Xj1zwGjU1RnX9bPc3zuKVZ+vFaKjzZirLF0O5Q
- cWqZTrj/8oUOashMDH0in9idt9Jf9pCN3xfKSbuna7zWsHJDYmyLi1Jgqy+04F5+b+
- WkFCtRLWZn13uCsuIFDP/5NAmVeHVQ3OLBfdEu0A=
-Date: Fri, 20 Dec 2024 13:21:51 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Kever Yang <kever.yang@rock-chips.com>
-Cc: heiko@sntech.de, linux-rockchip@lists.infradead.org,
- Simon Xue <xxm@rock-chips.com>, Lee Jones <lee@kernel.org>,
- dri-devel@lists.freedesktop.org, Zhang Rui <rui.zhang@intel.com>,
- Elaine Zhang <zhangqing@rock-chips.com>, linux-clk@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, FUKAUMI Naoki <naoki@radxa.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Andy Yan <andyshrk@163.com>,
- Michael Riesch <michael.riesch@wolfvision.net>,
- Andi Shyti <andi.shyti@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-pm@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jose Abreu <joabreu@synopsys.com>, Jamie Iles <jamie@jamieiles.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Chris Morgan <macromorgan@hotmail.com>,
- Frank Wang <frank.wang@rock-chips.com>, linux-mmc@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>, linux-i2c@vger.kernel.org,
- Simona Vetter <simona@ffwll.ch>, Finley Xiao <finley.xiao@rock-chips.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-watchdog@vger.kernel.org, David Wu <david.wu@rock-chips.com>,
- Shresth Prasad <shresthprasad7@gmail.com>,
- linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Lukasz Luba <lukasz.luba@arm.com>, Jisheng Zhang <jszhang@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>, linux-iio@vger.kernel.org,
- linux-pci@vger.kernel.org, David Airlie <airlied@gmail.com>,
- linux-phy@lists.infradead.org, Jonas Karlman <jonas@kwiboo.se>,
- Maxime Ripard <mripard@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jonathan Cameron <jic23@kernel.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-pwm@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Mark Brown <broonie@kernel.org>,
- Dragan Simic <dsimic@manjaro.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ by nyc.source.kernel.org (Postfix) with ESMTP id 24745A404F1;
+ Fri, 20 Dec 2024 12:44:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6F55C4CECD;
+ Fri, 20 Dec 2024 12:45:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734698756;
+ bh=q7SkEis4X+AWryWH7Mo8gvMzBPeGVPLaalDUADo+4sE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=SM14lkqIzCC02/T6wOxDWm7AnkeF5T3JlzoUXWeszLE4kj0IE+GDP54u4WQ+07AxB
+ 10oQiZ2cshXL5lj198mHrDLHaLGoFkqixe7WcStPj6vXmAMmk4KCmOUiFr5ItQQupC
+ seyKISuNDQWcBuCAMj6yRwC6QyrVWSiHmml1Bbb501uaiLaGLaWucMoNzDV+Kr1q6T
+ XFAh1r7ExrTp4wnE/83wcCu53sORlY2TZW7BLKI7NOiZqJCTM00IMyDDqlaLtMzKB/
+ ZVU3Rb+lHXuJArVAl7jAavZ7oLUnKk1LrQGPD2eg/OlxvCh1De3VdeTwN3ISzUaCMh
+ jgPqsdK7RTksg==
+From: Philipp Stanner <phasta@kernel.org>
+To: Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Johan Jonker <jbx6244@gmail.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- linux-serial@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, devicetree@vger.kernel.org,
- Diederik de Haas <didi.debian@cknow.org>,
- Michael Turquette <mturquette@baylibre.com>, Tim Lunn <tim@feathertop.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>
-Subject: Re: [PATCH 00/38] rockchip: Add rk3562 support
-Message-ID: <2024122018-groove-glitzy-f3bc@gregkh>
-References: <20241220103825.3509421-1-kever.yang@rock-chips.com>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Subject: [PATCH] drm/sched: Document run_job() refcount hazard
+Date: Fri, 20 Dec 2024 13:45:15 +0100
+Message-ID: <20241220124515.93169-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241220103825.3509421-1-kever.yang@rock-chips.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,18 +66,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 20, 2024 at 06:37:46PM +0800, Kever Yang wrote:
-> 
-> This patch set adds rk3562 SoC and its evb support.
-> 
-> The patch number is a little bit too big, some of them may need to split
-> out for different maintainers, please let me know which patch need to
-> split out.
+From: Philipp Stanner <pstanner@redhat.com>
 
-I recommend you doing the split-apart as you know the dependencies here
-the best, right?  Otherwise we all will just probably ignore them
-assuming someone else is going to review/accept them...
+drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
+That fence is signalled by the driver once the hardware completed the
+associated job. The scheduler does not increment the reference count on
+that fence, but implicitly expects to inherit this fence from run_job().
 
-thanks,
+This is relatively subtle and prone to misunderstandings.
 
-greg k-h
+This implies that, to keep a reference for itself, a driver needs to
+call dma_fence_get() in addition to dma_fence_init() in that callback.
+
+It's further complicated by the fact that the scheduler even decrements
+the refcount in drm_sched_run_job_work() since it created a new
+reference in drm_sched_fence_scheduled(). It does, however, still use
+its pointer to the fence after calling dma_fence_put() - which is safe
+because of the aforementioned new reference, but actually still violates
+the refcounting rules.
+
+Improve the explanatory comment for that decrement.
+
+Move the call to dma_fence_put() to the position behind the last usage
+of the fence.
+
+Document the necessity to increment the reference count in
+drm_sched_backend_ops.run_job().
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
+ include/drm/gpu_scheduler.h            | 20 ++++++++++++++++----
+ 2 files changed, 23 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 7ce25281c74c..d6f8df39d848 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 	drm_sched_fence_scheduled(s_fence, fence);
+ 
+ 	if (!IS_ERR_OR_NULL(fence)) {
+-		/* Drop for original kref_init of the fence */
+-		dma_fence_put(fence);
+-
+ 		r = dma_fence_add_callback(fence, &sched_job->cb,
+ 					   drm_sched_job_done_cb);
+ 		if (r == -ENOENT)
+ 			drm_sched_job_done(sched_job, fence->error);
+ 		else if (r)
+ 			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
++
++		/*
++		 * s_fence took a new reference to fence in the call to
++		 * drm_sched_fence_scheduled() above. The reference passed by
++		 * run_job() above is now not needed any longer. Drop it.
++		 */
++		dma_fence_put(fence);
+ 	} else {
+ 		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+ 				   PTR_ERR(fence) : 0);
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 95e17504e46a..a1f5c9a14278 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -420,10 +420,22 @@ struct drm_sched_backend_ops {
+ 					 struct drm_sched_entity *s_entity);
+ 
+ 	/**
+-         * @run_job: Called to execute the job once all of the dependencies
+-         * have been resolved.  This may be called multiple times, if
+-	 * timedout_job() has happened and drm_sched_job_recovery()
+-	 * decides to try it again.
++	 * @run_job: Called to execute the job once all of the dependencies
++	 * have been resolved. This may be called multiple times, if
++	 * timedout_job() has happened and drm_sched_job_recovery() decides to
++	 * try it again.
++	 *
++	 * @sched_job: the job to run
++	 *
++	 * Returns: dma_fence the driver must signal once the hardware has
++	 *	completed the job ("hardware fence").
++	 *
++	 * Note that the scheduler expects to 'inherit' its own reference to
++	 * this fence from the callback. It does not invoke an extra
++	 * dma_fence_get() on it. Consequently, this callback must return a
++	 * fence whose refcount is at least 2: One for the scheduler's
++	 * reference returned here, another one for the reference kept by the
++	 * driver.
+ 	 */
+ 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+ 
+-- 
+2.47.1
+
