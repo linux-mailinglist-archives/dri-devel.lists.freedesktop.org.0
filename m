@@ -2,90 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE37E9F8A41
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 03:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3BBB9F8AA5
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 04:37:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B00510EE44;
-	Fri, 20 Dec 2024 02:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C87410E359;
+	Fri, 20 Dec 2024 03:37:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KDTyvWI9";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="BNh8FahP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2B9F10EE41
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 02:52:49 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id
- 38308e7fff4ca-3035046d4bfso13119381fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Dec 2024 18:52:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734663168; x=1735267968; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ebM7tOJNXrOcKqbKfZBRf27LYz9fqH9eU/pGhDf6OYI=;
- b=KDTyvWI9Vdr6JrcUCL4CiFioYQ4rEBuH8uAK4h8+Y7kDxAr75qTZzE8ERUjR9Dpm8r
- XEw70n8m6KvOGr6SRu4tNw9hIjv+3cNGP0xnGSo1iF1e0FXbkR8yCohjqSAEX2I6D32f
- GFPa2UcEv5REQkhniZ8lCGRV/KKY8IAn1CBStKc5SyYjDxcifssXHVXFD4ni74+MJEOQ
- 50Iv/vEi//D5USzQk/UFx4UnyCgnuWyglUC8Fu8Zau50YrJm7a6IR9qXqn1BNx6BrjN6
- figgDrgyW6IQf47FW5CGxEykx9KjLNGFXl4WEJcNymWwnkqbmc77T7Xg2qqVUA4Y7Jdf
- YDyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734663168; x=1735267968;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ebM7tOJNXrOcKqbKfZBRf27LYz9fqH9eU/pGhDf6OYI=;
- b=f+qx9YmPnbUwiR42tP3XcgfZAZDMmLTpMbk6CxKKLiV9+/OWAla3wg4xhY3nqswGbQ
- cG3RWxZYtdmYnHeH+GzOL81GhNLj2zkY+c/t5oacdnzhvd13eU2SSSXBo0f7wYxHFQNq
- am6y1dwpYbJ5AhtQ8egm5t9KA8tXBR6fL58ENmpQqehturjC+0HeqkC2Af7SG7Uo45w3
- 9O/olIZkwXfQ/glfrx7M5ba01FCbW8dK9hOzOVLGBfplEqGOPlnn6csRang4RvA5n0py
- B43wcXRBX9tY3tK+n7joNX6rcGfjam63RwEfS0KNNCtqsQ15SKVm6Mny34zQWTlONpQK
- FrUA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV5vE8slZfbwv1ftA3WTkh/T41Ixdw8HaZMHkAouaTgwTPkNzKc8xUZ0fGtArhNPEUwDDFuKhcOHhk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwV+pg6eqzXJz7+GD+rpmKSMJDUJXMPnd3nqvAXLcLLJVlydVZe
- l6C+tzoasMkhOOQtzNjin6RP3f/7vUT1tPT+YZ5KgEYnpxLWm/p8gJb7OsjUKvA=
-X-Gm-Gg: ASbGncttNCOhXohzixgaxd9EFXJsnc+mRgCjNr0PxdGErb23lA91kY9wbugGDW6eR4n
- lcb26hp1+MLNNvuNCk4hRoTHcsfSEjiHtEL5dQ7Ox0vPYo+h7t+D/+zNsDLuRsLdkJnmFoNaZ7R
- nf9jmaP0TbRojVa9zF34DIGv84o9lWtMGE4Gadc5BL6cknGFiMtSt6IfCmlHjNTiQ2B1GbtkcWn
- w6X97h6qBaxUk4l0xdeFEs7qnbR1gijJG244H8aqdlkQWjWfFGgtVzmfVTUXdF5V4z9NLxD9WRz
- L2uasjtOHdOVVfNXHnKMCHJ1rVSM5JWnkvGa
-X-Google-Smtp-Source: AGHT+IFzV02MmKGDXd0vt9D85TphrHv4eqZedjbESCKzHnuM85tjxczSguvaGOLKOyaBAMIioabuNQ==
-X-Received: by 2002:a2e:b887:0:b0:300:324e:3506 with SMTP id
- 38308e7fff4ca-304685462d0mr3804721fa.13.1734663168283; 
- Thu, 19 Dec 2024 18:52:48 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3045adad6dcsm3964691fa.60.2024.12.19.18.52.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Dec 2024 18:52:47 -0800 (PST)
-Date: Fri, 20 Dec 2024 04:52:45 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
- Simona Vetter <simona.vetter@ffwll.ch>, quic_ebharadw@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Rob Clark <robdclark@chromium.org>,
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v4 08/25] drm/msm/dpu: fill CRTC resources in dpu_crtc.c
-Message-ID: <otki3hdn7fo6rico32cxi2jkqollzl2ncl5yhukmrwgthupg5i@z66y3ykeuy3r>
-References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
- <20241216-concurrent-wb-v4-8-fe220297a7f0@quicinc.com>
- <097a3d10-0992-46a4-8f89-aa54538c9776@quicinc.com>
- <pqy2qa2ikvadchox3jtrfuimmzeauuxkuyalpelzzfjzsddk3i@htband4aqjxr>
+Received: from mail-m12742.qiye.163.com (mail-m12742.qiye.163.com
+ [115.236.127.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5314110E359
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 03:37:45 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 6490df3d;
+ Fri, 20 Dec 2024 11:37:42 +0800 (GMT+08:00)
+Message-ID: <654c30ec-7d7e-4956-9a48-15bfcea34acc@rock-chips.com>
+Date: Fri, 20 Dec 2024 11:37:43 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <pqy2qa2ikvadchox3jtrfuimmzeauuxkuyalpelzzfjzsddk3i@htband4aqjxr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/15] drm/bridge: analogix_dp: Add support for phy
+ configuration.
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
+ <20241219080604.1423600-8-damon.ding@rock-chips.com>
+ <a6vvydjbx3hbckoy74iiyzguyyacwvdh6iirqydjfvhwgocw3a@knecggjcbcid>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <a6vvydjbx3hbckoy74iiyzguyyacwvdh6iirqydjfvhwgocw3a@knecggjcbcid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGh0dT1ZOHxpOTEoYSh1KTU5WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
+ NVSktLVUpCS0tZBg++
+X-HM-Tid: 0a93e2247d3c03a3kunm6490df3d
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PVE6URw4ODINPgoBNxZKElYx
+ VjkaCSJVSlVKTEhPTU1OQ01PSk9OVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFOSUxPNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=BNh8FahPwmuvK6MM0EPKjBum6/FRTxh5eh7cdcI7tDsXipaU4vLw5CVWum79FFyoe/28F8jWM6uOx23DYydpmSHsWVc7C8J2P4hzwpMa6FvkHR+l02aaVOiz3ltW/HPkZEAgtHOGjmLmDczOHqnQlEDX7yt3mukQFM4SIZ/h6fw=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=vmzJTIEG/eblu6dvI0z4VxTeppAOPZKokTvbYKlKCgE=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,60 +71,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 20, 2024 at 04:40:52AM +0200, Dmitry Baryshkov wrote:
-> On Mon, Dec 16, 2024 at 05:39:15PM -0800, Abhinav Kumar wrote:
-> > 
-> > 
-> > On 12/16/2024 4:43 PM, Jessica Zhang wrote:
-> > > From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > 
-> > > Stop poking into CRTC state from dpu_encoder.c, fill CRTC HW resources
-> > > from dpu_crtc_assign_resources().
-> > > 
-> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > [quic_abhinavk@quicinc.com: cleaned up formatting]
-> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > ---
-> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 29 +++++++++++++++++++++++++++++
-> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  4 ++--
-> > >   2 files changed, 31 insertions(+), 2 deletions(-)
-> > > 
-> > 
-> > <snip>
-> > 
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > index 2b999a0558b2a016644ed5d25bf54ab45c38d1d9..a895d48fe81ccc71d265e089992786e8b6268b1b 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> > > @@ -1138,7 +1138,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
-> > >   	struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
-> > >   	struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
-> > >   	struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
-> > > -	int num_ctl, num_pp, num_dsc;
-> > > +	int num_pp, num_dsc, num_ctl;
-> > >   	unsigned int dsc_mask = 0;
-> > >   	int i;
-> > > @@ -1166,7 +1166,7 @@ static void dpu_encoder_virt_atomic_mode_set(struct drm_encoder *drm_enc,
-> > >   		drm_enc->crtc, DPU_HW_BLK_PINGPONG, hw_pp,
-> > >   		ARRAY_SIZE(hw_pp));
-> > >   	num_ctl = dpu_rm_get_assigned_resources(&dpu_kms->rm, global_state,
-> > > -		drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
-> > > +			drm_enc->crtc, DPU_HW_BLK_CTL, hw_ctl, ARRAY_SIZE(hw_ctl));
-> > >   	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-> > >   		dpu_enc->hw_pp[i] = i < num_pp ? to_dpu_hw_pingpong(hw_pp[i])
-> > > 
-> > 
-> > This chunk of diff is unnecessary. You are just changing the order of
-> > defines and fixing alignment. Does not have to be in this change.
+Hi Dmitry,
+
+On 2024/12/20 8:13, Dmitry Baryshkov wrote:
+> On Thu, Dec 19, 2024 at 04:05:56PM +0800, Damon Ding wrote:
+>> Add support to configurate link rate, lane count, voltage swing and
+>> pre-emphasis with phy_configure(). It is helpful in application scenarios
+>> where analogix controller is mixed with the phy of other vendors.
+>>
+>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>>
+>> ---
+>>
+>> Changes in v2:
+>> - remove needless assignments for phy_configure()
+>> - remove unnecessary changes for phy_power_on()/phy_power_off()
+>> ---
+>>   .../drm/bridge/analogix/analogix_dp_core.c    |  1 +
+>>   .../gpu/drm/bridge/analogix/analogix_dp_reg.c | 56 +++++++++++++++++++
+>>   2 files changed, 57 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> index 6f10d88a34c5..9429c50cc1bc 100644
+>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+>> @@ -1696,6 +1696,7 @@ int analogix_dp_resume(struct analogix_dp_device *dp)
+>>   	if (dp->plat_data->power_on)
+>>   		dp->plat_data->power_on(dp->plat_data);
+>>   
+>> +	phy_set_mode(dp->phy, PHY_MODE_DP);
+>>   	phy_power_on(dp->phy);
+>>   
+>>   	analogix_dp_init_dp(dp);
+>> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+>> index 3afc73c858c4..613ce504bea6 100644
+>> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+>> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c
+>> @@ -11,6 +11,7 @@
+>>   #include <linux/gpio/consumer.h>
+>>   #include <linux/io.h>
+>>   #include <linux/iopoll.h>
+>> +#include <linux/phy/phy.h>
+>>   
+>>   #include <drm/bridge/analogix_dp.h>
+>>   
+>> @@ -513,10 +514,25 @@ void analogix_dp_enable_sw_function(struct analogix_dp_device *dp)
+>>   void analogix_dp_set_link_bandwidth(struct analogix_dp_device *dp, u32 bwtype)
+>>   {
+>>   	u32 reg;
+>> +	int ret;
+>>   
+>>   	reg = bwtype;
+>>   	if ((bwtype == DP_LINK_BW_2_7) || (bwtype == DP_LINK_BW_1_62))
+>>   		writel(reg, dp->reg_base + ANALOGIX_DP_LINK_BW_SET);
+>> +
+>> +	if (dp->phy) {
+>> +		union phy_configure_opts phy_cfg = {0};
+>> +
+>> +		phy_cfg.dp.lanes = dp->link_train.lane_count;
 > 
-> I can drop it while applying.
+> Should not be necessary, you are only setting the .set_rate.
 
-And with that in place:
+Indeed, this can be dropped.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+>> +		phy_cfg.dp.link_rate =
+>> +			drm_dp_bw_code_to_link_rate(dp->link_train.link_rate) / 100;
+>> +		phy_cfg.dp.set_rate = true;
+>> +		ret = phy_configure(dp->phy, &phy_cfg);
+>> +		if (ret && ret != -EOPNOTSUPP) {
+>> +			dev_err(dp->dev, "%s: phy_configure() failed: %d\n", __func__, ret);
+>> +			return;
+>> +		}
+>> +	}
+>>   }
+>>   
+>>   void analogix_dp_get_link_bandwidth(struct analogix_dp_device *dp, u32 *bwtype)
+>> @@ -530,9 +546,22 @@ void analogix_dp_get_link_bandwidth(struct analogix_dp_device *dp, u32 *bwtype)
+>>   void analogix_dp_set_lane_count(struct analogix_dp_device *dp, u32 count)
+>>   {
+>>   	u32 reg;
+>> +	int ret;
+>>   
+>>   	reg = count;
+>>   	writel(reg, dp->reg_base + ANALOGIX_DP_LANE_COUNT_SET);
+>> +
+>> +	if (dp->phy) {
+>> +		union phy_configure_opts phy_cfg = {0};
+>> +
+>> +		phy_cfg.dp.lanes = dp->link_train.lane_count;
+>> +		phy_cfg.dp.set_lanes = true;
+>> +		ret = phy_configure(dp->phy, &phy_cfg);
+>> +		if (ret && ret != -EOPNOTSUPP) {
+>> +			dev_err(dp->dev, "%s: phy_configure() failed: %d\n", __func__, ret);
+>> +			return;
+>> +		}
+>> +	}
+>>   }
+>>   
+>>   void analogix_dp_get_lane_count(struct analogix_dp_device *dp, u32 *count)
+>> @@ -546,10 +575,37 @@ void analogix_dp_get_lane_count(struct analogix_dp_device *dp, u32 *count)
+>>   void analogix_dp_set_lane_link_training(struct analogix_dp_device *dp)
+>>   {
+>>   	u8 lane;
+>> +	int ret;
+>>   
+>>   	for (lane = 0; lane < dp->link_train.lane_count; lane++)
+>>   		writel(dp->link_train.training_lane[lane],
+>>   		       dp->reg_base + ANALOGIX_DP_LN0_LINK_TRAINING_CTL + 4 * lane);
+>> +
+>> +	if (dp->phy) {
+>> +		union phy_configure_opts phy_cfg = {0};
+>> +
+>> +		for (lane = 0; lane < dp->link_train.lane_count; lane++) {
+>> +			u8 training_lane = dp->link_train.training_lane[lane];
+>> +			u8 vs, pe;
+>> +
+>> +			vs = (training_lane & DP_TRAIN_VOLTAGE_SWING_MASK) >>
+>> +			     DP_TRAIN_VOLTAGE_SWING_SHIFT;
+>> +			pe = (training_lane & DP_TRAIN_PRE_EMPHASIS_MASK) >>
+>> +			     DP_TRAIN_PRE_EMPHASIS_SHIFT;
+>> +			phy_cfg.dp.voltage[lane] = vs;
+>> +			phy_cfg.dp.pre[lane] = pe;
+>> +		}
+>> +
+>> +		phy_cfg.dp.lanes = dp->link_train.lane_count;
+>> +		phy_cfg.dp.link_rate =
+>> +			drm_dp_bw_code_to_link_rate(dp->link_train.link_rate) / 100;
+> 
+> This two should not be necessary, please drop them.
 
+These two are necessary for rk_hdptx_phy_set_voltage(), so they cannot 
+be dropped.
 
--- 
-With best wishes
-Dmitry
+> 
+>> +		phy_cfg.dp.set_voltages = true;
+>> +		ret = phy_configure(dp->phy, &phy_cfg);
+>> +		if (ret && ret != -EOPNOTSUPP) {
+>> +			dev_err(dp->dev, "%s: phy_configure() failed: %d\n", __func__, ret);
+>> +			return;
+>> +		}
+>> +	}
+>>   }
+>>   
+>>   u32 analogix_dp_get_lane_link_training(struct analogix_dp_device *dp, u8 lane)
+>> -- 
+>> 2.34.1
+>>
+> 
+
+Best regards,
+Damon
+
