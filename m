@@ -2,91 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943379F92BE
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 14:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9BD9F92EA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 14:16:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F20810E383;
-	Fri, 20 Dec 2024 13:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F34310E12F;
+	Fri, 20 Dec 2024 13:16:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="aqO5Z1JS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vMqd6Xb8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com
- [IPv6:2607:f8b0:4864:20::1136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B3A10E383
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 13:02:10 +0000 (UTC)
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-6ef4b6719d1so16437417b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 05:02:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google; t=1734699729; x=1735304529;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Fu02/Fmh4ZbtCqxR5/+0fGOTzDcq8jLPwYadQJ7QU4I=;
- b=aqO5Z1JSKkyz/dX21Wjb933QDZfFTmxN4gvFCd4FrPSrVIfGjm5R4QyR2i1BzDWn2E
- uIKmJyTielX7dlgftfegAuAL6xP8Co+sYcsRg+UbVH4vPr6VaLsUIP+QxCh48w+9CUvR
- tDQFRN3g+sTHR5ie3UGcM2j1nluJphmoSj+t7yvCITpm5JMo7XE1pSXdGScxK+lbjhvL
- tn3Sh19/fOJjO63YMp5CMZ3lM02RQ15I0YWStGYbEB123R872/Af0cr86LKaaoKMpcQc
- gimKw/HeHyCjd4qHWNtdDedBfAMJ16ct2JJjwmskl/EMWNCV7jOU+3mjK6OxfBk8tNL8
- lVvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734699729; x=1735304529;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Fu02/Fmh4ZbtCqxR5/+0fGOTzDcq8jLPwYadQJ7QU4I=;
- b=KSwDW7vZtzP6NrbxKrlfztb8tIVX7i8HPrUq3shFDCb2SeOKWGSEQLKWQnHxsod/sd
- Jkk3C3N5YFhPjUWs0stnS41zb/8UxVlJD1QdxC1qiVxxt19DA75o+cMyGSKWIr3cEnns
- fyD5GT0ctE7I4fd+e1EiwouF8GF7fwz9pLGxEDVKIRkewKN+2DkpvRySmki2VFhMZ05e
- G2+dLK+u7SP/jrTw1DpRrj7FknbZDJ4JlOspRSbfNf5OB2a9skLlagegRt/hE9P209M+
- nEjE9bhhCk5WQsG+A0xOQfpXtz5BLj6axO+tIb2BrBmT+pLSc23FOuaS1odSPhWUGtYS
- IhoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrOixvfoG76ruGFULvQlIeX2XBK2j0PMpcIU24ISe1MMtGuAWHxb7Vqjkvy2XtT2Pn7OIKPQSJ4m8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFiIR0m9W8tO1SWYEzNXcvOo41d6Q/EfHKbUxguaH4YmowrnIq
- OcjNJ24dItJWWeITxnQ1/H3nBlmYKLDqxRRy4984vvuDenM6m8LiNfYKLm3BQbAr0f8rZ/3QAVx
- UT+LJIcUWDcpRrc4UdJUR6TAOGrLgjNgn9DTe3Q==
-X-Gm-Gg: ASbGncugGbSCTDL6Z5jiUQmi7c6hlXXQDyFfIQtYyI2kAJ3wxoLZ1Ae4GowAaQr6NKR
- g3aqg0NL+A88jyYUwIl6CWR7oOGl3xzWsqLgbsQ==
-X-Google-Smtp-Source: AGHT+IFzQLWMZQE/IRCrzQuJ49iVkiuSr8lSUXTeAQq7Q5a0dorvlXsI8IoArLc+t/qm0OgPgCykCrt4mTj6yv3UQxo=
-X-Received: by 2002:a05:690c:368f:b0:6ef:60db:5e8d with SMTP id
- 00721157ae682-6f3f80d626dmr17834807b3.4.1734699729509; Fri, 20 Dec 2024
- 05:02:09 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B65410EFAC
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 13:16:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A22655C5C86;
+ Fri, 20 Dec 2024 13:15:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02207C4CECD;
+ Fri, 20 Dec 2024 13:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734700578;
+ bh=HW2NB3RLlz1sHjz2v0FJgpUnVY1H17qnQRWZ0o4EcvE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vMqd6Xb8v1isHfv02UzldAlAiuv3jymk/+RhpSSmNvJBVkVdg8Gii7/mkTBqQGvpw
+ /NBdqokAhSef0r7sT2XLKrI3htXwehWud3CBKX22GxZ/ONm1hDrJa7bAeJBAwhjk5y
+ j4aPJeP29LvMcIOzPF+nNoIDzr3fO+gB87Xb3x3LlzwiLq+3hfwglgY134PyY192E0
+ vbv3QUfKehAD0vgpNC/Nl1lU+JVcISiMl/v0spO1EcKQl/R9qiPAaFXF5Szpy3UW9Z
+ eGzfEwijgyBgA3MjfnyB497WuwSNRfob7QVHCsBLU3yauNgYM2Msvn8zeyeiPIN/na
+ RrcVGWrpiWxjg==
+Date: Fri, 20 Dec 2024 14:16:12 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Subject: Re: [PATCH] drm/sched: Document run_job() refcount hazard
+Message-ID: <Z2VuHBHbFEwIyEwm@pollux>
+References: <20241220124515.93169-2-phasta@kernel.org>
 MIME-Version: 1.0
-References: <20241212-dt-bcm2712-fixes-v3-0-44a7f3390331@raspberrypi.com>
- <20241212-dt-bcm2712-fixes-v3-3-44a7f3390331@raspberrypi.com>
- <CACRpkdaB9kqcjmhaXd5RxpYvqdSVMZkj0wHAtEgdqDs03+wzJg@mail.gmail.com>
-In-Reply-To: <CACRpkdaB9kqcjmhaXd5RxpYvqdSVMZkj0wHAtEgdqDs03+wzJg@mail.gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 20 Dec 2024 13:01:51 +0000
-Message-ID: <CAPY8ntBJqukSJs7VUXvUFAsiKqNWknL8VjgtQG_VAEmw576EPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] dt-bindings: gpio: brcmstb: permit gpio-line-names
- property
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- Eric Anholt <eric@anholt.net>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Ray Jui <rjui@broadcom.com>, 
- Scott Branden <sbranden@broadcom.com>, Doug Berger <opendmb@gmail.com>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>,
- Stefan Wahren <wahrenst@gmx.net>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>, 
- linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241220124515.93169-2-phasta@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,35 +69,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus
+On Fri, Dec 20, 2024 at 01:45:15PM +0100, Philipp Stanner wrote:
+> From: Philipp Stanner <pstanner@redhat.com>
+> 
+> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
+> That fence is signalled by the driver once the hardware completed the
+> associated job. The scheduler does not increment the reference count on
+> that fence, but implicitly expects to inherit this fence from run_job().
+> 
+> This is relatively subtle and prone to misunderstandings.
+> 
+> This implies that, to keep a reference for itself, a driver needs to
+> call dma_fence_get() in addition to dma_fence_init() in that callback.
 
-On Fri, 20 Dec 2024 at 12:50, Linus Walleij <linus.walleij@linaro.org> wrot=
-e:
->
-> On Thu, Dec 12, 2024 at 7:36=E2=80=AFPM Dave Stevenson
-> <dave.stevenson@raspberrypi.com> wrote:
->
-> > gpio-line-names is a generic property that can be supported by any
-> > GPIO controller, so permit it through the binding.
-> >
-> > It is permitted to have a variable number of GPIOs per node based
-> > on brcm,gpio-bank-widths, so define an arbitrary maximum number of
-> > items based on current users.
-> >
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+I think that's a bit too specific. It's just that the returned dma_fence pointer
+of run_job() must be backed by a reference, otherwise it can't be valid.
 
-Thank you.
+Everything else is an implementation detail of the driver.
 
-> Perhaps Bartosz can just apply this one patch separately?
+> 
+> It's further complicated by the fact that the scheduler even decrements
+> the refcount in drm_sched_run_job_work() since it created a new
+> reference in drm_sched_fence_scheduled(). It does, however, still use
 
-I believe he already has, but commented against the cover letter
-rather than this patch -
-https://lore.kernel.org/linux-arm-kernel/173434013318.38429.808413721248542=
-013.b4-ty@linaro.org/
+Those two are unrelated. The decrement comes from the reference count that has
+to be taken to return the fence in run_job().
 
-  Dave
+The reference count in drm_sched_fence_set_parent() is for s_fence->parent.
 
-> Yours,
-> Linus Walleij
+> its pointer to the fence after calling dma_fence_put() - which is safe
+> because of the aforementioned new reference, but actually still violates
+> the refcounting rules.
+> 
+> Improve the explanatory comment for that decrement.
+> 
+> Move the call to dma_fence_put() to the position behind the last usage
+> of the fence.
+> 
+> Document the necessity to increment the reference count in
+> drm_sched_backend_ops.run_job().
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+
+You may want to add
+
+Suggested-by: Danilo Krummrich <dakr@kernel.org>
+
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
+>  include/drm/gpu_scheduler.h            | 20 ++++++++++++++++----
+>  2 files changed, 23 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 7ce25281c74c..d6f8df39d848 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>  	drm_sched_fence_scheduled(s_fence, fence);
+>  
+>  	if (!IS_ERR_OR_NULL(fence)) {
+> -		/* Drop for original kref_init of the fence */
+> -		dma_fence_put(fence);
+> -
+>  		r = dma_fence_add_callback(fence, &sched_job->cb,
+>  					   drm_sched_job_done_cb);
+>  		if (r == -ENOENT)
+>  			drm_sched_job_done(sched_job, fence->error);
+>  		else if (r)
+>  			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
+> +
+> +		/*
+> +		 * s_fence took a new reference to fence in the call to
+> +		 * drm_sched_fence_scheduled() above. The reference passed by
+> +		 * run_job() above is now not needed any longer. Drop it.
+> +		 */
+
+Taking a new reference in drm_sched_fence_set_parent() is not an argument for
+dropping the reference taken by run_job() here. drm_sched_fence_set_parent()
+takes this reference for s_fence->parent.
+
+> +		dma_fence_put(fence);
+>  	} else {
+>  		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+>  				   PTR_ERR(fence) : 0);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 95e17504e46a..a1f5c9a14278 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -420,10 +420,22 @@ struct drm_sched_backend_ops {
+>  					 struct drm_sched_entity *s_entity);
+>  
+>  	/**
+> -         * @run_job: Called to execute the job once all of the dependencies
+> -         * have been resolved.  This may be called multiple times, if
+> -	 * timedout_job() has happened and drm_sched_job_recovery()
+> -	 * decides to try it again.
+> +	 * @run_job: Called to execute the job once all of the dependencies
+> +	 * have been resolved. This may be called multiple times, if
+> +	 * timedout_job() has happened and drm_sched_job_recovery() decides to
+> +	 * try it again.
+> +	 *
+> +	 * @sched_job: the job to run
+> +	 *
+> +	 * Returns: dma_fence the driver must signal once the hardware has
+> +	 *	completed the job ("hardware fence").
+> +	 *
+> +	 * Note that the scheduler expects to 'inherit' its own reference to
+> +	 * this fence from the callback. It does not invoke an extra
+
+That's not wrong, but I wouldn't say the scheduler expects to inherit the
+reference. When a function returns a fence pointer it *has* to make sure to take
+it's own reference. Otherwise the pointer may be invalid once used by the
+caller.
+
+> +	 * dma_fence_get() on it. Consequently, this callback must return a
+> +	 * fence whose refcount is at least 2: One for the scheduler's
+> +	 * reference returned here, another one for the reference kept by the
+> +	 * driver.
+>  	 */
+>  	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+>  
+> -- 
+> 2.47.1
+> 
