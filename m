@@ -2,161 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397899F9293
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 13:53:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49CF9F929F
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Dec 2024 13:55:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5041F10E087;
-	Fri, 20 Dec 2024 12:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3936710E339;
+	Fri, 20 Dec 2024 12:55:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bQAvTPTp";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="R3usjp8W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2062d.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2406::62d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E698F10E087
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Dec 2024 12:53:48 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2061d.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2415::61d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1BFC10E12A;
+ Fri, 20 Dec 2024 12:55:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g/Yt+ebsbWHofRSV7BBiJOATrTTj9X5g1joy3xSg3GcONDrPew2OsWvj+5A6BhoyDZ6teYLIXz8+h5RSxk2ydWEF6onXGHVYuaxt6Ghbv20GEyekxny/mMMlxZEgI+kyFK97tg70Yh7CrxdeE2PjQs2yFYuRSY/1ss5y98zGe5bQpAcwM01aCn0m7oZHDs5n6sIgPVqoiW0HPFwNKyBFVoGHUK8sp6NNVV346dQ7jFZANo0yoh/8PZxlBw3xoVjh5s92etgdLYoAEhXV3O+L+93lsMuQBYeunW7PZnKEg8mhctsFa3ri6F5Dl39a6NYTCyLoU4av943tptS75gkaZw==
+ b=osbwQn5Js013Z1Bw6Y/jsl/30r0I8IEeuG5mCxiBLegpC4QPZtmELB1vgXh/b6i7HPzV3c7qOBS0CWVdo65LlQOr3QtgKwXIV3r6xEpEz1UZg1nSSllhmyqz0bsgotM4po3XUZEX9Zr/Qg5PEbfwT2BW4CWKXzyszS/5tPPgmVA+/yohCOB0G5TKdjWEl9TeOJoPCp1ckDTfirtQpzW+3LkkQUkJDcgQ+uH1ddKs+dHdaOetRDrxxmTCLcNC86TvXnOy8pVAHjGJyZREcpxcNpkd5xoldaebSdrvPVvnyktILWSy2KRdzg6PMUQ0zpKd1ud3U0P9r+ohctvRQtR/AA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l4s/HuIjGFN+7xY9+zqPzQJq+nzJFzj6gap+bng7oO4=;
- b=NBoZn91EZ9c+YezT17JZ47kX/XKNy679WixHF9JzHzqi2phVcNGwJv/mCLDWSHqfjuMFfs7ir7qe27H1dupDUQa3wX+j9xaDF7fVGhHjWcB22LmysELVcFt0zQtpWYahlOMKSnyDWQWpe++S7B/ar8U5wjogqb5frFwm5m0NDXcvCgI/9tjXAfF8/ZSVVDEge3DU+eG310PwZyy95uwTRF3zJWbdHv48pXeLL+tc1tBaLd1PQkuodFuhu2M5OL7EOu0qIOSNTbMpJUtne2/SIc4TbLqFuy+H7M63MbWTOURQj+ghf/CjiAvkflEBwnWqBaSGgRVfH9DxDvDFJyN65w==
+ bh=fyWuWCKGuU9hj7KG5JzXJzDQakBJm0pQmykTH66Zb2Q=;
+ b=uMAyiN6n39m1+yd2d3B06sFfppTW29kzw69CnItpDFRGu53ljJ7LhAEizq5Hi5igrLagJbvnlFfmIaaoJP/ZHF5cEu66ibaPclGC6X1m8VApvSye2bflUOIDuITJkAYmWgzNhToYtCHWmT8hdUjJQHTh4ebGAUL2M/aNNPpfW5jDZaqF3yij8Ov+HzvS7xD6ANG2Ur7T33IYBBv5oXCb4ojQWW1gr66AYhyArF0NxWEOlUIdPCMLBXwTPmXmvEYz9ipKgLa/4vHPwfouC1xjRQf478HzQCgkpjJ5tn5XbajBGC3VRJH+L9w1/DFdH3LDhqYx3vuRXnWrjtiPxluFVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l4s/HuIjGFN+7xY9+zqPzQJq+nzJFzj6gap+bng7oO4=;
- b=bQAvTPTphZ/MyUWYY93MnAG50adQuq3bmH6ktq9aVENBC3pK8LLmoAQQxCviPKc9iDqbSE6TWuofbVOkOvI+O0da7WPJ15rdKp6K9RVZ2QY0vzFP77TRO6Ie/ZzeYr7tiAu2NB8Tbc4qhH2XNTxrCa26vsIh3B5eR9q2DGW2j2w=
+ bh=fyWuWCKGuU9hj7KG5JzXJzDQakBJm0pQmykTH66Zb2Q=;
+ b=R3usjp8Wj976uJ3LKG+Msfpc7EuAh7v5TcYoKN+PUaCsoYgSHL4+cYWRqpOKl/W/4wmCGGtuN3/DW1JAY1FwneAJKDJ4yNG34JNaKSyMcsN42JdLeZjxz6ufYdtdOIRNSZpOUTmseLZv6AhaRR+rwPyewxqZBc6N+qxE32/NhP8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB7143.namprd12.prod.outlook.com (2603:10b6:303:222::19)
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com (2603:10b6:510:222::12)
+ by SA1PR12MB8118.namprd12.prod.outlook.com (2603:10b6:806:333::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Fri, 20 Dec
- 2024 12:53:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8272.013; Fri, 20 Dec 2024
- 12:53:45 +0000
-Message-ID: <5c4c610e-26ec-447c-b4db-ad38e994720b@amd.com>
-Date: Fri, 20 Dec 2024 13:53:34 +0100
+ 2024 12:54:59 +0000
+Received: from PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::a929:e8eb:ef22:6350]) by PH8PR12MB7301.namprd12.prod.outlook.com
+ ([fe80::a929:e8eb:ef22:6350%7]) with mapi id 15.20.8272.005; Fri, 20 Dec 2024
+ 12:54:59 +0000
+Message-ID: <8ffa9abc-94ae-4622-916e-947ac73402f9@amd.com>
+Date: Fri, 20 Dec 2024 18:24:52 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Document run_job() refcount hazard
-To: Philipp Stanner <phasta@kernel.org>, Luben Tuikov <ltuikov89@gmail.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-References: <20241220124515.93169-2-phasta@kernel.org>
+Subject: Re: [PATCH 2/2] drm/buddy: Add a testcase to verify the multiroot fini
+To: Matthew Auld <matthew.auld@intel.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
+ "Lin . Cao" <lincao12@amd.com>
+References: <20241216130735.314298-1-Arunpravin.PaneerSelvam@amd.com>
+ <20241216130735.314298-2-Arunpravin.PaneerSelvam@amd.com>
+ <e26daaa7-253a-4753-a5a8-f8f0c045c583@intel.com>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20241220124515.93169-2-phasta@kernel.org>
+From: "Paneer Selvam, Arunpravin" <arunpravin.paneerselvam@amd.com>
+In-Reply-To: <e26daaa7-253a-4753-a5a8-f8f0c045c583@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0084.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1e::23) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+X-ClientProxiedBy: PN3PR01CA0019.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:97::10) To PH8PR12MB7301.namprd12.prod.outlook.com
+ (2603:10b6:510:222::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7143:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3ce36f4-e534-408d-d455-08dd20f556ee
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7301:EE_|SA1PR12MB8118:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8bdd467b-eee2-4dfd-86fd-08dd20f5828c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?THRIdDNUTkdXeG9KNXliQk1DWUh3TTdVNGFrMmhPeXFYVVpyTkhDWTk4Qk1W?=
- =?utf-8?B?eUxwb2FPRFhtdVNoRXFtZmtYNDRMaEZXODFua0hWSy9qZ2QxR2lEU3oyb1Iy?=
- =?utf-8?B?UnBTYmlYOWRnRC9nWG45REdienVSVUhlZnRZZUFsZlRHckYxam1EblNEQ2NQ?=
- =?utf-8?B?dmprMStqeGdhZnNGSEw0WWREcUdXZWJ0UEZLdjdLd05FaS9xYXA1Ym9RV290?=
- =?utf-8?B?QjMxSjhwRWoyRnBFZjQ0eU5VVzJnV0EvNGtBSkluOFlnRUE0bC9vU3dkaVl6?=
- =?utf-8?B?cjZ0dTBNcnQvZE55Nm15ZVh5aTU0Rk5haFNQc01KWmJwNU9zZ3pieXp4MVdD?=
- =?utf-8?B?SWtqY3d0cWNYYW84Y1pwZnJkNjlDSFZXcHRrWmJhREdhanIyM3htd2g3ZFI4?=
- =?utf-8?B?YmdFd3FxRVFlT0JwK1pCL2VoTkd6NEF1djU2SXcrUERwa2srY0RwMi90enpY?=
- =?utf-8?B?R3VhNFFZcFVDUXhSa1JqR0duK3pKTDBYSXNTQ05rSjF4QWFxUkxCNEtTNnlG?=
- =?utf-8?B?Q01GVDNkd1oxNGVOU1VYMmtJRHRzaGQ3VE14NG1jdGV4N0M3bEZ2UGxPb1Vr?=
- =?utf-8?B?V2IwUHhzSi81WHBnYzh3YUZoeG5NQlNXYWNtMDlEcThJMWdnOHRUdkVJbFhZ?=
- =?utf-8?B?M056UEs5MzdISytYUTY5WjhGNytLN29KTXhFWWZQZG5OQ1dtK0ZRSkswVWgr?=
- =?utf-8?B?QWtJOG03Zlp0d0FrSzE1aE9POFRKdUpnU3ZPdlQwS3VlYkxiWmdoZy9tcU01?=
- =?utf-8?B?ekhnN3BkZkRDOVRKOWIrY3hFcFJCcHZwd3hvMHZ5WmpJV09qUTFhc0YydHMx?=
- =?utf-8?B?UGpEOTdiTTFaNnpYZVRNMGpvWTlXdnBXVjBGTXh5NnZKakFjVVZycTNQZTFP?=
- =?utf-8?B?N09vQ3pCMUcyNUd0czZRcVp3TGxLdWNGVXgxMkN3NVhyWVdoU055OFFkRVhy?=
- =?utf-8?B?ZTlBa2hUV1N2c1ViMWlFc3BKSUN5NXVSN1I1Y2k4eHZwSVMzcGdBd1hpcXIv?=
- =?utf-8?B?cEM1NTVGUHYyK0xIWSs0YTJMVUtQRUx0QU9Ca0l0MWI1NWF4TEVwWEQycjJr?=
- =?utf-8?B?SklHSnJuaVlOZ0hTb0lVUkZkc2NNNngzbFlRMWE3dFdXU3d5RlZTeUM0UU1Z?=
- =?utf-8?B?K0g3V01pZ3ZGV1RYUVpKTVFieDVZME85M1hlVjJIRFJBOUl1cEJWVm1EbFFJ?=
- =?utf-8?B?UXI4c3NlTXVlWVlKZlMwcmh5V1haRGtsdGxCbjBxYWdCMHA5bzlrQmFZMzF6?=
- =?utf-8?B?d1liU2lKSGJzbHRVS1ZxcWY1OWVENHVuRXpRSUhETkVwdGh3VnY5UmVMdkZG?=
- =?utf-8?B?Y2FLR1BlNGZ2L2JQbURZMlJjbzdyS3V3V04xTElicHZsWmF1RURwclpZdk40?=
- =?utf-8?B?RkpyNERpeUtDS0NXcWF2RnRVWUQ0aWNIS2l3V2QwZjdjL3k2YzRQSTg5USt5?=
- =?utf-8?B?cERoSWt3cDRVT29aMGhZVVJndmhNa3BJL292UkJGZnFBUnBkbndCRzZLa1NM?=
- =?utf-8?B?N1duTDJRWHFHOGQyNUxHOUdvQVgwVjUzQ3BEbXJJQVltNkdwT2VvakV6RlI5?=
- =?utf-8?B?cVpZKys4UjNmZGNNcmh5anVnZHJ3Rnh2ZitIUzNLNmNmZzZLR1dXZGt3QUJm?=
- =?utf-8?B?blFCcGZzVHB2aUlPVG0xTXN6c2VPaHZKbDN2K1hINzVMRHh3aTJsLzM4bXVK?=
- =?utf-8?B?dE9wK0p2akFaRkFQdXN1d3dKYjJ4MDVObUFFMG1PNVI4WlhpVGZSWFpFeVZK?=
- =?utf-8?B?VVVlNm1UTjg1bnR2ejlsaDEzM1p0a3crZ3k1SkduL1RpU0hhMmRqT25KZ29n?=
- =?utf-8?B?Y3ZEU2tibnA3b1lpVzUxekROR1NhUnpGR2lOanpvVTNyZnRWWDR4YXBEaUFY?=
- =?utf-8?B?K2E2WGVycDNhS0hCNUpDVTJwaW9pOVk4MUFmRkJobmRmLzhBWjV5N1hNaXV4?=
- =?utf-8?Q?KYNLY9N7NuA=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L280NDJBWmJSYkhvVDRqSUtkRXRNMEdZbnN3dVdwM3JMdWt3T0VvVC9nOGFq?=
+ =?utf-8?B?bWVsa0o0OXFrczBsNm9oenhFMVJCblg5RHRXL005SlBpVVEzd1Flc3hhak9U?=
+ =?utf-8?B?cW8wTDdsMFlSUlBHeC9WM0t3TkdPTWZPMWxCc2RPVXNhOGt3T0w0cGFIS1ZF?=
+ =?utf-8?B?ckE1TnBBZldWMWxHbXRmYUszRWpDSWpnY3B4UjRPT2I3YVI5Zm5LVHdlbWd6?=
+ =?utf-8?B?N0VVSmM4aVlMS2ZweVU4UHl2WmpDZzhKWnJ3a3g3M1VULzVRa1laSjFNc1Ja?=
+ =?utf-8?B?L0FlbzZlN0JxYVI5dk1rOUdUajBQYkdmczJSb0NjRzhlOXhIcHh1Ti9OMFha?=
+ =?utf-8?B?aGpzdE9ZZzFFZWNHWHZKKzJHSFh4VzRnaStETk1XTG1HMi9Vd1kzUjlkaGFo?=
+ =?utf-8?B?ZVZmcmovWDF1Tzh2UUEyMTVSNTM2LzEreWZJSFQwRlMyc1lmZVRxV1V3TjVU?=
+ =?utf-8?B?REQzUG5jWE0xVVBtWmRtL0JFa0VHSGx1T0VhcTB4bElJVnhmdEVSSDZPS1hl?=
+ =?utf-8?B?UGlyekdIODRwNGNCTUVGRkNJRTM1aWo3bnpNOGlkN2o4Sy9UdkJONFVMNnZQ?=
+ =?utf-8?B?NnJwVTlSYmFEenJuNi9nVW0rckRid0lZZDhnVlpGV1FCWUlvMFF0ajVrZXhD?=
+ =?utf-8?B?aS9mNW55VjRNaFJ1ejRURzlpWEg1cDNQdmd4RXBrU2RRaUp6VmRRdTN4R1Rq?=
+ =?utf-8?B?M0psalFCNm5Ga0tRUVVoZEk0RFQwbGV0VkNIaFlQMk82WWVQaGhOVGNaaHFM?=
+ =?utf-8?B?cjNTQ2dFOWluTk5hQUFOZVpvSjlLWnliL1ptTTZaN1F1SzdWb29zR2k3eElE?=
+ =?utf-8?B?OTJvMStvVy91bzlRWC9ONE9uL2VvdC9oLzNzZFVkdGFhbk03VEFSTGVidklu?=
+ =?utf-8?B?T3lLMThOT2M3TFFWNms1bGtxSmlrWXVnMERCTzVDcXlKUzJpQ0dUbVhTRVN6?=
+ =?utf-8?B?NEZBTTlvV09CRVRYWE5BR1IwcHFnaEd4cnF0WmE0RkxlSVEySzBidTRvYlZW?=
+ =?utf-8?B?QzJCdXhMRkV6S2ExUFJELytWZDNEMWFxM2lKOGFnTVdzSStUWHBDaWgxQk83?=
+ =?utf-8?B?SzVVQnBBdldsL20yREI5VFNyOTN5TTBVanJxQXFYd01VL28xRGxod2FLSVRT?=
+ =?utf-8?B?TEI0WkJKaXYxNDVmLzV1cjVaOGFVNVVCMXJRR0NWcUl5eG84OTNubS84bVhX?=
+ =?utf-8?B?M1BGV0FaalduaTkwb214UzE1eTB6WHNJaFB4SWFwTk11U3hveDhNWDZPYngw?=
+ =?utf-8?B?TTByOTZnSGpTcElXTTcxTEptOEQ4VXI3VFovU256allsc3k3MXVpZlBleC9G?=
+ =?utf-8?B?SHd5NFlqdEl4Nk9iMnVBa0tKd2d1Wk54dHF0ck81NkxUU3BwcUNVbHlYeVVz?=
+ =?utf-8?B?d0VPRzZoNkRPL3NReTBpWW9oeXJ3QU1tRFQ3cHUxQVNDYlY4K1dsL3pnLzF6?=
+ =?utf-8?B?RUx4SU10NE13SlN3eDVnU3hiYzN6WnpoRjZrNkZOTm5mS3ZMQWlTenFGK1VJ?=
+ =?utf-8?B?RmxHYTgwQ3dSYXlMZ2xGZ1ZyR1p3aWdqbDhWQXNyeHEwUThQRjZCS0k5SjB2?=
+ =?utf-8?B?OTUvT2hERGNRRTN4QUt4MVhVUk1KTktNaEVzcnE1VHVKTWNEL0RTTTJMTFpo?=
+ =?utf-8?B?NHV2ZW9hQTRvR3NqWnJlYnltUEdtL0xVUG9lS1lJZnNGNUNhSEl4NEI1V010?=
+ =?utf-8?B?VTdjVGxqOGc3SitPV2tobERZKytYQ2hSdk1FQmtIZWVGdGFCVHZINm9qRG9P?=
+ =?utf-8?B?TWxYMEFRWDVnQWtkYk5xUnJzSmVMYlM2VUx1SG5lVGViclBlVnZ0bG5JV3lK?=
+ =?utf-8?B?eDloMHB4ejMwUzNLczBNMENwK3dmcjBvYmllWWJWbWsvVzNHejVXVW9QQjkx?=
+ =?utf-8?Q?7bsaEKYOZLZ+U?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020); DIR:OUT; SFP:1101;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7301.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmdwbUk4RUtQV2RjS2o2LzdJY0JxelRUKy9kMWdGMEFWc0JyTmtWcklPR1pw?=
- =?utf-8?B?MTdUbkhoYjNtaWJHcTNKalRDZE5kNUxaTFQwY1p1TWd3c1M1dlVCVHZvdWk4?=
- =?utf-8?B?emFqaGE2andvOXdWaFVKdDRGaUtGc3F0WldwdUFXQ1ZKWGRlU2JzOHVEZ3k1?=
- =?utf-8?B?S3ZlRWlHeTZSZW5WMStlSW0zR1pxMXpmWDAvcjFrUW9rV0RiakQ3MytURWNn?=
- =?utf-8?B?ajd4eThIVy8yK0I2cFgxWVlod0x1aThNTjZnNmRUM3pseC8vU1ZBTUNiOFdJ?=
- =?utf-8?B?b3d0V2hsOWgwbi96SjJoUU55ZjVkTGozVVFtOElka3g0YjlWZGVleFVrRjRk?=
- =?utf-8?B?Misrd3pyMm44WG90TGtza3Axc3dWbUdLMGlmK01UeHBCWm1ZTitWamR0QXRG?=
- =?utf-8?B?ZCtBWExhVTFuVDlpdW1wdGdZYk9oQkRiTVhoTnBhNDc5WC91Sm5waDN5V1cy?=
- =?utf-8?B?MFU1YkpoMHpOeDNRUVkzNUpTK2E2cUg3Q0tKWFBiSTQvZ3F2NnZjdytVVWdm?=
- =?utf-8?B?VEhVR1hJQ2k3amc1bUhkeXRvTU9qUE5EaEcvUnJvV1RYQjkyWm5xWlRnMlRF?=
- =?utf-8?B?MW1PaCtENnlkZ0ZIcGx6dEJIMFFqOVhhbmVBZ0FRQ09sdW9WM3ZOLzlkQ2JI?=
- =?utf-8?B?Q09nbGxsaitRMjdqRnJ2ZUJvRG90YzhDU2wzcFVGNE9WM0Y3RURMTXp0eUcv?=
- =?utf-8?B?TC9ZVjZuYnZLV1JnWXM2YlhZY0pqTW4yZW0yVFlKbHEycTBVMWptK0FuNjR4?=
- =?utf-8?B?U1hIQ0dTMENmanJxSEVQYW9FQUJDYVRKZmpvT0lRd3Nxc095UUtGTHF3Nk5W?=
- =?utf-8?B?U1pxVlo5bS9MamZJTWVFUHUrNnhCdStYdlI0ME05aTlUMnkzYkZzZENIQklK?=
- =?utf-8?B?b3lvUndhL3hOSGxjd2huV0JybzF0VUE3REhXV3ByckNXckV3RFRCVGN2RzZn?=
- =?utf-8?B?bkk0OERGOFV3eHhuc3JJZk5uVitXemMyYyt6UU1hU2xNOVJ0OEU3WFNvcUJ4?=
- =?utf-8?B?TE1ENzdvMFRQWWE4RUtLQ29YVm1rYjVGbDJ3ak1qbE5BSHFXaFgrWFg5YzZn?=
- =?utf-8?B?N3RYcjlnZ0E2cm9vVzEwNVZKYUo4dExIRzB2YkNoWUVVNDBlUnB0dXJLNnNH?=
- =?utf-8?B?NENqQ3I5WnJ5L2VFMG5FSHgrcjAySTRlbUplVnJPa0RhVDRVWEd1NmFJNnBj?=
- =?utf-8?B?NUQyTWZHSXJhK3M5ZWVuM3FuR3BMbUFBZDk5RVpVMTNEWEdVVXYvYW5GaFFW?=
- =?utf-8?B?ZGhkVCtZWThxUUp2dndLUVJWMXRyYTlsMHFYMkZXUHBkTU8rMUFYZndFU0JX?=
- =?utf-8?B?M3BsSDcvcHowdGFLaXRTSklUVHJkbmFTT0dpY3NadTVtUFJPbjN6dGZydFAz?=
- =?utf-8?B?Sk90cVB4TVBSNHlDWWh3MHZPMUc3L1FXazhob0UyVjRLN2NnQ0RTcDZjMkJN?=
- =?utf-8?B?MGtIL201bzZZdXNpWG5MQXhVelRsUGcrb0ZXckpaL2xtK0VWZ0pnN2Jzdm9r?=
- =?utf-8?B?cjNlek12N0FTQmtlU1ExUkRwNytmbThFUDZBajlHNTJoT2dvajk4VTFTS2xn?=
- =?utf-8?B?eG0wbHVMOUJJVkExUllXR0NTQVVkRmxtMUt4eGlvZnhiejYvV3dKeTZJcFlF?=
- =?utf-8?B?VlloTWhzYU5FS002cEkyaDMrVHJXWGpha2xJL1NncHIxakR2SnNUNWN6NmVY?=
- =?utf-8?B?bVFRNnFrQTE1c1VFNlFOdTJOVmk1dWw5ZnVwWUJlYmNNMHd2Zng0cVVFMU9k?=
- =?utf-8?B?ZkZKc1BRRGNiWDFOSGdVTE4yR0krYitKNXlYWE14SXM0OTU2alhWNVg0T3FF?=
- =?utf-8?B?c3hUT0NHWVEwN3pOTk5YQzFSUElYdGVjcFM5MEVHcU84VjdoWXIxTUlpWWpk?=
- =?utf-8?B?VjdOWUVCT29VRmtYR0dqZTRaYVBqZ2RkaHl1VlVRc1FkRGdsZ3RxWEhhTWtk?=
- =?utf-8?B?anhhdmZKbzRqMmVldnhkMXoycVM3SVZUajZjK01OZnRET1R1RUk0MjdFc0pW?=
- =?utf-8?B?Zk9melFCNWhodjZ6eE9ETnl5TVJmTkQ5cFZUdVJGT082aVg5TC8rMWRFRGVM?=
- =?utf-8?B?dEpLVTRsYTJXcXp4RzQzT2hWdEJoRDRxOCtYZStmTGl6dGFSbGs3NjA5T2ti?=
- =?utf-8?Q?VF4Rl8b5nmOYA6zhY0a468uC1?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dldWR2pRWVVPa1JDWllvQWR2T1RmYXBVYUJyQmg5dnFweFVNSi9ndEU5OVhP?=
+ =?utf-8?B?VW5pWnZPL1RhSkRUaGlMeC9VYm5XcGMrcEV3RnJvYzlwNG5FdWQ3NEx1RDBu?=
+ =?utf-8?B?dDN3WmhkbWJ4YkdvMmpLWXNwTEM0ME1jVkNhL0YzUlVBZmkyUEp2UzRIdVVk?=
+ =?utf-8?B?S0tFVHdLR1k1dlR1dTZSUHprbHhXQ1lzN0w5NDkyQ0tpNGdjanpVeTBVU0Vy?=
+ =?utf-8?B?WnU1MEFGU283c0FEK2tvMjhObEc0bFRQTkt3a1YyWGFlZzkyQWJBdW5SbkpO?=
+ =?utf-8?B?T0hRc3ZNRDgvQjVxeFUwOWs0WkxGUGFTeWJJaCtVVHU1NHR6N29KYzBqdWJE?=
+ =?utf-8?B?Lzcwc0ZJQVF4V2JMbmNBK0lraVl6L3FGdFgrVFRwV3poZFhSQ0dpaVBDdE9p?=
+ =?utf-8?B?UTB0UlZCSGU0eWlJUHVZbmN0MWltaDgyK3p1RHpVUFo1UmpGc0RkalZVMzNo?=
+ =?utf-8?B?MFg2bWR1T2dJUlJiN25TN255cXlFUUhnTlZWUXF5YVFnNjBvSEcyTE91VENr?=
+ =?utf-8?B?UXlCZUpHajBxVUNaMGwxZzVtekJwaVhBdUFkbG9VcVVyUTE3SDduLzFEZldE?=
+ =?utf-8?B?VlJtaXRSdFhlUUNpU1dtejNjaE5rNjd2ckZyN0FNWFVNVWpLa1lya0YyT0RN?=
+ =?utf-8?B?SlFyMFhuR0lXdytSQkpFVmEzdzJnZ2QyVWVNM0RjOFJPeWlpbnE2SHZhRFE1?=
+ =?utf-8?B?UDA0MGdhUW00RnYwU2M5b2pkRWM1a1lvWkhDcVdJbW1oVTFkL081Mzd0UUNi?=
+ =?utf-8?B?bkRUZVBTcTE2ZmF5L3d6Uk1nZ3FISWw0NFc4bEJqUGdBdXFodXBBL1BVcmVs?=
+ =?utf-8?B?bS92SFYwUVdsenRoNUtWb1lPZ3ZlWGNLaFVXZ2dZeis5OCt3S2kxYi9kM0tx?=
+ =?utf-8?B?K0RVK3c0OXpUcyt4aHF1WCtveVAwOWpVWGVKUWlDdjZqTlhlcjJtcEJFekpY?=
+ =?utf-8?B?SWd0U0VteHpIMkx5SUdrNEdoQ1liM1lsaklLa01KRkVwYWYwS0dVNE03cmRS?=
+ =?utf-8?B?T0FFYnoyRTNsbHJaeGNKK1NqUHM2ZWlwMTg5T1RWdE1ldWRHUC8yVk5Fc2xE?=
+ =?utf-8?B?U1BGKzc0M2E1UHN0TUR2dmV2RVE2WElPcVlGRm56VTd3NWJzM25zN1JLV3M0?=
+ =?utf-8?B?T0x1RHp1N2ltMFdwNjRaZkNCVUo0cjh1SFFoTkh5VXZ3N0UxemtNWkhJdGlw?=
+ =?utf-8?B?MUFoRVhMZng4WERseVpBRUUwZ2s3b21QanNjMjFFNjJEc0hpNVEvZSt6NEZ5?=
+ =?utf-8?B?YWZPNkV6YVVzSkwvSTVRalRtUU1mUFN1WCtXZUJ4RDNNQVlXd2lzTEU1emxs?=
+ =?utf-8?B?N2hSekFWVzJYUENWY2F5MHVDV2hCZUFTak9Bck5INnJBNWhFWkt6eS9tc25N?=
+ =?utf-8?B?WEtFYjVvekpxb3BMcWlYYmplenk1SkxhVGVOcmpsSE5TV3RvU0lrSlM0aFA0?=
+ =?utf-8?B?MjdaTVF3S1JvSDJOa0dDdnVSaGF5WnhVUzhKcFY0TTJqQU42dys2S0hhRmZz?=
+ =?utf-8?B?ZHpBby9PRXlhSy92L2tGUTZsajZod0czZ3FzYVFjb05jM3VVdExBY0dTUUdN?=
+ =?utf-8?B?MjZHWGY3cFRLWHZjREZFQXlBMjM5ajdxTUltNko1eDRsdjFQU3p2Z1BwbUp3?=
+ =?utf-8?B?cHh2TWdjditoUkNmaitzejZCY1ZIOGtROU5tUTRhMVdKcXlIYnZxN1EyQjJY?=
+ =?utf-8?B?VkhzTkplTnEzN04yTDdWWjVVbURrd3pLd01aQlUvVWVjb24rdUtoVXJVVDhK?=
+ =?utf-8?B?a3lQa1JwMGdCR2Z1YXlmazV2L1Q0SHhweE90UitIL0hNcThjaTRZRzZwN2NN?=
+ =?utf-8?B?eEJzSDZGL25pUnl6VVJib1c4R01YUDJneEJKMGJpVXkya3kyMmZPVEJzZ1Ns?=
+ =?utf-8?B?S2VGRG5FbUNHYjlkeWFmd1Voc3Q0a3l1M1JqYTliK0llV05zUERIR3VjM2d5?=
+ =?utf-8?B?VjdYaGZEUHZScXRFTCtLWkViZXV2T2kwUElkZXJ0MGVQMUFDYkE2cjdEQWkv?=
+ =?utf-8?B?U2o5RUc3bTduNU9EV3ZJeS9oUmMwVE5YdkYwNXBLZFNQUnZIMDE0ZzllaXRl?=
+ =?utf-8?B?M3VDV1NMZ0RyRUduWmxHZUtFK0JhTmRNbm9qb2Q3dUl5ZXdGaXU2RG9SbDZI?=
+ =?utf-8?Q?5JpgCwNSDJfCWPnVlqqndkVQm?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3ce36f4-e534-408d-d455-08dd20f556ee
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8bdd467b-eee2-4dfd-86fd-08dd20f5828c
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7301.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 12:53:45.5960 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 12:54:58.9223 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: negLWwIEwVIG/BbMWdWzAnV9QUUPBL2EQEREp18M3a7L00cACUovcg/MT3vCTDrU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7143
+X-MS-Exchange-CrossTenant-UserPrincipalName: oaAEwUvvZd4DKzsCyz6IDCuIAfh4EvmMp0Mx7cPzktoU2CuSX4ag8rkl9W107xcj63TSPlqW+3FRPpaG34nwrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8118
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,120 +165,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.12.24 um 13:45 schrieb Philipp Stanner:
-> From: Philipp Stanner <pstanner@redhat.com>
+Hi Matthew,
+
+
+On 12/16/2024 11:52 PM, Matthew Auld wrote:
+> On 16/12/2024 13:07, Arunpravin Paneer Selvam wrote:
+>> - Added a testcase to verify the multiroot force merge fini.
+>> - Added a new field in_use to track the mm freed status.
+>>
+>> Signed-off-by: Arunpravin Paneer Selvam 
+>> <Arunpravin.PaneerSelvam@amd.com>
+>> Signed-off-by: Lin.Cao <lincao12@amd.com>
+>> ---
+>>   drivers/gpu/drm/drm_buddy.c            | 20 ++++++++++++++++-
+>>   drivers/gpu/drm/tests/drm_buddy_test.c | 30 ++++++++++++++++++--------
+>>   include/drm/drm_buddy.h                |  2 ++
+>>   3 files changed, 42 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+>> index ca42e6081d27..39ce918b3a65 100644
+>> --- a/drivers/gpu/drm/drm_buddy.c
+>> +++ b/drivers/gpu/drm/drm_buddy.c
+>> @@ -102,6 +102,18 @@ static inline bool contains(u64 s1, u64 e1, u64 
+>> s2, u64 e2)
+>>       return s1 <= s2 && e1 >= e2;
+>>   }
+>>   +static bool is_roots_freed(struct drm_buddy *mm)
+>> +{
+>> +    int i;
+>> +
+>> +    for (i = 0; i < mm->n_roots; ++i) {
+>> +        if (!drm_buddy_block_is_free(mm->roots[i]))
+>> +            return false;
+>> +    }
+>> +
+>> +    return true;
+>> +}
+>> +
+>>   static struct drm_buddy_block *
+>>   __get_buddy(struct drm_buddy_block *block)
+>>   {
+>> @@ -303,6 +315,8 @@ int drm_buddy_init(struct drm_buddy *mm, u64 
+>> size, u64 chunk_size)
+>>           i++;
+>>       } while (size);
+>>   +    mm->in_use = true;
+>> +
+>>       return 0;
+>>     out_free_roots:
+>> @@ -335,13 +349,17 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>>           start = drm_buddy_block_offset(mm->roots[i]);
+>>           __force_merge(mm, start, start + size, order);
+>>   -        WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
 >
-> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
-> That fence is signalled by the driver once the hardware completed the
-> associated job. The scheduler does not increment the reference count on
-> that fence, but implicitly expects to inherit this fence from run_job().
+> So does this warn not pop? Or it does but kunit ignores it or something?
+WARN does pop but there is no interface to detect this warning by the KUNIT.
 >
-> This is relatively subtle and prone to misunderstandings.
+>>           drm_block_free(mm, mm->roots[i]);
+>>             root_size = mm->chunk_size << order;
+>>           size -= root_size;
+>>       }
+>>   +    mm->in_use = false;
+>> +
+>> +    if (WARN_ON(!is_roots_freed(mm)))
 >
-> This implies that, to keep a reference for itself, a driver needs to
-> call dma_fence_get() in addition to dma_fence_init() in that callback.
+> This looks like UAF under normal operation, since each root pointer 
+> within mm->roots is already gone.
 >
-> It's further complicated by the fact that the scheduler even decrements
-> the refcount in drm_sched_run_job_work() since it created a new
-> reference in drm_sched_fence_scheduled(). It does, however, still use
-> its pointer to the fence after calling dma_fence_put() - which is safe
-> because of the aforementioned new reference, but actually still violates
-> the refcounting rules.
+> How about something like this:
 >
-> Improve the explanatory comment for that decrement.
->
-> Move the call to dma_fence_put() to the position behind the last usage
-> of the fence.
->
-> Document the necessity to increment the reference count in
-> drm_sched_backend_ops.run_job().
->
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
->   include/drm/gpu_scheduler.h            | 20 ++++++++++++++++----
->   2 files changed, 23 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 7ce25281c74c..d6f8df39d848 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct work_struct *w)
->   	drm_sched_fence_scheduled(s_fence, fence);
->   
->   	if (!IS_ERR_OR_NULL(fence)) {
-> -		/* Drop for original kref_init of the fence */
-> -		dma_fence_put(fence);
-> -
->   		r = dma_fence_add_callback(fence, &sched_job->cb,
->   					   drm_sched_job_done_cb);
->   		if (r == -ENOENT)
->   			drm_sched_job_done(sched_job, fence->error);
->   		else if (r)
->   			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
+> + #include <kunit/test-bug.h>
 > +
-> +		/*
-> +		 * s_fence took a new reference to fence in the call to
-> +		 * drm_sched_fence_scheduled() above. The reference passed by
-> +		 * run_job() above is now not needed any longer. Drop it.
-> +		 */
-> +		dma_fence_put(fence);
->   	} else {
->   		drm_sched_job_done(sched_job, IS_ERR(fence) ?
->   				   PTR_ERR(fence) : 0);
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 95e17504e46a..a1f5c9a14278 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -420,10 +420,22 @@ struct drm_sched_backend_ops {
->   					 struct drm_sched_entity *s_entity);
->   
->   	/**
-> -         * @run_job: Called to execute the job once all of the dependencies
-> -         * have been resolved.  This may be called multiple times, if
-> -	 * timedout_job() has happened and drm_sched_job_recovery()
-> -	 * decides to try it again.
-> +	 * @run_job: Called to execute the job once all of the dependencies
-> +	 * have been resolved. This may be called multiple times, if
-> +	 * timedout_job() has happened and drm_sched_job_recovery() decides to
-> +	 * try it again.
-
-Maybe we should improve that here as well while at it.
-
-That drm_sched_job_recovery() can call this multiple times actually goes 
-against the dma_fence rules since drivers can't easily allocate a new HW 
-fence.
-
-Something like "The deprecated drm_sched_job_recovery() function might 
-call this again, but it is strongly advised to not be used because it 
-violates dma_fence memory allocations rules."
-
-On the other hand can of course be a separate patch.
-
-> +	 *
-> +	 * @sched_job: the job to run
-> +	 *
-> +	 * Returns: dma_fence the driver must signal once the hardware has
-> +	 *	completed the job ("hardware fence").
-> +	 *
-> +	 * Note that the scheduler expects to 'inherit' its own reference to
-> +	 * this fence from the callback. It does not invoke an extra
-> +	 * dma_fence_get() on it. Consequently, this callback must return a
-> +	 * fence whose refcount is at least 2: One for the scheduler's
-> +	 * reference returned here, another one for the reference kept by the
-> +	 * driver.
-
-Well the driver actually doesn't need any extra reference. The scheduler 
-just needs to guarantee that this reference isn't dropped before it is 
-signaled.
+>  #include <linux/kmemleak.h>
+>  #include <linux/module.h>
+>  #include <linux/sizes.h>
+> @@ -335,7 +337,9 @@ void drm_buddy_fini(struct drm_buddy *mm)
+>                 start = drm_buddy_block_offset(mm->roots[i]);
+>                 __force_merge(mm, start, start + size, order);
+>
+> - WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
+> +               if (WARN_ON(!drm_buddy_block_is_free(mm->roots[i])))
+> +                       kunit_fail_current_test("buddy_fini() root");
+> +
+>                 drm_block_free(mm, mm->roots[i]);
+>
+>                 root_size = mm->chunk_size << order;
+>
+> And then also drop the in_use stuff. As a follow up could do that for 
+> all warnings in this file that don't result in error being returned to 
+> the caller...
+>
+>> +        mm->in_use = true;
+>> +
+>>       WARN_ON(mm->avail != mm->size);
+>
+> ...like this one.
+Good idea, we need this from test case perspective, I will make changes 
+and send the next version.
 
 Regards,
-Christian.
-
->   	 */
->   	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
->   
+Arun.
+>
+> >   >       kfree(mm->roots);
+>> diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c 
+>> b/drivers/gpu/drm/tests/drm_buddy_test.c
+>> index 9662c949d0e3..694b058ddd6d 100644
+>> --- a/drivers/gpu/drm/tests/drm_buddy_test.c
+>> +++ b/drivers/gpu/drm/tests/drm_buddy_test.c
+>> @@ -385,19 +385,31 @@ static void drm_test_buddy_alloc_clear(struct 
+>> kunit *test)
+>>       drm_buddy_fini(&mm);
+>>         /*
+>> -     * Create a new mm with a non power-of-two size. Allocate a 
+>> random size, free as
+>> -     * cleared and then call fini. This will ensure the multi-root 
+>> force merge during
+>> -     * fini.
+>> +     * Create a new mm with a non power-of-two size. Allocate a 
+>> random size from each
+>> +     * root, free as cleared and then call fini. This will ensure 
+>> the multi-root
+>> +     * force merge during fini.
+>>        */
+>> -    mm_size = 12 * SZ_4K;
+>> -    size = max(round_up(prandom_u32_state(&prng) % mm_size, ps), ps);
+>> +    mm_size = (SZ_4K << max_order) + (SZ_4K << (max_order - 2));
+>> +
+>>       KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
+>> -    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>> mm_size,
+>> -                                size, ps, &allocated,
+>> -                                DRM_BUDDY_TOPDOWN_ALLOCATION),
+>> -                "buddy_alloc hit an error size=%u\n", size);
+>> +    KUNIT_EXPECT_EQ(test, mm.max_order, max_order);
+>> +    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>> SZ_4K << max_order,
+>> +                                4 * ps, ps, &allocated,
+>> +                                DRM_BUDDY_RANGE_ALLOCATION),
+>> +                "buddy_alloc hit an error size=%lu\n", 4 * ps);
+>> +    drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
+>> +    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, 
+>> SZ_4K << max_order,
+>> +                                2 * ps, ps, &allocated,
+>> +                                DRM_BUDDY_CLEAR_ALLOCATION),
+>> +                "buddy_alloc hit an error size=%lu\n", 2 * ps);
+>> +    drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
+>> +    KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, SZ_4K 
+>> << max_order, mm_size,
+>> +                                ps, ps, &allocated,
+>> +                                DRM_BUDDY_RANGE_ALLOCATION),
+>> +                "buddy_alloc hit an error size=%lu\n", ps);
+>>       drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
+>>       drm_buddy_fini(&mm);
+>> +    KUNIT_EXPECT_EQ(test, mm.in_use, false);
+>>   }
+>>     static void drm_test_buddy_alloc_contiguous(struct kunit *test)
+>> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+>> index 9689a7c5dd36..d692d831ffdd 100644
+>> --- a/include/drm/drm_buddy.h
+>> +++ b/include/drm/drm_buddy.h
+>> @@ -86,6 +86,8 @@ struct drm_buddy {
+>>       unsigned int n_roots;
+>>       unsigned int max_order;
+>>   +    bool in_use;
+>> +
+>>       /* Must be at least SZ_4K */
+>>       u64 chunk_size;
+>>       u64 size;
+>
 
