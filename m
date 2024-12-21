@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918389F9DCE
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2024 02:42:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592B19F9DCF
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Dec 2024 02:43:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9325D10E115;
-	Sat, 21 Dec 2024 01:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DF6D10E2EE;
+	Sat, 21 Dec 2024 01:43:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mHtqmXHq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iptv1g8e";
 	dkim-atps=neutral
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 475FC10E115;
- Sat, 21 Dec 2024 01:42:41 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F26910E2EE;
+ Sat, 21 Dec 2024 01:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734745361; x=1766281361;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rOF62tvgNxJt0RZQUuuhIIwdbooOIcozMkBWHvrKnYE=;
- b=mHtqmXHqkV7Ial9kD6j6YaHRl2HZ51nApwzYHuz/nAT/gAp/SWO1BhNR
- nJusKsK0ovV1sISluySKyicSiw8YJN0mn30SGI5LYrtu4CTe27kbS9RLZ
- d+pVnT6j+qpit4Gau1y7TeeP+SVCEPyNY5F7BEPCYpJ2zaTGmffe7IAG/
- YHXMBe3DjbKrmtt3fq0gG7YI2wp4qcQrWWe2FfZuutj0v7iNEAs7Y9qVB
- B1mSnk+bsEORNxkVEcJtEvZnnVDrag42em1Bmuiui2Rv7Yyzx3M7DbPWg
- rd37ifvNsaCWsYngI12Rq9CFTZxoeCZP3jBxAxjMOIXTUilGd7CZ4PRxD g==;
-X-CSE-ConnectionGUID: n84HIw6KRZKIIg7joPUSAw==
-X-CSE-MsgGUID: 0SRcZxZbTS+ZmunPSu9fgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="45795453"
-X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; d="scan'208";a="45795453"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Dec 2024 17:42:41 -0800
-X-CSE-ConnectionGUID: NScS1WL1RGmYJBr6wZfphQ==
-X-CSE-MsgGUID: GzUnLhp6R++7Yk0/NZEBhA==
+ t=1734745413; x=1766281413;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Vu0HV4Z4erHfTjzNm7b2gKZEZNetghdVzp06IY/tx3A=;
+ b=iptv1g8elmfJgiF7PClTbzAxpiyubAoEbNvKasl2JSZYldJiKrQAZDs+
+ XQKXSMYKgUxzo3+RjSEh6ox50e9xy08x9ML5UWtzk1pAEKq7CO0CycilY
+ IVNFj9nsSGjLJ6i9bNwyySvS/u3E58veyjfpXjZhtkFOtmgAy7uPchTkH
+ xH6nMKBTHah6nS5AVTc5eggdVLf/yKx4nRypcfFIh7AN3ouiTqDKiZJME
+ NmwIj3BAZi3m8bBzW68Kr5tLrodSSp0TyYQSuxzayUd1ko4Ucjgga0wY4
+ TOdhsP2f3v4eqFYJBsjRHsHUH3H+h6HBKZFeZx0GHyAEUyaQu8PkPzKGc w==;
+X-CSE-ConnectionGUID: pIw4xdQuTCmVMGFk4iPgzw==
+X-CSE-MsgGUID: pEOfe44YTk+nt99U8g6tTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46722396"
+X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; d="scan'208";a="46722396"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Dec 2024 17:43:32 -0800
+X-CSE-ConnectionGUID: /0UMH2QXSeiNrFwWvutspQ==
+X-CSE-MsgGUID: jmrgxnsJSBenGwjHvVflow==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; d="scan'208";a="129472011"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
- by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 17:42:39 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tOoVo-0001qV-2w;
- Sat, 21 Dec 2024 01:42:36 +0000
-Date: Sat, 21 Dec 2024 09:42:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, uma.shankar@intel.com,
- arun.r.murthy@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
-Message-ID: <202412210956.FV7RWpOY-lkp@intel.com>
-References: <20241213060317.2674290-3-suraj.kandpal@intel.com>
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="103731623"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.152])
+ by orviesa003.jf.intel.com with ESMTP; 20 Dec 2024 17:43:29 -0800
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>,
+ Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Subject: [PATCH] drm/i915/uc: Include requested frequency in slow firmware
+ load messages
+Date: Fri, 20 Dec 2024 17:43:29 -0800
+Message-ID: <20241221014329.4048408-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241213060317.2674290-3-suraj.kandpal@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,83 +68,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Suraj,
+From: John Harrison <John.C.Harrison@Intel.com>
 
-kernel test robot noticed the following build warnings:
+To aid debug of sporadic issues, include the requested frequency in
+the debug message as well as the actual frequency. That way we know
+for certain that the clamping is not because the driver forgot to ask.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.13-rc3 next-20241220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+---
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 11 ++++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 12 +++++++-----
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-dp-Add-the-DPCD-register-required-for-Extended-wake-timeout/20241213-140525
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241213060317.2674290-3-suraj.kandpal%40intel.com
-patch subject: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
-config: x86_64-randconfig-r121-20241220 (https://download.01.org/0day-ci/archive/20241221/202412210956.FV7RWpOY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241221/202412210956.FV7RWpOY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412210956.FV7RWpOY-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_dp_link_training.c:146:26: sparse: sparse: Initializer entry defined twice
-   drivers/gpu/drm/i915/display/intel_dp_link_training.c:148:26: sparse:   also defined here
-
-vim +146 drivers/gpu/drm/i915/display/intel_dp_link_training.c
-
-   136	
-   137	void intel_dp_lttpr_wake_timeout_setup(struct intel_dp *intel_dp)
-   138	{
-   139		struct intel_display *display = to_intel_display(intel_dp);
-   140		u8 val = 1;
-   141		int ret;
-   142	
-   143		if (intel_dp_lttpr_transparent_mode_enabled(intel_dp)) {
-   144			static const u8 timeout_mapping[] = {
-   145				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_1_MS] = 1,
- > 146				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS] = 20,
-   147				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_40_MS] = 40,
-   148				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS] = 20,
-   149				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_80_MS] = 80,
-   150				[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_100_MS] = 100,
-   151			};
-   152	
-   153			ret = drm_dp_dpcd_readb(&intel_dp->aux,
-   154						DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_REQUEST, &val);
-   155			if (ret != 1) {
-   156				drm_dbg_kms(display->drm,
-   157					    "Failed to read Extended sleep wake timeout request\n");
-   158				return;
-   159			}
-   160	
-   161			val = (val < sizeof(timeout_mapping) && timeout_mapping[val]) ?
-   162				timeout_mapping[val] : 1;
-   163	
-   164			drm_dp_dpcd_writeb(&intel_dp->aux, DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_GRANT,
-   165					   DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_GRANTED);
-   166		} else {
-   167			ret = drm_dp_dpcd_readb(&intel_dp->aux,
-   168						DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT, &val);
-   169			if (ret != 1) {
-   170				drm_dbg_kms(display->drm,
-   171					    "Failed to read Extended sleep wake timeout request\n");
-   172				return;
-   173			}
-   174	
-   175			val = (val & DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) ?
-   176				(val & DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) * 10 : 1;
-   177	
-   178			drm_dp_dpcd_writeb(&intel_dp->aux, DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT,
-   179					   DP_EXTENDED_WAKE_TIMEOUT_GRANT);
-   180		}
-   181	}
-   182	
-
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+index fe53e8eccf4b1..e7ccfa520df3a 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c
+@@ -259,13 +259,14 @@ static int guc_wait_ucode(struct intel_guc *guc)
+ 	} else if (delta_ms > 200) {
+ 		guc_warn(guc, "excessive init time: %lldms! [status = 0x%08X, count = %d, ret = %d]\n",
+ 			 delta_ms, status, count, ret);
+-		guc_warn(guc, "excessive init time: [freq = %dMHz, before = %dMHz, perf_limit_reasons = 0x%08X]\n",
+-			 intel_rps_read_actual_frequency(&gt->rps), before_freq,
++		guc_warn(guc, "excessive init time: [freq = %dMHz -> %dMHz vs %dMHz, perf_limit_reasons = 0x%08X]\n",
++			 before_freq, intel_rps_read_actual_frequency(&gt->rps),
++			 intel_rps_get_requested_frequency(&gt->rps),
+ 			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
+ 	} else {
+-		guc_dbg(guc, "init took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
+-			delta_ms, intel_rps_read_actual_frequency(&gt->rps),
+-			before_freq, status, count, ret);
++		guc_dbg(guc, "init took %lldms, freq = %dMHz -> %dMHz vs %dMHz, status = 0x%08X, count = %d, ret = %d\n",
++			delta_ms, before_freq, intel_rps_read_actual_frequency(&gt->rps),
++			intel_rps_get_requested_frequency(&gt->rps), status, count, ret);
+ 	}
+ 
+ 	return ret;
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index d7ac31c3254cf..6fdbe1108ce59 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -502,13 +502,15 @@ int intel_huc_wait_for_auth_complete(struct intel_huc *huc,
+ 	if (delta_ms > 50) {
+ 		huc_warn(huc, "excessive auth time: %lldms! [status = 0x%08X, count = %d, ret = %d]\n",
+ 			 delta_ms, huc->status[type].reg.reg, count, ret);
+-		huc_warn(huc, "excessive auth time: [freq = %dMHz, before = %dMHz, perf_limit_reasons = 0x%08X]\n",
+-			 intel_rps_read_actual_frequency(&gt->rps), before_freq,
++		huc_warn(huc, "excessive auth time: [freq = %dMHz -> %dMHz vs %dMHz, perf_limit_reasons = 0x%08X]\n",
++			 before_freq, intel_rps_read_actual_frequency(&gt->rps),
++			 intel_rps_get_requested_frequency(&gt->rps),
+ 			 intel_uncore_read(uncore, intel_gt_perf_limit_reasons_reg(gt)));
+ 	} else {
+-		huc_dbg(huc, "auth took %lldms, freq = %dMHz, before = %dMHz, status = 0x%08X, count = %d, ret = %d\n",
+-			delta_ms, intel_rps_read_actual_frequency(&gt->rps),
+-			before_freq, huc->status[type].reg.reg, count, ret);
++		huc_dbg(huc, "auth took %lldms, freq = %dMHz -> %dMHz vs %dMHz, status = 0x%08X, count = %d, ret = %d\n",
++			delta_ms, before_freq, intel_rps_read_actual_frequency(&gt->rps),
++			intel_rps_get_requested_frequency(&gt->rps),
++			huc->status[type].reg.reg, count, ret);
+ 	}
+ 
+ 	/* mark the load process as complete even if the wait failed */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.0
+
