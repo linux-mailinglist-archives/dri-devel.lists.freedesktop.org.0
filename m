@@ -2,84 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794309FA48C
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 08:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE989FA4B7
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 09:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9865C10E2EC;
-	Sun, 22 Dec 2024 07:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DBB210E1D5;
+	Sun, 22 Dec 2024 08:34:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iRSZUWIT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M7rl/SuX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A80110E086
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 07:31:30 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id
- 2adb3069b0e04-5401c52000dso3579973e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 23:31:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734852688; x=1735457488; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=J4tWENes0KylDXpgmRg5/jOA7aphz2fds2f1aAKkLl0=;
- b=iRSZUWITbDxSp47eGYlmfv295KszGTHtpg35l8Yb8CA9YspH0/cbOcx30vGMEs2iL7
- iELLkPLnofEHMujoj5wyHqdjaO0L4FHVhk3+mdEOs5K/bUTG/TpZluKJdU/mim4eQ1N7
- 8elGMU8aigBWbUCMhpfRSzcMrEZKPiCt2Mt8YRNjocJpUmdz3ZN9KjNSXBLMBjzChsnK
- jVopGtkC+WJPMjZ3ZJRNCav7tNjZr/GX2Th8vm4Y3oDVIqOpX5kS2GaKOhW1mWEoWhgP
- piPhDnP2YCEWI8ffkPiEgC3FcZCbBJhUDM6Gg64pngGlHQHp5Wnym5H+1OOOs5pf/XCP
- EptA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734852688; x=1735457488;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=J4tWENes0KylDXpgmRg5/jOA7aphz2fds2f1aAKkLl0=;
- b=PSLCpObAGRr2zSm0Gpk1YfpNSBVoeXh/mMpFJBpLrVRVJcrItheEZfEvfVfdXMo4Dh
- oHgOkYZPSdDjTFinCz3goiz69Gmv9gMjA+z0vrAASs0PoT/8Vv+rYvTaSJEg0BGI1J1s
- Mv8UftglNKvlLO8OLrW9kSQNkc7KiNcakFbHPbYBiZDtJ/zCQsj3yDqphu5iaj2J+Ujd
- 7RMMdegm0AGS5N6eRSRfLxBakirSm8OvttYLrXYwirpTU+C/bIUaEbSFpdBLF97m7KPP
- f5ZMnn8ZspE5GVeLl1lyazGb+DF+3NCjzJqDOrFEQ6OqfEqxZRh8DVOww37ztRw//6PH
- Iuqw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWz/V3F/1gB+KgCWzjVaunDUHMX/g7S+PVrn7Rr4o96jkr806//i+BtY176YXy0utnKiyxCjMnVaZc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwISv9ZCNjpV9rQOY8OToFLzDrSCaxGfjWY+yVZi2vBBWusg0e2
- yWi9gXxUrm5PGlmL5jW0R/hV7ukHNYJyjL3kxfZFmec+vAKLEQDpDRdJhECoB9U=
-X-Gm-Gg: ASbGnctmE3B8jZpZP4qAbmE9ikJOWfE2WTU+LGsIyFxRB7iZ+LIbRaCnbBoptAdnBYW
- mDKDNoDnQWBmtFi69dxWAXKM30JC1U5UgJghSq04erA9+GCg+A41jkO/15IqdQIWJvQqCYsEhTk
- S9bHn0Jrchx615LEIpanfkh0V8Hjp9Tci3T1VbplK8OMqsW/JllUTGQXHgltCLoKG+b7S3uBHC6
- hLE/Me3hTPi/yaksIYT9T+9eeOroavW8kwiLWZGcvCE7TfCPw4PkQuasZQ8JFLC22bO49oy
-X-Google-Smtp-Source: AGHT+IGp894fOidXwA2xVrPSy+TcSR+A1Ol/YQtOYVIHOGQiGKFP+Vy9QFAeQtlN9/c0wOZodFaWug==
-X-Received: by 2002:a05:6512:ba6:b0:540:2160:ade3 with SMTP id
- 2adb3069b0e04-5422953c19cmr2265129e87.25.1734852688318; 
- Sat, 21 Dec 2024 23:31:28 -0800 (PST)
-Received: from umbar.unikie.fi ([192.130.178.90])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5422360072fsm917416e87.102.2024.12.21.23.31.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Dec 2024 23:31:26 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3BE110E1D5
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 08:34:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3F214A40568;
+ Sun, 22 Dec 2024 08:32:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE59C4CECD;
+ Sun, 22 Dec 2024 08:34:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734856442;
+ bh=yDbyvGBdhFbBbtYL7NrJkhEr0MAnlnSnZYd3unoDI28=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M7rl/SuXPGhlaYVxYM+DrLi8GTmYNY3vwGUg+9HhvSx9IM0OeHyxZsGtHTyCQDg1+
+ tuP0TfHKSs36Blj+KVVhGrRkMXosOhVS4THMA/9gwh2pWI7rv1oQKbQpWYjybyyE2T
+ dfCREPG4BscrsRk55zDGHn4AvOFMdIzE+W6Q8aCKwlm8EyIWFo2yE63g01xyc1Hbbg
+ lkaOJSLAFLksulbrhlZgprKvrCvcXi6zEZpFjczSrkmNBZ7jrX+mfULRSDHkaUZsfG
+ oTftkjd6nNbCt2ghgVP7OOrAiVkGFHQFm1KcqJxea+KsuwUFVTE1Ii9UQ/1QkD0h2I
+ B01KqEA/BAJtw==
+Date: Sun, 22 Dec 2024 09:33:59 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paloma Arellano <quic_parellan@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Douglas Anderson <dianders@chromium.org>,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 00/16] drm/msm/dp: perform misc cleanups
-Date: Sun, 22 Dec 2024 09:31:25 +0200
-Message-Id: <173485266468.157212.8050342542703139695.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
-References: <20241216-fd-dp-audio-fixup-v4-0-f8d1961cf22f@linaro.org>
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ Eric Anholt <eric@anholt.net>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>, 
+ Stefan Wahren <wahrenst@gmx.net>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>, 
+ linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v5 1/3] dt-bindings: display: bcm2711-hdmi: Add interrupt
+ details for BCM2712
+Message-ID: <mnvl24bydpajn7dyumq7cqt6dl6iyrzk6e7rksojt3ig2f7qbc@uytpnoa4t76o>
+References: <20241220-dt-bcm2712-fixes-v5-0-cbbf13d2e97a@raspberrypi.com>
+ <20241220-dt-bcm2712-fixes-v5-1-cbbf13d2e97a@raspberrypi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241220-dt-bcm2712-fixes-v5-1-cbbf13d2e97a@raspberrypi.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,28 +76,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Dec 20, 2024 at 06:11:11PM +0000, Dave Stevenson wrote:
+> Commit 62948c62abca ("dt-bindings: display: Add BCM2712 HDMI bindings")
+> added the compatible strings for BCM2712, but missed out that the
+> number of interrupts changed, and for BCM2712 the driver changes[1]
+> required that the interrupts are named.
 
-On Mon, 16 Dec 2024 00:44:05 +0200, Dmitry Baryshkov wrote:
-> - Fix register programming in the dp_audio module
-> - Rework most of the register programming functions to be local to the
->   calling module rather than accessing everything through huge
->   dp_catalog monster.
+I dopn't get what "interrupts are named" means here and I kept asking
+about it, so the explanation is supposed to be in commit msg. Do you
+mean that driver requires it? If so, then "the driver requires
+interrupt-names since commit foo ("bar")" (and use Linux commit style of
+referencing commits).
+
+
+>  
+> Update the schema to correct the interrupt requirements for BCM2712.
+> (Requirements for BCM2711 should be unchanged).
 > 
-> 
+> [1] Commit 0b1dbe82e051 ("drm/vc4: hdmi: Add support for BCM2712 HDMI
+> controllers")
 
-Applied, thanks!
+I cannot find in this commit requirement of interrupt names. There is no
+call to anything requiring names. Maybe I miss some context, like other
+function introduced that? Can you point me to specific line of that
+patch?
 
-[01/16] drm/msm/dp: drop msm_dp_panel_dump_regs() and msm_dp_catalog_dump_regs()
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/ba3627bf82c1
-[02/16] drm/msm/dp: use msm_dp_utils_pack_sdp_header() for audio packets
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/486de5eec0d8
-[03/16] drm/msm/dp: drop obsolete audio headers access through catalog
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/c0caebf37960
-[04/16] drm/msm/dp: drop struct msm_dp_panel_in
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/429783c22fe9
-[05/16] drm/msm/dp: stop passing panel to msm_dp_audio_get()
-        https://gitlab.freedesktop.org/lumag/msm/-/commit/c9261bcc1546
+Because if you refer to external_irq_controller than I fail to see how
+2711 works without the names.
 
 Best regards,
--- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Krzysztof
+
