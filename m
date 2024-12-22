@@ -1,97 +1,118 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8379FA3E8
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 06:01:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6A29FA42E
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 07:05:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C455510E2E2;
-	Sun, 22 Dec 2024 05:01:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6858F10E15D;
+	Sun, 22 Dec 2024 06:05:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZG1Ju+rF";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="HukecmDh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2908410E2E2
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 05:01:02 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-5401e6efffcso3868891e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 21:01:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734843660; x=1735448460; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=8Z+rBahjAbnRzsWwhl3RN6A6WwHfHM88b39CtT7CZn0=;
- b=ZG1Ju+rFTbeoZC106zlpOuUuCdB7T2qRQazBdRlOyTPo7RXWLV2jTuB/pzV+9oa23G
- RC7iMk6hWGpriSECI1IMjcB/VkYxBcML5FQIa8QcroGUNP8k6KVwGsc0/UVD/Glkyytv
- N+iufowQv5Z8K2L3GXSp51OG6Lwc8jB2g1YmwDiUk7H2I9wJAfZD5u1OAPKGsYQ+Wmk9
- k2pG3nzI5Pm4YhzJoRIH0Os59ZWa+z+zuQW6Rc0gbB1YN3hQw87YfbCeCEstD6ZZm8e7
- lJU64dHrSWzJvXN0K0cqN2OGsOPuStSDn7li4+8hfmgvaY/T7NuJUWRCBIwiiIMlbbmY
- aU7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734843660; x=1735448460;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8Z+rBahjAbnRzsWwhl3RN6A6WwHfHM88b39CtT7CZn0=;
- b=dnkCfEgrMeRsG9kjgB6ZiaZOlzdwGem8YaEDp6E+/0nXQwfEF6b5ck0KRmLbqFBAWs
- szNhrNHex15BSWVoje5Qz4Sno7g3mJVRY2qwRg6Nar+MVLdUkynvppGNIlQLsIXiTA1M
- IqBGkW/5azYhvWEbiIK3/oottcdFYG3wj2LIOrGxc8kqMrUzAPDccMfTn6E/pVnftqq9
- alJyy1cHM8olTNJlgXVB24YNSi/OuYcf6ZClcO7Tz/bSZVCMzncOAF0BiVOfHYqXG2O0
- bYNq/iF45EG66EV52vn4sDdvNvfXMyUSZm2RcF5Ru82RBziDFFt07srXqdysL9HREVnU
- s1Eg==
-X-Gm-Message-State: AOJu0YxJwpu90PZPP7+IVAJMUrEakcsKyzbQGRhk4M3XLztigQp3fb4i
- iPDnYdsGOO6tR3Exqypsh8Eva0NyYi+pj515AJafXwzhX8iPKLn79GVvS9PWJKE=
-X-Gm-Gg: ASbGncs3b813CNW+t92kHvIgeSsidUDLMje6vWH/PZ/Vuar0jLDwmOBoCze3RTlmtC0
- xA/ydVqdz10WoUfrV47xVUFDy7Lum2pDl0DAqJKpTHzvBgmjRhqUG4rSy21ag04PWL5/bql12uH
- foc3n9ZH1f1JVDxM7OHRaFAMN8SCtZ24TkwT0Liz0bByvIOkvUDsgxQr34cioUVgQUSd+wa+eir
- lF0xbEq855nSaPtfcoASvJ8CEsoHNDnFIW5+B/fw7hdoleYTrSuudDXy4XEONVl
-X-Google-Smtp-Source: AGHT+IG9PLc2TgcP5V5DNr8mxT3YMz7GDwhcZ2v5XDciS5lADg8+jcgwoscaaLV0JLE5hmtyxk69hg==
-X-Received: by 2002:a05:6512:1055:b0:542:232a:7b2c with SMTP id
- 2adb3069b0e04-54229548e22mr2561331e87.29.1734843660430; 
- Sat, 21 Dec 2024 21:01:00 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223832c05sm887145e87.276.2024.12.21.21.00.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Dec 2024 21:00:59 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 22 Dec 2024 07:00:46 +0200
-Subject: [PATCH 6/6] drm/msm/dpu: don't set crtc_state->mode_changed from
- atomic_check()
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBA6810E15D
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 06:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1734847532; x=1735452332; i=deller@gmx.de;
+ bh=tclHqGZakrwWWC3BNqRNF0lu/5w/slKu1fIr1igTWmM=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=HukecmDhbSadmUfoHCrtDv57I5d1csaNwm6fCAMy7w9Krl0BH/tBJQdpAiquQ91d
+ pubeJUkQNQcOtlvygwimbR5lnhnqQB4vtAyV/svkbSD/EeuG/uceR1PPd2N7pVqk0
+ PD56bmK32lwhd7dVlhwZAtmSPhhC2qVluxrVHgVfIIturxjVhgrIeEhK0NOUivaai
+ l8sffv8xj796AeLJqw2OrPoudRD9pAfH/gwEKpwWq8BcwtC09K3mEfy6lA3R7ruQc
+ /ok7wvIT362H+Vz/9g2MMP2PgqHtsNMiUNB8Cb7xDVBLbYdvIddpkqirffo0Be22o
+ 9+9RIXap4psoFR/beg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.172] ([109.250.63.155]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTiU3-1szgwr2HDJ-00UK4s; Sun, 22
+ Dec 2024 07:05:32 +0100
+Message-ID: <c731fffa-c209-4f12-b129-9ddab853a8b9@gmx.de>
+Date: Sun, 22 Dec 2024 07:05:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241222-drm-dirty-modeset-v1-6-0e76a53eceb9@linaro.org>
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
-In-Reply-To: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Jeykumar Sankaran <jsanka@codeaurora.org>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Archit Taneja <architt@codeaurora.org>, 
- Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7162;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=DYgtDJQPVbedGxDbDp9oOhz2z6FzJGN9bVgSpfs5T1A=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZ5z8q5ZLE91hpI9bKURtnooCKOkRd5GgQ1zBl
- zIpLTUQ90aJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2ec/AAKCRCLPIo+Aiko
- 1YdFB/9Tz+IdZGx7nLZX9BeA60xx2fLspau9frJKY4ko3gNUUbQU/cwT136wnAD1ttr9w1J2Qr5
- JjbKLIeY7wZMujTDAZEGbftU/AxzoO4wv/RLT19oZjTUfaHEY6CputmywtH75xjAh2J1GozOxwL
- cczIqw7M/abx+wncedvtjA9yao+zXq46ZJaIui07sbmn17EQ4oMx7DUuAuMweOq9auMCMhTY2Gl
- A6zs1jORwpjWrBJOoGRsXwSkLNBFgad2oUtwqdoWOecRlT7XIoT12p16dRxwS3YfoJHRixmFMkN
- 6PNecUwIQSZ3xPz51fnT7xA4C2oi6yq3ve+Eelxerl7s2QCk
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev/radeon: Use const 'struct bin_attribute' callbacks
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241215-sysfs-const-bin_attr-radeonfb-v1-1-577bcffa1100@weissschuh.net>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20241215-sysfs-const-bin_attr-radeonfb-v1-1-577bcffa1100@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:7lNv9x967yupb5iYp99fxC58Jd6ZOqGMvm265MsQctIjm/Kqpw3
+ scHe0rhM/KvuyBCVVUExOuHsPhAZs79RmDh960Pw+vGuByC4OgvY88TnGHHxuZSagiowAXh
+ jayvD4T/bWdHigK0Nqj+0W7XniJX+T5eytnOB5wrJbddRqhHkVJ0kEWMqLEdN6tbNeHzeri
+ qIddd+ENNBj7Xnm/Gm1Jw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:f7E8WZqLdUs=;kbhDw0axOpUJywTyR6mgPX0ACsn
+ xFvT9mzvErxMsFS7dhQLTCMceIdNWuhl0ZrzGhrt7NQCbEZvHs9MeHLRXOcEwUZPfGdSqjtna
+ FieEb6o+dGls0dRiaF6ywiZEwrdiK6yBEukqZ45S0UMyzXUo2GoIWOF9GdBBbNVF5yKmz0aAX
+ H6zxm9zyzyNd5Ew2n1B21AK7kWIkv8cCubc7hGK2fIS77XCIAVZgvtDeiS/uxiOSdPl2WbRQB
+ DHLvbYxGr1dHgaX9ms/WsumtmALYycLyiB/f5Ya8ffjzMxhtGAm+qTzTC6f9AXCrYDrD5zzPr
+ PZaP6b2LzjSCkS6PdYUXWFq9ZQ2a/xV9rv6ug/dWhCSGFXoZVuAQGYj5um98OXYXHbT7q+pH6
+ 7K6WqZhJ0wofOx4rLvDv0SQ63GNfFL/LMwT/fz7wXkhB5iJVLYc4XsonrpjkX8JlkRiL77R6y
+ DUOuY3lS1aCw4HTbPSaZf8I+WkZiLxgPYM53dWYXZwFbUa9wsBb4soOEj8aOfZgxh7dodEIhj
+ n9T4SdilrsYRbJlk3BxS4NueOIvPJKlJKBPrMqv8uNue5LWDB9NU6CNU+qGY+qPuAHrqFiij+
+ V8cSDbXw+s2ukEcPnxZsgqnZOCdlwlWQ99HqEyHfBCKIT2Q/GbsoP1P7ZniubAbIHD73Op01m
+ 5F7mJeXhizoxzrVEDO3esKOwsS+IfYtUiVE4Z9uQcZ8Otap9/zMSn6sWddXj7afHlFbdQNcP4
+ i5RYzQLPn0ebLqLA7nAjXuKQnrgwECZvCP5msb6uuJW2bkn2ls+8B6W15ZmVyY/EYPGOQ9LnF
+ yg2Q2Ed3AyFbzHNxJ77GRSRvjcE+SfEBeXmWz7jm87Ii+gVbQr2TAIBtS5Ui5iDjqEcNqfqxK
+ YIs5yWBWvJeMked+TsgK+jmqUmGXaSYugSkAd5Qp8cL8+ROhAaS6gIx9SpUH8hJEmt7ZjB/74
+ wR/AUwHXAl+BW8mSNx8ey1xmVbNmDkZiWk/qLQtXuOHOSHdcsudIfSHGb+UjpDr1DeztPW9JP
+ jLaZbxSHP6o1ykCmajezc1WuxsB5aBgLf7otLLo6rrWDDZGx98SpaiQuX+jOe5xrLvJVnpTHu
+ KsgBG0sQPmjOaI4KEgT+pS8sIgtzMI
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,183 +128,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM driver uses drm_atomic_helper_check() which mandates that none
-of the atomic_check() callbacks toggles crtc_state->mode_changed.
-Perform corresponding check before calling the drm_atomic_helper_check()
-function.
+On 12/15/24 15:58, Thomas Wei=C3=9Fschuh wrote:
+> The sysfs core now provides callback variants that explicitly take a
+> const pointer. Make use of it to match the attribute definitions.
+>
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+>   drivers/video/fbdev/aty/radeon_base.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
 
-Fixes: 8b45a26f2ba9 ("drm/msm/dpu: reserve cdm blocks for writeback in case of YUV output")
-Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 +++++++++++++++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_atomic.c            | 13 +++++++++++-
- drivers/gpu/drm/msm/msm_kms.h               |  7 +++++++
- 5 files changed, 77 insertions(+), 5 deletions(-)
+applied.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 209e6fb605b2d8724935b62001032e7d39540366..b7c3aa8d0e2ca58091deacdeaccb0819d2bf045c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -753,6 +753,34 @@ static void dpu_encoder_assign_crtc_resources(struct dpu_kms *dpu_kms,
- 	cstate->num_mixers = num_lm;
- }
- 
-+/**
-+ * dpu_encoder_virt_check_mode_changed: check if full modeset is required
-+ * @drm_enc:    Pointer to drm encoder structure
-+ * @crtc_state:	Corresponding CRTC state to be checked
-+ * @conn_state: Corresponding Connector's state to be checked
-+ *
-+ * Check if the changes in the object properties demand full mode set.
-+ */
-+int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state)
-+{
-+	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	struct msm_display_topology topology;
-+
-+	DPU_DEBUG_ENC(dpu_enc, "\n");
-+
-+	/* Using mode instead of adjusted_mode as it wasn't computed yet */
-+	topology = dpu_encoder_get_topology(dpu_enc, &crtc_state->mode, crtc_state, conn_state);
-+
-+	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
-+		crtc_state->mode_changed = true;
-+	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
-+		crtc_state->mode_changed = true;
-+
-+	return 0;
-+}
-+
- static int dpu_encoder_virt_atomic_check(
- 		struct drm_encoder *drm_enc,
- 		struct drm_crtc_state *crtc_state,
-@@ -786,10 +814,6 @@ static int dpu_encoder_virt_atomic_check(
- 
- 	topology = dpu_encoder_get_topology(dpu_enc, adj_mode, crtc_state, conn_state);
- 
--	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
--		crtc_state->mode_changed = true;
--	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
--		crtc_state->mode_changed = true;
- 	/*
- 	 * Release and Allocate resources on every modeset
- 	 */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 92b5ee390788d16e85e195a664417896a2bf1cae..da133ee4701a329f566f6f9a7255f2f6d050f891 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -88,4 +88,8 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
- 
- bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
- 
-+int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state);
-+
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index dae8a94d3366abfb8937d5f44d8968f1d0691c2d..e2d822f7d785dc0debcb28595029a3e2050b0cf4 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -446,6 +446,31 @@ static void dpu_kms_disable_commit(struct msm_kms *kms)
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
- 
-+static int dpu_kms_check_mode_changed(struct msm_kms *kms, struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_connector *connector;
-+	struct drm_connector_state *new_conn_state;
-+	int i;
-+
-+	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
-+		struct drm_encoder *encoder;
-+
-+		WARN_ON(!!new_conn_state->best_encoder != !!new_conn_state->crtc);
-+
-+		if (!new_conn_state->crtc || !new_conn_state->best_encoder)
-+			continue;
-+
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_conn_state->crtc);
-+
-+		encoder = new_conn_state->best_encoder;
-+
-+		dpu_encoder_virt_check_mode_changed(encoder, new_crtc_state, new_conn_state);
-+	}
-+
-+	return 0;
-+}
-+
- static void dpu_kms_flush_commit(struct msm_kms *kms, unsigned crtc_mask)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-@@ -1049,6 +1074,7 @@ static const struct msm_kms_funcs kms_funcs = {
- 	.irq             = dpu_core_irq,
- 	.enable_commit   = dpu_kms_enable_commit,
- 	.disable_commit  = dpu_kms_disable_commit,
-+	.check_mode_changed = dpu_kms_check_mode_changed,
- 	.flush_commit    = dpu_kms_flush_commit,
- 	.wait_flush      = dpu_kms_wait_flush,
- 	.complete_commit = dpu_kms_complete_commit,
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index a7a2384044ffdb13579cc9a10f56f8de9beca761..364df245e3a209094782ca1b47b752a729b32a5b 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -183,10 +183,16 @@ static unsigned get_crtc_mask(struct drm_atomic_state *state)
- 
- int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- {
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms *kms = priv->kms;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_crtc *crtc;
--	int i;
-+	int i, ret = 0;
- 
-+	/*
-+	 * FIXME: stop setting allow_modeset and move this check to the DPU
-+	 * driver.
-+	 */
- 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state,
- 				      new_crtc_state, i) {
- 		if ((old_crtc_state->ctm && !new_crtc_state->ctm) ||
-@@ -196,6 +202,11 @@ int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 		}
- 	}
- 
-+	if (kms && kms->funcs && kms->funcs->check_mode_changed)
-+		ret = kms->funcs->check_mode_changed(kms, state);
-+	if (ret)
-+		return ret;
-+
- 	return drm_atomic_helper_check(dev, state);
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index e60162744c669773b6e5aef824a173647626ab4e..ec2a75af89b09754faef1a07adc9338f7d78161e 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -59,6 +59,13 @@ struct msm_kms_funcs {
- 	void (*enable_commit)(struct msm_kms *kms);
- 	void (*disable_commit)(struct msm_kms *kms);
- 
-+	/**
-+	 * @check_mode_changed:
-+	 *
-+	 * Verify if the commit requires a full modeset on one of CRTCs.
-+	 */
-+	int (*check_mode_changed)(struct msm_kms *kms, struct drm_atomic_state *state);
-+
- 	/**
- 	 * Prepare for atomic commit.  This is called after any previous
- 	 * (async or otherwise) commit has completed.
-
--- 
-2.39.5
-
+Thanks!
+Helge
