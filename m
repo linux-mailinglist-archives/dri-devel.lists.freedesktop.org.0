@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3D19FA7F7
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 21:14:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC2F9FA7FB
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 21:14:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD9C10E224;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B2010E2D4;
 	Sun, 22 Dec 2024 20:14:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JOUGCs8o";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="B/RSKe9G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45E2110E1E9
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 20:14:20 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-30229d5b1caso39451781fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 12:14:20 -0800 (PST)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBF1610E222
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 20:14:21 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id
+ 2adb3069b0e04-5401bd6ccadso3925462e87.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 12:14:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734898459; x=1735503259; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734898460; x=1735503260; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1CAACp4GjO3ym2QwQfPSi4sTCeC1v2d+xt2KcB0Ux7M=;
- b=JOUGCs8oaqjoXyQB7WKVCCzRfQdeGlUDy8BvFk4jDuAN0rtmkuIxTpbdHPp1sUDeum
- r9X0zlWAgZkwhq7HGWF7WDjHk/QW2mnVZqdBL+EEj8UP3fuPDhdC6Diu1x6YQn7qhefY
- mKUHZkbxAsjLGzOS7szK4fOxgATbH3IJOOCg9SausWfMuSs/xteM36tk9n5bBNgsBxqc
- X31vmQyjSJyx9zSWx3taqlAwn5GsmBmAGZUElgf7f4qYQbMmR+8XBhSQJAMBqPsPrAyJ
- w1iX48xmRDYBW1Nd/UvGTgHeJslwdDsnibG+j/oxmW1ch5LGiNAw5jlq2GN+qP7PJF+2
- qF1w==
+ :reply-to; bh=qsLixnbCUZJZByQLj0YLorZ2NFO6bbENIPF/nqoST3s=;
+ b=B/RSKe9GkowMK2Gf/MFBO+DPnqruZlhK92M7CyvKfij9wBlUCw02cMsACUBMpzmK7G
+ y0XYBsn366JzaqSBCWKnOqxx2d86PNegmevhg/gCQOqXlYS1jL0vfQwoRg/VexuCcZwk
+ fO4Kl4Z2sykk3io988dcC4fDmJjVori4RaInGyP7KpdxLAnG/tEm8zE5YvHGtdHA7Vu4
+ FhZq5TsGs62O+nDV9+acBxrb+gBBB3kXHqtsdaioHfVpi57Js1Ad9NqiKCItdd8X9K20
+ Di5z/V+eYysBMNhcxheYvXQACCoCC8wgMwTsyX5yJlyQt12EP4XrCfboFZdBmfq6Lmer
+ uGig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734898459; x=1735503259;
+ d=1e100.net; s=20230601; t=1734898460; x=1735503260;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1CAACp4GjO3ym2QwQfPSi4sTCeC1v2d+xt2KcB0Ux7M=;
- b=mlVPJ65Bygsw4iPvk+/4cYKI4kMLqkOmXxAXeEpjokf5mHFOX/OkPc/2V+SjeZjjHC
- KdxGY0xGSExtKOVF0TQiJ3hRQZKTHAiL4HzgRwSgx+zSyhKErtoFT0V59TmBLGjkf7vG
- c7WHIVOtDgrzo7jlLOmL63yT+TsuYat/FS3/JRdj0KL8eI72KaDVaWSm9pDmtQtUQSyj
- b8hE6wGTSQhEsNdxq8wbzRK/XcSvDuDwPfg4b5F3so/jg3B7NF9InKl5fwfMfvFqfJPR
- JvOUCNWVqpTe1Ks1mTdsp/se+Zufc+AgZ6zMJR9qelU8XhzD0ReSyK0gcgb44Mi2DOF/
- /i7w==
+ bh=qsLixnbCUZJZByQLj0YLorZ2NFO6bbENIPF/nqoST3s=;
+ b=hbrv49tgr+U49hPkMt1mib03LVIhPztVWbkexElYxm2xDcWEzF3pAG8rV703nkm9vA
+ L3tztTBvy9FpXvbaJLuNtMxzj5ZYK+nY2gQtAyvwAmnMuTRibLt290iJ5NKXVmN4oNFX
+ 7FOAlNt5c4fFTFg+HbGorS+j54PTx5e35XRm3FUGUB8TK6sru13CGeeBACacuiDEaWyH
+ J6KRNP8ap6LDRoIE4XXl5lCtOGMcHU+JyCkOcTBZoQ3ja7IqYR+rECDWNgLfgVeI8erD
+ aIJOVhVSlK+enR3KRBmf65zGNHvUx4Bd1IXnJnLbMbcFVitgw3uetzTofOD6Z+BdoJVw
+ Ccyw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXFOpnvioBqaKvyK3Hp0UXasc9qldFh77vmVnw1oOGoP/5CHghGF0AHXQv6RdNRo7jHjiHV/4p1WdA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxNxQc06rq9Dr3ROZ4Y8oku6CihsT9v3RQRsEnJQmjrcvZcd+O
- bMpYLqlYKSoh/6UXkKypQ5zmStBj61l4S48xcn0iJJu+yk6mczUPolDRJky2nHw=
-X-Gm-Gg: ASbGncsbOYxQSsEU3ZJTTVTK2vHddvTBrhG4lHpgiAYQ27ENOz6rw742GtIyj0gqPJ8
- RKIWdtgjnpunOWDLPx2ebAfXnY532BhFikFiMz+Qu/rpgJGLXgvEHe15IzDG9+gokjAkUR3gWkT
- luDltPGEyYlOVY+kEF1JEbjrDnGguDNWgZfi5Qt/OmjBuYrlVdgYUoN0Zt95sLY+/UvsMgauGlF
- dzjdXphg+yMgutebPZFK8Pr6cyo9d9gF0i1Hk0DmVnifHnZurZVQGbrWvTcacfQ
-X-Google-Smtp-Source: AGHT+IH1NiMr5WnGF10+SPwgET/+bAdT9I+Y2w4pjPlA3DK9BEOnlkm9QFpkXP9RAFfV8fRrY9HPZQ==
-X-Received: by 2002:a05:6512:4014:b0:53e:2bb0:4942 with SMTP id
- 2adb3069b0e04-5422956beb5mr3409806e87.57.1734898458568; 
- Sun, 22 Dec 2024 12:14:18 -0800 (PST)
+ AJvYcCW29bzecZYkdr3Fk/yjjJIKzMEykhWwpDG8HYyi5Qh9qT4I5otdoAxUWKwmQgnIMRQviAQ+UOuvS3g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6MNMbsfqiRSAxa4qTetavlaps05XXfaxbAUr/doJydrN6Yjbu
+ EEn5ywerihXHQqP97XfbQqKwkMHlS543FBP3xB4sLxqMhLC5ioExGMG1w6OVPBM=
+X-Gm-Gg: ASbGnct7kwS1gaKCNkS7vYbFqnxWMLfuc9PlwgG05FFhwXoJzDN2PL4P96lL3ZqiQgJ
+ Cl+NegjwMBvVE59QIuv9/PCvam4S+ddHHo3OAC79pD0pk2sNt1wSihBTWO8TX5dV3Gxqb2w0RLJ
+ QcaFXpoDKItJu/nT7g3H9+p+o/Jkl4GN4XRJQ421tKMVR0reN1oerOyelWRYP3sevq+lioRURKS
+ /WXzLtoiJxVlpAjlKxnzpIqnKWHSiivV/Wo0CvyTrEPe0Fy4S8b/Ox26OOxXaB3
+X-Google-Smtp-Source: AGHT+IFdCK19Ixoe57nhdOf5NmTFJHX6bAS/hFmyTtoVZ/SrMFs9HC46Fw3D5k2rOEG4yBIs5/3IKQ==
+X-Received: by 2002:a05:6512:4485:b0:542:2972:4e59 with SMTP id
+ 2adb3069b0e04-54229724f79mr3351823e87.28.1734898460245; 
+ Sun, 22 Dec 2024 12:14:20 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235f7765sm1034331e87.13.2024.12.22.12.14.16
+ 2adb3069b0e04-542235f7765sm1034331e87.13.2024.12.22.12.14.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Dec 2024 12:14:17 -0800 (PST)
+ Sun, 22 Dec 2024 12:14:19 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 22 Dec 2024 22:14:07 +0200
-Subject: [PATCH v5 04/11] drm/msm/dp: move I/O functions to global header
+Date: Sun, 22 Dec 2024 22:14:08 +0200
+Subject: [PATCH v5 05/11] drm/msm/dp: move/inline AUX register functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241222-fd-dp-audio-fixup-v5-4-370f09492cf6@linaro.org>
+Message-Id: <20241222-fd-dp-audio-fixup-v5-5-370f09492cf6@linaro.org>
 References: <20241222-fd-dp-audio-fixup-v5-0-370f09492cf6@linaro.org>
 In-Reply-To: <20241222-fd-dp-audio-fixup-v5-0-370f09492cf6@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -77,16 +77,16 @@ Cc: Douglas Anderson <dianders@chromium.org>,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5605;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11841;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=7PLWki9dLUTSYTbO8lnYK4VQogj3alhO9C5gmUos+0o=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnaHMOCSdLN9XuEmQuLPNm10wdFSwCaNzlzvw7H
- QPSJCvEqTCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2hzDgAKCRCLPIo+Aiko
- 1R4iCACJa8b6gQ4MmQEEmaszTg2wOBCQqt5e8DGfl8fpXI4qmw+7QA8X3Mtd4rL++WF4hVnhlT9
- hH9y8uxmBXd/3YOrmCNdfGkPW+d2VoRWW2fbwTjQ6k6HfRxtG+Eq+9d47ZCTyo7XscJRaJ1jyoo
- q0zkmAnJ4Ncmj1oEUYD7fP5xXxVIWkiMulrZxJVV8CJs82ohXNCUNDKAAHWd2U3W4VgqgALTQxB
- nlrK0sNQxM1//YuiDRjw6jMedsDFHDNm1b2ixgyq5CKrxfSOUncAJJquFjLJYu+LVaGqYB1SUlg
- UsxdI+YFDPX4zmA4Jz9Jj0qIWmpDmWywkUGvFmmXiDc8XyfX
+ bh=APLj4YqcLlrz0cIrvDAgRzbbCjjVjcoBaObsvAKwngM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnaHMOb7V4MfKyNpOm56QnWemovMFNb6Y6PR8lf
+ nKGF+VD2jqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2hzDgAKCRCLPIo+Aiko
+ 1Qw6B/9LBNXa2AnBRg2DGOCbotH7zhFGX/r5K8ZUtfPnatCrNld1ZJR5pR3GjZiOC8j6KpGSxvC
+ X4KqNE13Uoau4JJTO8XBot9wzHedBKlSQVzEv54HBAv87OlkhFTObYCWyVRtR5fz50ItmNvFRev
+ HkjsG9Xv/XHRKDwZt03TnVt/Xb0MR2w2X+iNlmXI1cE795A+ldym1VkH1QMDbFkouLGBATg96Vn
+ xmfoCgDeBybZ/Peh7EJySexlcvePyhp3EJqGmo0vWFmnDBHngaXlkwVlwE2hKTS8oxCVN+9/lGa
+ QIsu0DGaJsKMhd/MIU0v9OgHSReCzESXdVB62ayWi0toA8Yp
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,166 +104,334 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move msm_dp_read()/msm_write_foo() functions to the dp_catalog.h,
-allowing other modules to access the data directly.
+Move all register-level functions to dp_aux.c, inlining one line
+wrappers during this process.
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 Tested-by: Stephen Boyd <swboyd@chromium.org> # sc7180-trogdor
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/dp/dp_catalog.c | 65 -------------------------------------
- drivers/gpu/drm/msm/dp/dp_catalog.h | 62 +++++++++++++++++++++++++++++++++++
- 2 files changed, 62 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_aux.c     | 96 +++++++++++++++++++++++++++++++------
+ drivers/gpu/drm/msm/dp/dp_catalog.c | 96 -------------------------------------
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  9 ----
+ 3 files changed, 82 insertions(+), 119 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_aux.c b/drivers/gpu/drm/msm/dp/dp_aux.c
+index bc8d46abfc619d669dce339477d58fb0c464a3ea..cdcab948ae7086964d9e913dadadacc333f46231 100644
+--- a/drivers/gpu/drm/msm/dp/dp_aux.c
++++ b/drivers/gpu/drm/msm/dp/dp_aux.c
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <linux/delay.h>
++#include <linux/iopoll.h>
+ #include <linux/phy/phy.h>
+ #include <drm/drm_print.h>
+ 
+@@ -45,6 +46,71 @@ struct msm_dp_aux_private {
+ 	struct drm_dp_aux msm_dp_aux;
+ };
+ 
++static void msm_dp_aux_clear_hw_interrupts(struct msm_dp_aux_private *aux)
++{
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++
++	msm_dp_read_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_STATUS);
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x1f);
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x9f);
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0);
++}
++
++/*
++ * NOTE: resetting AUX controller will also clear any pending HPD related interrupts
++ */
++static void msm_dp_aux_reset(struct msm_dp_aux_private *aux)
++{
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 aux_ctrl;
++
++	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
++
++	aux_ctrl |= DP_AUX_CTRL_RESET;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
++	usleep_range(1000, 1100); /* h/w recommended delay */
++
++	aux_ctrl &= ~DP_AUX_CTRL_RESET;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
++}
++
++static void msm_dp_aux_enable(struct msm_dp_aux_private *aux)
++{
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 aux_ctrl;
++
++	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
++
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_TIMEOUT_COUNT, 0xffff);
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_LIMITS, 0xffff);
++
++	aux_ctrl |= DP_AUX_CTRL_ENABLE;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
++}
++
++static void msm_dp_aux_disable(struct msm_dp_aux_private *aux)
++{
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 aux_ctrl;
++
++	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
++	aux_ctrl &= ~DP_AUX_CTRL_ENABLE;
++	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
++}
++
++static int msm_dp_aux_wait_for_hpd_connect_state(struct msm_dp_aux_private *aux,
++					     unsigned long wait_us)
++{
++	struct msm_dp_catalog *msm_dp_catalog = aux->catalog;
++	u32 state;
++
++	/* poll for hpd connected status every 2ms and timeout after wait_us */
++	return readl_poll_timeout(msm_dp_catalog->aux_base +
++				  REG_DP_DP_HPD_INT_STATUS,
++				  state, state & DP_DP_HPD_STATE_STATUS_CONNECTED,
++				  min(wait_us, 2000), wait_us);
++}
++
+ #define MAX_AUX_RETRIES			5
+ 
+ static ssize_t msm_dp_aux_write(struct msm_dp_aux_private *aux,
+@@ -88,11 +154,11 @@ static ssize_t msm_dp_aux_write(struct msm_dp_aux_private *aux,
+ 		/* index = 0, write */
+ 		if (i == 0)
+ 			reg |= DP_AUX_DATA_INDEX_WRITE;
+-		msm_dp_catalog_aux_write_data(aux->catalog, reg);
++		msm_dp_write_aux(aux->catalog, REG_DP_AUX_DATA, reg);
+ 	}
+ 
+-	msm_dp_catalog_aux_clear_trans(aux->catalog, false);
+-	msm_dp_catalog_aux_clear_hw_interrupts(aux->catalog);
++	msm_dp_write_aux(aux->catalog, REG_DP_AUX_TRANS_CTRL, 0);
++	msm_dp_aux_clear_hw_interrupts(aux);
+ 
+ 	reg = 0; /* Transaction number == 1 */
+ 	if (!aux->native) { /* i2c */
+@@ -106,7 +172,7 @@ static ssize_t msm_dp_aux_write(struct msm_dp_aux_private *aux,
+ 	}
+ 
+ 	reg |= DP_AUX_TRANS_CTRL_GO;
+-	msm_dp_catalog_aux_write_trans(aux->catalog, reg);
++	msm_dp_write_aux(aux->catalog, REG_DP_AUX_TRANS_CTRL, reg);
+ 
+ 	return len;
+ }
+@@ -139,20 +205,22 @@ static ssize_t msm_dp_aux_cmd_fifo_rx(struct msm_dp_aux_private *aux,
+ 	u32 i, actual_i;
+ 	u32 len = msg->size;
+ 
+-	msm_dp_catalog_aux_clear_trans(aux->catalog, true);
++	data = msm_dp_read_aux(aux->catalog, REG_DP_AUX_TRANS_CTRL);
++	data &= ~DP_AUX_TRANS_CTRL_GO;
++	msm_dp_write_aux(aux->catalog, REG_DP_AUX_TRANS_CTRL, data);
+ 
+ 	data = DP_AUX_DATA_INDEX_WRITE; /* INDEX_WRITE */
+ 	data |= DP_AUX_DATA_READ;  /* read */
+ 
+-	msm_dp_catalog_aux_write_data(aux->catalog, data);
++	msm_dp_write_aux(aux->catalog, REG_DP_AUX_DATA, data);
+ 
+ 	dp = msg->buffer;
+ 
+ 	/* discard first byte */
+-	data = msm_dp_catalog_aux_read_data(aux->catalog);
++	data = msm_dp_read_aux(aux->catalog, REG_DP_AUX_DATA);
+ 
+ 	for (i = 0; i < len; i++) {
+-		data = msm_dp_catalog_aux_read_data(aux->catalog);
++		data = msm_dp_read_aux(aux->catalog, REG_DP_AUX_DATA);
+ 		*dp++ = (u8)((data >> DP_AUX_DATA_OFFSET) & 0xff);
+ 
+ 		actual_i = (data >> DP_AUX_DATA_INDEX_OFFSET) & 0xFF;
+@@ -336,7 +404,7 @@ static ssize_t msm_dp_aux_transfer(struct drm_dp_aux *msm_dp_aux,
+ 		}
+ 		/* reset aux if link is in connected state */
+ 		if (msm_dp_catalog_link_is_connected(aux->catalog))
+-			msm_dp_catalog_aux_reset(aux->catalog);
++			msm_dp_aux_reset(aux);
+ 	} else {
+ 		aux->retry_cnt = 0;
+ 		switch (aux->aux_error_num) {
+@@ -403,7 +471,7 @@ irqreturn_t msm_dp_aux_isr(struct drm_dp_aux *msm_dp_aux)
+ 
+ 	if (isr & DP_INTR_AUX_ERROR) {
+ 		aux->aux_error_num = DP_AUX_ERR_PHY;
+-		msm_dp_catalog_aux_clear_hw_interrupts(aux->catalog);
++		msm_dp_aux_clear_hw_interrupts(aux);
+ 	} else if (isr & DP_INTR_NACK_DEFER) {
+ 		aux->aux_error_num = DP_AUX_ERR_NACK_DEFER;
+ 	} else if (isr & DP_INTR_WRONG_ADDR) {
+@@ -444,7 +512,7 @@ void msm_dp_aux_reconfig(struct drm_dp_aux *msm_dp_aux)
+ 	aux = container_of(msm_dp_aux, struct msm_dp_aux_private, msm_dp_aux);
+ 
+ 	phy_calibrate(aux->phy);
+-	msm_dp_catalog_aux_reset(aux->catalog);
++	msm_dp_aux_reset(aux);
+ }
+ 
+ void msm_dp_aux_init(struct drm_dp_aux *msm_dp_aux)
+@@ -460,7 +528,7 @@ void msm_dp_aux_init(struct drm_dp_aux *msm_dp_aux)
+ 
+ 	mutex_lock(&aux->mutex);
+ 
+-	msm_dp_catalog_aux_enable(aux->catalog, true);
++	msm_dp_aux_enable(aux);
+ 	aux->retry_cnt = 0;
+ 	aux->initted = true;
+ 
+@@ -476,7 +544,7 @@ void msm_dp_aux_deinit(struct drm_dp_aux *msm_dp_aux)
+ 	mutex_lock(&aux->mutex);
+ 
+ 	aux->initted = false;
+-	msm_dp_catalog_aux_enable(aux->catalog, false);
++	msm_dp_aux_disable(aux);
+ 
+ 	mutex_unlock(&aux->mutex);
+ }
+@@ -517,7 +585,7 @@ static int msm_dp_wait_hpd_asserted(struct drm_dp_aux *msm_dp_aux,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = msm_dp_catalog_aux_wait_for_hpd_connect_state(aux->catalog, wait_us);
++	ret = msm_dp_aux_wait_for_hpd_connect_state(aux, wait_us);
+ 	pm_runtime_put_sync(aux->dev);
+ 
+ 	return ret;
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c b/drivers/gpu/drm/msm/dp/dp_catalog.c
-index 74ab86035f3b98b498756673229218558b6713c3..a22efb1e83d04cc5c9bc768a275df9cfb4752a2f 100644
+index a22efb1e83d04cc5c9bc768a275df9cfb4752a2f..10dfbe94b627855b5a0e3cd4a3d77498d8d43ab8 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
-@@ -81,71 +81,6 @@ void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_d
+@@ -81,102 +81,6 @@ void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_d
  				    msm_dp_catalog->p0_len, msm_dp_catalog->p0_base, "dp_p0");
  }
  
--static inline u32 msm_dp_read_aux(struct msm_dp_catalog *msm_dp_catalog, u32 offset)
+-/* aux related catalog functions */
+-u32 msm_dp_catalog_aux_read_data(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	return readl_relaxed(msm_dp_catalog->aux_base + offset);
+-	return msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_DATA);
 -}
 -
--static inline void msm_dp_write_aux(struct msm_dp_catalog *msm_dp_catalog,
--			       u32 offset, u32 data)
+-int msm_dp_catalog_aux_write_data(struct msm_dp_catalog *msm_dp_catalog, u32 data)
 -{
--	/*
--	 * To make sure aux reg writes happens before any other operation,
--	 * this function uses writel() instread of writel_relaxed()
--	 */
--	writel(data, msm_dp_catalog->aux_base + offset);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_DATA, data);
+-	return 0;
 -}
 -
--static inline u32 msm_dp_read_ahb(const struct msm_dp_catalog *msm_dp_catalog, u32 offset)
+-int msm_dp_catalog_aux_write_trans(struct msm_dp_catalog *msm_dp_catalog, u32 data)
 -{
--	return readl_relaxed(msm_dp_catalog->ahb_base + offset);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL, data);
+-	return 0;
 -}
 -
--static inline void msm_dp_write_ahb(struct msm_dp_catalog *msm_dp_catalog,
--			       u32 offset, u32 data)
+-int msm_dp_catalog_aux_clear_trans(struct msm_dp_catalog *msm_dp_catalog, bool read)
 -{
--	/*
--	 * To make sure phy reg writes happens before any other operation,
--	 * this function uses writel() instread of writel_relaxed()
--	 */
--	writel(data, msm_dp_catalog->ahb_base + offset);
+-	u32 data;
+-
+-	if (read) {
+-		data = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL);
+-		data &= ~DP_AUX_TRANS_CTRL_GO;
+-		msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL, data);
+-	} else {
+-		msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_TRANS_CTRL, 0);
+-	}
+-	return 0;
 -}
 -
--static inline void msm_dp_write_p0(struct msm_dp_catalog *msm_dp_catalog,
--			       u32 offset, u32 data)
+-int msm_dp_catalog_aux_clear_hw_interrupts(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	/*
--	 * To make sure interface reg writes happens before any other operation,
--	 * this function uses writel() instread of writel_relaxed()
--	 */
--	writel(data, msm_dp_catalog->p0_base + offset);
+-	msm_dp_read_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_STATUS);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x1f);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0x9f);
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_PHY_AUX_INTERRUPT_CLEAR, 0);
+-	return 0;
 -}
 -
--static inline u32 msm_dp_read_p0(struct msm_dp_catalog *msm_dp_catalog,
--			       u32 offset)
+-/**
+- * msm_dp_catalog_aux_reset() - reset AUX controller
+- *
+- * @msm_dp_catalog: DP catalog structure
+- *
+- * return: void
+- *
+- * This function reset AUX controller
+- *
+- * NOTE: reset AUX controller will also clear any pending HPD related interrupts
+- * 
+- */
+-void msm_dp_catalog_aux_reset(struct msm_dp_catalog *msm_dp_catalog)
 -{
--	/*
--	 * To make sure interface reg writes happens before any other operation,
--	 * this function uses writel() instread of writel_relaxed()
--	 */
--	return readl_relaxed(msm_dp_catalog->p0_base + offset);
+-	u32 aux_ctrl;
+-
+-	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
+-
+-	aux_ctrl |= DP_AUX_CTRL_RESET;
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
+-	usleep_range(1000, 1100); /* h/w recommended delay */
+-
+-	aux_ctrl &= ~DP_AUX_CTRL_RESET;
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
 -}
 -
--static inline u32 msm_dp_read_link(struct msm_dp_catalog *msm_dp_catalog, u32 offset)
+-void msm_dp_catalog_aux_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable)
 -{
--	return readl_relaxed(msm_dp_catalog->link_base + offset);
+-	u32 aux_ctrl;
+-
+-	aux_ctrl = msm_dp_read_aux(msm_dp_catalog, REG_DP_AUX_CTRL);
+-
+-	if (enable) {
+-		msm_dp_write_aux(msm_dp_catalog, REG_DP_TIMEOUT_COUNT, 0xffff);
+-		msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_LIMITS, 0xffff);
+-		aux_ctrl |= DP_AUX_CTRL_ENABLE;
+-	} else {
+-		aux_ctrl &= ~DP_AUX_CTRL_ENABLE;
+-	}
+-
+-	msm_dp_write_aux(msm_dp_catalog, REG_DP_AUX_CTRL, aux_ctrl);
 -}
 -
--static inline void msm_dp_write_link(struct msm_dp_catalog *msm_dp_catalog,
--			       u32 offset, u32 data)
+-int msm_dp_catalog_aux_wait_for_hpd_connect_state(struct msm_dp_catalog *msm_dp_catalog,
+-					      unsigned long wait_us)
 -{
--	/*
--	 * To make sure link reg writes happens before any other operation,
--	 * this function uses writel() instread of writel_relaxed()
--	 */
--	writel(data, msm_dp_catalog->link_base + offset);
+-	u32 state;
+-
+-	/* poll for hpd connected status every 2ms and timeout after wait_us */
+-	return readl_poll_timeout(msm_dp_catalog->aux_base +
+-				REG_DP_DP_HPD_INT_STATUS,
+-				state, state & DP_DP_HPD_STATE_STATUS_CONNECTED,
+-				min(wait_us, 2000), wait_us);
 -}
 -
- /* aux related catalog functions */
- u32 msm_dp_catalog_aux_read_data(struct msm_dp_catalog *msm_dp_catalog)
+ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog)
  {
+ 	u32 intr, intr_ack;
 diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.h b/drivers/gpu/drm/msm/dp/dp_catalog.h
-index 5a757671d7310b43e7ca0155ffdc276c83d1e8bc..10fd0086132092be88bb698e53124f87a906de70 100644
+index 10fd0086132092be88bb698e53124f87a906de70..d120a4872d444a4f8eb1e638d0e293033bf1334c 100644
 --- a/drivers/gpu/drm/msm/dp/dp_catalog.h
 +++ b/drivers/gpu/drm/msm/dp/dp_catalog.h
-@@ -48,6 +48,68 @@ struct msm_dp_catalog {
- 	size_t p0_len;
- };
- 
-+/* IO */
-+static inline u32 msm_dp_read_aux(struct msm_dp_catalog *msm_dp_catalog, u32 offset)
-+{
-+	return readl_relaxed(msm_dp_catalog->aux_base + offset);
-+}
-+
-+static inline void msm_dp_write_aux(struct msm_dp_catalog *msm_dp_catalog,
-+			       u32 offset, u32 data)
-+{
-+	/*
-+	 * To make sure aux reg writes happens before any other operation,
-+	 * this function uses writel() instread of writel_relaxed()
-+	 */
-+	writel(data, msm_dp_catalog->aux_base + offset);
-+}
-+
-+static inline u32 msm_dp_read_ahb(const struct msm_dp_catalog *msm_dp_catalog, u32 offset)
-+{
-+	return readl_relaxed(msm_dp_catalog->ahb_base + offset);
-+}
-+
-+static inline void msm_dp_write_ahb(struct msm_dp_catalog *msm_dp_catalog,
-+			       u32 offset, u32 data)
-+{
-+	/*
-+	 * To make sure phy reg writes happens before any other operation,
-+	 * this function uses writel() instread of writel_relaxed()
-+	 */
-+	writel(data, msm_dp_catalog->ahb_base + offset);
-+}
-+
-+static inline void msm_dp_write_p0(struct msm_dp_catalog *msm_dp_catalog,
-+			       u32 offset, u32 data)
-+{
-+	/*
-+	 * To make sure interface reg writes happens before any other operation,
-+	 * this function uses writel() instread of writel_relaxed()
-+	 */
-+	writel(data, msm_dp_catalog->p0_base + offset);
-+}
-+
-+static inline u32 msm_dp_read_p0(struct msm_dp_catalog *msm_dp_catalog,
-+			       u32 offset)
-+{
-+	return readl_relaxed(msm_dp_catalog->p0_base + offset);
-+}
-+
-+static inline u32 msm_dp_read_link(struct msm_dp_catalog *msm_dp_catalog, u32 offset)
-+{
-+	return readl_relaxed(msm_dp_catalog->link_base + offset);
-+}
-+
-+static inline void msm_dp_write_link(struct msm_dp_catalog *msm_dp_catalog,
-+			       u32 offset, u32 data)
-+{
-+	/*
-+	 * To make sure link reg writes happens before any other operation,
-+	 * this function uses writel() instread of writel_relaxed()
-+	 */
-+	writel(data, msm_dp_catalog->link_base + offset);
-+}
-+
- /* Debug module */
+@@ -114,15 +114,6 @@ static inline void msm_dp_write_link(struct msm_dp_catalog *msm_dp_catalog,
  void msm_dp_catalog_snapshot(struct msm_dp_catalog *msm_dp_catalog, struct msm_disp_state *disp_state);
  
+ /* AUX APIs */
+-u32 msm_dp_catalog_aux_read_data(struct msm_dp_catalog *msm_dp_catalog);
+-int msm_dp_catalog_aux_write_data(struct msm_dp_catalog *msm_dp_catalog, u32 data);
+-int msm_dp_catalog_aux_write_trans(struct msm_dp_catalog *msm_dp_catalog, u32 data);
+-int msm_dp_catalog_aux_clear_trans(struct msm_dp_catalog *msm_dp_catalog, bool read);
+-int msm_dp_catalog_aux_clear_hw_interrupts(struct msm_dp_catalog *msm_dp_catalog);
+-void msm_dp_catalog_aux_reset(struct msm_dp_catalog *msm_dp_catalog);
+-void msm_dp_catalog_aux_enable(struct msm_dp_catalog *msm_dp_catalog, bool enable);
+-int msm_dp_catalog_aux_wait_for_hpd_connect_state(struct msm_dp_catalog *msm_dp_catalog,
+-					      unsigned long wait_us);
+ u32 msm_dp_catalog_aux_get_irq(struct msm_dp_catalog *msm_dp_catalog);
+ 
+ /* DP Controller APIs */
 
 -- 
 2.39.5
