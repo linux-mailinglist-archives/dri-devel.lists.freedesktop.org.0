@@ -1,72 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1849FA3DD
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 06:00:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA4C9FA3DF
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 06:00:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 872AA10E1FD;
-	Sun, 22 Dec 2024 05:00:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8622A10E22E;
+	Sun, 22 Dec 2024 05:00:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KgUkBXAT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FdLRBPDl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4CF110E0FF
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 05:00:48 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-5401bd6cdb7so3531943e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 21:00:48 -0800 (PST)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F20D910E22E
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 05:00:50 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id
+ 2adb3069b0e04-53df80eeeedso3207238e87.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 21:00:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734843647; x=1735448447; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=7ynmJbSQJ/vTvam/arHMNtuCjd4OwDdBr2+aikpRGxU=;
- b=KgUkBXAToRhr5x6totEkXm9ry+pvNrUjiHPuDGp9YzivKEigD/z6ioazjIdTJ5kvSg
- kyYagmr+7hzA9NZwrJ1uIP6i6zzFTnrqud+EShtaYUbQukXLIWJdXfBvvB6c4rqAim0n
- dDQkO5a4OYH6op0Iw6lxHTXSEwJhy2HMC9IMyfLFDtxNcYAmY9N1LiKx2RinRVCYk37e
- c3wq9GxVtDI78LMKKIqjpVNjtQdOKF+LqjNfgm1MbCGG3i+w8ahIKr3MPcZd47dI0FGO
- XPC5REVUhXT49ugYNBlSHaeZLN3frPr1nbuNqQwZOWJCDMdGA/vcSYmpbHvq+sNoMRfu
- m2yQ==
+ d=linaro.org; s=google; t=1734843649; x=1735448449; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=WUHXS68dzii47sCyHoBGO1JrTDTtIN7oWeXHXt5K2JQ=;
+ b=FdLRBPDlJALebWHnQEzU22qjARSwc3myCFCpjyYmxrPgAcOdZ6uAejtCvH2hVMKV/X
+ X2SAU70YStKGGozzEIqJuqXkAHX4UjdkV4AtbWQpo95n7jUXVh5ON14fSCcUiq4y9IQa
+ u+VLcHQZGOOHMadbwx8XclF5tp3r3fOFEoE6+FjLHQWNBMesBgaVc8P+apKnSQVVOyji
+ 1CRoODcAjDiv6WZII1AzRffT33zB39BdQJWe6mTKETdFxjTWvjuJJ4sDcnQ1djKbJs31
+ biDb6VHDXftEk9Jv2+ka/uFxBEtwCfOuauARp9FtwGK0j//+TrjAPU3Yb5nPLaRd4Up+
+ BMig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734843647; x=1735448447;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7ynmJbSQJ/vTvam/arHMNtuCjd4OwDdBr2+aikpRGxU=;
- b=lT4kWcyJ8aD4srB3t24qlYS5hDqip/WODd+OQcxxccII+wm918Mb90l7WXdxz4vX24
- xdPs0fr6/Ouge1KXA9cjuD8LM4UBA1O11Ps/3POd9dOZN1uNZRKv4MElz1n6xFTMzEYE
- hnC+PysEYDBOTkzwV1g1oFCZN6jqQOcdTCKu3sPsYzv3ciIi1LS8dC+3jQibn/2rVD9I
- VjjMXCQh7X9GpwDoMi/muwWwAO/5LwnLZoGmLQqQA5yqEba9RpUckjq9vc8jWOD1E1dg
- uB2N/lWfDylGGRbrAedLYLer+A5GkrkxJmOR9Ty+JOKazgkBtw2+bqTToVth8koB58IP
- bteg==
-X-Gm-Message-State: AOJu0YxYkcpzW36lU5ARqwDDeN6r7kHXWh/bSLtzjR401UWgSQJuG1qn
- G6XtevS/izWdc1krVzAoVwuBjXG1Iwd8FClEXD1jiOCcjXlJB79D+JOci4UESVo=
-X-Gm-Gg: ASbGncuY398JrGtSZVY7VOy9ga9zmZ1KE7Z2sjtIEpJPv0mhkiTCEGdNU94p5+GmvV8
- HuxajLpwsgAVHwqfinkzl/oAnP66OnPzHrxuIZ9CSFERyAzEMA9ayPdGEYK7npGpASFadNtDk49
- f9efwe6wrAI6e4tOpIGYlDGR+53kIJaXFxl6O0yi19oSzksjfnXj3qDxSs5RlZNXyHDnivy/oFF
- DJHUBr4I0PxxtHJqQdarpJblRG3clGDMqdwe7Bd1MwxLaEGhLRleknFDNwtzb0B
-X-Google-Smtp-Source: AGHT+IGEtIN1HRZCkOhk1Tp0HXuUe5zoi5sLX29TjPa/TQ+C5QNKxvwhm4lSJfabOKQMJlXDnpqq4Q==
-X-Received: by 2002:a05:6512:1110:b0:540:75d3:95c0 with SMTP id
- 2adb3069b0e04-5422956b7cfmr2458832e87.47.1734843646780; 
- Sat, 21 Dec 2024 21:00:46 -0800 (PST)
+ d=1e100.net; s=20230601; t=1734843649; x=1735448449;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WUHXS68dzii47sCyHoBGO1JrTDTtIN7oWeXHXt5K2JQ=;
+ b=WAJWeVB8DFB3Bt1WF/F3LgWl8EsCvho7jnBCGRODG/LGYh+8NbrHo3oAxokXUNw9ZL
+ f/BPTiZhWef6dfy+e9lZriy7CAfG67vDYjALH65GZPRLR63yZIwUJfIKGPmrRt5CP5JW
+ QGE8t9q6Q4rmyFkTBI7degahc0NrdGYpr5z8LIqBpilbNMUcN6IHyt3vBu1bbnUTIrz6
+ apHMVEM3p6rjvPp5HU97tHGkm0R7eXkiYnbaP02mK3DyMP8xLXDtJ0E3tbZ3scSxI+3x
+ CjuxiTspEPN71fCDh51B4dAVMmTc2NHgVU2EUwDhOgmecyGlu9AmfXD3AtVXC2FJpQfh
+ A9/A==
+X-Gm-Message-State: AOJu0Yz73WUaK6pWyC5m+cH9/wOGnAHpgoC+wAIttAgH2rkiO49rqGBq
+ FvorJKUut2nnEALvEJThABxz8o5Ks4fG8at3D/6hCiPRYWFk9KEDVuojpsNO+u0=
+X-Gm-Gg: ASbGncsAQLUG1JiQxga9rYf0YKkWw7aHnzDR800ooKimZ3g2++58tMepp5SBJu/pqWF
+ ho3OmOagEadDi8I9zC6Ll2bMQmdca7JbzFIpYyYhW4ymiy1LLcYgpzGFpCh3dJXyGXKmGikg5Ye
+ zLNa3Zx3CAfO2Hx96TWtNdNwRK9AilqqIAqlypGYcOG2I+dkcbaDyLGrF0UQz8RJqD+iyxQ7hxb
+ R8p9oXkz/KbvIACtiqO68mSEIG8qKkzL/WH94J90ZSqWdIev5/DZrzpdL/X4qFu
+X-Google-Smtp-Source: AGHT+IF+Pt1nCCP5OVvGkhTdNXEz4B1kunIC5TH+Ahw6Mi+g/aUmHdjgPeeYunkjxCOH1d29CuDaLQ==
+X-Received: by 2002:a05:6512:31d1:b0:540:1dac:c038 with SMTP id
+ 2adb3069b0e04-54229524fc7mr2631228e87.1.1734843649198; 
+ Sat, 21 Dec 2024 21:00:49 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223832c05sm887145e87.276.2024.12.21.21.00.44
+ 2adb3069b0e04-54223832c05sm887145e87.276.2024.12.21.21.00.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Dec 2024 21:00:45 -0800 (PST)
+ Sat, 21 Dec 2024 21:00:47 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/6] drm: enforce rules for drm_atomic_helper_check_modeset()
-Date: Sun, 22 Dec 2024 07:00:40 +0200
-Message-Id: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+Date: Sun, 22 Dec 2024 07:00:41 +0200
+Subject: [PATCH 1/6] drm/atomic-helper: document drm_atomic_helper_check()
+ restrictions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPicZ2cC/x3MTQ5AQAxA4atI15qYRvxdRSzQogtGOiJE3N3E8
- lu890AQUwnQJA+YnBrUbxEuTWBc+m0WVI4Gyih3RIRsK7LacePqWYIcWFVZWQ9MZS8FxG43mfT
- 6n233vh8nIYnsYwAAAA==
-X-Change-ID: 20241222-drm-dirty-modeset-88079bd27ae6
+Message-Id: <20241222-drm-dirty-modeset-v1-1-0e76a53eceb9@linaro.org>
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+In-Reply-To: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -81,16 +80,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1969;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1373;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=unP1mi0lDmVyY/G4o1Fv207l8KYkoozAQlq0PR4KOl0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZ5z7EyHx7YlQHa66O5+YOr64ki12FqQYJ18so
- weZKkJwspqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2ec+wAKCRCLPIo+Aiko
- 1fsJB/wNUD18E43T1sVut1m8i5ugdFUtQ+pRvb0bmm4Vh+jqrEMoq1xbprDEFZ1QC9rfNAq8uuX
- 1T90Ldfx51Ojq9nTw0MgdFMAjyJqKkJFSxn/Ny2MbAU24M+ypehqMXd1kBG2TZ/UEotxILVmi7p
- KIUPGwlQ8CgevHybIzAVCyfLsvVhzhhyUAxzQ+kUS2/CS01UeZB2dYpXkrC7uZDuq5OHqZIJPbD
- JpYFSKIeIrFHNL4HFQm+Ul5+jrtRvgTJE2PKxRKaDtxoSM0ADcXean1cp8h5QHU2jC59bYCOsXN
- PqgJlueC/k2KRVNZlCenU6kljQuBN/wdHtTuApU+n++uxAst
+ bh=lEzV2DFxHSmrj9mC/gnIKltRLYW/iHK8CYgZvjQpABw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZ5z7nPIekJhdnUK5YoeVX9bvlTyiNvqjiLjxF
+ HpRt+nQbpqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2ec+wAKCRCLPIo+Aiko
+ 1Wr9B/40R/wzCdA6LcKR5piuLK5GBYyyXYi+7z6d1Ml4lcBIde24q+/8h69RHvVODCvzFYcRG43
+ RU+/30LCutV5t2i0fS2sc/ZDYUFxAsLkUADrXK9YswlbqT1K3Jscky9S2+TWLxEskNFPwP5GSUI
+ IumfzysS9OagOKAtHinV+1OOi4rARn7NsWyHUOlqiIedR1j+STxpB7D3J/dwHa0EVHjQrl2YTVS
+ MQ+WKXsWgN4uLX0K1jQXgpBSXgVYUyNjvqBEVOqT9GjEGdhPP03CHccy0hZgR93nPCV93pTP4Fg
+ Ao9XIaGu26sfYfQPSBiLeKSV6rEifwYMjU6y0AT9T6Jq2tOk
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,45 +107,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As pointed out by Simona, the drm_atomic_helper_check_modeset() and
-drm_atomic_helper_check() require the former function is rerun if the
-driver's callbacks modify crtc_state->mode_changed. MSM is one of the
-drivers which failed to follow this requirement.
+The drm_atomic_helper_check() calls drm_atomic_helper_check_modeset()
+insternally. Document that corresponding restrictions also apply to the
+drivers that call the former function (as it's easy to miss the
+documentation for the latter function).
 
-As suggested by Simona, implement generic code to verify that the
-drivers abide to those requirement and rework MSM driver to follow that
-restrictions.
-
-There are no dependencies between core and MSM parts, so they can go
-separately via corresponding trees.
-
-Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (6):
-      drm/atomic-helper: document drm_atomic_helper_check() restrictions
-      drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
-      drm/msm/dpu: don't use active in atomic_check()
-      drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
-      drm/msm/dpu: simplify dpu_encoder_get_topology() interface
-      drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
+ drivers/gpu/drm/drm_atomic_helper.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
- drivers/gpu/drm/drm_atomic.c                |  3 +
- drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
- drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
- drivers/gpu/drm/msm/msm_kms.h               |  7 +++
- include/drm/drm_atomic.h                    | 10 ++++
- 9 files changed, 192 insertions(+), 43 deletions(-)
----
-base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
-change-id: 20241222-drm-dirty-modeset-88079bd27ae6
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 5186d2114a503701e228e382cc45180b0c578d0c..f26887c3fe8b194137200f9f2426653274c50fda 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1059,6 +1059,15 @@ EXPORT_SYMBOL(drm_atomic_helper_check_planes);
+  * For example enable/disable of a cursor plane which have fixed zpos value
+  * would trigger all other enabled planes to be forced to the state change.
+  *
++ * IMPORTANT:
++ *
++ * As this function calls drm_atomic_helper_check_modeset() internally, its
++ * restrictions also apply:
++ * Drivers which set &drm_crtc_state.mode_changed (e.g. in their
++ * &drm_plane_helper_funcs.atomic_check hooks if a plane update can't be done
++ * without a full modeset) _must_ call drm_atomic_helper_check_modeset()
++ * function again after that change.
++ *
+  * RETURNS:
+  * Zero for success or -errno
+  */
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
