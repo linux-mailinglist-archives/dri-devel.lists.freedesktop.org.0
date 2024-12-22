@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC6A29FA42E
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 07:05:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2BE9FA431
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 07:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6858F10E15D;
-	Sun, 22 Dec 2024 06:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF2410E2E4;
+	Sun, 22 Dec 2024 06:06:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="HukecmDh";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="RpONCtIv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBA6810E15D
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 06:05:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C52C410E2E4
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 06:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1734847532; x=1735452332; i=deller@gmx.de;
- bh=tclHqGZakrwWWC3BNqRNF0lu/5w/slKu1fIr1igTWmM=;
+ s=s31663417; t=1734847595; x=1735452395; i=deller@gmx.de;
+ bh=XtmpZVE4yUecp21o7ynL5TR6Kc9uvktwQXnTqBTHxRA=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=HukecmDhbSadmUfoHCrtDv57I5d1csaNwm6fCAMy7w9Krl0BH/tBJQdpAiquQ91d
- pubeJUkQNQcOtlvygwimbR5lnhnqQB4vtAyV/svkbSD/EeuG/uceR1PPd2N7pVqk0
- PD56bmK32lwhd7dVlhwZAtmSPhhC2qVluxrVHgVfIIturxjVhgrIeEhK0NOUivaai
- l8sffv8xj796AeLJqw2OrPoudRD9pAfH/gwEKpwWq8BcwtC09K3mEfy6lA3R7ruQc
- /ok7wvIT362H+Vz/9g2MMP2PgqHtsNMiUNB8Cb7xDVBLbYdvIddpkqirffo0Be22o
- 9+9RIXap4psoFR/beg==
+ b=RpONCtIvmTpIfMHu7o9qHK+kyxtAiscZ2FT6PGr8f68kfj3y+ehEfV3faL7wthGd
+ wFZAhnMQ4qEJ6KDoGpbs6Uz4Er13wGqjhG8OYtZ91P6CNQhXWrI7I17ok5utVsQhu
+ pqwxJKhklrJv5n/5DJHL7DvnRYnuIJhmklIe2qfeH2UPXc9x2LiCrVrpS6bC5UFQj
+ HZTCgQhlfhltFgV63h+5yVquTxIHgmK1uKbF2genNZSA9OuebuxOhnWs1RDWdDcI8
+ 6Jc3jbopleeZxABVVZn+4Ic+cO18VT4tLEtzXIeKKLeCf9bRizSbjtMsSHSfbCXp/
+ YHGfZhh4WpjD4it5Pw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.20.172] ([109.250.63.155]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTiU3-1szgwr2HDJ-00UK4s; Sun, 22
- Dec 2024 07:05:32 +0100
-Message-ID: <c731fffa-c209-4f12-b129-9ddab853a8b9@gmx.de>
-Date: Sun, 22 Dec 2024 07:05:30 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MpDNl-1tu9TQ3Ukx-00prVF; Sun, 22
+ Dec 2024 07:06:35 +0100
+Message-ID: <1b1fd689-e111-4109-b7a9-21747fc1bdb8@gmx.de>
+Date: Sun, 22 Dec 2024 07:06:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/radeon: Use const 'struct bin_attribute' callbacks
+Subject: Re: [PATCH] fbdev/udlfb: Use const 'struct bin_attribute' callback
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
+ Bernie Thompson <bernie@plugable.com>
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20241215-sysfs-const-bin_attr-radeonfb-v1-1-577bcffa1100@weissschuh.net>
+References: <20241215-sysfs-const-bin_attr-udlfb-v1-1-40e87ed71d1f@weissschuh.net>
 Content-Language: en-US
 From: Helge Deller <deller@gmx.de>
 Autocrypt: addr=deller@gmx.de; keydata=
@@ -88,31 +88,31 @@ Autocrypt: addr=deller@gmx.de; keydata=
  FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
  4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
  ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
-In-Reply-To: <20241215-sysfs-const-bin_attr-radeonfb-v1-1-577bcffa1100@weissschuh.net>
+In-Reply-To: <20241215-sysfs-const-bin_attr-udlfb-v1-1-40e87ed71d1f@weissschuh.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:7lNv9x967yupb5iYp99fxC58Jd6ZOqGMvm265MsQctIjm/Kqpw3
- scHe0rhM/KvuyBCVVUExOuHsPhAZs79RmDh960Pw+vGuByC4OgvY88TnGHHxuZSagiowAXh
- jayvD4T/bWdHigK0Nqj+0W7XniJX+T5eytnOB5wrJbddRqhHkVJ0kEWMqLEdN6tbNeHzeri
- qIddd+ENNBj7Xnm/Gm1Jw==
+X-Provags-ID: V03:K1:OFx3d7nGb5ClVE9xS8/7+Tf5XCIyN8KKkGyqnkvKTmRS6+wVok5
+ J45BihEGH6ONJZMBzHrDnYRkRIUwSrPKIeHy6lmceQxe+fesa6XyUrxk9HHR28uLqG9av92
+ e2kIYQmoSxsjYB2wxzpgbK6aPtdUVoin710I9YhdSjL1TaRV6hmWlStNNiJxKkbe7xrdGgJ
+ RNPkf7tkv5wNJctXEwtnQ==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:f7E8WZqLdUs=;kbhDw0axOpUJywTyR6mgPX0ACsn
- xFvT9mzvErxMsFS7dhQLTCMceIdNWuhl0ZrzGhrt7NQCbEZvHs9MeHLRXOcEwUZPfGdSqjtna
- FieEb6o+dGls0dRiaF6ywiZEwrdiK6yBEukqZ45S0UMyzXUo2GoIWOF9GdBBbNVF5yKmz0aAX
- H6zxm9zyzyNd5Ew2n1B21AK7kWIkv8cCubc7hGK2fIS77XCIAVZgvtDeiS/uxiOSdPl2WbRQB
- DHLvbYxGr1dHgaX9ms/WsumtmALYycLyiB/f5Ya8ffjzMxhtGAm+qTzTC6f9AXCrYDrD5zzPr
- PZaP6b2LzjSCkS6PdYUXWFq9ZQ2a/xV9rv6ug/dWhCSGFXoZVuAQGYj5um98OXYXHbT7q+pH6
- 7K6WqZhJ0wofOx4rLvDv0SQ63GNfFL/LMwT/fz7wXkhB5iJVLYc4XsonrpjkX8JlkRiL77R6y
- DUOuY3lS1aCw4HTbPSaZf8I+WkZiLxgPYM53dWYXZwFbUa9wsBb4soOEj8aOfZgxh7dodEIhj
- n9T4SdilrsYRbJlk3BxS4NueOIvPJKlJKBPrMqv8uNue5LWDB9NU6CNU+qGY+qPuAHrqFiij+
- V8cSDbXw+s2ukEcPnxZsgqnZOCdlwlWQ99HqEyHfBCKIT2Q/GbsoP1P7ZniubAbIHD73Op01m
- 5F7mJeXhizoxzrVEDO3esKOwsS+IfYtUiVE4Z9uQcZ8Otap9/zMSn6sWddXj7afHlFbdQNcP4
- i5RYzQLPn0ebLqLA7nAjXuKQnrgwECZvCP5msb6uuJW2bkn2ls+8B6W15ZmVyY/EYPGOQ9LnF
- yg2Q2Ed3AyFbzHNxJ77GRSRvjcE+SfEBeXmWz7jm87Ii+gVbQr2TAIBtS5Ui5iDjqEcNqfqxK
- YIs5yWBWvJeMked+TsgK+jmqUmGXaSYugSkAd5Qp8cL8+ROhAaS6gIx9SpUH8hJEmt7ZjB/74
- wR/AUwHXAl+BW8mSNx8ey1xmVbNmDkZiWk/qLQtXuOHOSHdcsudIfSHGb+UjpDr1DeztPW9JP
- jLaZbxSHP6o1ykCmajezc1WuxsB5aBgLf7otLLo6rrWDDZGx98SpaiQuX+jOe5xrLvJVnpTHu
- KsgBG0sQPmjOaI4KEgT+pS8sIgtzMI
+UI-OutboundReport: notjunk:1;M01:P0:3vtUtjgtZoQ=;lEi+qHtyP8EQbB3MtXAtzKZD8eH
+ 92IqiJHp6cS2tRs9lPkeUN9BITasnQWoiu/QqK3TfyoyPzrZPicKZAarB+FyP4EhEiGn/ejIN
+ kREqlZ3Mj7cJJxw0SUFpyN9NzgG/rJMF4d0XP0mcIqt2q2x0zVkOE/ZMajZfC+zmkPK6WWyoA
+ beQRfJSlQWkthIxAky61kJ7mRadnuvrwkIVCB8KMOr5bkR0bRmdlWw2Rx6tCujbR5lNjhRHMJ
+ vKxYFF28NS7MMW58EkG3JZopskx4WtlYRPFK0ro/cxf2RNEir2Mn4dsOUhKXnWkliujXdW+W8
+ S34lbNV3PjAaw2XEsKizGTrOA5oWLC7wqXreKcsAsZXMaYvLk4S+sbu2qMIQ/Tjd3x2VPjw5F
+ 8qt6nPPO4JcM5ZzsRIZpkhpbcPauXlmMWFDq/sA1rTvK6up5KoOEPQhUjCVY2+5N7NwInadrE
+ sBQVMfOnE9AC7uWFWWoAZt/ME/YmPGkFsZnjDaHNaZLelOEulRB77m7SJG2+R8DqR5Cjud86c
+ TSFI70t0wFr+kd0nldSYJw0AsK7wQ3DL5c28Yyc2oEM7ve2q8DPlgjsWA70nY99kYIqopSI08
+ EyAk26upPDDF+QBeHBrTQNkR28e6xtq9elwGGJfbxnxV6P8QTIK0R6ou/8DN0j8lnzVq32qOJ
+ Lkz63MrZw8ehje7qafYYpQPdX28ZeLL4Vzt3ieZArshn9HKfb6CF/MMos/QFosDdUBBycyPDK
+ 8hClskiC2pjgiW5P0sadl/qAXtMQJTv0/+qPjijsBq00Mkf1RoxZ/NeSCt+29Nb8YLfy9lO1t
+ HyBp0ETm9euhbryEazVS/VHvG6bJezIUGmZiL+/NQVHGYYbqhY+EIm1l0V100fVCDVEwhDh0f
+ u4QnLOZv00Md9er7UWvVor6+dCnzsnYLm2PkMpV0CbsJBkbGO81tdtCf6XWVFQoVCSl3g8SVD
+ sm4iRDsWoiKmHJbdXWaGryAzxolR48X9MQhsC+Hx5LQPbq4wiMoeXg9pvd2KAy4mDKCAp9tbj
+ isA0aBcnqqhWyqNAxNviPHDNi5YIDTZokDLbKyP+OS72qTvebcgUBLC4enuY0CAN4NgN9tRH0
+ 4DUgO8MqH2dAC3TLoT9MvJeVMoiFze
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,16 +128,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/15/24 15:58, Thomas Wei=C3=9Fschuh wrote:
+On 12/15/24 15:55, Thomas Wei=C3=9Fschuh wrote:
 > The sysfs core now provides callback variants that explicitly take a
-> const pointer. Make use of it to match the attribute definitions.
+> const pointer. Make use of it to match the attribute definition.
 >
 > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
 > ---
->   drivers/video/fbdev/aty/radeon_base.c | 8 ++++----
+>   drivers/video/fbdev/udlfb.c | 8 ++++----
 >   1 file changed, 4 insertions(+), 4 deletions(-)
 
 applied.
 
 Thanks!
 Helge
+
