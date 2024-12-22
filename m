@@ -1,111 +1,129 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEF29FA4BD
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 09:39:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0BD9FA63D
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 15:49:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4344B10E00B;
-	Sun, 22 Dec 2024 08:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA3D510E04E;
+	Sun, 22 Dec 2024 14:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QiBDc4pe";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="h8iwYbPZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D283610E00B
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 08:39:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E74985C46FB;
- Sun, 22 Dec 2024 08:38:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE39C4CECD;
- Sun, 22 Dec 2024 08:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734856768;
- bh=MiEvhIstcYnJtdRUJCYNRrH9mQy76V7NADTyz5aUv1o=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QiBDc4peffQWhld9lLZr7Hcq/YUZQnKtWFvEL4CWhiGLRmOj6QNqlGDW+bzvrSxFE
- BuRaSpjSNBle7vgTw+PbhQDztNuglQYAMdVaCwmm/akVTAk7cbL7jx2FPOvQv7Ep6+
- DyGJGhPDH387JBfwbqrPilsoYUgHUFahRoE6URvNu2mDlWaXu69MBDl14qAd/GOcKQ
- E1kmYb4PPueCe/aMS29bpXp2WrKFscVP5xstbGB9JrZT4gejliX6fpcD3UX6Uqmzuj
- NVInig78Wzu2sCF0pqk5Mgll+TdjFox5AAEXoUgv058De+UmBvWutiRxE/svRTDQZD
- GZAqnLSAcjPcw==
-Message-ID: <874d26cf-af3d-4d24-860e-72573920da27@kernel.org>
-Date: Sun, 22 Dec 2024 09:39:18 +0100
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com
+ [IPv6:2607:f8b0:4864:20::92b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75B0210E01F
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 02:00:02 +0000 (UTC)
+Received: by mail-ua1-x92b.google.com with SMTP id
+ a1e0cc1a2514c-85ba92b3acfso1306874241.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 18:00:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1734832801; x=1735437601; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OWFU15fJ4L3Ec0ACNvMZbS9c3dQNjLQi5WORN5noOTw=;
+ b=h8iwYbPZrzP6QEeAVIUksex+eca2mArPqx/8e4bjlBLAmJfrYcd2IE6/OOYDdw+PIu
+ 4HCWB/bC5PEZAmeGjviEcPAbhMym2yj0/c8EcxLA9fikJapYU5ub4rFX7xSZvgBMfJx4
+ H4V49FjxqNUDfJfWMexHBqLyvUPpneSg8UuSYqYR4OZYBD85kc8wpivIjIpBOlVoxubL
+ aTxrK9TFw0DmOuhr/IWh7jHpBN/jHyo1/JGZSvBVIwaoPLZMWHL0YT7i1/0fjqWcvFuV
+ QLaVCCd/ZBj61Q8hIDm9YO/iReYbLbawEy1cOWwYEnnm+09TKWPfYTfJip41AMtoBuUa
+ 28Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734832801; x=1735437601;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OWFU15fJ4L3Ec0ACNvMZbS9c3dQNjLQi5WORN5noOTw=;
+ b=dtdplNBfGJHIrj0hv3EXt0DsSuufFrpY/TvBwkVqQi6L16g8G/4wF6mqCbO1Hf+0by
+ K9LAhCXpxEwvCjQdGgipU8MsSWy5Q7TUg9pGezm7ITf42XXlMgynUBiDQtCv/nMG1kl+
+ chSZxFBSkpEqCUM+kCud3EdZ3bTfQ0cYPTzL0qQ1l3mU+wH+j5JyUd7xWi7Wx1KaKH3s
+ M53hDCL7z4PCtXpr3JgLMRquSD/9lf4gN2NXBXTW2TrjP6zHzSMc6a6npsxH4AuZBOVP
+ nqYLDPWZNlIRM/sK/89NfO2RkSEv2go0vA0J70s11qOuAlgwmIR5TPeA4O690fGZcjov
+ kYQg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU2Wa3zDYaWv32KEUeX+pfBNhavIgDzP9z1PkKP6tzE5xiv4rmV4joP7klnAcr4zYA6gRRn0DTLnxw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhUs/a/ndqNu+ckanyby30c5F+ahncrVKGP2BLDmHm2XFkxgzL
+ 5YfCCHXQmd0g5firJ94uguymyOkzuNBOYMBu0YbLnvd4wuBUZi/A
+X-Gm-Gg: ASbGncukMaddnbaR6h1onFPRg+II1KBgJR3FWkzCDiYaAjc/7nfbMwTyE/jEIDKMMUj
+ EIUS0ZpHM+EGPls1lDxgpjlhLg4n0isqMMgVtmWymrVa7RovHdva3VuW9qK08HyZYvgyV4d7noF
+ //x+EcEKEHr+eSiRg16gl9XITbCSjYDeMAGFX3NFInifJGUpi6ygVZ8OtRP3msUYG8jLDi7RJLw
+ hTkFthZTrsNwN+TynubCyIDbUrZkHLpq7ct/fnZubgGC460f5SCuTDipJI=
+X-Google-Smtp-Source: AGHT+IFKHaVz4WvgkgRU7/knTE0SXER/wJFjxFtceqzkT6YsvNlgrKqNJe11JRtidu0QIkQ76Yt8mw==
+X-Received: by 2002:a05:6102:4427:b0:4af:e61d:e22f with SMTP id
+ ada2fe7eead31-4b2cc473647mr9803375137.24.1734832801423; 
+ Sat, 21 Dec 2024 18:00:01 -0800 (PST)
+Received: from [10.138.7.94] ([163.5.171.73]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-8610ad582cdsm1134069241.32.2024.12.21.17.59.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Dec 2024 18:00:00 -0800 (PST)
+Message-ID: <2fb36b50-4de2-4060-a4b7-54d221db8647@gmail.com>
+Date: Sat, 21 Dec 2024 20:59:58 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] dt-bindings: display: Fix brcm,bcm2835-hvs
- bindings for BCM2712
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Eric Anholt <eric@anholt.net>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Doug Berger <opendmb@gmail.com>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>,
- Stefan Wahren <wahrenst@gmx.net>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Florian Fainelli <f.fainelli@gmail.com>,
- linux-gpio@vger.kernel.org
-References: <20241220-dt-bcm2712-fixes-v5-0-cbbf13d2e97a@raspberrypi.com>
- <20241220-dt-bcm2712-fixes-v5-2-cbbf13d2e97a@raspberrypi.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [RFC PATCH 3/3] drm/virtio: implement blob userptr resource object
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241220-dt-bcm2712-fixes-v5-2-cbbf13d2e97a@raspberrypi.com>
+To: Honglei Huang <honglei1.huang@amd.com>, Huang Rui <ray.huang@amd.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Lingshan Zhu <Lingshan.Zhu@amd.com>
+References: <20241220100409.4007346-1-honglei1.huang@amd.com>
+ <20241220100409.4007346-3-honglei1.huang@amd.com>
+ <Z2WO2udH2zAEr6ln@phenom.ffwll.local>
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <Z2WO2udH2zAEr6ln@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Sun, 22 Dec 2024 14:49:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,108 +139,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/12/2024 19:11, Dave Stevenson wrote:
-> Commit 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
-> added the compatible string for BCM2712, but missed out that
-> the number of interrupts and clocks changed too.
+On 12/20/24 10:35 AM, Simona Vetter wrote:
+> On Fri, Dec 20, 2024 at 06:04:09PM +0800, Honglei Huang wrote:
+>> From: Honglei Huang <Honglei1.Huang@amd.com>
+>>
+>> A virtio-gpu userptr is based on HMM notifier.
+>> Used for let host access guest userspace memory and
+>> notice the change of userspace memory.
+>> This series patches are in very beginning state,
+>> User space are pinned currently to ensure the host
+>> device memory operations are correct.
+>> The free and unmap operations for userspace can be
+>> handled by MMU notifier this is a simple and basice
+>> SVM feature for this series patches.
+>> The physical PFNS update operations is splited into
+>> two OPs in here. The evicted memories won't be used
+>> anymore but remap into host again to achieve same
+>> effect with hmm_rang_fault.
 > 
-> The driver commit adding support for BCM2712 [1] also requires that
-
-The driver commit foo ("bar") ... BCM2712 also requires...
-
-
-
-> both interrupts and clocks are named, so the relevant -names
-> properties are also added to "required" for BCM2712.
+> So in my opinion there are two ways to implement userptr that make sense:
 > 
-> Update to validate clock, interrupts, and their names for the BCM2712
-> variant. (There should be no change in the binding requirements for
-> the other variants).
+> - pinned userptr with pin_user_pages(FOLL_LONGTERM). there is not mmu
+>   notifier
 > 
-> [1] Commit 7687a12153d3 ("drm/vc4: hvs: Add support for BCM2712 HVS")
-
-And drop this.
-
+> - unpinnned userptr where you entirely rely on userptr and do not hold any
+>   page references or page pins at all, for full SVM integration. This
+>   should use hmm_range_fault ideally, since that's the version that
+>   doesn't ever grab any page reference pins.
 > 
-> Fixes: 6cfcbe548a3a ("dt-bindings: display: Add BCM2712 HVS bindings")
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
->  .../bindings/display/brcm,bcm2835-hvs.yaml         | 88 ++++++++++++++++++----
->  1 file changed, 74 insertions(+), 14 deletions(-)
+> All the in-between variants are imo really bad hacks, whether they hold a
+> page reference or a temporary page pin (which seems to be what you're
+> doing here). In much older kernels there was some justification for them,
+> because strange stuff happened over fork(), but with FOLL_LONGTERM this is
+> now all sorted out. So there's really only fully pinned, or true svm left
+> as clean design choices imo.
 > 
+> With that background, why does pin_user_pages(FOLL_LONGTERM) not work for
+> you?
 
-
-...
-
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: brcm,bcm2711-hvs
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: Core Clock
-> +        interrupts:
-> +          maxItems: 1
-> +        clock-names: false
-> +        interrupt-names: false
-> +
-> +      required:
-> +        - clocks
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: brcm,bcm2712-hvs
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> +        clock-names:
-> +          items:
-> +            - const: core
-> +            - const: disp
-> +        interrupts:
-> +          items:
-> +            - description: Channel 0 End of frame
-> +            - description: Channel 1 End of frame
-> +            - description: Channel 2 End of frame
-> +        interrupt-names:
-> +          items:
-> +            - const: ch0-eof
-> +            - const: ch1-eof
-> +            - const: ch2-eof
-> +      required:
-> +        - clocks
-> +        - clock-names
-> +        - interrupt-names
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: brcm,bcm2835-hvs
-> +
-> +    then:
-> +      properties:
-
-What about clocks here? Why isn't this a part of block with bcm2711 (as
-enum)?
-
-> +        interrupts:
-> +          maxItems: 1
-> +        clock-names: false
-> +        interrupt-names: false
->  
->  examples:
->    - |
-> 
-
-
-Best regards,
-Krzysztof
++1 on using FOLL_LONGTERM.  Fully dynamic memory management has a huge cost
+in complexity that pinning everything avoids.  Furthermore, this avoids the
+host having to take action in response to guest memory reclaim requests.
+This avoids additional complexity (and thus attack surface) on the host side.
+Furthermore, since this is for ROCm and not for graphics, I am less concerned
+about supporting systems that require swappable GPU VRAM.
+-- 
+Sincerely,
+Demi Marie Obenour (she/her/hers)
