@@ -1,68 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6439FA3E0
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 06:00:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A6BB9FA3E7
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Dec 2024 06:01:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79F8510E2D2;
-	Sun, 22 Dec 2024 05:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86A3410E2CD;
+	Sun, 22 Dec 2024 05:01:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MSyUtMcF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pCUzqQur";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B78E510E2D7
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 05:00:55 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id
- 2adb3069b0e04-54024aa9febso3438449e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 21:00:55 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E17410E2E2
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Dec 2024 05:00:58 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id
+ 2adb3069b0e04-53e3778bffdso3548814e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Dec 2024 21:00:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734843654; x=1735448454; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1734843656; x=1735448456; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=SPUKe2inYvlgyzg1RdM9z6lWoAQEDWbkCd9hh5ymtmI=;
- b=MSyUtMcFClOEOico6cZfZ5u+FfK314bRXVtEbMjSANoLl9VuWypHWoOjsixf1YwUnx
- 90uSZ2HkwWyMSfvZf6HIsIdUFCUWUiqjHFl5jJvkp8sX0LZKwJ1oAvQ4sqQngvHGqZIB
- h0tyH6CjzuxFlVTB1FqSI4SnVXLjI1Vg0lxRa8909FohXK8zTnoxQAkFZjE3LoQIjXdG
- l9pNunkPoRe/z9yAgM1IaXN4OzaCkvJPGkgLHbHBjiGumx1zGQ3qP/jnBC0M953DThcv
- z8ocn9wHBwWSsZkWbC9r1yF1uGDeS3ybTR4+xdcNpvyXhv2HZEnpZ2ZUwFLDYTKGemTk
- D5Jw==
+ :reply-to; bh=NaQTzRa7GyvxraeqI5vqmNWxM0qcr19enSqB7F9pnhg=;
+ b=pCUzqQury6B2qX0YnbdHgF9Lv7hXKGUqefQ+lFzcGKblQLJ1ClJhuMjzAcWd9mYiR9
+ qlCiS2c+z6I+SskKtteHWWcytoCDd/mj2xmV52/vO4VZItkPJkMHDXgdpCiZNf/kM1SJ
+ 1KO+E4/9b6yebLi1KdigmZOjlFKWSRc3NR999UvKCrjCeExiTEmvKDDERrCyRlNLPe3M
+ TLJPwBANrwqnakyBpO4sJPzfWtAK0L5qf1qVYEg2tkEq79SoAzbSO6LRDz7IsdZ6Gqi0
+ lPafDR9yKAb5i+4M2rXghk/K2QSLgoYUwa3U+5dN1XudUHyNWcVoundrnz9O3F8zwrPi
+ sgHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734843654; x=1735448454;
+ d=1e100.net; s=20230601; t=1734843656; x=1735448456;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SPUKe2inYvlgyzg1RdM9z6lWoAQEDWbkCd9hh5ymtmI=;
- b=FSFNYaFElYoGvXc0W2J1GB8XtrdbKkHlD6yDKPFxTTz7fv1DeHSn15uxW1aRHblS3S
- swdSLqyNRKC5LRnpFjfyEpBSQtHMULLLlh2ggz03QOtDyDVr1vQImeDg7Z7jVX2Gd3Pp
- rDlZzO/gwH301U8m6OvS6aV/qTx5TqouXFcvpbY8/XtD/xol8ovXmh5h7C65NASCDmox
- j8Vj4D+MjsEE54BfyguCaklr0gLa5NooBzijAQGGpH7VznUUgc2JMMpWqni7dVATFciR
- kajO56s+vzGXhzcPEjE1EqbR4VDYuL5hOif57bMPPrC+/QnUwPeVruABP1X+ngW8yUxw
- uefA==
-X-Gm-Message-State: AOJu0YwNKTLEU4pV2FHLmtVfLLp+mLu8uGPz9OtrB4vyfxM6dYkjLe3W
- WhAsmjLOuG89bzBv0tfZPxIadNw/ZyEXUXZ3ALgq1VZRGMoqFsXgNSBPznD/j5Y=
-X-Gm-Gg: ASbGncuK3qp8PlIXODuuf4eX7Fy9OOZcv5kUvJYiMKdqoU40saGfR6JQDcxqXyjwNY8
- 4V+MHupNSrRrDND+a+8DPZ7LMWVox/qdeFJKNfRHczOonwRPN0NqP7juB2M/vBOE3WOyscyy5zw
- hBWCGpVZhJxbsq5f9ktl3A9bOySpgMIiCH4Fbf+HT3vxuAx1/4wqHJdg/w+h6SnRelU+8Lu9R0W
- 25LxyaZG8QiOgquluXzh7aOZ3crNbQ1SHu0YJI++ebAsP1DEJMflng8ZzVCX/14
-X-Google-Smtp-Source: AGHT+IH5FngsI07NNLouagSYBk1lHP+UW7OocB95mR63hfokDbT+bvXmYWVojBL11pLAgTWk4aF61g==
-X-Received: by 2002:a05:6512:1392:b0:53e:38df:673d with SMTP id
- 2adb3069b0e04-54229562a01mr2899574e87.43.1734843654003; 
- Sat, 21 Dec 2024 21:00:54 -0800 (PST)
+ bh=NaQTzRa7GyvxraeqI5vqmNWxM0qcr19enSqB7F9pnhg=;
+ b=i719abUQfcX6vVH5wOwD8Pv64eMMzOc8NaUeHzCUbvKhP5GJhMkGoFavN+cXwaFpkq
+ +talbNhUrgaxaZPB42H+gCE0de2brooPmtNaGb5C1dQDfYaPT42lGxzcCJwZxFmWtrXF
+ rn9xyufFb0RLXtjSP7/y89VHnjo2L7RS2G7DoXylFa1W+Ma193am18J9MF+wRze6ZVZD
+ OI7WL0bGVVaUyyfKqVhyMXbr4D/BpDyECOdH1Cr+0+GEHOrP+zY+SqYY+VSM7CYezP0d
+ y/RCDg3QyHtaNm2MkbZ/PVdW7AIX+2hHhSsMXgLdpQctBKWXuGzOPLBUuBFPLG5gX5Nl
+ UEcQ==
+X-Gm-Message-State: AOJu0YwnRayPefhWnVJgQgPrCVhpv8leLVSnlBbCsSuccE9Lr1A1OP2g
+ uMfZ+rWcB/DFYjp8NPwSvSeIugvHtfNMdjvDJJpQ/u3tyXBTwKKHyLLM7uuaajA=
+X-Gm-Gg: ASbGncsOCriv2qOiW7f6HhxV+egdkk3vW5OWSSMloLkotomi++69ghm//0n+Rlx60G0
+ U/DVGVXqKxbCuizxIQuObL1xqdgop+Pt0+YxKP56KJQ6BaIkPugqjBiODftSc3ywwN7nanCICuS
+ aFhVFYTVHUn19O1dvO9wpkHEDYnrk9ocpMCqie+tKJzK06+lrV+pkWQzegnIR252r62l31HQ3Sv
+ X4Yx73ITQwbfBMDYS3rtpB4edmwoAvHm4SAqCChhUL0KuJ0r7ZTLKSob5Eee6fi
+X-Google-Smtp-Source: AGHT+IFCHLgrjc5HUCgWghQmBMEv8FeLcEj5wjWCG0Y3qFK+eTqcI2LEnkuQNFWTsXWjWCzbF72i7Q==
+X-Received: by 2002:a05:6512:1241:b0:540:2122:fad7 with SMTP id
+ 2adb3069b0e04-54229524544mr2818968e87.6.1734843656392; 
+ Sat, 21 Dec 2024 21:00:56 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223832c05sm887145e87.276.2024.12.21.21.00.51
+ 2adb3069b0e04-54223832c05sm887145e87.276.2024.12.21.21.00.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Dec 2024 21:00:52 -0800 (PST)
+ Sat, 21 Dec 2024 21:00:55 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 22 Dec 2024 07:00:43 +0200
-Subject: [PATCH 3/6] drm/msm/dpu: don't use active in atomic_check()
+Date: Sun, 22 Dec 2024 07:00:44 +0200
+Subject: [PATCH 4/6] drm/msm/dpu: move needs_cdm setting to
+ dpu_encoder_get_topology()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241222-drm-dirty-modeset-v1-3-0e76a53eceb9@linaro.org>
+Message-Id: <20241222-drm-dirty-modeset-v1-4-0e76a53eceb9@linaro.org>
 References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
 In-Reply-To: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -79,16 +80,16 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2196;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3602;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=dBpoTk4s8OfoXgQIHG9q+kMWzF7ACr4fOXNDIEIP2pc=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZ5z7MZS6rAhW4DKuCWV9b4WdZ4hjqC6HLAq/i
- yre35Fm6UKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2ec+wAKCRCLPIo+Aiko
- 1YNhB/9hX2wrzJFQ1fwM8icQeBER9azSe4PG8Bpkhfz75DieLiutJPwRQtpOItU+qWqg6WCbESd
- AFhW4a8ggukt6IuqRscFxzbxnfStjAf2/AAxGGiUjRKmbegN4evvPH5ZuwMVRYHJipxbUjM5dRq
- DY26GP4KUxfZcN4d8cap0cnUgNxEWBohuAcKFyOWCgnSxUgNoKTOVPzAbLRB/+eOClO0t8tg8lG
- mu7U1WhfrEEKB7DCcQOb4GQxWfGAazde4EKF39I9VOy3jDXwpFEdA8wWS7KB8Dd6qh4K2Qf6Lmm
- ngCcXoIiCtGuHQpeqXSzY8TZe2MPU/nrQD2jLanaCowQhYyE
+ bh=o0B+a1EF4We4PO2V9bfhp7XNttccav9liOTM6iCtHpk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnZ5z7H7lKvmpQPT9gsq35qp8BXSedRa8X6iFH/
+ oDbcZTeZZCJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2ec+wAKCRCLPIo+Aiko
+ 1V30CACrnY9yBGk9zsTN2C4/b/4NS4qlZM6+sC2Y/1tiUbIK5OOelFJxlAU9YUwhFjh3IDXOHen
+ 96VjYP4WOWeys786HTLeSzgDqoyfN1nh4HPZKyTruv8bnO4HOC+smWKvHJp7y0HOB4J7sVMNQHq
+ /eBJ+zFbkuUUdpTiYwysNHbZHZqfQyXoUAqckbsq5eb9Ah+uqo6JnYRxH2cDZGg7fuvI+b1ia6G
+ 7soSXXUPF4As4NiokQVNEFyq7wT1N9hYgm9zhXfEWF5p/c691qcz70X9taEA+xsz3b7Q0R/RAC3
+ oRClP3Z3LB3u5boHLR8PSbvh0oDS/eo0nAb6NLszMP47KqxO
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,54 +107,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver isn't supposed to consult crtc_state->active/active_check for
-resource allocation. Instead all resources should be allocated if
-crtc_state->enabled is set. Stop consulting active / active_changed in
-order to determine whether the hardware resources should be
-(re)allocated.
+As a preparation for calling dpu_encoder_get_topology() from different
+places, move the code setting topology->needs_cdm to that function
+(instead of patching topology separately).
 
-Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 4 ----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +--
- 2 files changed, 1 insertion(+), 6 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 41 ++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 7191b1a6d41b3a96f956d199398f12b2923e8c82..65e33eba61726929b740831c95330756b2817e28 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -1264,10 +1264,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
- 
- 	DRM_DEBUG_ATOMIC("%s: check\n", dpu_crtc->name);
- 
--	/* force a full mode set if active state changed */
--	if (crtc_state->active_changed)
--		crtc_state->mode_changed = true;
--
- 	if (cstate->num_mixers) {
- 		rc = _dpu_crtc_check_and_setup_lm_bounds(crtc, crtc_state);
- 		if (rc)
 diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 83de7564e2c1fe14fcf8c4f82335cafc937e1b99..d1ccdca6044353f110bf5b507788efe368f223a3 100644
+index d1ccdca6044353f110bf5b507788efe368f223a3..88690191a9c9485e052d37749d1b61f50328916e 100644
 --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
 +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -793,12 +793,11 @@ static int dpu_encoder_virt_atomic_check(
- 		crtc_state->mode_changed = true;
- 	/*
- 	 * Release and Allocate resources on every modeset
--	 * Dont allocate when active is false.
- 	 */
- 	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
- 		dpu_rm_release(global_state, drm_enc);
+@@ -652,8 +652,11 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 			struct dpu_kms *dpu_kms,
+ 			struct drm_display_mode *mode,
+ 			struct drm_crtc_state *crtc_state,
++			struct drm_connector_state *conn_state,
+ 			struct drm_dsc_config *dsc)
+ {
++	struct msm_drm_private *priv = dpu_enc->base.dev->dev_private;
++	struct msm_display_info *disp_info = &dpu_enc->disp_info;
+ 	struct msm_display_topology topology = {0};
+ 	int i, intf_count = 0;
  
--		if (!crtc_state->active_changed || crtc_state->enable)
-+		if (crtc_state->enable)
- 			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
- 					drm_enc, crtc_state, topology);
- 		if (!ret)
+@@ -696,6 +699,23 @@ static struct msm_display_topology dpu_encoder_get_topology(
+ 		topology.num_intf = 1;
+ 	}
+ 
++	/*
++	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
++	 * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
++	 * earlier.
++	 */
++	if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
++		struct drm_framebuffer *fb;
++
++		fb = conn_state->writeback_job->fb;
++
++		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
++			topology.needs_cdm = true;
++	} else if (disp_info->intf_type == INTF_DP) {
++		if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], mode))
++			topology.needs_cdm = true;
++	}
++
+ 	return topology;
+ }
+ 
+@@ -743,9 +763,7 @@ static int dpu_encoder_virt_atomic_check(
+ 	struct dpu_kms *dpu_kms;
+ 	struct drm_display_mode *adj_mode;
+ 	struct msm_display_topology topology;
+-	struct msm_display_info *disp_info;
+ 	struct dpu_global_state *global_state;
+-	struct drm_framebuffer *fb;
+ 	struct drm_dsc_config *dsc;
+ 	int ret = 0;
+ 
+@@ -759,7 +777,6 @@ static int dpu_encoder_virt_atomic_check(
+ 	DPU_DEBUG_ENC(dpu_enc, "\n");
+ 
+ 	priv = drm_enc->dev->dev_private;
+-	disp_info = &dpu_enc->disp_info;
+ 	dpu_kms = to_dpu_kms(priv->kms);
+ 	adj_mode = &crtc_state->adjusted_mode;
+ 	global_state = dpu_kms_get_global_state(crtc_state->state);
+@@ -770,22 +787,8 @@ static int dpu_encoder_virt_atomic_check(
+ 
+ 	dsc = dpu_encoder_get_dsc_config(drm_enc);
+ 
+-	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state, dsc);
+-
+-	/*
+-	 * Use CDM only for writeback or DP at the moment as other interfaces cannot handle it.
+-	 * If writeback itself cannot handle cdm for some reason it will fail in its atomic_check()
+-	 * earlier.
+-	 */
+-	if (disp_info->intf_type == INTF_WB && conn_state->writeback_job) {
+-		fb = conn_state->writeback_job->fb;
+-
+-		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb)))
+-			topology.needs_cdm = true;
+-	} else if (disp_info->intf_type == INTF_DP) {
+-		if (msm_dp_is_yuv_420_enabled(priv->dp[disp_info->h_tile_instance[0]], adj_mode))
+-			topology.needs_cdm = true;
+-	}
++	topology = dpu_encoder_get_topology(dpu_enc, dpu_kms, adj_mode, crtc_state, conn_state,
++					    dsc);
+ 
+ 	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
+ 		crtc_state->mode_changed = true;
 
 -- 
 2.39.5
