@@ -1,135 +1,138 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4849FA9D7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 05:08:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 680E39FA9D8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 05:08:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B376E10E305;
-	Mon, 23 Dec 2024 04:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C7910E307;
+	Mon, 23 Dec 2024 04:08:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="oxvfkor/";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KjGGKW+n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D2A610E305
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 04:07:59 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2050.outbound.protection.outlook.com [40.107.93.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B5B310E307
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 04:08:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tblIvTSgbFQKqmokmRHNQJ5/IzQnUA1ove4XqMVxO/Tw3ybYG8eU1+CnF+kYGIBvM+iVIYt/hpsAd4FnyzPeHkY4QedG9hm4hwOwlmq1NxkJMs1lT74mYlnyZq2fMLJaeqmWrT/8JOqZW2TgZgRcEt/ze93p0Qw1mJrVfDx2Qwe5nmtG5if3C4EcWy1tJs4k/eimMlvSL59kSZxLs1mZNa5M+s6Lr9ngSWCIBfd6B3GgB/MBBQY7ffQHopu8b0Z+RX2ZQF2ZY4JpyhkZvK/At2e4jujoaBDUtIcxGB0v4eOhD2EfRtlAcD2XmELnOjh4ruUm0QuP4GKsuoj7jSVB+w==
+ b=r6CsqP8/yQnHBCowH/O/uALFicSLUpFhoq6P+Ts31an911dHzdgidzKkx3eg2F9J1tfsVCPTd8Ir/4pq9SYxmwrT17dRUt1SIly5ctFoVXzQff69y10zGToOQOdtXaX7fd7nq0ee0CgmCqxSw9oPHSXce9i5KIMhvv4vXhU+aUS1DyqzrwU7CusrTHXHsE2a7Tkx+07qm/0oTMtL35FWsU4fXX+Z+86JPPeeq2WzH4oP57VesfoKhPbgQIkZql/NJ4O/zNbUyLtSqxECR2svXGnOrhaJWkqY0fZXPqJm0yTDzop30iGM3pZyBoXHlhn6eGrPMjncyFg9idd8syVetA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/R23bSjhIq9Jih2KvGNQlTFNHaoe9PrWK5xqQb3FWKQ=;
- b=arfs/fGRbQYYjGulqjxHVAOj47y6Fnda7iSXJ6Z9vYEiLbjTgCAQoO+oETl/iVO3ek9EBJ0IKLo/kH44fA23lY+0wb8v49u/WpYseAbDn0bSGBAdNhKV7Pb9B958SBUPIco5xo7eM3N4t5tdTRjMWgnZ2IibrpAEho2z4vO0ji59+zYFB5D5Nz69oI+AT1ru2dCNf45cN+BJSQB2DmnZDndbYGiSJazFvm71nwktgj1g7zm/DTDoRvveTGCwB6H4djmmURE9qk5cgrgiLjJ78uHNARxxYvgC1VEflD6+e1+O7bc44JMWy3F+yGiz/aN1aRBXLnoXro7suo90KvyzKQ==
+ bh=UNo3dUdeYBS+4Tm7aeJBLT49XhrMlGTTyv5D2nQYUOc=;
+ b=J3Wy0283VJocJrJtiRk6Aq4cVH/X5yjTd31z97/mtYuPiMZSrMobXXPQh5dNoXXhCLdissPW5CJDFpoV2myONChsJRVOUbaa+JhbabLah7z2Ulx4LWZkjlQotR7QLiot7vBUq5ygPBJyKSz0Z51IudaRW9UyblxzQGq7KdpyeNqbX51r8cq+UofDVlqfS7ro4ZjvdbQufknFp525ccr1dwjTvl9466njQ5y7dtGqxNL9IzgbiABWnnzcTe4SFKgJ308DLqHy6xDgYlewH82ujgn6Wcyb6RQe36Lrkj2+DQBsi7Px/YR/IwEqiI/kKgl0qtbVFJEJMBRD6Zis5PqHrw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/R23bSjhIq9Jih2KvGNQlTFNHaoe9PrWK5xqQb3FWKQ=;
- b=oxvfkor/6jE4N+1GWHWFdR9KuvNElGhdnFsCPUC7IRKis0RyLIcNc8zFx7HieCuRmLr72Q1CQ/caCVhLqluqV8BY0UWewO7wQ1AKFKEfrv4y7SbtfQlULNJvKc/aropP/tuG+rfzsPjv1e8aNheu3dVArsOGZyHkum4X+869tis=
-Received: from DS7PR03CA0283.namprd03.prod.outlook.com (2603:10b6:5:3ad::18)
- by PH7PR12MB7987.namprd12.prod.outlook.com (2603:10b6:510:27c::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.17; Mon, 23 Dec
- 2024 04:07:51 +0000
-Received: from DS3PEPF0000C37E.namprd04.prod.outlook.com
- (2603:10b6:5:3ad:cafe::16) by DS7PR03CA0283.outlook.office365.com
- (2603:10b6:5:3ad::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.20 via Frontend Transport; Mon,
- 23 Dec 2024 04:07:51 +0000
+ bh=UNo3dUdeYBS+4Tm7aeJBLT49XhrMlGTTyv5D2nQYUOc=;
+ b=KjGGKW+nsAb8ip4vIsDs39c1UTjoFAF/rflEA5OVRGkLXh7oRKk59rxF5EHrEv9SLVlXnr8L7U0j5cE8yJZJU+MCuTcBJ/tn+a7/hk0/Guv9gLlXqi1oPPuvqDAV/JZzMNiqWgnJ8vz9hbGW7r6rxzzfvE41m59vbdx5RaABMwk=
+Received: from BYAPR02CA0069.namprd02.prod.outlook.com (2603:10b6:a03:54::46)
+ by SA1PR12MB6797.namprd12.prod.outlook.com (2603:10b6:806:259::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.20; Mon, 23 Dec
+ 2024 04:07:56 +0000
+Received: from SJ1PEPF00002318.namprd03.prod.outlook.com
+ (2603:10b6:a03:54:cafe::ed) by BYAPR02CA0069.outlook.office365.com
+ (2603:10b6:a03:54::46) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.17 via Frontend Transport; Mon,
+ 23 Dec 2024 04:07:56 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS3PEPF0000C37E.mail.protection.outlook.com (10.167.23.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8293.12 via Frontend Transport; Mon, 23 Dec 2024 04:07:51 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ1PEPF00002318.mail.protection.outlook.com (10.167.242.228) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8293.12 via Frontend Transport; Mon, 23 Dec 2024 04:07:55 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 22 Dec
- 2024 22:07:34 -0600
+ 2024 22:07:54 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sun, 22 Dec
+ 2024 22:07:53 -0600
 Received: from localhost.localdomain (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Sun, 22 Dec 2024 22:07:32 -0600
+ Transport; Sun, 22 Dec 2024 22:07:51 -0600
 From: Wayne Lin <Wayne.Lin@amd.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <lyude@redhat.com>, <imre.deak@intel.com>,
  <ville.syrjala@linux.intel.com>, <hwentlan@amd.com>, Wayne Lin
  <Wayne.Lin@amd.com>
-Subject: [PATCH v2 1/2] drm/dp_mst: Fix drm RAD print
-Date: Mon, 23 Dec 2024 12:07:25 +0800
-Message-ID: <20241223040726.3985676-2-Wayne.Lin@amd.com>
+Subject: [PATCH v2 2/2] drm/dp_mst: Add helper to get port number at specific
+ LCT from RAD
+Date: Mon, 23 Dec 2024 12:07:26 +0800
+Message-ID: <20241223040726.3985676-3-Wayne.Lin@amd.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20241223040726.3985676-1-Wayne.Lin@amd.com>
 References: <20241223040726.3985676-1-Wayne.Lin@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB03.amd.com: Wayne.Lin@amd.com does not designate
- permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37E:EE_|PH7PR12MB7987:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f87ee9b-4e09-484a-670b-08dd23075ea4
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002318:EE_|SA1PR12MB6797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f95948e-e290-4bb4-1d45-08dd23076127
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|82310400026|376014|1800799024|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L1hidHgvbExmd3JrTXAxNjFOR1VHV1NxT3g1bWloY3AzUm9xdE56Z3ZvQ2VN?=
- =?utf-8?B?b0x6bW9HbStDTkJ5TkJpQzVKRVl3U0h1ckJ1Y1F0KzJiY3EwOXJSZW41UGxj?=
- =?utf-8?B?TTFDN0VlenpPVDlHTjN4b0RiL3JDQlBYU0ZDNkpGTi83U1lHSTZMQTExV0tG?=
- =?utf-8?B?bVhxcS9DK3BNSitET2hYNHpYU0w4a2NIckVpWnNuSml0bUJUa3hqeTJwU3pC?=
- =?utf-8?B?YWpMZWpUc3ZyeXJmWW5YckdkcE1CcGREZUJNYWdaZ1piNklVQVJYeWZoSDBC?=
- =?utf-8?B?Tzg3UTVxbmx2QkxnMVFKZlI5Snh1NjB4OVg4RDZ3RVFtUmVBZGFkMjhPb002?=
- =?utf-8?B?MDgxY0hHL3dMQ0lsUnp5MVdYYjRIT2hkME9lVElMVXd2K3RURmpnanF1S2xS?=
- =?utf-8?B?a3FrMkw0V1RTVmx1a01QS0JLM2poRmpLMFluZS9zSlVWQzQwTDJNakR1OE9Z?=
- =?utf-8?B?N01GRy9pbGQvckU5YnhBazc5dmQxN1huem5uRmJ4cVNPMk9UNFllQ3M2WlZy?=
- =?utf-8?B?aTdXM1dDM3RaRlV5NkVoTkNYbklRSFFpSG01aEVISHRSYm9yaFloNE1jaTFv?=
- =?utf-8?B?TkxyeWd1VzlZQkl6Z0syL1JaVUJtempVVm5RcTM0UlNBdFQ0SmI3dndxUTdI?=
- =?utf-8?B?aE5rSFNNZGlwenp4eGVpWlhYT0N3bllOYkhPWkhsdTMzRitJSnhRNGE1RXAx?=
- =?utf-8?B?cXFNeDNERjhEUzVYNU5qd09kVnBiZ2ROei9Bekg2RWU0N0FXT0d2bk4vZ1Nv?=
- =?utf-8?B?VHBGMXZTTTllNkk3T0hHNjRJSUNJRDNyTEVaaEJTM3VYWVRGaDFLTXA1QVVk?=
- =?utf-8?B?R2VKNW5KejVMR0RiUThtSmYyMGZFQU91cFgydkVVWW1IUXZqK2wvUnNYVnBM?=
- =?utf-8?B?Q0E4OE1FWjQ4NGVyNXl5RXRxMHI2TlQva3BGS0J3MTFqS1grU2M3UUY2ajU0?=
- =?utf-8?B?OGhMWmc4b0oxUkt4ckpQVzZGMEN4cHdkU29FNmVmZE9hV3pvcHNaeWFiNE9i?=
- =?utf-8?B?S1VlelcwNGRhZHlnTXY4YWpsQ3IxaDJ3ZjB6TW0yRWV5ZjJBWWl3aDlzTThl?=
- =?utf-8?B?ZnUwcWRLb2plWjdDYnloeDluV1B4NitVd0t2ZmJYMnBoeGpncFNtK2J0Mnpo?=
- =?utf-8?B?TFdRc2NodHVJeHdmV1JqdFQ3UTJmWldyZ0ZobFpJZG1OeWcrNVdTVDJQUDdv?=
- =?utf-8?B?aDVQNkNHZDlwUC9HZzZ4aFlDTmxrOGhEWHVocmVRaHhjR3FTbHdzSkNvd1Ni?=
- =?utf-8?B?MTZDOWNVdTh6MlZINEZlMURNN0E1bDYraUhYSXFVYXMrVm9WRGo2OVFZQWZZ?=
- =?utf-8?B?amFGU3lEMUVXMVdnMmd5ODAwZ216bkt2dm1aYU4yRW8wMWZtNGk3WWJhNkZx?=
- =?utf-8?B?d0pvQVVzbzlzeVhHV0hNM2prc2Ntb0lld0VndFg0ckh4a1pWZlBoZzlUK3kw?=
- =?utf-8?B?T1c0NVN5Q3BlSEQya2ZYdXBWM2xDK3l4UjROM1YvN3hKYlpKZUNnMXpYbnRV?=
- =?utf-8?B?bFowNnVQS1R6cDI0ekNHbnlPYmlrZ2wwVkxSemtBU0NPQWs0ZWUyd2gwR1ZM?=
- =?utf-8?B?NTRnSU1QenErT1lCMWUwVVR1b1M0WVpJKzQxdzl0QWNpTlNWcDVTMzVmQmpa?=
- =?utf-8?B?SDdlMHNOMFFjbGpObEN6cjJXV2Y0Q01nRG5NWXNQR0kvWFhjeWpjNEJ6STBF?=
- =?utf-8?B?VFhoMlI3M1RjSzFOdi9Zdzk0UlVHc1E3NkxvaFE5TVRHSTZPNWtHQm1wRjBj?=
- =?utf-8?B?OEpDeDNnUFowN1BxZk1IVDk0bHZ4Vkd2bGhnYmxjMUkwNUw1SUNVTWxETG9u?=
- =?utf-8?B?Yml5SGpqZEhvek9JV3dRRTlIbEZoL2pGRkN3R2R1bmtLaTM1S2ZGMmg0VURR?=
- =?utf-8?B?MUh6SHV3VWZiMXBFRWZXZUxodzNScWliaitxZzRrWDZWemJRL3FVMlJuWWs5?=
- =?utf-8?B?MWxIOEg0VnNCU3hwYmZGUmJ2ajVRSDlhS1RRU0prTVZUK1UyTThXQS9VRDRT?=
- =?utf-8?Q?6nvUT8aOiHR3kqJjN23p5waLmJbg4s=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?elB2N29vcGx2Q09tK2FFTVgrVDVZcldRYmhWUGs0QUthOU16NWhyaXlTV2lZ?=
+ =?utf-8?B?cmg5SmtOcEFrbmVvWnBTNEZoQ3R6bEEwUTNtcGh1QkxsdG5hRVZGa3RWMmY0?=
+ =?utf-8?B?am01ZEd5cFpWMzc5RUo5Q2xhSWl4NXlQMkVyek8wTmk0QW9GVGpobWhWenl1?=
+ =?utf-8?B?THlBcFY2M2pLUS8zU0VOUmJFTUpvbXJNbEVuQzZsbmQvY2hWK1hCVDZaTEUz?=
+ =?utf-8?B?eVZBUVp2cGdEVTViZ3dhbDRVdjRXcDFCbVN0NWpPUzdWb01zcEVyV2VhcVFF?=
+ =?utf-8?B?bzk2QzZKRWtFcEgzcTd4UHpEWUhuRUhidGNPQXNRZXY1eFE4eUJPRW14dHJu?=
+ =?utf-8?B?UEViUWFydy9zU1JFUHRuYnlZd2p6Tk5XQVh6cDZZcmptYTU1aWVUMEdaQ0sv?=
+ =?utf-8?B?ZnNITmVYVUZRM0M5TjlZQkhHMEdFbWhLZjFFUytzRGptK1ZobWRDMmhTQmNv?=
+ =?utf-8?B?NGY3MXVqUE9MbjN3SXk4dWY3VS8vUUhEczNjeUVDQTVYUHVPcjBuamlOSHBY?=
+ =?utf-8?B?S0QvT2xIaEd4RVZKUzlZcUdmc0xBWXVSOEh1SzFETXpjNkMydkxRZG1Ja0Vq?=
+ =?utf-8?B?WGNuMytsZ2txZHpRT1N5SXNUZVcyY1hGZnJYVy9VU3c1cEJPVEpwSm9oQVFL?=
+ =?utf-8?B?ZVhLTExWdmNldlo5bFRnTXFCQnlFY0VpNVBPek1pN2dnb29Scno2ZVZwVDRv?=
+ =?utf-8?B?QjlqUjFBRTZvQmxUNTVDenExaER3bFQzSWQvK0ZHK3lrUUpSQlp1cy91TWRN?=
+ =?utf-8?B?OXFuSElxUlBPQW5sTFlKNXh1TjVXalhGQkovaUIvTmo5ZzgvRGYvU2N1cjA4?=
+ =?utf-8?B?Z2s0eERZREZSbkkrdXlzT3RvSFAvMDJlZ0o1aWVWZmlUd1dFNWxFZXVGT2tO?=
+ =?utf-8?B?ejI1ajk1VnRudG1Ma2ZRRDBTNGtHeUZBUE9YMmdudkRWYUh2bkZOeDVkWlBW?=
+ =?utf-8?B?am1SdHFaYkEyVEtEQVFnMDZPS29KcmRpc2xObHhhUGh3T2dzRjBlenlkdDQr?=
+ =?utf-8?B?ZStLcXdadWVOK1FDQTFuYXFrMWVqaysxRWRRNHpIVW9ERkVpZEsxOXVLN1ZP?=
+ =?utf-8?B?VFRPVUM4dE5oSWtwMGJJNkhkYnlzZXhKZ0tyNnlFSmt3MEFRT2tYUE9ndWlz?=
+ =?utf-8?B?dzZCQWZ1ZGJnRHNIaUp6SFk1eTU4OTE2V0FBcEQwV0MwSi9jVDFyQlZJNmh6?=
+ =?utf-8?B?RDBiMjVsNnBPVzlxZDlqYlVVa094ZUo0TVIyWGhGY1NaL0lyc00yZFFaV0hh?=
+ =?utf-8?B?dm9CQmFQcDcxMWVydTJwWkNwamJlNG1naFByT1M2S2toc2RuNnB0RVhHVDNy?=
+ =?utf-8?B?d3dpR2hxbUtlN2JSVHNBNTVLMG5jS0Z4UjZINjdZRXY1SWMweC9uekZ5Qjh6?=
+ =?utf-8?B?UExPcTFWeUNPWnhUb2NqUlFQNTFvdEJCVndXQ3Q2RjJ6Q01FeHN0cnRpTXc1?=
+ =?utf-8?B?RUlKZ0U3UnJCbjcvZ1Qwa09WZ0hQMjBVTkhmZXZ5eGlLWjNGSHc5UUpudTdk?=
+ =?utf-8?B?MnpqbVZSUkJJTUo4MFMwaE8rd2VVVXBNTVhxc3VnTjlTeUhTbWZNZTVtdDg1?=
+ =?utf-8?B?akdnMXNPbHA2dnBtMFIyWGw1OGwrdzlZT21HdU9tT2RBNm1XTFFOZ0dpRDJD?=
+ =?utf-8?B?VWZWSUI4czB6T1d1SWFsOEwwWkVyU0t4ZzBBcXRmRGh4dlUrZ3QwRHl3Qm1R?=
+ =?utf-8?B?YlRsQUdDRVZCY3J6TnNTK0dGeStvbVdGcDFOM2kwUnlqSWk5NmI5TGZ0OWkv?=
+ =?utf-8?B?RTBsek1rZGU3aEdOTGtERTE0ekNIR0orcGZqbytFUEhDQWlKVklDaWd4RE44?=
+ =?utf-8?B?Q1RFamxLSEFSdnprTmR6QUNNTkNiVFFhMnZvam9mNm45OVJER3MveWRKcWNB?=
+ =?utf-8?B?Snl1bXBleFVmSWUzSyttRWFsTncyRDJ5YzY2alc2R3V1bFFibW05c3c3UzJQ?=
+ =?utf-8?B?MVNTd0owK2lRV0x0ZmlKWjhlZ1hqL2FTTDBsMTZZMjRBcHRoZFBLQXRJRUZ5?=
+ =?utf-8?Q?ZJcbivzaKRD5Je83AtgN1InBsui5TY=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
  SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 04:07:51.4960 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f87ee9b-4e09-484a-670b-08dd23075ea4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 04:07:55.5675 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f95948e-e290-4bb4-1d45-08dd23076127
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF0000C37E.namprd04.prod.outlook.com
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00002318.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7987
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6797
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,79 +148,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[Why]
-The RAD of sideband message printed today is incorrect.
-For RAD stored within MST branch
-- If MST branch LCT is 1, it's RAD array is untouched and remained as 0.
-- If MST branch LCT is larger than 1, use nibble to store the up facing
-  port number in cascaded sequence as illustrated below:
+Add a helper drm_dp_mst_get_ufp_num_at_lct_from_rad() to extract the up
+facing port number at specific link count from the RAD. Use the added
+helper in drm_dp_mst_rad_to_str() & drm_dp_get_mst_branch_device() to
+unify the implementation.
 
-  u8 RAD[0] = (LCT_2_UFP << 4) | LCT_3_UFP
-     RAD[1] = (LCT_4_UFP << 4) | LCT_5_UFP
-     ...
-
-In drm_dp_mst_rad_to_str(), it wrongly to use BIT_MASK(4) to fetch the port
-number of one nibble.
-
-[How]
-Adjust the code by:
-- RAD array items are valuable only for LCT >= 1.
-- Use 0xF as the mask to replace BIT_MASK(4)
-
-V2:
-- Document how RAD is constructed (Imre)
-
-Fixes: 2f015ec6eab6 ("drm/dp_mst: Add sideband down request tracing + selftests")
 Cc: Imre Deak <imre.deak@intel.com>
 Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Cc: Harry Wentland <hwentlan@amd.com>
 Cc: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
 ---
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 8 ++++----
- include/drm/display/drm_dp_mst_helper.h       | 7 +++++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/display/drm_dp_mst_topology.c | 30 +++++++++++++------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index f8cd094efa3c..271a00b81264 100644
+index 271a00b81264..dd11040af22c 100644
 --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
 +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -175,13 +175,13 @@ static int
+@@ -171,18 +171,30 @@ static const char *drm_dp_mst_sideband_tx_state_str(int state)
+ 	return sideband_reason_str[state];
+ }
+ 
++static inline u8
++drm_dp_mst_get_ufp_num_at_lct_from_rad(u8 lct, u8 *rad)
++{
++	int idx = (lct / 2) - 1;
++	int shift = (lct % 2) ? 0 : 4;
++	u8 ufp_num;
++
++	/* mst_primary, it's rad is unset*/
++	if (lct == 1)
++		return 0;
++
++	ufp_num = (rad[idx] >> shift) & 0xf;
++
++	return ufp_num;
++}
++
+ static int
  drm_dp_mst_rad_to_str(const u8 rad[8], u8 lct, char *out, size_t len)
  {
  	int i;
--	u8 unpacked_rad[16];
-+	u8 unpacked_rad[16] = {};
+ 	u8 unpacked_rad[16] = {};
  
--	for (i = 0; i < lct; i++) {
-+	for (i = 1; i < lct; i++) {
- 		if (i % 2)
--			unpacked_rad[i] = rad[i / 2] >> 4;
-+			unpacked_rad[i] = rad[(i - 1) / 2] >> 4;
- 		else
--			unpacked_rad[i] = rad[i / 2] & BIT_MASK(4);
-+			unpacked_rad[i] = rad[(i - 1) / 2] & 0xF;
- 	}
+-	for (i = 1; i < lct; i++) {
+-		if (i % 2)
+-			unpacked_rad[i] = rad[(i - 1) / 2] >> 4;
+-		else
+-			unpacked_rad[i] = rad[(i - 1) / 2] & 0xF;
+-	}
++	for (i = 0; i < lct; i++)
++		unpacked_rad[i] = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
  
  	/* TODO: Eventually add something to printk so we can format the rad
-diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
-index a80ba457a858..fdf9b8647592 100644
---- a/include/drm/display/drm_dp_mst_helper.h
-+++ b/include/drm/display/drm_dp_mst_helper.h
-@@ -222,6 +222,13 @@ struct drm_dp_mst_branch {
- 	 */
- 	struct list_head destroy_next;
+ 	 * like this: 1.2.3
+@@ -2544,9 +2556,9 @@ static struct drm_dp_mst_branch *drm_dp_get_mst_branch_device(struct drm_dp_mst_
+ 	if (!mstb)
+ 		goto out;
  
-+	/**
-+	 * @rad: Relative Address of the MST branch.
-+	 * For drm_dp_mst_topology_mgr::mst_primary, it's rad[8] are all 0,
-+	 * unset and unused. For MST branches connected after mst_primary,
-+	 * in each element of rad[] the nibbles are ordered by the most
-+	 * signifcant 4 bits first and the least significant 4 bits second.
-+	 */
- 	u8 rad[8];
- 	u8 lct;
- 	int num_ports;
+-	for (i = 0; i < lct - 1; i++) {
+-		int shift = (i % 2) ? 0 : 4;
+-		int port_num = (rad[i / 2] >> shift) & 0xf;
++	for (i = 1; i < lct; i++) {
++		int port_num =
++				drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
+ 
+ 		list_for_each_entry(port, &mstb->ports, next) {
+ 			if (port->port_num == port_num) {
 -- 
 2.37.3
 
