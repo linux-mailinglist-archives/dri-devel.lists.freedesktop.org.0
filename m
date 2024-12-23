@@ -1,124 +1,85 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906EB9FADB4
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 12:31:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5C79FADB9
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 12:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0CD10E51E;
-	Mon, 23 Dec 2024 11:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB4110E51F;
+	Mon, 23 Dec 2024 11:32:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="L1Krs7a4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j2nNP42N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76A7A10E51E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 11:31:33 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BNBVX3b002741
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 11:31:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 27LM7vBRwJrP/CtKAkZzLcFNepSTplUr8d45Ew5sahw=; b=L1Krs7a4wq9Pg9IR
- DMvL3U0/oWv3XTXo2aoYC4WiuWw37qi6quyA++/Awm7kIIgwjYyh9dT3qvS+ZMQz
- XX1cB+FT+NSpf0E+/EviXGWedMsQjjXtik0OXy2SPb7sGjdnnPw//JRUaORa4feW
- G1ltBsNbQwKCCbhg6ppmyEhKhAdqqbO7E3BkBW2/2KtbalHhfYEs8bLJmjAWcABp
- VLubOZ8zlgfrrzGGZ/2r/1d2pxCRBriy2gLbqfeNCWZ790Z+1X1SswO+ABGhEzKL
- 0ZqVrSHSqec7oWGoXmUnYGQLK1iHuTRVAq+KAgN+9YJq/1qOeqTUwGPz/UU5kqKh
- a/5sfw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43q72mr003-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 11:31:32 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6d88fe63f21so10336676d6.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 03:31:32 -0800 (PST)
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B6210E0C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 11:32:15 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-54020b0dcd2so5428114e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 03:32:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734953534; x=1735558334; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Io0aFnNNwQiWHsIlYK7BZZBTMpe4hxTbSGJahPhqnd0=;
+ b=j2nNP42NEyCrE8r4fiI9xkwEtVGMUuUdBoRqB8kc/v5OezZx9dwSIjfCXpJP4VZkja
+ z53XpA6lvp4lKa9zhQBGQK4F+NbDMUWpdHRSEQn1bx1PpEc8RqlVslBCTNtRzxHlzUft
+ hzXb2Ipr8b0x0XgjoNAi7iadTGF+CBOpq5ZxI+vrSnFFSnC0UZ1ZJ8hCDcF0haXlNJ1z
+ riQGM8Cw28mwjcZLBvEOeMCwKtarbWMc7g1X1r2tZNG+EmOoix/j5PViU6RkhYZeG3oo
+ ai+KYq6zxkpksqEa3OcOGIcoQ3vuje6SAFTfhLo9bVk0XnR7JQY67YrXJnnLoVyxc6Ka
+ zwYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734953491; x=1735558291;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=27LM7vBRwJrP/CtKAkZzLcFNepSTplUr8d45Ew5sahw=;
- b=vabjm2YMk1NCd44tyLcyWXGJfmWJE5x7y9pKpSZf3mNm2fk1yuaj9RqTZn2ck7WcxJ
- VKVTi8ts0WLpNBv+0mhd0Lt3rvxS4XVDcUSdCdMGbFGzrxxvFz6f3DVp6w8C73SaY7Ku
- pk6N6PD9Bn8CG3XNAv5E+V3g1y4fwtvH8T3BVOH+VQTgG6+NvWnmKORIpdQD5kFGVITX
- ASs6xzQ9PSZXMFcTYNhvLIo2kk5i3TtqP/QKkKNjYZzueW7PB5j7kRYnLxlmnSoY1lG3
- YiQvaGwq628a646uOO3zDI8VFJlBZpnd783USbvDKNqFY23Lk5zQm5s1XvX6DmaSzgE4
- aSTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWHT8KATi6YaHan0ALfp3GhsDIMYhxTE9x8RwhJR8TR+qTlFZ1IyJAd/EpLHVDMG5aLVf42UhM9+58=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWyKuHvt74vxZOiy5giuBUWSwRTUjclPkvYejb/uXczJ3SMCm2
- co3/n8Gk+dn9D2fFUQcJDuzMXchsX1aSrZAUbse1HqhGb/gAeaFWa5l5pVWiW4BgCCVmeSRzfcm
- 3i1izGav/zzyKZ2u0DXtC9i3Ixon56jZTpBJWjIJwm9C2zunsFHYoJPN39VfW8SRcPV4=
-X-Gm-Gg: ASbGnctmP0gxB4eT93GjC/Mz/mwtZe732qRXQeZx8HIZ6z5k3WvSjR1LqRLNKbakxMV
- v/QE2TOD8+jC/mVuNxMuu7bKiSdFOFr8JH46HjF+kzgzmHgs8NdOpgFIdzlXO84K2c+NK4ZKPhi
- YPgXurUKSGKcqJLzFluYo4komBbEHUGwB4qORLoI0KCM9/AIKCgKoTjXyokL5IVLViF4gFDbOH7
- 03x39PHODPDrskq+l6jWSo1vEYF3fYGNSyne4sFu9Yv7pxXbvh8NzYozDqXszTOhQBR1DZmHnRO
- 4ghkgV0G6HAAikOJQukPFyxpvkFExmbmv24=
-X-Received: by 2002:a05:620a:4108:b0:7b6:c3ad:6cc5 with SMTP id
- af79cd13be357-7b9ba7be550mr712276485a.8.1734953491138; 
- Mon, 23 Dec 2024 03:31:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEvwO24UGsNvg7bUmjw5WDK3t0LO4IlGiUGkEO33GSi4HQPnTDCdY7hqz7Af059iiH2mtM0Ag==
-X-Received: by 2002:a05:620a:4108:b0:7b6:c3ad:6cc5 with SMTP id
- af79cd13be357-7b9ba7be550mr712272385a.8.1734953490549; 
- Mon, 23 Dec 2024 03:31:30 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aaec0aa223bsm217851666b.173.2024.12.23.03.31.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Dec 2024 03:31:30 -0800 (PST)
-Message-ID: <16e1145c-6ef4-4274-a8f9-966f0edef9fe@oss.qualcomm.com>
-Date: Mon, 23 Dec 2024 12:31:27 +0100
+ d=1e100.net; s=20230601; t=1734953534; x=1735558334;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Io0aFnNNwQiWHsIlYK7BZZBTMpe4hxTbSGJahPhqnd0=;
+ b=Dd/Ps9E33C9UC14+WbbRiaXQQaGCNxsynjwH9heFud33sfg99eBR0dXjE1X5g1PI8s
+ 7YgOtf4NLmtxyt/wrmdqnHuHIsq2rpl2dCBbz3giRommybocnyq1YUE1j9R8zRZjmy64
+ B4K1/lfBVwonD7essPqho0F7mlDkTwJkK0SgGz+nS+17Zl/QLIE4s8dcsePn96GsMK05
+ WOBthMR1BCBg2DwX0RozS3VFkTXS5CJ0WbwMM+A8T2o/RwVDZ+OcknrNoEBeIbt3be8Q
+ 3J6dUnTLJOCyJjQkVlGZOp6aseiQslWZ8JVxy/8ET3YJ239wRfK/SJj7GWwSo6AI4ZRZ
+ +GkA==
+X-Gm-Message-State: AOJu0YxN2CGdGGKHQO0piCn2+iSTpMJ1lCU+QM/N05wfR/i0rZB2whi2
+ HPud/Ghqv00pAVFsAxrVhNpnsw/Fmo4BNhulkiRgoyS5ka8nJUodsKu8PV5SJos=
+X-Gm-Gg: ASbGncutH2suDxXoxELxH3hVFRmybHJh35NB5694IqPBzPHNi4bnpIHzt8YsNLF3ZJ/
+ d/QM1tqq3Qs0w5lw15X14W/wOBBaAQlIyrr6Kj1EQNDoaHMfyWEik/HgWxnwocwI/0ivDk1BA1o
+ 2akX21REFXbC15paympDtIV1C7RtfBpdKihyGR+C42/fK0+A056rMI3rtydfLSt5dY4mly99eo5
+ EG2rh4heDZ/9WNiXsV5WdgLm6d16LfWWbDZFEsgfRjJqPfAdNm2PkABZOovwFAfK/x59KqSfw43
+ bC7kg70jjeP1WJehh9q6XtQWRrGqPIYCrB2/
+X-Google-Smtp-Source: AGHT+IFQAVVka8tfhQQLypKSuFFeZTfbXIdbwFKArHWMlABaOq9wX6sZw2Zp8LWAHfr0uv4tXZ5d1Q==
+X-Received: by 2002:a05:6512:23a2:b0:542:1bdb:9a61 with SMTP id
+ 2adb3069b0e04-5422946f053mr3666830e87.19.1734953533962; 
+ Mon, 23 Dec 2024 03:32:13 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223831fdesm1270675e87.241.2024.12.23.03.32.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Dec 2024 03:32:12 -0800 (PST)
+Date: Mon, 23 Dec 2024 13:32:10 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ p.zabel@pengutronix.de, 
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
+ kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org, 
+ u.kleine-koenig@baylibre.com, francesco@dolcini.it, frank.li@nxp.com
+Subject: Re: [PATCH v7 12/19] drm/imx: Add i.MX8qxp Display Controller KMS
+Message-ID: <wpxxedxabgo2kxf5wuosu76i5ud3ce2tywm2imhvad4nyy5u2d@qgfhev2hndba>
+References: <20241223064147.3961652-1-victor.liu@nxp.com>
+ <20241223064147.3961652-13-victor.liu@nxp.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: opp: Add v2-qcom-adreno vendor
- bindings
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241021-gpu-acd-v2-0-9c25a62803bc@quicinc.com>
- <20241021-gpu-acd-v2-2-9c25a62803bc@quicinc.com>
- <mz4zpcr4tqh2w7vt75f4ofxjzfve54ozzgpdbi2jjzk5pdxbk7@t36tlt3mmprt>
- <d858dadb-4098-4c9f-b4f0-393dc988db5f@quicinc.com>
- <4426b4kybtac6rc4twa5pgm3hvlegofemvqjcrvh6ni7f5z2h6@5dnlv3hgywh5>
- <c5e868e1-2dae-466c-a6fc-ef0f247fa0ce@quicinc.com>
- <278e62e1-02a4-4e33-8592-fb4fafcedf7e@quicinc.com>
- <CAA8EJprgshjbNqNErOb06jqV__LmbWvocsK5eD8PQqL+FaLb1g@mail.gmail.com>
- <f67c72c3-7393-47b0-9b9c-1bfadce13110@quicinc.com>
- <CAA8EJppy+V9m-t_qPEJh2iTkC7tyDcf2y8wD9vYoHtFSp=HrkQ@mail.gmail.com>
- <982686bb-0ddd-45a2-b620-564af4f01800@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <982686bb-0ddd-45a2-b620-564af4f01800@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: JQa3rS-ZPFv-ZdBN_UKi19hjWpMeHIKt
-X-Proofpoint-GUID: JQa3rS-ZPFv-ZdBN_UKi19hjWpMeHIKt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- clxscore=1015 mlxscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412230103
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241223064147.3961652-13-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,145 +95,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 4.12.2024 7:18 PM, Akhil P Oommen wrote:
-> On 11/16/2024 1:17 AM, Dmitry Baryshkov wrote:
->> On Fri, 15 Nov 2024 at 19:54, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>
->>> On 11/15/2024 3:54 AM, Dmitry Baryshkov wrote:
->>>> Hello Akhil,
->>>>
->>>> On Thu, 14 Nov 2024 at 20:50, Akhil P Oommen <quic_akhilpo@quicinc.com> wrote:
->>>>>
->>>>> On 11/1/2024 9:54 PM, Akhil P Oommen wrote:
->>>>>> On 10/25/2024 11:58 AM, Dmitry Baryshkov wrote:
->>>>>>> On Thu, Oct 24, 2024 at 12:56:58AM +0530, Akhil P Oommen wrote:
->>>>>>>> On 10/22/2024 11:19 AM, Krzysztof Kozlowski wrote:
->>>>>>>>> On Mon, Oct 21, 2024 at 05:23:43PM +0530, Akhil P Oommen wrote:
->>>>>>>>>> Add a new schema which extends opp-v2 to support a new vendor specific
->>>>>>>>>> property required for Adreno GPUs found in Qualcomm's SoCs. The new
->>>>>>>>>> property called "qcom,opp-acd-level" carries a u32 value recommended
->>>>>>>>>> for each opp needs to be shared to GMU during runtime.
->>>>>>>>>>
->>>>>>>>>> Cc: Rob Clark <robdclark@gmail.com>
->>>>>>>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>>>>>>> ---
->>>>>>>>>>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 96 ++++++++++++++++++++++
->>>>>>>>>>  1 file changed, 96 insertions(+)
->>>>>>>>>>
->>>>>>>>>> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
->>>>>>>>>> new file mode 100644
->>>>>>>>>> index 000000000000..6d50c0405ef8
->>>>>>>>>> --- /dev/null
->>>>>>>>>> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
->>>>>>>>>> @@ -0,0 +1,96 @@
->>>>>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>>>>>> +%YAML 1.2
->>>>>>>>>> +---
->>>>>>>>>> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
->>>>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>>>>> +
->>>>>>>>>> +title: Qualcomm Adreno compatible OPP supply
->>>>>>>>>> +
->>>>>>>>>> +description:
->>>>>>>>>> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
->>>>>>>>>> +  ACD related information tailored for the specific chipset. This binding
->>>>>>>>>> +  provides the information needed to describe such a hardware value.
->>>>>>>>>> +
->>>>>>>>>> +maintainers:
->>>>>>>>>> +  - Rob Clark <robdclark@gmail.com>
->>>>>>>>>> +
->>>>>>>>>> +allOf:
->>>>>>>>>> +  - $ref: opp-v2-base.yaml#
->>>>>>>>>> +
->>>>>>>>>> +properties:
->>>>>>>>>> +  compatible:
->>>>>>>>>> +    items:
->>>>>>>>>> +      - const: operating-points-v2-adreno
->>>>>>>>>> +      - const: operating-points-v2
->>>>>>>>>> +
->>>>>>>>>> +patternProperties:
->>>>>>>>>> +  '^opp-?[0-9]+$':
->>>>>>>>>
->>>>>>>>> '-' should not be optional. opp1 is not expected name.
->>>>>>>>
->>>>>>>> Agree. Will change this to '^opp-[0-9]+$'
->>>>>>>>
->>>>>>>>>
->>>>>>>>>> +    type: object
->>>>>>>>>> +    additionalProperties: false
->>>>>>>>>> +
->>>>>>>>>> +    properties:
->>>>>>>>>> +      opp-hz: true
->>>>>>>>>> +
->>>>>>>>>> +      opp-level: true
->>>>>>>>>> +
->>>>>>>>>> +      opp-peak-kBps: true
->>>>>>>>>> +
->>>>>>>>>> +      opp-supported-hw: true
->>>>>>>>>> +
->>>>>>>>>> +      qcom,opp-acd-level:
->>>>>>>>>> +        description: |
->>>>>>>>>> +          A positive value representing the ACD (Adaptive Clock Distribution,
->>>>>>>>>> +          a fancy name for clk throttling during voltage droop) level associated
->>>>>>>>>> +          with this OPP node. This value is shared to a co-processor inside GPU
->>>>>>>>>> +          (called Graphics Management Unit a.k.a GMU) during wake up. It may not
->>>>>>>>>> +          be present for some OPPs and GMU will disable ACD while transitioning
->>>>>>>>>> +          to that OPP. This value encodes a voltage threshold and few other knobs
->>>>>>>>>> +          which are identified by characterization of the SoC. So, it doesn't have
->>>>>>>>>> +          any unit.
->>>>>>>>>
->>>>>>>>> Thanks for explanation and other updates. I am still not happy with this
->>>>>>>>> property. I do not see reason why DT should encode magic values in a
->>>>>>>>> quite generic piece of code. This creates poor ABI, difficult to
->>>>>>>>> maintain or understand.
->>>>>>>>>
->>>>>>>>
->>>>>>>> Configuring GPU ACD block with its respective value is a requirement for each OPP.
->>>>>>>> So OPP node seems like the natural place for this data.
->>>>>>>>
->>>>>>>> If it helps to resolve your concerns, I can elaborate the documentation with
->>>>>>>> details on the GMU HFI interface where this value should be passed on to the
->>>>>>>> hardware. Also replace "few other knobs" with "Delay cycles & Calibration margin"
->>>>>>>> in the above doc.
->>>>>>>
->>>>>>> Usually the preference for DT is to specify data in a sensible way
->>>>>>> rather than just the values being programmed to the register. Is it
->>>>>>> possible to implement this approach for ACD values?
->>>>>
->>>>> Krzysztof/Dmitry,
->>>>>
->>>>> BIT(0)-BIT(15) are static configurations which doesn't change between
->>>>> OPPs. We can move it to driver.
->>>>>
->>>>> BIT(16)-BIT(31) indicates a threshold margin which triggers ACD. We can
->>>>> keep this in the devicetree. And the driver can construct the final
->>>>> value from both data and send it to GMU.
->>>>>
->>>>> If this is acceptable, I will send the v3 revision.
->>>>
->>>> Can the upper bitfield have a sensible representation in DT (like uV
->>>> or something similar)?
->>>
->>> Closest approximation is quantized voltage steps. So, unit-less.
->>> Converting it to the exact voltage requires identifying the pmic voltage
->>> steps and other stuffs which are outside of my expertise.
->>>
->>> It is convenient if we can abstract it as an integer which correlates
->>> with the voltage margin that should be maintained for each regulator corner.
+On Mon, Dec 23, 2024 at 02:41:40PM +0800, Liu Ying wrote:
+> i.MX8qxp Display Controller(DC) is comprised of three main components that
+> include a blit engine for 2D graphics accelerations, display controller for
+> display output processing, as well as a command sequencer.  Add kernel
+> mode setting support for the display controller part with two CRTCs and
+> two primary planes(backed by FetchLayer and FetchWarp respectively).  The
+> registers of the display controller are accessed without command sequencer
+> involved, instead just by using CPU.  The command sequencer is supposed to
+> be used by the blit engine.
 > 
-> Krzysztof,
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+> v7:
+> * Drop using typeof in macros and explicitly define variable types. (Dmitry)
+> * Add a comment for disable_irq_nosync() to explain why _nosync. (Dmitry)
+> * Inline dc_crtc_check_clock(). (Dmitry)
+> * Use global drm_dc->pe. (Dmitry)
+> * Drop dc_crtc_disable_at_unbind(). (Dmitry)
+> * Add kernel doc for struct dc_{crtc,drm_device,plane}. (Dmitry)
+> * Define common IRQ handlers separately for each IRQs. (Dmitry)
+> * Rebase this patch upon next-20241220, so drop date entry from drm_driver
+>   and correctly include drm/clients/drm_client_setup.h.
+> * Collect Maxime's R-b tag.
 > 
-> Could you please confirm if this approach would be acceptable?
+> v6:
+> * No change.
 > 
-> To reiterate, move the lower 16 bits which is same across OPPs to the
-> driver. Abstract the higher 16 bits as number of quantized voltage
-> margin when ACD mitigation gets triggered.
+> v5:
+> * Replace .remove_new with .remove in dc-drv.c. (Uwe)
+> 
+> v4:
+> * Move dc_fg_displaymode(), dc_fg_panic_displaymode() and dc_lb_blendcontrol()
+>   function calls from KMS routine to initialization stage. (Dmitry)
+> * Drop dc-crtc.h and dc-plane.h header files and move relevant defines to
+>   appropriate .h header files or .c source files. (Dmitry)
+> * Drop futile "else" clause from dc_crtc_common_irq_handler(). (Dmitry)
+> * Drop dc_drm->pe_rpm_count. (Dmitry)
+> * Drop DC_{CRTCS,ENCODERS,PRIMARYS} macros and only use DC_DISPLAYS. (Dmitry)
+> * Drop drmm_kcalloc() function call to allocate an array for storing IRQs.
+>   Instead, put it in struct dc_crtc.  (Dmitry)
+> * Call devm_request_irq() to request IRQs, instead of using drmm action.
+>   (Dmitry)
+> * Call devm_drm_of_get_bridge() to find the next bridge. (Dmitry)
+> * Select DRM_CLIENT_SELECTION due to rebase.
+> * Select the missing DRM_DISPLAY_HELPER and DRM_BRIDGE_CONNECTOR.
+> * Use DRM_FBDEV_DMA_DRIVER_OPS due to rebase.
+> * Replace drm_fbdev_dma_setup() with drm_client_setup_with_fourcc() due to
+>   rebase.
+> * Replace drmm_add_action_or_reset() with devm_add_action_or_reset() to
+>   register dc_drm_component_unbind_all() action.
+> * Request interrupts in dc_crtc_post_init() after encoder initialization to
+>   make sure next bridge is found first.
+> 
+> v3:
+> * No change.
+> 
+> v2:
+> * Find next bridge from TCon's port.
+> * Drop drm/drm_module.h include from dc-drv.c.
+> 
+>  drivers/gpu/drm/imx/dc/Kconfig    |   5 +
+>  drivers/gpu/drm/imx/dc/Makefile   |   5 +-
+>  drivers/gpu/drm/imx/dc/dc-crtc.c  | 556 ++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/imx/dc/dc-de.h    |   3 +
+>  drivers/gpu/drm/imx/dc/dc-drv.c   | 238 +++++++++++++
+>  drivers/gpu/drm/imx/dc/dc-drv.h   |  22 ++
+>  drivers/gpu/drm/imx/dc/dc-kms.c   | 143 ++++++++
+>  drivers/gpu/drm/imx/dc/dc-kms.h   | 131 +++++++
+>  drivers/gpu/drm/imx/dc/dc-plane.c | 241 +++++++++++++
+>  9 files changed, 1342 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/gpu/drm/imx/dc/dc-crtc.c
+>  create mode 100644 drivers/gpu/drm/imx/dc/dc-kms.c
+>  create mode 100644 drivers/gpu/drm/imx/dc/dc-kms.h
+>  create mode 100644 drivers/gpu/drm/imx/dc/dc-plane.c
+> 
 
-I know I'm not Krzysztof, but given this is ultimately a magic value
-passed to the firmware, I'm a bit lukewarm on decomposing it and would
-rather see the entire 32b passed in a property, so that if a future
-target needs a different constant in the lower word, we don't have to
-pull our hair out again, trying to add more spaghetti logic to account
-for that.
 
-Konrad
+> +
+> +static int dc_plane_check_no_off_screen(struct drm_plane_state *state,
+> +					struct drm_crtc_state *crtc_state)
+> +{
+> +	if (state->dst.x1 < 0 || state->dst.y1 < 0 ||
+> +	    state->dst.x2 > crtc_state->adjusted_mode.hdisplay ||
+> +	    state->dst.y2 > crtc_state->adjusted_mode.vdisplay) {
+> +		dc_plane_dbg(state->plane, "no off screen\n");
+> +		return -EINVAL;
+> +	}
+
+Nit: doesn't drm_atomic_helper_check_plane_state() ensure in this already?
+
+With that in mind
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+
+> +
+> +	return 0;
+> +}
+> +
+-- 
+With best wishes
+Dmitry
