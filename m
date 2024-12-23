@@ -2,42 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D10B9FACFF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 11:10:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40159FAD13
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 11:19:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52CE610E30F;
-	Mon, 23 Dec 2024 10:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A050610E46D;
+	Mon, 23 Dec 2024 10:19:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gcVDgmau";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BfBduqoK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8AF10E30F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 10:10:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C54505C4A1D;
- Mon, 23 Dec 2024 10:09:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA18EC4CED3;
- Mon, 23 Dec 2024 10:10:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1734948606;
- bh=P+bpxQJu2PrdwHTC860KzlnArPutkjpYA2HOnkfVLa0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gcVDgmaukLtfGSCVNDAcxZiwT01oqTDv1Ez6LVJhbTT/Ka9wMVPMQKoH70M+IDBYk
- 9bOqI4ofjBeMnVFTXIdLInHacD4D5Wer5bHsb7j+yz9FTUdHA1XRQwJQDnophc0tHZ
- /opESnGfBvCfYpHIuepjJngq/mbHyxx7UD/urSAE=
-Date: Mon, 23 Dec 2024 11:10:03 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D7910E46D
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 10:19:27 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id
+ 2adb3069b0e04-53e3778bffdso4490157e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 02:19:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1734949165; x=1735553965; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ZnesPOoBogmfTizrXAOI/b0CVINnqBVaDGqobTCh+jY=;
+ b=BfBduqoK9g7/8b7ZJLz8O/ND6CZ7uRDcnDBnEk+7blvh0DpWrOBJDVA9zxJ2cSFWoT
+ ohFAMsvYU3MB/Nh9Fq9zcmDlEnHjFWNYArm9E3yDtSWXZT00+z1bQ+CANhezOVwUOQez
+ 875fOABmFyIi7PO1MGLsupW7uUJq6oRKgsEt/IkP76p/i47l4xXmcoS203ryLJdK+k6U
+ 7vevZjeS1KGz+Mhw4IH/frNyb+/11xwwVhuO7eLwM3F6Og0fP2cQvQ7X2sdQPgjf5MxB
+ oEyT3bA6XmRm17MAoRMsqTrzZYPvPXoAaRoXTEG8gPQH8HiRT56vz/rNTMXp8QXZINvY
+ SWig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1734949165; x=1735553965;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZnesPOoBogmfTizrXAOI/b0CVINnqBVaDGqobTCh+jY=;
+ b=QCpEi322W8C2Jm7xtUrf+HivSsaJwi76yjGlRlHxXGrCL6KKyiBn66Wt+6dfzj5GBF
+ danO4NMvH7THZ9VkPwz5Je3di1yAVkUS8D/sIZc45gUhydqQ1P8S/Mj/Fi0bGfGIxpyH
+ 9XTlDo0cYkjK5qe/ZWxz4Xb3qfHyeQ33b+j71/YS2QfVpdRfmvZmsVp9eNTS/DpprRwQ
+ BlKldKVsX710TpOOh6DBHqxBuQgQEOOOsq122mgYTNNKaV+BVNFKTWykSJmFvCATjk3C
+ GmHLVKBMfSpzhVijaz3nC2mjL7enq2eri64xXxkf8ILcuIWZ087CR1RnTOcktb8kdk0z
+ TrqQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUdrclByX5ySh4L3OdqGmO/UHprW67mZps55vL/pMdSQqRBaR1SwPBGe8iisSMv3JBmEDIFdZfwn+8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzK7k6pjezJhtwFHO1scRhcVpDmk5UeNJAWhdWiZfqcyavbGUcH
+ r9SmTNQ1nMp60A00o1g/JkiuhrYEEl/1Vuedd1MDv0GEEt1/5AszZl1WrewEjNI=
+X-Gm-Gg: ASbGncs6zzwXmR0MQWhaXSAzwIPSwCLRFrdKqTmhE1tTe1wB0pS4nOL1KAQq2KsFw1H
+ WoGagcJREIdTMrroygY12S8c2qQhzrA0W+QoXO9MMsJDglDyWCLiPzYBwhUhDrDk5wvxMbqhoX/
+ IfbXz7A/Mz+xRcQY3lbdmYJuwkkSk35IQIpVzaslgflGOI+/99ZuxGLl928ZBtBxCHXNkgHwre6
+ dheEO/5xrcX557fSo1La3GcD8/ROwzOo9nTsPtjzQUOtWmRGuo/qUZsmX9vfppbnbZdo2kXP6vK
+ XmOaXYmLeTlvAYCtQsDbrcGf7QzMjaDfpb+Y
+X-Google-Smtp-Source: AGHT+IEw23MfyGYTc8glJDZiTy976C6MVASgHyhkl2j0BvJGjObs/iKQ3qhQ3Z+Lq3SBAqIGzeX/6w==
+X-Received: by 2002:a05:6512:2350:b0:542:1bdd:511a with SMTP id
+ 2adb3069b0e04-542295322ebmr3296349e87.13.1734949164983; 
+ Mon, 23 Dec 2024 02:19:24 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542238301efsm1252468e87.247.2024.12.23.02.19.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Dec 2024 02:19:23 -0800 (PST)
+Date: Mon, 23 Dec 2024 12:19:21 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Anandu Krishnan E <quic_anane@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org,
- quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- arnd@arndb.de, stable <stable@kernel.org>
+Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, 
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de, 
+ stable <stable@kernel.org>
 Subject: Re: [PATCH v2 1/2] misc: fastrpc: Deregister device nodes properly
  in error scenarios
-Message-ID: <2024122343-java-exposure-bf50@gregkh>
+Message-ID: <sfkf5wtra5e73a2wiclgrrlyp6urjdl635hxc2ucvv2q7hidzj@lkocd6ibymsg>
 References: <20241223100101.29844-1-quic_anane@quicinc.com>
  <20241223100101.29844-2-quic_anane@quicinc.com>
 MIME-Version: 1.0
@@ -72,9 +106,27 @@ On Mon, Dec 23, 2024 at 03:31:00PM +0530, Anandu Krishnan E wrote:
 >  drivers/misc/fastrpc.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Shouldn't this be a stand-alone patch, not part of a series, if you wish
-to have it included in 6.14-final?
+This triggers checkpatch warning. If it is due to c&p from some internal
+documentation, please fix it too.
 
-thanks,
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 48d08eeb2d20..ff144f0aa337 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -2344,7 +2344,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  
+>  		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
+>  		if (err)
+> -			goto fdev_error;
+> +			goto populate_error;
+>  		break;
+>  	default:
+>  		err = -EINVAL;
+> -- 
+> 2.17.1
+> 
 
-greg k-h
+-- 
+With best wishes
+Dmitry
