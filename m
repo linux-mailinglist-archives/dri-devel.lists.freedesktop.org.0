@@ -2,57 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84A89FB179
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 17:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BA09FB18C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 17:07:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 141AB10E562;
-	Mon, 23 Dec 2024 16:05:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DD5910E55B;
+	Mon, 23 Dec 2024 16:07:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oSJGTj81";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t9udbE05";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE5E10E573
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 16:05:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B8510E55B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 16:07:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 71A8D5C5218;
- Mon, 23 Dec 2024 16:05:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B4C9C4CED6;
- Mon, 23 Dec 2024 16:05:40 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C27F55C54A0;
+ Mon, 23 Dec 2024 16:06:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B2EFC4CED3;
+ Mon, 23 Dec 2024 16:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734969948;
- bh=FyhbUDFYzmUUwzgCV2llSYJzVDKPCcqce7NR3DfFN3k=;
+ s=k20201202; t=1734970027;
+ bh=1IbgtySXC4KI6sZYcpnCUCWLQZXNGqd5oTs96XrG+lk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oSJGTj81G054ABDVOfZMBhMmxten0SpJmyqwyqA0Lr08ruEs0JY2zYulIW+u7kJmJ
- w6CkJnP8nhGtOvx8TKGRaaT09pGFG7gYCOn+r8p8Mq4NdYm6+NHhvRGBY9jra5yYTJ
- IWDTZZ8eQYv8Tfkuo1H4kmzQYvA+9ThHEucw3L1ipROiX7/L9bkwqIjwcxXH5P+Z2G
- VxA1ZID1zvLo0aJg+P90Yj3ig+v24xZdIDMYUyIsfHrLVjrR4RxkZfvugFtlk2DMB3
- q0xh1Thg/eGshXx7XnnLicpevG+7cbCSOwGijqZpblgwC5XlZ2cEfsMAhfa36NBihF
- 8YC6aPnz1HAbw==
-Message-ID: <48716029-9338-4d66-b846-b5c4a74431cf@kernel.org>
-Date: Mon, 23 Dec 2024 17:05:38 +0100
+ b=t9udbE05fb/2gYsfBsie7tiGtZPZzA1P58w0CvJDSPoF7s7KKw6J2rnxFSY63SZcB
+ ewH0s2pOlp4175MjCgv8xs4dCGzjgFd4rgaNKXKsSjQwAdvrAeT+pkoM9DzuMGXSvo
+ e1sOEP6bdJQPSBScS7XKSoTXTUNNPfyJhIC+IbxHFHzG94NHa2AZFwGGYvZhoIPhP8
+ Xk7BQFLh2Nm14DJAR+Gjtx4B8Fi370wOh+0I984xEzZHWi/7B+pw4hbsNgYq87yhbF
+ iJqtZIvl5R+BXwD3isAMJ8/rhZz4YAByiQa57qGLeTbzJw2ebxODlJwrRy0lV3ichn
+ MzzWGR+WujGcQ==
+Message-ID: <d242dafd-f51b-4a81-bcd7-fed9e00506b3@kernel.org>
+Date: Mon, 23 Dec 2024 17:06:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 01/19] dt-bindings: clock: Add VO subsystem clocks
- and update address requirements
-To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- frank.binns@imgtec.com, matt.coster@imgtec.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
- jszhang@kernel.org, p.zabel@pengutronix.de, m.szyprowski@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Subject: Re: [RFC PATCH v2 03/19] dt-bindings: power: thead,th1520: Add
+ support for power domains
+To: Michal Wilczynski <m.wilczynski@samsung.com>,
+ "Rob Herring (Arm)" <robh@kernel.org>
+Cc: guoren@kernel.org, linux-riscv@lists.infradead.org, conor+dt@kernel.org,
+ krzk+dt@kernel.org, sboyd@kernel.org, mripard@kernel.org,
+ jassisinghbrar@gmail.com, dri-devel@lists.freedesktop.org,
+ m.szyprowski@samsung.com, palmer@dabbelt.com, jszhang@kernel.org,
+ aou@eecs.berkeley.edu, airlied@gmail.com, ulf.hansson@linaro.org,
+ frank.binns@imgtec.com, linux-pm@vger.kernel.org, paul.walmsley@sifive.com,
+ devicetree@vger.kernel.org, p.zabel@pengutronix.de,
+ linux-clk@vger.kernel.org, matt.coster@imgtec.com, mturquette@baylibre.com,
+ linux-kernel@vger.kernel.org, drew@pdp7.com, tzimmermann@suse.de,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, wefu@redhat.com
 References: <20241223125553.3527812-1-m.wilczynski@samsung.com>
- <CGME20241223125601eucas1p1d274193122638075dc65310a22616bae@eucas1p1.samsung.com>
- <20241223125553.3527812-2-m.wilczynski@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <CGME20241223125604eucas1p26b870756eeaf2a5666b70de3f7554c13@eucas1p2.samsung.com>
+ <20241223125553.3527812-4-m.wilczynski@samsung.com>
+ <173496697225.830201.2249501258776075204.robh@kernel.org>
+ <3b2fd94a-2b4d-4bdb-9266-203a09369982@samsung.com>
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -96,7 +98,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241223125553.3527812-2-m.wilczynski@samsung.com>
+In-Reply-To: <3b2fd94a-2b4d-4bdb-9266-203a09369982@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,35 +116,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/12/2024 13:55, Michal Wilczynski wrote:
+On 23/12/2024 17:02, Michal Wilczynski wrote:
+>>>  .../bindings/power/thead,th1520-power.yaml    | 42 +++++++++++++++++++
+>>>  MAINTAINERS                                   |  1 +
+>>>  .../dt-bindings/power/thead,th1520-power.h    | 18 ++++++++
+>>>  3 files changed, 61 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/power/thead,th1520-power.yaml
+>>>  create mode 100644 include/dt-bindings/power/thead,th1520-power.h
+>>>
+>>
+>> My bot found errors running 'make dt_binding_check' on your patch:
+>>
+>> yamllint warnings/errors:
+>>
+>> dtschema/dtc warnings/errors:
+>> Documentation/devicetree/bindings/power/thead,th1520-power.example.dtb: /example-0/firmware/aon: failed to match any schema with compatible: ['thead,th1520-aon']
+> 
+> It is introduced in the next commit in this patch series.
 
->  description: |
->    The T-HEAD TH1520 AP sub-system clock controller configures the
-> -  CPU, DPU, GMAC and TEE PLLs.
-> +  CPU, DPU, GMAC and TEE PLLs. Additionally the VO subsystem configures
-> +  the clock gates for the HDMI, MIPI and the GPU.
->  
->    SoC reference manual
->    https://openbeagle.org/beaglev-ahead/beaglev-ahead/-/blob/main/docs/TH1520%20System%20User%20Manual.pdf
-> @@ -23,7 +24,13 @@ properties:
->      const: thead,th1520-clk-ap
->  
->    reg:
-> -    maxItems: 1
-> +    minItems: 2
-
-You can drop minItems in this case.
-
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: ap-clks
-> +      - const: vo-clks
-
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Then your patchset is not bisectable. Reorder patches.
 
 Best regards,
 Krzysztof
