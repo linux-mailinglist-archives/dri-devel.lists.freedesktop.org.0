@@ -1,51 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 093CD9FABAF
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 09:56:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 817CF9FAB0E
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 08:31:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2EAB10E113;
-	Mon, 23 Dec 2024 08:56:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D219310E1E3;
+	Mon, 23 Dec 2024 07:31:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=canonical.com header.i=@canonical.com header.b="VjFpcNmb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UwUNEdpV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-1.canonical.com
- (smtp-relay-canonical-1.canonical.com [185.125.188.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2DF610E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 02:32:40 +0000 (UTC)
-Received: from laptop.lan (unknown [123.123.43.248])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 500BD4093D; 
- Mon, 23 Dec 2024 02:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1734921158;
- bh=5qnEfk34JXjmwcW6H1RfNrw1EbvlMd5bPIiUMHsYMUQ=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=VjFpcNmbP2cIiN2fMpSY7tpsMOnVXphLMOJjElWhkr4B+yUP1I8/mGqO8oTegomr9
- OHwPVlWItAbBKYvuyGRt7xebumRpGxvt8TtjP0TZ3cXFw8K9S807u810DC6IiRKYfE
- xnRImfEGjJiDSq2smJG2owcldvQklL+x6qgQ9TDUTsiE9YGZE2TVtJZox3cgtgkhgD
- qoUekAoe1weTgjp0uBaBiJnYR1mTtN92PB3kGI46eFogjRjZCums6wgItNJnujj/zi
- 3Wrtvy9P4gqw1CDRaPcTun5pLJQl9hPzzeLWfDjJODEi1qZeQAd8E8cUK3PWyb8YiU
- G5m8Dy8MTo2/Q==
-From: Guoqing Jiang <guoqing.jiang@canonical.com>
-To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
- simona@ffwll.ch, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, nancy.lin@mediatek.com
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH V2] drm/mediatek: Set private->all_drm_private[i]->drm to NULL
- if mtk_drm_bind returns err 
-Date: Mon, 23 Dec 2024 10:32:27 +0800
-Message-Id: <20241223023227.1258112-1-guoqing.jiang@canonical.com>
-X-Mailer: git-send-email 2.34.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C576510E1E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 07:31:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 66AE7A40B5E;
+ Mon, 23 Dec 2024 07:29:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BFCC4CED4;
+ Mon, 23 Dec 2024 07:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734939060;
+ bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UwUNEdpVksa3VeJ8fBbfU5ZM7cveMPPtJwrh5dBwK0gEoqVYDdF0NbABXvUPIJWBw
+ xCqUqJSqJL6xtKZr6qQ7jAhuhWd71QCPd5TxS1HecY9J/hvR45WyJpacDQHEAg8Nxb
+ 2n3UaUf++ISc2NX01EI862mzeWJQXkc5aNu91d3n3AsdRCNSN+HKnHjEJRyLACr5nh
+ BOO26q4g07K6IBNRx5aV7gSAqtRZNsSUNg+1F39wB4XcAaYzRqeyumIAvWSZFAj19D
+ 3ux6IHIQ91x+ZZx51WabplqJyaEEdtdtBHP6L6K1CKNx6HfC+4KG2P1qz8+vVZVY4x
+ 5cGLrZr9Tq1ag==
+Date: Mon, 23 Dec 2024 08:30:57 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+ linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-sound@vger.kernel.org, 
+ sparclinux@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-cxl@vger.kernel.org, 
+ linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+ linux-efi@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, netdev@vger.kernel.org,
+ Zijun Hu <quic_zijuhu@quicinc.com>,
+ Alison Schofield <alison.schofield@intel.com>, 
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+Message-ID: <mrix3q75mawxszrp25yzpsrvenlxx7bihfzyfdcnp7egubvxpf@lzp7fcaxwquc>
+References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 23 Dec 2024 08:56:13 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="2ziq55rb3fq2bwkl"
+Content-Disposition: inline
+In-Reply-To: <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,85 +78,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pointer need to be set to NULL, otherwise KASAN complains about
-use-after-free. Because in mtk_drm_bind, all private's drm are set
-as follows.
 
-private->all_drm_private[i]->drm = drm;
+--2ziq55rb3fq2bwkl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+MIME-Version: 1.0
 
-And drm will be released by drm_dev_put in case mtk_drm_kms_init returns
-failure. However, the shutdown path still accesses the previous allocated
-memory in drm_atomic_helper_shutdown.
+Hello,
 
-[   84.874820] watchdog: watchdog0: watchdog did not stop!
-[   86.512054] ==================================================================
-[   86.513162] BUG: KASAN: use-after-free in drm_atomic_helper_shutdown+0x33c/0x378
-[   86.514258] Read of size 8 at addr ffff0000d46fc068 by task shutdown/1
-[   86.515213]
-[   86.515455] CPU: 1 UID: 0 PID: 1 Comm: shutdown Not tainted 6.13.0-rc1-mtk+gfa1a78e5d24b-dirty #55
-[   86.516752] Hardware name: Unknown Unknown Product/Unknown Product, BIOS 2022.10 10/01/2022
-[   86.517960] Call trace:
-[   86.518333]  show_stack+0x20/0x38 (C)
-[   86.518891]  dump_stack_lvl+0x90/0xd0
-[   86.519443]  print_report+0xf8/0x5b0
-[   86.519985]  kasan_report+0xb4/0x100
-[   86.520526]  __asan_report_load8_noabort+0x20/0x30
-[   86.521240]  drm_atomic_helper_shutdown+0x33c/0x378
-[   86.521966]  mtk_drm_shutdown+0x54/0x80
-[   86.522546]  platform_shutdown+0x64/0x90
-[   86.523137]  device_shutdown+0x260/0x5b8
-[   86.523728]  kernel_restart+0x78/0xf0
-[   86.524282]  __do_sys_reboot+0x258/0x2f0
-[   86.524871]  __arm64_sys_reboot+0x90/0xd8
-[   86.525473]  invoke_syscall+0x74/0x268
-[   86.526041]  el0_svc_common.constprop.0+0xb0/0x240
-[   86.526751]  do_el0_svc+0x4c/0x70
-[   86.527251]  el0_svc+0x4c/0xc0
-[   86.527719]  el0t_64_sync_handler+0x144/0x168
-[   86.528367]  el0t_64_sync+0x198/0x1a0
-[   86.528920]
-[   86.529157] The buggy address belongs to the physical page:
-[   86.529972] page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff0000d46fd4d0 pfn:0x1146fc
-[   86.531319] flags: 0xbfffc0000000000(node=0|zone=2|lastcpupid=0xffff)
-[   86.532267] raw: 0bfffc0000000000 0000000000000000 dead000000000122 0000000000000000
-[   86.533390] raw: ffff0000d46fd4d0 0000000000000000 00000000ffffffff 0000000000000000
-[   86.534511] page dumped because: kasan: bad access detected
-[   86.535323]
-[   86.535559] Memory state around the buggy address:
-[   86.536265]  ffff0000d46fbf00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-[   86.537314]  ffff0000d46fbf80: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-[   86.538363] >ffff0000d46fc000: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-[   86.544733]                                                           ^
-[   86.551057]  ffff0000d46fc080: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-[   86.557510]  ffff0000d46fc100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-[   86.563928] ==================================================================
-[   86.571093] Disabling lock debugging due to kernel taint
-[   86.577642] Unable to handle kernel paging request at virtual address e0e9c0920000000b
-[   86.581834] KASAN: maybe wild-memory-access in range [0x0752049000000058-0x075204900000005f]
-...
+On Wed, Dec 11, 2024 at 08:08:06AM +0800, Zijun Hu wrote:
+>  drivers/pwm/core.c                     |  2 +-
 
-Fixes: 1ef7ed48356c ("drm/mediatek: Modify mediatek-drm for mt8195 multi mmsys support")
-Signed-off-by: Guoqing Jiang <guoqing.jiang@canonical.com>
----
-V2 changes:
-1. add Fixes tag per CK's comment
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for drivers/pwm
 
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
+Best regards
+Uwe
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 9a8ef8558da9..0062374f75d5 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -673,6 +673,8 @@ static int mtk_drm_bind(struct device *dev)
- err_free:
- 	private->drm = NULL;
- 	drm_dev_put(drm);
-+	for (i = 0; i < private->data->mmsys_dev_num; i++)
-+		private->all_drm_private[i]->drm = NULL;
- 	return ret;
- }
- 
--- 
-2.35.3
+--2ziq55rb3fq2bwkl
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdpEa8ACgkQj4D7WH0S
+/k4bUAgAh9LrZmd2eRZtQQDD7RKfHIeOmRCpwZcKO4VAM76QCcEzfVerUpZH2Emh
+tkSaCY38C9pM9hE0HsXsYV6zg/MBAVCwiVGbn+rgTAVtuiDiI8ygmP7cdzKnk7Ke
++l0xcXunQPwe3UHEzAvvPiu57dMcQ6h8732mqwqWrRh43gPAWdpAgktFqFLPCRQf
+1sOslGEFNX866KAUqB1jjxQSZjq0v0dXyd20GSu7yjzm7s1JzRG+msGCSSxv0vRT
+SWDRWVHepQ1AT5THBbY6xaXnaiwoTbnv6NCw4WFz8OHbBtIb6Fm7UUE1PNTnZM0t
+qDtxzk9rG0eZFX23d+rXwSg2JlM3VQ==
+=zwtk
+-----END PGP SIGNATURE-----
+
+--2ziq55rb3fq2bwkl--
