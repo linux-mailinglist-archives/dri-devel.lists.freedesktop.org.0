@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B6E9FB5D0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8C819FB5E1
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:53:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE18510E42E;
-	Mon, 23 Dec 2024 20:51:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sSOCwWnL";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01CDB10E459;
+	Mon, 23 Dec 2024 20:52:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F18610E42E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:51:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6B07E5C5BAE;
- Mon, 23 Dec 2024 20:50:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4109C4CED3;
- Mon, 23 Dec 2024 20:51:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734987061;
- bh=7vXp6bg3mIjFXJtB/znIi7nXzs2VzEStHvDISKqmwas=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=sSOCwWnLvbLB7dADE52q5aALdUxvb09wMkoarI/KHYD6xnMZCS9HA0QgYGvJeVPvC
- 4jT9A4kyA/stK3cZITP0N3WB1YFxk0FDAs2fglyqg3HwQK2tV727ewQ4MGed2Rg4RY
- btCD6CqdOm2cdAUrdryVpUklmsJXvW4awF0LN6dV2FgK7dQwxof3qdeH93xKvie8NL
- XBizgv1/9TFlJ9Ws9wiSeJQJ3aCRcOoLRUA2103q171a3ojEi8sinaB6XYqOKxk8aq
- QmuXfwf5aH893lR84Uqqq742Wfkw5Wq/EEYRZkMhxFQShUQ2o1xHQK7eYNc6X8xB8u
- ds4jlVT/frsPg==
-Message-ID: <2cd0c34fbd14a0d69e689d04c2241938.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
+ [185.176.79.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C20EC10E459
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:52:57 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH99X3N2zz6K5Zf;
+ Tue, 24 Dec 2024 04:49:04 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+ by mail.maildlp.com (Postfix) with ESMTPS id 78F9C14039E;
+ Tue, 24 Dec 2024 04:52:55 +0800 (CST)
+Received: from localhost (10.47.75.118) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Dec
+ 2024 21:52:54 +0100
+Date: Mon, 23 Dec 2024 20:52:52 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Zijun Hu <zijun_hu@icloud.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
+ <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Uwe
+ =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, James Bottomley
+ <James.Bottomley@HansenPartnership.com>, Thomas =?ISO-8859-1?Q?Wei=DFschu?=
+ =?ISO-8859-1?Q?h?= <thomas@t-8ch.de>, <linux-kernel@vger.kernel.org>,
+ <nvdimm@lists.linux.dev>, <linux-sound@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <linux-block@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux1394-devel@lists.sourceforge.net>,
+ <arm-scmi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+ <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
+ <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH v4 11/11] usb: typec: class: Remove both cable_match()
+ and partner_match()
+Message-ID: <20241223205252.00003d6b@huawei.com>
+In-Reply-To: <20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
+References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241223125553.3527812-2-m.wilczynski@samsung.com>
-References: <20241223125553.3527812-1-m.wilczynski@samsung.com>
- <CGME20241223125601eucas1p1d274193122638075dc65310a22616bae@eucas1p1.samsung.com>
- <20241223125553.3527812-2-m.wilczynski@samsung.com>
-Subject: Re: [RFC PATCH v2 01/19] dt-bindings: clock: Add VO subsystem clocks
- and update address requirements
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
- Michal Wilczynski <m.wilczynski@samsung.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>, airlied@gmail.com,
- aou@eecs.berkeley.edu, conor+dt@kernel.org, drew@pdp7.com,
- frank.binns@imgtec.com, guoren@kernel.org, jassisinghbrar@gmail.com,
- jszhang@kernel.org, krzk+dt@kernel.org, m.szyprowski@samsung.com,
- maarten.lankhorst@linux.intel.com, matt.coster@imgtec.com, mripard@kernel.org,
- mturquette@baylibre.com, p.zabel@pengutronix.de, palmer@dabbelt.com,
- paul.walmsley@sifive.com, robh@kernel.org, simona@ffwll.ch,
- tzimmermann@suse.de, ulf.hansson@linaro.org, wefu@redhat.com
-Date: Mon, 23 Dec 2024 12:50:59 -0800
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.75.118]
+X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,39 +69,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Michal Wilczynski (2024-12-23 04:55:35)
-> The T-Head TH1520 SoC=E2=80=99s AP clock controller now needs two address=
- ranges
-> to manage both the Application Processor (AP) and Video Output (VO)
-> subsystem clocks. Update the device tree bindings to require two `reg`
-> entries, one for the AP clocks and one for the VO clocks.
->=20
-> Additionally, introduce new VO subsystem clock constants in the header
-> file. These constants will be used by the driver to control VO-related
-> components such as display and graphics units.
->=20
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+On Wed, 11 Dec 2024 08:08:13 +0800
+Zijun Hu <zijun_hu@icloud.com> wrote:
+
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
+> 
+> cable_match(), as matching function of device_find_child(), matches
+> a device with device type @typec_cable_dev_type, and its task can be
+> simplified by the recently introduced API device_match_type().
+> 
+> partner_match() is similar with cable_match() but with a different
+> device type @typec_partner_dev_type.
+> 
+> Remove both functions and use the API plus respective device type instead.
+> 
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+Looks good, but there is the same trade off here between internal
+detail of type identification and reducing the use of helpers
+where the generic ones are fine.  Here is less obvious even than
+the CXL one as the helper macros do have other uses in these
+files.
+
+So, it's on for USB folk to decide on and I won't be giving a tag
+as a result.
+
+Jonathan
+
 > ---
-[...]
-> diff --git a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.=
-yaml b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
-> index 0129bd0ba4b3..f0df97a450ef 100644
-> --- a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
-> +++ b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
-> @@ -47,7 +54,9 @@ examples:
->      #include <dt-bindings/clock/thead,th1520-clk-ap.h>
->      clock-controller@ef010000 {
->          compatible =3D "thead,th1520-clk-ap";
-> -        reg =3D <0xef010000 0x1000>;
-> +        reg =3D <0xef010000 0x1000>,
-> +              <0xff010000 0x1000>;
+>  drivers/usb/typec/class.c | 27 ++++++++++++---------------
+>  1 file changed, 12 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 601a81aa1e1024265f2359393dee531a7779c6ea..3a4e0bd0131774afd0d746d2f0a306190219feec 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -1282,11 +1282,6 @@ const struct device_type typec_cable_dev_type = {
+>  	.release = typec_cable_release,
+>  };
+>  
+> -static int cable_match(struct device *dev, const void *data)
+> -{
+> -	return is_typec_cable(dev);
+> -}
+> -
+>  /**
+>   * typec_cable_get - Get a reference to the USB Type-C cable
+>   * @port: The USB Type-C Port the cable is connected to
+> @@ -1298,7 +1293,8 @@ struct typec_cable *typec_cable_get(struct typec_port *port)
+>  {
+>  	struct device *dev;
+>  
+> -	dev = device_find_child(&port->dev, NULL, cable_match);
+> +	dev = device_find_child(&port->dev, &typec_cable_dev_type,
+> +				device_match_type);
+>  	if (!dev)
+>  		return NULL;
+>  
+> @@ -2028,16 +2024,12 @@ const struct device_type typec_port_dev_type = {
+>  /* --------------------------------------- */
+>  /* Driver callbacks to report role updates */
+>  
+> -static int partner_match(struct device *dev, const void *data)
+> -{
+> -	return is_typec_partner(dev);
+> -}
+> -
+>  static struct typec_partner *typec_get_partner(struct typec_port *port)
+>  {
+>  	struct device *dev;
+>  
+> -	dev = device_find_child(&port->dev, NULL, partner_match);
+> +	dev = device_find_child(&port->dev, &typec_partner_dev_type,
+> +				device_match_type);
+>  	if (!dev)
+>  		return NULL;
+>  
+> @@ -2170,7 +2162,9 @@ void typec_set_pwr_opmode(struct typec_port *port,
+>  	sysfs_notify(&port->dev.kobj, NULL, "power_operation_mode");
+>  	kobject_uevent(&port->dev.kobj, KOBJ_CHANGE);
+>  
+> -	partner_dev = device_find_child(&port->dev, NULL, partner_match);
+> +	partner_dev = device_find_child(&port->dev,
+> +					&typec_partner_dev_type,
+> +					device_match_type);
+>  	if (partner_dev) {
+>  		struct typec_partner *partner = to_typec_partner(partner_dev);
+>  
+> @@ -2334,7 +2328,9 @@ int typec_get_negotiated_svdm_version(struct typec_port *port)
+>  	enum usb_pd_svdm_ver svdm_version;
+>  	struct device *partner_dev;
+>  
+> -	partner_dev = device_find_child(&port->dev, NULL, partner_match);
+> +	partner_dev = device_find_child(&port->dev,
+> +					&typec_partner_dev_type,
+> +					device_match_type);
+>  	if (!partner_dev)
+>  		return -ENODEV;
+>  
+> @@ -2361,7 +2357,8 @@ int typec_get_cable_svdm_version(struct typec_port *port)
+>  	enum usb_pd_svdm_ver svdm_version;
+>  	struct device *cable_dev;
+>  
+> -	cable_dev = device_find_child(&port->dev, NULL, cable_match);
+> +	cable_dev = device_find_child(&port->dev, &typec_cable_dev_type,
+> +				      device_match_type);
+>  	if (!cable_dev)
+>  		return -ENODEV;
+>  
+> 
 
-I don't get it. Why not have two nodes and two devices? They have
-different register regions so likely they're different devices on the
-internal SoC bus. They may have the same input clks, but otherwise I
-don't see how they're the same node.
-
-> +        reg-names =3D "ap-clks", "vo-clks";
->          clocks =3D <&osc>;
->          #clock-cells =3D <1>;
->      };
