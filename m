@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234B79FB574
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:40:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A5659FB579
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:41:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06E3710E32F;
-	Mon, 23 Dec 2024 20:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACB7F10E333;
+	Mon, 23 Dec 2024 20:41:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53DBD10E32F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:39:41 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.18.186.31])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH8tC65GQz6K5VT;
- Tue, 24 Dec 2024 04:35:47 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E1D510E333
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:40:59 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH8yn0rpCz67FbS;
+ Tue, 24 Dec 2024 04:39:45 +0800 (CST)
 Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id CFA67140524;
- Tue, 24 Dec 2024 04:39:38 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 6AA56140A70;
+ Tue, 24 Dec 2024 04:40:57 +0800 (CST)
 Received: from localhost (10.47.75.118) by frapeml500008.china.huawei.com
  (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Dec
- 2024 21:39:37 +0100
-Date: Mon, 23 Dec 2024 20:39:35 +0000
+ 2024 21:40:55 +0100
+Date: Mon, 23 Dec 2024 20:40:54 +0000
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: Zijun Hu <zijun_hu@icloud.com>
 CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
@@ -41,18 +41,17 @@ CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
  <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
  <linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
  <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v4 05/11] driver core: Simplify API
- device_find_child_by_name() implementation
-Message-ID: <20241223203935.00003de0@huawei.com>
-In-Reply-To: <20241211-const_dfc_done-v4-5-583cc60329df@quicinc.com>
+Subject: Re: [PATCH v4 06/11] driver core: Remove match_any()
+Message-ID: <20241223204054.000056db@huawei.com>
+In-Reply-To: <20241211-const_dfc_done-v4-6-583cc60329df@quicinc.com>
 References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
- <20241211-const_dfc_done-v4-5-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-6-583cc60329df@quicinc.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.47.75.118]
-X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
  frapeml500008.china.huawei.com (7.182.85.71)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,49 +68,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Dec 2024 08:08:07 +0800
+On Wed, 11 Dec 2024 08:08:08 +0800
 Zijun Hu <zijun_hu@icloud.com> wrote:
 
 > From: Zijun Hu <quic_zijuhu@quicinc.com>
 > 
-> Simplify device_find_child_by_name() implementation by both existing
-> API device_find_child() and device_match_name().
-There is a subtle difference.  In theory old code could dereference a NULL
-if parent->p == NULL, now it can't.  Sounds at most like a harmless change but
-maybe you should mention it.
+> Static match_any() is exactly same as API device_match_any().
+is now exactly...
 
-Otherwise LGTM
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+perhaps to call out that it wasn't prior to this set!
 
+> Remove the former and use the later instead.
 > 
 > Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 > ---
->  drivers/base/core.c | 13 +------------
->  1 file changed, 1 insertion(+), 12 deletions(-)
+>  drivers/base/core.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
 > diff --git a/drivers/base/core.c b/drivers/base/core.c
-> index bc3b523a4a6366080c3c9fd190e54c7fd13c8ded..8116bc8dd6e9eba0653ca686a90c7008de9e2840 100644
+> index 8116bc8dd6e9eba0653ca686a90c7008de9e2840..289f2dafa8f3831931d0f316d66ee12c2cb8a2e1 100644
 > --- a/drivers/base/core.c
 > +++ b/drivers/base/core.c
-> @@ -4110,18 +4110,7 @@ EXPORT_SYMBOL_GPL(device_find_child);
->  struct device *device_find_child_by_name(struct device *parent,
->  					 const char *name)
->  {
-> -	struct klist_iter i;
-> -	struct device *child;
-> -
-> -	if (!parent)
-> -		return NULL;
-> -
-> -	klist_iter_init(&parent->p->klist_children, &i);
-> -	while ((child = next_device(&i)))
-> -		if (sysfs_streq(dev_name(child), name) && get_device(child))
-> -			break;
-> -	klist_iter_exit(&i);
-> -	return child;
-> +	return device_find_child(parent, name, device_match_name);
+> @@ -4114,11 +4114,6 @@ struct device *device_find_child_by_name(struct device *parent,
 >  }
 >  EXPORT_SYMBOL_GPL(device_find_child_by_name);
+>  
+> -static int match_any(struct device *dev, const void *unused)
+> -{
+> -	return 1;
+> -}
+> -
+>  /**
+>   * device_find_any_child - device iterator for locating a child device, if any.
+>   * @parent: parent struct device
+> @@ -4130,7 +4125,7 @@ static int match_any(struct device *dev, const void *unused)
+>   */
+>  struct device *device_find_any_child(struct device *parent)
+>  {
+> -	return device_find_child(parent, NULL, match_any);
+> +	return device_find_child(parent, NULL, device_match_any);
+>  }
+>  EXPORT_SYMBOL_GPL(device_find_any_child);
 >  
 > 
 
