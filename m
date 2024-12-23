@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36019FB3B7
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 18:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047159FB40E
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 19:38:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 570E410E5A7;
-	Mon, 23 Dec 2024 17:54:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16CF210E004;
+	Mon, 23 Dec 2024 18:38:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VxfN+jXD";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="AEPx8jWE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E8610E598;
- Mon, 23 Dec 2024 17:54:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1734976464; x=1766512464;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=WYLIE+diRVGaLj2Jxor8J60nt/a9sZs6gWFZzhLo8pg=;
- b=VxfN+jXDY8korKKM0vmgElZZwwbITQCbLuwdKwfhoRYBlSiTkCyksbxB
- L8D82YK2i4tZEU/GLuF6ziEfhqyL7cWDWan0mFd3zJy8wJHCnd0D+5PxW
- uY5dcrGs+dpg2F0obpMAiakF5zk19rxfvCDoK5HYBBlNujPqEbwSdmv4e
- zvRf9IKonEOwFRnp4X0p6cz/KrvRu4DWThAeLfThh5o6AzCWZFwqZWc/4
- 7EVIlqTEx2IhZXzSroRlYyzYYD3LCA2QQBcjXFfUQH0mpLm8kQj/nwvNn
- 1mcy1+A49yHBBPZvDCGs0YVot2haBmBYgG+aEG1dLzlJbJYm/qRo8utMZ Q==;
-X-CSE-ConnectionGUID: 8WpcDgCtQ1GKfT+UsKaWLA==
-X-CSE-MsgGUID: oQr5bShUQqymkWQVErnneA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="46452683"
-X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; d="scan'208";a="46452683"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2024 09:54:24 -0800
-X-CSE-ConnectionGUID: KQQf/0JNSm2B+9k7wvweKg==
-X-CSE-MsgGUID: bOAqHcwwTaeB0FmoD6HQDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,257,1728975600"; d="scan'208";a="99491355"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO fedora)
- ([10.245.246.74])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2024 09:54:20 -0800
-Date: Mon, 23 Dec 2024 18:53:59 +0100
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-fixes
-Message-ID: <Z2mjt7OTfH76cgua@fedora>
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B4E10E21C
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 18:38:44 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1EDC2E0002;
+ Mon, 23 Dec 2024 18:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1734979102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q5bZB9tN6Ej5m8fd1ZE4u2Ym/mpu03gi79bnPoBZCto=;
+ b=AEPx8jWEsJxPYdnDQzfB8/CNI5cobqCAzbcuBIKwuH7AiTDdkAkZqNcIIIxmP58+epXv8L
+ kEJJ8N3BI9y8tQyvVcwWb/Bd39aLZrP7JZvOoOycQlxobAzMhq3iLCPdj7yzhI71TQtzOq
+ GY10Ulp4TwgoaFPbnLcGQCezegpVUm37z+kK5BBhJibptU7vUDgy6BNEwirZx4RCVf8I3h
+ pAKQv84nw1J5JySH2a1viZeZy0g6aiBtT8pT6oxm3/WsxJlA0pkRRUIb2AU+bQzjoPiH7v
+ mjdLpmzyYbPRkpSwCvqtbzprLhUMOxoL+DXaE4NdBJ1Va5H9u5jxReDFjPl0Rg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Abel Vesa <abelvesa@kernel.org>,  Fabio Estevam <festevam@gmail.com>,
+ Marek Vasut <marex@denx.de>,  Michael Turquette
+ <mturquette@baylibre.com>,  Peng Fan <peng.fan@nxp.com>,  Pengutronix
+ Kernel Team <kernel@pengutronix.de>,  Sascha Hauer
+ <s.hauer@pengutronix.de>,  Shawn Guo <shawnguo@kernel.org>,  Ying Liu
+ <victor.liu@nxp.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,  linux-clk@vger.kernel.org,
+ imx@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,  dri-devel@lists.freedesktop.org,  Abel
+ Vesa <abel.vesa@linaro.org>,  Herve Codina <herve.codina@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  Ian Ray <ian.ray@ge.com>
+Subject: Re: [PATCH 4/5] clk: Add flag to prevent frequency changes when
+ walking subtrees
+In-Reply-To: <fd2b473bc7c3c70ae0e85b2a6315d9e8.sboyd@kernel.org> (Stephen
+ Boyd's message of "Tue, 10 Dec 2024 14:44:19 -0800")
+References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
+ <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
+ <fd2b473bc7c3c70ae0e85b2a6315d9e8.sboyd@kernel.org>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 23 Dec 2024 19:38:20 +0100
+Message-ID: <87jzbqtfc3.fsf@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,60 +73,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona
+Hi Stephen,
 
-The Xe fixes for -rc5.
+>> +/* do not passively change this clock rate during subtree rate propagat=
+ion */
+>> +#define CLK_NO_RATE_CHANGE_DURING_PROPAGATION BIT(14)
+>
+> Why doesn't rate locking work?
+
+Can you be more specific? What function from the API is supposed to do
+what I need? AFAIU, none of them is properly locking the rate during a
+subtree walk, but if I misread one of them, I'd be glad to drop all this.
 
 Thanks,
-Thomas
-
-drm-xe-fixes-2024-12-23:
-UAPI Changes:
-- Revert some devcoredump file format changes
-  breaking a mesa debug tool (John)
-
-Driver Changes:
-- Fixes around waits when moving to system (Nirmoy)
-- Fix a typo when checking for LMEM provisioning (Michal)
-- Fix a fault on fd close after unbind (Lucas)
-The following changes since commit 4bbf9020becbfd8fc2c3da790855b7042fad455b:
-
-  Linux 6.13-rc4 (2024-12-22 13:22:21 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2024-12-23
-
-for you to fetch changes up to fe39b222a4139354d32ff9d46b88757f63f71d63:
-
-  drm/xe: Fix fault on fd close after unbind (2024-12-23 16:19:52 +0100)
-
-----------------------------------------------------------------
-UAPI Changes:
-- Revert some devcoredump file format changes
-  breaking a mesa debug tool (John)
-
-Driver Changes:
-- Fixes around waits when moving to system (Nirmoy)
-- Fix a typo when checking for LMEM provisioning (Michal)
-- Fix a fault on fd close after unbind (Lucas)
-
-----------------------------------------------------------------
-John Harrison (1):
-      drm/xe: Revert some changes that break a mesa debug tool
-
-Lucas De Marchi (1):
-      drm/xe: Fix fault on fd close after unbind
-
-Michal Wajdeczko (1):
-      drm/xe/pf: Use correct function to check LMEM provisioning
-
-Nirmoy Das (2):
-      drm/xe: Use non-interruptible wait when moving BO to system
-      drm/xe: Wait for migration job before unmapping pages
-
- drivers/gpu/drm/xe/xe_bo.c                 | 12 ++++++++++--
- drivers/gpu/drm/xe/xe_devcoredump.c        | 15 ++++++++++++++-
- drivers/gpu/drm/xe/xe_exec_queue.c         |  9 +++++++++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |  2 +-
- 4 files changed, 34 insertions(+), 4 deletions(-)
+Miqu=C3=A8l
