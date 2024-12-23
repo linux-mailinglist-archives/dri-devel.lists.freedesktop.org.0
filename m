@@ -2,67 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459EF9FB4A5
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 20:21:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59A819FB4BB
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 20:36:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F343010E26D;
-	Mon, 23 Dec 2024 19:21:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6597310E334;
+	Mon, 23 Dec 2024 19:35:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XkL4HlxD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="evHwwSlg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99FE510E26D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 19:21:32 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4343AFF803;
- Mon, 23 Dec 2024 19:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734981691;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KWj1thEE3fEk4/JDoMlPzjIiOgvaovwBP/OLPmPxMTc=;
- b=XkL4HlxDTSTVu8Z3tpaDo0aUqQjDmb1EDtc/kb/3vkFvtvfjq5NCactwOYkt2DXR9/jgDL
- wrtpgjGDtx0hpkK9ZmSvEYv2EMZbYwv9arz0d3MZuxWiyvtWmfZHn7mwGrlqtaMv6I4+6Y
- 90hO51r6ps3MOp4l27g2VGiqP80/ZIJ9OvQmo2O7Bop199rK/KyLNYvqfNj8LseasjZkdO
- AnUXXqybWyvrrZqpZB6TGEVAFLXkpc7XQALLfRbrORYiVT31MnMNXB8uAD28QDMsCT1zp7
- aZgUix8Gfs2nXqYN47SFUTEpGx6C7wxgo0RLtW2VnFI6M3Hae/LoYaQyEMzS9g==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: "Usyskin, Alexander" <alexander.usyskin@intel.com>
-Cc: "Poosa, Karthik" <karthik.poosa@intel.com>,  "Vivi, Rodrigo"
- <rodrigo.vivi@intel.com>,  Richard Weinberger <richard@nod.at>,  Vignesh
- Raghavendra <vigneshr@ti.com>,  "De Marchi, Lucas"
- <lucas.demarchi@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
- "Weil, Oren jer" <oren.jer.weil@intel.com>,
- "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 06/10] mtd: intel-dg: wake card on operations
-In-Reply-To: <CY5PR11MB6366CBE2D1AA392AD3F745F7ED052@CY5PR11MB6366.namprd11.prod.outlook.com>
- (Alexander Usyskin's message of "Wed, 18 Dec 2024 15:58:35 +0000")
-References: <20241119140112.790720-1-alexander.usyskin@intel.com>
- <20241119140112.790720-7-alexander.usyskin@intel.com>
- <Z2H_7Xry3R2fWpMZ@intel.com>
- <24725a85-47c2-49c3-b2ae-443279b2bd13@intel.com>
- <CY5PR11MB63663382E44A258B0BAEF1BAED052@CY5PR11MB6366.namprd11.prod.outlook.com>
- <CY5PR11MB6366CBE2D1AA392AD3F745F7ED052@CY5PR11MB6366.namprd11.prod.outlook.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 23 Dec 2024 20:21:29 +0100
-Message-ID: <87cyhiqk7a.fsf@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5ED310E334
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 19:35:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1734982557; x=1766518557;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=rx3jC5fwGkdw93kHrg2ci+6aXZOU0ujpsNP86LILGrY=;
+ b=evHwwSlge3qgH/W05Orki3ucrLmn0ldr8cbk2Bwt72/5n4ktLEIMLw8N
+ Yoxn79UgpBGjM4SPlFTyVFwlm+kT+r8/IjehpdjUhGyDlyFqkZ44ZBs/R
+ 7+DR3RQ+HkAE1fwWOp6XE0sv/wJchthPE4lSIz56XAr5ngboUU5Oo8Xz+
+ 9ENnjTNJyFb1Mes81JZ2bI9vtECo+or1Ox9qUHb4hK5tCw0N/nzl0frFp
+ 6dM1d7VHnb/+TeY0bD8BKiUscMF6jJyxLJ8VqmHENj/EnkvzMN6HXL0pA
+ ifYwi3rCfJrOXs/O9Z9Z94hwdbkDzVgfoAwBdJlfqLzTrJjBt3G63D0Py w==;
+X-CSE-ConnectionGUID: i6Cie4+SRV+I/iUrGkutow==
+X-CSE-MsgGUID: keR9rIfQTK6w63VMzzSvGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="45946834"
+X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; d="scan'208";a="45946834"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2024 11:35:57 -0800
+X-CSE-ConnectionGUID: BH0V/m0PSx2VVMpYZKwTxw==
+X-CSE-MsgGUID: 5fcNGsUNSnGcyF/OM0ehIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; d="scan'208";a="99111103"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa007.fm.intel.com with ESMTP; 23 Dec 2024 11:35:55 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tPoDY-0000Zz-1i;
+ Mon, 23 Dec 2024 19:35:52 +0000
+Date: Tue, 24 Dec 2024 03:35:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, p.zabel@pengutronix.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+Subject: Re: [PATCH] gpu: ipu-v3: fix OF node reference leaks in
+ ipu_add_client_devices()
+Message-ID: <202412240257.hBU9oQRB-lkp@intel.com>
+References: <20241215032222.2507759-1-joe@pf.is.s.u-tokyo.ac.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241215032222.2507759-1-joe@pf.is.s.u-tokyo.ac.jp>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,24 +72,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Alexander,
+Hi Joe,
 
->> If so, I have to add patch for mtd subsystem to always have device for m=
-aster
->> initialized regardless of kernel flag.
->> Only to initialize struct device, not to create full mtd node.
->>=20
->> Miquel - are you agree to this?
+kernel test robot noticed the following build warnings:
 
-Conceptually yes, but please mind one thing: we do not break
-userspace. So if you want to keep the master mtd device, fine, but you
-need to do it in a consistent way so that people not enabling the kernel
-flag won't get a new device in their rootfs, shifting all indexes
-upwards.
+[auto build test WARNING on pza/reset/next]
+[also build test WARNING on linus/master pza/imx-drm/next v6.13-rc4 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-That being said, you are probably going in the right direction by doing
-that.
+url:    https://github.com/intel-lab-lkp/linux/commits/Joe-Hattori/gpu-ipu-v3-fix-OF-node-reference-leaks-in-ipu_add_client_devices/20241215-112258
+base:   https://git.pengutronix.de/git/pza/linux reset/next
+patch link:    https://lore.kernel.org/r/20241215032222.2507759-1-joe%40pf.is.s.u-tokyo.ac.jp
+patch subject: [PATCH] gpu: ipu-v3: fix OF node reference leaks in ipu_add_client_devices()
+config: powerpc-randconfig-r072-20241223 (https://download.01.org/0day-ci/archive/20241224/202412240257.hBU9oQRB-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.2.0
 
-Thanks,
-Miqu=C3=A8l
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412240257.hBU9oQRB-lkp@intel.com/
 
+smatch warnings:
+drivers/gpu/ipu-v3/ipu-common.c:1189 ipu_add_client_devices() warn: always true condition '(--i >= 0) => (0-u32max >= 0)'
+drivers/gpu/ipu-v3/ipu-common.c:1189 ipu_add_client_devices() warn: always true condition '(--i >= 0) => (0-u32max >= 0)'
+
+vim +1189 drivers/gpu/ipu-v3/ipu-common.c
+
+  1138	
+  1139	static int ipu_add_client_devices(struct ipu_soc *ipu, unsigned long ipu_base)
+  1140	{
+  1141		struct device *dev = ipu->dev;
+  1142		unsigned i;
+  1143		int id, ret;
+  1144	
+  1145		mutex_lock(&ipu_client_id_mutex);
+  1146		id = ipu_client_id;
+  1147		ipu_client_id += ARRAY_SIZE(client_reg);
+  1148		mutex_unlock(&ipu_client_id_mutex);
+  1149	
+  1150		for (i = 0; i < ARRAY_SIZE(client_reg); i++) {
+  1151			struct ipu_platform_reg *reg = &client_reg[i];
+  1152			struct platform_device *pdev;
+  1153			struct device_node *of_node;
+  1154	
+  1155			/* Associate subdevice with the corresponding port node */
+  1156			of_node = of_graph_get_port_by_id(dev->of_node, i);
+  1157			if (!of_node) {
+  1158				dev_info(dev,
+  1159					 "no port@%d node in %pOF, not using %s%d\n",
+  1160					 i, dev->of_node,
+  1161					 (i / 2) ? "DI" : "CSI", i % 2);
+  1162				continue;
+  1163			}
+  1164	
+  1165			pdev = platform_device_alloc(reg->name, id++);
+  1166			if (!pdev) {
+  1167				ret = -ENOMEM;
+  1168				of_node_put(of_node);
+  1169				goto err_register;
+  1170			}
+  1171	
+  1172			pdev->dev.parent = dev;
+  1173	
+  1174			reg->pdata.of_node = of_node;
+  1175			ret = platform_device_add_data(pdev, &reg->pdata,
+  1176						       sizeof(reg->pdata));
+  1177			if (!ret)
+  1178				ret = platform_device_add(pdev);
+  1179			if (ret) {
+  1180				platform_device_put(pdev);
+  1181				of_node_put(of_node);
+  1182				goto err_register;
+  1183			}
+  1184		}
+  1185	
+  1186		return 0;
+  1187	
+  1188	err_register:
+> 1189		while (--i >= 0)
+  1190			of_node_put(client_reg[i].pdata.of_node);
+  1191		platform_device_unregister_children(to_platform_device(dev));
+  1192	
+  1193		return ret;
+  1194	}
+  1195	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
