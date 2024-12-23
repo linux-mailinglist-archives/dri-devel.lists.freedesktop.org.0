@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120699FB5BB
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:49:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B6E9FB5D0
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:51:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6292F10E446;
-	Mon, 23 Dec 2024 20:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE18510E42E;
+	Mon, 23 Dec 2024 20:51:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sSOCwWnL";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2379610E446
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:48:57 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.18.186.231])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH94w3CSYz6K5lq;
- Tue, 24 Dec 2024 04:45:04 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id 6C27E140517;
- Tue, 24 Dec 2024 04:48:55 +0800 (CST)
-Received: from localhost (10.47.75.118) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Dec
- 2024 21:48:53 +0100
-Date: Mon, 23 Dec 2024 20:48:52 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Zijun Hu <zijun_hu@icloud.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, James Bottomley
- <James.Bottomley@HansenPartnership.com>, Thomas =?ISO-8859-1?Q?Wei=DFschu?=
- =?ISO-8859-1?Q?h?= <thomas@t-8ch.de>, <linux-kernel@vger.kernel.org>,
- <nvdimm@lists.linux.dev>, <linux-sound@vger.kernel.org>,
- <sparclinux@vger.kernel.org>, <linux-block@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux1394-devel@lists.sourceforge.net>,
- <arm-scmi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
- <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>, "Alison
- Schofield" <alison.schofield@intel.com>
-Subject: Re: [PATCH v4 10/11] cxl/pmem: Replace match_nvdimm_bridge() with
- API device_match_type()
-Message-ID: <20241223204852.000021d5@huawei.com>
-In-Reply-To: <20241211-const_dfc_done-v4-10-583cc60329df@quicinc.com>
-References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
- <20241211-const_dfc_done-v4-10-583cc60329df@quicinc.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F18610E42E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:51:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6B07E5C5BAE;
+ Mon, 23 Dec 2024 20:50:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4109C4CED3;
+ Mon, 23 Dec 2024 20:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1734987061;
+ bh=7vXp6bg3mIjFXJtB/znIi7nXzs2VzEStHvDISKqmwas=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=sSOCwWnLvbLB7dADE52q5aALdUxvb09wMkoarI/KHYD6xnMZCS9HA0QgYGvJeVPvC
+ 4jT9A4kyA/stK3cZITP0N3WB1YFxk0FDAs2fglyqg3HwQK2tV727ewQ4MGed2Rg4RY
+ btCD6CqdOm2cdAUrdryVpUklmsJXvW4awF0LN6dV2FgK7dQwxof3qdeH93xKvie8NL
+ XBizgv1/9TFlJ9Ws9wiSeJQJ3aCRcOoLRUA2103q171a3ojEi8sinaB6XYqOKxk8aq
+ QmuXfwf5aH893lR84Uqqq742Wfkw5Wq/EEYRZkMhxFQShUQ2o1xHQK7eYNc6X8xB8u
+ ds4jlVT/frsPg==
+Message-ID: <2cd0c34fbd14a0d69e689d04c2241938.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.75.118]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241223125553.3527812-2-m.wilczynski@samsung.com>
+References: <20241223125553.3527812-1-m.wilczynski@samsung.com>
+ <CGME20241223125601eucas1p1d274193122638075dc65310a22616bae@eucas1p1.samsung.com>
+ <20241223125553.3527812-2-m.wilczynski@samsung.com>
+Subject: Re: [RFC PATCH v2 01/19] dt-bindings: clock: Add VO subsystem clocks
+ and update address requirements
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org,
+ Michal Wilczynski <m.wilczynski@samsung.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>, airlied@gmail.com,
+ aou@eecs.berkeley.edu, conor+dt@kernel.org, drew@pdp7.com,
+ frank.binns@imgtec.com, guoren@kernel.org, jassisinghbrar@gmail.com,
+ jszhang@kernel.org, krzk+dt@kernel.org, m.szyprowski@samsung.com,
+ maarten.lankhorst@linux.intel.com, matt.coster@imgtec.com, mripard@kernel.org,
+ mturquette@baylibre.com, p.zabel@pengutronix.de, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, robh@kernel.org, simona@ffwll.ch,
+ tzimmermann@suse.de, ulf.hansson@linaro.org, wefu@redhat.com
+Date: Mon, 23 Dec 2024 12:50:59 -0800
+User-Agent: alot/0.12.dev1+gaa8c22fdeedb
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,60 +71,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Dec 2024 08:08:12 +0800
-Zijun Hu <zijun_hu@icloud.com> wrote:
-
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> Static match_nvdimm_bridge(), as matching function of device_find_child()
-> matches a device with device type @cxl_nvdimm_bridge_type, and its task
-> can be simplified by the recently introduced API device_match_type().
-> 
-> Replace match_nvdimm_bridge() usage with device_match_type().
-> 
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-
-I don't see any uses of is_cxl_nvdimm_bridge() other than this one
-Drop that as well?
-
-This one is a bit of a trade off because the way is_cxl_nvdimm_bridge()
-is identified is kind of an internal detail, but it's been true for a long
-time so I'm fine with this change.
-
-Jonathan
-
-
+Quoting Michal Wilczynski (2024-12-23 04:55:35)
+> The T-Head TH1520 SoC=E2=80=99s AP clock controller now needs two address=
+ ranges
+> to manage both the Application Processor (AP) and Video Output (VO)
+> subsystem clocks. Update the device tree bindings to require two `reg`
+> entries, one for the AP clocks and one for the VO clocks.
+>=20
+> Additionally, introduce new VO subsystem clock constants in the header
+> file. These constants will be used by the driver to control VO-related
+> components such as display and graphics units.
+>=20
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
->  drivers/cxl/core/pmem.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/cxl/core/pmem.c b/drivers/cxl/core/pmem.c
-> index a8473de24ebfd92f12f47e0556e28b81a29cff7c..0f8166e793e14fc0b1c04ffda79e756a743d9e6b 100644
-> --- a/drivers/cxl/core/pmem.c
-> +++ b/drivers/cxl/core/pmem.c
-> @@ -57,11 +57,6 @@ bool is_cxl_nvdimm_bridge(struct device *dev)
->  }
->  EXPORT_SYMBOL_NS_GPL(is_cxl_nvdimm_bridge, "CXL");
->  
-> -static int match_nvdimm_bridge(struct device *dev, const void *data)
-> -{
-> -	return is_cxl_nvdimm_bridge(dev);
-> -}
-> -
->  /**
->   * cxl_find_nvdimm_bridge() - find a bridge device relative to a port
->   * @port: any descendant port of an nvdimm-bridge associated
-> @@ -75,7 +70,9 @@ struct cxl_nvdimm_bridge *cxl_find_nvdimm_bridge(struct cxl_port *port)
->  	if (!cxl_root)
->  		return NULL;
->  
-> -	dev = device_find_child(&cxl_root->port.dev, NULL, match_nvdimm_bridge);
-> +	dev = device_find_child(&cxl_root->port.dev,
-> +				&cxl_nvdimm_bridge_type,
-> +				device_match_type);
->  
->  	if (!dev)
->  		return NULL;
-> 
+[...]
+> diff --git a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.=
+yaml b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
+> index 0129bd0ba4b3..f0df97a450ef 100644
+> --- a/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
+> +++ b/Documentation/devicetree/bindings/clock/thead,th1520-clk-ap.yaml
+> @@ -47,7 +54,9 @@ examples:
+>      #include <dt-bindings/clock/thead,th1520-clk-ap.h>
+>      clock-controller@ef010000 {
+>          compatible =3D "thead,th1520-clk-ap";
+> -        reg =3D <0xef010000 0x1000>;
+> +        reg =3D <0xef010000 0x1000>,
+> +              <0xff010000 0x1000>;
 
+I don't get it. Why not have two nodes and two devices? They have
+different register regions so likely they're different devices on the
+internal SoC bus. They may have the same input clks, but otherwise I
+don't see how they're the same node.
+
+> +        reg-names =3D "ap-clks", "vo-clks";
+>          clocks =3D <&osc>;
+>          #clock-cells =3D <1>;
+>      };
