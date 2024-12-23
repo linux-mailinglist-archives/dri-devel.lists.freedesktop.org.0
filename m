@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC579FB1C8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 17:10:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 992D09FB1E5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 17:11:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91E0C10E57C;
-	Mon, 23 Dec 2024 16:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D16A710E571;
+	Mon, 23 Dec 2024 16:11:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nQrpWpDQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lFxnkZlp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A83510E57C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 16:09:49 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA6B10E571
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 16:11:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id BDBD15C5646;
- Mon, 23 Dec 2024 16:09:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 453E3C4CED3;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 07CD1A41045;
  Mon, 23 Dec 2024 16:09:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C02C4CED6;
+ Mon, 23 Dec 2024 16:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1734970188;
- bh=8yY7PAo6J90CfiAubwEdngmP+WIXNeXeySn+ACc7MJc=;
+ s=k20201202; t=1734970290;
+ bh=osfhE2TyNQW1+b8jfL6a/Qu2j1NG7qQBvc9ikP7KIpQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nQrpWpDQWwFTMIgJaG3inMCzsfYw0WpKnXY8RrKP3FlDNc/N5suKg0f+QnPje6hnc
- UDpkF6SHv5oMWiqwxL1GUBLzj1cKJDft0H+b0r4DAMAM63wukxwi+Q90UsO/r3OVUD
- qRpxQUhpp2vrZrZKJ6ienQYTm9//7obuPu566fpQ5HIPqLrp/V/mpDR9qqZUZWi3iX
- mRjr4oxqrzJCyycGi8uJP7ZYZYIeItZvZ40PsGLyHV5nY6xccnbY4GKTKsWmqHceWM
- Rw7/Ee9u7sY2OXwcVJyJx/WjdywwOZ830KQk9azrmUW/uLP5vKArZbxrXy/TMgQ1C7
- 69mS9T7I5dspQ==
-Message-ID: <db2987c2-53fc-4d3a-b85c-f5683f74e7a0@kernel.org>
-Date: Mon, 23 Dec 2024 17:09:39 +0100
+ b=lFxnkZlpDn18NzO7Mx2sEHY9verHL6/fPu8Py9tvo9jJUzN4iZba7L2R1W3DQ4yoO
+ TdPwEJyaHZDtJTlpBlKFhZvifCQAoYQ6QortFO79D0UyZKk/RSg3Rhv3qfm+MY3m11
+ lRBMPvC+yKH7OUrBGqfiRcf9zrQ64ThZHaBKaUDif1GfT+qKVLKn/nczfFmGHTDTqm
+ wgJIhPJ0HFNY5ZTO97sV3eJ1vEdj4z8Hasrik54IGYUgJ6AA9+w1sx0cqy7CDBvDFr
+ KyFqSp0hkq+B2wjJh2ePtn5dmwcoy9Ab6KpxIv1+NFL7H+TmAvfwYlDWnpylmrbo4G
+ Wtn8zqFuyE3Hw==
+Message-ID: <19270618-be7e-46c0-a937-706b0c0b4118@kernel.org>
+Date: Mon, 23 Dec 2024 17:11:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 03/19] dt-bindings: power: thead,th1520: Add
- support for power domains
+Subject: Re: [RFC PATCH v2 04/19] dt-bindings: firmware: thead,th1520: Add
+ support for firmware node
 To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
@@ -48,8 +48,8 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
 References: <20241223125553.3527812-1-m.wilczynski@samsung.com>
- <CGME20241223125604eucas1p26b870756eeaf2a5666b70de3f7554c13@eucas1p2.samsung.com>
- <20241223125553.3527812-4-m.wilczynski@samsung.com>
+ <CGME20241223125606eucas1p10ca3adc99322ff33d617a227733e5e67@eucas1p1.samsung.com>
+ <20241223125553.3527812-5-m.wilczynski@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241223125553.3527812-4-m.wilczynski@samsung.com>
+In-Reply-To: <20241223125553.3527812-5-m.wilczynski@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,41 +114,79 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 23/12/2024 13:55, Michal Wilczynski wrote:
-> +  compatible:
-> +    const: thead,th1520-pd
+> The kernel communicates with the E902 core through the mailbox
+> transport using AON firmware protocol. Add dt-bindings to document it
+> the dt node.
+> 
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  .../bindings/firmware/thead,th1520-aon.yaml   | 59 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+> new file mode 100644
+> index 000000000000..ca4c276766a3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/firmware/thead,th1520-aon.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +  "#power-domain-cells":
-> +    const: 1
+> +title: T-HEAD TH1520 AON (Always-On) Firmware Node
+
+Drop "Node", unless this is somehow name of device (not a DT node).
+
+> +
+> +description: |
+> +  The Always-On (AON) subsystem in the TH1520 SoC is responsible for managing
+> +  low-power states, system wakeup events, and power management tasks. It is
+> +  designed to operate independently in a dedicated power domain, allowing it to
+> +  remain functional even during the SoC's deep sleep states.
+> +
+> +  At the heart of the AON subsystem is the E902, a low-power core that executes
+> +  firmware responsible for coordinating tasks such as power domain control,
+> +  clock management, and system wakeup signaling. Communication between the main
+> +  SoC and the AON subsystem is handled through a mailbox interface, which
+> +  enables message-based interactions with the AON firmware.
+> +
+> +maintainers:
+> +  - Michal Wilczynski <m.wilczynski@samsung.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: thead,th1520-aon
+> +
+> +  mboxes:
+> +    maxItems: 1
+> +
+> +  mbox-names:
+> +    items:
+> +      - const: aon
+> +
+> +  power-domain:
+> +    $ref: /schemas/power/thead,th1520-power.yaml#
+> +    description: Subnode representing the hardware power domain of the AON subsystem.
 > +
 > +additionalProperties: false
 > +
 > +required:
 > +  - compatible
-> +  - "#power-domain-cells"
+> +  - mboxes
+> +  - mbox-names
+
+In all your bindings patches: "required" block goes before
+additional/unevaluatedProperties. See also example-schema.
+
 > +
 > +examples:
 > +  - |
 > +    firmware {
-
-Drop
-
 > +        aon: aon {
-> +            compatible = "thead,th1520-aon";
-> +            mboxes = <&mbox_910t 1>;
-> +            mbox-names = "aon";
-
-Drop aon node... but the main problem is you do not have any resources
-in your power-domain device node, assuming your binding is complete.
-This suggests that this is part of aon, not separate device. Fold the
-device node into its parent (so everything goes to AON).
-
-> +
-> +            pd: power-domain {
-> +                compatible = "thead,th1520-pd";
-> +                #power-domain-cells = <1>;
-> +            };
-> +        };
-> +    };
 
 Best regards,
 Krzysztof
