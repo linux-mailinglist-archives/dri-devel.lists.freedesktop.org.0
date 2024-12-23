@@ -2,54 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616AD9FB48E
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 20:01:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459EF9FB4A5
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 20:21:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D08710E11E;
-	Mon, 23 Dec 2024 19:01:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F343010E26D;
+	Mon, 23 Dec 2024 19:21:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CFJbPtft";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XkL4HlxD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF3E10E11E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 19:01:46 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 91D88FF803;
- Mon, 23 Dec 2024 19:01:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99FE510E26D
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 19:21:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4343AFF803;
+ Mon, 23 Dec 2024 19:21:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1734980485;
+ t=1734981691;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dOIDsBuhIWYlOhDYObmF/pMoCGKUr2mxtjBccWWB15o=;
- b=CFJbPtft1cAi9gS1bNfPVvlq9d4TDktlA+P1LY0XAT1JHdKwdvjPEWP8zaOhDBXjx2fSSE
- HbeqSYQo05AL4bKiNURxm5HAGvle/LbXOn3QOBR1gOTyj7y5sRGwykJyf0NhErxZoI7oRP
- 1bSg+KCtz3AVQW/hXDmBt3tiuqRgYMkX9yTzNPSEA/A7sCBN0KivK/4O8eqsW777/wKVih
- TbsVPGp81gQovTTSWKlxbZdNY0cGoGJyBcsZLUULpab1XYeMsntMnZxsNh720yExDzJyOa
- MqeaKBcnmk3cmHuEKHfbmum8dl8xjsBuNf9bA5FtwZJ3syCRj8PfX8TyAT7CIg==
+ bh=KWj1thEE3fEk4/JDoMlPzjIiOgvaovwBP/OLPmPxMTc=;
+ b=XkL4HlxDTSTVu8Z3tpaDo0aUqQjDmb1EDtc/kb/3vkFvtvfjq5NCactwOYkt2DXR9/jgDL
+ wrtpgjGDtx0hpkK9ZmSvEYv2EMZbYwv9arz0d3MZuxWiyvtWmfZHn7mwGrlqtaMv6I4+6Y
+ 90hO51r6ps3MOp4l27g2VGiqP80/ZIJ9OvQmo2O7Bop199rK/KyLNYvqfNj8LseasjZkdO
+ AnUXXqybWyvrrZqpZB6TGEVAFLXkpc7XQALLfRbrORYiVT31MnMNXB8uAD28QDMsCT1zp7
+ aZgUix8Gfs2nXqYN47SFUTEpGx6C7wxgo0RLtW2VnFI6M3Hae/LoYaQyEMzS9g==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Martin Kepplinger <martink@posteo.de>
-Cc: Nikolaus Voss <nv@vosn.de>,  Alexander Stein
- <alexander.stein@ew.tq-group.com>,  Liu Ying <victor.liu@nxp.com>,  Luca
- Ceresoli <luca.ceresoli@bootlin.com>,  Fabio Estevam <festevam@denx.de>,
- Marek Vasut <marex@denx.de>,  Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,  Robert Foss
- <rfoss@kernel.org>,  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>,  Jernej Skrabec
- <jernej.skrabec@gmail.com>,  David Airlie <airlied@gmail.com>,  Daniel
- Vetter <daniel@ffwll.ch>,  nikolaus.voss@haag-streit.com,
- dri-devel@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] drm: bridge: fsl-ldb: fixup mode on freq mismatch
-In-Reply-To: <80cdb6d83f37c1c87a71ad567b2c4f2433219465.camel@posteo.de>
- (Martin Kepplinger's message of "Thu, 19 Dec 2024 12:39:05 +0000")
-References: <20241219105416.4AE0D1201@mail.steuer-voss.de>
- <80cdb6d83f37c1c87a71ad567b2c4f2433219465.camel@posteo.de>
+To: "Usyskin, Alexander" <alexander.usyskin@intel.com>
+Cc: "Poosa, Karthik" <karthik.poosa@intel.com>,  "Vivi, Rodrigo"
+ <rodrigo.vivi@intel.com>,  Richard Weinberger <richard@nod.at>,  Vignesh
+ Raghavendra <vigneshr@ti.com>,  "De Marchi, Lucas"
+ <lucas.demarchi@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
+ <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Weil, Oren jer" <oren.jer.weil@intel.com>,
+ "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 06/10] mtd: intel-dg: wake card on operations
+In-Reply-To: <CY5PR11MB6366CBE2D1AA392AD3F745F7ED052@CY5PR11MB6366.namprd11.prod.outlook.com>
+ (Alexander Usyskin's message of "Wed, 18 Dec 2024 15:58:35 +0000")
+References: <20241119140112.790720-1-alexander.usyskin@intel.com>
+ <20241119140112.790720-7-alexander.usyskin@intel.com>
+ <Z2H_7Xry3R2fWpMZ@intel.com>
+ <24725a85-47c2-49c3-b2ae-443279b2bd13@intel.com>
+ <CY5PR11MB63663382E44A258B0BAEF1BAED052@CY5PR11MB6366.namprd11.prod.outlook.com>
+ <CY5PR11MB6366CBE2D1AA392AD3F745F7ED052@CY5PR11MB6366.namprd11.prod.outlook.com>
 User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 23 Dec 2024 20:01:22 +0100
-Message-ID: <87ldw6rzp9.fsf@bootlin.com>
+Date: Mon, 23 Dec 2024 20:21:29 +0100
+Message-ID: <87cyhiqk7a.fsf@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -69,46 +78,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Martin,
+Hello Alexander,
 
-On 19/12/2024 at 12:39:05 GMT, Martin Kepplinger <martink@posteo.de> wrote:
+>> If so, I have to add patch for mtd subsystem to always have device for m=
+aster
+>> initialized regardless of kernel flag.
+>> Only to initialize struct device, not to create full mtd node.
+>>=20
+>> Miquel - are you agree to this?
 
-> Am Donnerstag, dem 19.12.2024 um 11:54 +0100 schrieb Nikolaus Voss:
->> LDB clock has to be a fixed multiple of the pixel clock.
->> Although LDB and pixel clock have a common source, this
->> constraint cannot be satisfied for any pixel clock at a
->> fixed source clock.
->>=20
->> Violating this constraint leads to flickering and distorted
->> lines on the attached display.
->>=20
->> To overcome this, there are these approches:
->>=20
->> 1. Modify the base PLL clock statically by changing the
->> =C2=A0=C2=A0 device tree, implies calculating the PLL clock by
->> =C2=A0=C2=A0 hand, e.g. commit 4fbb73416b10 ("arm64: dts:
->> =C2=A0=C2=A0 imx8mp-phyboard-pollux: Set Video PLL1 frequency to 506.8 M=
-Hz")
->>=20
->> 2. Walk down the clock tree and modify the source clock.
->> =C2=A0=C2=A0 Proposed patch series by Miquel Raynal:
->> =C2=A0=C2=A0 [PATCH 0/5] clk: Fix simple video pipelines on i.MX8
->>=20
->> 3. This patch: check constraint violation in
->> =C2=A0=C2=A0 drm_bridge_funcs.atomic_check() and adapt the pixel
->> =C2=A0=C2=A0 clock in drm_display_mode.adjusted_mode accordingly.
->>=20
->> Fixes: 463db5c2ed4a ("drm: bridge: ldb: Implement simple Freescale
->> i.MX8MP LDB bridge")
->> Cc: <stable@vger.kernel.org> # 6.12.x, 6.6.x
->> Signed-off-by: Nikolaus Voss <nv@vosn.de>
->>=20
->> ---
+Conceptually yes, but please mind one thing: we do not break
+userspace. So if you want to keep the master mtd device, fine, but you
+need to do it in a consistent way so that people not enabling the kernel
+flag won't get a new device in their rootfs, shifting all indexes
+upwards.
 
-I didn't investigate further, but FYI this approach does not fix my
-situation with iMX8MP. I am not saying it's wrong, because I am not
-experienced enough with drm, but at least that it is not a replacement
-of point #2 above.
+That being said, you are probably going in the right direction by doing
+that.
 
-Cheers,
+Thanks,
 Miqu=C3=A8l
+
