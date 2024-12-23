@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C289FAA83
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 07:42:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C409FAA85
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 07:42:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAA410E320;
-	Mon, 23 Dec 2024 06:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A6610E329;
+	Mon, 23 Dec 2024 06:42:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="E+FVIOg3";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="GyNxpJpx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05on2042.outbound.protection.outlook.com [40.107.20.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB4A10E321
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 06:42:00 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2049.outbound.protection.outlook.com [40.107.21.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 474CD10E314
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 06:42:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iEQPaNbqnvfLKepqdmn+eGDDQgA2pIbJ32oTdIiIj3VMVIudvnpDQ8e7YEphB8bzRzS1D+ctklvH8AUoyjhMea9PJdmPfZjYab+wZ8/07ytSZfonI7Z90PhDyFoZNR3+2tT5JnzQOalgX81LpOdWagZ6rTvE/wqf82cipwcShtPyzZDxnQBLobt1nBSgamg+YTujBNuYJdrG4kwqpU1sKX8ynDjX9ekDIMeiUnyE9B5bcAXuXHPd6zQ/jJt7f/4CeguPipaNs4c8HX3ubKS38VcdKwWkclPF69EU7woGt3LAzNuqkxpy+HNzefUuasLD8NbUrdrfVQoYuUIIqUij3A==
+ b=tMxNa2MTmlvDmQLsp8oHOmWRPWqi2cEJctRA0igK1rbyGDC322KTAgSaDad7c95TiOxTAbelDvBtHnSbT1dzB4i6bkQrp+++PYjqip8+NFB9wzQNUA6YNxFhMmj+au/w9Qeck23g/Ha+JtgtDPxi6ZFca8Ya/YlF/kcOz7aLNx/pmvqX+6aEEpMLA9YAr2YjPamR2mw3FeNrrzeBCtLNw9oOyBjseyvppfRf3HbD43NglQhb6YO9qipFRwJdDpxbhaNVVuDZOxFCZkG3aGiqLo0oS1jFVn6iXVK5eBLw6f9/u+hW8mg+C/j/pVUCgXoRhPuenjwqk+BOvEmi/XqELw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kbk+ILhMSF7ywy7xTFNmuGSg+/XA02i/wn8QqLLs6Es=;
- b=QcCgjwAdRvZ6iXwDfVtA3Z8xLaMed/NTS2LRYt5OI/svcNm0xGRDArFN08YTxQaFQcYOTMZqVsL5QR04ITU2nm2urbLsD31RMKiqzlp3Gdo9QI54wmg+FXwI3hoc6IefVKoy2kp0/3ad8Zx5hT6qDTCtI/mIhFiGBlpZ1qBVyh3EETcSszwusaFkEz9ZXcb5B+C2gi+sytImFdrhvrIBQYjMElkD9/PgUwFiKoCmW4VBJ7QabXR9DOqJIJvo/7wgkpZFZWSRG1a66ddXcH0YTrONGMREhJbJq8AIBXAd0sN4GcYQpanWtkhCJ3rBvK2N1fCZkUckNMnWsP4Zi6kGGQ==
+ bh=ncpJMUuagEW6GbW6rNX9QgfZojcMMWRKlmdjSnVwn5w=;
+ b=rA/J+3j3wsXGxgMJPCI/Oagdqq+PdTfac0OJEvlrp33D1kEB/qWYvy/vCKGNR6D7LIScG9a/v5sxpAi8dOnPPlbISFGhFmtQp654lB8yWHrO2VLJUgpdMQfTnN2ivXCB/OH27fTB/2B3QC3Dt09L/ax82+kuV6CqsNG3J16EiY0py5OPiuYPhVUB81RbZH76rsk86lMqsHJ+n34JtovuDUE3cp3ffAWcf1Xf+cZp1gAKCj33hUmblBSR16+GGwi85H0Hrc9jZrYBUf8igGxGKJRGm4tNS2rEyZlNw52MhzWip342CP3l8JxVsF+NHL443kAOz3N1ArRfVJMksHkaPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kbk+ILhMSF7ywy7xTFNmuGSg+/XA02i/wn8QqLLs6Es=;
- b=E+FVIOg3wPhvqaQ2skuGmiZNll+p03Ds7OO5E4zoR+k4r8X4Hm9LJGwRutDkCLBPFsF8/Q+3P39ggV6zLUD1pYGjZ/9ra/eH9rWoQMENsJEHvvSSMHWo9RreAY0KSygwbHBw7EhyS2BAQr4BvxV9YQ4Gar/Q5O4YWDqYkGLLBxthrm88Y22Qn6cARq/TRPDsmrpdEODn7IxDi2q0TeeQXs0F77BQ+KDr0kgSgqIRFV9xOpmu3EONFKa0acvzuerU7nS8JsgFjufUESyI9YW61kKo7v+KZpc9rTmtcoaIOKyYahrZA4ynYmLj/z4/8RXYMx7bq8m7cqt39vmIZpNU2g==
+ bh=ncpJMUuagEW6GbW6rNX9QgfZojcMMWRKlmdjSnVwn5w=;
+ b=GyNxpJpxjgPZ20o+kBEi1mhgT4rgPFV0claU4INwRjjdXzgh4Hxv+2T8y8RPrmyhbKeZR43mJdKwynY9taOMKFEEnAN+o5n0vqTQ7zgkmrvyZBr7VYdogyCMjLGrUInI4nNDiGSHDZTN55iJqjjfoFT7VLuM7PRhmyL2YpgtRTjYsyy3fDLcfH5VUBAcAlZl83j1/pwQ/GwpX7gGs1NyqzZVFBbfpyrysA/w3cqa7qKpHUKlud+h8M6xMVlGRsKsuIkyDKRXynukqSuc+TpkluBCODlJtepQK6OeNE5uBy7i8eFiN15K6zYQji5d+506iHYVQ6ZUI42hsr88YYrt/Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by AM9PR04MB8986.eurprd04.prod.outlook.com (2603:10a6:20b:409::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.19; Mon, 23 Dec
- 2024 06:41:53 +0000
+ 2024 06:42:01 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8272.013; Mon, 23 Dec 2024
- 06:41:53 +0000
+ 06:42:01 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -53,10 +53,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
  u.kleine-koenig@baylibre.com, francesco@dolcini.it, frank.li@nxp.com,
  dmitry.baryshkov@linaro.org
-Subject: [PATCH v7 01/19] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller processing units
-Date: Mon, 23 Dec 2024 14:41:29 +0800
-Message-Id: <20241223064147.3961652-2-victor.liu@nxp.com>
+Subject: [PATCH v7 02/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller blit engine
+Date: Mon, 23 Dec 2024 14:41:30 +0800
+Message-Id: <20241223064147.3961652-3-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241223064147.3961652-1-victor.liu@nxp.com>
 References: <20241223064147.3961652-1-victor.liu@nxp.com>
@@ -68,76 +68,76 @@ X-ClientProxiedBy: SI2P153CA0008.APCP153.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AM9PR04MB8986:EE_
-X-MS-Office365-Filtering-Correlation-Id: 368290a4-7e43-4a7e-1c59-08dd231ce2fa
+X-MS-Office365-Filtering-Correlation-Id: 586c5ca3-7763-475c-b03c-08dd231ce797
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|1800799024|376014|7416014|52116014|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DE/GZAc8C9KfReN6Xw0AeARD9Fls2/VERBDuZOZEQ1ecYLNGNTDcPcyO+s/U?=
- =?us-ascii?Q?eYkBFvks6wUaklX0ADlQ87jFDVQmyTSzj2HAjt7zY7hI5A/98AubB3GoAdme?=
- =?us-ascii?Q?WoXed12upwjwlJhqcaXdN1V8rYZ3UrsC4W3HHfAUrag2qrog8UZeJ5ojwY37?=
- =?us-ascii?Q?INRj0b6xIVS4MUV/G0P2toPGhYiZi7T/gEQZ3V9OHge6TwV1XlEIPbC10hlH?=
- =?us-ascii?Q?PwFcIwMnsTEPhYWpR0g+7yI1kGGY7hu56Rm4ybqwa68wIi6bjPRAUuxheRDT?=
- =?us-ascii?Q?z2YifNaUXUupqkT0+E7+s0hO7Oi07VI1cOmDo67cLiB6X28xPlTGlj4Rf5ng?=
- =?us-ascii?Q?5Rlfp3SPVEIGCiemssOObIOA2yhXj0f1ocW+5w9aVn7P4dKAo26APfMU4T/0?=
- =?us-ascii?Q?KR351uZINiwN4ehhgWO89kSSm6HH4qeMKzXCBCptYDSsTdNjU7lwdW+qgJCU?=
- =?us-ascii?Q?uqkUhGZxFOrUyoeXoAb9rXsEPel3+OgSF1zpyNTPUPNheumJhklRJdoHsZ+W?=
- =?us-ascii?Q?VxRDNscyt5NGIqK7yeYnoeiXRMSKMMbYu7os+hqZJz/aVdltj+HxNNh2WdBS?=
- =?us-ascii?Q?GLv/ubK/0n46FcztxKWU6qxPg4D+GXOlS9xFE61tHBuY66HxChw0rEmSZCXK?=
- =?us-ascii?Q?GCOW5DKhHNmEtjyJBmMKwbND3+kyOoUmW72uCtSsA862ZoS5xfVYNSvtE+Gp?=
- =?us-ascii?Q?2k9nwy8Y6Mfzbld3h3lHAtshw1gDewwGPM5Ogb2m1M3017Pqd3xgXuZ1lW3R?=
- =?us-ascii?Q?2W4kaTcJCzY+eSV6WEJCZN5y3wirChzhoC2MY55IVHuK3j6+sSTbkz6e90an?=
- =?us-ascii?Q?+3urNgwwveES2+Q0SU7sXVqf8j+CPDVZ/Vzh0vTCXiBn81LP64aFoxQhgxWt?=
- =?us-ascii?Q?AaCvhgCdTgiRN1x2Akkc5vRZbadAsczFeov2eJevFulEkijXa5Ju680GjqDI?=
- =?us-ascii?Q?i2ChvqQUHdPMYK0jePttEnDQFya4A8E/3kWgBTEBsHO82OjQ3KySt5BBf7Eh?=
- =?us-ascii?Q?mOSJLQnFQTAK0OcXidLlEN7xam883y6kqSIoAMOAGg552Oaf1I1ZhIOTJzmB?=
- =?us-ascii?Q?fO6iRDNgz5rdJzuaaKj8fM8OYqRIqFRBXrrkGUKAArxnaH+6BY/8zi3+G8X+?=
- =?us-ascii?Q?BmZ8N0wiRr7CAEw+yqwPjOyoPfwyxjoPhKEJ1z848USN1yBFjZIMvTpj9rqP?=
- =?us-ascii?Q?wRzhhAzqYxPILMe6asDkwrlbf9VPAA7A0vNsg1V5YUfenLluWHRrgQpzbdjI?=
- =?us-ascii?Q?VjXVR5fuOq1Mm36mX7T/+xTe73ABB3FW3Ljd+F1/8HI5JFefWwlpYifrwbou?=
- =?us-ascii?Q?kLe+2m53ukCKW+nVwZPEf7jRGHiwyntM6lFzX0duM9NXcsRzVKwnbBnWsXqc?=
- =?us-ascii?Q?kQMiJQpRiAi0yFEGmggBgNDP8uq/?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cMnHqQatQ4H4di4F33zY1T7pmxuCDhSOP+mb5fGAkMvVb65diDBkatj9aT5k?=
+ =?us-ascii?Q?N7qX2EClL1TkDTJ8J2YJRJff+pmtK2dQCDdoC4396lFd/N7DQr1XGTC2lzrv?=
+ =?us-ascii?Q?ae+O3fUkXxR4ch7byb57eIytb6iDJtcppSCcNxpx30Xf3nFPCtRmXIFNxaL+?=
+ =?us-ascii?Q?Dpno9FIAqNarJgjiKsXipBv8x5YLGl1a9LTNvLcSnCQIghCToEPkiMPcpOi4?=
+ =?us-ascii?Q?gw37amLbuPuLD1AOfCv8dMHqbGCKVoJbCgN3qC4q6jmLTBoYLCJp34tapo6C?=
+ =?us-ascii?Q?ZxxPsmvG1PrLraqsim6/J2IjG1/+GgPLF3Lsh/giIc//+qOSvqG3uoxN33LZ?=
+ =?us-ascii?Q?T1cyUFe6gJZ90z2BcvXumC7nWFUWFMKSpizerHAZvKTJlU8YHJdvCV30dJRf?=
+ =?us-ascii?Q?XAlHYlMaytF9f4rkuKr53FLB5NDU15pOrFXokpJ9fDWRr4l7efSgKVri3fIs?=
+ =?us-ascii?Q?ixcQM/YSb8wbUVDs0SbSePeMTqxXXA4IfPrCk9PoXCyTyr7JuB8zZynHkejj?=
+ =?us-ascii?Q?6Xmfd2yFbklERdFf227ZZ/yJKZ0OpAmomKBS62Sgo/ziOcZi8GaPU9mVSHQf?=
+ =?us-ascii?Q?mTabp7aJVis4mnMj36o3EDpT+XROM+xdSOCS1c3vXR6IMQp9Tj11llNYeV34?=
+ =?us-ascii?Q?/U6D0k8wxmFMKw3HyPj4TluUj52RDsgaMPyCz5DYBaVIFC100YYszvHkPDTw?=
+ =?us-ascii?Q?SHSEyzYCAyTNCVeo+VNwD42pwlzD5NWMTpusbjINppIMUJnYUBKPbMYiwxcT?=
+ =?us-ascii?Q?O2WNHiVkXGqxHAMnPMheQ7mTJtcFD59VcQOVzSHx9AIP8b1GCH2T8d9zirm9?=
+ =?us-ascii?Q?kLrowk3Pz+UtuT6G95w8/TV2pTi0bVzNlaJPLkVaIwFPkj1j2bhuc0/rSFVU?=
+ =?us-ascii?Q?2S98RMV2oeFYErW/z9Cwcn+i5AK7AwxOd+AiNP/ysZ6g1u4RLNoJ0pdT5LtC?=
+ =?us-ascii?Q?WABsPHIHFMxy7xKOch5Q062KoqxrsvmoiGAVUP6mHkH+HNGiTJIk8YmADINh?=
+ =?us-ascii?Q?yleN7vyPsPxW0BND0SXcKPZ3CVP6Dkf6grfIcOwjttZwHyo5/PF6FQH5sfOz?=
+ =?us-ascii?Q?sPXBuINTXq5uEoUOfaUkF4LuhkZmraYoMzxTceV2E+foZJYyvlLaZ4tX+Ltb?=
+ =?us-ascii?Q?EAfIAHTcHywn97p1ximYyHSuWlLttG56AAHJ2Xu8BRCvG1zNgQ+YeOh0tMib?=
+ =?us-ascii?Q?QeXIeZfrPqDm/0Isy+a2f3IGuIF7T9DXXQNgUpNyXqGcCvUvxkTTRt2HFrMa?=
+ =?us-ascii?Q?VXtoSbzkpthP+bOelI9s1RU4p9PxNw7QueBT/jaoHRjDw4hnuKQKRaiBdN1J?=
+ =?us-ascii?Q?EDulNtNsKhBuRs4GUqLizKB+UivMu94LaOKDkK3OS3wi1vKq34gd5NzO4Uvh?=
+ =?us-ascii?Q?+zJO6XhJaTIkFJmg1XvtnARgoLkI?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(376014)(7416014)(52116014)(366016)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?naUcX9tPdP6Mydb07o+Nhl4yVgJ+jXtbbqd61i4NRNCBy02SRjrieRoBLnw+?=
- =?us-ascii?Q?jpxDiREghO9LT/levvYqQduzrMlE824KXxz3P2GIb7NlMW9IiXhUtWNFGRZa?=
- =?us-ascii?Q?33zp7NKWIl11N4dFECj3XmQ3Svqvzs0vOB90prrbwX62xi2RsB1j39pIcc6D?=
- =?us-ascii?Q?25PZhShYpluaxBBS4XIvopuzMx5FmUzSHeEMV9WI86A497n0d47TBRNRGeiU?=
- =?us-ascii?Q?KPup59eR/j3R53E8sbJV6ugbE48fXe9eOmVvrsKaGsj81t29aEN03bNFC9oh?=
- =?us-ascii?Q?H2iOXAJqcyHzWjP7ZmD2HtnhKlDUke6sJjcAWZJQ1CaFstK6gOwM9oGYpHxm?=
- =?us-ascii?Q?RLjCTySQMA+fy14sZZsMq+6rmyJ0YnTLXtZJ1JPzu/GFhRpMTPP5uGWMAVF2?=
- =?us-ascii?Q?QDALYENjlSEZUrMTWwTcOAKm7zxbu0K6qzjGjPGa71zw9equlBUH3hlANXyB?=
- =?us-ascii?Q?2PiCZEwxoH2d6BDd0tglYJ/d0FqRqMnbQ7QTKaBpZQPgPgQl+5Ntzar8htzL?=
- =?us-ascii?Q?Z28cWsb82DRvD4xmqjBVzYu0Mg/V0fVlgAfWO0JkDuq8bUMJwqRt/g+DEDBm?=
- =?us-ascii?Q?JUDBW0XRRoE7kUureKMLmPRp8T6AOg+iki7/QgH18HnPTgzrov6AZxPTbzzd?=
- =?us-ascii?Q?Jk3nykOwtPbQustafmmK6M0NY/AnRdIenuSSN4bYe/XtPMH6Wb3ryo2bE2at?=
- =?us-ascii?Q?rpk+V0L9std/xqpguedvzYXbV96LuMcYo4+2Ocpy0bgWi9LRwe/+EeBH/Nhk?=
- =?us-ascii?Q?bshWLsmkjLQ9n7vC06Xdz9hizWU756AVE54wpOxYP4sH+zHiciTOg5eVsZe3?=
- =?us-ascii?Q?zbhrKxHmTAhAvn0cRuwEVMbyLuapj5wFc/PPDcbMkIZyEKShNBoGHRvU5Vkr?=
- =?us-ascii?Q?0gHI1vufg4EkikQ8wHK27AFh8pFOhGJ2cBHNSXReMJgLb2IrKRTAgoKQBHJ5?=
- =?us-ascii?Q?e93ZjAzPG0ZHcHK6bNZ4VS8CV/ux/sbtsqvKIC6YjMpPfLy2j0Y38axR6csK?=
- =?us-ascii?Q?Uo+8s6/At7saJe+odUmxR6FOBiYR6Joy6kG0wJx8So4XYPFNR4WA+18deSdk?=
- =?us-ascii?Q?3A9umnaeCvz5xF0JeSxkzwuvI1boFS95g4lbtSyYckQQAsK+KOVWXIdFPwF/?=
- =?us-ascii?Q?8QUm2d8f2XlUqykij9yxi55NzqacgVLp5MHvIJYu2qHrxDahW2j06oYxDnfh?=
- =?us-ascii?Q?3c+P7Ex6azrvsjvhjcdsxYxKoG9swZujOYicpgy1OdXDNp33DrW17k2svYp/?=
- =?us-ascii?Q?p6grHx1OqY/qIqbaHlT9C5aEdWfhAQA1gLuAU3O6BHfRK+AJIaEbnXom5kPb?=
- =?us-ascii?Q?vkfe+0Z1WmuYm68bU0i+fzWUBNwqgdKO+xLfsi3au89KezS9u8rJeV2P9YyB?=
- =?us-ascii?Q?8Ev6cUc3F1TnXclqebNJN4Ln95q6sOJfiPzzBuY6B2oBPIlSGmWS4AIS6DHg?=
- =?us-ascii?Q?z9PKazeWNb1LHB46DoU9e8BfH2NDb5RkOyR10g5bFV3Zu3RkdKcYNPQ12Ao0?=
- =?us-ascii?Q?wmtHJUWGjWI6C4CVjWLzqAAYv6LiTnYQIyTcWj5psKuPJUR181xE90HXpjBq?=
- =?us-ascii?Q?VnNfciyRX0uCedE91JOsOIJFYm6kEqXlF8sJtz8v?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UcodH2Fiu4k4mj+IQXD7w5yLY0OhYcByo08GmgSuPlPDnfU54qfBoPnXMhTx?=
+ =?us-ascii?Q?wsMEGAhr++Hz7VJpfICMQ5P79nH4UhUjWRCZHuyFgspTVur/XcDbmSnlAUxW?=
+ =?us-ascii?Q?Or8YH2N67gu5fcmILUXuNCjDU99IxBCAsGa5hIVZrIfj/ajt5292SGfmrDGX?=
+ =?us-ascii?Q?qVazKvDKXjIZ1g4GEUCwIlOPjLGj/8DQLf31HN2UqUh5SdPBsmy1pVzAnLiQ?=
+ =?us-ascii?Q?roI3BYZLBCZyB79pGadgOBq1r8q5O0s9aYaVBqq0vZroBNAmkotRRRUQwm/n?=
+ =?us-ascii?Q?hwouWjwkFL2zYEvBkjqKcbOgZhvR0wJ1Ahk1TWSAjGKQpSnExHogNsQd1btW?=
+ =?us-ascii?Q?oHE/KEOjI5dy0j8OrTDNHYDsrdA5p/p8BHGG01MPBAtHOe1rrt5NIDTolXnF?=
+ =?us-ascii?Q?PSpGrPqlr2C7etpSdXRjV9Wvp2yB34r4Kt1VLXNXXDCXXIHwb7LQ+sEwrKDQ?=
+ =?us-ascii?Q?fM8C+ime3xkfzXiPytced/neSBNS8fyLp9MNlADV0Ew9lYv068NbzIdT3/nh?=
+ =?us-ascii?Q?leVYNuGGv6YK4AIflQe3yZB3v3aSZwksBWwPZgv4ZCGJPgkIbKiA52crJ2Ca?=
+ =?us-ascii?Q?BRTUYclINepMJwgQCExSEvj2+tRLATYHzUYiz9CLXpFpJeJFoGKU1hHtVUMR?=
+ =?us-ascii?Q?nOaxQKnU2qRB/vgT3CJFmAMTns6oxJCw9U3o21R0nG97swDyRj8lfZsbuZVW?=
+ =?us-ascii?Q?z8QJe+dmZ6K15hE0uBrAhKlicDieq7ifQcTGgzoVj7PPbF+E3aBKX7GpTclk?=
+ =?us-ascii?Q?d1f0vVbQoDO/bWST9kxGdL9O1d8hFnAxpliq6NCPYhwoZJE9G0Lra0puDwDX?=
+ =?us-ascii?Q?uOlZDppGBlHILNZXkKetcHX9PPHxtP+2AClcD8GlIWAIvsEGCQ5EZwCn2tqO?=
+ =?us-ascii?Q?nSBu6cmuY96QfEqFi4KHrAKl8U4EcbP9HfLlf2Cv3OJ7W7t0S/QnsKqoTfhR?=
+ =?us-ascii?Q?1Vi2TCAhBeP1yhVrgWaCkn7BsR1h3YNRXKewvj0m8xycNsFziaMkdR/9N5g6?=
+ =?us-ascii?Q?8TkpzirBeIDQXdpEsFZGwDn1UUfSO0GXEQR3iBgHENN+pExbYRTTXIfOfis4?=
+ =?us-ascii?Q?6DM9gT9dnoW0gVvCUcvdKqoobUtisoShM5us5dzxZLqhTO+dBPU+uUSvvw9i?=
+ =?us-ascii?Q?gJHfnwkqBG+UrZ8JFrg3K+hUc2h+8fqm/f2E79WviieZXzBNkMzrC4KJzIAD?=
+ =?us-ascii?Q?Wi8ICPrribXiEMKUOFEq6ivoC8bdEyLpH1nsnTcu3/ZYmircCIpOzQo+icDz?=
+ =?us-ascii?Q?nUYYwr8yTGV0oaodCamcJiszEMhPvEORR5UMlnHGkYa3CbYNOkYA84pOwBdX?=
+ =?us-ascii?Q?LQ3lOs8d8gag2TNyM7TkbyT4WZFhZKbRNu8JDgQb0T4L+M8u0DXHp+zdUGzC?=
+ =?us-ascii?Q?KcmGdza7wY8WVCl7PAL0tJEeOC3LUD29PWLkSK2xSIQ3ZmdbOjxaOUufF179?=
+ =?us-ascii?Q?3ciBTrnGBXBuQUlq7XyO9V+JbYJkE5aD3eINIn7hnFSVxDDRky3qvE+iERGK?=
+ =?us-ascii?Q?bSK0ihwPwuFz6pK7vBGx2KmtKkBj4iyCu3Ov/rdcTQ9AUn5osiXO9WSQ23xa?=
+ =?us-ascii?Q?qIGKr2uGW/JLkLzuqBOY+bMr/HVlM7CvECJcH4Bl?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 368290a4-7e43-4a7e-1c59-08dd231ce2fa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 586c5ca3-7763-475c-b03c-08dd231ce797
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 06:41:53.4368 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 06:42:01.0148 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: szDNO3yHM/4b89Ymm2OoF1vgyizG59II84Wf6MwJdhJsB2ZahE9k+9ZOdo8H8hzOjAeefJvk953NwA6VD1idPA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: FZgQkDfplJzrlfNwX3rM+AjmG+cUbkm1MwCxN8p4s2Y+xks/+1Ifh4dDwHPvfhTUXUfEGQK+s1X69eFsXmncgA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8986
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -154,97 +154,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Freescale i.MX8qxp Display Controller is implemented as construction set of
-building blocks with unified concept and standardized interfaces.  Document
-all existing processing units.
+i.MX8qxp Display Controller contains a blit engine for raster graphics.
+It may read up to 3 source images from memory and computes one destination
+image from it, which is written back to memory.
 
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v7:
-* Drop DT alias documentations and add instance numbers to compatible strings.
+* Add instance numbers to blit engine internel devices' compatible strings.
   (Rob)
+* Drop some Rob's R-b tag.
 
 v6:
 * No change.
 
 v5:
-* Document aliases for processing units which have multiple instances in
-  the Display Controller.  Drop Rob's previous R-b tag. (Maxime)
+* No change.
 
 v4:
 * Collect Rob's R-b tag.
 
 v3:
-* Combine fsl,imx8qxp-dc-fetchunit-common.yaml,
-  fsl,imx8qxp-dc-fetchlayer.yaml and fsl,imx8qxp-dc-fetchwarp.yaml
-  into 1 schema doc fsl,imx8qxp-dc-fetchunit.yaml. (Rob)
-* Document all processing units. (Rob)
+* New patch. (Rob)
 
-v2:
-* Drop fsl,dc-*-id DT properties. (Krzysztof)
-* Add port property to fsl,imx8qxp-dc-tcon.yaml. (Krzysztof)
-* Fix register range sizes in examples.
+ .../imx/fsl,imx8qxp-dc-blit-engine.yaml       | 204 ++++++++++++++++++
+ 1 file changed, 204 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blit-engine.yaml
 
- .../imx/fsl,imx8qxp-dc-blitblend9.yaml        |  41 +++++
- .../display/imx/fsl,imx8qxp-dc-clut9.yaml     |  44 ++++++
- .../imx/fsl,imx8qxp-dc-constframe0.yaml       |  48 ++++++
- .../display/imx/fsl,imx8qxp-dc-dither0.yaml   |  47 ++++++
- .../display/imx/fsl,imx8qxp-dc-extdst0.yaml   |  76 +++++++++
- .../display/imx/fsl,imx8qxp-dc-fetchunit.yaml | 147 ++++++++++++++++++
- .../display/imx/fsl,imx8qxp-dc-filter9.yaml   |  43 +++++
- .../display/imx/fsl,imx8qxp-dc-framegen0.yaml |  66 ++++++++
- .../display/imx/fsl,imx8qxp-dc-gammacor0.yaml |  34 ++++
- .../imx/fsl,imx8qxp-dc-layerblend0.yaml       |  43 +++++
- .../display/imx/fsl,imx8qxp-dc-matrix0.yaml   |  76 +++++++++
- .../display/imx/fsl,imx8qxp-dc-rop9.yaml      |  43 +++++
- .../display/imx/fsl,imx8qxp-dc-safety.yaml    |  34 ++++
- .../imx/fsl,imx8qxp-dc-scaling-engine.yaml    |  87 +++++++++++
- .../imx/fsl,imx8qxp-dc-signature0.yaml        |  55 +++++++
- .../display/imx/fsl,imx8qxp-dc-store9.yaml    |  96 ++++++++++++
- .../display/imx/fsl,imx8qxp-dc-tcon0.yaml     |  47 ++++++
- 17 files changed, 1027 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend9.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut9.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter9.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop9.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature0.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store9.yaml
- create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon0.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend9.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend9.yaml
+diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blit-engine.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blit-engine.yaml
 new file mode 100644
-index 000000000000..621f8b30efcd
+index 000000000000..6c14ce653619
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blitblend9.yaml
-@@ -0,0 +1,41 @@
++++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-blit-engine.yaml
+@@ -0,0 +1,204 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-blitblend9.yaml#
++$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-blit-engine.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Freescale i.MX8qxp Display Controller Blit Blend Unit
++title: Freescale i.MX8qxp Display Controller Blit Engine
 +
-+description:
-+  Combines two input frames to a single output frame, all frames having the
-+  same dimension.
++description: |
++  A blit operation (block based image transfer) reads up to 3 source images
++  from memory and computes one destination image from it, which is written
++  back to memory. The following basic operations are supported:
++
++  * Buffer Fill
++    Fills a buffer with constant color
++
++  * Buffer Copy
++    Copies one source to a destination buffer.
++
++  * Image Blend
++    Combines two source images by a blending equation and writes result to
++    destination (which can be one of the sources).
++
++  * Image Rop2/3
++    Combines up to three source images by a logical equation (raster operation)
++    and writes result to destination (which can be one of the sources).
++
++  * Image Flip
++    Mirrors the source image in horizontal and/or vertical direction.
++
++  * Format Convert
++    Convert between the supported color and buffer formats.
++
++  * Color Transform
++    Modify colors by linear or non-linear transformations.
++
++  * Image Scale
++    Changes size of the source image.
++
++  * Image Rotate
++    Rotates the source image by any angle.
++
++  * Image Filter
++    Performs an FIR filter operation on the source image.
++
++  * Image Warp
++    Performs a re-sampling of the source image with any pattern. The sample
++    point positions are read from a compressed coordinate buffer.
++
++  * Buffer Pack
++    Writes an image with color components stored in up to three different
++    buffers (planar formats) into a single buffer (packed format).
++
++  * Chroma Resample
++    Converts between different YUV formats that differ in chroma sampling rate
++    (4:4:4, 4:2:2, 4:2:0).
 +
 +maintainers:
 +  - Liu Ying <victor.liu@nxp.com>
 +
 +properties:
 +  compatible:
-+    const: fsl,imx8qxp-dc-blitblend9
++    const: fsl,imx8qxp-dc-blit-engine
 +
 +  reg:
 +    maxItems: 2
@@ -254,1100 +259,136 @@ index 000000000000..621f8b30efcd
 +      - const: pec
 +      - const: cfg
 +
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 1
++
++  ranges: true
++
++patternProperties:
++  "^blitblend@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-blitblend9
++
++  "^clut@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-clut9
++
++  "^fetchdecode@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetchdecode9
++
++  "^fetcheco@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetcheco9
++
++  "^fetchwarp@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-fetchwarp9
++
++  "^filter@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-filter9
++
++  "^hscaler@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-hscaler9
++
++  "^matrix@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-matrix9
++
++  "^rop@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-rop9
++
++  "^store@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-store9
++
++  "^vscaler@[0-9a-f]+$":
++    type: object
++    additionalProperties: true
++
++    properties:
++      compatible:
++        const: fsl,imx8qxp-dc-vscaler9
++
 +required:
 +  - compatible
 +  - reg
 +  - reg-names
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    blitblend@56180920 {
-+        compatible = "fsl,imx8qxp-dc-blitblend9";
-+        reg = <0x56180920 0x10>, <0x56183c00 0x3c>;
++    blit-engine@56180820 {
++        compatible = "fsl,imx8qxp-dc-blit-engine";
++        reg = <0x56180820 0x13c>, <0x56181000 0x3400>;
 +        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut9.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut9.yaml
-new file mode 100644
-index 000000000000..00e748d39a72
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-clut9.yaml
-@@ -0,0 +1,44 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-clut9.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Color Lookup Table
-+
-+description: |
-+  The unit implements 3 look-up tables with 256 x 10 bit entries each. These
-+  can be used for different kinds of applications. From 10-bit input values
-+  only upper 8 bits are used.
-+
-+  The unit supports color lookup, index lookup, dithering and alpha masking.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    const: fsl,imx8qxp-dc-clut9
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    clut@56180880 {
-+        compatible = "fsl,imx8qxp-dc-clut9";
-+        reg = <0x56180880 0x10>, <0x56182400 0x404>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe0.yaml
-new file mode 100644
-index 000000000000..aeaf65b126cc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-constframe0.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-constframe0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Constant Frame
-+
-+description: |
-+  The Constant Frame unit is used instead of a Fetch unit where generation of
-+  constant color frames only is sufficient. This is the case for the background
-+  planes of content and safety streams in a Display Controller.
-+
-+  The color can be setup to any RGBA value.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-constframe0
-+      - fsl,imx8qxp-dc-constframe1
-+      - fsl,imx8qxp-dc-constframe4
-+      - fsl,imx8qxp-dc-constframe5
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    constframe@56180960 {
-+        compatible = "fsl,imx8qxp-dc-constframe0";
-+        reg = <0x56180960 0xc>, <0x56184400 0x20>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither0.yaml
-new file mode 100644
-index 000000000000..aff739f23244
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-dither0.yaml
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-dither0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Dither Unit
-+
-+description: |
-+  The unit can increase the physical color resolution of a display from 5, 6, 7
-+  or 8 bits per RGB channel to a virtual resolution of 10 bits. The physical
-+  resolution can be set individually for each channel.
-+
-+  The resolution is increased by mixing the two physical colors that are nearest
-+  to the virtual color code in a variable ratio either by time (temporal
-+  dithering) or by position (spatial dithering).
-+
-+  An optimized algorithm for temporal dithering minimizes noise artifacts on the
-+  output image.
-+
-+  The dither operation can be individually enabled or disabled for each pixel
-+  using the alpha input bit.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-dither0
-+      - fsl,imx8qxp-dc-dither1
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    dither@5618c400 {
-+        compatible = "fsl,imx8qxp-dc-dither0";
-+        reg = <0x5618c400 0x14>;
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst0.yaml
-new file mode 100644
-index 000000000000..5c64e897bc35
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-extdst0.yaml
-@@ -0,0 +1,76 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-extdst0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller External Destination Interface
-+
-+description: |
-+  The External Destination unit is the interface between the internal pixel
-+  processing pipeline of the Pixel Engine, which is 30-bit RGB plus 8-bit Alpha,
-+  and a Display Engine.
-+
-+  It comprises the following built-in Gamma apply function.
-+
-+  +------X-----------------------+
-+  |      |          ExtDst Unit  |
-+  |      V                       |
-+  |  +-------+                   |
-+  |  | Gamma |                   |
-+  |  +-------+                   |
-+  |      |                       |
-+  |      V                       +
-+  +------X-----------------------+
-+
-+  The output format is 24-bit RGB plus 1-bit Alpha. Conversion from 10 to 8
-+  bits is done by LSBit truncation.  Alpha output bit is 1 for input 255, 0
-+  otherwise.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-extdst0
-+      - fsl,imx8qxp-dc-extdst1
-+      - fsl,imx8qxp-dc-extdst4
-+      - fsl,imx8qxp-dc-extdst5
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+  interrupts:
-+    maxItems: 3
-+
-+  interrupt-names:
-+    items:
-+      - const: shdload
-+      - const: framecomplete
-+      - const: seqcomplete
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    extdst@56180980 {
-+        compatible = "fsl,imx8qxp-dc-extdst0";
-+        reg = <0x56180980 0x1c>, <0x56184800 0x28>;
-+        reg-names = "pec", "cfg";
-+        interrupt-parent = <&dc0_intc>;
-+        interrupts = <3>, <4>, <5>;
-+        interrupt-names = "shdload", "framecomplete", "seqcomplete";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml
-new file mode 100644
-index 000000000000..92f6600af49e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-fetchunit.yaml
-@@ -0,0 +1,147 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-fetchunit.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Fetch Unit
-+
-+description: |
-+  The Fetch Unit is the interface between the AXI bus for source buffer access
-+  and the internal pixel processing pipeline, which is 30-bit RGB plus 8-bit
-+  Alpha.
-+
-+  It is used to generate foreground planes in Display Controllers and source
-+  planes in Blit Engines, and comprises the following built-in functions to
-+  convert a wide range of frame buffer types.
-+
-+  +---------X-----------------------------------------+
-+  |         |                           Fetch Unit    |
-+  |         V                                         |
-+  |    +---------+                                    |
-+  |    |         |                                    |
-+  |    | Decode  | Decompression [Decode]             |
-+  |    |         |                                    |
-+  |    +---------+                                    |
-+  |         |                                         |
-+  |         V                                         |
-+  |    +---------+                                    |
-+  |    | Clip &  | Clip Window [All]                  |
-+  |    | Overlay | Plane composition [Layer, Warp]    |
-+  |    |         |                                    |
-+  |    +---------+                                    |
-+  |         |                                         |
-+  |         V                                         |
-+  |    +---------+                                    |
-+  |    | Re-     | Flip/Rotate/Repl./Drop [All]       |
-+  X--> | sample  | Perspective/Affine warping [Persp] |
-+  | |  |         | Arbitrary warping [Warp, Persp]    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  |         |                                    |
-+  | |  | Palette | Color Palette [Layer, Decode]      |
-+  | |  |         |                                    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  | Extract | Raw to RGBA/YUV [All]              |
-+  | |  | &       | Bit width expansion [All]          |
-+  | |  | Expand  |                                    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  |         | Planar to packed                   |
-+  | |->| Combine | [Decode, Warp, Persp]              |
-+  | |  |         |                                    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  |         | YUV422 to YUV444                   |
-+  | |  | Chroma  | [Decode, Persp]                    |
-+  | |  |         |                                    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  |         | YUV to RGB                         |
-+  | |  | Color   | [Warp, Persp, Decode, Layer]       |
-+  | |  |         |                                    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  |         | Gamma removal                      |
-+  | |  | Gamma   | [Warp, Persp, Decode, Layer]       |
-+  | |  |         |                                    |
-+  | |  +---------+                                    |
-+  | |       |                                         |
-+  | |       V                                         |
-+  | |  +---------+                                    |
-+  | |  |         | Alpla multiply, RGB pre-multiply   |
-+  |  ->| Multiply| [Warp, Persp, Decode, Layer]       |
-+  |    |         |                                    |
-+  |     ---------                                     |
-+  |         |                                         |
-+  |         V                                         |
-+  |    +---------+                                    |
-+  |    |         | Bilinear filter                    |
-+  |    | Filter  | [Warp, Persp]                      |
-+  |    |         |                                    |
-+  |    +---------+                                    |
-+  |         |                                         |
-+  |         V                                         |
-+  +---------X-----------------------------------------+
-+
-+  Note that different derivatives of the Fetch Unit exist. Each implements a
-+  specific subset only of the pipeline stages shown above. Restrictions for the
-+  units are specified in [square brackets].
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-fetchdecode0
-+      - fsl,imx8qxp-dc-fetchdecode1
-+      - fsl,imx8qxp-dc-fetchdecode9
-+      - fsl,imx8qxp-dc-fetcheco0
-+      - fsl,imx8qxp-dc-fetcheco1
-+      - fsl,imx8qxp-dc-fetcheco2
-+      - fsl,imx8qxp-dc-fetcheco9
-+      - fsl,imx8qxp-dc-fetchlayer0
-+      - fsl,imx8qxp-dc-fetchwarp2
-+      - fsl,imx8qxp-dc-fetchwarp9
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+  fsl,prg:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Optional Prefetch Resolve Gasket associated with the Fetch Unit.
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    fetchlayer@56180ac0 {
-+        compatible = "fsl,imx8qxp-dc-fetchlayer0";
-+        reg = <0x56180ac0 0xc>, <0x56188400 0x404>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter9.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter9.yaml
-new file mode 100644
-index 000000000000..fbdac4526b7b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-filter9.yaml
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-filter9.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Filter Unit
-+
-+description: |
-+  5x5 FIR filter with 25 programmable coefficients.
-+
-+  Typical applications are image blurring, sharpening or support for edge
-+  detection algorithms.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    const: fsl,imx8qxp-dc-filter9
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    filter@56180900 {
-+        compatible = "fsl,imx8qxp-dc-filter9";
-+        reg = <0x56180900 0x10>, <0x56183800 0x30>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen0.yaml
-new file mode 100644
-index 000000000000..72e88bbffb17
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-framegen0.yaml
-@@ -0,0 +1,66 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-framegen0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Frame Generator
-+
-+description:
-+  The Frame Generator (FrameGen) module generates a programmable video timing
-+  and optionally allows to synchronize the generated video timing to external
-+  synchronization signals.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-framegen0
-+      - fsl,imx8qxp-dc-framegen1
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 8
-+
-+  interrupt-names:
-+    items:
-+      - const: int0
-+      - const: int1
-+      - const: int2
-+      - const: int3
-+      - const: primsync_on
-+      - const: primsync_off
-+      - const: secsync_on
-+      - const: secsync_off
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx8-lpcg.h>
-+    #include <dt-bindings/firmware/imx/rsrc.h>
-+
-+    framegen@5618b800 {
-+        compatible = "fsl,imx8qxp-dc-framegen0";
-+        reg = <0x5618b800 0x98>;
-+        clocks = <&dc0_disp_lpcg IMX_LPCG_CLK_0>;
-+        interrupt-parent = <&dc0_intc>;
-+        interrupts = <18>, <19>, <20>, <21>, <41>, <42>, <43>, <44>;
-+        interrupt-names = "int0", "int1", "int2", "int3",
-+                          "primsync_on", "primsync_off",
-+                          "secsync_on", "secsync_off";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor0.yaml
-new file mode 100644
-index 000000000000..0eab18192966
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-gammacor0.yaml
-@@ -0,0 +1,34 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-gammacor0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Gamma Correction Unit
-+
-+description: The unit supports non-linear color transformation.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-gammacor0
-+      - fsl,imx8qxp-dc-gammacor1
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    gammacor@5618c000 {
-+        compatible = "fsl,imx8qxp-dc-gammacor0";
-+        reg = <0x5618c000 0x20>;
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend0.yaml
-new file mode 100644
-index 000000000000..228cd0a9e9f8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-layerblend0.yaml
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-layerblend0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Layer Blend Unit
-+
-+description: Combines two input frames to a single output frame.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-layerblend0
-+      - fsl,imx8qxp-dc-layerblend1
-+      - fsl,imx8qxp-dc-layerblend2
-+      - fsl,imx8qxp-dc-layerblend3
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    layerblend@56180ba0 {
-+        compatible = "fsl,imx8qxp-dc-layerblend0";
-+        reg = <0x56180ba0 0x10>, <0x5618a400 0x20>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix0.yaml
-new file mode 100644
-index 000000000000..fe2a77b518f9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-matrix0.yaml
-@@ -0,0 +1,76 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-matrix0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Color Matrix
-+
-+description:
-+  The unit supports linear color transformation, alpha pre-multiply and
-+  alpha masking.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-matrix0
-+      - fsl,imx8qxp-dc-matrix1
-+      - fsl,imx8qxp-dc-matrix4
-+      - fsl,imx8qxp-dc-matrix5
-+      - fsl,imx8qxp-dc-matrix9
-+
-+  reg:
-+    minItems: 1
-+    maxItems: 2
-+
-+  reg-names:
-+    oneOf:
-+      - const: cfg      # matrix in display engine
-+      - items:          # matrix in pixel engine
-+          - const: pec
-+          - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - fsl,imx8qxp-dc-matrix0
-+              - fsl,imx8qxp-dc-matrix1
-+    then:
-+      properties:
-+        reg:
-+          minItems: 1
-+          maxItems: 1
-+
-+        reg-names:
-+          const: cfg
-+    else:
-+      properties:
-+        reg:
-+          minItems: 2
-+          maxItems: 2
-+
-+        reg-names:
-+          items:
-+            - const: pec
-+            - const: cfg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    matrix@5618bc00 {
-+        compatible = "fsl,imx8qxp-dc-matrix0";
-+        reg = <0x5618bc00 0x3c>;
-+        reg-names = "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop9.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop9.yaml
-new file mode 100644
-index 000000000000..371bff3aaede
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-rop9.yaml
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-rop9.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Raster Operation Unit
-+
-+description: |
-+  The unit can combine up to three input frames to a single output frame, all
-+  having the same dimension.
-+
-+  The unit supports logic operations, arithmetic operations and packing.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    const: fsl,imx8qxp-dc-rop9
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    rop@56180860 {
-+        compatible = "fsl,imx8qxp-dc-rop9";
-+        reg = <0x56180860 0x10>, <0x56182000 0x20>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml
-new file mode 100644
-index 000000000000..66c12948ab09
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-safety.yaml
-@@ -0,0 +1,34 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-safety.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Safety Unit
-+
-+description:
-+  The unit allows corresponding processing units to be configured in a path
-+  leading to multiple endpoints.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    const: fsl,imx8qxp-dc-safety
-+
-+  reg:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    safety@56180800 {
-+        compatible = "fsl,imx8qxp-dc-safety";
-+        reg = <0x56180800 0x1c>;
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml
-new file mode 100644
-index 000000000000..f9cd25488584
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml
-@@ -0,0 +1,87 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-scaling-engine.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Scaling Engine
-+
-+description: |
-+  The unit can change the dimension of the input frame by nearest or linear
-+  re-sampling with 1/32 sub pixel precision.
-+
-+  Internally it consist of two independent blocks for horizontal and vertical
-+  scaling. The sequence of both operations is arbitrary.
-+
-+  Any frame dimensions between 1 and 16384 pixels in width and height are
-+  supported, except that the vertical scaler has a frame width maximum
-+  depending of the system's functional limitations.
-+
-+  In general all scale factors are supported inside the supported frame
-+  dimensions. In range of scale factors 1/16..16 the filtered output colors
-+  are LSBit precise (e.g. DC ripple free).
-+
-+                       +-----------+
-+                       |   Line    |
-+                       |  Buffer   |
-+                       +-----------+
-+                             ^
-+                             |
-+                             V
-+                 |\    +-----------+
-+           ------+ |   |           |
-+          |      | +-->| Vertical  |----
-+          |  ----+ |   |  Scaler   |    |
-+          | |    |/    +-----------+    |
-+          | |                           |
-+          | |                           |
-+          | |                           |     |\
-+          |  ------------- -------------+-----+ |
-+  Input --+               X                   | +--> Output
-+          |  ------------- -------------+-----+ |
-+          | |                           |     |/
-+          | |                           |
-+          | |    |\    +-----------+    |
-+          |  ----+ |   |           |    |
-+          |      | +-->| Horizontal|----
-+           ------+ |   |  Scaler   |
-+                 |/    +-----------+
-+
-+  The unit supports downscaling, upscaling, sub pixel translation and bob
-+  de-interlacing.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-hscaler4
-+      - fsl,imx8qxp-dc-hscaler5
-+      - fsl,imx8qxp-dc-hscaler9
-+      - fsl,imx8qxp-dc-vscaler4
-+      - fsl,imx8qxp-dc-vscaler5
-+      - fsl,imx8qxp-dc-vscaler9
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    hscaler@561808c0 {
-+        compatible = "fsl,imx8qxp-dc-hscaler9";
-+        reg = <0x561808c0 0x10>, <0x56183000 0x18>;
-+        reg-names = "pec", "cfg";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature0.yaml
-new file mode 100644
-index 000000000000..5add40dd7edd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-signature0.yaml
-@@ -0,0 +1,55 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-signature0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Signature Unit
-+
-+description: |
-+  In order to control the correctness of display output, signature values can
-+  be computed for each frame and compared against reference values. In case of
-+  a mismatch (signature violation) a HW event can be triggered, for example a
-+  SW interrupt.
-+
-+  This unit supports signature computation, reference check, evaluation windows,
-+  alpha masking and panic modes.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-signature0
-+      - fsl,imx8qxp-dc-signature1
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 3
-+
-+  interrupt-names:
-+    items:
-+      - const: shdload
-+      - const: valid
-+      - const: error
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    signature@5618d000 {
-+        compatible = "fsl,imx8qxp-dc-signature0";
-+        reg = <0x5618d000 0x140>;
-+        interrupt-parent = <&dc0_intc>;
-+        interrupts = <22>, <23>, <24>;
-+        interrupt-names = "shdload", "valid", "error";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store9.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store9.yaml
-new file mode 100644
-index 000000000000..3228b5206f0f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-store9.yaml
-@@ -0,0 +1,96 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-store9.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Store Unit
-+
-+description: |
-+  The Store unit is the interface between the internal pixel processing
-+  pipeline, which is 30-bit RGB plus 8-bit Alpha, and the AXI bus for
-+  destination buffer access. It is used for the destination of Blit Engines.
-+  It comprises a set of built-in functions to generate a wide range of buffer
-+  formats. Note, that these are exactly inverse to corresponding functions in
-+  the Fetch Unit.
-+
-+  +------X-------------------------+
-+  |      |              Store Unit |
-+  |      V                         |
-+  |  +-------+                     |
-+  |  | Gamma | Gamma apply         |
-+  |  +-------+                     |
-+  |      |                         |
-+  |      V                         |
-+  |  +-------+                     |
-+  |  | Color | RGB to YUV          |
-+  |  +-------+                     |
-+  |      |                         |
-+  |      V                         |
-+  |  +-------+                     |
-+  |  | Chroma| YUV444 to 422       |
-+  |  +-------+                     |
-+  |      |                         |
-+  |      V                         |
-+  |  +-------+                     |
-+  |  | Reduce| Bit width reduction |
-+  |  |       | dithering           |
-+  |  +-------+                     |
-+  |      |                         |
-+  |      V                         |
-+  |  +-------+                     |
-+  |  | Pack  | RGBA/YUV to RAW     |
-+  |  | Encode| or Compression      |
-+  |  +-------+                     |
-+  |      |                         |
-+  |      V                         |
-+  +------X-------------------------+
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    const: fsl,imx8qxp-dc-store9
-+
-+  reg:
-+    maxItems: 2
-+
-+  reg-names:
-+    items:
-+      - const: pec
-+      - const: cfg
-+
-+  interrupts:
-+    maxItems: 3
-+
-+  interrupt-names:
-+    items:
-+      - const: shdload
-+      - const: framecomplete
-+      - const: seqcomplete
-+
-+  fsl,lts:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Optional Linear Tile Store associated with the Store Unit.
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    store@56180940 {
-+        compatible = "fsl,imx8qxp-dc-store9";
-+        reg = <0x56180940 0x1c>, <0x56184000 0x5c>;
-+        reg-names = "pec", "cfg";
-+        interrupt-parent = <&dc0_intc>;
-+        interrupts = <0>, <1>, <2>;
-+        interrupt-names = "shdload", "framecomplete", "seqcomplete";
-+    };
-diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon0.yaml
-new file mode 100644
-index 000000000000..fc771c067f74
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-tcon0.yaml
-@@ -0,0 +1,47 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-tcon0.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Freescale i.MX8qxp Display Controller Timing Controller
-+
-+description:
-+  The TCon can generate a wide range of customized synchronization signals and
-+  does the mapping of the color bits to the output.
-+
-+maintainers:
-+  - Liu Ying <victor.liu@nxp.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - fsl,imx8qxp-dc-tcon0
-+      - fsl,imx8qxp-dc-tcon1
-+
-+  reg:
-+    maxItems: 1
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+    description: video output
-+
-+required:
-+  - compatible
-+  - reg
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    tcon@5618c800 {
-+        compatible = "fsl,imx8qxp-dc-tcon0";
-+        reg = <0x5618c800 0x588>;
-+
-+        port {
-+            dc0_disp0_dc0_pixel_combiner_ch0: endpoint {
-+                remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_disp0>;
-+            };
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++
++        fetchdecode@56180820 {
++            compatible = "fsl,imx8qxp-dc-fetchdecode9";
++            reg = <0x56180820 0x10>, <0x56181000 0x404>;
++            reg-names = "pec", "cfg";
++        };
++
++        store@56180940 {
++            compatible = "fsl,imx8qxp-dc-store9";
++            reg = <0x56180940 0x1c>, <0x56184000 0x5c>;
++            reg-names = "pec", "cfg";
++            interrupt-parent = <&dc0_intc>;
++            interrupts = <0>, <1>, <2>;
++            interrupt-names = "shdload", "framecomplete", "seqcomplete";
 +        };
 +    };
 -- 
