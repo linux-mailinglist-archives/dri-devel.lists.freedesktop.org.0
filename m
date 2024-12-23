@@ -1,112 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7066A9FB078
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 16:02:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E559FB14B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 17:05:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A51C10E1A4;
-	Mon, 23 Dec 2024 15:02:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A99F10E449;
+	Mon, 23 Dec 2024 16:04:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EJi1iZim";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="Imq8Fepx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04D9610E539
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 15:02:20 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BN9Ssra019253
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 15:02:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- jOueQRrVOdVdBWKPBRxKIz6jCEFS3rdEhZ18GsC/lhc=; b=EJi1iZimqFrk8pL4
- 0Z7jnBsgzo69O8LRaWOYiWzbsY6zNDwEWV8U/WToThuKWadCoLsOX/ZjzTlYwlRC
- +3URRnWvvH8r+fakvVOJPSHQzVXRwlTnrFzOPOJw92H+EcsroAoU9uPmJuPcMHyx
- BBymPLaPW9JWiNSd/lcOkl2f73wrZYutmfkFsttN1992BeyYRrwTpO/1ixjzM6GF
- CYTQN+FW6fHHKCCP/XU/8Bp3Ld2id0fnfqxQ+Do617U2FckWY2cqBE7VZWmTXz2i
- nw84c/FlXkiVKE9OF1Ng6hvp/qdxMAj2MqxgISDkF8f/7G56GKg2ZdC8hogN11yx
- zKrJww==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43nn8vse56-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 15:02:19 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6dd0d0e0604so7559616d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 07:02:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734966139; x=1735570939;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jOueQRrVOdVdBWKPBRxKIz6jCEFS3rdEhZ18GsC/lhc=;
- b=EuTF1wfBmPhVBgz/579c/1ZYJaHWJ37+5JUtRdnj0Pw7okQS5j04RV4h01Eze/Orf3
- Q0o88ilVjSCidmb3RtIlXGW8auLQSfaIIq+gvqTV9m6CAdtPhSHiwNr9NDlS/ZNS3+pD
- zWe5XQ9yFsBjrsbtNJ2rQQTMlzH/xuQoVMj1+BbbnSaYHMZZhA1OrCH3e9CgH4EKurCD
- cHJzX7kR0i3PFIloNC/mjRofEX19mdSWQw91eYUKPDOjHDwkx7GDYtLwbAAT7SDBRbEm
- sID1OLSkfOChCwIWAgqQovj1nJc8LM4zNk3vgPyhbERnyLJ0ZQckt3UTHySIJ+gVWkxV
- S7KQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVle0NE3G7k3jIvA3w2UwwRkOykJNIY/L10OUimzIPe03fwKpLXm/y1krj3aF7TMkS0NvX4TXvTsnA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrmoT6qRbye2U3Xa6e9b6gEf/kNJocdhDXm7TllQyuZuTzV7ge
- +JIOePoQL9eR7C+PAv8PmUKc3fRMNd/er2pfVEMHieFcgUPBZNs+M/Tu8ZZR+RtZqPiHrGUHLdg
- DgE11P3ISMOODN+KBwQV6AB/f1pQKaUhOarmkvTaN212bWu7G1Ap+hbiVtIdHD+2YzQc=
-X-Gm-Gg: ASbGnctp6o9S4shEksB6m+vZAmAhn7euCBjYKJNSHFP6TvoKNw+Ep3+sdRpYJ/zueKI
- VezOgqkBoHsKLKCK8cGqA0hEC89qAU+o3En9JByw580ZQldVDbKwwhEu6KR02Dedi+DJ+3JchJ/
- b5+PljC2bWoyEEIsBw4b085m8tXs8ryOLbJKH5qebYxGJVu7sN3x2AiUpCL3TNVG7/+UURSmS0n
- yKo4uTWgssgK1FdNf3gY94HDBc8Wzmov/Tc/jZXVAoZ9uvEm1y2ICvfyh6bU+whP79onK6N1mVK
- MX8MWJ69LWxTUa02BK2a5siWFjvox+Qf0IE=
-X-Received: by 2002:a05:620a:2496:b0:7b6:e61b:3e60 with SMTP id
- af79cd13be357-7b9ba742c0cmr820183885a.7.1734966138865; 
- Mon, 23 Dec 2024 07:02:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHREjQZz+CVTbzd5TYeq0dnl7WV9RvuT6R2vxSIAg60SPUsaB/sHNZeP/tyzrWvz3trjyaRwQ==
-X-Received: by 2002:a05:620a:2496:b0:7b6:e61b:3e60 with SMTP id
- af79cd13be357-7b9ba742c0cmr820181785a.7.1734966138353; 
- Mon, 23 Dec 2024 07:02:18 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aac0f012229sm525618566b.133.2024.12.23.07.02.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Dec 2024 07:02:17 -0800 (PST)
-Message-ID: <f07d9efc-fa3d-44e2-83f5-621ffeaa9f91@oss.qualcomm.com>
-Date: Mon, 23 Dec 2024 16:02:15 +0100
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE6E10E155
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 12:56:03 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20241223125601euoutp0188aa951be16c7367f543109a6b347b3a~Tz56pqgmq3222032220euoutp01i
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 12:56:01 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20241223125601euoutp0188aa951be16c7367f543109a6b347b3a~Tz56pqgmq3222032220euoutp01i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1734958561;
+ bh=UhPbBshaH9K2wFltoCcg30MyK99ker1KdL3KSY1jdcc=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=Imq8FepxE3Yaf/kVjQDr+0wEiYyk8tNRrFmL21zJ4yDs8HUZxvVaddH/XnZJOJj7p
+ ZwgXoK1JhgyrDru0Au2zdwD5P8QDP6MMOHm5S83EJHMdDsMvm0lguSOPgg/5skllyO
+ nhRK6HAxW2yazjwQmMjWSVjvbNKgiR6RRy6jK+Dc=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20241223125601eucas1p2a3df702c4852e92e10c819c4d3bd81ea~Tz56HUSS82931129311eucas1p22;
+ Mon, 23 Dec 2024 12:56:01 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id B3.B6.20821.1ED59676; Mon, 23
+ Dec 2024 12:56:01 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20241223125600eucas1p22d9257e92c798e9f4346a76d1d0fc73d~Tz55iDd9c2931129311eucas1p21;
+ Mon, 23 Dec 2024 12:56:00 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20241223125600eusmtrp1ebc5062f3bd82552da4056bfa96ac831~Tz55hAbLV2051220512eusmtrp1E;
+ Mon, 23 Dec 2024 12:56:00 +0000 (GMT)
+X-AuditID: cbfec7f2-b09c370000005155-5c-67695de1efca
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id CE.63.19654.0ED59676; Mon, 23
+ Dec 2024 12:56:00 +0000 (GMT)
+Received: from AMDC4942.home (unknown [106.210.136.40]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20241223125559eusmtip27305bd8634eacf7d0c51fb5c97de798f~Tz54Gg5hk3248532485eusmtip2Z;
+ Mon, 23 Dec 2024 12:55:59 +0000 (GMT)
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+To: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
+ wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
+ matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
+ m.szyprowski@samsung.com
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org, Michal Wilczynski
+ <m.wilczynski@samsung.com>
+Subject: [RFC PATCH v2 00/19] Enable drm/imagination BXM-4-64 Support for
+ LicheePi 4A
+Date: Mon, 23 Dec 2024 13:55:34 +0100
+Message-Id: <20241223125553.3527812-1-m.wilczynski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/7] drm/msm: adreno: dynamically generate GMU bw table
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20241217-topic-sm8x50-gpu-bw-vote-v6-0-1adaf97e7310@linaro.org>
- <20241217-topic-sm8x50-gpu-bw-vote-v6-3-1adaf97e7310@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241217-topic-sm8x50-gpu-bw-vote-v6-3-1adaf97e7310@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 7oJJgued2uWwblUSUDZDU40JJHM5Pssf
-X-Proofpoint-ORIG-GUID: 7oJJgued2uWwblUSUDZDU40JJHM5Pssf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- adultscore=0 malwarescore=0 mlxscore=0 priorityscore=1501 impostorscore=0
- clxscore=1015 lowpriorityscore=0 mlxlogscore=999 phishscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412230135
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1CTdRzH+T7Ps+cZuxs+TtIvRJo75PwBE7rqvkmilNWD4hlnxVV6NeU5
+ 4Bo/boMsjYRjG0iDZQnixg8xGhw/JOc2gQNhOAElJ4MEM1moCGIQ8UtNhGI8WP73+rw/vz/3
+ 4eMiC+nNj41PYuXxUpmYFBCW1r/tAbf2xkYH3jaSqL33FIbMMzoKVTXaMVRss/OQs8uEoV+m
+ x0h0+m4nhe41phGop7yQQumtNSQa1jlJNK5x8lB3fQGJJrNtAFkmlSSqtvVRqGa6GEMl42YC
+ ldbWA6Q+YuAhx+W3UJ+znUDD3RocqXVL0D8NtRSa6zlDIP2fTRQyjRzlobbqSKRsOkZsXcmM
+ XVdRzMjwMMFcyJyimMYHJwmmTtdHMZq6nwFjrDhCMjd7Gkim6FIE8/s3bRhztvQwo6xuxRjt
+ bCAzdv4ayeSYKgDTld5LvSv6SPB6FCuL/ZyVbwz5VBDjaL4LEtN3fqGvslKpIHdLFnDnQ/pl
+ OJRzBbhYRJcDaLj9AcdTAFZmbM8CgnmeBHAuMxV7mqDSVlKcowxAZfEAxhkjANqqyheiSPol
+ 2F9WzHM5PGkVAVUX04DLwOkhAC0DBaQrahkdCQ1nrAtM0Gvg1NDIAgvpLTBt9BHB9VsFm6xX
+ cE5fCi+dGFjQ8Xk93azHXUUh/aMA6vKcgEvYBruuKkmOl8H7bSaKYx/Y8b1msWgC7DdP4Bx/
+ Bes0bYscDG/aH8/n8ucbrIM19Rs5ORQ2PXhEuWRIe8Dro0u5ETzgd5bjOCcLYaZaxEX7wVxN
+ 9n9N7eWWxcsxcODyBMmddy8sGhzHvwUv6p5ZTPfMYrr/ZzgJ8Aqwgk1WxEWziqB49oBEIY1T
+ JMdHS/YnxBnB/Gt3zLVN1ILC++OSFoDxQQuAfFzsKWwRxUaLhFHSLw+y8oRP5MkyVtECnucT
+ 4hXCNVGrWBEdLU1iP2PZRFb+1Ivx3b1Tsf2Gd6z+P+zLiLkwt952tkCzdubro4eKHC1i06+F
+ rX6msYgNAa9tXZc3uC13R3tgf7g2p6sqSf9+fXz/HzAmZXeQ32Z9ipf11VPOkPzcss789sFQ
+ rT+9KePxNV9fT599T5Icbm67Eq46SkJ2DO90zp77eDKMbr7xsBmqwr3CUw6WTrs37OatzlI+
+ t5mfYfnrjsHjEAzrO6+4dbE3snOSeEWF//beTxUJwQceRoZ4Bx8eK4zYMxe0/O03nqhlG96s
+ 9IHabuu5QK9NbkbLjZSY2Y7sF/YYJaMBHaf9Q02Vy+/11/jnrAwrQSUy3yXHpvJz76y2CGe0
+ SolOlbf9Q3PiWrX6hHRUTChipEHrcblC+i+16caASQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsVy+t/xe7oPYjPTDabdlbY4cX0Rk8XW37PY
+ LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWXzsucdq
+ cXnXHDaLz71HGC22fW5hs1h75C67xfqv85ksFn7cymKxZMcuRou2zmWsFhdPuVrcvXeCxeLl
+ 5R5mi7ZZ/Bb/9+xgt/h3bSOLxex3+9kttryZyGpxfG24Rcv+KSwOch7vb7Sye7x5+ZLF43DH
+ F3aPvd8WsHjsnHWX3aNn5xlGj02rOtk87lzbw+Yx72Sgx/3u40wem5fUe7SsPcbk0f/XwOP9
+ vqtsHn1bVjF6XGq+zh4gFKVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9n
+ k5Kak1mWWqRvl6CXcfHAU8aCZt+K2WsOsjcwTrXvYuTkkBAwkWjtX83excjFISSwlFHi/MR5
+ LBAJGYlr3S+hbGGJP9e62CCKXjFKzO3awgiSYBMwkniwfD4riC0isJhFYu++SpAiZoG3jBLX
+ Z24E6xYWCJV4v20vG4jNIqAq8eX5GzCbV8BeovHtD6gN8hL7D55lhogLSpyc+QQozgE0SF1i
+ /TwhkDAzUEnz1tnMExj5ZyGpmoVQNQtJ1QJG5lWMIqmlxbnpucVGesWJucWleel6yfm5mxiB
+ yWXbsZ9bdjCufPVR7xAjEwfjIUYJDmYlEd5DQpnpQrwpiZVVqUX58UWlOanFhxhNga6eyCwl
+ mpwPTG95JfGGZgamhiZmlgamlmbGSuK8bFfOpwkJpCeWpGanphakFsH0MXFwSjUwqdSrTppk
+ /jdnZcjLKZo84nM1O/o5NlyUnpUodl/kxKmtF3mdy7+d/bjljWlpkUOE6cnsRKa2GYkWM7YJ
+ T3BPPyJde6s0uSJgravCHMkI++vSeS+c7tXpx1evnMOq+dw1tvbyI63mS7uLr6bduTTn6Zqm
+ vmOZc3Wu9k2PFxF/V975oeNAV01ZfE0d+zzxWM3VZ3W/c3rWlXtxvdYD+qX3WcLey3MfsIru
+ WfaiNq2B03Ci2w2hlpWGSqpx+/SqJCeXFn/K/rBU9vxJc+v8xqTvL56eqZme9+0M56wNURrq
+ RoKVc57Y1ORVrHm1+lr8qctXfzzd7hxvM+2OTyfXc/7T83/qPNBfdeCiRIr7CWElluKMREMt
+ 5qLiRAB+Otw7twMAAA==
+X-CMS-MailID: 20241223125600eucas1p22d9257e92c798e9f4346a76d1d0fc73d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20241223125600eucas1p22d9257e92c798e9f4346a76d1d0fc73d
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20241223125600eucas1p22d9257e92c798e9f4346a76d1d0fc73d
+References: <CGME20241223125600eucas1p22d9257e92c798e9f4346a76d1d0fc73d@eucas1p2.samsung.com>
+X-Mailman-Approved-At: Mon, 23 Dec 2024 16:04:53 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,53 +133,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.12.2024 3:51 PM, Neil Armstrong wrote:
-> The Adreno GPU Management Unit (GMU) can also scale the ddr
-> bandwidth along the frequency and power domain level, but for
-> now we statically fill the bw_table with values from the
-> downstream driver.
-> 
-> Only the first entry is used, which is a disable vote, so we
-> currently rely on scaling via the linux interconnect paths.
-> 
-> Let's dynamically generate the bw_table with the vote values
-> previously calculated from the OPPs.
-> 
-> Those entries will then be used by the GMU when passing the
-> appropriate bandwidth level while voting for a gpu frequency.
-> 
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
+The LicheePi 4A board, featuring the T-HEAD TH1520 SoC, includes an Imagination
+Technologies BXM-4-64 GPU. Initial support for this GPU was provided through a
+downstream driver [1]. Recently, efforts have been made to upstream support for
+the Rogue family GPUs, which the BXM-4-64 is part of [2].
 
-[...]
+While the initial upstream driver focused on the AXE-1-16 GPU, newer patches
+have introduced support for the BXS-4-64 GPU [3]. The modern upstream
+drm/imagination driver is expected to support the BXM-4-64 as well [4][5]. As
+this support is being developed, it's crucial to upstream the necessary glue
+code including clock and power-domain drivers so they're ready for integration
+with the drm/imagination driver.
 
-> +	/*
-> +	 * These are the CX (CNOC) votes - these are used by the GMU
-> +	 * The 'CN0' BCM is used on all targets, and votes are basically
-> +	 * 'off' and 'on' states with first bit to enable the path.
-> +	 */
-> +
-> +	msg->cnoc_cmds_addrs[0] = cmd_db_read_addr("CN0");
-> +	msg->cnoc_cmds_num = 1;
-> +
-> +	msg->cnoc_cmds_data[0][0] = BCM_TCS_CMD(true, false, 0, 0);
-> +	msg->cnoc_cmds_data[1][0] = BCM_TCS_CMD(true, true, 0, BIT(0));
-> +
-> +	/* Compute the wait bitmask with each BCM having the commit bit */
-> +	msg->cnoc_wait_bitmask = 0;
-> +	for (j = 0; j < msg->cnoc_cmds_num; j++)
-> +		if (msg->cnoc_cmds_data[0][j] & BCM_TCS_CMD_COMMIT_MASK)
-> +			msg->cnoc_wait_bitmask |= BIT(j);
+Recent Progress:
 
-Still very much not a fan of this.
+Firmware Improvements:
+Since August, the vendor has provided updated firmware
+[6][7] that correctly initiates the firmware for the BXM-4-64.
 
-I think this would be equally telling:
+Mesa Driver Testing:
+The vendor-supplied Mesa driver [8] partially works with Vulkan examples, such
+as rendering a triangle using Sascha Willems' Vulkan samples [9]. Although the
+triangle isn't rendered correctly (only the blue background appears), shader
+job submissions function properly, and IOCTL calls are correctly invoked.  For
+testing, we used the following resources:
 
-/* Always flush on/off commands */
-msg->cnoc_wait_bitmask = BIT(0);
+Kernel Source: Custom kernel with necessary modifications [10].
+Mesa Driver: Vendor-provided Mesa implementation [11].
 
-with or without that:
+Dependencies:
+Testing required a functional Display Processing Unit (DPU) and HDMI driver,
+which are currently not upstreamed. Efforts are underway to upstream the DPU
+DC8200 driver used in StarFive boards [12], which is the same DPU used on the
+LicheePi 4A. Once the DPU and HDMI drivers are upstreamed, GPU support can be
+fully upstream.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Testing Status:
+This series has been tested by performing a probe-only operation, confirming
+that the firmware begins execution. The probe function initiates firmware
+execution and waits for the firmware to flip a specific status bit.
 
-Konrad
+[   12.637880] powervr ffef400000.gpu: [drm] loaded firmware powervr/rogue_36.52.104.182_v1.fw
+[   12.648979] powervr ffef400000.gpu: [drm] FW version v1.0 (build 6645434 OS)
+[   12.678906] [drm] Initialized powervr 1.0.0 for ffef400000.gpu on minor 0
+
+Power Management:
+Full power management capabilities require implementing the T-HEAD SoC AON
+protocol messaging via the hardware mailbox. Support for the mailbox was merged
+in kernel 6.13 [13], and the AON protocol implementation is part of this
+series, since v2. Therefore this series support full power management
+capabilities for the GPU driver.
+
+Thanks Krzysztof and Stephen for taking the time to review the last revision !
+Your guidance and the direction was very helpful.
+
+v2:
+
+Removed AP_SUBSYS clock refactoring commits (1-6):
+ - instead of refactoring, I opted to extend the current driver and its
+   associated device tree node to include support for a second address space.
+
+Expanded patchset scope to fully support power management capabilities:
+ - introduced a new firmware driver to manage power-related operations.
+ - rewrote the power-domain driver to function alongside the firmware driver.
+   These nodes in the device tree lack direct address spaces, despite
+   representing HW blocks. Control is achieved via firmware protocol messages
+   transmitted through a mailbox to the E902 core.
+
+Implemented a reset controller for the TH1520 SoC:
+ - developed a reset controller driver for the TH1520 to manage reset
+   sequences.
+ - updated the drm/imagination driver to act as a reset controller consumer.
+   While this patchset is focused on the LPI4A board, the reset controller is
+   designed to be useful for other boards, such as the BPI-3F, which also require
+   a reset sequence after power-up.
+
+Updated dt-bindings:
+ - added new dt-bindings for power, reset, and firmware nodes.
+ - updated the powervr dt-binding to include reset support and new compatibles.
+ - ran dtbs_check and dt_binding_check to ensure compliance.
+
+Addressed code quality:
+ - resolved all checkpatch issues using --strict, except for the call to
+   devm_clk_hw_register_gate_parent_data().  The current implementation remains
+   preferable in this context, and clang-format aligns with this choice.
+
+Also included the mailbox device tree commit, already queued for 6.14 [14] for
+completeness.
+
+References:
+
+[1] Downstream Driver Source:
+    https://gitlab.freedesktop.org/frankbinns/powervr/-/blob/cb1929932095649a24f051b9cfdd2cd2ceab35cb/drivers/gpu/drm/img-rogue/Kconfig
+
+[2] Initial Upstream Driver Series:
+    https://lore.kernel.org/all/cover.1700668843.git.donald.robson@imgtec.com/
+
+[3] BXS-4-64 GPU Support Patches:
+    https://lore.kernel.org/all/20241105-sets-bxs-4-64-patch-v1-v1-0-4ed30e865892@imgtec.com/
+
+[4] Firmware Issue Discussion 1:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/1
+
+[5] Firmware Issue Discussion 2:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/issues/2
+
+[6] Firmware Update Commit 1:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/commit/6ac2247e9a1d1837af495fb6d0fbd6f35547c2d1
+
+[7] Firmware Update Commit 2:
+    https://gitlab.freedesktop.org/imagination/linux-firmware/-/commit/efbebc90f25adb2b2e1499e3cc24ea3f3c3e4f4c
+
+[8] Vendor-Provided Mesa Driver:
+    https://gitlab.freedesktop.org/imagination/mesa/-/tree/dev/devinfo
+
+[9] Sascha Willems' Vulkan Samples:     https://github.com/SaschaWillems/Vulkan
+
+[10] Test Kernel Source:
+    https://github.com/mwilczy/linux/tree/2_December_reference_linux_kernel_imagination
+
+[11] Test Mesa Driver:
+    https://github.com/mwilczy/mesa-reference
+
+[12] DPU DC8200 Driver Upstream Attempt:
+    https://lore.kernel.org/all/20241120061848.196754-1-keith.zhao@starfivetech.com/
+
+[13] Pull request kernel 6.13 for mailbox
+    https://lore.kernel.org/all/CABb+yY33qnivK-PzqpSMgmtbFid4nS8wcNvP7wED9DXrYAyLKg@mail.gmail.com/
+
+[14] Mailbox commit queued for 6.14
+    https://lore.kernel.org/all/20241104100734.1276116-4-m.wilczynski@samsung.com/
+
+Michal Wilczynski (19):
+  dt-bindings: clock: Add VO subsystem clocks and update address
+    requirements
+  clk: thead: Add clock support for VO subsystem in T-Head TH1520 SoC
+  dt-bindings: power: thead,th1520: Add support for power domains
+  dt-bindings: firmware: thead,th1520: Add support for firmware node
+  firmware: thead: Add AON firmware protocol driver
+  soc: thead: power-domain: Add power-domain driver for TH1520
+  riscv: Enable PM_GENERIC_DOMAINS for T-Head SoCs
+  dt-bindings: reset: Add T-HEAD TH1520 SoC Reset Controller
+  reset: thead: Add TH1520 reset controller driver
+  drm/imagination: Add reset controller support for GPU initialization
+  dt-bindings: gpu: Add 'resets' property for GPU initialization
+  dt-bindings: gpu: Add compatibles for T-HEAD TH1520 GPU
+  drm/imagination: Add support for IMG BXM-4-64 GPU
+  drm/imagination: Enable PowerVR driver for RISC-V
+  riscv: dts: thead: Extend device tree clk with VO reg
+  riscv: dts: thead: Add mailbox node
+  riscv: dts: thead: Introduce power domain nodes with aon firmware
+  riscv: dts: thead: Introduce reset controller node
+  riscv: dts: thead: Add GPU node to TH1520 device tree
+
+ .../bindings/clock/thead,th1520-clk-ap.yaml   |  15 +-
+ .../bindings/firmware/thead,th1520-aon.yaml   |  59 +++++
+ .../bindings/gpu/img,powervr-rogue.yaml       |  38 +++-
+ .../bindings/power/thead,th1520-power.yaml    |  42 ++++
+ .../bindings/reset/thead,th1520-reset.yaml    |  45 ++++
+ MAINTAINERS                                   |   8 +
+ arch/riscv/Kconfig.socs                       |   1 +
+ arch/riscv/boot/dts/thead/th1520.dtsi         |  54 ++++-
+ drivers/clk/thead/clk-th1520-ap.c             | 160 ++++++++++++--
+ drivers/firmware/Kconfig                      |   9 +
+ drivers/firmware/Makefile                     |   1 +
+ drivers/firmware/thead,th1520-aon.c           | 203 ++++++++++++++++++
+ drivers/gpu/drm/imagination/Kconfig           |   2 +-
+ drivers/gpu/drm/imagination/pvr_device.c      |  21 ++
+ drivers/gpu/drm/imagination/pvr_device.h      |   9 +
+ drivers/gpu/drm/imagination/pvr_drv.c         |   1 +
+ drivers/gpu/drm/imagination/pvr_power.c       |  15 +-
+ drivers/pmdomain/Kconfig                      |   1 +
+ drivers/pmdomain/Makefile                     |   1 +
+ drivers/pmdomain/thead/Kconfig                |  12 ++
+ drivers/pmdomain/thead/Makefile               |   2 +
+ drivers/pmdomain/thead/th1520-pm-domains.c    | 181 ++++++++++++++++
+ drivers/reset/Kconfig                         |  10 +
+ drivers/reset/Makefile                        |   1 +
+ drivers/reset/reset-th1520.c                  | 151 +++++++++++++
+ .../dt-bindings/clock/thead,th1520-clk-ap.h   |  33 +++
+ .../dt-bindings/power/thead,th1520-power.h    |  18 ++
+ .../dt-bindings/reset/thead,th1520-reset.h    |  13 ++
+ .../linux/firmware/thead/thead,th1520-aon.h   | 186 ++++++++++++++++
+ 29 files changed, 1266 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+ create mode 100644 Documentation/devicetree/bindings/power/thead,th1520-power.yaml
+ create mode 100644 Documentation/devicetree/bindings/reset/thead,th1520-reset.yaml
+ create mode 100644 drivers/firmware/thead,th1520-aon.c
+ create mode 100644 drivers/pmdomain/thead/Kconfig
+ create mode 100644 drivers/pmdomain/thead/Makefile
+ create mode 100644 drivers/pmdomain/thead/th1520-pm-domains.c
+ create mode 100644 drivers/reset/reset-th1520.c
+ create mode 100644 include/dt-bindings/power/thead,th1520-power.h
+ create mode 100644 include/dt-bindings/reset/thead,th1520-reset.h
+ create mode 100644 include/linux/firmware/thead/thead,th1520-aon.h
+
+-- 
+2.34.1
+
