@@ -2,58 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C819FB5E1
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:53:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810C09FB60B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 22:22:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01CDB10E459;
-	Mon, 23 Dec 2024 20:52:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1215510E041;
+	Mon, 23 Dec 2024 21:22:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LMYnSVOz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
- [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C20EC10E459
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:52:57 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.18.186.31])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH99X3N2zz6K5Zf;
- Tue, 24 Dec 2024 04:49:04 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id 78F9C14039E;
- Tue, 24 Dec 2024 04:52:55 +0800 (CST)
-Received: from localhost (10.47.75.118) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Dec
- 2024 21:52:54 +0100
-Date: Mon, 23 Dec 2024 20:52:52 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Zijun Hu <zijun_hu@icloud.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, James Bottomley
- <James.Bottomley@HansenPartnership.com>, Thomas =?ISO-8859-1?Q?Wei=DFschu?=
- =?ISO-8859-1?Q?h?= <thomas@t-8ch.de>, <linux-kernel@vger.kernel.org>,
- <nvdimm@lists.linux.dev>, <linux-sound@vger.kernel.org>,
- <sparclinux@vger.kernel.org>, <linux-block@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux1394-devel@lists.sourceforge.net>,
- <arm-scmi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
- <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v4 11/11] usb: typec: class: Remove both cable_match()
- and partner_match()
-Message-ID: <20241223205252.00003d6b@huawei.com>
-In-Reply-To: <20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
-References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
- <20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39EE010E041;
+ Mon, 23 Dec 2024 21:22:53 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BNHTi6i018497;
+ Mon, 23 Dec 2024 21:22:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ hS/Y6yW1s5W3mihcvs63v+xACZBKR+LeKoO5/HhiemY=; b=LMYnSVOz4RnYrJ2P
+ 3qmHhh/lKumW1F96KRugLHOeNDCVx0XCOYRbrW9EJLGlKK7vSPWXddp/UR0LhN96
+ LNwc5ranpiQOie+IiHZiXa8rmQ85R3I/bs9ejvT9CJEAs750VlPZ2wuphGcgiRsU
+ ZMcZwgFhVskxTlFvVjMKJrdCZzTm+l4cZaHJZPezpqrqqfi5dZoRH9nsKM5UOMpF
+ JHkgOgBa6v+iQYntgnJSykOX3gyZw5ZorVMXRnsmlAAI/3e2HKhoLrGutJEI/cEP
+ DqU4eJAo9ONklkHs5YtbFsYPwc6LI8uOowYJPeXe8P+C8QrcMfXt/LXz9xf9B/Cn
+ L97mOg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43qca18ftj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Dec 2024 21:22:47 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BNLMk2R007617
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Dec 2024 21:22:46 GMT
+Received: from [10.216.35.172] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 23 Dec
+ 2024 13:22:42 -0800
+Message-ID: <7f5144e2-1c28-4e12-a9eb-1e8c8220bbcf@quicinc.com>
+Date: Tue, 24 Dec 2024 02:52:39 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/msm/a6xx: Add support for Adreno 612
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Jie Zhang <quic_jiezh@quicinc.com>
+References: <20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com>
+ <df25ffe5-b20c-41a7-b178-b191d332cb19@oss.qualcomm.com>
+ <jsuzytkpcs7xmsaaedypz6w5d4ia6rckxjqg2x7mp4sidxxtqk@t5ukbn3sv6oa>
+Content-Language: en-US
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+In-Reply-To: <jsuzytkpcs7xmsaaedypz6w5d4ia6rckxjqg2x7mp4sidxxtqk@t5ukbn3sv6oa>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.75.118]
-X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
- frapeml500008.china.huawei.com (7.182.85.71)
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: gItu9bQFWmhLTxfGFLF4gP4wsBU5_xJl
+X-Proofpoint-GUID: gItu9bQFWmhLTxfGFLF4gP4wsBU5_xJl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0 phishscore=0
+ mlxscore=0 suspectscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412230189
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,112 +98,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Dec 2024 08:08:13 +0800
-Zijun Hu <zijun_hu@icloud.com> wrote:
+On 12/21/2024 2:28 AM, Dmitry Baryshkov wrote:
+> On Fri, Dec 20, 2024 at 08:56:31PM +0100, Konrad Dybcio wrote:
+>> On 13.12.2024 12:46 PM, Akhil P Oommen wrote:
+>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>>
+>>> Add support for Adreno 612 GPU found in SM6150/QCS615 chipsets.
+>>> A612 falls under ADRENO_6XX_GEN1 family and is a cut down version
+>>> of A615 GPU.
+>>>
+>>> A612 has a new IP called Reduced Graphics Management Unit or RGMU
+>>> which is a small state machine which helps to toggle GX GDSC
+>>> (connected to CX rail) to implement IFPC feature. It doesn't support
+>>> any other features of a full fledged GMU like clock control, resource
+>>> voting to rpmh etc. So we need linux clock driver support like other
+>>> gmu-wrapper implementations to control gpu core clock and gpu GX gdsc.
+>>> Since there is no benefit with enabling RGMU at the moment, RGMU is
+>>> entirely skipped in this patch.
+>>>
+>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>> ---
+>>
+>> So we talked offline a bit, and the RGMU requires a piece of firmware.
+>>
+>> We concluded it's best to describe that from the get-go, so that the
+>> user doesn't get surprised when a new kernel update brings new firmware
+>> requirements for previously-working hardware.
+> 
+> I'd say, please make sure that the RGMU firmware is also a part of the
+> linux-firmware from the beginning.
 
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> cable_match(), as matching function of device_find_child(), matches
-> a device with device type @typec_cable_dev_type, and its task can be
-> simplified by the recently introduced API device_match_type().
-> 
-> partner_match() is similar with cable_match() but with a different
-> device type @typec_partner_dev_type.
-> 
-> Remove both functions and use the API plus respective device type instead.
-> 
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-Looks good, but there is the same trade off here between internal
-detail of type identification and reducing the use of helpers
-where the generic ones are fine.  Here is less obvious even than
-the CXL one as the helper macros do have other uses in these
-files.
+Yes, I am working on that part. I will send another revision of this patch.
 
-So, it's on for USB folk to decide on and I won't be giving a tag
-as a result.
+-Akhil
 
-Jonathan
-
-> ---
->  drivers/usb/typec/class.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 601a81aa1e1024265f2359393dee531a7779c6ea..3a4e0bd0131774afd0d746d2f0a306190219feec 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1282,11 +1282,6 @@ const struct device_type typec_cable_dev_type = {
->  	.release = typec_cable_release,
->  };
->  
-> -static int cable_match(struct device *dev, const void *data)
-> -{
-> -	return is_typec_cable(dev);
-> -}
-> -
->  /**
->   * typec_cable_get - Get a reference to the USB Type-C cable
->   * @port: The USB Type-C Port the cable is connected to
-> @@ -1298,7 +1293,8 @@ struct typec_cable *typec_cable_get(struct typec_port *port)
->  {
->  	struct device *dev;
->  
-> -	dev = device_find_child(&port->dev, NULL, cable_match);
-> +	dev = device_find_child(&port->dev, &typec_cable_dev_type,
-> +				device_match_type);
->  	if (!dev)
->  		return NULL;
->  
-> @@ -2028,16 +2024,12 @@ const struct device_type typec_port_dev_type = {
->  /* --------------------------------------- */
->  /* Driver callbacks to report role updates */
->  
-> -static int partner_match(struct device *dev, const void *data)
-> -{
-> -	return is_typec_partner(dev);
-> -}
-> -
->  static struct typec_partner *typec_get_partner(struct typec_port *port)
->  {
->  	struct device *dev;
->  
-> -	dev = device_find_child(&port->dev, NULL, partner_match);
-> +	dev = device_find_child(&port->dev, &typec_partner_dev_type,
-> +				device_match_type);
->  	if (!dev)
->  		return NULL;
->  
-> @@ -2170,7 +2162,9 @@ void typec_set_pwr_opmode(struct typec_port *port,
->  	sysfs_notify(&port->dev.kobj, NULL, "power_operation_mode");
->  	kobject_uevent(&port->dev.kobj, KOBJ_CHANGE);
->  
-> -	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-> +	partner_dev = device_find_child(&port->dev,
-> +					&typec_partner_dev_type,
-> +					device_match_type);
->  	if (partner_dev) {
->  		struct typec_partner *partner = to_typec_partner(partner_dev);
->  
-> @@ -2334,7 +2328,9 @@ int typec_get_negotiated_svdm_version(struct typec_port *port)
->  	enum usb_pd_svdm_ver svdm_version;
->  	struct device *partner_dev;
->  
-> -	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-> +	partner_dev = device_find_child(&port->dev,
-> +					&typec_partner_dev_type,
-> +					device_match_type);
->  	if (!partner_dev)
->  		return -ENODEV;
->  
-> @@ -2361,7 +2357,8 @@ int typec_get_cable_svdm_version(struct typec_port *port)
->  	enum usb_pd_svdm_ver svdm_version;
->  	struct device *cable_dev;
->  
-> -	cable_dev = device_find_child(&port->dev, NULL, cable_match);
-> +	cable_dev = device_find_child(&port->dev, &typec_cable_dev_type,
-> +				      device_match_type);
->  	if (!cable_dev)
->  		return -ENODEV;
->  
+>>
+>> Please wait for the new revision.
+>>
+>> Konrad
 > 
 
