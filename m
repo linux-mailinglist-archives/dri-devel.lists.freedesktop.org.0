@@ -1,86 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131B99FAD1B
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 11:26:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBA39FAD1E
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 11:30:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD37710E308;
-	Mon, 23 Dec 2024 10:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B5C410E48A;
+	Mon, 23 Dec 2024 10:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Lbk/K2LK";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PNrGiAlt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A83EB10E308
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 10:26:31 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id
- 2adb3069b0e04-5401bd6ccadso4475328e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 02:26:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1734949590; x=1735554390; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=LpcAPRrti2Mspwvvh0HkUfdkgM+x6sKmtKugtmBINFQ=;
- b=Lbk/K2LKTccIbVX3NVE1HaaPc1bz7IYUC4PIurhD/tyIJdSS/MCK/GC3uOWpRVMVVE
- BwVnz5ZQxY7m49FeDwXvyCZEF7mdhpoeChkKAI/YUDBvNljZwdNsREY1LFQbZ8KxMLlA
- uBAUAbD8giuvCJYF7STXCREtq6chFhNuqUgWL0UdbZdcoX8bT6C0Pgn3bI6oxmM5j9OC
- 2EblHSPSZgeIz8Xk9XrP3pUQnMFqYHGo4PNizq1S/9kpihjVDMVCVbe4qEPuQEQPTIbw
- 4Ep9OV4/U8u9SVew6JhErh61Fe1bJBgp3c8NpWJbs0x7Q8jlu/6XcUbLVmgfmu3gWioj
- 7YgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1734949590; x=1735554390;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LpcAPRrti2Mspwvvh0HkUfdkgM+x6sKmtKugtmBINFQ=;
- b=lT3TqvtK1Sp7FbnGNjfBSUjO1k8peQtkIVH47Yc4+DafWMEioY6vpE4DW65mirCxd/
- /kBeI2tgz3XI6oJEMvcuzxNzjYlwmCLwZqVPzlCu++h31f3URrgbJXijM7h1a/kgc53b
- cK5woINDwBD9QQ5LL7MK3pLLbgHa2u3k47Mbza6VatFp7r+6IDde13ZdlJyuEObhqqeW
- dPNElwwzHszJ0UZNdZMLLVUE31pYBliCXTMf64QGG0kh1G1eBFIYBWyVwuhxtwvpistf
- FFKfWnIGkPTtQq2nWHa6aP7Kt4eHm560KUVyp8ENQ376wIpd6Z2PFNgFgb8gOMGu/nj3
- Sdpw==
-X-Gm-Message-State: AOJu0YyZDq3k3/ocHAnXM/Y5ehtcJOKJkFZ8Y2czSIahQbPIFuesgGJB
- wRTQmAlnXU6leo3Q7Q5LNQmybxt7rmGIjZ0KfwuZk0g+GXxYEIWgOtgoagFiYzg=
-X-Gm-Gg: ASbGncsBNEQywe6TNkck56ycnnOaNgxUglhYhkaoCBQ+7zzfKGwZYfm+ZEFkdJUA0Sr
- nDk4yDgYg8rw25UxlNB1kStiU7LV/BczSvjHcnmqQH5pJmVf0/nu0HZ3VX0OO1ooGhfKlJrcNvt
- yS3qL9vJSm2ihQGyihqOZDUMoARe1YM/bN0VvgUJSiXbVuRN2g0uJu/95uZQrwxTvz0wW3pZId8
- c6/hqLjWslylT9fAWt7/1temUtZ7+/2Mepj2sygYJT9xgrUx6O9Ft2nM177wPza4Nl5C2xU7AER
- W0cXbjNSQz37Lzd3FPcrz50jxiIrYx+CSE+5
-X-Google-Smtp-Source: AGHT+IFbBpruzFpAgIIU0n0/jwU07GmTaDXBwkrAj3El2zSPjw4bqzUyTtJuARVLHLA0cBnGaJX8lw==
-X-Received: by 2002:a05:6512:1044:b0:542:218a:71a with SMTP id
- 2adb3069b0e04-5422953ac6bmr3140370e87.26.1734949589912; 
- Mon, 23 Dec 2024 02:26:29 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235f5efbsm1241435e87.39.2024.12.23.02.26.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Dec 2024 02:26:29 -0800 (PST)
-Date: Mon, 23 Dec 2024 12:26:27 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- p.zabel@pengutronix.de, 
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
- kernel@pengutronix.de, festevam@gmail.com, tglx@linutronix.de, vkoul@kernel.org,
- kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org, 
- u.kleine-koenig@baylibre.com, francesco@dolcini.it, frank.li@nxp.com
-Subject: Re: [PATCH v7 03/19] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller display engine
-Message-ID: <kpem2w4wu7ywc5pvbk3ls5hsyttrwcylomzfh567ejlxkymeqd@cujrbfxgrntc>
-References: <20241223064147.3961652-1-victor.liu@nxp.com>
- <20241223064147.3961652-4-victor.liu@nxp.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F43A10E48A
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 10:30:25 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BN9Si5M007922;
+ Mon, 23 Dec 2024 10:30:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ jVOjdSbEjB5SPyb/jIw3Vcq/sAgx6qjeQaelRJANPRg=; b=PNrGiAltyu5FGx3D
+ Czz8Nkg6n+lnXnc/5xpxZSpV4ZXr6eGuvcmHJpyZ7ZHSiRlj8v13p5kUvoVhz6Yw
+ QG/EqWGR6fo1P800LaLuPuIuadg+E5LrlnMPU06cGCO3MTNi9NxmktTrdXIZvI1E
+ gwXhSmZ9nZYbTFORRXRLW1KDWTt36jVFI75AvTYG5s7sz2ZgB5iFJ5cSgOBosqkv
+ pkQcQ6jpBCBAtobY8hA+937ljyYCslVSaTrQzbjJVAIgVLCAZdCtS7ousFQTCslm
+ XIHKZEo/il0q5IvsCNjJ8V4mjpOnLcoX4uknFZLjAeHdgWJ72Q0mSfKxiwzrHYDF
+ JhDI0Q==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43nk1m0unp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Dec 2024 10:30:13 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BNAUCZ6018442
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Dec 2024 10:30:12 GMT
+Received: from [10.206.105.210] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 23 Dec
+ 2024 02:30:09 -0800
+Message-ID: <77018932-14b0-4371-8f80-e2701cbb052c@quicinc.com>
+Date: Mon, 23 Dec 2024 16:00:06 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241223064147.3961652-4-victor.liu@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] misc: fastrpc: Deregister device nodes properly in
+ error scenarios
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
+ <quic_bkumar@quicinc.com>, <linux-kernel@vger.kernel.org>,
+ <quic_chennak@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <arnd@arndb.de>, stable <stable@kernel.org>
+References: <20241223100101.29844-1-quic_anane@quicinc.com>
+ <20241223100101.29844-2-quic_anane@quicinc.com>
+ <2024122343-java-exposure-bf50@gregkh>
+Content-Language: en-US
+From: Anandu Krishnan E <quic_anane@quicinc.com>
+In-Reply-To: <2024122343-java-exposure-bf50@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: xwwjqyOxUh2Z34SIa6KXgNQx0AxS3SjQ
+X-Proofpoint-ORIG-GUID: xwwjqyOxUh2Z34SIa6KXgNQx0AxS3SjQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=483 clxscore=1015 priorityscore=1501 impostorscore=0
+ suspectscore=0 mlxscore=0 malwarescore=0 spamscore=0 phishscore=0
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412230094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,286 +94,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 23, 2024 at 02:41:31PM +0800, Liu Ying wrote:
-> i.MX8qxp Display Controller display engine consists of all processing units
-> that operate in a display clock domain.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v7:
-> * Drop DT alias documentations and add instance numbers to compatible strings.
->   (Rob)
-> 
-> v6:
-> * No change.
-> 
-> v5:
-> * Document aliases.  Drop Rob's previous R-b tag. (Maxime)
-> 
-> v4:
-> * Collect Rob's R-b tag.
-> 
-> v3:
-> * No change.
-> 
-> v2:
-> * Drop fsl,dc-*-id DT properties. (Krzysztof)
-> * Drop port property. (Krzysztof)
-> * Fix register range sizes in example.
-> 
->  .../imx/fsl,imx8qxp-dc-display-engine0.yaml   | 235 ++++++++++++++++++
->  1 file changed, 235 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
-> new file mode 100644
-> index 000000000000..60d1e0a4a5dd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
-> @@ -0,0 +1,235 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-display-engine0.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Freescale i.MX8qxp Display Controller Display Engine
-> +
-> +description:
-> +  All Processing Units that operate in a display clock domain. Pixel pipeline
-> +  is driven by a video timing and cannot be stalled. Implements all display
-> +  specific processing.
-> +
-> +maintainers:
-> +  - Liu Ying <victor.liu@nxp.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx8qxp-dc-display-engine0
-> +      - fsl,imx8qxp-dc-display-engine1
 
-Is there actual difference between engines 0 and 1? If there is none,
-why are you artificially adding one here?
 
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: top
-> +      - const: cfg
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 3
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: shdload
-> +      - const: framecomplete
-> +      - const: seqcomplete
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 1
-> +
-> +  ranges: true
-> +
-> +patternProperties:
-> +  "^dither@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - fsl,imx8qxp-dc-dither0
-> +          - fsl,imx8qxp-dc-dither1
-> +
-> +  "^framegen@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - fsl,imx8qxp-dc-framegen0
-> +          - fsl,imx8qxp-dc-framegen1
-> +
-> +  "^gammacor@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - fsl,imx8qxp-dc-gammacor0
-> +          - fsl,imx8qxp-dc-gammacor1
-> +
-> +  "^matrix@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - fsl,imx8qxp-dc-matrix0
-> +          - fsl,imx8qxp-dc-matrix1
-> +
-> +  "^signature@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - fsl,imx8qxp-dc-signature0
-> +          - fsl,imx8qxp-dc-signature1
-> +
-> +  "^tcon@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - fsl,imx8qxp-dc-tcon0
-> +          - fsl,imx8qxp-dc-tcon1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - interrupt-names
-> +  - power-domains
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - ranges
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: fsl,imx8qxp-dc-display-engine0
-> +    then:
-> +      patternProperties:
-> +        "^dither@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-dither0
-> +
-> +        "^framegen@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-framegen0
-> +
-> +        "^gammacor@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-gammacor0
-> +
-> +        "^matrix@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-matrix0
-> +
-> +        "^signature@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-signature0
-> +
-> +        "^tcon@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-tcon0
-> +    else:
-> +      patternProperties:
-> +        "^dither@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-dither1
-> +
-> +        "^framegen@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-framegen1
-> +
-> +        "^gammacor@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-gammacor1
-> +
-> +        "^matrix@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-matrix1
-> +
-> +        "^signature@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-signature1
-> +
-> +        "^tcon@[0-9a-f]+$":
-> +          properties:
-> +            compatible:
-> +              const: fsl,imx8qxp-dc-tcon1
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx8-lpcg.h>
-> +    #include <dt-bindings/firmware/imx/rsrc.h>
-> +
-> +    display-engine@5618b400 {
-> +        compatible = "fsl,imx8qxp-dc-display-engine0";
-> +        reg = <0x5618b400 0x14>, <0x5618b800 0x1c00>;
-> +        reg-names = "top", "cfg";
-> +        interrupt-parent = <&dc0_intc>;
-> +        interrupts = <15>, <16>, <17>;
-> +        interrupt-names = "shdload", "framecomplete", "seqcomplete";
-> +        power-domains = <&pd IMX_SC_R_DC_0_PLL_0>;
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +
-> +        framegen@5618b800 {
-> +            compatible = "fsl,imx8qxp-dc-framegen0";
-> +            reg = <0x5618b800 0x98>;
-> +            clocks = <&dc0_disp_lpcg IMX_LPCG_CLK_0>;
-> +            interrupt-parent = <&dc0_intc>;
-> +            interrupts = <18>, <19>, <20>, <21>, <41>, <42>, <43>, <44>;
-> +            interrupt-names = "int0", "int1", "int2", "int3",
-> +                              "primsync_on", "primsync_off",
-> +                              "secsync_on", "secsync_off";
-> +        };
-> +
-> +        tcon@5618c800 {
-> +            compatible = "fsl,imx8qxp-dc-tcon0";
-> +            reg = <0x5618c800 0x588>;
-> +
-> +            port {
-> +                dc0_disp0_dc0_pixel_combiner_ch0: endpoint {
-> +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_disp0>;
-> +                };
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.34.1
+On 12/23/2024 3:40 PM, Greg KH wrote:
+> On Mon, Dec 23, 2024 at 03:31:00PM +0530, Anandu Krishnan E wrote:
+>> During fastrpc_rpmsg_probe, if secure device node registration
+>> succeeds but non-secure device node registration fails, the secure
+>> device node deregister is not called during error cleanup. Add proper
+>> exit paths to ensure proper cleanup in case of error.
+>>
+>> Fixes: 3abe3ab3cdab ("misc: fastrpc: add secure domain support")
+>> Cc: stable <stable@kernel.org>
+>> Signed-off-by: Anandu Krishnan E <quic_anane@quicinc.com>
+>> ---
+>>  drivers/misc/fastrpc.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> Shouldn't this be a stand-alone patch, not part of a series, if you wish
+> to have it included in 6.14-final?
+> 
+> thanks,
+> 
+> greg k-h
 
--- 
-With best wishes
-Dmitry
+Sure, I will send this change as a stand-alone patch in the next spin,
+so that it can be included in 6.14-final.
+
+Thanks 
+Anandu
+
+
+
