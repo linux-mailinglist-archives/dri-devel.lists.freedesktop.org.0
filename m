@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 441649FB414
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 19:40:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A461E9FB420
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 19:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F6810E13B;
-	Mon, 23 Dec 2024 18:40:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADEE10E21C;
+	Mon, 23 Dec 2024 18:43:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QYbBocMR";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="o8YbE1A8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63ECF10E0BF;
- Mon, 23 Dec 2024 18:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=C7faHnKzpcrdmltoKj01TZJKcgzwe+Z/ODhLEoV7gEc=; b=QYbBocMR8LfG1mGEymIBKL4hFG
- DPCK+wjVp+C7lCDOI2Bt1EqE5VHkBprB0o1mHSi/zYRhNrED0W/0Jydpb/OlyE750DaUi9bNxIonn
- YPd92EUB+oYLWwbzvDYm1YGsw24bCqeu//pKxC0bC5WUdJxNVpkaM6ewP5M2UbSj8zkOxrXR/Tx0U
- 57vNztOuF6KlaDLPTq4bLRw5RFppKaR11Gqm3fDTTQGn7RmAUuWsAbMzooCTUcr/CHXEh0iSJrHTr
- CXtSJHzYn68dSXa2e6WpwICOB8x3uHNsNccr5bSsTWlMZACbA0noi0iYlChKf4E9ZQgWM3MXHtWKQ
- We0U1vgA==;
-Received: from [179.214.71.67] (helo=[192.168.0.55])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tPnLa-006vfE-Aq; Mon, 23 Dec 2024 19:40:06 +0100
-Message-ID: <8d9003b2-b141-4cef-991d-aaac65aa1aac@igalia.com>
-Date: Mon, 23 Dec 2024 15:39:57 -0300
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A1710E21C
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 18:43:17 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CFFA460005;
+ Mon, 23 Dec 2024 18:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1734979396;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vC2iV4OwakMwa517Uq3365YZVqec+LRelz4Fh+drw5s=;
+ b=o8YbE1A8M5Wk+WJj303PoOyMqOb3lY0FmnkCryQ1Duhok7CFcWDa8XGO47pLGkA2rnRHPO
+ IrxXHjgdYedODe7iN5BhJMjYRT8kl2AuRydSgOGRRmh+xF0CS00L40MO5XLXOBoeZi/Glv
+ rcsrsUPuruiYvn6ocB5PoVR6238/qyidXY6ZnhHdA97QT8fwNYPJgV64EFzEM3IJqAyX8X
+ S2juydpWqTBfonB6B3QFlqOyrpfxAkHh3xl02I+eXnnGB67G77CmotkgjZ3u7t3gaFU546
+ rDvRC2M2aAPXqe1y7YoG8jcv7RIau0BWsTEVPYGkkL3YB5AkN32byaqG6Q04Bg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Maxime Ripard <mripard@redhat.com>
+Cc: Abel Vesa <abelvesa@kernel.org>,  Peng Fan <peng.fan@nxp.com>,  Michael
+ Turquette <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,  Fabio Estevam
+ <festevam@gmail.com>,  Ying Liu <victor.liu@nxp.com>,  Marek Vasut
+ <marex@denx.de>,  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-clk@vger.kernel.org,  imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,  Abel Vesa <abel.vesa@linaro.org>,
+ Herve Codina <herve.codina@bootlin.com>,  Luca Ceresoli
+ <luca.ceresoli@bootlin.com>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  Ian Ray <ian.ray@ge.com>
+Subject: Re: [PATCH 4/5] clk: Add flag to prevent frequency changes when
+ walking subtrees
+In-Reply-To: <20241217-brown-wapiti-of-promotion-e3bec6@houat> (Maxime
+ Ripard's message of "Tue, 17 Dec 2024 13:47:53 +0100")
+References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
+ <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
+ <20241217-brown-wapiti-of-promotion-e3bec6@houat>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 23 Dec 2024 19:43:13 +0100
+Message-ID: <87bjx2tf3y.fsf@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] drm/amd/display: fixes for kernel crashes since
- cursor overlay mode
-To: Rodrigo Siqueira Jordao <Rodrigo.Siqueira@amd.com>, airlied@gmail.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, daniel@ffwll.ch,
- harry.wentland@amd.com, pekka.paalanen@collabora.com, sunpeng.li@amd.com,
- Xinhui.Pan@amd.com, zaeem.mohamed@amd.com
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Timur Kristof <timur.kristof@gmail.com>,
- Victoria Brekenfeld <victoria@system76.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Fabio Scaccabarozzi <fsvm88@gmail.com>,
- Matthew Schwartz <mattschwartz@gwmail.gwu.edu>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20241217205029.39850-1-mwen@igalia.com>
- <bfbe55e8-77c1-42c8-a00b-6e72ede3ab22@amd.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <bfbe55e8-77c1-42c8-a00b-6e72ede3ab22@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,97 +73,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
+On 17/12/2024 at 13:47:53 +01, Maxime Ripard <mripard@redhat.com> wrote:
 
+> On Thu, Nov 21, 2024 at 06:41:14PM +0100, Miquel Raynal wrote:
+>> There are mainly two ways to change a clock frequency.
+>
+> There's much more than that :)
 
-On 19/12/2024 18:23, Rodrigo Siqueira Jordao wrote:
->
->
-> On 12/17/24 1:45 PM, Melissa Wen wrote:
->> Hi,
->>
->> Some issues have been found by Cosmic users of AMD display since the
->> introduction of cursor overlay mode: page fault and divide errors
->> causing interface freezes. Both are 100% reproducible and affects
->> multiple HW versions.
->>
->> Patch 1 addresses the page fault error by resolving the definition
->> mismatch around the number of surfaces supported by the hw, where two
->> different values (MAX_SURFACES and MAX_SURFACE_NUM) would be taken
->> through the DC surface updates flow. The regular flow take MAX_SURFACES
->> == 3 into account and commit_minimal_transition_state uses
->> MAX_SURFACE_NUM == 6. I noticed that Leo Li has proposed this change in
->> a previous discussion [1], so I added a Suggested-by tag.
->>
->> Patch 2 expands the maximum number of surfaces to four, since it's
->> supported by the hw. Also, this amount accomodates current needs,
->> avoiding `dc_state_add_plane` complaints of not enough resource. Note
->> that it somehow reverts the change proposed by [2].
->>
->> Related AMD issues:
->> - https://gitlab.freedesktop.org/drm/amd/-/issues/3693
->> - https://gitlab.freedesktop.org/drm/amd/-/issues/3594
->>
->> Patch 3 fixes a kernel oops due to division by zero error by checking if
->> the destination scale size is zero, avoiding calculation and just
->> setting the out-scale size to zero, similar to what is  done by
->> drm_calc_scale(). Even though the missing check in dm_get_plane_scale()
->> wasn't introduced by cursor overlay mode, AFAIU the cursor mode
->> assessment happens before plane state checks, so
->> amdgpu_dm_plane_helper_check_state() can't prevent
->> dm_crtc_get_cursor_mode() taking an invisible plane into account.
->>
->> Related AMD issue:
->> - https://gitlab.freedesktop.org/drm/amd/-/issues/3729
->>
->> Other previous discussions can be found at:
->> - 
->> https://lore.kernel.org/amd-gfx/20241114143741.627128-1-zaeem.mohamed@amd.com/
->> - 
->> https://lore.kernel.org/amd-gfx/20240925154324.348774-1-mwen@igalia.com/
->>
->> Thanks in advance for any feedback.
->>
->> Melissa
->>
->> [1] 
->> https://lore.kernel.org/amd-gfx/20241025193727.765195-2-zaeem.mohamed@amd.com/
->> [2] https://gitlab.freedesktop.org/agd5f/linux/-/commit/3cfd03b79425c
->>
->> Melissa Wen (3):
->>    drm/amd/display: fix page fault due to max surface definition 
->> mismatch
->>    drm/amd/display: increase MAX_SURFACES to the value supported by hw
->>    drm/amd/display: fix divide error in DM plane scale calcs
->>
->>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c       | 4 ++--
->>   drivers/gpu/drm/amd/display/dc/core/dc.c                | 2 +-
->>   drivers/gpu/drm/amd/display/dc/core/dc_state.c          | 8 ++++----
->>   drivers/gpu/drm/amd/display/dc/dc.h                     | 4 ++--
->>   drivers/gpu/drm/amd/display/dc/dc_stream.h              | 2 +-
->>   drivers/gpu/drm/amd/display/dc/dc_types.h               | 1 -
->>   drivers/gpu/drm/amd/display/dc/dml2/dml2_mall_phantom.c | 2 +-
->>   7 files changed, 11 insertions(+), 12 deletions(-)
->>
->
-> Hi Melissa,
->
-> Thanks a lot for your series. I tested it on a couple of hardware 
-> devices, and I think everything is alright.
->
-> Series is
-> Reviewed-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
->
-> and your series was merged into the amd-staging-drm-next.
+"mainly"
 
-Hi Siqueira,
+Or maybe I should have added "on purpose".
 
-Nice! Thanks!
+>
+> Off the top of my head, setting/clearing a min/max rate and changing the
+> parent might also result in a rate change.
+>
+> And then, the firmware might get involved too.
+>
+>> The active way requires calling ->set_rate() in order to ask "on
+>> purpose" for a frequency change. Otherwise, a clock can passively see
+>> its frequency being updated depending on upstream clock frequency
+>> changes. In most cases it is fine to just accept the new upstream
+>> frequency - which by definition will have an impact on downstream
+>> frequencies if we do not recalculate internal divisors. But there are
+>> cases where, upon an upstream frequency change, we would like to
+>> maintain a specific rate.
+>
+> Why is clk_set_rate_exclusive not enough?
 
-Melissa
+I am trying to protect these rate changes from subtree walks, I don't
+see where setting an exclusive rate would have an effect? But I might be
+overlooking something, definitely.
+
+...
+
+>> @@ -2272,7 +2271,13 @@ static void clk_calc_subtree(struct clk_core *cor=
+e)
+>>  {
+>>  	struct clk_core *child;
+>>=20=20
+>> -	core->new_rate =3D clk_recalc(core, core->parent->new_rate);
+>> +	if (core->flags & CLK_NO_RATE_CHANGE_DURING_PROPAGATION) {
+>> +		core->new_rate =3D clk_determine(core, core->rate);
+>> +		if (!core->new_rate)
+>> +			core->new_rate =3D clk_recalc(core, core->parent->new_rate);
+>> +	} else {
+>> +		core->new_rate =3D clk_recalc(core, core->parent->new_rate);
+>> +	}
 >
-> Thanks
-> Siqueira
->
->
+> Sorry, it's not clear to me how it works. How will the parent clocks
+> will get notified to adjust their dividers in that scenario? Also, what
+> if they can't?
+
+The idea is: if the flag is set, instead of accepting the new upstream
+rate and recalculate the downstream rate based on a previously set
+divider value, we change our divider value to match the same frequency
+as before. But if we cannot, then we just keep the old way.
+
+Cheers,
+Miqu=C3=A8l
 
