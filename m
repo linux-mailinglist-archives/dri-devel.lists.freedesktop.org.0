@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561A79FB58D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9499FB59A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Dec 2024 21:45:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C18AC10E253;
-	Mon, 23 Dec 2024 20:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0276510E379;
+	Mon, 23 Dec 2024 20:45:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A19710E253
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:44:57 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.18.186.216])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH90J5wVhz6K5VT;
- Tue, 24 Dec 2024 04:41:04 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F40A010E379
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:45:22 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH94v6dSXz6K6mq;
+ Tue, 24 Dec 2024 04:45:03 +0800 (CST)
 Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id C7FFB140A70;
- Tue, 24 Dec 2024 04:44:55 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 6AC22140517;
+ Tue, 24 Dec 2024 04:45:21 +0800 (CST)
 Received: from localhost (10.47.75.118) by frapeml500008.china.huawei.com
  (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Dec
- 2024 21:44:54 +0100
-Date: Mon, 23 Dec 2024 20:44:52 +0000
+ 2024 21:45:20 +0100
+Date: Mon, 23 Dec 2024 20:45:18 +0000
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: Zijun Hu <zijun_hu@icloud.com>
 CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
@@ -41,17 +41,17 @@ CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
  <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
  <linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
  <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v4 07/11] slimbus: core: Remove of_slim_match_dev()
-Message-ID: <20241223204452.000067e6@huawei.com>
-In-Reply-To: <20241211-const_dfc_done-v4-7-583cc60329df@quicinc.com>
+Subject: Re: [PATCH v4 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+Message-ID: <20241223204518.000003ad@huawei.com>
+In-Reply-To: <20241211-const_dfc_done-v4-8-583cc60329df@quicinc.com>
 References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
- <20241211-const_dfc_done-v4-7-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-8-583cc60329df@quicinc.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.47.75.118]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
  frapeml500008.china.huawei.com (7.182.85.71)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,50 +68,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 11 Dec 2024 08:08:09 +0800
+On Wed, 11 Dec 2024 08:08:10 +0800
 Zijun Hu <zijun_hu@icloud.com> wrote:
 
 > From: Zijun Hu <quic_zijuhu@quicinc.com>
 > 
-> static of_slim_match_dev() has same function as API device_match_of_node().
+> gpio_sim_dev_match_fwnode() is a simple wrapper of API
+> device_match_fwnode().
 > 
-> Remove the former and use the later instead.
+> Remove the needless wrapper and use the API instead.
 > 
 > Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-Nice tidy up given the current code is dance up and down containing structure to exactly
-the same device it started with.
-
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 > ---
->  drivers/slimbus/core.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
+>  drivers/gpio/gpio-sim.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/slimbus/core.c b/drivers/slimbus/core.c
-> index ab927fd077cb4fe1e29c004269fe52b2896c302f..005fa2ef100f526df5603d212b6334c06a366c94 100644
-> --- a/drivers/slimbus/core.c
-> +++ b/drivers/slimbus/core.c
-> @@ -385,21 +385,13 @@ struct slim_device *slim_get_device(struct slim_controller *ctrl,
+> diff --git a/drivers/gpio/gpio-sim.c b/drivers/gpio/gpio-sim.c
+> index 370b71513bdb529112e157fa22a5451e02502a17..b1f33cbaaaa78aca324f99c45a868e7e79a9d672 100644
+> --- a/drivers/gpio/gpio-sim.c
+> +++ b/drivers/gpio/gpio-sim.c
+> @@ -413,11 +413,6 @@ static int gpio_sim_setup_sysfs(struct gpio_sim_chip *chip)
+>  	return devm_add_action_or_reset(dev, gpio_sim_sysfs_remove, chip);
 >  }
->  EXPORT_SYMBOL_GPL(slim_get_device);
 >  
-> -static int of_slim_match_dev(struct device *dev, const void *data)
+> -static int gpio_sim_dev_match_fwnode(struct device *dev, const void *data)
 > -{
-> -	const struct device_node *np = data;
-> -	struct slim_device *sbdev = to_slim_device(dev);
-> -
-> -	return (sbdev->dev.of_node == np);
+> -	return device_match_fwnode(dev, data);
 > -}
 > -
->  static struct slim_device *of_find_slim_device(struct slim_controller *ctrl,
->  					       struct device_node *np)
+>  static int gpio_sim_add_bank(struct fwnode_handle *swnode, struct device *dev)
 >  {
->  	struct slim_device *sbdev;
->  	struct device *dev;
+>  	struct gpio_sim_chip *chip;
+> @@ -503,7 +498,7 @@ static int gpio_sim_add_bank(struct fwnode_handle *swnode, struct device *dev)
+>  	if (ret)
+>  		return ret;
 >  
-> -	dev = device_find_child(ctrl->dev, np, of_slim_match_dev);
-> +	dev = device_find_child(ctrl->dev, np, device_match_of_node);
->  	if (dev) {
->  		sbdev = to_slim_device(dev);
->  		return sbdev;
+> -	chip->dev = device_find_child(dev, swnode, gpio_sim_dev_match_fwnode);
+> +	chip->dev = device_find_child(dev, swnode, device_match_fwnode);
+>  	if (!chip->dev)
+>  		return -ENODEV;
+>  
 > 
 
