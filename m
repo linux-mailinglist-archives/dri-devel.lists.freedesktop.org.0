@@ -2,79 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A80D9FB9E2
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 07:36:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D889FB9E6
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 07:38:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8081B10E170;
-	Tue, 24 Dec 2024 06:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D75110E457;
+	Tue, 24 Dec 2024 06:37:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="n3Kirano";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zZLYllCh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com
- [209.85.217.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2887310E170
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 06:36:31 +0000 (UTC)
-Received: by mail-vs1-f47.google.com with SMTP id
- ada2fe7eead31-4afdf8520c2so1307385137.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 22:36:31 -0800 (PST)
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
+ [IPv6:2607:f8b0:4864:20::b30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A0A810E457
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 06:37:53 +0000 (UTC)
+Received: by mail-yb1-xb30.google.com with SMTP id
+ 3f1490d57ef6-e46c6547266so3960233276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 22:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735022130; x=1735626930; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1735022272; x=1735627072; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3Zq9pXWdMCIiKRm78Fz0nKGiQDNXa8eZUXqOAkcmGfs=;
- b=n3Kiranokpd35pnJH4Y5ooDiBkiBTiXuKazVo/8wvafJkvmW7eKVqKYOSovwByyR12
- bFNJuUXwTHZKCL5n+UGbVcDQirJxRcpLjwY/MIYsAMUDTghwhYC84CK9f4W2ha3XuJR+
- VrnaUNyWMLaNVEiFJoSP77bEPJIVbyJ2zaNHaMS+hDIeKx+NtDZYGy2cIGg1S2PT2tnD
- EjPDOrNWvApmu15UTBtBgqXX4Jg/oX9rKLMNLOIif55og35Eoh9xWdeAn766EA7JV5N3
- /MZPySI2SFiPWdPMajyUAwxSznb9NK7bUMBVFFmJ27SrETO69xIoEEIeCtcrNQIkm2tX
- 5fNQ==
+ bh=o1XvnZFs6gULC9u+/TF7lOR4yZnTuNv7QjOSNUS7iok=;
+ b=zZLYllCh7WgVPd4RPKvkby6Sqt24pxJOSCnuGdqIfDGp1109coQu0BOwHHDfvPiXRI
+ RA1Im/cDzkAyqLsKW7mBic0E3SMFhyLNr3og/vT5rlrceYV4dKia3yBkFj6w0ejAZV96
+ Pq7JYW1v4NJ9ECWYBpemjRoPqw5ZkQsjFAz95Eg+il5hcH38+L9E8LNue/y/QwRCQgMo
+ mjwV27geDf6k4ajhdeBiEFlgISN84K+JiiUnneWB5Pc1hmR/ayD1DKQN+VZfkhCUVqXt
+ h2oTJCfuUi79YBWP97Hr8I0aWylIK3SVvdxmeGcCObBqCqnj36OgfzAN1m16NvmKca8G
+ /G+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735022130; x=1735626930;
+ d=1e100.net; s=20230601; t=1735022272; x=1735627072;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3Zq9pXWdMCIiKRm78Fz0nKGiQDNXa8eZUXqOAkcmGfs=;
- b=XLLi90H1BGM2OINoh9N6afF1uTPzcn7Ll3xDO6vAX3uthhKiVKYXr2BoFXF0jLDhJk
- EQAbsZu7a6+xaSD3AJ+B+QnafOpAzNkN36nfBj8vMKhluPNrjr0jSr8O+LBNXlC6HmCw
- HakLuUfT0m2isy1YZL/hHSh/pZsi4btNxSgjokJhs2iI8e8v9G67GAlIa/ZGEpGACx4b
- MNHdWtV4naC68CGZdXXNhcEcnIIgOYune2KJ5+KEhsioNZBUIRGOIRyi04ugzTE5rRqB
- XwA9NPj4TBaiVR5rGgUZrZdai2bMTayuqv3s86jDsjxA0kzQcI5l97wknpi+YQSUyc9M
- EXBQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBNw+iKI19h5poLB8JrKduUfi/Um5ConYil9uH/CtPIiujPQgfeYza9GaY2lB36gOBR3ReTNYsxZI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyynzioEUc6PQRuMD+oeMtbauw5VX3WWzertZHmMEh7Ux7GtqAA
- UOQ+3uiZX3eyYvv0dNGH9Zw2PzLltUi0TzVHbsOjdxrZwQyWU/vPOepEodFIUwiJUM0Ftso4SbJ
- TKYSd6Q3uFMkGPeFJTYr+I4raKtWIVTFjfXnWjA==
-X-Gm-Gg: ASbGnctE14WhabMJ9eo6WmsYrkfhlmCqrd9mF2dkcNyt9JMGZak5WEUGC8QtpFJ4J+5
- sVB7d/ipm1TOaSGLDvbeO7SG0F0ZC5bdqQS9yYQg=
-X-Google-Smtp-Source: AGHT+IHBGEiDjz6Xi6bSRilLnhrvDUnZnjwDfKo+IRnWMREtwJZQeqlx3d2SsFhIQvcJWIOsMS/OGGYp9Fswz+6EXrA=
-X-Received: by 2002:a05:6102:1629:b0:4b2:5d16:f75 with SMTP id
- ada2fe7eead31-4b2cc31c5e0mr12719925137.4.1735022130097; Mon, 23 Dec 2024
- 22:35:30 -0800 (PST)
+ bh=o1XvnZFs6gULC9u+/TF7lOR4yZnTuNv7QjOSNUS7iok=;
+ b=SZzL1v99Ht361rARltDXY0XbFtPfyUA5UQIbLbg/wnQ0QymXLkTJVJfqET1M1Vc+we
+ NRsZvrcXDLHKlERdlLAB6i+dqcKkQEtWdMxJ2agPrGpVTmHfYzWsClN1Wc0iZBUvY0BO
+ ck6CHq/XySu2FsxrFdpPZK6ydxpvOuHBNTRtT1Ruo7P732rKfBCvhXxQMF2ZlvVfNHyz
+ tcSs/EblBiPWhaUIlQWewCzMSC6ZCyGjF1eaYaOoAYvWI4674Pl2onoH38N1YvgH07FP
+ 0CzV+20er69llH+SprnbQ3LyM1Q/4t83voi5hSME9fYZQrDl2KiG8IQtLg9CmRbIT0j3
+ ORCA==
+X-Gm-Message-State: AOJu0Ywty9ToYw0KU0odPvXlsPUXNnDIdmS6lryb7jVyi/t0983sNJU9
+ xrby5vHVQXB0zc9LYtSHZWctMiP9nWL6bXVHucAXhjgea+W75MCciFBJnPhHiN12kKM0vfjgInR
+ 80EpK1m/3eClqGpEkR/uIMNIoB5j7XSBrVixiTw==
+X-Gm-Gg: ASbGncvLSPTfqv5tqBFRdiF+lxLj9QzlAXlLq9/ie6mZR0oUrHXpT0Vx5aDY05rINnT
+ cjDgcKPySZrC+GhJdaeMc9wDQ4EERG1x4pyqlA4Ef2NlfcHv4Nitr
+X-Google-Smtp-Source: AGHT+IFZ8ke7ALCJ3nOuLTQKsekeJoRs3cJKquLJ733BfXm3xrOprg1bOLqkxV6UJrbJ7rSuBs35FEWCK/hX2TFMd+E=
+X-Received: by 2002:a05:690c:7402:b0:6ef:7370:96ee with SMTP id
+ 00721157ae682-6f3f812055fmr116458157b3.12.1735022271919; Mon, 23 Dec 2024
+ 22:37:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
-In-Reply-To: <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Tue, 24 Dec 2024 12:05:19 +0530
-Message-ID: <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: simona.vetter@ffwll.ch
-Cc: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com
+References: <20241223064147.3961652-1-victor.liu@nxp.com>
+ <20241223064147.3961652-4-victor.liu@nxp.com>
+ <kpem2w4wu7ywc5pvbk3ls5hsyttrwcylomzfh567ejlxkymeqd@cujrbfxgrntc>
+ <73c80079-582a-40cb-b9e1-e20fc96fe603@nxp.com>
+In-Reply-To: <73c80079-582a-40cb-b9e1-e20fc96fe603@nxp.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 24 Dec 2024 08:37:41 +0200
+Message-ID: <CAA8EJpqJiiR15Xxw3j+vGPUBYYLgvxuXKeigMGBb4F3w178cfA@mail.gmail.com>
+Subject: Re: [PATCH v7 03/19] dt-bindings: display: imx: Add i.MX8qxp Display
+ Controller display engine
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+ p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org, 
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+ tglx@linutronix.de, vkoul@kernel.org, kishon@kernel.org, aisheng.dong@nxp.com, 
+ agx@sigxcpu.org, u.kleine-koenig@baylibre.com, francesco@dolcini.it, 
+ frank.li@nxp.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,215 +89,346 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simona,
-
-On Wed, 18 Dec 2024 at 16:36, Simona Vetter <simona.vetter@ffwll.ch> wrote:
+On Tue, 24 Dec 2024 at 07:56, Liu Ying <victor.liu@nxp.com> wrote:
 >
-> On Tue, Dec 17, 2024 at 11:07:36AM +0100, Jens Wiklander wrote:
-> > Hi,
+> On 12/23/2024, Dmitry Baryshkov wrote:
+> > On Mon, Dec 23, 2024 at 02:41:31PM +0800, Liu Ying wrote:
+> >> i.MX8qxp Display Controller display engine consists of all processing units
+> >> that operate in a display clock domain.
+> >>
+> >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> >> ---
+> >> v7:
+> >> * Drop DT alias documentations and add instance numbers to compatible strings.
+> >>   (Rob)
+> >>
+> >> v6:
+> >> * No change.
+> >>
+> >> v5:
+> >> * Document aliases.  Drop Rob's previous R-b tag. (Maxime)
+> >>
+> >> v4:
+> >> * Collect Rob's R-b tag.
+> >>
+> >> v3:
+> >> * No change.
+> >>
+> >> v2:
+> >> * Drop fsl,dc-*-id DT properties. (Krzysztof)
+> >> * Drop port property. (Krzysztof)
+> >> * Fix register range sizes in example.
+> >>
+> >>  .../imx/fsl,imx8qxp-dc-display-engine0.yaml   | 235 ++++++++++++++++++
+> >>  1 file changed, 235 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
+> >> new file mode 100644
+> >> index 000000000000..60d1e0a4a5dd
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
+> >> @@ -0,0 +1,235 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-display-engine0.yaml#
+> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >> +
+> >> +title: Freescale i.MX8qxp Display Controller Display Engine
+> >> +
+> >> +description:
+> >> +  All Processing Units that operate in a display clock domain. Pixel pipeline
+> >> +  is driven by a video timing and cannot be stalled. Implements all display
+> >> +  specific processing.
+> >> +
+> >> +maintainers:
+> >> +  - Liu Ying <victor.liu@nxp.com>
+> >> +
+> >> +properties:
+> >> +  compatible:
+> >> +    enum:
+> >> +      - fsl,imx8qxp-dc-display-engine0
+> >> +      - fsl,imx8qxp-dc-display-engine1
 > >
-> > This patch set allocates the restricted DMA-bufs via the TEE subsystem.
-> >
-> > The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> > (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QCOMTEE) which sets up the
-> > restrictions for the memory used for the DMA-bufs.
-> >
-> > I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
-> > DMA-bufs. This IOCTL reaches the backend TEE driver, allowing it to choose
-> > how to allocate the restricted physical memory.
-> >
-> > TEE_IOC_RSTMEM_ALLOC takes in addition to a size and flags parameters also
-> > a use-case parameter. This is used by the backend TEE driver to decide on
-> > allocation policy and which devices should be able to access the memory.
-> >
-> > Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
-> > Recording) has been identified so far to serve as examples of what can be
-> > expected. More use-cases can be added in userspace ABI, but it's up to the
-> > backend TEE drivers to provide the implementation.
-> >
-> > Each use-case has it's own restricted memory pool since different use-cases
-> > requires isolation from different parts of the system. A restricted memory
-> > pool can be based on a static carveout instantiated while probing the TEE
-> > backend driver, or dynamically allocated from CMA and made restricted as
-> > needed by the TEE.
-> >
-> > This can be tested on QEMU with the following steps:
-> > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
-> >         -b prototype/sdp-v4
-> > repo sync -j8
-> > cd build
-> > make toolchains -j$(nproc)
-> > make SPMC_AT_EL=1 all -j$(nproc)
-> > make SPMC_AT_EL=1 run-only
-> > # login and at the prompt:
-> > xtest --sdp-basic
-> >
-> > The SPMC_AT_EL=1 parameter configures the build with FF-A and an SPMC at
-> > S-EL1 inside OP-TEE. The parameter can be changed into SPMC_AT_EL=n to test
-> > without FF-A using the original SMC ABI instead. Please remember to do
-> > %rm -rf ../trusted-firmware-a/build/qemu
-> > for TF-A to be rebuilt properly using the new configuration.
-> >
-> > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > list dependencies needed to build the above.
-> >
-> > The tests are pretty basic, mostly checking that a Trusted Application in
-> > the secure world can access and manipulate the memory. There are also some
-> > negative tests for out of bounds buffers etc.
+> > Is there actual difference between engines 0 and 1? If there is none,
+> > why are you artificially adding one here?
 >
-> I think I've dropped this on earlier encrypted dma-buf discussions for
-> TEE, but can't find one right now ...
+> I think engine 0 and 1 have the same HW implementation, but they connect
+> to different ExtDsts through FrameGens.  The two compatible strings make
+> it possible for an operating system to figure out which engine is which
+> by getting the instance numbers from them.
 
-Thanks for raising this query.
-
->
-> Do we have some open source userspace for this? To my knowledge we have
-> two implementations of encrypted/content protected dma-buf in upstream
-> right now in the amd and intel gpu drivers, and unless I'm mistaken they
-> both have some minimal userspace supporting EXT_protected_textures:
-
-First of all to clarify the support Jens is adding here for allocating
-restricted shared memory allocation in TEE subsystem is meant to be
-generic and not specific to only secure media pipeline use-case. Then
-here we not only have open source test applications but rather open
-source firmware too (OP-TEE as a Trusted OS) [1] supporting this as a
-core feature where we maintain a stable and extensible ABI among the
-kernel and the OP-TEE core.
-
-Restricted memory is a feature enforced by hardware specific firewalls
-where a particular TEE implementation governs which particular block
-of memory is accessible to a particular peripheral or a CPU running in
-a higher privileged mode than the Linux kernel. There can be numeric
-use-cases surrounding that as follows:
-
-- Secure media pipeline where the contents gets decrypted and stored
-in a restricted buffer which are then accessible only to media display
-pipeline peripherals.
-- Trusted user interface where a peripheral takes input from the user
-and stores it in a restricted buffer which then is accessible to TEE
-implementation only.
-- Another possible use-case can be for the TEE implementation to store
-key material in a restricted buffer which is only accessible to the
-hardware crypto accelerator.
-
-I am sure there will be more use-cases related to this feature but
-those will only be possible once we provide a stable and extensible
-restricted memory interface among the Linux user-space and the secure
-world user-space (normally referred to as Trusted Applications).
-
-[1] https://github.com/OP-TEE/optee_os/pull/7159
+This is about HW description, no OS in place.
 
 >
-> https://github.com/KhronosGroup/OpenGL-Registry/blob/main/extensions/EXT/EXT_protected_textures.txt
->
-> It's not great, but it does just barely clear the bar in my opinion. I
-> guess something in gstreamer or similar video pipeline framework would
-> also do the job.
->
-> Especially with the context of the uapi discussion in the v1/RFC thread I
-> think we need more than a bare-bones testcase to make sure this works in
-> actual use.
+> If the two engines use a same compatible string, then either 1) use
+> DT aliases to get the instance number(as v5/v6 do) or 2) use OF graph to
+> describe the connections between FrameGens and ExtDsts.  However, in v6,
+> Rob doesn't like 1) because it abuses the aliases which contain the display
+> controller instance number, like "dc0-display-engine0"(i.MX8QM SoC has
+> two display controllers), and 2) is too complex because all connections
+> between internal devices need to be documented with OF graph.  So, I choose
+> to use the two compatible strings, like brcm,bcm2835-pixelvalve0.yaml does.
+> Thinking about 2) more, maybe the connections between pixel engine and
+> display engines need to be documented too, which seems to be more or less
+> duplicating the connections between FrameGens and ExtDsts.
 
-Currently the TEE subsystem already supports a stable ABI for shared
-memory allocator among Linux user-space and secure world user-space
-here [2]. And the stable ABI for restricted memory is also along the
-same lines meant to be a vendor neutral abstraction for the user-space
-access. The current test cases not only test the interface but also
-perform regression tests too.
-
-I am also in favour of end to end open source use-cases. But I fear
-without progressing in a step wise manner as with this proposal we
-would rather force developers to upstream all the software pieces in
-one go which will be kind of a chicken and egg situation. I am sure
-once this feature lands Mediatek folks will be interested to port
-their secure video playback patchset [3] on top of it. Similarly other
-silicon vendors like NXP, Qcom etc. will be motivated to do the same.
-
-[2] https://docs.kernel.org/userspace-api/tee.html
-[3] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.wu@mediatek.com/
-
--Sumit
+3) use IO addresses to determine the block ID. I think this has been
+pointed out by somebody else too, not only by me.
 
 >
-> Cheers, Sima
+>                                            CF0/1/4/5
+>                            PE               | | | |
+>                                             V V V V  primary layer cross bar
+>                           +------------------------------------------+
+>                           |                                          |
+> 4 FUs + (VS4/5 + HS4/5) =>|               LB0/1/2/3                  |
+>    secondary layer        |                                          |
+>    cross bar              +------------------------------------------+
+>                              |          |              |          |
+>                              V          V              V          V
+>                           +-----+    +-----+        +-----+    +-----+
+>                           | ED0 |    | ED4 |        | ED5 |    | ED1 |
+>                           +-----+    +-----+        +-----+    +-----+
+> -----------------------------|----------|--------------|----------|-------------
+>                           content     safety        safety     content
+>                           stream0    stream0        stream1    stream1
+>                              |          |              |          |
+>                              |  DE0     V              V    DE1   |
+>                              |       +-----+        +-----+       |
+>                               ------>| FG0 |        | FG1 |<------
+>                                      +-----+        +-----+
+>                                         |              |
+>                                         V              V
+>                                        ...            ...
 >
 > >
-> > Thanks,
-> > Jens
-> >
-> > Changes since V3:
-> > * Make the use_case and flags field in struct tee_shm u32's instead of
-> >   u16's
-> > * Add more description for TEE_IOC_RSTMEM_ALLOC in the header file
-> > * Import namespace DMA_BUF in module tee, reported by lkp@intel.com
-> > * Added a note in the commit message for "optee: account for direction
-> >   while converting parameters" why it's needed
-> > * Factor out dynamic restricted memory allocation from
-> >   "optee: support restricted memory allocation" into two new commits
-> >   "optee: FF-A: dynamic restricted memory allocation" and
-> >   "optee: smc abi: dynamic restricted memory allocation"
-> > * Guard CMA usage with #ifdef CONFIG_CMA, effectively disabling dynamic
-> >   restricted memory allocate if CMA isn't configured
-> >
-> > Changes since the V2 RFC:
-> > * Based on v6.12
-> > * Replaced the flags for SVP and Trusted UID memory with a u32 field with
-> >   unique id for each use case
-> > * Added dynamic allocation of restricted memory pools
-> > * Added OP-TEE ABI both with and without FF-A for dynamic restricted memory
-> > * Added support for FF-A with FFA_LEND
-> >
-> > Changes since the V1 RFC:
-> > * Based on v6.11
-> > * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALLOC
-> >
-> > Changes since Olivier's post [2]:
-> > * Based on Yong Wu's post [1] where much of dma-buf handling is done in
-> >   the generic restricted heap
-> > * Simplifications and cleanup
-> > * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf heap
-> >   support"
-> > * Replaced the word "secure" with "restricted" where applicable
-> >
-> > Jens Wiklander (6):
-> >   tee: add restricted memory allocation
-> >   optee: account for direction while converting parameters
-> >   optee: sync secure world ABI headers
-> >   optee: support restricted memory allocation
-> >   optee: FF-A: dynamic restricted memory allocation
-> >   optee: smc abi: dynamic restricted memory allocation
-> >
-> >  drivers/tee/Makefile              |   1 +
-> >  drivers/tee/optee/Makefile        |   1 +
-> >  drivers/tee/optee/call.c          |  10 +-
-> >  drivers/tee/optee/core.c          |   1 +
-> >  drivers/tee/optee/ffa_abi.c       | 178 +++++++++++++-
-> >  drivers/tee/optee/optee_ffa.h     |  27 ++-
-> >  drivers/tee/optee/optee_msg.h     |  65 ++++-
-> >  drivers/tee/optee/optee_private.h |  75 ++++--
-> >  drivers/tee/optee/optee_smc.h     |  71 +++++-
-> >  drivers/tee/optee/rpc.c           |  31 ++-
-> >  drivers/tee/optee/rstmem.c        | 388 ++++++++++++++++++++++++++++++
-> >  drivers/tee/optee/smc_abi.c       | 213 ++++++++++++++--
-> >  drivers/tee/tee_core.c            |  38 ++-
-> >  drivers/tee/tee_private.h         |   2 +
-> >  drivers/tee/tee_rstmem.c          | 201 ++++++++++++++++
-> >  drivers/tee/tee_shm.c             |   2 +
-> >  drivers/tee/tee_shm_pool.c        |  69 +++++-
-> >  include/linux/tee_core.h          |  15 ++
-> >  include/linux/tee_drv.h           |   2 +
-> >  include/uapi/linux/tee.h          |  44 +++-
-> >  20 files changed, 1358 insertions(+), 76 deletions(-)
-> >  create mode 100644 drivers/tee/optee/rstmem.c
-> >  create mode 100644 drivers/tee/tee_rstmem.c
-> >
-> >
-> > base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-> > --
-> > 2.43.0
+> >> +
+> >> +  reg:
+> >> +    maxItems: 2
+> >> +
+> >> +  reg-names:
+> >> +    items:
+> >> +      - const: top
+> >> +      - const: cfg
+> >> +
+> >> +  resets:
+> >> +    maxItems: 1
+> >> +
+> >> +  interrupts:
+> >> +    maxItems: 3
+> >> +
+> >> +  interrupt-names:
+> >> +    items:
+> >> +      - const: shdload
+> >> +      - const: framecomplete
+> >> +      - const: seqcomplete
+> >> +
+> >> +  power-domains:
+> >> +    maxItems: 1
+> >> +
+> >> +  "#address-cells":
+> >> +    const: 1
+> >> +
+> >> +  "#size-cells":
+> >> +    const: 1
+> >> +
+> >> +  ranges: true
+> >> +
+> >> +patternProperties:
+> >> +  "^dither@[0-9a-f]+$":
+> >> +    type: object
+> >> +    additionalProperties: true
+> >> +
+> >> +    properties:
+> >> +      compatible:
+> >> +        enum:
+> >> +          - fsl,imx8qxp-dc-dither0
+> >> +          - fsl,imx8qxp-dc-dither1
+> >> +
+> >> +  "^framegen@[0-9a-f]+$":
+> >> +    type: object
+> >> +    additionalProperties: true
+> >> +
+> >> +    properties:
+> >> +      compatible:
+> >> +        enum:
+> >> +          - fsl,imx8qxp-dc-framegen0
+> >> +          - fsl,imx8qxp-dc-framegen1
+> >> +
+> >> +  "^gammacor@[0-9a-f]+$":
+> >> +    type: object
+> >> +    additionalProperties: true
+> >> +
+> >> +    properties:
+> >> +      compatible:
+> >> +        enum:
+> >> +          - fsl,imx8qxp-dc-gammacor0
+> >> +          - fsl,imx8qxp-dc-gammacor1
+> >> +
+> >> +  "^matrix@[0-9a-f]+$":
+> >> +    type: object
+> >> +    additionalProperties: true
+> >> +
+> >> +    properties:
+> >> +      compatible:
+> >> +        enum:
+> >> +          - fsl,imx8qxp-dc-matrix0
+> >> +          - fsl,imx8qxp-dc-matrix1
+> >> +
+> >> +  "^signature@[0-9a-f]+$":
+> >> +    type: object
+> >> +    additionalProperties: true
+> >> +
+> >> +    properties:
+> >> +      compatible:
+> >> +        enum:
+> >> +          - fsl,imx8qxp-dc-signature0
+> >> +          - fsl,imx8qxp-dc-signature1
+> >> +
+> >> +  "^tcon@[0-9a-f]+$":
+> >> +    type: object
+> >> +    additionalProperties: true
+> >> +
+> >> +    properties:
+> >> +      compatible:
+> >> +        enum:
+> >> +          - fsl,imx8qxp-dc-tcon0
+> >> +          - fsl,imx8qxp-dc-tcon1
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - reg
+> >> +  - reg-names
+> >> +  - interrupts
+> >> +  - interrupt-names
+> >> +  - power-domains
+> >> +  - "#address-cells"
+> >> +  - "#size-cells"
+> >> +  - ranges
+> >> +
+> >> +allOf:
+> >> +  - if:
+> >> +      properties:
+> >> +        compatible:
+> >> +          contains:
+> >> +            const: fsl,imx8qxp-dc-display-engine0
+> >> +    then:
+> >> +      patternProperties:
+> >> +        "^dither@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-dither0
+> >> +
+> >> +        "^framegen@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-framegen0
+> >> +
+> >> +        "^gammacor@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-gammacor0
+> >> +
+> >> +        "^matrix@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-matrix0
+> >> +
+> >> +        "^signature@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-signature0
+> >> +
+> >> +        "^tcon@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-tcon0
+> >> +    else:
+> >> +      patternProperties:
+> >> +        "^dither@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-dither1
+> >> +
+> >> +        "^framegen@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-framegen1
+> >> +
+> >> +        "^gammacor@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-gammacor1
+> >> +
+> >> +        "^matrix@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-matrix1
+> >> +
+> >> +        "^signature@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-signature1
+> >> +
+> >> +        "^tcon@[0-9a-f]+$":
+> >> +          properties:
+> >> +            compatible:
+> >> +              const: fsl,imx8qxp-dc-tcon1
+> >> +
+> >> +additionalProperties: false
+> >> +
+> >> +examples:
+> >> +  - |
+> >> +    #include <dt-bindings/clock/imx8-lpcg.h>
+> >> +    #include <dt-bindings/firmware/imx/rsrc.h>
+> >> +
+> >> +    display-engine@5618b400 {
+> >> +        compatible = "fsl,imx8qxp-dc-display-engine0";
+> >> +        reg = <0x5618b400 0x14>, <0x5618b800 0x1c00>;
+> >> +        reg-names = "top", "cfg";
+> >> +        interrupt-parent = <&dc0_intc>;
+> >> +        interrupts = <15>, <16>, <17>;
+> >> +        interrupt-names = "shdload", "framecomplete", "seqcomplete";
+> >> +        power-domains = <&pd IMX_SC_R_DC_0_PLL_0>;
+> >> +        #address-cells = <1>;
+> >> +        #size-cells = <1>;
+> >> +        ranges;
+> >> +
+> >> +        framegen@5618b800 {
+> >> +            compatible = "fsl,imx8qxp-dc-framegen0";
+> >> +            reg = <0x5618b800 0x98>;
+> >> +            clocks = <&dc0_disp_lpcg IMX_LPCG_CLK_0>;
+> >> +            interrupt-parent = <&dc0_intc>;
+> >> +            interrupts = <18>, <19>, <20>, <21>, <41>, <42>, <43>, <44>;
+> >> +            interrupt-names = "int0", "int1", "int2", "int3",
+> >> +                              "primsync_on", "primsync_off",
+> >> +                              "secsync_on", "secsync_off";
+> >> +        };
+> >> +
+> >> +        tcon@5618c800 {
+> >> +            compatible = "fsl,imx8qxp-dc-tcon0";
+> >> +            reg = <0x5618c800 0x588>;
+> >> +
+> >> +            port {
+> >> +                dc0_disp0_dc0_pixel_combiner_ch0: endpoint {
+> >> +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_disp0>;
+> >> +                };
+> >> +            };
+> >> +        };
+> >> +    };
+> >> --
+> >> 2.34.1
+> >>
 > >
 >
 > --
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Regards,
+> Liu Ying
+
+
+
+-- 
+With best wishes
+Dmitry
