@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A30C9FBDF2
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 14:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAFD9FBDFF
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 14:09:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFE410E485;
-	Tue, 24 Dec 2024 13:09:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C806410E486;
+	Tue, 24 Dec 2024 13:09:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="M7xRRJ5j";
+	dkim=pass (2048-bit key; unprotected) header.d=icloud.com header.i=@icloud.com header.b="AQQ1El94";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from pv50p00im-tydg10011801.me.com (pv50p00im-tydg10011801.me.com
  [17.58.6.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F020610E485
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 13:09:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF3010E486
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 13:09:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1735045740;
- bh=erbjjZhB2douri09I0i2ldgxqWL6bTpOhHwl8mpHl7o=;
+ s=1a1hai; t=1735045757;
+ bh=9MSW9rqSXzJ69ClHo2IWjPKz+ccuE6aWbD2rifbGZik=;
  h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:
  x-icloud-hme;
- b=M7xRRJ5jX9vLbEsOitYVmmHTSGUaX+sshkWGFu0txALItrq/wWXH9fqCsppVhxMdg
- Pkp9RIOf69SF5kC9IcSPP/KwWUueDzIeyG2kCQcS+yN10Fy1XV2/hclV2QlzQ7H5El
- 8pdLKfWTyRAPCCo4+c9JjScC4rsqGM9DzTl3nbS3Hm/f8owWjBOB/A9XnB58XyIPD8
- M2yPsKSrvLbb974F3Fn+AHl9jFjEDaLn4g9CyjYDyhAHZ+rlRU+FWb2zkJ6DDdDUi/
- g/Q6BNlsmYOyxb6FUUWaj3/cbETWDNdCSCb6IS03CB3ZUo2UDhbWkGC28JIvaSueeo
- PYrEBMThNQ9iw==
+ b=AQQ1El94wxk8X1sHIsWU12DqAkCYlH6+ybS2D7Gwfu8FDOuSPOP2RZ13Pu+oimEIP
+ I+r6mL+Y7Xl8ap8vExSj/Mh8yUHFon5ilSleyaktED+7n8oedNeS8HcjKoJAktdSMP
+ v/Jgr4JTfPExZ+56g+05TRECcHt1Hy2MzLxJB38V10WZqKdyj0nyEUCPGR7Zid218Z
+ DF5jZVP5ga1amuMQg++Bb1EF8YBHKge3V7lwlU1R1whG624TyJoqIx8h4Vcsckuc6Q
+ BC6F/kqaBndfQZm6EKBvb31OpUuc/XI2dxVQSZddHuf46lounHa2Od3NIfMum9Z0T5
+ wzcCRN48g19yg==
 Received: from [192.168.1.25] (pv50p00im-dlb-asmtp-mailmevip.me.com
  [17.56.9.10])
- by pv50p00im-tydg10011801.me.com (Postfix) with ESMTPSA id 350F380004D;
- Tue, 24 Dec 2024 13:08:43 +0000 (UTC)
+ by pv50p00im-tydg10011801.me.com (Postfix) with ESMTPSA id AC6ED8000B5;
+ Tue, 24 Dec 2024 13:09:01 +0000 (UTC)
 From: Zijun Hu <zijun_hu@icloud.com>
-Date: Tue, 24 Dec 2024 21:05:08 +0800
-Subject: [PATCH v5 09/12] driver core: Introduce an device matching API
+Date: Tue, 24 Dec 2024 21:05:09 +0800
+Subject: [PATCH v5 10/12] cxl/pmem: Replace match_nvdimm_bridge() with API
  device_match_type()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241224-const_dfc_done-v5-9-6623037414d4@quicinc.com>
+Message-Id: <20241224-const_dfc_done-v5-10-6623037414d4@quicinc.com>
 References: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
 In-Reply-To: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -58,10 +58,10 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
  linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
  linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
  netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>, 
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+ Alison Schofield <alison.schofield@intel.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-GUID: DZeI5aU7SNbuR5SofPdSN15JXAFu3F91
-X-Proofpoint-ORIG-GUID: DZeI5aU7SNbuR5SofPdSN15JXAFu3F91
+X-Proofpoint-GUID: g84oVEIFZX0BLRR1gCC9sfjxWF3RJcrC
+X-Proofpoint-ORIG-GUID: g84oVEIFZX0BLRR1gCC9sfjxWF3RJcrC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-12-24_05,2024-12-24_01,2024-11-22_01
@@ -88,50 +88,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Zijun Hu <quic_zijuhu@quicinc.com>
 
-Introduce device_match_type() for purposes below:
+Static match_nvdimm_bridge(), as matching function of device_find_child()
+matches a device with device type @cxl_nvdimm_bridge_type, and its task
+can be simplified by the recently introduced API device_match_type().
 
-- Test if a device matches with a specified device type.
-- As argument of various device finding APIs to find a device with
-  specified type.
+Replace match_nvdimm_bridge() usage with device_match_type().
 
-device_find_child() will use it to simplify operations later.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Reviewed-by: Alison Schofield <alison.schofield@intel.com>
 Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 ---
- drivers/base/core.c        | 6 ++++++
- include/linux/device/bus.h | 1 +
- 2 files changed, 7 insertions(+)
+ drivers/cxl/core/pmem.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 289f2dafa8f3831931d0f316d66ee12c2cb8a2e1..8bdbc9e657e832a063542391426f570ccb5c18b9 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -5228,6 +5228,12 @@ int device_match_name(struct device *dev, const void *name)
+diff --git a/drivers/cxl/core/pmem.c b/drivers/cxl/core/pmem.c
+index a8473de24ebfd92f12f47e0556e28b81a29cff7c..0f8166e793e14fc0b1c04ffda79e756a743d9e6b 100644
+--- a/drivers/cxl/core/pmem.c
++++ b/drivers/cxl/core/pmem.c
+@@ -57,11 +57,6 @@ bool is_cxl_nvdimm_bridge(struct device *dev)
  }
- EXPORT_SYMBOL_GPL(device_match_name);
+ EXPORT_SYMBOL_NS_GPL(is_cxl_nvdimm_bridge, "CXL");
  
-+int device_match_type(struct device *dev, const void *type)
-+{
-+	return dev->type == type;
-+}
-+EXPORT_SYMBOL_GPL(device_match_type);
-+
- int device_match_of_node(struct device *dev, const void *np)
- {
- 	return dev->of_node == np;
-diff --git a/include/linux/device/bus.h b/include/linux/device/bus.h
-index cdc4757217f9bb4b36b5c3b8a48bab45737e44c5..bc3fd74bb763e6d2d862859bd2ec3f0d443f2d7a 100644
---- a/include/linux/device/bus.h
-+++ b/include/linux/device/bus.h
-@@ -131,6 +131,7 @@ typedef int (*device_match_t)(struct device *dev, const void *data);
+-static int match_nvdimm_bridge(struct device *dev, const void *data)
+-{
+-	return is_cxl_nvdimm_bridge(dev);
+-}
+-
+ /**
+  * cxl_find_nvdimm_bridge() - find a bridge device relative to a port
+  * @port: any descendant port of an nvdimm-bridge associated
+@@ -75,7 +70,9 @@ struct cxl_nvdimm_bridge *cxl_find_nvdimm_bridge(struct cxl_port *port)
+ 	if (!cxl_root)
+ 		return NULL;
  
- /* Generic device matching functions that all busses can use to match with */
- int device_match_name(struct device *dev, const void *name);
-+int device_match_type(struct device *dev, const void *type);
- int device_match_of_node(struct device *dev, const void *np);
- int device_match_fwnode(struct device *dev, const void *fwnode);
- int device_match_devt(struct device *dev, const void *pdevt);
+-	dev = device_find_child(&cxl_root->port.dev, NULL, match_nvdimm_bridge);
++	dev = device_find_child(&cxl_root->port.dev,
++				&cxl_nvdimm_bridge_type,
++				device_match_type);
+ 
+ 	if (!dev)
+ 		return NULL;
 
 -- 
 2.34.1
