@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 674EE9FBCEC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 12:32:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4215E9FBCF1
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 12:33:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9437610E06A;
-	Tue, 24 Dec 2024 11:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAC3210E0E4;
+	Tue, 24 Dec 2024 11:33:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VhSxux5O";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OiLxFpAi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71BDE10E06A
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:31:45 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF7F10E0E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:33:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CAB895C5CA2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:31:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CC80C4CED7
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:31:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8B33B5C5EC3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:32:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAF31C4CEE0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:33:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735039904;
- bh=03ARuXNN1LYC6Y56lO4Z0KutZ2KDzQyEBAbl6atBMq4=;
+ s=k20201202; t=1735039983;
+ bh=RDQAjNOAdC8KLqZh7kvEfTA7Zk449zVSYCNgtWtHXMk=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=VhSxux5OjALWeX9mJiVMA1KmH3gKWvY+37UDf0WLo2/An4aMSHs12zWW9u5uYHdtC
- xsOMmh3QAC8HKxB0/zvHtlZILXhAhsEmzJGJceH9eczG1gLGXemamg6GBdW2OyrXcb
- P4JhHTHiuOcsma/8QJXTgqdMPbt3qeQYlwFD/WNt/MMUiNio4iYcVOUX9KhW5CN7wf
- AY8SyTfbZw35bw6LkY07y0CGwVaHljO9XtZwYjtbzqwckaG+cx3OXSWAVma3yXNV5p
- jvg9dPkTLOtjHIXpAoTNO4sLNJSKupH/um9bt7bQxbmG+NqCnZU7+LwB1+JoIevYhj
- HYtzM5wwESR/w==
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2166651f752so55983365ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 03:31:44 -0800 (PST)
+ b=OiLxFpAiR56DYABPtJKsbmozRm+7qCsdT+CsY94qwJ/LPZoK7rAcobBkuwSUPyENn
+ eWPaliTjS9rjywxLZR/Ksss7Jb7IRyk9SmdRirifHnI5O72xs/OVJhaZWsCMEsYSdP
+ 5m3gcB3iFkLHR7v9yUxwArzoiYSUhIaDCjXlS9fTPPpIY3oFY3uJo9LgWbI/E00Vo3
+ rBLKoXmVo92L5C0eyJUL2WF6Vmsx4eoS9cjY9ktCdXSVvWXPiewtCca60GT1Bnr7Y0
+ k0CRRbLive4FS26PtlGoODE8I+FsHwrlAaXekMSlFTTZHpwHZ90vVBw+XXYwcdYu5m
+ sf9St7Bk1ZXVw==
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2f441791e40so4442026a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 03:33:03 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaVbPmZRwPcDfqEL8kaLUcWNOdbdpkC6zC9tzA3aCWBEk9fBvRGcIevh9Cg0w3CyuqBKKHcUV8x4Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKNJEU5N38hs7jEeVmt5NwV8g+Gdb+YZZjHpmxsqZP/PgJzW9t
- I2VyvyvEsQw6eVNsfMwPoqPAAO+2lwsOo2PwaG3hr+d5hEZXmdhAmq2Yi+dvuNqG+XKV9Qn4dQ6
- M2EENhGVSgWmtdTF/FfdHKbUGuA==
-X-Google-Smtp-Source: AGHT+IF0Z2A1ZpCpDpYV0wej1AcD2Tjd35Ya5woNBEnskBD/S7v7TPAd15rnS+ywO0yVT1bM1GTtN5IF4uyo/ZC9CPI=
-X-Received: by 2002:a17:903:234e:b0:216:46f4:7e3d with SMTP id
- d9443c01a7336-219e6e9fa68mr217969135ad.15.1735039903928; Tue, 24 Dec 2024
- 03:31:43 -0800 (PST)
+ AJvYcCWvIj3kk2SL1kuHOCWAGbg1ijigYn0rsa+OPEOND3faMubcZb8rm+I2k+Yi9/99+utvKc+WiCjPpPw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQsCToSlmMzfFJZAPrlDK1PuAvZxLMXj1UZhi+qQn5QzSiyabv
+ fH3P0kisDyN72R/SQPNdPkzI827iFdo8bWVRnPFGVRSVp/poTo+H3LXQ/cGd7tIEryWfrMoUkuB
+ Rpsn0LC75Zm0PYKkbPxT1GAi/CA==
+X-Google-Smtp-Source: AGHT+IGjk5EjNkRdP4/egK3HpkP0kg9EvE0XRDFf66/0s82KLvsrvKxQ79Fnquu0pdesdRpeuQ8UYTFz1+bWSm5jFBI=
+X-Received: by 2002:a17:90a:d64e:b0:2ee:a4f2:b311 with SMTP id
+ 98e67ed59e1d1-2f452dfae72mr26965676a91.8.1735039983380; Tue, 24 Dec 2024
+ 03:33:03 -0800 (PST)
 MIME-Version: 1.0
 References: <20241219181531.4282-1-jason-jh.lin@mediatek.com>
- <20241219181531.4282-2-jason-jh.lin@mediatek.com>
- <6cbe2f57-a63e-4993-938c-7696a869dc2f@collabora.com>
-In-Reply-To: <6cbe2f57-a63e-4993-938c-7696a869dc2f@collabora.com>
+ <20241219181531.4282-3-jason-jh.lin@mediatek.com>
+In-Reply-To: <20241219181531.4282-3-jason-jh.lin@mediatek.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 24 Dec 2024 19:32:16 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8mUutkz+q4-JggbmQRpNn6tukM_GuQ-0rwVRCoOd0mGw@mail.gmail.com>
-Message-ID: <CAAOTY_8mUutkz+q4-JggbmQRpNn6tukM_GuQ-0rwVRCoOd0mGw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: mediatek: ovl: Add
- compatible strings for MT8188 MDP3
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Singo Chang <singo.chang@mediatek.com>, 
- Nancy Lin <nancy.lin@mediatek.com>, Shawn Sung <shawn.sung@mediatek.com>, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
+Date: Tue, 24 Dec 2024 19:33:35 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9dApKQ2C_rYBQ8eH7b17dmZntvAND+BYfgkRms1gEbmw@mail.gmail.com>
+Message-ID: <CAAOTY_9dApKQ2C_rYBQ8eH7b17dmZntvAND+BYfgkRms1gEbmw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] dt-bindings: display: mediatek: ovl: Modify rules
+ for MT8195/MT8188
+To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
+ Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  Project_Global_Chrome_Upstream_Group@mediatek.com, 
  Fei Shao <fshao@chromium.org>, Pin-yen Lin <treapking@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -84,28 +80,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> =E6=96=
-=BC
-2024=E5=B9=B412=E6=9C=8823=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=887:=
-12=E5=AF=AB=E9=81=93=EF=BC=9A
+Jason-JH.Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2024=E5=B9=B412=E6=9C=88=
+20=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=882:15=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
-> Il 19/12/24 19:15, Jason-JH.Lin ha scritto:
-> > Add compatible strings for the MDP3 OVL hardware components in
-> > MediaTek's MT8188 SoC and it is compatible with the existing
-> > MT8195 MDP OVL components.
-> >
-> > Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> > Suggested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@col=
-labora.com>
+> From: Hsiao Chien Sung <shawn.sung@mediatek.com>
 >
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
->
-> Waiting for an ack to take everything through the mediatek tree :-)
+> Modify rules for both MT8195 and MT8188.
+> Hardware capabilities include color formats and AFBC are
+> changed since MT8195, stop using the settings of MT8183.
 
 Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 
 >
-> Cheers,
-> Angelo
+> Acked-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Hsiao Chien Sung <shawn.sung@mediatek.com>
+> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+> ---
+>  .../bindings/display/mediatek/mediatek,ovl.yaml          | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+ovl.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.=
+yaml
+> index 33542211507f..4f110635afb6 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
+l
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ovl.yam=
+l
+> @@ -26,6 +26,7 @@ properties:
+>            - mediatek,mt8173-disp-ovl
+>            - mediatek,mt8183-disp-ovl
+>            - mediatek,mt8192-disp-ovl
+> +          - mediatek,mt8195-disp-ovl
+>            - mediatek,mt8195-mdp3-ovl
+>        - items:
+>            - enum:
+> @@ -36,16 +37,14 @@ properties:
+>            - enum:
+>                - mediatek,mt6795-disp-ovl
+>            - const: mediatek,mt8173-disp-ovl
+> -      - items:
+> -          - enum:
+> -              - mediatek,mt8188-disp-ovl
+> -              - mediatek,mt8195-disp-ovl
+> -          - const: mediatek,mt8183-disp-ovl
+>        - items:
+>            - enum:
+>                - mediatek,mt8186-disp-ovl
+>                - mediatek,mt8365-disp-ovl
+>            - const: mediatek,mt8192-disp-ovl
+> +      - items:
+> +          - const: mediatek,mt8188-disp-ovl
+> +          - const: mediatek,mt8195-disp-ovl
+>        - items:
+>            - const: mediatek,mt8188-mdp3-ovl
+>            - const: mediatek,mt8195-mdp3-ovl
+> --
+> 2.43.0
 >
