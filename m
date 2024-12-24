@@ -2,93 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EAE9FBBC7
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 11:01:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A446D9FBCE3
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 12:17:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2F710E29E;
-	Tue, 24 Dec 2024 10:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80D6210E0AB;
+	Tue, 24 Dec 2024 11:16:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xgualRog";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ykbq/HtH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 396DF10E29E
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 10:00:36 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-30219437e63so62677861fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 02:00:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735034434; x=1735639234; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CaXLFhyvddY8J2ykAWjPDBthPNDj/QrO8YN8626lces=;
- b=xgualRogUA8MitO1jfhpMKJv76XHOAef5AI+JJXhzGUqIT7xz9eejpkjvqqpYSjZ4g
- n6ne41jdm519jPEzXFlvOqP2eWTgeEzqREInkg7KwWh4VieySFvEgA7qrif3ec2dL2Rg
- epolaZfo2su40gozmRl9qOGzlZLqD8uQqixHA68m7OJkoJh8W4O+rtqSytsmFlG2xrl+
- jhayjpvRWITCqLsBUJuIXIK+vmUQxP1nBlTz/Qi1c+Nrc+K4WB2ggW+8fgbCTa4l6q/I
- 3CjUOM3Masj4fq/HJHMIylAn4RUyfIHox3UM2kfKawF3W04Yh4EsOba1ICOGKznz89Zm
- Rxvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735034434; x=1735639234;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CaXLFhyvddY8J2ykAWjPDBthPNDj/QrO8YN8626lces=;
- b=kq6nxxYtYZ1JZAk5p9+8ciysUsI8XD9AGUDk8k+KcSrS+A0HAsFe2ULvCuRdWk9OPA
- 5XX0ql/2YwcG7dRrTCz9Ohe0moHo5LKkhZ2sn9VVG5oJ8Wg7w+EJVDpTpFLFu+ueriUc
- 1H94V5wvdtDfCN2Ix4+hXe3yTpj7GVHgANpUwe3fhZmPw3UTCfpKZDkWDlscMtCYNYMq
- H6Qj5r2tdbPKf1UJhzSWDaLNm562sLR/y4a9NhtlTMcYjqhl3kTNsA8TuH0OQV1WMRLe
- vPD0JZp0EtMApS6HZj0PfpSTZjw/ra0+A/GtYaHeNyL1dFS9dA9NLAkkGm2SsJvk74P/
- AyiA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXtP+v244eAXXtvQbYKxtCa+eHSYEk+KLlwaeMfvMNbwVdz8z7bTG8Fq1TVW8fUfYStHNhHn83X42Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzj1ymEglVKEQLtrTuNTXdc9F+KiK4DwIscY36cXTavvDrJC5Y7
- kSQYqbZeSrm18A+EAlLmoGtj5D11dvE2mMceIHN58H/wFRyAj0yksIj0/EhhHSI=
-X-Gm-Gg: ASbGncuWUj6W6jANF9IcAexLBbYV/ppjTddvIPYt8G+KUkxVDYS7gsLB/n5LvVjtQ3V
- myyjyEJ6vrw6qrbg72qW57U2syVax9JiluZyczte94f+vNrTpenmjAodJmCJanFtEo+0W4c+TnV
- Zt/Q49Ktorj2vjXDNkuIpJ989TdtmF9G6kVb7ih6PEoa1ocqUVjyIDvsLWBa3TMNoRJbrkLbg8r
- apQvUJecJ7vaYW/vYO8Lc8stZdDUD+hENw2oxCtxdS1+L8FrAj919nStuRswzQpwrK4iQ0R2DHc
- WovCFGybCqap4SHORArJXmA0Qhrg4k8DPwLd
-X-Google-Smtp-Source: AGHT+IEtJ2E9FABbPtAZzZbxNdp+y65cylCWsCGjfOG/8r7Qoah/U7UWd9bnkQBDUU5mmh+x9lgJYA==
-X-Received: by 2002:a05:6512:6cc:b0:542:28af:814 with SMTP id
- 2adb3069b0e04-54228af083cmr5136432e87.19.1735034434112; 
- Tue, 24 Dec 2024 02:00:34 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223813882sm1556243e87.168.2024.12.24.02.00.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Dec 2024 02:00:32 -0800 (PST)
-Date: Tue, 24 Dec 2024 12:00:30 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Sumit Garg <sumit.garg@linaro.org>, simona.vetter@ffwll.ch, 
- Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T . J . Mercier" <tjmercier@google.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-Message-ID: <omjfxg4gftxubikx5ynu6if6fupby3nulcilw6dhwtuetpgl7i@2gwiupvg2coh>
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
- <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
- <Z2p-v-xjhzhPso6u@wunner.de> <Z2p_ucfNOyKcbWhH@wunner.de>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C198B10E0AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 11:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735039010; x=1766575010;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2HOtRseGtjMgLatc222DdK/RSeKWMNOgUbwMHw26haI=;
+ b=Ykbq/HtH49qieSOvGaDNEwumUOtfmBAbGAnWir/gsFPI5H+r9XsQKEe7
+ 69O5KDCpC1th/W65ApTnupxKuDUz9mXlnpb8ycbowgL7CUtEEgbTrr6J7
+ cvEssXTTjQe6f5R30TTKxpOXjc3LBu84ejMmEX9v4x1ogzrwoutCHKqAe
+ R2ErZEogrPEGD5FNfD5RDa+gGPXkL7JpsY3HCKg1wejUtNPUqfxLisKpS
+ oChKIP9G+s0UPaH1vU7QEDDHNWxVz4prCA9xRbMBd0329aYw+1/HdCjtt
+ 7AzzyDxCslCBEr5QD7ZLk84K4zOByB9kBQhhsn9+7KGLEFaBAqtH1Rq/4 w==;
+X-CSE-ConnectionGUID: 4MBYMRb+R6axcy4YiIo4DQ==
+X-CSE-MsgGUID: 1TGP8RqURtaiML/npTbjcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46884795"
+X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; d="scan'208";a="46884795"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Dec 2024 03:16:50 -0800
+X-CSE-ConnectionGUID: xKlOAgGST+GcPYTapvhgSw==
+X-CSE-MsgGUID: XtiGmS6TTqm0rSpiKdWyIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="100292714"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 24 Dec 2024 03:16:47 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tQ2u3-000131-2j;
+ Tue, 24 Dec 2024 11:16:43 +0000
+Date: Tue, 24 Dec 2024 19:16:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jammy Huang <jammy_huang@aspeedtech.com>, tzimmermann@suse.de,
+ jfalempe@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@redhat.com, airlied@gmail.com, daniel@ffwll.ch
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/ast: Support timings, 1280x720/1280x960/1600x900
+Message-ID: <202412241827.pakDEV5a-lkp@intel.com>
+References: <20241224025430.3773224-1-jammy_huang@aspeedtech.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z2p_ucfNOyKcbWhH@wunner.de>
+In-Reply-To: <20241224025430.3773224-1-jammy_huang@aspeedtech.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,17 +72,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 24, 2024 at 10:32:41AM +0100, Lukas Wunner wrote:
-> On Tue, Dec 24, 2024 at 10:28:31AM +0100, Lukas Wunner wrote:
-> > I did raise a concern about this to the maintainer, but to no avail:
-> > https://lore.kernel.org/r/Z1Kym1-9ka8kGHrM@wunner.de/
-> 
-> Sorry, wrong link.  This is the one I meant to copy-paste... :(
-> 
-> https://lore.kernel.org/r/Z0rPxCGdD7r8HFKb@wunner.de/
+Hi Jammy,
 
-Herbert asked a logical question, which got no response from your side.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 4bbf9020becbfd8fc2c3da790855b7042fad455b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jammy-Huang/drm-ast-Support-timings-1280x720-1280x960-1600x900/20241224-105552
+base:   4bbf9020becbfd8fc2c3da790855b7042fad455b
+patch link:    https://lore.kernel.org/r/20241224025430.3773224-1-jammy_huang%40aspeedtech.com
+patch subject: [PATCH v2] drm/ast: Support timings, 1280x720/1280x960/1600x900
+config: powerpc-randconfig-001-20241224 (https://download.01.org/0day-ci/archive/20241224/202412241827.pakDEV5a-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241224/202412241827.pakDEV5a-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412241827.pakDEV5a-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ast/ast_mode.c:150:12: error: use of undeclared identifier 'crtc'
+                   else if (crtc->mode.crtc_vdisplay == 720)
+                            ^
+   drivers/gpu/drm/ast/ast_mode.c:152:12: error: use of undeclared identifier 'crtc'
+                   else if (crtc->mode.crtc_vdisplay == 960)
+                            ^
+   2 errors generated.
+
+
+vim +/crtc +150 drivers/gpu/drm/ast/ast_mode.c
+
+   108	
+   109	static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
+   110					    const struct drm_display_mode *mode,
+   111					    struct drm_display_mode *adjusted_mode,
+   112					    struct ast_vbios_mode_info *vbios_mode)
+   113	{
+   114		u32 refresh_rate_index = 0, refresh_rate;
+   115		const struct ast_vbios_enhtable *best = NULL;
+   116		u32 hborder, vborder;
+   117		bool check_sync;
+   118	
+   119		switch (format->cpp[0] * 8) {
+   120		case 8:
+   121			vbios_mode->std_table = &vbios_stdtable[VGAModeIndex];
+   122			break;
+   123		case 16:
+   124			vbios_mode->std_table = &vbios_stdtable[HiCModeIndex];
+   125			break;
+   126		case 24:
+   127		case 32:
+   128			vbios_mode->std_table = &vbios_stdtable[TrueCModeIndex];
+   129			break;
+   130		default:
+   131			return false;
+   132		}
+   133	
+   134		switch (mode->crtc_hdisplay) {
+   135		case 640:
+   136			vbios_mode->enh_table = &res_640x480[refresh_rate_index];
+   137			break;
+   138		case 800:
+   139			vbios_mode->enh_table = &res_800x600[refresh_rate_index];
+   140			break;
+   141		case 1024:
+   142			vbios_mode->enh_table = &res_1024x768[refresh_rate_index];
+   143			break;
+   144		case 1152:
+   145			vbios_mode->enh_table = &res_1152x864[refresh_rate_index];
+   146			break;
+   147		case 1280:
+   148			if (mode->crtc_vdisplay == 800)
+   149				vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
+ > 150			else if (crtc->mode.crtc_vdisplay == 720)
+   151				vbios_mode->enh_table = &res_1280x720[refresh_rate_index];
+   152			else if (crtc->mode.crtc_vdisplay == 960)
+   153				vbios_mode->enh_table = &res_1280x960[refresh_rate_index];
+   154			else
+   155				vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
+   156			break;
+   157		case 1360:
+   158			vbios_mode->enh_table = &res_1360x768[refresh_rate_index];
+   159			break;
+   160		case 1440:
+   161			vbios_mode->enh_table = &res_1440x900[refresh_rate_index];
+   162			break;
+   163		case 1600:
+   164			if (mode->crtc_vdisplay == 900)
+   165				vbios_mode->enh_table = &res_1600x900[refresh_rate_index];
+   166			else
+   167				vbios_mode->enh_table = &res_1600x1200[refresh_rate_index];
+   168			break;
+   169		case 1680:
+   170			vbios_mode->enh_table = &res_1680x1050[refresh_rate_index];
+   171			break;
+   172		case 1920:
+   173			if (mode->crtc_vdisplay == 1080)
+   174				vbios_mode->enh_table = &res_1920x1080[refresh_rate_index];
+   175			else
+   176				vbios_mode->enh_table = &res_1920x1200[refresh_rate_index];
+   177			break;
+   178		default:
+   179			return false;
+   180		}
+   181	
+   182		refresh_rate = drm_mode_vrefresh(mode);
+   183		check_sync = vbios_mode->enh_table->flags & WideScreenMode;
+   184	
+   185		while (1) {
+   186			const struct ast_vbios_enhtable *loop = vbios_mode->enh_table;
+   187	
+   188			while (loop->refresh_rate != 0xff) {
+   189				if ((check_sync) &&
+   190				    (((mode->flags & DRM_MODE_FLAG_NVSYNC)  &&
+   191				      (loop->flags & PVSync))  ||
+   192				     ((mode->flags & DRM_MODE_FLAG_PVSYNC)  &&
+   193				      (loop->flags & NVSync))  ||
+   194				     ((mode->flags & DRM_MODE_FLAG_NHSYNC)  &&
+   195				      (loop->flags & PHSync))  ||
+   196				     ((mode->flags & DRM_MODE_FLAG_PHSYNC)  &&
+   197				      (loop->flags & NHSync)))) {
+   198					loop++;
+   199					continue;
+   200				}
+   201				if (loop->refresh_rate <= refresh_rate
+   202				    && (!best || loop->refresh_rate > best->refresh_rate))
+   203					best = loop;
+   204				loop++;
+   205			}
+   206			if (best || !check_sync)
+   207				break;
+   208			check_sync = 0;
+   209		}
+   210	
+   211		if (best)
+   212			vbios_mode->enh_table = best;
+   213	
+   214		hborder = (vbios_mode->enh_table->flags & HBorder) ? 8 : 0;
+   215		vborder = (vbios_mode->enh_table->flags & VBorder) ? 8 : 0;
+   216	
+   217		adjusted_mode->crtc_htotal = vbios_mode->enh_table->ht;
+   218		adjusted_mode->crtc_hblank_start = vbios_mode->enh_table->hde + hborder;
+   219		adjusted_mode->crtc_hblank_end = vbios_mode->enh_table->ht - hborder;
+   220		adjusted_mode->crtc_hsync_start = vbios_mode->enh_table->hde + hborder +
+   221			vbios_mode->enh_table->hfp;
+   222		adjusted_mode->crtc_hsync_end = (vbios_mode->enh_table->hde + hborder +
+   223						 vbios_mode->enh_table->hfp +
+   224						 vbios_mode->enh_table->hsync);
+   225	
+   226		adjusted_mode->crtc_vtotal = vbios_mode->enh_table->vt;
+   227		adjusted_mode->crtc_vblank_start = vbios_mode->enh_table->vde + vborder;
+   228		adjusted_mode->crtc_vblank_end = vbios_mode->enh_table->vt - vborder;
+   229		adjusted_mode->crtc_vsync_start = vbios_mode->enh_table->vde + vborder +
+   230			vbios_mode->enh_table->vfp;
+   231		adjusted_mode->crtc_vsync_end = (vbios_mode->enh_table->vde + vborder +
+   232						 vbios_mode->enh_table->vfp +
+   233						 vbios_mode->enh_table->vsync);
+   234	
+   235		return true;
+   236	}
+   237	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
