@@ -2,39 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B149FB856
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 02:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629149FB859
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 02:48:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D94C810E43D;
-	Tue, 24 Dec 2024 01:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0CA610E44D;
+	Tue, 24 Dec 2024 01:48:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="iQWXibBS";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="cuUYEWJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBEF110E266
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 01:48:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE8610E346
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 01:48:06 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 39C0B101ECBA5; Tue, 24 Dec 2024 02:47:30 +0100 (CET)
+ with ESMTPSA id F1604101EC108; Tue, 24 Dec 2024 02:47:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1735004852;
+ t=1735004854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zNe+GKAhSRPnsadkibSgwFkYLC+ibmPippji+A4c7qk=;
- b=iQWXibBSxMrJnmEzsOsn86DWym8bCH7wpSM5EKUaQo++UOdBEDZneAsiSdawcgSKXdBXWW
- lqMJN1IVaD45cQIZSdIVFu9esOLa5LeVJd1Ugwm5FThLJffXd/rkVfo+CTmg3dHNOt3PFw
- OHmJ3N8s0a8/VGG7d7X8In9XChQRxYf1omh3CJ+LangfRJ6BO66ss/YCI22JBQAdCr5exg
- FrnReBikiKcPKb5v7gYg+RE2J1EYAJTIuDa4X0nKeZpBN2Gfcg5tuoemHii9yRZUgPcO/m
- W7WlQerjazdQ6sPpgeQskV5fBGnh2e2OzItvZ4WEdohUTLpnpb8IIbACXtoMoQ==
+ bh=LjkCjwlVQRrYnwuSwebzAXeQ2LiB32oEQY+mGDh6ylc=;
+ b=cuUYEWJ87iwYB0l1/6RoU+2xUjXsaih7TXCZ9InIlw5aipTBiMwwE3gmVSRSP+ovs0Ht7/
+ gb8JlZAIh47PF3dI/J+UE3V4Zb/YghJffYCgS3wnLJZqALZ32xwq7HvkXV9SIQPPDUU86c
+ Vw1eYz8uul/aWAEeiz2QT35yWTn0lJ5ySX95eMSfTmO4l2DlcFk4ddu+KMwC2cxXMSDaPz
+ YQoGu8F38Swaw8H9W/s6YOi2QkYQTivVYwA7KvS9S+tAbi6rmgvqTkI6Cfe1Ps7cEOtMsS
+ QAhJqw4u7WIc5qRvmjd1lV3DaOydm4oladLIsJzxd/gSpuChPJjzqGMGcz3+9A==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Liu Ying <victor.liu@nxp.com>,
@@ -46,10 +44,10 @@ Cc: Marek Vasut <marex@denx.de>,
  Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
  Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/3] drm/lcdif: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to
+Subject: [PATCH v2 3/3] drm/mxsfb: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to
  drm_bridge_attach
-Date: Tue, 24 Dec 2024 02:46:15 +0100
-Message-ID: <20241224014701.253490-2-marex@denx.de>
+Date: Tue, 24 Dec 2024 02:46:16 +0100
+Message-ID: <20241224014701.253490-3-marex@denx.de>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241224014701.253490-1-marex@denx.de>
 References: <20241224014701.253490-1-marex@denx.de>
@@ -83,9 +81,8 @@ by the display controller.
 
 Based on 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to drm_bridge_attach")
 
-This makes LT9611 work with i.MX8M Plus.
+This makes LT9611 work with i.MX8M Mini.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
@@ -109,17 +106,17 @@ Cc: dri-devel@lists.freedesktop.org
 Cc: imx@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org
 ---
-V2: Add RB from Dmitry
+V2: Cache connector from drm_bridge_connector_init()
 ---
  drivers/gpu/drm/mxsfb/Kconfig     |  1 +
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 23 ++++++++++++++++++++++-
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 37 ++++++++++++++++++++++---------
+ 2 files changed, 27 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-index 264e74f455547..07fb6901996ae 100644
+index 07fb6901996ae..e67de148955b2 100644
 --- a/drivers/gpu/drm/mxsfb/Kconfig
 +++ b/drivers/gpu/drm/mxsfb/Kconfig
-@@ -30,6 +30,7 @@ config DRM_IMX_LCDIF
+@@ -12,6 +12,7 @@ config DRM_MXSFB
  	select DRM_CLIENT_SELECTION
  	select DRM_MXS
  	select DRM_KMS_HELPER
@@ -127,60 +124,75 @@ index 264e74f455547..07fb6901996ae 100644
  	select DRM_GEM_DMA_HELPER
  	select DRM_PANEL
  	select DRM_PANEL_BRIDGE
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 8ee00f59ca821..40dfbc3e6118e 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -17,6 +17,7 @@
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 59020862cf65e..2f205512f3105 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -20,6 +20,7 @@
  #include <drm/clients/drm_client_setup.h>
  #include <drm/drm_atomic_helper.h>
  #include <drm/drm_bridge.h>
 +#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_connector.h>
  #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
  #include <drm/drm_fbdev_dma.h>
-@@ -48,6 +49,8 @@ static const struct drm_encoder_funcs lcdif_encoder_funcs = {
- static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+@@ -119,9 +120,9 @@ static const struct drm_mode_config_helper_funcs mxsfb_mode_config_helpers = {
+ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
  {
- 	struct device *dev = lcdif->drm->dev;
-+	struct drm_device *drm = lcdif->drm;
+ 	struct drm_device *drm = mxsfb->drm;
+-	struct drm_connector_list_iter iter;
+-	struct drm_panel *panel;
 +	struct drm_connector *connector;
- 	struct device_node *ep;
  	struct drm_bridge *bridge;
++	struct drm_panel *panel;
  	int ret;
-@@ -97,13 +100,31 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
- 			return ret;
- 		}
  
--		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-+		ret = drm_bridge_attach(encoder, bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 		if (ret) {
- 			of_node_put(ep);
- 			return dev_err_probe(dev, ret,
- 					     "Failed to attach bridge for endpoint%u\n",
- 					     of_ep.id);
- 		}
+ 	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
+@@ -139,21 +140,35 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
+ 	if (!bridge)
+ 		return -ENODEV;
+ 
+-	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL, 0);
++	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL,
++				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 	if (ret)
+ 		return dev_err_probe(drm->dev, ret, "Failed to attach bridge\n");
+ 
+-	mxsfb->bridge = bridge;
++	connector = drm_bridge_connector_init(drm, &mxsfb->encoder);
++	if (IS_ERR(connector)) {
++		ret = PTR_ERR(connector);
++		dev_err_probe(drm->dev, ret,
++			      "Failed to initialize bridge connector: %pe\n",
++			      connector);
++		return ret;
++	}
+ 
+-	/*
+-	 * Get hold of the connector. This is a bit of a hack, until the bridge
+-	 * API gives us bus flags and formats.
+-	 */
+-	drm_connector_list_iter_begin(drm, &iter);
+-	mxsfb->connector = drm_connector_list_iter_next(&iter);
+-	drm_connector_list_iter_end(&iter);
++	ret = drm_connector_attach_encoder(connector, &mxsfb->encoder);
++	if (ret < 0) {
++		dev_err_probe(drm->dev, ret,
++			      "Failed to attach encoder.\n");
++		goto err_cleanup_connector;
++	}
 +
-+		connector = drm_bridge_connector_init(drm, encoder);
-+		if (IS_ERR(connector)) {
-+			ret = PTR_ERR(connector);
-+			dev_err_probe(drm->dev, ret,
-+				      "Failed to initialize bridge connector: %pe\n",
-+				      connector);
-+			return ret;
-+		}
-+
-+		ret = drm_connector_attach_encoder(connector, encoder);
-+		if (ret < 0) {
-+			dev_err_probe(drm->dev, ret,
-+				      "Failed to attach encoder.\n");
-+			drm_connector_cleanup(connector);
-+			return ret;
-+		}
- 	}
++	mxsfb->bridge = bridge;
++	mxsfb->connector = connector;
  
  	return 0;
++
++err_cleanup_connector:
++	drm_connector_cleanup(connector);
++	return ret;
+ }
+ 
+ static irqreturn_t mxsfb_irq_handler(int irq, void *data)
 -- 
 2.45.2
 
