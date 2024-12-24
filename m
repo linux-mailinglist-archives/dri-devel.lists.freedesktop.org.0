@@ -2,73 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C7C9FB93D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 05:26:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCBA9FB93F
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 05:26:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B99210E276;
-	Tue, 24 Dec 2024 04:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0153710E284;
+	Tue, 24 Dec 2024 04:26:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eXaDOvMl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Z0u5BvEY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D3410E276
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 04:26:21 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-53ffaaeeb76so5063701e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:26:21 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE18210E278
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 04:26:23 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-53df19bf6a9so7256802e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:26:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735014320; x=1735619120; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ygTRY5V/n/SAAqBUXqoeY5AEFJKlUU8dtvqLtn/i2bg=;
- b=eXaDOvMlKgJCcDNdac4rMdyyMGqYxqFbat5Py1HwOzhiFWv4s09yipvjveUWXYdhFH
- Pu8lXxjLNzXA+3bZJZZBzpZUje6zCNlN/ZcVZslTBah/khnih6PjXoQaPbeHyWqdp2p6
- IIeUkVoQ+iPzA/Vu6KzZv0VinJJihcz4tKYQ1Ed5/XkqEKTF8hGX5CcOikzvhUZ/OD+3
- rIEZ+X+tro6+SZdNGHKdY0HPKqlEzIaeuUywSs7aCZOH+zHDIpgq0ROeMsqqrBS9YG9R
- 8zjnyh3gLlHyT4ORXwIZMQ9CCviZmzKU0J48k/sB3TJuTkimh6y1M8YRclA5xI0l7txG
- SLqw==
+ d=linaro.org; s=google; t=1735014322; x=1735619122; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=ZxKRLp9w0TqXczLTu9OC4Th0gSsjMx67iDgxXuWVgpI=;
+ b=Z0u5BvEYH+0gB1jTwEYK0cwpGUhISVpNzusIWPlr3vA7L0I7HlQ6+n46AstcUcCPpy
+ 22yam5fSuIr8Hlntns+3hlTcBXPOOlE5T7BibO91DR/vVimJqy6prz3GbtHQ8PdCL+hZ
+ ksU0tZxDG39syo2FQ7ytPolWUgIR86sgEkRKcTC1/MDD3q3pEK55Ed+sfGlFJmG+6plc
+ U2zWjvcPk6ogMO2Cq8EY4ds+fI5oRXgIFN037mbeFCBigvTSMxt2YlX5IgndtWh4qB5R
+ Ta3DLP8+f058Wtl9JsNpz41XIgB0zpNw/N3/Q+s7wEpNhcSabzgNrqZb5RfRlO5OnuF1
+ Mp6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735014320; x=1735619120;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ygTRY5V/n/SAAqBUXqoeY5AEFJKlUU8dtvqLtn/i2bg=;
- b=c//+OicpO1VTjAtYTyeDWhENAQ9n1Sd14jjN4bE19HGo2HwjQl3gYl8Uma3FpXFNf7
- bfka0rLq/HAW4aRZioHIvhUD2n0lFsR2zQoy1H6aCQU46ffOXpMA8b0GChRPDVnUE8/V
- mcFYDPuzgAy3ZqNRNS4chMeic8hM/iKtwJkCLQfIKT3tb9+1JnW8w3GzLqPB7i9aJypQ
- qJ5exllA6TFuQynF4C8Xy1LKWI991gu9CNI1NwD0maEPvdz1Bet2hQPeCa9lVbR9xkBd
- 0MaASyzL/I7BfJ3mjEAgSYtQr7YwBBHb2y5VCveKRUv03p3QEqszg7nZpafIEedlvdF9
- /IPA==
+ d=1e100.net; s=20230601; t=1735014322; x=1735619122;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZxKRLp9w0TqXczLTu9OC4Th0gSsjMx67iDgxXuWVgpI=;
+ b=JsbhxsdBH98olZme2Ti9o1vP5pBCx7fAQoPg5aEJZd7l/fPtl9Cz9Ypv/w+PfM1h4/
+ vLxm7tPPIykA6cawBU9p5Bxtl9zvAmCLPOidqoGVq9Vu1Lw1CyQvDPDqKufAXCvLigtW
+ KLVVekrygUMW5PuY7ZNPAY3O6/UmG1nffh4+f0NpD3WlLwOFyY2hUA1HHiPJ2IE9niRB
+ iW9Dyd4Gqk3L8yBS8cDzVOgQ08o/M85eIS3Z42p0dzbFoB/GRL1CWDt1ACnqKt2/+Iv7
+ Y+DJDhkDvoTSfqJKMEIEfN4wE27FmfQr8p87Pyk0xa7K69XzycrfEOYBX4b/vpe2VhTn
+ /7Ew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXroiYO2k0RetlKB9G5ezaLd5/1nGoQaqFy8xjpEX99+thEaFryu8EtTS49Lr0jLrtN4NsX99XPYn4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHj+3KZ9+FdaFE1qrLsO+7KnHunc4AEBxtp8hNCUMN7BsWircy
- GjZbbac/V5wWoEznb9Bc0Z3+v88seAMYn1pGpdkpnmLqUMCz1/YZOk/A3L2APsw=
-X-Gm-Gg: ASbGncsN4xl93YqygasyuYxnXabzpXFT7sIjN7VZ8BJN8Thf0oixzBFnDx48yJdIFGp
- gIyHwY9/cko/VV/rq2lE1CW4UCzoziUbfuVM1Bx0Enfvp2O7yH4nKxYdNjI3chozOY+U13zyUOh
- Ne7qslaekkngltzC2AE8LycJ09Dm3tpd+IQJrTEcNsa/H3DOaUq/LUvNZJqqONz/+CX79Udd/ST
- m96rmXy5jiyULN7R6e/6Gb1AHKaz2+gl/RG/Zvn6M6gSixXgO70d3iD0Q0ETAbb
-X-Google-Smtp-Source: AGHT+IEp5Eg8UDn8J7Q+aIPpw8Tmmk+o5v43IiL7cAbC7wYDJuehAgVSuJz+4gAvWvPOmCv0QJ019w==
-X-Received: by 2002:a05:6512:234d:b0:540:30df:b3ea with SMTP id
- 2adb3069b0e04-54229533d4emr4784103e87.15.1735014319761; 
- Mon, 23 Dec 2024 20:25:19 -0800 (PST)
+ AJvYcCViG1ZQftaJM6EhYJh4q3lS8+VXOeUwDw7YJWeOt7Df1/GwWlMiZ/5xhHoru+6zLM6E9XXMZjJv9r0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyK089jzAvNi/8C51dn5WcUlG0+mAWq6Y8eIIj3MYJSpUfkcwz
+ sMuJqp252mOPhl2bck3yStWeRiOTBsrCWxHs/4bktP6EN4G6zsDi21iTsO+bVUs=
+X-Gm-Gg: ASbGncv4RdEe405LbcrkzpeE3sb9RkFSQAOPUp8o7nl8eEGxX7/Nk0rMQ5nWsfJfeRn
+ hRGQjIz8kCUYgHVtnPem+CgEH+GPSCNrQri/j0zqucRBgYQW6bHvlBMckWw33VSMPHVPXEE13f3
+ ddTZ+YXoOS9P44cU31L19XQluLV1FF6tCpkIfEKqfubL8AmYseh42r+ldETluoEPOVgu6k0P9Yr
+ 1VCmtr/vq4/46HAN/eZFupFYTfFLaOxI9vV+RJ5GR0qYRHkII7nT+15rFPXFYlX
+X-Google-Smtp-Source: AGHT+IFzxPw0Ov30kcrG02IRmr8rlFm7Lw6T4TOohgvTbpNyR56xqT24steHLGTW/oS4XtQSq8atmA==
+X-Received: by 2002:a05:6512:114f:b0:540:1d37:e6e with SMTP id
+ 2adb3069b0e04-542295434f9mr5272634e87.33.1735014322233; 
+ Mon, 23 Dec 2024 20:25:22 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542248cc8e3sm1467277e87.103.2024.12.23.20.25.18
+ 2adb3069b0e04-542248cc8e3sm1467277e87.103.2024.12.23.20.25.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Dec 2024 20:25:19 -0800 (PST)
+ Mon, 23 Dec 2024 20:25:20 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 0/4] drm/msm/dpu: enable CDM for all supported platforms
-Date: Tue, 24 Dec 2024 06:25:16 +0200
-Message-Id: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
+Date: Tue, 24 Dec 2024 06:25:17 +0200
+Subject: [PATCH 1/4] drm/msm/dpu: rename CDM block definition
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKw3amcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDI0NT3ZSCUt3ElBTd5JRcXYMk0yRLIwvjtLRECyWgjoKi1LTMCrBp0bG
- 1tQAxzxS+XQAAAA==
-X-Change-ID: 20241215-dpu-add-cdm-0b5b9283ffa8
+Message-Id: <20241224-dpu-add-cdm-v1-1-7aabfcb58246@linaro.org>
+References: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
+In-Reply-To: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>, 
@@ -76,16 +74,16 @@ To: Rob Clark <robdclark@gmail.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2467;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3191;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=gq6BFJO2Z13VvS74mOpqa6wf1Rf4YAnetLXcK5ujg9s=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnajetcQ+S+sNXlJrC5q9gY0e8Gy+fq0pWpu8L4
- 6GrF9L3RlWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2o3rQAKCRCLPIo+Aiko
- 1WQtB/4xX45XjF9jsmXuSbk/Blt1rUfmcBvQNFyIgqSCfAMJLi9Xdh8LilxlQeIj2X8ht8BMplg
- TffcWdUktLrcQKpOf6R6HBKVueggrrpW5AN4Up7dZ23dM8q5xcf6zPkCy5wxa1cm7YoRxAJ7WjG
- SORkOHC3yIctmtE2S6TuCdYjHsdER7blHv6ETECnKy3ROKtcH4Bc65U2+fpNE3fGhpG8/bYtMhq
- OsJejc27PlROri5r+KGgSSKC6ed8zh5zm7KPiVNu1esrNKFxOkFo8mURVE+OTS738sEgjAFNI/4
- R5ut69967Ysd5e68375FLtyce6lU1h/S8sP5c48HB+V4gHFM
+ bh=lTr2DRIVQ/vw/WOccbgEKc0Bgfl3SUf0BOqQzdNe4NY=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3qW+dpHrnUxh0Nl+RgLv95RFm5tUP9bFPP3Wn3i9f+3r
+ vJ3mLzrZDRmYWDkYpAVU2TxKWiZGrMpOezDjqn1MINYmUCmMHBxCsBEDsmy/zNqEvt0e6HcZ81F
+ Tt55jqvjfKRtuNZ8WHfnkajEImbTHqtMlcqwbZ7fGn9nqjvmbJj8fsu/CadLUvL0iqvSjbkv2y1
+ ft4LT0tZlt6G3RILHnQU529rKdDPd/vN1/O0y3VN7x6VQYuvam1x1oaxV643LAwqeHD3RGmkSEx
+ nIc3Ra5VmNyez5BqstN5TlL960sXfTtUuWjNfMo2W2X/3wOzGmVMf0ynJPK4HQvqXTDN1CFCMXa
+ 81fcvN7vsgEmbjEiqcLBJyEeSIN/qXU9O15E+a5UuhKUrCIbFnE1LKwH4IGiZwiCwRn/Ysr0dzS
+ oc12YCVLalDHheemJm4lJSW/rxS07Rdb7yL3a0b75GUA
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,51 +101,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable CDM block on all the platforms where it is supposed to be
-present. Notably, from the platforms being supported by the DPU driver
-it is not enabled for SM6115 (DPU 6.3), QCM2290 (DPU 6.5) and SM6375
-(DPU 6.9)
+The CDM block is not limited to SC7280, but it is common to all
+platforms that are known up to this point. Rename it from sc7280_cdm to
+dpu_cdm_0.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Dmitry Baryshkov (4):
-      drm/msm/dpu: rename CDM block definition
-      drm/msm/dpu: enable CDM_0 for all DPUs which are known to have it
-      drm/msm/dpu: enable CDM_0 for SC8280XP platform
-      drm/msm/dpu: enable CDM_0 for X Elite platform
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 +
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c           | 2 +-
- 26 files changed, 26 insertions(+), 4 deletions(-)
----
-base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-change-id: 20241215-dpu-add-cdm-0b5b9283ffa8
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+index a57d50b1f0280776bb95f55b8fce9aa8259d7041..b04375e18d07ff2dbbd7187e139e9cb8cf9c531f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h
+@@ -384,7 +384,7 @@ const struct dpu_mdss_cfg dpu_sm8250_cfg = {
+ 	.mdss_ver = &sm8250_mdss_ver,
+ 	.caps = &sm8250_dpu_caps,
+ 	.mdp = &sm8250_mdp,
+-	.cdm = &sc7280_cdm,
++	.cdm = &dpu_cdm_0,
+ 	.ctl_count = ARRAY_SIZE(sm8250_ctl),
+ 	.ctl = sm8250_ctl,
+ 	.sspp_count = ARRAY_SIZE(sm8250_sspp),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+index 2f153e0b5c6a9e319657b99aa0954d9b190fe724..7dd423ff76a55e0828b8a859ed91deb4b189061c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+@@ -248,7 +248,7 @@ const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+ 	.mdss_ver = &sc7280_mdss_ver,
+ 	.caps = &sc7280_dpu_caps,
+ 	.mdp = &sc7280_mdp,
+-	.cdm = &sc7280_cdm,
++	.cdm = &dpu_cdm_0,
+ 	.ctl_count = ARRAY_SIZE(sc7280_ctl),
+ 	.ctl = sc7280_ctl,
+ 	.sspp_count = ARRAY_SIZE(sc7280_sspp),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+index 907b4d7ceb470b0391d2bbbab3ce520efa2b3263..99e3b373a8a8fe823a79916a65955ac5f611afbe 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
+@@ -458,7 +458,7 @@ const struct dpu_mdss_cfg dpu_sa8775p_cfg = {
+ 	.mdss_ver = &sa8775p_mdss_ver,
+ 	.caps = &sa8775p_dpu_caps,
+ 	.mdp = &sa8775p_mdp,
+-	.cdm = &sc7280_cdm,
++	.cdm = &dpu_cdm_0,
+ 	.ctl_count = ARRAY_SIZE(sa8775p_ctl),
+ 	.ctl = sa8775p_ctl,
+ 	.sspp_count = ARRAY_SIZE(sa8775p_sspp),
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 0b342c043875f3329a9f71c5e751b2244f9f5ef7..0e386875c9cfd00f6f3b20edb2d76a81b38b8def 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -507,7 +507,7 @@ static const struct dpu_dsc_sub_blks dsc_sblk_1 = {
+ /*************************************************************
+  * CDM block config
+  *************************************************************/
+-static const struct dpu_cdm_cfg sc7280_cdm = {
++static const struct dpu_cdm_cfg dpu_cdm_0 = {
+ 	.name = "cdm_0",
+ 	.id = CDM_0,
+ 	.len = 0x228,
 
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
