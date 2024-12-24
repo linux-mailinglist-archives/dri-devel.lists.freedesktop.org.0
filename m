@@ -2,35 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80A89FB8BE
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 03:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A939FB916
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 05:10:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62FCB10E111;
-	Tue, 24 Dec 2024 02:54:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E884410E0B9;
+	Tue, 24 Dec 2024 04:09:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Dc3ucglN";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85E5E10E111
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 02:54:33 +0000 (UTC)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Tue, 24 Dec
- 2024 10:54:30 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Tue, 24 Dec 2024 10:54:30 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <tzimmermann@suse.de>, <jfalempe@redhat.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <airlied@redhat.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/ast: Support timings, 1280x720/1280x960/1600x900
-Date: Tue, 24 Dec 2024 10:54:30 +0800
-Message-ID: <20241224025430.3773224-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8059510E0B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 04:09:37 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-5401ab97206so4946339e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 20:09:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1735013375; x=1735618175; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8on0ZbRPpfYPOhsA0CTtKSQk3XChh59DoR/C8XX6ZpQ=;
+ b=Dc3ucglNdY0g32sgOagAVkuWzwLo4/JKWa6OLPg72mehNIOMBSXYSXtxAtC0U/pz2A
+ 4flS62No0YLdMikBhTjVBDbmZNck/6o42bjP9wfVcVK+SF/eU5MRKr39qlfLnuO4LYQX
+ 6MJ54N0LVbXm2Hui7gXPVaUJ67e14NPJmEU6BqEDE7p7uGv/dxem1MsUBN2MxYZyL2qE
+ KXRzwsMFn3yuuwCyMmRyXMefccGq88ZbRKLIMYLMoWoqCJDSoW3lqU82JToc4Xd5nHG0
+ nBmF6lCPZvWKxJm98zu46yJfjHib7VgVmWGLePTBzTA6LHM8qhmbjQ9oxjD6pBxDT0Xk
+ rXjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735013375; x=1735618175;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8on0ZbRPpfYPOhsA0CTtKSQk3XChh59DoR/C8XX6ZpQ=;
+ b=jDkyq5FB54tC9tvHR6fOvcdEO22dItb95cJwD08IGyKjDVNaBjl5tpz6CnAvxvZvPt
+ QQLaOXLM/I5hSrNGxBnd+7PtP0dCgacRqC/8YkXOE17/Qa92zHvxpULJvLF6LPwSSO7Z
+ y/nGIEJIdEwvtPueIjK5kcJ74SSDO8U+5mRvWCBHnwun5C+f7/agEnA0eyuDYo2nrzLF
+ 4003+hxE3ZCuUsSfpxNgDmduVhCjwyzDPg0zlTQkhhh3t/Z00ttzDkssMx6NmadewcEb
+ 7NDUCa6YL65n7OBaMlAwYQY8cOANQ3lcvXdPpdpaT+1VsCkQuK3vjeOoRIVL+Hh3jqFn
+ i1bQ==
+X-Gm-Message-State: AOJu0YwZKx6j9qW6fSTKdqCN1y6e5sOmVSeBwQDtZMz3Aamvp92vEPML
+ NiaCp/kunLIDmQw4RMwW91Yoxyp0ifRbvSzAiTJOMAMAOVKXammQV6fJ/VxsaYQ=
+X-Gm-Gg: ASbGnctWDhOVxfwKpU5aJ7YjX00zk4ZP9hhU3KPs8H2NNphwIrerOE+PfHW2sJ0DGD9
+ eAreQkdUmRHjz+Mm2RHUpEcgwlKKLCZSTJyePWmf9v214xhACyrPCnDZPpTcGsphJwqdBqQ/kGi
+ hgtj0YHs9P8p5C4H7x4LVSGXM1IAEP2iSYE7UvVQRHrvPykYkT1aCc+CdvAgNjiIict6eXcufXS
+ Dn8mf3Ip8xQtYY8cmRBis7hlpIgnOCRIjZYTQG3xeFOSmVIxRA5gh2hwEySQNPUw/y2hxB71SBh
+ 16JSoJSSf0M3enupmlMbP67VUEeIqUb7wEwS
+X-Google-Smtp-Source: AGHT+IFywzjt+YUMxB9ndT32dpSascSP1hmk767MuEP9vd7WzaJ7hUJym7qgGXttXA0sSFsZgZdAmw==
+X-Received: by 2002:a05:6512:318e:b0:540:1fb5:3f9f with SMTP id
+ 2adb3069b0e04-54229597f4dmr4305510e87.47.1735013375119; 
+ Mon, 23 Dec 2024 20:09:35 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5422382faa1sm1450458e87.238.2024.12.23.20.09.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Dec 2024 20:09:33 -0800 (PST)
+Date: Tue, 24 Dec 2024 06:09:31 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Liu Ying <victor.liu@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/3] drm/mxsfb: add DRM_BRIDGE_ATTACH_NO_CONNECTOR
+ flag to drm_bridge_attach
+Message-ID: <qqd3xztq2drkdbjrybzwa5an37lpb236ur4iqjaaydncwewltx@o3zjqaat22tw>
+References: <20241224014701.253490-1-marex@denx.de>
+ <20241224014701.253490-3-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241224014701.253490-3-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,149 +99,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In this patch, 3 new timings are added into support list.
+On Tue, Dec 24, 2024 at 02:46:16AM +0100, Marek Vasut wrote:
+> Commit a25b988ff83f ("drm/bridge: Extend bridge API to disable connector creation")
+> added DRM_BRIDGE_ATTACH_NO_CONNECTOR bridge flag and all bridges handle
+> this flag in some way since then.
+> Newly added bridge drivers must no longer contain the connector creation and
+> will fail probing if this flag isn't set.
+> 
+> In order to be able to connect to those newly added bridges as well,
+> make use of drm_bridge_connector API and have the connector initialized
+> by the display controller.
+> 
+> Based on 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to drm_bridge_attach")
+> 
+> This makes LT9611 work with i.MX8M Mini.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> V2: Cache connector from drm_bridge_connector_init()
+> ---
+>  drivers/gpu/drm/mxsfb/Kconfig     |  1 +
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c | 37 ++++++++++++++++++++++---------
+>  2 files changed, 27 insertions(+), 11 deletions(-)
+> 
 
-If you want to have new timings, 1280x720 and 1280x960 on DisplayPort,
-your dp-fw should be newer than version, 20240502.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
----
-v2:
- - Fix build errors.
----
- drivers/gpu/drm/ast/ast_dp.c     |  9 ++++++++-
- drivers/gpu/drm/ast/ast_drv.h    |  3 +++
- drivers/gpu/drm/ast/ast_mode.c   | 14 ++++++++++++++
- drivers/gpu/drm/ast/ast_tables.h | 18 ++++++++++++++++++
- 4 files changed, 43 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 0e282b7b167c..0b56f0335871 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -255,6 +255,10 @@ static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v
- 	case 1280:
- 		if (crtc->mode.crtc_vdisplay == 800)
- 			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
-+		else if (crtc->mode.crtc_vdisplay == 720)
-+			ModeIdx = ASTDP_1280x720_60;
-+		else if (crtc->mode.crtc_vdisplay == 960)
-+			ModeIdx = ASTDP_1280x960_60;
- 		else		// 1024
- 			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
- 		break;
-@@ -267,7 +271,10 @@ static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v
- 		break;
- 	case 1600:
- 		if (crtc->mode.crtc_vdisplay == 900)
--			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
-+			if (ulRefreshRateIndex == 2)
-+				ModeIdx = ASTDP_1600x900_60_DMT;
-+			else
-+				ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
- 		else		//1200
- 			ModeIdx = ASTDP_1600x1200_60;
- 		break;
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 21ce3769bf0d..e7cef334b3ec 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -442,6 +442,9 @@ int ast_mode_config_init(struct ast_device *ast);
- #define ASTDP_1600x900_60_RB	0x1D
- #define ASTDP_1366x768_60		0x1E
- #define ASTDP_1152x864_75		0x1F
-+#define ASTDP_1600x900_60_DMT		0x51
-+#define ASTDP_1280x720_60		0x52
-+#define ASTDP_1280x960_60		0x53
- 
- int ast_mm_init(struct ast_device *ast);
- 
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 9d5321c81e68..097b462351e2 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -147,6 +147,10 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 	case 1280:
- 		if (mode->crtc_vdisplay == 800)
- 			vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
-+		else if (crtc->mode.crtc_vdisplay == 720)
-+			vbios_mode->enh_table = &res_1280x720[refresh_rate_index];
-+		else if (crtc->mode.crtc_vdisplay == 960)
-+			vbios_mode->enh_table = &res_1280x960[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
- 		break;
-@@ -475,6 +479,12 @@ static void ast_set_dclk_reg(struct ast_device *ast,
- 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xbb, 0x0f,
- 			       (clk_info->param3 & 0xc0) |
- 			       ((clk_info->param3 & 0x3) << 4));
-+
-+	/* Set SEQ; Half dclk for this timing */
-+	if (vbios_mode->enh_table->flags & HalfDCLK)
-+		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xff, 0x08);
-+	else
-+		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xf7, 0x00);
- }
- 
- static void ast_set_color_reg(struct ast_device *ast,
-@@ -1027,8 +1037,12 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
- 	if (ast->support_wide_screen) {
- 		if ((mode->hdisplay == 1680) && (mode->vdisplay == 1050))
- 			return MODE_OK;
-+		if ((mode->hdisplay == 1280) && (mode->vdisplay == 960))
-+			return MODE_OK;
- 		if ((mode->hdisplay == 1280) && (mode->vdisplay == 800))
- 			return MODE_OK;
-+		if ((mode->hdisplay == 1280) && (mode->vdisplay == 720))
-+			return MODE_OK;
- 		if ((mode->hdisplay == 1440) && (mode->vdisplay == 900))
- 			return MODE_OK;
- 		if ((mode->hdisplay == 1360) && (mode->vdisplay == 768))
-diff --git a/drivers/gpu/drm/ast/ast_tables.h b/drivers/gpu/drm/ast/ast_tables.h
-index 0378c9bc079b..329d6bac867b 100644
---- a/drivers/gpu/drm/ast/ast_tables.h
-+++ b/drivers/gpu/drm/ast/ast_tables.h
-@@ -254,6 +254,13 @@ static const struct ast_vbios_enhtable res_1024x768[] = {
- 	 (SyncPP | Charx8Dot), 0xFF, 4, 0x31 },
- };
- 
-+static const struct ast_vbios_enhtable res_1280x960[] = {
-+	{1800, 1280, 96, 112, 1000, 960, 1, 3, VCLK108, /* 60Hz */
-+	 (SyncPP | Charx8Dot), 60, 1, 0x3E },
-+	{1800, 1280, 96, 112, 1000, 960, 1, 3, VCLK108, /* end */
-+	 (SyncPP | Charx8Dot), 0xFF, 1, 0x3E },
-+};
-+
- static const struct ast_vbios_enhtable res_1280x1024[] = {
- 	{1688, 1280, 48, 112, 1066, 1024, 1, 3, VCLK108,	/* 60Hz */
- 	 (SyncPP | Charx8Dot), 60, 1, 0x32 },
-@@ -280,6 +287,15 @@ static const struct ast_vbios_enhtable res_1152x864[] = {
- };
- 
- /* 16:9 */
-+static const struct ast_vbios_enhtable res_1280x720[] = {
-+	{1650, 1280, 110, 40, 750, 720, 5, 5, VCLK148_5,	/* 60Hz */
-+	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
-+	  HalfDCLK), 60, 1, 0x3D },
-+	{1650, 1280, 110, 40, 750, 720, 5, 5, VCLK148_5,	/* end */
-+	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
-+	  HalfDCLK), 0xFF, 1, 0x3D },
-+};
-+
- static const struct ast_vbios_enhtable res_1360x768[] = {
- 	{1792, 1360, 64, 112, 795, 768, 3, 6, VCLK85_5,		/* 60Hz */
- 	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 1, 0x39 },
-@@ -294,6 +310,8 @@ static const struct ast_vbios_enhtable res_1600x900[] = {
- 	  AST2500PreCatchCRT), 60, 1, 0x3A },
- 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
- 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x3A },
-+	{1800, 1600, 24, 80, 1000, 900, 1, 3, VCLK108,		/* 60Hz DMT */
-+	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 3, 0x3A },
- 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
- 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x3A },
- };
-
-base-commit: 4bbf9020becbfd8fc2c3da790855b7042fad455b
 -- 
-2.25.1
-
+With best wishes
+Dmitry
