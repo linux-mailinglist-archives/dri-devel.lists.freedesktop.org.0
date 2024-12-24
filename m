@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56FCA9FC043
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 17:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C0B9FC03E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 17:25:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB41B10E20F;
-	Tue, 24 Dec 2024 16:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EC810E272;
+	Tue, 24 Dec 2024 16:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B24D10E20F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 16:25:16 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.18.186.216])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YHgB90fXKz6K9KJ;
- Wed, 25 Dec 2024 00:21:21 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE4F10E272
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 16:25:38 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YHgBb2yNYz6K5rR;
+ Wed, 25 Dec 2024 00:21:43 +0800 (CST)
 Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id 4F5D6140133;
- Wed, 25 Dec 2024 00:25:14 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id B7502140391;
+ Wed, 25 Dec 2024 00:25:36 +0800 (CST)
 Received: from localhost (10.48.156.150) by frapeml500008.china.huawei.com
  (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 24 Dec
- 2024 17:25:12 +0100
-Date: Tue, 24 Dec 2024 16:25:10 +0000
+ 2024 17:25:35 +0100
+Date: Tue, 24 Dec 2024 16:25:32 +0000
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: Zijun Hu <zijun_hu@icloud.com>
 CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
@@ -40,14 +40,12 @@ CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
  <linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
  <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
  <linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
- <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>, "Alison
- Schofield" <alison.schofield@intel.com>
-Subject: Re: [PATCH v5 10/12] cxl/pmem: Replace match_nvdimm_bridge() with
- API device_match_type()
-Message-ID: <20241224162510.000009b5@huawei.com>
-In-Reply-To: <20241224-const_dfc_done-v5-10-6623037414d4@quicinc.com>
+ <netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH v5 11/12] cxl/pmem: Remove is_cxl_nvdimm_bridge()
+Message-ID: <20241224162532.0000103f@huawei.com>
+In-Reply-To: <20241224-const_dfc_done-v5-11-6623037414d4@quicinc.com>
 References: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
- <20241224-const_dfc_done-v5-10-6623037414d4@quicinc.com>
+ <20241224-const_dfc_done-v5-11-6623037414d4@quicinc.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
@@ -70,18 +68,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Dec 2024 21:05:09 +0800
+On Tue, 24 Dec 2024 21:05:10 +0800
 Zijun Hu <zijun_hu@icloud.com> wrote:
 
 > From: Zijun Hu <quic_zijuhu@quicinc.com>
 > 
-> Static match_nvdimm_bridge(), as matching function of device_find_child()
-> matches a device with device type @cxl_nvdimm_bridge_type, and its task
-> can be simplified by the recently introduced API device_match_type().
+> Remove is_cxl_nvdimm_bridge() which has no caller now.
 > 
-> Replace match_nvdimm_bridge() usage with device_match_type().
-> 
-> Reviewed-by: Alison Schofield <alison.schofield@intel.com>
 > Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-With new follow up, I'm fine with this.
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
