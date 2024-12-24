@@ -2,58 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D139FB80E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 01:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21F89FB81C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 02:01:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED6810E171;
-	Tue, 24 Dec 2024 00:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F2C10E1C1;
+	Tue, 24 Dec 2024 01:01:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="gH2qAQaf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sK5WNns2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AAE810E171
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 00:45:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 1B25C108A88C9; Tue, 24 Dec 2024 01:45:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1735001117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gYl7espBpfQCSZ04CIcZ4uuuRLv2sy+4r9Xwl0BYNDI=;
- b=gH2qAQafzf246O+u2kTbIvSH6tnUJbDzk7WYDHM2ShEn+nLlb6X45WLVKCaY6VJ1He3+1E
- Gx09ICu3sRG0oGYxKuOEgC1Zdcz2e6xeQTEpLBvNB5X0UUu0JgqBg+V/A1mwz5OsHLgei9
- 8RVdE1Wa0jQtK36KgjDo3FrpQfrbPr29cT1mdwIgC9+Shz8BYJ2A0lECHDyGbU7pLXNWi1
- osqdEFsBRY38UF9Zgbt4HSczSelfOqQENfwIWtZplbL0P76LTNswbTyMhKXZz2PjLH+WWb
- jrDpcHyYFMR4kcO5awoReAxSUWzfW2oprDeU3zFpNSrhb3nCrn8wKX+LGf6Gsg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB32610E1C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 01:01:29 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-5401bd6cdb7so5285196e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Dec 2024 17:01:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1735002028; x=1735606828; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=tH4XshjLhtYgFGpFywgz5Uu8exiT5Uij2L/jGX3fAcc=;
+ b=sK5WNns2kHFXky3hrGJ1GYRFuCpTfXB2H6RaI9V/pAg1uaBS2VRLrDkKdaFSH9aAYR
+ VukH5z55qNj8DhEQdmdITasCuSKmW4Z6qjsnSRN30Uto4MGsb5zbTu3B9njnCsyD185F
+ pTgWGbmgMjxkSMi1ZQpwImzy22hQoVxykxPumhINYxEMhtGUW8YS7lWLaIBDOGo6PP1i
+ 7HS+6Q4a3Ean1kLe7kH+MRnQaqfgD4Q3wbM6tBSr0+N1ferE1QSyavpXLL3Jf2Pjk2Fs
+ EdcGYB9eVYNZCpDW4cRoLg9d4XZUhaDVuJYHwCC1Mdh80PaW+X2pRlK42tHitQLXNee6
+ Wurg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735002028; x=1735606828;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tH4XshjLhtYgFGpFywgz5Uu8exiT5Uij2L/jGX3fAcc=;
+ b=nvFgyt92t04riiVynTWYZN6aqgDsA1YPe3hpK/l62hCGoVorIqZpUu65kh7pJRKucL
+ UliiER1/rAxW74OY5Ek/hi1ARrqJjHN1FRiczMQYuc66T7GohZ2KtbmTil+gTeyJGjc7
+ RyRl2LFi9V3kT6dPdZu2zAFP6dV+iG8g1ctgqLVfzu5A1CdgXkOG6VPRZrWivTL/rdU9
+ 4U3clq9JnNkuHIbzHv63M5p5BX7W3jt5Akch1CaVwU+W7gIKfeISzJqPme+e16E05drJ
+ JJvvQWusja+Cj4gWNUVNTl5ZtTDLJosLuo+myjMt/VqbKwEVoMU9rYTD5yMdLPHZ+5bf
+ jAXA==
+X-Gm-Message-State: AOJu0YxpVg9VYdP16fLsRlCbPWRRuqPgKGmhLe2EbL40zgxc9vR9p9fq
+ vbAz51sDfhHefeQQITKPzRsDHGXJD0SJq2SW3lJvMOnAKb00X4AFGOp2S80wtQk=
+X-Gm-Gg: ASbGncsxLaQDOxFUZGZOROtHx02a9zPCRgzg2ndW14wdUXq1xeoZbD+ljZA3xpUO5Gv
+ pwy5PYfKbq4MdXh4s2ol422K2mxIIxs10Ss0MvRsncqBy8mSyOWA/mGUXLaVmQ5Vd6MOMqjLZMv
+ AzAQVowK17Oq2sMWlcGn/RthfDNEgaljJHRah+1gNzp16zD1Qr9qWaKACxiS3xBcgBuDBgPxdV9
+ YvxR7IU4jQAaUVZgTx3FYS1KMMpwcC2lyTKI5W7UP9I5H4njkxvJeDexDxLnwmQ2XYLUJs/Kk8a
+ LZzyFbbqr9KPhh30N114lys7evcvW1VXRYHY
+X-Google-Smtp-Source: AGHT+IHtyOoIg7bHGt0g9e1Uo2eNMrzJeCrkRIN1DDXKRKcewpjO0JB5UPvqvpz2rQ2ZoS2g0aK8Ag==
+X-Received: by 2002:a05:6512:2807:b0:53e:38fd:7514 with SMTP id
+ 2adb3069b0e04-5422956bdaamr5438834e87.51.1735002027757; 
+ Mon, 23 Dec 2024 17:00:27 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5422381381csm1459363e87.165.2024.12.23.17.00.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Dec 2024 17:00:26 -0800 (PST)
+Date: Tue, 24 Dec 2024 03:00:23 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Robert Foss <rfoss@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, 
  Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/3] drm/mxsfb: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to
- drm_bridge_attach
-Date: Tue, 24 Dec 2024 01:42:49 +0100
-Message-ID: <20241224004439.239880-3-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241224004439.239880-1-marex@denx.de>
+Subject: Re: [PATCH 2/3] drm/lcdif: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+ to drm_bridge_attach
+Message-ID: <6p6gvofde5mbjdzjs3am7qrezhwzxf7byguws5lfhexeh5faaa@vw4effmwiyay>
 References: <20241224004439.239880-1-marex@denx.de>
+ <20241224004439.239880-2-marex@denx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241224004439.239880-2-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,167 +99,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit a25b988ff83f ("drm/bridge: Extend bridge API to disable connector creation")
-added DRM_BRIDGE_ATTACH_NO_CONNECTOR bridge flag and all bridges handle
-this flag in some way since then.
-Newly added bridge drivers must no longer contain the connector creation and
-will fail probing if this flag isn't set.
+On Tue, Dec 24, 2024 at 01:42:48AM +0100, Marek Vasut wrote:
+> Commit a25b988ff83f ("drm/bridge: Extend bridge API to disable connector creation")
+> added DRM_BRIDGE_ATTACH_NO_CONNECTOR bridge flag and all bridges handle
+> this flag in some way since then.
+> Newly added bridge drivers must no longer contain the connector creation and
+> will fail probing if this flag isn't set.
+> 
+> In order to be able to connect to those newly added bridges as well,
+> make use of drm_bridge_connector API and have the connector initialized
+> by the display controller.
+> 
+> Based on 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to drm_bridge_attach")
+> 
+> This makes LT9611 work with i.MX8M Plus.
+> 
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> ---
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Liu Ying <victor.liu@nxp.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Robert Foss <rfoss@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>  drivers/gpu/drm/mxsfb/Kconfig     |  1 +
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c | 23 ++++++++++++++++++++++-
+>  2 files changed, 23 insertions(+), 1 deletion(-)
 
-In order to be able to connect to those newly added bridges as well,
-make use of drm_bridge_connector API and have the connector initialized
-by the display controller.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Based on 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to drm_bridge_attach")
-
-This makes LT9611 work with i.MX8M Mini.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
----
- drivers/gpu/drm/mxsfb/Kconfig     |  1 +
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 36 +++++++++++++++++++++----------
- drivers/gpu/drm/mxsfb/mxsfb_drv.h |  2 +-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c |  6 +++---
- 4 files changed, 30 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-index 07fb6901996ae..e67de148955b2 100644
---- a/drivers/gpu/drm/mxsfb/Kconfig
-+++ b/drivers/gpu/drm/mxsfb/Kconfig
-@@ -12,6 +12,7 @@ config DRM_MXSFB
- 	select DRM_CLIENT_SELECTION
- 	select DRM_MXS
- 	select DRM_KMS_HELPER
-+	select DRM_BRIDGE_CONNECTOR
- 	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL
- 	select DRM_PANEL_BRIDGE
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 59020862cf65e..d034c21e186a4 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -20,6 +20,7 @@
- #include <drm/clients/drm_client_setup.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_dma.h>
-@@ -118,10 +119,10 @@ static const struct drm_mode_config_helper_funcs mxsfb_mode_config_helpers = {
- 
- static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- {
-+	struct drm_connector *connector = &mxsfb->connector;
- 	struct drm_device *drm = mxsfb->drm;
--	struct drm_connector_list_iter iter;
--	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
-+	struct drm_panel *panel;
- 	int ret;
- 
- 	ret = drm_of_find_panel_or_bridge(drm->dev->of_node, 0, 0, &panel,
-@@ -139,21 +140,34 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
- 	if (!bridge)
- 		return -ENODEV;
- 
--	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL, 0);
-+	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		return dev_err_probe(drm->dev, ret, "Failed to attach bridge\n");
- 
--	mxsfb->bridge = bridge;
-+	connector = drm_bridge_connector_init(drm, &mxsfb->encoder);
-+	if (IS_ERR(connector)) {
-+		ret = PTR_ERR(connector);
-+		dev_err_probe(drm->dev, ret,
-+			      "Failed to initialize bridge connector: %pe\n",
-+			      connector);
-+		return ret;
-+	}
- 
--	/*
--	 * Get hold of the connector. This is a bit of a hack, until the bridge
--	 * API gives us bus flags and formats.
--	 */
--	drm_connector_list_iter_begin(drm, &iter);
--	mxsfb->connector = drm_connector_list_iter_next(&iter);
--	drm_connector_list_iter_end(&iter);
-+	ret = drm_connector_attach_encoder(connector, &mxsfb->encoder);
-+	if (ret < 0) {
-+		dev_err_probe(drm->dev, ret,
-+			      "Failed to attach encoder.\n");
-+		goto err_cleanup_connector;
-+	}
-+
-+	mxsfb->bridge = bridge;
- 
- 	return 0;
-+
-+err_cleanup_connector:
-+	drm_connector_cleanup(connector);
-+	return ret;
- }
- 
- static irqreturn_t mxsfb_irq_handler(int irq, void *data)
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.h b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-index d160d921b25fc..7a24e96ab4263 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.h
-@@ -43,7 +43,7 @@ struct mxsfb_drm_private {
- 	} planes;
- 	struct drm_crtc			crtc;
- 	struct drm_encoder		encoder;
--	struct drm_connector		*connector;
-+	struct drm_connector		connector;
- 	struct drm_bridge		*bridge;
- 
- 	bool				crc_active;
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 7ed2516b6de05..30584091e2aa8 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -281,7 +281,7 @@ static void mxsfb_crtc_mode_set_nofb(struct mxsfb_drm_private *mxsfb,
- {
- 	struct drm_device *drm = mxsfb->crtc.dev;
- 	struct drm_display_mode *m = &mxsfb->crtc.state->adjusted_mode;
--	u32 bus_flags = mxsfb->connector->display_info.bus_flags;
-+	u32 bus_flags = mxsfb->connector.display_info.bus_flags;
- 	int err;
- 
- 	if (mxsfb->bridge && mxsfb->bridge->timings)
-@@ -378,8 +378,8 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- 	}
- 
- 	/* If there is no bridge, use bus format from connector */
--	if (!bus_format && mxsfb->connector->display_info.num_bus_formats)
--		bus_format = mxsfb->connector->display_info.bus_formats[0];
-+	if (!bus_format && mxsfb->connector.display_info.num_bus_formats)
-+		bus_format = mxsfb->connector.display_info.bus_formats[0];
- 
- 	/* If all else fails, default to RGB888_1X24 */
- 	if (!bus_format)
 -- 
-2.45.2
-
+With best wishes
+Dmitry
