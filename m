@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA5E9FB99D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 06:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 548949FB9C8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Dec 2024 07:22:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE6D10E47F;
-	Tue, 24 Dec 2024 05:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3BA310E477;
+	Tue, 24 Dec 2024 06:21:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="G+t6UcTi";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="TIj28zE5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur03on2087.outbound.protection.outlook.com [40.107.103.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB2510E47F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 05:56:57 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03on2062e.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:260d::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9148C10E1D3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 06:21:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gwv6W+JBzBTs/p2Bgk4AMT2R7kQ7nURd3HWGeOSF23HqUzmNKuuQhFoIxV4SW/ZizepQcSwstCfOmN5QsnFgTU3C+GPvMVzW0ZxlT53TxCGb6AtT868Df5+y8B+I5FCIQ+HBcEUW2HZhYDq9VGhAm/9vtUXDUaNxrOEFhdc2ZLMSNT+Yan4++G2ZU4kEmjxcntf8q67ZWRtFHlq4Q8nR1Cq0FkfivQtmn5ea0h59qkQtwJRia3Ha66+EQCxQFV7esq3w2e3oKOk7+r5BbZR6LzYZFqywsRMmPUvQxiL/Zfd0EnF15ODWfbFCgmFnqxKF+d3QdNdb6qvArloUWZLmtQ==
+ b=LQgapHz4zpqE/41E5uwLKDhphME+M6CBOznP1/UqF7bco+G5KflTytobPLmsvKX2jn7Tppqscnd5eqL4PSDMh6iIY9wg453lkbHUZjcJxqP9QbITEoaZnBBz2iAnubU0wecR4VtQdDC/Z6MLyTDOEm5peYbFM5mCeWymt0rbicEz5o048aSUyiIW3/BBatD1UJH254+boBbcg/GcOh7+LMDicQpvqY++7p8b4IIwBmyGkqtDHNiI5P1iZv0WDdSp4CspHrS1gYNeihSU5xRqiRBMkTVGbik8WJeDCH134x4RpprXO5RZ1+koaXzTy1x3hgDEtD92t0+8jjfrZB7frw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qp/tujTHOLWsc06PSjZKANCv+EpNdPlckwhWLGfNCNo=;
- b=X+iesRhgFUdnqa3JBmO5fQ8L3V5UVk0HrhwnbSoRkA7ScYq/C7ChLd8XBST0rP8FL7TcaBO6yZkY34E3sixGdI4RdQHlb3X6H6x0uymmBYR0R1OvWb2605eFxoHLsbFU2Vba0H34xFn1hDaJje/KBvuZ4Qwr3YFxYaERjvT6q+H9dOp6LMyz20NZTtJPLwVsGx2RkKXuYRsFWLC/CWOIXZB/KijRPnuSFjJerEOhkEQZE8wirFHMLIFN/b2h2DoKAEwRcsRsBPiomfP/wiZzMvNo2fZ2BJDxIq14SZPPbQIlQjmL50FJQrPx6xjlQ9ErVx7IrggU14CjbSbG6NhF0g==
+ bh=QiIUjCNhTiDkZK/l/Cz1Gboocc9E3ddVc6iUzF8I/eM=;
+ b=TwCXqfjgOfhQVnuSWWu6OwnO2mCoVgt+U2FU1LMn5YTq7auV0mAlInR//oDKej1QY6C7E9ecgtQG13gAw2ZSjMjbNshsFP90GlHYQ9kBLSU30E6Q70Q31kyeJqXTPM+3Fj5m9i6plluT6ukKGEaDeCI0PpxfT5EpFsm+42/3rdVOL5d3juU3wgH9YT3akRcUK8nvsvTCF18vii4zpvzoQZgXUbWo/I0bcTDW+SZRMqTpRzg8Ajlu+XZTjiHZ38ilEmYU6KNDlZYcnCA0C5hBkMFxlEN28Xq//K4IGrvD48DzF9Cd+U148KH8sdE4u4Z0wKgNFx2FZKyHR2kwW83OkQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qp/tujTHOLWsc06PSjZKANCv+EpNdPlckwhWLGfNCNo=;
- b=G+t6UcTiMUf2wz7c/JWkyqyakE6473eGvsv6UHVaYZ3zuJgdY8t6vuVfxqDLr51wNkI0Ww1xKBR+cY24XrL9KOKsFVwiaKmOf1z5yGCDcOKAcMNLwiY2ESl7NWr+xAsZcMxBR0R3rH1TNlQM2qdxg1wyEwS3n11XrsaJMpkudPmu7stw7D3cm6WgMVModZQ+r7FZOiHSQFV9z1FYDZ3YK7+5G1nv6dipsAGaFDqQonz8i9/A3HQMmuRzzMVVhyDPfpawzB56AvA5YWaX6OxP38wGK+FR7f2EMlJsMaOkDv/7YPRg7SDEuZYA8GZUDveDSWe/ocxY8TRuVPdswh/IvA==
+ bh=QiIUjCNhTiDkZK/l/Cz1Gboocc9E3ddVc6iUzF8I/eM=;
+ b=TIj28zE5aJ++STrr+zkvhX/mmfD0PcmITJRbr+OD+ShCAIbd4+0U1xWn6iMv2WxBay0i3RqbqvoZUCdYLhF7HR+sD35R/OB6PGcxeS/bwkj5pIzGrIOO7v667EcknMpvCh1+yqrs5U/3h4W/GfHNQLFU+dvdmWlQWoGT4T0ahbMh31htm2fDuK+tQm8vAkmRkxd8IZyrz3JUCInY26ysiFle9htVnU1MSjX6J7s3Xz2ebw70go4tZkYGrQCs25E31BNp0/jdnbTCaJGQc3Y3yJutePYbtQ9xmrIR9Ax/75xPR7J6iJKqRftYal6lUbw6qpekK5m4jsxJM9E6we1a8Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by GVXPR04MB10634.eurprd04.prod.outlook.com (2603:10a6:150:219::20)
+ by GV1PR04MB10478.eurprd04.prod.outlook.com (2603:10a6:150:1d2::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.20; Tue, 24 Dec
- 2024 05:56:49 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.21; Tue, 24 Dec
+ 2024 06:21:50 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%3]) with mapi id 15.20.8272.013; Tue, 24 Dec 2024
- 05:56:49 +0000
-Message-ID: <73c80079-582a-40cb-b9e1-e20fc96fe603@nxp.com>
-Date: Tue, 24 Dec 2024 13:57:31 +0800
+ 06:21:50 +0000
+Message-ID: <b2d78f9f-014d-475b-86f1-9916ad6a3126@nxp.com>
+Date: Tue, 24 Dec 2024 14:22:32 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/19] dt-bindings: display: imx: Add i.MX8qxp Display
- Controller display engine
+Subject: Re: [PATCH v7 09/19] drm/imx: Add i.MX8qxp Display Controller display
+ engine
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -58,103 +59,105 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  aisheng.dong@nxp.com, agx@sigxcpu.org, u.kleine-koenig@baylibre.com,
  francesco@dolcini.it, frank.li@nxp.com
 References: <20241223064147.3961652-1-victor.liu@nxp.com>
- <20241223064147.3961652-4-victor.liu@nxp.com>
- <kpem2w4wu7ywc5pvbk3ls5hsyttrwcylomzfh567ejlxkymeqd@cujrbfxgrntc>
+ <20241223064147.3961652-10-victor.liu@nxp.com>
+ <6mhlb26vdfc7v3jmb7y3tlcuo336x7vkblbkzd5sosd6urirou@bbfalnfisdij>
 From: Liu Ying <victor.liu@nxp.com>
 Content-Language: en-US
-In-Reply-To: <kpem2w4wu7ywc5pvbk3ls5hsyttrwcylomzfh567ejlxkymeqd@cujrbfxgrntc>
+In-Reply-To: <6mhlb26vdfc7v3jmb7y3tlcuo336x7vkblbkzd5sosd6urirou@bbfalnfisdij>
 Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: SI2PR01CA0037.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::9) To AM7PR04MB7046.eurprd04.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR06CA0014.apcprd06.prod.outlook.com
+ (2603:1096:4:186::11) To AM7PR04MB7046.eurprd04.prod.outlook.com
  (2603:10a6:20b:113::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GVXPR04MB10634:EE_
-X-MS-Office365-Filtering-Correlation-Id: 37c19b0a-ef91-400d-e1dd-08dd23dfc196
+X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|GV1PR04MB10478:EE_
+X-MS-Office365-Filtering-Correlation-Id: ec41eaa0-18c3-46b0-2f5b-08dd23e340a1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L1A5SXNUQUR2YWFPcEV3Qm9CcnY3anA4aE05aEtISTI3YktyUGJ3UVQ5aHg1?=
- =?utf-8?B?YXFmUDN5ampINmVFNWxzdmR6aUJZRVAyUDZEa3g2aFdyMFdvbW9JMzhuSmti?=
- =?utf-8?B?UjVWeW5sMWpBZGtUUjFoYkMvL0U0MVB5U2xWRGpySHQ0cWJpUnM0NDc5cDdK?=
- =?utf-8?B?MHZQRlA5bEVyWFZhY3NodUdDWWF4Snk0Z2VqS0hYbVRpYjQwWmR1elNkR2FC?=
- =?utf-8?B?bE82VGJ1N24zOG4yd2tuazdwQmY0d3QyQnV5N1FKR3ducnNoaXdjMlMwb2RT?=
- =?utf-8?B?QXRvcWt6QmZNbWVJZXJiUHhNc0dRbHc4MXgxWjdsWEZxNjVKU21aWlhjVFNm?=
- =?utf-8?B?ODdCTWFvOUZmUUR2RnFDZGkzc2NkdkhTNmt0MCtJT0hCTkVwUGJOK2hqMEJC?=
- =?utf-8?B?aStHdmd3ZnkzSmNuQURaY2hnMWF3Zy84aEtxc1ZydDMvUGJtRjdOemI3R0FF?=
- =?utf-8?B?SG5NcFZVcTZtZTJWOFdJY2xXOWxsOFdweTl5b0pjdzMrNHFmU211ajRuNGdl?=
- =?utf-8?B?OUNSbEJsT2dmb3dEek4vSVppVUNFb3drRWRtNW9rNi9xUWpmam1wTVRKd2ZL?=
- =?utf-8?B?Zy9pV1djaXZjemdQTVU4WWRISTF0ekVrRFJBVWZleDZMSVYrS2w5L21GZzl6?=
- =?utf-8?B?cnRtS2ZDakhla0JMOUhHYjYrOFUySDkrVUlzTlYvN3FKdVNzcmFFWTdmWG5Z?=
- =?utf-8?B?WnFOTnd4NFlQMVFyamtrS1dFSURlZzNUcHpoR2YwaTFZWWgwbEh6Y0JudWhq?=
- =?utf-8?B?U0RPSUZMVDlxRUtIdGpsTXpYRSt6VG1tRTdNOGg3MkRZQjltbnNTTGFqcW9n?=
- =?utf-8?B?MzV0SDQvY1NLS2Mzclg1ODlYT2J3VmQvUTZhOXlNTUlSUVFueDVjbzYzS2Ru?=
- =?utf-8?B?RndaTHNkdmFLR3VvVzNZaERvakI4Z0U1UWtVSDJyTDNoY3JCYkRRL3NsWS96?=
- =?utf-8?B?ZEsvRDAzYjAvRFRURGhHVDhEWFBrb2kzcDVHU3d1bEVINHZJMWFkNVUrdWw4?=
- =?utf-8?B?TGdLNS9GUGRBM3hHWENBYTBta2Jic2E4c3gyR2R3cVN6ZlJ1aE9MNGc3aFVR?=
- =?utf-8?B?ZTlNRDJkRUJHQ3FvMkNZZkR0bU1EQm9VSU0vQWhrcHllYWduS2VGM2F1TGxu?=
- =?utf-8?B?ZXQ1ZEpteVNsU1Eva0YzZW14RUtNbUx2Z0F3UUJ1dndVRm15MDZSR1BlN2Vm?=
- =?utf-8?B?QWI3RGlDZ3Y3RkZQanhuWDVaWCtkb0ZzM0hpS3JNK0QvMHY3Zll4ZHZTR3Ey?=
- =?utf-8?B?VEhLcVdPbnpRWHpUWGM4UVIvSE1meW9ZYnliWXJNTUxlS1Q2bzk1eWZmNDN2?=
- =?utf-8?B?WWNLdlNHSjAwMHplZjBLOXNtR28wSllEUUtlREN0SFhoTjlIWkN6RnQ5MWZJ?=
- =?utf-8?B?cC85bFVLd1IrNXJRQUJlVDVzMTJjRXYrWWpqN0tNTFNndk5OSXdpNzVlVWQy?=
- =?utf-8?B?ZkM0SDVjYUFRb2hyb2dBcXJXZ3p1NjdqSzNHYnhDZnBra2Mwc25PVjRqQW1W?=
- =?utf-8?B?WTVISUdwR212RjFaZGFHa2tuTTVUR2p3ODBHNDZNQjBBbUFZaGtyQ1FZWWla?=
- =?utf-8?B?NlNMcDFxaERyWVQra3BTVDM0Um9sa2hUNSs3TkQ5NmFLM1AzeXE3djNjNVlo?=
- =?utf-8?B?MktodzRVSXhmam9FK1BLeWhBaHVCMHlnQzdXYWVheXlPSlIzVVRiMmEwSER4?=
- =?utf-8?B?ZkNqeTdrcVdKZk9vRndqd2U0NVRxWGVOWFhjcmhqalU0S1FYODdGNm5lcExz?=
- =?utf-8?B?Q0pHK1lSV2JqVHhFaXE4aEIrMURXNjcrTndhc1NEZGVmQnVrckl6bm54VS9I?=
- =?utf-8?B?MW13MEIvNWxiRkYxT1RMUT09?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OXZJelBZVkhpVnM5WU1FbVdZcFUzeHBRRGRiY0JZRUNTcE82eU8rVU9Kak1M?=
+ =?utf-8?B?bTcvZUk0QmpoNEI3NkYwcmhKWnNLQUp6bkJBMzZrNEl4VnlKNVI2eXIwUk4w?=
+ =?utf-8?B?UWl0V3R0Zi9JTlR0dG02NDhtQUh2MzZEMEE3aFZoVlF2WDRYSUdVMGltUU5z?=
+ =?utf-8?B?a1N3d2d6VW1VV2E2TVUxeWxZQ3MvdVczTVVxck9ObG01MFlkR3dqRjhUMWs0?=
+ =?utf-8?B?UmFNemJnZk9JRUtqOGpzNkpuQnY4a1ByQ1VhNDlCN1Y5ZFZVajJXOVNQeEFG?=
+ =?utf-8?B?OUduckJoTVNJQm9vM0NTMUVFNGNwNGd2d1dRRU5Mc1BESXhCcHdkUG1FNjd4?=
+ =?utf-8?B?MHJJZ1lKMVZMb2FhdVdtbEVMaURlYWtWYzJSNzRFTm1RMXVLT1BMOW1KT2Jj?=
+ =?utf-8?B?SHMvS3hQSzczbTA4Uyt2VjZrcXBqZk42NnZYeEs5VmRlZFdsZXh6bi9vdmxI?=
+ =?utf-8?B?RDNJVlc0eHVWRDRqaDM1WDlDZDc4YjRRcHQ5UlJRSnViWVpsWUJzSGhGa09C?=
+ =?utf-8?B?Q2RaMWlEZkJQR3pFZWFLWUYxTW5CTUdLRXpiY3RZam1mVjE0UHFqYjhxNlpn?=
+ =?utf-8?B?YkFLVlg2Z3Y3MzUvT3laMnFUd2dObEtNb0IveU83QSszOHpSMTVUbVdTaEJ0?=
+ =?utf-8?B?ZFp6MUN2U21tUmZXajJ5ei9oYVNqZis4dTBINzliN254bVM1K1diczZVK0pp?=
+ =?utf-8?B?dUd0TWFKck5jYUFzRldUMXZzRWVFY3FuSUtQaFdxTkxPajFFZE1HQ1U3dHdu?=
+ =?utf-8?B?d0RxUHhTRHpuZHdxMzlrQUxVRnMyVmVJNDVnWjRET296U2VXUkYwdTk3VDVv?=
+ =?utf-8?B?VmYwVkJpRFdLa0p4OXlkc0ZRaTBBRDRDQnA0N1RBOVpjK01Id0NuRjMxY0tD?=
+ =?utf-8?B?bnFKUjl4ZHM1L3IydDhrcXkzVFZzR0pEREg3clJ1eDNFb3o1Z0dRSzJCQ0V2?=
+ =?utf-8?B?aE56K0cyaUlpaHpVU05INlpHeXRLelg1akVnN2hYRGtjVExSdjlnalFkQTcw?=
+ =?utf-8?B?ZSs5amxRVTB2RUtCbGYxeWwva0xJYVQ4THZHOSs0R2JPRHUycHgrL0psbCtp?=
+ =?utf-8?B?Q3RnaWNTc3RJeWlQRGk2NlFzZm5iNklXSERGVzU5cnJlWkJRZm00ZGNva1kr?=
+ =?utf-8?B?a0FQOFRkUWF2MkFTd09sby9qUmZpdm1MclM4bGJ6MTVoWnpuSGMzN0pzcjNY?=
+ =?utf-8?B?cjJKMUVLYlhVQ2lsRjJzd0kyN01nWHA1di9PK2RwR2xvTmE4V2tPV2MxdXNl?=
+ =?utf-8?B?dFo1cFQ2TDFJM3hsUVlkWXVJVWRwMEVjeHlldEVpekoxVnZaNWFLcmgzMnlN?=
+ =?utf-8?B?RUpVQkJLQ1lNQmZTUDBBZFVUVkVqMkltNWxTUEM0bTFSSzd1SFZIV0lkWVpG?=
+ =?utf-8?B?c3V5VmdMbzVISnl0eGJkaWEzRkZQZ0tmT3A0K2diSXJBY1JlbzdYSjVjRUpk?=
+ =?utf-8?B?VmwzRG5PUjh6M0VxTE5LQWhOL3pROWprc3FxS0x5T0tnN0ZvSlVTdVJMZW0v?=
+ =?utf-8?B?YlZzV3dhY24vTTBzNUM4Zmg0Q2NDekpVTDAvTW9TNW5mNnk1NmhibTk5MU1J?=
+ =?utf-8?B?WkpNbVF2SlRRbEc3QTJzYmljZ0dwTS85b2hhUm9zSXpiM3JLVVRKaVJMZzZC?=
+ =?utf-8?B?ejl6K2puNWJVbHN3MERHYjg3aDYyRnpDTlRRdkNKVklCaFY0ZGlRMW5Za0Vt?=
+ =?utf-8?B?TXpiZlM4elU1S1NXblJ3WmliTjJud3ByQVVYdjhqSEhDbkpYN0RtVFQ3VjNo?=
+ =?utf-8?B?NTZWSkRYKy9CM1piRkpDWlVPMUhxK2drOENxcHgzMjVPS0d3Zlo4ZmNMd0wr?=
+ =?utf-8?B?Nm9rNDJWQXE2WkV4a0EyZmZUM0l3KzZ6bmNVQS80RUE4cEFqVTRRUEJnUlVy?=
+ =?utf-8?Q?EZse9PGly4g5a?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SFNwejJaZUtwZEtNTHo2eWdBTmhMcURZWnZNcHZkN2VYK3JTcjE2S0JtZVlG?=
- =?utf-8?B?MjR5SzFWNW1weFN1MjVKczNLQ29jSnFKUmJTcnVkVktxNU5EYnhrVXZacE9n?=
- =?utf-8?B?ODgzbEg1b2hvSlJ1ZVRwZXVUNnQwL3A3aW05NXFEZFQ1VG0wK2psRHpqUFJN?=
- =?utf-8?B?eXZiWisxR2FVWjcxbWZzeHpaR0xaYk10UGJuOVRoVnc2VE5WOU9GQW9kZHU1?=
- =?utf-8?B?cUNQdUs1OThtSjFkeVI4L09qUFNsV0JNdkJyc2xKakdzYXRSQ0tZY0VBazhY?=
- =?utf-8?B?UEpVV3VvZWljb09yVHhFeUJaUmN5dEhqeEdjV0tqaTZCQW5HTm9xMDcyTjlO?=
- =?utf-8?B?K3hYRUk4UHF2eU81aGVkOVVJNHJrcjdUbEh5a21ocXB0VmxEcHRudVJacjhU?=
- =?utf-8?B?Rnk0NXhuMkx2VHoreWhMK2RtRDNCSnIvS214QWVhY3Z4bzJ5V2QwZEtlT1ND?=
- =?utf-8?B?Y01mR1Bsb1o3czNYdmhDVUs3R0wxYjNKZmIycGYwWEJkMHJ4dEpVcTNKcVNy?=
- =?utf-8?B?MkZsUHZWL3FkQlFTSkk0dCswQy81QUNNSWl3MEQ5NnFnQjAwQzQ0bU44eitq?=
- =?utf-8?B?a1BudjFZUHlBMGlNOVg3MzdXZWlUMnNHYUxxQ25PdTZQME9nL3J3S2U3b0p3?=
- =?utf-8?B?UVN3OEhJVW16U0JTTEpuNklsN3FTeWR6a0pSSlVVdnp4UGNTWTlPckpMc0pH?=
- =?utf-8?B?VlNKRE5YclZZSTk4K3ZXUU95b1dQRVR0bmkvR3dGK3o0enVXS0VrMFhTc1Ni?=
- =?utf-8?B?ak9yZkZ6RFpoWUJUSWhTd28yMGFkK1ZMZVkyWis4Q0lIVWwxS1RTRmRKVnJV?=
- =?utf-8?B?cWVvVjlNMXVXSmw5eFM2b0htbDVuQ2I3dGs0WGxlQXJHVnhoaEg4VWQ1dGow?=
- =?utf-8?B?R0hJaW0wUSsrcmN1SzZ4RGh2QUpkTVFsS28xVTAwMTgyV2NzWjhZRkhqUDFL?=
- =?utf-8?B?cTNnY0hrMnRPbnpCR3pGZXUwbmY3eTlvVnAzR2RkcHBVYnFFbkV5L1dkUEJ0?=
- =?utf-8?B?aStwUlN2WDJSUFh5eE1aTUFKMkxSLzFIV2UrQ3V1ZDRGd2tBRXVaV2pLSjgw?=
- =?utf-8?B?aWtLVVZ3b1IwK0wrdzJIOVpyaFNIa0hNcXBtZGlNSDdJN0I0RTk0ZHY3NjhK?=
- =?utf-8?B?cWNyTjFqQVlVa3VBOTl5dThLRVV2amlPMjJmWkdSNDNrbHhFY1RNS0lNeTEy?=
- =?utf-8?B?ZHNDellpeU5jYUZsOUJpRkNqQnpuVkJyeDQzaklibU81Vy9acVE1WkhLZkF1?=
- =?utf-8?B?cWM1bHRpeWVaelNCUkVTNmJOZE5rNDFuQzdxZDRURkJmSkJ6cjFNQzNSeUhY?=
- =?utf-8?B?bTFMZUN0Vzk3Y3dsTC9zNDVNUndDNVJEZXdXNU9OY1pUMkJvVHRvWjBUSms5?=
- =?utf-8?B?S0lFNjRRdVdWVXRCQm5JOVJieW1XbFYvRE5IdHRLeTJOT3Fhb2RDdFNFcHF1?=
- =?utf-8?B?VXdGZFp2MnQ2NDJvOTdYb2FEQWI5RFRLK0hicENRdmJwMXhHNUIyL1ROT21U?=
- =?utf-8?B?eHV3ejVHdURWT1EyQkVGWFh1UWVjSGx4cFYwZm9qV294dDRyZE92VE1KU0U5?=
- =?utf-8?B?TDVhTCtmMElEWnlxMXpPYmwra0hTV3pUSHhVSHNoUjNvOEJkR0cxQ0JtR3Q1?=
- =?utf-8?B?YmJLV2NyNndmRXJVNXR5VjJEWGJ6NmRHenYvUlRYbXVKMHVqR1JkcVNGdDlp?=
- =?utf-8?B?OHh2MWpRc3B3YWtlVzJUQTRzeVI0WCtLR1pHNnB3Smxoa1FUK3NpMk0xZnlS?=
- =?utf-8?B?ek1DVEh6anU3aVh6ZEZrSHBZUGw0QnFmV01yUElxeWZ4QmlMdjRVL09yL3hJ?=
- =?utf-8?B?cmptc3c5eFk1cjBaUDBCV3hWcGhCd2taRTYwaWlDT2M0YlAxMlY0WWV5eklr?=
- =?utf-8?B?R21JOStGL0xkaHdySzV4UFBCK3VHaVhYdzFmbURHK3dtZURLdGh3M3RvRDJN?=
- =?utf-8?B?Z2VXMWFNbjhGdUNmclNFdE9hUlZsQTFPMVhjdkpldWRsenA2S2dFQ2dWS3N4?=
- =?utf-8?B?UFRKSXY3K0srMFVQbDlsVUE1bnJzdUg5TVl4UXBSL0s2NDhleVloY256Z1lG?=
- =?utf-8?B?RlNtZmkvcktCZyttd1dkSENOeElWa1hya0pucjhUMEYvMk9ENXhnRnZkNGpm?=
- =?utf-8?Q?AWl7NzsKpLi/GJ19dYjEuB2Si?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVBqZ3hRM1VsWWxCTVpreUJBUGNpMXQ2N2lpdmZ2M0oxL1pYMDE1WWc3OE5R?=
+ =?utf-8?B?dXh0dHA4Nmc2UlUzdWdOTWR6N2VVZEJ5c0x0aEw4RWNsSUNTOUdTQVJnaFE0?=
+ =?utf-8?B?NWpPSVA4azlSYXBudmgvaUxEZ1laQmxNdGlIZjJraS9NSEVKK3UzYWZYODNN?=
+ =?utf-8?B?b01wOFpxQVVUaDdEQ3BVbU5BWE1sck1YSGtRV0VtMCtrM1ZPa2w0ZUtBYUtB?=
+ =?utf-8?B?d3ZOaU1wS0VYNFU1Z3h5TyswejBwckVjZDBKRjIrSGxUMHJKQTFzV2JqWHQ4?=
+ =?utf-8?B?cjlxYnVEMHpBbnRVUGdrRS9NWk1FaC9mR2I0VWFBTytzZUpOMVNNK3VuanB2?=
+ =?utf-8?B?UytSRFVwaThEb1RKcnNFZHh6OGEzdTVnRXFBblFZYjBUY3Y0SWRtTGVzWFRS?=
+ =?utf-8?B?STBkWTdlcjZaWGJraWJ5cjVnWmp4YnJtZklud01yMUpMQll5L1pyc0RpdU01?=
+ =?utf-8?B?K05VNW4wYWN0VTIyWjkvdEt1SFdsVXhVVlVOWFZVWkIzQzFaSTErclh1ZGJ4?=
+ =?utf-8?B?N1gxcEQ5TkY2OFdpOGZ2TWQyai9lYVR2SlZuaXNpSXlxVjV3Yis0dHllUy96?=
+ =?utf-8?B?T0RNUnN0TEIxbWt1bVpPUytrdVo4TVdjNVVxS2h3UUJwUmFEaitlb0JWQWhJ?=
+ =?utf-8?B?TXd3b1NrS2lmYVhaSGxqQk4vMHpMYkpqd2luTWpPa1FCbnJSWDFkenMrNklK?=
+ =?utf-8?B?Z1lBL1VROVcxSGRXMUlLaC92N29YZXVHVTVUKzBHUHJMOEdXcFNUbzhHalRn?=
+ =?utf-8?B?ZW8zZHVkc3phMDF4QWp2QnF2b3JwWC85NzhGbmZzSnkzUWhoWnlYaSs2cSty?=
+ =?utf-8?B?NytVU0JpZWtjdE9iczJza1ZVNUYrM3pxaUxML3dXTCt1OXN5b3ZadWR5ZmVM?=
+ =?utf-8?B?V3VMZmEwd3hVTWY3djdCUk0zWVo5RDU2aWF6VitVWVFXREdyR2tZL2tLblpU?=
+ =?utf-8?B?MzlYSytYZWQ4Y0hMQWlwSlNUK1h5U01ISE5LcWl5Q05YdXQ4Z01SOVJQVkZZ?=
+ =?utf-8?B?YWNVYUlmTy9oNElLRkZhaC9xVytPN0w1Uk1OZTJNbm9ObVpaT2s1REMxbHRV?=
+ =?utf-8?B?TGgwQmMxVS9Ha3ErZmp1Qzg5NkhETldvOWdQcm1rOGtkS0VhMnUyS2NJUWNl?=
+ =?utf-8?B?c1JJako1K21hcXlBN1pOK0RaUG43QlJMVXB4VWY1T0xyemlMUEtMckppUkFN?=
+ =?utf-8?B?MW9kKzhQSGZzTXpHclhTenplSVVKNThhVTNqZmJnbTNpRW53d24rZzgxbG02?=
+ =?utf-8?B?c3pDOURLNHVuNWI1QTE1WE5Zb2FXbm1IbHdUbFZCM2Vub3Z6MklhczJQbHVV?=
+ =?utf-8?B?c0ovTk9pSXphTjFjSFNPSzlwa2tZRWZjaHZzUURaNjE2dG5FTHpnK2tiSnNq?=
+ =?utf-8?B?ZjRjaGxsaysxRDdGbTBWeGVDckI4enZNTlI2Q0ZWNWcvRCtSTGJidGZlMWYr?=
+ =?utf-8?B?MVp3S2ozWG93bUpjQSsrdlh4QkZkMHMyVitJa1hBb0UvWHY5NUdSM0dSYTZL?=
+ =?utf-8?B?cjR5QjJYT1cvZVNlbXlPUUNpb29pbXhENGtIVmdQdzBoNmV0QVBzZHZXQnZu?=
+ =?utf-8?B?dStYT1p6TEFrbUZWa0VxVlJhRFA3VXBITHQxSmh2UXJjZEJBMWVIR0ZubGlx?=
+ =?utf-8?B?UCtqclZPSXZXaFFiV1FkVGd4NHRkK0dsL1FOSHdoQVhiYnhUdzZDTmQzd0cw?=
+ =?utf-8?B?MGR4VDU1YldLNEIxc3I0aVQzdEJtcUs2WHhXQWh2cHowaEFZUkhpUG1vRlc1?=
+ =?utf-8?B?UHJweEZvWkwwZHliMWVzQklZSXhMQ2xLVXJKQzc1STQ4MDFQQ1VqTUMrY2JZ?=
+ =?utf-8?B?ZDRPa0ZObXBoOFZnZFFHSXozQ2lUQnowUUxvUzFOZ0VNMjkyZjNVaFJVSDk2?=
+ =?utf-8?B?Uk1VOURrVHJNU09rT0JSWVlqdjZqYVJNR1lRRlhxdGl0TGl2SUlqc0lsUFg3?=
+ =?utf-8?B?cEFOSjYySm1zWHFsQUJaUUl4ZlpOUkZ0NUtOR2xJdkdBZkZxQitRN1F4MzJt?=
+ =?utf-8?B?bDhyM0lFVXlBSVgwRGhxTVBtVFkxNGFha0I0V09acC8weEhlSzdETWMvOW11?=
+ =?utf-8?B?MDZ1ZUtIUXlYbHJjV1B6dUFIRk9EU1FpTVBGL2JjL1Qxd3NVU2dibEZkajdY?=
+ =?utf-8?Q?5FA/V/0XbWo3d5z3AA7uNqVYV?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37c19b0a-ef91-400d-e1dd-08dd23dfc196
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec41eaa0-18c3-46b0-2f5b-08dd23e340a1
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2024 05:56:49.2230 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2024 06:21:50.6798 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4sI3Rqsf9+ZUOWjUPQCYp3LcsyuF10bMhzrW6+4icY7OLCE2wOubewVC5UPCspzb5JF3tKRd+IX7m4oDSkIUDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10634
+X-MS-Exchange-CrossTenant-UserPrincipalName: jjjwfedgiGV+2rqUSnlHOpcouz3UUJk5N1JwWn1AmzjhXNW47eDEcwdEL/KeALdfvsY8ZB6ddt7zzEyPsotq/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10478
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,328 +174,246 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/23/2024, Dmitry Baryshkov wrote:
-> On Mon, Dec 23, 2024 at 02:41:31PM +0800, Liu Ying wrote:
->> i.MX8qxp Display Controller display engine consists of all processing units
->> that operate in a display clock domain.
+> On Mon, Dec 23, 2024 at 02:41:37PM +0800, Liu Ying wrote:
+>> i.MX8qxp Display Controller display engine consists of all processing
+>> units that operate in a display clock domain.  Add minimal feature
+>> support with FrameGen and TCon so that the engine can output display
+>> timings.  The FrameGen driver, TCon driver and display engine driver
+>> are components to be aggregated by a master registered in the upcoming
+>> DRM driver.
 >>
+>> Reviewed-by: Maxime Ripard <mripard@kernel.org>
 >> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 >> ---
 >> v7:
->> * Drop DT alias documentations and add instance numbers to compatible strings.
->>   (Rob)
+>> * Add kernel doc for struct dc_drm_device. (Dmitry)
+>> * Fix regmap_config definitions by correcting name field, correcting read
+>>   ranges and setting max_register field.
+>> * Get instance numbers from device data(compatible strings) instead of OF
+>>   aliases.
+> 
+> Unfortunately no. Your instances are compatible on the hardware level
+> (at least they were with the previous versions, I don't think that
+> there was a silicon change).
+
+v5/v6 use OF aliases to the instance numbers, but in v6 Rob said it's
+abusing aliases because the aliases contain display controller instance
+number, like "dc0-display-engine0"(i.MX8QM SoC has two display controllers).
+Or, use OF graph to describe all connections between the display controller's
+internal devices, but it's too complex. So, I choose to add the instance
+numbers to compatible strings.
+
+> 
+>> * Collect Maxime's R-b tag.
+>> * Trivial tweaks.
 >>
 >> v6:
 >> * No change.
 >>
 >> v5:
->> * Document aliases.  Drop Rob's previous R-b tag. (Maxime)
+>> * Replace .remove_new with .remove in dc-{de,fg,tc}.c. (Uwe)
+>> * Select REGMAP and REGMAP_MMIO Kconfig options.
+>> * Fix commit message to state that display engine driver is a component driver
+>>   instead of a master/aggregate driver.
 >>
 >> v4:
->> * Collect Rob's R-b tag.
+>> * Use regmap to define register map for all registers. (Dmitry)
+>> * Use regmap APIs to access registers. (Dmitry)
+>> * Inline some small functions. (Dmitry)
+>> * Move dc_fg_displaymode() and dc_fg_panic_displaymode() function calls from
+>>   KMS routine to initialization stage. (Dmitry)
+>> * Use devm_kzalloc() to drmm_kzalloc() to allocate dc_* data strutures.
+>> * Drop unnecessary private struct dc_*_priv.
+>> * Set suppress_bind_attrs driver flag to true to avoid unnecessary sys
+>>   interfaces to bind/unbind the drivers.
 >>
 >> v3:
 >> * No change.
 >>
 >> v2:
->> * Drop fsl,dc-*-id DT properties. (Krzysztof)
->> * Drop port property. (Krzysztof)
->> * Fix register range sizes in example.
+>> * Use OF alias id to get instance id.
+>> * Add dev member to struct dc_tc.
 >>
->>  .../imx/fsl,imx8qxp-dc-display-engine0.yaml   | 235 ++++++++++++++++++
->>  1 file changed, 235 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
+>>  drivers/gpu/drm/imx/Kconfig     |   1 +
+>>  drivers/gpu/drm/imx/Makefile    |   1 +
+>>  drivers/gpu/drm/imx/dc/Kconfig  |   7 +
+>>  drivers/gpu/drm/imx/dc/Makefile |   5 +
+>>  drivers/gpu/drm/imx/dc/dc-de.c  | 153 +++++++++++++
+>>  drivers/gpu/drm/imx/dc/dc-de.h  |  62 ++++++
+>>  drivers/gpu/drm/imx/dc/dc-drv.c |  32 +++
+>>  drivers/gpu/drm/imx/dc/dc-drv.h |  29 +++
+>>  drivers/gpu/drm/imx/dc/dc-fg.c  | 378 ++++++++++++++++++++++++++++++++
+>>  drivers/gpu/drm/imx/dc/dc-tc.c  | 142 ++++++++++++
+>>  10 files changed, 810 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/imx/dc/Kconfig
+>>  create mode 100644 drivers/gpu/drm/imx/dc/Makefile
+>>  create mode 100644 drivers/gpu/drm/imx/dc/dc-de.c
+>>  create mode 100644 drivers/gpu/drm/imx/dc/dc-de.h
+>>  create mode 100644 drivers/gpu/drm/imx/dc/dc-drv.c
+>>  create mode 100644 drivers/gpu/drm/imx/dc/dc-drv.h
+>>  create mode 100644 drivers/gpu/drm/imx/dc/dc-fg.c
+>>  create mode 100644 drivers/gpu/drm/imx/dc/dc-tc.c
 >>
->> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
->> new file mode 100644
->> index 000000000000..60d1e0a4a5dd
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dc-display-engine0.yaml
->> @@ -0,0 +1,235 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dc-display-engine0.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Freescale i.MX8qxp Display Controller Display Engine
->> +
->> +description:
->> +  All Processing Units that operate in a display clock domain. Pixel pipeline
->> +  is driven by a video timing and cannot be stalled. Implements all display
->> +  specific processing.
->> +
->> +maintainers:
->> +  - Liu Ying <victor.liu@nxp.com>
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - fsl,imx8qxp-dc-display-engine0
->> +      - fsl,imx8qxp-dc-display-engine1
 > 
-> Is there actual difference between engines 0 and 1? If there is none,
-> why are you artificially adding one here?
-
-I think engine 0 and 1 have the same HW implementation, but they connect
-to different ExtDsts through FrameGens.  The two compatible strings make
-it possible for an operating system to figure out which engine is which
-by getting the instance numbers from them.
-
-If the two engines use a same compatible string, then either 1) use
-DT aliases to get the instance number(as v5/v6 do) or 2) use OF graph to
-describe the connections between FrameGens and ExtDsts.  However, in v6,
-Rob doesn't like 1) because it abuses the aliases which contain the display
-controller instance number, like "dc0-display-engine0"(i.MX8QM SoC has
-two display controllers), and 2) is too complex because all connections
-between internal devices need to be documented with OF graph.  So, I choose
-to use the two compatible strings, like brcm,bcm2835-pixelvalve0.yaml does.
-Thinking about 2) more, maybe the connections between pixel engine and
-display engines need to be documented too, which seems to be more or less
-duplicating the connections between FrameGens and ExtDsts.
-
-                                           CF0/1/4/5
-                           PE               | | | |
-                                            V V V V  primary layer cross bar
-                          +------------------------------------------+
-                          |                                          |
-4 FUs + (VS4/5 + HS4/5) =>|               LB0/1/2/3                  |
-   secondary layer        |                                          |
-   cross bar              +------------------------------------------+
-                             |          |              |          |
-                             V          V              V          V
-                          +-----+    +-----+        +-----+    +-----+
-                          | ED0 |    | ED4 |        | ED5 |    | ED1 |
-                          +-----+    +-----+        +-----+    +-----+
------------------------------|----------|--------------|----------|-------------
-                          content     safety        safety     content
-                          stream0    stream0        stream1    stream1
-                             |          |              |          |
-                             |  DE0     V              V    DE1   |
-                             |       +-----+        +-----+       |
-                              ------>| FG0 |        | FG1 |<------
-                                     +-----+        +-----+
-                                        |              |
-                                        V              V
-                                       ...            ...
-
+> [...]
 > 
 >> +
->> +  reg:
->> +    maxItems: 2
+>> +static int dc_de_bind(struct device *dev, struct device *master, void *data)
+>> +{
+>> +	struct platform_device *pdev = to_platform_device(dev);
+>> +	struct dc_drm_device *dc_drm = data;
+>> +	void __iomem *base_top;
+>> +	struct dc_de *de;
+>> +	int ret;
 >> +
->> +  reg-names:
->> +    items:
->> +      - const: top
->> +      - const: cfg
+>> +	de = devm_kzalloc(dev, sizeof(*de), GFP_KERNEL);
+>> +	if (!de)
+>> +		return -ENOMEM;
 >> +
->> +  resets:
->> +    maxItems: 1
+>> +	de->id = (enum dc_de_id)(uintptr_t)device_get_match_data(dev);
 >> +
->> +  interrupts:
->> +    maxItems: 3
+>> +	base_top = devm_platform_ioremap_resource_byname(pdev, "top");
+>> +	if (IS_ERR(base_top))
+>> +		return PTR_ERR(base_top);
 >> +
->> +  interrupt-names:
->> +    items:
->> +      - const: shdload
->> +      - const: framecomplete
->> +      - const: seqcomplete
+>> +	de->reg_top = devm_regmap_init_mmio(dev, base_top,
+>> +					    &dc_de_top_regmap_config);
+>> +	if (IS_ERR(de->reg_top))
+>> +		return PTR_ERR(de->reg_top);
 >> +
->> +  power-domains:
->> +    maxItems: 1
+>> +	de->irq_shdld = platform_get_irq_byname(pdev, "shdload");
+> 
+> Nit: shdload or shdld? Which one is used in the documentation?
+> 
+>> +	if (de->irq_shdld < 0)
+>> +		return de->irq_shdld;
 >> +
->> +  "#address-cells":
->> +    const: 1
+>> +	de->irq_framecomplete = platform_get_irq_byname(pdev, "framecomplete");
+>> +	if (de->irq_framecomplete < 0)
+>> +		return de->irq_framecomplete;
 >> +
->> +  "#size-cells":
->> +    const: 1
+>> +	de->irq_seqcomplete = platform_get_irq_byname(pdev, "seqcomplete");
+>> +	if (de->irq_seqcomplete < 0)
+>> +		return de->irq_seqcomplete;
 >> +
->> +  ranges: true
+>> +	de->dev = dev;
 >> +
->> +patternProperties:
->> +  "^dither@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
+>> +	dev_set_drvdata(dev, de);
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - fsl,imx8qxp-dc-dither0
->> +          - fsl,imx8qxp-dc-dither1
+>> +	ret = devm_pm_runtime_enable(dev);
+>> +	if (ret)
+>> +		return ret;
 >> +
->> +  "^framegen@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
+>> +	dc_drm->de[de->id] = de;
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - fsl,imx8qxp-dc-framegen0
->> +          - fsl,imx8qxp-dc-framegen1
+>> +	return 0;
+>> +}
 >> +
->> +  "^gammacor@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
+> 
+> [...]
+> 
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - fsl,imx8qxp-dc-gammacor0
->> +          - fsl,imx8qxp-dc-gammacor1
+>> +struct dc_de {
+>> +	struct device *dev;
+>> +	struct regmap *reg_top;
+>> +	struct dc_fg *fg;
+>> +	struct dc_tc *tc;
+>> +	int irq_shdld;
+>> +	int irq_framecomplete;
+>> +	int irq_seqcomplete;
+>> +	enum dc_de_id id;
+> 
+> Why do you need to store it? This patch makes use of it just for the
+> registration.
+
+dc-crtc.c added in patch 12 would reference de->id. If no strong opinions,
+I'd keep this as-is.
+
+> 
+>> +};
 >> +
->> +  "^matrix@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
+> 
+> [...]
+> 
+>> +static int dc_fg_bind(struct device *dev, struct device *master, void *data)
+>> +{
+>> +	struct platform_device *pdev = to_platform_device(dev);
+>> +	struct dc_drm_device *dc_drm = data;
+>> +	void __iomem *base;
+>> +	enum dc_fg_id id;
+>> +	struct dc_fg *fg;
+>> +	struct dc_de *de;
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - fsl,imx8qxp-dc-matrix0
->> +          - fsl,imx8qxp-dc-matrix1
+>> +	fg = devm_kzalloc(dev, sizeof(*fg), GFP_KERNEL);
+>> +	if (!fg)
+>> +		return -ENOMEM;
 >> +
->> +  "^signature@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
+>> +	id = (enum dc_fg_id)(uintptr_t)device_get_match_data(dev);
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - fsl,imx8qxp-dc-signature0
->> +          - fsl,imx8qxp-dc-signature1
+>> +	base = devm_platform_ioremap_resource(pdev, 0);
+>> +	if (IS_ERR(base))
+>> +		return PTR_ERR(base);
 >> +
->> +  "^tcon@[0-9a-f]+$":
->> +    type: object
->> +    additionalProperties: true
+>> +	fg->reg = devm_regmap_init_mmio(dev, base, &dc_fg_regmap_config);
+>> +	if (IS_ERR(fg->reg))
+>> +		return PTR_ERR(fg->reg);
 >> +
->> +    properties:
->> +      compatible:
->> +        enum:
->> +          - fsl,imx8qxp-dc-tcon0
->> +          - fsl,imx8qxp-dc-tcon1
+>> +	fg->clk_disp = devm_clk_get(dev, NULL);
+>> +	if (IS_ERR(fg->clk_disp))
+>> +		return dev_err_probe(dev, PTR_ERR(fg->clk_disp),
+>> +				     "failed to get display clock\n");
 >> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - interrupts
->> +  - interrupt-names
->> +  - power-domains
->> +  - "#address-cells"
->> +  - "#size-cells"
->> +  - ranges
+>> +	fg->dev = dev;
 >> +
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: fsl,imx8qxp-dc-display-engine0
->> +    then:
->> +      patternProperties:
->> +        "^dither@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-dither0
+>> +	de = dc_drm->de[id];
+> 
+> This depends on a particular order of component's being bound. If the
+> order changes for whatever reason (e.g. due to component.c
+> implementation being changed) then your driver might crash here.
+
+Nope. There is no chance to crash here, because
+1) dc_drm is not NULL here
+dc_drm is allocated in dc_drm_bind() and before component_bind_all() is
+called.  dc_fg_bind() is called by component_bind_all().
+
+2) dc_drm->de[id] is not NULL here
+It's already set by dc_de_bind(), because component_bind_all() binds
+components in match order and the component match for DE is added before
+the one for FG(DE is a child device of display controller and FG is a
+_grandchild_ of display controller).
+
+component_bind_all():
+        /* Bind components in match order */                                     
+        for (i = 0; i < adev->match->num; i++)                                   
+                if (!adev->match->compare[i].duplicate) {                        
+                        c = adev->match->compare[i].component;                   
+                        ret = component_bind(c, adev, data);                     
+
+dc_add_components():
+        for_each_available_child_of_node(dev->of_node, child) {                  
+                ...
+
+                drm_of_component_match_add(dev, matchptr, component_compare_of,  
+                                           child);                               
+                                                                                 
+                for_each_available_child_of_node(child, grandchild)              
+                        drm_of_component_match_add(dev, matchptr,                
+                                                   component_compare_of,         
+                                                   grandchild);                  
+        }                                                                        
+
+> 
+> This applies to several other places in the driver.
+
+I don't see any other potential crash caused by the binding order of the
+components.
+
+> 
+>> +	de->fg = fg;
 >> +
->> +        "^framegen@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-framegen0
+>> +	return 0;
+>> +}
 >> +
->> +        "^gammacor@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-gammacor0
->> +
->> +        "^matrix@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-matrix0
->> +
->> +        "^signature@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-signature0
->> +
->> +        "^tcon@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-tcon0
->> +    else:
->> +      patternProperties:
->> +        "^dither@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-dither1
->> +
->> +        "^framegen@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-framegen1
->> +
->> +        "^gammacor@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-gammacor1
->> +
->> +        "^matrix@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-matrix1
->> +
->> +        "^signature@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-signature1
->> +
->> +        "^tcon@[0-9a-f]+$":
->> +          properties:
->> +            compatible:
->> +              const: fsl,imx8qxp-dc-tcon1
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/imx8-lpcg.h>
->> +    #include <dt-bindings/firmware/imx/rsrc.h>
->> +
->> +    display-engine@5618b400 {
->> +        compatible = "fsl,imx8qxp-dc-display-engine0";
->> +        reg = <0x5618b400 0x14>, <0x5618b800 0x1c00>;
->> +        reg-names = "top", "cfg";
->> +        interrupt-parent = <&dc0_intc>;
->> +        interrupts = <15>, <16>, <17>;
->> +        interrupt-names = "shdload", "framecomplete", "seqcomplete";
->> +        power-domains = <&pd IMX_SC_R_DC_0_PLL_0>;
->> +        #address-cells = <1>;
->> +        #size-cells = <1>;
->> +        ranges;
->> +
->> +        framegen@5618b800 {
->> +            compatible = "fsl,imx8qxp-dc-framegen0";
->> +            reg = <0x5618b800 0x98>;
->> +            clocks = <&dc0_disp_lpcg IMX_LPCG_CLK_0>;
->> +            interrupt-parent = <&dc0_intc>;
->> +            interrupts = <18>, <19>, <20>, <21>, <41>, <42>, <43>, <44>;
->> +            interrupt-names = "int0", "int1", "int2", "int3",
->> +                              "primsync_on", "primsync_off",
->> +                              "secsync_on", "secsync_off";
->> +        };
->> +
->> +        tcon@5618c800 {
->> +            compatible = "fsl,imx8qxp-dc-tcon0";
->> +            reg = <0x5618c800 0x588>;
->> +
->> +            port {
->> +                dc0_disp0_dc0_pixel_combiner_ch0: endpoint {
->> +                    remote-endpoint = <&dc0_pixel_combiner_ch0_dc0_disp0>;
->> +                };
->> +            };
->> +        };
->> +    };
->> -- 
->> 2.34.1
->>
 > 
 
 -- 
