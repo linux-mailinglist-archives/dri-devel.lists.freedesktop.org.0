@@ -2,66 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392849FC554
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 14:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0029FC576
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 14:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C98110E1B5;
-	Wed, 25 Dec 2024 13:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02CFF10E263;
+	Wed, 25 Dec 2024 13:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lkiK3PMU";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kD1POdDe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0FC610E1B5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 13:31:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D02DEA403C8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 13:29:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77450C4CECD
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 13:31:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735133488;
- bh=OgqqX+lTvRboKaPgE6eQ6OjOpOsQrtzv/dr+HjHyqpQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=lkiK3PMUVPIq/5GhJ011cFCXZr/DkzkF9G2hv1r+LRdxrZXKEPEJO8HN6bK3WTJOI
- i0zlTfUoJTBEIGWMVpvXGvNLkplpCddspt5wyBdCHJSfZrVTVZaV/D0aYVLhUndVeU
- HLZHQTSXm2XoDPcKK3DWSNHo+yYwt3YR/Ic+4x/Pt+Mlz0Gj+5RLwOfZucwVfCVEwS
- DT4Lpna4/fNXa25BsWb3mRn6LjAlUm9/XY8YqAL6K75PAAekkh0Ya3sG3taVrYWSJt
- pdaIVlW+Vn12wz5AgXMo7GIIRjP3MYdQeCQOf1nwkU+HF3frR6Yyltlxv7qi5VcA+p
- 4F3VpihmPHqWA==
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-2ee67e9287fso6333639a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 05:31:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWn6aVl8+pTG39QLj4QEmdPtPjajCs/HQ3OmERx4ZIy3ZeIEE6hQpzvHJqBMV9fgT1mpdiAvyiifeM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHMXutsWRbbNpBzLEYGF1chDxSqmCjWKyyR30+o70UuIN8cFmm
- 1IaYlKWpiUtO+9B49jTCKJMId52gbGC0eKYJTUJvj5CD19DygJHwT96IAtMT5nCoBE1Mf2UnsJL
- IM0xNI7SuBAxZbwzcl3UB35JHug==
-X-Google-Smtp-Source: AGHT+IFjj5jLYnjM8STERl/xOhWv/K+zpDyfBlAfUpu18zlAIKlD62TX8OT29AP4UAQj6CvJ00PaXEonxrkWtDpMq5s=
-X-Received: by 2002:a17:90b:2f0e:b0:2f4:4003:f3d4 with SMTP id
- 98e67ed59e1d1-2f452ee5e54mr31287625a91.30.1735133488062; Wed, 25 Dec 2024
- 05:31:28 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5423410E087;
+ Wed, 25 Dec 2024 13:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=2g/sEa5I0ZzWmLPNsEhBpmG1KTu4g+IUPNbDCdnvnuA=; b=kD1POdDekk/oQh8kVHF2dASQpb
+ OcVqzH2daG8DTVEc1yKENWFjS1XadnXAnBbptfqmqb1wizp7YpRQx98djot/2xLwHn51mHACgv5he
+ pbGFfLpYBXBx0zOjtDpALOdgsftnrNpXVxPgp3dIUjH3IHXaOAMtXpvBjQjVgsh/MvK7cAmwkiXBP
+ yUColyt9eP2+4wlQMixlUActNe+lNQ0dAFescBg7Cat5hQZghy4UApFx1XNn1gBp9tsJWX7Fsid5v
+ ctOPpa1EC8bAXFf0aN/jKUbQNUqMIISefTxixrMTQhCObc3dCVSQT/XaSn4T/hVgy13m84vxnrvjk
+ 1USNxCHw==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tQRZR-007WMF-5b; Wed, 25 Dec 2024 14:37:05 +0100
+Date: Wed, 25 Dec 2024 13:37:03 +0000
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-fixes
+Message-ID: <Z2wKf7tmElKFdnoP@linux>
 MIME-Version: 1.0
-References: <20241118025126.30808-1-jason-jh.lin@mediatek.com>
-In-Reply-To: <20241118025126.30808-1-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 25 Dec 2024 21:31:59 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-GvQL7ROZ_P5kT0xCYB9iLnHe4L69ay_RDj4sjbGkwoQ@mail.gmail.com>
-Message-ID: <CAAOTY_-GvQL7ROZ_P5kT0xCYB9iLnHe4L69ay_RDj4sjbGkwoQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Add support for 180-degree rotation in the
- display driver
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, Singo Chang <singo.chang@mediatek.com>, 
- Nancy Lin <nancy.lin@mediatek.com>,
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Fei Shao <fshao@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,72 +67,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
 
-Jason-JH.Lin <jason-jh.lin@mediatek.com> =E6=96=BC 2024=E5=B9=B411=E6=9C=88=
-18=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=8810:51=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> mediatek-drm driver reported the capability of 180-degree rotation by
-> adding `DRM_MODE_ROTATE_180` to the plane property, as flip-x combined
-> with flip-y equals a 180-degree rotation. However, we did not handle
-> the rotation property in the driver and lead to rotation issues.
+Hi Dave, Sima,
 
-Applied to mediatek-drm-fixes [1], thanks.
+Two fixes for the next -rc window.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+One is display programming sequence fix for Meteorlake and second fixes
+video decode hangs on DG1 due incorrect power gate programming.
 
 Regards,
-Chun-Kuang.
 
->
-> Fixes: 74608d8feefd ("drm/mediatek: Add DRM_MODE_ROTATE_0 to rotation pro=
-perty")
-> Signed-off-by: Jason-JH.Lin <jason-jh.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/me=
-diatek/mtk_disp_ovl.c
-> index e0c0bb01f65a..cc825c4f2e09 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-> @@ -472,6 +472,7 @@ void mtk_ovl_layer_config(struct device *dev, unsigne=
-d int idx,
->         unsigned int hdr_pitch =3D pending->hdr_pitch;
->         unsigned int fmt =3D pending->format;
->         unsigned int offset =3D (pending->y << 16) | pending->x;
-> +       unsigned int rotation =3D pending->rotation;
->         unsigned int src_size =3D (pending->height << 16) | pending->widt=
-h;
->         unsigned int blend_mode =3D state->base.pixel_blend_mode;
->         unsigned int ignore_pixel_alpha =3D 0;
-> @@ -513,12 +514,19 @@ void mtk_ovl_layer_config(struct device *dev, unsig=
-ned int idx,
->                         ignore_pixel_alpha =3D OVL_CONST_BLEND;
->         }
->
-> -       if (pending->rotation & DRM_MODE_REFLECT_Y) {
-> +       /*
-> +        * Treat rotate 180 as flip x + flip y, and XOR the original rota=
-tion value
-> +        * to flip x + flip y to support both in the same time.
-> +        */
-> +       if (rotation & DRM_MODE_ROTATE_180)
-> +               rotation ^=3D DRM_MODE_REFLECT_X | DRM_MODE_REFLECT_Y;
-> +
-> +       if (rotation & DRM_MODE_REFLECT_Y) {
->                 con |=3D OVL_CON_VIRT_FLIP;
->                 addr +=3D (pending->height - 1) * pending->pitch;
->         }
->
-> -       if (pending->rotation & DRM_MODE_REFLECT_X) {
-> +       if (rotation & DRM_MODE_REFLECT_X) {
->                 con |=3D OVL_CON_HORZ_FLIP;
->                 addr +=3D pending->pitch - 1;
->         }
-> --
-> 2.43.0
->
+Tvrtko
+
+drm-intel-fixes-2024-12-25:
+- Fix C10 pll programming sequence [cx0_phy] (Suraj Kandpal)
+- Fix power gate sequence. [dg1] (Rodrigo Vivi)
+The following changes since commit 4bbf9020becbfd8fc2c3da790855b7042fad455b:
+
+  Linux 6.13-rc4 (2024-12-22 13:22:21 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-fixes-2024-12-25
+
+for you to fetch changes up to 20e7c5313ffbf11c34a46395345677adbe890bee:
+
+  drm/i915/dg1: Fix power gate sequence. (2024-12-24 09:41:03 +0000)
+
+----------------------------------------------------------------
+- Fix C10 pll programming sequence [cx0_phy] (Suraj Kandpal)
+- Fix power gate sequence. [dg1] (Rodrigo Vivi)
+
+----------------------------------------------------------------
+Rodrigo Vivi (1):
+      drm/i915/dg1: Fix power gate sequence.
+
+Suraj Kandpal (1):
+      drm/i915/cx0_phy: Fix C10 pll programming sequence
+
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c | 12 ++++--------
+ drivers/gpu/drm/i915/gt/intel_rc6.c          |  2 +-
+ 2 files changed, 5 insertions(+), 9 deletions(-)
