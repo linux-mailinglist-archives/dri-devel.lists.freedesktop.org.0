@@ -2,35 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660439FC2F3
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 01:32:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89CF39FC33C
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 03:02:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C9B10E06E;
-	Wed, 25 Dec 2024 00:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A4910E34A;
+	Wed, 25 Dec 2024 02:02:22 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="1ykscqLl";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FECF10E06E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 00:32:18 +0000 (UTC)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 25 Dec
- 2024 08:32:15 +0800
-Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Wed, 25 Dec 2024 08:32:15 +0800
-From: Jammy Huang <jammy_huang@aspeedtech.com>
-To: <tzimmermann@suse.de>, <jfalempe@redhat.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <airlied@redhat.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] drm/ast: Support timings, 1280x720/1280x960/1600x900
-Date: Wed, 25 Dec 2024 08:32:15 +0800
-Message-ID: <20241225003215.1343996-1-jammy_huang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DBC210E34A
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 02:02:20 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-216728b1836so51454835ad.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 18:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1735092080; x=1735696880; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pzj5ySVsNUyrEzrsBzjWcUyTfRv5CV00k5gl4ogV7gU=;
+ b=1ykscqLl9C2CNP8e1DSOp8uqK9y5Nu798n3aSvZ2Qd86TjWsyD9UAU/tBtjVaO/LYO
+ 3HkA/Bt5soIGyXmruRSFiDXpCkf8Hd9j2Enyg3zGifQnAsmtJXZR7cma4HT+01Ae09wA
+ bir81daENvySI1twMN9+T0zXu06y2ovuZ66aAVxv1qLReJUzIaoKKmNVwGkhVHB6LJQz
+ MJPaj5HUKRt6uFt9sAJ+qJ11J9C2JXrqYB3QZn/Fna1DoVbblEvrduoKQxQCHVse0hLW
+ Q3eU8vrpwonT4FSNHQaMSRMwL3YFulDXrFrsWg9F06cx7JwvJ3Gyp9pv7BVCWV+bblpx
+ +bHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735092080; x=1735696880;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Pzj5ySVsNUyrEzrsBzjWcUyTfRv5CV00k5gl4ogV7gU=;
+ b=C5Xj/kD9lBvKcr1O6czOtqk6wZu1zAaXsKYPYys9aaQ15OPfae5V5/C6fVFz6jLp3G
+ SBCsO4wPZCicNuoSGflY2oIkUjH+eTDH1VS8t+s+PqeHVQgu7KqoPPpoHTLUEhNcnBBG
+ ImSTuCJ5dP4juq5hYFqLlNzc6BMqGVT3LUk2Hxm8GXY2DahEnu2zvRqvTTwqo+ButduX
+ IEPFMoa75OJpWb5w+ieNWY1INC4ar3aIgpzIjIw5YjvFVboUra2TNwNQdOY23TfJI8QX
+ akqADjDi2mBV/jwTGITCm/qGFmDxXE11Mm+5bt3pZs4CPubdNVKqgffqDrD5RZ1s99u3
+ 8JRQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVKEX3GRkh4n/rbePwGu1ZO+QiAU2sJc1xIy/CvR3sX53bsP19c1sXVeiSN2nMdH3IZF2ZahFSINgY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw68NXYOjIR3/X/CYuPwQTmZs/ELIWh2oPY8grAg75EIufUZJOK
+ 2SREtFlLBS95XpZEkgYpVZ4HT9ZRJn+3q6Jav8AHUyAw9y4JJ22imBHpxlJJnCg=
+X-Gm-Gg: ASbGncuASipAo1Ae3GX+/YJyaMBpJpz9pXv2lJNs8PGNcIpqPLLzesgl4ZiBW3oQuzj
+ U6cvNFQXfnhOrDV8BwKTlUf/8PvzxQGVL55xWYxDsFGzTbVb6M5YrZ1CPNkQ9rzj/MFB12GCWwz
+ PjaRB1oDEZaPktkBco4NzBk1IH4NOpPmsPphqimFvc7z0P8fnLlvyCqQl53Q224ZrNBS4ON/n4d
+ 3ayNWndw6PIQqsT8ugmsr5Z9QatJvD/P4Mcesr33YApgrGFHNtdZVbIqXmnXk0JYkxQavvSBuUC
+ 6IwC0E4h44pIuLhatlI3QhVZHCfR
+X-Google-Smtp-Source: AGHT+IGdOvSjlcRVJIz6FlpF8a9LA/mwmpmpoNxzHcBtTPcwZuUvAzAi23SMffnDVfyi0H8AsEtezw==
+X-Received: by 2002:a05:6a20:9144:b0:1e0:d169:ee4b with SMTP id
+ adf61e73a8af0-1e5e045d6c5mr28948508637.12.1735092078200; 
+ Tue, 24 Dec 2024 18:01:18 -0800 (PST)
+Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-72aad8163fdsm10332520b3a.6.2024.12.24.18.01.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Dec 2024 18:01:17 -0800 (PST)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: dianders@chromium.org, neil.armstrong@linaro.org,
+ quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: dianders@google.com, Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH] drm/panel-edp: Add B140UAN04.4 and MNE007QS3-7
+Date: Wed, 25 Dec 2024 10:01:09 +0800
+Message-Id: <20241225020109.1051449-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,151 +89,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In this patch, 3 new timings are added into support list.
+The raw edid for B140UAN04.4 panel is:
 
-If you want to have new timings, 1280x720 and 1280x960 on DisplayPort,
-your dp-fw should be newer than version, 20240502.
+00 ff ff ff ff ff ff 00 06 af b3 a7 00 00 00 00
+0c 22 01 04 a5 1e 13 78 03 cb 55 91 57 5a 91 29
+1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 f4 3c 80 b8 70 b0 24 40 10 10
+3e 00 2d bc 10 00 00 18 00 00 00 0f 00 00 00 00
+00 00 00 00 00 00 00 00 00 20 00 00 00 fe 00 41
+55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+00 42 31 34 30 55 41 4e 30 34 2e 34 20 0a 01 46
 
-Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
+70 20 79 02 00 22 00 14 87 61 02 85 7f 07 b7 00
+0f 80 0f 00 af 04 23 00 02 00 0d 00 25 01 09 87
+61 02 87 61 02 28 3c 80 81 00 15 74 1a 00 00 03
+01 28 3c 00 00 53 50 53 50 3c 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 0b 90
+
+The raw edid for MNE007QS3-7 panel is:
+
+00 ff ff ff ff ff ff 00 0e 77 48 14 00 00 00 00
+34 20 01 04 a5 1e 13 78 03 2c c5 94 5c 59 95 29
+1e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 ea 3d 80 c8 70 b0 2e 40 30 20
+36 00 2e bd 10 00 00 1a 00 00 00 fd 00 28 3c 4b
+4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
+53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fe
+00 4d 4e 45 30 30 37 51 53 33 2d 37 0a 20 00 df
+
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 ---
-v2:
- - Fix build errors.
-v3:
- - Fix typo.
----
- drivers/gpu/drm/ast/ast_dp.c     |  9 ++++++++-
- drivers/gpu/drm/ast/ast_drv.h    |  3 +++
- drivers/gpu/drm/ast/ast_mode.c   | 14 ++++++++++++++
- drivers/gpu/drm/ast/ast_tables.h | 18 ++++++++++++++++++
- 4 files changed, 43 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panel/panel-edp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 0e282b7b167c..0b56f0335871 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -255,6 +255,10 @@ static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v
- 	case 1280:
- 		if (crtc->mode.crtc_vdisplay == 800)
- 			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
-+		else if (crtc->mode.crtc_vdisplay == 720)
-+			ModeIdx = ASTDP_1280x720_60;
-+		else if (crtc->mode.crtc_vdisplay == 960)
-+			ModeIdx = ASTDP_1280x960_60;
- 		else		// 1024
- 			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
- 		break;
-@@ -267,7 +271,10 @@ static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v
- 		break;
- 	case 1600:
- 		if (crtc->mode.crtc_vdisplay == 900)
--			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
-+			if (ulRefreshRateIndex == 2)
-+				ModeIdx = ASTDP_1600x900_60_DMT;
-+			else
-+				ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
- 		else		//1200
- 			ModeIdx = ASTDP_1600x1200_60;
- 		break;
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 21ce3769bf0d..e7cef334b3ec 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -442,6 +442,9 @@ int ast_mode_config_init(struct ast_device *ast);
- #define ASTDP_1600x900_60_RB	0x1D
- #define ASTDP_1366x768_60		0x1E
- #define ASTDP_1152x864_75		0x1F
-+#define ASTDP_1600x900_60_DMT		0x51
-+#define ASTDP_1280x720_60		0x52
-+#define ASTDP_1280x960_60		0x53
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index f8511fe5fb0d..e9434a0cc37a 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1865,6 +1865,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xc4b4, &delay_200_500_e50, "B116XAT04.1"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B120XAN01.0"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0xa7b3, &delay_200_500_e50, "B140UAN04.4"),
  
- int ast_mm_init(struct ast_device *ast);
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0607, &delay_200_500_e200, "Unknown"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0608, &delay_200_500_e50, "NT116WHM-N11"),
+@@ -1954,6 +1955,7 @@ static const struct edp_panel_entry edp_panels[] = {
  
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index 9d5321c81e68..48d1065846a2 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -147,6 +147,10 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 	case 1280:
- 		if (mode->crtc_vdisplay == 800)
- 			vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
-+		else if (mode->crtc_vdisplay == 720)
-+			vbios_mode->enh_table = &res_1280x720[refresh_rate_index];
-+		else if (mode->crtc_vdisplay == 960)
-+			vbios_mode->enh_table = &res_1280x960[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
- 		break;
-@@ -475,6 +479,12 @@ static void ast_set_dclk_reg(struct ast_device *ast,
- 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xbb, 0x0f,
- 			       (clk_info->param3 & 0xc0) |
- 			       ((clk_info->param3 & 0x3) << 4));
-+
-+	/* Set SEQ; Half dclk for this timing */
-+	if (vbios_mode->enh_table->flags & HalfDCLK)
-+		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xff, 0x08);
-+	else
-+		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xf7, 0x00);
- }
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MNB601LS1-4"),
++	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1448, &delay_200_500_e50, "MNE007QS3-7"),
  
- static void ast_set_color_reg(struct ast_device *ast,
-@@ -1027,8 +1037,12 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
- 	if (ast->support_wide_screen) {
- 		if ((mode->hdisplay == 1680) && (mode->vdisplay == 1050))
- 			return MODE_OK;
-+		if ((mode->hdisplay == 1280) && (mode->vdisplay == 960))
-+			return MODE_OK;
- 		if ((mode->hdisplay == 1280) && (mode->vdisplay == 800))
- 			return MODE_OK;
-+		if ((mode->hdisplay == 1280) && (mode->vdisplay == 720))
-+			return MODE_OK;
- 		if ((mode->hdisplay == 1440) && (mode->vdisplay == 900))
- 			return MODE_OK;
- 		if ((mode->hdisplay == 1360) && (mode->vdisplay == 768))
-diff --git a/drivers/gpu/drm/ast/ast_tables.h b/drivers/gpu/drm/ast/ast_tables.h
-index 0378c9bc079b..329d6bac867b 100644
---- a/drivers/gpu/drm/ast/ast_tables.h
-+++ b/drivers/gpu/drm/ast/ast_tables.h
-@@ -254,6 +254,13 @@ static const struct ast_vbios_enhtable res_1024x768[] = {
- 	 (SyncPP | Charx8Dot), 0xFF, 4, 0x31 },
- };
- 
-+static const struct ast_vbios_enhtable res_1280x960[] = {
-+	{1800, 1280, 96, 112, 1000, 960, 1, 3, VCLK108, /* 60Hz */
-+	 (SyncPP | Charx8Dot), 60, 1, 0x3E },
-+	{1800, 1280, 96, 112, 1000, 960, 1, 3, VCLK108, /* end */
-+	 (SyncPP | Charx8Dot), 0xFF, 1, 0x3E },
-+};
-+
- static const struct ast_vbios_enhtable res_1280x1024[] = {
- 	{1688, 1280, 48, 112, 1066, 1024, 1, 3, VCLK108,	/* 60Hz */
- 	 (SyncPP | Charx8Dot), 60, 1, 0x32 },
-@@ -280,6 +287,15 @@ static const struct ast_vbios_enhtable res_1152x864[] = {
- };
- 
- /* 16:9 */
-+static const struct ast_vbios_enhtable res_1280x720[] = {
-+	{1650, 1280, 110, 40, 750, 720, 5, 5, VCLK148_5,	/* 60Hz */
-+	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
-+	  HalfDCLK), 60, 1, 0x3D },
-+	{1650, 1280, 110, 40, 750, 720, 5, 5, VCLK148_5,	/* end */
-+	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
-+	  HalfDCLK), 0xFF, 1, 0x3D },
-+};
-+
- static const struct ast_vbios_enhtable res_1360x768[] = {
- 	{1792, 1360, 64, 112, 795, 768, 3, 6, VCLK85_5,		/* 60Hz */
- 	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 1, 0x39 },
-@@ -294,6 +310,8 @@ static const struct ast_vbios_enhtable res_1600x900[] = {
- 	  AST2500PreCatchCRT), 60, 1, 0x3A },
- 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
- 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x3A },
-+	{1800, 1600, 24, 80, 1000, 900, 1, 3, VCLK108,		/* 60Hz DMT */
-+	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 3, 0x3A },
- 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
- 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x3A },
- };
-
-base-commit: 4bbf9020becbfd8fc2c3da790855b7042fad455b
+ 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d51, &delay_200_500_e200, "Unknown"),
+ 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5b, &delay_200_500_e200, "MB116AN01"),
 -- 
-2.25.1
+2.34.1
 
