@@ -2,93 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D16E9FC2D6
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 00:12:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660439FC2F3
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 01:32:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E9D410E33D;
-	Tue, 24 Dec 2024 23:11:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="zIBaJrfK";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18C9B10E06E;
+	Wed, 25 Dec 2024 00:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A537010E33D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 23:11:40 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-3003943288bso61444511fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Dec 2024 15:11:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735081839; x=1735686639; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=CdewCk/PRTWQN0dylNFNsSEtCEp3tuP1E7w2vIr9TcQ=;
- b=zIBaJrfK+ZqW7/+pbtV7Tn9AvWpPdcFEsWh/7Oqz4+WMcOrB8j2FerveOAR/yTseFi
- dlj3MC/HefQK2sbJkp+Irm5drIixmNA01BdzrK2tvbxXFxL2/EinU6+gr21bc3UQGCFi
- NT6LhhWMHPCL0o1zwWuDouMXeVkIWwZjhBe+l0O9C1HK4q0ksTnp3WZXkxaVloHrQzU9
- gwX0zm/u5Yiry4n1ReuHrX59Dt5YTn33f2gIrranqH/uuIGgC38OrzJ9rlZXV6bXhiCy
- SorvbjlNZvICigVUl2DC06/CjD2LhZZo4wzh4QssRktnw5j1Pk/Z7SccpyKt7y+doevM
- t3kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735081839; x=1735686639;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CdewCk/PRTWQN0dylNFNsSEtCEp3tuP1E7w2vIr9TcQ=;
- b=ZRiuCqcaFF9btbFe4It1VWPb+D5EmrDzhNpt8fic4nsruOv3rAR8gUFYuS1DZkIJ5e
- X8CaJKp1Fo/3a3daVMNOGYnZFUOP2753/LkJcLstEYvFOkIOVCwEhHkrwlTJkzRtVz35
- x2C4YmxU6sJE1e/EmxWx1aPEyytGFR6qX12CiEFLe4Q5mZ/i321DsMAk0Oi61/3xfXVJ
- tLR0K5XsooSaySYULxlN+4cCmAwgA+USgLxLPQ1cMVAk7dPwuTvbsWaRGpg2W6KZIGd6
- oim+VVacjYePZl5Sbb38ON/wZz+gxGgAruOD0HUu1SGKAntCbIh1u41zrWGfNO5L46Rk
- I3Qg==
-X-Gm-Message-State: AOJu0YySWsfB9RTB9fZrgM+YNojoz8SLJ4y2pRSuLQ5l4UFW46sPpuGS
- ttvjS9ivggpVEZpIsAmdXjx3Pz+D1gMqUV/8o71O3WGFpJHPMnfPkwaPmRJ39L4=
-X-Gm-Gg: ASbGncvTyuxSErTJzIVQ3xNwlNn35uu1+Gi0oS5MZ7XjL5ZxB6l4dYMHMOyqzwpBxEW
- X8WH5iaScPrqA94WApOYkC5MWerGYMHqfLi1H3rRoZkkfeyVxUMt2WWOOl3RRAk/AeKXJ25nclx
- sLTCMWtfqOlug7c8hQg5FDsnnkahl0mVZ3fZejLjb2erzZIfGQmSwJDo9MSzPy3aAFejvAjBIuA
- Hwsy88O9noq54+tILJ1K2WWh4w/iBSagvoYgiPcQMS/Aw/gRDu1wIBlJx7UO/Tc
-X-Google-Smtp-Source: AGHT+IF7yX8NB3dL2I9oCyrwUW/216+uMBZnO7rofkTlzB1tv6R2FT8+EMKGiGeqgjQOzx4R1mgDeg==
-X-Received: by 2002:a05:6512:6512:b0:542:297f:4f69 with SMTP id
- 2adb3069b0e04-542297f4fe6mr4383196e87.41.1735081839049; 
- Tue, 24 Dec 2024 15:10:39 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235f5f74sm1721283e87.43.2024.12.24.15.10.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Dec 2024 15:10:37 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 25 Dec 2024 01:10:17 +0200
-Subject: [PATCH RFC/RFT 9/9] drm/display: bridge-connector: handle CEC adapters
+Received: from TWMBX01.aspeed.com (mail.aspeedtech.com [211.20.114.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FECF10E06E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 00:32:18 +0000 (UTC)
+Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Wed, 25 Dec
+ 2024 08:32:15 +0800
+Received: from twmbx02.aspeed.com (192.168.10.10) by TWMBX01.aspeed.com
+ (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
+ Transport; Wed, 25 Dec 2024 08:32:15 +0800
+From: Jammy Huang <jammy_huang@aspeedtech.com>
+To: <tzimmermann@suse.de>, <jfalempe@redhat.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <airlied@redhat.com>, <airlied@gmail.com>, <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3] drm/ast: Support timings, 1280x720/1280x960/1600x900
+Date: Wed, 25 Dec 2024 08:32:15 +0800
+Message-ID: <20241225003215.1343996-1-jammy_huang@aspeedtech.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241225-drm-hdmi-connector-cec-v1-9-b80380c67221@linaro.org>
-References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
-In-Reply-To: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5825;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=X9IwqP014YM7Yqs7I1CTwyxkzFvnciX/pqhUwGCgKmI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnaz9WRj8gJm92HaOlOvdvAm82lKlETw5HUFrkp
- Djq2qO2o3yJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2s/VgAKCRCLPIo+Aiko
- 1eEeB/0bxzxQhHj2XJ/dcUJ79F7c1hHbybD9qcBjuaYPrBxbGxm1/PdrpjTFEa7Rpthx3TJZw38
- b90yxkRyc3iAJp1C/XKuCZSLj1k9AjEEd5tzCYth8QJ3M+caNnETQDHQw25twDNxJSR8jyjf8GF
- YVn8EOghnQgd1jU7Yl06fKZv1VApgGfDHy44wZ/ZHyCjaNI7LHG7uDoKAFIkYxnhwRE70TmykB5
- Wm3/8mS7eWm7xFxlvHPOaBm2HOW/MDjX0+M1aF6Ly9z7HbVOHHLz5SIbvnAK8arikIZ1qVIC/js
- D8HV9NAmd4q02rYDJGxmq40Ikvrjgqm3SqpXZA5UUUn3derG
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,186 +46,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement necessary glue code to let DRM bridge drivers to implement CEC
-adapters support.
+In this patch, 3 new timings are added into support list.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+If you want to have new timings, 1280x720 and 1280x960 on DisplayPort,
+your dp-fw should be newer than version, 20240502.
+
+Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 95 ++++++++++++++++++++++++++
- include/drm/drm_bridge.h                       | 25 +++++++
- 2 files changed, 120 insertions(+)
+v2:
+ - Fix build errors.
+v3:
+ - Fix typo.
+---
+ drivers/gpu/drm/ast/ast_dp.c     |  9 ++++++++-
+ drivers/gpu/drm/ast/ast_drv.h    |  3 +++
+ drivers/gpu/drm/ast/ast_mode.c   | 14 ++++++++++++++
+ drivers/gpu/drm/ast/ast_tables.h | 18 ++++++++++++++++++
+ 4 files changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 291abb4bcfefd12e1a57a22ba5ccce21c15196a4..f6d04f5aa261b3d0cec4057d4c9595e494c34264 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -9,6 +9,8 @@
- #include <linux/property.h>
- #include <linux/slab.h>
+diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+index 0e282b7b167c..0b56f0335871 100644
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -255,6 +255,10 @@ static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v
+ 	case 1280:
+ 		if (crtc->mode.crtc_vdisplay == 800)
+ 			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
++		else if (crtc->mode.crtc_vdisplay == 720)
++			ModeIdx = ASTDP_1280x720_60;
++		else if (crtc->mode.crtc_vdisplay == 960)
++			ModeIdx = ASTDP_1280x960_60;
+ 		else		// 1024
+ 			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
+ 		break;
+@@ -267,7 +271,10 @@ static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *v
+ 		break;
+ 	case 1600:
+ 		if (crtc->mode.crtc_vdisplay == 900)
+-			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
++			if (ulRefreshRateIndex == 2)
++				ModeIdx = ASTDP_1600x900_60_DMT;
++			else
++				ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
+ 		else		//1200
+ 			ModeIdx = ASTDP_1600x1200_60;
+ 		break;
+diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+index 21ce3769bf0d..e7cef334b3ec 100644
+--- a/drivers/gpu/drm/ast/ast_drv.h
++++ b/drivers/gpu/drm/ast/ast_drv.h
+@@ -442,6 +442,9 @@ int ast_mode_config_init(struct ast_device *ast);
+ #define ASTDP_1600x900_60_RB	0x1D
+ #define ASTDP_1366x768_60		0x1E
+ #define ASTDP_1152x864_75		0x1F
++#define ASTDP_1600x900_60_DMT		0x51
++#define ASTDP_1280x720_60		0x52
++#define ASTDP_1280x960_60		0x53
  
-+#include <media/cec.h>
+ int ast_mm_init(struct ast_device *ast);
+ 
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 9d5321c81e68..48d1065846a2 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -147,6 +147,10 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
+ 	case 1280:
+ 		if (mode->crtc_vdisplay == 800)
+ 			vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
++		else if (mode->crtc_vdisplay == 720)
++			vbios_mode->enh_table = &res_1280x720[refresh_rate_index];
++		else if (mode->crtc_vdisplay == 960)
++			vbios_mode->enh_table = &res_1280x960[refresh_rate_index];
+ 		else
+ 			vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
+ 		break;
+@@ -475,6 +479,12 @@ static void ast_set_dclk_reg(struct ast_device *ast,
+ 	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xbb, 0x0f,
+ 			       (clk_info->param3 & 0xc0) |
+ 			       ((clk_info->param3 & 0x3) << 4));
 +
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_bridge_connector.h>
-@@ -497,6 +499,80 @@ static const struct drm_connector_hdmi_audio_funcs drm_bridge_connector_hdmi_aud
- 	.mute_stream = drm_bridge_connector_audio_mute_stream,
++	/* Set SEQ; Half dclk for this timing */
++	if (vbios_mode->enh_table->flags & HalfDCLK)
++		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xff, 0x08);
++	else
++		ast_set_index_reg_mask(ast, AST_IO_VGASRI, 0x01, 0xf7, 0x00);
+ }
+ 
+ static void ast_set_color_reg(struct ast_device *ast,
+@@ -1027,8 +1037,12 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
+ 	if (ast->support_wide_screen) {
+ 		if ((mode->hdisplay == 1680) && (mode->vdisplay == 1050))
+ 			return MODE_OK;
++		if ((mode->hdisplay == 1280) && (mode->vdisplay == 960))
++			return MODE_OK;
+ 		if ((mode->hdisplay == 1280) && (mode->vdisplay == 800))
+ 			return MODE_OK;
++		if ((mode->hdisplay == 1280) && (mode->vdisplay == 720))
++			return MODE_OK;
+ 		if ((mode->hdisplay == 1440) && (mode->vdisplay == 900))
+ 			return MODE_OK;
+ 		if ((mode->hdisplay == 1360) && (mode->vdisplay == 768))
+diff --git a/drivers/gpu/drm/ast/ast_tables.h b/drivers/gpu/drm/ast/ast_tables.h
+index 0378c9bc079b..329d6bac867b 100644
+--- a/drivers/gpu/drm/ast/ast_tables.h
++++ b/drivers/gpu/drm/ast/ast_tables.h
+@@ -254,6 +254,13 @@ static const struct ast_vbios_enhtable res_1024x768[] = {
+ 	 (SyncPP | Charx8Dot), 0xFF, 4, 0x31 },
  };
  
-+static int drm_bridge_connector_cec_adap_enable(struct cec_adapter *adap, bool enable)
-+{
-+	struct drm_connector *connector = cec_get_drvdata(adap);
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_hdmi;
-+
-+	return bridge->funcs->hdmi_cec_adap_enable(bridge, enable);
-+}
-+
-+static int drm_bridge_connector_cec_adap_log_addr(struct cec_adapter *adap, u8 logical_addr)
-+{
-+	struct drm_connector *connector = cec_get_drvdata(adap);
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_hdmi;
-+
-+	return bridge->funcs->hdmi_cec_adap_log_addr(bridge, logical_addr);
-+}
-+
-+static int drm_bridge_connector_cec_adap_transmit(struct cec_adapter *adap,
-+						  u8 attempts,
-+						  u32 signal_free_time,
-+						  struct cec_msg *msg)
-+{
-+	struct drm_connector *connector = cec_get_drvdata(adap);
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_hdmi;
-+
-+	return bridge->funcs->hdmi_cec_adap_transmit(bridge, attempts,
-+						     signal_free_time,
-+						     msg);
-+}
-+
-+static const struct cec_adap_ops drm_bridge_connector_cec_adap_ops = {
-+	.adap_enable = drm_bridge_connector_cec_adap_enable,
-+	.adap_log_addr = drm_bridge_connector_cec_adap_log_addr,
-+	.adap_transmit = drm_bridge_connector_cec_adap_transmit,
++static const struct ast_vbios_enhtable res_1280x960[] = {
++	{1800, 1280, 96, 112, 1000, 960, 1, 3, VCLK108, /* 60Hz */
++	 (SyncPP | Charx8Dot), 60, 1, 0x3E },
++	{1800, 1280, 96, 112, 1000, 960, 1, 3, VCLK108, /* end */
++	 (SyncPP | Charx8Dot), 0xFF, 1, 0x3E },
 +};
 +
-+static int drm_bridge_connector_hdmi_cec_init(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_hdmi;
-+
-+	drm_bridge_cec_adapter_set(bridge, connector->cec.adapter);
-+
-+	if (!bridge->funcs->hdmi_cec_adap_init)
-+		return 0;
-+
-+	return bridge->funcs->hdmi_cec_adap_init(connector, bridge);
-+}
-+
-+static void drm_bridge_connector_hdmi_cec_uninit(struct drm_connector *connector)
-+{
-+	struct drm_bridge_connector *bridge_connector =
-+		to_drm_bridge_connector(connector);
-+	struct drm_bridge *bridge;
-+
-+	bridge = bridge_connector->bridge_hdmi;
-+
-+	drm_bridge_cec_adapter_set(bridge, NULL);
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Bridge Connector Initialisation
-  */
-@@ -633,6 +709,25 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 			if (ret)
- 				return ERR_PTR(ret);
- 		}
-+
-+		if (bridge->hdmi_cec_adapter_name) {
-+			u8 num_las = bridge->hdmi_cec_available_las ? : CEC_MAX_LOG_ADDRS;
-+
-+			if (!bridge->funcs->hdmi_cec_adap_enable ||
-+			    !bridge->funcs->hdmi_cec_adap_log_addr ||
-+			    !bridge->funcs->hdmi_cec_adap_transmit)
-+				return ERR_PTR(-EINVAL);
-+
-+			ret = drm_connector_hdmi_cec_adapter_register(connector,
-+								      &drm_bridge_connector_cec_adap_ops,
-+								      bridge->hdmi_cec_adapter_name,
-+								      num_las,
-+								      drm_bridge_connector_hdmi_cec_init,
-+								      drm_bridge_connector_hdmi_cec_uninit,
-+								      bridge->hdmi_dev);
-+			if (ret)
-+				return ERR_PTR(ret);
-+		}
- 	} else {
- 		ret = drmm_connector_init(drm, connector,
- 					  &drm_bridge_connector_funcs,
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index a848ab63cc8e9c917e7ca3fe4e279bcf2a83cbb2..65545f9b94cc942e21a2394197faf8219f5d69b2 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -33,6 +33,7 @@
- #include <drm/drm_modes.h>
+ static const struct ast_vbios_enhtable res_1280x1024[] = {
+ 	{1688, 1280, 48, 112, 1066, 1024, 1, 3, VCLK108,	/* 60Hz */
+ 	 (SyncPP | Charx8Dot), 60, 1, 0x32 },
+@@ -280,6 +287,15 @@ static const struct ast_vbios_enhtable res_1152x864[] = {
+ };
  
- struct cec_adapter;
-+struct cec_msg;
- struct device_node;
- 
- struct drm_bridge;
-@@ -730,6 +731,20 @@ struct drm_bridge_funcs {
- 				      struct drm_bridge *bridge,
- 				      bool enable, int direction);
- 
-+	int (*hdmi_cec_adap_init)(struct drm_connector *connector,
-+				  struct drm_bridge *bridge);
+ /* 16:9 */
++static const struct ast_vbios_enhtable res_1280x720[] = {
++	{1650, 1280, 110, 40, 750, 720, 5, 5, VCLK148_5,	/* 60Hz */
++	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
++	  HalfDCLK), 60, 1, 0x3D },
++	{1650, 1280, 110, 40, 750, 720, 5, 5, VCLK148_5,	/* end */
++	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
++	  HalfDCLK), 0xFF, 1, 0x3D },
++};
 +
-+	int (*hdmi_cec_adap_enable)(struct drm_bridge *bridge,
-+				    bool enable);
-+
-+	int (*hdmi_cec_adap_log_addr)(struct drm_bridge *bridge,
-+				      u8 logical_addr);
-+
-+	int (*hdmi_cec_adap_transmit)(struct drm_bridge *bridge,
-+				      u8 attempts,
-+				      u32 signal_free_time,
-+				      struct cec_msg *msg);
-+
- 	/**
- 	 * @debugfs_init:
- 	 *
-@@ -925,6 +940,16 @@ struct drm_bridge {
- 	 */
- 	bool hdmi_cec_notifier;
- 
-+	/**
-+	 * @hdmi_cec_adapter_name: the name of the adapter to register
-+	 */
-+	const char *hdmi_cec_adapter_name;
-+
-+	/**
-+	 * @hdmi_cec_available_las: number of logical addresses, CEC_MAX_LOG_ADDRS if unset
-+	 */
-+	u8 hdmi_cec_available_las;
-+
- 	/** private: */
- 	/**
- 	 * @hpd_mutex: Protects the @hpd_cb and @hpd_data fields.
+ static const struct ast_vbios_enhtable res_1360x768[] = {
+ 	{1792, 1360, 64, 112, 795, 768, 3, 6, VCLK85_5,		/* 60Hz */
+ 	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 1, 0x39 },
+@@ -294,6 +310,8 @@ static const struct ast_vbios_enhtable res_1600x900[] = {
+ 	  AST2500PreCatchCRT), 60, 1, 0x3A },
+ 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
+ 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x3A },
++	{1800, 1600, 24, 80, 1000, 900, 1, 3, VCLK108,		/* 60Hz DMT */
++	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 3, 0x3A },
+ 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
+ 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x3A },
+ };
 
+base-commit: 4bbf9020becbfd8fc2c3da790855b7042fad455b
 -- 
-2.39.5
+2.25.1
 
