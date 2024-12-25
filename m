@@ -2,62 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77FEE9FC46A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 10:34:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AD19FC4C9
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 11:38:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A78EA10E100;
-	Wed, 25 Dec 2024 09:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28D8210E14D;
+	Wed, 25 Dec 2024 10:38:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="kaQs319T";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Ygryc+bE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49245.qiye.163.com (mail-m49245.qiye.163.com
- [45.254.49.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEAE610E100
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 09:34:21 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 6c6e1666;
- Wed, 25 Dec 2024 17:34:17 +0800 (GMT+08:00)
-Message-ID: <32c7ef0a-8da6-449a-8f2d-59965aa622ec@rock-chips.com>
-Date: Wed, 25 Dec 2024 17:34:17 +0800
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 381AA10E149
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 10:38:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=bpcK5
+ Qjhe/tAh2DN8xdikTX3IMR0Jsw2fHaDKM8SIj4=; b=Ygryc+bElwnp9afz2vtH+
+ K/rojF15MCT8NvJP23Esa1af7s5AsNf0MpJ0rCL64g1vaRHzFV0vWKgypgIRzJKk
+ VIbswHTwIz++ACYkXyRYqRu94786OMUt4CH/3sAMY2ABqXdIcXvgrWkjC3R/ghjY
+ /dVf/wXX3cgWRVSDx31RM8=
+Received: from ProDesk.. (unknown [])
+ by gzsmtp4 (Coremail) with SMTP id PygvCgCnfIF24GtnkqkWCg--.3201S2;
+ Wed, 25 Dec 2024 18:37:46 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: cristian.ciocaltea@collabora.com, krzk+dt@kernel.org, mripard@kernel.org,
+ hjc@rock-chips.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH 0/3] Add HDMI support for rk3576
+Date: Wed, 25 Dec 2024 18:37:28 +0800
+Message-ID: <20241225103741.364597-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 14/15] arm64: dts: rockchip: Enable eDP0 display on
- RK3588S EVB1 board
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
- algea.cao@rock-chips.com, kever.yang@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20241219080604.1423600-1-damon.ding@rock-chips.com>
- <20241219080604.1423600-15-damon.ding@rock-chips.com>
- <cg7bnhol4gvzji7agxazas7nkxy7zammzy67rjvhp35yqyraju@73daepsbmuae>
- <d2b47813-45fa-4148-8a4a-6cf4a18ee7ca@rock-chips.com>
- <CAA8EJpp0Smtqx7VQ5zdg9x3EhuLpk4u4vGv=rv8DHJ0rhei18w@mail.gmail.com>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <CAA8EJpp0Smtqx7VQ5zdg9x3EhuLpk4u4vGv=rv8DHJ0rhei18w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUweGVYeQk1KSx1MHR9OTEhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
- NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a93fd2abf9b03a3kunm6c6e1666
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ODY6Ehw4NjIcNk4LOEswEgEB
- KDhPCxJVSlVKTEhOSkpCSU5CSUhKVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFPSk1INwY+
-DKIM-Signature: a=rsa-sha256;
- b=kaQs319TgZLgE3daBx/HJEGlYlzgtVyLFOX29FOzekUTHT2VO0cM3Rtl3ZVhJA+lzlxZk0zUL2BKuKKG4P8vmv29QCBtfzvhrskZJiATdGo4/HQ9nqRotKayLndUOxQ8Dww+D7xUD3qnxGbJptgP0wpZI0e4HT7SiKdehVWUlMg=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=pWriVfSDH2sEpg8pcOmkXvybXUKi737yhk7CRzVorzU=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: PygvCgCnfIF24GtnkqkWCg--.3201S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7XFW3Kr4UZr1UWF4UKr13twb_yoWxKFX_Ka
+ 4fW345uw18u3WYyasrtw4Iga93Jay2gFWrGF4jgFnrXFWkJr48Xrn3C3yYqa4UZF1Yyrnr
+ JF4FqFy8CFZxZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1ZYFtUUUUU==
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiMw7AXmdr1DmOeAADs3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,145 +59,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+From: Andy Yan <andy.yan@rock-chips.com>
 
-On 2024/12/20 13:38, Dmitry Baryshkov wrote:
-> On Fri, 20 Dec 2024 at 04:38, Damon Ding <damon.ding@rock-chips.com> wrote:
->>
->> Hi Dmitry,
->>
->> On 2024/12/20 8:20, Dmitry Baryshkov wrote:
->>> On Thu, Dec 19, 2024 at 04:06:03PM +0800, Damon Ding wrote:
->>>> Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
->>>> - Add edp-panel node
->>>> - Set pinctrl of pwm12 for backlight
->>>> - Enable edp0/hdptxphy0/vp2
->>>>
->>>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->>>>
->>>> ---
->>>>
->>>> Changes in v2:
->>>> - Remove brightness-levels and default-brightness-level properties in
->>>>     backlight node.
->>>> - Add the detail DT changes to commit message.
->>>>
->>>> Changes in v3:
->>>> - Use aux-bus instead of platform bus for edp-panel.
->>>> ---
->>>>    .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 52 +++++++++++++++++++
->>>>    1 file changed, 52 insertions(+)
->>>>
->>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
->>>> index bc4077575beb..9547ab18e596 100644
->>>> --- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
->>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
->>>> @@ -9,6 +9,7 @@
->>>>    #include <dt-bindings/gpio/gpio.h>
->>>>    #include <dt-bindings/input/input.h>
->>>>    #include <dt-bindings/pinctrl/rockchip.h>
->>>> +#include <dt-bindings/soc/rockchip,vop2.h>
->>>>    #include <dt-bindings/usb/pd.h>
->>>>    #include "rk3588s.dtsi"
->>>>
->>>> @@ -238,6 +239,41 @@ &combphy2_psu {
->>>>       status = "okay";
->>>>    };
->>>>
->>>> +&edp0 {
->>>> +    force-hpd;
->>>> +    status = "okay";
->>>> +
->>>> +    aux-bus {
->>>> +            panel {
->>>> +                    compatible = "lg,lp079qx1-sp0v";
->>>
->>> Why do you need the particular compat string here? Can you use the
->>> generic "edp-panel" instead? What if the user swaps the panel?
->>>
->>
->> The eDP panels used in conjunction with the RK3588S EVB1 have broken
->> identification, which is one of the valid reasons for using a particular
->> compat string. So the generic_edp_panel_probe() can not return success
->> when using the "edp-panel".
-> 
-> Broken how? I don't see such info in the commit message.
-> 
 
-The log related to the broken identification may be like:
+RK3576 HDMI TX Controller is very similar to that of RK3588, but with
+some control bits for IO and interrupts status scattered across different
+GRF.
 
-[    0.623793] panel-simple-dp-aux aux-fdec0000.edp: Unknown panel ETC 
-0x0000, using conservative timings
+PATCH 1/3 is add platform ctrl callback for IO setting and interrupts
+status handing.
+PATCH 2/3 ~ 3/3 are add support for rk3576
 
-The eDP panel used in RK3588S EVB1 is indeed the LP079QX1_SP0V model, it 
-should be also reasonable to use the "lg,lp079qx1-sp0v".
 
-And I will mention all of the above in the commit message for the next 
-version.
+Andy Yan (3):
+  drm/rockchip: dw_hdmi_qp: Add platform ctrl callback
+  dt-bindings: display: rockchip: Add support for RK3576 HDMI TX
+    Controller
+  drm/rockchip: Add basic RK3576 HDMI output support
 
->>
->>>> +                    backlight = <&backlight>;
->>>> +                    power-supply = <&vcc3v3_lcd_edp>;
->>>> +
->>>> +                    port {
->>>> +                            panel_in_edp: endpoint {
->>>> +                                    remote-endpoint = <&edp_out_panel>;
->>>> +                            };
->>>> +                    };
->>>> +            };
->>>> +    };
->>>> +};
->>>> +
->>>> +&edp0_in {
->>>> +    edp0_in_vp2: endpoint {
->>>> +            remote-endpoint = <&vp2_out_edp0>;
->>>> +    };
->>>> +};
->>>> +
->>>> +&edp0_out {
->>>> +    edp_out_panel: endpoint {
->>>> +            remote-endpoint = <&panel_in_edp>;
->>>> +    };
->>>> +};
->>>> +
->>>> +&hdptxphy0 {
->>>> +    status = "okay";
->>>> +};
->>>> +
->>>>    &i2c3 {
->>>>       status = "okay";
->>>>
->>>> @@ -399,6 +435,7 @@ usbc0_int: usbc0-int {
->>>>    };
->>>>
->>>>    &pwm12 {
->>>> +    pinctrl-0 = <&pwm12m1_pins>;
->>>>       status = "okay";
->>>>    };
->>>>
->>>> @@ -1168,3 +1205,18 @@ usbdp_phy0_dp_altmode_mux: endpoint@1 {
->>>>               };
->>>>       };
->>>>    };
->>>> +
->>>> +&vop_mmu {
->>>> +    status = "okay";
->>>> +};
->>>> +
->>>> +&vop {
->>>> +    status = "okay";
->>>> +};
->>>> +
->>>> +&vp2 {
->>>> +    vp2_out_edp0: endpoint@ROCKCHIP_VOP2_EP_EDP0 {
->>>> +            reg = <ROCKCHIP_VOP2_EP_EDP0>;
->>>> +            remote-endpoint = <&edp0_in_vp2>;
->>>> +    };
->>>> +};
->>>> --
->>>> 2.34.1
->>>>
+ .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |   1 +
+ .../gpu/drm/rockchip/dw_hdmi_qp-rockchip.c    | 224 +++++++++++++++---
+ 2 files changed, 196 insertions(+), 29 deletions(-)
 
-Best regards
-Damon
+-- 
+2.34.1
 
