@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B78A9FC66E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 20:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A80D9FC67D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 21:27:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0492E10E013;
-	Wed, 25 Dec 2024 19:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2195110E011;
+	Wed, 25 Dec 2024 20:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f77.google.com (mail-io1-f77.google.com
- [209.85.166.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56F5610E013
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 19:43:23 +0000 (UTC)
-Received: by mail-io1-f77.google.com with SMTP id
- ca18e2360f4ac-844d2dc4839so490466939f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 11:43:23 -0800 (PST)
+Received: from mail-il1-f206.google.com (mail-il1-f206.google.com
+ [209.85.166.206])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41EF810E011
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 20:27:22 +0000 (UTC)
+Received: by mail-il1-f206.google.com with SMTP id
+ e9e14a558f8ab-3a9d303a5ccso121923205ab.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 12:27:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735155802; x=1735760602;
+ d=1e100.net; s=20230601; t=1735158441; x=1735763241;
  h=to:from:subject:message-id:date:mime-version:x-gm-message-state
  :from:to:cc:subject:date:message-id:reply-to;
- bh=tpACl5CtugsisAIAhbolDxzlO9vyY6sTDg3XSEcteWU=;
- b=DL9wFqhGekBVvHBKCLIvwLljP4uL5I3gyt/vxdPZUalvSAJX5/sJnjAwDi5CglkEaB
- qQzs4MHfTSf9ZwdCgWLd5hLui719xISH2AexYRkhLTO+uwn8+kWTJ8RA00DXOw15w5+A
- sokxy28yHEExzboLXcAzzqb0CVwWw5sgyB82rJu34Z0HT+y8rv9Me8yIKdELyuslffIG
- jOsLX3M4M3kMkRiGZeG/MSD4HiZA6pl95a2cWpMFLZ/dWzmw1A7TrvnDlG6unQinU33v
- stcs0y8Qr4D1hV/MQKI9pF37fybFQZeIJgzWwCCW4X2KINP1AKAvzZ6k+vGL1rBaHD1F
- b//Q==
+ bh=AMviyKc0KKWE3TEKPAuu1K8lWilR8D96rpHX3Hhc43Q=;
+ b=obgRJUZMl2eAYyoCqSWR3+u8V98w6lPy9Q9VU+FJj0Zpn0TJGOSP6AVhx69d1pWamJ
+ ty9ClXIEJqUh0XNalQ4OTsQziU7OZt6fDzGndPLBkHPetrJ19xlFmOIb2uPSYgUkeQ4B
+ HPvMteVp5YsL0z5uH+0EMTFfgvnbXzhS2Y2lLyhwYotWVfWIanHNnWnv8cj39w8oObbS
+ vfrb1/C/GZptTyUk87chCRZoL3E885ppRp8Scgp1cTBOb84eegpR2S+BTQ7iPHVGytiw
+ p5vuRXgHH5dEW8EqXtTf/Y0xNiLR3qVWmzSOcUrGqmL5A7kIXJz4xtT6reGgLQRRiunh
+ 8cag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUiKmuw1tM7JuGvacukqr0hIgXCWO83CeF52lnhvzIKnaP3KGPshLiWmZcQlHnJ5q9yFbONSs8AOvY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9uKmtePKgvHPLXyKeciHwJABwo6mgkWPvtf6avBSEv4nQurIO
- CmiI3v/m6VRu+MAm3KinyCafKojkQ3no1ixk0/Bi9w0DLczyPCWCgAIHVxRx/vddczUa7TqiLTL
- DVSJ5ipTdAz1e8sxfZqbH9RjNfu9GBNGpbXQIm/IkunTEK/jak/aiGAw=
-X-Google-Smtp-Source: AGHT+IGjvdGYw9TD1kmYbAuAZrGIPW/Kp/d6qjwnZTX5oZlDrezarmfNB8acXPERePMz7CJZvxJ9B001q23FWkx9ZUU9cp4CsHkG
+ AJvYcCXXBTI/qzRjdX4+Lb/HKKa1LQAsYYoZ+ncCMuGgvK8qwDS2bBBpfM+sHHKEQHwPEa5259E2Bet1OQo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz9/r4ryRDj3jRGeraWUdpZdLrY/sI8+buUJZ/NkdNwLG4LYNtY
+ MtigbXgtEpL2Egetd4yg7cBuIdD05stXn+NbJJTm16KtVl3dSepZDvmujUyeastbTaLh8NQfPKl
+ 2zlGII/Xs1qDCxrU0J8Vlb5ommaGY05OdKdc+R0bKj/V9W5Cm/bn0gXU=
+X-Google-Smtp-Source: AGHT+IHkWqz0DrkW5xMdX82lAV1yUE6okRCuRO8RF/yVqfpb3rCjYr3+1GPMeVDp6rOoDQTpVat6A/J1/+cv50hECgpw2B+y86Vy
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:4:b0:3a7:ca83:3f9 with SMTP id
- e9e14a558f8ab-3c2fed1d658mr188204595ab.4.1735155802505; Wed, 25 Dec 2024
- 11:43:22 -0800 (PST)
-Date: Wed, 25 Dec 2024 11:43:22 -0800
+X-Received: by 2002:a05:6e02:12ed:b0:3a7:9860:d7e5 with SMTP id
+ e9e14a558f8ab-3c2d5b273e9mr209677095ab.23.1735158441512; Wed, 25 Dec 2024
+ 12:27:21 -0800 (PST)
+Date: Wed, 25 Dec 2024 12:27:21 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <676c605a.050a0220.2f3838.039f.GAE@google.com>
-Subject: [syzbot] [dri?] possible deadlock in drm_modeset_lock (2)
-From: syzbot <syzbot+ec91cca93789b0a7f324@syzkaller.appspotmail.com>
+Message-ID: <676c6aa9.050a0220.226966.0070.GAE@google.com>
+Subject: [syzbot] [dri?] possible deadlock in drm_mode_list_lessees_ioctl
+From: syzbot <syzbot+149d2ee4dc130f077bf3@syzkaller.appspotmail.com>
 To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
  hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, 
  louis.chauvet@bootlin.com, maarten.lankhorst@linux.intel.com, 
@@ -70,9 +70,9 @@ syzbot found the following issue on:
 
 HEAD commit:    573067a5a685 Merge branch 'for-next/core' into for-kernelci
 git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=1359b2df980000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17b2ef30580000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=cd7202b56d469648
-dashboard link: https://syzkaller.appspot.com/bug?extid=ec91cca93789b0a7f324
+dashboard link: https://syzkaller.appspot.com/bug?extid=149d2ee4dc130f077bf3
 compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
 userspace arch: arm64
 
@@ -84,77 +84,39 @@ vmlinux: https://storage.googleapis.com/syzbot-assets/0c06fc1ead83/vmlinux-57306
 kernel image: https://storage.googleapis.com/syzbot-assets/3390e59b9e4b/Image-573067a5.gz.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ec91cca93789b0a7f324@syzkaller.appspotmail.com
+Reported-by: syzbot+149d2ee4dc130f077bf3@syzkaller.appspotmail.com
 
 ======================================================
 WARNING: possible circular locking dependency detected
 6.13.0-rc3-syzkaller-g573067a5a685 #0 Not tainted
 ------------------------------------------------------
-syz.4.258/8224 is trying to acquire lock:
-ffff0000cda21250 (&mm->mmap_lock){++++}-{4:4}, at: __might_fault+0x9c/0x124 mm/memory.c:6750
+syz.1.208/7595 is trying to acquire lock:
+ffff0000ccfd81d0 (&mm->mmap_lock){++++}-{4:4}, at: __might_fault+0x9c/0x124 mm/memory.c:6750
 
 but task is already holding lock:
-ffff0000c97d4518 (crtc_ww_class_mutex){+.+.}-{4:4}, at: drm_modeset_lock+0x78/0xa4 drivers/gpu/drm/drm_modeset_lock.c:398
+ffff0000c99745d0 (&dev->mode_config.idr_mutex){+.+.}-{4:4}, at: drm_mode_list_lessees_ioctl+0x1e0/0x608 drivers/gpu/drm/drm_lease.c:609
 
 which lock already depends on the new lock.
 
 
 the existing dependency chain (in reverse order) is:
 
--> #8 (crtc_ww_class_mutex){+.+.}-{4:4}:
-       ww_acquire_init include/linux/ww_mutex.h:162 [inline]
-       drm_modeset_acquire_init+0x1e4/0x384 drivers/gpu/drm/drm_modeset_lock.c:250
-       drmm_mode_config_init+0xb98/0x130c drivers/gpu/drm/drm_mode_config.c:453
-       vkms_modeset_init drivers/gpu/drm/vkms/vkms_drv.c:158 [inline]
-       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:219 [inline]
-       vkms_init+0x2fc/0x600 drivers/gpu/drm/vkms/vkms_drv.c:256
-       do_one_initcall+0x254/0x9f8 init/main.c:1266
-       do_initcall_level+0x154/0x214 init/main.c:1328
-       do_initcalls+0x58/0xac init/main.c:1344
-       do_basic_setup+0x8c/0xa0 init/main.c:1363
-       kernel_init_freeable+0x324/0x478 init/main.c:1577
-       kernel_init+0x24/0x2a0 init/main.c:1466
-       ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:862
-
--> #7 (crtc_ww_class_acquire){+.+.}-{0:0}:
-       ww_acquire_init include/linux/ww_mutex.h:161 [inline]
-       drm_modeset_acquire_init+0x1c4/0x384 drivers/gpu/drm/drm_modeset_lock.c:250
-       drm_client_modeset_commit_atomic+0xd8/0x724 drivers/gpu/drm/drm_client_modeset.c:1009
-       drm_client_modeset_commit_locked+0xd0/0x4a8 drivers/gpu/drm/drm_client_modeset.c:1173
-       drm_client_modeset_commit+0x50/0x7c drivers/gpu/drm/drm_client_modeset.c:1199
-       __drm_fb_helper_restore_fbdev_mode_unlocked+0xd4/0x178 drivers/gpu/drm/drm_fb_helper.c:237
-       drm_fb_helper_set_par+0xc4/0x110 drivers/gpu/drm/drm_fb_helper.c:1351
-       fbcon_init+0xf34/0x1eb8 drivers/video/fbdev/core/fbcon.c:1113
-       visual_init+0x27c/0x548 drivers/tty/vt/vt.c:1011
-       do_bind_con_driver+0x7dc/0xe04 drivers/tty/vt/vt.c:3833
-       do_take_over_console+0x4ac/0x5f0 drivers/tty/vt/vt.c:4399
-       do_fbcon_takeover+0x158/0x260 drivers/video/fbdev/core/fbcon.c:549
-       do_fb_registered drivers/video/fbdev/core/fbcon.c:2988 [inline]
-       fbcon_fb_registered+0x370/0x4ec drivers/video/fbdev/core/fbcon.c:3008
-       do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
-       register_framebuffer+0x470/0x610 drivers/video/fbdev/core/fbmem.c:515
-       __drm_fb_helper_initial_config_and_unlock+0x137c/0x1910 drivers/gpu/drm/drm_fb_helper.c:1841
-       drm_fb_helper_initial_config+0x48/0x64 drivers/gpu/drm/drm_fb_helper.c:1906
-       drm_fbdev_client_hotplug+0x158/0x22c drivers/gpu/drm/drm_fbdev_client.c:51
-       drm_client_register+0x144/0x1e0 drivers/gpu/drm/drm_client.c:140
-       drm_fbdev_client_setup+0x1a4/0x39c drivers/gpu/drm/drm_fbdev_client.c:158
-       drm_client_setup+0x28/0x9c drivers/gpu/drm/drm_client_setup.c:29
-       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:230 [inline]
-       vkms_init+0x4f0/0x600 drivers/gpu/drm/vkms/vkms_drv.c:256
-       do_one_initcall+0x254/0x9f8 init/main.c:1266
-       do_initcall_level+0x154/0x214 init/main.c:1328
-       do_initcalls+0x58/0xac init/main.c:1344
-       do_basic_setup+0x8c/0xa0 init/main.c:1363
-       kernel_init_freeable+0x324/0x478 init/main.c:1577
-       kernel_init+0x24/0x2a0 init/main.c:1466
-       ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:862
-
--> #6 (&client->modeset_mutex){+.+.}-{4:4}:
+-> #6 (&dev->mode_config.idr_mutex){+.+.}-{4:4}:
        __mutex_lock_common+0x218/0x28f4 kernel/locking/mutex.c:585
        __mutex_lock kernel/locking/mutex.c:735 [inline]
        mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:787
-       drm_client_modeset_probe+0x304/0x3f64 drivers/gpu/drm/drm_client_modeset.c:834
-       __drm_fb_helper_initial_config_and_unlock+0x104/0x1910 drivers/gpu/drm/drm_fb_helper.c:1818
+       __drm_mode_object_add+0xb8/0x204 drivers/gpu/drm/drm_mode_object.c:47
+       drm_framebuffer_init+0x108/0x250 drivers/gpu/drm/drm_framebuffer.c:875
+       drm_gem_fb_init drivers/gpu/drm/drm_gem_framebuffer_helper.c:82 [inline]
+       drm_gem_fb_init_with_funcs+0x9bc/0xd64 drivers/gpu/drm/drm_gem_framebuffer_helper.c:202
+       drm_gem_fb_create_with_funcs drivers/gpu/drm/drm_gem_framebuffer_helper.c:245 [inline]
+       drm_gem_fb_create+0x84/0xd4 drivers/gpu/drm/drm_gem_framebuffer_helper.c:286
+       drm_internal_framebuffer_create+0x100c/0x1408 drivers/gpu/drm/drm_framebuffer.c:304
+       drm_mode_addfb2+0xb4/0x2a8 drivers/gpu/drm/drm_framebuffer.c:338
+       drm_client_buffer_addfb drivers/gpu/drm/drm_client.c:386 [inline]
+       drm_client_framebuffer_create+0x38c/0x6cc drivers/gpu/drm/drm_client.c:428
+       drm_fbdev_shmem_driver_fbdev_probe+0x1a8/0x744 drivers/gpu/drm/drm_fbdev_shmem.c:151
+       __drm_fb_helper_initial_config_and_unlock+0x1280/0x1910 drivers/gpu/drm/drm_fb_helper.c:1819
        drm_fb_helper_initial_config+0x48/0x64 drivers/gpu/drm/drm_fb_helper.c:1906
        drm_fbdev_client_hotplug+0x158/0x22c drivers/gpu/drm/drm_fbdev_client.c:51
        drm_client_register+0x144/0x1e0 drivers/gpu/drm/drm_client.c:140
@@ -314,8 +276,7 @@ the existing dependency chain (in reverse order) is:
        __lock_acquire+0x34f0/0x7904 kernel/locking/lockdep.c:5226
        lock_acquire+0x23c/0x724 kernel/locking/lockdep.c:5849
        __might_fault+0xc4/0x124 mm/memory.c:6751
-       drm_mode_object_get_properties+0x208/0x540 drivers/gpu/drm/drm_mode_object.c:407
-       drm_mode_getconnector+0xdbc/0x1214 drivers/gpu/drm/drm_connector.c:3272
+       drm_mode_list_lessees_ioctl+0x304/0x608 drivers/gpu/drm/drm_lease.c:618
        drm_ioctl_kernel+0x26c/0x368 drivers/gpu/drm/drm_ioctl.c:796
        drm_ioctl+0x624/0xb14 drivers/gpu/drm/drm_ioctl.c:893
        vfs_ioctl fs/ioctl.c:51 [inline]
@@ -333,24 +294,24 @@ the existing dependency chain (in reverse order) is:
 other info that might help us debug this:
 
 Chain exists of:
-  &mm->mmap_lock --> crtc_ww_class_acquire --> crtc_ww_class_mutex
+  &mm->mmap_lock --> &helper->lock --> &dev->mode_config.idr_mutex
 
  Possible unsafe locking scenario:
 
        CPU0                    CPU1
        ----                    ----
-  lock(crtc_ww_class_mutex);
-                               lock(crtc_ww_class_acquire);
-                               lock(crtc_ww_class_mutex);
+  lock(&dev->mode_config.idr_mutex);
+                               lock(&helper->lock);
+                               lock(&dev->mode_config.idr_mutex);
   rlock(&mm->mmap_lock);
 
  *** DEADLOCK ***
 
-1 lock held by syz.4.258/8224:
- #0: ffff0000c97d4518 (crtc_ww_class_mutex){+.+.}-{4:4}, at: drm_modeset_lock+0x78/0xa4 drivers/gpu/drm/drm_modeset_lock.c:398
+1 lock held by syz.1.208/7595:
+ #0: ffff0000c99745d0 (&dev->mode_config.idr_mutex){+.+.}-{4:4}, at: drm_mode_list_lessees_ioctl+0x1e0/0x608 drivers/gpu/drm/drm_lease.c:609
 
 stack backtrace:
-CPU: 0 UID: 0 PID: 8224 Comm: syz.4.258 Not tainted 6.13.0-rc3-syzkaller-g573067a5a685 #0
+CPU: 1 UID: 0 PID: 7595 Comm: syz.1.208 Not tainted 6.13.0-rc3-syzkaller-g573067a5a685 #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
 Call trace:
  show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:466 (C)
@@ -365,8 +326,7 @@ Call trace:
  __lock_acquire+0x34f0/0x7904 kernel/locking/lockdep.c:5226
  lock_acquire+0x23c/0x724 kernel/locking/lockdep.c:5849
  __might_fault+0xc4/0x124 mm/memory.c:6751
- drm_mode_object_get_properties+0x208/0x540 drivers/gpu/drm/drm_mode_object.c:407
- drm_mode_getconnector+0xdbc/0x1214 drivers/gpu/drm/drm_connector.c:3272
+ drm_mode_list_lessees_ioctl+0x304/0x608 drivers/gpu/drm/drm_lease.c:618
  drm_ioctl_kernel+0x26c/0x368 drivers/gpu/drm/drm_ioctl.c:796
  drm_ioctl+0x624/0xb14 drivers/gpu/drm/drm_ioctl.c:893
  vfs_ioctl fs/ioctl.c:51 [inline]
