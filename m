@@ -2,53 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A80D9FC67D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 21:27:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C81E9FC685
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Dec 2024 21:50:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2195110E011;
-	Wed, 25 Dec 2024 20:27:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D1C710E39A;
+	Wed, 25 Dec 2024 20:50:07 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="XUtzIYse";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com
- [209.85.166.206])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41EF810E011
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 20:27:22 +0000 (UTC)
-Received: by mail-il1-f206.google.com with SMTP id
- e9e14a558f8ab-3a9d303a5ccso121923205ab.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 12:27:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735158441; x=1735763241;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AMviyKc0KKWE3TEKPAuu1K8lWilR8D96rpHX3Hhc43Q=;
- b=obgRJUZMl2eAYyoCqSWR3+u8V98w6lPy9Q9VU+FJj0Zpn0TJGOSP6AVhx69d1pWamJ
- ty9ClXIEJqUh0XNalQ4OTsQziU7OZt6fDzGndPLBkHPetrJ19xlFmOIb2uPSYgUkeQ4B
- HPvMteVp5YsL0z5uH+0EMTFfgvnbXzhS2Y2lLyhwYotWVfWIanHNnWnv8cj39w8oObbS
- vfrb1/C/GZptTyUk87chCRZoL3E885ppRp8Scgp1cTBOb84eegpR2S+BTQ7iPHVGytiw
- p5vuRXgHH5dEW8EqXtTf/Y0xNiLR3qVWmzSOcUrGqmL5A7kIXJz4xtT6reGgLQRRiunh
- 8cag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXXBTI/qzRjdX4+Lb/HKKa1LQAsYYoZ+ncCMuGgvK8qwDS2bBBpfM+sHHKEQHwPEa5259E2Bet1OQo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz9/r4ryRDj3jRGeraWUdpZdLrY/sI8+buUJZ/NkdNwLG4LYNtY
- MtigbXgtEpL2Egetd4yg7cBuIdD05stXn+NbJJTm16KtVl3dSepZDvmujUyeastbTaLh8NQfPKl
- 2zlGII/Xs1qDCxrU0J8Vlb5ommaGY05OdKdc+R0bKj/V9W5Cm/bn0gXU=
-X-Google-Smtp-Source: AGHT+IHkWqz0DrkW5xMdX82lAV1yUE6okRCuRO8RF/yVqfpb3rCjYr3+1GPMeVDp6rOoDQTpVat6A/J1/+cv50hECgpw2B+y86Vy
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 482AB10E39A
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Dec 2024 20:50:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 98BA8101ECBAB; Wed, 25 Dec 2024 21:49:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1735159804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j1aKFcorootUYVtMFPW/mgDVu+jID0c/UKLZ3rEjMkg=;
+ b=XUtzIYseNKvVglNpfrWy4JZf5UDR0LygYVLIYjGMWIURe2VGSw9m0BROpIjFW2GcVwxZRT
+ oNwxXTpw+o6ZmvcOXTds7frgeDq7nNDDYth7iqUblMu674db0ZH7ePk0lzc5yj7NEbWQlP
+ 3jtFBLB8O01UirBg9mgK4ogojhovYOFt9G+S9MO+qWXcS7fqhj6ELZH/zsXZkpoeCddi3m
+ VKHgyOGExi6RlKiCfKju+ViFFe9s55r6XyVnt/sb58M/QvOL7VbJ6o2QO72deVIDebzHgE
+ PhRUAwHy/97CxNBvsiTZ83BoJ5V0Wn3ExPJNKc9wbSlAMkXsaLP8Tk8WAiHRzQ==
+Message-ID: <75dc6f74-f828-49ac-8bf6-41fd4e197855@denx.de>
+Date: Wed, 25 Dec 2024 21:40:55 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:12ed:b0:3a7:9860:d7e5 with SMTP id
- e9e14a558f8ab-3c2d5b273e9mr209677095ab.23.1735158441512; Wed, 25 Dec 2024
- 12:27:21 -0800 (PST)
-Date: Wed, 25 Dec 2024 12:27:21 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <676c6aa9.050a0220.226966.0070.GAE@google.com>
-Subject: [syzbot] [dri?] possible deadlock in drm_mode_list_lessees_ioctl
-From: syzbot <syzbot+149d2ee4dc130f077bf3@syzkaller.appspotmail.com>
-To: airlied@gmail.com, dri-devel@lists.freedesktop.org, 
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org, 
- louis.chauvet@bootlin.com, maarten.lankhorst@linux.intel.com, 
- melissa.srw@gmail.com, mripard@kernel.org, simona@ffwll.ch, 
- syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/bridge: imx8mp-hdmi-tx: switch to bridge
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20241224014701.253490-1-marex@denx.de>
+ <nehmmkv22ortkw6ngzlhjqo7emxsptt2dzoulln5ili52uswfp@h3acrwrad2y5>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <nehmmkv22ortkw6ngzlhjqo7emxsptt2dzoulln5ili52uswfp@h3acrwrad2y5>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,301 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On 12/24/24 5:21 AM, Dmitry Baryshkov wrote:
+> On Tue, Dec 24, 2024 at 02:46:14AM +0100, Marek Vasut wrote:
+>> The dw-hdmi output_port is set to 1 in order to look for a connector
+>> next bridge in order to get DRM_BRIDGE_ATTACH_NO_CONNECTOR working.
+>> The output_port set to 1 makes the DW HDMI driver core look up the
+>> next bridge in DT, where the next bridge is often the hdmi-connector .
+>>
+>> Similar to 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Liu Ying <victor.liu@nxp.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Shawn Guo <shawnguo@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Stefan Agner <stefan@agner.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: imx@lists.linux.dev
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> ---
+>> V2: No change
+>> ---
+>>   drivers/gpu/drm/bridge/imx/Kconfig          | 1 +
+>>   drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 1 +
+>>   2 files changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+>> index 9a480c6abb856..d8e9fbf75edbb 100644
+>> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+>> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+>> @@ -27,6 +27,7 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
+>>   config DRM_IMX8MP_HDMI_PVI
+>>   	tristate "Freescale i.MX8MP HDMI PVI bridge support"
+>>   	depends on OF
+>> +	select DRM_DISPLAY_CONNECTOR
+>>   	help
+>>   	  Choose this to enable support for the internal HDMI TX Parallel
+>>   	  Video Interface found on the Freescale i.MX8MP SoC.
+>> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>> index 1e7a789ec2890..4ebae5ad072ad 100644
+>> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>> @@ -101,6 +101,7 @@ static int imx8mp_dw_hdmi_probe(struct platform_device *pdev)
+>>   	plat_data->phy_name = "SAMSUNG HDMI TX PHY";
+>>   	plat_data->priv_data = hdmi;
+>>   	plat_data->phy_force_vendor = true;
+>> +	plat_data->output_port = 1;
+> 
+> Quoting my feedback to a similar Liu's patch:
+> 
+> This will break compatibility with older DT files, which don't have
+> output port. I think you need to add output_port_optional flag to
+> dw_hdmi_plat_data and still return 0 from dw_hdmi_parse_dt() if the flag
+> is set, but there is no remote node.
+Looking at the upstream imx8mp*dts , the oldest commit which adds HDMI 
+support is commit:
 
-syzbot found the following issue on:
+3e67a1ddd56d ("arm64: dts: imx8mp: Enable HDMI on TQMa8MPxL/MBa8MPxL")
 
-HEAD commit:    573067a5a685 Merge branch 'for-next/core' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=17b2ef30580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cd7202b56d469648
-dashboard link: https://syzkaller.appspot.com/bug?extid=149d2ee4dc130f077bf3
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-userspace arch: arm64
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9d3b5c855aa0/disk-573067a5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0c06fc1ead83/vmlinux-573067a5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3390e59b9e4b/Image-573067a5.gz.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+149d2ee4dc130f077bf3@syzkaller.appspotmail.com
-
-======================================================
-WARNING: possible circular locking dependency detected
-6.13.0-rc3-syzkaller-g573067a5a685 #0 Not tainted
-------------------------------------------------------
-syz.1.208/7595 is trying to acquire lock:
-ffff0000ccfd81d0 (&mm->mmap_lock){++++}-{4:4}, at: __might_fault+0x9c/0x124 mm/memory.c:6750
-
-but task is already holding lock:
-ffff0000c99745d0 (&dev->mode_config.idr_mutex){+.+.}-{4:4}, at: drm_mode_list_lessees_ioctl+0x1e0/0x608 drivers/gpu/drm/drm_lease.c:609
-
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #6 (&dev->mode_config.idr_mutex){+.+.}-{4:4}:
-       __mutex_lock_common+0x218/0x28f4 kernel/locking/mutex.c:585
-       __mutex_lock kernel/locking/mutex.c:735 [inline]
-       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:787
-       __drm_mode_object_add+0xb8/0x204 drivers/gpu/drm/drm_mode_object.c:47
-       drm_framebuffer_init+0x108/0x250 drivers/gpu/drm/drm_framebuffer.c:875
-       drm_gem_fb_init drivers/gpu/drm/drm_gem_framebuffer_helper.c:82 [inline]
-       drm_gem_fb_init_with_funcs+0x9bc/0xd64 drivers/gpu/drm/drm_gem_framebuffer_helper.c:202
-       drm_gem_fb_create_with_funcs drivers/gpu/drm/drm_gem_framebuffer_helper.c:245 [inline]
-       drm_gem_fb_create+0x84/0xd4 drivers/gpu/drm/drm_gem_framebuffer_helper.c:286
-       drm_internal_framebuffer_create+0x100c/0x1408 drivers/gpu/drm/drm_framebuffer.c:304
-       drm_mode_addfb2+0xb4/0x2a8 drivers/gpu/drm/drm_framebuffer.c:338
-       drm_client_buffer_addfb drivers/gpu/drm/drm_client.c:386 [inline]
-       drm_client_framebuffer_create+0x38c/0x6cc drivers/gpu/drm/drm_client.c:428
-       drm_fbdev_shmem_driver_fbdev_probe+0x1a8/0x744 drivers/gpu/drm/drm_fbdev_shmem.c:151
-       __drm_fb_helper_initial_config_and_unlock+0x1280/0x1910 drivers/gpu/drm/drm_fb_helper.c:1819
-       drm_fb_helper_initial_config+0x48/0x64 drivers/gpu/drm/drm_fb_helper.c:1906
-       drm_fbdev_client_hotplug+0x158/0x22c drivers/gpu/drm/drm_fbdev_client.c:51
-       drm_client_register+0x144/0x1e0 drivers/gpu/drm/drm_client.c:140
-       drm_fbdev_client_setup+0x1a4/0x39c drivers/gpu/drm/drm_fbdev_client.c:158
-       drm_client_setup+0x28/0x9c drivers/gpu/drm/drm_client_setup.c:29
-       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:230 [inline]
-       vkms_init+0x4f0/0x600 drivers/gpu/drm/vkms/vkms_drv.c:256
-       do_one_initcall+0x254/0x9f8 init/main.c:1266
-       do_initcall_level+0x154/0x214 init/main.c:1328
-       do_initcalls+0x58/0xac init/main.c:1344
-       do_basic_setup+0x8c/0xa0 init/main.c:1363
-       kernel_init_freeable+0x324/0x478 init/main.c:1577
-       kernel_init+0x24/0x2a0 init/main.c:1466
-       ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:862
-
--> #5 (&helper->lock){+.+.}-{4:4}:
-       __mutex_lock_common+0x218/0x28f4 kernel/locking/mutex.c:585
-       __mutex_lock kernel/locking/mutex.c:735 [inline]
-       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:787
-       __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0x178 drivers/gpu/drm/drm_fb_helper.c:228
-       drm_fb_helper_set_par+0xc4/0x110 drivers/gpu/drm/drm_fb_helper.c:1351
-       fbcon_init+0xf34/0x1eb8 drivers/video/fbdev/core/fbcon.c:1113
-       visual_init+0x27c/0x548 drivers/tty/vt/vt.c:1011
-       do_bind_con_driver+0x7dc/0xe04 drivers/tty/vt/vt.c:3833
-       do_take_over_console+0x4ac/0x5f0 drivers/tty/vt/vt.c:4399
-       do_fbcon_takeover+0x158/0x260 drivers/video/fbdev/core/fbcon.c:549
-       do_fb_registered drivers/video/fbdev/core/fbcon.c:2988 [inline]
-       fbcon_fb_registered+0x370/0x4ec drivers/video/fbdev/core/fbcon.c:3008
-       do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
-       register_framebuffer+0x470/0x610 drivers/video/fbdev/core/fbmem.c:515
-       __drm_fb_helper_initial_config_and_unlock+0x137c/0x1910 drivers/gpu/drm/drm_fb_helper.c:1841
-       drm_fb_helper_initial_config+0x48/0x64 drivers/gpu/drm/drm_fb_helper.c:1906
-       drm_fbdev_client_hotplug+0x158/0x22c drivers/gpu/drm/drm_fbdev_client.c:51
-       drm_client_register+0x144/0x1e0 drivers/gpu/drm/drm_client.c:140
-       drm_fbdev_client_setup+0x1a4/0x39c drivers/gpu/drm/drm_fbdev_client.c:158
-       drm_client_setup+0x28/0x9c drivers/gpu/drm/drm_client_setup.c:29
-       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:230 [inline]
-       vkms_init+0x4f0/0x600 drivers/gpu/drm/vkms/vkms_drv.c:256
-       do_one_initcall+0x254/0x9f8 init/main.c:1266
-       do_initcall_level+0x154/0x214 init/main.c:1328
-       do_initcalls+0x58/0xac init/main.c:1344
-       do_basic_setup+0x8c/0xa0 init/main.c:1363
-       kernel_init_freeable+0x324/0x478 init/main.c:1577
-       kernel_init+0x24/0x2a0 init/main.c:1466
-       ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:862
-
--> #4 (console_lock){+.+.}-{0:0}:
-       console_lock+0x19c/0x1f4 kernel/printk/printk.c:2833
-       __bch2_print_string_as_lines fs/bcachefs/util.c:267 [inline]
-       bch2_print_string_as_lines+0x2c/0xd4 fs/bcachefs/util.c:286
-       __bch2_fsck_err+0x1864/0x2544 fs/bcachefs/error.c:411
-       bch2_check_fix_ptr fs/bcachefs/buckets.c:112 [inline]
-       bch2_check_fix_ptrs+0x15b8/0x515c fs/bcachefs/buckets.c:266
-       bch2_trigger_extent+0x71c/0x814 fs/bcachefs/buckets.c:856
-       bch2_key_trigger fs/bcachefs/bkey_methods.h:87 [inline]
-       bch2_gc_mark_key+0x4b4/0xb70 fs/bcachefs/btree_gc.c:634
-       bch2_gc_btree fs/bcachefs/btree_gc.c:670 [inline]
-       bch2_gc_btrees fs/bcachefs/btree_gc.c:729 [inline]
-       bch2_check_allocations+0x1018/0x48f4 fs/bcachefs/btree_gc.c:1133
-       bch2_run_recovery_pass+0xe4/0x1d4 fs/bcachefs/recovery_passes.c:191
-       bch2_run_recovery_passes+0x30c/0x73c fs/bcachefs/recovery_passes.c:244
-       bch2_fs_recovery+0x32d8/0x55dc fs/bcachefs/recovery.c:861
-       bch2_fs_start+0x30c/0x53c fs/bcachefs/super.c:1037
-       bch2_fs_get_tree+0x938/0x1030 fs/bcachefs/fs.c:2170
-       vfs_get_tree+0x90/0x28c fs/super.c:1814
-       do_new_mount+0x278/0x900 fs/namespace.c:3507
-       path_mount+0x590/0xe04 fs/namespace.c:3834
-       do_mount fs/namespace.c:3847 [inline]
-       __do_sys_mount fs/namespace.c:4057 [inline]
-       __se_sys_mount fs/namespace.c:4034 [inline]
-       __arm64_sys_mount+0x4d4/0x5ac fs/namespace.c:4034
-       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
-       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
-       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
-       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
-       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
-       el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
--> #3 (&c->fsck_error_msgs_lock){+.+.}-{4:4}:
-       __mutex_lock_common+0x218/0x28f4 kernel/locking/mutex.c:585
-       __mutex_lock kernel/locking/mutex.c:735 [inline]
-       mutex_lock_nested+0x2c/0x38 kernel/locking/mutex.c:787
-       __bch2_fsck_err+0x344/0x2544 fs/bcachefs/error.c:282
-       bch2_check_fix_ptr fs/bcachefs/buckets.c:112 [inline]
-       bch2_check_fix_ptrs+0x15b8/0x515c fs/bcachefs/buckets.c:266
-       bch2_trigger_extent+0x71c/0x814 fs/bcachefs/buckets.c:856
-       bch2_key_trigger fs/bcachefs/bkey_methods.h:87 [inline]
-       bch2_gc_mark_key+0x4b4/0xb70 fs/bcachefs/btree_gc.c:634
-       bch2_gc_btree fs/bcachefs/btree_gc.c:670 [inline]
-       bch2_gc_btrees fs/bcachefs/btree_gc.c:729 [inline]
-       bch2_check_allocations+0x1018/0x48f4 fs/bcachefs/btree_gc.c:1133
-       bch2_run_recovery_pass+0xe4/0x1d4 fs/bcachefs/recovery_passes.c:191
-       bch2_run_recovery_passes+0x30c/0x73c fs/bcachefs/recovery_passes.c:244
-       bch2_fs_recovery+0x32d8/0x55dc fs/bcachefs/recovery.c:861
-       bch2_fs_start+0x30c/0x53c fs/bcachefs/super.c:1037
-       bch2_fs_get_tree+0x938/0x1030 fs/bcachefs/fs.c:2170
-       vfs_get_tree+0x90/0x28c fs/super.c:1814
-       do_new_mount+0x278/0x900 fs/namespace.c:3507
-       path_mount+0x590/0xe04 fs/namespace.c:3834
-       do_mount fs/namespace.c:3847 [inline]
-       __do_sys_mount fs/namespace.c:4057 [inline]
-       __se_sys_mount fs/namespace.c:4034 [inline]
-       __arm64_sys_mount+0x4d4/0x5ac fs/namespace.c:4034
-       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
-       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
-       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
-       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
-       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
-       el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
--> #2 (&c->mark_lock){++++}-{0:0}:
-       percpu_down_read+0x5c/0x2e8 include/linux/percpu-rwsem.h:51
-       __bch2_disk_reservation_add+0xc4/0x9f4 fs/bcachefs/buckets.c:1170
-       bch2_disk_reservation_add+0x29c/0x4f4 fs/bcachefs/buckets.h:367
-       __bch2_folio_reservation_get+0x2dc/0x798 fs/bcachefs/fs-io-pagecache.c:428
-       bch2_folio_reservation_get fs/bcachefs/fs-io-pagecache.c:477 [inline]
-       bch2_page_mkwrite+0xa70/0xe44 fs/bcachefs/fs-io-pagecache.c:637
-       do_page_mkwrite+0x140/0x2dc mm/memory.c:3176
-       do_shared_fault mm/memory.c:5398 [inline]
-       do_fault mm/memory.c:5460 [inline]
-       do_pte_missing mm/memory.c:3979 [inline]
-       handle_pte_fault+0x1418/0x5890 mm/memory.c:5801
-       __handle_mm_fault mm/memory.c:5944 [inline]
-       handle_mm_fault+0xf0c/0x17b0 mm/memory.c:6112
-       do_page_fault+0x570/0x10a8 arch/arm64/mm/fault.c:690
-       do_translation_fault+0xc4/0x114 arch/arm64/mm/fault.c:783
-       do_mem_abort+0x74/0x200 arch/arm64/mm/fault.c:919
-       el0_da+0x60/0x178 arch/arm64/kernel/entry-common.c:604
-       el0t_64_sync_handler+0xcc/0x108 arch/arm64/kernel/entry-common.c:765
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
--> #1 (sb_pagefaults#2){.+.+}-{0:0}:
-       percpu_down_read include/linux/percpu-rwsem.h:51 [inline]
-       __sb_start_write include/linux/fs.h:1725 [inline]
-       sb_start_pagefault include/linux/fs.h:1890 [inline]
-       bch2_page_mkwrite+0x280/0xe44 fs/bcachefs/fs-io-pagecache.c:614
-       do_page_mkwrite+0x140/0x2dc mm/memory.c:3176
-       do_shared_fault mm/memory.c:5398 [inline]
-       do_fault mm/memory.c:5460 [inline]
-       do_pte_missing mm/memory.c:3979 [inline]
-       handle_pte_fault+0x1418/0x5890 mm/memory.c:5801
-       __handle_mm_fault mm/memory.c:5944 [inline]
-       handle_mm_fault+0xf0c/0x17b0 mm/memory.c:6112
-       do_page_fault+0x570/0x10a8 arch/arm64/mm/fault.c:690
-       do_translation_fault+0xc4/0x114 arch/arm64/mm/fault.c:783
-       do_mem_abort+0x74/0x200 arch/arm64/mm/fault.c:919
-       el0_da+0x60/0x178 arch/arm64/kernel/entry-common.c:604
-       el0t_64_sync_handler+0xcc/0x108 arch/arm64/kernel/entry-common.c:765
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
--> #0 (&mm->mmap_lock){++++}-{4:4}:
-       check_prev_add kernel/locking/lockdep.c:3161 [inline]
-       check_prevs_add kernel/locking/lockdep.c:3280 [inline]
-       validate_chain kernel/locking/lockdep.c:3904 [inline]
-       __lock_acquire+0x34f0/0x7904 kernel/locking/lockdep.c:5226
-       lock_acquire+0x23c/0x724 kernel/locking/lockdep.c:5849
-       __might_fault+0xc4/0x124 mm/memory.c:6751
-       drm_mode_list_lessees_ioctl+0x304/0x608 drivers/gpu/drm/drm_lease.c:618
-       drm_ioctl_kernel+0x26c/0x368 drivers/gpu/drm/drm_ioctl.c:796
-       drm_ioctl+0x624/0xb14 drivers/gpu/drm/drm_ioctl.c:893
-       vfs_ioctl fs/ioctl.c:51 [inline]
-       __do_sys_ioctl fs/ioctl.c:906 [inline]
-       __se_sys_ioctl fs/ioctl.c:892 [inline]
-       __arm64_sys_ioctl+0x14c/0x1cc fs/ioctl.c:892
-       __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
-       invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
-       el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
-       do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
-       el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
-       el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
-       el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
-other info that might help us debug this:
-
-Chain exists of:
-  &mm->mmap_lock --> &helper->lock --> &dev->mode_config.idr_mutex
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&dev->mode_config.idr_mutex);
-                               lock(&helper->lock);
-                               lock(&dev->mode_config.idr_mutex);
-  rlock(&mm->mmap_lock);
-
- *** DEADLOCK ***
-
-1 lock held by syz.1.208/7595:
- #0: ffff0000c99745d0 (&dev->mode_config.idr_mutex){+.+.}-{4:4}, at: drm_mode_list_lessees_ioctl+0x1e0/0x608 drivers/gpu/drm/drm_lease.c:609
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 7595 Comm: syz.1.208 Not tainted 6.13.0-rc3-syzkaller-g573067a5a685 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-Call trace:
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:466 (C)
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0xe4/0x150 lib/dump_stack.c:120
- dump_stack+0x1c/0x28 lib/dump_stack.c:129
- print_circular_bug+0x154/0x1c0 kernel/locking/lockdep.c:2074
- check_noncircular+0x310/0x404 kernel/locking/lockdep.c:2206
- check_prev_add kernel/locking/lockdep.c:3161 [inline]
- check_prevs_add kernel/locking/lockdep.c:3280 [inline]
- validate_chain kernel/locking/lockdep.c:3904 [inline]
- __lock_acquire+0x34f0/0x7904 kernel/locking/lockdep.c:5226
- lock_acquire+0x23c/0x724 kernel/locking/lockdep.c:5849
- __might_fault+0xc4/0x124 mm/memory.c:6751
- drm_mode_list_lessees_ioctl+0x304/0x608 drivers/gpu/drm/drm_lease.c:618
- drm_ioctl_kernel+0x26c/0x368 drivers/gpu/drm/drm_ioctl.c:796
- drm_ioctl+0x624/0xb14 drivers/gpu/drm/drm_ioctl.c:893
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl fs/ioctl.c:892 [inline]
- __arm64_sys_ioctl+0x14c/0x1cc fs/ioctl.c:892
- __invoke_syscall arch/arm64/kernel/syscall.c:35 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:49
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:132
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:151
- el0_svc+0x54/0x168 arch/arm64/kernel/entry-common.c:744
- el0t_64_sync_handler+0x84/0x108 arch/arm64/kernel/entry-common.c:762
- el0t_64_sync+0x198/0x19c arch/arm64/kernel/entry.S:600
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+That already contains the HDMI connector node. Every follow up addition 
+of HDMI to another device has been a copy of the same commit, with 
+connector, so I think it is safe to say, no upstream DT is going to be 
+broken by this change. Do we care about hypothetical downstream DTs 
+which may be missing the connector ?
