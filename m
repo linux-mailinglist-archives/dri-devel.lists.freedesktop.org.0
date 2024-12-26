@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941B39FCE8E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2024 23:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ECA49FCE92
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2024 23:39:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9595B10E031;
-	Thu, 26 Dec 2024 22:39:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C073E10E188;
+	Thu, 26 Dec 2024 22:39:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HPD66hky";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="be8VsyU4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org
  [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED6B10E031;
- Thu, 26 Dec 2024 22:39:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D26410E181;
+ Thu, 26 Dec 2024 22:39:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AA679A40F53;
- Thu, 26 Dec 2024 22:37:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3627C4CEDE;
- Thu, 26 Dec 2024 22:39:11 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id DE96AA40F49;
+ Thu, 26 Dec 2024 22:37:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8157CC4CED3;
+ Thu, 26 Dec 2024 22:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735252753;
- bh=zzHpg02nt2xCzx11z3qrPTPt9BM7ACn4sX/GXztIxTA=;
+ s=k20201202; t=1735252760;
+ bh=IA7k5C2AS+nLKhVxq0RIAeQWDFWdSUNqLZjob+STCgc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HPD66hkyp6ULiLZXVVRtebU8omymUvvQ5tyb6NNu7Zjb5rPsoV6+LqUPyqKMV9BDY
- WBb8rplUSniQ5Zt54PRmW6ALOmYx71t45dHQXeaCE5rvRvkMfK7u0G3tnKcnVUN7Id
- etXoVXDg4Kaf+oyoLL63VV8xaiFmkQ+ZXNNf2hVquXpv6ZkJz2tMVzPaInDYMWzF3T
- Gc1vluxcP3Pf6PEj0nu3INYMdT6m6vQ3yOqYFbDNgGKMyr+cvmLIaDdu/ahA4Y7pkd
- VtK5LVAQ10OBgT3d8SixJ0Et575CCX6+iOhxZtzKobdLJAHDMs/Fxg1HuVZk5NGoEp
- g77FEx4NghSzw==
+ b=be8VsyU4/0n/4r5iNCubsQ/IrvULAPBPcO24RnxvNVoCzNuCdNG4wE3mHHhYKhin0
+ jajp82e5CfszRKhbFrmiZStB9twHYmTiCsij4mcguEKiuTo/lYnMugPzZ0+DEGMFI7
+ 438blUtRocOkDYMMyvJaWU4/flu2plXVqu8/WMz2UzVHztAzDSEe3i/e8c/fv6Thrp
+ LDpbzqvj2BRPMD0dTN62zPx1JAhA3Bi9sVQmyNuq0dQUIEk/NNBndXVrG70ujX8aXT
+ KwsXJ9atI25p/9wVsCsnfueMGxe+LI9Q0lYuFMqmE434Oo+bydbC0N7L7Wyjh6zcUg
+ nC2Rr7d331FkA==
 From: Bjorn Andersson <andersson@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>,
- Richard Acayan <mailingradian@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: (subset) [PATCH v2 0/4] drm/msm/adreno: Add A615 GPU for SDM670
- and Pixel 3a
-Date: Thu, 26 Dec 2024 16:38:42 -0600
-Message-ID: <173525273245.1449028.4895991910861314242.b4-ty@kernel.org>
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: (subset) [PATCH v6 0/7] drm/msm: adreno: add support for DDR
+ bandwidth scaling via GMU
+Date: Thu, 26 Dec 2024 16:38:45 -0600
+Message-ID: <173525273263.1449028.15610576942299813913.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20240806214452.16406-7-mailingradian@gmail.com>
-References: <20240806214452.16406-7-mailingradian@gmail.com>
+In-Reply-To: <20241217-topic-sm8x50-gpu-bw-vote-v6-0-1adaf97e7310@linaro.org>
+References: <20241217-topic-sm8x50-gpu-bw-vote-v6-0-1adaf97e7310@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -72,22 +71,23 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 06 Aug 2024 17:44:54 -0400, Richard Acayan wrote:
-> This adds support for the speed-binned A615 GPU on SDM670.
+On Tue, 17 Dec 2024 15:51:13 +0100, Neil Armstrong wrote:
+> The Adreno GPU Management Unit (GMU) can also vote for DDR Bandwidth
+> along the Frequency and Power Domain level, but by default we leave the
+> OPP core scale the interconnect ddr path.
 > 
-> Changes since v1 (20240730013844.41951-6-mailingradian@gmail.com):
-> - add Acked-by tag (1/4)
-> - add OPPs exclusive to some speed bins (3/4)
-> - enable GMU by default (3/4)
+> While scaling the interconnect path was sufficient, newer GPUs
+> like the A750 requires specific vote parameters and bandwidth to
+> achieve full functionnality.
 > 
 > [...]
 
 Applied, thanks!
 
-[3/4] arm64: dts: qcom: sdm670: add gpu
-      commit: cd89483a1327c0317a655cca1daf9521c7ec7529
-[4/4] arm64: dts: qcom: sdm670-google-sargo: enable gpu
-      commit: fbf7cfa3ea986e5bf426748aa8afa386df61456f
+[6/7] arm64: qcom: dts: sm8550: add interconnect and opp-peak-kBps for GPU
+      commit: 1ba40079267930643eade4282258562085d4319d
+[7/7] arm64: qcom: dts: sm8650: add interconnect and opp-peak-kBps for GPU
+      commit: 63c21d61b46197b6295e12dbf29adff29c18ae2c
 
 Best regards,
 -- 
