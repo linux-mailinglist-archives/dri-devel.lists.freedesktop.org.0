@@ -2,97 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85A39FCA14
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2024 10:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0D19FCA7E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2024 12:26:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4852710E811;
-	Thu, 26 Dec 2024 09:43:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XFLOK+F5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F8E610E033;
+	Thu, 26 Dec 2024 11:26:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63B7F10E811;
- Thu, 26 Dec 2024 09:43:46 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BQ1vVCg001822;
- Thu, 26 Dec 2024 09:43:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- l9D0iGf5gfsI47OTyHusqADcAsJb13cd95a9Ia17SRI=; b=XFLOK+F54Vmqa1Hh
- jY2lmNj0bcXNo+x6mV+8fnXP37qDagMd/5+/7LFVNKneSPSJ+hjrpEGpqlQYGa+x
- fuDVpV5PN36ybAnuhe8BctgewaFT4JylFIfetdyvw+Df4L6EIo9dNVdrMVT6KLpy
- /nL0FcJE1vLo7CJVQcQNvbP9pB9Aw6fIPlQ+7Ci7HLvWK6kvUNmYJbZH2woWk4LL
- uuxI3sq6u6Uc0AD+kTulqCG0po3OT2A5Sxe+00hp0XtnI4aqLtdmuVfHT2EguKdS
- T/6J6Btp95It7rYXJbYShYwXYxe8obLv+YNW07K1L45+TgJg+z6BmXuIxHmA/R9K
- G0zLGw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43rwxja6g2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Dec 2024 09:43:41 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BQ9he9s005334
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Dec 2024 09:43:41 GMT
-Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 26 Dec 2024 01:43:34 -0800
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-Date: Thu, 26 Dec 2024 17:40:49 +0800
-Subject: [PATCH v2 5/5] drm/msm: mdss: Add QCS8300 support
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net
+ [176.9.242.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA4AD10E033
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2024 11:26:31 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+ by bmailout3.hostsharing.net (Postfix) with ESMTPS id 73F66100D9404;
+ Thu, 26 Dec 2024 12:26:29 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id 476F630F89E; Thu, 26 Dec 2024 12:26:29 +0100 (CET)
+Date: Thu, 26 Dec 2024 12:26:29 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: simona.vetter@ffwll.ch, Jens Wiklander <jens.wiklander@linaro.org>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+Message-ID: <Z209ZegsmgN1xlNG@wunner.de>
+References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
+ <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
+ <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
+ <Z2p-v-xjhzhPso6u@wunner.de>
+ <CAFA6WYMEjT5EAG3AL8NpbET6L=M86LBgnhLnWirvDZg9cUUiuA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20241226-mdssdt_qcs8300-v2-5-acba0db533ce@quicinc.com>
-References: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
-In-Reply-To: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Kuogee
- Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
- Vijay Abraham I" <kishon@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>
-CC: Yongxing Mou <quic_yongmou@quicinc.com>, <linux-arm-msm@vger.kernel.org>, 
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-phy@lists.infradead.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735206183; l=1622;
- i=quic_yongmou@quicinc.com; s=20241121; h=from:subject:message-id;
- bh=T1quEqzzRYSTMr7FDeES364YwjAI1nS3gNRFG9z4HNk=;
- b=HtbY/AX2zNsrOYqZMz2lkI1joXDehgg8w211gXR5XZurJny5uq/TmLMCotqGlx9mFrX7txLmn
- EkwHWH1AnqxB5hmzcEWugBSRbfomh5Cq8OHJNPPc2HJazLPb+tvNehX
-X-Developer-Key: i=quic_yongmou@quicinc.com; a=ed25519;
- pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 3chVvJ4-vkNoZcjvWDGztUvm3WrSbPDf
-X-Proofpoint-GUID: 3chVvJ4-vkNoZcjvWDGztUvm3WrSbPDf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- suspectscore=0 mlxscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412260085
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYMEjT5EAG3AL8NpbET6L=M86LBgnhLnWirvDZg9cUUiuA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,46 +65,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Mobile Display Subsystem (MDSS) support for the QCS8300 platform.
-Due to different memory type, it use different mdss_data with SA8775P
-although using the same dpu.
+On Thu, Dec 26, 2024 at 11:29:23AM +0530, Sumit Garg wrote:
+> On Tue, 24 Dec 2024 at 14:58, Lukas Wunner <lukas@wunner.de> wrote:
+> > However in the case of restricted memory, the situation is exactly
+> > the opposite:  The kernel may *not* be able to access the data,
+> > but the crypto accelerator can access it just fine.
+> >
+> > I did raise a concern about this to the maintainer, but to no avail:
+> > https://lore.kernel.org/r/Z1Kym1-9ka8kGHrM@wunner.de/
+> 
+> Herbert's point is valid that there isn't any point for mapping
+> restricted memory in the kernel virtual address space as any kernel
+> access to that space can lead to platform specific hardware error
+> scenarios. And for that reason we simply disallow dma_buf_mmap() and
+> don't support dma_buf_vmap() for DMA-bufs holding TEE restricted
+> memory.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
----
- drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+The API for signature generation/verification (e.g. crypto_sig_sign(),
+crypto_sig_verify()) no longer accepts scatterlists, only buffers in
+virtual address space:
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index dcb49fd30402b80edd2cb5971f95a78eaad6081f..40c8b476763b8c39434b1448008cfa8ffac7a8ea 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -582,6 +582,16 @@ static const struct msm_mdss_data qcm2290_data = {
- 	.reg_bus_bw = 76800,
- };
- 
-+static const struct msm_mdss_data qcs8300_data = {
-+	.ubwc_enc_version = UBWC_4_0,
-+	.ubwc_dec_version = UBWC_4_0,
-+	.ubwc_swizzle = 6,
-+	.ubwc_bank_spread = true,
-+	.highest_bank_bit = 3,
-+	.macrotile_mode = true,
-+	.reg_bus_bw = 74000,
-+};
-+
- static const struct msm_mdss_data sa8775p_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
-@@ -737,6 +747,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,mdss" },
- 	{ .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
- 	{ .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
-+	{ .compatible = "qcom,qcs8300-mdss", .data = &qcs8300_data },
- 	{ .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
- 	{ .compatible = "qcom,sdm670-mdss", .data = &sdm670_data },
- 	{ .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
+https://lore.kernel.org/all/ZIrnPcPj9Zbq51jK@gondor.apana.org.au/
 
--- 
-2.34.1
+Hence in order to use buffers in restricted memory for signature
+generation/verification, you'd need to map them into virtual address
+space first.
 
+Thanks,
+
+Lukas
