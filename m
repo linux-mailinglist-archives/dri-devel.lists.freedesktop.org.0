@@ -2,134 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3CE9FC953
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2024 08:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BEB9FC9A2
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Dec 2024 09:17:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7968E10E770;
-	Thu, 26 Dec 2024 07:01:49 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fsAX4Ins";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 223DD10E7B8;
+	Thu, 26 Dec 2024 08:17:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on20626.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2009::626])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4A910E76F;
- Thu, 26 Dec 2024 07:01:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dAJg3r0tGI7Rkm4d+bN8oh6/00CBOG8RCOBzPgp4MPnEOa7jMXjM9IewAgZ76a08rIeLtiQQHXbeDrEnBEyDsTiL40bIAhOJcchFtZimEmdXCLm5/B4fZsFq0OOvt+fWUDtpPjh58YUV6S7wHdX1r5MdZqsAaYPRncDhIa4xtl8nRkCbkHIXSwsC2R9JI/QXbvI5bTuhjK5uOUAhG0xEp19getdnbSu7C37P7qJvbpjjhH8YzAn/ya3gB7YgrscbT0gjh/QivklGR1dSDOocyaeZud/XEhDZ21Lw0FYZJsJlcZfdvVNCnceveR3iViDyMlF8R9hHwvTxflFJxKEVPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xOX2tPGGtpPP16seFY3EzxZgGDea7JdFrZGAg8l7Ldo=;
- b=bm6p4+dCkPcMNHMS60IE1CCH8M9ZolbxNNw+IjLCq2RQ0hFOzGjflBChRkl0KDUrmFgiivhJTDpqEGmot6PFg4AFZj3EWTsQUYDrvM3UpLwqleimvIs58U0T/N2mkpx+gwwAYLDbvvfs76XGAnrxpe6yYpmJbiN12aIzcvRqH1EGDFUFI+QKQC17ap55gTXXEBqPHoip9IKYLsJ71cW/bBz2BcmEPMaDkb5vyzlwnnzcAjTPJZwor53RIaVvA61XmLxmaM1zCgIyEsTcluvbaxbajVeAlppzwd5TEcw+GaMIaDmHgGRCie4Q4iRoCc426D5UyMV1NOtzYbbDQJTn2w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xOX2tPGGtpPP16seFY3EzxZgGDea7JdFrZGAg8l7Ldo=;
- b=fsAX4Insdi1g/5bVAGfzo2gD8DjD48g6GUnUzNwhqA9IFDmb82fkQZfw1Kie7JBbuoWYBGiIVKM9BDXLjVj8lSS7XyWWjyhD6MOKYGii4IdawftFLV+3+l2B6cPWDxa9cxDLG4yHyAzlLT863Wu+OmfRI/f+0RyE1Ey5GS92x3Q=
-Received: from SA0PR11CA0097.namprd11.prod.outlook.com (2603:10b6:806:d1::12)
- by DM4PR12MB6255.namprd12.prod.outlook.com (2603:10b6:8:a4::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8293.14; Thu, 26 Dec
- 2024 07:01:41 +0000
-Received: from SN1PEPF00036F3E.namprd05.prod.outlook.com
- (2603:10b6:806:d1:cafe::27) by SA0PR11CA0097.outlook.office365.com
- (2603:10b6:806:d1::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8293.15 via Frontend Transport; Thu,
- 26 Dec 2024 07:01:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF00036F3E.mail.protection.outlook.com (10.167.248.22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8293.12 via Frontend Transport; Thu, 26 Dec 2024 07:01:40 +0000
-Received: from amd-X570-AORUS-ELITE.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 26 Dec 2024 01:01:38 -0600
-From: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <matthew.auld@intel.com>
-CC: <christian.koenig@amd.com>, <alexander.deucher@amd.com>, "Arunpravin
- Paneer Selvam" <Arunpravin.PaneerSelvam@amd.com>, "Lin . Cao"
- <lincao12@amd.com>
-Subject: [PATCH v2 2/2] drm/buddy: Add a testcase to verify the multiroot fini
-Date: Thu, 26 Dec 2024 12:31:16 +0530
-Message-ID: <20241226070116.309290-2-Arunpravin.PaneerSelvam@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241226070116.309290-1-Arunpravin.PaneerSelvam@amd.com>
-References: <20241226070116.309290-1-Arunpravin.PaneerSelvam@amd.com>
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB47610E7B8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Dec 2024 08:17:01 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.252])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4YJhHG1MsRzhZNx;
+ Thu, 26 Dec 2024 16:14:18 +0800 (CST)
+Received: from kwepemf100009.china.huawei.com (unknown [7.202.181.223])
+ by mail.maildlp.com (Postfix) with ESMTPS id D6EA01800E2;
+ Thu, 26 Dec 2024 16:16:58 +0800 (CST)
+Received: from [10.67.121.162] (10.67.121.162) by
+ kwepemf100009.china.huawei.com (7.202.181.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 26 Dec 2024 16:16:58 +0800
+Subject: Re: [PATCH v8 drm-dp 0/5] Add dp module in hibmc driver
+To: Yongbang Shi <shiyongbang@huawei.com>, <xinliang.liu@linaro.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <lidongming5@huawei.com>, <libaihan@huawei.com>, <shenjian15@huawei.com>,
+ <shaojijie@huawei.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20241213060229.1191037-1-shiyongbang@huawei.com>
+ <046b010c-d40b-42c8-b701-4570b7a536eb@huawei.com>
+From: "tiantao (H)" <tiantao6@hisilicon.com>
+Message-ID: <19fbf658-5096-400e-0df5-ee30451d3459@hisilicon.com>
+Date: Thu, 26 Dec 2024 16:16:51 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <046b010c-d40b-42c8-b701-4570b7a536eb@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3E:EE_|DM4PR12MB6255:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1d172c4-77ed-4956-a790-08dd257b2636
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ckhsWVZPSUkyRGw4WXFwQ2JkOXF1NE9BYjFkOVZJdlN1R2JYUm81UXR0d0NR?=
- =?utf-8?B?MU1OQ2RzOWJnQk8wZVNnNUYxSVdVNitFaVRkNmhtbk5xSCtQYkFnOE9MeGVM?=
- =?utf-8?B?UXRGTTcvV3U4ZGw5N2NzMW9vQVE1UVpCLzkvNWNqM3hRL2E5dWlCbDNYM3NF?=
- =?utf-8?B?STZUbUtDK2xrYUE0WWtWdU1FdHBQTmgvQ0t4T29COFRZT0VjMktMQkNBcmRE?=
- =?utf-8?B?bHBxQnJHRXA4bndEQmk3cFh2WHJkbFpPL3EwM05ySkxjOFArNnNPa1NuK1hp?=
- =?utf-8?B?Z2FtWnJmOHIxTkxadzJrSUtReE5jVGRNbmZEQmh4bXNnMTdpeXNXbnprdisv?=
- =?utf-8?B?eWI3VG9aZUtnUTREa1ZVYXVYOFNGYVdkZ3NoU0RNMU1pMHlSSWJ2YWpIcFJn?=
- =?utf-8?B?SEJySy9JUXIrL2V2a0dPZnQxdkN5UTMvQ0lPZjRidGhWU1YvRUtJN3F4TEFs?=
- =?utf-8?B?VklVR1UwdFFkVmoybTJnb1ZnRTMvK3BqQUxxZk5zZzFLUC9NOUR1UDR6ZDJv?=
- =?utf-8?B?eUwzTEdUWDZJVzc5Lzg2cStNZGNlUTI3MnF2UlM4OXkySk1IdE9HNDRmVnho?=
- =?utf-8?B?aXdYWC9ab0lncUJ1TXJOZnlBUkpVNXZHeHNZZ3dKZ3ZsSEZXQmhnRHdRMnp0?=
- =?utf-8?B?VURvK1gvejdiRFg0Z2h0ekswU2pXMzB6WFRMUTVlemhmZUtGVnY3UnNmTHo0?=
- =?utf-8?B?RVQ1OTJsaWhSK0JsNHp4bnZVb1lYU0RVd2VSU2ZwaGFxM2I1b0lMU1Y3cjF6?=
- =?utf-8?B?UlRnY0FrSlRJb1MrMTA3VWNzdFlzT1Y5R3o0SXNNMGkwcjhnNE1maUxDaXd5?=
- =?utf-8?B?dTdaTEZIcjVtK1ZSaXZ1b3dCMWpRSG12cVZSY2hCdU1pY0cyZXIweU1tcTVH?=
- =?utf-8?B?S2NCSzJWZnlKVEVlTlppbGJ1cm4rbnlwdWhieVp3eHZIejlsZ09BVW9KU1Ro?=
- =?utf-8?B?bTFCTVQrVDJ0SDBqRXNOMkl1SzQzVDhSUE9Fc3VIT21sMlVpWWhQVFJSeW5L?=
- =?utf-8?B?Q0trQ1MyVDd4L1NubE1yMmdQWENnRy9wN1J0TlZtL051NVhyYXlHNVlOOW1B?=
- =?utf-8?B?U2pQamJVVXM4ckNuWnFPUWlkak10YmFFNnIrZm05QUE1YW0vWFROcHVlcThZ?=
- =?utf-8?B?VnNIRDJJMThRK0ZvSG1hQTVLSE9EK1V1UmdqU2dVMnV1Uk1Hd3VqOXVBSFA0?=
- =?utf-8?B?WXlncHdpSDhaUnJoYmtWeGROOFVrTys3bUhWR2JmTU9BOUhEQU1aTTVNelJt?=
- =?utf-8?B?eFc5QTJnVUFFZzhQR2RRZE5sVzhwak9vSGg1SHhaNHlXTGdpa3NkeXg3TDI4?=
- =?utf-8?B?S3g1M1QvbEVJdGpFM25UNURCQTVRMzFwb2xRNER2UytsbnB4Rk5pYTM0Zmx2?=
- =?utf-8?B?WjM4aUpJTFVBWS9OU2M5cCtxNFp0R3ZSbEdTR1FLUHdWQmpPOFNURXJramNQ?=
- =?utf-8?B?cjJXRmczM2pJZFNkTnl2UFJjTUFucCswWTdPUVhXOHlSRDBYQ2I1YXhNMWl3?=
- =?utf-8?B?dlBBenpBZlJIRWtIY3I4UWZQbFpMajFGVjNDajBINlBPdy91dXl3ZjEyOWVw?=
- =?utf-8?B?UGpqTllKQnFWalQwT0dxeVlMRVFjUjd2MUZnT2pqczFjdXZFYUZYNHgyZ0xX?=
- =?utf-8?B?amk0UGRhNTd2R2hCNGsybmdwWmZTRjNmMFpNY1lMQjZMZElPMUU2RzhPSUFQ?=
- =?utf-8?B?U01NV3pEa0lydk5YQWx6NkkxK2E2YXNTcnBaWUhYU1pGMUlZWkxUWmZuSUZI?=
- =?utf-8?B?N2hGVC9xWTZ3V1ZCV1lOTVpZWktDRkZZNWhFVFB2Tlp1dXZiZlBNTnRUTTdL?=
- =?utf-8?B?WmdzUzA1UENhRGE0Q2tBMzFaWFkzMW9VdlBJOVVoMnc2UXBTSW9GTTU1OHhi?=
- =?utf-8?B?SVo3bE9uYUc1VFVub0RONHlpVlJOYXZRNmpQRHlRMmZKQ1VSWDFyRnJORVJn?=
- =?utf-8?B?YmRoK09NL3dXZmh0aFBKUm1STE5kZUN6SXIrSnZjMnNMWGM3Zy8xeCt6RHl0?=
- =?utf-8?Q?pU0uO4CX7eKv9vLuLM4W2Nu6/QEJwk=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Dec 2024 07:01:40.7862 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1d172c4-77ed-4956-a790-08dd257b2636
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00036F3E.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6255
+X-Originating-IP: [10.67.121.162]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemf100009.china.huawei.com (7.202.181.223)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,85 +60,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Added a testcase to verify the multiroot force merge fini.
-- Added a new field in_use to track the mm freed status.
 
-v2:(Matthew)
-  - Add kunit_fail_current_test() when WARN_ON is true.
-
-Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-Signed-off-by: Lin.Cao <lincao12@amd.com>
----
- drivers/gpu/drm/drm_buddy.c            |  6 +++++-
- drivers/gpu/drm/tests/drm_buddy_test.c | 29 ++++++++++++++++++--------
- 2 files changed, 25 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index ca42e6081d27..241c855f891f 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -3,6 +3,8 @@
-  * Copyright © 2021 Intel Corporation
-  */
- 
-+#include <kunit/test-bug.h>
-+
- #include <linux/kmemleak.h>
- #include <linux/module.h>
- #include <linux/sizes.h>
-@@ -335,7 +337,9 @@ void drm_buddy_fini(struct drm_buddy *mm)
- 		start = drm_buddy_block_offset(mm->roots[i]);
- 		__force_merge(mm, start, start + size, order);
- 
--		WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
-+		if (WARN_ON(!drm_buddy_block_is_free(mm->roots[i])))
-+			kunit_fail_current_test("buddy_fini() root");
-+
- 		drm_block_free(mm, mm->roots[i]);
- 
- 		root_size = mm->chunk_size << order;
-diff --git a/drivers/gpu/drm/tests/drm_buddy_test.c b/drivers/gpu/drm/tests/drm_buddy_test.c
-index 9662c949d0e3..4b5818f9f2a9 100644
---- a/drivers/gpu/drm/tests/drm_buddy_test.c
-+++ b/drivers/gpu/drm/tests/drm_buddy_test.c
-@@ -385,17 +385,28 @@ static void drm_test_buddy_alloc_clear(struct kunit *test)
- 	drm_buddy_fini(&mm);
- 
- 	/*
--	 * Create a new mm with a non power-of-two size. Allocate a random size, free as
--	 * cleared and then call fini. This will ensure the multi-root force merge during
--	 * fini.
-+	 * Create a new mm with a non power-of-two size. Allocate a random size from each
-+	 * root, free as cleared and then call fini. This will ensure the multi-root
-+	 * force merge during fini.
- 	 */
--	mm_size = 12 * SZ_4K;
--	size = max(round_up(prandom_u32_state(&prng) % mm_size, ps), ps);
-+	mm_size = (SZ_4K << max_order) + (SZ_4K << (max_order - 2));
-+
- 	KUNIT_EXPECT_FALSE(test, drm_buddy_init(&mm, mm_size, ps));
--	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, mm_size,
--							    size, ps, &allocated,
--							    DRM_BUDDY_TOPDOWN_ALLOCATION),
--				"buddy_alloc hit an error size=%u\n", size);
-+	KUNIT_EXPECT_EQ(test, mm.max_order, max_order);
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, SZ_4K << max_order,
-+							    4 * ps, ps, &allocated,
-+							    DRM_BUDDY_RANGE_ALLOCATION),
-+				"buddy_alloc hit an error size=%lu\n", 4 * ps);
-+	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, 0, SZ_4K << max_order,
-+							    2 * ps, ps, &allocated,
-+							    DRM_BUDDY_CLEAR_ALLOCATION),
-+				"buddy_alloc hit an error size=%lu\n", 2 * ps);
-+	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
-+	KUNIT_ASSERT_FALSE_MSG(test, drm_buddy_alloc_blocks(&mm, SZ_4K << max_order, mm_size,
-+							    ps, ps, &allocated,
-+							    DRM_BUDDY_RANGE_ALLOCATION),
-+				"buddy_alloc hit an error size=%lu\n", ps);
- 	drm_buddy_free_list(&mm, &allocated, DRM_BUDDY_CLEARED);
- 	drm_buddy_fini(&mm);
- }
--- 
-2.25.1
-
+在 2024/12/19 10:52, Yongbang Shi 写道:
+> Does everyone have a question with the patch?
+>
+Reviewed-by: Tian Tao <tiantao6@hisilicon.com>
+>
+>> From: baihan li <libaihan@huawei.com>
+>>
+>> Realizing the basic display function of DP cable for DP connector
+>> displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+>> Hibmc SoC which used for Out-of-band management. Blow is the general
+>> hardware connection, both the Hibmc and the host CPU are on the same
+>> mother board.
+>>
+>> +----------+       +----------+      +----- ----+ +----------------+
+>> |          | PCIe  |  Hibmc   |      |          | |                |
+>> |host CPU( |<----->| display  |<---->| dp kapi |<---->| dp aux moduel  |
+>> |arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link 
+>> moduel |
+>> +----------+       +----------+      +----------+ +----------------+
+>>
+>> ---
+>> ChangeLog:
+>> v7 -> v8:
+>>    - adding DP_AUX_NATIVE_WRITE case in switch statement in 
+>> hibmc_dp_aux_parse_xfer().
+>>    - adding pci_set_master() in hibmc_pci_probe().
+>> v7:https://lore.kernel.org/all/20241209144840.1933265-1-shiyongbang@huawei.com/
+>> v6 -> v7:
+>>    - deleteing unset fields in struct hibmc_link_cap, suggested by 
+>> Dmitry Baryshkov.
+>>    - using macro instead of constants in 
+>> hibmc_dp_link_training_configure(), suggested by Dmitry Baryshkov.
+>>    - lowercasing hex, suggested by Dmitry Baryshkov.
+>> v6:https://lore.kernel.org/all/20241202131322.1847078-1-shiyongbang@huawei.com/
+>> v5 -> v6:
+>>    - adding do{} while(0) in macro defination function, suggested by 
+>> Dmitry Baryshkov.
+>>    - using drm_dbg_dp() to print debug info instead of drm_info(), 
+>> suggested by Dmitry Baryshkov.
+>>    - adding code comments in hibmc_dp_set_sst(), suggested by Dmitry 
+>> Baryshkov.
+>>    - adding hpd and get_edid comments in the beginning of patch, 
+>> suggested by Dmitry Baryshkov.
+>> v5:https://lore.kernel.org/all/20241118142805.3326443-1-shiyongbang@huawei.com/
+>> v4 -> v5:
+>>    - fixing build errors reported by kernel test robot <lkp@intel.com>
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+>> v4:https://lore.kernel.org/all/20241112132348.2631150-1-shiyongbang@huawei.com/
+>> v3 -> v4:
+>>    - retun error codes in  result incorrect branch, suggested by 
+>> Dmitry Baryshkov.
+>>    - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+>>    - moving the comment below the judgment statement, suggested by 
+>> Dmitry Baryshkov.
+>>    - moving definations to the source file and clearing headers, 
+>> suggested by Dmitry Baryshkov.
+>>    - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry 
+>> Baryshkov.
+>>    - changing hibmc_dp_reg_write_field to static inline and lock, 
+>> suggested by Dmitry Baryshkov.
+>>    - moving some structs to later patch, suggested by Dmitry Baryshkov.
+>>    - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, 
+>> suggested by Dmitry Baryshkov.
+>>    - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
+>>    - deleting meaningless macro, suggested by Dmitry Baryshkov.
+>>    - fixing build errors reported by kernel test robot <lkp@intel.com>
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+>>    - changed the type of train_set to array, suggested by Dmitry 
+>> Baryshkov.
+>>    - using actual link rate instead of magic num, suggested by Dmitry 
+>> Baryshkov.
+>>    - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
+>>    - separating hibmc_vdac and hibmc_dp changes into separate patche, 
+>> suggested by Dmitry Baryshkov.
+>>    - static int hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
+>> v3:https://lore.kernel.org/all/20241101105028.2177274-1-shiyongbang@huawei.com/
+>> v2 -> v3:
+>>    - put the macro definations in latter patch where they are 
+>> actually used, suggested by Dmitry Baryshkov.
+>>    - rename some macro definations to make them sensible, suggested 
+>> by Dmitry Baryshkov.
+>>    - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+>>    - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+>>    - using switchcase in dp_link_reduce_lane, suggested by Dmitry 
+>> Baryshkov.
+>>    - deleting dp_link_pattern2dpcd function and using macros 
+>> directly, suggested by Dmitry Baryshkov.
+>>    - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
+>>    - fix build errors reported by kernel test robot <lkp@intel.com>
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
+>> v2:https://lore.kernel.org/all/20241022124148.1952761-1-shiyongbang@huawei.com/
+>> v1 -> v2:
+>>    - using drm_dp_aux frame implement dp aux read and write 
+>> functions, suggested by Jani Nikula.
+>>    - using drm dp header files' dp macros instead, suggested by Andy 
+>> Yan.
+>>    - using drm_dp_* functions implement dp link training process, 
+>> suggested by Jani Nikula.
+>>    - changed some defines and functions to former patch, suggested by 
+>> Dmitry Baryshkov.
+>>    - sorting the headers including in dp_hw.h and hibmc_drm_drv.c 
+>> files, suggested by Dmitry Baryshkov.
+>>    - deleting struct dp_mode and dp_mode_cfg function, suggested by 
+>> Dmitry Baryshkov.
+>>    - modifying drm_simple_encoder_init function, suggested by Dmitry 
+>> Baryshkov.
+>>    - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
+>>    - withdrawing the modification in hibmc_kms_init, suggested by 
+>> Dmitry Baryshkov.
+>>    - fix build errors reported by kernel test robot <lkp@intel.com>
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+>>      Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
+>> v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+>> ---
+>>
+>> baihan li (5):
+>>    drm/hisilicon/hibmc: add dp aux in hibmc drivers
+>>    drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+>>    drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+>>    drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+>>    drm/hisilicon/hibmc: add dp module in hibmc
+>>
+>>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 164 +++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  63 ++++
+>>   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 +
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 220 ++++++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 ++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 332 ++++++++++++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 +++++++
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  14 +
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  19 +-
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 ++-
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +-
+>>   13 files changed, 1078 insertions(+), 39 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>
+> .
+>
