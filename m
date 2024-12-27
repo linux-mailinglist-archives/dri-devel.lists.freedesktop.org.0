@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8474E9FD213
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68E869FD218
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:40:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4350C10E2D7;
-	Fri, 27 Dec 2024 08:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B00CE10E22E;
+	Fri, 27 Dec 2024 08:40:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jBDVr7LR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MeNMVYMu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E77510E2E1;
- Fri, 27 Dec 2024 08:39:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C299610E210;
+ Fri, 27 Dec 2024 08:40:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 04F9E5C5DD1;
- Fri, 27 Dec 2024 08:39:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA23C4CED0;
- Fri, 27 Dec 2024 08:39:48 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9B76C5C5789;
+ Fri, 27 Dec 2024 08:40:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CD7C4CED0;
+ Fri, 27 Dec 2024 08:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735288789;
- bh=+0FfP/it/g6a5NcBaGoGxMC03dKPY+plNCRmhB37Yqk=;
+ s=k20201202; t=1735288844;
+ bh=8KxZUHuncZ6XQYTJwhIWFyejQOjqm6sNcOVNcBIA1K0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jBDVr7LRS7ZJolIw/KKBRGpkLWRTbIZnQ5XBdsnWYztuxrcn5Y9ZLYy5g0gGHqZAW
- jAGMm+1nWOLcAbCShvSnxwecD1HAfNqIwMD6l8aoL/h1bPsjAbSkepPU4cGVnTc7RA
- ZbFsOtZH+YlS9a81UI33JH1fju+J4GwFF4gtQLA/FJghudZekNSfatmFdIAj2+sKXX
- KdElQQEl+3E9wZI5cw4X4Pf2Ggua6l8r3diI5T7O515poDKJoHGmXT/Ehm21QPMxGK
- AIy6BghZIevtOMYZ8WrZsyWtXQ+z+boeSadaL+hvIg/PfMhoJOQLCeID+ik4cwgiYR
- 4JPHBoRBDc9xA==
-Date: Fri, 27 Dec 2024 09:39:45 +0100
+ b=MeNMVYMufbRE8vJVlDEXT4y2WltbRR1zgXDT7xfcmbdGkwq5j6hY+mYbNV2wO9IDJ
+ yj5wbaNv/9IS3vArJXiM5Fdae3ZtkB/rV/uBnWDZorKQuEpeeTQtrSJ0+LqI44x/Pm
+ zoR8JnhWW5nd+TUPvrhCKoRfWhrrtwqAsvb1kUiuDzG9fXp+gE7xv4OFumgu9QDGdK
+ 2WFERU6cmVxH2Veb7I9LuPrdEQe3D020xAh5wd6dINILKahY+cBB6RAE3U5K8M9M5E
+ G3RV5jVsNHeqY8lbYY2UqIxXZ7EahCPPwYQh98P8wvZ/Ct8HFDB4DJsKaZXsulTKlp
+ O6KhkzCJdKrEg==
+Date: Fri, 27 Dec 2024 09:40:40 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Yongxing Mou <quic_yongmou@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -49,14 +50,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 0/5] Display enablement changes for Qualcomm QCS8300
- platform
-Message-ID: <d6qiwltykiw22o2gydqguaqzf5tf5vpbzdt34qodipc6pxakfy@4tmihfn5fta2>
+Subject: Re: [PATCH v2 2/5] dt-bindings: display: msm: dp-controller:
+ document QCS8300 compatible
+Message-ID: <vhiixdd5mjvrfoe5pbvikatgba2molof7gqvfp5pl7lmrg3tc5@z65rg54hgl3x>
 References: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
+ <20241226-mdssdt_qcs8300-v2-2-acba0db533ce@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
+In-Reply-To: <20241226-mdssdt_qcs8300-v2-2-acba0db533ce@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,26 +74,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 26, 2024 at 05:40:44PM +0800, Yongxing Mou wrote:
-> This series introduces support to enable the Mobile Display Subsystem (MDSS)
-> , Display Processing Unit (DPU), DisplayPort controller and eDP PHY for 
-> the Qualcomm QCS8300 target. It includes the addition of the hardware catalog,
-> compatible string, and their YAML bindings.
+On Thu, Dec 26, 2024 at 05:40:46PM +0800, Yongxing Mou wrote:
+> Add compatible string for the DisplayPort controller found on the
+> Qualcomm QCS8300 platform.QCS8300 only support one DisplayPort
+> controller and have the same base offset with sm8650, so we reuse
+> the sm8650 DisplayPort driver.
 > 
 > Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
 > ---
-> This series depends on following series:
-> https://lore.kernel.org/all/20241203-qcs8300_initial_dtsi-v4-2-d7c953484024@quicinc.com/
+>  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Then why this is not part of initial DTSI?
-
-> https://lore.kernel.org/all/20241106-qcs8300-mm-patches-v3-0-f611a8f87f15@quicinc.com/
-> https://lore.kernel.org/all/20241114-qcs8300-mm-cc-dt-patch-v1-1-7a974508c736@quicinc.com/
-> https://lore.kernel.org/all/20241024-defconfig_sa8775p_clock_controllers-v2-1-a9e1cdaed785@quicinc.com/
-
-So it cannot be tested?
-
-Way too many dependencies for me to review.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
