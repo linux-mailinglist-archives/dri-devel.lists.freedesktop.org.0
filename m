@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8349FD220
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:41:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7F39FD22E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:44:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B659410E245;
-	Fri, 27 Dec 2024 08:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9778410E2CC;
+	Fri, 27 Dec 2024 08:44:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X1SelRVB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uu4P6l5L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67CBB10E210;
- Fri, 27 Dec 2024 08:41:29 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDE610E210;
+ Fri, 27 Dec 2024 08:44:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 95ECFA4129A;
- Fri, 27 Dec 2024 08:39:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30081C4CED0;
- Fri, 27 Dec 2024 08:41:27 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0700E5C272E;
+ Fri, 27 Dec 2024 08:43:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5DFCC4CED0;
+ Fri, 27 Dec 2024 08:44:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735288888;
- bh=+DfnXbfYpsZSpFyfyfS60TU6RcqCaLnx601olT7c+SU=;
+ s=k20201202; t=1735289075;
+ bh=gRUDW2sk7KBxahivpahylihNgF4ImEqq8Vk4RGxoVFU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X1SelRVBIZlFgmLZ/O85kx4mfu2FZD6xyxjM3AmoASJ3PI826XpRXwkmOtdt+TptL
- Tf1h4MPLkUD12iOB27g1J+LTYkhkwr5U2+Y7GzZc/q1DZT864dXWI0vosOe6/Qlrqy
- o+qwQflZn0RY8D6mOX/BzKEhTM+HnqTmFGItNjaxAAVoqf2hiZKye+GWZ8UhkjrRk2
- 4ASW++ig6Mwza9g99RWixYPbYjvzInHdz9JSJPKjeq3mo6b0WvaRE63BFYJ8En/LVq
- N1/FjFSY1lk9U1Do9ksdkZZTFKtPuOc3P4+8eNV5HP0cW/XSfMkhNU5lEOK7teIyTJ
- B/Dt7JFOkjqzQ==
-Date: Fri, 27 Dec 2024 09:41:24 +0100
+ b=uu4P6l5L2wyQ0a7yAnC6UM8cqiYCjJGOsagYqNsTh0hpRRaqGbmCwhucs8i3cuHM8
+ mSnEWgsT7tjiyOqT4edHoK9oPpOHzcToRrv29nWqKVGOc55S+/8RHaB3iZpbWt8AAl
+ UkrRA2jhF7uHgiPijy07V/ixXpwU+QVcHA6p59i/Wsppf0RIIXAyes1c6yob2eNjNn
+ KbIrCyYbYrKpsNUihv3eazFxSLa3sELIDmWgS67uP3EZABmWh5+4nSw6Ac6Z3omJuI
+ +OM94PwYEa37x2S20h1bDoRrEF7buvkXJ2VK5JmkeLOH+VYtwPRA1iH96QF6TK2eAf
+ wVZnTaXiaU6TA==
+Date: Fri, 27 Dec 2024 09:44:32 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Yongxing Mou <quic_yongmou@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -49,15 +50,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: display/msm: Document the DPU for
+Subject: Re: [PATCH v2 4/5] dt-bindings: phy: Add eDP PHY compatible for
  QCS8300
-Message-ID: <66x4orucj6kenpwetugmng3kmuzjoagjkmctrn727j5hayjhhe@dvzdd6a2ehzn>
+Message-ID: <tes4plrvkq7jpjz3zxi4hvvse7eeprk6fi3mnl6ogtkdq7ysgn@x444nwexoqpj>
 References: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
- <20241226-mdssdt_qcs8300-v2-1-acba0db533ce@quicinc.com>
+ <20241226-mdssdt_qcs8300-v2-4-acba0db533ce@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241226-mdssdt_qcs8300-v2-1-acba0db533ce@quicinc.com>
+In-Reply-To: <20241226-mdssdt_qcs8300-v2-4-acba0db533ce@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,13 +74,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 26, 2024 at 05:40:45PM +0800, Yongxing Mou wrote:
-> Document the DPU for Qualcomm QCS8300 platform.It use the same DPU
-
-Missing space after full stop.
-
-> hardware with SA8775P and reuse it's driver.
+On Thu, Dec 26, 2024 at 05:40:48PM +0800, Yongxing Mou wrote:
+> Add compatible string for the supported eDP PHY on QCS8300 platform.
+> QCS8300 have the same eDP PHY with SA8775P.
 > 
+> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> ---
+>  .../devicetree/bindings/phy/qcom,edp-phy.yaml         | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
