@@ -2,84 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477A39FD2F8
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 11:24:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7889FD306
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 11:33:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5241610E2D6;
-	Fri, 27 Dec 2024 10:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEE4710E2D9;
+	Fri, 27 Dec 2024 10:33:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="DOfqfe1Y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cK8MmOpk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497E010E2D6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 10:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1735295066; x=1735899866; i=markus.elfring@web.de;
- bh=TkQyK4GNG/JjeIgzaUsMotdNNFgS3F88pdlkp94G7iA=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=DOfqfe1Y+vpfdWVnKjzqekKRWorJixKifUryWkJXx5KJQfolUYk15bt8iLLvoEuH
- 151P30SVgJ37yLb+WyIC73wIVb6C8XId2TtUuDHJD9Xmkh0sYRD23QjPOru424HE3
- AFzMr/3ko3L7AytXcM6ToBSdeS6c2ucoZbkYJX1QjblzEIQDREf995IGkXsr69g8d
- I/ifsBvCtFZXPB6yJXC2XHz7V4KnMg3yeAIc2Hkgea1bbv4NoWB28c3+sXbi35keG
- Knys0ToSJVlTtfAY/yP3mpY142NUM+0lO2g+7/ApX8aqv6DTr6auQV25QIZ1Yr2PJ
- 6Ts+8YvtSYTXjFD44A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.93.31]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MBB3s-1tEWKy3B0Q-00CiAi; Fri, 27
- Dec 2024 11:24:26 +0100
-Message-ID: <3ab331db-363c-46c3-8e9f-0cbf4d142493@web.de>
-Date: Fri, 27 Dec 2024 11:24:13 +0100
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBDB10E2D9
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 10:33:20 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-2165cb60719so87167345ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 02:33:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1735295540; x=1735900340; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=/9Jxj5WoOGdaR6yZnJLdK5T66rYjkJpwQm1hwVxy9b0=;
+ b=cK8MmOpkM8rPB7xYR5as9BGwvbwDGaUeEEs26i+LcN59IK3aXsTckD/3s6SiGmyJsU
+ 4VEL/LfBBr+DNbJlVF48xBx9DeEZSP+U4YjMay3Zf1K2xYsLcN+Rc2O0HiZxd//HiN6B
+ tBjaoUnXhv+s4flFoLnCWq8PKVnSt+acJKA3zNPTG5Zh5292Kn9XcZ4vDYjz4BHvhei+
+ 9P60N/ENNqmea4vcflPoD6dqoXdXwQG+ZtI2GFPOvQY+yPColxA/9SRZci0T3YIquLj3
+ luv7pS0sekXzKjT9PQf6GHWmkO70xYFhHVu4edyPa09xpSnC0tYc9ZyabhH+0ygfiP/N
+ F5Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735295540; x=1735900340;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/9Jxj5WoOGdaR6yZnJLdK5T66rYjkJpwQm1hwVxy9b0=;
+ b=rjxQidVKbRW/W0wPkrZlWJjLIkLTK7K+Ks74q3PvhxVVsBd9bd23KGXwcKKVOExzpM
+ X+2krfvCYvsVR0Z5tCPLOGHW3a3Udc3M2g6pOHV3ygnWkCGmKXkO/Lfbbte7Y+mRd4Ad
+ cIU9VO0zfaICVjtv7BNeM2UICrlq1y0ZHbgSb4v36SHgyeCgKrZxofvPYzizbfNXC1ik
+ 8cIIx6542JohoCj7BeEYh2Jm74JwqM/J5iwB2rg3PihcHTn1cOCbJHo7hg5LAS4klqw4
+ K1gu0c9NsoFMDp3t1n1FI5oEP6W/UoJDYMPIz+CSQ6zFJDPkxlHV4tqir7bxdePQn5y5
+ kk7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXi4IJLeQJBJRgwxAs5exx7im0ru5z1gFPQx289dyG026vACzvLdNCdQw128VQKHpK891CrA8PDkGU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwLhhHM0lxa5aEhaZ16pK19dglcteQR4j45Xj2ca0b0GqLdeKtW
+ jNAv3v6XJqQ+btZzhLvKdJybAaDV8bKDKfl4IzFhvumRTCnNvpldXFKihaSi
+X-Gm-Gg: ASbGncuD+LW4uySfVRPdqm/9eOqF2u70erIxeTBEDtw7IagpHhxlYF64VOdrSafeul4
+ zKnEFLH8pBtN75p/ETgCYcWz+yATwFUQliTGm0+ogLvgNZG1pc1TuXvMgs+VYWnK9ALfZBm7FOH
+ eQyhxIfQ5+K7KE8FiysZJNvlDS8C57bxJHEfkvAHO8XKrOI6Of3ea0Tx9tiX9PDzLy2efMJk1Gb
+ wxfJrVGrzd61+k4XHom2xJn/9n2K9wTrmUuejVklOiQnuu4BVbxeso=
+X-Google-Smtp-Source: AGHT+IHcaM7vwaSQBhJYYWdpl2IDIifRWBpL4TAL8gw/pXtf7ybDIRxltoR9Sgb6wZBcdOwqTBzFXA==
+X-Received: by 2002:a17:902:dac6:b0:216:59d4:40e7 with SMTP id
+ d9443c01a7336-219e6f25e08mr254176955ad.55.1735295539726; 
+ Fri, 27 Dec 2024 02:32:19 -0800 (PST)
+Received: from Emma ([2401:4900:1c96:94e2:5054:ff:fe53:2787])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-219dca01931sm133186115ad.245.2024.12.27.02.32.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Dec 2024 02:32:19 -0800 (PST)
+Date: Fri, 27 Dec 2024 10:32:13 +0000
+From: Karan Sanghavi <karansanghvi98@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2] drm:sprd: Correct left shift operator evaluating
+ constant expression
+Message-ID: <7a4mwth3m6s2vrdskga225bomgg77tz6w7gn4saoaexwz4cnom@3omyqhmgp3kz>
+References: <20241108-coverity1511468wrongoperator-v2-1-72bc73d8691f@gmail.com>
+ <exeho44dd45ujgha6jmnvt2idbq4twfm3d7lxmhbfgfeujyhmn@tohr2hoytwhl>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm/mediatek: Initialize pointer before use to avoid undefiend
- behaviour
-To: Karan Sanghavi <karansanghvi98@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-Cc: Alexandre Mergnat <amergnat@baylibre.com>,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Shuah Khan <skhan@linuxfoundation.org>, Simona Vetter <simona@ffwll.ch>,
- Sui Jingfeng <sui.jingfeng@linux.dev>, LKML <linux-kernel@vger.kernel.org>,
- =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-References: <20241111-uninitializedpointer1601557-v1-1-7d03668e8141@gmail.com>
- <8a5bdda5-5e2a-4b73-91a5-849b6060e7df@web.de>
- <tte6ad3rxle52x3wndewyyrnszozghvpxktx2x55w26rdcea4n@rdbhzpx2wi3p>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <tte6ad3rxle52x3wndewyyrnszozghvpxktx2x55w26rdcea4n@rdbhzpx2wi3p>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:261YQXgSq9sf+X0DuUBswbH9bCF7TKLuW/b5gnQ2sxTMF+YlzMZ
- P4UcqtyiZoV3LySSmxpUmNBT5xKyXo0J3BT0oQFWAZCc0Sil2mCFlslgPUVwmOx5f+8EXs2
- JkUr2R8wPvL9xvXJ7DkkKtWkuhvPKVnSI/NuwGGiI9baVRQhjxz0/pvYgU+9YH2xXYdEzkW
- M6WlEmKrZ7ZRKpsvMEMCA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NSVhTixYKaE=;U27C+P7a35hKymGudvjgiTZCUhF
- RPK8JsHHpOI/XYQhJJ4jF0KE+tmOmLvX7WP8jSfo50ld1iKlvyM4fIooDUGsbwHa/yrJ1fHWH
- 5JbkWTQVVLvIQ7Fp73Frf8cxvBzC9OpMhvlEeHYcVFCb/DgiPOYr+R+PbEBt1/nKZ7cxfmS5f
- 23S1YM2gkOiFFjqnZgnzpvCFtyp57N1amPafKrxxrxNLJJNnKGcKhLZrQuPAVKJ/lbuPO4Rme
- 3FYWlMgBhvGdNARuHQGI9kmAG8NmynCDo5wXdYiIzO0Y39Eub/DRB98FF3fuMYoMwqoqnbncs
- WyEShDs815Un0+4WoGqSh2vHKAc1M5Wu0ObDVvFsaSGoGrNzNFzuS8g2gHfwdwCV/FdCqJ5G3
- f7BT9QEVDgtY5XIar4iqEWC64XZVprnXdd/wXi+rdsAFkCp8HJ/ZiEZaTr+aOgljhpzt7xxK+
- ubuulB77CmDJ98yZiTje1nenUUcvDbwvEKsYUq5nRGs9R0amZECGlVq1Fl7rV/i5sVGxGCzPQ
- LwVczdSXTxfanvvj7n8+uYubuqB93+Drh4jpO3UJWLVxZWxbtrJYVro6PACRbOC+QKpgZwKf+
- l9tdiGC/edo9S+UjQKNAdvIBUsN0pZ/OMVjkx3NTNRnUllHY5UsgJFEPimIY5ju8oQ2Csy6vN
- P3b/5zzxakA5zlau6FZ0uGrN+vZm9UBPR5uum7T+/BaItiHlxNwHA5kIyzMo3TAFMGOGp9fRU
- hxS5pG2bxb81ARJjWyaDCeH5/2Jto6naUhawpu7pFsoiAYkxQA/8BEkSDCPVAy2WTdJRBEvsI
- io3Ay/+NUEVQ5YJl3ym3K+jF9UHwKBVkbVe0nj8og/mWIE3/JqzPyLoI+nyguo9w1up/mW7DR
- T0to59aSNehQ5u0XE6/baPgisBErVOdDP5NGiUm/sQ0XLX+IfJAkbgcVYVgZ4dp7b28pSWCB0
- MFPydf/t99tUA9FN1oL1ExqL1rQTdcG39ZQPcrklTC6W3clsnT9mhBbbdEvoi6EV7b7SGUvQ8
- vn3yw9HUhhGMVVdkJ282LNhBd617aCgoMkbPPylgMVdaaSkfD2NVqU3IGc1NTZp03hPjb/FdI
- SvRlkaNlY=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <exeho44dd45ujgha6jmnvt2idbq4twfm3d7lxmhbfgfeujyhmn@tohr2hoytwhl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,25 +92,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->> =E2=80=A6
->>> ---
->>> Coverity Message:
->>> CID 1601557: (#1 of 1): Uninitialized pointer read (UNINIT)
->>> 3. uninit_use: Using uninitialized value next.
->>
->> May such information become a part for the final change description?
->>
-> Ofcourse, it shouldn't be the part of the change description.
+On Sat, Nov 09, 2024 at 09:27:36AM +0200, Dmitry Baryshkov wrote:
+> On Fri, Nov 08, 2024 at 05:11:25PM +0000, Karan Sanghavi wrote:
+> > The left shift operation followed by a mask with 0xf will
+> > always result in 0. To correctly evaluate the expression for
+> > the bitwise OR operation, use a right shift instead.
+> > 
+> > Reported by Coverity Scan CID: 1511468
+> > 
+> > Fixes: 1c66496b1391 ("drm/sprd: add Unisoc's drm mipi dsi&dphy driver")
+> > 
+> > Reviewed-by: Chunyan Zhang <zhang.lyra@gmail.com>
+> > Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
+> 
+> Please drop the empty line between tags.
+> 
+> Also see Documentation/process/stable-kernel-rules.rst
+> 
+> > ---
+> > Coverity Scan Message:
+> > CID 1511468: (#1 of 1): Wrong operator used (CONSTANT_EXPRESSION_RESULT)
+> > operator_confusion: (pll->kint << 4) & 15 is always 0 regardless of the 
+> > values of its operands. This occurs as the bitwise second operand of "|"
+> 
+> Is there any kind of a public link for the report? Should there be a Closes: tag?
+> 
+As mentioned in the earlier mail, there is no public link to this, there is only coverity scan link which would require you to login in the portal to view the whole error reported by it. 
+Here is the link 
+https://scan7.scan.coverity.com/#/project-view/51975/11354?selectedIssue=1511468
 
-I suggest to reconsider this view once more.
+> > ---
+> > Changes in v2:
+> > - Added the fixes tag
+> > - Link to v1: https://lore.kernel.org/r/20241105-coverity1511468wrongoperator-v1-1-06c7513c3efc@gmail.com
+> > ---
+> >  drivers/gpu/drm/sprd/megacores_pll.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sprd/megacores_pll.c
+> > index 3091dfdc11e3..43c10a5fc441 100644
+> > --- a/drivers/gpu/drm/sprd/megacores_pll.c
+> > +++ b/drivers/gpu/drm/sprd/megacores_pll.c
+> > @@ -94,7 +94,7 @@ static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *regmap)
+> >  	reg_val[3] = pll->vco_band | (pll->sdm_en << 1) | (pll->refin << 2);
+> >  	reg_val[4] = pll->kint >> 12;
+> >  	reg_val[5] = pll->kint >> 4;
+> > -	reg_val[6] = pll->out_sel | ((pll->kint << 4) & 0xf);
+> > +	reg_val[6] = pll->out_sel | ((pll->kint >> 4) & 0xf);
+> >  	reg_val[7] = 1 << 4;
+> >  	reg_val[8] = pll->det_delay;
+> >  
+> > 
+> > ---
+> > base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+> > change-id: 20241105-coverity1511468wrongoperator-20130bcd4240
+> > 
+> > Best regards,
+> > -- 
+> > Karan Sanghavi <karansanghvi98@gmail.com>
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
 
-
-> it is just for the reference to understand more about what the error mes=
-sage
-> is generated by coverity scan.
-Please take another look at possibilities how other contributors indicated
-that some change opportunities were pointed out by advanced source code
-analysis tools.
-
-Regards,
-Markus
+Thank you,
+Karan.
