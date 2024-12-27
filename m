@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0050D9FD202
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8474E9FD213
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:39:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC1610E1F7;
-	Fri, 27 Dec 2024 08:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4350C10E2D7;
+	Fri, 27 Dec 2024 08:39:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tetoHWau";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jBDVr7LR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED7710E1F7
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 08:32:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E77510E2E1;
+ Fri, 27 Dec 2024 08:39:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 28453A4125C;
- Fri, 27 Dec 2024 08:30:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54858C4CED0;
- Fri, 27 Dec 2024 08:32:19 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 04F9E5C5DD1;
+ Fri, 27 Dec 2024 08:39:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AA23C4CED0;
+ Fri, 27 Dec 2024 08:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735288340;
- bh=SomxrRy3DEcymeIZFaLbSytrxsSP9+O9g1S7IZ1EnHE=;
+ s=k20201202; t=1735288789;
+ bh=+0FfP/it/g6a5NcBaGoGxMC03dKPY+plNCRmhB37Yqk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tetoHWau0+A61rbzcsUZqGjxnX8y6868nvvOWrH6GOLTDVC7r8kdrT9uX+0+Lk6bK
- yyDSjFt6ZTnySdTg+2o7RE9kSTvjOijq/3nj0ljJo6QdZXgJroOIEml83oDYZY297I
- 8MHUFkxNBnq+1Am6PZJhBzQC1AijfDXGQjvxLCRWU398ZrLbmUoItQ69YAm82y1wbD
- 9+gbJ+kVXA3chDVGmCK50zaxZ+Yh/tEet8AzsJISJpnoWyn2wul+FicsEs7lwO+6gZ
- 7JWNBSDyQhKkSdspOMQ7pMAMQ5GV57PkFN1ICY7l37/a85AlH1wDzcBy/l3UcT+7Y8
- vytiYH3WBFfFw==
-Date: Fri, 27 Dec 2024 09:32:16 +0100
+ b=jBDVr7LRS7ZJolIw/KKBRGpkLWRTbIZnQ5XBdsnWYztuxrcn5Y9ZLYy5g0gGHqZAW
+ jAGMm+1nWOLcAbCShvSnxwecD1HAfNqIwMD6l8aoL/h1bPsjAbSkepPU4cGVnTc7RA
+ ZbFsOtZH+YlS9a81UI33JH1fju+J4GwFF4gtQLA/FJghudZekNSfatmFdIAj2+sKXX
+ KdElQQEl+3E9wZI5cw4X4Pf2Ggua6l8r3diI5T7O515poDKJoHGmXT/Ehm21QPMxGK
+ AIy6BghZIevtOMYZ8WrZsyWtXQ+z+boeSadaL+hvIg/PfMhoJOQLCeID+ik4cwgiYR
+ 4JPHBoRBDc9xA==
+Date: Fri, 27 Dec 2024 09:39:45 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kever Yang <kever.yang@rock-chips.com>
-Cc: heiko@sntech.de, linux-rockchip@lists.infradead.org, 
- Simon Xue <xxm@rock-chips.com>, Guenter Roeck <linux@roeck-us.net>, 
- Mark Brown <broonie@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, 
- Frank Wang <frank.wang@rock-chips.com>, Jamie Iles <jamie@jamieiles.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>, 
- Johan Jonker <jbx6244@gmail.com>, David Airlie <airlied@gmail.com>, 
- dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-i2c@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>, 
- Simona Vetter <simona@ffwll.ch>, Elaine Zhang <zhangqing@rock-chips.com>, 
- Conor Dooley <conor+dt@kernel.org>, Finley Xiao <finley.xiao@rock-chips.com>, 
- Maxime Ripard <mripard@kernel.org>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, 
- FUKAUMI Naoki <naoki@radxa.com>, linux-pwm@vger.kernel.org, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Andy Yan <andyshrk@163.com>,
- linux-serial@vger.kernel.org, 
- Michael Riesch <michael.riesch@wolfvision.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- devicetree@vger.kernel.org, 
- Diederik de Haas <didi.debian@cknow.org>, linux-watchdog@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Lee Jones <lee@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>,
- Shresth Prasad <shresthprasad7@gmail.com>, 
- Tim Lunn <tim@feathertop.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-arm-kernel@lists.infradead.org, 
- Ulf Hansson <ulf.hansson@linaro.org>, Jisheng Zhang <jszhang@kernel.org>, 
- Dragan Simic <dsimic@manjaro.org>,
- Detlev Casanova <detlev.casanova@collabora.com>, 
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Subject: Re: [PATCH v2 00/17] rockchip: Add rk3562 support
-Message-ID: <z52ppg6iolgd6qqxusqm2a2eor552bfpknyxjgf7ttyy4ifxbs@q4jf4wblnh3q>
-References: <20241224094920.3821861-1-kever.yang@rock-chips.com>
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v2 0/5] Display enablement changes for Qualcomm QCS8300
+ platform
+Message-ID: <d6qiwltykiw22o2gydqguaqzf5tf5vpbzdt34qodipc6pxakfy@4tmihfn5fta2>
+References: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241224094920.3821861-1-kever.yang@rock-chips.com>
+In-Reply-To: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,20 +72,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 24, 2024 at 05:49:03PM +0800, Kever Yang wrote:
+On Thu, Dec 26, 2024 at 05:40:44PM +0800, Yongxing Mou wrote:
+> This series introduces support to enable the Mobile Display Subsystem (MDSS)
+> , Display Processing Unit (DPU), DisplayPort controller and eDP PHY for 
+> the Qualcomm QCS8300 target. It includes the addition of the hardware catalog,
+> compatible string, and their YAML bindings.
 > 
-> This patch set adds rk3562 SoC and its evb support.
-> 
-> Split out patches belong to different subsystem.
-> 
-> Test with GMAC, USB, PCIe, EMMC, SD Card.
-> 
-> This patch set is base on the patche set for rk3576 evb1 support.
->
+> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> ---
+> This series depends on following series:
+> https://lore.kernel.org/all/20241203-qcs8300_initial_dtsi-v4-2-d7c953484024@quicinc.com/
 
-I am going through patchwork and marking all your patches as changes
-requested. All my comments apply to each of your patches and each of
-your patchsets.
+Then why this is not part of initial DTSI?
+
+> https://lore.kernel.org/all/20241106-qcs8300-mm-patches-v3-0-f611a8f87f15@quicinc.com/
+> https://lore.kernel.org/all/20241114-qcs8300-mm-cc-dt-patch-v1-1-7a974508c736@quicinc.com/
+> https://lore.kernel.org/all/20241024-defconfig_sa8775p_clock_controllers-v2-1-a9e1cdaed785@quicinc.com/
+
+So it cannot be tested?
+
+Way too many dependencies for me to review.
 
 Best regards,
 Krzysztof
