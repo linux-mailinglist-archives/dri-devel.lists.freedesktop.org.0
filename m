@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68E869FD218
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE8349FD220
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 09:41:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B00CE10E22E;
-	Fri, 27 Dec 2024 08:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B659410E245;
+	Fri, 27 Dec 2024 08:41:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MeNMVYMu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X1SelRVB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C299610E210;
- Fri, 27 Dec 2024 08:40:44 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67CBB10E210;
+ Fri, 27 Dec 2024 08:41:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9B76C5C5789;
- Fri, 27 Dec 2024 08:40:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CD7C4CED0;
- Fri, 27 Dec 2024 08:40:43 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 95ECFA4129A;
+ Fri, 27 Dec 2024 08:39:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30081C4CED0;
+ Fri, 27 Dec 2024 08:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735288844;
- bh=8KxZUHuncZ6XQYTJwhIWFyejQOjqm6sNcOVNcBIA1K0=;
+ s=k20201202; t=1735288888;
+ bh=+DfnXbfYpsZSpFyfyfS60TU6RcqCaLnx601olT7c+SU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MeNMVYMufbRE8vJVlDEXT4y2WltbRR1zgXDT7xfcmbdGkwq5j6hY+mYbNV2wO9IDJ
- yj5wbaNv/9IS3vArJXiM5Fdae3ZtkB/rV/uBnWDZorKQuEpeeTQtrSJ0+LqI44x/Pm
- zoR8JnhWW5nd+TUPvrhCKoRfWhrrtwqAsvb1kUiuDzG9fXp+gE7xv4OFumgu9QDGdK
- 2WFERU6cmVxH2Veb7I9LuPrdEQe3D020xAh5wd6dINILKahY+cBB6RAE3U5K8M9M5E
- G3RV5jVsNHeqY8lbYY2UqIxXZ7EahCPPwYQh98P8wvZ/Ct8HFDB4DJsKaZXsulTKlp
- O6KhkzCJdKrEg==
-Date: Fri, 27 Dec 2024 09:40:40 +0100
+ b=X1SelRVBIZlFgmLZ/O85kx4mfu2FZD6xyxjM3AmoASJ3PI826XpRXwkmOtdt+TptL
+ Tf1h4MPLkUD12iOB27g1J+LTYkhkwr5U2+Y7GzZc/q1DZT864dXWI0vosOe6/Qlrqy
+ o+qwQflZn0RY8D6mOX/BzKEhTM+HnqTmFGItNjaxAAVoqf2hiZKye+GWZ8UhkjrRk2
+ 4ASW++ig6Mwza9g99RWixYPbYjvzInHdz9JSJPKjeq3mo6b0WvaRE63BFYJ8En/LVq
+ N1/FjFSY1lk9U1Do9ksdkZZTFKtPuOc3P4+8eNV5HP0cW/XSfMkhNU5lEOK7teIyTJ
+ B/Dt7JFOkjqzQ==
+Date: Fri, 27 Dec 2024 09:41:24 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Yongxing Mou <quic_yongmou@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -50,15 +49,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v2 2/5] dt-bindings: display: msm: dp-controller:
- document QCS8300 compatible
-Message-ID: <vhiixdd5mjvrfoe5pbvikatgba2molof7gqvfp5pl7lmrg3tc5@z65rg54hgl3x>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display/msm: Document the DPU for
+ QCS8300
+Message-ID: <66x4orucj6kenpwetugmng3kmuzjoagjkmctrn727j5hayjhhe@dvzdd6a2ehzn>
 References: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
- <20241226-mdssdt_qcs8300-v2-2-acba0db533ce@quicinc.com>
+ <20241226-mdssdt_qcs8300-v2-1-acba0db533ce@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241226-mdssdt_qcs8300-v2-2-acba0db533ce@quicinc.com>
+In-Reply-To: <20241226-mdssdt_qcs8300-v2-1-acba0db533ce@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,16 +73,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 26, 2024 at 05:40:46PM +0800, Yongxing Mou wrote:
-> Add compatible string for the DisplayPort controller found on the
-> Qualcomm QCS8300 platform.QCS8300 only support one DisplayPort
-> controller and have the same base offset with sm8650, so we reuse
-> the sm8650 DisplayPort driver.
+On Thu, Dec 26, 2024 at 05:40:45PM +0800, Yongxing Mou wrote:
+> Document the DPU for Qualcomm QCS8300 platform.It use the same DPU
+
+Missing space after full stop.
+
+> hardware with SA8775P and reuse it's driver.
 > 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 4 ++++
->  1 file changed, 4 insertions(+)
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
