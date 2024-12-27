@@ -2,81 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7889FD306
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 11:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227219FD36A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 12:08:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE4710E2D9;
-	Fri, 27 Dec 2024 10:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DE1B10E091;
+	Fri, 27 Dec 2024 11:08:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cK8MmOpk";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="fkZWFWTG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BBDB10E2D9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 10:33:20 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-2165cb60719so87167345ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 02:33:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1735295540; x=1735900340; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/9Jxj5WoOGdaR6yZnJLdK5T66rYjkJpwQm1hwVxy9b0=;
- b=cK8MmOpkM8rPB7xYR5as9BGwvbwDGaUeEEs26i+LcN59IK3aXsTckD/3s6SiGmyJsU
- 4VEL/LfBBr+DNbJlVF48xBx9DeEZSP+U4YjMay3Zf1K2xYsLcN+Rc2O0HiZxd//HiN6B
- tBjaoUnXhv+s4flFoLnCWq8PKVnSt+acJKA3zNPTG5Zh5292Kn9XcZ4vDYjz4BHvhei+
- 9P60N/ENNqmea4vcflPoD6dqoXdXwQG+ZtI2GFPOvQY+yPColxA/9SRZci0T3YIquLj3
- luv7pS0sekXzKjT9PQf6GHWmkO70xYFhHVu4edyPa09xpSnC0tYc9ZyabhH+0ygfiP/N
- F5Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735295540; x=1735900340;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/9Jxj5WoOGdaR6yZnJLdK5T66rYjkJpwQm1hwVxy9b0=;
- b=rjxQidVKbRW/W0wPkrZlWJjLIkLTK7K+Ks74q3PvhxVVsBd9bd23KGXwcKKVOExzpM
- X+2krfvCYvsVR0Z5tCPLOGHW3a3Udc3M2g6pOHV3ygnWkCGmKXkO/Lfbbte7Y+mRd4Ad
- cIU9VO0zfaICVjtv7BNeM2UICrlq1y0ZHbgSb4v36SHgyeCgKrZxofvPYzizbfNXC1ik
- 8cIIx6542JohoCj7BeEYh2Jm74JwqM/J5iwB2rg3PihcHTn1cOCbJHo7hg5LAS4klqw4
- K1gu0c9NsoFMDp3t1n1FI5oEP6W/UoJDYMPIz+CSQ6zFJDPkxlHV4tqir7bxdePQn5y5
- kk7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXi4IJLeQJBJRgwxAs5exx7im0ru5z1gFPQx289dyG026vACzvLdNCdQw128VQKHpK891CrA8PDkGU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLhhHM0lxa5aEhaZ16pK19dglcteQR4j45Xj2ca0b0GqLdeKtW
- jNAv3v6XJqQ+btZzhLvKdJybAaDV8bKDKfl4IzFhvumRTCnNvpldXFKihaSi
-X-Gm-Gg: ASbGncuD+LW4uySfVRPdqm/9eOqF2u70erIxeTBEDtw7IagpHhxlYF64VOdrSafeul4
- zKnEFLH8pBtN75p/ETgCYcWz+yATwFUQliTGm0+ogLvgNZG1pc1TuXvMgs+VYWnK9ALfZBm7FOH
- eQyhxIfQ5+K7KE8FiysZJNvlDS8C57bxJHEfkvAHO8XKrOI6Of3ea0Tx9tiX9PDzLy2efMJk1Gb
- wxfJrVGrzd61+k4XHom2xJn/9n2K9wTrmUuejVklOiQnuu4BVbxeso=
-X-Google-Smtp-Source: AGHT+IHcaM7vwaSQBhJYYWdpl2IDIifRWBpL4TAL8gw/pXtf7ybDIRxltoR9Sgb6wZBcdOwqTBzFXA==
-X-Received: by 2002:a17:902:dac6:b0:216:59d4:40e7 with SMTP id
- d9443c01a7336-219e6f25e08mr254176955ad.55.1735295539726; 
- Fri, 27 Dec 2024 02:32:19 -0800 (PST)
-Received: from Emma ([2401:4900:1c96:94e2:5054:ff:fe53:2787])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dca01931sm133186115ad.245.2024.12.27.02.32.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Dec 2024 02:32:19 -0800 (PST)
-Date: Fri, 27 Dec 2024 10:32:13 +0000
-From: Karan Sanghavi <karansanghvi98@gmail.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2] drm:sprd: Correct left shift operator evaluating
- constant expression
-Message-ID: <7a4mwth3m6s2vrdskga225bomgg77tz6w7gn4saoaexwz4cnom@3omyqhmgp3kz>
-References: <20241108-coverity1511468wrongoperator-v2-1-72bc73d8691f@gmail.com>
- <exeho44dd45ujgha6jmnvt2idbq4twfm3d7lxmhbfgfeujyhmn@tohr2hoytwhl>
+Received: from omta034.useast.a.cloudfilter.net
+ (omta034.useast.a.cloudfilter.net [44.202.169.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87DF810E091
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 11:08:30 +0000 (UTC)
+Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
+ by cmsmtp with ESMTPS
+ id R6RAt0tGjrKrbR8CjtWldO; Fri, 27 Dec 2024 11:08:29 +0000
+Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
+ id R8Cgt6jVylDL5R8ChtSa6J; Fri, 27 Dec 2024 11:08:28 +0000
+X-Authority-Analysis: v=2.4 cv=LLtgQoW9 c=1 sm=1 tr=0 ts=676e8aac
+ a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
+ a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=VwQbUJbxAAAA:8
+ a=vU9dKmh3AAAA:8 a=RKcyukLPUNyM5a_w4rQA:9 a=QEXdDO2ut3YA:10
+ a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
+ ; s=default;
+ h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+ Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Qi3UoCUDEqcy6/oiO96EhEgtnu7BnyUeV/rid1HTKPw=; b=fkZWFWTGC+zRmdjCb/wb69q7Oo
+ XhOjvw5PgWaBt6W7xI+DtLQLR73ui2o1RXsdfzbfZY3z2YLPnP0ggJ/efGOVlD++5W1b/vesW/kyp
+ obkjmrgKH+Owz3WRg5p0jgOscC1YVbK5jPeGkwEc+6ctKlADl3mQfQtP7NwOX5OzO6QjTfnix1pjY
+ 1yAJMY/4KkoOjrKq3FHzwbKhTXFjkFf9XXXF8b4nJgjLcUL4+o9lqKEkTozD2zWIZjX626Kt3Vh+S
+ ClZICOaRtyDB6LDROsGHF7QlWxsbeedlNVyGMAu4Sjc0eyMyJDG6kockqCcOGV7FXCm86A2AVvaF2
+ pB6r5EYw==;
+Received: from [122.165.245.213] (port=50828 helo=[127.0.1.1])
+ by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <parthiban@linumiz.com>) id 1tR8CT-000bEK-2m;
+ Fri, 27 Dec 2024 16:38:13 +0530
+From: Parthiban Nallathambi <parthiban@linumiz.com>
+Subject: [PATCH 00/22] Add support for A100/A133 display
+Date: Fri, 27 Dec 2024 16:37:47 +0530
+Message-Id: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <exeho44dd45ujgha6jmnvt2idbq4twfm3d7lxmhbfgfeujyhmn@tohr2hoytwhl>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIOKbmcC/x3MwQqDMAyA4VeRnA00rYzhq8gOmY0uMLQ0UxzSd
+ 7d4/A7/f4JJVjHomxOy7Gq6LhXUNjB+eJkFNVaDd74j8g9kCgGjWvryH21Lac0/5HcXeAqeno6
+ hpinLpMe9HV6lXEqy7oxmAAAA
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-phy@lists.infradead.org, 
+ Parthiban Nallathambi <parthiban@linumiz.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735297689; l=4037;
+ i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
+ bh=s6pgeYhBovYKLxAfzogU3RAM9N8F/zvXTKruRhJeLms=;
+ b=wWAYHRbwEECIDPFbPFqQ59rjdwtQ+jw3vZ52WZTk9fVX86Ea+nommDiehtuC86+EGPkNIpqoA
+ z9ov1dxYuUGAKe8SZH7wnREK9pOCHQl29v03yVf/v52pgE3tSUX1/Kq
+X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
+ pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - linumiz.com
+X-BWhitelist: no
+X-Source-IP: 122.165.245.213
+X-Source-L: No
+X-Exim-ID: 1tR8CT-000bEK-2m
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:50828
+X-Source-Auth: parthiban@linumiz.com
+X-Email-Count: 3
+X-Org: HG=dishared_whb_net_legacy;ORG=directi;
+X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfGcN63JhguWCKeBV74MJwqfUny+/PfKedM/I5zBFKDYbbgirnr2GDjkZS01Wo3NEjGhyPV1Ckg8xx6GpHWKUTJji/3U47ufY9jz6H7gl27kIkQyXeeuv
+ +YmmNxRO9ksUVveqkTZDIBujwy1vUQbSiv/4LuLIYA4tYMzd2KQoGdlctgP+WLOX9XoQD0brK7jruVlwgRmb5R0P0UUCriEy1Q1vGV/X5NrDz4odaEUfqYOq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,69 +117,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 09, 2024 at 09:27:36AM +0200, Dmitry Baryshkov wrote:
-> On Fri, Nov 08, 2024 at 05:11:25PM +0000, Karan Sanghavi wrote:
-> > The left shift operation followed by a mask with 0xf will
-> > always result in 0. To correctly evaluate the expression for
-> > the bitwise OR operation, use a right shift instead.
-> > 
-> > Reported by Coverity Scan CID: 1511468
-> > 
-> > Fixes: 1c66496b1391 ("drm/sprd: add Unisoc's drm mipi dsi&dphy driver")
-> > 
-> > Reviewed-by: Chunyan Zhang <zhang.lyra@gmail.com>
-> > Signed-off-by: Karan Sanghavi <karansanghvi98@gmail.com>
-> 
-> Please drop the empty line between tags.
-> 
-> Also see Documentation/process/stable-kernel-rules.rst
-> 
-> > ---
-> > Coverity Scan Message:
-> > CID 1511468: (#1 of 1): Wrong operator used (CONSTANT_EXPRESSION_RESULT)
-> > operator_confusion: (pll->kint << 4) & 15 is always 0 regardless of the 
-> > values of its operands. This occurs as the bitwise second operand of "|"
-> 
-> Is there any kind of a public link for the report? Should there be a Closes: tag?
-> 
-As mentioned in the earlier mail, there is no public link to this, there is only coverity scan link which would require you to login in the portal to view the whole error reported by it. 
-Here is the link 
-https://scan7.scan.coverity.com/#/project-view/51975/11354?selectedIssue=1511468
+This series depends on [1] for the eMMC/MMC controller to work and
+[2] (lined up for 6.14) which adds support for the sram nodes and
+display engine extends it's usage. Idea of this series to get initial
+feedback and adjust, which will be rebased for 6.14 once [2] is merged.
 
-> > ---
-> > Changes in v2:
-> > - Added the fixes tag
-> > - Link to v1: https://lore.kernel.org/r/20241105-coverity1511468wrongoperator-v1-1-06c7513c3efc@gmail.com
-> > ---
-> >  drivers/gpu/drm/sprd/megacores_pll.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sprd/megacores_pll.c
-> > index 3091dfdc11e3..43c10a5fc441 100644
-> > --- a/drivers/gpu/drm/sprd/megacores_pll.c
-> > +++ b/drivers/gpu/drm/sprd/megacores_pll.c
-> > @@ -94,7 +94,7 @@ static void dphy_set_pll_reg(struct dphy_pll *pll, struct regmap *regmap)
-> >  	reg_val[3] = pll->vco_band | (pll->sdm_en << 1) | (pll->refin << 2);
-> >  	reg_val[4] = pll->kint >> 12;
-> >  	reg_val[5] = pll->kint >> 4;
-> > -	reg_val[6] = pll->out_sel | ((pll->kint << 4) & 0xf);
-> > +	reg_val[6] = pll->out_sel | ((pll->kint >> 4) & 0xf);
-> >  	reg_val[7] = 1 << 4;
-> >  	reg_val[8] = pll->det_delay;
-> >  
-> > 
-> > ---
-> > base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-> > change-id: 20241105-coverity1511468wrongoperator-20130bcd4240
-> > 
-> > Best regards,
-> > -- 
-> > Karan Sanghavi <karansanghvi98@gmail.com>
-> > 
-> 
-> -- 
-> With best wishes
-> Dmitry
+This patch series adds support for A133 display pipeline based on
+LVDS. dt-bindigs are organized in the start and later with code
+changes.
 
-Thank you,
-Karan.
+PHY is shared between DSI and LVDS, so to control the PHY specific
+to DSI/LVDS, phy_ops set_mode is introduced. To enable the DSI
+using set_mode, analog control register MIPI Enable is used, which
+may not be available for A31 (shares the same driver).
+
+Otherwise, A133 also got hidden independent display engine i.e
+mixer + tcon top to handle parallel display. But this patch series
+adds only support for the 1 mixer which is documented.
+
+[1]: https://lore.kernel.org/linux-sunxi/20241109003739.3440904-1-masterr3c0rd@epochal.quest/
+[2]: https://lore.kernel.org/linux-sunxi/20241218-a100-syscon-v2-0-dae60b9ce192@epochal.quest/
+
+Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+---
+Parthiban Nallathambi (22):
+      dt-bindings: iommu: sun50i: remove resets from required property
+      dt-bindings: display: sunxi: Add a100/a133 display engine compatibles
+      dt-bindings: clock: sun8i de2 clock: Add PLL com clock
+      dt-bindings: clock: sun8i de2 clock: Add a100/a133 compatible
+      dt-bindings: display: sun4i: add phy property
+      dt-bindings: display: sun4i: add a100/a133 tcon lcd
+      dt-bindings: vendor-prefixes: Shenzhen Baijie Technology
+      dt-bindings: arm: sunxi: document Szbaijie A133 helper board
+      iommu: sun50i: make reset control optional
+      pinctrl: sunxi: add missed lvds pins for a100/a133
+      drm/sun4i: Add support for a100/a133 display engine
+      drm/sun4i: Add support for a100/a133 mixer
+      drm/sun4i: make tcon top tv0 optional
+      drm/sun4i: add a100/a133 tcon top quirks
+      clk: sunxi-ng: sun8i-de2: add pll-com clock support
+      clk: sunxi-ng: sun8i-de2: Add support for a100/a133
+      phy: allwinner: phy-sun6i-mipi-dphy: add LVDS support
+      drm/sun4i: tcon: add a100/a133 lcd controller support
+      arm64: dts: allwinner: a100: add iommu
+      clk: sunxi-ng: add missing pll-com binding
+      arm64: dts: allwinner: a100: add display pipeline
+      arm64: dts: allwinner: a133: add szbaijie helper board
+
+ Documentation/devicetree/bindings/arm/sunxi.yaml   |   6 +
+ .../clock/allwinner,sun8i-a83t-de2-clk.yaml        |   6 +
+ .../allwinner,sun4i-a10-display-engine.yaml        |   2 +
+ .../bindings/display/allwinner,sun4i-a10-tcon.yaml |   7 +
+ .../display/allwinner,sun8i-a83t-de2-mixer.yaml    |   1 +
+ .../display/allwinner,sun8i-r40-tcon-top.yaml      |  17 ++
+ .../bindings/iommu/allwinner,sun50i-h6-iommu.yaml  |   1 -
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     | 165 ++++++++++++++++++
+ .../dts/allwinner/sun50i-a133-helper-board.dts     | 129 ++++++++++++++
+ .../dts/allwinner/sun50i-a133-helper-core.dtsi     | 190 +++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c               |  23 ++-
+ drivers/gpu/drm/sun4i/sun4i_drv.c                  |   1 +
+ drivers/gpu/drm/sun4i/sun4i_tcon.c                 |  23 +++
+ drivers/gpu/drm/sun4i/sun8i_mixer.c                |  13 ++
+ drivers/gpu/drm/sun4i/sun8i_tcon_top.c             |  42 +++--
+ drivers/iommu/sun50i-iommu.c                       |   2 +-
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c        |  23 ++-
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c        |  12 ++
+ include/dt-bindings/clock/sun50i-a100-ccu.h        |   1 +
+ 21 files changed, 645 insertions(+), 22 deletions(-)
+---
+base-commit: 6c086b91df8c6619239c6d6d6cbf6ae50da6c110
+change-id: 20241126-a133-display-support-ab43af32180a
+
+Best regards,
+-- 
+Parthiban Nallathambi <parthiban@linumiz.com>
+
