@@ -2,105 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34729FD391
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 12:09:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0559FD3E2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 12:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B94410E399;
-	Fri, 27 Dec 2024 11:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F28E610E3B0;
+	Fri, 27 Dec 2024 11:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="I9QX2yJf";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="CmTol0YM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta40.uswest2.a.cloudfilter.net
- (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2C4F10E397
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 11:09:46 +0000 (UTC)
-Received: from eig-obgw-5009a.ext.cloudfilter.net ([10.0.29.176])
- by cmsmtp with ESMTPS
- id QmX6tCKuRvH7lR8DytJAf1; Fri, 27 Dec 2024 11:09:46 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
- id R8Dvt6kFClDL5R8DxtSam1; Fri, 27 Dec 2024 11:09:46 +0000
-X-Authority-Analysis: v=2.4 cv=LLtgQoW9 c=1 sm=1 tr=0 ts=676e8afa
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=vU9dKmh3AAAA:8
- a=lEnXP8s9Ohb5C3ohY50A:9 a=QEXdDO2ut3YA:10 a=rsP06fVo5MYu2ilr0aT5:22
- a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
- ; s=default; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=JxN3bXXBaX/Lq3wyIRYqWPp+3YjBN61bepp4p58ij9s=; b=I9QX2yJfq5eeIpkXfuQAj3oTSq
- 4eNXGJk/RwanfS3NSMaJYqYbVmYZWd4KIFnYKDVp8hTp5zguJETcLW0mAFTahdjHCol1x8TtGKkFO
- 3IIJFQ84ruyIyloaUFt0S/V+fSuWB+aL3yzZtuwBfAcks+nUs4vUeBjdZ5p8vcjjrLfAvGENHJWNz
- OfDShDkmhCjk0csnKe0xAOZpn7f81u2pD9r/j2B19NmEtlz7IVUgvfulCLgzsqtSo4SD+4dYKs46G
- xHRraKUGch7qrzsvC5fijvCZLWkaOQ54uo9M7+/zMO1tMPLeHRcEZj91lh5SWUYFvFNWrX1bjq3r/
- Sac7w7mw==;
-Received: from [122.165.245.213] (port=50828 helo=[127.0.1.1])
- by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <parthiban@linumiz.com>) id 1tR8Du-000bEK-0V;
- Fri, 27 Dec 2024 16:39:42 +0530
-From: Parthiban Nallathambi <parthiban@linumiz.com>
-Date: Fri, 27 Dec 2024 16:38:04 +0530
-Subject: [PATCH 17/22] phy: allwinner: phy-sun6i-mipi-dphy: add LVDS
- support
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E17FB10E3B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 11:41:58 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4361fe642ddso75588985e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 03:41:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1735299657; x=1735904457;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VIaep5T6NY0/n739vSbFSbNZrH0/PX3pv3s3aQMDhrg=;
+ b=CmTol0YMWuJiVS/PJrn0UzA4fExYhEC2GtSy7gPXg15VuNESJ6SRm964bHGIRtVDLK
+ kdodI5Bv+DDicV58RlSd8/BbcD017kSYBNsrjeVTX0CqaDVc4Opsr0OEZVUqsiEL7+TZ
+ 7C1fNFBCRJiCHCwkGFMhha2YXv0cdTqsw2Rc/Xpdkm9XnDz9sfJI77up9SHsAWMw2MRI
+ DYZJ5ywPqV6656BarBEE8pqlCL2MsmE4SOPUuBFuW2XWfrtWBFSJN0HR3wnEKKA6vwOC
+ NeLpoLDqzE+tdt0jyv7x6Sly6hNRWXXC9NRn3X3PH/YA2ghbpPN6ycbOJEMOrPODHdhL
+ ugow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735299657; x=1735904457;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VIaep5T6NY0/n739vSbFSbNZrH0/PX3pv3s3aQMDhrg=;
+ b=hSxRUF7QbMN/ix479wcaWxkAVK1FOXxpjtJfaG8DjK3netJ8ZlOz6IhddcCMPna2ek
+ aOsttyy6vAzHcGU395n4xD0jiIsJJpwjEXM/A6FELwYuqHnk2mtreYkvs9bCoCjdIHwF
+ H8sIz3DHzfMbS867UR5SftQoAJbF0o5h/63VVmXpFE7wS4/x6fu8xlj/g/RvyUbjPgIQ
+ TNgqvZHoAspa/38gLACggugRncWyFpi485wizXhD58L1Q8ekOTziz70fLBh2fzsslExY
+ gwcF9j3HSFyE5m4FbL/3kYKhwAPAAZMMFj8sLxvii4mC1Tj8HFFzlXGQWHX1Qi5bsyAD
+ xWoQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXblWCM2j+tNOg35P/dRDjibHtDAF2PMiHBWohXdiLaK3jnXWUYD87HPlKCSoh385OBA/igiCRo9x8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVqBQFP5Vfp/JQB8yQryw9erjDLuyho1Y5Zo6SH4vu87Lyz7bO
+ diJhs6sd7Qutdyasfot62saxeC6dVyXHw5j68qOYfESqMtTsZ+9q+Hltky9s8to=
+X-Gm-Gg: ASbGncvXPvf3npCzoP2OTY1T1hflV4IqetnC//YcYj/5ya8qOgq8hBRzxCx9Qm2eOpf
+ JP1+WmGGD7c/cRGk/A3H4n3OxBNWicsHGhf+JpKEnj6NJjj0EMGZdczN0qWsn1MtrRmFEWEaT82
+ ixeP/+MpsdqjZqiDJhxiNkrBgN/8BDOmyDBY3ogB02BKg2G8Z0mhtkknyQmxGqoxU4tbC6bbxkc
+ 3q7ylfLhRF1W9lujrc1zJzZT4oAZ7Zwo6U6RuQOXbyY7/ufWYrbfsSwSmdt0P7QDqNSLwv9
+X-Google-Smtp-Source: AGHT+IFf9GNUkc9MTznSwG6dDejiwNWG3QzfVu5TaVwHwy7s5MZGB7ZkWntkV4PytcaeIFoLNdsfUA==
+X-Received: by 2002:a5d:6d8b:0:b0:386:3356:f3ac with SMTP id
+ ffacd0b85a97d-38a221f2dedmr24035382f8f.26.1735299657278; 
+ Fri, 27 Dec 2024 03:40:57 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a2432e587sm18713521f8f.95.2024.12.27.03.40.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Dec 2024 03:40:56 -0800 (PST)
+Message-ID: <add92c9e-a5d1-4dc7-91fb-0eacd93b5a49@ursulin.net>
+Date: Fri, 27 Dec 2024 11:40:56 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/i915: Remove deadcode
+To: linux@treblig.org, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ intel-gfx@lists.freedesktop.org
+Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241222174751.222975-1-linux@treblig.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20241222174751.222975-1-linux@treblig.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241227-a133-display-support-v1-17-13b52f71fb14@linumiz.com>
-References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
-In-Reply-To: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-phy@lists.infradead.org, 
- Parthiban Nallathambi <parthiban@linumiz.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735297689; l=2408;
- i=parthiban@linumiz.com; s=20241125; h=from:subject:message-id;
- bh=nGhmLXbYqR03qzpnWqYss6Ffpz+ip+uG6qlbqNTI4RI=;
- b=jrn6tfvMK61w3sgTTFVgqbnsDl8voBLuiq+w4I4k4GT50D6DwXem7WWTp7nYJlqsikuDUr5Xn
- u3DGRJaOe5oBtwaDDu6RCOpsp0RqGwuy4qxUO6CGLg7RxoBCgfmikvJ
-X-Developer-Key: i=parthiban@linumiz.com; a=ed25519;
- pk=PrcMZ/nwnHbeXNFUFUS833wF3DAX4hziDHEbBp1eNb8=
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1tR8Du-000bEK-0V
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([127.0.1.1]) [122.165.245.213]:50828
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 496
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfLpOjD09pr3D1I6b9h55aLaS9wLdvY+LwwctZ3sBXCW3jegDsxS7BI5apijU3345BxNTaP+IZDfP1iRPmgq+uSjHpav7+0gzG3OhEX/WQTZa92Ad6oQw
- EWsssmO6wL7A1zGZW+OEGbhrAHhRYHMOv6WRfbmFNT9+g5cB0aJKsmhZ4F/5Mw9bvXgA2x7OkFcF2OlpT+4yjjssmi/bBzg8pzYs9kr1cuhpK1i5p/UkLNPs
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,75 +92,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DPHY in A100/A133 supports both LVDS and DSI. Combo phy register
-have BIT(2) for enabling LVDS specifically, but enabling it alone
-isn't functional.
 
-Both MIPI and LVDS needs to be enabled in the combo phy to get
-the display working under LVDS mode. There is no specific enable
-bit for LVDS apart from the one in combo phy. MIPI got enable
-control in analog 4 register which must be disabled when using
-in LVDS mode.
+Hi,
 
-Introduce set_mode in phy ops to control only for MIPI DSI.
+On 22/12/2024 17:47, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> i915_active_acquire_for_context() was added in 2020 by
+> commit 5d9341370f57 ("drm/i915: Export a preallocate variant of
+> i915_active_acquire()") but has never been used.
+> 
+> The last use of __i915_gem_object_is_lmem() was removed in 2021 by
+> commit ff20afc4cee7 ("drm/i915: Update error capture code to avoid using
+> the current vma state")
+> 
+> Remove them.
 
-Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
----
- drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+I plan to apply this and your other two dead code removal patches. I 
+needed to re-send to the mailing list first so they get picked up by the 
+CI before I can do that (I guess you are not subscribed to intel-gfx). 
+It should happen in a day or two. Thanks for the cleanup!
 
-diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-index 36eab95271b2..d164b2ea5dfd 100644
---- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-+++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-@@ -314,13 +314,11 @@ static void sun50i_a100_mipi_dphy_tx_power_on(struct sun6i_dphy *dphy)
- 	/* Disable sigma-delta modulation. */
- 	regmap_write(dphy->regs, SUN50I_DPHY_PLL_REG2, 0);
- 
--	regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
--			   SUN6I_DPHY_ANA4_REG_EN_MIPI,
--			   SUN6I_DPHY_ANA4_REG_EN_MIPI);
--
- 	regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
-+			   SUN50I_COMBO_PHY_REG0_EN_LVDS |
- 			   SUN50I_COMBO_PHY_REG0_EN_MIPI |
- 			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO,
-+			   SUN50I_COMBO_PHY_REG0_EN_LVDS |
- 			   SUN50I_COMBO_PHY_REG0_EN_MIPI |
- 			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO);
- 
-@@ -528,6 +526,22 @@ static int sun6i_dphy_exit(struct phy *phy)
- 	return 0;
- }
- 
-+static int sun6i_set_mode(struct phy *phy, enum phy_mode mode, int submode)
-+{
-+	struct sun6i_dphy *dphy = phy_get_drvdata(phy);
-+
-+	switch (mode) {
-+	case PHY_MODE_MIPI_DPHY:
-+		regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
-+				   SUN6I_DPHY_ANA4_REG_EN_MIPI,
-+				   SUN6I_DPHY_ANA4_REG_EN_MIPI);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
- 
- static const struct phy_ops sun6i_dphy_ops = {
- 	.configure	= sun6i_dphy_configure,
-@@ -535,6 +549,7 @@ static const struct phy_ops sun6i_dphy_ops = {
- 	.power_off	= sun6i_dphy_power_off,
- 	.init		= sun6i_dphy_init,
- 	.exit		= sun6i_dphy_exit,
-+	.set_mode	= sun6i_set_mode,
- };
- 
- static const struct regmap_config sun6i_dphy_regmap_config = {
+Regards,
 
--- 
-2.39.5
-
+Tvrtko
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_lmem.c | 23 -----------------------
+>   drivers/gpu/drm/i915/gem/i915_gem_lmem.h |  2 --
+>   drivers/gpu/drm/i915/i915_active.c       | 18 ------------------
+>   drivers/gpu/drm/i915/i915_active.h       |  1 -
+>   4 files changed, 44 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+> index 3198b64ad7db..388f90784d8a 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+> @@ -52,29 +52,6 @@ bool i915_gem_object_is_lmem(struct drm_i915_gem_object *obj)
+>   		      mr->type == INTEL_MEMORY_STOLEN_LOCAL);
+>   }
+>   
+> -/**
+> - * __i915_gem_object_is_lmem - Whether the object is resident in
+> - * lmem while in the fence signaling critical path.
+> - * @obj: The object to check.
+> - *
+> - * This function is intended to be called from within the fence signaling
+> - * path where the fence, or a pin, keeps the object from being migrated. For
+> - * example during gpu reset or similar.
+> - *
+> - * Return: Whether the object is resident in lmem.
+> - */
+> -bool __i915_gem_object_is_lmem(struct drm_i915_gem_object *obj)
+> -{
+> -	struct intel_memory_region *mr = READ_ONCE(obj->mm.region);
+> -
+> -#ifdef CONFIG_LOCKDEP
+> -	GEM_WARN_ON(dma_resv_test_signaled(obj->base.resv, DMA_RESV_USAGE_BOOKKEEP) &&
+> -		    i915_gem_object_evictable(obj));
+> -#endif
+> -	return mr && (mr->type == INTEL_MEMORY_LOCAL ||
+> -		      mr->type == INTEL_MEMORY_STOLEN_LOCAL);
+> -}
+> -
+>   /**
+>    * __i915_gem_object_create_lmem_with_ps - Create lmem object and force the
+>    * minimum page size for the backing pages.
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+> index 5a7a14e85c3f..ecd8f1a633a1 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
+> @@ -19,8 +19,6 @@ i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
+>   
+>   bool i915_gem_object_is_lmem(struct drm_i915_gem_object *obj);
+>   
+> -bool __i915_gem_object_is_lmem(struct drm_i915_gem_object *obj);
+> -
+>   struct drm_i915_gem_object *
+>   i915_gem_object_create_lmem_from_data(struct drm_i915_private *i915,
+>   				      const void *data, size_t size);
+> diff --git a/drivers/gpu/drm/i915/i915_active.c b/drivers/gpu/drm/i915/i915_active.c
+> index 35319228bc51..0dbc4e289300 100644
+> --- a/drivers/gpu/drm/i915/i915_active.c
+> +++ b/drivers/gpu/drm/i915/i915_active.c
+> @@ -527,24 +527,6 @@ int i915_active_acquire(struct i915_active *ref)
+>   	return err;
+>   }
+>   
+> -int i915_active_acquire_for_context(struct i915_active *ref, u64 idx)
+> -{
+> -	struct i915_active_fence *active;
+> -	int err;
+> -
+> -	err = i915_active_acquire(ref);
+> -	if (err)
+> -		return err;
+> -
+> -	active = active_instance(ref, idx);
+> -	if (!active) {
+> -		i915_active_release(ref);
+> -		return -ENOMEM;
+> -	}
+> -
+> -	return 0; /* return with active ref */
+> -}
+> -
+>   void i915_active_release(struct i915_active *ref)
+>   {
+>   	debug_active_assert(ref);
+> diff --git a/drivers/gpu/drm/i915/i915_active.h b/drivers/gpu/drm/i915/i915_active.h
+> index 77c676ecc263..821f7c21ea9b 100644
+> --- a/drivers/gpu/drm/i915/i915_active.h
+> +++ b/drivers/gpu/drm/i915/i915_active.h
+> @@ -186,7 +186,6 @@ int i915_request_await_active(struct i915_request *rq,
+>   #define I915_ACTIVE_AWAIT_BARRIER BIT(2)
+>   
+>   int i915_active_acquire(struct i915_active *ref);
+> -int i915_active_acquire_for_context(struct i915_active *ref, u64 idx);
+>   bool i915_active_acquire_if_busy(struct i915_active *ref);
+>   
+>   void i915_active_release(struct i915_active *ref);
