@@ -2,64 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77EA9FD6B9
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Dec 2024 18:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF559FD865
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Dec 2024 01:20:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4304E10E3C7;
-	Fri, 27 Dec 2024 17:44:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B82E810E136;
+	Sat, 28 Dec 2024 00:20:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="d/lIsLKI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ixJFcbXa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFDDE10E3C7
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Dec 2024 17:44:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 48F655C337C;
- Fri, 27 Dec 2024 17:43:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D0A1C4CED0;
- Fri, 27 Dec 2024 17:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735321441;
- bh=rVom9/ZZasClWq+RMKE/v1dwwP+Hq6n5W8W09rP7IWk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d/lIsLKIkBgXKQ34U15BY9lLur9y54xTZbPqCUrcmmK2ht5tdH6XqQTBo2iLHC8IT
- bUk77LLzfY/XK+BTYPxUmSv5IV+d7yhtyEWHZzthhrcE3Lzx08Sn/D+rQOaQFgfPkW
- IjCrvyFqLKyEDWzHv6y8jY4XcXEroGzvmNf7RSsK01wrFBESprsDn/GIcLt4RlEQEY
- UcT9GOtN6QD3rN/PaaiouEAqbPdDRkZaJbyPnaL/4/y6mDB2BpUrsrEnWz9946MTv/
- 87rxQqBFe+U+WLGNikhg91j7MahXyIEO0XrFvFDYH7xGIEM5DZNLq0SRRg0dci09NS
- 4z+1VI1TDGtNg==
-Date: Fri, 27 Dec 2024 17:43:54 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Parthiban Nallathambi <parthiban@linumiz.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH RESEND 03/22] dt-bindings: clock: sun8i de2 clock: Add
- PLL com clock
-Message-ID: <20241227-swept-seduce-d21e6537ddfc@spud>
-References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
- <20241227-a133-display-support-v1-3-abad35b3579c@linumiz.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76A8E10E136
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Dec 2024 00:20:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735345208; x=1766881208;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=fzl8JZUoeCkO40U7IvbhosdeFL3vTrfTAD4wrTm300U=;
+ b=ixJFcbXazV7RmoZg92yS7rcK2wvkfn/j6QEcYn5EM/SXEE1E5VSCXXa9
+ U4bT1ZYGMmmryfqvhxNUVDxi1L0zLuFiDlItcjFPwVyMEJeBrVUTGQySv
+ 22wIX9DIrIN0f72+o3WtuVydBHJ9/jsT3y+kUzzM4DkQ271LItxxbMQZp
+ Juks3RFyi+0D73z9FpfAIajR7yAmOn8nHCC7q/dYGImFE5CDyrrGDDmSp
+ 2QjmC9W2YITO8f64I+W8bnprASpn6oRiqSUFltiYeyxY/BQKj6F95gjXo
+ uS5oQHx8jen1KJ0R2YX/zy3cAFXnUwJ4TwDe+YewlRmNm6uePQbicb3Dj g==;
+X-CSE-ConnectionGUID: 5TiGf5cxQoClNbPV5rJNMw==
+X-CSE-MsgGUID: QHbsJrZbTD2G20HwJAteJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11298"; a="35898086"
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; d="scan'208";a="35898086"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Dec 2024 16:20:07 -0800
+X-CSE-ConnectionGUID: RkT3HwAhRTqPFMVAy7/NjQ==
+X-CSE-MsgGUID: S7KfgVNeQLels56W1NRBUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,269,1728975600"; d="scan'208";a="100643003"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 27 Dec 2024 16:20:04 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tRKYk-0003ku-1g;
+ Sat, 28 Dec 2024 00:20:02 +0000
+Date: Sat, 28 Dec 2024 08:19:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
+ manivannan.sadhasivam@linaro.org, quic_yabdulra@quicinc.com,
+ quic_mattleun@quicinc.com, quic_thanson@quicinc.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org,
+ lizhi.hou@amd.com, jacek.lawrynowicz@linux.intel.com,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ mhi@lists.linux.dev, Jeffrey Hugo <quic_jhugo@quicinc.com>
+Subject: Re: [PATCH 7/7] accel/qaic: Add AIC200 support
+Message-ID: <202412280859.rkIldm5t-lkp@intel.com>
+References: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0jjBOv89hldoMdhb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241227-a133-display-support-v1-3-abad35b3579c@linumiz.com>
+In-Reply-To: <20241213213340.2551697-8-quic_jhugo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,66 +74,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jeffrey,
 
---0jjBOv89hldoMdhb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build errors:
 
-On Fri, Dec 27, 2024 at 06:30:52PM +0530, Parthiban Nallathambi wrote:
-> Some platforms like A100/A133 also uses pll-com clock as additional
-> clock source for the display clock. This is not documents both in
-> user manual and DE 2.0 specification. These changes are mainly from
-> vendor BSP.
->=20
-> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13-rc4 next-20241220]
+[cannot apply to mani-mhi/mhi-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Ditto here, the new clocks are only in the new IP you're adding so this
-patch needs to get merged. When you merge them, make 2 clocks all that's
-allowed for the existing devices and 3 clocks for your new one only
-please.
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeffrey-Hugo/bus-mhi-host-Refactor-BHI-BHIe-based-firmware-loading/20241214-053540
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241213213340.2551697-8-quic_jhugo%40quicinc.com
+patch subject: [PATCH 7/7] accel/qaic: Add AIC200 support
+config: i386-randconfig-007-20241227 (https://download.01.org/0day-ci/archive/20241228/202412280859.rkIldm5t-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241228/202412280859.rkIldm5t-lkp@intel.com/reproduce)
 
-> ---
->  .../devicetree/bindings/clock/allwinner,sun8i-a83t-de2-clk.yaml         =
-| 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t=
--de2-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83=
-t-de2-clk.yaml
-> index 70369bd633e4..3e00905b66ca 100644
-> --- a/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-cl=
-k.yaml
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-a83t-de2-cl=
-k.yaml
-> @@ -39,11 +39,13 @@ properties:
->      items:
->        - description: Bus Clock
->        - description: Module Clock
-> +      - description: PLL common clock
-> =20
->    clock-names:
->      items:
->        - const: bus
->        - const: mod
-> +      - const: pll-com
-> =20
->    resets:
->      maxItems: 1
->=20
-> --=20
-> 2.39.5
->=20
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412280859.rkIldm5t-lkp@intel.com/
 
---0jjBOv89hldoMdhb
-Content-Type: application/pgp-signature; name="signature.asc"
+All errors (new ones prefixed by >>):
 
------BEGIN PGP SIGNATURE-----
+   In file included from drivers/accel/qaic/sahara.c:5:
+   In file included from include/linux/devcoredump.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/accel/qaic/sahara.c:781:24: error: assigning to 'const char **' from 'const char *const[76]' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     781 |                 context->image_table = aic200_image_table;
+         |                                      ^ ~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ27nWgAKCRB4tDGHoIJi
-0laCAQC3f8JN+f/M1J2eeAFVurWF99YyrOoc11b9kgfjtf1thQEAtw4OLJJ4yje4
-qC320wF5zcGFYDEFFJjXa4TfgosTGww=
-=cfWT
------END PGP SIGNATURE-----
 
---0jjBOv89hldoMdhb--
+vim +781 drivers/accel/qaic/sahara.c
+
+   744	
+   745	static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
+   746	{
+   747		struct sahara_context *context;
+   748		int ret;
+   749		int i;
+   750	
+   751		context = devm_kzalloc(&mhi_dev->dev, sizeof(*context), GFP_KERNEL);
+   752		if (!context)
+   753			return -ENOMEM;
+   754	
+   755		context->rx = devm_kzalloc(&mhi_dev->dev, SAHARA_PACKET_MAX_SIZE, GFP_KERNEL);
+   756		if (!context->rx)
+   757			return -ENOMEM;
+   758	
+   759		/*
+   760		 * AIC100 defines SAHARA_TRANSFER_MAX_SIZE as the largest value it
+   761		 * will request for READ_DATA. This is larger than
+   762		 * SAHARA_PACKET_MAX_SIZE, and we need 9x SAHARA_PACKET_MAX_SIZE to
+   763		 * cover SAHARA_TRANSFER_MAX_SIZE. When the remote side issues a
+   764		 * READ_DATA, it requires a transfer of the exact size requested. We
+   765		 * can use MHI_CHAIN to link multiple buffers into a single transfer
+   766		 * but the remote side will not consume the buffers until it sees an
+   767		 * EOT, thus we need to allocate enough buffers to put in the tx fifo
+   768		 * to cover an entire READ_DATA request of the max size.
+   769		 */
+   770		for (i = 0; i < SAHARA_NUM_TX_BUF; ++i) {
+   771			context->tx[i] = devm_kzalloc(&mhi_dev->dev, SAHARA_PACKET_MAX_SIZE, GFP_KERNEL);
+   772			if (!context->tx[i])
+   773				return -ENOMEM;
+   774		}
+   775	
+   776		context->mhi_dev = mhi_dev;
+   777		INIT_WORK(&context->fw_work, sahara_processing);
+   778		INIT_WORK(&context->dump_work, sahara_dump_processing);
+   779	
+   780		if (!strcmp(mhi_dev->mhi_cntrl->name, "AIC200")) {
+ > 781			context->image_table = aic200_image_table;
+   782			context->table_size = ARRAY_SIZE(aic200_image_table);
+   783		} else {
+   784			context->image_table = aic100_image_table;
+   785			context->table_size = ARRAY_SIZE(aic100_image_table);
+   786		}
+   787	
+   788		context->active_image_id = SAHARA_IMAGE_ID_NONE;
+   789		dev_set_drvdata(&mhi_dev->dev, context);
+   790	
+   791		ret = mhi_prepare_for_transfer(mhi_dev);
+   792		if (ret)
+   793			return ret;
+   794	
+   795		ret = mhi_queue_buf(mhi_dev, DMA_FROM_DEVICE, context->rx, SAHARA_PACKET_MAX_SIZE, MHI_EOT);
+   796		if (ret) {
+   797			mhi_unprepare_from_transfer(mhi_dev);
+   798			return ret;
+   799		}
+   800	
+   801		return 0;
+   802	}
+   803	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
