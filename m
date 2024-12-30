@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04EB9FE6DD
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 15:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37519FE6ED
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 15:16:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7047910E4E2;
-	Mon, 30 Dec 2024 14:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0C610E4E9;
+	Mon, 30 Dec 2024 14:16:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="couHbG+c";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 40CDF10E4E2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:11:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E04FF143D;
- Mon, 30 Dec 2024 06:12:25 -0800 (PST)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C93193F59E;
- Mon, 30 Dec 2024 06:11:52 -0800 (PST)
-Date: Mon, 30 Dec 2024 14:11:50 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Parthiban <parthiban@linumiz.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin
- Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
- Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>, Kishon
- Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH RESEND 00/22] Add support for A100/A133 display
-Message-ID: <20241230141150.3d0c3ae6@donnerap.manchester.arm.com>
-In-Reply-To: <314b6bbe-613e-41a6-955e-50db6e11ef8e@linumiz.com>
-References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
- <314b6bbe-613e-41a6-955e-50db6e11ef8e@linumiz.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17BF010E4E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:16:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 192765C5B0C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:16:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24CB8C4CEDE
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:16:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1735568207;
+ bh=zMel9og/teRYkYQgE3auw7VYAfFToz8pv8OyAdYM6Vc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=couHbG+cc12NySKm/DaR6Ywy17VZbuufrot3nS4vCPMLMdiz05h8XQ9G0GERyJbnP
+ QiW3K9ouiUDlSjUw9nskMeLbqS4UqCF3WPei9G+qLIafd6nwmTlT92R0Zv5IQwXaVo
+ /5KXJQ//6A/rX8DABtFB4DRxkh09AcQYtXUsKYHv3MeIVotjCf0XIIvSOscQVAfUYm
+ pcUYVKGrGynfo0termfhTXwwTDh74C+EQKkLbQx+ggr0MdGrzr4PtwVOVasv4l2ZA2
+ xN3+mqq5cUzW744HtbFEOzM6TZp+iUxZZDNFDqSIsnmR71fqKgGo/CWRuHgywoDEV5
+ 2CdB31gFLkNqQ==
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-2efe25558ddso9336847a91.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 06:16:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUzf2zTh1lG4//c4rDz6YiR0FFmriPhQ+uTPx5/TAGLmkVoJQukDAk3V4AFzd1ChLez+p35UqMSTwY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyy61Ngrn/Y87zuVbc9SFunYH4kiTyxlprnG7sm0ZBDaU5+Z3b+
+ UNzm+bLViWi95WOeKNGi8PfC0vv8aQ5CkAbDXPATgWgYZfGMmP/ElaImvzK1Kz609J0elMk9aMN
+ 8W29GmnlCmcdLW7kWqUNqlLuR7Q==
+X-Google-Smtp-Source: AGHT+IHowbYDO6MzZoxKYBdpJQizCGbMvec0FMWr41jNazuXAPv1UNUBAqhQ7YhM003grWBzgeCVH3eRmuQNBazSRto=
+X-Received: by 2002:a17:90b:270d:b0:2ee:48bf:7dc3 with SMTP id
+ 98e67ed59e1d1-2f452e1606amr56816645a91.15.1735568206567; Mon, 30 Dec 2024
+ 06:16:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241025083036.8829-1-liankun.yang@mediatek.com>
+ <20241025083036.8829-2-liankun.yang@mediatek.com>
+In-Reply-To: <20241025083036.8829-2-liankun.yang@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 30 Dec 2024 22:17:18 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__iZiyCpaKO-P6EHxg8GaJxmN-xguQ4Ny+HO7SiK6EaBg@mail.gmail.com>
+Message-ID: <CAAOTY__iZiyCpaKO-P6EHxg8GaJxmN-xguQ4Ny+HO7SiK6EaBg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] drm/mediatek: Fix YCbCr422 color format issue for
+ DP
+To: Liankun Yang <liankun.yang@mediatek.com>
+Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
+ simona@ffwll.ch, matthias.bgg@gmail.com, 
+ angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com, 
+ dmitry.osipenko@collabora.com, msp@baylibre.com, rex-bc.chen@mediatek.com, 
+ granquet@baylibre.com, peng.liu@mediatek.com, jitao.shi@mediatek.com, 
+ mac.shen@mediatek.com, Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +78,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Dec 2024 20:06:30 +0530
-Parthiban <parthiban@linumiz.com> wrote:
+Hi, Liankun:
 
-> On 12/27/24 6:30 PM, Parthiban Nallathambi wrote:
-> > This series depends on [1] for the eMMC/MMC controller to work and
-> > [2] (lined up for 6.14) which adds support for the sram nodes and
-> > display engine extends it's usage. Idea of this series to get initial
-> > feedback and adjust, which will be rebased for 6.14 once [2] is merged.
-> > 
-> > This patch series adds support for A133 display pipeline based on
-> > LVDS. dt-bindigs are organized in the start and later with code
-> > changes.
-> > 
-> > PHY is shared between DSI and LVDS, so to control the PHY specific
-> > to DSI/LVDS, phy_ops set_mode is introduced. To enable the DSI
-> > using set_mode, analog control register MIPI Enable is used, which
-> > may not be available for A31 (shares the same driver).
-> > 
-> > Otherwise, A133 also got hidden independent display engine i.e
-> > mixer + tcon top to handle parallel display. But this patch series
-> > adds only support for the 1 mixer which is documented.
-> > 
-> > [1]: https://lore.kernel.org/linux-sunxi/20241109003739.3440904-1-masterr3c0rd@epochal.quest/
-> > [2]: https://lore.kernel.org/linux-sunxi/20241218-a100-syscon-v2-0-dae60b9ce192@epochal.quest/
-> > 
-> > Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>  
-> Apologize for polluting with resend again. My internal mail server got blocked due to
-> volume count, which resulted in incomplete series again.
+Liankun Yang <liankun.yang@mediatek.com> =E6=96=BC 2024=E5=B9=B410=E6=9C=88=
+25=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:32=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> Setting up misc0 for Pixel Encoding Format.
+>
+> According to the definition of YCbCr in spec 1.2a Table 2-96,
+> 0x1 << 1 should be written to the register.
+>
+> Use switch case to distinguish RGB, YCbCr422,
+> and unsupported color formats.
 
-I guess an incomplete send was the reason for the original resend? Please
-note this at the top of the cover letter then, otherwise it's not easy
-to see why you send something again. Something like:
+Applied to mediatek-drm-fixes [1], thanks.
 
-*** Re-sent due to mail server not sending out the complete series. ***
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
 
-It also helps to split up the recipients, so that everyone gets the cover
-letter, but only the respective subsystem maintainers get the patches
-touching their subsystem. I would CC: the DT maintainers on every patch,
-though.
-It's a bit more complicated to set up, but keeps the noise down for those
-large-ish series, for instance for the IOMMU people, who presumably have
-little interest in DT or graphics code.
+Regards,
+Chun-Kuang.
 
-Cheers,
-Andre
-
-> I will fix the mail server issue before resending the series. Sorry.
-> 
-> Thanks,
-> Parthiban
-> 
-> 
-
+>
+> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort drive=
+r")
+> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+> ---
+> Change in V2
+> - Modify the value written to the register
+> Per suggestion from the previous thread:
+> https://patchwork.kernel.org/project/linux-mediatek/patch/20240510021810.=
+19302-1-liankun.yang@mediatek.com/
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dp.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
+/mtk_dp.c
+> index f0f6f402994a..613e1c842478 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+> @@ -460,18 +460,16 @@ static int mtk_dp_set_color_format(struct mtk_dp *m=
+tk_dp,
+>                                    enum dp_pixelformat color_format)
+>  {
+>         u32 val;
+> -
+> -       /* update MISC0 */
+> -       mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
+> -                          color_format << DP_TEST_COLOR_FORMAT_SHIFT,
+> -                          DP_TEST_COLOR_FORMAT_MASK);
+> +       u32 misc0_color;
+>
+>         switch (color_format) {
+>         case DP_PIXELFORMAT_YUV422:
+>                 val =3D PIXEL_ENCODE_FORMAT_DP_ENC0_P0_YCBCR422;
+> +               misc0_color =3D DP_COLOR_FORMAT_YCbCr422;
+>                 break;
+>         case DP_PIXELFORMAT_RGB:
+>                 val =3D PIXEL_ENCODE_FORMAT_DP_ENC0_P0_RGB;
+> +               misc0_color =3D DP_COLOR_FORMAT_RGB;
+>                 break;
+>         default:
+>                 drm_warn(mtk_dp->drm_dev, "Unsupported color format: %d\n=
+",
+> @@ -479,6 +477,11 @@ static int mtk_dp_set_color_format(struct mtk_dp *mt=
+k_dp,
+>                 return -EINVAL;
+>         }
+>
+> +       /* update MISC0 */
+> +       mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_3034,
+> +                          misc0_color,
+> +                          DP_TEST_COLOR_FORMAT_MASK);
+> +
+>         mtk_dp_update_bits(mtk_dp, MTK_DP_ENC0_P0_303C,
+>                            val, PIXEL_ENCODE_FORMAT_DP_ENC0_P0_MASK);
+>         return 0;
+> --
+> 2.45.2
+>
