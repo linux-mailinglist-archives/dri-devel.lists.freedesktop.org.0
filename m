@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA079FE1D2
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 03:13:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7C69FE205
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 03:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 099AC10E44D;
-	Mon, 30 Dec 2024 02:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7635310E461;
+	Mon, 30 Dec 2024 02:28:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="nB0Z62Ip";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="fDzHqk8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
- (mail-am0eur02on2063.outbound.protection.outlook.com [40.107.247.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55E010E44D
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 02:13:19 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2070.outbound.protection.outlook.com [40.107.21.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C98110E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 02:28:49 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ksU9ZmMv4+FgGqgpw0ruhXqZgLjWUXw/jw+NdMKNUpCuSCKZUO26yNdB+KRal+oFWazUn7oWdrQMrhLw4usxk/iF+mYLdD0DrGD8NoL/YpwlRfhvL++W0MpFBn5pAsNVLWRkFtXOZ+V8RzxAsKTksDe/OJ7SxTuiB47FGhJk+RA2qHTwm5RN7EEHe7+HiWgP4BzgngxdVJ0h/cAMGCe8NmLwf/L+pMAlZPXuYEpyMZYHm0D+mnzQN0Ux+Z3PqT1P+5yxmrgjz4FoAWIT0WsAy+IERNdTLGJBBrUTpC3ztDs7gfYHtkl3+PzPKMlikuM3ab9/duzAfdiNdLmZyXzYeA==
+ b=c+vKnRvH9U/l7bIeg2DqL/JEql4x4gAg2KwsfmO6j5RezDKsSnKQvLDGFAOegY7wpboZ7zVTsQLQJglqchrWUbGasLaDrJsWXJe+DJ7fOHhsqoflZlF3kzYEqS+mjNaH2BqR3vcpqsLAj+fwEVWe/gbm5CTi4dSqWr4dL5Wjpsu0yzyvVT+9rq/dXTYiNayfq0NPeY9wdmjV2wkElf45Ahat1zWf5k/GWHoxfIGal0Lk3TAtHyzr62bmMKBbjt1L5owOilgSOqEkw1yf4J7L2IN17hRh96vf7RmyQUzXu86mJyZL/6JsUKj1Khamie0dGns35h49XA40AyHlxP8NLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZOlPmmGiaBcdEsTSifcWJL5cP4XGmwi5GdF1PobG/ZA=;
- b=JE8/tXlUoeEng7+X1RnTtnoQrdIkIiX8kdXmBDCOHB6C1olPeSmkqfehkDX3fIS/Y3FfkWkXl0ChvqgWUmHgK18MUxyNryhlVDln238LmAmR0YIKCyDdjUsnMzJgvEZ9oLdSpLasOY1WatJudNYGyVHnlhH3itVBQ4q9dvWv2xrjbn1vf84WY/EeMDSoX7togYQtqSQ3unTujqrSrL6xVJ/dJCVKRmGdKlKiHc+hYu6Nt+wWyJIdaPy2eshmK4pz5m8qqHjjTuu2ISVor2Iz6m3eAeNLErblsXFSG1UqvEytneuHNz4ddWugGqQ5ogxHmsx6xfXJSx/imSCRXb9+Qw==
+ bh=UT0MRzvgVnyzugYf6sSlaKk1iJQ68yjQCllE2SuQ4jM=;
+ b=sK5CzA4FlxiarrbDSGPXPQ3R7BxsNq1KWR6b7lCrzBCviF7lE9fiyZHgUQmjKNQEx8mgTgcUbgQC8Z3TeZsu3GuCvAEOaKHbMVzxfA0gSmDdgm0KgWtn1nAB7M89Ey+3z0Ztl1BMxrSJNx5smV4JC24PC7gUdDXOrRoDdU8OqQBjWqARM0fYgBWCrseeBXEhtwnoWzwiHzCcPFteBC8mUUXHCtkex78wk+QS3sUQdAGx2Iv8qaT+TnSZ23GukztxXIppGtPr41bta3ovkuoEZlhKSffBIpXzDdYXcvgLXomc0miOzy6owOumXneXlKCOs295Vv3SjqJ3gnWNMbdxbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZOlPmmGiaBcdEsTSifcWJL5cP4XGmwi5GdF1PobG/ZA=;
- b=nB0Z62IphIvAo9ssmz1ufZh0oD+ZoQcXk73JAJOG+EjMLh0lrpcCpKu2XfQZmh3uGc+uDEBd8S9H5EGstZcAd1w2b0eF3G4OSMDsSQMOAqD9ieZh6RDgYL0WKqDoz8arBnwcfZ+w/CkztUctrpRsH6rLyFIKCEElNDax5gmxI/0pdP5TPg+MgE/FSotjG1IxDwzazgn5Z1V3YrP9gNZane0DPWTKhOMm0X7NMZ+NtYZpsid8X7cUAQujo4LeGOG59ngj1faGlM/44rddKD7O3YpyyTjYdqYiHPi4JlyTS9H5hLyqDyz9G14uT4eODoiU4k57ObxZVZ797tOkp2ZDnw==
+ bh=UT0MRzvgVnyzugYf6sSlaKk1iJQ68yjQCllE2SuQ4jM=;
+ b=fDzHqk8TZ1t6wxib1sUfEqub9cisUztBeJGvvYeUVFxW9qRax+WCsoHr5QOAe59pZtEg/29P+ZJdLxL6L+8CQB8iLXdgpPeo6aRNgWrc42XSb4yluulW+UjnUXDPtpSLQSE+yXHRko8XM9T4BUXptXIjEna/9ZLJthqCBYtsmvRnT07e0Ib5c6tT0o1J7GKIgIiyqgHP+GecfNN3aVu3oW6LGMyCpylCrsH/BDpnrgYgWjQxPO9XfSa9kUFsTVfvFt2MTCqrB3T9BUBXH1bB0kDU2+oxG91A7nFq7iusJDaxnwwkVl89nwYN7N1qy7l8ZHp1WGZ8h1zQLHw4VEAglg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nxp.com;
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
  by DUZPR04MB9821.eurprd04.prod.outlook.com (2603:10a6:10:4b1::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8293.19; Mon, 30 Dec
- 2024 02:13:13 +0000
+ 2024 02:13:22 +0000
 Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
  ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8293.000; Mon, 30 Dec 2024
- 02:13:13 +0000
+ 02:13:21 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
@@ -53,10 +53,9 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kishon@kernel.org, aisheng.dong@nxp.com, agx@sigxcpu.org,
  u.kleine-koenig@baylibre.com, francesco@dolcini.it, frank.li@nxp.com,
  dmitry.baryshkov@linaro.org
-Subject: [PATCH v8 09/19] drm/imx: Add i.MX8qxp Display Controller display
- engine
-Date: Mon, 30 Dec 2024 10:11:57 +0800
-Message-Id: <20241230021207.220144-10-victor.liu@nxp.com>
+Subject: [PATCH v8 10/19] drm/imx: Add i.MX8qxp Display Controller pixel engine
+Date: Mon, 30 Dec 2024 10:11:58 +0800
+Message-Id: <20241230021207.220144-11-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241230021207.220144-1-victor.liu@nxp.com>
 References: <20241230021207.220144-1-victor.liu@nxp.com>
@@ -68,77 +67,77 @@ X-ClientProxiedBy: JH0PR01CA0066.apcprd01.prod.exchangelabs.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|DUZPR04MB9821:EE_
-X-MS-Office365-Filtering-Correlation-Id: e22c0c47-b15f-42ac-266b-08dd28778398
+X-MS-Office365-Filtering-Correlation-Id: 71e7fde0-b4ee-493a-70a6-08dd2877882f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|376014|52116014|7416014|366016|1800799024|38350700014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9BENPgeHUU8LOeq9L9euboF6U1yNAHPAfNfKA4QzthNRbXtRg2Pv2XYjwvOg?=
- =?us-ascii?Q?2YnL2OgUDrcq5eiLFtlx8kcCqvBZ01QGdkao25k3RkpCaT2ntMCYPfTjbVS4?=
- =?us-ascii?Q?sOojaDdBq+AfyqhzZx7RBN722yn9tji9KA+PTkJXf1h+CjOMFuZLf4VO6/A/?=
- =?us-ascii?Q?b7/BnjCWbVuFcQc6XVSXwNDzyeBVey1tdiOgQHLF+JaMkIS4FqB9dOVAERM8?=
- =?us-ascii?Q?Xu14ig5SEs0YWRiRbTBy6vikUiNDr1SpWVGt2Y7Q0dLNdljgS1BOy9R22nE4?=
- =?us-ascii?Q?JHWYSDJeYKnLGMtt7j6UogwmyluZyjbsbiILWWPTNVzIIJXw7ejTi14+WT9/?=
- =?us-ascii?Q?jdDDYdMZnp14vDtujluLBybcMMzt57r1tL2ZLDR4VjJbY6VjcXAihfOGaPMf?=
- =?us-ascii?Q?CLQHKerBssr24Wr+lI9e8effxDWHSV8lOu0bb+6BikM7ex3GGUThoooAgU6T?=
- =?us-ascii?Q?iRvZ8SczgKMfIidj2k+KcEbpCDYzdHYOBQJnd/19EkMbiC18YvY+AcQ33qXW?=
- =?us-ascii?Q?Be5AhyzSRp0cQ7VgJY58bIpy4SF2KI3z8m97LymGz2ocHWOEqyWDzf1btbfx?=
- =?us-ascii?Q?Ekr6QP2zRIIPdNYjKqQlfcRDgTX9LAM/yutDnbgegM3fJg61j170Ils+AF5j?=
- =?us-ascii?Q?gqyGo4Jtc+yVDb21kAsewoklJ8qabRbf8yJwR1hLLYGgCWTLlLXO2kJfZ/8f?=
- =?us-ascii?Q?a7O78oIwmvixc0M9l9kQGgfvUPpdQC7mqPhq9zuzMtfVGowlnoFKfWg3U1RE?=
- =?us-ascii?Q?RyUARu579tAy2+ailbTxpG46L/mel+sSOypLL78B54iAXe/uyqtRQJu8ubTq?=
- =?us-ascii?Q?1PJXeAMxybXyP/Ox4+dce/LKM3Ts3OlYajKnN0wSgt/9lUKyi7M0QYf7Letg?=
- =?us-ascii?Q?izytxDZqky+dNA/KG40mLB0BD/hs9Jo7eOQJkx3ZC4W3Lwu22uzr9lAFWa38?=
- =?us-ascii?Q?2U9ZBdY/P9Bman1pOHV4GhJwKWfEX9f7KspJfaUKp3+vxCpuC6CW61PXfL5t?=
- =?us-ascii?Q?hryao2Kcyy4c+i9eEdC6DB82NGUClZP/tjysY9jeNgcya3tbQEWkpyTnCxmH?=
- =?us-ascii?Q?X9r9JHwb7FcTc9l/nicv6iZu2VdvU47kPYE60egYHhAfCo4hJeOw7zlU48Ok?=
- =?us-ascii?Q?yko7PUdNIg0Mb/QVAx2/KHNDejWw2sbqgsCkI4NZt3FWbL920qmjuLMNrHqW?=
- =?us-ascii?Q?fRyHGz4g5BvIZKmMtokHYflRt9S0s70Wc8VgxlQXm5TcRq7IFfGYHQWfnNoG?=
- =?us-ascii?Q?0WnsK90ULROIykN5NpkohH4capWovgCFG5ZfR8lx1X9EfvagAaL4Lb2xmXTH?=
- =?us-ascii?Q?6iQyN3q+emJ7TDE1OpZ5ycPw+baxVDkik13m+lrB1IJXdyB1ldiyMjXgFVjz?=
- =?us-ascii?Q?Sp+yI0pr1qiqJ2nsePEeSD7UgDrlwDNBatUDAewZu7DVhrBCWAiDwjXGCb8C?=
- =?us-ascii?Q?KjK6ArZVdeHGMuQ1cgh/XhLW5gQcIFJc?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FtqNfDXPC4Apz00mH14tGLmNVPnmR4GqDSx3C51eodYufQ0Rx58UscChocvW?=
+ =?us-ascii?Q?wuOpMZUjGSZ0VWvIpdaYayy41/RdrWYlab85koRKxhJhQ9zjVmkDBn2nTTZe?=
+ =?us-ascii?Q?Fqaw+hIciRYzikup2LoVLeeBBTXmhyGkn0dhGWNOE86S7WHYJWE3yZ4baVJk?=
+ =?us-ascii?Q?ULG/nHIcAyQdcu+1NSBR398jyjrK0y43rLdZATIgF5EfAGrjdz3ZAOU83pvm?=
+ =?us-ascii?Q?tAsjbh8Xi3vu6BlZwgYMlcs/XWM9DEhdVQw5K9pncZvdEcKaCVe2wxFZdcNB?=
+ =?us-ascii?Q?LUpq/1tJobB5hqkWG7tFkPtkaWd1IPd0OF85Z1zlGX0HdFDY3Whfy8NIIQKD?=
+ =?us-ascii?Q?RcGye/dDE51SHIlsc2tPq8mIg+LyC+V8CFLaxQhSIi3NPnm/B1q5uNoRRU7h?=
+ =?us-ascii?Q?Ccl9p0nyZL6vMeBfKt2iN9g/2FlLB7lFqApGXvwMnjGhlz+Y9hP1eAzppu14?=
+ =?us-ascii?Q?qeFgBVcANP9rJb9VXDtwccPKjOJhFu9JV7mZWYtISovaOu17d2wfh/LkWe1b?=
+ =?us-ascii?Q?55npaPdkCT7WYChtrf/OQpmNP3OUQ6Ri8txh4DYodAj3Vg/6ruIDuUIquz8Z?=
+ =?us-ascii?Q?4+xsSe2X9pnX6fdAOclDpcuhKSnzth7TjVjbrCXZMePOgUQxhXIXy7JA6ex+?=
+ =?us-ascii?Q?JKW7+mKuueXgD1o+oTnlDwdDGZaqJT3IC9BHO2rHpYwD8PApyNmKaGTzxjxm?=
+ =?us-ascii?Q?tdMSZF+npTi3brnqp4s9RDSdirwI/+p+fi6TnHC53GSuVxdWtrJIlo9lNrtH?=
+ =?us-ascii?Q?1eq14OF9lH5NciSeWjWW1ML/73g8xQE5zsdz3IQ5WtGzb1nVA9G8jNCkfoTL?=
+ =?us-ascii?Q?E5O1MFXGwWWlLxUcG7l7GMjIl3AWHtQ/ZbaEV5dmYMUAXmcVH7aRfwmGQ57c?=
+ =?us-ascii?Q?K4KWGjnscnUpJPUbXDygSjhKeDDCBwuZCCwqvXyQOnF2ApOOa8kPo3EpPxAD?=
+ =?us-ascii?Q?xd57PdQ0LULvaW75a5xNU+FI0fIHJ0Qut2tFdZ3dxWUCjvGzN5QDg8PzrLSY?=
+ =?us-ascii?Q?9l6rSAyQhPgn50q3L8hAspKQ0ul99fydd/8Ch+TJ3H1g+jBRdUd6/urPuwdK?=
+ =?us-ascii?Q?/+vQqVlr/Y6UbIzLAgPlafqCynXksu+dww6GLmGcE6CLq2IANZPgzHXNQwHF?=
+ =?us-ascii?Q?nPjzCTUvcQ/LwH8t2vJUP2GUzon6qBHR6tt8RFkitZGnRxTNcaFhazDQthaj?=
+ =?us-ascii?Q?koPFp0GsfmiBMnaqeS+7MP91Ql9RUtPl9CglzgaPtLgzP5GYjURT0BdSNUNK?=
+ =?us-ascii?Q?bPgq6uotHnulrfKfQwADiUbPu+EjB98bI2T98P1JGnPsXI5O7KgRHPQbFi/s?=
+ =?us-ascii?Q?XPaVBqvU2Uos6hQXWkviKhqhf92D1BRtKBOsdKgIPakgjbfPnE/aCmaaILIH?=
+ =?us-ascii?Q?dlSyV2JvKBtCPnjeNySz/aLxAulz6VL5uN09jcsOAUTE+3YSAB8nVQ4ncs9Y?=
+ =?us-ascii?Q?9ydc2PruRSrD7bjSX0QDYxRbFtdfMNXo?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2HWfwpQA0Yhls0Cl0K0CQamlVgZkqiZNzoMZXjfM54aW/1X8BL2HM9e1Dshh?=
- =?us-ascii?Q?1yhn9D60DLk17/zWvYt7yy5ZiNo1Xz+IM6Ul99EG51w3Gfuw5KVKUryDunAT?=
- =?us-ascii?Q?ZM/n4V+zR8HGcu6DUbnb1+0L/NJdg0KoZPTJIxgi1Un2+QiTZjOVSnb7NhoR?=
- =?us-ascii?Q?Pl4coGebYWNDEMTIshxMd2Ra8By3oJtkuDWseTD2sDiT2ITPjfw9mSg/NXes?=
- =?us-ascii?Q?A0LQIYb383RADbzI1acLDreXIyuAosES4ruStRqT1dkVjoeYM/DRFdYV68/X?=
- =?us-ascii?Q?Z3jZYd1ufhkBHZO3c0HlRV7hGKrF1i9Si42PY6OWJcvpNsCG2YtB+ihRdnT9?=
- =?us-ascii?Q?YeteOvxRx9MdZwk/xCeb5iMlzJeFHW0zrIdZENqb4F8xH8T61yITdC1/TwA7?=
- =?us-ascii?Q?qqqtYiNAYuEXMNtX7N31BB8iKhJgt76Xsy5npuAjgxIvMvs2yOPir8BIjvJ2?=
- =?us-ascii?Q?WxV/4ttsjgrfSH75xv+aHYqlDZ6YaeV4kRT8qUhCiQ/Z7XsQGjRkPtFq0Q2r?=
- =?us-ascii?Q?dpCi6cx2CaOzJASseFvQQ95YLtWtTpt390Pn14oBE1+cfbcD9aqE2qzzE5a3?=
- =?us-ascii?Q?LFLuthppoTdc2wF6NkeEVl2uUOriY7YxSomJRDnP88tYHZqyFAr4mUi1YQcb?=
- =?us-ascii?Q?DbU8AsnUcQ0hQLe7e7EvxmydE0vvO58Mg3k4FajBVunVCwKqvJ+YLLoHK193?=
- =?us-ascii?Q?dwyT0KcJB9KFhxcyUXSO9G/QnAq9cyHhJPWFvFWy8XMLGmGFlQUENpsPGKpu?=
- =?us-ascii?Q?5l8jEMAAAyBXsajU5TlZ1U6WbRoqUBqOFdEWc+sfoOpL5dOH5grcVhqOufVi?=
- =?us-ascii?Q?Hd+HWQH8BDckmSyDq1Cc8ySHjNaqMnDotoWr0Qov1/kREbdqxqkiZDV+J8nA?=
- =?us-ascii?Q?QWts1OdWgIkHcfntFR0S8Dt1PEKd3PnYslFOqGmaZeKUi6Ks3AB2Oj/KkEKs?=
- =?us-ascii?Q?Nizkga+g0Es2XVos7zp7H0/sE97GmNxkzFfm6X0Hga7A0xpZvsh8ukXOLHOq?=
- =?us-ascii?Q?fcQd83zjE6cM09bjSFFP1HrQ4bfADt/E5LlkyTLIVhmt34qcRWgKanglDyDJ?=
- =?us-ascii?Q?25FTurgDNiEIgFreFgT0S4ZC+/onWtPu8/KEM9cGo8j34fdrjMRdftgF/aM1?=
- =?us-ascii?Q?qPNlWRwJwuFJJKtvojsHSBYpdYHrgkfm56jJuUrYDIihFF4+tmxjRVuMliw9?=
- =?us-ascii?Q?Ij85oHVl9C2sk32ORFLTeXPPlSY9fkjkYOKLAijKi7O0rUHPpFLfPD5+U1Gp?=
- =?us-ascii?Q?EZurwhlp7aeiOX5lip2IJOkqlA14lo3JR5riKnVTIRebuRDQ3NqYSc8uKCVH?=
- =?us-ascii?Q?Gas36A9p1pnPI/dI1ZtJOxFelWETSgmERDp+6bisYK3R4MpS+76eB9/znLHi?=
- =?us-ascii?Q?hY8Rbeo30HMD8f5UAbYwSU0Kaz9y5NnLP7VCsl1c5UZAWRJBYwIM/UgIYYGe?=
- =?us-ascii?Q?GmYNn9E7zKMJHBAF/b8JePSjb26fZANtdToXKt8TIciXECApAc8VQN81a31h?=
- =?us-ascii?Q?uBmciFXdWyJ3FiQi8K8t02ON0HECxrcJLE5dl+iyV6iMRDReRJuzQY41j900?=
- =?us-ascii?Q?eOKezZgAhvHIStwOwm/rCMRdSh8N3oH4EKR8sunm?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TpzjrZHMFKfsadYOlnR0YH2g4AwcmTKuD248glWljZJ5QRsuy82U/LeWZw5A?=
+ =?us-ascii?Q?X5kgc2Khzvxg3qmv5TOcHtpatdW4C0rqS6bjIV4sl94gVKt6Ay2EL72UK0aL?=
+ =?us-ascii?Q?ralBqTZpZQn/wLQVdDMIu842++YsjIn89QLMtkYh9+UFOqmK6+k+X0TaEScp?=
+ =?us-ascii?Q?nkHFAy4SURb4nYtVOE+ddaDFe7QwNFctoPLcJfGh3ty2NhlMXsO/OuMCk7En?=
+ =?us-ascii?Q?N/RPqtRKCYvQsbQiSbahJyuFOzp1FXRLQwDPnq17LPci8FPK3E4DB2tatX4O?=
+ =?us-ascii?Q?Ila2JLxQqt4sujtPUKR03S5dDj2yWZTtW4JfrEpxbTb7jC5MqqD4DXI1QAYx?=
+ =?us-ascii?Q?tJ4vgvpbPR420QKxczf9gSwSO1Y/rzF4w0w092aiCstDurKt/EXoatKOLoND?=
+ =?us-ascii?Q?0B9cheu1liMqQUUWoXDWjjTjd7bsr0txg57F9jJ1gQ7WU6OnhFy7Z58KFz/l?=
+ =?us-ascii?Q?UsivB5frxZc1UCgVky+PuQXBJf0DJHyQkSj3tOEj20u0NvYSe9DIvlLT6c+Y?=
+ =?us-ascii?Q?iXfpfFYbCGbePQn0zpPRJD9jOy3SkKAfK5pP9Kd2pxeUaEbE8fg9fKg0ilxa?=
+ =?us-ascii?Q?shXnI7XYAG4GNIM9BErhwQwEcO4XatnpHV8oVSYLrmUUeeDJtgMZNLDeHf2t?=
+ =?us-ascii?Q?48sv6Lr9lT11iIdzjKRhwGi/rPUpE3SeodxCd0GSd9CGkE+EoCYNb6phjMsX?=
+ =?us-ascii?Q?8aFl78sICJj1T7HFuJhOgIktWHjT7Fdh5nwHQ9DiTHbqyeqd6TavMVaXf4bS?=
+ =?us-ascii?Q?ns4zAFCcOL+WOWL4DyrUQYbjtdezZqU6fWAM0cRUSOu5TEegUt1CooiBACU7?=
+ =?us-ascii?Q?PjyQB7Y6ltgx8leOqs5253pYFYw2gwCgJPyLKgRU7W9PTN/ZDRiEL7gNFIeX?=
+ =?us-ascii?Q?W1XWtCmaXCe4jWaGGmfzT3Q/+btkRQlZvvQXQizafjQu+wLC4MkEnxM8q+gE?=
+ =?us-ascii?Q?KrredUOM4jiNK/h9dwUT5WoR0Y9CBB6xOQeKJTnoPwYLX01Et9jG+zb1IC/3?=
+ =?us-ascii?Q?88+dEg2GrjtrIarcGbX2F7pNmFqb5sHQtmDQS8yvDCi0oDqKTuteQtkt6k3h?=
+ =?us-ascii?Q?cBfyWm8PjnJQmHgX2mBew1KRIhcjvXh1AVwxSQoQbHFAFLY905+yk1xjNLBj?=
+ =?us-ascii?Q?4jJkunB515iDR9mrOzypblDaE2hfhAXt5Qkt549faOZ8rMxjFGICSbdaDIFS?=
+ =?us-ascii?Q?FUvq9TjTSzvvtKRAZ/G7Lk50weVsK0LGHADP/OT0sbCZ/0gdGrfOBK6+zbFx?=
+ =?us-ascii?Q?ewbnznBTdcUJhHF/n9QxJ/GH8eMC6f0piyQBhiWcNHMkCwm2LFEKd60vEvv8?=
+ =?us-ascii?Q?IG+8/jQjTnlYfoZQ9NQcjVnDEyQ5AQe3ANLy7RYBQgj5BA4VpEkpUgKwM5Oz?=
+ =?us-ascii?Q?h7+ZcGmcPddOyoJr9Bisy2Hb251gEX+qc20CUsfeqrSiKV7CzRFK9a7FBaRE?=
+ =?us-ascii?Q?BuBUc8PQbnCJF7a2ENRPvRIEoMgNXve5ruoCananmPL+VuyWiECiBnsNnHTD?=
+ =?us-ascii?Q?2ITSToIuoGXZTeYHEZgZUVX30hjoKlLuZDHMxCwI1fDOcUyzCh/NpUfVJt9J?=
+ =?us-ascii?Q?K0FKxGgxYG7DjulWgvd5Ql2r5GSXyGDXZuVjsKhT?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e22c0c47-b15f-42ac-266b-08dd28778398
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71e7fde0-b4ee-493a-70a6-08dd2877882f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2024 02:13:13.3187 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2024 02:13:21.0563 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K8/s9U1s5Y5QMlEl84w586eAc6m5diCGgCJATOP6D66kdQQjM3fV9nXaJsWG447fbtfYT4dbCr4rbetuAI5ieQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: YD/viTF9jfi8f3yPVy6RFAs4Hk2w6E3Qmag5Fb7vJ5e0LMuENri3LdjcdC9DcCfVePJSu/wE82T+cHKGU3i4HQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9821
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -155,23 +154,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-i.MX8qxp Display Controller display engine consists of all processing
-units that operate in a display clock domain.  Add minimal feature
-support with FrameGen and TCon so that the engine can output display
-timings.  The FrameGen driver, TCon driver and display engine driver
-are components to be aggregated by a master registered in the upcoming
-DRM driver.
+i.MX8qxp Display Controller pixel engine consists of all processing
+units that operate in the AXI bus clock domain.  Add drivers for
+ConstFrame, ExtDst, FetchLayer, FetchWarp and LayerBlend units, as
+well as a pixel engine driver, so that two displays with primary
+planes can be supported.  The pixel engine driver and those unit
+drivers are components to be aggregated by a master registered in
+the upcoming DRM driver.
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Liu Ying <victor.liu@nxp.com>
 ---
 v8:
-* Get DE/FG/TC device instance numbers through register start addresses of the
-  devices, instead of compatible strings. (Dmitry)
-* s/shdld/shdload/ for DE IRQs. (Dmitry)
-* Drop id member from struct dc_de. (Dmitry)
-* Add dc_de_post_bind(), to avoid dependency on the component helper's way of
+* Get CF/ED/FL/FW/LB device instance numbers through register start addresses
+  of the devices, instead of compatible strings. (Dmitry)
+* s/shdld/shdload/ for ED IRQs. (Dmitry)
+* Add dc_pe_post_bind(), to avoid dependency on the component helper's way of
   implementing component binding order. (Dmitry)
+* Add dev_warn() to dc_lb_pec_dynamic_{prim,sec}_sel(). (Dmitry)
+* Drop lb_links[] and dc_fetchunit_all_fracs[] arrays. (Dmitry)
 
 v7:
 * Add kernel doc for struct dc_drm_device. (Dmitry)
@@ -183,450 +184,73 @@ v7:
 * Trivial tweaks.
 
 v6:
-* No change.
+* Fix build warning by expanding sizeof(fu->name) from 13 to 21.
+  (kernel test robot)
 
 v5:
-* Replace .remove_new with .remove in dc-{de,fg,tc}.c. (Uwe)
-* Select REGMAP and REGMAP_MMIO Kconfig options.
-* Fix commit message to state that display engine driver is a component driver
+* Replace .remove_new with .remove in dc-{cf,de,fl,fw,lb,pe}.c. (Uwe)
+* Fix commit message to state that pixel engine driver is a component driver
   instead of a master/aggregate driver.
 
 v4:
 * Use regmap to define register map for all registers. (Dmitry)
 * Use regmap APIs to access registers. (Dmitry)
 * Inline some small functions. (Dmitry)
-* Move dc_fg_displaymode() and dc_fg_panic_displaymode() function calls from
-  KMS routine to initialization stage. (Dmitry)
+* Move dc_lb_blendcontrol() function call from KMS routine to initialization
+  stage. (Dmitry)
 * Use devm_kzalloc() to drmm_kzalloc() to allocate dc_* data strutures.
 * Drop unnecessary private struct dc_*_priv.
 * Set suppress_bind_attrs driver flag to true to avoid unnecessary sys
   interfaces to bind/unbind the drivers.
+* Make some fetch unit operations be aware of fractional fetch unit index(0-7).
 
 v3:
 * No change.
 
 v2:
 * Use OF alias id to get instance id.
-* Add dev member to struct dc_tc.
 
- drivers/gpu/drm/imx/Kconfig     |   1 +
- drivers/gpu/drm/imx/Makefile    |   1 +
- drivers/gpu/drm/imx/dc/Kconfig  |   7 +
- drivers/gpu/drm/imx/dc/Makefile |   5 +
- drivers/gpu/drm/imx/dc/dc-de.c  | 177 +++++++++++++++
- drivers/gpu/drm/imx/dc/dc-de.h  |  56 +++++
- drivers/gpu/drm/imx/dc/dc-drv.c |  32 +++
- drivers/gpu/drm/imx/dc/dc-drv.h |  57 +++++
- drivers/gpu/drm/imx/dc/dc-fg.c  | 376 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/imx/dc/dc-tc.c  | 141 ++++++++++++
- 10 files changed, 853 insertions(+)
- create mode 100644 drivers/gpu/drm/imx/dc/Kconfig
- create mode 100644 drivers/gpu/drm/imx/dc/Makefile
- create mode 100644 drivers/gpu/drm/imx/dc/dc-de.c
- create mode 100644 drivers/gpu/drm/imx/dc/dc-de.h
- create mode 100644 drivers/gpu/drm/imx/dc/dc-drv.c
- create mode 100644 drivers/gpu/drm/imx/dc/dc-drv.h
- create mode 100644 drivers/gpu/drm/imx/dc/dc-fg.c
- create mode 100644 drivers/gpu/drm/imx/dc/dc-tc.c
+ drivers/gpu/drm/imx/dc/Makefile |   3 +-
+ drivers/gpu/drm/imx/dc/dc-cf.c  | 172 +++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-drv.c |   6 +
+ drivers/gpu/drm/imx/dc/dc-drv.h |  22 +++
+ drivers/gpu/drm/imx/dc/dc-ed.c  | 288 ++++++++++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-fl.c  | 185 ++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-fu.c  | 258 +++++++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-fu.h  | 129 +++++++++++++
+ drivers/gpu/drm/imx/dc/dc-fw.c  | 222 ++++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-lb.c  | 325 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-pe.c  | 158 ++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-pe.h  | 101 ++++++++++
+ 12 files changed, 1868 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-cf.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-ed.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-fl.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-fu.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-fu.h
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-fw.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-lb.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-pe.c
+ create mode 100644 drivers/gpu/drm/imx/dc/dc-pe.h
 
-diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
-index 03535a15dd8f..3e8c6edbc17c 100644
---- a/drivers/gpu/drm/imx/Kconfig
-+++ b/drivers/gpu/drm/imx/Kconfig
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
-+source "drivers/gpu/drm/imx/dc/Kconfig"
- source "drivers/gpu/drm/imx/dcss/Kconfig"
- source "drivers/gpu/drm/imx/ipuv3/Kconfig"
- source "drivers/gpu/drm/imx/lcdc/Kconfig"
-diff --git a/drivers/gpu/drm/imx/Makefile b/drivers/gpu/drm/imx/Makefile
-index 86f38e7c7422..c7b317640d71 100644
---- a/drivers/gpu/drm/imx/Makefile
-+++ b/drivers/gpu/drm/imx/Makefile
+diff --git a/drivers/gpu/drm/imx/dc/Makefile b/drivers/gpu/drm/imx/dc/Makefile
+index 56de82d53d4d..2942ae6fd5bd 100644
+--- a/drivers/gpu/drm/imx/dc/Makefile
++++ b/drivers/gpu/drm/imx/dc/Makefile
 @@ -1,5 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0
  
-+obj-$(CONFIG_DRM_IMX8_DC) += dc/
- obj-$(CONFIG_DRM_IMX_DCSS) += dcss/
- obj-$(CONFIG_DRM_IMX) += ipuv3/
- obj-$(CONFIG_DRM_IMX_LCDC) += lcdc/
-diff --git a/drivers/gpu/drm/imx/dc/Kconfig b/drivers/gpu/drm/imx/dc/Kconfig
+-imx8-dc-drm-objs := dc-de.o dc-drv.o dc-fg.o dc-tc.o
++imx8-dc-drm-objs := dc-cf.o dc-de.o dc-drv.o dc-ed.o dc-fg.o dc-fl.o dc-fu.o \
++		    dc-fw.o dc-lb.o dc-pe.o dc-tc.o
+ 
+ obj-$(CONFIG_DRM_IMX8_DC) += imx8-dc-drm.o
+diff --git a/drivers/gpu/drm/imx/dc/dc-cf.c b/drivers/gpu/drm/imx/dc/dc-cf.c
 new file mode 100644
-index 000000000000..e1ef76d82830
+index 000000000000..2f077161e912
 --- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/Kconfig
-@@ -0,0 +1,7 @@
-+config DRM_IMX8_DC
-+	tristate "Freescale i.MX8 Display Controller Graphics"
-+	depends on DRM && COMMON_CLK && OF && (ARCH_MXC || COMPILE_TEST)
-+	select REGMAP
-+	select REGMAP_MMIO
-+	help
-+	  enable Freescale i.MX8 Display Controller(DC) graphics support
-diff --git a/drivers/gpu/drm/imx/dc/Makefile b/drivers/gpu/drm/imx/dc/Makefile
-new file mode 100644
-index 000000000000..56de82d53d4d
---- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+imx8-dc-drm-objs := dc-de.o dc-drv.o dc-fg.o dc-tc.o
-+
-+obj-$(CONFIG_DRM_IMX8_DC) += imx8-dc-drm.o
-diff --git a/drivers/gpu/drm/imx/dc/dc-de.c b/drivers/gpu/drm/imx/dc/dc-de.c
-new file mode 100644
-index 000000000000..5a3125596fdf
---- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/dc-de.c
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2024 NXP
-+ */
-+
-+#include <linux/component.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/of_platform.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+
-+#include "dc-de.h"
-+#include "dc-drv.h"
-+
-+#define POLARITYCTRL		0xc
-+#define  POLEN_HIGH		BIT(2)
-+
-+static const struct dc_subdev_info dc_de_info[] = {
-+	{ .reg_start = 0x5618b400, .id = 0, },
-+	{ .reg_start = 0x5618b420, .id = 1, },
-+};
-+
-+static const struct regmap_range dc_de_regmap_ranges[] = {
-+	regmap_reg_range(POLARITYCTRL, POLARITYCTRL),
-+};
-+
-+static const struct regmap_access_table dc_de_regmap_access_table = {
-+	.yes_ranges = dc_de_regmap_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(dc_de_regmap_ranges),
-+};
-+
-+static const struct regmap_config dc_de_top_regmap_config = {
-+	.name = "top",
-+	.reg_bits = 32,
-+	.reg_stride = 4,
-+	.val_bits = 32,
-+	.fast_io = true,
-+	.wr_table = &dc_de_regmap_access_table,
-+	.rd_table = &dc_de_regmap_access_table,
-+	.max_register = POLARITYCTRL,
-+};
-+
-+static inline void dc_dec_init(struct dc_de *de)
-+{
-+	regmap_write_bits(de->reg_top, POLARITYCTRL, POLARITYCTRL, POLEN_HIGH);
-+}
-+
-+static int dc_de_bind(struct device *dev, struct device *master, void *data)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct dc_drm_device *dc_drm = data;
-+	struct resource *res_top;
-+	void __iomem *base_top;
-+	struct dc_de *de;
-+	int ret, id;
-+
-+	de = devm_kzalloc(dev, sizeof(*de), GFP_KERNEL);
-+	if (!de)
-+		return -ENOMEM;
-+
-+	base_top = devm_platform_get_and_ioremap_resource(pdev, 0, &res_top);
-+	if (IS_ERR(base_top))
-+		return PTR_ERR(base_top);
-+
-+	de->reg_top = devm_regmap_init_mmio(dev, base_top,
-+					    &dc_de_top_regmap_config);
-+	if (IS_ERR(de->reg_top))
-+		return PTR_ERR(de->reg_top);
-+
-+	de->irq_shdload = platform_get_irq_byname(pdev, "shdload");
-+	if (de->irq_shdload < 0)
-+		return de->irq_shdload;
-+
-+	de->irq_framecomplete = platform_get_irq_byname(pdev, "framecomplete");
-+	if (de->irq_framecomplete < 0)
-+		return de->irq_framecomplete;
-+
-+	de->irq_seqcomplete = platform_get_irq_byname(pdev, "seqcomplete");
-+	if (de->irq_seqcomplete < 0)
-+		return de->irq_seqcomplete;
-+
-+	de->dev = dev;
-+
-+	dev_set_drvdata(dev, de);
-+
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		return ret;
-+
-+	id = dc_subdev_get_id(dc_de_info, ARRAY_SIZE(dc_de_info), res_top);
-+	if (id < 0) {
-+		dev_err(dev, "failed to get instance number: %d\n", id);
-+		return id;
-+	}
-+
-+	dc_drm->de[id] = de;
-+
-+	return 0;
-+}
-+
-+/*
-+ * It's possible to get the child device pointers from the child component
-+ * bind callbacks, but it depends on the component helper behavior to bind
-+ * the display engine component first.  To avoid the dependency, post bind
-+ * to get the pointers from dc_drm in a safe manner.
-+ */
-+void dc_de_post_bind(struct dc_drm_device *dc_drm)
-+{
-+	struct dc_de *de;
-+	int i;
-+
-+	for (i = 0; i < DC_DISPLAYS; i++) {
-+		de = dc_drm->de[i];
-+		de->fg = dc_drm->fg[i];
-+		de->tc = dc_drm->tc[i];
-+	}
-+}
-+
-+static const struct component_ops dc_de_ops = {
-+	.bind = dc_de_bind,
-+};
-+
-+static int dc_de_probe(struct platform_device *pdev)
-+{
-+	int ret;
-+
-+	ret = devm_of_platform_populate(&pdev->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = component_add(&pdev->dev, &dc_de_ops);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "failed to add component\n");
-+
-+	return 0;
-+}
-+
-+static void dc_de_remove(struct platform_device *pdev)
-+{
-+	component_del(&pdev->dev, &dc_de_ops);
-+}
-+
-+static int dc_de_runtime_resume(struct device *dev)
-+{
-+	struct dc_de *de = dev_get_drvdata(dev);
-+
-+	dc_dec_init(de);
-+	dc_fg_init(de->fg);
-+	dc_tc_init(de->tc);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops dc_de_pm_ops = {
-+	RUNTIME_PM_OPS(NULL, dc_de_runtime_resume, NULL)
-+};
-+
-+static const struct of_device_id dc_de_dt_ids[] = {
-+	{ .compatible = "fsl,imx8qxp-dc-display-engine" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, dc_de_dt_ids);
-+
-+struct platform_driver dc_de_driver = {
-+	.probe = dc_de_probe,
-+	.remove = dc_de_remove,
-+	.driver = {
-+		.name = "imx8-dc-display-engine",
-+		.suppress_bind_attrs = true,
-+		.of_match_table = dc_de_dt_ids,
-+		.pm = pm_sleep_ptr(&dc_de_pm_ops),
-+	},
-+};
-diff --git a/drivers/gpu/drm/imx/dc/dc-de.h b/drivers/gpu/drm/imx/dc/dc-de.h
-new file mode 100644
-index 000000000000..5dd311cde076
---- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/dc-de.h
-@@ -0,0 +1,56 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Copyright 2024 NXP
-+ */
-+
-+#ifndef __DC_DISPLAY_ENGINE_H__
-+#define __DC_DISPLAY_ENGINE_H__
-+
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/regmap.h>
-+#include <drm/drm_modes.h>
-+
-+#define DC_DISPLAYS	2
-+
-+struct dc_fg {
-+	struct device *dev;
-+	struct regmap *reg;
-+	struct clk *clk_disp;
-+};
-+
-+struct dc_tc {
-+	struct device *dev;
-+	struct regmap *reg;
-+};
-+
-+struct dc_de {
-+	struct device *dev;
-+	struct regmap *reg_top;
-+	struct dc_fg *fg;
-+	struct dc_tc *tc;
-+	int irq_shdload;
-+	int irq_framecomplete;
-+	int irq_seqcomplete;
-+};
-+
-+/* Frame Generator Unit */
-+void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m);
-+void dc_fg_enable(struct dc_fg *fg);
-+void dc_fg_disable(struct dc_fg *fg);
-+void dc_fg_shdtokgen(struct dc_fg *fg);
-+u32 dc_fg_get_frame_index(struct dc_fg *fg);
-+u32 dc_fg_get_line_index(struct dc_fg *fg);
-+bool dc_fg_wait_for_frame_index_moving(struct dc_fg *fg);
-+bool dc_fg_secondary_requests_to_read_empty_fifo(struct dc_fg *fg);
-+void dc_fg_secondary_clear_channel_status(struct dc_fg *fg);
-+int dc_fg_wait_for_secondary_syncup(struct dc_fg *fg);
-+void dc_fg_enable_clock(struct dc_fg *fg);
-+void dc_fg_disable_clock(struct dc_fg *fg);
-+enum drm_mode_status dc_fg_check_clock(struct dc_fg *fg, int clk_khz);
-+void dc_fg_init(struct dc_fg *fg);
-+
-+/* Timing Controller Unit */
-+void dc_tc_init(struct dc_tc *tc);
-+
-+#endif /* __DC_DISPLAY_ENGINE_H__ */
-diff --git a/drivers/gpu/drm/imx/dc/dc-drv.c b/drivers/gpu/drm/imx/dc/dc-drv.c
-new file mode 100644
-index 000000000000..e5910a82dd4d
---- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/dc-drv.c
-@@ -0,0 +1,32 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Copyright 2024 NXP
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+
-+#include "dc-drv.h"
-+
-+static struct platform_driver * const dc_drivers[] = {
-+	&dc_de_driver,
-+	&dc_fg_driver,
-+	&dc_tc_driver,
-+};
-+
-+static int __init dc_drm_init(void)
-+{
-+	return platform_register_drivers(dc_drivers, ARRAY_SIZE(dc_drivers));
-+}
-+
-+static void __exit dc_drm_exit(void)
-+{
-+	platform_unregister_drivers(dc_drivers, ARRAY_SIZE(dc_drivers));
-+}
-+
-+module_init(dc_drm_init);
-+module_exit(dc_drm_exit);
-+
-+MODULE_DESCRIPTION("i.MX8 Display Controller DRM Driver");
-+MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/gpu/drm/imx/dc/dc-drv.h b/drivers/gpu/drm/imx/dc/dc-drv.h
-new file mode 100644
-index 000000000000..65ae9c7c3694
---- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/dc-drv.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * Copyright 2024 NXP
-+ */
-+
-+#ifndef __DC_DRV_H__
-+#define __DC_DRV_H__
-+
-+#include <linux/ioport.h>
-+#include <linux/platform_device.h>
-+#include <linux/types.h>
-+
-+#include <drm/drm_device.h>
-+
-+#include "dc-de.h"
-+
-+/**
-+ * struct dc_drm_device - DC specific drm_device
-+ */
-+struct dc_drm_device {
-+	/** @base: base drm_device structure */
-+	struct drm_device base;
-+	/** @de: display engine list */
-+	struct dc_de *de[DC_DISPLAYS];
-+	/** @fg: framegen list */
-+	struct dc_fg *fg[DC_DISPLAYS];
-+	/** @tc: tcon list */
-+	struct dc_tc *tc[DC_DISPLAYS];
-+};
-+
-+struct dc_subdev_info {
-+	resource_size_t reg_start;
-+	int id;
-+};
-+
-+extern struct platform_driver dc_de_driver;
-+extern struct platform_driver dc_fg_driver;
-+extern struct platform_driver dc_tc_driver;
-+
-+static inline int dc_subdev_get_id(const struct dc_subdev_info *info,
-+				   int info_cnt, struct resource *res)
-+{
-+	int i;
-+
-+	if (!res)
-+		return -EINVAL;
-+
-+	for (i = 0; i < info_cnt; i++)
-+		if (info[i].reg_start == res->start)
-+			return info[i].id;
-+
-+	return -EINVAL;
-+}
-+
-+void dc_de_post_bind(struct dc_drm_device *dc_drm);
-+
-+#endif /* __DC_DRV_H__ */
-diff --git a/drivers/gpu/drm/imx/dc/dc-fg.c b/drivers/gpu/drm/imx/dc/dc-fg.c
-new file mode 100644
-index 000000000000..7f6c1852bf72
---- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/dc-fg.c
-@@ -0,0 +1,376 @@
++++ b/drivers/gpu/drm/imx/dc/dc-cf.c
+@@ -0,0 +1,172 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Copyright 2024 NXP
@@ -634,348 +258,144 @@ index 000000000000..7f6c1852bf72
 +
 +#include <linux/bitfield.h>
 +#include <linux/bits.h>
-+#include <linux/clk.h>
 +#include <linux/component.h>
-+#include <linux/device.h>
-+#include <linux/jiffies.h>
++#include <linux/ioport.h>
 +#include <linux/mod_devicetable.h>
 +#include <linux/module.h>
 +#include <linux/platform_device.h>
 +#include <linux/regmap.h>
-+#include <linux/units.h>
 +
-+#include <drm/drm_modes.h>
-+
-+#include "dc-de.h"
 +#include "dc-drv.h"
++#include "dc-pe.h"
 +
-+#define FGSTCTRL		0x8
-+#define  FGSYNCMODE_MASK	GENMASK(2, 1)
-+#define  FGSYNCMODE(x)		FIELD_PREP(FGSYNCMODE_MASK, (x))
-+#define  SHDEN			BIT(0)
++#define STATICCONTROL		0x8
 +
-+#define HTCFG1			0xc
-+#define  HTOTAL(x)		FIELD_PREP(GENMASK(29, 16), ((x) - 1))
-+#define  HACT(x)		FIELD_PREP(GENMASK(13, 0), (x))
++#define FRAMEDIMENSIONS		0xc
++#define  HEIGHT(x)		FIELD_PREP(GENMASK(29, 16), ((x) - 1))
++#define  WIDTH(x)		FIELD_PREP(GENMASK(13, 0), ((x) - 1))
 +
-+#define HTCFG2			0x10
-+#define  HSEN			BIT(31)
-+#define  HSBP(x)		FIELD_PREP(GENMASK(29, 16), ((x) - 1))
-+#define  HSYNC(x)		FIELD_PREP(GENMASK(13, 0), ((x) - 1))
++#define CONSTANTCOLOR		0x10
++#define  BLUE(x)		FIELD_PREP(GENMASK(15, 8), (x))
 +
-+#define VTCFG1			0x14
-+#define  VTOTAL(x)		FIELD_PREP(GENMASK(29, 16), ((x) - 1))
-+#define  VACT(x)		FIELD_PREP(GENMASK(13, 0), (x))
-+
-+#define VTCFG2			0x18
-+#define  VSEN			BIT(31)
-+#define  VSBP(x)		FIELD_PREP(GENMASK(29, 16), ((x) - 1))
-+#define  VSYNC(x)		FIELD_PREP(GENMASK(13, 0), ((x) - 1))
-+
-+#define PKICKCONFIG		0x2c
-+#define SKICKCONFIG		0x30
-+#define  EN			BIT(31)
-+#define  ROW(x)			FIELD_PREP(GENMASK(29, 16), (x))
-+#define  COL(x)			FIELD_PREP(GENMASK(13, 0), (x))
-+
-+#define PACFG			0x54
-+#define SACFG			0x58
-+#define  STARTY(x)		FIELD_PREP(GENMASK(29, 16), ((x) + 1))
-+#define  STARTX(x)		FIELD_PREP(GENMASK(13, 0), ((x) + 1))
-+
-+#define FGINCTRL		0x5c
-+#define FGINCTRLPANIC		0x60
-+#define  FGDM_MASK		GENMASK(2, 0)
-+#define  ENPRIMALPHA		BIT(3)
-+#define  ENSECALPHA		BIT(4)
-+
-+#define FGCCR			0x64
-+#define  CCGREEN(x)		FIELD_PREP(GENMASK(19, 10), (x))
-+
-+#define FGENABLE		0x68
-+#define  FGEN			BIT(0)
-+
-+#define FGSLR			0x6c
-+#define  SHDTOKGEN		BIT(0)
-+
-+#define FGTIMESTAMP		0x74
-+#define  FRAMEINDEX(x)		FIELD_GET(GENMASK(31, 14), (x))
-+#define  LINEINDEX(x)		FIELD_GET(GENMASK(13, 0), (x))
-+
-+#define FGCHSTAT		0x78
-+#define  SECSYNCSTAT		BIT(24)
-+#define  SFIFOEMPTY		BIT(16)
-+
-+#define FGCHSTATCLR		0x7c
-+#define  CLRSECSTAT		BIT(16)
-+
-+enum dc_fg_syncmode {
-+	FG_SYNCMODE_OFF,	/* No side-by-side synchronization. */
++static const struct dc_subdev_info dc_cf_info[] = {
++	{ .reg_start = 0x56180960, .id = 0, },
++	{ .reg_start = 0x561809e0, .id = 1, },
++	{ .reg_start = 0x561809a0, .id = 4, },
++	{ .reg_start = 0x56180a20, .id = 5, },
 +};
 +
-+enum dc_fg_dm {
-+	FG_DM_CONSTCOL = 0x1,	/* Constant Color Background is shown. */
-+	FG_DM_SEC_ON_TOP = 0x5,	/* Both inputs overlaid with secondary on top. */
++static const struct regmap_range dc_cf_regmap_ranges[] = {
++	regmap_reg_range(STATICCONTROL, CONSTANTCOLOR),
 +};
 +
-+static const struct dc_subdev_info dc_fg_info[] = {
-+	{ .reg_start = 0x5618b800, .id = 0, },
-+	{ .reg_start = 0x5618d400, .id = 1, },
++static const struct regmap_access_table dc_cf_regmap_access_table = {
++	.yes_ranges = dc_cf_regmap_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_cf_regmap_ranges),
 +};
 +
-+static const struct regmap_range dc_fg_regmap_write_ranges[] = {
-+	regmap_reg_range(FGSTCTRL, VTCFG2),
-+	regmap_reg_range(PKICKCONFIG, SKICKCONFIG),
-+	regmap_reg_range(PACFG, FGSLR),
-+	regmap_reg_range(FGCHSTATCLR, FGCHSTATCLR),
-+};
-+
-+static const struct regmap_range dc_fg_regmap_read_ranges[] = {
-+	regmap_reg_range(FGSTCTRL, VTCFG2),
-+	regmap_reg_range(PKICKCONFIG, SKICKCONFIG),
-+	regmap_reg_range(PACFG, FGENABLE),
-+	regmap_reg_range(FGTIMESTAMP, FGCHSTAT),
-+};
-+
-+static const struct regmap_access_table dc_fg_regmap_write_table = {
-+	.yes_ranges = dc_fg_regmap_write_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(dc_fg_regmap_write_ranges),
-+};
-+
-+static const struct regmap_access_table dc_fg_regmap_read_table = {
-+	.yes_ranges = dc_fg_regmap_read_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(dc_fg_regmap_read_ranges),
-+};
-+
-+static const struct regmap_config dc_fg_regmap_config = {
++static const struct regmap_config dc_cf_cfg_regmap_config = {
++	.name = "cfg",
 +	.reg_bits = 32,
 +	.reg_stride = 4,
 +	.val_bits = 32,
 +	.fast_io = true,
-+	.wr_table = &dc_fg_regmap_write_table,
-+	.rd_table = &dc_fg_regmap_read_table,
-+	.max_register = FGCHSTATCLR,
++	.wr_table = &dc_cf_regmap_access_table,
++	.rd_table = &dc_cf_regmap_access_table,
++	.max_register = CONSTANTCOLOR,
 +};
 +
-+static inline void dc_fg_enable_shden(struct dc_fg *fg)
++static inline void dc_cf_enable_shden(struct dc_cf *cf)
 +{
-+	regmap_write_bits(fg->reg, FGSTCTRL, SHDEN, SHDEN);
++	regmap_write(cf->reg_cfg, STATICCONTROL, SHDEN);
 +}
 +
-+static inline void dc_fg_syncmode(struct dc_fg *fg, enum dc_fg_syncmode mode)
++enum dc_link_id dc_cf_get_link_id(struct dc_cf *cf)
 +{
-+	regmap_write_bits(fg->reg, FGSTCTRL, FGSYNCMODE_MASK, FGSYNCMODE(mode));
++	return cf->link;
 +}
 +
-+void dc_fg_cfg_videomode(struct dc_fg *fg, struct drm_display_mode *m)
++void dc_cf_framedimensions(struct dc_cf *cf, unsigned int w,
++			   unsigned int h)
 +{
-+	u32 hact, htotal, hsync, hsbp;
-+	u32 vact, vtotal, vsync, vsbp;
-+	u32 kick_row, kick_col;
-+	int ret;
-+
-+	hact = m->crtc_hdisplay;
-+	htotal = m->crtc_htotal;
-+	hsync = m->crtc_hsync_end - m->crtc_hsync_start;
-+	hsbp = m->crtc_htotal - m->crtc_hsync_start;
-+
-+	vact = m->crtc_vdisplay;
-+	vtotal = m->crtc_vtotal;
-+	vsync = m->crtc_vsync_end - m->crtc_vsync_start;
-+	vsbp = m->crtc_vtotal - m->crtc_vsync_start;
-+
-+	/* video mode */
-+	regmap_write(fg->reg, HTCFG1, HACT(hact)   | HTOTAL(htotal));
-+	regmap_write(fg->reg, HTCFG2, HSYNC(hsync) | HSBP(hsbp) | HSEN);
-+	regmap_write(fg->reg, VTCFG1, VACT(vact)   | VTOTAL(vtotal));
-+	regmap_write(fg->reg, VTCFG2, VSYNC(vsync) | VSBP(vsbp) | VSEN);
-+
-+	kick_col = hact + 1;
-+	kick_row = vact;
-+
-+	/* pkickconfig */
-+	regmap_write(fg->reg, PKICKCONFIG, COL(kick_col) | ROW(kick_row) | EN);
-+
-+	/* skikconfig */
-+	regmap_write(fg->reg, SKICKCONFIG, COL(kick_col) | ROW(kick_row) | EN);
-+
-+	/* primary and secondary area position configuration */
-+	regmap_write(fg->reg, PACFG, STARTX(0) | STARTY(0));
-+	regmap_write(fg->reg, SACFG, STARTX(0) | STARTY(0));
-+
-+	/* alpha */
-+	regmap_write_bits(fg->reg, FGINCTRL,      ENPRIMALPHA | ENSECALPHA, 0);
-+	regmap_write_bits(fg->reg, FGINCTRLPANIC, ENPRIMALPHA | ENSECALPHA, 0);
-+
-+	/* constant color is green(used in panic mode)  */
-+	regmap_write(fg->reg, FGCCR, CCGREEN(0x3ff));
-+
-+	ret = clk_set_rate(fg->clk_disp, m->clock * HZ_PER_KHZ);
-+	if (ret < 0)
-+		dev_err(fg->dev, "failed to set display clock rate: %d\n", ret);
++	regmap_write(cf->reg_cfg, FRAMEDIMENSIONS, WIDTH(w) | HEIGHT(h));
 +}
 +
-+static inline void dc_fg_displaymode(struct dc_fg *fg, enum dc_fg_dm mode)
++void dc_cf_constantcolor_black(struct dc_cf *cf)
 +{
-+	regmap_write_bits(fg->reg, FGINCTRL, FGDM_MASK, mode);
++	regmap_write(cf->reg_cfg, CONSTANTCOLOR, 0);
 +}
 +
-+static inline void dc_fg_panic_displaymode(struct dc_fg *fg, enum dc_fg_dm mode)
++void dc_cf_constantcolor_blue(struct dc_cf *cf)
 +{
-+	regmap_write_bits(fg->reg, FGINCTRLPANIC, FGDM_MASK, mode);
++	regmap_write(cf->reg_cfg, CONSTANTCOLOR, BLUE(0xff));
 +}
 +
-+void dc_fg_enable(struct dc_fg *fg)
++void dc_cf_init(struct dc_cf *cf)
 +{
-+	regmap_write(fg->reg, FGENABLE, FGEN);
++	dc_cf_enable_shden(cf);
 +}
 +
-+void dc_fg_disable(struct dc_fg *fg)
-+{
-+	regmap_write(fg->reg, FGENABLE, 0);
-+}
-+
-+void dc_fg_shdtokgen(struct dc_fg *fg)
-+{
-+	regmap_write(fg->reg, FGSLR, SHDTOKGEN);
-+}
-+
-+u32 dc_fg_get_frame_index(struct dc_fg *fg)
-+{
-+	u32 val;
-+
-+	regmap_read(fg->reg, FGTIMESTAMP, &val);
-+
-+	return FRAMEINDEX(val);
-+}
-+
-+u32 dc_fg_get_line_index(struct dc_fg *fg)
-+{
-+	u32 val;
-+
-+	regmap_read(fg->reg, FGTIMESTAMP, &val);
-+
-+	return LINEINDEX(val);
-+}
-+
-+bool dc_fg_wait_for_frame_index_moving(struct dc_fg *fg)
-+{
-+	unsigned long timeout = jiffies + msecs_to_jiffies(100);
-+	u32 frame_index, last_frame_index;
-+
-+	frame_index = dc_fg_get_frame_index(fg);
-+	do {
-+		last_frame_index = frame_index;
-+		frame_index = dc_fg_get_frame_index(fg);
-+	} while (last_frame_index == frame_index &&
-+		 time_before(jiffies, timeout));
-+
-+	return last_frame_index != frame_index;
-+}
-+
-+bool dc_fg_secondary_requests_to_read_empty_fifo(struct dc_fg *fg)
-+{
-+	u32 val;
-+
-+	regmap_read(fg->reg, FGCHSTAT, &val);
-+
-+	return !!(val & SFIFOEMPTY);
-+}
-+
-+void dc_fg_secondary_clear_channel_status(struct dc_fg *fg)
-+{
-+	regmap_write(fg->reg, FGCHSTATCLR, CLRSECSTAT);
-+}
-+
-+int dc_fg_wait_for_secondary_syncup(struct dc_fg *fg)
-+{
-+	unsigned int val;
-+
-+	return regmap_read_poll_timeout(fg->reg, FGCHSTAT, val,
-+					val & SECSYNCSTAT, 5, 100000);
-+}
-+
-+void dc_fg_enable_clock(struct dc_fg *fg)
-+{
-+	int ret;
-+
-+	ret = clk_prepare_enable(fg->clk_disp);
-+	if (ret)
-+		dev_err(fg->dev, "failed to enable display clock: %d\n", ret);
-+}
-+
-+void dc_fg_disable_clock(struct dc_fg *fg)
-+{
-+	clk_disable_unprepare(fg->clk_disp);
-+}
-+
-+enum drm_mode_status dc_fg_check_clock(struct dc_fg *fg, int clk_khz)
-+{
-+	unsigned long rounded_rate;
-+
-+	rounded_rate = clk_round_rate(fg->clk_disp, clk_khz * HZ_PER_KHZ);
-+
-+	if (rounded_rate != clk_khz * HZ_PER_KHZ)
-+		return MODE_NOCLOCK;
-+
-+	return MODE_OK;
-+}
-+
-+void dc_fg_init(struct dc_fg *fg)
-+{
-+	dc_fg_enable_shden(fg);
-+	dc_fg_syncmode(fg, FG_SYNCMODE_OFF);
-+	dc_fg_displaymode(fg, FG_DM_SEC_ON_TOP);
-+	dc_fg_panic_displaymode(fg, FG_DM_CONSTCOL);
-+}
-+
-+static int dc_fg_bind(struct device *dev, struct device *master, void *data)
++static int dc_cf_bind(struct device *dev, struct device *master, void *data)
 +{
 +	struct platform_device *pdev = to_platform_device(dev);
 +	struct dc_drm_device *dc_drm = data;
-+	struct resource *res;
-+	void __iomem *base;
-+	struct dc_fg *fg;
++	struct resource *res_pec;
++	void __iomem *base_cfg;
++	struct dc_cf *cf;
 +	int id;
 +
-+	fg = devm_kzalloc(dev, sizeof(*fg), GFP_KERNEL);
-+	if (!fg)
++	cf = devm_kzalloc(dev, sizeof(*cf), GFP_KERNEL);
++	if (!cf)
 +		return -ENOMEM;
 +
-+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
++	res_pec = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 +
-+	fg->reg = devm_regmap_init_mmio(dev, base, &dc_fg_regmap_config);
-+	if (IS_ERR(fg->reg))
-+		return PTR_ERR(fg->reg);
++	base_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
++	if (IS_ERR(base_cfg))
++		return PTR_ERR(base_cfg);
 +
-+	fg->clk_disp = devm_clk_get(dev, NULL);
-+	if (IS_ERR(fg->clk_disp))
-+		return dev_err_probe(dev, PTR_ERR(fg->clk_disp),
-+				     "failed to get display clock\n");
++	cf->reg_cfg = devm_regmap_init_mmio(dev, base_cfg,
++					    &dc_cf_cfg_regmap_config);
++	if (IS_ERR(cf->reg_cfg))
++		return PTR_ERR(cf->reg_cfg);
 +
-+	id = dc_subdev_get_id(dc_fg_info, ARRAY_SIZE(dc_fg_info), res);
++	id = dc_subdev_get_id(dc_cf_info, ARRAY_SIZE(dc_cf_info), res_pec);
 +	if (id < 0) {
 +		dev_err(dev, "failed to get instance number: %d\n", id);
 +		return id;
 +	}
 +
-+	fg->dev = dev;
-+	dc_drm->fg[id] = fg;
++	switch (id) {
++	case 0:
++		cf->link = LINK_ID_CONSTFRAME0;
++		dc_drm->cf_cont[0] = cf;
++		break;
++	case 1:
++		cf->link = LINK_ID_CONSTFRAME1;
++		dc_drm->cf_cont[1] = cf;
++		break;
++	case 4:
++		cf->link = LINK_ID_CONSTFRAME4;
++		dc_drm->cf_safe[0] = cf;
++		break;
++	case 5:
++		cf->link = LINK_ID_CONSTFRAME5;
++		dc_drm->cf_safe[1] = cf;
++		break;
++	}
 +
 +	return 0;
 +}
 +
-+static const struct component_ops dc_fg_ops = {
-+	.bind = dc_fg_bind,
++static const struct component_ops dc_cf_ops = {
++	.bind = dc_cf_bind,
 +};
 +
-+static int dc_fg_probe(struct platform_device *pdev)
++static int dc_cf_probe(struct platform_device *pdev)
 +{
 +	int ret;
 +
-+	ret = component_add(&pdev->dev, &dc_fg_ops);
++	ret = component_add(&pdev->dev, &dc_cf_ops);
 +	if (ret)
 +		return dev_err_probe(&pdev->dev, ret,
 +				     "failed to add component\n");
@@ -983,32 +403,994 @@ index 000000000000..7f6c1852bf72
 +	return 0;
 +}
 +
-+static void dc_fg_remove(struct platform_device *pdev)
++static void dc_cf_remove(struct platform_device *pdev)
 +{
-+	component_del(&pdev->dev, &dc_fg_ops);
++	component_del(&pdev->dev, &dc_cf_ops);
 +}
 +
-+static const struct of_device_id dc_fg_dt_ids[] = {
-+	{ .compatible = "fsl,imx8qxp-dc-framegen" },
++static const struct of_device_id dc_cf_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-dc-constframe" },
 +	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(of, dc_fg_dt_ids);
++MODULE_DEVICE_TABLE(of, dc_cf_dt_ids);
 +
-+struct platform_driver dc_fg_driver = {
-+	.probe = dc_fg_probe,
-+	.remove = dc_fg_remove,
++struct platform_driver dc_cf_driver = {
++	.probe = dc_cf_probe,
++	.remove = dc_cf_remove,
 +	.driver = {
-+		.name = "imx8-dc-framegen",
++		.name = "imx8-dc-constframe",
 +		.suppress_bind_attrs = true,
-+		.of_match_table = dc_fg_dt_ids,
++		.of_match_table = dc_cf_dt_ids,
 +	},
 +};
-diff --git a/drivers/gpu/drm/imx/dc/dc-tc.c b/drivers/gpu/drm/imx/dc/dc-tc.c
+diff --git a/drivers/gpu/drm/imx/dc/dc-drv.c b/drivers/gpu/drm/imx/dc/dc-drv.c
+index e5910a82dd4d..7c64acc863ad 100644
+--- a/drivers/gpu/drm/imx/dc/dc-drv.c
++++ b/drivers/gpu/drm/imx/dc/dc-drv.c
+@@ -9,8 +9,14 @@
+ #include "dc-drv.h"
+ 
+ static struct platform_driver * const dc_drivers[] = {
++	&dc_cf_driver,
+ 	&dc_de_driver,
++	&dc_ed_driver,
+ 	&dc_fg_driver,
++	&dc_fl_driver,
++	&dc_fw_driver,
++	&dc_lb_driver,
++	&dc_pe_driver,
+ 	&dc_tc_driver,
+ };
+ 
+diff --git a/drivers/gpu/drm/imx/dc/dc-drv.h b/drivers/gpu/drm/imx/dc/dc-drv.h
+index 65ae9c7c3694..b9fe12577a19 100644
+--- a/drivers/gpu/drm/imx/dc/dc-drv.h
++++ b/drivers/gpu/drm/imx/dc/dc-drv.h
+@@ -13,6 +13,7 @@
+ #include <drm/drm_device.h>
+ 
+ #include "dc-de.h"
++#include "dc-pe.h"
+ 
+ /**
+  * struct dc_drm_device - DC specific drm_device
+@@ -20,10 +21,24 @@
+ struct dc_drm_device {
+ 	/** @base: base drm_device structure */
+ 	struct drm_device base;
++	/** @cf_safe: constframe list(safety stream) */
++	struct dc_cf *cf_safe[DC_DISPLAYS];
++	/** @cf_cont: constframe list(content stream) */
++	struct dc_cf *cf_cont[DC_DISPLAYS];
+ 	/** @de: display engine list */
+ 	struct dc_de *de[DC_DISPLAYS];
++	/** @ed_safe: extdst list(safety stream) */
++	struct dc_ed *ed_safe[DC_DISPLAYS];
++	/** @ed_cont: extdst list(content stream) */
++	struct dc_ed *ed_cont[DC_DISPLAYS];
+ 	/** @fg: framegen list */
+ 	struct dc_fg *fg[DC_DISPLAYS];
++	/** @fu_disp: fetchunit list(used by display engine) */
++	struct dc_fu *fu_disp[DC_DISP_FU_CNT];
++	/** @lb: layerblend list */
++	struct dc_lb *lb[DC_LB_CNT];
++	/** @pe: pixel engine */
++	struct dc_pe *pe;
+ 	/** @tc: tcon list */
+ 	struct dc_tc *tc[DC_DISPLAYS];
+ };
+@@ -33,8 +48,14 @@ struct dc_subdev_info {
+ 	int id;
+ };
+ 
++extern struct platform_driver dc_cf_driver;
+ extern struct platform_driver dc_de_driver;
++extern struct platform_driver dc_ed_driver;
+ extern struct platform_driver dc_fg_driver;
++extern struct platform_driver dc_fl_driver;
++extern struct platform_driver dc_fw_driver;
++extern struct platform_driver dc_lb_driver;
++extern struct platform_driver dc_pe_driver;
+ extern struct platform_driver dc_tc_driver;
+ 
+ static inline int dc_subdev_get_id(const struct dc_subdev_info *info,
+@@ -53,5 +74,6 @@ static inline int dc_subdev_get_id(const struct dc_subdev_info *info,
+ }
+ 
+ void dc_de_post_bind(struct dc_drm_device *dc_drm);
++void dc_pe_post_bind(struct dc_drm_device *dc_drm);
+ 
+ #endif /* __DC_DRV_H__ */
+diff --git a/drivers/gpu/drm/imx/dc/dc-ed.c b/drivers/gpu/drm/imx/dc/dc-ed.c
 new file mode 100644
-index 000000000000..0bfd381b2cea
+index 000000000000..86ecc22d0a55
 --- /dev/null
-+++ b/drivers/gpu/drm/imx/dc/dc-tc.c
-@@ -0,0 +1,141 @@
++++ b/drivers/gpu/drm/imx/dc/dc-ed.c
+@@ -0,0 +1,288 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright 2024 NXP
++ */
++
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/component.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++
++#include "dc-drv.h"
++#include "dc-pe.h"
++
++#define PIXENGCFG_STATIC	0x8
++#define  POWERDOWN		BIT(4)
++#define  SYNC_MODE		BIT(8)
++#define  SINGLE			0
++#define  DIV_MASK		GENMASK(23, 16)
++#define  DIV(x)			FIELD_PREP(DIV_MASK, (x))
++#define  DIV_RESET		0x80
++
++#define PIXENGCFG_DYNAMIC	0xc
++
++#define PIXENGCFG_TRIGGER	0x14
++#define  SYNC_TRIGGER		BIT(0)
++
++#define STATICCONTROL		0x8
++#define  KICK_MODE		BIT(8)
++#define  EXTERNAL		BIT(8)
++#define  PERFCOUNTMODE		BIT(12)
++
++#define CONTROL			0xc
++#define  GAMMAAPPLYENABLE	BIT(0)
++
++static const struct dc_subdev_info dc_ed_info[] = {
++	{ .reg_start = 0x56180980, .id = 0, },
++	{ .reg_start = 0x56180a00, .id = 1, },
++	{ .reg_start = 0x561809c0, .id = 4, },
++	{ .reg_start = 0x56180a40, .id = 5, },
++};
++
++static const struct regmap_range dc_ed_pec_regmap_write_ranges[] = {
++	regmap_reg_range(PIXENGCFG_STATIC, PIXENGCFG_STATIC),
++	regmap_reg_range(PIXENGCFG_DYNAMIC, PIXENGCFG_DYNAMIC),
++	regmap_reg_range(PIXENGCFG_TRIGGER, PIXENGCFG_TRIGGER),
++};
++
++static const struct regmap_access_table dc_ed_pec_regmap_write_table = {
++	.yes_ranges = dc_ed_pec_regmap_write_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_ed_pec_regmap_write_ranges),
++};
++
++static const struct regmap_range dc_ed_pec_regmap_read_ranges[] = {
++	regmap_reg_range(PIXENGCFG_STATIC, PIXENGCFG_STATIC),
++	regmap_reg_range(PIXENGCFG_DYNAMIC, PIXENGCFG_DYNAMIC),
++};
++
++static const struct regmap_access_table dc_ed_pec_regmap_read_table = {
++	.yes_ranges = dc_ed_pec_regmap_read_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_ed_pec_regmap_read_ranges),
++};
++
++static const struct regmap_range dc_ed_pec_regmap_volatile_ranges[] = {
++	regmap_reg_range(PIXENGCFG_TRIGGER, PIXENGCFG_TRIGGER),
++};
++
++static const struct regmap_access_table dc_ed_pec_regmap_volatile_table = {
++	.yes_ranges = dc_ed_pec_regmap_volatile_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_ed_pec_regmap_volatile_ranges),
++};
++
++static const struct regmap_config dc_ed_pec_regmap_config = {
++	.name = "pec",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.fast_io = true,
++	.wr_table = &dc_ed_pec_regmap_write_table,
++	.rd_table = &dc_ed_pec_regmap_read_table,
++	.volatile_table = &dc_ed_pec_regmap_volatile_table,
++	.max_register = PIXENGCFG_TRIGGER,
++};
++
++static const struct regmap_range dc_ed_regmap_ranges[] = {
++	regmap_reg_range(STATICCONTROL, STATICCONTROL),
++	regmap_reg_range(CONTROL, CONTROL),
++};
++
++static const struct regmap_access_table dc_ed_regmap_access_table = {
++	.yes_ranges = dc_ed_regmap_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_ed_regmap_ranges),
++};
++
++static const struct regmap_config dc_ed_cfg_regmap_config = {
++	.name = "cfg",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.fast_io = true,
++	.wr_table = &dc_ed_regmap_access_table,
++	.rd_table = &dc_ed_regmap_access_table,
++	.max_register = CONTROL,
++};
++
++static const enum dc_link_id src_sels[] = {
++	LINK_ID_NONE,
++	LINK_ID_CONSTFRAME0,
++	LINK_ID_CONSTFRAME1,
++	LINK_ID_CONSTFRAME4,
++	LINK_ID_CONSTFRAME5,
++	LINK_ID_LAYERBLEND3,
++	LINK_ID_LAYERBLEND2,
++	LINK_ID_LAYERBLEND1,
++	LINK_ID_LAYERBLEND0,
++};
++
++static inline void dc_ed_pec_enable_shden(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_pec, PIXENGCFG_STATIC, SHDEN, SHDEN);
++}
++
++static inline void dc_ed_pec_poweron(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_pec, PIXENGCFG_STATIC, POWERDOWN, 0);
++}
++
++static inline void dc_ed_pec_sync_mode_single(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_pec, PIXENGCFG_STATIC, SYNC_MODE, SINGLE);
++}
++
++static inline void dc_ed_pec_div_reset(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_pec, PIXENGCFG_STATIC, DIV_MASK,
++			  DIV(DIV_RESET));
++}
++
++void dc_ed_pec_src_sel(struct dc_ed *ed, enum dc_link_id src)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(src_sels); i++) {
++		if (src_sels[i] == src) {
++			regmap_write(ed->reg_pec, PIXENGCFG_DYNAMIC, src);
++			return;
++		}
++	}
++}
++
++void dc_ed_pec_sync_trigger(struct dc_ed *ed)
++{
++	regmap_write(ed->reg_pec, PIXENGCFG_TRIGGER, SYNC_TRIGGER);
++}
++
++static inline void dc_ed_enable_shden(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_cfg, STATICCONTROL, SHDEN, SHDEN);
++}
++
++static inline void dc_ed_kick_mode_external(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_cfg, STATICCONTROL, KICK_MODE, EXTERNAL);
++}
++
++static inline void dc_ed_disable_perfcountmode(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_cfg, STATICCONTROL, PERFCOUNTMODE, 0);
++}
++
++static inline void dc_ed_disable_gamma_apply(struct dc_ed *ed)
++{
++	regmap_write_bits(ed->reg_cfg, CONTROL, GAMMAAPPLYENABLE, 0);
++}
++
++void dc_ed_init(struct dc_ed *ed)
++{
++	dc_ed_pec_src_sel(ed, LINK_ID_NONE);
++	dc_ed_pec_enable_shden(ed);
++	dc_ed_pec_poweron(ed);
++	dc_ed_pec_sync_mode_single(ed);
++	dc_ed_pec_div_reset(ed);
++	dc_ed_enable_shden(ed);
++	dc_ed_disable_perfcountmode(ed);
++	dc_ed_kick_mode_external(ed);
++	dc_ed_disable_gamma_apply(ed);
++}
++
++static int dc_ed_bind(struct device *dev, struct device *master, void *data)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dc_drm_device *dc_drm = data;
++	struct resource *res_pec;
++	void __iomem *base_pec;
++	void __iomem *base_cfg;
++	struct dc_ed *ed;
++	int id;
++
++	ed = devm_kzalloc(dev, sizeof(*ed), GFP_KERNEL);
++	if (!ed)
++		return -ENOMEM;
++
++	base_pec = devm_platform_get_and_ioremap_resource(pdev, 0, &res_pec);
++	if (IS_ERR(base_pec))
++		return PTR_ERR(base_pec);
++
++	base_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
++	if (IS_ERR(base_cfg))
++		return PTR_ERR(base_cfg);
++
++	ed->reg_pec = devm_regmap_init_mmio(dev, base_pec,
++					    &dc_ed_pec_regmap_config);
++	if (IS_ERR(ed->reg_pec))
++		return PTR_ERR(ed->reg_pec);
++
++	ed->reg_cfg = devm_regmap_init_mmio(dev, base_cfg,
++					    &dc_ed_cfg_regmap_config);
++	if (IS_ERR(ed->reg_cfg))
++		return PTR_ERR(ed->reg_cfg);
++
++	ed->irq_shdload = platform_get_irq_byname(pdev, "shdload");
++	if (ed->irq_shdload < 0)
++		return ed->irq_shdload;
++
++	ed->dev = dev;
++
++	id = dc_subdev_get_id(dc_ed_info, ARRAY_SIZE(dc_ed_info), res_pec);
++	if (id < 0) {
++		dev_err(dev, "failed to get instance number: %d\n", id);
++		return id;
++	}
++
++	switch (id) {
++	case 0:
++		dc_drm->ed_cont[0] = ed;
++		break;
++	case 1:
++		dc_drm->ed_cont[1] = ed;
++		break;
++	case 4:
++		dc_drm->ed_safe[0] = ed;
++		break;
++	case 5:
++		dc_drm->ed_safe[1] = ed;
++		break;
++	}
++
++	return 0;
++}
++
++static const struct component_ops dc_ed_ops = {
++	.bind = dc_ed_bind,
++};
++
++static int dc_ed_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	ret = component_add(&pdev->dev, &dc_ed_ops);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "failed to add component\n");
++
++	return 0;
++}
++
++static void dc_ed_remove(struct platform_device *pdev)
++{
++	component_del(&pdev->dev, &dc_ed_ops);
++}
++
++static const struct of_device_id dc_ed_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-dc-extdst" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, dc_ed_dt_ids);
++
++struct platform_driver dc_ed_driver = {
++	.probe = dc_ed_probe,
++	.remove = dc_ed_remove,
++	.driver = {
++		.name = "imx8-dc-extdst",
++		.suppress_bind_attrs = true,
++		.of_match_table = dc_ed_dt_ids,
++	},
++};
+diff --git a/drivers/gpu/drm/imx/dc/dc-fl.c b/drivers/gpu/drm/imx/dc/dc-fl.c
+new file mode 100644
+index 000000000000..3ce24c72aa13
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-fl.c
+@@ -0,0 +1,185 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright 2024 NXP
++ */
++
++#include <linux/component.h>
++#include <linux/ioport.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++
++#include <drm/drm_fourcc.h>
++
++#include "dc-drv.h"
++#include "dc-fu.h"
++
++#define BASEADDRESS(x)			(0x10 + FRAC_OFFSET * (x))
++#define SOURCEBUFFERATTRIBUTES(x)	(0x14 + FRAC_OFFSET * (x))
++#define SOURCEBUFFERDIMENSION(x)	(0x18 + FRAC_OFFSET * (x))
++#define COLORCOMPONENTBITS(x)		(0x1c + FRAC_OFFSET * (x))
++#define COLORCOMPONENTSHIFT(x)		(0x20 + FRAC_OFFSET * (x))
++#define LAYEROFFSET(x)			(0x24 + FRAC_OFFSET * (x))
++#define CLIPWINDOWOFFSET(x)		(0x28 + FRAC_OFFSET * (x))
++#define CLIPWINDOWDIMENSIONS(x)		(0x2c + FRAC_OFFSET * (x))
++#define CONSTANTCOLOR(x)		(0x30 + FRAC_OFFSET * (x))
++#define LAYERPROPERTY(x)		(0x34 + FRAC_OFFSET * (x))
++#define FRAMEDIMENSIONS			0x150
++
++struct dc_fl {
++	struct dc_fu fu;
++};
++
++static const struct dc_subdev_info dc_fl_info[] = {
++	{ .reg_start = 0x56180ac0, .id = 0, },
++};
++
++static const struct regmap_range dc_fl_regmap_ranges[] = {
++	regmap_reg_range(STATICCONTROL, FRAMEDIMENSIONS),
++};
++
++static const struct regmap_access_table dc_fl_regmap_access_table = {
++	.yes_ranges = dc_fl_regmap_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_fl_regmap_ranges),
++};
++
++static const struct regmap_config dc_fl_cfg_regmap_config = {
++	.name = "cfg",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.fast_io = true,
++	.wr_table = &dc_fl_regmap_access_table,
++	.rd_table = &dc_fl_regmap_access_table,
++	.max_register = FRAMEDIMENSIONS,
++};
++
++static void dc_fl_set_fmt(struct dc_fu *fu, enum dc_fu_frac frac,
++			  const struct drm_format_info *format)
++{
++	u32 bits = 0, shifts = 0;
++
++	dc_fu_set_src_bpp(fu, frac, format->cpp[0] * 8);
++
++	regmap_write_bits(fu->reg_cfg, LAYERPROPERTY(frac),
++			  YUVCONVERSIONMODE_MASK,
++			  YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF));
++
++	dc_fu_get_pixel_format_bits(fu, format->format, &bits);
++	dc_fu_get_pixel_format_shifts(fu, format->format, &shifts);
++
++	regmap_write(fu->reg_cfg, COLORCOMPONENTBITS(frac), bits);
++	regmap_write(fu->reg_cfg, COLORCOMPONENTSHIFT(frac), shifts);
++}
++
++static void dc_fl_set_framedimensions(struct dc_fu *fu, int w, int h)
++{
++	regmap_write(fu->reg_cfg, FRAMEDIMENSIONS,
++		     FRAMEWIDTH(w) | FRAMEHEIGHT(h));
++}
++
++static void dc_fl_init(struct dc_fu *fu)
++{
++	dc_fu_common_hw_init(fu);
++	dc_fu_shdldreq_sticky(fu, 0xff);
++}
++
++static void dc_fl_set_ops(struct dc_fu *fu)
++{
++	memcpy(&fu->ops, &dc_fu_common_ops, sizeof(dc_fu_common_ops));
++	fu->ops.init = dc_fl_init;
++	fu->ops.set_fmt = dc_fl_set_fmt;
++	fu->ops.set_framedimensions = dc_fl_set_framedimensions;
++}
++
++static int dc_fl_bind(struct device *dev, struct device *master, void *data)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dc_drm_device *dc_drm = data;
++	struct resource *res_pec;
++	void __iomem *base_cfg;
++	struct dc_fl *fl;
++	struct dc_fu *fu;
++	int i, id;
++
++	fl = devm_kzalloc(dev, sizeof(*fl), GFP_KERNEL);
++	if (!fl)
++		return -ENOMEM;
++
++	fu = &fl->fu;
++
++	res_pec = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++
++	base_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
++	if (IS_ERR(base_cfg))
++		return PTR_ERR(base_cfg);
++
++	fu->reg_cfg = devm_regmap_init_mmio(dev, base_cfg,
++					    &dc_fl_cfg_regmap_config);
++	if (IS_ERR(fu->reg_cfg))
++		return PTR_ERR(fu->reg_cfg);
++
++	id = dc_subdev_get_id(dc_fl_info, ARRAY_SIZE(dc_fl_info), res_pec);
++	if (id < 0) {
++		dev_err(dev, "failed to get instance number: %d\n", id);
++		return id;
++	}
++
++	fu->link_id = LINK_ID_FETCHLAYER0;
++	fu->id = DC_FETCHUNIT_FL0;
++	for (i = 0; i < DC_FETCHUNIT_FRAC_NUM; i++) {
++		fu->reg_baseaddr[i]		  = BASEADDRESS(i);
++		fu->reg_sourcebufferattributes[i] = SOURCEBUFFERATTRIBUTES(i);
++		fu->reg_sourcebufferdimension[i]  = SOURCEBUFFERDIMENSION(i);
++		fu->reg_layeroffset[i]		  = LAYEROFFSET(i);
++		fu->reg_clipwindowoffset[i]	  = CLIPWINDOWOFFSET(i);
++		fu->reg_clipwindowdimensions[i]	  = CLIPWINDOWDIMENSIONS(i);
++		fu->reg_constantcolor[i]	  = CONSTANTCOLOR(i);
++		fu->reg_layerproperty[i]	  = LAYERPROPERTY(i);
++	}
++	snprintf(fu->name, sizeof(fu->name), "FetchLayer%d", id);
++
++	dc_fl_set_ops(fu);
++
++	dc_drm->fu_disp[fu->id] = fu;
++
++	return 0;
++}
++
++static const struct component_ops dc_fl_ops = {
++	.bind = dc_fl_bind,
++};
++
++static int dc_fl_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	ret = component_add(&pdev->dev, &dc_fl_ops);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "failed to add component\n");
++
++	return 0;
++}
++
++static void dc_fl_remove(struct platform_device *pdev)
++{
++	component_del(&pdev->dev, &dc_fl_ops);
++}
++
++static const struct of_device_id dc_fl_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-dc-fetchlayer" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, dc_fl_dt_ids);
++
++struct platform_driver dc_fl_driver = {
++	.probe = dc_fl_probe,
++	.remove = dc_fl_remove,
++	.driver = {
++		.name = "imx8-dc-fetchlayer",
++		.suppress_bind_attrs = true,
++		.of_match_table = dc_fl_dt_ids,
++	},
++};
+diff --git a/drivers/gpu/drm/imx/dc/dc-fu.c b/drivers/gpu/drm/imx/dc/dc-fu.c
+new file mode 100644
+index 000000000000..f94c591c8158
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-fu.c
+@@ -0,0 +1,258 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright 2024 NXP
++ */
++
++#include <linux/bitfield.h>
++#include <linux/bitops.h>
++#include <linux/bits.h>
++#include <linux/math.h>
++
++#include "dc-fu.h"
++#include "dc-pe.h"
++
++/* STATICCONTROL */
++#define SHDLDREQSTICKY_MASK		GENMASK(31, 24)
++#define SHDLDREQSTICKY(x)		FIELD_PREP(SHDLDREQSTICKY_MASK, (x))
++#define BASEADDRESSAUTOUPDATE_MASK	GENMASK(23, 16)
++#define BASEADDRESSAUTOUPDATE(x)	FIELD_PREP(BASEADDRESSAUTOUPDATE_MASK, (x))
++
++/* BURSTBUFFERMANAGEMENT */
++#define SETBURSTLENGTH_MASK		GENMASK(12, 8)
++#define SETBURSTLENGTH(x)		FIELD_PREP(SETBURSTLENGTH_MASK, (x))
++#define SETNUMBUFFERS_MASK		GENMASK(7, 0)
++#define SETNUMBUFFERS(x)		FIELD_PREP(SETNUMBUFFERS_MASK, (x))
++#define LINEMODE_MASK			BIT(31)
++
++/* SOURCEBUFFERATTRIBUTES */
++#define BITSPERPIXEL_MASK		GENMASK(21, 16)
++#define BITSPERPIXEL(x)			FIELD_PREP(BITSPERPIXEL_MASK, (x))
++#define STRIDE_MASK			GENMASK(15, 0)
++#define STRIDE(x)			FIELD_PREP(STRIDE_MASK, (x) - 1)
++
++/* SOURCEBUFFERDIMENSION */
++#define LINEWIDTH(x)			FIELD_PREP(GENMASK(13, 0), (x))
++#define LINECOUNT(x)			FIELD_PREP(GENMASK(29, 16), (x))
++
++/* LAYEROFFSET */
++#define LAYERXOFFSET(x)			FIELD_PREP(GENMASK(14, 0), (x))
++#define LAYERYOFFSET(x)			FIELD_PREP(GENMASK(30, 16), (x))
++
++/* CLIPWINDOWOFFSET */
++#define CLIPWINDOWXOFFSET(x)		FIELD_PREP(GENMASK(14, 0), (x))
++#define CLIPWINDOWYOFFSET(x)		FIELD_PREP(GENMASK(30, 16), (x))
++
++/* CLIPWINDOWDIMENSIONS */
++#define CLIPWINDOWWIDTH(x)		FIELD_PREP(GENMASK(13, 0), (x) - 1)
++#define CLIPWINDOWHEIGHT(x)		FIELD_PREP(GENMASK(29, 16), (x) - 1)
++
++enum dc_linemode {
++	/*
++	 * Mandatory setting for operation in the Display Controller.
++	 * Works also for Blit Engine with marginal performance impact.
++	 */
++	LINEMODE_DISPLAY = 0,
++};
++
++struct dc_fu_pixel_format {
++	u32 pixel_format;
++	u32 bits;
++	u32 shifts;
++};
++
++static const struct dc_fu_pixel_format pixel_formats[] = {
++	{
++		DRM_FORMAT_XRGB8888,
++		R_BITS(8)   | G_BITS(8)   | B_BITS(8)   | A_BITS(0),
++		R_SHIFT(16) | G_SHIFT(8)  | B_SHIFT(0)  | A_SHIFT(0),
++	},
++};
++
++void dc_fu_get_pixel_format_bits(struct dc_fu *fu, u32 format, u32 *bits)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
++		if (pixel_formats[i].pixel_format == format) {
++			*bits = pixel_formats[i].bits;
++			return;
++		}
++	}
++}
++
++void
++dc_fu_get_pixel_format_shifts(struct dc_fu *fu, u32 format, u32 *shifts)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
++		if (pixel_formats[i].pixel_format == format) {
++			*shifts = pixel_formats[i].shifts;
++			return;
++		}
++	}
++}
++
++static inline void dc_fu_enable_shden(struct dc_fu *fu)
++{
++	regmap_write_bits(fu->reg_cfg, STATICCONTROL, SHDEN, SHDEN);
++}
++
++static inline void dc_fu_baddr_autoupdate(struct dc_fu *fu, u8 layer_mask)
++{
++	regmap_write_bits(fu->reg_cfg, STATICCONTROL,
++			  BASEADDRESSAUTOUPDATE_MASK,
++			  BASEADDRESSAUTOUPDATE(layer_mask));
++}
++
++void dc_fu_shdldreq_sticky(struct dc_fu *fu, u8 layer_mask)
++{
++	regmap_write_bits(fu->reg_cfg, STATICCONTROL, SHDLDREQSTICKY_MASK,
++			  SHDLDREQSTICKY(layer_mask));
++}
++
++static inline void dc_fu_set_linemode(struct dc_fu *fu, enum dc_linemode mode)
++{
++	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT, LINEMODE_MASK,
++			  mode);
++}
++
++static inline void dc_fu_set_numbuffers(struct dc_fu *fu, unsigned int num)
++{
++	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT,
++			  SETNUMBUFFERS_MASK, SETNUMBUFFERS(num));
++}
++
++static void dc_fu_set_burstlength(struct dc_fu *fu, dma_addr_t baddr)
++{
++	unsigned int burst_size, burst_length;
++
++	burst_size = 1 << __ffs(baddr);
++	burst_size = round_up(burst_size, 8);
++	burst_size = min(burst_size, 128U);
++	burst_length = burst_size / 8;
++
++	regmap_write_bits(fu->reg_cfg, BURSTBUFFERMANAGEMENT,
++			  SETBURSTLENGTH_MASK, SETBURSTLENGTH(burst_length));
++}
++
++static void dc_fu_set_baseaddress(struct dc_fu *fu, enum dc_fu_frac frac,
++				  dma_addr_t baddr)
++{
++	regmap_write(fu->reg_cfg, fu->reg_baseaddr[frac], baddr);
++}
++
++void dc_fu_set_src_bpp(struct dc_fu *fu, enum dc_fu_frac frac, unsigned int bpp)
++{
++	regmap_write_bits(fu->reg_cfg, fu->reg_sourcebufferattributes[frac],
++			  BITSPERPIXEL_MASK, BITSPERPIXEL(bpp));
++}
++
++static void dc_fu_set_src_stride(struct dc_fu *fu, enum dc_fu_frac frac,
++				 unsigned int stride)
++{
++	regmap_write_bits(fu->reg_cfg, fu->reg_sourcebufferattributes[frac],
++			  STRIDE_MASK, STRIDE(stride));
++}
++
++static void dc_fu_set_src_buf_dimensions(struct dc_fu *fu, enum dc_fu_frac frac,
++					 int w, int h)
++{
++	regmap_write(fu->reg_cfg, fu->reg_sourcebufferdimension[frac],
++		     LINEWIDTH(w) | LINECOUNT(h));
++}
++
++static inline void dc_fu_layeroffset(struct dc_fu *fu, enum dc_fu_frac frac,
++				     unsigned int x, unsigned int y)
++{
++	regmap_write(fu->reg_cfg, fu->reg_layeroffset[frac],
++		     LAYERXOFFSET(x) | LAYERYOFFSET(y));
++}
++
++static inline void dc_fu_clipoffset(struct dc_fu *fu, enum dc_fu_frac frac,
++				    unsigned int x, unsigned int y)
++{
++	regmap_write(fu->reg_cfg, fu->reg_clipwindowoffset[frac],
++		     CLIPWINDOWXOFFSET(x) | CLIPWINDOWYOFFSET(y));
++}
++
++static inline void dc_fu_clipdimensions(struct dc_fu *fu, enum dc_fu_frac frac,
++					unsigned int w, unsigned int h)
++{
++	regmap_write(fu->reg_cfg, fu->reg_clipwindowdimensions[frac],
++		     CLIPWINDOWWIDTH(w) | CLIPWINDOWHEIGHT(h));
++}
++
++static inline void
++dc_fu_set_pixel_blend_mode(struct dc_fu *fu, enum dc_fu_frac frac)
++{
++	regmap_write(fu->reg_cfg, fu->reg_layerproperty[frac], 0);
++	regmap_write(fu->reg_cfg, fu->reg_constantcolor[frac], 0);
++}
++
++static void dc_fu_enable_src_buf(struct dc_fu *fu, enum dc_fu_frac frac)
++{
++	regmap_write_bits(fu->reg_cfg, fu->reg_layerproperty[frac],
++			  SOURCEBUFFERENABLE, SOURCEBUFFERENABLE);
++}
++
++static void dc_fu_disable_src_buf(struct dc_fu *fu, enum dc_fu_frac frac)
++{
++	regmap_write_bits(fu->reg_cfg, fu->reg_layerproperty[frac],
++			  SOURCEBUFFERENABLE, 0);
++
++	if (fu->lb) {
++		dc_lb_pec_clken(fu->lb, CLKEN_DISABLE);
++		dc_lb_mode(fu->lb, LB_NEUTRAL);
++	}
++}
++
++static void dc_fu_set_layerblend(struct dc_fu *fu, struct dc_lb *lb)
++{
++	fu->lb = lb;
++}
++
++static enum dc_link_id dc_fu_get_link_id(struct dc_fu *fu)
++{
++	return fu->link_id;
++}
++
++static const char *dc_fu_get_name(struct dc_fu *fu)
++{
++	return fu->name;
++}
++
++const struct dc_fu_ops dc_fu_common_ops = {
++	.set_burstlength	= dc_fu_set_burstlength,
++	.set_baseaddress	= dc_fu_set_baseaddress,
++	.set_src_stride		= dc_fu_set_src_stride,
++	.set_src_buf_dimensions = dc_fu_set_src_buf_dimensions,
++	.enable_src_buf		= dc_fu_enable_src_buf,
++	.disable_src_buf	= dc_fu_disable_src_buf,
++	.set_layerblend		= dc_fu_set_layerblend,
++	.get_link_id		= dc_fu_get_link_id,
++	.get_name		= dc_fu_get_name,
++};
++
++const struct dc_fu_ops *dc_fu_get_ops(struct dc_fu *fu)
++{
++	return &fu->ops;
++}
++
++void dc_fu_common_hw_init(struct dc_fu *fu)
++{
++	enum dc_fu_frac i;
++
++	dc_fu_baddr_autoupdate(fu, 0x0);
++	dc_fu_enable_shden(fu);
++	dc_fu_set_linemode(fu, LINEMODE_DISPLAY);
++	dc_fu_set_numbuffers(fu, 16);
++
++	for (i = DC_FETCHUNIT_FRAC0; i < DC_FETCHUNIT_FRAC_NUM; i++) {
++		dc_fu_layeroffset(fu, i, 0, 0);
++		dc_fu_clipoffset(fu, i, 0, 0);
++		dc_fu_clipdimensions(fu, i, 1, 1);
++		dc_fu_disable_src_buf(fu, i);
++		dc_fu_set_pixel_blend_mode(fu, i);
++	}
++}
+diff --git a/drivers/gpu/drm/imx/dc/dc-fu.h b/drivers/gpu/drm/imx/dc/dc-fu.h
+new file mode 100644
+index 000000000000..e016e1ea5b4e
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-fu.h
+@@ -0,0 +1,129 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Copyright 2024 NXP
++ */
++
++#ifndef __DC_FETCHUNIT_H__
++#define __DC_FETCHUNIT_H__
++
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/regmap.h>
++#include <linux/types.h>
++
++#include <drm/drm_fourcc.h>
++
++#include "dc-pe.h"
++
++#define FRAC_OFFSET			0x28
++
++#define STATICCONTROL			0x8
++#define BURSTBUFFERMANAGEMENT		0xc
++
++/* COLORCOMPONENTBITS */
++#define R_BITS(x)			FIELD_PREP_CONST(GENMASK(27, 24), (x))
++#define G_BITS(x)			FIELD_PREP_CONST(GENMASK(19, 16), (x))
++#define B_BITS(x)			FIELD_PREP_CONST(GENMASK(11, 8), (x))
++#define A_BITS(x)			FIELD_PREP_CONST(GENMASK(3, 0), (x))
++
++/* COLORCOMPONENTSHIFT */
++#define R_SHIFT(x)			FIELD_PREP_CONST(GENMASK(28, 24), (x))
++#define G_SHIFT(x)			FIELD_PREP_CONST(GENMASK(20, 16), (x))
++#define B_SHIFT(x)			FIELD_PREP_CONST(GENMASK(12, 8), (x))
++#define A_SHIFT(x)			FIELD_PREP_CONST(GENMASK(4, 0), (x))
++
++/* LAYERPROPERTY */
++#define YUVCONVERSIONMODE_MASK		GENMASK(18, 17)
++#define YUVCONVERSIONMODE(x)		FIELD_PREP(YUVCONVERSIONMODE_MASK, (x))
++#define SOURCEBUFFERENABLE		BIT(31)
++
++/* FRAMEDIMENSIONS */
++#define FRAMEWIDTH(x)			FIELD_PREP(GENMASK(13, 0), (x))
++#define FRAMEHEIGHT(x)			FIELD_PREP(GENMASK(29, 16), (x))
++
++/* CONTROL */
++#define INPUTSELECT_MASK		GENMASK(4, 3)
++#define INPUTSELECT(x)			FIELD_PREP(INPUTSELECT_MASK, (x))
++#define RASTERMODE_MASK			GENMASK(2, 0)
++#define RASTERMODE(x)			FIELD_PREP(RASTERMODE_MASK, (x))
++
++enum dc_yuvconversionmode {
++	YUVCONVERSIONMODE_OFF,
++};
++
++enum dc_inputselect {
++	INPUTSELECT_INACTIVE,
++};
++
++enum dc_rastermode {
++	RASTERMODE_NORMAL,
++};
++
++enum {
++	DC_FETCHUNIT_FL0,
++	DC_FETCHUNIT_FW2,
++};
++
++enum dc_fu_frac {
++	DC_FETCHUNIT_FRAC0,
++	DC_FETCHUNIT_FRAC1,
++	DC_FETCHUNIT_FRAC2,
++	DC_FETCHUNIT_FRAC3,
++	DC_FETCHUNIT_FRAC4,
++	DC_FETCHUNIT_FRAC5,
++	DC_FETCHUNIT_FRAC6,
++	DC_FETCHUNIT_FRAC7,
++	DC_FETCHUNIT_FRAC_NUM
++};
++
++struct dc_fu;
++struct dc_lb;
++
++struct dc_fu_ops {
++	void (*init)(struct dc_fu *fu);
++	void (*set_burstlength)(struct dc_fu *fu, dma_addr_t baddr);
++	void (*set_baseaddress)(struct dc_fu *fu, enum dc_fu_frac frac,
++				dma_addr_t baddr);
++	void (*set_src_stride)(struct dc_fu *fu, enum dc_fu_frac frac,
++			       unsigned int stride);
++	void (*set_src_buf_dimensions)(struct dc_fu *fu, enum dc_fu_frac frac,
++				       int w, int h);
++	void (*set_fmt)(struct dc_fu *fu, enum dc_fu_frac frac,
++			const struct drm_format_info *format);
++	void (*enable_src_buf)(struct dc_fu *fu, enum dc_fu_frac frac);
++	void (*disable_src_buf)(struct dc_fu *fu, enum dc_fu_frac frac);
++	void (*set_framedimensions)(struct dc_fu *fu, int w, int h);
++	void (*set_layerblend)(struct dc_fu *fu, struct dc_lb *lb);
++	enum dc_link_id (*get_link_id)(struct dc_fu *fu);
++	const char *(*get_name)(struct dc_fu *fu);
++};
++
++struct dc_fu {
++	struct regmap *reg_pec;
++	struct regmap *reg_cfg;
++	char name[21];
++	u32 reg_baseaddr[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_sourcebufferattributes[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_sourcebufferdimension[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_layeroffset[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_clipwindowoffset[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_clipwindowdimensions[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_constantcolor[DC_FETCHUNIT_FRAC_NUM];
++	u32 reg_layerproperty[DC_FETCHUNIT_FRAC_NUM];
++	unsigned int id;
++	enum dc_link_id link_id;
++	struct dc_fu_ops ops;
++	struct dc_lb *lb;
++};
++
++extern const struct dc_fu_ops dc_fu_common_ops;
++
++void dc_fu_get_pixel_format_bits(struct dc_fu *fu, u32 format, u32 *bits);
++void dc_fu_get_pixel_format_shifts(struct dc_fu *fu, u32 format, u32 *shifts);
++void dc_fu_shdldreq_sticky(struct dc_fu *fu, u8 layer_mask);
++void dc_fu_set_src_bpp(struct dc_fu *fu, enum dc_fu_frac frac, unsigned int bpp);
++void dc_fu_common_hw_init(struct dc_fu *fu);
++
++const struct dc_fu_ops *dc_fu_get_ops(struct dc_fu *fu);
++
++#endif /* __DC_FETCHUNIT_H__ */
+diff --git a/drivers/gpu/drm/imx/dc/dc-fw.c b/drivers/gpu/drm/imx/dc/dc-fw.c
+new file mode 100644
+index 000000000000..acb2d4d9e2ec
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-fw.c
+@@ -0,0 +1,222 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Copyright 2024 NXP
@@ -1020,109 +1402,190 @@ index 000000000000..0bfd381b2cea
 +#include <linux/platform_device.h>
 +#include <linux/regmap.h>
 +
++#include <drm/drm_fourcc.h>
++
 +#include "dc-drv.h"
-+#include "dc-de.h"
++#include "dc-fu.h"
 +
-+#define TCON_CTRL	0x410
-+#define  CTRL_RST_VAL	0x01401408
++#define PIXENGCFG_DYNAMIC		0x8
 +
-+/* red: MAPBIT 29-20, green: MAPBIT 19-10, blue: MAPBIT 9-0 */
-+#define MAPBIT3_0	0x418
-+#define MAPBIT7_4	0x41c
-+#define MAPBIT11_8	0x420
-+#define MAPBIT15_12	0x424
-+#define MAPBIT19_16	0x428
-+#define MAPBIT23_20	0x42c
-+#define MAPBIT27_24	0x430
-+#define MAPBIT31_28	0x434
++#define BASEADDRESS(x)			(0x10 + FRAC_OFFSET * (x))
++#define SOURCEBUFFERATTRIBUTES(x)	(0x14 + FRAC_OFFSET * (x))
++#define SOURCEBUFFERDIMENSION(x)	(0x18 + FRAC_OFFSET * (x))
++#define COLORCOMPONENTBITS(x)		(0x1c + FRAC_OFFSET * (x))
++#define COLORCOMPONENTSHIFT(x)		(0x20 + FRAC_OFFSET * (x))
++#define LAYEROFFSET(x)			(0x24 + FRAC_OFFSET * (x))
++#define CLIPWINDOWOFFSET(x)		(0x28 + FRAC_OFFSET * (x))
++#define CLIPWINDOWDIMENSIONS(x)		(0x2c + FRAC_OFFSET * (x))
++#define CONSTANTCOLOR(x)		(0x30 + FRAC_OFFSET * (x))
++#define LAYERPROPERTY(x)		(0x34 + FRAC_OFFSET * (x))
++#define FRAMEDIMENSIONS			0x150
++#define CONTROL				0x170
 +
-+static const struct dc_subdev_info dc_tc_info[] = {
-+	{ .reg_start = 0x5618c800, .id = 0, },
-+	{ .reg_start = 0x5618e400, .id = 1, },
++struct dc_fw {
++	struct dc_fu fu;
 +};
 +
-+static const struct regmap_range dc_tc_regmap_ranges[] = {
-+	regmap_reg_range(TCON_CTRL, TCON_CTRL),
-+	regmap_reg_range(MAPBIT3_0, MAPBIT31_28),
++static const struct dc_subdev_info dc_fw_info[] = {
++	{ .reg_start = 0x56180a60, .id = 2, },
 +};
 +
-+static const struct regmap_access_table dc_tc_regmap_access_table = {
-+	.yes_ranges = dc_tc_regmap_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(dc_tc_regmap_ranges),
++static const struct regmap_range dc_fw_pec_regmap_access_ranges[] = {
++	regmap_reg_range(PIXENGCFG_DYNAMIC, PIXENGCFG_DYNAMIC),
 +};
 +
-+static const struct regmap_config dc_tc_regmap_config = {
++static const struct regmap_access_table dc_fw_pec_regmap_access_table = {
++	.yes_ranges = dc_fw_pec_regmap_access_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_fw_pec_regmap_access_ranges),
++};
++
++static const struct regmap_config dc_fw_pec_regmap_config = {
++	.name = "pec",
 +	.reg_bits = 32,
 +	.reg_stride = 4,
 +	.val_bits = 32,
 +	.fast_io = true,
-+	.wr_table = &dc_tc_regmap_access_table,
-+	.rd_table = &dc_tc_regmap_access_table,
-+	.max_register = MAPBIT31_28,
++	.wr_table = &dc_fw_pec_regmap_access_table,
++	.rd_table = &dc_fw_pec_regmap_access_table,
++	.max_register = PIXENGCFG_DYNAMIC,
 +};
 +
-+/*
-+ * The pixels reach TCON are always in 30-bit BGR format.
-+ * The first bridge always receives pixels in 30-bit RGB format.
-+ * So, map the format to MEDIA_BUS_FMT_RGB101010_1X30.
-+ */
-+static const u32 dc_tc_mapbit[] = {
-+	0x17161514, 0x1b1a1918, 0x0b0a1d1c, 0x0f0e0d0c,
-+	0x13121110, 0x03020100, 0x07060504, 0x00000908,
++static const struct regmap_range dc_fw_regmap_ranges[] = {
++	regmap_reg_range(STATICCONTROL, FRAMEDIMENSIONS),
++	regmap_reg_range(CONTROL, CONTROL),
 +};
 +
-+void dc_tc_init(struct dc_tc *tc)
++static const struct regmap_access_table dc_fw_regmap_access_table = {
++	.yes_ranges = dc_fw_regmap_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_fw_regmap_ranges),
++};
++
++static const struct regmap_config dc_fw_cfg_regmap_config = {
++	.name = "cfg",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.fast_io = true,
++	.wr_table = &dc_fw_regmap_access_table,
++	.rd_table = &dc_fw_regmap_access_table,
++	.max_register = CONTROL,
++};
++
++static void dc_fw_set_fmt(struct dc_fu *fu, enum dc_fu_frac frac,
++			  const struct drm_format_info *format)
 +{
-+	/* reset TCON_CTRL to POR default so that TCON works in bypass mode */
-+	regmap_write(tc->reg, TCON_CTRL, CTRL_RST_VAL);
++	u32 bits = 0, shifts = 0;
 +
-+	/* set format */
-+	regmap_bulk_write(tc->reg, MAPBIT3_0, dc_tc_mapbit,
-+			  ARRAY_SIZE(dc_tc_mapbit));
++	dc_fu_set_src_bpp(fu, frac, format->cpp[0] * 8);
++
++	regmap_write_bits(fu->reg_cfg, CONTROL, INPUTSELECT_MASK,
++			  INPUTSELECT(INPUTSELECT_INACTIVE));
++	regmap_write_bits(fu->reg_cfg, CONTROL, RASTERMODE_MASK,
++			  RASTERMODE(RASTERMODE_NORMAL));
++
++	regmap_write_bits(fu->reg_cfg, LAYERPROPERTY(frac),
++			  YUVCONVERSIONMODE_MASK,
++			  YUVCONVERSIONMODE(YUVCONVERSIONMODE_OFF));
++
++	dc_fu_get_pixel_format_bits(fu, format->format, &bits);
++	dc_fu_get_pixel_format_shifts(fu, format->format, &shifts);
++
++	regmap_write(fu->reg_cfg, COLORCOMPONENTBITS(frac), bits);
++	regmap_write(fu->reg_cfg, COLORCOMPONENTSHIFT(frac), shifts);
 +}
 +
-+static int dc_tc_bind(struct device *dev, struct device *master, void *data)
++static void dc_fw_set_framedimensions(struct dc_fu *fu, int w, int h)
++{
++	regmap_write(fu->reg_cfg, FRAMEDIMENSIONS,
++		     FRAMEWIDTH(w) | FRAMEHEIGHT(h));
++}
++
++static void dc_fw_init(struct dc_fu *fu)
++{
++	regmap_write(fu->reg_pec, PIXENGCFG_DYNAMIC, LINK_ID_NONE);
++	dc_fu_common_hw_init(fu);
++	dc_fu_shdldreq_sticky(fu, 0xff);
++}
++
++static void dc_fw_set_ops(struct dc_fu *fu)
++{
++	memcpy(&fu->ops, &dc_fu_common_ops, sizeof(dc_fu_common_ops));
++	fu->ops.init = dc_fw_init;
++	fu->ops.set_fmt	= dc_fw_set_fmt;
++	fu->ops.set_framedimensions = dc_fw_set_framedimensions;
++}
++
++static int dc_fw_bind(struct device *dev, struct device *master, void *data)
 +{
 +	struct platform_device *pdev = to_platform_device(dev);
 +	struct dc_drm_device *dc_drm = data;
-+	struct resource *res;
-+	void __iomem *base;
-+	struct dc_tc *tc;
-+	int id;
++	struct resource *res_pec;
++	void __iomem *base_pec;
++	void __iomem *base_cfg;
++	struct dc_fw *fw;
++	struct dc_fu *fu;
++	int i, id;
 +
-+	tc = devm_kzalloc(dev, sizeof(*tc), GFP_KERNEL);
-+	if (!tc)
++	fw = devm_kzalloc(dev, sizeof(*fw), GFP_KERNEL);
++	if (!fw)
 +		return -ENOMEM;
 +
-+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
++	fu = &fw->fu;
 +
-+	tc->reg = devm_regmap_init_mmio(dev, base, &dc_tc_regmap_config);
-+	if (IS_ERR(tc->reg))
-+		return PTR_ERR(tc->reg);
++	base_pec = devm_platform_get_and_ioremap_resource(pdev, 0, &res_pec);
++	if (IS_ERR(base_pec))
++		return PTR_ERR(base_pec);
 +
-+	id = dc_subdev_get_id(dc_tc_info, ARRAY_SIZE(dc_tc_info), res);
++	base_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
++	if (IS_ERR(base_cfg))
++		return PTR_ERR(base_cfg);
++
++	fu->reg_pec = devm_regmap_init_mmio(dev, base_pec,
++					    &dc_fw_pec_regmap_config);
++	if (IS_ERR(fu->reg_pec))
++		return PTR_ERR(fu->reg_pec);
++
++	fu->reg_cfg = devm_regmap_init_mmio(dev, base_cfg,
++					    &dc_fw_cfg_regmap_config);
++	if (IS_ERR(fu->reg_cfg))
++		return PTR_ERR(fu->reg_cfg);
++
++	id = dc_subdev_get_id(dc_fw_info, ARRAY_SIZE(dc_fw_info), res_pec);
 +	if (id < 0) {
 +		dev_err(dev, "failed to get instance number: %d\n", id);
 +		return id;
 +	}
 +
-+	tc->dev = dev;
-+	dc_drm->tc[id] = tc;
++	fu->link_id = LINK_ID_FETCHWARP2;
++	fu->id = DC_FETCHUNIT_FW2;
++	for (i = 0; i < DC_FETCHUNIT_FRAC_NUM; i++) {
++		fu->reg_baseaddr[i]		  = BASEADDRESS(i);
++		fu->reg_sourcebufferattributes[i] = SOURCEBUFFERATTRIBUTES(i);
++		fu->reg_sourcebufferdimension[i]  = SOURCEBUFFERDIMENSION(i);
++		fu->reg_layeroffset[i]		  = LAYEROFFSET(i);
++		fu->reg_clipwindowoffset[i]	  = CLIPWINDOWOFFSET(i);
++		fu->reg_clipwindowdimensions[i]	  = CLIPWINDOWDIMENSIONS(i);
++		fu->reg_constantcolor[i]	  = CONSTANTCOLOR(i);
++		fu->reg_layerproperty[i]	  = LAYERPROPERTY(i);
++	}
++	snprintf(fu->name, sizeof(fu->name), "FetchWarp%d", id);
++
++	dc_fw_set_ops(fu);
++
++	dc_drm->fu_disp[fu->id] = fu;
 +
 +	return 0;
 +}
 +
-+static const struct component_ops dc_tc_ops = {
-+	.bind = dc_tc_bind,
++static const struct component_ops dc_fw_ops = {
++	.bind = dc_fw_bind,
 +};
 +
-+static int dc_tc_probe(struct platform_device *pdev)
++static int dc_fw_probe(struct platform_device *pdev)
 +{
 +	int ret;
 +
-+	ret = component_add(&pdev->dev, &dc_tc_ops);
++	ret = component_add(&pdev->dev, &dc_fw_ops);
 +	if (ret)
 +		return dev_err_probe(&pdev->dev, ret,
 +				     "failed to add component\n");
@@ -1130,26 +1593,628 @@ index 000000000000..0bfd381b2cea
 +	return 0;
 +}
 +
-+static void dc_tc_remove(struct platform_device *pdev)
++static void dc_fw_remove(struct platform_device *pdev)
 +{
-+	component_del(&pdev->dev, &dc_tc_ops);
++	component_del(&pdev->dev, &dc_fw_ops);
 +}
 +
-+static const struct of_device_id dc_tc_dt_ids[] = {
-+	{ .compatible = "fsl,imx8qxp-dc-tcon" },
++static const struct of_device_id dc_fw_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-dc-fetchwarp" },
 +	{ /* sentinel */ }
 +};
-+MODULE_DEVICE_TABLE(of, dc_tc_dt_ids);
++MODULE_DEVICE_TABLE(of, dc_fw_dt_ids);
 +
-+struct platform_driver dc_tc_driver = {
-+	.probe = dc_tc_probe,
-+	.remove = dc_tc_remove,
++struct platform_driver dc_fw_driver = {
++	.probe = dc_fw_probe,
++	.remove = dc_fw_remove,
 +	.driver = {
-+		.name = "imx8-dc-tcon",
++		.name = "imx8-dc-fetchwarp",
 +		.suppress_bind_attrs = true,
-+		.of_match_table = dc_tc_dt_ids,
++		.of_match_table = dc_fw_dt_ids,
 +	},
 +};
+diff --git a/drivers/gpu/drm/imx/dc/dc-lb.c b/drivers/gpu/drm/imx/dc/dc-lb.c
+new file mode 100644
+index 000000000000..38f966625d38
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-lb.c
+@@ -0,0 +1,325 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright 2024 NXP
++ */
++
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/component.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++
++#include <drm/drm_blend.h>
++
++#include "dc-drv.h"
++#include "dc-pe.h"
++
++#define PIXENGCFG_DYNAMIC			0x8
++#define  PIXENGCFG_DYNAMIC_PRIM_SEL_MASK	GENMASK(5, 0)
++#define  PIXENGCFG_DYNAMIC_PRIM_SEL(x)		\
++		FIELD_PREP(PIXENGCFG_DYNAMIC_PRIM_SEL_MASK, (x))
++#define  PIXENGCFG_DYNAMIC_SEC_SEL_MASK		GENMASK(13, 8)
++#define  PIXENGCFG_DYNAMIC_SEC_SEL(x)		\
++		FIELD_PREP(PIXENGCFG_DYNAMIC_SEC_SEL_MASK, (x))
++
++#define STATICCONTROL				0x8
++#define  SHDTOKSEL_MASK				GENMASK(4, 3)
++#define  SHDTOKSEL(x)				FIELD_PREP(SHDTOKSEL_MASK, (x))
++#define  SHDLDSEL_MASK				GENMASK(2, 1)
++#define  SHDLDSEL(x)				FIELD_PREP(SHDLDSEL_MASK, (x))
++
++#define CONTROL					0xc
++#define  CTRL_MODE_MASK				BIT(0)
++#define  CTRL_MODE(x)				FIELD_PREP(CTRL_MODE_MASK, (x))
++
++#define BLENDCONTROL				0x10
++#define  ALPHA_MASK				GENMASK(23, 16)
++#define  ALPHA(x)				FIELD_PREP(ALPHA_MASK, (x))
++#define  PRIM_C_BLD_FUNC_MASK			GENMASK(2, 0)
++#define  PRIM_C_BLD_FUNC(x)			\
++		FIELD_PREP(PRIM_C_BLD_FUNC_MASK, (x))
++#define  SEC_C_BLD_FUNC_MASK			GENMASK(6, 4)
++#define  SEC_C_BLD_FUNC(x)			\
++		FIELD_PREP(SEC_C_BLD_FUNC_MASK, (x))
++#define  PRIM_A_BLD_FUNC_MASK			GENMASK(10, 8)
++#define  PRIM_A_BLD_FUNC(x)			\
++		FIELD_PREP(PRIM_A_BLD_FUNC_MASK, (x))
++#define  SEC_A_BLD_FUNC_MASK			GENMASK(14, 12)
++#define  SEC_A_BLD_FUNC(x)			\
++		FIELD_PREP(SEC_A_BLD_FUNC_MASK, (x))
++
++#define POSITION				0x14
++#define  XPOS_MASK				GENMASK(15, 0)
++#define  XPOS(x)				FIELD_PREP(XPOS_MASK, (x))
++#define  YPOS_MASK				GENMASK(31, 16)
++#define  YPOS(x)				FIELD_PREP(YPOS_MASK, (x))
++
++enum dc_lb_blend_func {
++	DC_LAYERBLEND_BLEND_ZERO,
++	DC_LAYERBLEND_BLEND_ONE,
++	DC_LAYERBLEND_BLEND_PRIM_ALPHA,
++	DC_LAYERBLEND_BLEND_ONE_MINUS_PRIM_ALPHA,
++	DC_LAYERBLEND_BLEND_SEC_ALPHA,
++	DC_LAYERBLEND_BLEND_ONE_MINUS_SEC_ALPHA,
++	DC_LAYERBLEND_BLEND_CONST_ALPHA,
++	DC_LAYERBLEND_BLEND_ONE_MINUS_CONST_ALPHA,
++};
++
++enum dc_lb_shadow_sel {
++	BOTH = 0x2,
++};
++
++static const struct dc_subdev_info dc_lb_info[] = {
++	{ .reg_start = 0x56180ba0, .id = 0, },
++	{ .reg_start = 0x56180bc0, .id = 1, },
++	{ .reg_start = 0x56180be0, .id = 2, },
++	{ .reg_start = 0x56180c00, .id = 3, },
++};
++
++static const struct regmap_range dc_lb_pec_regmap_access_ranges[] = {
++	regmap_reg_range(PIXENGCFG_DYNAMIC, PIXENGCFG_DYNAMIC),
++};
++
++static const struct regmap_access_table dc_lb_pec_regmap_access_table = {
++	.yes_ranges = dc_lb_pec_regmap_access_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_lb_pec_regmap_access_ranges),
++};
++
++static const struct regmap_config dc_lb_pec_regmap_config = {
++	.name = "pec",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.fast_io = true,
++	.wr_table = &dc_lb_pec_regmap_access_table,
++	.rd_table = &dc_lb_pec_regmap_access_table,
++	.max_register = PIXENGCFG_DYNAMIC,
++};
++
++static const struct regmap_range dc_lb_regmap_ranges[] = {
++	regmap_reg_range(STATICCONTROL, POSITION),
++};
++
++static const struct regmap_access_table dc_lb_regmap_access_table = {
++	.yes_ranges = dc_lb_regmap_ranges,
++	.n_yes_ranges = ARRAY_SIZE(dc_lb_regmap_ranges),
++};
++
++static const struct regmap_config dc_lb_cfg_regmap_config = {
++	.name = "cfg",
++	.reg_bits = 32,
++	.reg_stride = 4,
++	.val_bits = 32,
++	.fast_io = true,
++	.wr_table = &dc_lb_regmap_access_table,
++	.rd_table = &dc_lb_regmap_access_table,
++	.max_register = POSITION,
++};
++
++static const enum dc_link_id prim_sels[] = {
++	/* common options */
++	LINK_ID_NONE,
++	LINK_ID_CONSTFRAME0,
++	LINK_ID_CONSTFRAME1,
++	LINK_ID_CONSTFRAME4,
++	LINK_ID_CONSTFRAME5,
++	/*
++	 * special options:
++	 * layerblend(n) has n special options,
++	 * from layerblend0 to layerblend(n - 1), e.g.,
++	 * layerblend3 has 3 special options -
++	 * layerblend0/1/2.
++	 */
++	LINK_ID_LAYERBLEND0,
++	LINK_ID_LAYERBLEND1,
++	LINK_ID_LAYERBLEND2,
++	LINK_ID_LAYERBLEND3,
++};
++
++static const enum dc_link_id sec_sels[] = {
++	LINK_ID_NONE,
++	LINK_ID_FETCHWARP2,
++	LINK_ID_FETCHLAYER0,
++};
++
++enum dc_link_id dc_lb_get_link_id(struct dc_lb *lb)
++{
++	return lb->link;
++}
++
++void dc_lb_pec_dynamic_prim_sel(struct dc_lb *lb, enum dc_link_id prim)
++{
++	int fixed_sels_num = ARRAY_SIZE(prim_sels) - 4;
++	int i;
++
++	for (i = 0; i < fixed_sels_num + lb->id; i++) {
++		if (prim_sels[i] == prim) {
++			regmap_write_bits(lb->reg_pec, PIXENGCFG_DYNAMIC,
++					  PIXENGCFG_DYNAMIC_PRIM_SEL_MASK,
++					  PIXENGCFG_DYNAMIC_PRIM_SEL(prim));
++			return;
++		}
++	}
++
++	dev_warn(lb->dev, "invalid primary input selection:%d\n", prim);
++}
++
++void dc_lb_pec_dynamic_sec_sel(struct dc_lb *lb, enum dc_link_id sec)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(sec_sels); i++) {
++		if (sec_sels[i] == sec) {
++			regmap_write_bits(lb->reg_pec, PIXENGCFG_DYNAMIC,
++					  PIXENGCFG_DYNAMIC_SEC_SEL_MASK,
++					  PIXENGCFG_DYNAMIC_SEC_SEL(sec));
++			return;
++		}
++	}
++
++	dev_warn(lb->dev, "invalid secondary input selection:%d\n", sec);
++}
++
++void dc_lb_pec_clken(struct dc_lb *lb, enum dc_pec_clken clken)
++{
++	regmap_write_bits(lb->reg_pec, PIXENGCFG_DYNAMIC, CLKEN_MASK,
++			  CLKEN(clken));
++}
++
++static inline void dc_lb_enable_shden(struct dc_lb *lb)
++{
++	regmap_write_bits(lb->reg_cfg, STATICCONTROL, SHDEN, SHDEN);
++}
++
++static inline void dc_lb_shdtoksel(struct dc_lb *lb, enum dc_lb_shadow_sel sel)
++{
++	regmap_write_bits(lb->reg_cfg, STATICCONTROL, SHDTOKSEL_MASK,
++			  SHDTOKSEL(sel));
++}
++
++static inline void dc_lb_shdldsel(struct dc_lb *lb, enum dc_lb_shadow_sel sel)
++{
++	regmap_write_bits(lb->reg_cfg, STATICCONTROL, SHDLDSEL_MASK,
++			  SHDLDSEL(sel));
++}
++
++void dc_lb_mode(struct dc_lb *lb, enum dc_lb_mode mode)
++{
++	regmap_write_bits(lb->reg_cfg, CONTROL, CTRL_MODE_MASK, mode);
++}
++
++static inline void dc_lb_blendcontrol(struct dc_lb *lb)
++{
++	u32 val = PRIM_A_BLD_FUNC(DC_LAYERBLEND_BLEND_ZERO) |
++		  SEC_A_BLD_FUNC(DC_LAYERBLEND_BLEND_ZERO) |
++		  PRIM_C_BLD_FUNC(DC_LAYERBLEND_BLEND_ZERO) |
++		  SEC_C_BLD_FUNC(DC_LAYERBLEND_BLEND_CONST_ALPHA) |
++		  ALPHA(DRM_BLEND_ALPHA_OPAQUE >> 8);
++
++	regmap_write(lb->reg_cfg, BLENDCONTROL, val);
++}
++
++void dc_lb_position(struct dc_lb *lb, int x, int y)
++{
++	regmap_write(lb->reg_cfg, POSITION, XPOS(x) | YPOS(y));
++}
++
++int dc_lb_get_id(struct dc_lb *lb)
++{
++	return lb->id;
++}
++
++void dc_lb_init(struct dc_lb *lb)
++{
++	dc_lb_pec_dynamic_prim_sel(lb, LINK_ID_NONE);
++	dc_lb_pec_dynamic_sec_sel(lb, LINK_ID_NONE);
++	dc_lb_pec_clken(lb, CLKEN_DISABLE);
++	dc_lb_shdldsel(lb, BOTH);
++	dc_lb_shdtoksel(lb, BOTH);
++	dc_lb_blendcontrol(lb);
++	dc_lb_enable_shden(lb);
++}
++
++static int dc_lb_bind(struct device *dev, struct device *master, void *data)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++	struct dc_drm_device *dc_drm = data;
++	struct resource *res_pec;
++	void __iomem *base_pec;
++	void __iomem *base_cfg;
++	struct dc_lb *lb;
++
++	lb = devm_kzalloc(dev, sizeof(*lb), GFP_KERNEL);
++	if (!lb)
++		return -ENOMEM;
++
++	base_pec = devm_platform_get_and_ioremap_resource(pdev, 0, &res_pec);
++	if (IS_ERR(base_pec))
++		return PTR_ERR(base_pec);
++
++	base_cfg = devm_platform_ioremap_resource_byname(pdev, "cfg");
++	if (IS_ERR(base_cfg))
++		return PTR_ERR(base_cfg);
++
++	lb->reg_pec = devm_regmap_init_mmio(dev, base_pec,
++					    &dc_lb_pec_regmap_config);
++	if (IS_ERR(lb->reg_pec))
++		return PTR_ERR(lb->reg_pec);
++
++	lb->reg_cfg = devm_regmap_init_mmio(dev, base_cfg,
++					    &dc_lb_cfg_regmap_config);
++	if (IS_ERR(lb->reg_cfg))
++		return PTR_ERR(lb->reg_cfg);
++
++	lb->id = dc_subdev_get_id(dc_lb_info, ARRAY_SIZE(dc_lb_info), res_pec);
++	if (lb->id < 0) {
++		dev_err(dev, "failed to get instance number: %d\n", lb->id);
++		return lb->id;
++	}
++
++	lb->dev = dev;
++	lb->link = LINK_ID_LAYERBLEND0 + lb->id;
++
++	dc_drm->lb[lb->id] = lb;
++
++	return 0;
++}
++
++static const struct component_ops dc_lb_ops = {
++	.bind = dc_lb_bind,
++};
++
++static int dc_lb_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	ret = component_add(&pdev->dev, &dc_lb_ops);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "failed to add component\n");
++
++	return 0;
++}
++
++static void dc_lb_remove(struct platform_device *pdev)
++{
++	component_del(&pdev->dev, &dc_lb_ops);
++}
++
++static const struct of_device_id dc_lb_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-dc-layerblend" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, dc_lb_dt_ids);
++
++struct platform_driver dc_lb_driver = {
++	.probe = dc_lb_probe,
++	.remove = dc_lb_remove,
++	.driver = {
++		.name = "imx8-dc-layerblend",
++		.suppress_bind_attrs = true,
++		.of_match_table = dc_lb_dt_ids,
++	},
++};
+diff --git a/drivers/gpu/drm/imx/dc/dc-pe.c b/drivers/gpu/drm/imx/dc/dc-pe.c
+new file mode 100644
+index 000000000000..6676c22f3f45
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-pe.c
+@@ -0,0 +1,158 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Copyright 2024 NXP
++ */
++
++#include <linux/clk.h>
++#include <linux/component.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
++#include <linux/pm.h>
++#include <linux/pm_runtime.h>
++
++#include "dc-drv.h"
++#include "dc-fu.h"
++#include "dc-pe.h"
++
++static int dc_pe_bind(struct device *dev, struct device *master, void *data)
++{
++	struct dc_drm_device *dc_drm = data;
++	struct dc_pe *pe;
++	int ret;
++
++	pe = devm_kzalloc(dev, sizeof(*pe), GFP_KERNEL);
++	if (!pe)
++		return -ENOMEM;
++
++	pe->clk_axi = devm_clk_get(dev, NULL);
++	if (IS_ERR(pe->clk_axi))
++		return dev_err_probe(dev, PTR_ERR(pe->clk_axi),
++				     "failed to get AXI clock\n");
++
++	pe->dev = dev;
++
++	dev_set_drvdata(dev, pe);
++
++	ret = devm_pm_runtime_enable(dev);
++	if (ret)
++		return ret;
++
++	dc_drm->pe = pe;
++
++	return 0;
++}
++
++/*
++ * It's possible to get the child device pointers from the child component
++ * bind callbacks, but it depends on the component helper behavior to bind
++ * the pixel engine component first.  To avoid the dependency, post bind to
++ * get the pointers from dc_drm in a safe manner.
++ */
++void dc_pe_post_bind(struct dc_drm_device *dc_drm)
++{
++	struct dc_pe *pe = dc_drm->pe;
++	int i;
++
++	for (i = 0; i < DC_DISPLAYS; i++) {
++		pe->cf_safe[i] = dc_drm->cf_safe[i];
++		pe->cf_cont[i] = dc_drm->cf_cont[i];
++		pe->ed_safe[i] = dc_drm->ed_safe[i];
++		pe->ed_cont[i] = dc_drm->ed_cont[i];
++	}
++
++	for (i = 0; i < DC_DISP_FU_CNT; i++)
++		pe->fu_disp[i] = dc_drm->fu_disp[i];
++
++	for (i = 0; i < DC_LB_CNT; i++)
++		pe->lb[i] = dc_drm->lb[i];
++}
++
++static const struct component_ops dc_pe_ops = {
++	.bind = dc_pe_bind,
++};
++
++static int dc_pe_probe(struct platform_device *pdev)
++{
++	int ret;
++
++	ret = devm_of_platform_populate(&pdev->dev);
++	if (ret < 0)
++		return ret;
++
++	ret = component_add(&pdev->dev, &dc_pe_ops);
++	if (ret)
++		return dev_err_probe(&pdev->dev, ret,
++				     "failed to add component\n");
++
++	return 0;
++}
++
++static void dc_pe_remove(struct platform_device *pdev)
++{
++	component_del(&pdev->dev, &dc_pe_ops);
++}
++
++static int dc_pe_runtime_suspend(struct device *dev)
++{
++	struct dc_pe *pe = dev_get_drvdata(dev);
++
++	clk_disable_unprepare(pe->clk_axi);
++
++	return 0;
++}
++
++static int dc_pe_runtime_resume(struct device *dev)
++{
++	struct dc_pe *pe = dev_get_drvdata(dev);
++	int i, ret;
++
++	ret = clk_prepare_enable(pe->clk_axi);
++	if (ret) {
++		dev_err(dev, "failed to enable AXI clock: %d\n", ret);
++		return ret;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(pe->cf_safe); i++)
++		dc_cf_init(pe->cf_safe[i]);
++
++	for (i = 0; i < ARRAY_SIZE(pe->cf_cont); i++)
++		dc_cf_init(pe->cf_cont[i]);
++
++	for (i = 0; i < ARRAY_SIZE(pe->ed_safe); i++)
++		dc_ed_init(pe->ed_safe[i]);
++
++	for (i = 0; i < ARRAY_SIZE(pe->ed_cont); i++)
++		dc_ed_init(pe->ed_cont[i]);
++
++	for (i = 0; i < ARRAY_SIZE(pe->fu_disp); i++)
++		pe->fu_disp[i]->ops.init(pe->fu_disp[i]);
++
++	for (i = 0; i < ARRAY_SIZE(pe->lb); i++)
++		dc_lb_init(pe->lb[i]);
++
++	return 0;
++}
++
++static const struct dev_pm_ops dc_pe_pm_ops = {
++	RUNTIME_PM_OPS(dc_pe_runtime_suspend, dc_pe_runtime_resume, NULL)
++};
++
++static const struct of_device_id dc_pe_dt_ids[] = {
++	{ .compatible = "fsl,imx8qxp-dc-pixel-engine", },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, dc_pe_dt_ids);
++
++struct platform_driver dc_pe_driver = {
++	.probe = dc_pe_probe,
++	.remove = dc_pe_remove,
++	.driver = {
++		.name = "imx8-dc-pixel-engine",
++		.suppress_bind_attrs = true,
++		.of_match_table = dc_pe_dt_ids,
++		.pm = pm_sleep_ptr(&dc_pe_pm_ops),
++	},
++};
+diff --git a/drivers/gpu/drm/imx/dc/dc-pe.h b/drivers/gpu/drm/imx/dc/dc-pe.h
+new file mode 100644
+index 000000000000..f5e01a6eb9e9
+--- /dev/null
++++ b/drivers/gpu/drm/imx/dc/dc-pe.h
+@@ -0,0 +1,101 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * Copyright 2024 NXP
++ */
++
++#ifndef __DC_PIXEL_ENGINE_H__
++#define __DC_PIXEL_ENGINE_H__
++
++#include <linux/clk.h>
++#include <linux/device.h>
++#include <linux/regmap.h>
++
++#include "dc-de.h"
++
++#define SHDEN			BIT(0)
++
++#define CLKEN_MASK_SHIFT	24
++#define CLKEN_MASK		(0x3 << CLKEN_MASK_SHIFT)
++#define CLKEN(n)		((n) << CLKEN_MASK_SHIFT)
++
++#define DC_DISP_FU_CNT		2
++#define DC_LB_CNT		4
++
++enum dc_link_id {
++	LINK_ID_NONE		= 0x00,
++	LINK_ID_CONSTFRAME0	= 0x0c,
++	LINK_ID_CONSTFRAME4	= 0x0e,
++	LINK_ID_CONSTFRAME1	= 0x10,
++	LINK_ID_CONSTFRAME5	= 0x12,
++	LINK_ID_FETCHWARP2	= 0x14,
++	LINK_ID_FETCHLAYER0	= 0x1a,
++	LINK_ID_LAYERBLEND0	= 0x21,
++	LINK_ID_LAYERBLEND1	= 0x22,
++	LINK_ID_LAYERBLEND2	= 0x23,
++	LINK_ID_LAYERBLEND3	= 0x24,
++};
++
++enum dc_lb_mode {
++	LB_NEUTRAL,	/* Output is same as primary input. */
++	LB_BLEND,
++};
++
++enum dc_pec_clken {
++	CLKEN_DISABLE,
++	CLKEN_AUTOMATIC,
++};
++
++struct dc_cf {
++	struct regmap *reg_cfg;
++	enum dc_link_id link;
++};
++
++struct dc_ed {
++	struct device *dev;
++	struct regmap *reg_pec;
++	struct regmap *reg_cfg;
++	int irq_shdload;
++};
++
++struct dc_lb {
++	struct device *dev;
++	struct regmap *reg_pec;
++	struct regmap *reg_cfg;
++	int id;
++	enum dc_link_id link;
++};
++
++struct dc_pe {
++	struct device *dev;
++	struct clk *clk_axi;
++	struct dc_cf *cf_safe[DC_DISPLAYS];
++	struct dc_cf *cf_cont[DC_DISPLAYS];
++	struct dc_ed *ed_safe[DC_DISPLAYS];
++	struct dc_ed *ed_cont[DC_DISPLAYS];
++	struct dc_fu *fu_disp[DC_DISP_FU_CNT];
++	struct dc_lb *lb[DC_LB_CNT];
++};
++
++/* Constant Frame Unit */
++enum dc_link_id dc_cf_get_link_id(struct dc_cf *cf);
++void dc_cf_framedimensions(struct dc_cf *cf, unsigned int w, unsigned int h);
++void dc_cf_constantcolor_black(struct dc_cf *cf);
++void dc_cf_constantcolor_blue(struct dc_cf *cf);
++void dc_cf_init(struct dc_cf *cf);
++
++/* External Destination Unit */
++void dc_ed_pec_src_sel(struct dc_ed *ed, enum dc_link_id src);
++void dc_ed_pec_sync_trigger(struct dc_ed *ed);
++void dc_ed_init(struct dc_ed *ed);
++
++/* Layer Blend Unit */
++enum dc_link_id dc_lb_get_link_id(struct dc_lb *lb);
++void dc_lb_pec_dynamic_prim_sel(struct dc_lb *lb, enum dc_link_id prim);
++void dc_lb_pec_dynamic_sec_sel(struct dc_lb *lb, enum dc_link_id sec);
++void dc_lb_pec_clken(struct dc_lb *lb, enum dc_pec_clken clken);
++void dc_lb_mode(struct dc_lb *lb, enum dc_lb_mode mode);
++void dc_lb_position(struct dc_lb *lb, int x, int y);
++int dc_lb_get_id(struct dc_lb *lb);
++void dc_lb_init(struct dc_lb *lb);
++
++#endif /* __DC_PIXEL_ENGINE_H__ */
 -- 
 2.34.1
 
