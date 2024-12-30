@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513759FE725
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 15:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EFA9FE72C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 15:34:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4E410E263;
-	Mon, 30 Dec 2024 14:33:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B714E10E2C3;
+	Mon, 30 Dec 2024 14:34:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nYMmYCTL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eKGowTjq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECAE110E263
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:33:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6541F5C5B03
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:32:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E9A9C4CED4
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735569199;
- bh=R35VRLJXr4JYJ30+MfVgVkVmGJ/WbWlBOrgUrptlRhU=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=nYMmYCTL2yeRC56h/V4Z9CefSTxmcXAgYNSoh5dFJHcll5clkjI+oJIWUnG3gVfF0
- DZieLK+nEfGEaBolnqvixJX2BCFDnF5Nccz4ua6HjCg/djIpWaFY+/KkI3XjlPVrKP
- /H3epGabMyL89yDmLi/YR4azvDTM1dgarh6NbKBQcmufg59zlDTp3NMQoY4zz2yU3l
- C+e8tJePJBuVWNMZvP2UGDw0CzZMPqS+b7dU7ibM7oAM0F4t1N2k+oyxxLNdyHayg9
- UhRjfZYgaF79ElEjsvEJX2VorN7fk3hF6vhqpxc5jU3Sgy3Zt2dMiBnczSfcZ5Q1p1
- EpCoN1U/19owQ==
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-2ee67e9287fso12226362a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 06:33:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXP234BZ3vi7RZKIpjjL+dZk3dglAT2FOBwq+Sc+G6H3c4yF7j+BGnU+bNcSScZ4CBd+540zgXLmNc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw94itD0RG7hkoIN7X6PygImW5A+/qpiU1W1N9/JpWLqb0eiV0E
- rbRBEx9NMSwzeJCK9PXW0O+nWKjAblMb0xGziRGpSmrtulQOvyhPHc5EdnBVZGAcxJwxpSg61g+
- CXnaUkRzVMjXnXylulNOM+hZaRQ==
-X-Google-Smtp-Source: AGHT+IH7B7muMkJj9OMuXi095+9uf0FPQOA4FD0jAvXN0DGE00jaKOmLqRW/zMH0tsqzjz+nbK+8wcg5sPsba96GL8E=
-X-Received: by 2002:a17:90a:d003:b0:2f2:a664:df1a with SMTP id
- 98e67ed59e1d1-2f452debea5mr51806088a91.2.1735569199146; Mon, 30 Dec 2024
- 06:33:19 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0E210E2C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735569275; x=1767105275;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=rIntRNnOttznCDMdhQKbsUM6ixES4VV01lYopRVfuYY=;
+ b=eKGowTjqT5SyAF5U5rBLU0i4OUfjDAuSXXuXCDGjfcKE94yePMN+nCoH
+ QLE19R066dPXu0ZhwL0lRFUuavQPHbxc0hnE1xrnYJj116Nyvsy4yxc1G
+ tAWxDY49m7v1lXnHD88qN5GDlW6U8rCVkkq345+NcqCV+AMg8woxdca0U
+ N/zIDn8BVIzd+C6I8iwqkxTPNOOADS1rZ7L2XshVKwbDvKAM4cCVGAK1i
+ uap+5B/8kRc3rfXn3X7husEjbkjjF2Oz3t34kGLZb2PKe29j1kD/pte/L
+ DnwZDt0sWVQiJwut0tisSArsrVIa0D4eA82iTmlY+Z2+uy0At6dNycy6O g==;
+X-CSE-ConnectionGUID: QRepINs7QzWbbnDRI2aX6w==
+X-CSE-MsgGUID: Elx1VpmhR9m+5MLcqyWFOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="35733559"
+X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; d="scan'208";a="35733559"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2024 06:34:35 -0800
+X-CSE-ConnectionGUID: FJ3NU2bBQZSUHTjLGYF+WQ==
+X-CSE-MsgGUID: u/MPyJTBTaO5249o6yYdvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; d="scan'208";a="101312298"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.167])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Dec 2024 06:34:33 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH v2] media: cec: include linux/debugfs.h and
+ linux/seq_file.h where needed
+In-Reply-To: <20241217100024.1858704-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241217100024.1858704-1-jani.nikula@intel.com>
+Date: Mon, 30 Dec 2024 16:34:30 +0200
+Message-ID: <871pxpp7d5.fsf@intel.com>
 MIME-Version: 1.0
-References: <20241025083036.8829-1-liankun.yang@mediatek.com>
- <20241025083036.8829-3-liankun.yang@mediatek.com>
-In-Reply-To: <20241025083036.8829-3-liankun.yang@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 30 Dec 2024 22:33:50 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9R89cgXiM_JhJS88hk0Mc-pXGG9dCGUAyTak98mNSocg@mail.gmail.com>
-Message-ID: <CAAOTY_9R89cgXiM_JhJS88hk0Mc-pXGG9dCGUAyTak98mNSocg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] drm/mediatek: Fix mode valid issue for dp
-To: Liankun Yang <liankun.yang@mediatek.com>
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com, 
- simona@ffwll.ch, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com, 
- dmitry.osipenko@collabora.com, msp@baylibre.com, rex-bc.chen@mediatek.com, 
- granquet@baylibre.com, peng.liu@mediatek.com, jitao.shi@mediatek.com, 
- mac.shen@mediatek.com, Project_Global_Chrome_Upstream_Group@mediatek.com, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,119 +69,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Liankun:
+On Tue, 17 Dec 2024, Jani Nikula <jani.nikula@intel.com> wrote:
+> Having cec.h include linux/debugfs.h leads to all users of all cec
+> headers include and depend on debugfs.h and its dependencies for no
+> reason. Drop the include from cec.h, and include debugfs.h and
+> seq_file.h where needed.
+>
+> Sort all the modified include lists while at it.
+>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-Liankun Yang <liankun.yang@mediatek.com> =E6=96=BC 2024=E5=B9=B410=E6=9C=88=
-25=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:31=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Fix dp mode valid issue to avoid abnormal display of limit state.
->
-> After DP passes link training, it can express the lane count of the
-> current link status is good. Calculate the maximum bandwidth supported
-> by DP using the current lane count.
->
-> The color format will select the best one based on the bandwidth
-> requirements of the current timing mode. If the current timing mode
-> uses RGB and meets the DP link bandwidth requirements, RGB will be used.
->
-> If the timing mode uses RGB but does not meet the DP link bandwidthi
-> requirements, it will continue to check whether YUV422 meetsi
-> the DP link bandwidth.
->
-> FEC overhead is approximately 2.4% from DP 1.4a spec 2.2.1.4.2.
-> The down-spread amplitude shall either be disabled (0.0%) or up
-> to 0.5% from 1.4a 3.5.2.6. Add up to approximately 3% total overhead.
->
-> Because rate is already divided by 10,
-> mode->clock does not need to be multiplied by 10.
-
-Applied to mediatek-drm-fixes [1], thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
-
-Regards,
-Chun-Kuang.
+Ping?
 
 >
-> Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort drive=
-r")
-> Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
 > ---
-> Change in V2:
-> - Adjust the writing style.
-> - Add instructions.
+>
+> v2: Rebase, update cec-pin-error-inj.c and cec-gpio.c too
+>
+> Depends on commit ae19ba915eb7 ("drm/i915/display: include
+> media/cec-notifier.h and linux/debugfs.h where needed") in v6.13-rc1
 > ---
->  drivers/gpu/drm/mediatek/mtk_dp.c | 28 +++++++++++++++++-----------
->  1 file changed, 17 insertions(+), 11 deletions(-)
+>  drivers/media/cec/core/cec-adap.c              | 5 +++--
+>  drivers/media/cec/core/cec-core.c              | 5 +++--
+>  drivers/media/cec/core/cec-pin-error-inj.c     | 3 ++-
+>  drivers/media/cec/core/cec-pin.c               | 3 ++-
+>  drivers/media/cec/platform/cec-gpio/cec-gpio.c | 7 ++++---
+>  include/media/cec.h                            | 1 -
+>  6 files changed, 14 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
-/mtk_dp.c
-> index 613e1c842478..ae4807823a5c 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -2328,12 +2328,19 @@ mtk_dp_bridge_mode_valid(struct drm_bridge *bridg=
-e,
->  {
->         struct mtk_dp *mtk_dp =3D mtk_dp_from_bridge(bridge);
->         u32 bpp =3D info->color_formats & DRM_COLOR_FORMAT_YCBCR422 ? 16 =
-: 24;
-> -       u32 rate =3D min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
-> -                             drm_dp_max_lane_count(mtk_dp->rx_cap),
-> -                        drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate=
-) *
-> -                        mtk_dp->max_lanes);
-> +       u32 lane_count_min =3D mtk_dp->train_info.lane_count;
-> +       u32 rate =3D drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_=
-rate) *
-> +                        lane_count_min;
->
-> -       if (rate < mode->clock * bpp / 8)
-> +       /*
-> +        *FEC overhead is approximately 2.4% from DP 1.4a spec 2.2.1.4.2.
-> +        *The down-spread amplitude shall either be disabled (0.0%) or up
-> +        *to 0.5% from 1.4a 3.5.2.6. Add up to approximately 3% total ove=
-rhead.
-> +        *
-> +        *Because rate is already divided by 10,
-> +        *mode->clock does not need to be multiplied by 10
-> +        */
-> +       if ((rate * 97 / 100) < (mode->clock * bpp / 8))
->                 return MODE_CLOCK_HIGH;
->
->         return MODE_OK;
-> @@ -2374,10 +2381,9 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmt=
-s(struct drm_bridge *bridge,
->         struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
->         struct drm_display_info *display_info =3D
->                 &conn_state->connector->display_info;
-> -       u32 rate =3D min_t(u32, drm_dp_max_link_rate(mtk_dp->rx_cap) *
-> -                             drm_dp_max_lane_count(mtk_dp->rx_cap),
-> -                        drm_dp_bw_code_to_link_rate(mtk_dp->max_linkrate=
-) *
-> -                        mtk_dp->max_lanes);
-> +       u32 lane_count_min =3D mtk_dp->train_info.lane_count;
-> +       u32 rate =3D drm_dp_bw_code_to_link_rate(mtk_dp->train_info.link_=
-rate) *
-> +                        lane_count_min;
->
->         *num_input_fmts =3D 0;
->
-> @@ -2386,8 +2392,8 @@ static u32 *mtk_dp_bridge_atomic_get_input_bus_fmts=
-(struct drm_bridge *bridge,
->          * datarate of YUV422 and sink device supports YUV422, we output =
-YUV422
->          * format. Use this condition, we can support more resolution.
->          */
-> -       if ((rate < (mode->clock * 24 / 8)) &&
-> -           (rate > (mode->clock * 16 / 8)) &&
-> +       if (((rate * 97 / 100) < (mode->clock * 24 / 8)) &&
-> +           ((rate * 97 / 100) > (mode->clock * 16 / 8)) &&
->             (display_info->color_formats & DRM_COLOR_FORMAT_YCBCR422)) {
->                 input_fmts =3D kcalloc(1, sizeof(*input_fmts), GFP_KERNEL=
-);
->                 if (!input_fmts)
-> --
-> 2.45.2
->
+> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+> index c7d36010c890..ba6828ef540e 100644
+> --- a/drivers/media/cec/core/cec-adap.c
+> +++ b/drivers/media/cec/core/cec-adap.c
+> @@ -7,12 +7,13 @@
+>  
+>  #include <linux/errno.h>
+>  #include <linux/init.h>
+> -#include <linux/module.h>
+>  #include <linux/kernel.h>
+>  #include <linux/kmod.h>
+>  #include <linux/ktime.h>
+> -#include <linux/slab.h>
+>  #include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/seq_file.h>
+> +#include <linux/slab.h>
+>  #include <linux/string.h>
+>  #include <linux/types.h>
+>  
+> diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+> index ca0db8d457b4..e10bd588a586 100644
+> --- a/drivers/media/cec/core/cec-core.c
+> +++ b/drivers/media/cec/core/cec-core.c
+> @@ -5,13 +5,14 @@
+>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> +#include <linux/debugfs.h>
+>  #include <linux/errno.h>
+>  #include <linux/init.h>
+> -#include <linux/module.h>
+>  #include <linux/kernel.h>
+>  #include <linux/kmod.h>
+> -#include <linux/slab.h>
+>  #include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+>  #include <linux/string.h>
+>  #include <linux/types.h>
+>  
+> diff --git a/drivers/media/cec/core/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
+> index fc0968b9d40e..6e61a04b8168 100644
+> --- a/drivers/media/cec/core/cec-pin-error-inj.c
+> +++ b/drivers/media/cec/core/cec-pin-error-inj.c
+> @@ -4,8 +4,9 @@
+>   */
+>  
+>  #include <linux/delay.h>
+> -#include <linux/slab.h>
+>  #include <linux/sched/types.h>
+> +#include <linux/seq_file.h>
+> +#include <linux/slab.h>
+>  
+>  #include <media/cec-pin.h>
+>  #include "cec-pin-priv.h"
+> diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+> index 330d5d5d86ab..a70451d99ebc 100644
+> --- a/drivers/media/cec/core/cec-pin.c
+> +++ b/drivers/media/cec/core/cec-pin.c
+> @@ -4,8 +4,9 @@
+>   */
+>  
+>  #include <linux/delay.h>
+> -#include <linux/slab.h>
+>  #include <linux/sched/types.h>
+> +#include <linux/seq_file.h>
+> +#include <linux/slab.h>
+>  
+>  #include <media/cec-pin.h>
+>  #include "cec-pin-priv.h"
+> diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+> index cf64e8871fe5..50cdc557c943 100644
+> --- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+> +++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+> @@ -3,11 +3,12 @@
+>   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>   */
+>  
+> -#include <linux/module.h>
+> -#include <linux/interrupt.h>
+>  #include <linux/delay.h>
+> -#include <linux/platform_device.h>
+>  #include <linux/gpio/consumer.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/seq_file.h>
+>  #include <media/cec-notifier.h>
+>  #include <media/cec-pin.h>
+>  
+> diff --git a/include/media/cec.h b/include/media/cec.h
+> index 16b412b3131b..0c8e86115b6f 100644
+> --- a/include/media/cec.h
+> +++ b/include/media/cec.h
+> @@ -10,7 +10,6 @@
+>  
+>  #include <linux/poll.h>
+>  #include <linux/fs.h>
+> -#include <linux/debugfs.h>
+>  #include <linux/device.h>
+>  #include <linux/cdev.h>
+>  #include <linux/kthread.h>
+
+-- 
+Jani Nikula, Intel
