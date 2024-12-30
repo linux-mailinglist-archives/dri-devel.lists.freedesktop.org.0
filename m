@@ -2,58 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EFA9FE72C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 15:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 017A59FE736
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 15:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B714E10E2C3;
-	Mon, 30 Dec 2024 14:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0FE10E4F6;
+	Mon, 30 Dec 2024 14:45:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eKGowTjq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="af8uBNSp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F0E210E2C3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1735569275; x=1767105275;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=rIntRNnOttznCDMdhQKbsUM6ixES4VV01lYopRVfuYY=;
- b=eKGowTjqT5SyAF5U5rBLU0i4OUfjDAuSXXuXCDGjfcKE94yePMN+nCoH
- QLE19R066dPXu0ZhwL0lRFUuavQPHbxc0hnE1xrnYJj116Nyvsy4yxc1G
- tAWxDY49m7v1lXnHD88qN5GDlW6U8rCVkkq345+NcqCV+AMg8woxdca0U
- N/zIDn8BVIzd+C6I8iwqkxTPNOOADS1rZ7L2XshVKwbDvKAM4cCVGAK1i
- uap+5B/8kRc3rfXn3X7husEjbkjjF2Oz3t34kGLZb2PKe29j1kD/pte/L
- DnwZDt0sWVQiJwut0tisSArsrVIa0D4eA82iTmlY+Z2+uy0At6dNycy6O g==;
-X-CSE-ConnectionGUID: QRepINs7QzWbbnDRI2aX6w==
-X-CSE-MsgGUID: Elx1VpmhR9m+5MLcqyWFOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="35733559"
-X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; d="scan'208";a="35733559"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2024 06:34:35 -0800
-X-CSE-ConnectionGUID: FJ3NU2bBQZSUHTjLGYF+WQ==
-X-CSE-MsgGUID: u/MPyJTBTaO5249o6yYdvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,276,1728975600"; d="scan'208";a="101312298"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.167])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2024 06:34:33 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2] media: cec: include linux/debugfs.h and
- linux/seq_file.h where needed
-In-Reply-To: <20241217100024.1858704-1-jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241217100024.1858704-1-jani.nikula@intel.com>
-Date: Mon, 30 Dec 2024 16:34:30 +0200
-Message-ID: <871pxpp7d5.fsf@intel.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 838CD10E4F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:45:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 780D95C5BE6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:44:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2EC1C4CEDC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1735569918;
+ bh=WI+NkNOipLWPbdl8Ai0uXMv9gV+VvTtRbrScwl1kVbM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=af8uBNSpUmHH2XfQQmtrPRSmD8YCVHTaGGSZQPmubi1IYmiML95dnAIip4oCfyuwz
+ DB3GV0u2M487Fc2ziWcydABK0oBCOJojpreJPvk4zV5UlTfI9j/u8strJAL6UybdEh
+ SR5h4UxCZJs/UJdYVTnDO9Uzw7KJ1+p90IuN7TiWCozfMLeCfeAyCeqvaQ/1mrQFCq
+ AHdhpjZUIRhkGdGnsegSjCFqfjUEi80Bn+WBCTcAPW0RXjzbYxFOjrtzhlBMixjYb3
+ yzyPu4Zepa25WoqQWOMARw1ohrk9jO8hAoouAkrD36HmF4hQhbkJp5wQxHQLuT5YOc
+ yQyl/IhIt7xjw==
+Received: by mail-pj1-f44.google.com with SMTP id
+ 98e67ed59e1d1-2ee989553c1so11967589a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 06:45:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXP45DRbVKRPVtccKhdkc8YRQjRpcXZLe9Srg5B1zQQFNlrYjuWR4M8oijFP4MO7g8RypVNv1tI2Xw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzt2a9GEc7dzzhJOICbe5v1GmXaDNDnPd4NqYphhRHjI/qu4FvE
+ swqaSwRaWJtWJtK+F6BqUobkVO+Dh02BxsK+eXLKZvkqzJWMmpF9niVX2He9qGnBrWZm9euNQuO
+ pWfkqBB64PpvK1sfvgqdRTHGIMA==
+X-Google-Smtp-Source: AGHT+IGqBjofA/9ZD/GcwInvNoJpn3Bcz2gP5ADkT6kMX87x83YxDQetl+FMgD2Y0zy3a2LSykWpXd7X4STelitYQeM=
+X-Received: by 2002:a17:90b:518d:b0:2ee:5958:828 with SMTP id
+ 98e67ed59e1d1-2f452e214admr54708663a91.9.1735569914855; Mon, 30 Dec 2024
+ 06:45:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241105090207.3892242-1-fshao@chromium.org>
+In-Reply-To: <20241105090207.3892242-1-fshao@chromium.org>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 30 Dec 2024 22:45:48 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9tnJbhF2fGzAcjdHb=uMGaHyqeHZvL=Whb9GJZCUupPA@mail.gmail.com>
+Message-ID: <CAAOTY_9tnJbhF2fGzAcjdHb=uMGaHyqeHZvL=Whb9GJZCUupPA@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: display: mediatek: dp: Reference common
+ DAI properties
+To: Fei Shao <fshao@chromium.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,139 +76,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Dec 2024, Jani Nikula <jani.nikula@intel.com> wrote:
-> Having cec.h include linux/debugfs.h leads to all users of all cec
-> headers include and depend on debugfs.h and its dependencies for no
-> reason. Drop the include from cec.h, and include debugfs.h and
-> seq_file.h where needed.
->
-> Sort all the modified include lists while at it.
->
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Hi, Fei:
 
-Ping?
+Fei Shao <fshao@chromium.org> =E6=96=BC 2024=E5=B9=B411=E6=9C=885=E6=97=A5 =
+=E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=885:02=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> The MediaTek DP hardware supports audio and exposes a DAI, so the
+> '#sound-dai-cells' property is needed for describing the DAI links.
+>
+> Reference the dai-common.yaml schema to allow '#sound-dai-cells' to be
+> used, and filter out non-DP compatibles as MediaTek eDP in the same
+> binding doesn't support audio.
+>
+> This fixes dtbs_check error:
+>   '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+
+Applied to mediatek-drm-fixes [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
+
+Regards,
+Chun-Kuang.
 
 >
+> Signed-off-by: Fei Shao <fshao@chromium.org>
 > ---
 >
-> v2: Rebase, update cec-pin-error-inj.c and cec-gpio.c too
+> Changes in v2:
+> - reference to dai-common.yaml since the hardware exposes DAI
+>   and update to `unevaluatedProperties: false`
+> - update commit message
 >
-> Depends on commit ae19ba915eb7 ("drm/i915/display: include
-> media/cec-notifier.h and linux/debugfs.h where needed") in v6.13-rc1
-> ---
->  drivers/media/cec/core/cec-adap.c              | 5 +++--
->  drivers/media/cec/core/cec-core.c              | 5 +++--
->  drivers/media/cec/core/cec-pin-error-inj.c     | 3 ++-
->  drivers/media/cec/core/cec-pin.c               | 3 ++-
->  drivers/media/cec/platform/cec-gpio/cec-gpio.c | 7 ++++---
->  include/media/cec.h                            | 1 -
->  6 files changed, 14 insertions(+), 10 deletions(-)
+>  .../display/mediatek/mediatek,dp.yaml         | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-> index c7d36010c890..ba6828ef540e 100644
-> --- a/drivers/media/cec/core/cec-adap.c
-> +++ b/drivers/media/cec/core/cec-adap.c
-> @@ -7,12 +7,13 @@
->  
->  #include <linux/errno.h>
->  #include <linux/init.h>
-> -#include <linux/module.h>
->  #include <linux/kernel.h>
->  #include <linux/kmod.h>
->  #include <linux/ktime.h>
-> -#include <linux/slab.h>
->  #include <linux/mm.h>
-> +#include <linux/module.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
->  #include <linux/string.h>
->  #include <linux/types.h>
->  
-> diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-> index ca0db8d457b4..e10bd588a586 100644
-> --- a/drivers/media/cec/core/cec-core.c
-> +++ b/drivers/media/cec/core/cec-core.c
-> @@ -5,13 +5,14 @@
->   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> +#include <linux/debugfs.h>
->  #include <linux/errno.h>
->  #include <linux/init.h>
-> -#include <linux/module.h>
->  #include <linux/kernel.h>
->  #include <linux/kmod.h>
-> -#include <linux/slab.h>
->  #include <linux/mm.h>
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
->  #include <linux/string.h>
->  #include <linux/types.h>
->  
-> diff --git a/drivers/media/cec/core/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
-> index fc0968b9d40e..6e61a04b8168 100644
-> --- a/drivers/media/cec/core/cec-pin-error-inj.c
-> +++ b/drivers/media/cec/core/cec-pin-error-inj.c
-> @@ -4,8 +4,9 @@
->   */
->  
->  #include <linux/delay.h>
-> -#include <linux/slab.h>
->  #include <linux/sched/types.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
->  
->  #include <media/cec-pin.h>
->  #include "cec-pin-priv.h"
-> diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-> index 330d5d5d86ab..a70451d99ebc 100644
-> --- a/drivers/media/cec/core/cec-pin.c
-> +++ b/drivers/media/cec/core/cec-pin.c
-> @@ -4,8 +4,9 @@
->   */
->  
->  #include <linux/delay.h>
-> -#include <linux/slab.h>
->  #include <linux/sched/types.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
->  
->  #include <media/cec-pin.h>
->  #include "cec-pin-priv.h"
-> diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-> index cf64e8871fe5..50cdc557c943 100644
-> --- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-> +++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
-> @@ -3,11 +3,12 @@
->   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->   */
->  
-> -#include <linux/module.h>
-> -#include <linux/interrupt.h>
->  #include <linux/delay.h>
-> -#include <linux/platform_device.h>
->  #include <linux/gpio/consumer.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/seq_file.h>
->  #include <media/cec-notifier.h>
->  #include <media/cec-pin.h>
->  
-> diff --git a/include/media/cec.h b/include/media/cec.h
-> index 16b412b3131b..0c8e86115b6f 100644
-> --- a/include/media/cec.h
-> +++ b/include/media/cec.h
-> @@ -10,7 +10,6 @@
->  
->  #include <linux/poll.h>
->  #include <linux/fs.h>
-> -#include <linux/debugfs.h>
->  #include <linux/device.h>
->  #include <linux/cdev.h>
->  #include <linux/kthread.h>
-
--- 
-Jani Nikula, Intel
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.ya=
+ml
+> index 2aef1eb32e11..75ce92f4a5fd 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> @@ -42,6 +42,9 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>      properties:
+> @@ -85,7 +88,21 @@ required:
+>    - ports
+>    - max-linkrate-mhz
+>
+> -additionalProperties: false
+> +allOf:
+> +  - $ref: /schemas/sound/dai-common.yaml#
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - mediatek,mt8188-dp-tx
+> +                - mediatek,mt8195-dp-tx
+> +    then:
+> +      properties:
+> +        '#sound-dai-cells': false
+> +
+> +unevaluatedProperties: false
+>
+>  examples:
+>    - |
+> --
+> 2.47.0.277.g8800431eea-goog
+>
