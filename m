@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690C19FE601
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 13:46:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 561B19FE60E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 13:48:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E297210E4C5;
-	Mon, 30 Dec 2024 12:46:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB0310E4C7;
+	Mon, 30 Dec 2024 12:48:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qPCF/yyt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZgcS9B+2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89BEA10E4BA
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 12:46:56 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-3004028c714so103971931fa.2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 04:46:56 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D65610E04C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 12:48:05 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53e3a90336eso10153161e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 04:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735562755; x=1736167555; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1735562824; x=1736167624; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wR+rDjRYRPZhYRjSFOwWeCZzooZ4kP9UqFam3k443z8=;
- b=qPCF/yyt3sgcI2BWvLUpFvZEFOOc3cCE7smKxFgFWtohGu8VM0Qg4GnYyNNC+F5gvA
- 6hB4xI8mJ9Aw5bRJoEorJKsnXXsh4eiciwjTH5sInMSX1Z6dFEtOp68/IFtr2hyIrjIZ
- 5pUfnk+W2iRhpcWO4tzJrP3DW3XxQVEiqt1WMa0MczmuNb2/RZSJe1hMXAX/5sk/3G5z
- OCJs5B9OXNCLZAvw9ZT4TJJu1dWTu68yz0o5MIFekqOCtdfLgr9bPPMsd6eKzp/zEaun
- QosQgLRT/2hb4IG+fx7TXjsgoDE5wa3f1hIgDZstDy7/evJiTpehEPAs6jEA8zTT+6Hz
- lKfA==
+ bh=uCO6CXWnoZCq053HJEmMFJxQhQ579FC0ggfho/ODq8Q=;
+ b=ZgcS9B+2KhkwBHxxc52MPiXGBGCX7p7mC91DVT8Y5LTfe+1z5EX3BS+DILiNHCN/F3
+ WWODlmhJ4ocj9Q6Gr6jz7g+6lSd7sN2Txglrhv45vsJ+dK620HNHg9Mz+RGtmh3BnVm/
+ 8Uvw+cau3a4WGKFPxhMKz7b+g9QOHBvBEYtVYJgOn4Nw82L8rXg7Lxd7JC3AaxJW3mrX
+ Vwe1EMaP+9/pvcJYA4nmzE1axeW+WbJ1rVqmIrOlkFTgZKZwhS5SS7v4L8QUo6OHu1eO
+ GstydKbZzpqSg6Nx7q3/QTEW0LIqkNxn9uJ52dYK/shjebWW06ipJ+0k4vZwp2Vxo2kC
+ hcMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735562755; x=1736167555;
+ d=1e100.net; s=20230601; t=1735562824; x=1736167624;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wR+rDjRYRPZhYRjSFOwWeCZzooZ4kP9UqFam3k443z8=;
- b=a8vg6RkiZSUNr69tsPfryZAHsdnQoxPWsxFCp+N+z/EI1o6ns/8ICufAuWAXMRq2a4
- WuZO8rkojiTjFlnJ3rvnRAcBclxoBokdzMoQZ99giKPSUWP9MonUAsrzoHlkFCwqlBqa
- XcSv5EryytguAQlYhqY1o+mVQ+4SJ137+aNK3FV4kbmExP9Iwv6x2xYI6O4fXwcdNv/Q
- 4zTz0uPMnWW2waFFPdbRLAoXyVgeEFDlXKnwdFd17f6r0urFtVVqylO7iGX23vF0mbj/
- +6fAYFFgdAaXZSBpGbaLVlyMc3dYSyVB36c6IC+GrWFgLL8BaTA7apna33QcrOOYtot9
- R0JQ==
+ bh=uCO6CXWnoZCq053HJEmMFJxQhQ579FC0ggfho/ODq8Q=;
+ b=AJZS6PGp8o22cNWbe39+nv4mPl1/fq3FR7zee9yXt7Qw2XwJ66nb3pQRK9bp/1Hxvy
+ zEHt5nTMl8Y7kCYQ2ti0JclsHstmwDLt2jw7rzcelnEA0iYCwgQ07kPh+ocOeE0ooNGq
+ EJG1hbUBXCqdyd/Mjz1i3FlIpxsQ3eaABYMfCZVegRqLTDWLg6NnK6O/j9yW7F/kwOuP
+ Azy5YG1dmZP9z3fJf9FANEp9U58tlagIzlOuEuLZadbQlDWgN5FhvJj3UPMOblj3WhwP
+ u7PfrOcT9DvQEtmqwwwUyZvPx8ObXcGoes9F5Cw7u2HcucZjVk4OcULcbZEFnLKAMmGq
+ enzA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNmIEJXIDDeAp5CaZpBnMVrfJyE7sytiJvLE5uYGDG+gclen78Hs2Vi8qAV/Z8t7k4gqbaz8E2f/g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjVBSAx2RJDJXsg33EbrdLZVDH5jkxZUAkXlEi7dJ86oQvfWMj
- iEKlGinVBUvq698exV4E5q/0bKX7yh8QRbbKdTlXdVLo2TGt+TlpDiz4ChXeVWw=
-X-Gm-Gg: ASbGncudoC0wtOmvu96pAS2NC8zkmsgR2viJZI3+tRdt/egT7OkR9BphpxlIkmugunp
- 43jpGAkZOzNgI5kuf6SS0GM9ptVUBh+2lL96PyJnf4iiChhZmstmUphiicILGuoZWDY89Y8aSeW
- XOcdBt8X8R6ZWs0eRGVek1ZXxpLoD06MvNs2tIt5jkomKlXp/XwMso3JcchuR1MvhvBmOlyIukx
- jRWu0RudMLKy4UygS6jmLjzH6LmJPQEri2M/pMIuSJxXvZY4IUzhXF4rHh1TGqtNE3DTfFBnwYK
- dnNoaD7dR6awmJ1f26Aos7wqEB7miatETkRC
-X-Google-Smtp-Source: AGHT+IGQKU2FvLR9cA2rX0pjCPif1JwZJgsXfRJ7/tnNeUSB87XImquoxTJIlGTComk+jVqCQS1kGw==
-X-Received: by 2002:a05:651c:50d:b0:300:3de4:ff57 with SMTP id
- 38308e7fff4ca-304685f2d61mr135629341fa.26.1735562754937; 
- Mon, 30 Dec 2024 04:45:54 -0800 (PST)
+ AJvYcCWNsZY01CLiiwQxELfV3/u3FkeuTJYeyzwLTYzOZt3l5YMY3KMnY7E8aVwv6PrwQhIwJBTiTOVK8Gs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRHBsX5QT5DSha1KhlrfVb/Rlu/E5E0CH9sfdDa8PqYyYtmmjK
+ /J+d9HIWOhrbldPsOK2ArZh46QQh6odxHnCLyPLAf6t7CzLbl5cP6z/B7kkJcow=
+X-Gm-Gg: ASbGncuGx2NhQe8QIrqgHGI6Zs2pM9nLprynPyzdrIivu/x4thI7KJ4chOhMpCi4ilK
+ Ieks+sPbBp11MiZ1mEGqpLmPBj/ZbysUeFD3Yf7/2dI8ukLwC0EuJ+9j+TYjrdfPfL3cL1T8QFx
+ DBc530rXdCrkyzYhV8oSzlbcxu8KwlccbJsj4tCH1mH38DCAj4HK2aVub5GUQPtLUc+WaqVZ1zL
+ udV509NOQzKybXAKTAgRND38iSLpyfFp1wHOnNqchNpAkbxboabWrS+28kXpqvx03IpF5m3ziV0
+ H27U46TUCtb68cF7JH4wpix7dPEE2WUgYd81
+X-Google-Smtp-Source: AGHT+IGVpxl0k9hRIyiBC+nX9q01hRzKPekN79eTtXLIY4DaSMy9S0MrmJK/hCW8fezYBdyI4HazOA==
+X-Received: by 2002:a05:6512:3b0b:b0:540:2a92:7dac with SMTP id
+ 2adb3069b0e04-54229532e69mr12026183e87.17.1735562823897; 
+ Mon, 30 Dec 2024 04:47:03 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54244e19cdbsm1240805e87.132.2024.12.30.04.45.52
+ 2adb3069b0e04-542235f5f1asm3126558e87.35.2024.12.30.04.47.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Dec 2024 04:45:53 -0800 (PST)
-Date: Mon, 30 Dec 2024 14:45:51 +0200
+ Mon, 30 Dec 2024 04:47:02 -0800 (PST)
+Date: Mon, 30 Dec 2024 14:47:00 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Damon Ding <damon.ding@rock-chips.com>
 Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
@@ -73,14 +73,15 @@ Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
  devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v4 08/17] drm/bridge: analogix_dp: Add support for RK3588
-Message-ID: <n7xgy6v7txz56ew3mcinwhnln4jxar5uxtogs3om36ft2y4wz4@ln2uqsfaszbi>
+Subject: Re: [PATCH v4 09/17] drm/bridge: analogix_dp: Add support for phy
+ configuration.
+Message-ID: <hfqoxolgga3t4fmdeo5dmqvqiiptraqwmzwdpfhzmmw2cnsail@yamn7ms2tp6x>
 References: <20241226063313.3267515-1-damon.ding@rock-chips.com>
- <20241226063313.3267515-9-damon.ding@rock-chips.com>
+ <20241226063313.3267515-10-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241226063313.3267515-9-damon.ding@rock-chips.com>
+In-Reply-To: <20241226063313.3267515-10-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,13 +97,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 26, 2024 at 02:33:04PM +0800, Damon Ding wrote:
-> Add max_link_rate and max_lane_count configs for RK3588.
+On Thu, Dec 26, 2024 at 02:33:05PM +0800, Damon Ding wrote:
+> Add support to configurate link rate, lane count, voltage swing and
+> pre-emphasis with phy_configure(). It is helpful in application scenarios
+> where analogix controller is mixed with the phy of other vendors.
 > 
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 4 ++++
->  1 file changed, 4 insertions(+)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
