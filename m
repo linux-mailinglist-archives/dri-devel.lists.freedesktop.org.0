@@ -2,57 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F089FEB4C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 23:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E119FEB76
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 23:51:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1DBD10E447;
-	Mon, 30 Dec 2024 22:25:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3EB110E599;
+	Mon, 30 Dec 2024 22:51:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ANOEQYIC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W9+9SDds";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9804110E447;
- Mon, 30 Dec 2024 22:25:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8C9D25C5F8D;
- Mon, 30 Dec 2024 22:25:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74186C4CED0;
- Mon, 30 Dec 2024 22:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735597548;
- bh=seSfdDx4urL0UaGKOK2Me2hdCtSftuthkBmEb9T7lZQ=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=ANOEQYICVHhXohQQekYt8/6lY9XvBPzzYfiSUkCf0hmSmqq9CoKFIpNGQPlsHXYGE
- dS+38Y8sTewF26Z+ysMuYKDkNN9haQ9NdGhrLzp4+2CaF9xLTgMIvNAvnwZyPvUDBu
- OD9IKo2CRbmoSkA8NzERg/naoSNh9MSrCldmtyHlrjY/xuLEVk+pAHSjc8ECeclHJm
- D1+/2vNat6s+9s0CLaZy+guUl0x8CMGeJq5nkT+U8stCB9tEXNllCIngFNNiKX2mQh
- +UUTmEvHARYVCLHJTF4ke8CQabO8AKbWV0oasIpGBIkosJ6l6JqlsZpubp4sFbchsl
- DZYalSK3Vb3cA==
-Date: Mon, 30 Dec 2024 16:25:47 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D925C10E599
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 22:51:06 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-53e3a37ae07so10532653e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 14:51:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1735599005; x=1736203805; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ndkBccbxfCNVnrXt+e8YJo/WVVAihoLFIXSgmyxaWx4=;
+ b=W9+9SDds0y0Zuv5N7cyNwsIwqbZk4TMQZMfb6QqYTYo+x7VTNWkqIOB4nYvqiW88lp
+ UtWfAkP8CxPC6lUCvMNdtwZcA/xFY1P83kW29w8b36VMnHfhL//Mq/qlWlxLj4lQEKiF
+ jtBjGaIBJ3oel24rKRSf3uHThyqCUdtDMC/30wdJmB075vWUCStwmLR88rilWKSqvYNs
+ S05L8IDTGhioDsfVEFYx+QwdeRUJlT1JOWHR2CfzkT4NhZ9ho/ZQIPW7c5mbeFUGMTBF
+ lgfzbIcJukQ6Lxl8jxArjfo7f81luo/r3dHQ0Inva3GQFnz0hgMDLtw+hzyKzyYLZ/a4
+ 4hbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735599005; x=1736203805;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ndkBccbxfCNVnrXt+e8YJo/WVVAihoLFIXSgmyxaWx4=;
+ b=Pi6CTp9WXagXA86M+tx/c6/HZVjsfJb7e/IZUA7GU9pyKcEucp90G5AH/c+jog5uLj
+ SoWPS2AI1ik2nHVJAJ5vT7t4nWhlmujynVborLXdKVRoOTi5rLKraPjx0QGXPm/IXX/i
+ wdoPE7eR8HmBKW6V9Q1P1KxDLbkdubEryipPan4KaEKjFb9KeUim7F9rcavlBkHvdBfY
+ G5ayXJYvEpTphx/atxDY5gc3DCL1hnKff8y3bYwWyfOux2o69r31DRkx99yRUDA9b+q0
+ b4g5MZVLknpC/+XgsqmZmg5syn4xrI0s4t8jf4NV5GFeQuQeLtXxeaFREl4tzdAAlx71
+ 86rQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWlCbH8qTY/t67bC1CHyF7kOJpBQiaA3s57VKOYkZUy9BVhfYnFwb3OxP0tEhNcq57mra9ukanv/7w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVnudiaE+VzTzRFjCKSAmCWhpS2FH4aS5ZcpqFbShoh6HV6mNy
+ SSJfpFRcxFwq5j9M4cr4njWrYpdZwN133thkOLWQmcDw0pFc272nnZVrA4UdPrihyueUvyT67cu
+ f
+X-Gm-Gg: ASbGncs/VnrHaqjOFcyJr9YkGTZXL53b/GH9MJ3kpcxwIQuRFEEr1EFjJ77m9BqBl/H
+ q0gfFQHRGcXu27THyV+Iq8mD3i7pOuLW+TmQMyl2odpoJj30VBdXCZd8faXRAgKLueiCIjBdLo3
+ 137DTvM16c33dsdDr7DBK4froHk/byIU7QQohZlrgLJvQghYhd255EK9Uvndeu8v5k0B66y+O08
+ pwc9TdP06RusgjFjbit8mioDBlEdJEUlvTq3shXXsWIovM11gsgaoU1K+HAJPm4YU9hGM5gFp/E
+ US3aFuhd0x9Qc1SWQ2ZTWMrxdJcNa+fNBmdj
+X-Google-Smtp-Source: AGHT+IFfViIHM8+f9Mn3fgEtTV0SNNWn/wuOCgLzxbbOuJXZwu8+rTphIETfjjYE6yKOOZA8LgpsvQ==
+X-Received: by 2002:a05:6512:2399:b0:53e:395c:688e with SMTP id
+ 2adb3069b0e04-54229524737mr12156974e87.10.1735598546613; 
+ Mon, 30 Dec 2024 14:42:26 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542238301adsm3257694e87.246.2024.12.30.14.42.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Dec 2024 14:42:25 -0800 (PST)
+Date: Tue, 31 Dec 2024 00:42:22 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marek Vasut <marex@denx.de>
+Cc: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/3] drm/lcdif: add DRM_BRIDGE_ATTACH_NO_CONNECTOR
+ flag to drm_bridge_attach
+Message-ID: <lsfwik47xzx2qjp26x2klx5bgjdrogu6lt3kafchfgppbnwtnt@c56ljycxkiin>
+References: <20241224014701.253490-1-marex@denx.de>
+ <20241224014701.253490-2-marex@denx.de>
+ <a543e24a-1333-42ef-b940-fec01353db5b@nxp.com>
+ <59523b40-dfdd-4293-9b02-e16be632d1d2@denx.de>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Nishanth Menon <nm@ti.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, devicetree@vger.kernel.org, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Simona Vetter <simona@ffwll.ch>, Sean Paul <sean@poorly.run>, 
- freedreno@lists.freedesktop.org, Bjorn Andersson <andersson@kernel.org>, 
- linux-pm@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Viresh Kumar <vireshk@kernel.org>, dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, 
- Rob Clark <robdclark@gmail.com>, linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konradybcio@kernel.org>, David Airlie <airlied@gmail.com>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <20241231-gpu-acd-v3-4-3ba73660e9ca@quicinc.com>
-References: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
- <20241231-gpu-acd-v3-4-3ba73660e9ca@quicinc.com>
-Message-Id: <173559754709.2660868.7488137827927170444.robh@kernel.org>
-Subject: Re: [PATCH v3 4/6] dt-bindings: opp: Add v2-qcom-adreno vendor
- bindings
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <59523b40-dfdd-4293-9b02-e16be632d1d2@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,70 +105,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Tue, 31 Dec 2024 02:41:05 +0530, Akhil P Oommen wrote:
-> Add a new schema which extends opp-v2 to support a new vendor specific
-> property required for Adreno GPUs found in Qualcomm's SoCs. The new
-> property called "qcom,opp-acd-level" carries a u32 value recommended
-> for each opp needs to be shared to GMU during runtime.
+On Mon, Dec 30, 2024 at 11:11:35PM +0100, Marek Vasut wrote:
+> On 12/30/24 8:18 AM, Liu Ying wrote:
 > 
-> Also, update MAINTAINERS file include the new opp-v2-qcom-adreno.yaml.
+> [...]
 > 
-> Cc: Rob Clark <robdclark@gmail.com>
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
->  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 97 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 98 insertions(+)
-> 
+> > > diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
+> > > index 264e74f455547..07fb6901996ae 100644
+> > > --- a/drivers/gpu/drm/mxsfb/Kconfig
+> > > +++ b/drivers/gpu/drm/mxsfb/Kconfig
+> > > @@ -30,6 +30,7 @@ config DRM_IMX_LCDIF
+> > >   	select DRM_CLIENT_SELECTION
+> > >   	select DRM_MXS
+> > >   	select DRM_KMS_HELPER
+> > > +	select DRM_BRIDGE_CONNECTOR
+> > 
+> > Select DRM_DISPLAY_HELPER.
+> Without select DRM_BRIDGE_CONNECTOR, the drm_bridge_connector_init() is not
+> defined .
 
-My bot found errors running 'make dt_binding_check' on your patch:
+You need both.
 
-yamllint warnings/errors:
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml: ignoring, error parsing file
-Traceback (most recent call last):
-  File "/usr/bin/yamllint", line 33, in <module>
-    sys.exit(load_entry_point('yamllint==1.29.0', 'console_scripts', 'yamllint')())
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3/dist-packages/yamllint/cli.py", line 228, in run
-    prob_level = show_problems(problems, file, args_format=args.format,
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/lib/python3/dist-packages/yamllint/cli.py", line 113, in show_problems
-    for problem in problems:
-  File "/usr/lib/python3/dist-packages/yamllint/linter.py", line 200, in _run
-    for problem in get_cosmetic_problems(buffer, conf, filepath):
-  File "/usr/lib/python3/dist-packages/yamllint/linter.py", line 137, in get_cosmetic_problems
-    for problem in rule.check(rule_conf,
-  File "/usr/lib/python3/dist-packages/yamllint/rules/indentation.py", line 583, in check
-    yield from _check(conf, token, prev, next, nextnext, context)
-  File "/usr/lib/python3/dist-packages/yamllint/rules/indentation.py", line 344, in _check
-    if expected < 0:
-       ^^^^^^^^^^^^
-TypeError: '<' not supported between instances of 'NoneType' and 'int'
-./Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml:97:1: did not find expected key
-make[2]: *** Deleting file 'Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.example.dts'
-Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml:97:1: did not find expected key
-make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.example.dts] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1506: dt_binding_check] Error 2
-make: *** [Makefile:251: __sub-make] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241231-gpu-acd-v3-4-3ba73660e9ca@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+With best wishes
+Dmitry
