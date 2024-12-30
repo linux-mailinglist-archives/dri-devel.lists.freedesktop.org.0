@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42CF9FE92C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 17:53:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39059FE925
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 17:53:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8938E10E533;
-	Mon, 30 Dec 2024 16:53:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 221A310E387;
+	Mon, 30 Dec 2024 16:53:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="FhKtURaS";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gTKwYo44";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FB9410E387
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 16:53:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 146C410E527
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 16:53:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=kT0XbtSflQtuyxcgxu6kI7eT6t8AoXrR3GQEO7NchIQ=; b=FhKtURaSfz3VgYYYptcdJGG9lZ
- KLzjKQ6dDxotWqZdtC45pt9U7VTpaPx6OkI7iG3cqaQl8BG6GGUHU2MeVp5C8cJ7BD2T+EVLWnlJi
- 9x/1ziVh+M+j4S159FfKslv5xgGNlO2Lj4A1yUw3FOya96vJrDogLj2jMtCrWe4xiiqjMiQ0suplJ
- oHm0QLI8fRsSC+wBdrt6+wkpC+aj9kMfjLRJG4grjr0CMJF+OyiGE8o1bXc5Yt96BFDWjZYR4fqCf
- N7ah4H75b6+Tpm7PHZ8OTOcx6aOyhqFWJF16XvfmsgGQtXkRGt2WNrZCYHrluruAhW9GPb+GwNaZh
- okjBJ4LA==;
+ bh=ppP2ltD/fqdU3EpZm/D4OpRI0IUCcdxlakILhiMJfgA=; b=gTKwYo44gUrohcG5PPeUkgiij4
+ E9G4PVE2n148XRXE/tpG30S16tZCggUy0vyy3gSdQUWgZgcrhCF5AOHQn/yWOvgM50SERFVUD5gJ5
+ JrAY8umLiITi37GYYbEX9R9+Gfrq3xf0expbmRdpOHwKQgZ5Ar3hRaIxAKJLT1XfX7PIrrZWDj/Mo
+ L7qu87s+1Wb2wEIhm4OxlsIBbUDMMzv7JIGGjy1aCzW/ZXwGbxireHuT2yfaKmF2zjYCd5TNIFyLH
+ +8rr8LO/dOliTBa1UKt5DrwFFdK1L9bxs2DWT+YtQHXao0COy1zyJ4wyH4N18dBg9Vbm9JUJNGEKJ
+ cai1Trmw==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tSJ0q-009ZvH-Ig; Mon, 30 Dec 2024 17:53:04 +0100
+ id 1tSJ0r-009ZvO-8p; Mon, 30 Dec 2024 17:53:05 +0100
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
@@ -39,9 +39,9 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Danilo Krummrich <dakr@redhat.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <pstanner@redhat.com>
-Subject: [RFC 01/14] drm/sched: Delete unused update_job_credits
-Date: Mon, 30 Dec 2024 16:52:46 +0000
-Message-ID: <20241230165259.95855-2-tursulin@igalia.com>
+Subject: [RFC 02/14] drm/sched: Remove idle entity from tree
+Date: Mon, 30 Dec 2024 16:52:47 +0000
+Message-ID: <20241230165259.95855-3-tursulin@igalia.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20241230165259.95855-1-tursulin@igalia.com>
 References: <20241230165259.95855-1-tursulin@igalia.com>
@@ -65,8 +65,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-No driver is using the update_job_credits() schduler vfunc
-so lets remove it.
+There is no need to keep entities with no jobs in the tree so lets remove
+it once the last job is consumed. This keeps the tree smaller which is
+nicer and more efficient.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -74,65 +75,71 @@ Cc: Danilo Krummrich <dakr@redhat.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 13 -------------
- include/drm/gpu_scheduler.h            | 13 -------------
- 2 files changed, 26 deletions(-)
+ drivers/gpu/drm/scheduler/sched_entity.c | 15 ++++++++-------
+ drivers/gpu/drm/scheduler/sched_main.c   |  4 ++--
+ include/drm/gpu_scheduler.h              |  2 ++
+ 3 files changed, 12 insertions(+), 9 deletions(-)
 
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 69bcf0e99d57..8e910586979e 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -512,19 +512,20 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	 */
+ 	if (drm_sched_policy == DRM_SCHED_POLICY_FIFO) {
+ 		struct drm_sched_job *next;
++		struct drm_sched_rq *rq;
+ 
++		spin_lock(&entity->lock);
++		rq = entity->rq;
++		spin_lock(&rq->lock);
+ 		next = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+ 		if (next) {
+-			struct drm_sched_rq *rq;
+-
+-			spin_lock(&entity->lock);
+-			rq = entity->rq;
+-			spin_lock(&rq->lock);
+ 			drm_sched_rq_update_fifo_locked(entity, rq,
+ 							next->submit_ts);
+-			spin_unlock(&rq->lock);
+-			spin_unlock(&entity->lock);
++		} else {
++			drm_sched_rq_remove_fifo_locked(entity, rq);
+ 		}
++		spin_unlock(&rq->lock);
++		spin_unlock(&entity->lock);
+ 	}
+ 
+ 	/* Jobs and entities might have different lifecycles. Since we're
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 7ce25281c74c..1734c17aeea5 100644
+index 1734c17aeea5..9beb4c611988 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -64,12 +64,6 @@
-  * credit limit, the job won't be executed. Instead, the scheduler will wait
-  * until the credit count has decreased enough to not overflow its credit limit.
-  * This implies waiting for previously executed jobs.
-- *
-- * Optionally, drivers may register a callback (update_job_credits) provided by
-- * struct drm_sched_backend_ops to update the job's credits dynamically. The
-- * scheduler executes this callback every time the scheduler considers a job for
-- * execution and subsequently checks whether the job fits the scheduler's credit
-- * limit.
-  */
+@@ -146,8 +146,8 @@ static __always_inline bool drm_sched_entity_compare_before(struct rb_node *a,
+ 	return ktime_before(ent_a->oldest_job_waiting, ent_b->oldest_job_waiting);
+ }
  
- #include <linux/wait.h>
-@@ -133,13 +127,6 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
- 	if (!s_job)
- 		return false;
- 
--	if (sched->ops->update_job_credits) {
--		s_job->credits = sched->ops->update_job_credits(s_job);
--
--		drm_WARN(sched, !s_job->credits,
--			 "Jobs with zero credits bypass job-flow control.\n");
--	}
--
- 	/* If a job exceeds the credit limit, truncate it to the credit limit
- 	 * itself to guarantee forward progress.
- 	 */
+-static void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
+-					    struct drm_sched_rq *rq)
++void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
++				     struct drm_sched_rq *rq)
+ {
+ 	if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
+ 		rb_erase_cached(&entity->rb_tree_node, &rq->rb_tree_root);
 diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 95e17504e46a..e2e6af8849c6 100644
+index e2e6af8849c6..978ca621cc13 100644
 --- a/include/drm/gpu_scheduler.h
 +++ b/include/drm/gpu_scheduler.h
-@@ -476,19 +476,6 @@ struct drm_sched_backend_ops {
-          * and it's time to clean it up.
- 	 */
- 	void (*free_job)(struct drm_sched_job *sched_job);
--
--	/**
--	 * @update_job_credits: Called when the scheduler is considering this
--	 * job for execution.
--	 *
--	 * This callback returns the number of credits the job would take if
--	 * pushed to the hardware. Drivers may use this to dynamically update
--	 * the job's credit count. For instance, deduct the number of credits
--	 * for already signalled native fences.
--	 *
--	 * This callback is optional.
--	 */
--	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
- };
+@@ -591,6 +591,8 @@ void drm_sched_rq_add_entity(struct drm_sched_rq *rq,
+ void drm_sched_rq_remove_entity(struct drm_sched_rq *rq,
+ 				struct drm_sched_entity *entity);
  
- /**
++void drm_sched_rq_remove_fifo_locked(struct drm_sched_entity *entity,
++				     struct drm_sched_rq *rq);
+ void drm_sched_rq_update_fifo_locked(struct drm_sched_entity *entity,
+ 				     struct drm_sched_rq *rq, ktime_t ts);
+ 
 -- 
 2.47.1
 
