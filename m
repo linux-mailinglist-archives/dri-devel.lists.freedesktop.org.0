@@ -2,97 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64EA9FEAEC
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 22:12:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77789FEB44
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 23:21:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FC1B10E594;
-	Mon, 30 Dec 2024 21:12:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2A8D10E598;
+	Mon, 30 Dec 2024 22:21:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="mw1sIOKi";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="dyQOCkC4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 789B510E58D;
- Mon, 30 Dec 2024 21:12:04 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BUIrfq9019929;
- Mon, 30 Dec 2024 21:12:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- bgdK/mxKjEx2nxpeFifwgiDucKrI/TtfYPsCtwMew2I=; b=mw1sIOKiV/1dhq1s
- d8OLfsExWtxLDg4qnOLuCoALKCdvMYPVE+U0emrm2tnxgXQ85twGAjPM1MODmmLB
- GjacJln3Z0XpcsILZdBBqSUifgucT3J4N2FTVvtPaEKnVBHI3jOfi59o4CHGirec
- Zvq8YzHU1AuA/x8Br/u5Hd/rCwvFocR17e2+NZNsah5MS+SD0yK3TEXgoRggumWs
- Pp3rwUVu72oAxOomVcQ5kmJlzjWbaXN3VggRNdyF01cnFP+IaHlqt5fRu7tkKAwh
- jwVoHpl0meX0GgG6xW/K6Zlr7tfp30XLvFOdDA2qSMpz6oCqJiZbGvM2AiBgTXsq
- rhWBow==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43v16t86bp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Dec 2024 21:12:00 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BULBxF7031433
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Dec 2024 21:11:59 GMT
-Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 30 Dec
- 2024 13:11:53 -0800
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Date: Tue, 31 Dec 2024 02:41:07 +0530
-Subject: [PATCH v3 6/6] arm64: dts: qcom: x1e80100: Add OPPs up to Turbo L3
- for GPU
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51D0B10E447
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 22:21:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id DB5AC1048559D; Mon, 30 Dec 2024 23:20:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1735597236;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SkIGZmwhg2neLO1jlUwO1QbcyyIDvbzGZHUYB0DXWPU=;
+ b=dyQOCkC4zi2h/jh5Ubd0KW/ctVjjgO4bGU9YuZTP8ctxhxTBD6csQLevHwAQYl7FC3dBCb
+ 6wBhxmoe1dwJ3PUCNY3gXTJ7+GJRdAp1HMAlnoY8CyHJ24yajJmEXg9F+sFxeaHvqNbA6P
+ fSLpfCkD66+q+/x9SWstwflEeQCLgYyLUsp/50WoX7mDC7Qf/713MONCsthuFyr21rjxL7
+ Ur43H5ZfZxKZSAWrJLbICm7DSP2ziuoUZ1cJWWz1wPol8wyjnxwX50DItUlT1m+8LPniod
+ feGIPFmfY2J1C+tqmozb2M0aW32P2kU7wKbzKn4Raelww25K+UXM5orsgLLaeg==
+Message-ID: <defff8a2-4123-42cb-9099-445b209eb2f0@denx.de>
+Date: Mon, 30 Dec 2024 22:41:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/bridge: imx8mp-hdmi-tx: switch to bridge
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
+ <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20241224014701.253490-1-marex@denx.de>
+ <0140bb0c-35f0-4a5e-b100-32e09bc8c617@nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <0140bb0c-35f0-4a5e-b100-32e09bc8c617@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20241231-gpu-acd-v3-6-3ba73660e9ca@quicinc.com>
-References: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
-In-Reply-To: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Akhil P Oommen <quic_akhilpo@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735593076; l=1193;
- i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
- bh=sjQ6AQqTrV2rQKu5TT8e3XNqJKk8DNi/FMTskLJkUYg=;
- b=mGOky1KlbLhralFvRZhTtDzgvu+KsX7Vi+FhNj0iXv5OhBo/3qToKLWtzmHRmhoCYwTk9Y3BO
- Jy32XUR4CLKBbw5AfLzR0JetsbYm299qvYwfzbwng/JkebIiCRr9OT6
-X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
- pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ShJPF4g5Zqzw2P0eV6q1ytWJkLS0zthI
-X-Proofpoint-ORIG-GUID: ShJPF4g5Zqzw2P0eV6q1ytWJkLS0zthI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=860 impostorscore=0 bulkscore=0 lowpriorityscore=0
- adultscore=0 clxscore=1015 mlxscore=0 suspectscore=0 priorityscore=1501
- spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412300182
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,40 +71,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have ACD support for GPU, add additional OPPs up to
-Turbo L3 which are supported across all existing SKUs.
+On 12/30/24 7:57 AM, Liu Ying wrote:
 
-Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
----
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+[...]
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 2cf16f904aaa..2e03afb85822 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -3337,6 +3337,20 @@ zap-shader {
- 			gpu_opp_table: opp-table {
- 				compatible = "operating-points-v2-adreno", "operating-points-v2";
- 
-+				opp-1250000000 {
-+					opp-hz = /bits/ 64 <1250000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L3>;
-+					opp-peak-kBps = <16500000>;
-+					qcom,opp-acd-level = <0xa82a5ffd>;
-+				};
-+
-+				opp-1175000000 {
-+					opp-hz = /bits/ 64 <1175000000>;
-+					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L2>;
-+					opp-peak-kBps = <14398438>;
-+					qcom,opp-acd-level = <0xa82a5ffd>;
-+				};
-+
- 				opp-1100000000 {
- 					opp-hz = /bits/ 64 <1100000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
+>> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+>> index 9a480c6abb856..d8e9fbf75edbb 100644
+>> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+>> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+>> @@ -27,6 +27,7 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
+>>   config DRM_IMX8MP_HDMI_PVI
+>>   	tristate "Freescale i.MX8MP HDMI PVI bridge support"
+>>   	depends on OF
+>> +	select DRM_DISPLAY_CONNECTOR
+> 
+> Select it for DRM_IMX8MP_DW_HDMI_BRIDGE instead?
+> Furthermore, if yes, should it be even selected for DRM_DW_HDMI instead?
+> 
+> I'm not sure if this is needed to be selected though, since only DRM_MESON is
+> selecting it while CONFIG_DRM_DISPLAY_CONNECTOR is enabled in multiple
+> defconfig files(like arch/arm/configs/multi_v7_defconfig).
 
--- 
-2.45.2
+It is necessary to update existing .config .
 
+[...]
