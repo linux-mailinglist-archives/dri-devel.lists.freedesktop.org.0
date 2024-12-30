@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0475D9FE573
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 11:51:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EFB9FE56D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 11:51:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5255610E100;
-	Mon, 30 Dec 2024 10:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AA5410E497;
+	Mon, 30 Dec 2024 10:51:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bW1xoArp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vlk95j43";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF53110E491
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6586710E100
  for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 10:51:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A371CA40C21;
+ by nyc.source.kernel.org (Postfix) with ESMTP id B1B0EA40C25;
  Mon, 30 Dec 2024 10:49:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B4F31C4CED0;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CE07EC4CEDC;
  Mon, 30 Dec 2024 10:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1735555861;
- bh=Zl6JqppBNbMmE/iNTWjkyJ9wCrCrJmqXcVDW5n1uzUE=;
+ bh=v3lSQyy9gXzgX8M13zqUf14k/OSbA7fxqxLe1EaQEtc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=bW1xoArpyPevgQS7B42MvberX0vBlmS8mheBivXpy4aoBp/Ms8UV7rbZIFOGroy7Y
- zy70R6OTe441XXwaWNhyEJmeAKrxtza1Utzw0GXsZ+I5bV+Vww7/1vZP8uPf3WAp7T
- 2B4ZLHfdjDvwMmLF4SPxaZ6kkD/RvN4lECz2SGWFMkEv2eQefDYOPd0CAa7maakeMx
- r9MaU3Gdir3O4cbjLZImsllxkrNpFaCMvPNPqeSgu+GibyBjhfE5ldmKL3gZBsN7g+
- HVsG4J/cZNBIy/6mMPMkifKTchJUUastCNJi27ftx41G6QPK8asAc4eucjZnhS5in6
- q2BvE9do88YHw==
+ b=Vlk95j43UDauF7mohWjHVD23aJ4Ear8js97Wk+t7pPOT6lf5VKEByCATIDVK/xqGk
+ DJaQ3Qbx8pnDZUllF0ry9Wk7exFOGYjdtthtoeZBYJ0GGOeIh01S6P9AS0tfaQZxFy
+ H8+g+PCMMYnh+1kvB2kRI9hojkjuloX2RtkGypnYhW69ALzQVKZbsmpCaLn20Ehnfd
+ 3+O6hP48QNYvRWiZpNeZnhi8dnxN/E4xHStjJ/66ikgT+1fFbT2+3FtV2xL6A3mQJC
+ 7l0KdHPJdYEEPYKxDZcGumqL8YVnCZpaI9GXaOod6licZP8dLri6v9RN6XYykL5MjB
+ LPPNjOKSanKBA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A918DE7718F;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id C1514E77188;
  Mon, 30 Dec 2024 10:51:01 +0000 (UTC)
 From: Hermes Wu via B4 Relay
  <devnull+Hermes.wu.ite.corp-partner.google.com@kernel.org>
-Date: Mon, 30 Dec 2024 18:51:26 +0800
-Subject: [PATCH RESEND v7 08/10] drm/bridge: it6505: fix HDCP CTS compare V
- matching
+Date: Mon, 30 Dec 2024 18:51:27 +0800
+Subject: [PATCH RESEND v7 09/10] drm/bridge: it6505: fix HDCP CTS KSV list
+ wait timer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241230-v7-upstream-v7-8-e0fdd4844703@ite.corp-partner.google.com>
+Message-Id: <20241230-v7-upstream-v7-9-e0fdd4844703@ite.corp-partner.google.com>
 References: <20241230-v7-upstream-v7-0-e0fdd4844703@ite.corp-partner.google.com>
 In-Reply-To: <20241230-v7-upstream-v7-0-e0fdd4844703@ite.corp-partner.google.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -59,12 +59,12 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Kenneth Hung <Kenneth.Hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>, 
  Hermes Wu <Hermes.wu@ite.com.tw>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1735555881; l=2090;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1735555881; l=1723;
  i=Hermes.wu@ite.corp-partner.google.com; s=20241230;
  h=from:subject:message-id;
- bh=ZSAKlMN3TX9Z+Nap4xZYSRAsF5UPHncEdZ0YN4lKi7Q=;
- b=WuRbK6hOZmf6izaD3T8mR5orAibOS2VZShKTA/6ppdVymvVLra0zvNnxMgb35Ovu0ic2NbecA
- pG0iwvyjigkBk2b/L4GUosRGvlI2CJoND0H8NVf9sO5ZeR900b4wOG2
+ bh=QISr17OTE/349oMqfbcRg7gIss3cy8H02akOrW/SuWA=;
+ b=XzCevaxH7W9/AwT9xJW+9Y7xqpM4+GfbLaaduHaJ4I5DQ9SL/5vAvROdOzpyGhELGPVVh7VsL
+ Hc/zhMSqlQICS6Y/mxtkM8qvYWXGNb29S0jUH9RCUyL2qzIhVMtPd3O
 X-Developer-Key: i=Hermes.wu@ite.corp-partner.google.com; a=ed25519;
  pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
 X-Endpoint-Received: by B4 Relay for
@@ -88,68 +88,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-When HDCP negotiation with a repeater device.
-Checking SHA V' matching must retry 3 times before restarting HDCP.
+HDCP must disabled encryption and restart authentication after
+waiting KSV for 5s.
+The original method uses a counter in a waitting loop that may
+wait much longer than it is supposed to.
+Use time_after() for KSV wait timeout.
 
 Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 32 +++++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 4ed4899227602a4574a13ffa22442dcc4a5c2092..2b8f208d1e17eebe3287ab0aa71180176dd0574e 100644
+index 2b8f208d1e17eebe3287ab0aa71180176dd0574e..83e2df618c97f8fe3e59789ffb810ce8639f96bb 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2058,7 +2058,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- {
+@@ -2096,12 +2096,13 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 	struct it6505 *it6505 = container_of(work, struct it6505,
+ 					     hdcp_wait_ksv_list);
  	struct device *dev = it6505->dev;
- 	u8 av[5][4], bv[5][4];
--	int i, err;
-+	int i, err, retry;
+-	unsigned int timeout = 5000;
+-	u8 bstatus = 0;
++	u8 bstatus;
+ 	bool ksv_list_check;
++	/* 1B-04 wait ksv list for 5s */
++	unsigned long timeout = jiffies +
++				msecs_to_jiffies(5000) + 1;
  
- 	i = it6505_setup_sha1_input(it6505, it6505->sha1_input);
- 	if (i <= 0) {
-@@ -2067,22 +2067,28 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+-	timeout /= 20;
+-	while (timeout > 0) {
++	for (;;) {
+ 		if (!it6505_get_sink_hpd_status(it6505))
+ 			return;
+ 
+@@ -2110,13 +2111,12 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 		if (bstatus & DP_BSTATUS_READY)
+ 			break;
+ 
+-		msleep(20);
+-		timeout--;
+-	}
++		if (time_after(jiffies, timeout)) {
++			DRM_DEV_DEBUG_DRIVER(dev, "KSV list wait timeout");
++			goto timeout;
++		}
+ 
+-	if (timeout == 0) {
+-		DRM_DEV_DEBUG_DRIVER(dev, "timeout and ksv list wait failed");
+-		goto timeout;
++		msleep(20);
  	}
  
- 	it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
-+	/*1B-05 V' must retry 3 times */
-+	for (retry = 0; retry < 3; retry++) {
-+		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
-+				      sizeof(bv));
- 
--	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
--			      sizeof(bv));
-+		if (err < 0) {
-+			dev_err(dev, "Read V' value Fail %d", retry);
-+			continue;
-+		}
- 
--	if (err < 0) {
--		dev_err(dev, "Read V' value Fail");
--		return false;
--	}
-+		for (i = 0; i < 5; i++) {
-+			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
-+			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
-+				break;
- 
--	for (i = 0; i < 5; i++)
--		if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
--		    bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
--			return false;
-+			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
-+			return true;
-+		}
-+	}
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "V' all match!!");
--	return true;
-+	DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
-+	return false;
- }
- 
- static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
 
 -- 
 2.34.1
