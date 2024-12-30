@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777AF9FEB41
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 23:20:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D6C9FEB46
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Dec 2024 23:21:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E67810E39A;
-	Mon, 30 Dec 2024 22:20:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9EB810E59D;
+	Mon, 30 Dec 2024 22:21:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="YRVsLB4z";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="MQ8jQUC0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0C3C10E39A
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 22:20:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D289510E59D
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 22:21:19 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 02A65104855A2; Mon, 30 Dec 2024 23:20:40 +0100 (CET)
+ with ESMTPSA id EB676104855A5; Mon, 30 Dec 2024 23:20:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1735597243;
+ t=1735597247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W0RN6NFic1SJk4BcW3RydaV5Qx5yppE2e75Iroc0II4=;
- b=YRVsLB4zoSRwpZ+/TbKt7LHkMVX7UexGNe1JYwsG6QOqBDN5gnh64f1ZwZp8b0o6ne/+94
- r7wuSjv6EQ6x1TTMSk76VSCPgqGZdGBN67H73nn8Qw4xG3FpvGcn/0SbiiLj0ZOATeyUm0
- gTRf+MC2iQf/gFTHVEIKUR2x1CNhCyPm2l4DC3o6G2z51+weRDnbpBx3sBrUu0vCPaV3Iw
- VP8311XQjM8/0ahL8WxudHySrjeM+/1/qVW2yvN7Ban+crr0xiANc3NtmFbHNcfrflkv7q
- OvNwpks+fIDwWksNvjOyxCALtY+lvi8N9xU2/NfgPJok+lazwti3L4ACU1LFnQ==
-Message-ID: <828f28ce-007b-43c1-9ea4-98be5c14078e@denx.de>
-Date: Mon, 30 Dec 2024 22:50:16 +0100
+ bh=+1aqRMHNMzLaQa6vxtrEZIq/gKd1oypuSqRY/qdQISU=;
+ b=MQ8jQUC02Vi9tztaW6KMyrHmVikWXRPJCkNuOVO4p0MVDOBDA4BmRU0abBaUgXMLWYLQNe
+ vgU3noAgdyo252spI9eoH2iWEoCPdiFyn39HYCwhDoP2KpEdMIS01r+JNscauPmHNTJuRm
+ ye69UcjGudnOLbLXoJ9uwywMf4zN00A72tUWfEO4tdj3Rr5lVZfVDgqE8+kkQCSbaoTCo4
+ fSoHdmOXrVy0XKVeNLEQ1djn0YFfHODWpTTuTR0iOcHELvuQ3714PP82hU5AYav/chKedE
+ zXa1jpmoNIRm3g45ldfaQoKbCzHpAhRyM30Ikm661QTEDklXwYgJpyfuzplxMA==
+Message-ID: <59523b40-dfdd-4293-9b02-e16be632d1d2@denx.de>
+Date: Mon, 30 Dec 2024 23:11:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/mxsfb: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+Subject: Re: [PATCH v2 2/3] drm/lcdif: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
  to drm_bridge_attach
 To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
- <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -49,11 +50,11 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
  Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20241224014701.253490-1-marex@denx.de>
- <20241224014701.253490-3-marex@denx.de>
- <20f33e1e-b531-4755-b414-02ab897e16af@nxp.com>
+ <20241224014701.253490-2-marex@denx.de>
+ <a543e24a-1333-42ef-b940-fec01353db5b@nxp.com>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20f33e1e-b531-4755-b414-02ab897e16af@nxp.com>
+In-Reply-To: <a543e24a-1333-42ef-b940-fec01353db5b@nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -72,22 +73,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/30/24 8:29 AM, Liu Ying wrote:
+On 12/30/24 8:18 AM, Liu Ying wrote:
 
 [...]
 
->> @@ -139,21 +140,35 @@ static int mxsfb_attach_bridge(struct mxsfb_drm_private *mxsfb)
->>   	if (!bridge)
->>   		return -ENODEV;
->>   
->> -	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL, 0);
->> +	ret = drm_bridge_attach(&mxsfb->encoder, bridge, NULL,
->> +				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>   	if (ret)
->>   		return dev_err_probe(drm->dev, ret, "Failed to attach bridge\n");
->>   
->> -	mxsfb->bridge = bridge;
->> +	connector = drm_bridge_connector_init(drm, &mxsfb->encoder);
+>> diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
+>> index 264e74f455547..07fb6901996ae 100644
+>> --- a/drivers/gpu/drm/mxsfb/Kconfig
+>> +++ b/drivers/gpu/drm/mxsfb/Kconfig
+>> @@ -30,6 +30,7 @@ config DRM_IMX_LCDIF
+>>   	select DRM_CLIENT_SELECTION
+>>   	select DRM_MXS
+>>   	select DRM_KMS_HELPER
+>> +	select DRM_BRIDGE_CONNECTOR
 > 
-> Nit: Drop connector and use mxsfb->connector?
-The code becomes too wide. The rest is fixed in V3.
+> Select DRM_DISPLAY_HELPER.
+Without select DRM_BRIDGE_CONNECTOR, the drm_bridge_connector_init() is 
+not defined .
