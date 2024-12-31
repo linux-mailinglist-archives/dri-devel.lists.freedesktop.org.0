@@ -2,77 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9B49FEFE5
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 15:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B969FF017
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 16:05:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAAB810E0A3;
-	Tue, 31 Dec 2024 14:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8D6010E07B;
+	Tue, 31 Dec 2024 15:05:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y/if8o6n";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sK6rH8pN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com
- [209.85.219.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B89610E0A3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 14:05:34 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id
- 3f1490d57ef6-e460717039fso12011026276.0
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 06:05:34 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5EC10E07B
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 15:05:03 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-5401bd6cdb4so10305467e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 07:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735653873; x=1736258673; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rL17eu52TPn+FxCKD51YSXrmc7q5Hp1A9+hdV9KvlH0=;
- b=y/if8o6ndp8IDJn0Kisf2DKBbvQK2kEvNsR8/a3O658Cg1TjU5kDh8cmXl/4o1FO79
- p8GOeTYcUfkzvjsBpfto7WaTSAcxj2NVmAX8t7buZ4gZKLu9q1O2khJtBNA6VOcTSQM9
- ojXbieZGvRKR8enjicB+7wp1bjtIw42cdxHNcbuiVP9xiMHQmtljvCCWelfTAJQH+OST
- YGPBysnejKev7dVi1FKVVLrtyGPLBhrnzKl27HnD2rOwAYSdcMpx1XuAKIB8clvO8Oey
- 4XGYZc664fKgI04xHXH+laJYeLVu18g+svC6FDTUxVbQ3VItKw8/iiLuFAggP12x+L5M
- +sxw==
+ d=linaro.org; s=google; t=1735657442; x=1736262242; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=wSbYedxgsZDo1h/bnCTgqN5CKNk8NG3PCiX/15LxWXU=;
+ b=sK6rH8pNXV2zCwbzDIqsmv7ZMQ0ZAkBqXkVzLZ6WgAaCMbNT53xDhdhGFczIVE4Oz4
+ 0t6R5V8RfG/yuA3iLvPFrZ84xPrYlvf/uOnOVK4m7IUwe9NbPhksRuLjktREOkmT2x+E
+ ZiUga5WNB+9aiwk1sTACOh12tjwiSTLBdc6RhWQ3Qnp1C+mKHrs9+lVClZUZosT+jJ2u
+ H+kKqEBnJOgdIrXV/Nf+B5vPR3TSZmsmtrD7dMJuOFCjt56A3dwcUgS6+4EbFYMVw+qU
+ mbNGNbZSpfeB9M9Q1W05l0uYRGzunCXfGQMPgWAvLshWAbKGgGO4v70K5vGLHR+Yory0
+ 5vpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735653873; x=1736258673;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rL17eu52TPn+FxCKD51YSXrmc7q5Hp1A9+hdV9KvlH0=;
- b=DidaQXzL9xRbhNUA9NNfKTlO7+5aHKud9L6g4xdBXB1oDLcYQQRDnWCwaBWt310N4j
- MPHOmUimKXWHTaAyPen5lXz2YdO918Tx89x8TLFwZhEoD4NHes/7PKuqhbPHYED8QzaG
- cENqWJxT3Khl5r43+DbcOW3/SpMj1zKHnR9cgyqIOJWzeNFpzZm7BzJTdFMj3Nu5ga91
- xAW1N19lB8ZHemXcwLGfOIacfLUPu6CcDUh5EcwOoB7nr/FzRheJv10ggOxOSACoQeOq
- zANFUCkn8pvCEHOcnXMRUfTAf91/T53Xz1brkNmWuHSC/GyFMcPPs1jdyrWvwSNF9kC1
- +Vbw==
+ d=1e100.net; s=20230601; t=1735657442; x=1736262242;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wSbYedxgsZDo1h/bnCTgqN5CKNk8NG3PCiX/15LxWXU=;
+ b=pTE6qOblX7fJI2/rePnsDYpeTB3aKcHOK1qxhViw+fFEF+WRFjHzZI3UfVeY0hTgVc
+ AS5p/ZX5zSsje3m1sDJdOFSchi9JNgWj3kK/iho1W5GjPVgCD3mNFFheFlmhBrhvkbjz
+ bxZf10X60YKLgnkT/j7/BCFMALuc0iuhY1Es33CoD3Zz6dlGXKB+bMO3fknaM6GlFIcM
+ YeZnJu+j+IR96Gk/pMDYznhjL2aPG9KE19eY801r3rmPSxrlJUNJ+cJAmVci/aioagE6
+ U/B6++DFuW0D2TB4h4c6AX9TeARoNNHQTd05zJizSTan31sUgRnrSFdqhcqKv4dYY5gM
+ k3RQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUJGESWFnc8uf0bJ3KIJWXtD6YSdVr+DVjo9xF11n+s1Giq+YzlEWOURxPZt34XKIfGoI2OaGnKZ74=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8Y2KEvQSrlG14eNBNlr8f+dnGpbwR4FA8kUg/kE4li7/+h9xR
- Zblz6W3bOMLXOjYE6mdGxQ1IvmupiXgAX2SagFDiTodvzyQHpRvUxAuxws0MW6mkMg9HIG4MPxU
- 2lNvmZf4UTLvKOIooNR1IymSkPj2WA+EJSpAe6A==
-X-Gm-Gg: ASbGncvmRmdt8t93si/6g57JnzP/KagSlA54NIICJrmdfK/9m9IoprWaUhqvnrj7uUZ
- 6jdQY+hW7BNXVT58NBB4UNvNZMgKiQnegPFJFs+TaUi0gcEwn9jjOB5YcbxVvwr/dI+HqQJ4=
-X-Google-Smtp-Source: AGHT+IHu5RvYyC4nB2qf+XDJ+++3gqSi2Op4GcMB04A2jw0fnQSrmJDmXEVSJBJcKxrFc2tdYxydWafdNf7U76/hxNI=
-X-Received: by 2002:a05:690c:113:b0:6ef:96f8:b609 with SMTP id
- 00721157ae682-6f3f821a21dmr343989677b3.31.1735653873018; Tue, 31 Dec 2024
- 06:04:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
- <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-10-92c7c0a228e3@linaro.org>
- <zaz73zvyczdvrhwdo32el5seefuo2ocgst2jnh2rjsfz42vyy3@pkebgkbo5xd3>
- <CABymUCPDTxR7drbanHpjYmVgQyHqWSWwL-_rsFWZ9=uOFj2kPQ@mail.gmail.com>
-In-Reply-To: <CABymUCPDTxR7drbanHpjYmVgQyHqWSWwL-_rsFWZ9=uOFj2kPQ@mail.gmail.com>
+ AJvYcCWnIxEAifEaRy0n0NdQ8N3uo85eSa/dKvjrsgTrqjOM/EHZtqETpADLBV2cEmDNgsR3X4e+3X7cd+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9jIGf5SUXQoMkKuKZOtxg1gJPAmdl5BHiHuJucKI1V4I9Zthl
+ PoxYxQ9s6dhxuduliTkrPuhiT10PAwOXchCUnOOb+3p/vniepAl5UIbaaI43Cw4QRUDNl174pby
+ N
+X-Gm-Gg: ASbGnctrLeLUDwTbelBlZB23Ue6glhbxS6HZZnfNtr8XfGXWVYs3ZCQUYVH0xShjI7x
+ wN7NFYUaQLUuSZ/wAWQ9LoruTYxicKpAe0+YoRK6SqvQ/njmfdlzDJm2zi0XqMCqASX9Giv2PQW
+ cp7UBRdVYbDhTsfouf6hmgbAdB21c37T9/HRzm2n+6TtSd/rH6JCuEDfAJSa2ZfE01cUY8xeKEx
+ Gxz0SSnu51fgIiDfI8nnv5v/45RzQSqEHRtg+1mCHzz2e3WMUJK2/UXW/2Y+ZrofO6ycaQN2OC3
+ QA+GyeVJfunwcI/V5tiHUlE1kYA0zDie+0Lw
+X-Google-Smtp-Source: AGHT+IH0ONmDCEhLlEHy2uzXj//HEUZ4rdSJ/dCjW71fZ1AXASnnybyibGKtvWTX2k1vh0XHCssuRw==
+X-Received: by 2002:a2e:be06:0:b0:302:16da:a052 with SMTP id
+ 38308e7fff4ca-3046860d39dmr113148231fa.27.1735657104745; 
+ Tue, 31 Dec 2024 06:58:24 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045b083ebbsm37802501fa.115.2024.12.31.06.58.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Dec 2024 06:58:23 -0800 (PST)
+Date: Tue, 31 Dec 2024 16:58:21 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 31 Dec 2024 16:04:22 +0200
-Message-ID: <CAA8EJpp-sRDLWMYHO_m6J=iFQArqiRF143QEj-KzntQXgyc0ow@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] drm/msm/dpu: Add pipe as trace argument
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 09/10] drm/bridge: samsung-dsim: refcount the out_bridge
+Message-ID: <anuafemrtp2wsksuhw4snigkmlki2qdehqj3s56pgyc4lfd2cw@pgs4aiwkbguk>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-9-173065a1ece1@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241231-hotplug-drm-bridge-v5-9-173065a1ece1@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,102 +108,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 31 Dec 2024 at 15:24, Jun Nie <jun.nie@linaro.org> wrote:
->
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B412=
-=E6=9C=8820=E6=97=A5=E5=91=A8=E4=BA=94 06:29=E5=86=99=E9=81=93=EF=BC=9A
->
->
-> >
-> > On Thu, Dec 19, 2024 at 03:49:28PM +0800, Jun Nie wrote:
-> > > Add pipe as trace argument to ease converting pipe into
-> > > pipe array later.
-> >
-> > Isn't it already converted in on of the previous patches? Also you are
-> > adding it to a particular trace function, trace_dpu_crtc_setup_mixer().
->
-> It is converted in this patch. But this patch should be earlier than
-> the patch to
-> convert pipe into array actually. Will reverse the sequence in next versi=
-on.
-> Yes, I am adding it to a particular trace function. Do you mean I should =
-mention
-> the specific function in title?
+On Tue, Dec 31, 2024 at 11:40:03AM +0100, Luca Ceresoli wrote:
+> Refcount the out_bridge to avoid a use-after-free in case it is
+> hot-unplugged.
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> This patch was added in v5.
+> ---
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index c4d1563fd32019efde523dfc0863be044c05a826..4d32c453265931b5aecdc125623368fecacf4be3 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1756,6 +1756,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>  		return ret;
+>  	}
+>  
+> +	drm_bridge_get(out_bridge);
 
-Mentioning it in the commit message is enough.
+Well... out_bridge might already be gone now. You got the pointer, but
+it is not protected in any way. Gone.
 
->
-> >
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  2 +-
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h | 10 +++++-----
-> > >  2 files changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/d=
-rm/msm/disp/dpu1/dpu_crtc.c
-> > > index 72ed8749cd716..6841d0504d450 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > @@ -411,7 +411,7 @@ static void _dpu_crtc_blend_setup_pipe(struct drm=
-_crtc *crtc,
-> > >
-> > >       trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
-> > >                                  state, to_dpu_plane_state(state), st=
-age_idx,
-> > > -                                format->pixel_format,
-> > > +                                format->pixel_format, pipe,
-> > >                                  modifier);
-> > >
-> > >       DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d mul=
-tirect_idx %d\n",
-> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_trace.h
-> > > index 5307cbc2007c5..cb24ad2a6d8d3 100644
-> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
-> > > @@ -651,9 +651,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
-> > >       TP_PROTO(uint32_t crtc_id, uint32_t plane_id,
-> > >                struct drm_plane_state *state, struct dpu_plane_state =
-*pstate,
-> > >                uint32_t stage_idx, uint32_t pixel_format,
-> > > -              uint64_t modifier),
-> > > +              struct dpu_sw_pipe *pipe, uint64_t modifier),
-> > >       TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx,
-> > > -             pixel_format, modifier),
-> > > +             pixel_format, pipe, modifier),
-> > >       TP_STRUCT__entry(
-> > >               __field(        uint32_t,               crtc_id        =
- )
-> > >               __field(        uint32_t,               plane_id       =
- )
-> > > @@ -676,9 +676,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
-> > >               __entry->dst_rect =3D drm_plane_state_dest(state);
-> > >               __entry->stage_idx =3D stage_idx;
-> > >               __entry->stage =3D pstate->stage;
-> > > -             __entry->sspp =3D pstate->pipe.sspp->idx;
-> > > -             __entry->multirect_idx =3D pstate->pipe.multirect_index=
-;
-> > > -             __entry->multirect_mode =3D pstate->pipe.multirect_mode=
-;
-> > > +             __entry->sspp =3D pipe->sspp->idx;
-> > > +             __entry->multirect_idx =3D pipe->multirect_index;
-> > > +             __entry->multirect_mode =3D pipe->multirect_mode;
-> > >               __entry->pixel_format =3D pixel_format;
-> > >               __entry->modifier =3D modifier;
-> > >       ),
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> >
-> > --
-> > With best wishes
-> > Dmitry
+>  	dsi->out_bridge = out_bridge;
+>  
+>  	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
+> @@ -1774,13 +1775,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>  	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+>  		ret = samsung_dsim_register_te_irq(dsi, &device->dev);
+>  		if (ret)
+> -			return ret;
+> +			goto err_put_bridge;
+>  	}
+>  
+>  	if (pdata->host_ops && pdata->host_ops->attach) {
+>  		ret = pdata->host_ops->attach(dsi, device);
+>  		if (ret)
+> -			return ret;
+> +			goto err_put_bridge;
+>  	}
+>  
+>  	dsi->lanes = device->lanes;
+> @@ -1788,6 +1789,10 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>  	dsi->mode_flags = device->mode_flags;
+>  
+>  	return 0;
+> +
+> +err_put_bridge:
+> +	drm_bridge_put_and_clear(dsi->out_bridge);
+> +	return ret;
+>  }
+>  
+>  static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
+> @@ -1804,7 +1809,7 @@ static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
+>  	struct samsung_dsim *dsi = host_to_dsi(host);
+>  	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
+>  
+> -	dsi->out_bridge = NULL;
+> +	drm_bridge_put_and_clear(dsi->out_bridge);
+>  
+>  	if (pdata->host_ops && pdata->host_ops->detach)
+>  		pdata->host_ops->detach(dsi, device);
+> 
+> -- 
+> 2.34.1
+> 
 
-
-
---=20
+-- 
 With best wishes
 Dmitry
