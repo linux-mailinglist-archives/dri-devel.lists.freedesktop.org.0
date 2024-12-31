@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84729FEEE2
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 11:41:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 717059FEEDA
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 11:40:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30E5A10E64D;
-	Tue, 31 Dec 2024 10:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5549510E649;
+	Tue, 31 Dec 2024 10:40:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ic7Dg541";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gij91b7P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
  [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7301910E64D
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 10:40:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 05672FF809;
- Tue, 31 Dec 2024 10:40:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A4A10E658
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 10:40:39 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5E8CDFF807;
+ Tue, 31 Dec 2024 10:40:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1735641636;
+ t=1735641638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iTffFfD4VzEYR9vlW/p4V75r3lQ1DwU0EdWChMuyjI8=;
- b=Ic7Dg541QDABb3D67WnsoIwb/53TK87QIFofk4LJvHP7u0eswpPhbtyTAdLVya4AWYhIRT
- 3s3SmSHe8eUaKHXxSP1TmIOWFJUm6T344mJNc1HJJGt7IG3bKAQiX37zRHxJpwv4ZhdQeT
- L4UXcApiAdkyRbZ0ic8WWZnQNVRYc1a7PyewO/SLRRBSi00Ld6ENhuDNZpjuJXTKfjbBTp
- S7O3DsTqoiOk/HbzqkuzYrnoZDQnL39cdVCL46Lj6SqngI/BhQm9Qu3FOnL4XtRtm0+YD2
- a+7XV7/Kv28nMA0Z9WxdahVam2ODNOK8jufop+IKcfJG5FJ1Mf9dS/pS/hRCoQ==
+ bh=TTcQh33h4sP1K7kYFcPVMoxBbZqDI+SUcTKhpuWTOmM=;
+ b=gij91b7PznJGGhxAZOF/51HJTo0cqHVpkVu8A1p2EmoMQEJuGK+e9SlA4FF8hbAeYFhlVE
+ eiq59Scy6JKy3SEZvXRnK41iy8x2Vx6bVl26nGdrTHxQ7MxaSvVy99VzQkgWVQHRgBSYx3
+ AgSRHlrCypT/xZnlz1TD9jrxDEoBFNOzwTCoG54VKTcUwHBV2iHDrVfocM9fo7e6ROpt+F
+ VaNdSfOZwK3TxNtZhpTMmKuu3rnIhxRMpELqI7/Gv1kWJm7aJyFRrKmQ4lKMh6FAeC8Tx3
+ 1JMpPyltnseCSFrbqQlvtRtF7jlZsVUaRS4Dvh5xtmF5BR8eANc3w2T89VNoOg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 31 Dec 2024 11:40:02 +0100
-Subject: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting variable
- for out_bridge
+Date: Tue, 31 Dec 2024 11:40:03 +0100
+Subject: [PATCH v5 09/10] drm/bridge: samsung-dsim: refcount the out_bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+Message-Id: <20241231-hotplug-drm-bridge-v5-9-173065a1ece1@bootlin.com>
 References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
 In-Reply-To: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
 To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -78,18 +77,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of using dsi->out_bridge during the bridge search process, use a
-temporary variable and assign dsi->out_bridge only on successful
-completion.
-
-The main goal is to be able to drm_bridge_get() the out_bridge before
-setting it in dsi->out_bridge, which is done in a later commit. Setting
-dsi->out_bridge as in current code would leave a use-after-free window in
-case the bridge is deallocated by some other thread between
-'dsi->out_bridge = devm_drm_panel_bridge_add()' and drm_bridge_get().
-
-This change additionally avoids leaving an ERR_PTR value in dsi->out_bridge
-on failure. This is not necessarily a problem but it is not clean.
+Refcount the out_bridge to avoid a use-after-free in case it is
+hot-unplugged.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
@@ -97,51 +86,57 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 This patch was added in v5.
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/samsung-dsim.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index f8b4fb8357659018ec0db65374ee5d05330639ae..c4d1563fd32019efde523dfc0863be044c05a826 100644
+index c4d1563fd32019efde523dfc0863be044c05a826..4d32c453265931b5aecdc125623368fecacf4be3 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1705,6 +1705,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	struct device *dev = dsi->dev;
- 	struct device_node *np = dev->of_node;
- 	struct device_node *remote;
-+	struct drm_bridge *out_bridge;
- 	struct drm_panel *panel;
- 	int ret;
- 
-@@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 
- 	panel = of_drm_find_panel(remote);
- 	if (!IS_ERR(panel)) {
--		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-+		out_bridge = devm_drm_panel_bridge_add(dev, panel);
- 	} else {
--		dsi->out_bridge = of_drm_find_bridge(remote);
--		if (!dsi->out_bridge)
--			dsi->out_bridge = ERR_PTR(-EINVAL);
-+		out_bridge = of_drm_find_bridge(remote);
-+		if (!out_bridge)
-+			out_bridge = ERR_PTR(-EINVAL);
- 	}
- 
- 	of_node_put(remote);
- 
--	if (IS_ERR(dsi->out_bridge)) {
--		ret = PTR_ERR(dsi->out_bridge);
-+	if (IS_ERR(out_bridge)) {
-+		ret = PTR_ERR(out_bridge);
- 		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+@@ -1756,6 +1756,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
  		return ret;
  	}
  
-+	dsi->out_bridge = out_bridge;
-+
++	drm_bridge_get(out_bridge);
+ 	dsi->out_bridge = out_bridge;
+ 
  	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
- 		     device->name, device->lanes,
- 		     mipi_dsi_pixel_format_to_bpp(device->format),
+@@ -1774,13 +1775,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+ 		ret = samsung_dsim_register_te_irq(dsi, &device->dev);
+ 		if (ret)
+-			return ret;
++			goto err_put_bridge;
+ 	}
+ 
+ 	if (pdata->host_ops && pdata->host_ops->attach) {
+ 		ret = pdata->host_ops->attach(dsi, device);
+ 		if (ret)
+-			return ret;
++			goto err_put_bridge;
+ 	}
+ 
+ 	dsi->lanes = device->lanes;
+@@ -1788,6 +1789,10 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	dsi->mode_flags = device->mode_flags;
+ 
+ 	return 0;
++
++err_put_bridge:
++	drm_bridge_put_and_clear(dsi->out_bridge);
++	return ret;
+ }
+ 
+ static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
+@@ -1804,7 +1809,7 @@ static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
+ 	struct samsung_dsim *dsi = host_to_dsi(host);
+ 	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
+ 
+-	dsi->out_bridge = NULL;
++	drm_bridge_put_and_clear(dsi->out_bridge);
+ 
+ 	if (pdata->host_ops && pdata->host_ops->detach)
+ 		pdata->host_ops->detach(dsi, device);
 
 -- 
 2.34.1
