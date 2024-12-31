@@ -2,36 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6324A9FEF85
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 14:11:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D5A9FEFB4
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 14:25:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E132410E033;
-	Tue, 31 Dec 2024 13:11:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1627810E065;
+	Tue, 31 Dec 2024 13:25:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fHGwARXJ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E21D10E033
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 13:11:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5DBC75C5AB0;
- Tue, 31 Dec 2024 13:10:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD5CC4CED2;
- Tue, 31 Dec 2024 13:11:00 +0000 (UTC)
-Message-ID: <e6a1d480-ffd6-497f-a0af-91841e87c205@xs4all.nl>
-Date: Tue, 31 Dec 2024 14:10:59 +0100
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
+ [209.85.219.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1158610E08B
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 13:25:25 +0000 (UTC)
+Received: by mail-yb1-f169.google.com with SMTP id
+ 3f1490d57ef6-e53a91756e5so11486298276.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 05:25:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1735651464; x=1736256264; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=snA4yvwa/jOkFHRQZhhZPLDBB7J2xJa1ZDzy4VT0d/c=;
+ b=fHGwARXJAggGCuvZLs9f188Ivuf1J0phbqA320QodEQlUX0jaDQeJ8gkNmHq7XPD0Y
+ XrrfhghrfrCuGq32xihWo8n6AgYgIJvO1H4AAnIXy15c98E5NPqdlB4xp1MJMgDqV+eK
+ qn3JtBZDGU+ajNd688Vg3A2Rm5CYzPBgmxSjpRAHEEVll6/wjY31HRNk6X+FKcz8SShv
+ 9p2oqE1jcj05CmNUQaemIwrisxXlH8rnVUEQCJp0hqYk53Nh73gneFXMtQDD38pnk9YE
+ bCgYzosVHzvGMbNPdbn5WYUBrdpBu1IXNwCoOqKnLwReXnb5oboB60WH8OalKquiMPMR
+ yvjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735651464; x=1736256264;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=snA4yvwa/jOkFHRQZhhZPLDBB7J2xJa1ZDzy4VT0d/c=;
+ b=e3T6ge+MUHNe3BD62AwMN3cgiiMex1hYG1UEMp01vnVh8PakdXEowlrHQHfZxgSqYv
+ kpB181ZRRZBt4hxGzi+p5bUyql3+5G/e3pY+guPyAvijryrBwYwGiBgCqABw/RmHuhZz
+ JxKsVP3Od0MPYAuAkAte3VVioIBbYy+oHk4k2WE4Xr9FyNb9TT7uDBnfkD+eGVXbmDg6
+ 9bZR9gO2GN+csj7jmPIOvXCacb8c/wps3qxHPXq5oOciIDAV6tP7m5lt1cA1u7AIwqhO
+ rY5avhrsRH1OJTKjyOOFj4PDy2aCw3aSp4dHJgVKOkA/swPZo5zmnm+YM2xd91OYusiY
+ h4BQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/PTdxuso5iTU/usNEd+5X+UUU+e6EN9/DecCVa4qo2qTenfSUw8IsbnUEkQCG1Ro++OuXUfdBbRA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz65uOlcpURTgqWLjKWkAdQ/dckLydEzGNGCC6wn1dRye48/LHU
+ 42fCPetU29sTsvvUpBkm+SjXTMpdHGDecvhV/fTKqLObtqSAEVp+x92kR4/MbzN5nN4RivsZaaB
+ FPOKOHHjOzpQ5LB78UJjO34v/ZMTllTIfgfGoZw==
+X-Gm-Gg: ASbGncvXGYWtLf5dCc8UjG+FGmEpmbSINanYN6Var+wOoplGmudbCt0ey7HBsGm6Uvq
+ /7n5WgggUOqwO6AODJVM4/ehZ8uta4/1cpbstUp0=
+X-Google-Smtp-Source: AGHT+IFGsk0fupDwzj9lh6jZbL4bQlBTGOG6UckivqlqvTqjTO3DMHgfMLp19aQljkDCpVAtfntkoLcWya4LkRi7Rz4=
+X-Received: by 2002:a05:690c:708a:b0:6ef:a187:f3a3 with SMTP id
+ 00721157ae682-6f3f822353fmr264399617b3.27.1735651464161; Tue, 31 Dec 2024
+ 05:24:24 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: cec: include linux/debugfs.h and
- linux/seq_file.h where needed
-To: Jani Nikula <jani.nikula@intel.com>, linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20241217100024.1858704-1-jani.nikula@intel.com>
- <871pxpp7d5.fsf@intel.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <871pxpp7d5.fsf@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
+ <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-10-92c7c0a228e3@linaro.org>
+ <zaz73zvyczdvrhwdo32el5seefuo2ocgst2jnh2rjsfz42vyy3@pkebgkbo5xd3>
+In-Reply-To: <zaz73zvyczdvrhwdo32el5seefuo2ocgst2jnh2rjsfz42vyy3@pkebgkbo5xd3>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Tue, 31 Dec 2024 21:24:12 +0800
+Message-ID: <CABymUCPDTxR7drbanHpjYmVgQyHqWSWwL-_rsFWZ9=uOFj2kPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/15] drm/msm/dpu: Add pipe as trace argument
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,146 +87,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/12/2024 15:34, Jani Nikula wrote:
-> On Tue, 17 Dec 2024, Jani Nikula <jani.nikula@intel.com> wrote:
->> Having cec.h include linux/debugfs.h leads to all users of all cec
->> headers include and depend on debugfs.h and its dependencies for no
->> reason. Drop the include from cec.h, and include debugfs.h and
->> seq_file.h where needed.
->>
->> Sort all the modified include lists while at it.
->>
->> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Cc: linux-media@vger.kernel.org
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> 
-> Ping?
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2024=E5=B9=B412=E6=
+=9C=8820=E6=97=A5=E5=91=A8=E4=BA=94 06:29=E5=86=99=E9=81=93=EF=BC=9A
 
-I plan to pick it up next week, when I'm back from my Christmas vacation.
 
-Regards,
+>
+> On Thu, Dec 19, 2024 at 03:49:28PM +0800, Jun Nie wrote:
+> > Add pipe as trace argument to ease converting pipe into
+> > pipe array later.
+>
+> Isn't it already converted in on of the previous patches? Also you are
+> adding it to a particular trace function, trace_dpu_crtc_setup_mixer().
 
-	Hans
+It is converted in this patch. But this patch should be earlier than
+the patch to
+convert pipe into array actually. Will reverse the sequence in next version=
+.
+Yes, I am adding it to a particular trace function. Do you mean I should me=
+ntion
+the specific function in title?
 
-> 
->>
->> ---
->>
->> v2: Rebase, update cec-pin-error-inj.c and cec-gpio.c too
->>
->> Depends on commit ae19ba915eb7 ("drm/i915/display: include
->> media/cec-notifier.h and linux/debugfs.h where needed") in v6.13-rc1
->> ---
->>  drivers/media/cec/core/cec-adap.c              | 5 +++--
->>  drivers/media/cec/core/cec-core.c              | 5 +++--
->>  drivers/media/cec/core/cec-pin-error-inj.c     | 3 ++-
->>  drivers/media/cec/core/cec-pin.c               | 3 ++-
->>  drivers/media/cec/platform/cec-gpio/cec-gpio.c | 7 ++++---
->>  include/media/cec.h                            | 1 -
->>  6 files changed, 14 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
->> index c7d36010c890..ba6828ef540e 100644
->> --- a/drivers/media/cec/core/cec-adap.c
->> +++ b/drivers/media/cec/core/cec-adap.c
->> @@ -7,12 +7,13 @@
->>  
->>  #include <linux/errno.h>
->>  #include <linux/init.h>
->> -#include <linux/module.h>
->>  #include <linux/kernel.h>
->>  #include <linux/kmod.h>
->>  #include <linux/ktime.h>
->> -#include <linux/slab.h>
->>  #include <linux/mm.h>
->> +#include <linux/module.h>
->> +#include <linux/seq_file.h>
->> +#include <linux/slab.h>
->>  #include <linux/string.h>
->>  #include <linux/types.h>
->>  
->> diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
->> index ca0db8d457b4..e10bd588a586 100644
->> --- a/drivers/media/cec/core/cec-core.c
->> +++ b/drivers/media/cec/core/cec-core.c
->> @@ -5,13 +5,14 @@
->>   * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->>   */
->>  
->> +#include <linux/debugfs.h>
->>  #include <linux/errno.h>
->>  #include <linux/init.h>
->> -#include <linux/module.h>
->>  #include <linux/kernel.h>
->>  #include <linux/kmod.h>
->> -#include <linux/slab.h>
->>  #include <linux/mm.h>
->> +#include <linux/module.h>
->> +#include <linux/slab.h>
->>  #include <linux/string.h>
->>  #include <linux/types.h>
->>  
->> diff --git a/drivers/media/cec/core/cec-pin-error-inj.c b/drivers/media/cec/core/cec-pin-error-inj.c
->> index fc0968b9d40e..6e61a04b8168 100644
->> --- a/drivers/media/cec/core/cec-pin-error-inj.c
->> +++ b/drivers/media/cec/core/cec-pin-error-inj.c
->> @@ -4,8 +4,9 @@
->>   */
->>  
->>  #include <linux/delay.h>
->> -#include <linux/slab.h>
->>  #include <linux/sched/types.h>
->> +#include <linux/seq_file.h>
->> +#include <linux/slab.h>
->>  
->>  #include <media/cec-pin.h>
->>  #include "cec-pin-priv.h"
->> diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
->> index 330d5d5d86ab..a70451d99ebc 100644
->> --- a/drivers/media/cec/core/cec-pin.c
->> +++ b/drivers/media/cec/core/cec-pin.c
->> @@ -4,8 +4,9 @@
->>   */
->>  
->>  #include <linux/delay.h>
->> -#include <linux/slab.h>
->>  #include <linux/sched/types.h>
->> +#include <linux/seq_file.h>
->> +#include <linux/slab.h>
->>  
->>  #include <media/cec-pin.h>
->>  #include "cec-pin-priv.h"
->> diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
->> index cf64e8871fe5..50cdc557c943 100644
->> --- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
->> +++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
->> @@ -3,11 +3,12 @@
->>   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->>   */
->>  
->> -#include <linux/module.h>
->> -#include <linux/interrupt.h>
->>  #include <linux/delay.h>
->> -#include <linux/platform_device.h>
->>  #include <linux/gpio/consumer.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/seq_file.h>
->>  #include <media/cec-notifier.h>
->>  #include <media/cec-pin.h>
->>  
->> diff --git a/include/media/cec.h b/include/media/cec.h
->> index 16b412b3131b..0c8e86115b6f 100644
->> --- a/include/media/cec.h
->> +++ b/include/media/cec.h
->> @@ -10,7 +10,6 @@
->>  
->>  #include <linux/poll.h>
->>  #include <linux/fs.h>
->> -#include <linux/debugfs.h>
->>  #include <linux/device.h>
->>  #include <linux/cdev.h>
->>  #include <linux/kthread.h>
-> 
-
+>
+> >
+> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  2 +-
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h | 10 +++++-----
+> >  2 files changed, 6 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm=
+/msm/disp/dpu1/dpu_crtc.c
+> > index 72ed8749cd716..6841d0504d450 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -411,7 +411,7 @@ static void _dpu_crtc_blend_setup_pipe(struct drm_c=
+rtc *crtc,
+> >
+> >       trace_dpu_crtc_setup_mixer(DRMID(crtc), DRMID(plane),
+> >                                  state, to_dpu_plane_state(state), stag=
+e_idx,
+> > -                                format->pixel_format,
+> > +                                format->pixel_format, pipe,
+> >                                  modifier);
+> >
+> >       DRM_DEBUG_ATOMIC("crtc %d stage:%d - plane %d sspp %d fb %d multi=
+rect_idx %d\n",
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h b/drivers/gpu/dr=
+m/msm/disp/dpu1/dpu_trace.h
+> > index 5307cbc2007c5..cb24ad2a6d8d3 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h
+> > @@ -651,9 +651,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
+> >       TP_PROTO(uint32_t crtc_id, uint32_t plane_id,
+> >                struct drm_plane_state *state, struct dpu_plane_state *p=
+state,
+> >                uint32_t stage_idx, uint32_t pixel_format,
+> > -              uint64_t modifier),
+> > +              struct dpu_sw_pipe *pipe, uint64_t modifier),
+> >       TP_ARGS(crtc_id, plane_id, state, pstate, stage_idx,
+> > -             pixel_format, modifier),
+> > +             pixel_format, pipe, modifier),
+> >       TP_STRUCT__entry(
+> >               __field(        uint32_t,               crtc_id         )
+> >               __field(        uint32_t,               plane_id        )
+> > @@ -676,9 +676,9 @@ TRACE_EVENT(dpu_crtc_setup_mixer,
+> >               __entry->dst_rect =3D drm_plane_state_dest(state);
+> >               __entry->stage_idx =3D stage_idx;
+> >               __entry->stage =3D pstate->stage;
+> > -             __entry->sspp =3D pstate->pipe.sspp->idx;
+> > -             __entry->multirect_idx =3D pstate->pipe.multirect_index;
+> > -             __entry->multirect_mode =3D pstate->pipe.multirect_mode;
+> > +             __entry->sspp =3D pipe->sspp->idx;
+> > +             __entry->multirect_idx =3D pipe->multirect_index;
+> > +             __entry->multirect_mode =3D pipe->multirect_mode;
+> >               __entry->pixel_format =3D pixel_format;
+> >               __entry->modifier =3D modifier;
+> >       ),
+> >
+> > --
+> > 2.34.1
+> >
+>
+> --
+> With best wishes
+> Dmitry
