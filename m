@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C3B49FF159
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 19:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 170159FF185
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 20:30:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B0810E023;
-	Tue, 31 Dec 2024 18:50:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 907F310E185;
+	Tue, 31 Dec 2024 19:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="Dbl0s8Mg";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="SSSiv3ir";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F80E10E023
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 18:50:52 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-2ee709715d9so10995945a91.3
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 10:50:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1735670992; x=1736275792;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kltap3Pv1hlN9UPAmHZET72hjTYvMQFRlhAGev33Mns=;
- b=Dbl0s8MgWJLKEiaIEhBrGJq/inywIYAtHC+HzBEpyrrXs4D9j+AVA1qw9lTtmXpnpF
- HuAXfsyOeKkCnzwWg9DYYFQxbRZDmthTpKAEfEksVAz+AM14BoGC+gSTqmE5ZCfdtvwD
- 17pu8bfpu2cGHPyO/olZ8HxAwU5Qtsbs3upv9f/BjVWfz3VgN2GazcFI0x4NbGKAIbHA
- f2SPTAzqDrg1sGaxp0psZk9iNCTWpAxKaJd56a1t2ko3k9H/vft2pxpMjtSE3kEZWHfe
- rFU7hkPzItTC374ARp0mZGBg9vfSlcjrOg5zY84vfcCaR1OO+clunN8XWy2Q6R18RDo6
- IgqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735670992; x=1736275792;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=kltap3Pv1hlN9UPAmHZET72hjTYvMQFRlhAGev33Mns=;
- b=ODv1a0R9+XqwTo0nSL6euvmW7v0XX7xYYp+awZOqV0enTJHZmhvzbm2Cp95NfsErAH
- 6NQGVgrGPeC/bPZTPVSdPgVS+/Cd97na2WBfLT/jKr+SBeMH7pE31LszCVNPh8C6dvEY
- Bwo2E5WHNmZ+ApwlUKThZywCuXazm3BTHlDUwicuZoW6dzuxrHOgLWtslT1CicabCTZS
- S0DTZ+0CVxTjrU7AQz+n5wy15gQT4+VYNBvZULrTG0G01onTgMi0gtBK9BFujma1iPeU
- htD5cSYnBUnyn0YPV8FzdZ7pV7cnXRm/Eop0IR0U7r5axEJ1nRllWUuYM6HdUUsFCuNP
- 1Mbg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVJhdYO526TJUYL1fF7jP5spw07uvAtzwI7NEZWbmN/Vgms2ak2KRIH7CtxUlO+fjhnUTLim+OaT9Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7f0o7nIV8cwHvP60ky+19GL0PVZvQSRleqerTM5UOFNvUeMn0
- Pv0jepfUIno69cCtHaBPyWrMRKVair9a7fYrRVtsdst9TDpB46LZxJJu+VEpdfNLDYChCojPGo6
- 1bcVZBZj1CFMCmANHjp7gWqNTG0E=
-X-Gm-Gg: ASbGnctlQDG34EHNAsFjcsQ1NjN1EnHRf/C7ccOpv7tuWOHWCr+QE0B+8eyKuprIS0E
- /IWNjK3oGeeevbJ8Q97PSgW6m1HMCAJCe3oHJOl4LhLOGaCuwXgxbZqBF/MwH3D8keial1ks=
-X-Google-Smtp-Source: AGHT+IG5FmkROQoSQHWr4cIegxX2It9OOsT8OUh7KWPdH7VQgx2qIDviezjcsQv6GTMSR51Q0h0ZJEqmX+Qz4Kpzuw4=
-X-Received: by 2002:a17:90a:d645:b0:2ef:30ec:14c9 with SMTP id
- 98e67ed59e1d1-2f452e4ad37mr57281196a91.18.1735670991720; Tue, 31 Dec 2024
- 10:49:51 -0800 (PST)
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B092E10E189
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 19:30:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 9802E104855B1; Tue, 31 Dec 2024 20:29:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1735673388;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MZEWmN4GN5G1sABY/mv4D6+HIYv/6uOJhfv6635kFT8=;
+ b=SSSiv3irUUXzx7nqQ6tWRryfPL3RUPx2U1XYOP5k8dgpHW9tWjWQWbYGFWKoyBI/lVWaPT
+ 291ngQmHU1jh3qYi6pXY7hpznxcKYrW/ToN7VKNE2nGq+uS5/N2c537QG2zprE7qhSquMZ
+ 0WHaNs5fSUrertBEKOltLXIoP+Mm24e/5mdu10VcfREEck46vybCD6tB/ZVQcrfHOBaX5j
+ Kf2qAbgWJk/wrg52rumZ819AUsFbUv9Sjp781z25UxkfAa9E7GAp1qGqR1HE83OQO9p3b3
+ VVZKVBOCGLHoA3nWYIIC03N1swSdWXafVV3Glykw5lSnI9NcmhOYFpZP+A1CWQ==
+From: Marek Vasut <marex@denx.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Marek Vasut <marex@denx.de>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Liu Ying <victor.liu@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v3 1/4] drm: bridge: dw_hdmi: Add flag to indicate output port
+ is optional
+Date: Tue, 31 Dec 2024 20:28:48 +0100
+Message-ID: <20241231192925.97614-1-marex@denx.de>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
- <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
- <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
-In-Reply-To: <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 31 Dec 2024 19:49:40 +0100
-Message-ID: <CAFBinCAh8iazDNx6GtOOJyXh_V-NfUs6Uf=ywN9kvQGPEmjrKQ@mail.gmail.com>
-Subject: Re: [PATCH v10 03/10] drm/connector: implement generic HDMI audio
- helpers
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
- alain.volmat@foss.st.com, alim.akhtar@samsung.com, andrzej.hajda@intel.com, 
- andy.yan@rock-chips.com, angelogioacchino.delregno@collabora.com, 
- broonie@kernel.org, chunkuang.hu@kernel.org, dave.stevenson@raspberrypi.com, 
- dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com, 
- inki.dae@samsung.com, jani.nikula@linux.intel.com, jernej.skrabec@gmail.com, 
- jonas@kwiboo.se, kernel-list@raspberrypi.com, krzk@kernel.org, 
- kyungmin.park@samsung.com, lgirdwood@gmail.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com, 
- matthias.bgg@gmail.com, mcanal@igalia.com, mripard@kernel.org, 
- neil.armstrong@linaro.org, p.zabel@pengutronix.de, perex@perex.cz, 
- ple@baylibre.com, rfoss@kernel.org, rgallaispou@gmail.com, simona@ffwll.ch, 
- sw0312.kim@samsung.com, tiwai@suse.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,51 +66,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 31, 2024 at 3:34=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-[...]
-> > I checked all instances of struct hdmi_codec_ops in v6.13-rc3 and it
-> > seems that there is only a single driver which uses the .prepare
-> > callback (drivers/gpu/drm/vc4/vc4_hdmi.c). All other drivers seem to
-> > implement .hw_params instead.
->
-> Yes. However .hw_params don't have access to the infoframe contents, so
-> I had to settle on implementing .prepare.
-While debugging I noticed something unrelated to my problem:
-hdmi_codec_spdif_dai_ops does not implement .prepare().
-FYI just in case someone wants to use your patches and feed the
-hdmi-codec with SPDIF instead of I2S.
+Add a flag meant purely to work around broken i.MX8MP DTs which enable
+HDMI but do not contain the HDMI connector node. This flag allows such
+DTs to work by creating the connector in the HDMI bridge driver. Do not
+use this flag, do not proliferate this flag, please fix your DTs.
 
-> >
-> > The audio controller code for my platform is already upstream:
-> > - sound/soc/meson/aiu-codec-ctrl.c
-> > - sound/soc/meson/aiu-encoder-i2s.c
-> > - sound/soc/meson/aiu-fifo-i2s.c
-> >
-> > My understanding is that you have a platform with a lontium-lt9611
-> > HDMI controller available for testing. Can you please help me
-> > investigate and find out which piece of code is calling
-> > hdmi_codec_prepare() and therefore lt9611_hdmi_audio_prepare() on
-> > your board?
->
-> Sure, this is the call trace on my platform (Qualcomm SDM845,
-> sdm845-db845c.dts):
->
-> lt9611_hdmi_audio_prepare+0x1c/0xc0 (P)
-> drm_bridge_connector_audio_prepare+0x2c/0x40 (L)
-> drm_bridge_connector_audio_prepare+0x2c/0x40
-> drm_connector_hdmi_audio_prepare+0x24/0x30
-> hdmi_codec_prepare+0xec/0x144
-> snd_soc_pcm_dai_prepare+0x78/0x10c
-Thank you, this helps! snd_soc_pcm_dai_prepare() is where it breaks for me.
-I suspect that it's an sound card issue on our platform, so I'm hoping
-that Jerome (author of the Amlogic ASoC drivers) will help me debug
-it: [0]
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jonas Karlman <jonas@kwiboo.se>
+Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Cc: Liu Ying <victor.liu@nxp.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Robert Foss <rfoss@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+---
+V3: New patch
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 12 ++++++++----
+ include/drm/bridge/dw_hdmi.h              |  2 ++
+ 2 files changed, 10 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+index 996733ed2c004..852e73c0f686f 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+@@ -2893,9 +2893,13 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
+ {
+ 	struct dw_hdmi *hdmi = bridge->driver_private;
+ 
+-	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+-		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
+-					 bridge, flags);
++	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
++		if (hdmi->plat_data->output_port_optional && !hdmi->next_bridge)
++			return dw_hdmi_connector_create(hdmi);
++		else
++			return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
++						 bridge, flags);
++	}
+ 
+ 	return dw_hdmi_connector_create(hdmi);
+ }
+@@ -3298,7 +3302,7 @@ static int dw_hdmi_parse_dt(struct dw_hdmi *hdmi)
+ 					  hdmi->plat_data->output_port,
+ 					  -1);
+ 	if (!remote)
+-		return -ENODEV;
++		return hdmi->plat_data->output_port_optional ? 0 : -ENODEV;
+ 
+ 	hdmi->next_bridge = of_drm_find_bridge(remote);
+ 	of_node_put(remote);
+diff --git a/include/drm/bridge/dw_hdmi.h b/include/drm/bridge/dw_hdmi.h
+index 6a46baa0737cd..3bb6e633424a8 100644
+--- a/include/drm/bridge/dw_hdmi.h
++++ b/include/drm/bridge/dw_hdmi.h
+@@ -127,6 +127,8 @@ struct dw_hdmi_plat_data {
+ 	struct regmap *regm;
+ 
+ 	unsigned int output_port;
++	/* Used purely by MX8MP HDMI to work around broken DTs without HDMI connector node. */
++	bool output_port_optional;
+ 
+ 	unsigned long input_bus_encoding;
+ 	bool use_drm_infoframe;
+-- 
+2.45.2
 
-Best regards,
-Martin
-
-
-[0] https://lore.kernel.org/linux-amlogic/CAFBinCDdiJ3UNVUcShjq=3D7U2=3DoUw=
-T3ciYdKSuZ5TdcrikxFBpg@mail.gmail.com/
