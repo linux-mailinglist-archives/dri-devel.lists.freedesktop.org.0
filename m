@@ -2,90 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 685B29FEBBD
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 01:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A479FEBC1
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 01:07:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00DCD10E484;
-	Tue, 31 Dec 2024 00:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD7510E467;
+	Tue, 31 Dec 2024 00:07:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mQLv1oLA";
+	dkim=pass (2048-bit key; unprotected) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="BmW93RMs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABC3B10E427
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 00:00:06 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5401bd6cdb7so10380473e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 16:00:06 -0800 (PST)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+ [209.85.214.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2398210E467
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 00:07:44 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id
+ d9443c01a7336-2163bd70069so24725055ad.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 16:07:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735603145; x=1736207945; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=esYDpsWPuEO88zvObUesCzqAb0/9+MI3c8A4Qm20q9k=;
- b=mQLv1oLApG8DWpvruS6TbrrIMZWXxTYvJv9/pD2yEZkG52yVbICGpkGjkMNTyh79MC
- 1CrLTs0SoPSd5b5qow8gDGYCe5v9RswsPSpArBJGg+mcBpvJ2KbO2K1Z+x5BQ5mocS91
- 5AoE7TUKAbIaX/PEbn8xyCJ3LcNrFGk3aaWs6W4LlEjEdFYvTE9lNZrnC4M5uu7TKxWf
- YowIuZnoTl3HdghPGMvA1KVc3cZIah1WpHbKlzZuaIjq7etDKavtGyGC5jwM+iiL0KKk
- LKmboIm8hV6jP6wlOrKiMlus5MgUYp+Ql3fRr9mDJ3lSWeBlSmFI61qTUO451cNZfOjb
- EtPQ==
+ d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1735603603; x=1736208403;
+ darn=lists.freedesktop.org; 
+ h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:to:cc:subject:date:message-id:reply-to;
+ bh=F2yAYYBK5Idg3mVjplhEp+hgexJeLdI0/aBpgj88mUU=;
+ b=BmW93RMsmbqPF7pivExIFkwG1+LFXpQmn0d6aSxMtxwDep2qeIT54aMKXbBhqqv5NE
+ KGwP3Dwn7CZ+aM/MnVni1tLyM7TY0Em+UnBr9LNucZdgATCkUmLiWE8mTKlr5t50fH4i
+ F3mpcIYr2Qa2noVTdy1q9x6w7YVY4NyO5UOhrJb9Ktu/BXa4JWgiX/IX1yjeOPf/G+oV
+ 99v337eChDG9tiuZXl3i4iXXctQlUzzC+CPzv3MDLZME3AUsdVU7FBrNDPvUsHrNsZgI
+ U+4u4SACwBnxekujzzGg+TqwZck6u80zEIVjMdenLAYhEylzoaSqX3PFru17Y2LzFdfa
+ 2hoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735603145; x=1736207945;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=esYDpsWPuEO88zvObUesCzqAb0/9+MI3c8A4Qm20q9k=;
- b=boAANjkOADFzLcB3ObmKHV1l+iEwmUs1R0eAFzOBkgsu8fgBSwL6dIX6Oljje6x/L+
- 3iq5CVxGD/xJe6TxAAEJeJ/vUjA5Ph0MazD+AR6byGAqzOXX3hktoQsfB5dH7nbHM4xE
- RePuxblyqZ2pIVGuFPdhgIhLOWD+7nfzw8Ol+lQhSSNi+Swz8b7H40xY5wFm/+kHcdAK
- NIdsBJ2oU3WDN9RxwEsYiYct4bu3bmDCOwX0Xxtp9R8PbMJT8+qVLL8dtHSJY69WduIH
- a24fAN0DtZOA4l7O9KtKh94tLuhD8kcuk2MQv4RnXJNQEzG7oMg/qDDwXfnaSVlbMcfm
- 1+pA==
+ d=1e100.net; s=20230601; t=1735603603; x=1736208403;
+ h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+ :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=F2yAYYBK5Idg3mVjplhEp+hgexJeLdI0/aBpgj88mUU=;
+ b=ZyTZ8naDXfXDoUB841ye3sa9RIgFE6TEQ+VlUxegot2ZwKIvq8QrBke6rv3OTBYRq4
+ S+22k3Jbi//Pxck0JMWbCHA24TvXptyhd8idOoZKDJ2ANCXLAw8MNPcLOYf6OJsl7vqt
+ MduTcwC5RIX+nN06IYAr2n6p0O971leszf4aaX1Xn9ApJB4M9oZtJgQFzZWlcy9bU/VN
+ Eln2q1Qh+qJ5fvPuQ16p2zthdsjSAgeMDhlKh5E+LBzH8aX2pEj/od32bV5HZ1JOLAmH
+ QnH4jHnRlAR1fTWUtNuCmXJ7oHvzp1Rgn/iT7Jf/rU36yTKIEdIkYiNF3ERY0wZCbUOc
+ 8a7w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUBH0LWNA8+zAPQjHcuDfUDg2i5XVoPHaWbVl1zPcdK+XEPQdh1Wd9PLfIXoJsKnU165cZxXpKM6V8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEHMI4ENGfs8WqNEjBQBI/hiRX9uRf36UWzbt4h5TlYWdq5Dde
- LVl0V7NOUbZjVqeYDJrZgSRcZRcUSy+MsZB+KCNo2cadSO9DBOh8lb2Si/3nJJ0=
-X-Gm-Gg: ASbGncuDuXVXtKRm3x6d1kjXkDj5S07BCuZwFwfzgSzpVy/EP6gz0dNvzAzUmpt4LkN
- pYXU43jfuGgGGj9N05+exdlmQ1hJpLh1y+8NPWZt8crfRK8ndYYjeHh7F+SZ9lhpe8rf1qtXg41
- 4c7+gfNDkXiaYno+zOcXnG2p0l8EpYXKsZeEh4LFP/Af7PuBfO9XVpDv3U8W2pjGLTedPgdhGip
- c6sgJcaHBnFaj5qN8N/g+E1TIz1x3eS9p2DeH4I39UgycZUoAa/o9Y9pb9kKQ2a6bLNiZLH1O7a
- PNjVwFOlXpV4egwiNnOmmswdAuMux3cqcTat
-X-Google-Smtp-Source: AGHT+IF+rLSsY4tbtNxgTE8NrlTlXuaIB94Yc2ChSyIRKdgpG/cckY+ZwMmKpOESxNjsZ97FlkawOg==
-X-Received: by 2002:a05:6512:1296:b0:53e:368c:ac48 with SMTP id
- 2adb3069b0e04-542295229femr10026548e87.11.1735603144992; 
- Mon, 30 Dec 2024 15:59:04 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5422382109dsm3217871e87.170.2024.12.30.15.59.02
+ AJvYcCWL6ljswcZ1GMHcwbGKZyjbTy+ij+nyZEwfIVn+xQp+i5wRplxm6oVvBCFyol4cWvqovHKvkoQBbQ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLTTbeYL8No5JiS/zo/u94Ls9UhosEtxWPUzsg/sTckjuM9h4F
+ ql01e+eIhCc2s+Eqbm/92dLdnF6GTKs4ZB9RNI9ep33YdfQKpwPaUChKW6e+jTs=
+X-Gm-Gg: ASbGncsTBETBmDbz2QaRFx1JY+8ln+JKEy4E4KomJBgOuNbqUzdWDMV9Zcnm+T5+Nka
+ GYGnUw0KLz1SIw+7GE7At3mBumzSeGE2gxcG8MaPVzFPPXTqE/FEMwmoM7AEYWai75TI4N/7Fev
+ TzyvW6zK4UFpYQXpealSwSbyWQQ4dOnC2urSoOb0x5Bjy3XF3naUl+pxg78vhW0bEdWeJYOQY+f
+ lJnZwbWQNJJeyIm13wvwRcteHzbamMiOhAi7sHUfYLurZj6awA=
+X-Google-Smtp-Source: AGHT+IE/AWOTszHUHtDpafE3qaXtf5KGoLf4JTW95pN+XrZuZ58jSfDBFbstrD9PLNosWr8Nde4ntQ==
+X-Received: by 2002:a17:902:e886:b0:216:5e6e:68cb with SMTP id
+ d9443c01a7336-219e6e9fd95mr561177575ad.16.1735603603622; 
+ Mon, 30 Dec 2024 16:06:43 -0800 (PST)
+Received: from localhost ([50.145.13.30]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-219dc964a8bsm183765495ad.8.2024.12.30.16.06.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Dec 2024 15:59:03 -0800 (PST)
-Date: Tue, 31 Dec 2024 01:59:01 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v4 17/25] drm/msm/dpu: Fail atomic_check if CWB and CDM
- are enabled
-Message-ID: <klngsvbaqycfye6bobeq3krvkttno6n6y4qnidoobdobgxfeln@fkzpellmdjlk>
-References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
- <20241216-concurrent-wb-v4-17-fe220297a7f0@quicinc.com>
- <qpy3yjnrq7ljsj7a2b2avbnd6cptyfr6vzxhm733dyaiso5lwg@txhr5zwjqtt7>
- <ac1cbdd1-ffea-4643-83ed-c5a321e000e8@quicinc.com>
+ Mon, 30 Dec 2024 16:06:39 -0800 (PST)
+Subject: [PATCH] drm/amd/display: Increase frame-larger-than warning limit for
+ DCN401
+Date: Mon, 30 Dec 2024 16:02:58 -0800
+Message-ID: <20241231000257.8533-2-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac1cbdd1-ffea-4643-83ed-c5a321e000e8@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, 
+ simona@ffwll.ch, hamza.mahfooz@amd.com, aurabindo.pillai@amd.com,
+ wayne.lin@amd.com, Palmer Dabbelt <palmer@rivosinc.com>, moadhuri@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: amd-gfx@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,27 +90,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 26, 2024 at 02:51:12PM -0800, Jessica Zhang wrote:
-> 
-> 
-> On 12/19/2024 9:44 PM, Dmitry Baryshkov wrote:
-> > On Mon, Dec 16, 2024 at 04:43:28PM -0800, Jessica Zhang wrote:
-> > > We cannot support both CWB and CDM simultaneously as this would require
-> > > 2 CDM blocks and currently our hardware only supports 1 CDM block at
-> > > most.
-> > 
-> > Why would CWB require a second CDM block? I think that YUV output over
-> > DP (needs_cdm = true) and RGB output over WB (cwb_enabled = true) should
-> > work. Am I wrong?
-> 
-> Hey Dmitry,
-> 
-> No, I think your usecase should work. In that case, I can change this so
-> that it only fails if both DP and WB are requesting CDM simultaneously.
+From: Palmer Dabbelt <palmer@rivosinc.com>
 
-Sounds good to me, thank you!.
+Without this I get
 
+  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.o
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c: In function ‘dcn401_dpp_create’:
+drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c:936:1: error: the frame size of 2720 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+  936 | }
+      | ^
 
+when building for RISC-V/allmodconfig.
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+---
+ drivers/gpu/drm/amd/display/dc/resource/Makefile | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/Makefile b/drivers/gpu/drm/amd/display/dc/resource/Makefile
+index 09320344d8e9..c2700a184f06 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/resource/Makefile
+@@ -22,6 +22,13 @@
+ # Makefile for the 'resource' sub-component of DAL.
+ #
+ 
++ifneq ($(CONFIG_FRAME_WARN),0)
++ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
++frame_warn_flag := -Wframe-larger-than=4096
++else
++frame_warn_flag := -Wframe-larger-than=3072
++endif
++endif
+ 
+ ###############################################################################
+ #  DCE
+@@ -203,5 +210,6 @@ RESOURCE_DCN401 = dcn401_resource.o
+ AMD_DAL_RESOURCE_DCN401 = $(addprefix $(AMDDALPATH)/dc/resource/dcn401/,$(RESOURCE_DCN401))
+ 
+ AMD_DISPLAY_FILES += $(AMD_DAL_RESOURCE_DCN401)
++CFLAGS_$(AMD_DAL_RESOURCE_DCN401) := $(frame_warn_flag)
+ 
+ endif
 -- 
-With best wishes
-Dmitry
+2.45.1
+
