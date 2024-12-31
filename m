@@ -2,79 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3A479FEBC1
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 01:07:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF389FEBF2
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 01:44:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AD7510E467;
-	Tue, 31 Dec 2024 00:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECD0B10E59F;
+	Tue, 31 Dec 2024 00:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="BmW93RMs";
+	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="GBD04wKV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2398210E467
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 00:07:44 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2163bd70069so24725055ad.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 16:07:44 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB5B010E59F
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 00:44:37 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-aaec61d0f65so1439507066b.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Dec 2024 16:44:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1735603603; x=1736208403;
+ d=googlemail.com; s=20230601; t=1735605816; x=1736210616;
  darn=lists.freedesktop.org; 
- h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
- :subject:from:to:cc:subject:date:message-id:reply-to;
- bh=F2yAYYBK5Idg3mVjplhEp+hgexJeLdI0/aBpgj88mUU=;
- b=BmW93RMsmbqPF7pivExIFkwG1+LFXpQmn0d6aSxMtxwDep2qeIT54aMKXbBhqqv5NE
- KGwP3Dwn7CZ+aM/MnVni1tLyM7TY0Em+UnBr9LNucZdgATCkUmLiWE8mTKlr5t50fH4i
- F3mpcIYr2Qa2noVTdy1q9x6w7YVY4NyO5UOhrJb9Ktu/BXa4JWgiX/IX1yjeOPf/G+oV
- 99v337eChDG9tiuZXl3i4iXXctQlUzzC+CPzv3MDLZME3AUsdVU7FBrNDPvUsHrNsZgI
- U+4u4SACwBnxekujzzGg+TqwZck6u80zEIVjMdenLAYhEylzoaSqX3PFru17Y2LzFdfa
- 2hoA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IMEB8NCZ8QveU/RhcsTwV/DZjVBc049BfdXpRNTavFw=;
+ b=GBD04wKVCzAfoixPY7OFh9b2RGM4UO72+XBQjfMopXyBuFTJIaCs2DGMW+6Qb1BxYp
+ kG5ZqYVWHAH4hXbpLBFLCfLKCUxD5QjCCWEpZcFKFCRZTiE5r00rt1iKh46AbLx0iB98
+ nwHcEXaxJmjIYyrArA93eoobuGbw37bT+IfBnJdYwtbD599Q3OVP91QI45mFH8ZYsQOE
+ dGBl+31fxq0FvjLstv1FeKozwpwqtMshqQvte+oxxmDPLbOW6pm9gCh/qMnxqZRw+0yd
+ teieYgJd8pXCseQqc1JonLft1ikhlRfxVez4YkFd+5unigAI3Uv0hhLotor8wJKQ11x4
+ /xPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735603603; x=1736208403;
- h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
- :subject:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F2yAYYBK5Idg3mVjplhEp+hgexJeLdI0/aBpgj88mUU=;
- b=ZyTZ8naDXfXDoUB841ye3sa9RIgFE6TEQ+VlUxegot2ZwKIvq8QrBke6rv3OTBYRq4
- S+22k3Jbi//Pxck0JMWbCHA24TvXptyhd8idOoZKDJ2ANCXLAw8MNPcLOYf6OJsl7vqt
- MduTcwC5RIX+nN06IYAr2n6p0O971leszf4aaX1Xn9ApJB4M9oZtJgQFzZWlcy9bU/VN
- Eln2q1Qh+qJ5fvPuQ16p2zthdsjSAgeMDhlKh5E+LBzH8aX2pEj/od32bV5HZ1JOLAmH
- QnH4jHnRlAR1fTWUtNuCmXJ7oHvzp1Rgn/iT7Jf/rU36yTKIEdIkYiNF3ERY0wZCbUOc
- 8a7w==
+ d=1e100.net; s=20230601; t=1735605816; x=1736210616;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IMEB8NCZ8QveU/RhcsTwV/DZjVBc049BfdXpRNTavFw=;
+ b=jYw12CDfOH07tutJaJ1q3Ekz84Gw9Q2Q5Uj0Cw86YN7z4rWSa+7PI+5j36IigcVP2+
+ JNdJygaenr9wHSnCeW9D/RlMxc6VIbO3WrZCQAIWamJMSZTdZ0YESKOqqnZib2gqDn82
+ 6iRe21k/OMIXChIW5C7GUar/Qr1DA5VpViGbhPREPC8DpSTlCwzpq4/ApeKDp+Tg2K4b
+ SEA8Mygs9Pf74Ztcx9dsc95CydtG9r9Bhi/04QPF3n51eFzaL9AHpavk8D4T1TujZ38F
+ lJ60IH1kSw9hqUwFmnZYxkJOiFMEaiYDrBFCe0yXqLCD18jKsqmLsq9otzdmJXALVKgO
+ xy4Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWL6ljswcZ1GMHcwbGKZyjbTy+ij+nyZEwfIVn+xQp+i5wRplxm6oVvBCFyol4cWvqovHKvkoQBbQ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxLTTbeYL8No5JiS/zo/u94Ls9UhosEtxWPUzsg/sTckjuM9h4F
- ql01e+eIhCc2s+Eqbm/92dLdnF6GTKs4ZB9RNI9ep33YdfQKpwPaUChKW6e+jTs=
-X-Gm-Gg: ASbGncsTBETBmDbz2QaRFx1JY+8ln+JKEy4E4KomJBgOuNbqUzdWDMV9Zcnm+T5+Nka
- GYGnUw0KLz1SIw+7GE7At3mBumzSeGE2gxcG8MaPVzFPPXTqE/FEMwmoM7AEYWai75TI4N/7Fev
- TzyvW6zK4UFpYQXpealSwSbyWQQ4dOnC2urSoOb0x5Bjy3XF3naUl+pxg78vhW0bEdWeJYOQY+f
- lJnZwbWQNJJeyIm13wvwRcteHzbamMiOhAi7sHUfYLurZj6awA=
-X-Google-Smtp-Source: AGHT+IE/AWOTszHUHtDpafE3qaXtf5KGoLf4JTW95pN+XrZuZ58jSfDBFbstrD9PLNosWr8Nde4ntQ==
-X-Received: by 2002:a17:902:e886:b0:216:5e6e:68cb with SMTP id
- d9443c01a7336-219e6e9fd95mr561177575ad.16.1735603603622; 
- Mon, 30 Dec 2024 16:06:43 -0800 (PST)
-Received: from localhost ([50.145.13.30]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dc964a8bsm183765495ad.8.2024.12.30.16.06.37
+ AJvYcCX+MSV/DttqsVr/Kcc8R221q7owDDGAOAsHhh6qIl9o4iMJjIgnB/9e5R0CAimXurQaWhNY1iL5Bl0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxucXtjehP1GoQPG6E+pK6uH0pqu7UBFkNOb4UIWIh3PWRtg0j3
+ IC2ZhPrrE6VE23B/Sw0LSodpg2aNRepJuzeRuZJ5l07zSL1l1stw
+X-Gm-Gg: ASbGncuz7MCiK3GnYV57x/DkmPQpZZQyQ1+3a/vAGwNRs3BcBWK1D6uVT636Su2/TBJ
+ HrYvTLpxfShc9NQiD8E5dpEPfFIiF+vkETgw8l2yiWY28CZ7SEFN46wAsCTc0Ac6+lD+0xnCXrI
+ daOzuiF7DZ4z3PCsnGkeW8dGC6fjAvL/OAhC4tKGzVrm/v2tMiN5k2HUTKrlRgB473Eo/U4FiDc
+ f68hfmLV62BTvyaAJmfOTRRZXNbPM4GU5I8Dm7ALa1MgEA6uS9dksVfOsoBpsoG0DWztTUR9NIa
+ VUhNBLte6CNjG+g4PnyVVmXijh/hnw6jk0yvdPXPcQyjXaZpC3rkzGjxoAYUc0xWGxvSrkiPQHc
+ ut2QWR8A45zdFLopIjnk0G+2u4w==
+X-Google-Smtp-Source: AGHT+IHEGIcJK+SSB1VqPTnorkRP+VtiC6uvv9JG0CKDkLO9JdbaG0jU5yoLZ0jcvFezMTEsCCv8Bg==
+X-Received: by 2002:a17:906:99cc:b0:aae:85a9:5b66 with SMTP id
+ a640c23a62f3a-aae85a95d37mr2281685866b.60.1735605815987; 
+ Mon, 30 Dec 2024 16:43:35 -0800 (PST)
+Received: from localhost.localdomain
+ (dynamic-2a02-3100-a465-b000-1e86-0bff-fe2f-57b7.310.pool.telefonica.de.
+ [2a02:3100:a465:b000:1e86:bff:fe2f:57b7])
+ by smtp.googlemail.com with ESMTPSA id
+ a640c23a62f3a-aac0f06dc7esm1523425066b.193.2024.12.30.16.43.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Dec 2024 16:06:39 -0800 (PST)
-Subject: [PATCH] drm/amd/display: Increase frame-larger-than warning limit for
- DCN401
-Date: Mon, 30 Dec 2024 16:02:58 -0800
-Message-ID: <20241231000257.8533-2-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.45.1
+ Mon, 30 Dec 2024 16:43:33 -0800 (PST)
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: dmitry.baryshkov@linaro.org
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+ alain.volmat@foss.st.com, alim.akhtar@samsung.com, andrzej.hajda@intel.com,
+ andy.yan@rock-chips.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org,
+ dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org,
+ heiko@sntech.de, hjc@rock-chips.com, inki.dae@samsung.com,
+ jani.nikula@linux.intel.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ kernel-list@raspberrypi.com, krzk@kernel.org, kyungmin.park@samsung.com,
+ lgirdwood@gmail.com, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux@armlinux.org.uk,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mcanal@igalia.com, mripard@kernel.org, neil.armstrong@linaro.org,
+ p.zabel@pengutronix.de, perex@perex.cz, ple@baylibre.com, rfoss@kernel.org,
+ rgallaispou@gmail.com, simona@ffwll.ch, sw0312.kim@samsung.com,
+ tiwai@suse.com, tzimmermann@suse.de
+Subject: RE: [PATCH v10 03/10] drm/connector: implement generic HDMI audio
+ helpers
+Date: Tue, 31 Dec 2024 01:43:11 +0100
+Message-ID: <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
+References: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, 
- simona@ffwll.ch, hamza.mahfooz@amd.com, aurabindo.pillai@amd.com,
- wayne.lin@amd.com, Palmer Dabbelt <palmer@rivosinc.com>, moadhuri@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-From: Palmer Dabbelt <palmer@rivosinc.com>
-To: amd-gfx@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,48 +108,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+Hello Dmitry,
 
-Without this I get
+this is great work - thanks for your efforts!
 
-  CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.o
-drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c: In function ‘dcn401_dpp_create’:
-drivers/gpu/drm/amd/amdgpu/../display/dc/resource/dcn401/dcn401_resource.c:936:1: error: the frame size of 2720 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
-  936 | }
-      | ^
+To give some context:
+I am working on a HDMI controller driver for the Amlogic Meson8/8b/8m2
+SoCs. Unfortunately the driver is not mature enough for upstream
+submission (all I have is the vendor driver which serves as reference).
+That said, my goal is to upstream the driver at some point. I have
+already switched my driver to use hdmi_{clear,write}_infoframe. Now
+I'm trying this series to simplify my code even further - by using
+your audio helper work!
 
-when building for RISC-V/allmodconfig.
+> --- /dev/null
+> +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> @@ -0,0 +1,190 @@
+> [...]
+> +static const struct hdmi_codec_ops drm_connector_hdmi_audio_ops = {
+> +	.audio_startup = drm_connector_hdmi_audio_startup,
+> +	.prepare = drm_connector_hdmi_audio_prepare,
+> +	.audio_shutdown = drm_connector_hdmi_audio_shutdown,
+> +	.mute_stream = drm_connector_hdmi_audio_mute_stream,
+> +	.get_eld = drm_connector_hdmi_audio_get_eld,
+> +	.get_dai_id = drm_connector_hdmi_audio_get_dai_id,
+> +	.hook_plugged_cb = drm_connector_hdmi_audio_hook_plugged_cb,
+> +};
+On my platform drm_connector_hdmi_audio_prepare() is never called. As
+a result of that the audio infoframe is never written to my HDMI
+controller hardware (hdmi_write_infoframe() is never called with type
+HDMI_INFOFRAME_TYPE_AUDIO). My hack to make it work is to add the
+following line to drm_connector_hdmi_audio_ops:
+  .hw_params = drm_connector_hdmi_audio_prepare,
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
----
- drivers/gpu/drm/amd/display/dc/resource/Makefile | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I checked all instances of struct hdmi_codec_ops in v6.13-rc3 and it
+seems that there is only a single driver which uses the .prepare
+callback (drivers/gpu/drm/vc4/vc4_hdmi.c). All other drivers seem to
+implement .hw_params instead.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/resource/Makefile b/drivers/gpu/drm/amd/display/dc/resource/Makefile
-index 09320344d8e9..c2700a184f06 100644
---- a/drivers/gpu/drm/amd/display/dc/resource/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/resource/Makefile
-@@ -22,6 +22,13 @@
- # Makefile for the 'resource' sub-component of DAL.
- #
- 
-+ifneq ($(CONFIG_FRAME_WARN),0)
-+ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-+frame_warn_flag := -Wframe-larger-than=4096
-+else
-+frame_warn_flag := -Wframe-larger-than=3072
-+endif
-+endif
- 
- ###############################################################################
- #  DCE
-@@ -203,5 +210,6 @@ RESOURCE_DCN401 = dcn401_resource.o
- AMD_DAL_RESOURCE_DCN401 = $(addprefix $(AMDDALPATH)/dc/resource/dcn401/,$(RESOURCE_DCN401))
- 
- AMD_DISPLAY_FILES += $(AMD_DAL_RESOURCE_DCN401)
-+CFLAGS_$(AMD_DAL_RESOURCE_DCN401) := $(frame_warn_flag)
- 
- endif
--- 
-2.45.1
+The audio controller code for my platform is already upstream:
+- sound/soc/meson/aiu-codec-ctrl.c
+- sound/soc/meson/aiu-encoder-i2s.c
+- sound/soc/meson/aiu-fifo-i2s.c
 
+My understanding is that you have a platform with a lontium-lt9611
+HDMI controller available for testing. Can you please help me
+investigate and find out which piece of code is calling
+hdmi_codec_prepare() and therefore lt9611_hdmi_audio_prepare() on
+your board?
+
+
+Thank you and best regards,
+Martin
