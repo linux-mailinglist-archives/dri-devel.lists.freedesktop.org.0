@@ -2,59 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BB49FF03E
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 16:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715809FF041
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 16:34:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52B0610E67A;
-	Tue, 31 Dec 2024 15:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD26D10E67F;
+	Tue, 31 Dec 2024 15:34:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CuEgZj3+";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="h0IxTvBu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA77D10E666;
- Tue, 31 Dec 2024 15:33:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1735659215; x=1767195215;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=cuTMMJDC8vXDLSjf80li/K7AIauXwvyt5QBb5POZ2ec=;
- b=CuEgZj3+5Vqnt1SkQPxBnc+fmV3Ct5K8aQyfwYAJD7JeKQbvplriqAmL
- HvR9FOesAD5HYJ/G5JMd/2Gf1m7LUhhdJVjaA5c9pCJudQGS7yIYrP2zU
- dtYTC1sURHOLzrJ6bE8mmUSCAVQsQFOv66cwkpVXn78QAKxvWZJQnCqDn
- IDjx7+tKpzjx0WfO+ciRoZSXM0rtEykDqNXqgsFBXU75todK0jg5UF7vC
- ynGxZX5Kwme93tYESViXh2ngEQ0j/jRhF3nWRuI1YFtPQub2rYnPjZBRm
- brx50nlwI8S+kN1QJnoON2/P4e0A5eY0Pwx4LFlyChNJ3XLsD0jflBs4n Q==;
-X-CSE-ConnectionGUID: AuFjAtPMRKahf6JrSSibgA==
-X-CSE-MsgGUID: PDf3gKUPTtGbQPzK5wZRFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="39619409"
-X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; d="scan'208";a="39619409"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Dec 2024 07:33:35 -0800
-X-CSE-ConnectionGUID: aVrpXSS0RryMtpgjd4iflQ==
-X-CSE-MsgGUID: re5kwQ6US7uPO0lt8jBthA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; d="scan'208";a="101248131"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Dec 2024 07:33:33 -0800
-Date: Tue, 31 Dec 2024 17:34:24 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C79C110E67F
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 15:34:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1735659279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tmEjGEm1qqJclDuwwxfz/LXp5iHfy6EB/oyyHkg1LM0=;
+ b=h0IxTvBulVWoR2bKIYzNLSAg7MymA7+myXFcvO4bl0oLvvVtyaF9TFeOgJ+IsL5UCGO/RR
+ AMUkCcE5mla+VGAlv8VR4sOFsjJw15vgUItjPhlnI4RryaiShg2SCiZ6jYa/ZaaK09l+91
+ tloYDWy8Ag7b1mm0auLOG+UsVPlINvQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-343-WtMSGK6INWCSrvvvVNuTQA-1; Tue, 31 Dec 2024 10:34:37 -0500
+X-MC-Unique: WtMSGK6INWCSrvvvVNuTQA-1
+X-Mimecast-MFC-AGG-ID: WtMSGK6INWCSrvvvVNuTQA
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4361ac607b6so78959565e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 07:34:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735659277; x=1736264077;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tmEjGEm1qqJclDuwwxfz/LXp5iHfy6EB/oyyHkg1LM0=;
+ b=AV/zNEV03/8tjJ883whB13+gULfD2OY4RWGKmB+HY4kMMqKC0un3jgbeb+bfOkcwzn
+ dZpzjAPWiAeCWAHfyjj+RDY0C9A2RpT7igfKO5fg0HYfYSLHMDt/PjK2E1E3Iz1QpnMQ
+ KDeRjqIO/6RRIMYqRA9tn59vRh8KNyzsLWLxKUu647hzJbX846cS8Bd4ck+Dl6rrosA1
+ +n9uWmVRsJlz6CduGfQ9+NXU1LNtaNBodREzKn23Vqzr2vYhqULxNzw8BuoyFHg2BGD7
+ +mi5CdZW9KIIObSKSPhS6EvO8I0esDgn2jCNMBhBvmT4D6p1fxCiSomOkKO30kwI1M7q
+ olww==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXNwmJ2vk2O16P4ayUr6QRJ9HIuzGyvhgptE81t3Je+sr7pRCKUbYYReO+bkoAPfnQ/8hdbuo7YOm0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzg9t0wUnpFOnpqTOFdNYt5jyLSw/aYscurij0p+BxMAHYnweQS
+ j/68c1WDm6HzhfyAsjaMPbGWuvRlp2BZkGtMSBmjvW1fciqScRqyAmtTJGbDxx3r5o7dQHBuoSy
+ uNgEUDJ5lznQsgjErK4H6HQERNZBnimUsSfCJxgN2BChVOuv/QNKCxCAEc8NSTJ0Q+w==
+X-Gm-Gg: ASbGncv3qNqR0rlVlFi6Q55vSKHQEzmbEik2kEtbSB/nE1wSVAwVAoFSysNc8ylw0dV
+ GcTg1No59nHhmCYACiJjAWW154NlrKzOJt9lO92o+OOwvtsrp2h57jjEZ83unry744y81hS4K/O
+ /xE4rJhuLj7JGvPwOfg8F3GpWonTGV6MzIWq7rYhScPpFxMXfoauHGP8G2qOxTiu9DfSEjWwQ/y
+ jOTZH7LdFhruygK8cnmu4uXPiUUNvTRCLhRyHOJ4h4oL/lhbUqiNVwMT/nXPS4M582AWPuX/GlC
+ tjcZoVRSvYqPRztxeZGIWgzrKQ/7JjmeugB0pfM=
+X-Received: by 2002:a05:600c:1c9f:b0:435:32e:8270 with SMTP id
+ 5b1f17b1804b1-43668642f9dmr333672065e9.14.1735659276711; 
+ Tue, 31 Dec 2024 07:34:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG57ftpliFy4dkSMDQZZqJ3i+cFxIRMiXgo6LlmWrA0RD280HM2gTGmvzxIoyDtNbaErbk63g==
+X-Received: by 2002:a05:600c:1c9f:b0:435:32e:8270 with SMTP id
+ 5b1f17b1804b1-43668642f9dmr333671815e9.14.1735659276343; 
+ Tue, 31 Dec 2024 07:34:36 -0800 (PST)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a1c828cc8sm32991575f8f.17.2024.12.31.07.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Dec 2024 07:34:35 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, David
+ Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 04/16] drm/i915/mst: change return value of
- mst_stream_find_vcpi_slots_for_bpp()
-Message-ID: <Z3QPAJCpNB6pLGet@ideak-desk.fi.intel.com>
-References: <cover.1734643485.git.jani.nikula@intel.com>
- <5c5db1f5bdbb90e896d4ac792586d2af6c60c68c.1734643485.git.jani.nikula@intel.com>
+Subject: Re: [PATCH] drm/ssd130x: Set SPI .id_table to prevent an SPI core
+ warning
+In-Reply-To: <p2hzb3ysmthgfi4j6ehwulzk44zf4s5d6bm3nqs2rww47boshl@jr6aqmas4l5p>
+References: <20241231114516.2063201-1-javierm@redhat.com>
+ <p2hzb3ysmthgfi4j6ehwulzk44zf4s5d6bm3nqs2rww47boshl@jr6aqmas4l5p>
+Date: Tue, 31 Dec 2024 16:34:34 +0100
+Message-ID: <877c7fkgs5.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5c5db1f5bdbb90e896d4ac792586d2af6c60c68c.1734643485.git.jani.nikula@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KBwWnc8004sl_-7o5V_OLWxaWcXHqd-zLMjEBNgAOIQ_1735659277
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,127 +98,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 19, 2024 at 11:33:53PM +0200, Jani Nikula wrote:
-> The callers of mst_stream_find_vcpi_slots_for_bpp() don't need the
-> returned slots for anything. On the contrary, they need to jump through
-> hoops to just distinguish between success and failure. Just return 0
-> instead of slots from mst_stream_find_vcpi_slots_for_bpp() for success,
-> and simplify the callers.
-> 
-> There's a pointless ret local variable that we can drop in the process.
-> 
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
 
-Reviewed-by: Imre Deak <imre.deak@intel.com>
+Hello Dmitry,
 
-> ---
->  drivers/gpu/drm/i915/display/intel_dp_mst.c | 52 +++++++--------------
->  1 file changed, 18 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> index f52f9c968adb..f7b91cf32b5b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -226,7 +226,6 @@ static int mst_stream_find_vcpi_slots_for_bpp(struct intel_dp *intel_dp,
->  	int bpp, slots = -EINVAL;
->  	int dsc_slice_count = 0;
->  	int max_dpt_bpp;
-> -	int ret = 0;
->  
->  	mst_state = drm_atomic_get_mst_topology_state(state, &intel_dp->mst_mgr);
->  	if (IS_ERR(mst_state))
-> @@ -340,23 +339,21 @@ static int mst_stream_find_vcpi_slots_for_bpp(struct intel_dp *intel_dp,
->  		}
->  	}
->  
-> -	/* We failed to find a proper bpp/timeslots, return error */
-> -	if (ret)
-> -		slots = ret;
-> -
->  	if (slots < 0) {
->  		drm_dbg_kms(display->drm, "failed finding vcpi slots:%d\n",
->  			    slots);
-> -	} else {
-> -		if (!dsc)
-> -			crtc_state->pipe_bpp = bpp;
-> -		else
-> -			crtc_state->dsc.compressed_bpp_x16 = fxp_q4_from_int(bpp);
-> -		drm_dbg_kms(display->drm, "Got %d slots for pipe bpp %d dsc %d\n",
-> -			    slots, bpp, dsc);
-> +		return slots;
->  	}
->  
-> -	return slots;
-> +	if (!dsc)
-> +		crtc_state->pipe_bpp = bpp;
-> +	else
-> +		crtc_state->dsc.compressed_bpp_x16 = fxp_q4_from_int(bpp);
-> +
-> +	drm_dbg_kms(display->drm, "Got %d slots for pipe bpp %d dsc %d\n",
-> +		    slots, bpp, dsc);
-> +
-> +	return 0;
->  }
->  
->  static int mst_stream_compute_link_config(struct intel_dp *intel_dp,
-> @@ -364,22 +361,15 @@ static int mst_stream_compute_link_config(struct intel_dp *intel_dp,
->  					  struct drm_connector_state *conn_state,
->  					  struct link_config_limits *limits)
->  {
-> -	int slots = -EINVAL;
-> -
->  	/*
->  	 * FIXME: allocate the BW according to link_bpp, which in the case of
->  	 * YUV420 is only half of the pipe bpp value.
->  	 */
-> -	slots = mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state,
-> -						   fxp_q4_to_int(limits->link.max_bpp_x16),
-> -						   fxp_q4_to_int(limits->link.min_bpp_x16),
-> -						   limits,
-> -						   conn_state, 2 * 3, false);
-> -
-> -	if (slots < 0)
-> -		return slots;
-> -
-> -	return 0;
-> +	return mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state,
-> +						  fxp_q4_to_int(limits->link.max_bpp_x16),
-> +						  fxp_q4_to_int(limits->link.min_bpp_x16),
-> +						  limits,
-> +						  conn_state, 2 * 3, false);
->  }
->  
->  static int mst_stream_dsc_compute_link_config(struct intel_dp *intel_dp,
-> @@ -389,7 +379,6 @@ static int mst_stream_dsc_compute_link_config(struct intel_dp *intel_dp,
->  {
->  	struct intel_display *display = to_intel_display(intel_dp);
->  	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> -	int slots = -EINVAL;
->  	int i, num_bpc;
->  	u8 dsc_bpc[3] = {};
->  	int min_bpp, max_bpp, sink_min_bpp, sink_max_bpp;
-> @@ -451,14 +440,9 @@ static int mst_stream_dsc_compute_link_config(struct intel_dp *intel_dp,
->  	min_compressed_bpp = intel_dp_dsc_nearest_valid_bpp(display, min_compressed_bpp,
->  							    crtc_state->pipe_bpp);
->  
-> -	slots = mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state, max_compressed_bpp,
-> -						   min_compressed_bpp, limits,
-> -						   conn_state, 1, true);
-> -
-> -	if (slots < 0)
-> -		return slots;
-> -
-> -	return 0;
-> +	return mst_stream_find_vcpi_slots_for_bpp(intel_dp, crtc_state, max_compressed_bpp,
-> +						  min_compressed_bpp, limits,
-> +						  conn_state, 1, true);
->  }
->  
->  static int mst_stream_update_slots(struct intel_dp *intel_dp,
-> -- 
-> 2.39.5
-> 
+> On Tue, Dec 31, 2024 at 12:44:58PM +0100, Javier Martinez Canillas wrote:
+>> The only reason for the ssd130x-spi driver to have an spi_device_id table
+>> is that the SPI core always reports an "spi:" MODALIAS, even when the SPI
+>> device has been registered via a Device Tree Blob.
+>> 
+>> Without spi_device_id table information in the module's metadata, module
+>> autoloading would not work because there won't be an alias that matches
+>> the MODALIAS reported by the SPI core.
+>> 
+>> This spi_device_id table is not needed for device matching though, since
+>> the of_device_id table is always used in this case. For this reason, the
+>> struct spi_driver .id_table field is currently not set in the SPI driver.
+>> 
+>> Because the spi_device_id table is always required for module autoloading,
+>> the SPI core checks during driver registration that both an of_device_id
+>> table and a spi_device_id table are present and that they contain the same
+>> entries for all the SPI devices.
+>> 
+>> Not setting the .id_table field in the driver then confuses the core and
+>> leads to the following warning when the ssd130x-spi driver is registered:
+>> 
+>>   [   41.091198] SPI driver ssd130x-spi has no spi_device_id for sinowealth,sh1106
+>>   [   41.098614] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1305
+>>   [   41.105862] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1306
+>>   [   41.113062] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1307
+>>   [   41.120247] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1309
+>>   [   41.127449] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1322
+>>   [   41.134627] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1325
+>>   [   41.141784] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1327
+>>   [   41.149021] SPI driver ssd130x-spi has no spi_device_id for solomon,ssd1331
+>> 
+>> To prevent the warning, set the .id_table even though it's not necessary.
+>> 
+>> Since the check is done even for built-in drivers, drop the condition to
+>> only define the ID table when the driver is built as a module. Finally,
+>> rename the variable to use the "_spi_id" convention used for ID tables.
+>> 
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+> Fixes: 74373977d2ca ("drm/solomon: Add SSD130x OLED displays SPI support")
+>
+
+I was on the fence about adding a Fixes: tag due a) the issue being there
+from the beginning as you pointed out and b) the warning being harmless.
+
+But I'll add it to v2 or just before pushing it to drm-misc-next.
+
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+
+Thanks for your review!
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
