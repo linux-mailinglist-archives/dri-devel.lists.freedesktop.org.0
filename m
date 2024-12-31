@@ -2,92 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C7619FF0CC
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 18:03:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA23B9FF0E8
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 18:32:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9069110E692;
-	Tue, 31 Dec 2024 17:03:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D51F10E69B;
+	Tue, 31 Dec 2024 17:32:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MZjGwX7a";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ej60YuzL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FC7110E692
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 17:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1735664618;
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F15F910E69B
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 17:32:14 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AC7AFF804;
+ Tue, 31 Dec 2024 17:31:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1735666313;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OMQDKUUk1foYPBKNxPEyaAlDK3T3xpWOx3kaLhclbuU=;
- b=MZjGwX7aLChm42VpevLLh9TJ65Gb65Jd8RjmX2Q9QlcIfz1Q+0+Ze5f+hhisayE0rOPJCB
- Y2VLJkP/nSuuK5OTZImvGjN32oVJ+jQ8Tq73HEs6Fk/+5j9XP2zb1ETqrlRkIr2qFhngGS
- pabYsJnx8eCCLBVZwOuxVPZL3vrcNwk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-nNPBJqm0OoKUiCTwwP_aAQ-1; Tue, 31 Dec 2024 12:03:37 -0500
-X-MC-Unique: nNPBJqm0OoKUiCTwwP_aAQ-1
-X-Mimecast-MFC-AGG-ID: nNPBJqm0OoKUiCTwwP_aAQ
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4361a8fc3bdso54868065e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 09:03:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735664616; x=1736269416;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OMQDKUUk1foYPBKNxPEyaAlDK3T3xpWOx3kaLhclbuU=;
- b=KaVjR1VaTR11mA+sOacMDjc/hvFAfd7PMd9ADF920/fylDeuQ9OIc5ep37wlKgIIJn
- sdyDP1WOIwcuSMYuUyq6vmpmfbcQ1ZNWFpC/rkjYl/p9kkR1cJQhgEgPuImC9pgWtGiV
- EGSWam/xVJZEjXSKUdLKprrclC9jGr5QOEl9TisRYIWDCOnbonijXTKiuTjiwIjvj2nu
- Hifg0o+GvpzlvGp/0WLqbGR2B1pg5B7VkLjikn6jM5L/tlKOrco8Z6tdWdH3BdbHi8H8
- lRIihRpAyJqSnd7x8iy0FfmuMilsBCbq4MfoNsGht+coYRf9UKO6JGX8eINTHl/m2NPm
- GJYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxkkFbbxWPdOSbmE22CIGSy/q7ESl8I2NTjSrm2ykddAhO134MbhGMz8HAk6dzPgUClZS1Jdb5MzI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyB2WDyHxCF6fgqaKSrujaGu5wAtiqKBVQJ/CqZD/mrJU8pOrox
- /kMcIk4UtcvuqEC/54/TjAQwydZHwMz4vQvOuQJCGifQdX0l0h97tdla2L/INJS0NW9FLlXGiSX
- lDeKSzDXJwOORHMLFWGJVez2COyZUzmY+RvYDQvm/Nf18r1pGm4rOu6y1Dsj4iNLRAA==
-X-Gm-Gg: ASbGncul+OXQU40pSgvYxKTWnYaUGiNr39BiqBj2HdS4VMCcL7GjkeS46PF2Zjg8qHP
- uqlUm1Flhn9cAo0SgF4zKa8StVW3g7t46YItH+iZxPzDY+9VGeDnxUAGDnZbVC68eKqAho12CQO
- 5cR0Fj2/3WkUBFotlrr39YL6F90AutRcVjsv9EIGLPaEHLPyG2WfZABdmo7emAcSw+Qbke84lIe
- NLzbVtCKjUt74bP8J9Dcg9EcW0U5lEL+A3EkgnC0IPkGpFQwSy6IITY53ey9BKFhbr5LMTaoBUk
- PBmyBRGK8poYajiGsAo9cZNV3OjyyfvP32soAng=
-X-Received: by 2002:a05:600c:3b23:b0:434:9499:9e87 with SMTP id
- 5b1f17b1804b1-43668b5e194mr292785885e9.25.1735664616304; 
- Tue, 31 Dec 2024 09:03:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEo4cjoNHNIV6MdPiesoFX2rukT4UJRgCNEULiJwNuJ5T53/oG30mZuQu0l6CZLCxyFn7x9rA==
-X-Received: by 2002:a05:600c:3b23:b0:434:9499:9e87 with SMTP id
- 5b1f17b1804b1-43668b5e194mr292785515e9.25.1735664615924; 
- Tue, 31 Dec 2024 09:03:35 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c8474c2sm32808596f8f.55.2024.12.31.09.03.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Dec 2024 09:03:35 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, David
- Airlie <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/ssd130x: Set SPI .id_table to prevent an SPI core
- warning
-In-Reply-To: <vrk6nb6umj6754ttm6hugpgiczzuxm2qwpzwptskwdbzozmnjz@tbasj7yk4ksf>
-References: <20241231114516.2063201-1-javierm@redhat.com>
- <p2hzb3ysmthgfi4j6ehwulzk44zf4s5d6bm3nqs2rww47boshl@jr6aqmas4l5p>
- <877c7fkgs5.fsf@minerva.mail-host-address-is-not-set>
- <vrk6nb6umj6754ttm6hugpgiczzuxm2qwpzwptskwdbzozmnjz@tbasj7yk4ksf>
-Date: Tue, 31 Dec 2024 18:03:34 +0100
-Message-ID: <874j2jkcnt.fsf@minerva.mail-host-address-is-not-set>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ndTR9IRSE3zD4MntjsffK7yIX9onHaM64PFZIeuBi90=;
+ b=Ej60YuzLh93y90r0geqtESGkn1yOnyUnEL5bU8kkLkOjaUt4LHHllESpNSp+bfU+UDtljk
+ Bs+dYn6g+fMn45CUryyhhY1JmML9/EeJC0Br+Gh6EzlNqsJWTPh3oKU14oas8tEy99PCjL
+ q28Ft1cIIXLQv+ETfCG6pOmfED8AFqjNIFVvCWlgjfb/z9yeZgtDQ0oR7s7y3OsGb2zxhI
+ lbrMiOUfhfABZGvkBDA99sgDd5Om31jI4uCYamt0bwnknwaAojkM4H44EH2mGMK+c9+HGB
+ hoxVbq5kMJFkjTI3trH/oDSg0pWGddl/p9O/geAo9Q3pE3lnmW3M+1p1vhKWjg==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v15 0/7] drm/vkms: Add support for YUV and DRM_FORMAT_R*
+Date: Tue, 31 Dec 2024 18:31:43 +0100
+Message-Id: <20241231-yuv-v15-0-eda6bb3028e6@bootlin.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 1FruOoyM2VF5wj9-UDpRdRGsKlUEiUX7tY-EkKxsonE_1735664616
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH8qdGcC/23T226cMBAG4FdZcV3aGR/Gdq76HlUufOwi7UILL
+ EoU5d0zLESwYu+wmY/feOyPash9k4fq5fRR9XlqhqZreYD6x6mKZ9/+zXWTeKISIBQIwPr9NtU
+ opUkOktOGKq4Mfsh16H0bz1zb3i4XnvzX59K83b/955XH52YYu/79HjXhPPv40QlrqGX00lARh
+ qT4HbpuvDTtz9hd55R7tUZaqi1Xx2ITFUtKQn6onvMmscsQclGClfcUsrDChGCOSu7VmiVZlUI
+ kCjinUjgqtSkJalGKleEoH212xsmj0juF6wo1q0wIMSSQRYujok0pcIsiVilj1EbYkgwcldmU/
+ s4y845byK6UHDU8yXKbsiAW5ViB9QaIyGWko0LYs3WJyKpGb6IhhUTlyd7j7lg4Caubz4UK6AW
+ FWKJ7lre1GgHM6uZeA0b0yRP/n33itmYjol3d3G0fISWFwulnHUC1c2LdFlT3zlGyMgmbID66z
+ +VK9Pn/jW/ZuNyL5ebw+2szvpxSf62vzRB/fT/UbX4bmX5+AaHr0SyoAwAA
+X-Change-ID: 20240201-yuv-1337d90d9576
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, 
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2381;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=xUZ6VKBw7ulHC/fvGP6DkP9YyPIDN/Ad5QvkiBeR2/I=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBndCqEK6BoJumDIwKnmX+T8ndSL+D7vAGN+C0gK
+ Vx9yG2nxaCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ3QqhAAKCRAgrS7GWxAs
+ 4sV6D/9WP8HaHU/GbnFlsN8fYFUdpNkgqdVXp76VvlaDH+KtWofNyzkrKOSQYIGY18siWZOI/W0
+ DUDlwRTsfU2+yf8boYJqzlFAX4Tk8gV2xfga0PwDiXqK94B45ieaiw1doxLBF+KYLUTNO5mTF/V
+ /mNkVeRHbEa7FGV1WRtFgV53lsbUG7EscOI+lZvrfvixbSQIfBzTvEUKUGpGnFdq34c6Mu+eLvd
+ mBuS75U4q5QaI4u6w+nC1bT3d1zEYnQ1x/rptkYEtSXi7fKP4Sdg3l56AtiFjE6olMqNLy+OHvm
+ Mz9h+5b0jtnpp9p4Wls7vpNOpCqwnUqn/dF8jUKW/CEhM8VK4xw+/2eFLd48KipANMkXveEruK8
+ NIy0TnCW+rryD2Ner/2WU3hpdU+2PU86LyBweZPtL/66PgFYxrcF/lrg2EVK2qukI2bnEuhCWn8
+ II3HqnbB9GrTUzl7Q6Yh4s1bmRmjm5yZElU0Xt2y6i01hEkrwbp4kZ2qDIrj/TxqIDbEqVJ6lNS
+ EVHXHxs7C4yPG8YWv4sz9jcoeczF74DJEoMJ835tUdTlSphhRgWbYp1wuILS0eDdPkgP7UFCimh
+ PpzTZSLRYnbiEXC9wUo3GbkjRvpzt4PWaGdAjXigiSgEgBdHyV4chzrARzg5rfPVJmzXoLZCF3Z
+ JPSEtOZ1fZ401HQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,41 +95,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
+This patchset is extracted from [1]. The goal is to introduce the YUV
+support, thanks to Arthur's work.
 
-> On Tue, Dec 31, 2024 at 04:34:34PM +0100, Javier Martinez Canillas wrote:
->> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
->> 
->> Hello Dmitry,
->> 
->> > On Tue, Dec 31, 2024 at 12:44:58PM +0100, Javier Martinez Canillas wrote:
->
-> [...]
->
->> >> Since the check is done even for built-in drivers, drop the condition to
->> >> only define the ID table when the driver is built as a module. Finally,
->> >> rename the variable to use the "_spi_id" convention used for ID tables.
->> >> 
->> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> >
->> > Fixes: 74373977d2ca ("drm/solomon: Add SSD130x OLED displays SPI support")
->> >
->> 
->> I was on the fence about adding a Fixes: tag due a) the issue being there
->> from the beginning as you pointed out and b) the warning being harmless.
->> 
->> But I'll add it to v2 or just before pushing it to drm-misc-next.
->
-> Just before pushing is enough. dim b4-shazam can do that for you.
->
+- PATCH 1: Add the support of YUV formats
+- PATCH 2: Add some drm properties to expose more YUV features
+- PATCH 3: Cleanup the todo
+- PATCH 4..6: Add some kunit tests
+- PATCH 7: Add the support of DRM_FORMAT_R1/2/4/8
 
-Yeah, I meant in case that I post a v2. I'll wait a few days before
-pushing in case someone else chimes in. Thanks again!
+[1]: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
 
--- 
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v15:
+- Export drm_get_color_encoding_name only for kunit tests
+- Link to v14: https://lore.kernel.org/r/20241122-yuv-v14-0-e66d83d28d0c@bootlin.com
+
+Changes in v14:
+- Rebased on drm-misc-next
+- Link to v13: https://lore.kernel.org/r/20241118-yuv-v13-0-ac0dd4129552@bootlin.com
+
+Changes since previous series:
+ - Fix build test as modules issue: https://lore.kernel.org/all/202410110407.EHvadSaF-lkp@intel.com/
+ - Export required symbols in DRM core to use them in kunit
+ - Update the kunit comments according to Maxime's feedback
+ - Link to original series: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+
+---
+Arthur Grillo (5):
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (2):
+      drm: Export symbols to use in tests
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  14 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   3 +
+ drivers/gpu/drm/vkms/Kconfig                  |  15 +
+ drivers/gpu/drm/vkms/Makefile                 |   1 +
+ drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 270 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.h               |  18 +
+ drivers/gpu/drm/vkms/vkms_formats.c           | 467 +++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+ drivers/gpu/drm/vkms/vkms_plane.c             |  29 +-
+ 11 files changed, 829 insertions(+), 4 deletions(-)
+---
+base-commit: f8a2397baf041a5cee408b082334bb09c7e161df
+change-id: 20240201-yuv-1337d90d9576
+
 Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
