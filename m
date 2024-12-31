@@ -2,101 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FA89FED56
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 07:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92269FEDEF
+	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 09:23:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEE7310E5D7;
-	Tue, 31 Dec 2024 06:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 979F410E14C;
+	Tue, 31 Dec 2024 08:23:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linumiz.com header.i=@linumiz.com header.b="K3lPR81x";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aywhAM9C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from omta038.useast.a.cloudfilter.net
- (omta038.useast.a.cloudfilter.net [44.202.169.37])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B368E10E5F1
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 06:52:19 +0000 (UTC)
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
- by cmsmtp with ESMTPS
- id SPCqtBIMwjMK7SW70tfTuV; Tue, 31 Dec 2024 06:52:18 +0000
-Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTPS
- id SW6xtTa5J7mBqSW6ytuBjm; Tue, 31 Dec 2024 06:52:17 +0000
-X-Authority-Analysis: v=2.4 cv=Fewxxo+6 c=1 sm=1 tr=0 ts=677394a1
- a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=kofhyyBXuK/oEhdxNjf66Q==:17
- a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=-pn6D5nKLtMA:10 a=VwQbUJbxAAAA:8
- a=vU9dKmh3AAAA:8 a=pbaDQQ2OCVbHVibE1FAA:9 a=QEXdDO2ut3YA:10
- a=rsP06fVo5MYu2ilr0aT5:22 a=ZCPYImcxYIQFgLOT52_G:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
- ; s=default;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:Cc:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/u73Um15xmTGtKDdrsLX74+vHUKU4mr/x9iAVeor0mo=; b=K3lPR81xDLiKvK3ySdyCvcwLbY
- hPfzer/gndUsOPPobdlGPFwW425FqTxM1LbXmmEdd39ZH7tVpB1cDqKsS/BeFmvFPIy8bPJYO7cod
- Ggj276JFjTL68ubplbMrlYhAkk9QSTy967BtN9XxMYA/8UNgqPT4/lHNlxwELxN1loiXcV9tzomCm
- I2m544HjvFsPY7NqbcCHWyrdDscHmZSUFZ0BqZW274jujFlDaqhVb48sFlz3dV6hwmO3zhCMTX+uT
- TEOAJ33uXMMAjYm3pd8wxCsjGfXsOgw6siJdRFdT2f2C7tB3xXRTk1++0jOX/M4181lxnJGD/CqCc
- fkZFU3ww==;
-Received: from [122.165.245.213] (port=60114 helo=[192.168.1.5])
- by md-in-79.webhostbox.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <parthiban@linumiz.com>) id 1tSW6h-003DJk-0W;
- Tue, 31 Dec 2024 12:21:59 +0530
-Message-ID: <ed2ed7da-8c01-41c5-8215-d07892da3596@linumiz.com>
-Date: Tue, 31 Dec 2024 12:21:50 +0530
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 132AB10E14C
+ for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 08:23:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8B251A4007B;
+ Tue, 31 Dec 2024 08:21:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF944C4CEDC;
+ Tue, 31 Dec 2024 08:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1735633422;
+ bh=8k7A7pn5KKxr1hAtXg6k+QrsCY9z/C72vgdY+d0asXU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aywhAM9CB0qyWKi9qwSfMfwPQayyzhqdqeZOI+brEmTbnRfv8wGj59BYjIGtg0Y/x
+ Ggiowx+uGTybxmDi9KF0rMUJnhFXkOtDV7Ng6XZB45Ah7/u/p5sgxCS5N6s9P0VYpn
+ ekzAjtcvrTKiyadrSuV7Pxsl1xdqktIQNfP1zh9GPEiJVGCctIj/4D0+oDUlr8Apv/
+ s5d3q6C0Tp9Z34xi5nMTirKOL6hwS9VYVl7TH5Ip1YVPYGFJs3czHcZn5i0SNq5pDH
+ VlZs9UrLMkeZVnJt/ZQmKrn0YhagLrAfsYECognXKukpo0T6UbcX2wfv8vqA/OOLrM
+ Iof2vBIg9nWew==
+Date: Tue, 31 Dec 2024 09:23:39 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: robh@kernel.org, iommu@lists.linux.dev, heiko@sntech.de, 
+ devicetree@vger.kernel.org, joro@8bytes.org, hjc@rock-chips.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, 
+ vkoul@kernel.org, detlev.casanova@collabora.com, 
+ linux-arm-kernel@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>, 
+ linux-rockchip@lists.infradead.org, krzk+dt@kernel.org, cl@rock-chips.com
+Subject: Re: [PATCH v2 5/8] dt-bindings: display: vop2: Add rk3576 support
+Message-ID: <6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf>
+References: <20241228122155.646957-1-andyshrk@163.com>
+ <20241228122155.646957-6-andyshrk@163.com>
+ <ihvrdnntfuvvycnlhysnm43wylotovvnivu4wxcne3bwc6etpj@n2rq6n77lmma>
+ <4847f6b1.1c60.19412092a7a.Coremail.andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH RESEND 00/22] Add support for A100/A133 display
-To: Andre Przywara <andre.przywara@arm.com>
-References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
- <314b6bbe-613e-41a6-955e-50db6e11ef8e@linumiz.com>
- <20241230141150.3d0c3ae6@donnerap.manchester.arm.com>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <20241230141150.3d0c3ae6@donnerap.manchester.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 122.165.245.213
-X-Source-L: No
-X-Exim-ID: 1tSW6h-003DJk-0W
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.1.5]) [122.165.245.213]:60114
-X-Source-Auth: parthiban@linumiz.com
-X-Email-Count: 4
-X-Org: HG=dishared_whb_net_legacy;ORG=directi;
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfF5JRQMQda717uuTcpjc35WuRnhneILTgd7UJlHGnox+QSg4flWUc5z/8wufGZeBI4LrSHahP7kazpE7O8mKks3tlcS4BKz9C8fAEzg1Qz9BEpd+exg+
- f70KfnWZmMe/q35RIjX3YE3nEvJ5AwX/3xsFM/4sa58dTmR7v9x5AExyAuDmYgHQ/eBMX/4lMdqcaLg6e+2kObvuJ9fd6qjBVnVMiDDLzQEPjiCnupm7aAMG
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4847f6b1.1c60.19412092a7a.Coremail.andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,77 +65,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/30/24 7:41 PM, Andre Przywara wrote:
-> On Fri, 27 Dec 2024 20:06:30 +0530
-> Parthiban <parthiban@linumiz.com> wrote:
+On Sun, Dec 29, 2024 at 06:49:38PM +0800, Andy Yan wrote:
 > 
->> On 12/27/24 6:30 PM, Parthiban Nallathambi wrote:
->>> This series depends on [1] for the eMMC/MMC controller to work and
->>> [2] (lined up for 6.14) which adds support for the sram nodes and
->>> display engine extends it's usage. Idea of this series to get initial
->>> feedback and adjust, which will be rebased for 6.14 once [2] is merged.
->>>
->>> This patch series adds support for A133 display pipeline based on
->>> LVDS. dt-bindigs are organized in the start and later with code
->>> changes.
->>>
->>> PHY is shared between DSI and LVDS, so to control the PHY specific
->>> to DSI/LVDS, phy_ops set_mode is introduced. To enable the DSI
->>> using set_mode, analog control register MIPI Enable is used, which
->>> may not be available for A31 (shares the same driver).
->>>
->>> Otherwise, A133 also got hidden independent display engine i.e
->>> mixer + tcon top to handle parallel display. But this patch series
->>> adds only support for the 1 mixer which is documented.
->>>
->>> [1]: https://lore.kernel.org/linux-sunxi/20241109003739.3440904-1-masterr3c0rd@epochal.quest/
->>> [2]: https://lore.kernel.org/linux-sunxi/20241218-a100-syscon-v2-0-dae60b9ce192@epochal.quest/
->>>
->>> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>  
->> Apologize for polluting with resend again. My internal mail server got blocked due to
->> volume count, which resulted in incomplete series again.
 > 
-> I guess an incomplete send was the reason for the original resend? Please
-> note this at the top of the cover letter then, otherwise it's not easy
-> to see why you send something again. Something like:
+> Hi Krzysztof,
 > 
-> *** Re-sent due to mail server not sending out the complete series. ***
-Yes I did add that using b4 as below, but "b4 send --resend" didn't pick the
-updated cover letter though. I will check with "--reflect" next time.
+> At 2024-12-29 18:13:39, "Krzysztof Kozlowski" <krzk@kernel.org> wrote:
+> >On Sat, Dec 28, 2024 at 08:21:48PM +0800, Andy Yan wrote:
+> >> From: Andy Yan <andy.yan@rock-chips.com>
+> >> 
+> >> Add vop found on rk3576, the main difference between rk3576 and the
+> >> previous vop is that each VP has its own interrupt line.
+> >> 
+> >> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> >> 
+> >> ---
+> >> 
+> >> Changes in v2:
+> >> - describe constraint SOC by SOC, as interrupts of rk3576 is very
+> >>   different from others
+> >> - Drop Krzysztof's Reviewed-by, as this version changed a lot.
+> >> 
+> >> Changes in v1:
+> >> - ordered by soc name
+> >> - Add description for newly added interrupt
+> >> 
+> >>  .../display/rockchip/rockchip-vop2.yaml       | 70 +++++++++++++++----
+> >>  1 file changed, 56 insertions(+), 14 deletions(-)
+> >> 
+> >> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> >> index 2531726af306..f28cea4a6d82 100644
+> >> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> >> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> >> @@ -20,6 +20,7 @@ properties:
+> >>      enum:
+> >>        - rockchip,rk3566-vop
+> >>        - rockchip,rk3568-vop
+> >> +      - rockchip,rk3576-vop
+> >>        - rockchip,rk3588-vop
+> >>  
+> >>    reg:
+> >> @@ -37,10 +38,22 @@ properties:
+> >>        - const: gamma-lut
+> >>  
+> >>    interrupts:
+> >> -    maxItems: 1
+> >> -    description:
+> >> -      The VOP interrupt is shared by several interrupt sources, such as
+> >> -      frame start (VSYNC), line flag and other status interrupts.
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >> +    items:
+> >> +      - description:
+> >
+> >That's contradictory. min/max say 1-4, but here you list two interrupts.
+> 
+> There are 4 interrupts on rk3576, and the other SOC only have one.
 
-EDIT:
-Due to internal mail server issue, [3] missed few patches in series.
-So am resending to hope that it will get through this time. Sorry
-to pollute.
+But you listed two interrupts, so where does the "two" come from?
 
-[3]: https://lore.kernel.org/linux-sunxi/20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com
+> I am sorry that I am not familiar with this schema language; I have read many
+> other YAML bindings these days and try to write it correctly.
 > 
-> It also helps to split up the recipients, so that everyone gets the cover
-> letter, but only the respective subsystem maintainers get the patches
-> touching their subsystem. I would CC: the DT maintainers on every patch,
-> though.
-> It's a bit more complicated to set up, but keeps the noise down for those
-> large-ish series, for instance for the IOMMU people, who presumably have
-> little interest in DT or graphics code.
-The whole series based on b4 and the list is auto prepared using
-"b4 prep --auto-to-cc".
+> Maybe I should not list the interrupts-names here(then list the interrupt-name by soc at allOf:  part),
+>  like the clocks handles in samsung,usb3-drd-phy.yaml  ?
 
-Sure, I will add the dt list in all the patches. Also many thanks for your
-review and feedback.
+xxx-names are supposed to be fully synced with xxx, so something needs
+to be fixed here. You can of course remove interrupt-names *completely*
+(but not partially, because all properties must be defined in top-level).
 
-Thanks,
-Parthiban
-
-> 
-> Cheers,
-> Andre
-> 
->> I will fix the mail server issue before resending the series. Sorry.
->>
->> Thanks,
->> Parthiban
->>
->>
-> 
-> 
+Best regards,
+Krzysztof
 
