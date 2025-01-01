@@ -2,75 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A11C9FFEA3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 19:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B01D9FFF82
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 20:43:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E5CF10E777;
-	Thu,  2 Jan 2025 18:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF78410E081;
+	Thu,  2 Jan 2025 19:43:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uCU1vl6S";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T6A5Hj2A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com
- [209.85.166.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 029E810E22B
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 18:40:47 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id
- e9e14a558f8ab-3a9cb8460f7so86867885ab.2
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2025 10:40:47 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 337A210E221;
+ Wed,  1 Jan 2025 16:42:22 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-43635796b48so65185405e9.0; 
+ Wed, 01 Jan 2025 08:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735843187; x=1736447987; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hjk/M72EdwTYg4Zy8ycvuwHpCYWZ5L1FAim6sGjk5/Y=;
- b=uCU1vl6SITTcthNP2DFMJEYQio9lL88FXAcxt3ei2RAEc8ACbFwZnNI/z5JFdhiipH
- WP+F4a74bu4+4ooXIzG+fx43Hy7hGZJRaXPKgKcniNk0xP5TZMijHoeOhnbKRTHg4IvD
- tRz/PI9gIlkElGRSzkL4NxHSQA5vZvEEB9Up1PUTweKsj4X0IEpHkTG8DM44L97t9e4M
- 1s0+hDh51ORLil524hS/4fz6WRb3As05VwpYA+kxSS+lHdmgqmnpLKS5rSxpheJpQyyr
- CFll0hvX/sHRI4HISQV5Y9fwFRvF4ILRjrRO4fKeb5mWVIOB+trza4EXJBb+5Szd9Tpt
- t64w==
+ d=gmail.com; s=20230601; t=1735749681; x=1736354481; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=673uKSPzcYnBh2TsZV1+vzSMvKs5q5gmZERqpENWy+4=;
+ b=T6A5Hj2AE+mqcmclz1jmKhJK2GSR0i0Wqsjnf2yDZAF9hi26C9Rk9qhxTWJX28iwp4
+ XF7XcyU8lauIqnMGMdjoQOVr8sPMKXRDIdppg5AwNutWmsKyhtPQvCQTtRYPV87rOLfz
+ W/psKVaV0kCsqZtbV8cuoDsrIyGVnYtxrHUELIFENZUprRyQ2irq+Q1m8s898/1+amME
+ tJ5y5ZTEYBzguDM1oT77vvxJnElex/e6Wtk3PqOUphdpFiXEkpSEypyOTD10QSkYomj5
+ jpfBw1DZXs0OLGsB8ZNaRu9ETXybDGMRHRS8HKqnVF9ui2t2A8lbL8o7Dwm46i5zW+sF
+ Salw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735843187; x=1736447987;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hjk/M72EdwTYg4Zy8ycvuwHpCYWZ5L1FAim6sGjk5/Y=;
- b=O4MMVB/lMdpC9/2EoB7WK01LXKMlgJi5Sr+CvH+dWnh4gZoU56nuU4e8zHuS5Rc9SL
- vNNv3yGecoZscjPaRLtEdPAUT688SojU4L2D3al2s6cClKTdKT4/IGB1yxve4eO9Ppmh
- W+xeK+7Fmtu0P5E923PDsEi0Wmn2cYlw53e+hz/RkZ/TF7zCuTJVg2L/lJxEs+i5vxqs
- VRo3+V2f4WM3z7IK0/Xg94nprhFc3KGZCIZY0WoDasJiW3OTGiYUVn+cKC/qtON6Uutf
- 60CpLWnEUaBN04joJxXvI9M9v/9YUVOzQWFtdiLftSlsRUrxeBTLQy01Dk3muQLHfLM5
- VTzQ==
+ d=1e100.net; s=20230601; t=1735749681; x=1736354481;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=673uKSPzcYnBh2TsZV1+vzSMvKs5q5gmZERqpENWy+4=;
+ b=PL0jgvY0amKjut0A42GR09Z+H4DGUUqs9odlfmfrjBG2ijB4k/KGnSCN5v2e7MDiAB
+ EZhWKFHcVxt9BrinKEC5Ac5l24aBJTFFQES2VPNqkFVy3fozec1zE2AW8WMHYGVARg14
+ nTPEzQ+/FIXcoAPikUmItaYqtn5S2Ke9+XNLauLlYzz4EF7e+Evk088ieCY1kL1ubURL
+ ofCzdiCtHoubKrprwf2W0MTVSC+r9RyNk2Qhi9yl7qCCwIptboSJQiz0WdtBOpFmMqxf
+ zFHFbTmVnnlaIFKh1KFkBybcTlEGm4nlt6IT5VFlDDOmxpB+IPDp0+QmM1VOmSEZi9lW
+ jpvw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUu2GTnjp6Ib/QcxRlH47sogJ6CJZriMJ96ulNE269xih+YjmIOi68wi4hu4g+YQ08XZQG0QrHPQ+8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfacahREBWS192ZkpZhgcB/PQUmlh99fVXiPrlmvtO6zd0pW1h
- vN+f7NUzPff3kYuMOFIj8iFuTGXwd3AHSqKaSrsTaKJ/1LRyRYSly0ehO+FjRLC5XN1Vk6Ln2Hq
- 0Bc+Az1xgg/YVtgrGJ8sKn21+reGpYX1E6gaJ6xJivAm/K3VL
-X-Gm-Gg: ASbGncu50eJI9jGB+DmcoYHsa1fpiVN5oudz7n4xzkFoloS+dwZ8DjnwfOIqJT1dYAe
- w4a2vmZFq1FHSx7B5+XMHLFZdAIEvCUyIUQet9rZaz+PYFkQeka39
-X-Google-Smtp-Source: AGHT+IEv0ordAbN/yMl+GUtAkp67fXqgqP0RHKNc9O+xma8wAPb3tLcQFTQ8qhO+WUp9cPDHRiLKXmbudVDuZOqumA0=
-X-Received: by 2002:a05:690c:650a:b0:6ea:ef9d:fcba with SMTP id
- 00721157ae682-6f3f80d5f3fmr348344897b3.6.1735841465768; Thu, 02 Jan 2025
- 10:11:05 -0800 (PST)
+ AJvYcCUQ1wRM+cTdqNg9D2Jb8P0FYg67EDkaihlwli8d3TwXIRMUZwZwZLsclEADpDUM4GddGd7zV3/Rq9Te@lists.freedesktop.org,
+ AJvYcCW751/1Ov1VzQf5VkRN3btZzkz62cMgVLxAINN/ywhmKXnsyG1E/t74nuSpNeUdUwhtKlVJtet5/uQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwK3BY/ZU3nX1a8U4KDFyVZeaLF9q4Pykk/Uaj6qzP4XqWH+XuG
+ xAJBEbGZTO4FYkhl4o8598nWPZcOcubvQhe6IAW5ViOWXaqmeCCk
+X-Gm-Gg: ASbGncukDlIbDMq9pJdQ9GIA5/7s1hnG8U1nzFwyiDEvm4GR3zO75fnTET8WzB3/PT0
+ xbtK/L6YOIMKnLbO+Zp1xLiAN5DcGsMAdebxtrR1/XzANmDl5xQClsDjrkC2WESlLftjKz1YOD8
+ 77bNMB1FTnRPMBn0KtTDQn5ccCgnNbgnLIkd0YHB49gnBxW6e7O7JMad88SXM5xalSTNI9SCvjY
+ yBIvC5EtrRBlCBsqKo/yD8FGFfgNS2bJBuVTKGs/hix4yTfjhfkLJygVYTB5Q1zJ5sgbcrdY1rE
+ BReZKE0VZNbINNvPWfvYglw=
+X-Google-Smtp-Source: AGHT+IHQHSCpLv1Uk9ROvVaAadFohvt3o6x+X80bv++kGLPADaDQj6k0S7ZMrKyj9Dk+KcAYYjcUig==
+X-Received: by 2002:a05:600c:a0a:b0:434:9e17:190c with SMTP id
+ 5b1f17b1804b1-436693f7cc4mr339030115e9.0.1735749680436; 
+ Wed, 01 Jan 2025 08:41:20 -0800 (PST)
+Received: from dsl-u17-10 (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4364b0532a6sm449633705e9.1.2025.01.01.08.41.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 01 Jan 2025 08:41:19 -0800 (PST)
+Date: Wed, 1 Jan 2025 16:41:19 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>, Reuven Abliyev
+ <reuven.abliyev@intel.com>, Oren Weil <oren.jer.weil@intel.com>,
+ linux-mtd@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 06/11] mtd: intel-dg: align 64bit read and write
+Message-ID: <20250101164119.000d2bd4@dsl-u17-10>
+In-Reply-To: <20250101153925.865703-7-alexander.usyskin@intel.com>
+References: <20250101153925.865703-1-alexander.usyskin@intel.com>
+ <20250101153925.865703-7-alexander.usyskin@intel.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20241213060229.1191037-1-shiyongbang@huawei.com>
- <046b010c-d40b-42c8-b701-4570b7a536eb@huawei.com>
- <muieolurswxzxevlqgnsftev5mlztopsqze3jhdf32lz4h2hhm@zxfnenjknwav>
- <0e862c4f-a383-4381-8883-3e28d4e254e7@huawei.com>
-In-Reply-To: <0e862c4f-a383-4381-8883-3e28d4e254e7@huawei.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 2 Jan 2025 20:10:55 +0200
-Message-ID: <CAA8EJpqbRpDGeXYvdM2t+X=dF3N-TtmBvO7eyWhQ0CtTwy9ZbQ@mail.gmail.com>
-Subject: Re: [PATCH v8 drm-dp 0/5] Add dp module in hibmc driver
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, 
- liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com, 
- libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Mailman-Approved-At: Thu, 02 Jan 2025 19:43:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,205 +103,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2 Jan 2025 at 14:53, Yongbang Shi <shiyongbang@huawei.com> wrote:
->
-> > On Thu, Dec 19, 2024 at 10:52:32AM +0800, Yongbang Shi wrote:
-> >> Does everyone have a question with the patch?
-> > -:225: CHECK:MACRO_ARG_REUSE: Macro argument reuse 'reg_value' - possible side-effects?
-> > #225: FILE: drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h:23:
-> > +#define dp_field_modify(reg_value, mask, val)                                \
-> > +     do {                                                            \
-> > +             (reg_value) &= ~(mask);                                 \
-> > +             (reg_value) |= FIELD_PREP(mask, val);                   \
-> > +     } while (0)                                                     \
-> > +
-> >
-> > -:225: CHECK:MACRO_ARG_REUSE: Macro argument reuse 'mask' - possible side-effects?
-> > #225: FILE: drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h:23:
-> > +#define dp_field_modify(reg_value, mask, val)                                \
-> > +     do {                                                            \
-> > +             (reg_value) &= ~(mask);                                 \
-> > +             (reg_value) |= FIELD_PREP(mask, val);                   \
-> > +     } while (0)                                                     \
-> > +
->
-> Hi Dmitry,
-> Thanks for your reminding. For this point, we have to use two variables(mask, reg_value) twice here.
-> I tried to another way that static inline functions, but there are build errors. So the only way is like this.
-> After reviewed all references, we have a review session about it, and we think it's acceptable and relatively safe.
->   (like we won't use varible with post/pre-increment operator)
-> If you have a better way to realize this, plz tell me. Appreciate!
+On Wed,  1 Jan 2025 17:39:20 +0200
+Alexander Usyskin <alexander.usyskin@intel.com> wrote:
 
-Well, there is an obvious way:
+> GSC NVM controller HW errors on quad access overlapping 1K border.
+> Align 64bit read and write to avoid readq/writeq over 1K border.
+> 
+> Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> ---
+>  drivers/mtd/devices/mtd-intel-dg.c | 35 ++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+> 
+> diff --git a/drivers/mtd/devices/mtd-intel-dg.c b/drivers/mtd/devices/mtd-intel-dg.c
+> index 76ef7198fff8..230bf444b7fe 100644
+> --- a/drivers/mtd/devices/mtd-intel-dg.c
+> +++ b/drivers/mtd/devices/mtd-intel-dg.c
+> @@ -238,6 +238,24 @@ static ssize_t idg_write(struct intel_dg_nvm *nvm, u8 region,
+>  		len_s -= to_shift;
+>  	}
+>  
+> +	if (!IS_ALIGNED(to, sizeof(u64)) &&
+> +	    ((to ^ (to + len_s)) & GENMASK(31, 10))) {
 
-do {
-  u32 __mask = (mask);
-  (reg_value) &= ~__mask;
-  (reg_value) |= FIELD_PREP(__mask, (val));
-} while (0)
+I'm sure that should be (to + len_s - 1).
+Using GENMASK(31, 10) completely fails to indicate what is being tested.
 
-But I don't really think that it makes sense to change. It's a
-check-level, not a warning. The next one is important.
+> +		/*
+> +		 * Workaround reads/writes across 1k-aligned addresses
+> +		 * (start u32 before 1k, end u32 after)
+> +		 * as this fails on hardware.
+> +		 */
+> +		u32 data;
+> +
+> +		memcpy(&data, &buf[0], sizeof(u32));
 
->
->
-> > -:277: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
-> >
-> > total: 0 errors, 2 warnings, 2 checks, 239 lines checked
-> > 1c3faaf4e729 drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
-> > -:70: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > #70:
-> > new file mode 100644
-> >
-> > -:435: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
-> >
-> > total: 0 errors, 2 warnings, 0 checks, 399 lines checked
-> > 70bf7b765c82 drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
-> > -:28: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > #28:
-> > new file mode 100644
-> >
-> > -:371: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
-> >
-> > total: 0 errors, 2 warnings, 0 checks, 327 lines checked
-> > 24d6be2577d8 drm/hisilicon/hibmc: refactored struct hibmc_drm_private
-> > -:188: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
-> >
-> > total: 0 errors, 1 warnings, 0 checks, 151 lines checked
-> > 9a74395d14e2 (HEAD -> drm-misc-next) drm/hisilicon/hibmc: add dp module in hibmc
-> > -:30: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
-> > #30:
-> > new file mode 100644
-> >
-> > -:219: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
->
-> We already have maintainers for our hibmc-drm module, so there is no need add maintainers in each new file.
+	get_unaligned_u32()
 
-Please read carefully. Those warnings are about sign-off mismatches.
-You can ignore the maintainers entry.
+> +		idg_nvm_write32(nvm, to, data);
+> +		if (idg_nvm_error(nvm))
+> +			return -EIO;
+> +		buf += sizeof(u32);
+> +		to += sizeof(u32);
+> +		len_s -= sizeof(u32);
+> +	}
 
->
-> Thanks ,
-> Baihan Li
->
->
-> >>
-> >>> From: baihan li <libaihan@huawei.com>
-> >>>
-> >>> Realizing the basic display function of DP cable for DP connector
-> >>> displaying. Add DP module in hibmc drm driver, which is for Hisilicon
-> >>> Hibmc SoC which used for Out-of-band management. Blow is the general
-> >>> hardware connection, both the Hibmc and the host CPU are on the same
-> >>> mother board.
-> >>>
-> >>> +----------+       +----------+      +----- ----+      +----------------+
-> >>> |          | PCIe  |  Hibmc   |      |          |      |                |
-> >>> |host CPU( |<----->| display  |<---->| dp kapi  |<---->| dp aux moduel  |
-> >>> |arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link moduel |
-> >>> +----------+       +----------+      +----------+      +----------------+
-> >>>
-> >>> ---
-> >>> ChangeLog:
-> >>> v7 -> v8:
-> >>>     - adding DP_AUX_NATIVE_WRITE case in switch statement in hibmc_dp_aux_parse_xfer().
-> >>>     - adding pci_set_master() in hibmc_pci_probe().
-> >>>     v7:https://lore.kernel.org/all/20241209144840.1933265-1-shiyongbang@huawei.com/
-> >>> v6 -> v7:
-> >>>     - deleteing unset fields in struct hibmc_link_cap, suggested by Dmitry Baryshkov.
-> >>>     - using macro instead of constants in hibmc_dp_link_training_configure(), suggested by Dmitry Baryshkov.
-> >>>     - lowercasing hex, suggested by Dmitry Baryshkov.
-> >>>     v6:https://lore.kernel.org/all/20241202131322.1847078-1-shiyongbang@huawei.com/
-> >>> v5 -> v6:
-> >>>     - adding do{} while(0) in macro defination function, suggested by Dmitry Baryshkov.
-> >>>     - using drm_dbg_dp() to print debug info instead of drm_info(), suggested by Dmitry Baryshkov.
-> >>>     - adding code comments in hibmc_dp_set_sst(), suggested by Dmitry Baryshkov.
-> >>>     - adding hpd and get_edid comments in the beginning of patch, suggested by Dmitry Baryshkov.
-> >>>     v5:https://lore.kernel.org/all/20241118142805.3326443-1-shiyongbang@huawei.com/
-> >>> v4 -> v5:
-> >>>     - fixing build errors reported by kernel test robot <lkp@intel.com>
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
-> >>>     v4:https://lore.kernel.org/all/20241112132348.2631150-1-shiyongbang@huawei.com/
-> >>> v3 -> v4:
-> >>>     - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
-> >>>     - replacing all ret= with returns, suggested by Dmitry Baryshkov.
-> >>>     - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
-> >>>     - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
-> >>>     - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
-> >>>     - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
-> >>>     - moving some structs to later patch, suggested by Dmitry Baryshkov.
-> >>>     - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
-> >>>     - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
-> >>>     - deleting meaningless macro, suggested by Dmitry Baryshkov.
-> >>>     - fixing build errors reported by kernel test robot <lkp@intel.com>
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
-> >>>     - changed the type of train_set to array, suggested by Dmitry Baryshkov.
-> >>>     - using actual link rate instead of magic num, suggested by Dmitry Baryshkov.
-> >>>     - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
-> >>>     - separating hibmc_vdac and hibmc_dp changes into separate patche, suggested by Dmitry Baryshkov.
-> >>>     - static int hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
-> >>>     v3:https://lore.kernel.org/all/20241101105028.2177274-1-shiyongbang@huawei.com/
-> >>> v2 -> v3:
-> >>>     - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
-> >>>     - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
-> >>>     - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
-> >>>     - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
-> >>>     - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
-> >>>     - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
-> >>>     - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
-> >>>     - fix build errors reported by kernel test robot <lkp@intel.com>
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
-> >>>     v2:https://lore.kernel.org/all/20241022124148.1952761-1-shiyongbang@huawei.com/
-> >>> v1 -> v2:
-> >>>     - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
-> >>>     - using drm dp header files' dp macros instead, suggested by Andy Yan.
-> >>>     - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
-> >>>     - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
-> >>>     - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
-> >>>     - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
-> >>>     - modifying drm_simple_encoder_init function, suggested by Dmitry Baryshkov.
-> >>>     - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
-> >>>     - withdrawing the modification in hibmc_kms_init, suggested by Dmitry Baryshkov.
-> >>>     - fix build errors reported by kernel test robot <lkp@intel.com>
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
-> >>>       Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
-> >>>     v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
-> >>> ---
-> >>>
-> >>> baihan li (5):
-> >>>     drm/hisilicon/hibmc: add dp aux in hibmc drivers
-> >>>     drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
-> >>>     drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
-> >>>     drm/hisilicon/hibmc: refactored struct hibmc_drm_private
-> >>>     drm/hisilicon/hibmc: add dp module in hibmc
-> >>>
-> >>>    drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
-> >>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 164 +++++++++
-> >>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  63 ++++
-> >>>    .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 +
-> >>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 220 ++++++++++++
-> >>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 ++
-> >>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 332 ++++++++++++++++++
-> >>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
-> >>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 +++++++
-> >>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  14 +
-> >>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  19 +-
-> >>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 ++-
-> >>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +-
-> >>>    13 files changed, 1078 insertions(+), 39 deletions(-)
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
-> >>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-> >>>
+It isn't at all obvious why copying 4 bytes helps.
+Indeed, if 'to' is 1023 and 'len_s' is 2 it goes terribly wrong.
 
+	David
 
+> +
+>  	len8 = ALIGN_DOWN(len_s, sizeof(u64));
+>  	for (i = 0; i < len8; i += sizeof(u64)) {
+>  		u64 data;
+> @@ -295,6 +313,23 @@ static ssize_t idg_read(struct intel_dg_nvm *nvm, u8 region,
+>  		from += from_shift;
+>  	}
+>  
+> +	if (!IS_ALIGNED(from, sizeof(u64)) &&
+> +	    ((from ^ (from + len_s)) & GENMASK(31, 10))) {
+> +		/*
+> +		 * Workaround reads/writes across 1k-aligned addresses
+> +		 * (start u32 before 1k, end u32 after)
+> +		 * as this fails on hardware.
+> +		 */
+> +		u32 data = idg_nvm_read32(nvm, from);
+> +
+> +		if (idg_nvm_error(nvm))
+> +			return -EIO;
+> +		memcpy(&buf[0], &data, sizeof(data));
+> +		len_s -= sizeof(u32);
+> +		buf += sizeof(u32);
+> +		from += sizeof(u32);
+> +	}
+> +
+>  	len8 = ALIGN_DOWN(len_s, sizeof(u64));
+>  	for (i = 0; i < len8; i += sizeof(u64)) {
+>  		u64 data = idg_nvm_read64(nvm, from + i);
 
--- 
-With best wishes
-Dmitry
