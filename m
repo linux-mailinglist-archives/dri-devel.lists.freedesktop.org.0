@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1229FF1E0
-	for <lists+dri-devel@lfdr.de>; Tue, 31 Dec 2024 22:16:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1149FF2B7
+	for <lists+dri-devel@lfdr.de>; Wed,  1 Jan 2025 03:04:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1A710E17C;
-	Tue, 31 Dec 2024 21:16:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="FB1uSwTM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0619F10E053;
+	Wed,  1 Jan 2025 02:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1871F10E17C
- for <dri-devel@lists.freedesktop.org>; Tue, 31 Dec 2024 21:16:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2EDFD104811D7; Tue, 31 Dec 2024 22:16:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1735679808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dtVgKXIRkiie7ek16GqaWrkdviMLh6QRY/N1cq81sP0=;
- b=FB1uSwTMLCVnCsjpsRmRcGHlw30WLImCnUiOSbbtvPovQ32k18SGWw25Lj9FoI6O5W5NjR
- jhbkk1XyAMkHhDjxciNhQTen/ATKa4s5G82ziTVMUq9Uah4pWDGjD0ejFTYCRxVdvbDIJc
- wByT+ecB7c8w61Jjy89SR/7/C7uJMoZsrQQWBLPMXlx7YEGPp87+AoaTUKfkvFXym+bPDD
- 8wT73Nec1STeCOYmh4pZbKtJ6pQY11S3LK2QDIgMD2mmacvxATm8oLbdgy5X1MVyIwi1eD
- 8pYFLZVm2jyPXoB+9+sORaOo22diS7nTmV8OjDkOJDbfc2aDkBxlzukHaI9oiA==
-Message-ID: <88778e2b-8c43-46a1-bb79-0d9c968a5233@denx.de>
-Date: Tue, 31 Dec 2024 22:10:51 +0100
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Wed, 01 Jan 2025 02:04:03 UTC
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C75810E053;
+ Wed,  1 Jan 2025 02:04:03 +0000 (UTC)
+X-UUID: f3739570c7e311efa216b1d71e6e1362-20250101
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME,
+ HR_CTE_8B
+ HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+ HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+ HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+ IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
+ SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+ CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+ GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI, AMN_C_BU ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41, REQID:00d7d4d2-412f-437b-a14a-9d9e806fd293, IP:20,
+ URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-11,FILE:0,BULK:0,RULE:Release_Ham,ACT
+ ION:release,TS:34
+X-CID-INFO: VERSION:1.1.41, REQID:00d7d4d2-412f-437b-a14a-9d9e806fd293, IP:20,
+ UR
+ L:0,TC:0,Content:0,EDM:25,RT:0,SF:-11,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+ N:release,TS:34
+X-CID-META: VersionHash:6dc6a47, CLOUDID:c962db3edbf0472f98c095c96c7f3521,
+ BulkI
+ D:250101095635DSZNSNZN,BulkQuantity:1,Recheck:0,SF:17|19|25|44|66|78|102,T
+ C:nil,Content:0|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:nil,BEC:ni
+ l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-UUID: f3739570c7e311efa216b1d71e6e1362-20250101
+X-User: yaolu@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.169)] by mailgw.kylinos.cn
+ (envelope-from <yaolu@kylinos.cn>) (Generic MTA)
+ with ESMTP id 682118992; Wed, 01 Jan 2025 09:58:52 +0800
+From: Lu Yao <yaolu@kylinos.cn>
+To: alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com
+Cc: felix.kuehling@amd.com, shashank.sharma@amd.com, tvrtko.ursulin@igalia.com,
+ zhenguo.yin@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Lu Yao <yaolu@kylinos.cn>
+Subject: [PATCH] drm/amdgpu: Add null pointer check before task_info get and
+ put
+Date: Wed,  1 Jan 2025 09:58:30 +0800
+Message-Id: <20250101015830.63570-1-yaolu@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] drm: bridge: dw_hdmi: Add flag to indicate output
- port is optional
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20241231192925.97614-1-marex@denx.de>
- <20241231203136.GD31768@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20241231203136.GD31768@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,36 +75,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/31/24 9:31 PM, Laurent Pinchart wrote:
-> Hi Marek,
+This patch add null pointer check for amdgpu_vm_put_task_info and
+amdgpu_vm_get_task_info_vm, because there is only a warning if create
+task_info failed in amdgpu_vm_init.
 
-Hi,
+Fixes: b8f67b9ddf4f ("drm/amdgpu: change vm->task_info handling")
+Signed-off-by: Lu Yao <yaolu@kylinos.cn>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> Thank you for the patch.
-> 
-> On Tue, Dec 31, 2024 at 08:28:48PM +0100, Marek Vasut wrote:
->> Add a flag meant purely to work around broken i.MX8MP DTs which enable
->> HDMI but do not contain the HDMI connector node. This flag allows such
->> DTs to work by creating the connector in the HDMI bridge driver. Do not
->> use this flag, do not proliferate this flag, please fix your DTs.
-> 
-> What's the rationale for this, what prevents fixing DT instead of using
-> this flag ? Adding such a flag will most likely open the door to
-> proliferation.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index c9c48b782ec1..65edd74bd944 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2336,7 +2336,8 @@ amdgpu_vm_get_vm_from_pasid(struct amdgpu_device *adev, u32 pasid)
+  */
+ void amdgpu_vm_put_task_info(struct amdgpu_task_info *task_info)
+ {
+-	kref_put(&task_info->refcount, amdgpu_vm_destroy_task_info);
++	if (task_info)
++		kref_put(&task_info->refcount, amdgpu_vm_destroy_task_info);
+ }
+ 
+ /**
+@@ -2352,7 +2353,7 @@ amdgpu_vm_get_task_info_vm(struct amdgpu_vm *vm)
+ {
+ 	struct amdgpu_task_info *ti = NULL;
+ 
+-	if (vm) {
++	if (vm && vm->task_info) {
+ 		ti = vm->task_info;
+ 		kref_get(&vm->task_info->refcount);
+ 	}
+-- 
+2.25.1
 
-See the V2 series discussion, there are a few in-tree DTs which do not 
-have the HDMI connector node. The rationale is there might be more and 
-they might come from vendors, so this flag is necessary to work around 
-those DTs.
-
-> If you can't fix the DT on particular boards, patching it could be an
-> option. We had a similar problem on Renesas boards, which we fixed with
-> a DT overlay, see commit 81c0e3dd82927064 ("drm: rcar-du: Fix legacy DT
-> to create LVDS encoder nodes"). This made the workaround self-contained,
-> and allowed dropping it several kernel versions later (in commit
-> 841281fe52a769fe, "drm: rcar-du: Drop LVDS device tree backward
-> compatibility").
-Frankly, I would much rather fix the few in-tree DTs and mandate the 
-HDMI connector node in DT, which would keep the code simple, rather than 
-maintain a backward compatibility workaround for problem which might not 
-even exist.
