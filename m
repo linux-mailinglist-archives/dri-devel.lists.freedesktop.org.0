@@ -2,101 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180FA9FF8F4
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 12:49:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0F89FF8F7
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 12:50:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08C8910E6D7;
-	Thu,  2 Jan 2025 11:49:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0346A10E6D6;
+	Thu,  2 Jan 2025 11:50:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="r3kpxk1l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W5DCz7Qy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r3kpxk1l";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W5DCz7Qy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NVQwZRy0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14DC110E6D3;
- Thu,  2 Jan 2025 11:49:52 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9CF911F38E;
- Thu,  2 Jan 2025 11:49:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1735818590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
- b=r3kpxk1lSh3B6RQlPjEAXD8YWjSbM2h9fL4ZhWRiopqPxRxTeQ8Hb/9lKBGm5jF4Nkxcmr
- OaO6xc0nZ3okFyyxPoe9ZAu3RfzJc/Wz5vkhfVXlQK/6vIUg7LLVEx+XDqALk4P+BPptFj
- tN8AMiJoXOTfc/psesRAf4LqNlLfRtY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1735818590;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
- b=W5DCz7QypT657BX5U/GS3Aq4rEXuiY7dnW37moWDCk8yb892KAvk3KiUHntOa6ixleD6JY
- 0kSIrF14l+jCXBAA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=r3kpxk1l;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=W5DCz7Qy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1735818590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
- b=r3kpxk1lSh3B6RQlPjEAXD8YWjSbM2h9fL4ZhWRiopqPxRxTeQ8Hb/9lKBGm5jF4Nkxcmr
- OaO6xc0nZ3okFyyxPoe9ZAu3RfzJc/Wz5vkhfVXlQK/6vIUg7LLVEx+XDqALk4P+BPptFj
- tN8AMiJoXOTfc/psesRAf4LqNlLfRtY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1735818590;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
- b=W5DCz7QypT657BX5U/GS3Aq4rEXuiY7dnW37moWDCk8yb892KAvk3KiUHntOa6ixleD6JY
- 0kSIrF14l+jCXBAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68B81132EA;
- Thu,  2 Jan 2025 11:49:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id S/hRGF59dmeZbQAAD6G6ig
- (envelope-from <tiwai@suse.de>); Thu, 02 Jan 2025 11:49:50 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] drm/nouveau/disp: Fix missing backlight control on
- Macbook 5, 1
-Date: Thu,  2 Jan 2025 12:49:36 +0100
-Message-ID: <20250102114944.11499-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71BE610E6D6;
+ Thu,  2 Jan 2025 11:50:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735818608; x=1767354608;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=rtJ+33wrV8CxPJoS/qoUKKXiAaxG0aFkSr4paV2ceUY=;
+ b=NVQwZRy0334cRXypxxgy0EvWs30CcPrguyf5qP+eA9HeABu4DN27XcPD
+ +h14z0FQ00TQZoi4KkWipEAMiyDqPyrqvHYvy8BD5Vsz/+Dnh0GAzryQS
+ b19++d8ClxvleUIjqTfExIvGdOLF40n20IM2BWOrJxLstjXyTfXGZVEW1
+ 6z6JYHeF42eVaG3YWDGkAC0MFWAs55y+Cz2u5UtPyI7J897Hlc4gm0Izz
+ hwuo5Nic4e6cOGkQ+sL+MYxilLW3zbF4QklOVI/6BH14qFJEw05F02HTj
+ V5GPfQup02wbOitR13EX4zOaZKSVe19k27Bu/2pc6pDxw8TEm9GlaMtI9 Q==;
+X-CSE-ConnectionGUID: mf37c1z4SN6XHceI2Am05g==
+X-CSE-MsgGUID: s2AdC6+/QqGyVrRFnzo+vQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="36214627"
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="36214627"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 03:50:08 -0800
+X-CSE-ConnectionGUID: +8KvJT3HQqKWimMk09N2DQ==
+X-CSE-MsgGUID: Olzd7+CKQu2JSlS7XshT7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="101323082"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.212])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 03:50:05 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, imre.deak@intel.com, Lyude Paul
+ <lyude@redhat.com>
+Subject: Re: [PATCH] drm/mst: remove mgr parameter and debug logging from
+ drm_dp_get_vc_payload_bw()
+In-Reply-To: <20250102101552.315814-1-jani.nikula@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <630bd6e1c0c0fee9a8dde08d224cf8f166fd727e.1734643485.git.jani.nikula@intel.com>
+ <20250102101552.315814-1-jani.nikula@intel.com>
+Date: Thu, 02 Jan 2025 13:50:02 +0200
+Message-ID: <871pxlo2ol.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9CF911F38E
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU]; ARC_NA(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,39 +73,153 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Macbook 5,1 with MCP79 lost its backlight control since the recent
-change for supporting GFP-RM; it rewrote the whole nv50 backlight
-control code and each display engine is supposed to have an entry for
-IOR bl callback, but it didn't cover mcp77.
+On Thu, 02 Jan 2025, Jani Nikula <jani.nikula@intel.com> wrote:
+> The struct drm_dp_mst_topology_mgr *mgr parameter is only used for debug
+> logging in case the passed in link rate or lane count are zero. There's
+> no further error checking as such, and the function returns 0.
+>
+> There should be no case where the parameters are zero. The returned
+> value is generally used as a divisor, and if we were hitting this, we'd
+> be seeing division by zero.
+>
+> Just remove the debug logging altogether, along with the mgr parameter,
+> so that the function can be used in non-MST contexts without the
+> topology manager.
+>
+> v2: Also remove drm_dp_mst_helper_tests_init as unnecessary (Imre)
+>
+> Cc: Imre Deak <imre.deak@intel.com>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Reviewed-by: Imre Deak <imre.deak@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 
-This patch adds the missing bl entry initialization for mcp77 display
-engine to recover the backlight control.
+Maarten, Maxime, Thomas, ack for merging this via drm-intel along with
+the rest of the series?
 
-Fixes: 2274ce7e3681 ("drm/nouveau/disp: add output backlight control methods")
-Cc: <stable@vger.kernel.org>
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1223838
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
+BR,
+Jani.
 
-The previous submission seemed fallin in a crack:
-  https://lore.kernel.org/all/20240517110853.8481-1-tiwai@suse.de/
-so just resending it.
 
- drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c | 1 +
- 1 file changed, 1 insertion(+)
+> ---
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c  | 10 ++--------
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c    |  3 +--
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c        |  3 +--
+>  drivers/gpu/drm/tests/drm_dp_mst_helper_test.c | 17 +----------------
+>  include/drm/display/drm_dp_mst_helper.h        |  3 +--
+>  5 files changed, 6 insertions(+), 30 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index f8cd094efa3c..06c91c5b7f7c 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -3572,8 +3572,7 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+>  }
+>  
+>  /**
+> - * drm_dp_get_vc_payload_bw - get the VC payload BW for an MST link
+> - * @mgr: The &drm_dp_mst_topology_mgr to use
+> + * drm_dp_get_vc_payload_bw - get the VC payload BW for an MTP link
+>   * @link_rate: link rate in 10kbits/s units
+>   * @link_lane_count: lane count
+>   *
+> @@ -3584,17 +3583,12 @@ static int drm_dp_send_up_ack_reply(struct drm_dp_mst_topology_mgr *mgr,
+>   *
+>   * Returns the BW / timeslot value in 20.12 fixed point format.
+>   */
+> -fixed20_12 drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> -				    int link_rate, int link_lane_count)
+> +fixed20_12 drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count)
+>  {
+>  	int ch_coding_efficiency =
+>  		drm_dp_bw_channel_coding_efficiency(drm_dp_is_uhbr_rate(link_rate));
+>  	fixed20_12 ret;
+>  
+> -	if (link_rate == 0 || link_lane_count == 0)
+> -		drm_dbg_kms(mgr->dev, "invalid link rate/lane count: (%d / %d)\n",
+> -			    link_rate, link_lane_count);
+> -
+>  	/* See DP v2.0 2.6.4.2, 2.7.6.3 VCPayload_Bandwidth_for_OneTimeSlotPer_MTP_Allocation */
+>  	ret.full = DIV_ROUND_DOWN_ULL(mul_u32_u32(link_rate * link_lane_count,
+>  						  ch_coding_efficiency),
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index fffd199999e0..ca091ed291d5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -244,8 +244,7 @@ static int mst_stream_find_vcpi_slots_for_bpp(struct intel_dp *intel_dp,
+>  		crtc_state->fec_enable = !intel_dp_is_uhbr(crtc_state);
+>  	}
+>  
+> -	mst_state->pbn_div = drm_dp_get_vc_payload_bw(&intel_dp->mst_mgr,
+> -						      crtc_state->port_clock,
+> +	mst_state->pbn_div = drm_dp_get_vc_payload_bw(crtc_state->port_clock,
+>  						      crtc_state->lane_count);
+>  
+>  	max_dpt_bpp = intel_dp_mst_max_dpt_bpp(crtc_state, dsc);
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> index 8097249612bc..62d72b7a8d04 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -992,8 +992,7 @@ nv50_msto_atomic_check(struct drm_encoder *encoder,
+>  	if (!mst_state->pbn_div.full) {
+>  		struct nouveau_encoder *outp = mstc->mstm->outp;
+>  
+> -		mst_state->pbn_div = drm_dp_get_vc_payload_bw(&mstm->mgr,
+> -							      outp->dp.link_bw, outp->dp.link_nr);
+> +		mst_state->pbn_div = drm_dp_get_vc_payload_bw(outp->dp.link_bw, outp->dp.link_nr);
+>  	}
+>  
+>  	slots = drm_dp_atomic_find_time_slots(state, &mstm->mgr, mstc->port, asyh->dp.pbn);
+> diff --git a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> index 89cd9e4f4d32..9e0e2fb65944 100644
+> --- a/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_dp_mst_helper_test.c
+> @@ -199,10 +199,8 @@ static const struct drm_dp_mst_calc_pbn_div_test drm_dp_mst_calc_pbn_div_dp1_4_c
+>  static void drm_test_dp_mst_calc_pbn_div(struct kunit *test)
+>  {
+>  	const struct drm_dp_mst_calc_pbn_div_test *params = test->param_value;
+> -	/* mgr->dev is only needed by drm_dbg_kms(), but it's not called for the test cases. */
+> -	struct drm_dp_mst_topology_mgr *mgr = test->priv;
+>  
+> -	KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(mgr, params->link_rate, params->lane_count).full,
+> +	KUNIT_EXPECT_EQ(test, drm_dp_get_vc_payload_bw(params->link_rate, params->lane_count).full,
+>  			params->expected.full);
+>  }
+>  
+> @@ -568,21 +566,8 @@ static struct kunit_case drm_dp_mst_helper_tests[] = {
+>  	{ }
+>  };
+>  
+> -static int drm_dp_mst_helper_tests_init(struct kunit *test)
+> -{
+> -	struct drm_dp_mst_topology_mgr *mgr;
+> -
+> -	mgr = kunit_kzalloc(test, sizeof(*mgr), GFP_KERNEL);
+> -	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mgr);
+> -
+> -	test->priv = mgr;
+> -
+> -	return 0;
+> -}
+> -
+>  static struct kunit_suite drm_dp_mst_helper_test_suite = {
+>  	.name = "drm_dp_mst_helper",
+> -	.init = drm_dp_mst_helper_tests_init,
+>  	.test_cases = drm_dp_mst_helper_tests,
+>  };
+>  
+> diff --git a/include/drm/display/drm_dp_mst_helper.h b/include/drm/display/drm_dp_mst_helper.h
+> index a80ba457a858..e39de161c938 100644
+> --- a/include/drm/display/drm_dp_mst_helper.h
+> +++ b/include/drm/display/drm_dp_mst_helper.h
+> @@ -867,8 +867,7 @@ struct edid *drm_dp_mst_get_edid(struct drm_connector *connector,
+>  				 struct drm_dp_mst_topology_mgr *mgr,
+>  				 struct drm_dp_mst_port *port);
+>  
+> -fixed20_12 drm_dp_get_vc_payload_bw(const struct drm_dp_mst_topology_mgr *mgr,
+> -				    int link_rate, int link_lane_count);
+> +fixed20_12 drm_dp_get_vc_payload_bw(int link_rate, int link_lane_count);
+>  
+>  int drm_dp_calc_pbn_mode(int clock, int bpp);
 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-index 841e3b69fcaf..5a0c9b8a79f3 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-@@ -31,6 +31,7 @@ mcp77_sor = {
- 	.state = g94_sor_state,
- 	.power = nv50_sor_power,
- 	.clock = nv50_sor_clock,
-+	.bl = &nv50_sor_bl,
- 	.hdmi = &g84_sor_hdmi,
- 	.dp = &g94_sor_dp,
- };
 -- 
-2.43.0
-
+Jani Nikula, Intel
