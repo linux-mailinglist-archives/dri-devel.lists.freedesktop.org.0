@@ -2,91 +2,206 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919C49FF9B3
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 14:11:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 816669FF9C2
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 14:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DAAF10E24F;
-	Thu,  2 Jan 2025 13:11:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B00A10E0C6;
+	Thu,  2 Jan 2025 13:21:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X39+Mj6T";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zr+T/JE7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF1AF10E24F
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 13:11:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1735823483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YltHdIy9gcB5XKI4JktxGoNRQsZ1+DIiuCU0Wd2laH4=;
- b=X39+Mj6TnDyaQVdpgeRD4Tu5Q4tWWD2UxSygkAep/VQzAtdKXzPlAiUBIXn48zXy3cPGfw
- zuIwZgefDKH49CfgC6zgui1/3qaQ1xi3LrDbruKayEamKrFKMvx8rAu0eY8YByixutbjf6
- tw5X83fio+M3TzdwiPlCkjUi3gJYHD0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-42-t9ozPNE0OX-OOE0VX1KRqA-1; Thu, 02 Jan 2025 08:11:21 -0500
-X-MC-Unique: t9ozPNE0OX-OOE0VX1KRqA-1
-X-Mimecast-MFC-AGG-ID: t9ozPNE0OX-OOE0VX1KRqA
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4361fc2b2d6so25883435e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2025 05:11:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735823480; x=1736428280;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p8anlJkrponu5ZTrt3fIGRaIMtBUU7U1N8cON9ykIf4=;
- b=l9CFdLvcIFvq2AliIzOEQa2wzWGIDKt6gem2AoCUpvpq67esbDwgEue1wyXv1VN+vv
- T7mebbqtaj4LE6U8lkxUwL6NEomEMyzDAV5JWeUorqJ9Y/wiMIZMgnNf0SgCoSFHzDVT
- 8BaN+tVVGDYWGzRO0+HWYo5jOlZqscpXX4uGrGqY0vM0SxqxWFNSZDhlBPEfHWO9RoQL
- X2YikwDBGGmEC+ce1ca95AOIlCthoXXXJdPWWggH4vRn5Do62ZpaY4XiB+hy7TVuB2qn
- nrv91YBB/wg/xDrJiB+xEPaKP5oxMI232k0mel1KJ8W8GxsSyX3qG6zMFtUvKq1V3NWn
- MtYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrLq2AG3dABzJhqQxZzdIx/ghir1kwMjMeNSZcdLlREmtNIcfk9Vw2G6bM7ZWNa7fOVBDJsDWDIOU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCvTgTZ2t8U2j57266i21EUS3bKYrya85a1hbIxKIhK54lM7gD
- iU8U3AFrMWCvdlo8US92IPjcmpOfS3HHm8b7V2eeyrkJGtKTz2Rg8HqDLslBIAiqJsNAcPbSUJm
- 1YTsZh0tIF+SueDATX1aHLL4murFR+TzvV/hGZbK1cduQfytC7RlpIg5sbD1EaRirgA==
-X-Gm-Gg: ASbGnctPMGWzO2bBnJCXvXU8a3YX9gG1brT/+ozl6D/Vn6gKbcxPVpxNfthoCyCLYM4
- UY6P5MdFU3wO9vhX7e77br2sVA6vVBXIRAFgqtWJdp37RphPuO37pPX/70/oAblR0rXilvnIvfb
- ALtY++KpL07SnFin5B0WNvL6paoO3GXz/eqobZo5T6FIj1nwQ/kVcFwCVbqJkjABwHLu9UnYapY
- POXS4ygQyAYYIL5VI+YysOBXrdyuQGpjHAyqQPNUjMm5/HKXtJfgQeQmKlk2rep3yOoTUbXvmbC
- OYCO23Y=
-X-Received: by 2002:a05:600c:4510:b0:436:5fc9:30ba with SMTP id
- 5b1f17b1804b1-43668b783d0mr361650835e9.29.1735823480492; 
- Thu, 02 Jan 2025 05:11:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG0Ti4snKdBM2ZXepcFXxzBEBidjv7wCyF51HVD1LiBR2+XI1FTktw4coB5QRsELl/bHTifyQ==
-X-Received: by 2002:a05:600c:4510:b0:436:5fc9:30ba with SMTP id
- 5b1f17b1804b1-43668b783d0mr361650615e9.29.1735823480117; 
- Thu, 02 Jan 2025 05:11:20 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c828a8dsm38402003f8f.2.2025.01.02.05.11.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2025 05:11:19 -0800 (PST)
-Message-ID: <2bab43a317a2049fc81993f694de9c0b8fae9700.camel@redhat.com>
-Subject: Re: [RFC 08/14] drm/sched: Add deadline policy
-From: Philipp Stanner <pstanner@redhat.com>
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
- Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>
-Date: Thu, 02 Jan 2025 14:11:18 +0100
-In-Reply-To: <20241230165259.95855-9-tursulin@igalia.com>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <20241230165259.95855-9-tursulin@igalia.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C60810E0C6;
+ Thu,  2 Jan 2025 13:21:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735824093; x=1767360093;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=xpAKtWRVJd+dNNRwX4u9VDDcel9mTjuNBvArS30HMUM=;
+ b=Zr+T/JE7x3I8ppCGPcWioOD7vRBuXxppfEeQIFsu+Ra69G5Yo2/UcmkT
+ pP45mrs+oCUJWtYslHOVus4heIAWZQGs8J4L+Mt/9Z2DNVv8nMdzssPsM
+ jH6PNNzQ2oQlcC0Fzt4iolRAibchBktXc8KEUD30lwbJSBewdzMdrP0s/
+ 9o29qAX8ry7kE6SPPiNhoM1GE7KgZUWUMcmN30U33DgMyw4Svan4fpUsY
+ sgJJjzplq4y/C2rO27lzJEfm5DUUulo1mz6MkFFHC4RMeFavmqlwT+AMK
+ 48wvo14tp+IKhQgT4/4Uiu7zz+NoRgoxnVS81EjGA8BLYksY0zYKbOkb2 g==;
+X-CSE-ConnectionGUID: VLA78pE9TQONCFuKnd5g0Q==
+X-CSE-MsgGUID: rIjzfQokTMq+BclHtBDUAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="36281900"
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="36281900"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 05:21:33 -0800
+X-CSE-ConnectionGUID: W1V9LIDKR5SD4axYnOnxhA==
+X-CSE-MsgGUID: rQXu7t2FTi2hhDDjftN8Wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="101347385"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 02 Jan 2025 05:21:33 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 2 Jan 2025 05:21:32 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 2 Jan 2025 05:21:32 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 2 Jan 2025 05:21:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U6m2HOkocQGWelWoAXSJ01vikZwjh0ZEzIfxtzQ26w+lmgE5suGvdK88uugsCUgUMGEOd0PKP2lD+Z+udsZEHBh0KZlkJltRC7gRCo4wJsLDmBgUQ2e/yQ4rg571EGRdyhVBBZHJcrod3hpx+aJUUyWfuqb3gstAaQaSC0OB4XsKJnwMdYXEjN3NE2FOGKuv47gSrQXZqYhOFeiHNxSAfsub4yTNmXsgFhnvPja8AO2WbarRTPSq8Z/fej1J2v+wyGqe9ZZ6844/5Ff9Wlo+ta/tB7+cYHJTnvp5YpJ707L4KOg3IgjL4rCkmTI0Q2NcaDu8x7VRjg0KcDKEVKHDIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xpAKtWRVJd+dNNRwX4u9VDDcel9mTjuNBvArS30HMUM=;
+ b=ZSMfIhs2J8G3ri+Gd9n9lmdB7l8Yzb9uNGQ3dCceBprEjHv30kWcEkzZoTFFS4TU5ElBuGyEx1Fj28Zi0lSaQQXFJdVnjsh4bIEwK+sq/q1nc01igzKKwILvEj0cbivJzXXJ/g4mbmmNiAjq1gs77vDpP/5Oh8mxzCVGtQ0Yal84oT/5zL/qZM5drY2IbUG4Zm8kK5cIK3xQ2tTHtnRCSxbJf0/7//1NpdyOoLmRCHTkyV/SjKrCeE57ZcwgLyO3c6277zKC3iN2ylvSZUui367DHSitVmgc0W3P4cl7Gic/vFDI9H0IjHMwqsUttgDp+u/93Lk40R1vPa1vmWox9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com (2603:10b6:930:3a::8)
+ by PH7PR11MB8569.namprd11.prod.outlook.com (2603:10b6:510:304::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.12; Thu, 2 Jan
+ 2025 13:20:44 +0000
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::6826:6928:9e6:d778]) by CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::6826:6928:9e6:d778%3]) with mapi id 15.20.8314.012; Thu, 2 Jan 2025
+ 13:20:44 +0000
+From: "Usyskin, Alexander" <alexander.usyskin@intel.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, "Vignesh
+ Raghavendra" <vigneshr@ti.com>, "De Marchi, Lucas"
+ <lucas.demarchi@intel.com>, =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?=
+ <thomas.hellstrom@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Poosa, Karthik" <karthik.poosa@intel.com>
+CC: "Abliyev, Reuven" <reuven.abliyev@intel.com>, "Weil, Oren jer"
+ <oren.jer.weil@intel.com>, "linux-mtd@lists.infradead.org"
+ <linux-mtd@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Tomas Winkler <tomasw@gmail.com>
+Subject: RE: [PATCH v4 02/11] mtd: add driver for intel graphics non-volatile
+ memory device
+Thread-Topic: [PATCH v4 02/11] mtd: add driver for intel graphics non-volatile
+ memory device
+Thread-Index: AQHbXGTtGGP/1CG3iUSlqIRDeU09/rMDSnCAgAApEzA=
+Date: Thu, 2 Jan 2025 13:20:44 +0000
+Message-ID: <CY5PR11MB6366A3FD539462F8473D24DCED142@CY5PR11MB6366.namprd11.prod.outlook.com>
+References: <20250101153925.865703-1-alexander.usyskin@intel.com>
+ <20250101153925.865703-3-alexander.usyskin@intel.com>
+ <2c89e56d-26e9-4ef6-9da3-4b0121163b30@wanadoo.fr>
+In-Reply-To: <2c89e56d-26e9-4ef6-9da3-4b0121163b30@wanadoo.fr>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6366:EE_|PH7PR11MB8569:EE_
+x-ms-office365-filtering-correlation-id: da835260-3e97-485a-01f4-08dd2b30438c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|38070700018|921020; 
+x-microsoft-antispam-message-info: =?utf-8?B?aTB4SFBQc1ZSYS9JR0FrOTR0YnJOeGdFMkpla2o2L1FWVjFWdlhFdFRJWmwx?=
+ =?utf-8?B?STJiN216RWV5ajRiWGFwSFVHODBRZ2lKOHN4ZmdqVGhoRlBEdEJaWGRpVVVF?=
+ =?utf-8?B?OG9UcHhvTEJjMWF1UEtObDFvenUzaHFIZUtLMlVyL3BCa0dPTWI1S2xRYVd3?=
+ =?utf-8?B?cWtBVDlmRWYvWHFmMU9FTjQ0NGRjMnNZdjJDalQ4T3Uzdi9VOTFJemRtb0Qv?=
+ =?utf-8?B?ckVWZmQ4VU04T3h6MlVRRnU2R1k5TCs0d2lFeWYwSTFST2ZmcXVNWVowUEdi?=
+ =?utf-8?B?cGlWZHRLQjZRTERQN2h1L0hPWmJnY01qU3MzT0l4L3NxdmM3MmpJOUI1QjlL?=
+ =?utf-8?B?WGVNYmRYajY0M0NaQU91bUVmd29qYlovVTFQSXBzQk5QdzUvUkN2a3NtRExZ?=
+ =?utf-8?B?dUR0MnBybXNzN3BhWVVabUdXbTJhcnJKeDR1WC8rVHUrcjYyY01TWHdvRlpt?=
+ =?utf-8?B?bCtzU3lkMWFweXlLdmFQRVNaSXdqRWo2dGN2ZEdpT0U2OHJTenVHbFhmdU1z?=
+ =?utf-8?B?SUlEK1JVSnU0YjQ4SU1UNlZMTkY3YTJrUTYzRGVkV2RpZlhhcVpUNHNVaWR6?=
+ =?utf-8?B?UEF4SXp6YlpSTmFXeVo5ZkcwVlNwTXBnRHc1byttKzh5U2xObStrVUJZd2lN?=
+ =?utf-8?B?TXgyaldVWEUwNXJLZG1xc1RkRkhiVVFzQjB6VWhUOU1jMFBMbUptMEhVK3hU?=
+ =?utf-8?B?U2p5ZVljUFRXVzRlNVdIOFRjRmpwRm9XakRVT01UTVpLOEdyQWhOVzVGKzFl?=
+ =?utf-8?B?MmVub2d1NU9NdDMrRVVlRVlac3FJQWhPRGhibHdrRVBvNFpPeTlFcWtpNHEw?=
+ =?utf-8?B?TU84eERMZGxBMmpwdDFCbWIwTnFYZGdUVHhaY3piaFkzaDZyTzR0T3QvMS9n?=
+ =?utf-8?B?Mm00UTdzeXlGQlN1S3I0WE5NTGk2MUtkd3M2L0NnM0YzL2pGUWtNZEdDME41?=
+ =?utf-8?B?OEUxU0xCMThjN0paa3d3L1F3WndhN1FqTXYydThPaWx5MmpzSHZ1WDd4cjRO?=
+ =?utf-8?B?NDZYaytmbnRGaFMyYzg2Z1ovbE55MTY0ek4wc2RSdENsY0hyYk9GSEZDVkxK?=
+ =?utf-8?B?ZXdHMk5DUFhIUnpLUnFpRjlhbVdGRkdaZEIrcldXamFkYUtDSmJXZWJQRy9t?=
+ =?utf-8?B?MUZXT1BNSXdsaHlFMGFqOGpndHJtOTBQYkNTc3JBbkNBNFZUMnhBcnAvcE5T?=
+ =?utf-8?B?WXZaV2xtZlljRU9MZGl2dDlBZk1QbzVWY1Z0WGY3cEJJM1VVejBCb2QvZ3dC?=
+ =?utf-8?B?Yzgza2hjaXFyMDFyNmVESE5WV2tnWnozazF2QmROdndMR3VPRngwTXpTNFR0?=
+ =?utf-8?B?b2RQSzFqZW03TUtzWi90dWxWc3ZzVXNmUVlCc3hNd1RHSVNZaXdtWW9UR3U5?=
+ =?utf-8?B?b2d3U3RIakM3dExQWWE0aklFYjZybVREL2ZkZUZyd0oyTjFyQlFjckZyYkdr?=
+ =?utf-8?B?dm14MTBuRDFGNEo0YjhGaUpQWTVyaXM5MDJqVkdTVkxkOGVKRnlGSy9HbWRP?=
+ =?utf-8?B?RUd3TW15a3JveUdHaTZNSUZpSHc3ZitycnBSdFlsYXprSzhaS1pVUyttYzVp?=
+ =?utf-8?B?SFJLbXlrZEp6MUtKbDFaRFYwQnhDMS8vcGRXdEI4c2docGNRSE84OWN2ankx?=
+ =?utf-8?B?N3phN3VzKzdUUEUrRDQ2R2JYOTJ0VERZM003dHFGTDRidXA3ZjRsMVRub0R1?=
+ =?utf-8?B?Nml0VlZDRCtyMlZMaXNaaEpOZExhK2lYVk1RQ0FpS2g5ZU9KcG55c05mRDR3?=
+ =?utf-8?B?dmlBaGkrSG8zL2J5VFl0RjJJTUJTQU5SMm9MVnYrVC9VUm4xSnI2OEMrUXdH?=
+ =?utf-8?B?ckhCMm1mblFycTIwcDNSZWlNSTM5UzlNeGhabzVSZmxmNFVqUXU4WnNZY1VZ?=
+ =?utf-8?B?dUh4UXlGMTAwS01TOFJpcDlUaE12ekVTYWxGS1VZNi9RVUJWTURoWEpUaGhw?=
+ =?utf-8?B?Sks0M2dBdHhIcHFOT1VJdk0zOHdQcm9DMEE0M3MvQjZCUmJUcUNIUjhqU2RU?=
+ =?utf-8?B?cmNWZHEvb0pBPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6366.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018)(921020);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WWZyUnNUbjJwd0MzTzhHQ1c3K0NBOStkS1lQYS9uWlk1SjRzL1QzRmRpU0RZ?=
+ =?utf-8?B?SlJjVnZwSWczTk1KVWxjM3laYnZEMWFtTTFKd0g1T21zZCt5bkM4T3A4bWRS?=
+ =?utf-8?B?TitPWFA3dWwxZkoyUkxsLzFrVUdwai85YmtMWXZRVXBROG5ibU9OWVBKY3RE?=
+ =?utf-8?B?WUpOZEgyc3lETWpYU21wM3grbENZZVA2Tm85dlp2ZmhrSHAzczRXSUNiYmM2?=
+ =?utf-8?B?ZXlRTllnUW5CcW9hTXN2My9QVDVKSURnR2tLZTdDQllkVWoxNHhlY1QxbXc0?=
+ =?utf-8?B?UVJwZUdWYmN5MDJhWE1MRnlqTmRMbGRKNHJ4VzFDaHRnVkR3cEpGZkNOdUl3?=
+ =?utf-8?B?czdpKzFlOHcycU1tY2doZ2IxUTFkV2NNdHNCQ01tOVZ2L0I5WW1Jb0wwMWxC?=
+ =?utf-8?B?YU9jdk0wczRJSGhDWnJoV0ovalJpQ0d4UWxNcmxsYmZnWW54c2RaTzNqTWx0?=
+ =?utf-8?B?bUJJdW53aWU0aEJsZUh2NnZJUnVkNHBScVpUcnBiTGZxekVzSWRzdEZ3RWx3?=
+ =?utf-8?B?T0NuU1NUbDdsV3M3enM3eWk1ZTE1L21QY081bUs1cWpkVThxS3VlaEJPeFA4?=
+ =?utf-8?B?ZmQ0ZWZRZ2VETkd3dXdFTUFCTDh0ZTEzOHkrQ1BENlFDY0hMTjhvellHb3Zm?=
+ =?utf-8?B?cjBwZFdCcGR5cXg5dU9pdldwRTI0Smw4K1B5dXFJQlNvMnpjbElKWUt0ZTVa?=
+ =?utf-8?B?RW1lVzJVdUNCbU9jN3U3ZXNzMFNnMC8raGlhcTZQbXhqTUI2ejRlZ1JFSmh0?=
+ =?utf-8?B?OGlvbWhpVTR1TS9EakxjTU5WTDdMQVg2RGk4Y05Dd0V3bmlrb3VFUnRJZHk3?=
+ =?utf-8?B?YU5SR2haTlNDSVlJbFJLcksvOVkzRzFSdDlGK2UvUy84dEU5N0g2bS83WDc3?=
+ =?utf-8?B?RjVGdHFPSDhEVEJaMXRwMUhzQUk3YzRZajBzSVlCamN4YzhUd3FxRnBXc2VL?=
+ =?utf-8?B?U0p1ZTRNZE9lSFl6anorYkFiTXdOSklaTmloUDlYM1AyL0ZNQS9iRG1LNnZE?=
+ =?utf-8?B?dXlsSytJblZveC80Z0RXMnl5N0hCZHlxZVhRaGQzSU1wcTN2d3dpVjhHV1lB?=
+ =?utf-8?B?em5FNkZ3MEZkSlZQeXBwYkJxMzJLN0tpRlI5N3UvTW44MFIzY0xRd0VDc1E3?=
+ =?utf-8?B?c0x5VEpsVmJlN295dWJ3YlMwczlSVmVVaS9zelRENlJ0V1FvdFZSRmp1SUsy?=
+ =?utf-8?B?VytDUytwZnRWYVN3MFZUZEhWTERlU3p3UGNaWFhZRWlIdHJOMHF0OFkxQ1M3?=
+ =?utf-8?B?ekI5enRDM1Eyc2cyVnZEampldWpaMXBOaStBdmVJai9rd2FwbDlSck5mdFBi?=
+ =?utf-8?B?Q1NST2RiOHByT3plMEtwTzZ1VWp6NytUZmswT3NlS0F1S2trMzZONUdYVHlt?=
+ =?utf-8?B?MFl2OUs0TUJKeHhaSHhLamEvUVBta2lUVDNycHZ6Mm5YeTZUdnNUWWc2bkZi?=
+ =?utf-8?B?SG95THA1TzY3N1ZMUEtVNUxnRUFCZFA2UUs3aXhTR0k5dWVCRXNaY2xOencv?=
+ =?utf-8?B?b3d0TU1oUTNLb2hCM25TNkF4QXdqTXU0L2plc3k0SEhPdWF1Y1pRUEVoL0s4?=
+ =?utf-8?B?L0dGSHpTL3NSc1J4T2FrQURTZ1gyVUxvbTlVcWE0QytJakdQMWxaVmduZmdw?=
+ =?utf-8?B?ckIzQ3Z5MUFSUWNqdVU1dDc1azhjd2kycFJVd1ZJRnJpWFBtdTBjSHpMYkwv?=
+ =?utf-8?B?T01QNDNQWnR5OHo1clA0SFR6Z2JXdnZ2M1IrYTJvQ0IyNHhJT2NJRk0vTmg5?=
+ =?utf-8?B?ZG1ha21MVUxkUnR4cm16aCtTYjFZWUxTUnJPMlR1b3g0RVBTM1kzZENIUFZm?=
+ =?utf-8?B?eXlXUmFFNDdLeEtpUlFpUmlsL3NQWVcrM0lqckFQNlJ5MXkvSUJuSW5wbHpk?=
+ =?utf-8?B?YUJQTzlXSTJiTmNPYjN3aE9aNnA2M3QxTHkrWCtSczNpbW9BSXBPSWNSc0ZM?=
+ =?utf-8?B?VER4MmEyWUZreUNVbTd1K2xpL0dFa2lPNVZLOHN6ZHRkd0RieERjVlhjYi9J?=
+ =?utf-8?B?bkRFbjJwOEo3Y28rM2VMZWpKc3EvMjJVeUpRTEdDQ0VFR1pJOVJmY0ltM1Nr?=
+ =?utf-8?B?QU5uTnhzZVZOWjE5dFYwZzBnWWxYV1pZQlpYNmR5aFZIUlZPNkE0cS9hTDlx?=
+ =?utf-8?Q?r6RDM9fg0/RK9JKFLQxY9zSok?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: q2v6_uiobAxH1_dCpPLqS3NXfeMZjfg2iQa8pIVsCTA_1735823481
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6366.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da835260-3e97-485a-01f4-08dd2b30438c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jan 2025 13:20:44.7871 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MsEQVxgGNU7jNPOCI8HglpBQgN8UqvkU0HZJDDYUpCjR3vhoxtw+cb9r7gBLTFt3kkii+6IYh+7bgMQghLJYyNY+SdEt4NjmQim73XJOkUs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8569
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,363 +217,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2024-12-30 at 16:52 +0000, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->=20
-> Deadline scheduling policy should be a fairer flavour of FIFO with
-> two
-> main advantages being that it can naturally connect with the dma-
-> fence
-> deadlines, and secondly that it can get away with multiple run queues
-> per
-> scheduler.
->=20
-> From the latter comes the fairness advantage. Where the current FIFO
-> policy will always starve low priority entities by normal, and normal
-> by high etc, deadline tracks all runnable entities in a single run
-> queue
-> and assigns them deadlines based on priority. Instead of being
-> ordered
-> strictly by priority, jobs and entities become ordered by deadlines.
->=20
-> This means that a later higher priority submission can still overtake
-> an
-> earlier lower priority one, but eventually the lower priority will
-> get its
-> turn even if high priority is constantly feeding new work.
-
-So, as you're aware of, this is a major change in behavior. FIFO's
-purpose actually is to be unfair, and my understanding has always been
-that it is on purpose that the higher priority will with absolute
-certainty take precedence.
-
-Reason being that on the high priority things like configuring memory /
-mappings are done, which you want to be prioritized.
-
-IOW in which scenario would you want the low priorities to be able to
-overtake the higher ones?
-
-@Danilo, @Christian?
-
-
->=20
-> Current mapping of priority to deadlines is somewhat arbitrary and
-> looks
-> like this (submit timestamp plus constant offset in micro-seconds):
->=20
-> =09static const unsigned int d_us[] =3D {
-> =09=09[DRM_SCHED_PRIORITY_KERNEL] =3D=C2=A0=C2=A0=C2=A0 100,
-> =09=09[DRM_SCHED_PRIORITY_HIGH]=C2=A0=C2=A0 =3D=C2=A0=C2=A0 1000,
-> =09=09[DRM_SCHED_PRIORITY_NORMAL] =3D=C2=A0=C2=A0 5000,
-> =09=09[DRM_SCHED_PRIORITY_LOW]=C2=A0=C2=A0=C2=A0 =3D 100000,
-> =09};
->=20
-> Assuming simultaneous submission of one normal and one low prioriy
-> job at
-> a time of "t", they will get respective deadlines of t+5ms and
-> t+100ms.
-> Hence normal will run first and low will run after it, or at the
-> latest
-> 100ms after it was submitted in case other higher priority
-> submissions
-> overtake it in the meantime.
->=20
-> Because deadline policy does not need run queues, if the FIFO and RR
-> polices are later removed, that would allow for a significant
-> simplification of the code base by reducing the 1:N to 1:1 scheduler
-> to run queue relationship.
-
-So the proposed upsides for the rework are that a) code can arguably be
-simplified and that b) deadline is fairer than FIFO.
-
-Focusing on b) right now: Have you seen it in the wild that high
-priorities starve lower ones? Is that a problem already?
-
-I assume you have been working on that for a reason =E2=80=93 do you have a
-usecase in amdgpu or similar where the deadline policy improves things
-in a way?
-
-P.
-
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <pstanner@redhat.com>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 53 +++++++++++++++++++--=
--
-> --
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 | 14 ++++---
-> =C2=A0drivers/gpu/drm/scheduler/sched_rq.c=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 5 ++-
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 10 ++++-
-> =C2=A04 files changed, 64 insertions(+), 18 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
-> b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 608bc43ff256..6928ec19ec23 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -71,6 +71,8 @@ int drm_sched_entity_init(struct drm_sched_entity
-> *entity,
-> =C2=A0=09entity->guilty =3D guilty;
-> =C2=A0=09entity->num_sched_list =3D num_sched_list;
-> =C2=A0=09entity->priority =3D priority;
-> +=09entity->rq_priority =3D drm_sched_policy =3D=3D
-> DRM_SCHED_POLICY_DEADLINE ?
-> +=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_KERNEL : prio=
-rity;
-> =C2=A0=09/*
-> =C2=A0=09 * It's perfectly valid to initialize an entity without
-> having a valid
-> =C2=A0=09 * scheduler attached. It's just not valid to use the
-> scheduler before it
-> @@ -87,17 +89,23 @@ int drm_sched_entity_init(struct drm_sched_entity
-> *entity,
-> =C2=A0=09=09 */
-> =C2=A0=09=09pr_warn("%s: called with uninitialized scheduler\n",
-> __func__);
-> =C2=A0=09} else if (num_sched_list) {
-> -=09=09/* The "priority" of an entity cannot exceed the
-> number of run-queues of a
-> -=09=09 * scheduler. Protect against num_rqs being 0, by
-> converting to signed. Choose
-> -=09=09 * the lowest priority available.
-> +=09=09enum drm_sched_priority p =3D entity->priority;
-> +
-> +=09=09/*
-> +=09=09 * The "priority" of an entity cannot exceed the
-> number of
-> +=09=09 * run-queues of a scheduler. Protect against
-> num_rqs being 0,
-> +=09=09 * by converting to signed. Choose the lowest
-> priority
-> +=09=09 * available.
-> =C2=A0=09=09 */
-> -=09=09if (entity->priority >=3D sched_list[0]->num_rqs) {
-> -=09=09=09drm_err(sched_list[0], "entity with out-of-
-> bounds priority:%u num_rqs:%u\n",
-> -=09=09=09=09entity->priority, sched_list[0]-
-> >num_rqs);
-> -=09=09=09entity->priority =3D max_t(s32, (s32)
-> sched_list[0]->num_rqs - 1,
-> -=09=09=09=09=09=09 (s32)
-> DRM_SCHED_PRIORITY_KERNEL);
-> +=09=09if (p >=3D sched_list[0]->num_user_rqs) {
-> +=09=09=09drm_err(sched_list[0], "entity with out-of-
-> bounds priority:%u num_user_rqs:%u\n",
-> +=09=09=09=09p, sched_list[0]->num_user_rqs);
-> +=09=09=09p =3D max_t(s32,
-> +=09=09=09=09 (s32)sched_list[0]->num_user_rqs -
-> 1,
-> +=09=09=09=09 (s32)DRM_SCHED_PRIORITY_KERNEL);
-> +=09=09=09entity->priority =3D p;
-> =C2=A0=09=09}
-> -=09=09entity->rq =3D sched_list[0]->sched_rq[entity-
-> >priority];
-> +=09=09entity->rq =3D sched_list[0]->sched_rq[entity-
-> >rq_priority];
-> =C2=A0=09}
-> =C2=A0
-> =C2=A0=09init_completion(&entity->entity_idle);
-> @@ -377,6 +385,27 @@ void drm_sched_entity_set_priority(struct
-> drm_sched_entity *entity,
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(drm_sched_entity_set_priority);
-> =C2=A0
-> +static ktime_t
-> +__drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
-> +=09=09=09=09=C2=A0=C2=A0=C2=A0 ktime_t submit_ts)
-> +{
-> +=09static const unsigned int d_us[] =3D {
-> +=09=09[DRM_SCHED_PRIORITY_KERNEL] =3D=C2=A0=C2=A0=C2=A0 100,
-> +=09=09[DRM_SCHED_PRIORITY_HIGH]=C2=A0=C2=A0 =3D=C2=A0=C2=A0 1000,
-> +=09=09[DRM_SCHED_PRIORITY_NORMAL] =3D=C2=A0=C2=A0 5000,
-> +=09=09[DRM_SCHED_PRIORITY_LOW]=C2=A0=C2=A0=C2=A0 =3D 100000,
-> +=09};
-> +
-> +=09return ktime_add_us(submit_ts, d_us[entity->priority]);
-> +}
-> +
-> +ktime_t
-> +drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
-> +=09=09=09=09=C2=A0 struct drm_sched_job *job)
-> +{
-> +=09return __drm_sched_entity_get_job_deadline(entity, job-
-> >submit_ts);
-> +}
-> +
-> =C2=A0/*
-> =C2=A0 * drm_sched_entity_wakeup - callback to clear the entity's
-> dependency and
-> =C2=A0 * wake up the scheduler
-> @@ -503,7 +532,7 @@ void drm_sched_entity_select_rq(struct
-> drm_sched_entity *entity)
-> =C2=A0
-> =C2=A0=09spin_lock(&entity->lock);
-> =C2=A0=09sched =3D drm_sched_pick_best(entity->sched_list, entity-
-> >num_sched_list);
-> -=09rq =3D sched ? sched->sched_rq[entity->priority] : NULL;
-> +=09rq =3D sched ? sched->sched_rq[entity->rq_priority] : NULL;
-> =C2=A0=09if (rq !=3D entity->rq) {
-> =C2=A0=09=09drm_sched_rq_remove_entity(entity->rq, entity);
-> =C2=A0=09=09entity->rq =3D rq;
-> @@ -547,6 +576,10 @@ void drm_sched_entity_push_job(struct
-> drm_sched_job *sched_job)
-> =C2=A0=09if (first) {
-> =C2=A0=09=09struct drm_gpu_scheduler *sched;
-> =C2=A0
-> +=09=09if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_DEADLINE)
-> +=09=09=09submit_ts =3D
-> __drm_sched_entity_get_job_deadline(entity,
-> +=09=09=09=09=09=09=09=09
-> =09submit_ts);
-> +
-> =C2=A0=09=09sched =3D drm_sched_rq_add_entity(entity->rq, entity,
-> submit_ts);
-> =C2=A0=09=09if (sched)
-> =C2=A0=09=09=09drm_sched_wakeup(sched);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index ba9b0274b185..433bef85eeaf 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -87,13 +87,13 @@ static struct lockdep_map drm_sched_lockdep_map =3D
-> {
-> =C2=A0};
-> =C2=A0#endif
-> =C2=A0
-> -int drm_sched_policy =3D DRM_SCHED_POLICY_FIFO;
-> +int drm_sched_policy =3D DRM_SCHED_POLICY_DEADLINE;
-> =C2=A0
-> =C2=A0/**
-> =C2=A0 * DOC: sched_policy (int)
-> =C2=A0 * Used to override default entities scheduling policy in a run
-> queue.
-> =C2=A0 */
-> -MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for
-> entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " =3D Round
-> Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " =3D FIFO (default).");
-> +MODULE_PARM_DESC(sched_policy, "Specify the scheduling policy for
-> entities on a run-queue, " __stringify(DRM_SCHED_POLICY_RR) " =3D Round
-> Robin, " __stringify(DRM_SCHED_POLICY_FIFO) " =3D FIFO, "
-> __stringify(DRM_SCHED_POLICY_DEADLINE) " =3D Virtual deadline
-> (default).");
-> =C2=A0module_param_named(sched_policy, drm_sched_policy, int, 0444);
-> =C2=A0
-> =C2=A0static u32 drm_sched_available_credits(struct drm_gpu_scheduler
-> *sched)
-> @@ -1109,11 +1109,15 @@ int drm_sched_init(struct drm_gpu_scheduler
-> *sched,
-> =C2=A0=09=09sched->own_submit_wq =3D true;
-> =C2=A0=09}
-> =C2=A0
-> -=09sched->sched_rq =3D kmalloc_array(num_rqs, sizeof(*sched-
-> >sched_rq),
-> +=09sched->num_user_rqs =3D num_rqs;
-> +=09sched->num_rqs =3D drm_sched_policy !=3D
-> DRM_SCHED_POLICY_DEADLINE ?
-> +=09=09=09 num_rqs : 1;
-> +=09sched->sched_rq =3D kmalloc_array(sched->num_rqs,
-> +=09=09=09=09=09sizeof(*sched->sched_rq),
-> =C2=A0=09=09=09=09=09GFP_KERNEL | __GFP_ZERO);
-> =C2=A0=09if (!sched->sched_rq)
-> =C2=A0=09=09goto Out_check_own;
-> -=09sched->num_rqs =3D num_rqs;
-> +
-> =C2=A0=09for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched->num_rqs; i++)
-> {
-> =C2=A0=09=09sched->sched_rq[i] =3D kzalloc(sizeof(*sched-
-> >sched_rq[i]), GFP_KERNEL);
-> =C2=A0=09=09if (!sched->sched_rq[i])
-> @@ -1227,7 +1231,7 @@ void drm_sched_increase_karma(struct
-> drm_sched_job *bad)
-> =C2=A0=09if (bad->s_priority !=3D DRM_SCHED_PRIORITY_KERNEL) {
-> =C2=A0=09=09atomic_inc(&bad->karma);
-> =C2=A0
-> -=09=09for (i =3D DRM_SCHED_PRIORITY_HIGH; i < sched-
-> >num_rqs; i++) {
-> +=09=09for (i =3D DRM_SCHED_PRIORITY_KERNEL; i < sched-
-> >num_rqs; i++) {
-> =C2=A0=09=09=09struct drm_sched_rq *rq =3D sched-
-> >sched_rq[i];
-> =C2=A0
-> =C2=A0=09=09=09spin_lock(&rq->lock);
-> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c
-> b/drivers/gpu/drm/scheduler/sched_rq.c
-> index 5b31e5434d12..a6bb21250350 100644
-> --- a/drivers/gpu/drm/scheduler/sched_rq.c
-> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
-> @@ -152,7 +152,10 @@ void drm_sched_rq_pop_entity(struct drm_sched_rq
-> *rq,
-> =C2=A0=09if (next_job) {
-> =C2=A0=09=09ktime_t ts;
-> =C2=A0
-> -=09=09if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> +=09=09if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_DEADLINE)
-> +=09=09=09ts =3D
-> drm_sched_entity_get_job_deadline(entity,
-> +=09=09=09=09=09=09=09=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> next_job);
-> +=09=09else if (drm_sched_policy =3D=3D DRM_SCHED_POLICY_FIFO)
-> =C2=A0=09=09=09ts =3D next_job->submit_ts;
-> =C2=A0=09=09else
-> =C2=A0=09=09=09ts =3D drm_sched_rq_get_rr_deadline(rq);
-> diff --git a/include/drm/gpu_scheduler.h
-> b/include/drm/gpu_scheduler.h
-> index 6fee85e45d45..7532071fbea8 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -74,8 +74,9 @@ enum drm_sched_priority {
-> =C2=A0/* Used to choose between FIFO and RR job-scheduling */
-> =C2=A0extern int drm_sched_policy;
-> =C2=A0
-> -#define DRM_SCHED_POLICY_RR=C2=A0=C2=A0=C2=A0 0
-> -#define DRM_SCHED_POLICY_FIFO=C2=A0 1
-> +#define DRM_SCHED_POLICY_RR=09=C2=A0 0
-> +#define DRM_SCHED_POLICY_FIFO=09=C2=A0 1
-> +#define DRM_SCHED_POLICY_DEADLINE 2
-> =C2=A0
-> =C2=A0/**
-> =C2=A0 * struct drm_sched_entity - A wrapper around a job queue (typicall=
-y
-> @@ -153,6 +154,8 @@ struct drm_sched_entity {
-> =C2=A0=09 */
-> =C2=A0=09struct spsc_queue=09=09job_queue;
-> =C2=A0
-> +=09enum drm_sched_priority=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 rq_priority;
-> +
-> =C2=A0=09/**
-> =C2=A0=09 * @fence_seq:
-> =C2=A0=09 *
-> @@ -522,6 +525,7 @@ struct drm_gpu_scheduler {
-> =C2=A0=09long=09=09=09=09timeout;
-> =C2=A0=09const char=09=09=09*name;
-> =C2=A0=09u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_rqs;
-> +=09u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 num_user_rqs;
-> =C2=A0=09struct drm_sched_rq=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 **sched_rq;
-> =C2=A0=09wait_queue_head_t=09=09job_scheduled;
-> =C2=A0=09atomic64_t=09=09=09job_id_count;
-> @@ -623,6 +627,8 @@ void drm_sched_entity_set_priority(struct
-> drm_sched_entity *entity,
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 enum drm_sched_priority
-> priority);
-> =C2=A0bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
-> =C2=A0int drm_sched_entity_error(struct drm_sched_entity *entity);
-> +ktime_t drm_sched_entity_get_job_deadline(struct drm_sched_entity
-> *entity,
-> +=09=09=09=09=09=C2=A0 struct drm_sched_job
-> *job);
-> =C2=A0
-> =C2=A0struct drm_sched_fence *drm_sched_fence_alloc(
-> =C2=A0=09struct drm_sched_entity *s_entity, void *owner);
-
+PiAuLi4NCj4gDQo+ID4gK3N0cnVjdCBpbnRlbF9kZ19udm0gew0KPiA+ICsJc3RydWN0IGtyZWYg
+cmVmY250Ow0KPiA+ICsJdm9pZCBfX2lvbWVtICpiYXNlOw0KPiA+ICsJc2l6ZV90IHNpemU7DQo+
+ID4gKwl1bnNpZ25lZCBpbnQgbnJlZ2lvbnM7DQo+ID4gKwlzdHJ1Y3Qgew0KPiA+ICsJCWNvbnN0
+IGNoYXIgKm5hbWU7DQo+ID4gKwkJdTggaWQ7DQo+ID4gKwkJdTY0IG9mZnNldDsNCj4gPiArCQl1
+NjQgc2l6ZTsNCj4gPiArCX0gcmVnaW9uc1tdOw0KPiANCj4gX19jb3VudGVkX2J5KG5yZWdpb25z
+KT8NCj4gDQoNClN1cmUsIHdpbGwgYWRkDQoNCj4gPiArfTsNCj4gPiArDQo+ID4gK3N0YXRpYyB2
+b2lkIGludGVsX2RnX252bV9yZWxlYXNlKHN0cnVjdCBrcmVmICprcmVmKQ0KPiA+ICt7DQo+ID4g
+KwlzdHJ1Y3QgaW50ZWxfZGdfbnZtICpudm0gPSBjb250YWluZXJfb2Yoa3JlZiwgc3RydWN0IGlu
+dGVsX2RnX252bSwNCj4gcmVmY250KTsNCj4gPiArCWludCBpOw0KPiA+ICsNCj4gPiArCXByX2Rl
+YnVnKCJmcmVlaW5nIGludGVsX2RnIG52bVxuIik7DQo+ID4gKwlmb3IgKGkgPSAwOyBpIDwgbnZt
+LT5ucmVnaW9uczsgaSsrKQ0KPiA+ICsJCWtmcmVlKG52bS0+cmVnaW9uc1tpXS5uYW1lKTsNCj4g
+PiArCWtmcmVlKG52bSk7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgaW50ZWxfZGdf
+bXRkX3Byb2JlKHN0cnVjdCBhdXhpbGlhcnlfZGV2aWNlICphdXhfZGV2LA0KPiA+ICsJCQkgICAg
+ICBjb25zdCBzdHJ1Y3QgYXV4aWxpYXJ5X2RldmljZV9pZCAqYXV4X2Rldl9pZCkNCj4gPiArew0K
+PiA+ICsJc3RydWN0IGludGVsX2RnX252bV9kZXYgKmludm0gPQ0KPiBhdXhpbGlhcnlfZGV2X3Rv
+X2ludGVsX2RnX252bV9kZXYoYXV4X2Rldik7DQo+ID4gKwlzdHJ1Y3QgZGV2aWNlICpkZXZpY2U7
+DQo+ID4gKwlzdHJ1Y3QgaW50ZWxfZGdfbnZtICpudm07DQo+ID4gKwl1bnNpZ25lZCBpbnQgbnJl
+Z2lvbnM7DQo+ID4gKwl1bnNpZ25lZCBpbnQgaSwgbjsNCj4gPiArCXNpemVfdCBzaXplOw0KPiA+
+ICsJY2hhciAqbmFtZTsNCj4gPiArCWludCByZXQ7DQo+ID4gKw0KPiA+ICsJZGV2aWNlID0gJmF1
+eF9kZXYtPmRldjsNCj4gPiArDQo+ID4gKwkvKiBjb3VudCBhdmFpbGFibGUgcmVnaW9ucyAqLw0K
+PiA+ICsJZm9yIChucmVnaW9ucyA9IDAsIGkgPSAwOyBpIDwgSU5URUxfREdfTlZNX1JFR0lPTlM7
+IGkrKykgew0KPiA+ICsJCWlmIChpbnZtLT5yZWdpb25zW2ldLm5hbWUpDQo+ID4gKwkJCW5yZWdp
+b25zKys7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJaWYgKCFucmVnaW9ucykgew0KPiA+ICsJCWRl
+dl9lcnIoZGV2aWNlLCAibm8gcmVnaW9ucyBkZWZpbmVkXG4iKTsNCj4gPiArCQlyZXR1cm4gLUVO
+T0RFVjsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlzaXplID0gc2l6ZW9mKCpudm0pICsgc2l6ZW9m
+KG52bS0+cmVnaW9uc1swXSkgKiBucmVnaW9uczsNCj4gDQo+IHN0cnVjdF9zaXplKCk/IChhbmQg
+bWF5YmUgbm8gbmVlZCBmb3Igc2l6ZSkNCj4gDQoNCldpbGwgZG8sIHRoYW5rcyBmb3Igc3VnZ2Vz
+dGlvbg0KDQo+ID4gKwludm0gPSBremFsbG9jKHNpemUsIEdGUF9LRVJORUwpOw0KPiA+ICsJaWYg
+KCFudm0pDQo+ID4gKwkJcmV0dXJuIC1FTk9NRU07DQo+ID4gKw0KPiA+ICsJa3JlZl9pbml0KCZu
+dm0tPnJlZmNudCk7DQo+ID4gKw0KPiA+ICsJbnZtLT5ucmVnaW9ucyA9IG5yZWdpb25zOw0KPiA+
+ICsJZm9yIChuID0gMCwgaSA9IDA7IGkgPCBJTlRFTF9ER19OVk1fUkVHSU9OUzsgaSsrKSB7DQo+
+ID4gKwkJaWYgKCFpbnZtLT5yZWdpb25zW2ldLm5hbWUpDQo+ID4gKwkJCWNvbnRpbnVlOw0KPiA+
+ICsNCj4gPiArCQluYW1lID0ga2FzcHJpbnRmKEdGUF9LRVJORUwsICIlcy4lcyIsDQo+ID4gKwkJ
+CQkgZGV2X25hbWUoJmF1eF9kZXYtPmRldiksIGludm0tDQo+ID5yZWdpb25zW2ldLm5hbWUpOw0K
+PiA+ICsJCWlmICghbmFtZSkNCj4gPiArCQkJY29udGludWU7DQo+ID4gKwkJbnZtLT5yZWdpb25z
+W25dLm5hbWUgPSBuYW1lOw0KPiA+ICsJCW52bS0+cmVnaW9uc1tuXS5pZCA9IGk7DQo+ID4gKwkJ
+bisrOw0KPiA+ICsJfQ0KPiANCj4gU2hvdWxkIHdlIHNldCB0aGUgZXhhY3QgbnVtYmVyIG9mIHJl
+Z2lvbnMsIHNob3VsZCBhIGthc3ByaW50ZigpIGZhaWw/DQo+IAludm0tPm5yZWdpb25zID0gbjsN
+Cj4gVGhpcyB3b3VsZCBtYWtlIF9fY291bnRlZF9ieSBiZSBtb3JlIGFjY3VyYXRlIGluIGl0cyBj
+aGVjay4NCj4gDQoNClNvdW5kcyBnb29kLCB3aWxsIGRvDQoNCj4gPiArDQo+ID4gKwludm0tPmJh
+c2UgPSBkZXZtX2lvcmVtYXBfcmVzb3VyY2UoZGV2aWNlLCAmaW52bS0+YmFyKTsNCj4gPiArCWlm
+IChJU19FUlIobnZtLT5iYXNlKSkgew0KPiA+ICsJCWRldl9lcnIoZGV2aWNlLCAibW1pbyBub3Qg
+bWFwcGVkXG4iKTsNCj4gPiArCQlyZXQgPSBQVFJfRVJSKG52bS0+YmFzZSk7DQo+ID4gKwkJZ290
+byBlcnI7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJZGV2X3NldF9kcnZkYXRhKCZhdXhfZGV2LT5k
+ZXYsIG52bSk7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gKw0KPiA+ICtlcnI6DQo+ID4g
+KwlrcmVmX3B1dCgmbnZtLT5yZWZjbnQsIGludGVsX2RnX252bV9yZWxlYXNlKTsNCj4gPiArCXJl
+dHVybiByZXQ7DQo+ID4gK30NCj4gDQo+IC4uLg0KPiANCj4gQ0oNCg0KLSAtIA0KVGhhbmtzLA0K
+U2FzaGENCg0KDQo=
