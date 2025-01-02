@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B445B9FF9E7
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 14:43:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA1A9FF9F9
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 14:53:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A5C510E3FA;
-	Thu,  2 Jan 2025 13:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A381C10E6F6;
+	Thu,  2 Jan 2025 13:53:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kPmq1f3v";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I4vO9Lb+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F63F10E3FA
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 13:43:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 743865C5F0D
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 13:42:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AD8FC4CEE0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 13:43:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735825399;
- bh=Lf0HL/WDMxh9e4xI2VHJmK8Uk1/y9zM9fP+Yqjx5kXw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=kPmq1f3vTzrv81fg7oblXEuyFGi12fV6K/sxZW/qxfXSUiRj2/Ngv3xGqQmFtb9EB
- 0ORTrqSHMm0AjPwpVpqxb3CRwqUeVCWiAQ4TMAK+J8IeaMzWJTUsj1E/dCs2PT/gRD
- 5uo1bACyeVioXSvSCRuM6S40Hz1qK6cfJIziO5MSe4MoLVXfpsgK1bEi2QKqRIGRUZ
- +CZki6/tTUs/9ZE8zWx5v+0a3HhvAPwA/g86zqfapPb3YojmPYGfzK2xMTlQZ/YM+j
- JHVxPUSadwS2LJpYAPYd0aJGneo/cBwyZsFIX4WYf9MuVRdc9jq90Ydon0dw7Jcg/k
- 3lK5sLTAkX6Zw==
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-2f13acbe29bso14023843a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2025 05:43:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWyolw+tKCTEL8MsiW6UuSQ5caOg2NO/dpz61V9gKZlBJeik+RP1B6o/vAlPriHvQ0oCWv25UM3pgg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzc+C3Dg5BbR9JLhtRDMr1yN0XdL/3RqF0Las8BPJRXrTHX/Vj9
- WbFnpXTS1RqM84uz3JOvsYodUzn3mGJrfj54o0UGsWE5hcrH8SrgdK8jZROO3FRl5mQAYcu54iT
- ZPDpAKrQ2y7JK81AD0jwt2g6Q8g==
-X-Google-Smtp-Source: AGHT+IHCxTQkblgIukaSC0qoCzRgvJzZht4dI4RJs3qplCpdoTIBV1OD+tbt8prOFp1oNASqkY/F9sDtdJoiqhDkTzo=
-X-Received: by 2002:a17:90b:54c4:b0:2ee:e2f6:8abc with SMTP id
- 98e67ed59e1d1-2f44360816cmr69363501a91.10.1735825398962; Thu, 02 Jan 2025
- 05:43:18 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C93810E6EE;
+ Thu,  2 Jan 2025 13:53:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735826023; x=1767362023;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=uFUofVNkwQFYFj3onk4doeE8eT69tQyXfYKkh1B16jE=;
+ b=I4vO9Lb+E0Rv5i4PnYo4hO6tMmwKtk/vL94hNZqO2hTBLe9uguG7nPn+
+ R6qTeL+eGlKP+xs3cM1MElH7Oc6Mhhu6FM0MiF/0HXoD9ecynS6i/2Ox+
+ nqrILYpGPMWgLjWIBVNAMA68XhWwJisPMnppwQ294IS5bG7+pd6tIs//Q
+ d+fRRrzataqfCJHhdbpZFzjtwyNAArCazZHo+UpvrvhwClqUoTdQ/6jRR
+ X0Nx/mhaTgQ6+jNr6AtEblyYvtc8XOAZCMo/iKdwLRvWi5/lPCNh1QzJP
+ Hes3LzmDxXEM81rs7+Knj6nZxcA1d/UAzn8jb3/Wj5+jaWSnhuLTcxHe6 Q==;
+X-CSE-ConnectionGUID: AQXdI6XPTJGU9x2NMdifbA==
+X-CSE-MsgGUID: /cCF2w7eRBqKNf5E1Pjjnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35762425"
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="35762425"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 05:53:43 -0800
+X-CSE-ConnectionGUID: k4YeoYmcTtmTyeN5c+3tGQ==
+X-CSE-MsgGUID: q17qYiowTum09OdB6/cS+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="101598767"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 05:53:40 -0800
+Date: Thu, 2 Jan 2025 15:54:31 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 10/16] drm/i915/ddi: write payload for 128b/132b SST
+Message-ID: <Z3aalx25SVnaBUcN@ideak-desk.fi.intel.com>
+References: <cover.1734643485.git.jani.nikula@intel.com>
+ <5ce97e5f6c2dd4d5ee3181b2d4ed968eb806534c.1734643485.git.jani.nikula@intel.com>
+ <Z3QerVHWpJ5aN8eT@ideak-desk.fi.intel.com>
+ <877c7do5c9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20241204142626.158395-1-fshao@chromium.org>
-In-Reply-To: <20241204142626.158395-1-fshao@chromium.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 2 Jan 2025 21:43:53 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__Wiva0V52ZTY7-vdrNKWeCGWb5KTBp+CHWoNxHxi0Kyw@mail.gmail.com>
-Message-ID: <CAAOTY__Wiva0V52ZTY7-vdrNKWeCGWb5KTBp+CHWoNxHxi0Kyw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/mediatek: dp: Support flexible length of DP
- calibration data
-To: Fei Shao <fshao@chromium.org>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877c7do5c9.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,87 +68,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Fei:
+On Thu, Jan 02, 2025 at 12:52:38PM +0200, Jani Nikula wrote:
+> On Tue, 31 Dec 2024, Imre Deak <imre.deak@intel.com> wrote:
+> > On Thu, Dec 19, 2024 at 11:33:59PM +0200, Jani Nikula wrote:
+> >> Write the payload allocation table for 128b/132b SST. Use VCPID 1 and
+> >> start from slot 0, with dp_m_n.tu slots.
+> >> 
+> >> This is preparation for enabling 128b/132b SST. This path is not
+> >> reachable yet. Indeed, we don't yet compute TU for 128b/132b SST.
+> >> 
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >> ---
+> >>  drivers/gpu/drm/i915/display/intel_ddi.c | 11 +++++++++++
+> >>  1 file changed, 11 insertions(+)
+> >> 
+> >> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> >> index 6f813bf85b23..64528ff8856e 100644
+> >> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> >> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> >> @@ -2669,6 +2669,12 @@ static void mtl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+> >>  	/* 6.o Configure and enable FEC if needed */
+> >>  	intel_ddi_enable_fec(encoder, crtc_state);
+> >>  
+> >> +	/* 7.a 128b/132b SST. */
+> >> +	if (!is_mst && intel_dp_is_uhbr(crtc_state)) {
+> >> +		/* VCPID 1, start slot 0 for 128b/132b, tu slots */
+> >> +		drm_dp_dpcd_write_payload(&intel_dp->aux, 1, 0, crtc_state->dp_m_n.tu);
+> >
+> > I would handle the error by sending a modeset retry uevent. Either way:
+> 
+> Mmmh. The MST code calls intel_dp_queue_modeset_retry_for_link() in
+> response to drm_dp_add_payload_part{1,2}() failures, but nothing
+> else. As in, we don't do anything else (we just plunge on with the
+> enable), and we don't even do that much in response to any other errors.
+> 
+> Our options are limited anyway.
 
-Fei Shao <fshao@chromium.org> =E6=96=BC 2024=E5=B9=B412=E6=9C=884=E6=97=A5 =
-=E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=8810:26=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> The DP calibration data is stored in nvmem cells, and the data layout is
-> described in the `mtk_dp_efuse_fmt` arrays for each platform.
->
-> There is no guarantee that the data is always a 4-length u32 cell array.
-> For example, MT8188 has a data length of 3, preventing it from passing
-> the preliminary check and undergoing calibration.
->
-> Update the logic to support flexible data lengths. Specifically, we
-> validate the length returned from `nvmem_cell_read()` against the
-> platform-specific efuse format. If out-of-bound access is detected, fall
-> back to the default calibration values. This likely indicates an error
-> in either the efuse data length described in DT or the efuse format
-> within the driver.
+The right thing to do is to report all these errors to user space, so it
+can recover from it.
 
-Applied to mediatek-drm-next [1], thanks.
+> Arguably the MST path payload update has more failure modes than SST,
+> but you'd like to do this:
+> 
+> 	ret = drm_dp_dpcd_write_payload(&intel_dp->aux, 1, 0, crtc_state->dp_m_n.tu);
+> 	if (ret < 0)
+> 		intel_dp_queue_modeset_retry_for_link(state, encoder, crtc_state);
+> 
+> in mtl_ddi_pre_enable_dp() and tgl_ddi_pre_enable_dp()?
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+Yes.
 
-Regards,
-Chun-Kuang.
+> Overall I'm wondering if this too needs an overhaul. Instead of queueing
+> the retry all over the place, maybe we should just flag it in
+> crtc_state, and have intel_atomic_cleanup_work() do it once afterwards?
 
->
-> Signed-off-by: Fei Shao <fshao@chromium.org>
-> ---
->
-> Changes in v2:
-> - use %zu identifier for size_t in dev_warn()
->
->  drivers/gpu/drm/mediatek/mtk_dp.c | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek=
-/mtk_dp.c
-> index 36713c176cfc..55671701459a 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_dp.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-> @@ -1165,17 +1165,25 @@ static void mtk_dp_get_calibration_data(struct mt=
-k_dp *mtk_dp)
->         buf =3D (u32 *)nvmem_cell_read(cell, &len);
->         nvmem_cell_put(cell);
->
-> -       if (IS_ERR(buf) || ((len / sizeof(u32)) !=3D 4)) {
-> +       if (IS_ERR(buf)) {
->                 dev_warn(dev, "Failed to read nvmem_cell_read\n");
-> -
-> -               if (!IS_ERR(buf))
-> -                       kfree(buf);
-> -
->                 goto use_default_val;
->         }
->
-> +       /* The cell length is in bytes. Convert it to be compatible with =
-u32 buffer. */
-> +       len /=3D sizeof(u32);
-> +
->         for (i =3D 0; i < MTK_DP_CAL_MAX; i++) {
->                 fmt =3D &mtk_dp->data->efuse_fmt[i];
-> +
-> +               if (fmt->idx >=3D len) {
-> +                       dev_warn(mtk_dp->dev,
-> +                                "Out-of-bound efuse data access, fmt idx=
- =3D %d, buf len =3D %zu\n",
-> +                                fmt->idx, len);
-> +                       kfree(buf);
-> +                       goto use_default_val;
-> +               }
-> +
->                 cal_data[i] =3D (buf[fmt->idx] >> fmt->shift) & fmt->mask=
-;
->
->                 if (cal_data[i] < fmt->min_val || cal_data[i] > fmt->max_=
-val) {
-> --
-> 2.47.0.338.g60cca15819-goog
->
+Atm it's queued once after detecting the first error, not sure if
+deferring that would be better.
+
+> BR,
+> Jani.
+> 
+> >
+> > Reviewed-by: Imre Deak <imre.deak@intel.com>
+> >
+> >> +	}
+> >> +
+> >>  	if (!is_mst)
+> >>  		intel_dsc_dp_pps_write(encoder, crtc_state);
+> >>  }
+> >> @@ -2808,6 +2814,11 @@ static void tgl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+> >>  	/* 7.l Configure and enable FEC if needed */
+> >>  	intel_ddi_enable_fec(encoder, crtc_state);
+> >>  
+> >> +	if (!is_mst && intel_dp_is_uhbr(crtc_state)) {
+> >> +		/* VCPID 1, start slot 0 for 128b/132b, tu slots */
+> >> +		drm_dp_dpcd_write_payload(&intel_dp->aux, 1, 0, crtc_state->dp_m_n.tu);
+> >> +	}
+> >> +
+> >>  	if (!is_mst)
+> >>  		intel_dsc_dp_pps_write(encoder, crtc_state);
+> >>  }
+> >> -- 
+> >> 2.39.5
+> >> 
+> 
+> -- 
+> Jani Nikula, Intel
