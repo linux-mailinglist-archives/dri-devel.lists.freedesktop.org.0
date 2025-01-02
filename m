@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89099FF912
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 13:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611819FF91D
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 13:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32C8310E6E0;
-	Thu,  2 Jan 2025 12:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C53CF10E6E2;
+	Thu,  2 Jan 2025 12:03:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IGfRgwGI";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="m4ivbl7y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0520810E6E0
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 12:02:30 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 42D4A1BF205;
- Thu,  2 Jan 2025 12:02:04 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B084310E6E3
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 12:03:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4C2241C0004;
+ Thu,  2 Jan 2025 12:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1735819329;
+ t=1735819406;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DCekmWIsBZdXxl0wOI1O35zPVOupxsprKE8B+VAlWJY=;
- b=IGfRgwGITFxzr4VDxH4IexSFXKQtZygiilm4WSJ733c/0UA1JfTtMlcwQYl3d50lljoQAq
- DoqEwpx5s9yayhQxgAlWix52wzrdHTZUsol3X8F6nanE/3E7piq3qxB0LXB+yPiHPYzQzR
- +TZ0ZEBJ1P1eF2DGcqcBbHcOoXuBCzUFNyaP0Vwm0oYkus2FPWjHGVkStJpW6bTaFlklFB
- QDqv85oobOXNci8KDmaJ0qVSleQyZxIFSYIjVS4/bJjkY0d5k6KUZ6S6DmCr1sBBTnWkfn
- JL4GiLQJYIMxAECwPK7J8YKxknhVLlAyUCg9w5qr9vcxDuHNYuaN+aX2LHyuSA==
-Date: Thu, 2 Jan 2025 13:02:03 +0100
+ bh=Ppo3X6Dgf+YhWkInAvRD7rU04s+pC1rYIdOP2DFVKyk=;
+ b=m4ivbl7yU+1H67REpSnJ29fJAW2hC7FjV73U6PgL257jNZMneDwPHoRx3P02z6bcXSOPEy
+ AvmyxhSPTOdXqgKEBbZdw/KVye0S3a3MwhM9VV5lC5Uwj0evj+3vNsigsTqe5cupuU2Xp9
+ +gHVXLYWpCxGXbIdd19E9SxgFfv+fa57V3Pqncw7f8sl2YWHuaCbecHFcWu6o0Gn2OE2x9
+ rBDuLnRCBwOLWubFEr7K8014jElyCsIYXyzDBrovBREizdKl62VIX12zOnRfriZGNIJ9g4
+ tB0PzCOf1DXZjBOD3dK29WcA9AfgzLlbNgldKGpbyoxhoOy9XY0stAg2BhuTMw==
+Date: Thu, 2 Jan 2025 13:03:19 +0100
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Randy Dunlap <rdunlap@infradead.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
  Teki <jagan@amarulasolutions.com>, Marek Szyprowski
  <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
@@ -51,13 +51,13 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
  <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
  Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+Subject: Re: [PATCH v5 03/10] drm/bridge: add support for refcounted DRM
  bridges
-Message-ID: <20250102130203.10389fd5@booty>
-In-Reply-To: <993b1c6d-6614-42b5-a64e-0061117fc1d0@infradead.org>
+Message-ID: <20250102130319.2e8079a9@booty>
+In-Reply-To: <87seq4nm3g.fsf@intel.com>
 References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
- <993b1c6d-6614-42b5-a64e-0061117fc1d0@infradead.org>
+ <20241231-hotplug-drm-bridge-v5-3-173065a1ece1@bootlin.com>
+ <87seq4nm3g.fsf@intel.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -79,27 +79,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Randy,
+Hello Jani,
 
-On Tue, 31 Dec 2024 09:54:41 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+thanks for your review.
 
-> Hi--
-> 
-> On 12/31/24 2:39 AM, Luca Ceresoli wrote:
-> > Document in detail the new refcounted bridges as well as the "legacy" way.
-> > 
+On Tue, 31 Dec 2024 13:11:31 +0200
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
+
+> On Tue, 31 Dec 2024, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+> > DRM bridges are currently considered as a fixed element of a DRM card, and
+> > thus their lifetime is assumed to extend for as long as the card
+> > exists. New use cases, such as hot-pluggable hardware with video bridges,
+> > require DRM bridges to be added and removed to a DRM card without tearing
+> > the card down. This is possible for connectors already (used by DP MST), so
+> > add this possibility to DRM bridges as well.
+> >
+> > Implementation is based on drm_connector_init() as far as it makes sense,
+> > and differs when it doesn't. A difference is that bridges are not exposed
+> > to userspace,hence struct drm_bridge does not embed a struct
+> > drm_mode_object which would provide the refcount and the free_cb. So here
+> > we add to struct drm_bridge just the refcount and free_cb fields (we don't
+> > need other struct drm_mode_object fields here) and instead of using the
+> > drm_mode_object_*() functions we reimplement from those functions the few
+> > lines that drm_bridge needs for refcounting.
+> >
+> > The function to enroll a private bridge driver data structure into
+> > refcounting is based on drm_connector_init() and so called
+> > drm_bridge_init() for symmetry, even though it does not initialize anything
+> > except the refcounting and the funcs pointer which is needed to access
+> > funcs->destroy.
+> >
 > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > 
+> >
 > > ---
-
-...
-
-> > + * Allocation, initializion and teardown of a bridge can be implemented in  
+> >
+> > This patch was added in v5.
+> > ---
+> >  drivers/gpu/drm/drm_bridge.c |  87 ++++++++++++++++++++++++++++++++++++
+> >  include/drm/drm_bridge.h     | 102 +++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 189 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index b1f0d25d55e23000521ac2ac37ee410348978ed4..6255ef59f73d8041a8cb7f2c6e23e5a67d1ae926 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -198,6 +198,85 @@
+> >  static DEFINE_MUTEX(bridge_lock);
+> >  static LIST_HEAD(bridge_list);
+> >  
+> > +static void drm_bridge_put_void(void *data)
+> > +{
+> > +	struct drm_bridge *bridge = (struct drm_bridge *)data;
+> > +
+> > +	drm_bridge_put(bridge);
+> > +}
+> > +
+> > +static void drm_bridge_free(struct kref *kref)
+> > +{
+> > +	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
+> > +
+> > +	DRM_DEBUG("bridge=%p\n", bridge);
+> > +
+> > +	WARN_ON(!bridge->funcs->destroy);  
 > 
->                   initialization
+> Please don't add new DRM_DEBUG or WARN_ON where you can use the
+> drm_dbg_* or drm_WARN_ON variants.
 
-Thanks for reviewing! I fixed locally the typos you spotted.
+Good point. However drm_WARN_ON() cannot be used because it needs a
+non-NULL struct drm_drm_device pointer which is not always available
+here: in case of -EPROBE_DEFER it usually isn't. I guess I'll go for
+drm_dbg_core() or drm_warn[_once](), even though none of them prints a
+stack trace and I find that would be useful.
+
+This is raising a loosely-related question about the DRM_DEBUG()s this
+patch is adding, such as the one quoted above: would it make sense to
+add a new drm_debug_category value for the bridge refcounting
+functions? Or for bridges altogether? They are pretty different from
+the core messages, and it may be useful to see only the refcounting
+messages or only the core messages.
+
+DRM_UT_BRIDGE?
+DRM_UT_BRIDGE_REFCOUNT?
 
 Luca
 
