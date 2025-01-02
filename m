@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF939A00087
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 22:23:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B01A0008B
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 22:23:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A78410E11E;
-	Thu,  2 Jan 2025 21:22:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21D2810E7B8;
+	Thu,  2 Jan 2025 21:23:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0aDgeIqZ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bSPgEPYh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D51410E11E
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 21:22:57 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2062.outbound.protection.outlook.com [40.107.95.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C9CA10E3F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 21:23:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HUpSndJ1b8lOYVcEZ1QCKi4gKQhqfiGAMXeIn7ovEAMylquzhUjQaSDnra8BlB9f9aCBcoWJWiXhNkAoLrh/CPBTMfEk8GUMnt6+K1cdvI2woEzQNAkhl1IlcN6rKZUgff3RugmGTnm78PWOtPNzBcPw3JjM4LGYBLOiB9BUV46vBQMQF2/8fuNhHXnaqx/uopJWccaM64+8EKH0FrmAXmqrEh2P/9E2iyI3Pw/N64/5skrNaiBZJMU7cXngwpB1ypbRNpu0VBQ/c0roLtv8WVThDUXLgubzCFWI0Tub/mBy2SDgvAU0e8AZzghDj88SHrOzKlTgkm3tjVBkx0eHTg==
+ b=uXc10AXHZ6wEMWHdCdGpBITDpGWfJQG6gQSo4x1Gk3H2rEJ3b3UVaNNU5BK4gCWInnFKGC7AB2Kd6DNQKMgaKH7Q0KtQyQkEokFY1cLqPt8QAJ2eo5YQOyJhfbSlY64agGnq769AjcaTuVPmy56huaf62WjJWWl0xygW2PciRlx/uVzcULhdun/54tTbCDwUFLGWBOWft/qaK07c4VuoTWocuVz/SylYaICfaW3Z/2voKPp/955vOEDx/HS87JMCYi3DpC9RU7ENgPYUVdb180MqbnAWWq6wiaH1+ctUg6PxwBXV9n+z+Q5qmL+zWQmemlr86Um4zR3T8fzPnRZN7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y61Q+m3dkiYoPcf+w1VOyHK4ueH7qAXIHFMVeZY/fYQ=;
- b=p79MaOsYsvj777xfVHWr5fnyncPa9dKhTvXV2uw61J3q+YkqUil9D+HrczPSbQFRCPC3ebORIljaz6RREa8GmhsfuM2rqhaQafUtc5zNLtFxg9xqcsg/b2SqEaphvySJBpcEaqmBfqhemAvVcjNR/4UNIrreNZt00hiCvmPYQD+KP9r++0JJLIk9pQlUX5m89v9putlSWkpiG2ixp9otArU/vsjUtM07ZwMjlIhHCo4Zyat7Goy74wYD79u8oNPZtYE8FIql0Xm/JWjF0z5HteKq1TtbLzVYXkiN+cHLXwnuEPVsRzqAu7yTMhaWNiWyo4mKGf/Z5tKsh8xJlGlWAQ==
+ bh=BMz9TsvgUCKgi51LjihlbvhsmpzjvwPH8C4G6HZruHA=;
+ b=QrAaa5KAUUtSQ7nP9Pj/dHs8y8oa9HzK4fwGSbFHZikKeklwGFTl1gt4owGL8euRGZUA/C5lEUWCKM0FZRNOzzsiz79gjEEbS9z9BCuGj05YfA8cQwwdooES3V7LIsHuzxQxXIhYVckWo+6GwXrgks1m4Q4o/R0cKs2W3yKOGwb6MBg7jQhKf2pu4bIoREmrOHw8OnYPRUos3yysJSTWOJr14gYGsyCcSShqvVoxXWCuwPuqeGgqFZ/dqUnp5NRUR9zI7g1QddsF4WxxgbCXh16ZHEXpDy3an7HHY/7CDDw+Kok3IsiyWX3FVzJAG5ApptbOZZllsyr7P9OwANS/Sw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y61Q+m3dkiYoPcf+w1VOyHK4ueH7qAXIHFMVeZY/fYQ=;
- b=0aDgeIqZ6NspWAUyRUNkOmDIxR2622ZWeRY3WJrbfphrgHY8xlzzd3ybx5has0XoG9AkXpqxbiHTk6ZM8GRtsHy8W/GeMpAJhSbFzNI8SEYraMy+u4G+eItlSTlhpJ08Iyn7XsLYtSIK05pMWJYzS0ESWZ2ogNUd8bEpyMjhJO4=
-Received: from CH2PR07CA0013.namprd07.prod.outlook.com (2603:10b6:610:20::26)
- by SJ2PR12MB7867.namprd12.prod.outlook.com (2603:10b6:a03:4cd::21)
+ bh=BMz9TsvgUCKgi51LjihlbvhsmpzjvwPH8C4G6HZruHA=;
+ b=bSPgEPYhHCpP/URSYmrXqqM9MDiGdHCo0uo7q8Et8T6WWreYudNSvuOczMupipnkdv9sakH+LqV/B+JnfHMfprKhwXEJpiCUqmTBNszCqGHEltDAUV9WQU/7RiXP38DdULYEPIgonPqViTAhg1oCv63LgQVENBMJkeN6JOPlftg=
+Received: from SJ0PR03CA0387.namprd03.prod.outlook.com (2603:10b6:a03:3a1::32)
+ by CH3PR12MB9217.namprd12.prod.outlook.com (2603:10b6:610:195::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.11; Thu, 2 Jan
- 2025 21:22:50 +0000
-Received: from CH1PEPF0000AD83.namprd04.prod.outlook.com
- (2603:10b6:610:20:cafe::a9) by CH2PR07CA0013.outlook.office365.com
- (2603:10b6:610:20::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8314.12 via Frontend Transport; Thu,
- 2 Jan 2025 21:22:50 +0000
+ 2025 21:22:52 +0000
+Received: from SJ5PEPF000001F0.namprd05.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::65) by SJ0PR03CA0387.outlook.office365.com
+ (2603:10b6:a03:3a1::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8314.13 via Frontend Transport; Thu,
+ 2 Jan 2025 21:22:51 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH1PEPF0000AD83.mail.protection.outlook.com (10.167.244.85) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SJ5PEPF000001F0.mail.protection.outlook.com (10.167.242.68) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8314.11 via Frontend Transport; Thu, 2 Jan 2025 21:22:50 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.8314.11 via Frontend Transport; Thu, 2 Jan 2025 21:22:51 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 2 Jan
- 2025 15:22:49 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 2 Jan
- 2025 15:22:49 -0600
+ 2025 15:22:50 -0600
 Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 2 Jan 2025 15:22:48 -0600
+ Transport; Thu, 2 Jan 2025 15:22:49 -0600
 From: Lizhi Hou <lizhi.hou@amd.com>
 To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
  <dri-devel@lists.freedesktop.org>
@@ -69,62 +65,66 @@ CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
  <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
  <king.tam@amd.com>, <mario.limonciello@amd.com>, kernel test robot
  <lkp@intel.com>
-Subject: [PATCH V1 1/7] accel/amdxdna: Declare npu device profile as static
- variables
-Date: Thu, 2 Jan 2025 13:22:38 -0800
-Message-ID: <20250102212244.1586340-1-lizhi.hou@amd.com>
+Subject: [PATCH V1 2/7] accel/amdxdna: Declare mailbox register base as
+ __iomem pointer
+Date: Thu, 2 Jan 2025 13:22:39 -0800
+Message-ID: <20250102212244.1586340-2-lizhi.hou@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250102212244.1586340-1-lizhi.hou@amd.com>
+References: <20250102212244.1586340-1-lizhi.hou@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD83:EE_|SJ2PR12MB7867:EE_
-X-MS-Office365-Filtering-Correlation-Id: a34203cb-c850-47fb-4f2c-08dd2b739c91
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F0:EE_|CH3PR12MB9217:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72c53397-9022-4e9a-ad07-08dd2b739d46
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?74Ab4S/RZEErz3DWYCZV8Ytky1U2t8EOLnBwjLBPiOP0t1QWTFLy6VgZ7RtI?=
- =?us-ascii?Q?KP/QGETQvBP7FS4y8o59hX/wxTQTK+PuRw013bYQAn/qCGkyOHhwI6xhXC7p?=
- =?us-ascii?Q?hefaqXJqm1vQusiwitoYHHu+4plCWX9eeSo3fNDYD1mu7RHgo3Xn1vYTM/aZ?=
- =?us-ascii?Q?7xy5rSr04j2M+W0It1Medvec/LGCulCr67r9voanhzj2EsTqwIkrkRO9hO45?=
- =?us-ascii?Q?Ej+XTDuepAdQpC8YSR1uQ+sV0l2hnTpYUCMlOfNaAkY6SG83aQ560sFZtvbH?=
- =?us-ascii?Q?yOzk4ERSAR/MYfj0jSbn5gpUXdk/XU4RYu3LOCmUqL3Gy7RKEpNboC1IGNLT?=
- =?us-ascii?Q?MBIUCVORoDAfTEWqJw9FvKk5iTVzeuR625MJdNAe0ahNElqlclKz6Z7PJYlX?=
- =?us-ascii?Q?xZ8J8LP9kAv3dwD5TKsD2DBTLW+PGryLkXTZwU4VewScfHKXykav1KNzklEd?=
- =?us-ascii?Q?NNpiYppQwNYyXelU5xazoT+WMnuNjWR5Ho6yqjFMygHWDrLG2E9iEpYy2udr?=
- =?us-ascii?Q?uIx+l6RnfJ6x0Zu6Vk2+soe/rFrS91JyBhCXzzaXctFHSCm/u7ELy9O500++?=
- =?us-ascii?Q?9R8GN9lFY3FD/z/NlOfNlnH8j/LB8PTo42uaHk1qcmqEuzZ1cGBHbMxxl8sf?=
- =?us-ascii?Q?mhJr7Tv7Oux8NZEVKDdZyWz9YbAflVCfj9PIMtrFnS37QvZzk80j1phHYgkz?=
- =?us-ascii?Q?6gIgJOp8MiTDNNENO6kCO6UNyHhEcwWEZnPhGIk2UuIrZkse2gnJ5AitGH96?=
- =?us-ascii?Q?1fC9qWUfnFF6FBmhnDLXZbqaiPrj4D1c6eCcgtXr68Kamq3DVXw7ZIw8UgAe?=
- =?us-ascii?Q?QqTYRjyTiKI2Vp61+hoozBZ6a8j/Gtk73GBaiwiOVa5apLBvTE6aS3CuKrl2?=
- =?us-ascii?Q?fr3H/REuSQwF9m0eM5pC8lwHR5Vfp4CP+zfCrdga2ltao5qe4xtJ35vvFut+?=
- =?us-ascii?Q?mMo5GDWrXyGzhRyOib8QJ2fW1MXWjrUOI230tPZ6wrAn1c4xBtcTO6cD4cL3?=
- =?us-ascii?Q?u/La7MCKV3CAM31+4uFLYGl21WPVOfslVZoe1xc18qr4HchD66rVKK88+h6E?=
- =?us-ascii?Q?PxnONKQbRTbffnsFaG7R4a3DFhCtceJEjUwkJ3p5sCZZjVTbMHmWsSdE/g/R?=
- =?us-ascii?Q?52dKCIEzFj36J5qwmpD4ajzRfosEJB5PWQDrHpE/0kQaQxkN8ZaH6ferkyGE?=
- =?us-ascii?Q?kaZgZs9CgDK49XBHlcn/HX1FBxcENUr8WWt0E2PTLIcjgvQxdBCfdmRh4Hrn?=
- =?us-ascii?Q?e7NEBy7VvdtYWEdSYRH/uDkIoIsLR9tEWRU+eccjO/r6TNXHAW4kO26SKEB3?=
- =?us-ascii?Q?xwfhNTVbSYLmtT5edp1fZS0drbhhFQouaej51/lNVkEIWX9haa/H8K6XC7gp?=
- =?us-ascii?Q?/EpDcGFJUk79iLIc3YUPPWP+0fpwVvH78S1OvSrPcQzPDtONCMpEKrZaNjra?=
- =?us-ascii?Q?RcsFDMkM8YC2ghjto7ig+h3sms6PmnEmj8te8WsYKx2nm1WTVN6pKuuyIdI+?=
- =?us-ascii?Q?Tr1emZriLga8Y+w=3D?=
+ ARA:13230040|1800799024|376014|36860700013|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Poq8YT4xMcfbB2li16Y16gmMlmd6ltEeyi4bBnlWzBqkKfh8qAasfvCfhRgX?=
+ =?us-ascii?Q?ti7F5mWeZz/arLvr3GroJ+t+I5HSRYDgt3zh6gR/zHaIaOGZ8m2i5Qx2EpY/?=
+ =?us-ascii?Q?oadw7OY4a0b3ekMNLRurCgdmYOML7E5e8ZX1H9ELrCFLGW7MQ90/jM+esV1S?=
+ =?us-ascii?Q?PUE8H1TySIFfpxfqv5R1yYwmmldv/Pr3ZB/bHAf239jCeH+otNwBxZVZk74h?=
+ =?us-ascii?Q?3afSiMsJePU2dI7ZpEdV1Y1JSO58LAnN3Y1X/OeBbegKuWryAqgMjiXe+4xU?=
+ =?us-ascii?Q?NUFeGAm0ayQHSZf6D4jyAdjK8BRo6h654iaipCG545IrcS5CVrUBry91/uFy?=
+ =?us-ascii?Q?oLTGKvaC+TFTddTsFmw6VHpaHR3wdcZJurEwUjY5Dtbzt7GugLzZ1RG33OLO?=
+ =?us-ascii?Q?/rJMVTQB65avUVO/vnQfVTvi4PzRUCp78vzh0dwlB+Rxy6UOkAKuKQKj4jYc?=
+ =?us-ascii?Q?Uol3dX4+iWIYPC92nhu6UkmpNxDO7J+pAvzK3V0i0AJAOHOr8cDDy3quWfCk?=
+ =?us-ascii?Q?hID4lmcQwOPxlorxAtj/NBi74ydgKmsTuHOUpvOKTYXQ/LYNCd+u9MiSIxsi?=
+ =?us-ascii?Q?eAg1aoVYKcBSfgOUrqGfVMvoFT1XFNpnTxxV+5HeJ3oxchbU1OQxJY1xodBr?=
+ =?us-ascii?Q?BZrnoWDQZxs3sgr/Uy8NqLXy/46C+ye0aWcccHOjiLbzMJjULORl/WO9SFPy?=
+ =?us-ascii?Q?OxvIgQRPAGrdLd3dNqtUMDz0ZCfqgjeKAR27gFxHC/Ds5rfm0GlBSbqFYdKa?=
+ =?us-ascii?Q?X6UqhyRAjz63ZAZsnU+K8ySmRdI3MQilh/m+EB5IOvPZ3eu00+WGWBVlI9Tf?=
+ =?us-ascii?Q?EFuqHzMWZxhN2KiEiggA1WIt3AF9Rb6psgc8ZT+eartUwGYNs/BNAWstNDLq?=
+ =?us-ascii?Q?8rn5nlpJHVJwj3S6MB5hfwDYQXEtJaWFU4BtAMt3exlGTM0xCBBg9DU7pQFf?=
+ =?us-ascii?Q?Y6y9poeF9O0piZCxKHmcx4oitKcYNEnqDiD1I6i+gbj1U/+RXNxdj8/axcQx?=
+ =?us-ascii?Q?Y7kf4vafuO1DiIBCTcOcnEnxKEtB19AYw3i/JorC4Shhyf3pWmYgIo6SnOXN?=
+ =?us-ascii?Q?XSSH4lSZiiU4mdIm7zw4WEf6kb44cX5b/QSFaitDj+XeJNTXY8ZyJUfKZbZZ?=
+ =?us-ascii?Q?kyJNFDniIxentnKkmQDtlw2ItwDuhze6BkEtPHO4GionQ1QThqp0VudidusU?=
+ =?us-ascii?Q?Dk+7dT6xbB4lKg4XF+6AtQQR8SPI5zrorvORdFTP6NGoO8HtCvX17VWFiT9v?=
+ =?us-ascii?Q?isLKPONDg/mogvpZH9ejVeRDUxeaeFv7cEHKa/lbYCpZzaBvZuFU0d6FD0I5?=
+ =?us-ascii?Q?BtxvBEPtj7NN+LvrCW/LgLgMQCzuoH9/kfRd79QztIdlQvVOkppb8qFnpiKX?=
+ =?us-ascii?Q?ghJXf1smcjrB7TcZkAwRRJjdWGdgwSBD39/+mQsBR7vyxFjodXMXb4pXmR/p?=
+ =?us-ascii?Q?RjFO5u/6XpP0IIvswFqJzOxXRn2LC08HwFwxSs5YcGRbxqbQ+YANTJVGnNZ5?=
+ =?us-ascii?Q?Jbpe0WTOVeBjhKM=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014); DIR:OUT;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2025 21:22:50.3543 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a34203cb-c850-47fb-4f2c-08dd2b739c91
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jan 2025 21:22:51.4804 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72c53397-9022-4e9a-ad07-08dd2b739d46
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000AD83.namprd04.prod.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001F0.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7867
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9217
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,75 +140,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Declare the variables as static to fix the sparse warnings:
-symbol 'npu5_dev_priv' was not declared. Should it be static?
-symbol 'npu1_dev_priv' was not declared. Should it be static?
-symbol 'npu4_dev_priv' was not declared. Should it be static?
-symbol 'npu2_dev_priv' was not declared. Should it be static?
+Declare mailbox ringbuf_base and mbox_base as 'void __iomem *' to fix
+sparse warnings:
+  cast removes address space '__iomem' of expression
+  incorrect type in argument 2 (different address spaces)
 
-Fixes: 8c9ff1b181ba ("accel/amdxdna: Add a new driver for AMD AI Engine")
+Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
 Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202412310648.dtMHgGem-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202412310857.syD1sXXO-lkp@intel.com/
 Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- drivers/accel/amdxdna/npu1_regs.c | 2 +-
- drivers/accel/amdxdna/npu2_regs.c | 2 +-
- drivers/accel/amdxdna/npu4_regs.c | 2 +-
- drivers/accel/amdxdna/npu5_regs.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/accel/amdxdna/aie2_pci.c        |  4 ++--
+ drivers/accel/amdxdna/amdxdna_mailbox.c | 24 ++++++++++++------------
+ drivers/accel/amdxdna/amdxdna_mailbox.h |  4 ++--
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/accel/amdxdna/npu1_regs.c b/drivers/accel/amdxdna/npu1_regs.c
-index e408af57e378..e4f6dac7d00f 100644
---- a/drivers/accel/amdxdna/npu1_regs.c
-+++ b/drivers/accel/amdxdna/npu1_regs.c
-@@ -62,7 +62,7 @@ const struct dpm_clk_freq npu1_dpm_clk_table[] = {
- 	{ 0 }
+diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
+index 8de8f3bd4987..8b273bc7db44 100644
+--- a/drivers/accel/amdxdna/aie2_pci.c
++++ b/drivers/accel/amdxdna/aie2_pci.c
+@@ -380,9 +380,9 @@ static int aie2_hw_start(struct amdxdna_dev *xdna)
+ 		goto stop_psp;
+ 	}
+ 
+-	mbox_res.ringbuf_base = (u64)ndev->sram_base;
++	mbox_res.ringbuf_base = ndev->sram_base;
+ 	mbox_res.ringbuf_size = pci_resource_len(pdev, xdna->dev_info->sram_bar);
+-	mbox_res.mbox_base = (u64)ndev->mbox_base;
++	mbox_res.mbox_base = ndev->mbox_base;
+ 	mbox_res.mbox_size = MBOX_SIZE(ndev);
+ 	mbox_res.name = "xdna_mailbox";
+ 	ndev->mbox = xdnam_mailbox_create(&xdna->ddev, &mbox_res);
+diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+index 1afc8079e3d1..814b16bb1953 100644
+--- a/drivers/accel/amdxdna/amdxdna_mailbox.c
++++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+@@ -98,27 +98,27 @@ struct mailbox_msg {
+ static void mailbox_reg_write(struct mailbox_channel *mb_chann, u32 mbox_reg, u32 data)
+ {
+ 	struct xdna_mailbox_res *mb_res = &mb_chann->mb->res;
+-	u64 ringbuf_addr = mb_res->mbox_base + mbox_reg;
++	void __iomem *ringbuf_addr = mb_res->mbox_base + mbox_reg;
+ 
+-	writel(data, (void *)ringbuf_addr);
++	writel(data, ringbuf_addr);
+ }
+ 
+ static u32 mailbox_reg_read(struct mailbox_channel *mb_chann, u32 mbox_reg)
+ {
+ 	struct xdna_mailbox_res *mb_res = &mb_chann->mb->res;
+-	u64 ringbuf_addr = mb_res->mbox_base + mbox_reg;
++	void __iomem *ringbuf_addr = mb_res->mbox_base + mbox_reg;
+ 
+-	return readl((void *)ringbuf_addr);
++	return readl(ringbuf_addr);
+ }
+ 
+ static int mailbox_reg_read_non_zero(struct mailbox_channel *mb_chann, u32 mbox_reg, u32 *val)
+ {
+ 	struct xdna_mailbox_res *mb_res = &mb_chann->mb->res;
+-	u64 ringbuf_addr = mb_res->mbox_base + mbox_reg;
++	void __iomem *ringbuf_addr = mb_res->mbox_base + mbox_reg;
+ 	int ret, value;
+ 
+ 	/* Poll till value is not zero */
+-	ret = readx_poll_timeout(readl, (void *)ringbuf_addr, value,
++	ret = readx_poll_timeout(readl, ringbuf_addr, value,
+ 				 value, 1 /* us */, 100);
+ 	if (ret < 0)
+ 		return ret;
+@@ -200,10 +200,10 @@ static void mailbox_release_msg(struct mailbox_channel *mb_chann,
+ static int
+ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
+ {
++	void __iomem *write_addr;
+ 	u32 ringbuf_size;
+ 	u32 head, tail;
+ 	u32 start_addr;
+-	u64 write_addr;
+ 	u32 tmp_tail;
+ 
+ 	head = mailbox_get_headptr(mb_chann, CHAN_RES_X2I);
+@@ -221,14 +221,14 @@ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
+ 
+ 	if (tail >= head && tmp_tail > ringbuf_size - sizeof(u32)) {
+ 		write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
+-		writel(TOMBSTONE, (void *)write_addr);
++		writel(TOMBSTONE, write_addr);
+ 
+ 		/* tombstone is set. Write from the start of the ringbuf */
+ 		tail = 0;
+ 	}
+ 
+ 	write_addr = mb_chann->mb->res.ringbuf_base + start_addr + tail;
+-	memcpy_toio((void *)write_addr, &mb_msg->pkg, mb_msg->pkg_size);
++	memcpy_toio(write_addr, &mb_msg->pkg, mb_msg->pkg_size);
+ 	mailbox_set_tailptr(mb_chann, tail + mb_msg->pkg_size);
+ 
+ 	trace_mbox_set_tail(MAILBOX_NAME, mb_chann->msix_irq,
+@@ -275,11 +275,11 @@ mailbox_get_resp(struct mailbox_channel *mb_chann, struct xdna_msg_header *heade
+ static int mailbox_get_msg(struct mailbox_channel *mb_chann)
+ {
+ 	struct xdna_msg_header header;
++	void __iomem *read_addr;
+ 	u32 msg_size, rest;
+ 	u32 ringbuf_size;
+ 	u32 head, tail;
+ 	u32 start_addr;
+-	u64 read_addr;
+ 	int ret;
+ 
+ 	if (mailbox_reg_read_non_zero(mb_chann, mb_chann->res[CHAN_RES_I2X].mb_tail_ptr_reg, &tail))
+@@ -302,7 +302,7 @@ static int mailbox_get_msg(struct mailbox_channel *mb_chann)
+ 
+ 	/* Peek size of the message or TOMBSTONE */
+ 	read_addr = mb_chann->mb->res.ringbuf_base + start_addr + head;
+-	header.total_size = readl((void *)read_addr);
++	header.total_size = readl(read_addr);
+ 	/* size is TOMBSTONE, set next read from 0 */
+ 	if (header.total_size == TOMBSTONE) {
+ 		if (head < tail) {
+@@ -328,7 +328,7 @@ static int mailbox_get_msg(struct mailbox_channel *mb_chann)
+ 
+ 	rest = sizeof(header) - sizeof(u32);
+ 	read_addr += sizeof(u32);
+-	memcpy_fromio((u32 *)&header + 1, (void *)read_addr, rest);
++	memcpy_fromio((u32 *)&header + 1, read_addr, rest);
+ 	read_addr += rest;
+ 
+ 	ret = mailbox_get_resp(mb_chann, &header, (u32 *)read_addr);
+diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.h b/drivers/accel/amdxdna/amdxdna_mailbox.h
+index 6ab7f5424633..57954c303bdd 100644
+--- a/drivers/accel/amdxdna/amdxdna_mailbox.h
++++ b/drivers/accel/amdxdna/amdxdna_mailbox.h
+@@ -39,9 +39,9 @@ struct xdna_mailbox_msg {
+  * @mbox_size:		mailbox size
+  */
+ struct xdna_mailbox_res {
+-	u64		ringbuf_base;
++	void __iomem	*ringbuf_base;
+ 	size_t		ringbuf_size;
+-	u64		mbox_base;
++	void __iomem	*mbox_base;
+ 	size_t		mbox_size;
+ 	const char	*name;
  };
- 
--const struct amdxdna_dev_priv npu1_dev_priv = {
-+static const struct amdxdna_dev_priv npu1_dev_priv = {
- 	.fw_path        = "amdnpu/1502_00/npu.sbin",
- 	.protocol_major = 0x5,
- 	.protocol_minor = 0x7,
-diff --git a/drivers/accel/amdxdna/npu2_regs.c b/drivers/accel/amdxdna/npu2_regs.c
-index 286bd0d475e2..a081cac75ee0 100644
---- a/drivers/accel/amdxdna/npu2_regs.c
-+++ b/drivers/accel/amdxdna/npu2_regs.c
-@@ -61,7 +61,7 @@
- #define NPU2_SMU_BAR_BASE	MMNPU_APERTURE4_BASE
- #define NPU2_SRAM_BAR_BASE	MMNPU_APERTURE1_BASE
- 
--const struct amdxdna_dev_priv npu2_dev_priv = {
-+static const struct amdxdna_dev_priv npu2_dev_priv = {
- 	.fw_path        = "amdnpu/17f0_00/npu.sbin",
- 	.protocol_major = 0x6,
- 	.protocol_minor = 0x6,
-diff --git a/drivers/accel/amdxdna/npu4_regs.c b/drivers/accel/amdxdna/npu4_regs.c
-index 00c52833ce89..9f2e33182ec6 100644
---- a/drivers/accel/amdxdna/npu4_regs.c
-+++ b/drivers/accel/amdxdna/npu4_regs.c
-@@ -82,7 +82,7 @@ const struct dpm_clk_freq npu4_dpm_clk_table[] = {
- 	{ 0 }
- };
- 
--const struct amdxdna_dev_priv npu4_dev_priv = {
-+static const struct amdxdna_dev_priv npu4_dev_priv = {
- 	.fw_path        = "amdnpu/17f0_10/npu.sbin",
- 	.protocol_major = 0x6,
- 	.protocol_minor = 12,
-diff --git a/drivers/accel/amdxdna/npu5_regs.c b/drivers/accel/amdxdna/npu5_regs.c
-index 118849272f27..5f1cf83461c4 100644
---- a/drivers/accel/amdxdna/npu5_regs.c
-+++ b/drivers/accel/amdxdna/npu5_regs.c
-@@ -61,7 +61,7 @@
- #define NPU5_SMU_BAR_BASE	MMNPU_APERTURE4_BASE
- #define NPU5_SRAM_BAR_BASE	MMNPU_APERTURE1_BASE
- 
--const struct amdxdna_dev_priv npu5_dev_priv = {
-+static const struct amdxdna_dev_priv npu5_dev_priv = {
- 	.fw_path        = "amdnpu/17f0_11/npu.sbin",
- 	.protocol_major = 0x6,
- 	.protocol_minor = 12,
 -- 
 2.34.1
 
