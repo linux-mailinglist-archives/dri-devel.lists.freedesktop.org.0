@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BEF19FF927
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 13:09:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688EB9FF95E
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 13:35:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B13710E6E5;
-	Thu,  2 Jan 2025 12:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAB3D10E351;
+	Thu,  2 Jan 2025 12:35:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h5TJ8iU0";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BodiJ3LM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB35110E6EE;
- Thu,  2 Jan 2025 12:08:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1735819738; x=1767355738;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=4RXg4MEJ3xKe8lQFvw5JzBVRko1yciKpNyMKhz+kPj0=;
- b=h5TJ8iU0yEmL1X4wVga+txmkEcf47xFFPvuP9a2ZfUkDgyyjb7BCIHR0
- d/aZ1GnyRIJM2iYWS6kQIASoIKfRdZBC31Q1SmtzXsfepAVanvYizu94p
- TB8gw4P9stoTaZu5rARruUTy8NDfWzZc7UuciJBNy1RMQS07VSqL6pXoK
- sNuGgUnwqYUXnayBy4zpA+d6AP2D1hiwiuPeZJToafEWyvS3ITV3CiK6S
- 5OzLAYT1Yqi2njMEvHIKA0dVa/EsHjZrMMDCW7CoZPGYXsOcgk0uGlHDx
- kYTKyMrIeMy9VZkaIasaEnbnP93xRQ598tsJFSRuNiaO0NnGJTa5DwIii w==;
-X-CSE-ConnectionGUID: CK9Qi7dzS+eeUtnF7sBM6w==
-X-CSE-MsgGUID: f8uUUVikS2qwUmILjwwZog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35298151"
-X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="35298151"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2025 04:08:57 -0800
-X-CSE-ConnectionGUID: mpfLf7SLSuCeoC+uwTKOxw==
-X-CSE-MsgGUID: 9eMljGGbRbix7qcSDdP3CA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="132429268"
-Received: from ideak-desk.fi.intel.com ([10.237.72.78])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2025 04:08:56 -0800
-Date: Thu, 2 Jan 2025 14:09:44 +0200
-From: Imre Deak <imre.deak@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 11/16] drm/i915/ddi: initialize 128b/132b SST DP2
- VFREQ registers
-Message-ID: <Z3aCCAp028YBPw-B@ideak-desk.fi.intel.com>
-References: <cover.1734643485.git.jani.nikula@intel.com>
- <38cfa6554f8249605a8af98353f64c6b53d1d106.1734643485.git.jani.nikula@intel.com>
- <Z3QhMxIylsbgAN-2@ideak-desk.fi.intel.com>
- <87frm1o8qs.fsf@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D3710E351
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 12:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1735821281;
+ bh=L25Jezz6jioNC5qrIg5TFebAApK1YxWaAFIlFVtRveU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BodiJ3LM6A1a6eglI6FhAvP9vpwEWtDMHnxH0HwSRG9RYYy7BwYJArnL+FrOocCfB
+ 4R1+pBR54S6wveIfqNcr0F6GV/DWTqzty153Z1T74x2k5Lsppfcrcu7IXf2ZEOgmL1
+ hvzL85+1guO60UjrpszvahAN+okrEqi9gu96CF4Wwj0upSL4g/7uXGGkjkn6ip36sj
+ 3oI/b8oBAL9j1LjvcSmskKsnSoA143U+ymZrPKh7pQ3JZC+p5xrmEkI3QgRE9w01YK
+ +NgPvrhELYxt3gZMD74x9qiMaAi+RM8Atn8O8huR1xJxxd4JPS/Gbc/q6ywob8p2fz
+ VNOvC6ZbIElXA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8562317E1569;
+ Thu,  2 Jan 2025 13:34:40 +0100 (CET)
+Message-ID: <f26f3b12-0e65-47b9-b2d7-bfb5733f2c8f@collabora.com>
+Date: Thu, 2 Jan 2025 13:34:40 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87frm1o8qs.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v7 00/10] drm/bridge: it6505: fix HDCP CTS fail
+ items and add MCCS support
+To: Hermes.wu@ite.corp-partner.google.com,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Hermes Wu <hermes.wu@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Pin-yen Lin <treapking@chromium.org>, Kenneth Hung
+ <Kenneth.Hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20241230-v7-upstream-v7-0-e0fdd4844703@ite.corp-partner.google.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20241230-v7-upstream-v7-0-e0fdd4844703@ite.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,71 +70,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 02, 2025 at 11:39:07AM +0200, Jani Nikula wrote:
-> On Tue, 31 Dec 2024, Imre Deak <imre.deak@intel.com> wrote:
-> > On Thu, Dec 19, 2024 at 11:34:00PM +0200, Jani Nikula wrote:
-> >> Write the DP2 specific VFREQ registers.
-> >> 
-> >> This is preparation for enabling 128b/132b SST. This path is not
-> >> reachable yet.
-> >> 
-> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >> ---
-> >>  drivers/gpu/drm/i915/display/intel_ddi.c | 12 ++++++++++++
-> >>  1 file changed, 12 insertions(+)
-> >> 
-> >> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> >> index 64528ff8856e..91e6cd91e91f 100644
-> >> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> >> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> >> @@ -3467,8 +3467,20 @@ static void intel_ddi_enable(struct intel_atomic_state *state,
-> >>  {
-> >>  	struct intel_display *display = to_intel_display(encoder);
-> >>  	struct intel_crtc *pipe_crtc;
-> >> +	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
-> >>  	int i;
-> >>  
-> >> +	/* 128b/132b SST */
-> >> +	if (intel_dp_is_uhbr(crtc_state)) {
-> >
-> > Hm, not sure how this would work on HDMI (FRL), but to be sure shouldn't
-> > this check that crtc_state is for a DP (SST) mode?
+Il 30/12/24 11:51, Hermes Wu via B4 Relay ha scritto:
+> There are lots of failure items while running HDCP CTS using UNIGRAF DPR-100.
+> In Order to fix those failures, HDCP flow needs to be changed.
 > 
-> DP MST does not call intel_ddi_enable().
+> The DisplayPort AUX protocol supports I2C transport.
+> In Order to support MCCS via the aux channel, the aux-i2c operation is added.
+> 
+> v6->v7
+> 	-[3/10] add header <linux/bitfield.h> included
+> 
+> 	links:
+> 	https://lore.kernel.org/all/20241016-upstream-v6-v6-0-4d93a0c46de1@ite.com.tw/
+> 
+> v5->v6:
+> 	-keep the commit message wrapped at 72-75 chars.
+> 	-[10/10] fix return variable being used without being initialized
+> 
+> v4->v5:
+> 	-add more messages for changes.
+> 	-[2/10] modified AUX transfer data size judgment.
+> 		change for-loop to do-while.
+> 	-[7/10] change for-loop to do-while.
+> 	-[9/10] change wait timer with timer_after()
+> 
+> 	links:
+> 	https://lore.kernel.org/all/20240926074755.22176-4-Hermes.Wu@ite.com.tw/
+> 	https://lore.kernel.org/all/20240926075134.22394-1-Hermes.Wu@ite.com.tw/
+> 
+> v3->v4:
+> 	-split changes  into patches.
+> 
+> v2->v3:
+> 	-split aux read  KSV function to a patch.
+> 	-[1/3] new in v3
+> 	-[2/3] add description of patch
+> 
+> v1->v2:
+> 	- ignored.
+> 
+> To: Andrzej Hajda <andrzej.hajda@intel.com>
+> To: Neil Armstrong <neil.armstrong@linaro.org>
+> To: Robert Foss <rfoss@kernel.org>
+> To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> To: Jonas Karlman <jonas@kwiboo.se>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Simona Vetter <simona@ffwll.ch>
+> To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> To: Hermes Wu <hermes.wu@ite.com.tw>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Pin-yen Lin <treapking@chromium.org>
+> Cc: Kenneth Hung <Kenneth.Hung@ite.com.tw>
+> Cc: Pet Weng <Pet.Weng@ite.com.tw>
+> 
+> Change-Id: I7f14eeb18ae70b17ef7e1a8622c590427b0ff2ed
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 
-I meant that this function (intel_ddi_enable()) can be called for HDMI
-as well, in case of HDMI FRL with port clock being >= 10G. In that case
-this - and the payload related bits later - shouldn't be programmed. So
-would need if (!hdmi && intel_dp_is_uhbr()).
+Whole series is
 
-> Yes, it's all very subtle, and I hate the way all of the
-> DDI/SST/MST/etc. is intertwined, but I feel like it's overall a bigger
-> refactoring to clean up.
-> 
-> BR,
-> Jani.
-> 
-> 
-> >
-> >> +		const struct drm_display_mode *adjusted_mode = &crtc_state->hw.adjusted_mode;
-> >> +		u64 crtc_clock_hz = KHz(adjusted_mode->crtc_clock);
-> >> +
-> >> +		intel_de_write(display, TRANS_DP2_VFREQHIGH(cpu_transcoder),
-> >> +			       TRANS_DP2_VFREQ_PIXEL_CLOCK(crtc_clock_hz >> 24));
-> >> +		intel_de_write(display, TRANS_DP2_VFREQLOW(cpu_transcoder),
-> >> +			       TRANS_DP2_VFREQ_PIXEL_CLOCK(crtc_clock_hz & 0xffffff));
-> >> +	}
-> >> +
-> >>  	intel_ddi_enable_transcoder_func(encoder, crtc_state);
-> >>  
-> >>  	/* Enable/Disable DP2.0 SDP split config before transcoder */
-> >> -- 
-> >> 2.39.5
-> >> 
-> 
-> -- 
-> Jani Nikula, Intel
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+
