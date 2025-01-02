@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4127D9FFF8E
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 20:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC7F9FFFB0
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 20:53:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A99210E7A9;
-	Thu,  2 Jan 2025 19:44:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0AF110E7B1;
+	Thu,  2 Jan 2025 19:53:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LO1x9qPk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wwh+H2oH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5389510E7A6
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 19:44:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=5f6D1vv/u9l+w15jx30lwYkeuaE8ITnALXkWRGgl4q8=; b=LO1x9qPkFdovgvyFUxqG+f46iT
- 5+ukpRwQlRgmEm0hOOZ2pU0uppB28QjGB+oPie8BhFrwNlEy0WboxbUJdCCcc+R+Zgqax2Nhgb4RT
- yOfxQbmPC72sob7RL2dF6nVYt0UC1/8GKLjPgOGt/fQs7u6haQkTtPEoHSYn9jyYjrnqSVxluvmhu
- CpynEQiXbjrOzQtU3jzQF8ighGet9ecAXzhv/W+tcOr4JF15FRXEFGO+XD5rDeUev/7w/+1z0s69w
- 7qhRQJkI7zYjR6v+WujfLY3OucL/GellYNectnZcwJHG9kmQ7xKGtg/9OZIf/GEzT5EpiXcsm03JQ
- tg+9TNZw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tTR7R-00Au7j-LH; Thu, 02 Jan 2025 20:44:33 +0100
-From: Tvrtko Ursulin <tursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 6/6] drm/syncobj: Avoid temporary allocation in
- drm_syncobj_timeline_signal_ioctl
-Date: Thu,  2 Jan 2025 19:44:17 +0000
-Message-ID: <20250102194418.70383-7-tursulin@igalia.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250102194418.70383-1-tursulin@igalia.com>
-References: <20250102194418.70383-1-tursulin@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A7510E7AB;
+ Thu,  2 Jan 2025 19:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1735847617; x=1767383617;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=VaTzo2T/cod32BIpGYEBKEdj95muaj+NKxvfgxWDsBo=;
+ b=Wwh+H2oH7BaIx5iaVgnZ5dJLx+HDwsjvj+gln5WuBGrVX/RQpsgAN2Ff
+ CDi4rGsohiYxg/EXXJ8I7HLQj4oSobGeWpf1LIhM6J7IlaB7LphHjH1t1
+ xCk3uqnLsei8Kcj6KYYdEQuK/lJcwJ2P/RPCBwICDSeWq/qEQhz0jmBa8
+ r4+rwWXBWiLYubvjt6Qu88rA96kG1fg33msJVod5nnu6KysGl2DeoBoGl
+ gLsH/1777wck4n49/60sa+P0UoHo2hyYAixhqv/9PQ72YxV80Rh2PMk79
+ KhhHS33ucd3vnDbsUsksaWQUgqpGMwUUe/y1XQyEIKqL24kCfTpalhUpp w==;
+X-CSE-ConnectionGUID: kDv9CaN2T3mYhA+HWWM3SQ==
+X-CSE-MsgGUID: Sxz2ZQnqRD+WUu8U9K22Gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36211971"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; d="scan'208";a="36211971"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 11:53:37 -0800
+X-CSE-ConnectionGUID: uBnHzayzTLS3Q8JSnhVEmw==
+X-CSE-MsgGUID: fFZ/OmrlQzOh+QIZ4faibg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; d="scan'208";a="106457554"
+Received: from slindbla-desk.ger.corp.intel.com (HELO fedora)
+ ([10.245.246.226])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jan 2025 11:53:32 -0800
+Date: Thu, 2 Jan 2025 20:53:19 +0100
+From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-xe-fixes
+Message-ID: <Z3bur0RmH6-70YSh@fedora>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,108 +76,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Hi Dave, Simona!
 
-We can avoid one of the two temporary allocations if we read the userspace
-supplied timeline points as we go along.
+Happy new year!
+This PR supersedes the one sent out 24-12-23, since that didn't seem to get
+pulled over the holidays. There's one extra commit (The OA fixes). The
+rest of the summary is repeated.
 
-The only new complication is to unwind unused fence chains on the error
-path, but even that code was already present in the function.
+Thanks,
+Thomas
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
----
- drivers/gpu/drm/drm_syncobj.c | 46 +++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 26 deletions(-)
+drm-xe-fixes-2025-01-02:
+This supersedes drm-xe-fixes-2024-12-23.
 
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index d8756763f517..b358fd1d3df3 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1555,10 +1555,10 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 				  struct drm_file *file_private)
- {
- 	struct drm_syncobj_timeline_array *args = data;
-+	uint64_t __user *points = u64_to_user_ptr(args->points);
-+	uint32_t i, j, count = args->count_handles;
- 	struct drm_syncobj **syncobjs;
- 	struct dma_fence_chain **chains;
--	uint64_t *points;
--	uint32_t i, j;
- 	int ret;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE))
-@@ -1570,33 +1570,22 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 	if (args->count_handles == 0)
- 		return -EINVAL;
- 
-+	if (!access_ok(points, count * sizeof(*points)))
-+		return -EFAULT;
-+
- 	ret = drm_syncobj_array_find(file_private,
- 				     u64_to_user_ptr(args->handles),
--				     args->count_handles,
-+				     count,
- 				     &syncobjs);
- 	if (ret < 0)
- 		return ret;
- 
--	points = kmalloc_array(args->count_handles, sizeof(*points),
--			       GFP_KERNEL);
--	if (!points) {
--		ret = -ENOMEM;
--		goto out;
--	}
--	if (!u64_to_user_ptr(args->points)) {
--		memset(points, 0, args->count_handles * sizeof(uint64_t));
--	} else if (copy_from_user(points, u64_to_user_ptr(args->points),
--				  sizeof(uint64_t) * args->count_handles)) {
--		ret = -EFAULT;
--		goto err_points;
--	}
--
--	chains = kmalloc_array(args->count_handles, sizeof(void *), GFP_KERNEL);
-+	chains = kmalloc_array(count, sizeof(void *), GFP_KERNEL);
- 	if (!chains) {
- 		ret = -ENOMEM;
--		goto err_points;
-+		goto out;
- 	}
--	for (i = 0; i < args->count_handles; i++) {
-+	for (i = 0; i < count; i++) {
- 		chains[i] = dma_fence_chain_alloc();
- 		if (!chains[i]) {
- 			for (j = 0; j < i; j++)
-@@ -1606,19 +1595,24 @@ drm_syncobj_timeline_signal_ioctl(struct drm_device *dev, void *data,
- 		}
- 	}
- 
--	for (i = 0; i < args->count_handles; i++) {
-+	for (i = 0; i < count; i++) {
- 		struct dma_fence *fence = dma_fence_get_stub();
-+		u64 point = 0;
- 
--		drm_syncobj_add_point(syncobjs[i], chains[i],
--				      fence, points[i]);
-+		if (points && get_user(point, points++)) {
-+			ret =  -EFAULT;
-+			for (j = i; j < count; j++)
-+				dma_fence_chain_free(chains[j]);
-+			goto err_chains;
-+		}
-+
-+		drm_syncobj_add_point(syncobjs[i], chains[i], fence, point);
- 		dma_fence_put(fence);
- 	}
- err_chains:
- 	kfree(chains);
--err_points:
--	kfree(points);
- out:
--	drm_syncobj_array_free(syncobjs, args->count_handles);
-+	drm_syncobj_array_free(syncobjs, count);
- 
- 	return ret;
- }
--- 
-2.47.1
+UAPI Changes:
+- Revert some devcoredump file format changes
+  breaking a mesa debug tool (John)
 
+Driver Changes:
+- Fixes around waits when moving to system (Nirmoy)
+- Fix a typo when checking for LMEM provisioning (Michal)
+- Fix a fault on fd close after unbind (Lucas)
+- A couple of OA fixes squashed for stable backporting (Umesh)
+The following changes since commit 4bbf9020becbfd8fc2c3da790855b7042fad455b:
+
+  Linux 6.13-rc4 (2024-12-22 13:22:21 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-01-02
+
+for you to fetch changes up to f0ed39830e6064d62f9c5393505677a26569bb56:
+
+  xe/oa: Fix query mode of operation for OAR/OAC (2025-01-02 19:01:21 +0100)
+
+----------------------------------------------------------------
+This supersedes drm-xe-fixes-2024-12-23.
+
+UAPI Changes:
+- Revert some devcoredump file format changes
+  breaking a mesa debug tool (John)
+
+Driver Changes:
+- Fixes around waits when moving to system (Nirmoy)
+- Fix a typo when checking for LMEM provisioning (Michal)
+- Fix a fault on fd close after unbind (Lucas)
+- A couple of OA fixes squashed for stable backporting (Umesh)
+
+----------------------------------------------------------------
+John Harrison (1):
+      drm/xe: Revert some changes that break a mesa debug tool
+
+Lucas De Marchi (1):
+      drm/xe: Fix fault on fd close after unbind
+
+Michal Wajdeczko (1):
+      drm/xe/pf: Use correct function to check LMEM provisioning
+
+Nirmoy Das (2):
+      drm/xe: Use non-interruptible wait when moving BO to system
+      drm/xe: Wait for migration job before unmapping pages
+
+Umesh Nerlige Ramappa (1):
+      xe/oa: Fix query mode of operation for OAR/OAC
+
+ drivers/gpu/drm/xe/xe_bo.c                 |  12 ++-
+ drivers/gpu/drm/xe/xe_devcoredump.c        |  15 +++-
+ drivers/gpu/drm/xe/xe_exec_queue.c         |   9 ++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |   2 +-
+ drivers/gpu/drm/xe/xe_oa.c                 | 134 ++++++++++-------------------
+ drivers/gpu/drm/xe/xe_ring_ops.c           |   5 +-
+ drivers/gpu/drm/xe/xe_sched_job_types.h    |   2 +
+ 7 files changed, 85 insertions(+), 94 deletions(-)
