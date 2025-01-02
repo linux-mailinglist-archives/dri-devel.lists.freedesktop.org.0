@@ -2,90 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740149FF823
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 11:33:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94A19FF84A
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 11:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF36810E403;
-	Thu,  2 Jan 2025 10:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7EC610E406;
+	Thu,  2 Jan 2025 10:37:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="DQOVbOUn";
+	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dIXJVMNq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2AC110E403;
- Thu,  2 Jan 2025 10:33:41 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5020s38c021511;
- Thu, 2 Jan 2025 10:33:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LFmz1Z7EOJf7jUkRMX6oPUrW3zgPF/IHhG2c5RfNw+4=; b=DQOVbOUn3CQqK2pp
- zw0UUU1xSRtuQja2GvW8yMa6Y6GnXmwMONEHHXAm54qIoDWo0KLyWCmPNo1ib1IO
- 1WiFKUZyGwgAa2jmKdhmb/v5zlhGl73O72toRs11gWkZIBqmwnZ48O0hCAkuy3pQ
- 0z7OOXsu6x626eufQnKklLvm9lpyc3H7G5DrBZ2Obrd0Ve4htITaqplaAbs0KNex
- Lktl1hLSVh3WalaLC774//6+N2MSHVfZ7/80Wqifj+DaY3+fJJ9Lhp8nXpz34kkP
- 2E89FFJt+jUyrGH8gP9xZuLq4D4IVaJv8pzeD98JcnCzRFi8BXtvCw4YAJZLAr3T
- xWxiyw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43wgnj10u3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Jan 2025 10:33:36 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 502AXZJX012810
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 2 Jan 2025 10:33:35 GMT
-Received: from [10.216.23.18] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 2 Jan 2025
- 02:33:28 -0800
-Message-ID: <82d06ce7-070c-4c86-9a56-62bcf2319478@quicinc.com>
-Date: Thu, 2 Jan 2025 16:03:26 +0530
+X-Greylist: delayed 312 seconds by postgrey-1.36 at gabe;
+ Thu, 02 Jan 2025 10:37:53 UTC
+Received: from smtp.smtpout.orange.fr (smtp-72.smtpout.orange.fr
+ [80.12.242.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263EC10E406;
+ Thu,  2 Jan 2025 10:37:53 +0000 (UTC)
+Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
+ id TIaFtIJGgv8EoTIaIt1ist; Thu, 02 Jan 2025 11:37:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+ s=t20230301; t=1735814271;
+ bh=m/vUJhwL3JxwUo9JiXO0sjdvNVj8XBjdzWqYRllhLR0=;
+ h=Message-ID:Date:MIME-Version:Subject:To:From;
+ b=dIXJVMNqq2vQdKxSShJ3XE73jU+NJYue5WSoFot2vxnAIvl/OAvSWYFIyuylv7Xn6
+ 9I+1v0l+Q8QXa9FUOIYVPv1lVx+nsVt5dei4EbqvImJI/XGYiXu9ynhGwRlMb+rmrI
+ Q4YngEkt1472DxfR3U/twcs41hySJ7aDW6SRd95TlKI7lu11u3Y5G6fSn8+Q5rPjKw
+ sloXDRXlfRIWJRqiVdYsQkfeWPt7J9MXXqsLbcifBYC1IVh++C8u62Bv2W1uBoywYC
+ b3D9W/Dv7y3TCVVYlpf3GwG3759hHvsHnsKoy6R3KGfRvv9hnIQvPyjVy0Gs/S7X34
+ aoSUOLWg53DkQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Thu, 02 Jan 2025 11:37:51 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <022418c7-f2b2-47b7-9b61-da3f4b7dffab@wanadoo.fr>
+Date: Thu, 2 Jan 2025 11:37:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/6] drm/msm/adreno: Add support for ACD
-To: <neil.armstrong@linaro.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Viresh Kumar
- <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
- <20241231-gpu-acd-v3-1-3ba73660e9ca@quicinc.com>
- <ae360497-84d5-4153-8bc4-b3943fb30dc5@linaro.org>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <ae360497-84d5-4153-8bc4-b3943fb30dc5@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v4 03/11] mtd: intel-dg: implement region enumeration
+To: Alexander Usyskin <alexander.usyskin@intel.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Karthik Poosa <karthik.poosa@intel.com>
+Cc: Reuven Abliyev <reuven.abliyev@intel.com>,
+ Oren Weil <oren.jer.weil@intel.com>, linux-mtd@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Tomas Winkler <tomasw@gmail.com>
+References: <20250101153925.865703-1-alexander.usyskin@intel.com>
+ <20250101153925.865703-4-alexander.usyskin@intel.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20250101153925.865703-4-alexander.usyskin@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: Zr2uUo9BNYSS-cuL7fQWhJXT4N62i2EX
-X-Proofpoint-GUID: Zr2uUo9BNYSS-cuL7fQWhJXT4N62i2EX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- clxscore=1015 spamscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501020091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,263 +78,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/31/2024 3:18 PM, neil.armstrong@linaro.org wrote:
-> On 30/12/2024 22:11, Akhil P Oommen wrote:
->> ACD a.k.a Adaptive Clock Distribution is a feature which helps to reduce
->> the power consumption. In some chipsets, it is also a requirement to
->> support higher GPU frequencies. This patch adds support for GPU ACD by
->> sending necessary data to GMU and AOSS. The feature support for the
->> chipset is detected based on devicetree data.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
->>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 84 +++++++++++++++++++++++++
->> +++++-----
->>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  1 +
->>   drivers/gpu/drm/msm/adreno/a6xx_hfi.c | 36 +++++++++++++++
->>   drivers/gpu/drm/msm/adreno/a6xx_hfi.h | 21 +++++++++
->>   4 files changed, 132 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/
->> msm/adreno/a6xx_gmu.c
->> index 14db7376c712..2689e79aefa5 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
->> @@ -1021,14 +1021,6 @@ int a6xx_gmu_resume(struct a6xx_gpu *a6xx_gpu)
->>         gmu->hung = false;
->>   -    /* Notify AOSS about the ACD state (unimplemented for now =>
->> disable it) */
->> -    if (!IS_ERR(gmu->qmp)) {
->> -        ret = qmp_send(gmu->qmp, "{class: gpu, res: acd, val: %d}",
->> -                   0 /* Hardcode ACD to be disabled for now */);
->> -        if (ret)
->> -            dev_err(gmu->dev, "failed to send GPU ACD state\n");
->> -    }
->> -
->>       /* Turn on the resources */
->>       pm_runtime_get_sync(gmu->dev);
->>   @@ -1476,6 +1468,68 @@ static int a6xx_gmu_pwrlevels_probe(struct
->> a6xx_gmu *gmu)
->>       return a6xx_gmu_rpmh_votes_init(gmu);
->>   }
->>   +static int a6xx_gmu_acd_probe(struct a6xx_gmu *gmu)
->> +{
->> +    struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
->> +    struct a6xx_hfi_acd_table *cmd = &gmu->acd_table;
->> +    struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
->> +    struct msm_gpu *gpu = &adreno_gpu->base;
->> +    int ret, i, cmd_idx = 0;
->> +
->> +    cmd->version = 1;
->> +    cmd->stride = 1;
->> +    cmd->enable_by_level = 0;
->> +
->> +    /* Skip freq = 0 and parse acd-level for rest of the OPPs */
->> +    for (i = 1; i < gmu->nr_gpu_freqs; i++) {
->> +        struct dev_pm_opp *opp;
->> +        struct device_node *np;
->> +        unsigned long freq;
->> +        u32 val;
->> +
->> +        freq = gmu->gpu_freqs[i];
->> +        opp = dev_pm_opp_find_freq_exact(&gpu->pdev->dev, freq, true);
->> +        np = dev_pm_opp_get_of_node(opp);
->> +
->> +        ret = of_property_read_u32(np, "qcom,opp-acd-level", &val);
->> +        of_node_put(np);
->> +        dev_pm_opp_put(opp);
->> +        if (ret == -EINVAL)
->> +            continue;
->> +        else if (ret) {
->> +            DRM_DEV_ERROR(gmu->dev, "Unable to read acd level for
->> freq %lu\n", freq);
->> +            return ret;
->> +        }
->> +
->> +        cmd->enable_by_level |= BIT(i);
->> +        cmd->data[cmd_idx++] = val;
->> +    }
->> +
->> +    cmd->num_levels = cmd_idx;
->> +
->> +    /* It is a problem if qmp node is unavailable when ACD is
->> required */
->> +    if (cmd->enable_by_level && IS_ERR_OR_NULL(gmu->qmp)) {
->> +        DRM_DEV_ERROR(gmu->dev, "Unable to send ACD state to AOSS\n");
->> +        return -EINVAL;
->> +    }
->> +
->> +    /* Otherwise, nothing to do if qmp is unavailable */
->> +    if (IS_ERR_OR_NULL(gmu->qmp))
->> +        return 0;
->> +
->> +    /*
->> +     * Notify AOSS about the ACD state. AOSS is supposed to assume
->> that ACD is disabled on
->> +     * system reset. So it is harmless if we couldn't notify 'OFF' state
->> +     */
->> +    ret = qmp_send(gmu->qmp, "{class: gpu, res: acd, val: %d}", !!
->> cmd->enable_by_level);
->> +    if (ret && cmd->enable_by_level) {
->> +        DRM_DEV_ERROR(gmu->dev, "Failed to send ACD state to AOSS\n");
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   static int a6xx_gmu_clocks_probe(struct a6xx_gmu *gmu)
->>   {
->>       int ret = devm_clk_bulk_get_all(gmu->dev, &gmu->clocks);
->> @@ -1793,7 +1847,7 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu,
->> struct device_node *node)
->>       gmu->qmp = qmp_get(gmu->dev);
->>       if (IS_ERR(gmu->qmp) && adreno_is_a7xx(adreno_gpu)) {
->>           ret = PTR_ERR(gmu->qmp);
->> -        goto remove_device_link;
->> +        goto detach_gxpd;
->>       }
->>         init_completion(&gmu->pd_gate);
->> @@ -1809,6 +1863,10 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu,
->> struct device_node *node)
->>       /* Get the power levels for the GMU and GPU */
->>       a6xx_gmu_pwrlevels_probe(gmu);
->>   +    ret = a6xx_gmu_acd_probe(gmu);
->> +    if (ret)
->> +        goto detach_gxpd;
->> +
->>       /* Set up the HFI queues */
->>       a6xx_hfi_init(gmu);
->>   @@ -1819,7 +1877,13 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu,
->> struct device_node *node)
->>         return 0;
->>   -remove_device_link:
->> +detach_gxpd:
->> +    if (!IS_ERR_OR_NULL(gmu->gxpd))
->> +        dev_pm_domain_detach(gmu->gxpd, false);
->> +
->> +    if (!IS_ERR_OR_NULL(gmu->qmp))
->> +        qmp_put(gmu->qmp);
->> +
->>       device_link_del(link);
->>     detach_cxpd:
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/
->> msm/adreno/a6xx_gmu.h
->> index b4a79f88ccf4..87d225b08e9b 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
->> @@ -81,6 +81,7 @@ struct a6xx_gmu {
->>       int nr_gpu_freqs;
->>       unsigned long gpu_freqs[16];
->>       u32 gx_arc_votes[16];
->> +    struct a6xx_hfi_acd_table acd_table;
->>         int nr_gmu_freqs;
->>       unsigned long gmu_freqs[4];
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c b/drivers/gpu/drm/
->> msm/adreno/a6xx_hfi.c
->> index cb8844ed46b2..3c183c1c6266 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.c
->> @@ -702,6 +702,38 @@ static int a6xx_hfi_send_bw_table(struct a6xx_gmu
->> *gmu)
->>           NULL, 0);
->>   }
->>   +#define HFI_FEATURE_ACD 12
->> +
->> +static int a6xx_hfi_enable_acd(struct a6xx_gmu *gmu)
->> +{
->> +    struct a6xx_hfi_acd_table *acd_table = &gmu->acd_table;
->> +    struct a6xx_hfi_msg_feature_ctrl msg = {
->> +        .feature = HFI_FEATURE_ACD,
->> +        .enable = 1,
->> +        .data = 0,
->> +    };
->> +    int ret;
->> +
->> +    if (!acd_table->enable_by_level)
->> +        return 0;
->> +
->> +    /* Enable ACD feature at GMU */
->> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_FEATURE_CTRL, &msg,
->> sizeof(msg), NULL, 0);
->> +    if (ret) {
->> +        DRM_DEV_ERROR(gmu->dev, "Unable to enable ACD (%d)\n", ret);
->> +        return ret;
->> +    }
->> +
->> +    /* Send ACD table to GMU */
->> +    ret = a6xx_hfi_send_msg(gmu, HFI_H2F_MSG_ACD, &msg, sizeof(msg),
->> NULL, 0);
+Le 01/01/2025 à 16:39, Alexander Usyskin a écrit :
+> In intel-dg, there is no access to the spi controller,
+> the information is extracted from the descriptor region.
 > 
-> 
-> Seems you still don't send the proper acd_table
+> CC: Lucas De Marchi <lucas.demarchi@intel.com>
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> Co-developed-by: Tomas Winkler <tomasw@gmail.com>
+> Signed-off-by: Tomas Winkler <tomasw@gmail.com>
+> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
 
-Aah! I forgot this one. Usually the end-to-end validation is done by HW
-folks during Bringups. But I think I can do some additional validation
-on the gmu fw side. Will check that and post Rev-4.
+...
 
--Akhil.
+> @@ -89,6 +281,13 @@ static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
+>   		goto err;
+>   	}
+>   
+> +	ret = intel_dg_nvm_init(nvm, device);
+> +	if (ret < 0) {
+> +		dev_err(device, "cannot initialize nvm\n");
+> +		ret = -ENODEV;
 
-> 
-> Neil
-> 
->> +    if (ret) {
->> +        DRM_DEV_ERROR(gmu->dev, "Unable to ACD table (%d)\n", ret);
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   static int a6xx_hfi_send_test(struct a6xx_gmu *gmu)
->>   {
->>       struct a6xx_hfi_msg_test msg = { 0 };
->> @@ -799,6 +831,10 @@ int a6xx_hfi_start(struct a6xx_gmu *gmu, int
->> boot_state)
->>       if (ret)
->>           return ret;
->>   +    ret = a6xx_hfi_enable_acd(gmu);
->> +    if (ret)
->> +        return ret;
->> +
->>       ret = a6xx_hfi_send_core_fw_start(gmu);
->>       if (ret)
->>           return ret;
->> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h b/drivers/gpu/drm/
->> msm/adreno/a6xx_hfi.h
->> index 528110169398..51864c8ad0e6 100644
->> --- a/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
->> +++ b/drivers/gpu/drm/msm/adreno/a6xx_hfi.h
->> @@ -151,12 +151,33 @@ struct a6xx_hfi_msg_test {
->>       u32 header;
->>   };
->>   +#define HFI_H2F_MSG_ACD 7
->> +#define MAX_ACD_STRIDE 2
->> +
->> +struct a6xx_hfi_acd_table {
->> +    u32 header;
->> +    u32 version;
->> +    u32 enable_by_level;
->> +    u32 stride;
->> +    u32 num_levels;
->> +    u32 data[16 * MAX_ACD_STRIDE];
->> +};
->> +
->>   #define HFI_H2F_MSG_START 10
->>     struct a6xx_hfi_msg_start {
->>       u32 header;
->>   };
->>   +#define HFI_H2F_FEATURE_CTRL 11
->> +
->> +struct a6xx_hfi_msg_feature_ctrl {
->> +    u32 header;
->> +    u32 feature;
->> +    u32 enable;
->> +    u32 data;
->> +};
->> +
->>   #define HFI_H2F_MSG_CORE_FW_START 14
->>     struct a6xx_hfi_msg_core_fw_start {
->>
-> 
+Why setting to -ENODEV?
+
+> +		goto err;
+> +	}
+> +
+>   	dev_set_drvdata(&aux_dev->dev, nvm);
+>   
+>   	return 0;
 
