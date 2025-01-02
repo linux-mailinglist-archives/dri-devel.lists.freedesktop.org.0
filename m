@@ -2,60 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1A99FF871
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 11:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180FA9FF8F4
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 12:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 726E110E4E0;
-	Thu,  2 Jan 2025 10:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08C8910E6D7;
+	Thu,  2 Jan 2025 11:49:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bE0cew1D";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="r3kpxk1l";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W5DCz7Qy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r3kpxk1l";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W5DCz7Qy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB2810E40F;
- Thu,  2 Jan 2025 10:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1735815164; x=1767351164;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=tDuaHu6rJ8Z7a8v9QzdiwLCLE0Q8k68D8SAllq1iJrY=;
- b=bE0cew1DcNH0aQ6699VemH4p3v8UWjbw4+tOU1j8PAVhhEIGkdvTwVUX
- uJnvGfMrXS+xeh5nqzxjZz0SaqgirUQIwDtCHnGhhjGajX9JNLavtVIvS
- m0vt+q7hcE8iKJx16jTE/SR5ew1SOoxZ31SO3tfkKJ40M0TMmdOkC3bTy
- 3frnsdoRhT146fY69w/TBWLLDbFK4zscQuq9E43DyksyX/OK4041c0SyJ
- ywZTX+x7D9Oe8WhYHKRAeec4mXoXwGS9646p34M865RGkKTH6o2LuQvTw
- 2lBs0tjswSkANhJNkVTNFXZZh2Lsko1WOXVmxaGZmrvMjUtFMS7l6ZI7y Q==;
-X-CSE-ConnectionGUID: 56LzjCqzT3i4srHBKP1BGA==
-X-CSE-MsgGUID: YTMeq16GR4C8xFP5sS9XTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="35949962"
-X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; d="scan'208";a="35949962"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2025 02:52:43 -0800
-X-CSE-ConnectionGUID: L+FVdSFuTmOH3at+o8dIzQ==
-X-CSE-MsgGUID: gsnzOvFTSo+gQR6lqKawUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="138803685"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.212])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jan 2025 02:52:42 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 10/16] drm/i915/ddi: write payload for 128b/132b SST
-In-Reply-To: <Z3QerVHWpJ5aN8eT@ideak-desk.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1734643485.git.jani.nikula@intel.com>
- <5ce97e5f6c2dd4d5ee3181b2d4ed968eb806534c.1734643485.git.jani.nikula@intel.com>
- <Z3QerVHWpJ5aN8eT@ideak-desk.fi.intel.com>
-Date: Thu, 02 Jan 2025 12:52:38 +0200
-Message-ID: <877c7do5c9.fsf@intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14DC110E6D3;
+ Thu,  2 Jan 2025 11:49:52 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9CF911F38E;
+ Thu,  2 Jan 2025 11:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1735818590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
+ b=r3kpxk1lSh3B6RQlPjEAXD8YWjSbM2h9fL4ZhWRiopqPxRxTeQ8Hb/9lKBGm5jF4Nkxcmr
+ OaO6xc0nZ3okFyyxPoe9ZAu3RfzJc/Wz5vkhfVXlQK/6vIUg7LLVEx+XDqALk4P+BPptFj
+ tN8AMiJoXOTfc/psesRAf4LqNlLfRtY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1735818590;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
+ b=W5DCz7QypT657BX5U/GS3Aq4rEXuiY7dnW37moWDCk8yb892KAvk3KiUHntOa6ixleD6JY
+ 0kSIrF14l+jCXBAA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=r3kpxk1l;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=W5DCz7Qy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1735818590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
+ b=r3kpxk1lSh3B6RQlPjEAXD8YWjSbM2h9fL4ZhWRiopqPxRxTeQ8Hb/9lKBGm5jF4Nkxcmr
+ OaO6xc0nZ3okFyyxPoe9ZAu3RfzJc/Wz5vkhfVXlQK/6vIUg7LLVEx+XDqALk4P+BPptFj
+ tN8AMiJoXOTfc/psesRAf4LqNlLfRtY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1735818590;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=9/M2L0IaJwNHUpNZEHn9C0RksUBS9hK+UVh8Fs3QBZg=;
+ b=W5DCz7QypT657BX5U/GS3Aq4rEXuiY7dnW37moWDCk8yb892KAvk3KiUHntOa6ixleD6JY
+ 0kSIrF14l+jCXBAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68B81132EA;
+ Thu,  2 Jan 2025 11:49:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id S/hRGF59dmeZbQAAD6G6ig
+ (envelope-from <tiwai@suse.de>); Thu, 02 Jan 2025 11:49:50 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: dri-devel@lists.freedesktop.org
+Cc: Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] drm/nouveau/disp: Fix missing backlight control on
+ Macbook 5, 1
+Date: Thu,  2 Jan 2025 12:49:36 +0100
+Message-ID: <20250102114944.11499-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9CF911F38E
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU]; ARC_NA(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,81 +112,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 31 Dec 2024, Imre Deak <imre.deak@intel.com> wrote:
-> On Thu, Dec 19, 2024 at 11:33:59PM +0200, Jani Nikula wrote:
->> Write the payload allocation table for 128b/132b SST. Use VCPID 1 and
->> start from slot 0, with dp_m_n.tu slots.
->> 
->> This is preparation for enabling 128b/132b SST. This path is not
->> reachable yet. Indeed, we don't yet compute TU for 128b/132b SST.
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_ddi.c | 11 +++++++++++
->>  1 file changed, 11 insertions(+)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
->> index 6f813bf85b23..64528ff8856e 100644
->> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
->> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
->> @@ -2669,6 +2669,12 @@ static void mtl_ddi_pre_enable_dp(struct intel_atomic_state *state,
->>  	/* 6.o Configure and enable FEC if needed */
->>  	intel_ddi_enable_fec(encoder, crtc_state);
->>  
->> +	/* 7.a 128b/132b SST. */
->> +	if (!is_mst && intel_dp_is_uhbr(crtc_state)) {
->> +		/* VCPID 1, start slot 0 for 128b/132b, tu slots */
->> +		drm_dp_dpcd_write_payload(&intel_dp->aux, 1, 0, crtc_state->dp_m_n.tu);
->
-> I would handle the error by sending a modeset retry uevent. Either way:
+Macbook 5,1 with MCP79 lost its backlight control since the recent
+change for supporting GFP-RM; it rewrote the whole nv50 backlight
+control code and each display engine is supposed to have an entry for
+IOR bl callback, but it didn't cover mcp77.
 
-Mmmh. The MST code calls intel_dp_queue_modeset_retry_for_link() in
-response to drm_dp_add_payload_part{1,2}() failures, but nothing
-else. As in, we don't do anything else (we just plunge on with the
-enable), and we don't even do that much in response to any other errors.
+This patch adds the missing bl entry initialization for mcp77 display
+engine to recover the backlight control.
 
-Our options are limited anyway.
+Fixes: 2274ce7e3681 ("drm/nouveau/disp: add output backlight control methods")
+Cc: <stable@vger.kernel.org>
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1223838
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
 
-Arguably the MST path payload update has more failure modes than SST,
-but you'd like to do this:
+The previous submission seemed fallin in a crack:
+  https://lore.kernel.org/all/20240517110853.8481-1-tiwai@suse.de/
+so just resending it.
 
-	ret = drm_dp_dpcd_write_payload(&intel_dp->aux, 1, 0, crtc_state->dp_m_n.tu);
-	if (ret < 0)
-		intel_dp_queue_modeset_retry_for_link(state, encoder, crtc_state);
+ drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-in mtl_ddi_pre_enable_dp() and tgl_ddi_pre_enable_dp()?
-
-Overall I'm wondering if this too needs an overhaul. Instead of queueing
-the retry all over the place, maybe we should just flag it in
-crtc_state, and have intel_atomic_cleanup_work() do it once afterwards?
-
-
-BR,
-Jani.
-
->
-> Reviewed-by: Imre Deak <imre.deak@intel.com>
->
->> +	}
->> +
->>  	if (!is_mst)
->>  		intel_dsc_dp_pps_write(encoder, crtc_state);
->>  }
->> @@ -2808,6 +2814,11 @@ static void tgl_ddi_pre_enable_dp(struct intel_atomic_state *state,
->>  	/* 7.l Configure and enable FEC if needed */
->>  	intel_ddi_enable_fec(encoder, crtc_state);
->>  
->> +	if (!is_mst && intel_dp_is_uhbr(crtc_state)) {
->> +		/* VCPID 1, start slot 0 for 128b/132b, tu slots */
->> +		drm_dp_dpcd_write_payload(&intel_dp->aux, 1, 0, crtc_state->dp_m_n.tu);
->> +	}
->> +
->>  	if (!is_mst)
->>  		intel_dsc_dp_pps_write(encoder, crtc_state);
->>  }
->> -- 
->> 2.39.5
->> 
-
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
+index 841e3b69fcaf..5a0c9b8a79f3 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
+@@ -31,6 +31,7 @@ mcp77_sor = {
+ 	.state = g94_sor_state,
+ 	.power = nv50_sor_power,
+ 	.clock = nv50_sor_clock,
++	.bl = &nv50_sor_bl,
+ 	.hdmi = &g84_sor_hdmi,
+ 	.dp = &g94_sor_dp,
+ };
 -- 
-Jani Nikula, Intel
+2.43.0
+
