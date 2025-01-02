@@ -2,92 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B7D9FFF84
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 20:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2929FFF85
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 20:44:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6C610E794;
-	Thu,  2 Jan 2025 19:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1844310E77F;
+	Thu,  2 Jan 2025 19:43:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UjYDdZQW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GEpshzUU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA72F10E2F6;
- Wed,  1 Jan 2025 21:25:30 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-53ff1f7caaeso12142239e87.0; 
- Wed, 01 Jan 2025 13:25:30 -0800 (PST)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BC5610E308
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 13:02:00 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-aa6c0dbce1fso1543682566b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2025 05:02:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1735766669; x=1736371469; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1735822859; x=1736427659; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+7Gumy85u/RRWfyQv4lGazJpNh7Vrewtak4aVfMceos=;
- b=UjYDdZQWcmXbmAoL7dROR0drVDaWruLkFHrvJwfPP8kvlMWm6RrEU23Jza4VFjttAV
- g5E3aTlbkJdALiEjA4WBj2YkCnZ7iytWzxEP26DENzwCqOumUmXCCp7e7TEFWPt8mf4D
- pjUbmCgfXUD6NwCyOr1VAYIfmEKS5lVW9doWpcd7xxghZ9SULDpHtjB2ZflY234oGGwN
- LjFFVb7o7Z7iMOhyLrDkXvImEncCtRoxjctp774DR9jrtt1VVmIOD73gv8KzdCghyVEx
- p9skbV4r7T6jj4TUlO1fxq2bCCNIdCXaPn/7UmfQNGNucdpOBlv1GA6hh4eVyFff3IZw
- jRgg==
+ bh=jXS24HNk/PcPkWyO7/S1209SrdCqek8Xs180xOiisVo=;
+ b=GEpshzUUdl/nDibtdTI/9Xpmoxh+yR2nllpvqyiaOAqAiI67E/dttS1XGqNz7ksSY8
+ vJvCOvTTeG+eDBr2FWrRTx8qILGynjZG2dT+ztOutkI4qWMr1UhFlK7yokhTP5cdPp66
+ vhn+5h1ffFkPSckNe1vfr2pWRSBvxKw+8rOngF1O6xtVrUAtty0TFdTcMmUfOPE2o/2z
+ 0mbPWVtuQUh2sd46YCu/ZqItFi2+jpJRfYUCxKrY+6Y6XGpifiQl7NRuoW7AlZBngzdF
+ doVtlj1SvmFW5L94KALIMPwGMTCl8YpNTNvjCBQGSQ5IrpODJK9qYSE5dN8Rzs2D8MZB
+ IdhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735766669; x=1736371469;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1735822859; x=1736427659;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+7Gumy85u/RRWfyQv4lGazJpNh7Vrewtak4aVfMceos=;
- b=JUQHXM8A5uHKoJibFM+QTaQwuTrbPQJt9sOLerFj0veg83O+7qsy3AdBdZdM86Akrg
- F3Uyhccoi6M1Q+5hNKU/TMljGXlFy5BUZVPUJOuzuhxXsLb87uS7ioS3frMedAqIbwlw
- 4qXqkRXVRq8rLjl+rlXGfkylctoiyOCvh97znRuj72EfXqb0xt75Y/b+/qUVhrBljGV5
- s/5/DkxQO4rfC0sQvi6pmu1kUsYtflqE5T81YZm/irN0JEDrovOAJ7tAQcLlw9NKJ1qD
- hSWLWVWscBwxmsBD7SV87bWugHUq+WtnLIUPEFtRJpD2FQ6yXTR6pnkLi3/YV4FM8Slo
- YKZA==
+ bh=jXS24HNk/PcPkWyO7/S1209SrdCqek8Xs180xOiisVo=;
+ b=ZlnC56xouLd1l95mv69H8abmJpOq7VbJ9lyL2RMlWVoFlHt5ZtHqmJ1+1lQ8hHkh2X
+ p6q0nU6YmFU5gvERt6H7TvYziwU+laQc/F2NgmpOfBRJeZNfIK3bJ/p82TYKdcbAMrfn
+ IDDP91p+Uud4l32Ap5BmhIR2oUxyDMaoSCqA67NZgfgL3dXfy1WlRlzCCMgHhxqcVa7K
+ ALB/4CSfrziBdhmnkBTAQNwSs7+S0X0xjJcSBpSajYAI+c9IMymdv/loLiz0mimpxPXT
+ rtoPKnWvVM9SgvxdY9wnIi4cuxTjuuvl3RmSwTpKyYlazKxdtpode8EMOcyvlRYboWSH
+ UYdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsywDdSFNNFpMtnH831fm+qiae+HSBENReNjLfmx4l36IVr5vaQ0zk/Flcz38gJE6VpuFIxyMYqCpC@lists.freedesktop.org,
- AJvYcCXXpFo3k9Gi6fFqZVbx6HZZBytLO8R6tqH4Sa4EIx9TrXhnIGK0JJLybbMDUAHuhtLMLE69p4GAGvc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnZ69F3nQhrzm73MGbZeiAXQTvK/zG5Flxgy9+FpjHxRjBBnn3
- 6sze44yyIO+P/b4/3cCQJaLX/ydi4g1XEweogsYEFyJhPJBpM8kEuwI/dw==
-X-Gm-Gg: ASbGnctcFVjRGX2MfClYi/boXvsDLyMEOb3qTusBjR0pmXg6ZYL0/r/MMo3PYg0M1hl
- nRg4FAQRsMeMFOb2ig80EXxq56l8RPHtk9LJwPpFN/lWwvlTJj4g/mkiobPD+DrxvCmgvjaIfz+
- jhPQXDeAcNug6o7Mn3gbkJCc5RRF5qzbcMu+latuv/gO/dV+aKxIULyeE7ljFRbuxDlvhxP96Eg
- DqYGFReTExOXaXISaJOk1dIfY4HpjDhe17W7p3kTl7WGFIe0UW5uO2ibwM2SSu9Gzp1/w7FcImq
- z8LtbFpJtC++gFte+65JK7w=
-X-Google-Smtp-Source: AGHT+IHpviB1MKWJdRoIJLE0uDNAiEn95vSl3N4Qv8YA819soN8pVymV+cXxFS7EpZKTCJgDGapCWQ==
-X-Received: by 2002:a5d:64ad:0:b0:385:decf:52bc with SMTP id
- ffacd0b85a97d-38a2220088bmr34387189f8f.32.1735766198509; 
- Wed, 01 Jan 2025 13:16:38 -0800 (PST)
-Received: from dsl-u17-10 (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c89e2dfsm36764411f8f.74.2025.01.01.13.16.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 01 Jan 2025 13:16:37 -0800 (PST)
-Date: Wed, 1 Jan 2025 21:16:37 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
- <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Karthik Poosa <karthik.poosa@intel.com>, Reuven Abliyev
- <reuven.abliyev@intel.com>, Oren Weil <oren.jer.weil@intel.com>,
- linux-mtd@lists.infradead.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/11] mtd: intel-dg: align 64bit read and write
-Message-ID: <20250101211637.709b65e1@dsl-u17-10>
-In-Reply-To: <20250101164119.000d2bd4@dsl-u17-10>
-References: <20250101153925.865703-1-alexander.usyskin@intel.com>
- <20250101153925.865703-7-alexander.usyskin@intel.com>
- <20250101164119.000d2bd4@dsl-u17-10>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ AJvYcCUv4w8MebdAHXWov9/fn9SJ1r7aDsdrv6bkdo+0yWUauv/oZJmgzqHo/agRl6hOJD9tFUDwXnbmQDY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4RWWBmNRIgVfedwx5R6XKuPQwOqdp5JWnQ9dTznmO6O+LzTtE
+ yOj+Ti1tBmW11Cj/Cpl1xjaeIc8VCj1/HxJbJ6LbKIaSzPB/CKdO8HvKa/c8V7D05XUoc4k0XvJ
+ nqJpe9pR1AZWNp4DikSnC0c1s4Gw8/dQpRs+IAg==
+X-Gm-Gg: ASbGncskTbkXDAWiyOsy7E4gpW8065qHcCzFay+7oXcq/gb0wGPT/V3UmAZFVjX84qp
+ 5evi/akvjFMPU86BgBX5wza1EN06YEJ9LWd8WWA==
+X-Google-Smtp-Source: AGHT+IGLvuXj+dIrqlUzp0aOb3Z7mz1qVwkY++yurih/6Pd33sBtFEvkwwttWiJ3Nh2EseGJDAQCU7eALZPBZTPzrLo=
+X-Received: by 2002:a05:6402:2802:b0:5d3:cff5:635e with SMTP id
+ 4fb4d7f45d1cf-5d81de065b8mr107382476a12.26.1735822529291; Thu, 02 Jan 2025
+ 04:55:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1735550269.git.zhoubinbin@loongson.cn>
+ <4d62076ee560b35c653a9fbced8d03ef3bdb3005.1735550269.git.zhoubinbin@loongson.cn>
+ <3daaaff8-062a-4985-a5bc-8d228314b02e@suse.de>
+In-Reply-To: <3daaaff8-062a-4985-a5bc-8d228314b02e@suse.de>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Thu, 2 Jan 2025 20:55:17 +0800
+Message-ID: <CAMpQs4JcuRhpOyXHxy0ab+D-Wd0itKdb0GiZdTE59_qEpUfyLA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/4] drm/ls2kbmc: Add support for Loongson-2K BMC
+ display
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>,
+ Lee Jones <lee@kernel.org>, Corey Minyard <minyard@acm.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Huacai Chen <chenhuacai@kernel.org>, 
+ linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
+ dri-devel@lists.freedesktop.org, Xuerui Wang <kernel@xen0n.name>, 
+ loongarch@lists.linux.dev, Chong Qiao <qiaochong@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Thu, 02 Jan 2025 19:43:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,36 +92,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 1 Jan 2025 16:41:19 +0000
-David Laight <david.laight.linux@gmail.com> wrote:
+Hi Thomas:
 
-> On Wed,  1 Jan 2025 17:39:20 +0200
-> Alexander Usyskin <alexander.usyskin@intel.com> wrote:
-> 
-> > GSC NVM controller HW errors on quad access overlapping 1K border.
-> > Align 64bit read and write to avoid readq/writeq over 1K border.
-> > 
-> > Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
-> > Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
-> > ---
-> >  drivers/mtd/devices/mtd-intel-dg.c | 35 ++++++++++++++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> > 
-> > diff --git a/drivers/mtd/devices/mtd-intel-dg.c b/drivers/mtd/devices/mtd-intel-dg.c
-> > index 76ef7198fff8..230bf444b7fe 100644
-> > --- a/drivers/mtd/devices/mtd-intel-dg.c
-> > +++ b/drivers/mtd/devices/mtd-intel-dg.c
-> > @@ -238,6 +238,24 @@ static ssize_t idg_write(struct intel_dg_nvm *nvm, u8 region,
-> >  		len_s -= to_shift;
-> >  	}
-> >  
-> > +	if (!IS_ALIGNED(to, sizeof(u64)) &&
-> > +	    ((to ^ (to + len_s)) & GENMASK(31, 10))) {  
+Thanks for your reply.
 
-That might as well be the easier to understand:
-	if ((to & 7) && (to & 1023) + len_s > 1024)
+On Thu, Jan 2, 2025 at 5:07=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
+de> wrote:
+>
+> Hi
+>
+>
+> Am 30.12.24 um 10:31 schrieb Binbin Zhou:
+> [...]
+> > +
+> > +static struct platform_driver ls2kbmc_platform_driver =3D {
+> > +     .driver =3D {
+> > +             .name =3D "ls2kbmc-framebuffer",
+>
+> The driver is mostly a copy of simpledrm. Why don't you use
+> "simple-framebuffer" for your device name? You could use simpledrm
+> directly then.
 
-Replacing (add, xor, and) with (and, add, cmp) is much the same
-even without the decrement.
+Ah, indeed, the driver is based on simpledrm.
 
-	David
+Initially, I also tried to use simpledrm directly, but it will fail in
+drm memory acquire.
+Because although we register the driver in platform form, its memory
+belongs to pci space and we can see the corresponding pci probe and
+resource allocation in Patch-1.
+Therefore, we need to use aperture_remove_conflicting_pci_devices().
+
+Also, since we are using BMC display, the display will be disconnected
+when BMC reset, at this time we need to push the display data (crtc,
+connector, etc.) manually as shown in Patch-4.
+
+Probably it's not the most suitable way to implement it.
+
+>
+> Best regards
+> Thomas
+>
+> > +     },
+> > +     .probe =3D ls2kbmc_probe,
+> > +     .remove =3D ls2kbmc_remove,
+> > +};
+> > +
+> > +module_platform_driver(ls2kbmc_platform_driver);
+> > +
+> > +MODULE_DESCRIPTION("DRM driver for Loongson-2K BMC");
+> > +MODULE_LICENSE("GPL");
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
+
+
+--=20
+Thanks.
+Binbin
