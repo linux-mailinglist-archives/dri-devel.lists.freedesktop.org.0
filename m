@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E569FF6AF
-	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 08:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDD09FF6C9
+	for <lists+dri-devel@lfdr.de>; Thu,  2 Jan 2025 09:22:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEB3310E306;
-	Thu,  2 Jan 2025 07:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ACA210E2F9;
+	Thu,  2 Jan 2025 08:22:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lL4vnxZ/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GteS3qox";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1FEF10E306
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 07:58:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0542010E2F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 08:22:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 90075A40100;
- Thu,  2 Jan 2025 07:56:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 588C4C4CED0;
- Thu,  2 Jan 2025 07:58:13 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id ECA43A40C59;
+ Thu,  2 Jan 2025 08:20:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C37DC4CED0;
+ Thu,  2 Jan 2025 08:22:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735804694;
- bh=gnlg1iwRA44t0Q9m776Cc0idy3V/9d7L0QBK8wPFtfY=;
+ s=k20201202; t=1735806133;
+ bh=msN4as29mKxk7DUjz/+TMM5v7m3GXDPe+X4uz2SOAjY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lL4vnxZ/baQURW31Bb0YBJziu0sFojruCSFEM/FqDDifOw8IHAvPPWs+Zs20M87uk
- /ECz7UP4LZd7TSLaqPLNc8yYG3QfJXFLOQTHSWimMC6rUsyklQRXW5KoWABMtVJl97
- tspPWDjaqE9peupnQdAPpIdMcScVEqx6R//8AMRPtF/qvk2U+1mf4u4w3vzVrQkYaC
- /pGclTGyDhwm8iqxMyNmLNxr5iLayZzwBAPtgLBShUyfuZY4XwLrtN+xB8XspUtv7M
- kEv96pw4/O3h9jo6Dd4GV+RLxRnhJph0y9Cu5XR6FP70l/uGx3ORHcsTzrplky5YI/
- Rve/tqri1/Xyg==
-Date: Thu, 2 Jan 2025 08:58:10 +0100
+ b=GteS3qox4OIUc9PXK+t3pRoR5Nxw6DkZAwHA2TTWhgtHS2p2CXin6mjAAK/1yBiag
+ KyGVuietYvvaO3UkqOQAbTmZy1/3O86uYwAR6E/ljS9b/zaBXkVLsCa+YFPZtV7smS
+ IQf2rv8wwvxNI5cKOV0ME3L2IG2GOWWrbwZBgDHh8EUGnV+yrSPna876+rKq8VYRwV
+ xy1snUiv/H/lMv6V8Fu7hBLOfNRILfJ4eGJlFFxQ5Gxybl1R8nl7QUxG0q2Fdlp9na
+ EBCpjd7o7DWkyWrfzPO5nUDhBuep7OxX6CbGGFWtGNDAXNxwc3NHd1ApbwUIwt/1B5
+ P3wPgNNgBFWNQ==
+Date: Thu, 2 Jan 2025 09:22:10 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, cristian.ciocaltea@collabora.com, krzk+dt@kernel.org, 
- mripard@kernel.org, hjc@rock-chips.com, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH 2/3] dt-bindings: display: rockchip: Add support for
- RK3576 HDMI TX Controller
-Message-ID: <zz5exgmftibayrh7vjfoq6z32xf2bm3ibejb6rc5xpqslejaab@ex4tj5am4hhk>
-References: <20241225103741.364597-1-andyshrk@163.com>
- <20241225103741.364597-3-andyshrk@163.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, simona@ffwll.ch, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, 
+ praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev, s-jain1@ti.com, 
+ r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com
+Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add support for
+ AM62L DSS
+Message-ID: <tq3s2ssbp3yypzff66qzagd3bmx2eat24dzwddzppttijhsquj@mgbc36we7nrg>
+References: <20241231090432.3649158-1-devarsht@ti.com>
+ <20241231090432.3649158-2-devarsht@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241225103741.364597-3-andyshrk@163.com>
+In-Reply-To: <20241231090432.3649158-2-devarsht@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,16 +64,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 25, 2024 at 06:37:30PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
+On Tue, Dec 31, 2024 at 02:34:31PM +0530, Devarsh Thakkar wrote:
+> The DSS controller on TI's AM62L SoC is an update from that on TI's
+> AM625/AM65x/AM62A7 SoC. The AM62L DSS [1] only supports a single display
+> pipeline using a single overlay manager, single video port and a single
+> video lite pipeline which does not support scaling.
 > 
-> RK3576 HDMI TX Controller is very similar to that of RK3588, but with some
-> control bits for IO and interrupts status scattered across different GRF.
+> The output of video port is routed to SoC boundary via DPI interface and
+> the DPI signals from the video port are also routed to DSI Tx controller
+> present within the SoC.
 > 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> [1]: Section 11.7 (Display Subsystem and Peripherals)
+> Link : https://www.ti.com/lit/pdf/sprujb4
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 > ---
+>  .../bindings/display/ti/ti,am65x-dss.yaml     | 25 ++++++++++++++++++-
+>  1 file changed, 24 insertions(+), 1 deletion(-)
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
 
 Best regards,
 Krzysztof
