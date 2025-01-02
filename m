@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA2CA00185
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 00:24:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE557A00186
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 00:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54EEF10E0DC;
-	Thu,  2 Jan 2025 23:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE3510E37A;
+	Thu,  2 Jan 2025 23:24:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="Kqbeg/Xq";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="MObaNnWw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71CA410E0DC
- for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 23:24:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 357C110E37A
+ for <dri-devel@lists.freedesktop.org>; Thu,  2 Jan 2025 23:24:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 629A4104811D0; Fri,  3 Jan 2025 00:23:40 +0100 (CET)
+ with ESMTPSA id B96E4101C7E2A; Fri,  3 Jan 2025 00:23:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1735860227;
+ t=1735860230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PbVTKj22DdIODp/G/2Y0eA7B9M37L5pcHT1rwZZk/Z8=;
- b=Kqbeg/XqeuBhAlmLvyOM2Sizn2nbZv+MyR/M+3ljCa1k8+hadZA1KHSq1QhDmXt4aA/XEV
- wISkaeVHQP820WAs87CtyBZsX6bNVLr5xZcFi3TQJ1EojlrmXjEoJlPoo92MNK7QJWHzV1
- hlb6abGRd6cNSlTk3tDgNBJnqvklvZYl4+qYmqkPhMusO6Mnq2e6lR2GIUaMwdjoV8S1ul
- 6m2/xwTy1pxswXg+5Fw5GhllyWtTUd5cT8GwIfkw0tW43b3G0El3x6egyGbEtMFxDZrjwL
- +AGD2jHyzmBhFaRMTATqc326P525I7PngwACEuFXwGHI4RB38xVWkoxcee6h2A==
-Message-ID: <2f2bdcb1-6d83-4939-9dd0-3fb206202273@denx.de>
-Date: Fri, 3 Jan 2025 00:20:19 +0100
+ bh=//EZX9tB291dgvxJPupqEO2OxNoDgoYJ0gAp7zGGuXU=;
+ b=MObaNnWw1Cm105VIEgb8mGHlBXm1+eDOkX4Vd1+8q4N0Oualhspq96FPVwL8VhAjCPPgGj
+ oCpKxfj2m19J3epaMh0Fsv/BCYAL3HkowwdQdEPSpK+3ltJOjD95K3+9ae2m2k29jh7++X
+ qX6zwOLs9Z/B+zWr6ifJbv2FtleOSMJwbLHPedsrz4xU+yO2B67x/G93Nul0dLbzBgvvfr
+ kM+quR891CTAjH++1E8kYZtARZuLJAID7fxIfT4J9qYYSwLfyBT7t++sipHVAZQpxxxmtz
+ IDvpTMa1L+SSXdARShnmCxo5O1QfF3lB0KAF+fzf4ZaWC8qmYMwetfya/Z2BOQ==
+Message-ID: <549d96ee-a675-47fd-9af0-0dc05744591c@denx.de>
+Date: Fri, 3 Jan 2025 00:22:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] drm/lcdif: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
- to drm_bridge_attach
+Subject: Re: [PATCH v3 2/4] drm/bridge: imx8mp-hdmi-tx: switch to bridge
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
  David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
@@ -50,11 +50,11 @@ Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
  Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
 References: <20241231192925.97614-1-marex@denx.de>
- <20241231192925.97614-3-marex@denx.de>
- <u4hjoteybchte2fdmxle5rsu5jbohm7hjjoejrxiqa6lszqm56@6facok3v55kg>
+ <20241231192925.97614-2-marex@denx.de>
+ <sjyw3afx5qyrupf5tixgtubevmklgmstjvj3hjt5xukzmgluuv@47j6afzl5dp6>
 Content-Language: en-US
 From: Marek Vasut <marex@denx.de>
-In-Reply-To: <u4hjoteybchte2fdmxle5rsu5jbohm7hjjoejrxiqa6lszqm56@6facok3v55kg>
+In-Reply-To: <sjyw3afx5qyrupf5tixgtubevmklgmstjvj3hjt5xukzmgluuv@47j6afzl5dp6>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -73,39 +73,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/2/25 6:58 PM, Dmitry Baryshkov wrote:
-
-[...]
-
->> @@ -97,13 +100,36 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
->>   			return ret;
->>   		}
->>   
->> -		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
->> +		ret = drm_bridge_attach(encoder, bridge, NULL,
->> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>   		if (ret) {
->>   			of_node_put(ep);
->>   			return dev_err_probe(dev, ret,
->>   					     "Failed to attach bridge for endpoint%u\n",
->>   					     of_ep.id);
->>   		}
->> +
->> +		nextbridge = drm_bridge_get_next_bridge(bridge);
->> +		nextbridge = drm_bridge_get_next_bridge(nextbridge);
->> +		/* Test if connector node in DT, if not, it was created already */
+On 1/2/25 5:55 AM, Dmitry Baryshkov wrote:
+> On Tue, Dec 31, 2024 at 08:28:49PM +0100, Marek Vasut wrote:
+>> The dw-hdmi output_port is set to 1 in order to look for a connector
+>> next bridge in order to get DRM_BRIDGE_ATTACH_NO_CONNECTOR working.
+>> The output_port set to 1 makes the DW HDMI driver core look up the
+>> next bridge in DT, where the next bridge is often the hdmi-connector .
+>>
+>> Similar to 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
+>>
+>> Note that looking at the upstream arch/arm64/boot/dts/freescale/imx8mp*dts ,
+>> the oldest commit which adds HDMI support is commit:
+>>
+>> 3e67a1ddd56d ("arm64: dts: imx8mp: Enable HDMI on TQMa8MPxL/MBa8MPxL")
+>>
+>> That already contains the HDMI connector node. Most follow up additions
+>> of HDMI support to another devices has been a variation of the same commit,
+>> including connector node, which is the proper way of eanbling HDMI on the
+>> i.MX8MP.
+>>
+>> The rest should be covered by output_port_optional which should make systems
+>> with DTs without HDMI connector node work, but such DTs should be updated and
+>> the HDMI connector node should be added.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Liu Ying <victor.liu@nxp.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Shawn Guo <shawnguo@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Stefan Agner <stefan@agner.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: imx@lists.linux.dev
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> ---
+>> V2: No change
+>> V3: - Update commit message
+>>      - Move select DRM_DISPLAY_CONNECTOR to DRM_IMX8MP_DW_HDMI_BRIDGE
+>>      - Enable output_port_optional
+>> ---
+>>   drivers/gpu/drm/bridge/imx/Kconfig          | 1 +
+>>   drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 2 ++
+>>   2 files changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
+>> index 9a480c6abb856..db5c8a76193ac 100644
+>> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+>> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+>> @@ -17,6 +17,7 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
+>>   	tristate "Freescale i.MX8MP HDMI-TX bridge support"
+>>   	depends on OF
+>>   	depends on COMMON_CLK
+>> +	select DRM_DISPLAY_CONNECTOR
 > 
-> By whom? And why?
-
-By the HDMI bridge driver, see 1/4.
-
-> There is no display-connector bridge, but there is a
-> normal bridge chain, you have passed DRM_BRIDGE_ATTACH_NO_CONNECTOR, so
-> now it's a proper time to create drm_bridge_connector. You have added
-> the next_bridge_optional flag, but it should just prevent the dw driver
-> from returning the error if there is no next_bridge.
-So what exactly should I do here ?
-
-If dw_hdmi_parse_dt() only exits with 0 if there is no connector node in 
-DT, I don't get any output on the HDMI. I have to create a connector in 
-the HDMI bridge driver instead and not here, right ?
+> I was going to write that it is not to be selected by anybody, but then
+> I stumbled upon meson driver, which also selects the symbol.
+> 
+> I still think that it is not to be selected by your driver as there is
+> no direct dependency (and there can be other bridges inbetween or the
+> bridge chain can end up with some other bridge). Such decisions belong
+> to defconfig or distribution's kernel config file.
+Wouldn't that only lead to unnecessary surprises on user side ?
