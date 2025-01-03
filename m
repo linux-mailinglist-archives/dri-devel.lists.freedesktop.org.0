@@ -2,88 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C6DA00818
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 11:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E3DA0081E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 11:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B209710E86C;
-	Fri,  3 Jan 2025 10:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2C9A10E295;
+	Fri,  3 Jan 2025 10:53:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="2PUS0w/j";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VYelCNPb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01F1C10E86C
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 10:50:46 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-385df53e559so9545363f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 02:50:46 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 148DA10E295
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 10:53:15 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-54020b0dcd2so14336902e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 02:53:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1735901385; x=1736506185;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GNO7aKKRqXB9odYKaekoB8uFFpHAxVlhNSLA5z5NJrQ=;
- b=2PUS0w/jO4q7nBbyP1KVBffTwbm0H49+JXn/ojJitEbG4gqzwU4yx/UPwf/yYDYePj
- 2UPpKj/tMpgKAO0pBD8rjf3q+nP/vqsFv2rnzTCGJrKKfmKPhZvPf6mCj9fCvm7zf5cK
- 6BC0u8QX5IBgZkAsgSS64ihzkQsOIBULkjHIiYBKvgTnL0Ze91p3j45WL7geKvfhlGB7
- /UUviRwM7wHq22widdTWbGfor4PKEb5tTSFjR//SvmC9wycBowMtSB+R1BjeP4Ui8uCO
- KPnFwvPWOB+DEu7/3HuvrxIMH3x+zkZpbzjh19uE7QJr3FqlJEnW2IXTvhDdTrDXhSlG
- Z/LQ==
+ d=linaro.org; s=google; t=1735901533; x=1736506333; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Id5jxrXyu5iZt29+Fzup4tBPSiyAJWKORh5sy4QQ8Cg=;
+ b=VYelCNPbSe+IcV0Ke8GllwOUxS/V+UiisXxByFpc3nT3smOeLVm0dEix/s7uvPOWmX
+ OB51puu5cRTEZcv5xqKtFOVV+FUV7RJ0fG4X/mCjeVhSezGTqNl/0RE5Ah0VQfJqBWhI
+ VcFznIcoeccDFQnJOQjrklWIVuNbpPc81GIu+07fmFBcGG4Ru/eHnyr+/LIv5VXyYggS
+ RPetAXktXoUrPB3a0NI6xgnilQWkDYhcvtGLPc30/OXRhApbkJvhtm+TddBoue2bs2kb
+ xkwtFQY4XBeyZEor7Fc0VnPd7LCMt69kcqHBQlqyDYzeyk7QENz4ccphpcLuy8XTfHhl
+ Wawg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735901385; x=1736506185;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GNO7aKKRqXB9odYKaekoB8uFFpHAxVlhNSLA5z5NJrQ=;
- b=aS17x/uEVrHf+nvZoBTu2EZB0QYRIRdAbqmNuJTDGXS80yDChFs8dWD0osJRpyhyFq
- 5heh8wqQYme8o6LfFLrWFuY7qtN0Y+mQwSZfUWCW+yi6kjdwQLcXUeuV5IDsS6nB17cw
- GknnfN0exuF4stS88h2c/kBl8n5Si77PYAxCX/mKkgXkMIR8RDMIKJvOHKjHYv4idBQ+
- 7aD3xRszYU60V1G+zbTz2BxtnLjJnHBL+ObLZgFxTCO4NZIKY8zDfyTgRRlKgl0Lf2p7
- eSiENlzY42eP0Nd9mYY0OhFegT6lK2xAmvQ2n/ZddtZAdhxXHdcVJIx5HsDfFmDFe1In
- 5dTg==
+ d=1e100.net; s=20230601; t=1735901533; x=1736506333;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Id5jxrXyu5iZt29+Fzup4tBPSiyAJWKORh5sy4QQ8Cg=;
+ b=Kv+7RU045lbC7NdUJNbwXmT40J+O3y9PBunyTpGDqyowACMeZKjik+W6eCIZAWppkm
+ 0hA05j45bE9mbaZYs7STscQF66xBZAVpbbO/RnoDvIVoLHJTJSJTRZD3D9k9/pOWeEmI
+ MYWiEss+0pF4lzIfs+toskzCcjXTpWe8VJkRLCGC17gKtF1cvt3+KcygNuYngsssHhmY
+ XtXYvNfVCn88d3rdfm8iDAblD36T7Bs41NO/tM8UwYwRQIEuAojCWN8VWCswtf/YHBYV
+ gmg5bY3bE1HutfHBp7xmTDXR/MHmv6Q3V7N+HJbj9SBGbGj+zvMmjLG5T3XC/+V25UHf
+ S1tw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXo/EXK2kKb/jMhYCMH4RMz3YvRmteauePnq1Z2lhIs5reFLdEw2mhV3uTIGO0zmEvRn7i34ebgXBM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUjsWzJXAe1VaEv9TiLkGXQOqELsqlj8pFaXBo96sizmV9+NLO
- xEDClr1zfmBGS0zEUjqPPyqYp1R/kvsAD9m01XG6lp/YAKRXhOlqo8sxsfMBhOg=
-X-Gm-Gg: ASbGncsav2K/YBX2e/HbEIlgrmPBEJw7+vS3D0w2G6ivrl+ldWI3UdcnXJENnGsHuvP
- aPiyvHQzW30CW97XvARbeDFEpLksRM1vcaIxqrd7EoqAnxx4WRvJbABgdqw+J8bg6lroYvETokp
- KKu9whR8ITeo7dKjVUHahrOp7LnwjRv71uI8BICzfE3xwxXLMGKEKr8aE2am00C/Enw0H/80U07
- 7pxiBRYcHSFoi9QV78F2EmL8alDJHb0rW1/oR+t0tHxaFWvig6+rZeSwtJU3un+/nIsczgN
-X-Google-Smtp-Source: AGHT+IHDTyCOhNnU2/xtmn0I5eiTsC1dXR3CyZAFbua5HLlvBHPxD2jx2jZyDyZbNiLZZ5hPmWjYVA==
-X-Received: by 2002:a05:6000:1564:b0:38a:624b:e7fe with SMTP id
- ffacd0b85a97d-38a624bee1bmr7006777f8f.7.1735901384474; 
- Fri, 03 Jan 2025 02:49:44 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436611ea42esm487087135e9.9.2025.01.03.02.49.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jan 2025 02:49:44 -0800 (PST)
-Message-ID: <c76881d9-e7e4-48b3-904c-439ab28d9782@ursulin.net>
-Date: Fri, 3 Jan 2025 10:49:43 +0000
+ AJvYcCWWaZ3PrxgVi56AtVAXT4N+RIsPrXyFnA07bo+i4VJ4/mh8E3sa8/sYBfh1xEzU/DtSut4asnLpCKo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy80rIM6QLCT8vkzu4KbX30LX5dVjl16irSj9G+hwXkqT5r9XLs
+ 3Yde1wFmxzgH6TiNuu26Y3O3m4xQkBEJEkxe7DlqzASx8nfuxVj+ULM99HujLj9bbBnvyExKEnW
+ O
+X-Gm-Gg: ASbGncvf7cr7RBJPIELWFWkosMBcHFGcHDj2e8Vfa2IWLgdk+98B6yWfehUUrXeLJHh
+ vBapUrUG0zfzctMEOkPLfXRd617gOAveWzlTAcNM1Pj7Vn07Fpi0O1zrGHLIZGf1CA+rxCUZndA
+ onLeLOmU72FEIXa7wkICferUVyOgELoQ2hPura3iMzBaH2AHz0fnXGrkaTkx1yG8QsAs2u8uYlD
+ 6q8e4+w1RtydZSfOTbMfchI589CqBp3O2VveF0R+Uzkwa60zf0BUm+IvYad9KkT256kL4bthlQ3
+ zlVrEubFxfPHhWD/a07xaOPO
+X-Google-Smtp-Source: AGHT+IHE7v9MDMFa7AVnTzbdGU3TgdNFV7pJDdTs17qUC5pxJSU9djgHBqmKj+rabDXVAtERtRJtUw==
+X-Received: by 2002:a05:6512:b0f:b0:542:2141:2ccc with SMTP id
+ 2adb3069b0e04-54229450ab9mr14626218e87.15.1735901533424; 
+ Fri, 03 Jan 2025 02:52:13 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542235feda8sm4168498e87.60.2025.01.03.02.52.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jan 2025 02:52:12 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, kong.kongxinwei@hisilicon.com,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Yongbang Shi <shiyongbang@huawei.com>
+Cc: liangjian010@huawei.com, chenjianmin@huawei.com, lidongming5@huawei.com,
+ libaihan@huawei.com, shenjian15@huawei.com, shaojijie@huawei.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 drm-dp 0/5] Add dp module in hibmc driver
+Date: Fri,  3 Jan 2025 12:52:08 +0200
+Message-ID: <173590151924.708477.16295921709511915034.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250103093824.1963816-1-shiyongbang@huawei.com>
+References: <20250103093824.1963816-1-shiyongbang@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] Documentation/gpu: Add fdinfo meanings of
- drm-*-internal memory tags
-To: =?UTF-8?Q?Adri=C3=A1n_Mart=C3=ADnez_Larumbe?=
- <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Mihail Atanassov <mihail.atanassov@arm.com>
-References: <20241218181844.886043-1-adrian.larumbe@collabora.com>
- <20241218181844.886043-3-adrian.larumbe@collabora.com>
- <1ef1d07b-bfa9-4e52-bfa0-20f569752701@ursulin.net>
- <2sb72aco2lc5hlvwn7hpc5k27naep7u2s64lc6qzk4ruy6jkhd@c2dfhvhe76yt>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <2sb72aco2lc5hlvwn7hpc5k27naep7u2s64lc6qzk4ruy6jkhd@c2dfhvhe76yt>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,95 +95,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 02/01/2025 22:18, Adrián Martínez Larumbe wrote:
-> On 02.01.2025 21:59, Tvrtko Ursulin wrote:
->>
->> On 18/12/2024 18:18, Adrián Martínez Larumbe wrote:
->>> From: Adrián Larumbe <adrian.larumbe@collabora.com>
->>>
->>> A previous commit enabled display of driver-internal kernel BO sizes
->>> through the device file's fdinfo interface.
->>>
->>> Expand the description of the relevant driver-specific key:value pairs
->>> with the definitions of the new drm-*-internal ones.
->>>
->>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>> Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
->>> ---
->>>    Documentation/gpu/panthor.rst | 14 ++++++++++++++
->>>    1 file changed, 14 insertions(+)
->>>
->>> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
->>> index 3f8979fa2b86..23aa3d67c9d2 100644
->>> --- a/Documentation/gpu/panthor.rst
->>> +++ b/Documentation/gpu/panthor.rst
->>> @@ -26,6 +26,10 @@ the currently possible format options:
->>>         drm-cycles-panthor:     94439687187
->>>         drm-maxfreq-panthor:    1000000000 Hz
->>>         drm-curfreq-panthor:    1000000000 Hz
->>> +     drm-total-internal:     10396 KiB
->>> +     drm-shared-internal:    0
->>> +     drm-active-internal:    10396 KiB
->>> +     drm-resident-internal:  10396 KiB
->>>         drm-total-memory:       16480 KiB
->>>         drm-shared-memory:      0
->>>         drm-active-memory:      16200 KiB
->>> @@ -44,3 +48,13 @@ driver by writing into the appropriate sysfs node::
->>>    Where `N` is a bit mask where cycle and timestamp sampling are respectively
->>>    enabled by the first and second bits.
->>> +
->>> +Possible `drm-*-internal` keys are: `total`, `active`, `resident` and `shared`.
->>> +These values convey the sizes of the internal driver-owned shmem BO's that
->>> +aren't exposed to user-space through a DRM handle, like queue ring buffers,
->>> +sync object arrays and heap chunks. Because they are all allocated and pinned
->>> +at creation time, `drm-resident-internal` and `drm-total-internal` should always
->>> +be equal. `drm-active-internal` shows the size of kernel BO's associated with
->>> +VM's and groups currently being scheduled for execution by the GPU.
->>> +`drm-shared-internal` is unused at present, but in the future it might stand for
->>> +the size of executable FW regions, since they do not belong to an open file context.
->>
->> The description is way too specific, too tied to some of the implementations.
+On Fri, 03 Jan 2025 17:38:19 +0800, Yongbang Shi wrote:
+> From: Baihan Li <libaihan@huawei.com>
 > 
-> These are panthor-specific key:value pairs. I was in the belief that drivers
-> could define their own when it suits their interest beyond the DRM-wide ones
-> defined in the drm-fdinfo spec.
+> Realizing the basic display function of DP cable for DP connector
+> displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+> Hibmc SoC which used for Out-of-band management. Blow is the general
+> hardware connection, both the Hibmc and the host CPU are on the same
+> mother board.
 > 
->> I also don't remember that you ever explained why totting up the internal
->> objects into existing regions isn't good enough. I keep asking, you keep not
->> explaining. Or I missed your emails somehow.
-> 
-> It's not that it's not good enough, but rather that it cannot be done in the
-> current state of affairs. drm_show_memory_stats() defines its own
-> drm_memory_stats struct as an automatic variable so we don't have access to it
-> from anywhere else in the driver. In a previous revision of the patch series I
-> had come up with a workaround that would let drivers pass a function pointer to
-> drm_show_memory_stats() which would gather those numbers in a driver-specific
-> way, but it didn't seem to get any traction.
+> [...]
 
-Side note - i915 and amdgpu manage to do it so it is not that it is not 
-possible.
+Applied to drm-misc-next, thanks!
 
->> And you keep not copying me on the thread. Copying people who expressed
->> interest, gave past feedback, etc should be the norm.
-> 
-> I did not CC you on this series because these are all panthor-specific changes
-> which do not touch on any DRM fdinfo-wide code, and also because I didn't think
-> that driver-specific key:value pairs needed the approval of the drm-fdinfo core
-> maintainers.
+[1/5] drm/hisilicon/hibmc: add dp aux in hibmc drivers
+      commit: 057e77972556aed4a0f1eed7eeb85024d0a22ba1
+[2/5] drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+      commit: 54063d86e0369f53f180137e5e889bc19cd9015b
+[3/5] drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+      commit: 94ee73ee30208f3d92b2f2a4f7d3346ba56245bf
+[4/5] drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+      commit: 587013d72c1a217ced9f42a9a08c8013052cabfc
+[5/5] drm/hisilicon/hibmc: add dp module in hibmc
+      commit: 0ab6ea261c1fe4edbf4d99dfe65d8ebaae905092
 
-Ah my bad.. sorry! I saw drm-internal-* and did not spot it is actually 
-*in* panthor.rst. So I think you just need to rename those to panthor- 
-prefix. Same as amdgpu has its own private keys amd-evicted-vram etc.
+Best regards,
+-- 
+With best wishes
+Dmitry
 
-Regards,
-
-Tvrtko
-
->> Until we can clarify the above points I don't think this can go in.
->>
->> Regards,
->>
->> Tvrtko
-> 
-> Adrian Larumbe
