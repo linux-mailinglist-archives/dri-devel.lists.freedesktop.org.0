@@ -2,47 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65205A0073A
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 10:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A99A0072D
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 10:40:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C8710E845;
-	Fri,  3 Jan 2025 09:44:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C34F10E1A6;
+	Fri,  3 Jan 2025 09:40:56 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GL+kYDBx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2905B10E845
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 09:44:57 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.162.112])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4YPdsc4qHcz22kQZ;
- Fri,  3 Jan 2025 17:42:44 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 49D8F1401F3;
- Fri,  3 Jan 2025 17:44:54 +0800 (CST)
-Received: from localhost.huawei.com (10.169.71.169) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Fri, 3 Jan 2025 17:44:52 +0800
-From: Yongbang Shi <shiyongbang@huawei.com>
-To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>
-CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
- <lidongming5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v9 drm-dp 5/5] drm/hisilicon/hibmc: add dp module in hibmc
-Date: Fri, 3 Jan 2025 17:38:24 +0800
-Message-ID: <20250103093824.1963816-6-shiyongbang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20250103093824.1963816-1-shiyongbang@huawei.com>
-References: <20250103093824.1963816-1-shiyongbang@huawei.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFE4E10E1A6
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 09:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1735897254;
+ bh=5vztbglS15xfKUbDC0vnLnilTZgDf+eQTTloOlJ6PzY=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=GL+kYDBxGaj2JbhB31ScE3ZtMIvO1L52hieMQmb4KxB+BjlshE5t4oUSGDjoEGglY
+ 3p+zpaULxfHftzj2Zx+N8v6ZjqDkbLX2Vs35/02d6kPK0q+xLJ3g9NV5WUqCl0Qwla
+ Rr0GAaSKGs0FMigIsaNc1Lx++qE8aQzMzldn0+Wu+3hUO9zM3JWXhl5iLrFgRzUkRR
+ CDdMWBdCGENkraKEFyBK8kkum7w1Le3ZnNlIZieV7KFBJIdB6zfqpV/qu8XNAhmopj
+ lomCwAamuJoNIP/qAQAvA0++VB0yGzGeIzRQV0azedbx3jwk7RXNsLXmy5zH1W3LpE
+ o+p8kVDiHYvxQ==
+Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9EB1E17E1541;
+ Fri,  3 Jan 2025 10:40:53 +0100 (CET)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ "Jason-JH.Lin" <jason-jh.lin@mediatek.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, 
+ Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, 
+ Shawn Sung <shawn.sung@mediatek.com>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, 
+ Fei Shao <fshao@chromium.org>, Pin-yen Lin <treapking@chromium.org>
+In-Reply-To: <20241219181531.4282-1-jason-jh.lin@mediatek.com>
+References: <20241219181531.4282-1-jason-jh.lin@mediatek.com>
+Subject: Re: [PATCH v3 0/4] Update MT8188 OVL compatible from MT8183 to MT8195
+Message-Id: <173589725358.61653.1284687133545128429.b4-ty@collabora.com>
+Date: Fri, 03 Jan 2025 10:40:53 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.169.71.169]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,239 +69,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Baihan Li <libaihan@huawei.com>
+On Fri, 20 Dec 2024 02:15:27 +0800, Jason-JH.Lin wrote:
+> This patch series updates the compatible strings for the MediaTek OVL
+> in the MT8188 dts and the corresponding dt-binding.
+> The changes ensure that the MT8188 OVL device is correctly identified
+> and managed by the appropriate drivers.
+> 
+> The first patch is adding the MT8188 compatible strings, refer to:
+> - https://lore.kernel.org/all/20241218105320.38980-2-angelogioacchino.delregno@collabora.com/
+> 
+> [...]
 
-To support DP interface displaying in hibmc driver. Add
-a encoder and connector for DP modual. The HPD function
-and get_edid function will be add in next series, so temporarily
-using 1024x768 as default in hibmc_dp_connector_get_modes()
+Applied to v6.13-next/dts64, thanks!
 
-Signed-off-by: Baihan Li <libaihan@huawei.com>
-Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Tian Tao <tiantao6@hisilicon.com>
----
-ChangeLog:
-v8 -> v9:
-  - changing bahan li to Baihan Li, clear sign-off mismatches warnings, suggested by Dmitry Baryshkov.
-v7 -> v8:
-  - adding pci_set_master() in hibmc_pci_probe().
-v6 -> v7:
-  - lowercasing hex, suggested by Dmitry Baryshkov.
-v5 -> v6:
-  - adding hpd and get_edid comments in the beginning of patch, suggested by Dmitry Baryshkov.
-v3 -> v4:
-  - static inline hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
----
- drivers/gpu/drm/hisilicon/hibmc/Makefile      |   2 +-
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 ++++++++++++++++++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  14 +++
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   5 +
- 4 files changed, 138 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+[1/4] dt-bindings: display: mediatek: ovl: Add compatible strings for MT8188 MDP3
+      commit: eb27e8d75b83c0781eb330f356d4442177674e74
+[2/4] dt-bindings: display: mediatek: ovl: Modify rules for MT8195/MT8188
+      commit: 5ecd1e700b67b33fac1a48d86fea124b6c19d052
+[3/4] dts: arm64: mediatek: mt8188: Update OVL compatible from MT8183 to MT8195
+      commit: 7c791dc2cb62f8ec523872108c8a8c718512c218
+[4/4] dts: arm64: mediatek: mt8195: Remove MT8183 compatible for OVL
+      commit: f72561bf756baba4ab300bfc728fefd85c67913e
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index 214228052ccf..95a4ed599d98 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
--	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o
-+	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
- 
- obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-new file mode 100644
-index 000000000000..603d6b198a54
---- /dev/null
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+// Copyright (c) 2024 Hisilicon Limited.
-+
-+#include <linux/io.h>
-+
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_edid.h>
-+
-+#include "hibmc_drm_drv.h"
-+#include "dp/dp_hw.h"
-+
-+static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
-+{
-+	int count;
-+
-+	count = drm_add_modes_noedid(connector, connector->dev->mode_config.max_width,
-+				     connector->dev->mode_config.max_height);
-+	drm_set_preferred_mode(connector, 1024, 768); // temporary implementation
-+
-+	return count;
-+}
-+
-+static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
-+	.get_modes = hibmc_dp_connector_get_modes,
-+};
-+
-+static const struct drm_connector_funcs hibmc_dp_conn_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static inline int hibmc_dp_prepare(struct hibmc_dp *dp, struct drm_display_mode *mode)
-+{
-+	int ret;
-+
-+	hibmc_dp_display_en(dp, false);
-+
-+	ret = hibmc_dp_mode_set(dp, mode);
-+	if (ret)
-+		drm_err(dp->drm_dev, "hibmc dp mode set failed: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static void hibmc_dp_encoder_enable(struct drm_encoder *drm_encoder,
-+				    struct drm_atomic_state *state)
-+{
-+	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-+	struct drm_display_mode *mode = &drm_encoder->crtc->state->mode;
-+
-+	if (hibmc_dp_prepare(dp, mode))
-+		return;
-+
-+	hibmc_dp_display_en(dp, true);
-+}
-+
-+static void hibmc_dp_encoder_disable(struct drm_encoder *drm_encoder,
-+				     struct drm_atomic_state *state)
-+{
-+	struct hibmc_dp *dp = container_of(drm_encoder, struct hibmc_dp, encoder);
-+
-+	hibmc_dp_display_en(dp, false);
-+}
-+
-+static const struct drm_encoder_helper_funcs hibmc_dp_encoder_helper_funcs = {
-+	.atomic_enable = hibmc_dp_encoder_enable,
-+	.atomic_disable = hibmc_dp_encoder_disable,
-+};
-+
-+int hibmc_dp_init(struct hibmc_drm_private *priv)
-+{
-+	struct drm_device *dev = &priv->dev;
-+	struct drm_crtc *crtc = &priv->crtc;
-+	struct hibmc_dp *dp = &priv->dp;
-+	struct drm_connector *connector = &dp->connector;
-+	struct drm_encoder *encoder = &dp->encoder;
-+	int ret;
-+
-+	dp->mmio = priv->mmio;
-+	dp->drm_dev = dev;
-+
-+	ret = hibmc_dp_hw_init(&priv->dp);
-+	if (ret) {
-+		drm_err(dev, "hibmc dp hw init failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	hibmc_dp_display_en(&priv->dp, false);
-+
-+	encoder->possible_crtcs = drm_crtc_mask(crtc);
-+	ret = drmm_encoder_init(dev, encoder, NULL, DRM_MODE_ENCODER_TMDS, NULL);
-+	if (ret) {
-+		drm_err(dev, "init dp encoder failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_encoder_helper_add(encoder, &hibmc_dp_encoder_helper_funcs);
-+
-+	ret = drm_connector_init(dev, connector, &hibmc_dp_conn_funcs,
-+				 DRM_MODE_CONNECTOR_DisplayPort);
-+	if (ret) {
-+		drm_err(dev, "init dp connector failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_connector_helper_add(connector, &hibmc_dp_conn_helper_funcs);
-+
-+	drm_connector_attach_encoder(connector, encoder);
-+
-+	return 0;
-+}
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 8c488c98ac97..ee1a87ac6afb 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -28,6 +28,10 @@
- #include "hibmc_drm_drv.h"
- #include "hibmc_drm_regs.h"
- 
-+#define HIBMC_DP_HOST_SERDES_CTRL		0x1f001c
-+#define HIBMC_DP_HOST_SERDES_CTRL_VAL		0x8a00
-+#define HIBMC_DP_HOST_SERDES_CTRL_MASK		0x7ffff
-+
- DEFINE_DRM_GEM_FOPS(hibmc_fops);
- 
- static irqreturn_t hibmc_interrupt(int irq, void *arg)
-@@ -118,6 +122,14 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- 		return ret;
- 	}
- 
-+	/* if DP existed, init DP */
-+	if ((readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL) &
-+	     HIBMC_DP_HOST_SERDES_CTRL_MASK) == HIBMC_DP_HOST_SERDES_CTRL_VAL) {
-+		ret = hibmc_dp_init(priv);
-+		if (ret)
-+			drm_err(dev, "failed to init dp: %d\n", ret);
-+	}
-+
- 	ret = hibmc_vdac_init(priv);
- 	if (ret) {
- 		drm_err(dev, "failed to init vdac: %d\n", ret);
-@@ -328,6 +340,8 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 		goto err_return;
- 	}
- 
-+	pci_set_master(pdev);
-+
- 	ret = hibmc_load(dev);
- 	if (ret) {
- 		drm_err(dev, "failed to load hibmc: %d\n", ret);
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 42f0ab8f9b5a..d982f1e4b958 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -20,6 +20,8 @@
- 
- #include <drm/drm_framebuffer.h>
- 
-+#include "dp/dp_hw.h"
-+
- struct hibmc_vdac {
- 	struct drm_device *dev;
- 	struct drm_encoder encoder;
-@@ -37,6 +39,7 @@ struct hibmc_drm_private {
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
- 	struct hibmc_vdac vdac;
-+	struct hibmc_dp dp;
- };
- 
- static inline struct hibmc_vdac *to_hibmc_vdac(struct drm_connector *connector)
-@@ -59,4 +62,6 @@ int hibmc_vdac_init(struct hibmc_drm_private *priv);
- 
- int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *connector);
- 
-+int hibmc_dp_init(struct hibmc_drm_private *priv);
-+
- #endif
--- 
-2.33.0
+Cheers,
+Angelo
+
 
