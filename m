@@ -2,113 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3220A00969
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 13:42:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41729A0099A
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 13:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3FCC10E3CD;
-	Fri,  3 Jan 2025 12:42:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC78610E8A6;
+	Fri,  3 Jan 2025 12:59:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="nnRMaVB8";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m55lUdL5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6A1010E89F
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 12:42:41 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5036aQSk012967
- for <dri-devel@lists.freedesktop.org>; Fri, 3 Jan 2025 12:42:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- TZARMRNqfJJBSi0ZuqSgSannpryoCZUFZtAwwKozzXI=; b=nnRMaVB8anTGzIqz
- Z/SV7YYBtvPCSwx+azpasLMav06W23ogMLE8zV0C4njs/pYmJ48Ker3/HAmLb/JG
- q5u5uOfXelWitjaizImhNyKYHrSGBkP2yf/5M/B4VCAGsv80cJTZXeqdyULd2wZK
- vzfR4OHtp6JkfgRU03rsKxHwZQEINku3b/ZTo2PFxOg2a3SbrZlIdT/3g+k8s81u
- owpnsWZDssYTJkB0Jm8oRLvxa7pofQHY9p4DcdWNhEud219evO6s67WppPX5D8kC
- X5+uox+vguhsiTdYQeT/f8MCMnIQSR3rTfMYLua1ovIaWQeLf0veDi5OXhieXpQv
- YGrRqA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43xardgs0c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 12:42:41 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-467a97dec51so10001521cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 04:42:40 -0800 (PST)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AED5810E8A0
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 12:59:48 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-385e06af753so6247083f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 04:59:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1735909127; x=1736513927; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mj1C/gEdKkc2DLeyCME5RbzYecjWcWlcP/v8o/H1DYU=;
+ b=m55lUdL5vFvlyTPVTI2MgnEbhO3FCjCVs6kYUTh/2VKCOxZR4mthh0rY1hfgyJdcsF
+ GYDamy5nckkwe/EbNgedOT6Ci9VsX3DEFI4WoWquDA1vIh23mPYhE1MX/o7VH0Qzl3f/
+ cL22ItZz22sV+fB+afe88Fi8DnunC5R+bkT/ZcS+gGGNiSY/cYfZ7R+lfYo1g5td/HrC
+ DchMO7z9aBWLH+nItdSnLRtbHttJDj9xgEmj90Ym+DRLXWPME4RohZhujL7yVANlRCZb
+ Q7qwCcr+PVCiijBHoMgzUveFg2DeNKVdIaV1P5KA3GMrLM6bbJcF9Utll4UfgNTXmjje
+ OHHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735908160; x=1736512960;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TZARMRNqfJJBSi0ZuqSgSannpryoCZUFZtAwwKozzXI=;
- b=ATNYuUK1cY0KO9XuqqHgYn5OIUtJulaZQVuMcZtJyuBxRRAOfTxWOVhsHc+vH4UYcN
- 52Bo08WGbECEpXX8Q7TDivze9XAW0Cv8EUuRrkd5/dFP/9RPFIRpKIaWcqd0w3rD+Ppl
- YMC6BCgsKspvBFkR8HMaUpek0kaIEPWN5KQw4qdsWge8schFHGPnV9D63z5ZioyOgJ34
- lxcU2ljWw1xCybjMW0ubNa/oILSikkrBcZ9SE1n5HMV1hb5AOtbAJQ7bmQkwF2CvyTlK
- bD/q8RNhIovUHl33Ca1QmnCS5vq5A1WET1NmzuxtKOEdZbupNogC/2DPQVR+czb1v2wp
- YqoA==
+ d=1e100.net; s=20230601; t=1735909127; x=1736513927;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mj1C/gEdKkc2DLeyCME5RbzYecjWcWlcP/v8o/H1DYU=;
+ b=NDN0P4pVCIi5EL5PnNzx8jQVgOL/uSaReqZWsJhoWSK4G6r+mMqtfkrt5ir2AU7Hyp
+ fz0S+JVe5k/VnX/4vc9f0NQi6thJ/3s+iPNhHR/aRuuxsxR4YybMiDJnmxElJF3jmU31
+ o/k0/3bKEJHmkeJ95BjILZ+tFw1C0gbBIMYNfQn/8/bwRwLoOsGr9bTVkYFSiKFVEIJr
+ dmp/BjRcytyz6HEs/hCpyf9IaM4y5qSdDNBCQcrL4KnP15SXhi0n3fDnbfloUMF1wZwH
+ AiFAVt/JlKupqBKxAbXBSWrX0P9L/JHeJv2jpF0rRCHZAMep3x0Hmmzx/pLsD7j5LGCg
+ ebWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVd/oBCi8LhEwj54NFRkUEDzH0lgXshIhwmN8IpwGWU7iJkIYLmFwt6w/VAM0jfZuKkEd4EfJ4jt+o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMD/udiUdkBT7Fsw9XxX/UZpQ346SBiCem+IWJ/befyIzJLe9P
- OqL7WHifEvvPyajkdg3Hx7xwXJ41XJAGhhUuSB2clF5TI1Vpk4tTgAyQv4dtnkceqbSz/4iwokp
- 9uwd4CmHK+HdbgokyDFaZeSat4weMS9v9g9GVIxhBO++ldu0PZ//KGajPKEj+kl2lvCY=
-X-Gm-Gg: ASbGncvh1Dp6oBnU7j0ayxrbJBbTEqN+nyZo6uyIaoarBCeCdTj9AjGfbdwEfx2jYE0
- eEuH9PjHe2oa6LyMvbtOh39le5PD/DZbDq0S1edsipSnx3wGB+QhEGRABZTTOUwlz/I//LSsJOA
- QN5GkuhxIcPCExEChez3VIhe+RQ0zc9jNuiZoF8YFaofSQspthrAdS88FS7oPKojj9GfBlPyfp+
- GMpszHHCYkOAJnc8bMKrWPJf67ZJT4Dy8uKOk/P5gq3UScOvUy8c42hvd22AjeYLXIP+H9aN1jx
- 5SUVKg3EXqEM1ndMmI9vgsR+nTfqPx3LGMQ=
-X-Received: by 2002:a05:622a:1183:b0:460:900d:6052 with SMTP id
- d75a77b69052e-46a4a9a34c7mr310086141cf.14.1735908159808; 
- Fri, 03 Jan 2025 04:42:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEcALt0LJyqknH0pa/OzeBKOkJJU1g2a9f/TCjCM+WwWX2eXlLse+id4suQvcMJE43uhj1+Eg==
-X-Received: by 2002:a05:622a:1183:b0:460:900d:6052 with SMTP id
- d75a77b69052e-46a4a9a34c7mr310085941cf.14.1735908159459; 
- Fri, 03 Jan 2025 04:42:39 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d806fedaf9sm20087153a12.56.2025.01.03.04.42.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Jan 2025 04:42:38 -0800 (PST)
-Message-ID: <78979ab6-0ce6-47c4-abe2-d4d2d9d50480@oss.qualcomm.com>
-Date: Fri, 3 Jan 2025 13:42:34 +0100
+ AJvYcCWmpyTVwY0a9suxpJf6tPEMpiXKUj19xYDVOmoBl62PXptASjrbkUUramNueIcCFSRIQDMctwZ0ECM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9VwtCVwqCZjj7H1hkOuSqxLG+lKRHM6wWE4BPJ3Et7FAwvQ33
+ nrqf9QlZfr2yYgjLHEaQIfnCMrFYipg7xVktYQb/QG1xyc+cK25o5H9L68jl15o=
+X-Gm-Gg: ASbGncu0+1CEAPqIMF5r4Z6jcm3HNxn/OxOfyZHYPWnThPW2KeBQvnsvvTMkP9ZQUYb
+ ooA4NbBvZhWPhKZdkbVR3oqpo7gZA/oROlFg/ObtqoNVFQeyAi/gr8Y8+B1yDBzSJp2pzgnqJjO
+ 0oWce7QwfRq5UDJPD0nxcWDnzQazSaawL8J0K7eWWvd2rvWsVPE43PyhnvJ7sXUQ6yY+mbo3+Ou
+ koQK5YrRCyMa3mQHWeOYorGXANIkQvhd3UY2WN8RSP2s0uS8BVzvOMc
+X-Google-Smtp-Source: AGHT+IEOj1biKK+ZR5Kvzu/bNmgXMB6bfwX33snuXM4/eB94OvmJ7i7TkywsbUI/f94EkhNCJvhs5Q==
+X-Received: by 2002:a05:6000:2c2:b0:385:e30a:394b with SMTP id
+ ffacd0b85a97d-38a221ea33cmr37961651f8f.16.1735909127054; 
+ Fri, 03 Jan 2025 04:58:47 -0800 (PST)
+Received: from [127.0.1.1] ([86.121.162.10]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a1c8acadcsm40225591f8f.105.2025.01.03.04.58.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jan 2025 04:58:46 -0800 (PST)
+From: Abel Vesa <abel.vesa@linaro.org>
+Subject: [PATCH v3 0/4] drm/dp: Rework LTTPR transparent mode handling and
+ add support to msm driver
+Date: Fri, 03 Jan 2025 14:58:14 +0200
+Message-Id: <20250103-drm-dp-msm-add-lttpr-transparent-mode-set-v3-0-5c367f4b0763@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] arm64: dts: qcom: x1e80100: Add OPPs up to Turbo
- L3 for GPU
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
- <20241231-gpu-acd-v3-6-3ba73660e9ca@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241231-gpu-acd-v3-6-3ba73660e9ca@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Uu-RVNCbTwhanpJ_0pPYozwtiuZICoaF
-X-Proofpoint-ORIG-GUID: Uu-RVNCbTwhanpJ_0pPYozwtiuZICoaF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- suspectscore=0 clxscore=1015 mlxlogscore=821 impostorscore=0 phishscore=0
- spamscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501030112
+X-B4-Tracking: v=1; b=H4sIAObed2cC/53NQQ7CIBCF4asY1o4BWrR15T2MC9oZlKSFZiCNp
+ undRTfGpS7fW3z/IhKxpySOm0UwzT75GMqothvR32y4EngsW2ipayUrBcgj4ARjGsEiwpDzxJD
+ ZhjRZppBhjEiQKIOq9j2aziHJgyjexOT8/d06X8q++ZQjP97pWb3efyqzAgm9dV3XNsa4Wp4GH
+ yzHXeSreGVm/aG1+onWhUbTyj1h1XS6+aLXdX0C9/b2Pz4BAAA=
+X-Change-ID: 20241031-drm-dp-msm-add-lttpr-transparent-mode-set-136cd5bfde07
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, Abel Vesa <abel.vesa@linaro.org>, 
+ Johan Hovold <johan+linaro@kernel.org>, Imre Deak <imre.deak@intel.com>
+X-Mailer: b4 0.15-dev-dedf8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3566; i=abel.vesa@linaro.org; 
+ h=from:subject:message-id;
+ bh=7n3rMuTJ70Req/bYVP46W8kBnza87id/HcUwiW7e2DE=; 
+ b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnd9788w0pa/geOfKLRgX6m2PWun+geT5T3rVwc
+ jMKtsJWHX+JAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZ3fe/AAKCRAbX0TJAJUV
+ ViWPEACWG4nM6qgKiDXA+xCVxpDZt5mhxx7MGILuTwIcxJ02pA0tflGE7Dy4OsfVGIhOFk2cf7K
+ 4xjT27auGoZkG/suv9djSXWv1neHZBENEF+jet4THElETRhHuoiATLlXiZOu9e6rHZBvTvUX3CW
+ aLvxsG6G6OhMHxLlD24hy8kLqgNxZQxQlFne83p5kun6RakizLH5o51xgQ7AqG37t0/kHeRHPF5
+ mcfjw4Ckv/aQoYDFLNTPZA/KCn/lYyk/GBrfSmco7tvZv/CprWFFFe9//NyeB1xLk3HF0NuVGA3
+ jeQB4CAt19FD0SmQ+umNhjHkQmnezWgSlVxFlVC772KAgiBK3jjL7tRAK84yp0dK0V2Q28+T/5b
+ /6b3GnHqclTSB4rUZwGZsBsUKxScqufyuPLxnMFca4xE5S5uapP5WnmIpxI8If2NvOG2KroFkCL
+ AQo0uvpZ5LnYYGMDkbwNo/Ed6Ljcd5LGNrezVKtOCzlkRM7hVi2DU13jcduxJFlwXE/16MCO8Sa
+ oRZI7mtVzsZJ8dmtwou+4y5rNG9jlMvU9CsmCVjKYcMqAXKx6OGxNHiDGvE8RTRZtvXUJ6fSIw7
+ z8Khh8+uFnNyOWIkETFfreLSUJvbD+y6UxRvJZNDnljS0xBecn6ii2M63KKMWPCB7rhh6ZPH7nd
+ 8asiH73TzAbOiXw==
+X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
+ fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,13 +123,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30.12.2024 10:11 PM, Akhil P Oommen wrote:
-> Now that we have ACD support for GPU, add additional OPPs up to
-> Turbo L3 which are supported across all existing SKUs.
-> 
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> ---
+Looking at both i915 and nouveau DP drivers, both are setting the first
+LTTPR (if found) in transparent mode first and then in non-transparent
+mode, just like the DP v2.0 specification mentions in section 3.6.6.1.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Being part of the standard, setting the LTTPR in a specific operation mode
+can be easily moved in the generic framework. So do that by adding a new
+helper.
 
-Konrad
+Then, the msm DP driver is lacking any kind of support for LTTPR handling,
+so add it by reading the LTTPR caps for figuring out the number of LTTPRs
+found on plug detect and then do exactly what the i915 and nouveau drivers
+do with respect to toggling through operating modes, just like the
+up-mentioned section from DP spec describes.
+
+At some point, link training per sub-segment will probably be needed, but
+for now, toggling the operating modes seems to be enough at least for the
+X Elite-based platforms that this patchset has been tested on.
+
+Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+---
+Changes in v3:
+- Picked-up T-b tag from Johan for the drm/dp transparent mode set helper
+  patch
+- Re-worked the return value of the drm/dp transparet mode set helper
+- Added some more details about what the values of the lttpr_count arg
+  is expected to be for the drm_dp_lttpr_init(), like Johan suggested.
+- Re-worked the non-transparent mode disable->enable so that the rollback
+  doesn't happen unless enable failed.
+- Picked-up Lyude's R-b tag for the nouveau patch.
+- Dropped extra parantesis at the end of the drm_dp_lttpr_init() call in
+  i915 patch.
+- Picked-up Johan's T-b tag for the drm/msm/dp patch.
+- Added some error handling and an error message in the
+  msm_dp_display_lttpr_init(), while dropping the unnecessary lttpr_count
+  local variable.
+- Link to v2: https://lore.kernel.org/r/20241211-drm-dp-msm-add-lttpr-transparent-mode-set-v2-0-d5906ed38b28@linaro.org
+
+Changes in v2:
+- Added new wrapper over the set_transparent new helper in order to
+  move the non-transparent disable and the its enable->disable sequence
+  mentioned in the DP standard section 3.6.6.1 entirely in the generic
+  implemetation.
+- Switch all 3 drivers to use the new wrapper.
+- Fixed the return value of the helper to return 0 on success and
+  negative value on error.
+- Added explanation about the transparent/non-transparent modes into the
+  msm dp commit message.
+- Dropped the condition for non-eDP in msm DP driver since it is allowed
+  to try to get the number of LTTPRs even on eDP and it will be always
+  0 anyway.
+- Dropped the RFC prefix
+- Link to v1: https://lore.kernel.org/r/20241031-drm-dp-msm-add-lttpr-transparent-mode-set-v1-0-cafbb9855f40@linaro.org
+
+---
+Abel Vesa (4):
+      drm/dp: Add helper to set LTTPRs in transparent mode
+      drm/nouveau/dp: Use the generic helper to control LTTPR transparent mode
+      drm/i915/dp: Use the generic helper to control LTTPR transparent mode
+      drm/msm/dp: Add support for LTTPR handling
+
+ drivers/gpu/drm/display/drm_dp_helper.c            | 61 ++++++++++++++++++++++
+ .../gpu/drm/i915/display/intel_dp_link_training.c  | 24 ++-------
+ drivers/gpu/drm/msm/dp/dp_display.c                | 17 ++++++
+ drivers/gpu/drm/nouveau/nouveau_dp.c               | 17 +-----
+ include/drm/display/drm_dp_helper.h                |  2 +
+ 5 files changed, 87 insertions(+), 34 deletions(-)
+---
+base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+change-id: 20241031-drm-dp-msm-add-lttpr-transparent-mode-set-136cd5bfde07
+
+Best regards,
+-- 
+Abel Vesa <abel.vesa@linaro.org>
+
