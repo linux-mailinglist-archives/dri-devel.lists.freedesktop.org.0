@@ -2,174 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E4B0A005B4
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 09:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EF4A0070E
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 10:35:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0766110E42F;
-	Fri,  3 Jan 2025 08:21:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NN+sbVcu";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9A9E10E841;
+	Fri,  3 Jan 2025 09:35:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2060.outbound.protection.outlook.com [40.107.220.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 256FA10E258;
- Fri,  3 Jan 2025 08:21:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tLg3fV60WiIrLOtpF02tO6PzvM8Gt7KRpXoiYf0bXnHWORz3u2HaaWTW+yBQidk0qdt8a6LJtUfaRgGSPNpBDN6dOq+kWMK18B/O2I4RxQnhDCpHh94YLWEuARD+WMXPVhU/VhYuVQpzLCnDyvHkFwUJ0PrSglLL6cZHap5vLI6N24WN57cHRm3vcN06Dm6oT6qgozjJtco3J813CAbhDg+I994sUdHLwgpVJRg7NZi5udSUr1gQMPj+Ffq1o8ZwLixlgU8FMovho9RCnJFdmokte5D1RV9hg67ILOIpGIP7oYPwVdfzQ61Wx1jC0d8t+WzX0Nwj9x6W4P+g/7P9nA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CF4ozrqdjnpxrzX1l6fQdw9SyHJfKbtVwZo8tt0q3y8=;
- b=sMb8ieMNgtbP4w+IQq6SNkqccoIG1hx0eW8hf9NbnNtMLjHiVqZud95MMJHPWce4H0x2n000PsY80tsI+75KgpLdWI3kVEn2v/tYjIUnvHc498tKP8a5p+tWZdfKL7QP5PDA2oa3yP8mKf6D+irEHh0F7neZL0HyepUipFGbtbc4x9AQiRGzDAZjSJU0dK+jED0zcOmatTrHJf/LAJtROnrjn50gGwPYzgvJqFsLDy1jllFV3Sfo9BudWPUwBqv/a91IOiznRE4fhBbG684HlRfjn0yZ44SO9Vdr4K6WuBcQlT70a6k4MbEweak99uX3+5GqJZxXbp5e/bb5fHIx8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CF4ozrqdjnpxrzX1l6fQdw9SyHJfKbtVwZo8tt0q3y8=;
- b=NN+sbVcuLXdUgnZeirY2C0/kHE3GWjt4g/+PfvWXjzrX8yccoxckrFbsMF8EqL49TRyOXgzkUhjw/US+xUD2YMYjIbkk5LHj9a94upQoAOGDzcPqalgVS0pwpWiklSI7dELxyjnHs6m2azOdIZ9l86FLfcWz1QK+PkLy3tuw4B0=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB8558.namprd12.prod.outlook.com (2603:10b6:8:187::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.12; Fri, 3 Jan
- 2025 08:21:43 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8314.013; Fri, 3 Jan 2025
- 08:21:43 +0000
-From: "Koenig, Christian" <Christian.Koenig@amd.com>
-To: Shuai Xue <xueshuai@linux.alibaba.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>, 
- "Lazar, Lijo" <Lijo.Lazar@amd.com>, "Ma, Le" <Le.Ma@amd.com>,
- "hamza.mahfooz@amd.com" <hamza.mahfooz@amd.com>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "Liu, Shaoyun" <Shaoyun.Liu@amd.com>,
- "Jun.Ma2@amd.com" <Jun.Ma2@amd.com>
-CC: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "tianruidong@linux.alibaba.com" <tianruidong@linux.alibaba.com>
-Subject: AW: [PATCH] drm/amdgpu: Enable runtime modification of gpu_recovery
- parameter with validation
-Thread-Topic: [PATCH] drm/amdgpu: Enable runtime modification of gpu_recovery
- parameter with validation
-Thread-Index: AQHbWPJX0oNhYqXiNEeOaORZfn2CrrL9qdcAgADT+4CABj9iHQ==
-Date: Fri, 3 Jan 2025 08:21:43 +0000
-Message-ID: <PH7PR12MB5685C307737F826039EEE48583152@PH7PR12MB5685.namprd12.prod.outlook.com>
-References: <20241228063245.61874-1-xueshuai@linux.alibaba.com>
- <563b1797-5524-44c5-89b0-754f245e6b8f@amd.com>
- <63938ba2-dcb5-456f-bf82-bd8c893549c0@linux.alibaba.com>
-In-Reply-To: <63938ba2-dcb5-456f-bf82-bd8c893549c0@linux.alibaba.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-01-03T08:21:42.969Z;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
- Internal Distribution
- Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=0;
- MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard; 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR12MB5685:EE_|DM4PR12MB8558:EE_
-x-ms-office365-filtering-correlation-id: afea4dcd-5cc2-4587-9548-08dd2bcfa80c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|921020|38070700018|7053199007; 
-x-microsoft-antispam-message-info: =?utf-8?B?THh4a0Z5UHdBV3QzaXlQbnJzSmx2U3A0ZWNHK2lILzB6Zjhqa21nTDVWNUJq?=
- =?utf-8?B?UktQN2hFa21ZRk11MXh3MlJmMm9IUXdiM0N3aGx2NFdiY1NKcGo0TkxnNnJj?=
- =?utf-8?B?NC8rRStHclZWT2Y0dHVwY1licXE5ckxQcFQ4SGZUbVJGK1daYmV4aFZ4N1Ar?=
- =?utf-8?B?b2NPWDVaVlJCb1dVVWhKVkRzYTA0WmpINlZnVWtwSDRDbVVpdXVXTnRyM0tl?=
- =?utf-8?B?dURZa2Rkc0xoUFhGa0NsenRKNGFOK0lISGx0QzA0WXppbFJZOVlmVXpPSFh6?=
- =?utf-8?B?VU01czEweXBqSjdWYTNPK2crTkJ4RHdaUmJuckNwSnhxQUhjVUZTRCsrcGhI?=
- =?utf-8?B?NnlJZ2hMc0VzMW5SNVJQcThHR040cXkzVjd1QWVFaExUNWpQcHRqOFZaRHlI?=
- =?utf-8?B?WnRsMEF6dFFLeFRqNVFjVTNHZnJBQVV6MmNIR3pDS1REdUsxemxvNmhwU3B1?=
- =?utf-8?B?eGgyRSs0d0lxYTlHckdHZVlwYVRXaGd4TUpGalExYkVLL0FhTTlOWm1IdEdB?=
- =?utf-8?B?OE5wQkFESVMyKzRuSXhjVUs5bG1jMm9SWlNZTWNzZXlVRStldHZLRUZlS29F?=
- =?utf-8?B?bXRqTVlEdEpoQXlPKzlTaGZnZDFkSmhKbW9mU01jcm5wNDU1RStpWVJsRXVo?=
- =?utf-8?B?NTZ1RWtyd0xaRnllQ09FUHdLdi8vd3dFbk9mcy9COThDSDYvaXE2d09SY2VQ?=
- =?utf-8?B?YWhQbkt3TVJ0T3pNR0oxSUdmN20xOE9GbUsrbUIxQXcvaGQwSVRTVmIzREtX?=
- =?utf-8?B?UXlLSnhWUkpUUWVQVVlRblNXN3RhRUIzc1R4L09Dd2NkMmFEQ1NKZEdDd3Fx?=
- =?utf-8?B?L2RRRTRhd0xLSWxFdUFBSGR4UWJtVE5DWjN5VlNxODlKZXB4cC9qTzlBdTJS?=
- =?utf-8?B?TTlMYnFYWnEwdU43VW1CZ3B3NTlWdlZrMlF2dHZoblJDRTdieGxMaUJpWmdN?=
- =?utf-8?B?MVVoSlFpRG9haWdpS1M4SVpsbmpBejUvQlJuVHVnZGRGM3g2NUl5dy84NWxl?=
- =?utf-8?B?eHc3SnpBUnlETFkxUDB5em9MOUYxeExJOC8rOVJySlovK0lPeWl5ejVYczJK?=
- =?utf-8?B?UlFPb2V5N3c1eGZUL01ZMHdDQkZaMmNoTjhSZlRLb08zM0FkUkVEQzJLejhU?=
- =?utf-8?B?K1pSdVdqZjVTMFEweWYwNm1IcjdYaHRWeUpMSENJakVudS9BRDZIQVpCVTdF?=
- =?utf-8?B?QTdQZWk4QlFqSXpkWm5XS2tHQzlqUURFcXBGYW9vVDFoREdvWjBaOUM2NmJv?=
- =?utf-8?B?b1cwdHQ1WE45Y3ZYUVpIcHB4cFNIU2NPS1laazRWaWZvMGQ1Y21wZjRZMm50?=
- =?utf-8?B?VnNlNEJneVo0ZEtQdDVHUk00a2RuSjdlSC8wNWZ2THVYOEJ0cmRIUEZYaWF6?=
- =?utf-8?B?T1ExZnF3ZzRsV0R6aDNwdkVZbThWU3YvZ1B4dWhUY0NQVjZxd09RWTUyQnNB?=
- =?utf-8?B?OGN1bVNWR3AwSHJKbEZtSGdXT1dsMVdWNGZJeGp3dytjYWh3Q2NuWVFvVGlI?=
- =?utf-8?B?OWtwOVZPUTQ5RHdSekVnT29vN0lSbGVCbGRKR3RPcEttM0RSbGNSN0dwYUJ1?=
- =?utf-8?B?WDF5WFh2QUg3SWprN1Ava3I0WmlHLzFMZ1BDelZIQVBBM1BkL3VmYUhRKy9M?=
- =?utf-8?B?U3R4SkxMYkM1YWpSVldFd3pSTmFyd05qS01lMkRoNzFNb2FJdkJPVnMyVGlG?=
- =?utf-8?B?NWRWQlJ4QmZKYW96WDFPd0s1RzVSQ0RFbTFmbFgxOVBtQXVsTXBFa0YrZzFm?=
- =?utf-8?B?M2Y4bUtqdDRkeTByd3oySHM3eUZqZkFMR0JtckVJWHg4RG95TlJvZHFpUFht?=
- =?utf-8?B?TWFicVRCVHNidTZwN3ZVMVNWaER5cENvL2ZnK3FKOUhiRmJRV2p3b1NZR1Ez?=
- =?utf-8?B?cFEySjR4Q2NhS3hpWERoRUlDZjd2Mm5YbmNjSDRTeTQ0Y2xqb0V3RlFjY2dv?=
- =?utf-8?B?cTZyYTBOUE9QZXhSQ0JiZGtPaXRac2tkMDRFMGR5ZTRWMG93T2h0b2IydnFB?=
- =?utf-8?B?MUh4YmVGWHpRPT0=?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(921020)(38070700018)(7053199007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MCt0KzhSY1VDZHZ5cXdseHg0RFpVWlVpejhmMjV5cjE3N0xLRzl1TGZIblhh?=
- =?utf-8?B?ek5hR2pIWWNMSEJjc2p5SjYvZkU0Y3lLQ1FkSWMrNFhrTnpmSW5QdUhtOURV?=
- =?utf-8?B?QldWVTNTd2NCRHN1dTF4Q3VSRDRGVVczWHh1dWwwS1ZhaHFhajlIZjdMYngw?=
- =?utf-8?B?MGQxOGlnTC9yc2pRRThhdWpmM3pETDlKWmlPU2VwbWUyWGFQS3ZGZkxuWmZ5?=
- =?utf-8?B?MkY4MHZvYi9YK0FoUFY4RVRteFpaeW1UbHpoclpwMUJyKzhOU3RZVnZjUkpz?=
- =?utf-8?B?RlVxVnkxL0g0OTN4MTdLY3NYOUJTR09vKzR0UmZwWkRsdnZNQ25wYURlU2F1?=
- =?utf-8?B?MmFOMVllSlF3ZHNlbFFmbTJ1TGQ2OWM5ZXdtdzJhcXkyQVlWSlNyMmtsaFVC?=
- =?utf-8?B?YklXUll4K1hGYW5FT0YvaGtCWllOYmpkcXNwN2JYR3FyT3hqSWdTbzVaamtL?=
- =?utf-8?B?QWFnMzl6dHRkTzJodVh4anBkWnp6aWtKTFNZL0FIOUVaaGVDSEtON3ZneHQr?=
- =?utf-8?B?czFpbHZwcGxJeFBSeVQvMHA1bTNZOXdYeWlyNVhPSWQ4S0xGaEhBeGsydzkx?=
- =?utf-8?B?OFFVcTRidlVZZVRNaDR3MS9SdmFJNWxzMjB0ZjhhVTErUzZDaXpUSUpGc0hC?=
- =?utf-8?B?NVNKSWtiUFk1N0dJKzRpRFQwVGVGMWw0ZGoxMENPSDhib3l5dkxtRWN6VmYr?=
- =?utf-8?B?Nml3ZWs2aUdwSmFyRUtBNVNoM0FibFc3L2xwWk45NVZmeEtjU01FSk1kKytM?=
- =?utf-8?B?RU4yUVh4OU1vTnVDYzVKL0Z6WWtrRUR2WFlISUZSSitVVFNHaVV2VHZtU2Rm?=
- =?utf-8?B?S3ZHcFJPNFBwazcrSkhlTEYyWEZrR0hlY1g4b2xmZ1hBK3pxejVHZWpmZWhk?=
- =?utf-8?B?SEtaL3dBU1ozUHMwenNBb084QXljVlZxZk4ybXV0R3VLWG9KNTZtdzZ1RXVx?=
- =?utf-8?B?d2F2RkNhTCtvRVlwcVRrYkUvN0pIWUdjd2ZQWjZ5cHd6WWFkczhjZlBpM2FF?=
- =?utf-8?B?QTlzaElVdVhBVmhkSnh0ZjZKb0NhU3dNOW5PaVJJOEZNTmdpM1pvSDhNd0dE?=
- =?utf-8?B?ZFdFWnU0aTh3bG1ZcTFJV1JBKysxSDRDL2dhQkFJZm5oSkt2TUtJQVdjL0Q0?=
- =?utf-8?B?MkZST09pd0Rydm5jKzJKVVdhTlhTQS85Rm9xekFGZkw2bndzbGRQN3BHaldZ?=
- =?utf-8?B?T2ZwSnRXbzdDZ21SK3RnL2hNNDdWeDh0YlYvRGQrbWN4VWNUd20reGlOcnJn?=
- =?utf-8?B?SUQ4V1hkQVBleDkzQ1VPRE5DVnltNUJSNVBzOENTbWJOY2h3WWVKem5OMFhI?=
- =?utf-8?B?cVVNczZnbzB0RDJoSlhEWlhmRjBCSXZyOVo0V25qMERyVVdZZ3FJNGpxRmt6?=
- =?utf-8?B?UThDNVZMajVvZnRUY1h5cnVNY00yUXhNalVYVFJVZjhkOGdKelA2NnVQNllG?=
- =?utf-8?B?Sml1VzlzZzFsZlk3dm9JMCt3NjZiZnNSTlV1Yy9qTGxOSHhCUXdZcUFkWXp2?=
- =?utf-8?B?WTNFdVMzSGx3aEtud0ZlbXA1bXFBQjRyc0tobThDU1k2Q2FZYjdRdHl6MlBn?=
- =?utf-8?B?eFhudjVqZXl2a0tjRlF6S3ZKcCswTEdlVmFpQ3hXQld3Wm5qMFJTTjVtdWRH?=
- =?utf-8?B?YU1uSCtHVjUwUmdjRUxUSk1TZEV0WnhwRjdFSTFrUGZyTnNBdHkyWXBRaDZa?=
- =?utf-8?B?cTlJcEJEMTQxdGZzdnZ2Ly9pQW4xV2E0QjdWYUlud1dEQVlhQnByWUFoQnNJ?=
- =?utf-8?B?UUt0U25hcjVOVG9lOWtTN2dWUUJkZ0JtMURoMmZSZG91U2F6bGxsSXVwaVdG?=
- =?utf-8?B?bndiY3lHbXoxeFNaeEVrbk1lazdoWUNWUDJLUmtxNnhOa1B6b3d4WVc3ZVk4?=
- =?utf-8?B?aHJUdjErS09kMk1MNFN4UHJaT1owNGxGdGxCYUcrWjZ6andsM2VWOEJuUDY3?=
- =?utf-8?B?V1hoNktrMEJ1bWRTcXhEV1N2SGlMeWhaUllkclpzWElOTS81WHZ2ZFpnenhL?=
- =?utf-8?B?Q2RWRkZtdktXT0tCWkJMcnZmTlhoY25GVEZkODl2a1hscllFakhjTHRLNmVN?=
- =?utf-8?B?V0VIMTVVNzVFc05hVzArUUV1dDE0SkQzcDZHU3plU2VITWlSM0ZJRllldUQx?=
- =?utf-8?Q?iVlM=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B199A10E84E
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 09:35:24 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4YPddZ6ZXZzckM2;
+ Fri,  3 Jan 2025 17:32:18 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 11BC5180064;
+ Fri,  3 Jan 2025 17:35:22 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Fri, 3 Jan 2025 17:35:20 +0800
+Message-ID: <5ddc4d0d-148f-4649-9e18-386272abca67@huawei.com>
+Date: Fri, 3 Jan 2025 17:35:19 +0800
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afea4dcd-5cc2-4587-9548-08dd2bcfa80c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jan 2025 08:21:43.3810 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fa6FaWARlYO9+7OKVCc7uRnKFWLy/A3HWYU4ppGW51CGs70fSACwowqsyTCf6Zfp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8558
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 drm-dp 0/5] Add dp module in hibmc driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20241213060229.1191037-1-shiyongbang@huawei.com>
+ <046b010c-d40b-42c8-b701-4570b7a536eb@huawei.com>
+ <muieolurswxzxevlqgnsftev5mlztopsqze3jhdf32lz4h2hhm@zxfnenjknwav>
+ <0e862c4f-a383-4381-8883-3e28d4e254e7@huawei.com>
+ <CAA8EJpqbRpDGeXYvdM2t+X=dF3N-TtmBvO7eyWhQ0CtTwy9ZbQ@mail.gmail.com>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <CAA8EJpqbRpDGeXYvdM2t+X=dF3N-TtmBvO7eyWhQ0CtTwy9ZbQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,142 +63,203 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seSAtIEFNRCBJbnRlcm5hbCBEaXN0cmlidXRpb24gT25seV0N
-Cg0KSGkgU2h1YWksDQoNCnNldHRpbmcgZ3B1X3JlY292ZXJ5PTAgaXMgbm90IGV2ZW4gcmVtb3Rl
-bHkgcmVsYXRlZCB0byBSQVMuIElmIHRoYXQgb3B0aW9uIGFmZmVjdHMgUkFTIGJlaGF2aW9yIGlu
-IGFueSB3YXkgdGhlbiB0aGF0IGlzIGEgYnVnLg0KDQpUaGUgcHVycG9zZSBvZiBzZXR0aW5nIGdw
-dV9yZWNvdmVyeT0wIGlzIHRvIGRpc2FibGUgcmVzZXRzIGFmdGVyIGEgc3VibWlzc2lvbiB0aW1l
-b3V0IG1vc3QgbGlrZWx5IGNhdXNlZCBieSBhbiB1bnJlY292ZXJhYmxlIEhXIGVycm9yLg0KDQpU
-aGlzIGlzIG5lY2Vzc2FyeSBmb3IgSlRBRyBkZWJ1Z2dpbmcgaW4gb3VyIGxhYnMgZHVyaW5nIEhX
-IGJyaW5ndXAgYW5kIHNob3VsZCAqTkVWRVIqIGJlIHVzZWQgb24gYW55IHByb2R1Y3Rpb24gc3lz
-dGVtLg0KDQpXZSBhbHJlYWR5IGRpc2N1c3NlZCB3aXRoIHVwc3RyZWFtIG1haW50YWluZXJzIHRo
-YXQgd2Ugc2hvdWxkIHByb2JhYmx5IG1hcmsgdGhlIGtlcm5lbCBhcyB0YWludGVkIHRvIGluZGlj
-YXRlIHRoYXQgaXQgbWlnaHQgYmUgaW4gYW4gdW5yZWxpYWJsZSBIVyBzdGF0ZS4gSSB3aWxsIHB1
-c2ggZm9yIHRoaXMgbm93IHNpbmNlIHRoZXJlIHNlZW1zIHRvIGJlIGEgYmlnIG1pc3VuZGVyc3Rh
-bmRpbmcgd2hhdCB0aGlzIG9wdGlvbiBkb2VzLg0KDQpSZWdhcmRzLA0KQ2hyaXN0aWFuLg0KDQpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpWb246IFNodWFpIFh1ZSA8
-eHVlc2h1YWlAbGludXguYWxpYmFiYS5jb20+DQpHZXNlbmRldDogTW9udGFnLCAzMC4gRGV6ZW1i
-ZXIgMjAyNCAwOTo1MA0KQW46IEtvZW5pZywgQ2hyaXN0aWFuOyBEZXVjaGVyLCBBbGV4YW5kZXI7
-IFBhbiwgWGluaHVpOyBhaXJsaWVkQGdtYWlsLmNvbTsgc2ltb25hQGZmd2xsLmNoOyBMYXphciwg
-TGlqbzsgTWEsIExlOyBoYW16YS5tYWhmb296QGFtZC5jb207IHR6aW1tZXJtYW5uQHN1c2UuZGU7
-IExpdSwgU2hhb3l1bjsgSnVuLk1hMkBhbWQuY29tDQpDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmc7IHRpYW5ydWlkb25nQGxpbnV4LmFsaWJhYmEuY29tDQpCZXRyZWZmOiBS
-ZTogW1BBVENIXSBkcm0vYW1kZ3B1OiBFbmFibGUgcnVudGltZSBtb2RpZmljYXRpb24gb2YgZ3B1
-X3JlY292ZXJ5IHBhcmFtZXRlciB3aXRoIHZhbGlkYXRpb24NCg0KDQoNCuWcqCAyMDI0LzEyLzMw
-IDA0OjExLCBDaHJpc3RpYW4gS8O2bmlnIOWGmemBkzoNCj4gQW0gMjguMTIuMjQgdW0gMDc6MzIg
-c2NocmllYiBTaHVhaSBYdWU6DQo+PiBJdCdzIG9ic2VydmVkIHRoYXQgbW9zdCBHUFUgam9icyB1
-dGlsaXplIGxlc3MgdGhhbiBvbmUgc2VydmVyLCB0eXBpY2FsbHkNCj4+IHdpdGggZWFjaCBHUFUg
-YmVpbmcgdXNlZCBieSBhbiBpbmRlcGVuZGVudCBqb2IuIElmIGEgam9iIGNvbnN1bWVkIHBvaXNv
-bmVkDQo+PiBkYXRhLCBhIFNJR0JVUyBzaWduYWwgd2lsbCBiZSBzZW50IHRvIHRlcm1pbmF0ZSBp
-dC4gTWVhbndoaWxlLCB0aGUNCj4+IGdwdV9yZWNvdmVyeSBwYXJhbWV0ZXIgaXMgc2V0IHRvIC0x
-IGJ5IGRlZmF1bHQsIHRoZSBhbWRncHUgZHJpdmVyIHJlc2V0cw0KPj4gYWxsIEdQVXMgb24gdGhl
-IHNlcnZlci4gQXMgYSByZXN1bHQsIGFsbCBqb2JzIGFyZSB0ZXJtaW5hdGVkLiBTZXR0aW5nDQo+
-PiBncHVfcmVjb3ZlcnkgdG8gMCBwcm92aWRlcyBhbiBvcHBvcnR1bml0eSB0byBwcmVlbXB0aXZl
-bHkgZXZhY3VhdGUgb3RoZXINCj4+IGpvYnMgYW5kIHN1YnNlcXVlbnRseSBtYW51YWxseSByZXNl
-dCBhbGwgR1BVcy4NCj4NCj4gKkJJRyogTkFLIHRvIHRoaXMgd2hvbGUgYXBwcm9hY2ghDQo+DQo+
-IFNldHRpbmcgZ3B1X3JlY292ZXJ5IHRvIDAgaW4gYSBwcm9kdWN0aW9uIGVudmlyb25tZW50IGlz
-ICpOT1QqIHN1cHBvcnRlZCBhdCBhbGwgYW5kIHNob3VsZCBuZXZlciBiZSBkb25lLg0KPg0KPiBU
-aGlzIGlzIGEgcHVyZSBkZWJ1Z2dpbmcgZmVhdHVyZSBmb3IgSlRBRyBkZWJ1Z2dpbmcgYW5kIGNh
-biByZXN1bHQgaW4gcmFuZG9tIGNyYXNoZXMgYW5kL29yIGNvbXByb21pc2VkIGRhdGEuDQo+DQo+
-IFBsZWFzZSBkb24ndCB0ZWxsIG1lIHRoYXQgeW91IHRyaWVkIHRvIHVzZSB0aGlzIGluIGEgcHJv
-ZHVjdGlvbiBlbnZpcm9ubWVudC4NCj4NCj4gUmVnYXJkcywNCj4gQ2hyaXN0aWFuLg0KDQpIaSwg
-Q2hyaXN0aWFuLA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcXVpY2sgcmVwbHkuDQoNCldoZW4gYW4g
-YXBwbGljYXRpb24gZW5jb3VudGVycyB1bmNvcnJlY3RlZCBlcnJvciwgaXQgd2lsbCBiZSB0ZXJt
-aW5hdGUgYnkgYQ0KU0lHQlVTIHNpZ25hbC4gVGhlIHJlbGF0ZWQgYmFkIHBhZ2VzIGFyZSByZXRp
-cmVkLiBJIGRpZCBub3QgZmlndXJlIHdoeQ0KZ3B1X3JlY292ZXJ5PTAgY2FuIHJlc3VsdCBpbiBy
-YW5kb20gY3Jhc2hlcyBhbmQvb3IgY29tcHJvbWlzZWQgZGF0YS4NCg0KSSB0ZXN0IHdpdGggZXJy
-b3IgaW5qZWN0aW9uIGluIG15IGRldiBlbnZpcm9tZW50Og0KDQoxLiBsb2FkIGRyaXZlciB3aXRo
-IGdwdV9yZWNvdmVyeT0wDQojY2F0IC9zeXMvYnVzL3BjaS9kcml2ZXJzL2FtZGdwdS9tb2R1bGUv
-cGFyYW1ldGVycy9ncHVfcmVjb3ZlcnkNCjANCg0KMi4gaW5qZWN0IGEgVW5jb3JyZWN0YWJsZSBF
-Q0MgZXJyb3IgdG8gVU1DDQojc3VkbyBhbWRncHVyYXMgLWQgMCAtYiAyIC10IDgNClBvaXNvbiBp
-bmplY3QsIGxvZ2ljYWwgYWRkcjoweDdmMmI0OTVmOTAwMCBwaHlzaWNhbCBhZGRyOjB4MjdmNWQ0
-YjAwMCB2bWlkOjUNCkJ1cyBlcnJvcg0KDQozLiBHUFUgMDAwMDowYTowMC4wIHJlcG9ydHMgZXJy
-b3IgYWRkcmVzcyB3aXRoIFBBDQojZG1lc2cgfCBncmVwIDI3ZjUNCls0MjQ0NDMuMTc0MTU0XSBh
-bWRncHUgMDAwMDowYTowMC4wOiBhbWRncHU6IEVycm9yIEFkZHJlc3MoUEEpOjB4MjdmNWQ0MzA4
-MCBSb3c6MHgxZmQ3IENvbDoweDAgIEJhbms6MHhhIENoYW5uZWw6MHgzMA0KWzQyNDQ0My4xNzQx
-NTZdIGFtZGdwdSAwMDAwOjBhOjAwLjA6IGFtZGdwdTogRXJyb3IgQWRkcmVzcyhQQSk6MHgyN2Y1
-ZDRiMDgwIFJvdzoweDFmZDcgQ29sOjB4NCAgQmFuazoweGEgQ2hhbm5lbDoweDMwDQpbNDI0NDQz
-LjE3NDE1OF0gYW1kZ3B1IDAwMDA6MGE6MDAuMDogYW1kZ3B1OiBFcnJvciBBZGRyZXNzKFBBKTow
-eDI3ZjVkNTMwODAgUm93OjB4MWZkNyBDb2w6MHg4ICBCYW5rOjB4YSBDaGFubmVsOjB4MzANCls0
-MjQ0NDMuMTc0MTYwXSBhbWRncHUgMDAwMDowYTowMC4wOiBhbWRncHU6IEVycm9yIEFkZHJlc3Mo
-UEEpOjB4MjdmNWQ1YjA4MCBSb3c6MHgxZmQ3IENvbDoweGMgIEJhbms6MHhhIENoYW5uZWw6MHgz
-MA0KWzQyNDQ0My4xNzQxNjJdIGFtZGdwdSAwMDAwOjBhOjAwLjA6IGFtZGdwdTogRXJyb3IgQWRk
-cmVzcyhQQSk6MHgyN2Y1ZjQzMDgwIFJvdzoweDFmZDcgQ29sOjB4MTAgQmFuazoweGEgQ2hhbm5l
-bDoweDMwDQpbNDI0NDQzLjE3NDE2OV0gYW1kZ3B1IDAwMDA6MGE6MDAuMDogYW1kZ3B1OiBFcnJv
-ciBBZGRyZXNzKFBBKToweDI3ZjVmNGIwODAgUm93OjB4MWZkNyBDb2w6MHgxNCBCYW5rOjB4YSBD
-aGFubmVsOjB4MzANCls0MjQ0NDMuMTc0MTcyXSBhbWRncHUgMDAwMDowYTowMC4wOiBhbWRncHU6
-IEVycm9yIEFkZHJlc3MoUEEpOjB4MjdmNWY1MzA4MCBSb3c6MHgxZmQ3IENvbDoweDE4IEJhbms6
-MHhhIENoYW5uZWw6MHgzMA0KWzQyNDQ0My4xNzQxNzRdIGFtZGdwdSAwMDAwOjBhOjAwLjA6IGFt
-ZGdwdTogRXJyb3IgQWRkcmVzcyhQQSk6MHgyN2Y1ZjViMDgwIFJvdzoweDFmZDcgQ29sOjB4MWMg
-QmFuazoweGEgQ2hhbm5lbDoweDMwDQoNCjQuIEFsbCB0aGUgcmVsYXRlZCBiYWQgcGFnZXMgYXJl
-IEFNREdQVV9SQVNfUkVUSVJFX1BBR0VfUkVTRVJWRUQuDQojY2F0IC9zeXMvZGV2aWNlcy9wY2kw
-MDAwOjA1LzAwMDA6MDU6MDEuMC8wMDAwOjA2OjAwLjAvMDAwMDowNzowMC4wLzAwMDA6MDg6MDAu
-MC8wMDAwOjA5OjAwLjAvMDAwMDowYTowMC4wL3Jhcy9ncHVfdnJhbV9iYWRfcGFnZXMgfCBncmVw
-IDI3ZjUNCjB4MDI3ZjVkNDMgOiAweDAwMDAxMDAwIDogUg0KMHgwMjdmNWQ0YiA6IDB4MDAwMDEw
-MDAgOiBSDQoweDAyN2Y1ZDUzIDogMHgwMDAwMTAwMCA6IFINCjB4MDI3ZjVkNWIgOiAweDAwMDAx
-MDAwIDogUg0KMHgwMjdmNWY0MyA6IDB4MDAwMDEwMDAgOiBSDQoweDAyN2Y1ZjRiIDogMHgwMDAw
-MTAwMCA6IFINCjB4MDI3ZjVmNTMgOiAweDAwMDAxMDAwIDogUg0KMHgwMjdmNWY1YiA6IDB4MDAw
-MDEwMDAgOiBSDQoNCkFGQUlLLCB0aGUgcmVzZXJ2ZWQgYmFkIHBhZ2VzIHdpbGwgbm90IGJlIHVz
-ZWQgYW55IG1vcmUuICBQbGVhc2UgY29ycmVjdCBtZSBpZg0KSSBtaXNzZWQgYW55dGhpbmcuDQoN
-CkRSQU0gRUNDIGlzc3VlcyBhcmUgdGhlIG1vc3QgY29tbW9uIHByb2JsZW1zLiBXaGVuIGl0IG9j
-Y3VycywgdGhlIGtlcm5lbCB3aWxsDQphdHRlbXB0IHRvIGhhcmQtb2ZmbGluZSB0aGUgcGFnZSwg
-YnkgdHJ5aW5nIHRvIHVubWFwIHRoZSBwYWdlIG9yIGtpbGxpbmcgYW55DQpvd25lciwgb3IgdHJp
-Z2dlcmluZyBJTyBlcnJvcnMgaWYgbmVlZGVkLg0KDQpFQ0MgZXJyb3IgaXMgYWxzbyBjb21tb24g
-Zm9yIEhCTSBhbmQgZXJyb3IgaXNvbGF0aW9uIGZyb20gZWFjaCB1c2VyJ3Mgam9iIGlzIGENCmJh
-c2ljIHJlcXVpcmVtZW50IGluIHB1YmxpYyBjbG91ZC4gRm9yIE5WSURJQSBHUFUsIGEgRUNDIGVy
-cm9yIGNvdWxkIGJlDQpjb250YWluZWQgdG8gYSBwcm9jZXNzLg0KDQo+IFhJRCA5NDogQ29udGFp
-bmVkIEVDQyBlcnJvcg0KPiBYSUQgOTU6IFVuQ29udGFpbmVkIEVDQyBlcnJvcg0KPg0KPiBGb3Ig
-WGlkIDk0LCB0aGVzZSBlcnJvcnMgYXJlIGNvbnRhaW5lZCB0byBvbmUgYXBwbGljYXRpb24sIGFu
-ZCB0aGUgYXBwbGljYXRpb24NCj4gdGhhdCBlbmNvdW50ZXJlZCB0aGlzIGVycm9yIG11c3QgYmUg
-cmVzdGFydGVkLiBBbGwgb3RoZXIgYXBwbGljYXRpb25zIHJ1bm5pbmcNCj4gYXQgdGhlIHRpbWUg
-b2YgdGhlIFhpZCBhcmUgdW5hZmZlY3RlZC4gSXQgaXMgcmVjb21tZW5kZWQgdG8gcmVzZXQgdGhl
-IEdQVSB3aGVuDQo+IGNvbnZlbmllbnQuIEFwcGxpY2F0aW9ucyBjYW4gY29udGludWUgdG8gYmUg
-cnVuIHVudGlsIHRoZSByZXNldCBjYW4gYmUNCj4gcGVyZm9ybWVkLg0KPg0KPiBGb3IgWGlkIDk1
-LCB0aGVzZSBlcnJvcnMgYWZmZWN0IG11bHRpcGxlIGFwcGxpY2F0aW9ucywgYW5kIHRoZSBhZmZl
-Y3RlZCBHUFUNCj4gbXVzdCBiZSByZXNldCBiZWZvcmUgYXBwbGljYXRpb25zIGNhbiByZXN0YXJ0
-Lg0KPg0KPiBodHRwczovL2RvY3MubnZpZGlhLmNvbS9kZXBsb3kveGlkLWVycm9ycy8NCg0KRG9l
-cyBBTUQgR1BVIHByb3ZpZGUgYSBzaW1pbGFyIHdheSB0byBhY2hpZXZlIGVycm9yIGlzb2xhdGlv
-biByZXF1aXJlbWVudD8NCg0KQmVzdCBSZWdhcmRzLA0KU2h1YWkNCg0KPg0KPj4gICBIb3dldmVy
-LCB0aGlzIHBhcmFtZXRlciBpcw0KPj4gcmVhZC1vbmx5LCBuZWNlc3NpdGF0aW5nIGNvcnJlY3Qg
-c2V0dGluZ3MgYXQgZHJpdmVyIGxvYWQuIEFuZCByZWxvYWRpbmcgdGhlDQo+PiBHUFUgZHJpdmVy
-IGluIGEgcHJvZHVjdGlvbiBlbnZpcm9ubWVudCBjYW4gYmUgY2hhbGxlbmdpbmcgZHVlIHRvIHJl
-ZmVyZW5jZQ0KPj4gY291bnRzIG1haW50YWluZWQgYnkgdmFyaW91cyBtb25pdG9yaW5nIHNlcnZp
-Y2VzLg0KPj4NCj4+IFNldCB0aGUgZ3B1X3JlY292ZXJ5IHBhcmFtZXRlciB3aXRoIHJlYWQtd3Jp
-dGUgcGVybWlzc2lvbiB0byBlbmFibGUgcnVudGltZQ0KPj4gbW9kaWZpY2F0aW9uLiBJdCB3aWxs
-IGVuYWJsZXMgdXNlcnMgdG8gZHluYW1pY2FsbHkgbWFuYWdlIEdQVSByZWNvdmVyeQ0KPj4gbWVj
-aGFuaXNtcyBiYXNlZCBvbiByZWFsLXRpbWUgcmVxdWlyZW1lbnRzIG9yIGNvbmRpdGlvbnMuDQo+
-Pg0KPj4gU2lnbmVkLW9mZi1ieTogU2h1YWkgWHVlIDx4dWVzaHVhaUBsaW51eC5hbGliYWJhLmNv
-bT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMg
-fCAyNiArKysrKysrKysrKysrKysrKysrKysrKystDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAyNSBp
-bnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9kcnYuYw0KPj4gaW5kZXggMzg2ODYyMDNiZWE2Li4wM2RkOTAyZTFjZWMgMTAw
-NjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMNCj4+
-ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYw0KPj4gQEAgLTU2
-MywxMiArNTYzLDM2IEBAIG1vZHVsZV9wYXJhbV9uYW1lZChsYnB3LCBhbWRncHVfbGJwdywgaW50
-LCAwNDQ0KTsNCj4+ICAgTU9EVUxFX1BBUk1fREVTQyhjb21wdXRlX211bHRpcGlwZSwgIkZvcmNl
-IGNvbXB1dGUgcXVldWVzIHRvIGJlIHNwcmVhZCBhY3Jvc3MgcGlwZXMgKDEgPSBlbmFibGUsIDAg
-PSBkaXNhYmxlLCAtMSA9IGF1dG8pIik7DQo+PiAgIG1vZHVsZV9wYXJhbV9uYW1lZChjb21wdXRl
-X211bHRpcGlwZSwgYW1kZ3B1X2NvbXB1dGVfbXVsdGlwaXBlLCBpbnQsIDA0NDQpOw0KPj4gK3N0
-YXRpYyBpbnQgYW1kZ3B1X3NldF9ncHVfcmVjb3ZlcnkoY29uc3QgY2hhciAqYnVmLA0KPj4gKyAg
-ICAgICAgICAgICAgICAgICBjb25zdCBzdHJ1Y3Qga2VybmVsX3BhcmFtICprcCkNCj4+ICt7DQo+
-PiArICAgIHVuc2lnbmVkIGxvbmcgdmFsOw0KPj4gKyAgICBpbnQgcmV0Ow0KPj4gKw0KPj4gKyAg
-ICByZXQgPSBrc3RydG9sKGJ1ZiwgMTAsICZ2YWwpOw0KPj4gKyAgICBpZiAocmV0IDwgMCkNCj4+
-ICsgICAgICAgIHJldHVybiByZXQ7DQo+PiArDQo+PiArICAgIGlmICh2YWwgIT0gMSAmJiB2YWwg
-IT0gMCAmJiB2YWwgIT0gLTEpIHsNCj4+ICsgICAgICAgIHByX2VycigiSW52YWxpZCB2YWx1ZSBm
-b3IgZ3B1X3JlY292ZXJ5OiAlbGQsIGV4Y2VwdGVkIDAsMSwtMVxuIiwNCj4+ICsgICAgICAgICAg
-ICAgICB2YWwpOw0KPj4gKyAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+PiArICAgIH0NCj4+ICsN
-Cj4+ICsgICAgcmV0dXJuIHBhcmFtX3NldF9pbnQoYnVmLCBrcCk7DQo+PiArfQ0KPj4gKw0KPj4g
-K3N0YXRpYyBjb25zdCBzdHJ1Y3Qga2VybmVsX3BhcmFtX29wcyBhbWRncHVfZ3B1X3JlY292ZXJ5
-X29wcyA9IHsNCj4+ICsgICAgLnNldCA9IGFtZGdwdV9zZXRfZ3B1X3JlY292ZXJ5LA0KPj4gKyAg
-ICAuZ2V0ID0gcGFyYW1fZ2V0X2ludCwNCj4+ICt9Ow0KPj4gKw0KPj4gICAvKioNCj4+ICAgICog
-RE9DOiBncHVfcmVjb3ZlcnkgKGludCkNCj4+ICAgICogU2V0IHRvIGVuYWJsZSBHUFUgcmVjb3Zl
-cnkgbWVjaGFuaXNtICgxID0gZW5hYmxlLCAwID0gZGlzYWJsZSkuIFRoZSBkZWZhdWx0IGlzIC0x
-IChhdXRvLCBkaXNhYmxlZCBleGNlcHQgU1JJT1YpLg0KPj4gICAgKi8NCj4+ICAgTU9EVUxFX1BB
-Uk1fREVTQyhncHVfcmVjb3ZlcnksICJFbmFibGUgR1BVIHJlY292ZXJ5IG1lY2hhbmlzbSwgKDEg
-PSBlbmFibGUsIDAgPSBkaXNhYmxlLCAtMSA9IGF1dG8pIik7DQo+PiAtbW9kdWxlX3BhcmFtX25h
-bWVkKGdwdV9yZWNvdmVyeSwgYW1kZ3B1X2dwdV9yZWNvdmVyeSwgaW50LCAwNDQ0KTsNCj4+ICtt
-b2R1bGVfcGFyYW1fY2IoZ3B1X3JlY292ZXJ5LCAmYW1kZ3B1X2dwdV9yZWNvdmVyeV9vcHMsICZh
-bWRncHVfZ3B1X3JlY292ZXJ5LCAwNjQ0KTsNCj4+ICAgLyoqDQo+PiAgICAqIERPQzogZW11X21v
-ZGUgKGludCkNCg==
+> On Thu, 2 Jan 2025 at 14:53, Yongbang Shi <shiyongbang@huawei.com> wrote:
+>>> On Thu, Dec 19, 2024 at 10:52:32AM +0800, Yongbang Shi wrote:
+>>>> Does everyone have a question with the patch?
+>>> -:225: CHECK:MACRO_ARG_REUSE: Macro argument reuse 'reg_value' - possible side-effects?
+>>> #225: FILE: drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h:23:
+>>> +#define dp_field_modify(reg_value, mask, val)                                \
+>>> +     do {                                                            \
+>>> +             (reg_value) &= ~(mask);                                 \
+>>> +             (reg_value) |= FIELD_PREP(mask, val);                   \
+>>> +     } while (0)                                                     \
+>>> +
+>>>
+>>> -:225: CHECK:MACRO_ARG_REUSE: Macro argument reuse 'mask' - possible side-effects?
+>>> #225: FILE: drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h:23:
+>>> +#define dp_field_modify(reg_value, mask, val)                                \
+>>> +     do {                                                            \
+>>> +             (reg_value) &= ~(mask);                                 \
+>>> +             (reg_value) |= FIELD_PREP(mask, val);                   \
+>>> +     } while (0)                                                     \
+>>> +
+>> Hi Dmitry,
+>> Thanks for your reminding. For this point, we have to use two variables(mask, reg_value) twice here.
+>> I tried to another way that static inline functions, but there are build errors. So the only way is like this.
+>> After reviewed all references, we have a review session about it, and we think it's acceptable and relatively safe.
+>>    (like we won't use varible with post/pre-increment operator)
+>> If you have a better way to realize this, plz tell me. Appreciate!
+> Well, there is an obvious way:
+>
+> do {
+>    u32 __mask = (mask);
+>    (reg_value) &= ~__mask;
+>    (reg_value) |= FIELD_PREP(__mask, (val));
+> } while (0)
+>
+> But I don't really think that it makes sense to change. It's a
+> check-level, not a warning. The next one is important.
+
+Hi Dmitry,
+I tried this way, and there was a build error occured because the parameter of FIELD_PREP() is a variable.
+https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+
+
+>>
+>>> -:277: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
+>>>
+>>> total: 0 errors, 2 warnings, 2 checks, 239 lines checked
+>>> 1c3faaf4e729 drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+>>> -:70: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
+>>> #70:
+>>> new file mode 100644
+>>>
+>>> -:435: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
+>>>
+>>> total: 0 errors, 2 warnings, 0 checks, 399 lines checked
+>>> 70bf7b765c82 drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+>>> -:28: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
+>>> #28:
+>>> new file mode 100644
+>>>
+>>> -:371: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
+>>>
+>>> total: 0 errors, 2 warnings, 0 checks, 327 lines checked
+>>> 24d6be2577d8 drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+>>> -:188: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
+>>>
+>>> total: 0 errors, 1 warnings, 0 checks, 151 lines checked
+>>> 9a74395d14e2 (HEAD -> drm-misc-next) drm/hisilicon/hibmc: add dp module in hibmc
+>>> -:30: WARNING:FILE_PATH_CHANGES: added, moved or deleted file(s), does MAINTAINERS need updating?
+>>> #30:
+>>> new file mode 100644
+>>>
+>>> -:219: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email name mismatch: 'From: baihan li <libaihan@huawei.com>' != 'Signed-off-by: Baihan Li <libaihan@huawei.com>'
+>> We already have maintainers for our hibmc-drm module, so there is no need add maintainers in each new file.
+> Please read carefully. Those warnings are about sign-off mismatches.
+> You can ignore the maintainers entry.
+
+Thanks for your reminder! I will fix it in v9.
+
+Baihan Li
+
+
+>> Thanks ,
+>> Baihan Li
+>>
+>>
+>>>>> From: baihan li <libaihan@huawei.com>
+>>>>>
+>>>>> Realizing the basic display function of DP cable for DP connector
+>>>>> displaying. Add DP module in hibmc drm driver, which is for Hisilicon
+>>>>> Hibmc SoC which used for Out-of-band management. Blow is the general
+>>>>> hardware connection, both the Hibmc and the host CPU are on the same
+>>>>> mother board.
+>>>>>
+>>>>> +----------+       +----------+      +----- ----+      +----------------+
+>>>>> |          | PCIe  |  Hibmc   |      |          |      |                |
+>>>>> |host CPU( |<----->| display  |<---->| dp kapi  |<---->| dp aux moduel  |
+>>>>> |arm64,x86)|       |subsystem |      |  moduel  |<---->| dp link moduel |
+>>>>> +----------+       +----------+      +----------+      +----------------+
+>>>>>
+>>>>> ---
+>>>>> ChangeLog:
+>>>>> v7 -> v8:
+>>>>>      - adding DP_AUX_NATIVE_WRITE case in switch statement in hibmc_dp_aux_parse_xfer().
+>>>>>      - adding pci_set_master() in hibmc_pci_probe().
+>>>>>      v7:https://lore.kernel.org/all/20241209144840.1933265-1-shiyongbang@huawei.com/
+>>>>> v6 -> v7:
+>>>>>      - deleteing unset fields in struct hibmc_link_cap, suggested by Dmitry Baryshkov.
+>>>>>      - using macro instead of constants in hibmc_dp_link_training_configure(), suggested by Dmitry Baryshkov.
+>>>>>      - lowercasing hex, suggested by Dmitry Baryshkov.
+>>>>>      v6:https://lore.kernel.org/all/20241202131322.1847078-1-shiyongbang@huawei.com/
+>>>>> v5 -> v6:
+>>>>>      - adding do{} while(0) in macro defination function, suggested by Dmitry Baryshkov.
+>>>>>      - using drm_dbg_dp() to print debug info instead of drm_info(), suggested by Dmitry Baryshkov.
+>>>>>      - adding code comments in hibmc_dp_set_sst(), suggested by Dmitry Baryshkov.
+>>>>>      - adding hpd and get_edid comments in the beginning of patch, suggested by Dmitry Baryshkov.
+>>>>>      v5:https://lore.kernel.org/all/20241118142805.3326443-1-shiyongbang@huawei.com/
+>>>>> v4 -> v5:
+>>>>>      - fixing build errors reported by kernel test robot <lkp@intel.com>
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202411131438.RZWYrWTE-lkp@intel.com/
+>>>>>      v4:https://lore.kernel.org/all/20241112132348.2631150-1-shiyongbang@huawei.com/
+>>>>> v3 -> v4:
+>>>>>      - retun error codes in  result incorrect branch, suggested by Dmitry Baryshkov.
+>>>>>      - replacing all ret= with returns, suggested by Dmitry Baryshkov.
+>>>>>      - moving the comment below the judgment statement, suggested by Dmitry Baryshkov.
+>>>>>      - moving definations to the source file and clearing headers, suggested by Dmitry Baryshkov.
+>>>>>      - reanaming dp_prefix to hibmc_dp_prefix, suggested by Dmitry Baryshkov.
+>>>>>      - changing hibmc_dp_reg_write_field to static inline and lock, suggested by Dmitry Baryshkov.
+>>>>>      - moving some structs to later patch, suggested by Dmitry Baryshkov.
+>>>>>      - optimizing hibmc_dp_link_get_adjust_train() to delete for loop, suggested by Dmitry Baryshkov.
+>>>>>      - changing ELNRNG to EIO error code, suggested by Dmitry Baryshkov.
+>>>>>      - deleting meaningless macro, suggested by Dmitry Baryshkov.
+>>>>>      - fixing build errors reported by kernel test robot <lkp@intel.com>
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+>>>>>      - changed the type of train_set to array, suggested by Dmitry Baryshkov.
+>>>>>      - using actual link rate instead of magic num, suggested by Dmitry Baryshkov.
+>>>>>      - deleting hibmc_dp_hw_uninit(), suggested by Dmitry Baryshkov.
+>>>>>      - separating hibmc_vdac and hibmc_dp changes into separate patche, suggested by Dmitry Baryshkov.
+>>>>>      - static int hibmc_dp_prepare(), suggested by Dmitry Baryshkov.
+>>>>>      v3:https://lore.kernel.org/all/20241101105028.2177274-1-shiyongbang@huawei.com/
+>>>>> v2 -> v3:
+>>>>>      - put the macro definations in latter patch where they are actually used, suggested by Dmitry Baryshkov.
+>>>>>      - rename some macro definations to make them sensible, suggested by Dmitry Baryshkov.
+>>>>>      - using FIELD_PREP and FIELD_GET, suggested by Dmitry Baryshkov.
+>>>>>      - using DP_DPCD_REV_foo, suggested by Dmitry Baryshkov.
+>>>>>      - using switchcase in dp_link_reduce_lane, suggested by Dmitry Baryshkov.
+>>>>>      - deleting dp_link_pattern2dpcd function and using macros directly, suggested by Dmitry Baryshkov.
+>>>>>      - deleting EFAULT error codes, suggested by Dmitry Baryshkov.
+>>>>>      - fix build errors reported by kernel test robot <lkp@intel.com>
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202410250931.UDQ9s66H-lkp@intel.com/
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202410251136.1m7BlR68-lkp@intel.com/
+>>>>>      v2:https://lore.kernel.org/all/20241022124148.1952761-1-shiyongbang@huawei.com/
+>>>>> v1 -> v2:
+>>>>>      - using drm_dp_aux frame implement dp aux read and write functions, suggested by Jani Nikula.
+>>>>>      - using drm dp header files' dp macros instead, suggested by Andy Yan.
+>>>>>      - using drm_dp_* functions implement dp link training process, suggested by Jani Nikula.
+>>>>>      - changed some defines and functions to former patch, suggested by Dmitry Baryshkov.
+>>>>>      - sorting the headers including in dp_hw.h and hibmc_drm_drv.c files, suggested by Dmitry Baryshkov.
+>>>>>      - deleting struct dp_mode and dp_mode_cfg function, suggested by Dmitry Baryshkov.
+>>>>>      - modifying drm_simple_encoder_init function, suggested by Dmitry Baryshkov.
+>>>>>      - refactoring struct hibmc_connector, suggested by Dmitry Baryshkov.
+>>>>>      - withdrawing the modification in hibmc_kms_init, suggested by Dmitry Baryshkov.
+>>>>>      - fix build errors reported by kernel test robot <lkp@intel.com>
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202410031735.8iRZZR6T-lkp@intel.com/
+>>>>>        Closes: https://lore.kernel.org/oe-kbuild-all/202410040328.VeVxM9yB-lkp@intel.com/
+>>>>>      v1:https://lore.kernel.org/all/20240930100610.782363-1-shiyongbang@huawei.com/
+>>>>> ---
+>>>>>
+>>>>> baihan li (5):
+>>>>>      drm/hisilicon/hibmc: add dp aux in hibmc drivers
+>>>>>      drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
+>>>>>      drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
+>>>>>      drm/hisilicon/hibmc: refactored struct hibmc_drm_private
+>>>>>      drm/hisilicon/hibmc: add dp module in hibmc
+>>>>>
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c   | 164 +++++++++
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  63 ++++
+>>>>>     .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  19 +
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 220 ++++++++++++
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  28 ++
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 332 ++++++++++++++++++
+>>>>>     drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  76 ++++
+>>>>>     .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 118 +++++++
+>>>>>     .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  14 +
+>>>>>     .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |  19 +-
+>>>>>     .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  41 ++-
+>>>>>     .../gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c  |  20 +-
+>>>>>     13 files changed, 1078 insertions(+), 39 deletions(-)
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>>>>>     create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
+>>>>>
+>
+>
