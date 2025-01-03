@@ -2,115 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BDAA00C83
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 18:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0B4A00E19
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 19:55:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9FA310E439;
-	Fri,  3 Jan 2025 17:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02FF710E039;
+	Fri,  3 Jan 2025 18:55:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HsMI649l";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IOX6GixJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1560610E439
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 17:04:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B68C55C648E;
- Fri,  3 Jan 2025 17:03:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78D73C4CECE;
- Fri,  3 Jan 2025 17:04:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735923861;
- bh=SByc/N9How7/ZDztUDiEHkrbYTvlWlG9S5ZZuJl3oCs=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HsMI649l/0xtPdAR6zjaBtsHAX7rIhwaFNEqMZpEtH42TwOX/Y3ojO+JoKCoGMgAv
- 5Y1coZRBAlCKngjTtuxVn/dTSYogZZAm34hPPUvuDrVczvhbRPU6wfhWffH2Wd5o7X
- XzleAc7/aSl323IUfTL+7TSFJ4mE+IgE5uUGmTxhbkE9rWjlTopjg6mNnn6VAZsEM5
- fbujuA3wD668iSYJEO5u1WgRum7FU80AV7GzT4rue5dKXYy/Y1y134UCVfkN/SZNz4
- dRMwIrzFeu+uW571YRlF7t7LMoXPurSYO6nPiLKM4foZXUhVYKPxiN4fIUxjXOFwNl
- J7AxscPdUOdAQ==
-Message-ID: <6adfa5fe-7b68-4f8e-919d-7b7607fe617c@kernel.org>
-Date: Fri, 3 Jan 2025 18:04:11 +0100
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E126910E039
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 18:55:33 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-54020b0dcd2so14716870e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 10:55:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1735930472; x=1736535272; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=dObIDMQEIEp+rZPwfZYdlA1khpQZ5/9GkKfu84d0u/8=;
+ b=IOX6GixJlmxALddMk/8dt+yBe8VIqMNcxOeS9K1kEJQrELtNZaKygy7ZZ1JWlf0cVa
+ aV/3COJ0gAM4qOUpnwHOdwfgOcQlyr4tAf+RgU8l8EdP3N7NZNTMv9VKJ4ndT56JC3AN
+ IASsv9lEjlpkfsPDscg4wi/NjxSHyzS1AcUGlM+DZofRzVHcOeisrNiMiMTMVsDRVk82
+ XtWaMJt8tsNKdcfd8YtWhK5rs4ZQP45wr4mwgNfuXK8Uo4mcTq0FWC4A/VXlDtwciWqg
+ yrn5imfcQ3sJfH7hfpGrolMtUBdyHeuatuBdF8x/swE+ECF7tIgbY/MBDmidq3UyfIIi
+ xBbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1735930472; x=1736535272;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=dObIDMQEIEp+rZPwfZYdlA1khpQZ5/9GkKfu84d0u/8=;
+ b=nUVJrYoYzPv5RTZrJAhXe5EHIy07//oMNI57FmaDebLmV9SFGCP7BjWysBfNF24bYH
+ mJhBVeZ0iw/X9w8f38xEOLhAxGlJCnPke84WPm9Yil4mJiZqFee8GyUgcC4XTSryUsHp
+ rAhGu2azD6ihLo/QES6ozoLAd8R6q8xT6K6THBvZcRe4SgqYpN+XMjqSLY+8vi4e0F6R
+ HcwY61OM6ortLs1/vuxJYmyz1HlU/xE5TqvJq4lOrOphCIqXwHoXfxKXlHR+0bqpBhuk
+ fO/4nSC4gTpQPFyeZfAHBMFz2zPrjijqZY93fSzr8yAK6XaVEegGgWBzUk/MELD4/LVP
+ SpxQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/xT9dKb/87KE8ou/fzY0QWfoFyXns4qbGjJzhl7a6oEFpxOH93WNSwoTvazjcdV31dKgs4Utcg6c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywt1Ebnacxjzv5a5aVmRBNXuIEH3XmgyVmB5k/UiN9t0yGrsGYz
+ S78ZbB1ho3gy098ZiAWLRT3fHcyYB6ahbVE9cHtk1FRjkdsqAafoMLU9msJK3cV1SyxrLDlizcD
+ VhIc=
+X-Gm-Gg: ASbGncsvooU8UzynYb1/JOohd/QcWIMT7J8MMiRiOQGC+li6QrnxAA5kirh2kebq4PT
+ kuS36iNWdwYZYgg34eSdxuwiDjkRPn2o9bwV/t9pY8kVS8MHq3BAEblL9+mKkgiC+WV7U96awVX
+ PXeKv1NIUrUp/FLhYXQN3TiLi01heswDuqT15x6mgTHSHBrq+dBjVCdULi+fP0DjaCzbPL9V5dZ
+ Y0osLpsD9hzR7b0VCOkipzgvgkFu6zitXDtk7BZEy373rU8uG/ifyJw7wCkx4mysJajrLjF53cT
+ sGbvY8LoSSFiCj3qhBENdZezsaYhNST8SqRx
+X-Google-Smtp-Source: AGHT+IGeN8u0PJAzpExjRibkmahTcfBWtDliej3Q58szu4tXtcheHuhBGtHO8+3nzP/EoVNTDbPYsQ==
+X-Received: by 2002:ac2:4c47:0:b0:542:2139:636a with SMTP id
+ 2adb3069b0e04-542294432e0mr15089693e87.7.1735926698776; 
+ Fri, 03 Jan 2025 09:51:38 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542235fff03sm4238196e87.75.2025.01.03.09.51.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Jan 2025 09:51:37 -0800 (PST)
+Date: Fri, 3 Jan 2025 19:51:35 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] drm/msm/dpu: Enable quad-pipe for DSC and
+ dual-DSI case
+Message-ID: <eshnauruu4sybpgsfrrwlvk3cpb2zg4mykg4agwong3dbiduic@nvupoe6aoyzu>
+References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
+ <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-15-92c7c0a228e3@linaro.org>
+ <etci547cjykqlqfswhkzdbdfx7cuyrszzswxv2qaghzu2fnu3y@fgitftlhe3oh>
+ <CABymUCNxSKAzNq34evjOdWQy5EmRLg96_S=2O1EUguNFztFgVw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] dt-bindings: mailbox: mediatek: Add MT8196 support
- for gce-mailbox
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-Cc: Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "robh@kernel.org" <robh@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mchehab@kernel.org"
- <mchehab@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "airlied@gmail.com"
- <airlied@gmail.com>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
- =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
-References: <20241219170800.2957-1-jason-jh.lin@mediatek.com>
- <20241219170800.2957-2-jason-jh.lin@mediatek.com>
- <yg7b2iaz53avd7gpvuewhi6b3myh6owls3dt2hzpqc26lnykjf@tpu2vxqqkipe>
- <11f168c11b4cea48cf51406c0afaf8f1f53ad90f.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <11f168c11b4cea48cf51406c0afaf8f1f53ad90f.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABymUCNxSKAzNq34evjOdWQy5EmRLg96_S=2O1EUguNFztFgVw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,181 +100,251 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/12/2024 10:23, Jason-JH Lin (林睿祥) wrote:
-> Hi Krzysztof,
+On Fri, Jan 03, 2025 at 11:49:07PM +0800, Jun Nie wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 于2024年12月20日周五 07:46写道：
+> >
+> > On Thu, Dec 19, 2024 at 03:49:33PM +0800, Jun Nie wrote:
+> > > Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC are
+> > > enabled. We prefer to use 4 pipes for dual DSI case for it is power optimal
+> > > for DSC.
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++++++++++++------
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  3 ++-
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  1 +
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c        |  2 +-
+> > >  7 files changed, 30 insertions(+), 14 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > index bad75af4e50ab..3c51c199f3e05 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > > @@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
+> > >               struct dpu_crtc_state *crtc_state)
+> > >  {
+> > >       struct dpu_crtc_mixer *m;
+> > > -     u32 crcs[CRTC_DUAL_MIXERS];
+> > > +     u32 crcs[CRTC_QUAD_MIXERS];
+> > >
+> > >       int rc = 0;
+> > >       int i;
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > index d1bb3f84fe440..ce41fb364f3db 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
+> > > @@ -210,7 +210,7 @@ struct dpu_crtc_state {
+> > >
+> > >       bool bw_control;
+> > >       bool bw_split_vote;
+> > > -     struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
+> > > +     struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
+> > >
+> > >       uint64_t input_fence_timeout_ns;
+> > >
+> > > @@ -218,10 +218,10 @@ struct dpu_crtc_state {
+> > >
+> > >       /* HW Resources reserved for the crtc */
+> > >       u32 num_mixers;
+> > > -     struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
+> > > +     struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
+> > >
+> > >       u32 num_ctls;
+> > > -     struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
+> > > +     struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
+> > >
+> > >       enum dpu_crtc_crc_source crc_source;
+> > >       int crc_frame_skip_count;
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > index 96d06db3e4be5..6e54ddeaffacd 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > > @@ -54,7 +54,7 @@
+> > >  #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
+> > >       (MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
+> > >
+> > > -#define MAX_CHANNELS_PER_ENC 2
+> > > +#define MAX_CHANNELS_PER_ENC 4
+> > >
+> > >  #define IDLE_SHORT_TIMEOUT   1
+> > >
+> > > @@ -664,15 +664,19 @@ static struct msm_display_topology dpu_encoder_get_topology(
+> > >
+> > >       /* Datapath topology selection
+> > >        *
+> > > -      * Dual display
+> > > +      * Dual display without DSC
+> > >        * 2 LM, 2 INTF ( Split display using 2 interfaces)
+> > >        *
+> > > +      * Dual display with DSC
+> > > +      * 4 LM, 2 INTF ( Split display using 2 interfaces)
+> > > +      *
+> > >        * Single display
+> > >        * 1 LM, 1 INTF
+> > >        * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
+> > >        *
+> > >        * Add dspps to the reservation requirements if ctm is requested
+> > >        */
+> > > +
+> > >       if (intf_count == 2)
+> > >               topology.num_lm = 2;
+> > >       else if (!dpu_kms->catalog->caps->has_3d_merge)
+> > > @@ -691,10 +695,20 @@ static struct msm_display_topology dpu_encoder_get_topology(
+> > >                * 2 DSC encoders, 2 layer mixers and 1 interface
+> > >                * this is power optimal and can drive up to (including) 4k
+> > >                * screens
+> > > +              * But for dual display case, we prefer 4 layer mixers. Because
+> > > +              * the resolution is always high in the case and 4 DSCs are more
+> > > +              * power optimal.
+> > >                */
+> > > -             topology.num_dsc = 2;
+> > > -             topology.num_lm = 2;
+> > > -             topology.num_intf = 1;
+> > > +
+> > > +             if (intf_count == 2) {
+> > > +                     topology.num_dsc = 4;
+> > > +                     topology.num_lm = 4;
+> > > +                     topology.num_intf = 2;
+> > > +             } else {
+> > > +                     topology.num_dsc = 2;
+> > > +                     topology.num_lm = 2;
+> > > +                     topology.num_intf = 1;
+> >
+> > Why is it only enabled for the DSC case? Also I'd like to point out
+> > platforms like sm7150 or msm8998 which have only 2 DSC blocks. The
+> > condition here needs more work to work with those platforms too.
 > 
-> On Fri, 2024-12-27 at 09:13 +0100, Krzysztof Kozlowski wrote:
->>
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> On Fri, Dec 20, 2024 at 01:07:54AM +0800, Jason-JH.Lin wrote:
->>>    2) GCE Subsys ID:
->>>    - Defined in the header file: `#define SUBSYS_1c00XXXX 3`
->>>    - Used in the Device Tree:
->>>       `mediatek,gce-client-reg = <&gce SUBSYS_1c00XXXX 0x0000
->>> 0x1000>;`
->>>    - Parsed and used in the driver to configure subsys ID:
->>>      ```c
->>>      int cmdq_dev_get_client_reg(struct device *dev,
->>>                                struct cmdq_client_reg *client_reg,
->>>                                int idx)
->>>      {
->>>       client_reg->subsys = (u8)spec.args[0];
->>>       client_reg->offset = (u16)spec.args[1];
->>>      }
->>>      // GCE write the value to the register 0x1c000000 + 0x0000 +
->>> offset
->>>      cmdq_pkt_write(cmdq_handle, client_reg->subsys,
->>>                   client_reg->offset + offset, value);
->>
->> This is a proof that SUBSYS_1300XXXX is not a binding. Your driver
->> does
->> not use it.
->>
->> Drop all such things which are not used by drivers or explain why
->> they
->> are needed to be in the binding - what do they bind.
->>
->> I asked for this already, for exactly the same thing.
->>
->>
->> I did not check the rest, so next time I will choose any other random
->> define and if I do not find it explained nor used, I will question
->> it.
->> Because you tend to apply pieces of review instead of really change
->> your
->> code.
-> 
-> Please forgive me for putting a lot of redundant message. I just want
-> to provide as much detail as possible to help you determine if they are
-> bindings. I appreciate your guidance and will make the necessary
-> adjustments.
-> 
-> 
-> I checked the clk header you accepted before:
-> https://lore.kernel.org/all/402ac5a2-334e-1843-0517-5ecf61f6a965@linaro.org/
+> Because the DSC + quad-pipe is assumed with wide LCD case that dual
+> pipe can not handle due to width limitation. If DSC is not involved, the
+> resolution is not too big to involve DSC together with 2 interfaces. Do you
+> think there is need to support quad-pipe without DSC?
 
-With arguments like "someone, somewhere acked this, so I am allowed as
-well to send it" you enter tricky grounds.
-
-> 
-> Please don't mind me to make a confirmation here because I can't find
-> the documentation of the definition for binding header.
-> Do you mean all the header defined in include/dt-bindings/* should be
-> used in a specific driver and the DTS in the same time?
-
-Yes, otherwise how is it abstraction?
-
-There are numerous exceptions of course when binding binds different
-pieces of software/firmware. Is that the case? Nothing in commit msg
-explained this.
-
-> 
-> Take the `#define CLK_TOP_AXI` and `#define CLK_TOP_VPP` in
-> mediatek,mt8188-clk.h for example:
-> 
-> `CLK_TOP_AXI` is used in the drivers/clk/mediatek/clk-mt8188-topckgen.c
-> but not in arch/arm64/boot/dts/mediatek/mt8188.dtsi:
-> ```
->   #include <dt-bindings/clock/mediatek,mt8188-clk.h>
-> 
->   ...
-> 
->   static const struct mtk_mux top_mtk_muxes[] = {
-> 	MUX_GATE_CLR_SET_UPD_FLAGS(CLK_TOP_AXI, "top_axi",
-> axi_parents,
-> 				   0x020, 0x024, 0x028, 0, 4, 7, 0x04,
->   ...
-> 	
-> 	MUX_GATE_CLR_SET_UPD(CLK_TOP_VPP, "top_vpp",
-> 			     vpp_parents, 0x02C, 0x030, 0x034, 0, 4,
-> 7, 
->   ...
-> ```
-> 
-> and `CLK_TOP_VPP` is used in the both clk-mt8188-topckgen.c and
-> mt8188.dtsi:
-> ```
->   power-domain@MT8188_POWER_DOMAIN_VPPSYS0 {
->   	reg = <MT8188_POWER_DOMAIN_VPPSYS0>;
-> 	clocks = <&topckgen CLK_TOP_VPP>,
-> 		 <&topckgen CLK_TOP_CAM>,
-> ...
-> ```
-> 
-> But it seems that both of `CLK_TOP_AXI` and `CLK_TOP_VPP` are regarded
-> as binding headers.
-
-I don't get the comparisons. Both constants represent abstraction, so
-they are correct.
-
-
-> 
-> 
-> From the previous description of the example you gave me:
-> Bindings are imaginary numbers starting from 0 or 1 which are used
-> between drivers and DTS, serving as abstraction layer (or abstraction
-> values) between these two.
-
-Exactly, what to say more?
-
-> 
-> As I understand, each clock definition corresponds to the clock CG
-> settings provided to different hardware, and each hardware driver can
-> control its own clock CG through the CCF to control their CG in clock
-> driver. So they can be an abstraction values between driver and DTS.
-> 
-> Similarly, the GCE subsys ID and GCE event ID correspond to symbols
-> used by GCE to control various hardware, and each hardware driver can
-> use these IDs to generate commands buffer for GCE through the API
-> provided by the GCE driver and achieve the desired control over their
-> hardware.
-
-So are they abstract or not? Then use some different values, really
-abstract.
-
-I brought you definition: abstract. You now cited it. But last paragraph
-entirely skips this point.
-
+Yes, of course. The same logic: ultra wide resolutions. If two LMs are
+not enough for the panel / monitor.
 
 > 
-> I guess the difference is that the clock driver has a platform-specific
-> clock table to store these binding headers, while the GCE driver does
-> not have a platform-specific thread priority table, subsys ID table,
-> and event ID table. Instead, the GCE client drivers can directly obtain
-> their respective hardware settings from the DTS.
+> Of course, it is a valid case to use 2 DSC with 2 interfaces. Below logic shall
+> be better.
 > 
-> On the other hand, definitions like CLK_TOP_MAINPLL_D3,
-> CLK_TOP_MAINPLL_D4, etc., correspond to different clock frequency
-> divider levels, and the CMDQ_THR_PRIO_X for GCE thread priority also
-> corresponds to different priority levels for GCE threads. Therefore, I
-> am not quite sure why GCE thread priority cannot be considered a
-> binding when it is also a symbol number for a hardware level setting.
+>    if (intf_count == 2) {
+>            topology.num_dsc = dpu_kms->catalog->dsc_count >= 4 ? 4 : 2;
+>            topology.num_lm = topology.num_dsc;
+>            topology.num_intf = 2;
+>    } else {
+>            topology.num_dsc = 2;
+>            topology.num_lm = 2;
+>            topology.num_intf = 1;
+>    }
 
-Well, maybe nothing here is a binding. I took one thing to inspect. I
-did not inspect the rest. How does it help your case?
+It all starts to look like a collection of use-case quirks. But indeed,
+it should work.
 
+> 
+> >
+> > > +             }
+> > >       }
+> > >
+> > >       return topology;
+> > > @@ -2195,8 +2209,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
+> > >       struct dpu_hw_mixer_cfg mixer;
+> > >       int i, num_lm;
+> > >       struct dpu_global_state *global_state;
+> > > -     struct dpu_hw_blk *hw_lm[2];
+> > > -     struct dpu_hw_mixer *hw_mixer[2];
+> > > +     struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+> > > +     struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
+> > >       struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
+> > >
+> > >       memset(&mixer, 0, sizeof(mixer));
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > index 63f09857025c2..d378a990cc0fb 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
+> > > @@ -302,7 +302,8 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
+> > >
+> > >       /* Use merge_3d unless DSC MERGE topology is used */
+> > >       if (phys_enc->split_role == ENC_ROLE_SOLO &&
+> > > -         dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
+> > > +         (dpu_cstate->num_mixers == CRTC_DUAL_MIXERS ||
+> > > +             dpu_cstate->num_mixers == CRTC_QUAD_MIXERS) &&
+> >
+> > Misaligned. Also isn't it enough to check that num_mixers != 1?
+> 
+> Yeah, num_mixers != 1 should work.
+> >
+> > >           !dpu_encoder_use_dsc_merge(phys_enc->parent))
+> > >               return BLEND_3D_H_ROW_INT;
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > > index 3ab79092a7f25..d9cc84b081b1f 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> > > @@ -25,6 +25,7 @@
+> > >  #define DPU_MAX_IMG_HEIGHT 0x3fff
+> > >
+> > >  #define CRTC_DUAL_MIXERS     2
+> >
+> > Do we still need this define?
+> >
+> > > +#define CRTC_QUAD_MIXERS     4
+> > >
+> > >  #define MAX_XIN_COUNT 16
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > > index 27ef0771da5d2..1fe21087a141a 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
+> > > @@ -33,8 +33,8 @@
+> > >  #endif
+> > >
+> > >  #define STAGES_PER_PLANE             2
+> > > -#define PIPES_PER_PLANE                      2
+> > >  #define PIPES_PER_STAGE                      2
+> > > +#define PIPES_PER_PLANE                      (STAGES_PER_PLANE * STAGES_PER_PLANE)
+> >
+> > This is incorrect.
+> >
+> > >  #ifndef DPU_MAX_DE_CURVES
+> > >  #define DPU_MAX_DE_CURVES            3
+> > >  #endif
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > index 57ccb73c45683..b5c1ad2a75594 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > @@ -1474,7 +1474,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+> > >               trace_dpu_plane_disable(DRMID(plane), false,
+> > >                                       pstate->pipe[i].multirect_mode);
+> > >
+> > > -             if (pipe->sspp && i == 1) {
+> > > +             if (pipe->sspp && pipe->multirect_index == DPU_SSPP_RECT_1) {
+> >
+> > Separate change, please. Also I'm not sure how does that work with the
+> > shared SSPP case that I pointed to in one of the previous replies.
+> 
+> Maybe we can add a peer member in the pipe to reference each other, then we have
+> chance to use multirect across all pipes in all planes.
+
+I'd rather not. We have pairs of pipes. I'd rather see the code stay the
+same way: processing one pair at the same time.
 
 > 
 > 
-> If the condition for becoming a binding header is that it `must` be
-> used by a specific driver, such as a platform-specific table, then I
+> >
+> > >                       pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > >                       pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > >
+> > >
+> > > --
+> > > 2.34.1
+> > >
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-No, "used by the driver" is indication that you use it as abstraction.
-
-> will remove the entire GCE dt-binding header. Because the current usage
-> of these definitions is that each GCE client drivers can directly store
-> these GCE definitions through the DTS, just like IRQ IDs, and without
-> the need for an additional table defined by the GCE driver.
-
-Do you store IRQ IDs as binding constants in binding headers? No. Why?
-
-Before proceeding with this header further, please answer to above - why
-interrupt numbers, MMIO addresses and some other values appearing in DTS
-are not used like "binding headers".
-
-
-Best regards,
-Krzysztof
+-- 
+With best wishes
+Dmitry
