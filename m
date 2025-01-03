@@ -2,109 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91710A009B7
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 14:05:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC9BA00A00
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 14:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BC910E8A0;
-	Fri,  3 Jan 2025 13:05:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E68510E127;
+	Fri,  3 Jan 2025 13:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Z6SiDZmF";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ieo/JStQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 188A010E8A0
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 13:05:33 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-436202dd7f6so138589345e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 05:05:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735909472; x=1736514272; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=VITqw/dBrN6Eh2YzRoSLvwchdbQ5DNjyYt5nkHrQ30o=;
- b=Z6SiDZmF7pHwn8mKMb5L+f3iPuUwiN0IXX1TjIOWYRXrfxnPfwUkIfdxIWgQssbNPK
- 2DDfNv8pFzo8rh0j6YNKuM7gFTVxw4H4ZPVEQeWIAfatQ4kr1l1nKNUZaTF4baFkH4XM
- NHnpGn46tfRVrIJv/H98+mx+NJkhpER64zBRwRNOM3kmG8RSdl+pJjeac3ykilCcUvAm
- gVXM17GHJzt3Ro0YcQlGfeOr/H24F2Ny0FUfkDY0Yy8wKdHvJ27iq2ki76GO8T9wg+rL
- XlXRmwMqgCa7FI2bgp5cPefh0h6GwtwivT3Dp1+Il3o57PUwwFvb/G9+u+wdCP2zHvWk
- Tv2w==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1870910E127
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 13:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1735911919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BdhsocMIYAT5L8IpxdbiEiojAHEgbuAlxIHZo0/98zE=;
+ b=ieo/JStQ3/87HbVoiSET9V/RZSnLD9JmIgtrNjJSsWDdq8TA3s3Ox2BGqto3yDq05Skot/
+ b2M1U6/KZOUkt/WuO4lJIidhZmEFQBPizIjsaZ5UnQLUPZU9K1b+/fizYtc/UPP7oJz2pt
+ 35FUIHS5jlhLAgqFEBLPY+QlHpDyCy4=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-260-aByAIXafN1WGRHXID6n8cQ-1; Fri, 03 Jan 2025 08:45:17 -0500
+X-MC-Unique: aByAIXafN1WGRHXID6n8cQ-1
+X-Mimecast-MFC-AGG-ID: aByAIXafN1WGRHXID6n8cQ
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-aaf901a0ef9so168064066b.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 05:45:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735909472; x=1736514272;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=VITqw/dBrN6Eh2YzRoSLvwchdbQ5DNjyYt5nkHrQ30o=;
- b=NudRev54teNM1Kz66/zqiwpBC50H+cgny2DEbwt7TuGJ40p6OgRSS78jZlVQHwhyLD
- tqee005RUDz1casjuDgzzxO0xu0D/qC6zwFjBGGeLne3VpScgvQ5eZWEUDdO7VFa58lB
- F1dgutU5GTpTQHD+49tepqWx+b9DLvzNc3LTkGdM0acBesYsusAVYdObqVbV9C2HWYp9
- R51kGAxXbgmxqJHXIPUA4KTYJCVPrfNcE10XWKvHXoJkFyfMYIRMLCCu0y91Sk1p7MSs
- 1dUFrb95LPXZ+1O1eN1ifQ/tB9oYLPvcF2V7oRpQXSjpsv2kFzhRFIRRoSI9b48SirYP
- xJmg==
+ d=1e100.net; s=20230601; t=1735911916; x=1736516716;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BdhsocMIYAT5L8IpxdbiEiojAHEgbuAlxIHZo0/98zE=;
+ b=XdmuPCKxrMukDs1wH5LXLsBw87K4TcRiVvblv3KDDK0VcDOCdtZ5mWRmsX0y51l5eW
+ bL5jlPizyNrLZpkR/D/0rNwYFgyFRPelGMZ6S+ecLOO+tJSQzxM78ba99pBN4t807nZf
+ oZDW+hgcKCziqtW8xfo8FYjbiU5WyLSC963QwuoLI3sHimZot52mb7rW0n+G8ZNjW0cb
+ n/6UWPLQoIJbTcFhLSl6KslCaMk0TlTw+lDeMX8i0M9aK1gsHKUxvgXw3eh2OAtYKkZ2
+ AbI3o7vow6lXFwbOkjSeewt9/TtadBPv5oIYFwpFkzhiMfPoQL0zjBODVwrol8HCO04V
+ CFRA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWeHq2nizNazJq8rqc4K6XAwS3ab6QLawxe7nf4hnFYN/E3TNI89XZDZyUOtcpzf3tV5aKmI6gX69E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxVQVYaW0NiJXD+VI/rRcXJ3U247ZIYB9AwM/HUiujPjHvxBmtq
- A/8pheG7VN65d+74K0CfpEyDOjB/q+LAXpusohaB9nKh1M4n/zxtj4er22Lq2P6Cx20x6IYLenH
- Y
-X-Gm-Gg: ASbGncs5/2ekV3MgRaWi4dvE2/hqSQylekdzJUg8MqKSzMTo6kUDkhFixHiclGKPNjt
- /BWgCQA6f1f8P+ZIeG/Pm+oktG/y0voGIc42zLBQ7pAL8lkDGODq79uepsk6S0eFqdP9z28N3Pn
- Gow6VBPcOeofRWcpI3Sc//fgrDaGg+eS5YAI0+PBV4NqG8YNqH72/5Y3E1TI+dbVcS2QkvoAJrg
- IoVSEYgR3HhiNbA6Tsl1zGQdX02cRctDgUAgb2tSf0Xp4+PYyAJ5krL
-X-Google-Smtp-Source: AGHT+IGUnpXjnchYmTBFtUQ71LNCqNAU5Q0SOmAgi8sEQyivFL6wDbTXzLedPgyb7rzrtBvhgs98IA==
-X-Received: by 2002:a05:600c:468a:b0:436:1b96:7072 with SMTP id
- 5b1f17b1804b1-4366854c062mr416478835e9.5.1735909135449; 
- Fri, 03 Jan 2025 04:58:55 -0800 (PST)
-Received: from [127.0.1.1] ([86.121.162.10]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c8acadcsm40225591f8f.105.2025.01.03.04.58.53
+ AJvYcCWogt8nQT8gIRvVCHdV1Z8ry7SS4z4VQ/d2+V78mRU7HOkW0+mG6kpKxVJ6+2JzJwZ/hUHjvT5DnG0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycRr7M4A9ZvLis1dPOZODpof5aC9nw50Xe475gKHUVA56WpSb3
+ a5i3RFMNm9ccgkv9vre5Qu2zmccjc1nA9hPdfkEPSeXek5DvrD6zvGQ8Ac+83BCNOR/8ATuzxNj
+ XgsilUsn2V++QiFkJAPsJ49y/QuzrKst4GNFF3s6zzL6x949qI7grW+CSntG6SCWOEg==
+X-Gm-Gg: ASbGncsOT5UAU2lA47oLVjLk/Xkbp3KxSRYWxSlWNDZFsSaCirDLJu8WrzvcpiGuCdr
+ 8OsU4PtIBaDd2ZqeJX60Y6FJLhRrFCm0PCNy9FsIoL1uW3EpsH6cZSz98TOCKXtdDKqAsMxa1p/
+ dXzL3gxgZGr/D+6ar6GArpkTPJ1vpfgtnd7Eiu19VM3dcWo9vOjjx8ITGCRBsYhf1ybcNKZ8axC
+ T+XnZzsQT8gRmSkBV5h0L9Vzhrfd4za5NLqR3uVnYEHbU5+06UoUZbPPRaSjA4u34Gs5uvqI78j
+ 1nBHJ0XMff1meZb361/qFbrerUs8
+X-Received: by 2002:a17:907:d9e:b0:aa6:79fa:b486 with SMTP id
+ a640c23a62f3a-aac345f5b2emr3737024166b.49.1735911916393; 
+ Fri, 03 Jan 2025 05:45:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE0V8Fytv59OKbIGZx5QziKSf1rjy5+m1hDeepTNdTB5usRUM4VwRjjGoe9zMYZHlni4O3tgQ==
+X-Received: by 2002:a17:907:d9e:b0:aa6:79fa:b486 with SMTP id
+ a640c23a62f3a-aac345f5b2emr3737020966b.49.1735911915900; 
+ Fri, 03 Jan 2025 05:45:15 -0800 (PST)
+Received: from ?IPv6:2001:16b8:3d92:ec00:9984:7826:3f0:d438?
+ ([2001:16b8:3d92:ec00:9984:7826:3f0:d438])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aac0f0170f6sm1885189666b.167.2025.01.03.05.45.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jan 2025 04:58:55 -0800 (PST)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Fri, 03 Jan 2025 14:58:18 +0200
-Subject: [PATCH v3 4/4] drm/msm/dp: Add support for LTTPR handling
+ Fri, 03 Jan 2025 05:45:15 -0800 (PST)
+Message-ID: <c2b37daab26b678c9669259b1b0474027b05ee79.camel@redhat.com>
+Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
+From: Philipp Stanner <pstanner@redhat.com>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Tvrtko
+ Ursulin <tvrtko.ursulin@igalia.com>, Tvrtko Ursulin <tursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>, Matthew Brost
+ <matthew.brost@intel.com>
+Date: Fri, 03 Jan 2025 14:45:14 +0100
+In-Reply-To: <c4c62ea9-86c0-43c1-99b0-08af7b3bd71a@amd.com>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
+ <99c7ccf4-a85f-4a11-912f-78f8d5a57516@igalia.com>
+ <c4c62ea9-86c0-43c1-99b0-08af7b3bd71a@amd.com>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250103-drm-dp-msm-add-lttpr-transparent-mode-set-v3-4-5c367f4b0763@linaro.org>
-References: <20250103-drm-dp-msm-add-lttpr-transparent-mode-set-v3-0-5c367f4b0763@linaro.org>
-In-Reply-To: <20250103-drm-dp-msm-add-lttpr-transparent-mode-set-v3-0-5c367f4b0763@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@redhat.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Abel Vesa <abel.vesa@linaro.org>, 
- Johan Hovold <johan+linaro@kernel.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3291; i=abel.vesa@linaro.org; 
- h=from:subject:message-id;
- bh=zhRY8lT1G9JeELkZ54ealjEatpcKTP9np6vn+j2kA9w=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnd98D5vjbEpomMQ8dXV6RVZNIUGfQhGggxggBR
- Qdgu7UHk5eJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZ3ffAwAKCRAbX0TJAJUV
- Voh8D/9SfWx0sZ/dkeV5jYSYWRDoRArPfvo/DRVwDxLshqbRTU8todXxZViuaYxdh0+wz1yC/Tl
- QEgnwoaexcdVCEAq25zErdxGc4DeAW9RvqP/VVsiJug9NL1tl3wpnml4UY6A5JfU7ZB3/JOy9/F
- /ONMwxpcEqk7hKvuddzOaCg1m/haAPzk+i1foSK1pMOcFttgGGASktqORFxgTLVEfYY8cHB4yxM
- dvBYkfyMHeH4AHeDxpk08PfpDC7+kdjNESFHUjBbTQXdkT5tEu/AGxWOoyPQ/T84KwG/0izcapT
- mM2YxbX25qmTlAbYB7G6xo0nZs9IPz1lhpDnv49OF6A0Cji+YOfhvDdQizk4uDXrcS1rwEqNJja
- O82hu9RoIPEiXDGv3rYeLjA/4mkctvac/eWZv3CKxxxadOQfbX46cqUP5ax+8tvgzsY4GDpQ97M
- o0ZNmdt1dc09tsGlamOHx4vapCTX3qSXt9Oj8w0HWezaWJW0MHuDfoH+tZpHYbYZ5+J4i2DExJK
- 6igXX5ziVN/sJVwhFYPYRdVp0T3ZkUkCpBTJRBAG/+6uS4hffPzIh+wWpkfNmHMhAatBd10ifQo
- SovAsasDDp0M8XgZ6QSM4qpqr2Z6a0qO6NY0DuXvyC5loIDA2uFCsYWFvBQe8y3+YQAOqdaq5ma
- Xl+1+4xOfJyy7zw==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6PdIv81LyF3EE8VcpqfivTLgR8Ytk5qg797mUpgd8fo_1735911916
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,89 +106,290 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link Training Tunable PHY Repeaters (LTTPRs) are defined in DisplayPort
-1.4a specification. As the name suggests, these PHY repeaters are
-capable of adjusting their output for link training purposes.
+On Fri, 2025-01-03 at 13:31 +0100, Christian K=C3=B6nig wrote:
+> Am 03.01.25 um 13:02 schrieb Tvrtko Ursulin:
+> > > > </tldr>
+> > > >=20
+> > > > If I remember correctly Christian mentioned recently (give or
+> > > > take)
+> > > > that maybe
+> > > > round-robin could be removed. That got me thinking how and what
+> > > > could
+> > > > be
+> > > > improved and simplified. So I played a bit in the scheduler
+> > > > code and
+> > > > came up
+> > > > with something which appears to not crash at least. Whether or
+> > > > not
+> > > > there are
+> > > > significant advantages apart from maybe code consolidation and
+> > > > reduction is the
+> > > > main thing to be determined.
+> > >=20
+> > > Hi,
+> > >=20
+> > > so first of all: Happy new year and thx for putting in all that
+> > > effort
+> > > :)
+> > >=20
+> > > I gave the series a first look; Since this is an RFC, let's
+> > > abstain
+> > > from doing deeper reviews of the exact code for now.
+> >=20
+> > Ditto and thank you for taking a look!
+>=20
+> Ah, yes. Happy new year guys :)
+>=20
+> >=20
+> > > > One big question is whether round-robin can really be removed.
+> > > > Does
+> > > > anyone use
+> > > > it, rely on it, or what are even use cases where it is much
+> > > > better
+> > > > than FIFO.
+> > >=20
+> > > So AFAICS Round Robin is not used anymore by anyone. And my
+> > > understanding indeed is, too, that there is not really any use-
+> > > case
+> > > where one would like anything except for FIFO.
+> > >=20
+> > > Looking at 977d97f18b5b ("drm/scheduler: Set the FIFO scheduling
+> > > policy
+> > > as the default"), it seems to me that RR just was easy to
+> > > implement and
+> > > it had the disadvantage of systems under high load cause the
+> > > oldest job
+> > > to be starved to death, which is why FIFO was introduced.
+> > >=20
+> > > So my guess would be that RR just is a relict.
+> > >=20
+> > > If we agree on that, then we could remove RR in any case, and the
+> > > subsequent question would be whether FIFO should be replaced with
+> > > deadline (or: if there should be FIFO *and* deadline?), wouldn't
+> > > it?
+> >=20
+> > I am unsure about RR but I agree what is the second part of the
+> > question.
+>=20
+> Well we came up with FIFO because we found that RR performed quite
+> badly=20
+> when you have a huge number of submitting applications.
+>=20
+> E.g. one of our cloud test cases ran 100 instances of a single game
+> and=20
+> the worst response time improved massively by switching from RR to
+> FIFO.
+>=20
+> Different priorities on the other hand were originally invented to
+> make=20
+> sure the kernel has precedence over userspace.
 
-According to the DisplayPort standard, LTTPRs have two operating
-modes:
- - non-transparent - it replies to DPCD LTTPR field specific AUX
-   requests, while passes through all other AUX requests
- - transparent - it passes through all AUX requests.
+Should it, in your opinion, be *guaranteed* that the kernel always
+takes precedence, or is a "kernel takes precedence almost always"
+enough?
 
-Switching between this two modes is done by the DPTX by issuing
-an AUX write to the DPCD PHY_REPEATER_MODE register.
+Because this patchset does seem to do the latter
 
-The msm DP driver is currently lacking any handling of LTTPRs.
-This means that if at least one LTTPR is found between DPTX and DPRX,
-the link training would fail if that LTTPR was not already configured
-in transparent mode.
+>  But later we also exposed=20
+> the priorities to userspace which results in the problem that higher=20
+> priority queues can starve low priority ones.
+>=20
+> That's the other reason why I said that RR should probably be removed
+> and FIFO changed in a way that the priority is basically just a bonus
+> to=20
+> the score used for sorting the FIFO. I haven't taken a deeper look
+> yet,=20
+> but I think that this is more or less what this patch set here does.
+>=20
+> What FIFO is still missing compared to RR is some sort of fairness=20
+> between queues.
 
-The section 3.6.6.1 from the DisplayPort v2.0 specification mandates
-that before link training with the LTTPR is started, the DPTX may place
-the LTTPR in non-transparent mode by first switching to transparent mode
-and then to non-transparent mode. This operation seems to be needed only
-on first link training and doesn't need to be done again until device is
-unplugged.
+Before I forget it I note it right away:
 
-It has been observed on a few X Elite-based platforms which have
-such LTTPRs in their board design that the DPTX needs to follow the
-procedure described above in order for the link training to be successful.
+If we go for such a thing we should set our terminology straight. A
+FIFO that suddenly takes deadlines into account is not a FIFO anymore.
+So we shouldn't call it that.
 
-So add support for reading the LTTPR DPCD caps to figure out the number
-of such LTTPRs first. Then, for platforms (or Type-C dongles) that have
-at least one such an LTTPR, set its operation mode to transparent mode
-first and then to non-transparent, just like the mentioned section of
-the specification mandates.
+However, a deadline scheduler with priority levels also doesn't seem to
+be a deadline scheduler.
 
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+I think, no matter what we do, we should aim for strict congruency
+between the GPU scheduler and the CPU scheduler in regards with terms
+and naming. The CPU scheduler has SCHED_FIFO, which is pure FIFO with
+priorities (behaving exactly like the GPU schedulers FIFO, currently)
+and SCHED_DEADLINE, which is purely based on deadlines (not like in
+this patch set).
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index aff51bb973ebe0835c96420d16547ebae0c6c0f2..6ea8245284ab5b6068bfba64f01a960838f577b2 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -107,6 +107,8 @@ struct msm_dp_display_private {
- 	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
- 	spinlock_t event_lock;
- 
-+	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
-+
- 	bool wide_bus_supported;
- 
- 	struct msm_dp_audio *audio;
-@@ -367,12 +369,27 @@ static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *d
- 	return 0;
- }
- 
-+static void msm_dp_display_lttpr_init(struct msm_dp_display_private *dp)
-+{
-+	int rc;
-+
-+	if (drm_dp_read_lttpr_common_caps(dp->aux, dp->panel->dpcd,
-+					  dp->lttpr_caps))
-+		return;
-+
-+	rc = drm_dp_lttpr_init(dp->aux, drm_dp_lttpr_count(dp->lttpr_caps));
-+	if (rc)
-+		DRM_ERROR("failed to set LTTPRs transparency mode, rc=%d\n", rc);
-+}
-+
- static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
- {
- 	struct drm_connector *connector = dp->msm_dp_display.connector;
- 	const struct drm_display_info *info = &connector->display_info;
- 	int rc = 0;
- 
-+	msm_dp_display_lttpr_init(dp);
-+
- 	rc = msm_dp_panel_read_sink_caps(dp->panel, connector);
- 	if (rc)
- 		goto end;
+So we should find a new suitable term if we go for that to avoid any
+misunderstandings.
 
--- 
-2.34.1
+
+P.
+
+>  E.g. a queues which hasn't submitted something in a=20
+> while might get a bonus for their submissions compared to a queue
+> which=20
+> submits stuff all the time (or something like that).
+>=20
+> Regards,
+> Christian.
+>=20
+>=20
+> > There may be nuances with different drivers depending on how much
+> > they=20
+> > can queue to the hardware/firmware at once. Modern drivers which
+> > use=20
+> > 1:1 sched:entity I don't expect care about DRM scheduler scheduling
+> > mode. The fewer jobs driver can queue to the backend the more it=20
+> > cares. Question is FIFO ever better. Keeping in mind that for same=20
+> > priority this deadline and FIFO are actually identical.
+> >=20
+> > > > See "drm/sched: Add deadline policy" commit message for a short
+> > > > description on
+> > > > what flavour of deadline scheduling it is. But in essence it
+> > > > should a
+> > > > more fair
+> > > > FIFO where higher priority can not forever starve lower
+> > > > priorities.
+> > >=20
+> > > See my answer on that patch.
+> > >=20
+> > > As you can imagine I'm wondering if that "better FIFO" would be
+> > > worth
+> > > it considering that we are running into a certain risk of
+> > > regressing
+> > > stuff through this rework.
+> >=20
+> > I will reply to that part there then.
+> > > > "drm/sched: Connect with dma-fence deadlines" wires up dma-
+> > > > fence
+> > > > deadlines to
+> > > > the scheduler because it is easy and makes logical sense with
+> > > > this.
+> > > > And I
+> > > > noticed userspace already uses it so why not wire it up fully.
+> > >=20
+> > > Userspace uses the dma-fence deadlines you mean? Do you have a
+> > > pointer
+> > > for us?
+> >=20
+> > I've noticed it empirically and the one I could fine is this:
+> >=20
+> > https://invent.kde.org/plasma/kwin/-/commit/4ad5670ddfcd7400c8b84c12cbf=
+8bd97a0590f43
+> > =C2=A0
+> >=20
+> >=20
+> > > > Otherwise the series is a bit of progression from consolidating
+> > > > RR
+> > > > into FIFO
+> > > > code paths and going from there to deadline and then to a
+> > > > change in
+> > > > how
+> > > > dependencies are handled. And code simplification to 1:1 run
+> > > > queue to
+> > > > scheduler
+> > > > relationship, because deadline does not need per priority run
+> > > > queues.
+> > > >=20
+> > > > There is quite a bit of code to go throught here so I think it
+> > > > could
+> > > > be even
+> > > > better if other drivers could give it a spin as is and see if
+> > > > some
+> > > > improvements
+> > > > can be detected. Or at least no regressions.
+> > >=20
+> > > I hope I can dive deeper into the Nouveau side soon.
+> >=20
+> > Fantastic!
+> > > >=20
+> > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > Cc: Danilo Krummrich <dakr@redhat.com>
+> > > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > > Cc: Philipp Stanner <pstanner@redhat.com>
+> > > >=20
+> > > > Tvrtko Ursulin (14):
+> > > > =C2=A0=C2=A0 drm/sched: Delete unused update_job_credits
+> > > > =C2=A0=C2=A0 drm/sched: Remove idle entity from tree
+> > > > =C2=A0=C2=A0 drm/sched: Implement RR via FIFO
+> > > > =C2=A0=C2=A0 drm/sched: Consolidate entity run queue management
+> > > > =C2=A0=C2=A0 drm/sched: Move run queue related code into a separate=
+ file
+> > > > =C2=A0=C2=A0 drm/sched: Ignore own fence earlier
+> > > > =C2=A0=C2=A0 drm/sched: Resolve same scheduler dependencies earlier
+> > > > =C2=A0=C2=A0 drm/sched: Add deadline policy
+> > > > =C2=A0=C2=A0 drm/sched: Remove FIFO and RR and simplify to a single=
+ run
+> > > > queue
+> > > > =C2=A0=C2=A0 drm/sched: Queue all free credits in one worker invoca=
+tion
+> > > > =C2=A0=C2=A0 drm/sched: Connect with dma-fence deadlines
+> > > > =C2=A0=C2=A0 drm/sched: Embed run queue singleton into the schedule=
+r
+> > > > =C2=A0=C2=A0 dma-fence: Add helper for custom fence context when me=
+rging
+> > > > fences
+> > > > =C2=A0=C2=A0 drm/sched: Resolve all job dependencies in one go
+> > >=20
+> > > It seems to me that this series is a "port RR and FIFO to
+> > > deadline"-
+> > > series with some additional patches that could be branched out
+> > > and be
+> > > reviewed through a separate series?
+> > >=20
+> > > Patch 1 ("Delete unused...") for example. Other candidates are
+> > > Patch 5
+> > > ("Move run queue related..."), 13 ("Add helper for...").
+> > >=20
+> > > A few patches might be mergeable even if the main idea with
+> > > deadline
+> > > doesn't get approved, that's why I'm suggesting that.
+> >=20
+> > Yes some of those could be possible and I am happy to extract and=20
+> > rebase in principle. But not yet I think. If and when something
+> > gets a=20
+> > positive nod.
+> >=20
+> > Regards,
+> >=20
+> > Tvrtko
+> >=20
+> > > >=20
+> > > > =C2=A0=C2=A0drivers/dma-buf/dma-fence-unwrap.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_job.c=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 27 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_job.h=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 5 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 8 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |=C2=A0=C2=
+=A0 8 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 8 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/Makefile=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0=C2=
+=A0 | 316 ++++++-----
+> > > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_fence.c=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 5 +-
+> > > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 587 +++++------
+> > > > -------
+> > > > --=20
+> > > > =C2=A0=C2=A0drivers/gpu/drm/scheduler/sched_rq.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 199 +++++++
+> > > > =C2=A0=C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 74 ++-
+> > > > =C2=A0=C2=A0include/linux/dma-fence-unwrap.h=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 31 +-
+> > > > =C2=A0=C2=A014 files changed, 606 insertions(+), 678 deletions(-)
+> > > > =C2=A0=C2=A0create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+> > > >=20
+> > >=20
+>=20
 
