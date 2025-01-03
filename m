@@ -2,89 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF71A00DBC
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 19:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4798DA00FF5
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 22:45:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E481610E91A;
-	Fri,  3 Jan 2025 18:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DB5210E05C;
+	Fri,  3 Jan 2025 21:45:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oVeuaDP+";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X/xUqUhV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3870910E920
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 18:43:38 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-3003c0c43c0so143280661fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 10:43:38 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A47810E05C
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 21:44:59 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-216634dd574so117888225ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Jan 2025 13:44:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735929757; x=1736534557; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=GJ/2EC/Fw40mou56IuXmRYuUxNbybWYB44GzWMzgJFQ=;
- b=oVeuaDP+2yfdqhlNDpg+R93R30pUBZhiX4tEQ6olv3DN6IFKtNNp5FVJv6xCc6nHcd
- /Pf1VOTubfCuThSu/0LSSsKz2+r0jfUJYpAWqv1sU8aVjTGhn3WSxDpkIaOFBS6dz61c
- xKznle0B03dRtxVgf8LHWzlwiyv5UrR2JVnHyWy3k1ak/ijOwLEE6Gi0kG/pbw8MX+hL
- LVvAShC0cZtiPfx3Vc5n9vfMDYJQq/ueOA0MSFPoszoKlVq6CyhUydK+vCkskCQiIE3L
- uaTK8/y/lvd7BlSS+9lbI+61u+rRqIcqJ+TnC19a2vWIzgQ5aGuj0LrMOrD3F3pw+vSN
- Fz7g==
+ d=gmail.com; s=20230601; t=1735940639; x=1736545439; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=YBVjV7oMUvYtGohtGs9sGbVaUItsCP+eOtBsDk5Z1aM=;
+ b=X/xUqUhV3z0ImzRx3gQa0K+BgFABAzwy2TTC2bdHWl6M8d6wkSmfheHwoHWceWK2hf
+ 6/U4EpQvsC2wyUX/HkhIiMkn1I9GdWnGYO4YZ8VjqdAqruG2gzTa3hLfhqj3ZQ4uYtxZ
+ DYmqDpGKMnaEUEiQIyhmAJl0Y0od+L9o1yjA0HGyupVyfzJOAQW2No4YhECs39ligrNs
+ nPDhI6TzDg5GiIN5KZSUZXqe+u5/C56/74bdgGyH3vOVfUq+f1Kr9tLpKKj14bSynRq+
+ FpETz8KnBZ+51iPa2IryTZg3+mGPkWUxYULRBfPo7A+CBTR1V39YFHlWNiHDkRgiwBti
+ VtmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735929757; x=1736534557;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GJ/2EC/Fw40mou56IuXmRYuUxNbybWYB44GzWMzgJFQ=;
- b=e8i03HM0SpSVXme+VvcspCdH13Q62SS+61XBhrPGbtlIAiMb47Qsl5G+4bIoCbGvPU
- ntlYG2DE2n1votL6aiz6OtWLnZ3LR/ih5SqLsCFxU84+ZNwZv4Q/C6TQ3KfHyjSelhYH
- goQWO9R+voZJZbG+J39QIWkmlg3FIdm384z7MInytogpAY97yNDp9AtAVSUOh2l0fbOQ
- zSAGRE3gKcfyR90DcyElb9QhGDCw7rI7ABdXbYPGWFnKyRs5ZJToMckWrpV7Ua6+K+xR
- 6F2IEGIHDPaHFX/LPhjtJfIslY7ntsv1b+DW9WRZskLZUYG3ETXZUtuZ/GmI72FqR7Su
- +8Og==
-X-Gm-Message-State: AOJu0YxgzNMJsOxfyhXrS5xdDP7hAjohGgJH/1b9ZSUa5N1akEIpimSh
- CBYVm51h3/sMuECfgtNI/QnrLYlgioEcDKyXtcBohD/QCuaA2kb4BoyStAahtkw=
-X-Gm-Gg: ASbGnctgCvHJwHhUvDOak9TaTEekDZRJBUCAoSEFNlOvGpVMu5Jp88U7oRleVLhBFhE
- bnMda7kBiSIDII63939ZhHCD844gWTBNrbzV5RNBIO917l6sMK8vSJTkYbRgsErL1vHCXUuzRdU
- sKGPpx50DUkqnbTMlFSloVYN1DkT2z/jkBEjjLOElwIrJe3k6U/hjd43BLWMd9coRcVDaI7my/J
- nsNi7QF8Z8Z3FEtlBigY6BCO8LD9vtq4rMfAyamwo5JJMY4/Vl3QDuPtpSa3kK0fy2Y0FpMhw7l
- S3koXA1wF/ycOF6BBf6ls8X7
-X-Google-Smtp-Source: AGHT+IGivdrQwTNWSowzyQHssE6K43av7m9V/PoT49PXklXSb6Xu6TNgCh/YsYNaYIQlLVruVr30yQ==
-X-Received: by 2002:a05:651c:548:b0:302:2598:dec2 with SMTP id
- 38308e7fff4ca-30468556c9bmr126703721fa.14.1735929756602; 
- Fri, 03 Jan 2025 10:42:36 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3045b06a1dasm45843071fa.80.2025.01.03.10.42.34
+ d=1e100.net; s=20230601; t=1735940639; x=1736545439;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YBVjV7oMUvYtGohtGs9sGbVaUItsCP+eOtBsDk5Z1aM=;
+ b=IgQdtH14af+Y3pj6HkNovNnTeFc3O9IgCw41mFhRmHgU5SHINBsoG2/rsIhOauOpEk
+ 3qlfFV9Mi6aWmYvcJbHarvjIXU/5SgfdwKG/GDaxaJbgnQvjE8nN4eTwm/SVVuaY1kNv
+ p5+m6Tf8ozhp+k1HYHke7VvqRm2s28kviU28pacZy9utlO8qyA5Pg5s/ewfB1cGvADpM
+ Wb2xYeW3yVWX0CrnoTsk7oUNABgOpfi0tEdljzAFkT3JmiePKLmwbn97Rzh0sISi0mcj
+ +XK6pWFNdlpBtEXkPDXMIsX5N2QRtN9VporfnjOAcUXBBJ6Ea59maL4kX4iO0BZI92zj
+ ChiQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXx9wVpxHhyTPsFRBttekDDtilfwUFERt2007Sx0LWdc4dnlchdb/tFh8JDfd7n6DtC9wJEpwkgZMA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz42X6RiZMdi1/Ufat9Qu41FxPja8Fk3+DUUifsFn8MdrY4zvY+
+ Q+7H82fJvPTcerEu/enGrGZwX0jYXS2Vql42mmOwBXR/mFZrejOt
+X-Gm-Gg: ASbGncuaYVfzqZW/ebhoJBh17O08PZrnT55uh5uCTlV2RltNj2RDelSJpzDv6QlqgSW
+ bTHBVqrMkztTcOyevTYaEPjw39M7fRHAQ57krRNPeFdPsbRcKDisSwgwU3RBbbnT6K3I21J7sGv
+ jdFTjUWRqOrUXh0+iujzMEX4nzr4XBXXncd/2FV8Y+qxT3CjE88dIYxRPUBv35qJYG18O7G7dqP
+ xw+dehLwhJIbaxDhr28gaCAYn1iAdHzZfzPGh9uPe4Mzl2FQJAEa4YB1UkWuNUIdAJigdsKk208
+ lhAie0Zb
+X-Google-Smtp-Source: AGHT+IGRF4jZAad+rllk07+Vs9S921Nvj1wCkaEBwtQXzDSDaGrFmJY7oFRXjecjSLSV0UZ/0CiPbg==
+X-Received: by 2002:a05:6a20:9191:b0:1e1:b60c:5bdb with SMTP id
+ adf61e73a8af0-1e5e049f2d1mr79966858637.26.1735940638757; 
+ Fri, 03 Jan 2025 13:43:58 -0800 (PST)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-8529e78a55dsm19601743a12.80.2025.01.03.13.43.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jan 2025 10:42:35 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Hermes Wu <hermes.wu@ite.com.tw>, Allen Chen <allen.chen@ite.com.tw>,
- Hermes Wu <Hermes.wu@ite.corp-partner.google.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Pin-yen Lin <treapking@chromium.org>,
- Kenneth Hung <Kenneth.Hung@ite.com.tw>, Pet Weng <Pet.Weng@ite.com.tw>,
- Hermes Wu <Hermes.wu@ite.com.tw>
-Subject: Re: [PATCH RESEND v7 00/10] drm/bridge: it6505: fix HDCP CTS fail
- items and add MCCS support
-Date: Fri,  3 Jan 2025 20:42:32 +0200
-Message-ID: <173592974659.740123.3357636965797961514.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241230-v7-upstream-v7-0-e0fdd4844703@ite.corp-partner.google.com>
-References: <20241230-v7-upstream-v7-0-e0fdd4844703@ite.corp-partner.google.com>
+ Fri, 03 Jan 2025 13:43:58 -0800 (PST)
+Date: Sat, 4 Jan 2025 05:43:54 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Yu-Chun Lin <eleanor15x@gmail.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, ruanjinjie@huawei.com, jserv@ccns.ncku.edu.tw,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/tests: helpers: Fix compile wrarning
+Message-ID: <Z3haGne8A0sJHnFF@visitorckw-System-Product-Name>
+References: <20250103161758.1097313-1-eleanor15x@gmail.com>
+ <rpeh5mcy4xumebqojfoevvfar5dw4jmvuwt3btjklr4gohqhfs@fjqt6nbcpf4k>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <rpeh5mcy4xumebqojfoevvfar5dw4jmvuwt3btjklr4gohqhfs@fjqt6nbcpf4k>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,43 +91,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Dec 2024 18:51:18 +0800, Hermes Wu wrote:
-> There are lots of failure items while running HDCP CTS using UNIGRAF DPR-100.
-> In Order to fix those failures, HDCP flow needs to be changed.
+Hi Dmitry,
+
+On Fri, Jan 03, 2025 at 08:14:20PM +0200, Dmitry Baryshkov wrote:
+> On Sat, Jan 04, 2025 at 12:17:58AM +0800, Yu-Chun Lin wrote:
+> > Delete one line break to make the format correct, resolving the
+> > following warning during a W=1 build:
+> > 
+> > >> drivers/gpu/drm/tests/drm_kunit_helpers.c:324: warning: bad line: for a KUnit test
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202501032001.O6WY1VCW-lkp@intel.com/
+> > Reviewed-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 > 
-> The DisplayPort AUX protocol supports I2C transport.
-> In Order to support MCCS via the aux channel, the aux-i2c operation is added.
+> Reviewed where?
 > 
-> v6->v7
-> 	-[3/10] add header <linux/bitfield.h> included
+Yu-Chun is a newcomer looking to contribute to Linux and asked for my
+help. As suggested in the last section of [1], she asked me to review
+her patch privately before sending it to the public mailing list and
+include my Reviewed-by tag. This improves patch quality and reduces
+the maintainer's workload by minimizing potential issues.
+
+Although I'm not a DRM developer, I have been contributing to Linux for
+some time and wanted to provide support.
+
+[1]: Documentation/process/researcher-guidelines.rst
+
+> > Tested-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > ---
+> >  drivers/gpu/drm/tests/drm_kunit_helpers.c | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
 > 
-> [...]
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>
+Thanks for your review!
 
-Applied to drm-misc-next, thanks!
-
-[01/10] drm/bridge: it6505: Change definition of AUX_FIFO_MAX_SIZE
-        commit: c14870218c14532b0f0a7805b96a4d3c92d06fb2
-[02/10] drm/bridge: it6505: improve AUX operation for edid read
-        commit: d0c97a51cdef2badc8d17f6edfbc0bdc0ba92065
-[03/10] drm/bridge: it6505: add AUX operation for HDCP KSV list read
-        commit: 235d9bf8a1e1c0a0cf1340c40567e6b4f2b742c6
-[04/10] drm/bridge: it6505: Change definition MAX_HDCP_DOWN_STREAM_COUNT
-        commit: 85597bc0d70c287ba41f17d14d3d857a38a3d727
-[05/10] drm/bridge: it6505: fix HDCP Bstatus check
-        commit: 0fd2ff47d8c207fa3173661de04bb9e8201c0ad2
-[06/10] drm/bridge: it6505: fix HDCP encryption when R0 ready
-        commit: 8c01b0bae2f9e58f2fee0e811cb90d8331986554
-[07/10] drm/bridge: it6505: fix HDCP CTS KSV list read with UNIGRAF DPR-100.
-        commit: aa97239300e3f2a9ecbccf7ebfa240860bdddafb
-[08/10] drm/bridge: it6505: fix HDCP CTS compare V matching
-        commit: 0989c02c7a5c887c70afeae80c64d0291624e1a7
-[09/10] drm/bridge: it6505: fix HDCP CTS KSV list wait timer
-        commit: 9f9eef9ec1a2b57d95a86fe81df758e8253a7766
-[10/10] drm/bridge: it6505: add I2C functionality on AUX
-        commit: 041d61ad66ea0d88890264e96e8f81437a33a9cf
-
-Best regards,
--- 
-With best wishes
-Dmitry
-
+Regards,
+Kuan-Wei
