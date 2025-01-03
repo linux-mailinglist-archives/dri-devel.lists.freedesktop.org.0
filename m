@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7612A008C0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 12:35:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD08A008FF
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 13:03:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0967810E88E;
-	Fri,  3 Jan 2025 11:35:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8C1910E895;
+	Fri,  3 Jan 2025 12:02:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LmWGwdfE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gH+6dpUD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41D1810E88E;
- Fri,  3 Jan 2025 11:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1735904147; x=1767440147;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=y9ZRNhmtgwTboqGB65f8GdKqMVQft6Vii100AYjTDIE=;
- b=LmWGwdfEXwrEe6RDBuEAVIng/FSD2xI0/7tN17E2XxEXJ06qxJBc0doC
- 6uk+xnMpytoP0nTUGuldMgsZxJ+ouR7ejF+Ycnr+Q3f3GEs4kJ5JCrVGq
- I28B5XoGxPn226oirNYrhk3Sr5ioPaiMb6SD4lOtZ8iWuuaJRTGttsZhE
- g3XAoCuzF8OMsYqq56l/BtE28p3hF8mcbfqd8LYJEvLEyPFJ/B7nWqi9r
- 24ab/9CJ3LLIonEDeyKt6RilYMYnDK+oL4h2W9PO1Ep+0FGr/U4HpZTBY
- v7R6y+yPgAXxOwTfyu1Gt/J66uiclt50mEdO9RyEibJDaaR3d7rW/HZfQ w==;
-X-CSE-ConnectionGUID: LOHvogpjR8eUF+WIpiljRQ==
-X-CSE-MsgGUID: 2awhXzMQQ56Y/zbvold/Aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="53562206"
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; d="scan'208";a="53562206"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2025 03:35:46 -0800
-X-CSE-ConnectionGUID: arUaZ+BdRgS1g6mhEAKxMw==
-X-CSE-MsgGUID: 2jpw3zVASCqucToicY0Z7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; d="scan'208";a="101640811"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.242])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2025 03:35:44 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: imre.deak@intel.com
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 16/16] drm/i915/dp: compute config for 128b/132b SST
- w/o DSC
-In-Reply-To: <Z3atDqSwlbpmaZ6k@ideak-desk.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1734643485.git.jani.nikula@intel.com>
- <b239079a989ce11d60e9467cb1125bc2033ae0bd.1734643485.git.jani.nikula@intel.com>
- <Z3atDqSwlbpmaZ6k@ideak-desk.fi.intel.com>
-Date: Fri, 03 Jan 2025 13:35:41 +0200
-Message-ID: <87ed1km8oi.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2CDD10E895
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 12:02:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=bcLaS9vXV1t2kCF2fSqboVMpfetoXWeXW+n2nhCiDQM=; b=gH+6dpUDzV/uo69ZqqxkWkd2bo
+ QcuqELLf6V+Zt4pRiwHLLnjL4X/aHKTNfixgDp/3iU+w6MeO5z9XoOiBttnBbdO7riq0zfCvrrH+5
+ mtiqg1TFVcs1ce3rtGXm/yrRW3T5FwQKCYp/ZipfTx3QK46MzDcTSafDp1xCeD6savAKPXXPuh67S
+ CQcewcblXiuyKh0kFSKS54FMKgnCKnpRjwEuqvmPz1jrnTrGRo+IHiqChvU8FN5sTcZ7/luF/3FTZ
+ hRQ3TwRQl4vlbf6QYRRcyBCSEaV7MaE8SsBp/X2ZE0fp/1OuAyLFp4rWuapASwu9JRVin/XMXSKD1
+ YCh3ri/Q==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tTgOD-00BD73-Ri; Fri, 03 Jan 2025 13:02:53 +0100
+Message-ID: <99c7ccf4-a85f-4a11-912f-78f8d5a57516@igalia.com>
+Date: Fri, 3 Jan 2025 12:02:53 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
+To: Philipp Stanner <pstanner@redhat.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,123 +64,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 02 Jan 2025, Imre Deak <imre.deak@intel.com> wrote:
-> On Thu, Dec 19, 2024 at 11:34:05PM +0200, Jani Nikula wrote:
->> Enable basic 128b/132b SST functionality without compression. Reuse
->> intel_dp_mtp_tu_compute_config() to figure out the TU after we've
->> determined we need to use an UHBR rate.
->> 
->> It's slightly complicated as the M/N computation is done in different
->> places in MST and SST paths, so we need to avoid trashing the values
->> later for UHBR.
->> 
->> If uncompressed UHBR fails, we drop to compressed non-UHBR, which is
->> quite likely to fail as well. We still lack 128b/132b SST+DSC.
->> 
->> We need mst_master_transcoder also for 128b/132b SST. Use cpu_transcoder
->> directly. Enhanced framing is "don't care" for 128b/132b link.
->> 
->> v2: mst_master_transcoder, enhanced framing (Imre)
->> 
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_dp.c | 34 +++++++++++++++++--------
->>  1 file changed, 24 insertions(+), 10 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
->> index fba3af338280..d14a42f02ba8 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -2525,8 +2525,8 @@ intel_dp_compute_config_limits(struct intel_dp *intel_dp,
->>  	limits->min_rate = intel_dp_min_link_rate(intel_dp);
->>  	limits->max_rate = intel_dp_max_link_rate(intel_dp);
->>  
->> -	/* FIXME 128b/132b SST support missing */
->> -	if (!is_mst)
->> +	/* FIXME 128b/132b SST+DSC support missing */
->> +	if (!is_mst && dsc)
->>  		limits->max_rate = min(limits->max_rate, 810000);
->>  	limits->min_rate = min(limits->min_rate, limits->max_rate);
->>  
->> @@ -2640,6 +2640,13 @@ intel_dp_compute_link_config(struct intel_encoder *encoder,
->>  		 */
->>  		ret = intel_dp_compute_link_config_wide(intel_dp, pipe_config,
->>  							conn_state, &limits);
->> +		if (!ret && intel_dp_is_uhbr(pipe_config))
->> +			ret = intel_dp_mtp_tu_compute_config(intel_dp,
->> +							     pipe_config,
->> +							     pipe_config->pipe_bpp,
->> +							     pipe_config->pipe_bpp,
->> +							     conn_state,
->> +							     0, false);
->>  		if (ret)
->>  			dsc_needed = true;
->>  	}
->> @@ -3148,8 +3155,13 @@ intel_dp_compute_config(struct intel_encoder *encoder,
->>  	pipe_config->limited_color_range =
->>  		intel_dp_limited_color_range(pipe_config, conn_state);
->>  
->> -	pipe_config->enhanced_framing =
->> -		drm_dp_enhanced_frame_cap(intel_dp->dpcd);
->> +	if (intel_dp_is_uhbr(pipe_config)) {
->
-> Nit: no need for {} here and below.
 
-I like this:
 
-	if (foo)
-		action();
+On 02/01/2025 13:09, Philipp Stanner wrote:
+> On Mon, 2024-12-30 at 16:52 +0000, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>
+>> <tldr>
+>> Replacing FIFO with a flavour of deadline driven scheduling and
+>> removing round-
+>> robin. Connecting the scheduler with dma-fence deadlines. First draft
+>> and
+>> testing by different drivers and feedback would be nice. I was only
+>> able to test
+>> it with amdgpu. Other drivers may not even compile.
+> 
+> (on my machine I could build them all)
 
-but not this:
+Kernel test robot reported that pvr does not build. I have fixed that 
+locally. (Matter of adding a proper interface for peeking into 
+job->dependencies.)
 
-	if (foo)
-		/* comment */
-		action();
+> 
+>> </tldr>
+>>
+>> If I remember correctly Christian mentioned recently (give or take)
+>> that maybe
+>> round-robin could be removed. That got me thinking how and what could
+>> be
+>> improved and simplified. So I played a bit in the scheduler code and
+>> came up
+>> with something which appears to not crash at least. Whether or not
+>> there are
+>> significant advantages apart from maybe code consolidation and
+>> reduction is the
+>> main thing to be determined.
+> 
+> Hi,
+> 
+> so first of all: Happy new year and thx for putting in all that effort
+> :)
+> 
+> I gave the series a first look; Since this is an RFC, let's abstain
+> from doing deeper reviews of the exact code for now.
 
-so I prefer to add the {} for clarity.
+Ditto and thank you for taking a look!
 
-Below I think it's just because the action() spans six lines...
+>> One big question is whether round-robin can really be removed. Does
+>> anyone use
+>> it, rely on it, or what are even use cases where it is much better
+>> than FIFO.
+> 
+> So AFAICS Round Robin is not used anymore by anyone. And my
+> understanding indeed is, too, that there is not really any use-case
+> where one would like anything except for FIFO.
+> 
+> Looking at 977d97f18b5b ("drm/scheduler: Set the FIFO scheduling policy
+> as the default"), it seems to me that RR just was easy to implement and
+> it had the disadvantage of systems under high load cause the oldest job
+> to be starved to death, which is why FIFO was introduced.
+> 
+> So my guess would be that RR just is a relict.
+> 
+> If we agree on that, then we could remove RR in any case, and the
+> subsequent question would be whether FIFO should be replaced with
+> deadline (or: if there should be FIFO *and* deadline?), wouldn't it?
 
->
-> The patch looks ok:
-> Reviewed-by: Imre Deak <imre.deak@intel.com>
+I am unsure about RR but I agree what is the second part of the question.
 
-Thanks!
+There may be nuances with different drivers depending on how much they 
+can queue to the hardware/firmware at once. Modern drivers which use 1:1 
+sched:entity I don't expect care about DRM scheduler scheduling mode. 
+The fewer jobs driver can queue to the backend the more it cares. 
+Question is FIFO ever better. Keeping in mind that for same priority 
+this deadline and FIFO are actually identical.
 
->
->> +		/* 128b/132b SST also needs this */
->> +		pipe_config->mst_master_transcoder = pipe_config->cpu_transcoder;
->> +	} else {
->> +		pipe_config->enhanced_framing =
->> +			drm_dp_enhanced_frame_cap(intel_dp->dpcd);
->> +	}
->>  
->>  	if (pipe_config->dsc.compression_enable)
->>  		link_bpp_x16 = pipe_config->dsc.compressed_bpp_x16;
->> @@ -3180,12 +3192,14 @@ intel_dp_compute_config(struct intel_encoder *encoder,
->>  
->>  	intel_dp_audio_compute_config(encoder, pipe_config, conn_state);
->>  
->> -	intel_link_compute_m_n(link_bpp_x16,
->> -			       pipe_config->lane_count,
->> -			       adjusted_mode->crtc_clock,
->> -			       pipe_config->port_clock,
->> -			       intel_dp_bw_fec_overhead(pipe_config->fec_enable),
->> -			       &pipe_config->dp_m_n);
->> +	if (!intel_dp_is_uhbr(pipe_config)) {
->> +		intel_link_compute_m_n(link_bpp_x16,
->> +				       pipe_config->lane_count,
->> +				       adjusted_mode->crtc_clock,
->> +				       pipe_config->port_clock,
->> +				       intel_dp_bw_fec_overhead(pipe_config->fec_enable),
->> +				       &pipe_config->dp_m_n);
->> +	}
->>  
->>  	/* FIXME: abstract this better */
->>  	if (pipe_config->splitter.enable)
->> -- 
->> 2.39.5
->> 
+>> See "drm/sched: Add deadline policy" commit message for a short
+>> description on
+>> what flavour of deadline scheduling it is. But in essence it should a
+>> more fair
+>> FIFO where higher priority can not forever starve lower priorities.
+> 
+> See my answer on that patch.
+> 
+> As you can imagine I'm wondering if that "better FIFO" would be worth
+> it considering that we are running into a certain risk of regressing
+> stuff through this rework.
 
--- 
-Jani Nikula, Intel
+I will reply to that part there then.
+>> "drm/sched: Connect with dma-fence deadlines" wires up dma-fence
+>> deadlines to
+>> the scheduler because it is easy and makes logical sense with this.
+>> And I
+>> noticed userspace already uses it so why not wire it up fully.
+> 
+> Userspace uses the dma-fence deadlines you mean? Do you have a pointer
+> for us?
+
+I've noticed it empirically and the one I could fine is this:
+
+https://invent.kde.org/plasma/kwin/-/commit/4ad5670ddfcd7400c8b84c12cbf8bd97a0590f43
+
+>> Otherwise the series is a bit of progression from consolidating RR
+>> into FIFO
+>> code paths and going from there to deadline and then to a change in
+>> how
+>> dependencies are handled. And code simplification to 1:1 run queue to
+>> scheduler
+>> relationship, because deadline does not need per priority run queues.
+>>
+>> There is quite a bit of code to go throught here so I think it could
+>> be even
+>> better if other drivers could give it a spin as is and see if some
+>> improvements
+>> can be detected. Or at least no regressions.
+> 
+> I hope I can dive deeper into the Nouveau side soon.
+
+Fantastic!
+>>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@redhat.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <pstanner@redhat.com>
+>>
+>> Tvrtko Ursulin (14):
+>>    drm/sched: Delete unused update_job_credits
+>>    drm/sched: Remove idle entity from tree
+>>    drm/sched: Implement RR via FIFO
+>>    drm/sched: Consolidate entity run queue management
+>>    drm/sched: Move run queue related code into a separate file
+>>    drm/sched: Ignore own fence earlier
+>>    drm/sched: Resolve same scheduler dependencies earlier
+>>    drm/sched: Add deadline policy
+>>    drm/sched: Remove FIFO and RR and simplify to a single run queue
+>>    drm/sched: Queue all free credits in one worker invocation
+>>    drm/sched: Connect with dma-fence deadlines
+>>    drm/sched: Embed run queue singleton into the scheduler
+>>    dma-fence: Add helper for custom fence context when merging fences
+>>    drm/sched: Resolve all job dependencies in one go
+> 
+> It seems to me that this series is a "port RR and FIFO to deadline"-
+> series with some additional patches that could be branched out and be
+> reviewed through a separate series?
+> 
+> Patch 1 ("Delete unused...") for example. Other candidates are Patch 5
+> ("Move run queue related..."), 13 ("Add helper for...").
+> 
+> A few patches might be mergeable even if the main idea with deadline
+> doesn't get approved, that's why I'm suggesting that.
+
+Yes some of those could be possible and I am happy to extract and rebase 
+in principle. But not yet I think. If and when something gets a positive 
+nod.
+
+Regards,
+
+Tvrtko
+
+>>
+>>   drivers/dma-buf/dma-fence-unwrap.c          |   8 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |   6 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  27 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h     |   5 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |   8 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |   8 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c     |   8 +-
+>>   drivers/gpu/drm/scheduler/Makefile          |   2 +-
+>>   drivers/gpu/drm/scheduler/sched_entity.c    | 316 ++++++-----
+>>   drivers/gpu/drm/scheduler/sched_fence.c     |   5 +-
+>>   drivers/gpu/drm/scheduler/sched_main.c      | 587 +++++-------------
+>> --
+>>   drivers/gpu/drm/scheduler/sched_rq.c        | 199 +++++++
+>>   include/drm/gpu_scheduler.h                 |  74 ++-
+>>   include/linux/dma-fence-unwrap.h            |  31 +-
+>>   14 files changed, 606 insertions(+), 678 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+>>
+> 
