@@ -2,99 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09946A003E8
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 07:01:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EF9A00524
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Jan 2025 08:34:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B3CE10E264;
-	Fri,  3 Jan 2025 06:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5456D10E190;
+	Fri,  3 Jan 2025 07:34:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YPW3uDp/";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="KP1iPlWq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE06910E264
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 06:01:25 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-5401be44b58so12859571e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Jan 2025 22:01:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735884024; x=1736488824; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=OqK1XsqQcMf7JAQsvOfW8bTjaqo69FlQkujpR6CdauY=;
- b=YPW3uDp/zTtlfxGNeFggMKGS0dCkRfB4Z4egSyJLVdft5BnMGOiexPwEeFK41OTJj6
- SzDnXjFF8UrSYDtMLgTPT7ujNXg2GK8F2oDamjVC8kHsyQubbed5A3o+bNfsK8Z6Madf
- z9at3DLAh0fBaMnmLcfrhkbsQdjjzEh0rCl0LGwaf4qgVBs96/vJc+u+rCx/httfzDES
- jad0JmvuP7+r/ORVdh3jezKD/Itb4E7Jj+58Z5tQ9tXaImq6W3RdqJU8Bykg2cIX6A1/
- 4vWwtws6u1YO7+HAPIDPkQ7XycI4B04ry9jmJYr5a+oo2nQiycQnEukF5v7LSNZOgixN
- jNWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735884024; x=1736488824;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OqK1XsqQcMf7JAQsvOfW8bTjaqo69FlQkujpR6CdauY=;
- b=hChsGN8p/D+T5V4IHG9J5uog5rRLr/6izB0vKHHymrpBz8Vm3T1tlMGruEUIs9cmrN
- b90MJLuq0nZG65lAPomwjIYjsNHdB9+F5M7D+K27lEzzGw9jzjM982zP7XuW7Iv4rg8O
- oh8Yve86jlE4t9XFHI+jHyUYglsK9JjaCTB1MxQ1GdoggBEoauvJoSAlWTJWpMSEvVi8
- DFTsBX2AkKKFoIfJ8laZoqqQE/qXjJ3UNM6YxX7BxGb8Qxatf8xV/W4c70b6EwLtlTNH
- vLHA8RQnu+sTmCf0OXN9iZ99j0zKQgr9P3uwtFp9doD26rYWE+kXLQ+gjNimCw37LDth
- cvXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBKdUeuO6tQagV4NvclvHGh63y3o9C8rMWAKVspEgwDfjoAz4iYDKjucDhBsAKVdP5Jr2LMbTgiUc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7sdZly4Ct2zmGVn7l74bN5eKhDb0XGR93Fvv8N7OD8/BU4frU
- XDprbbrHebGmxht1mS4lYd94KbfCnmMwI0SvejczpDohNGnRlP9E+10XlzufVU0=
-X-Gm-Gg: ASbGncvJoSrmPc5Whr7NtiOzfNf5i27YEdJq6Z/GCHqlWhEHMm6YZo+KoNnMAKBoTZL
- xEit67JEzMo1ntFAwcoGR7FB4PRBZZXVVjApK/2SzTitvO3hk8whyxt6WhAzhILptwv7EFXU2x1
- 7ZknZZfgBrAlBUGHbZGqOwmgXVHwaHT/05sZHml4oYHLmX03qUHOearun/fU28anrfyr1M3+KCM
- 0qXoi9Ik2XVBu3bEMHmH04/6if3PaqA+S2OtTpqS3DTINtwJS+wH0d5wGbtB8iaYwilfnr324Hk
- 49E1i+8V/LyIHAaIU8Dq2yrqe9S/qtRIgIfX
-X-Google-Smtp-Source: AGHT+IH3zYz7xZW+csvvf2W9sWK96IbaBnbltSVrtk8mtykDTw+7RfmJJMifDYxJfyLUrNG0Fzxe5Q==
-X-Received: by 2002:a05:6512:239b:b0:540:19d8:148f with SMTP id
- 2adb3069b0e04-5422954340emr16038660e87.32.1735884024223; 
- Thu, 02 Jan 2025 22:00:24 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223821665sm4038439e87.177.2025.01.02.22.00.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Jan 2025 22:00:22 -0800 (PST)
-Date: Fri, 3 Jan 2025 08:00:20 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, 
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-Message-ID: <bfi7nfq5cy3wwc7i4oqqcqmd23g3ukfsqcky24axfumby357on@i2xnhpihyss4>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
- <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
- <20250102130149.5784c09b@booty>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0195110E190
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Jan 2025 07:34:34 +0000 (UTC)
+X-UUID: 2ab5a3e4c9a511efbd192953cf12861f-20250103
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From;
+ bh=cMDSCtGjZWJsWp0VLSuytv75YuoxhvMH+zr0NBthYg4=; 
+ b=KP1iPlWqnO5mgSAAyfLGAG8Xi3QjSIpMirvZuj4k4POPhoy3gstCpR/oYVeHq7XXKgDUEo2pSeHmRCuDRz6m4q2xE14dw/DIomQUPJOt0Puq/SQdhw2NcgnfmZRppQLvp8lpsi0zLBJtrwu0qo2VDUuXIvUAH+D/hlL4ZUPz1+E=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46, REQID:6fce66d8-47c6-41e3-8e29-bdc1ee9dff96, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:60aa074, CLOUDID:236c4d37-e11c-4c1a-89f7-e7a032832c40,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+ l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+ :1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-UUID: 2ab5a3e4c9a511efbd192953cf12861f-20250103
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by
+ mailgw02.mediatek.com (envelope-from <liankun.yang@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 2142198021; Fri, 03 Jan 2025 15:34:29 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 3 Jan 2025 15:34:28 +0800
+Received: from mszsdhlt06.gcn.mediatek.inc (10.16.6.206) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Fri, 3 Jan 2025 15:34:27 +0800
+From: Liankun Yang <liankun.yang@mediatek.com>
+To: <chunkuang.hu@kernel.org>, <p.zabel@pengutronix.de>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>, <matthias.bgg@gmail.com>,
+ <angelogioacchino.delregno@collabora.com>, <ck.hu@mediatek.com>,
+ <msp@baylibre.com>, <granquet@baylibre.com>, <dmitry.osipenko@collabora.com>, 
+ <rex-bc.chen@mediatek.com>, <jitao.shi@mediatek.com>,
+ <mac.shen@mediatek.com>, <peng.liu@mediatek.com>,
+ <liankun.yang@mediatek.com>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 1/1] drm/mediatek: Add return value check when reading DPCD
+Date: Fri, 3 Jan 2025 15:33:22 +0800
+Message-ID: <20250103073425.28615-1-liankun.yang@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250102130149.5784c09b@booty>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,82 +80,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 02, 2025 at 01:01:49PM +0100, Luca Ceresoli wrote:
-> Hi Dmitry,
-> 
-> On Tue, 31 Dec 2024 16:57:38 +0200
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> 
-> > On Tue, Dec 31, 2024 at 11:40:02AM +0100, Luca Ceresoli wrote:
-> > > Instead of using dsi->out_bridge during the bridge search process, use a
-> > > temporary variable and assign dsi->out_bridge only on successful
-> > > completion.
-> > > 
-> > > The main goal is to be able to drm_bridge_get() the out_bridge before
-> > > setting it in dsi->out_bridge, which is done in a later commit. Setting
-> > > dsi->out_bridge as in current code would leave a use-after-free window in
-> > > case the bridge is deallocated by some other thread between
-> > > 'dsi->out_bridge = devm_drm_panel_bridge_add()' and drm_bridge_get().  
-> > 
-> > I don't think that's how refcounting should work. Any of the functions
-> > that give you the bridge should also increase refcount, requiring manual
-> > _put() call afterwards. We might need a separate API for that.
-> 
-> You're perfectly right.
-> 
-> > > This change additionally avoids leaving an ERR_PTR value in dsi->out_bridge
-> > > on failure. This is not necessarily a problem but it is not clean.
-> > > 
-> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > > 
-> > > ---
-> > > 
-> > > This patch was added in v5.
-> > > ---
-> > >  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
-> > >  1 file changed, 9 insertions(+), 6 deletions(-)
-> > > 
+Returns the number of bytes transferred (1) on success.
+Check the return value to confirm that AUX communication is successful.
 
-[...]
+Fixes: f70ac097a2cf ("drm/mediatek: Add MT8195 Embedded DisplayPort driver")
 
-> > > @@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
-> > >  
-> > >  	panel = of_drm_find_panel(remote);
-> > >  	if (!IS_ERR(panel)) {
-> > > -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > > +		out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > >  	} else {
-> > > -		dsi->out_bridge = of_drm_find_bridge(remote);
-> > > -		if (!dsi->out_bridge)
-> > > -			dsi->out_bridge = ERR_PTR(-EINVAL);
-> > > +		out_bridge = of_drm_find_bridge(remote);
-> > > +		if (!out_bridge)
-> > > +			out_bridge = ERR_PTR(-EINVAL);
-> > >  	}  
-> > 
-> > While looking at this patch, I think we should migrate the driver to
-> > drm_of_find_panel_or_bridge().
-> 
-> Indeed, the code here is duplicating drm_of_find_panel_or_bridge(). I'm
-> going to convert it.
-> 
-> > Then your patch might add a function
-> > close to devm_drm_of_get_bridge() or drmm_of_get_bridge().
-> 
-> ...which would return a bridge pointer, with refcount already
-> incremented. Sure, except I think it should _not_ be a drmm, as
-> the bridge might itself disappear while the card keeps existing.
+Signed-off-by: Liankun Yang <liankun.yang@mediatek.com>
+---
+Changes in V4:
+- Fix IF judgement condition.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20241218113448.2992-1-liankun.yang@mediatek.com/
 
-Feel free to add new one.
+Changes in V3:
+- Using drm_dp_read_sink_count() to improve patch.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20241128030940.25657-1-liankun.yang@mediatek.com/
 
-> 
-> Luca
-> 
-> -- 
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Changes in V2:
+- Modify Fixes in Commit Message.
+Per suggestion from the previous thread:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20240930092000.5385-1-liankun.yang@mediatek.com/
+---
+ drivers/gpu/drm/mediatek/mtk_dp.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index 36713c176cfc..b8e4e9a6eb78 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -2100,7 +2100,6 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
+ 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
+ 	enum drm_connector_status ret = connector_status_disconnected;
+ 	bool enabled = mtk_dp->enabled;
+-	u8 sink_count = 0;
+ 
+ 	if (!mtk_dp->train_info.cable_plugged_in)
+ 		return ret;
+@@ -2115,8 +2114,8 @@ static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
+ 	 * function, we just need to check the HPD connection to check
+ 	 * whether we connect to a sink device.
+ 	 */
+-	drm_dp_dpcd_readb(&mtk_dp->aux, DP_SINK_COUNT, &sink_count);
+-	if (DP_GET_SINK_COUNT(sink_count))
++
++	if (drm_dp_read_sink_count(&mtk_dp->aux) > 0)
+ 		ret = connector_status_connected;
+ 
+ 	if (!enabled)
 -- 
-With best wishes
-Dmitry
+2.45.2
+
