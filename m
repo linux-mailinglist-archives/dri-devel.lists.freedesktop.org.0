@@ -2,90 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F6BA01335
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 09:07:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C234A013C1
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 10:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4030610E44B;
-	Sat,  4 Jan 2025 08:07:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3E410E296;
+	Sat,  4 Jan 2025 09:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gd3c4s7c";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I5+0rUES";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22A6D10E44B
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 08:07:15 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-385ddcfc97bso10949732f8f.1
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Jan 2025 00:07:15 -0800 (PST)
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
+ [209.85.208.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38AAB10E296
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 09:47:51 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3bbb0f09dso22451529a12.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Jan 2025 01:47:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735977974; x=1736582774; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ZS/ZX1fBG7dygLqRqu5QjZtObOqd9hwN0cdzZmyrYT8=;
- b=gd3c4s7c1Ii5RmIXoLf27vRDZHzDm7f8+PBU04W4TbRb8vSL3fdWRc3Pwi/+Y8W50l
- e3JX+A1DmRSRMRZzDnNwRGEj7qVt+nM9SGe8/6HLCsQ5/q+wEWzL2RaIIcRjzF14SVFH
- fYf/KUalMiS7BS5RdgHUOOq9wlLQ22c/okLZX/vtS0JpY5JBJpM53LlbZ49MeUMPr7iw
- djrF5i1l2I0TTm0Fw82kKJgHCBVfqoFARY+ybqVFv11sr+fxxyBb+FmZ/kd0xjLzBgle
- DzyKeVeMkBEDHqt08Ssg6QDaqKqirqTTyJRb4VW+AkVzubkeswPcvx3e/qVzsCvXGNgu
- WNqw==
+ d=linaro.org; s=google; t=1735984010; x=1736588810; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OL2v2cgbonvN/57biijzRWsX5GH+mP+xPVPcn+nnd/k=;
+ b=I5+0rUESb1JNVeen1TrEAQFS4zU6nWs4mkCyn0eesTDaMkXml2FpyjvEMQbwWsmytz
+ BAajBksUVMnMbEV2VMuJeV6K2TDQ+KWW3DaFAKmCyDQUjmm8S0dN15U9Satqzac2nLNS
+ bIHnJ3ei3x4kbsEnzRizq8NR28hOn6K4Le+5+BN81HrFPRVgk9clKoYDIhuX8uEEacCU
+ dvFO7pMj54s/HufhOPm21d85e/m+TdVecrARXUugow3KoCuB3jRuPgoT9x2tq11LzrLY
+ SkXEXqmDSW9LbRs3tJI1e2hMpFdEuoza7cBbpcwNSNHlhBw02mDOSfppYS8UEz5P6pZb
+ Pkmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735977974; x=1736582774;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ZS/ZX1fBG7dygLqRqu5QjZtObOqd9hwN0cdzZmyrYT8=;
- b=C+eubdSEZCpc7EI9qTJ+3DzPBCHKbDKUygxHXkzEYZO2/U6Kqy2Ua0wy2m523v4irs
- i6yINDEduZr1+jj87jVPiScUmUBsXxLClRE7ubbgBKeI+jO0Qk90Prji0feuWf1L5oT4
- WpzZO0WWrycFBOc00bCdTKZXMWdqCqr7/TmfYU/PJ9r9bH+cRg8g2zEGJor+oBDYVpzk
- muwhNBD1QazXKmMaOoJUpugSeTnxkv5YZgKkyC8CvEZfvqvhoA/slXY/vR1dRveRlm/u
- B2ap7jLiOXBvwwMOgDkkzXG9U56QfVJDGUc/snM9nmiLIwgOGRXSGeyT02shPXEUDlVy
- D6ug==
-X-Gm-Message-State: AOJu0Yx6J2e3pXYD2vXiM/equlNTOSfnhTSo/QQW0W1PZgp1w+O2mx6O
- ekBn0FeW1HnSN7ysWcJj+741iwy74oaPDXO5qewoKpez/LXBfUfzT23tVAWPj5x+v59f9w2ub9F
- qUhQ=
-X-Gm-Gg: ASbGncvt4XQt7ubdYohrgRM+MBIQkxVpSt97Wrjj4bx84Epof232nEcC8hucpvnZ/Og
- g+JGFl7x2VB6PTSCzjBVMfGDb9Nd2GykeoVWSeH63/Nm9lWtUBkk6yiMCvAhtBsq4Onqc0nXkLo
- IDRAkhf0zValkxUdBolNg292lgZsBnHNYDydVhA9kH3841oRP7v3CkbdZ3szt5JTjqv1lQo2HzN
- 3CHY2OgEnwS7OOdOXHxEzRjq1lzACNj9Ox81w7i4abWSLv69GiGhHM4PPSvEA64
-X-Google-Smtp-Source: AGHT+IGdGZoimx/FBpoR+R4h4CLbxbIbSu8JVgBo02g6BMRff5vmL0HSSBCzW7cQMQfvOmwIO9mNWQ==
-X-Received: by 2002:a05:6512:1241:b0:540:2ff1:309d with SMTP id
- 2adb3069b0e04-5422953c3famr16805045e87.34.1735977517090; 
- Fri, 03 Jan 2025 23:58:37 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235f618asm4288029e87.20.2025.01.03.23.58.34
+ d=1e100.net; s=20230601; t=1735984010; x=1736588810;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OL2v2cgbonvN/57biijzRWsX5GH+mP+xPVPcn+nnd/k=;
+ b=N0HYCK0k7K7dUapx4LVik72eT6KidnJKWYSdVAv+2b1zvE33ZcHy8k7wKvpRghRfZ5
+ Vywl8wnW6ehhAZpclAlLztAac9EKGLhPaXdExebWw0b4WMAqV2hpLvpTYbPd9xfOyzYB
+ rpv2kTYdZNdB7EH2eCGWeYsOGpxZrSBeFZZGeEfWehOHHGBd89hoGadt4h8/g3gGO1ID
+ k3YvqtaItZkCfPP7YGsk89HvwHMs774C2RTps5AH6nOZuwF27vBJicX6joRljjWo6QGW
+ 88lFDn8bABdqNZ/evVsJLVcpJMpCJTw75NqnIDSP9t06JHSt3UpPF2JAo7/wMEnzhjCX
+ zYVw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUz7TQwAa48x+92RL5sJjfbWy1C/q8oHaU793Q3JKgvaoW0NuQLqqntyuyoCE/zyOaSDbNkwfFitkA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzx7qXxwvN+CrxXIXHeZtI5OoEIIoAPnhlyIj5R01/uzhRGZqeK
+ X324u1+Sss9GWhf6fnoGKRW4fgQb3Feunu41M9D6EEvcGtby3CerMCQxQ1FavfSOh7oCUOGQ8V9
+ eAd4=
+X-Gm-Gg: ASbGncvY0jGgzP2hSrdCA2kpucl1fkZOEwxnPV5907ZnXsKsg0R5aiQ57e+JXG+by4C
+ rkrSubStXrWu105hWpB9idq30/qyv+Y0SpUYAqlZZt/6XUMw0ka+UgyqVs022sGB1jiZRmyM0lO
+ i/qKjtYJIUSxyYc+1qt8wBPAtQbeIE7deOrixoMt35Pi9AFmfgCs53B58JfM/ElzIgD5zhhclcy
+ nhN8WPyTIE5sX2C8eHLYdxsfAh2Qdm4UU/fREeK9wXBHt4BtK0pTM6hWe8qwxJX0JKRqnW3lIWN
+ AOsAZU0Y0sq8YN5krIs99+XZ
+X-Google-Smtp-Source: AGHT+IH3b8Wrusc5F4Hb8fKgaj49rA+Ki+WtT2vpjNm4L2ymezTReLIBxE1xf5KxHdrS/65tedN1lQ==
+X-Received: by 2002:a05:6512:1114:b0:540:2fbb:22cb with SMTP id
+ 2adb3069b0e04-54229533aeemr14027670e87.13.1735973304217; 
+ Fri, 03 Jan 2025 22:48:24 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223825f3csm4213238e87.226.2025.01.03.22.48.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jan 2025 23:58:35 -0800 (PST)
+ Fri, 03 Jan 2025 22:48:22 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 04 Jan 2025 09:58:28 +0200
-Subject: [PATCH] drm/display: hdmi-state-helper: add drm_display_mode
- declaration
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v10 00/10] drm: add DRM HDMI Codec framework
+Date: Sat,  4 Jan 2025 08:48:19 +0200
+Message-ID: <173597328997.875472.12782462213120017264.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
+References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250104-hdmi-state-display-mode-v1-1-3c06d36e726f@linaro.org>
-X-B4-Tracking: v=1; b=H4sIACPqeGcC/x3MSQqAMAxA0atI1gZaBxSvIi5qm2rAiaaIIt7d4
- vIt/n9AKDAJdNkDgU4W3rcEnWdgZ7NNhOySoVBFrbSqcHYro0QTCR3LsZgb190RNo1VeizbUXu
- CVB+BPF//uR/e9wOHN/k1aQAAAA==
-X-Change-ID: 20250104-hdmi-state-display-mode-77c01b38b1fe
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=984;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=p6v6QKu6/ixYaBBHXq2HgSkB2G//DdL2lYNdEvwQoP0=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBneOoq32dcjrNSdKh/qZSvTz9tRVfPOiOKFO/1X
- YnnKIWGvlGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ3jqKgAKCRCLPIo+Aiko
- 1U5NCACn94KybsAESQW+B2e9vs08/zXHSM5WDvGeIIN5HeWIsvFsovvmQrESfkMPbDNiYj6+zp6
- s327S8IZChPOgsItVGQAf8bJiysySh5LoKskZna035wbSvX6EypojgnClXEonPS3tlJvfsTE+xG
- 7YqYXwFksP3W2ErrRprp57QpeBSWGabBi4SA+fj6AdHBwydPWBlpXqdLEqxHR1Z5izpzDAjNLVH
- Yr5Sj3IuhFtQMl+nvLBx8yQcfyxSZ19rdeNj+kTQWyyKMNrkPLlRrR2gc8U/V9OPc+j61gV43aM
- 2ajPakp365meRX2VjfKpx1JVJVrSHNrbsBvR7Q6IJg8/gvWB
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,32 +119,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add forward-declaration for the struct drm_display_mode, missed in the
-commit 47368ab437fd ("drm/display: hdmi: add generic mode_valid helper")
+On Tue, 24 Dec 2024 03:47:52 +0200, Dmitry Baryshkov wrote:
+> While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+> framework, I stumbled upon an issue while handling the Audio InfoFrames.
+> The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+> there was no simple way to get the drm_connector that stayed at the end
+> of the bridge chain. At the same point the drm_hdmi_connector functions
+> expected to get drm_connector instance.
+> 
+> [...]
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- include/drm/display/drm_hdmi_state_helper.h | 1 +
- 1 file changed, 1 insertion(+)
+Applied to drm-misc-next, thanks!
 
-diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
-index 9ae19f3caf727f9a0fe06e6afe5fc46db924444f..44ec5c4a7503c8fb522454dc032a7e0ec31cabd5 100644
---- a/include/drm/display/drm_hdmi_state_helper.h
-+++ b/include/drm/display/drm_hdmi_state_helper.h
-@@ -6,6 +6,7 @@
- struct drm_atomic_state;
- struct drm_connector;
- struct drm_connector_state;
-+struct drm_display_mode;
- struct hdmi_audio_infoframe;
- 
- enum drm_connector_status;
-
----
-base-commit: 2ea9ec5d2c207a41d523f8804053cee00fe50763
-change-id: 20250104-hdmi-state-display-mode-77c01b38b1fe
+[01/10] ASoC: hdmi-codec: pass data to get_dai_id too
+        commit: 6af45d7df1099ccac634b36f8cdfa32fbca8c1d1
+[02/10] ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
+        commit: bb1d67bf82fbd2c550fa637e0b8a966ee81a293b
+[03/10] drm/connector: implement generic HDMI audio helpers
+        commit: baf616647fe6f857a0cf2187197de31e9bb17a71
+[04/10] drm/bridge: connector: add support for HDMI codec framework
+        commit: 0beba3f9d366c6df10e5b080fc99c45ac17248ed
+[05/10] drm/bridge: lt9611: switch to using the DRM HDMI codec framework
+        commit: c054aa1bf529a2fa13546b25231d16bb0fd87ca2
+[06/10] drm/display/hdmi: implement hotplug functions
+        commit: ab716b74dc9dd4903b9006f473137e1aa624af56
+[07/10] drm/bridge_connector: hook drm_atomic_helper_connector_hdmi_hotplug()
+        commit: 4b5a79d7f4d5c34120c6f2e8836bc8ad3a43594c
+[08/10] drm/vc4: hdmi: switch to using generic HDMI Codec infrastructure
+        commit: 9640f1437a88d8c617ff5523f1f9dc8c3ff29121
+[09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
+        commit: b4fa0800760c20fe34318a1079687526fc323572
+[10/10] drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_hotplug()
+        commit: 2ea9ec5d2c207a41d523f8804053cee00fe50763
 
 Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+With best wishes
+Dmitry
 
