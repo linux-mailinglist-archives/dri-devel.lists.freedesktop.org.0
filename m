@@ -2,226 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07022A0191A
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 11:55:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8BFA01918
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 11:55:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C16E010E4F9;
-	Sun,  5 Jan 2025 10:55:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7FA10E4F5;
+	Sun,  5 Jan 2025 10:55:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=scioteq.com header.i=@scioteq.com header.b="v7Z9JoeR";
-	dkim=pass (2048-bit key; unprotected) header.d=mail-dkim-us-east-2.prod.hydra.sophos.com header.i=@mail-dkim-us-east-2.prod.hydra.sophos.com header.b="X4IPY5Xp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Oq24gXWI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rd-use2.prod.hydra.sophos.com (rd-use2.prod.hydra.sophos.com
- [18.216.23.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D117110E04E
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 17:45:14 +0000 (UTC)
-Received: from ip-172-21-0-105.us-east-2.compute.internal
- (ip-172-21-0-105.us-east-2.compute.internal [127.0.0.1])
- by rd-use2.prod.hydra.sophos.com (Postfix) with ESMTP id 4YQSWs4q1dzvPs0
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 17:45:13 +0000 (UTC)
-X-Sophos-Product-Type: Gateway
-X-Sophos-Email-ID: 91279709e73447f282ee0f9c94ae2d9a
-Received: from PAUP264CU001.outbound.protection.outlook.com
- (mail-francecentralazlp17011027.outbound.protection.outlook.com
- [40.93.76.27])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by relay-us-east-2.prod.hydra.sophos.com (Postfix) with ESMTPS id
- 4YQSWr2FW9zjWwM; Sat,  4 Jan 2025 17:45:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gfHkCM+GiW2MjhyJScaMLaBLXZP59nnP5i+PIp2gn3f9GqaBaJR9p9q4fZ+qfWTNq9YYk7hVfKSQI/7o/AsWsHPdloVVRNADOxIab6wnUnVRbUoR+wEPsbisDmqCZfKRDCo8LIAngxeEwNRgSQUQVOCDUqTjuQEO9fv86QwygPd6GnjdOelinM4dqnB9yj4RY1vdQ4sCIx7djYjStkBv8b0IcwHY3Xg+AunxBrtjgrTrdeU85EGpMUwSp8I5bowKORjS1dmWi+Ywtv+YukpA9RX1t/nf1Fa9G1ZwapVl/Q5h55lFSTuAn0u4WJol7cBnbF83lBOKN6GYJXYuqES6tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ysO9alifdlT+vLVvmP0cN70Jlvo0DP99ZGWz/Uxf8vc=;
- b=jclz4Svgkf3geEIELOSV+3XrsPGf8TbHlGKp+gkeBSFv5j//usMxqaogjxgpLKy0gYvr9i/P+7ZuTAsZMn1H6auuzzzOktkSuciheYusSwbQK/a4JPXh5snHbzH72Oy0YslGDRVarRPg5zT9to+mYBYL1m/9LhQIK1MOmpOWuaQrnTpi5YgvwWM402PTEgTTz025mj71trycBIqzgiDvRj+NSF2g+tPqizx84Xnzr6rh5zC/Oegkzta82/vq+5IayTKpqwONLVkP27mQtBLey8I1iFsQmBVcQQRTVPB4TakvTlzmTEfyWsC4QxGj+4L1ALwHnDFESGZuOtU11A2+iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=scioteq.com; dmarc=pass action=none header.from=scioteq.com;
- dkim=pass header.d=scioteq.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736012707; 
- s=sophose3b6b7cefe1d4c498861675e62b33ff6; d=scioteq.com;
- h=Content-Type:Date:Subject:CC:To:From;
- bh=ysO9alifdlT+vLVvmP0cN70Jlvo0DP99ZGWz/Uxf8vc=;
- b=v7Z9JoeRW85Uk/9HWZV+mGOx1deLyIh44m7D4hnhl0x19btfw0OuAkQ2qgkHf/R8
- 2mkST1f8hrfbr4/Osksu5NhsCs1iEMS8L4XrRigASx0Vb2cK9Y6H87Eel5ECYzoRz9E
- p4NcdS3iRysJmIM1w2zibESUFj99CWUcTE72WI7mNQFW9bDTNkE+bhYpnjKVj7ktuVA
- dzTPJNt/twhHHMF7+EFJoqeMKCXRFrSxfnocdWHLsc5eV2U91B9/xZ4lnLR5C1X8f5m
- gASVM2BMOvV8m/einnWxtf4v41KAQBLeQr0f8rdMntUNHerSc9xQlpP7tzr43wcl9BQ
- VGtw2oQaoA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736012707; 
- s=v1; d=mail-dkim-us-east-2.prod.hydra.sophos.com;
- h=Content-Type:Date:Subject:CC:To:From;
- bh=ysO9alifdlT+vLVvmP0cN70Jlvo0DP99ZGWz/Uxf8vc=;
- b=X4IPY5XpXVwjog015a1ldYDamlrPWNV4vdIz7eQMFUVUXFYCDBiyoT8sTcT2LYjl
- +eMwIzaoHuKkz+0E3Ts3liGW1nJ4Gnn0sVkf/tALH9WAqn1bIBW4YSALE045QamBpvf
- WyS6a6bqLfAVcOfCiCsbBRia1ijIHHl1jFlE912Sb5Qm4Bax9281mcyMZ9nh6LZpiwj
- bpALh9kbuySd7AMUHMdGhOvGCiUFuPNUBZUi+PTdJjdEGFqVvNzE/zefcBxDLwHG+DK
- 0fxtNqmm3qxZxOLUQ2UC8VSR9+Ss3IM0v1ss4hLeI2leGBWi1jD64t6ROLCtHNb3KBg
- mi17XkEoUQ==
-Received: from PASP264MB5297.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:43b::20)
- by PATP264MB5509.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:3fc::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.16; Sat, 4 Jan
- 2025 17:45:08 +0000
-Received: from PASP264MB5297.FRAP264.PROD.OUTLOOK.COM
- ([fe80::3de1:b804:8780:f3cd]) by PASP264MB5297.FRAP264.PROD.OUTLOOK.COM
- ([fe80::3de1:b804:8780:f3cd%5]) with mapi id 15.20.8314.015; Sat, 4 Jan 2025
- 17:45:08 +0000
-From: Jesse Van Gavere <jesse.vangavere@scioteq.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: RE: ADV7511/13 implementing atomic ops and bus formats
-Thread-Topic: ADV7511/13 implementing atomic ops and bus formats
-Thread-Index: AdtZbi8EHgRPTTpYSqu6qWF3rjBzcwBWKoWAAIs1GzAANvdigABAD4rQ
-Date: Sat, 4 Jan 2025 17:45:07 +0000
-Message-ID: <PASP264MB529722778C69339AF994DEC0FC162@PASP264MB5297.FRAP264.PROD.OUTLOOK.COM>
-References: <PASP264MB52976B917B5F002234D72DDEFC0F2@PASP264MB5297.FRAP264.PROD.OUTLOOK.COM>
- <rh4xzo2cxciakrmaiw6bm4hfx6qwf4zj7bqwdzzdovt7rp4wrl@ir34ydimkp25>
- <PASP264MB5297BCB83AB9AC42FFB8F4F5FC142@PASP264MB5297.FRAP264.PROD.OUTLOOK.COM>
- <u3mciz2pjwgw5nrrkittkyqfcvrwa2hog5aueo23irvmgaty2p@vcggz5nodvwg>
-In-Reply-To: <u3mciz2pjwgw5nrrkittkyqfcvrwa2hog5aueo23irvmgaty2p@vcggz5nodvwg>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=scioteq.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PASP264MB5297:EE_|PATP264MB5509:EE_
-x-ms-office365-filtering-correlation-id: 9a79f1b5-16ec-41bc-0f31-08dd2ce7873c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?47y1H1Vc8I41a/e+EtIFGIZOwHRZuQN2mapzd9YNRfVGna18+kRyFkxMFwrw?=
- =?us-ascii?Q?Rw+8qAcIejr6nmFSeFhVGmAWokYDVIuDvhL6nwR42i/QoZJhAgs4cfgLq9id?=
- =?us-ascii?Q?vwfi/SjeHBVnTIIb9xrP55izN8cH13dWm+OncaPSz7b9H9+wwDY3CTSPL9n1?=
- =?us-ascii?Q?rPcJSqu6qdn8/fT23bgis0/260Dm6BLsFAFWfCi4pFSxuNs99DEOtapg7MRQ?=
- =?us-ascii?Q?piuAYWQBf9O5qjxdHDzY/x69Tz1CXw4//zgna0kaFnkwWhnd15G5HCXmp+6v?=
- =?us-ascii?Q?zkIuFgvlHbqX7civRMev99kBBBJJBMEm9EB4iKxrC0AVrZXFkUMlD1QZLvAS?=
- =?us-ascii?Q?9A9JTF6BSE3w2zkyEhhvwRgAyyX1loicuWzh31tUOnatyJ5OpaqYZBYatTOj?=
- =?us-ascii?Q?i8l9pOogPv0anMFWohcpt2MMq5vBq5l+g7BWR65reMRpC4HbFOO0uG8vJyhU?=
- =?us-ascii?Q?a6MN557ijtbmN6i5F+PT1mc5ze7YhU/cu+nAeHnL4h7bhE4z7cGRcCPfGWX7?=
- =?us-ascii?Q?dfB+85Czj3Qdm0aZz2B0wF1wm7Rm2Zx5YhA88IfqbKCD6PPiOX2Q6crvEXXq?=
- =?us-ascii?Q?3fD4+bTnakxbRG1iRXkWt9yfKmqSA4u1hu7TbttEx1DT26isI3al8mvVOjHK?=
- =?us-ascii?Q?AsHPHsHLnXrmAAkMnsS0m37TZN1Pmu1eqwq4fFUlaAI1eeFJk4In9U3iV2Iw?=
- =?us-ascii?Q?LeDxk0/OpqzZsCgvSSpF9rVB6/FSw5nQD1yN56XwU0XVriBQ7h8H8usNSlrf?=
- =?us-ascii?Q?/E+QAnh3LwO0wOss81XMEJua82vQoxWMnMxD5DdWVLOdYzVUFTb514I44QZG?=
- =?us-ascii?Q?88TTWrZGvEyHkic78/j1N6P0qs+zqDdqPmm/2H3cuNKSpjcgi0uPhpBBDBy3?=
- =?us-ascii?Q?FZKfdDtpXp9K9+qn+lkVSdMTcOYXWInZccOUrETnMh90ZefiTpi+PDKXoAzr?=
- =?us-ascii?Q?T2l46ZGgr7eTGSUAAyQ5zqkWo8PsDDaBOeZfXaowi+HtLK50g5Nbs0C7oFQX?=
- =?us-ascii?Q?QcxYw334UrfKN/vtw4c55D3PzI6rPVFBu3Yfk7hS8IHNvjL913T/Iz3gkXH4?=
- =?us-ascii?Q?h0iyyibZ8WJVJa9yFY5XKzXv+chfQzPE3jX4fN104NvQSIc06pPaT3ReICG3?=
- =?us-ascii?Q?zXSNzRIU1swb24lPe4YSqTQ8x7DfCpYHP2nkOQT5b6fjmzgU7J9W7p2aggOT?=
- =?us-ascii?Q?E549haRuFr8ciA6qefo7Ir2k6jK5UGoUzr/eXaV86INBPiH4wZ6nlfZeSgAE?=
- =?us-ascii?Q?s/zgLqMm3NUcGENdSofyZG95PK1YvgbhegpXhJGBE8/1HyBe1WywFBbYevGa?=
- =?us-ascii?Q?mLVhlwengZAd1E+RfFsbbG2M99Ayk0ChPvfzaZj3DnijOFmxc4IPfReh2vcx?=
- =?us-ascii?Q?UnxoZzLHLYuvQljexYk/GrHgUoECxCBrMsSAayS/C5lu3OoZ2c9eS9kmw6LE?=
- =?us-ascii?Q?Keb3R6no0n2vNeaisBYXY3UT8YiBkzdT?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:; 
- IPV:NLI; SFV:NSPM;
- H:PASP264MB5297.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE; 
- SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?IYC9b54fTmuxtCguspL5MbXqk1HicBgDlQFp6/gk4IimsFs4hSxZprk5lXrA?=
- =?us-ascii?Q?q10h4ZcEXMvXAfDwE8+ZQ8WYc/SBOpYCjYyu5FhMQ/sH6gOFPr2x6l6GPuAe?=
- =?us-ascii?Q?kuqDxQoQQso7gSYYHpvMaJYL9xkChOXyQkfNxdFVhVX4NO3Pr0kmCyRtQ259?=
- =?us-ascii?Q?hHgla1JTWoU/CjowFnm808srrqfAFccE/8odBQ9PQLstZLlp/8bhKx/XvR1C?=
- =?us-ascii?Q?UAvi3Ir4J2vPxFyZGNJW5GV0ow2u5VMtVBpnc0/cSyp0XLagQUhY9kQRJmPe?=
- =?us-ascii?Q?F1TM62wtH6TC0y3gv5B/e+9t/aW+n5bZPvhLQughaDUyOGKeMdjuFWgjN/IU?=
- =?us-ascii?Q?bMIeqzQDXoXpDTdoyRSGimmO1dHPhfQ254NTBD2aPhwmbKV/Tpe50hmuItOg?=
- =?us-ascii?Q?l2z6PXsz3XH8DBbJOpK7YTtHuphFpZN5sEUdbFOTRRPv7hb0nuLLgJYIA0uA?=
- =?us-ascii?Q?mgtjNJjABST4iiUM2tPo/S0KvJLoMK5/zhdfDt4x+mzS8lZS7GUCeZK4HQyV?=
- =?us-ascii?Q?I5lmVhLwCYgCFw1UwS7OtZ0GLlgDuItN8iAPXVXX6YathuDBcjtoM+zwBIiC?=
- =?us-ascii?Q?ih2VFilX6DYPP+IZmNmnIHjw64LhazaLJ/L+LJ18bhHq9iVcv5nfPJyHQ4xO?=
- =?us-ascii?Q?I7yDp+WHU8EZWLrCKWXoN0qGtOmp/zN8AqsKZaAITFfJoO1Du95qzs1tgZAj?=
- =?us-ascii?Q?Cj2c2JVvk7u+NkGmCf3P2Fgo27XBWwhui0/xX2dGT/6imQkfqtq0yNJpNy7K?=
- =?us-ascii?Q?A1w1wB/6McyHDkCgC7B+6ha/QPVCG9LyRhLpOCJFCdHzAloeOmWCtrE+PiOF?=
- =?us-ascii?Q?Do0PMPId/rtikH2DFHecj9iM5/vWorId4pitUadKgvbd3qTinDw0rYDGVKYv?=
- =?us-ascii?Q?qBlNX0xrkIJvUOK9xfuyB+Jy13Fso0V3nrtlot1MooA5CNfqbCNR1CLLprAh?=
- =?us-ascii?Q?0rA0K75PxPG/U7SPPIE1D0/vnnVD4dFd6r2KMp+N/JdpfhtfIxga1aWOFCUc?=
- =?us-ascii?Q?k7R0PAGWuGVzP3XFiL62f7OzYh46v20gTw2EStNHy8eRKgQMFqS7gtMWDITM?=
- =?us-ascii?Q?0bEOkxNrcZzZ/qaSNI+GikPv7iPNR14OhcDXIx1ILkTLc0NJrpegxI5ZGWRB?=
- =?us-ascii?Q?b4uVaoh1FzmDICHes3jj1FAWKbbNyzKPTwZYkoXhXb6KStj4qwNbNxIsWyfA?=
- =?us-ascii?Q?ndTtJlcFKzj+ztjut11Du9qaqqhUP1KsxjdRVFnzoBPA3Pl/ZfcOIYJaGe3y?=
- =?us-ascii?Q?8aTZrTmzWsE4Xop1xFExjpAr3ZXGyubzTPpyRSDubeYJlob+UdA+fUtEzt/V?=
- =?us-ascii?Q?UMGarsUhOrY8Kr9ReLAWf7JinVthcfNOMZYSI0PN3TdG4E7Xns0ABwcvbaUg?=
- =?us-ascii?Q?6ra3FpKqeF4ibrpUwgHnlIBzU7yng9TmCWMjLUZlrxe13NldLinHwPnnhGds?=
- =?us-ascii?Q?ODCuGEjLgr2SGk30Skquegk4J94K0if6qs0CqpHU/Nm0YjNZ6t629eDXOeFJ?=
- =?us-ascii?Q?y/qWebGlMfhq94OHHZKSRLF9yyslfUHSesm23rX864IXdfHBLTctvfl3pFZv?=
- =?us-ascii?Q?EzONSmLDs9JIdkjKprETgY8D7gJ+EbTp8KwNwOD98vs3bN8IL5Yc1tkD7+Bc?=
- =?us-ascii?Q?iQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20A9E10E124
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 18:26:57 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-53e28cf55cdso11097089e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Jan 2025 10:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1736015154; x=1736619954; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=p2VHCmxWBoMvk+DMYugvVDUlGFwYim9QSj2dY3xDZ9U=;
+ b=Oq24gXWIGJ6R5FzrjfPMUoLS0fQIV1bVjxZG76BViHgu6wEodOoHl/IkXWG1fU+vds
+ MujiY76z3HKJaJcxDrq/m5o8ZKEri8al/eQ6hkqD99EYXxbgIHsxG792avsuHZqc7YlC
+ gjvRIG22fRE4NKfYGdsviNPXELUfKmArzHdV6gtfXBDNLyh4H0O2awnGa6MvGNHx2PA5
+ xjRDecwK6tbnEYln+Y7ql/2xFDy8mxrJMs4mxp4M6k4lzbZxn8LwH/iDqeD1OsDqBBgo
+ xvZCEYX/lqcf1hflNLQxnlajXdEDlT7L3V4H65FcZiFkvtnpAq6cbrx8ykK4u2xl442p
+ /KeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736015154; x=1736619954;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=p2VHCmxWBoMvk+DMYugvVDUlGFwYim9QSj2dY3xDZ9U=;
+ b=czEP/Ps14mFTHpKeJOA2cFDdXnmmq9wQKYlSAs3oaVO9uVA13upaipZiNmTlGz/4Je
+ X3Vzqy23V4/ws6GvVJMbsXgcJr18M2659s9rmjugP0sgL1m9vxK9ZbasN1HqlsQb83xU
+ wlSET+oDFkMG1kC9emhaGSb3Si4EyAjbJeOFWkylVpqJCb/63Ak5TONpztFYKKoUAm/p
+ KlHVvCxKgmfsxveSxY8rE08/AaaA77S6EwrTGaK18+FLnKwoLPV7o01oLvKA0GFPGQKg
+ jsDwDIb51BDPitHXpP6fZgLpwJhS/Wzki5aiW7t4Jg2h5h25u5p0z/uL35X5bOe5n6Pi
+ fzAA==
+X-Gm-Message-State: AOJu0YwDkPH2WsiFpPURfzKKiV9+c7MAmUHxgt519AdOzu15i71fniWz
+ K2Rx7nQ4MER6nLa32DBnRje6MZfU35KYJtt1roIVWR2hcdMCCniWiw++phSA0PY=
+X-Gm-Gg: ASbGncuz7B8hEJmO1W31c+6YDRInvNQ0g1x5KpekEq+VpelJDoZ6EoIEvmM0BIJNV5o
+ s5Q+a9hIriBK3oJMZm9rC7uvUMvPess3pm2TPCt9RnJpQVp6K7YusLNZUzE+TKXzFVAz5DkToJq
+ QUy711fTc5WJctIPdH4fKMndArIfcUoIZp/Ngu/Zvl5X516B6ZLheHUUHnrl7xDco4Ky3gWTqzA
+ qsRQFRhFkrRGKvxgx1g3XqcuHmtUz1bHxjWMIPL76dzQBlK6mZ2xfzqyNTtmamjaCajnDMqXaPF
+ J39BRApdyd6tPAkFZJT7OfCuRHufWXv96NzELXm3
+X-Google-Smtp-Source: AGHT+IFW7M13m+8AJpWtP+PAeWR4FrAguCXSdiBhgD80jL3pqB8kmIwdSk4A0D8H+uqM1jXhywwFTw==
+X-Received: by 2002:a5d:6da4:0:b0:386:3864:5cf2 with SMTP id
+ ffacd0b85a97d-38a221f0e37mr42050517f8f.19.1736014767685; 
+ Sat, 04 Jan 2025 10:19:27 -0800 (PST)
+Received: from KJKCLT3928.esterline.net
+ (192.234-180-91.adsl-dyn.isp.belgacom.be. [91.180.234.192])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43656b1143dsm549477715e9.18.2025.01.04.10.19.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 04 Jan 2025 10:19:27 -0800 (PST)
+From: Jesse Van Gavere <jesseevg@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Sui Jingfeng <sui.jingfeng@linux.dev>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Adam Ford <aford173@gmail.com>, Jani Nikula <jani.nikula@intel.com>,
+ Mads Bligaard Nielsen <bli@bang-olufsen.dk>,
+ Jesse Van Gavere <jesseevg@gmail.com>, Liu Ying <victor.liu@nxp.com>
+Subject: [PATCH] drm/bridge: adv7511: Switch to atomic operations
+Date: Sat,  4 Jan 2025 19:19:08 +0100
+Message-Id: <20250104181908.15141-1-jesseevg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: IwaF6KLMhBzqNiv6oWvul8sQH4k2ThSnt8xDLtZam11+6/EqhENWMC2vONiqW3joCgpbB8UwO8ALWCF2qfDTgUn95pu5dowcf1lyHEJNJoc/p3I0YCQEKXqzGJ6dMJ/E8fLhdSaVMnUgFGdN3xX1Lyp52MQaEB5usxStwxt4F6r8AGfEj9RYflFoDXaYiQTqETen46oTRolAGyHZZKfpuqTIJLNlEVo6n6muHDW8JCe8C+m5RoSE5kkst9KYZug5bKlibI5XGgMlZInnH+onc2BQw2yPWJ8J79A2Mryc0xX2NOBI2dxfQx5F8gN1/yv+Ms0LbcdBDj670oxAo5WczcylHKqKGCvDeMAKJ/qtzYP5tSccduOmSs3ij0CAKA+Zb7ya1mr5Ur6HDvbWin3A7/82AF2gScn8/aWz9Qij121PoLGHxoRGSA93Yu68BGW1B05j1+6hjyWGUqMmypqG3CXSA+zvvTFmNVqcrNlhcaKSW5mrZOjIC8Od7bQr+2DRvQSP4tLzksQhQU0VZ/0MhoQirjhOD/GPEiKuirRTmoq8Chh6pErYDWvcwbTkrX6RB6suD35a8lrS4wO74pl6fzMZbW5wCNrLOXQ7EHdy3TkjV2Hkkc63xyiBjV4L0LDBAvOH0NiDxLPcKZKWv5I1OpyBGtZ1eOVt32qvp5A09so=
-X-OriginatorOrg: scioteq.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PASP264MB5297.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a79f1b5-16ec-41bc-0f31-08dd2ce7873c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2025 17:45:07.4284 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f3e5b271-16f7-46b9-bdb3-4271ac933ef0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9yC0ozco+2NjvoKazSen7SpssYfX5lWVZp3hJrCDh8NV9Q4Yltk3pmkBffgzZg0k01CoU9R++i2VkIrmlayBANGdefgCXLIkfShpD6pVXHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PATP264MB5509
-X_Sophos_TLS_Connection: OPP_TLS_1_3
-X_Sophos_TLS_Delivery: true
-X-Sophos-Email: [us-east-2] Antispam-Engine: 6.0.0,
- AntispamData: 2025.1.4.171246
-X-LASED-From-ReplyTo-Diff: From:<scioteq.com>:0
-X-LASED-SpamProbability: 0.085099
-X-LASED-Hits: ARCAUTH_PASSED 0.000000, BODYTEXTP_SIZE_3000_LESS 0.000000,
- BODY_SIZE_1000_LESS 0.000000, BODY_SIZE_2000_LESS 0.000000,
- BODY_SIZE_5000_LESS 0.000000, BODY_SIZE_7000_LESS 0.000000,
- BODY_SIZE_900_999 0.000000, CTE_QUOTED_PRINTABLE 0.000000,
- DKIM_ALIGNS 0.000000, DKIM_SIGNATURE 0.000000, FROM_NAME_PHRASE 0.000000,
- HTML_00_01 0.050000, HTML_00_10 0.050000, IMP_FROM_NOTSELF 0.000000,
- IN_REP_TO 0.000000, LEGITIMATE_SIGNS 0.000000, MSG_THREAD 0.000000,
- MULTIPLE_RCPTS 0.100000, MULTIPLE_REAL_RCPTS 0.000000, NO_CTA_FOUND 0.000000, 
- NO_CTA_URI_FOUND 0.000000, NO_FUR_HEADER 0.000000, NO_URI_FOUND 0.000000,
- NO_URI_HTTPS 0.000000, OUTBOUND 0.000000, OUTBOUND_SOPHOS 0.000000,
- REFERENCES 0.000000, SUPERLONG_LINE 0.050000, SUSP_DH_NEG 0.000000,
- __ARCAUTH_DKIM_PASSED 0.000000, __ARCAUTH_DMARC_PASSED 0.000000,
- __ARCAUTH_PASSED 0.000000, __ARC_SEAL_MICROSOFT 0.000000,
- __ARC_SIGNATURE_MICROSOFT 0.000000, __BODY_NO_MAILTO 0.000000,
- __BOUNCE_CHALLENGE_SUBJ 0.000000, __BOUNCE_NDR_SUBJ_EXEMPT 0.000000,
- __BULK_NEGATE 0.000000, __CC_NAME 0.000000, __CC_NAME_DIFF_FROM_ACC 0.000000, 
- __CC_REAL_NAMES 0.000000, __CT 0.000000, __CTE 0.000000,
- __CTYPE_CHARSET_QUOTED 0.000000, __CT_TEXT_PLAIN 0.000000,
- __DKIM_ALIGNS_1 0.000000, __DKIM_ALIGNS_2 0.000000, __DQ_NEG_DOMAIN 0.000000, 
- __DQ_NEG_HEUR 0.000000, __DQ_NEG_IP 0.000000,
- __FROM_DOMAIN_NOT_IN_BODY 0.000000, __FROM_NAME_NOT_IN_BODY 0.000000,
- __FUR_RDNS_SOPHOS 0.000000, __HAS_CC_HDR 0.000000, __HAS_FROM 0.000000,
- __HAS_MSGID 0.000000, __HAS_REFERENCES 0.000000, __HAS_X_FF_ASR 0.000000,
- __HAS_X_FF_ASR_CAT 0.000000, __HAS_X_FF_ASR_SFV 0.000000,
- __IMP_FROM_MY_ORG 0.000000, __IMP_FROM_NOTSELF_MULTI 0.000000,
- __INVOICE_MULTILINGUAL 0.000000, __IN_REP_TO 0.000000,
- __JSON_HAS_SCHEMA_VERSION 0.000000, __JSON_HAS_TENANT_DOMAINS 0.000000,
- __JSON_HAS_TENANT_ID 0.000000, __JSON_HAS_TENANT_SCHEMA_VERSION 0.000000,
- __JSON_HAS_TENANT_VIPS 0.000000, __JSON_HAS_TRACKING_ID 0.000000,
- __MIME_BOUND_CHARSET 0.000000, __MIME_TEXT_ONLY 0.000000,
- __MIME_TEXT_P 0.000000, __MIME_TEXT_P1 0.000000, __MIME_VERSION 0.000000,
- __MSGID_32_64_CAPS 0.000000, __MULTIPLE_RCPTS_CC_X2 0.000000,
- __NO_HTML_TAG_RAW 0.000000, __OUTBOUND_SOPHOS 0.000000,
- __OUTBOUND_SOPHOS_FUR 0.000000, __OUTBOUND_SOPHOS_FUR_IP 0.000000,
- __OUTBOUND_SOPHOS_FUR_RDNS 0.000000, __REFERENCES 0.000000,
- __SANE_MSGID 0.000000, __SCAN_D_NEG 0.000000, __SCAN_D_NEG2 0.000000,
- __SCAN_D_NEG_HEUR 0.000000, __SCAN_D_NEG_HEUR2 0.000000,
- __SUBJ_ALPHA_END 0.000000, __SUBJ_ALPHA_NEGATE 0.000000, __SUBJ_REPLY 0.000000,
- __TO_MALFORMED_2 0.000000, __TO_NAME 0.000000,
- __TO_NAME_DIFF_FROM_ACC 0.000000, __TO_REAL_NAMES 0.000000,
- __URI_NO_MAILTO 0.000000, __X_FF_ASR_SCL_NSP 0.000000,
- __X_FF_ASR_SFV_NSPM 0.000000
-X-Sophos-Email-Transport-Route: opps_tls_13:
-X-LASED-Impersonation: False
-X-LASED-Spam: NonSpam
-X-Sophos-MH-Mail-Info-Key: NFlRU1dzNHExZHp2UHMwLTE3Mi4yMS4wLjEwNQ==
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 05 Jan 2025 10:55:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -238,29 +96,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Dmitry,
+Use the atomic version of enable/disable.
 
-> How is it so? I don't see any specific requirements on the TIDSS side.
+Doing so enables it to work in a chain where atomic operations are expected
+such as TIDSS
 
-Seems right, must've been a mistake on my end
+Signed-off-by: Jesse Van Gavere <jesseevg@gmail.com>
+---
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-> I think that's a separate topic. Bridge drivers don't have to implement a=
-tomic_check. In fact, if you check the latest LT9611 driver, it has dropped=
- the .atomic_check() completely, as the corresponding HDMI-state check func=
-tion is supposed to be called by the connector code (e.g.
-> drm_bridge_connector_atomic_check() calls it).
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index eb5919b38263..19c14916ded4 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -910,14 +910,16 @@ static struct adv7511 *bridge_to_adv7511(struct drm_bridge *bridge)
+ 	return container_of(bridge, struct adv7511, bridge);
+ }
+ 
+-static void adv7511_bridge_enable(struct drm_bridge *bridge)
++static void adv7511_bridge_atomic_enable(struct drm_bridge *bridge,
++					 struct drm_bridge_state *bridge_state)
+ {
+ 	struct adv7511 *adv = bridge_to_adv7511(bridge);
+ 
+ 	adv7511_power_on(adv);
+ }
+ 
+-static void adv7511_bridge_disable(struct drm_bridge *bridge)
++static void adv7511_bridge_atomic_disable(struct drm_bridge *bridge,
++					  struct drm_bridge_state *bridge_state)
+ {
+ 	struct adv7511 *adv = bridge_to_adv7511(bridge);
+ 
+@@ -996,14 +998,18 @@ static void adv7511_bridge_hpd_notify(struct drm_bridge *bridge,
+ }
+ 
+ static const struct drm_bridge_funcs adv7511_bridge_funcs = {
+-	.enable = adv7511_bridge_enable,
+-	.disable = adv7511_bridge_disable,
+ 	.mode_set = adv7511_bridge_mode_set,
+ 	.mode_valid = adv7511_bridge_mode_valid,
+ 	.attach = adv7511_bridge_attach,
+ 	.detect = adv7511_bridge_detect,
+ 	.edid_read = adv7511_bridge_edid_read,
+ 	.hpd_notify = adv7511_bridge_hpd_notify,
++
++	.atomic_enable = adv7511_bridge_atomic_enable,
++	.atomic_disable = adv7511_bridge_atomic_disable,
++	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
++	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
++	.atomic_reset = drm_atomic_helper_bridge_reset,
+ };
+ 
+ /* -----------------------------------------------------------------------------
+-- 
+2.34.1
 
-Yes I saw that commit now, I'll skip that function.
-
-> Regarding the conversion of the adv7511 driver to using HDMI callbacks.
-> This has been on my todo list, but I'd rather land HDMI Codec and generic=
- CEC patches first.
-
-Thank you very much for all the information, very insightful.
-Knowing all that I should be able to tackle the atomic ops/bus formats now,=
- and maybe the conversion could
-Be a nice exercise for myself, so hopefully my next mail is a patch rather =
-than more questions!
-
-Best regards,
-Jesse
