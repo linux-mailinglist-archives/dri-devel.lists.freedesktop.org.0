@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8FEAA0113B
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 01:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F2AA01290
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 06:33:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6597C10E028;
-	Sat,  4 Jan 2025 00:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7CFF10E0CA;
+	Sat,  4 Jan 2025 05:33:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sKarAGkp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j83osawZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4262710E028
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 00:09:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AECE010E0CA
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 05:33:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DEE245C32AB;
- Sat,  4 Jan 2025 00:08:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6B75C4CEDD;
- Sat,  4 Jan 2025 00:09:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7F4125C41C8
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 05:33:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6638FC4CEDF
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 05:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735949370;
- bh=NL+6UMAqEckQgTyP9CfH1geXhZoa5MSlyXNrFreAQ64=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sKarAGkp3shhVy//F9vhDi4mvw09GclBlXaRSATpbcyL8j552aZD9Y7cQ5DF9COtd
- JdtaeWyIjgtXy6u934m7tcw8FtUCT4nmEkv+DVNDNNXsqcN8YZaoUXiUmVxZAWVAj7
- qblQ1+7OKVcVpoMHDT//fgnivbb5LpPw9LZ1OHU7ZVBbTnoKKBSLBYzN9Bp4oiFUx0
- sGWNpJAKUUqNgO3FGHsp1lggl5I8tVADngudzQ99v2PAdol3TSmxGPoCt0jHtO26TH
- Wb/Sa8sJYqufUshEHl3GYTFUlwvVcbCaS1NnpaBnYYOQ/elsPbIf7QFakZUWorC7OW
- A91XqQ8ANJJNg==
-Date: Sat, 4 Jan 2025 01:09:26 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- quic_msavaliy@quicinc.com, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v4 0/2] Add Block event interrupt support for I2C protocol
-Message-ID: <pvcu35x7prqonlhptakepn5bdqm6skd4qmigvoavejyjj363ug@aemx3pd2po2v>
-References: <20241217170424.14703-1-quic_jseerapu@quicinc.com>
+ s=k20201202; t=1735968833;
+ bh=Nxl1ul7STBBq+l3vx8sSBrzf5dM3uXsMz/RCCUq2kPc=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=j83osawZt3zUHrmDbIBlXa8EvnOMxB+3J7L38MCIqzyj9TXLsGPrr/egpVO0USIS0
+ GVf8AWQB+84N4w5r/sDbjZDRaiPNQgbp3AOAuKgvgE+KKw28seEO2hiJievKh58VLH
+ 25rWXGPwM54zlPLiqgzvot+816uNpISYmhnRVxAVGGa+2kvNx9D587pAocfwQuMcw/
+ 92U/v48Kk8dGCcJt1HpljKVLOudhAwMRcWvH1pfLOTJnpvxfTdWTxvurqmcnIbw5AR
+ mg45DYfGAJHv2KlX4VqryNGq6Ph3H2QfoCFrec9lcgXWBiWQG8AeCeIhE9KsQzzolS
+ yOrNoVkqUR9Ng==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 553C4C41614; Sat,  4 Jan 2025 05:33:53 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209535] resume fails after hibernate amdgpu
+Date: Sat, 04 Jan 2025 05:33:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-209535-2300-r7BPuIvPy9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209535-2300@https.bugzilla.kernel.org/>
+References: <bug-209535-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241217170424.14703-1-quic_jseerapu@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,78 +74,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D209535
 
-this patch has been hanging here for a while, can we please have
-someone from DMA and Qualcomm look at it?
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-Thanks,
-Andi
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
 
-On Tue, Dec 17, 2024 at 10:34:22PM +0530, Jyothi Kumar Seerapu wrote:
-> The I2C driver gets an interrupt upon transfer completion.
-> When handling multiple messages in a single transfer, this
-> results in N interrupts for N messages, leading to significant
-> software interrupt latency.
-> 
-> To mitigate this latency, utilize Block Event Interrupt (BEI)
-> mechanism. Enabling BEI instructs the hardware to prevent interrupt
-> generation and BEI is disabled when an interrupt is necessary.
-> 
-> Large I2C transfer can be divided into chunks of 8 messages internally.
-> Interrupts are not expected for the first 7 message completions, only
-> the last message triggers an interrupt, indicating the completion of
-> 8 messages. This BEI mechanism enhances overall transfer efficiency.
-> 
-> This optimization reduces transfer time from 168 ms to 48 ms for a
-> series of 200 I2C write messages in a single transfer, with a
-> clock frequency support of 100 kHz.
-> 
-> BEI optimizations are currently implemented for I2C write transfers only,
-> as there is no use case for multiple I2C read messages in a single transfer
-> at this time.
-> 
-> v3 -> v4:
->   - API's added for Block event interrupt with multi descriptor support is 
->     moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
->   - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
->     I2C driver.
->   - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
->     struct geni_i2c_dev.
->   - Removed the changes of making I2C driver is dependent on GPI driver.
-> 
-> v2 -> v3:
->   - Updated commit description
->   - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
->     "!is_tx_multi_xfer" to else part.
->   - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
->   - Changes of I2C GENI driver to depend on the GPI driver moved
->     to patch3.
->   - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
->   - Added description for newly added changes in "qcom-gpi-dma.h" file.
-> 
-> v1 -> v2:
->   - DT changes are reverted for adding dma channel size as a new arg of
->     dma-cells property.
->   - DT binding change reveted for dma channel size as a new arg of
->     dma-cells property.
->   - In GPI driver, reverted the changes to parse the channel TRE size
->     from device tree.
->   - Made the changes in QCOM I2C geni driver to support the BEI
->     functionality with the existing TRE size of 64.
->   - Made changes in QCOM I2C geni driver as per the review comments.
->   - Fixed Kernel test robot reported compiltion issues.
-> 
-> 
-> Jyothi Kumar Seerapu (2):
->   dmaengine: qcom: gpi: Add GPI Block event interrupt support
->   i2c: i2c-qcom-geni: Add Block event interrupt support
-> 
->  drivers/dma/qcom/gpi.c             |   3 +
->  drivers/i2c/busses/i2c-qcom-geni.c | 275 ++++++++++++++++++++++++++---
->  include/linux/dma/qcom-gpi-dma.h   |   9 +
->  3 files changed, 262 insertions(+), 25 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+--- Comment #4 from Artem S. Tashkinov (aros@gmx.com) ---
+Please create a new bug report if that's still an issue in either 6.12.8 or
+6.13-rc5:
+
+https://gitlab.freedesktop.org/drm/amd/-/issues
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
