@@ -2,108 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C234A013C1
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 10:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 325C9A01409
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 12:06:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3E410E296;
-	Sat,  4 Jan 2025 09:47:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7AD10E109;
+	Sat,  4 Jan 2025 11:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I5+0rUES";
+	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="AKMUUHfW";
+	dkim=pass (2048-bit key; secure) header.d=sapience.com header.i=@sapience.com header.b="d3JNL/1S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
- [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38AAB10E296
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 09:47:51 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-5d3bbb0f09dso22451529a12.2
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Jan 2025 01:47:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1735984010; x=1736588810; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OL2v2cgbonvN/57biijzRWsX5GH+mP+xPVPcn+nnd/k=;
- b=I5+0rUESb1JNVeen1TrEAQFS4zU6nWs4mkCyn0eesTDaMkXml2FpyjvEMQbwWsmytz
- BAajBksUVMnMbEV2VMuJeV6K2TDQ+KWW3DaFAKmCyDQUjmm8S0dN15U9Satqzac2nLNS
- bIHnJ3ei3x4kbsEnzRizq8NR28hOn6K4Le+5+BN81HrFPRVgk9clKoYDIhuX8uEEacCU
- dvFO7pMj54s/HufhOPm21d85e/m+TdVecrARXUugow3KoCuB3jRuPgoT9x2tq11LzrLY
- SkXEXqmDSW9LbRs3tJI1e2hMpFdEuoza7cBbpcwNSNHlhBw02mDOSfppYS8UEz5P6pZb
- Pkmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1735984010; x=1736588810;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OL2v2cgbonvN/57biijzRWsX5GH+mP+xPVPcn+nnd/k=;
- b=N0HYCK0k7K7dUapx4LVik72eT6KidnJKWYSdVAv+2b1zvE33ZcHy8k7wKvpRghRfZ5
- Vywl8wnW6ehhAZpclAlLztAac9EKGLhPaXdExebWw0b4WMAqV2hpLvpTYbPd9xfOyzYB
- rpv2kTYdZNdB7EH2eCGWeYsOGpxZrSBeFZZGeEfWehOHHGBd89hoGadt4h8/g3gGO1ID
- k3YvqtaItZkCfPP7YGsk89HvwHMs774C2RTps5AH6nOZuwF27vBJicX6joRljjWo6QGW
- 88lFDn8bABdqNZ/evVsJLVcpJMpCJTw75NqnIDSP9t06JHSt3UpPF2JAo7/wMEnzhjCX
- zYVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUz7TQwAa48x+92RL5sJjfbWy1C/q8oHaU793Q3JKgvaoW0NuQLqqntyuyoCE/zyOaSDbNkwfFitkA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzx7qXxwvN+CrxXIXHeZtI5OoEIIoAPnhlyIj5R01/uzhRGZqeK
- X324u1+Sss9GWhf6fnoGKRW4fgQb3Feunu41M9D6EEvcGtby3CerMCQxQ1FavfSOh7oCUOGQ8V9
- eAd4=
-X-Gm-Gg: ASbGncvY0jGgzP2hSrdCA2kpucl1fkZOEwxnPV5907ZnXsKsg0R5aiQ57e+JXG+by4C
- rkrSubStXrWu105hWpB9idq30/qyv+Y0SpUYAqlZZt/6XUMw0ka+UgyqVs022sGB1jiZRmyM0lO
- i/qKjtYJIUSxyYc+1qt8wBPAtQbeIE7deOrixoMt35Pi9AFmfgCs53B58JfM/ElzIgD5zhhclcy
- nhN8WPyTIE5sX2C8eHLYdxsfAh2Qdm4UU/fREeK9wXBHt4BtK0pTM6hWe8qwxJX0JKRqnW3lIWN
- AOsAZU0Y0sq8YN5krIs99+XZ
-X-Google-Smtp-Source: AGHT+IH3b8Wrusc5F4Hb8fKgaj49rA+Ki+WtT2vpjNm4L2ymezTReLIBxE1xf5KxHdrS/65tedN1lQ==
-X-Received: by 2002:a05:6512:1114:b0:540:2fbb:22cb with SMTP id
- 2adb3069b0e04-54229533aeemr14027670e87.13.1735973304217; 
- Fri, 03 Jan 2025 22:48:24 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54223825f3csm4213238e87.226.2025.01.03.22.48.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Jan 2025 22:48:22 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Russell King <linux@armlinux.org.uk>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v10 00/10] drm: add DRM HDMI Codec framework
-Date: Sat,  4 Jan 2025 08:48:19 +0200
-Message-ID: <173597328997.875472.12782462213120017264.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
-References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6782010E109;
+ Sat,  4 Jan 2025 11:06:15 +0000 (UTC)
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+ signature) header.d=sapience.com header.i=@sapience.com 
+ header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+ header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+ (No client certificate requested)
+ by s1.sapience.com (Postfix) with ESMTPS id 59C17480A13;
+ Sat, 04 Jan 2025 06:06:14 -0500 (EST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1735988774;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=5Z4RiwazAIutp2/IHEL06g4WrC8k8u+BNBzVA22Ci5Y=;
+ b=AKMUUHfW8/qQZLcJt+lNhIpKPORNPHftPRIhaM+M7Uql7PO3ip9H/cWpV8qfa/qv92e5S
+ aQMwBZkwfi0tDYgAw==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1735988774; 
+ cv=none;
+ b=ymJs3y2H0rHWTigHI39i00ynAzDyL0pplQ4kjRi8jTEWuhOqcA6ivWMWzbtlLEZiG03PSb3dcYU2aEinSCipF3syopjE6v8pq6gg30gjYymSbfKy+BeaxS9h/fL405IGinOHh3W96EXMCrGTMnkiU8FzxIPpZ4Ptc3AiWlw8EdC4b4T1sn6a3FeMtx6wo7otIdkaFUWpL0u6EH5xNYVqQNdGbK99kPHy1Wpfhr1+nZuSfmTC5prLzlhNtcU796TiJ+TPbpmykP3+ZjcyUE17XXyAIdBteeFVWex3jOfCEfvP6T9ulPMRGnsKp69jkBR5aGhBwvjG1LicVLpb8AVBqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+ t=1735988774; c=relaxed/simple;
+ bh=823lCNg0/CmxOSvoh5Xx8jjiDQlyXZxaBTHuFqIdplA=;
+ h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+ In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+ MIME-Version;
+ b=HwEQW1HMhSkS0J84hAbCUMlQp5CnQp6CetMzoa2dd+9anDLZvVqvxKchwAWWkWT0Tiw7SsmdwOtkiSO8cQd6DizjBXDIlRBoUhRlZ2HFwoFoJ74Vc+1vE7dN9G/ANpw6BTfzrhcdf9+lFOySjOPRj8eKzLcYOfGFcANRVThRQNpu6QzY2VjVCoyh+Vg+70qQuiHVFtCIIrh/y+FU1IxJkIM4jSj8jhaljthY9tt6I6CsBMT2Lc2IK+an3sSFogasFzemXco/PuDFO/dEDRvzYpSnTiFPG4V1eMyoe//6bE1sd+YnNFdB7pEOoyzv84kIt/lbjo9TbBd6703tNdeP9g==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1735988774;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=5Z4RiwazAIutp2/IHEL06g4WrC8k8u+BNBzVA22Ci5Y=;
+ b=d3JNL/1SdzBoxwtFW09SJmZOJPPQWcJieQyv7CHjFSqkO6c1qacLxoXpMsT35Eprvr1BC
+ DuJyoY47jRzqSzKl5J/rQH4P8d1q+lMp+ZVunf31KwtHJ36qxNW0urQzC2+iJp49iir+cg0
+ 7rH7ySIstHXko77UXDMvTXcBGrqGaOjb+XbPs0A2GY2YNI5+FC6wAknA07xAgspUTn1A24l
+ 8ZwXrytQocoOB4l13UnL+AGtbx+LL8w+D58oHvlPj6eH/IEdvUOuZo6DyxqLLDjtsGLIuwl
+ QfSHYCOyL7qpvkna+feJkEcRFzrqIlvGFswohcoF6n5MVnDbMA0lZohtbDvA==
+Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1)
+ server-digest SHA384) (No client certificate requested)
+ by srv8.sapience.com (Postfix) with ESMTPS id 1CBBF280011;
+ Sat, 04 Jan 2025 06:06:14 -0500 (EST)
+Message-ID: <53757618ad585771809d0b37915c4d97fab06fdb.camel@sapience.com>
+Subject: [REGRESSION] Re: 6.13-rc1 graphics fail
+From: Genes Lists <lists@sapience.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
+ rodrigo.vivi@intel.com, airlied@gmail.com, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Sat, 04 Jan 2025 06:06:13 -0500
+In-Reply-To: <dd13efc9b3fe3e3acd599ca91b714fa92f6cb9a8.camel@sapience.com>
+References: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
+ <Z07Mg2_6y2MW22qV@intel.com>
+ <7db24095f935d874fae466853b0984103f97b40f.camel@sapience.com>
+ <dd13efc9b3fe3e3acd599ca91b714fa92f6cb9a8.camel@sapience.com>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+ protocol="application/pgp-signature"; boundary="=-UrIByhuKGYEPCXDfloez"
+User-Agent: Evolution 3.54.3 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,41 +99,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Dec 2024 03:47:52 +0200, Dmitry Baryshkov wrote:
-> While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
-> framework, I stumbled upon an issue while handling the Audio InfoFrames.
-> The HDMI codec callbacks weren't receiving the drm_atomic_state, so
-> there was no simple way to get the drm_connector that stayed at the end
-> of the bridge chain. At the same point the drm_hdmi_connector functions
-> expected to get drm_connector instance.
-> 
-> [...]
 
-Applied to drm-misc-next, thanks!
+--=-UrIByhuKGYEPCXDfloez
+Content-Type: multipart/alternative; boundary="=-u28UiC0DxIsmDLkOwaKE"
 
-[01/10] ASoC: hdmi-codec: pass data to get_dai_id too
-        commit: 6af45d7df1099ccac634b36f8cdfa32fbca8c1d1
-[02/10] ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
-        commit: bb1d67bf82fbd2c550fa637e0b8a966ee81a293b
-[03/10] drm/connector: implement generic HDMI audio helpers
-        commit: baf616647fe6f857a0cf2187197de31e9bb17a71
-[04/10] drm/bridge: connector: add support for HDMI codec framework
-        commit: 0beba3f9d366c6df10e5b080fc99c45ac17248ed
-[05/10] drm/bridge: lt9611: switch to using the DRM HDMI codec framework
-        commit: c054aa1bf529a2fa13546b25231d16bb0fd87ca2
-[06/10] drm/display/hdmi: implement hotplug functions
-        commit: ab716b74dc9dd4903b9006f473137e1aa624af56
-[07/10] drm/bridge_connector: hook drm_atomic_helper_connector_hdmi_hotplug()
-        commit: 4b5a79d7f4d5c34120c6f2e8836bc8ad3a43594c
-[08/10] drm/vc4: hdmi: switch to using generic HDMI Codec infrastructure
-        commit: 9640f1437a88d8c617ff5523f1f9dc8c3ff29121
-[09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
-        commit: b4fa0800760c20fe34318a1079687526fc323572
-[10/10] drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_hotplug()
-        commit: 2ea9ec5d2c207a41d523f8804053cee00fe50763
+--=-u28UiC0DxIsmDLkOwaKE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
--- 
-With best wishes
-Dmitry
+On Fri, 2024-12-13 at 07:14 -0500, Genes Lists wrote:
+> On Tue, 2024-12-03 at 06:34 -0500, Genes Lists wrote:
+> > On Tue, 2024-12-03 at 11:16 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > > ...
+> >=20
+> > > Probably https://gitlab.freedesktop.org/drm/i915/kernel/-
+> > > /issues/13057
+> > >=20
+> > Very helpful.
+> >=20
+> > I tested your patch set on Linus' tree commit
+> > cdd30ebb1b9f36159d66f088b61aee264e649d7a :
+> >=20
+> > =C2=A0 =C2=A0=C2=A0https://patchwork.freedesktop.org/series/141911/
+> >=20
+> > and confirm that this fixes the problem=C2=A0
+> >=20
+> > Thank you.
+> >=20
+> >=20
+>=20
+> Just a CC to regressions list for tracking.
+>=20
+> First report here:=C2=A0
+> https://lore.kernel.org/lkml/3b097dddd7095bccabe6791b90899c689f271a35.c
+> amel@sapience.com/
+>=20
+> Fixed by patch set as noted above, but not yet in mainline or linux-
+> next.
+>=20
+> Thank you again Ville for quickly coming up with a fix.
+>=20
 
+Follow up to check on where things stand with getting the fix into
+mainline?=C2=A0
+
+Obviously it would be really good to get this fixed before 6.13 gets
+released.
+
+Thanks and happy 2025!
+
+
+--=20
+Gene
+
+
+--=-u28UiC0DxIsmDLkOwaKE
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><style>pre,code,address {
+  margin: 0px;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+ol,ul {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+blockquote {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+</style></head><body><div>On Fri, 2024-12-13 at 07:14 -0500, Genes Lists wr=
+ote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-left=
+:2px #729fcf solid;padding-left:1ex"><div>On Tue, 2024-12-03 at 06:34 -0500=
+, Genes Lists wrote:<br></div><blockquote type=3D"cite" style=3D"margin:0 0=
+ 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex"><div>On Tue, 2024-=
+12-03 at 11:16 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:<br></div><blockquote t=
+ype=3D"cite" style=3D"margin:0 0 0 .8ex; border-left:2px #729fcf solid;padd=
+ing-left:1ex"><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-=
+left:2px #729fcf solid;padding-left:1ex"><div>...<br></div></blockquote></b=
+lockquote><div><br></div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8=
+ex; border-left:2px #729fcf solid;padding-left:1ex"><div>Probably <a href=
+=3D"https://gitlab.freedesktop.org/drm/i915/kernel/">https://gitlab.freedes=
+ktop.org/drm/i915/kernel/</a>-<br></div><div>/issues/13057<br></div><div><b=
+r></div></blockquote><div>Very helpful.<br></div><div><br></div><div>I test=
+ed your patch set on Linus' tree commit<br></div><div>cdd30ebb1b9f36159d66f=
+088b61aee264e649d7a :<br></div><div><br></div><div>&nbsp; &nbsp;&nbsp;<a hr=
+ef=3D"https://patchwork.freedesktop.org/series/141911/">https://patchwork.f=
+reedesktop.org/series/141911/</a><br></div><div><br></div><div>and confirm =
+that this fixes the problem&nbsp;<br></div><div><br></div><div>Thank you.<b=
+r></div><div><br></div><div><br></div></blockquote><div><br></div><div>Just=
+ a CC to regressions list for tracking.<br></div><div><br></div><div>First =
+report here:&nbsp;<br></div><div><a href=3D"https://lore.kernel.org/lkml/3b=
+097dddd7095bccabe6791b90899c689f271a35.c">https://lore.kernel.org/lkml/3b09=
+7dddd7095bccabe6791b90899c689f271a35.c</a><br></div><div><a href=3D"mailto:=
+amel@sapience.com">amel@sapience.com</a>/<br></div><div><br></div><div>Fixe=
+d by patch set as noted above, but not yet in mainline or linux-<br></div><=
+div>next.<br></div><div><br></div><div>Thank you again Ville for quickly co=
+ming up with a fix.<br></div><div><br></div></blockquote><div><br></div><di=
+v>Follow up to check on where things stand with getting the fix into mainli=
+ne?&nbsp;</div><div><br></div><div>Obviously it would be really good to get=
+ this fixed before 6.13 gets released.</div><div><br></div><div>Thanks and =
+happy 2025!</div><div><br></div><div><br></div><div><span><pre>-- <br></pre=
+><div><span style=3D"background-color: inherit;">Gene</span></div><div><br>=
+</div></span></div></body></html>
+
+--=-u28UiC0DxIsmDLkOwaKE--
+
+--=-UrIByhuKGYEPCXDfloez
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ3kWJQAKCRA5BdB0L6Ze
+27bCAQCxdJydOQANoGnlvKGF5h4dInjbzEPlmKhIu2ndAalMmAD/Tcrh/774UiS0
+96MtBgVoCjykgCMlIdfhwnDDB4SdUAE=
+=aWW8
+-----END PGP SIGNATURE-----
+
+--=-UrIByhuKGYEPCXDfloez--
