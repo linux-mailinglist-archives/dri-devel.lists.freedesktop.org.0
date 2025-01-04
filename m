@@ -2,45 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F58A01456
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 13:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766E1A0146B
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 13:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2926510E149;
-	Sat,  4 Jan 2025 12:42:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A66C10E159;
+	Sat,  4 Jan 2025 12:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dAwITT5j";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S9vOzstx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB2510E149
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 12:42:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB82F10E159
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 12:55:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DF1DFA4032F;
- Sat,  4 Jan 2025 12:40:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B0FC4CED1;
- Sat,  4 Jan 2025 12:42:29 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 630F25C1070;
+ Sat,  4 Jan 2025 12:55:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB745C4CED1;
+ Sat,  4 Jan 2025 12:55:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1735994552;
- bh=i3MCDANbM1srZh8kgYeU036iM9ApZitZLDa4c9jlvhI=;
+ s=k20201202; t=1735995342;
+ bh=Tu3NYANR6Oo7OR/1mO5e3lqnkaZz9yyNdWjaERTRz3o=;
  h=From:To:Subject:Date:From;
- b=dAwITT5jmQfKT+RNq/xcYyBsrL2wFV6NRm8WWvNl16/oLZgf5At/OaJP/0OwuW54/
- FT3lTKPwdhXAvux7jpe7TtD2P5zX6zjpx24CDkA6mI/x3vE9jFFLkQlKyf3ELfz5XZ
- 1wDF4x/R9siHR2lvCGL1oG3cM/aNfuoNqApNsa/S42GEZeCw+rbXbymeYJuTXBUyl8
- 5UmyxwHOYjN4ytdq+XIzHzPcAYDiJl58YLNSxOXqQaw7gfjQEXp+iimAwn7DMGBcX6
- 9kZJ8y+N/SmDZ9oQ35Scafgcpc7vDV/85qpvsXQGu0Ikn23psSR8wc0+U3zKcRxtSz
- 6vMjAWs2Whlzg==
+ b=S9vOzstx01Y11Vf85It2BXKVSsLawr3v3FXT1AS6g+EBKdf39CxF4spU1WjNr1BvX
+ 61avFaZK1wyrp0nQtKad8NzxmGXrC8pwEmUTWEtcGFWykaAAmZmUDl/+55Lesu9jpi
+ +NTRJQqrgSxZk7LwcDxqjFrgK48G+iqX+jCmIMTbausqVQtPyhdM+k6OTyonb4vYtQ
+ dmcdTylDW19LzyRq3NLNuk79tE8LsxBueFrzewNtdOkpnGdaAFNATur16p8HrepEQo
+ rOpblB5kvtQX3N/ucvSduNwHw8z/AWa6FRIUkK6uYNckk6cLorm35J5DXNMNY7UJZ1
+ 9pxooJn8PpOYQ==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Guoqing Jiang <guoqing.jiang@canonical.com>,
- "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
- Daniel Golle <daniel@makrotopia.org>, Arnd Bergmann <arnd@arndb.de>,
- Liankun Yang <liankun.yang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [GIT PULL] mediatek drm fixes 20250104
-Date: Sat,  4 Jan 2025 12:42:27 +0000
-Message-Id: <20250104124227.45505-1-chunkuang.hu@kernel.org>
+ Liankun Yang <liankun.yang@mediatek.com>, Fei Shao <fshao@chromium.org>
+Subject: [GIT PULL] mediatek drm next for 6.14
+Date: Sat,  4 Jan 2025 12:55:38 +0000
+Message-Id: <20250104125538.111118-1-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,20 +59,8 @@ Hi, Dave & Daniel:
 
 This includes:
 
-1. Revert "drm/mediatek: dsi: Correct calculation formula of PHY Timing"
-2. Set private->all_drm_private[i]->drm to NULL if mtk_drm_bind returns err
-3. Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()
-4. Only touch DISP_REG_OVL_PITCH_MSB if AFBC is supported
-5. Add support for 180-degree rotation in the display driver
-6. Stop selecting foreign drivers
-7. Revert "drm/mediatek: Switch to for_each_child_of_node_scoped()"
-8. Fix YCbCr422 color format issue for DP
-9. Fix mode valid issue for dp
-10. dp: Reference common DAI properties
-11. dsi: Add registers to pdata to fix MT8186/MT8188
-12. Remove unneeded semicolon
-13. Add return value check when reading DPCD
-14. Initialize pointer in mtk_drm_of_ddp_path_build_one()
+1. dp: Add sdp path reset
+2. dp: Support flexible length of DP calibration data
 
 Regards,
 Chun-Kuang.
@@ -87,66 +71,25 @@ The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b37:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-fixes-20250104
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-next-6.14
 
-for you to fetch changes up to f563dd9ca6cb6ed52c5fb6e4285d1ef26cfa7e8a:
+for you to fetch changes up to ba5811562988652d88de7503b3bd12da063ae729:
 
-  drm/mediatek: Initialize pointer in mtk_drm_of_ddp_path_build_one() (2025-01-04 12:15:19 +0000)
-
-----------------------------------------------------------------
-Mediatek DRM Fixes - 20250104
-
-1. Revert "drm/mediatek: dsi: Correct calculation formula of PHY Timing"
-2. Set private->all_drm_private[i]->drm to NULL if mtk_drm_bind returns err
-3. Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()
-4. Only touch DISP_REG_OVL_PITCH_MSB if AFBC is supported
-5. Add support for 180-degree rotation in the display driver
-6. Stop selecting foreign drivers
-7. Revert "drm/mediatek: Switch to for_each_child_of_node_scoped()"
-8. Fix YCbCr422 color format issue for DP
-9. Fix mode valid issue for dp
-10. dp: Reference common DAI properties
-11. dsi: Add registers to pdata to fix MT8186/MT8188
-12. Remove unneeded semicolon
-13. Add return value check when reading DPCD
-14. Initialize pointer in mtk_drm_of_ddp_path_build_one()
+  drm/mediatek: dp: Support flexible length of DP calibration data (2025-01-02 13:40:27 +0000)
 
 ----------------------------------------------------------------
-AngeloGioacchino Del Regno (2):
-      drm/mediatek: mtk_dsi: Add registers to pdata to fix MT8186/MT8188
-      drm/mediatek: Initialize pointer in mtk_drm_of_ddp_path_build_one()
+Mediatek DRM Next for Linux 6.14
 
-Arnd Bergmann (1):
-      drm/mediatek: stop selecting foreign drivers
+1. dp: Add sdp path reset
+2. dp: Support flexible length of DP calibration data
 
-Chun-Kuang Hu (3):
-      Revert "drm/mediatek: dsi: Correct calculation formula of PHY Timing"
-      Revert "drm/mediatek: Switch to for_each_child_of_node_scoped()"
-      drm/mediatek: Remove unneeded semicolon
-
-Daniel Golle (1):
-      drm/mediatek: Only touch DISP_REG_OVL_PITCH_MSB if AFBC is supported
-
+----------------------------------------------------------------
 Fei Shao (1):
-      dt-bindings: display: mediatek: dp: Reference common DAI properties
+      drm/mediatek: dp: Support flexible length of DP calibration data
 
-Guoqing Jiang (1):
-      drm/mediatek: Set private->all_drm_private[i]->drm to NULL if mtk_drm_bind returns err
+Liankun Yang (1):
+      drm/mediatek: dp: Add sdp path reset
 
-Jason-JH.Lin (2):
-      drm/mediatek: Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()
-      drm/mediatek: Add support for 180-degree rotation in the display driver
-
-Liankun Yang (3):
-      drm/mediatek: Fix YCbCr422 color format issue for DP
-      drm/mediatek: Fix mode valid issue for dp
-      drm/mediatek: Add return value check when reading DPCD
-
- .../bindings/display/mediatek/mediatek,dp.yaml     | 19 +++++-
- drivers/gpu/drm/mediatek/Kconfig                   |  5 --
- drivers/gpu/drm/mediatek/mtk_crtc.c                | 25 ++++++--
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            | 69 ++++++++++++----------
- drivers/gpu/drm/mediatek/mtk_dp.c                  | 46 +++++++++------
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             | 13 ++--
- drivers/gpu/drm/mediatek/mtk_dsi.c                 | 49 +++++++++------
- 7 files changed, 142 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dp.c     | 33 ++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h |  1 +
+ 2 files changed, 29 insertions(+), 5 deletions(-)
