@@ -2,82 +2,226 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE912A01917
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 11:55:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07022A0191A
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 11:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39B3D10E15A;
-	Sun,  5 Jan 2025 10:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C16E010E4F9;
+	Sun,  5 Jan 2025 10:55:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M5XZBdhz";
+	dkim=pass (2048-bit key; secure) header.d=scioteq.com header.i=@scioteq.com header.b="v7Z9JoeR";
+	dkim=pass (2048-bit key; unprotected) header.d=mail-dkim-us-east-2.prod.hydra.sophos.com header.i=@mail-dkim-us-east-2.prod.hydra.sophos.com header.b="X4IPY5Xp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B218910E381;
- Sat,  4 Jan 2025 17:49:41 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id
- a640c23a62f3a-aafc9d75f8bso73415666b.2; 
- Sat, 04 Jan 2025 09:49:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736012920; x=1736617720; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:user-agent:mime-version:date:message-id:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=DDSJyQ6F94m2ttAwkSGm2/AFzKvt4sFEJ2cRvllZEqw=;
- b=M5XZBdhzM+MhBEgqnVUnPchPAmv5xH5NF82sZT5+guPoadw0It3S533q+h0ODM4kKy
- wpPbTqktjt6iahqs7NzFq5bADh5OFGXlISSMDN3cdoS9ob+dJn5AwAaKdMCprEJqs0ct
- xVOy0rXR/9GL9UnXsQB8Gg9nBg+e+wwDhJ6NjRDJgSnaIgPqo2pFmt1LCkWkC9HjJajN
- ypKL/CCT7nnI/859Ebt6kKZul4V1fnAm/GqbHp9pz25hvhlcCKYah32avSCD8MHO0I0S
- Jlz12zcdEjFmGfC4VvN5+wUyvLilGVJm0ZpSyY5aIaICygvHVgJFty4zAqY7RAn/mSaI
- ONRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736012920; x=1736617720;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:subject:user-agent:mime-version:date:message-id:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DDSJyQ6F94m2ttAwkSGm2/AFzKvt4sFEJ2cRvllZEqw=;
- b=ivB+QY6HhFlKjItN2xGWlOwLt7ZNcBAQpJXSEzrMyyUwYo9yUlCzBSzKh2VpbBgAHV
- 2MmUgfEUmjVatwkn5lBLrjTtFygm837YkVUqOVVPK2Py51y/4KZJ6QgAA3j9LGD9cbbT
- TQGWsn58fQqI73ig1ImzAd44x6cWo1Z+zJxxmUTbfIAwmB4gjqgpw5U7wpkq13ogHXVU
- PVofvrga0PEiF++VQK8L9K0D6Ymc4JBEm4hydFu86KjQQoLadTISYceUOuP9xGJl+UNm
- pqn46S7iTglSkvB13yrgXMejeVnTyKom0D4TjNNXmx311vJDWukQztiM1o0dnC4qujFp
- Nlpg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQM9poSW/St/3tMoE1Gc5Ec4gfDVlsoMLPBX2TwsugditKX2rt1Wyk57xH6OLbfFXoVXvFlGxqmg==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+/PkE/88w+Qy0AeZ+8b7Mc1t38Ix0nL9xKItAxzjVrfH69cv8
- lb0aW2vMM9fNHD6aMVw5Dw7HA/bg467noJkHPJJsibfugIgeBXaLCEhS7CV9Gu8=
-X-Gm-Gg: ASbGnct8jQ9r9dY9mvXS/zuSRSwueLGyqi2zvucrzWtXAbqBu1SXWIQd+5o9l0OyycH
- jUjoeg82pSjzYGR9rCn3dxnMnJeT7ev/tGuv9fZI7ZoXrQk9OsQt9dOYA+iLVAmSJedBhBh+MF2
- PDiDGf7cU1e7tws8bsASjQF3EBskX9UEoY5KaEMh5u0U4DPIdTcd2l28dUllhbSP6xDLNXl+q1K
- zoRvWKCd5S+XfAuecNt1cDmznjRZySdg2qmKYYx0Ngir+cKsFv5fCB9EoiieRM7+sBRlLc=
-X-Google-Smtp-Source: AGHT+IGaJoY/1fD09aZAag7bMuFPGbWyB/PQrJdO5193y0TrZSLsLCJWbRDxRbkxPOvztGjnB9sQyA==
-X-Received: by 2002:adf:9591:0:b0:38a:624b:e619 with SMTP id
- ffacd0b85a97d-38a624be73fmr8331311f8f.43.1736012591136; 
- Sat, 04 Jan 2025 09:43:11 -0800 (PST)
-Received: from [192.168.1.177] ([45.143.100.199])
- by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-43656b119ccsm550816245e9.24.2025.01.04.09.43.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Jan 2025 09:43:10 -0800 (PST)
-From: Andrea Amorosi <andrea.amorosi76@gmail.com>
-X-Google-Original-From: Andrea Amorosi <Andrea.Amorosi76@gmail.com>
-Message-ID: <73129e45-cf51-4e8d-95e8-49bc39ebc246@gmail.com>
-Date: Sat, 4 Jan 2025 18:43:09 +0100
+Received: from rd-use2.prod.hydra.sophos.com (rd-use2.prod.hydra.sophos.com
+ [18.216.23.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D117110E04E
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 17:45:14 +0000 (UTC)
+Received: from ip-172-21-0-105.us-east-2.compute.internal
+ (ip-172-21-0-105.us-east-2.compute.internal [127.0.0.1])
+ by rd-use2.prod.hydra.sophos.com (Postfix) with ESMTP id 4YQSWs4q1dzvPs0
+ for <dri-devel@lists.freedesktop.org>; Sat,  4 Jan 2025 17:45:13 +0000 (UTC)
+X-Sophos-Product-Type: Gateway
+X-Sophos-Email-ID: 91279709e73447f282ee0f9c94ae2d9a
+Received: from PAUP264CU001.outbound.protection.outlook.com
+ (mail-francecentralazlp17011027.outbound.protection.outlook.com
+ [40.93.76.27])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by relay-us-east-2.prod.hydra.sophos.com (Postfix) with ESMTPS id
+ 4YQSWr2FW9zjWwM; Sat,  4 Jan 2025 17:45:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gfHkCM+GiW2MjhyJScaMLaBLXZP59nnP5i+PIp2gn3f9GqaBaJR9p9q4fZ+qfWTNq9YYk7hVfKSQI/7o/AsWsHPdloVVRNADOxIab6wnUnVRbUoR+wEPsbisDmqCZfKRDCo8LIAngxeEwNRgSQUQVOCDUqTjuQEO9fv86QwygPd6GnjdOelinM4dqnB9yj4RY1vdQ4sCIx7djYjStkBv8b0IcwHY3Xg+AunxBrtjgrTrdeU85EGpMUwSp8I5bowKORjS1dmWi+Ywtv+YukpA9RX1t/nf1Fa9G1ZwapVl/Q5h55lFSTuAn0u4WJol7cBnbF83lBOKN6GYJXYuqES6tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ysO9alifdlT+vLVvmP0cN70Jlvo0DP99ZGWz/Uxf8vc=;
+ b=jclz4Svgkf3geEIELOSV+3XrsPGf8TbHlGKp+gkeBSFv5j//usMxqaogjxgpLKy0gYvr9i/P+7ZuTAsZMn1H6auuzzzOktkSuciheYusSwbQK/a4JPXh5snHbzH72Oy0YslGDRVarRPg5zT9to+mYBYL1m/9LhQIK1MOmpOWuaQrnTpi5YgvwWM402PTEgTTz025mj71trycBIqzgiDvRj+NSF2g+tPqizx84Xnzr6rh5zC/Oegkzta82/vq+5IayTKpqwONLVkP27mQtBLey8I1iFsQmBVcQQRTVPB4TakvTlzmTEfyWsC4QxGj+4L1ALwHnDFESGZuOtU11A2+iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=scioteq.com; dmarc=pass action=none header.from=scioteq.com;
+ dkim=pass header.d=scioteq.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736012707; 
+ s=sophose3b6b7cefe1d4c498861675e62b33ff6; d=scioteq.com;
+ h=Content-Type:Date:Subject:CC:To:From;
+ bh=ysO9alifdlT+vLVvmP0cN70Jlvo0DP99ZGWz/Uxf8vc=;
+ b=v7Z9JoeRW85Uk/9HWZV+mGOx1deLyIh44m7D4hnhl0x19btfw0OuAkQ2qgkHf/R8
+ 2mkST1f8hrfbr4/Osksu5NhsCs1iEMS8L4XrRigASx0Vb2cK9Y6H87Eel5ECYzoRz9E
+ p4NcdS3iRysJmIM1w2zibESUFj99CWUcTE72WI7mNQFW9bDTNkE+bhYpnjKVj7ktuVA
+ dzTPJNt/twhHHMF7+EFJoqeMKCXRFrSxfnocdWHLsc5eV2U91B9/xZ4lnLR5C1X8f5m
+ gASVM2BMOvV8m/einnWxtf4v41KAQBLeQr0f8rdMntUNHerSc9xQlpP7tzr43wcl9BQ
+ VGtw2oQaoA==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736012707; 
+ s=v1; d=mail-dkim-us-east-2.prod.hydra.sophos.com;
+ h=Content-Type:Date:Subject:CC:To:From;
+ bh=ysO9alifdlT+vLVvmP0cN70Jlvo0DP99ZGWz/Uxf8vc=;
+ b=X4IPY5XpXVwjog015a1ldYDamlrPWNV4vdIz7eQMFUVUXFYCDBiyoT8sTcT2LYjl
+ +eMwIzaoHuKkz+0E3Ts3liGW1nJ4Gnn0sVkf/tALH9WAqn1bIBW4YSALE045QamBpvf
+ WyS6a6bqLfAVcOfCiCsbBRia1ijIHHl1jFlE912Sb5Qm4Bax9281mcyMZ9nh6LZpiwj
+ bpALh9kbuySd7AMUHMdGhOvGCiUFuPNUBZUi+PTdJjdEGFqVvNzE/zefcBxDLwHG+DK
+ 0fxtNqmm3qxZxOLUQ2UC8VSR9+Ss3IM0v1ss4hLeI2leGBWi1jD64t6ROLCtHNb3KBg
+ mi17XkEoUQ==
+Received: from PASP264MB5297.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:43b::20)
+ by PATP264MB5509.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:3fc::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.16; Sat, 4 Jan
+ 2025 17:45:08 +0000
+Received: from PASP264MB5297.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::3de1:b804:8780:f3cd]) by PASP264MB5297.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::3de1:b804:8780:f3cd%5]) with mapi id 15.20.8314.015; Sat, 4 Jan 2025
+ 17:45:08 +0000
+From: Jesse Van Gavere <jesse.vangavere@scioteq.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: ADV7511/13 implementing atomic ops and bus formats
+Thread-Topic: ADV7511/13 implementing atomic ops and bus formats
+Thread-Index: AdtZbi8EHgRPTTpYSqu6qWF3rjBzcwBWKoWAAIs1GzAANvdigABAD4rQ
+Date: Sat, 4 Jan 2025 17:45:07 +0000
+Message-ID: <PASP264MB529722778C69339AF994DEC0FC162@PASP264MB5297.FRAP264.PROD.OUTLOOK.COM>
+References: <PASP264MB52976B917B5F002234D72DDEFC0F2@PASP264MB5297.FRAP264.PROD.OUTLOOK.COM>
+ <rh4xzo2cxciakrmaiw6bm4hfx6qwf4zj7bqwdzzdovt7rp4wrl@ir34ydimkp25>
+ <PASP264MB5297BCB83AB9AC42FFB8F4F5FC142@PASP264MB5297.FRAP264.PROD.OUTLOOK.COM>
+ <u3mciz2pjwgw5nrrkittkyqfcvrwa2hog5aueo23irvmgaty2p@vcggz5nodvwg>
+In-Reply-To: <u3mciz2pjwgw5nrrkittkyqfcvrwa2hog5aueo23irvmgaty2p@vcggz5nodvwg>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=scioteq.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PASP264MB5297:EE_|PATP264MB5509:EE_
+x-ms-office365-filtering-correlation-id: 9a79f1b5-16ec-41bc-0f31-08dd2ce7873c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?47y1H1Vc8I41a/e+EtIFGIZOwHRZuQN2mapzd9YNRfVGna18+kRyFkxMFwrw?=
+ =?us-ascii?Q?Rw+8qAcIejr6nmFSeFhVGmAWokYDVIuDvhL6nwR42i/QoZJhAgs4cfgLq9id?=
+ =?us-ascii?Q?vwfi/SjeHBVnTIIb9xrP55izN8cH13dWm+OncaPSz7b9H9+wwDY3CTSPL9n1?=
+ =?us-ascii?Q?rPcJSqu6qdn8/fT23bgis0/260Dm6BLsFAFWfCi4pFSxuNs99DEOtapg7MRQ?=
+ =?us-ascii?Q?piuAYWQBf9O5qjxdHDzY/x69Tz1CXw4//zgna0kaFnkwWhnd15G5HCXmp+6v?=
+ =?us-ascii?Q?zkIuFgvlHbqX7civRMev99kBBBJJBMEm9EB4iKxrC0AVrZXFkUMlD1QZLvAS?=
+ =?us-ascii?Q?9A9JTF6BSE3w2zkyEhhvwRgAyyX1loicuWzh31tUOnatyJ5OpaqYZBYatTOj?=
+ =?us-ascii?Q?i8l9pOogPv0anMFWohcpt2MMq5vBq5l+g7BWR65reMRpC4HbFOO0uG8vJyhU?=
+ =?us-ascii?Q?a6MN557ijtbmN6i5F+PT1mc5ze7YhU/cu+nAeHnL4h7bhE4z7cGRcCPfGWX7?=
+ =?us-ascii?Q?dfB+85Czj3Qdm0aZz2B0wF1wm7Rm2Zx5YhA88IfqbKCD6PPiOX2Q6crvEXXq?=
+ =?us-ascii?Q?3fD4+bTnakxbRG1iRXkWt9yfKmqSA4u1hu7TbttEx1DT26isI3al8mvVOjHK?=
+ =?us-ascii?Q?AsHPHsHLnXrmAAkMnsS0m37TZN1Pmu1eqwq4fFUlaAI1eeFJk4In9U3iV2Iw?=
+ =?us-ascii?Q?LeDxk0/OpqzZsCgvSSpF9rVB6/FSw5nQD1yN56XwU0XVriBQ7h8H8usNSlrf?=
+ =?us-ascii?Q?/E+QAnh3LwO0wOss81XMEJua82vQoxWMnMxD5DdWVLOdYzVUFTb514I44QZG?=
+ =?us-ascii?Q?88TTWrZGvEyHkic78/j1N6P0qs+zqDdqPmm/2H3cuNKSpjcgi0uPhpBBDBy3?=
+ =?us-ascii?Q?FZKfdDtpXp9K9+qn+lkVSdMTcOYXWInZccOUrETnMh90ZefiTpi+PDKXoAzr?=
+ =?us-ascii?Q?T2l46ZGgr7eTGSUAAyQ5zqkWo8PsDDaBOeZfXaowi+HtLK50g5Nbs0C7oFQX?=
+ =?us-ascii?Q?QcxYw334UrfKN/vtw4c55D3PzI6rPVFBu3Yfk7hS8IHNvjL913T/Iz3gkXH4?=
+ =?us-ascii?Q?h0iyyibZ8WJVJa9yFY5XKzXv+chfQzPE3jX4fN104NvQSIc06pPaT3ReICG3?=
+ =?us-ascii?Q?zXSNzRIU1swb24lPe4YSqTQ8x7DfCpYHP2nkOQT5b6fjmzgU7J9W7p2aggOT?=
+ =?us-ascii?Q?E549haRuFr8ciA6qefo7Ir2k6jK5UGoUzr/eXaV86INBPiH4wZ6nlfZeSgAE?=
+ =?us-ascii?Q?s/zgLqMm3NUcGENdSofyZG95PK1YvgbhegpXhJGBE8/1HyBe1WywFBbYevGa?=
+ =?us-ascii?Q?mLVhlwengZAd1E+RfFsbbG2M99Ayk0ChPvfzaZj3DnijOFmxc4IPfReh2vcx?=
+ =?us-ascii?Q?UnxoZzLHLYuvQljexYk/GrHgUoECxCBrMsSAayS/C5lu3OoZ2c9eS9kmw6LE?=
+ =?us-ascii?Q?Keb3R6no0n2vNeaisBYXY3UT8YiBkzdT?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:; 
+ IPV:NLI; SFV:NSPM;
+ H:PASP264MB5297.FRAP264.PROD.OUTLOOK.COM; PTR:; CAT:NONE; 
+ SFS:(13230040)(376014)(366016)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?IYC9b54fTmuxtCguspL5MbXqk1HicBgDlQFp6/gk4IimsFs4hSxZprk5lXrA?=
+ =?us-ascii?Q?q10h4ZcEXMvXAfDwE8+ZQ8WYc/SBOpYCjYyu5FhMQ/sH6gOFPr2x6l6GPuAe?=
+ =?us-ascii?Q?kuqDxQoQQso7gSYYHpvMaJYL9xkChOXyQkfNxdFVhVX4NO3Pr0kmCyRtQ259?=
+ =?us-ascii?Q?hHgla1JTWoU/CjowFnm808srrqfAFccE/8odBQ9PQLstZLlp/8bhKx/XvR1C?=
+ =?us-ascii?Q?UAvi3Ir4J2vPxFyZGNJW5GV0ow2u5VMtVBpnc0/cSyp0XLagQUhY9kQRJmPe?=
+ =?us-ascii?Q?F1TM62wtH6TC0y3gv5B/e+9t/aW+n5bZPvhLQughaDUyOGKeMdjuFWgjN/IU?=
+ =?us-ascii?Q?bMIeqzQDXoXpDTdoyRSGimmO1dHPhfQ254NTBD2aPhwmbKV/Tpe50hmuItOg?=
+ =?us-ascii?Q?l2z6PXsz3XH8DBbJOpK7YTtHuphFpZN5sEUdbFOTRRPv7hb0nuLLgJYIA0uA?=
+ =?us-ascii?Q?mgtjNJjABST4iiUM2tPo/S0KvJLoMK5/zhdfDt4x+mzS8lZS7GUCeZK4HQyV?=
+ =?us-ascii?Q?I5lmVhLwCYgCFw1UwS7OtZ0GLlgDuItN8iAPXVXX6YathuDBcjtoM+zwBIiC?=
+ =?us-ascii?Q?ih2VFilX6DYPP+IZmNmnIHjw64LhazaLJ/L+LJ18bhHq9iVcv5nfPJyHQ4xO?=
+ =?us-ascii?Q?I7yDp+WHU8EZWLrCKWXoN0qGtOmp/zN8AqsKZaAITFfJoO1Du95qzs1tgZAj?=
+ =?us-ascii?Q?Cj2c2JVvk7u+NkGmCf3P2Fgo27XBWwhui0/xX2dGT/6imQkfqtq0yNJpNy7K?=
+ =?us-ascii?Q?A1w1wB/6McyHDkCgC7B+6ha/QPVCG9LyRhLpOCJFCdHzAloeOmWCtrE+PiOF?=
+ =?us-ascii?Q?Do0PMPId/rtikH2DFHecj9iM5/vWorId4pitUadKgvbd3qTinDw0rYDGVKYv?=
+ =?us-ascii?Q?qBlNX0xrkIJvUOK9xfuyB+Jy13Fso0V3nrtlot1MooA5CNfqbCNR1CLLprAh?=
+ =?us-ascii?Q?0rA0K75PxPG/U7SPPIE1D0/vnnVD4dFd6r2KMp+N/JdpfhtfIxga1aWOFCUc?=
+ =?us-ascii?Q?k7R0PAGWuGVzP3XFiL62f7OzYh46v20gTw2EStNHy8eRKgQMFqS7gtMWDITM?=
+ =?us-ascii?Q?0bEOkxNrcZzZ/qaSNI+GikPv7iPNR14OhcDXIx1ILkTLc0NJrpegxI5ZGWRB?=
+ =?us-ascii?Q?b4uVaoh1FzmDICHes3jj1FAWKbbNyzKPTwZYkoXhXb6KStj4qwNbNxIsWyfA?=
+ =?us-ascii?Q?ndTtJlcFKzj+ztjut11Du9qaqqhUP1KsxjdRVFnzoBPA3Pl/ZfcOIYJaGe3y?=
+ =?us-ascii?Q?8aTZrTmzWsE4Xop1xFExjpAr3ZXGyubzTPpyRSDubeYJlob+UdA+fUtEzt/V?=
+ =?us-ascii?Q?UMGarsUhOrY8Kr9ReLAWf7JinVthcfNOMZYSI0PN3TdG4E7Xns0ABwcvbaUg?=
+ =?us-ascii?Q?6ra3FpKqeF4ibrpUwgHnlIBzU7yng9TmCWMjLUZlrxe13NldLinHwPnnhGds?=
+ =?us-ascii?Q?ODCuGEjLgr2SGk30Skquegk4J94K0if6qs0CqpHU/Nm0YjNZ6t629eDXOeFJ?=
+ =?us-ascii?Q?y/qWebGlMfhq94OHHZKSRLF9yyslfUHSesm23rX864IXdfHBLTctvfl3pFZv?=
+ =?us-ascii?Q?EzONSmLDs9JIdkjKprETgY8D7gJ+EbTp8KwNwOD98vs3bN8IL5Yc1tkD7+Bc?=
+ =?us-ascii?Q?iQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [REGRESSION][BISECTED] Re: 6.12.7 stable new error: event xe_bo_move
- has unsafe dereference of argument 4
-To: lists@sapience.com
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lucas.demarchi@intel.com,
- regressions@lists.linux.dev, rostedt@goodmis.org, stable@vger.kernel.org,
- thomas.hellstrom@linux.intel.com
-References: <9dee19b6185d325d0e6fa5f7cbba81d007d99166.camel@sapience.com>
-Content-Language: it-IT
-In-Reply-To: <9dee19b6185d325d0e6fa5f7cbba81d007d99166.camel@sapience.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: IwaF6KLMhBzqNiv6oWvul8sQH4k2ThSnt8xDLtZam11+6/EqhENWMC2vONiqW3joCgpbB8UwO8ALWCF2qfDTgUn95pu5dowcf1lyHEJNJoc/p3I0YCQEKXqzGJ6dMJ/E8fLhdSaVMnUgFGdN3xX1Lyp52MQaEB5usxStwxt4F6r8AGfEj9RYflFoDXaYiQTqETen46oTRolAGyHZZKfpuqTIJLNlEVo6n6muHDW8JCe8C+m5RoSE5kkst9KYZug5bKlibI5XGgMlZInnH+onc2BQw2yPWJ8J79A2Mryc0xX2NOBI2dxfQx5F8gN1/yv+Ms0LbcdBDj670oxAo5WczcylHKqKGCvDeMAKJ/qtzYP5tSccduOmSs3ij0CAKA+Zb7ya1mr5Ur6HDvbWin3A7/82AF2gScn8/aWz9Qij121PoLGHxoRGSA93Yu68BGW1B05j1+6hjyWGUqMmypqG3CXSA+zvvTFmNVqcrNlhcaKSW5mrZOjIC8Od7bQr+2DRvQSP4tLzksQhQU0VZ/0MhoQirjhOD/GPEiKuirRTmoq8Chh6pErYDWvcwbTkrX6RB6suD35a8lrS4wO74pl6fzMZbW5wCNrLOXQ7EHdy3TkjV2Hkkc63xyiBjV4L0LDBAvOH0NiDxLPcKZKWv5I1OpyBGtZ1eOVt32qvp5A09so=
+X-OriginatorOrg: scioteq.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PASP264MB5297.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a79f1b5-16ec-41bc-0f31-08dd2ce7873c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2025 17:45:07.4284 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f3e5b271-16f7-46b9-bdb3-4271ac933ef0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9yC0ozco+2NjvoKazSen7SpssYfX5lWVZp3hJrCDh8NV9Q4Yltk3pmkBffgzZg0k01CoU9R++i2VkIrmlayBANGdefgCXLIkfShpD6pVXHk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PATP264MB5509
+X_Sophos_TLS_Connection: OPP_TLS_1_3
+X_Sophos_TLS_Delivery: true
+X-Sophos-Email: [us-east-2] Antispam-Engine: 6.0.0,
+ AntispamData: 2025.1.4.171246
+X-LASED-From-ReplyTo-Diff: From:<scioteq.com>:0
+X-LASED-SpamProbability: 0.085099
+X-LASED-Hits: ARCAUTH_PASSED 0.000000, BODYTEXTP_SIZE_3000_LESS 0.000000,
+ BODY_SIZE_1000_LESS 0.000000, BODY_SIZE_2000_LESS 0.000000,
+ BODY_SIZE_5000_LESS 0.000000, BODY_SIZE_7000_LESS 0.000000,
+ BODY_SIZE_900_999 0.000000, CTE_QUOTED_PRINTABLE 0.000000,
+ DKIM_ALIGNS 0.000000, DKIM_SIGNATURE 0.000000, FROM_NAME_PHRASE 0.000000,
+ HTML_00_01 0.050000, HTML_00_10 0.050000, IMP_FROM_NOTSELF 0.000000,
+ IN_REP_TO 0.000000, LEGITIMATE_SIGNS 0.000000, MSG_THREAD 0.000000,
+ MULTIPLE_RCPTS 0.100000, MULTIPLE_REAL_RCPTS 0.000000, NO_CTA_FOUND 0.000000, 
+ NO_CTA_URI_FOUND 0.000000, NO_FUR_HEADER 0.000000, NO_URI_FOUND 0.000000,
+ NO_URI_HTTPS 0.000000, OUTBOUND 0.000000, OUTBOUND_SOPHOS 0.000000,
+ REFERENCES 0.000000, SUPERLONG_LINE 0.050000, SUSP_DH_NEG 0.000000,
+ __ARCAUTH_DKIM_PASSED 0.000000, __ARCAUTH_DMARC_PASSED 0.000000,
+ __ARCAUTH_PASSED 0.000000, __ARC_SEAL_MICROSOFT 0.000000,
+ __ARC_SIGNATURE_MICROSOFT 0.000000, __BODY_NO_MAILTO 0.000000,
+ __BOUNCE_CHALLENGE_SUBJ 0.000000, __BOUNCE_NDR_SUBJ_EXEMPT 0.000000,
+ __BULK_NEGATE 0.000000, __CC_NAME 0.000000, __CC_NAME_DIFF_FROM_ACC 0.000000, 
+ __CC_REAL_NAMES 0.000000, __CT 0.000000, __CTE 0.000000,
+ __CTYPE_CHARSET_QUOTED 0.000000, __CT_TEXT_PLAIN 0.000000,
+ __DKIM_ALIGNS_1 0.000000, __DKIM_ALIGNS_2 0.000000, __DQ_NEG_DOMAIN 0.000000, 
+ __DQ_NEG_HEUR 0.000000, __DQ_NEG_IP 0.000000,
+ __FROM_DOMAIN_NOT_IN_BODY 0.000000, __FROM_NAME_NOT_IN_BODY 0.000000,
+ __FUR_RDNS_SOPHOS 0.000000, __HAS_CC_HDR 0.000000, __HAS_FROM 0.000000,
+ __HAS_MSGID 0.000000, __HAS_REFERENCES 0.000000, __HAS_X_FF_ASR 0.000000,
+ __HAS_X_FF_ASR_CAT 0.000000, __HAS_X_FF_ASR_SFV 0.000000,
+ __IMP_FROM_MY_ORG 0.000000, __IMP_FROM_NOTSELF_MULTI 0.000000,
+ __INVOICE_MULTILINGUAL 0.000000, __IN_REP_TO 0.000000,
+ __JSON_HAS_SCHEMA_VERSION 0.000000, __JSON_HAS_TENANT_DOMAINS 0.000000,
+ __JSON_HAS_TENANT_ID 0.000000, __JSON_HAS_TENANT_SCHEMA_VERSION 0.000000,
+ __JSON_HAS_TENANT_VIPS 0.000000, __JSON_HAS_TRACKING_ID 0.000000,
+ __MIME_BOUND_CHARSET 0.000000, __MIME_TEXT_ONLY 0.000000,
+ __MIME_TEXT_P 0.000000, __MIME_TEXT_P1 0.000000, __MIME_VERSION 0.000000,
+ __MSGID_32_64_CAPS 0.000000, __MULTIPLE_RCPTS_CC_X2 0.000000,
+ __NO_HTML_TAG_RAW 0.000000, __OUTBOUND_SOPHOS 0.000000,
+ __OUTBOUND_SOPHOS_FUR 0.000000, __OUTBOUND_SOPHOS_FUR_IP 0.000000,
+ __OUTBOUND_SOPHOS_FUR_RDNS 0.000000, __REFERENCES 0.000000,
+ __SANE_MSGID 0.000000, __SCAN_D_NEG 0.000000, __SCAN_D_NEG2 0.000000,
+ __SCAN_D_NEG_HEUR 0.000000, __SCAN_D_NEG_HEUR2 0.000000,
+ __SUBJ_ALPHA_END 0.000000, __SUBJ_ALPHA_NEGATE 0.000000, __SUBJ_REPLY 0.000000,
+ __TO_MALFORMED_2 0.000000, __TO_NAME 0.000000,
+ __TO_NAME_DIFF_FROM_ACC 0.000000, __TO_REAL_NAMES 0.000000,
+ __URI_NO_MAILTO 0.000000, __X_FF_ASR_SCL_NSP 0.000000,
+ __X_FF_ASR_SFV_NSPM 0.000000
+X-Sophos-Email-Transport-Route: opps_tls_13:
+X-LASED-Impersonation: False
+X-LASED-Spam: NonSpam
+X-Sophos-MH-Mail-Info-Key: NFlRU1dzNHExZHp2UHMwLTE3Mi4yMS4wLjEwNQ==
 X-Mailman-Approved-At: Sun, 05 Jan 2025 10:55:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,183 +238,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi to all,
+Hello Dmitry,
 
-I've just updated my archlinux to |6.12.8-arch1-1 and I still get the 
-same issue:|
+> How is it so? I don't see any specific requirements on the TIDSS side.
 
-|gen 04 18:01:34 D9330 kernel: ------------[ cut here ]------------
-gen 04 18:01:34 D9330 kernel: WARNING: CPU: 2 PID: 209 at 
-kernel/trace/trace_events.c:577 trace_event_raw_init+0x159/0x660
-gen 04 18:01:34 D9330 kernel: Modules linked in: xe(+) drm_ttm_helper 
-gpu_sched drm_suballoc_helper drm_gpuvm drm_exec uas usb_storage i915 
-i2c_algo_bit drm_buddy ttm serio_raw atkbd intel>
-gen 04 18:01:34 D9330 kernel: CPU: 2 UID: 0 PID: 209 Comm: (udev-worker) 
-Not tainted 6.12.8-arch1-1 #1 099de49ddaebb26408f097c48b36e50b2c8e21c9
-gen 04 18:01:34 D9330 kernel: Hardware name: Dell Inc. Latitude 
-9330/0RN079, BIOS 1.25.0 11/12/2024
-gen 04 18:01:34 D9330 kernel: RIP: 0010:trace_event_raw_init+0x159/0x660
-gen 04 18:01:34 D9330 kernel: Code: 89 ea 0f 83 3b 04 00 00 e8 44 db ff 
-ff 84 c0 74 10 8b 0c 24 48 c7 c0 fe ff ff ff 48 d3 c0 49 21 c6 4d 85 f6 
-0f 84 d6 fe ff ff <0f> 0b bb 01 00 00 00 41 >
-gen 04 18:01:34 D9330 kernel: RSP: 0018:ffffa9b940987730 EFLAGS: 00010206
-gen 04 18:01:34 D9330 kernel: RAX: ffffffffffffffdf RBX: 
-ffffffffc0ca4731 RCX: 0000000000000005
-gen 04 18:01:34 D9330 kernel: RDX: 0000000000000002 RSI: 
-0000000000000001 RDI: ffffffffc0ca4727
-gen 04 18:01:34 D9330 kernel: RBP: ffffffffc0ca4640 R08: 
-0000000000000039 R09: 0000000000000000
-gen 04 18:01:34 D9330 kernel: R10: 0000000000000076 R11: 
-000000000000004e R12: 00000000000000f2
-gen 04 18:01:34 D9330 kernel: R13: ffffffffc0ca5760 R14: 
-0000000000000018 R15: 0000000000000000
-gen 04 18:01:34 D9330 kernel: FS:  00007ba0e9fe9880(0000) 
-GS:ffff9d957f500000(0000) knlGS:0000000000000000
-gen 04 18:01:34 D9330 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 
-0000000080050033
-gen 04 18:01:34 D9330 kernel: CR2: 00007ba0e9dac000 CR3: 
-00000001019ac000 CR4: 0000000000f50ef0
-gen 04 18:01:34 D9330 kernel: PKRU: 55555554
-gen 04 18:01:34 D9330 kernel: Call Trace:
-gen 04 18:01:34 D9330 kernel:  <TASK>
-gen 04 18:01:34 D9330 kernel:  ? trace_event_raw_init+0x159/0x660
-gen 04 18:01:34 D9330 kernel:  ? __warn.cold+0x93/0xf6
-gen 04 18:01:34 D9330 kernel:  ? trace_event_raw_init+0x159/0x660
-gen 04 18:01:34 D9330 kernel:  ? report_bug+0xff/0x140
-gen 04 18:01:34 D9330 kernel:  ? handle_bug+0x58/0x90
-gen 04 18:01:34 D9330 kernel:  ? exc_invalid_op+0x17/0x70
-gen 04 18:01:34 D9330 kernel:  ? asm_exc_invalid_op+0x1a/0x20
-gen 04 18:01:34 D9330 kernel:  ? trace_event_raw_init+0x159/0x660
-gen 04 18:01:34 D9330 kernel:  event_init+0x28/0x70
-gen 04 18:01:34 D9330 kernel:  trace_module_notify+0x1a4/0x260
-gen 04 18:01:34 D9330 kernel:  notifier_call_chain+0x5a/0xd0
-gen 04 18:01:34 D9330 kernel: blocking_notifier_call_chain_robust+0x65/0xc0
-gen 04 18:01:34 D9330 kernel:  load_module+0x1822/0x1cf0
-gen 04 18:01:34 D9330 kernel:  ? vmap+0x83/0xe0
-gen 04 18:01:34 D9330 kernel:  ? __vunmap_range_noflush+0x325/0x470
-gen 04 18:01:34 D9330 kernel:  ? init_module_from_file+0x89/0xe0
-gen 04 18:01:34 D9330 kernel:  init_module_from_file+0x89/0xe0
-gen 04 18:01:34 D9330 kernel: idempotent_init_module+0x11e/0x310
-gen 04 18:01:34 D9330 kernel:  __x64_sys_finit_module+0x5e/0xb0
-gen 04 18:01:34 D9330 kernel:  do_syscall_64+0x82/0x190
-gen 04 18:01:34 D9330 kernel:  ? vfs_read+0x299/0x370
-gen 04 18:01:34 D9330 kernel:  ? syscall_exit_to_user_mode+0x37/0x1c0
-gen 04 18:01:34 D9330 kernel:  ? do_syscall_64+0x8e/0x190
-gen 04 18:01:34 D9330 kernel:  ? terminate_walk+0xee/0x100
-gen 04 18:01:34 D9330 kernel:  ? path_openat+0x495/0x12e0
-gen 04 18:01:34 D9330 kernel:  ? syscall_exit_to_user_mode+0x37/0x1c0
-gen 04 18:01:34 D9330 kernel:  ? do_syscall_64+0x8e/0x190
-gen 04 18:01:34 D9330 kernel:  ? do_filp_open+0xc4/0x170
-gen 04 18:01:34 D9330 kernel:  ? __pfx_page_put_link+0x10/0x10
-gen 04 18:01:34 D9330 kernel:  ? do_sys_openat2+0x9c/0xe0
-gen 04 18:01:34 D9330 kernel:  ? syscall_exit_to_user_mode+0x37/0x1c0
-gen 04 18:01:34 D9330 kernel:  ? do_syscall_64+0x8e/0x190
-gen 04 18:01:34 D9330 kernel:  ? do_syscall_64+0x8e/0x190
-gen 04 18:01:34 D9330 kernel: entry_SYSCALL_64_after_hwframe+0x76/0x7e
-gen 04 18:01:34 D9330 kernel: RIP: 0033:0x7ba0ea7e01fd
-gen 04 18:01:34 D9330 kernel: Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 
-90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 
-8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 >
-gen 04 18:01:34 D9330 kernel: RSP: 002b:00007ffe5dee8d58 EFLAGS: 
-00000246 ORIG_RAX: 0000000000000139
-gen 04 18:01:34 D9330 kernel: RAX: ffffffffffffffda RBX: 
-00005f717b3029c0 RCX: 00007ba0ea7e01fd
-gen 04 18:01:34 D9330 kernel: RDX: 0000000000000004 RSI: 
-00007ba0e9fe305d RDI: 0000000000000031
-gen 04 18:01:34 D9330 kernel: RBP: 00007ffe5dee8e10 R08: 
-0000000000000001 R09: 00007ffe5dee8da0
-gen 04 18:01:34 D9330 kernel: R10: 0000000000000040 R11: 
-0000000000000246 R12: 00007ba0e9fe305d
-gen 04 18:01:34 D9330 kernel: R13: 0000000000020000 R14: 
-00005f717b303600 R15: 00005f717b304360
-gen 04 18:01:34 D9330 kernel:  </TASK>
-gen 04 18:01:34 D9330 kernel: ---[ end trace 0000000000000000 ]---
-gen 04 18:01:34 D9330 kernel: event xe_bo_move has unsafe dereference of 
-argument 4
-gen 04 18:01:34 D9330 kernel: print_fmt: "move_lacks_source:%s, migrate 
-object %p [size %zu] from %s to %s device_id:%s", REC->move_lacks_source 
-? "yes" : "no", REC->bo, REC->size, xe_mem_>|
+Seems right, must've been a mistake on my end
 
-|
-|
+> I think that's a separate topic. Bridge drivers don't have to implement a=
+tomic_check. In fact, if you check the latest LT9611 driver, it has dropped=
+ the .atomic_check() completely, as the corresponding HDMI-state check func=
+tion is supposed to be called by the connector code (e.g.
+> drm_bridge_connector_atomic_check() calls it).
 
-|Later I get this other one which I do not know if it is related to the 
-previous one or not:|
+Yes I saw that commit now, I'll skip that function.
 
-|gen 04 18:01:45 D9330 kernel: ------------[ cut here ]------------
-gen 04 18:01:45 D9330 kernel: WARNING: CPU: 7 PID: 139 at 
-drivers/usb/typec/ucsi/ucsi.c:1361 ucsi_reset_ppm+0x1b4/0x1c0 [typec_ucsi]
-gen 04 18:01:45 D9330 kernel: Modules linked in: fat kvm_intel 
-snd_soc_core mei_vsc snd_compress spi_pxa2xx_platform intel_ishtp_hid 
-iwlmvm dell_rbtn hid_multitouch dw_dmac ac97_bus moused>
-gen 04 18:01:45 D9330 kernel:  processor_thermal_rapl cfg80211 ucsi_acpi 
-soundcore mei_me intel_rapl_common intel_lpss_pci i2c_mux typec_ucsi 
-thunderbolt intel_lpss mei processor_thermal_w>
-gen 04 18:01:45 D9330 kernel:  video cec spi_intel nvme_auth i8042 wmi serio
-gen 04 18:01:45 D9330 kernel: CPU: 7 UID: 0 PID: 139 Comm: kworker/7:1 
-Tainted: G        W  OE      6.12.8-arch1-1 #1 
-099de49ddaebb26408f097c48b36e50b2c8e21c9
-gen 04 18:01:45 D9330 kernel: Tainted: [W]=WARN, [O]=OOT_MODULE, 
-[E]=UNSIGNED_MODULE
-gen 04 18:01:45 D9330 kernel: Hardware name: Dell Inc. Latitude 
-9330/0RN079, BIOS 1.25.0 11/12/2024
-gen 04 18:01:45 D9330 kernel: Workqueue: events_long ucsi_init_work 
-[typec_ucsi]
-gen 04 18:01:45 D9330 kernel: RIP: 0010:ucsi_reset_ppm+0x1b4/0x1c0 
-[typec_ucsi]
-gen 04 18:01:45 D9330 kernel: Code: 8b 44 24 04 a9 00 00 00 08 0f 85 36 
-ff ff ff 4c 89 74 24 10 48 8b 05 cb be 59 cf 49 39 c5 79 8f bb 92 ff ff 
-ff e9 1b ff ff ff <0f> 0b e9 50 ff ff ff e8 >
-gen 04 18:01:45 D9330 kernel: RSP: 0018:ffffa9b9407bfda8 EFLAGS: 00010206
-gen 04 18:01:45 D9330 kernel: RAX: 0000000008000000 RBX: 
-0000000000000000 RCX: 0000000000000002
-gen 04 18:01:45 D9330 kernel: RDX: 00000000fffeaba3 RSI: 
-ffffa9b9407bfdac RDI: ffff9d92089d7800
-gen 04 18:01:45 D9330 kernel: RBP: ffff9d92089d7800 R08: 
-0000000000000000 R09: 0000000000000014
-gen 04 18:01:45 D9330 kernel: R10: 0000000000000001 R11: 
-0000000000000000 R12: ffffa9b9407bfdac
-gen 04 18:01:45 D9330 kernel: R13: 00000000fffeaba0 R14: 
-ffff9d92089d7860 R15: ffff9d92089d78c0
-gen 04 18:01:45 D9330 kernel: FS:  0000000000000000(0000) 
-GS:ffff9d957f780000(0000) knlGS:0000000000000000
-gen 04 18:01:45 D9330 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 
-0000000080050033
-gen 04 18:01:45 D9330 kernel: CR2: 0000585143bba648 CR3: 
-000000023a822000 CR4: 0000000000f50ef0
-gen 04 18:01:45 D9330 kernel: PKRU: 55555554
-gen 04 18:01:45 D9330 kernel: Call Trace:
-gen 04 18:01:45 D9330 kernel:  <TASK>
-gen 04 18:01:45 D9330 kernel:  ? ucsi_reset_ppm+0x1b4/0x1c0 [typec_ucsi 
-97866a6a8562a088cda45de0ae83658868b451bb]
-gen 04 18:01:45 D9330 kernel:  ? __warn.cold+0x93/0xf6
-gen 04 18:01:45 D9330 kernel:  ? ucsi_reset_ppm+0x1b4/0x1c0 [typec_ucsi 
-97866a6a8562a088cda45de0ae83658868b451bb]
-gen 04 18:01:45 D9330 kernel:  ? report_bug+0xff/0x140
-gen 04 18:01:45 D9330 kernel:  ? handle_bug+0x58/0x90
-gen 04 18:01:45 D9330 kernel:  ? exc_invalid_op+0x17/0x70
-gen 04 18:01:45 D9330 kernel:  ? asm_exc_invalid_op+0x1a/0x20
-gen 04 18:01:45 D9330 kernel:  ? ucsi_reset_ppm+0x1b4/0x1c0 [typec_ucsi 
-97866a6a8562a088cda45de0ae83658868b451bb]
-gen 04 18:01:45 D9330 kernel:  ? ucsi_reset_ppm+0xc6/0x1c0 [typec_ucsi 
-97866a6a8562a088cda45de0ae83658868b451bb]
-gen 04 18:01:45 D9330 kernel:  ucsi_init_work+0x3c/0xac0 [typec_ucsi 
-97866a6a8562a088cda45de0ae83658868b451bb]
-gen 04 18:01:45 D9330 kernel:  process_one_work+0x17b/0x330
-gen 04 18:01:45 D9330 kernel:  worker_thread+0x2ce/0x3f0
-gen 04 18:01:45 D9330 kernel:  ? __pfx_worker_thread+0x10/0x10
-gen 04 18:01:45 D9330 kernel:  kthread+0xcf/0x100
-gen 04 18:01:45 D9330 kernel:  ? __pfx_kthread+0x10/0x10
-gen 04 18:01:45 D9330 kernel:  ret_from_fork+0x31/0x50
-gen 04 18:01:45 D9330 kernel:  ? __pfx_kthread+0x10/0x10
-gen 04 18:01:45 D9330 kernel:  ret_from_fork_asm+0x1a/0x30
-gen 04 18:01:45 D9330 kernel:  </TASK>
-gen 04 18:01:45 D9330 kernel: ---[ end trace 0000000000000000 ]---
-|
+> Regarding the conversion of the adv7511 driver to using HDMI callbacks.
+> This has been on my todo list, but I'd rather land HDMI Codec and generic=
+ CEC patches first.
 
-|
-|
+Thank you very much for all the information, very insightful.
+Knowing all that I should be able to tackle the atomic ops/bus formats now,=
+ and maybe the conversion could
+Be a nice exercise for myself, so hopefully my next mail is a patch rather =
+than more questions!
 
-|
-|
-
+Best regards,
+Jesse
