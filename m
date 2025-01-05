@@ -2,87 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2E1A016A0
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Jan 2025 21:09:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C94A017D6
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 03:39:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54ABE10E37B;
-	Sat,  4 Jan 2025 20:09:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="gdYAxMyI";
-	dkim=pass (2048-bit key; secure) header.d=sapience.com header.i=@sapience.com header.b="U+fTYE3L";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE7A10E0BC;
+	Sun,  5 Jan 2025 02:39:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B577910E37B;
- Sat,  4 Jan 2025 20:09:12 +0000 (UTC)
-Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
- signature) header.d=sapience.com header.i=@sapience.com 
- header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
- header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
-Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
- (No client certificate requested)
- by s1.sapience.com (Postfix) with ESMTPS id B34CC480A2B;
- Sat, 04 Jan 2025 15:09:11 -0500 (EST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1736021351;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=7ggGgX62pkjAuf332zjLZgniYwxyVyVEojisAlm65fw=;
- b=gdYAxMyINb+GmfEn5cT2I5ExCsgJPbPowCrwETvPjFrIwcbWf+WgNhbmC1blGi7cTLuq7
- FQg7snQsPpUj88uDQ==
-ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1736021351; 
- cv=none;
- b=vZieBKqdMwEAZr6S7rJXlgZy1WxTpN+Y5C8hqfKVkUSsLGSvPG2Y16ID984jdM6n5gOq3VJnkAurk3qFDdmbxG4pzgeLaX2FuL5Snph5TT3rS2BO3wa+wxm04D9WGR3UUMGraKVdJxak1p+COgEUJUlPJGX5M7EKl30jE/2jSsTFJzmVkeqcWXnwHM8ea965pYmUHSGqgM7VcChNDA0uzL3VNjfV8LWdjaAjXsX7+W5CmO+JpRMZl5AnJVWXZdTduhTKLxakzPDgSO4uWYIVvSK/mgEfmFjsmQok13oApqr3u6E7fEtqH/pMd6IWrFjyI1IuTW0GFQao6A5nkxfdUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
- t=1736021351; c=relaxed/simple;
- bh=TXXMK3ueHNVgj1Xw102IRPlmmg+47Vt2x/v9kCxDVjs=;
- h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
- In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
- MIME-Version;
- b=ctxCc4ZVMgtJr65pJ1vToXP/eGTDgw7XIZwsFUHS//PTs4mXLdEFUVgyyvtTMsIQzMJIaxb3sLx+OTXYb5cog7ooHQ2xF82x2yfAqHfbG/TeNmOkXwmgPiYnNbWX/vy+fIThY6WLZcqyHlnShNKY9X/V1jrhbe5/KRSxvuBuLhq2O/lZWwZUPZipBYPx5hqwDyCEe7cmDTQJ+Q3xQzTWVoUeNFySIDe3TG8VSrk08QgsSEir39k02dIkYH9NxxhpkYp8PgVZ0uixg2XRWmotb1LE17J0+bhawLfUwvsXok2tE97D3DsZ0KtnuX8ravYLf1Al9DCb7ln5pqaIOT8gBA==
-ARC-Authentication-Results: i=1; arc-srv8.sapience.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
- i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1736021351;
- h=message-id : subject : from : to : cc : date : in-reply-to :
- references : content-type : mime-version : from;
- bh=7ggGgX62pkjAuf332zjLZgniYwxyVyVEojisAlm65fw=;
- b=U+fTYE3LbZx+hEbXF3PjXCcX02uHutJLrPeFG+ic+F0WsdB7DOCFsmoGtcpndv4YgPwOt
- +XkOyhsvTqpOQWh9UaEeJ1FX5kd8PMVH9hJ/rNMs/DLSmIxMk9vFx6Bf57tsXvq63lHNtgY
- wk1D8+YfBHxCXmTQcrqYqqeBBHWBFdKwDBkGe/5iQAVNZXzB/tFvxnQjRkzj4Ki2QoWbV1v
- flYDNcUiQLGoOIthpyQH+HY0oR6f2rXMWTQTdcFVoRr0tml+dv5jyB46+BBdsiwiM8lt8rh
- egpUr6sKCsW/g1a0Wbwkgl90tMTf7xII+jzTmuQNQo10qO722aBQNW42ezNw==
-Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1)
- server-digest SHA384) (No client certificate requested)
- by srv8.sapience.com (Postfix) with ESMTPS id 76D94280011;
- Sat, 04 Jan 2025 15:09:11 -0500 (EST)
-Message-ID: <d5ef54d76188ec51d9e053fd097dc3f5bb6e6519.camel@sapience.com>
-Subject: Re: [REGRESSION][BISECTED] Re: 6.12.7 stable new error: event
- xe_bo_move has unsafe dereference of argument 4
-From: Genes Lists <lists@sapience.com>
-To: Andrea Amorosi <andrea.amorosi76@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, lucas.demarchi@intel.com, 
- regressions@lists.linux.dev, rostedt@goodmis.org, stable@vger.kernel.org, 
- thomas.hellstrom@linux.intel.com
-Date: Sat, 04 Jan 2025 15:09:10 -0500
-In-Reply-To: <73129e45-cf51-4e8d-95e8-49bc39ebc246@gmail.com>
-References: <9dee19b6185d325d0e6fa5f7cbba81d007d99166.camel@sapience.com>
- <73129e45-cf51-4e8d-95e8-49bc39ebc246@gmail.com>
-Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
- keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
- 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
- sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
- vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
- BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
-Content-Type: multipart/signed; micalg="pgp-sha384";
- protocol="application/pgp-signature"; boundary="=-Cksclr6ZgK3uvhQ/YUvo"
-User-Agent: Evolution 3.54.3 
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1D7210E0BC
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2025 02:39:02 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id
+ e9e14a558f8ab-3cdd61a97easo9967315ab.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 04 Jan 2025 18:39:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736044742; x=1736649542;
+ h=content-transfer-encoding:to:from:subject:message-id:in-reply-to
+ :date:mime-version:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/3ZGaQpDHwn+kOMqbOdrqyXdKStj/3L/DfaBUkPACsk=;
+ b=QcIjjrmSgtrsnP5hs+BaSUzjIy0ZcZnrjBzVRdBaOJT400zw4SB3OE4a3j+OSqZFmC
+ T/foMcL6iAtmhx53ZoYqBw0gJ4ELAHk/YD0JPVRIjb0nhIFNnrGc7EKpe+/z3p75eF2A
+ t6j37pKEj0A1lrllSdUc7erCZ+BOet/jr1pnDs2bMB92lRWu23l1Y5VZmEGRvjn0qt56
+ w8a9ZqF8QBTcvU8AkqdCOUa/XlkfgFSvMmwLFWhGZAMuP5H4oV82TLdiZo4y4MnEkEAh
+ PYxCMrGkcqLbrV/EKtL4Y519qxXHG2Di2YiNjGHFbtiUipQEztzAC7pvwp4XdYqj/LaH
+ Dlgg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX+5Xv/R9XWBkVmB3r39SgZBtWLlCUri1ysKe+4HcZ00sM+y7xJAR4sgf1p9u9q4PRJRdu7Ht0gFec=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxHj5GE29a5gV62V75TGv//tft9P/GD9SWux6B3Mi3zW30zWZ/A
+ eiKK02vh1dWwiI3PztLb46Ybv8RcLPbJ9h8+BKWvcFI2wHpq8XbkJ/QBbZmLv1lfKXUcFKaEQj5
+ NmWAkT1TXCeeItbL7IyGtL3GTMin9R9Q9UmHnNQ4d8GJ6UE4D8GnjdcI=
+X-Google-Smtp-Source: AGHT+IGnZQOxn+K0xQnAjjUzBs70/r4G8o3Xv/2v82PaCqlxzzhP3EbJVOzOkoKhAAPKinkTD4Vamp9pqzR+HMmbUeEbFbLIR4BB
 MIME-Version: 1.0
+X-Received: by 2002:a05:6e02:20ed:b0:3a7:e592:55ee with SMTP id
+ e9e14a558f8ab-3c2d5724dbemr450957865ab.20.1736044741972; Sat, 04 Jan 2025
+ 18:39:01 -0800 (PST)
+Date: Sat, 04 Jan 2025 18:39:01 -0800
+In-Reply-To: <000000000000587e0f06112cd973@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6779f0c5.050a0220.380ff0.0008.GAE@google.com>
+Subject: Re: [syzbot] [dri?] divide error in drm_mode_convert_to_umode
+From: syzbot <syzbot+0d7a3627fb6a42cf0863@syzkaller.appspotmail.com>
+To: airlied@gmail.com, airlied@linux.ie, daniel.vetter@ffwll.ch, 
+ daniel.vetter@intel.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ eadavis@qq.com, jani.nikula@intel.com, linux-kernel@vger.kernel.org, 
+ maarten.lankhorst@linux.intel.com, melissa.srw@gmail.com, mripard@kernel.org, 
+ simona@ffwll.ch, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de, 
+ ville.syrjala@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,76 +68,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+syzbot suspects this issue was fixed by commit:
 
---=-Cksclr6ZgK3uvhQ/YUvo
-Content-Type: multipart/alternative; boundary="=-hlkAZ8gh2/Rp7zinC2F3"
+commit 9398332f23fab10c5ec57c168b44e72997d6318e
+Author: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+Date:   Fri Nov 29 04:26:28 2024 +0000
 
---=-hlkAZ8gh2/Rp7zinC2F3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+    drm/modes: Avoid divide by zero harder in drm_mode_vrefresh()
 
-On Sat, 2025-01-04 at 18:43 +0100, Andrea Amorosi wrote:
-> Hi to all,
->=20
-> I've just updated my archlinux to |6.12.8-arch1-1 and I still get the
-> same issue:|
->=20
->=20
-Right - 6.12.8 (and Arch build of same) does not have Steve Rostedt's
-patch.
-The patch is in mainline and I believe it will be in 6.12.9.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D1296f8b05800=
+00
+start commit:   1c892cdd8fe0 Merge tag 'vfs-6.8-rc6.fixes' of git://git.ke.=
+.
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3Deff9f3183d0a20d=
+d
+dashboard link: https://syzkaller.appspot.com/bug?extid=3D0d7a3627fb6a42cf0=
+863
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D17f2fbc218000=
+0
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D177bda8a180000
 
-Since the warning logged is a false positive it is benign.
+If the result looks correct, please mark the issue as fixed by replying wit=
+h:
 
+#syz fix: drm/modes: Avoid divide by zero harder in drm_mode_vrefresh()
 
---=20
-Gene
-
-
---=-hlkAZ8gh2/Rp7zinC2F3
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><div>On Sat, 2025-01-04 at 18:43 +0100, Andrea Amorosi=
- wrote:</div><blockquote type=3D"cite" style=3D"margin:0 0 0 .8ex; border-l=
-eft:2px #729fcf solid;padding-left:1ex"><div>Hi to all,<br></div><div><br><=
-/div><div>I've just updated my archlinux to |6.12.8-arch1-1 and I still get=
- the <br></div><div>same issue:|<br></div><div><br></div><div><br></div></b=
-lockquote><div>Right - 6.12.8 (and Arch build of same) does not have Steve =
-Rostedt's patch.</div><div>The patch is in mainline and I believe it will b=
-e in 6.12.9.</div><div><br></div><div>Since the warning logged is a false p=
-ositive it is benign.</div><blockquote type=3D"cite" style=3D"margin:0 0 0 =
-.8ex; border-left:2px #729fcf solid;padding-left:1ex"></blockquote><div><br=
-></div><div><span><pre>-- <br></pre><div><span style=3D"background-color: i=
-nherit;">Gene</span></div><div><br></div></span></div></body></html>
-
---=-hlkAZ8gh2/Rp7zinC2F3--
-
---=-Cksclr6ZgK3uvhQ/YUvo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ3mVZgAKCRA5BdB0L6Ze
-29bOAQCva2nE9UkY4r7NY6ZxOBYBSiK+zSNJ4X6xuDreHzc8AgEAsviZ9znI2WfU
-nHJ8Ky3w16QE0ubSMYekNRu/z6FL0gw=
-=tVZk
------END PGP SIGNATURE-----
-
---=-Cksclr6ZgK3uvhQ/YUvo--
+For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
+n
