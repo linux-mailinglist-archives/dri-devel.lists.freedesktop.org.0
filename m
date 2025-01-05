@@ -2,130 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADAABA01C37
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 23:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F9AA01C3B
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 23:49:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 895DF10E539;
-	Sun,  5 Jan 2025 22:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CBE510E187;
+	Sun,  5 Jan 2025 22:49:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yC6Mic2E";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D81LmjPV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C082B10E53C
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2025 22:48:12 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-304d757a9c1so26972641fa.0
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jan 2025 14:48:12 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAB1410E187
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2025 22:49:56 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-3022c6155edso80946601fa.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Jan 2025 14:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736117231; x=1736722031; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736117335; x=1736722135; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TUw/Qsx3e/Vb/fGVkhPXMOTG1JvaasLeNnFxwC0uDdk=;
- b=yC6Mic2EV+J8j662CQspmHBUEsapOVExxSGuhK/p60JZUMsktd+XgMInzZqk6bZDoE
- f94yneR9YgoNaWY5lbzcIV2Rw0rD3cjBb5ZUowQVDWjsjnZuHEa5S1Zcd3WynZeID43d
- awLP+wiHKBB+fZAcTsg7OeqZNsnimAvBC/eYZvZbqKbTkXDJCYAx9DFfFb5me5VxjKQP
- NXIaK1BginFoyCsj+WFZPL4S3WP0w2RgUTt6Jo5B64VmRgbdusMBCKyK+n28IQUnojVR
- EJtaRTHlzbIZn4VyHlxVHPGYIgGNYPXbfLZp/eYYiwt7QbFHaLeaF6bc6LjA5rRSGsrE
- kEbw==
+ bh=Nk9RHKcTJhi6FXZaugGxUGvrK9amKa6NeOGbKz9GmEE=;
+ b=D81LmjPVP1zuoOs0/gHDdF4y1Qj+kYvcnWswsCtegZ6wmwgjTuyKNw378eSv576b7Z
+ UL5kHhIM3VxU5lNtZU7Lf7FBiDTR/a9k3WWbF03YdI31BSxF+vm5rsnC3oF7wTMLvrKH
+ xmOAp2xCrORNSIVbTNi5hJc0oKlyUhK6ZsPtBJhsrfLcam7iXLzISAB4SeGEddvfyOOm
+ 9FpjT9/T2Q6y0a6X1VB1IvMpUuaEJWIAKy5TWjbV2//jhoQk815eM+2/Xr4y8+C4l5cH
+ 3NijDzFxj4dETvXY3sH5kOGYFarFySFMmhSuWkgWt5Grazyafev0xna/Bmf6eK2d4cTX
+ KF+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736117231; x=1736722031;
+ d=1e100.net; s=20230601; t=1736117335; x=1736722135;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TUw/Qsx3e/Vb/fGVkhPXMOTG1JvaasLeNnFxwC0uDdk=;
- b=XzLOKyDWjWCqHiPAjJXdntUtCLjgzWqKc3vtlMGMP5ER/k8eF7cA99YmFrjbhZ0oRg
- Snh2LKJr+5AIKSxSrSB0AAwLQRIgGWB0ayD/EJydgHPhtCb3W/QBNIHIpv7e5Dwirpoy
- +vii/ewvULi7frWihY/c1BlZIasMOmK64vuqDZpTWZdjC3KATlBp5j+0Dh8WFF6oSO9D
- yrqJD3v6pTCjG58mgnAWbSCAsVOL5d7Z+FfCbAbR7Xadl12DvbJW5YMndpDGpnw2HRMP
- g6zO7Poa17Mnm/azDzXBKdJOuIn0fQQ2RfjD6wOi5ZBGw64+C3AWdmpbcdqVdakMEtx1
- FQpQ==
+ bh=Nk9RHKcTJhi6FXZaugGxUGvrK9amKa6NeOGbKz9GmEE=;
+ b=aF6Gf2srLK89NnkN+DyX6ejOeSg4W8rHlrgVkoYNe0Z2GqsgRAOUZc5hd4wnQPB+VA
+ QJIJcArBvxdK3Vv6jiChKZg6Fr8PIyqqc7LDqtdXg+GKCWPSfbB9rYBrn9YNDj7j6r5m
+ 1L9Qc61TBvBr0jxrfPXpBe6l8aAQrG2E+jVRPJM/T/3ic+mospJBbukE+5qNkdXysUA6
+ 88BqMW/z7sMGHMvVbvExrOicGWW41eXGMsKqHzy7D8YUVAhUDgjaQ0cPpZOgh5i90c2a
+ zhsCwKw7ysjBxnmbsQxO3Tl9BDgehIBcvZ3nsTLy1FR/GgEG/2+4mH45bY1vNwVdiIKd
+ prvw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBIKaaIwvY70uSNWLb68AoWMEVCLo4YZTaX4eBaEPwcss5H1OyVVYJT30fwZpbtOBS55WOEJ62lVo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/oYfIWfJCxWuJDbgsZRsxW0a1Pp3QuKbIoTejxGQYbr+E5LA/
- j90ql0n7pqeja8CNCsXGukfYGTmKaL983kjuB6SeNjwjcG33MuxNNed6+ucjhHc=
-X-Gm-Gg: ASbGnctpa7iCAynctUEVlcIYMQP/QPyUbbm9sI3mBsd+i845WND005ELeuf0zPvykU5
- dwapo2geGSSkJaPJuWhY7HFWZrdZ4VtXzyYuNauBbLwWPajw7j2o6YC/8xBCe6efGEDJkQV3Ez1
- PyxXSZbabXdV78ImpuFZmusha8P2IeG+DgQKQhPThVo3orTtn6rs24pDjVIQevhqrDL5EZhw2hc
- LkgSqSCUy+2CTdnz2foxo8xvLXVJFqCzrDnO20bqQEsxYH48oMVEDU1C1BR+fUf8lHE56zhkadu
- gcuEM0tB6SZGCN849CzMaflBIgAtnNH2xzZb
-X-Google-Smtp-Source: AGHT+IGdeC3kJKQByRSkP8PFuxEiAQLE0VDeCxWNLmf8WlobNvqOtqUKt3Qejko5pkmOL0gzpID7uQ==
-X-Received: by 2002:a2e:a78a:0:b0:302:4a8f:428b with SMTP id
- 38308e7fff4ca-304583eca3fmr125244721fa.15.1736117231020; 
- Sun, 05 Jan 2025 14:47:11 -0800 (PST)
+ AJvYcCXfxO7EvcG+qWjahAdF4oTOxfNqVDfgIMfKbGY6hO1j2aQfkNqpIGkD8R6YxwZu0+1V6kG1IBCVlEs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxyg32Fa8Xjf9NfAxcWs/lzCv+AL/2u/4toGdB5vaPQJP6/WD7z
+ c6uLziagU48mBVMY5L1vKROQ7Ags0pTHjG8MbggZ1tmavfHDnfnKyNEojaEFonk=
+X-Gm-Gg: ASbGnctGMK4uJwl6Ui4A+9h0YHWWJD64/Qt1pZEDeg0Q8od+k/cSYmTYV1TnoKAFyw5
+ cv3ybO2G+orFt8RJJsAlt+kg9GNY/Upt0H5RS0KM6YEYMErIjfs3Sotg4WeAr3wkORuKx7BLgEU
+ ZFiUuM7GvSzt8AFgM6QnbmMMgV6ubpJKawtuoyqYTtW0AMWwATsl8Yy7+G0jtAgPVYURIlEvh/P
+ XfG5ZJgMje1L7p+19yqSE9Dx/wmW3W8z2W61UrP3YMJ5nQuR99BLtVmg4cykYdJA1JHD2jPgSxD
+ tcmwlPlxmOowe0eUWSBjhzOHbooFz38oMSk1
+X-Google-Smtp-Source: AGHT+IFP/KIZ8UT0YX5C+v64G+IduR/vDL07tNtrnIvIBVwpTHp53A8+KP8ck8ywTfgjPw/GMVCJ8A==
+X-Received: by 2002:a05:6512:1055:b0:53f:167e:390f with SMTP id
+ 2adb3069b0e04-5422956bd7dmr17411064e87.53.1736117335104; 
+ Sun, 05 Jan 2025 14:48:55 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3045b09669csm54711531fa.120.2025.01.05.14.47.08
+ 2adb3069b0e04-5426f7e0811sm588256e87.34.2025.01.05.14.48.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Jan 2025 14:47:09 -0800 (PST)
-Date: Mon, 6 Jan 2025 00:47:07 +0200
+ Sun, 05 Jan 2025 14:48:54 -0800 (PST)
+Date: Mon, 6 Jan 2025 00:48:51 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, 
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
  Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, 
- Martyn Welch <martyn.welch@collabora.co.uk>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, virtualization@lists.linux.dev, 
- spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
- const mode pointer
-Message-ID: <76ho36jqcraehnsgpjralpye52w7ryshhgizekn4qqfsikiojd@3yyorbvjkc7b>
-References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+ Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/2] drm/i2c: move TDA drivers under drivers/gpu/drm/bridge
+Message-ID: <b56u5fzip6rzto6j4jhn4hbfed4i2njtuexsx6nlwxt4mrqa6k@eicvhwzmnpkb>
+References: <20241215-drm-move-tda998x-v1-0-7817122b1d73@linaro.org>
+ <20241215-drm-move-tda998x-v1-2-7817122b1d73@linaro.org>
+ <4e7f0951-4b83-4d5c-b4e6-8d7327614840@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+In-Reply-To: <4e7f0951-4b83-4d5c-b4e6-8d7327614840@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,123 +97,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 14, 2024 at 03:37:04PM +0200, Dmitry Baryshkov wrote:
-> While working on the generic mode_valid() implementation for the HDMI
-> Connector framework I noticed that unlike other DRM objects
-> drm_connector accepts non-const pointer to struct drm_display_mode,
-> while obviously mode_valid() isn't expected to modify the argument.
+On Wed, Dec 18, 2024 at 11:22:51AM +0100, Neil Armstrong wrote:
+> On 15/12/2024 12:09, Dmitry Baryshkov wrote:
+> > TDA998x is the HDMI bridge driver, incorporating drm_connector and
+> > optional drm_encoder (created via the component bind API by the TICLDC
+> > and HDLCD drivers). Thus it should be residing together with the other
+> > DRM bridge drivers under drivers/gpu/drm/bridge/.
+> > 
+> > TDA9950 is an I2C-CEC translator, being present on-die on the TDA9989
+> > and TDA19989 chips, so it is being instantiated by the TDA998x driver.
+> > Move it together with the TDA998x under bridge drivers subdir.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   MAINTAINERS                                       |  2 +-
+> >   drivers/gpu/drm/arm/Kconfig                       |  1 +
+> >   drivers/gpu/drm/bridge/Kconfig                    |  2 ++
+> >   drivers/gpu/drm/bridge/Makefile                   |  1 +
+> >   drivers/gpu/drm/bridge/tda/Kconfig                | 13 +++++++++++++
+> >   drivers/gpu/drm/bridge/tda/Makefile               |  4 ++++
+> >   drivers/gpu/drm/{i2c => bridge/tda}/tda9950.c     |  0
+> >   drivers/gpu/drm/{i2c => bridge/tda}/tda998x_drv.c |  0
+> >   drivers/gpu/drm/i2c/Kconfig                       | 13 -------------
+> >   drivers/gpu/drm/i2c/Makefile                      |  4 ----
+> >   10 files changed, 22 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 9a23e80abf309cbd918a74683895f8dbe0507a6e..a4c7afd564e721e14aebaf828b75776e50760a45 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -16982,7 +16982,7 @@ M:	Russell King <linux@armlinux.org.uk>
+> >   S:	Maintained
+> >   T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-devel
+> >   T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-fixes
+> > -F:	drivers/gpu/drm/i2c/tda998x_drv.c
+> > +F:	drivers/gpu/drm/bridge/tda/tda998x_drv.c
 > 
-> Mass-change the DRM framework code to pass const argument to that
-> callback.
+> I'd rather move the entry it to drm-misc in the same move, I don't think
+> we want externally maintained bridge drivers mixed in the other bridges.
 > 
-> The series has been compile-tested with defconfig for x86-64, arm and
-> arm64.
-> 
-> Note: yes, I understand that this change might be hard to review and
-> merge. The only viable option that I foresee is to add new callback,
-> having the const argument and migrate drivers into using it one by one.
+> Russell, so you agree ?
 
-Colleagues, I'd like to graciously ping regarding this series. Should it
-be merged as is (possibly requiring more R-B's)? Or should I rework it
-adding something like .mode_valid_new() callback which takes const
-argument?
+Russell, as you are listed as a maintainer, any feedback for the patches
+and for the Neil's proposal?
 
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> Changes in v2:
-> - Rebased on top of linux-next
-> - Replaced 'accept const argument' with 'take a const arugment'
->   (Laurent)
-> - Link to v1: https://lore.kernel.org/r/20241115-drm-connector-mode-valid-const-v1-0-b1b523156f71@linaro.org
+> Apart that:
 > 
-> ---
-> Dmitry Baryshkov (5):
->       drm/encoder_slave: make mode_valid accept const struct drm_display_mode
->       drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
->       drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode_idx()
->       drm/connector: make mode_valid_ctx take a const struct drm_display_mode
->       drm/connector: make mode_valid take a const struct drm_display_mode
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 > 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_connectors.c           |  8 ++++----
->  drivers/gpu/drm/amd/amdgpu/atombios_dp.c                 |  2 +-
->  drivers/gpu/drm/amd/amdgpu/atombios_dp.h                 |  2 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c        | 12 +++++++++---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h        |  2 +-
->  drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c |  2 +-
->  drivers/gpu/drm/arm/malidp_mw.c                          |  2 +-
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c             |  2 +-
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c      |  2 +-
->  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c |  7 -------
->  drivers/gpu/drm/display/drm_bridge_connector.c           |  2 +-
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c          |  2 +-
->  drivers/gpu/drm/drm_crtc_helper_internal.h               |  2 +-
->  drivers/gpu/drm/drm_probe_helper.c                       |  2 +-
->  drivers/gpu/drm/exynos/exynos_hdmi.c                     |  2 +-
->  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c                |  2 +-
->  drivers/gpu/drm/gma500/cdv_intel_crt.c                   |  2 +-
->  drivers/gpu/drm/gma500/cdv_intel_dp.c                    |  2 +-
->  drivers/gpu/drm/gma500/cdv_intel_hdmi.c                  |  2 +-
->  drivers/gpu/drm/gma500/cdv_intel_lvds.c                  |  2 +-
->  drivers/gpu/drm/gma500/oaktrail_hdmi.c                   |  2 +-
->  drivers/gpu/drm/gma500/psb_intel_drv.h                   |  2 +-
->  drivers/gpu/drm/gma500/psb_intel_lvds.c                  |  2 +-
->  drivers/gpu/drm/gma500/psb_intel_sdvo.c                  |  2 +-
->  drivers/gpu/drm/i2c/ch7006_drv.c                         |  2 +-
->  drivers/gpu/drm/i2c/sil164_drv.c                         |  2 +-
->  drivers/gpu/drm/i915/display/dvo_ch7017.c                |  2 +-
->  drivers/gpu/drm/i915/display/dvo_ch7xxx.c                |  2 +-
->  drivers/gpu/drm/i915/display/dvo_ivch.c                  |  2 +-
->  drivers/gpu/drm/i915/display/dvo_ns2501.c                |  2 +-
->  drivers/gpu/drm/i915/display/dvo_sil164.c                |  2 +-
->  drivers/gpu/drm/i915/display/dvo_tfp410.c                |  2 +-
->  drivers/gpu/drm/i915/display/icl_dsi.c                   |  2 +-
->  drivers/gpu/drm/i915/display/intel_crt.c                 |  2 +-
->  drivers/gpu/drm/i915/display/intel_dp.c                  |  2 +-
->  drivers/gpu/drm/i915/display/intel_dp_mst.c              |  2 +-
->  drivers/gpu/drm/i915/display/intel_dsi.c                 |  2 +-
->  drivers/gpu/drm/i915/display/intel_dsi.h                 |  2 +-
->  drivers/gpu/drm/i915/display/intel_dvo.c                 |  2 +-
->  drivers/gpu/drm/i915/display/intel_dvo_dev.h             |  2 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c                |  2 +-
->  drivers/gpu/drm/i915/display/intel_lvds.c                |  2 +-
->  drivers/gpu/drm/i915/display/intel_sdvo.c                |  2 +-
->  drivers/gpu/drm/i915/display/intel_tv.c                  |  2 +-
->  drivers/gpu/drm/i915/display/vlv_dsi.c                   |  2 +-
->  drivers/gpu/drm/imx/ipuv3/imx-tve.c                      |  2 +-
->  drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c      |  2 +-
->  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c                |  2 +-
->  drivers/gpu/drm/nouveau/dispnv50/disp.c                  |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_connector.c              |  2 +-
->  drivers/gpu/drm/qxl/qxl_display.c                        |  2 +-
->  drivers/gpu/drm/radeon/atombios_dp.c                     |  2 +-
->  drivers/gpu/drm/radeon/radeon_connectors.c               | 10 +++++-----
->  drivers/gpu/drm/radeon/radeon_mode.h                     |  2 +-
->  drivers/gpu/drm/rockchip/cdn-dp-core.c                   |  2 +-
->  drivers/gpu/drm/rockchip/inno_hdmi.c                     |  4 ++--
->  drivers/gpu/drm/rockchip/rk3066_hdmi.c                   |  2 +-
->  drivers/gpu/drm/sti/sti_dvo.c                            |  2 +-
->  drivers/gpu/drm/sti/sti_hda.c                            | 12 ++++++------
->  drivers/gpu/drm/sti/sti_hdmi.c                           |  2 +-
->  drivers/gpu/drm/tegra/dsi.c                              |  2 +-
->  drivers/gpu/drm/tegra/hdmi.c                             |  2 +-
->  drivers/gpu/drm/tegra/sor.c                              |  2 +-
->  drivers/gpu/drm/vc4/vc4_txp.c                            |  2 +-
->  drivers/gpu/drm/virtio/virtgpu_display.c                 |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                      |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                      |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c                     |  2 +-
->  include/drm/display/drm_hdmi_state_helper.h              |  2 +-
->  include/drm/drm_encoder_slave.h                          |  2 +-
->  include/drm/drm_modeset_helper_vtables.h                 |  4 ++--
->  71 files changed, 92 insertions(+), 93 deletions(-)
-> ---
-> base-commit: 4176cf5c5651c33769de83bb61b0287f4ec7719f
-> change-id: 20241115-drm-connector-mode-valid-const-ae3db0ef6cb7
+> Neil
 > 
-> Best regards,
-> -- 
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >   F:	include/dt-bindings/display/tda998x.h
+> >   K:	"nxp,tda998x"
+> > diff --git a/drivers/gpu/drm/arm/Kconfig b/drivers/gpu/drm/arm/Kconfig
+> > index c901ac00c0c3a8f356bd53d97305c6b39b3e6662..ed3ed617c6884876368c8bd072c53f1b710df443 100644
+> > --- a/drivers/gpu/drm/arm/Kconfig
+> > +++ b/drivers/gpu/drm/arm/Kconfig
+> > @@ -9,6 +9,7 @@ config DRM_HDLCD
+> >   	select DRM_CLIENT_SELECTION
+> >   	select DRM_KMS_HELPER
+> >   	select DRM_GEM_DMA_HELPER
+> > +	select DRM_BRIDGE # for TDA998x
+> >   	help
+> >   	  Choose this option if you have an ARM High Definition Colour LCD
+> >   	  controller.
+> > diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> > index 6b4664d91faa80f096ac6a0548ed342e802ae68b..1ef16dcc2ae53eb172604de2d6899004c080a979 100644
+> > --- a/drivers/gpu/drm/bridge/Kconfig
+> > +++ b/drivers/gpu/drm/bridge/Kconfig
+> > @@ -438,4 +438,6 @@ source "drivers/gpu/drm/bridge/imx/Kconfig"
+> >   source "drivers/gpu/drm/bridge/synopsys/Kconfig"
+> > +source "drivers/gpu/drm/bridge/tda/Kconfig"
+> > +
+> >   endmenu
+> > diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> > index 97304b429a530c108dcbff906965cda091b0a7a2..52e6c9b3094bba0fd6aaf28af1b58f4bd8bf26d0 100644
+> > --- a/drivers/gpu/drm/bridge/Makefile
+> > +++ b/drivers/gpu/drm/bridge/Makefile
+> > @@ -43,3 +43,4 @@ obj-y += analogix/
+> >   obj-y += cadence/
+> >   obj-y += imx/
+> >   obj-y += synopsys/
+> > +obj-y += tda/
+> > diff --git a/drivers/gpu/drm/bridge/tda/Kconfig b/drivers/gpu/drm/bridge/tda/Kconfig
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..5f13e4ffc24eeaa8dd0015c7e84d0dbac93e170c
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/bridge/tda/Kconfig
+> > @@ -0,0 +1,13 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +config DRM_I2C_NXP_TDA998X
+> > +	tristate "NXP Semiconductors TDA998X HDMI encoder"
+> > +	default m if DRM_TILCDC
+> > +	select CEC_CORE if CEC_NOTIFIER
+> > +	select SND_SOC_HDMI_CODEC if SND_SOC
+> > +	help
+> > +	  Support for NXP Semiconductors TDA998X HDMI encoders.
+> > +
+> > +config DRM_I2C_NXP_TDA9950
+> > +	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
+> > +	select CEC_NOTIFIER
+> > +	select CEC_CORE
+> > diff --git a/drivers/gpu/drm/bridge/tda/Makefile b/drivers/gpu/drm/bridge/tda/Makefile
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..31fd35527d99d7eb23851d290175a3ff0c756772
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/bridge/tda/Makefile
+> > @@ -0,0 +1,4 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +tda998x-y := tda998x_drv.o
+> > +obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
+> > +obj-$(CONFIG_DRM_I2C_NXP_TDA9950) += tda9950.o
+> > diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/bridge/tda/tda9950.c
+> > similarity index 100%
+> > rename from drivers/gpu/drm/i2c/tda9950.c
+> > rename to drivers/gpu/drm/bridge/tda/tda9950.c
+> > diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/bridge/tda/tda998x_drv.c
+> > similarity index 100%
+> > rename from drivers/gpu/drm/i2c/tda998x_drv.c
+> > rename to drivers/gpu/drm/bridge/tda/tda998x_drv.c
+> > diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
+> > index 6f19e1c35e30b0e595c1a60628a6b8cf313fcabc..3205cdb827b95209a4bba9fb126ad2df27ddbdfb 100644
+> > --- a/drivers/gpu/drm/i2c/Kconfig
+> > +++ b/drivers/gpu/drm/i2c/Kconfig
+> > @@ -20,17 +20,4 @@ config DRM_I2C_SIL164
+> >   	  when used in pairs) TMDS transmitters, used in some nVidia
+> >   	  video cards.
+> > -config DRM_I2C_NXP_TDA998X
+> > -	tristate "NXP Semiconductors TDA998X HDMI encoder"
+> > -	default m if DRM_TILCDC
+> > -	select CEC_CORE if CEC_NOTIFIER
+> > -	select SND_SOC_HDMI_CODEC if SND_SOC
+> > -	help
+> > -	  Support for NXP Semiconductors TDA998X HDMI encoders.
+> > -
+> > -config DRM_I2C_NXP_TDA9950
+> > -	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
+> > -	select CEC_NOTIFIER
+> > -	select CEC_CORE
+> > -
+> >   endmenu
+> > diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
+> > index a962f6f085686674ed33010345730db776815ebe..1df3869491e277ca210368c4e48efe6d11af62b6 100644
+> > --- a/drivers/gpu/drm/i2c/Makefile
+> > +++ b/drivers/gpu/drm/i2c/Makefile
+> > @@ -4,7 +4,3 @@ obj-$(CONFIG_DRM_I2C_CH7006) += ch7006.o
+> >   sil164-y := sil164_drv.o
+> >   obj-$(CONFIG_DRM_I2C_SIL164) += sil164.o
+> > -
+> > -tda998x-y := tda998x_drv.o
+> > -obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
+> > -obj-$(CONFIG_DRM_I2C_NXP_TDA9950) += tda9950.o
+> > 
 > 
 
 -- 
