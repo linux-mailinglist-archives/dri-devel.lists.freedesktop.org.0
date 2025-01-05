@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA81A01B6C
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 20:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4807AA01C10
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Jan 2025 22:50:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3CE910E523;
-	Sun,  5 Jan 2025 19:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 056AB10E120;
+	Sun,  5 Jan 2025 21:50:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="iLYSLD6e";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="mXrKcV8o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78AE510E525
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2025 19:07:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id DB3C610408FB9; Sun,  5 Jan 2025 20:07:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1736104062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WVMN7MZLTYNaNECqZI8YdUNMyCnLmE0yhQ6oCZKfzpk=;
- b=iLYSLD6eTqvJkVi68zJV4FFFQTNNCQRJY92MzPeWmrcm8iUruFf+2GMrm0AJ+9p7vNMUji
- 9pWSY402DR5tXKZvwYfDK30x3DDJ5WvOulNEn4lH3Ymq4OJYqSe4UIB3Ujfota90mlBTbG
- MRNhiMlgGEa0Iybw3PSV9V3gMWzpYD1T41XJcT7vKq0ll8eeT8sJfc0MhoQBvwANAAV7TP
- e0TIZNmfZHArgxefMEXz6ijOZdus1e3FDX4xWSh3pUyQfuvvBDY3yRW/LbwhCKpmgHSlcx
- +/vQfmNWDFHE1aj5mYppQy611wNxoxDPn8FI+DfAZXwNCwzfUEuBK2jX0/xjMg==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v4 4/4] drm/lcdif: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to
- drm_bridge_attach
-Date: Sun,  5 Jan 2025 20:06:06 +0100
-Message-ID: <20250105190659.99941-4-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250105190659.99941-1-marex@denx.de>
-References: <20250105190659.99941-1-marex@denx.de>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01A5010E120
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Jan 2025 21:50:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=YkgO0Dr/gEnE1tJuIVv4smNd7nOA51NAoW/XISsoUGw=; b=mXrKcV8owCiOtvFBiI4pPz2Nh1
+ /eM5ykWCKZmGI8dy+UlMz5TMhsRpbSBSlkBUxbCyY4rOwUKEhGaz3g+TGNnQlhuG9UADtZRvKONnU
+ xpWTVV44elCH/8lLHCHw93ukS6sev/rbBEDIExlDMHju9+Kz5t8/kZTLOKckKCe3LyZviU9r3PH6c
+ 32Z2XZpPKJyqlhVR1W/QyJQkEV+lA/r1B7reEXxrhckCTYqBoiBdjrFckMGoKxu0fxGrNhyqOUFlk
+ jMXA09loWL8C3VevO031p4m0jWV7MMrYooNxdWsTYk2ZdEFyGEH8mWjPtNiw9bUaE1Zg2OkCIanJW
+ h1DOYhrQ==;
+Received: from i53875aad.versanet.de ([83.135.90.173] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tUYVz-0002Fg-Pz; Sun, 05 Jan 2025 22:50:31 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
+ daniel@fooishbar.org, Andy Yan <andy.yan@rock-chips.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH v8 2/9] drm/rockchip: vop2: Add platform specific callback
+Date: Sun, 05 Jan 2025 22:50:30 +0100
+Message-ID: <17026630.geO5KgaWL5@diego>
+In-Reply-To: <20241231090802.251787-3-andyshrk@163.com>
+References: <20241231090802.251787-1-andyshrk@163.com>
+ <20241231090802.251787-3-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,130 +65,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit a25b988ff83f ("drm/bridge: Extend bridge API to disable connector creation")
-added DRM_BRIDGE_ATTACH_NO_CONNECTOR bridge flag and all bridges handle
-this flag in some way since then.
-Newly added bridge drivers must no longer contain the connector creation and
-will fail probing if this flag isn't set.
+Hi Andy,
 
-In order to be able to connect to those newly added bridges as well,
-make use of drm_bridge_connector API and have the connector initialized
-by the display controller.
+Am Dienstag, 31. Dezember 2024, 10:07:45 CET schrieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> The VOP interface mux, overlay, background delay cycle configuration
+> of different SOC are much different. Add platform specific callback
+> ops to let the core driver look cleaner and more refined.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> Tested-by: Michael Riesch <michael.riesch@wolfvision.net> # on RK3568
+> Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
-Based on 2e87bf389e13 ("drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to drm_bridge_attach")
+>  static int vop2_cluster_init(struct vop2_win *win)
+>  {
+>  	struct vop2 *vop2 = win->vop2;
+>  	struct reg_field *cluster_regs;
+>  	int ret, i;
+>  
+> -	cluster_regs = kmemdup(vop2_cluster_regs, sizeof(vop2_cluster_regs),
+> +	cluster_regs = kmemdup(vop2->data->cluster_reg,
+> +			       sizeof(struct reg_field) * vop2->data->nr_cluster_regs,
+>  			       GFP_KERNEL);
+>  	if (!cluster_regs)
+>  		return -ENOMEM;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(vop2_cluster_regs); i++)
+> +	for (i = 0; i < vop2->data->nr_cluster_regs; i++)
+>  		if (cluster_regs[i].reg != 0xffffffff)
+>  			cluster_regs[i].reg += win->offset;
+>  
+>  	ret = devm_regmap_field_bulk_alloc(vop2->dev, vop2->map, win->reg,
+>  					   cluster_regs,
+> -					   ARRAY_SIZE(vop2_cluster_regs));
+> -
+> +					   vop2->data->nr_cluster_regs);
+>  	kfree(cluster_regs);
+>  
+>  	return ret;
+>  };
 
-This makes LT9611 work with i.MX8M Plus.
+Even the original code, makes checkpatch really unhappy nowadays :-( .
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Marek Vasut <marex@denx.de>
+As per
+https://lore.kernel.org/all/20240706-regmap-const-structs-v1-1-d08c776da787@weissschuh.net/
+reg_field should be considered const, so copying the original struct and
+then modifying it causes checkpatch warnings now.
+
+I've tried to adapt the function as in the patch below. This should
+contain the same functionality as before, just with keeping the reg_field
+const.
+
+As it's the weekend, I didn't have time to test that change, so it's more
+meant as an idea on how to proceed.
+
+
+> +	/* afbc regs */
+> +	[VOP2_WIN_AFBC_FORMAT] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_CTRL, 2, 6),
+> +	[VOP2_WIN_AFBC_RB_SWAP] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_CTRL, 9, 9),
+> +	[VOP2_WIN_AFBC_UV_SWAP] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_CTRL, 10, 10),
+> +	[VOP2_WIN_AFBC_AUTO_GATING_EN] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_OUTPUT_CTRL, 4, 4),
+> +	[VOP2_WIN_AFBC_HALF_BLOCK_EN] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_CTRL, 7, 7),
+> +	[VOP2_WIN_AFBC_BLOCK_SPLIT_EN] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_CTRL, 8, 8),
+> +	[VOP2_WIN_AFBC_HDR_PTR] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_HDR_PTR, 0, 31),
+> +	[VOP2_WIN_AFBC_PIC_SIZE] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_PIC_SIZE, 0, 31),
+> +	[VOP2_WIN_AFBC_PIC_VIR_WIDTH] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_VIR_WIDTH, 0, 15),
+> +	[VOP2_WIN_AFBC_TILE_NUM] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_VIR_WIDTH, 16, 31),
+> +	[VOP2_WIN_AFBC_PIC_OFFSET] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_PIC_OFFSET, 0, 31),
+> +	[VOP2_WIN_AFBC_DSP_OFFSET] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_DSP_OFFSET, 0, 31),
+> +	[VOP2_WIN_AFBC_TRANSFORM_OFFSET] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_TRANSFORM_OFFSET, 0, 31),
+
+exceeds the 100 char line length, so I think we should have a line break
+after RK3568_CLUSTER_WIN_AFBCD_TRANSFORM_OFFSET
+
+
+Thanks
+Heiko
+
+---------------- 8< ---------------
+From: Heiko Stuebner <heiko@sntech.de>
+Date: Sun, 5 Jan 2025 17:38:31 +0100
+Subject: [PATCH] drm/rockchip: vop2: use devm_regmap_field_alloc for cluster-regs
+
+Right now vop2_cluster_init() copies the base vop2_cluster_regs and adapts
+the reg value with the current window's offset before adding the fields to
+the regmap.
+
+This conflicts with the notion of reg_fields being const, see
+https://lore.kernel.org/all/20240706-regmap-const-structs-v1-1-d08c776da787@weissschuh.net/
+for reference, which now causes checkpatch to actually warn about that.
+
+So instead of creating one big copy and changing it afterwards, add the
+reg_fields individually using devm_regmap_field_alloc().
+
+Functional it is the same, just that the reg_field we're handling
+can stay const.
+
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
 ---
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jonas Karlman <jonas@kwiboo.se>
-Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Liu Ying <victor.liu@nxp.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Robert Foss <rfoss@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: imx@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
----
-V2: Add RB from Dmitry
-V3: - Select DRM_DISPLAY_HELPER
-    - Use return dev_err_probe() directly
-    - Add missing of_node_put(ep)
-    - Add test using drm_bridge_get_next_bridge() to try and determine
-      if the HDMI connector was missing in DT or not, and if it was
-      missing, if it was created by the HDMI bridge driver.
-V4: - Swap the DRM_BRIDGE_CONNECTOR and DRM_DISPLAY_HELPER in the right symbols
-    - Reorder the patches, swap 3/4 and 4/4 in the series
-    - Drop the HDMI bridge test, create connector here
----
- drivers/gpu/drm/mxsfb/Kconfig     |  2 ++
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 24 ++++++++++++++++++++++--
- 2 files changed, 24 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 30 +++++++++-----------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/Kconfig b/drivers/gpu/drm/mxsfb/Kconfig
-index 26bb2dbba49e3..eb51d38455a6c 100644
---- a/drivers/gpu/drm/mxsfb/Kconfig
-+++ b/drivers/gpu/drm/mxsfb/Kconfig
-@@ -30,8 +30,10 @@ config DRM_IMX_LCDIF
- 	depends on COMMON_CLK
- 	depends on ARCH_MXC || COMPILE_TEST
- 	select DRM_CLIENT_SELECTION
-+	select DRM_DISPLAY_HELPER
- 	select DRM_MXS
- 	select DRM_KMS_HELPER
-+	select DRM_BRIDGE_CONNECTOR
- 	select DRM_GEM_DMA_HELPER
- 	select DRM_PANEL
- 	select DRM_PANEL_BRIDGE
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 8ee00f59ca821..d6a4100e6080a 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -17,6 +17,7 @@
- #include <drm/clients/drm_client_setup.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_fbdev_dma.h>
-@@ -48,8 +49,10 @@ static const struct drm_encoder_funcs lcdif_encoder_funcs = {
- static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index 17a98845fd31..c8da1ebb6013 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -3443,25 +3443,23 @@ static struct reg_field vop2_cluster_regs[VOP2_WIN_MAX_REG] = {
+ static int vop2_cluster_init(struct vop2_win *win)
  {
- 	struct device *dev = lcdif->drm->dev;
--	struct device_node *ep;
-+	struct drm_device *drm = lcdif->drm;
-+	struct drm_connector *connector;
- 	struct drm_bridge *bridge;
-+	struct device_node *ep;
- 	int ret;
+ 	struct vop2 *vop2 = win->vop2;
+-	struct reg_field *cluster_regs;
+-	int ret, i;
+-
+-	cluster_regs = kmemdup(vop2_cluster_regs, sizeof(vop2_cluster_regs),
+-			       GFP_KERNEL);
+-	if (!cluster_regs)
+-		return -ENOMEM;
++	int i;
  
- 	for_each_endpoint_of_node(dev->of_node, ep) {
-@@ -97,13 +100,30 @@ static int lcdif_attach_bridge(struct lcdif_drm_private *lcdif)
- 			return ret;
- 		}
+-	for (i = 0; i < ARRAY_SIZE(vop2_cluster_regs); i++)
+-		if (cluster_regs[i].reg != 0xffffffff)
+-			cluster_regs[i].reg += win->offset;
++	for (i = 0; i < ARRAY_SIZE(vop2_cluster_regs); i++) {
++		const struct reg_field field = {
++			.reg = (vop2_cluster_regs[i].reg != 0xffffffff) ?
++					vop2_cluster_regs[i].reg + win->offset :
++					vop2_cluster_regs[i].reg,
++			.lsb = vop2_cluster_regs[i].lsb,
++			.msb = vop2_cluster_regs[i].msb
++		};
  
--		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
-+		ret = drm_bridge_attach(encoder, bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 		if (ret) {
- 			of_node_put(ep);
- 			return dev_err_probe(dev, ret,
- 					     "Failed to attach bridge for endpoint%u\n",
- 					     of_ep.id);
- 		}
-+
-+		connector = drm_bridge_connector_init(drm, encoder);
-+		if (IS_ERR(connector)) {
-+			of_node_put(ep);
-+			return dev_err_probe(drm->dev, PTR_ERR(connector),
-+					     "Failed to initialize bridge connector: %pe\n",
-+					     connector);
-+		}
-+
-+		ret = drm_connector_attach_encoder(connector, encoder);
-+		if (ret < 0) {
-+			of_node_put(ep);
-+			drm_connector_cleanup(connector);
-+			return dev_err_probe(drm->dev, ret,
-+					     "Failed to attach encoder.\n");
-+		}
- 	}
+-	ret = devm_regmap_field_bulk_alloc(vop2->dev, vop2->map, win->reg,
+-					   cluster_regs,
+-					   ARRAY_SIZE(vop2_cluster_regs));
+-
+-	kfree(cluster_regs);
++		win->reg[i] = devm_regmap_field_alloc(vop2->dev, vop2->map, field);
++		if (IS_ERR(win->reg[i]))
++			return PTR_ERR(win->reg[i]);
++	}
  
- 	return 0;
+-	return ret;
++	return 0;
+ };
+ 
+ static struct reg_field vop2_esmart_regs[VOP2_WIN_MAX_REG] = {
 -- 
 2.45.2
+
+
+
+
 
