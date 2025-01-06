@@ -2,76 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5340A02374
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 11:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0411A02382
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 11:55:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56E7610E611;
-	Mon,  6 Jan 2025 10:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B9010E624;
+	Mon,  6 Jan 2025 10:55:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="3AaR3hKq";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WSmZx8+4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 524 seconds by postgrey-1.36 at gabe;
- Mon, 06 Jan 2025 10:50:23 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD6910E611
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 10:50:23 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5063qXc9004692;
- Mon, 6 Jan 2025 11:50:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- Y33tiExBlwDEn8mFRQKrikauQkd7GqHJ6b8DdCrX10c=; b=3AaR3hKqYSQuzj/l
- w3mE0WivaZBjUvTH/hzSnqda0W03W/82+RdH66suEIjYOhiPwZq67u6MwHP7tMgu
- Kz6huLA1i+htrTcTQc/yOrg4yXfA45zJ3Tqc+xn9i/Eoy0Ryi5kFNB+71lEmBL+6
- 85WDWATAGOar0UmFGPswKtzti0l+g2xZZHBYBc1rL93YHLDDH8snF2d5dZN8LvUm
- LX9st5YZcr0tSKf8XwdiaHLhyiAplKNvyt+IbwhRTOGApiLdy11+Izk+hVQOofiV
- xW4g6iD9H8kakSGEXzH3Nmj3Va6tqTkkaYLBXm80/n7uGqVNWFXEDNKRhuouVjXF
- HLjRfQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4407n9hbgv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jan 2025 11:50:14 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id F39F34005A;
- Mon,  6 Jan 2025 11:48:50 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B948D26E53D;
- Mon,  6 Jan 2025 11:47:09 +0100 (CET)
-Received: from [10.48.87.62] (10.48.87.62) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 6 Jan
- 2025 11:47:08 +0100
-Message-ID: <d844f8f2-b5fd-460f-b31b-644bab871238@foss.st.com>
-Date: Mon, 6 Jan 2025 11:47:05 +0100
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFC2E10E625
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 10:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=TzXM/HO6AZvs8QX7Cwrel+atQeZrpNJNCGpMvVyiGiQ=; b=WSmZx8+4vVuQh6yqfoSEO9ck52
+ gNuyKL8qjtIBe5I6UzgF6FzU1CC0HAPBcbutBTpsi+hepLQiX9rDPHSJEzUtZ6O+C5zfc7GZht8ZO
+ cvsN6Ws4kai1oUpmDPO73entFovDEt1QRewqIFP1+34sd5UHC117dSk6z8Nn92wfsW9mNi3VzG/Bu
+ 6sZaBoG7PiDIk9ASziIsxR+EJoF1mrSXZ+Z90ZboJpZ5DHoEYZGQbLDGbTKv2tbXMf52tg06tCefm
+ zg8vh8k1o0SdacB5N0noDyIa6n+YbUCS1fouqn+G4N7csYyOzllQyUu5CQG9r2Teo0/gZfL6WlAAi
+ /3dUhCjQ==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tUklX-00CERw-Mk; Mon, 06 Jan 2025 11:55:23 +0100
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Subject: [PATCH v2 0/7] A few drm_syncobj optimisations
+Date: Mon,  6 Jan 2025 10:55:14 +0000
+Message-ID: <20250106105521.53149-1-tursulin@igalia.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: mali-utgard: Add st, stih410-mali
- compatible
-To: Alain Volmat <avolmat@me.com>, David Airlie <airlied@gmail.com>, Daniel
- Vetter <daniel@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20241006-sti-gpu-v2-0-c6bb408d6903@me.com>
- <20241006-sti-gpu-v2-1-c6bb408d6903@me.com>
-Content-Language: en-US
-From: Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20241006-sti-gpu-v2-1-c6bb408d6903@me.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.48.87.62]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,32 +57,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
+A small set of drm_syncobj optimisations which should make things a tiny bit
+more efficient on the CPU side of things.
 
-On 10/6/24 22:42, Alain Volmat wrote:
-> ST STiH410 SoC has a Mali400. Add a compatible for it.
-> 
-> Signed-off-by: Alain Volmat <avolmat@me.com>
-> ---
->  Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-> index abd4aa335fbcebafc9164bd4963f9db60f0450c4..9318817ea1357d4d66db951513d9bc033b222190 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
-> @@ -33,6 +33,7 @@ properties:
->                - rockchip,rk3188-mali
->                - rockchip,rk3228-mali
->                - samsung,exynos4210-mali
-> +              - st,stih410-mali
->                - stericsson,db8500-mali
->                - xlnx,zynqmp-mali
->            - const: arm,mali-400
-> 
+Improvement seems to be around 1.5%* more FPS if observed with "vkgears
+-present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
+definitive claim on the numbers since there is some run to run variance. It
+would be best if someone could verify or suggest a more heavy workload for
+syncobjs.
 
-Hi Alain
+*)
+Before average fps after 200s: 22102
+After: 22426
 
-Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
+Tvrtko Ursulin (7):
+  drm/syncobj: Remove unhelpful helper
+  drm/syncobj: Do not allocate an array to store zeros when waiting
+  drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
+  drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+  drm/syncobj: Avoid temporary allocation in
+    drm_syncobj_timeline_signal_ioctl
+  drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
+  drm/syncobj: Add a fast path to drm_syncobj_array_find
 
-Thanks
+ drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
+ 1 file changed, 147 insertions(+), 134 deletions(-)
+
+-- 
+2.47.1
+
