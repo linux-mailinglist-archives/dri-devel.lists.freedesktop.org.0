@@ -2,78 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7259FA02F1E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 18:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED15A02F98
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 19:15:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91EA410E9A6;
-	Mon,  6 Jan 2025 17:36:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ECCB10E02B;
+	Mon,  6 Jan 2025 18:15:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Aq89hEEy";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="Nhk54qT4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
- [209.85.161.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CB7110E212;
- Mon,  6 Jan 2025 17:36:39 +0000 (UTC)
-Received: by mail-oo1-f52.google.com with SMTP id
- 006d021491bc7-5f33d67e584so1099134eaf.1; 
- Mon, 06 Jan 2025 09:36:39 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D88A910E02B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 18:15:06 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3862a921123so9883839f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 10:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736184938; x=1736789738; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vBoNhSu6q49cqdqVQhKrU93NZBtBZPk5jCQdSRfDNk8=;
- b=Aq89hEEyiOKij1qNzT9f11WB1s4CCTg+Y7xPiSCxrW65PkOFTzZ2+Ex+mWufreU16P
- LOMb2eV0vzlZkiX+9uK3kzK8VGNvH9EzKRtai2Lj6dMnbDPY2ZlAjGm4ygV6FHu/7haD
- s7aEw/HBGu9jK/GA2scWinxD4wrXGxZ8ffZM9XSGHNb3TTWJIJdzusx7OoGu9FxeXld1
- fTgm973a6K1IaFbNLkma1+N8SATZ+vkHbCjnmlWLk1frYd8lVeIccP5USqduSVZxRfuo
- wOj+C2XGn7OzQIlIahVO+5bW/tn8/0QH2FQQTdHZh8MeTfjxlQOkHBIwpDa5DTdm+Vcn
- O7ow==
+ d=suse.com; s=google; t=1736187245; x=1736792045; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iyGA4lAiCzsKD8bpG2OLbm7SvOEgsIMLWbFXGinwzoo=;
+ b=Nhk54qT4h1BUSYNAUmEiyikXvmkFbGbuZQPHKo3iid6iVGgXRlqDOHvA5Gq9cCCwdu
+ BEew3di1vOj7M+f+VROlinJIGLI1Kuog64J1FjMoG5tNP6Gc777sgYoKuIUWCQZI7EYQ
+ q0nXMi1ue0qSla1E50SHbPisVW7NkPNukfDcbFwR10DGS+MNDGRc3gt/rI2ZN9Jsupjx
+ Losz4l3jkg4EkCWCCRCHziky0deNQkaEZfy0wAwVm1caR4YNBVMf6MWS1vExZ6MFaV7S
+ D+d/V2+tJbmc9Y5T+gjsFDni+qLdEjuNCi0q10KOJODqkn6nJ8j1BSj1dT5g/m9qWF+1
+ LiFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736184938; x=1736789738;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vBoNhSu6q49cqdqVQhKrU93NZBtBZPk5jCQdSRfDNk8=;
- b=WqeW9Z9926NUxs3fa0EJfRQCrrnvGFXjd12TmOVJtcSCmPjbGw4IqiHed/kxZ3D4VR
- 0zA4NZAHH5KsZ3AKcvpSTKEL0nq1k80XvwSvPiJFkUzy5O1QC+g9GNv0k8qjQpXcd/Rx
- eJ90rXfKXhWlYOb/pronB65eAj1SZPS60XzOZJ9fPoql18rerMWkERuwDUaEcH+9oVqI
- MCE6scGt5JxcNNwY7nvFJ/QVpc6Mukol5PLJFZUuXJ5ugFko+/+grEgisKMMWYfUoF44
- SCDCecZpZE1FQfsNrfYOXf09rGprU168ttEQvsrd4Kp6QLaWgeBtsqktOnU26u5Nq66F
- vpQg==
+ d=1e100.net; s=20230601; t=1736187245; x=1736792045;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iyGA4lAiCzsKD8bpG2OLbm7SvOEgsIMLWbFXGinwzoo=;
+ b=TFci1RLc/OgDY9SGiNFpHOFhGCAdtyIEvoll581xrv7bmXgjr+QmiKyG0RRsGcEfdB
+ B/ff5JkEIXi7bBb4geSQFoqEWFyd8BcKDHE/7PBGghPYnBaDah/8+GUi5TG5z/5VCXmI
+ wHMZsgEnhvAdciHuG9biIutsSBS0PJVeTfDD1cgYhX5kCQW1q/00XW+oEUaDvkdSQfTT
+ uk4YdHGgynmVvHqex5s27rnWp/+orkw+aJdYtfrccyY2isEYUJMvx9+BjZjbQYmEf9rW
+ NyLJZOdXZiqog3M0icn9bDhfCn5whg0tQbyYb+g8EsMwMwUsvCtYQ6VMsgv6/VtJB/vs
+ FQkw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNfwBKndDBz5DOZwVHj5uzh8PTzfU59LWKOfjwhuUuXGV5w3K6p4ZueQ+AwveO0IhaDKaQA9Fy@lists.freedesktop.org,
- AJvYcCXy/DmNJggXKllEbaIUtscVychaB9chFnwXlz9Kn5hRQjhyBSlmhsOoo7WkcyJgDOi97L+HIPWB+no4@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4gD6VDeCxzekyBTSRlLH5x3iivK1Ywbf5WCiqyuyLaANQhbkk
- wpskKyI5/Qwkml9OfVAjmLrNJMsTbfJuN/racrJYWsHQeJpz6I85Cn7F5G2ZcY8iu9lGqKltTCg
- xqsVSl0WXn6mJF79xMDsc3tohPQMPzA==
-X-Gm-Gg: ASbGnct+gXXNWoOSPVvOA4Rvv9l0pZRrXzRBHO0ZOrtE+CFg0x+lWoB7tKgOrS3m0gP
- ONIFRFjf2P46diHqg4YXP2ihnnzGovWksymIE9A==
-X-Google-Smtp-Source: AGHT+IHCcADNAqOOaN+ufllc9x/Tbyw4zJm26vrtFwMVXoU/ZabvIUGlzJgCdr6YqtB+H/RX0NBzjQqvbNL5EVjm2+0=
-X-Received: by 2002:a17:90b:2b8f:b0:2ea:853a:99e0 with SMTP id
- 98e67ed59e1d1-2f452ec6f12mr33610613a91.5.1736184584899; Mon, 06 Jan 2025
- 09:29:44 -0800 (PST)
+ AJvYcCUNzLoN4MgHq2WEIvw7hMoydp1tMDwcIOO1AQXbgHFQ/7aYrzBsKi/SfEePvmzRbndVMKsQcX7Ju6Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6N5m/LgjRyUhH4Wm/q2fR2RATNGeqd8+cxw/vqlTc6D66d1uG
+ iWFMas2a1GPS49iY2Q0x807DWlTzJAhhM5cwsPdoBXmcF/kmeYeCgfW0LhSKPNvDfJVAcYHsOUS
+ R
+X-Gm-Gg: ASbGncuvfB40cl3bwDgmmxIkC971HHD5LSAgjUfz4X0M72wg0NfD2rtlLzkU0Ljlayb
+ mnfUOiCe2ep8+cKEgR551rPMcddjs5PY6Om/vofJkF6kKb/DgLOkFk3y2sctdbUycUFdRU3Vxvy
+ N27uj6n+MVrrQ3fq41GYwGQIw7eLBNzy2B9Wh35ggM8vawidVSQUKugmDMa1sdW4X4CC5KL7pFk
+ 0BS8t20PTfT9CCQdDo5HC0XPyyMEMirq4eVEQUPKJ8TJ8s5A40tEwaIlaI=
+X-Google-Smtp-Source: AGHT+IGkwIuJtbwbUThZtAjQyXw8sV6HWFXnREb8nnP6DrTXZ11YQLIKmj95wr8m/cODFINVqbqcRA==
+X-Received: by 2002:a7b:cb14:0:b0:436:90d4:5f3e with SMTP id
+ 5b1f17b1804b1-43690d46037mr324429325e9.6.1736185713421; 
+ Mon, 06 Jan 2025 09:48:33 -0800 (PST)
+Received: from blackdock.suse.cz ([193.86.92.181])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43661289d3dsm580766155e9.41.2025.01.06.09.48.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2025 09:48:33 -0800 (PST)
+Date: Mon, 6 Jan 2025 18:48:31 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: linux-kernel@vger.kernel.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Zefan Li <lizefan.x@bytedance.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, Maxime Ripard <mripard@kernel.org>,
+ cgroups@vger.kernel.org, 
+ linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH v2 1/7] kernel/cgroup: Add "dmem" memory accounting cgroup
+Message-ID: <uj6railxyazpu6ocl2ygo6lw4lavbsgg26oq57pxxqe5uzxw42@fhnqvq3tia6n>
+References: <20241204134410.1161769-1-dev@lankhorst.se>
+ <20241204134410.1161769-2-dev@lankhorst.se>
 MIME-Version: 1.0
-References: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
-In-Reply-To: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 6 Jan 2025 12:29:32 -0500
-Message-ID: <CADnq5_Pun+zN1=B0eFMw1w8k_oD3fw626SdaEug24YRg8aOLKw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Increase sanitizer frame larger than
- limit when compile testing with clang
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
- patches@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="3gfwd2ja7fjanltd"
+Content-Disposition: inline
+In-Reply-To: <20241204134410.1161769-2-dev@lankhorst.se>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,98 +94,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
 
-On Thu, Dec 19, 2024 at 6:46=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> Commit 24909d9ec7c3 ("drm/amd/display: Overwriting dualDPP UBF values
-> before usage") added a new warning in dml2/display_mode_core.c when
-> building allmodconfig with clang:
->
->   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6268:=
-13: error: stack frame size (3128) exceeds limit (3072) in 'dml_prefetch_ch=
-eck' [-Werror,-Wframe-larger-than]
->    6268 | static void dml_prefetch_check(struct display_mode_lib_st *mode=
-_lib)
->         |             ^
->
-> Commit be4e3509314a ("drm/amd/display: DML21 Reintegration For Various
-> Fixes") introduced one in dml2_core/dml2_core_dcn4_calcs.c with the same
-> configuration:
->
->   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_=
-core_dcn4_calcs.c:7236:13: error: stack frame size (3256) exceeds limit (30=
-72) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
->    7236 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_s=
-upport_ex *in_out_params)
->         |             ^
->
-> In the case of the first warning, the stack usage was already at the
-> limit at the parent change, so the offending change was rather
-> innocuous. In the case of the second warning, there was a rather
-> dramatic increase in stack usage compared to the parent:
->
->   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_=
-core_dcn4_calcs.c:7032:13: error: stack frame size (2696) exceeds limit (20=
-48) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
->    7032 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_s=
-upport_ex *in_out_params)
->         |             ^
->
-> This is an unfortunate interaction between an issue with stack slot
-> reuse in LLVM that gets exacerbated by sanitization (which gets enabled
-> with all{mod,yes}config) and function calls using a much higher number
-> of parameters than is typical in the kernel, necessitating passing most
-> of these values on the stack.
->
-> While it is possible that there should be source code changes to address
-> these warnings, this code is difficult to modify for various reasons, as
-> has been noted in other changes that have occurred for similar reasons,
-> such as commit 6740ec97bcdb ("drm/amd/display: Increase frame warning
-> limit with KASAN or KCSAN in dml2").
->
-> Increase the frame larger than limit when compile testing with clang and
-> the sanitizers enabled to avoid this breakage in all{mod,yes}config, as
-> they are commonly used and valuable testing targets. While it is not the
-> best to hide this issue, it is not really relevant when compile testing,
-> as the sanitizers are commonly stressful on optimizations and they are
-> only truly useful at runtime, which COMPILE_TEST states will not occur
-> with the current build.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202412121748.chuX4sap-lkp@i=
-ntel.com/
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/gpu/drm/amd/display/dc/dml2/Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/d=
-rm/amd/display/dc/dml2/Makefile
-> index d9c27ebe12ee08d6330eb199cd8ca9c8489fa5b2..91c4f3b4bd5f46ac5c1c74f66=
-5b06dbe61081917 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> @@ -29,7 +29,11 @@ dml2_rcflags :=3D $(CC_FLAGS_NO_FPU)
->
->  ifneq ($(CONFIG_FRAME_WARN),0)
->  ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> +ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
-> +frame_warn_flag :=3D -Wframe-larger-than=3D4096
-> +else
->  frame_warn_flag :=3D -Wframe-larger-than=3D3072
-> +endif
->  else
->  frame_warn_flag :=3D -Wframe-larger-than=3D2048
->  endif
->
-> ---
-> base-commit: 695c2c745e5dff201b75da8a1d237ce403600d04
-> change-id: 20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig=
--f034d9c5118e
->
-> Best regards,
-> --
-> Nathan Chancellor <nathan@kernel.org>
->
+--3gfwd2ja7fjanltd
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/7] kernel/cgroup: Add "dmem" memory accounting cgroup
+MIME-Version: 1.0
+
+Hello.
+
+On Wed, Dec 04, 2024 at 02:44:01PM +0100, Maarten Lankhorst <dev@lankhorst.=
+se> wrote:
+> +bool dmem_cgroup_state_evict_valuable(struct dmem_cgroup_pool_state *lim=
+it_pool,
+> +				      struct dmem_cgroup_pool_state *test_pool,
+> +				      bool ignore_low, bool *ret_hit_low)
+> +{
+> +	struct dmem_cgroup_pool_state *pool =3D test_pool;
+> +	struct page_counter *climit, *ctest;
+> +	u64 used, min, low;
+> +
+> +	/* Can always evict from current pool, despite limits */
+> +	if (limit_pool =3D=3D test_pool)
+> +		return true;
+> +
+
+> +	if (limit_pool) {
+> +		if (!parent_dmemcs(limit_pool->cs))
+> +			return true;
+> +
+> +		for (pool =3D test_pool; pool && limit_pool !=3D pool; pool =3D pool_p=
+arent(pool))
+> +			{}
+> +
+> +		if (!pool)
+> +			return false;
+> +	} else {
+> +		/*
+> +		 * If there is no cgroup limiting memory usage, use the root
+> +		 * cgroup instead for limit calculations.
+> +		 */
+> +		for (limit_pool =3D test_pool; pool_parent(limit_pool); limit_pool =3D=
+ pool_parent(limit_pool))
+> +			{}
+> +	}
+
+I'm trying to understand the two branches above. If limit_pool is a root
+one, eviction is granted and no protection is evaluated.
+
+Then it checks that test_pool is below limit_pool (can this ever fail,
+given the limit_pool must have been above when charging in test_pool?).
+(OK, this may be called arbitrarily by modules.)
+
+I think it could be simplified and corrected like this:
+
+	/* Resolve NULL limit_pool */
+	if (!limit_pool)
+		for (limit_pool =3D test_pool; pool_parent(limit_pool); limit_pool =3D po=
+ol_parent(limit_pool));
+=09
+	/* Check ancestry */
+	if (!cgroup_is_descendant(test_pool->cs->css.cgroup, limit_pool->cs->css.c=
+group))
+		return false;
+
+HTH,
+Michal
+
+--3gfwd2ja7fjanltd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ3wXbAAKCRAt3Wney77B
+Sc3yAP9ovqhdPX1shEVmXcwsztc0uf1lRR+Wsxf3kwK/GFzF/AEA62OrZTWy+e7K
+cKrPC5As6ORKo4sBmoUVQk/+c0xCRgY=
+=per/
+-----END PGP SIGNATURE-----
+
+--3gfwd2ja7fjanltd--
