@@ -2,59 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02542A02CB5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 16:57:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E47A02E36
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 17:49:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB2810E6C9;
-	Mon,  6 Jan 2025 15:56:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04F2410E20A;
+	Mon,  6 Jan 2025 16:49:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pOVTWHMa";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="BNGNVisG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10AA410E6C9
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 15:56:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 109D2520;
- Mon,  6 Jan 2025 16:56:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736178964;
- bh=m4G4sp/GWSPNBk2U6hQREs4YdXlRNqrxfvcawNfVRKw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pOVTWHMae7VYOpCYkBMbUzkiqGAEKZWPLoCkEBCUJlNZ77Zd4O8jR34HcFsq+jytz
- JeifhstPX5yXIPbk/xhEZlUTFfL8RvOMri+TRXD4j4gWnsSN6TLmTyici9RIk88BGN
- vSvZu+vkNCbhdiA8dJfR+AeG+IKfGf+8+39i7VL0=
-Date: Mon, 6 Jan 2025 17:56:53 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>, Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Stefan Agner <stefan@agner.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 1/4] drm: bridge: dw_hdmi: Add flag to indicate output
- port is optional
-Message-ID: <20250106155653.GG10308@pendragon.ideasonboard.com>
-References: <20250105190659.99941-1-marex@denx.de>
- <20250105232219.GC21164@pendragon.ideasonboard.com>
- <a783fe47-89dc-479b-8e85-f956d95cf404@denx.de>
- <20250106070514.GA5568@pendragon.ideasonboard.com>
- <add68d4c-51d8-4c1a-9560-7c95213dd524@denx.de>
+X-Greylist: delayed 2486 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Jan 2025 16:49:31 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95DE710E20A
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 16:49:31 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 506FTvZH025120;
+ Mon, 6 Jan 2025 17:07:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ t7wyUdadEoYLGmcBhlYZBQxE/bFc8L6HId4ivUrzHOQ=; b=BNGNVisGo6IoTdnN
+ 3iDdo2Pi+3vbkNYy3xLrSlFyVYwfymaJnw4unEXO2RAIgeb9qBL/cY165wIWXIFV
+ zvBDNRwet3qONWViE4srR6Ky8rS9gs7QwkIQI+P1YkKCh8DAQJfuaelaYl0Nu5/Q
+ uM64UZCu4tARtIQUjaP+XsTAYWx/FvZ3AC89m6qfWZcSHNr1gWWP+8Y1kPLaO0i7
+ J4gu5ZfIB7ADWPqtGWM6KzpgkqDtUm3vpVOQL1vRqyct2g+yAkm9JHP2TELHeADq
+ XDcIqHxLYko2IbkysackZ378Q7t5u17HXgEFnv0knuRCRkrmQtyLoOnV3XnS0nSD
+ 8Gt63A==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 440cbrsdam-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Jan 2025 17:07:38 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B03014004D;
+ Mon,  6 Jan 2025 17:06:01 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 78714276BB8;
+ Mon,  6 Jan 2025 17:04:58 +0100 (CET)
+Received: from [10.252.22.94] (10.252.22.94) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 6 Jan
+ 2025 17:04:57 +0100
+Message-ID: <0335a999-9ff1-4527-a21f-d04392c520b6@foss.st.com>
+Date: Mon, 6 Jan 2025 17:04:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <add68d4c-51d8-4c1a-9560-7c95213dd524@denx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/stm: dsi: use drm_mode_validate_mode() helper
+ function
+To: Sean Nyekjaer <sean@geanix.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Yannick
+ Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
+ <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-stm32@st-md-mailman.stormreply.com>
+References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
+ <20241125-dsi-relax-v2-3-9113419f4a40@geanix.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <20241125-dsi-relax-v2-3-9113419f4a40@geanix.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.252.22.94]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,66 +91,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 06, 2025 at 04:36:26PM +0100, Marek Vasut wrote:
-> On 1/6/25 8:05 AM, Laurent Pinchart wrote:
-> > On Mon, Jan 06, 2025 at 03:48:52AM +0100, Marek Vasut wrote:
-> >> On 1/6/25 12:22 AM, Laurent Pinchart wrote:
-> >>> Hi Marek,
-> >>
-> >> Hi,
-> >>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Sun, Jan 05, 2025 at 08:06:03PM +0100, Marek Vasut wrote:
-> >>>> Add a flag meant purely to work around broken i.MX8MP DTs which enable
-> >>>> HDMI but do not contain the HDMI connector node. This flag allows such
-> >>>> DTs to work by creating the connector in the HDMI bridge driver. Do not
-> >>>> use this flag, do not proliferate this flag, please fix your DTs and add
-> >>>> the connector node this way:
-> >>>>
-> >>>> ```
-> >>>> / {
-> >>>>       hdmi-connector {
-> >>>>           compatible = "hdmi-connector";
-> >>>>           label = "FIXME-Board-Specific-Connector-Label"; // Modify this
-> >>>>           type = "a";
-> >>>>
-> >>>>           port {
-> >>>>               hdmi_connector_in: endpoint {
-> >>>>                   remote-endpoint = <&hdmi_tx_out>;
-> >>>>               };
-> >>>>           };
-> >>>>       };
-> >>>> };
-> >>>>
-> >>>> &hdmi_tx {
-> >>>>       ...
-> >>>>
-> >>>>       ports {
-> >>>>           port@1 {
-> >>>>               hdmi_tx_out: endpoint {
-> >>>>                   remote-endpoint = <&hdmi_connector_in>;
-> >>>>               };
-> >>>>           };
-> >>>>       };
-> >>>> };
-> >>>> ```
-> >>>
-> >>> Are there any in-tree DT sources that use the old bindings ?
-> >>
-> >> See
-> >> https://lore.kernel.org/dri-devel/AM7PR04MB704688150ACD5D209290246A98092@AM7PR04MB7046.eurprd04.prod.outlook.com/
-> > 
-> > Maybe I'm missing something obvious, but where is the patch series that
-> > moves the DT sources mentioned in that mail thread to the new bindings ?
->
-> Since this optional flag is added, that DT update series can be done 
-> separately.
 
-It can, but I'd like to see it merged in the same time frame as this
-series, so it should be posted (and reviewed and tested).
+On 11/25/24 14:49, Sean Nyekjaer wrote:
+> When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh to
+> reguire the requested and the actual px clock to be within 50Hz. A typical
+> LVDS display requires the px clock to be within +-10%. In case for HDMI .5%
+> tolerance is required. Signed-off-by: Sean Nyekjaer <sean@geanix.com>---
 
--- 
-Regards,
 
-Laurent Pinchart
+Hi Sean,
+
+Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+
+Thanks,
+Raphaël
+
+
