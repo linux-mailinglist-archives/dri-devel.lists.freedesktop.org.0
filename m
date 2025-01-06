@@ -2,60 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C50BA03438
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 01:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C565A03456
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 02:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1377410EA41;
-	Tue,  7 Jan 2025 00:55:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE3EF10E160;
+	Tue,  7 Jan 2025 01:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HkAjYNMQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J+tD7ZNI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72D0010EA41;
- Tue,  7 Jan 2025 00:55:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C558CA42015;
- Tue,  7 Jan 2025 00:53:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F408C4CED2;
- Tue,  7 Jan 2025 00:55:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736211308;
- bh=itpT8lj+lNIgywLNl4oQSfKmBGz6ZnJFx9B6ZC+ljLU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HkAjYNMQIt1Y3Disc0kT2+T01kw3dPkZz/I2a11LIGWqBNwTcgc81F9rHcmshaVkY
- xzXN01gHUYajLV8UJRAObHhUP1TS4EoJzc84u2dN9VL8xGIqiAmZUzNuz+VMu0KXSx
- 08jgASgpWlyMv6UE1qKFoSlPrb0lQT4XY5m8bKnGb8jeHbMywYWxIRlcEfBf3XHLoC
- XSvXM/TiqvzB8H/9nlFgn0c2cJXO02QwCTN8ZPrzFI7sYXVMVy5b8rH4vKz7RNnu2K
- Jy65E6HRDlLHw1BEtfKaza9flEh+iKKLqS2H8aN9FUswErs+t/bdqrlG+OlX4ZR56U
- HvAscmUEnTiiA==
-Date: Mon, 6 Jan 2025 18:55:04 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6D2510E160
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 01:09:00 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3e8f64d5dso26977676a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 17:09:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736212079; x=1736816879; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3Qu8WQXQCtZnShf6h8tAcD5s24D9ELy391aex/eneOc=;
+ b=J+tD7ZNIcrwHMsUywXoTGNedBoeRLFSRf3pK9pf+l/OLTZFkFywd5MQgMGM4Uh0LhR
+ ftXiVQq4AD4heoFPQtz0C9UBlyb9OqqHGc2p0H/mI7G9uPwYn2Ir5T4w8eLf00g9UtFR
+ OvzIcjiag0zDpIcAXTAzQQZ4jST89ui8VkCWULZYlXDjdfMmWN/PqClJY7K3Ay7DZh91
+ FT/d7bx+CUh+edMPAKiDsjjlV7NKh5hqE6+iGglAiDUiTILVCMM+ROj4T0kjvzgnAYr9
+ VCOQp5+O8c3Eq8KiFDIOH7GUfkDoPTsBeJbq0TVK9TaYs/hmDoWk/0vgMRvT/RSfjiuz
+ raPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736212079; x=1736816879;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3Qu8WQXQCtZnShf6h8tAcD5s24D9ELy391aex/eneOc=;
+ b=SJgEzB4pAyE/Uxp5Ra0WPibnxGf72r2bhQKxul444zQeOmPUhlU5eyKHcK9kMH2Zsk
+ 5nv08mBfI9vFIn0cgfUDI187gEztDwOdFL1hdyLEONBaFE2vWrH1cjzrBv1l24gWoTSR
+ ku+9cMkE3o57i5PcApNuLjfFCaYvqOVHV6WXNSFTDBv40+rCRDDIZ9AghD2gExL70G4A
+ qB4Q22gPJg/PImAL9l/1NZTV8wp1sBHn1Z3u7thjy1XIvaywAfIuwaaKiQrsI+mZbMWD
+ oF7AEhlPPgnRbfYK7pYFo+bmnpTKsI6fqk++YAQ6dYsl++fewSRJdgDL1B0QVP0XFXuX
+ jEcQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFwKpvedo3aw1oluoIhtvSrV7Nhfzg+DEtE43QsjcVA5NC08lDz3Ni+WyQ8vPMBh1FDv0Nv0k0okk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwtOmrvZlmSnfmTAg/hkJMlr7LfUwxzz7GgEOL+8jDNLVQTteJA
+ 1lcLMgjK+71Fe5CO9r1U+jptdt3YyAgBC+KlCARpl/9CQOHXrOYb1MIcxYJXYvE4Gp+LOtNm4TX
+ EujoS1g==
+X-Gm-Gg: ASbGnctCBHFK9V0HQlasI7xManKYp4YoyLSkPu1r/+IhvO6rIkFcA1vHnMxK4HhXvoZ
+ EGxD1RovsC3WICvRoMcLzPbIXQULJtxo38sExFBiu7n/dVJw5R3Xh0VZiHh0asVUwDJEj3HlY+F
+ +ZSPTEx6ZGONWpDcEhwMwyvHhNrWXCPt+l7ombQVGgCnPowwI3j3awW2P7cOWI1w8TyvJBydhjD
+ itdfl9ng52Nxl8JZ6Fu22N0LS69D8wY0VBjiG6EOrMzW5pjG2515aW7XvmmTnJKD3BFMNOYsWX/
+ q2vrdDSyVytpVEg9GWoEla0/giOHFqyD5mgE
+X-Google-Smtp-Source: AGHT+IGHVOrjHEa9YHZQLk1c+OGgL7giB+05TWOpDyNnvuG8TPH/ssBfuMDBwWRFHIFp85M+tdvrWw==
+X-Received: by 2002:a05:6512:10d2:b0:53e:39e6:a1c5 with SMTP id
+ 2adb3069b0e04-54229562a91mr18706777e87.41.1736146160752; 
+ Sun, 05 Jan 2025 22:49:20 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223813670sm4904307e87.152.2025.01.05.22.49.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 05 Jan 2025 22:49:19 -0800 (PST)
+Date: Mon, 6 Jan 2025 08:49:17 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Fange Zhang <quic_fangez@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>, 
- Rob Clark <robdclark@chromium.org>, Tanmay Shah <tanmay@codeaurora.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 03/45] drm/msm/dp: fix the intf_type of MST interfaces
-Message-ID: <da2aviya67nogkkkhsbvqcgo3gvmk7uv5vb2dbdemzh6xonoo5@oqtgwgwgshmr>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-3-f8618d42a99a@quicinc.com>
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Li Liu <quic_lliu6@quicinc.com>, Xiangxu Yin <quic_xiangxuy@quicinc.com>
+Subject: Re: [PATCH] drm/msm/dpu: Add writeback support for SM6150
+Message-ID: <w2ybpbn4caps72e6ac45jae3dgmmmhf365ks2sonfmj5uyfvsr@wr5ymif75xbp>
+References: <20250106-add-writeback-support-for-sm6150-v1-1-1d2d69fc4bae@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-3-f8618d42a99a@quicinc.com>
+In-Reply-To: <20250106-add-writeback-support-for-sm6150-v1-1-1d2d69fc4bae@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,64 +95,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:31:34PM -0800, Abhinav Kumar wrote:
-> Interface type of MST interfaces is currently INTF_NONE.
-> Fix this to INTF_DP.
+On Mon, Jan 06, 2025 at 02:39:09PM +0800, Fange Zhang wrote:
+> On the SM6150 platform there is WB_2 block. Add it to the SM6150 catalog.
 > 
-
-Wouldn't it make sense to introduce this later in the series, once the
-implementation would actually handle this case? Or could/should we have
-left these INTF_DP from the start?
-
-Regards,
-Bjorn
-
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Fange Zhang <quic_fangez@quicinc.com>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-> index 907b4d7ceb470b0391d2bbbab3ce520efa2b3263..2509e28e3d6b582cd837c6aea167b3f4ad877383 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-> @@ -375,7 +375,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
->  		.name = "intf_3", .id = INTF_3,
->  		.base = 0x37000, .len = 0x280,
->  		.features = INTF_SC7280_MASK,
-> -		.type = INTF_NONE,
-> +		.type = INTF_DP,
->  		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
->  		.prog_fetch_lines_worst_case = 24,
->  		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
-> @@ -393,7 +393,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
->  		.name = "intf_6", .id = INTF_6,
->  		.base = 0x3A000, .len = 0x280,
->  		.features = INTF_SC7280_MASK,
-> -		.type = INTF_NONE,
-> +		.type = INTF_DP,
->  		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
->  		.prog_fetch_lines_worst_case = 24,
->  		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17),
-> @@ -402,7 +402,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
->  		.name = "intf_7", .id = INTF_7,
->  		.base = 0x3b000, .len = 0x280,
->  		.features = INTF_SC7280_MASK,
-> -		.type = INTF_NONE,
-> +		.type = INTF_DP,
->  		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
->  		.prog_fetch_lines_worst_case = 24,
->  		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
-> @@ -411,7 +411,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
->  		.name = "intf_8", .id = INTF_8,
->  		.base = 0x3c000, .len = 0x280,
->  		.features = INTF_SC7280_MASK,
-> -		.type = INTF_NONE,
-> +		.type = INTF_DP,
->  		.controller_id = MSM_DP_CONTROLLER_1,	/* pair with intf_4 for DP MST */
->  		.prog_fetch_lines_worst_case = 24,
->  		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
-> 
-> -- 
-> 2.34.1
-> 
+> A followup patch to add writeback configuration for the SM6150 catalog
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+-- 
+With best wishes
+Dmitry
