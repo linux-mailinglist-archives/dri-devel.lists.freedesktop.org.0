@@ -2,109 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6EB7A02EE3
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 18:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7259FA02F1E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 18:36:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6080010E9A4;
-	Mon,  6 Jan 2025 17:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91EA410E9A6;
+	Mon,  6 Jan 2025 17:36:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aNhVqe3b";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Aq89hEEy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F20910E9A4
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 17:26:30 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-385de59c1a0so8762194f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 09:26:30 -0800 (PST)
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com
+ [209.85.161.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CB7110E212;
+ Mon,  6 Jan 2025 17:36:39 +0000 (UTC)
+Received: by mail-oo1-f52.google.com with SMTP id
+ 006d021491bc7-5f33d67e584so1099134eaf.1; 
+ Mon, 06 Jan 2025 09:36:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736184329; x=1736789129; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=+oIdHn0Dq889BZIyexLlVmSB0o4QCoEOEb0ZsOZgzJk=;
- b=aNhVqe3bYzr72Wh+1q3Lx0N9p8+FKyjgbMFuc1gtki6jTPyHpSyfYIg/Q6Uipog4+m
- 3ugxmN8LhvA3Gc9vCAaGjsa8TzmJEtkh6Tl5lXO5tgyZRa4sjPghvHSZnpkuzC4zvzsi
- ggDlpHEORIwPyuYAdtjZ7NGmyyIp7B6z6vem/7opyvSccYHY16L6lkAHViPZl2K0uP+i
- BmO4OA20aXfReu3LA894AmN6SieKKT1y/Zs+wOQVyIs5a0VB/pcBCilq1lpGfs7arCmu
- T+YKe1a8Uiu/A2k+CXN9X5UWfe6goWnocGrO5xoudafP4rK383grKQFd4OuBrPAyVlQL
- /Dog==
+ d=gmail.com; s=20230601; t=1736184938; x=1736789738; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vBoNhSu6q49cqdqVQhKrU93NZBtBZPk5jCQdSRfDNk8=;
+ b=Aq89hEEyiOKij1qNzT9f11WB1s4CCTg+Y7xPiSCxrW65PkOFTzZ2+Ex+mWufreU16P
+ LOMb2eV0vzlZkiX+9uK3kzK8VGNvH9EzKRtai2Lj6dMnbDPY2ZlAjGm4ygV6FHu/7haD
+ s7aEw/HBGu9jK/GA2scWinxD4wrXGxZ8ffZM9XSGHNb3TTWJIJdzusx7OoGu9FxeXld1
+ fTgm973a6K1IaFbNLkma1+N8SATZ+vkHbCjnmlWLk1frYd8lVeIccP5USqduSVZxRfuo
+ wOj+C2XGn7OzQIlIahVO+5bW/tn8/0QH2FQQTdHZh8MeTfjxlQOkHBIwpDa5DTdm+Vcn
+ O7ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736184329; x=1736789129;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=+oIdHn0Dq889BZIyexLlVmSB0o4QCoEOEb0ZsOZgzJk=;
- b=OdyHf6J4By9cLFhdzRFuJ4omnL+KXNQuHaM196MYChwP6tRxPadiowwZH6dH6li1Qv
- qEH9q9hYaQLvx5rA762itw4F3/e58PabjluJ1G0NOKIm/dcusQ9CECpt8DZI19hvJ6nH
- IH8iPJFxWWkJtO3We6HGsqTRJ4jesYhr8248AUfWPaQ++4syMLYVoDg/2KDnU9cFuiPu
- h6YsJmom+QA/12xtbdXsc+LTz60+TuFtdkewh2ioxVBDFJd74Rx7kmxbyJX0TmVx/fMH
- Ke3WWPfQsdBLaqEXYo+q0cO3h8U9XiR4pcBG8mr7VLQwnaklCHl7T+jbCjNM1VHizE2r
- JJ5g==
+ d=1e100.net; s=20230601; t=1736184938; x=1736789738;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vBoNhSu6q49cqdqVQhKrU93NZBtBZPk5jCQdSRfDNk8=;
+ b=WqeW9Z9926NUxs3fa0EJfRQCrrnvGFXjd12TmOVJtcSCmPjbGw4IqiHed/kxZ3D4VR
+ 0zA4NZAHH5KsZ3AKcvpSTKEL0nq1k80XvwSvPiJFkUzy5O1QC+g9GNv0k8qjQpXcd/Rx
+ eJ90rXfKXhWlYOb/pronB65eAj1SZPS60XzOZJ9fPoql18rerMWkERuwDUaEcH+9oVqI
+ MCE6scGt5JxcNNwY7nvFJ/QVpc6Mukol5PLJFZUuXJ5ugFko+/+grEgisKMMWYfUoF44
+ SCDCecZpZE1FQfsNrfYOXf09rGprU168ttEQvsrd4Kp6QLaWgeBtsqktOnU26u5Nq66F
+ vpQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX8tPsziOUl7lQYwgHbAH9uQ2xum/G1NvY0keXn/jZztR+Qgg0Qk5RMxWRKaVxujOY1+TZ056d/BdE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzler6+TUPOjsYE9mNHzCUBacngKH88lB4TbKpdClyl1sBIkn4v
- eWN7Al/EeF+dE60rnWuVlT/4RZpKXR6skJivBni/NPTMrxIdTXpyS8gIxcdSjQU=
-X-Gm-Gg: ASbGncusN5gHT89smc3K0rHGMUKQ4a25TgSfVAdVe7UFtjQ6aazIoclgOD7bLpmCHsq
- BA0DhkboDm6heNbBDl76PeZeih2/Im2Ao3CzuaVW+LEVT0FSJH0PZB1niyIkrlEC0uonPOWlnvd
- Z34T7Ivh4dR3+RopdJPUn1/HaV8bJd53IC0QmfghCT7Q/hyxMp0b7vlpWKyzbF9H6OHLGMrzOA7
- Z4lr8MA93OrTz2IeV12rmFeQyA7R/6vZJxZFFWsLN5Y1O/pwpQnXaAtHw6fSQE8eekjUHcMPKu7
- Pj0Zv6W0CsBLwtpfnH0q2SPRiLFS
-X-Google-Smtp-Source: AGHT+IFuWIe7P76vAAJBxaSyBOKgxabYoIof89v0Nq8PwlV3QyzLbMffZ/MQMsRcqJoGVi0Yh0TA6g==
-X-Received: by 2002:a05:6000:2af:b0:386:3752:b28c with SMTP id
- ffacd0b85a97d-38a223f5c3bmr42762481f8f.41.1736184328638; 
- Mon, 06 Jan 2025 09:25:28 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:95:e905:1421:811c?
- ([2a01:e0a:982:cbb0:95:e905:1421:811c])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c89e2b0sm49270546f8f.82.2025.01.06.09.25.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jan 2025 09:25:28 -0800 (PST)
-Message-ID: <76295adf-5356-4997-9b61-492796a6e6d6@linaro.org>
-Date: Mon, 6 Jan 2025 18:25:27 +0100
+ AJvYcCVNfwBKndDBz5DOZwVHj5uzh8PTzfU59LWKOfjwhuUuXGV5w3K6p4ZueQ+AwveO0IhaDKaQA9Fy@lists.freedesktop.org,
+ AJvYcCXy/DmNJggXKllEbaIUtscVychaB9chFnwXlz9Kn5hRQjhyBSlmhsOoo7WkcyJgDOi97L+HIPWB+no4@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4gD6VDeCxzekyBTSRlLH5x3iivK1Ywbf5WCiqyuyLaANQhbkk
+ wpskKyI5/Qwkml9OfVAjmLrNJMsTbfJuN/racrJYWsHQeJpz6I85Cn7F5G2ZcY8iu9lGqKltTCg
+ xqsVSl0WXn6mJF79xMDsc3tohPQMPzA==
+X-Gm-Gg: ASbGnct+gXXNWoOSPVvOA4Rvv9l0pZRrXzRBHO0ZOrtE+CFg0x+lWoB7tKgOrS3m0gP
+ ONIFRFjf2P46diHqg4YXP2ihnnzGovWksymIE9A==
+X-Google-Smtp-Source: AGHT+IHCcADNAqOOaN+ufllc9x/Tbyw4zJm26vrtFwMVXoU/ZabvIUGlzJgCdr6YqtB+H/RX0NBzjQqvbNL5EVjm2+0=
+X-Received: by 2002:a17:90b:2b8f:b0:2ea:853a:99e0 with SMTP id
+ 98e67ed59e1d1-2f452ec6f12mr33610613a91.5.1736184584899; Mon, 06 Jan 2025
+ 09:29:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/panel: ebbg-ft8719: transition to mipi_dsi wrapped
- functions
-To: Tejas Vipin <tejasvipin76@gmail.com>, jo@jsfamily.in,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250106041129.114867-1-tejasvipin76@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250106041129.114867-1-tejasvipin76@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
+In-Reply-To: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 6 Jan 2025 12:29:32 -0500
+Message-ID: <CADnq5_Pun+zN1=B0eFMw1w8k_oD3fw626SdaEug24YRg8aOLKw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Increase sanitizer frame larger than
+ limit when compile testing with clang
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev, 
+ patches@lists.linux.dev, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,131 +86,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/01/2025 05:11, Tejas Vipin wrote:
-> Changes the ebbg-ft8719 panel to use multi style functions for
-> improved error handling.
-> 
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> ---
->   drivers/gpu/drm/panel/panel-ebbg-ft8719.c | 67 ++++++-----------------
->   1 file changed, 16 insertions(+), 51 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-> index e85d63a176d0..0bfed0ec0bbc 100644
-> --- a/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-> +++ b/drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-> @@ -57,65 +57,39 @@ static void ebbg_ft8719_reset(struct ebbg_ft8719 *ctx)
->   static int ebbg_ft8719_on(struct ebbg_ft8719 *ctx)
->   {
->   	struct mipi_dsi_device *dsi = ctx->dsi;
-> -	struct device *dev = &dsi->dev;
-> -	int ret;
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
->   
->   	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->   
-> -	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to set display brightness: %d\n", ret);
-> -		return ret;
-> -	}
-> +	mipi_dsi_dcs_set_display_brightness_multi(&dsi_ctx, 0x00ff);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
->   
-> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
-> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 90);
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
->   
-> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(90);
-> -
-> -	ret = mipi_dsi_dcs_set_display_on(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to set display on: %d\n", ret);
-> -		return ret;
-> -	}
-> -
-> -	return 0;
-> +	return dsi_ctx.accum_err;
->   }
->   
->   static int ebbg_ft8719_off(struct ebbg_ft8719 *ctx)
->   {
->   	struct mipi_dsi_device *dsi = ctx->dsi;
-> -	struct device *dev = &dsi->dev;
-> -	int ret;
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
->   
->   	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->   
-> -	ret = mipi_dsi_dcs_set_display_off(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to set display off: %d\n", ret);
-> -		return ret;
-> -	}
-> -	usleep_range(10000, 11000);
-> -
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(90);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-> +	mipi_dsi_usleep_range(&dsi_ctx, 10000, 11000);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 90);
->   
-> -	return 0;
-> +	return dsi_ctx.accum_err;
->   }
->   
->   static int ebbg_ft8719_prepare(struct drm_panel *panel)
->   {
->   	struct ebbg_ft8719 *ctx = to_ebbg_ft8719(panel);
-> -	struct device *dev = &ctx->dsi->dev;
->   	int ret;
->   
->   	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> @@ -126,7 +100,6 @@ static int ebbg_ft8719_prepare(struct drm_panel *panel)
->   
->   	ret = ebbg_ft8719_on(ctx);
->   	if (ret < 0) {
-> -		dev_err(dev, "Failed to initialize panel: %d\n", ret);
->   		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
->   		return ret;
->   	}
-> @@ -137,18 +110,10 @@ static int ebbg_ft8719_prepare(struct drm_panel *panel)
->   static int ebbg_ft8719_unprepare(struct drm_panel *panel)
->   {
->   	struct ebbg_ft8719 *ctx = to_ebbg_ft8719(panel);
-> -	struct device *dev = &ctx->dsi->dev;
-> -	int ret;
-> -
-> -	ret = ebbg_ft8719_off(ctx);
-> -	if (ret < 0)
-> -		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
->   
-> +	ebbg_ft8719_off(ctx);
->   	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> -
-> -	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> -	if (ret)
-> -		dev_err(panel->dev, "Failed to disable regulators: %d\n", ret);
-> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
->   
->   	return 0;
->   }
+Applied.  Thanks!
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Thu, Dec 19, 2024 at 6:46=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> Commit 24909d9ec7c3 ("drm/amd/display: Overwriting dualDPP UBF values
+> before usage") added a new warning in dml2/display_mode_core.c when
+> building allmodconfig with clang:
+>
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6268:=
+13: error: stack frame size (3128) exceeds limit (3072) in 'dml_prefetch_ch=
+eck' [-Werror,-Wframe-larger-than]
+>    6268 | static void dml_prefetch_check(struct display_mode_lib_st *mode=
+_lib)
+>         |             ^
+>
+> Commit be4e3509314a ("drm/amd/display: DML21 Reintegration For Various
+> Fixes") introduced one in dml2_core/dml2_core_dcn4_calcs.c with the same
+> configuration:
+>
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_=
+core_dcn4_calcs.c:7236:13: error: stack frame size (3256) exceeds limit (30=
+72) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
+>    7236 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_s=
+upport_ex *in_out_params)
+>         |             ^
+>
+> In the case of the first warning, the stack usage was already at the
+> limit at the parent change, so the offending change was rather
+> innocuous. In the case of the second warning, there was a rather
+> dramatic increase in stack usage compared to the parent:
+>
+>   drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_=
+core_dcn4_calcs.c:7032:13: error: stack frame size (2696) exceeds limit (20=
+48) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
+>    7032 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_s=
+upport_ex *in_out_params)
+>         |             ^
+>
+> This is an unfortunate interaction between an issue with stack slot
+> reuse in LLVM that gets exacerbated by sanitization (which gets enabled
+> with all{mod,yes}config) and function calls using a much higher number
+> of parameters than is typical in the kernel, necessitating passing most
+> of these values on the stack.
+>
+> While it is possible that there should be source code changes to address
+> these warnings, this code is difficult to modify for various reasons, as
+> has been noted in other changes that have occurred for similar reasons,
+> such as commit 6740ec97bcdb ("drm/amd/display: Increase frame warning
+> limit with KASAN or KCSAN in dml2").
+>
+> Increase the frame larger than limit when compile testing with clang and
+> the sanitizers enabled to avoid this breakage in all{mod,yes}config, as
+> they are commonly used and valuable testing targets. While it is not the
+> best to hide this issue, it is not really relevant when compile testing,
+> as the sanitizers are commonly stressful on optimizations and they are
+> only truly useful at runtime, which COMPILE_TEST states will not occur
+> with the current build.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202412121748.chuX4sap-lkp@i=
+ntel.com/
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dml2/Makefile | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/d=
+rm/amd/display/dc/dml2/Makefile
+> index d9c27ebe12ee08d6330eb199cd8ca9c8489fa5b2..91c4f3b4bd5f46ac5c1c74f66=
+5b06dbe61081917 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+> @@ -29,7 +29,11 @@ dml2_rcflags :=3D $(CC_FLAGS_NO_FPU)
+>
+>  ifneq ($(CONFIG_FRAME_WARN),0)
+>  ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+> +ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
+> +frame_warn_flag :=3D -Wframe-larger-than=3D4096
+> +else
+>  frame_warn_flag :=3D -Wframe-larger-than=3D3072
+> +endif
+>  else
+>  frame_warn_flag :=3D -Wframe-larger-than=3D2048
+>  endif
+>
+> ---
+> base-commit: 695c2c745e5dff201b75da8a1d237ce403600d04
+> change-id: 20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig=
+-f034d9c5118e
+>
+> Best regards,
+> --
+> Nathan Chancellor <nathan@kernel.org>
+>
