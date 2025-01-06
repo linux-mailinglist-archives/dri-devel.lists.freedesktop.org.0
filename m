@@ -2,64 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447CDA02451
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 12:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795F0A024A0
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 12:58:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 707F010E63A;
-	Mon,  6 Jan 2025 11:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CBFE10E0FE;
+	Mon,  6 Jan 2025 11:58:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=8bytes.org header.i=@8bytes.org header.b="s8EREmB2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S+J/pJQa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 515 seconds by postgrey-1.36 at gabe;
- Mon, 06 Jan 2025 11:33:25 UTC
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4338610E62D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 11:33:25 +0000 (UTC)
-Received: from 8bytes.org (p54921e31.dip0.t-ipconnect.de [84.146.30.49])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.8bytes.org (Postfix) with ESMTPSA id 46E6B2E0016;
- Mon,  6 Jan 2025 12:24:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
- s=default; t=1736162687;
- bh=A2VbHCh2nvdE8f5DyLA9vLSAC91A3zhxUCopF+zUwsk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s8EREmB2Oljv3DrxUsRvmMVdnIZeXQOKGmreXPF1w/R8bB/8ImGDiR6Ra4TYb+cLr
- ZEUmRouXeJ8L3ZVWIQhFm0wXAIR9WG1jGXNVFhaii1V3Rt0p+0TJHnCg2yw6Td/2sM
- 1ilO4a1IQbNvExxFWnpVZo4xinTJsj/RXfMKH0qK5f2EzMZb7ZrQ9kKw9FNOansmuy
- 6pAJsXGw9ssTZu2UaHL/9gyItieOHF4hebKU775HU97zaC7/Fo9PvlpFOrEvP6N6Ny
- eApdlDbnkayhisHkOXTbq7RQyOuwyzrxS3MjSog5MFJFxC+AQ+PVld/RqnRQydX7ci
- pndIhk04I4JbA==
-Date: Mon, 6 Jan 2025 12:24:46 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Parthiban Nallathambi <parthiban@linumiz.com>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH 09/22] iommu: sun50i: make reset control optional
-Message-ID: <Z3u9fuZ2n1y3Or_-@8bytes.org>
-References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
- <20241227-a133-display-support-v1-9-13b52f71fb14@linumiz.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27A1010E0FE
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 11:58:36 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-385e06af753so7147133f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 03:58:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1736164655; x=1736769455; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=cn/UeI8mohAjfHea5qr5CpwesH3i9O9KH0lS1CLexMc=;
+ b=S+J/pJQaxFpEcmKgK7IUHc3HvWewqy3cYglyqNPz+P4Gvh99b6CnPk5T+XHtn+hjRo
+ 6svynjdmZ+8yQoodZGGd4Fw4Yha9x621OLrSrpP7ZrtsTW7vd50Dh6/13+Pqq43CFC+b
+ A2kRotAV1eaQhxV+Bo9alUerSHyL73N3XNwdR7QZ6Z7GBudgsJBK+4fLgdmeIL2SjKAK
+ F1HUBLomvVkNEEtK2dY8WxNDL3t9rZVsd/jA3Px6TB/V8VdV5MLXUXTmQVU9Lv+O7dkL
+ GV1tjoz7+eybymIclt1fZoKmYcpKdRb9MoIcoTzYRw7Vy9V76tfn/jf0QRFM84VDGKsh
+ Uoag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736164655; x=1736769455;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cn/UeI8mohAjfHea5qr5CpwesH3i9O9KH0lS1CLexMc=;
+ b=uVbq7yr61BDwcrzY1m4FyJwUL91ONdMVK/JrZaGBREpyW16E9t1zGq4WYlQmPezsSm
+ 1jwNoExE4pDccbiKfbwnDzh4SBQn2K54BJIISn2HM15ACtP66gbyLiEsi41IuCPB77Jk
+ RML+PZVw2TR/V71JU4SjYcPva+g2Mu/9KTitlKDb20TfS0J3iZwH3fZXb/jiYyJv9ajy
+ vYQ+HISu4nytMOsSqXtTK8i+ZuBgcY6YJ3O8L7WV01c4pLWSXbMeKpHMPTTIxDWTvc2u
+ xBAt0ZPREHNVasOvYiJbTj9e6zP9ryFVJ6nzivKD6VH2ptYzS/Age1qialRqToO2HmU4
+ yF8A==
+X-Gm-Message-State: AOJu0Ywfk8ZW8PM+JeSca/67gjy9zJxz++v6jEwIr6LOjvL9UX/041OV
+ CL5g4W9Bnu1zVnMuHNVFT1N21N8ZdyaiXtopV2Pr/7foS5kJlD/YnyfnWzatMFq9oURFtrP+nZ1
+ /PQdKM8Y2sg5fK5HlmwrkHHuxz2eHPkRM
+X-Gm-Gg: ASbGnctsnwcnYZZTe0B9Fpyi39kf7pEnnB31LTb2xASOTHwdT5xUUp7RsNsmzOxypdA
+ aeZx+QIP3i8aHs2WMlBIPUbhrQv8WcnBrSAS+U8w=
+X-Google-Smtp-Source: AGHT+IFopozCUqhyIcbBhOSsHGc3BSmyKmWXPC6lDA0G/Jp18NTAF5dXA+WMXgI9QT5k20+i4mazy7MisWkaXfSFBpE=
+X-Received: by 2002:a5d:5986:0:b0:385:f47b:1501 with SMTP id
+ ffacd0b85a97d-38a221fa8fbmr45921703f8f.32.1736164654561; Mon, 06 Jan 2025
+ 03:57:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241227-a133-display-support-v1-9-13b52f71fb14@linumiz.com>
+References: <20250104181908.15141-1-jesseevg@gmail.com>
+ <qfxsq2dmj2ty5knlbjmdge2dm7vcace256qkjosg5hvgfplybi@3wwsn5hcnksv>
+In-Reply-To: <qfxsq2dmj2ty5knlbjmdge2dm7vcace256qkjosg5hvgfplybi@3wwsn5hcnksv>
+From: Jesse Van Gavere <jesseevg@gmail.com>
+Date: Mon, 6 Jan 2025 12:57:23 +0100
+Message-ID: <CAMdwsN9_ehCRmo62L=X3m3=pt6LuDekukXj3e8q8XgbaitgAOw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: adv7511: Switch to atomic operations
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Adam Ford <aford173@gmail.com>, Jani Nikula <jani.nikula@intel.com>, 
+ Mads Bligaard Nielsen <bli@bang-olufsen.dk>, Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,14 +88,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 27, 2024 at 04:37:56PM +0530, Parthiban Nallathambi wrote:
-> A133/A100 SoC doesn't have reset control from the CCU. Get reset
-> control line optionally.
-> 
-> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
-> ---
->  drivers/iommu/sun50i-iommu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Hello Dmitry,
 
-Acked-by: Joerg Roedel <jroedel@suse.de>
+> The patch LGTM, but the commit message needs some work. Why/how does
+> TIDSS require bridges to use atomic ops?
 
+In hindsight that indeed could've been worded better, the approach
+here was as a stepping stone to implementing the input bus formats,
+which is what TIDSS needs, so I'll reword the commit as to make clear
+that this is done so the bus formats can be implemented to support
+bridges where this is required.
+
+Best regards,
+Jesse
