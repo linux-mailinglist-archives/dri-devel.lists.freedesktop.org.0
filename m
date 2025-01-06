@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE73A02AF2
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 16:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA2DA02AE4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 16:38:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D32410E6B3;
-	Mon,  6 Jan 2025 15:39:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEDCF10E6A7;
+	Mon,  6 Jan 2025 15:38:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="J5Bc69JM";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="AdRV+Zs1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6FAF10E6B3
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 15:39:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 9378A104839FD; Mon,  6 Jan 2025 16:38:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1736177942;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Tl7b9/uRfU9PjT0DsfX4Aw1ecJNaqnOdlVBiZttQ580=;
- b=J5Bc69JMzDz1JGBjuEG8POURFwwohBsDV7iwgOJ1wM64dUyGP6zajsQ6sN7IaumEBx7r0F
- nEJl0cgtzI1qwksNgBWfJvNPAvXxpK194rKZVz/hdnC4WxFnFvuPFAE+z3xhFug+QpQM/Z
- Q/PLZVVd5CP42opCzvcJIfGc+9+QMnLMehgMxhuAa9PS7XHP3EOYv9/rwbFwJPPqV9fgc8
- 1HZuAoufbXSdN5mmeS2727iCE0O8p+K6TaeNgWvGOM7GKRVJQY2/cEbe3cDQGVoc0TYW/I
- +Gcf7cb6MwcgzFx3dXF92m2G9EQYJl65yJ28iIxwPBV11o2+4bwRePnTdHNWmg==
-Message-ID: <add68d4c-51d8-4c1a-9560-7c95213dd524@denx.de>
-Date: Mon, 6 Jan 2025 16:36:26 +0100
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF05F10E6A7
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 15:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=xIHJ3N6FbqQwLKdBookcSrozPRMb1anppfm1oqShOzQ=; b=AdRV+Zs1KfV5w9RyuCicb7IK1Z
+ +PMU7vNfSRy8IV6SFLlggCMXeDf6Pmh2ruBGN8/XD9X/5CVAX2Uu6h269MkPrGjrbYMrOz5Uv0YEl
+ UKa4HhfRoTnXZDDMfHmkOhWbEAXP2rktYfQJlWoi+IO1sf+aBB4F5Wki1f92TDZ0YvKoUsaew85Ky
+ TOcws2XXplYBLYjrIYD8IwJ7zafd4j3xjZLxKhtCpx/uX8nNqmw5TqWcNO8QmNGBUzHIjKYTd7HC1
+ avLKuunwyzsToQwCMMPkiCi6JQz4Xx5WuzM2bM3Pnc/Jft4bqB6TAhpxD+06DIpBnflsSSjW0rdIl
+ h/csPflw==;
+Received: from i53875aad.versanet.de ([83.135.90.173]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tUpBQ-0006Va-4T; Mon, 06 Jan 2025 16:38:24 +0100
+From: Heiko Stuebner <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, krzk+dt@kernel.org, mripard@kernel.org,
+ robh@kernel.org, hjc@rock-chips.com, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v2 0/3] Add HDMI support for rk3576
+Date: Mon,  6 Jan 2025 16:38:11 +0100
+Message-ID: <173617782282.2587484.17610708009808824460.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241231094425.253398-1-andyshrk@163.com>
+References: <20241231094425.253398-1-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] drm: bridge: dw_hdmi: Add flag to indicate output
- port is optional
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Liu Ying <victor.liu@nxp.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20250105190659.99941-1-marex@denx.de>
- <20250105232219.GC21164@pendragon.ideasonboard.com>
- <a783fe47-89dc-479b-8e85-f956d95cf404@denx.de>
- <20250106070514.GA5568@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20250106070514.GA5568@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,56 +65,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/6/25 8:05 AM, Laurent Pinchart wrote:
-> On Mon, Jan 06, 2025 at 03:48:52AM +0100, Marek Vasut wrote:
->> On 1/6/25 12:22 AM, Laurent Pinchart wrote:
->>> Hi Marek,
->>
->> Hi,
->>
->>> Thank you for the patch.
->>>
->>> On Sun, Jan 05, 2025 at 08:06:03PM +0100, Marek Vasut wrote:
->>>> Add a flag meant purely to work around broken i.MX8MP DTs which enable
->>>> HDMI but do not contain the HDMI connector node. This flag allows such
->>>> DTs to work by creating the connector in the HDMI bridge driver. Do not
->>>> use this flag, do not proliferate this flag, please fix your DTs and add
->>>> the connector node this way:
->>>>
->>>> ```
->>>> / {
->>>>       hdmi-connector {
->>>>           compatible = "hdmi-connector";
->>>>           label = "FIXME-Board-Specific-Connector-Label"; // Modify this
->>>>           type = "a";
->>>>
->>>>           port {
->>>>               hdmi_connector_in: endpoint {
->>>>                   remote-endpoint = <&hdmi_tx_out>;
->>>>               };
->>>>           };
->>>>       };
->>>> };
->>>>
->>>> &hdmi_tx {
->>>>       ...
->>>>
->>>>       ports {
->>>>           port@1 {
->>>>               hdmi_tx_out: endpoint {
->>>>                   remote-endpoint = <&hdmi_connector_in>;
->>>>               };
->>>>           };
->>>>       };
->>>> };
->>>> ```
->>>
->>> Are there any in-tree DT sources that use the old bindings ?
->>
->> See
->> https://lore.kernel.org/dri-devel/AM7PR04MB704688150ACD5D209290246A98092@AM7PR04MB7046.eurprd04.prod.outlook.com/
+
+On Tue, 31 Dec 2024 17:44:16 +0800, Andy Yan wrote:
+> RK3576 HDMI TX Controller is very similar to that of RK3588, but with
+> some control bits for IO and interrupts status scattered across different
+> GRF.
 > 
-> Maybe I'm missing something obvious, but where is the patch series that
-> moves the DT sources mentioned in that mail thread to the new bindings ?
-Since this optional flag is added, that DT update series can be done 
-separately.
+> PATCH 1/3 is add platform ctrl callback for IO setting and interrupts
+> status handing.
+> PATCH 2/3 ~ 3/3 are add support for rk3576
+> 
+> [...]
+
+Applied, thanks!
+
+[1/3] drm/rockchip: dw_hdmi_qp: Add platform ctrl callback
+      commit: 3f60dbd40d3f7aca312d1aa1131e204eb97a68b3
+[2/3] dt-bindings: display: rockchip: Add rk3576 hdmi controller
+      commit: 3a5981b65f77bfb8abcc6f29c13f1b89ce9df3a3
+[3/3] drm/rockchip: Add basic RK3576 HDMI output support
+      commit: 36439120efbdc62e2f47053e7ddfcc4e34364640
+
+I've fixed some minor stuff
+patch1: my review nits (empty line + hardird)
+patch3: drop Detlev's Signed-off
+patches1+3: fixed some more checkpatch warnings
+
+
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
