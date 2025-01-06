@@ -2,89 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360DAA02817
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 15:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A9EA02712
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 14:49:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDCBA10E1F9;
-	Mon,  6 Jan 2025 14:33:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1FFF10E05D;
+	Mon,  6 Jan 2025 13:49:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mxqJ1DiF";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="QDbrpPav";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB1110E0BE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 14:33:42 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-e3983426f80so19768477276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 06:33:42 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81CCC10E05D
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 13:49:01 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4362bae4d7dso103040595e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 05:49:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736173961; x=1736778761; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=parYT9glsnlPG/f3M8WwTH6w3s55tBA7mvmEK8sknGk=;
- b=mxqJ1DiFl05oOx0cxBkc0v58Vpgpttj6haolSsMC/KoBYeVGaQLjJvQWGEZA1Eiqtr
- ew6UPuXsnl6auEd3pUgcjLP2tZWDWj5vof6aIezjw1DEBO93KphXXK9fKODiD5GFueAL
- z+pFvy/InmoZ86BEzjkMVYKQYBD+46799eZoWkomiDKSnvRNbwoy68u6QVNFdcZWzyBu
- 2u9C6fx5yyO66952LcofWujUNtomto4q+tJYwTaw6zb9qEdxuFArlV4kU3uZs30dHNXa
- cjVKSaEr5wFyRzJQDxbxzg/V+2o0fOziaNQtqJBFYxmDbaDXORVSjX6zpNeyi3MkgHrg
- Dkkw==
+ d=ffwll.ch; s=google; t=1736171280; x=1736776080; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=G3DyzrvWGpgXwtk/wA/go5SawQBQVLlp8t3v6rBH8ns=;
+ b=QDbrpPavP9Mmjm0w/KlltKS32gQOCNxtQjIx3yZq/O4GuFPaNOM1k3v8OiKTWmH8jb
+ Q+7Tyak12hHdasUPqhGH6cdKVq0TgeM1cF2+FCDKUKQgAfALdEC8GzzOoadctoopt714
+ nUJiXQsl5cwmd7vH6kJE2N8NxtjyGdAUdGXRI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736173961; x=1736778761;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=parYT9glsnlPG/f3M8WwTH6w3s55tBA7mvmEK8sknGk=;
- b=rrKgi/N5yT485uDxEPj1/hPGWwltRKVIQE0ZfTJMlOOYMCv1rd4ELnYFP0+yPOXKKC
- ww/OJtIIuWnSwQ38wMlpKev8sr7AuqM5cW+A82Os7F879uLpPok1f3DFPE2wowvlz1vI
- jDQzacAUHKOvLqhhAXpuOeJRaIMKqNzdZSPfeBEm0+poV7xJI8HZTt3kqoRgTnruBolk
- LEHOfATZajSH7qhntDVfcDWalONGKr1lU95CjF1wK4tSiWJSg1kLUklQUH5HhelzDTEv
- p9Y2lWATfJMmVqFZa1Rs9TXpeUNDFhVM0LfAfV4koPKIWoQnPYLU3rpz3uNnjot8L4ZR
- abxA==
+ d=1e100.net; s=20230601; t=1736171280; x=1736776080;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G3DyzrvWGpgXwtk/wA/go5SawQBQVLlp8t3v6rBH8ns=;
+ b=pFg3N33jGuClFXet3q5cA2frtDl1l5/bMm1cpqtLpu6PFzYL6rXO5BBufUX3ZBe9Q6
+ znivoGaTqHPSYqxSHl4vem11HAfX5Os2rDXs/sk4g43x6VT0IKnePia9fTjhy72vb6fi
+ 5fBkjT++mU2e9PyJf3P1Pfb2nsupHFPqnw2IkQ6OlYr7Ef9Ex9jGADG5CyD2kmZ34MNo
+ N2jdr36I59JtytlJT3iI7zBaJQQEQ0JFtuNO7oRvn7vd9IKwPGoeI/ve7cT8PMQ+HQ5x
+ Cdl0c+9Y4Nlb/yPxMKNdvJVP/pFhTwkiY5QFXAUW3exidcZy5z/Zts00PtlBq16eattj
+ G4QQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW8pG3J7bD2K5A+LAwCIJQohQ58ZFLR7EkCVsCpDfiuuRpt+A9MexNQuizXWabDzTVFR/lsjKKMfIc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8D6wIRVSizpXhtPbV9Qy96x/dTU0ryzH0VA7Tb9d7g+gBNZTb
- dc6y2+TsKe+txETdRYhvZKkAU9boofF3ZwvFxnfrlSQ8Si+z3vkzBTpuYJV3BaJmHVqy0cYdWcM
- 9JwNwblul2c3Xp8eX1SSCY8FsAerQrvY5jJ0Syw==
-X-Gm-Gg: ASbGncuUXZ24khsuIBjJEGdmwfk06mLPeZzNReDxpbS21ZvFoBshExKjxYQifIb/0BC
- 3SLFOWd0AwQnzhfp5ZFISriZ2e3gSjkTXC1JX7DEFdtEPHwhMkiZUWM5gTrkWvfaN2Yg3VA==
-X-Google-Smtp-Source: AGHT+IFCYJMMVkJai/tt6UL5o1Vxw9p+5FHL/IKoKcM5cfmGtRMK7HxGPa/26NkrbF5OXzwxL3mZCjRDFbu+belYShA=
-X-Received: by 2002:a05:690c:f84:b0:6ef:6d61:c258 with SMTP id
- 00721157ae682-6f3f821384bmr340409657b3.27.1736173961192; Mon, 06 Jan 2025
- 06:32:41 -0800 (PST)
+ AJvYcCUF7FrFqXuhPnbILoB2wZ5cAnCjLqaTErdAd0/46w+aItzqMmZLcDEtCcWtKPGjZbgMXnH08nq5iZg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyNbETyxrKDBQzVifrBiNQE4Zlhm3AZMBo56PkP1VGfNsrKxQbJ
+ cPdNSfWVVfBb0/rzbN5tUVlnbvHN5svFpyDpK7Y1LFOmz7GGKyODVDhU7FZs7kw=
+X-Gm-Gg: ASbGncsYEautWznVgBQJXPa2hAqFbnThcTX+hnXPIr6aVOdNDtIOKHQeDamaNuUGsYU
+ cghgZlq3T3aX7fI3kds+oehzDe2ghy9GMja0l3IsgQvfzeIG04UHGWc/E/Xw/Dn0EseD+zcxszo
+ HmshPuBUfKSZv62ksDiEO3wCZzsaA+hJXc0CLIuGXpMEIvqrJgUDAWsPzMZprbvJrwhxOtg+dOX
+ zggJhsK3Y05c6iPiOxJ/+DEN7US52ieL6kGGGTaD0dXifA4S6EGWPLGbIMeIeLbS87/
+X-Google-Smtp-Source: AGHT+IHId8v3RdcihWKowmyOkOO3TPbWmI5+AMxDYTucmdwJAlnk2v13Y6Do8/uf0dxJoYRZ86a+qw==
+X-Received: by 2002:a05:600c:3caa:b0:434:f871:1b9d with SMTP id
+ 5b1f17b1804b1-43668b7a0b3mr389758355e9.33.1736171279964; 
+ Mon, 06 Jan 2025 05:47:59 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43656b41904sm601717285e9.37.2025.01.06.05.47.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2025 05:47:59 -0800 (PST)
+Date: Mon, 6 Jan 2025 14:47:57 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>
+Cc: Tvrtko Ursulin <tursulin@igalia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>
+Subject: Re: AW: [RFC 00/14] Deadline scheduler and other ideas
+Message-ID: <Z3vfDWrQUYV7k7VJ@phenom.ffwll.local>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <PH7PR12MB568508440AB661A0B168721A83152@PH7PR12MB5685.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
- <20250106-vigorous-talented-viper-fa49d9@houat>
-In-Reply-To: <20250106-vigorous-talented-viper-fa49d9@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 6 Jan 2025 14:24:00 +0200
-Message-ID: <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, Simona Vetter <simona@ffwll.ch>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Paul Kocialkowski <contact@paulk.fr>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- =?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PH7PR12MB568508440AB661A0B168721A83152@PH7PR12MB5685.namprd12.prod.outlook.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,137 +92,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Jan 2025 at 12:39, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> Most of these comments affect your earlier patches, but let's work on
-> the API-level view.
->
-> On Tue, Dec 31, 2024 at 11:39:58AM +0100, Luca Ceresoli wrote:
-> > + * When using refcounted mode, the driver should allocate ``struct
-> > + * my_bridge`` using regular allocation (as opposed to ``devm_`` or
-> > + * ``drmm_`` allocation), call drm_bridge_init() immediately afterwards to
-> > + * transfer lifecycle management to the DRM bridge core, and implement a
-> > + * ``.destroy`` function to deallocate the ``struct my_bridge``, as in this
-> > + * example::
-> > + *
-> > + *     static void my_bridge_destroy(struct drm_bridge *bridge)
-> > + *     {
-> > + *         kfree(container_of(bridge, struct my_bridge, bridge));
-> > + *     }
-> > + *
-> > + *     static const struct drm_bridge_funcs my_bridge_funcs = {
-> > + *         .destroy = my_bridge_destroy,
-> > + *         ...
-> > + *     };
-> > + *
-> > + *     static int my_bridge_probe(...)
-> > + *     {
-> > + *         struct my_bridge *mybr;
-> > + *         int err;
-> > + *
-> > + *         mybr = kzalloc(sizeof(*mybr), GFP_KERNEL);
-> > + *         if (!mybr)
-> > + *             return -ENOMEM;
-> > + *
-> > + *         err = drm_bridge_init(dev, &mybr->bridge, &my_bridge_funcs);
-> > + *         if (err)
-> > + *             return err;
-> > + *
-> > + *         ...
-> > + *         drm_bridge_add();
-> > + *         ...
-> > + *     }
-> > + *
-> > + *     static void my_bridge_remove()
-> > + *     {
-> > + *         struct my_bridge *mybr = ...;
-> > + *         drm_bridge_remove(&mybr->bridge);
-> > + *         // ... NO kfree here!
-> > + *     }
->
-> I'm a bit worried there, since that API is pretty difficult to get
-> right, and we don't have anything to catch bad patterns.
->
-> Let's take a step back. What we're trying to solve here is:
->
->   1) We want to avoid any dangling pointers to a bridge if the bridge
->      device is removed.
->
->   2) To do so, we need to switch to reference counted allocations and
->      pointers.
->
->   3) Most bridges structures are allocated through devm_kzalloc, and they
->      one that aren't are freed at remove time anyway, so the allocated
->      structure will be gone when the device is removed.
->
->   4) To properly track users, each user that will use a drm_bridge needs
->      to take a reference.
+On Fri, Jan 03, 2025 at 03:16:56PM +0000, Koenig, Christian wrote:
+> [AMD Official Use Only - AMD Internal Distribution Only]
+> 
+> Could you send that whole patch set to me once more?
+> 
+> The AMD mails servers seem to have had a hickup over the holidays and
+> all mails received between ~25.12.2024 and 1.1.2025 are somehow mangled.
 
-5) Handle the disappearing next_bridge problem: probe() function gets
-a pointer to the next bridge, but then for some reasons (e.g. because
-of the other device being removed or because of some probe deferral)
-the next_bridge driver gets unbdound and the next_bridge becomes
-unusable before a call to drm_bridge_attach().
+I seem to have the same issue with fetching from lore.o.k, despite that
+the archives seem to be complete. No idea what's happened.
+-Sima
 
->
-> AFAIU, the destroy introduction and the on-purpose omission of kfree in
-> remove is to solve 3.
->
-> Introducing a function that allocates the drm_bridge container struct
-> (like drmm_encoder_alloc for example), take a reference, register a devm
-> kfree action, and return the pointer to the driver structure would solve
-> that too pretty nicely.
->
-> So, something like:
->
->
-> struct driver_priv {
->        struct drm_bridge bridge;
->
->        ...
-> }
->
-> static int driver_probe(...)
-> {
->         struct driver_priv *priv;
->         struct drm_bridge *bridge;
->
->         ....
->
->         priv = devm_drm_bridge_alloc(dev, struct driver_priv, bridge);
-
-Ah... And devm-cleanup will just drop a reference to that data,
-freeing it when all refs are cleaned? Nice idea.
-
->         if (IS_ERR(priv))
->            return ERR_PTR(priv);
->         bridge = &priv->bridge;
->
->         ...
->
->         drm_bridge_add(bridge);
-> }
->
-> Would work just as well.
->
-> I also don't think we need explicit (at least for the common case)
-> drm_bridge_get and drm_bridge_put calls for bridge users.
-> drm_bridge_attach and drm_bridge_detach can get/put the reference
-> directly.
-
-As I wrote previously, I think drm_bridge_attach() might be too late for that.
-It sounds like drm_of_get_panel_or_bridge() and of_drm_find_bridge
-should increment the refcount, possibly adding a devres action to put
-the reference.
-
-> And we'll also need some flag in drm_bridge to indicate that the device
-> is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
-> because now your bridge driver sticks around for much longer than your
-> device so the expectation that your device managed resources (clocks,
-> registers, etc.) are always going to be around.
+> 
+> Thanks in advance,
+> Christian.
+> 
+> ________________________________________
+> Von: Tvrtko Ursulin <tursulin@igalia.com>
+> Gesendet: Montag, 30. Dezember 2024 17:52
+> An: dri-devel@lists.freedesktop.org
+> Cc: kernel-dev@igalia.com; Tvrtko Ursulin; Koenig, Christian; Danilo Krummrich; Matthew Brost; Philipp Stanner
+> Betreff: [RFC 00/14] Deadline scheduler and other ideas
+> 
+> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> 
+> <tldr>
+> Replacing FIFO with a flavour of deadline driven scheduling and removing round-
+> robin. Connecting the scheduler with dma-fence deadlines. First draft and
+> testing by different drivers and feedback would be nice. I was only able to test
+> it with amdgpu. Other drivers may not even compile.
+> </tldr>
+> 
+> If I remember correctly Christian mentioned recently (give or take) that maybe
+> round-robin could be removed. That got me thinking how and what could be
+> improved and simplified. So I played a bit in the scheduler code and came up
+> with something which appears to not crash at least. Whether or not there are
+> significant advantages apart from maybe code consolidation and reduction is the
+> main thing to be determined.
+> 
+> One big question is whether round-robin can really be removed. Does anyone use
+> it, rely on it, or what are even use cases where it is much better than FIFO.
+> 
+> See "drm/sched: Add deadline policy" commit message for a short description on
+> what flavour of deadline scheduling it is. But in essence it should a more fair
+> FIFO where higher priority can not forever starve lower priorities.
+> 
+> "drm/sched: Connect with dma-fence deadlines" wires up dma-fence deadlines to
+> the scheduler because it is easy and makes logical sense with this. And I
+> noticed userspace already uses it so why not wire it up fully.
+> 
+> Otherwise the series is a bit of progression from consolidating RR into FIFO
+> code paths and going from there to deadline and then to a change in how
+> dependencies are handled. And code simplification to 1:1 run queue to scheduler
+> relationship, because deadline does not need per priority run queues.
+> 
+> There is quite a bit of code to go throught here so I think it could be even
+> better if other drivers could give it a spin as is and see if some improvements
+> can be detected. Or at least no regressions.
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <pstanner@redhat.com>
+> 
+> Tvrtko Ursulin (14):
+>   drm/sched: Delete unused update_job_credits
+>   drm/sched: Remove idle entity from tree
+>   drm/sched: Implement RR via FIFO
+>   drm/sched: Consolidate entity run queue management
+>   drm/sched: Move run queue related code into a separate file
+>   drm/sched: Ignore own fence earlier
+>   drm/sched: Resolve same scheduler dependencies earlier
+>   drm/sched: Add deadline policy
+>   drm/sched: Remove FIFO and RR and simplify to a single run queue
+>   drm/sched: Queue all free credits in one worker invocation
+>   drm/sched: Connect with dma-fence deadlines
+>   drm/sched: Embed run queue singleton into the scheduler
+>   dma-fence: Add helper for custom fence context when merging fences
+>   drm/sched: Resolve all job dependencies in one go
+> 
+>  drivers/dma-buf/dma-fence-unwrap.c          |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |   6 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  27 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_job.h     |   5 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |   8 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c     |   8 +-
+>  drivers/gpu/drm/scheduler/Makefile          |   2 +-
+>  drivers/gpu/drm/scheduler/sched_entity.c    | 316 ++++++-----
+>  drivers/gpu/drm/scheduler/sched_fence.c     |   5 +-
+>  drivers/gpu/drm/scheduler/sched_main.c      | 587 +++++---------------
+>  drivers/gpu/drm/scheduler/sched_rq.c        | 199 +++++++
+>  include/drm/gpu_scheduler.h                 |  74 ++-
+>  include/linux/dma-fence-unwrap.h            |  31 +-
+>  14 files changed, 606 insertions(+), 678 deletions(-)
+>  create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+> 
+> --
+> 2.47.1
+> 
 
 -- 
-With best wishes
-Dmitry
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
