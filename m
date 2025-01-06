@@ -2,84 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27340A01CEE
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 01:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F3BA01D21
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 02:55:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2608D10E145;
-	Mon,  6 Jan 2025 00:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 922A310E556;
+	Mon,  6 Jan 2025 01:55:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HzEpbPC8";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ICZbcTw9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD5410E145;
- Mon,  6 Jan 2025 00:56:55 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id
- e9e14a558f8ab-3a8165cfae8so48946055ab.0; 
- Sun, 05 Jan 2025 16:56:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736124955; x=1736729755; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YN6aE+MuJlFK2b44/x4t1iC0A/Dr6QJNJOQ49JRdhBA=;
- b=HzEpbPC8pVy18HVaqkwiZukHg3lygt8rG8Z0HKtIGJxY9RaB8ltCJduTMd/ZdVPuIi
- N1UxwjsEAT8Ktxk46AIFbINnofLpflExgciyXfq4N4wRBn9UqMu8hOXlBid6yP2LLMIw
- c2ADtgc3hLrdxo8DaKMwVUVXkJ2T6f3Q0A5um9IXLotx15JZhmTfL+bbVMtIXB9F/qce
- asFDCGTDvQPkhRn1RVidNmYcpq1MJ0JXaihAGQEZITP9Iq7NycgWLlLY1+3OXIoFl4yA
- FTCb8tzL90mvOy6mZxy2vhRV9olmZiWMqRphdzkUGpaZqA48voCt9TzoqaMR9Hz9eTdu
- vofA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736124955; x=1736729755;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=YN6aE+MuJlFK2b44/x4t1iC0A/Dr6QJNJOQ49JRdhBA=;
- b=bmmjn6ypaSEt/lkh8aBMcXrNkXOrhkJ/42LxWkwe7EXdTQh04f5+OzmChBMAhy+El9
- Rw94JlsPI6aXjaJ49RIBnt6NUupjVyOBtTbmuAIT/PUde8skr60XjayT3PDomC0+XSoG
- VIR1kIVmrS7vBPNzvg+cerWj3oblLsKIUMRQ3Qtmq0lAPiZwMhZFyRT8o8mcBZAG6UV+
- 2/Xis2bCJUA3W1mwLtAXw5C1NIumnIVQO6qZUz8Gy2gFFX3g12Cj53DzakZ8yLe5QIjp
- wRFa9EsrVO/180rS1gjjm6jNi8bdabAEKPQ9xeb1uKloJJ7GeyuxMzPQjoBASMQI5l19
- UEyg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWE2pk4RuiogD7Ax9sf1G+ORL/YRH+Ml+3hb7TS5rh7Yw45l3MHBrndlp6CfDjpDTP033/JsiYlzuw=@lists.freedesktop.org,
- AJvYcCXgzN9fcFSO4cw7KV0VCZcGWWEVWVqQIZRo8jpOGgdb/V3lh1cl+Ralk88EZJT5kEvd+ZVOatYYRu2e@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFvgilh02Sv2LVrx3kPh6OrWeQR45YNTRxiq8lGgFYARUHKo71
- uE4/w6hi0fHPr1hadwDmNJLs+u4riLbDpvGpQ1joYLvOqXMJ18KjokpWGgYHNYmkmf0qSvF5lbh
- kXylM+NAPJCCODf93WJfDumE1MVg=
-X-Gm-Gg: ASbGnctQJbcdM/won7w2q+bEel7kS42G66EY4q+YH12xtth0rq5rYzSrMKG+o5SF+/2
- QwxsjkLLiaUz7UGDxdzJd/18a0DCu6SqvFDyayA==
-X-Google-Smtp-Source: AGHT+IHJYmBSxrbrAmecPUQ24zUko4o/O+WMOcCAM1FBbr8iLzQz0Mn6QzWXyUlMFbvBdDMqznBqnwfKE3rr7sF3iOQ=
-X-Received: by 2002:a05:6e02:1d0c:b0:3ab:a274:d73 with SMTP id
- e9e14a558f8ab-3c2d2276f0bmr356917355ab.7.1736124954550; Sun, 05 Jan 2025
- 16:55:54 -0800 (PST)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2330210E556
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 01:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=2+jPJaDNPRoa2e/xJ7JfAYxWPYcZ2HI4Ii1YR3dIhnE=; b=I
+ CZbcTw9q1o8Kj84GCppTaMQLbmiSjwic0Kix8Z7oawU0xObyf6XZCSmVTsCZIOvC
+ HI0qT45D6lADFQ3V+pUhPNcdNV9hQrqTRUG2TScVv/3akvnDv564qk0x5AFF7cUk
+ T7bb66xaZfKNf6+LLECuEKP14tm45z8YNdBk0WNgos=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-127 (Coremail) ; Mon, 6 Jan 2025 09:54:26 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Mon, 6 Jan 2025 09:54:26 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com, 
+ detlev.casanova@collabora.com, daniel@fooishbar.org, 
+ "Andy Yan" <andy.yan@rock-chips.com>, 
+ "Michael Riesch" <michael.riesch@wolfvision.net>
+Subject: Re:Re: [PATCH v8 2/9] drm/rockchip: vop2: Add platform specific
+ callback
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <17026630.geO5KgaWL5@diego>
+References: <20241231090802.251787-1-andyshrk@163.com>
+ <20241231090802.251787-3-andyshrk@163.com> <17026630.geO5KgaWL5@diego>
+X-NTES-SC: AL_Qu2YBP2Zt0wt4CScY+kfmkcVgOw9UcO5v/Qk3oZXOJF8jA/p6xkmTEJSJHT08860Ox+OmgmGeyZR1f9lbItUQKMqaQM2maiKtN+/ULUDZ8Ac9Q==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
- <CAO_MupJ21kOQPZG_=87mC-fQKmL=-K9AgOjriWR=wXCKU0897w@mail.gmail.com>
-In-Reply-To: <CAO_MupJ21kOQPZG_=87mC-fQKmL=-K9AgOjriWR=wXCKU0897w@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Sun, 5 Jan 2025 16:55:42 -0800
-Message-ID: <CAF6AEGvYFL9Q88c727eFrTgDb+FvnPm2d=6niLu80DM1DJdm5g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] Support for GPU ACD feature on Adreno X1-85
-To: Maya Matuszczyk <maccraft123mc@gmail.com>
-Cc: Akhil P Oommen <quic_akhilpo@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <1e42c77c.1a60.19439520e14.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: fygvCgD3_67SN3tnNOlQAA--.7378W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQrMXmd7IuTTsAAEsM
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,108 +66,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fwiw, I did see some perf boost (was mainly looking at gfxbench aztec
-ruins vk high/normal, and also a separate mesa MR that fixes some LRZ
-issues with turnip, so I don't remember how much boost was related to
-which offhand)..  I've not seen corruption yet (gnome-shell / f41),
-although what you describe sounds cache-line(ish) and could be just
-timing related.  You could limit max freq via
-/sys/devices/platform/soc@0/3d00000.gpu/devfreq/3d00000.gpu/max_freq
-and see if that "fixes" things.  I don't really expect this patchset
-to introduce these sorts of issues, but maybe the increased freq
-exposes some preexisting conditions?
-
-BR,
--R
-
-On Sun, Jan 5, 2025 at 9:56=E2=80=AFAM Maya Matuszczyk <maccraft123mc@gmail=
-.com> wrote:
->
-> Hi,
-> I've applied this series for testing, and I've no performance
-> increase, and some screen corruption, there's some lines(mostly white)
-> on my yoga slim 7x that appear on the bottom of the screen. When I
-> move my cursor in swaywm over it, the lines get occluded by the cursor
-> and screenshots don't show these lines.
->
-> Best Regards,
-> Maya Matuszczyk
->
-> pon., 30 gru 2024 o 22:11 Akhil P Oommen <quic_akhilpo@quicinc.com> napis=
-a=C5=82(a):
-> >
-> > This series adds support for ACD feature for Adreno GPU which helps to
-> > lower the power consumption on GX rail and also sometimes is a requirem=
-ent
-> > to enable higher GPU frequencies. At high level, following are the
-> > sequences required for ACD feature:
-> >         1. Identify the ACD level data for each regulator corner
-> >         2. Send a message to AOSS to switch voltage plan
-> >         3. Send a table with ACD level information to GMU during every
-> >         gpu wake up
-> >
-> > For (1), it is better to keep ACD level data in devicetree because this
-> > value depends on the process node, voltage margins etc which are
-> > chipset specific. For instance, same GPU HW IP on a different chipset
-> > would have a different set of values. So, a new schema which extends
-> > opp-v2 is created to add a new property called "qcom,opp-acd-level".
-> >
-> > ACD support is dynamically detected based on the presence of
-> > "qcom,opp-acd-level" property in GPU's opp table. Also, qmp node should=
- be
-> > present under GMU node in devicetree for communication with AOSS.
-> >
-> > The devicetree patch in this series adds the acd-level data for X1-85
-> > GPU present in Snapdragon X1 Elite chipset.
-> >
-> > The last two devicetree patches are for Bjorn and all the rest for
-> > Rob Clark.
-> >
-> > ---
-> > Changes in v3:
-> > - Rebased on top of v6.13-rc4 since X1E doesn't boot properly with msm-=
-next
-> > - Update patternProperties regex (Krzysztof)
-> > - Update MAINTAINERS file include the new opp-v2-qcom-adreno.yaml
-> > - Update the new dt properties' description
-> > - Do not move qmp_get() to acd probe (Konrad)
-> > - New patches: patch#2, #3 and #6
-> > - Link to v2: https://lore.kernel.org/r/20241021-gpu-acd-v2-0-9c25a6280=
-3bc@quicinc.com
-> >
-> > Changes in v2:
-> > - Removed RFC tag for the series
-> > - Improve documentation for the new dt bindings (Krzysztof)
-> > - Add fallback compatible string for opp-table (Krzysztof)
-> > - Link to v1: https://lore.kernel.org/r/20241012-gpu-acd-v1-0-1e5e91aa9=
-5b6@quicinc.com
-> >
-> > ---
-> > Akhil P Oommen (6):
-> >       drm/msm/adreno: Add support for ACD
-> >       drm/msm: a6x: Rework qmp_get() error handling
-> >       drm/msm/adreno: Add module param to disable ACD
-> >       dt-bindings: opp: Add v2-qcom-adreno vendor bindings
-> >       arm64: dts: qcom: x1e80100: Add ACD levels for GPU
-> >       arm64: dts: qcom: x1e80100: Add OPPs up to Turbo L3 for GPU
-> >
-> >  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 97 ++++++++++++++=
-++++++++
-> >  MAINTAINERS                                        |  1 +
-> >  arch/arm64/boot/dts/qcom/x1e80100.dtsi             | 25 +++++-
-> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 96 ++++++++++++++=
-++++---
-> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |  1 +
-> >  drivers/gpu/drm/msm/adreno/a6xx_hfi.c              | 36 ++++++++
-> >  drivers/gpu/drm/msm/adreno/a6xx_hfi.h              | 21 +++++
-> >  drivers/gpu/drm/msm/adreno/adreno_device.c         |  4 +
-> >  8 files changed, 268 insertions(+), 13 deletions(-)
-> > ---
-> > base-commit: dbfac60febfa806abb2d384cb6441e77335d2799
-> > change-id: 20240724-gpu-acd-6c1dc5dcf516
-> >
-> > Best regards,
-> > --
-> > Akhil P Oommen <quic_akhilpo@quicinc.com>
-> >
-> >
+SGkgSGVpa28sCgpBdCAyMDI1LTAxLTA2IDA1OjUwOjMwLCAiSGVpa28gU3TDvGJuZXIiIDxoZWlr
+b0BzbnRlY2guZGU+IHdyb3RlOgo+SGkgQW5keSwKPgo+QW0gRGllbnN0YWcsIDMxLiBEZXplbWJl
+ciAyMDI0LCAxMDowNzo0NSBDRVQgc2NocmllYiBBbmR5IFlhbjoKPj4gRnJvbTogQW5keSBZYW4g
+PGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+PiAKPj4gVGhlIFZPUCBpbnRlcmZhY2UgbXV4LCBv
+dmVybGF5LCBiYWNrZ3JvdW5kIGRlbGF5IGN5Y2xlIGNvbmZpZ3VyYXRpb24KPj4gb2YgZGlmZmVy
+ZW50IFNPQyBhcmUgbXVjaCBkaWZmZXJlbnQuIEFkZCBwbGF0Zm9ybSBzcGVjaWZpYyBjYWxsYmFj
+awo+PiBvcHMgdG8gbGV0IHRoZSBjb3JlIGRyaXZlciBsb29rIGNsZWFuZXIgYW5kIG1vcmUgcmVm
+aW5lZC4KPj4gCj4+IFNpZ25lZC1vZmYtYnk6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBz
+LmNvbT4KPj4gVGVzdGVkLWJ5OiBNaWNoYWVsIFJpZXNjaCA8bWljaGFlbC5yaWVzY2hAd29sZnZp
+c2lvbi5uZXQ+ICMgb24gUkszNTY4Cj4+IFRlc3RlZC1ieTogRGV0bGV2IENhc2Fub3ZhIDxkZXRs
+ZXYuY2FzYW5vdmFAY29sbGFib3JhLmNvbT4KPgo+PiAgc3RhdGljIGludCB2b3AyX2NsdXN0ZXJf
+aW5pdChzdHJ1Y3Qgdm9wMl93aW4gKndpbikKPj4gIHsKPj4gIAlzdHJ1Y3Qgdm9wMiAqdm9wMiA9
+IHdpbi0+dm9wMjsKPj4gIAlzdHJ1Y3QgcmVnX2ZpZWxkICpjbHVzdGVyX3JlZ3M7Cj4+ICAJaW50
+IHJldCwgaTsKPj4gIAo+PiAtCWNsdXN0ZXJfcmVncyA9IGttZW1kdXAodm9wMl9jbHVzdGVyX3Jl
+Z3MsIHNpemVvZih2b3AyX2NsdXN0ZXJfcmVncyksCj4+ICsJY2x1c3Rlcl9yZWdzID0ga21lbWR1
+cCh2b3AyLT5kYXRhLT5jbHVzdGVyX3JlZywKPj4gKwkJCSAgICAgICBzaXplb2Yoc3RydWN0IHJl
+Z19maWVsZCkgKiB2b3AyLT5kYXRhLT5ucl9jbHVzdGVyX3JlZ3MsCj4+ICAJCQkgICAgICAgR0ZQ
+X0tFUk5FTCk7Cj4+ICAJaWYgKCFjbHVzdGVyX3JlZ3MpCj4+ICAJCXJldHVybiAtRU5PTUVNOwo+
+PiAgCj4+IC0JZm9yIChpID0gMDsgaSA8IEFSUkFZX1NJWkUodm9wMl9jbHVzdGVyX3JlZ3MpOyBp
+KyspCj4+ICsJZm9yIChpID0gMDsgaSA8IHZvcDItPmRhdGEtPm5yX2NsdXN0ZXJfcmVnczsgaSsr
+KQo+PiAgCQlpZiAoY2x1c3Rlcl9yZWdzW2ldLnJlZyAhPSAweGZmZmZmZmZmKQo+PiAgCQkJY2x1
+c3Rlcl9yZWdzW2ldLnJlZyArPSB3aW4tPm9mZnNldDsKPj4gIAo+PiAgCXJldCA9IGRldm1fcmVn
+bWFwX2ZpZWxkX2J1bGtfYWxsb2Modm9wMi0+ZGV2LCB2b3AyLT5tYXAsIHdpbi0+cmVnLAo+PiAg
+CQkJCQkgICBjbHVzdGVyX3JlZ3MsCj4+IC0JCQkJCSAgIEFSUkFZX1NJWkUodm9wMl9jbHVzdGVy
+X3JlZ3MpKTsKPj4gLQo+PiArCQkJCQkgICB2b3AyLT5kYXRhLT5ucl9jbHVzdGVyX3JlZ3MpOwo+
+PiAgCWtmcmVlKGNsdXN0ZXJfcmVncyk7Cj4+ICAKPj4gIAlyZXR1cm4gcmV0Owo+PiAgfTsKPgo+
+RXZlbiB0aGUgb3JpZ2luYWwgY29kZSwgbWFrZXMgY2hlY2twYXRjaCByZWFsbHkgdW5oYXBweSBu
+b3dhZGF5cyA6LSggLgo+Cj5BcyBwZXIKPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FsbC8yMDI0
+MDcwNi1yZWdtYXAtY29uc3Qtc3RydWN0cy12MS0xLWQwOGM3NzZkYTc4N0B3ZWlzc3NjaHVoLm5l
+dC8KPnJlZ19maWVsZCBzaG91bGQgYmUgY29uc2lkZXJlZCBjb25zdCwgc28gY29weWluZyB0aGUg
+b3JpZ2luYWwgc3RydWN0IGFuZAo+dGhlbiBtb2RpZnlpbmcgaXQgY2F1c2VzIGNoZWNrcGF0Y2gg
+d2FybmluZ3Mgbm93Lgo+Cj5JJ3ZlIHRyaWVkIHRvIGFkYXB0IHRoZSBmdW5jdGlvbiBhcyBpbiB0
+aGUgcGF0Y2ggYmVsb3cuIFRoaXMgc2hvdWxkCj5jb250YWluIHRoZSBzYW1lIGZ1bmN0aW9uYWxp
+dHkgYXMgYmVmb3JlLCBqdXN0IHdpdGgga2VlcGluZyB0aGUgcmVnX2ZpZWxkCj5jb25zdC4KPgo+
+QXMgaXQncyB0aGUgd2Vla2VuZCwgSSBkaWRuJ3QgaGF2ZSB0aW1lIHRvIHRlc3QgdGhhdCBjaGFu
+Z2UsIHNvIGl0J3MgbW9yZQo+bWVhbnQgYXMgYW4gaWRlYSBvbiBob3cgdG8gcHJvY2VlZC4KClRo
+YW5rIHlvdSBzbyBtdWNoLCBJIHdpbGwgdHJ5IGl0IGluIHRoZSBmb2xsb3dpbmcgZGF5cy4KCj4K
+Pgo+PiArCS8qIGFmYmMgcmVncyAqLwo+PiArCVtWT1AyX1dJTl9BRkJDX0ZPUk1BVF0gPSBSRUdf
+RklFTEQoUkszNTY4X0NMVVNURVJfV0lOX0FGQkNEX0NUUkwsIDIsIDYpLAo+PiArCVtWT1AyX1dJ
+Tl9BRkJDX1JCX1NXQVBdID0gUkVHX0ZJRUxEKFJLMzU2OF9DTFVTVEVSX1dJTl9BRkJDRF9DVFJM
+LCA5LCA5KSwKPj4gKwlbVk9QMl9XSU5fQUZCQ19VVl9TV0FQXSA9IFJFR19GSUVMRChSSzM1Njhf
+Q0xVU1RFUl9XSU5fQUZCQ0RfQ1RSTCwgMTAsIDEwKSwKPj4gKwlbVk9QMl9XSU5fQUZCQ19BVVRP
+X0dBVElOR19FTl0gPSBSRUdfRklFTEQoUkszNTY4X0NMVVNURVJfV0lOX0FGQkNEX09VVFBVVF9D
+VFJMLCA0LCA0KSwKPj4gKwlbVk9QMl9XSU5fQUZCQ19IQUxGX0JMT0NLX0VOXSA9IFJFR19GSUVM
+RChSSzM1NjhfQ0xVU1RFUl9XSU5fQUZCQ0RfQ1RSTCwgNywgNyksCj4+ICsJW1ZPUDJfV0lOX0FG
+QkNfQkxPQ0tfU1BMSVRfRU5dID0gUkVHX0ZJRUxEKFJLMzU2OF9DTFVTVEVSX1dJTl9BRkJDRF9D
+VFJMLCA4LCA4KSwKPj4gKwlbVk9QMl9XSU5fQUZCQ19IRFJfUFRSXSA9IFJFR19GSUVMRChSSzM1
+NjhfQ0xVU1RFUl9XSU5fQUZCQ0RfSERSX1BUUiwgMCwgMzEpLAo+PiArCVtWT1AyX1dJTl9BRkJD
+X1BJQ19TSVpFXSA9IFJFR19GSUVMRChSSzM1NjhfQ0xVU1RFUl9XSU5fQUZCQ0RfUElDX1NJWkUs
+IDAsIDMxKSwKPj4gKwlbVk9QMl9XSU5fQUZCQ19QSUNfVklSX1dJRFRIXSA9IFJFR19GSUVMRChS
+SzM1NjhfQ0xVU1RFUl9XSU5fQUZCQ0RfVklSX1dJRFRILCAwLCAxNSksCj4+ICsJW1ZPUDJfV0lO
+X0FGQkNfVElMRV9OVU1dID0gUkVHX0ZJRUxEKFJLMzU2OF9DTFVTVEVSX1dJTl9BRkJDRF9WSVJf
+V0lEVEgsIDE2LCAzMSksCj4+ICsJW1ZPUDJfV0lOX0FGQkNfUElDX09GRlNFVF0gPSBSRUdfRklF
+TEQoUkszNTY4X0NMVVNURVJfV0lOX0FGQkNEX1BJQ19PRkZTRVQsIDAsIDMxKSwKPj4gKwlbVk9Q
+Ml9XSU5fQUZCQ19EU1BfT0ZGU0VUXSA9IFJFR19GSUVMRChSSzM1NjhfQ0xVU1RFUl9XSU5fQUZC
+Q0RfRFNQX09GRlNFVCwgMCwgMzEpLAo+PiArCVtWT1AyX1dJTl9BRkJDX1RSQU5TRk9STV9PRkZT
+RVRdID0gUkVHX0ZJRUxEKFJLMzU2OF9DTFVTVEVSX1dJTl9BRkJDRF9UUkFOU0ZPUk1fT0ZGU0VU
+LCAwLCAzMSksCj4KPmV4Y2VlZHMgdGhlIDEwMCBjaGFyIGxpbmUgbGVuZ3RoLCBzbyBJIHRoaW5r
+IHdlIHNob3VsZCBoYXZlIGEgbGluZSBicmVhawo+YWZ0ZXIgUkszNTY4X0NMVVNURVJfV0lOX0FG
+QkNEX1RSQU5TRk9STV9PRkZTRVQKPgo+Cj5UaGFua3MKPkhlaWtvCj4KPi0tLS0tLS0tLS0tLS0t
+LS0gODwgLS0tLS0tLS0tLS0tLS0tCj5Gcm9tOiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNo
+LmRlPgo+RGF0ZTogU3VuLCA1IEphbiAyMDI1IDE3OjM4OjMxICswMTAwCj5TdWJqZWN0OiBbUEFU
+Q0hdIGRybS9yb2NrY2hpcDogdm9wMjogdXNlIGRldm1fcmVnbWFwX2ZpZWxkX2FsbG9jIGZvciBj
+bHVzdGVyLXJlZ3MKPgo+UmlnaHQgbm93IHZvcDJfY2x1c3Rlcl9pbml0KCkgY29waWVzIHRoZSBi
+YXNlIHZvcDJfY2x1c3Rlcl9yZWdzIGFuZCBhZGFwdHMKPnRoZSByZWcgdmFsdWUgd2l0aCB0aGUg
+Y3VycmVudCB3aW5kb3cncyBvZmZzZXQgYmVmb3JlIGFkZGluZyB0aGUgZmllbGRzIHRvCj50aGUg
+cmVnbWFwLgo+Cj5UaGlzIGNvbmZsaWN0cyB3aXRoIHRoZSBub3Rpb24gb2YgcmVnX2ZpZWxkcyBi
+ZWluZyBjb25zdCwgc2VlCj5odHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNDA3MDYtcmVn
+bWFwLWNvbnN0LXN0cnVjdHMtdjEtMS1kMDhjNzc2ZGE3ODdAd2Vpc3NzY2h1aC5uZXQvCj5mb3Ig
+cmVmZXJlbmNlLCB3aGljaCBub3cgY2F1c2VzIGNoZWNrcGF0Y2ggdG8gYWN0dWFsbHkgd2FybiBh
+Ym91dCB0aGF0Lgo+Cj5TbyBpbnN0ZWFkIG9mIGNyZWF0aW5nIG9uZSBiaWcgY29weSBhbmQgY2hh
+bmdpbmcgaXQgYWZ0ZXJ3YXJkcywgYWRkIHRoZQo+cmVnX2ZpZWxkcyBpbmRpdmlkdWFsbHkgdXNp
+bmcgZGV2bV9yZWdtYXBfZmllbGRfYWxsb2MoKS4KPgo+RnVuY3Rpb25hbCBpdCBpcyB0aGUgc2Ft
+ZSwganVzdCB0aGF0IHRoZSByZWdfZmllbGQgd2UncmUgaGFuZGxpbmcKPmNhbiBzdGF5IGNvbnN0
+Lgo+Cj5TaWduZWQtb2ZmLWJ5OiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgo+LS0t
+Cj4gZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMgfCAzMCArKysr
+KysrKystLS0tLS0tLS0tLQo+IDEgZmlsZSBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCAxNiBk
+ZWxldGlvbnMoLSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2Nr
+Y2hpcF9kcm1fdm9wMi5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92
+b3AyLmMKPmluZGV4IDE3YTk4ODQ1ZmQzMS4uYzhkYTFlYmI2MDEzIDEwMDY0NAo+LS0tIGEvZHJp
+dmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMKPisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5jCj5AQCAtMzQ0MywyNSArMzQ0Mywy
+MyBAQCBzdGF0aWMgc3RydWN0IHJlZ19maWVsZCB2b3AyX2NsdXN0ZXJfcmVnc1tWT1AyX1dJTl9N
+QVhfUkVHXSA9IHsKPiBzdGF0aWMgaW50IHZvcDJfY2x1c3Rlcl9pbml0KHN0cnVjdCB2b3AyX3dp
+biAqd2luKQo+IHsKPiAJc3RydWN0IHZvcDIgKnZvcDIgPSB3aW4tPnZvcDI7Cj4tCXN0cnVjdCBy
+ZWdfZmllbGQgKmNsdXN0ZXJfcmVnczsKPi0JaW50IHJldCwgaTsKPi0KPi0JY2x1c3Rlcl9yZWdz
+ID0ga21lbWR1cCh2b3AyX2NsdXN0ZXJfcmVncywgc2l6ZW9mKHZvcDJfY2x1c3Rlcl9yZWdzKSwK
+Pi0JCQkgICAgICAgR0ZQX0tFUk5FTCk7Cj4tCWlmICghY2x1c3Rlcl9yZWdzKQo+LQkJcmV0dXJu
+IC1FTk9NRU07Cj4rCWludCBpOwo+IAo+LQlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRSh2b3Ay
+X2NsdXN0ZXJfcmVncyk7IGkrKykKPi0JCWlmIChjbHVzdGVyX3JlZ3NbaV0ucmVnICE9IDB4ZmZm
+ZmZmZmYpCj4tCQkJY2x1c3Rlcl9yZWdzW2ldLnJlZyArPSB3aW4tPm9mZnNldDsKPisJZm9yIChp
+ID0gMDsgaSA8IEFSUkFZX1NJWkUodm9wMl9jbHVzdGVyX3JlZ3MpOyBpKyspIHsKPisJCWNvbnN0
+IHN0cnVjdCByZWdfZmllbGQgZmllbGQgPSB7Cj4rCQkJLnJlZyA9ICh2b3AyX2NsdXN0ZXJfcmVn
+c1tpXS5yZWcgIT0gMHhmZmZmZmZmZikgPwo+KwkJCQkJdm9wMl9jbHVzdGVyX3JlZ3NbaV0ucmVn
+ICsgd2luLT5vZmZzZXQgOgo+KwkJCQkJdm9wMl9jbHVzdGVyX3JlZ3NbaV0ucmVnLAo+KwkJCS5s
+c2IgPSB2b3AyX2NsdXN0ZXJfcmVnc1tpXS5sc2IsCj4rCQkJLm1zYiA9IHZvcDJfY2x1c3Rlcl9y
+ZWdzW2ldLm1zYgo+KwkJfTsKPiAKPi0JcmV0ID0gZGV2bV9yZWdtYXBfZmllbGRfYnVsa19hbGxv
+Yyh2b3AyLT5kZXYsIHZvcDItPm1hcCwgd2luLT5yZWcsCj4tCQkJCQkgICBjbHVzdGVyX3JlZ3Ms
+Cj4tCQkJCQkgICBBUlJBWV9TSVpFKHZvcDJfY2x1c3Rlcl9yZWdzKSk7Cj4tCj4tCWtmcmVlKGNs
+dXN0ZXJfcmVncyk7Cj4rCQl3aW4tPnJlZ1tpXSA9IGRldm1fcmVnbWFwX2ZpZWxkX2FsbG9jKHZv
+cDItPmRldiwgdm9wMi0+bWFwLCBmaWVsZCk7Cj4rCQlpZiAoSVNfRVJSKHdpbi0+cmVnW2ldKSkK
+PisJCQlyZXR1cm4gUFRSX0VSUih3aW4tPnJlZ1tpXSk7Cj4rCX0KPiAKPi0JcmV0dXJuIHJldDsK
+PisJcmV0dXJuIDA7Cj4gfTsKPiAKPiBzdGF0aWMgc3RydWN0IHJlZ19maWVsZCB2b3AyX2VzbWFy
+dF9yZWdzW1ZPUDJfV0lOX01BWF9SRUddID0gewo+LS0gCj4yLjQ1LjIKPgo+Cj4KPgo+Cg==
