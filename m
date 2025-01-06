@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EBAA02385
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 11:55:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63B8A02386
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 11:55:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C7010E61B;
-	Mon,  6 Jan 2025 10:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE05910E623;
+	Mon,  6 Jan 2025 10:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NY6mnIIB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UsrsFDd0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82A5810E61A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 10:55:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D9B10E61B
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 10:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,24 +22,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=hU/69p/jwGJXm8YfbQxFGn4pO8R2zhm2nIn9RhkewnA=; b=NY6mnIIBtKl8FfZlmJjsLY3OkG
- Ig4MxZQMh6pU2Rb2KSCpq+x2RYfaLyQNfv/6mCswGHICHv92HK0PCPLswusvw25bTg0pk7i6IqeUo
- FpeVt/3RxeSEeXXhbCDRsMpYCFT5E8DzqNdRjcquzDW9utitwVf20bRcDYSY0nNyLuLvMMgipJuX4
- iN7cYmqeTLWzXwTFIhi3t/YKMJQLWoW4oyhNERlhzAU4NTwgw9XsOD6xhTUucNXAsf77AzV+xrjj9
- N3AxVcXyaghnBoiDw39ZRnGtDUM7lx4v/5OKqd0PO6uO91XdnkNC+1hjsdOoSa4DGfnC9koAN+tTP
- UGy3VTQA==;
+ bh=Fp3dv8ZLAog60QnJI4biv2bUG2SyJDmvzdnixSn+77M=; b=UsrsFDd0X19ltwHhtGFjzuQFwJ
+ GcFqJaM98HMVrE2n9ThBd08/XhZK8u21UC+45Gibs5dCBNzz8Z9z62SAQV+zFmnhMvUyimS3QQOY7
+ TMAOGhxouJsCq11C1Js+iwX3a+LRi+/BCghsTrv+D+1qeodiVKx4axEQE5UZxzMvwvg9wVgknB2dQ
+ CC3weGcxHh4GoQxszfPmk6YePOPCtCTK+jDQsp4oLO4dVAp4gx1Ox4oD0rfT93z4qI2uS9nFc685K
+ 6FBUp6SXxR0IT6GvwxqmSGX8Lbeopl81s9uesXEuouaTiC1mPpwCN4XLkJoI43vJGdUzKh9UlSFeg
+ Kr5eKtsw==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tUklZ-00CESA-Q0; Mon, 06 Jan 2025 11:55:25 +0100
+ id 1tUkla-00CESF-GZ; Mon, 06 Jan 2025 11:55:26 +0100
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com,
 	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: [PATCH 3/7] drm/syncobj: Avoid one temporary allocation in
- drm_syncobj_array_find
-Date: Mon,  6 Jan 2025 10:55:17 +0000
-Message-ID: <20250106105521.53149-4-tursulin@igalia.com>
+Subject: [PATCH 4/7] drm/syncobj: Use put_user in drm_syncobj_query_ioctl
+Date: Mon,  6 Jan 2025 10:55:18 +0000
+Message-ID: <20250106105521.53149-5-tursulin@igalia.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250106105521.53149-1-tursulin@igalia.com>
 References: <20250106105521.53149-1-tursulin@igalia.com>
@@ -62,91 +61,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Drm_syncobj_array_find() helper is used from many userspace ioctl entry
-points with the task of looking up userspace handles to internal objects.
+Since the query loop is using copy_to_user() to write out a single u64 at
+a time it feels more natural (and is a tiny bit more compact) to replace
+it with put_user().
 
-We can easily avoid one temporary allocation by making it read the handles
-as it is looking them up.
+Access_ok() check is added to the input checking for an early bailout in
+case of a bad buffer passed in.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- drivers/gpu/drm/drm_syncobj.c | 44 +++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/drm_syncobj.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index fd5ba6c89666..cdda2df06bec 100644
+index cdda2df06bec..74d1dc0d1f8b 100644
 --- a/drivers/gpu/drm/drm_syncobj.c
 +++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -1213,48 +1213,46 @@ signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec)
- EXPORT_SYMBOL(drm_timeout_abs_to_jiffies);
+@@ -1643,6 +1643,9 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+ 	if (args->count_handles == 0)
+ 		return -EINVAL;
  
- static int drm_syncobj_array_find(struct drm_file *file_private,
--				  void __user *user_handles,
--				  uint32_t count_handles,
-+				  u32 __user *handles,
-+				  uint32_t count,
- 				  struct drm_syncobj ***syncobjs_out)
- {
--	uint32_t i, *handles;
- 	struct drm_syncobj **syncobjs;
-+	uint32_t i;
- 	int ret;
- 
--	handles = kmalloc_array(count_handles, sizeof(*handles), GFP_KERNEL);
--	if (handles == NULL)
-+	if (!access_ok(handles, count * sizeof(*handles)))
++	if (!access_ok(points, args->count_handles * sizeof(*points)))
 +		return -EFAULT;
 +
-+	syncobjs = kmalloc_array(count, sizeof(*syncobjs), GFP_KERNEL);
-+	if (!syncobjs)
- 		return -ENOMEM;
- 
--	if (copy_from_user(handles, user_handles,
--			   sizeof(uint32_t) * count_handles)) {
--		ret = -EFAULT;
--		goto err_free_handles;
--	}
-+	for (i = 0; i < count; i++) {
-+		u64 handle;
- 
--	syncobjs = kmalloc_array(count_handles, sizeof(*syncobjs), GFP_KERNEL);
--	if (syncobjs == NULL) {
--		ret = -ENOMEM;
--		goto err_free_handles;
--	}
--
--	for (i = 0; i < count_handles; i++) {
--		syncobjs[i] = drm_syncobj_find(file_private, handles[i]);
-+		if (__get_user(handle, handles++)) {
-+			ret = -EFAULT;
-+			syncobjs[i] = NULL;
-+			goto err_put_syncobjs;
-+		}
-+		syncobjs[i] = drm_syncobj_find(file_private, handle);
- 		if (!syncobjs[i]) {
- 			ret = -ENOENT;
- 			goto err_put_syncobjs;
+ 	ret = drm_syncobj_array_find(file_private,
+ 				     u64_to_user_ptr(args->handles),
+ 				     args->count_handles,
+@@ -1684,10 +1687,10 @@ int drm_syncobj_query_ioctl(struct drm_device *dev, void *data,
+ 			point = 0;
  		}
+ 		dma_fence_put(fence);
+-		ret = copy_to_user(&points[i], &point, sizeof(uint64_t));
+-		ret = ret ? -EFAULT : 0;
+-		if (ret)
++		if (__put_user(point, points++)) {
++			ret = -EFAULT;
+ 			break;
++		}
  	}
+ 	drm_syncobj_array_free(syncobjs, args->count_handles);
  
--	kfree(handles);
- 	*syncobjs_out = syncobjs;
- 	return 0;
- 
- err_put_syncobjs:
--	while (i-- > 0)
--		drm_syncobj_put(syncobjs[i]);
-+	while (i > 0) {
-+		if (syncobjs[i])
-+			drm_syncobj_put(syncobjs[i]);
-+		i--;
-+	}
- 	kfree(syncobjs);
--err_free_handles:
--	kfree(handles);
- 
- 	return ret;
- }
 -- 
 2.47.1
 
