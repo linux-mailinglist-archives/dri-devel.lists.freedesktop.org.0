@@ -2,90 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B1EA0212B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 09:51:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA72A02135
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 09:55:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713D210E5CE;
-	Mon,  6 Jan 2025 08:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8B5610E5D2;
+	Mon,  6 Jan 2025 08:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BH7lJneQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AqJv2SZ9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16E5610E5C6
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 08:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736153483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=098p1xYBch/Q4n19SdwF3mHoEwwVBvhF2FE8ZcaNpDQ=;
- b=BH7lJneQi/9KwLDQLJGu48e4yZvcNF8L6aOaXvrR+P3OyUCCYIm4dvJ4uSHzpe+CC8eiTM
- c/sXmIuKVlvfoGwE2rAzmf85U1z4HXO6PuEgXZWNgQR/CEMDUYOLx6z2+rOQkLm59LfBPe
- F8XToLcPYCtnrr7QLmpITsi34ajhyWk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-22-ddc5j98oPfCJTT-odIbPQA-1; Mon, 06 Jan 2025 03:51:21 -0500
-X-MC-Unique: ddc5j98oPfCJTT-odIbPQA-1
-X-Mimecast-MFC-AGG-ID: ddc5j98oPfCJTT-odIbPQA
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4361d4e8359so112487925e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 00:51:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736153480; x=1736758280;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=098p1xYBch/Q4n19SdwF3mHoEwwVBvhF2FE8ZcaNpDQ=;
- b=BEzzjDgD8uZYJzyDu0x/+XT/LLPKqFfMfXzpIO11ZQog9JXJ4J58kEVjyiAnHeiz1V
- BMCKbPYEfCP20ZFY4m4ytMZKGTbN4Yneg8vRra7GDUP9ZOfCR6Xu7Fz73iC8wZl9PJ7d
- Fv0urwFxaGSn9NMI0DkaTmUFQZoBK/MNEem0jn65haVlV5exMiP5H6IFVXVkfSBdeLRw
- 4cOH/7M6jLqwCVkVxNc3HY6+wSFhFrhvyXh1LWdTwl+oXAoJ68AxenDC71WC4Vw2AMpN
- 9M6j+X7bQ5Y7F8Ayk5sLNASOa4inLLjzm21Gnrm8vIzhCtJLRq1YxsxUk3QZM9ueahr1
- T2iw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTivBvyArnMyRBnmK81AJ0uQgmYQfLvATjbMzAlKp4N8ZvsbwPmzTIwf6eCK2Kfkn4Nsq7l4i/TL0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzPFLH9VjL5rpJHo6tnsfk18Sk8vBoRXd9dch+RQWNFO7ID2h/C
- 4X9HVtRJLw/U054TnHNKpRg2hU/FcBZ+GtJ5d7hulFf/FmumjSp78GwQKjTMcgkxjfP+sl2y+Mq
- ZXpX46BovCYAQwMsOnayQkFjOFtM/CtHmnon05aYsRMfwT5347iv8K48ehJrofRoUDQ==
-X-Gm-Gg: ASbGncud66hiDKaqurQuSuBkiOKyu4fsi8QoY86E7jjDJ2ATKU2dqVaxgOG3cHR22ME
- 3eEy6hmQfAGYzQOVtJKU9Nt9TzAncGTWwhaWyBmJVXrq21W4k/ko8NuZaEdBHH607Z4A3WAQCqg
- Kqe883IAWkY7woAv6T2OphvwdMPsJ9k1OScV0c3ymfX3X+ecDRCs9YSUMO9xwlWaWeLhWzHpo4x
- wx3WpOyln5tvUDo7sIxYq+OuSS1t7qG
-X-Received: by 2002:a05:600c:3b20:b0:434:9df4:5485 with SMTP id
- 5b1f17b1804b1-43668b76ae9mr424281655e9.32.1736153479890; 
- Mon, 06 Jan 2025 00:51:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHI6dbY0ZU/ixtznukD4L7Xl7l/N53yDcvbHdTXuZzsN4F1ae4y50pg46prSiKljOCD404rlw==
-X-Received: by 2002:a05:600c:3b20:b0:434:9df4:5485 with SMTP id
- 5b1f17b1804b1-43668b76ae9mr424281435e9.32.1736153479413; 
- Mon, 06 Jan 2025 00:51:19 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436604e9c2csm562170745e9.43.2025.01.06.00.51.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2025 00:51:18 -0800 (PST)
-Date: Mon, 6 Jan 2025 09:51:18 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8498B10E5CB;
+ Mon,  6 Jan 2025 08:55:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4E1F9A41296;
+ Mon,  6 Jan 2025 08:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5F5C4CED2;
+ Mon,  6 Jan 2025 08:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736153751;
+ bh=gG4SiTyR1rjNKpTSl7F5DKYKTnsEbd9XXx+wOP8RmzQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=AqJv2SZ9q16OyArWqElTwLOPNwqTm/ShNQQWffb96q1lj4AqFBu2S8K57PHmnRH7/
+ xzupTm63UbfD3+7hQmj/mjtk7Ni2a3mv4rg5ZyC7gx0mF08AN7kqGfWIqKC458mCKN
+ gwQp1eC6iRJnKLYxcKdFS5a/G+MvmBRmjaM6UcbaHc3qmp9xl3044q8FgfIkpESvIn
+ ifJDNyYD52oEbg9I7c1Dg0+YMil4dxoxeB9GxG9BEJ3g21c7PaizTkseSF5f+HfCFD
+ c/9goNwKH4U8aSo3khRGr2Y22RbMLY00xLu/mzuLGW5AwAZLSwqWV1X5wYZD2lVzu1
+ C6+ttlxaCH/rg==
+Date: Mon, 6 Jan 2025 09:55:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next
-Message-ID: <20250106-augmented-kakapo-of-action-0cf000@houat>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>, 
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, 
+ Martyn Welch <martyn.welch@collabora.co.uk>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
+ const mode pointer
+Message-ID: <20250106-passionate-lorikeet-of-apotheosis-c62ff1@houat>
+References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+ <76ho36jqcraehnsgpjralpye52w7ryshhgizekn4qqfsikiojd@3yyorbvjkc7b>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xzt4fwkreukgcxyv"
+ protocol="application/pgp-signature"; boundary="7fhp4op5b7mhfhd4"
 Content-Disposition: inline
+In-Reply-To: <76ho36jqcraehnsgpjralpye52w7ryshhgizekn4qqfsikiojd@3yyorbvjkc7b>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,242 +114,54 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---xzt4fwkreukgcxyv
+--7fhp4op5b7mhfhd4
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Subject: [PULL] drm-misc-next
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
+ const mode pointer
 MIME-Version: 1.0
 
-Hi,
+On Mon, Jan 06, 2025 at 12:47:07AM +0200, Dmitry Baryshkov wrote:
+> On Sat, Dec 14, 2024 at 03:37:04PM +0200, Dmitry Baryshkov wrote:
+> > While working on the generic mode_valid() implementation for the HDMI
+> > Connector framework I noticed that unlike other DRM objects
+> > drm_connector accepts non-const pointer to struct drm_display_mode,
+> > while obviously mode_valid() isn't expected to modify the argument.
+> >=20
+> > Mass-change the DRM framework code to pass const argument to that
+> > callback.
+> >=20
+> > The series has been compile-tested with defconfig for x86-64, arm and
+> > arm64.
+> >=20
+> > Note: yes, I understand that this change might be hard to review and
+> > merge. The only viable option that I foresee is to add new callback,
+> > having the const argument and migrate drivers into using it one by one.
+>=20
+> Colleagues, I'd like to graciously ping regarding this series. Should it
+> be merged as is (possibly requiring more R-B's)? Or should I rework it
+> adding something like .mode_valid_new() callback which takes const
+> argument?
 
-Here's the (last, probably) drm-misc-next PR that covers what has been
-merged during the holidays season.
+I think your patch is fine, and you can add my
+
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+
+We seem to lack an Acked-by for amdgpu though?
 
 Maxime
 
-drm-misc-next-2025-01-06:
-drm-misc-next for 6.14:
-
-UAPI Changes:
-- Clarify drm memory stats documentation
-
-Cross-subsystem Changes:
-
-Core Changes:
- - sched: Documentation fixes,
-
-Driver Changes:
- - amdgpu: Track BO memory stats at runtime
- - amdxdna: Various fixes
- - hisilicon: New HIBMC driver
- - bridges:
-   - Provide default implementation of atomic_check for HDMI bridges
-   - it605: HDCP improvements, MCCS Support
-The following changes since commit 1e93f594285faef57651a0c89f61a7d976db7def:
-
-  drm/bridge: synopsys: Fix Copyright Writing Style of dw-hdmi-qp (2024-12-19 11:09:35 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-01-06
-
-for you to fetch changes up to 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad:
-
-  drm/rockchip: vop2: Support 32x8 superblock afbc (2025-01-05 17:00:06 +0100)
-
-----------------------------------------------------------------
-drm-misc-next for 6.14:
-
-UAPI Changes:
-- Clarify drm memory stats documentation
-
-Cross-subsystem Changes:
-
-Core Changes:
- - sched: Documentation fixes,
-
-Driver Changes:
- - amdgpu: Track BO memory stats at runtime
- - amdxdna: Various fixes
- - hisilicon: New HIBMC driver
- - bridges:
-   - Provide default implementation of atomic_check for HDMI bridges
-   - it605: HDCP improvements, MCCS Support
-
-----------------------------------------------------------------
-Ahmad Fatoum (3):
-      dt-bindings: vendor-prefixes: add prefix for Topland Electronics (H.K)
-      dt-bindings: display: panel-simple: Document Topland TIAN-G07017-01
-      drm: panel-simple: support TOPLAND TIAN G07017 LCD panel
-
-Andy Yan (1):
-      drm/rockchip: vop2: Support 32x8 superblock afbc
-
-Bagas Sanjaya (1):
-      drm/sched: Fix drm_sched_fini() docu generation
-
-Baihan Li (5):
-      drm/hisilicon/hibmc: add dp aux in hibmc drivers
-      drm/hisilicon/hibmc: add dp link moduel in hibmc drivers
-      drm/hisilicon/hibmc: add dp hw moduel in hibmc driver
-      drm/hisilicon/hibmc: refactored struct hibmc_drm_private
-      drm/hisilicon/hibmc: add dp module in hibmc
-
-Dmitry Baryshkov (14):
-      drm/display: bridge_connector: provide atomic_check for HDMI bridges
-      drm/bridge: ite-it6263: drop atomic_check() callback
-      drm/bridge: lontium-lt9611: drop atomic_check() callback
-      drm/bridge: dw-hdmi-qp: drop atomic_check() callback
-      ASoC: hdmi-codec: pass data to get_dai_id too
-      ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
-      drm/connector: implement generic HDMI audio helpers
-      drm/bridge: connector: add support for HDMI codec framework
-      drm/bridge: lt9611: switch to using the DRM HDMI codec framework
-      drm/display/hdmi: implement hotplug functions
-      drm/bridge_connector: hook drm_atomic_helper_connector_hdmi_hotplug()
-      drm/vc4: hdmi: switch to using generic HDMI Codec infrastructure
-      drm/vc4: hdmi: stop rereading EDID in get_modes()
-      drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_hotplug()
-
-Hermes Wu (10):
-      drm/bridge: it6505: Change definition of AUX_FIFO_MAX_SIZE
-      drm/bridge: it6505: improve AUX operation for edid read
-      drm/bridge: it6505: add AUX operation for HDCP KSV list read
-      drm/bridge: it6505: Change definition MAX_HDCP_DOWN_STREAM_COUNT
-      drm/bridge: it6505: fix HDCP Bstatus check
-      drm/bridge: it6505: fix HDCP encryption when R0 ready
-      drm/bridge: it6505: fix HDCP CTS KSV list read with UNIGRAF DPR-100.
-      drm/bridge: it6505: fix HDCP CTS compare V matching
-      drm/bridge: it6505: fix HDCP CTS KSV list wait timer
-      drm/bridge: it6505: add I2C functionality on AUX
-
-Linus Walleij (1):
-      MAINTAINERS: Assume maintainership of PL111
-
-Lizhi Hou (7):
-      accel/amdxdna: Declare npu device profile as static variables
-      accel/amdxdna: Declare mailbox register base as __iomem pointer
-      accel/amdxdna: Declare aie2_max_col as static
-      accel/amdxdna: Use rcu_access_pointer for __rcu pointer
-      accel/amdxdna: Declare force_cmdlist as static
-      accel/amdxdna: Add __user to second parameter of aie2_query_status
-      accel/amdxdna: Declare npu6_dev_priv as static
-
-Rob Herring (Arm) (1):
-      drm: Use of_property_present() for non-boolean properties
-
-Xin Ji (1):
-      drm/bridge:anx7625: Update HDCP content status
-
-Yunxiang Li (5):
-      drm: add drm_memory_stats_is_zero
-      drm: make drm-active- stats optional
-      Documentation/gpu: Clarify drm memory stats definition
-      drm/amdgpu: remove unused function parameter
-      drm/amdgpu: track bo memory stats at runtime
-
- .../bindings/display/panel/panel-simple.yaml       |   2 +
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- Documentation/gpu/drm-usage-stats.rst              |  54 ++--
- MAINTAINERS                                        |   3 +-
- drivers/accel/amdxdna/aie2_ctx.c                   |   2 +-
- drivers/accel/amdxdna/aie2_pci.c                   |   6 +-
- drivers/accel/amdxdna/aie2_pci.h                   |   2 +-
- drivers/accel/amdxdna/amdxdna_mailbox.c            |  24 +-
- drivers/accel/amdxdna/amdxdna_mailbox.h            |   4 +-
- drivers/accel/amdxdna/amdxdna_pci_drv.c            |   2 +-
- drivers/accel/amdxdna/npu1_regs.c                  |   2 +-
- drivers/accel/amdxdna/npu2_regs.c                  |   2 +-
- drivers/accel/amdxdna/npu4_regs.c                  |   2 +-
- drivers/accel/amdxdna/npu5_regs.c                  |   2 +-
- drivers/accel/amdxdna/npu6_regs.c                  |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fdinfo.c         |  17 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |   6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c         | 111 +++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h            |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             | 209 ++++++++++---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |  26 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c          |   1 +
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c     |   3 +-
- drivers/gpu/drm/bridge/analogix/anx7625.c          |  76 ++---
- drivers/gpu/drm/bridge/ite-it6263.c                |  10 -
- drivers/gpu/drm/bridge/ite-it6505.c                | 335 +++++++++++++++++----
- drivers/gpu/drm/bridge/ite-it66121.c               |   4 +-
- drivers/gpu/drm/bridge/lontium-lt9611.c            | 179 +++++------
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |   3 +-
- drivers/gpu/drm/bridge/sii902x.c                   |   7 +-
- .../gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c    |   3 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  17 --
- drivers/gpu/drm/display/Kconfig                    |   8 +
- drivers/gpu/drm/display/Makefile                   |   2 +
- drivers/gpu/drm/display/drm_bridge_connector.c     | 151 +++++++++-
- drivers/gpu/drm/display/drm_hdmi_audio_helper.c    | 190 ++++++++++++
- drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  57 ++++
- drivers/gpu/drm/drm_connector.c                    |   5 +
- drivers/gpu/drm/drm_file.c                         |  23 +-
- drivers/gpu/drm/drm_panel.c                        |   2 +-
- drivers/gpu/drm/exynos/exynos_hdmi.c               |   2 +-
- drivers/gpu/drm/hisilicon/hibmc/Makefile           |   3 +-
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c        | 164 ++++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h       |  63 ++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h     |  19 ++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c         | 220 ++++++++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h         |  28 ++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c       | 332 ++++++++++++++++++++
- drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h        |  76 +++++
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c     | 118 ++++++++
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |  14 +
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h    |  19 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c    |  37 ++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c   |  20 +-
- drivers/gpu/drm/i2c/tda998x_drv.c                  |   2 +-
- drivers/gpu/drm/i915/i915_drm_client.c             |   1 +
- drivers/gpu/drm/mediatek/mtk_dp.c                  |   2 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c                |   2 +-
- drivers/gpu/drm/msm/dsi/dsi_host.c                 |   2 +-
- drivers/gpu/drm/panel/panel-simple.c               |  34 +++
- drivers/gpu/drm/rockchip/cdn-dp-core.c             |   2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  17 +-
- drivers/gpu/drm/scheduler/sched_main.c             |   3 +-
- drivers/gpu/drm/sti/sti_hdmi.c                     |   2 +-
- drivers/gpu/drm/vc4/Kconfig                        |   1 +
- drivers/gpu/drm/vc4/vc4_hdmi.c                     | 104 ++-----
- drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 -
- drivers/gpu/drm/xe/xe_drm_client.c                 |   1 +
- include/drm/display/drm_hdmi_audio_helper.h        |  22 ++
- include/drm/display/drm_hdmi_state_helper.h        |   5 +
- include/drm/drm_bridge.h                           |  74 +++++
- include/drm/drm_connector.h                        | 132 ++++++++
- include/drm/drm_file.h                             |   1 +
- include/drm/drm_gem.h                              |  14 +-
- include/sound/hdmi-codec.h                         |   7 +-
- sound/soc/codecs/hdmi-codec.c                      |   4 +-
- 79 files changed, 2516 insertions(+), 606 deletions(-)
- create mode 100644 drivers/gpu/drm/display/drm_hdmi_audio_helper.c
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
- create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
- create mode 100644 include/drm/display/drm_hdmi_audio_helper.h
-
---xzt4fwkreukgcxyv
+--7fhp4op5b7mhfhd4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ3uZhgAKCRAnX84Zoj2+
-drkLAXsFOUyzOYQxi67daPiFjmXU26K4g1BoGPX/RkDdmZk5AVNvTVNeiJ5ScTVP
-NGsSSq8BfjRPOtXTBaywiRWZtqjB9xC3u397WuYgbWcnaFm6TzQqeOGjNaaJ5aHH
-9fK2pVfpkg==
-=HtdS
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ3ualAAKCRAnX84Zoj2+
+ds65AYCm0HY0VDiw9/7lDbcyH0YuzRQu/+7FuV8GS6p+ubfGmvGVGOS+07oCUheK
+PN/gOxwBgOc9gl1vmxFUVrfM3LjcOixdshbfH49V0dlOMzIZO3m/L5caQ4O6jchE
+p0sk4xSGUQ==
+=4eTB
 -----END PGP SIGNATURE-----
 
---xzt4fwkreukgcxyv--
-
+--7fhp4op5b7mhfhd4--
