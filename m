@@ -2,92 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF068A021D5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 10:29:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9274BA0220F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 10:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB3E10E5EC;
-	Mon,  6 Jan 2025 09:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F86F10E209;
+	Mon,  6 Jan 2025 09:43:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="X1W4YB9t";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D30hOUp2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDF9110E5EC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 09:29:10 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91BA92A5;
- Mon,  6 Jan 2025 10:28:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736155698;
- bh=1eYUeePeM3gARYDxGWWLSxLfl9dDrEsni3/lR1y6fkk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=X1W4YB9tBwu1rzdNMTwte2Uwyo8xy1KMOCCh4suwdzJ5LvqZZMR7TH344RtwJcyxu
- FyI64Q/SdQ94YnOjKBmwoF9efqfmU2/ikDrPHTCix0WHW72jyNTUEftcA3YlxDI94o
- Xh7zi1iAzS7uH4gtsPmPTYYGiL9esQmKc8pBbi/s=
-Message-ID: <eb0330b0-c8ea-4c4f-aef4-9a8dc8c166f3@ideasonboard.com>
-Date: Mon, 6 Jan 2025 11:29:06 +0200
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE0BA10E209
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 09:43:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id CDED0A41349;
+ Mon,  6 Jan 2025 09:41:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE30EC4CED2;
+ Mon,  6 Jan 2025 09:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736156595;
+ bh=Am1upAm9duRmcKQiHZvn5Fk4ib0c9TJ6pXdDabnpuCQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=D30hOUp2WPGyAxoilb3pUH9u6mLN0sRfGw/RALHLBnzomAhB9AHrYmisOjaMgO8YQ
+ Gk4z/fHfhQBxR/YWdQ3g4XcQoqEfHitCc54C0AP57Y0GlsHUeq8uEK/lmsmJjiFlNT
+ LXu64zKwwqCykpnEGv9QQcEmbg8K2RaFyKvD6bbry+QEigwmKEHDBGxXIWJ+QChrBF
+ RwdJ0bdGfhpkHlmDGQUNpwlLL+7THCGgqVFoRIYp4Xn5SnKyc1kxeoeamC4hJoPu6P
+ iVV/MLzAtLqkx5CnDB7hiMpEdfg75mWPoMCPBPptPg5Q/R+t0zOUz/Rfb8Sd6417eM
+ rXlb5CYYQRUVA==
+Date: Mon, 6 Jan 2025 10:43:12 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v6 4/8] drm: writeback: Introduce cleanup function
+Message-ID: <20250106-straight-cyan-hare-50d8e0@houat>
+References: <20241230-google-vkms-managed-v6-0-15c7d65cd63b@bootlin.com>
+ <20241230-google-vkms-managed-v6-4-15c7d65cd63b@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Add support for AM62L DSS
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
- s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
- jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-References: <20241231090432.3649158-1-devarsht@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20241231090432.3649158-1-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ms2zusdi6h6qpedv"
+Content-Disposition: inline
+In-Reply-To: <20241230-google-vkms-managed-v6-4-15c7d65cd63b@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,25 +69,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 31/12/2024 11:04, Devarsh Thakkar wrote:
-> This adds support for DSS subsystem present in TI's AM62L SoC
-> which supports single display pipeline with DPI output which
-> is also routed to DSI Tx controller within the SoC.
-> 
-> Devarsh Thakkar (2):
->    dt-bindings: display: ti,am65x-dss: Add support for AM62L DSS
->    drm/tidss: Add support for AM62L display subsystem
-> 
->   .../bindings/display/ti/ti,am65x-dss.yaml     | 25 +++++++++++++-
->   drivers/gpu/drm/tidss/tidss_dispc.c           | 34 +++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_dispc.h           |  2 ++
->   drivers/gpu/drm/tidss/tidss_drv.c             |  1 +
->   4 files changed, 61 insertions(+), 1 deletion(-)
-> 
+--ms2zusdi6h6qpedv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 4/8] drm: writeback: Introduce cleanup function
+MIME-Version: 1.0
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Mon, Dec 30, 2024 at 07:37:34PM +0100, Louis Chauvet wrote:
+> Currently there is no cleanup function for writeback connectors. To allows
+> implementation of drmm variant of writeback connector, create a cleanup
+> function that can be used to properly remove all the writeback-specific
+> properties and allocations.
+>=20
+> This also introduce an helper to cleanup only the drm_writeback_connector
+> properties, so it can be used during initialization to cleanup in case of
+> failure.
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_writeback.c | 43 +++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 43 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeb=
+ack.c
+> index 33a3c98a962d1ec49ac4b353902036cf74290ae6..c274cba257cde5f4b446df385=
+4974e690c60bf7b 100644
+> --- a/drivers/gpu/drm/drm_writeback.c
+> +++ b/drivers/gpu/drm/drm_writeback.c
+> @@ -15,6 +15,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_framebuffer.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_modeset_helper_vtables.h>
+>  #include <drm/drm_property.h>
+>  #include <drm/drm_writeback.h>
+> @@ -140,6 +141,22 @@ static int create_writeback_properties(struct drm_de=
+vice *dev)
+>  	return 0;
+>  }
+> =20
+> +static void delete_writeback_properties(struct drm_device *dev)
+> +{
+> +	if (dev->mode_config.writeback_pixel_formats_property) {
+> +		drm_property_destroy(dev, dev->mode_config.writeback_pixel_formats_pro=
+perty);
+> +		dev->mode_config.writeback_pixel_formats_property =3D NULL;
+> +	}
+> +	if (dev->mode_config.writeback_out_fence_ptr_property) {
+> +		drm_property_destroy(dev, dev->mode_config.writeback_out_fence_ptr_pro=
+perty);
+> +		dev->mode_config.writeback_out_fence_ptr_property =3D NULL;
+> +	}
+> +	if (dev->mode_config.writeback_fb_id_property) {
+> +		drm_property_destroy(dev, dev->mode_config.writeback_fb_id_property);
+> +		dev->mode_config.writeback_fb_id_property =3D NULL;
+> +	}
+> +}
+> +
+>  static const struct drm_encoder_funcs drm_writeback_encoder_funcs =3D {
+>  	.destroy =3D drm_encoder_cleanup,
+>  };
+> @@ -284,6 +301,32 @@ int drm_writeback_connector_init_with_encoder(struct=
+ drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_writeback_connector_init_with_encoder);
+> =20
+> +/**
+> + * drm_writeback_connector_cleanup - Cleanup the writeback connector
+> + * @dev: DRM device
+> + * @wb_connector: Pointer to the writeback connector to clean up
+> + *
+> + * This will decrement the reference counter of blobs and destroy proper=
+ties. It
+> + * will also clean the remaining jobs in this writeback connector. Cauti=
+on: This helper will not
+> + * clean up the attached encoder and the drm_connector.
+> + */
+> +static void drm_writeback_connector_cleanup(struct drm_device *dev,
+> +					    struct drm_writeback_connector *wb_connector)
+> +{
+> +	unsigned long flags;
+> +	struct drm_writeback_job *pos, *n;
+> +
+> +	delete_writeback_properties(dev);
+> +	drm_property_blob_put(wb_connector->pixel_formats_blob_ptr);
+> +
+> +	spin_lock_irqsave(&wb_connector->job_lock, flags);
+> +	list_for_each_entry_safe(pos, n, &wb_connector->job_queue, list_entry) {
+> +		drm_writeback_cleanup_job(pos);
+> +		list_del(&pos->list_entry);
+> +	}
+> +	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
+> +}
+> +
 
-  Tomi
+Given that this function is static now, it should be merged with the
+patch using it.
 
+Maxime
+
+--ms2zusdi6h6qpedv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ3ulqwAKCRAnX84Zoj2+
+dnbuAX44qK1eRM529azS8s7oe9uBDW/qiucXZvTDGw+Pc8EqHQSHgD6mPe8m6k7X
+iGKFQ2EBgJGKFRP+mmqXmCymlMMy35FTR0D82Oh2JGFJ9GbQPwVC/hswWc0zK7Pd
+3j2nv0zlxg==
+=NLCS
+-----END PGP SIGNATURE-----
+
+--ms2zusdi6h6qpedv--
