@@ -2,143 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6558FA0278B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 15:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C4AA02827
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 15:36:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5948A10E1F4;
-	Mon,  6 Jan 2025 14:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E49410E0BE;
+	Mon,  6 Jan 2025 14:36:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HelyNMIx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WRdPCFNc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HelyNMIx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WRdPCFNc";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="E7s1RuZ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06E4A10E67D
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 14:10:58 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AC2852115D;
- Mon,  6 Jan 2025 14:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736172625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=De2f0n7HkbUbWwqJqOqDRVUUeul3Z2c9oNqi2ssPUOc=;
- b=HelyNMIxaBWze5R7sTCqWKff0Ugd8fwW4o4jcw4+kHsmCDqg4h3sWBAZg/kgy0l0rgaANU
- CWkCPl5WhsQHSVSBzVEs4/TH2Rj0gAKTmWroZotx+dee6/RENl7EDBOD+6/Z4Xwtr3cHwr
- 9+RhpzzyrQsBI4+7f4Vb2ynpMQpPYjs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736172625;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=De2f0n7HkbUbWwqJqOqDRVUUeul3Z2c9oNqi2ssPUOc=;
- b=WRdPCFNc32Gn4oAdt7BCTIBxOGoaE907HS33bajlGXXejq5rZKFkxdti4EIvXh5Zh70E1F
- SyzN+X+Gr1UNdGCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736172625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=De2f0n7HkbUbWwqJqOqDRVUUeul3Z2c9oNqi2ssPUOc=;
- b=HelyNMIxaBWze5R7sTCqWKff0Ugd8fwW4o4jcw4+kHsmCDqg4h3sWBAZg/kgy0l0rgaANU
- CWkCPl5WhsQHSVSBzVEs4/TH2Rj0gAKTmWroZotx+dee6/RENl7EDBOD+6/Z4Xwtr3cHwr
- 9+RhpzzyrQsBI4+7f4Vb2ynpMQpPYjs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736172625;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=De2f0n7HkbUbWwqJqOqDRVUUeul3Z2c9oNqi2ssPUOc=;
- b=WRdPCFNc32Gn4oAdt7BCTIBxOGoaE907HS33bajlGXXejq5rZKFkxdti4EIvXh5Zh70E1F
- SyzN+X+Gr1UNdGCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 45EC5137DA;
- Mon,  6 Jan 2025 14:10:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id GA1fD1Hke2fPNQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 06 Jan 2025 14:10:25 +0000
-Message-ID: <392f855c-4474-4e12-8bdc-3baf43d34e13@suse.de>
-Date: Mon, 6 Jan 2025 15:10:24 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F123610E68E
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 14:36:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1736174200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h5hcIYBd2cFpQ/iFdFgXHOmNme6Kj/cPc06DAfBxeQY=;
+ b=E7s1RuZ2fxM//WN0qlzHOtkbM5Xp2mSjf1yNQu5ORwZLmOxcy1dnAw1LttvYeydOKmrNV8
+ KLigJMZg4GejpPYbVtE5vT7YWjfLi5TGGrLoEZmOVjQ4uzeSQ+QxiDlbWX3NeAlPljigR8
+ VCQFzguFumbsp8ME4916CH1ZAEm8zog=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-68-ts1um9pXO_Sy61vulyuTzg-1; Mon, 06 Jan 2025 09:36:36 -0500
+X-MC-Unique: ts1um9pXO_Sy61vulyuTzg-1
+X-Mimecast-MFC-AGG-ID: ts1um9pXO_Sy61vulyuTzg
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-43651b1ba8aso98934595e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 06:36:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736174195; x=1736778995;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h5hcIYBd2cFpQ/iFdFgXHOmNme6Kj/cPc06DAfBxeQY=;
+ b=Yqvl+RVitxewiX2Ylge/tUhICm3UxwzoFA7MDox9UWgCLc3zCLgNm8KFQyGP7SABFd
+ Kfhc2iqhCNdCHbP0QQlsq74mqMY7vwu/4PZNTZT8sDnKFZcRpy36t7bi9iWbZ9pOMAtK
+ DN6sczNfJRCHkXjmET90NccTc1/scdtokgwMCDIs/K9n9sm+8UWGlR5Ak1KNv1hf47Z9
+ Wod7o8eyfHi27+CcX+P4/rOAbNb3uwdIC5eB8WlFMrGgePLXCdYxZC9BqRZ42fYMKhzl
+ v4OPENqByvwZs2KqHh/bC8E3mgaVmPd/Vbn5cTuvFSfNqCLgAplThfHcssp3cuiCn1Y9
+ xsew==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoe/iF5lWbkISroY8e40AMzk3/ZtLWBdtv5d2pvKw6ZAkZVFgF+oYcJhAdpoYU56SHwmDJGmMlkbs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywk+hnMOXu9+Kk/GQnWSd58t9tCucdVqlr47tE5SChRvYfafQPb
+ fbUuVW8rbHsSUPfBgqQqADkX4vBLJ47eZkRvqBMwRftiOmkastDZKdoLBPEdglOizi3eO9M3WXT
+ 9x6AGVLIe91akUWx5VDk3/kcjOXZG11P8UmFtVQi/swQWL2QnBEpVoXflx23GqPN/LQ==
+X-Gm-Gg: ASbGncuJZb/c9pVLFQAusrW78i9I+Q8V/qMiAY0ZsIduDWwjk0lRJBJlKx+NBC9RXUA
+ ox+FgtKD+kERY+/xvOv0C7oNYGOHM3aJsIGJSkvOmb+v+gjVpIklhZ5lYA8khfUvJNrf3LMrGx9
+ wSG2kgdTUohV6P35xpwzqPHNiyYOq6b/hNW8anLS9nEcIYJR+LDq3sYtSuxRldSv/IFU+0wSBBY
+ Fujmp+eROl8hqvFrno6AzzkkEnHboY4
+X-Received: by 2002:a05:600c:1990:b0:435:294:f1c8 with SMTP id
+ 5b1f17b1804b1-43668b93834mr397724185e9.28.1736174195191; 
+ Mon, 06 Jan 2025 06:36:35 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH0zUq0wMUNH4AGrWwr5yK1Wt7AJ8lyLbtSAp+NItR7fypEguExnUJqnsC50MI52YtRVFYQdg==
+X-Received: by 2002:a05:600c:1990:b0:435:294:f1c8 with SMTP id
+ 5b1f17b1804b1-43668b93834mr397723965e9.28.1736174194695; 
+ Mon, 06 Jan 2025 06:36:34 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43661218f43sm573410285e9.19.2025.01.06.06.36.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 06 Jan 2025 06:36:34 -0800 (PST)
+Date: Mon, 6 Jan 2025 15:36:33 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>, 
+ Michael Turquette <mturquette@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Ying Liu <victor.liu@nxp.com>,
+ Marek Vasut <marex@denx.de>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-clk@vger.kernel.org,
+ imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ Abel Vesa <abel.vesa@linaro.org>, Herve Codina <herve.codina@bootlin.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Ian Ray <ian.ray@ge.com>
+Subject: Re: [PATCH 4/5] clk: Add flag to prevent frequency changes when
+ walking subtrees
+Message-ID: <20250106-fabulous-tapir-of-acceptance-c4e3e7@houat>
+References: <20241121-ge-ian-debug-imx8-clk-tree-v1-0-0f1b722588fe@bootlin.com>
+ <20241121-ge-ian-debug-imx8-clk-tree-v1-4-0f1b722588fe@bootlin.com>
+ <20241217-brown-wapiti-of-promotion-e3bec6@houat>
+ <87bjx2tf3y.fsf@bootlin.com>
+ <c80a9fcd3fbe99c77c2cef1c241e8610.sboyd@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/4] drm/ls2kbmc: Add support for Loongson-2K BMC
- display
-To: Binbin Zhou <zhoubb.aaron@gmail.com>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen
- <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
- Corey Minyard <minyard@acm.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Huacai Chen <chenhuacai@kernel.org>,
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- dri-devel@lists.freedesktop.org, Xuerui Wang <kernel@xen0n.name>,
- loongarch@lists.linux.dev, Chong Qiao <qiaochong@loongson.cn>
-References: <cover.1735550269.git.zhoubinbin@loongson.cn>
- <4d62076ee560b35c653a9fbced8d03ef3bdb3005.1735550269.git.zhoubinbin@loongson.cn>
- <3daaaff8-062a-4985-a5bc-8d228314b02e@suse.de>
- <CAMpQs4JcuRhpOyXHxy0ab+D-Wd0itKdb0GiZdTE59_qEpUfyLA@mail.gmail.com>
- <390c14a5-44fe-4328-bcc4-2aa1384e3ad1@suse.de>
- <CAMpQs4L38rDEDYM64jJ6pO+g=M4+etKN9v9+ygzkLY6RQgu94A@mail.gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMpQs4L38rDEDYM64jJ6pO+g=M4+etKN9v9+ygzkLY6RQgu94A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[gmail.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[16];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FREEMAIL_CC(0.00)[loongson.cn,kernel.org,acm.org,linux.intel.com,gmail.com,ffwll.ch,vger.kernel.org,lists.sourceforge.net,lists.freedesktop.org,xen0n.name,lists.linux.dev];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TAGGED_RCPT(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="l2x26wlw7urnozbm"
+Content-Disposition: inline
+In-Reply-To: <c80a9fcd3fbe99c77c2cef1c241e8610.sboyd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,122 +112,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-Thanks for the info.
+--l2x26wlw7urnozbm
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 4/5] clk: Add flag to prevent frequency changes when
+ walking subtrees
+MIME-Version: 1.0
 
+On Mon, Dec 30, 2024 at 05:22:56PM -0800, Stephen Boyd wrote:
+> Quoting Miquel Raynal (2024-12-23 10:43:13)
+> > Hi Maxime,
+> >=20
+> > On 17/12/2024 at 13:47:53 +01, Maxime Ripard <mripard@redhat.com> wrote:
+> >=20
+> > > On Thu, Nov 21, 2024 at 06:41:14PM +0100, Miquel Raynal wrote:
+> > >> There are mainly two ways to change a clock frequency.
+> > >
+> > > There's much more than that :)
+> >=20
+> > "mainly"
+> >=20
+> > Or maybe I should have added "on purpose".
+> >=20
+> > >
+> > > Off the top of my head, setting/clearing a min/max rate and changing =
+the
+> > > parent might also result in a rate change.
+> > >
+> > > And then, the firmware might get involved too.
+> > >
+> > >> The active way requires calling ->set_rate() in order to ask "on
+> > >> purpose" for a frequency change. Otherwise, a clock can passively see
+> > >> its frequency being updated depending on upstream clock frequency
+> > >> changes. In most cases it is fine to just accept the new upstream
+> > >> frequency - which by definition will have an impact on downstream
+> > >> frequencies if we do not recalculate internal divisors. But there are
+> > >> cases where, upon an upstream frequency change, we would like to
+> > >> maintain a specific rate.
+> > >
+> > > Why is clk_set_rate_exclusive not enough?
+> >=20
+> > I am trying to protect these rate changes from subtree walks, I don't
+> > see where setting an exclusive rate would have an effect? But I might be
+> > overlooking something, definitely.
+> >=20
+> > ...
+> >=20
+> > >> @@ -2272,7 +2271,13 @@ static void clk_calc_subtree(struct clk_core =
+*core)
+> > >>  {
+> > >>      struct clk_core *child;
+> > >> =20
+> > >> -    core->new_rate =3D clk_recalc(core, core->parent->new_rate);
+> > >> +    if (core->flags & CLK_NO_RATE_CHANGE_DURING_PROPAGATION) {
+> > >> +            core->new_rate =3D clk_determine(core, core->rate);
+> > >> +            if (!core->new_rate)
+> > >> +                    core->new_rate =3D clk_recalc(core, core->paren=
+t->new_rate);
+> > >> +    } else {
+> > >> +            core->new_rate =3D clk_recalc(core, core->parent->new_r=
+ate);
+> > >> +    }
+> > >
+> > > Sorry, it's not clear to me how it works. How will the parent clocks
+> > > will get notified to adjust their dividers in that scenario? Also, wh=
+at
+> > > if they can't?
+> >=20
+> > The idea is: if the flag is set, instead of accepting the new upstream
+> > rate and recalculate the downstream rate based on a previously set
+> > divider value, we change our divider value to match the same frequency
+> > as before. But if we cannot, then we just keep the old way.
+> >=20
+>=20
+> The exclusive rate code could support this if it doesn't already do so.
+> If you call clk_set_rate_exclusive(child, <constant rate>) followed by
+> clk_set_rate(parent, <new rate>) the core code should try to keep the
+> child at the constant rate, or fail the clk_set_rate() call on the
+> parent. It should be possible to confirm this with some KUnit tests for
+> clk_set_rate_exclusive(). Similarly, if another child, child_B, of the
+> parent changes the parent rate, we should speculate the new rate of the
+> child_A that's protected and fail if we can't maintain the rate. We need
+> to start generating a list of clks that we operate a rate change on to
+> support this though, because right now we rely on the stack to track the
+> clks that we change the rate of.
+>=20
+> Initially we thought that we could do this with clk notifiers. That may
+> work here, but I suspect it will be clunky to get working because clk
+> notifiers operate on struct clk.
 
-Am 06.01.25 um 08:03 schrieb Binbin Zhou:
-[...]
->> Could you point to the exact call that fails within simpledrm?
-> If we use simpledrm directly, the following error occurs:
->
-> [    8.289823] simple-framebuffer simple-framebuffer.0: [drm] *ERROR*
-> could not acquire memory range [mem 0xe0031200000-0xe00315fffff flags
-> 0x200]: -16
-> [    8.312681] simple-framebuffer simple-framebuffer.0: probe with
-> driver simple-framebuffer failed with error -16
->
-> The reason for the failure: overlapping resources.
->
-> https://elixir.bootlin.com/linux/v6.12.6/source/drivers/video/aperture.c#L175
+I think notifiers are great for customers, but not really adequate for
+the clock drivers tree. Indeed, you can only react to a (sub)tree
+configuration using notifiers, but you can't affect it to try something
+new that would be a better fit.
 
-This error means that there's already an instance of simpledrm bound to 
-the BMC framebuffer. So you already have a working display and some 
-graphics under Linux without the new driver, right?
+Like, if we have a PLL A, with two child clocks that are dividers. B is
+initially (exclusively) set to freq X, and then you want to set C to 2X.
 
-If so, why do you need a new driver that does exactly the same as simpledrm?
+The best thing to do is to set A to 2X, and double B's divider. It's
+simple enough, but we have no way to try to negociate that at the
+moment.
 
-Best regards
-Thomas
+Maxime
 
->>> Because although we register the driver in platform form, its memory
->>> belongs to pci space and we can see the corresponding pci probe and
->>> resource allocation in Patch-1.
->> I don't understand. Graphics memory is often located on the PCI bus.
->> What is so special about this one?
->>
->>> Therefore, we need to use aperture_remove_conflicting_pci_devices().
->> So there is already a device that represents the graphics card? That's
->> what you'd remove here? If you only add that MFD device, who owns the
->> framebuffer? If it's the PCI device from patch 1 ("ls2k-bmc"), why does
->> aperture_remove_conflicting_pci_devices() not remove that device? I'm
->> somewhat confused, because the logic in your driver mostly looks like it
->> binds to a pre-configured framebuffer, but some of the code doesn't.
-> Perhaps the use of aperture_remove_conflicting_pci_devices() is wrong,
-> as there is only one display device for the LS2K BMC and there will be
-> no phase conflict.
->
-> When I tried to use that API before, it was partly due to the error
-> above, and partly because I referenced that other display drivers via
-> pci_driver.probe() would have it, just in case I used it, which was
-> probably the wrong choice.
->
-> The resources for pci bar0 are as follows:
-> BAR0: e0030000000/SZ_32M
->
-> 0x0              0x600000  0xf00001c    16M            32M
-> +----+--------------+--------+-----------+---+-----------------+
-> | 2M | simpldrm |           | IPMI      |     | video env     |
-> +-----------------------------------------------------------------+
->
-> The mfd driver registers the ls2kbmc-framebuffer and ls2k-ipmi-si
-> devices according to the resource allocation shown above. At the same
-> time, the ls2kbmc drm is bound to the pre-configured “simpldrm”
-> resource in the above figure, which is passed through the
-> ls2kbmc-framebuffer driver. In addition, the resolution is read from
-> “video env” for the time being, and the resolution adaption is planned
-> to be added later.
->
->> Best regards Thomas
->>
->>> Also, since we are using BMC display, the display will be disconnected
->>> when BMC reset, at this time we need to push the display data (crtc,
->>> connector, etc.) manually as shown in Patch-4.
->>>
->>> Probably it's not the most suitable way to implement it.
->>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> +     },
->>>>> +     .probe = ls2kbmc_probe,
->>>>> +     .remove = ls2kbmc_remove,
->>>>> +};
->>>>> +
->>>>> +module_platform_driver(ls2kbmc_platform_driver);
->>>>> +
->>>>> +MODULE_DESCRIPTION("DRM driver for Loongson-2K BMC");
->>>>> +MODULE_LICENSE("GPL");
->>>> --
->>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->>>> HRB 36809 (AG Nuernberg)
->>>>
->> --
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
->
-> --
-> Thanks.
-> Binbin
+--l2x26wlw7urnozbm
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ3vqbQAKCRAnX84Zoj2+
+duj7AYDidThds1LFflb8OweKnRrNPu4M0tpfbKNRxlViGeUwfGeosS89X8zOl5WP
+yBs8cfoBf3W2e/SASrJLpQctBMdyN2XKiw8Hpa9n9cLwlnq7mQteUYczwt9dWEyp
+r6A1YHUBOw==
+=VbDO
+-----END PGP SIGNATURE-----
+
+--l2x26wlw7urnozbm--
 
