@@ -2,61 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E9FA02356
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 11:46:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5340A02374
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 11:50:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD8F110E1EB;
-	Mon,  6 Jan 2025 10:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56E7610E611;
+	Mon,  6 Jan 2025 10:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jf3OAaHB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="3AaR3hKq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD49510E60F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 10:46:30 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 81E4224000C;
- Mon,  6 Jan 2025 10:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1736160388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DJ+D6qi4mbfuXPyLe+w6+zrZoPI7FQCfPbiq3MQBu4E=;
- b=jf3OAaHBEQgLGTdjbWJ+Nr6uK1KydwHIM3hULmkIuycUOpS+aWWLaVhvJBI6gXLfBSulpA
- 4ZdY0BSkKOzjm8wEmec81rgnlTw5NS9VriPTznHJG0QufJgh6f25GwBkvx3uKA5+6Dq7zX
- JpuGqZYZ9Wp7oGapaizgXHwJJAj1ZJQdK5/28WWFtHUwgFuJStm2dp+xZDyNL/SjEBa5hT
- 3qRFa28HM9kdIjhesx0jhoHPm1pcPtnDS8fdPxErY1mVXtlK6xQcp4CslbwJxM04vBh12u
- HGHEnGXaN6oo/TDcKqeBmMlyn/FACtOuBDAluilt536Nem9rQo0EGZgpIqIFNQ==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Alexander Usyskin <alexander.usyskin@intel.com>
-Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Lucas De Marchi <lucas.demarchi@intel.com>,  Thomas
- =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,  Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>,
- Karthik Poosa <karthik.poosa@intel.com>,  Reuven Abliyev
- <reuven.abliyev@intel.com>,  Oren Weil <oren.jer.weil@intel.com>,
- linux-mtd@lists.infradead.org,  dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 01/11] mtd: core: always create master device
-In-Reply-To: <20250101153925.865703-2-alexander.usyskin@intel.com> (Alexander
- Usyskin's message of "Wed, 1 Jan 2025 17:39:15 +0200")
-References: <20250101153925.865703-1-alexander.usyskin@intel.com>
- <20250101153925.865703-2-alexander.usyskin@intel.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 06 Jan 2025 11:46:26 +0100
-Message-ID: <87sepwp6d9.fsf@bootlin.com>
+X-Greylist: delayed 524 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Jan 2025 10:50:23 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD6910E611
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 10:50:23 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5063qXc9004692;
+ Mon, 6 Jan 2025 11:50:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ Y33tiExBlwDEn8mFRQKrikauQkd7GqHJ6b8DdCrX10c=; b=3AaR3hKqYSQuzj/l
+ w3mE0WivaZBjUvTH/hzSnqda0W03W/82+RdH66suEIjYOhiPwZq67u6MwHP7tMgu
+ Kz6huLA1i+htrTcTQc/yOrg4yXfA45zJ3Tqc+xn9i/Eoy0Ryi5kFNB+71lEmBL+6
+ 85WDWATAGOar0UmFGPswKtzti0l+g2xZZHBYBc1rL93YHLDDH8snF2d5dZN8LvUm
+ LX9st5YZcr0tSKf8XwdiaHLhyiAplKNvyt+IbwhRTOGApiLdy11+Izk+hVQOofiV
+ xW4g6iD9H8kakSGEXzH3Nmj3Va6tqTkkaYLBXm80/n7uGqVNWFXEDNKRhuouVjXF
+ HLjRfQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4407n9hbgv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 06 Jan 2025 11:50:14 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id F39F34005A;
+ Mon,  6 Jan 2025 11:48:50 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B948D26E53D;
+ Mon,  6 Jan 2025 11:47:09 +0100 (CET)
+Received: from [10.48.87.62] (10.48.87.62) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 6 Jan
+ 2025 11:47:08 +0100
+Message-ID: <d844f8f2-b5fd-460f-b31b-644bab871238@foss.st.com>
+Date: Mon, 6 Jan 2025 11:47:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: mali-utgard: Add st, stih410-mali
+ compatible
+To: Alain Volmat <avolmat@me.com>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20241006-sti-gpu-v2-0-c6bb408d6903@me.com>
+ <20241006-sti-gpu-v2-1-c6bb408d6903@me.com>
+Content-Language: en-US
+From: Patrice CHOTARD <patrice.chotard@foss.st.com>
+In-Reply-To: <20241006-sti-gpu-v2-1-c6bb408d6903@me.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.48.87.62]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,20 +87,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexander,
 
-On 01/01/2025 at 17:39:15 +02, Alexander Usyskin <alexander.usyskin@intel.c=
-om> wrote:
 
-> Create master device without partition when
-> CONFIG_MTD_PARTITIONED_MASTER flag is unset.
+On 10/6/24 22:42, Alain Volmat wrote:
+> ST STiH410 SoC has a Mali400. Add a compatible for it.
+> 
+> Signed-off-by: Alain Volmat <avolmat@me.com>
+> ---
+>  Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
+> index abd4aa335fbcebafc9164bd4963f9db60f0450c4..9318817ea1357d4d66db951513d9bc033b222190 100644
+> --- a/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-utgard.yaml
+> @@ -33,6 +33,7 @@ properties:
+>                - rockchip,rk3188-mali
+>                - rockchip,rk3228-mali
+>                - samsung,exynos4210-mali
+> +              - st,stih410-mali
+>                - stericsson,db8500-mali
+>                - xlnx,zynqmp-mali
+>            - const: arm,mali-400
+> 
 
-I don't think you took into consideration my remarks regarding the fact
-that you would break userspace. If you enable the master, you no longer
-have the same device numbering in userspace. I know people should not
-care about these numbers, but in practice they do.
+Hi Alain
 
-If I'm wrong, please be a little more verbose about why :)
+Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
 
-Thanks,
-Miqu=C3=A8l
+Thanks
