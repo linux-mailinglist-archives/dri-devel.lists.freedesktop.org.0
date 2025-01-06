@@ -2,80 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E47A02E36
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 17:49:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A448A02D6A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 17:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04F2410E20A;
-	Mon,  6 Jan 2025 16:49:33 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="BNGNVisG";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA9010E20C;
+	Mon,  6 Jan 2025 16:09:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2486 seconds by postgrey-1.36 at gabe;
- Mon, 06 Jan 2025 16:49:31 UTC
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95DE710E20A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 16:49:31 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 506FTvZH025120;
- Mon, 6 Jan 2025 17:07:38 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- t7wyUdadEoYLGmcBhlYZBQxE/bFc8L6HId4ivUrzHOQ=; b=BNGNVisGo6IoTdnN
- 3iDdo2Pi+3vbkNYy3xLrSlFyVYwfymaJnw4unEXO2RAIgeb9qBL/cY165wIWXIFV
- zvBDNRwet3qONWViE4srR6Ky8rS9gs7QwkIQI+P1YkKCh8DAQJfuaelaYl0Nu5/Q
- uM64UZCu4tARtIQUjaP+XsTAYWx/FvZ3AC89m6qfWZcSHNr1gWWP+8Y1kPLaO0i7
- J4gu5ZfIB7ADWPqtGWM6KzpgkqDtUm3vpVOQL1vRqyct2g+yAkm9JHP2TELHeADq
- XDcIqHxLYko2IbkysackZ378Q7t5u17HXgEFnv0knuRCRkrmQtyLoOnV3XnS0nSD
- 8Gt63A==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 440cbrsdam-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jan 2025 17:07:38 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B03014004D;
- Mon,  6 Jan 2025 17:06:01 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 78714276BB8;
- Mon,  6 Jan 2025 17:04:58 +0100 (CET)
-Received: from [10.252.22.94] (10.252.22.94) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 6 Jan
- 2025 17:04:57 +0100
-Message-ID: <0335a999-9ff1-4527-a21f-d04392c520b6@foss.st.com>
-Date: Mon, 6 Jan 2025 17:04:56 +0100
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6E7810E20C
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 16:09:15 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <a.fatoum@pengutronix.de>)
+ id 1tUpcy-0000C7-Gl; Mon, 06 Jan 2025 17:06:52 +0100
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <a.fatoum@pengutronix.de>) id 1tUpcw-007C9l-0z;
+ Mon, 06 Jan 2025 17:06:51 +0100
+Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
+ by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
+ (envelope-from <a.fatoum@pengutronix.de>) id 1tUpcw-009dVc-31;
+ Mon, 06 Jan 2025 17:06:50 +0100
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: [PATCH v2 00/10] arm64: dts: imx8mp-skov: flesh out device trees
+Date: Mon, 06 Jan 2025 17:06:35 +0100
+Message-Id: <20250106-skov-dt-updates-v2-0-4504d3f00ecb@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/stm: dsi: use drm_mode_validate_mode() helper
- function
-To: Sean Nyekjaer <sean@geanix.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Yannick
- Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-stm32@st-md-mailman.stormreply.com>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-3-9113419f4a40@geanix.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20241125-dsi-relax-v2-3-9113419f4a40@geanix.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.252.22.94]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIv/e2cC/2WNQQqDMBBFryKz7hQTSxu76j2KC3VGHQqJJDFYx
+ Ls3Fbrq8j34728Q2AsHuBcbeE4SxNkM+lRAP7V2ZBTKDLrUF6WVwfByCSniMlMbOSB3prtV/bW
+ uSEFezZ4HWY/is8k8SYjOv4+DpL7216r/WklhiZXpBlNSrzUNj5ntuETvrKxnYmj2ff8AGDVim
+ LMAAAA=
+X-Change-ID: 20241218-skov-dt-updates-eb8b73c693d1
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ Frank Li <Frank.li@nxp.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
+ Ahmad Fatoum <a.fatoum@pengutronix.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +78,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When the Skov device trees were added a year ago, there were no
+upstream bindings yet for many parts of the display pipeline.
 
-On 11/25/24 14:49, Sean Nyekjaer wrote:
-> When using the DSI interface via DSI2LVDS bridge, it seems a bit harsh to
-> reguire the requested and the actual px clock to be within 50Hz. A typical
-> LVDS display requires the px clock to be within +-10%. In case for HDMI .5%
-> tolerance is required. Signed-off-by: Sean Nyekjaer <sean@geanix.com>---
+This has changed now, so this series fleshes the display pipeline parts
+out and adds some more fixes/enhancements that have accrued in the
+meantime.
 
+---
+Changes in v2:
+- Add Rob's Acked-by
+- Reword some commit messages. See individual patches for details
+- Link to v1: https://lore.kernel.org/r/20241219-skov-dt-updates-v1-0-38bf80dc22df@pengutronix.de
 
-Hi Sean,
+---
+Ahmad Fatoum (5):
+      arm64: dts: imx8mp-skov: correct PMIC board limits
+      arm64: dts: imx8mp-skov: operate CPU at 850 mV by default
+      arm64: dts: imx8mp-skov: use I2C5 for DDC
+      dt-bindings: display/lvds-codec: add ti,sn65lvds822
+      arm64: dts: imx8mp-skov: configure uart1 for RS485
 
-Acked-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+Oleksij Rempel (5):
+      arm64: dts: imx8mp-skov: describe HDMI display pipeline
+      arm64: dts: imx8mp-skov: describe LVDS display pipeline
+      arm64: dts: imx8mp-skov: describe mains fail detection
+      arm64: dts: imx8mp-skov: fix phy-mode
+      arm64: dts: imx8mp-skov: increase I2C clock frequency for RTC
 
-Thanks,
-Raphaël
+ .../bindings/display/bridge/lvds-codec.yaml        |  1 +
+ .../arm64/boot/dts/freescale/imx8mp-skov-reva.dtsi | 63 ++++++++++++++++------
+ .../boot/dts/freescale/imx8mp-skov-revb-hdmi.dts   | 45 +++++++++++++++-
+ .../boot/dts/freescale/imx8mp-skov-revb-lt6.dts    | 60 +++++++++++++++++++++
+ 4 files changed, 152 insertions(+), 17 deletions(-)
+---
+base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+change-id: 20241218-skov-dt-updates-eb8b73c693d1
 
+Best regards,
+-- 
+Ahmad Fatoum <a.fatoum@pengutronix.de>
 
