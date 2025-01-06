@@ -2,80 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FA9A02E49
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 17:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6A0A02D99
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 17:19:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF5210E257;
-	Mon,  6 Jan 2025 16:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 070F010E27F;
+	Mon,  6 Jan 2025 16:19:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="kGMFjM3h";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SU6Z0UNE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1996 seconds by postgrey-1.36 at gabe;
- Mon, 06 Jan 2025 16:52:28 UTC
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD3410E21A
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 16:52:28 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 506G54D8008507;
- Mon, 6 Jan 2025 17:18:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- 2l6yGUMAqbBbwFW6T71mdO7jHSTqEhQG1rr7BQEsO6Q=; b=kGMFjM3h7NgVsYRH
- sTDFUvjsY7nRFqcWC41fapUVOOjxPxIzPV0GhJ6I76BTRvN3JRupEM12x5+WjuRE
- QGjPW4TGSpM34q/pVspvuA7KlWDb8sv+i0hJY1ilGF4blZPMmy4OSTa9IjF7s3nT
- 73X1rNQwBuf609nv1iJLQif0j6BpLISUIV+diQ6c2gkbLtCFbWO7Cdh6ufa+faW1
- JlnYNM6c1efGaQRCa50UObTQ1IgYN42R+tiejmvE9/VrtTcZzetsNfvhiS0esDzJ
- y8QrhEzqbX8P+9bkzHXJdVpccSGQsOGTegWmBWtCfAsFU2JZi567zF3xx3MNLLuc
- sRJMmg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 440jcur1a3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jan 2025 17:18:45 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1CB4340048;
- Mon,  6 Jan 2025 17:17:11 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E864E28EFA9;
- Mon,  6 Jan 2025 17:16:10 +0100 (CET)
-Received: from [10.252.22.94] (10.252.22.94) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Mon, 6 Jan
- 2025 17:16:09 +0100
-Message-ID: <85acb818-43db-4d4e-aef2-33a2ce25a45b@foss.st.com>
-Date: Mon, 6 Jan 2025 17:16:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] drm/modes: introduce drm_mode_validate_mode()
- helper function
-To: Sean Nyekjaer <sean@geanix.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C2910E6D1
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 16:19:47 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 88A1D1C000F;
+ Mon,  6 Jan 2025 16:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1736180385;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=i6TjL7+Dt4IgiDqEA5HrH0jQggyhqcEXsVzpeF2qpXs=;
+ b=SU6Z0UNEBs5rCJ2rX6P8PZ/h9K30T1JcvKK3yrIKER6XSCjj8qQu2bMBAF2+iG0TejF+M6
+ 4f6FBlvbpb5zmb4iMcDj6ifd2TYbujtuZQDgjzKbPZswiI5KCjAH7Zhdc/AKOyq4+kSHz0
+ zTQnflr3uHe3FTS/H8AhNq1UoO2H/28yV3Lq4bJ4gfNBDqoiZ7JF6BL+OhwDiECBz1oyqv
+ hNtiIS+nv/6CoOvA+ayGuHk8D71WtKu19OvJntXFu1KuR379OVoeYYAs5UCbMuTAW4D+W1
+ aNcdQkOrODyw8QHy1chYKjM8QOCWxN/mBCXbRIHo6lJPLt+16tZstC0fANlGXw==
+Date: Mon, 6 Jan 2025 17:19:42 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Yannick
- Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-stm32@st-md-mailman.stormreply.com>
-References: <20241125-dsi-relax-v2-0-9113419f4a40@geanix.com>
- <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
-Content-Language: en-US
-From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
-In-Reply-To: <20241125-dsi-relax-v2-1-9113419f4a40@geanix.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.252.22.94]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v6 7/8] drm: writeback: Create drmm variants for
+ drm_writeback_connector initialization
+Message-ID: <Z3wCnk_WStJk9B5D@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com
+References: <20241230-google-vkms-managed-v6-0-15c7d65cd63b@bootlin.com>
+ <20241230-google-vkms-managed-v6-7-15c7d65cd63b@bootlin.com>
+ <20250106-acoustic-inescapable-locust-9d5b36@houat>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250106-acoustic-inescapable-locust-9d5b36@houat>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,84 +83,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 11/25/24 14:49, Sean Nyekjaer wrote:
-> Check if the required pixel clock is in within .5% range of the
-> desired pixel clock.
-> This will match the requirement for HDMI where a .5% tolerance is allowed.
+On 06/01/25 - 14:04, Maxime Ripard wrote:
+> On Mon, Dec 30, 2024 at 07:37:37PM +0100, Louis Chauvet wrote:
+> > To allows driver to only use drmm objects, add helper to create
+> > drm_writeback_connectors with automated lifetime management.
+> > 
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > ---
+> >  drivers/gpu/drm/drm_writeback.c | 69 +++++++++++++++++++++++++++++++++++++++++
+> >  include/drm/drm_writeback.h     |  8 +++++
+> >  2 files changed, 77 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+> > index 9c69f7181e02c23dabce488405608c40d4184af5..1251f65aae9e3b6fb5c5de9ab9280e5430342208 100644
+> > --- a/drivers/gpu/drm/drm_writeback.c
+> > +++ b/drivers/gpu/drm/drm_writeback.c
+> > @@ -369,6 +369,75 @@ static void drm_writeback_connector_cleanup(struct drm_device *dev,
+> >  	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
+> >  }
+> >  
+> > +/**
+> > + * drmm_writeback_connector_init - Initialize a writeback connector with
+> > + * a custom encoder
+> > + *
+> > + * @dev: DRM device
+> > + * @wb_connector: Writeback connector to initialize
+> > + * @con_funcs: Connector funcs vtable
+> > + * @enc: handle to the already initialized drm encoder, optional
+> > + * @enc_funcs: Encoder funcs vtable, optional, only used when @enc is NULL
+> > + * @formats: Array of supported pixel formats for the writeback engine
+> > + * @n_formats: Length of the formats array
+> > + * @possible_crtcs: if @enc is NULL, this will set the possible_crtc for the
+> > + *		    newly created encoder
+> > + *
+> > + * This function initialize a writeback connector and register its cleanup.
+> > + *
+> > + * This function creates the writeback-connector-specific properties if they
+> > + * have not been already created, initializes the connector as
+> > + * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the property
+> > + * values.
+> > + *
+> > + * If @enc is NULL, this function will create a drm-managed encoder and will
+> > + * attach @enc_funcs on it. It will also attach the CRTC passed in
+> > + * @possible_crtcs
+> > + *
+> > + * Returns: 0 on success, or a negative error code
+> > + */
+> > +int drmm_writeback_connector_init(struct drm_device *dev,
+> > +				  struct drm_writeback_connector *wb_connector,
+> > +				  const struct drm_connector_funcs *con_funcs,
+> > +				  struct drm_encoder *enc,
+> > +				  const struct drm_encoder_helper_funcs *enc_funcs,
+> > +				  const u32 *formats, int n_formats,
+> > +				  u32 possible_crtcs)
+> 
+> The name isn't really consistent with the other functions. We already
+> have a drm_writeback_connector_init that doesn't take the encoder point
+> but will just read it from wb_connector->encoder, and we have
+> drm_writeback_connector_with_encoder that assumes the encoder has
+> already been created.
 >
-> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> ---
->  drivers/gpu/drm/drm_modes.c | 34 ++++++++++++++++++++++++++++++++++
->  include/drm/drm_modes.h     |  2 ++
->  2 files changed, 36 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 6ba167a3346134072d100af0adbbe9b49e970769..4068b904759bf80502efde6e4d977b297f5d5359 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -1623,6 +1623,40 @@ bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
->  }
->  EXPORT_SYMBOL(drm_mode_equal_no_clocks_no_stereo);
->  
-> +/**
-> + * drm_mode_validate_mode
-> + * @mode: mode to check
-> + * @rounded_rate: output pixel clock
-> + *
-> + * VESA DMT defines a tolerance of 0.5% on the pixel clock, while the
-> + * CVT spec reuses that tolerance in its examples, so it looks to be a
-> + * good default tolerance for the EDID-based modes. Define it to 5 per
-> + * mille to avoid floating point operations.
-> + *
-> + * Returns:
-> + * The mode status
-> + */
-> +enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
-> +					    unsigned long long rounded_rate)
-> +{
-> +	enum drm_mode_status status;
-> +	unsigned long long rate = mode->clock * 1000;
-> +	unsigned long long lowest, highest;
-> +
-> +	lowest = rate * (1000 - 5);
-> +	do_div(lowest, 1000);
-> +	if (rounded_rate < lowest)
-> +		return MODE_CLOCK_LOW;
-> +
-> +	highest = rate * (1000 + 5);
-> +	do_div(highest, 1000);
-> +	if (rounded_rate > highest)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	return MODE_OK;
-> +}
-> +EXPORT_SYMBOL(drm_mode_validate_mode);
+> We should the name or behavior on either one of them. Why do we need an
+> optional encoder pointer? If enc is not NULL, then enc_funcs shouldn't
+> be necessary, if it's NULL, then drm_writeback_connector_init will be
+> sufficient?
 
-Hi,
+This was requested by Jani in [1]. If you prefer I can create two variants 
+for the next iteration.
 
-With an agreement reached by everyone on the name of this function:
+[1]:https://lore.kernel.org/all/87a5gxyrhc.fsf@intel.com/
 
-Reviewed-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> 
+> Maxime
 
-Regards,
-Raphaël
 
-> +
->  static enum drm_mode_status
->  drm_mode_validate_basic(const struct drm_display_mode *mode)
->  {
-> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> index b9bb92e4b0295a5cbe0eb0da13e77449ff04f51d..4b638992f3e50d2aba5088644744457d72dbe10a 100644
-> --- a/include/drm/drm_modes.h
-> +++ b/include/drm/drm_modes.h
-> @@ -549,6 +549,8 @@ bool drm_mode_equal_no_clocks(const struct drm_display_mode *mode1,
->  			      const struct drm_display_mode *mode2);
->  bool drm_mode_equal_no_clocks_no_stereo(const struct drm_display_mode *mode1,
->  					const struct drm_display_mode *mode2);
-> +enum drm_mode_status drm_mode_validate_mode(const struct drm_display_mode *mode,
-> +					    unsigned long long rounded_rate);
->  
->  /* for use by the crtc helper probe functions */
->  enum drm_mode_status drm_mode_validate_driver(struct drm_device *dev,
->
