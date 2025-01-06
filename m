@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522F9A021D0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 10:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF068A021D5
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 10:29:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE59610E5E9;
-	Mon,  6 Jan 2025 09:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB3E10E5EC;
+	Mon,  6 Jan 2025 09:29:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qGwX9MaQ";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="X1W4YB9t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADCBA10E5E9
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 09:28:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDF9110E5EC
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 09:29:10 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 203662A5;
- Mon,  6 Jan 2025 10:27:57 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91BA92A5;
+ Mon,  6 Jan 2025 10:28:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736155678;
- bh=pFiiEIEBLnz/j8YfwMmRhAD4EGgidCXDYj5puigczcs=;
+ s=mail; t=1736155698;
+ bh=1eYUeePeM3gARYDxGWWLSxLfl9dDrEsni3/lR1y6fkk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qGwX9MaQb+7aw3qqQslHHi8trSxqjswbpToLrNk8izPhnz7Ei8W1QTwPpx4iHXD8N
- jpaWidiBL6A2zATDfmu8VyDgAvBcJ+EkEsQiGD8VVXs7pgvKH2hMrGcNWkWfWvJmY5
- tTKbPyVLL3gaoEw1zUGdqk8IuWD73Tqi4sjKA428=
-Message-ID: <4a85d26f-19de-4846-998f-c35547e9a7f2@ideasonboard.com>
-Date: Mon, 6 Jan 2025 11:28:45 +0200
+ b=X1W4YB9tBwu1rzdNMTwte2Uwyo8xy1KMOCCh4suwdzJ5LvqZZMR7TH344RtwJcyxu
+ FyI64Q/SdQ94YnOjKBmwoF9efqfmU2/ikDrPHTCix0WHW72jyNTUEftcA3YlxDI94o
+ Xh7zi1iAzS7uH4gtsPmPTYYGiL9esQmKc8pBbi/s=
+Message-ID: <eb0330b0-c8ea-4c4f-aef4-9a8dc8c166f3@ideasonboard.com>
+Date: Mon, 6 Jan 2025 11:29:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tidss: Add support for AM62L display subsystem
+Subject: Re: [PATCH 0/2] Add support for AM62L DSS
 To: Devarsh Thakkar <devarsht@ti.com>
 Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
  s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
@@ -40,7 +40,6 @@ Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
  simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
 References: <20241231090432.3649158-1-devarsht@ti.com>
- <20241231090432.3649158-3-devarsht@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -86,7 +85,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241231090432.3649158-3-devarsht@ti.com>
+In-Reply-To: <20241231090432.3649158-1-devarsht@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,141 +106,22 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 31/12/2024 11:04, Devarsh Thakkar wrote:
-> Enable display for AM62L DSS [1] which supports only a single display
-> pipeline using a single overlay manager, single video port and a single
-> video lite pipeline which does not support scaling.
+> This adds support for DSS subsystem present in TI's AM62L SoC
+> which supports single display pipeline with DPI output which
+> is also routed to DSI Tx controller within the SoC.
 > 
-> The output of video port is routed to SoC boundary via DPI interface and
-> the DPI signals from the video port are also routed to DSI Tx controller
-> present within the SoC.
+> Devarsh Thakkar (2):
+>    dt-bindings: display: ti,am65x-dss: Add support for AM62L DSS
+>    drm/tidss: Add support for AM62L display subsystem
 > 
-> [1]: Section 11.7 (Display Subsystem and Peripherals)
-> Link : https://www.ti.com/lit/pdf/sprujb4
+>   .../bindings/display/ti/ti,am65x-dss.yaml     | 25 +++++++++++++-
+>   drivers/gpu/drm/tidss/tidss_dispc.c           | 34 +++++++++++++++++++
+>   drivers/gpu/drm/tidss/tidss_dispc.h           |  2 ++
+>   drivers/gpu/drm/tidss/tidss_drv.c             |  1 +
+>   4 files changed, 61 insertions(+), 1 deletion(-)
 > 
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_dispc.c | 34 +++++++++++++++++++++++++++++
->   drivers/gpu/drm/tidss/tidss_dispc.h |  2 ++
->   drivers/gpu/drm/tidss/tidss_drv.c   |  1 +
->   3 files changed, 37 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index cacb5f3d8085..cd322d60b825 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -376,6 +376,35 @@ const struct dispc_features dispc_am62a7_feats = {
->   	.vid_order = { 1, 0 },
->   };
->   
-> +const struct dispc_features dispc_am62l_feats = {
-> +	.max_pclk_khz = {
-> +		[DISPC_VP_DPI] = 165000,
-> +	},
-> +
-> +	.subrev = DISPC_AM62L,
-> +
-> +	.common = "common",
-> +	.common_regs = tidss_am65x_common_regs,
-> +
-> +	.num_vps = 1,
-> +	.vp_name = { "vp1" },
-> +	.ovr_name = { "ovr1" },
-> +	.vpclk_name =  { "vp1" },
-> +	.vp_bus_type = { DISPC_VP_DPI },
-> +
-> +	.vp_feat = { .color = {
-> +			.has_ctm = true,
-> +			.gamma_size = 256,
-> +			.gamma_type = TIDSS_GAMMA_8BIT,
-> +		},
-> +	},
-> +
-> +	.num_planes = 1,
-> +	.vid_name = { "vidl1" },
-> +	.vid_lite = { true },
-> +	.vid_order = { 0 },
-> +};
-> +
->   static const u16 *dispc_common_regmap;
->   
->   struct dss_vp_data {
-> @@ -879,6 +908,7 @@ dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc)
->   		return dispc_k2g_read_and_clear_irqstatus(dispc);
->   	case DISPC_AM625:
->   	case DISPC_AM62A7:
-> +	case DISPC_AM62L:
->   	case DISPC_AM65X:
->   	case DISPC_J721E:
 
-Not related to this patch, but these lists are getting a bit silly... We 
-probably should handle them in a more centralized way. Maybe with the 
-dispc_features.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
-
->   		return dispc_k3_read_and_clear_irqstatus(dispc);
-> @@ -896,6 +926,7 @@ void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask)
->   		break;
->   	case DISPC_AM625:
->   	case DISPC_AM62A7:
-> +	case DISPC_AM62L:
->   	case DISPC_AM65X:
->   	case DISPC_J721E:
->   		dispc_k3_set_irqenable(dispc, mask);
-> @@ -1388,6 +1419,7 @@ void dispc_ovr_set_plane(struct dispc_device *dispc, u32 hw_plane,
->   		break;
->   	case DISPC_AM625:
->   	case DISPC_AM62A7:
-> +	case DISPC_AM62L:
->   	case DISPC_AM65X:
->   		dispc_am65x_ovr_set_plane(dispc, hw_plane, hw_videoport,
->   					  x, y, layer);
-> @@ -2308,6 +2340,7 @@ static void dispc_plane_init(struct dispc_device *dispc)
->   		break;
->   	case DISPC_AM625:
->   	case DISPC_AM62A7:
-> +	case DISPC_AM62L:
->   	case DISPC_AM65X:
->   	case DISPC_J721E:
->   		dispc_k3_plane_init(dispc);
-> @@ -2416,6 +2449,7 @@ static void dispc_vp_write_gamma_table(struct dispc_device *dispc,
->   		break;
->   	case DISPC_AM625:
->   	case DISPC_AM62A7:
-> +	case DISPC_AM62L:
->   	case DISPC_AM65X:
->   		dispc_am65x_vp_write_gamma_table(dispc, hw_videoport);
->   		break;
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 086327d51a90..275de8d02b75 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -62,6 +62,7 @@ enum dispc_dss_subrevision {
->   	DISPC_K2G,
->   	DISPC_AM625,
->   	DISPC_AM62A7,
-> +	DISPC_AM62L,
->   	DISPC_AM65X,
->   	DISPC_J721E,
->   };
-> @@ -91,6 +92,7 @@ struct dispc_features {
->   extern const struct dispc_features dispc_k2g_feats;
->   extern const struct dispc_features dispc_am625_feats;
->   extern const struct dispc_features dispc_am62a7_feats;
-> +extern const struct dispc_features dispc_am62l_feats;
->   extern const struct dispc_features dispc_am65x_feats;
->   extern const struct dispc_features dispc_j721e_feats;
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index d4652e8cc28c..f2a4f659f574 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.c
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -242,6 +242,7 @@ static const struct of_device_id tidss_of_table[] = {
->   	{ .compatible = "ti,k2g-dss", .data = &dispc_k2g_feats, },
->   	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
->   	{ .compatible = "ti,am62a7-dss", .data = &dispc_am62a7_feats, },
-> +	{ .compatible = "ti,am62l-dss", .data = &dispc_am62l_feats, },
->   	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
->   	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
->   	{ }
 
