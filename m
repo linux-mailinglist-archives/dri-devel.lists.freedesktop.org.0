@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FDFA01D2B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 03:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687DBA01DD4
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 03:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 147B710E070;
-	Mon,  6 Jan 2025 02:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A5C10E150;
+	Mon,  6 Jan 2025 02:51:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Z4YD75Rm";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="T9ITUC6f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5931B10E070;
- Mon,  6 Jan 2025 02:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1736129024;
- bh=o7q4YMCbm6QDOOrZ12zWJdvJpl2MSPRbhzNZADhYwP0=;
- h=Date:From:To:Cc:Subject:From;
- b=Z4YD75RmhflWtIkI4EhVSPo3670B8nIFoomrQtpA/KUcBN2UM5y3ePwvJoNLk5Xd/
- VJFLo6W4gYw0FincqDG1bphIMfh9J9w/cr4ud9D7A3iIqgDtxgSSB/IiZmr96ImlDH
- yirb3YapY+1ty9xsZ0AiOd3GARpOecs1pRqyGu22txBdaqD59z5uAYVrjUzb6bG2yK
- ybple8Ob7/1QfYZlgcRI1UVcdZtT3eMN72iO/U0qKXgnyGYAZsjOl0fazBTR2XYqFE
- gNs81HXHeKta/f2LZDXFHyowz1XpYES4lAMVMjA1SC938Fs0rwmaR7uoAQzZ+8KcrQ
- em5MEFjOjN17g==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4YRHXZ5ck1z4wxx;
- Mon,  6 Jan 2025 13:03:42 +1100 (AEDT)
-Date: Mon, 6 Jan 2025 13:03:48 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>, Yafang Shao
- <laoar.shao@gmail.com>
-Subject: linux-next: manual merge of the drm-intel tree with the mm tree
-Message-ID: <20250106130348.73a5fae6@canb.auug.org.au>
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D134D10E150
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 02:51:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 0559A101CAF7B; Mon,  6 Jan 2025 03:51:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1736131872;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OJ/N98GUomXDkft85DxAvNEuUOqGWE/KcZAgHDK0jeE=;
+ b=T9ITUC6fQelTFwjAEEJ5m2WGy+lRIqB0Lu2y8bX9Yd30G5cxtC9Yh5P4HdPJhMz2myWR0J
+ IecEuDfsrsVlO4h9QdnBwPonalU6JMm0YF0TiFz244f8sw+RtnREMZW4NLXVECPqS+OPGX
+ tsnntiH/BG7jFX7wu4PdwjCc4ANTVQ2Ctvh2soprVwDJ9NnfJuudFoEGqEXNdi1n2rttfw
+ vb0o6esPRuD/rf/jDhxv8kYXjY7Op2gHMFDyubWSVOBQFajmVgaGtNouiB7Nbgi5jiwZoA
+ vIrXab+KvqVkaJl4eC6MQc7QzvfC0oEwsWirw67d0dYSGRnrnx+ojFZoEFhvHQ==
+Message-ID: <a783fe47-89dc-479b-8e85-f956d95cf404@denx.de>
+Date: Mon, 6 Jan 2025 03:48:52 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jBLpBhe/Y1HjnQTCrWM99kN";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] drm: bridge: dw_hdmi: Add flag to indicate output
+ port is optional
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Liu Ying <victor.liu@nxp.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20250105190659.99941-1-marex@denx.de>
+ <20250105232219.GC21164@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20250105232219.GC21164@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,91 +71,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jBLpBhe/Y1HjnQTCrWM99kN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 1/6/25 12:22 AM, Laurent Pinchart wrote:
+> Hi Marek,
 
-Hi all,
+Hi,
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
+> Thank you for the patch.
+> 
+> On Sun, Jan 05, 2025 at 08:06:03PM +0100, Marek Vasut wrote:
+>> Add a flag meant purely to work around broken i.MX8MP DTs which enable
+>> HDMI but do not contain the HDMI connector node. This flag allows such
+>> DTs to work by creating the connector in the HDMI bridge driver. Do not
+>> use this flag, do not proliferate this flag, please fix your DTs and add
+>> the connector node this way:
+>>
+>> ```
+>> / {
+>>      hdmi-connector {
+>>          compatible = "hdmi-connector";
+>>          label = "FIXME-Board-Specific-Connector-Label"; // Modify this
+>>          type = "a";
+>>
+>>          port {
+>>              hdmi_connector_in: endpoint {
+>>                  remote-endpoint = <&hdmi_tx_out>;
+>>              };
+>>          };
+>>      };
+>> };
+>>
+>> &hdmi_tx {
+>>      ...
+>>
+>>      ports {
+>>          port@1 {
+>>              hdmi_tx_out: endpoint {
+>>                  remote-endpoint = <&hdmi_connector_in>;
+>>              };
+>>          };
+>>      };
+>> };
+>> ```
+> 
+> Are there any in-tree DT sources that use the old bindings ?
 
-  drivers/gpu/drm/i915/display/intel_display_driver.c
+See 
+https://lore.kernel.org/dri-devel/AM7PR04MB704688150ACD5D209290246A98092@AM7PR04MB7046.eurprd04.prod.outlook.com/
 
-between commit:
-
-  4fc0cee83590 ("drivers: remove get_task_comm() and print task comm direct=
-ly")
-
-from the mm-nonmm-unstable branch of the mm tree and commit:
-
-  f5d38d4fa884 ("drm/i915/display: convert intel_display_driver.[ch] to str=
-uct intel_display")
-
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/display/intel_display_driver.c
-index 62596424a9aa,497b4a1f045f..000000000000
---- a/drivers/gpu/drm/i915/display/intel_display_driver.c
-+++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
-@@@ -389,8 -397,9 +397,8 @@@ void intel_display_driver_resume_access
-   * Returns %true if the current thread has display HW access, %false
-   * otherwise.
-   */
-- bool intel_display_driver_check_access(struct drm_i915_private *i915)
-+ bool intel_display_driver_check_access(struct intel_display *display)
-  {
- -	char comm[TASK_COMM_LEN];
-  	char current_task[TASK_COMM_LEN + 16];
-  	char allowed_task[TASK_COMM_LEN + 16] =3D "none";
- =20
-@@@ -399,14 -408,15 +407,14 @@@
-  		return true;
- =20
-  	snprintf(current_task, sizeof(current_task), "%s[%d]",
- -		 get_task_comm(comm, current),
- -		 task_pid_vnr(current));
- +		 current->comm, task_pid_vnr(current));
- =20
-- 	if (i915->display.access.allowed_task)
-+ 	if (display->access.allowed_task)
-  		snprintf(allowed_task, sizeof(allowed_task), "%s[%d]",
-- 			 i915->display.access.allowed_task->comm,
-- 			 task_pid_vnr(i915->display.access.allowed_task));
- -			 get_task_comm(comm, display->access.allowed_task),
-++			 display->access.allowed_task->comm,
-+ 			 task_pid_vnr(display->access.allowed_task));
- =20
-- 	drm_dbg_kms(&i915->drm,
-+ 	drm_dbg_kms(display->drm,
-  		    "Reject display access from task %s (allowed to %s)\n",
-  		    current_task, allowed_task);
- =20
-
---Sig_/jBLpBhe/Y1HjnQTCrWM99kN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmd7OgQACgkQAVBC80lX
-0GyVngf+OrzkOD7TLv4JmROI3BaLqfZVO0h5D/abja84Bp37NG54xPo8OwExh5v7
-+IiwBCbrAxUFiXHuBgvM3gZA+gyJOjp68/YlZdngVThsGN0N3AsOuUnunEsnrUG7
-FB2R89nPV5GYEoLab5mI5VxTtaymBt+U77hL+TngjpHeovHmQh4bLSl9DC6F2NwZ
-MiB+3Grz/MHJchwodizgtG0fYiNaj0/7Q3bGBPsHsW8d3Me5MtoQ+HSeJ6A+/9VO
-A+69paKg9+QKwQ1wrsSr+TcNLUxwi7j4dYhkxJnYf1sr/aTx2CHCqN9nQhICvew9
-TxuL/6vO/PsAt7Pq8EVNdMwGie37PQ==
-=Q0n0
------END PGP SIGNATURE-----
-
---Sig_/jBLpBhe/Y1HjnQTCrWM99kN--
+The rest is fixed, thanks.
