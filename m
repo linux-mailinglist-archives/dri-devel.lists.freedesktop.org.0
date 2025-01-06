@@ -2,83 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AD7A01D2E
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 03:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FDFA01D2B
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 03:04:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AD3F10E55A;
-	Mon,  6 Jan 2025 02:04:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 147B710E070;
+	Mon,  6 Jan 2025 02:04:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SAosUyZv";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="Z4YD75Rm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C28410E558
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 02:04:52 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-5d8c1950da7so12593577a12.3
- for <dri-devel@lists.freedesktop.org>; Sun, 05 Jan 2025 18:04:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736129031; x=1736733831; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OlWS4YvO53NnHzw6pvNdcFFPAPIg3E65lSWjybM2Ieg=;
- b=SAosUyZv+B4MA3ejsqJWZITTGScHalsxjZhy5I/Ds9s9Hu8PB0Z2E2r4RK91PakZE8
- 0cwHV/Hu1I6n9Xd7qGBa692K7CFdowEpBbkVRzomDzaLLrz0Fmpa3defTAhFeLmFhuil
- mhyj1a98BHRwlImxLeZMD/0zEyc8cEWyeMHaIYB6OS4B3yFDHZuSN2H4ZhVbEC66rBG5
- 0mWuH/u8KwmIAmKJM+uSpTdaJmj5hKFIBugzZyCYpa49DhKjhCVuA5ZDXFF5QCzMMSFR
- b7qpVkxk0lq+cVS7tD1Btl7n+yrMx8ZIhfpQ0f6IA6i2DsWeEGFzrIAcpmDEQ0uLybfz
- P65Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736129031; x=1736733831;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OlWS4YvO53NnHzw6pvNdcFFPAPIg3E65lSWjybM2Ieg=;
- b=pUmSXdI1ztkyH4xJ8ikY8hONYg5UxasFCn2dwQNAKtSWzKyhUYn3ZNhZyCvFVprO3z
- rrvjJdy3ew1vIlecMeEAPo9gfmim6CK54mGXtFyRoqmQiy1XOLooSKBjmTX1iDrCc7rx
- ifMlHwu7z/GfbbfCJutIQWbiY5g9VCEFQqOXo9QihxY6ZstJ6ZUj25luwKKwr85VvXSq
- qgppVQK/jU5onTATnOcRUKUEiteT+iXCvAZb/kBNI0TpQKUD3R28VrPKJIxYoLWJ6BF2
- RnVMWrVMF6wgy6JhO3nNaopqhNM2eNMLhddF3dsWzMn8EhcVzS+EYXloOPbfma4Ua/0a
- 2piQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQa38bHLbvMRPMjFmh7P4AKUuTw7bgPwCZwct88i4MBerAEbBuawzHzffC83G2L7zz9TQJX8A95lo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxfFa+V2rbl6f9P/cgIEmoQORoMYaOhuaG2ylUvxgAkd6uywmuG
- HWM/Xe1E5YY4b4eS/buoxfkhVZXY2LlFGozFGydyWkZzBsdWnQ/ntPgaiviu/o4UnVnBbjDM6Na
- 5lG5Ta4bGdm+3eaeJQF7t+D71xpCugZO2RpP6FQ==
-X-Gm-Gg: ASbGncucV78bhlv2gyQZaUwR2ISLv4x0f+WRS3LZ84jB2wUTIYTfCAUbnan8pQUMyxx
- q6EdpaTFNeRBGyAo28s1JRAxCvsfiBwyCvHa3qKZt
-X-Google-Smtp-Source: AGHT+IHp3npAFMqevwFn4zq6KYPbZvnYmmZPzwsSEsLp2V2eixfHQyRdfe0VM6iSm48wm7zTxXNLli6e9amHYTcX/ow=
-X-Received: by 2002:a05:6402:1e90:b0:5d3:ff30:b4cc with SMTP id
- 4fb4d7f45d1cf-5d81de39866mr52543342a12.33.1736128630093; Sun, 05 Jan 2025
- 17:57:10 -0800 (PST)
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5931B10E070;
+ Mon,  6 Jan 2025 02:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1736129024;
+ bh=o7q4YMCbm6QDOOrZ12zWJdvJpl2MSPRbhzNZADhYwP0=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Z4YD75RmhflWtIkI4EhVSPo3670B8nIFoomrQtpA/KUcBN2UM5y3ePwvJoNLk5Xd/
+ VJFLo6W4gYw0FincqDG1bphIMfh9J9w/cr4ud9D7A3iIqgDtxgSSB/IiZmr96ImlDH
+ yirb3YapY+1ty9xsZ0AiOd3GARpOecs1pRqyGu22txBdaqD59z5uAYVrjUzb6bG2yK
+ ybple8Ob7/1QfYZlgcRI1UVcdZtT3eMN72iO/U0qKXgnyGYAZsjOl0fazBTR2XYqFE
+ gNs81HXHeKta/f2LZDXFHyowz1XpYES4lAMVMjA1SC938Fs0rwmaR7uoAQzZ+8KcrQ
+ em5MEFjOjN17g==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4YRHXZ5ck1z4wxx;
+ Mon,  6 Jan 2025 13:03:42 +1100 (AEDT)
+Date: Mon, 6 Jan 2025 13:03:48 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Yafang Shao
+ <laoar.shao@gmail.com>
+Subject: linux-next: manual merge of the drm-intel tree with the mm tree
+Message-ID: <20250106130348.73a5fae6@canb.auug.org.au>
 MIME-Version: 1.0
-References: <cover.1735550269.git.zhoubinbin@loongson.cn>
- <4d62076ee560b35c653a9fbced8d03ef3bdb3005.1735550269.git.zhoubinbin@loongson.cn>
- <3daaaff8-062a-4985-a5bc-8d228314b02e@suse.de>
- <CAMpQs4JcuRhpOyXHxy0ab+D-Wd0itKdb0GiZdTE59_qEpUfyLA@mail.gmail.com>
- <390c14a5-44fe-4328-bcc4-2aa1384e3ad1@suse.de>
-In-Reply-To: <390c14a5-44fe-4328-bcc4-2aa1384e3ad1@suse.de>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Mon, 6 Jan 2025 09:56:57 +0800
-X-Gm-Features: AbW1kvYlBMzJH0hwIKgBJ-3gkJK4OQkqvI5bw9nzSAa4-sFHT3qKE49iY62ABvI
-Message-ID: <CAMpQs4+0Pn8c=C6bEk=_M4f8WvXv7K6Rbcw2_ghOZmxgE88e3Q@mail.gmail.com>
-Subject: Re: [PATCH v1 3/4] drm/ls2kbmc: Add support for Loongson-2K BMC
- display
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Huacai Chen <chenhuacai@loongson.cn>,
- Lee Jones <lee@kernel.org>, Corey Minyard <minyard@acm.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Huacai Chen <chenhuacai@kernel.org>, 
- linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
- dri-devel@lists.freedesktop.org, Xuerui Wang <kernel@xen0n.name>, 
- loongarch@lists.linux.dev, Chong Qiao <qiaochong@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="Sig_/jBLpBhe/Y1HjnQTCrWM99kN";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,105 +62,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas:
+--Sig_/jBLpBhe/Y1HjnQTCrWM99kN
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-On Thu, Jan 2, 2025 at 9:32=E2=80=AFPM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
->
-> Hi
->
->
-> Am 02.01.25 um 13:55 schrieb Binbin Zhou:
-> > Hi Thomas:
-> >
-> > Thanks for your reply.
-> >
-> > On Thu, Jan 2, 2025 at 5:07=E2=80=AFPM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
-> >> Hi
-> >>
-> >>
-> >> Am 30.12.24 um 10:31 schrieb Binbin Zhou:
-> >> [...]
-> >>> +
-> >>> +static struct platform_driver ls2kbmc_platform_driver =3D {
-> >>> +     .driver =3D {
-> >>> +             .name =3D "ls2kbmc-framebuffer",
-> >> The driver is mostly a copy of simpledrm. Why don't you use
-> >> "simple-framebuffer" for your device name? You could use simpledrm
-> >> directly then.
-> > Ah, indeed, the driver is based on simpledrm.
-> >
-> > Initially, I also tried to use simpledrm directly, but it will fail in
-> > drm memory acquire.
->
-> Could you point to the exact call that fails within simpledrm?
+Today's linux-next merge of the drm-intel tree got a conflict in:
 
-[    8.289823] simple-framebuffer simple-framebuffer.0: [drm] *ERROR*
-could not acquire memory range [mem 0xe0031200000-0xe00315fffff flags
-0x200]: -16
-[    8.312681] simple-framebuffer simple-framebuffer.0: probe with
-driver simple-framebuffer failed with error -16
->
-> > Because although we register the driver in platform form, its memory
-> > belongs to pci space and we can see the corresponding pci probe and
-> > resource allocation in Patch-1.
->
-> I don't understand. Graphics memory is often located on the PCI bus.
-> What is so special about this one?
->
-> > Therefore, we need to use aperture_remove_conflicting_pci_devices().
->
-> So there is already a device that represents the graphics card? That's
-> what you'd remove here? If you only add that MFD device, who owns the
-> framebuffer? If it's the PCI device from patch 1 ("ls2k-bmc"), why does
-> aperture_remove_conflicting_pci_devices() not remove that device? I'm
-> somewhat confused, because the logic in your driver mostly looks like it
-> binds to a pre-configured framebuffer, but some of the code doesn't.
-> Best regards Thomas
->
-> >
-> > Also, since we are using BMC display, the display will be disconnected
-> > when BMC reset, at this time we need to push the display data (crtc,
-> > connector, etc.) manually as shown in Patch-4.
-> >
-> > Probably it's not the most suitable way to implement it.
-> >
-> >> Best regards
-> >> Thomas
-> >>
-> >>> +     },
-> >>> +     .probe =3D ls2kbmc_probe,
-> >>> +     .remove =3D ls2kbmc_remove,
-> >>> +};
-> >>> +
-> >>> +module_platform_driver(ls2kbmc_platform_driver);
-> >>> +
-> >>> +MODULE_DESCRIPTION("DRM driver for Loongson-2K BMC");
-> >>> +MODULE_LICENSE("GPL");
-> >> --
-> >> --
-> >> Thomas Zimmermann
-> >> Graphics Driver Developer
-> >> SUSE Software Solutions Germany GmbH
-> >> Frankenstrasse 146, 90461 Nuernberg, Germany
-> >> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> >> HRB 36809 (AG Nuernberg)
-> >>
-> >
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
+  drivers/gpu/drm/i915/display/intel_display_driver.c
 
+between commit:
+
+  4fc0cee83590 ("drivers: remove get_task_comm() and print task comm direct=
+ly")
+
+from the mm-nonmm-unstable branch of the mm tree and commit:
+
+  f5d38d4fa884 ("drm/i915/display: convert intel_display_driver.[ch] to str=
+uct intel_display")
+
+from the drm-intel tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
 --=20
-Thanks.
-Binbin
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/i915/display/intel_display_driver.c
+index 62596424a9aa,497b4a1f045f..000000000000
+--- a/drivers/gpu/drm/i915/display/intel_display_driver.c
++++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
+@@@ -389,8 -397,9 +397,8 @@@ void intel_display_driver_resume_access
+   * Returns %true if the current thread has display HW access, %false
+   * otherwise.
+   */
+- bool intel_display_driver_check_access(struct drm_i915_private *i915)
++ bool intel_display_driver_check_access(struct intel_display *display)
+  {
+ -	char comm[TASK_COMM_LEN];
+  	char current_task[TASK_COMM_LEN + 16];
+  	char allowed_task[TASK_COMM_LEN + 16] =3D "none";
+ =20
+@@@ -399,14 -408,15 +407,14 @@@
+  		return true;
+ =20
+  	snprintf(current_task, sizeof(current_task), "%s[%d]",
+ -		 get_task_comm(comm, current),
+ -		 task_pid_vnr(current));
+ +		 current->comm, task_pid_vnr(current));
+ =20
+- 	if (i915->display.access.allowed_task)
++ 	if (display->access.allowed_task)
+  		snprintf(allowed_task, sizeof(allowed_task), "%s[%d]",
+- 			 i915->display.access.allowed_task->comm,
+- 			 task_pid_vnr(i915->display.access.allowed_task));
+ -			 get_task_comm(comm, display->access.allowed_task),
+++			 display->access.allowed_task->comm,
++ 			 task_pid_vnr(display->access.allowed_task));
+ =20
+- 	drm_dbg_kms(&i915->drm,
++ 	drm_dbg_kms(display->drm,
+  		    "Reject display access from task %s (allowed to %s)\n",
+  		    current_task, allowed_task);
+ =20
+
+--Sig_/jBLpBhe/Y1HjnQTCrWM99kN
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmd7OgQACgkQAVBC80lX
+0GyVngf+OrzkOD7TLv4JmROI3BaLqfZVO0h5D/abja84Bp37NG54xPo8OwExh5v7
++IiwBCbrAxUFiXHuBgvM3gZA+gyJOjp68/YlZdngVThsGN0N3AsOuUnunEsnrUG7
+FB2R89nPV5GYEoLab5mI5VxTtaymBt+U77hL+TngjpHeovHmQh4bLSl9DC6F2NwZ
+MiB+3Grz/MHJchwodizgtG0fYiNaj0/7Q3bGBPsHsW8d3Me5MtoQ+HSeJ6A+/9VO
+A+69paKg9+QKwQ1wrsSr+TcNLUxwi7j4dYhkxJnYf1sr/aTx2CHCqN9nQhICvew9
+TxuL/6vO/PsAt7Pq8EVNdMwGie37PQ==
+=Q0n0
+-----END PGP SIGNATURE-----
+
+--Sig_/jBLpBhe/Y1HjnQTCrWM99kN--
