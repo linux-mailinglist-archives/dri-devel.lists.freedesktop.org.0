@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D2FA0211D
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 09:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01CDA0211E
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 09:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4259710E5C5;
-	Mon,  6 Jan 2025 08:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F7210E5CC;
+	Mon,  6 Jan 2025 08:50:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="MxC0XZx6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iKuxI2sV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
- [209.85.218.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E32C10E5C0
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 08:50:15 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id
- a640c23a62f3a-aa676e4f36cso163939766b.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 00:50:15 -0800 (PST)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FFF810E5CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Jan 2025 08:50:16 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-aa6965ad2a5so151366566b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 00:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736153354; x=1736758154; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=MPpDYH069+mLjs5dlTYIpCA8LfABO5kO0Ny/8N1lhyI=;
- b=MxC0XZx6vvaamSM/ygBf5CGlEFo5sKaVsnBVCTI2myuq6KOVYBfXKG3jheON2dJCAI
- jdkwRHkeBq/lO18B1qn8IXRoDBo8aqgSOatrWDa0359a90NFJ5BQuMWf+q2h0aiH22N/
- 3bV/k9witG6fOtmmiso2obrVHxAqrDDQkG9d0iwW40BuikUzB2yhhHVxxDTYYU2qbph7
- IhvGYvkIY4FTc+YD8X4E8eOW2ex7sxIELKAQKk4313S/FdcNL2tAzCvgSGwoMnTMeijH
- hw+YJZ3ZJTOGkZztLGu6LBOIfAS2Z62JHxcR5G8Lylx2Yd0+BhR3nN8RN5Rr4CZyHfPu
- dvBg==
+ d=linaro.org; s=google; t=1736153355; x=1736758155; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=ywLej3GM0KyKJnGRMRgcFZSn6sceBNpXrAUD1YJ/g44=;
+ b=iKuxI2sVpZiOvsxdon+lJK24vCdZJmXwGQ46Gn9jIZXHYbNQfAAt9pT5YwyDgrioZd
+ 19iZIzfHcRCagg5F5mexj58vHxGB406s7xDUzZmEe6DnzL7348bDwgib7DnAcd6w6moP
+ NWPtA2EBNdacKZ+b01hKU9NLv6I3BW/cIV+UscWv5VGSJjgk8obWFg2OWghROi/0LEXG
+ vC/Cq768sMKY5lgK5G3VyvgyYBn1YxeCj8ycrTigyEfJP0YpLY5ihZs+dGkqheRbyEjq
+ 11cvYyTbTVp92kOljL9oBF/1tzpw8hHDM0bYqw1S9E4LXCJv7fWyd96PKGlabkwupWcl
+ +qfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736153354; x=1736758154;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=MPpDYH069+mLjs5dlTYIpCA8LfABO5kO0Ny/8N1lhyI=;
- b=I4i1xu8FTr4FJ79/ti2NcbsWorhbR75NOCGmjMOQums4le+6RBMWwiaEn7mAkmXJu6
- RiQlaq9miP9YTrQjVkzxKCTXQmR2oNf9AY1PySULNhMYymRmT4eXZ3mkBoNA2u0gXn/c
- zDnfvM9XF8VkA5B4Pr7id/RN58UBCit63Mp/zHOLr3Hgctlc9NoZlO8mxDG9nL8fP3m2
- t/OrvJ5AcR9RZUUbIzMZ+NbsoB0pgVn/33zH/H9wGuuooNn/INHPBiWGi2/FdXejwbsJ
- kzHk2sY/soRViOuNHRI4Q+ccwGbPExlOy7LBNaIr7VdLwJ/5xHL0qKUscBvTAzfpEQLR
- 94QQ==
+ d=1e100.net; s=20230601; t=1736153355; x=1736758155;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ywLej3GM0KyKJnGRMRgcFZSn6sceBNpXrAUD1YJ/g44=;
+ b=Y8qPgp6Gc7BwQNqrH76vf6w2A0L869DQIawhlnRtyTl0rHWVzIMc954ZXUheA66dsP
+ dcEmPpfc7qG0YwiuEhtsc/GL8mALbGdT24NQbDCFVKhp2/xTdQiC/FIkQKDDuIv8GUQY
+ axIUg3LRakd8m2f+7YwQoXj3Iu/iwomv9DZFkKDwRhoYzotU/6JHmghxqI8iMJehtC5q
+ oEaENhSWC+xTvDCKQWxyBAIyDlADMeeqAkAvqYOtYTTLUjM+b1cx4MCYcFgFx0KsBZaY
+ 39feX5PFFeoS3itLL0pFj8eFWPukTjzJdttuuntO45NLT8c9xqIkEuMgB9SOLCZpRxUm
+ mXmw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXlnr2E3+pIHW0VQzwyFKVeurHEiH2Ma2gDx50JIgZ7MOCZcDyhRI8gANWie7gn++RQK55Nq7e4VWc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjuOZikQJfEXW2XIV80QX2YV47We8JzwuuSCqFITCPBlsi1G4w
- kpKTr3FOsU5iwifdfl1phlPUT4BTs7yAOQu99wwes1YXppzbGrZR7BIZVoQmyaM=
-X-Gm-Gg: ASbGncuTOu8k6fa7AVv58Dlt0PGWQJrvivDecZxnpyiadgtl31K0jbxNjOKpq6cHH3Y
- 1uFtsLVbwB8HbneHb0A/kOU5X5HJyjeGVuHA6HUya41x1RmJREY0oBzwTbgET5bfhIaDikv6rLu
- DpF21CdnIo0SjblAK7wBhg3/Ovohyzs/f9ofIUJUrSttKAYsaLdhba6aAtCXop43yKWob2fJNyG
- RZjqy+TJiamZcYpo+7qxa8xHUDUKb9xd/mVTUmWfBWDCJ+7ISeCHU+IW1bNEbV0NsilxzID
-X-Google-Smtp-Source: AGHT+IFjMVJDC2pUOc/2UmfzGQilpfciPMIJtnCCIHibu6sgvl6484mJOSWCipkTs5ubhvfGq4Pvcw==
-X-Received: by 2002:a17:906:f5aa:b0:aa6:6792:8bce with SMTP id
- a640c23a62f3a-aac27430f12mr1975175966b.3.1736153353609; 
- Mon, 06 Jan 2025 00:49:13 -0800 (PST)
+ AJvYcCUYUpMW2K3iLObtHuAci2exCOWTi/znt5YzFTxEl/GNP8GpUYX6vb/K2j6lLgowMrHHzYLlA48LrAU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxF5T+feZDCIXia93hseOWwHWefvCSMYiRNVR4LR+eBInOTk5e8
+ 63drK+vBg0aATP7lscl8xpDmDsmY9J7rEcrwU608oE/E8vj0vazDuv5ws7R+9hQ=
+X-Gm-Gg: ASbGncsy5fiqX4rfFbOr1+FIeVo6dPlmVNMU9zAzTPWqeW+ryAWDEPzkAfvmNfsRp7B
+ WGTfBMzMf+IcWt+UnWS8lA1iY6nc3rSGQj5R8eQm9mGMiiQKVl9Ez3K+zVA5rHCsaoE6wUgOelr
+ 2NQa/S0HA6GKQtDLFJPkGTAsD5KEYGd+YPJQeW53R14X0z0mq84OkfMs+aj3h1AZ5X4pwSj2/0a
+ gUkg8Hne7cjjuhAN0/A4HsyMk2L6YPuMDCsqE87Xc2CUZ1K61HhOJiXEtJXFkvf/rk3N6gA
+X-Google-Smtp-Source: AGHT+IHKHcWYf/OgOrf9O3FcoAGEsMn4vt0y96TrbQy13IkeRq/FUB+urbvhws6fwBpAAavMVngICA==
+X-Received: by 2002:a17:907:7e92:b0:aa6:9631:9222 with SMTP id
+ a640c23a62f3a-aac2874a950mr1828712466b.2.1736153354990; 
+ Mon, 06 Jan 2025 00:49:14 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-aac0e82f1d2sm2222112466b.11.2025.01.06.00.49.12
+ a640c23a62f3a-aac0e82f1d2sm2222112466b.11.2025.01.06.00.49.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Jan 2025 00:49:13 -0800 (PST)
+ Mon, 06 Jan 2025 00:49:14 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH 0/4] drm/msm/dsi: Minor cleanups
-Date: Mon, 06 Jan 2025 09:49:03 +0100
-Message-Id: <20250106-drm-msm-cleanups-v1-0-271ff1c00795@linaro.org>
+Date: Mon, 06 Jan 2025 09:49:04 +0100
+Subject: [PATCH 1/4] drm/msm/dsi: Drop redundant NULL-ifying of clocks on
+ error paths
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAP+Ye2cC/x3MQQqAIBBA0avErBvQohZdJVqYjjWQJg5FIN09a
- fkW/xcQykwCU1Mg083CZ6zQbQN2N3EjZFcNneoGpdWILgcMEtAeZOKVBJ0z1mtv+9UMULOUyfP
- zL+flfT+zZw1pYgAAAA==
-X-Change-ID: 20250106-drm-msm-cleanups-ddacf1fc3ba5
+Message-Id: <20250106-drm-msm-cleanups-v1-1-271ff1c00795@linaro.org>
+References: <20250106-drm-msm-cleanups-v1-0-271ff1c00795@linaro.org>
+In-Reply-To: <20250106-drm-msm-cleanups-v1-0-271ff1c00795@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -79,21 +78,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=669;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1610;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=jJ0wJpIPs8hLuHKhmqokUten+IFN/Sb20GIBd4RQIqo=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBne5kBW0Mgbz44xhCZqTLkM3ZzGvvWdyDivUDtT
- DyxwFWSdjyJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ3uZAQAKCRDBN2bmhouD
- 14HHD/9SIqdiE2MxGLRuE4kcCfJEtxho69Z44obXWV+ZOsfkBPNIzPLD3jrsh6GSCu9xIwtgiKm
- XplBofIsm4/I84hhQXLCsJgWFVtAzLwk73azOEvdVBiM1DVKXXFfwBnLlPVU+vdnnUGlbaxlQXP
- yCT/DsSRd+v7gZcNyK4Pdv9abQhnhY3vSmwD50oKYsH2DlED/vBdtM8Dt8yG0gS+pCm2/CyCbjY
- jvHwun1yUSr7Pzha7k9sgz29lP9dqH/3AlbJiJTlRLVwnVCm7dfnBKAKHaqHC5vgIcAPN9D7wjN
- qr0pzAg5c1YOZk7A782ewZklGIYewiIkzQvuA5E5dKibI3ZQaafx08/ucCqxhEHMc4x9WKVrzqU
- 6TM+r7SW8g21ydp+ZZam2/dT+AsqPtWU4i+7MYIZOa21FKxG0UiUBICbadEoDPNbtFuKlzqTKWK
- abDn3p5gtrfQ+IHXRdRbX+qVCNItURI+hJxKRoBTjOtwuLEN5tQi+ZQf12FEuYSUxbwHjitabeB
- MSneU/pUNjrw04rlwF9tlxl1Mjdjj+5JQTugBd3iVdzEZ85TO+eFnJ1LnFnEe6mOe6tyeUA5NtJ
- jVqip4WCFThrpuO2DwSO0GdsVl9LJdrc7lAQ4CDD7uY8IMW3Cmx7v/qs+cz0lz+eRKVCW1WHRxF
- wNqEa376oYlK6vw==
+ bh=PhVBTMK/6+dy3CEy0PY9YFYK561quc3srNdqv8QLMdg=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBne5kEv7KHY56NiTm9j77NT3LYMCJ8uIFoRUbF3
+ 5W2BFiJFq+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ3uZBAAKCRDBN2bmhouD
+ 170CD/4vWTXyM+nvORyBOO1HAK3W0ud+c+2A8tl59Lb1I4sWHkW4LsivhtrE1Rwl5GdaJ4TjOE/
+ H1S9aW6Knaj85ZbFgSn8yKFtH4gPfhlh25E+ruqAzVgR8WS+kcEjJDm6stWoH2vver59o4/PHB2
+ ZyZ46MvdktfvPOVelOt11uQbshRiXDbsAFNoYKa6vIfoN5u7JYQP4yeq47XH8SpZ2Y+QtrC+Ah+
+ 6plefQsrq4PUjEd70qUdUNs/5dDRNj+WEAsYwa7XwfizNY9BgmzaqA0nPRJJu291mMn0q+w2cCV
+ 3njkqnQnLoZEyRvH2qndWKqv0Lk8Oa2aWrrZjhpP2nXUIaSfWaoYtnRvQLXBqoMmCrdClhVYm42
+ OfxsGBUUZCHIJbudkTKO6McO69ugiHBMC7ELfNmZs1as1cyAAoM1yemtUhTdwumN3OXyL12so6a
+ 5FqymO8OhgJ5EJP+/BCcHMwMh8XFggQeYVAnf0xv0JqLB6KPIxwHTxJ5PAWImeZrcWH7svCjMwB
+ 8EXxbxK7fA95BKBNWO2vbgBwTdsFSobfFhDPyaX3AvfcGRNgeJnjEexIqNgyHdQWTZAOdPdq9LU
+ FY/x0NonnDbO7lPSw39p/C4Kl93CNn+QGF2Vjy7GyshrYPZtwshEd9IWB69OIUDZwvmS4VWk939
+ JMpdFnWtunCaGSA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,25 +110,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Few minor improvements/cleanups why browsing the code.
+dsi_clk_init(), which gets the clocks, is called only through platform
+driver probe and its failure is a failure of the probe.  Therefore
+NULL-ifying specific clocks is pointless and redundant - the PTR_ERR
+value stored there won't be used/dereferenced afterwards.  What's more,
+variant-specific clock init calls like dsi_clk_init_6g_v2() are not
+doing this cleanup.  Dropping redundant code allows later to make this a
+bit simpler.
 
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (4):
-      drm/msm/dsi: Drop redundant NULL-ifying of clocks on error paths
-      drm/msm/dsi: Simplify with dev_err_probe()
-      drm/msm/dsi: Minor whitespace and style cleanup
-      drm/msm/dsi: Drop unnecessary -ENOMEM message
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
- drivers/gpu/drm/msm/dsi/dsi_host.c | 158 ++++++++++++++++---------------------
- 1 file changed, 68 insertions(+), 90 deletions(-)
----
-base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-change-id: 20250106-drm-msm-cleanups-ddacf1fc3ba5
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index a98d24b7cb00b41d3bb371a965a80ceaa93775a6..86ac145076416fa7651d18820266a00d28e44b6f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -292,7 +292,6 @@ static int dsi_clk_init(struct msm_dsi_host *msm_host)
+ 		ret = PTR_ERR(msm_host->byte_clk);
+ 		pr_err("%s: can't find dsi_byte clock. ret=%d\n",
+ 			__func__, ret);
+-		msm_host->byte_clk = NULL;
+ 		goto exit;
+ 	}
+ 
+@@ -301,7 +300,6 @@ static int dsi_clk_init(struct msm_dsi_host *msm_host)
+ 		ret = PTR_ERR(msm_host->pixel_clk);
+ 		pr_err("%s: can't find dsi_pixel clock. ret=%d\n",
+ 			__func__, ret);
+-		msm_host->pixel_clk = NULL;
+ 		goto exit;
+ 	}
+ 
+@@ -310,7 +308,6 @@ static int dsi_clk_init(struct msm_dsi_host *msm_host)
+ 		ret = PTR_ERR(msm_host->esc_clk);
+ 		pr_err("%s: can't find dsi_esc clock. ret=%d\n",
+ 			__func__, ret);
+-		msm_host->esc_clk = NULL;
+ 		goto exit;
+ 	}
+ 
 
-Best regards,
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.43.0
 
