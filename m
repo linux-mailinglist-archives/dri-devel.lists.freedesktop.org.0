@@ -2,90 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C55A0311F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Jan 2025 21:06:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5CBA033AB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 01:01:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44A6310E23B;
-	Mon,  6 Jan 2025 20:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9C510E146;
+	Tue,  7 Jan 2025 00:00:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NwZnOmFA";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i4nQzo6u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE9F410E23B;
- Mon,  6 Jan 2025 20:06:34 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 506HwUdG005564;
- Mon, 6 Jan 2025 20:06:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Q7fqXg026ZAnMZXN1MXFj57rk/uuZQXlz7QDDo9fMcI=; b=NwZnOmFAOz6Cputz
- 4hbte5VN4Uie2H/E5ZpDAZmW8BymOO5tsE2odCfRoy/nC6GRcFNWhyQucKakihE6
- G31uPNjRQ7oUrR/L4Z+i0F+zK44RuCanmV3GmsmwYuRVXLhhYxbRpSRkRzSVr3QP
- M1QwhK5crGmrctRPeUkjVIf5eutVu2NkLeM+S+be1jZ0e/42X143ifw3YPigX/Qb
- 3ZKlMIpp9I8yLNrMR6IqNcs6AV59MRpKxuvXJGgdVHB7aDlEBvSD0p/Wb/O0MJjs
- fzWWp2JMRC1yAWLWft8Rtipi1Noc1/nf5df0wXN9n05iRXLfqywqjfr8HJYmMuNc
- Sw4y4g==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 440m20r87h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 06 Jan 2025 20:06:30 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 506K6TaK016447
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 6 Jan 2025 20:06:29 GMT
-Received: from [10.216.24.147] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 6 Jan 2025
- 12:06:22 -0800
-Message-ID: <7380a14d-4d96-42b7-97e0-9916717d62a0@quicinc.com>
-Date: Tue, 7 Jan 2025 01:36:19 +0530
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985E210E146
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 00:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1736208053;
+ bh=orwkzm53fje6xyZyzrYqG7Y6aJ6xlLrIY6mv0qH1TWw=;
+ h=From:Date:Subject:To:Cc:From;
+ b=i4nQzo6ulju+3Xg9UHJ8xo3tRydcjJVT8dAvCZYMfJn2khlANZw5UiX5pU0RRwJIw
+ 2v8IRfaFQsv5Mr8ioEoXhacYPLsUme2S57EL4K4O6ntbkqvLObwkACYa+1Irbkzo/5
+ hHtLOvGDElBoJybcX6MrIa44r4uIDwqqcDZp+a+7j1foC3M6RwoGPLealk73gC8nbl
+ 8wFhnqEXW8GqxVd+yCT3qeYGkni3xU9+Gri/xS4PK/CvPbbbTdXu582+ec28flp6W7
+ F4XhOB+hJQ5DN99cI5xHuQ4gIxP6Mx7EISODjwfZi1RLoLLxcZdk77XCAZAD06m1oY
+ O8CeC6eyKkdXw==
+Received: from localhost (unknown [188.27.57.36])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B4EBC17E0DE7;
+ Tue,  7 Jan 2025 01:00:53 +0100 (CET)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Date: Tue, 07 Jan 2025 02:00:35 +0200
+Subject: [PATCH] drm/connector: hdmi: Handle NULL display mode in state
+ check helper
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/6] drm/msm/adreno: Add module param to disable ACD
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20241231-gpu-acd-v3-0-3ba73660e9ca@quicinc.com>
- <20241231-gpu-acd-v3-3-3ba73660e9ca@quicinc.com>
- <3f33a94e-3fb2-4df2-91f5-59a92f5094f0@oss.qualcomm.com>
-Content-Language: en-US
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-In-Reply-To: <3f33a94e-3fb2-4df2-91f5-59a92f5094f0@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: -Q0R83qpC8B5CHgb51nLn0-BYHpE2k4J
-X-Proofpoint-GUID: -Q0R83qpC8B5CHgb51nLn0-BYHpE2k4J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- adultscore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 malwarescore=0
- impostorscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2501060175
+Message-Id: <20250107-hdmi-conn-null-mode-v1-1-fff4be46d106@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAKJufGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQwNz3YyU3Ezd5Py8PN280pwc3dz8lFTdpFSDZNNUE8vUFItkJaDOgqL
+ UtMwKsKnRsbW1AOzer8ZlAAAA
+X-Change-ID: 20250107-hdmi-conn-null-mode-be0c5e49ed8c
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,28 +68,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/31/2024 4:02 PM, Konrad Dybcio wrote:
-> On 30.12.2024 10:11 PM, Akhil P Oommen wrote:
->> Add a module param to disable ACD which will help to quickly rule it
->> out for any GPU issues.
->>
->> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->> ---
-> 
-> Is that something useful during internal development, or do we
-> see ACD causing issues in the wild?
-> 
-> If the latter, would that be caused by e.g. outdated firmware?
+drm_atomic_helper_connector_hdmi_check() helper makes use of
+connector_state_get_mode() to obtain a drm_display_mode pointer, but it
+doesn't validate it, which may lead to a NULL pointer dereference in
+some cases, i.e. unloading a DRM module:
 
-It is rare to see ACD issues in production because there is pretty
-stringent testing done during development. Still, disabling ACD is one
-of the first thing we try because debugging HW spec violation is a
-nightmare.
+[ 1002.910414] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+[...]
+[ 1002.923833] Hardware name: Radxa ROCK 5B (DT)
+[ 1002.924819] pc : drm_match_cea_mode+0x30/0x280 [drm]
+[ 1002.925318] lr : hdmi_try_format_bpc+0x7c/0x580 [drm_display_helper]
+[...]
+[ 1002.932411] Call trace:
+[ 1002.932626]  drm_match_cea_mode+0x30/0x280 [drm] (P)
+[ 1002.933120]  hdmi_try_format_bpc+0x7c/0x580 [drm_display_helper]
+[ 1002.933662]  drm_atomic_helper_connector_hdmi_check+0x10c/0x478 [drm_display_helper]
+[ 1002.934355]  drm_bridge_connector_atomic_check+0x20/0x40 [drm_display_helper]
+[ 1002.934993]  drm_atomic_helper_check_modeset+0x698/0xd28 [drm_kms_helper]
+[ 1002.935607]  drm_atomic_helper_check+0x28/0xb8 [drm_kms_helper]
+[ 1002.936143]  drm_atomic_check_only+0x794/0x988 [drm]
+[ 1002.936635]  drm_atomic_commit+0x60/0xe0 [drm]
+[ 1002.937082]  drm_atomic_helper_disable_all+0x184/0x218 [drm_kms_helper]
+[ 1002.937678]  drm_atomic_helper_shutdown+0x90/0x150 [drm_kms_helper]
+[ 1002.938243]  rockchip_drm_unbind+0x38/0x80 [rockchipdrm]
+[ 1002.938720]  component_master_del+0xac/0xf8
+[ 1002.939089]  rockchip_drm_platform_remove+0x34/0x78 [rockchipdrm]
+[...]
 
-Regarding firmware, yeah, it is possible but rare in production.
+Add the missing NULL check before passing the mode pointer further.
 
--Akhil.
+Fixes: f035f4097f1e ("drm/connector: hdmi: Calculate TMDS character rate")
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> 
-> Konrad
+diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+index cfc2aaee1da08a103cbf933c891d5cc31b0886a8..e4d4fce6ab59d37067327d3e6da235c9a5a45b42 100644
+--- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
++++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+@@ -503,6 +503,9 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
+ 		connector_state_get_mode(new_conn_state);
+ 	int ret;
+ 
++	if (!mode)
++		return 0;
++
+ 	new_conn_state->hdmi.is_limited_range = hdmi_is_limited_range(connector, new_conn_state);
+ 
+ 	ret = hdmi_compute_config(connector, new_conn_state, mode);
+
+---
+base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+change-id: 20250107-hdmi-conn-null-mode-be0c5e49ed8c
 
