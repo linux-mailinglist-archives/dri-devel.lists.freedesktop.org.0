@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE6BA050AD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 03:29:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41F1A050B1
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 03:29:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31B8910E7DD;
-	Wed,  8 Jan 2025 02:29:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 728C610E7DE;
+	Wed,  8 Jan 2025 02:29:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GwRjz4eI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HorjPr1m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FAB310E7DD
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:29:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2E910E7DE
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736303355; x=1767839355;
+ t=1736303360; x=1767839360;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OdYvqy9SZiyGRa0z3UebND5Dabkm8gIYOojEDkxguSw=;
- b=GwRjz4eIweKY2zGzQ4oCw5B1aP6zFyNSpxcITvrArbTgix8l7F4zf9n0
- YlKps6VM5vhbQaKbdnqvpbNqVWQmmyXZftBsFo1pGMaTwryx1PPFJHiAf
- tl4sa44v2kj1FUcSmZ4+GEuydM3MKm3/UuCR55kFtTj2pRQAmjXfbVmMj
- WWyoKw2yskdfXKAaNxV660ehbhRYn1J6axEY/SGf8dMpZkaWOtZ48P4nf
- gT8S7Fd+TE4nQX/n285al2yYH9ZjSoXka5u54AtFm8S5haHt892uk5Nkk
- 4M+NypF6Ene1KU6776462zO7HzXb2yf7aRgRtInN2YW+LY0/ts+C9lv0m w==;
-X-CSE-ConnectionGUID: 6CZ1xPhvTPKX/cW5RBJZtg==
-X-CSE-MsgGUID: wM3Ps+R3RNuwJ3wmGOrYuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010583"
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="47010583"
+ bh=aXS00hvcLCx/JNYY8Pz9dnfD+e6/gpdHuhaWAk8Hj8w=;
+ b=HorjPr1mPYLXqBrhfegF/sTkEJfNdfMr1lwF3zNvHUb+xsXkzKhr5IQQ
+ rotNAVliAWt3eMBk3illVtEeo8UBZqb3fVm6m46o5BF0/ux+E89Iujk9D
+ dJHIt8f+lYEodnwYt0k4Aw1LDKQAAk8HM9VFMNr2uOMdWLFBtIDQ+UiNK
+ Uz0kzogAujKf131GkWou+M/vzDfdvUWgE3u6avSzPJm1p+E1GZg99o85m
+ oyc+OqTf6jF583aSYLsV9I5kOdViHf7RFPrq7M/QFKRsb1WLkqiejkwe4
+ wd6NxgBUS0SYVgCUZsVB8Ht/WzzURGeUxizpQw6ZYZJKGP8NDDRRqr2Gt w==;
+X-CSE-ConnectionGUID: FQpmjjwYT8up4ubL+HsOrw==
+X-CSE-MsgGUID: SUGWY7i2S7+q9bE5WTSk8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010618"
+X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="47010618"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 18:29:14 -0800
-X-CSE-ConnectionGUID: f/1pbW8GShW+Cp7ykLs29Q==
-X-CSE-MsgGUID: 60HgkxdjTqiSz/RcjwfLHw==
+ 07 Jan 2025 18:29:20 -0800
+X-CSE-ConnectionGUID: sBlHVtLsRvylvXu/hmJb0w==
+X-CSE-MsgGUID: YQy6dSo0QA2bbZy+yHWL6A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103793792"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103793822"
 Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
- by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:29:09 -0800
+ by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:29:14 -0800
 From: Xu Yilun <yilun.xu@linux.intel.com>
 To: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
@@ -50,10 +50,10 @@ Cc: yilun.xu@intel.com, yilun.xu@linux.intel.com, linux-coco@lists.linux.dev,
  linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
  daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
  zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: [RFC PATCH 09/12] vfio/pci: Export vfio dma-buf specific info for
- importers
-Date: Tue,  7 Jan 2025 22:27:16 +0800
-Message-Id: <20250107142719.179636-10-yilun.xu@linux.intel.com>
+Subject: [RFC PATCH 10/12] KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data
+ for sanity check
+Date: Tue,  7 Jan 2025 22:27:17 +0800
+Message-Id: <20250107142719.179636-11-yilun.xu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250107142719.179636-1-yilun.xu@linux.intel.com>
 References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
@@ -74,108 +74,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VFIO dma-buf supports exporting host unaccessible MMIO regions for
-private assignment. Export this info by attaching VFIO specific
-dma-buf data in struct dma_buf::priv. Provide a helper
-vfio_dma_buf_get_data() for importers to fetch these data.
+Fetch VFIO specific dma-buf data to see if the dma-buf is eligible to
+be assigned to CoCo VM as private MMIO.
 
-The exported host unaccessible info are for importers to decide if the
-dma-buf is good to use. KVM only allows host unaccessible MMIO regions
-for private MMIO slot. But it is expected other importers (e.g. RDMA
-driver, IOMMUFD) may also use the dma-buf machanism for P2P in native
-or non-CoCo VM, in which cases host unaccessible is not required.
-
-Also export struct kvm * handler attached to the vfio device. This
-allows KVM to do another sanity check. MMIO should only be assigned to
-a CoCo VM if its owner device is already assigned to the same VM.
+KVM expects host unaccessible dma-buf for private MMIO mapping. So need
+the exporter provide this information. VFIO also provides the
+struct kvm *kvm handler for KVM to check if the owner device of the
+MMIO region is already assigned to the same CoCo VM.
 
 Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
 ---
- drivers/vfio/pci/dma_buf.c | 24 ++++++++++++++++++++++++
- include/linux/vfio.h       | 19 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
+ virt/kvm/vfio_dmabuf.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/vfio/pci/dma_buf.c b/drivers/vfio/pci/dma_buf.c
-index ad12cfb85099..ad984f2c22fc 100644
---- a/drivers/vfio/pci/dma_buf.c
-+++ b/drivers/vfio/pci/dma_buf.c
-@@ -9,6 +9,8 @@
- MODULE_IMPORT_NS("DMA_BUF");
+diff --git a/virt/kvm/vfio_dmabuf.c b/virt/kvm/vfio_dmabuf.c
+index c427ab39c68a..26e01b815ebf 100644
+--- a/virt/kvm/vfio_dmabuf.c
++++ b/virt/kvm/vfio_dmabuf.c
+@@ -12,6 +12,22 @@ struct kvm_vfio_dmabuf {
+ 	struct kvm_memory_slot *slot;
+ };
  
- struct vfio_pci_dma_buf {
-+	struct vfio_dma_buf_data export_data;
++static struct vfio_dma_buf_data *kvm_vfio_dma_buf_get_data(struct dma_buf *dmabuf)
++{
++	struct vfio_dma_buf_data *(*fn)(struct dma_buf *dmabuf);
++	struct vfio_dma_buf_data *ret;
 +
++	fn = symbol_get(vfio_dma_buf_get_data);
++	if (!fn)
++		return ERR_PTR(-ENOENT);
++
++	ret = fn(dmabuf);
++
++	symbol_put(vfio_dma_buf_get_data);
++
++	return ret;
++}
++
+ static void kv_dmabuf_move_notify(struct dma_buf_attachment *attach)
+ {
+ 	struct kvm_vfio_dmabuf *kv_dmabuf = attach->importer_priv;
+@@ -48,6 +64,7 @@ int kvm_vfio_dmabuf_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 	size_t size = slot->npages << PAGE_SHIFT;
+ 	struct dma_buf_attachment *attach;
+ 	struct kvm_vfio_dmabuf *kv_dmabuf;
++	struct vfio_dma_buf_data *data;
  	struct dma_buf *dmabuf;
- 	struct vfio_pci_core_device *vdev;
- 	struct list_head dmabufs_elm;
-@@ -156,6 +158,14 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
- 	priv->vdev = vdev;
- 	priv->nr_ranges = get_dma_buf.nr_ranges;
- 	priv->dma_ranges = dma_ranges;
-+	/*
-+	 * KVM expects private dma_buf. An private dma_buf must not
-+	 * support dma_buf_ops.map_dma_buf/mmap/vmap(). The exporter must also
-+	 * ensure no side channel access for the backend resource, e.g.
-+	 * vfio_device_ops.mmap() should not be supported.
-+	 */
-+	priv->export_data.is_private = vdev->vdev.is_private;
-+	priv->export_data.kvm = vdev->vdev.kvm;
+ 	int ret;
  
- 	ret = check_dma_ranges(priv, &dmabuf_size);
- 	if (ret)
-@@ -247,3 +257,17 @@ void vfio_pci_dma_buf_cleanup(struct vfio_pci_core_device *vdev)
+@@ -60,6 +77,15 @@ int kvm_vfio_dmabuf_bind(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 		goto err_dmabuf;
  	}
- 	up_write(&vdev->memory_lock);
- }
-+
-+/*
-+ * Only vfio/pci implements this, so put the helper here for now.
-+ */
-+struct vfio_dma_buf_data *vfio_dma_buf_get_data(struct dma_buf *dmabuf)
-+{
-+	struct vfio_pci_dma_buf *priv = dmabuf->priv;
-+
-+	if (dmabuf->ops != &vfio_pci_dmabuf_ops)
-+		return ERR_PTR(-EINVAL);
-+
-+	return &priv->export_data;
-+}
-+EXPORT_SYMBOL_GPL(vfio_dma_buf_get_data);
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index e99d856c6cd8..fd7669e5b276 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -9,6 +9,7 @@
- #define VFIO_H
  
- 
-+#include <linux/dma-buf.h>
- #include <linux/iommu.h>
- #include <linux/mm.h>
- #include <linux/workqueue.h>
-@@ -370,4 +371,22 @@ int vfio_virqfd_enable(void *opaque, int (*handler)(void *, void *),
- void vfio_virqfd_disable(struct virqfd **pvirqfd);
- void vfio_virqfd_flush_thread(struct virqfd **pvirqfd);
- 
-+/*
-+ * DMA-buf - generic
-+ */
-+struct vfio_dma_buf_data {
-+	bool is_private;
-+	struct kvm *kvm;
-+};
++	data = kvm_vfio_dma_buf_get_data(dmabuf);
++	if (IS_ERR(data))
++		goto err_dmabuf;
 +
-+#if IS_ENABLED(CONFIG_DMA_SHARED_BUFFER) && IS_ENABLED(CONFIG_VFIO_PCI_CORE)
-+struct vfio_dma_buf_data *vfio_dma_buf_get_data(struct dma_buf *dmabuf);
-+#else
-+static inline
-+struct vfio_dma_buf_data *vfio_dma_buf_get_data(struct dma_buf *dmabuf)
-+{
-+	return NULL;
-+}
-+#endif
++	if (!data->is_private || data->kvm != kvm) {
++		ret = -EINVAL;
++		goto err_dmabuf;
++	}
 +
- #endif /* VFIO_H */
+ 	kv_dmabuf = kzalloc(sizeof(*kv_dmabuf), GFP_KERNEL);
+ 	if (!kv_dmabuf) {
+ 		ret = -ENOMEM;
 -- 
 2.25.1
 
