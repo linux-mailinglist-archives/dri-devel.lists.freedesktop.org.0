@@ -2,62 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCDFA0342B
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 01:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F56AA03449
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 02:00:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A999B10EA47;
-	Tue,  7 Jan 2025 00:52:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4150810EA45;
+	Tue,  7 Jan 2025 01:00:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QPXvkd9j";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="g6Tse0Hp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494A310EA45;
- Tue,  7 Jan 2025 00:52:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 449E2A41FFB;
- Tue,  7 Jan 2025 00:50:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0C30C4CED2;
- Tue,  7 Jan 2025 00:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736211149;
- bh=7+6DdqgteBZqLCvaUC8715Bkx+RkdSf5/LheljtHJ3U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QPXvkd9jpxmoV6klGXjFaCXtubKqLSACiQp/Tlyi12uFdfzolIm4wROPLIGrqvBSI
- POytWCasMqxsBJTk/wsIrNAg4pBh+paVPjMkuwj3+BSV/EJQxpQf4PhM9eLCf05IE6
- jaJwH1zhD+aR9kdqufx3VaujwPO0uokFfL+U00ELAnXtSR+4gEbC6dK8/HMrIcYuId
- EzlYsWjZCxWje9SyyR1zH5YAYY79+jxsJjp1Aqm0L0aWHjuDRzrmLU+JWLsZ9AZSTY
- z8B6QJm8WZhuwDt1GDpG1h5FKgxEyn7HB55r4XXA+LQgSCLc8Ntb4CAazN6FrjwzBa
- qxiDuP9xJ5xcA==
-Date: Mon, 6 Jan 2025 18:52:26 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Stephen Boyd <swboyd@chromium.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, Guenter Roeck <groeck@chromium.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Konrad Dybcio <konradybcio@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Vara Reddy <quic_varar@quicinc.com>, 
- Rob Clark <robdclark@chromium.org>, Tanmay Shah <tanmay@codeaurora.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Yongxing Mou <quic_yongmou@quicinc.com>
-Subject: Re: [PATCH 44/45] arm64: dts: qcom: add mst support for pixel stream
- clk for DP0
-Message-ID: <rqezansr45u4qu6xmrmqtugi5y2tjfuq4embv6ofeoatmc6be4@4lzsywehfk63>
-References: <20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com>
- <20241205-dp_mst-v1-44-f8618d42a99a@quicinc.com>
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
+ [209.85.218.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 744A710EA45
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 01:00:52 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-aaf57c2e0beso1161586066b.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 17:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1736211589; x=1736816389;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/kwhGEEmdEJNOQbydBa2a570LTshsDNhgvzLL4TNYH0=;
+ b=g6Tse0HpeTn3AK/ZGbEUDLqBTrv2IdAARKUqgesJu/ujaOQmoN6b4YtrEQJ1AvTDca
+ Mae+GfrxxFLJWhP/EndM99xfpnDdzKxZS+6DI1jWqY5kYyAOIb843LDeBdsI86u1HW+M
+ 4TK/EUV8WFyl4nowT627prvzkAiAbHOAvIlhM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736211589; x=1736816389;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/kwhGEEmdEJNOQbydBa2a570LTshsDNhgvzLL4TNYH0=;
+ b=USBQTKsTYh0uorEubp9QZK+YRoa6M6LQtuDaovxW0JaR1vWnvbKAPz4bqHjG/br2WA
+ NONVBPkyQEMXoeTZ4kX5Koim+ItfAUW/tvTfMglb2tsmzeHpockFB+szbsSN9yIamXO/
+ L2br2Y+xCWAWIAfbFbQ0YBRJr0b7upiWzVDQJ/ItNntm1ScMrYZuFRMaims5GRTyF8Rh
+ vMfFEtnwC/wHKTKOHakiD2DGp/+MTNTKnmg3tqS47SfMR/9Ufq/UpzpOm0a/xw++i8H8
+ muyHFG/R6btWHXf0PFC13T3O6ZivZbFnuSVeywMBwNsUj2vB7Zoph+voF2khp4TJO0CH
+ M5hw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU5dcYJUY++pEA1luIGvlhSYtqGiDluQMGugfY04I8yQ2PWiprIA9mUqvexNB7HFfmiNSjy2TTHQ5o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwX6UblVAymosXKTriGKe+9E4SGb1hBH7fsXWLtDFU0hROifjQK
+ I1zX9i5KOPRj3lyHbL/J6DFNd7muVxRhCL4okBKQOkNCSXcEbKiMNVr9Xc5cNc/Fq36vDiQORp5
+ gfdT1
+X-Gm-Gg: ASbGncu0zeTcLGuMZfpDe/x5PQt/c24bL1Dvt8R0IeV7XHeCkVw8C5JYerOWKGrasBS
+ hFfa5LLvNhcFZ6VRpUB9v6zhnal+MnCJc7JlfnpxCVrA5zyucU43QQb5ei4MIwluhtnY3znpoMh
+ gK5TFPQZwozEVdN3yXIW5uB4dfaTOBDtAiAKoS8QfBLyqyZ28MMMib1vOAGLUXuIIQA9nFPVyft
+ TPatkWF7pE7rH6VNIRUFsb4wdZ6soY+Mvlz7PC3K8bKa8KQHDljU/gdTErXZ5QuliZhnBVYziCO
+ 4shbZzYc7YGereLab0yJ
+X-Google-Smtp-Source: AGHT+IGRugHBXgeZLklrKkn7i9t0rqJcmYBk71Ju78NolCWicNSuqL6AA0+J5MpMKpJzX5xTFmBFRg==
+X-Received: by 2002:a05:6512:3f1a:b0:542:1bdd:748d with SMTP id
+ 2adb3069b0e04-542295328eamr16001340e87.13.1736211252948; 
+ Mon, 06 Jan 2025 16:54:12 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
+ [209.85.167.49]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542235f658csm5040360e87.44.2025.01.06.16.54.12
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Jan 2025 16:54:12 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-53e389d8dc7so15714085e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 16:54:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWXKt1JIaS4Nk8FI/9HKOmMB3Rwb7oQMAYBQTwLvecIyCeJnm/TjRyNO6RhnkEFIWksrsDwfdokfNI=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3c8c:b0:541:3587:9d45 with SMTP id
+ 2adb3069b0e04-542295246c7mr17877267e87.4.1736211251707; Mon, 06 Jan 2025
+ 16:54:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241205-dp_mst-v1-44-f8618d42a99a@quicinc.com>
+References: <20250106041129.114867-1-tejasvipin76@gmail.com>
+In-Reply-To: <20250106041129.114867-1-tejasvipin76@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 6 Jan 2025 16:54:00 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WvvYjGcShzEiiNqbOFSmRx-snBtraRhiCjwpOL8COtNw@mail.gmail.com>
+X-Gm-Features: AbW1kva3u4OvsNgHiTF3oVB-FEynkoB4rYy757SYxYMBcw9kKeSK_D9ugUEHxA4
+Message-ID: <CAD=FV=WvvYjGcShzEiiNqbOFSmRx-snBtraRhiCjwpOL8COtNw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: ebbg-ft8719: transition to mipi_dsi wrapped
+ functions
+To: Tejas Vipin <tejasvipin76@gmail.com>
+Cc: jo@jsfamily.in, neil.armstrong@linaro.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, quic_jesszhan@quicinc.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,64 +101,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 05, 2024 at 08:32:15PM -0800, Abhinav Kumar wrote:
-> From: Yongxing Mou <quic_yongmou@quicinc.com>
-> 
+Hi,
 
-I'd expect "sa8775p" in the subject prefix.
-
-> Populate the pixel clock for stream 1 for DP0 for sa8775p DP controller.
-
-Please write your commit messages in the style expressed in
-https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
-
-Use the commit message to document why the code/dt looks like it does.
-Describe the problem your solving and why.
-
-> 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+On Sun, Jan 5, 2025 at 8:11=E2=80=AFPM Tejas Vipin <tejasvipin76@gmail.com>=
+ wrote:
+>
+> Changes the ebbg-ft8719 panel to use multi style functions for
+> improved error handling.
+>
+> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
 > ---
->  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> index 0dbaa17e5e3f06c61b2aa777e45b73a48e50e66b..0150ce27b98e9894fa9ee6cccd020528d716f543 100644
-> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
-> @@ -3944,16 +3944,20 @@ mdss0_dp0: displayport-controller@af54000 {
->  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_AUX_CLK>,
->  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK>,
->  					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_INTF_CLK>,
-> -					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>;
-> +					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK>,
-> +					 <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK>;
->  				clock-names = "core_iface",
->  					      "core_aux",
->  					      "ctrl_link",
->  					      "ctrl_link_iface",
-> -					      "stream_pixel";
-> +					      "stream_pixel",
-> +					      "stream_1_pixel";
+>  drivers/gpu/drm/panel/panel-ebbg-ft8719.c | 67 ++++++-----------------
+>  1 file changed, 16 insertions(+), 51 deletions(-)
 
-I don't see this being a valid clock-names in the DT binding, does this
-pass dtbs_check?
-
-Regards,
-Bjorn
-
->  				assigned-clocks = <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_LINK_CLK_SRC>,
-> -						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>;
-> -				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>;
-> +						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL0_CLK_SRC>,
-> +						  <&dispcc0 MDSS_DISP_CC_MDSS_DPTX0_PIXEL1_CLK_SRC>;
-> +				assigned-clock-parents = <&mdss0_dp0_phy 0>, <&mdss0_dp0_phy 1>, <&mdss0_dp0_phy 1>;
->  				phys = <&mdss0_dp0_phy>;
-> +
->  				phy-names = "dp";
->  
->  				operating-points-v2 = <&dp_opp_table>;
-> 
-> -- 
-> 2.34.1
-> 
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
