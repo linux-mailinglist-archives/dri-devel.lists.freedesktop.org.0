@@ -2,70 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 264D8A04E29
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 01:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2C5A04D69
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 00:23:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00CEE10E417;
-	Wed,  8 Jan 2025 00:34:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D88510E1BE;
+	Tue,  7 Jan 2025 23:23:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linbit-com.20230601.gappssmtp.com header.i=@linbit-com.20230601.gappssmtp.com header.b="CMarliQB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ANXiuk8p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CC4310E72B
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 15:55:05 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-21675fd60feso36376745ad.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 07:55:05 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF0210E1BE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 23:22:58 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3bdccba49so29513846a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 15:22:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1736265245; x=1736870045;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=0nivssl+sHZq5b9yqogA7jCYuijt9YH0VPWTfPKyGr8=;
- b=CMarliQBf/lwroGuYTp3ttI4GSbd+b1gja0I4ZLhsNkaeqiRhDiqqwll1EFPlaeoOZ
- w+nxIHff+1vlTHDl1CXRHFd9rf112oxzXjusgz2rnfKcnS/MPDBnJkZHInuNNcCsyLMt
- 6mBMWpGz4IQK6Y+wDAxtrrLjK/QEKYLXG89sTE2ZWQQEMrpTnqE27+TGjxScjo6EI4jX
- bBgymiBHUmwVAGMacumDy1jzZm2VPVTy3Y6K2pf7XIi0Hs0Ha4krDl0JYUPLcmZzx3o2
- cmEGaJEu9s1fUHgjn/qTqzJNRsynH1CedvVBThlfkxUbUylpdesTiQzrOdqCpq7KNg4F
- V2fg==
+ d=linaro.org; s=google; t=1736292117; x=1736896917; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=mMn+z48n5sDePMLHOThKGK3HUHhS6YpHtjLFF5FzZzw=;
+ b=ANXiuk8pidZo8FFeNrsmZSWUnGJz/khCojPEzvzu1N1CySpHSXW2q2I6BV7Y8jqAVV
+ Q2DBljrBqAxk0qCwWRcJnmxIfIkDbGq5DJUbbejg2iLbGme4v4sNVDTty57rnNjRskVw
+ vSiem9PAoacwmxFTbRZnz5pTLKaDIFU55qzADuQ/3sNuIcLygv4OXHWXQhkit2n/on/g
+ J6ytsme6N+D2Q4T+9kISM3oOpu30pFwBHvLQ6+i2fYxcsiqWsa+U7qi9dz0IeIKlGiAO
+ zvLrB+4fgeqYTPgXoPPiBDPYmwnqqYH8CXoe0t3xRF0Sjl4lpCPCkDJNEBDMSmeh63wk
+ 337Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736265245; x=1736870045;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0nivssl+sHZq5b9yqogA7jCYuijt9YH0VPWTfPKyGr8=;
- b=XGQvMpo6RsbF8etxUCVU/kLDm520cjCQ0p7PQBbAh+hnFoas8IfR/eqZNJUVQfqxbl
- JpCUNbHJkVABLpVJDVev+/e77ZrYpIUfoBZ7gT0QddTCXNbr8Oy5RsY6imCq1teNe75y
- +1KSvlYTVCBWbRwX6bGvynchYBGvgBcT35e7T+HiaE2e9ruQhjpmHnJbhzBiJDJWjH2/
- 0mICgXx/g9gc3TT5u9bXcF0F9U2pCprf67pIwhfgw8L5VkS4SXGKjD602Ik9bmQEGYew
- OExnqTxOuOOsUlhERoTrgc/deIz3tQ69m2868FChsFmsaV08w3r/gvtnF6gDIzLZqq7Q
- DM2Q==
-X-Gm-Message-State: AOJu0YwTjx8eFOMORA5l7SLqo7UPyzKcFJIATAbpJUSWaPKFU8scZJNu
- kIDRvFoL3dHMy01Xw2uYZnqbSdgjNs2b29wzIj9gSpTbTpy1kC9jivy4mnTPPWbgUJ5lMVn/2j6
- Lb9u52lOtEcjaXAhYOd4nZ37hdqS2O5m5UkMBAR/uDy8H5DS0n/8=
-X-Gm-Gg: ASbGncvsvt0G/6LqPZQTWQm2pYX/cizwvelgRpKYjV4mivhEqQq0wJ0dJD/w/JhkmQP
- tqsRLWk4Id4YdcZUo1ooT/W3mLSSV1+/Eo47yozo=
-X-Google-Smtp-Source: AGHT+IET6r9izmH/Ac50ykv09O+dNs93uR5hstTvHzxKIRG4XqrCQPp1Q1EgnYhQVJPj3p3KmuaFGjcE6ZihlSyfpJs=
-X-Received: by 2002:a05:690c:4a12:b0:6ef:a9da:f4b3 with SMTP id
- 00721157ae682-6f3f8241eb0mr440442207b3.39.1736263327888; Tue, 07 Jan 2025
- 07:22:07 -0800 (PST)
+ d=1e100.net; s=20230601; t=1736292117; x=1736896917;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mMn+z48n5sDePMLHOThKGK3HUHhS6YpHtjLFF5FzZzw=;
+ b=KS6eG7Ht8MA3hl3l2O9nU/9fKPwPV6g6ZJF52QghgTWWUaT0Ylv28y3wv8tM8Sdwhd
+ w0vC3Kl3+v7RKC09ft5FqndG4nzLnXcOhTiC4HeluVncAyQu/qphfSyovozmxipQmrBn
+ r9So1pb4QoyBEiCdYwfQPf33foW+SGP5qm+5mmuZprzsNjq8wYs+0aGww8lEuqnYP5Hk
+ jBhbZGL7K1nEo9Bbuycp6EPbuWyOuUGA5fh72hnfVXgXuD3qgC8+iOH2QzXobX0WH1iu
+ EGk498eTssbsQV3A6guMILEJXPkWC7sgSIpMhvJhU9vErBCoQRN28kzVtO/dQ6iY78zj
+ +p2g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrtfPziR3GCreRGF9HRrqw7jtBWiHaPsExXrxS4Iq2y0AhhDU35Ruw+Nuet7NQNOxXKPeNdGDlZb0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxy83nFEY9o6E04qk8p8sZGWX+NfAHNdNWTG4S1o6sw4IMC5wlh
+ EZv2mMuIWZ7TG8J2jK+1qc5/HGLftcKDVxKKK8BOoznZKSmcbM9fdH24WQ6azqDL4E7jobHHA0/
+ I
+X-Gm-Gg: ASbGncsQCNQXc0mQl/2iqaE1GKTZCJgryVk6+1zbcXsLeI05C0jtrdsMC8uvpbUuhdn
+ KOQysg1iKVNhhY4U9bq7AsTfb+I05QmucYqENYlNgQ5vODmGOvTIVHtd47rAgPiJ0DeV7S8fKeR
+ +6TDGzo0LdBt1IFMDomNCxvt9Q1/jv8mtJ6axBUTM6lMFtWys6b5VrJVGK9xEGZBw9mFDVbykTw
+ g9yn1jE6HQ2qJ/DIs07AaXMeUq5okW1/m/r0ZHV4rPtZcCB8fhKBVcQOy8MXSKaK6+W0CvCXdJE
+ 3s8TSfKAvrlCPkOdcBQL3bPwBYcsi/HMhO4G
+X-Google-Smtp-Source: AGHT+IFCpSE+6bYHg6NHBaB8kARffXJeZAVotzbF1jSuppzcHd7AtPj85AqoS/RBH5MSht9AXr1DdA==
+X-Received: by 2002:a05:6512:2803:b0:542:29b6:9c26 with SMTP id
+ 2adb3069b0e04-542848108femr117742e87.47.1736288750743; 
+ Tue, 07 Jan 2025 14:25:50 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542235f6002sm5357569e87.36.2025.01.07.14.25.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2025 14:25:49 -0800 (PST)
+Date: Wed, 8 Jan 2025 00:25:47 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] drm/msm/dpu: Enable quad-pipe for DSC and
+ dual-DSI case
+Message-ID: <mo45zzcmr56grnj42o5rc57t2xdj3rq27chryaqbiwzcbzhjdh@4cvk6er7fr3g>
+References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
+ <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-15-92c7c0a228e3@linaro.org>
+ <etci547cjykqlqfswhkzdbdfx7cuyrszzswxv2qaghzu2fnu3y@fgitftlhe3oh>
+ <CABymUCNxSKAzNq34evjOdWQy5EmRLg96_S=2O1EUguNFztFgVw@mail.gmail.com>
+ <eshnauruu4sybpgsfrrwlvk3cpb2zg4mykg4agwong3dbiduic@nvupoe6aoyzu>
+ <CABymUCPXnXYgwemODHOP-Ez3TpGfX3X8ZrOWx7j1a81XzNSjSA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20250107140240.325899-1-philipp.reisner@linbit.com>
- <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
-In-Reply-To: <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
-From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Tue, 7 Jan 2025 16:21:57 +0100
-X-Gm-Features: AbW1kvZXrrsg2XfN7BRglB7mDYWFo9c4lKynzhnGMvRs3BEkoRcMHKBXyWO1hAw
-Message-ID: <CADGDV=U_7CdkdEiLX9kj9yHsXhwb5zP_eGXpwmrj20cmgzMAtA@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 08 Jan 2025 00:34:40 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABymUCPXnXYgwemODHOP-Ez3TpGfX3X8ZrOWx7j1a81XzNSjSA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,51 +102,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[...]
-> > The OOPS happens because the rq member of entity is NULL in
-> > drm_sched_job_arm() after the call to drm_sched_entity_select_rq().
+On Mon, Jan 06, 2025 at 04:21:43PM +0800, Jun Nie wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 于2025年1月4日周六 01:51写道：
 > >
-> > In drm_sched_entity_select_rq(), the code considers that
-> > drb_sched_pick_best() might return a NULL value. When NULL, it assigns
-> > NULL to entity->rq even if it had a non-NULL value before.
+> > On Fri, Jan 03, 2025 at 11:49:07PM +0800, Jun Nie wrote:
+> > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 于2024年12月20日周五 07:46写道：
+> > > >
+> > > > On Thu, Dec 19, 2024 at 03:49:33PM +0800, Jun Nie wrote:
+> > > >
+> > > > >  #ifndef DPU_MAX_DE_CURVES
+> > > > >  #define DPU_MAX_DE_CURVES            3
+> > > > >  #endif
+> > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > > > index 57ccb73c45683..b5c1ad2a75594 100644
+> > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+> > > > > @@ -1474,7 +1474,7 @@ static void _dpu_plane_atomic_disable(struct drm_plane *plane)
+> > > > >               trace_dpu_plane_disable(DRMID(plane), false,
+> > > > >                                       pstate->pipe[i].multirect_mode);
+> > > > >
+> > > > > -             if (pipe->sspp && i == 1) {
+> > > > > +             if (pipe->sspp && pipe->multirect_index == DPU_SSPP_RECT_1) {
+> > > >
+> > > > Separate change, please. Also I'm not sure how does that work with the
+> > > > shared SSPP case that I pointed to in one of the previous replies.
+> > >
+> > > Maybe we can add a peer member in the pipe to reference each other, then we have
+> > > chance to use multirect across all pipes in all planes.
 > >
-> > drm_sched_job_arm() does not deal with entities having a rq of NULL.
+> > I'd rather not. We have pairs of pipes. I'd rather see the code stay the
+> > same way: processing one pair at the same time.
+> 
+> I mean only use the peer only when the SSPP multi-rect pips cross
+> planes. This shall not change
+> too much to current SSPP management.
+
+Still no. Please please don't add extra 'peer' member. There should be
+no need to have one.
+
+
 > >
-> > Fix this by leaving the entity on the engine it was instead of
-> > assigning a NULL to its run queue member.
->
-> Well that is clearly not the correct approach to fixing this. So clearly
-> a NAK from my side.
->
-> The real question is why is amdgpu_cs_ioctl() called when all of
-> userspace should be frozen?
->
-> Regards,
-> Christian.
->
+> > >
+> > >
+> > > >
+> > > > >                       pipe->multirect_index = DPU_SSPP_RECT_SOLO;
+> > > > >                       pipe->multirect_mode = DPU_SSPP_MULTIRECT_NONE;
+> > > > >
 
-Could the OOPS happen at resume time? Might it be that the kernel
-activates user-space
-before all the components of the GPU finished their wakeup?
-
-Maybe drm_sched_pick_best() returns NULL since no scheduler is ready yet?
-
-Apart from whether amdgpu_cs_ioctl() should run at this point, I still think the
-suggested change improves the code. drm_sched_pick_best() can return NULL.
-drm_sched_entity_select_rq() can handle the NULL (partially).
-
-drm_sched_job_arm() crashes on an entity that has rq set to NULL.
-
-The handling of NULL values is half-baked.
-
-In my opinion, you should define if drm_sched_pick_best() may put a NULL into
-rq. If your answer is yes, it might put a NULL there; then, there should be a
-BUG_ON(!entity->rq) after the invocation of drm_sched_entity_select_rq().
-If your answer is no, the BUG_ON() should be in drm_sched_pick_best().
-
-That helps guys with zero domain knowledge, like me, to figure out how
-this is all
-supposed to work.
-
-best regards,
- Philipp
+-- 
+With best wishes
+Dmitry
