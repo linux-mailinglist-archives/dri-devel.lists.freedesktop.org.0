@@ -2,62 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D47FA043DE
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 16:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A719A04407
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 16:17:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B8410E705;
-	Tue,  7 Jan 2025 15:13:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8041810E26C;
+	Tue,  7 Jan 2025 15:17:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OC56uEAI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Nq2h9qF3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E1010E705;
- Tue,  7 Jan 2025 15:13:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1264DA4179E;
- Tue,  7 Jan 2025 15:11:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26162C4CEE1;
- Tue,  7 Jan 2025 15:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736262811;
- bh=VsVYm09H19ojgrIIsfyk9qwaXLbxKyDUg5Eo18dSfkQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OC56uEAI6rUyWA3b2XO+3g/RB//+0QMApISXjr0YQEFwdb+GoqKPNXWn43vOM2uD8
- T4BE4XGaxGGEeb9TRRhVFJoizC5D1CuiVt1WWCP8vMZFcunXz2cjgqgToOSEFVHjX7
- Mfc0f5uxoydD2u1HF/nbXtudFp4upG1S+vTfJ+EZwK735emOepfwvC/JWmWOQTBAuK
- UOfUipHfOMZpdF2TC0eo6lUBjXV1EyoS0YAlXLbk41GK72npSkgarU9NbjMlhss7Ts
- VWtoU/ZWBwNtOY1V8bXnCnl25bNH4cyOJqnvp0GDQAiZ7rfdlygwOLZ10jidH1NwJd
- tHfi3OSrb57Nw==
-Date: Tue, 7 Jan 2025 16:13:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: Tejun Heo <tj@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>, 
- Dave Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Zefan Li <lizefan.x@bytedance.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Andrew Morton <akpm@linux-foundation.org>,
- Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-Message-ID: <20250107-aquamarine-nautilus-of-freedom-bc2208@houat>
-References: <20241213-proud-kind-uakari-df3a70@houat>
- <80c49a80-d49c-4ca5-9568-9f7950618275@lankhorst.se>
- <20241213-gentle-glittering-salamander-22addf@houat>
- <5a50a992-9286-4179-8031-ffb514bca34f@lankhorst.se>
- <20241217-meek-bullfinch-of-luck-2c3468@houat>
- <a69a3500-be17-4899-bdb9-c6a63bf8dc81@lankhorst.se>
- <Z2GwpOQDVshpv-ml@slm.duckdns.org>
- <c0a539e7-0f1b-496a-9848-73a7ada66bfb@lankhorst.se>
- <Z2HBqtKDSTkd1lST@slm.duckdns.org>
- <61b95c08-a3c2-4f92-b6e5-df77fd2491e2@lankhorst.se>
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+ [209.85.166.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A298310E1CA;
+ Tue,  7 Jan 2025 15:17:25 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id
+ e9e14a558f8ab-3cddfa9a331so14328795ab.3; 
+ Tue, 07 Jan 2025 07:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1736262985; x=1736867785; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VEpmGsnYD20KF98YPxRoScx17fqF75iFjcKl5Un5Rwc=;
+ b=Nq2h9qF35RkYfWQSF3PxhsWtp8SuYKSI51HQkj2VbOBPYiCVNKzGZt9AvoLXD/rcpM
+ 5byfFOII8+2P9Fd6x7iP6aANa+6601pZ7XhH/mFFmZFtiHJ6BRUCScPV2hnnY9F+Wx13
+ Ded5pp+LKuzM7LENhAExg5fzsLEe+QJnzfcJypCcRi3uUSdvFjgmSlfAYJdAWcOc1enu
+ snjGG3HT30ccZd3yZXA16HhEHxezczSbmv220NHs4qjwapmnq/740PxscbCygZAnNpkd
+ TwellglSGhdfRXgFGAMV+BJ0SrYibDsElEoo0FtRytpT21yZgghnScnZ2XX6Fmxdl0tn
+ L35w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736262985; x=1736867785;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VEpmGsnYD20KF98YPxRoScx17fqF75iFjcKl5Un5Rwc=;
+ b=j8kp1Z1fFqUVyCETmydMYCaoGQQInwtRFeq9L/NwVnRvoTPdoR/5kn//23fQ8MydED
+ VpC5xdwr4vF/hzXLBSZXQcW2QblYuWli59zyuao/xSmAT7jjL3Y3UenlEDKeCEeimcQl
+ t8OHIBeBmRBTpjNVErNbNwjVk/GjQJmOe1ZwLTw2dn9zG6Z5PKx71Rur+Tch4aWBDm65
+ WSdNzXx8hNOGPxWHWb7TIGOtBLoVbViwNH88vrbGmgi7NeJ1spFdiy2/4q3ZDjFzDmv7
+ M4yAf6B44RpmVwWeVoXnn/2LzlViGcZJd2Zt5dODfRGRDgOZcQdfj17yaWsAsefkxl0n
+ XkHg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUfkew+WdD5sBI+VYUP2wwfZ+QmHDenXlNW3ItIatFVmAJyPb2+QpkKnXlJxQdY2qfvgu7eSm5Q2dG2@lists.freedesktop.org,
+ AJvYcCVMeREA8KLQb2QZrL7QbbQGz7Of5RGqC6WxyjBXdx3PO/ukjqzXxMYvGAIID/boFiZPeMBWIyATGp8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw9FqjSOwpu7Za7f4VnL0WJrVNT0mnGWMhueeUyLjCP+4MFdxIS
+ bvyecK7XMcqwN/dgavhbEyvO19LqVeHZh3XqVFyoZzcdDZlw09CFuZHlMkkz9yZJ3b5m8SfzGJM
+ Y9/5CmzhO17IHWVUlxyh/1ecKTgw=
+X-Gm-Gg: ASbGncvpTBxc5dnjAXJoOY3b3CfbqAG6JflXvv8iKkdmNqjQUqXTcwNiaX6GKfYBNW+
+ xQI190VRR+rJQlaJFSw3rQFibR/lX2y1qTZb+zdJ16N5iWQrFcdWfRcQ+IFqU/BDIzcOq
+X-Google-Smtp-Source: AGHT+IHlytIOa8SLJD6ilASbLpCUQevKgStkuVESsGuRpq4383tKFP0QuXLkBBL6bO1X1rxhpJ3kjld29+v9vpnSuz8=
+X-Received: by 2002:a05:6e02:2384:b0:3a7:fe8c:b014 with SMTP id
+ e9e14a558f8ab-3c2d5917533mr523633585ab.21.1736262984845; Tue, 07 Jan 2025
+ 07:16:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="pv3xxe53a32ls35b"
-Content-Disposition: inline
-In-Reply-To: <61b95c08-a3c2-4f92-b6e5-df77fd2491e2@lankhorst.se>
+References: <20241210165127.600817-1-robdclark@gmail.com>
+ <Z30kWxVxwJXO_z2_@google.com>
+ <20250107125840.GB6991@willie-the-truck>
+In-Reply-To: <20250107125840.GB6991@willie-the-truck>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 7 Jan 2025 07:16:13 -0800
+Message-ID: <CAF6AEGuXD6rCx8yABH338XSr0Wq6fyFe9Z6fWCh1KPNMbJgiOg@mail.gmail.com>
+Subject: Re: [PATCH v11 0/4] io-pgtable-arm + drm/msm: Extend iova fault
+ debugging
+To: Will Deacon <will@kernel.org>
+Cc: Mostafa Saleh <smostafa@google.com>, iommu@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Rob Clark <robdclark@chromium.org>, 
+ "open list:DRM DRIVER for Qualcomm Adreno GPUs"
+ <dri-devel@lists.freedesktop.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Joao Martins <joao.m.martins@oracle.com>, Kevin Tian <kevin.tian@intel.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ "moderated list:ARM SMMU DRIVERS" <linux-arm-kernel@lists.infradead.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+ Ryan Roberts <ryan.roberts@arm.com>, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,83 +96,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 7, 2025 at 4:58=E2=80=AFAM Will Deacon <will@kernel.org> wrote:
+>
+> On Tue, Jan 07, 2025 at 12:55:55PM +0000, Mostafa Saleh wrote:
+> > On Tue, Dec 10, 2024 at 08:51:18AM -0800, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > This series extends io-pgtable-arm with a method to retrieve the page
+> > > table entries traversed in the process of address translation, and th=
+en
+> > > beefs up drm/msm gpu devcore dump to include this (and additional inf=
+o)
+> > > in the devcore dump.
+> > >
+> > > This is a respin of https://patchwork.freedesktop.org/series/94968/
+> > > (minus a patch that was already merged)
+> > >
+> > > v2:  Fix an armv7/32b build error in the last patch
+> > > v3:  Incorperate Will Deacon's suggestion to make the interface
+> > >      callback based.
+> > > v4:  Actually wire up the callback
+> > > v5:  Drop the callback approach
+> > > v6:  Make walk-data struct pgtable specific and rename
+> > >      io_pgtable_walk_data to arm_lpae_io_pgtable_walk_data
+> > > v7:  Re-use the pgtable walker added for arm_lpae_read_and_clear_dirt=
+y()
+> > > v8:  Pass pte pointer to callback so it can modify the actual pte
+> > > v9:  Fix selftests_running case
+> > > v10: Call visit cb for all nodes traversed, leave the decision about
+> > >      whether to care about non-leaf nodes to the callback
+> > > v11: Adjust logic in 3/4 [smostafa@]
+> >
+> > I see the level initialization was not removed as it was in the diff[1]=
+, so it
+> > seems to me that=E2=80=99s redundant as the level is set anyway in the =
+callback, and
+> > actually looking at that I see it=E2=80=99s not used or printed from th=
+e driver,
+> > so may it can be removed all together, anyway that=E2=80=99s nit that m=
+ay be Will can
+> > fix it up while merging.
+> >
+> > Otherwise, For the whole series
+> > Reviewed-by: Mostafa Saleh <smostafa@google.com>
+>
+> I'm happy to drop the 'level' field if it's not used. We can add it back
+> if/when it's needed. Rob?
 
---pv3xxe53a32ls35b
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 0/7] kernel/cgroups: Add "dmem" memory accounting
- cgroup.
-MIME-Version: 1.0
+That works for me, thx
 
-On Tue, Dec 17, 2024 at 09:17:24PM +0100, Maarten Lankhorst wrote:
-> Hey,
->=20
-> Den 2024-12-17 kl. 19:23, skrev Tejun Heo:
-> > Hello,
-> >=20
-> > On Tue, Dec 17, 2024 at 06:37:22PM +0100, Maarten Lankhorst wrote:
-> > > Den 2024-12-17 kl. 18:11, skrev Tejun Heo:
-> > > > On Tue, Dec 17, 2024 at 03:28:50PM +0100, Maarten Lankhorst wrote:
-> > > > > Now that all patches look good, what is needed to merge the serie=
-s? Without
-> > > > > patch 6/7 as it is a hack for testing.
-> > > >=20
-> > > > There were some questions raised about device naming. One thing we =
-want to
-> > > > get right from the beginning is the basic interface.
-> > > >=20
-> > > > Thanks.
-> > > >=20
-> > > I believe it was solved. The conclusion appears to be that we go with=
- how we
-> > > defined it in this series. drm/$pciid/$regionname. With the only regi=
-ons
-> > > defined now being VRAM. Main memory will be a followup, but requires =
-some
-> > > discussions on hwo to be prevent double accounting, and what to do wi=
-th the
-> > > limited amount of mappable memory.
-> >=20
-> > Provided Johannes is okay with the series, how do you want to route the
-> > series? If you want to route it through drm, that's fine by me and plea=
-se
-> > feel free to add:
-> >=20
-> >   Acked-by: Tejun Heo <tj@kernel.org>
-> >=20
-> > Thanks.
-> >=20
->=20
-> Thank you!
->=20
-> I've discussed this with the DRM maintainers. What was suggested is to
-> create a topic branch, merge it to drm-misc whichwhere it will be picked =
-up
-> into drm.git during the next pull request. At the same time the topic bra=
-nch
-> can be also be merged into the cgroup tree if needed.
->=20
-> The drm-misc tree already handles dma-buf and fbdev core, think DMEM could
-> fit in there too.
-
-FTR, I sent the PR Maarten mentioned yesterday:
-
-https://lore.kernel.org/dri-devel/20250106-shaggy-solid-dogfish-e88ebc@houa=
-t/
-
-Maxime
-
---pv3xxe53a32ls35b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ31EmAAKCRAnX84Zoj2+
-dgqwAXkBqOY80d6YfAI9M6lwC4qCdnkRHsUmVYNK6lBeBimVK5KwjQEv+0pvSl1N
-asN42usBf2tjGAs/PAC3dEudEYLnkyhZxzTjSTWkr9DSpNuRWLC+kJP4KCBWKJTK
-BxZ7dZiYdA==
-=aJ4q
------END PGP SIGNATURE-----
-
---pv3xxe53a32ls35b--
+BR,
+-R
