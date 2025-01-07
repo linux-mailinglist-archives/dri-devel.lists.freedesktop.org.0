@@ -2,86 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C32A03CBB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7E6A03D2F
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:03:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFD210E3EF;
-	Tue,  7 Jan 2025 10:44:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8445710E03C;
+	Tue,  7 Jan 2025 11:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="PM6W0bDq";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="g5GU7kqq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pIgwc9x7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCFB10E3F0
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 10:44:22 +0000 (UTC)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18D4110E03C
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:03:16 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-aaec61d0f65so18727366b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 03:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1736246662; x=1767782662;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=y+jHg0ZRQrFyhampVjN9ER8cthsZkPVauZNM9jlIGhs=;
- b=PM6W0bDqJ4DO7rXa9HfcaFZfn+nM/oDKPs5c39+y54ahqTrU364/B0xp
- mGCDSDUkAB9/Z2Co23rQ3c2/u+KEfZXCfdnvVQsNFD7QRExC3MyU2Azp2
- XAyCF9OAc9rahyYQrKGiFETB8OU1JDEqiHkP9xz5koh+cn6TySkR2h2mK
- ZQSO/AKDw8JNJ22HVAI8CPPaN11Y0LjJaGdv8CWgxujla1WN6dVs00FVP
- TKGqIL3mJLn53RjzqUU2Y4VPBu0HVxWvXST3AIcd0U86MU5x8bkgSacHm
- l5xlCUnpbUsPjj/azRqZXcH+7mC7Gh+RTOlMt2zsnXr/IbqP2/n+HZyUi w==;
-X-CSE-ConnectionGUID: Ou6ReafJR7SkqcE1EYK60w==
-X-CSE-MsgGUID: tKisNOsmRJWh6tH7qXJrIQ==
-X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; d="scan'208";a="40890871"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 07 Jan 2025 11:44:20 +0100
-X-CheckPoint: {677D0584-E-7C22D67C-DB53DE17}
-X-MAIL-CPID: A3034B88B8AF551AC765663C245DBFCB_3
-X-Control-Analysis: str=0001.0A682F24.677D0585.0019, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 80EDA163815; Tue,  7 Jan 2025 11:44:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1736246655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y+jHg0ZRQrFyhampVjN9ER8cthsZkPVauZNM9jlIGhs=;
- b=g5GU7kqqoZap7uAn4UMBWajpOzprQFaxD556BOi1CgZY6rHJNyHUk9jGerT8Wb4sf8lln9
- pheiYjByt1f2wMFLy9QBUC8+1IR3FSRFikQexnlwfzwcJOi0idLSAjld7IS2L8LX7vFly4
- 7eSj9sVnb59W1uAaYipSUotv7IFuEVeFf3A8XLF19tAmnuZZZmDmuuJ1bOKnVsiXryu3i2
- delK0r0S/xJ11fn9Jc1DjCX1cpijQ8EgYsFz1W6EdMhBsS/aujrc13r7Np1ASoi+f51G/8
- hyQC62sqORa4OhKIA80cMODoOPGd23KHBB03EBfhxmN+JKKveO5R5WPngkyq9A==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] dt-bindings: samsung,
- mipi-dsim: Add imx7d specific compatible
-Date: Tue, 07 Jan 2025 11:44:10 +0100
-Message-ID: <3358169.aeNJFYEL58@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <CAOMZO5CasQDRu=U7zUxzuFVBHyREZ7oyG8+SJjg2BF58B9G3wg@mail.gmail.com>
-References: <20250107094943.518474-1-alexander.stein@ew.tq-group.com>
- <20250107094943.518474-3-alexander.stein@ew.tq-group.com>
- <CAOMZO5CasQDRu=U7zUxzuFVBHyREZ7oyG8+SJjg2BF58B9G3wg@mail.gmail.com>
+ d=linaro.org; s=google; t=1736247734; x=1736852534; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8JZJoaJUaNREKAXmerLK4Rd1hRsVn/PObGVachLq/qE=;
+ b=pIgwc9x7smk2FOUI/2QMXBaJ/gP14VNNRoed9vZT4WzOBqfvuQvgYj+H6V0AuLa9av
+ 5iUt4IvD1U9PnenZmkTxzGBWth+aFI/CPXE4RJSs4hrFyLL6EhAqrXb4OG3D47BT9u+x
+ Nnei5zloPc5sQFPRcl8mqxEHm/JmlAhf66XTRfytPmAwv8QEZ8MyutA7MjVfC2o97gng
+ 1rPL+xj6RuX+IrtXD9vDCBJt5WKZMVb31zfbrfMhPJViD7PD61TLT2jERm6PifieQuQ4
+ Q4SR8u9egF6EAKbsUWygyp4q9T5eVtbLaEaq6lStHrtwx9e/IUKN/htTQO/4xeKxveyb
+ iscg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736247734; x=1736852534;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8JZJoaJUaNREKAXmerLK4Rd1hRsVn/PObGVachLq/qE=;
+ b=qRn1EL4PfMenEpRHx13kvj6+jizuxBzd4LevMV959ROp1eGRLXHs+hRpZ7EO7dP5Qf
+ rTlkwyiA00q+sxXs/EGQLMSPIAxA67TXTDWpDSSRNgSzlIwa/RR92f8gcAQEb7KVpOiY
+ xVVOYC3jL+xJyvzn6Usq8id4Sco7C86swOUZQOuO7PGTi2dcPy5tZfWxuadi8f7WxUFc
+ Rw0pjrcL1rj0SgGXQYlqTeZKu8r4X3+7vOVdSBKzNgekPgXOqxakkFwY19u6WA2WQzlN
+ 9SvwbO9VwellcZdNHbopGR40ob0gZNjw/txiVYshJ0Jp7HihMwrPE8JaeDfySEioeEWd
+ wWWA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVHHUx32bCOk9gdaQbMtOL+tqa2h4c+yAsDrGKmwATWL9nfAI3GtVt1a42r815IFp2HMhDDxxZswdc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxS9ZtfoeIxjLjh8ixBtWH5OquucPxtP46+xvrX6NZq67yAaox9
+ KJeJLTiOcqHiN32wzakh71F0cOrWvmHaAQgwU8eKBMgnU5WIbPtqQirOaE7zn1LjbV0LxEBIHXU
+ Z2wc=
+X-Gm-Gg: ASbGncux6nOc1EbOirgXZt0sB9qDWv2rIdVIBTT33AS8WKmx2AZOvUC3Nnteye9yQYn
+ XwtPvs/+60B5NuiFsHrCUB2h28xwwdAbjG4Wf1TCgMxr/UoEuzTyRX+etTYaGcpeRhDOpiblwbC
+ 1Py4xx8OAGlHr7ghkIef8BSf4hL+NFoUxCS7huJUKR75Wjlb6HEEJFgIPVe3lWqJ2tUMZxjTa5U
+ KMtyzsXSeQ/IQY6zGt0aiAtkuAN6PVI26Q5cT7VFFaMndwTNhwshPCNdpiq3z7bhv9n1GhOnf2i
+ k3NuEp2mtV6ZPzCusDgBIKPqhXXGzpm6OqLA
+X-Google-Smtp-Source: AGHT+IGLgKzFbsWmFq6sHxnOSAOcAHZ8LpCXiCvq8SonzUfMjFA3G31B6U5QoMf8+KUqSpyXSGnKNw==
+X-Received: by 2002:a05:6512:1392:b0:542:213f:78fa with SMTP id
+ 2adb3069b0e04-542295224demr17287062e87.7.1736247307140; 
+ Tue, 07 Jan 2025 02:55:07 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223832ba9sm5226861e87.277.2025.01.07.02.55.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2025 02:55:05 -0800 (PST)
+Date: Tue, 7 Jan 2025 12:55:03 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, 
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v4 07/17] phy: phy-rockchip-samsung-hdptx: Add support
+ for eDP mode
+Message-ID: <pffzxwsqwkklur3b7c7hp6g5wonzam5fs35fwblil3cjfofozk@clwgt5gcb32a>
+References: <20241226063313.3267515-1-damon.ding@rock-chips.com>
+ <20241226063313.3267515-8-damon.ding@rock-chips.com>
+ <shr7ak7keqza3gw6wra2zra35qht2cxlzkvtuhzl3swzf2fwxy@i2v4o53lhese>
+ <96f8310f-93f1-4bcb-8637-137e1159ff83@rock-chips.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <96f8310f-93f1-4bcb-8637-137e1159ff83@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,71 +100,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio,
+On Tue, Jan 07, 2025 at 11:02:15AM +0800, Damon Ding wrote:
+> Hi Dmitry,
+> 
+> On 2024/12/30 20:45, Dmitry Baryshkov wrote:
+> > On Thu, Dec 26, 2024 at 02:33:03PM +0800, Damon Ding wrote:
+> > > Add basic support for RBR/HBR/HBR2 link rates, and the voltage swing and
+> > > pre-emphasis configurations of each link rate have been verified according
+> > > to the eDP 1.3 requirements.
+> > 
+> > Well... Please describe what's happening here. That the HDMI PHY on your
+> > platform also provides support for DP / eDP. Please document any design
+> > decisions that you had to make.
+> > 
+> 
+> Yes, I will add more relevant descriptions in the next version.
+> 
+> > > 
+> > > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> > > 
+> > > ---
+> > > 
+> > > Changes in v2:
+> > > - Add the module author
+> > > 
+> > > Changes in v3:
+> > > - Split this patch into two, one for correction and the other for
+> > >    extension
+> > > 
+> > > Changes in v4:
+> > > - Add link_rate and lanes parameters in struct rk_hdptx_phy to store the
+> > >    phy_configure() result for &phy_configure_opts.dp.link_rate and
+> > >    &phy_configure_opts.dp.lanes
+> > > ---
+> > >   .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 896 +++++++++++++++++-
+> > >   1 file changed, 889 insertions(+), 7 deletions(-)
+> > > 
+> > > @@ -933,9 +1484,339 @@ static int rk_hdptx_phy_power_off(struct phy *phy)
+> > >   	return rk_hdptx_phy_consumer_put(hdptx, false);
+> > >   }
+> > > +static int rk_hdptx_phy_set_mode(struct phy *phy, enum phy_mode mode,
+> > > +				 int submode)
+> > > +{
+> > > +	return 0;
+> > > +}
+> > 
+> > No need for the stub, please drop it. The host controller driver can
+> > still call phy_set_mode() / _ext(), the call will return 0.
+> 
+> Without the &phy_ops.set_mode(), the phy driver can not get phy_mode to
+> distinguish between HDMI and DP mode via the phy_get_mode(), even if the
+> host driver calls phy_set_mode() / _ext(). Additionally, the previous
+> discussion [0] also mentioned future considerations for dynamic switching.
+> Indeed, I should add a related comment before the 'return 0;' to enhance
+> understandability.
 
-Am Dienstag, 7. Januar 2025, 11:35:48 CET schrieb Fabio Estevam:
-> Hi Alexander,
->=20
-> On Tue, Jan 7, 2025 at 6:50=E2=80=AFAM Alexander Stein
-> <alexander.stein@ew.tq-group.com> wrote:
-> >
-> > This add a imx7(d) specific compatible which is compatible to imx8mm.
-> > This silences the dtbs_check warning:
-> > arch/arm/boot/dts/nxp/imx/imx7s-mba7.dtb: dsi@30760000: compatible: 'on=
-eOf' conditional failed, one must be fixed:
-> >  ['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
->=20
-> The warning here is about using fsl,imx8mm-mipi-dsim.
-
-I'm not sure what you exactly mean. The warning isn't about using fsl,imx8m=
-m-mipi-dsim, instead
-fsl,imx7d-mipi-dsim does not match any compatibles listed in the schema.
-
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> >  .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,m=
-ipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mi=
-pi-dsim.yaml
-> > index 4ed7a799ba26b..e43fec5609417 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
-m.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
-m.yaml
-> > @@ -27,7 +27,9 @@ properties:
-> >            - fsl,imx8mm-mipi-dsim
-> >            - fsl,imx8mp-mipi-dsim
-> >        - items:
-> > -          - const: fsl,imx8mn-mipi-dsim
-> > +          - enum:
-> > +              - fsl,imx7d-mipi-dsim
-> > +              - fsl,imx8mn-mipi-dsim
->=20
-> But you added a fallback to fsl,imx8mn-mipi-dsim, so this does not look r=
-ight.
-
-Admittedly I'm having a hard time on DT schemas at times, but this change a=
-llows
-imx7d OR imx8mn to be used together with imx8mm.
-
-> I have already sent the following fix to address this issue:
->=20
-> https://lore.kernel.org/all/20241217131431.1464983-1-festevam@gmail.com/T/
-
-This patch essentially does the same but add a new entry to the oneOf.
-If you add fsl,imx8mn-mipi-dsim to that enum as we end up with the same
-solution.
-
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-http://www.tq-group.com/
+Oh... I see. Without .set_mode() callback the attrs.mode won't change.
+We should probably fix that, there should be no need to add dummy stubs.
 
 
+-- 
+With best wishes
+Dmitry
