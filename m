@@ -2,66 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD494A03D41
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C29A03D8A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:25:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A03710E3F0;
-	Tue,  7 Jan 2025 11:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F74C10E406;
+	Tue,  7 Jan 2025 11:24:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mz5fu/Vm";
+	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="RTRWgK8M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5BA10E3F0
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736248004; x=1767784004;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=wJSaWoFDYchpojRM0kpL/yBmnF5ud/8yWzzE4yjcMsw=;
- b=mz5fu/VmtIDRuPRcdT1uk6TXJr5V7HReqRlt+Dt1O6JMQB6SvKaDAgOG
- rHlv8uMPCnJEtBHhMx8IbTbv2UatKtREzJgSGXivHRkRrsyk0nUdMvPNA
- gtjAGlmhX+keBMscfQm82v0gLMyEFf7AQK52qw601BGrydOV215zKT6wL
- C7Efifnl7auhgqcUUuzN7NiI56gndQTWm3MCtoDuvTZQkk8YlZBrODQ6C
- L/fmaqPSv5bwU0pXOm9aBo9TSdzFAzAN38QDq84uL0scHNaSqToxv45Tx
- Jk/LzNntAKPCJ8UAkhU1+7ZmMBI5xCZAxt7BPLqGIaI3mz3OiBFX1rW+B A==;
-X-CSE-ConnectionGUID: PsylbXn7QMCfZl8ymuG7cQ==
-X-CSE-MsgGUID: kXQF3XVzSyayowbwSs2MTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="47782029"
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="47782029"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 03:06:44 -0800
-X-CSE-ConnectionGUID: JDwiL8OhRDuC1Tt5Bm5USA==
-X-CSE-MsgGUID: yakZGx+6T6acA/Ih+AgFZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="102633597"
-Received: from derekcam-mobl.ger.corp.intel.com (HELO [10.245.83.121])
- ([10.245.83.121])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 03:06:41 -0800
-Message-ID: <05386aca-5100-475b-b462-ec1942a580f7@linux.intel.com>
-Date: Tue, 7 Jan 2025 12:06:39 +0100
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15A9110E406
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:24:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 1CF61101ECB24; Tue,  7 Jan 2025 12:24:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+ t=1736249096;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r2ff0HaCcjmmj9KnhUdBh5w7Yu5An6vyL+EnPFzNUxM=;
+ b=RTRWgK8MQwcxk8DstoWOZvN2/3kvry5mG8JD2y5yOxA82ctZZp6KWEPNEDoXWsNkRCxPK9
+ kK1yUy0mcKomy/pLdtu34wp/qBQLj06fK3+hhFedORfXEvPglXKnhk3wDBR9/1bIrj7ArB
+ OI2Gi5edckf4vOG2KjWaWu+P6f9vIbMuVDg6/v6mglbrQWFw0T4QNNTZUK1gZomy83NqsC
+ ftDYnHdWjlAcmxOpSFRZzEVd6ch+K6IalzRuHt3hy9ZEradm/uQkophOkQ8lIk4uhiWbKg
+ /ar4bJIYqR0nefQKmR4kFGQxyau7P4yEHom8Hnuh+rYPqpxWzm2L0EcVpS/9CA==
+Message-ID: <c02d8298-28dd-4e48-8899-7316bd60dddb@denx.de>
+Date: Tue, 7 Jan 2025 12:08:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] bus: mhi: host: Refactor BHI/BHIe based firmware
- loading
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
- manivannan.sadhasivam@linaro.org, quic_yabdulra@quicinc.com,
- quic_mattleun@quicinc.com, quic_thanson@quicinc.com
-Cc: ogabbay@kernel.org, lizhi.hou@amd.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-2-quic_jhugo@quicinc.com>
+Subject: Re: [PATCH v4 2/4] drm/bridge: imx8mp-hdmi-tx: switch to bridge
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+To: Liu Ying <victor.liu@nxp.com>, dri-devel@lists.freedesktop.org
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie
+ <airlied@gmail.com>, Fabio Estevam <festevam@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20250105190659.99941-1-marex@denx.de>
+ <20250105190659.99941-2-marex@denx.de>
+ <0b1c9897-2769-4ca0-9927-ac930b4c634b@nxp.com>
 Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20241213213340.2551697-2-quic_jhugo@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <0b1c9897-2769-4ca0-9927-ac930b4c634b@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,263 +72,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 12/13/2024 10:33 PM, Jeffrey Hugo wrote:
-> From: Matthew Leung <quic_mattleun@quicinc.com>
+On 1/7/25 6:38 AM, Liu Ying wrote:
+> On 01/06/2025, Marek Vasut wrote:
+>> The dw-hdmi output_port is set to 1 in order to look for a connector
+>> next bridge in order to get DRM_BRIDGE_ATTACH_NO_CONNECTOR working.
+>> The output_port set to 1 makes the DW HDMI driver core look up the
+>> next bridge in DT, where the next bridge is often the hdmi-connector .
+>>
+>> Similar to 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge DRM_BRIDGE_ATTACH_NO_CONNECTOR")
+>>
+>> Note that looking at the upstream arch/arm64/boot/dts/freescale/imx8mp*dts ,
+>> the oldest commit which adds HDMI support is commit:
+>>
+>> 3e67a1ddd56d ("arm64: dts: imx8mp: Enable HDMI on TQMa8MPxL/MBa8MPxL")
+>>
+>> That already contains the HDMI connector node. Most follow up additions
+>> of HDMI support to another devices has been a variation of the same commit,
+>> including connector node, which is the proper way of eanbling HDMI on the
+>> i.MX8MP.
+>>
+>> The rest should be covered by output_port_optional which should make systems
+>> with DTs without HDMI connector node work, but such DTs should be updated and
+>> the HDMI connector node should be added.
+>>
+>> Signed-off-by: Marek Vasut <marex@denx.de>
+>> ---
+>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>> Cc: David Airlie <airlied@gmail.com>
+>> Cc: Fabio Estevam <festevam@gmail.com>
+>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>> Cc: Liu Ying <victor.liu@nxp.com>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Maxime Ripard <mripard@kernel.org>
+>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>> Cc: Robert Foss <rfoss@kernel.org>
+>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>> Cc: Shawn Guo <shawnguo@kernel.org>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Stefan Agner <stefan@agner.ch>
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: imx@lists.linux.dev
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> ---
+>> V2: No change
+>> V3: - Update commit message
+>>      - Move select DRM_DISPLAY_CONNECTOR to DRM_IMX8MP_DW_HDMI_BRIDGE
+>>      - Enable output_port_optional
+>> V4: - Remove select DRM_DISPLAY_CONNECTOR
+>> ---
+>>   drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>> index 1e7a789ec2890..3d63200e468bf 100644
+>> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>> @@ -101,6 +101,8 @@ static int imx8mp_dw_hdmi_probe(struct platform_device *pdev)
+>>   	plat_data->phy_name = "SAMSUNG HDMI TX PHY";
+>>   	plat_data->priv_data = hdmi;
+>>   	plat_data->phy_force_vendor = true;
+>> +	plat_data->output_port = 1;
 > 
-> Refactor the firmware loading code to have distinct helper functions for
-> BHI and BHIe operations. This lays the foundation for separating the
-> firmware loading protocol from the firmware being loaded and the EE it
-> is loaded in.
+> How would you keep the behaviour of the connector after adding
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR in display controller driver?
+> dw_hdmi_connector_create() implements CEC support at least.  This was pointed
+> out in v2 and v3 comments.
 > 
-> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
-> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/bus/mhi/host/boot.c | 155 +++++++++++++++++++++++++-----------
->  1 file changed, 110 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index e8c92972f9df..e3f3c07166ad 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -177,6 +177,37 @@ int mhi_download_rddm_image(struct mhi_controller *mhi_cntrl, bool in_panic)
->  }
->  EXPORT_SYMBOL_GPL(mhi_download_rddm_image);
->  
-> +static inline void mhi_fw_load_error_dump(struct mhi_controller *mhi_cntrl)
-> +{
-> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> +	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
-> +	void __iomem *base = mhi_cntrl->bhi;
-> +	int ret;
-> +	u32 val;
-> +	int i;
-> +	struct {
-> +		char *name;
-> +		u32 offset;
-> +	} error_reg[] = {
-> +		{ "ERROR_CODE", BHI_ERRCODE },
-> +		{ "ERROR_DBG1", BHI_ERRDBG1 },
-> +		{ "ERROR_DBG2", BHI_ERRDBG2 },
-> +		{ "ERROR_DBG3", BHI_ERRDBG3 },
-> +		{ NULL },
-> +	};
-> +
-> +	read_lock_bh(pm_lock);
-> +	if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
-> +		for (i = 0; error_reg[i].name; i++) {
-> +			ret = mhi_read_reg(mhi_cntrl, base, error_reg[i].offset, &val);
-> +			if (ret)
-> +				break;
-> +			dev_err(dev, "Reg: %s value: 0x%x\n", error_reg[i].name, val);
-> +		}
-> +	}
-> +	read_unlock_bh(pm_lock);
-> +}
-> +
->  static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
->  			    const struct mhi_buf *mhi_buf)
->  {
-> @@ -226,24 +257,13 @@ static int mhi_fw_load_bhie(struct mhi_controller *mhi_cntrl,
->  }
->  
->  static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
-> -			   dma_addr_t dma_addr,
-> -			   size_t size)
-> +			    const struct mhi_buf *mhi_buf)
->  {
-> -	u32 tx_status, val, session_id;
-> -	int i, ret;
-> -	void __iomem *base = mhi_cntrl->bhi;
-> -	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> -	struct {
-> -		char *name;
-> -		u32 offset;
-> -	} error_reg[] = {
-> -		{ "ERROR_CODE", BHI_ERRCODE },
-> -		{ "ERROR_DBG1", BHI_ERRDBG1 },
-> -		{ "ERROR_DBG2", BHI_ERRDBG2 },
-> -		{ "ERROR_DBG3", BHI_ERRDBG3 },
-> -		{ NULL },
-> -	};
-> +	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
-> +	void __iomem *base = mhi_cntrl->bhi;
-> +	u32 tx_status, session_id;
-> +	int ret;
->  
->  	read_lock_bh(pm_lock);
->  	if (!MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
-> @@ -255,11 +275,9 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
->  	dev_dbg(dev, "Starting image download via BHI. Session ID: %u\n",
->  		session_id);
->  	mhi_write_reg(mhi_cntrl, base, BHI_STATUS, 0);
-> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH,
-> -		      upper_32_bits(dma_addr));
-> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW,
-> -		      lower_32_bits(dma_addr));
-> -	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, size);
-> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_HIGH, upper_32_bits(mhi_buf->dma_addr));
-> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGADDR_LOW, lower_32_bits(mhi_buf->dma_addr));
-> +	mhi_write_reg(mhi_cntrl, base, BHI_IMGSIZE, mhi_buf->len);
->  	mhi_write_reg(mhi_cntrl, base, BHI_IMGTXDB, session_id);
->  	read_unlock_bh(pm_lock);
->  
-> @@ -274,18 +292,7 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
->  
->  	if (tx_status == BHI_STATUS_ERROR) {
->  		dev_err(dev, "Image transfer failed\n");
-> -		read_lock_bh(pm_lock);
-> -		if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
-> -			for (i = 0; error_reg[i].name; i++) {
-> -				ret = mhi_read_reg(mhi_cntrl, base,
-> -						   error_reg[i].offset, &val);
-> -				if (ret)
-> -					break;
-> -				dev_err(dev, "Reg: %s value: 0x%x\n",
-> -					error_reg[i].name, val);
-> -			}
-> -		}
-> -		read_unlock_bh(pm_lock);
-> +		mhi_fw_load_error_dump(mhi_cntrl);
->  		goto invalid_pm_state;
->  	}
->  
-> @@ -296,6 +303,16 @@ static int mhi_fw_load_bhi(struct mhi_controller *mhi_cntrl,
->  	return -EIO;
->  }
->  
-> +static void mhi_free_bhi_buffer(struct mhi_controller *mhi_cntrl,
-> +				struct image_info *image_info)
-> +{
-> +	struct mhi_buf *mhi_buf = image_info->mhi_buf;
-> +
-> +	dma_free_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len, mhi_buf->buf, mhi_buf->dma_addr);
-> +	kfree(image_info->mhi_buf);
-> +	kfree(image_info);
-> +}
-> +
->  void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
->  			 struct image_info *image_info)
->  {
-> @@ -310,6 +327,47 @@ void mhi_free_bhie_table(struct mhi_controller *mhi_cntrl,
->  	kfree(image_info);
->  }
->  
-> +static int mhi_alloc_bhi_buffer(struct mhi_controller *mhi_cntrl,
-> +				struct image_info **image_info,
-> +				size_t alloc_size)
-> +{
-> +	struct image_info *img_info;
-> +	struct mhi_buf *mhi_buf;
-> +	int segments = 1;Are you planning for variable segment count in future?
-
-> +	img_info = kzalloc(sizeof(*img_info), GFP_KERNEL);
-> +	if (!img_info)
-> +		return -ENOMEM;
-> +
-> +	/* Allocate memory for entry */
-> +	img_info->mhi_buf = kcalloc(segments, sizeof(*img_info->mhi_buf),
-> +				    GFP_KERNEL);
-> +	if (!img_info->mhi_buf)
-> +		goto error_alloc_mhi_buf;
-> +
-> +	/* Allocate and populate vector table */
-> +	mhi_buf = img_info->mhi_buf;
-> +
-> +	mhi_buf->len = alloc_size;
-> +	mhi_buf->buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
-> +					  &mhi_buf->dma_addr, GFP_KERNEL);
-> +	if (!mhi_buf->buf)
-> +		goto error_alloc_segment;
-> +
-> +	img_info->bhi_vec = NULL;
-> +	img_info->entries = segments;
-> +	*image_info = img_info;
-> +
-> +	return 0;
-> +
-> +error_alloc_segment:
-> +	kfree(mhi_buf);
-> +error_alloc_mhi_buf:
-> +	kfree(img_info);
-> +
-> +	return -ENOMEM;
-> +}
-> +
->  int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  			 struct image_info **image_info,
->  			 size_t alloc_size)
-> @@ -364,9 +422,18 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  	return -ENOMEM;
->  }
->  
-> -static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
-> -			      const u8 *buf, size_t remainder,
-> -			      struct image_info *img_info)
-> +static void mhi_firmware_copy_bhi(struct mhi_controller *mhi_cntrl,
-> +				  const u8 *buf, size_t size,
-> +				  struct image_info *img_info)
-> +{
-> +	struct mhi_buf *mhi_buf = img_info->mhi_buf;
-> +
-> +	memcpy(mhi_buf->buf, buf, size);
-> +}
-I'm not sure this function improves readablity.
-
-> +static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
-> +				   const u8 *buf, size_t remainder,
-> +				   struct image_info *img_info)
->  {
->  	size_t to_cpy;
->  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
-> @@ -390,10 +457,9 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	const struct firmware *firmware = NULL;
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->  	enum mhi_pm_state new_state;
-> +	struct image_info *image;
->  	const char *fw_name;
->  	const u8 *fw_data;
-> -	void *buf;
-> -	dma_addr_t dma_addr;
->  	size_t size, fw_sz;
->  	int ret;
->  
-> @@ -452,17 +518,16 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	fw_sz = firmware->size;
->  
->  skip_req_fw:
-> -	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
-> -				 GFP_KERNEL);
-> -	if (!buf) {
-> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
-> +	if (ret) {
->  		release_firmware(firmware);
->  		goto error_fw_load;
->  	}
-> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
->  
->  	/* Download image using BHI */
-> -	memcpy(buf, fw_data, size);
-> -	ret = mhi_fw_load_bhi(mhi_cntrl, dma_addr, size);
-> -	dma_free_coherent(mhi_cntrl->cntrl_dev, size, buf, dma_addr);
-> +	ret = mhi_fw_load_bhi(mhi_cntrl, image->mhi_buf);
-> +	mhi_free_bhi_buffer(mhi_cntrl, image);
->  
->  	/* Error or in EDL mode, we're done */
->  	if (ret) {
-> @@ -493,7 +558,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  		}
->  
->  		/* Load the firmware into BHIE vec table */
-> -		mhi_firmware_copy(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
-> +		mhi_firmware_copy_bhie(mhi_cntrl, fw_data, fw_sz, mhi_cntrl->fbc_image);
->  	}
->  
->  	release_firmware(firmware);
-
-Regards,
-Jacek
+> https://lore.kernel.org/all/vvsj6ri2ke25nzocbq736yv7rphzma6pn3yk2uh7iu43zfe2sa@2fwye4k4w6he/
+As far as I understand it, the CEC is being worked on separately already ?
