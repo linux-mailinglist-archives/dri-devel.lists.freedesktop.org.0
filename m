@@ -2,83 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74850A03D6E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0F0A03D54
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:12:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30B0910E113;
-	Tue,  7 Jan 2025 11:17:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 367BE8912D;
+	Tue,  7 Jan 2025 11:12:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="rJpmq6Z/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lND9oi4X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1276E10E113
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:17:28 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-aaf57c2e0beso1236156766b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 03:17:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1736248587; x=1736853387;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XVgVpCZAL74OebOmBvPyv1eAeY0MWoG698h9jVloCgo=;
- b=rJpmq6Z/Ew++nfVtCJ74JMMyLJeiDKzxobQ7MrY5dEiRr2hzqC3bmgqpyjujrmHv+N
- /a8eGF9Y4cPXkWG/OMPlkIiGA7bDjNZoXoao9LdfAS1Eh2BmOut8IV5y2sKwyhdHvJLP
- i+8REI5ehRBnq2KiPjIy0VqFiudSE7PmFQSB6SKMSV1P/Udr6TEbjSgh2G7pWyEwVdg6
- bKLWbO8KJ0IveVzoz2kjYr5tq/TuL5u/wlxlYCnhVhuzPfrUOk2E4W2elI+JwjCw3Kb/
- dxboYrwYXU7uc+aXNoIzHsJT3seLsrdkv98tNQywchXthodXImBEyp/KNmkIZejXRnNc
- bgmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736248587; x=1736853387;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XVgVpCZAL74OebOmBvPyv1eAeY0MWoG698h9jVloCgo=;
- b=C2SWBDpKMmwnDqHL1JfxPHRhbcb/81j0gotMisvnAihcnsMTXKn5KdiUWUyOYPMezy
- 0tlRRunUEcC3KD/+f0tIPFpUqtD8uGh5rzwKOcfLbgL3aXpt8w0BtT0PFZmbmdNCni9b
- sFBbNfYEqtUdLZ0wWtPk51O2VhOsBnrQmb9xcfwDULMst1CMiuyMfzkub/htX3n5rrv4
- MJLUrfIlrbqwt5GRDwC3+9zr+qyrhP1detU+yTUrM6Jp731Fq55mKZBH65ihUpVAVxWg
- HzyRenmrt9Cv0XapiH6IJbLwF50yPVwBuf6shgGBq/x+5fl40rKRGGrWrQNTKQ7WZiiu
- 57aQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXMcIttWmfkWZLrwgw0lmd17c1g6hGL9IFutmccCjMT1+wh6Z3YwyHdRzp5ongCdyOgs/gojKa2VsI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRVm1Xlg8+V4mC19BU1bEm7xF2I3iyWQpvWJd2DbNYNZdKlCHn
- RadmEZvyQJOgzmcoJRXHA7DhcjCvebxh+Xb36+QPV+ZOb3J06/6oUwmSvaHUYMvdTMhTcykDIKP
- RLQM=
-X-Gm-Gg: ASbGncuEbWhzqoOwOWIRO8Xe72E1g2Uj9zuWyHBKeofKecaGxXietwmMgoF19EJ84yt
- 8wx1X0wirIURAIR+KHJrBQhHXqBeb9xRdmTJPfWJwYsbtUv6X+hnhOtOLpv895uVTJk7sBr4j+l
- J0x565ooYa6x9SWg0mCcVn627hpODtIiJnZ1oZspgaXEvTQ9IPV2l4a0Y0A5W09G4Iwc1JD2iiC
- xkw6ZnmGuTjE6ylqdMVB5dg5nnFJdJPO4y+G7HXyx+ybgd9HlgYO0B597l7jtRrrJbhPu3r
-X-Google-Smtp-Source: AGHT+IGY/AY6FV6ldgQ8Jm4Y3sPRWT94I8fjlEhUjpE5bpJgrDOb16FQn0xsYtduC924NzcD1x9seA==
-X-Received: by 2002:a05:600c:a0a:b0:434:f0df:9f6 with SMTP id
- 5b1f17b1804b1-4366854737fmr549667725e9.3.1736248244305; 
- Tue, 07 Jan 2025 03:10:44 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c89e219sm50818931f8f.84.2025.01.07.03.10.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2025 03:10:43 -0800 (PST)
-Message-ID: <aa733153-0109-4f74-85be-c0889e8f82ee@ursulin.net>
-Date: Tue, 7 Jan 2025 11:10:43 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6612210E3F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:12:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736248328; x=1767784328;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=hT7bkN+E5xxsLEPSPqZgK9sCRWJzPwxKxpoe9TmSC3E=;
+ b=lND9oi4XQha7SSTNpKEo0xd7gq4vAeeyNosPw/6wCdp6DHb+gYJJIxNd
+ f4eO0qO+vd6vSS3INSTOxUot6Q6VzYqkD76317sOj6x/Dy1L95Uf8lWie
+ zxZKBlV+ZSYULPwqdcErZkJdGWRPrltlPLEKqjaSSPN96LD1boVJrHWbo
+ LcpNNVWlau1WMQB7BVIG9pSLstFC8jBExXHyYo+777M6IzLA0g9fgFLBn
+ uLYsdxkSery3g2qKvr4+/b+S4tLENTMKTSHSF8tC8N1ane9G/Rl7ndAj+
+ YfK4YYuqIkoYCWg5p9Nv3KTjvhXfLlHMQAd+vgecaQqYyw7xDynle/GG3 A==;
+X-CSE-ConnectionGUID: 7wwqbQooT5eB0GJwDTxRUg==
+X-CSE-MsgGUID: thzcDjgsSri2yHXqhxXvoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="36646261"
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="36646261"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2025 03:12:06 -0800
+X-CSE-ConnectionGUID: nXd5xfL7R2m/Y5gbe8x5NQ==
+X-CSE-MsgGUID: DKSYkrNXSRO7Mvz/w0N/pA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="102609320"
+Received: from derekcam-mobl.ger.corp.intel.com (HELO [10.245.83.121])
+ ([10.245.83.121])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2025 03:12:02 -0800
+Message-ID: <0037bef6-18f1-4eca-80be-29be6cb603b6@linux.intel.com>
+Date: Tue, 7 Jan 2025 12:12:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 11/14] drm/sched: Connect with dma-fence deadlines
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>, Rob Clark <robdclark@gmail.com>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <20241230165259.95855-12-tursulin@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20241230165259.95855-12-tursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 2/7] bus: mhi: host: Add a policy to enable image transfer
+ via BHIe in PBL
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>, quic_carlv@quicinc.com,
+ manivannan.sadhasivam@linaro.org, quic_yabdulra@quicinc.com,
+ quic_mattleun@quicinc.com, quic_thanson@quicinc.com
+Cc: ogabbay@kernel.org, lizhi.hou@amd.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
+ <20241213213340.2551697-3-quic_jhugo@quicinc.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20241213213340.2551697-3-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,180 +77,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-On 30/12/2024 16:52, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+On 12/13/2024 10:33 PM, Jeffrey Hugo wrote:
+> From: Matthew Leung <quic_mattleun@quicinc.com>
 > 
-> Now that the scheduling policy is deadline based it feels completely
-> natural to allow propagating externaly set deadlines to the scheduler.
+> Currently, mhi host only performs firmware transfer via BHI in PBL and
+> BHIe from SBL. To support BHIe transfer directly from PBL, a policy
+> needs to be added.
 > 
-> Scheduler deadlines are not a guarantee but as the dma-fence facility is
-> already in use by userspace lets wire it up.
+> With this policy, BHIe will be used to transfer firmware in PBL if the
+> mhi controller has bhie regs, sets seg_len, and does not set
+> fbc_download. The intention is to transfer firmware using BHIe in PBL
+> without further BHIe transfers in SBL.
 > 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <pstanner@redhat.com>
-> Cc: Rob Clark <robdclark@gmail.com>
+> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
+> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 > ---
->   drivers/gpu/drm/scheduler/sched_entity.c | 30 +++++++++++++++++++++++-
->   drivers/gpu/drm/scheduler/sched_fence.c  |  3 +++
->   drivers/gpu/drm/scheduler/sched_rq.c     | 16 +++++++++++++
->   include/drm/gpu_scheduler.h              |  8 +++++++
->   4 files changed, 56 insertions(+), 1 deletion(-)
+>  drivers/bus/mhi/host/boot.c     | 80 +++++++++++++++++++++++++++------
+>  drivers/bus/mhi/host/init.c     |  2 +-
+>  drivers/bus/mhi/host/internal.h |  8 ++++
+>  3 files changed, 75 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 14bc3f797079..c5a4c04b2455 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -385,7 +385,24 @@ ktime_t
->   drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
->   				  struct drm_sched_job *job)
->   {
-> -	return __drm_sched_entity_get_job_deadline(entity, job->submit_ts);
-> +	struct drm_sched_fence *s_fence = job->s_fence;
-> +	struct dma_fence *fence = &s_fence->finished;
-> +	ktime_t deadline;
-> +
-> +	deadline = __drm_sched_entity_get_job_deadline(entity, job->submit_ts);
-> +	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags) &&
-> +	    ktime_before(s_fence->deadline, deadline))
-> +		deadline = s_fence->deadline;
-> +
-> +	return deadline;
-> +}
-> +
-> +void drm_sched_entity_set_deadline(struct drm_sched_entity *entity,
-> +				   ktime_t deadline)
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index e3f3c07166ad..c9ecb6427209 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -452,12 +452,62 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
+>  	}
+>  }
+>  
+> +static enum mhi_fw_load_type mhi_fw_load_type_get(const struct mhi_controller *mhi_cntrl)
 > +{
-> +	spin_lock(&entity->lock);
-> +	drm_sched_rq_update_deadline(entity->rq, entity, deadline);
-> +	spin_unlock(&entity->lock);
->   }
->   
->   /*
-> @@ -536,8 +553,11 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
->    */
->   void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   {
-> +	struct drm_sched_fence *s_fence = sched_job->s_fence;
->   	struct drm_sched_entity *entity = sched_job->entity;
-> +	struct dma_fence *fence = &s_fence->finished;
->   	ktime_t submit_ts = ktime_get();
-> +	ktime_t fence_deadline;
->   	bool first;
->   
->   	trace_drm_sched_job(sched_job, entity);
-> @@ -552,6 +572,11 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   	 * Make sure to set the submit_ts first, to avoid a race.
->   	 */
->   	sched_job->submit_ts = submit_ts;
-> +	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags))
-> +		fence_deadline = s_fence->deadline;
-> +	else
-> +		fence_deadline = KTIME_MAX;
+> +	enum mhi_fw_load_type ret = MHI_FW_LOAD_UNKNOWN;
 > +
->   	first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
->   
->   	/* first job wakes up scheduler */
-> @@ -560,6 +585,9 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   
->   		submit_ts = __drm_sched_entity_get_job_deadline(entity,
->   								submit_ts);
-> +		if (ktime_before(fence_deadline, submit_ts))
-> +			submit_ts = fence_deadline;
-> +
->   		sched = drm_sched_rq_add_entity(entity->rq, entity, submit_ts);
->   		if (sched)
->   			drm_sched_wakeup(sched);
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 0f35f009b9d3..dfc7f50d4e0d 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -168,6 +168,8 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->   
->   	spin_unlock_irqrestore(&fence->lock, flags);
->   
-> +	drm_sched_entity_set_deadline(fence->entity, deadline);
-
-This I think needs re-work too becuase entities must not be acccessed 
-from jobs. Sigh. I can make it update the deadline inside the job itself 
-which will be applied when the job becomes first in the queue.
-
-Regards,
-
-Tvrtko
-
-> +
->   	/*
->   	 * smp_load_aquire() to ensure that if we are racing another
->   	 * thread calling drm_sched_fence_set_parent(), that we see
-> @@ -223,6 +225,7 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->   {
->   	unsigned seq;
->   
-> +	fence->entity = entity;
->   	fence->sched = entity->rq->sched;
->   	seq = atomic_inc_return(&entity->fence_seq);
->   	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
-> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
-> index 1a454384ab25..e96c8ca9c54b 100644
-> --- a/drivers/gpu/drm/scheduler/sched_rq.c
-> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
-> @@ -148,6 +148,22 @@ void drm_sched_rq_pop_entity(struct drm_sched_rq *rq,
->   	spin_unlock(&entity->lock);
->   }
->   
-> +void drm_sched_rq_update_deadline(struct drm_sched_rq *rq,
-> +				  struct drm_sched_entity *entity,
-> +				  ktime_t deadline)
-> +{
-> +	lockdep_assert_held(&entity->lock);
-> +
-> +	if (ktime_before(deadline, entity->oldest_job_waiting)) {
-> +		spin_lock(&rq->lock);
-> +		if (!RB_EMPTY_NODE(&entity->rb_tree_node)) {
-> +			__drm_sched_rq_remove_tree_locked(entity, rq);
-> +			__drm_sched_rq_add_tree_locked(entity, rq, deadline);
-> +		}
-> +		spin_unlock(&rq->lock);
+> +	if (mhi_cntrl->fbc_download) {
+> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
+> +			ret = MHI_FW_LOAD_FBC;
+> +	} else {
+> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
+> +			ret = MHI_FW_LOAD_BHIE;
+> +		else
+> +			ret = MHI_FW_LOAD_BHI;
 > +	}
+> +	return ret;
 > +}
 > +
->   /**
->    * drm_sched_rq_select_entity - Select an entity which provides a job to run
->    *
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 85f3a0d5a7be..c68dce8af063 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -291,6 +291,9 @@ struct drm_sched_fence {
->            * &drm_sched_fence.finished fence once parent is signalled.
->            */
->   	struct dma_fence		*parent;
+> +static int mhi_send_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
+> +{
+> +	struct image_info *image;
+> +	int ret;
 > +
-> +	struct drm_sched_entity		*entity;
+> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
+> +	if (ret)
+> +		return ret;
 > +
->           /**
->            * @sched: the scheduler instance to which the job having this struct
->            * belongs to.
-> @@ -597,6 +600,9 @@ void drm_sched_rq_pop_entity(struct drm_sched_rq *rq,
->   struct drm_sched_entity *
->   drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
->   			   struct drm_sched_rq *rq);
-> +void drm_sched_rq_update_deadline(struct drm_sched_rq *rq,
-> +				  struct drm_sched_entity *entity,
-> +				  ktime_t deadline);
->   
->   int drm_sched_entity_init(struct drm_sched_entity *entity,
->   			  enum drm_sched_priority priority,
-> @@ -612,6 +618,8 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job);
->   void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
->   				   enum drm_sched_priority priority);
->   bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
-> +void drm_sched_entity_set_deadline(struct drm_sched_entity *entity,
-> +				   ktime_t deadline);
->   int drm_sched_entity_error(struct drm_sched_entity *entity);
->   ktime_t drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
->   					  struct drm_sched_job *job);
+> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
+> +
+> +	ret = mhi_fw_load_bhi(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
+> +	mhi_free_bhi_buffer(mhi_cntrl, image);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mhi_send_image_bhie(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
+> +{
+> +	struct image_info *image;
+> +	int ret;
+> +
+> +	ret = mhi_alloc_bhie_table(mhi_cntrl, &image, size);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mhi_firmware_copy_bhie(mhi_cntrl, fw_data, size, image);
+> +
+> +	ret = mhi_fw_load_bhie(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
+> +	mhi_free_bhie_table(mhi_cntrl, image);
+> +
+> +	return ret;
+> +}
+> +
+>  void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  {
+>  	const struct firmware *firmware = NULL;
+>  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> +	enum mhi_fw_load_type fw_load_type;
+>  	enum mhi_pm_state new_state;
+> -	struct image_info *image;
+>  	const char *fw_name;
+>  	const u8 *fw_data;
+>  	size_t size, fw_sz;
+> @@ -481,6 +531,12 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	fw_name = (mhi_cntrl->ee == MHI_EE_EDL) ?
+>  		mhi_cntrl->edl_image : mhi_cntrl->fw_image;
+>  
+> +	fw_load_type = mhi_fw_load_type_get(mhi_cntrl);
+> +	if (fw_load_type == MHI_FW_LOAD_UNKNOWN) {
+> +		dev_err(dev, "Cannot load FW as load type is UNKNOWN\n");
+> +		return;
+> +	}
+> +
+>  	/* check if the driver has already provided the firmware data */
+>  	if (!fw_name && mhi_cntrl->fbc_download &&
+>  	    mhi_cntrl->fw_data && mhi_cntrl->fw_sz) {
+> @@ -518,20 +574,16 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	fw_sz = firmware->size;
+>  
+>  skip_req_fw:
+> -	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
+> -	if (ret) {
+> -		release_firmware(firmware);
+> -		goto error_fw_load;
+> -	}
+> -	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
+> -
+> -	/* Download image using BHI */
+> -	ret = mhi_fw_load_bhi(mhi_cntrl, image->mhi_buf);
+> -	mhi_free_bhi_buffer(mhi_cntrl, image);
+> +	if (fw_load_type == MHI_FW_LOAD_BHIE)
+> +		ret = mhi_send_image_bhie(mhi_cntrl, fw_data, size);
+> +	else
+> +		ret = mhi_send_image_bhi(mhi_cntrl, fw_data, size);
+>  
+>  	/* Error or in EDL mode, we're done */
+>  	if (ret) {
+> -		dev_err(dev, "MHI did not load image over BHI, ret: %d\n", ret);
+> +		dev_err(dev, "MHI did not load image over BHI%s, ret: %d\n",
+> +			fw_load_type == MHI_FW_LOAD_BHIE ? "e" : "",
+> +			ret);
+>  		release_firmware(firmware);
+>  		goto error_fw_load;
+>  	}
+> @@ -550,7 +602,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	 * If we're doing fbc, populate vector tables while
+>  	 * device transitioning into MHI READY state
+>  	 */
+> -	if (mhi_cntrl->fbc_download) {
+> +	if (fw_load_type == MHI_FW_LOAD_FBC) {
+>  		ret = mhi_alloc_bhie_table(mhi_cntrl, &mhi_cntrl->fbc_image, fw_sz);
+>  		if (ret) {
+>  			release_firmware(firmware);
+> @@ -575,7 +627,7 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
+>  	return;
+>  
+>  error_ready_state:
+> -	if (mhi_cntrl->fbc_download) {
+> +	if (fw_load_type == MHI_FW_LOAD_FBC) {
+>  		mhi_free_bhie_table(mhi_cntrl, mhi_cntrl->fbc_image);
+>  		mhi_cntrl->fbc_image = NULL;
+>  	}
+> diff --git a/drivers/bus/mhi/host/init.c b/drivers/bus/mhi/host/init.c
+> index a9b1f8beee7b..13e7a55f54ff 100644
+> --- a/drivers/bus/mhi/host/init.c
+> +++ b/drivers/bus/mhi/host/init.c
+> @@ -1144,7 +1144,7 @@ int mhi_prepare_for_power_up(struct mhi_controller *mhi_cntrl)
+>  	}
+>  	mhi_cntrl->bhi = mhi_cntrl->regs + bhi_off;
+>  
+> -	if (mhi_cntrl->fbc_download || mhi_cntrl->rddm_size) {
+> +	if (mhi_cntrl->fbc_download || mhi_cntrl->rddm_size || mhi_cntrl->seg_len) {
+>  		ret = mhi_read_reg(mhi_cntrl, mhi_cntrl->regs, BHIEOFF,
+>  				   &bhie_off);
+>  		if (ret) {
+> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/internal.h
+> index 3134f111be35..afcf536083bc 100644
+> --- a/drivers/bus/mhi/host/internal.h
+> +++ b/drivers/bus/mhi/host/internal.h
+> @@ -29,6 +29,14 @@ struct bhi_vec_entry {
+>  	u64 size;
+>  };
+>  
+> +enum mhi_fw_load_type {
+> +	MHI_FW_LOAD_UNKNOWN,
+> +	MHI_FW_LOAD_BHI,	/* BHI only in PBL */
+> +	MHI_FW_LOAD_BHIE,	/* BHIe only in PBL */
+> +	MHI_FW_LOAD_FBC,	/* BHI in PBL followed by BHIe in SBL */
+> +	MHI_FW_LOAD_MAX,
+> +};
+> +
+>  enum mhi_ch_state_type {
+>  	MHI_CH_STATE_TYPE_RESET,
+>  	MHI_CH_STATE_TYPE_STOP,
+
