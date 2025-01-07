@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE79A03B7F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 10:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578CBA03B82
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 10:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C490710E3CC;
-	Tue,  7 Jan 2025 09:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA60110E3C4;
+	Tue,  7 Jan 2025 09:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="eH1JO2kH";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Wi47E+Rc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="O72XPt3n";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Z5smUcNp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8261B10E3CC
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 09:50:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6C7010E3C4
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 09:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1736243411; x=1767779411;
+ t=1736243419; x=1767779419;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KpOa8HoprryX6l0PB2oieZlmFjQEb/tFrwNnpfDxsbo=;
- b=eH1JO2kHWWP93bTcZjA4VvSnW0u+bCcSvt+CbDphYI51EzazflGtt5xJ
- 2Iq8MXaBtf2W2EWsuRo7Jha85yFWaEEzrAVRFBMf3rtx1N4qSxDgSxKhA
- 6AVkPavNMzyuYQVwI7a5DpHYlKsd9DEAokC9JG+uX1apu6oNsNwG1e6Ym
- 3nNJdir7sZJTNnyHuaMLj2qmZlcOL5GwG7kmZhI6OQW7OhWVkwq51hX8D
- RyRB22CKKQ1hDlram9wN45d8EGf3oDefHrnYErYKVyIUZva981Kr2EFEH
- puqvPsoIpWHDAr+TtGPyNRiIHHJGAmCKVnhcm0tu0EMF6hIo86Q8lnNBB A==;
-X-CSE-ConnectionGUID: W/xrAnC8RkSNziKHLuX1cA==
-X-CSE-MsgGUID: vaqF99PvRTWyofVWk/MsKQ==
-X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; d="scan'208";a="40889019"
+ bh=QzP2L75tY0s4FayK+dDFBr6ag0IirIKPS04LmEz6Ta8=;
+ b=O72XPt3na9wG5s46LvySomFgTUYJKjjCGRe9txhDDDNHEvdgViT2e1g/
+ /+13NoibrFGq9GKJW/PMhVXSheEf7RM4GQRnAc8wNaExWS6o8YboudCEa
+ l2YMixCXjxFLJWJSPQDPe4xWV9x8H5CqouKI/npInebjtkNmbpFHHevvy
+ kcCJj3VTL0Baxy0T9wXPKBBsQecQ0KJRasYaWhdHH9LLNHgCV76uYy1OM
+ AAoEVqIB2zYCmr0pi0giOy3+fjzUJOmW/OQa9/n7l5q/qhZmqsnB+WY4H
+ TM0SScyCaBtLf2HGah35JKYNXTK8o6IuBivbX2F324FkwnJAeEvec48M2 w==;
+X-CSE-ConnectionGUID: Kew2XeO4QOOMJUerIB5xZA==
+X-CSE-MsgGUID: G9WjVQx0RXG03kFOLwwcrA==
+X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; d="scan'208";a="40889027"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 07 Jan 2025 10:50:10 +0100
-X-CheckPoint: {677CF8D2-34-301A2255-F8907925}
-X-MAIL-CPID: 4EBEBB08F58DDC3AE9E882BAB25DBD24_3
-X-Control-Analysis: str=0001.0A682F26.677CF8D3.0031, ss=1, re=0.000, recu=0.000,
+ by mx1.tq-group.com with ESMTP; 07 Jan 2025 10:50:17 +0100
+X-CheckPoint: {677CF8D9-8-DDBC2A76-F469E51C}
+X-MAIL-CPID: 0A25C61B0BAAEF839FD7A44E474FE128_0
+X-Control-Analysis: str=0001.0A682F26.677CF8D9.007F, ss=1, re=0.000, recu=0.000,
  reip=0.000, cl=1, cld=1, fgs=0
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 47717163CCE; Tue,  7 Jan 2025 10:50:05 +0100 (CET)
+ with ESMTPSA id 50C2F163CCE; Tue,  7 Jan 2025 10:50:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1736243406;
+ s=dkim; t=1736243412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KpOa8HoprryX6l0PB2oieZlmFjQEb/tFrwNnpfDxsbo=;
- b=Wi47E+Rc9PTZCxjwj/rCLJqFXyDN5NtYNeDYY5biKfe0oJzJCkQeIQa7PD4JKriBAh/oP9
- z35fR7ZDJkeVj7MhODE4YN1FoPGspbM48OA8EsHQ0tcLtW7gF3g0h5kyimAgF8Men8lL8+
- grBB67wugEMwPY/lJFTW/2pLVtxOEESmkeLH41piBuGAYFClZureKEWxAmtwrS+0MlmikD
- lVF/OJvQd7tgehTzAW1UBZYTMQ2tgZIIt/De6zJgyYAZP6hZW0/bM68PkikLuCoq4ypNWh
- vgQzeJ/qH8pxDux3+kYPEczkhyIfgWGRO0K6o2ho2EoQN8M6GRYV1nSPfr51Tg==
+ bh=QzP2L75tY0s4FayK+dDFBr6ag0IirIKPS04LmEz6Ta8=;
+ b=Z5smUcNpRQkb2oKHkcLoUQXNeYAtAEovHnKQNFM1HxqwL5Uw2iJvL+tBjPS2tQZ/tJpCn6
+ DyIYhmaOKTo33GTAj8GacS1ig3QgACh8TcMf1uVQRWueIn3M5gCEiEUCUsTOIpGyqDqLXA
+ dT1p+vO3Oz25GBoG8d/Yjb4JfEzG0tUaT71FoUYliRRdaUVkGPD3OAv+l1c4ui2LUMZaGL
+ VqC1S1abM3VqDQGoDAXCFCNZ58yy9DVvtJ6QPmemR/CWJ2MeDm+YEsJ4NN5IP2094gc18b
+ xb0U4tp/TDIGqCahr0gRDQ5aPKk60MdooTdkiZp6K05q0Ju2SZ/kmgbx5/ml4A==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
@@ -71,9 +71,10 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 1/2] ARM: dts: imx7s: Move csi-mux to below root
-Date: Tue,  7 Jan 2025 10:49:41 +0100
-Message-Id: <20250107094943.518474-2-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 2/2] dt-bindings: samsung,
+ mipi-dsim: Add imx7d specific compatible
+Date: Tue,  7 Jan 2025 10:49:42 +0100
+Message-Id: <20250107094943.518474-3-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250107094943.518474-1-alexander.stein@ew.tq-group.com>
 References: <20250107094943.518474-1-alexander.stein@ew.tq-group.com>
@@ -95,91 +96,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fsl,imx-iomuxc-gpr.yaml only contains the mux-controller but the actual
-video-mux is not part of it. So move it below root node.
-Fixes the dtbs_check warning:
-arch/arm/boot/dts/nxp/imx/imx7s-mba7.dtb: iomuxc-gpr@30340000: 'csi-mux' does not match any of the regexes: 'pinctrl-[0-9]+'
-  from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+This add a imx7(d) specific compatible which is compatible to imx8mm.
+This silences the dtbs_check warning:
+arch/arm/boot/dts/nxp/imx/imx7s-mba7.dtb: dsi@30760000: compatible: 'oneOf' conditional failed, one must be fixed:
+ ['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- arch/arm/boot/dts/nxp/imx/imx7s.dtsi | 56 ++++++++++++++--------------
- 1 file changed, 28 insertions(+), 28 deletions(-)
+ .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/nxp/imx/imx7s.dtsi b/arch/arm/boot/dts/nxp/imx/imx7s.dtsi
-index 22dd72499ef27..2629968001a74 100644
---- a/arch/arm/boot/dts/nxp/imx/imx7s.dtsi
-+++ b/arch/arm/boot/dts/nxp/imx/imx7s.dtsi
-@@ -176,6 +176,34 @@ timer {
- 			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
- 	};
+diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+index 4ed7a799ba26b..e43fec5609417 100644
+--- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml
+@@ -27,7 +27,9 @@ properties:
+           - fsl,imx8mm-mipi-dsim
+           - fsl,imx8mp-mipi-dsim
+       - items:
+-          - const: fsl,imx8mn-mipi-dsim
++          - enum:
++              - fsl,imx7d-mipi-dsim
++              - fsl,imx8mn-mipi-dsim
+           - const: fsl,imx8mm-mipi-dsim
  
-+	video_mux: csi-mux {
-+		compatible = "video-mux";
-+		mux-controls = <&mux 0>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		status = "disabled";
-+
-+		port@0 {
-+			reg = <0>;
-+		};
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csi_mux_from_mipi_vc0: endpoint {
-+				remote-endpoint = <&mipi_vc0_to_csi_mux>;
-+			};
-+		};
-+
-+		port@2 {
-+			reg = <2>;
-+
-+			csi_mux_to_csi: endpoint {
-+				remote-endpoint = <&csi_from_csi_mux>;
-+			};
-+		};
-+	};
-+
- 	soc: soc {
- 		#address-cells = <1>;
- 		#size-cells = <1>;
-@@ -529,34 +557,6 @@ mux: mux-controller {
- 					#mux-control-cells = <1>;
- 					mux-reg-masks = <0x14 0x00000010>;
- 				};
--
--				video_mux: csi-mux {
--					compatible = "video-mux";
--					mux-controls = <&mux 0>;
--					#address-cells = <1>;
--					#size-cells = <0>;
--					status = "disabled";
--
--					port@0 {
--						reg = <0>;
--					};
--
--					port@1 {
--						reg = <1>;
--
--						csi_mux_from_mipi_vc0: endpoint {
--							remote-endpoint = <&mipi_vc0_to_csi_mux>;
--						};
--					};
--
--					port@2 {
--						reg = <2>;
--
--						csi_mux_to_csi: endpoint {
--							remote-endpoint = <&csi_from_csi_mux>;
--						};
--					};
--				};
- 			};
- 
- 			ocotp: efuse@30350000 {
+   reg:
 -- 
 2.34.1
 
