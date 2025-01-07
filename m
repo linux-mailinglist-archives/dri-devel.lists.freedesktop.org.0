@@ -2,55 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDBBA04224
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81011A04225
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:22:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09C7210EA1A;
-	Tue,  7 Jan 2025 14:22:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3F5410EABE;
+	Tue,  7 Jan 2025 14:22:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C1UKCmP4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d5Pa6HpR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE1E610E717
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:22:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0F8D10EAC7
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736259762; x=1767795762;
+ t=1736259763; x=1767795763;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=kcX7O5hr8iid0nhQNJtcGyBqL4sfF0g8utxeZF6d4Gg=;
- b=C1UKCmP4fZ3FJiuHhnv/4A/0zyJZuNECyaWVbxj9VmehC6A2c5bCCrdh
- y/OxaJay2A84jrOhudb/sp8PEAKVpe4SE3fQHbwkOuPFeeRWfSTexiZ3V
- WXQAywKLqTJFO6rSqS3lnKnsbl7MBJHsA7Iceyz679YX/iqsCB1bwGa+V
- TScrRm/tGURn//q2RWHaPG+qcPcdiYO0XNI6PfKjew6oXcriW4u4/e8qe
- P87+6L57SKM4xpw4iHxoNW6MGFZuJKiTDq/ir/QXQfiZVsqy+E4EBq9B4
- UZ4840aVevHXWMEfImOW5mJRldK+xOGAkYNNG0suDPCkEuQ7UcMUeCEr1 w==;
-X-CSE-ConnectionGUID: dZSQ2ZfcSfux9KM9ZaVc7A==
-X-CSE-MsgGUID: jpdBaWyIRDayI/r9M+TvNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36324444"
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="36324444"
+ bh=SkMdvjIWu78uAx/5XaEfIot2OY4QlhppHKKuETt5wvg=;
+ b=d5Pa6HpR5r2eUxO8F+5UW0vPk+W3NfAmcXEkhOfPB3tDg71uays+lX9n
+ oLQ9EB7tCAkGXNXEb9n0xNyabflVUFkBmbltWPhEPZsTytn04Fry6Dv0E
+ 2QNGvHc7xXUvXrENHs6pwFBI8fvcayOb9a11mIEoVY3SRwEbLPTSw3Sou
+ VtUTLa46UNFbrTDlB7h0KTtpeaz3yYMPhYPI7fk+pCrlvK33GZgIhAu8i
+ oTAxtq80aTkpUM+Bar5enJ3bxtzjlgPBTYWZ+Jh9n2hlfJK3vUnj0q/dT
+ GXwlYaTVGLeX0doA3C4EUa1zYVvnz0UXJMrqnwD/3qLCzvOySKYUNM26H Q==;
+X-CSE-ConnectionGUID: 73g4RJpAR86ox3miF+aOBw==
+X-CSE-MsgGUID: xfS7FTncSQ2kvFVxgwjytw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36324448"
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="36324448"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 06:22:41 -0800
-X-CSE-ConnectionGUID: q8OQh/2VR7ysAevTWZN+vw==
-X-CSE-MsgGUID: sFDdfmjvTvSPUfrdcwQ2ig==
+ 07 Jan 2025 06:22:43 -0800
+X-CSE-ConnectionGUID: 2HvIMn0iRlCptsB9Q4rs5g==
+X-CSE-MsgGUID: aV/HXyovSDq5PZPiUYerWw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103635459"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103635465"
 Received: from try2-8594.igk.intel.com ([10.91.220.58])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 06:22:40 -0800
+ 07 Jan 2025 06:22:42 -0800
 From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  jacek.lawrynowicz@linux.intel.com,
  Karol Wachowski <karol.wachowski@intel.com>,
  Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH 07/14] accel/ivpu: Move parts of MMU event IRQ handling to
- thread handler
-Date: Tue,  7 Jan 2025 18:32:30 +0100
-Message-ID: <20250107173238.381120-8-maciej.falkowski@linux.intel.com>
+Subject: [PATCH 08/14] accel/ivpu: Fix missing MMU events from reserved SSID
+Date: Tue,  7 Jan 2025 18:32:31 +0100
+Message-ID: <20250107173238.381120-9-maciej.falkowski@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250107173238.381120-1-maciej.falkowski@linux.intel.com>
 References: <20250107173238.381120-1-maciej.falkowski@linux.intel.com>
@@ -73,248 +72,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Karol Wachowski <karol.wachowski@intel.com>
 
-To prevent looping infinitely in MMU event handler we stop
-generating new events by removing 'R' (record) bit from context
-descriptor, but to ensure this change has effect KMD has to perform
-configuration invalidation followed by sync command.
+Generate recovery when fault from reserved context is detected.
+Add Abort (A) bit to reserved (1) SSID to ensure NPU also receives a fault.
 
-Because of that move parts of the interrupt handler that can take longer
-to a thread not to block in interrupt handler for too long.
-This includes:
- * disabling event queue for the time KMD updates MMU event queue consumer
-   to ensure proper synchronization between MMU and KMD
-
- * removal of 'R' (record) bit from context descriptor to ensure no more
-   faults are recorded until that context is destroyed
+There is no way to create a file_priv with reserved SSID
+but it is still possible to receive MMU faults from that SSID
+as it is a default NPU HW setting. Such situation will occur if
+FW freed context related resources but still performed access to DRAM.
 
 Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
 Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_job.c |  7 ++-
- drivers/accel/ivpu/ivpu_mmu.c | 93 +++++++++++++++++++++++------------
- drivers/accel/ivpu/ivpu_mmu.h |  2 +
- 3 files changed, 69 insertions(+), 33 deletions(-)
+ drivers/accel/ivpu/ivpu_mmu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index c678dcddb8d8..c55de9736d84 100644
---- a/drivers/accel/ivpu/ivpu_job.c
-+++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -17,6 +17,7 @@
- #include "ivpu_ipc.h"
- #include "ivpu_job.h"
- #include "ivpu_jsm_msg.h"
-+#include "ivpu_mmu.h"
- #include "ivpu_pm.h"
- #include "ivpu_trace.h"
- #include "vpu_boot_api.h"
-@@ -366,6 +367,7 @@ void ivpu_context_abort_locked(struct ivpu_file_priv *file_priv)
- 	unsigned long cmdq_id;
- 
- 	lockdep_assert_held(&file_priv->lock);
-+	ivpu_dbg(vdev, JOB, "Context ID: %u abort\n", file_priv->ctx.id);
- 
- 	xa_for_each(&file_priv->cmdq_xa, cmdq_id, cmdq)
- 		ivpu_cmdq_unregister(file_priv, cmdq);
-@@ -373,6 +375,9 @@ void ivpu_context_abort_locked(struct ivpu_file_priv *file_priv)
- 	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_OS)
- 		ivpu_jsm_context_release(vdev, file_priv->ctx.id);
- 
-+	ivpu_mmu_disable_ssid_events(vdev, file_priv->ctx.id);
-+	ivpu_mmu_discard_events(vdev);
-+
- 	file_priv->aborted = true;
- }
- 
-@@ -939,8 +944,8 @@ void ivpu_context_abort_work_fn(struct work_struct *work)
- {
- 	struct ivpu_device *vdev = container_of(work, struct ivpu_device, context_abort_work);
- 	struct ivpu_file_priv *file_priv;
--	unsigned long ctx_id;
- 	struct ivpu_job *job;
-+	unsigned long ctx_id;
- 	unsigned long id;
- 
- 	mutex_lock(&vdev->context_list_lock);
 diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
-index 5ee4df892b3e..ae1dcd04051c 100644
+index ae1dcd04051c..b80bdded9fd7 100644
 --- a/drivers/accel/ivpu/ivpu_mmu.c
 +++ b/drivers/accel/ivpu/ivpu_mmu.c
-@@ -20,6 +20,12 @@
- #define IVPU_MMU_REG_CR0		      0x00200020u
- #define IVPU_MMU_REG_CR0ACK		      0x00200024u
- #define IVPU_MMU_REG_CR0ACK_VAL_MASK	      GENMASK(31, 0)
-+#define IVPU_MMU_REG_CR0_ATSCHK_MASK	      BIT(4)
-+#define IVPU_MMU_REG_CR0_CMDQEN_MASK	      BIT(3)
-+#define IVPU_MMU_REG_CR0_EVTQEN_MASK	      BIT(2)
-+#define IVPU_MMU_REG_CR0_PRIQEN_MASK	      BIT(1)
-+#define IVPU_MMU_REG_CR0_SMMUEN_MASK	      BIT(0)
-+
- #define IVPU_MMU_REG_CR1		      0x00200028u
- #define IVPU_MMU_REG_CR2		      0x0020002cu
- #define IVPU_MMU_REG_IRQ_CTRL		      0x00200050u
-@@ -141,12 +147,6 @@
- #define IVPU_MMU_IRQ_EVTQ_EN		BIT(2)
- #define IVPU_MMU_IRQ_GERROR_EN		BIT(0)
+@@ -725,8 +725,8 @@ static int ivpu_mmu_cdtab_entry_set(struct ivpu_device *vdev, u32 ssid, u64 cd_d
+ 	cd[2] = 0;
+ 	cd[3] = 0x0000000000007444;
  
--#define IVPU_MMU_CR0_ATSCHK		BIT(4)
--#define IVPU_MMU_CR0_CMDQEN		BIT(3)
--#define IVPU_MMU_CR0_EVTQEN		BIT(2)
--#define IVPU_MMU_CR0_PRIQEN		BIT(1)
--#define IVPU_MMU_CR0_SMMUEN		BIT(0)
--
- #define IVPU_MMU_CR1_TABLE_SH		GENMASK(11, 10)
- #define IVPU_MMU_CR1_TABLE_OC		GENMASK(9, 8)
- #define IVPU_MMU_CR1_TABLE_IC		GENMASK(7, 6)
-@@ -596,7 +596,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	REGV_WR32(IVPU_MMU_REG_CMDQ_PROD, 0);
- 	REGV_WR32(IVPU_MMU_REG_CMDQ_CONS, 0);
+-	/* For global context generate memory fault on VPU */
+-	if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID)
++	/* For global and reserved contexts generate memory fault on VPU */
++	if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID || ssid == IVPU_RESERVED_CONTEXT_MMU_SSID)
+ 		cd[0] |= IVPU_MMU_CD_0_A;
  
--	val = IVPU_MMU_CR0_CMDQEN;
-+	val = REG_SET_FLD(IVPU_MMU_REG_CR0, CMDQEN, 0);
- 	ret = ivpu_mmu_reg_write_cr0(vdev, val);
- 	if (ret)
- 		return ret;
-@@ -617,12 +617,12 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	REGV_WR32(IVPU_MMU_REG_EVTQ_PROD_SEC, 0);
- 	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, 0);
- 
--	val |= IVPU_MMU_CR0_EVTQEN;
-+	val = REG_SET_FLD(IVPU_MMU_REG_CR0, EVTQEN, val);
- 	ret = ivpu_mmu_reg_write_cr0(vdev, val);
- 	if (ret)
- 		return ret;
- 
--	val |= IVPU_MMU_CR0_ATSCHK;
-+	val = REG_SET_FLD(IVPU_MMU_REG_CR0, ATSCHK, val);
- 	ret = ivpu_mmu_reg_write_cr0(vdev, val);
- 	if (ret)
- 		return ret;
-@@ -631,7 +631,7 @@ static int ivpu_mmu_reset(struct ivpu_device *vdev)
- 	if (ret)
- 		return ret;
- 
--	val |= IVPU_MMU_CR0_SMMUEN;
-+	val = REG_SET_FLD(IVPU_MMU_REG_CR0, SMMUEN, val);
- 	return ivpu_mmu_reg_write_cr0(vdev, val);
- }
- 
-@@ -870,7 +870,47 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
- 	return evt;
- }
- 
--static int ivpu_mmu_disable_events(struct ivpu_device *vdev, u32 ssid)
-+static int ivpu_mmu_evtq_set(struct ivpu_device *vdev, bool enable)
-+{
-+	u32 val = REGV_RD32(IVPU_MMU_REG_CR0);
-+
-+	if (enable)
-+		val = REG_SET_FLD(IVPU_MMU_REG_CR0, EVTQEN, val);
-+	else
-+		val = REG_CLR_FLD(IVPU_MMU_REG_CR0, EVTQEN, val);
-+	REGV_WR32(IVPU_MMU_REG_CR0, val);
-+
-+	return REGV_POLL_FLD(IVPU_MMU_REG_CR0ACK, VAL, val, IVPU_MMU_REG_TIMEOUT_US);
-+}
-+
-+static int ivpu_mmu_evtq_enable(struct ivpu_device *vdev)
-+{
-+	return ivpu_mmu_evtq_set(vdev, true);
-+}
-+
-+static int ivpu_mmu_evtq_disable(struct ivpu_device *vdev)
-+{
-+	return ivpu_mmu_evtq_set(vdev, false);
-+}
-+
-+void ivpu_mmu_discard_events(struct ivpu_device *vdev)
-+{
-+	/*
-+	 * Disable event queue (stop MMU from updating the producer)
-+	 * to allow synchronization of consumer and producer indexes
-+	 */
-+	ivpu_mmu_evtq_disable(vdev);
-+
-+	vdev->mmu->evtq.cons = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
-+	REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, vdev->mmu->evtq.cons);
-+	vdev->mmu->evtq.prod = REGV_RD32(IVPU_MMU_REG_EVTQ_PROD_SEC);
-+
-+	ivpu_mmu_evtq_enable(vdev);
-+
-+	drm_WARN_ON_ONCE(&vdev->drm, vdev->mmu->evtq.cons != vdev->mmu->evtq.prod);
-+}
-+
-+int ivpu_mmu_disable_ssid_events(struct ivpu_device *vdev, u32 ssid)
- {
- 	struct ivpu_mmu_info *mmu = vdev->mmu;
- 	struct ivpu_mmu_cdtab *cdtab = &mmu->cdtab;
-@@ -890,6 +930,7 @@ static int ivpu_mmu_disable_events(struct ivpu_device *vdev, u32 ssid)
- 		clflush_cache_range(entry, IVPU_MMU_CDTAB_ENT_SIZE);
- 
- 	ivpu_mmu_cmdq_write_cfgi_all(vdev);
-+	ivpu_mmu_cmdq_sync(vdev);
- 
- 	return 0;
- }
-@@ -897,38 +938,26 @@ static int ivpu_mmu_disable_events(struct ivpu_device *vdev, u32 ssid)
- void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
- {
- 	struct ivpu_file_priv *file_priv;
--	u32 last_ssid = -1;
- 	u32 *event;
- 	u32 ssid;
- 
- 	ivpu_dbg(vdev, IRQ, "MMU event queue\n");
+ 	if (valid)
+@@ -945,7 +945,8 @@ void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
  
  	while ((event = ivpu_mmu_get_event(vdev))) {
--		ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, event[0]);
--
--		if (ssid == last_ssid)
--			continue;
-+		ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, *event);
-+		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID) {
-+			ivpu_mmu_dump_event(vdev, event);
-+			ivpu_pm_trigger_recovery(vdev, "MMU event");
-+			return;
-+		}
- 
--		xa_lock(&vdev->context_xa);
- 		file_priv = xa_load(&vdev->context_xa, ssid);
- 		if (file_priv) {
--			if (file_priv->has_mmu_faults) {
--				event = NULL;
--			} else {
--				ivpu_mmu_disable_events(vdev, ssid);
--				file_priv->has_mmu_faults = true;
-+			if (!READ_ONCE(file_priv->has_mmu_faults)) {
-+				ivpu_mmu_dump_event(vdev, event);
-+				WRITE_ONCE(file_priv->has_mmu_faults, true);
- 			}
- 		}
--		xa_unlock(&vdev->context_xa);
--
--		if (event)
--			ivpu_mmu_dump_event(vdev, event);
--
+ 		ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, *event);
 -		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID) {
--			ivpu_pm_trigger_recovery(vdev, "MMU event");
--			return;
--		}
--		REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, vdev->mmu->evtq.cons);
- 	}
- 
- 	queue_work(system_wq, &vdev->context_abort_work);
-diff --git a/drivers/accel/ivpu/ivpu_mmu.h b/drivers/accel/ivpu/ivpu_mmu.h
-index 7afea9cd8731..1ce7529746ad 100644
---- a/drivers/accel/ivpu/ivpu_mmu.h
-+++ b/drivers/accel/ivpu/ivpu_mmu.h
-@@ -47,5 +47,7 @@ int ivpu_mmu_invalidate_tlb(struct ivpu_device *vdev, u16 ssid);
- void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev);
- void ivpu_mmu_irq_gerr_handler(struct ivpu_device *vdev);
- void ivpu_mmu_evtq_dump(struct ivpu_device *vdev);
-+void ivpu_mmu_discard_events(struct ivpu_device *vdev);
-+int ivpu_mmu_disable_ssid_events(struct ivpu_device *vdev, u32 ssid);
- 
- #endif /* __IVPU_MMU_H__ */
++		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID ||
++		    ssid == IVPU_RESERVED_CONTEXT_MMU_SSID) {
+ 			ivpu_mmu_dump_event(vdev, event);
+ 			ivpu_pm_trigger_recovery(vdev, "MMU event");
+ 			return;
 -- 
 2.43.0
 
