@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7CF7A050B2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 03:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197E8A050B3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 03:29:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FA810E7DF;
-	Wed,  8 Jan 2025 02:29:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862A210E7E0;
+	Wed,  8 Jan 2025 02:29:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DPKZhMzs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eZJ9eokF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 688DF10E7DF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:29:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8B210E7E0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:29:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736303366; x=1767839366;
+ t=1736303371; x=1767839371;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=S/z8023DqOXrBeB2h+oVIlnQB3qWuu0HfYeVGYTz0Vk=;
- b=DPKZhMzs/eOLXhfb3QjvAREcq9SY5HdbHHvQ/g1XCAGd56bFiqXSO7t7
- 3gCieKnwCuefl6D7+p/0nQNUHULtl0HVvyUB1Irhgo5P+jalsE0U55cVu
- aCqpsmR1vlHNNr5urpZYd49/a5X/oC0pJdZRR4RiADzcFx2N0pSzLEClj
- kBPS8n1bHfMyf/0YxtmIOEW6wst/oTDZP7DhaAIfUx+oghb5i2pYWTe3T
- nxsHH3v+A0x76N1W1S3vnWEViLxOrFFNsGSoMJiAIuNP3b2eHx/cr6zbN
- VGC5GYqNzjSxQfKU1CY2HE/i8bND5HhgztDT+SwTtQipVfFWcrLbSnY+P A==;
-X-CSE-ConnectionGUID: 8AnSxOAkTFuM8akLQP8AUw==
-X-CSE-MsgGUID: pHg1AohWTvaAWEJxIFl3Hg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010646"
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="47010646"
+ bh=wVHrkI8pTk7m0SmAt5vONTuphWS7jc5OHQuJjOSNwbI=;
+ b=eZJ9eokF5biqXp7Psuwftgn7SuymIPdWcuqlFBohXOjLabhNTMKUNSv+
+ PLB/kSsK/MehXlbjN78ogLTrVCENKrsSGle+eDxyjKFOi86VOpha3IITv
+ XMrXKUgSqeGzb8NAyiWR2j5HbD2rNABtI7jw9D6n9ZuypT/BpVvuEuJEj
+ TaQH6dqi2joquG7J/O4yqVclyyu7guZ+1JlmX2qGvLd5yRlkxklSQU9EG
+ glFvU26LIDVjOcjim4+0g1n2B3dHWBExdsDDG0EerC0qt9+pKPmjTllqz
+ wGWwVnWy+kR8MDCkBA0mh6R+PsY6xU8gDQzqbL1oQshs3vpFEa5oTLMGH g==;
+X-CSE-ConnectionGUID: 4U4oOg1nT9Sp7szvdRaWOQ==
+X-CSE-MsgGUID: oHOh6LW3QCaPpW6vKeAgSg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010659"
+X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="47010659"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 18:29:25 -0800
-X-CSE-ConnectionGUID: i6Mkl2ZcQM2v3FBIYzGXfw==
-X-CSE-MsgGUID: zcD3B7dES06fsa7ON3BDvA==
+ 07 Jan 2025 18:29:30 -0800
+X-CSE-ConnectionGUID: 0kj8MQWETA+EgGm5i13+zw==
+X-CSE-MsgGUID: YyKlmcGyQiKuexj+KBRfVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103793857"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103793902"
 Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
- by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:29:20 -0800
+ by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:29:25 -0800
 From: Xu Yilun <yilun.xu@linux.intel.com>
 To: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
@@ -50,9 +50,10 @@ Cc: yilun.xu@intel.com, yilun.xu@linux.intel.com, linux-coco@lists.linux.dev,
  linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
  daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
  zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: [RFC PATCH 11/12] KVM: x86/mmu: Export kvm_is_mmio_pfn()
-Date: Tue,  7 Jan 2025 22:27:18 +0800
-Message-Id: <20250107142719.179636-12-yilun.xu@linux.intel.com>
+Subject: [RFC PATCH 12/12] KVM: TDX: Implement TDX specific private MMIO
+ map/unmap for SEPT
+Date: Tue,  7 Jan 2025 22:27:19 +0800
+Message-Id: <20250107142719.179636-13-yilun.xu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250107142719.179636-1-yilun.xu@linux.intel.com>
 References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
@@ -73,54 +74,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Xu Yilun <yilun.xu@intel.com>
-
-Export kvm_is_mmio_pfn() for KVM TDX to decide which seamcall should be
-used to setup SEPT leaf entry.
-
-TDX Module requires tdh_mem_page_aug() for memory page setup,
-and tdh_mmio_map() for MMIO setup.
+Implement TDX specific private MMIO map/unmap in existing TDP MMU hooks.
 
 Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-Signed-off-by: Xu Yilun <yilun.xu@intel.com>
----
- arch/x86/kvm/mmu.h      | 1 +
- arch/x86/kvm/mmu/spte.c | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
 
-diff --git a/arch/x86/kvm/mmu.h b/arch/x86/kvm/mmu.h
-index e40097c7e8d4..23ff0e6c9ef6 100644
---- a/arch/x86/kvm/mmu.h
-+++ b/arch/x86/kvm/mmu.h
-@@ -102,6 +102,7 @@ void kvm_mmu_sync_roots(struct kvm_vcpu *vcpu);
- void kvm_mmu_sync_prev_roots(struct kvm_vcpu *vcpu);
- void kvm_mmu_track_write(struct kvm_vcpu *vcpu, gpa_t gpa, const u8 *new,
- 			 int bytes);
-+bool kvm_is_mmio_pfn(kvm_pfn_t pfn);
- 
- static inline int kvm_mmu_reload(struct kvm_vcpu *vcpu)
- {
-diff --git a/arch/x86/kvm/mmu/spte.c b/arch/x86/kvm/mmu/spte.c
-index e819d16655b6..0a9a81afba93 100644
---- a/arch/x86/kvm/mmu/spte.c
-+++ b/arch/x86/kvm/mmu/spte.c
-@@ -105,7 +105,7 @@ u64 make_mmio_spte(struct kvm_vcpu *vcpu, u64 gfn, unsigned int access)
- 	return spte;
+---
+TODO: This patch is still based on the earlier kvm-coco-queue version
+(v6.13-rc2). Will follow up the latest SEAMCALL wrapper change. [1]
+
+[1] https://lore.kernel.org/all/20250101074959.412696-1-pbonzini@redhat.com/
+---
+ arch/x86/include/asm/tdx.h  |  3 ++
+ arch/x86/kvm/vmx/tdx.c      | 57 +++++++++++++++++++++++++++++++++++--
+ arch/x86/virt/vmx/tdx/tdx.c | 52 +++++++++++++++++++++++++++++++++
+ arch/x86/virt/vmx/tdx/tdx.h |  3 ++
+ 4 files changed, 113 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/include/asm/tdx.h b/arch/x86/include/asm/tdx.h
+index 01409a59224d..7d158bbf79f4 100644
+--- a/arch/x86/include/asm/tdx.h
++++ b/arch/x86/include/asm/tdx.h
+@@ -151,6 +151,9 @@ u64 tdh_mem_page_remove(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx);
+ u64 tdh_phymem_cache_wb(bool resume);
+ u64 tdh_phymem_page_wbinvd_tdr(u64 tdr);
+ u64 tdh_phymem_page_wbinvd_hkid(u64 hpa, u64 hkid);
++u64 tdh_mmio_map(u64 tdr, u64 gpa, u64 level, u64 hpa, u64 *rcx, u64 *rdx);
++u64 tdh_mmio_block(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx);
++u64 tdh_mmio_unmap(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx);
+ #else
+ static inline void tdx_init(void) { }
+ static inline int tdx_cpu_enable(void) { return -ENODEV; }
+diff --git a/arch/x86/kvm/vmx/tdx.c b/arch/x86/kvm/vmx/tdx.c
+index 69ef9c967fbf..9b43a2ee2203 100644
+--- a/arch/x86/kvm/vmx/tdx.c
++++ b/arch/x86/kvm/vmx/tdx.c
+@@ -1576,6 +1576,29 @@ static int tdx_mem_page_aug(struct kvm *kvm, gfn_t gfn,
+ 	return 0;
  }
  
--static bool kvm_is_mmio_pfn(kvm_pfn_t pfn)
-+bool kvm_is_mmio_pfn(kvm_pfn_t pfn)
- {
- 	if (pfn_valid(pfn))
- 		return !is_zero_pfn(pfn) && PageReserved(pfn_to_page(pfn)) &&
-@@ -125,6 +125,7 @@ static bool kvm_is_mmio_pfn(kvm_pfn_t pfn)
- 				     pfn_to_hpa(pfn + 1) - 1,
- 				     E820_TYPE_RAM);
++static int tdx_mmio_map(struct kvm *kvm, gfn_t gfn,
++			enum pg_level level, kvm_pfn_t pfn)
++{
++	int tdx_level = pg_level_to_tdx_sept_level(level);
++	struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
++	hpa_t hpa = pfn_to_hpa(pfn);
++	gpa_t gpa = gfn_to_gpa(gfn);
++	u64 entry, level_state;
++	u64 err;
++
++	err = tdh_mmio_map(kvm_tdx->tdr_pa, gpa, tdx_level, hpa,
++			   &entry, &level_state);
++	if (unlikely(err & TDX_OPERAND_BUSY))
++		return -EBUSY;
++
++	if (KVM_BUG_ON(err, kvm)) {
++		pr_tdx_error_2(TDH_MMIO_MAP, err, entry, level_state);
++		return -EIO;
++	}
++
++	return 0;
++}
++
+ /*
+  * KVM_TDX_INIT_MEM_REGION calls kvm_gmem_populate() to get guest pages and
+  * tdx_gmem_post_populate() to premap page table pages into private EPT.
+@@ -1610,6 +1633,9 @@ int tdx_sept_set_private_spte(struct kvm *kvm, gfn_t gfn,
+ 	if (KVM_BUG_ON(level != PG_LEVEL_4K, kvm))
+ 		return -EINVAL;
+ 
++	if (kvm_is_mmio_pfn(pfn))
++		return tdx_mmio_map(kvm, gfn, level, pfn);
++
+ 	/*
+ 	 * Because guest_memfd doesn't support page migration with
+ 	 * a_ops->migrate_folio (yet), no callback is triggered for KVM on page
+@@ -1647,6 +1673,20 @@ static int tdx_sept_drop_private_spte(struct kvm *kvm, gfn_t gfn,
+ 	if (KVM_BUG_ON(!is_hkid_assigned(kvm_tdx), kvm))
+ 		return -EINVAL;
+ 
++	if (kvm_is_mmio_pfn(pfn)) {
++		do {
++			err = tdh_mmio_unmap(kvm_tdx->tdr_pa, gpa, tdx_level,
++					     &entry, &level_state);
++		} while (unlikely(err == TDX_ERROR_SEPT_BUSY));
++
++		if (KVM_BUG_ON(err, kvm)) {
++			pr_tdx_error_2(TDH_MMIO_UNMAP, err, entry, level_state);
++			return -EIO;
++		}
++
++		return 0;
++	}
++
+ 	do {
+ 		/*
+ 		 * When zapping private page, write lock is held. So no race
+@@ -1715,7 +1755,7 @@ int tdx_sept_link_private_spt(struct kvm *kvm, gfn_t gfn,
  }
-+EXPORT_SYMBOL_GPL(kvm_is_mmio_pfn);
+ 
+ static int tdx_sept_zap_private_spte(struct kvm *kvm, gfn_t gfn,
+-				     enum pg_level level)
++				     enum pg_level level, kvm_pfn_t pfn)
+ {
+ 	int tdx_level = pg_level_to_tdx_sept_level(level);
+ 	struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
+@@ -1725,6 +1765,19 @@ static int tdx_sept_zap_private_spte(struct kvm *kvm, gfn_t gfn,
+ 	/* For now large page isn't supported yet. */
+ 	WARN_ON_ONCE(level != PG_LEVEL_4K);
+ 
++	if (kvm_is_mmio_pfn(pfn)) {
++		err = tdh_mmio_block(kvm_tdx->tdr_pa, gpa, tdx_level,
++				     &entry, &level_state);
++		if (unlikely(err == TDX_ERROR_SEPT_BUSY))
++			return -EAGAIN;
++		if (KVM_BUG_ON(err, kvm)) {
++			pr_tdx_error_2(TDH_MMIO_BLOCK, err, entry, level_state);
++			return -EIO;
++		}
++
++		return 0;
++	}
++
+ 	err = tdh_mem_range_block(kvm_tdx->tdr_pa, gpa, tdx_level, &entry, &level_state);
+ 	if (unlikely(err == TDX_ERROR_SEPT_BUSY))
+ 		return -EAGAIN;
+@@ -1816,7 +1869,7 @@ int tdx_sept_remove_private_spte(struct kvm *kvm, gfn_t gfn,
+ 	if (KVM_BUG_ON(!is_hkid_assigned(to_kvm_tdx(kvm)), kvm))
+ 		return -EINVAL;
+ 
+-	ret = tdx_sept_zap_private_spte(kvm, gfn, level);
++	ret = tdx_sept_zap_private_spte(kvm, gfn, level, pfn);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/arch/x86/virt/vmx/tdx/tdx.c b/arch/x86/virt/vmx/tdx/tdx.c
+index 57195cf0d832..3b2109877a39 100644
+--- a/arch/x86/virt/vmx/tdx/tdx.c
++++ b/arch/x86/virt/vmx/tdx/tdx.c
+@@ -1951,3 +1951,55 @@ u64 tdh_phymem_page_wbinvd_hkid(u64 hpa, u64 hkid)
+ 	return seamcall(TDH_PHYMEM_PAGE_WBINVD, &args);
+ }
+ EXPORT_SYMBOL_GPL(tdh_phymem_page_wbinvd_hkid);
++
++u64 tdh_mmio_map(u64 tdr, u64 gpa, u64 level, u64 hpa, u64 *rcx, u64 *rdx)
++{
++	struct tdx_module_args args = {
++		.rcx = gpa | level,
++		.rdx = tdr,
++		.r8 = hpa,
++	};
++	u64 ret;
++
++	ret = tdx_seamcall_sept(TDH_MMIO_MAP, &args);
++
++	*rcx = args.rcx;
++	*rdx = args.rdx;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(tdh_mmio_map);
++
++u64 tdh_mmio_block(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx)
++{
++	struct tdx_module_args args = {
++		.rcx = gpa | level,
++		.rdx = tdr,
++	};
++	u64 ret;
++
++	ret = tdx_seamcall_sept(TDH_MMIO_BLOCK, &args);
++
++	*rcx = args.rcx;
++	*rdx = args.rdx;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(tdh_mmio_block);
++
++u64 tdh_mmio_unmap(u64 tdr, u64 gpa, u64 level, u64 *rcx, u64 *rdx)
++{
++	struct tdx_module_args args = {
++		.rcx = gpa | level,
++		.rdx = tdr,
++	};
++	u64 ret;
++
++	ret = tdx_seamcall_sept(TDH_MMIO_UNMAP, &args);
++
++	*rcx = args.rcx;
++	*rdx = args.rdx;
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(tdh_mmio_unmap);
+diff --git a/arch/x86/virt/vmx/tdx/tdx.h b/arch/x86/virt/vmx/tdx/tdx.h
+index 58d5754dcb4d..a83a90a043a5 100644
+--- a/arch/x86/virt/vmx/tdx/tdx.h
++++ b/arch/x86/virt/vmx/tdx/tdx.h
+@@ -49,6 +49,9 @@
+ #define TDH_VP_WR			43
+ #define TDH_PHYMEM_PAGE_WBINVD		41
+ #define TDH_SYS_CONFIG			45
++#define TDH_MMIO_MAP			158
++#define TDH_MMIO_BLOCK			159
++#define TDH_MMIO_UNMAP			160
  
  /*
-  * Returns true if the SPTE has bits that may be set without holding mmu_lock.
+  * SEAMCALL leaf:
 -- 
 2.25.1
 
