@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B47A044AC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 16:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69453A044B4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 16:36:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184C610E722;
-	Tue,  7 Jan 2025 15:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3B4F10EB18;
+	Tue,  7 Jan 2025 15:36:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r0ULUda/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Dn4SZWOe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
- [209.85.219.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B242F10E722
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 15:35:24 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id
- 3f1490d57ef6-e46c6547266so19982606276.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 07:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736264064; x=1736868864; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=EwSHHGV+yMbNN0CAZFD1sqOQkvyybxDlUBqZuqbI15Y=;
- b=r0ULUda/YKzw2H8poH5uw5e9LOyM0DoBF5tEP1xKK5lDCBnqr98mrHoUp7lT4Pn2bG
- CaxUyikNuatR29ujn7DwIBn6MhdN8qFnoUbM5Zvj88eJkKp3bBrUMILxdedwM2bBynQR
- kixgIMwvDCEp+m9t98eMpiF0NTSgkU3FQrJ0SdhG+spV8yGHPhA84AkiZjota1UVDPmZ
- kziJ9NpK/0F+aZHpR2edXCVhy1ndOCOvwbeBajavCRWPy7smz2IZ/i/A1q3v9A+1oj1/
- y01EGkMB7VUA4fQxKLC2ztxL+3LqxnCBdgMVBwowdD9unGPJIw5DwQL46vkBeyp5Q7yS
- v4uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736264064; x=1736868864;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=EwSHHGV+yMbNN0CAZFD1sqOQkvyybxDlUBqZuqbI15Y=;
- b=ZaO60a0e6oFbP5mTN49X8U+skMj2Tm82tDV8Z23ZibLNCJet/SXt1WDJS522+pwtWz
- ao2OPanSql86ALooYe6KCw6/88jylTTWd1llHfI9L0mJDWLa4v2Afk2jtsQJB5NxE7gt
- Is4+lsFQa6ZVNc68T6k7Vy3jPgSelML5Vjj4ek0H4wop7/R+1BywGLnoGu8AmHxKfwCD
- S60Daopd7aa9bg9+Vo8t6cG+7p9mGl5ui2KdQdD8HLa3fHPMf6RaN1pG5D4fGoowkzVd
- verA/zecKCeeG7TFFl1xvyi71cSZUINGMLGd6wRkBWbBLUy4+NUUzqHp1467HCws0tSV
- AAhg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPRodL9jS8E3gEpCBLyyA86DOZ27wcSblpUl+h2eo6sT/Cv3ovCwqg83KI5NfaTChC7H7+/Vt4Psw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIuRdYKRYvb9wShpga25o0Dds6LeM0xEMCeP7ju5OGC67Em1rG
- o/McdcWczrGgQ2LoDGG9ILDfLPl/Oa6glzf9yOGmrKQ4K1YdLZKC/8ROUVUR2agUarX92Aqmjp0
- 4XIZyTnrmFWPsN0p7XkTvbUz5lUdAcYjPgcUFiw==
-X-Gm-Gg: ASbGncvZwj4OHl5/UShlewnGbW9dpUmQLSBLwfdgY1IjDsoq7ASJcGOBeHVqUX9SWB1
- vLCdmSATdSla+VshGXkZklu0u4Xaq4Ar49vHThG9Kf6GeSY/APAer4NearMy8Xstx74txxg==
-X-Google-Smtp-Source: AGHT+IF1+mL2THvwj22ACUAWtNf98oQfiIirJgNfcKLzNWVizxMOLtya1+zu2z5b/1XLjpuhMMehKuh7YQTVZH+1XWk=
-X-Received: by 2002:a05:690c:360c:b0:6ef:91a0:dd25 with SMTP id
- 00721157ae682-6f3f8125bbcmr524789587b3.17.1736264063808; Tue, 07 Jan 2025
- 07:34:23 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35D0810EB18
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 15:36:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B1E325C57AB;
+ Tue,  7 Jan 2025 15:35:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31C51C4CED6;
+ Tue,  7 Jan 2025 15:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736264164;
+ bh=5e0rdfkFbauFXgVBSz/EOp6/JxWQvQPtPfoTdvLyukw=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=Dn4SZWOe2uh0+nwWETzGL6oXerMLl2scEHEaxPdgbqZSJC8knN5y/dYvyWR/pSw18
+ PVQwkjGgsBa3+DMGtA4gSaJRp6XY/6HBdB4BHpNZiTQ7mMD2PVJU6GudKz1BBaV8Rj
+ bPJdO9rl7fktPK+h100wWb6kbfGcFasH9IqdX9Qtx8zvcowjXCeMjN9GYRBonf+4KG
+ jHlW/TdnRBQvqhLjDvlVgLiwjMrawMNFiQn9c/4hEooLeSYeKgIMyaFrt1W6B2ogqA
+ 4o2U6jPSBzQW7ecH+IrESJhmB3rROkHJtuLpKPgGlCr2I4mR4o4/fQD3jSWeIHd1JL
+ dysYmp7aY7KZA==
+Date: Tue, 7 Jan 2025 16:36:02 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com
+Subject: Re: [PATCH v6 7/8] drm: writeback: Create drmm variants for
+ drm_writeback_connector initialization
+Message-ID: <20250107-polite-savvy-kiwi-8ada2b@houat>
+References: <20241230-google-vkms-managed-v6-0-15c7d65cd63b@bootlin.com>
+ <20241230-google-vkms-managed-v6-7-15c7d65cd63b@bootlin.com>
+ <20250106-acoustic-inescapable-locust-9d5b36@houat>
+ <Z3wCnk_WStJk9B5D@louis-chauvet-laptop>
 MIME-Version: 1.0
-References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
- <20241225-drm-hdmi-connector-cec-v1-1-b80380c67221@linaro.org>
- <20250107-amiable-poetic-rook-17da6e@houat>
-In-Reply-To: <20250107-amiable-poetic-rook-17da6e@houat>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 7 Jan 2025 17:34:13 +0200
-Message-ID: <CAA8EJpoaEuDu7_84Ce1=XoMgf+GZzTueZNKLR51Nd1-8Z82SsQ@mail.gmail.com>
-Subject: Re: [PATCH RFC/RFT 1/9] drm/connector: add CEC-related fields
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="el5lxvuccxgbbr6r"
+Content-Disposition: inline
+In-Reply-To: <Z3wCnk_WStJk9B5D@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,135 +71,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 7 Jan 2025 at 16:27, Maxime Ripard <mripard@kernel.org> wrote:
->
-> Hi,
->
-> Thanks a lot for working on this.
->
-> On Wed, Dec 25, 2024 at 01:10:09AM +0200, Dmitry Baryshkov wrote:
-> > As a preparation to adding HDMI CEC helper code, add CEC-related fields
-> > to the struct drm_connector. Include both cec_adapter and cec_notifier,
-> > allowing drivers to select which one to use. The unregister callback
-> > is provided to let drivers unregister CEC-related data in a generic way
-> > without polluting drm_connector.c with dependencies on the CEC
-> > functions.
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/drm_connector.c | 23 ++++++++++++++++++++++
-> >  include/drm/drm_connector.h     | 43 +++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 66 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > index 1383fa9fff9bcf31488453e209a36c6fe97be2f1..ef299733041e2c64bebd73c3fe21d4492bc07d3a 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -279,6 +279,7 @@ static int drm_connector_init_only(struct drm_device *dev,
-> >       INIT_LIST_HEAD(&connector->probed_modes);
-> >       INIT_LIST_HEAD(&connector->modes);
-> >       mutex_init(&connector->mutex);
-> > +     mutex_init(&connector->cec.mutex);
-> >       mutex_init(&connector->eld_mutex);
-> >       mutex_init(&connector->edid_override_mutex);
-> >       mutex_init(&connector->hdmi.infoframes.lock);
-> > @@ -698,6 +699,26 @@ static void drm_mode_remove(struct drm_connector *connector,
-> >       drm_mode_destroy(connector->dev, mode);
-> >  }
-> >
-> > +/**
-> > + * drm_connector_cec_unregister - clean up CEC registration
-> > + * @connector: connector to cleanup
-> > + *
-> > + * Reverse corresponding CEC registration. This function is supposed to be
-> > + * called only by bridge drivers which need to handle CEC manually. Normally
-> > + * CEC adapter or notifier are automatically unregistered during drm_connector
-> > + * teardown.
-> > + */
-> > +void drm_connector_cec_unregister(struct drm_connector *connector)
-> > +{
-> > +     mutex_lock(&connector->cec.mutex);
-> > +
-> > +     if (connector->cec.unregister)
-> > +             connector->cec.unregister(connector);
-> > +
-> > +     mutex_unlock(&connector->cec.mutex);
-> > +}
-> > +EXPORT_SYMBOL(drm_connector_cec_unregister);
->
-> Why do we need to have that function public?
 
-It is being used by drivers during conversion.
+--el5lxvuccxgbbr6r
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 7/8] drm: writeback: Create drmm variants for
+ drm_writeback_connector initialization
+MIME-Version: 1.0
 
->
-> >  /**
-> >   * drm_connector_cleanup - cleans up an initialised connector
-> >   * @connector: connector to cleanup
-> > @@ -718,6 +739,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
+On Mon, Jan 06, 2025 at 05:19:42PM +0100, Louis Chauvet wrote:
+> On 06/01/25 - 14:04, Maxime Ripard wrote:
+> > On Mon, Dec 30, 2024 at 07:37:37PM +0100, Louis Chauvet wrote:
+> > > To allows driver to only use drmm objects, add helper to create
+> > > drm_writeback_connectors with automated lifetime management.
+> > >=20
+> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_writeback.c | 69 +++++++++++++++++++++++++++++++=
+++++++++++
+> > >  include/drm/drm_writeback.h     |  8 +++++
+> > >  2 files changed, 77 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_wr=
+iteback.c
+> > > index 9c69f7181e02c23dabce488405608c40d4184af5..1251f65aae9e3b6fb5c5d=
+e9ab9280e5430342208 100644
+> > > --- a/drivers/gpu/drm/drm_writeback.c
+> > > +++ b/drivers/gpu/drm/drm_writeback.c
+> > > @@ -369,6 +369,75 @@ static void drm_writeback_connector_cleanup(stru=
+ct drm_device *dev,
+> > >  	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
+> > >  }
+> > > =20
+> > > +/**
+> > > + * drmm_writeback_connector_init - Initialize a writeback connector =
+with
+> > > + * a custom encoder
+> > > + *
+> > > + * @dev: DRM device
+> > > + * @wb_connector: Writeback connector to initialize
+> > > + * @con_funcs: Connector funcs vtable
+> > > + * @enc: handle to the already initialized drm encoder, optional
+> > > + * @enc_funcs: Encoder funcs vtable, optional, only used when @enc i=
+s NULL
+> > > + * @formats: Array of supported pixel formats for the writeback engi=
+ne
+> > > + * @n_formats: Length of the formats array
+> > > + * @possible_crtcs: if @enc is NULL, this will set the possible_crtc=
+ for the
+> > > + *		    newly created encoder
+> > > + *
+> > > + * This function initialize a writeback connector and register its c=
+leanup.
+> > > + *
+> > > + * This function creates the writeback-connector-specific properties=
+ if they
+> > > + * have not been already created, initializes the connector as
+> > > + * type DRM_MODE_CONNECTOR_WRITEBACK, and correctly initializes the =
+property
+> > > + * values.
+> > > + *
+> > > + * If @enc is NULL, this function will create a drm-managed encoder =
+and will
+> > > + * attach @enc_funcs on it. It will also attach the CRTC passed in
+> > > + * @possible_crtcs
+> > > + *
+> > > + * Returns: 0 on success, or a negative error code
+> > > + */
+> > > +int drmm_writeback_connector_init(struct drm_device *dev,
+> > > +				  struct drm_writeback_connector *wb_connector,
+> > > +				  const struct drm_connector_funcs *con_funcs,
+> > > +				  struct drm_encoder *enc,
+> > > +				  const struct drm_encoder_helper_funcs *enc_funcs,
+> > > +				  const u32 *formats, int n_formats,
+> > > +				  u32 possible_crtcs)
+> >=20
+> > The name isn't really consistent with the other functions. We already
+> > have a drm_writeback_connector_init that doesn't take the encoder point
+> > but will just read it from wb_connector->encoder, and we have
+> > drm_writeback_connector_with_encoder that assumes the encoder has
+> > already been created.
 > >
-> >       platform_device_unregister(connector->hdmi_audio.codec_pdev);
-> >
-> > +     drm_connector_cec_unregister(connector);
-> > +
-> >       if (connector->privacy_screen) {
-> >               drm_privacy_screen_put(connector->privacy_screen);
-> >               connector->privacy_screen = NULL;
-> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > index f13d597370a30dc1b14c630ee00145256052ba56..feecd02e7c698cc0c553b79048c9130f69121012 100644
-> > --- a/include/drm/drm_connector.h
-> > +++ b/include/drm/drm_connector.h
-> > @@ -46,6 +46,7 @@ struct drm_property_blob;
-> >  struct drm_printer;
-> >  struct drm_privacy_screen;
-> >  struct drm_edid;
-> > +struct cec_adapter;
-> >  struct edid;
-> >  struct hdmi_codec_daifmt;
-> >  struct hdmi_codec_params;
-> > @@ -1832,6 +1833,41 @@ struct drm_connector_hdmi {
-> >       } infoframes;
-> >  };
-> >
-> > +/**
-> > + * struct drm_connector_cec - DRM Connector CEC-related structure
-> > + */
-> > +struct drm_connector_cec {
-> > +     /**
-> > +      * @mutex: protects all CEC-related fields
-> > +      */
-> > +     struct mutex mutex;
-> > +
-> > +     /**
-> > +      * @adap: CEC adapter corresponding to the DRM connector.
-> > +      */
-> > +     struct cec_adapter *adapter;
-> > +
-> > +     /**
-> > +      * @notifier: CEC notifier corresponding to the DRM connector.
-> > +      */
-> > +     struct cec_notifier *notifier;
-> > +
-> > +     /**
-> > +      * @adap_unregister: unregister CEC adapter / notifier.
-> > +      *
-> > +      * The callback to unregister CEC adapter or notifier, so that the core
-> > +      * DRM layer doesn't depend on the CEC_CORE.
-> > +      */
-> > +     void (*unregister)(struct drm_connector *connector);
-> > +
-> > +     /**
-> > +      * @uninit_cec_cb: teardown CEC adapter
-> > +      *
-> > +      * Perform additional tasks to teardown the CEC adapter.
-> > +      */
-> > +     void (*uninit_cec)(struct drm_connector *connector);
-> > +};
->
-> I'd rather stay consistent with the video and audio support and have the
-> functions in a separate structure.
+> > We should the name or behavior on either one of them. Why do we need an
+> > optional encoder pointer? If enc is not NULL, then enc_funcs shouldn't
+> > be necessary, if it's NULL, then drm_writeback_connector_init will be
+> > sufficient?
+>=20
+> This was requested by Jani in [1]. If you prefer I can create two variant=
+s=20
+> for the next iteration.
+>=20
+> [1]:https://lore.kernel.org/all/87a5gxyrhc.fsf@intel.com/
 
-Ack. And also fix one of the linuxdoc comments.
+There was another suggestion in that review though ;)
 
--- 
-With best wishes
-Dmitry
+I agree with Jani's second statement here: most of the weirdness of that
+API stems from the fact that it deviates from the other APIs, and fixing
+that should remove that weirdness.
+
+Ultimately, allocating the encoder in the first place is weird. I don't
+think we have any other example of an init function for one entity
+allocating its own entity or another.
+
+Why should we allocate that encoder in the helper?
+
+Maxime
+
+--el5lxvuccxgbbr6r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ31J4QAKCRAnX84Zoj2+
+ds92AYDRUoRhMrCKXiusyo4ZJ4rGW3AFq1sNAK9wzAVamB6sYbZsjd32PlCLU8ov
+6O0Brv0BfiZHFghqe3fwQqLjfJAp1Z2oSr4MXqLVA3o8Y4AxRPcMTHcf86o8sXP1
+8HKjKRQqqw==
+=CL58
+-----END PGP SIGNATURE-----
+
+--el5lxvuccxgbbr6r--
