@@ -2,94 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C337EA03BD6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F93A03BCB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:06:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F51810E3DD;
-	Tue,  7 Jan 2025 10:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 546A910E3D8;
+	Tue,  7 Jan 2025 10:06:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BYvqVXou";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="alvwVcp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E26810E312
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 10:07:46 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-3002c324e7eso174017311fa.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 02:07:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736244404; x=1736849204; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Izcd6WrPP2fLpFqgomXI5uNPQ0WXKpVMcpKWcSXBKvs=;
- b=BYvqVXoupCJiAjup2RDDg2CUQB0Lush7YBR9Qu9uK1cfTJgtZW76/JU+T8sndm+svv
- 1HIJBxEMEnl5MNNlEuBqRx7Rcjdu8UUioHl6TEDLBKMt6SPkEq66FivmwA7sqGg1BRSY
- WYBM2IWA9Dz0snauu4CvyozMFByUQVE1CDRRfeteAN2FOTKhB3X33STnQj2q+d5pJ6QI
- oAD1v65Y1K5yze2Mf6o5WlfL7egMFeWvlvJo+vwTQcKCmMB2QCspGhT3oh+H2t8V2Gxt
- IK3Oeslum9R3EZSMeps0dTTiSxe12rQQwlVdCkLVf5Olm/utgg2BF755BVOm0uQ1WixM
- hRZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736244404; x=1736849204;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Izcd6WrPP2fLpFqgomXI5uNPQ0WXKpVMcpKWcSXBKvs=;
- b=jzqR4uU2YxminO3rWQ0HbDyqSc0kxgHi8f2suW9DFnq7R+VEdo3J2hlcoaDw/xuJfY
- mBJ+TagGut99KOhQWwIPcmoLB48wHoIGLaKxXs3b747FIMUa6HzNkqx4KGTQDKfQYCBB
- 3x6ES1ouWxaE/VOYtM+m5lk4jKpaFA5RkY3Xlklf0WQ2SLYGaVGdbDqRH/2ixIfLazeI
- rLgw6xgBDBlsoo9dTttpXzPonHQNtpKyWSer5LpVKgL3KN5a7fPi8TlyastSXXPOoMSj
- r2n4XC9jbswJozHQmaNahomjK91KORW2KfUEwvLp3qAlV6eujavyuBr8YlzrZZeOBy4A
- +b1w==
-X-Gm-Message-State: AOJu0YxzETYLSZby6fdTDSYgCS9iG0xIBr70v7KSMJc29RrrT+hZ7ZQS
- lfG+C7x/wGKAtZmCAtDk0n1X7JYul9M/wPdNho25EOyGtUNalxzwoBDxCX+vF6E=
-X-Gm-Gg: ASbGncuwNmh7fpC7FPLjM6OJ+vlCLT5s7j8sUCpsY2YuqtyA1dBwpArGDUQb0AlY4rm
- vPXlLUwY6cLLHEx/bOMLxa8waHxYVh65xbOWRr2sLFso9HNqN/fTWUiiLllZO3v21qs9wio22yS
- 5dhLAKZp4ARVmZJttnOo0ZQ8deyRki77/Z9gxUmzl6IDsBZHGUDZv21hqD43mesG7qRHlFn+LrU
- wiRIDb6vccLI99cpJikeuE8HmHsWFYAdLEXJ3ojeLsJUOM6RB3SgUffP2JDWAkl
-X-Google-Smtp-Source: AGHT+IFSjz2lOzj8/6QMFwfSZsbOGPsTunjn2SXO+JxdVs0t1Su1Z05IlH+XtxJTBF2IpM/ah34PLw==
-X-Received: by 2002:a05:6512:3d16:b0:53e:ca48:776e with SMTP id
- 2adb3069b0e04-54229562a17mr19168921e87.36.1736244404441; 
- Tue, 07 Jan 2025 02:06:44 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235feeecsm5240825e87.68.2025.01.07.02.06.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2025 02:06:43 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 07 Jan 2025 12:06:39 +0200
-Subject: [PATCH] drm/bridge: fix documentation for the hdmi_audio_prepare()
- callback
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DDBA10E3D8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 10:06:43 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA182675;
+ Tue,  7 Jan 2025 11:05:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1736244350;
+ bh=QqSkUATka6qZ3THnYQjNaS1tgXdFm8leweOVniajL38=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=alvwVcp6Sbwkq7axwKYZthiZVcon5np0R/z5lZcgVhz9slp/SfgJmBP5GfkU3iT6e
+ QrPFeMVqqBASNCvH+xBDdtM2WyFfeyidvwhDnqpoLAVHN8g6n4jqWRIN6GWic/HVMV
+ IAnfg3vsUy5mS3npiaaclMLnlTym/1D0Yf/Fyzf8=
+Date: Tue, 7 Jan 2025 12:06:39 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/2] ARM: dts: imx7s: Move csi-mux to below root
+Message-ID: <20250107100639.GC23309@pendragon.ideasonboard.com>
+References: <20250107094943.518474-1-alexander.stein@ew.tq-group.com>
+ <20250107094943.518474-2-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250107-drm-bridge-fix-docs-v1-1-84e539e6f348@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAK78fGcC/x2MSQqAMAwAvyI5G2gNKvoV8aBt1BxcSEGE4t8NH
- odhJkNiFU7QFxmUb0lyHga+LCBs07EySjSGylW1867FqDvOKtHMIg/GMyRcuo58Qw0T1WDlpWz
- uvw7j+354o3BAZQAAAA==
-X-Change-ID: 20250107-drm-bridge-fix-docs-f9931636e335
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Stephen Rothwell <sfr@canb.auug.org.au>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1277;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=YavJFYe02D4AC91xAe/ZPEMRvZ0FxnxXRUhqu4FDNaE=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnfPyyPKOC+xSPfjZ0nAT/V6ibXMI1lfSYHb552
- p0vTVo0ka2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ3z8sgAKCRCLPIo+Aiko
- 1Yh3B/9OJQ7M/GzqOy8ZLXDIuAz+FH4SNp5hEeBpV/734XgTAZBlsCvhAqxL2k+jyNsVXE0KfzG
- 2+f9N05G8BQDOiEJfh6KB4U4mJl/8EL7bDr53E/EDRgpGU5nJM4xYU58Rsacti62bYVm7yl/wWY
- yZMzqvJm7V/n61zRXB4xorIicRjwQeBw/O1HPAvVabWPDETfmLViE/5KCP4zHCDztHrxdBFP4KQ
- mNLBz58bR2OzwLN1SmXPSBbzFev4NBgoVKl3Ci5u66Vb9wA9BVIEDMNfrZg/xWEIALLO2mqlzTX
- RDPC3PoQW6NisdMJkWMidlFcibt7Mu66JjrdmXE6uDZVlIjA
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250107094943.518474-2-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,37 +70,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix c&p error and change linuxdoc comment for the hdmi_audio_prepare()
-callback from drm_bridge_funcs to mention the callback name instead of
-the original prepare() callback.
+Hi Alexander,
 
-Fixes: 0beba3f9d366 ("drm/bridge: connector: add support for HDMI codec framework")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250106174645.463927e0@canb.auug.org.au/
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- include/drm/drm_bridge.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thank you for the patch.
 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..496dbbd2ad7edff7f091adfbe62de1e33ef0cf07 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -691,7 +691,7 @@ struct drm_bridge_funcs {
- 				  struct drm_bridge *bridge);
- 
- 	/**
--	 * @prepare:
-+	 * @hdmi_audio_prepare:
- 	 * Configures HDMI-encoder for audio stream. Can be called multiple
- 	 * times for each setup. Mandatory if HDMI audio is enabled in the
- 	 * bridge's configuration.
+On Tue, Jan 07, 2025 at 10:49:41AM +0100, Alexander Stein wrote:
+> fsl,imx-iomuxc-gpr.yaml only contains the mux-controller but the actual
+> video-mux is not part of it. So move it below root node.
+> Fixes the dtbs_check warning:
+> arch/arm/boot/dts/nxp/imx/imx7s-mba7.dtb: iomuxc-gpr@30340000: 'csi-mux' does not match any of the regexes: 'pinctrl-[0-9]+'
+>   from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 
----
-base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
-change-id: 20250107-drm-bridge-fix-docs-f9931636e335
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Best regards,
+> ---
+>  arch/arm/boot/dts/nxp/imx/imx7s.dtsi | 56 ++++++++++++++--------------
+>  1 file changed, 28 insertions(+), 28 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/nxp/imx/imx7s.dtsi b/arch/arm/boot/dts/nxp/imx/imx7s.dtsi
+> index 22dd72499ef27..2629968001a74 100644
+> --- a/arch/arm/boot/dts/nxp/imx/imx7s.dtsi
+> +++ b/arch/arm/boot/dts/nxp/imx/imx7s.dtsi
+> @@ -176,6 +176,34 @@ timer {
+>  			     <GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(1) | IRQ_TYPE_LEVEL_LOW)>;
+>  	};
+>  
+> +	video_mux: csi-mux {
+> +		compatible = "video-mux";
+> +		mux-controls = <&mux 0>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		status = "disabled";
+> +
+> +		port@0 {
+> +			reg = <0>;
+> +		};
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +
+> +			csi_mux_from_mipi_vc0: endpoint {
+> +				remote-endpoint = <&mipi_vc0_to_csi_mux>;
+> +			};
+> +		};
+> +
+> +		port@2 {
+> +			reg = <2>;
+> +
+> +			csi_mux_to_csi: endpoint {
+> +				remote-endpoint = <&csi_from_csi_mux>;
+> +			};
+> +		};
+> +	};
+> +
+>  	soc: soc {
+>  		#address-cells = <1>;
+>  		#size-cells = <1>;
+> @@ -529,34 +557,6 @@ mux: mux-controller {
+>  					#mux-control-cells = <1>;
+>  					mux-reg-masks = <0x14 0x00000010>;
+>  				};
+> -
+> -				video_mux: csi-mux {
+> -					compatible = "video-mux";
+> -					mux-controls = <&mux 0>;
+> -					#address-cells = <1>;
+> -					#size-cells = <0>;
+> -					status = "disabled";
+> -
+> -					port@0 {
+> -						reg = <0>;
+> -					};
+> -
+> -					port@1 {
+> -						reg = <1>;
+> -
+> -						csi_mux_from_mipi_vc0: endpoint {
+> -							remote-endpoint = <&mipi_vc0_to_csi_mux>;
+> -						};
+> -					};
+> -
+> -					port@2 {
+> -						reg = <2>;
+> -
+> -						csi_mux_to_csi: endpoint {
+> -							remote-endpoint = <&csi_from_csi_mux>;
+> -						};
+> -					};
+> -				};
+>  			};
+>  
+>  			ocotp: efuse@30350000 {
+
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Regards,
 
+Laurent Pinchart
