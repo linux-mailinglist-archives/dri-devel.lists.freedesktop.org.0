@@ -2,90 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3853A04814
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14037A04849
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:29:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D33C10E750;
-	Tue,  7 Jan 2025 17:24:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90CB910E75F;
+	Tue,  7 Jan 2025 17:29:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="unLjMMsd";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="WmXgPk0r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0767510E750
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:23:58 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5401e6efffcso18321674e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:23:58 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 453B910E75F
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:29:51 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-3003943288bso179793971fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:29:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736270577; x=1736875377; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zboR9jxXWmS9nIKBK9iPIhlKaknh9eCFtmUHqCsTTvc=;
- b=unLjMMsd+FAigEQ1pkBuTFJMDgSZR1ik/9efM1FRAv7lF77hcR7iCHZJyXkijO8xea
- QjmL3qPCjemegilWEYXWtKgQdjxPLJC6Rkw7UWgXq/OdojegNhUuh38nLivB4Ih/eb4R
- LovCjEGsAUv6jQdhMQehBveaRlvnX8+dqW7K2xlfYw0uvG/3NMp7snQw01pkM7mbL7te
- 4JuJiT33WKMgi33jbe6EJNWbuegfqNUg7eSbkJWIH7OW1ITMVC8V8I2wSOGLCD8YxxAU
- 57Kpk7c6kn69EsdvPX6EIBMgIjiHeGO29DOzqG4b5ml6vkLxd12yVE27Y/debrf+b+jt
- R7yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736270577; x=1736875377;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1736270929; x=1736875729;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zboR9jxXWmS9nIKBK9iPIhlKaknh9eCFtmUHqCsTTvc=;
- b=ByQzorEFekylLQDzHjV7a5TlU6qOsft4qm/zABUnkZNmPYE8sIrAVbkVesYqRZqG0x
- UmyCMzlJugaGoshSKqE6tc8pO+245R/WnneJMj1GjYkTCG3/hStd4nflMBHsW+u2l9GF
- BvBcgqJYaRY9o+MMgJpHSBBq1CsVFHUh36CARsZRIU2V3tijLyKvki2PLQZAozLO+N02
- /TVDV0288UbQxCIY+1HWIHUBR4z/3s5NBGniqGjtymMwvebooRgjxniMGONzqO4l8ENu
- A9ebaTIISS/BaYDS3jZVOJkXsjH5Eix5/fYSOjpejjLTqc/FW2hwhok+jtco3rVDPYnY
- UOcQ==
+ bh=5e6oybH8waw0F1euskY/nJ2JCR+I1f/uoiRiLQitoeM=;
+ b=WmXgPk0rJi2rsEXf9xxCnZy0+6nwctjwO7CFo8aawtO5NFdw2x/Aj3/aKH6oCxTQ4w
+ KYLswwO/QDDG3i/zTKZeBfGPE8eANhPWpu/6GBz5Z8ccmQC9smOCdBTNOY8trQYk2pGP
+ ZJ8Zk4ggNyKWNGpKkL6z3q/dxGjacBT4xPcrs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736270929; x=1736875729;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5e6oybH8waw0F1euskY/nJ2JCR+I1f/uoiRiLQitoeM=;
+ b=i6zTUgCLi+AiIHyS16BkEeAxdRlD0P36j57TbKzngj9ya/cpJLuYPF3fEkltxXFH/u
+ Rxni5RvxOEfpu9yex/zg5GjaJBhNRHYe67N3TYJ8a/Zrxtow953emRso/XDp5qUGMDTK
+ vXZZp4W0/x4+6DjanmvbXo3oBVOl7YKPgWl6QeLekZpxl9et6CuBcXz5UoDDbJflKJuc
+ dXrn9cSzPsAQFeT5msRvjID/DXksHaEM/Ah9nMuK+RmvDGEvlvZG0ejFKc6XwKRDoHaS
+ 336JnmkK1G6ntl00f0EIRb24Q6lZrEB4hyhLw8L4Bje5zZGba7PeUYKMbgjSmqpA+eGS
+ Y5dA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXskq6ZDKNZMjOfqO9BjoiBS251u0Y0oSIzxMCkNDPiTNyQA9lGgdcHV+7rIVHzuBan3EBdta3J/QQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YydzBTyir2/QbsZbptRDv4hltCSTkW9aYJm2XDe2haPoxwRDx58
- bo73e4eYzbbbyRKUpZFPwYEbTmkYQyJTFpkXpo9nxxc0LPl/xVG4d+ighsFi4dAxDCFFKO8uewS
- n
-X-Gm-Gg: ASbGnctSCG7oLKmzZtSYZpUKsRl1QscEZMDaaYGJ5Rf0DezOvzOmG0ixjxdas+/ky3c
- ck/RND+7f9apQ6Vb8XTCs2lNhw0Tu50sAGl0WX8jHlRqeL9fQZUZeDVlmI9j6L9w70UFgvRmoQd
- lBIF+VvCha2i4yeDb+x+0hprUyGOFaRFCB2c0a6aguDVzraMUaYV59hTaijZcX7T2+c/cC75Cst
- O+csE5/1uN0lPbNh2spDAf2skATJrCda9MkxUDQhlr5biVW0aPUZ2+us4ZfkE0g5hvo5hTM+WIJ
- NizDBmoLDWvXJuBbFGBSNf1ipl7FbeZacq7z
-X-Google-Smtp-Source: AGHT+IGvLYSubVs2fChWFVU/Wkf9NhM8/TX2JdTfshGGANZuYXroF2EFVu51KDZSl6fKLPh2OpNGug==
-X-Received: by 2002:a05:651c:a0b:b0:302:2c61:a1d3 with SMTP id
- 38308e7fff4ca-304685e6bbfmr183658241fa.36.1736269158266; 
- Tue, 07 Jan 2025 08:59:18 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3045b082e47sm58790381fa.111.2025.01.07.08.59.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2025 08:59:17 -0800 (PST)
-Date: Tue, 7 Jan 2025 18:59:15 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
+ AJvYcCULPe23GknUWfQUt1aSjy2FKz7YHbQjF2XDvM1AaIURs3GGVcZx2GPmPW9rbL3UMAo8R7UhAsh3JUc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7dWozxYf3UOg/IXDpMJBcQNuTrZ5BQvc0wCuwd79Lhx9IXr3i
+ JCHJSEdlrw49gksJ89LB1O8lWUHTLVJ6vng+NzicjYzWIykvXk9F3/xGBFVPT0uzoFD0XYA0ubC
+ 78bn2
+X-Gm-Gg: ASbGncvRC3v9WCuvtapY22fwo6XMXH+f9gp4NiBsWWUQRTXWooQNvNaspVU7MoHsumj
+ 6QN0MRNj7ZWOV1leJyICjXy5M8EgbWxkBXGIKU1mmnr3mkTi0tG28x4vm4jidWTsQyX2NoafwH5
+ v7y6MN8XPDw48RAfoigcVeexnAAtbHeAsDCPBDkHSvG9fl0Mq6uqBVppuyjwDFBeZIf6IxCwwLJ
+ 6eMiCZJsOOySMdkKKGyZkoH3bqr4/UivYVQlqe8i0PtYX3JpVloXS8GCWES0hvJdVFndWmjQedL
+ 5c60l2U+pOirI565doSm
+X-Google-Smtp-Source: AGHT+IGmiZpbJ+VO5H7wMHT5uHfD8TMWmtNsy+X50ZhpOI2B8yuPP63MgWYBZ6wB8lIBc7F3ZfTHKQ==
+X-Received: by 2002:a05:651c:1501:b0:302:1861:6df4 with SMTP id
+ 38308e7fff4ca-30468620922mr198950231fa.35.1736270510208; 
+ Tue, 07 Jan 2025 09:21:50 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
+ [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045b06a1easm60576221fa.73.2025.01.07.09.21.48
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Jan 2025 09:21:49 -0800 (PST)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53ffaaeeb76so16715268e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:21:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU+TkLL5NzBfsPWJcdc6zrM9hFv8nAFiINDcuwfz9EYTqiczjj0AT4I3ex5qlm1hzYUl7jqBP5RrsY=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:2308:b0:540:357a:4aa3 with SMTP id
+ 2adb3069b0e04-542295404demr19430722e87.28.1736270507695; Tue, 07 Jan 2025
+ 09:21:47 -0800 (PST)
+MIME-Version: 1.0
+References: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
+ <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
+ <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
+In-Reply-To: <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 7 Jan 2025 09:21:36 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
+X-Gm-Features: AbW1kvazHgvULSfHqt_0VX8ft9CTn7RJ3u6wjnfVyyyuGT7WJIlXCd5AaiKW4R8
+Message-ID: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Fix multiple instances
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, 
  Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC/RFT 4/9] drm/vc4: hdmi: switch to generic CEC helpers
-Message-ID: <hh64mzfrzdxpeyce4fcj6lnd5axpvrv2t7qfi46uvpcp7erwi7@s5sr5vp5s7ot>
-References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
- <20241225-drm-hdmi-connector-cec-v1-4-b80380c67221@linaro.org>
- <20250107-intrepid-tuna-of-growth-5f53c5@houat>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250107-intrepid-tuna-of-growth-5f53c5@houat>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Greg KH <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,82 +114,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 07, 2025 at 03:34:35PM +0100, Maxime Ripard wrote:
-> On Wed, Dec 25, 2024 at 01:10:12AM +0200, Dmitry Baryshkov wrote:
-> > Switch VC4 driver to using CEC helpers code, simplifying hotplug and
-> > registration / cleanup. The existing vc4_hdmi_cec_release() is kept for
-> > now.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/vc4/Kconfig    |  1 +
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 92 ++++++++++++++++++++----------------------
-> >  drivers/gpu/drm/vc4/vc4_hdmi.h |  1 -
-> >  3 files changed, 44 insertions(+), 50 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-> > index 6cc7b7e6294a1bfa54137ca65296cd47e46b1e1e..360fbe755951cc40fecb4f9d643a096a6cf92b8e 100644
-> > --- a/drivers/gpu/drm/vc4/Kconfig
-> > +++ b/drivers/gpu/drm/vc4/Kconfig
-> > @@ -34,6 +34,7 @@ config DRM_VC4_HDMI_CEC
-> >  	bool "Broadcom VC4 HDMI CEC Support"
-> >  	depends on DRM_VC4
-> >  	select CEC_CORE
-> > +	select DRM_DISPLAY_HDMI_CEC_HELPER
-> >  	help
-> >  	  Choose this option if you have a Broadcom VC4 GPU
-> >  	  and want to use CEC.
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..3086c2ad3bb2e8fafdc1f37ba985aa5785d49f9a 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -32,6 +32,7 @@
-> >   */
-> >  
-> >  #include <drm/display/drm_hdmi_audio_helper.h>
-> > +#include <drm/display/drm_hdmi_cec_helper.h>
-> >  #include <drm/display/drm_hdmi_helper.h>
-> >  #include <drm/display/drm_hdmi_state_helper.h>
-> >  #include <drm/display/drm_scdc_helper.h>
-> > @@ -400,16 +401,8 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
-> >  	 * the lock for now.
-> >  	 */
-> >  
-> > -	if (status == connector_status_disconnected) {
-> > -		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
-> > -		return;
-> > -	}
-> > -
-> >  	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-> >  
-> > -	cec_s_phys_addr(vc4_hdmi->cec_adap,
-> > -			connector->display_info.source_physical_address, false);
-> > -
-> >  	if (status != connector_status_connected)
-> >  		return;
-> >  
-> > @@ -2388,7 +2381,7 @@ static irqreturn_t vc4_cec_irq_handler_rx_thread(int irq, void *priv)
-> >  	struct vc4_hdmi *vc4_hdmi = priv;
-> >  
-> >  	if (vc4_hdmi->cec_rx_msg.len)
-> > -		cec_received_msg(vc4_hdmi->cec_adap,
-> > +		cec_received_msg(vc4_hdmi->connector.cec.adapter,
-> >  				 &vc4_hdmi->cec_rx_msg);
-> >  
-> >  	return IRQ_HANDLED;
-> > @@ -2399,14 +2392,14 @@ static irqreturn_t vc4_cec_irq_handler_tx_thread(int irq, void *priv)
-> >  	struct vc4_hdmi *vc4_hdmi = priv;
-> >  
-> >  	if (vc4_hdmi->cec_tx_ok) {
-> > -		cec_transmit_done(vc4_hdmi->cec_adap, CEC_TX_STATUS_OK,
-> > +		cec_transmit_done(vc4_hdmi->connector.cec.adapter, CEC_TX_STATUS_OK,
-> >  				  0, 0, 0, 0);
-> 
-> Shouldn't we create helpers for those just like we did to deal with phys_addr?
+Hi
 
-For phys_addr it was required as we were wrapping locking, adapter and
-notifier calls. I can add wrappers for these calls too, of course.
+On Wed, Dec 11, 2024 at 12:27=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+> Hi Doug,
+>
+> On Tue, Dec 10, 2024 at 6:09=E2=80=AFPM Doug Anderson <dianders@chromium.=
+org> wrote:
+> > On Tue, Dec 10, 2024 at 6:19=E2=80=AFAM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > > Each bridge instance creates up to four auxiliary devices with differ=
+ent
+> > > names.  However, their IDs are always zero, causing duplicate filenam=
+e
+> > > errors when a system has multiple bridges:
+> > >
+> > >     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/t=
+i_sn65dsi86.gpio.0'
+> > >
+> > > Fix this by using a unique instance ID per bridge instance.  The
+> > > instance ID is derived from the I2C adapter number and the bridge's I=
+2C
+> > > address, to support multiple instances on the same bus.
+> > >
+> > > Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MI=
+PI-to-eDP bridge into sub-drivers")
 
--- 
-With best wishes
-Dmitry
+When I applied the patch, the DRM tools ran checkpatch in strict mode
+which pointed out that you have too many digits in your "Fixes" hash.
+I've adjusted them to make checkpatch happy.
+
+
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > On the White Hawk development board:
+> > >
+> > >     /sys/bus/auxiliary/devices/
+> > >     |-- ti_sn65dsi86.aux.1068
+> > >     |-- ti_sn65dsi86.aux.4140
+> > >     |-- ti_sn65dsi86.bridge.1068
+> > >     |-- ti_sn65dsi86.bridge.4140
+> > >     |-- ti_sn65dsi86.gpio.1068
+> > >     |-- ti_sn65dsi86.gpio.4140
+> > >     |-- ti_sn65dsi86.pwm.1068
+> > >     `-- ti_sn65dsi86.pwm.4140
+> > >
+> > > Discussion after v1:
+> > >   - https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.=
+1729180470.git.geert+renesas@glider.be
+> > >
+> > > Notes:
+> > >   - While the bridge supports only two possible I2C addresses, I2C
+> > >     translators may be present, increasing the address space.  Hence =
+the
+> > >     instance ID calculation assumes 10-bit addressing.  Perhaps it ma=
+kes
+> > >     sense to introduce a global I2C helper function for this?
+> > >
+> > >   - I think this is the simplest solution.  If/when the auxiliary bus
+> > >     receives support =C3=A0 la PLATFORM_DEVID_AUTO, the driver can be
+> > >     updated.
+> > >
+> > > v2:
+> > >   - Use I2C adapter/address instead of ida_alloc().
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> >
+> > While I agree with Laurent that having a more automatic solution would
+> > be nice, this is small and fixes a real problem. I'd be of the opinion
+> > that we should land it.
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> Thanks!
+>
+> > If I personally end up being the person to land it, I'll likely wait
+> > until January since I'll be on vacation soon for the holidays and I
+> > don't want to check something that's slightly controversial in and
+> > then disappear. If someone else feels it's ready to land before then I
+> > have no objections.
+>
+> There is no need to hurry. The only board I have that needs this has
+> another issue in its second display pipeline, which will require a
+> new driver no one is working on yet.
+
+As promised, I've landed this. In this case I've landed in
+drm-misc-next. Even though it's a fix since it didn't sound urgent
+enough to land in drm-misc-fixes. Since it changes sysfs paths
+slightly, it feels like it would be good to give it extra bake time
+and not rush it as a fix.
+
+[1/1] drm/bridge: ti-sn65dsi86: Fix multiple instances
+      commit: 574f5ee2c85a00a579549d50e9fc9c6c072ee4c4
+
+-Doug
