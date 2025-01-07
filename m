@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C78CA045DB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 17:19:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0689A043D0
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 16:12:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66D7810E72E;
-	Tue,  7 Jan 2025 16:19:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FFF210E71F;
+	Tue,  7 Jan 2025 15:12:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="gYv5QAGs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Oay86R2W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1862A10E72E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 16:19:07 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-2ffa49f623cso202269651fa.1
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 08:19:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1736266685; x=1736871485;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kvzjPiPIuFK/oaJYElHayv3UTewTRAMoEzwrccqgGlg=;
- b=gYv5QAGs6hKrSwlTbJ9hww6/L0MGXiXtJqnaT7K+Jtr01F8u3MAVjFslrfCGHEIB/Y
- KDJnujfXCxinJNxHIyAhMv3p3W/kU24TuoLQw8NxYpkfRT+xkLuNFGKcEpuzgHPy7fg4
- ea829wG16C6Lvk95ilXFE7ZAnVfLLUCkflG+i+y8R0v0gZS0mYuZS8ijfFxyGJ06g1A3
- 8b+tMYVRdAaV+xN0tj0qaNt9Fk1tGMiTLzQt962IIpOrTvK4vAA2zaBdV7QvwBS+kTfB
- RUOIpZNeSMmwEvVjgckLzKFFdPXt3V/5Q9ebYEHlq9ify7ebywGl3V2v+haWxnzh1XYl
- MfUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736266685; x=1736871485;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kvzjPiPIuFK/oaJYElHayv3UTewTRAMoEzwrccqgGlg=;
- b=uQuUnLm2CKb6iqqjUN1mUSTBknI5CQ5i/9v5g0vsPGMfEDs1HNewRISYK8s0EDKZXQ
- 8bvLZLJkDWBFcIAdABNCoIUZMRaw778PuLJVbEZNTcgQxYgSSLufLjG6QV4kpn1gJBle
- m9cvcb04CpqsIk0w8Jjgf0+1HiTRKt2R5xFXJCKlTNacag3soLiqW5cuXLAdntLVe196
- 5c9ilb9tsAg/5WCesUrOW/yrkv2Bwy5G6GesypdHD8sBD7CKtq4koPJy27feRK5ph2y9
- oTHUneEJXjpOltpqJxYk5O5nDyhCFE5Nu0wI2/kqdSvl9HkBJ7lm4NXlDK2D8M2mDwBS
- /oZA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXxBvkYP6qXAO5juLdJXpL4/VbpcEqEkLFuBxobcTJSh2ZhmYoMIazKvRozBXh1HxhdpieTKrJwAlk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyYQm2e2bS4dOFmq9HzfxiTIf9IiJcqOCxR3o4p43gCf6IItmIw
- lwJ8JNmghZ4griG61QaCyUjSlHnQTEDIY9VpSP5AtPTHL+gNGFmw3OubNY1c5fe/ak+QdZh/Hhv
- NKJA=
-X-Gm-Gg: ASbGncsJbOJ270KNhQquL6y7JdFFfRdILSuFZQZ8h6eFxV+wxgzrOQarDW2HUoNZt/E
- qvPPuc4f3V+XptHSMewXQFb03ZLI2u+r/3H76hrjjsYngR1/4mmnUud57Cq1ddxhUqjxyAdJMzs
- j5AZH56xLFErIiD1Izrrty91tNO8atVS2yG4ylD8DSkYHz2n77ITC0Non2TYLJHCqNhBJQlahfa
- hhDILaKkJ4kejBPjYvb7o2uy6xsaOHJCcBNTSUnGRHHH5a8K/mjMaFhpuhK/gegyeGx65A9
-X-Google-Smtp-Source: AGHT+IEXux3QR9Zi2r7B7lYR2i1C6RPK5i4h2jlVlvQHxZZfVs3zWeF6nUfGyQdl3zgFwMD05EJefg==
-X-Received: by 2002:a05:600c:4748:b0:434:a7e7:a1ca with SMTP id
- 5b1f17b1804b1-43668b5f5b7mr459388205e9.20.1736251962442; 
- Tue, 07 Jan 2025 04:12:42 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43665cd9c29sm578227735e9.14.2025.01.07.04.12.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2025 04:12:42 -0800 (PST)
-Message-ID: <228218bc-71ba-4231-9cfc-97f6d7aeeb35@ursulin.net>
-Date: Tue, 7 Jan 2025 12:12:41 +0000
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0979E10E70D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 15:12:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id D2F2CA41777;
+ Tue,  7 Jan 2025 15:10:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1AAC4CEDF;
+ Tue,  7 Jan 2025 15:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736262723;
+ bh=qfBkqmFewjPaTp9kdNMYpZ8IrvGEkcE13TznXF912GI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Oay86R2Wu9Oc1lRLuNJCwbr7KfxK4NCuuaumbI1SB2pe4LOlBWeq2QuULQvFpXenh
+ f2goViBgvBnldsTzle9wT8eIj7tpJlAIThubQYaiWGRQddcI8BI2oXrOUeYbsK8d2i
+ D2lRUT/SZV75+LmGtz9TLmDH+ebPC2S5EkA9wkv2QmxXLbPQtZ8abnqR1fTFXxuptw
+ azQJ3MT3CR3qcf2k71iRvitNKRtVBShpBDt4V2cC6niqdHvdm+dqbYLz0/n2sUwUiP
+ aKOSTXqs930E8jwAaDR3EKKosZl4QT9HAwWm/1qKHEU1ccWvKLtMdu8Lkmo8xaqDlU
+ S+mFsmDVAyzbA==
+Date: Tue, 7 Jan 2025 16:12:00 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Paul Kocialkowski <contact@paulk.fr>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+ bridges
+Message-ID: <20250107-roaring-lush-civet-b0ba47@houat>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
+ <20250106-vigorous-talented-viper-fa49d9@houat>
+ <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
+ <20250106-quick-exuberant-jellyfish-cddde2@houat>
+ <2ay7s3nokg2yyks2t7df6niee7z3a2jhgqw7elumk3lirdvjbk@qqrnkbwcfqly>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/7] A few drm_syncobj optimisations
-To: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-References: <20250106105521.53149-1-tursulin@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250106105521.53149-1-tursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="og4qzwsc4fu5qy3a"
+Content-Disposition: inline
+In-Reply-To: <2ay7s3nokg2yyks2t7df6niee7z3a2jhgqw7elumk3lirdvjbk@qqrnkbwcfqly>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,63 +83,78 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 06/01/2025 10:55, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> A small set of drm_syncobj optimisations which should make things a tiny bit
-> more efficient on the CPU side of things.
-> 
-> Improvement seems to be around 1.5%* more FPS if observed with "vkgears
-> -present-mailbox" on a Steam Deck Plasma desktop, but I am reluctant to make a
-> definitive claim on the numbers since there is some run to run variance. It
-> would be best if someone could verify or suggest a more heavy workload for
-> syncobjs.
-> 
-> *)
-> Before average fps after 200s: 22102
-> After: 22426
+--og4qzwsc4fu5qy3a
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+ bridges
+MIME-Version: 1.0
 
-Copying over from the discussion on v1 of the series:
+On Tue, Jan 07, 2025 at 12:35:15PM +0200, Dmitry Baryshkov wrote:
+> On Mon, Jan 06, 2025 at 03:49:48PM +0100, Maxime Ripard wrote:
+> > On Mon, Jan 06, 2025 at 02:24:00PM +0200, Dmitry Baryshkov wrote:
+> > > On Mon, 6 Jan 2025 at 12:39, Maxime Ripard <mripard@kernel.org> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > Most of these comments affect your earlier patches, but let's work =
+on
+> > > > the API-level view.
+> > > >
+> > > > On Tue, Dec 31, 2024 at 11:39:58AM +0100, Luca Ceresoli wrote:
+>=20
+> > > >         if (IS_ERR(priv))
+> > > >            return ERR_PTR(priv);
+> > > >         bridge =3D &priv->bridge;
+> > > >
+> > > >         ...
+> > > >
+> > > >         drm_bridge_add(bridge);
+> > > > }
+> > > >
+> > > > Would work just as well.
+> > > >
+> > > > I also don't think we need explicit (at least for the common case)
+> > > > drm_bridge_get and drm_bridge_put calls for bridge users.
+> > > > drm_bridge_attach and drm_bridge_detach can get/put the reference
+> > > > directly.
+> > >=20
+> > > As I wrote previously, I think drm_bridge_attach() might be too late =
+for that.
+> > > It sounds like drm_of_get_panel_or_bridge() and of_drm_find_bridge
+> > > should increment the refcount, possibly adding a devres action to put
+> > > the reference.
+> >=20
+> > We probably need both. drm_bridge_attach adds the bridge pointer to the
+> > encoder bridge_chain list, so if we had something like
+> >=20
+> > bridge =3D drm_of_find_bridge();
+> > drm_bridge_attach(encoder, bridge);
+> > drm_bridge_put(bridge);
+> >=20
+> > We could have a dangling pointer.
+>=20
+> Yes... So, both drm_bridge_attach and drm_of_find_bridge() should take
+> the refcount.
+>=20
+> Just as an idea, it might be nice to add refcounting to bridges_show(),
+> so that we can easily verify that refcounting works correctly.
 
-Five ~100 second runs each kernel. Absolute numbers are a bit different 
-before I turned *off* some kernel hardening options since.
+Yep, it looks like a good idea indeed.
 
-x before
-+ after
-+------------------------------------------------------------+
-|                          x         +                       |
-|                   x      x         +                       |
-|                   x      xx      ++++                      |
-|                 x x      xx x    ++++                      |
-|                 x xx   x xx x+   ++++                      |
-|                xxxxx   xxxxxx+   ++++ + +                  |
-|                xxxxxxx xxxxxx+x  ++++ +++                  |
-|              x xxxxxxxxxxx*xx+* x++++++++   ++             |
-|        x x   xxxxxxxxxxxx**x*+*+*++++++++ ++++ +           |
-|       xx x   xxxxxxxxxx*x****+***+**+++++ ++++++           |
-|x     xxx x   xxxxx*x****x***********+*++**+++++++   +  +  +|
-|               |_______A______|                             |
-|                             |______A_______|               |
-+------------------------------------------------------------+
-     N           Min           Max        Median           Avg        Stddev
-x 135      21697.58     22809.467     22321.396     22307.707     198.75011
-+ 118     22200.746      23277.09       22661.4     22671.442     192.10609
-Difference at 95.0% confidence
-     363.735 +/- 48.3345
-     1.63054% +/- 0.216672%
-     (Student's t, pooled s = 195.681)
+Maxime
 
+--og4qzwsc4fu5qy3a
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Tvrtko Ursulin (7):
->    drm/syncobj: Remove unhelpful helper
->    drm/syncobj: Do not allocate an array to store zeros when waiting
->    drm/syncobj: Avoid one temporary allocation in drm_syncobj_array_find
->    drm/syncobj: Use put_user in drm_syncobj_query_ioctl
->    drm/syncobj: Avoid temporary allocation in
->      drm_syncobj_timeline_signal_ioctl
->    drm/syncobj: Add a fast path to drm_syncobj_array_wait_timeout
->    drm/syncobj: Add a fast path to drm_syncobj_array_find
-> 
->   drivers/gpu/drm/drm_syncobj.c | 281 ++++++++++++++++++----------------
->   1 file changed, 147 insertions(+), 134 deletions(-)
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ31EPAAKCRAnX84Zoj2+
+dvKaAX9scrKvT+P3jsMa/70lg8Z6hMRxq+8R6ArIwOc73kipAE2O9JjxYjg11yBq
+buXM6EwBfjZaM43Ac/XZ389I/NtI5QADGBhHFP5zxXnsOfzHe3rcvB7/TBkxL7GM
+w7iCXT03nA==
+=DOt0
+-----END PGP SIGNATURE-----
+
+--og4qzwsc4fu5qy3a--
