@@ -2,129 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFA3A03923
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 08:58:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D358A0385E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 08:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 570AF10E1A9;
-	Tue,  7 Jan 2025 07:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7A0810E251;
+	Tue,  7 Jan 2025 07:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Jzmp6fPW";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="WZFW/gwL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803A010E1A9
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 07:58:03 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-43616c12d72so24143665e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Jan 2025 23:58:03 -0800 (PST)
+Received: from out30-101.freemail.mail.aliyun.com
+ (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B648D10E251;
+ Tue,  7 Jan 2025 07:06:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736236622; x=1736841422; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=yb0B47kPggnzrOfjZ59CM6EgcdP+n2GDl92NqEA4xvY=;
- b=Jzmp6fPWxf7TG513HwG5URbLEHDyFa2wy9p4qHI3lMtM8HnfOQuU3hJ0F38Xzkwhlk
- Am1be403ZGbYPeCMfOU7yl0t10uIfSvreEMcSDtgWqyNFuboa6qBadE1ES79fLvDveTb
- oANCTn+GLe58WZvnSrpTqOIqtzKKK9n5A7OXNxLKs0YAHMkEYsPMZ6QaUEdF918b+Wjy
- YTtVd5q5SeE/HOqhNdfoPzIQtP8105el0l1eL2CObvQPdShK1rAEXJogVCXr9a5os2bB
- 6kJ1oVB3FMwKtXaRbOIPYORhOdNGqvNW71NE7KOUbD+a5uD4z4OXl4o3o6XCSiYAbqT2
- Kq4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736236622; x=1736841422;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yb0B47kPggnzrOfjZ59CM6EgcdP+n2GDl92NqEA4xvY=;
- b=MyXYeAI7vGQG/04ZVyrCw+6Z40FNaNPycPavPip56XfREeWwJzAJOQWaPD0ircuSE3
- Mr16Rz1RQA6daYixKBwvak/ZACdfVCgWtM+lEIe6ZJNXUThNblYss4MpQOM3IhEZaRcR
- GBE/lwyqdi0141kRDHqi0VjeRTM7xsXqR1SOuT4b6BOM5Q2KPjilBP3d8xcE8QpI+4B6
- qFX0nV4Z4Urc1fx1BwGMCSaTs65kJ3h/Qk/91q2Mm7rwZoqSypLf4sj6waijiASwdEsN
- Jz5AC9LVvT7+sdmxEFzXCOcx5N1/9znMpEvipa0m0CslMJwcM1xsj2hWIugtujlYZJ1e
- saag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZSgzj9hvMf/js349V+3uE1y9p4fdH3ba1R/itZyeVW9FpWtW1J8KE9toGiYqwsYJr/R4ZtcVPaiw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWUIbX6Mxa0MHK77SlLzXZnCxCMTYW76iYKYNDGCQbhsgvZnSu
- 8othqfzK+xzwJ5l+fGnAfwIWpJZYOPoMUlW6ks4dNFx3imLnvYxiWgDrn4HH8lJDNOoS1IZgKfD
- 8
-X-Gm-Gg: ASbGnctd8U0nGYPAQGiJRoW2yQdXkrRkYxCn92HSdYBWsgF6aI9CAf9jNuPpJ1MfXuX
- V7BFP4FfInxWbxr4WqmvkEYLMLPoPdyVG6vblS/0kwzVqoaIplUx1wwuAJakWFqPeXeQdPRLRAJ
- 2cK8ZhU9roLgczYF/e/mfNCNltbSkd9FJikLPg7uoaJ0kdxRcYmvTGQuiJwY3OY+9u7drpCpyPS
- 4+DwwBpICpDMVf85YdyqMr2A9NRxZARdqq+1uifzPPHph4wm1f+15Z2Vdsm6DQfxw+aHWWoyc7m
-X-Google-Smtp-Source: AGHT+IHflGZ6wpbNOLFCb7xKGfIKtq49c/6aFYql6+evnAZ8chYTm0kIjQZZbtMFKgE47/vzLpzFaA==
-X-Received: by 2002:a05:600c:5103:b0:431:4983:e8fe with SMTP id
- 5b1f17b1804b1-43668b93cb8mr211738975e9.9.1736230087411; 
- Mon, 06 Jan 2025 22:08:07 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.165])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436612008casm589326135e9.14.2025.01.06.22.08.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Jan 2025 22:08:05 -0800 (PST)
-Message-ID: <18f3b5c9-1729-448d-9257-5cb82e675542@linaro.org>
-Date: Tue, 7 Jan 2025 07:08:04 +0100
+ d=linux.alibaba.com; s=default;
+ t=1736233598; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+ bh=E2yAups8bmYAoZtYYL+hKuLGlTv3Ay875Q08Y1yWntA=;
+ b=WZFW/gwLHO23ljFeQxzRHVLPYSSkpk1plRnGzT1oL6XGyBVfntRDSntGu3arqJPJYpdcRN/wNs2XGNUF1tosphBYJ6kAcAyzpA8nHh2KWe57FDm1yCpL/E8xKL0RDvm7ApdBQKhOLHKLLCYRxYr5Si64JwiVDiS1Wext20TjEKw=
+Received: from 30.246.161.230(mailfrom:xueshuai@linux.alibaba.com
+ fp:SMTPD_---0WN9p.qF_1736233595 cluster:ay36) by smtp.aliyun-inc.com;
+ Tue, 07 Jan 2025 15:06:37 +0800
+Message-ID: <dbaaac26-9df2-49c2-8591-7ceb7b8f5e40@linux.alibaba.com>
+Date: Tue, 7 Jan 2025 15:06:34 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] drm/msm/dsi: Simplify with dev_err_probe()
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250106-drm-msm-cleanups-v1-0-271ff1c00795@linaro.org>
- <20250106-drm-msm-cleanups-v1-2-271ff1c00795@linaro.org>
- <5edcfc62-ee70-48c2-a24a-642a39f83767@quicinc.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <5edcfc62-ee70-48c2-a24a-642a39f83767@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: AW: [PATCH] drm/amdgpu: Enable runtime modification of
+ gpu_recovery parameter with validation
+To: "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "Lazar, Lijo" <Lijo.Lazar@amd.com>,
+ "Ma, Le" <Le.Ma@amd.com>, "hamza.mahfooz@amd.com" <hamza.mahfooz@amd.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "Liu, Shaoyun" <Shaoyun.Liu@amd.com>, "Jun.Ma2@amd.com" <Jun.Ma2@amd.com>
+Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "tianruidong@linux.alibaba.com" <tianruidong@linux.alibaba.com>
+References: <20241228063245.61874-1-xueshuai@linux.alibaba.com>
+ <563b1797-5524-44c5-89b0-754f245e6b8f@amd.com>
+ <63938ba2-dcb5-456f-bf82-bd8c893549c0@linux.alibaba.com>
+ <PH7PR12MB5685C307737F826039EEE48583152@PH7PR12MB5685.namprd12.prod.outlook.com>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <PH7PR12MB5685C307737F826039EEE48583152@PH7PR12MB5685.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,17 +64,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/01/2025 03:56, Abhinav Kumar wrote:
-> 
-> 
-> On 1/6/2025 12:49 AM, Krzysztof Kozlowski wrote:
->> dsi_clk_init() and msm_dsi_host_init() are called only from platform
-> 
-> dsi_get_config() as well? OR you didnt want to explicitly mention that 
-> since its called from msm_dsi_host_init().
-> 
 
-As well, but I forgot to mention it.
 
-Best regards,
-Krzysztof
+在 2025/1/3 16:21, Koenig, Christian 写道:
+> [AMD Official Use Only - AMD Internal Distribution Only]
+> 
+> Hi Shuai,
+> 
+> setting gpu_recovery=0 is not even remotely related to RAS. If that option affects RAS behavior in any way then that is a bug.
+> 
+> The purpose of setting gpu_recovery=0 is to disable resets after a submission timeout most likely caused by an unrecoverable HW error.
+> 
+> This is necessary for JTAG debugging in our labs during HW bringup and should *NEVER* be used on any production system.
+> 
+> We already discussed with upstream maintainers that we should probably mark the kernel as tainted to indicate that it might be in an unreliable HW state. I will push for this now since there seems to be a big misunderstanding what this option does.
+> 
+> Regards,
+> Christian.
+
+
+Hi, Christian,
+
+Got the purpose of setting gpu_recovery=0. Thanks for the your patient explanation.
+
+When a ECC error occurs, the AMD GPU driver auto resets all GPUs and all jobs
+are terminated. My ultimate goal is provide error isolation between independent
+jobs which use a different GPU. Any suggestion?
+
+Thank you.
+Best Regards,
+
+> 
+> ________________________________________
+> Von: Shuai Xue <xueshuai@linux.alibaba.com>
+> Gesendet: Montag, 30. Dezember 2024 09:50
+> An: Koenig, Christian; Deucher, Alexander; Pan, Xinhui; airlied@gmail.com; simona@ffwll.ch; Lazar, Lijo; Ma, Le; hamza.mahfooz@amd.com; tzimmermann@suse.de; Liu, Shaoyun; Jun.Ma2@amd.com
+> Cc: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; tianruidong@linux.alibaba.com
+> Betreff: Re: [PATCH] drm/amdgpu: Enable runtime modification of gpu_recovery parameter with validation
+> 
+> 
+> 
+> 在 2024/12/30 04:11, Christian König 写道:
+>> Am 28.12.24 um 07:32 schrieb Shuai Xue:
+>>> It's observed that most GPU jobs utilize less than one server, typically
+>>> with each GPU being used by an independent job. If a job consumed poisoned
+>>> data, a SIGBUS signal will be sent to terminate it. Meanwhile, the
+>>> gpu_recovery parameter is set to -1 by default, the amdgpu driver resets
+>>> all GPUs on the server. As a result, all jobs are terminated. Setting
+>>> gpu_recovery to 0 provides an opportunity to preemptively evacuate other
+>>> jobs and subsequently manually reset all GPUs.
+>>
+>> *BIG* NAK to this whole approach!
+>>
+>> Setting gpu_recovery to 0 in a production environment is *NOT* supported at all and should never be done.
+>>
+>> This is a pure debugging feature for JTAG debugging and can result in random crashes and/or compromised data.
+>>
+>> Please don't tell me that you tried to use this in a production environment.
+>>
+>> Regards,
+>> Christian.
+> 
+> Hi, Christian,
+> 
+> Thank you for your quick reply.
+> 
+> When an application encounters uncorrected error, it will be terminate by a
+> SIGBUS signal. The related bad pages are retired. I did not figure why
+> gpu_recovery=0 can result in random crashes and/or compromised data.
+> 
+> I test with error injection in my dev enviroment:
+> 
+> 1. load driver with gpu_recovery=0
+> #cat /sys/bus/pci/drivers/amdgpu/module/parameters/gpu_recovery
+> 0
+> 
+> 2. inject a Uncorrectable ECC error to UMC
+> #sudo amdgpuras -d 0 -b 2 -t 8
+> Poison inject, logical addr:0x7f2b495f9000 physical addr:0x27f5d4b000 vmid:5
+> Bus error
+> 
+> 3. GPU 0000:0a:00.0 reports error address with PA
+> #dmesg | grep 27f5
+> [424443.174154] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5d43080 Row:0x1fd7 Col:0x0  Bank:0xa Channel:0x30
+> [424443.174156] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5d4b080 Row:0x1fd7 Col:0x4  Bank:0xa Channel:0x30
+> [424443.174158] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5d53080 Row:0x1fd7 Col:0x8  Bank:0xa Channel:0x30
+> [424443.174160] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5d5b080 Row:0x1fd7 Col:0xc  Bank:0xa Channel:0x30
+> [424443.174162] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5f43080 Row:0x1fd7 Col:0x10 Bank:0xa Channel:0x30
+> [424443.174169] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5f4b080 Row:0x1fd7 Col:0x14 Bank:0xa Channel:0x30
+> [424443.174172] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5f53080 Row:0x1fd7 Col:0x18 Bank:0xa Channel:0x30
+> [424443.174174] amdgpu 0000:0a:00.0: amdgpu: Error Address(PA):0x27f5f5b080 Row:0x1fd7 Col:0x1c Bank:0xa Channel:0x30
+> 
+> 4. All the related bad pages are AMDGPU_RAS_RETIRE_PAGE_RESERVED.
+> #cat /sys/devices/pci0000:05/0000:05:01.0/0000:06:00.0/0000:07:00.0/0000:08:00.0/0000:09:00.0/0000:0a:00.0/ras/gpu_vram_bad_pages | grep 27f5
+> 0x027f5d43 : 0x00001000 : R
+> 0x027f5d4b : 0x00001000 : R
+> 0x027f5d53 : 0x00001000 : R
+> 0x027f5d5b : 0x00001000 : R
+> 0x027f5f43 : 0x00001000 : R
+> 0x027f5f4b : 0x00001000 : R
+> 0x027f5f53 : 0x00001000 : R
+> 0x027f5f5b : 0x00001000 : R
+> 
+> AFAIK, the reserved bad pages will not be used any more.  Please correct me if
+> I missed anything.
+> 
+> DRAM ECC issues are the most common problems. When it occurs, the kernel will
+> attempt to hard-offline the page, by trying to unmap the page or killing any
+> owner, or triggering IO errors if needed.
+> 
+> ECC error is also common for HBM and error isolation from each user's job is a
+> basic requirement in public cloud. For NVIDIA GPU, a ECC error could be
+> contained to a process.
+> 
+>> XID 94: Contained ECC error
+>> XID 95: UnContained ECC error
+>>
+>> For Xid 94, these errors are contained to one application, and the application
+>> that encountered this error must be restarted. All other applications running
+>> at the time of the Xid are unaffected. It is recommended to reset the GPU when
+>> convenient. Applications can continue to be run until the reset can be
+>> performed.
+>>
+>> For Xid 95, these errors affect multiple applications, and the affected GPU
+>> must be reset before applications can restart.
+>>
+>> https://docs.nvidia.com/deploy/xid-errors/
+> 
+> Does AMD GPU provide a similar way to achieve error isolation requirement?
+> 
+> Best Regards,
+> Shuai
+> 
+>>
+>>>    However, this parameter is
+>>> read-only, necessitating correct settings at driver load. And reloading the
+>>> GPU driver in a production environment can be challenging due to reference
+>>> counts maintained by various monitoring services.
+>>>
+>>> Set the gpu_recovery parameter with read-write permission to enable runtime
+>>> modification. It will enables users to dynamically manage GPU recovery
+>>> mechanisms based on real-time requirements or conditions.
+>>>
+>>> Signed-off-by: Shuai Xue <xueshuai@linux.alibaba.com>
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 26 ++++++++++++++++++++++++-
+>>>    1 file changed, 25 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>> index 38686203bea6..03dd902e1cec 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>> @@ -563,12 +563,36 @@ module_param_named(lbpw, amdgpu_lbpw, int, 0444);
+>>>    MODULE_PARM_DESC(compute_multipipe, "Force compute queues to be spread across pipes (1 = enable, 0 = disable, -1 = auto)");
+>>>    module_param_named(compute_multipipe, amdgpu_compute_multipipe, int, 0444);
+>>> +static int amdgpu_set_gpu_recovery(const char *buf,
+>>> +                   const struct kernel_param *kp)
+>>> +{
+>>> +    unsigned long val;
+>>> +    int ret;
+>>> +
+>>> +    ret = kstrtol(buf, 10, &val);
+>>> +    if (ret < 0)
+>>> +        return ret;
+>>> +
+>>> +    if (val != 1 && val != 0 && val != -1) {
+>>> +        pr_err("Invalid value for gpu_recovery: %ld, excepted 0,1,-1\n",
+>>> +               val);
+>>> +        return -EINVAL;
+>>> +    }
+>>> +
+>>> +    return param_set_int(buf, kp);
+>>> +}
+>>> +
+>>> +static const struct kernel_param_ops amdgpu_gpu_recovery_ops = {
+>>> +    .set = amdgpu_set_gpu_recovery,
+>>> +    .get = param_get_int,
+>>> +};
+>>> +
+>>>    /**
+>>>     * DOC: gpu_recovery (int)
+>>>     * Set to enable GPU recovery mechanism (1 = enable, 0 = disable). The default is -1 (auto, disabled except SRIOV).
+>>>     */
+>>>    MODULE_PARM_DESC(gpu_recovery, "Enable GPU recovery mechanism, (1 = enable, 0 = disable, -1 = auto)");
+>>> -module_param_named(gpu_recovery, amdgpu_gpu_recovery, int, 0444);
+>>> +module_param_cb(gpu_recovery, &amdgpu_gpu_recovery_ops, &amdgpu_gpu_recovery, 0644);
+>>>    /**
+>>>     * DOC: emu_mode (int)
