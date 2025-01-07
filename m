@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C57A042AD
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA07A042B5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:38:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92AB10E709;
-	Tue,  7 Jan 2025 14:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCAA10E412;
+	Tue,  7 Jan 2025 14:38:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kclJhn6P";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RzJMcPYQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCBCD10E70E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:36:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC48010E3D9;
+ Tue,  7 Jan 2025 14:38:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 306A55C5CDD;
- Tue,  7 Jan 2025 14:35:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C5DCC4CED6;
- Tue,  7 Jan 2025 14:36:23 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 50A665C630D;
+ Tue,  7 Jan 2025 14:37:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDEABC4CED6;
+ Tue,  7 Jan 2025 14:38:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736260584;
- bh=HfbVqJKTKgN1/Qpw9GM+tOCW/HTXwBp81ojc7ahZNa4=;
+ s=k20201202; t=1736260685;
+ bh=q1lYaEr0dqb+piQWDLCGtCOJiuUuHbTSk0/Gq064y3g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kclJhn6P1fDYIzYqiPEATDBcxgwwAIokG+sKk7VzKvZycqutOVDLwN7l4jMEj9uGZ
- VyCJsjIU92bfSr946zTm8eeQv+G3tJl50oMYIaC+nnTO5sUlNIkAttNx8mdssYgkkA
- iTL0H6GlMULyQ/tWFxsQsL4by58ie+rWEb98LdufpTwfUWR9URVUyT7OAsGmXxaK68
- GLQozz4KXL8/ACcVqZHoJx/yQ9WGDCAT8B3VyRqeSfAJs6UU7nLt81pDwM8WDqCImm
- cP+LkstiGB7XexZqQeinuYCWfh/NdYnLhjhMFQWAwsS5HfYorUlTk+OsOOJ/5khTmY
- GEvjncDpirgDg==
-Date: Tue, 7 Jan 2025 15:36:20 +0100
-From: Maxime Ripard <mripard@kernel.org>
+ b=RzJMcPYQ1xOITG8Xhogrge775rj20I/2xPdkh7phzjWBk0juCTiNbQnXsvWa+wrdH
+ ddyPfhjdU5SkBFzn3XMXxZ3ckM0b4+Ft+Sa2lqtlFJNte1zOcYmjWMjplQTYSWEaZv
+ mJWRKXedsL5XILhCcIS/D+8ioOcbYnWhLSvO1Aw/wne47LQ1imiZIGCES9T2AvTNdc
+ mR7aMsjYe2vkvi9Xos9jp2Sqa4nET2SbbDyLkS+H+qO851TAIZ8WWaADFrf7DQKuYp
+ pLs/HoCoQ3R9R4/TODiHTHwygNXx4KRdXjYNVThVj8pQd2HGIEe8MJ9RJJP6rOomsm
+ 6dhdo6MjZG6/g==
+Date: Tue, 7 Jan 2025 15:37:58 +0100
+From: Danilo Krummrich <dakr@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC/RFT 5/9] drm/vc4: hdmi: drop separate CEC
- unregistration
-Message-ID: <20250107-outstanding-tangerine-jackdaw-1e2438@houat>
-References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
- <20241225-drm-hdmi-connector-cec-v1-5-b80380c67221@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 0/2] drm/nouveau: remove drm_encoder_slave interface
+Message-ID: <Z308RoMdP2U64Dfx@pollux>
+References: <20250106-nouveau-encoder-slave-v3-0-1d37d2f2c67f@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="udnybnaehqtxciqq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241225-drm-hdmi-connector-cec-v1-5-b80380c67221@linaro.org>
+In-Reply-To: <20250106-nouveau-encoder-slave-v3-0-1d37d2f2c67f@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,108 +65,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---udnybnaehqtxciqq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC/RFT 5/9] drm/vc4: hdmi: drop separate CEC
- unregistration
-MIME-Version: 1.0
-
-On Wed, Dec 25, 2024 at 01:10:13AM +0200, Dmitry Baryshkov wrote:
-> CEC adapter functions are protected by drm_dev_enter() / _exit(), so it
-> is safe to keep CEC registered until DRM device is being torn down. Drop
-> custom CEC unsregistration code and rely on the DRM core to unregister
-> CEC adapter.
->=20
+On Mon, Jan 06, 2025 at 01:00:12AM +0200, Dmitry Baryshkov wrote:
+> The nouveau driver is the only user of the drm_encoder_slave interface.
+> Demote it from KMS helpers module to the nouveau driver itself, moving
+> corresponding I2C encoders to be handled by nouveau driver too.
+> 
+> Ideally those two drivers should be converted to the drm_bridge
+> interface, but it's unclear if it's worth spending time on that.
+> 
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Applied to drm-misc-next, thanks!
+
 > ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 53 ++++++------------------------------=
-------
->  1 file changed, 7 insertions(+), 46 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index 3086c2ad3bb2e8fafdc1f37ba985aa5785d49f9a..7b39000369e50f5368384575a=
-a81919df5a7133c 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -2752,13 +2752,6 @@ static const struct cec_adap_ops vc4_hdmi_cec_adap=
-_ops =3D {
->  	.adap_transmit =3D vc4_hdmi_cec_adap_transmit,
->  };
-> =20
-> -static void vc4_hdmi_cec_release(void *ptr)
-> -{
-> -	struct drm_connector *connector =3D ptr;
-> -
-> -	drm_connector_cec_unregister(connector);
-> -}
-> -
->  static int vc4_hdmi_cec_init(struct drm_connector *connector)
->  {
->  	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
-> @@ -2796,51 +2789,19 @@ static int vc4_hdmi_cec_register(struct vc4_hdmi =
-*vc4_hdmi)
->  {
->  	struct platform_device *pdev =3D vc4_hdmi->pdev;
->  	struct device *dev =3D &pdev->dev;
-> -	int ret;
-> =20
->  	if (!of_property_present(dev->of_node, "interrupts")) {
->  		dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
->  		return 0;
->  	}
-> =20
-> -	ret =3D drm_connector_hdmi_cec_adapter_register(&vc4_hdmi->connector,
-> -						      &vc4_hdmi_cec_adap_ops,
-> -						      vc4_hdmi->variant->card_name,
-> -						      1,
-> -						      vc4_hdmi_cec_init,
-> -						      NULL,
-> -						      &pdev->dev);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	/*
-> -	 * NOTE: Strictly speaking, we should probably use a DRM-managed
-> -	 * registration there to avoid removing the CEC adapter by the
-> -	 * time the DRM driver doesn't have any user anymore.
-> -	 *
-> -	 * However, the CEC framework already cleans up the CEC adapter
-> -	 * only when the last user has closed its file descriptor, so we
-> -	 * don't need to handle it in DRM.
-> -	 *
-> -	 * By the time the device-managed hook is executed, we will give
-> -	 * up our reference to the CEC adapter and therefore don't
-> -	 * really care when it's actually freed.
-> -	 *
-> -	 * There's still a problematic sequence: if we unregister our
-> -	 * CEC adapter, but the userspace keeps a handle on the CEC
-> -	 * adapter but not the DRM device for some reason. In such a
-> -	 * case, our vc4_hdmi structure will be freed, but the
-> -	 * cec_adapter structure will have a dangling pointer to what
-> -	 * used to be our HDMI controller. If we get a CEC call at that
-> -	 * moment, we could end up with a use-after-free. Fortunately,
-> -	 * the CEC framework already handles this too, by calling
-> -	 * cec_is_registered() in cec_ioctl() and cec_poll().
-> -	 */
-
-I'd really like to keep that comment, somewhere.
-
-Maxime
-
---udnybnaehqtxciqq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ3075AAKCRAnX84Zoj2+
-dsKfAYDr4aYjyjBzDc8lwY0Gs0nvOcOaPAh+ctBgypcQXzW2vlIZD61otpp55S66
-Y5eRptkBgJ5/jIDgCwe42l6bqTuPfMpPHkyGsNRfBO4V83ImSdZ2nNLalzxpiKEo
-Kn2M/hrvhg==
-=Mcki
------END PGP SIGNATURE-----
-
---udnybnaehqtxciqq--
+> Changes in v3:
+> - Moved includes to drivers/gpu/drm/nouveau/include/dispnv04/i2c/
+>   (Danilo)
+> - Trimmed Kconfig entries to remove mentions of "some nVidia cards"
+>   (Danilo)
+> - Fixed checkpatch issues related to alignment and code formatting
+>   (Danilo)
+> - Link to v2: https://lore.kernel.org/r/20241215-nouveau-encoder-slave-v2-0-ef7a0e687242@linaro.org
+> 
+> Changes in v2:
+> - Renamed symbols in defconfig (Laurent)
+> - Added missing Kbuild file (Laurent, LKP)
+> - Renamed guarding defines in include files.
+> - Dropped mentions of two removed functions.
+> - Link to v1: https://lore.kernel.org/r/20241214-nouveau-encoder-slave-v1-0-beda767472e3@linaro.org
+> 
+> ---
+> Dmitry Baryshkov (2):
+>       drm/nouveau: incorporate I2C TV encoder drivers
+>       drm/nouveau: vendor in drm_encoder_slave API
+> 
+>  arch/arm/configs/multi_v7_defconfig                |   4 +-
+>  arch/parisc/configs/generic-32bit_defconfig        |   4 +-
+>  arch/parisc/configs/generic-64bit_defconfig        |   4 +-
+>  drivers/gpu/drm/Makefile                           |   1 -
+>  drivers/gpu/drm/i2c/Kconfig                        |  18 ---
+>  drivers/gpu/drm/i2c/Makefile                       |   6 -
+>  drivers/gpu/drm/nouveau/Kconfig                    |  18 +++
+>  drivers/gpu/drm/nouveau/dispnv04/Kbuild            |   3 +
+>  drivers/gpu/drm/nouveau/dispnv04/dfp.c             |  17 +--
+>  drivers/gpu/drm/nouveau/dispnv04/i2c/Kbuild        |   5 +
+>  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_drv.c    |  30 ++---
+>  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_mode.c   |   8 +-
+>  .../drm/{ => nouveau/dispnv04}/i2c/ch7006_priv.h   |  11 +-
+>  .../drm/{ => nouveau/dispnv04}/i2c/sil164_drv.c    |  33 +++---
+>  .../dispnv04/nouveau_i2c_encoder.c}                |  95 +++++-----------
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv04.c          |  24 ++--
+>  drivers/gpu/drm/nouveau/dispnv04/tvnv17.c          |   4 +-
+>  .../gpu/drm/nouveau/include/dispnv04}/i2c/ch7006.h |   4 +-
+>  .../drm/nouveau/include/dispnv04/i2c/encoder_i2c.h | 121 +++++++++------------
+>  .../gpu/drm/nouveau/include/dispnv04}/i2c/sil164.h |   4 +-
+>  drivers/gpu/drm/nouveau/nouveau_connector.c        |  10 +-
+>  drivers/gpu/drm/nouveau/nouveau_encoder.h          |  13 +--
+>  22 files changed, 190 insertions(+), 247 deletions(-)
+> ---
+> base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+> change-id: 20241214-nouveau-encoder-slave-a6dd422fa4a9
+> 
+> Best regards,
+> -- 
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
