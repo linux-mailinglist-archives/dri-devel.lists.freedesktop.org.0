@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148EDA04835
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8881EA04857
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:33:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09CA010E0D4;
-	Tue,  7 Jan 2025 17:28:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96F1810E753;
+	Tue,  7 Jan 2025 17:33:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="Rj7/c+HC";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="QOWuX3gA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur03on2083.outbound.protection.outlook.com [40.107.103.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E67B10E0D4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:28:14 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2062.outbound.protection.outlook.com [40.107.20.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E195610E753
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:33:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ifmYtTJi21xEvmODYtb9cGhjpM2vV43xhOsSCJ9iBVi5SdDKFcb82LKWXiq6BzsQJu0x6wmWlQ4G1hvoAs9NNwNKm/SUjmIkFicB1WMqjtyH+V8P59VbbgvUUEiGu+cCzmj7p6j1G6pO8bBvfuK10ynUfmzO0lvd47ir1qBtEj0jH+n3bmmDxk6H8TdZDTL2VNzMCXnex3ZEWaXKxPmn+I8MD27Pww9DAKhU3gc0fnYjB0epAI1L1F4tAaknSvhc2x52P/6gV719fIh9SCGTcybNLDJh1SoFeYLAQ9mbqMW5u7esZVdfcdLsS2XJzliTAuinuPRWbiIjmvGwxYysSQ==
+ b=FY9QCpmdPNbEdAO9VjnncIKnpsdj1aVjWu4Ep6Nq3JnXzf03iqOLwRw+/vY/iBEm1nUw98mTxyQX5i2e1A51RsPs162u1AGl70bEkFxR9yQDsU4mItD4UaFhJ/mpisR2XuvJHuwv2H1KZsp66OTmLY8qF/9UJBCEru66ohg074dHRMY+k+9jnDt3iQpL6eCKLaMudTx6Vw10LuMbmUq8+I6MrxfkYCcVVx6QwYVwpd88Dz2tYoHO7CRWQykG3Sohdtd7Dp/Wm+w/x5Y//O/xc3I5UwlzTEJGDBvIH/uay+/PO8MYAubmXw9gSkEwuJ4aGO7A1QJ+Z1hPGo5K9aSN0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pf4Nki1lT8cEMN/2Pw194yGyMKo+GGZD/gXIsoAuW0M=;
- b=GLgxqOdfyVWvRLkpTiKkzZCo4wWpB4y8W0cn3J/iwg/q7H3HercHOQ8kV52wnv/E1srEwS78K3Iz5BnmyIyH33tQykA+46cNQJF6lRTmIUJDGenmrZ2xgFcdE+LnZBLsMl45kAoM5GSJuf2jIcbXtfAOj3SLVpf713vaqdWuX8M0tLYqvMMmhzNysgt/bjPTcNPOLs6JU2qtMq6c3xzXXLZrHLZ1KyhONkkOPRrQAXsHU+Q5cikkiG7OF+TYh+TeXocZhVjcM+hR8IFni58u3uJIJ4rmTSSHkcDZaJ2rO8POL6jYAu64J0w4FQNFqnf9PKO6DmIsxYwO0sjrNtmPiQ==
+ bh=zir0nBqpNi8GoaoYhGiyUOMb5uG4blR4OUC0qzEfqx4=;
+ b=u3x6Yv3J3EHbua5rfckBxSr7W6NA8XTOS4TwNPi8Uq1CaddjA1fY812Srg14RzEA/OZvLsvxM2KdDpOWnxTn6d7zxJdzuqYVR/OF+U79FlwS49M/LaC1R+k5GqNj7/56T84AZt8rfdg1FXFUjAnoOUaztoav/uxOiVYl0FiKZq5gxUcY2JckqdXKfZ9H+oExvk/kmTLMb+AMx1y4vPnUYELyjygECgvNzqk+ykPWE+2hD1A9IxuQqkgmAx74te1pjxXDBJR85Xd/bGUoKINvjdG9tITfbNuC7qSQtxjLHqYv74QnXZlR5A34YeSzRLTl9EwlvqO5kuQd8IyewPfbow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  172.205.89.229) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=arm.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pf4Nki1lT8cEMN/2Pw194yGyMKo+GGZD/gXIsoAuW0M=;
- b=Rj7/c+HC2WtpjKUwugmuw3isRQc/GIGapfTDQdoWwQbl9bSTBHbQAp4EKBqecR8V6KrtJNmNxerM2IHteTdDQeo5S6xehoCbJpn9MYiYrwTqn7p7h3yQRgz13lsC0KlmwJt0CQM4RJu0hgr6/Jm8PArsQYVZylsOtaA7OB5b4xc=
-Received: from AM8P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::30)
- by DB3PR08MB8964.eurprd08.prod.outlook.com (2603:10a6:10:431::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.18; Tue, 7 Jan
- 2025 17:28:09 +0000
-Received: from AM3PEPF0000A78D.eurprd04.prod.outlook.com
- (2603:10a6:20b:219:cafe::7a) by AM8P190CA0025.outlook.office365.com
- (2603:10a6:20b:219::30) with Microsoft SMTP Server (version=TLS1_3,
+ bh=zir0nBqpNi8GoaoYhGiyUOMb5uG4blR4OUC0qzEfqx4=;
+ b=QOWuX3gAZwOD8smJ7PRj6cc9fNyevMZ8tn9HpLqrxhf7yILZwDpzQWgeksbN343EykGn0mCgyTgj0QvWv26zjgtDNRQjD8H1SOtDbBbKelxJ1eDCIbgPzSTb34LBx0bKPkRplSdh94INp6MhujiEgDj9lxrgZCBS14M1023K3FM=
+Received: from DUZPR01CA0071.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c2::16) by DBBPR08MB10386.eurprd08.prod.outlook.com
+ (2603:10a6:10:534::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Tue, 7 Jan
+ 2025 17:33:17 +0000
+Received: from DU2PEPF00028CFD.eurprd03.prod.outlook.com
+ (2603:10a6:10:3c2:cafe::6b) by DUZPR01CA0071.outlook.office365.com
+ (2603:10a6:10:3c2::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.10 via Frontend Transport; Tue,
- 7 Jan 2025 17:28:08 +0000
+ 7 Jan 2025 17:33:17 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 172.205.89.229)
  smtp.mailfrom=arm.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=arm.com;
@@ -49,20 +49,16 @@ Received-SPF: Fail (protection.outlook.com: domain of arm.com does not
  receiver=protection.outlook.com; client-ip=172.205.89.229;
  helo=nebula.arm.com;
 Received: from nebula.arm.com (172.205.89.229) by
- AM3PEPF0000A78D.mail.protection.outlook.com (10.167.16.116) with Microsoft
+ DU2PEPF00028CFD.mail.protection.outlook.com (10.167.242.181) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8335.7 via Frontend Transport; Tue, 7 Jan 2025 17:28:08 +0000
-Received: from AZ-NEU-EX02.Emea.Arm.com (10.251.26.5) by AZ-NEU-EX05.Arm.com
+ 15.20.8335.7 via Frontend Transport; Tue, 7 Jan 2025 17:33:16 +0000
+Received: from AZ-NEU-EX06.Arm.com (10.240.25.134) by AZ-NEU-EX05.Arm.com
  (10.240.25.133) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 7 Jan
- 2025 17:28:07 +0000
-Received: from AZ-NEU-EX06.Arm.com (10.240.25.134) by AZ-NEU-EX02.Emea.Arm.com
- (10.251.26.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 7 Jan
- 2025 17:28:06 +0000
+ 2025 17:33:16 +0000
 Received: from e121164.cambridge.arm.com (10.2.10.32) by mail.arm.com
  (10.240.25.134) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 7 Jan 2025 17:28:06 +0000
+ Transport; Tue, 7 Jan 2025 17:33:15 +0000
 From: Florent Tomasin <florent.tomasin@arm.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
  <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
@@ -71,63 +67,64 @@ To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
  Simona Vetter <simona@ffwll.ch>
 CC: Florent Tomasin <florent.tomasin@arm.com>, <nd@arm.com>,
  <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/panthor: Fix invalid handling of AS_LOCKADDR
-Date: Tue, 7 Jan 2025 17:27:31 +0000
-Message-ID: <20250107172732.87044-1-florent.tomasin@arm.com>
+Subject: [PATCH] drm/panthor: Remove dead code
+Date: Tue, 7 Jan 2025 17:33:09 +0000
+Message-ID: <20250107173310.88329-1-florent.tomasin@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM3PEPF0000A78D:EE_|DB3PR08MB8964:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5333fa34-4513-4cfa-f8e3-08dd2f40a761
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028CFD:EE_|DBBPR08MB10386:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d8d9a0c-3400-49aa-ba62-08dd2f415f01
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?nPB8yokrd1gxzkHRs6Qt6s2cn39fFN1ujYD96oyaR0n2BT0zGVHFIiYkz43M?=
- =?us-ascii?Q?V4Hb9VlIc9MWSyJqpeaDD3hheY4UV/LX5JPmfpE9yBEUMjEfl3OFf01wbBeK?=
- =?us-ascii?Q?XdHlwNJJS3lFQFvxoCBlYe2LinXGQZTIswERT28tj7C9bshetiuZgB91fkhI?=
- =?us-ascii?Q?+eHf/ys9FwS3pgoOVhrL3NWoRjCDMbpIpDMQdta92ppsrM6X5T/7v0LyDdup?=
- =?us-ascii?Q?gFvL4u9mT984a/eRn2VlyyPrLhKtU3/cP5PTrXIgHl/G3yAs4gA+QOFrJq4H?=
- =?us-ascii?Q?RrSOZC+yPtQyl+uZ0PuHUqbFNEUI5yYfFhIQ27WfUj/Q9JcBZe11c8UofR3d?=
- =?us-ascii?Q?q0FJvwADZRRlENnaZTabecKojhCgb6e0CHj5q4aslwQGlw2ex/9dtTvWCt21?=
- =?us-ascii?Q?4gyCCjGeuLf/hSSExMNiaA23Qs8GckXDQEUPAfA5rOs0vcK/h/AJe9ngK8y+?=
- =?us-ascii?Q?EjiipYkNDZAo5/Rly4wHTe8Xq+LGpCbbBUEg3OF0lPaHljLP9n5ddSJ13H6v?=
- =?us-ascii?Q?oytvM/FmL7RMtB+lnseWvmUjKrrJjP8kiikPF2kSRQqETusRT6RbLSA6JV+g?=
- =?us-ascii?Q?oKVWj1KufbxK/wv0rkjcBHFFQwuWmIbV4yLGX99J+y1Bf4CzAj6389VVc6vl?=
- =?us-ascii?Q?H3b/LiWRzX5EAk5BmsD02IBy8g0s1Vh/DWKzuKRC4OammHQOmcXjfAD32cYG?=
- =?us-ascii?Q?MMzH7uOzNCR2WbRMTc3Ff6nGKTCdNpsQJQHoZMa8KpnFwps1PEorwQDXtv44?=
- =?us-ascii?Q?iLa16g51xYW34PtMuYhXIpTC+ZiVMzyIsj4pRKbpmXzQdyaqRruGLLbxKeso?=
- =?us-ascii?Q?eBM3GTAz5jzZ8xsEMQCHtgLJvo3hVcHR5cPpRaf86VGsHKpsmnCQcSzztly5?=
- =?us-ascii?Q?i8NG2i+ag658jUxXTBaqpwvGm1+ufyVPWGyYSqJoGDnp/6aDpGWbmE1xw7Mk?=
- =?us-ascii?Q?ySA6bRCNBqKI0i8kSafR5zU5KTmMbulNE47jAA8xMfthADaBUU8pXX512MUm?=
- =?us-ascii?Q?3yOsxyajihXvcQ05a3pmNY0LCFAYkWKEAfBum+QsYNWvejdno1pHcT5Z4VLW?=
- =?us-ascii?Q?wh9CVDcZVvZL6ScBgAC2RNIwS9S6CkjPj5bSVRv3Pzb00zUYk0yI8ksz9/OL?=
- =?us-ascii?Q?AxZ/d2QGXacK29A4JnNgIdvL1InHCbGjAXv1RJI/9B8+0W2Kt/e2tHXihZ0P?=
- =?us-ascii?Q?vih0S9DAc648ieYJLp461ajAzlFkOo0h7AnkY+rZO8dI04mjR+ppEIAgWUdv?=
- =?us-ascii?Q?+XVCfOgbaT5n2n96WN5DiWjBBGLh0f0IAHOGOVZow+JuUIRzEkNKYWLMZWDf?=
- =?us-ascii?Q?coGrnn1DEejcx8FElYHGFLE3llszZqa9Do9vLkM4j7MaKQxhUQd/29mcTJwW?=
- =?us-ascii?Q?LppzgT4N0XL7kkqg/KRQ+zuyIor54r4FN+AtLls6dcTLn5QWsiTJEFPRlsZL?=
- =?us-ascii?Q?CukYKi1Zfht1l2CLmsYmj5tvklBVNRQ9eZNDb052fZZSkhbR1EfZ1w=3D=3D?=
+ ARA:13230040|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xof6qezbCJe1ELGvEQX77x+3/IUZE6eAL3Y46q01/ykuSg0CF7si+GdaMuRw?=
+ =?us-ascii?Q?79v4M/OPP0vGNoghwN4cXL/WgH+4EKkeFdeQvcKaSrgt1TKWSQ88CITs5O60?=
+ =?us-ascii?Q?O2Tzy7jTsnen/1nabC/LKaoPS0EewqB6+iIUJ7Me3kBeA36DajDiUf3GWWoJ?=
+ =?us-ascii?Q?/YsUc8ZbLMyG6uPooiFbzJgqGg50VkATKsHtJKAYpG5DejCYKv8KQC4ZTuG7?=
+ =?us-ascii?Q?qGJIs0bU1fT5CN2p+K0vHjmEKa7w+d9MQEZNFWcovfYAmRjVJ9G0M0SMziwN?=
+ =?us-ascii?Q?Efl+HjvTpuIkM1UbZI9f81pOV2CwuvZTbTnsjpOO4cqcA188LA77WaRo2AXw?=
+ =?us-ascii?Q?jAzNd0RLKXGJADb4Leb89yEgDNCzD01BKB1QTUBwIVFUwVWD3Vn5UVKUYV8V?=
+ =?us-ascii?Q?nrTXGX6e3linL5RtRXz9VW6Pl6VOzyg7RGOSbVnEVGy2FJViWfYCTWNWJ+0E?=
+ =?us-ascii?Q?WHFZaB2tepYAst/dvp9hUSyCT2aYa6sFN21FvQVM1zVyhQYit/0gAT63NTqm?=
+ =?us-ascii?Q?72AWQhcLgKpvTZEXI2UQZxadVdrIm0wcvmMZWwVCJ4wXE/o5AcfpYPsG4i6T?=
+ =?us-ascii?Q?MBCDrlIpeGcdOea+kikmGtnL9EeZeLmrHaEhmGiw9kf8/tcu/jO+JK2iHVtl?=
+ =?us-ascii?Q?QLh1DIMnfwLEcHZMT7RLVeGRfbbJSZPyA3NjFuRPt+l+oMeiitMU+FR7fi08?=
+ =?us-ascii?Q?lfWfiKnUPTSFAJ7rCyt9FZQBON29ZyNsg3EX9NDNln4/MTbv4P2i0fn0gtsW?=
+ =?us-ascii?Q?2QWbtZQE0s/z+zvdvMoBnRuTSR8F+Rgoe9tFUmQSGC6JByDRa/rI8d8s2PrO?=
+ =?us-ascii?Q?FdSHDJZXWJnoTYy6CQ4suFbFUTw754ngKZqoWFx+oCWL5eyiya+O57Wea86E?=
+ =?us-ascii?Q?EAbe8fEb98ISMMo/2WF1C0azeHV89qvm3CF4bQkBjzGZnn3hFNUV8yVv4tu2?=
+ =?us-ascii?Q?qRZDQVFv2AZ7D651loIvAIu4BshKu+nrEbLhryyZfB2Wco0jUBihAt08Dj3/?=
+ =?us-ascii?Q?yKr0CUradEOIIABLQvHEIBYLNwaIYNmWGf1UaYBj6SZwVlV/WbqJaQW5Etee?=
+ =?us-ascii?Q?AWlK5YyZphZKQAYiNBomoRWt08nID6NlIy1WhpHcmhwgYAdxvRTHJ43T0Z/T?=
+ =?us-ascii?Q?6lB+fQbp1b4sMH/gYXsJl+79uNUN5g4rLziFBlySCqclq68LY6JePGm65W+/?=
+ =?us-ascii?Q?md5vtNpNSm1efcEbsm9l2FnKzQzmlhC3Ea07xuVkERNokr3i7MjR9TRWmVgu?=
+ =?us-ascii?Q?Ll7ZP6zrV3GZta39fc6+PMZFChOoT+p9ezYWUbS0BPSovKd9MyvuIKjX1+Qu?=
+ =?us-ascii?Q?74h9loLXR/i/XM+ot+5Ltl3C7JD6qc1KV/simCAKs/W3tvzeMh/+2UQ2+TqO?=
+ =?us-ascii?Q?3rCv0b1eSB8im9MutW5oyfz3R6wqnDkVjaGqrvnHW56vVC7Z7A2ylgamIV5E?=
+ =?us-ascii?Q?IXizd6IHi+0fnAbhlAJTV6oUVWIFUv8eUhDj0Xri1QplamqKSkcpt4lI233b?=
+ =?us-ascii?Q?+Ol0TtqtBq53QnI=3D?=
 X-Forefront-Antispam-Report: CIP:172.205.89.229; CTRY:IE; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:nebula.arm.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2025 17:28:08.8637 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5333fa34-4513-4cfa-f8e3-08dd2f40a761
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2025 17:33:16.9650 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d8d9a0c-3400-49aa-ba62-08dd2f415f01
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[172.205.89.229];
  Helo=[nebula.arm.com]
-X-MS-Exchange-CrossTenant-AuthSource: AM3PEPF0000A78D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028CFD.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB8964
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB10386
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,136 +140,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arm Mali GPUs require AS_LOCKADDR region to be 32KB
-aligned, and does not support a size greater than
-the one specified by the HW property:
-`GPU_MMU_FEATURES_VA_BITS()`.
+Remove unused function declaration in panthor_gem.h:
+- `panthor_gem_prime_import_sg_table()`
 
-NOTES:
-- The size limitation is implementation defined.
-- Invalid alignment or size can result in an HW
-  undefined behaviour.
-
-This patch modifies `lock_region()` to retrieve
-the maximum region size based on the HW property:
-`mmu_features`, and returns an error code if the
-requested size is not compliant with the HW
-limitation.
-
-In addition, the function will guaranty the region
-is always 32KB aligned.
+Remove duplicate macro definitions:
+- `MAX_CSG_PRIO`
+- `MIN_CS_PER_CSG`
+- `MIN_CSGS`
 
 Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 37 ++++++++++++++++++++-------
- 1 file changed, 28 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/panthor/panthor_fw.c    | 1 -
+ drivers/gpu/drm/panthor/panthor_gem.h   | 5 -----
+ drivers/gpu/drm/panthor/panthor_sched.c | 3 ---
+ 3 files changed, 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index c39e3eb1c15d..e834bc4d9a52 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -533,15 +533,20 @@ static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
- 	return status;
- }
+diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+index 68eb4fb4d3a8..4a9c4afa9ad7 100644
+--- a/drivers/gpu/drm/panthor/panthor_fw.c
++++ b/drivers/gpu/drm/panthor/panthor_fw.c
+@@ -201,7 +201,6 @@ struct panthor_fw_section {
  
--static void lock_region(struct panthor_device *ptdev, u32 as_nr,
--			u64 region_start, u64 size)
-+static int lock_region(struct panthor_device *ptdev, u32 as_nr,
-+		       u64 region_start, u64 size)
- {
-+	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
-+	u64 full_va_range = 1ull << va_bits;
- 	u8 region_width;
- 	u64 region;
- 	u64 region_end = region_start + size;
+ #define MIN_CS_PER_CSG				8
+ #define MIN_CSGS				3
+-#define MAX_CSG_PRIO				0xf
  
- 	if (!size)
--		return;
-+		return 0;
-+
-+	if (drm_WARN_ON(&ptdev->base, region_end > full_va_range))
-+		return -EFAULT;
+ #define CSF_IFACE_VERSION(major, minor, patch)	\
+ 	(((major) << 24) | ((minor) << 16) | (patch))
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index e43021cf6d45..5749ef2ebe03 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -85,11 +85,6 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
  
- 	/*
- 	 * The locked region is a naturally aligned power of 2 block encoded as
-@@ -552,7 +557,8 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
- 	 * zeroed and ends with the bit (and subsequent bits) set to one.
- 	 */
- 	region_width = max(fls64(region_start ^ (region_end - 1)),
--			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
-+			   const_ilog2(AS_LOCK_REGION_MIN_SIZE));
-+
+ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
  
- 	/*
- 	 * Mask off the low bits of region_start (which would be ignored by
-@@ -560,21 +566,25 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
- 	 */
- 	region_start &= GENMASK_ULL(63, region_width);
+-struct drm_gem_object *
+-panthor_gem_prime_import_sg_table(struct drm_device *ddev,
+-				  struct dma_buf_attachment *attach,
+-				  struct sg_table *sgt);
+-
+ int
+ panthor_gem_create_with_handle(struct drm_file *file,
+ 			       struct drm_device *ddev,
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 77b184c3fb0c..5844a7f639e0 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -88,9 +88,6 @@
  
--	region = region_width | region_start;
-+	region = (region_width - 1) | region_start;
+ #define JOB_TIMEOUT_MS				5000
  
- 	/* Lock the region that needs to be updated */
- 	gpu_write(ptdev, AS_LOCKADDR_LO(as_nr), lower_32_bits(region));
- 	gpu_write(ptdev, AS_LOCKADDR_HI(as_nr), upper_32_bits(region));
- 	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
-+
-+	return 0;
- }
+-#define MIN_CS_PER_CSG				8
+-
+-#define MIN_CSGS				3
+ #define MAX_CSG_PRIO				0xf
  
- static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
- 				      u64 iova, u64 size, u32 op)
- {
-+	int ret = 0;
-+
- 	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
- 
- 	if (as_nr < 0)
--		return 0;
-+		return ret;
- 
- 	/*
- 	 * If the AS number is greater than zero, then we can be sure
-@@ -583,7 +593,10 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
- 	 */
- 
- 	if (op != AS_COMMAND_UNLOCK)
--		lock_region(ptdev, as_nr, iova, size);
-+		ret = lock_region(ptdev, as_nr, iova, size);
-+
-+	if (ret)
-+		return ret;
- 
- 	/* Run the MMU operation */
- 	write_cmd(ptdev, as_nr, op);
-@@ -608,9 +621,12 @@ static int mmu_hw_do_operation(struct panthor_vm *vm,
- static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
- 				 u64 transtab, u64 transcfg, u64 memattr)
- {
-+	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
-+	u64 full_va_range = 1ull << va_bits;
- 	int ret;
- 
--	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-+	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0,
-+					 full_va_range, AS_COMMAND_FLUSH_MEM);
- 	if (ret)
- 		return ret;
- 
-@@ -628,9 +644,12 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
- 
- static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
- {
-+	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
-+	u64 full_va_range = 1ull << va_bits;
- 	int ret;
- 
--	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
-+	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0,
-+					 full_va_range, AS_COMMAND_FLUSH_MEM);
- 	if (ret)
- 		return ret;
- 
+ #define NUM_INSTRS_PER_CACHE_LINE		(64 / sizeof(u64))
 -- 
 2.34.1
 
