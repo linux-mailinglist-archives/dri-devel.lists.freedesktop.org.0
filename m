@@ -2,90 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95981A04891
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D49A049A8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 19:54:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DD7010E76D;
-	Tue,  7 Jan 2025 17:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A1E110EB4E;
+	Tue,  7 Jan 2025 18:54:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OgspwuQ2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F124410E76D
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:45:32 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-2166f1e589cso15125415ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:45:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736271932; x=1736876732;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vaPQPHSvWyyLv8xX7fZJc9IEXHLgtsQ9XIp8Xqiuv3Y=;
- b=DScKgFn4sH1ShdkJzF4cXtpLWUiw4sV8Cj88ECkFF6uZ6PCvmx5wfEgxi/UatKKeUw
- aRy2HTqc2ZZIaKqpdHOMwFeoEXa5r+N5hjeji08/bsivvP8eHToE/hDqTHGZIgW9R+au
- pinAeAxdqUQvWNu+zwnBYimTtQPXEBznn1uWBDa0X8YGxzc+NCP+cmCnTax2J/tADAed
- Qk5BXLQL1/7+su3U9EuwUHQHuQaRTZDyn5rHQ54lPmyc624OHfXnHRK39sAKu9Rq2Dkr
- NPqNI6IxRCiN+4Xqwr1Szc5JhlpdMr2qXrQk6vyn3+37b5bI6weqlwK9R0FQwn+vaRPu
- tMFQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVNtokBgaY3IdBHuxkaAkPpa3jt/pdg3wmCXioPZ+jL5hq3pCYZbFMtxK9hvaHLiMrYxwXmEVrb0vY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvH15UgL9pXheYC1iZGIDCRtOOjP3U4tOVaUizZvauZCaxOmHS
- QyNcmjNjYFkFf73rmk3hIClWd2kt9nPVbC0VU5LvtC4F9qi3LrupFRA/9u10
-X-Gm-Gg: ASbGncu8tHFaR+kIe/uFzANG4ZNk16fn41+n6iuWnM9tM4IRkZtghI60O+Em4b+nz4C
- aXqiXJbYTajB5UjGRCPIwRKj3m6h5DMk0bYYw+jUSb8ZpBleKt+4IE1Sb5OiclPzdUIO2WVb4E5
- tW+ZDKJi1jxRoVRlM9Zl6xtwixVVwY0Aj1Qkp3TOk0TOkkIHQUUidh3woXLbBO86XA2ca7TBOyp
- ZdIXAaAsL5GwGqpbRA63spdqkZWCD12PGmZtQofTzLjKcpg6xxc8T8D2OnDcJSkPUJEORPq9BvO
- wPeegueUD6PVFGQq6K8K7KI=
-X-Google-Smtp-Source: AGHT+IHNywO5+2bPJLd/3jVimHEJ3ZwNCS3iiOLu0EZ/kiIr4RqENJi4Lia9c3dRIObHm5AWG8nTYQ==
-X-Received: by 2002:a05:6300:6681:b0:1e0:d867:c875 with SMTP id
- adf61e73a8af0-1e88d2eadedmr34831637.36.1736271932013; 
- Tue, 07 Jan 2025 09:45:32 -0800 (PST)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com.
- [209.85.214.180]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72aad837395sm35014629b3a.69.2025.01.07.09.45.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2025 09:45:31 -0800 (PST)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-216281bc30fso14568665ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:45:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUduP0nzodal/57ty3zyQ2sVaCIT5dwP1XWvkobI+DhbTZuJF0D+yHQ+GTUpvh+EGsP6BnhiVh6h5c=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:6d0:b0:4af:f630:7216 with SMTP id
- ada2fe7eead31-4b3d0f2999amr37101137.16.1736271565946; Tue, 07 Jan 2025
- 09:39:25 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29EA410EB4D;
+ Tue,  7 Jan 2025 18:54:04 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507GrmBN032013;
+ Tue, 7 Jan 2025 18:54:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ vEFvEbFGKcXaomdgv2ruDFQjFc2SeWNC5S+Y1l15Zbc=; b=OgspwuQ2dP7ogGAC
+ j7Ds19q29ykYQZ7i51XeBrS709gVty60hOiyaTn3Z2JifYRwRgr3W8ujCHJHh28c
+ FYZPRSdmfZQc9jFyWGr8Bzo8Xk5ppcKSbTj2XDOpYp/xUo+grq6sG6ZZSAjmcRrc
+ yB7Y9P6Ot2nRd12dsRKJijCgedOgXr95zk3nNJNgFQIFS3u0AuHQ6haCcZa0W+v8
+ F1D9MgO1oxQwj3s+VjQh6c9lNv1P0HUT9bVTl3wci+DYwgFewpzQIqW3Mgx0QYT6
+ vvXITlakYtCKwqx6R+npmxAjWum8EVROdYygwHQMBAJv2XnNUAMIOGYnTklAVn28
+ EEQBBA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44186ng994-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Jan 2025 18:54:01 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 507Is06U000535
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 7 Jan 2025 18:54:00 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
+ 10:54:00 -0800
+Message-ID: <317ba70f-2cb3-4fe1-893f-5cab1e24faf1@quicinc.com>
+Date: Tue, 7 Jan 2025 10:53:59 -0800
 MIME-Version: 1.0
-References: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
- <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
- <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
- <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
-In-Reply-To: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 7 Jan 2025 18:39:14 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW4w=zpLY0g6hdUN9-NTmmcpaqH5XxCCNSeu6oQsre8fw@mail.gmail.com>
-X-Gm-Features: AbW1kvYJhzaw4K-QQnqpEvWHnGuJCeeRQqkPsoHSm_R-F6Oc8WJMTLEzNVdJ0LY
-Message-ID: <CAMuHMdW4w=zpLY0g6hdUN9-NTmmcpaqH5XxCCNSeu6oQsre8fw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Fix multiple instances
-To: Doug Anderson <dianders@chromium.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Greg KH <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] drm/msm/dpu: enable CDM for all supported platforms
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, <neil.armstrong@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
+ <1cb0b1f4-b445-471d-a7e1-660e3b82dacc@linaro.org>
+ <6etymzv5vziexe6kcgzas6pr2qgxbgsw3weobydwst7np77col@jszgjhnvcsy7>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <6etymzv5vziexe6kcgzas6pr2qgxbgsw3weobydwst7np77col@jszgjhnvcsy7>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: MWt8NvbFwRDODilkBrcxc145wQkoh7fP
+X-Proofpoint-GUID: MWt8NvbFwRDODilkBrcxc145wQkoh7fP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ adultscore=0 bulkscore=0 impostorscore=0 clxscore=1015 suspectscore=0
+ mlxlogscore=944 spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501070155
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,121 +94,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
 
-On Tue, Jan 7, 2025 at 6:27=E2=80=AFPM Doug Anderson <dianders@chromium.org=
-> wrote:
-> On Wed, Dec 11, 2024 at 12:27=E2=80=AFAM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Tue, Dec 10, 2024 at 6:09=E2=80=AFPM Doug Anderson <dianders@chromiu=
-m.org> wrote:
-> > > On Tue, Dec 10, 2024 at 6:19=E2=80=AFAM Geert Uytterhoeven
-> > > <geert+renesas@glider.be> wrote:
-> > > > Each bridge instance creates up to four auxiliary devices with diff=
-erent
-> > > > names.  However, their IDs are always zero, causing duplicate filen=
-ame
-> > > > errors when a system has multiple bridges:
-> > > >
-> > > >     sysfs: cannot create duplicate filename '/bus/auxiliary/devices=
-/ti_sn65dsi86.gpio.0'
-> > > >
-> > > > Fix this by using a unique instance ID per bridge instance.  The
-> > > > instance ID is derived from the I2C adapter number and the bridge's=
- I2C
-> > > > address, to support multiple instances on the same bus.
-> > > >
-> > > > Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and =
-MIPI-to-eDP bridge into sub-drivers")
->
-> When I applied the patch, the DRM tools ran checkpatch in strict mode
-> which pointed out that you have too many digits in your "Fixes" hash.
-> I've adjusted them to make checkpatch happy.
 
-So the DRM tools don't use the latest version from linux-next yet...
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/=
-scripts/checkpatch.pl?id=3D6356f18f09dc0781650c4f128ea48745fa48c415
+On 1/7/2025 3:46 AM, Dmitry Baryshkov wrote:
+> On Tue, Jan 07, 2025 at 09:16:21AM +0100, neil.armstrong@linaro.org wrote:
+>> On 24/12/2024 05:25, Dmitry Baryshkov wrote:
+>>> Enable CDM block on all the platforms where it is supposed to be
+>>> present. Notably, from the platforms being supported by the DPU driver
+>>> it is not enabled for SM6115 (DPU 6.3), QCM2290 (DPU 6.5) and SM6375
+>>> (DPU 6.9)
+>>
+>>
+>> Can you specify how to validate this ?
+> 
+> Use YUV for Writeback or DP output.
+> 
 
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > > > On the White Hawk development board:
-> > > >
-> > > >     /sys/bus/auxiliary/devices/
-> > > >     |-- ti_sn65dsi86.aux.1068
-> > > >     |-- ti_sn65dsi86.aux.4140
-> > > >     |-- ti_sn65dsi86.bridge.1068
-> > > >     |-- ti_sn65dsi86.bridge.4140
-> > > >     |-- ti_sn65dsi86.gpio.1068
-> > > >     |-- ti_sn65dsi86.gpio.4140
-> > > >     |-- ti_sn65dsi86.pwm.1068
-> > > >     `-- ti_sn65dsi86.pwm.4140
-> > > >
-> > > > Discussion after v1:
-> > > >   - https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d=
-1.1729180470.git.geert+renesas@glider.be
-> > > >
-> > > > Notes:
-> > > >   - While the bridge supports only two possible I2C addresses, I2C
-> > > >     translators may be present, increasing the address space.  Henc=
-e the
-> > > >     instance ID calculation assumes 10-bit addressing.  Perhaps it =
-makes
-> > > >     sense to introduce a global I2C helper function for this?
-> > > >
-> > > >   - I think this is the simplest solution.  If/when the auxiliary b=
-us
-> > > >     receives support =C3=A0 la PLATFORM_DEVID_AUTO, the driver can =
-be
-> > > >     updated.
-> > > >
-> > > > v2:
-> > > >   - Use I2C adapter/address instead of ida_alloc().
-> > > > ---
-> > > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
-> > > >  1 file changed, 2 insertions(+)
-> > >
-> > > While I agree with Laurent that having a more automatic solution woul=
-d
-> > > be nice, this is small and fixes a real problem. I'd be of the opinio=
-n
-> > > that we should land it.
-> > >
-> > > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > Thanks!
-> >
-> > > If I personally end up being the person to land it, I'll likely wait
-> > > until January since I'll be on vacation soon for the holidays and I
-> > > don't want to check something that's slightly controversial in and
-> > > then disappear. If someone else feels it's ready to land before then =
-I
-> > > have no objections.
-> >
-> > There is no need to hurry. The only board I have that needs this has
-> > another issue in its second display pipeline, which will require a
-> > new driver no one is working on yet.
->
-> As promised, I've landed this. In this case I've landed in
-> drm-misc-next. Even though it's a fix since it didn't sound urgent
-> enough to land in drm-misc-fixes. Since it changes sysfs paths
-> slightly, it feels like it would be good to give it extra bake time
-> and not rush it as a fix.
->
-> [1/1] drm/bridge: ti-sn65dsi86: Fix multiple instances
->       commit: 574f5ee2c85a00a579549d50e9fc9c6c072ee4c4
+I think writeback is easier, finding a DP sink which supports YUV has 
+been hard even for me.
 
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+>>
+>> Thanks,
+>> Neil
+>>
+>>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>> Dmitry Baryshkov (4):
+>>>         drm/msm/dpu: rename CDM block definition
+>>>         drm/msm/dpu: enable CDM_0 for all DPUs which are known to have it
+>>>         drm/msm/dpu: enable CDM_0 for SC8280XP platform
+>>>         drm/msm/dpu: enable CDM_0 for X Elite platform
+>>>
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 2 +-
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 2 +-
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 2 +-
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 +
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c           | 2 +-
+>>>    26 files changed, 26 insertions(+), 4 deletions(-)
+>>> ---
+>>> base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+>>> change-id: 20241215-dpu-add-cdm-0b5b9283ffa8
+>>>
+>>> Best regards,
+>>
+> 
