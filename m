@@ -2,134 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86FE1A03DC8
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:32:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80654A03DF6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 12:38:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3747E10E411;
-	Tue,  7 Jan 2025 11:32:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 51E9510E3EE;
+	Tue,  7 Jan 2025 11:38:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="R5HlCX9P";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZV5RcRru";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B85DD10E411
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:32:34 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-540218726d5so15902444e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 03:32:34 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4C9B10E3EE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 11:38:04 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-53e3778bffdso17033307e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 03:38:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736249493; x=1736854293; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=G3N5s5fdL2YNf7soMuvHTeYgJ8vy52pHoEfk/tcGSD8=;
- b=R5HlCX9P2+IGbW3aQGV6h+SpZEdmyeGZPruuB5C0nX7QtXnh5uBl4Cf9cg9TqezUuS
- GbEdiF1M3qxqdSk8JPJCqv86EJjI14TnJEmjNy0GBpxgis4h1cHbsdvkTr5D3hdoNbw3
- R5GCqh+/uXz4eOb6qRmUPH/aVfqYRnd337qs1sqqEeVdUfwrgfxShOtTCqKq5wFKimgI
- ZGnQfja2tN95ZydphVDeEvKgBggkkbvPjql5BoXSo/4r9iLkHJZmpS5RUaFrgLgzhdwi
- KnX9hKWQQDnqySmG9tEOxWN3b3BW0yVJi+Yu/unG+jcqDqxq5euOtAL2FZ+GaHBFwsLe
- FYXw==
+ d=linaro.org; s=google; t=1736249823; x=1736854623; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=o/PYRxsMYOI6HMRaY2mnjWULMAox9UZwOEIGH7JXfww=;
+ b=ZV5RcRrualRisDrL9/wkxRoojE4fqk/LOrWlS/adfOBD9WebeZm+gt7Kzngme6rf1j
+ W+0lKl2+IxrkDbTSI6CXTuA2hUYCHoQBaCh63VFNHR93SRcPFduQrUIpbWgQuodgmyZz
+ uYAV5ykCgQZ2faKf+HHhwevy4gFZHB51nlh1b8trnWP+b1RaGrNaDDGQNtbqT9EoCsIZ
+ dojKlg+OMGB/RDmv3GT1bIuUPogai1UzlyvUNSnuWTlkmhxeGElFE1ybNYPaFIboZysK
+ AguWahP4cbsKlfO5wk3um5z7jri3MsvA/0RGg71zBGJkvRt1qOw43kHSsmhX9SvJNaYp
+ K3dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736249493; x=1736854293;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G3N5s5fdL2YNf7soMuvHTeYgJ8vy52pHoEfk/tcGSD8=;
- b=NDQNFtSITE0L9bmUxFyK3W0/pjxsNr42ofvwdmofbyCudtZ2P7koYpicdIcKhXd+A+
- uHe6qXXkRqWJNx4E23xUsPH7QitQxw3w5SuaivrxHLYSTfCMLNQlraMxQD3LHFjPhXMk
- m24jD+H5FcRuhx6kb+ciUPNEQ/gomRPppChCAyGT2FQ6jVAMiBFo9x/NMX/8uBVfszaL
- QsIhj0RclbJiBj3eEbEFHHZP6yZnDbyhUW8KEEx+7Z5+QyyhX4JQsNHndldds6GqDFwn
- +/yMYfcKkWUuwdiJcmJKUbkjsGa5/cpEXS3WJaAEWHMIEmxNi0f0CnShaK4tjML2d31w
- zBWw==
+ d=1e100.net; s=20230601; t=1736249823; x=1736854623;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o/PYRxsMYOI6HMRaY2mnjWULMAox9UZwOEIGH7JXfww=;
+ b=B61gP7p9zSlkZxhhRLGYetDNHr9rDtzddacCR2lP6WAdTb9PKVhzDYw+0xSvC7Ap1T
+ cJAR4BZggdLi3+VPjKdcNZg/+hf65sDtHRREugUQw9YyfQXU88S4Bo6JIShyMvIucMYU
+ XAGBr++8ieB5m4gKw3+A/1s3AfWFd/onXifkrOBrebB2LC1ZZg+R48zQPGO1IF1WmASM
+ ALP3EEXJ8EINKq0ugNJTwV9BWS0qgcAVjHhVBGiAq+B2ZwkD+NfvdpW09gBOJ9LTth6O
+ j/pQKlrzbQCORCfEwBf8p1h/FJrtlf3IidtDm5Lg57Gu9WkUkgclYqQEJ1i3oZwGi5C2
+ AGOw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW5urNdwMFXfdFJ5yEWq2ExxkMNtxRfUhBtMWdfet9WwcARalpdKYVQTHDY8x+tJhq/aryTMfhthaA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJ5eFfjiRPxNNou8Vto8YKv4LtqWYqtJmMN2W4WRoFGyjxbokd
- sU+yrFtA/W/RNK2sLKSKKmpZM7j+t4kthKcSm6foQ9aPfod+FM1mF7ieTm++5IA=
-X-Gm-Gg: ASbGncsy/ZBa/J/n8QX8cZjvvU7UKcICUO78qkayycEqvtkPAa1nd+Jg2hZHSEqykCn
- NQuLWepOeQyn2FOqt74hrVpFzdAPyDV8XccbVGWQrFiiStQggyHvFcSSM5iK66NtOCrA2qLnl0y
- rximmxufd0z9h+iBxguuWiXAQBJnjFPQEmryotTIfgELXtjEHvG/WQAFizHhgRGGKjWmC2C9nzv
- ljAKVG05SoNCccxxkjFOQd3dLyF4vsGlc4q11DkCX6w1lOkWJCcbMtBsb9uisZN1KWpYzMRXpYA
- ODt3QRNVpjkoxzSHOuUsAIhO
-X-Google-Smtp-Source: AGHT+IENf5iIM0eyUUKKI+rIQnGA5rELVSy2jGiVzJtZlwGnyitqzrPGGRO+n/bqFHmHqnjQEDg7ZA==
-X-Received: by 2002:ac2:4c4c:0:b0:542:7217:361a with SMTP id
- 2adb3069b0e04-54272173890mr3514721e87.10.1736249493006; 
- Tue, 07 Jan 2025 03:31:33 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::b8c]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542235f658csm5169219e87.44.2025.01.07.03.31.30
+ AJvYcCXEgJ8A9w19kIjTfQLu6CEDAqeup+2Klo6oOh4TjiYhZwExjEwtAXk1ROqIbhvdW7sQKBULy6AkOZU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4qsufalvRfs4GPnHlRRme3aIAHgm/OhK7IGGLYdXThoe4SnPE
+ TQ0gGFzNozFw8pbPJ0yBiAjXYcAB3SVwxSVnM1dM4TX+BP8BPCHIgC1H9RmPrdA=
+X-Gm-Gg: ASbGncuA111HKKznUS9Ge2FO5C4laHb7iSCLkvkYgjajLLg0B8cT9MIFh5z1MgBsDJU
+ o9KUoU0IPb3+Ct2OQVSf1YP6/bQYjTstx1m0ahLwWBkeERZGrpFwF4G+8hyT5BhxQQpB4llGXqg
+ c3D9IyqOcqCAKAb84vZFJZ2T4vZ3NWC5g9+AW8BK4+ln7GUfWTC0U2Kq17rBtzmlr5uT7wX4Ifi
+ 9Gie+GCJOq4NIjVeLLhxe9UZYLusxzzOrOl9i7pAZjn80KDtnxE8x2gUC3+6MXfFXoaE2/3daMp
+ lMDLsru8zU/n3pkXYwaysnXlqLjTaGnxgJ5Y
+X-Google-Smtp-Source: AGHT+IEqjZikjGljv5hNpFIZmUNE1YEc+DHgSbndWE4bILAQC6OmXd3/2r+BwuoHM7Of4+6OQXWByw==
+X-Received: by 2002:a05:6512:3049:b0:542:250d:eef2 with SMTP id
+ 2adb3069b0e04-5422953c2f8mr18389002e87.20.1736249823170; 
+ Tue, 07 Jan 2025 03:37:03 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54223813898sm5127012e87.154.2025.01.07.03.37.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2025 03:31:31 -0800 (PST)
+ Tue, 07 Jan 2025 03:37:01 -0800 (PST)
+Date: Tue, 7 Jan 2025 13:36:59 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@redhat.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
- const mode pointer
-Date: Tue,  7 Jan 2025 13:31:28 +0200
-Message-ID: <173624946815.1500596.321177900833598022.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
-References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 0/4] Fix ycbcr_420_allowed inconsistency for HDMI
+ bridges
+Message-ID: <fvwc3jpwizqp5b7nzoiik3dlokyhy6zvhjzwnx4dxe4ock5t3o@pcmfq2tzmyek>
+References: <20241224-bridge-conn-fmt-prio-v4-0-a9ceb5671379@collabora.com>
+ <f432ddfb896acf0dc91eb0e7f974a97e@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f432ddfb896acf0dc91eb0e7f974a97e@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,32 +97,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 14 Dec 2024 15:37:04 +0200, Dmitry Baryshkov wrote:
-> While working on the generic mode_valid() implementation for the HDMI
-> Connector framework I noticed that unlike other DRM objects
-> drm_connector accepts non-const pointer to struct drm_display_mode,
-> while obviously mode_valid() isn't expected to modify the argument.
+On Mon, Jan 06, 2025 at 02:55:52PM +0000, Maxime Ripard wrote:
+> On Tue, 24 Dec 2024 20:22:40 +0200, Cristian Ciocaltea wrote:
+> > Bridges with DRM_BRIDGE_OP_HDMI set in drm_bridge->ops are expected to
+> > rely on drm_bridge->supported_formats to advertise the supported
+> > colorspaces, including HDMI_COLORSPACE_YUV420.
+> > 
+> > However, when drm_bridge_connector gets initialised, only
+> > 
+> > [ ... ]
 > 
-> Mass-change the DRM framework code to pass const argument to that
-> callback.
-> 
-> [...]
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-Applied to drm-misc-next, thanks!
+Thanks!
 
-[1/5] drm/encoder_slave: make mode_valid accept const struct drm_display_mode
-      commit: 7a5cd45fab0a2671aa4ea6d8fb80cea268387176
-[2/5] drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
-      commit: b255ce4388e09f14311e7912d0ccd45a14a08d66
-[3/5] drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode_idx()
-      commit: 5f011b442006ccb29044263df10843de80fc0b14
-[4/5] drm/connector: make mode_valid_ctx take a const struct drm_display_mode
-      commit: 66df9debcb29d14802912ed79a9cf9ba721b51a4
-[5/5] drm/connector: make mode_valid take a const struct drm_display_mode
-      commit: 26d6fd81916e62d2b0568d9756e5f9c33f0f9b7a
+I thought about picking up those patches, but then I deciced to ask you
+first. I think first two patches should go to drm-next-fixes? Or just
+drm-fixes? While the last two patches look kike a drm-next material.
 
-Best regards,
 -- 
 With best wishes
 Dmitry
-
