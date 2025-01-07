@@ -2,103 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14037A04849
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148EDA04835
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 18:28:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90CB910E75F;
-	Tue,  7 Jan 2025 17:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09CA010E0D4;
+	Tue,  7 Jan 2025 17:28:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="WmXgPk0r";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="Rj7/c+HC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 453B910E75F
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:29:51 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-3003943288bso179793971fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:29:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1736270929; x=1736875729;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5e6oybH8waw0F1euskY/nJ2JCR+I1f/uoiRiLQitoeM=;
- b=WmXgPk0rJi2rsEXf9xxCnZy0+6nwctjwO7CFo8aawtO5NFdw2x/Aj3/aKH6oCxTQ4w
- KYLswwO/QDDG3i/zTKZeBfGPE8eANhPWpu/6GBz5Z8ccmQC9smOCdBTNOY8trQYk2pGP
- ZJ8Zk4ggNyKWNGpKkL6z3q/dxGjacBT4xPcrs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736270929; x=1736875729;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5e6oybH8waw0F1euskY/nJ2JCR+I1f/uoiRiLQitoeM=;
- b=i6zTUgCLi+AiIHyS16BkEeAxdRlD0P36j57TbKzngj9ya/cpJLuYPF3fEkltxXFH/u
- Rxni5RvxOEfpu9yex/zg5GjaJBhNRHYe67N3TYJ8a/Zrxtow953emRso/XDp5qUGMDTK
- vXZZp4W0/x4+6DjanmvbXo3oBVOl7YKPgWl6QeLekZpxl9et6CuBcXz5UoDDbJflKJuc
- dXrn9cSzPsAQFeT5msRvjID/DXksHaEM/Ah9nMuK+RmvDGEvlvZG0ejFKc6XwKRDoHaS
- 336JnmkK1G6ntl00f0EIRb24Q6lZrEB4hyhLw8L4Bje5zZGba7PeUYKMbgjSmqpA+eGS
- Y5dA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCULPe23GknUWfQUt1aSjy2FKz7YHbQjF2XDvM1AaIURs3GGVcZx2GPmPW9rbL3UMAo8R7UhAsh3JUc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7dWozxYf3UOg/IXDpMJBcQNuTrZ5BQvc0wCuwd79Lhx9IXr3i
- JCHJSEdlrw49gksJ89LB1O8lWUHTLVJ6vng+NzicjYzWIykvXk9F3/xGBFVPT0uzoFD0XYA0ubC
- 78bn2
-X-Gm-Gg: ASbGncvRC3v9WCuvtapY22fwo6XMXH+f9gp4NiBsWWUQRTXWooQNvNaspVU7MoHsumj
- 6QN0MRNj7ZWOV1leJyICjXy5M8EgbWxkBXGIKU1mmnr3mkTi0tG28x4vm4jidWTsQyX2NoafwH5
- v7y6MN8XPDw48RAfoigcVeexnAAtbHeAsDCPBDkHSvG9fl0Mq6uqBVppuyjwDFBeZIf6IxCwwLJ
- 6eMiCZJsOOySMdkKKGyZkoH3bqr4/UivYVQlqe8i0PtYX3JpVloXS8GCWES0hvJdVFndWmjQedL
- 5c60l2U+pOirI565doSm
-X-Google-Smtp-Source: AGHT+IGmiZpbJ+VO5H7wMHT5uHfD8TMWmtNsy+X50ZhpOI2B8yuPP63MgWYBZ6wB8lIBc7F3ZfTHKQ==
-X-Received: by 2002:a05:651c:1501:b0:302:1861:6df4 with SMTP id
- 38308e7fff4ca-30468620922mr198950231fa.35.1736270510208; 
- Tue, 07 Jan 2025 09:21:50 -0800 (PST)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com.
- [209.85.167.54]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3045b06a1easm60576221fa.73.2025.01.07.09.21.48
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2025 09:21:49 -0800 (PST)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53ffaaeeb76so16715268e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 09:21:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+TkLL5NzBfsPWJcdc6zrM9hFv8nAFiINDcuwfz9EYTqiczjj0AT4I3ex5qlm1hzYUl7jqBP5RrsY=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:2308:b0:540:357a:4aa3 with SMTP id
- 2adb3069b0e04-542295404demr19430722e87.28.1736270507695; Tue, 07 Jan 2025
- 09:21:47 -0800 (PST)
-MIME-Version: 1.0
-References: <7a68a0e3f927e26edca6040067fb653eb06efb79.1733840089.git.geert+renesas@glider.be>
- <CAD=FV=XpRt_ivSDz0Lzc=A+z3KFrXkVYTn716TD1kZMAyoGQ_A@mail.gmail.com>
- <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
-In-Reply-To: <CAMuHMdXhEcr-XDpD_RHHU4sxVNS7=iUWUNEwdEwS4pEGYzP39w@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 7 Jan 2025 09:21:36 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
-X-Gm-Features: AbW1kvazHgvULSfHqt_0VX8ft9CTn7RJ3u6wjnfVyyyuGT7WJIlXCd5AaiKW4R8
-Message-ID: <CAD=FV=VONgQgohhtO07tQ4Paif_v1h+xrdAT8S8amkCc5rfgGw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: ti-sn65dsi86: Fix multiple instances
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur03on2083.outbound.protection.outlook.com [40.107.103.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E67B10E0D4
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 17:28:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ifmYtTJi21xEvmODYtb9cGhjpM2vV43xhOsSCJ9iBVi5SdDKFcb82LKWXiq6BzsQJu0x6wmWlQ4G1hvoAs9NNwNKm/SUjmIkFicB1WMqjtyH+V8P59VbbgvUUEiGu+cCzmj7p6j1G6pO8bBvfuK10ynUfmzO0lvd47ir1qBtEj0jH+n3bmmDxk6H8TdZDTL2VNzMCXnex3ZEWaXKxPmn+I8MD27Pww9DAKhU3gc0fnYjB0epAI1L1F4tAaknSvhc2x52P/6gV719fIh9SCGTcybNLDJh1SoFeYLAQ9mbqMW5u7esZVdfcdLsS2XJzliTAuinuPRWbiIjmvGwxYysSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pf4Nki1lT8cEMN/2Pw194yGyMKo+GGZD/gXIsoAuW0M=;
+ b=GLgxqOdfyVWvRLkpTiKkzZCo4wWpB4y8W0cn3J/iwg/q7H3HercHOQ8kV52wnv/E1srEwS78K3Iz5BnmyIyH33tQykA+46cNQJF6lRTmIUJDGenmrZ2xgFcdE+LnZBLsMl45kAoM5GSJuf2jIcbXtfAOj3SLVpf713vaqdWuX8M0tLYqvMMmhzNysgt/bjPTcNPOLs6JU2qtMq6c3xzXXLZrHLZ1KyhONkkOPRrQAXsHU+Q5cikkiG7OF+TYh+TeXocZhVjcM+hR8IFni58u3uJIJ4rmTSSHkcDZaJ2rO8POL6jYAu64J0w4FQNFqnf9PKO6DmIsxYwO0sjrNtmPiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 172.205.89.229) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pf4Nki1lT8cEMN/2Pw194yGyMKo+GGZD/gXIsoAuW0M=;
+ b=Rj7/c+HC2WtpjKUwugmuw3isRQc/GIGapfTDQdoWwQbl9bSTBHbQAp4EKBqecR8V6KrtJNmNxerM2IHteTdDQeo5S6xehoCbJpn9MYiYrwTqn7p7h3yQRgz13lsC0KlmwJt0CQM4RJu0hgr6/Jm8PArsQYVZylsOtaA7OB5b4xc=
+Received: from AM8P190CA0025.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::30)
+ by DB3PR08MB8964.eurprd08.prod.outlook.com (2603:10a6:10:431::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.18; Tue, 7 Jan
+ 2025 17:28:09 +0000
+Received: from AM3PEPF0000A78D.eurprd04.prod.outlook.com
+ (2603:10a6:20b:219:cafe::7a) by AM8P190CA0025.outlook.office365.com
+ (2603:10a6:20b:219::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.10 via Frontend Transport; Tue,
+ 7 Jan 2025 17:28:08 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 172.205.89.229)
+ smtp.mailfrom=arm.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=arm.com;
+Received-SPF: Fail (protection.outlook.com: domain of arm.com does not
+ designate 172.205.89.229 as permitted sender)
+ receiver=protection.outlook.com; client-ip=172.205.89.229;
+ helo=nebula.arm.com;
+Received: from nebula.arm.com (172.205.89.229) by
+ AM3PEPF0000A78D.mail.protection.outlook.com (10.167.16.116) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8335.7 via Frontend Transport; Tue, 7 Jan 2025 17:28:08 +0000
+Received: from AZ-NEU-EX02.Emea.Arm.com (10.251.26.5) by AZ-NEU-EX05.Arm.com
+ (10.240.25.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 7 Jan
+ 2025 17:28:07 +0000
+Received: from AZ-NEU-EX06.Arm.com (10.240.25.134) by AZ-NEU-EX02.Emea.Arm.com
+ (10.251.26.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 7 Jan
+ 2025 17:28:06 +0000
+Received: from e121164.cambridge.arm.com (10.2.10.32) by mail.arm.com
+ (10.240.25.134) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Tue, 7 Jan 2025 17:28:06 +0000
+From: Florent Tomasin <florent.tomasin@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Greg KH <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Simona Vetter <simona@ffwll.ch>
+CC: Florent Tomasin <florent.tomasin@arm.com>, <nd@arm.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/panthor: Fix invalid handling of AS_LOCKADDR
+Date: Tue, 7 Jan 2025 17:27:31 +0000
+Message-ID: <20250107172732.87044-1-florent.tomasin@arm.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A78D:EE_|DB3PR08MB8964:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5333fa34-4513-4cfa-f8e3-08dd2f40a761
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?nPB8yokrd1gxzkHRs6Qt6s2cn39fFN1ujYD96oyaR0n2BT0zGVHFIiYkz43M?=
+ =?us-ascii?Q?V4Hb9VlIc9MWSyJqpeaDD3hheY4UV/LX5JPmfpE9yBEUMjEfl3OFf01wbBeK?=
+ =?us-ascii?Q?XdHlwNJJS3lFQFvxoCBlYe2LinXGQZTIswERT28tj7C9bshetiuZgB91fkhI?=
+ =?us-ascii?Q?+eHf/ys9FwS3pgoOVhrL3NWoRjCDMbpIpDMQdta92ppsrM6X5T/7v0LyDdup?=
+ =?us-ascii?Q?gFvL4u9mT984a/eRn2VlyyPrLhKtU3/cP5PTrXIgHl/G3yAs4gA+QOFrJq4H?=
+ =?us-ascii?Q?RrSOZC+yPtQyl+uZ0PuHUqbFNEUI5yYfFhIQ27WfUj/Q9JcBZe11c8UofR3d?=
+ =?us-ascii?Q?q0FJvwADZRRlENnaZTabecKojhCgb6e0CHj5q4aslwQGlw2ex/9dtTvWCt21?=
+ =?us-ascii?Q?4gyCCjGeuLf/hSSExMNiaA23Qs8GckXDQEUPAfA5rOs0vcK/h/AJe9ngK8y+?=
+ =?us-ascii?Q?EjiipYkNDZAo5/Rly4wHTe8Xq+LGpCbbBUEg3OF0lPaHljLP9n5ddSJ13H6v?=
+ =?us-ascii?Q?oytvM/FmL7RMtB+lnseWvmUjKrrJjP8kiikPF2kSRQqETusRT6RbLSA6JV+g?=
+ =?us-ascii?Q?oKVWj1KufbxK/wv0rkjcBHFFQwuWmIbV4yLGX99J+y1Bf4CzAj6389VVc6vl?=
+ =?us-ascii?Q?H3b/LiWRzX5EAk5BmsD02IBy8g0s1Vh/DWKzuKRC4OammHQOmcXjfAD32cYG?=
+ =?us-ascii?Q?MMzH7uOzNCR2WbRMTc3Ff6nGKTCdNpsQJQHoZMa8KpnFwps1PEorwQDXtv44?=
+ =?us-ascii?Q?iLa16g51xYW34PtMuYhXIpTC+ZiVMzyIsj4pRKbpmXzQdyaqRruGLLbxKeso?=
+ =?us-ascii?Q?eBM3GTAz5jzZ8xsEMQCHtgLJvo3hVcHR5cPpRaf86VGsHKpsmnCQcSzztly5?=
+ =?us-ascii?Q?i8NG2i+ag658jUxXTBaqpwvGm1+ufyVPWGyYSqJoGDnp/6aDpGWbmE1xw7Mk?=
+ =?us-ascii?Q?ySA6bRCNBqKI0i8kSafR5zU5KTmMbulNE47jAA8xMfthADaBUU8pXX512MUm?=
+ =?us-ascii?Q?3yOsxyajihXvcQ05a3pmNY0LCFAYkWKEAfBum+QsYNWvejdno1pHcT5Z4VLW?=
+ =?us-ascii?Q?wh9CVDcZVvZL6ScBgAC2RNIwS9S6CkjPj5bSVRv3Pzb00zUYk0yI8ksz9/OL?=
+ =?us-ascii?Q?AxZ/d2QGXacK29A4JnNgIdvL1InHCbGjAXv1RJI/9B8+0W2Kt/e2tHXihZ0P?=
+ =?us-ascii?Q?vih0S9DAc648ieYJLp461ajAzlFkOo0h7AnkY+rZO8dI04mjR+ppEIAgWUdv?=
+ =?us-ascii?Q?+XVCfOgbaT5n2n96WN5DiWjBBGLh0f0IAHOGOVZow+JuUIRzEkNKYWLMZWDf?=
+ =?us-ascii?Q?coGrnn1DEejcx8FElYHGFLE3llszZqa9Do9vLkM4j7MaKQxhUQd/29mcTJwW?=
+ =?us-ascii?Q?LppzgT4N0XL7kkqg/KRQ+zuyIor54r4FN+AtLls6dcTLn5QWsiTJEFPRlsZL?=
+ =?us-ascii?Q?CukYKi1Zfht1l2CLmsYmj5tvklBVNRQ9eZNDb052fZZSkhbR1EfZ1w=3D=3D?=
+X-Forefront-Antispam-Report: CIP:172.205.89.229; CTRY:IE; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:nebula.arm.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2025 17:28:08.8637 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5333fa34-4513-4cfa-f8e3-08dd2f40a761
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[172.205.89.229];
+ Helo=[nebula.arm.com]
+X-MS-Exchange-CrossTenant-AuthSource: AM3PEPF0000A78D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR08MB8964
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,100 +143,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Arm Mali GPUs require AS_LOCKADDR region to be 32KB
+aligned, and does not support a size greater than
+the one specified by the HW property:
+`GPU_MMU_FEATURES_VA_BITS()`.
 
-On Wed, Dec 11, 2024 at 12:27=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Doug,
->
-> On Tue, Dec 10, 2024 at 6:09=E2=80=AFPM Doug Anderson <dianders@chromium.=
-org> wrote:
-> > On Tue, Dec 10, 2024 at 6:19=E2=80=AFAM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > Each bridge instance creates up to four auxiliary devices with differ=
-ent
-> > > names.  However, their IDs are always zero, causing duplicate filenam=
-e
-> > > errors when a system has multiple bridges:
-> > >
-> > >     sysfs: cannot create duplicate filename '/bus/auxiliary/devices/t=
-i_sn65dsi86.gpio.0'
-> > >
-> > > Fix this by using a unique instance ID per bridge instance.  The
-> > > instance ID is derived from the I2C adapter number and the bridge's I=
-2C
-> > > address, to support multiple instances on the same bus.
-> > >
-> > > Fixes: bf73537f411b0d4f ("drm/bridge: ti-sn65dsi86: Break GPIO and MI=
-PI-to-eDP bridge into sub-drivers")
+NOTES:
+- The size limitation is implementation defined.
+- Invalid alignment or size can result in an HW
+  undefined behaviour.
 
-When I applied the patch, the DRM tools ran checkpatch in strict mode
-which pointed out that you have too many digits in your "Fixes" hash.
-I've adjusted them to make checkpatch happy.
+This patch modifies `lock_region()` to retrieve
+the maximum region size based on the HW property:
+`mmu_features`, and returns an error code if the
+requested size is not compliant with the HW
+limitation.
 
+In addition, the function will guaranty the region
+is always 32KB aligned.
 
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > On the White Hawk development board:
-> > >
-> > >     /sys/bus/auxiliary/devices/
-> > >     |-- ti_sn65dsi86.aux.1068
-> > >     |-- ti_sn65dsi86.aux.4140
-> > >     |-- ti_sn65dsi86.bridge.1068
-> > >     |-- ti_sn65dsi86.bridge.4140
-> > >     |-- ti_sn65dsi86.gpio.1068
-> > >     |-- ti_sn65dsi86.gpio.4140
-> > >     |-- ti_sn65dsi86.pwm.1068
-> > >     `-- ti_sn65dsi86.pwm.4140
-> > >
-> > > Discussion after v1:
-> > >   - https://lore.kernel.org/8c2df6a903f87d4932586b25f1d3bd548fe8e6d1.=
-1729180470.git.geert+renesas@glider.be
-> > >
-> > > Notes:
-> > >   - While the bridge supports only two possible I2C addresses, I2C
-> > >     translators may be present, increasing the address space.  Hence =
-the
-> > >     instance ID calculation assumes 10-bit addressing.  Perhaps it ma=
-kes
-> > >     sense to introduce a global I2C helper function for this?
-> > >
-> > >   - I think this is the simplest solution.  If/when the auxiliary bus
-> > >     receives support =C3=A0 la PLATFORM_DEVID_AUTO, the driver can be
-> > >     updated.
-> > >
-> > > v2:
-> > >   - Use I2C adapter/address instead of ida_alloc().
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> >
-> > While I agree with Laurent that having a more automatic solution would
-> > be nice, this is small and fixes a real problem. I'd be of the opinion
-> > that we should land it.
-> >
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> Thanks!
->
-> > If I personally end up being the person to land it, I'll likely wait
-> > until January since I'll be on vacation soon for the holidays and I
-> > don't want to check something that's slightly controversial in and
-> > then disappear. If someone else feels it's ready to land before then I
-> > have no objections.
->
-> There is no need to hurry. The only board I have that needs this has
-> another issue in its second display pipeline, which will require a
-> new driver no one is working on yet.
+Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_mmu.c | 37 ++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 9 deletions(-)
 
-As promised, I've landed this. In this case I've landed in
-drm-misc-next. Even though it's a fix since it didn't sound urgent
-enough to land in drm-misc-fixes. Since it changes sysfs paths
-slightly, it feels like it would be good to give it extra bake time
-and not rush it as a fix.
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index c39e3eb1c15d..e834bc4d9a52 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -533,15 +533,20 @@ static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
+ 	return status;
+ }
+ 
+-static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+-			u64 region_start, u64 size)
++static int lock_region(struct panthor_device *ptdev, u32 as_nr,
++		       u64 region_start, u64 size)
+ {
++	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
++	u64 full_va_range = 1ull << va_bits;
+ 	u8 region_width;
+ 	u64 region;
+ 	u64 region_end = region_start + size;
+ 
+ 	if (!size)
+-		return;
++		return 0;
++
++	if (drm_WARN_ON(&ptdev->base, region_end > full_va_range))
++		return -EFAULT;
+ 
+ 	/*
+ 	 * The locked region is a naturally aligned power of 2 block encoded as
+@@ -552,7 +557,8 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+ 	 * zeroed and ends with the bit (and subsequent bits) set to one.
+ 	 */
+ 	region_width = max(fls64(region_start ^ (region_end - 1)),
+-			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
++			   const_ilog2(AS_LOCK_REGION_MIN_SIZE));
++
+ 
+ 	/*
+ 	 * Mask off the low bits of region_start (which would be ignored by
+@@ -560,21 +566,25 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+ 	 */
+ 	region_start &= GENMASK_ULL(63, region_width);
+ 
+-	region = region_width | region_start;
++	region = (region_width - 1) | region_start;
+ 
+ 	/* Lock the region that needs to be updated */
+ 	gpu_write(ptdev, AS_LOCKADDR_LO(as_nr), lower_32_bits(region));
+ 	gpu_write(ptdev, AS_LOCKADDR_HI(as_nr), upper_32_bits(region));
+ 	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
++
++	return 0;
+ }
+ 
+ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+ 				      u64 iova, u64 size, u32 op)
+ {
++	int ret = 0;
++
+ 	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
+ 
+ 	if (as_nr < 0)
+-		return 0;
++		return ret;
+ 
+ 	/*
+ 	 * If the AS number is greater than zero, then we can be sure
+@@ -583,7 +593,10 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+ 	 */
+ 
+ 	if (op != AS_COMMAND_UNLOCK)
+-		lock_region(ptdev, as_nr, iova, size);
++		ret = lock_region(ptdev, as_nr, iova, size);
++
++	if (ret)
++		return ret;
+ 
+ 	/* Run the MMU operation */
+ 	write_cmd(ptdev, as_nr, op);
+@@ -608,9 +621,12 @@ static int mmu_hw_do_operation(struct panthor_vm *vm,
+ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+ 				 u64 transtab, u64 transcfg, u64 memattr)
+ {
++	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
++	u64 full_va_range = 1ull << va_bits;
+ 	int ret;
+ 
+-	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
++	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0,
++					 full_va_range, AS_COMMAND_FLUSH_MEM);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -628,9 +644,12 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+ 
+ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+ {
++	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
++	u64 full_va_range = 1ull << va_bits;
+ 	int ret;
+ 
+-	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
++	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0,
++					 full_va_range, AS_COMMAND_FLUSH_MEM);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.34.1
 
-[1/1] drm/bridge: ti-sn65dsi86: Fix multiple instances
-      commit: 574f5ee2c85a00a579549d50e9fc9c6c072ee4c4
-
--Doug
