@@ -2,82 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E340A04D5F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 00:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EF2A04D5D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 00:21:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48C3010E14A;
-	Tue,  7 Jan 2025 23:21:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CFA310E041;
+	Tue,  7 Jan 2025 23:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="R0pHjnEa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sUgylO24";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D13DA10E14A;
- Tue,  7 Jan 2025 23:21:20 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507IriTW017648;
- Tue, 7 Jan 2025 23:21:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Ys/wEUlbkhJxvNz71/1sae7E40uHC/lNpQ9DjVRGmfM=; b=R0pHjnEanml7kdJ2
- kAChsqjGaphyZzPjBOQi3lKPURIMW9K8rkEM9uyuVCyUM72+LihKJx+yJEGuwK22
- LrWS4yJyfw/jG/FQD48al3NaBEFPT2PkbHtwJyJrh4VukiruXNQtcaBRTtuYm9Hl
- aoCdQd6iwzGmQ+ApUNz4EQ2k7S6QHIfqTFJ/lsCoBwaP+qGAl6zOycGCP+IlKLP4
- nu9TiXezIvDyJoCzK0nvbSnPwOGKAEpOuT4ULBj0cMjwIPhicefh/24F2c6NHPjZ
- 9PmSC3dvGThoqv/mVcDhNghsamCYeZJiJAfguFapJ1gBwBWYKpHnY1RZO7LwC9J4
- smkksg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4419xurftf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jan 2025 23:21:18 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 507NL0KZ021974
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 7 Jan 2025 23:21:00 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
- 15:21:00 -0800
-Message-ID: <8c779fd0-abd4-4f21-83c3-8295db9f0584@quicinc.com>
-Date: Tue, 7 Jan 2025 15:21:00 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC15110E041
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 23:21:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D0FF55C576C;
+ Tue,  7 Jan 2025 23:20:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F12C4CED6;
+ Tue,  7 Jan 2025 23:21:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736292077;
+ bh=Kilm1ZAdWzy3rPEDUVkX5c9b+aYHLITqsZsNfgNyC2Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sUgylO24DAttxYL26qZXve5hvrgsTvvOnKU7yq7oY/O13PXLgH2yaUT8j3dzbDI4F
+ G9gnqx8F2ap2hpu7iaASyaqHOfJli9UmxBevnHSF7UXBo7Bqje8zyZzfoNad0rvDYK
+ vctghzjYXEqQ6+9kIBAuHDSzFRUEXsjZP0JkDg0Y3iyXzdr47eYgDJZl8innUNJuU+
+ Bs1ibYZaqkYXENoWmYZnZVM0qE0RP3h0HMurlFB65jj78ZeB2qN0Ewezg7o0W1sTRR
+ FZ36XWzWe1sJeV5wOs0+d6l8bAnqoQBa1Xeo3tBY8iJRyz6zCy7HUDFNEaPVtGoBOM
+ wehUeO4yRC1Jw==
+Date: Tue, 7 Jan 2025 17:21:16 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: imx@lists.linux.dev, Simona Vetter <simona@ffwll.ch>,
+ Maxime Ripard <mripard@kernel.org>, Inki Dae <inki.dae@samsung.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ devicetree@vger.kernel.org, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Shawn Guo <shawnguo@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: [PATCH 2/2] dt-bindings: samsung,mipi-dsim: Add imx7d specific
+ compatible
+Message-ID: <173629198495.2036683.9877314471091548361.robh@kernel.org>
+References: <20250107094943.518474-1-alexander.stein@ew.tq-group.com>
+ <20250107094943.518474-3-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] drm/msm/dpu: rename CDM block definition
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
- <20241224-dpu-add-cdm-v1-1-7aabfcb58246@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20241224-dpu-add-cdm-v1-1-7aabfcb58246@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: AyQsoODxgWe01guQLZDeXrkQ6Cf0J55Y
-X-Proofpoint-GUID: AyQsoODxgWe01guQLZDeXrkQ6Cf0J55Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 clxscore=1015 spamscore=0 bulkscore=0 malwarescore=0
- adultscore=0 mlxlogscore=782 suspectscore=0 lowpriorityscore=0
- phishscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501070191
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250107094943.518474-3-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,19 +75,21 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-On 12/23/2024 8:25 PM, Dmitry Baryshkov wrote:
-> The CDM block is not limited to SC7280, but it is common to all
-> platforms that are known up to this point. Rename it from sc7280_cdm to
-> dpu_cdm_0.
+On Tue, 07 Jan 2025 10:49:42 +0100, Alexander Stein wrote:
+> This add a imx7(d) specific compatible which is compatible to imx8mm.
+> This silences the dtbs_check warning:
+> arch/arm/boot/dts/nxp/imx/imx7s-mba7.dtb: dsi@30760000: compatible: 'oneOf' conditional failed, one must be fixed:
+>  ['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h  | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h  | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          | 2 +-
->   4 files changed, 4 insertions(+), 4 deletions(-)
+>  .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Fabio is clearly confused, and I prefer this patch over his. As 
+it is probably past the drm-misc cutoff, I applied it to DT tree.
+ 
+Thanks,
+Rob
+
