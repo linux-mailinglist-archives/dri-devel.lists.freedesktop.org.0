@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EA38A050AB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 03:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8796BA050AC
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 03:29:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14DF010E7D9;
-	Wed,  8 Jan 2025 02:29:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05E4910E7DB;
+	Wed,  8 Jan 2025 02:29:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ONsWXK1O";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ax4rACUh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44BB410E7D9
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:29:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDA9A10E7DB
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:29:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736303344; x=1767839344;
+ t=1736303349; x=1767839349;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=bJRSkONMJqebaCZW+gob8Q62wZ/LJw1y78ECWyPbnZQ=;
- b=ONsWXK1OU/ZhqFyRHRzr5Y3DvdyVLsxOy6pVd9Lqd38ws4dld/HyyKHD
- ugvFMr0NHX5nBfW3As1sR43yc+HsXn2lLn0bZApn6d5yZnmpbxGx2j6FC
- a2/ZyEXn4YvK4BC6OjMrdt1xNWO9AYcTVzucq9UizM5xAXocQCKBW13SR
- xDKAwOMFb0uoz/KRpNKgg+Rwfxdr0XOORaSU62rhaZVrTE1Pt8N3f/dxv
- RtjTjbqnRTe1+syEiQb6P9f8eVkwuzfoRC6/NccNHfjzWK9b3xYuICItY
- s31Mpjz0jylRhupDX6BOKHV4k9/UVH/ts9Lp/V08ArUwjz8UQXhAQfuhZ g==;
-X-CSE-ConnectionGUID: m+58FTXzQXuhmeLB5425aQ==
-X-CSE-MsgGUID: WNL93RClT/+idbTMtWaWaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010538"
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="47010538"
+ bh=D0Ctyg+ZzScKG7XiWzZtdkCCkALH2qE1Urf72jJEyPc=;
+ b=ax4rACUhUdkXLSGrIrxdUv7PdWzA8SW0z9ap+UaHula1maDs2x8YyTUJ
+ dqgFMDcDIWou8Y6Nip00sW66FfeBtwEMTa1YbJ/LEjSpTQF2agNSg7K19
+ IeMJebqNgPPUmMRmIXwhXYNyyJKTzMFDsU1Y03lneJs3AxXhpJQeAzZDa
+ A0GghIHHvpHMa/Vo/tsc2uzw8FxnnTItpJHeX1jfTbvqAYaXjrWJNFQqk
+ sX375VpMcy0ErwA32HdaeTa5D2l6S71Cwl4J0D8/8R+41A5FdlsZcC7FO
+ WhymD/4ZLgVbZnKCQx3UsRGBH1xF+o5NZ+OyyEeiLnC5DTS10iP0mI+FX Q==;
+X-CSE-ConnectionGUID: E5tSVxptQ3uj4cGy02tknA==
+X-CSE-MsgGUID: 4RcB3MpHRGq8OdzDYb40pA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="47010562"
+X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="47010562"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 18:29:03 -0800
-X-CSE-ConnectionGUID: ftMgnn64SLq8VRe+W3TdqQ==
-X-CSE-MsgGUID: YgHk+2iRRXSnX7E/tvOqCQ==
+ 07 Jan 2025 18:29:09 -0800
+X-CSE-ConnectionGUID: jzF6RmRtRFWNznlKn1mnww==
+X-CSE-MsgGUID: d4vAvP1EQ+mbgV8wjEZ0Hw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103793703"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103793735"
 Received: from yilunxu-optiplex-7050.sh.intel.com ([10.239.159.165])
- by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:28:58 -0800
+ by orviesa008.jf.intel.com with ESMTP; 07 Jan 2025 18:29:04 -0800
 From: Xu Yilun <yilun.xu@linux.intel.com>
 To: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
@@ -50,10 +50,10 @@ Cc: yilun.xu@intel.com, yilun.xu@linux.intel.com, linux-coco@lists.linux.dev,
  linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
  daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
  zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: [RFC PATCH 07/12] KVM: x86/mmu: Handle page fault for vfio_dmabuf
- backed MMIO
-Date: Tue,  7 Jan 2025 22:27:14 +0800
-Message-Id: <20250107142719.179636-8-yilun.xu@linux.intel.com>
+Subject: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+Date: Tue,  7 Jan 2025 22:27:15 +0800
+Message-Id: <20250107142719.179636-9-yilun.xu@linux.intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250107142719.179636-1-yilun.xu@linux.intel.com>
 References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
@@ -74,88 +74,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for resolving page faults on vfio_dmabuf backed MMIO. This
-is to support private MMIO for private assigned devices (known as TDI
-in TDISP spec).
+Add a flag for ioctl(VFIO_DEVICE_BIND_IOMMUFD) to mark a device as
+for private assignment. For these private assigned devices, disallow
+host accessing their MMIO resources.
 
-Private MMIOs are set to KVM as vfio_dmabuf typed memory slot, which is
-another type of can-be-private memory slot just like the gmem slot.
-Like gmem slot, KVM needs to map its GFN as shared or private based on
-the current state of the GFN's memory attribute. When page fault
-happens for private MMIO but private <-> shared conversion is needed,
-KVM still exits to userspace with exit reason KVM_EXIT_MEMORY_FAULT and
-toggles KVM_MEMORY_EXIT_FLAG_PRIVATE. Unlike gmem slot, vfio_dmabuf
-slot has only one backend MMIO resource, the switching of GFN's
-attribute won't change the way of getting PFN, the vfio_dmabuf specific
-way, kvm_vfio_dmabuf_get_pfn().
+Since the MMIO regions for private assignment are not accessible from
+host, remove the VFIO_REGION_INFO_FLAG_MMAP/READ/WRITE for these
+regions, instead add a new VFIO_REGION_INFO_FLAG_PRIVATE flag to
+indicate users should create dma-buf for MMIO mapping in KVM MMU.
 
 Signed-off-by: Xu Yilun <yilun.xu@linux.intel.com>
 ---
- arch/x86/kvm/mmu/mmu.c   | 25 +++++++++++++++++++++++--
- include/linux/kvm_host.h |  7 ++++++-
- 2 files changed, 29 insertions(+), 3 deletions(-)
+ drivers/vfio/device_cdev.c       |  9 ++++++++-
+ drivers/vfio/pci/vfio_pci_core.c | 14 ++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h |  2 ++
+ drivers/vfio/pci/vfio_pci_rdwr.c |  3 +++
+ include/linux/vfio.h             |  1 +
+ include/uapi/linux/vfio.h        |  5 ++++-
+ 6 files changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index 713ca857f2c2..90ca54fee22f 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -4341,8 +4341,13 @@ static int kvm_mmu_faultin_pfn_private(struct kvm_vcpu *vcpu,
+diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
+index bb1817bd4ff3..919285c1cd7a 100644
+--- a/drivers/vfio/device_cdev.c
++++ b/drivers/vfio/device_cdev.c
+@@ -75,7 +75,10 @@ long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
+ 	if (copy_from_user(&bind, arg, minsz))
  		return -EFAULT;
- 	}
  
--	r = kvm_gmem_get_pfn(vcpu->kvm, fault->slot, fault->gfn, &fault->pfn,
--			     &fault->refcounted_page, &max_order);
-+	if (kvm_slot_is_vfio_dmabuf(fault->slot))
-+		r = kvm_vfio_dmabuf_get_pfn(vcpu->kvm, fault->slot, fault->gfn,
-+					    &fault->pfn, &max_order);
-+	else
-+		r = kvm_gmem_get_pfn(vcpu->kvm, fault->slot, fault->gfn,
-+				     &fault->pfn, &fault->refcounted_page,
-+				     &max_order);
- 	if (r) {
- 		kvm_mmu_prepare_memory_fault_exit(vcpu, fault);
- 		return r;
-@@ -4363,6 +4368,22 @@ static int __kvm_mmu_faultin_pfn(struct kvm_vcpu *vcpu,
- 	if (fault->is_private)
- 		return kvm_mmu_faultin_pfn_private(vcpu, fault);
+-	if (bind.argsz < minsz || bind.flags || bind.iommufd < 0)
++	if (bind.argsz < minsz || bind.iommufd < 0)
++		return -EINVAL;
++
++	if (bind.flags & ~(VFIO_DEVICE_BIND_IOMMUFD_PRIVATE))
+ 		return -EINVAL;
  
-+	/* vfio_dmabuf slot is also applicable for shared mapping */
-+	if (kvm_slot_is_vfio_dmabuf(fault->slot)) {
-+		int max_order, r;
-+
-+		r = kvm_vfio_dmabuf_get_pfn(vcpu->kvm, fault->slot, fault->gfn,
-+					    &fault->pfn, &max_order);
-+		if (r)
-+			return r;
-+
-+		fault->max_level = min(kvm_max_level_for_order(max_order),
-+				       fault->max_level);
-+		fault->map_writable = !(fault->slot->flags & KVM_MEM_READONLY);
-+
-+		return RET_PF_CONTINUE;
-+	}
-+
- 	foll |= FOLL_NOWAIT;
- 	fault->pfn = __kvm_faultin_pfn(fault->slot, fault->gfn, foll,
- 				       &fault->map_writable, &fault->refcounted_page);
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 871d927485a5..966a5a247c6b 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -614,7 +614,12 @@ struct kvm_memory_slot {
+ 	/* BIND_IOMMUFD only allowed for cdev fds */
+@@ -118,6 +121,9 @@ long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
+ 		goto out_close_device;
  
- static inline bool kvm_slot_can_be_private(const struct kvm_memory_slot *slot)
- {
--	return slot && (slot->flags & KVM_MEM_GUEST_MEMFD);
-+	return slot && (slot->flags & (KVM_MEM_GUEST_MEMFD | KVM_MEM_VFIO_DMABUF));
-+}
+ 	device->cdev_opened = true;
++	if (bind.flags & VFIO_DEVICE_BIND_IOMMUFD_PRIVATE)
++		device->is_private = true;
 +
-+static inline bool kvm_slot_is_vfio_dmabuf(const struct kvm_memory_slot *slot)
-+{
-+	return slot && (slot->flags & KVM_MEM_VFIO_DMABUF);
+ 	/*
+ 	 * Paired with smp_load_acquire() in vfio_device_fops::ioctl/
+ 	 * read/write/mmap
+@@ -151,6 +157,7 @@ void vfio_df_unbind_iommufd(struct vfio_device_file *df)
+ 		return;
+ 
+ 	mutex_lock(&device->dev_set->lock);
++	device->is_private = false;
+ 	vfio_df_close(df);
+ 	vfio_device_put_kvm(device);
+ 	iommufd_ctx_put(df->iommufd);
+diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+index f69eda5956ad..11c735dfe1f7 100644
+--- a/drivers/vfio/pci/vfio_pci_core.c
++++ b/drivers/vfio/pci/vfio_pci_core.c
+@@ -1005,6 +1005,12 @@ static int vfio_pci_ioctl_get_info(struct vfio_pci_core_device *vdev,
+ 	return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
  }
  
- static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
++bool is_vfio_pci_bar_private(struct vfio_pci_core_device *vdev, int bar)
++{
++	/* Any mmap supported bar can be used as vfio dmabuf */
++	return vdev->bar_mmap_supported[bar] && vdev->vdev.is_private;
++}
++
+ static int vfio_pci_ioctl_get_region_info(struct vfio_pci_core_device *vdev,
+ 					  struct vfio_region_info __user *arg)
+ {
+@@ -1035,6 +1041,11 @@ static int vfio_pci_ioctl_get_region_info(struct vfio_pci_core_device *vdev,
+ 			break;
+ 		}
+ 
++		if (is_vfio_pci_bar_private(vdev, info.index)) {
++			info.flags = VFIO_REGION_INFO_FLAG_PRIVATE;
++			break;
++		}
++
+ 		info.flags = VFIO_REGION_INFO_FLAG_READ |
+ 			     VFIO_REGION_INFO_FLAG_WRITE;
+ 		if (vdev->bar_mmap_supported[info.index]) {
+@@ -1735,6 +1746,9 @@ int vfio_pci_core_mmap(struct vfio_device *core_vdev, struct vm_area_struct *vma
+ 	u64 phys_len, req_len, pgoff, req_start;
+ 	int ret;
+ 
++	if (vdev->vdev.is_private)
++		return -EINVAL;
++
+ 	index = vma->vm_pgoff >> (VFIO_PCI_OFFSET_SHIFT - PAGE_SHIFT);
+ 
+ 	if (index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions)
+diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+index d27f383f3931..2b61e35145fd 100644
+--- a/drivers/vfio/pci/vfio_pci_priv.h
++++ b/drivers/vfio/pci/vfio_pci_priv.h
+@@ -126,4 +126,6 @@ static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev,
+ }
+ #endif
+ 
++bool is_vfio_pci_bar_private(struct vfio_pci_core_device *vdev, int bar);
++
+ #endif
+diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
+index 66b72c289284..e385f7f63414 100644
+--- a/drivers/vfio/pci/vfio_pci_rdwr.c
++++ b/drivers/vfio/pci/vfio_pci_rdwr.c
+@@ -242,6 +242,9 @@ ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
+ 	struct resource *res = &vdev->pdev->resource[bar];
+ 	ssize_t done;
+ 
++	if (is_vfio_pci_bar_private(vdev, bar))
++		return -EINVAL;
++
+ 	if (pci_resource_start(pdev, bar))
+ 		end = pci_resource_len(pdev, bar);
+ 	else if (bar == PCI_ROM_RESOURCE &&
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index 2258b0585330..e99d856c6cd8 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -69,6 +69,7 @@ struct vfio_device {
+ 	struct iommufd_device *iommufd_device;
+ 	u8 iommufd_attached:1;
+ #endif
++	u8 is_private:1;
+ 	u8 cdev_opened:1;
+ #ifdef CONFIG_DEBUG_FS
+ 	/*
+diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
+index f43dfbde7352..6a1c703e3185 100644
+--- a/include/uapi/linux/vfio.h
++++ b/include/uapi/linux/vfio.h
+@@ -275,6 +275,7 @@ struct vfio_region_info {
+ #define VFIO_REGION_INFO_FLAG_WRITE	(1 << 1) /* Region supports write */
+ #define VFIO_REGION_INFO_FLAG_MMAP	(1 << 2) /* Region supports mmap */
+ #define VFIO_REGION_INFO_FLAG_CAPS	(1 << 3) /* Info supports caps */
++#define VFIO_REGION_INFO_FLAG_PRIVATE	(1 << 4) /* Region supports private MMIO */
+ 	__u32	index;		/* Region index */
+ 	__u32	cap_offset;	/* Offset within info struct of first cap */
+ 	__aligned_u64	size;	/* Region size (bytes) */
+@@ -904,7 +905,8 @@ struct vfio_device_feature {
+  * VFIO_DEVICE_BIND_IOMMUFD - _IOR(VFIO_TYPE, VFIO_BASE + 18,
+  *				   struct vfio_device_bind_iommufd)
+  * @argsz:	 User filled size of this data.
+- * @flags:	 Must be 0.
++ * @flags:	 Optional device initialization flags:
++ *		 VFIO_DEVICE_BIND_IOMMUFD_PRIVATE:	for private assignment
+  * @iommufd:	 iommufd to bind.
+  * @out_devid:	 The device id generated by this bind. devid is a handle for
+  *		 this device/iommufd bond and can be used in IOMMUFD commands.
+@@ -921,6 +923,7 @@ struct vfio_device_feature {
+ struct vfio_device_bind_iommufd {
+ 	__u32		argsz;
+ 	__u32		flags;
++#define VFIO_DEVICE_BIND_IOMMUFD_PRIVATE	(1 << 0)
+ 	__s32		iommufd;
+ 	__u32		out_devid;
+ };
 -- 
 2.25.1
 
