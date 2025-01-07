@@ -2,95 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A568A03BAB
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C337EA03BD6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:07:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 448F510E3F1;
-	Tue,  7 Jan 2025 09:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F51810E3DD;
+	Tue,  7 Jan 2025 10:07:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rBFhj2FV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UHFcH4L4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rBFhj2FV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UHFcH4L4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BYvqVXou";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D587310E3D4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 09:59:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 73494210FB;
- Tue,  7 Jan 2025 09:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736243964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=PwNdwPJJXI1eGcccxHp4G4DSMu/Ufq1Spn6zfqh2oDY=;
- b=rBFhj2FVeUMZcZynCcl983MNvGk/2bImm+aI2E07VKrXum9sypkwij0KMzcbRnQY2z3ynM
- qulPkINgVUycwAOm6oK3pkiqmOjM418I93Ga0+0Zfh5okVQftLdIe/sPwOJkqRTcY65CyQ
- 01WeTVNXWTxxRdcF7X6BJmFcnuKgjH0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736243964;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=PwNdwPJJXI1eGcccxHp4G4DSMu/Ufq1Spn6zfqh2oDY=;
- b=UHFcH4L4ud8kmXmhTh2iWTfk8QVAA1/ypOZh3e6oikk8tLojor7qTmkYXINKI2b0VKr1f3
- 4yb4qo98jKl6WDCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736243964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=PwNdwPJJXI1eGcccxHp4G4DSMu/Ufq1Spn6zfqh2oDY=;
- b=rBFhj2FVeUMZcZynCcl983MNvGk/2bImm+aI2E07VKrXum9sypkwij0KMzcbRnQY2z3ynM
- qulPkINgVUycwAOm6oK3pkiqmOjM418I93Ga0+0Zfh5okVQftLdIe/sPwOJkqRTcY65CyQ
- 01WeTVNXWTxxRdcF7X6BJmFcnuKgjH0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736243964;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=PwNdwPJJXI1eGcccxHp4G4DSMu/Ufq1Spn6zfqh2oDY=;
- b=UHFcH4L4ud8kmXmhTh2iWTfk8QVAA1/ypOZh3e6oikk8tLojor7qTmkYXINKI2b0VKr1f3
- 4yb4qo98jKl6WDCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E85F13A6A;
- Tue,  7 Jan 2025 09:59:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZXy1Cfz6fGfIWwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 07 Jan 2025 09:59:24 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: geert@linux-m68k.org
-Cc: linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot <lkp@intel.com>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Helge Deller <deller@gmx.de>, stable@vger.kernel.org
-Subject: [PATCH] m68k: Fix VGA I/O defines
-Date: Tue,  7 Jan 2025 10:58:56 +0100
-Message-ID: <20250107095912.130530-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.47.1
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E26810E312
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 10:07:46 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-3002c324e7eso174017311fa.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 02:07:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736244404; x=1736849204; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Izcd6WrPP2fLpFqgomXI5uNPQ0WXKpVMcpKWcSXBKvs=;
+ b=BYvqVXoupCJiAjup2RDDg2CUQB0Lush7YBR9Qu9uK1cfTJgtZW76/JU+T8sndm+svv
+ 1HIJBxEMEnl5MNNlEuBqRx7Rcjdu8UUioHl6TEDLBKMt6SPkEq66FivmwA7sqGg1BRSY
+ WYBM2IWA9Dz0snauu4CvyozMFByUQVE1CDRRfeteAN2FOTKhB3X33STnQj2q+d5pJ6QI
+ oAD1v65Y1K5yze2Mf6o5WlfL7egMFeWvlvJo+vwTQcKCmMB2QCspGhT3oh+H2t8V2Gxt
+ IK3Oeslum9R3EZSMeps0dTTiSxe12rQQwlVdCkLVf5Olm/utgg2BF755BVOm0uQ1WixM
+ hRZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736244404; x=1736849204;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Izcd6WrPP2fLpFqgomXI5uNPQ0WXKpVMcpKWcSXBKvs=;
+ b=jzqR4uU2YxminO3rWQ0HbDyqSc0kxgHi8f2suW9DFnq7R+VEdo3J2hlcoaDw/xuJfY
+ mBJ+TagGut99KOhQWwIPcmoLB48wHoIGLaKxXs3b747FIMUa6HzNkqx4KGTQDKfQYCBB
+ 3x6ES1ouWxaE/VOYtM+m5lk4jKpaFA5RkY3Xlklf0WQ2SLYGaVGdbDqRH/2ixIfLazeI
+ rLgw6xgBDBlsoo9dTttpXzPonHQNtpKyWSer5LpVKgL3KN5a7fPi8TlyastSXXPOoMSj
+ r2n4XC9jbswJozHQmaNahomjK91KORW2KfUEwvLp3qAlV6eujavyuBr8YlzrZZeOBy4A
+ +b1w==
+X-Gm-Message-State: AOJu0YxzETYLSZby6fdTDSYgCS9iG0xIBr70v7KSMJc29RrrT+hZ7ZQS
+ lfG+C7x/wGKAtZmCAtDk0n1X7JYul9M/wPdNho25EOyGtUNalxzwoBDxCX+vF6E=
+X-Gm-Gg: ASbGncuwNmh7fpC7FPLjM6OJ+vlCLT5s7j8sUCpsY2YuqtyA1dBwpArGDUQb0AlY4rm
+ vPXlLUwY6cLLHEx/bOMLxa8waHxYVh65xbOWRr2sLFso9HNqN/fTWUiiLllZO3v21qs9wio22yS
+ 5dhLAKZp4ARVmZJttnOo0ZQ8deyRki77/Z9gxUmzl6IDsBZHGUDZv21hqD43mesG7qRHlFn+LrU
+ wiRIDb6vccLI99cpJikeuE8HmHsWFYAdLEXJ3ojeLsJUOM6RB3SgUffP2JDWAkl
+X-Google-Smtp-Source: AGHT+IFSjz2lOzj8/6QMFwfSZsbOGPsTunjn2SXO+JxdVs0t1Su1Z05IlH+XtxJTBF2IpM/ah34PLw==
+X-Received: by 2002:a05:6512:3d16:b0:53e:ca48:776e with SMTP id
+ 2adb3069b0e04-54229562a17mr19168921e87.36.1736244404441; 
+ Tue, 07 Jan 2025 02:06:44 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542235feeecsm5240825e87.68.2025.01.07.02.06.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2025 02:06:43 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 07 Jan 2025 12:06:39 +0200
+Subject: [PATCH] drm/bridge: fix documentation for the hdmi_audio_prepare()
+ callback
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[lists.linux-m68k.org,vger.kernel.org,suse.de,intel.com,lists.freedesktop.org,gmx.de];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[9];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmx.de]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250107-drm-bridge-fix-docs-v1-1-84e539e6f348@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAK78fGcC/x2MSQqAMAwAvyI5G2gNKvoV8aBt1BxcSEGE4t8NH
+ odhJkNiFU7QFxmUb0lyHga+LCBs07EySjSGylW1867FqDvOKtHMIg/GMyRcuo58Qw0T1WDlpWz
+ uvw7j+354o3BAZQAAAA==
+X-Change-ID: 20250107-drm-bridge-fix-docs-f9931636e335
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Stephen Rothwell <sfr@canb.auug.org.au>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1277;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=YavJFYe02D4AC91xAe/ZPEMRvZ0FxnxXRUhqu4FDNaE=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnfPyyPKOC+xSPfjZ0nAT/V6ibXMI1lfSYHb552
+ p0vTVo0ka2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ3z8sgAKCRCLPIo+Aiko
+ 1Yh3B/9OJQ7M/GzqOy8ZLXDIuAz+FH4SNp5hEeBpV/734XgTAZBlsCvhAqxL2k+jyNsVXE0KfzG
+ 2+f9N05G8BQDOiEJfh6KB4U4mJl/8EL7bDr53E/EDRgpGU5nJM4xYU58Rsacti62bYVm7yl/wWY
+ yZMzqvJm7V/n61zRXB4xorIicRjwQeBw/O1HPAvVabWPDETfmLViE/5KCP4zHCDztHrxdBFP4KQ
+ mNLBz58bR2OzwLN1SmXPSBbzFev4NBgoVKl3Ci5u66Vb9wA9BVIEDMNfrZg/xWEIALLO2mqlzTX
+ RDPC3PoQW6NisdMJkWMidlFcibt7Mu66JjrdmXE6uDZVlIjA
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,78 +105,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Including m86k's <asm/raw_io.h> in vga.h on nommu platforms results
-in conflicting defines with io_no.h for various I/O macros from the
-__raw_read and __raw_write families. An example error is
+Fix c&p error and change linuxdoc comment for the hdmi_audio_prepare()
+callback from drm_bridge_funcs to mention the callback name instead of
+the original prepare() callback.
 
-   In file included from arch/m68k/include/asm/vga.h:12,
-                 from include/video/vga.h:22,
-                 from include/linux/vgaarb.h:34,
-		 from drivers/video/aperture.c:12:
->> arch/m68k/include/asm/raw_io.h:39: warning: "__raw_readb" redefined
-      39 | #define __raw_readb in_8
-	 |
-   In file included from arch/m68k/include/asm/io.h:6,
-		    from include/linux/io.h:13,
-		    from include/linux/irq.h:20,
-		    from include/asm-generic/hardirq.h:17,
-		    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-		    from include/linux/hardirq.h:11,
-		    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-		    from include/linux/ftrace.h:10,
-		    from include/linux/kprobes.h:28,
-		    from include/linux/kgdb.h:19,
-		    from include/linux/fb.h:6,
-		    from drivers/video/aperture.c:5:
-   arch/m68k/include/asm/io_no.h:16: note: this is the location of the previous definition
-      16 | #define __raw_readb(addr) \
-	 |
-
-Include <asm/io.h>, which avoid raw_io.h on nommu platforms. Also change
-the defined values of some of the read/write symbols in vga.h to
-__raw_read/__raw_write as the raw_in/raw_out symbols are not generally
-available.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.DNEswlm8-lkp@intel.com/
-Fixes: 5c3f968712ce ("m68k/video: Create <asm/vga.h>")
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: <stable@vger.kernel.org> # v3.5+
+Fixes: 0beba3f9d366 ("drm/bridge: connector: add support for HDMI codec framework")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250106174645.463927e0@canb.auug.org.au/
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- arch/m68k/include/asm/vga.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/drm/drm_bridge.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/m68k/include/asm/vga.h b/arch/m68k/include/asm/vga.h
-index 4742e6bc3ab8..cdd414fa8710 100644
---- a/arch/m68k/include/asm/vga.h
-+++ b/arch/m68k/include/asm/vga.h
-@@ -9,7 +9,7 @@
-  */
- #ifndef CONFIG_PCI
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..496dbbd2ad7edff7f091adfbe62de1e33ef0cf07 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -691,7 +691,7 @@ struct drm_bridge_funcs {
+ 				  struct drm_bridge *bridge);
  
--#include <asm/raw_io.h>
-+#include <asm/io.h>
- #include <asm/kmap.h>
- 
- /*
-@@ -29,9 +29,9 @@
- #define inw_p(port)		0
- #define outb_p(port, val)	do { } while (0)
- #define outw(port, val)		do { } while (0)
--#define readb			raw_inb
--#define writeb			raw_outb
--#define writew			raw_outw
-+#define readb			__raw_readb
-+#define writeb			__raw_writeb
-+#define writew			__raw_writew
- 
- #endif /* CONFIG_PCI */
- #endif /* _ASM_M68K_VGA_H */
+ 	/**
+-	 * @prepare:
++	 * @hdmi_audio_prepare:
+ 	 * Configures HDMI-encoder for audio stream. Can be called multiple
+ 	 * times for each setup. Mandatory if HDMI audio is enabled in the
+ 	 * bridge's configuration.
+
+---
+base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+change-id: 20250107-drm-bridge-fix-docs-f9931636e335
+
+Best regards,
 -- 
-2.47.1
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
