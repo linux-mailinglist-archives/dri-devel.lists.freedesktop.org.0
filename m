@@ -2,118 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25440A037C5
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 07:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A1FA037FD
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 07:33:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D132510E3A8;
-	Tue,  7 Jan 2025 06:16:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C91D910E2DD;
+	Tue,  7 Jan 2025 06:33:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cU3zZcUh";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="kTtQ0O99";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 203F910E2EF
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 06:16:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AB16F5C5ACD;
- Tue,  7 Jan 2025 06:15:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90655C4CED6;
- Tue,  7 Jan 2025 06:16:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736230590;
- bh=rbm/HyJrgcyIONekUU1B/CycR6GsFRPZQR8HjkeAhyo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=cU3zZcUhaekedmnJfQhGRR7XHeFxhCygwoAFGK1RANe0SFcW5VJlkPe1HwF53dxee
- v7S64dt76QJatjl2EM647ASIBOBagJDXrmBzTLvkEDDa7s3PpmH/hiNpAr3QfyjrjN
- cTwBQP9lFi/edM/DgfW4rbFiO36Gs2EWnDacPiDlv3oNjv2BjB57qRk+LVKuuoDsV8
- lljnskCPl3XOtnQ37uvoolSkguAd+swO/SpEbbGiMr707cmiwKxUmcHL7/c/pU/8tj
- lxn6E6o84By92RSiElKr/+iRqT8mq3vglvP6/jl+0ewBjZon03iyI8ULbpcOERkviT
- nh0RGr2mWB+bA==
-Message-ID: <420caebd-136f-4015-96cd-5f37b9c3f49b@kernel.org>
-Date: Tue, 7 Jan 2025 07:16:19 +0100
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2089.outbound.protection.outlook.com [40.107.237.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E327A10E2DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 06:33:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VA3TZGvaAL7xINjG7CBsIw14agxCzAAihfu2fC6eKgSjRaOOunNFobo0gD2wBVsuy0rjxSWPfB2IFnLrM+nP2JIMberTAjFVwZsYgXrxEgbuJSqIZHIu49Tho+tuyVjhMsZXqIJL+OlImuEsOHC58+U/cwAClpSvEXcIxzHu2yPAYxozQwSrZEjY+hviPnT1r4YTRBCHaAd9a6g8C8XkwnajWaCsLANnNIWCsiWnk37SYOOozdDdrpkBRQ0qIY7oMPDC8nRPRLt2js0k9idXWosLDXzShUtXQMT7xqKAeJkOlcbP2Qupas7ZHA6QoD2wDkgyE+C0LUJ6mEt6+L7kVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AWo36jrrLtQJgYLRXu5fkxeEuo6Ba18SM8JSt8qy+lQ=;
+ b=mULxix6JG6Tmq59L8dgReT3r+3zzuk600l6JbaFbRapYheacmS+0Xhz+xpvGRDPi4k1sblT0lP0IADFcX4QQSHJLEjWPl1j/3P0X/Mu80j8vGJk/e3F7K0nei0Yjiazv3mv/rKyRmeDJ9h04PjA/bujmrx+YgYe387qqN5Zc8NkZJvVRSLXdYBSJ6ge/TfFipN2Ov/drD0ysyrixLlLvjYby9+hVdIu44G8rQvkSLklkS+BovY80NkXNdcn/mEBQVl9T6n+XHqLr1mU0TU1BoF6WtEsbHuAeTg2mOVfEsL3yNWB0sFNxzTJLUzW8RLlNyKAWEizUdnJ/BF9QkeXPQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AWo36jrrLtQJgYLRXu5fkxeEuo6Ba18SM8JSt8qy+lQ=;
+ b=kTtQ0O99a1Jkq4QSWl2dkuszvvwZh62GG1Om6MiZ4ARRGhX7QFiUoYf7OezZUsqV1ETYYAd/CgKTR1NvY4OW7I42uZYDKV7uXjBWPKlFwSzS7WR53S9JuqmO6TR28QHgnEXWTGcnbILNqSMoSQsS5MYVkAeKSwFzL1cOoUiDhtm6yJoaOvZ6+z/e0gBeqqV38satJVVLHHZL8H4zX/5X1nmrIzzDRcDdUl45l9+o72bRYTj/73z5b/YwjdT+S7GWZFon9SRBUOrx5pTR1yqg+7WhTCuIMx1TWS1EkXxyhXb/uEaY5gU3ru1Hkd9xurkf5V272147TZFZ9KVyyE5Wpg==
+Received: from BL1PR13CA0368.namprd13.prod.outlook.com (2603:10b6:208:2c0::13)
+ by SJ0PR12MB6736.namprd12.prod.outlook.com (2603:10b6:a03:47a::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Tue, 7 Jan
+ 2025 06:16:59 +0000
+Received: from BL6PEPF0001AB59.namprd02.prod.outlook.com
+ (2603:10b6:208:2c0:cafe::40) by BL1PR13CA0368.outlook.office365.com
+ (2603:10b6:208:2c0::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8293.11 via Frontend Transport; Tue,
+ 7 Jan 2025 06:16:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BL6PEPF0001AB59.mail.protection.outlook.com (10.167.241.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8335.7 via Frontend Transport; Tue, 7 Jan 2025 06:16:58 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 6 Jan 2025
+ 22:16:45 -0800
+Received: from [172.23.93.240] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 6 Jan 2025
+ 22:16:44 -0800
+Message-ID: <dcc9d9d0-a5df-4252-ab6c-885e957f8bac@nvidia.com>
+Date: Tue, 7 Jan 2025 16:16:36 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] dt-bindings: mailbox: mediatek: Add MT8196 support
- for gce-mailbox
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-Cc: "robh@kernel.org" <robh@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>, =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?=
- <Nancy.Lin@mediatek.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "airlied@gmail.com"
- <airlied@gmail.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
- =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>
-References: <20241219170800.2957-1-jason-jh.lin@mediatek.com>
- <20241219170800.2957-2-jason-jh.lin@mediatek.com>
- <yg7b2iaz53avd7gpvuewhi6b3myh6owls3dt2hzpqc26lnykjf@tpu2vxqqkipe>
- <11f168c11b4cea48cf51406c0afaf8f1f53ad90f.camel@mediatek.com>
- <6adfa5fe-7b68-4f8e-919d-7b7607fe617c@kernel.org>
- <90b38dd6e093c89a7383814db786321cbd4533f6.camel@mediatek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly.
+To: <dri-devel@lists.freedesktop.org>
+References: <20250107055846.536589-1-airlied@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <90b38dd6e093c89a7383814db786321cbd4533f6.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Ben Skeggs <bskeggs@nvidia.com>
+In-Reply-To: <20250107055846.536589-1-airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB59:EE_|SJ0PR12MB6736:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0077aae9-e6b9-4a2a-ab1a-08dd2ee2e46c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aWRaSjlZTmhmUkxwOVdzbzNCYUtoT1NBSGhBNmpuSzBZTzcvYm0zdXFPR2N3?=
+ =?utf-8?B?WUo5RXk4NGREVEtmQTJ2RnM3RkVHa1Vwck11UDhaZ2tRKzhJUzIzT2tpelZj?=
+ =?utf-8?B?emtRbkUzNTBTeFNCWHRBNkd0eks2dXU5c3R3SHFRRVF0ZTBaR2x3THpKRytV?=
+ =?utf-8?B?S3diSTdtemFxeG9GeGhkSmUrQzBUazZpSnVaZkFTeW1Xem9MNlhYVmZRTjd0?=
+ =?utf-8?B?c2xJZnowS0pRTG8wbVZaQ0cwTGpVZ1oxajJCU2wySThNalBEbnhLR3JUOHly?=
+ =?utf-8?B?a1BrN3FLTXNNNWZBVlJ4VWtOOGFJSGR4V1lvL0d0blduSERBeEJZRUNYMU82?=
+ =?utf-8?B?VVRzaDZTUzFSeEpEMUNsa3VGZS90VGdTRVVnWWJjVmFFOVpOT1JRZDRnVkZn?=
+ =?utf-8?B?aTBkeXR4a3VsM3ZMM3oraTc4ZEczWnoySUVYZWV4UENZamJsckNKekF5TDBZ?=
+ =?utf-8?B?YzJZRzF0b0RpTVJnYkp0cnFJSkw0ZWFJNmtoVzl6aktjTCt5YUxsMU5BRHJl?=
+ =?utf-8?B?RVpLdWhHOGI4Z095KzJnTEdQbmdIQzJqNG5hTkZVOW9kalk5UkQ5djRNdmlY?=
+ =?utf-8?B?TTk5cEZxYnljVFU3T0tsdk1JY0EwQVYwU3QvRWVGRHZ4RW5LbkcrbzdFSVgv?=
+ =?utf-8?B?VWhxY3JyQmpjSGRkNjVuWTVxY09YL1Jya0l6clhSS1lwb3ZRQ2NuYjJNYWZC?=
+ =?utf-8?B?WHBLRmxHRnl4ZVd1U3JiaVBpSm14bnFyYXhUQS9vMW5aNDZTVjdVVDkvdEdz?=
+ =?utf-8?B?MlZidlV1SVJmRktXM0ErVGZwREdxVFk5aGpMVXlEU1h1Z2ZUVGd5Y0xMVVFw?=
+ =?utf-8?B?SHZ6Q2JLTSsydmNXa0IvSXFHeHgyVEQwN0RQdlhiaVovVDVXVkRIR2REVXJq?=
+ =?utf-8?B?MmtoMGIwQUE1MkN0WFZ1U2ZZVExyMTBMRE5kSk0zM3ZpL1NtbTJoMWtOKzZR?=
+ =?utf-8?B?Y3RVWEo2RnVueW9hcEtKOEZaT3RTZjNoZWpCY2dRN2JPWm1qMUJPQUJsSE8r?=
+ =?utf-8?B?aS9qeHlNc1VubEtxYXhTSVI1Q2dNdHozYzlFcFRzLytUeXFJLzRHSVVHaGh6?=
+ =?utf-8?B?STY2SWFLcVA0bVQ0WWpNNDN1WHV0QkRLT21yTUQ4aG54Z3hJQzBsOUJPVnhM?=
+ =?utf-8?B?Y01NcWsyZmNXb05uNk1Zc21CM3NXSjZPMERicjhXWkp4Vk10VHE1bndXNGI1?=
+ =?utf-8?B?MmVLeU02aUNJaEN4VVIwSkJMN0Rjem94dXlXQ2RMUzJ4NGFsOGtHVXp3VkNn?=
+ =?utf-8?B?dFZjK0ZKSmloa1NIL0FrL2dSaHFvOEx1KzlrSzFQZ25NaWI5MTFxejhUeDVz?=
+ =?utf-8?B?WGw0SW94TDU4QWNvZkl1RURIS2tSdlo0T3R6ZW0zM1EyNFluQnVsMXdxMy9D?=
+ =?utf-8?B?T0F1YzRPeVdqWmR3aVcrdUhqcEVKMWlac1V3djZkdktKemZqRURyRlBGSUJr?=
+ =?utf-8?B?UzcyNC9BYnRHYno4NjhQdGl1TTRNNGdPLzBFMy94ckQwL3pqZXdjT0RqRUFT?=
+ =?utf-8?B?R21jOElncldxZ2F0N3R1NHhhNmd3SERZSkU2KzJFMTZtbTVpbzFwVUkySmdZ?=
+ =?utf-8?B?bk4rNC95QUhMNDJ0TFdwMVFiYTJZbHg2dDloQWl2eXBUV015RTFmeitTWkwx?=
+ =?utf-8?B?VjJ6S3dNenk2aWV5YVRsSnk5N2k4MWUrbnNCV0x1MEdpQlZId0VxWWF2aUlQ?=
+ =?utf-8?B?b2JRdFpNd1lGUzAwbGRSUnNNRGJyaDdXaFpmaUFuY1NHQUl3R0F0VlpoT0Nr?=
+ =?utf-8?B?UDBQRlBLL3dLYm9YeTZEem92d09rWFliU1g3T0ptNmwvekRpTW8xZkd0bkZH?=
+ =?utf-8?B?ZjhCOUtNVnVGOWJvSVpMNVN3eVVRYVZVRzlDYUpOalpFQ3cxbWI2NTlVOHBC?=
+ =?utf-8?B?OUYyNDZYMlBMMDYwTE45ZjdhV3hvY2I4U1RxbXFGUms1QmxIQmZmcmY1UGNB?=
+ =?utf-8?B?NExnN1YxaUthY0Z6VElacFZMZUxrR1pGdlhtbkdmOGtKU2l1V1hCU1pYcE1L?=
+ =?utf-8?Q?jxp61EO/hs6UBwM/Yqt3XzzzRhY/qY=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2025 06:16:58.4104 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0077aae9-e6b9-4a2a-ab1a-08dd2ee2e46c
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB59.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6736
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,38 +147,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/01/2025 03:42, Jason-JH Lin (林睿祥) wrote:
->>
->> Before proceeding with this header further, please answer to above -
->> why
->> interrupt numbers, MMIO addresses and some other values appearing in
->> DTS
->> are not used like "binding headers".
-> 
-> Because interrupt numbers and MMIO addresses are the real numbers of
-> hardware settings. Their driver can get them directly from their device
-> node in DTS. They are actual number to be set into their hardware, so
-> they don't need to be translated in their platform drivers.
-> 
-> So I think all the definitions in the `mediatek,mt8196-gce.h` are the
-> same case. They are actual hardware numbers for GCE hardware to use.
-> It should be drop from the include/dt-bindings/*.
+On 7/1/25 15:58, Dave Airlie wrote:
 
-I did not inspect all of the defines you have there. Maybe some are used
-by driver, so I did not provide you definitive answer on entire header.
-The comment was addressing one specific group of defines which were not
-used as a binding.
+> From: Dave Airlie <airlied@redhat.com>
+>
+> If we have two nouveau controlled devices and one passes a dma-fence
+> to the other, when we hit the sync path it can cause the second device
+> to try and put a sync wait in it's pushbuf for the seqno of the context
+> on the first device.
+>
+> Since fence contexts are vmm bound, check the if vmm's match between
+> both users, this should ensure that fence seqnos don't get used wrongly
+> on incorrect channels.
+>
+> This seems to happen fairly spuriously and I found it tracking down
+> a multi-card regression report, that seems to work by luck before this.
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> Cc: stable@vger.kernel.org
 
-> 
-> 
-> BTW, to make these numbers more readable in DTS, can I move
-> `include/dt-bindings/mailbox/mediatek,mt8196-gce.h` into
-> `arch/arm64/boot/dts/mediatek/mt8196-gce.h`?
+Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
 
-Yes, sure.
 
-> 
-> Just like the `arch/arm64/boot/dts/mediatek/mt8167-pinfunc.h`.
-
-Best regards,
-Krzysztof
+> ---
+>   drivers/gpu/drm/nouveau/nouveau_fence.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> index ee5e9d40c166f..5743c82f4094b 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -370,7 +370,8 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
+>   
+>   				rcu_read_lock();
+>   				prev = rcu_dereference(f->channel);
+> -				if (prev && (prev == chan ||
+> +				if (prev && (prev->vmm == chan->vmm) &&
+> +				    (prev == chan ||
+>   					     fctx->sync(f, prev, chan) == 0))
+>   					must_wait = false;
+>   				rcu_read_unlock();
