@@ -2,83 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B879A049AE
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 19:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03ABA049C8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 20:01:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3D4A10E789;
-	Tue,  7 Jan 2025 18:55:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73CE210E22B;
+	Tue,  7 Jan 2025 19:01:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ed9V2840";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZioEMgfX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EDB310EB51;
- Tue,  7 Jan 2025 18:55:40 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507A8Pvk023187;
- Tue, 7 Jan 2025 18:55:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MnB4R6DpJxceRTTXuWVWKyFW3MtkLh7BTThyJ0FukU0=; b=ed9V2840gBYRVav2
- Ru0lYcbWoSr/BbvHicNaBxafI/sR+znSzwHUCF/1acdUrKWBKaBsxRW8LeQeJXnW
- Mi4ZwQFNdPQD0nviR3WRGMWjVCWRSZqLLiZaWD1fZ+u0P0HSYPLQV29R4JuJu9/W
- eQZaPt/QKaw+dmAJdMebkHy91s7eFI67Tqj48uMMmogd8NlMopHxAuLkxscnp7mf
- HrSqWN5aalu2munSMtIelT0NoiEmK0gAfJrtnjZbWbOxUa9fSL+pByfVfzh99hud
- KIINWkUvUQkfgcWki8nQXzO76giwhW17gIrNoTvBV1U1meURJ/6bRXAbLQ3PAVND
- UtJGlg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44128nsayk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 07 Jan 2025 18:55:37 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 507ItbMw003082
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 7 Jan 2025 18:55:37 GMT
-Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
- 10:55:36 -0800
-Message-ID: <24a9ef31-6a41-4a7a-9a4f-793d3e6ff559@quicinc.com>
-Date: Tue, 7 Jan 2025 10:55:36 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A351C10E22B;
+ Tue,  7 Jan 2025 19:01:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736276504; x=1767812504;
+ h=date:from:to:cc:subject:message-id:
+ content-transfer-encoding:mime-version;
+ bh=uMYY8ADtTE/9c+MCUSS1szrAlnaqIE7bsErnMeh4SEs=;
+ b=ZioEMgfXei/3JQTxBztjyodM9U4o0tmjM7MmYy78vuQMGSMKE0I7fsQC
+ ZCgKPj7GQuL0Lb0/jseE+d3jvPs4oiouy4E4NBzsO6FChGqBFRRK0JBXj
+ 5uJOyCX2lJGXf3EU6JS1JR8Pl6rjaFouGqnLBHC/nuYaKtz0IdE50zqcO
+ 2iwmJk5E6s3KQkmZ0a8qcQ/4mT2FqItUoFHMz+XSov6znbMZ3Zjai2tuO
+ qMfPGsL+CwA7tv6E6lTH1n6iM2JpXARfntE7UOnuJn4KPCuVDgumKsgMZ
+ pIQbPJ2Ebwn4x8d2TvXiTb2vPXnlwTwZJYMREmzsukZ3/qgx9/BMnoKwH w==;
+X-CSE-ConnectionGUID: 8hODdafvTCuGBynE7l90pQ==
+X-CSE-MsgGUID: VwJl6Gv6Q4mUMdIBu49BYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36374696"
+X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="36374696"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2025 11:01:42 -0800
+X-CSE-ConnectionGUID: wp7lwfG+SgyPKt1D/iJEWQ==
+X-CSE-MsgGUID: XOEvC3SyRJazXBlsriPd9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; d="scan'208";a="103346476"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 07 Jan 2025 11:01:42 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 7 Jan 2025 11:01:39 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 7 Jan 2025 11:01:39 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 7 Jan 2025 11:01:16 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ikIFhZYjMKCXERLIpdMFhJIN/OXrYJpFItGj/mfYWITQpHNwC2BR0VIoSP52YROhomf4eoOX+4t2N1ED+NdnqqUqEQqXUVrIPwBQzjyAlWfdZ64RW9xTHGE7mEeSSS1QxVDuQ1NdlRvlEVHrC2W3wKZWA7aKkSSbgZEvlptwpdj7LYlKApE5fFZ6+X38vIfihqgWYlBdENapL5BnkCotUMVpgHxOtJ4T1r46TrtgL6vAqUxUZmE0/W1aKMxsEq6t12niyBZ4fY9mWgkUcivhkSyGT8x+I+LNsu7Rfox/Hl7D/9MEagDgXA45MDbiU/bW71eMthIMEhoP8LlVHkxBHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ysgccZVnN3X/+bhxD1bzWNDx18Es31ebRpky3b0m1m8=;
+ b=ozca9Syyu7ULt9CzBgezJESaCTljhHOYgdRibMXRpXueJaHO2YcDlTsm7kOB5csRR8TAXhyixhFoNEovLrzre0r9xeanxwPlkpRb6sXFsIJMm6+esML+qOqnbTiPA/C+mEzKO4AHv/7yerBn/TnKWimo4G6jGfz8Pdag6h2RbTSQMzhQqerlJwATCfFykoYw1hCrC3/Aig/OWa4JsCA5mCJewXRXh33iK6QZlVlSb6bQM3/PM5XNkRKb0gXNH56I9r5rHv16ENoyEmVHXmu3vtt2GgMTkxakSqEX+OCZ9qYKgk9dbYBHpHk1wLN5+ECo53/cl6vEVHpmXC+3JM5f4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7SPRMB0046.namprd11.prod.outlook.com (2603:10b6:510:1f6::20)
+ by DS0PR11MB7444.namprd11.prod.outlook.com (2603:10b6:8:146::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.16; Tue, 7 Jan
+ 2025 19:01:09 +0000
+Received: from PH7SPRMB0046.namprd11.prod.outlook.com
+ ([fe80::5088:3f5b:9a15:61dc]) by PH7SPRMB0046.namprd11.prod.outlook.com
+ ([fe80::5088:3f5b:9a15:61dc%4]) with mapi id 15.20.8314.015; Tue, 7 Jan 2025
+ 19:01:08 +0000
+Date: Tue, 7 Jan 2025 14:01:03 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-next
+Message-ID: <Z31579j3V3XCPFaK@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR03CA0261.namprd03.prod.outlook.com
+ (2603:10b6:303:b4::26) To PH7SPRMB0046.namprd11.prod.outlook.com
+ (2603:10b6:510:1f6::20)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] drm/msm/dpu: enable CDM for all supported platforms
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
- <92ba142e-0793-4a47-a8b4-115050114132@quicinc.com>
- <t2pun2bz73aq426jokjlyeweknln74ygf5xj44tnmsoxowvnku@qtxqjruhfkju>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <t2pun2bz73aq426jokjlyeweknln74ygf5xj44tnmsoxowvnku@qtxqjruhfkju>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 57z7Y6R_DSJf01rW-a2efZ8Z-0ckTiU7
-X-Proofpoint-ORIG-GUID: 57z7Y6R_DSJf01rW-a2efZ8Z-0ckTiU7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=739
- priorityscore=1501 bulkscore=0 clxscore=1015 suspectscore=0 mlxscore=0
- spamscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501070155
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7SPRMB0046:EE_|DS0PR11MB7444:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68362fb3-d54f-464e-aec9-08dd2f4da4f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?W+3x1hWpRehp2dMY3VKeoLeTcocMkiws3d2mywjPp89EqgABNAOq2P41CE?=
+ =?iso-8859-1?Q?DOBzI7OXOPgZdA+2kqeERV+4oYcKZM6kZC0Yo/78hs40v6U1QnzPFT6OH4?=
+ =?iso-8859-1?Q?J6GVXpNplpHv5D6rmpcCcC5ajiwj7svLDPJedim4Z2JinTubqXIPxxH24J?=
+ =?iso-8859-1?Q?YgiHVou+HtCADh/niB2PL0ZXdLs/W80oH5rY0wrD8M4LIn/tsHC8DMViLh?=
+ =?iso-8859-1?Q?y2smnVimma9tJagvxhPZ89paS2KeqjcZM7eHodxmK1GED864hgmQwBqsnk?=
+ =?iso-8859-1?Q?CJUZYDLb6URmLVdTVXh640/xS9z2T9uuz0FoM2J50CNBEmQcmn/fVHN/LU?=
+ =?iso-8859-1?Q?PHG4ZZTDDExzQJIPv5LaQc9zq7hbWv4TJgHW78e6eqThvqm9WklfimTGXe?=
+ =?iso-8859-1?Q?ds1ny/LVM7S55FA10ciNuFyBMosV5mD1quzUxTs8YXwjeb7vTDmKcVF3Aa?=
+ =?iso-8859-1?Q?bhtlz+XhIMupimK354XEP1UGprICndMNE+w6N+kNt2Q0MlEzu2acfYufEg?=
+ =?iso-8859-1?Q?ebojupTCwwb5tVzIUu4n8Xvrbh6epvlBW3QdPoQPhPES6djr5DiL9Adtp+?=
+ =?iso-8859-1?Q?x7nTIhRLvcnduPMFsGdyr+BqPCJ7NT+yEPKUc6s++XiRD27BIt6x1dlgBx?=
+ =?iso-8859-1?Q?ga/vljx4njUkP3H94qaKLyDbPS6Qc9y+FmsVnyA8x/1BuqKAS52lPmdvyz?=
+ =?iso-8859-1?Q?dT0QtHjA/CBDajBbiGlSZDkm+qUPvNSw+o5Xyn/LQyJ8sJTPe14/PJ1MNe?=
+ =?iso-8859-1?Q?TFNGLx7ASZFoXrb0S5FGb8Z3FgkL/kfFhF+Fw1ALZz0mXPHF2uk/VeOHrw?=
+ =?iso-8859-1?Q?7Q33vfSJRQq5icHH5qNGtvBCNLz7F6xaeAgAXPoyEFCphG7AyAL/1fz4G/?=
+ =?iso-8859-1?Q?jKzisQdn8fodQmR+87kABTCo69uggg4kuTRvxzBkLgXCCT80W9PGGveYAM?=
+ =?iso-8859-1?Q?LIBJn6rvthDVGneoRogK98RxwbVwbXb38JbUa+6v7u/467vUgMbTS/Hpix?=
+ =?iso-8859-1?Q?jsaYgkguXrN1iSEoU/FD2cTAnoG/re5FjXx2fa9JKtbUAODq36GhqPSneU?=
+ =?iso-8859-1?Q?rfd5gFnhcNqs23XVuDPxuNFswalExEg4y5DuqJannNmo/QiVIncaP9TE1n?=
+ =?iso-8859-1?Q?+gQfLGhYkJDKwW7oIPkW79BW4AwPx7fYcPDMOFIHH0wgVuTQPlZqLZFzLp?=
+ =?iso-8859-1?Q?Y/NteWPz5uzrvxEb/dp36ZcUiD5G/yjmvbVukZEAzDNWvOQgGHBBOlqqo8?=
+ =?iso-8859-1?Q?spQSlOpm4oW6YE/4AVgc2xPn4b3n/4nWDHZjzMPmiRd+c4MvjrR5Uze6V/?=
+ =?iso-8859-1?Q?ayYPEKUYekynensFZewc1Qpywk2yv+jGCWy2aSKZSGvtyzFftkFSMGxnq5?=
+ =?iso-8859-1?Q?vKOQtSXUpOmCB5ru8biTTChai+nI6Atg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7SPRMB0046.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?DOHkVRu5uuGMOFH+2uDz8NZ+NyNmI/VPZgYug8tmcYodjOI9jwJGbj6u/s?=
+ =?iso-8859-1?Q?IZEnL7tplVT8o6Xrj9PwF61NK2bv3eYn69WynP52w7H6WcYhMbDANfQLgL?=
+ =?iso-8859-1?Q?OPKzHoTDXCt3XwNvFfb5naUVP8rhdrqK8aQX8NrRILz7/Ujv1SXVjRdGJT?=
+ =?iso-8859-1?Q?MBGWIn0uWjbArZJTR2RdCbTbmoXODCrRbUPpxPYHLR6CtO/wVk8rJivwBL?=
+ =?iso-8859-1?Q?aWgndUcKlFGBa0fZzHVR7Gnb1eXRULMiR/MkcRzQFipGxroXhY7uDTNV6H?=
+ =?iso-8859-1?Q?zFtN9BSGC41wGzhmGeXLbhxmhXa4oIsghzoh3A0fVmquBD55uHE7aMn/xU?=
+ =?iso-8859-1?Q?siJeeM/zXZ35Vi8rTAoM2nGHeKZL+snevuxFLxO2JTzLZUjv8fJtSnEaTP?=
+ =?iso-8859-1?Q?7VBzeYrlRU3Um2wk699p90X3VGbRSNmlv4+rPZUDn+leeWRJyksLf88akC?=
+ =?iso-8859-1?Q?sevjRQpen8p1BMD39mzsanHW98NFxa1RGlqrfiq0o4Pph2ZpETZELHt2wb?=
+ =?iso-8859-1?Q?B+XT6eg9kCyLyxUOYcthuDpM0sdx0CqIfMw9yseY2k5/7Xq93YDhJjgO9P?=
+ =?iso-8859-1?Q?wRjbdrcXfoXbiZailDEfE8tX0S7DZHR+4VPJd6UjjhBXAOKmUcq5heuiju?=
+ =?iso-8859-1?Q?zaEz4kaM4gKQAuAsBHFemU3xcVB5qYUkedyX/cCS6zdaib60OQBJjobTYh?=
+ =?iso-8859-1?Q?98NYQ6JTThVTGiu/sGolRMFyP4WW5lqB0sCsh2jxP82xkEZzjA9NJ0j5y/?=
+ =?iso-8859-1?Q?GDhNMmb3wLTs9JJDATsSbz3rfAzdkLajlllESM8t6exu17X0A+mxoX4ID4?=
+ =?iso-8859-1?Q?mOfIvoZjY+w6dikkbE8zACdmR/Tr8tldEZl5r7ETWGavvVtGoByVSs564r?=
+ =?iso-8859-1?Q?wmwKG1Zsoaz0oc8Ahfi24z6fprz4qUt71bDQfkJc3vyTQ+DNnLaWdG+75l?=
+ =?iso-8859-1?Q?UPu7yk9VEvK6iSIXg9ZUzOtrWz1ZkiWtgR7xtqTkgjs+Qp+A3yEm8L7Kys?=
+ =?iso-8859-1?Q?tBUnACA6tm4s9UEkXUZXpkP1WDya9cfObSYQ8v/I5baNb2cUCA4rRsTprN?=
+ =?iso-8859-1?Q?R+5OQlPEFpyW5gC/t+3weuJ987KN5afjIDKFhhtwRbd6lvtbTkzRd+DYOQ?=
+ =?iso-8859-1?Q?RiuXU5vRUYarSwmuGChYGrDCfrMafrq+P7INIC8Bu2wUjtsAoCuEVmAfvl?=
+ =?iso-8859-1?Q?I4sRRsJTfWnvfBSo/WGUJ6MwEDheupH0icJw1Ei1ZlwxwQ2xVFAq9lGZrI?=
+ =?iso-8859-1?Q?ameITrOxs8cCcuY0nWtsfzW7YlmVPNGJDuD9ANL1pUlbiJ91uYaqgHd0/q?=
+ =?iso-8859-1?Q?ppQQfQ8wx/uFf43xkUBSUOQqjy1cqMrBG9P8v8zLNUYZpxSedlVqiv88Qd?=
+ =?iso-8859-1?Q?2//zJSaCVp01hqutNo3wH27yFDoXH1IegyOGCEIUiKSG3sabBNsOMdyEjN?=
+ =?iso-8859-1?Q?4RfxuBzZ7mj/uRHZjxWRfVsK+eJXf/31fgwVSGqoFJ07XGQf/ooDedqZPx?=
+ =?iso-8859-1?Q?KQ7ryKjhnret5ALD+SBBnnKc918g+YhT5AAc5QvlUJgpIIxtnifBRCMy38?=
+ =?iso-8859-1?Q?37L3+7FY2I4N3CiqgNuArUWxrrhZYRO2lbBOa3nypl2cwyxjJ83bHime/V?=
+ =?iso-8859-1?Q?jsbeYqjEPSl63qnpykxlfKzg9c1uP2D9sJyhR+JfYu654BXyQFLGfplQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68362fb3-d54f-464e-aec9-08dd2f4da4f0
+X-MS-Exchange-CrossTenant-AuthSource: PH7SPRMB0046.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2025 19:01:08.5139 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FfHg5Upt57xfWFbE+MNpbZfOik9kGP+n6IPBP3EZrmyWQcO1LkymHeFv6txM5gWXCNzMjv1Gu7UqDiD/ybHKnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7444
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,83 +183,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sima and Dave,
 
+Here goes the last Xe PR towards 6.14.
 
-On 1/7/2025 3:48 AM, Dmitry Baryshkov wrote:
-> On Mon, Jan 06, 2025 at 07:17:40PM -0800, Abhinav Kumar wrote:
->>
->>
->> On 12/23/2024 8:25 PM, Dmitry Baryshkov wrote:
->>> Enable CDM block on all the platforms where it is supposed to be
->>> present. Notably, from the platforms being supported by the DPU driver
->>> it is not enabled for SM6115 (DPU 6.3), QCM2290 (DPU 6.5) and SM6375
->>> (DPU 6.9)
->>>
->>
->> Thanks for enabling it, but can you also explain on which of these has
->> validation already been done and on which ones you need Tested-by from the
->> community?
-> 
-> Actually none :D It is purely based on your CDM support and existing
-> vendor DT trees. Maybe we should spend some time validating it.
-> 
+It is important to highlight that this has a Revert that
+fixes a regression that was part of my previous pull request:
+- Revert some changes that break a mesa debug tool.
 
-Ok. Let me continue the code review. Lets get back to the test status 
-closer to the merge window and take a call. Even covering majority of 
-the chipsets will be a win.
+Other than that a quiet and small round.
 
-I can certainly signup for sa8775p, as I will be active on that platform 
-in the upcoming weeks.
+Thanks,
+Rodrigo.
 
->>
->> Is it fair to assume that changes (3) and (4) were sent out separately and
->> not squashed into (2) because they are pending validation?
-> 
-> No, it's because I don't have DT (and so I didn't have reference) for
-> SC8280XP or X Elite.
-> 
+drm-xe-next-2025-01-07:
+UAPI Changes:
+- OA new property: 'unblock after N reports' (Ashutosh)
 
-Got it. Will take a look.
+i915 display Changes:
+- UHBR rates for Thunderbolt (Kahola)
 
->>
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>> Dmitry Baryshkov (4):
->>>         drm/msm/dpu: rename CDM block definition
->>>         drm/msm/dpu: enable CDM_0 for all DPUs which are known to have it
->>>         drm/msm/dpu: enable CDM_0 for SC8280XP platform
->>>         drm/msm/dpu: enable CDM_0 for X Elite platform
->>>
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 2 +-
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 2 +-
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 2 +-
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 +
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c           | 2 +-
->>>    26 files changed, 26 insertions(+), 4 deletions(-)
->>> ---
->>> base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
->>> change-id: 20241215-dpu-add-cdm-0b5b9283ffa8
->>>
->>> Best regards,
-> 
+Driver Changes:
+- IRQ related fixes and improvements (Ilia)
+ - Revert some changes that break a mesa debug tool (John)
+ - Fix migration issues (Nirmoy)
+ - Enable GuC's WA_DUAL_QUEUE for newer platforms (Daniele)
+ - Move shrink test out of xe_bo (Nirmoy)
+ - SRIOV PF: Use correct function to check LMEM provisioning (Michal)
+ - Fix a false-positive "Missing outer runtime PM protection" warning (Rodrigo)
+ - Make GSCCS disabling message less alarming (Daniele)
+ - Fix DG1 power gate sequence (Rodrigo)
+ - Xe files fixes (Lucas)
+ - Fix a potential TP_printk UAF (Thomas)
+ - OA Fixes (Umesh)
+ - Fix tlb invalidation when wedging (Lucas)
+ - Documentation fix (Lucas)
+The following changes since commit 4d79a1266d4cc3c967bc8823502466cad1ac8514:
+
+  drm/xe: Make irq enabled flag atomic (2024-12-11 13:20:53 -0500)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-01-07
+
+for you to fetch changes up to 6acea03f98f5d0028cae1d9d4c60914bfdfb6d27:
+
+  drm/xe: Remove "graphics tile" from kernel doc (2025-01-03 12:43:02 -0800)
+
+----------------------------------------------------------------
+UAPI Changes:
+- OA new property: 'unblock after N reports' (Ashutosh)
+
+i915 display Changes:
+- UHBR rates for Thunderbolt (Kahola)
+
+Driver Changes:
+- IRQ related fixes and improvements (Ilia)
+ - Revert some changes that break a mesa debug tool (John)
+ - Fix migration issues (Nirmoy)
+ - Enable GuC's WA_DUAL_QUEUE for newer platforms (Daniele)
+ - Move shrink test out of xe_bo (Nirmoy)
+ - SRIOV PF: Use correct function to check LMEM provisioning (Michal)
+ - Fix a false-positive "Missing outer runtime PM protection" warning (Rodrigo)
+ - Make GSCCS disabling message less alarming (Daniele)
+ - Fix DG1 power gate sequence (Rodrigo)
+ - Xe files fixes (Lucas)
+ - Fix a potential TP_printk UAF (Thomas)
+ - OA Fixes (Umesh)
+ - Fix tlb invalidation when wedging (Lucas)
+ - Documentation fix (Lucas)
+
+----------------------------------------------------------------
+Ashutosh Dixit (1):
+      drm/xe/oa/uapi: Expose an unblock after N reports OA property
+
+Daniele Ceraolo Spurio (2):
+      drm/xe/guc: Enable WA_DUAL_QUEUE for newer platforms
+      drm/xe/gsc: Make GSCCS disabling message less alarming
+
+Ilia Levi (3):
+      drm/xe/irq: Separate MSI and MSI-X flows
+      drm/xe: Initial MSI-X support for HW engines
+      drm/xe/irq: Manage MSI-X interrupts allocation
+
+John Harrison (1):
+      drm/xe: Revert some changes that break a mesa debug tool
+
+José Roberto de Souza (2):
+      drm/xe: Force write completion of MI_STORE_DATA_IMM
+      Revert "drm/xe: Force write completion of MI_STORE_DATA_IMM"
+
+Lucas De Marchi (4):
+      drm/xe: Fix fault on fd close after unbind
+      drm/xe: Use q->xef for accessing xe file
+      drm/xe: Fix tlb invalidation when wedging
+      drm/xe: Remove "graphics tile" from kernel doc
+
+Michal Wajdeczko (1):
+      drm/xe/pf: Use correct function to check LMEM provisioning
+
+Mika Kahola (1):
+      drm/i915/display: UHBR rates for Thunderbolt
+
+Nirmoy Das (3):
+      drm/xe: Use non-interruptible wait when moving BO to system
+      drm/xe: Wait for migration job before unmapping pages
+      drm/xe/tests: Move shrink test out of xe_bo
+
+Rodrigo Vivi (2):
+      drm/xe/pm: Also avoid missing outer rpm warning on system suspend
+      drm/xe/dg1: Fix power gate sequence.
+
+Thomas Hellström (1):
+      drm/xe/tracing: Fix a potential TP_printk UAF
+
+Umesh Nerlige Ramappa (2):
+      xe/oa: Fix query mode of operation for OAR/OAC
+      xe/oa: Drop the unused logic to parse context image
+
+ drivers/gpu/drm/i915/display/intel_cx0_phy.c      |  39 ++-
+ drivers/gpu/drm/i915/display/intel_cx0_phy_regs.h |   4 +
+ drivers/gpu/drm/xe/regs/xe_engine_regs.h          |   3 +
+ drivers/gpu/drm/xe/regs/xe_lrc_layout.h           |   3 +
+ drivers/gpu/drm/xe/tests/xe_bo.c                  |  16 +-
+ drivers/gpu/drm/xe/tests/xe_live_test_mod.c       |   2 +
+ drivers/gpu/drm/xe/xe_bo.c                        |  12 +-
+ drivers/gpu/drm/xe/xe_devcoredump.c               |  15 +-
+ drivers/gpu/drm/xe/xe_device.c                    |   4 +-
+ drivers/gpu/drm/xe/xe_device.h                    |   3 +-
+ drivers/gpu/drm/xe/xe_device_types.h              |   8 +
+ drivers/gpu/drm/xe/xe_exec_queue.c                |  23 +-
+ drivers/gpu/drm/xe/xe_exec_queue_types.h          |   4 +-
+ drivers/gpu/drm/xe/xe_execlist.c                  |  10 +-
+ drivers/gpu/drm/xe/xe_gt.c                        |   8 +-
+ drivers/gpu/drm/xe/xe_gt_idle.c                   |  10 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c        |   2 +-
+ drivers/gpu/drm/xe/xe_gt_stats.c                  |   4 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c       |  16 +-
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h       |   3 +-
+ drivers/gpu/drm/xe/xe_guc.c                       |  30 +-
+ drivers/gpu/drm/xe/xe_hw_engine.c                 |   9 +-
+ drivers/gpu/drm/xe/xe_hw_engine_types.h           |   2 +-
+ drivers/gpu/drm/xe/xe_hw_fence_types.h            |   2 +-
+ drivers/gpu/drm/xe/xe_irq.c                       | 323 +++++++++++++++++++---
+ drivers/gpu/drm/xe/xe_irq.h                       |   8 +
+ drivers/gpu/drm/xe/xe_lrc.c                       |  24 +-
+ drivers/gpu/drm/xe/xe_lrc.h                       |   2 +-
+ drivers/gpu/drm/xe/xe_oa.c                        | 252 +++++------------
+ drivers/gpu/drm/xe/xe_oa_types.h                  |   6 +-
+ drivers/gpu/drm/xe/xe_pm.c                        |   4 +-
+ drivers/gpu/drm/xe/xe_query.c                     |   3 +-
+ drivers/gpu/drm/xe/xe_ring_ops.c                  |   5 +-
+ drivers/gpu/drm/xe/xe_sched_job_types.h           |   2 +
+ drivers/gpu/drm/xe/xe_trace_bo.h                  |  12 +-
+ include/uapi/drm/xe_drm.h                         |   7 +
+ 36 files changed, 594 insertions(+), 286 deletions(-)
