@@ -2,48 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9BD1A04315
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:48:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE07A0437B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:57:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08FA510E330;
-	Tue,  7 Jan 2025 14:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A18B510E401;
+	Tue,  7 Jan 2025 14:57:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lXi+wx3h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hoMwCWfv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7069910E330;
- Tue,  7 Jan 2025 14:48:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE52C10E401
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:57:53 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id CF091A416DD;
- Tue,  7 Jan 2025 14:46:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D25DDC4CEDD;
- Tue,  7 Jan 2025 14:48:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 550B35C6205;
+ Tue,  7 Jan 2025 14:57:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AF82C4CED6;
+ Tue,  7 Jan 2025 14:57:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736261296;
- bh=xxaRG9lwJbdVbuVlu8ldeSeKaq8OrnocA6ebMdDf7kQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lXi+wx3halfF7o1dogppSLKUwKIVX1NeBO6hrgFOVlIMKrPEtYuMMhMT2pPM4bKuR
- kkW+KSAYGIc8hgCPZqcJcNbd8P55njCGCiZT+50Rta50f3lVamuvkw68DECW8Hr811
- yPW/PJkvdooDPP4D2Dy/2zJr+N+qEBclR8G9Q/vcF+qXEAu+n81f2DOfuRV1Qr3+zD
- yf501+TG22KnCp0mfm+NclToTrVuG4mitEZCcG9fwttb4t0eqGrCL4T4+/XTVaOnW0
- P2kRygVO7RChD/AovRswn8XelpVHhhnO83h3QTY9VudtRyTdw4gFtoZbM8aNvAkUZv
- BmfFLDPWAXYAw==
-Date: Tue, 7 Jan 2025 15:48:12 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: dri-devel@lists.freedesktop.org, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] drm/nouveau/disp: Fix missing backlight control
- on Macbook 5,1
-Message-ID: <Z30-rE1KvMQv8_Lc@pollux>
-References: <20250102114944.11499-1-tiwai@suse.de>
+ s=k20201202; t=1736261872;
+ bh=DbzU733XgZnUEo05Q+osOhh3dvR7UWfP1ZibysEtpMs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=hoMwCWfvwszkPz3mCFv7U2JOLU2f0D63hXzPv0KbxyViXQbvSDeF2okg0lZq7rBUm
+ nG42+cJbiJkNp/CXmA2yaMjSHpl7N8tBGT9R3ZDh1NW38I5L87NoWT/6l8nWrJKFZq
+ a6IGqkUVigEyI9N80iBYLxf6iXHvYHrtzQtLcF61w2aclB91sFC27nLTv1UkUm486i
+ D4MsGQnY431RGh1B3p4GN/ey9dg3quSOsmukgIDYHKbPRkmAMWYeUPJuDuYfqma56t
+ zyFLkbXKsQzRU2mODI93UfyTJIlVsradQun5fq3f0hiPOT7qyaRPcNYM7myRNsZPeB
+ 8KO6IDGFXaPdA==
+From: Christian Brauner <brauner@kernel.org>
+To: Christian Kujau <lists@nerdbynature.de>
+Cc: Christian Brauner <brauner@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2] vbox: Enable VBOXGUEST and VBOXSF_FS on ARM64
+Date: Tue,  7 Jan 2025 15:57:35 +0100
+Message-ID: <20250107-halbwahrheiten-vordach-b6ba4d1f8aa4@brauner>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <7384d96c-2a77-39b0-2306-90129bae9342@nerdbynature.de>
+References: <7384d96c-2a77-39b0-2306-90129bae9342@nerdbynature.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250102114944.11499-1-tiwai@suse.de>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1132; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=DbzU733XgZnUEo05Q+osOhh3dvR7UWfP1ZibysEtpMs=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaTXOrwy/Mzq9V65J+pa7e0Jfw4xe/0L8uHSSNyuKLRZX
+ XKS4JrGjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIk86mRkOHNAOED5ieSNFLee
+ w1an/wm7XGC6M+/zNAmr0tmpQk3HnRj+SlV2cew/lfnouVSzzpp2liQ9a+NJRxu5rJXC385cZGD
+ NCQA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,43 +68,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 02, 2025 at 12:49:36PM +0100, Takashi Iwai wrote:
-> Macbook 5,1 with MCP79 lost its backlight control since the recent
-> change for supporting GFP-RM; it rewrote the whole nv50 backlight
-> control code and each display engine is supposed to have an entry for
-> IOR bl callback, but it didn't cover mcp77.
+On Mon, 06 Jan 2025 16:32:05 +0100, Christian Kujau wrote:
+> Now that VirtualBox is able to run as a host on arm64 (e.g. the Apple M3
+> processors) we can enable VBOXSF_FS (and in turn VBOXGUEST) for this
+> architecture. Tested with various runs of bonnie++ and dbench on an Apple
+> MacBook Pro with the latest Virtualbox 7.1.4 r165100 installed.
 > 
-> This patch adds the missing bl entry initialization for mcp77 display
-> engine to recover the backlight control.
 > 
-> Fixes: 2274ce7e3681 ("drm/nouveau/disp: add output backlight control methods")
-> Cc: <stable@vger.kernel.org>
-> Link: https://bugzilla.suse.com/show_bug.cgi?id=1223838
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Applied to drm-misc-fixes, thanks!
+Applied to the vfs-6.14.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-6.14.misc branch should appear in linux-next soon.
 
-> ---
-> 
-> The previous submission seemed fallin in a crack:
->   https://lore.kernel.org/all/20240517110853.8481-1-tiwai@suse.de/
-> so just resending it.
-> 
->  drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-> index 841e3b69fcaf..5a0c9b8a79f3 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/engine/disp/mcp77.c
-> @@ -31,6 +31,7 @@ mcp77_sor = {
->  	.state = g94_sor_state,
->  	.power = nv50_sor_power,
->  	.clock = nv50_sor_clock,
-> +	.bl = &nv50_sor_bl,
->  	.hdmi = &g84_sor_hdmi,
->  	.dp = &g94_sor_dp,
->  };
-> -- 
-> 2.43.0
-> 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.14.misc
+
+[1/1] vbox: Enable VBOXGUEST and VBOXSF_FS on ARM64
+      https://git.kernel.org/vfs/vfs/c/5cf8f938bf5c
