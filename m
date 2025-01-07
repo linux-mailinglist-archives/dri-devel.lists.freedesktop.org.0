@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8294FA042C2
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451A5A042C5
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:39:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB3E410E70E;
-	Tue,  7 Jan 2025 14:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1C0210E717;
+	Tue,  7 Jan 2025 14:39:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="bMuTGudG";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="Kz/TNRA2";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="oRKnwUmK";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="EllWyCh9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE6910E70E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:39:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10AE410E717
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:39:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1736260769; x=1767796769;
+ t=1736260775; x=1767796775;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=v6ZalIwFfK9vUB0/HSTtySwzznHuXDMQLLMZDZH/dAc=;
- b=bMuTGudGdCF+GFdN3BRpzeYX2ub3vAL583xnZ67bsh/g1m0Rfl/QNAcp
- bsBZWCTqCqw+iOvxI0xnGyPIow2HfD5HU9P/X+JZpsH6VZ9eqxQ2j5Qyb
- 1Xt9JnvjhmKRJmw6Fz/d+up2EBv6+juW0Wo8EDoItc4JHmY2S2YiGYOBL
- zss84WT6eFPWKM/ceX6BrhJk9bns0/iuYzvZYX/T33kV7vh5oV7FG1Bof
- aw10cNd+H51kh/6pGFP0S3fQlAY1jhaoruGB/evGiTIi2byx7DxGOY4Ra
- ow4faNh6cRd7gnFxXWRdzOufJYwyv+nu7elXKp1bWxsm8ovcXUgcYlhBe g==;
-X-CSE-ConnectionGUID: OLkKxxOYQ2O7L3x2p5kTEg==
-X-CSE-MsgGUID: kBmI3pPLQ6y9k7ktctXARQ==
-X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; d="scan'208";a="40897247"
+ bh=XVzJm2W1uVdEFEZWkXxZ+spN7k+YpzBUagSYY5jbkr0=;
+ b=oRKnwUmKgt6fWZyEq1T+/X0Pz21jzfqkw1EO451sH26Ja3sosmWF//u3
+ FT8P0OSbsPShvMo/ngWwnZxyzUB/q0wM4O+7fg3bdIR4ksYkgWhLHpagn
+ iF9jtUEx2JF9tR9FJi+P34pDHN0HldxLV2Vb3GZtN6e/CNAlGpCOTvwuw
+ hsfTKos7IupPCmNNg6fk7Q1D3J6iIo1lPPs3ahuGUK4uow1wcCok6sO2+
+ dur2lsHNctxP0yWA3MT2ON91aTU5XqtSiyAwVPurkpd/IDbvG48lxy9FR
+ wnNFWxCeFr8GZ+R7/5rLLBO/+ZT9sp62RphHVmyE417T5hvATJawNinCy A==;
+X-CSE-ConnectionGUID: jIb3ypKkSKyrja3ThHtuZg==
+X-CSE-MsgGUID: kaeze2RMQtO2pwYlPLFHvg==
+X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; d="scan'208";a="40897250"
 Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 07 Jan 2025 15:39:27 +0100
-X-CheckPoint: {677D3C9F-1F-3C670366-E45AD810}
-X-MAIL-CPID: 5D665BE28A4386F0867A29349A815CCC_4
-X-Control-Analysis: str=0001.0A682F27.677D3C9F.00CA, ss=1, re=0.000, recu=0.000,
+ by mx1.tq-group.com with ESMTP; 07 Jan 2025 15:39:33 +0100
+X-CheckPoint: {677D3CA5-14-1D00F64B-E6C57517}
+X-MAIL-CPID: 800858C3296ADFDF66C2AAAF0E539E43_3
+X-Control-Analysis: str=0001.0A682F15.677D3CA5.0092, ss=1, re=0.000, recu=0.000,
  reip=0.000, cl=1, cld=1, fgs=0
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 59956160B22; Tue,  7 Jan 2025 15:39:22 +0100 (CET)
+ with ESMTPSA id 2D6A6160B22; Tue,  7 Jan 2025 15:39:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1736260763;
+ s=dkim; t=1736260769;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v6ZalIwFfK9vUB0/HSTtySwzznHuXDMQLLMZDZH/dAc=;
- b=Kz/TNRA2k3u0PyJ5oHB+nYGayQGkRTxZ/4I43G45iHR3By/K8jB9CNTC3ABHnqQ+5j4yi1
- JK0iWidsvqz2r9mSf8ykklx9V5qMaTkR7iAxw2V8CPSar/qAY4r74lKL/noQSeVcC3VVOj
- je4FFLa5DIqPgszBZ3nBkUAmqXvJnXvKX30Y1XIgBDai1BUJ6zBIZ/BlC2qN9HwAzVqHmQ
- hNivDMYEMYc6BHoSSj8KRGOVdaMfOGRVTg8i89h8UNQBaLgqsi9GP1SeITDB3QCVktFNGH
- tENFAAGPUqz8kL4ALPtJ9jxdwF68cdWI7BZbASmcBCgXIL03jobcxGjHDJ+xOQ==
+ bh=XVzJm2W1uVdEFEZWkXxZ+spN7k+YpzBUagSYY5jbkr0=;
+ b=EllWyCh9SvK4sD0noz8TqzYTsz87MPpHWGJx3iLQ+dsF4rFFUyeHuv1JxV6vKmssHezoYt
+ vTdohZGKG3dXtwtlZPtTrrjWt5N4YboIORAs9Sua9hyqOX2tZrst+K+QI/46AENHPx5Pw0
+ LRUGxZsTI2SXuJAqQnIHZtgybEKhB7Kq5+b6bb5DkO5n0mwCI6BmGb88YONYQfvZFhN1gF
+ sWAcDONNQjMJ5WIPpwnVFPPf/RGNKz9onpxeEdDQF5q52W9kMbfuCT0pEvHGP2KgKpCx/l
+ kT08aoo4YIE8s/bk77hnylJcSUn4UaxoDyMs+6u/T44ThUXJk788xpTPUAhhuA==
 From: Alexander Stein <alexander.stein@ew.tq-group.com>
 To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -66,9 +66,9 @@ To: Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
  dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] drm/bridge: imx8qxp-ldb: Use dev_err_probe
-Date: Tue,  7 Jan 2025 15:38:58 +0100
-Message-Id: <20250107143900.988567-3-alexander.stein@ew.tq-group.com>
+Subject: [PATCH v2 3/4] drm/bridge: imx-ldb-helper: Use dev_err_probe
+Date: Tue,  7 Jan 2025 15:38:59 +0100
+Message-Id: <20250107143900.988567-4-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250107143900.988567-1-alexander.stein@ew.tq-group.com>
 References: <20250107143900.988567-1-alexander.stein@ew.tq-group.com>
@@ -94,73 +94,40 @@ This simplifies the code and gives additional information upon deferral.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 37 ++++++++----------------
- 1 file changed, 12 insertions(+), 25 deletions(-)
+ drivers/gpu/drm/bridge/imx/imx-ldb-helper.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-index 7bce2305d6767..d5e123173f354 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-@@ -557,10 +557,8 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
+diff --git a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+index 9b5bebbe357dd..2c9b862af74af 100644
+--- a/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
++++ b/drivers/gpu/drm/bridge/imx/imx-ldb-helper.c
+@@ -167,7 +167,7 @@ int ldb_find_next_bridge_helper(struct ldb *ldb)
+ {
+ 	struct device *dev = ldb->dev;
+ 	struct ldb_channel *ldb_ch;
+-	int ret, i;
++	int i;
  
- 	imx8qxp_ldb->companion = of_drm_find_bridge(companion_port);
- 	if (!imx8qxp_ldb->companion) {
--		ret = -EPROBE_DEFER;
--		DRM_DEV_DEBUG_DRIVER(dev,
--				     "failed to find bridge for companion bridge: %d\n",
--				     ret);
-+		ret = dev_err_probe(dev, -EPROBE_DEFER,
-+				    "failed to find bridge for companion bridge\n");
- 		goto out;
+ 	for (i = 0; i < MAX_LDB_CHAN_NUM; i++) {
+ 		ldb_ch = ldb->channel[i];
+@@ -177,14 +177,9 @@ int ldb_find_next_bridge_helper(struct ldb *ldb)
+ 
+ 		ldb_ch->next_bridge = devm_drm_of_get_bridge(dev, ldb_ch->np,
+ 							     1, 0);
+-		if (IS_ERR(ldb_ch->next_bridge)) {
+-			ret = PTR_ERR(ldb_ch->next_bridge);
+-			if (ret != -EPROBE_DEFER)
+-				DRM_DEV_ERROR(dev,
+-					      "failed to get next bridge: %d\n",
+-					      ret);
+-			return ret;
+-		}
++		if (IS_ERR(ldb_ch->next_bridge))
++			return dev_err_probe(dev, PTR_ERR(ldb_ch->next_bridge),
++					     "failed to find next bridge\n");
  	}
  
-@@ -590,22 +588,14 @@ static int imx8qxp_ldb_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	imx8qxp_ldb->clk_pixel = devm_clk_get(dev, "pixel");
--	if (IS_ERR(imx8qxp_ldb->clk_pixel)) {
--		ret = PTR_ERR(imx8qxp_ldb->clk_pixel);
--		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(dev,
--				      "failed to get pixel clock: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(imx8qxp_ldb->clk_pixel))
-+		return dev_err_probe(dev, PTR_ERR(imx8qxp_ldb->clk_pixel),
-+				     "failed to get pixel clock\n");
- 
- 	imx8qxp_ldb->clk_bypass = devm_clk_get(dev, "bypass");
--	if (IS_ERR(imx8qxp_ldb->clk_bypass)) {
--		ret = PTR_ERR(imx8qxp_ldb->clk_bypass);
--		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(dev,
--				      "failed to get bypass clock: %d\n", ret);
--		return ret;
--	}
-+	if (IS_ERR(imx8qxp_ldb->clk_bypass))
-+		return dev_err_probe(dev, PTR_ERR(imx8qxp_ldb->clk_bypass),
-+				     "failed to get bypass clock\n");
- 
- 	imx8qxp_ldb->dev = dev;
- 
-@@ -640,13 +630,10 @@ static int imx8qxp_ldb_probe(struct platform_device *pdev)
- 	}
- 
- 	imx8qxp_ldb_ch->phy = devm_of_phy_get(dev, ldb_ch->np, "lvds_phy");
--	if (IS_ERR(imx8qxp_ldb_ch->phy)) {
--		ret = PTR_ERR(imx8qxp_ldb_ch->phy);
--		if (ret != -EPROBE_DEFER)
--			DRM_DEV_ERROR(dev, "failed to get channel%d PHY: %d\n",
--				      imx8qxp_ldb->active_chno, ret);
--		return ret;
--	}
-+	if (IS_ERR(imx8qxp_ldb_ch->phy))
-+		return dev_err_probe(dev, PTR_ERR(imx8qxp_ldb_ch->phy),
-+				     "failed to get channel%d PHY\n",
-+				     imx8qxp_ldb->active_chno);
- 
- 	ret = ldb_find_next_bridge_helper(ldb);
- 	if (ret)
+ 	return 0;
 -- 
 2.34.1
 
