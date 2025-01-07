@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72466A0429A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:32:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF5DA042A4
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D39C10E155;
-	Tue,  7 Jan 2025 14:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C79E410E3B4;
+	Tue,  7 Jan 2025 14:34:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jZP0yrbv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P9a+8IS1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E8710E3B4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:32:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 250EF10E3B4
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:34:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E89785C6286;
- Tue,  7 Jan 2025 14:31:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E4EC4CED6;
- Tue,  7 Jan 2025 14:32:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id EDB845C62FE;
+ Tue,  7 Jan 2025 14:33:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48FCEC4CED6;
+ Tue,  7 Jan 2025 14:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736260338;
- bh=+WQwahVHWJ4avpH4oii/JUwTgHmIwitEytQhPjMz64o=;
+ s=k20201202; t=1736260477;
+ bh=pvvw+49AgRU9wJTP54zTr1tdROtVtxt6vHDZXCv995I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jZP0yrbvFJjAsUvkGT5089ZaI0GH9/QKx9Gc0u6sD/JGxEGbE3rZfTRp3kUOMLH+v
- 20kK7qfLCFVCjgMssB3wyJlrIxiWpNVE1dim3PRxqI+zCP3p+0FOhOoXb4RWQjgkCm
- nBycFtX/H74d1+mH6mA4PqCW4gxWEBFo7FJco5iHGPISOWa82HCj0GMgKmzf+3YuJc
- D8o4aMeD5kpo+P+dYMNr6yRESuFR6QkxsMqc0+M+o0DOTHEU/xNxHM6maK/eTGXbeq
- fLe2R95iWjInZ5B8VuC/PdYtwbCT7mA36yoXjq7lyPCgXEgFCLuhqWXyb7e0LK0wiO
- sALrB49tpzFHw==
-Date: Tue, 7 Jan 2025 15:32:15 +0100
+ b=P9a+8IS1bMcsEESO5OBpI4MQwd1aYIk8/8H4h1XDEvkuTdTy12R1ZF8ydmjlSfo2E
+ +mcWUea9H3urrXlll1quKp48cixK1NUaZ/7kd9pEq88wSexA9HfB+nVNCG+R7fI1Wr
+ M/evqYUTHiEt8Bdje/Qj8mxaqnksk4SZPaANzF9YCwbFQkq9sNmwJNE4sB12NhmrE8
+ b5iI0TZUGDRGcPOuldd7Vwn/VZO8cn2qPryptWb65WLkJWEZmfCLX4/ktU+mq8SVY2
+ omKSZ/50psDLnebH5ZeJypi7KXtrv4fgkYu5FV7E/sCdTpf8WShuE8RO5JR0NIy4wd
+ 77UFO1CxqpbrA==
+Date: Tue, 7 Jan 2025 15:34:35 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,15 +45,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC/RFT 2/9] drm/display: add CEC helpers code
-Message-ID: <20250107-psychedelic-earthworm-of-action-cf5ceb@houat>
+Subject: Re: [PATCH RFC/RFT 4/9] drm/vc4: hdmi: switch to generic CEC helpers
+Message-ID: <20250107-intrepid-tuna-of-growth-5f53c5@houat>
 References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
- <20241225-drm-hdmi-connector-cec-v1-2-b80380c67221@linaro.org>
+ <20241225-drm-hdmi-connector-cec-v1-4-b80380c67221@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="idhxvhxu2qliw2kd"
+ protocol="application/pgp-signature"; boundary="4ko4to42f5lqrfuo"
 Content-Disposition: inline
-In-Reply-To: <20241225-drm-hdmi-connector-cec-v1-2-b80380c67221@linaro.org>
+In-Reply-To: <20241225-drm-hdmi-connector-cec-v1-4-b80380c67221@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,122 +70,105 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---idhxvhxu2qliw2kd
+--4ko4to42f5lqrfuo
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC/RFT 2/9] drm/display: add CEC helpers code
+Subject: Re: [PATCH RFC/RFT 4/9] drm/vc4: hdmi: switch to generic CEC helpers
 MIME-Version: 1.0
 
-On Wed, Dec 25, 2024 at 01:10:10AM +0200, Dmitry Baryshkov wrote:
-> Add generic CEC helpers to be used by HDMI drivers. Both notifier and
-> and adapter are supported for registration. Once registered, the driver
-> can call common set of functions to update physical address, to
-> invalidate it or to unregister CEC data.
+On Wed, Dec 25, 2024 at 01:10:12AM +0200, Dmitry Baryshkov wrote:
+> Switch VC4 driver to using CEC helpers code, simplifying hotplug and
+> registration / cleanup. The existing vc4_hdmi_cec_release() is kept for
+> now.
 >=20
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/display/Kconfig               |   5 +
->  drivers/gpu/drm/display/Makefile              |   2 +
->  drivers/gpu/drm/display/drm_hdmi_cec_helper.c | 145 ++++++++++++++++++++=
-++++++
->  include/drm/display/drm_hdmi_cec_helper.h     |  38 +++++++
->  4 files changed, 190 insertions(+)
+>  drivers/gpu/drm/vc4/Kconfig    |  1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 92 ++++++++++++++++++++----------------=
+------
+>  drivers/gpu/drm/vc4/vc4_hdmi.h |  1 -
+>  3 files changed, 44 insertions(+), 50 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kc=
-onfig
-> index 8d22b7627d41f7bc015decf24ae02a05bc00f055..49da9b768acf3e5f84f2cefae=
-4bb042cfd57a50c 100644
-> --- a/drivers/gpu/drm/display/Kconfig
-> +++ b/drivers/gpu/drm/display/Kconfig
-> @@ -82,6 +82,11 @@ config DRM_DISPLAY_HDMI_AUDIO_HELPER
->  	  DRM display helpers for HDMI Audio functionality (generic HDMI Codec
->  	  implementation).
-> =20
-> +config DRM_DISPLAY_HDMI_CEC_HELPER
-> +	bool
-> +	help
-> +	  DRM display helpers for HDMI CEC implementation.
-> +
->  config DRM_DISPLAY_HDMI_HELPER
->  	bool
+> diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
+> index 6cc7b7e6294a1bfa54137ca65296cd47e46b1e1e..360fbe755951cc40fecb4f9d6=
+43a096a6cf92b8e 100644
+> --- a/drivers/gpu/drm/vc4/Kconfig
+> +++ b/drivers/gpu/drm/vc4/Kconfig
+> @@ -34,6 +34,7 @@ config DRM_VC4_HDMI_CEC
+>  	bool "Broadcom VC4 HDMI CEC Support"
+>  	depends on DRM_VC4
+>  	select CEC_CORE
+> +	select DRM_DISPLAY_HDMI_CEC_HELPER
 >  	help
-> diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/M=
-akefile
-> index b17879b957d5401721396e247fa346387cf6c48a..2cd078e2b81c1a9e6b336c418=
-7b444bcb8a50e51 100644
-> --- a/drivers/gpu/drm/display/Makefile
-> +++ b/drivers/gpu/drm/display/Makefile
-> @@ -16,6 +16,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HELPER) +=
-=3D \
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) +=3D drm_hdcp_helpe=
-r.o
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_AUDIO_HELPER) +=3D \
->  	drm_hdmi_audio_helper.o
-> +drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_CEC_HELPER) +=3D \
-> +	drm_hdmi_cec_helper.o
->  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) +=3D \
->  	drm_hdmi_helper.o \
->  	drm_scdc_helper.o
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_cec_helper.c b/drivers/gpu/=
-drm/display/drm_hdmi_cec_helper.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..2a3832e68232fa3b839a3c745=
-7b2013779cada86
-> --- /dev/null
-> +++ b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
-> @@ -0,0 +1,145 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright (c) 2024 Linaro Ltd
-> + */
-> +
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_connector.h>
+>  	  Choose this option if you have a Broadcom VC4 GPU
+>  	  and want to use CEC.
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..3086c2ad3bb2e8fafdc1f37ba=
+985aa5785d49f9a 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -32,6 +32,7 @@
+>   */
+> =20
+>  #include <drm/display/drm_hdmi_audio_helper.h>
 > +#include <drm/display/drm_hdmi_cec_helper.h>
-> +
-> +#include <linux/mutex.h>
-> +
-> +#include <media/cec.h>
-> +#include <media/cec-notifier.h>
-> +
-> +static void drm_connector_hdmi_cec_adapter_unregister(struct drm_connect=
-or *connector)
-> +{
-> +	cec_unregister_adapter(connector->cec.adapter);
-> +	connector->cec.adapter =3D NULL;
-> +	connector->cec.unregister =3D NULL;
-> +}
-> +
-> +int drm_connector_hdmi_cec_adapter_register(struct drm_connector *connec=
-tor,
-> +					    const struct cec_adap_ops *ops,
-> +					    const char *name,
-> +					    u8 available_las,
-> +					    int (*init_cec)(struct drm_connector *connector),
-> +					    void (*uninit_cec)(struct drm_connector *connector),
-> +					    struct device *dev)
+>  #include <drm/display/drm_hdmi_helper.h>
+>  #include <drm/display/drm_hdmi_state_helper.h>
+>  #include <drm/display/drm_scdc_helper.h>
+> @@ -400,16 +401,8 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi =
+*vc4_hdmi,
+>  	 * the lock for now.
+>  	 */
+> =20
+> -	if (status =3D=3D connector_status_disconnected) {
+> -		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> -		return;
+> -	}
+> -
+>  	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+> =20
+> -	cec_s_phys_addr(vc4_hdmi->cec_adap,
+> -			connector->display_info.source_physical_address, false);
+> -
+>  	if (status !=3D connector_status_connected)
+>  		return;
+> =20
+> @@ -2388,7 +2381,7 @@ static irqreturn_t vc4_cec_irq_handler_rx_thread(in=
+t irq, void *priv)
+>  	struct vc4_hdmi *vc4_hdmi =3D priv;
+> =20
+>  	if (vc4_hdmi->cec_rx_msg.len)
+> -		cec_received_msg(vc4_hdmi->cec_adap,
+> +		cec_received_msg(vc4_hdmi->connector.cec.adapter,
+>  				 &vc4_hdmi->cec_rx_msg);
+> =20
+>  	return IRQ_HANDLED;
+> @@ -2399,14 +2392,14 @@ static irqreturn_t vc4_cec_irq_handler_tx_thread(=
+int irq, void *priv)
+>  	struct vc4_hdmi *vc4_hdmi =3D priv;
+> =20
+>  	if (vc4_hdmi->cec_tx_ok) {
+> -		cec_transmit_done(vc4_hdmi->cec_adap, CEC_TX_STATUS_OK,
+> +		cec_transmit_done(vc4_hdmi->connector.cec.adapter, CEC_TX_STATUS_OK,
+>  				  0, 0, 0, 0);
 
-We're missing a documentation here. Why do we need drivers to pass both
-a set of cec_adap_ops and a bunch of extra functions? Shouldn't we make
-this a single structure like we did for audio?
-
-Also, to remain consistent, we should call that function drm_connector_hdmi=
-_cec_register
-
+Shouldn't we create helpers for those just like we did to deal with phys_ad=
+dr?
 
 Maxime
 
---idhxvhxu2qliw2kd
+--4ko4to42f5lqrfuo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ3067wAKCRAnX84Zoj2+
-duhZAX9vW3auAbVp6/TAgbcdkQGdcEVSdOHbP1byFKRxuSVLityacLf1FCaYcZCl
-KPjyOeYBgPyaDAKsvOS6fXiAjtKxyChWIqdqXIiWNxuLsSx4o9+LeKLARqJT+PIl
-IQxUSQJW/A==
-=6BEw
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ307egAKCRAnX84Zoj2+
+dqJaAX4kx42hTI2sUkrZ7ypoU/vNqvwVXezexEtWYVBvHnGEp2OmEUbmBZYXk8QD
+490m56ABf1xK3Z1asiYSGUTCiIftAEXtbAJmTDbuPFiAOLhbklnKZ0O+RlqwFJ6u
+Mooj9pMRnQ==
+=fPMx
 -----END PGP SIGNATURE-----
 
---idhxvhxu2qliw2kd--
+--4ko4to42f5lqrfuo--
