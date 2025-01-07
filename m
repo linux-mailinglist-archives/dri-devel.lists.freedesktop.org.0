@@ -2,92 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9C2A03CF6
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9C32A03CBB
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 11:44:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D99610E3F7;
-	Tue,  7 Jan 2025 10:51:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFD210E3EF;
+	Tue,  7 Jan 2025 10:44:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="cdP7ilIa";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="PM6W0bDq";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="g5GU7kqq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DC2810E3FC
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 10:51:32 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5401be44b58so16343808e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 02:51:32 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CCFB10E3F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 10:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1736247030; x=1736851830;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JBvwPO7uMOawN7K708HQlElZF2GeKij7i1s54/VpKLc=;
- b=cdP7ilIaqDoPuPqMzvqmAUD/3L3Dg3IMqQuH2RB+OWS6DLWJJWlkgOi0am/e8qbqwy
- NePdc3mKldrG9yrMvEE/n0sDkDvZ9r5VoIYyWVHW+Pb1EsFRM0QO9uDdQfTYyDjqL7Ar
- 0yvd1LB7Lm7JRkEIYUpgSTIH6dTdKr/vgXf6Kvp1y1iozB9tSJHqOKWoUgpc517i9iMK
- 4omM4r15UdwUqeEshriw4RCIaudabwTlDlkebjBBMC1L5K6c8EijMqQT+RpbHwAuaBXi
- NgKXcitO5Q0q3rJMTgjKsOkizdK5x8AD8Sir44sCGZWvFIWnrLzHJEnNjzAFCBIMiISX
- kZUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736247030; x=1736851830;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JBvwPO7uMOawN7K708HQlElZF2GeKij7i1s54/VpKLc=;
- b=KNiZEIpeM1xWWMlZ13Azm+6FB6DmWJlsh4njxSp5sohTlCf1eFzuLkHyPVveI9MYRl
- fwcMPtD7j1I7EXw+LTTIgQ2v+xCzI62sDPysbHozE8Xe2o1U3J4mxoe5x8nnP+J0fi3N
- NdME0XUFKyn5iAWQnpsu1AOQkreWQWkB74/yqMudx2St1Vyyf4yDQjIXMQ1AWmVQjD7I
- 9B4ESaP1MSJQGupM2tha/EW6sgm/hQJC1wTChDLUNuE6Ted9fRUrNM2z9BbRs5a4YW/t
- hH+R5hMPyJLsiEZMKA8pu2AXM6+rY5U9Bw1+WCXPOYFOvMQYZBBial7tcuXEpCzcRusG
- fY1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlPLPLizVYzuvUxPFVuJYFqkWw+OFReTM63+gvYJPIRWxExdIlH7WvoStKOsbKtxceNeRowhvGt/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzULvt9dWOAhFjlH/6o36S8WUmnjUlZWppW2H0qZVLg3ew21N/M
- NW/xIhWpUNz2aH67ofNf9IpSmBxLBlugyT4Hj0vTgIcVtv21+PPf829A7CihtXPtt3er9N3an78
- HOAs=
-X-Gm-Gg: ASbGncvPRhe3QcCHkRFx9NsLTeyH1y9o1RQmGfnVHmZ0nZJixE4N7q+BwVgw8oDLGWW
- 1W3b5BNgaxNcuVjXy9CfdQkdlj/+FIQI9CSpgkuZ54KkYhVqg7okG49WY7QZWDxMySZpjn8CIo/
- N1RKuaJcBZrL22NRVZ3FE8mrovCm8+8VwDkZ25y7FjhFvDmdCb3bRIGcN3hXFCkqmmsilw6hpJ7
- Sqk/7y1873ZtYHWvjImCmt/7bKrVPLh9o3gvPj61QL/bOA1fdm5ZcgfPVt2pHcYw+pawKwD
-X-Google-Smtp-Source: AGHT+IFG9ndcnZmaPryeFVAEaT7e8OE+j+/swO6098jqZEuPtknSWTu+gb1vbHX6ZmbX2bo+mdB/tw==
-X-Received: by 2002:a05:600c:45cf:b0:434:fbd5:2f0a with SMTP id
- 5b1f17b1804b1-43668642e7bmr539646015e9.9.1736246615171; 
- Tue, 07 Jan 2025 02:43:35 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43656b1143dsm624441675e9.18.2025.01.07.02.43.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2025 02:43:34 -0800 (PST)
-Message-ID: <0f70fa7b-c6fa-4bb5-8f33-c40e9cfaaa80@ursulin.net>
-Date: Tue, 7 Jan 2025 10:43:34 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] Documentation/gpu: Add fdinfo meanings of
- drm-*-internal memory tags
-To: =?UTF-8?Q?Adri=C3=A1n_Mart=C3=ADnez_Larumbe?=
- <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1736246662; x=1767782662;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=y+jHg0ZRQrFyhampVjN9ER8cthsZkPVauZNM9jlIGhs=;
+ b=PM6W0bDqJ4DO7rXa9HfcaFZfn+nM/oDKPs5c39+y54ahqTrU364/B0xp
+ mGCDSDUkAB9/Z2Co23rQ3c2/u+KEfZXCfdnvVQsNFD7QRExC3MyU2Azp2
+ XAyCF9OAc9rahyYQrKGiFETB8OU1JDEqiHkP9xz5koh+cn6TySkR2h2mK
+ ZQSO/AKDw8JNJ22HVAI8CPPaN11Y0LjJaGdv8CWgxujla1WN6dVs00FVP
+ TKGqIL3mJLn53RjzqUU2Y4VPBu0HVxWvXST3AIcd0U86MU5x8bkgSacHm
+ l5xlCUnpbUsPjj/azRqZXcH+7mC7Gh+RTOlMt2zsnXr/IbqP2/n+HZyUi w==;
+X-CSE-ConnectionGUID: Ou6ReafJR7SkqcE1EYK60w==
+X-CSE-MsgGUID: tKisNOsmRJWh6tH7qXJrIQ==
+X-IronPort-AV: E=Sophos;i="6.12,295,1728943200"; d="scan'208";a="40890871"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 07 Jan 2025 11:44:20 +0100
+X-CheckPoint: {677D0584-E-7C22D67C-DB53DE17}
+X-MAIL-CPID: A3034B88B8AF551AC765663C245DBFCB_3
+X-Control-Analysis: str=0001.0A682F24.677D0585.0019, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 80EDA163815; Tue,  7 Jan 2025 11:44:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1736246655;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y+jHg0ZRQrFyhampVjN9ER8cthsZkPVauZNM9jlIGhs=;
+ b=g5GU7kqqoZap7uAn4UMBWajpOzprQFaxD556BOi1CgZY6rHJNyHUk9jGerT8Wb4sf8lln9
+ pheiYjByt1f2wMFLy9QBUC8+1IR3FSRFikQexnlwfzwcJOi0idLSAjld7IS2L8LX7vFly4
+ 7eSj9sVnb59W1uAaYipSUotv7IFuEVeFf3A8XLF19tAmnuZZZmDmuuJ1bOKnVsiXryu3i2
+ delK0r0S/xJ11fn9Jc1DjCX1cpijQ8EgYsFz1W6EdMhBsS/aujrc13r7Np1ASoi+f51G/8
+ hyQC62sqORa4OhKIA80cMODoOPGd23KHBB03EBfhxmN+JKKveO5R5WPngkyq9A==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Mihail Atanassov <mihail.atanassov@arm.com>
-References: <20241218181844.886043-1-adrian.larumbe@collabora.com>
- <20241218181844.886043-3-adrian.larumbe@collabora.com>
- <1ef1d07b-bfa9-4e52-bfa0-20f569752701@ursulin.net>
- <2sb72aco2lc5hlvwn7hpc5k27naep7u2s64lc6qzk4ruy6jkhd@c2dfhvhe76yt>
- <c76881d9-e7e4-48b3-904c-439ab28d9782@ursulin.net>
- <lzvil3iy7cq4t3kz3dl5g2j5n6lr4wd5qwtmqt2l2hwsqyzd3q@sumaho6upjvv>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <lzvil3iy7cq4t3kz3dl5g2j5n6lr4wd5qwtmqt2l2hwsqyzd3q@sumaho6upjvv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/2] dt-bindings: samsung,
+ mipi-dsim: Add imx7d specific compatible
+Date: Tue, 07 Jan 2025 11:44:10 +0100
+Message-ID: <3358169.aeNJFYEL58@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <CAOMZO5CasQDRu=U7zUxzuFVBHyREZ7oyG8+SJjg2BF58B9G3wg@mail.gmail.com>
+References: <20250107094943.518474-1-alexander.stein@ew.tq-group.com>
+ <20250107094943.518474-3-alexander.stein@ew.tq-group.com>
+ <CAOMZO5CasQDRu=U7zUxzuFVBHyREZ7oyG8+SJjg2BF58B9G3wg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,155 +97,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Fabio,
 
-On 06/01/2025 16:53, Adrián Martínez Larumbe wrote:
-> On 03.01.2025 10:49, Tvrtko Ursulin wrote:
->> On 02/01/2025 22:18, Adrián Martínez Larumbe wrote:
->>> On 02.01.2025 21:59, Tvrtko Ursulin wrote:
->>>>
->>>> On 18/12/2024 18:18, Adrián Martínez Larumbe wrote:
->>>>> From: Adrián Larumbe <adrian.larumbe@collabora.com>
->>>>>
->>>>> A previous commit enabled display of driver-internal kernel BO sizes
->>>>> through the device file's fdinfo interface.
->>>>>
->>>>> Expand the description of the relevant driver-specific key:value pairs
->>>>> with the definitions of the new drm-*-internal ones.
->>>>>
->>>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>>>> Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
->>>>> ---
->>>>>     Documentation/gpu/panthor.rst | 14 ++++++++++++++
->>>>>     1 file changed, 14 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
->>>>> index 3f8979fa2b86..23aa3d67c9d2 100644
->>>>> --- a/Documentation/gpu/panthor.rst
->>>>> +++ b/Documentation/gpu/panthor.rst
->>>>> @@ -26,6 +26,10 @@ the currently possible format options:
->>>>>          drm-cycles-panthor:     94439687187
->>>>>          drm-maxfreq-panthor:    1000000000 Hz
->>>>>          drm-curfreq-panthor:    1000000000 Hz
->>>>> +     drm-total-internal:     10396 KiB
->>>>> +     drm-shared-internal:    0
->>>>> +     drm-active-internal:    10396 KiB
->>>>> +     drm-resident-internal:  10396 KiB
->>>>>          drm-total-memory:       16480 KiB
->>>>>          drm-shared-memory:      0
->>>>>          drm-active-memory:      16200 KiB
->>>>> @@ -44,3 +48,13 @@ driver by writing into the appropriate sysfs node::
->>>>>     Where `N` is a bit mask where cycle and timestamp sampling are respectively
->>>>>     enabled by the first and second bits.
->>>>> +
->>>>> +Possible `drm-*-internal` keys are: `total`, `active`, `resident` and `shared`.
->>>>> +These values convey the sizes of the internal driver-owned shmem BO's that
->>>>> +aren't exposed to user-space through a DRM handle, like queue ring buffers,
->>>>> +sync object arrays and heap chunks. Because they are all allocated and pinned
->>>>> +at creation time, `drm-resident-internal` and `drm-total-internal` should always
->>>>> +be equal. `drm-active-internal` shows the size of kernel BO's associated with
->>>>> +VM's and groups currently being scheduled for execution by the GPU.
->>>>> +`drm-shared-internal` is unused at present, but in the future it might stand for
->>>>> +the size of executable FW regions, since they do not belong to an open file context.
->>>>
->>>> The description is way too specific, too tied to some of the implementations.
->>>
->>> These are panthor-specific key:value pairs. I was in the belief that drivers
->>> could define their own when it suits their interest beyond the DRM-wide ones
->>> defined in the drm-fdinfo spec.
->>>
->>>> I also don't remember that you ever explained why totting up the internal
->>>> objects into existing regions isn't good enough. I keep asking, you keep not
->>>> explaining. Or I missed your emails somehow.
->>>
->>> It's not that it's not good enough, but rather that it cannot be done in the
->>> current state of affairs. drm_show_memory_stats() defines its own
->>> drm_memory_stats struct as an automatic variable so we don't have access to it
->>> from anywhere else in the driver. In a previous revision of the patch series I
->>> had come up with a workaround that would let drivers pass a function pointer to
->>> drm_show_memory_stats() which would gather those numbers in a driver-specific
->>> way, but it didn't seem to get any traction.
->>
->> Side note - i915 and amdgpu manage to do it so it is not that it is not
->> possible.
->>
->>>> And you keep not copying me on the thread. Copying people who expressed
->>>> interest, gave past feedback, etc should be the norm.
->>>
->>> I did not CC you on this series because these are all panthor-specific changes
->>> which do not touch on any DRM fdinfo-wide code, and also because I didn't think
->>> that driver-specific key:value pairs needed the approval of the drm-fdinfo core
->>> maintainers.
->>
->> Ah my bad.. sorry! I saw drm-internal-* and did not spot it is actually *in*
->> panthor.rst. So I think you just need to rename those to panthor- prefix. Same
->> as amdgpu has its own private keys amd-evicted-vram etc.
-> 
-> This complicates things because that means I can no longer use
-> drm_print_memory_stat(), since print_size() will prefix every single key with
+Am Dienstag, 7. Januar 2025, 11:35:48 CET schrieb Fabio Estevam:
+> Hi Alexander,
+>=20
+> On Tue, Jan 7, 2025 at 6:50=E2=80=AFAM Alexander Stein
+> <alexander.stein@ew.tq-group.com> wrote:
+> >
+> > This add a imx7(d) specific compatible which is compatible to imx8mm.
+> > This silences the dtbs_check warning:
+> > arch/arm/boot/dts/nxp/imx/imx7s-mba7.dtb: dsi@30760000: compatible: 'on=
+eOf' conditional failed, one must be fixed:
+> >  ['fsl,imx7d-mipi-dsim', 'fsl,imx8mm-mipi-dsim'] is too long
+>=20
+> The warning here is about using fsl,imx8mm-mipi-dsim.
 
-Maybe you even shouldn't because it does not seem to fit that well? For 
-instance you define total and resident must always match. And shared is 
-unused. So why expose the duplicate keys to start with? You will not be 
-able to change it later and keep userspace compatibility. And keys like 
-shared "might be used for X in the future" is also not very useful. What 
-does userspace do with those when parsing? It cannot make a decision.
+I'm not sure what you exactly mean. The warning isn't about using fsl,imx8m=
+m-mipi-dsim, instead
+fsl,imx7d-mipi-dsim does not match any compatibles listed in the schema.
 
-> "drm-". But then not using print_size() means I'm giving up on the nice unit
-> size selection loop, which I guess I could just copy and paste inside Panthor,
-> but I do remember a recent patch series where the unit selection criteria
-> changed slightly so wouldn't like to keep these manually sync'd.
-> 
-> There's also the thing that the units I'm displaying here match up nicely with
-> those representing the size of DRM objects with a UM-facing handle, so crafting
-> my own function to display these when the only difference is a single key prefix
-> seems like an overkill. I guess drm_print_memory_stats() and the functions
-> underneath should offer more flexibility, but I guess that's something that can
-> be discussed in a later patch series.
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >  .../devicetree/bindings/display/bridge/samsung,mipi-dsim.yaml | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/samsung,m=
+ipi-dsim.yaml b/Documentation/devicetree/bindings/display/bridge/samsung,mi=
+pi-dsim.yaml
+> > index 4ed7a799ba26b..e43fec5609417 100644
+> > --- a/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
+m.yaml
+> > +++ b/Documentation/devicetree/bindings/display/bridge/samsung,mipi-dsi=
+m.yaml
+> > @@ -27,7 +27,9 @@ properties:
+> >            - fsl,imx8mm-mipi-dsim
+> >            - fsl,imx8mp-mipi-dsim
+> >        - items:
+> > -          - const: fsl,imx8mn-mipi-dsim
+> > +          - enum:
+> > +              - fsl,imx7d-mipi-dsim
+> > +              - fsl,imx8mn-mipi-dsim
+>=20
+> But you added a fallback to fsl,imx8mn-mipi-dsim, so this does not look r=
+ight.
 
-What you describe here could be just some refactoring is needed rather 
-than being a huge problem. Like export a new helper from the code which 
-takes the prefix as argument.
+Admittedly I'm having a hard time on DT schemas at times, but this change a=
+llows
+imx7d OR imx8mn to be used together with imx8mm.
 
-> And then there's the following statement in Documentation/gpu/drm-usage-stats.rst:24:
-> 
-> "- All keys shall be prefixed with `drm-`."
-> 
-> It doesn't say Driver-specific keys should begin with the name of the driver. In
-> fact, it seems neither AMD nor Intel drivers have theirs documented.
-> 
-> In light of all this, I'd much rather not modify the names of Panthor-specific
-> fdinfo's internal memory keys.
+> I have already sent the following fix to address this issue:
+>=20
+> https://lore.kernel.org/all/20241217131431.1464983-1-festevam@gmail.com/T/
 
-Amdgpu indeed fails to document its specific keys but some lenience 
-there since it predated the standardisation and a patch can be submitted 
-to fix that. I've been making some changes too to make it use more of 
-common keys and helpers.
+This patch essentially does the same but add a new entry to the oneOf.
+If you add fsl,imx8mn-mipi-dsim to that enum as we end up with the same
+solution.
 
-No other drivers appear to have driver specific keys at this point. 
-Which ones do you see on Intel side?
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+http://www.tq-group.com/
 
-If indeed there are none then that leaves the question of what 
-drm-usage-stats.rst means when it says:
 
-- All keys shall be prefixed with `drm-`.
-
-We could for instance clarify that applies to common keys and that the 
-driver specific keys should use a different prefix.
-
-To me it feels like doing that (clarifying documentation) and tweaking 
-your series to add some core helpers you could use would lead to the 
-better end result.
-
-Regards,
-
-Tvrtko
-
->>>> Until we can clarify the above points I don't think this can go in.
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>
->>> Adrian Larumbe
-> 
-> Adrian Larumbe
