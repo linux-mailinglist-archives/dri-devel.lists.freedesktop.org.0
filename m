@@ -2,110 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 573BCA039B8
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 09:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B21A03A54
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 09:55:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7046B10E3AA;
-	Tue,  7 Jan 2025 08:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92DC210E3BD;
+	Tue,  7 Jan 2025 08:55:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bUg3htBq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GmUHAYJA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122B610E39E
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 08:24:48 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-43624b2d453so156779265e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 00:24:47 -0800 (PST)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 612D610E3B9
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 08:55:16 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-21619108a6bso206822865ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 00:55:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736238227; x=1736843027; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=VPvkl9NLmMFO9chBKj0rhtLZ12jNHzyAWJ3EKiBo2Fc=;
- b=bUg3htBqk1RP+SXEvixa37FR2igj5e+MUjDmQ0MSK5qnSpilLysmu5yRw6smsjxjLW
- wJsbxy7jx0ibzlgvfJcAD69i+6gKfkGM1GFB/ONuhsa31ZAbej6g9abH+nfLAsFrRaHJ
- ovBuYwCQj3oFAGL59BDSZGtJ1yOgQhGUhMvC//adLFzrnu6J7yLeRtKhtr6j4cRbDPKE
- VU8nV5MoDjUF8iMilSxaKy5qLkUbaldpjkuxCIAB4aZnxDte/7vOx+9FFrmNVsu2NWYC
- Jfifo4hMX/AxYR3+q+CorQZxNcGTB5Vf5HABvpU/ye8My5tXwmtlqD7ZqxwVYFxxHAR3
- +qww==
+ d=gmail.com; s=20230601; t=1736240056; x=1736844856; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sYzLOLBD7SRiQdyP3FHTMuHYR+jXGJc6CWggQbGTPXo=;
+ b=GmUHAYJAc4I9qppbm7pyyoX74Tgv5HyFuK5bw6CQ88JkQktOQUg/WtpR6Mw3nuQMI9
+ 2gpblPgyxwgljC4IDeaIHAXdbjnWt7gsNma9g6u7hxvj/roPWiApSHst5Eqr0aujraV7
+ JLeJeqFBVOmkY7ci+6Xj4QlMzsV190rGdINS2UX9zx/xRm7wPahISAGYyVrIlI9H4I8R
+ a0h5G2tQKa8wZ3xtapADXTV4h1D16QKYdI7CotKzxZVVc5o+pzfaTFet0tuGWBYHpXHs
+ pvzdTmnE4HkoXBD7DbC+zxmEI5NBy8Rr8xboAyZ6F5elUoKxRxU8a/gYeCXiFYUWAb9I
+ Ix4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736238227; x=1736843027;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=VPvkl9NLmMFO9chBKj0rhtLZ12jNHzyAWJ3EKiBo2Fc=;
- b=WLlfeMH8MmA8b1IPLnRs1qR6t9Zja1KfhDyCcts9U0yV5+thjmPpQH6dV6J5J/KdgT
- FGhToibXmiwnSo64bMARdMazhS2lLf5h2+BiaO7LpYg8NoGKUpkmrBy3gPvh2VNO0e5z
- +8gWx1kbXobSvJDqRHPXhJHAanoVkGzj/iRVt1iF3ZkillIwdh24UUSC2cF65Rxhsf+E
- W8zdVFuSv0hK5clo6wi+Lduy2wonov0J5i5xdViefqaCjv7lh58KIDZc+5NmJx1Ssf2f
- 0CaWjrLE3P/qFf7M5YvaSFMAPJKWmHCFi1TPGzWhTbeE6gHRRIVIL7dLNtS78TTbDd6n
- rFGA==
+ d=1e100.net; s=20230601; t=1736240056; x=1736844856;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sYzLOLBD7SRiQdyP3FHTMuHYR+jXGJc6CWggQbGTPXo=;
+ b=rSUwjmWghrXQF1hceomX0mgdj3/5ReWKzcPyg+I2Eu8pETtDKcU1y01ylR7LFHgzff
+ SOGoOHIF958GhVaQFwAPEtK/8tSfEM5JqNvGm3otVUbrxXsnTq0vq7YmqjLTa9s+sZw/
+ KGYEucdo/JP7C4bh5cIEIfRQfZuhqlia5aghyddozjGQIGApUYJGz74V+qS8OG3ZgYCc
+ g1MQsXvYFXZSWCS/nbve6fXcZzT4wt6CoskgBoLqY6HMw6yqJ+GJGaNS/qOSl0ceQIqs
+ jpPK3kiVcAVzlNcizV1n4qrVSjlSEemKdK/AMo33Y0LPimulMQ8jDNBhaUCAOQxLlYye
+ 1Q8Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLsjTyrjAwY9/kkx2OeFjIZpGznEXSjujIy5eu9aA92qnNYVQ23kLiXjrPOQQwUs5o7XsZLaW3W5Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8+wnxTtfByPtOeATUpTlBmg18AOkJxicbcPwKh6bts47P/Bax
- DN+pGcYWi8RqxwSp5f2HHVItvPJwTvisHuxlloMriWHyplTtECXhkgZOQvwJKhmHMlFtJWGZBMR
- 7
-X-Gm-Gg: ASbGncvDV6Fc83kJR4GAEdaUXGdzlNgtUxTHHzdzBodZvLLLdWrBuUtxqKAOD7EDutG
- a+Zbj9IKVIe/aJc+xXh3yYWg2x1KA2N3PhiExVImoBKM0m/tb4PVBCFyRnDrNDwBPZ5dVkFJrrp
- m1RVekL2P+RJuvKoeZy9SJEmokBg4eEVVhbUC5xElQ4jxVvBOACC+5yoJLId6zSOvGemnsE2A0F
- omqOOyd0ucNPSfyMUM9lOL4V/L4wnfR+6biHiZDPFvosJIjkxxjr6S+gZ48DJPyFF9AdCVRPZb3
- xq8cSbGzRTpAAFE8cnTW9cAyQ2J9sR9TRw==
-X-Google-Smtp-Source: AGHT+IEj3mnGDF4IJMWEXYu122nB2ocAcm6lUPn1P5i+p5AsmXkfV/YbZ2y/vsSj6aanKVz9FOlZRQ==
-X-Received: by 2002:a5d:5987:0:b0:38a:6929:ffa1 with SMTP id
- ffacd0b85a97d-38a692a0090mr10700443f8f.23.1736237783202; 
- Tue, 07 Jan 2025 00:16:23 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:6d5b:2c82:bc7f:46f6?
- ([2a01:e0a:982:cbb0:6d5b:2c82:bc7f:46f6])
+ AJvYcCXdHqMLMC7/E3VpZyFwtFg/BoGYRcTDItqVZ0nYNYUQtilzVbStCyhcjDSpjaOgZYVI0HkwHaa8U10=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnG+BTWfrsnDAqXXZl+yYwWxRIg3A4LruHb4uIqEdEYsS6hwTS
+ O2TgfgnHkBc7RUBp/Ks91D/0mmlWXjKZ1fFBl0IxLL+PdCb5H/sS
+X-Gm-Gg: ASbGncvNodkYvgi1pajKxGkbcwal0HztM3+oc+nAhXvCTzHOGVIlR8A1toGQTd8gHPD
+ H0m5HBJ6JQHFxYdNprqaZH7T0F51bnx9lCmG4kcI2+mhI2bJsURG2Rn6kkbAYq5j5RwJibUEP1p
+ m3a9QXBZnSpAuLYUDlgEbHsVH/f0u10kQf8AHdF9LYQoP3gvPAxwxsF50HeQIXsV66sBODZkNRJ
+ jEedO4GCvFbm0ZBvSRvT0H30J7tey21EFvvnPY8+9SUXVRTN/JPXhJZXi12VA==
+X-Google-Smtp-Source: AGHT+IGrzpud2u8tqXeIx6WFYqVHRmSk1jmn5bqvNmqVDa5o7b3UdPxWswuHMvhF2AnFQPiAyzPDLw==
+X-Received: by 2002:a05:6a20:a127:b0:1e1:aa24:2e56 with SMTP id
+ adf61e73a8af0-1e5e07ffd4bmr104670663637.30.1736240055792; 
+ Tue, 07 Jan 2025 00:54:15 -0800 (PST)
+Received: from [10.3.72.248] ([14.139.187.71])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c828989sm49811861f8f.18.2025.01.07.00.16.22
+ d2e1a72fcca58-72aad8f90b9sm32769075b3a.131.2025.01.07.00.54.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Jan 2025 00:16:22 -0800 (PST)
-Message-ID: <1cb0b1f4-b445-471d-a7e1-660e3b82dacc@linaro.org>
-Date: Tue, 7 Jan 2025 09:16:21 +0100
+ Tue, 07 Jan 2025 00:54:15 -0800 (PST)
+Message-ID: <1f1cdfdd-2765-49f2-b179-14b18bd49d67@gmail.com>
+Date: Tue, 7 Jan 2025 14:24:10 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Subject: Re: [PATCH 0/4] drm/msm/dpu: enable CDM for all supported platforms
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20241224-dpu-add-cdm-v1-0-7aabfcb58246@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] drm/panel: xinpeng-xpp055c272: transition to mipi_dsi
+ wrapped functions
+To: Doug Anderson <dianders@chromium.org>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20241223052049.419831-1-tejasvipin76@gmail.com>
+ <47738b2b-351b-4df9-a50a-f4dff51441c8@linaro.org>
+ <CAD=FV=WEEbC+LB9TM8VHDgO41=XPdgJR6eSYHo=KytDbPTROqw@mail.gmail.com>
+ <70f0dbf2-dd84-4a50-94cc-1d388c5c93fe@gmail.com>
+ <CAD=FV=XV8D2X98ULLhT0ChAfSxiBgA1uh6tRtzGv8RpXiFYN+Q@mail.gmail.com>
+Content-Language: en-US
+From: Tejas Vipin <tejasvipin76@gmail.com>
+In-Reply-To: <CAD=FV=XV8D2X98ULLhT0ChAfSxiBgA1uh6tRtzGv8RpXiFYN+Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,61 +93,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/12/2024 05:25, Dmitry Baryshkov wrote:
-> Enable CDM block on all the platforms where it is supposed to be
-> present. Notably, from the platforms being supported by the DPU driver
-> it is not enabled for SM6115 (DPU 6.3), QCM2290 (DPU 6.5) and SM6375
-> (DPU 6.9)
 
 
-Can you specify how to validate this ?
+On 1/7/25 10:18 AM, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Jan 6, 2025 at 8:21 PM Tejas Vipin <tejasvipin76@gmail.com> wrote:
+>>
+>>>>> -     ret = xpp055c272_init_sequence(ctx);
+>>>>> -     if (ret < 0) {
+>>>>> -             dev_err(ctx->dev, "Panel init sequence failed: %d\n", ret);
+>>>>> -             goto disable_iovcc;
+>>>>> -     }
+>>>>> -
+>>>>> -     ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+>>>>> -     if (ret < 0) {
+>>>>> -             dev_err(ctx->dev, "Failed to exit sleep mode: %d\n", ret);
+>>>>> -             goto disable_iovcc;
+>>>>> -     }
+>>>>> +     xpp055c272_init_sequence(&dsi_ctx);
+>>>>> +     dev_dbg(ctx->dev, "Panel init sequence done\n");
+>>>
+>>> Should the above print be only if "accum_err" is 0? That would match
+>>> the previous behavior. I guess I would have also left the print as
+>>> part of xpp055c272_init_sequence() unless there's a reason for moving
+>>> it...
+>>
+>> I don't think it should print only if accum_err is 0. In the previous
+>> code, it would just print after all the msleeps and write_seqs are done,
+>> with no error checking at any point.
+> 
+> How sure are you about this? Remember the reason why we wanted to
+> deprecate mipi_dsi_dcs_write_seq()? All those dang hidden return
+> values. So if any one of the old mipi_dsi_dcs_write_seq() got an error
+> they would have had a non-obvious return out of the function, right?
+> So the print would have only happened if all of the commands executed
+> successfully...
+> 
+> :-P
 
-Thanks,
-Neil
+Right yes. I'd kind of forgotten how mipi_dsi_dcs_write_seq worked. I'll
+fix it then along with the rest of the changes.
 
 > 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> Dmitry Baryshkov (4):
->        drm/msm/dpu: rename CDM block definition
->        drm/msm/dpu: enable CDM_0 for all DPUs which are known to have it
->        drm/msm/dpu: enable CDM_0 for SC8280XP platform
->        drm/msm/dpu: enable CDM_0 for X Elite platform
 > 
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h  | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_0_msm8998.h  | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_2_sdm660.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_3_3_sdm630.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_0_sdm845.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h  | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_2_sm7150.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_4_sm6125.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h   | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_2_sc7180.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_6_4_sm6350.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h   | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 2 +-
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h   | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h | 1 +
->   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c           | 2 +-
->   26 files changed, 26 insertions(+), 4 deletions(-)
-> ---
-> base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
-> change-id: 20241215-dpu-add-cdm-0b5b9283ffa8
+>> The reason I've moved the print outside the function is because we are
+>> able to reduce a couple lines of code by passing dsi_ctx to the function
+>> instead of ctx. If I'd kept the print inside, it would require us to
+>> declare a `struct device*` variable which would require ctx as far as
+>> I've seen and just overall introduces some lines that we could otherwise
+>> avoid. I've done this in a couple other panels too.
 > 
-> Best regards,
+> Ah, OK. That's a reasonable reason. Thanks for the explanation...
+> 
+> 
+> -Doug
 
+-- 
+Tejas Vipin
