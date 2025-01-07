@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CB0A04229
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:22:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BEBA0422A
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Jan 2025 15:22:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF1FC10E708;
-	Tue,  7 Jan 2025 14:22:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A6710EAD5;
+	Tue,  7 Jan 2025 14:22:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZxECE9wx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QL9WAwPt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5501B10EAD1
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:22:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2FF7A10EAD2
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Jan 2025 14:22:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736259769; x=1767795769;
+ t=1736259771; x=1767795771;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=fDeSjr2N0ZgZwEYt5benJYoBhxMK1Fls1tYNKedyiUA=;
- b=ZxECE9wxpeH80cdKh52HYw29+E1jvl1w2R5+1whl8hgkrt5gf0Z9xJZN
- mZXgftoW5kIKu4hyC1g7QFL6YehylvoIvggyHJVtPkKqgH/Bxq6xfjVDV
- quA46qcG7WiTmJO/rIYoTfo9dccMQhIZi36eS1pQj6B1x23kWIYsmB5hz
- OReLCdLUI8VW+TpxfKJmwL31sDHl/8feEi/4KTgxEGSE2C4odnt0yKhXD
- R3khV6qkIFGw+CKw85SCx2ibyedZRAqnvAxXcLRZqae7HiwWZ+opTXGmA
- g5vWQp4EtZB3zpNrqoiM3zl0O+Y7DeyqpZXpSwMcGt6lTqYemJbcyU3Tq g==;
-X-CSE-ConnectionGUID: b/ifGnimQ+e/UaK3fqH96w==
-X-CSE-MsgGUID: 7Nb3a0skS7KjVH+y/rcNew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36324469"
-X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="36324469"
+ bh=C26uqehIV44Ey7h6fgbfatipHKXpWPX0QHGSujbPVGQ=;
+ b=QL9WAwPtrTaVs9debZW/S9EG/DtbMYdDlDBbt/vklOXJVoz7bCclWcUb
+ /uw4Ye72vUTeZtxfDZS1bZIxM2xaEp1xSfgLPgDC2JdOKJRZZAW05Fp/P
+ rkFBWF9HXentDxPUUNfZNJTVRYNrdfp50ZXwr/Pi10y/XWNDKIZmuZMXn
+ ofjsE17WbHbDm98iIRkXcrYPxvfEdWoj5MhdzugLHCCmsdDcwsIutQ11z
+ jkCfXbDBjIban0Ka0mD/k21h6VgQGqCXNtWd3EnJDAMRpQTCTyiVwrPkj
+ HVe7d/4WHTW1w4iGzBzkFjW71zm0tDX8gMmG5eQQMQDhNGnwwn2QCA58c Q==;
+X-CSE-ConnectionGUID: nC60pkvHSPmoK6FF7fPpUw==
+X-CSE-MsgGUID: +WwZzturSm+GoZb9LnYi3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36324473"
+X-IronPort-AV: E=Sophos;i="6.12,295,1728975600"; d="scan'208";a="36324473"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 06:22:49 -0800
-X-CSE-ConnectionGUID: 38Mjp+IyTQi1L2yIXTefqg==
-X-CSE-MsgGUID: HLfMTR8eRnqMzwJO4HnhKQ==
+ 07 Jan 2025 06:22:51 -0800
+X-CSE-ConnectionGUID: GACU82ruSrmXlAbd2T0ylA==
+X-CSE-MsgGUID: m19jbJsmR0yXxIufBTwClA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103635497"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="103635510"
 Received: from try2-8594.igk.intel.com ([10.91.220.58])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 06:22:48 -0800
+ 07 Jan 2025 06:22:49 -0800
 From: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  jacek.lawrynowicz@linux.intel.com,
  Karol Wachowski <karol.wachowski@intel.com>,
  Maciej Falkowski <maciej.falkowski@linux.intel.com>
-Subject: [PATCH 11/14] accel/ivpu: Fix locking order in ivpu_job_submit
-Date: Tue,  7 Jan 2025 18:32:34 +0100
-Message-ID: <20250107173238.381120-12-maciej.falkowski@linux.intel.com>
+Subject: [PATCH 12/14] accel/ivpu: Add handling of
+ VPU_JSM_STATUS_MVNCI_CONTEXT_VIOLATION_HW
+Date: Tue,  7 Jan 2025 18:32:35 +0100
+Message-ID: <20250107173238.381120-13-maciej.falkowski@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250107173238.381120-1-maciej.falkowski@linux.intel.com>
 References: <20250107173238.381120-1-maciej.falkowski@linux.intel.com>
@@ -72,106 +73,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Karol Wachowski <karol.wachowski@intel.com>
 
-Fix deadlock in job submission and abort handling.
-When a thread aborts currently executing jobs due to a fault,
-it first locks the global lock protecting submitted_jobs (#1).
-
-After the last job is destroyed, it proceeds to release the related context
-and locks file_priv (#2). Meanwhile, in the job submission thread,
-the file_priv lock (#2) is taken first, and then the submitted_jobs
-lock (#1) is obtained when a job is added to the submitted jobs list.
-
-       CPU0                            CPU1
-       ----                    	       ----
-  (for example due to a fault)         (jobs submissions keep coming)
-
-  lock(&vdev->submitted_jobs_lock) #1
-  ivpu_jobs_abort_all()
-  job_destroy()
-                                      lock(&file_priv->lock)           #2
-                                      lock(&vdev->submitted_jobs_lock) #1
-  file_priv_release()
-  lock(&vdev->context_list_lock)
-  lock(&file_priv->lock)           #2
-
-This order of locking causes a deadlock. To resolve this issue,
-change the order of locking in ivpu_job_submit().
+Mark as invalid context of a job that returned HW context violation
+error and queue work that aborts jobs from faulty context.
+Add engine reset to the context abort thread handler to not only abort
+currently executing jobs but also to ensure NPU invalid state recovery.
 
 Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
 Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_job.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/accel/ivpu/ivpu_job.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-index c694822a14bf..c93ea37062d7 100644
+index c93ea37062d7..3c162ac41a1d 100644
 --- a/drivers/accel/ivpu/ivpu_job.c
 +++ b/drivers/accel/ivpu/ivpu_job.c
-@@ -597,6 +597,7 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
- 	if (ret < 0)
- 		return ret;
+@@ -533,6 +533,26 @@ static int ivpu_job_signal_and_destroy(struct ivpu_device *vdev, u32 job_id, u32
  
-+	mutex_lock(&vdev->submitted_jobs_lock);
- 	mutex_lock(&file_priv->lock);
+ 	lockdep_assert_held(&vdev->submitted_jobs_lock);
  
- 	if (cmdq_id == 0)
-@@ -606,19 +607,17 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
- 	if (!cmdq) {
- 		ivpu_warn_ratelimited(vdev, "Failed to get job queue, ctx %d\n", file_priv->ctx.id);
- 		ret = -EINVAL;
--		goto err_unlock_file_priv;
-+		goto err_unlock;
- 	}
- 
- 	ret = ivpu_cmdq_register(file_priv, cmdq);
- 	if (ret) {
- 		ivpu_err(vdev, "Failed to register command queue: %d\n", ret);
--		goto err_unlock_file_priv;
-+		goto err_unlock;
- 	}
- 
- 	job->cmdq_id = cmdq->id;
- 
--	mutex_lock(&vdev->submitted_jobs_lock);
--
- 	is_first_job = xa_empty(&vdev->submitted_jobs_xa);
- 	ret = xa_alloc_cyclic(&vdev->submitted_jobs_xa, &job->job_id, job, file_priv->job_limit,
- 			      &file_priv->job_id_next, GFP_KERNEL);
-@@ -626,7 +625,7 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
- 		ivpu_dbg(vdev, JOB, "Too many active jobs in ctx %d\n",
- 			 file_priv->ctx.id);
- 		ret = -EBUSY;
--		goto err_unlock_submitted_jobs;
-+		goto err_unlock;
- 	}
- 
- 	ret = ivpu_cmdq_push_job(cmdq, job);
-@@ -649,22 +648,20 @@ static int ivpu_job_submit(struct ivpu_job *job, u8 priority, u32 cmdq_id)
- 		 job->job_id, file_priv->ctx.id, job->engine_idx, cmdq->priority,
- 		 job->cmd_buf_vpu_addr, cmdq->jobq->header.tail);
- 
--	mutex_unlock(&vdev->submitted_jobs_lock);
- 	mutex_unlock(&file_priv->lock);
- 
- 	if (unlikely(ivpu_test_mode & IVPU_TEST_MODE_NULL_HW)) {
--		mutex_lock(&vdev->submitted_jobs_lock);
- 		ivpu_job_signal_and_destroy(vdev, job->job_id, VPU_JSM_STATUS_SUCCESS);
--		mutex_unlock(&vdev->submitted_jobs_lock);
- 	}
- 
-+	mutex_unlock(&vdev->submitted_jobs_lock);
++	job = xa_load(&vdev->submitted_jobs_xa, job_id);
++	if (!job)
++		return -ENOENT;
 +
- 	return 0;
++	if (job_status == VPU_JSM_STATUS_MVNCI_CONTEXT_VIOLATION_HW) {
++		guard(mutex)(&job->file_priv->lock);
++
++		if (job->file_priv->has_mmu_faults)
++			return 0;
++
++		/*
++		 * Mark context as faulty and defer destruction of the job to jobs abort thread
++		 * handler to synchronize between both faults and jobs returning context violation
++		 * status and ensure both are handled in the same way
++		 */
++		job->file_priv->has_mmu_faults = true;
++		queue_work(system_wq, &vdev->context_abort_work);
++		return 0;
++	}
++
+ 	job = ivpu_job_remove_from_submitted_jobs(vdev, job_id);
+ 	if (!job)
+ 		return -ENOENT;
+@@ -946,6 +966,9 @@ void ivpu_context_abort_work_fn(struct work_struct *work)
+ 	unsigned long ctx_id;
+ 	unsigned long id;
  
- err_erase_xa:
- 	xa_erase(&vdev->submitted_jobs_xa, job->job_id);
--err_unlock_submitted_jobs:
-+err_unlock:
- 	mutex_unlock(&vdev->submitted_jobs_lock);
--err_unlock_file_priv:
- 	mutex_unlock(&file_priv->lock);
- 	ivpu_rpm_put(vdev);
- 	return ret;
++	if (vdev->fw->sched_mode == VPU_SCHEDULING_MODE_HW)
++		ivpu_jsm_reset_engine(vdev, 0);
++
+ 	mutex_lock(&vdev->context_list_lock);
+ 	xa_for_each(&vdev->context_xa, ctx_id, file_priv) {
+ 		if (!file_priv->has_mmu_faults || file_priv->aborted)
+@@ -959,6 +982,8 @@ void ivpu_context_abort_work_fn(struct work_struct *work)
+ 
+ 	if (vdev->fw->sched_mode != VPU_SCHEDULING_MODE_HW)
+ 		return;
++
++	ivpu_jsm_hws_resume_engine(vdev, 0);
+ 	/*
+ 	 * In hardware scheduling mode NPU already has stopped processing jobs
+ 	 * and won't send us any further notifications, thus we have to free job related resources
 -- 
 2.43.0
 
