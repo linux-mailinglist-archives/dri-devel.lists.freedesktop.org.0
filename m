@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7126A059BD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 12:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9E69A059BE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 12:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D1A110EB9A;
-	Wed,  8 Jan 2025 11:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70D8B10EB95;
+	Wed,  8 Jan 2025 11:29:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="C51dj+Vg";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oF18cXjP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9B2910EB9A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 11:29:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4592C10EB9B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 11:29:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736335713;
- bh=q5GaH7cXP5oXFqTHRfcZX5XakVx1t07qmKY1REFce6k=;
+ s=mail; t=1736335715;
+ bh=WfGh8V4ZTmQDPQ/inKwv9tchKgtASbWDAHeucVmHQNs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C51dj+Vg8k4vK4OgzYW13kgdxlXDw03iLn4bIGHmYlK6frwuerF7Z7f6v3YJU1+gB
- j7ipyC0ugQdIF43J+QR+t23NzSGDnRRZDtmcN9fdqt2raa/OB2sji8tWEGZ2R8vceI
- PysFrO2Y2wlKi5FkuH0hcSJ8v/J9WfNff3d0GhWbz2nqWFMqf1mvYZuajOF6mgeIfl
- PcIm5/lwXLlMAzwzD1qEKEIwxmRcQKCwmscekluaJlgdbOASzmgYv+LmEhAiKFbYeu
- unCetogG66DH0EjjE0hHAa46n05siETSlB3VjTQsqJLfHsUW7ibwunsscV07y9QbKf
- bkuaMJAJf5LRQ==
+ b=oF18cXjPWjpmiV0rvu1m6Cy5Gh+JOVgYZwn/5kI097BwByrWt6m6GLOqMyW/+8S9/
+ yI8rDI8Lq9Nt1V6Fx//0RoYssjwZYFB7WasAbXQ93ugHZvIo1/G0tyq238bDzAyhcH
+ juWALk0nsgcOFxbejxkh5bAujv6ZMeTGv1C4NVwKNhYfoaiEWK+6/aLJUCt9Kpb7zZ
+ HbKpKxCWo/Qc0q+uABxTX5D1NoZzJLCrL7nEJyH87X3R1lSF3SfQaqQR22NGhMg0TC
+ RK2igw5+jAQwZH0uFt/Yp6+xOBrX5ceaUxuVjuoYxUFIC+3fvpgZRO4i2QMZpOGKAL
+ zw+HhPeSPCfUg==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2625D17E1555;
- Wed,  8 Jan 2025 12:28:32 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A6DD117E156C;
+ Wed,  8 Jan 2025 12:28:33 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v4 23/34] drm/mediatek: mtk_hdmi: Move output init to
- mtk_hdmi_register_audio_driver()
-Date: Wed,  8 Jan 2025 12:27:33 +0100
-Message-ID: <20250108112744.64686-24-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v4 24/34] drm/mediatek: mtk_hdmi: Use devm managed version of
+ drm_bridge_add
+Date: Wed,  8 Jan 2025 12:27:34 +0100
+Message-ID: <20250108112744.64686-25-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20250108112744.64686-1-angelogioacchino.delregno@collabora.com>
 References: <20250108112744.64686-1-angelogioacchino.delregno@collabora.com>
@@ -70,88 +70,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In preparation for moving the common bits of this driver, merge the
-contents of mtk_hdmi_output_init in mtk_hdmi_register_audio_driver
-function to aggregate all of the initial audio setup together in
-the same function and to make it clear that all of the setup that
-is performed in mtk_hdmi_output_init is specifically related only
-to audio and not video.
+Simplify the probe/remove functions by using devm_drm_bridge_add()
+as now there is no more need to manually remove the bridge.
 
-While at it, also remove the "%s driver bound to HDMI" debugging
-print disguised as informative.
-
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 28 ++++++++--------------------
- 1 file changed, 8 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 970392a094e0..cc75f9caabc5 100644
+index cc75f9caabc5..772032b59ef0 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1025,20 +1025,6 @@ static int mtk_hdmi_setup_vendor_specific_infoframe(struct mtk_hdmi *hdmi,
- 	return 0;
- }
- 
--static int mtk_hdmi_output_init(struct mtk_hdmi *hdmi)
--{
--	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
--
--	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
--	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
--	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
--	aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
--	aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
--	aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
--
--	return 0;
--}
--
- static void mtk_hdmi_audio_enable(struct mtk_hdmi *hdmi)
- {
- 	mtk_hdmi_hw_send_aud_packet(hdmi, true);
-@@ -1617,6 +1603,7 @@ static void mtk_hdmi_unregister_audio_driver(void *data)
- static int mtk_hdmi_register_audio_driver(struct device *dev)
- {
- 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
-+	struct hdmi_audio_param *aud_param = &hdmi->aud_param;
- 	struct hdmi_codec_pdata codec_data = {
- 		.ops = &mtk_hdmi_audio_codec_ops,
- 		.max_i2s_channels = 2,
-@@ -1625,6 +1612,13 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
- 	};
- 	int ret;
- 
-+	aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
-+	aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
-+	aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
-+	aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
-+	aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
-+	aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
+@@ -1672,14 +1672,15 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
+ 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+ 	hdmi->bridge.vendor = "MediaTek";
+ 	hdmi->bridge.product = "On-Chip HDMI";
+-	drm_bridge_add(&hdmi->bridge);
 +
- 	hdmi->audio_pdev = platform_device_register_data(dev,
- 							 HDMI_CODEC_DRV_NAME,
- 							 PLATFORM_DEVID_AUTO,
-@@ -1638,7 +1632,6 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
- 	if (ret)
- 		return ret;
++	ret = devm_drm_bridge_add(dev, &hdmi->bridge);
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to add bridge\n");
  
--	DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
+ 	ret = mtk_hdmi_clk_enable_audio(hdmi);
+-	if (ret) {
+-		drm_bridge_remove(&hdmi->bridge);
++	if (ret)
+ 		return dev_err_probe(dev, ret,
+ 				     "Failed to enable audio clocks\n");
+-	}
+ 
  	return 0;
  }
+@@ -1688,7 +1689,6 @@ static void mtk_hdmi_remove(struct platform_device *pdev)
+ {
+ 	struct mtk_hdmi *hdmi = platform_get_drvdata(pdev);
  
-@@ -1667,11 +1660,6 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
- 	mutex_init(&hdmi->update_plugged_status_lock);
- 	platform_set_drvdata(pdev, hdmi);
+-	drm_bridge_remove(&hdmi->bridge);
+ 	mtk_hdmi_clk_disable_audio(hdmi);
+ }
  
--	ret = mtk_hdmi_output_init(hdmi);
--	if (ret)
--		return dev_err_probe(dev, ret,
--				     "Failed to initialize hdmi output\n");
--
- 	ret = mtk_hdmi_register_audio_driver(dev);
- 	if (ret)
- 		return dev_err_probe(dev, ret,
 -- 
 2.47.0
 
