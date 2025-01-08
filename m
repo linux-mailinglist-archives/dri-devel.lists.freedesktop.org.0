@@ -2,61 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF63EA066CF
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 22:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4ADA06804
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:14:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077D810E947;
-	Wed,  8 Jan 2025 21:03:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81A1A10E43C;
+	Wed,  8 Jan 2025 22:14:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="EzgMR0GV";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="fHnjckm1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB43610EC90
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 21:03:46 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1736370215; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=cVl+ryPb2apeWILXP0Uc8S5mznBHqwUSSNQhfLlPZh4RAzNlyvogUagFHELaY4QlakJX4EBZ41dxyL1uoGTEL2ZHYiTb7fbne7g4qfq85CruZHXUTCrYQZl2q7pRGYiR6YtQX9LD6bUyvIoY5eSs1Losv8nAT7gQBQuwKiqtgx4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1736370215;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=wNaB1y8CPCW4MU5KNXHb/rWezDgTcc6rjkhqAnOZx4E=; 
- b=CLPfkRWC37FQjt2mMsed7zGGFutQszyTPIVG/Mjdmi2OX2I3NeEwVnH39tTh7n4ONEIUsJNRYK78FVjePP8BhVzBqKZeg46jP4G8ru1Lo9ncAumDfv4y14uU/MrtpBn92cgysJCW9CB2azikTpLjauATplxfrNeLfeX3+iElNiQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736370215; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=wNaB1y8CPCW4MU5KNXHb/rWezDgTcc6rjkhqAnOZx4E=;
- b=EzgMR0GV9Ok58NME2JbKWG+Um1JXJf/EIhNJeKkEdC/aHaO4K8rF/mDa2tX/wOX/
- WVQ+3HoAEzR2iGdwgQZWHE7iqKxQ2zsZYxoPG5n4MGoCGSsI53Oqilz/uU01ID2eOFz
- +TkdDyWIcociL3WqLRPSkM4k11LMtyMy1yHKaz0I=
-Received: by mx.zohomail.com with SMTPS id 1736370214840680.0859912850773;
- Wed, 8 Jan 2025 13:03:34 -0800 (PST)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mihail Atanassov <mihail.atanassov@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Steven Price <steven.price@arm.com>
-Subject: [PATCH v7 4/4] Documentation/gpu: Add fdinfo meanings of
- drm-*-internal memory tags
-Date: Wed,  8 Jan 2025 21:02:41 +0000
-Message-ID: <20250108210259.647030-5-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250108210259.647030-1-adrian.larumbe@collabora.com>
-References: <20250108210259.647030-1-adrian.larumbe@collabora.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+ [209.85.160.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7F0F10E43C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 22:14:55 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id
+ d75a77b69052e-46792996074so1946281cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 14:14:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1736374435; x=1736979235;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=eaBTFdI7UtWQtXUMWeGe2RWOPdqcGSzy9foh7WyJ8u8=;
+ b=fHnjckm1zJ1Q9eAXlyinoPerEzHZb1iGb6PFUfgeVtT4P5ueHtDL42UZDnnY/cAjoJ
+ RTtbLaqwFy/7ZhtnlXhPzmOlmkREvcSQkaoPf9L/Rl6NrgkDOKNU3Q7pgA2dcqtmJVrH
+ mjwaB2TAfGzh76dyPpoMD2nbEmCvXA6YKPMrA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736374435; x=1736979235;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eaBTFdI7UtWQtXUMWeGe2RWOPdqcGSzy9foh7WyJ8u8=;
+ b=OiK8uDYrsRI6B+r4EnSFjluppPRtatSsNZOR+601YNRtsn5qM15RH5uj5VknBWOyR7
+ RXPzK1R+zIqofiLQn4U8zqRoqSLqS0pmH8Ccq22hBkxTISI8E0MbzbavNFhGBniBH7aM
+ 5APo/7X61ofhdukYus35LXlUsX0dxK4H3pkbltofFdO/9oGgoAYFT9Uzn/sCENkgKVUx
+ 2qIFDixbITXXU+QMtWd2nERKrKMaw3S/D/V4qr4bv6BCiI1vt5c02QdtvJikGilPJTU3
+ 6gs+J9jcDfdm47WiXeG2VJHwD5W0pkAKyMMO9XRYCYJDNfumsUsLze74atye3b1pNMIP
+ tv0g==
+X-Gm-Message-State: AOJu0YxtldBrj9nzIbMc0xz/nDtyPmoMPh3fFSQg0vwKL/c75esTcEx0
+ zoc3Unsb5DrdpahubFSdu8deZQ+2igm6bGokXwMtdEyl/14FzSHwa5xd1a1TCmBJbuHb7BHJngm
+ yFcZebVv1SwDTnwrx/hsVFa0ZsTZ6RLDil5Jix5rZJ3erYFxc+2x6l/Nuln3IoWMySXP6v+tFFj
+ IcVERDgna13bDmOIgJ6NVCuxC+vtyT+LEihTFheQ3fI7zy7nVvhg==
+X-Gm-Gg: ASbGnctEEox9NMRJqmWg1+c+x7n2XUTbcq+HULiQlKLt8AWIAH0qMybmZchHHMKoWe6
+ OE0T4QkoHX72wU6teYH2ek2XS+dORGcLeBCyN1EgpsgXP+/XKPMFQq8bwsC81tbL5aaYUUhQ95b
+ 8/gnGqK90MoegWY2//X/DwrhX/qpXacYn3de5CCuBBddc4RPx/+gg53bId5LW89bNKHqqqreWUM
+ Dw4pY+/xrmVGXGNnIt2xfy6u4Tgcc7SEpf0670CRAg/yKhjakhp5PoCjiEWA9Nnt3GsjludAbEc
+ kqB1y/+ngThVeIkc9azl6TRbLPSYBAxb
+X-Google-Smtp-Source: AGHT+IHw9GYgEhyyD4XpBBuIkP6imSHqjpG9rrkxM/V+Vzz3NycuYb3iuaPZ/HBNEq+RN7rAmmQs9w==
+X-Received: by 2002:a17:902:ea07:b0:217:9172:2ce1 with SMTP id
+ d9443c01a7336-21a83f5db69mr60621925ad.22.1736367279574; 
+ Wed, 08 Jan 2025 12:14:39 -0800 (PST)
+Received: from mtt-opossum.dhcp.broadcom.net ([192.19.144.250])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-219dca02ac2sm330961265ad.272.2025.01.08.12.14.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 12:14:39 -0800 (PST)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, ian.forbes@broadcom.com,
+ zack.rusin@broadcom.com, martin.krastev@broadcom.com,
+ maaz.mombasawala@broadcom.com
+Subject: [PATCH] drm/vmwgfx: Remove busy_places
+Date: Wed,  8 Jan 2025 14:13:55 -0600
+Message-Id: <20250108201355.2521070-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,45 +84,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A previous commit enabled display of driver-internal kernel BO sizes
-through the device file's fdinfo interface.
+Unused since commit a78a8da51b36
+("drm/ttm: replace busy placement with flags v6")
 
-Expand the description of the relevant driver-specific key:value pairs
-with the definitions of the new panthor-*-memory ones.
-
-Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 ---
- Documentation/gpu/panthor.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.h | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
-index 3f8979fa2b86..76e03304fe7a 100644
---- a/Documentation/gpu/panthor.rst
-+++ b/Documentation/gpu/panthor.rst
-@@ -26,6 +26,8 @@ the currently possible format options:
-      drm-cycles-panthor:     94439687187
-      drm-maxfreq-panthor:    1000000000 Hz
-      drm-curfreq-panthor:    1000000000 Hz
-+     panthor-resident-memory:        10396 KiB
-+     panthor-active-memory:  10396 KiB
-      drm-total-memory:       16480 KiB
-      drm-shared-memory:      0
-      drm-active-memory:      16200 KiB
-@@ -44,3 +46,11 @@ driver by writing into the appropriate sysfs node::
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index a0e433fbcba67..5f13285f83e0b 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -228,7 +228,6 @@ int vmw_bo_pin_in_start_of_vram(struct vmw_private *dev_priv,
+ 			     VMW_BO_DOMAIN_VRAM,
+ 			     VMW_BO_DOMAIN_VRAM);
+ 	buf->places[0].lpfn = PFN_UP(bo->resource->size);
+-	buf->busy_places[0].lpfn = PFN_UP(bo->resource->size);
+ 	ret = ttm_bo_validate(bo, &buf->placement, &ctx);
  
- Where `N` is a bit mask where cycle and timestamp sampling are respectively
- enabled by the first and second bits.
-+
-+Possible `panthor-*-memory` keys are: `active` and `resident`.
-+These values convey the sizes of the internal driver-owned shmem BO's that
-+aren't exposed to user-space through a DRM handle, like queue ring buffers,
-+sync object arrays and heap chunks. Because they are all allocated and pinned
-+at creation time, only `panthor-resident-memory` is necessary to tell us their
-+size. `panthor-resident-active` shows the size of kernel BO's associated with
-+VM's and groups currently being scheduled for execution by the GPU.
+ 	/* For some reason we didn't end up at the start of vram */
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+index 43b5439ec9f76..07749f0a5f294 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.h
+@@ -83,7 +83,6 @@ struct vmw_bo {
+ 
+ 	struct ttm_placement placement;
+ 	struct ttm_place places[5];
+-	struct ttm_place busy_places[5];
+ 
+ 	/* Protected by reservation */
+ 	struct ttm_bo_kmap_obj map;
 -- 
-2.47.1
+2.34.1
 
