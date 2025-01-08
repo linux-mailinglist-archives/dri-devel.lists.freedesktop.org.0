@@ -2,80 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886ECA063B3
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 18:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F664A06348
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 18:25:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF9E10EC42;
-	Wed,  8 Jan 2025 17:50:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F10210EC2C;
+	Wed,  8 Jan 2025 17:25:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="iuAkyqzX";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="DPeZlbq2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 361F610EC40
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 17:50:01 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-30034ad2ca3so154553591fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 09:50:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736358539; x=1736963339; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3f5YCGnLwXcWm/w2w7vkcHLaWrU+paJS9N0WpwpCztc=;
- b=iuAkyqzX3nlooeWRhjuhn4J2lBQUICjTywGKj8mdC+TW3Y0D14FnTOoZrNafPwygAl
- sAtpJ9KzZtCKPfVixFv3SAyrR+8F2l8FJE+xddyVG/qZFPiA+bTKOcjKnKamzusbT3By
- eXBeXl/UG0dIAznIb+4mItTwBbkEvg1bs52hQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736358539; x=1736963339;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3f5YCGnLwXcWm/w2w7vkcHLaWrU+paJS9N0WpwpCztc=;
- b=TuAu6c59ZBlg+yERyTOUYz8xsGoerIpWop/Uhy/qFq7LrtHD417Ww7OK4KUWyIVckl
- aliMb/39rsetXt/vG3CEuMKEMRZyDpvx3xfM2XppNuhGOSyRFvISrX/DhnWaO0WiX5s2
- zcCCa9+Pa5kozDXIV6LXFa+vgfuhqHeRCWS2XhFwjMPqcrHOjAmW3BddFSS9AsWU9w6A
- mTL1zumUolaw7aTMkAedejoPyFS45UJW1uFUKBW8lR9cj4H+YisH/KwdaFe1eZZQ29Nt
- szVSyr9NNC3AE2ahJH47Ry/BYRHAjDtEIYGDciRCKrXBE89dzmIka77XKOL4BaSvePob
- wt0w==
-X-Gm-Message-State: AOJu0YxizXu+2LAKxPByMscOCb5GS7QZRnlUIzOBhii5FPRR6wnUtREI
- aN+69NnqIS8pQUMvyuuFHlr/5L25NHnlHlz39t47fvK0zMgDyTueOmfnEugqKhnx/XG/+Ru7EsS
- f
-X-Gm-Gg: ASbGnctCVj4AimMi5nb1S6yjJ1m1oMgSw6G5xgdiapddKf8fY3Owbyk4/2scsC8U9wT
- tOaVtpt0DVmzjRik6PoP+uEp5nQUVSwbjVykRv0wHCilf2DGE78MN75DZHu/DSzdDrNSXMh8Kmy
- lIYonPjroyUSnSHP+zHiZeqY39Y5rHEL3xDvNIY5lW6TIznJpX5JHaK0LfEqGJ8AHcVigxPGcwP
- S0eypfxaOygqHYQbUarLRL6M4JdYaFJ5bzdKdl+hI3Rz7h0zsEZy3ps1LgWxsvo0yF6
-X-Google-Smtp-Source: AGHT+IGsMPYRDHK6Ko879w9qzLtoWK6X9vhbq9HNV+J0t4+/LNmHj8Caiw0Uw/UVFRbgB7n75ocAQQ==
-X-Received: by 2002:a5d:47c9:0:b0:388:c75d:be97 with SMTP id
- ffacd0b85a97d-38a872fb90cmr3354843f8f.11.1736357065730; 
- Wed, 08 Jan 2025 09:24:25 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c829235sm52559713f8f.15.2025.01.08.09.24.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 09:24:25 -0800 (PST)
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Simon Ser <contact@emersion.fr>, Manasi Navare <navaremanasi@google.com>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Simona Vetter <simona.vetter@intel.com>
-Subject: [PATCH] drm/atomic: clarify the rules around
- drm_atomic_state->allow_modeset
-Date: Wed,  8 Jan 2025 18:24:16 +0100
-Message-ID: <20250108172417.160831-1-simona.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.45.2
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE68910EC2C
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 17:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=f+VrhCVA0I2IukdomGe2XOJrgKQEjDIDWoIRbh28hMQ=; b=DPeZlbq2fcSMzeFGGMmizeZU+5
+ CH9miax6p7gZPvrEvaZ5/y+rkTfOZObHy6a3N6jX0UeqWQhG8SB0ucrnXAikteceS2Vb09Ob44pDD
+ /0y1qQkx0vnBcRu/iJocMGvdMa6toIcdz+pkbxCM393o2Rbe3T+v/nKGyCrvBKgQbAlp5Nd1qyV4D
+ R3iiJDlkpOc1KRDj+K3Hs5XZOgzGxhzwNp6HaC0Wf5tcUJ6bl91aLfOjvQuHDZzdnOyV8q2Do+nbH
+ z5KaHsddfG1YGZLC724DamnGEHPjJrSTWXxdKRFrT3xTOzU+1AEPie2u9z3pX4/DWly18nmpkolgU
+ XC7+EAHQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
+ Linux)) id 1tVZnh-00000002DWW-3y85; Wed, 08 Jan 2025 17:25:02 +0000
+Date: Wed, 8 Jan 2025 17:25:01 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, David Hildenbrand <david@redhat.com>
+Subject: Re: [RFC PATCH 2/3] mm: provide rmap_wrprotect_file_page() function
+Message-ID: <Z3607T2A-pukkuQj@casper.infradead.org>
+References: <cover.1736352361.git.lorenzo.stoakes@oracle.com>
+ <701a67692d5bf9c8424cdbda103c988bbb278e38.1736352361.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <701a67692d5bf9c8424cdbda103c988bbb278e38.1736352361.git.lorenzo.stoakes@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,78 +58,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-msm is automagically upgrading normal commits to full modesets, and
-that's a big no-no:
+On Wed, Jan 08, 2025 at 04:18:41PM +0000, Lorenzo Stoakes wrote:
+> +++ b/include/linux/rmap.h
+> @@ -754,6 +754,26 @@ unsigned long page_address_in_vma(const struct folio *folio,
+>   */
+>  int folio_mkclean(struct folio *);
+>  
+> +/**
 
-- for one this results in full on->off->on transitions on all these
-  crtc, at least if you're using the usual helpers. Which seems to be
-  the case, and is breaking uapi
+The kerneldoc comment should be with the implementation, not the
+prototype.
 
-- further even if the ctm change itself would not result in flicker,
-  this can hide modesets for other reasons. Which again breaks the
-  uapi
+> + * rmap_wrprotect_file_page() - Traverses the reverse mapping, finding all VMAs
+> + * which contain a shared mapping of the single page at PFN @pfn in @mapping at
+> + * offset @pgoff and write-protecting the mappings.
 
-v2: I forgot the case of adding unrelated crtc state. Add that case
-and link to the existing kerneldoc explainers. This has come up in an
-irc discussion with Manasi and Ville about intel's bigjoiner mode.
-Also cc everyone involved in the msm irc discussion, more people
-joined after I sent out v1.
+After the '-' should come a _short_ description ... maybe "Write protect
+all mappings of this page".
 
-v3: Wording polish from Pekka and Thomas
+> + * The PFN mapped does not have to be a folio, but rather can be a kernel
+> + * allocation that is mapped into userland. We therefore do not require that the
+> + * PFN maps to a folio with a valid mapping or index field, rather these are
+> + * specified in @mapping and @pgoff.
+> + *
+> + * @mapping:	The mapping whose reverse mapping should be traversed.
+> + * @pgoff:	The page offset at which @pfn is mapped within @mapping.
+> + * @nr_pages:	The number of physically contiguous base pages spanned.
+> + * @pfn:	The PFN of the memory mapped in @mapping at @pgoff.
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Manasi Navare <navaremanasi@google.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Simona Vetter <simona.vetter@intel.com>
-Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
----
- include/drm/drm_atomic.h | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+The description of the params comes between the short and full
+description of the function.
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 31ca88deb10d..1ded9a8d4e84 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -376,8 +376,27 @@ struct drm_atomic_state {
- 	 *
- 	 * Allow full modeset. This is used by the ATOMIC IOCTL handler to
- 	 * implement the DRM_MODE_ATOMIC_ALLOW_MODESET flag. Drivers should
--	 * never consult this flag, instead looking at the output of
--	 * drm_atomic_crtc_needs_modeset().
-+	 * generally not consult this flag, but instead look at the output of
-+	 * drm_atomic_crtc_needs_modeset(). The detailed rules are:
-+	 *
-+	 * - Drivers must not consult @allow_modeset in the atomic commit path.
-+	 *   Use drm_atomic_crtc_needs_modeset() instead.
-+	 *
-+	 * - Drivers must consult @allow_modeset before adding unrelated struct
-+	 *   drm_crtc_state to this commit by calling
-+	 *   drm_atomic_get_crtc_state(). See also the warning in the
-+	 *   documentation for that function.
-+	 *
-+	 * - Drivers must never change this flag, it is under the exclusive
-+	 *   control of userspace.
-+	 *
-+	 * - Drivers may consult @allow_modeset in the atomic check path, if
-+	 *   they have the choice between an optimal hardware configuration
-+	 *   which requires a modeset, and a less optimal configuration which
-+	 *   can be committed without a modeset. An example would be suboptimal
-+	 *   scanout FIFO allocation resulting in increased idle power
-+	 *   consumption. This allows userspace to avoid flickering and delays
-+	 *   for the normal composition loop at reasonable cost.
- 	 */
- 	bool allow_modeset : 1;
- 	/**
--- 
-2.45.2
+> + * Return the number of write-protected PTEs, or an error.
+
+colon after Return: so it becomes a section.
+
+> +int rmap_wrprotect_file_page(struct address_space *mapping, pgoff_t pgoff,
+> +		unsigned long nr_pages, unsigned long pfn)
+> +{
+> +	struct wrprotect_file_state state = {
+> +		.cleaned = 0,
+> +		.pgoff = pgoff,
+> +		.pfn = pfn,
+> +		.nr_pages = nr_pages,
+> +	};
+> +	struct rmap_walk_control rwc = {
+> +		.arg = (void *)&state,
+> +		.rmap_one = rmap_wrprotect_file_one,
+> +		.invalid_vma = invalid_mkclean_vma,
+> +	};
+> +
+> +	if (!mapping)
+> +		return 0;
+
+Should it be valid to pass in NULL?
 
