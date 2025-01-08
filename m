@@ -2,58 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4934EA058C0
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 11:53:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A30FA058CE
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 11:55:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE3E210E858;
-	Wed,  8 Jan 2025 10:53:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8343710E859;
+	Wed,  8 Jan 2025 10:55:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fvA4mfAb";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="YcP+z8GE";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="ItP7x9E4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2D610E858;
- Wed,  8 Jan 2025 10:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736333635; x=1767869635;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=RSEX0W5+o9//ztSXh0x8P63toTTJMMDz8CMLSjKRDNE=;
- b=fvA4mfAbznFfabJ0soz0s/QIf5bWwewnaHNp45qfU0Bh6q9hqYNS42KD
- XdijzMiswVt/NE2YLTmPhqHxvMNcj84Sx7wpoNRTkIel9Ed7ANpzL7rc6
- tQPxfUUHWdutjHWb6b4iJNVTnT/obqYIwdskv7gse9i81ae6RWC1noRmV
- aedybrl9jcj3CUER2qWeVZ4pzx2OWZXDvfaVJG2NG5mG2z5chQIE/3Wuj
- au2hCNtGgR/suVZOSPTkP+Kh/JiBa3i3IMVZgtOPQiV+/lpdbFyPE0Py0
- SpKtpiOFsDmfgNxEGSigAyBYV1r1q0suXjTR/0xLv+tY8YjMaVWfDphze w==;
-X-CSE-ConnectionGUID: Kdhn5pdVQh2IeQsUDPNY9w==
-X-CSE-MsgGUID: nTi0GuDrTQGt9GrTsxFzjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36435808"
-X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; d="scan'208";a="36435808"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2025 02:53:55 -0800
-X-CSE-ConnectionGUID: +gyadnl6R16hLMIs3q0YvQ==
-X-CSE-MsgGUID: 2LU/rbkXSX+8WqxQqxbbow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; d="scan'208";a="108041306"
-Received: from jlawryno.igk.intel.com ([10.91.220.59])
- by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jan 2025 02:53:52 -0800
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
- tursulin@ursulin.net, karol.wachowski@intel.com,
- tomasz.rusinowicz@intel.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH] drm/i915: Add VM_DONTEXPAND to exported buffers
-Date: Wed,  8 Jan 2025 11:53:46 +0100
-Message-ID: <20250108105346.240103-1-jacek.lawrynowicz@linux.intel.com>
-X-Mailer: git-send-email 2.45.1
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8450F10E859
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 10:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1736333701; x=1767869701;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=xRsrKWARdV47YPQeVwUD2rVV+wXWjl1KEL8Z5MKVA0U=;
+ b=YcP+z8GEpTJ7xzs1O9EJ4Rm8lhB7f0YYXEiCZ8Wh611K65+/Liyj/OWM
+ 0HFxWklGWOiW9sDzdNQgGqIL7CCb51uWYaJsm5aAbRVH32qTCiuCt43bE
+ DQ0j/2OMLj7A9jKLhB995QSpCjwSU17PX3yXkB7u5xmn5pQ76cYhvsr1C
+ hr6VutIILrGoYWZwb5MOedw4HkaaC3hpF/LawNBHtENOrL6aqUcCI4S+j
+ sMu9XCR9XaH5SQ4evojQKjkIAEzLwj+i7jb4qRrpwp9Dy7xpdLsJ9B8rw
+ fmFAn+iRb3RyuMBEX5JheyzmCERsJCVDxHzczYIxK3OVENL+Cqr87JMQr Q==;
+X-CSE-ConnectionGUID: cy2VWgNdStmKKYe8ylqtWA==
+X-CSE-MsgGUID: Vkq89ndeRUu/KCFLOJ9Ubg==
+X-IronPort-AV: E=Sophos;i="6.12,298,1728943200"; d="scan'208";a="40918179"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 08 Jan 2025 11:54:59 +0100
+X-CheckPoint: {677E5983-4E-31397509-E321C4C4}
+X-MAIL-CPID: 6062346B1A41D4F548874B467F682FC4_0
+X-Control-Analysis: str=0001.0A682F1A.677E5984.0020, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 49ABA160C61; Wed,  8 Jan 2025 11:54:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1736333694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xRsrKWARdV47YPQeVwUD2rVV+wXWjl1KEL8Z5MKVA0U=;
+ b=ItP7x9E4D+2DnU/R60PzR+H76TNQ7Ob8ug9BzDxt2gMmQ6fDf63Hwm/3lkdiTDH2iZ5mSV
+ Uk3cYUnZDpHSOfkstDA1zNoqwFz77xj5pKLswofJiXes3oipZ7TuA48Qo25bRvmAC+NHaI
+ OnXJzrTvxanzPMcuf6/lMzHCrphT9pIoZ9Ck1HS4b7PXocQhs37aQ4ZOTn7FCpSQ9VBKc9
+ w9/nO6UIe0ZopA8DBXhKvENT3A51uX1p/uZPk+FOUarXkcvRsKkVGXXoZHRGdczBeqwKo/
+ tFCeELbm4Y3FXLLHjRLfUpMzk0JLMHk43WH1FVWZYgXOO+aRRn0GdK1P+A9bEw==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
+ dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Herve Codina <herve.codina@bootlin.com>
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Date: Wed, 08 Jan 2025 11:54:49 +0100
+Message-ID: <115787605.nniJfEyVGO@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20250108101907.410456-4-herve.codina@bootlin.com>
+References: <20250108101907.410456-1-herve.codina@bootlin.com>
+ <20250108101907.410456-4-herve.codina@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,121 +95,278 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_mmap_obj() expects VM_DONTEXPAND flag to be set after mmap
-callback is executed. Set this flag at the end of i915_gem_dmabuf_mmap()
-to prevent WARN on mmap in buffers imported from i915 e.g.,
+Hi Herve,
 
-[  283.623215] WARNING: CPU: 1 PID: 12693 at drivers/gpu/drm/drm_gem.c:1087=
- drm_gem_mmap_obj+0x196/0x1c0
-[  283.623221] Modules linked in: intel_vpu(OE) cmac nls_utf8 cifs cifs_arc=
-4 nls_ucs2_utils cifs_md4 netfs overlay nls_iso8859_1 binfmt_misc intel_unc=
-ore_frequency intel_uncore_frequency_common x86_pkg_temp_thermal intel_powe=
-rclamp intel_rapl_msr coretemp rapl intel_cstate kvm_intel wmi_bmof input_l=
-eds kvm processor_thermal_device_pci processor_thermal_device processor_the=
-rmal_wt_hint processor_thermal_rfim processor_thermal_rapl intel_rapl_commo=
-n processor_thermal_wt_req intel_vsec processor_thermal_stc processor_therm=
-al_power_floor igen6_edac processor_thermal_mbox pac1934 industrialio int34=
-03_thermal int340x_thermal_zone intel_pmc_core int3400_thermal pmt_telemetr=
-y intel_hid pmt_class acpi_thermal_rel sparse_keymap acpi_tad acpi_pad efi_=
-pstore autofs4 btrfs blake2b_generic raid10 raid456 async_raid6_recov async=
-_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 xe d=
-rm_ttm_helper drm_suballoc_helper drm_gpuvm drm_exec hid_sensor_custom hid_=
-sensor_hub intel_ishtp_hid hid_generic usbhid hid i915
-[  283.623254]  crct10dif_pclmul i2c_algo_bit crc32_pclmul drm_buddy ghash_=
-clmulni_intel ttm sha512_ssse3 sha256_ssse3 e1000e drm_display_helper nvme =
-sha1_ssse3 intel_lpss_pci thunderbolt intel_ish_ipc intel_lpss vmd intel_is=
-htp idma64 nvme_core drm_kms_helper video wmi pinctrl_meteorlake backlight =
-pinctrl_intel aesni_intel crypto_simd cryptd [last unloaded: intel_vpu(OE)]
-[  283.623267] CPU: 1 UID: 0 PID: 12693 Comm: npu-kmd-test Tainted: G     U=
-     OE      6.12.0-performance-20241122-11972534541 #1 f86ee8132c283cf158e=
-9fd89cc84f4adeb3b79b7
-[  283.623269] Tainted: [U]=3DUSER, [O]=3DOOT_MODULE, [E]=3DUNSIGNED_MODULE
-[  283.623270] Hardware name: Intel Corporation Meteor Lake Client Platform=
-/MTL-P DDR5 SODIMM SBS RVP, BIOS MTLPFWI1.R00.4122.D21.2408281317 08/28/2024
-[  283.623271] RIP: 0010:drm_gem_mmap_obj+0x196/0x1c0
-[  283.623273] Code: 49 8b 94 24 40 01 00 00 48 8b 12 48 85 d2 74 31 89 45 =
-ec 4c 89 e7 ff d2 0f 1f 00 8b 45 ec e9 f8 fe ff ff 0f 0b e9 54 ff ff ff <0f=
-> 0b e9 ea fe ff ff b8 ea ff ff ff 31 d2 31 f6 31 ff c3 cc cc cc
-[  283.623274] RSP: 0018:ffffc90004103b20 EFLAGS: 00010246
-[  283.623275] RAX: 0000000000000000 RBX: ffff888313ebafd0 RCX: 00000000000=
-00000
-[  283.623276] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000000=
-00000
-[  283.623276] RBP: ffffc90004103b38 R08: 0000000000000000 R09: ffffc900041=
-03bd8
-[  283.623277] R10: 0000000000000000 R11: 0000000000000000 R12: ffff888108b=
-95400
-[  283.623277] R13: ffff888108b95400 R14: ffff88815ee50000 R15: ffff8883013=
-3b000
-[  283.623278] FS:  00007fcbf9063740(0000) GS:ffff88846fe40000(0000) knlGS:=
-0000000000000000
-[  283.623279] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  283.623280] CR2: 00007fcbeb15d460 CR3: 00000001076a2002 CR4: 0000000000f=
-72ef0
-[  283.623280] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 00000000000=
-00000
-[  283.623281] DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 00000000000=
-00400
-[  283.623281] PKRU: 55555554
-[  283.623282] Call Trace:
-[  283.623283]  <TASK>
-[  283.623285]  ? show_regs+0x75/0x90
-[  283.623289]  ? __warn+0x91/0x150
-[  283.623291]  ? drm_gem_mmap_obj+0x196/0x1c0
-[  283.623292]  ? report_bug+0x1af/0x1c0
-[  283.623295]  ? handle_bug+0x6e/0xb0
-[  283.623297]  ? exc_invalid_op+0x1d/0x90
-[  283.623298]  ? asm_exc_invalid_op+0x1f/0x30
-[  283.623302]  ? drm_gem_mmap_obj+0x196/0x1c0
-[  283.623304]  drm_gem_mmap+0x125/0x200
-[  283.623305]  __mmap_region+0x7bc/0xc30
-[  283.623310]  mmap_region+0x96/0xd0
-[  283.623311]  do_mmap+0x526/0x650
-[  283.623313]  vm_mmap_pgoff+0xec/0x1c0
-[  283.623315]  ? __count_memcg_events+0x89/0x160
-[  283.623317]  ksys_mmap_pgoff+0x175/0x230
-[  283.623318]  __x64_sys_mmap+0x37/0x70
-[  283.623320]  x64_sys_call+0x1c1d/0x2790
-[  283.623322]  do_syscall_64+0x62/0x180
-[  283.623324]  entry_SYSCALL_64_after_hwframe+0x71/0x79
-[  283.623325] RIP: 0033:0x7fcbf8b1ea27
-[  283.623327] Code: 00 00 00 89 ef e8 59 ae ff ff eb e4 e8 42 7b 01 00 66 =
-90 f3 0f 1e fa 41 89 ca 41 f7 c1 ff 0f 00 00 75 10 b8 09 00 00 00 0f 05 <48=
-> 3d 00 f0 ff ff 77 21 c3 48 8b 05 d9 b3 0f 00 64 c7 00 16 00 00
-[  283.623328] RSP: 002b:00007fff157ded78 EFLAGS: 00000246 ORIG_RAX: 000000=
-0000000009
-[  283.623329] RAX: ffffffffffffffda RBX: 00007fff157dedf0 RCX: 00007fcbf8b=
-1ea27
-[  283.623330] RDX: 0000000000000003 RSI: 0000000000002000 RDI: 00000000000=
-00000
-[  283.623330] RBP: 00007fff157def80 R08: 0000000000000004 R09: 00000001041=
-8a000
-[  283.623331] R10: 0000000000000001 R11: 0000000000000246 R12: 00007fff157=
-dee70
-[  283.623331] R13: 0000644e2fb203f8 R14: 00007fff157deef0 R15: 00007fff157=
-deeb0
-[  283.623333]  </TASK>
-[  283.623333] ---[ end trace 0000000000000000 ]---
+Am Mittwoch, 8. Januar 2025, 11:19:02 CET schrieb Herve Codina:
+> In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
+> from errors by itself. A full restart of the bridge is needed in those
+> cases to have the bridge output LVDS signals again.
+>=20
+> Also, during tests, cases were observed where reading the status of the
+> bridge was not even possible. Indeed, in those cases, the bridge stops
+> to acknowledge I2C transactions. Only a full reset of the bridge (power
+> off/on) brings back the bridge to a functional state.
+>=20
+> The TI SN65DSI83 has some error detection capabilities. Introduce an
+> error recovery mechanism based on this detection.
+>=20
+> The errors detected are signaled through an interrupt. On system where
+> this interrupt is not available, the driver uses a polling monitoring
+> fallback to check for errors. When an error is present or when reading
+> the bridge status leads to an I2C failure, the recovery process is
+> launched.
+>=20
+> Restarting the bridge needs to redo the initialization sequence. This
+> initialization sequence has to be done with the DSI data lanes driven in
+> LP11 state. In order to do that, the recovery process resets the whole
+> output path (i.e the path from the encoder to the connector) where the
+> bridge is located.
+>=20
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 147 ++++++++++++++++++++++++++
+>  1 file changed, 147 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/brid=
+ge/ti-sn65dsi83.c
+> index e6264514bb3f..74bc05647436 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -35,9 +35,12 @@
+>  #include <linux/of_graph.h>
+>  #include <linux/regmap.h>
+>  #include <linux/regulator/consumer.h>
+> +#include <linux/timer.h>
+> +#include <linux/workqueue.h>
+> =20
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_drv.h> /* DRM_MODESET_LOCK_ALL_BEGIN() needs drm_drv_u=
+ses_atomic_modeset() */
 
-Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
- 1 file changed, 1 insertion(+)
+Shouldn't this include be added to include/drm/drm_modeset_lock.h instead?
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i=
-915/gem/i915_gem_dmabuf.c
-index 9473050ac8425..809018265e36f 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -110,6 +110,7 @@ static int i915_gem_dmabuf_mmap(struct dma_buf *dma_buf=
-, struct vm_area_struct *
- 	if (ret)
- 		return ret;
-=20
-+	vm_flags_set(vma, VM_DONTEXPAND);
- 	vma_set_file(vma, obj->base.filp);
-=20
- 	return 0;
---=20
-2.45.1
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+> @@ -147,6 +150,9 @@ struct sn65dsi83 {
+>  	struct regulator		*vcc;
+>  	bool				lvds_dual_link;
+>  	bool				lvds_dual_link_even_odd_swap;
+> +	bool				use_irq;
+> +	struct delayed_work		monitor_work;
+> +	struct work_struct		reset_work;
+
+Can you please rebase? You are missing commit d2b8c6d549570
+("drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing optional properties")
+
+>  };
+> =20
+>  static const struct regmap_range sn65dsi83_readable_ranges[] =3D {
+> @@ -328,6 +334,111 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *c=
+tx)
+>  	return dsi_div - 1;
+>  }
+> =20
+> +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
+> +{
+> +	struct drm_atomic_state *state =3D ERR_PTR(-EINVAL);
+> +	struct drm_device *dev =3D sn65dsi83->bridge.dev;
+> +	struct drm_connector_state *connector_state;
+> +	struct drm_modeset_acquire_ctx ctx;
+> +	struct drm_connector *connector;
+> +	int err;
+> +
+> +	/*
+> +	 * Reset active outputs of the related CRTC.
+> +	 *
+> +	 * This way, drm core will reconfigure each components in the CRTC
+> +	 * outputs path. In our case, this will force the previous component to
+> +	 * go back in LP11 mode and so allow the reconfiguration of SN64DSI83
+> +	 * bridge.
+> +	 *
+> +	 * Keep the lock during the whole operation to be atomic.
+> +	 */
+> +
+> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> +
+> +	state =3D drm_atomic_helper_duplicate_state(dev, &ctx);
+> +	if (IS_ERR(state)) {
+> +		err =3D PTR_ERR(state);
+> +		goto unlock;
+> +	}
+> +
+> +	state->acquire_ctx =3D &ctx;
+> +
+> +	connector =3D drm_atomic_get_old_connector_for_encoder(state,
+> +							     sn65dsi83->bridge.encoder);
+> +	if (!connector) {
+> +		err =3D -EINVAL;
+> +		goto unlock;
+> +	}
+> +
+> +	connector_state =3D drm_atomic_get_connector_state(state, connector);
+> +	if (IS_ERR(connector_state)) {
+> +		err =3D PTR_ERR(connector_state);
+> +		goto unlock;
+> +	}
+> +
+> +	err =3D drm_atomic_helper_reset_pipe(connector_state->crtc, &ctx);
+> +	if (err < 0)
+> +		goto unlock;
+> +
+> +unlock:
+> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+> +	if (!IS_ERR(state))
+> +		drm_atomic_state_put(state);
+> +	return err;
+> +}
+> +
+> +static void sn65dsi83_reset_work(struct work_struct *ws)
+> +{
+> +	struct sn65dsi83 *ctx =3D container_of(ws, struct sn65dsi83, reset_work=
+);
+> +	int ret;
+> +
+> +	dev_warn(ctx->dev, "reset the pipe\n");
+> +
+> +	/* Reset the pipe */
+> +	ret =3D sn65dsi83_reset_pipe(ctx);
+> +	if (ret) {
+> +		dev_err(ctx->dev, "reset pipe failed %pe\n", ERR_PTR(ret));
+> +		return;
+> +	}
+> +}
+> +
+> +static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
+> +{
+> +	unsigned int irq_stat;
+> +	int ret;
+> +
+> +	/*
+> +	 * Schedule a reset in case of:
+> +	 *  - the bridge doesn't answer
+> +	 *  - the bridge signals an error
+> +	 */
+> +
+> +	ret =3D regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
+> +	if (ret || irq_stat)
+> +		schedule_work(&ctx->reset_work);
+
+Shouldn't you clear the error bits as well?
+
+Best regards,
+Alexander
+
+> +}
+> +
+> +static void sn65dsi83_monitor_work(struct work_struct *work)
+> +{
+> +	struct sn65dsi83 *ctx =3D container_of(to_delayed_work(work),
+> +					     struct sn65dsi83, monitor_work);
+> +
+> +	sn65dsi83_handle_errors(ctx);
+> +
+> +	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
+> +}
+> +
+> +static void sn65dsi83_monitor_start(struct sn65dsi83 *ctx)
+> +{
+> +	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
+> +}
+> +
+> +static void sn65dsi83_monitor_stop(struct sn65dsi83 *ctx)
+> +{
+> +	cancel_delayed_work_sync(&ctx->monitor_work);
+> +}
+> +
+>  static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
+>  					struct drm_bridge_state *old_bridge_state)
+>  {
+> @@ -516,6 +627,15 @@ static void sn65dsi83_atomic_enable(struct drm_bridg=
+e *bridge,
+>  	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+>  	if (pval)
+>  		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
+> +
+> +	if (ctx->use_irq) {
+> +		/* Enable irq to detect errors */
+> +		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
+> +		regmap_write(ctx->regmap, REG_IRQ_EN, 0xff);
+> +	} else {
+> +		/* Use the polling task */
+> +		sn65dsi83_monitor_start(ctx);
+> +	}
+>  }
+> =20
+>  static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+> @@ -524,6 +644,15 @@ static void sn65dsi83_atomic_disable(struct drm_brid=
+ge *bridge,
+>  	struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
+>  	int ret;
+> =20
+> +	if (ctx->use_irq) {
+> +		/* Disable irq */
+> +		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
+> +		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
+> +	} else {
+> +		/* Stop the polling task */
+> +		sn65dsi83_monitor_stop(ctx);
+> +	}
+> +
+>  	/* Put the chip in reset, pull EN line low, and assure 10ms reset low t=
+iming. */
+>  	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
+>  	usleep_range(10000, 11000);
+> @@ -681,6 +810,14 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *c=
+tx)
+>  	return 0;
+>  }
+> =20
+> +static irqreturn_t sn65dsi83_irq(int irq, void *data)
+> +{
+> +	struct sn65dsi83 *ctx =3D data;
+> +
+> +	sn65dsi83_handle_errors(ctx);
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static int sn65dsi83_probe(struct i2c_client *client)
+>  {
+>  	const struct i2c_device_id *id =3D i2c_client_get_device_id(client);
+> @@ -698,6 +835,8 @@ static int sn65dsi83_probe(struct i2c_client *client)
+>  		return ret;
+> =20
+>  	ctx->dev =3D dev;
+> +	INIT_WORK(&ctx->reset_work, sn65dsi83_reset_work);
+> +	INIT_DELAYED_WORK(&ctx->monitor_work, sn65dsi83_monitor_work);
+> =20
+>  	if (dev->of_node) {
+>  		model =3D (enum sn65dsi83_model)(uintptr_t)
+> @@ -722,6 +861,14 @@ static int sn65dsi83_probe(struct i2c_client *client)
+>  	if (IS_ERR(ctx->regmap))
+>  		return dev_err_probe(dev, PTR_ERR(ctx->regmap), "failed to get regmap\=
+n");
+> =20
+> +	if (client->irq) {
+> +		ret =3D devm_request_threaded_irq(ctx->dev, client->irq, NULL, sn65dsi=
+83_irq,
+> +						IRQF_ONESHOT, dev_name(ctx->dev), ctx);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "failed to request irq\n");
+> +		ctx->use_irq =3D true;
+> +	}
+> +
+>  	dev_set_drvdata(dev, ctx);
+>  	i2c_set_clientdata(client, ctx);
+> =20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
