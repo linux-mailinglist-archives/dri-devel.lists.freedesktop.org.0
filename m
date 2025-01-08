@@ -2,52 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E542A064A5
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 19:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7673A064D1
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 19:44:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3AFC10EC79;
-	Wed,  8 Jan 2025 18:35:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0623310E919;
+	Wed,  8 Jan 2025 18:44:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UA7DDtQ/";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fot1bMUt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E51F10EC64
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 18:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Pj8yAP2qRVCHCDNlUibJeSVxfzeJLkGjPAsrvnOZANM=; b=UA7DDtQ/Jsp3/FoYIt+m39qgpS
- bhSqBbUynrRBZK5Tj3eXrVu/wL+04V+WiJctT9h4g3cD3scZ+NDDJ8/NaPZlWs8a728D4dajaqu1X
- sTW5SvyWkDcNK/cvQ7xrNufPY75UYpyDVXuD3KnZHZZwwdOCKJ6jstg7t82rVjkrW67tgE1ofENXH
- b+vyh9lOUYZ7i7q07/aFtSE6SyHMOs/mGDuF528B3xQyAj5tlINb9fqHBMSo0Uki1gd2xSQtTGE0+
- BIUYMUIyKiK4G1qImPIw/CSXItGGG/kfhLMcgFfhgceMLEeu7klWubyln+xRdSCjWV2Hev7Mxp4GT
- unIx3FNQ==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tVau9-00DFH1-Og; Wed, 08 Jan 2025 19:35:45 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [RFC 18/18] drm/sched: Scale deadlines depending on queue depth
-Date: Wed,  8 Jan 2025 18:35:28 +0000
-Message-ID: <20250108183528.41007-19-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
-References: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F74B10E919
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 18:44:48 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-aaee2c5ee6eso23523266b.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 10:44:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736361827; x=1736966627; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hQ9RCYkZQoHUKlOMTNvAZNaSglx5AypfSqWMMxjXJJo=;
+ b=fot1bMUtuLMMfjIs2vLB+eezHSyGqkXUlbZk08zieXInI9tQMnAgo1HT8uDKcHanRb
+ 6UghbwDsN1qukRY+yjKHLbkr3iqLEmp3z/q5QGC8tmQC1pd84X4iON7mDdkppqZ14tuU
+ 4tIkHv9sGW+36A89KjZXuLXKkQADOaPSVSj6NlmTVgeyfLiWDQQKUzAkoF7gPlljTVkY
+ 5ChBZFZUSOyKKhl5/uAZOXkSfQnhGU+JOBZoke2ojHrhJ8LaUrXL4dOdtP6DX0WtylXh
+ dmtVFjFmcUwZzCprobSg5Cr/1Ow4AnVieSwHShFH4S0q2qwzHUQoaq2ZSXRMr/2LIMww
+ yvTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736361827; x=1736966627;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hQ9RCYkZQoHUKlOMTNvAZNaSglx5AypfSqWMMxjXJJo=;
+ b=TaViA9ccy0O/eMDhZfoEalB6RZr2PNpkHK8co4eZr50uJFPGg32Tf5S2qTwc4ejLe2
+ hXYCXIPKvBpZ2pbBrg3zLQj5RnSqrKvWyVq+HJYsdRAaYECS5U6z3D+z8Ekg3G+Y3liO
+ CCrYjBZj9zOxwsg52EYw34v/IwyfVHbGZbGqtjmyv31MQsYVWJeOeWOBp8mch+LPzmt7
+ DwJqpqHU+G+9B0Zq9J26cGhEv4V3oZuc+7Xv9S8Y0KmXgGhQXO7ceQQHNN0xqVg9/Q0l
+ PfwiAE/1CP/KQOUA6LmPufimooh8GP7J5z2D+7OsVS8ZEvhGenr9HibpqiFFI7eqbpY5
+ /CLQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9M9+Rt1P6F1vgHi39tMC+ihXAu/PR2yoN6WAOXa4rbJNLeU8rSoiSNBH7lyjwFF6OK3rVSjfuaxk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXjTfFZPqs3jhPncWbcKVugXVvAlTVrI5Fg3UdfrLpw3S17rRf
+ 5ISW7J0DWu51MIRInajkFFD90msj0DF3oaXt3qqMpMP4ZY+syPGrEC6x4S4f+gEH1hROymbWsFp
+ I
+X-Gm-Gg: ASbGncuJjheaWuKgcN/Ph8QiBeHwNmgHNC8vvkesXrxTeRJ6CTvr39xRRSn5WdStCwN
+ 1qOiOs3qVKoOw0Y/8sf/aOkwydSzpuFp1/3fuvelrrCx8mUvXRft3+MEmvqgIS3XJyJunisgznF
+ CcQve47oeEUTdNJ17lc6ROcZNAAyuECkkeAv15GFe0yWRij+3PQX3o/Fsf9N7N0mcUy5CILYGfU
+ zoOn9qXjY4ozDW4xQg6ECOBX+gKH+qjJZcDox1rT0LbBdUeTsGHHTaUiYLPPNM16uHA75EO2ML3
+ PeaDS/JjPLAB30u47uT+gae8rfAZ2Mpf1Rza
+X-Google-Smtp-Source: AGHT+IGbhWiLOJk+cFyTZ6c+4BVxG7aHRsSzNCXwY8B061yEfeAENAwi7hSnaqACoqNc966WNh3rxw==
+X-Received: by 2002:a05:6512:68e:b0:53f:232e:31ea with SMTP id
+ 2adb3069b0e04-5428481c6a3mr1056967e87.54.1736361391953; 
+ Wed, 08 Jan 2025 10:36:31 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542235f6295sm5533988e87.22.2025.01.08.10.36.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 10:36:30 -0800 (PST)
+Date: Wed, 8 Jan 2025 20:36:28 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm: bridge: adv7511: remove s32 format from i2s
+ capabilities
+Message-ID: <jpikm57sdiwaevbsdxvlg4hsfl3e5un2c2lqtqselkncqgjrow@awuimcytdw6l>
+References: <20250108170356.413063-1-olivier.moysan@foss.st.com>
+ <20250108170356.413063-4-olivier.moysan@foss.st.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108170356.413063-4-olivier.moysan@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,89 +98,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Speculative idea for the concern of how to somewhat prioritise clients who
-submit small amount of work infrequently is to scale their deadline
-calculation based on their queue depth and priority. Kernel context we can
-pull in more aggressively into the past.
+On Wed, Jan 08, 2025 at 06:03:56PM +0100, Olivier Moysan wrote:
+> The ADV7511 chip allows 24 bits samples max in I2S mode, excepted for
+> direct AES3 mode (SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE format).
+> However the HDMI codec exposes S32_LE format as supported.
+> Adapt ADV7511 HDMI I2S format list to expose formats actually supported.
+> 
+> Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
 
-On the other hand queue depth may not be representative on the GPU
-utilisation so it can also incorrectly penalise short deep(-ish) queues
-versus single large jobs.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 24 ++++++++++++++++++------
- include/drm/gpu_scheduler.h              |  2 ++
- 2 files changed, 20 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index 29daee6b06e5..d17980af85fc 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -391,14 +391,24 @@ static ktime_t
- __drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
- 				    ktime_t submit_ts)
- {
--	static const unsigned int d_us[] = {
--		[DRM_SCHED_PRIORITY_KERNEL] =    100,
--		[DRM_SCHED_PRIORITY_HIGH]   =   1000,
--		[DRM_SCHED_PRIORITY_NORMAL] =   5000,
--		[DRM_SCHED_PRIORITY_LOW]    = 100000,
-+	static const long d_us[] = {
-+		[DRM_SCHED_PRIORITY_KERNEL] = -1000,
-+		[DRM_SCHED_PRIORITY_HIGH]   =   334,
-+		[DRM_SCHED_PRIORITY_NORMAL] =  1000,
-+		[DRM_SCHED_PRIORITY_LOW]    =  6667,
- 	};
-+	static const unsigned int shift[] = {
-+		[DRM_SCHED_PRIORITY_KERNEL] = 4,
-+		[DRM_SCHED_PRIORITY_HIGH]   = 1,
-+		[DRM_SCHED_PRIORITY_NORMAL] = 2,
-+		[DRM_SCHED_PRIORITY_LOW]    = 3,
-+	};
-+	const unsigned int prio = entity->priority;
-+	long d;
-+
-+	d = d_us[prio] * (atomic_read(&entity->qd) << shift[prio]);
- 
--	return ktime_add_us(submit_ts, d_us[entity->priority]);
-+	return ktime_add_us(submit_ts, d);
- }
- 
- ktime_t
-@@ -520,6 +530,7 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
- 	 */
- 	smp_wmb();
- 
-+	atomic_dec(&entity->qd);
- 	spsc_queue_pop(&entity->job_queue);
- 	drm_sched_rq_pop_entity(entity->rq, entity);
- 
-@@ -608,6 +619,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 	else
- 		fence_deadline = KTIME_MAX;
- 
-+	atomic_inc(&entity->qd);
- 	first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
- 
- 	/* first job wakes up scheduler */
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 25786fb941d8..bce88c9b30c1 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -147,6 +147,8 @@ struct drm_sched_entity {
- 	 */
- 	struct spsc_queue		job_queue;
- 
-+	atomic_t			qd;
-+
- 	/**
- 	 * @fence_seq:
- 	 *
 -- 
-2.47.1
-
+With best wishes
+Dmitry
