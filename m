@@ -2,91 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F22A0690F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D522A0696C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 00:30:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C87510ECA5;
-	Wed,  8 Jan 2025 22:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAD610E1BF;
+	Wed,  8 Jan 2025 23:30:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CqhFV45r";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ZgcAoISw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90A7E10E08D;
- Wed,  8 Jan 2025 22:58:14 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508IgkB9007921;
- Wed, 8 Jan 2025 22:58:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=3TlaTznryEMgl/e51rGTSU
- L61D8KspVAr3QwF8e2fuM=; b=CqhFV45rd/2ypnsJDlRzu3KFubYgAij511p+s/
- /dMySmqLidS7qfVAFCMUG6mHSCiiC8ZV7u3Y0k9S3M9BHjvWkNHqfncwJ3awZG7w
- 5o3B6Sn8Mb06J63/KEiOOcSqRpNLpUY1uPYf2u97p+f2XQ1222cwsKF8yvdl+jJ9
- nrSrDYXYTg7Evod0MZmtisYx5FKKwhYrlxzRDHTATMF2dEjZ3JEZSorWlUN4Dd5M
- VgHoVBQmsAgjRzf/VceYU+8lKyQmdldRn64CuZT4jBAPNHlhDsp/A6ZfXob5rwER
- qx2N+u7SdjrYobVuSKITx6rfWJ4P2Rsl0vQIHnkLsG+4EmAw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441xvnrgnq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Jan 2025 22:58:10 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508MwAvj020588
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 8 Jan 2025 22:58:10 GMT
-Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 8 Jan 2025 14:58:09 -0800
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-Date: Wed, 8 Jan 2025 14:57:51 -0800
-Subject: [PATCH] drm/msm/dpu: Force disabling commits to take non-async
- path
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6568A10E1BF
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 23:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1736379015; x=1736983815; i=deller@gmx.de;
+ bh=Y8XrRWHeT4gjfJWwOIqN4ERHN1znGHVBZgBx4/uQ54c=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=ZgcAoISwCEzF/fCUCv5ACwg4dMhujdVPNdUBx80cKJw7AsNAgwqJRAjjQ8EbtyB8
+ cDkAY5pAMfyKBbUfDk9BOkHf3YTIjNnxgc7lAEoO2lyCWHkjVeX57wMazAcjYppuo
+ TEDZJM8BEE+XEqajoCgbtt2fc46aff9XZ7Xg9tLFmnGX0B0Eh3v5D8FvcSPD2gIyH
+ qlNnMWWKBFzoy7Baf+5kShNe6nqylhuLcQQLpwBGA20KgbzU6w6iPBHJABaiFBObm
+ tHZM0e+AF0yjeSNgaaQhVlsB1Me0wN4FBSMPiCKevbuijDVFpZMaoxTuH1HQQbI6r
+ bp3jHwwkv1xFyrfX0Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.172] ([83.135.220.169]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4Qwg-1td3oW43b4-010eIU; Thu, 09
+ Jan 2025 00:30:15 +0100
+Message-ID: <6af29f19-2e8d-4bc8-a9be-f3a0e229c7ff@gmx.de>
+Date: Thu, 9 Jan 2025 00:30:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250108-async-disable-fix-v1-1-3f93eb600a3a@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAO4Cf2cC/x2MSQqAMAwAvyI5G2gEwfoV8dAlakCqNCBK8e8Wj
- zMwU0A5CyuMTYHMl6gcqQK1DYTNpZVRYmXoTNcbMgM6fVLAKOr8zrjIjSGQt45i78lC7c7MVf/
- PaX7fD7ZmrNNjAAAA
-X-Change-ID: 20250108-async-disable-fix-cc1b9a1d5b19
-To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>
-CC: <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@chromium.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Jessica
- Zhang" <quic_jesszhan@quicinc.com>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736377089; l=2231;
- i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
- bh=wNWVT0cfQzdhEDlvQXirnQRurgd6u+2iA+4aAhzXJnA=;
- b=oVMvxd2Z58q4x6jm9Q68L98cdBRpjND8pG0J6A5KfrqkGU2B3a6/8uzScaVWZAJL9dRVIWRDq
- CoPFekIChfRB8U0rxkit9uHUI9xGLU0v3ohfsR2DBvuPIgl8d29RR4F
-X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
- pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 7CsEzK5gyHo5gcFQUhRHTeDaxgN4_lEQ
-X-Proofpoint-ORIG-GUID: 7CsEzK5gyHo5gcFQUhRHTeDaxgN4_lEQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- mlxlogscore=703 priorityscore=1501 spamscore=0 malwarescore=0 adultscore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501080188
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: efifb: Change the return value type to void
+To: oushixiong1025@163.com, Peter Jones <pjones@redhat.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250103032633.98807-1-oushixiong1025@163.com>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20250103032633.98807-1-oushixiong1025@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:9KSBuPZedUe1x3s/ybDNUzrvuSgRdsHT6ioSwhVhIPZIelYH908
+ qgwXI6c7DJ78CH9Q69x7OJVlUmf5GfTlDik5uA2DAj3f/rhOIBieQEEn6YK3eEmP1thMO2M
+ /VBNoCIN4yYVXQxccZRuK+bT5Mp672fNWBaDWfwfoZn+5ziro9GMmqUQAuYH1m+/0FI+3Gv
+ NyfHdkm86S0aC7akY5YRA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PufQYzmlCkU=;bY/7fy605GO5du2qG6D/eyVnrBx
+ UREkb2Z6E6gbs9uYz7RgAEg1IUIC1TrTPJfW83i6L2phBcrjAROZLpjAIOeTbQjJVHjZ8n3wS
+ Mp98+YUGCMuB7fG42CGPFvs4IOwsINd+cZGLxU7clQ28BS2v/f6/YwUi3XCImW9OTB7xapoAG
+ 4uj7H4mMZ9vz1FU47NTP+QHrcaaCBlo1S16ephthTYsK9FY6L+gPnv2f/LZqCxLQzL6vVZcwg
+ 64mnJ78GMCwCQ2rs3chkDUGOjuhgRA88sD7zL+Gb6bSN0m+NVy7sVgVTexjGsOJzE2uQJj6Wu
+ rLDh7dKyI1cW+E5jzp0dZpcpWMZqXcbeRtVl93RBHmS+YcGRyDy4Pq95c/3M+OvOgCBLj1plG
+ j/5XnPARI42xB1d1MVp5uqV/fKLQXvpDuw+o5q6Dmubctmk7i2g0DxP5asSHUon1tlpGPECfG
+ GLpV/dnO0D7i+EPaJQybvjVRrS7dRi/vKIz1Nk10mSVNkONuo4paYrwQxnf+xhsN00t52Bx2F
+ thxkzJ9NwFWOqGqw2Jf/9+3PQLQygOn5Z53jpdje2T/9a736NUcFEWau85Xc8rNrGOWYAOAFP
+ g4wir3FxaPxQGoAai0xhAnI7DyEOZ5+ipH9QBntK+CJsTqFY0juZzxLMFo/BCTy2o0Oq8PYc/
+ 0sz/Tdv/XVXx6WeihE9mtypSx/1phDAGe7H4zNBeLUlDOtS4pQJXpE/qaWSXXX1lTqJSd88nQ
+ zogKh38M7OSEH0U0lGv4sTEl39MNdYzMPCT3D3I+737MU/r645SC+6sb8ovtNbJlqnAgrHY+S
+ f2MgMnVQbNHBka74HT9xhWuQ8ACQfxwiupR54clJ67EmXK6Uq3R/yf+txI/MWYGPXDERRYxQY
+ MwigDukux25ePMbJI4B5AT7+N7yPRnmZ6BQ+ohxkyoSDK3v4AWNA2EsPcNH0ADTswd65iEddu
+ NEKUJHoOXiz5LD+eB2vIRsW/WuHYRjZGV3hoCZr7+KQ1VhY2QDaF2pyGFPPqj13iKpbI9sq60
+ HM2LD41QffTAfPIfdfgv01EsZG5u1CWdAIi1KKMqdn6D7DmgshI8p/jThQOU5se6eFmffiTFO
+ PeGaZvbJ3efFwt75lndsRruoEisF0A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,64 +127,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Force commit that are disabling a plane in the async_crtc to take the
-non-async commit tail path.
+On 1/3/25 04:26, oushixiong1025@163.com wrote:
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> efifb_setup() doesn't need to return a value.
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 
-In cases where there are two consecutive async cursor updates (one
-regular non-NULL update followed by a disabling NULL FB update), it is
-possible for the second NULL update to not be queued (due to the
-pending_crtc_mask check) or otherwise not be run before the cursor FB is
-deallocated by drm_atomic_helper_cleanup_planes(). This would cause a
-context fault since the hardware would try to fetch the old plane state
-with the stale FB address.
+applied.
 
-Avoid this issue by forcing cursor updates that will disable the cursor
-plane to be blocking commits. This will ensure that hardware clears and
-stops fetching the FB source address before the driver deallocates the FB
-
-Fixes: 2d99ced787e3 ("drm/msm: async commit support")
-Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
----
- drivers/gpu/drm/msm/msm_atomic.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index 9c45d641b5212c11078ab38c13a519663d85e10a..ddc74c68148c643d34ca631dd28d4cdc2b8c7dc0 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -142,6 +142,7 @@ static bool can_do_async(struct drm_atomic_state *state,
- 	struct drm_connector_state *connector_state;
- 	struct drm_connector *connector;
- 	struct drm_crtc_state *crtc_state;
-+	struct drm_plane_state *plane_state;
- 	struct drm_crtc *crtc;
- 	int i, num_crtcs = 0;
- 
-@@ -162,6 +163,18 @@ static bool can_do_async(struct drm_atomic_state *state,
- 		*async_crtc = crtc;
- 	}
- 
-+	/*
-+	 * Force a blocking commit if the cursor is being disabled. This is to
-+	 * ensure that the registers are cleared and hardware doesn't try to
-+	 * fetch from a stale address.
-+	 */
-+	if (*async_crtc) {
-+		plane_state = drm_atomic_get_new_plane_state(state,
-+							     (*async_crtc)->cursor);
-+		if (plane_state && !plane_state->fb)
-+			return false;
-+	}
-+
- 	return true;
- }
- 
-
----
-base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
-change-id: 20250108-async-disable-fix-cc1b9a1d5b19
-
-Best regards,
--- 
-Jessica Zhang <quic_jesszhan@quicinc.com>
-
+Thanks!
+Helge
