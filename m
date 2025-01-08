@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C870A04E8B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 02:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1343BA04E98
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 02:17:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF6510E422;
-	Wed,  8 Jan 2025 01:05:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A13D010E431;
+	Wed,  8 Jan 2025 01:16:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mOIabX0M";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="ge785g9W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4C5F10E41E;
- Wed,  8 Jan 2025 01:05:34 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-aa684b6d9c7so2663736766b.2; 
- Tue, 07 Jan 2025 17:05:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736298273; x=1736903073; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BFRpOVVEyZDwWW7S29zceUmPpuxv5eNMBA/Dkqrr8jg=;
- b=mOIabX0Mx4ABXMjtOQWd0g2JrvYoUMznPfMvMy/cTm3gQWWTzJe7g3e9aZ4BAynavz
- qZ2uzGHLnXqILToO1rT3Wg648+eDkclO1BLfyUMVVB6T6S8cuZiEfb0TMQ+cPj7UbW0D
- +bSo8y8tYtYNdMufJ9Bc8uT7neKebsgiV3XwQ5enDiLcICY+yHRw5qNpjW1zix2T4uAg
- CXY0we8v1N6s9p9tlz8MlTWzmdLpTAJm8YPtfJ7QGHwYs6ZPMdml9qclaZklyQOPeCdE
- cdq3kKBlT2cnFf12rRG8JPbvzfVMqo9z4xGi+BgxkRjB/C3cd+Hw9mxCQ9WplQPiEZz2
- jaSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736298273; x=1736903073;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BFRpOVVEyZDwWW7S29zceUmPpuxv5eNMBA/Dkqrr8jg=;
- b=T1S6GQrpLMXsww5tIxJKKg8PYdfzNR1tK1s4D5xGjjDnruCt381OxvOTfHUxLvPY3m
- O9ma/tf/P8hQVwFxop2c4G7iPBBiZj19Ot1NmZ/2UMl/Wj6eSbDF3ydt6eXW/GqjN4bO
- 9pDTms+NE1JGNRx4aFj6C729tctNRMrliCAIbAY0Opq55sYd7lSvFtu0qS0ujo+5SVPo
- 13Y/fYOgL4TgRNmavwAMskKsIUsAVvAW/m8ClGXxK7KFzQ1OuTLmgbwwr3UY3BCccRIg
- z5Wu2pAqjxuHE1xZsy3NHoOObCnAvLWf1PKlK464pn1twv0LdKOFUkmFWnUYI2Ub1a+k
- An3Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUxkLNhbfTP5nKf0/t9B+lh9rR2UzAD5nrfiVmxLvopjZ3TqmdKeenIpD/7OL84jMvLVf4glcB1@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmxmLTHgj7JdKhmP60k0Y3VaIhZDZpGH0GlRA896R3EIYx4zqN
- esuPyUDVTJkODKa/dvZhFH0ZFg2h0+JUpv84RoxZB/li7fwMdx9pTTUzud3joDsbojvgDfVKEpO
- EhhYPKf0uAy1G5vLqMWnuhGe6rFYqq4+X
-X-Gm-Gg: ASbGncvkG6+LREP8SFYMBijn6dEADWXKOpJGM9PFYuopnu1bmDqq/B8B9d0/l94UuG6
- lzx0va8FylD+Na7qqdb71Xlj4cSQHU3Zqrbm/
-X-Google-Smtp-Source: AGHT+IHvL6KJToeOzgdZ2o6X3wMIb7VkR5mA+dkxqC57iUb7vLJOL787QzBEMqu6FP7Hd8VhJH5p7cig4IHvpvodATo=
-X-Received: by 2002:a17:906:ef0b:b0:aa6:88ae:22a with SMTP id
- a640c23a62f3a-ab2abc6f22dmr56579866b.37.1736298272636; Tue, 07 Jan 2025
- 17:04:32 -0800 (PST)
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C50210E431;
+ Wed,  8 Jan 2025 01:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1736299006;
+ bh=jlOkedypRHGL5Jk53l881gZHsBf4esLyhBlHH6Qm2Rc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ge785g9Wb2AvCLIGf5uUtsqYLEkao2Y3mfNXrNvTeRzXKH3EwqJmDP9xyOUG6+LIc
+ 7DSLxj34Tv9WyZdBgNr1a+UNvE7n3pEQ7VF7P2XwQZNg5oiadIVYw9lr+NpF06Xk+Q
+ z8aSvn+FC5OImpftl387EYlBh1suqFNwq/Q2zmEw2aqzlgG5mKBu/IzxZRqAq+EdK5
+ KvZK7lvVPh+de2PNsWzMbmBCNfTL0hrvfsru+q6p9LAjd2Fi1kU/3KWbmKFGf1oX4x
+ zE78KZU3SKfxo4ukyaC+g63Z5NlMa62vZmxrlNUB7kbYo0wftkVcBNjVPtT85rl5Os
+ I9dwcWzZWK72A==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4YSVPT5Fsdz4wcw;
+ Wed,  8 Jan 2025 12:16:45 +1100 (AEDT)
+Date: Wed, 8 Jan 2025 12:16:50 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Andrew Morton <akpm@linux-foundation.org>, Dave Airlie <airlied@redhat.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Jani Nikula <jani.nikula@intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Yafang Shao
+ <laoar.shao@gmail.com>
+Subject: Re: linux-next: manual merge of the drm-intel tree with the mm tree
+Message-ID: <20250108121650.09a8e828@canb.auug.org.au>
+In-Reply-To: <20250106130348.73a5fae6@canb.auug.org.au>
+References: <20250106130348.73a5fae6@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20250107055846.536589-1-airlied@gmail.com>
- <Z31P_Wp4qMzIlv88@pollux>
-In-Reply-To: <Z31P_Wp4qMzIlv88@pollux>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 8 Jan 2025 11:04:21 +1000
-X-Gm-Features: AbW1kvbEo7x_Sn0vEF1FHhBgeHVyVjN5RqP7SRpTkKkSuFPMMEFvtdPF8JQHRsY
-Message-ID: <CAPM=9twK4UUnrOc1rB7bZLgWG534HH14vsdyCgUcKX1YLrnNDg@mail.gmail.com>
-Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly.
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/JcddVZ1A/bWQoD+z+uYIICX";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +64,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Jan 2025 at 02:02, Danilo Krummrich <dakr@kernel.org> wrote:
->
-> On Tue, Jan 07, 2025 at 03:58:46PM +1000, Dave Airlie wrote:
-> > From: Dave Airlie <airlied@redhat.com>
-> >
-> > If we have two nouveau controlled devices and one passes a dma-fence
-> > to the other, when we hit the sync path it can cause the second device
-> > to try and put a sync wait in it's pushbuf for the seqno of the context
-> > on the first device.
-> >
-> > Since fence contexts are vmm bound, check the if vmm's match between
-> > both users, this should ensure that fence seqnos don't get used wrongly
-> > on incorrect channels.
->
-> The fence sequence number is global, i.e. per device, hence checking the vmm
-> context seems too restrictive.
->
-> Wouldn't it be better to ensure that `prev->cli->drm == chan->cli->drm`?
+--Sig_/JcddVZ1A/bWQoD+z+uYIICX
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Can you prove that? I thought the same and I've gone around a few
-times yesterday/today and convinced myself what I wrote is right.
+Hi All,
 
-dma_fence_init gets passed the seqno which comes from fctx->sequence,
-which is nouveau_fence_chan, which gets allocated for each channel.
-
-So we should hit this path if we have 2 userspace submits, one with
-say graphics, the one with copy engine contexts, otherwise we should
-wait on the CPU.
-
-> >  drivers/gpu/drm/nouveau/nouveau_fence.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > index ee5e9d40c166f..5743c82f4094b 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > @@ -370,7 +370,8 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
-> >
-> >                               rcu_read_lock();
-> >                               prev = rcu_dereference(f->channel);
-> > -                             if (prev && (prev == chan ||
-> > +                             if (prev && (prev->vmm == chan->vmm) &&
-> > +                                 (prev == chan ||
+On Mon, 6 Jan 2025 13:03:48 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
 >
-> Maybe better break it down a bit, e.g.
->
-> bool local = prev && (prev->... == chan->...);
->
-> if (local && ...) {
-> ...
-> }
+> Today's linux-next merge of the drm-intel tree got a conflict in:
+>=20
+>   drivers/gpu/drm/i915/display/intel_display_driver.c
+>=20
+> between commit:
+>=20
+>   4fc0cee83590 ("drivers: remove get_task_comm() and print task comm dire=
+ctly")
+>=20
+> from the mm-nonmm-unstable branch of the mm tree and commit:
+>=20
+>   f5d38d4fa884 ("drm/i915/display: convert intel_display_driver.[ch] to s=
+truct intel_display")
+>=20
+> from the drm-intel tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+>=20
+> --=20
+> Cheers,
+> Stephen Rothwell
+>=20
+> diff --cc drivers/gpu/drm/i915/display/intel_display_driver.c
+> index 62596424a9aa,497b4a1f045f..000000000000
+> --- a/drivers/gpu/drm/i915/display/intel_display_driver.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
+> @@@ -389,8 -397,9 +397,8 @@@ void intel_display_driver_resume_access
+>    * Returns %true if the current thread has display HW access, %false
+>    * otherwise.
+>    */
+> - bool intel_display_driver_check_access(struct drm_i915_private *i915)
+> + bool intel_display_driver_check_access(struct intel_display *display)
+>   {
+>  -	char comm[TASK_COMM_LEN];
+>   	char current_task[TASK_COMM_LEN + 16];
+>   	char allowed_task[TASK_COMM_LEN + 16] =3D "none";
+>  =20
+> @@@ -399,14 -408,15 +407,14 @@@
+>   		return true;
+>  =20
+>   	snprintf(current_task, sizeof(current_task), "%s[%d]",
+>  -		 get_task_comm(comm, current),
+>  -		 task_pid_vnr(current));
+>  +		 current->comm, task_pid_vnr(current));
+>  =20
+> - 	if (i915->display.access.allowed_task)
+> + 	if (display->access.allowed_task)
+>   		snprintf(allowed_task, sizeof(allowed_task), "%s[%d]",
+> - 			 i915->display.access.allowed_task->comm,
+> - 			 task_pid_vnr(i915->display.access.allowed_task));
+>  -			 get_task_comm(comm, display->access.allowed_task),
+> ++			 display->access.allowed_task->comm,
+> + 			 task_pid_vnr(display->access.allowed_task));
+>  =20
+> - 	drm_dbg_kms(&i915->drm,
+> + 	drm_dbg_kms(display->drm,
+>   		    "Reject display access from task %s (allowed to %s)\n",
+>   		    current_task, allowed_task);
+>  =20
 
-I'll update that once we resolve the above.
+This is now a conflict between the drm tree and the mm-nonmm-unstable
+branch of the mm tree.
 
-Dave.
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/JcddVZ1A/bWQoD+z+uYIICX
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmd90gMACgkQAVBC80lX
+0GxO9gf+IhJy3/u0Fo6qFS/cy158ioGh3HI18q9dV8qeSa776WgQVEppSKm++uAb
+3x2mDq1zIjXw1nlUcAHvhWDQQYNamZEQI4P0PY2iutG2WmjC6PmrJp6lctcq3CMw
+Nkgf75eZ5Tapl0Vu8ae5r+5QC31VIFheWHKxOQiPFxv/LP+9Mpip8QO4Aca9kq/N
+KPbtSVv4JHb3sOhgzRAlBEOLMoIIccelPvDZB8axpBCD/G3RJmbnB6IGCfcgSZnc
+CZgtM/bARYxaMXnojRaL/siDtlGL2BwFLh/2fWL0QBH+T9CYJUQP+rYmVVmc/2ip
+WrZiTvs9o2ZX3QAR+iT3CW8TWWjtaA==
+=lLfW
+-----END PGP SIGNATURE-----
+
+--Sig_/JcddVZ1A/bWQoD+z+uYIICX--
