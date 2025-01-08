@@ -2,42 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7449A055D4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:55:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74019A0547C
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 08:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E871D10E43F;
-	Wed,  8 Jan 2025 08:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA53110E264;
+	Wed,  8 Jan 2025 07:26:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="iMIcSd9S";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="nOxC5UfU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Wed, 08 Jan 2025 02:39:17 UTC
-Received: from out199-15.us.a.mail.aliyun.com (out199-15.us.a.mail.aliyun.com
- [47.90.199.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 624CD10E7ED
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 02:39:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux.alibaba.com; s=default;
- t=1736303954; h=From:To:Subject:Date:Message-Id:MIME-Version;
- bh=pVlTQIbFuRa2W/n67g0E65TmqpSMwXCyHsru7N04vV8=;
- b=iMIcSd9Sa03PBclOCjlCnbYgV4oQoNb5N3al3V2dGzZ5oThHrwVIiLy+qgeQjyO+cxGTEl0sWYL09Fs3HM4+5tfK/QFbL27HB1HDYJX0RRxj6iY9LORZgW5R0++mMeHlCMdA6YJLTxeg4vLpiloi9P+wM9/KuWMIFnCHu8kCp9U=
-Received: from localhost(mailfrom:tianruidong@linux.alibaba.com
- fp:SMTPD_---0WNC83CF_1736303642 cluster:ay36) by smtp.aliyun-inc.com;
- Wed, 08 Jan 2025 10:34:06 +0800
-From: Ruidong Tian <tianruidong@linux.alibaba.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, xueshuai@linux.alibaba.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tianruidong@linux.alibaba.com
-Subject: [RESEND PATCH] drm/amdgpu: add tracepoint while dump mca bank
-Date: Wed,  8 Jan 2025 10:34:00 +0800
-Message-Id: <20250108023400.35081-1-tianruidong@linux.alibaba.com>
-X-Mailer: git-send-email 2.33.1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BBCE10E264;
+ Wed,  8 Jan 2025 07:26:28 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5087Cmeh011719;
+ Wed, 8 Jan 2025 07:26:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ zp9Ud+cOXdDfjpQHab700eHaHtgQx+Qcqnt2JM8q4W0=; b=nOxC5UfUmnsmwRef
+ NPdayokiE9Y7ad4N8dss/MFEVKVNbdvs1VQYfw47eU54QHS5AAR0QH6H9Kg8lzIF
+ C5vLf/azr0RC8gvSx1S/k5T7JMEM0leRys+oJH7YyeDxdLCvi8xxVN38d2BJXjKv
+ IJGUYj9lZKIvBa0fjFM/Gi1LbAUoSFKGgk0MsDzW4/DTrV7+0DqzMSZvzhf6PdMy
+ 4UacM9MthHsgrDlJ65NR4kUTP+QLZoQHz+KQ4MP17BBuSe+OtH1xd8SIS4OQ5SHt
+ jnvhXh2y2yWdj3FGhyhSBY9wfB/fzTv55s/ocNzYaASXhobFIS/OErqpyY68hXCl
+ +FKlpQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441ms7g0yr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jan 2025 07:26:22 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5087QLlb011951
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 8 Jan 2025 07:26:21 GMT
+Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 7 Jan 2025
+ 23:26:14 -0800
+Message-ID: <8ce66828-ca8d-4a16-8498-293f13ed0cd5@quicinc.com>
+Date: Wed, 8 Jan 2025 15:26:11 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 08 Jan 2025 08:55:01 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] Display enablement changes for Qualcomm QCS8300
+ platform
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
+ Vijay Abraham I" <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-phy@lists.infradead.org>
+References: <20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com>
+ <d6qiwltykiw22o2gydqguaqzf5tf5vpbzdt34qodipc6pxakfy@4tmihfn5fta2>
+Content-Language: en-US
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <d6qiwltykiw22o2gydqguaqzf5tf5vpbzdt34qodipc6pxakfy@4tmihfn5fta2>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Z9V45VQesq7dSuss4-TUu5BHk5kDLgC4
+X-Proofpoint-ORIG-GUID: Z9V45VQesq7dSuss4-TUu5BHk5kDLgC4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0
+ spamscore=0 impostorscore=0 clxscore=1015 suspectscore=0
+ priorityscore=1501 mlxlogscore=951 lowpriorityscore=0 phishscore=0
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080059
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,84 +104,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RAS errors are typically exposed to user-space programs using tracepoints,
-allowing tools like rasdaemon to decode and post-process them.
-AMDGPU might also follow this, offering the following benefits:
-1. It can proactively notify users of RAS events, eliminating the need
-   to monitor /dev/kmsg.
-2. It allows for further post-processing similar to AMD SMCA[1].
 
-[1]: https://github.com/mchehab/rasdaemon/commit/932118
 
-Signed-off-by: Ruidong Tian <tianruidong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c   |  3 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h | 31 +++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
-index 3ca03b5e0f91..9daa95365457 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
-@@ -23,6 +23,7 @@
- #include "amdgpu_ras.h"
- #include "amdgpu.h"
- #include "amdgpu_mca.h"
-+#include "amdgpu_trace.h"
- 
- #include "umc/umc_6_7_0_offset.h"
- #include "umc/umc_6_7_0_sh_mask.h"
-@@ -287,6 +288,8 @@ static void amdgpu_mca_smu_mca_bank_dump(struct amdgpu_device *adev, int idx, st
- 		      idx, entry->regs[MCA_REG_IDX_IPID]);
- 	RAS_EVENT_LOG(adev, event_id, HW_ERR "aca entry[%02d].SYND=0x%016llx\n",
- 		      idx, entry->regs[MCA_REG_IDX_SYND]);
-+
-+	trace_amdgpu_mca_bank_dumps(event_id, idx, entry);
- }
- 
- static int amdgpu_mca_smu_get_valid_mca_count(struct amdgpu_device *adev, enum amdgpu_mca_error_type type, uint32_t *count)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-index 383fce40d4dd..a0ba79394099 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h
-@@ -554,6 +554,37 @@ TRACE_EVENT(amdgpu_reset_reg_dumps,
- 		      __entry->value)
- );
- 
-+TRACE_EVENT(amdgpu_mca_bank_dumps,
-+	   TP_PROTO(uint64_t event_id, int idx, struct mca_bank_entry *e),
-+	   TP_ARGS(event_id, idx, e),
-+	   TP_STRUCT__entry(
-+			    __field(uint64_t, event_id)
-+			    __field(int, idx)
-+			    __field(uint64_t, status)
-+			    __field(uint64_t, addr)
-+			    __field(uint64_t, misc0)
-+			    __field(uint64_t, ipid)
-+			    __field(uint64_t, synd)
-+			    ),
-+	   TP_fast_assign(
-+			  __entry->event_id = event_id;
-+			  __entry->idx = idx;
-+			  __entry->status = e->regs[MCA_REG_IDX_STATUS];
-+			  __entry->addr = e->regs[MCA_REG_IDX_ADDR];
-+			  __entry->misc0 = e->regs[MCA_REG_IDX_MISC0];
-+			  __entry->ipid = e->regs[MCA_REG_IDX_IPID];
-+			  __entry->synd = e->regs[MCA_REG_IDX_SYND];
-+			  ),
-+	   TP_printk("amdgpu mca bank dump: event_id: %lld, idx: %d, STATUS: %016llx, ADDR: %016llx, MISC0: %016llx, IPID: %016llx, SYND: %016llx",
-+		     __entry->event_id,
-+		     __entry->idx,
-+		     __entry->status,
-+		     __entry->addr,
-+		     __entry->misc0,
-+		     __entry->ipid,
-+		     __entry->synd)
-+);
-+
- #undef AMDGPU_JOB_GET_TIMELINE_NAME
- #endif
- 
--- 
-2.33.1
+On 2024/12/27 16:39, Krzysztof Kozlowski wrote:
+> On Thu, Dec 26, 2024 at 05:40:44PM +0800, Yongxing Mou wrote:
+>> This series introduces support to enable the Mobile Display Subsystem (MDSS)
+>> , Display Processing Unit (DPU), DisplayPort controller and eDP PHY for
+>> the Qualcomm QCS8300 target. It includes the addition of the hardware catalog,
+>> compatible string, and their YAML bindings.
+>>
+>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>> ---
+>> This series depends on following series:
+>> https://lore.kernel.org/all/20241203-qcs8300_initial_dtsi-v4-2-d7c953484024@quicinc.com/
+> 
+> Then why this is not part of initial DTSI?
+> 
+Sorry. it's not part of initial DTSI, These are the dependencies for 
+enabling the display MDSS/DP. Not the real dependency for dt-binds and 
+driver.
+>> https://lore.kernel.org/all/20241106-qcs8300-mm-patches-v3-0-f611a8f87f15@quicinc.com/
+>> https://lore.kernel.org/all/20241114-qcs8300-mm-cc-dt-patch-v1-1-7a974508c736@quicinc.com/
+>> https://lore.kernel.org/all/20241024-defconfig_sa8775p_clock_controllers-v2-1-a9e1cdaed785@quicinc.com/
+> 
+> So it cannot be tested?
+> 
+> Way too many dependencies for me to review.
+> 
+If we are only running dt-bindings checks or compiling driver files, we 
+actually don't need these dependencies. You can directly running the 
+test. They are all used to enable the display MDSS and DP. So maybe i 
+need to update the cover letter and remove those dependencies. Thanks 
+for point it.
+> Best regards,
+> Krzysztof
+> 
 
