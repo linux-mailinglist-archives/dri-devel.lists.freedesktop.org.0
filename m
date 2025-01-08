@@ -2,94 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCB1A0690B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F22A0690F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:58:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A74C10ECB4;
-	Wed,  8 Jan 2025 22:57:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C87510ECA5;
+	Wed,  8 Jan 2025 22:58:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="BLeO7cJS";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CqhFV45r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3008F10ECA5;
- Wed,  8 Jan 2025 22:57:52 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508HbYAi011058;
- Wed, 8 Jan 2025 22:57:43 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90A7E10E08D;
+ Wed,  8 Jan 2025 22:58:14 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508IgkB9007921;
+ Wed, 8 Jan 2025 22:58:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- p98cCh83eXBRhgvDaok/nnFwHA9Icwt64miGgMekXZM=; b=BLeO7cJSOg6gTFX4
- SfunO55HcspLg9W3HCK5BW8SSXTrQB8L3Kqo9Gcqj1kyJBs233d9cKeyJdZKc6Da
- NFqCk0oeI2xrEoUk39YBUdrYYkGj+d21ttG9SrO14OkizfnDGEBJfL02TDhb2id4
- vbfLCfUF59H6RvJmkufpXADvWivAiz4KP6AAYD8O0hWsLAOHD2t3/inKA66rXbl3
- pzzAPiC21GgWuScqs/SJrtHvGmZsm5ynSg7SOcuxF5jdwPUkvk3SXanJBL1ubTSS
- YNQIPM8Dm5gOotKcmbAmesGMq3BB2/DobqSgdgETI2yZta/P7b0mkCcdVaBHrpMm
- EnE+Kg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441wx60p1x-1
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=3TlaTznryEMgl/e51rGTSU
+ L61D8KspVAr3QwF8e2fuM=; b=CqhFV45rd/2ypnsJDlRzu3KFubYgAij511p+s/
+ /dMySmqLidS7qfVAFCMUG6mHSCiiC8ZV7u3Y0k9S3M9BHjvWkNHqfncwJ3awZG7w
+ 5o3B6Sn8Mb06J63/KEiOOcSqRpNLpUY1uPYf2u97p+f2XQ1222cwsKF8yvdl+jJ9
+ nrSrDYXYTg7Evod0MZmtisYx5FKKwhYrlxzRDHTATMF2dEjZ3JEZSorWlUN4Dd5M
+ VgHoVBQmsAgjRzf/VceYU+8lKyQmdldRn64CuZT4jBAPNHlhDsp/A6ZfXob5rwER
+ qx2N+u7SdjrYobVuSKITx6rfWJ4P2Rsl0vQIHnkLsG+4EmAw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441xvnrgnq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Jan 2025 22:57:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508MvgS5001751
+ Wed, 08 Jan 2025 22:58:10 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508MwAvj020588
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 8 Jan 2025 22:57:42 GMT
-Received: from [10.71.108.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
- 14:57:41 -0800
-Message-ID: <feb4f780-8fe6-426b-9ba4-ab1fb102ac27@quicinc.com>
-Date: Wed, 8 Jan 2025 14:57:41 -0800
+ Wed, 8 Jan 2025 22:58:10 GMT
+Received: from jesszhan-linux.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 8 Jan 2025 14:58:09 -0800
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+Date: Wed, 8 Jan 2025 14:57:51 -0800
+Subject: [PATCH] drm/msm/dpu: Force disabling commits to take non-async
+ path
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] drm/msm/dp: Add support for LTTPR handling
-To: Abel Vesa <abel.vesa@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>
-CC: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konradybcio@kernel.org>,
- Johan Hovold <johan@kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
- Johan Hovold <johan+linaro@kernel.org>
-References: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-0-918949bc2e3a@linaro.org>
- <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-4-918949bc2e3a@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-4-918949bc2e3a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20250108-async-disable-fix-v1-1-3f93eb600a3a@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAO4Cf2cC/x2MSQqAMAwAvyI5G2gEwfoV8dAlakCqNCBK8e8Wj
+ zMwU0A5CyuMTYHMl6gcqQK1DYTNpZVRYmXoTNcbMgM6fVLAKOr8zrjIjSGQt45i78lC7c7MVf/
+ PaX7fD7ZmrNNjAAAA
+X-Change-ID: 20250108-async-disable-fix-cc1b9a1d5b19
+To: Rob Clark <robdclark@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>
+CC: <quic_abhinavk@quicinc.com>, Rob Clark <robdclark@chromium.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Jessica
+ Zhang" <quic_jesszhan@quicinc.com>
+X-Mailer: b4 0.15-dev-1b0d6
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736377089; l=2231;
+ i=quic_jesszhan@quicinc.com; s=20230329; h=from:subject:message-id;
+ bh=wNWVT0cfQzdhEDlvQXirnQRurgd6u+2iA+4aAhzXJnA=;
+ b=oVMvxd2Z58q4x6jm9Q68L98cdBRpjND8pG0J6A5KfrqkGU2B3a6/8uzScaVWZAJL9dRVIWRDq
+ CoPFekIChfRB8U0rxkit9uHUI9xGLU0v3ohfsR2DBvuPIgl8d29RR4F
+X-Developer-Key: i=quic_jesszhan@quicinc.com; a=ed25519;
+ pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: tnfjmy_HVMVoRj9bM5AAf9LrVJSbltAO
-X-Proofpoint-ORIG-GUID: tnfjmy_HVMVoRj9bM5AAf9LrVJSbltAO
+X-Proofpoint-GUID: 7CsEzK5gyHo5gcFQUhRHTeDaxgN4_lEQ
+X-Proofpoint-ORIG-GUID: 7CsEzK5gyHo5gcFQUhRHTeDaxgN4_lEQ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- impostorscore=0 adultscore=0 mlxscore=0 spamscore=0 suspectscore=0
- clxscore=1015 mlxlogscore=999 phishscore=0 malwarescore=0
- priorityscore=1501 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2501080186
+ impostorscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ mlxlogscore=703 priorityscore=1501 spamscore=0 malwarescore=0 adultscore=0
+ mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,105 +102,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Force commit that are disabling a plane in the async_crtc to take the
+non-async commit tail path.
 
+In cases where there are two consecutive async cursor updates (one
+regular non-NULL update followed by a disabling NULL FB update), it is
+possible for the second NULL update to not be queued (due to the
+pending_crtc_mask check) or otherwise not be run before the cursor FB is
+deallocated by drm_atomic_helper_cleanup_planes(). This would cause a
+context fault since the hardware would try to fetch the old plane state
+with the stale FB address.
 
-On 1/8/2025 6:31 AM, Abel Vesa wrote:
-> Link Training Tunable PHY Repeaters (LTTPRs) are defined in DisplayPort
-> 1.4a specification. As the name suggests, these PHY repeaters are
-> capable of adjusting their output for link training purposes.
-> 
-> According to the DisplayPort standard, LTTPRs have two operating
-> modes:
->   - non-transparent - it replies to DPCD LTTPR field specific AUX
->     requests, while passes through all other AUX requests
->   - transparent - it passes through all AUX requests.
-> 
-> Switching between this two modes is done by the DPTX by issuing
-> an AUX write to the DPCD PHY_REPEATER_MODE register.
-> 
-> The msm DP driver is currently lacking any handling of LTTPRs.
-> This means that if at least one LTTPR is found between DPTX and DPRX,
-> the link training would fail if that LTTPR was not already configured
-> in transparent mode.
-> 
-> The section 3.6.6.1 from the DisplayPort v2.0 specification mandates
-> that before link training with the LTTPR is started, the DPTX may place
-> the LTTPR in non-transparent mode by first switching to transparent mode
-> and then to non-transparent mode. This operation seems to be needed only
-> on first link training and doesn't need to be done again until device is
-> unplugged.
-> 
-> It has been observed on a few X Elite-based platforms which have
-> such LTTPRs in their board design that the DPTX needs to follow the
-> procedure described above in order for the link training to be successful.
-> 
-> So add support for reading the LTTPR DPCD caps to figure out the number
-> of such LTTPRs first. Then, for platforms (or Type-C dongles) that have
-> at least one such an LTTPR, set its operation mode to transparent mode
-> first and then to non-transparent, just like the mentioned section of
-> the specification mandates.
-> 
-> Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++++++++++++++
->   1 file changed, 17 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 24dd37f1682bf5016bb0efbeb44489061deff060..ad09daa4c8ab5c0eb67890509b94e72820bab870 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -107,6 +107,8 @@ struct msm_dp_display_private {
->   	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
->   	spinlock_t event_lock;
->   
-> +	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
-> +
+Avoid this issue by forcing cursor updates that will disable the cursor
+plane to be blocking commits. This will ensure that hardware clears and
+stops fetching the FB source address before the driver deallocates the FB
 
-The reason downstream stored it panel is to read it first in dp_panel's 
-read_sink_caps and call lttpr_init if drm_dp_lttpr_count() is non-zero.
+Fixes: 2d99ced787e3 ("drm/msm: async commit support")
+Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+---
+ drivers/gpu/drm/msm/msm_atomic.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-But here it looks like  msm_dp_display_lttpr_init() internally handles 
-this for us. So no need to store this?
+diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+index 9c45d641b5212c11078ab38c13a519663d85e10a..ddc74c68148c643d34ca631dd28d4cdc2b8c7dc0 100644
+--- a/drivers/gpu/drm/msm/msm_atomic.c
++++ b/drivers/gpu/drm/msm/msm_atomic.c
+@@ -142,6 +142,7 @@ static bool can_do_async(struct drm_atomic_state *state,
+ 	struct drm_connector_state *connector_state;
+ 	struct drm_connector *connector;
+ 	struct drm_crtc_state *crtc_state;
++	struct drm_plane_state *plane_state;
+ 	struct drm_crtc *crtc;
+ 	int i, num_crtcs = 0;
+ 
+@@ -162,6 +163,18 @@ static bool can_do_async(struct drm_atomic_state *state,
+ 		*async_crtc = crtc;
+ 	}
+ 
++	/*
++	 * Force a blocking commit if the cursor is being disabled. This is to
++	 * ensure that the registers are cleared and hardware doesn't try to
++	 * fetch from a stale address.
++	 */
++	if (*async_crtc) {
++		plane_state = drm_atomic_get_new_plane_state(state,
++							     (*async_crtc)->cursor);
++		if (plane_state && !plane_state->fb)
++			return false;
++	}
++
+ 	return true;
+ }
+ 
 
->   	bool wide_bus_supported;
->   
->   	struct msm_dp_audio *audio;
-> @@ -367,12 +369,27 @@ static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *d
->   	return 0;
->   }
->   
-> +static void msm_dp_display_lttpr_init(struct msm_dp_display_private *dp)
-> +{
-> +	int rc;
-> +
-> +	if (drm_dp_read_lttpr_common_caps(dp->aux, dp->panel->dpcd,
-> +					  dp->lttpr_caps))
-> +		return;
-> +
-> +	rc = drm_dp_lttpr_init(dp->aux, drm_dp_lttpr_count(dp->lttpr_caps));
-> +	if (rc)
-> +		DRM_ERROR("failed to set LTTPRs transparency mode, rc=%d\n", rc);
-> +}
-> +
->   static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->   {
->   	struct drm_connector *connector = dp->msm_dp_display.connector;
->   	const struct drm_display_info *info = &connector->display_info;
->   	int rc = 0;
->   
-> +	msm_dp_display_lttpr_init(dp);
-> +
+---
+base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
+change-id: 20250108-async-disable-fix-cc1b9a1d5b19
 
-Can you pls move this call after msm_dp_panel_read_sink_caps()?
+Best regards,
+-- 
+Jessica Zhang <quic_jesszhan@quicinc.com>
 
-If msm_dp_panel_read_sink_caps() fails there is no need to call 
-msm_dp_display_lttpr_init().
-
-
->   	rc = msm_dp_panel_read_sink_caps(dp->panel, connector);
->   	if (rc)
->   		goto end;
-> 
