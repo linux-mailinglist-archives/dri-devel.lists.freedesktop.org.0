@@ -2,106 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A80A06355
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 18:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0B5A06383
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 18:33:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8109110EC2D;
-	Wed,  8 Jan 2025 17:27:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A44510E158;
+	Wed,  8 Jan 2025 17:33:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WjiXP2vs";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="pANWxhKc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 184A910E1DF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 17:27:21 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3862b40a6e0so22426f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 09:27:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736357180; x=1736961980; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bI5BkTsr1Rej7kPzTQ7NrBrtLjPHANabm0Md7VMapXI=;
- b=WjiXP2vsOQo23gE+hvSUFDZLpIOBbclw9tqghJ56MPIDsHo0i3g4vwO29T5rZG047b
- RYbdcO7FQz2qjj3zKUrv8WEbDVsCWw8iAzJzDC7Tg9S7QiEaCHu3IKxACp4AD2Ke9YdY
- 5UR2t27WGrhOmc13Tk6HPdC6iUgxiLBhrZPoY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736357180; x=1736961980;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bI5BkTsr1Rej7kPzTQ7NrBrtLjPHANabm0Md7VMapXI=;
- b=SHP9KEbMp5EG3VTn67CExQs5/KgG/2W8z2CUixMJsm5cGOBwrIb9YpE0pQ+Oo+xUiL
- 07s34gHXtjthZ83CEVPV4jwAAcsnrxw+Kgspc5TB0xdsfz1rfh7cIVPUdmPnPEigqR2l
- 3SAv1P+Tp5+7waYa7ZjXFh26sMOz4BwfHC2DyWtP6+7qTwZj4VOIItkVNp6qajqXm2Bt
- kHBxgx91M/I0tXMqV3HOPmETWY/q7EpoBSGL06HJ0I+tShSu/FtawsSLOx+ghVgCkX4c
- z9bvYX0OCOHfv4IoUKUnTmzs2nXTgzCjXdrzN8IOusTEOVX3yrc1pYe9Fv9KV3h+488u
- CecA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXOTtXfTPaLsX8/c8H9+4J2yg8/Tp1RsHr95rvHMgytOnEjbxXX8TtdbVDhyWhx9a4kDRCC69gI938=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0jRj27ShiB5GsRUn7xV0fuTqLaxDGkYl3e7qWDk1s5SBs3Cjb
- xaE3fVJUt9S7Z3RbxdD1Vvn0wtbUM+KiDrsjNQk9zxq8i0AIDzOd8betRXm/oHQ=
-X-Gm-Gg: ASbGncvhKB00WOjymg7DlilgdmDJNiUDuJIc47q+zt+4NpmBbqpJNkgSOn7b5KVI/Dd
- DNvcLSPc2ecJOxXraTW4n+Ycx5ANmhoxNltyzbR8bArcShncqiM4jOa2JfOc9a2drLBHl2VTC+X
- iTOGuB+nvxe9SeguONCgaV5hS4YhVHqQYg5aeC2Pgv7gVyZ0xtuvhoEKYTSDq5hSkYb76bTsdEJ
- gTNXM7+E54afRlglVuSriJpRJN/ZgzkNRhAamo9Y5klEQX4YCjiX73Ev8IU/eTztC0I
-X-Google-Smtp-Source: AGHT+IHIG8gIkIZLnGTj2vm2ov4/i2vQzdBqNMlxt0wme6qkxMsRJFFigfl4B+bpgLZ7xuYAvDMDEg==
-X-Received: by 2002:a05:6000:1446:b0:385:d7f9:f169 with SMTP id
- ffacd0b85a97d-38a872f6d09mr3033928f8f.12.1736357179644; 
- Wed, 08 Jan 2025 09:26:19 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c8334aasm53404544f8f.41.2025.01.08.09.26.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 09:26:19 -0800 (PST)
-Date: Wed, 8 Jan 2025 18:26:17 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DBEC10E900
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 17:32:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=efjfjhNy/ciPUjqdeZUPjdUi9qYemP+O/s6sz7yjRHE=; b=pANWxhKcc5wYNurkiGzQddiIqL
+ w7FpUk/gg2lJv6MnbCeORlEgD9UrFNs//jhfIECLEtqRFCAv9y23s8T9g+biYYGyzU23Cjj5RQRzw
+ +5FZck6XehMK7OSNvk8LNAReH3dmWzwsLeb1pqmxVDhp0x73Kct0k8oeL+bsrhDyCtganEVeG+Ghf
+ 6R3I1t5hzKiYTOlpPwn/Yymgh5pjRJe/J8vxZ2cMggjbgWHpdfpB1TsMy8m8u1QFkUizqc/Mjplm1
+ klqEBhaNR0HRTpWaFEpms2iwL0Qt9vIBuQvU+zpmLBHN75pk2843p+7s4Ix2acbOOL0rFFJdubgZH
+ nlqQdF5w==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
+ Linux)) id 1tVZvK-00000002GR2-2UD8; Wed, 08 Jan 2025 17:32:54 +0000
+Date: Wed, 8 Jan 2025 17:32:54 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Archit Taneja <architt@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH 1/6] drm/atomic-helper: document
- drm_atomic_helper_check() restrictions
-Message-ID: <Z361OTdcwtPvN17P@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Archit Taneja <architt@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
- <20241222-drm-dirty-modeset-v1-1-0e76a53eceb9@linaro.org>
+ linux-mm@kvack.org, David Hildenbrand <david@redhat.com>
+Subject: Re: [RFC PATCH 3/3] fb_defio: do not use deprecated page->mapping,
+ index fields
+Message-ID: <Z362xoQMxQRxYUlJ@casper.infradead.org>
+References: <cover.1736352361.git.lorenzo.stoakes@oracle.com>
+ <1e452b5b65f15a9a5d0c2ed3f5f812fdd1367603.1736352361.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241222-drm-dirty-modeset-v1-1-0e76a53eceb9@linaro.org>
-X-Operating-System: Linux phenom 6.12.3-amd64 
+In-Reply-To: <1e452b5b65f15a9a5d0c2ed3f5f812fdd1367603.1736352361.git.lorenzo.stoakes@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,46 +59,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 22, 2024 at 07:00:41AM +0200, Dmitry Baryshkov wrote:
-> The drm_atomic_helper_check() calls drm_atomic_helper_check_modeset()
-> insternally. Document that corresponding restrictions also apply to the
-> drivers that call the former function (as it's easy to miss the
-> documentation for the latter function).
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Wed, Jan 08, 2025 at 04:18:42PM +0000, Lorenzo Stoakes wrote:
+> @@ -280,7 +269,10 @@ static void fb_deferred_io_work(struct work_struct *work)
+>  		struct folio *folio = page_folio(pageref->page);
+>  
+>  		folio_lock(folio);
+> -		folio_mkclean(folio);
+> +		rmap_wrprotect_file_page(fbdefio->mapping,
+> +					 pageref->offset >> PAGE_SHIFT,
+> +					 compound_nr(pageref->page),
+> +					 page_to_pfn(pageref->page));
+>  		folio_unlock(folio);
 
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+Why do we need to lock the folio?  (since this isn't necessarily a
+folio)  Also, do we need compound_nr() here?  I _think_ for defio,
+the number of pages allocated per object are fixed, so this should be
+an fbdefio->nr_pages field?
 
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index 5186d2114a503701e228e382cc45180b0c578d0c..f26887c3fe8b194137200f9f2426653274c50fda 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1059,6 +1059,15 @@ EXPORT_SYMBOL(drm_atomic_helper_check_planes);
->   * For example enable/disable of a cursor plane which have fixed zpos value
->   * would trigger all other enabled planes to be forced to the state change.
->   *
-> + * IMPORTANT:
-> + *
-> + * As this function calls drm_atomic_helper_check_modeset() internally, its
-> + * restrictions also apply:
-> + * Drivers which set &drm_crtc_state.mode_changed (e.g. in their
-> + * &drm_plane_helper_funcs.atomic_check hooks if a plane update can't be done
-> + * without a full modeset) _must_ call drm_atomic_helper_check_modeset()
-> + * function again after that change.
-> + *
->   * RETURNS:
->   * Zero for success or -errno
->   */
-> 
-> -- 
-> 2.39.5
-> 
+(something that's always troubled me about compound_nr() is that it
+returns 1 for tail pages and the number you actually expect for head
+pages)
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
