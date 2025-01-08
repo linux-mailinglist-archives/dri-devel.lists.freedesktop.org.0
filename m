@@ -2,109 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F149DA05EF4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 15:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19636A05F53
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 15:50:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD8A210E8D0;
-	Wed,  8 Jan 2025 14:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F31B10E8C9;
+	Wed,  8 Jan 2025 14:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Sklp7Zpy";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fgj8aGsY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3176C10E8D0
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 14:40:40 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-aaf57c2e0beso1467111066b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 06:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736347179; x=1736951979; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=+jujrpOc62dfLDuJvGTA1l4Fb+UZ4JKp3nDe8a+P2YU=;
- b=Sklp7Zpy/rWpNMXLcUp5ZSp9gMzDA2KKnj8G8CSuc2DJL6cznHMe5pIb12KcqbzXpY
- AZeorzMLGjFzu0XHQSBLKWLbwRn4XbqIOJvcWcY1yEW9B8k3YegZE2DmtiM5o6jEJ3Zr
- lO9Yw51J5OfNZtbvqoUw9aWTEcIy8ojOnlYRmdqiEdR5pRLiI6uEdOfwgvV+ZKq9FqKq
- WSF0Lkk2WgP2f0TxHmVOVYOAFM+0w5ph/NZSz8efcZgNTPBrtQpetAD9nKnp1er4YOTq
- jDSQODifijAuI+utSxauMgH612klQT2xEpbDdltUWmmJAHJtXp7EQU/NhVoyC8slh7Td
- OEYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736347179; x=1736951979;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+jujrpOc62dfLDuJvGTA1l4Fb+UZ4JKp3nDe8a+P2YU=;
- b=syMkC/g8j+8rcHQ3Bdx5oWny4y9fWBwpZo7f5AVNkY5nph/QK/OWUpkL1G11bA5wCz
- 42vOoI/TuDGi9/RWaFbrGO6MP6vlW1WKFdGrd29cISMnUhjd4kIPNG1yyUteRZV8H4uo
- AI51LtRukwNBtQTyAtnaBfaIisp75pBfkL4MihqzHkM11qrTz4QDj4TKjjepncDxF3//
- pQYwjsoMSl4zcnmxszOXVPmjFC909l+H9xQM8V5SRcGD62dZ5gOa/AyGPzWrbec+sgAD
- TE8iTmX9zscd5IfrPjMATj5bQO0IBmhX+U4n5FBDBr24v28k4ZjlFAZHlipYOwFhq2mo
- F+wA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZRVZS0lpiE8aWR6lpw7YIbFHhUryCIK+phtIk/duI6JiRwBJaNrRV+Sm4KN6BG1P1XhvCtLccCZM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXXecarGzaDvJhr9aK+Efv1XgMjRI53uvN3CVvEDy7dvEJW+Lj
- Pzb15PV0xKdltOsI6AfgbY0LJzZrFjVxcIuuhuwBPF5Ak45SKjt4HRtz8k4Gfi5lijfOKeGzA+t
- z
-X-Gm-Gg: ASbGnctqoaML0aah5pPF7nlZ20dUgnxSQ+bqvwD9gf/03paSYoIZprFb2niD+xhgHwO
- RrMq8MeFeGLTYeQB8fwDUJWJTlqfwBfLDC9mFP/H0VfB6bYcT/+JK5Cnh3rW/NXOI0xH3ZQEXNi
- 4mlU3mUBV7+j+upwqR3ZSTXD9R6LH9QEJzt8V3dkIH+yA0o/GbUlEeoZ0c/gZq9kwbVEi+aG8qh
- 7vwUeG9ewvVGUC8gqYLo+Ha6uqmVk/iCe9VlwQTpP9sDKEUTIxJl6Wy
-X-Google-Smtp-Source: AGHT+IGaIDQlqPS504o1O/zyLX5qhdWguSocQGDnOn2wpB8opY97HAItR5eD/SovsojJHKkwgRdW4Q==
-X-Received: by 2002:a05:600c:3ca2:b0:434:9499:9e87 with SMTP id
- 5b1f17b1804b1-436e26e5159mr21957015e9.25.1736346731434; 
- Wed, 08 Jan 2025 06:32:11 -0800 (PST)
-Received: from [127.0.1.1] ([86.121.162.10]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2e89e14sm22741445e9.33.2025.01.08.06.32.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 06:32:10 -0800 (PST)
-From: Abel Vesa <abel.vesa@linaro.org>
-Date: Wed, 08 Jan 2025 16:31:46 +0200
-Subject: [PATCH v4 4/4] drm/msm/dp: Add support for LTTPR handling
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2054.outbound.protection.outlook.com [40.107.236.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFE6710E8E0
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 14:50:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lKQSFMh4jWsohycBNvYb4mcK8yFoVdXLEveHBFIIzXxx5f7f4p5P2s7qnfySvMxvhi1isTUP72K49/wQraBTFRUjdSZRsT/iZ1UfWxuQS8JqkZ7A5fWo5BDKmAKOu2t9VF21XfRqnSbcUOaug/k0PxGyV+wL/kHItuwiGDCAeSh3gpvBbyy5vgIf5vX9DjTJG74+MBkDNYjYfkWENWDLfYMIdPqk402ZYt8bScmMYd5xKnVkc5pQbYO6/7h4fMnQmTo8zSGPFYuSvW4SxMKFzesU0IL0FmP2e5W2bG9X1T47WwVoFhbV/jbRwqbwGmQrbG7WdfEQExGhpfS12Imd3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r0XwGA+NHb16Q78CH07Ycopp01tHr18DED0cjD2mjM0=;
+ b=FLMswCqjJ/V0IKoudUo/5Kjh5Ch+XJHHZLQEkbiiCtw9ClFGizGhvDWFIFKjI6opMS1AGKdNb51vWHm6ixoqhsCoencsS+SZosW39n7y+q9w2tOMkg5tynBTdXITOGaaFvuGRNee5TsL7Knx+K3/PL7skxqVv0cnMSNo2b66vx1dtVlhBKdnG6NA3STuOZZpY6oCg03OGVTPheK0n2rTnxVdguZY6J+NuZL3q/nqwjNTl7bJnBzbu3ujhEDcM6YgUzJQfSUNQoVnyQ8ERMHuDzQsn3XZ6SX+v27t5M6b/aaOpSr3hpXinWqPEdno7M0aTFEiahWuLxuUyoylu1L6Ng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r0XwGA+NHb16Q78CH07Ycopp01tHr18DED0cjD2mjM0=;
+ b=fgj8aGsYAGYKlEbEVim7VuZXnHQIwU7icEqhO4BU0Wub/YaEQ16W9Nq01sG52bT8i3n4f8RoU/EQJzIseKOv5fvDpr2xIY9yNweKtKSmw4uASlxMZj0uhGiEMqT8NIOLiFrQDQ51HFGsfPvnVPV9JkDhGbaIUqCW7+D6c3by5Z0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB7193.namprd12.prod.outlook.com (2603:10b6:930:5b::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Wed, 8 Jan
+ 2025 14:35:31 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8335.010; Wed, 8 Jan 2025
+ 14:35:31 +0000
+Message-ID: <6a17b4f1-5b5b-4226-b3c3-4dfa3f3c3811@amd.com>
+Date: Wed, 8 Jan 2025 15:35:25 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Philipp Reisner <philipp.reisner@linbit.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Nirmoy Das <nirmoy.das@amd.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250107140240.325899-1-philipp.reisner@linbit.com>
+ <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
+ <CADnq5_PAG662SODmS8cSg7jcyh8ZQRgcWMtgjx5RZbuUE7j3Og@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CADnq5_PAG662SODmS8cSg7jcyh8ZQRgcWMtgjx5RZbuUE7j3Og@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0033.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-4-918949bc2e3a@linaro.org>
-References: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-0-918949bc2e3a@linaro.org>
-In-Reply-To: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-0-918949bc2e3a@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@redhat.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Abel Vesa <abel.vesa@linaro.org>, 
- Johan Hovold <johan+linaro@kernel.org>
-X-Mailer: b4 0.15-dev-dedf8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3405; i=abel.vesa@linaro.org; 
- h=from:subject:message-id;
- bh=gGD3sgWWKsWmZCbwj23CZ+mFd/H5NaRSFUP35PwpXX0=; 
- b=owEBbQKS/ZANAwAKARtfRMkAlRVWAcsmYgBnfoxgHIDfMJj0b2BEuxIl+LhVXL3lTbbVduy2B
- j5EgHydbryJAjMEAAEKAB0WIQRO8+4RTnqPKsqn0bgbX0TJAJUVVgUCZ36MYAAKCRAbX0TJAJUV
- VpwBD/9NB5RkB8wmNALPhbXeaU3+pvYY4I3FGE8tvFKBNxVnnnGHblZOMbHU6z2WS1s6WVZ3OsI
- ngNMet1tVi0j/SZLy1Wmu1rpEt67TAHUkEQlBQLhRjbNJWsj9lbAkQPR0jlwiDjzWADUqao+wW+
- b09Hrco7d99sYgCTOEikq3DM/MpQf6AWrh/K9KflicTrEQ5b/hg5CC0CN+hwmhj+WBZJKHtt496
- kjyHDSqWmz3a2TbkknzfAV/7nklR8Fm8ip6AZ6cukHbB+CUrXyZTC5MmOH8bSLq9Mg57mdDOOyH
- +Ps2ncVdMh9svTKquhUopu+ydUxMYWrPFcS1UqAAVMpwKBz/jr0F2M+b4VvUhkVZO7enCSE0Rh3
- qfFwchwovWHOXn53ezc0zFGCBQ8419BGTSXd/hw+uFb05HRHwLIPn/Vh0T0LR93LoVFvIZQFTbf
- FsFBUiOKPrsOz0FXc1ZvJscYM3ObR5X6RwgdOYnaFIdgUWV+6OiJ+j6viy56sBIWpVW9yXGu15d
- OAekrCv4810gA0mNxtqKwZhTT4WVCW0tKEuTKXVz3PQ9Bk6Lz13xIplXyVvEhBuFGWYv0YYrtHX
- TQPdQwbtl2PUstj2MygUJkbR4xUtGpBUzLq/ySJNXub3hbCVV61ykWSakKBQC3laYYedTZFDfvb
- HkAeeBmNm2sOaDQ==
-X-Developer-Key: i=abel.vesa@linaro.org; a=openpgp;
- fpr=6AFF162D57F4223A8770EF5AF7BF214136F41FAE
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7193:EE_
+X-MS-Office365-Filtering-Correlation-Id: e59a6e28-92e7-448d-4d0f-08dd2ff1b42b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V1lmUk85cVBwT0J5QVVRSGVMNzdNRENycEdSWGFVRnBIK2xERXErUm5DWEtV?=
+ =?utf-8?B?RWU5VHNuT2d4OU1kQ0FKdTJOcmRQOEFsUlovcGZ4YUE2alN5YXhHSURPbGJh?=
+ =?utf-8?B?ZkdRQWhCUkl2T3BHbG04eUVFZzhScE01dUZVeFhKSDBpTHdNbmFMYWtYR0FU?=
+ =?utf-8?B?MG1lTVBwNkh4aWVoaGtobzllWXcxQU5oZUdhR2pheHJrQXJxcjlBdVBmSHgx?=
+ =?utf-8?B?ODA1dzEzM0Y2d0JYT3U0S3RkUy9WYXp0WlRJMEVKN2hKeHNlamFhVHdJbWRt?=
+ =?utf-8?B?VkF5RHR0QzcrREFBQjlzWWluRXZnZmpoUEhxNFovSUpLOEtQSDVBQmZmMHcz?=
+ =?utf-8?B?RnJJd3NLNUg0RXVFN0p5azdIWDgxSStJVHBqMnBUQ3B3ZFVwbnhtUTljZVRi?=
+ =?utf-8?B?WCtMR0dmTnM4cEhOai9TbXJyWHg4NmIxU2dEUkJtZFV3ZTJuQ2xDZ3VENWFy?=
+ =?utf-8?B?TklBaUovYTczN0ZqTzRBT2krWkxzWTNrMTBIS0lsSS8xZWZTTWZJMHFLQnJs?=
+ =?utf-8?B?RjBGODB5Qm5MMDVBRFRuL1poRXFYcXpZK0Z4ZHV0dkNza3BwMWpTcS9XRC9m?=
+ =?utf-8?B?elJkSXovNStJWTM0YU03VW9ubStqNHNNTVI4WWs2ajB5NzU1UHlSamV4N2s5?=
+ =?utf-8?B?ZVlnZUowZWtLTy9MdTRqNDZNOTNEWGpJZ2xZdm0xYkViY3BIWmtJMG9GamRY?=
+ =?utf-8?B?dFFIbmdUWWtvTHhOL1daMC9DU0FtRitwYmFSbWw0aThOeU9aSDRpMXFiMC9Z?=
+ =?utf-8?B?bU5ONDgrVUlDUUV0ODUzaG50VEFDZlNDVHFZWE1mV042cE9aa3RqYWlJSDQz?=
+ =?utf-8?B?ZkVLQW5GcXZHY3RLZVNRVmZPTUV1dUNNOHdTZDh6Y3l3U2lZdm5mTlFjeDVP?=
+ =?utf-8?B?OEpjQVBNWWh4eWU4QzZMVjRXQnZkQWZYaWRha0hFQXdXUWxJMHhaMnBjdVh4?=
+ =?utf-8?B?WkxRZkVZbDVrQzNIWEN4WGx2ZzhacnZrdE1tN0xsNFVKZXN5cVUwaTZnU3A5?=
+ =?utf-8?B?UWtFTGJpeTVaSlVUdkRldGZjSS9EZ0UvMzNhek4xSUNuSnJPWWF5SkxBd2Vt?=
+ =?utf-8?B?MFNCaUpXVzZpOE1tUytYQWswZ21rZm4zZ1VSVkNYeHB2dzkraldjM3FJcDBm?=
+ =?utf-8?B?NC9XZVNna1VNbUNDK3ZVQ081S1p1TUw0cWxlKzh0ZXozZHVwZkxxdlAxNkJt?=
+ =?utf-8?B?ZnFoQlVwckV0Z3dDNVEzRmhuWXpQSmtiVWQ0dTlRNGRXWEhHbWJDQ0FQK3B4?=
+ =?utf-8?B?TzZ2c2NvMW5Sd3NmMFh0bTcxUDR3WHBzZFpzcFNBbW5tY3VyeHRnY0QzU2t4?=
+ =?utf-8?B?MG9IK2o2U09ON2FKeXBkc0lQYWpXU3dUd1hZeGJxMGtqdWR4SVdDQllHMjg2?=
+ =?utf-8?B?QWhTN3Zhb0l2MVY4YW9BeGdoZlNZQ25IYUE1OXVzRm1IM3pLMm5Ia2FaMU9y?=
+ =?utf-8?B?VHprY3g1Q2RYMVRoTG1sYTFyMEZSZ1Y2M2o0OEtKUG9HSFRxWTMwNEViaWpW?=
+ =?utf-8?B?Ymg3cERoT0pmWHpGM3hTMFFKZlMyMHlDczR0dDJQSXhWeFRQQ1NlSVRJZ2Z5?=
+ =?utf-8?B?bUUxemo3K1V4SzV1YUFzT01UQnpIQkxXN3JndE1hV28ySStwOFZUcGN6cHJX?=
+ =?utf-8?B?NVpwWlpXS0Yray9sbTlPUkhweWtTMThGd1JjNndrZzBsYzExekNFSHNxUm1Y?=
+ =?utf-8?B?YkJSUDlaSUJETEdSMlJjbjB6V2VvY3RWK1lQZmVvaG43M25tU2g4anNPM0sx?=
+ =?utf-8?B?c1NVcDRSbjRoanhIUmg2SDJORDNHVUNtR1ByOHhGL0JwMEx4ZGxGSll5bU9D?=
+ =?utf-8?B?Z0NvVUFOVFQwcUE0QlV3QT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YjhoNjZKd0pXRWZUMnlvNFptbTQ1WFhZVXBaZGVUOUNTcHpFVXg2Q21VY2w0?=
+ =?utf-8?B?aktXRlRTUlB2aW8yUGJLcGdzTUdhSXhXWjJKMHkzRFNMUUVQRnlXdmRtMTJs?=
+ =?utf-8?B?bklTcWg5b3hOSnRLNXhBTEdIVzhMUVVEeDJ1c0laQmF5clJwNXY0eWcrV2NG?=
+ =?utf-8?B?akZ5cTdHWTQreFJzZUFMTURQd2RGRVJnV1BjYzIyOU9JbWtqR0RWa2R1MlZy?=
+ =?utf-8?B?YmJ6UGVHZkY2WnJuVXNuM1E2RUxKSnM0YmR3cFJSU05Cc2Z3WFJVQUFUNkR0?=
+ =?utf-8?B?WHoxUHFRSWJ1RHBQNnJWZzY2Vk90ZG1CSCtTUGVXWlB2OEdrQnc3MHc4TmhB?=
+ =?utf-8?B?TzkzTFphOXJmTjFIRHkyQk84VTVEaGNsTDhSM0F5OFZlUDZWM3E3eEdmMTRw?=
+ =?utf-8?B?UnFMeVJlbWpTRUVhSC9PeG9kM0YzbkIra0d5RHhJamdlV1FCMWRQNGFUVVJ4?=
+ =?utf-8?B?V1A1RkNQWnJPRStOd3lpdDRSVEVHQUZkcFAyd2hNZzNMU3cyWDBBOU1scSsw?=
+ =?utf-8?B?bVpEL3pEZ2J5YUN6UHFmNi83emRRQThqMEpKcTBuaGpUL0tnQmcxR3pza1Ey?=
+ =?utf-8?B?djJvYU1TWlFTVllIT0o2T0ZXa21hd1BEblpHNU5NeE82cTE5bkVsOU5BR0ph?=
+ =?utf-8?B?bmpaT21rdHpTS1dBaTMvdGl3Z3V5cEovTHZMU0RESldSc2xGSHZVa2cxdG41?=
+ =?utf-8?B?Z3QvRTVkc2laR2JCU0FSZktIZEFCZzNXK1hickx6Z1F1dVorT0t4UzByTW1s?=
+ =?utf-8?B?Wkc3cy9xWWYyUlo5ZC82cE9hQk9OMmZ4VXpaZ1RIWmdjMkxUTDdOcUhXblJB?=
+ =?utf-8?B?ZmpWN3YvTnBGV05sNGlINUZoRUlWdFpINk5uSFdiMHI5Q09ZMGs1UWVKcmxu?=
+ =?utf-8?B?cG5kd0JQRmlnVy83T0J0aWJUZWJocEMyZXFpTGtSOS9sT0p5QTFRRDFFeEUx?=
+ =?utf-8?B?dVVmQWlES1R0eDNHNFJSQUtDejNPaUQveEVaM0tBL25EdGcwRVdDV0Z1c0gx?=
+ =?utf-8?B?NFIvRlNsZ0tRcGNDd3c4TjI3VzFDQTg5UG1jNHR0RFdoUk5UazZ2VXFZMTE5?=
+ =?utf-8?B?TDJVSWN0VEhsd1ptSjhNaXQ2ZGZlSlFrRkd5Z2hLVzlBUklhNkEzdEU4UkJI?=
+ =?utf-8?B?TlZPZjFZVHhxcEpsdmplc0NIV0RBWDNoaTlvaGtaWU1OcFNablVIM08wUDlj?=
+ =?utf-8?B?ZTBxejNBeEZKcDdlNUk0TUpENnBrZ1lQT2VxVEFodkdiamc1Ly8zendWK3J6?=
+ =?utf-8?B?MU14WUNLK0U5a0tvZGJwU3A2aG12MWF3azB5SFJGRGM0enA4VWwwQis2MjBu?=
+ =?utf-8?B?MXJmeUpPM3F2MkNLN2toczRaMnhHbnhURnpydGtVb1ZnZ3A3Yjdkc2FLYTBo?=
+ =?utf-8?B?akw2ZFMzSWF6NmVYWVkrN2JuRnRid2oxNytQR3BSQ2lqcFVVUkticWVSY2o2?=
+ =?utf-8?B?MG1YUHlFOGVqdE1vRVdKRU9lWDFJbWM0dFhjNExpOHRPWGJuanRDd1FTbDNN?=
+ =?utf-8?B?TEdJSFc5bDlyNTdXQzEyYWFUYUNiZ0FZb1pRaWJ1MFBXMXJWa3lCcG4wVkxY?=
+ =?utf-8?B?SVZSNUpYMFN1VDAwTXNCdlkrTkdPQVZ0ellFenppblV0SXpEMEhBckhhRVFa?=
+ =?utf-8?B?UVRpT0MwNTB2aTlTZCtyQnkrd2o0cUhJY08rU3ZNbk9nV1h2Y0JEOTd5Q3ha?=
+ =?utf-8?B?ZHVENHZpZ0NXQkhmWSs3UENFVVR2bjViNGppVUwyZzFQUkRtaUwySDV6enY1?=
+ =?utf-8?B?UXpxUlpaWTlQZzcrMDlTcHlBT3o3T2hacktjaWVsTC9rYUcrSDZmWldIOE9h?=
+ =?utf-8?B?ZTdyZldacEtnUjROMitMZW1KY2xSZmdmN0VxallVLzd0MXltdGJRdXViVWp0?=
+ =?utf-8?B?bEpjbzVneGdEL3J0NVFJbEJnMXdhK0RrTEpQNlhtaHJ6ZWU4bEJEODh5SUp2?=
+ =?utf-8?B?YVBkLzhrRXVYby93eTBnZ280L1lJaG9iekxLTUs4VUZvbkpiYnRuQVF1MHZv?=
+ =?utf-8?B?SVRBd0N0NUo3MG5aRk1SVmMvQkRBY1dJSjZNNHBTQTk0RUNyYW50M2JEK1dK?=
+ =?utf-8?B?dnRlNHlRS0o5WU1DR0pzNllOcWduMlUwcUVoVStUZkdkNERoa01IU3lVbm41?=
+ =?utf-8?Q?B/blMbkjDpQNFPrFaT76ddbxx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e59a6e28-92e7-448d-4d0f-08dd2ff1b42b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 14:35:31.5356 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oZBapM8/ILqg1lNNVlAysIEb8pWWacwlnC/AoAHuDAoOw/v66ibLoccX/x3yWIkT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7193
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,91 +163,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Link Training Tunable PHY Repeaters (LTTPRs) are defined in DisplayPort
-1.4a specification. As the name suggests, these PHY repeaters are
-capable of adjusting their output for link training purposes.
+Am 08.01.25 um 15:26 schrieb Alex Deucher:
+> On Tue, Jan 7, 2025 at 9:09 AM Christian König <christian.koenig@amd.com> wrote:
+>> Am 07.01.25 um 15:02 schrieb Philipp Reisner:
+>>> The following OOPS plagues me on about every 10th suspend and resume:
+>>>
+>>> [160640.791304] BUG: kernel NULL pointer dereference, address: 0000000000000008
+>>> [160640.791309] #PF: supervisor read access in kernel mode
+>>> [160640.791311] #PF: error_code(0x0000) - not-present page
+>>> [160640.791313] PGD 0 P4D 0
+>>> [160640.791316] Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>> [160640.791320] CPU: 12 UID: 1001 PID: 648526 Comm: kscreenloc:cs0 Tainted: G           OE      6.11.7-300.fc41.x86_64 #1
+>>> [160640.791324] Tainted: [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
+>>> [160640.791325] Hardware name: Micro-Star International Co., Ltd. MS-7A38/B450M PRO-VDH MAX (MS-7A38), BIOS B.B0 02/03/2021
+>>> [160640.791327] RIP: 0010:drm_sched_job_arm+0x23/0x60 [gpu_sched]
+>>> [160640.791337] Code: 90 90 90 90 90 90 90 f3 0f 1e fa 0f 1f 44 00 00 55 53 48 8b 6f 60 48 85 ed 74 3f 48 89 fb 48 89 ef e8 31 39 00 00 48 8b 45 10 <48> 8b 50 08 48 89 53 18 8b 45 24 89 43 5c b8 01 00 00 00 f0 48 0f
+>>> [160640.791340] RSP: 0018:ffffb2ef5e6cb9b8 EFLAGS: 00010206
+>>> [160640.791342] RAX: 0000000000000000 RBX: ffff9d804cc62800 RCX: ffff9d784020f0d0
+>>> [160640.791344] RDX: 0000000000000000 RSI: ffff9d784d3b9cd0 RDI: ffff9d784020f638
+>>> [160640.791345] RBP: ffff9d784020f610 R08: ffff9d78414e4268 R09: 2072656c75646568
+>>> [160640.791346] R10: 686373205d6d7264 R11: 632072656c756465 R12: 0000000000000000
+>>> [160640.791347] R13: 0000000000000001 R14: ffffb2ef5e6cba38 R15: 0000000000000000
+>>> [160640.791349] FS:  00007f8f30aca6c0(0000) GS:ffff9d873ec00000(0000) knlGS:0000000000000000
+>>> [160640.791351] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [160640.791352] CR2: 0000000000000008 CR3: 000000069de82000 CR4: 0000000000350ef0
+>>> [160640.791354] Call Trace:
+>>> [160640.791357]  <TASK>
+>>> [160640.791360]  ? __die_body.cold+0x19/0x27
+>>> [160640.791367]  ? page_fault_oops+0x15a/0x2f0
+>>> [160640.791372]  ? exc_page_fault+0x7e/0x180
+>>> [160640.791376]  ? asm_exc_page_fault+0x26/0x30
+>>> [160640.791380]  ? drm_sched_job_arm+0x23/0x60 [gpu_sched]
+>>> [160640.791384]  ? drm_sched_job_arm+0x1f/0x60 [gpu_sched]
+>>> [160640.791390]  amdgpu_cs_ioctl+0x170c/0x1e40 [amdgpu]
+>>> [160640.792011]  ? __pfx_amdgpu_cs_ioctl+0x10/0x10 [amdgpu]
+>>> [160640.792341]  drm_ioctl_kernel+0xb0/0x100
+>>> [160640.792346]  drm_ioctl+0x28b/0x540
+>>> [160640.792349]  ? __pfx_amdgpu_cs_ioctl+0x10/0x10 [amdgpu]
+>>> [160640.792673]  amdgpu_drm_ioctl+0x4e/0x90 [amdgpu]
+>>> [160640.792994]  __x64_sys_ioctl+0x94/0xd0
+>>> [160640.792999]  do_syscall_64+0x82/0x160
+>>> [160640.793006]  ? __count_memcg_events+0x75/0x130
+>>> [160640.793009]  ? count_memcg_events.constprop.0+0x1a/0x30
+>>> [160640.793014]  ? handle_mm_fault+0x21b/0x330
+>>> [160640.793016]  ? do_user_addr_fault+0x55a/0x7b0
+>>> [160640.793020]  ? exc_page_fault+0x7e/0x180
+>>> [160640.793023]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>>>
+>>> The OOPS happens because the rq member of entity is NULL in
+>>> drm_sched_job_arm() after the call to drm_sched_entity_select_rq().
+>>>
+>>> In drm_sched_entity_select_rq(), the code considers that
+>>> drb_sched_pick_best() might return a NULL value. When NULL, it assigns
+>>> NULL to entity->rq even if it had a non-NULL value before.
+>>>
+>>> drm_sched_job_arm() does not deal with entities having a rq of NULL.
+>>>
+>>> Fix this by leaving the entity on the engine it was instead of
+>>> assigning a NULL to its run queue member.
+>> Well that is clearly not the correct approach to fixing this. So clearly
+>> a NAK from my side.
+>>
+>> The real question is why is amdgpu_cs_ioctl() called when all of
+>> userspace should be frozen?
+>>
+> Could this be due to amdgpu setting sched->ready when the rings are
+> finished initializing from long ago rather than when the scheduler has
+> been armed?
 
-According to the DisplayPort standard, LTTPRs have two operating
-modes:
- - non-transparent - it replies to DPCD LTTPR field specific AUX
-   requests, while passes through all other AUX requests
- - transparent - it passes through all AUX requests.
+Yes and that is absolutely intentional.
 
-Switching between this two modes is done by the DPTX by issuing
-an AUX write to the DPCD PHY_REPEATER_MODE register.
+Either the driver is not done with it's resume yet, or it has already 
+started it's suspend handler. So the scheduler backends are not started 
+and so the ready flag is false.
 
-The msm DP driver is currently lacking any handling of LTTPRs.
-This means that if at least one LTTPR is found between DPTX and DPRX,
-the link training would fail if that LTTPR was not already configured
-in transparent mode.
+But some userspace application still tries to submit work.
 
-The section 3.6.6.1 from the DisplayPort v2.0 specification mandates
-that before link training with the LTTPR is started, the DPTX may place
-the LTTPR in non-transparent mode by first switching to transparent mode
-and then to non-transparent mode. This operation seems to be needed only
-on first link training and doesn't need to be done again until device is
-unplugged.
+If we would now wait for this work to finish we would deadlock, so 
+crashing on the NULL pointer deref is actually the less worse outcome.
 
-It has been observed on a few X Elite-based platforms which have
-such LTTPRs in their board design that the DPTX needs to follow the
-procedure described above in order for the link training to be successful.
+Christian.
 
-So add support for reading the LTTPR DPCD caps to figure out the number
-of such LTTPRs first. Then, for platforms (or Type-C dongles) that have
-at least one such an LTTPR, set its operation mode to transparent mode
-first and then to non-transparent, just like the mentioned section of
-the specification mandates.
-
-Tested-by: Johan Hovold <johan+linaro@kernel.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
-Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index 24dd37f1682bf5016bb0efbeb44489061deff060..ad09daa4c8ab5c0eb67890509b94e72820bab870 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -107,6 +107,8 @@ struct msm_dp_display_private {
- 	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
- 	spinlock_t event_lock;
- 
-+	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
-+
- 	bool wide_bus_supported;
- 
- 	struct msm_dp_audio *audio;
-@@ -367,12 +369,27 @@ static int msm_dp_display_send_hpd_notification(struct msm_dp_display_private *d
- 	return 0;
- }
- 
-+static void msm_dp_display_lttpr_init(struct msm_dp_display_private *dp)
-+{
-+	int rc;
-+
-+	if (drm_dp_read_lttpr_common_caps(dp->aux, dp->panel->dpcd,
-+					  dp->lttpr_caps))
-+		return;
-+
-+	rc = drm_dp_lttpr_init(dp->aux, drm_dp_lttpr_count(dp->lttpr_caps));
-+	if (rc)
-+		DRM_ERROR("failed to set LTTPRs transparency mode, rc=%d\n", rc);
-+}
-+
- static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
- {
- 	struct drm_connector *connector = dp->msm_dp_display.connector;
- 	const struct drm_display_info *info = &connector->display_info;
- 	int rc = 0;
- 
-+	msm_dp_display_lttpr_init(dp);
-+
- 	rc = msm_dp_panel_read_sink_caps(dp->panel, connector);
- 	if (rc)
- 		goto end;
-
--- 
-2.34.1
+>
+> Alex
+>
+>
+>> Regards,
+>> Christian.
+>>
+>>> Link: https://retrace.fedoraproject.org/faf/reports/1038619/
+>>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3746
+>>> Signed-off-by: Philipp Reisner <philipp.reisner@linbit.com>
+>>> ---
+>>>    drivers/gpu/drm/scheduler/sched_entity.c | 10 ++++++----
+>>>    1 file changed, 6 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> index a75eede8bf8d..495bc087588b 100644
+>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>> @@ -557,10 +557,12 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>>>
+>>>        spin_lock(&entity->rq_lock);
+>>>        sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+>>> -     rq = sched ? sched->sched_rq[entity->priority] : NULL;
+>>> -     if (rq != entity->rq) {
+>>> -             drm_sched_rq_remove_entity(entity->rq, entity);
+>>> -             entity->rq = rq;
+>>> +     if (sched) {
+>>> +             rq = sched->sched_rq[entity->priority];
+>>> +             if (rq != entity->rq) {
+>>> +                     drm_sched_rq_remove_entity(entity->rq, entity);
+>>> +                     entity->rq = rq;
+>>> +             }
+>>>        }
+>>>        spin_unlock(&entity->rq_lock);
+>>>
 
