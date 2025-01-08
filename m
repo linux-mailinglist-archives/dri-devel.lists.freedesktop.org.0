@@ -2,95 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18087A054FB
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:08:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C190DA0550A
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:12:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D9F10E7FD;
-	Wed,  8 Jan 2025 08:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CABFA10E278;
+	Wed,  8 Jan 2025 08:12:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="O1SASSYX";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i8naJ405";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 485CE10E7FD
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 08:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736323676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MCwHwvtMpXS9EE3ZLwnNwv3ME4DplE3ZRbnA+3shlo4=;
- b=O1SASSYXrPAGyKRProFAdxy5u0e2QIJYV7DYzAoEwHWpib4PoWCm/xrEWiyxbwYRLTpr8o
- raHJHWmPBf+XBb1iYc2OBo1bhIxVZ+jHvIqgVwOXQG8fomA9ZlAJr9PDu+4ip7lG8bQIuV
- ZTQFiqOyke+onmFBo+VrzNptvoegbLs=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-144-HRyjr_E2N8WDHV1XEF_KLQ-1; Wed, 08 Jan 2025 03:07:55 -0500
-X-MC-Unique: HRyjr_E2N8WDHV1XEF_KLQ-1
-X-Mimecast-MFC-AGG-ID: HRyjr_E2N8WDHV1XEF_KLQ
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-2163dc0f5dbso212127565ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 00:07:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736323674; x=1736928474;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MCwHwvtMpXS9EE3ZLwnNwv3ME4DplE3ZRbnA+3shlo4=;
- b=FU7V3Yf1b1qPE7EVG6WsoeuHPCNDOKCfdMqd7KpQVaJrBDrcfqSzXG2kbbrjhU7Ais
- fUJUpW3J+surZqceH9UP7m/AqvgCRk4/zGdoC/K273YvBr4+yiQWiA6Uc0HSd3PYBwOm
- 1ktafJgHT/KGGDEmJms/ZgeHZotmFT0J/PHeHIACIon7tVoQPwhuTSv5scJS6t5WxiOk
- 5gMyJJYJMKAQc83zNJJ64fZCZRd7Mj4HTa6akCmFwH0TP9CVfCa57DHh0PPu9i3qbK43
- eidUBOGFuQkhTbFMMwk+dNiF0LDDTdXdTMXePcVhY6wvp+AHnB7abLetybB+8zaXryuv
- qsoQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU07Cy/LGemLBwUH/qjXq1Mqb4VaPktyBwIBLi7hiMx3Kp3JIcQptWqKCOorDECG+yU0/uernXWNbA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzucgXnFpF2iSAwfTjxQ7WgI/46hszlXUPP1WdVSfOgGL5FdsE3
- t2or6sM7inHw965A0zcGas+5I5o0KI/K5yVTz9cWquIFpY/ii3Sl9z8gCSvMsHgt0omNTTaAAzE
- CaCREYgBsXi8SJ/32SVG12mGReIB6cjrpIUfmQ5+JlhMEXfOshT+d8uC+gM7ENiw5tjiLhFDVew
- ==
-X-Gm-Gg: ASbGnctpkIaiUCDtVurK6QJzBD6UluVuQQ5//2huyYBzIxwd/iFMNwvMW57GeVoJIa/
- hLs0D4ZRaghboAQfsPGTJFv2tPAqe4RyKiXFOeJmc0KM8WDn1iCuV8Ba0Bj+14WwNfhmQFNLIsN
- neiWxfWk5gmu0L/I2fOe6SqaaycZHso/QiznHJn01hIeQT/T+Y6MZYxn8O2AG3VUPa3RcJqye2x
- tm0bysUGCXrPJXFMF7TNJ/nZLa424w3V2oiLRgirymwmnQp8wBum5zTQ8mAlXhUjHp1yZ57ijjP
- 8rMOga0=
-X-Received: by 2002:a05:6a21:339b:b0:1e0:c432:32fe with SMTP id
- adf61e73a8af0-1e88cff3d1amr3098032637.26.1736323674165; 
- Wed, 08 Jan 2025 00:07:54 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGguCyuY8btQkuTStOqdGx6Fb/eUpOBysrSgiyaCZksx59BRnjLQvaID3nSrjIo6OX4Ogi7aQ==
-X-Received: by 2002:a05:6a21:339b:b0:1e0:c432:32fe with SMTP id
- adf61e73a8af0-1e88cff3d1amr3098007637.26.1736323673820; 
- Wed, 08 Jan 2025 00:07:53 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72aad8361b7sm34552765b3a.74.2025.01.08.00.07.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 00:07:53 -0800 (PST)
-Message-ID: <9ba4f8b8d400d937bff1f4019df68a7625408993.camel@redhat.com>
-Subject: Re: AW: [RFC 00/14] Deadline scheduler and other ideas
-From: Philipp Stanner <pstanner@redhat.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>, "Koenig, Christian"
- <Christian.Koenig@amd.com>
-Cc: Tvrtko Ursulin <tursulin@igalia.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "kernel-dev@igalia.com"
- <kernel-dev@igalia.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Danilo
- Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>
-Date: Wed, 08 Jan 2025 09:07:44 +0100
-In-Reply-To: <Z3vfDWrQUYV7k7VJ@phenom.ffwll.local>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <PH7PR12MB568508440AB661A0B168721A83152@PH7PR12MB5685.namprd12.prod.outlook.com>
- <Z3vfDWrQUYV7k7VJ@phenom.ffwll.local>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC72A10E278
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 08:12:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1736323892;
+ bh=TxwksDZU5Djw4/Gi5IV3znfV9hyr4vQgfIwevQz5iP4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=i8naJ4051+aXYbhxmvkH+vMnNTFS6pdU7lqGYcH2rAoXz9ji1ahx1hJYyPXa8QTtV
+ 4lJVxmoVJ0qbpF9oV9OaQKN2u+SffOil5vwI6hGXanzuweygNzO7sLDMxz08IZ7Ko+
+ dWi753eXZBL9Aju5NGiZ3STWHn30Q7IhNw5deBXrEv+r1h8XOnTqmOhGf9vwZBEQMa
+ LuiemoHlJ0dl9zutqIDLX4FMbLFxZqvDYlfsIEHCY+LQ+i6w646oovcpX/hE/fODwG
+ cbIKeZhCh6hzsBNXU0i8bRJYJEJO9N5AcZQgweS4XbOgLSZ6ua/BEu1Zn46zvC+bsz
+ 8Cx2pcTm1ixig==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B867517E152A;
+ Wed,  8 Jan 2025 09:11:31 +0100 (CET)
+Date: Wed, 8 Jan 2025 09:11:26 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Florent Tomasin <florent.tomasin@arm.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, <nd@arm.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/panthor: Fix invalid handling of AS_LOCKADDR
+Message-ID: <20250108091126.5a84266e@collabora.com>
+In-Reply-To: <20250107172732.87044-1-florent.tomasin@arm.com>
+References: <20250107172732.87044-1-florent.tomasin@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: d_lYkToR9sQJy1B9gVJQQjVmoUBs-vUSratGnbI5ONA_1736323674
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,150 +64,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-01-06 at 14:47 +0100, Simona Vetter wrote:
-> On Fri, Jan 03, 2025 at 03:16:56PM +0000, Koenig, Christian wrote:
-> > [AMD Official Use Only - AMD Internal Distribution Only]
-> >=20
-> > Could you send that whole patch set to me once more?
-> >=20
-> > The AMD mails servers seem to have had a hickup over the holidays
-> > and
-> > all mails received between ~25.12.2024 and 1.1.2025 are somehow
-> > mangled.
->=20
-> I seem to have the same issue with fetching from lore.o.k, despite
-> that
-> the archives seem to be complete. No idea what's happened.
+On Tue, 7 Jan 2025 17:27:31 +0000
+Florent Tomasin <florent.tomasin@arm.com> wrote:
 
-I could pull it just fine with b4
+> Arm Mali GPUs require AS_LOCKADDR region to be 32KB
+> aligned, and does not support a size greater than
+> the one specified by the HW property:
+> `GPU_MMU_FEATURES_VA_BITS()`.
+> 
+> NOTES:
+> - The size limitation is implementation defined.
+> - Invalid alignment or size can result in an HW
+>   undefined behaviour.
+> 
+> This patch modifies `lock_region()` to retrieve
+> the maximum region size based on the HW property:
+> `mmu_features`, and returns an error code if the
+> requested size is not compliant with the HW
+> limitation.
+> 
+> In addition, the function will guaranty the region
+> is always 32KB aligned.
+> 
+> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 37 ++++++++++++++++++++-------
+>  1 file changed, 28 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index c39e3eb1c15d..e834bc4d9a52 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -533,15 +533,20 @@ static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
+>  	return status;
+>  }
+>  
+> -static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+> -			u64 region_start, u64 size)
+> +static int lock_region(struct panthor_device *ptdev, u32 as_nr,
+> +		       u64 region_start, u64 size)
+>  {
+> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
+> +	u64 full_va_range = 1ull << va_bits;
 
-P.
+Looks like we have a few places where we need the full_va_range, so I'd
+be in favor of adding the following helper:
 
-> -Sima
->=20
-> >=20
-> > Thanks in advance,
-> > Christian.
-> >=20
-> > ________________________________________
-> > Von: Tvrtko Ursulin <tursulin@igalia.com>
-> > Gesendet: Montag, 30. Dezember 2024 17:52
-> > An: dri-devel@lists.freedesktop.org
-> > Cc: kernel-dev@igalia.com; Tvrtko Ursulin; Koenig, Christian;
-> > Danilo Krummrich; Matthew Brost; Philipp Stanner
-> > Betreff: [RFC 00/14] Deadline scheduler and other ideas
-> >=20
-> > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> >=20
-> > <tldr>
-> > Replacing FIFO with a flavour of deadline driven scheduling and
-> > removing round-
-> > robin. Connecting the scheduler with dma-fence deadlines. First
-> > draft and
-> > testing by different drivers and feedback would be nice. I was only
-> > able to test
-> > it with amdgpu. Other drivers may not even compile.
-> > </tldr>
-> >=20
-> > If I remember correctly Christian mentioned recently (give or take)
-> > that maybe
-> > round-robin could be removed. That got me thinking how and what
-> > could be
-> > improved and simplified. So I played a bit in the scheduler code
-> > and came up
-> > with something which appears to not crash at least. Whether or not
-> > there are
-> > significant advantages apart from maybe code consolidation and
-> > reduction is the
-> > main thing to be determined.
-> >=20
-> > One big question is whether round-robin can really be removed. Does
-> > anyone use
-> > it, rely on it, or what are even use cases where it is much better
-> > than FIFO.
-> >=20
-> > See "drm/sched: Add deadline policy" commit message for a short
-> > description on
-> > what flavour of deadline scheduling it is. But in essence it should
-> > a more fair
-> > FIFO where higher priority can not forever starve lower priorities.
-> >=20
-> > "drm/sched: Connect with dma-fence deadlines" wires up dma-fence
-> > deadlines to
-> > the scheduler because it is easy and makes logical sense with this.
-> > And I
-> > noticed userspace already uses it so why not wire it up fully.
-> >=20
-> > Otherwise the series is a bit of progression from consolidating RR
-> > into FIFO
-> > code paths and going from there to deadline and then to a change in
-> > how
-> > dependencies are handled. And code simplification to 1:1 run queue
-> > to scheduler
-> > relationship, because deadline does not need per priority run
-> > queues.
-> >=20
-> > There is quite a bit of code to go throught here so I think it
-> > could be even
-> > better if other drivers could give it a spin as is and see if some
-> > improvements
-> > can be detected. Or at least no regressions.
-> >=20
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Cc: Danilo Krummrich <dakr@redhat.com>
-> > Cc: Matthew Brost <matthew.brost@intel.com>
-> > Cc: Philipp Stanner <pstanner@redhat.com>
-> >=20
-> > Tvrtko Ursulin (14):
-> > =C2=A0 drm/sched: Delete unused update_job_credits
-> > =C2=A0 drm/sched: Remove idle entity from tree
-> > =C2=A0 drm/sched: Implement RR via FIFO
-> > =C2=A0 drm/sched: Consolidate entity run queue management
-> > =C2=A0 drm/sched: Move run queue related code into a separate file
-> > =C2=A0 drm/sched: Ignore own fence earlier
-> > =C2=A0 drm/sched: Resolve same scheduler dependencies earlier
-> > =C2=A0 drm/sched: Add deadline policy
-> > =C2=A0 drm/sched: Remove FIFO and RR and simplify to a single run queue
-> > =C2=A0 drm/sched: Queue all free credits in one worker invocation
-> > =C2=A0 drm/sched: Connect with dma-fence deadlines
-> > =C2=A0 drm/sched: Embed run queue singleton into the scheduler
-> > =C2=A0 dma-fence: Add helper for custom fence context when merging
-> > fences
-> > =C2=A0 drm/sched: Resolve all job dependencies in one go
-> >=20
-> > =C2=A0drivers/dma-buf/dma-fence-unwrap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 6 +-
-> > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_job.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 27 +-
-> > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_job.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 5 +-
-> > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h=C2=A0=C2=A0 |=C2=A0=C2=
-=A0 8 +-
-> > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |=C2=A0=C2=A0 8 +-
-> > =C2=A0drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 8 +-
-> > =C2=A0drivers/gpu/drm/scheduler/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0=C2=A0 | 316 =
-++++++-----
-> > =C2=A0drivers/gpu/drm/scheduler/sched_fence.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 5 +-
-> > =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 587 +++++-----------
-> > ----
-> > =C2=A0drivers/gpu/drm/scheduler/sched_rq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 199 +++++++
-> > =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 74 ++-
-> > =C2=A0include/linux/dma-fence-unwrap.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 31 +-
-> > =C2=A014 files changed, 606 insertions(+), 678 deletions(-)
-> > =C2=A0create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
-> >=20
-> > --
-> > 2.47.1
-> >=20
->=20
+static u64 mmu_va_range(const struct panthor_device *ptdev)
+{
+   u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
+
+   return 1ull << va_bits;
+}
+
+
+>  	u8 region_width;
+>  	u64 region;
+>  	u64 region_end = region_start + size;
+>  
+>  	if (!size)
+> -		return;
+> +		return 0;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, region_end > full_va_range))
+> +		return -EFAULT;
+
+How about we keep the function void and adjust the region_end to avoid
+the undefined behavior?
+
+>  
+>  	/*
+>  	 * The locked region is a naturally aligned power of 2 block encoded as
+> @@ -552,7 +557,8 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+>  	 * zeroed and ends with the bit (and subsequent bits) set to one.
+>  	 */
+>  	region_width = max(fls64(region_start ^ (region_end - 1)),
+> -			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
+> +			   const_ilog2(AS_LOCK_REGION_MIN_SIZE));
+> +
+
+I agree that the name doesn't really reflect its content, and doing the
+minus(1) mod when preparing the region value is clearer, but it doesn't
+seem like a bug to me, and is unrelated to the other changes in this
+patch (actually, it's not even mentioned in the commit message). For
+all these reasons, I'd put it in a separate patch.
+
+>  
+>  	/*
+>  	 * Mask off the low bits of region_start (which would be ignored by
+> @@ -560,21 +566,25 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
+>  	 */
+>  	region_start &= GENMASK_ULL(63, region_width);
+>  
+> -	region = region_width | region_start;
+> +	region = (region_width - 1) | region_start;
+>  
+>  	/* Lock the region that needs to be updated */
+>  	gpu_write(ptdev, AS_LOCKADDR_LO(as_nr), lower_32_bits(region));
+>  	gpu_write(ptdev, AS_LOCKADDR_HI(as_nr), upper_32_bits(region));
+>  	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
+> +
+> +	return 0;
+>  }
+>  
+>  static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+>  				      u64 iova, u64 size, u32 op)
+>  {
+> +	int ret = 0;
+> +
+>  	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
+>  
+>  	if (as_nr < 0)
+> -		return 0;
+> +		return ret;
+>  
+>  	/*
+>  	 * If the AS number is greater than zero, then we can be sure
+> @@ -583,7 +593,10 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+>  	 */
+>  
+>  	if (op != AS_COMMAND_UNLOCK)
+> -		lock_region(ptdev, as_nr, iova, size);
+> +		ret = lock_region(ptdev, as_nr, iova, size);
+> +
+> +	if (ret)
+> +		return ret;
+>  
+>  	/* Run the MMU operation */
+>  	write_cmd(ptdev, as_nr, op);
+> @@ -608,9 +621,12 @@ static int mmu_hw_do_operation(struct panthor_vm *vm,
+>  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+>  				 u64 transtab, u64 transcfg, u64 memattr)
+>  {
+> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
+> +	u64 full_va_range = 1ull << va_bits;
+>  	int ret;
+>  
+> -	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
+> +	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0,
+> +					 full_va_range, AS_COMMAND_FLUSH_MEM);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -628,9 +644,12 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+>  
+>  static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+>  {
+> +	u32 va_bits = GPU_MMU_FEATURES_VA_BITS(ptdev->gpu_info.mmu_features);
+> +	u64 full_va_range = 1ull << va_bits;
+>  	int ret;
+>  
+> -	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
+> +	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0,
+> +					 full_va_range, AS_COMMAND_FLUSH_MEM);
+>  	if (ret)
+>  		return ret;
+>  
 
