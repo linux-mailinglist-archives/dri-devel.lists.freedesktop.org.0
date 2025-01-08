@@ -2,152 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DCADA05524
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:19:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30B0A05536
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:25:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D0010E806;
-	Wed,  8 Jan 2025 08:19:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0474F10E243;
+	Wed,  8 Jan 2025 08:25:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jIqqswyU";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="GqrYoO8F";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="g3Hp0kVr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D92710E800
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 08:19:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q98U19mztmSSVyWM/JwFT7XRhEM7N487mA7DWn4ADPpBzO8px7YNpTYGSGOJOiuDeyKkTmaedhgfj+F1tT28L6DsxsngqKOkNYFsQOKuYHRjiW0n2fLwBKbF62V49CurAZ2eFGgcDC3f9E18YzM4pRhFmhWy5GmhebDtKK8xqjViE1BUVscVV7XFUFSWe+EMqSJVtTG74vYBtxUADfWWhor5aVKb6VyjcdAG4701R9s+keBJqUHrb5bUTGIkCxV8dTxs1er4IOGP6bEugievT2crxeu8DKloDPcAPRe1fedhgW25pafRTMin5JCIOwH+RseA/qn9NcRcBJmiNTG8/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZR/fxC/Lcf8Bfc6DgobdHtEpwjZ1ZFRWPNPXTQMOJ1s=;
- b=bk5HZV1jefJ/fe9Val62iSQkXvMzCkKKoV+GcGg+W5i0g3Nc0gsY0h/iLjFeZgv7q8SVwsyvaFhHqYlGPA97eyjAeHkfb1yX3BHrvtR09fk+jKD1ke50svyRtF8pYwjguVxMTe9ZMofn8DXPeLWFJX71AbQggDG+DftNGI8fmucm/J0rQhnIZRUWmW/5GHQMaiCd9P1/sL83R2ZNjEtwA3HW2NWey2mJWYVfqs3gKoOhdwy6mk5LPoFtw2p9bE4F+s9cWxM1TJK6KRULDgmP9iTuwcxAvY3eGeAbhZmt5+6G53ODV8I+ANLyPdRU98VbEIzdYuS9P5rAkOeJahp+6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZR/fxC/Lcf8Bfc6DgobdHtEpwjZ1ZFRWPNPXTQMOJ1s=;
- b=jIqqswyUMOg5i/AAG7Pw6WIp2RN+KyTmkP+9+GICA3c6MNSKm4gb2TL37V/ddKwZS+etiXNFFh+zmBxX2WcBn7nCtOSiujexkMYGfI4kswl0cYf/QWqz7PHhB/AJIXnRawvjlyxRT8+anm5Ot16ER3ZzrKHyHQC3QRIbfnYS1XM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM6PR12MB4371.namprd12.prod.outlook.com (2603:10b6:5:2a3::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Wed, 8 Jan
- 2025 08:19:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8335.010; Wed, 8 Jan 2025
- 08:19:12 +0000
-Message-ID: <eb5f3198-7625-40f4-bc23-cac969664e85@amd.com>
-Date: Wed, 8 Jan 2025 09:19:07 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Simona Vetter <simona@ffwll.ch>
-References: <20250107140240.325899-1-philipp.reisner@linbit.com>
- <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
- <CADGDV=U_7CdkdEiLX9kj9yHsXhwb5zP_eGXpwmrj20cmgzMAtA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CADGDV=U_7CdkdEiLX9kj9yHsXhwb5zP_eGXpwmrj20cmgzMAtA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0050.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC67810E243
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 08:25:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1736324729; x=1767860729;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=f6eOXS4JzRW5k2gGRfsw+YLVhYqUIyp3RhkH6MdJOIw=;
+ b=GqrYoO8Fbs4vFzy9brENOxr4nGYZbeozRP3Sixr1cECIFo4MkcjOYKy8
+ zDWtMXiYGNBYIxjIE8DgnW5GFF+6QcNPAFW5q1Mwy8YP3GTGhrYfmx7Pd
+ dwa9eziHUwG4s0kMeU/77nVFiPMSQIbgsfQjFN1uJecHUa9bW7z4+NCS1
+ km83c1AuUVCE0U3jojVfUpPIO1GXRvf/8J31kqxBTq+BZDcXjD7GgFjtL
+ 0boGlFGzAxx6d/ujTzJLZzJ3HIh0BofwoDMd81g3/LhCugl0ShTMaZHS3
+ 5TNNbHKlRPVYEmpWoKeLKLeopN7DNMYq1BHJ3sQdu7yOcJNSWEootb7uU A==;
+X-CSE-ConnectionGUID: QkiaKRaqTx2Qh9ssCosMFw==
+X-CSE-MsgGUID: uM4oghMBQDyTDJCmhHSfAA==
+X-IronPort-AV: E=Sophos;i="6.12,297,1728943200"; d="scan'208";a="40913250"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 08 Jan 2025 09:25:26 +0100
+X-CheckPoint: {677E3676-24-31397509-E321C4C4}
+X-MAIL-CPID: B998A495D6FB15769D1220A8AE7CC4D2_0
+X-Control-Analysis: str=0001.0A682F17.677E3676.00FE, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id C1A52165E9F; Wed,  8 Jan 2025 09:25:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1736324722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f6eOXS4JzRW5k2gGRfsw+YLVhYqUIyp3RhkH6MdJOIw=;
+ b=g3Hp0kVrJ9fiTMrvR6mPO9hRMnCKT2Ar+DaIRewMgxic9eWtgRY4yXfjTm9Gba1NZS27Pa
+ p980LYsDZlAXQo4ZDhzG/mEKwy8VAtWBzERAXuroL0nG1QuGKS44Cyak0eNGSVSNRn8tiS
+ iGH4rFMVnYZtWSNHjcKbsFUcke7FUiU7E92Y9dWN+p4MdU/ZhlAGvxLAalcshqoMNrDPyp
+ 4mdK6Yn8arN9+O/u4tLwn1Byu+yE4alqhiPISoKvRaV1RlHpuUJ61YxCtRsAPEWB+e/l7+
+ V7cDDgdAcNHKzm0q/iOvu9Sfcfyjf61PKOkBWqY4TGm4ju1YyVNYnesXQN05ZQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "andrzej.hajda@intel.com" <andrzej.hajda@intel.com>,
+ "neil.armstrong@linaro.org" <neil.armstrong@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "jonas@kwiboo.se" <jonas@kwiboo.se>,
+ "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
+ "airlied@gmail.com" <airlied@gmail.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "robh+dt@kernel.org" <robh+dt@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "shawnguo@kernel.org" <shawnguo@kernel.org>,
+ "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
+ "festevam@gmail.com" <festevam@gmail.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-phy@lists.infradead.org" <li
+ nux-phy@lists.infradead.org>, "mripard@kernel.org" <mripard@kernel.org>,
+ Sandor Yu <sandor.yu@nxp.com>
+Cc: "kernel@pengutronix.de" <kernel@pengutronix.de>,
+ dl-linux-imx <linux-imx@nxp.com>, Oliver Brown <oliver.brown@nxp.com>,
+ "sam@ravnborg.org" <sam@ravnborg.org>
+Subject: Re: [PATCH v20 0/8] Initial support Cadence MHDP8501(HDMI/DP) for
+ i.MX8MQ
+Date: Wed, 08 Jan 2025 09:25:13 +0100
+Message-ID: <3289670.5fSG56mABF@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <PAXPR04MB9448B9928C1F7A64F32807F8F4122@PAXPR04MB9448.eurprd04.prod.outlook.com>
+References: <cover.1734340233.git.Sandor.yu@nxp.com>
+ <7783214.EvYhyI6sBW@steina-w>
+ <PAXPR04MB9448B9928C1F7A64F32807F8F4122@PAXPR04MB9448.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4371:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce55f653-afdd-4f9a-979a-08dd2fbd222b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MkhySjB3OVdRZE5yUHd5YkZnYWVjQ2RRQlVtVnZwRWw5b29BTzVIU0srbVFq?=
- =?utf-8?B?eE9BSmN2N3o5VG93WlVXMmJBUHlsYmhhVEo4UERMcjQzbHdQYy9LekNMZXF5?=
- =?utf-8?B?OVlUTmpzODNRZHgyY0R5OG1FbGNzZjBKSjhsQ0tRaU5oYVdOZzdSbExUR0dS?=
- =?utf-8?B?M3ppZCt3THFFR2ZQMmNzOEJuZ0ZsS1NrZi92eDZPK0hwV0JhQXYzWjRzODJB?=
- =?utf-8?B?UEx3d1NrUnVwT3NtOS9uaWpWcjhoZ0xHSHFscC9lSG10SUFQYXdHL1lMMHBR?=
- =?utf-8?B?N2tKK3MzTW1Lc3FFM1YzM1IxM0paWjh0YnhKSmFxdHZHb1RpZldJZHV4N0xV?=
- =?utf-8?B?V2ZJSjdHMDcvZFN6dEs4djBKQmtJVGZwNDBNRzRPT0xUMEk5b21hbFlwL2Nn?=
- =?utf-8?B?ZkU0QTJZcDJaSU9IY2dXRlZtY2hjRE5PbHplT0k0VUNoS3RrU2hPc2NZK2hy?=
- =?utf-8?B?aWU4WjhZZ245SGVnSlBGYU1SV0R4dmRyTG4wek9WV1ZpYnVlSXdBaUVkTjFm?=
- =?utf-8?B?QTVZWGZGNmFYV1VDcjdkaTloL3NOd1YvV3ZzQWR2YVhlbWJhbjJ0RzBwVGV6?=
- =?utf-8?B?TkhrdytQSHVZZFBzS2h5eHdpcG1weVlpeHZLSUkzQXpnQ25GU3o4SkswbEEy?=
- =?utf-8?B?S0ZzMTNyeU8wUXRrNllia2J6dk5vbHdPdmpRSmZGOXVZMTFhZU1WVlozQXM1?=
- =?utf-8?B?NjAvREtLT1RNT0Fac2cxOUJJaTlmWERxeCtLc0xYVnp6UFBzVU10LzJHS2Vu?=
- =?utf-8?B?L25jalRvTWsrTXNSSU5kY1FVdlpPR1ZySU9MVElNdXZmVUpiYnNUbk9jYzR4?=
- =?utf-8?B?Q2VyOXFBL3BjaHEyb3JZeDlYaFpsUVZGQlNaamVRWkUrVW9CU3Y2L1JIK2ps?=
- =?utf-8?B?OWc4ZlhHRlhVRkpmN3R6K3ZjTjBZT1B3WFpsS0IvNkt2YmoyK3RJZzJSUVB3?=
- =?utf-8?B?RHdxcEthYmRROVIzajVKaGpsT1JQai9ySnJMc1BxRzRweWI2dUI4RHptNTNV?=
- =?utf-8?B?dlY4ZTl3U1picEZ6aEx3Vzl4dE1vd0kzcG9oY0E2cFBkWGRWanFoVGtaS01Y?=
- =?utf-8?B?OGdiQnc1djlxdExuKzFsWUZWRjh1dUFYUDhjcGZseU5ZRE5MSFRlY1A1VlVS?=
- =?utf-8?B?UXc3T0x4cDlMWlAzK2g1eDQwU1VkcHZmb0trS2xheEwrS0ZTd05xaXdydXhr?=
- =?utf-8?B?YjF3eHhSWlZTZ0pLTnd6a2I0RkFGTnl1bnNyT3hYTEszZUU4eE9pS0VkcjRM?=
- =?utf-8?B?ZWVtdmhDNnduL2QrbDNpVE1QM2lDQktBNjRDUUgzVURBcUlnRUR1TkQrNnRn?=
- =?utf-8?B?RGJEY0hrYVB3UXBBZGJib2cyZHpTV0tDWi9tdkwrWjVRaVgrOWxkZEJvYktu?=
- =?utf-8?B?SDF6ZElRc0ZSR2hZbndZT2U4MzNBK2JXaFVkYVowWUN4OUQyQlBtWDM1Vzhh?=
- =?utf-8?B?djIwN2lJSHNRR2h3ZFRDeWZ0M1RzWndXWFIxOGxWNjV5YWFvS3hkbmxoanM4?=
- =?utf-8?B?MDNTc1R1VjBlYTNwREphZjB1WnVVNkFnS0ZvODBCdm93RHAxRWl0QUF0QUVz?=
- =?utf-8?B?ajlJeE5GR1NheUZzemw4Y2VRTjkxOWpUY24vM3FWaWJSb3BKcEhSc3BqSnZG?=
- =?utf-8?B?NnpXZVJmMkp4dCtCckU1NGphZEdSdUNVYW44NjVOc1dYTlZmQmN0SUlaNUhl?=
- =?utf-8?B?Y1k5dkxkMVVORENkWjh2ZUdYYXo2b1hFVXF2dTd3bW1WOHNtZTJ6YkRqK1pF?=
- =?utf-8?B?VklNL1pxNGhwd3IzcVRqL1dsUy9lOFFHeGw5OG5iZ09RSFNJcDRXcnJLT3NN?=
- =?utf-8?B?bHF6VmVUakZGSXJ3UUpzVTlNeGMrREdnRjVoMzI5dUkrVkwrNy91NWl4VFpV?=
- =?utf-8?Q?ns7MFIIp7sR7t?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmFmOUp2Z3pUclN0ZSszdWdJaDh6Wmk1UHV3REM0ZGhJbWZjcDZXQllqYlYv?=
- =?utf-8?B?UXZQYllGSFFUckdnRVRsMFA2Y3prbllNbC9YWVpXRm1iVzUwY3VaZGh4R25s?=
- =?utf-8?B?cWJrYVhSZ2pId0dBakpHd1RQWWZJUE5VbTJ1aHc0MVFRRHA4bVZwRElUdGdY?=
- =?utf-8?B?WVFjWUF4Y0dFaDllTWNvK0hpMWtneTdJTUdLQjIzQ0o1ck5LbTJnMVhPSURB?=
- =?utf-8?B?R2hDRHRISS9xRVFDT3l5WDErYmtYUlBQNHlJYkhXUUZYVDE0cHdCNGkzNXV0?=
- =?utf-8?B?RkZvMVA5UjlNU2l4WUQrYkVNdFB4RG92Sk5oRWtpSG85bFZFQWZLTDZyQUVY?=
- =?utf-8?B?WkFwWVZmWDZ0SDBPZWJ3anhERnlrNjhwOGFIOW9mMk13K0d3RkcyRFlhNDMv?=
- =?utf-8?B?UW1CNWl5QlUweEZuSUdCN1RJVDJOWlJSODV2djhkV1YzYjBKbTFrYVJtcXVy?=
- =?utf-8?B?UFFoTTMzczcyeUc5bDhJVnd0b0Y5eGtoRjFXU0lTcVdaai94NWhudkwyc3hl?=
- =?utf-8?B?b3JRcys1UmtrN3ltWnhqVUdHMURoVk9odU9naTUvUUlqNUJxZzgvT2hyWGxS?=
- =?utf-8?B?UitjTitESjZGSHZXbUlwSE4yTjRJKzEwdVlibk02bkNMMkJlR1A5TWFrRDZn?=
- =?utf-8?B?OWJlOUU1YitQV2FrMDFVSS9CV3ltTGlHOTRNUStCNGRFMTJZQi9tZnRnQ1ps?=
- =?utf-8?B?MkkyaHhGRWtxeGQ5ckh4MWQ5RE9HUTZlWncxbmpEYUtDL2VuMmJnOEVUWm1E?=
- =?utf-8?B?eXJCTnNleUhYRGF2M0xuSlM0VUVRSktwU1dBdGlKRkI4RVpjTHhpZFFTbTRQ?=
- =?utf-8?B?UStLSy9rbWhiZ28xNGNPM3hLcW4rSDdzekpBNy85M25IbDdxdDdpNFZiM1Nx?=
- =?utf-8?B?bm9nN0FodW1WTHh6QjR3aEJyZE95VzhScWhPZ01tY2VDbm1STktyaGpuR21I?=
- =?utf-8?B?bHkydTY2aTZ3QWMyNUNvdUlOaVcvL3JoWU4wSnJxdjNscjlTcVB5c0hLRzdJ?=
- =?utf-8?B?QUVZR3RROFFZSDE5SGRwa0lkQStQcGtKRDl6RlQ2YmxPb00yVmhKa2Q1bzcv?=
- =?utf-8?B?dnc3U1hyc2ZsZVFISS9YOW5jSGZYU1YwZnM1QXRMaVFpTTY0NUptalB2Y0JJ?=
- =?utf-8?B?bWJ0YU9oQ2lZRnZ0cGpyYkI4SVR5RXBpckR4RWdVb2JsMExNWFRxdlZJck5r?=
- =?utf-8?B?ZWxSTUs5VnVuRjlDdWF4R01zMmtSd3pOQk1nczkzaFhLTEM5b1dnVVBtOWdS?=
- =?utf-8?B?WWEzYW5oc1F5dmZ2SVJPNVJQV3Y5ZEpwTUppSDVKU0gvQnNvVDNVZFRXM2tw?=
- =?utf-8?B?cllxeVY4ZmNOelFnM2lGQmdGKzYwTWhMbm12YkdkUHlNMWJxN0ozQm1VZ1Jn?=
- =?utf-8?B?R0JsV3loZUtLOUpickNyLzFBWTZGYVJRY0srNGdoUHBUR1hwSGdoWGZYK3Rt?=
- =?utf-8?B?LzlFRW9KcFVOUVJiYnljY016ZmRRcWNHejQzaDJHQkJjeGhwYkkvWXIvbkZU?=
- =?utf-8?B?NHlrU0lYSkFPK200T2JpQk1oOEVVTUdqVDRXay9nNTd6MXZmYTVvWGtYY29M?=
- =?utf-8?B?YVhQUVV2dEZHQWhRT3hEeENnc2lsbnV3N3p6cytacmlmMVdqc3BERXN4L2d1?=
- =?utf-8?B?bHBwa3BjOVE4SkNRR2Q4UzNJNUpQMmhRZnF3ZERUUVBZY0s5Q29iOTBBdnBG?=
- =?utf-8?B?Nm1WVkdacG5ZaEVyOHNDZlQ5dG9tWnZ4cXMzcUZDaUFKWUF6dENPTm5OSGF6?=
- =?utf-8?B?NE5JNWIyV2tsaDJORW5rQ1NuZEJXeVJMZmFTVWFkMVFjTzdmK0xJZzBCWmhn?=
- =?utf-8?B?TjVXUzdmT21TTjRNQ0dzbll1YmxHQ2E1UTJoQnIxRlhHSTRhOTZ1ZDV1K010?=
- =?utf-8?B?Ly9ub3JRd2pjRkdQWlArUHp5RDhwYUlGQzRSWkJYYWVSVXVqdkFyMkk1LzNi?=
- =?utf-8?B?N2IrWVBVdlJvQXdiR2pnY094U25seEsxT21QNWpOSG1uNlQ2b3p1TkljbmpM?=
- =?utf-8?B?dkY3aE5hY3J6THhOMUJndVRwVmtCazU2ZXhtMi9zeVhheTFLOEpZcUsyWjh2?=
- =?utf-8?B?ZThlblNzakhzQng2K2RHNHpGZzJjMjNkTWFkNStTYm41U0VJU3dRQzRXVHFU?=
- =?utf-8?Q?EKkFo8TAzX68/nes33bpzv4yx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce55f653-afdd-4f9a-979a-08dd2fbd222b
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 08:19:12.7354 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C7V+++luqCQGyuEGSgAuPK2yndjUK+4p92ngGQtUKlJwIoPMBnL6dWJieaoByq7+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4371
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,85 +103,304 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 07.01.25 um 16:21 schrieb Philipp Reisner:
-> [...]
->>> The OOPS happens because the rq member of entity is NULL in
->>> drm_sched_job_arm() after the call to drm_sched_entity_select_rq().
->>>
->>> In drm_sched_entity_select_rq(), the code considers that
->>> drb_sched_pick_best() might return a NULL value. When NULL, it assigns
->>> NULL to entity->rq even if it had a non-NULL value before.
->>>
->>> drm_sched_job_arm() does not deal with entities having a rq of NULL.
->>>
->>> Fix this by leaving the entity on the engine it was instead of
->>> assigning a NULL to its run queue member.
->> Well that is clearly not the correct approach to fixing this. So clearly
->> a NAK from my side.
->>
->> The real question is why is amdgpu_cs_ioctl() called when all of
->> userspace should be frozen?
->>
->> Regards,
->> Christian.
->>
-> Could the OOPS happen at resume time? Might it be that the kernel
-> activates user-space
-> before all the components of the GPU finished their wakeup?
->
-> Maybe drm_sched_pick_best() returns NULL since no scheduler is ready yet?
+Hi,
 
-Yeah that is exactly what I meant. It looks like either the suspend or 
-the resume order is somehow messed up.
+Am Mittwoch, 8. Januar 2025, 01:31:11 CET schrieb Sandor Yu:
+> > Hi,
+> >
+> > Am Dienstag, 7. Januar 2025, 15:42:56 CET schrieb Sandor Yu:
+> > > Hi Alexander
+> > >
+> > > It may cause by the first preferred mode in EDID is not supported by =
+driver.
+> > > Please use modetest or other user application to change the video mod=
+e to
+> > CTA standard modes.
+> > > Such as148.5MHz 1080p60 or 594MHz 3840x2160p60.
+> >
+> > No, the EDID does not affect the issue. I resurrected series v14 and HD=
+MI
+> > does work without any issues at 1920x1080.
+> > If I can find a time slot maybe I can check which series version regres=
+ses.
+> >
+>=20
+> Could you please list the all video modes by modetest when device bootup?
 
-In other words either some application tries to submit GPU work while it 
-should already been stopped, or it tries to submit GPU work before it is 
-started.
+This is  the output of modeset command after directly bootup:
+> trying to open device 'imx-dcss'...done
+> Encoders:
+> id      crtc    type    possible crtcs  possible clones
+> 32      40      none    0x00000001      0x00000001
+>=20
+> Connectors:
+> id      encoder status          name            size (mm)       modes =20
+> encoders 33      32      connected       HDMI-A-1        510x290         =
+8=20
+>      32>=20
+>   modes:
+>         index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot
+>  =20
+>   #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500 flags:
+>   phsync, pvsync; type: preferred, driver #1 1920x1080 50.00 1920 2448 24=
+92
+>   2640 1080 1084 1089 1125 148500 flags: phsync, pvsync; type: driver #2
+>   1280x720 60.00 1280 1390 1430 1650 720 725 730 750 74250 flags: phsync,
+>   pvsync; type: driver #3 1280x720 50.00 1280 1720 1760 1980 720 725 730
+>   750 74250 flags: phsync, pvsync; type: driver #4 1440x576 50.00 1440 14=
+64
+>   1592 1728 576 581 586 625 54000 flags: nhsync, nvsync; type: driver #5
+>   1440x480 59.94 1440 1472 1596 1716 480 489 495 525 54000 flags: nhsync,
+>   nvsync; type: driver #6 720x576 50.00 720 732 796 864 576 581 586 625
+>   27000 flags: nhsync, nvsync; type: driver #7 720x480 59.94 720 736 798
+>   858 480 489 495 525 27000 flags: nhsync, nvsync; type: driver>  =20
+>   props:
+>         1 EDID:
+>                 flags: immutable blob
+>                 blobs:
+>                =20
+>                 value:
+>                         00ffffffffffff000469a2231f870200
+>                         0d1a010380331d782ae295a2554f9f26
+>                         115054b7ef00d1c0b300950081808140
+>                         81c0714f0101023a801871382d40582c
+>                         4500fd1e1100001e000000ff0047334c
+>                         4d54463136353636330a000000fd0032
+>                         4b185311000a202020202020000000fc
+>                         00415355532050423233380a20200194
+>                         020322714f0102031112130414050e0f
+>                         1d1e1f90230917078301000065030c00
+>                         10008c0ad08a20e02d10103e9600fd1e
+>                         11000018011d007251d01e206e285500
+>                         fd1e1100001e011d00bc52d01e20b828
+>                         5540fd1e1100001e8c0ad09020403120
+>                         0c405500fd1e11000018000000000000
+>                         00000000000000000000000000000069
+>        =20
+>         2 DPMS:
+>                 flags: enum
+>                 enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
+>                 value: 0
+>        =20
+>         5 link-status:
+>                 flags: enum
+>                 enums: Good=3D0 Bad=3D1
+>                 value: 0
+>        =20
+>         6 non-desktop:
+>                 flags: immutable range
+>                 values: 0 1
+>                 value: 0
+>        =20
+>         4 TILE:
+>                 flags: immutable blob
+>                 blobs:
+>        =20
+>                 value:
+>         34 max bpc:
+>                 flags: range
+>                 values: 8 8
+>                 value: 8
+>=20
+> CRTCs:
+> id      fb      pos     size
+> 40      43      (0,0)   (1920x1080)
+>=20
+>   #0 1920x1080 60.00 1920 2008 2052 2200 1080 1084 1089 1125 148500 flags:
+>   phsync, pvsync; type: preferred, driver>  =20
+>   props:
+>         24 VRR_ENABLED:
+>                 flags: range
+>                 values: 0 1
+>                 value: 0
+>=20
+> Planes:
+> id      crtc    fb      CRTC x,y        x,y     gamma size      possible
+> crtcs 35      40      43      0,0             0,0     0             =20
+> 0x00000001>=20
+>   formats: AR24 XR24 AB24 XB24 RA24 RX24 BA24 BX24 XR30 XB30 RX30 BX30 AR=
+30
+>   AB30 RA30 BA30>  =20
+>   props:
+>         8 type:
+>                 flags: immutable enum
+>                 enums: Overlay=3D0 Primary=3D1 Cursor=3D2
+>                 value: 1
+>        =20
+>         30 IN_FORMATS:
+>                 flags: immutable blob
+>                 blobs:
+>                =20
+>                 value:
+>                         01000000000000001000000018000000
+>                         03000000580000004152323458523234
+>                         41423234584232345241323452583234
+>                         42413234425832345852333058423330
+>                         52583330425833304152333041423330
+>                         52413330424133300310000000000000
+>                         00000000000000000100000000000006
+>                         03100000000000000000000000000000
+>                         0200000000000006ffff000000000000
+>                         00000000000000000000000000000000
+>                =20
+>                 in_formats blob decoded:
+>                          AR24:  VIVANTE_TILED(0x600000000000001)
+>                          VIVANTE_SUPER_TILED(0x600000000000002) LINEAR(0x=
+0)
+>                          XR24:  VIVANTE_TILED(0x600000000000001)
+>                          VIVANTE_SUPER_TILED(0x600000000000002) LINEAR(0x=
+0)
+>                          AB24:  LINEAR(0x0)
+>                          XB24:  LINEAR(0x0)
+>                          RA24:  LINEAR(0x0)
+>                          RX24:  LINEAR(0x0)
+>                          BA24:  LINEAR(0x0)
+>                          BX24:  LINEAR(0x0)
+>                          XR30:  LINEAR(0x0)
+>                          XB30:  LINEAR(0x0)
+>                          RX30:  LINEAR(0x0)
+>                          BX30:  LINEAR(0x0)
+>                          AR30:  VIVANTE_TILED(0x600000000000001)
+>                          VIVANTE_SUPER_TILED(0x600000000000002) LINEAR(0x=
+0)
+>                          AB30:  LINEAR(0x0)
+>                          RA30:  LINEAR(0x0)
+>                          BA30:  LINEAR(0x0)
+>        =20
+>         37 zpos:
+>                 flags: immutable range
+>                 values: 0 0
+>                 value: 0
+>        =20
+>         38 SCALING_FILTER:
+>                 flags: enum
+>                 enums: Default=3D0 Nearest Neighbor=3D1
+>                 value: 0
+>        =20
+>         39 rotation:
+>                 flags: bitmask
+>                 values: rotate-0=3D0x1 rotate-90=3D0x2 rotate-180=3D0x4
+>                 rotate-270=3D0x8 reflect-x=3D0x10 reflect-y=3D0x20 value:=
+ 1
+>=20
+> Frame buffers:
+> id      size    pitch
 
-> Apart from whether amdgpu_cs_ioctl() should run at this point, I still think the
-> suggested change improves the code. drm_sched_pick_best() can return NULL.
-> drm_sched_entity_select_rq() can handle the NULL (partially).
->
-> drm_sched_job_arm() crashes on an entity that has rq set to NULL.
+The listed modes don't change over the series versions. The only
+significant difference is that since v16 there is a "max bpc" property
+Also since series v16 the HDMI screen stays blank, as in no signal.
+I tried all from v14 to v20, v14 and v15 work, the others don't.
 
-Which is actually not the worst outcome :)
+Best regards,
+Alexander
 
-With your patch applied we don't immediately crash any more in the 
-submission path, but the whole system could then later deadlock because 
-the core memory management waits for a GPU submission which never returns.
+> Sandor
+>=20
+> > Best regards,
+> > Alexander
+> >
+> > >
+> > > >
+> > > > Hi Sandor,
+> > > >
+> > > > thanks for the updates.
+> > > >
+> > > > Am Dienstag, 17. Dezember 2024, 07:51:42 CET schrieb Sandor Yu:
+> > > > > The patch set initial support Cadence MHDP8501(HDMI/DP) DRM bridge
+> > > > > driver and Cadence HDP-TX PHY(HDMI/DP) driver for Freescale
+> > i.MX8MQ.
+> > > > >
+> > > > > The patch set compose of DRM bridge drivers and PHY driver.
+> > > > >
+> > > > > Both of them need by patch #1 and #3 to pass build.
+> > > > >
+> > > > > DRM bridges driver patches:
+> > > > >   #1: soc: cadence: Create helper functions for Cadence MHDP
+> > > > >   #2: drm: bridge: cadence: Update mhdp8546 mailbox access
+> > functions
+> > > > >   #3: phy: Add HDMI configuration options
+> > > > >   #4: dt-bindings: display: bridge: Add Cadence MHDP8501
+> > > > >   #5: drm: bridge: Cadence: Add MHDP8501 DP/HDMI driver
+> > > > >
+> > > > > PHY driver patches:
+> > > > >   #1: soc: cadence: Create helper functions for Cadence MHDP
+> > > > >   #3: phy: Add HDMI configuration options
+> > > > >   #6: dt-bindings: phy: Add Freescale iMX8MQ DP and HDMI PHY
+> > > > >   #7: phy: freescale: Add DisplayPort/HDMI Combo-PHY driver for
+> > > > > i.MX8MQ
+> > > > >
+> > > > > i.MX8M/TQMa8Mx DT patches:
+> > > > >   #8: Add DT nodes for DCSS/HDMI pipeline
+> > > > >   #9: Enable HDMI for TQMa8Mx/MBa8Mx
+> > > > >
+> > > >
+> > > > I gave this version a new try but unfortunately the display stays b=
+lack.
+> > > > Although the display pipeline is intialized and even wayland starts.
+> > > > Do you have any idea where to start looking?
+> > > >
+> > > > Best regards,
+> > > > Alexander
+> > > > --
+> > > > TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Ge=
+rmany
+> > > > Amtsgericht M=FCnchen, HRB 105018
+> > > > Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schn=
+eider
+> > > >
+> > http://www/
+> > > > .tq%2F&data=3D05%7C02%7Csandor.yu%40nxp.com%7C23ba3321d4d5480
+> > 4b98f08dd
+> > > >
+> > 2f35f3db%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63871863
+> > 095591
+> > > >
+> > 6087%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIw
+> > LjAuMDA
+> > > >
+> > wMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%
+> > 7C&s
+> > > >
+> > data=3D4Ip3wEX207cu0EreOtf11F%2BS%2ByNzAcI2C2iPjjlQzVg%3D&reserved=3D
+> > 0
+> > > >
+> > -group.com%2F&data=3D05%7C02%7CSandor.yu%40nxp.com%7C734ea27ba98
+> > > >
+> > 140b7483e08dd2eed1276%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%
+> > > >
+> > 7C0%7C638718317967624410%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU
+> > > >
+> > 1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIs
+> > > >
+> > IldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D1HdQdbye9p5AHoT7JCF3Md%
+> > > > 2FB9k9tyN%2FW25YKCEngvWM%3D&reserved=3D0
+> > > >
+> > >
+> > >
+> > >
+> >
+> >
+> > --
+> > TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+> > Amtsgericht M=FCnchen, HRB 105018
+> > Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+> > http://www.tq/
+> > -group.com%2F&data=3D05%7C02%7Csandor.yu%40nxp.com%7C23ba3321d4d
+> > 54804b98f08dd2f35f3db%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C
+> > 0%7C638718630955952151%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1h
+> > cGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIld
+> > UIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Dn3QmrbJru4JcdZvEM%2FxJp4rVf
+> > Vmifjoxpq0o9Wxzh2Y%3D&reserved=3D0
+> >
+>=20
+>=20
+>=20
 
-That is an even worse situation because you then can't pinpoint any more 
-where that is coming from.
 
-> The handling of NULL values is half-baked.
->
-> In my opinion, you should define if drm_sched_pick_best() may put a NULL into
-> rq. If your answer is yes, it might put a NULL there; then, there should be a
-> BUG_ON(!entity->rq) after the invocation of drm_sched_entity_select_rq().
-> If your answer is no, the BUG_ON() should be in drm_sched_pick_best().
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
-Yeah good point.
-
-We might not want a BUG_ON(), that is only justified when we prevent 
-further damage (e.g. random data corruption or similar).
-
-I suggest using a WARN(!shed, "Submission without activated sheduler!"). 
-This way the system has at least a chance of survival should the 
-scheduler become ready later on.
-
-On the other hand the BUG_ON() or the NULL pointer deref should only 
-kill the application thread which is submitting something before the 
-driver is resumed. So that might help to pinpoint where the actually 
-issue is.
-
-Regards,
-Christian.
-
->
-> That helps guys with zero domain knowledge, like me, to figure out how
-> this is all
-> supposed to work.
->
-> best regards,
->   Philipp
 
