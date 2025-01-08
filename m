@@ -2,105 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA325A06446
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 19:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CEAA063E6
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 19:01:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A764E10E00D;
-	Wed,  8 Jan 2025 18:22:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C86F310E07F;
+	Wed,  8 Jan 2025 18:01:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="imuo4rL/";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZJaRFTcD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5461110E00D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 18:22:36 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-aa684b6d9c7so22070166b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 10:22:36 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5782C10E07F
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 18:01:00 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43675b1155bso1247085e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 10:01:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736360495; x=1736965295; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vyXJyoTUz/O+MekoAhD1dI1UuPy1klDP8U3mVYcAA7E=;
- b=imuo4rL/2qooYdr9o3719sWLvRqIdzfOsnhwFkktBa9Dy2/2Vpx0DYmZtencKI2xqk
- WI90dcLxA+5qGMXbuFhfWblaPhGtSCiD+viAKZurILhbcfS264t+8r5z4BTebf+cetgX
- a8Uju+c41Ojh5UKST2MBLBlu+a8x2udYOsD/s=
+ d=ffwll.ch; s=google; t=1736359199; x=1736963999; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=6eaqDI44QDB1p2t5v1R+AWoi3oZbL3EOD2XQmLHLleQ=;
+ b=ZJaRFTcD8Tvkd8+nlKeSLIreplfWWM7gRKpQMX4chxT5Oj5LGFwRUjGwIaerKZDeI6
+ ihNCUxcZrrUidijArTIqWMPN1UTfI4TPyv0MDWvZFfMIm0MLBAGIeBw1YtsoKunwtmya
+ kmMXY1knTYnDjy7j4A92HN6svd7dYsBxxSlYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736360495; x=1736965295;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1736359199; x=1736963999;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vyXJyoTUz/O+MekoAhD1dI1UuPy1klDP8U3mVYcAA7E=;
- b=xUc8WJQY5UTUkgyEwKwkHM7g9aAF4c+FvemN+zTWBcR8bfUrJWpqMqAPR7Pt+x/D3I
- QpvAo9g6IfBxlERz1NDAAV8pKe0MJxUa6nlIZMJuLGDRYt9LrcXLC6yJT2dCD6bdwoOh
- fxSEPDanHip9aYFstRQeEMXsro3DtIUr/rQr0MIMTLgELKbXmCHpnNDXvMa/FtlM/ojp
- k0NmEMVdoQ2VPq9tYE6eXzN89D3VBSdVzB0W7EyMjuyPUCwivup4vpvxdtH0fmQR2C0h
- /gH2D4wdDdFS9z4eASTU9gYFCnL3GR9STANyO31cg+gdLcFjLC2sppMbT4OnOaT5LoMX
- bSPg==
+ bh=6eaqDI44QDB1p2t5v1R+AWoi3oZbL3EOD2XQmLHLleQ=;
+ b=t2i/pn6sPVglrd5JaZeEs+NPMT+8D/aEizCIfHlzeELEqjsrTD3/CP9BsFHOUaV6uW
+ 0HIvQ2LbJ/dYpSS36vrd1ZRgP3D7nvxlT2qG+puX14evzVOTs62YrR3CMB4fXQREy2P6
+ Dq89u2aVeK+4riwZCETBwfo2DoWgIpIJTmCVblRbQTZw25XdwDulC/5luA3IRMZpqOEL
+ bwORzISWuVF8p52OK4llbbXSax1z9ufh8vMzZ8Hu+uk5E/Uw4q5P8sUewn03nyFMkex4
+ 3qfUjWq1ODo24Rs9CSMSbZD+Bw+NaZF2FESU7hoQXSMlbseRnQohsWVEe2NXdj056PwT
+ 9aLw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwXP1P3fdO+c7YwoWQkmT9dhdDVVywb5m8O7CnsQlu2pYXq7P2E9eeJtwiFH6vE5aEbporsw9eRFk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjFMpNPmRNOnirWuiuGvffinrTJlWiFWCv7LlqwR4pRczaJofc
- Wd6Z0uVTKzckWTezagpJkSPP/1CtsJzZNPT42dwbdng3NOQqVVzwvIvMw7txUkR5Ae7WOd5Eoso
- o
-X-Gm-Gg: ASbGncuwVrcVn3Yy3X9LNic16h3Vw2m34KCLctD52BRGVIbg6TXVHet4R2bCAwdiIp7
- CkRk2WsvQP+5SdKiCjdPNwzx6fgFpGhUHcC6SK7QmTz3z+XP5XG67wdTZhPWP0kMlRozzL2zwt7
- TsqMFEPdHjmIfrbV8t1F7xqy9aTHUpW8Y76f7GkSbeOErtroUAoIF7FpO5+cV+PQtyehKWZzs5f
- 3F3RKFg250R9i/c4IfdY1w7Q1BIx+joQ/k8EK/+9igL89KNBxnaVc5OW0a1mel7/h2q
-X-Google-Smtp-Source: AGHT+IFozYJT06qw76DGVvnYOd+8i9OFhvq0LrKuiLg44EMhHZJky3qMfsIaLpjOif5j1Ah+kYp2VQ==
-X-Received: by 2002:a5d:64eb:0:b0:385:f349:fffb with SMTP id
- ffacd0b85a97d-38a8732c439mr3473025f8f.45.1736358986935; 
- Wed, 08 Jan 2025 09:56:26 -0800 (PST)
+ AJvYcCVEqixp3XP88Lc05Y4ztBvgR9/1w4+/IbrezCSqHgjc2C2MxiRPC/5TefIs2YaU5DAnC3q112jyWpA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw0yciOFS/RA/pUsE8HAyaL2xGZUvqTNoGNVr5sCfKtHlWICzYv
+ anj+EMisL6XZeTecVzHpLI1Hqau+XIdxRPIQiedEDyjthKWEQgYlMqV1saN0fNo=
+X-Gm-Gg: ASbGncu5ixp91bL3h78veWS7Muekkj+ve058KtL3ZG7FLcK60wvVY4BofddsXEntRhE
+ PADAR/Bd/OVpnBPkt/sgb5y5Ma5/XIdpxSg45qB+Mnlk/ZJdwZ1KoEosbaogwdl3wt1GHQ5jw+0
+ JaHSBRZAeodjUwEFySaOxJzjd0U075grodsKqLziHiSfekUem0EFuzP/cKQC1/k2es7Gb2hSzdq
+ 1wiD63ZY2DarL/G5/An/e+Lshcbtwxf/K63lLIDVIrtvocaSSVv0th9Ol5v3OyrBcqH
+X-Google-Smtp-Source: AGHT+IFpPAsxki/pJH6uIdUzMbYRV3qPhPPbWLnPOzXxLgdsVqLbQ2EprwaCH9KVlcN9/gmcJZGw1g==
+X-Received: by 2002:a05:600c:3b88:b0:435:192:63fb with SMTP id
+ 5b1f17b1804b1-436e2686662mr32549955e9.3.1736359198894; 
+ Wed, 08 Jan 2025 09:59:58 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c89e2d2sm54271834f8f.71.2025.01.08.09.56.25
+ 5b1f17b1804b1-436e2dc14d5sm28497265e9.11.2025.01.08.09.59.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 09:56:26 -0800 (PST)
-Date: Wed, 8 Jan 2025 18:56:24 +0100
+ Wed, 08 Jan 2025 09:59:58 -0800 (PST)
+Date: Wed, 8 Jan 2025 18:59:56 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Archit Taneja <architt@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH 3/6] drm/msm/dpu: don't use active in atomic_check()
-Message-ID: <Z368SF0R6L82aM8Z@phenom.ffwll.local>
-Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Archit Taneja <architt@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
- <20241222-drm-dirty-modeset-v1-3-0e76a53eceb9@linaro.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ Tvrtko Ursulin <tursulin@igalia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "kernel-dev@igalia.com" <kernel-dev@igalia.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Danilo Krummrich <dakr@redhat.com>, Matthew Brost <matthew.brost@intel.com>
+Subject: Re: AW: [RFC 00/14] Deadline scheduler and other ideas
+Message-ID: <Z369HN8gkxOOMAPT@phenom.ffwll.local>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <PH7PR12MB568508440AB661A0B168721A83152@PH7PR12MB5685.namprd12.prod.outlook.com>
+ <Z3vfDWrQUYV7k7VJ@phenom.ffwll.local>
+ <9ba4f8b8d400d937bff1f4019df68a7625408993.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241222-drm-dirty-modeset-v1-3-0e76a53eceb9@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9ba4f8b8d400d937bff1f4019df68a7625408993.camel@redhat.com>
 X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,63 +94,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 22, 2024 at 07:00:43AM +0200, Dmitry Baryshkov wrote:
-> The driver isn't supposed to consult crtc_state->active/active_check for
-> resource allocation. Instead all resources should be allocated if
-> crtc_state->enabled is set. Stop consulting active / active_changed in
-> order to determine whether the hardware resources should be
-> (re)allocated.
+On Wed, Jan 08, 2025 at 09:07:44AM +0100, Philipp Stanner wrote:
+> On Mon, 2025-01-06 at 14:47 +0100, Simona Vetter wrote:
+> > On Fri, Jan 03, 2025 at 03:16:56PM +0000, Koenig, Christian wrote:
+> > > [AMD Official Use Only - AMD Internal Distribution Only]
+> > > 
+> > > Could you send that whole patch set to me once more?
+> > > 
+> > > The AMD mails servers seem to have had a hickup over the holidays
+> > > and
+> > > all mails received between ~25.12.2024 and 1.1.2025 are somehow
+> > > mangled.
+> > 
+> > I seem to have the same issue with fetching from lore.o.k, despite
+> > that
+> > the archives seem to be complete. No idea what's happened.
 > 
-> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
-> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> I could pull it just fine with b4
 
-This is well-contained enough that I feel like I can actually review this
-without making a fool of myself :-)
+Yeah now they all just magically showed up. No idea what happened.
+-Sima
 
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 4 ----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +--
->  2 files changed, 1 insertion(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> index 7191b1a6d41b3a96f956d199398f12b2923e8c82..65e33eba61726929b740831c95330756b2817e28 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> @@ -1264,10 +1264,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
->  
->  	DRM_DEBUG_ATOMIC("%s: check\n", dpu_crtc->name);
->  
-> -	/* force a full mode set if active state changed */
-> -	if (crtc_state->active_changed)
-> -		crtc_state->mode_changed = true;
-> -
->  	if (cstate->num_mixers) {
->  		rc = _dpu_crtc_check_and_setup_lm_bounds(crtc, crtc_state);
->  		if (rc)
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index 83de7564e2c1fe14fcf8c4f82335cafc937e1b99..d1ccdca6044353f110bf5b507788efe368f223a3 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -793,12 +793,11 @@ static int dpu_encoder_virt_atomic_check(
->  		crtc_state->mode_changed = true;
->  	/*
->  	 * Release and Allocate resources on every modeset
-> -	 * Dont allocate when active is false.
->  	 */
->  	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
->  		dpu_rm_release(global_state, drm_enc);
->  
-> -		if (!crtc_state->active_changed || crtc_state->enable)
-> +		if (crtc_state->enable)
->  			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
->  					drm_enc, crtc_state, topology);
->  		if (!ret)
+> P.
 > 
-> -- 
-> 2.39.5
+> > -Sima
+> > 
+> > > 
+> > > Thanks in advance,
+> > > Christian.
+> > > 
+> > > ________________________________________
+> > > Von: Tvrtko Ursulin <tursulin@igalia.com>
+> > > Gesendet: Montag, 30. Dezember 2024 17:52
+> > > An: dri-devel@lists.freedesktop.org
+> > > Cc: kernel-dev@igalia.com; Tvrtko Ursulin; Koenig, Christian;
+> > > Danilo Krummrich; Matthew Brost; Philipp Stanner
+> > > Betreff: [RFC 00/14] Deadline scheduler and other ideas
+> > > 
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > > 
+> > > <tldr>
+> > > Replacing FIFO with a flavour of deadline driven scheduling and
+> > > removing round-
+> > > robin. Connecting the scheduler with dma-fence deadlines. First
+> > > draft and
+> > > testing by different drivers and feedback would be nice. I was only
+> > > able to test
+> > > it with amdgpu. Other drivers may not even compile.
+> > > </tldr>
+> > > 
+> > > If I remember correctly Christian mentioned recently (give or take)
+> > > that maybe
+> > > round-robin could be removed. That got me thinking how and what
+> > > could be
+> > > improved and simplified. So I played a bit in the scheduler code
+> > > and came up
+> > > with something which appears to not crash at least. Whether or not
+> > > there are
+> > > significant advantages apart from maybe code consolidation and
+> > > reduction is the
+> > > main thing to be determined.
+> > > 
+> > > One big question is whether round-robin can really be removed. Does
+> > > anyone use
+> > > it, rely on it, or what are even use cases where it is much better
+> > > than FIFO.
+> > > 
+> > > See "drm/sched: Add deadline policy" commit message for a short
+> > > description on
+> > > what flavour of deadline scheduling it is. But in essence it should
+> > > a more fair
+> > > FIFO where higher priority can not forever starve lower priorities.
+> > > 
+> > > "drm/sched: Connect with dma-fence deadlines" wires up dma-fence
+> > > deadlines to
+> > > the scheduler because it is easy and makes logical sense with this.
+> > > And I
+> > > noticed userspace already uses it so why not wire it up fully.
+> > > 
+> > > Otherwise the series is a bit of progression from consolidating RR
+> > > into FIFO
+> > > code paths and going from there to deadline and then to a change in
+> > > how
+> > > dependencies are handled. And code simplification to 1:1 run queue
+> > > to scheduler
+> > > relationship, because deadline does not need per priority run
+> > > queues.
+> > > 
+> > > There is quite a bit of code to go throught here so I think it
+> > > could be even
+> > > better if other drivers could give it a spin as is and see if some
+> > > improvements
+> > > can be detected. Or at least no regressions.
+> > > 
+> > > Cc: Christian König <christian.koenig@amd.com>
+> > > Cc: Danilo Krummrich <dakr@redhat.com>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Philipp Stanner <pstanner@redhat.com>
+> > > 
+> > > Tvrtko Ursulin (14):
+> > >   drm/sched: Delete unused update_job_credits
+> > >   drm/sched: Remove idle entity from tree
+> > >   drm/sched: Implement RR via FIFO
+> > >   drm/sched: Consolidate entity run queue management
+> > >   drm/sched: Move run queue related code into a separate file
+> > >   drm/sched: Ignore own fence earlier
+> > >   drm/sched: Resolve same scheduler dependencies earlier
+> > >   drm/sched: Add deadline policy
+> > >   drm/sched: Remove FIFO and RR and simplify to a single run queue
+> > >   drm/sched: Queue all free credits in one worker invocation
+> > >   drm/sched: Connect with dma-fence deadlines
+> > >   drm/sched: Embed run queue singleton into the scheduler
+> > >   dma-fence: Add helper for custom fence context when merging
+> > > fences
+> > >   drm/sched: Resolve all job dependencies in one go
+> > > 
+> > >  drivers/dma-buf/dma-fence-unwrap.c          |   8 +-
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |   6 +-
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  27 +-
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_job.h     |   5 +-
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |   8 +-
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |   8 +-
+> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c     |   8 +-
+> > >  drivers/gpu/drm/scheduler/Makefile          |   2 +-
+> > >  drivers/gpu/drm/scheduler/sched_entity.c    | 316 ++++++-----
+> > >  drivers/gpu/drm/scheduler/sched_fence.c     |   5 +-
+> > >  drivers/gpu/drm/scheduler/sched_main.c      | 587 +++++-----------
+> > > ----
+> > >  drivers/gpu/drm/scheduler/sched_rq.c        | 199 +++++++
+> > >  include/drm/gpu_scheduler.h                 |  74 ++-
+> > >  include/linux/dma-fence-unwrap.h            |  31 +-
+> > >  14 files changed, 606 insertions(+), 678 deletions(-)
+> > >  create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
+> > > 
+> > > --
+> > > 2.47.1
+> > > 
+> > 
 > 
 
 -- 
