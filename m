@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69607A06E5B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 07:39:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115AAA06EFF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 08:23:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5587A10E0CA;
-	Thu,  9 Jan 2025 06:39:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F212210ECFB;
+	Thu,  9 Jan 2025 07:23:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gw2YQ2rN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VbJ391R6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5232A10E0CA
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 06:39:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8FCB7A40433;
- Thu,  9 Jan 2025 06:37:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C2319C4CED2;
- Thu,  9 Jan 2025 06:39:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736404782;
- bh=IAno5pKTx2K+AER7WFysKsBBPJnJbbX9HJm6cKM74eY=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=gw2YQ2rNL2I3qBaF4OwRxQBIUpHE0ab5tpcxqvkg69B6Gyj5VlSGrrDuv/5ZNf7NG
- Hp7o+29mYTsVSD+3oUAKQB2bzVMDSd/Xr1t+OUHQVZIVxJHEizVhQs3o0G44nV5kwd
- faUvx51PEioYMz4SpioSFNkdL7OxfdW9kFU0zmKlwDxeuGoVznd3VzP9JvXkhfywjb
- jsMnosYmlRjTLAb24JSmFrW3c0JNpOLfwLwdH7wRwxkWd135KdIiVtFeAgohYpfA0K
- lLn6i/HlbyxDGMLgnHx7WP+2T1913R6sAHmSWHk9XZB3FwcKophCq/+ooYjiESHz7b
- rgbWgZkE+uu4w==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A7637E77197;
- Thu,  9 Jan 2025 06:39:42 +0000 (UTC)
-From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Thu, 09 Jan 2025 14:40:08 +0800
-Subject: [PATCH v3] drm/bridge: it6505: fix HDCP V match check is not
- performed correctly
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01A5D10ECFB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 07:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736407405; x=1767943405;
+ h=date:from:to:subject:message-id:references:mime-version:
+ content-transfer-encoding:in-reply-to;
+ bh=5RtwYatc7XhYn22UVzvrAmXoefZVhRa51czG3ToYe9M=;
+ b=VbJ391R6EGtk+igehPwDG1/AkRzOlVGThIFC4uJRim+CTFX8s2WEH9J0
+ mk14TedrJdUiZgw247WGneOg370pjMnajKVHFP7cBLjYFNBkHLEJ+BGtt
+ lrqmgMg+E+gbU9mO9kVjjvD81sg0b4WxJk+RiOtjYHlwaPYhv/xfk9K7g
+ 2qrrZrIQOKvhf74l2IOkpi+xgErTjUiqoXdpzMVuFVMXgL+1YVu0iqkUR
+ NKI0FO3hfRnuJPhMh75O3tDU3YxcuLIBKXnEr/tSY50xBiwrNNF7djrzR
+ 5hAEcwL2G9W6diW86zvacpXVPAjIDfR5Q2FBuGNkgll4TFuhf/pzBXL1/ A==;
+X-CSE-ConnectionGUID: T0+y4qz5T6OuCF1qX77QmQ==
+X-CSE-MsgGUID: XzW7+KbqR/abX+hiTIvqEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36881444"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; d="scan'208";a="36881444"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jan 2025 23:23:24 -0800
+X-CSE-ConnectionGUID: 61UpxkwVSgaeTrD6q7mOEA==
+X-CSE-MsgGUID: h27PgmbLToehe3kcn8ABVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="108431421"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by orviesa005.jf.intel.com with ESMTP; 08 Jan 2025 23:23:19 -0800
+Date: Thu, 9 Jan 2025 03:22:16 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+ linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-2-yilun.xu@linux.intel.com>
+ <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
+ <20250108132358.GP5556@nvidia.com>
+ <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250109-fix-hdcp-v-comp-v3-1-1258edb249ab@ite.com.tw>
-X-B4-Tracking: v=1; b=H4sIAEdvf2cC/2XNTQ6CMBAF4KuQrh3SHxqKK+5hXNR2kC4E0pKqI
- dzdgcREw/LNvPlmYQljwMTOxcIi5pDCOFBQp4K53g53hOApM8ml5oLX0IUX9N5NkMGNjwnUzRp
- Uvra+U4yupohU2cXLlXIf0jzG9/4gi236tczBygIENBWvjBBGaufbMGNJq3J+sg3L8hdojoAko
- PYOudWNlqr7A9Z1/QBPq1XN8AAAAA==
-X-Change-ID: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Hermes Wu <hermes.wu@ite.com.tw>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
- Hermes Wu <Hermes.wu@ite.com.tw>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736404808; l=1793;
- i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=ZQI2HqzPneYgfzuW3Jkd0no7yYlB8RqeAikI2gt6gAg=;
- b=Ww30Kk4kRj7A+HK87WjQj3bCC0NVLEq24nfdTnwIF3WeV9pLX7QWmKviUx06mpITJxWrKsI6c
- hnG372CyOL+B1dM3Cbj97HJt+tPmco+ecNlRHvUvwcdo+DqTxJt8Zj5
-X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
- pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
-X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
- auth_id=310
-X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,60 +83,123 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <Hermes.wu@ite.com.tw>
+On Wed, Jan 08, 2025 at 07:44:54PM +0100, Simona Vetter wrote:
+> On Wed, Jan 08, 2025 at 12:22:27PM -0400, Jason Gunthorpe wrote:
+> > On Wed, Jan 08, 2025 at 04:25:54PM +0100, Christian König wrote:
+> > > Am 08.01.25 um 15:58 schrieb Jason Gunthorpe:
+> > > > I have imagined a staged approach were DMABUF gets a new API that
+> > > > works with the new DMA API to do importer mapping with "P2P source
+> > > > information" and a gradual conversion.
+> > > 
+> > > To make it clear as maintainer of that subsystem I would reject such a step
+> > > with all I have.
+> > 
+> > This is unexpected, so you want to just leave dmabuf broken? Do you
+> > have any plan to fix it, to fix the misuse of the DMA API, and all
+> > the problems I listed below? This is a big deal, it is causing real
+> > problems today.
+> > 
+> > If it going to be like this I think we will stop trying to use dmabuf
+> > and do something simpler for vfio/kvm/iommufd :(
+> 
+> As the gal who help edit the og dma-buf spec 13 years ago, I think adding
+> pfn isn't a terrible idea. By design, dma-buf is the "everything is
+> optional" interface. And in the beginning, even consistent locking was
+> optional, but we've managed to fix that by now :-/
+> 
+> Where I do agree with Christian is that stuffing pfn support into the
+> dma_buf_attachment interfaces feels a bit much wrong.
 
-The loop of V compare is expected to iterate for 5 times
-which compare V array form av[0][] to av[4][].
-It should check loop counter reach the last statement "i == 5"
-before return true
+So it could a dmabuf interface like mmap/vmap()? I was also wondering
+about that. But finally I start to use dma_buf_attachment interface
+because of leveraging existing buffer pin and move_notify.
 
-Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V matching")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
----
-Changes in v3:
-- The V value compare loop from i = 0 to i = 4 and shall exit with i == 5 
-  if all V element matches
-- Link to v2: https://lore.kernel.org/r/20250109-fix-hdcp-v-comp-v2-1-7dce0a59523f@ite.com.tw
+> 
+> > > We have already gone down that road and it didn't worked at all and
+> > > was a really big pain to pull people back from it.
+> > 
+> > Nobody has really seriously tried to improve the DMA API before, so I
+> > don't think this is true at all.
+> 
+> Aside, I really hope this finally happens!
+> 
+> > > > 3) Importing devices need to know if they are working with PCI P2P
+> > > > addresses during mapping because they need to do things like turn on
+> > > > ATS on their DMA. As for multi-path we have the same hacks inside mlx5
+> > > > today that assume DMABUFs are always P2P because we cannot determine
+> > > > if things are P2P or not after being DMA mapped.
+> > > 
+> > > Why would you need ATS on PCI P2P and not for system memory accesses?
+> > 
+> > ATS has a significant performance cost. It is mandatory for PCI P2P,
+> > but ideally should be avoided for CPU memory.
+> 
+> Huh, I didn't know that. And yeah kinda means we've butchered the pci p2p
+> stuff a bit I guess ...
+> 
+> > > > 5) iommufd and kvm are both using CPU addresses without DMA. No
+> > > > exporter mapping is possible
+> > > 
+> > > We have customers using both KVM and XEN with DMA-buf, so I can clearly
+> > > confirm that this isn't true.
+> > 
+> > Today they are mmaping the dma-buf into a VMA and then using KVM's
+> > follow_pfn() flow to extract the CPU pfn from the PTE. Any mmapable
+> > dma-buf must have a CPU PFN.
+> > 
+> > Here Xu implements basically the same path, except without the VMA
+> > indirection, and it suddenly not OK? Illogical.
+> 
+> So the big difference is that for follow_pfn() you need mmu_notifier since
+> the mmap might move around, whereas with pfn smashed into
+> dma_buf_attachment you need dma_resv_lock rules, and the move_notify
+> callback if you go dynamic.
+> 
+> So I guess my first question is, which locking rules do you want here for
+> pfn importers?
 
-Changes in v2:
-- pull the check of statment "i" out of V value check loop 
-- Link to v1: https://lore.kernel.org/r/20250108-fix-hdcp-v-comp-v1-1-9404811825cd@ite.com.tw
----
- drivers/gpu/drm/bridge/ite-it6505.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+follow_pfn() is unwanted for private MMIO, so dma_resv_lock.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 88ef76a37fe6accacdd343839ff2569b31b18ceb..2f82fbc0b8bf8c322c088dc257720c6825651bb8 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2250,12 +2250,13 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- 			continue;
- 		}
- 
--		for (i = 0; i < 5; i++) {
-+		for (i = 0; i < 5; i++)
- 			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
- 			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
- 				break;
- 
--			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
-+		if (i == 5) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d", retry);
- 			return true;
- 		}
- 	}
+> 
+> If mmu notifiers is fine, then I think the current approach of follow_pfn
+> should be ok. But if you instead dma_resv_lock rules (or the cpu mmap
+> somehow is an issue itself), then I think the clean design is create a new
 
----
-base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
-change-id: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+cpu mmap() is an issue, this series is aimed to eliminate userspace
+mapping for private MMIO resources.
 
-Best regards,
--- 
-Hermes Wu <Hermes.wu@ite.com.tw>
+> separate access mechanism just for that. It would be the 5th or so (kernel
+> vmap, userspace mmap, dma_buf_attach and driver private stuff like
+> virtio_dma_buf.c where you access your buffer with a uuid), so really not
+> a big deal.
 
+OK, will think more about that.
 
+Thanks,
+Yilun
+
+> 
+> And for non-contrived exporters we might be able to implement the other
+> access methods in terms of the pfn method generically, so this wouldn't
+> even be a terrible maintenance burden going forward. And meanwhile all the
+> contrived exporters just keep working as-is.
+> 
+> The other part is that cpu mmap is optional, and there's plenty of strange
+> exporters who don't implement. But you can dma map the attachment into
+> plenty devices. This tends to mostly be a thing on SoC devices with some
+> very funky memory. But I guess you don't care about these use-case, so
+> should be ok.
+> 
+> I couldn't come up with a good name for these pfn users, maybe
+> dma_buf_pfn_attachment? This does _not_ have a struct device, but maybe
+> some of these new p2p source specifiers (or a list of those which are
+> allowed, no idea how this would need to fit into the new dma api).
+> 
+> Cheers, Sima
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
