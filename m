@@ -2,86 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCE9A05564
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E17A0556D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 09:34:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A635C10E800;
-	Wed,  8 Jan 2025 08:31:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 744BE10E137;
+	Wed,  8 Jan 2025 08:34:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ykq6Cp9P";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DQjRw+tE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD0B010E800
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 08:31:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70D5B10E137
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 08:34:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736325092;
+ s=mimecast20190719; t=1736325256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fks1UfnnGNBzCgUEzb4PWr1+Sb20YtGUZyEpXGI0Ohc=;
- b=Ykq6Cp9PJju2dwG6XssV2uFitoFwLzsFmer7fq6BCJd5r/pjKqzp8DTA2FZP9VrSMZ/jPH
- E+ziwUr6AGAPVwpeW5dnJbR8BWqmKZT0rcHVeHsjRb7JI3RMQw4ogaGhnKeepK/CISrN/2
- UKhn+Rt1JkD/0ijWkpBGY9VXLoz74pI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iUCNfIATTCft11P5a3cKgFd10UqFxNRZN61+ZQzVkjs=;
+ b=DQjRw+tE0Ox4zGETcBcOvEgyAEj0o0MGZGfeJxMLggC9gU7ITtlUPjjtZFnz9/WnoOBveP
+ bBxa0ro0TTWb48o+sts0MV5/BcooSnBGMINKp8MsO7lCjT+fiCZxWtMGPfeKP1fduJo9Vy
+ EngYUer3nGP8BO0ElKV93N7RsRUX9+Y=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-2hVhwM39OXmisSHBTukYEw-1; Wed, 08 Jan 2025 03:31:30 -0500
-X-MC-Unique: 2hVhwM39OXmisSHBTukYEw-1
-X-Mimecast-MFC-AGG-ID: 2hVhwM39OXmisSHBTukYEw
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43631d8d9c7so2712065e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 00:31:30 -0800 (PST)
+ us-mta-530-3rVfYekrNVy2jgYvnlVc0w-1; Wed, 08 Jan 2025 03:34:15 -0500
+X-MC-Unique: 3rVfYekrNVy2jgYvnlVc0w-1
+X-Mimecast-MFC-AGG-ID: 3rVfYekrNVy2jgYvnlVc0w
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-385fdff9db5so3959071f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 00:34:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736325089; x=1736929889;
+ d=1e100.net; s=20230601; t=1736325254; x=1736930054;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fks1UfnnGNBzCgUEzb4PWr1+Sb20YtGUZyEpXGI0Ohc=;
- b=LioTnGS0NdswhXOiBJbk2NQEyB1i/ojP5k5dUbHnqohc3eGD9Shea9exjIq5QfrSIs
- Nifs7d3rtKTCIXhx6bzcmxVy8fDeHRMWMSYyAnpPJOQlht9qAvRSFZ29nXjFfc9dNDhb
- l9CAPZeKI2lxhXw+ZwHZqWQJaBJs4lalroS53ctZbFilLwJqqTDeYCvxob/tYF4pOYy1
- l2Is9qSlu4mYnFTOb0fmxx2yHXsWrjnjNQizez99uqDnBpoHIbYV0MvGY1/LyBbVqmyz
- OW1K7ysudD97ctkIbERm1blt9nuPRrCcvOdMEURm3L49dY6iImB3s9M015K/J1LA5lYB
- jerw==
-X-Gm-Message-State: AOJu0Yy9QIo9lVkFkzyvMXMGmWk3sj+Igt4vFByJhVw0WnCyloN/XUEF
- jUy+685KQDnEbYIEQ7rb7MuCUXiLCDA/+Xi8Um7N/l0V7qsksijNb701waMQljKpeIVU05hE4z3
- DPdGKuGdRjayuhUMtVcQiESO6I18c3HHCEuBkXDNJ+Brs+mmWTYcMM+ySy7b5e+1LFSaRDfQhwm
- mP
-X-Gm-Gg: ASbGnctXK0lJ+Eo1WQoQ6oWI7x2nrmCVc3prHk4QcLS6doDD5yiBoReGlTWRweCB05/
- vecU0vqYP3kY9m4FonduVxps1gbTEa3TdweCHFg500/coa9J5JY8HqmeOwKqVKh/KhttE8uPihH
- XZoQRb/skqJGJxupxgrkZokDTeH4hOADxad9glB24wLwzQlpmhC5/eo7Z9fjEbIlaI8FawqM0pF
- VKeo8FqrPzs692dDq98yOxl3O1RN7y4qRUziMe3Zy+tJQ==
-X-Received: by 2002:a05:600c:5252:b0:436:e3ea:64dd with SMTP id
- 5b1f17b1804b1-436e3ea65a1mr7360715e9.11.1736325088802; 
- Wed, 08 Jan 2025 00:31:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHhi1SveHp3/ZITh9gcTIxVdbqQ7lLSxpVDJC2N5yckAdKNwqhKUJfPy1anow95GcyOyyNNPg==
-X-Received: by 2002:a05:600c:5252:b0:436:e3ea:64dd with SMTP id
- 5b1f17b1804b1-436e3ea65a1mr7360375e9.11.1736325088320; 
- Wed, 08 Jan 2025 00:31:28 -0800 (PST)
+ bh=iUCNfIATTCft11P5a3cKgFd10UqFxNRZN61+ZQzVkjs=;
+ b=KOemVgWurFYrVD+oeRijKKwiMu1CDylXw669XBOw6RUzIRjIM2MUS7oFsGiPOYSnnc
+ T8zm3jRuFCeJzE3N0QvP0QaZ2xtq5axd/upSjN5nUMmmgWFMAwaAdTn608MPkake3kGM
+ ESkQ9ygbO9IyYuO1HCQ2MfqhZee0glcyhyVnoe79eRHjjaJsSW+Hw/Eds8cP5qhOFttr
+ eQdbjl9mpY+0AaejNWnXq5zPzLQntODENkwZb5kiiOIYO5KnroqgKK6D/68fnenLeceV
+ Je5maEjYV8kq6vLaEPrxV/c9xL+30trZt4QHJ0R6Pnh8ZpJtq+BnN/J78uqZZMv7cTBS
+ tJHg==
+X-Gm-Message-State: AOJu0YzK+CgbbgBHA6SBuhvaYSViksRSpsoXzSvycxveseO0s3Sbi9pH
+ fT/h/B7i3/cOlmn1y5WNvoNr7V90jGz7YiVicnltg8L/7ny7b2pXXRhsaqBwAbS1KDI7CjWBbzu
+ L8RcPB/apQLmZSFA3YB4sLBCyEjP0TiWLZ/8YdI0Xz1l/Idto0tz7UVa1Di++ptelxw==
+X-Gm-Gg: ASbGncsQywFr42jY/eqLYGm5sygHl4Az/FGzWZOVFl57h57h5XkKun4xlQqd1mF2WiQ
+ 8ovw0Gut1jBs45Izzg56ziNnOBGpw6jsrVLUM+TZEbnSv7DHi3lseshmk2duovgKUOAhXToDvsS
+ Ye3SLjvfkv1hik0Cio9wSySVtURsnIG49gKoeYd4UeTxU28ujGuyR+Zb7LHDpSYhp6tA3WyMM+9
+ 6Iq6lNVWRIW9Ng3rhZGtOGi8A2KcimGU12xqwtRX7ReVg==
+X-Received: by 2002:a05:6000:144d:b0:38a:615b:9ec0 with SMTP id
+ ffacd0b85a97d-38a873122edmr1308354f8f.54.1736325253988; 
+ Wed, 08 Jan 2025 00:34:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEyHcjppTJtVQxI7hismTNaCjQxyM2yu2MViYbBdFavwbNmUGHOSFIgNjec+ugsZICTr8zGXA==
+X-Received: by 2002:a05:6000:144d:b0:38a:615b:9ec0 with SMTP id
+ ffacd0b85a97d-38a873122edmr1308312f8f.54.1736325253370; 
+ Wed, 08 Jan 2025 00:34:13 -0800 (PST)
 Received: from pollux ([2a00:79c0:618:8300:abf:b8ff:feee:998b])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a1c828a8dsm52698628f8f.2.2025.01.08.00.31.26
+ 5b1f17b1804b1-436e2dc24aasm12838435e9.16.2025.01.08.00.34.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 00:31:27 -0800 (PST)
-Date: Wed, 8 Jan 2025 09:31:24 +0100
+ Wed, 08 Jan 2025 00:34:12 -0800 (PST)
+Date: Wed, 8 Jan 2025 09:34:11 +0100
 From: Danilo Krummrich <dakr@redhat.com>
 To: Tvrtko Ursulin <tursulin@igalia.com>
 Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
-Message-ID: <Z3433G3-_aIMqJbt@pollux>
+ Philipp Stanner <pstanner@redhat.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [RFC 01/14] drm/sched: Delete unused update_job_credits
+Message-ID: <Z344gwtwvqdXW1N_@pollux>
 References: <20241230165259.95855-1-tursulin@igalia.com>
+ <20241230165259.95855-2-tursulin@igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20241230165259.95855-1-tursulin@igalia.com>
+In-Reply-To: <20241230165259.95855-2-tursulin@igalia.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: AvKiUyKgkikgMSrZo3b-0dUQe6HnMyAxFyIr_8sRSt0_1736325089
+X-Mimecast-MFC-PROC-ID: TdfLKq7-USIf1EadrS-97thegxme5D8SIgKCxGNLGfo_1736325254
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
@@ -101,95 +102,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 30, 2024 at 04:52:45PM +0000, Tvrtko Ursulin wrote:
+On Mon, Dec 30, 2024 at 04:52:46PM +0000, Tvrtko Ursulin wrote:
 > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-"Deadline scheduler and other ideas"
-
-There's a few patches that could be sent outside the scope of this series, e.g.
-the first one.
-
-I think it would make sense to do so.
-
 > 
-> <tldr>
-> Replacing FIFO with a flavour of deadline driven scheduling and removing round-
-> robin. Connecting the scheduler with dma-fence deadlines. First draft and
-> testing by different drivers and feedback would be nice. I was only able to test
-> it with amdgpu. Other drivers may not even compile.
+> No driver is using the update_job_credits() schduler vfunc
+> so lets remove it.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-What are the results from your tests with amdgpu? Do you have some measurements?
+(+ Boris)
 
-> </tldr>
-> 
-> If I remember correctly Christian mentioned recently (give or take) that maybe
-> round-robin could be removed. That got me thinking how and what could be
-> improved and simplified. So I played a bit in the scheduler code and came up
-> with something which appears to not crash at least. Whether or not there are
-> significant advantages apart from maybe code consolidation and reduction is the
-> main thing to be determined.
-> 
-> One big question is whether round-robin can really be removed. Does anyone use
-> it, rely on it, or what are even use cases where it is much better than FIFO.
-> 
-> See "drm/sched: Add deadline policy" commit message for a short description on
-> what flavour of deadline scheduling it is. But in essence it should a more fair
-> FIFO where higher priority can not forever starve lower priorities.
-> 
-> "drm/sched: Connect with dma-fence deadlines" wires up dma-fence deadlines to
-> the scheduler because it is easy and makes logical sense with this. And I
-> noticed userspace already uses it so why not wire it up fully.
-> 
-> Otherwise the series is a bit of progression from consolidating RR into FIFO
-> code paths and going from there to deadline and then to a change in how
-> dependencies are handled. And code simplification to 1:1 run queue to scheduler
-> relationship, because deadline does not need per priority run queues.
-> 
-> There is quite a bit of code to go throught here so I think it could be even
-> better if other drivers could give it a spin as is and see if some improvements
-> can be detected. Or at least no regressions.
+AFAIR the panthor folks asked for this. I assume they never actually ended up
+using it? Unless they plan to use it,
 
-Are there improvements with amdgpu?
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-> 
 > Cc: Christian König <christian.koenig@amd.com>
 > Cc: Danilo Krummrich <dakr@redhat.com>
 > Cc: Matthew Brost <matthew.brost@intel.com>
 > Cc: Philipp Stanner <pstanner@redhat.com>
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 13 -------------
+>  include/drm/gpu_scheduler.h            | 13 -------------
+>  2 files changed, 26 deletions(-)
 > 
-> Tvrtko Ursulin (14):
->   drm/sched: Delete unused update_job_credits
->   drm/sched: Remove idle entity from tree
->   drm/sched: Implement RR via FIFO
->   drm/sched: Consolidate entity run queue management
->   drm/sched: Move run queue related code into a separate file
->   drm/sched: Ignore own fence earlier
->   drm/sched: Resolve same scheduler dependencies earlier
->   drm/sched: Add deadline policy
->   drm/sched: Remove FIFO and RR and simplify to a single run queue
->   drm/sched: Queue all free credits in one worker invocation
->   drm/sched: Connect with dma-fence deadlines
->   drm/sched: Embed run queue singleton into the scheduler
->   dma-fence: Add helper for custom fence context when merging fences
->   drm/sched: Resolve all job dependencies in one go
-> 
->  drivers/dma-buf/dma-fence-unwrap.c          |   8 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |   6 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  27 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.h     |   5 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |   8 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |   8 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c     |   8 +-
->  drivers/gpu/drm/scheduler/Makefile          |   2 +-
->  drivers/gpu/drm/scheduler/sched_entity.c    | 316 ++++++-----
->  drivers/gpu/drm/scheduler/sched_fence.c     |   5 +-
->  drivers/gpu/drm/scheduler/sched_main.c      | 587 +++++---------------
->  drivers/gpu/drm/scheduler/sched_rq.c        | 199 +++++++
->  include/drm/gpu_scheduler.h                 |  74 ++-
->  include/linux/dma-fence-unwrap.h            |  31 +-
->  14 files changed, 606 insertions(+), 678 deletions(-)
->  create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
-> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 7ce25281c74c..1734c17aeea5 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -64,12 +64,6 @@
+>   * credit limit, the job won't be executed. Instead, the scheduler will wait
+>   * until the credit count has decreased enough to not overflow its credit limit.
+>   * This implies waiting for previously executed jobs.
+> - *
+> - * Optionally, drivers may register a callback (update_job_credits) provided by
+> - * struct drm_sched_backend_ops to update the job's credits dynamically. The
+> - * scheduler executes this callback every time the scheduler considers a job for
+> - * execution and subsequently checks whether the job fits the scheduler's credit
+> - * limit.
+>   */
+>  
+>  #include <linux/wait.h>
+> @@ -133,13 +127,6 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
+>  	if (!s_job)
+>  		return false;
+>  
+> -	if (sched->ops->update_job_credits) {
+> -		s_job->credits = sched->ops->update_job_credits(s_job);
+> -
+> -		drm_WARN(sched, !s_job->credits,
+> -			 "Jobs with zero credits bypass job-flow control.\n");
+> -	}
+> -
+>  	/* If a job exceeds the credit limit, truncate it to the credit limit
+>  	 * itself to guarantee forward progress.
+>  	 */
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 95e17504e46a..e2e6af8849c6 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -476,19 +476,6 @@ struct drm_sched_backend_ops {
+>           * and it's time to clean it up.
+>  	 */
+>  	void (*free_job)(struct drm_sched_job *sched_job);
+> -
+> -	/**
+> -	 * @update_job_credits: Called when the scheduler is considering this
+> -	 * job for execution.
+> -	 *
+> -	 * This callback returns the number of credits the job would take if
+> -	 * pushed to the hardware. Drivers may use this to dynamically update
+> -	 * the job's credit count. For instance, deduct the number of credits
+> -	 * for already signalled native fences.
+> -	 *
+> -	 * This callback is optional.
+> -	 */
+> -	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
+>  };
+>  
+>  /**
 > -- 
 > 2.47.1
 > 
