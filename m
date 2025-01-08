@@ -2,116 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D522A0696C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 00:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA445A06971
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 00:31:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAD610E1BF;
-	Wed,  8 Jan 2025 23:30:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E55210E966;
+	Wed,  8 Jan 2025 23:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="ZgcAoISw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VuNtBX7g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6568A10E1BF
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 23:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1736379015; x=1736983815; i=deller@gmx.de;
- bh=Y8XrRWHeT4gjfJWwOIqN4ERHN1znGHVBZgBx4/uQ54c=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=ZgcAoISwCEzF/fCUCv5ACwg4dMhujdVPNdUBx80cKJw7AsNAgwqJRAjjQ8EbtyB8
- cDkAY5pAMfyKBbUfDk9BOkHf3YTIjNnxgc7lAEoO2lyCWHkjVeX57wMazAcjYppuo
- TEDZJM8BEE+XEqajoCgbtt2fc46aff9XZ7Xg9tLFmnGX0B0Eh3v5D8FvcSPD2gIyH
- qlNnMWWKBFzoy7Baf+5kShNe6nqylhuLcQQLpwBGA20KgbzU6w6iPBHJABaiFBObm
- tHZM0e+AF0yjeSNgaaQhVlsB1Me0wN4FBSMPiCKevbuijDVFpZMaoxTuH1HQQbI6r
- bp3jHwwkv1xFyrfX0Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.172] ([83.135.220.169]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4Qwg-1td3oW43b4-010eIU; Thu, 09
- Jan 2025 00:30:15 +0100
-Message-ID: <6af29f19-2e8d-4bc8-a9be-f3a0e229c7ff@gmx.de>
-Date: Thu, 9 Jan 2025 00:30:13 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF5A10E966
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 23:31:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4FF48A41BB5;
+ Wed,  8 Jan 2025 23:29:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7DDC4CED3;
+ Wed,  8 Jan 2025 23:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736379083;
+ bh=hGzh6Ux0equEOkz0+aeV+MQwWoU7zw3mDv7K/oHfxJA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VuNtBX7gO9+r+kRfw5uE/mylZqfhHuk6TrQGv6FcAiOMa/afIdcIwtJlAuUhxkqEJ
+ aL28jKgy+1KXiTElsi7FNtMlsaowk8YaId0DYdjfZO3NoGHAXRhn/5EHJTwcCPE7lk
+ Tyg0TcgFJ+iTbPexED2K1JjcIXIqf8dAri4hbc63Fb/npIm5uqIE50p32fXDw6KYCv
+ 2/uXdqdceLDJOTMI3YCGve0lLtJ9vyAuvjXcvc7hFkhXNSiVt3jmHIKS0fcKEkFB1l
+ juFvd5ZsT0Z6QlSL6KFMGNlpnSZGwR0Y/7EF9HGHktEYyA0N1ngq2/wh7qylEjxWIA
+ qokiP1TX1M2rg==
+Date: Wed, 8 Jan 2025 17:31:22 -0600
+From: Rob Herring <robh@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ detlev.casanova@collabora.com, daniel@fooishbar.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v9 10/11] dt-bindings: display: vop2: Add rk3576 support
+Message-ID: <20250108233122.GA1227227-robh@kernel.org>
+References: <20250108115233.17729-1-andyshrk@163.com>
+ <20250108115233.17729-11-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: efifb: Change the return value type to void
-To: oushixiong1025@163.com, Peter Jones <pjones@redhat.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250103032633.98807-1-oushixiong1025@163.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20250103032633.98807-1-oushixiong1025@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9KSBuPZedUe1x3s/ybDNUzrvuSgRdsHT6ioSwhVhIPZIelYH908
- qgwXI6c7DJ78CH9Q69x7OJVlUmf5GfTlDik5uA2DAj3f/rhOIBieQEEn6YK3eEmP1thMO2M
- /VBNoCIN4yYVXQxccZRuK+bT5Mp672fNWBaDWfwfoZn+5ziro9GMmqUQAuYH1m+/0FI+3Gv
- NyfHdkm86S0aC7akY5YRA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:PufQYzmlCkU=;bY/7fy605GO5du2qG6D/eyVnrBx
- UREkb2Z6E6gbs9uYz7RgAEg1IUIC1TrTPJfW83i6L2phBcrjAROZLpjAIOeTbQjJVHjZ8n3wS
- Mp98+YUGCMuB7fG42CGPFvs4IOwsINd+cZGLxU7clQ28BS2v/f6/YwUi3XCImW9OTB7xapoAG
- 4uj7H4mMZ9vz1FU47NTP+QHrcaaCBlo1S16ephthTYsK9FY6L+gPnv2f/LZqCxLQzL6vVZcwg
- 64mnJ78GMCwCQ2rs3chkDUGOjuhgRA88sD7zL+Gb6bSN0m+NVy7sVgVTexjGsOJzE2uQJj6Wu
- rLDh7dKyI1cW+E5jzp0dZpcpWMZqXcbeRtVl93RBHmS+YcGRyDy4Pq95c/3M+OvOgCBLj1plG
- j/5XnPARI42xB1d1MVp5uqV/fKLQXvpDuw+o5q6Dmubctmk7i2g0DxP5asSHUon1tlpGPECfG
- GLpV/dnO0D7i+EPaJQybvjVRrS7dRi/vKIz1Nk10mSVNkONuo4paYrwQxnf+xhsN00t52Bx2F
- thxkzJ9NwFWOqGqw2Jf/9+3PQLQygOn5Z53jpdje2T/9a736NUcFEWau85Xc8rNrGOWYAOAFP
- g4wir3FxaPxQGoAai0xhAnI7DyEOZ5+ipH9QBntK+CJsTqFY0juZzxLMFo/BCTy2o0Oq8PYc/
- 0sz/Tdv/XVXx6WeihE9mtypSx/1phDAGe7H4zNBeLUlDOtS4pQJXpE/qaWSXXX1lTqJSd88nQ
- zogKh38M7OSEH0U0lGv4sTEl39MNdYzMPCT3D3I+737MU/r645SC+6sb8ovtNbJlqnAgrHY+S
- f2MgMnVQbNHBka74HT9xhWuQ8ACQfxwiupR54clJ67EmXK6Uq3R/yf+txI/MWYGPXDERRYxQY
- MwigDukux25ePMbJI4B5AT7+N7yPRnmZ6BQ+ohxkyoSDK3v4AWNA2EsPcNH0ADTswd65iEddu
- NEKUJHoOXiz5LD+eB2vIRsW/WuHYRjZGV3hoCZr7+KQ1VhY2QDaF2pyGFPPqj13iKpbI9sq60
- HM2LD41QffTAfPIfdfgv01EsZG5u1CWdAIi1KKMqdn6D7DmgshI8p/jThQOU5se6eFmffiTFO
- PeGaZvbJ3efFwt75lndsRruoEisF0A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108115233.17729-11-andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,14 +62,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/3/25 04:26, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
->
-> efifb_setup() doesn't need to return a value.
->
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+On Wed, Jan 08, 2025 at 07:52:27PM +0800, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> Add vop found on rk3576, the main difference between rk3576 and the
+> previous vop is that each VP has its own interrupt line.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> 
+> ---
+> 
+> Changes in v9:
+> - Drop 'vop-' prefix of interrupt-names.
+> - Add blank line between DT properties
+> - Remove list interrupt-names in top level
 
-applied.
+That's the opposite of what we usually want...
 
-Thanks!
-Helge
+> 
+> Changes in v8:
+> - Fix dt_binding_check errors
+> - ordered by soc name
+> - Link to the previous version:
+>   https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+> 
+> Changes in v4:
+> - describe constraint SOC by SOC, as interrupts of rk3576 is very
+>   different from others
+> - Drop Krzysztof's Reviewed-by, as this version changed a lot.
+> 
+> Changes in v3:
+> - ordered by soc name
+> - Add description for newly added interrupt
+> 
+> Changes in v2:
+> - Add dt bindings
+> 
+>  .../display/rockchip/rockchip-vop2.yaml       | 83 +++++++++++++++----
+>  1 file changed, 67 insertions(+), 16 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> index 2531726af306..44256cdcb877 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> @@ -20,6 +20,7 @@ properties:
+>      enum:
+>        - rockchip,rk3566-vop
+>        - rockchip,rk3568-vop
+> +      - rockchip,rk3576-vop
+>        - rockchip,rk3588-vop
+>  
+>    reg:
+> @@ -37,10 +38,17 @@ properties:
+>        - const: gamma-lut
+>  
+>    interrupts:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 4
+>      description:
+> -      The VOP interrupt is shared by several interrupt sources, such as
+> -      frame start (VSYNC), line flag and other status interrupts.
+> +      For VOP version under rk3576, the interrupt is shared by several interrupt
+> +      sources, such as frame start (VSYNC), line flag and other interrupt status.
+> +      For VOP version from rk3576 there is a system interrupt for bus error, and
+> +      every video port has it's independent interrupts for vsync and other video
+> +      port related error interrupts.
+> +
+> +  interrupt-names:
+> +    maxItems: 4
+>  
+>    # See compatible-specific constraints below.
+>    clocks:
+> @@ -120,43 +128,86 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: rockchip,rk3588-vop
+> +            enum:
+> +              - rockchip,rk3566-vop
+> +              - rockchip,rk3568-vop
+>      then:
+>        properties:
+>          clocks:
+> -          minItems: 7
+> +          minItems: 5
+> +
+>          clock-names:
+> -          minItems: 7
+> +          minItems: 5
+>  
+>          ports:
+>            required:
+>              - port@0
+>              - port@1
+>              - port@2
+> -            - port@3
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - rockchip,rk3576-vop
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 5
+> +
+> +        clock-names:
+> +          minItems: 5
+> +
+> +        ports:
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+> +        interrupts:
+> +          items:
+> +            - description: vop system interrupt, such as axi bus error
+> +            - description: interrupts for video port0, such as vsync, dsp_hold.
+> +            - description: interrupts for video port1, such as vsync, dsp_hold.
+> +            - description: interrupts for video port2, such as vsync, dsp_hold.
+> +
+> +        interrupt-names:
+> +          items:
+> +            - const: sys
+> +            - const: vp0
+> +            - const: vp1
+> +            - const: vp2
+>  
+>        required:
+>          - rockchip,grf
+> -        - rockchip,vo1-grf
+> -        - rockchip,vop-grf
+>          - rockchip,pmu
+>  
+> -    else:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: rockchip,rk3588-vop
+> +    then:
+>        properties:
+> -        rockchip,vo1-grf: false
+> -        rockchip,vop-grf: false
+> -        rockchip,pmu: false
+> -
+>          clocks:
+> -          maxItems: 5
+> +          minItems: 7
+> +
+>          clock-names:
+> -          maxItems: 5
+> +          minItems: 7
+>  
+>          ports:
+>            required:
+>              - port@0
+>              - port@1
+>              - port@2
+> +            - port@3
+> +
+> +      required:
+> +        - rockchip,grf
+> +        - rockchip,vo1-grf
+> +        - rockchip,vop-grf
+> +        - rockchip,pmu
+
+Where do the existing platforms have a constraint of only 1 interrupt?
+
+And now while rk3576 has defined interrupt-names, all the other can have 
+4 entries with anything.
+
+Rob
