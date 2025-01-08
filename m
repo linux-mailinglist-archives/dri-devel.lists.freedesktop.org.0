@@ -2,85 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045A3A064A8
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 19:36:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F1DA06494
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 19:35:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 683F810EC76;
-	Wed,  8 Jan 2025 18:36:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CF4D10E916;
+	Wed,  8 Jan 2025 18:35:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Mc2Tt1XV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WS+pivHx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE66210EC73
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 18:36:01 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-5401d3ea5a1so85243e87.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 10:36:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736361300; x=1736966100; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=IYCZnwFt0+cp1X+PL+bPgFE710cXUj9pBytiXkGYfdc=;
- b=Mc2Tt1XVl9lvSPXOAOHoCHEOfusj8ETyxvBc3lfXDtGYhUvFdaQaKIo06AsYfYNmj/
- 5QOWG6cLzr8WsAdAikX6jrcF+JZ6hhv85RUMqBnG/me93/dZ89pGwCkudnPaMN0yJb6T
- X5pxnsnxOiJw7+klpxOnW1ksUJfuTmEC+wSApnxk0lrC7vfSIB8TxYVJ152O53uRGfSV
- +u4OnuJPcy6ffSsSmLJ7B+BI352qNOKLm8Vgm1XbLI+7pa8kenKWACzIHLx4zXhlHLPI
- C98/I63ZNfQGqEe17XmhQVbMqH/eu3eReQsqRjWEwLzjI4kEUCYjBqboysErFnjWdvXB
- 9TXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736361300; x=1736966100;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IYCZnwFt0+cp1X+PL+bPgFE710cXUj9pBytiXkGYfdc=;
- b=uPfSfB1m8AAQx9KjJPEsxL3T8fUwrU4VDA5+TMPLr/nEIWVqwJ9FKyUqWANeFhWj3j
- iunjRi/lC2lOhWEk9H2PrcrObvImMflBntLIDr8qxaZ1Ap4d2LW+p2bieAVMTRf5D/+R
- reExEfYKsAF8SZ3hTGN9rbXzvj0mcESdM7xuIancXMD2wyQ1b8ldGxSIN2/Er8f74Jsr
- 2HwFSvP1x0eDgXtq8JKxZLPgCKFuu5BVM39sLOIeSAIzrBwjOWyEGC2ucvidZ8anv0XC
- 9Yb1v3J4UJQCDF2JNEQBC5nBqf+x9d1aq1MEF1FnwZXhCknzhICYZ1l0bO6sbwhg+ZiP
- py2g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXV/T+Fkgjo6t0jfpxpfCEuqH716hl2rXDQ8XChkU6SZCb1AocJmOzGFEJGlZxnrmOMqi4IXl5GrLI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxbRtlW8PpezpVIDBANPZic3n7laj8dlmdnb8BSodSnp7Eh+vVO
- 2IAR0f5m3OlPDMXcNNpHFTj6plBkFCF/i9Wo9d+gV341Nem56bbby23dq1J/R3A=
-X-Gm-Gg: ASbGncuV3vWMs2X+IccEoTxvhLcmirQvNu0eZO33aXAX5CokHVy1OipoR5wbjer9i34
- dyTgEZQLpLbZGqihYwHmGc6V9mwm1jyGb/iBaiCwy8XcBmjiULAji4ZPSSbjJj0uXcMGwPLtmJv
- kOhGpKEEo4kS29L6en9nYq4H6EnkJI+Q+h7Ro1lZYxlRk8MAi2CbNE8XYBMBQ3PSLmsFljzaKBO
- l1BEpc2I2EszJa8qNT3Hh8GoA12vh0/aoc86e+jx2yNlL9hTJKCClIJ3J4LDl4kXgOGyuf2pusM
- V6l2NdNYyJZ32rvY4tXbMztBRNzaRT5sOVx1
-X-Google-Smtp-Source: AGHT+IFb6Npc91Ly5hS/17PsDbdvgtLljGkkI8oTfMdNR5uZx2/bAmzHi9qNVr/ZHnczddV1rrvqHQ==
-X-Received: by 2002:a05:6512:3049:b0:542:297f:4f65 with SMTP id
- 2adb3069b0e04-54284450352mr1136294e87.0.1736361300267; 
- Wed, 08 Jan 2025 10:35:00 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542238138a3sm5541996e87.157.2025.01.08.10.34.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 10:34:59 -0800 (PST)
-Date: Wed, 8 Jan 2025 20:34:56 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] drm: bridge: adv7511: fill stream capabilities
-Message-ID: <gdgrfvzrmgk4lz7ccayzjso4scqe55c2jrq3wmp5zxvdn5thp7@jxeb6kgbee5s>
-References: <20250108170356.413063-1-olivier.moysan@foss.st.com>
- <20250108170356.413063-2-olivier.moysan@foss.st.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBFA10E916
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 18:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=cm/OszGmjUymemK04VbiPrNxtsYuuLlSmqFIYPk5kis=; b=WS+pivHxPlEBZBZhNkf4T6045O
+ b5RwKnWW9LZbUXsgQOmsD7i+thmx/fZpjs5bkl4X26/LoH+q6EiFNhlxamODWpvmSNAQrxBmboO5P
+ yoBPD6ZbGdGKwl1Y734bRzkZib0BqTW5lQEoYfypxJ3pgOHyECkBDCW+HvJ6P6qtCz0aJEoVMyWH7
+ zzUvGPrw9otN9Yd38ONpOV6CE/7cnaMUfDj683igJhPMCqSLUu/aetAqv3eyu4mCADUZ1Ab/sXVo0
+ qZdRdW/92ulasds0ICWf4gxPThz2RgnNt9IwhdibcUJ7M6xJ2TIZLmhOfCMtIq8kka1D1b/EnFCx/
+ mGF1lT+w==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tVatx-00DFEc-2l; Wed, 08 Jan 2025 19:35:33 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>
+Subject: [RFC v2 00/18] Deadline scheduler and other ideas
+Date: Wed,  8 Jan 2025 18:35:10 +0000
+Message-ID: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108170356.413063-2-olivier.moysan@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,19 +61,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 08, 2025 at 06:03:54PM +0100, Olivier Moysan wrote:
-> Set no_i2s_capture and no_spdif_capture flags in hdmi_codec_pdata structure
-> to report that the ADV7511 HDMI bridge does not support i2s or spdif audio
-> capture.
-> 
-> Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
-> ---
->  drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+<tldr>
+Replacing FIFO with a flavour of deadline driven scheduling and removing round-
+robin. Connecting the scheduler with dma-fence deadlines. Second draft and
+testing by different drivers and feedback would be nice. I was only able to test
+it with amdgpu. Other drivers may not even compile.
+</tldr>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+If I remember correctly Christian mentioned recently (give or take) that maybe
+round-robin could be removed. That got me thinking how and what could be
+improved and simplified. So I played a bit in the scheduler code and came up
+with something which appears to not crash at least. Whether or not there are
+significant advantages apart from maybe code consolidation and reduction is the
+main thing to be determined.
+
+One big question is whether round-robin can really be removed. Does anyone use
+it, rely on it, or what are even use cases where it is much better than FIFO.
+
+See "drm/sched: Add deadline policy" commit message for a short description on
+what flavour of deadline scheduling it is. But in essence it should a more fair
+FIFO where higher priority can not forever starve lower priorities.
+
+"drm/sched: Connect with dma-fence deadlines" wires up dma-fence deadlines to
+the scheduler because it is easy and makes logical sense with this. And I
+noticed userspace already uses it so why not wire it up fully.
+
+Otherwise the series is a bit of progression from trivial cleanups to
+consolidating RR into FIFO code paths and going from there to deadline and then
+some code simplification to 1:1 run queue to scheduler relationship, because
+deadline does not need per priority run queues.
+
+There is quite a bit of code to go throught here so I think it could be even
+better if other drivers could give it a spin as is and see if some improvements
+can be detected. Or at least no regressions.
+
+v2:
+ * Fixed many rebase errors.
+ * Added some new patches.
+ * Dropped single shot dependecy handling.
+
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <pstanner@redhat.com>
+
+Tvrtko Ursulin (18):
+  drm/amdgpu: Use DRM scheduler API in amdgpu_xcp_release_sched
+  drm/sched: Delete unused update_job_credits
+  drm/sched: Remove one local variable
+  drm/sched: Remove weak paused submission checks
+  drm/sched: Avoid double re-lock on the job free path
+  drm/sched: Add helper to check job dependencies
+  drm/imagination: Use the drm_sched_job_has_dependency helper
+  drm/sched: Clarify locked section in drm_sched_rq_select_entity_fifo
+  drm/sched: Remove idle entity from tree
+  drm/sched: Implement RR via FIFO
+  drm/sched: Consolidate entity run queue management
+  drm/sched: Move run queue related code into a separate file
+  drm/sched: Add deadline policy
+  drm/sched: Remove FIFO and RR and simplify to a single run queue
+  drm/sched: Queue all free credits in one worker invocation
+  drm/sched: Connect with dma-fence deadlines
+  drm/sched: Embed run queue singleton into the scheduler
+  drm/sched: Scale deadlines depending on queue depth
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c      |   6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c     |  27 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h     |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h   |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c     |  10 +-
+ drivers/gpu/drm/imagination/pvr_job.c       |  12 +-
+ drivers/gpu/drm/scheduler/Makefile          |   2 +-
+ drivers/gpu/drm/scheduler/sched_entity.c    | 147 +++---
+ drivers/gpu/drm/scheduler/sched_fence.c     |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c      | 541 ++++----------------
+ drivers/gpu/drm/scheduler/sched_rq.c        | 177 +++++++
+ include/drm/gpu_scheduler.h                 |  55 +-
+ 13 files changed, 424 insertions(+), 576 deletions(-)
+ create mode 100644 drivers/gpu/drm/scheduler/sched_rq.c
 
 -- 
-With best wishes
-Dmitry
+2.47.1
+
