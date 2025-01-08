@@ -2,81 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45629A05296
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 06:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C19FA052DA
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 06:53:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C370010E23D;
-	Wed,  8 Jan 2025 05:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B13C10E346;
+	Wed,  8 Jan 2025 05:53:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j/8VxDBN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="deZPa1iD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D82D810E23D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 05:25:24 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-2f441791e40so19454350a91.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 21:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736313864; x=1736918664; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=QD6L0ujpzaRC/L59NoO6Z/+6+/oZeKQ9pKbwkOhBz1U=;
- b=j/8VxDBNAk9qh5pSfOTLp5Nv041ULEqb9RM2mAa8yYZiFgtQvgX3ZMbq4l3R2H1tlX
- onHX7AVAeMBNznkZp/IWUvs5WuXCUHvAZoMQ84SK6e4huCx6HzinMv8DzSEWfHvH/yye
- u9RO+qezvV0oI4j7ZvnDCmvRMS8FKO3l6OyPAIkkIF8J+azrn20syPASI0lncedfw28/
- w3Qm7K8q7JTdyhMTINgfZazYWwC5n4qI8gj6/OqLaIaTkqTzIWl/JzckKMfMQBC91oLz
- 9/OMjI4zH2ijaf5V3rXrLtjIne1mVgTdEhqTJZJFQpi7gBmoFW5bCCwzphakEpi2zMSt
- T3KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736313864; x=1736918664;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QD6L0ujpzaRC/L59NoO6Z/+6+/oZeKQ9pKbwkOhBz1U=;
- b=njOIyHdSiaqNTF+zZ/9OU9pL5lqnxNwztwzubUYFxG6GWZc8uob+IVGJ9TIsvZmnea
- kjGSt39B3s4HPe/Or62MUBh5E6sZncCbbXCE6cyy9Qv8uouqanR80zSNHbJhb/WUzVmW
- xA1C/X2E1O9IxpGrzirRqSXhdxtbeXxtXBwTnRtUgmZg6BAdd1vrqljWgz9MQail01ou
- Mip+RhR2DEx8w0w1rM7XcXzUYebz+7yEg5vVkGUtXZuAbcxUDWHQa9hOstuhbwvZj2L5
- 9wcgRStBg147ekemObvg/h3WDrF5pkcOuTBQFabzKGfwYXX+mULe1b2jJLjuQMJ7qyuu
- zzmw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXAoSAEDrJ+yks2ORtAewzhsV1j9ZtN1uTXhIZImvFZ4EqrofLZJ6OuuBYGtZKiMc6en71DSzt558Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycPPIBvR+TvSSqnh0HuXOnpz5KTpr8U53GThTZzFZBofi0nJc5
- vm+Z0INQhfoYIChMuAXK3WnWNjYQau9QbtWd8b34O0567KMoh4aT//o59Xy9Xw==
-X-Gm-Gg: ASbGncsZSROHzTXsuSsEbCE/RvFPPoTMMegPV2TVCs2CAlxUJHAqLRfz4vtvdv2Ykhr
- zeU+hlWgIAuXtjhVLkmbAqL51LJvYp5tBzxmvLd6fZfUEjQsm59wxEyRXTmW1mT5hNZulEv4PVz
- xj8xn+/Eavz99llkHQBaJb+h01cjJaAs+vxXmHLHVxcddSp+J0Fx4O4pobowPpkJ2xRaNkBa7io
- A/ao/Pyf6pWoklBXofKaZDK4rTiU0jWgnSKTdEtjrwUvNEDx0dfkDVnuJNJhdTqTUyZ
-X-Google-Smtp-Source: AGHT+IFeyo2aY47f/bHnipeLkhHuGpmxHpg269EGkKbkJq3egoRjBog7l1tF3IalKZ3HcujkOf6x+Q==
-X-Received: by 2002:a17:90b:2cc7:b0:2ee:5edc:4b2 with SMTP id
- 98e67ed59e1d1-2f548f6a952mr2289084a91.20.1736313864340; 
- Tue, 07 Jan 2025 21:24:24 -0800 (PST)
-Received: from thinkpad ([117.213.100.67]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dc9f5195sm317147125ad.194.2025.01.07.21.24.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2025 21:24:23 -0800 (PST)
-Date: Wed, 8 Jan 2025 10:54:16 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
- quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
- ogabbay@kernel.org, lizhi.hou@amd.com,
- jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-Subject: Re: [PATCH 1/7] bus: mhi: host: Refactor BHI/BHIe based firmware
- loading
-Message-ID: <20250108052416.cqfoxzvw42me2kub@thinkpad>
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-2-quic_jhugo@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47DB510E271;
+ Wed,  8 Jan 2025 05:53:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736315619; x=1767851619;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=EtUZnS/GTi3/FsQN9SotmFS4+2GEkV8npGNmirHAtyw=;
+ b=deZPa1iD40SKfy7EoF3eYVx4CMq836nbCvjqBy6Y+kodoehccvGbSkRz
+ 5BhovmxIBRjE3eC6uLrGwPJJ7q0L7r7Z3n2NZyJFSFn1maIiv2EYdruvS
+ fgtHWWN9KO/Bm7EhX7xtgpx7MfgULO1nhloh55S5epNR0nxEIkRmyLURZ
+ AtpNg20S5xnuBunkVToswN8j62dTO23jEJYYLaRAm5AFMmp0olt+qEeDq
+ ihZeUKbWMcxhlQUNGV3lY0K3tDb/0dx4VfR0YO9Jix5wSdhwQqqCXQqcH
+ zJkA3ls7OByNrqo6N3niqWkcfQGXEJ8z3UJbyfCtntd9Us1t6kLhzfRKd Q==;
+X-CSE-ConnectionGUID: s977saqOSTiE5AY9zyek4w==
+X-CSE-MsgGUID: xYMmFmJuQSWw447nlAvbtw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="61903896"
+X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; d="scan'208";a="61903896"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2025 21:53:39 -0800
+X-CSE-ConnectionGUID: JvsHydFyQWqAfa6B1AmUnA==
+X-CSE-MsgGUID: X288V6jLSYKEoC8OlceDkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="107024101"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa003.fm.intel.com with ESMTP; 07 Jan 2025 21:53:37 -0800
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v3 0/5] Expose modifiers/formats supported by async flips
+Date: Wed, 08 Jan 2025 11:08:58 +0530
+Message-Id: <20250108-asyn-v3-0-f4399635eec9@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241213213340.2551697-2-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHIPfmcC/zXMzQ7CIBAE4Fdp9ixkoT+oJ9/DeEDcComFZqHGp
+ um7S0w8fpOZ2SATB8pwbjZgeoccUqxoDw04b+OTRHhUg0bdo0ItbF6juI9mMC3WxDmo1ZlpDJ/
+ fzfVWPXKaRPFM9j/ulFJHNH2retkNA+JJKGF5iZLltHDx6yXEQi/p0gT7/gUWa0kmmAAAAA==
+X-Change-ID: 20250102-asyn-bf76730501cc
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: Arun R Murthy <arun.r.murthy@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,172 +70,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2024 at 02:33:34PM -0700, Jeffrey Hugo wrote:
-> From: Matthew Leung <quic_mattleun@quicinc.com>
-> 
-> Refactor the firmware loading code to have distinct helper functions for
-> BHI and BHIe operations. This lays the foundation for separating the
-> firmware loading protocol from the firmware being loaded and the EE it
-> is loaded in.
-> 
-> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
-> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/bus/mhi/host/boot.c | 155 +++++++++++++++++++++++++-----------
->  1 file changed, 110 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index e8c92972f9df..e3f3c07166ad 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -177,6 +177,37 @@ int mhi_download_rddm_image(struct mhi_controller *mhi_cntrl, bool in_panic)
->  }
->  EXPORT_SYMBOL_GPL(mhi_download_rddm_image);
->  
-> +static inline void mhi_fw_load_error_dump(struct mhi_controller *mhi_cntrl)
+All of the formats/modifiers supported by the plane during synchronous
+flips are nor supported by asynchronous flips. The formats/modifiers
+exposed to user by IN_FORMATS exposes all formats/modifiers supported by
+plane and this list varies for async flips. If the async flip supported
+formats/modifiers are exposed to the user, user based on this list can
+take decision to proceed or not and avoid flip failures during async
+flips.
+Discussion around this can be located @
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+Userspace implementation for IN_FORMARTS_ASYNC under review @
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
 
-No need to add 'inline' keyword in c files. You can trust the compiler.
+TODO: Upon merge of the patch related to async flip
+https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
+the patch 5 in this series will have to make use of the new function
+pointer can_async_flip().
 
-> +{
-> +	struct device *dev = &mhi_cntrl->mhi_dev->dev;
-> +	rwlock_t *pm_lock = &mhi_cntrl->pm_lock;
-> +	void __iomem *base = mhi_cntrl->bhi;
-> +	int ret;
-> +	u32 val;
-> +	int i;
+v3: Add new plane->funcs format_mod_supported_async (Ville)
 
-int ret, i?
+Arun R Murthy (3):
+  drm/plane: Add new plane property IN_FORMATS_ASYNC
+  drm/plane: Expose function to create format/modifier blob
+  drm/i915/display: Populate list of async supported formats/modifiers
 
-> +	struct {
-> +		char *name;
-> +		u32 offset;
-> +	} error_reg[] = {
-> +		{ "ERROR_CODE", BHI_ERRCODE },
-> +		{ "ERROR_DBG1", BHI_ERRDBG1 },
-> +		{ "ERROR_DBG2", BHI_ERRDBG2 },
-> +		{ "ERROR_DBG3", BHI_ERRDBG3 },
-> +		{ NULL },
-> +	};
-> +
-> +	read_lock_bh(pm_lock);
-> +	if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state)) {
-> +		for (i = 0; error_reg[i].name; i++) {
-> +			ret = mhi_read_reg(mhi_cntrl, base, error_reg[i].offset, &val);
-> +			if (ret)
-> +				break;
-> +			dev_err(dev, "Reg: %s value: 0x%x\n", error_reg[i].name, val);
-> +		}
-> +	}
-> +	read_unlock_bh(pm_lock);
-> +}
-> +
+ drivers/gpu/drm/drm_mode_config.c             |  7 +++
+ drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
+ include/drm/drm_mode_config.h                 |  6 +++
+ include/drm/drm_plane.h                       |  4 ++
+ 5 files changed, 103 insertions(+), 15 deletions(-)
 
-[...]
+--
+2.25.1
 
-> +static int mhi_alloc_bhi_buffer(struct mhi_controller *mhi_cntrl,
-> +				struct image_info **image_info,
-> +				size_t alloc_size)
-> +{
-> +	struct image_info *img_info;
-> +	struct mhi_buf *mhi_buf;
-> +	int segments = 1;
-> +
-> +	img_info = kzalloc(sizeof(*img_info), GFP_KERNEL);
-> +	if (!img_info)
-> +		return -ENOMEM;
-> +
-> +	/* Allocate memory for entry */
-> +	img_info->mhi_buf = kcalloc(segments, sizeof(*img_info->mhi_buf),
-> +				    GFP_KERNEL);
+---
+Arun R Murthy (5):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: Expose function to create format/modifier blob
+      drm/plane: Function to check async supported modifier/format
+      drm/i915/display: Populate list of async supported formats/modifiers
+      drm/i915/display: Add function for format_mod_supported_async
 
-Why do you need kcalloc for only 1 segment?
+ drivers/gpu/drm/drm_mode_config.c                  |   7 ++
+ drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
+ include/drm/drm_mode_config.h                      |   6 ++
+ include/drm/drm_plane.h                            |  24 +++++
+ 5 files changed, 188 insertions(+), 34 deletions(-)
+---
+base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
+change-id: 20250102-asyn-bf76730501cc
 
-> +	if (!img_info->mhi_buf)
-> +		goto error_alloc_mhi_buf;
-> +
-> +	/* Allocate and populate vector table */
-> +	mhi_buf = img_info->mhi_buf;
-> +
-> +	mhi_buf->len = alloc_size;
-> +	mhi_buf->buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, mhi_buf->len,
-> +					  &mhi_buf->dma_addr, GFP_KERNEL);
-> +	if (!mhi_buf->buf)
-> +		goto error_alloc_segment;
-> +
-> +	img_info->bhi_vec = NULL;
-> +	img_info->entries = segments;
-> +	*image_info = img_info;
-> +
-> +	return 0;
-> +
-> +error_alloc_segment:
-> +	kfree(mhi_buf);
-> +error_alloc_mhi_buf:
-> +	kfree(img_info);
-> +
-> +	return -ENOMEM;
-> +}
-> +
->  int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  			 struct image_info **image_info,
->  			 size_t alloc_size)
-> @@ -364,9 +422,18 @@ int mhi_alloc_bhie_table(struct mhi_controller *mhi_cntrl,
->  	return -ENOMEM;
->  }
->  
-> -static void mhi_firmware_copy(struct mhi_controller *mhi_cntrl,
-> -			      const u8 *buf, size_t remainder,
-> -			      struct image_info *img_info)
-> +static void mhi_firmware_copy_bhi(struct mhi_controller *mhi_cntrl,
-> +				  const u8 *buf, size_t size,
-> +				  struct image_info *img_info)
-> +{
-> +	struct mhi_buf *mhi_buf = img_info->mhi_buf;
-> +
-> +	memcpy(mhi_buf->buf, buf, size);
-> +}
-> +
-> +static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
-> +				   const u8 *buf, size_t remainder,
-> +				   struct image_info *img_info)
->  {
->  	size_t to_cpy;
->  	struct mhi_buf *mhi_buf = img_info->mhi_buf;
-> @@ -390,10 +457,9 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	const struct firmware *firmware = NULL;
->  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
->  	enum mhi_pm_state new_state;
-> +	struct image_info *image;
->  	const char *fw_name;
->  	const u8 *fw_data;
-> -	void *buf;
-> -	dma_addr_t dma_addr;
->  	size_t size, fw_sz;
->  	int ret;
->  
-> @@ -452,17 +518,16 @@ void mhi_fw_load_handler(struct mhi_controller *mhi_cntrl)
->  	fw_sz = firmware->size;
->  
->  skip_req_fw:
-> -	buf = dma_alloc_coherent(mhi_cntrl->cntrl_dev, size, &dma_addr,
-> -				 GFP_KERNEL);
-> -	if (!buf) {
-> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
-> +	if (ret) {
->  		release_firmware(firmware);
->  		goto error_fw_load;
->  	}
-> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
-
-Why can't you directly use memcpy here? I know what you want to keep symmetry
-with mhi_firmware_copy_bhie(), but it seems unnecessary to me.
-
-Adding a comment like "Load the firmware into BHI vec table" is enough.
-
-- Mani
-
-
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Arun R Murthy <arun.r.murthy@intel.com>
+
