@@ -2,93 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD68A05BB4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 13:32:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDA40A05C20
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 13:53:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCB8C10E0D5;
-	Wed,  8 Jan 2025 12:32:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bLzQFqEx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E50D710E29E;
+	Wed,  8 Jan 2025 12:53:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D30B810E0D5
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 12:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736339570;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k1UEPDcsnN4NWhYwC/sb2nmfU8hOvBlPL6EYS1RqShk=;
- b=bLzQFqExXWzk83DlhRDzssFV+wABWu9V3SV+1BV7oMn4cmBWytqZe8wA494imZaWY8Db69
- AwPsTE+ixDJl6DciSgykovNHY54LSd7BesJg0hy0MZwuuHStxwAYwh0zmN7wywjmuMB7dZ
- XA1bc7ApoFERhuSnZozkwa60ZGB5yfo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-142--bQjkIsKP3Sbv0wgr7FzAA-1; Wed, 08 Jan 2025 07:32:49 -0500
-X-MC-Unique: -bQjkIsKP3Sbv0wgr7FzAA-1
-X-Mimecast-MFC-AGG-ID: -bQjkIsKP3Sbv0wgr7FzAA
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4361fc2b2d6so53513575e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 04:32:49 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com
+ [209.85.221.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AF0210E29E;
+ Wed,  8 Jan 2025 12:53:38 +0000 (UTC)
+Received: by mail-vk1-f175.google.com with SMTP id
+ 71dfb90a1353d-51bc2363fd7so3902685e0c.2; 
+ Wed, 08 Jan 2025 04:53:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736339568; x=1736944368;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k1UEPDcsnN4NWhYwC/sb2nmfU8hOvBlPL6EYS1RqShk=;
- b=OXW80zvLCqUA8/cIhclaCkmgCFchEjykUpT+1/l7fU2/hOsO/DC1PM1CZaLNhiLROy
- s28cy52mRod65k4oCuNNOFBKZR4Tv12F6f1sTuzwegq+guEWjxjDnmpv2OVT3HEtYI9N
- Xbdaf8qiIcazrLULy0ZMy5tnAQ8RDS2IYiHHw1iKJ4/grQKNiJUIhdx+XCsI1u3Z1Wai
- 6IoO5yuTkHOVTTik94FfuHsJbfIxihm6pKUYpls/h8O71Rm+1rWUfIAMmHAVYYYJUyUi
- eqisgH7nz57lsyL5gwQ8phXKs3Xdm22Ju/7NX6jjfNnmwfy4lBW4Gmdad3mPuwVmRpqv
- dVMg==
+ d=1e100.net; s=20230601; t=1736340815; x=1736945615;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5DPVgWRoBgp5UUwkNErzWNpDubic5Irpv9/KSUHnOLo=;
+ b=nWyQYjfj25t18A7FwC2qVCKaMRdAyHsu5D/gXLqtiGUBYkljELuEFaDFJDlt9o+9Z2
+ ZFvFYy1XJ93avY1IUGMwFnNdQiuaqd0rrrEDQ9ZxKKuu+9fFuHwywAdShnw53WQfJRy6
+ MeQm71ESr0O8qBB23gP0uFtFcZzVpSSF/5JsUsQeoo4eLx7QteNUl9aQMEVZrK/Rwap/
+ lPWB6GfCjOSCnU6AM9G+DHiWiKlZ0uuspoBSRfzwVr2QONqbIoKY24pMnplw1aiHGnfP
+ DgdMlawMLSL7wq8xoiwem4kIf5/gpTIYRStYDrDn5lSFrlDLMPYBG0rqEe9Q3VVRYCYR
+ fXgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUdk826gqEtZZJnIUOkTIlQVTVsrNicLcdb4GQSLPdYDqJtlEslGHNctZfaB9niTpegJoSOBG1XyTY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0WpBEQafMHjZge+C4ZoQnE0V1hxEFmOJ1/nI2zbum68Bl133c
- w7Co/DLCWI9iPZrqEWvvqBR+3aezukyyTQbc6RuoBpPUEFLUpECcvIaa2o3FMXRT3KKzOQIDy5T
- eG+66rZSoLedsDKOzr0VdZgP7wvP1D7HHFxjtQ4zt/kbhfY+BxIVnCpRqWPHkNYFTUw==
-X-Gm-Gg: ASbGncuXSeuj2ytVGdeTA/ATt/Rjqqf4SsqOXloE0V7f7Dk3KAxlwxWhvYITl5slhsL
- Q/fn6Prv+yvsSkS4+WUHwdOCI5YFm9F/S2OJcOWQyxpeqZVzFTlIEz1rg7W2TrLSsKQLWb3LM/6
- BrnorsPZRIhmW9FJ20gMtYQUxW5hvSCyzMA+Nuwb78OWSOPaI2Em62cvgdv53f7VhmosUTAD80l
- lrBf8+ZoRQePsfVQnPVTFvTARzHaq7xmn+0DSMqQDHVbtH1NfanU2BQ+2mLxmTGCDuQlTfmm17M
- sJMPaep/hjndtBjlGWYrseBL1SMDACH1ntZcQm4=
-X-Received: by 2002:a05:6000:401e:b0:386:366d:5d03 with SMTP id
- ffacd0b85a97d-38a872da868mr2167430f8f.16.1736339568405; 
- Wed, 08 Jan 2025 04:32:48 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH3m1fLbO7hQhrw5TYsrYCXVEskXDvHw1Rd6gLmWrZvoyyPUUNzgMR6flo65Nq/VSQH5WP8Ag==
-X-Received: by 2002:a05:6000:401e:b0:386:366d:5d03 with SMTP id
- ffacd0b85a97d-38a872da868mr2167403f8f.16.1736339567996; 
- Wed, 08 Jan 2025 04:32:47 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a28f17315sm47342858f8f.108.2025.01.08.04.32.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 04:32:47 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, David
- Airlie <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/ssd130x: Set SPI .id_table to prevent an SPI core
- warning
-In-Reply-To: <874j2jkcnt.fsf@minerva.mail-host-address-is-not-set>
-References: <20241231114516.2063201-1-javierm@redhat.com>
- <p2hzb3ysmthgfi4j6ehwulzk44zf4s5d6bm3nqs2rww47boshl@jr6aqmas4l5p>
- <877c7fkgs5.fsf@minerva.mail-host-address-is-not-set>
- <vrk6nb6umj6754ttm6hugpgiczzuxm2qwpzwptskwdbzozmnjz@tbasj7yk4ksf>
- <874j2jkcnt.fsf@minerva.mail-host-address-is-not-set>
-Date: Wed, 08 Jan 2025 13:32:46 +0100
-Message-ID: <87wmf5iiz5.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCWt+ReLVzAdRnqfHnHGqgmWd0Pn/bDuCHo6QYcEkVOZK3rq99B+J8k3109teO8k6429JXLOc5KWWctU@lists.freedesktop.org,
+ AJvYcCXVdKJ33T9Act3CXkdrQ2fZESNqKCQfpYfydCQ7jO2jy6LUXgz/HaoETGrjb2snJoUtjv8RpV/BxTU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxT9NCOIlOGYnEeKaumuMUj6OhNiJcZBJgJku+RSQX/FQtJxCiO
+ 0oPT71xn0fVMj7EwvnYbmFkloX+YeZaCEZUdr2VhOVTGny5GYggQCgVqIWEd
+X-Gm-Gg: ASbGnctpZeE3H65ojIDpeDNf787G+gvHP0T2RTJVUQoggTnATk/0mDnDd5PJezl7wpx
+ 8lRUQhGRC254aUUbsWqKJWzDwGvzy3BDKirbPXwRiotf1dZq4iApYvq8PzvBTOGQRqyo8ZbeP64
+ n89ogA5yF3WFgLv7GsUyTYqDMjoXYBayXR9tkEkIBw49AvLjZzj7TbK3TfN18NYo+wYJaI6By2U
+ d18/zNmP9dCRVxtm9lwtsbxLXHB929L5PA5aB3BxBRdXRPopf6Q8V2EP5XU0k4T8IAKYc9mZkVB
+ uzIAedkoATKzqsG8tBM=
+X-Google-Smtp-Source: AGHT+IGh6vIB8ejyuMQYuw2nekmVHv/UUAirzWfsP5y/Qedx+LajFZPSw3PB3Zz8W8SmJYz0gymocg==
+X-Received: by 2002:a05:6122:4684:b0:518:8ac7:396b with SMTP id
+ 71dfb90a1353d-51c6c50fa85mr1426171e0c.8.1736340814779; 
+ Wed, 08 Jan 2025 04:53:34 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com.
+ [209.85.222.41]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-51b68b7d627sm4881132e0c.3.2025.01.08.04.53.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 08 Jan 2025 04:53:33 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id
+ a1e0cc1a2514c-85c5316f15cso3885477241.1; 
+ Wed, 08 Jan 2025 04:53:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUttN5T1+JSDm/fIrA0/01aw5qlxS2/vFLYnoiQozeLpabsH5qzK3plAHZF5OaNg4fvN9yi/Ezt7Cs=@lists.freedesktop.org,
+ AJvYcCXcfIdAo+mHVcIIEVfmEVl1FKnDa4+CmIkVeQf0Dr7TH8mgO5wexHIxQPdI+4K9XO2GMAg0hKu14iY6@lists.freedesktop.org
+X-Received: by 2002:a05:6102:f11:b0:4af:fc14:f138 with SMTP id
+ ada2fe7eead31-4b3d0f94834mr1605383137.7.1736340813382; Wed, 08 Jan 2025
+ 04:53:33 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rtqAEeInwnxkPdALAQNWolmX78UEVH1pb35sjy_ryFk_1736339568
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20250107125854.227233-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20250107125854.227233-1-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 8 Jan 2025 13:53:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXq3pLB1K5N9gFmBF6B0ohpLdKf0aj0WSuK17U-Bs4oUw@mail.gmail.com>
+X-Gm-Features: AbW1kvb03s6-ioyEsxQhihv8HJWEPeM4AbdJ5u2RlFP_T025eauQBHNT5poBSNc
+Message-ID: <CAMuHMdXq3pLB1K5N9gFmBF6B0ohpLdKf0aj0WSuK17U-Bs4oUw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: display: Correct indentation and style in
+ DTS example
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Mahadevan <quic_mahap@quicinc.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, dri-devel@lists.freedesktop.org, 
+ linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,46 +119,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Javier Martinez Canillas <javierm@redhat.com> writes:
+Hi Krzysztof,
 
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
+On Tue, Jan 7, 2025 at 1:58=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> DTS example in the bindings should be indented with 2- or 4-spaces and
+> aligned with opening '- |', so correct any differences like 3-spaces or
+> mixtures 2- and 4-spaces in one binding.
 >
->> On Tue, Dec 31, 2024 at 04:34:34PM +0100, Javier Martinez Canillas wrote:
->>> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
->>> 
->>> Hello Dmitry,
->>> 
->>> > On Tue, Dec 31, 2024 at 12:44:58PM +0100, Javier Martinez Canillas wrote:
->>
->> [...]
->>
->>> >> Since the check is done even for built-in drivers, drop the condition to
->>> >> only define the ID table when the driver is built as a module. Finally,
->>> >> rename the variable to use the "_spi_id" convention used for ID tables.
->>> >> 
->>> >> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->>> >
->>> > Fixes: 74373977d2ca ("drm/solomon: Add SSD130x OLED displays SPI support")
->>> >
->>> 
->>> I was on the fence about adding a Fixes: tag due a) the issue being there
->>> from the beginning as you pointed out and b) the warning being harmless.
->>> 
->>> But I'll add it to v2 or just before pushing it to drm-misc-next.
->>
->> Just before pushing is enough. dim b4-shazam can do that for you.
->>
+> No functional changes here, but saves some comments during reviews of
+> new patches built on existing code.
 >
-> Yeah, I meant in case that I post a v2. I'll wait a few days before
-> pushing in case someone else chimes in. Thanks again!
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Thanks for your patch!
+
+> --- a/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+> @@ -58,10 +58,10 @@ examples:
+>      #include <dt-bindings/power/r8a7796-sysc.h>
 >
+>      cmm0: cmm@fea40000 {
+> -         compatible =3D "renesas,r8a7796-cmm",
+> -                      "renesas,rcar-gen3-cmm";
+> -         reg =3D <0xfea40000 0x1000>;
+> -         power-domains =3D <&sysc R8A7796_PD_ALWAYS_ON>;
+> -         clocks =3D <&cpg CPG_MOD 711>;
+> -         resets =3D <&cpg 711>;
+> +        compatible =3D "renesas,r8a7796-cmm",
+> +                     "renesas,rcar-gen3-cmm";
 
-Pushed to drm-misc (drm-misc-next). Thanks!
+Nit: the compatible values fit on a single line.
 
--- 
-Best regards,
+> +        reg =3D <0xfea40000 0x1000>;
+> +        power-domains =3D <&sysc R8A7796_PD_ALWAYS_ON>;
+> +        clocks =3D <&cpg CPG_MOD 711>;
+> +        resets =3D <&cpg 711>;
+>      };
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
