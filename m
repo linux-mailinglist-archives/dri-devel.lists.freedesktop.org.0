@@ -2,69 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA3EA05698
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 10:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330D5A0569E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 10:23:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 844A410E81C;
-	Wed,  8 Jan 2025 09:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A957810E6FA;
+	Wed,  8 Jan 2025 09:23:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y2UCQTn7";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="J/iPZDPd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59B7110E6FA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 09:21:35 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-30036310158so150146761fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 01:21:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736328033; x=1736932833; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mFF5g1suSxFROd8Ao8Ky4FvnhLMNht4ePtM+PUDq5CQ=;
- b=y2UCQTn7fvV6WZhINLMlgXpodAf+EE+MOtVu59wCdjTlBTFwrykZRFcamPOzWKvCyP
- mj9T/O8N//FqCPaJusrRP37RJSNCIdhi85N7cd3BGsbzTdD8KpfUF6jzm0Eb9PCvgDIN
- F5L63av5heSMkPnXS+9Ht0KBZfk27t2Obcm/0L0ILJAfe+jTaOUbXnuOi2peLND5uq4K
- iB6BHc8YrcNoEtMD/zcHQGHjsShINGyInuHd9g3kb2k+Snm2U811PN2nLlIzMvhwbAdL
- fuY68bGch6ZJQUVnm/ulHhC/5DYQ1VgNLzDslCuydky+u/czAlOSzQvXsH2/7tpEsc0A
- QASg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736328033; x=1736932833;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mFF5g1suSxFROd8Ao8Ky4FvnhLMNht4ePtM+PUDq5CQ=;
- b=JHl9UOwHiizONa/uu/Xd171tSq9liD8GkWo+RI8n0BuaZxkgCGkKH0Rnb9xoycUqW2
- hbOOWlu8U0zF9FtRh4UMwkKqpoqh0803Gdc4uPiYjy3uXvHJCzwhUWTtuXlCxhlSiLEQ
- Uqw+Tbuv2FD1QlxlJGJoKGu93Fd0hi8vm3I/agUxi7x7C/P4kI3gcTEwkJexvsW7zszv
- XOzGAJL6OBFuHeolZdMEYulPEGtdKfEb/9y1SAYuD0W5KAq7dBtBCffh0ZSGcgsxjIIg
- ngcDADaq7SifJ/r6Sty+PAkU6DK1n0bb6PWNdI+Ki99MnAMS+TDuXI+p6dJoiYxwGiNm
- n0Ww==
-X-Gm-Message-State: AOJu0YzRlKMLaaWobfSOXMGI8a1//U65qduaiVfQPPo034pwsG29i9jR
- 2UeWH5KassHiMI4/HNwDwoHn6lFidK1gX8ynLY1UmBilUnOYDmxxAEWIBjeL0Yr7Rv22KLZSqoN
- w
-X-Gm-Gg: ASbGncsHiuYHnIhkp/erFK8EsYDb6/y5JHcCe9++LNSuh+NveMCqPd8zjKn0Rn8oxON
- BFsuLpmtvEd3MT2SB5BM51+zrgdZgVojtsWh+szPoo+HJs1eq0CcSR/62+FBrPBOQWV2+9xPGe8
- mrtJJ/ARHkWKF33MwHdlCaELvfXUh3Ah1dAShYq9F8vX5IJvr9zcMDrg/JRKtZME2J21mOEgG1N
- 6kOjkWvOTBTjvmyspoStpyV18nOrlzlujXTGacTioHLwS9DFb0Bt0zEGUlM/w==
-X-Google-Smtp-Source: AGHT+IFv+T8LhSpb5cmZW3hobnYam6IuIXAt/zLYJTv9m2tNZQfgTItXUlTxOpCbQhDTC1sYrWAEaA==
-X-Received: by 2002:a05:6000:400e:b0:382:38e6:1eb3 with SMTP id
- ffacd0b85a97d-38a872ebd18mr1432182f8f.30.1736327616326; 
- Wed, 08 Jan 2025 01:13:36 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2e2275bsm13782475e9.40.2025.01.08.01.13.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 01:13:36 -0800 (PST)
-Date: Wed, 8 Jan 2025 12:13:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Hermes Wu <hermes.wu@ite.com.tw>
-Cc: dri-devel@lists.freedesktop.org
-Subject: [bug report] drm/bridge: it6505: fix HDCP CTS compare V matching
-Message-ID: <b1cc3aab-d5c5-4e61-b270-24c2b28df217@stanley.mountain>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22AE310E6FA
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 09:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1736328188;
+ bh=qd19nRPwbCvUMi/KiQbuvAWtRBU4wH1adFt9H0ZLYm4=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=J/iPZDPdgXw2RBeEUVXQ1CswpShssY0E40y7+6XgOHC5JCgIeWxfXaA9zQRSNXwdk
+ r8rwtOaovegOo6o1HUJCg/s9ui+ahQx8i81Ilep0lRCVM1YL5Ya7eLM3XPcall2wdr
+ NEU3r2veQiMqBBTkAKxXV0Z0hGWMrQ49LZ2Oc9EIKIlmd8e/P96we3PJ3k+xm87Iyd
+ PjqHluCtgI4TdG3aR74Bm4/HowFJphatSUb0uJtGrSjVvBG3tohnSstK/XswWd1Nlh
+ LEF1e0LOWZZ8wy3N6EZs1+FE1mjDJfDt665eEig6JIIhluVghGUm8HKOL6Nfom89lU
+ /iohHw7aGBnig==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B20B917E1544;
+ Wed,  8 Jan 2025 10:23:07 +0100 (CET)
+Message-ID: <9f8c2da3-8cce-4fb2-a863-4d79f524f58b@collabora.com>
+Date: Wed, 8 Jan 2025 10:23:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 14/33] drm/mediatek: mtk_hdmi: Move audio params
+ selection to new function
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+ "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
+ <jitao.shi@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
+References: <20241217154345.276919-1-angelogioacchino.delregno@collabora.com>
+ <20241217154345.276919-15-angelogioacchino.delregno@collabora.com>
+ <03d20d6d77b54c25b9d7e65899a67359fae6130a.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <03d20d6d77b54c25b9d7e65899a67359fae6130a.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,58 +85,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Hermes Wu,
+Il 20/12/24 04:47, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Tue, 2024-12-17 at 16:43 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>
+>>
+>> In preparation for splitting common bits of this driver, move the
+>> audio params (codec, sample rate/size, input type, i2s format, etc)
+>> selection to a new function called mtk_hdmi_audio_params().
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 46 +++++++++++++++++------------
+>>   1 file changed, 27 insertions(+), 19 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> index d2f1d6286fbc..8f5ab97a0261 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> @@ -1479,12 +1479,11 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+>>    * HDMI audio codec callbacks
+>>    */
+>>
+>> -static int mtk_hdmi_audio_hw_params(struct device *dev, void *data,
+>> -                                   struct hdmi_codec_daifmt *daifmt,
+>> -                                   struct hdmi_codec_params *params)
+>> +static int mtk_hdmi_audio_params(struct mtk_hdmi *hdmi,
+>> +                                struct hdmi_codec_daifmt *daifmt,
+>> +                                struct hdmi_codec_params *params)
+>>   {
+>> -       struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+>> -       struct hdmi_audio_param hdmi_params;
+>> +       struct hdmi_audio_param aud_params = { 0 };
+>>          unsigned int chan = params->cea.channels;
+>>
+>>          dev_dbg(hdmi->dev, "%s: %u Hz, %d bit, %d channels\n", __func__,
+>> @@ -1495,16 +1494,16 @@ static int mtk_hdmi_audio_hw_params(struct device *dev, void *data,
+>>
+>>          switch (chan) {
+>>          case 2:
+>> -               hdmi_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
+>> +               aud_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
+>>                  break;
+>>          case 4:
+>> -               hdmi_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_4_0;
+>> +               aud_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_4_0;
+>>                  break;
+>>          case 6:
+>> -               hdmi_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_5_1;
+>> +               aud_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_5_1;
+>>                  break;
+>>          case 8:
+>> -               hdmi_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_7_1;
+>> +               aud_params.aud_input_chan_type = HDMI_AUD_CHAN_TYPE_7_1;
+>>                  break;
+>>          default:
+>>                  dev_err(hdmi->dev, "channel[%d] not supported!\n", chan);
+>> @@ -1528,26 +1527,35 @@ static int mtk_hdmi_audio_hw_params(struct device *dev, void *data,
+>>
+>>          switch (daifmt->fmt) {
+>>          case HDMI_I2S:
+>> -               hdmi_params.aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+>> -               hdmi_params.aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+>> -               hdmi_params.aud_input_type = HDMI_AUD_INPUT_I2S;
+>> -               hdmi_params.aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
+>> -               hdmi_params.aud_mclk = HDMI_AUD_MCLK_128FS;
+>> +               aud_params.aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+>> +               aud_params.aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+>> +               aud_params.aud_input_type = HDMI_AUD_INPUT_I2S;
+>> +               aud_params.aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
+>> +               aud_params.aud_mclk = HDMI_AUD_MCLK_128FS;
+>>                  break;
+>>          case HDMI_SPDIF:
+>> -               hdmi_params.aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+>> -               hdmi_params.aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+>> -               hdmi_params.aud_input_type = HDMI_AUD_INPUT_SPDIF;
+>> +               aud_params.aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+>> +               aud_params.aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+>> +               aud_params.aud_input_type = HDMI_AUD_INPUT_SPDIF;
+>>                  break;
+>>          default:
+>>                  dev_err(hdmi->dev, "%s: Invalid DAI format %d\n", __func__,
+>>                          daifmt->fmt);
+>>                  return -EINVAL;
+>>          }
+>> +       memcpy(&aud_params.codec_params, params, sizeof(aud_params.codec_params));
+> 
+> You copy to local variable, so this function does nothing.
+> 
+>> +
+>> +       return 0;
+>> +}
+>>
+>> -       memcpy(&hdmi_params.codec_params, params,
+>> -              sizeof(hdmi_params.codec_params));
+>> +static int mtk_hdmi_audio_hw_params(struct device *dev, void *data,
+>> +                                   struct hdmi_codec_daifmt *daifmt,
+>> +                                   struct hdmi_codec_params *params)
+>> +{
+>> +       struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+>> +       struct hdmi_audio_param hdmi_params;
+>>
+>> +       mtk_hdmi_audio_params(hdmi, daifmt, params);
+>>          mtk_hdmi_audio_set_param(hdmi, &hdmi_params);
+> 
+> hdmi_params has not been initialized.
 
-Commit 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V
-matching") from Dec 30, 2024 (linux-next), leads to the following
-Smatch static checker warning:
+That was done on purpose: we are anyway rewriting all fields of that structure
+with the call to mtk_hdmi_audio_set_param(), so if that was stack-initialized
+to zero, that would be a double initialization.
 
-	drivers/gpu/drm/bridge/ite-it6505.c:2253 it6505_hdcp_part2_ksvlist_check()
-	warn: ignoring unreachable code.
+Cheers,
+Angelo
 
-drivers/gpu/drm/bridge/ite-it6505.c
-    2230 static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
-    2231 {
-    2232         struct device *dev = it6505->dev;
-    2233         u8 av[5][4], bv[5][4];
-    2234         int i, err, retry;
-    2235 
-    2236         i = it6505_setup_sha1_input(it6505, it6505->sha1_input);
-    2237         if (i <= 0) {
-    2238                 dev_err(dev, "SHA-1 Input length error %d", i);
-    2239                 return false;
-    2240         }
-    2241 
-    2242         it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
-    2243         /*1B-05 V' must retry 3 times */
-    2244         for (retry = 0; retry < 3; retry++) {
-    2245                 err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
-    2246                                       sizeof(bv));
-    2247 
-    2248                 if (err < 0) {
-    2249                         dev_err(dev, "Read V' value Fail %d", retry);
-    2250                         continue;
-    2251                 }
-    2252 
---> 2253                 for (i = 0; i < 5; i++) {
-
-This looks like a loop from 0-4.
-
-    2254                         if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
-    2255                             av[i][1] != av[i][2] || bv[i][0] != av[i][3])
-    2256                                 break;
-    2257 
-    2258                         DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
-    2259                         return true;
-
-But it is a "loop" from 0-0.
-
-    2260                 }
-    2261         }
-    2262 
-    2263         DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
-    2264         return false;
-    2265 }
-
-regards,
-dan carpenter
