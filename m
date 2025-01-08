@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1045FA067BE
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361B2A0680E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:17:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B4DB10E953;
-	Wed,  8 Jan 2025 22:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36A610E94A;
+	Wed,  8 Jan 2025 22:17:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RwDG6Y9i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hg9TDY1x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68EAD10E953
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 22:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736373840;
- bh=68SoE4MOSJftqwMv9rP4iJrgdeOwWAMMlV7RYCQqoIY=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=RwDG6Y9iFQsdiYDQgQTVv636cbLKLWFpvx0CTV7SVLL+VFu4gxYVr1QAlR70A19qD
- VRoOY5RpFB72FUfhS5NQruhqJBxjBiTV0sbmEReG7C2I2hLvbZ10IRv2IL/O4jCwfS
- FFfY70QuH3LrtadvsJN6egTmiAk4FHDcYOHgB9UH4Fs/GhrAnPKz6NuFYLlIktNiDM
- 6FCKD+sYdjMv4KTUhsuwKrgZRYqC7FGClj6kWSbD1DSlJcUZ+txWiFtAfVuAErA7Un
- xA/LMOigtoJMlZoIS4gsZ/sOvXHxGQnqrX72kxHLdIJXGy6YHfxkspuLuQy/9WtM0u
- WCrViWOTTtCZA==
-Received: from localhost (unknown [82.76.59.196])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C043F17E360E;
- Wed,  8 Jan 2025 23:04:00 +0100 (CET)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 09 Jan 2025 00:03:40 +0200
-Subject: [PATCH v2 2/2] drm/tests: hdmi: Add connector's CRTC deactivation
- tests
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250109-hdmi-conn-null-mode-v2-2-9eeaf1109547@collabora.com>
-References: <20250109-hdmi-conn-null-mode-v2-0-9eeaf1109547@collabora.com>
-In-Reply-To: <20250109-hdmi-conn-null-mode-v2-0-9eeaf1109547@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4268910E43E;
+ Wed,  8 Jan 2025 22:17:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 54D15A41C75;
+ Wed,  8 Jan 2025 22:16:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76C13C4CED3;
+ Wed,  8 Jan 2025 22:17:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736374671;
+ bh=kPEj6/SUZEeHs4OcQvx3Fcoy7dnil6NFBN9jWICpb4c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hg9TDY1xVbWLfVM/QQl5JnnrGeEnip9IwJ4zjh5PRL1RzB6+wsmV2An9U7aOiAcnj
+ 7hz3inVSSOrF2No8AC99ZcMbtHh84bmerQvv/Eq8EtdlIgbxjM8RpqeTbJcywBlAdB
+ 2zRtfKdz027AHGl2oo2BGT/DCylTGxf8gfzV892td5HK9NewY4X14B4v0pNnw6f7Rt
+ J7mswe38PfmuEQQ9iM19Vx0TfG/XyKZg3M/rusGoUH/uwMmnfTDixlgSBHBoPxbknu
+ p8L7Qv/LiPhfbP4IYyRYx2b59/9UFcM0ceiitHLrwCB94T4sm32aortNYW3HQYKjYr
+ ynOoskg5ndaVg==
+Date: Wed, 8 Jan 2025 16:17:47 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Johan Hovold <johan@kernel.org>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [PATCH v4 1/4] drm/dp: Add helper to set LTTPRs in transparent
+ mode
+Message-ID: <b4z2o4sgyjyh7wqbybtifi5evhh7b3tgfujson6l5ajmjdwt3f@x2xz6iod54vz>
+References: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-0-918949bc2e3a@linaro.org>
+ <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-1-918949bc2e3a@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-1-918949bc2e3a@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,208 +74,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following up a fixed bug in drm_atomic_helper_connector_hdmi_check(),
-discovered while unloading a DRM module, add a couple of tests to make
-sure the helper will not exhibit any abnormal behaviour for use cases
-that involve shutting down the connector's CRTC.
+On Wed, Jan 08, 2025 at 04:31:43PM +0200, Abel Vesa wrote:
+> According to the DisplayPort standard, LTTPRs have two operating
+> modes:
+>  - non-transparent - it replies to DPCD LTTPR field specific AUX
+>    requests, while passes through all other AUX requests
+>  - transparent - it passes through all AUX requests.
+> 
+> Switching between this two modes is done by the DPTX by issuing
+> an AUX write to the DPCD PHY_REPEATER_MODE register.
+> 
+> Add a generic helper that allows switching between these modes.
+> 
+> Also add a generic wrapper for the helper that handles the explicit
+> disabling of non-transparent mode and its disable->enable sequence
+> mentioned in the DP Standard v2.0 section 3.6.6.1. Do this in order
+> to move this handling out of the vendor specific driver implementation
+> into the generic framework.
+> 
+> Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c | 62 +++++++++++++++++++++++++++++++++
+>  include/drm/display/drm_dp_helper.h     |  2 ++
+>  2 files changed, 64 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index da3c8521a7fa7d3c9761377363cdd4b44ab1106e..fa7eff94d408718a1762834597f0cd51376d2596 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2817,6 +2817,68 @@ int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE])
+>  }
+>  EXPORT_SYMBOL(drm_dp_lttpr_max_link_rate);
+>  
+> +/**
+> + * drm_dp_lttpr_set_transparent_mode - set the LTTPR in transparent mode
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 173 +++++++++++++++++++++
- 1 file changed, 173 insertions(+)
+kernel-doc functions should have () suffix
 
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index c3b693bb966f1f8b04066d19f520bfa4bf11c23d..98187ecee5d77b5f758af29f4c4bfddbd1f658fd 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -1568,6 +1568,177 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
- 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
- }
- 
-+/*
-+ * Test that if we deactivate connector's CRTC, we trigger a mode change
-+ * on that CRTC, along with setting {connectors|active}_changed.
-+ */
-+static void drm_test_check_crtc_deactivate_mode_changed(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_connector_state *old_conn_state;
-+	struct drm_connector_state *new_conn_state;
-+	struct drm_crtc_state *old_crtc_state;
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_atomic_state *state;
-+	struct drm_display_mode *preferred;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	int ret;
-+
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
-+						    BIT(HDMI_COLORSPACE_RGB),
-+						    8);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	conn = &priv->connector;
-+	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
-+
-+	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+
-+	preferred = find_preferred_mode(conn);
-+	KUNIT_ASSERT_NOT_NULL(test, preferred);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
-+	new_conn_state = drm_atomic_get_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+
-+	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
-+
-+	new_crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
-+
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_crtc_state);
-+
-+	ret = drm_atomic_set_mode_for_crtc(new_crtc_state, NULL);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NE(test, old_crtc_state->enable, new_crtc_state->enable);
-+
-+	new_crtc_state->active = false;
-+	KUNIT_ASSERT_NE(test, old_crtc_state->active, new_crtc_state->active);
-+
-+	ret = drm_atomic_set_crtc_for_connector(new_conn_state, NULL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	KUNIT_ASSERT_PTR_NE(test, old_conn_state->crtc, new_conn_state->crtc);
-+
-+	ret = drm_atomic_check_only(state);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
-+	KUNIT_EXPECT_TRUE(test, new_crtc_state->mode_changed);
-+	KUNIT_EXPECT_TRUE(test, new_crtc_state->connectors_changed);
-+	KUNIT_EXPECT_TRUE(test, new_crtc_state->active_changed);
-+}
-+
-+/*
-+ * Test that if we deactivate connector's CRTC, while changing the max
-+ * bpc property to a different value, will not have any effect on the
-+ * output bpc property. However, we still trigger a mode change on that
-+ * CRTC, along with setting {connectors|active}_changed.
-+ */
-+static void drm_test_check_crtc_deactivate_output_bpc_not_changed(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx *ctx;
-+	struct drm_connector_state *old_conn_state;
-+	struct drm_connector_state *new_conn_state;
-+	struct drm_crtc_state *old_crtc_state;
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_atomic_state *state;
-+	struct drm_display_mode *preferred;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	int ret;
-+
-+	priv = drm_kunit_helper_connector_hdmi_init(test,
-+						    BIT(HDMI_COLORSPACE_RGB),
-+						    10);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	conn = &priv->connector;
-+	ret = set_connector_edid(test, conn,
-+				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
-+				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
-+	KUNIT_ASSERT_GT(test, ret, 0);
-+
-+	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+
-+	preferred = find_preferred_mode(conn);
-+	KUNIT_ASSERT_NOT_NULL(test, preferred);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
-+	new_conn_state = drm_atomic_get_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+
-+	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
-+
-+	new_conn_state->max_requested_bpc = 8;
-+
-+	KUNIT_ASSERT_NE(test,
-+			old_conn_state->max_requested_bpc,
-+			new_conn_state->max_requested_bpc);
-+
-+	new_crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
-+
-+	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_crtc_state);
-+
-+	ret = drm_atomic_set_mode_for_crtc(new_crtc_state, NULL);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NE(test, old_crtc_state->enable, new_crtc_state->enable);
-+
-+	new_crtc_state->active = false;
-+	KUNIT_ASSERT_NE(test, old_crtc_state->active, new_crtc_state->active);
-+
-+	ret = drm_atomic_set_crtc_for_connector(new_conn_state, NULL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	KUNIT_ASSERT_PTR_NE(test, old_conn_state->crtc, new_conn_state->crtc);
-+
-+	ret = drm_atomic_check_only(state);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
-+
-+	new_conn_state = drm_atomic_get_new_connector_state(state, conn);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-+
-+	KUNIT_EXPECT_EQ(test,
-+			old_conn_state->hdmi.output_bpc,
-+			new_conn_state->hdmi.output_bpc);
-+
-+	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
-+	KUNIT_EXPECT_TRUE(test, new_crtc_state->mode_changed);
-+	KUNIT_EXPECT_TRUE(test, new_crtc_state->connectors_changed);
-+	KUNIT_EXPECT_TRUE(test, new_crtc_state->active_changed);
-+}
-+
- static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode),
- 	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode_vic_1),
-@@ -1596,6 +1767,8 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_8bpc),
- 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_10bpc),
- 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_12bpc),
-+	KUNIT_CASE(drm_test_check_crtc_deactivate_mode_changed),
-+	KUNIT_CASE(drm_test_check_crtc_deactivate_output_bpc_not_changed),
- 	/*
- 	 * TODO: We should have tests to check that a change in the
- 	 * format triggers a CRTC mode change just like we do for the
+> + * @aux: DisplayPort AUX channel
+> + * @enable: Enable or disable transparent mode
+> + *
+> + * Returns 0 on success or a negative error code on failure.
 
--- 
-2.47.1
+And this should be "Return: ...".
 
+> + */
+> +int drm_dp_lttpr_set_transparent_mode(struct drm_dp_aux *aux, bool enable)
+> +{
+> +	u8 val = enable ? DP_PHY_REPEATER_MODE_TRANSPARENT :
+> +			  DP_PHY_REPEATER_MODE_NON_TRANSPARENT;
+> +	int ret = drm_dp_dpcd_writeb(aux, DP_PHY_REPEATER_MODE, val);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return (ret == 1) ? 0 : -EIO;
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_set_transparent_mode);
+> +
+> +/**
+> + * drm_dp_lttpr_init - init LTTPR transparency mode according to DP standard
+> + *
+
+Documentation also explicitly says not to leave a blank line here...
+
+Regards,
+Bjorn
+
+> + * @aux: DisplayPort AUX channel
+> + * @lttpr_count: Number of LTTPRs. Between 0 and 8, according to DP standard.
+> + *               Negative error code for any non-valid number.
+> + *               See drm_dp_lttpr_count().
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> +int drm_dp_lttpr_init(struct drm_dp_aux *aux, int lttpr_count)
+> +{
+> +	int ret;
+> +
+> +	if (!lttpr_count)
+> +		return 0;
+> +
+> +	/*
+> +	 * See DP Standard v2.0 3.6.6.1 about the explicit disabling of
+> +	 * non-transparent mode and the disable->enable non-transparent mode
+> +	 * sequence.
+> +	 */
+> +	ret = drm_dp_lttpr_set_transparent_mode(aux, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (lttpr_count < 0)
+> +		return -ENODEV;
+> +
+> +	if (drm_dp_lttpr_set_transparent_mode(aux, false)) {
+> +		/*
+> +		 * Roll-back to transparent mode if setting non-transparent
+> +		 * mode has failed
+> +		 */
+> +		drm_dp_lttpr_set_transparent_mode(aux, true);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_lttpr_init);
+> +
+>  /**
+>   * drm_dp_lttpr_max_lane_count - get the maximum lane count supported by all LTTPRs
+>   * @caps: LTTPR common capabilities
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
+> index 8f4054a560396a43750570a8c2e95624039ab8ad..3311df3b58255cf0620391d0948ccf6b569a8a34 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -630,6 +630,8 @@ int drm_dp_read_lttpr_phy_caps(struct drm_dp_aux *aux,
+>  			       u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+>  int drm_dp_lttpr_count(const u8 cap[DP_LTTPR_COMMON_CAP_SIZE]);
+>  int drm_dp_lttpr_max_link_rate(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+> +int drm_dp_lttpr_set_transparent_mode(struct drm_dp_aux *aux, bool enable);
+> +int drm_dp_lttpr_init(struct drm_dp_aux *aux, int lttpr_count);
+>  int drm_dp_lttpr_max_lane_count(const u8 caps[DP_LTTPR_COMMON_CAP_SIZE]);
+>  bool drm_dp_lttpr_voltage_swing_level_3_supported(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+>  bool drm_dp_lttpr_pre_emphasis_level_3_supported(const u8 caps[DP_LTTPR_PHY_CAP_SIZE]);
+> 
+> -- 
+> 2.34.1
+> 
