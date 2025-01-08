@@ -2,85 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9B2A05B09
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 13:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 934FFA05B96
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 13:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3C9F10E090;
-	Wed,  8 Jan 2025 12:09:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A6288CBF;
+	Wed,  8 Jan 2025 12:27:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YQv3Vzo4";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OaqYWIxt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2AE10E090
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 12:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736338181;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=woB6RLNnYWwGsPdeyszHqqKP8mFzUvVoDPk8opasuVA=;
- b=YQv3Vzo4lSkzXF6+nxc0hdQUNg/DNqpA8bf40BskgXXHmHjdqQssO55lLTlDCMRgZQXxzp
- MhTr2xTcXcnlLrAujqiXRRvka1gQEdWYVjshtxaSxg6xNOa9yldNoc6CtX5LKY6sTSanNW
- ujJr80YGH+7qpx/lOWyMAf++9K4g3T4=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-ixeagU0ePouyf8OZ7ji19Q-1; Wed, 08 Jan 2025 07:09:40 -0500
-X-MC-Unique: ixeagU0ePouyf8OZ7ji19Q-1
-X-Mimecast-MFC-AGG-ID: ixeagU0ePouyf8OZ7ji19Q
-Received: by mail-pj1-f72.google.com with SMTP id
- 98e67ed59e1d1-2ee5616e986so38572355a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 04:09:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736338179; x=1736942979;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=woB6RLNnYWwGsPdeyszHqqKP8mFzUvVoDPk8opasuVA=;
- b=wj7YpA5UCzpaOxEsLbyKx3SOgsZvaMERtYo2aOXNNWoK8qbfMp3bJ2MSs4szZ21iVa
- VuO+M3q5PlMNepdO7tgIea7vSup9Stv2CRmnf7zgQzRHIscQRbxxJ74XSgF0yMiRHrdR
- rjC968Lil4Aem/0UluTKN3/UPeCfxzcr5sNnw7KAtKPn8o3VqX/zI9HkTPzpJIY7p04e
- yXlaQbYV6qVqvmhZffRCuk2ZjE+Ev1KRAhUOMi8azwCSGX/kQ44p0C+ZuBnIicHEFC+c
- xVlCu6Au693wPv6mjVQyLwly5eTqkWxn1zHEDPmu2ABLOulWc4JaQYM0JSTVLCc5Au9Y
- Ol1Q==
-X-Gm-Message-State: AOJu0YxqHR2vMa47Bf97qjLwg2WNZsFdY5OqNDNjJHUC5jAh0krfwHVb
- WG2h0Z0j66hrS9pPVcgWkbrSEeOEpZXJA4KzZFuDu8rhjgPRLkyvdWvdW4ePqhr6B2S3gg5Xv0t
- olYWP6BBkkIjKHfO0jYxj3djF4v9HbHB0kkNJ3KmuYQNVyK5xSk3x36khY9ZGeVuegQ==
-X-Gm-Gg: ASbGncsmgOanAC2PJo52ql7dyAdPeWE2Xf84UQis7bzBaGCBVieshlBw6FHXSQ1SrTs
- P0QtdRaTH/NExG1vFlmvA4hLtMaPtDJO8b2vV0yD1sABGsqqU2AktHp44kCG7r64gzvOTYUgziJ
- vep8rVnzw6z37iZEEUPlOIDpFchbWNrLxC9i2OOkazjqBj5E642AZN2ObSKTVZV+jjmtsBWGgx6
- upFWm4nIXYdLWgZPHWNk1c2a8V6o0MjM3hUnIVGn2d3aoOyaRVGp7MgRPYZvlgLqtsa/0PYImZi
- 9w2QFzI=
-X-Received: by 2002:a05:6a20:7f99:b0:1e1:ae9a:6311 with SMTP id
- adf61e73a8af0-1e88cf63835mr4229329637.4.1736338179550; 
- Wed, 08 Jan 2025 04:09:39 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IG/LZ8i5QpfO69aN/59fnSQ+E4qmtLH15DgR+QP16Jw+q2isiC8cUrZ6UXGUtEM2Sas7gLXQw==
-X-Received: by 2002:a05:6a20:7f99:b0:1e1:ae9a:6311 with SMTP id
- adf61e73a8af0-1e88cf63835mr4229308637.4.1736338179283; 
- Wed, 08 Jan 2025 04:09:39 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72aad84cfb3sm35031251b3a.89.2025.01.08.04.09.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 04:09:38 -0800 (PST)
-Message-ID: <9aaca54172f55e80819ddee8f6ccdaa24d207153.camel@redhat.com>
-Subject: Re: DRM GPU Scheduler Maintainership
-From: Philipp Stanner <pstanner@redhat.com>
-To: Luben Tuikov <ltuikov89@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, matthew.brost@intel.com, dakr@kernel.org
-Date: Wed, 08 Jan 2025 13:09:29 +0100
-In-Reply-To: <868200a94a19f4dc4558ec40d80ad9a8bbc0beab.camel@redhat.com>
-References: <868200a94a19f4dc4558ec40d80ad9a8bbc0beab.camel@redhat.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A861E10E89D
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 12:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1736339230;
+ bh=ztTaysNRAqM8QjRmeBqdWBGG+xlao0MGxI53Ma67uQs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=OaqYWIxt46dn3ixb6CwNoTPV5iSNm8odiWYyH/Ac4B5eBSdEa8jw2DhcJgfAECQoz
+ g05Otis1+uZTcoqpFa8KYqrWsB/DKolLDhhwLm7Sk9MyxMnrUqhX4yNgPC+N/9rlFW
+ s7anNF8wWMCeTMsudPNcBxSqUTkdTnpDT9U17GxNPkzYu7qF9LYpvPWt34J8Xq0jLe
+ LurJai6f+gWbuwiZKkK49BV6dU+bFGqdtp6SVHAAg1cNg9Jie1JK0svZaaOdjOiCPr
+ DIYBy6xcheg6oiAFk4R+4PR8jg0piGcWDThHm4G5WGF7OFjeoP3le0CtJIP60Xcus2
+ 9rK8orJ5YpH1w==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E117717E1567;
+ Wed,  8 Jan 2025 13:27:09 +0100 (CET)
+Date: Wed, 8 Jan 2025 13:27:05 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Matthew Brost
+ <matthew.brost@intel.com>, Philipp Stanner <pstanner@redhat.com>, Frank
+ Binns <Frank.Binns@imgtec.com>
+Subject: Re: [RFC 01/14] drm/sched: Delete unused update_job_credits
+Message-ID: <20250108132705.35d8f2a2@collabora.com>
+In-Reply-To: <Z344gwtwvqdXW1N_@pollux>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <20241230165259.95855-2-tursulin@igalia.com>
+ <Z344gwtwvqdXW1N_@pollux>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RYuNCjzXHB4ODmtra9nOsoFVKX0tJPN8r9o1G-7xZ9k_1736338179
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,15 +66,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2024-12-11 at 12:00 +0100, Philipp Stanner wrote:
-> Hi Luben,
->=20
-> haven't seen you in a while on-list. Are you still up to maintaining
-> the GPU Scheduler? You're still on the MAINTAINERS file.
+On Wed, 8 Jan 2025 09:34:11 +0100
+Danilo Krummrich <dakr@redhat.com> wrote:
 
-*ping*
+> On Mon, Dec 30, 2024 at 04:52:46PM +0000, Tvrtko Ursulin wrote:
+> > From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> >=20
+> > No driver is using the update_job_credits() schduler vfunc
+> > so lets remove it.
+> >=20
+> > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com> =20
+>=20
+> (+ Boris)
+>=20
+> AFAIR the panthor folks asked for this. I assume they never actually ende=
+d up
+> using it? Unless they plan to use it,
+
++Frank
+
+That was for the PowerVR driver, and it doesn't seem it's been hooked
+up there. I don't think we'll ever need it in panthor, so
+
+Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 >=20
-> Greetings,
-> Philipp
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+>=20
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Cc: Danilo Krummrich <dakr@redhat.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: Philipp Stanner <pstanner@redhat.com>
+> > ---
+> >  drivers/gpu/drm/scheduler/sched_main.c | 13 -------------
+> >  include/drm/gpu_scheduler.h            | 13 -------------
+> >  2 files changed, 26 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/s=
+cheduler/sched_main.c
+> > index 7ce25281c74c..1734c17aeea5 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -64,12 +64,6 @@
+> >   * credit limit, the job won't be executed. Instead, the scheduler wil=
+l wait
+> >   * until the credit count has decreased enough to not overflow its cre=
+dit limit.
+> >   * This implies waiting for previously executed jobs.
+> > - *
+> > - * Optionally, drivers may register a callback (update_job_credits) pr=
+ovided by
+> > - * struct drm_sched_backend_ops to update the job's credits dynamicall=
+y. The
+> > - * scheduler executes this callback every time the scheduler considers=
+ a job for
+> > - * execution and subsequently checks whether the job fits the schedule=
+r's credit
+> > - * limit.
+> >   */
+> > =20
+> >  #include <linux/wait.h>
+> > @@ -133,13 +127,6 @@ static bool drm_sched_can_queue(struct drm_gpu_sch=
+eduler *sched,
+> >  	if (!s_job)
+> >  		return false;
+> > =20
+> > -	if (sched->ops->update_job_credits) {
+> > -		s_job->credits =3D sched->ops->update_job_credits(s_job);
+> > -
+> > -		drm_WARN(sched, !s_job->credits,
+> > -			 "Jobs with zero credits bypass job-flow control.\n");
+> > -	}
+> > -
+> >  	/* If a job exceeds the credit limit, truncate it to the credit limit
+> >  	 * itself to guarantee forward progress.
+> >  	 */
+> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> > index 95e17504e46a..e2e6af8849c6 100644
+> > --- a/include/drm/gpu_scheduler.h
+> > +++ b/include/drm/gpu_scheduler.h
+> > @@ -476,19 +476,6 @@ struct drm_sched_backend_ops {
+> >           * and it's time to clean it up.
+> >  	 */
+> >  	void (*free_job)(struct drm_sched_job *sched_job);
+> > -
+> > -	/**
+> > -	 * @update_job_credits: Called when the scheduler is considering this
+> > -	 * job for execution.
+> > -	 *
+> > -	 * This callback returns the number of credits the job would take if
+> > -	 * pushed to the hardware. Drivers may use this to dynamically update
+> > -	 * the job's credit count. For instance, deduct the number of credits
+> > -	 * for already signalled native fences.
+> > -	 *
+> > -	 * This callback is optional.
+> > -	 */
+> > -	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
+> >  };
+> > =20
+> >  /**
+> > --=20
+> > 2.47.1
+> >  =20
+>=20
 
