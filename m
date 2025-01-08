@@ -2,58 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94604A052E4
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 06:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A268AA052B9
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 06:43:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9F5510EB8C;
-	Wed,  8 Jan 2025 05:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72B2410E252;
+	Wed,  8 Jan 2025 05:43:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DGmFY4LN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nsowURL3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B36A10EB88;
- Wed,  8 Jan 2025 05:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736315628; x=1767851628;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=ZMDrsQyhi1FM9uO2P0kDVttJ6sdjL8ZEXRkqEbtLnc8=;
- b=DGmFY4LNBd+N9cIXGcrg/2Lqlgb70Wzh8wPjfBYpMy3yn6sxHYibpFSw
- yqlsPbT4Ax/EYU+bRz2vhU9QBMYrJxT3dIfvJmMyDtjWKEO5QkKpkRlzo
- 5NtAzx45xda4hizsX+kMbzJQKULWMGShHATd1TuAFAcCThB0Ysg43pk3/
- nkUl7P2ey7RhNh3xNpR/eRl+2vJ5f6hO99pESZI9E4kGrdl386kZ8ClQK
- GJzLChCStAsiLL8bd2bSSqVvGVcfF2NB4U2lx2nFUHdUIM8oPipRwNavm
- k53LuabWRT2isMBvohqwy5q0vmukbonjI/YekyaU/ELxLFO7e1ZDFX7iA g==;
-X-CSE-ConnectionGUID: Dp1bqQ/ZQMmtll1UoeC/Jw==
-X-CSE-MsgGUID: Z0DeYlg+TQO8M8yNILXHAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="61903910"
-X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; d="scan'208";a="61903910"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2025 21:53:48 -0800
-X-CSE-ConnectionGUID: NssyhRxVScmowdVGYgzp2g==
-X-CSE-MsgGUID: rYB53hDsQA+k3pmxE8v1IA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="107024172"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa003.fm.intel.com with ESMTP; 07 Jan 2025 21:53:46 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 08 Jan 2025 11:09:03 +0530
-Subject: [PATCH v3 5/5] drm/i915/display: Add function for
- format_mod_supported_async
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5B9310E252
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 05:43:10 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-21628b3fe7dso234600485ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 21:43:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736314930; x=1736919730; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=VRf3KLf8/gL60sYLc56uaXjwgEUxVqDlLqbN/+vh4pU=;
+ b=nsowURL3G977AB87Slq2aahVrc+gmDJdD9J7WzVQa5+Jl6ylhOA4IPcZI/KBpWcguH
+ lgCR2H1nYaoOcNRCsDTWRmwfNG7MVDI9+GtI1Mevbl0lUEV3DjKwrda8t2cMwVRO8PGV
+ I6SKNBR3Ziw775Ur82OJKheD87hgoY05Di59EfZ1C2KOQHRD+5oUNg26uaX9eNhKwhNP
+ F8onysfDbM/jo403bZEpoterMkkCz2QQaUtY6MWvbm9q1UgAzzfgMVp+QNPOVxS+xj2G
+ 3/oI7myqbTurIx3WLDakG+5xgelzgqsXCbYH5Ltm27/zzn3LgHzy30OR+l2M5Ir2M+yE
+ qAfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736314930; x=1736919730;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VRf3KLf8/gL60sYLc56uaXjwgEUxVqDlLqbN/+vh4pU=;
+ b=oX9RIRNqxaidAilmbrtLYoIurtyGKt1/3j13hL/O7GRUQQGqUksslJGaDl4sT2C7qW
+ c8ZOxup5leuyaPmpXYFK41B+kAtzgwJiKrRjh26o8fLXh3hiInJOlZF1MDMNUgwY9msa
+ SMq2wW/mbX9MFOrww8bSj5So6Zx2FP4uaCSnBJYpYbbzP3ALEyFapokN7so2eJD9m/gx
+ xK6mRL3Pm7mwGhR4J3OlIvlHaq2UgVJUd40JhyJbJPKfHN/TnT2j/BtRC2wASvkv/wEj
+ 3VQcdT+QdZQpqmWfDkFLu2tRiJA0IPPTNem+k7qobKjfBzXz1w89QzMdD08+enXHWhL5
+ pB3A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbZPIGrDiEzo918kFBAipIAPYWpQmqoyWFDsl9H4pF8yk4dDxBXZTAtG7q1xLNCK0D6mn3E1lsZYU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxG48Awh0IP1V+a5+8WAVMiKUEQ8Aw2ZeDrANxkA1Px5YWLpb3v
+ J5gwjPZMY/JuDQbAS92qiWsNBi1upkbMUTEy8WxILSd8GbXHP+PiMkqNWrnxxg==
+X-Gm-Gg: ASbGncunS0kHT9P+wY1XgUpbna3ibwpMAJeP8bGeCQcuCgHb+kPBYNJIDgkWZmQZIyU
+ 3ofGlJwVTtmxpPF9+4NyOsSrvmCGeZEEPpWCOkcQk7QCcVw3+ITLREKJwQdKAjNpN/Yoe2PPbWJ
+ j8HJnMsE/MbmPU0wo19jjtEMxnAyj7DeC+K4fjSpHRAK6q4eoBI8IxvkTCbijaXill53K7+6hWk
+ OlgAOZxaVaXVvxyz83AAAyAtkIExJuGaE9Dg359Lmfz50pqHvYlyMbQMAXNXqSxoLBG
+X-Google-Smtp-Source: AGHT+IHfb7DiJvfS8v29jxsUziZRhFKDaY9dPzRiz3np6wV51MwuSsfBjIEy6SOqBmGKPG5YDPPdEQ==
+X-Received: by 2002:a17:902:d491:b0:215:54a1:8584 with SMTP id
+ d9443c01a7336-21a83f4c070mr21127315ad.17.1736314930490; 
+ Tue, 07 Jan 2025 21:42:10 -0800 (PST)
+Received: from thinkpad ([117.213.100.67]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-219dc9f4429sm318970325ad.173.2025.01.07.21.42.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Jan 2025 21:42:09 -0800 (PST)
+Date: Wed, 8 Jan 2025 11:12:02 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
+ quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
+ ogabbay@kernel.org, lizhi.hou@amd.com,
+ jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+Subject: Re: [PATCH 2/7] bus: mhi: host: Add a policy to enable image
+ transfer via BHIe in PBL
+Message-ID: <20250108054202.r4bqxduuhpcvpqm4@thinkpad>
+References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
+ <20241213213340.2551697-3-quic_jhugo@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250108-asyn-v3-5-f4399635eec9@intel.com>
-References: <20250108-asyn-v3-0-f4399635eec9@intel.com>
-In-Reply-To: <20250108-asyn-v3-0-f4399635eec9@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Cc: Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241213213340.2551697-3-quic_jhugo@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,98 +92,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver specific function definition for the plane->funcs
-format_mod_supported_async to check if the provided format/modifier is
-supported for asynchronous flip.
+On Fri, Dec 13, 2024 at 02:33:35PM -0700, Jeffrey Hugo wrote:
+> From: Matthew Leung <quic_mattleun@quicinc.com>
+> 
+> Currently, mhi host only performs firmware transfer via BHI in PBL and
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- drivers/gpu/drm/i915/display/skl_universal_plane.c | 62 ++++++++++++++++------
- 1 file changed, 47 insertions(+), 15 deletions(-)
+s/mhi/MHI here and below.
 
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index e5e47f2219dae62e76cbde2efb40266b047ab2b2..00aa254a3b4e992268c9159bc15687e54718dc43 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -2526,30 +2526,62 @@ static bool tgl_plane_format_mod_supported(struct drm_plane *_plane,
- 	}
- }
- 
-+static bool intel_plane_format_mod_supported_async(struct drm_plane *_plane,
-+						   u32 format, u64 modifier)
-+{
-+	struct intel_plane *plane = to_intel_plane(_plane);
-+	struct intel_display *display = to_intel_display(plane);
-+	int i, found = false;
-+	u64 *async_modifiers;
-+
-+	if (plane->id != 1)
-+		return false;
-+
-+	if (DISPLAY_VER(display) >= 12)
-+		async_modifiers = tgl_asyn_modifiers;
-+	else if (DISPLAY_VER(display) == 11)
-+		async_modifiers = icl_async_modifiers;
-+	else
-+		async_modifiers = skl_async_modifiers;
-+
-+	for (i = 0; i < sizeof(async_modifiers); i++) {
-+		if (modifier == async_modifiers[i])
-+			found = true;
-+	}
-+	if (!found)
-+		return false;
-+
-+	/* Async flip supported only on RGB formats */
-+	for (i = 0; i < sizeof(intel_async_formats); i++) {
-+		if (format == intel_async_formats[i])
-+			return true;
-+	}
-+	return false;
-+}
-+
-+#define INTEL_PLANE_FUNCS \
-+	.update_plane = drm_atomic_helper_update_plane, \
-+	.disable_plane = drm_atomic_helper_disable_plane, \
-+	.destroy = intel_plane_destroy, \
-+	.atomic_duplicate_state = intel_plane_duplicate_state, \
-+	.atomic_destroy_state = intel_plane_destroy_state, \
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async
-+
- static const struct drm_plane_funcs skl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = skl_plane_format_mod_supported,
- };
- 
- static const struct drm_plane_funcs icl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = icl_plane_format_mod_supported,
- };
- 
- static const struct drm_plane_funcs tgl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = tgl_plane_format_mod_supported,
- };
- 
+> BHIe from SBL. To support BHIe transfer directly from PBL, a policy
+> needs to be added.
+> 
+> With this policy, BHIe will be used to transfer firmware in PBL if the
+> mhi controller has bhie regs, sets seg_len, and does not set
+
+s/bhie/BHIe
+
+> fbc_download. The intention is to transfer firmware using BHIe in PBL
+> without further BHIe transfers in SBL.
+> 
+> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
+> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
+> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> ---
+>  drivers/bus/mhi/host/boot.c     | 80 +++++++++++++++++++++++++++------
+>  drivers/bus/mhi/host/init.c     |  2 +-
+>  drivers/bus/mhi/host/internal.h |  8 ++++
+>  3 files changed, 75 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
+> index e3f3c07166ad..c9ecb6427209 100644
+> --- a/drivers/bus/mhi/host/boot.c
+> +++ b/drivers/bus/mhi/host/boot.c
+> @@ -452,12 +452,62 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
+>  	}
+>  }
+>  
+> +static enum mhi_fw_load_type mhi_fw_load_type_get(const struct mhi_controller *mhi_cntrl)
+> +{
+> +	enum mhi_fw_load_type ret = MHI_FW_LOAD_UNKNOWN;
+
+You can directly return the enum without a local variable.
+
+> +
+> +	if (mhi_cntrl->fbc_download) {
+> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
+
+I don't think this condition can fail. If 'mhi_cntrl->bhie' is NULL,
+mhi_prepare_for_power_up() will fail. So I think MHI_FW_LOAD_UNKNOWN is not
+needed.
+
+Also, all the validation should be performed early, not while loading fw.
+
+> +			ret = MHI_FW_LOAD_FBC;
+> +	} else {
+> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
+> +			ret = MHI_FW_LOAD_BHIE;
+> +		else
+> +			ret = MHI_FW_LOAD_BHI;
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int mhi_send_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
+
+mhi_load_image_bhi?
+
+> +{
+> +	struct image_info *image;
+> +	int ret;
+> +
+> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
+> +	if (ret)
+> +		return ret;
+> +
+> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
+> +
+> +	ret = mhi_fw_load_bhi(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
+> +	mhi_free_bhi_buffer(mhi_cntrl, image);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mhi_send_image_bhie(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
+
+mhi_load_image_bhie?
+
+- Mani
 
 -- 
-2.25.1
-
+மணிவண்ணன் சதாசிவம்
