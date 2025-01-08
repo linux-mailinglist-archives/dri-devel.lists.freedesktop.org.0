@@ -2,59 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D3FA059C5
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 12:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84024A05A7B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 12:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D00E10EBA1;
-	Wed,  8 Jan 2025 11:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A9310E886;
+	Wed,  8 Jan 2025 11:53:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DQdt8K0w";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="XZNhefNJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92FC310EBA1
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 11:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736335730;
- bh=kgnJqsg8z2erw2TEimJFPukXqh6KNus2GeViUySenE4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DQdt8K0wvlT2RYLXkJxP/FiJJ06jgW1FutrjkuoDvFQDTNtcj0f9YsWL4EWwH0Cc0
- AVkmmwb/Ul2mIouxVSRdXbbZOPWCNtNRpO6vW1sFbKNmQn5JZKX9EdWiud23Kk6k7/
- c+CSiPu3OYylwn3lqj5H+NlWoFHJLdjNisA5sfso/TEqWUkfZWTYUXTWE5y/SlDr8w
- GMq/h8/CABQokgYzy3pRc6qksjYR7BDp5fBWDfvIJGTLJ9f4vNFQU6KrjW9tvxYmLy
- gdM8yR6EIEImh5oh+0hhs0NlqtOuo91DtSKsfJ4kUjw7VyJ3uuXUMxgsI0+3MCeOFK
- ILVIYKrnss0mA==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EF82E17E1581;
- Wed,  8 Jan 2025 12:28:48 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
- ck.hu@mediatek.com, jitao.shi@mediatek.com, jie.qiu@mediatek.com,
- junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
-Subject: [PATCH v4 34/34] drm/mediatek: mtk_hdmi_v2: Add debugfs ops and
- implement ABIST
-Date: Wed,  8 Jan 2025 12:27:44 +0100
-Message-ID: <20250108112744.64686-35-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20250108112744.64686-1-angelogioacchino.delregno@collabora.com>
-References: <20250108112744.64686-1-angelogioacchino.delregno@collabora.com>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5989810E887
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 11:53:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=4LcjG
+ yekeFEURKdSLZKry28vQydjU2mCOSzKHjhnX+w=; b=XZNhefNJ4KWubkSGIHFJS
+ yYHDGtoWCQIegcZsYNUbqvb3tY2R94NmML6akr4P+cq5Re4zDfXAKkK732d0P6Am
+ uSwZ7QudHoNzxRh9s0mq1j6rspcHNALSqZz/ZO0EAN3BZaX1MuNKEjKzrVltd2zn
+ oonBQxbWzPvxycY8U8DulE=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
+ _____wDHpyUCZ35n8Xn7EQ--.26804S2; 
+ Wed, 08 Jan 2025 19:52:40 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: heiko@sntech.de
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
+ daniel@fooishbar.org, robh@kernel.org, Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v9 00/11] VOP Support for rk3576
+Date: Wed,  8 Jan 2025 19:52:17 +0800
+Message-ID: <20250108115233.17729-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDHpyUCZ35n8Xn7EQ--.26804S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGw1xuryUZryfXryxtFyrZwb_yoW5CrW3p3
+ 98Cr98XrWxGF12qr4kJw1DCFySqFsayFWSg3yfKw13Ja4qyrW7Krya9r1YvrnxX3W8ZF4j
+ 9F4Sya1UKanFvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UvD7-UUUUU=
+X-Originating-IP: [58.22.7.114]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hHOXmd+YSuN9QAAs4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,158 +60,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the Automated Built-In Self-Test ABIST functionality
-provided by the HDMIv2 IP and expose it through the "hdmi_abist"
-debugfs file.
+From: Andy Yan <andy.yan@rock-chips.com>
 
-Write "1" to this file to activate ABIST, or "0" to deactivate.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi_v2.c | 123 +++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+Here is the V9
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-index 8841fa4e476a..1ce42cb0616d 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-@@ -1179,6 +1179,128 @@ static int mtk_hdmi_v2_bridge_atomic_check(struct drm_bridge *bridge,
- 						      conn_state->state);
- }
- 
-+static int mtk_hdmi_v2_set_abist(struct mtk_hdmi *hdmi, bool enable)
-+{
-+	struct drm_display_mode *mode = &hdmi->mode;
-+	int abist_format = -EINVAL;
-+	bool interlaced;
-+
-+	if (!enable) {
-+		regmap_clear_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_ENABLE);
-+		return 0;
-+	}
-+
-+	if (!mode->hdisplay || !mode->vdisplay)
-+		return -EINVAL;
-+
-+	interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE;
-+
-+	switch (mode->hdisplay) {
-+	case 720:
-+		if (mode->vdisplay == 480)
-+			abist_format = 2;
-+		else if (mode->vdisplay == 576)
-+			abist_format = 11;
-+		break;
-+	case 1280:
-+		if (mode->vdisplay == 720)
-+			abist_format = 3;
-+		break;
-+	case 1440:
-+		if (mode->vdisplay == 480)
-+			abist_format = interlaced ? 5 : 9;
-+		else if (mode->vdisplay == 576)
-+			abist_format = interlaced ? 14 : 18;
-+		break;
-+	case 1920:
-+		if (mode->vdisplay == 1080)
-+			abist_format = interlaced ? 4 : 10;
-+		break;
-+	case 3840:
-+		if (mode->vdisplay == 2160)
-+			abist_format = 25;
-+		break;
-+	case 4096:
-+		if (mode->vdisplay == 2160)
-+			abist_format = 26;
-+		break;
-+	default:
-+		break;
-+	}
-+	if (!abist_format)
-+		return -EINVAL;
-+
-+	regmap_update_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_VIDEO_FORMAT,
-+			   FIELD_PREP(HDMI_ABIST_VIDEO_FORMAT, abist_format));
-+	regmap_set_bits(hdmi->regs, TOP_CFG00, HDMI_ABIST_ENABLE);
-+	return 0;
-+}
-+
-+static int mtk_hdmi_v2_debug_abist_show(struct seq_file *m, void *arg)
-+{
-+	struct mtk_hdmi *hdmi = m->private;
-+	bool en;
-+	u32 val;
-+	int ret;
-+
-+	if (!hdmi)
-+		return -EINVAL;
-+
-+	ret = regmap_read(hdmi->regs, TOP_CFG00, &val);
-+	if (ret)
-+		return ret;
-+
-+	en = FIELD_GET(HDMI_ABIST_ENABLE, val);
-+
-+	seq_printf(m, "HDMI Automated Built-In Self Test: %s\n",
-+		   en ? "Enabled" : "Disabled");
-+
-+	return 0;
-+}
-+
-+static ssize_t mtk_hdmi_v2_debug_abist_write(struct file *file,
-+					     const char __user *ubuf,
-+					     size_t len, loff_t *offp)
-+{
-+	struct seq_file *m = file->private_data;
-+	int ret;
-+	u32 en;
-+
-+	if (!m || !m->private || *offp)
-+		return -EINVAL;
-+
-+	ret = kstrtouint_from_user(ubuf, len, 0, &en);
-+	if (ret)
-+		return ret;
-+
-+	if (en < 0 || en > 1)
-+		return -EINVAL;
-+
-+	mtk_hdmi_v2_set_abist((struct mtk_hdmi *)m->private, en);
-+	return len;
-+}
-+
-+static int mtk_hdmi_v2_debug_abist_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, mtk_hdmi_v2_debug_abist_show, inode->i_private);
-+}
-+
-+static const struct file_operations mtk_hdmi_debug_abist_fops = {
-+	.owner = THIS_MODULE,
-+	.open = mtk_hdmi_v2_debug_abist_open,
-+	.read = seq_read,
-+	.write = mtk_hdmi_v2_debug_abist_write,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+
-+static void mtk_hdmi_v2_debugfs_init(struct drm_bridge *bridge, struct dentry *root)
-+{
-+	struct mtk_hdmi *dpi = hdmi_ctx_from_bridge(bridge);
-+
-+	debugfs_create_file("hdmi_abist", 0640, root, dpi, &mtk_hdmi_debug_abist_fops);
-+}
-+
- static const struct drm_bridge_funcs mtk_v2_hdmi_bridge_funcs = {
- 	.attach = mtk_hdmi_v2_bridge_attach,
- 	.detach = mtk_hdmi_v2_bridge_detach,
-@@ -1199,6 +1321,7 @@ static const struct drm_bridge_funcs mtk_v2_hdmi_bridge_funcs = {
- 	.hdmi_tmds_char_rate_valid = mtk_hdmi_v2_hdmi_tmds_char_rate_valid,
- 	.hdmi_clear_infoframe = mtk_hdmi_v2_hdmi_clear_infoframe,
- 	.hdmi_write_infoframe = mtk_hdmi_v2_hdmi_write_infoframe,
-+	.debugfs_init = mtk_hdmi_v2_debugfs_init,
- };
- 
- /*
+Patches that have already been merged in drm-misc-next are dropped.
+
+PATCH 1~9 are preparations for rk3576 support
+PATCH 10~11 are real support for rk376
+
+I test it with a 1080P/4K HDMI output with modetest and weston
+output.
+
+If there are some one want to have a try, I have a tree based on
+Linux 6.13-rc2 here[0]
+
+[0]https://github.com/andyshrk/linux/tree/rk3576-vop2-upstream-v6
+
+Changes in v9:
+- Drop 'vop-' prefix of interrupt-names.
+- Add blank line between DT properties in dt-binding
+- Remove list interrupt-names in top level in dt-binding
+- Link to V8:
+  https://lore.kernel.org/linux-rockchip/20241231090802.251787-10-andyshrk@163.com/T/#u
+
+Changes in v8:
+- Remove redundant blank line before drm_bus_format_enum_list
+- Add a blank line before DRM_ENUM_NAME_FN
+- Fix dt_binding_check errors
+- ordered by soc name
+- Link to the previous version:
+  https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+
+Changes in v7:
+- Fix rk3588 dp+dsi maxclk verification
+
+Changes in v6:
+- Add a blank line after hardware version check code
+-  More specific explanation about the AXI_BUS_ID register bit of
+   cluster window.
+
+Changes in v5:
+- Add axi id configuration
+- Remove the non-existent CBCR scale register.
+
+Changes in v4:
+- Typo fix: selet->select
+- describe constraint SOC by SOC, as interrupts of rk3576 is very
+  different from others
+- Drop Krzysztof's Reviewed-by, as this version changed a lot.
+
+Changes in v3:
+- Add comments for why we should treat rk3566 with special care.
+- Add hardware version check
+- Add comments for why we should treat rk3566 with special care.
+- ordered by soc name
+- Add description for newly added interrupt
+- Share the alpha setup function with rk3568
+- recoder the code block by soc
+
+Changes in v2:
+- Add platform specific callback
+- Introduce vop hardware version
+- Add dt bindings
+- Add platform specific callback
+
+Andy Yan (10):
+  drm/rockchip: vop2: Rename TRANSFORM_OFFSET to TRANSFORM_OFFS
+  drm/rockchip: vop2: Add platform specific callback
+  drm/rockchip: vop2: Merge vop2_cluster/esmart_init function
+  drm/rockchip: vop2: Support for different layer select configuration
+    between VPs
+  drm/rockchip: vop2: Introduce vop hardware version
+  drm/rockchip: vop2: Register the primary plane and overlay plane
+    separately
+  drm/rockchip: vop2: Set plane possible crtcs by possible vp mask
+  drm/rockchip: vop2: Add uv swap for cluster window
+  dt-bindings: display: vop2: Add rk3576 support
+  drm/rockchip: vop2: Add support for rk3576
+
+Heiko Stuebner (1):
+  drm/rockchip: vop2: use devm_regmap_field_alloc for cluster-regs
+
+ .../display/rockchip/rockchip-vop2.yaml       |   83 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c  | 1473 +++-----------
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h  |  275 ++-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c  | 1798 ++++++++++++++++-
+ 4 files changed, 2361 insertions(+), 1268 deletions(-)
+
 -- 
-2.47.0
+2.34.1
 
