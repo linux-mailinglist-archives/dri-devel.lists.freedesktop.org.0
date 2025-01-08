@@ -2,51 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA445A06971
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 00:31:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94B8BA06995
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 00:41:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E55210E966;
-	Wed,  8 Jan 2025 23:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8C0110E092;
+	Wed,  8 Jan 2025 23:41:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VuNtBX7g";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="B/fe4x3b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF5A10E966
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 23:31:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4FF48A41BB5;
- Wed,  8 Jan 2025 23:29:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A7DDC4CED3;
- Wed,  8 Jan 2025 23:31:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736379083;
- bh=hGzh6Ux0equEOkz0+aeV+MQwWoU7zw3mDv7K/oHfxJA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VuNtBX7gO9+r+kRfw5uE/mylZqfhHuk6TrQGv6FcAiOMa/afIdcIwtJlAuUhxkqEJ
- aL28jKgy+1KXiTElsi7FNtMlsaowk8YaId0DYdjfZO3NoGHAXRhn/5EHJTwcCPE7lk
- Tyg0TcgFJ+iTbPexED2K1JjcIXIqf8dAri4hbc63Fb/npIm5uqIE50p32fXDw6KYCv
- 2/uXdqdceLDJOTMI3YCGve0lLtJ9vyAuvjXcvc7hFkhXNSiVt3jmHIKS0fcKEkFB1l
- juFvd5ZsT0Z6QlSL6KFMGNlpnSZGwR0Y/7EF9HGHktEYyA0N1ngq2/wh7qylEjxWIA
- qokiP1TX1M2rg==
-Date: Wed, 8 Jan 2025 17:31:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
- detlev.casanova@collabora.com, daniel@fooishbar.org,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v9 10/11] dt-bindings: display: vop2: Add rk3576 support
-Message-ID: <20250108233122.GA1227227-robh@kernel.org>
-References: <20250108115233.17729-1-andyshrk@163.com>
- <20250108115233.17729-11-andyshrk@163.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E417510E971;
+ Wed,  8 Jan 2025 23:41:11 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508JsehX017399;
+ Wed, 8 Jan 2025 23:41:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ UFsrE6vhX1PZrq0qLvy4LKF/eCeRlAc7e7f74Vt1w10=; b=B/fe4x3bhxAweZzd
+ 9yoBlGS/gtonCFrrMvlVKNmSUNcrSoU/FGT3mGzS7N7mdapWhKUi2RC0srNZB87M
+ SZTgtSIRmqbkrjbpPumR/8eUZUI332x0iACZYFDKqnL19HA9rS0iwts/1LQvBg6E
+ 0SDzZfeCXksPNE3M9nG2fSa74dvrxkEyBogGBMi6AmN+GjNl3dqAht1geWM0uFmk
+ 6O/9C8B+plrrzkNmTMXFF9zjwq2nkxJ2P4Y6l19msk0GZzEZ22T3mRhFYb6xxV6J
+ 6/yXdE4Dq9sIoOt5TU1HCH6bi73TVY4bQNf4jMjBNATc1trVpt8zxD4/qDIRWm9f
+ d8u+vQ==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441yxfge00-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 08 Jan 2025 23:41:09 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508Nf8le019978
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 8 Jan 2025 23:41:08 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
+ 15:41:08 -0800
+Message-ID: <95b83e6f-e455-4df0-b121-a1d900de0a56@quicinc.com>
+Date: Wed, 8 Jan 2025 15:41:07 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108115233.17729-11-andyshrk@163.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 04/15] drm/msm/dpu: decide right side per last bit
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jun Nie
+ <jun.nie@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
+ <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-4-92c7c0a228e3@linaro.org>
+ <yqbze4h6obiwulmvh64r62slaiih75hzescf5tjwqgtmhqy3wi@y4uedbo5jrzu>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <yqbze4h6obiwulmvh64r62slaiih75hzescf5tjwqgtmhqy3wi@y4uedbo5jrzu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: pyMOUFmsfgHlToR0dnDDRq_ViYiSFPgN
+X-Proofpoint-GUID: pyMOUFmsfgHlToR0dnDDRq_ViYiSFPgN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 mlxscore=0
+ impostorscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080194
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,179 +96,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 08, 2025 at 07:52:27PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> Add vop found on rk3576, the main difference between rk3576 and the
-> previous vop is that each VP has its own interrupt line.
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v9:
-> - Drop 'vop-' prefix of interrupt-names.
-> - Add blank line between DT properties
-> - Remove list interrupt-names in top level
 
-That's the opposite of what we usually want...
+
+On 12/19/2024 2:09 PM, Dmitry Baryshkov wrote:
+> On Thu, Dec 19, 2024 at 03:49:22PM +0800, Jun Nie wrote:
+>> decide right side of a pair per last bit, in case of multiple
+>> mixer pairs.
+> 
+> Proper English sentences, please. Also describe why, not what.
+
+Hi Jun,
+
+Can we also add a note in the commit message on why the last bit check 
+works?
+
+Thanks,
+
+Jessica Zhang
 
 > 
-> Changes in v8:
-> - Fix dt_binding_check errors
-> - ordered by soc name
-> - Link to the previous version:
->   https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+>>
+>> Signed-off-by: Jun Nie <jun.nie@linaro.org>
+>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> index 7191b1a6d41b3..41c9d3e3e3c7c 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>> @@ -369,11 +369,10 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+>>   static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
+>>   {
+>>   	struct dpu_crtc_state *crtc_state;
+>> -	int lm_idx, lm_horiz_position;
+>> +	int lm_idx;
+>>   
+>>   	crtc_state = to_dpu_crtc_state(crtc->state);
+>>   
+>> -	lm_horiz_position = 0;
+>>   	for (lm_idx = 0; lm_idx < crtc_state->num_mixers; lm_idx++) {
+>>   		const struct drm_rect *lm_roi = &crtc_state->lm_bounds[lm_idx];
+>>   		struct dpu_hw_mixer *hw_lm = crtc_state->mixers[lm_idx].hw_lm;
+>> @@ -384,7 +383,7 @@ static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
+>>   
+>>   		cfg.out_width = drm_rect_width(lm_roi);
+>>   		cfg.out_height = drm_rect_height(lm_roi);
+>> -		cfg.right_mixer = lm_horiz_position++;
+>> +		cfg.right_mixer = lm_idx & 0x1;
+>>   		cfg.flags = 0;
+>>   		hw_lm->ops.setup_mixer_out(hw_lm, &cfg);
+>>   	}
+>>
+>> -- 
+>> 2.34.1
+>>
 > 
-> Changes in v4:
-> - describe constraint SOC by SOC, as interrupts of rk3576 is very
->   different from others
-> - Drop Krzysztof's Reviewed-by, as this version changed a lot.
-> 
-> Changes in v3:
-> - ordered by soc name
-> - Add description for newly added interrupt
-> 
-> Changes in v2:
-> - Add dt bindings
-> 
->  .../display/rockchip/rockchip-vop2.yaml       | 83 +++++++++++++++----
->  1 file changed, 67 insertions(+), 16 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> index 2531726af306..44256cdcb877 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> @@ -20,6 +20,7 @@ properties:
->      enum:
->        - rockchip,rk3566-vop
->        - rockchip,rk3568-vop
-> +      - rockchip,rk3576-vop
->        - rockchip,rk3588-vop
->  
->    reg:
-> @@ -37,10 +38,17 @@ properties:
->        - const: gamma-lut
->  
->    interrupts:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 4
->      description:
-> -      The VOP interrupt is shared by several interrupt sources, such as
-> -      frame start (VSYNC), line flag and other status interrupts.
-> +      For VOP version under rk3576, the interrupt is shared by several interrupt
-> +      sources, such as frame start (VSYNC), line flag and other interrupt status.
-> +      For VOP version from rk3576 there is a system interrupt for bus error, and
-> +      every video port has it's independent interrupts for vsync and other video
-> +      port related error interrupts.
-> +
-> +  interrupt-names:
-> +    maxItems: 4
->  
->    # See compatible-specific constraints below.
->    clocks:
-> @@ -120,43 +128,86 @@ allOf:
->        properties:
->          compatible:
->            contains:
-> -            const: rockchip,rk3588-vop
-> +            enum:
-> +              - rockchip,rk3566-vop
-> +              - rockchip,rk3568-vop
->      then:
->        properties:
->          clocks:
-> -          minItems: 7
-> +          minItems: 5
-> +
->          clock-names:
-> -          minItems: 7
-> +          minItems: 5
->  
->          ports:
->            required:
->              - port@0
->              - port@1
->              - port@2
-> -            - port@3
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rk3576-vop
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 5
-> +
-> +        clock-names:
-> +          minItems: 5
-> +
-> +        ports:
-> +          required:
-> +            - port@0
-> +            - port@1
-> +            - port@2
-> +
-> +        interrupts:
-> +          items:
-> +            - description: vop system interrupt, such as axi bus error
-> +            - description: interrupts for video port0, such as vsync, dsp_hold.
-> +            - description: interrupts for video port1, such as vsync, dsp_hold.
-> +            - description: interrupts for video port2, such as vsync, dsp_hold.
-> +
-> +        interrupt-names:
-> +          items:
-> +            - const: sys
-> +            - const: vp0
-> +            - const: vp1
-> +            - const: vp2
->  
->        required:
->          - rockchip,grf
-> -        - rockchip,vo1-grf
-> -        - rockchip,vop-grf
->          - rockchip,pmu
->  
-> -    else:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: rockchip,rk3588-vop
-> +    then:
->        properties:
-> -        rockchip,vo1-grf: false
-> -        rockchip,vop-grf: false
-> -        rockchip,pmu: false
-> -
->          clocks:
-> -          maxItems: 5
-> +          minItems: 7
-> +
->          clock-names:
-> -          maxItems: 5
-> +          minItems: 7
->  
->          ports:
->            required:
->              - port@0
->              - port@1
->              - port@2
-> +            - port@3
-> +
-> +      required:
-> +        - rockchip,grf
-> +        - rockchip,vo1-grf
-> +        - rockchip,vop-grf
-> +        - rockchip,pmu
+> -- 
+> With best wishes
+> Dmitry
 
-Where do the existing platforms have a constraint of only 1 interrupt?
-
-And now while rk3576 has defined interrupt-names, all the other can have 
-4 entries with anything.
-
-Rob
