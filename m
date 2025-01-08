@@ -2,70 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C3FA06101
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 17:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EFBA0622E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 17:40:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E2910E16D;
-	Wed,  8 Jan 2025 16:02:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A129210EC18;
+	Wed,  8 Jan 2025 16:40:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BQLLMVxq";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="y+3GTlaP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37EDF10E16D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 16:02:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 8D4AEA418E1;
- Wed,  8 Jan 2025 16:00:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DF44C4CEDD;
- Wed,  8 Jan 2025 16:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736352127;
- bh=JxfaOeibKq8C2VBUcEh8/6VdPolNVu/fETe/T/Z6kqs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BQLLMVxqTFpTpgAo6rCXLDrtrjcOssNGhRQN8C1lNku+MUfIyfsvZjolrXYvI5kze
- 4guttmqpSYK36BxPPKK/DdU+zgUkuFuJt2SHfvB3ENOd8zjllqrZilEFQyFyJnWNmL
- S6okVcESn0jsM1DHxVpuDtvGAKCds2MASj8ncZReMZ5UIZsJRPLvZK972LxDJyP7FN
- L3ChyxRvA+6HX5caeAOFYzB41LyDLLL6WBOI0O598YEF71G/Cp+seZTVgpbVobNF0g
- ox66gFOhHD3gKBI1rJhk67VDW5Dh4x6D7hxzGagO9NNDPlJ8hn8CYLtE6+DcAt17Lo
- PIajy6mapIt9A==
-Date: Wed, 8 Jan 2025 17:02:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Paul Kocialkowski <contact@paulk.fr>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-Message-ID: <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
- <20250106-vigorous-talented-viper-fa49d9@houat>
- <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
- <20250108162429.53316041@booty>
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63ADB10EC0E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 16:40:27 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4361f664af5so319035e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 08:40:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736354366; x=1736959166;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=cbxXwWR8AIKr2Z5xmtMFDic9EFUnqAlHiSI7jHWWslU=;
+ b=y+3GTlaPt3hTh/CkgzXDKfaqbkr47FGg0pVf49dneDbSer61psB6uakQAk5/q1jV8D
+ 7AlavmiDq4rsCtrbCdoOoAgkJJJByAWDrBh2e+WxNsHbfY9kNQDBFPtD8MbktsaauU/Q
+ RwGF+92pHcFtz8bwgM5J/wuZFySPPFZ0NE6oCifVT8MVVD7akc1N5Sh/bRutT5xo/X28
+ 71C7zyOejbKTQ8K5wGs5e6P+NzEKpzWbSOkMAB0XXg85PKUU94GbSetkX0NWsMMP36qc
+ an+TWtw3Njn1cYUBIVz1eLitAm/BlkWkZpoggjOPOFYXTaLowlG6J3P6MY7jWxaq+oQr
+ 3vaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736354366; x=1736959166;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cbxXwWR8AIKr2Z5xmtMFDic9EFUnqAlHiSI7jHWWslU=;
+ b=swTMqVaMSloy78ipohwR0yzmHYcFHDn+jHSEer1Zd/pyfHNEfdRX1YohCogcOs+WnE
+ 6ZEg942XcoBY2suyI82cvQSQJYI2tYOIFwYadrKRevw8omdIjklK71vx4791dT4WmZG6
+ ozVlUbcUth6wIWSlTpU3j/Y1TYXR2a2qEUkfbUKBy68n89nFVt9RfRp0g78vdMAtlXMD
+ u+smcU95s85RKRcBf+rUjAQD5FK5jm2fiC4NeUj9eLg212x6y3FOZEp0Sd1feQnffUH9
+ 6b4i/Li41N18FbIw3/ZptuQa2pp3SvaeLcIEnek80XDsc7fX36unVDtHPdZTwM3dPWoh
+ TPBw==
+X-Gm-Message-State: AOJu0YzjEsmKyHYYfrX20xzCFlX5/P+xxhUGzfUt0qnGm6Z5eZzCUTJp
+ aOzNjrNkyxC6Lf7/9+eSGZP2S19TW1aWWhtU2F0D717XyjSuJMhxvt68ibDC7TPDf6GXYTc55mQ
+ su5s=
+X-Gm-Gg: ASbGncuAQS6nBacNaLw4esrVJNPlUOHZlEiH5eDpIPr/tj8TOZ0dI2O66J+/P6WtdcP
+ dMI24ueKTregDI8Jo4a6plsX+cyeCBoYxJlrInKpBGgYuanOOp6G2UJ8TZC/R7J+ggbQOj8uxfV
+ 3OuGktu6pdzg8YvgEA0tqXZI9jxKM98JmjwueuHDU0q1Es19doOSmuf0xc9fZsQaDlYHSp4oG0n
+ V9j7vwyuIR8VDPB3f0IWpsR+bEknWcZhjjG+PdAYmvwqjKRgkd4wgPnePhE
+X-Google-Smtp-Source: AGHT+IGGAa64d+bPHxfOT6F6vJgh1xofOm1puRyf5Gg2Qx08bu4NygW/ia9oSmUPKTI5x+9zroEuLw==
+X-Received: by 2002:a05:600c:4e44:b0:434:e9ee:c3d with SMTP id
+ 5b1f17b1804b1-436e27070b1mr31379705e9.20.1736352947285; 
+ Wed, 08 Jan 2025 08:15:47 -0800 (PST)
+Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:a6ac:e6d2:88e3:8ea1])
+ by smtp.googlemail.com with ESMTPSA id
+ 5b1f17b1804b1-436dd14dfcasm44378105e9.1.2025.01.08.08.15.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 08:15:46 -0800 (PST)
+From: amergnat@baylibre.com
+Subject: [PATCH v5 0/7] Add display support for the MT8365-EVK board
+Date: Wed, 08 Jan 2025 17:15:42 +0100
+Message-Id: <20231023-display-support-v5-0-3905f1e4b835@baylibre.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="w5ldiznj6hwrkqyq"
-Content-Disposition: inline
-In-Reply-To: <20250108162429.53316041@booty>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK6kfmcC/4XOwQ6CMAwG4FcxOzvD1oHTk+9hPKxbkSUKZEMiI
+ by7G0ej4dDD36Tf35lFCp4iO+9mFmj00XdtCuV+x2xj2jtx71JmspAg0nDnY/8wE4+vvu/CwG2
+ lhEYoSIkTS1doInEMprVNvhsoDiLv+0C1f69N11vKjY9DF6a1eBR5+79jFLzgpdVVQa60AHhBM
+ z08BjrY7skyN8oNQiYCwJLWlUIpjz8I2CAgfwGgdQ3kQP36Qm0QKhHktCQUla5RfBHLsnwA7M2
+ QN5IBAAA=
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Fabien Parent <fparent@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4389; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=9M5KGNUL9vwlasksx/eWxH2UHxU8J0vFX1+wbxwtEUA=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBnfqSx658xb7vf06grM0qAloaXvz/hrcb0mpGfxHdu
+ epVdHV6JAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ36ksQAKCRArRkmdfjHURWiYEA
+ Cyi6gnp7YSYhtyIAMfKnndt3CITPF2/KZsZp9k2o8Npc50HP+C3COPSR1PQMuPYN5qv99iNVgVk2jV
+ +b5/tfraZgj/FEwguRiDgvTlapCQzSp8nSqKQUQOMBy9W1CfLr/0WJ+IDwAkbSh7cixYua6gxzwyS+
+ 7yW94h56RgX2IVNPtFkUcK6WS2J3pOPo2OyDwYyOkPZKH6sKOG/ylVjCNH7Df32gHohwQfUpJkghP0
+ mTtv5YPiHeTpc1sN9wFYzU6oeZXXtyMgLq9sofGPKzzSKbErqhXs1FYdg86nLE8lcJsWVQuBW05xFX
+ OED0xynO9dvCNkLZJfs4sGX4MMwKjIDCWyH1B7u9x0ecdQ4e1Y4qcdVVs4EMUfSlnN4smNUz1Bvsl2
+ EV7LdcTCDuvn69H7PuU3uuz0Fp/to1r08K5WbvWQKgDxLWMVLo/zA/aQEe3CoA8njD7DWu80/U9hTE
+ kEDp7JNjhW/GdXkftNE9DamK2naSaDxYVXyGYsomUCZXjH3HDWlnj3pMvb0hTFP9wG9nvBtDWz9UV9
+ PCRy6yw/n6dcDkIQ2DtbAv6Nv6t3DYj2OMJyv5OJMB0bTyTVJjienFJwn1Vylk+u7WJvWMZrSQfRnr
+ ylZ62ANrjmM9e9hcriyWlZi0fE+LEezrw5tE+Q/1cd7Cdav9hnYtQlyJjF7Q==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,183 +120,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+The purpose of this series is to add the display support for the mt8365-evk.
 
---w5ldiznj6hwrkqyq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-MIME-Version: 1.0
+This is the list of HWs / IPs support added:
+- Connectors (HW):
+  - HDMI
+  - MIPI DSI (Mobile Industry Processor Interface Display Serial Interface)
+- HDMI bridge (it66121)
+- DSI pannel (startek,kd070fhfid015)
+- SoC display blocks (IP):
+  - OVL0 (Overlay)
+  - RDMA0 (Data Path Read DMA)
+  - Color0
+  - CCorr0 (Color Correction)
+  - AAL0 (Adaptive Ambient Light)
+  - GAMMA0
+  - Dither0
+  - DSI0 (Display Serial Interface)
+  - RDMA1 (Data Path Read DMA)
+  - DPI0 (Display Parallel Interface)
 
-On Wed, Jan 08, 2025 at 04:24:29PM +0100, Luca Ceresoli wrote:
-> Hi Maxime, Dmitry,
->=20
-> thanks both for the useful review!
->=20
-> On Mon, 6 Jan 2025 14:24:00 +0200
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->=20
-> > On Mon, 6 Jan 2025 at 12:39, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > Hi,
-> > >
-> > > Most of these comments affect your earlier patches, but let's work on
-> > > the API-level view.
-> > >
-> > > On Tue, Dec 31, 2024 at 11:39:58AM +0100, Luca Ceresoli wrote: =20
-> > > > + * When using refcounted mode, the driver should allocate ``struct
-> > > > + * my_bridge`` using regular allocation (as opposed to ``devm_`` or
-> > > > + * ``drmm_`` allocation), call drm_bridge_init() immediately after=
-wards to
-> > > > + * transfer lifecycle management to the DRM bridge core, and imple=
-ment a
-> > > > + * ``.destroy`` function to deallocate the ``struct my_bridge``, a=
-s in this
-> > > > + * example::
-> > > > + *
-> > > > + *     static void my_bridge_destroy(struct drm_bridge *bridge)
-> > > > + *     {
-> > > > + *         kfree(container_of(bridge, struct my_bridge, bridge));
-> > > > + *     }
-> > > > + *
-> > > > + *     static const struct drm_bridge_funcs my_bridge_funcs =3D {
-> > > > + *         .destroy =3D my_bridge_destroy,
-> > > > + *         ...
-> > > > + *     };
-> > > > + *
-> > > > + *     static int my_bridge_probe(...)
-> > > > + *     {
-> > > > + *         struct my_bridge *mybr;
-> > > > + *         int err;
-> > > > + *
-> > > > + *         mybr =3D kzalloc(sizeof(*mybr), GFP_KERNEL);
-> > > > + *         if (!mybr)
-> > > > + *             return -ENOMEM;
-> > > > + *
-> > > > + *         err =3D drm_bridge_init(dev, &mybr->bridge, &my_bridge_=
-funcs);
-> > > > + *         if (err)
-> > > > + *             return err;
-> > > > + *
-> > > > + *         ...
-> > > > + *         drm_bridge_add();
-> > > > + *         ...
-> > > > + *     }
-> > > > + *
-> > > > + *     static void my_bridge_remove()
-> > > > + *     {
-> > > > + *         struct my_bridge *mybr =3D ...;
-> > > > + *         drm_bridge_remove(&mybr->bridge);
-> > > > + *         // ... NO kfree here!
-> > > > + *     } =20
-> > >
-> > > I'm a bit worried there, since that API is pretty difficult to get
-> > > right, and we don't have anything to catch bad patterns.
-> > >
-> > > Let's take a step back. What we're trying to solve here is:
-> > >
-> > >   1) We want to avoid any dangling pointers to a bridge if the bridge
-> > >      device is removed.
-> > >
-> > >   2) To do so, we need to switch to reference counted allocations and
-> > >      pointers.
-> > >
-> > >   3) Most bridges structures are allocated through devm_kzalloc, and =
-they
-> > >      one that aren't are freed at remove time anyway, so the allocated
-> > >      structure will be gone when the device is removed.
-> > >
-> > >   4) To properly track users, each user that will use a drm_bridge ne=
-eds
-> > >      to take a reference. =20
-> >=20
-> > 5) Handle the disappearing next_bridge problem: probe() function gets
-> > a pointer to the next bridge, but then for some reasons (e.g. because
-> > of the other device being removed or because of some probe deferral)
-> > the next_bridge driver gets unbdound and the next_bridge becomes
-> > unusable before a call to drm_bridge_attach().
-> >=20
-> > >
-> > > AFAIU, the destroy introduction and the on-purpose omission of kfree =
-in
-> > > remove is to solve 3.
-> > >
-> > > Introducing a function that allocates the drm_bridge container struct
-> > > (like drmm_encoder_alloc for example), take a reference, register a d=
-evm
-> > > kfree action, and return the pointer to the driver structure would so=
-lve
-> > > that too pretty nicely.
-> > >
-> > > So, something like:
-> > >
-> > >
-> > > struct driver_priv {
-> > >        struct drm_bridge bridge;
-> > >
-> > >        ...
-> > > }
-> > >
-> > > static int driver_probe(...)
-> > > {
-> > >         struct driver_priv *priv;
-> > >         struct drm_bridge *bridge;
-> > >
-> > >         ....
-> > >
-> > >         priv =3D devm_drm_bridge_alloc(dev, struct driver_priv, bridg=
-e); =20
-> >=20
-> > Ah... And devm-cleanup will just drop a reference to that data,
-> > freeing it when all refs are cleaned? Nice idea.
->=20
-> I like the idea. It's basically a macro wrapping the calls to kzalloc()
-> + drm_bridge_init() that I proposed in this series. I had thought about
-> such an idea initially but I haven't seen such a macro in
-> drm_connector.h I didn't follow the idea.
->=20
-> I don't love the _alloc name though because it will be doing much more
-> than allocating. What about devm_drm_bridge_new()?
->
-> I understand _alloc is coherent with the drmm_encoder_alloc() and I
-> could survive that... but what about renaming that one to
-> drmm_encoder_new()?
+The Mediatek DSI, DPI and DRM drivers are also improved.
 
-alloc is used pretty much every where for allocation + init, see CRTC,
-planes, connectors, etc.
+The series is rebased on top of Angelo's series [1] to
+use the OF graphs support.
 
-It might be unfortunate, but I don't think we should change that
-convention.
+Regards,
+Alex
 
-> Or maybe _create instead of _new, because _new is used for atomic
-> states, in opposition to _old.
->=20
-> > > And we'll also need some flag in drm_bridge to indicate that the devi=
-ce
-> > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
-> > > because now your bridge driver sticks around for much longer than your
-> > > device so the expectation that your device managed resources (clocks,
-> > > registers, etc.) are always going to be around. =20
->=20
-> Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
-> drm_bridge.c will need to be sprinkled with them I guess.
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+Changes in v5:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: rdma: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: ovl: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: gamma: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: dpi: add compatible for MT8365
+  - dt-bindings: display: mediatek: dsi: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: dither: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: color: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: ccorr: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: aal: add compatible for MT8365 SoC
+- Enable STARTEK KD070FHFID015 panel in the defconfig.
+- Rebase on top of 6.13-rc6.
+- Link to v4: https://lore.kernel.org/all/20231023-display-support-v4-0-ed82eb168fb1@baylibre.com
 
-The users would be the drivers, most likely. There's not much we can do
-at the framework level, unfortunately.
+Changes in v4:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: dpi: add power-domains property
+  - dt-bindings: pwm: mediatek,pwm-disp: add compatible for mt8365 SoC
+  - clk: mediatek: mt8365-mm: fix DPI0 parent
+- Remove mediatek,mt8365-dpi compatible from mtk_drm_drv.c because it
+  use the mt8192's data. It's a miss.
+- Add MT8365 OF graphs support, remove the hardcoded display path and
+  rebase on top of Angelo's series [1].
+- Link to v3: https://lore.kernel.org/r/20231023-display-support-v3-0-53388f3ed34b@baylibre.com
 
-Maxime
+Changes in v3:
+- Drop "drm/mediatek: add mt8365 dpi support" because it's the same
+  config as mt8192 SoC
+- Drop "dt-bindings: pwm: mediatek,pwm-disp: add power-domains property"
+  because an equivalent patch has been merge already.
+- Add DPI clock fix in a separate commit.
+- Improve DTS(I) readability.
+- Link to v2: https://lore.kernel.org/r/20231023-display-support-v2-0-33ce8864b227@baylibre.com
 
---w5ldiznj6hwrkqyq
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes in v2:
+- s/binding/compatible/ in commit messages/titles.
+- Improve commit messages as Conor suggest.
+- pwm-disp: Set power domain property for MT8365. This one is optionnal
+  and can be used for other SoC.
+- Fix mediatek,dsi.yaml issue.
+- Remove the extra clock in the DPI node/driver and fix the dpi clock
+  parenting to be consistent with the DPI clock assignement.
+- Link to v1: https://lore.kernel.org/r/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com
 
------BEGIN PGP SIGNATURE-----
+[1] https://lore.kernel.org/lkml/20240516081104.83458-1-angelogioacchino.delregno@collabora.com/
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ36heAAKCRAnX84Zoj2+
-dtmFAX93h+VckE2TdWVw7Sm7OhLxAesPI47kYAZUEk+sTHP0u2dVpicK3Yf74mHP
-fFXD/kUBf03azluSIoInV6rUeydmMhjN8v8IFK4nEUKaDQKhF7OJaamgcDW67Oog
-iqCcCEHIKg==
-=rWxh
------END PGP SIGNATURE-----
+---
+Alexandre Mergnat (5):
+      drm/mediatek: dsi: Improves the DSI lane setup robustness
+      arm64: defconfig: enable display connector support
+      arm64: defconfig: enable STARTEK KD070FHFID015 panel
+      arm64: dts: mediatek: add display blocks support for the MT8365 SoC
+      arm64: dts: mediatek: add display support for mt8365-evk
 
---w5ldiznj6hwrkqyq--
+Fabien Parent (2):
+      dt-bindings: display: mediatek: dpi: add power-domains property
+      drm/mediatek: add MT8365 SoC support
+
+ .../bindings/display/mediatek/mediatek,dpi.yaml    |   5 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts        | 236 +++++++++++++++
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi           | 336 +++++++++++++++++++++
+ arch/arm64/configs/defconfig                       |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |   8 +
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |   2 +
+ 6 files changed, 589 insertions(+)
+---
+base-commit: 9d89551994a430b50c4fffcb1e617a057fa76e20
+change-id: 20231023-display-support-c6418b30e419
+
+Best regards,
+-- 
+Alexandre Mergnat <amergnat@baylibre.com>
+
