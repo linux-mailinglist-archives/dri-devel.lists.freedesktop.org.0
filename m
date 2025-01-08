@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2957EA0685E
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:34:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C706A06863
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 23:34:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B485C10E440;
-	Wed,  8 Jan 2025 22:33:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D36D010E43E;
+	Wed,  8 Jan 2025 22:34:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X4yREZda";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YydRynON";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B04410E43E;
- Wed,  8 Jan 2025 22:33:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44E5E10E43E
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 22:34:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7BACAA41CDF;
- Wed,  8 Jan 2025 22:32:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC86C4CED3;
- Wed,  8 Jan 2025 22:33:53 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 2E6F4A4181D;
+ Wed,  8 Jan 2025 22:33:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51960C4CED3;
+ Wed,  8 Jan 2025 22:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736375634;
- bh=zhMeq6e9p3UZO4+kqRySehHwx4EOWlJy8VBJhzApWkg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X4yREZda6O3jHCglBv/wiKX/kB6CRC0KtzK/2M4ULMwu/lOo0YJVDq/vH+fFMCye3
- AdN7TiJQGTq4A8qAlVmyqOE702xPRUxBvI+cfmGKAf7l0qVEEwzLOYVUGmTm/+VClY
- 5JwdVurCc7ksCFIjX/TTpohVL23o2HWieNPLpkRbad/Y7MUHOqkVnuKEDP+uAFH/HD
- VzCRhdz6iGwAMbF33lyqir3erSgtdupge+46/gjSE5aM9kSDwx+bBj5sn3sZX3Kk+a
- 4qqn+Bkd4xGqPR3SO+GnGxxHADROUg+aNi1+J76/Oqw+sE7XZofuC9ZdK/NnG8+yF4
- OoPDZnlvNB0Jg==
-Date: Wed, 8 Jan 2025 16:33:51 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jie Zhang <quic_jiezh@quicinc.com>
-Subject: Re: [PATCH RESEND v2 3/4] arm64: dts: qcom: qcs615: Add gpu and gmu
- nodes
-Message-ID: <y7rf2klosrpvr5foroilgma5rwmlyq4ux5zymxd5cen7d6yu42@xig34xs6whtg>
-References: <20241213-qcs615-gpu-dt-v2-0-47f3b312b178@quicinc.com>
- <20241213-qcs615-gpu-dt-v2-3-47f3b312b178@quicinc.com>
+ s=k20201202; t=1736375693;
+ bh=WPM0lgLhcXgBhGTurYPnKmr64Y3Q50Ezvc/k+z3x8S4=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=YydRynON5nSluNf0CaQIPW+b8UUathMlNoXw6TXeA7c7tSt5JrXuUNCO/3i9PrfJM
+ XQdtEmQwmTOGDTHL7utLx6zCixwuLgMa68xjyOiNg6hUPrhgN75WhjbKLXcgvj+qB6
+ G24BADeLNvuw+jkl7hfpgM1rI54HYGrTsLmuf6AFTVra0syOYjD8+dGremMb7lafvA
+ qXa2JKzs2BUUlyhvkj2B5uy3E323ERVk2+CytKbosUbhPXqEpByvBawwfTd6EVnyl3
+ 75xYnLjQxS3n4qWTfjMJIyjIVW77ckxpSqqMniG90jDfH6DXePMFgdbYd5bGx1XbR0
+ o+FVXh4E3WJ+w==
+Date: Wed, 08 Jan 2025 16:34:52 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241213-qcs615-gpu-dt-v2-3-47f3b312b178@quicinc.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-mediatek@lists.infradead.org, 
+ Catalin Marinas <catalin.marinas@arm.com>, David Airlie <airlied@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
+ Will Deacon <will@kernel.org>, CK Hu <ck.hu@mediatek.com>, 
+ Fabien Parent <fparent@baylibre.com>, linux-arm-kernel@lists.infradead.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
+To: amergnat@baylibre.com
+In-Reply-To: <20231023-display-support-v5-0-3905f1e4b835@baylibre.com>
+References: <20231023-display-support-v5-0-3905f1e4b835@baylibre.com>
+Message-Id: <173637565787.1164195.4383151341351649520.robh@kernel.org>
+Subject: Re: [PATCH v5 0/7] Add display support for the MT8365-EVK board
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,131 +69,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2024 at 05:01:05PM +0530, Akhil P Oommen wrote:
-> From: Jie Zhang <quic_jiezh@quicinc.com>
+
+On Wed, 08 Jan 2025 17:15:42 +0100, amergnat@baylibre.com wrote:
+> The purpose of this series is to add the display support for the mt8365-evk.
 > 
-> Add gpu and gmu nodes for qcs615 chipset.
+> This is the list of HWs / IPs support added:
+> - Connectors (HW):
+>   - HDMI
+>   - MIPI DSI (Mobile Industry Processor Interface Display Serial Interface)
+> - HDMI bridge (it66121)
+> - DSI pannel (startek,kd070fhfid015)
+> - SoC display blocks (IP):
+>   - OVL0 (Overlay)
+>   - RDMA0 (Data Path Read DMA)
+>   - Color0
+>   - CCorr0 (Color Correction)
+>   - AAL0 (Adaptive Ambient Light)
+>   - GAMMA0
+>   - Dither0
+>   - DSI0 (Display Serial Interface)
+>   - RDMA1 (Data Path Read DMA)
+>   - DPI0 (Display Parallel Interface)
 > 
-
-Please resubmit this in a series together with the gpucc patch.
-
-Regards,
-Bjorn
-
-> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
-> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> The Mediatek DSI, DPI and DRM drivers are also improved.
+> 
+> The series is rebased on top of Angelo's series [1] to
+> use the OF graphs support.
+> 
+> Regards,
+> Alex
+> 
+> Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 > ---
->  arch/arm64/boot/dts/qcom/qcs615.dtsi | 88 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 88 insertions(+)
+> Changes in v5:
+> - Patch merged, then removed from the series:
+>   - dt-bindings: display: mediatek: rdma: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: ovl: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: gamma: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: dpi: add compatible for MT8365
+>   - dt-bindings: display: mediatek: dsi: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: dither: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: color: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: ccorr: add compatible for MT8365 SoC
+>   - dt-bindings: display: mediatek: aal: add compatible for MT8365 SoC
+> - Enable STARTEK KD070FHFID015 panel in the defconfig.
+> - Rebase on top of 6.13-rc6.
+> - Link to v4: https://lore.kernel.org/all/20231023-display-support-v4-0-ed82eb168fb1@baylibre.com
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qcs615.dtsi b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-> index 8df26efde3fd6c0f85b9bcddb461fae33687dc75..dee5d3be4aa34dd64864b6fe32ad589abac99bb7 100644
-> --- a/arch/arm64/boot/dts/qcom/qcs615.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/qcs615.dtsi
-> @@ -387,6 +387,11 @@ smem_region: smem@86000000 {
->  			no-map;
->  			hwlocks = <&tcsr_mutex 3>;
->  		};
-> +
-> +		pil_gpu_mem: pil-gpu@97715000 {
-> +			reg = <0x0 0x97715000 0x0 0x2000>;
-> +			no-map;
-> +		};
->  	};
->  
->  	soc: soc@0 {
-> @@ -508,6 +513,89 @@ qup_uart0_rx: qup-uart0-rx-state {
->  			};
->  		};
->  
-> +		gpu: gpu@5000000 {
-> +			compatible = "qcom,adreno-612.0", "qcom,adreno";
-> +			reg = <0x0 0x05000000 0x0 0x90000>;
-> +			reg-names = "kgsl_3d0_reg_memory";
-> +
-> +			clocks = <&gpucc GPU_CC_GX_GFX3D_CLK>,
-> +				 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-> +				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-> +				 <&gpucc GPU_CC_CX_GMU_CLK>,
-> +				 <&gpucc GPU_CC_CXO_CLK>;
-> +			clock-names = "core",
-> +				      "mem_iface",
-> +				      "alt_mem_iface",
-> +				      "gmu",
-> +				      "xo";
-> +
-> +			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +			interconnects = <&gem_noc MASTER_GFX3D QCOM_ICC_TAG_ALWAYS
-> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-> +			interconnect-names = "gfx-mem";
-> +
-> +			iommus = <&adreno_smmu 0x0 0x401>;
-> +			operating-points-v2 = <&gpu_opp_table>;
-> +			power-domains = <&rpmhpd RPMHPD_CX>;
-> +			qcom,gmu = <&rgmu>;
-> +
-> +			#cooling-cells = <2>;
-> +
-> +			status = "disabled";
-> +
-> +			gpu_zap_shader: zap-shader {
-> +				memory-region = <&pil_gpu_mem>;
-> +			};
-> +
-> +			gpu_opp_table: opp-table {
-> +				compatible = "operating-points-v2";
-> +
-> +				opp-435000000 {
-> +					opp-hz = /bits/ 64 <435000000>;
-> +					required-opps = <&rpmhpd_opp_svs>;
-> +					opp-peak-kBps = <3000000>;
-> +				};
-> +
-> +				opp-500000000 {
-> +					opp-hz = /bits/ 64 <500000000>;
-> +					required-opps = <&rpmhpd_opp_svs_l1>;
-> +					opp-peak-kBps = <3975000>;
-> +				};
-> +
-> +				opp-650000000 {
-> +					opp-hz = /bits/ 64 <650000000>;
-> +					required-opps = <&rpmhpd_opp_nom>;
-> +					opp-peak-kBps = <5287500>;
-> +				};
-> +
-> +				opp-745000000 {
-> +					opp-hz = /bits/ 64 <745000000>;
-> +					required-opps = <&rpmhpd_opp_nom_l1>;
-> +					opp-peak-kBps = <6075000>;
-> +				};
-> +
-> +				opp-845000000 {
-> +					opp-hz = /bits/ 64 <845000000>;
-> +					required-opps = <&rpmhpd_opp_turbo>;
-> +					opp-peak-kBps = <7050000>;
-> +				};
-> +			};
-> +		};
-> +
-> +		rgmu: rgmu@506a000 {
-> +			compatible = "qcom,adreno-rgmu";
-> +			reg = <0x0 0x0506a000 0x0 0x34000>;
-> +			reg-names = "gmu";
-> +			power-domains = <&gpucc CX_GDSC>,
-> +					<&gpucc GX_GDSC>;
-> +			power-domain-names = "cx", "gx";
-> +
-> +			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "hfi", "gmu";
-> +		};
-> +
->  		gpucc: clock-controller@5090000 {
->  			compatible = "qcom,qcs615-gpucc";
->  			reg = <0 0x5090000 0 0x9000>;
+> Changes in v4:
+> - Patch merged, then removed from the series:
+>   - dt-bindings: display: mediatek: dpi: add power-domains property
+>   - dt-bindings: pwm: mediatek,pwm-disp: add compatible for mt8365 SoC
+>   - clk: mediatek: mt8365-mm: fix DPI0 parent
+> - Remove mediatek,mt8365-dpi compatible from mtk_drm_drv.c because it
+>   use the mt8192's data. It's a miss.
+> - Add MT8365 OF graphs support, remove the hardcoded display path and
+>   rebase on top of Angelo's series [1].
+> - Link to v3: https://lore.kernel.org/r/20231023-display-support-v3-0-53388f3ed34b@baylibre.com
 > 
-> -- 
-> 2.45.2
+> Changes in v3:
+> - Drop "drm/mediatek: add mt8365 dpi support" because it's the same
+>   config as mt8192 SoC
+> - Drop "dt-bindings: pwm: mediatek,pwm-disp: add power-domains property"
+>   because an equivalent patch has been merge already.
+> - Add DPI clock fix in a separate commit.
+> - Improve DTS(I) readability.
+> - Link to v2: https://lore.kernel.org/r/20231023-display-support-v2-0-33ce8864b227@baylibre.com
 > 
+> Changes in v2:
+> - s/binding/compatible/ in commit messages/titles.
+> - Improve commit messages as Conor suggest.
+> - pwm-disp: Set power domain property for MT8365. This one is optionnal
+>   and can be used for other SoC.
+> - Fix mediatek,dsi.yaml issue.
+> - Remove the extra clock in the DPI node/driver and fix the dpi clock
+>   parenting to be consistent with the DPI clock assignement.
+> - Link to v1: https://lore.kernel.org/r/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com
+> 
+> [1] https://lore.kernel.org/lkml/20240516081104.83458-1-angelogioacchino.delregno@collabora.com/
+> 
+> ---
+> Alexandre Mergnat (5):
+>       drm/mediatek: dsi: Improves the DSI lane setup robustness
+>       arm64: defconfig: enable display connector support
+>       arm64: defconfig: enable STARTEK KD070FHFID015 panel
+>       arm64: dts: mediatek: add display blocks support for the MT8365 SoC
+>       arm64: dts: mediatek: add display support for mt8365-evk
+> 
+> Fabien Parent (2):
+>       dt-bindings: display: mediatek: dpi: add power-domains property
+>       drm/mediatek: add MT8365 SoC support
+> 
+>  .../bindings/display/mediatek/mediatek,dpi.yaml    |   5 +
+>  arch/arm64/boot/dts/mediatek/mt8365-evk.dts        | 236 +++++++++++++++
+>  arch/arm64/boot/dts/mediatek/mt8365.dtsi           | 336 +++++++++++++++++++++
+>  arch/arm64/configs/defconfig                       |   2 +
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c             |   8 +
+>  drivers/gpu/drm/mediatek/mtk_dsi.c                 |   2 +
+>  6 files changed, 589 insertions(+)
+> ---
+> base-commit: 9d89551994a430b50c4fffcb1e617a057fa76e20
+> change-id: 20231023-display-support-c6418b30e419
+> 
+> Best regards,
+> --
+> Alexandre Mergnat <amergnat@baylibre.com>
+> 
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y mediatek/mt8365-evk.dtb' for 20231023-display-support-v5-0-3905f1e4b835@baylibre.com:
+
+arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /soc/dpi@14018000: failed to match any schema with compatible: ['mediatek,mt8365-dpi', 'mediatek,mt8192-dpi']
+arch/arm64/boot/dts/mediatek/mt8365-evk.dtb: /soc/dpi@14018000: failed to match any schema with compatible: ['mediatek,mt8365-dpi', 'mediatek,mt8192-dpi']
+
+
+
+
+
