@@ -2,47 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F664A06348
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 18:25:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A80A06355
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 18:27:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F10210EC2C;
-	Wed,  8 Jan 2025 17:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8109110EC2D;
+	Wed,  8 Jan 2025 17:27:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="DPeZlbq2";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="WjiXP2vs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE68910EC2C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 17:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=f+VrhCVA0I2IukdomGe2XOJrgKQEjDIDWoIRbh28hMQ=; b=DPeZlbq2fcSMzeFGGMmizeZU+5
- CH9miax6p7gZPvrEvaZ5/y+rkTfOZObHy6a3N6jX0UeqWQhG8SB0ucrnXAikteceS2Vb09Ob44pDD
- /0y1qQkx0vnBcRu/iJocMGvdMa6toIcdz+pkbxCM393o2Rbe3T+v/nKGyCrvBKgQbAlp5Nd1qyV4D
- R3iiJDlkpOc1KRDj+K3Hs5XZOgzGxhzwNp6HaC0Wf5tcUJ6bl91aLfOjvQuHDZzdnOyV8q2Do+nbH
- z5KaHsddfG1YGZLC724DamnGEHPjJrSTWXxdKRFrT3xTOzU+1AEPie2u9z3pX4/DWly18nmpkolgU
- XC7+EAHQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
- Linux)) id 1tVZnh-00000002DWW-3y85; Wed, 08 Jan 2025 17:25:02 +0000
-Date: Wed, 8 Jan 2025 17:25:01 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 184A910E1DF
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 17:27:21 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-3862b40a6e0so22426f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 09:27:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1736357180; x=1736961980; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bI5BkTsr1Rej7kPzTQ7NrBrtLjPHANabm0Md7VMapXI=;
+ b=WjiXP2vsOQo23gE+hvSUFDZLpIOBbclw9tqghJ56MPIDsHo0i3g4vwO29T5rZG047b
+ RYbdcO7FQz2qjj3zKUrv8WEbDVsCWw8iAzJzDC7Tg9S7QiEaCHu3IKxACp4AD2Ke9YdY
+ 5UR2t27WGrhOmc13Tk6HPdC6iUgxiLBhrZPoY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736357180; x=1736961980;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bI5BkTsr1Rej7kPzTQ7NrBrtLjPHANabm0Md7VMapXI=;
+ b=SHP9KEbMp5EG3VTn67CExQs5/KgG/2W8z2CUixMJsm5cGOBwrIb9YpE0pQ+Oo+xUiL
+ 07s34gHXtjthZ83CEVPV4jwAAcsnrxw+Kgspc5TB0xdsfz1rfh7cIVPUdmPnPEigqR2l
+ 3SAv1P+Tp5+7waYa7ZjXFh26sMOz4BwfHC2DyWtP6+7qTwZj4VOIItkVNp6qajqXm2Bt
+ kHBxgx91M/I0tXMqV3HOPmETWY/q7EpoBSGL06HJ0I+tShSu/FtawsSLOx+ghVgCkX4c
+ z9bvYX0OCOHfv4IoUKUnTmzs2nXTgzCjXdrzN8IOusTEOVX3yrc1pYe9Fv9KV3h+488u
+ CecA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXOTtXfTPaLsX8/c8H9+4J2yg8/Tp1RsHr95rvHMgytOnEjbxXX8TtdbVDhyWhx9a4kDRCC69gI938=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0jRj27ShiB5GsRUn7xV0fuTqLaxDGkYl3e7qWDk1s5SBs3Cjb
+ xaE3fVJUt9S7Z3RbxdD1Vvn0wtbUM+KiDrsjNQk9zxq8i0AIDzOd8betRXm/oHQ=
+X-Gm-Gg: ASbGncvhKB00WOjymg7DlilgdmDJNiUDuJIc47q+zt+4NpmBbqpJNkgSOn7b5KVI/Dd
+ DNvcLSPc2ecJOxXraTW4n+Ycx5ANmhoxNltyzbR8bArcShncqiM4jOa2JfOc9a2drLBHl2VTC+X
+ iTOGuB+nvxe9SeguONCgaV5hS4YhVHqQYg5aeC2Pgv7gVyZ0xtuvhoEKYTSDq5hSkYb76bTsdEJ
+ gTNXM7+E54afRlglVuSriJpRJN/ZgzkNRhAamo9Y5klEQX4YCjiX73Ev8IU/eTztC0I
+X-Google-Smtp-Source: AGHT+IHIG8gIkIZLnGTj2vm2ov4/i2vQzdBqNMlxt0wme6qkxMsRJFFigfl4B+bpgLZ7xuYAvDMDEg==
+X-Received: by 2002:a05:6000:1446:b0:385:d7f9:f169 with SMTP id
+ ffacd0b85a97d-38a872f6d09mr3033928f8f.12.1736357179644; 
+ Wed, 08 Jan 2025 09:26:19 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a1c8334aasm53404544f8f.41.2025.01.08.09.26.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 09:26:19 -0800 (PST)
+Date: Wed, 8 Jan 2025 18:26:17 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, David Hildenbrand <david@redhat.com>
-Subject: Re: [RFC PATCH 2/3] mm: provide rmap_wrprotect_file_page() function
-Message-ID: <Z3607T2A-pukkuQj@casper.infradead.org>
-References: <cover.1736352361.git.lorenzo.stoakes@oracle.com>
- <701a67692d5bf9c8424cdbda103c988bbb278e38.1736352361.git.lorenzo.stoakes@oracle.com>
+ Archit Taneja <architt@codeaurora.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH 1/6] drm/atomic-helper: document
+ drm_atomic_helper_check() restrictions
+Message-ID: <Z361OTdcwtPvN17P@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Archit Taneja <architt@codeaurora.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+ <20241222-drm-dirty-modeset-v1-1-0e76a53eceb9@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <701a67692d5bf9c8424cdbda103c988bbb278e38.1736352361.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <20241222-drm-dirty-modeset-v1-1-0e76a53eceb9@linaro.org>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,58 +117,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 08, 2025 at 04:18:41PM +0000, Lorenzo Stoakes wrote:
-> +++ b/include/linux/rmap.h
-> @@ -754,6 +754,26 @@ unsigned long page_address_in_vma(const struct folio *folio,
->   */
->  int folio_mkclean(struct folio *);
->  
-> +/**
+On Sun, Dec 22, 2024 at 07:00:41AM +0200, Dmitry Baryshkov wrote:
+> The drm_atomic_helper_check() calls drm_atomic_helper_check_modeset()
+> insternally. Document that corresponding restrictions also apply to the
+> drivers that call the former function (as it's easy to miss the
+> documentation for the latter function).
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-The kerneldoc comment should be with the implementation, not the
-prototype.
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-> + * rmap_wrprotect_file_page() - Traverses the reverse mapping, finding all VMAs
-> + * which contain a shared mapping of the single page at PFN @pfn in @mapping at
-> + * offset @pgoff and write-protecting the mappings.
-
-After the '-' should come a _short_ description ... maybe "Write protect
-all mappings of this page".
-
-> + * The PFN mapped does not have to be a folio, but rather can be a kernel
-> + * allocation that is mapped into userland. We therefore do not require that the
-> + * PFN maps to a folio with a valid mapping or index field, rather these are
-> + * specified in @mapping and @pgoff.
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 5186d2114a503701e228e382cc45180b0c578d0c..f26887c3fe8b194137200f9f2426653274c50fda 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1059,6 +1059,15 @@ EXPORT_SYMBOL(drm_atomic_helper_check_planes);
+>   * For example enable/disable of a cursor plane which have fixed zpos value
+>   * would trigger all other enabled planes to be forced to the state change.
+>   *
+> + * IMPORTANT:
 > + *
-> + * @mapping:	The mapping whose reverse mapping should be traversed.
-> + * @pgoff:	The page offset at which @pfn is mapped within @mapping.
-> + * @nr_pages:	The number of physically contiguous base pages spanned.
-> + * @pfn:	The PFN of the memory mapped in @mapping at @pgoff.
+> + * As this function calls drm_atomic_helper_check_modeset() internally, its
+> + * restrictions also apply:
+> + * Drivers which set &drm_crtc_state.mode_changed (e.g. in their
+> + * &drm_plane_helper_funcs.atomic_check hooks if a plane update can't be done
+> + * without a full modeset) _must_ call drm_atomic_helper_check_modeset()
+> + * function again after that change.
+> + *
+>   * RETURNS:
+>   * Zero for success or -errno
+>   */
+> 
+> -- 
+> 2.39.5
+> 
 
-The description of the params comes between the short and full
-description of the function.
-
-> + * Return the number of write-protected PTEs, or an error.
-
-colon after Return: so it becomes a section.
-
-> +int rmap_wrprotect_file_page(struct address_space *mapping, pgoff_t pgoff,
-> +		unsigned long nr_pages, unsigned long pfn)
-> +{
-> +	struct wrprotect_file_state state = {
-> +		.cleaned = 0,
-> +		.pgoff = pgoff,
-> +		.pfn = pfn,
-> +		.nr_pages = nr_pages,
-> +	};
-> +	struct rmap_walk_control rwc = {
-> +		.arg = (void *)&state,
-> +		.rmap_one = rmap_wrprotect_file_one,
-> +		.invalid_vma = invalid_mkclean_vma,
-> +	};
-> +
-> +	if (!mapping)
-> +		return 0;
-
-Should it be valid to pass in NULL?
-
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
