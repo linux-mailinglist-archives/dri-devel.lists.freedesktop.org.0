@@ -2,75 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9715A061BD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 17:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7EDA0621F
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 17:39:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A94610E8FA;
-	Wed,  8 Jan 2025 16:23:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94F6810EC0B;
+	Wed,  8 Jan 2025 16:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com
- [209.85.222.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5423A10E8FA
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 16:23:55 +0000 (UTC)
-Received: by mail-ua1-f54.google.com with SMTP id
- a1e0cc1a2514c-85bafa89d73so2709905241.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 08:23:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736353434; x=1736958234;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CWaN/8ptyC2cYFUazZR9DiU44cT/Ebl32OM7k/AY7UI=;
- b=lV+uZqLxiPU4CayApuoHiM+cBNwx1zFXqDcXBT3IkDW/WG9L/m8vntjAujGRCly8/r
- 6qiKR+NqRq4HV3X2VblBkryvXOTG5677boNx8WD0WyAdInOMfr4k3LCJzCxy6rEOY+0z
- /sy3VDZCm98mKxqKJyQ9HsBwB5pwJ88BnY0KHvlRDU9nKyh7/c6X7rKE4hAF33rWF0pD
- TR8zPUfqaDCWEeAjdfaSBYSOrE/RhOtxfidB6u3+aDfbeTR2f4x1IhLFQ1Isd4+YSKum
- uaCoMybniYGFGb4DBEss92y0IvbJcMxAglt0Dubm7RQv/N5YFKjBnOJ36YbQcoTljZLL
- +D4w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVwJ4gGZCD/FfINDQ8yKtWtekm0Xfq9tfwU97aDtxVyO4hNFBoHQsGCSGb9equgbamMuQGzYjsgXWc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyo4h5uN3HpQklBOvD217zZCbzWJ0YhycGtMizQgeqS5kwur8F1
- yG1rZjAW2OxlP2kO68W0Y49b15xpnqHIWfCvsOAwMMCYd34bhW8AgjerXHWx
-X-Gm-Gg: ASbGncuMyk0rIHxurlOBGGWTAuzv7MyU11c6ZxaefpefUL0afmVNNHBFTzmJM9qIWRY
- EENw0xm0LlzsjZaVAhTruLZ/US7jfwwW18EV9w9jhS3E4ukABiOdCk63BtKyRdo7kAwgA/nZOoe
- IPywoeXdevUFlhWOO6pz96NxcSSydrgEWaXlrPDUdtQaTElf9iyFX7EUDIrxXTJNb7rBU7tHiD/
- 4QMQiuLNWyu3tZjoqtC7aCnxL2TmCPWODxjxlJLy+DLOweUmJa+9BI+KyFfMnUYcVCCjduhfWxJ
- 6AzM2ayP1s9lwnbMxGk=
-X-Google-Smtp-Source: AGHT+IGcK8QGk2kXzfWHRfJYJf0ki6IBNXKT25rBrP6gGgvZ3bVLSSna7ccE+64ryFMKKWZWyoaIbA==
-X-Received: by 2002:a05:6122:2a04:b0:518:778b:70a1 with SMTP id
- 71dfb90a1353d-51c6c50f8e0mr2018280e0c.7.1736353433836; 
- Wed, 08 Jan 2025 08:23:53 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com.
- [209.85.222.50]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-8610ad5a149sm8537438241.35.2025.01.08.08.23.53
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Jan 2025 08:23:53 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id
- a1e0cc1a2514c-85b92397fe2so2747562241.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 08:23:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWK/Bo0DOMm2kfrCeVIncrbaC66yD/pfK4zye7iwbDrw2ojR1vQG/hhBrjInVJWR/9+ArWmvBAI3sI=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:26d4:b0:4b2:5d63:ff72 with SMTP id
- ada2fe7eead31-4b3d0fc1ca8mr2837377137.13.1736353432987; Wed, 08 Jan 2025
- 08:23:52 -0800 (PST)
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D05D510EC0B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 16:39:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=FbU9VMY2knnyygoOkEqJ57aJta1BgUBzkTdgylqElUQ=; b=b7cNyG9G2ZGLQcMZWf3aJRITuA
+ +WgZHkVzsXkPS/qfBTZ42vxQnWdnmgHoNk0qU+C5ZnVDPghuQQZ+uJWTVlpGxKmStMkZ8FxuqqGpX
+ ywCma1pUtFTR/T+K9zYH1Vw2dlIUmTkVW1TUkNr5sDZfD7CqmVndqZ+Na2z+zWbB8h4We+xm9Q74c
+ USGgpEaENMqGUMiVv3b6vwzIEEquwl97/0p2FXAzUaZNyPUjV2BFTFZvNrwzH4h9e4XZ9RCYzDt2U
+ u5BIp3aDXX9O/DcUygBM7eSBOdJ5+v3knySEsAwN/XLGw3Litm1aupjduo4dsC3w2kRbnj12bmXfu
+ 6+7Vx33A==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
+ Linux)) id 1tVZ57-000000021bJ-3u87; Wed, 08 Jan 2025 16:38:58 +0000
+Date: Wed, 8 Jan 2025 16:38:57 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, David Hildenbrand <david@redhat.com>
+Subject: Re: [RFC PATCH 1/3] mm: refactor rmap_walk_file() to separate out
+ traversal logic
+Message-ID: <Z36qIbm82vMLW7w_@casper.infradead.org>
+References: <cover.1736352361.git.lorenzo.stoakes@oracle.com>
+ <0c53589f34a6195938eeb58c3a88594fa30cc90a.1736352361.git.lorenzo.stoakes@oracle.com>
 MIME-Version: 1.0
-References: <20250107095912.130530-1-tzimmermann@suse.de>
-In-Reply-To: <20250107095912.130530-1-tzimmermann@suse.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Jan 2025 17:23:41 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXKNq2PAef0tF_AJv7zgmXQpPgYs5Rwokjo=1M+2n2EBQ@mail.gmail.com>
-X-Gm-Features: AbW1kvZp0cV5Of05CmFxR0NTT0IyghMVuM7nBAA7tF5qwUX0JfhnOOwbtasx9h8
-Message-ID: <CAMuHMdXKNq2PAef0tF_AJv7zgmXQpPgYs5Rwokjo=1M+2n2EBQ@mail.gmail.com>
-Subject: Re: [PATCH] m68k: Fix VGA I/O defines
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-m68k@lists.linux-m68k.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
- stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0c53589f34a6195938eeb58c3a88594fa30cc90a.1736352361.git.lorenzo.stoakes@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,104 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Wed, Jan 08, 2025 at 04:18:40PM +0000, Lorenzo Stoakes wrote:
+> +/*
+> + * rmap_walk_file - do something to file page using the object-based rmap method
+> + * @folio: the folio to be handled
+> + * @rwc: control variable according to each walk type
+> + * @locked: caller holds relevant rmap lock
+> + *
+> + * Find all the mappings of a folio using the mapping pointer and the vma chains
+> + * contained in the address_space struct it points to.
+> + */
+> +static void rmap_walk_file(struct folio *folio,
+> +		struct rmap_walk_control *rwc, bool locked)
+> +{
+> +	struct address_space *mapping = folio_mapping(folio);
 
-On Tue, Jan 7, 2025 at 10:59=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de> wrote:
-> Including m86k's <asm/raw_io.h> in vga.h on nommu platforms results
-> in conflicting defines with io_no.h for various I/O macros from the
-> __raw_read and __raw_write families. An example error is
->
->    In file included from arch/m68k/include/asm/vga.h:12,
->                  from include/video/vga.h:22,
->                  from include/linux/vgaarb.h:34,
->                  from drivers/video/aperture.c:12:
-> >> arch/m68k/include/asm/raw_io.h:39: warning: "__raw_readb" redefined
->       39 | #define __raw_readb in_8
->          |
->    In file included from arch/m68k/include/asm/io.h:6,
->                     from include/linux/io.h:13,
->                     from include/linux/irq.h:20,
->                     from include/asm-generic/hardirq.h:17,
->                     from ./arch/m68k/include/generated/asm/hardirq.h:1,
->                     from include/linux/hardirq.h:11,
->                     from include/linux/interrupt.h:11,
->                     from include/linux/trace_recursion.h:5,
->                     from include/linux/ftrace.h:10,
->                     from include/linux/kprobes.h:28,
->                     from include/linux/kgdb.h:19,
->                     from include/linux/fb.h:6,
->                     from drivers/video/aperture.c:5:
->    arch/m68k/include/asm/io_no.h:16: note: this is the location of the pr=
-evious definition
->       16 | #define __raw_readb(addr) \
->          |
->
-> Include <asm/io.h>, which avoid raw_io.h on nommu platforms. Also change
-> the defined values of some of the read/write symbols in vga.h to
-> __raw_read/__raw_write as the raw_in/raw_out symbols are not generally
-> available.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.DNEswlm8-lkp@i=
-ntel.com/
-> Fixes: 5c3f968712ce ("m68k/video: Create <asm/vga.h>")
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: <stable@vger.kernel.org> # v3.5+
+I'm unconvinced this shouldn't be just folio->mapping.  On the face of
+it, we're saying that we're walking a file, and file folios just want
+to use folio->mapping.  But let's dig a little deeper.
 
-Thanks for your patch!
+The folio passed in is locked, so it can't be changed during this call.
+In folio_mapping(), folio_test_slab() is guaranteed untrue.
+folio_test_swapcache() doesn't seem likely to be true either; unless
+it's shmem, it can't be in the swapcache, and if it's shmem and in the
+swap cache, it can't be mapped to userspace (they're swizzled back from
+the swapcache to the pagecache before being mapped).  And then the
+check for PAGE_MAPPING_FLAGS is guaranteed to be untrue (we know it's
+not anon/ksm/movable).  So I think this should just be folio->mapping.
 
-> --- a/arch/m68k/include/asm/vga.h
-> +++ b/arch/m68k/include/asm/vga.h
-> @@ -9,7 +9,7 @@
->   */
->  #ifndef CONFIG_PCI
->
-> -#include <asm/raw_io.h>
-> +#include <asm/io.h>
+> +	/*
+> +	 * The page lock not only makes sure that page->mapping cannot
+> +	 * suddenly be NULLified by truncation, it makes sure that the
+> +	 * structure at mapping cannot be freed and reused yet,
+> +	 * so we can safely take mapping->i_mmap_rwsem.
+> +	 */
 
-It definitely makes sense to include <asm/io.h> instead of
-<asm/raw_io.h> in this file.
+I know you only moved this comment, but please fix it to refer to
+folios, not pages.
 
->  #include <asm/kmap.h>
->
->  /*
-> @@ -29,9 +29,9 @@
->  #define inw_p(port)            0
->  #define outb_p(port, val)      do { } while (0)
->  #define outw(port, val)                do { } while (0)
-> -#define readb                  raw_inb
-> -#define writeb                 raw_outb
-> -#define writew                 raw_outw
-> +#define readb                  __raw_readb
-> +#define writeb                 __raw_writeb
-> +#define writew                 __raw_writew
+> +	VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+> +
+> +	if (!mapping)
+> +		return;
 
-OK
+Maybe make this a WARN_ON_ONCE?
 
->
->  #endif /* CONFIG_PCI */
->  #endif /* _ASM_M68K_VGA_H */
+> +	__rmap_walk_file(folio, mapping, folio_pgoff(folio),
+> +			 folio_nr_pages(folio), rwc, locked);
 
-I gave it a try on various configs, and inspected the impact
-(none, except for killing the warnings), so
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-i.e. will queue in the m68k tree for v6.14.
+folio_pgoff() can go too.  Just use folio->index.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
