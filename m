@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1735A05784
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 10:58:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA54EA056F6
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 10:36:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEAC410E244;
-	Wed,  8 Jan 2025 09:58:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDE3B10E826;
+	Wed,  8 Jan 2025 09:36:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LzpKC3hT";
+	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="UgUyk4VE";
+	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="U+KzuCHE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D76D110E244
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 09:58:22 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-aaee0b309adso2063693866b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 01:58:22 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81A5110E826
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 09:36:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736330241; x=1736935041; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=UqzxWOab6evyJePUEZiyqiNeRR2ktAmye9JuSg0gIEo=;
- b=LzpKC3hT4GeuggofN7Vpd1inlNo3crri5A/u1GUpb8wnlNySrvsa52UGSizqx8HLmN
- blZvlFhrLZRF+EPvbnRmKXBKpTZkZXIqpJiiCZDbVQYbAptBK0WekAaU+oHfPAH3/38T
- M3qCzX+YZN36Ol8dmJwLu3P3s81H9lgMBCiXLpLyD1mVAqpOl4ps0IbgEXFUv7IViJyV
- 8cHY4B4VIYSEjnulfnVsvVHtJDZfCn4MRQsxorLUkqrrcwD7DQ5xLbY6cgePKSLvjKCT
- rEoiJCJyUVaP+zV6Zk85qa5Un2rT49GbHkxaj6IJLis0H+bAx7ryX4elsFYjItKDg80i
- j6kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736330241; x=1736935041;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UqzxWOab6evyJePUEZiyqiNeRR2ktAmye9JuSg0gIEo=;
- b=bA+pkV+f5BWQCeOJgYO32VtTI6bqwI7sSFpbaJuDTJDpvffU4xnbAqIbAPOjCxwA2J
- /2+6L2rAtAuZPck48ujc/vv6YvN9OKNzms1UodFykglTs0g6hma7/shyXFzuTql7sAJw
- Fk2lfOSTbGzTulgZYxzgEZz4AwLKvjVKkMzhGMCk0OoakU3mHIl1fmD/igyQopAMpI8S
- 3LKNxFNq++apRE5FyyF3qLh2Mkn++WfOu/6++PTPaTaaEDgK8vmWxnuISylLOGvbQNAq
- JLjSGp857bKsSIYtyk4DazKiZCKjrtjtmDpWVIGmBWSeGhVDmZIFTURAgqDQdguXxXRU
- UrXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXw6seM1+xjVZuOLhmEnDrVPZ7eb2knqtc0iAQXNVDMGa2XZpfbsZ89f61ZoLAI77O5GapYwFcbogI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy1vzfhnuSVPBoydvY3xByr8zPopZ6YyxaCQcczJcCjJu2yxX3n
- athK6Ips3vWWA8KNrHwgTckLTUPL9tJASnKU2JZLtmyDvKvUlWTMkpn48KA4y09zgd6v+iGJoj0
- l
-X-Gm-Gg: ASbGncuE5HifG46WdsFJC57evqAMsNdeZBDHFuwLtcCT32O7LdSLa9ZmFgISZyh3qJv
- hKVB+Gj8+aTIDcfzWGOT65y4cWTmdieGsfH6SUHiczjaHws7nrObzjaBsOidQipfnERogIoMAXT
- zFzOPaZ4BhgPaXrXvWMY3UeRfKwcX67T9mYtjqfk4vDTO462NHn+cZ5vDbfN+wVmfDiA+q3eLDp
- 06WF4/ahLKOc610DZNlVWsMogrTag5ujHmlzDbCJt0RvCAB2GSphExnnor44Q==
-X-Google-Smtp-Source: AGHT+IG5WSBhFOJisgYTUKeIhRXBAfvDEN8YKwZDJA2mb5m6FO3aJNoBZk/2i3G8RcBgch7B0HaYEw==
-X-Received: by 2002:a05:6000:1acf:b0:386:4034:f9a6 with SMTP id
- ffacd0b85a97d-38a8735727fmr1340774f8f.57.1736328960701; 
- Wed, 08 Jan 2025 01:36:00 -0800 (PST)
-Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2ddccf4sm14566785e9.19.2025.01.08.01.35.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 01:36:00 -0800 (PST)
-Date: Wed, 8 Jan 2025 12:35:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Julien STEPHAN <jstephan@baylibre.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Mattijs Korpershoek <mkorpershoek@baylibre.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH RESEND] drm/mediatek: dsi: fix error codes in
- mtk_dsi_host_transfer()
-Message-ID: <b754a408-4f39-4e37-b52d-7706c132e27f@stanley.mountain>
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1736328999; x=1767864999;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ByQ6/5pKHP8MQj/YBuiBtBApZpE+BRhKSooauRrD8M0=;
+ b=UgUyk4VEsvtYL7IfFRqc6L4YYT8WXKW7xej8r9KWUsCVZOBcnS/E7moJ
+ uv6+sU4zVNI9wr/Th2hc6341TU3akAakab3De8B/WhYdI6KFUVcaetb/h
+ ry/tdiqnu075PWPfUNTOktRPq/VjDiAwpFVH1FyjCZmWE+4+m1UoVHqS9
+ yV7XxuxqWGxHZO/dFfaeL7qGpG8SlMDtwQmbiBN5Q4XUtD6eAVHKK707q
+ fJdzQ+meHEcQav81FtbB2z2gOnf6iFw0gzuVPE3wRnyHF+7y934wrks9g
+ 6DPuuqKC5YSRwiI03j2CdBiCmybTB1BbiRg50cR3oGsRrEF7FE9fb61ek g==;
+X-CSE-ConnectionGUID: lBMLYARPRLWZT5KwbkWfUg==
+X-CSE-MsgGUID: Zd4zm9GtRyqHqZSqH3f2CQ==
+X-IronPort-AV: E=Sophos;i="6.12,297,1728943200"; d="scan'208";a="40915819"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+ by mx1.tq-group.com with ESMTP; 08 Jan 2025 10:36:34 +0100
+X-CheckPoint: {677E4722-2-3C670366-E45AD810}
+X-MAIL-CPID: A643DC748E8B87B427C9C77EF9A89612_4
+X-Control-Analysis: str=0001.0A682F20.677E4722.00EF, ss=1, re=0.000, recu=0.000,
+ reip=0.000, cl=1, cld=1, fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 37A1B165CAE; Wed,  8 Jan 2025 10:36:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+ s=dkim; t=1736328989;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ByQ6/5pKHP8MQj/YBuiBtBApZpE+BRhKSooauRrD8M0=;
+ b=U+KzuCHEcTYSgV86jGNGaa/mv07FsZ9PohRUU45OuleOyyJbt4plTlOs9OC5h7EZa6pfs3
+ xlVysXyvSKiMOCJ4e9ke95vO13cPqh1HfgX8vWkZ2jAN2EB0MoIxNTAf4wbKa6PejaL/EW
+ jar7uQZDyqpbdVuuUaEDl6oJFRZzUGbz27SSfYKXF1+RuuRrslFncfWHLEIPOW6btF7WcO
+ XVACAELq3PbfNTlzg7AzZcgnLm7d1xi7Kdf+ERCCssq4TaNZvPf0DdIRe288BQfroOV9ZF
+ uQB8SZfm+4qUhh1bs+Y2Sw358tBuiNhsWy+yyN8ZLOay3berwGebv/Qlx8V9RA==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] drm/bridge: imx8qxp-pxl2dpi: Use dev_err_probe
+Date: Wed, 08 Jan 2025 10:36:24 +0100
+Message-ID: <1842588.VLH7GnMWUR@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <add11437-4fa8-489a-9cde-9c08cfd71db3@nxp.com>
+References: <20250107143900.988567-1-alexander.stein@ew.tq-group.com>
+ <20250107143900.988567-2-alexander.stein@ew.tq-group.com>
+ <add11437-4fa8-489a-9cde-9c08cfd71db3@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,59 +91,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a type bug because the return statement:
+Hi,
 
-        return ret < 0 ? ret : recv_cnt;
+Am Mittwoch, 8. Januar 2025, 04:22:19 CET schrieb Liu Ying:
+> On 01/07/2025, Alexander Stein wrote:
+> > This simplifies the code and gives additional information upon deferral.
+> >=20
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c | 26 ++++++--------------
+> >  1 file changed, 7 insertions(+), 19 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu=
+/drm/bridge/imx/imx8qxp-pxl2dpi.c
+> > index 65cf3a6c8ec69..038eaff889bb7 100644
+> > --- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+> > +++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
+> > @@ -398,20 +398,12 @@ static int imx8qxp_pxl2dpi_bridge_probe(struct pl=
+atform_device *pdev)
+> >  		return -ENOMEM;
+> > =20
+> >  	p2d->regmap =3D syscon_node_to_regmap(np->parent);
+> > -	if (IS_ERR(p2d->regmap)) {
+> > -		ret =3D PTR_ERR(p2d->regmap);
+> > -		if (ret !=3D -EPROBE_DEFER)
+> > -			DRM_DEV_ERROR(dev, "failed to get regmap: %d\n", ret);
+> > -		return ret;
+> > -	}
+> > +	if (IS_ERR(p2d->regmap))
+> > +		return dev_err_probe(dev, ret, "failed to get regmap\n");
+>=20
+> s/ret/PTR_ERR(p2d->regmap)/
 
-The issue is that ret is an int, recv_cnt is a u32 and the function
-returns ssize_t, which is a signed long.  The way that the type promotion
-works is that the negative error codes are first cast to u32 and then
-to signed long.  The error codes end up being positive instead of
-negative and the callers treat them as success.
+Thanks for the catch.
 
-Fixes: 81cc7e51c4f1 ("drm/mediatek: Allow commands to be sent during video mode")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/r/202412210801.iADw0oIH-lkp@intel.com/
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-Reviewed-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
-I sent this patch earlier:
-https://lore.kernel.org/all/Y%2FyBC4yxTs+Po0TG@kili/
-but it wasn't applied.  I've changed the commit message a bit and added
-new tags.
+> > =20
+> >  	ret =3D imx_scu_get_handle(&p2d->ipc_handle);
+> > -	if (ret) {
+> > -		if (ret !=3D -EPROBE_DEFER)
+> > -			DRM_DEV_ERROR(dev, "failed to get SCU ipc handle: %d\n",
+> > -				      ret);
+> > -		return ret;
+> > -	}
+> > +	if (ret)
+> > +		return dev_err_probe(dev, ret, "failed to get SCU ipc handle\n");
+> > =20
+> >  	p2d->dev =3D dev;
+> > =20
+> > @@ -422,13 +414,9 @@ static int imx8qxp_pxl2dpi_bridge_probe(struct pla=
+tform_device *pdev)
+> >  	}
+> > =20
+> >  	p2d->next_bridge =3D imx8qxp_pxl2dpi_find_next_bridge(p2d);
+> > -	if (IS_ERR(p2d->next_bridge)) {
+> > -		ret =3D PTR_ERR(p2d->next_bridge);
+> > -		if (ret !=3D -EPROBE_DEFER)
+> > -			DRM_DEV_ERROR(dev, "failed to find next bridge: %d\n",
+> > -				      ret);
+> > -		return ret;
+> > -	}
+> > +	if (IS_ERR(p2d->next_bridge))
+> > +		return dev_err_probe(dev, PTR_ERR(p2d->next_bridge),
+> > +				     "failed to find next bridge\n");
+> > =20
+> >  	ret =3D imx8qxp_pxl2dpi_set_pixel_link_sel(p2d);
+> >  	if (ret)
+>=20
+> imx8qxp_pxl2dpi_parse_dt_companion() may return -EPROBE_DEFER too, so it =
+needs
+> to be changed.
 
- drivers/gpu/drm/mediatek/mtk_dsi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+True, I added a dev_err_probe to that function when companion bridge cannot
+be found.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index d871b1dba083..0acfda47f002 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -1015,12 +1015,12 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
- 				     const struct mipi_dsi_msg *msg)
- {
- 	struct mtk_dsi *dsi = host_to_dsi(host);
--	u32 recv_cnt, i;
-+	ssize_t recv_cnt;
- 	u8 read_data[16];
- 	void *src_addr;
- 	u8 irq_flag = CMD_DONE_INT_FLAG;
- 	u32 dsi_mode;
--	int ret;
-+	int ret, i;
- 
- 	dsi_mode = readl(dsi->regs + DSI_MODE_CTRL);
- 	if (dsi_mode & MODE) {
-@@ -1069,7 +1069,7 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
- 	if (recv_cnt)
- 		memcpy(msg->rx_buf, src_addr, recv_cnt);
- 
--	DRM_INFO("dsi get %d byte data from the panel address(0x%x)\n",
-+	DRM_INFO("dsi get %zd byte data from the panel address(0x%x)\n",
- 		 recv_cnt, *((u8 *)(msg->tx_buf)));
- 
- restore_dsi_mode:
--- 
-2.45.2
+Best regards,
+Alexander
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
