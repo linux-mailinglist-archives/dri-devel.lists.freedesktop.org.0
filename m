@@ -2,165 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D992AA051AD
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 04:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1C1A05225
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 05:40:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 086C010E08E;
-	Wed,  8 Jan 2025 03:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32DB10E171;
+	Wed,  8 Jan 2025 04:40:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="iajMCAEO";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BXKVxAE5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
- (mail-am6eur05on2086.outbound.protection.outlook.com [40.107.22.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1623B10E08E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 03:40:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LWGNZ5+jdv9elJmlC3uSJtK/9AefXS0lcfHtF0oLwX5Z113NBgSJ8rW2HzVWd2QgN+SC58dlkg4aatxj+br+5nIYZrEu5ZkfoIbqc94S8FIS09u6ZCTSuddvSr2G+Zv54ZsujQubH8LldKzYU+oAwoMYBdiOW0HIKTxPeN8gW78DTalMftY76lzd+bYKoFiwqC1U5C1oGUNjxSgApjwecIAtQgrZJnMfEY6LMkPoqHJEFEQlpDXZB2/HHY1E5Zbbhv7jUnfhtcFad5P7n1erviHENJBqByYy8BpVU2PHJf9omUhAsmBEPWti0jYPvy+hnJGNSOAvSGVTnyFNmx+KCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EgcU2n+umiWmUshYYFG/XUuuD8F19PC/O9zBeqVaXTE=;
- b=ZSkOExa326WnKl1dHnI/vltN9paWX5qH1QyRmt+6KEAmjjoDxip9UyCryHh1OFOFc3B9Ij4dLtNNNO0/IKzNKQOaPoepAXv/wZD38iScKr3D0t7lJ8IH7x8UoaXYn/YQCCR5CPsBw3MJZ7N3QWE6QV6Xtvm+T6gqleyG3lDLPNBjO6V4YD7TnT0KPrV7sAdODVw/hT++Rl/dcPEECp1mH0U8yfRwQorU5CL1DEOVM0lkiG9IRbvulFVWgKsD6CerNiaDv8yfz08rsbF55LbTPYByq/5SLXpvXrOKKsadxSJ/IO/A5u9la5QaRopFSr3GxAJV0k1s6R0WKo21I7CKuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EgcU2n+umiWmUshYYFG/XUuuD8F19PC/O9zBeqVaXTE=;
- b=iajMCAEOHu/L64VjnCNbIvsoLVWc6vHJZztb5D34gEv5HVejZTzfErV3ubRN+aw3thrnbOJSBqly0mO3IUrv0Cu6aK3P3lnGflXx8YNqhYfgQieRodhM4+7jU0xh+X7iq2IB2c2U5SLtvuWM2s+lmbp9zBAHAOeA0TRp3eHjTSpyuhxHHA/HcQKAEthHMz6LlTH74+OFMgV7cPqRWjJexI0TNmXYf3lENM4FhQYDHzCjrFikP1hwmRoVAGrakHKLh7wJ5L4dJCvqJG4enVYVgSrPlAFjccLonDXDdTrMbhOfDBSW3eEabBzyMMMLPSmB4veMHtHww0wWvsgRMx4Zlw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AS1PR04MB9700.eurprd04.prod.outlook.com (2603:10a6:20b:473::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Wed, 8 Jan
- 2025 03:40:29 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::d1ce:ea15:6648:6f90%4]) with mapi id 15.20.8314.018; Wed, 8 Jan 2025
- 03:40:23 +0000
-Message-ID: <9a0cf93f-394c-40a5-89d3-bdf4f8d26b9b@nxp.com>
-Date: Wed, 8 Jan 2025 11:41:12 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] drm/bridge: imx8qxp-pixel-link: Use dev_err_probe
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20250107143900.988567-1-alexander.stein@ew.tq-group.com>
- <20250107143900.988567-5-alexander.stein@ew.tq-group.com>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20250107143900.988567-5-alexander.stein@ew.tq-group.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0051.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::6) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
+ [209.85.166.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA8A10E171;
+ Wed,  8 Jan 2025 04:40:04 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id
+ e9e14a558f8ab-3a81324bbdcso126031805ab.1; 
+ Tue, 07 Jan 2025 20:40:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1736311143; x=1736915943; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=lIvYFRseMfK/GNG4t25XfPFdktK+YowDXfndJwAtRoo=;
+ b=BXKVxAE54wDOgoxaKXLSQ+x4uIlUSJ9Ra9PmKkifSu91HCOJMeaQy5mpFw5kGaKgOL
+ w3iDpvWzMZGYtbQycVklOmdWyFeQ/GM9TcyzHqIW7uUPVLbheRDTr8iHquar5hsbG8Ns
+ Drp0k97skEqKfZyBiJp+y8Op5W9EewzCxGy8Ql8ttiZl0szQaw5vGR21Z87HLzwSIpCz
+ +swCO+AW+kZv8b7zHL9a3KwuEpqP+bSlnZZz4g42On0d0C5PGY6K0/kl3NAfaNnld6bl
+ 6aOPut3fFuwMjlJkpV4SW0K7AvB24Tztwwmw2Gy8mopH2q13tHaMmkPfarpHixYdAkgQ
+ 3iuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736311143; x=1736915943;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lIvYFRseMfK/GNG4t25XfPFdktK+YowDXfndJwAtRoo=;
+ b=S9qgPiGwvhULk2yrvHgEbuxyWJQ7fnTJ19Dc0bpZbmxOmnTCed0XFNA4BOHKoMDihc
+ SxzjtW85jzOSAwKKZ/7vb6EkdwbQ0yp+xVfWzgCb0OEoAToVY7OU2OmNTN/K2l2TkCl7
+ A6mxlwDbvYK2uWrrH1F7NtIP3+nxsx6gGERGhJrvXnHTus6G2NWpHWuDTPeU+rBGO9Ug
+ 8EskwKuSW1NUayoOLxkS58Mi+XKGYNiX756bHtRCpDmeDWuIMemWkNuAESV0j3U9VOWW
+ B0MG5uHSeDCi41JFKSFxsTczgy9Pu0YywrpYge60bRohkcRCKGAXNslhWk6NX15voLrv
+ jboQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUP9a0y3ziptcY5GSJTxq9F0CSydXt57pSfxMxXMGFrShlyo7vetQuztaQpbvy4NfX3+AAGFw+EFhk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyvMKnUyZRvD7kpmqlTSGCdc74NDLt5eAGOow/EVpq0wehCTyRJ
+ QAX51jbNY6nMwxghFeS6djN0ftuD4UwyFdQQx5Q/xrjqoj5nGn3bx1MM8eZymIhK/HWT3Uq24mO
+ hGRiVCxi2LdUjOye+Shdy5aXvDnpf+wZ/
+X-Gm-Gg: ASbGncuNTWTQfo3Wrl+75MU/KUYjm87wREI4HDZ5H+7tHSNNt2VnNd6bDDS4HbWozgq
+ xD6Rdx9eqbMPfo20A8TTgS8e3WcfN1a+2GkX3RA==
+X-Google-Smtp-Source: AGHT+IGH5abcEvMRUBBNOcNRE0CBjvHvUY5DlfcMIeUS08jrRzcKPS7oAJaDHssW2NxQaVCJxWw/TtAewdABbavPT3s=
+X-Received: by 2002:a92:cda7:0:b0:3a3:b5ba:bfba with SMTP id
+ e9e14a558f8ab-3ce3aa71eb7mr12804315ab.15.1736311143266; Tue, 07 Jan 2025
+ 20:39:03 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS1PR04MB9700:EE_
-X-MS-Office365-Filtering-Correlation-Id: b739fae7-24f7-4cb1-d3ee-08dd2f962e7d
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M3g5Vmc4bHlOWndCZ2g3NThCem9IYXVZVnpwZXBDV3BXakNROFAvMktQNW82?=
- =?utf-8?B?ZE5oV0hMS0pCMkdDWDUzSWF5Nk03ZkN5REFDMUtCUnp0MmJnOHFDNUdsbnYz?=
- =?utf-8?B?OVluV3hJVEZOSVVHTW1pMmZ3NVJlKzRWWGVZak0xZmdsSHIyYTdnTkljQ0lB?=
- =?utf-8?B?Y2k0Y3VHSXh0QUhhaDhJWTdEMU9kSndUbTQyUDJGVHdGbWc4bzZVd3VmWSto?=
- =?utf-8?B?Lzc0c3BqbnlKK2dGQys5Z3NFZ3RudTFSVE1SUm1vMXlhYlA1VzRLT2gwVDVu?=
- =?utf-8?B?ZGRyT1NkQlVNK1RiZUx0cTNGR3k0R0VEeUZIR2RtUXYwN3NRQ3d2d0t6WUtx?=
- =?utf-8?B?NWhoOWhST3ZCcm5iUDRJWkNOZm82bDJLOVVrQ0EyQTFyaTU2QmlXUHBFR0xN?=
- =?utf-8?B?ZmRFS0V3NG1XdW1HNW12NWZmRmx4QjJqaUNyRUhSM3Z6cFVNNkpwRkp1cXRE?=
- =?utf-8?B?Tko0M0EyN3grZkZxTXlWbU1xLzZ0czdJcGdvY3d5RUZ6WThpeWd5ZDQzUUtp?=
- =?utf-8?B?MnIwQlZtemxsYXdqQWZHQnVyU201Z0hVQm9UMTVWMU42cWZ5MVpFOHpOMWV5?=
- =?utf-8?B?MUhra1hieVhENVNHeGliRzVQOW1adURzR2NPckRDK3dMdUNYaWhRUlRBSDJl?=
- =?utf-8?B?QTQxdzVBdlUybi9jZ0tOVi9JYVV2OVJwY09xTzZBdjkxVFFTOCtwUGpDWUlU?=
- =?utf-8?B?ZG44akNaNVZpSUIralRLWk9RWlNKcEN6RHVmd0Q2S2JsUDZvN0RNZXMrUHJZ?=
- =?utf-8?B?ejVwVkZOaXpWbnc3bzNMajRXeEw4Wjgrd1MyYm81dFNZdGk4Q2V6SXY5d3pP?=
- =?utf-8?B?VFFOZHhzcEVwTjZ2QVZFK2V5bEVWL3hDRllleldka1VhTkgyT1pWbFBWaURi?=
- =?utf-8?B?SzRjMkh5c21hZVdQNUlqOFNTSnhoZVRTWXBIa0ovY1VYVjRqQWJPNW5oOGdy?=
- =?utf-8?B?TXZGaVVLY3pPaDRub01YRzNSSUJjTXZjZjVvV2taOXpnS0tvbjUremJocWV1?=
- =?utf-8?B?WjdQTW5QWnV3R0QwemRPY1lpT0tWVUJaSHJ1U0h5NmxMREVNdk9DdlNFMENh?=
- =?utf-8?B?c3hBejBIZG9Ua3hZQXhtWFV1VWtoUWFVOUFxdnVxb0tFTEkzcEhkNmZ5WEo3?=
- =?utf-8?B?N3NVYXRlUVVKZ3hxL2N6TzRtbGx0Tkx6Z09jd3hITG1GTmJVaHhQUmFoYzdL?=
- =?utf-8?B?N3NSVmYzakZCa0xHM2FaWUI1U291bjVad1E3NFhpOXNDbjVWRDV0dGc2U2ls?=
- =?utf-8?B?SEFvelA1dkJRY0djT0JNYWFTQWNhY1VMTzlrWitHWWgva2c5dEdzTU0yYUwz?=
- =?utf-8?B?Q1pEZGJTbmNLSjlMZS9IUFR1eTZMR2hKaitxd2F2MXJaUjJLTCs4V0VFckpW?=
- =?utf-8?B?YTlkZzB4RW1PZGhodjgzN0o0S0MwQnB6YTlEclJGdHpSa2VRamNmNmpJWVlR?=
- =?utf-8?B?dDAva0lScVBWbkg0UnlySENGdVNCaUh5cGZpTW1YblM3b0JnSDVJUEM4Ykxm?=
- =?utf-8?B?VWt5RzN6WE53U0Jodm9jNjNxR3o4eVo2NmxTcFJHVndZdlFtaGI5MUR6L0FR?=
- =?utf-8?B?REFzT0FGVzAzOVdaTzExREkrZVdZalhzbGNPUWYxSHNCN0hJVmx4RS9CWDdW?=
- =?utf-8?B?QzBQMHhCYnVkaURzRzErQ05OMEF4NUxUNjBFbndObHE4ZzVyYXBRbFlqU2lU?=
- =?utf-8?B?NHRQY0ttakZYWXFQaktwYm1wZkZjSm9PdUlxRUdHeEZCZG9UV1JZSGZtUWZm?=
- =?utf-8?B?Mk4xVFdsdlV6YUlscjZSU2tYNU1rbW51ZnduangrNlhleHpNdDZVRWdjbXF5?=
- =?utf-8?B?Q1AvdThIQUR1aTVKd0pTZVVjdUdtM0p0YjZCYUdXajJBdTVpQlNVa0xBZXhT?=
- =?utf-8?B?RWJrbyt0VGg5MkR4N1NTanIzcFdvclpXYlRCYlhQRVFJS1ArbFJsdVR1Qyty?=
- =?utf-8?Q?SozgCGZlCzE=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V1ZwUkowZ1RHSE5EdHdGbSs1KzR5OW9DQkszVkRQVnFpbTE0cHpwUTBodVZk?=
- =?utf-8?B?M2VKOVNpSm1teUJEYVg5OEtDb042SUpqUGFONVNqcFF0TTdoUmFFOEFrcVdj?=
- =?utf-8?B?M2NyVDJhVDFYZVhNdnd4OEdkZThWYjdIbnZzOEdsTGtnTzQ4UDlqUXJKdEN0?=
- =?utf-8?B?Vk8yYi9sUkVXQlp2OTlVd010Qks0MDRVOSt2VnN2TE1WQnpmNVZOMHRqbStS?=
- =?utf-8?B?cTlvdFZYWGlld01ya1dGZmcrbWR6eHlncGIwYlN4YkNWSjNwVFlnUjYwb25u?=
- =?utf-8?B?cit1QUJSOEtXelVkRG52YUZhRVMxeUM3ak8rNGFpMmpaR1NWK3ZxbWx1b1Vr?=
- =?utf-8?B?MlB0YnkrN0ZvcTZwQ2lDVjNaSUs4N2FETkl1eHI0TW1BZmwxdENlUEVHUW16?=
- =?utf-8?B?aGt0OTgxenFyTXNtQjFEOUlTUTA1enVpeXEwdDRWM1l4MWtueEluS01rbDd4?=
- =?utf-8?B?QitIQndqTkhwaHBSM2lCU2RabFl3ZnVuaVpJbWFMYnJheFpZTy9YdHp1TFl5?=
- =?utf-8?B?TlV0VEhNQUQ4OWwycVdnRjZIdkI2bGs5aTRGbklDU0w1RzVsSWJtYkxHTThp?=
- =?utf-8?B?R0ZiUWwvZ2xKZjY5Y1lraG4vWXZNdXkxRHhydXExTnhGdmZGTndBLzVYZ2JL?=
- =?utf-8?B?WXBvWmpyVkhvY2JuRWtESTV4b3EwaFJ1SEhMMUcyVTRFVkdaczYwc0s2ekV6?=
- =?utf-8?B?NjNlVUR2U093OGcwNlZKcSt3dytYek4vREFHMDFYUVZyZDFoTFpLWDJhWVYr?=
- =?utf-8?B?MVZvU0Z1WlNFZFVLYkFBemdTZmVyVnZwcDc0eG5uc2V1TkpiT1ZhZTRQSVZm?=
- =?utf-8?B?OVJSZTUwKy84VStDc0xSaHN3KytKNXg1bFJiaWZKZzdSZ2FXeG9hZVREd1ZB?=
- =?utf-8?B?NFVEQXRNVDM1ZXM1QTZ1M1QxOTFGSVhWSEFwNzB5ODJSa3N2Q05nNEpEbzA4?=
- =?utf-8?B?UmovZjJqVERuM2pEcDgzRXlLMVB6anM4b2xYSTJ4Z2pkN2RJK0g1M3RiN0tW?=
- =?utf-8?B?TGRkM3dITzB3Wk14TmI1Q0ZxQVZRTkNhbGt0QWVPa05VY3ZTS0t6V2RmVzdC?=
- =?utf-8?B?UklJMnhyQ1ZPUGo4Rlc4Sm9STHJzREpPVURxbzBRU1RZYkFaZ2c3R0FpZENq?=
- =?utf-8?B?UHpQQzd2Qlk4enZTRmNuc2FTdkg3YlEvYTJadndUWHVHYUI0bXAxTTQ3aUo3?=
- =?utf-8?B?SGNjeUpZcE5IckNTOUEwNzhFOEM1RXhoWHNhQW9XOFBFZ1B3S0ZvTkV3cVVM?=
- =?utf-8?B?L2p2S1p0SzQ3UW1RRU92Mzd6eHZqbnFHN2FkUWhNOG92VEhxYmR4UlRpQnQ3?=
- =?utf-8?B?VXBxandyVDRoVys4QnJ2alB4YzY4OWMyZXNzcWRYYmtVdVJnYlpoTHNQN0dT?=
- =?utf-8?B?aXF5Y0wvc1c4QUhhak9RVGxoUHNKN1FJMmpwSWpkV1R2VlFjdmFnQVJMMHpw?=
- =?utf-8?B?SEpMNkcyUUFpRHovaXpiSitrVnZiL2hSdFpTOUQ0R01qa3N0V2xYby9nTmlX?=
- =?utf-8?B?SXBXMnp0SFBFaWFNazhNVjFrRTdGY2hQUHJFbUs0cDBkM1NyVGc2dHNQNkoz?=
- =?utf-8?B?L01SNWdhZUJjRVhKblVvbHdYRWVaWlFqMVJ2b3pqc0x3bnFORld3RGNlNnJ1?=
- =?utf-8?B?alFOeWVrM25oMmRhNVFUOUYvTGJ1ZWE3eWRQMllFaXp0OUdoZ0hJcit4ZHp4?=
- =?utf-8?B?N3pkRTRnVDlEclhxbFZ0MEMwMkk4M1FBSGdFc0tGa3hPR2RmRi9CVzc0MWVC?=
- =?utf-8?B?dnYyNTBFcnVOdzQxVExXaDhyK2hSNW10b0hCdnBWVllsS3RjclMyYTB4Uk1l?=
- =?utf-8?B?ZmpBdStZS2gzQ0xGZk43S2xZSk5TbmpSQ2JuY1R2bkx2Um1KSVU1VHUzckZw?=
- =?utf-8?B?d09SWXcwb2cvcmRhMnFBVk8vWUIrbG4vK1E3aUJFRzFQVUI4TlNvMGx4cnMv?=
- =?utf-8?B?VHFveCtkUHZIaGJTQml5Nzd5aUZ2THhrc1dBNVlaR1NEaFhXUjMxemlINEVN?=
- =?utf-8?B?OW5jVytuVnVwSkZlc0lsMjV2dU1jbVFuL3RWVzFPYmNKcGkzVm10MkprWmQy?=
- =?utf-8?B?bEMreTUzTWladjNkVlRzY1NXcWtBVEtnbXg2allJa2g2SEJldDdsSUVrNzE0?=
- =?utf-8?Q?PH49oqsJ0sbSpmNHcmAC+5EvW?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b739fae7-24f7-4cb1-d3ee-08dd2f962e7d
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 03:40:23.2077 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OMLHDZuKq71grB6MntynzytGZl42pxFX5lDfJPpoYA9nHNQJCbMGqZKguso3qCvYHsKHEA8DXy/7PDLR+Rg09w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR04MB9700
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 7 Jan 2025 20:38:51 -0800
+X-Gm-Features: AbW1kvZGZuoDx_pa6aDwyo8IOwFycNOlO8St-UPnv0En-d7JC85Bgu9QFJCu57w
+Message-ID: <CAF6AEGsutUu4ff6OpXNXxqf1xaV0rV6oV23VXNRiF0_OEfe72Q@mail.gmail.com>
+Subject: [pull] drm/msm: drm-msm-next-2025-01-07 for v6.14
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,12 +80,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/2025, Alexander Stein wrote:
-> This simplifies the code and gives additional information upon deferral.
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> ---
->  .../gpu/drm/bridge/imx/imx8qxp-pixel-link.c   | 19 ++++++-------------
->  1 file changed, 6 insertions(+), 13 deletions(-)
+Hi Dave, Simona,
 
-Reviewed-by: Liu Ying <victor.liu@nxp.com>
+Pull for v6.14, as described below.  Has a merge from the pm/opp tree
+to resolve a dependency on the newly added dev_pm_opp_get_bw()
+
+The following changes since commit 40384c840ea1944d7c5a392e8975ed088ecf0b37:
+
+  Linux 6.13-rc1 (2024-12-01 14:28:56 -0800)
+
+are available in the Git repository at:
+
+  git@gitlab.freedesktop.org:drm/msm.git tags/drm-msm-next-2025-01-07
+
+for you to fetch changes up to 866e43b945bf98f8e807dfa45eca92f931f3a032:
+
+  drm/msm: UAPI error reporting (2025-01-03 07:20:28 -0800)
+
+----------------------------------------------------------------
+Updates for v6.14
+
+MDSS:
+- properly described UBWC registers
+- added SM6150 (aka QCS615) support
+
+MDP4:
+- several small fixes
+
+DPU:
+- added SM6150 (aka QCS615) support
+- enabled wide planes if virtual planes are enabled (by using two
+SSPPs for a single plane)
+- fixed modes filtering for platforms w/o 3DMux
+- fixed DSPP DSPP_2 / _3 links on several platforms
+- corrected DSPP definitions on SDM670
+- added CWB hardware blocks support
+- added VBIF to DPU snapshots
+- dropped struct dpu_rm_requirements
+
+DP:
+- reworked DP audio support
+
+DSI:
+- added SM6150 (aka QCS615) support
+
+GPU:
+- Print GMU core fw version
+- GMU bandwidth voting for a740 and a750
+- Expose uche trap base via uapi
+- UAPI error reporting
+
+----------------------------------------------------------------
+Abhinav Kumar (6):
+      drm/msm/dp: do not touch the MMSS_DP_INTF_CONFIG for tpg
+      drm/msm/dp: dont call dp_catalog_ctrl_mainlink_ctrl in
+dp_ctrl_configure_source_params()
+      drm/msm/dp: disable the opp table request even for dp_ctrl_off_link()
+      drm/msm/dpu: check dpu_plane_atomic_print_state() for valid sspp
+      drm/msm/dpu: filter out too wide modes if no 3dmux is present
+      dt-bindings: display: msm: dp: update maintainer entry
+
+Arnd Bergmann (1):
+      drm/msm: fix -Wformat-security warnings
+
+Colin Ian King (1):
+      drm/msm/a5xx: remove null pointer check on pdev
+
+Dan Carpenter (2):
+      opp: core: Fix off by one in dev_pm_opp_get_bw()
+      drm/msm/gem: prevent integer overflow in msm_ioctl_gem_submit()
+
+Danylo Piliaiev (1):
+      drm/msm: Expose uche trap base via uapi
+
+Dmitry Baryshkov (26):
+      drm/msm/dp: set safe_to_exit_level before printing it
+      drm/msm/dp: fix msm_dp_utils_pack_sdp_header interface
+      dt-bindings: display/msm: qcom,sa8775p-mdss: fix the example
+      drm/msm/dpu1: don't choke on disabling the writeback connector
+      drm/msm/mdss: define bitfields for the UBWC_STATIC register
+      drm/msm/mdss: reuse defined bitfields for UBWC 2.0
+      drm/msm/mdss: use boolean values for macrotile_mode
+      drm/msm/dpu: add support for virtual planes
+      drm/msm/dpu: allow using two SSPP blocks for a single plane
+      drm/msm/dpu: include SSPP allocation state into the dumped state
+      drm/msm/dp: drop msm_dp_panel_dump_regs() and msm_dp_catalog_dump_regs()
+      drm/msm/dp: use msm_dp_utils_pack_sdp_header() for audio packets
+      drm/msm/dp: drop obsolete audio headers access through catalog
+      drm/msm/dp: drop struct msm_dp_panel_in
+      drm/msm/dp: stop passing panel to msm_dp_audio_get()
+      drm/msm/dpu: provide DSPP and correct LM config for SDM670
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8150
+      drm/msm/dpu: link DSPP_2/_3 blocks on SC8180X
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8250
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8350
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8550
+      drm/msm/dpu: link DSPP_2/_3 blocks on SM8650
+      drm/msm/dpu: link DSPP_2/_3 blocks on X1E80100
+      drm/msm: don't clean up priv->kms prematurely
+      drm/msm/mdp4: correct LCDC regulator name
+      drm/msm/dpu: get rid of struct dpu_rm_requirements
+
+Esha Bharadwaj (3):
+      drm/msm/dpu: Add CWB entry to catalog for SM8650
+      drm/msm/dpu: add devcoredumps for cwb registers
+      drm/msm/dpu: add CWB support to dpu_hw_wb
+
+Jessica Zhang (4):
+      drm/msm/dpu: Add VBIF to DPU snapshot
+      drm/msm/dpu: Specify dedicated CWB pingpong blocks
+      drm/msm/dpu: Add dpu_hw_cwb abstraction for CWB block
+      drm/msm/dpu: Add RM support for allocating CWB
+
+Konrad Dybcio (2):
+      drm/msm: registers: Add GMU FW version register
+      drm/msm/a6xx: Print GMU core firmware version at boot
+
+Li Liu (7):
+      dt-bindings: display/msm: Add SM6150 DSI phy
+      dt-bindings: display/msm: dsi-controller-main: Document SM6150
+      dt-bindings: display/msm: Add SM6150 MDSS & DPU
+      drm/msm: mdss: Add SM6150 support
+      drm/msm/dpu: Add SM6150 support
+      drm/msm/dsi: Add dsi phy support for SM6150
+      drm/msm/dsi: Add support for SM6150
+
+Neil Armstrong (8):
+      opp: core: implement dev_pm_opp_get_bw
+      OPP: add index check to assert to avoid buffer overflow in _read_freq()
+      OPP: fix dev_pm_opp_find_bw_*() when bandwidth table not initialized
+      drm/msm: adreno: add defines for gpu & gmu frequency table sizes
+      drm/msm: adreno: add plumbing to generate bandwidth vote table for GMU
+      drm/msm: adreno: dynamically generate GMU bw table
+      drm/msm: adreno: find bandwidth index of OPP and set it along freq index
+      drm/msm: adreno: enable GMU bandwidth for A740 and A750
+
+Rex Nie (1):
+      drm/msm/hdmi: simplify code in pll_get_integloop_gain
+
+Rob Clark (2):
+      Merge remote-tracking branch 'pm/opp/linux-next' into HEAD
+      drm/msm: UAPI error reporting
+
+Stephan Gerhold (1):
+      drm/msm/dpu: fix x1e80100 intf_6 underrun/vsync interrupt
+
+Sui Jingfeng (1):
+      drm/msm: Check return value of of_dma_configure()
+
+ .../bindings/display/msm/dp-controller.yaml        |   1 +
+ .../bindings/display/msm/dsi-controller-main.yaml  |   2 +
+ .../bindings/display/msm/dsi-phy-14nm.yaml         |   1 +
+ .../bindings/display/msm/qcom,sa8775p-mdss.yaml    |   3 +-
+ .../bindings/display/msm/qcom,sm6150-dpu.yaml      | 108 ++++++
+ .../bindings/display/msm/qcom,sm6150-mdss.yaml     | 245 +++++++++++++
+ drivers/gpu/drm/msm/Makefile                       |   1 +
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |  15 +-
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  22 ++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              | 203 ++++++++++-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |  26 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |  54 ++-
+ drivers/gpu/drm/msm/adreno/a6xx_hfi.h              |   5 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c            |  24 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   7 +
+ .../drm/msm/disp/dpu1/catalog/dpu_10_0_sm8650.h    |  31 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_4_1_sdm670.h |  54 ++-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_0_sm8150.h |   2 +
+ .../drm/msm/disp/dpu1/catalog/dpu_5_1_sc8180x.h    |   2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h | 254 +++++++++++++
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_6_0_sm8250.h |   2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_7_0_sm8350.h |   2 +
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_8_1_sm8450.h |   4 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h    |   4 +-
+ .../gpu/drm/msm/disp/dpu1/catalog/dpu_9_0_sm8550.h |   6 +-
+ .../drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h   |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  63 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |   1 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |  14 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.c         |  75 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.h         |  70 ++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |  13 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_wb.c          |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  50 ++-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   4 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          | 396 +++++++++++++++++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |  13 +
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             | 175 ++++++---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |   3 -
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c  |   2 +-
+ drivers/gpu/drm/msm/dp/dp_audio.c                  | 275 +++-----------
+ drivers/gpu/drm/msm/dp/dp_audio.h                  |   3 -
+ drivers/gpu/drm/msm/dp/dp_catalog.c                | 159 +++------
+ drivers/gpu/drm/msm/dp/dp_catalog.h                |  35 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |  11 +-
+ drivers/gpu/drm/msm/dp/dp_panel.c                  |  26 +-
+ drivers/gpu/drm/msm/dp/dp_panel.h                  |  11 +-
+ drivers/gpu/drm/msm/dp/dp_utils.c                  |  10 +-
+ drivers/gpu/drm/msm/dp/dp_utils.h                  |   2 +-
+ drivers/gpu/drm/msm/dsi/dsi_cfg.c                  |   2 +
+ drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |   2 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |   1 +
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c         |  21 ++
+ drivers/gpu/drm/msm/hdmi/hdmi_phy_8998.c           |   2 +-
+ drivers/gpu/drm/msm/msm_drv.c                      |   2 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |   7 +
+ drivers/gpu/drm/msm/msm_gem_submit.c               |  67 ++--
+ drivers/gpu/drm/msm/msm_kms.c                      |   1 -
+ drivers/gpu/drm/msm/msm_mdss.c                     |  79 ++--
+ drivers/gpu/drm/msm/msm_mdss.h                     |   4 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c              |   2 +-
+ drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml  |   5 +
+ drivers/gpu/drm/msm/registers/display/mdss.xml     |  11 +-
+ drivers/opp/core.c                                 |  82 ++++-
+ include/linux/pm_opp.h                             |   7 +
+ include/uapi/drm/msm_drm.h                         |   1 +
+ 73 files changed, 2137 insertions(+), 704 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm6150-dpu.yaml
+ create mode 100644
+Documentation/devicetree/bindings/display/msm/qcom,sm6150-mdss.yaml
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_5_3_sm6150.h
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.c
+ create mode 100644 drivers/gpu/drm/msm/disp/dpu1/dpu_hw_cwb.h
