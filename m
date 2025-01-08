@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA098A057ED
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 11:19:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BBD1A05821
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 11:29:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2648710E849;
-	Wed,  8 Jan 2025 10:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4101F10E84A;
+	Wed,  8 Jan 2025 10:29:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="G3ZqTgLw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="fhXqL58J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
- [217.70.183.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06BAF10E843
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 10:19:45 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPA id 9DD90FF805;
- Wed,  8 Jan 2025 10:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1736331564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zT4BJvqvjE1eW0ILbkiW+8DhklIBuRn9HyMgioarGPs=;
- b=G3ZqTgLw49//gZOhVuYeMg4zc/uWKHSnHEC9Ij0P/C/GDN8xIcHJW3yZIUtKa1HujQMGZe
- yLCQ6Xc7onYYvQ2f4Cip+oijXRS9RawXwSTqcvt0KQPyO9srKmkn3qKWbC0iPK+BvIJfzs
- eajqoe796GHrF9BrEhtQHg9bgVVODqDSHIAP522wuS1ktBa2bs2MKbB3E7hNuaS0zNuaAL
- b5ZlfNNAWLiPNASOdtGdmEaISqJPodfxDmDoi91Akw4RmHH2t+ypQ+UlQJckzqlAKH6i9/
- m9B0Xe736PXNPWqGLpf7qnCcs/dAr4ek42VrhhofjZMAJYlDELJ6r9cgt7Wc6w==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery mechanism
-Date: Wed,  8 Jan 2025 11:19:02 +0100
-Message-ID: <20250108101907.410456-4-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250108101907.410456-1-herve.codina@bootlin.com>
-References: <20250108101907.410456-1-herve.codina@bootlin.com>
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1BFE10E84A
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 10:29:44 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-3003e203acaso164707741fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 02:29:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736332123; x=1736936923; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=EmeyzTrOQIA9vHi8vWZpVljLw/8smezgBrfiULckA3c=;
+ b=fhXqL58Jj0MfjH5YkqJrCAe7sm6CcZovRzyJQzT4iEv3WTxa72QWy47uTIm/OJwbmr
+ 02z0UKjEX2v6jhrOZHxWQZp1Mbwht2KC+z1xp0UFZb4BZMK3G68dEo8Z77ykcaJYoy5I
+ o94TfRehAsJWKGWfGqh8mAn5od3EP2TbZHznxfme1Y8iitvN6ooH7V6zU4vGp/4y/mnz
+ 1bcTLcGYMNs2E0JNZO2vj8TLGxcVkUB5oLk0d/cMp+BpwKRlwvKRLGrOXZa3sOpxNITN
+ bc2pkA86Wor3mMZPKBBQFVyMnp9NIvXPH/ZXuBTxdqIrhVe4ih232ykKfiqC1O5ohv6J
+ ojmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736332123; x=1736936923;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EmeyzTrOQIA9vHi8vWZpVljLw/8smezgBrfiULckA3c=;
+ b=aw3h4AzuBAHgYT9z3BqVrHPCJoV0vMyp3GgzKZI+JAg0eyyvpchMG0ACMKdEUwSyF9
+ nguCMIqPIaEGNRf5YmpW+VJF+k7P9LzkmMxRjZUqXilY4JDax7iOnamqubTbKsqnQoJ7
+ k1d1iUUFEMA5yGpJavEirxffcXNbzFvqmxdsbhB/FxC1+NcsnuQ2L7UBRUK8+DIdHsCX
+ oD+psemBnwgOEqgm7TEIB5+0cMnIgCqhKn6GJCpM3epoS59mhCIF4ckduM7THjoMpsOb
+ Jo4/iktympJeYUWjcbZHS+LNeRJER+RpKTRFGJUs2PhGiPnqkVfObFqPANoEkqQ0dg5V
+ XFgA==
+X-Gm-Message-State: AOJu0YwggfVvVGnRvg7Cn3+F/K+wMUpaEs/p/vVGDWEPr8JSiH1lFcVX
+ abKsATRRnWGpMH39CeKZmBbwxq3W58+aWz7tD/p3gElDQlm0av07dtWm/o439WQ=
+X-Gm-Gg: ASbGncvZEWH7OrwHMV0Fw3glD+XvSdCKTAOJ+LeKVFk2llFNvkIT3zRjyGc/skLVVxa
+ Mmp+zAUjtyZ1dqEyVxft1V81gDAvfnINwsb/nK9BfDri+qtRs/xI3DSpK418Xgr0RjVlcdn3zWY
+ Td1tVUTXy0RZBpG2ESuGHymI9sGn8LINabMuB+srrDSoAAqGVsrm2OnKOqJuA7dIa0X032oyWKa
+ 0waCNZ6aUb5yxjj0va+779QZtR9+GjvIKPZwXjRec7v+xmVmjYcjYG7dZRfVy5znq8jh/iTj3pp
+ pnq0o1yeTcM3qKC56bYwhv9VCDs9/mA2Wa+I
+X-Google-Smtp-Source: AGHT+IE26udTFhcl7SvPsOFQvGtDHk1r+PpmikL0b5Y+/kvCJ7lxnaeJ+BmMDGsC7XtxSnsj+U8qHw==
+X-Received: by 2002:a2e:b888:0:b0:302:350c:c630 with SMTP id
+ 38308e7fff4ca-305f45e1551mr6286681fa.22.1736332123058; 
+ Wed, 08 Jan 2025 02:28:43 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3045ad9bb7asm66812151fa.46.2025.01.08.02.28.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 02:28:41 -0800 (PST)
+Date: Wed, 8 Jan 2025 12:28:39 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Subject: Re: [PATCH] drm/display: bridge_connector: Do atomic check when
+ necessary
+Message-ID: <dm4lqvtd4lxqmxruji5eydmbqxoomj6fogiu4uucqfevifqpll@33eeykwlqczx>
+References: <20250108101351.2599140-1-victor.liu@nxp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108101351.2599140-1-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,245 +90,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
-from errors by itself. A full restart of the bridge is needed in those
-cases to have the bridge output LVDS signals again.
+On Wed, Jan 08, 2025 at 06:13:51PM +0800, Liu Ying wrote:
+> It's ok to pass atomic check successfully if an atomic commit tries to
+> disable the display pipeline which the connector belongs to. That is,
+> when the crtc or the best_encoder pointers in struct drm_connector_state
+> are NULL, drm_bridge_connector_atomic_check() should return 0 directly.
+> Without the check against the NULL pointers, drm_default_rgb_quant_range()
+> called by drm_atomic_helper_connector_hdmi_check() would dereference
+> the NULL pointer to_match in drm_match_cea_mode().
+> 
 
-Also, during tests, cases were observed where reading the status of the
-bridge was not even possible. Indeed, in those cases, the bridge stops
-to acknowledge I2C transactions. Only a full reset of the bridge (power
-off/on) brings back the bridge to a functional state.
+[..]
 
-The TI SN65DSI83 has some error detection capabilities. Introduce an
-error recovery mechanism based on this detection.
+> [   46.823581] pc : drm_default_rgb_quant_range+0x0/0x4c [drm]
+> [   46.829244] lr : drm_atomic_helper_connector_hdmi_check+0xb0/0x6b0 [drm_display_helper]
+> [   46.837293] sp : ffff80008364ba00
 
-The errors detected are signaled through an interrupt. On system where
-this interrupt is not available, the driver uses a polling monitoring
-fallback to check for errors. When an error is present or when reading
-the bridge status leads to an I2C failure, the recovery process is
-launched.
+[..]
 
-Restarting the bridge needs to redo the initialization sequence. This
-initialization sequence has to be done with the DSI data lanes driven in
-LP11 state. In order to do that, the recovery process resets the whole
-output path (i.e the path from the encoder to the connector) where the
-bridge is located.
+> [   46.911984] Call trace:
+> [   46.914429]  drm_default_rgb_quant_range+0x0/0x4c [drm] (P)
+> [   46.920106]  drm_bridge_connector_atomic_check+0x20/0x2c [drm_display_helper]
+> [   46.927275]  drm_atomic_helper_check_modeset+0x488/0xc78 [drm_kms_helper]
+> [   46.934111]  drm_atomic_helper_check+0x20/0xa4 [drm_kms_helper]
+> [   46.940063]  drm_atomic_check_only+0x4b8/0x984 [drm]
+> [   46.945136]  drm_atomic_commit+0x48/0xc4 [drm]
+> [   46.949674]  drm_framebuffer_remove+0x44c/0x530 [drm]
+> [   46.954809]  drm_mode_rmfb_work_fn+0x7c/0xa0 [drm]
+> [   46.959687]  process_one_work+0x150/0x294
+> [   46.963700]  worker_thread+0x2dc/0x3dc
+> [   46.967450]  kthread+0x130/0x204
+> [   46.970679]  ret_from_fork+0x10/0x20
+> [   46.974258] Code: d50323bf d65f03c0 52800041 17ffffe6 (b9400001)
+> [   46.980350] ---[ end trace 0000000000000000 ]---
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 147 ++++++++++++++++++++++++++
- 1 file changed, 147 insertions(+)
+Please trim the backtrace in a way I trimmed it. Also you can drop the
+timestamps, they don't have useful information.
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index e6264514bb3f..74bc05647436 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -35,9 +35,12 @@
- #include <linux/of_graph.h>
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/timer.h>
-+#include <linux/workqueue.h>
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_drv.h> /* DRM_MODESET_LOCK_ALL_BEGIN() needs drm_drv_uses_atomic_modeset() */
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
-@@ -147,6 +150,9 @@ struct sn65dsi83 {
- 	struct regulator		*vcc;
- 	bool				lvds_dual_link;
- 	bool				lvds_dual_link_even_odd_swap;
-+	bool				use_irq;
-+	struct delayed_work		monitor_work;
-+	struct work_struct		reset_work;
- };
- 
- static const struct regmap_range sn65dsi83_readable_ranges[] = {
-@@ -328,6 +334,111 @@ static u8 sn65dsi83_get_dsi_div(struct sn65dsi83 *ctx)
- 	return dsi_div - 1;
- }
- 
-+static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
-+{
-+	struct drm_atomic_state *state = ERR_PTR(-EINVAL);
-+	struct drm_device *dev = sn65dsi83->bridge.dev;
-+	struct drm_connector_state *connector_state;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_connector *connector;
-+	int err;
-+
-+	/*
-+	 * Reset active outputs of the related CRTC.
-+	 *
-+	 * This way, drm core will reconfigure each components in the CRTC
-+	 * outputs path. In our case, this will force the previous component to
-+	 * go back in LP11 mode and so allow the reconfiguration of SN64DSI83
-+	 * bridge.
-+	 *
-+	 * Keep the lock during the whole operation to be atomic.
-+	 */
-+
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-+
-+	state = drm_atomic_helper_duplicate_state(dev, &ctx);
-+	if (IS_ERR(state)) {
-+		err = PTR_ERR(state);
-+		goto unlock;
-+	}
-+
-+	state->acquire_ctx = &ctx;
-+
-+	connector = drm_atomic_get_old_connector_for_encoder(state,
-+							     sn65dsi83->bridge.encoder);
-+	if (!connector) {
-+		err = -EINVAL;
-+		goto unlock;
-+	}
-+
-+	connector_state = drm_atomic_get_connector_state(state, connector);
-+	if (IS_ERR(connector_state)) {
-+		err = PTR_ERR(connector_state);
-+		goto unlock;
-+	}
-+
-+	err = drm_atomic_helper_reset_pipe(connector_state->crtc, &ctx);
-+	if (err < 0)
-+		goto unlock;
-+
-+unlock:
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
-+	if (!IS_ERR(state))
-+		drm_atomic_state_put(state);
-+	return err;
-+}
-+
-+static void sn65dsi83_reset_work(struct work_struct *ws)
-+{
-+	struct sn65dsi83 *ctx = container_of(ws, struct sn65dsi83, reset_work);
-+	int ret;
-+
-+	dev_warn(ctx->dev, "reset the pipe\n");
-+
-+	/* Reset the pipe */
-+	ret = sn65dsi83_reset_pipe(ctx);
-+	if (ret) {
-+		dev_err(ctx->dev, "reset pipe failed %pe\n", ERR_PTR(ret));
-+		return;
-+	}
-+}
-+
-+static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
-+{
-+	unsigned int irq_stat;
-+	int ret;
-+
-+	/*
-+	 * Schedule a reset in case of:
-+	 *  - the bridge doesn't answer
-+	 *  - the bridge signals an error
-+	 */
-+
-+	ret = regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
-+	if (ret || irq_stat)
-+		schedule_work(&ctx->reset_work);
-+}
-+
-+static void sn65dsi83_monitor_work(struct work_struct *work)
-+{
-+	struct sn65dsi83 *ctx = container_of(to_delayed_work(work),
-+					     struct sn65dsi83, monitor_work);
-+
-+	sn65dsi83_handle_errors(ctx);
-+
-+	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-+}
-+
-+static void sn65dsi83_monitor_start(struct sn65dsi83 *ctx)
-+{
-+	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-+}
-+
-+static void sn65dsi83_monitor_stop(struct sn65dsi83 *ctx)
-+{
-+	cancel_delayed_work_sync(&ctx->monitor_work);
-+}
-+
- static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 					struct drm_bridge_state *old_bridge_state)
- {
-@@ -516,6 +627,15 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
- 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
- 	if (pval)
- 		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-+
-+	if (ctx->use_irq) {
-+		/* Enable irq to detect errors */
-+		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
-+		regmap_write(ctx->regmap, REG_IRQ_EN, 0xff);
-+	} else {
-+		/* Use the polling task */
-+		sn65dsi83_monitor_start(ctx);
-+	}
- }
- 
- static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
-@@ -524,6 +644,15 @@ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
- 	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
- 	int ret;
- 
-+	if (ctx->use_irq) {
-+		/* Disable irq */
-+		regmap_write(ctx->regmap, REG_IRQ_EN, 0x0);
-+		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, 0x0);
-+	} else {
-+		/* Stop the polling task */
-+		sn65dsi83_monitor_stop(ctx);
-+	}
-+
- 	/* Put the chip in reset, pull EN line low, and assure 10ms reset low timing. */
- 	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
- 	usleep_range(10000, 11000);
-@@ -681,6 +810,14 @@ static int sn65dsi83_host_attach(struct sn65dsi83 *ctx)
- 	return 0;
- }
- 
-+static irqreturn_t sn65dsi83_irq(int irq, void *data)
-+{
-+	struct sn65dsi83 *ctx = data;
-+
-+	sn65dsi83_handle_errors(ctx);
-+	return IRQ_HANDLED;
-+}
-+
- static int sn65dsi83_probe(struct i2c_client *client)
- {
- 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
-@@ -698,6 +835,8 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 		return ret;
- 
- 	ctx->dev = dev;
-+	INIT_WORK(&ctx->reset_work, sn65dsi83_reset_work);
-+	INIT_DELAYED_WORK(&ctx->monitor_work, sn65dsi83_monitor_work);
- 
- 	if (dev->of_node) {
- 		model = (enum sn65dsi83_model)(uintptr_t)
-@@ -722,6 +861,14 @@ static int sn65dsi83_probe(struct i2c_client *client)
- 	if (IS_ERR(ctx->regmap))
- 		return dev_err_probe(dev, PTR_ERR(ctx->regmap), "failed to get regmap\n");
- 
-+	if (client->irq) {
-+		ret = devm_request_threaded_irq(ctx->dev, client->irq, NULL, sn65dsi83_irq,
-+						IRQF_ONESHOT, dev_name(ctx->dev), ctx);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "failed to request irq\n");
-+		ctx->use_irq = true;
-+	}
-+
- 	dev_set_drvdata(dev, ctx);
- 	i2c_set_clientdata(client, ctx);
- 
+> 
+> Fixes: 8ec116ff21a9 ("drm/display: bridge_connector: provide atomic_check for HDMI bridges")
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> ---
+>  drivers/gpu/drm/display/drm_bridge_connector.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+> index 32108307de66..587020a3f3e8 100644
+> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+> @@ -343,6 +343,11 @@ static int drm_bridge_connector_atomic_check(struct drm_connector *connector,
+>  {
+>  	struct drm_bridge_connector *bridge_connector =
+>  		to_drm_bridge_connector(connector);
+> +	struct drm_connector_state *new_conn_state =
+> +		drm_atomic_get_new_connector_state(state, connector);
+> +
+> +	if (!new_conn_state->crtc || !new_conn_state->best_encoder)
+> +		return 0;
+
+Unfortunately, this is not enough. Other drivers (e.g. sun4i) use
+drm_atomic_helper_connector_hdmi_check() at connector's atomic_check()
+function. Please move necessary checks to the helper itself. Also please
+add corresponding KUnit test: attempt to atomic_check() the unconnected
+HDMI connector, there is a test suite for the HDMI connector functions,
+but the atomic_check() for the disconnected connecor seems to be missing.
+
+>  
+>  	if (bridge_connector->bridge_hdmi)
+>  		return drm_atomic_helper_connector_hdmi_check(connector, state);
+> -- 
+> 2.34.1
+> 
+
 -- 
-2.47.1
-
+With best wishes
+Dmitry
