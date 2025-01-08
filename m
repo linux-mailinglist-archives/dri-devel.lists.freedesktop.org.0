@@ -2,81 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A268AA052B9
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 06:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53B2A052BB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 06:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72B2410E252;
-	Wed,  8 Jan 2025 05:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF1E10E355;
+	Wed,  8 Jan 2025 05:44:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nsowURL3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J+XM6SGg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5B9310E252
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 05:43:10 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-21628b3fe7dso234600485ad.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Jan 2025 21:43:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736314930; x=1736919730; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=VRf3KLf8/gL60sYLc56uaXjwgEUxVqDlLqbN/+vh4pU=;
- b=nsowURL3G977AB87Slq2aahVrc+gmDJdD9J7WzVQa5+Jl6ylhOA4IPcZI/KBpWcguH
- lgCR2H1nYaoOcNRCsDTWRmwfNG7MVDI9+GtI1Mevbl0lUEV3DjKwrda8t2cMwVRO8PGV
- I6SKNBR3Ziw775Ur82OJKheD87hgoY05Di59EfZ1C2KOQHRD+5oUNg26uaX9eNhKwhNP
- F8onysfDbM/jo403bZEpoterMkkCz2QQaUtY6MWvbm9q1UgAzzfgMVp+QNPOVxS+xj2G
- 3/oI7myqbTurIx3WLDakG+5xgelzgqsXCbYH5Ltm27/zzn3LgHzy30OR+l2M5Ir2M+yE
- qAfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736314930; x=1736919730;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VRf3KLf8/gL60sYLc56uaXjwgEUxVqDlLqbN/+vh4pU=;
- b=oX9RIRNqxaidAilmbrtLYoIurtyGKt1/3j13hL/O7GRUQQGqUksslJGaDl4sT2C7qW
- c8ZOxup5leuyaPmpXYFK41B+kAtzgwJiKrRjh26o8fLXh3hiInJOlZF1MDMNUgwY9msa
- SMq2wW/mbX9MFOrww8bSj5So6Zx2FP4uaCSnBJYpYbbzP3ALEyFapokN7so2eJD9m/gx
- xK6mRL3Pm7mwGhR4J3OlIvlHaq2UgVJUd40JhyJbJPKfHN/TnT2j/BtRC2wASvkv/wEj
- 3VQcdT+QdZQpqmWfDkFLu2tRiJA0IPPTNem+k7qobKjfBzXz1w89QzMdD08+enXHWhL5
- pB3A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXbZPIGrDiEzo918kFBAipIAPYWpQmqoyWFDsl9H4pF8yk4dDxBXZTAtG7q1xLNCK0D6mn3E1lsZYU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxG48Awh0IP1V+a5+8WAVMiKUEQ8Aw2ZeDrANxkA1Px5YWLpb3v
- J5gwjPZMY/JuDQbAS92qiWsNBi1upkbMUTEy8WxILSd8GbXHP+PiMkqNWrnxxg==
-X-Gm-Gg: ASbGncunS0kHT9P+wY1XgUpbna3ibwpMAJeP8bGeCQcuCgHb+kPBYNJIDgkWZmQZIyU
- 3ofGlJwVTtmxpPF9+4NyOsSrvmCGeZEEPpWCOkcQk7QCcVw3+ITLREKJwQdKAjNpN/Yoe2PPbWJ
- j8HJnMsE/MbmPU0wo19jjtEMxnAyj7DeC+K4fjSpHRAK6q4eoBI8IxvkTCbijaXill53K7+6hWk
- OlgAOZxaVaXVvxyz83AAAyAtkIExJuGaE9Dg359Lmfz50pqHvYlyMbQMAXNXqSxoLBG
-X-Google-Smtp-Source: AGHT+IHfb7DiJvfS8v29jxsUziZRhFKDaY9dPzRiz3np6wV51MwuSsfBjIEy6SOqBmGKPG5YDPPdEQ==
-X-Received: by 2002:a17:902:d491:b0:215:54a1:8584 with SMTP id
- d9443c01a7336-21a83f4c070mr21127315ad.17.1736314930490; 
- Tue, 07 Jan 2025 21:42:10 -0800 (PST)
-Received: from thinkpad ([117.213.100.67]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-219dc9f4429sm318970325ad.173.2025.01.07.21.42.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Jan 2025 21:42:09 -0800 (PST)
-Date: Wed, 8 Jan 2025 11:12:02 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: quic_carlv@quicinc.com, quic_yabdulra@quicinc.com,
- quic_mattleun@quicinc.com, quic_thanson@quicinc.com,
- ogabbay@kernel.org, lizhi.hou@amd.com,
- jacek.lawrynowicz@linux.intel.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
-Subject: Re: [PATCH 2/7] bus: mhi: host: Add a policy to enable image
- transfer via BHIe in PBL
-Message-ID: <20250108054202.r4bqxduuhpcvpqm4@thinkpad>
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-3-quic_jhugo@quicinc.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E1210E355
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 05:44:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0E8495C3F39;
+ Wed,  8 Jan 2025 05:44:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C10F6C4CED0;
+ Wed,  8 Jan 2025 05:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736315090;
+ bh=H8TKNe72LwwgTZTKmN5zb4MNiboPv8kWdjIP8rOTDOU=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=J+XM6SGgTZkO+9w8ZU9/zOEAnjXWMn96BuQM5ldBf4nEuLZ71ubbl8mB44WZIb+xQ
+ nkdwkgRhxnL+ecHGAiPNKacmBq/MHdS6kSr3+dYnlb7OxF1SRcj37L9ZQ5BNeNULya
+ E4J3iS7Ir0ol1Zyblk0d0nfnBsSpSVM0Q2Ud4WEIRclT08G/N9xdujtL2jmiHsV4Xw
+ M/Snydl/FBGN63jkEyrytjjVsiIspBGc4XWCu4j63HgWWjZBOoNDXwlRrCTjw0kO8Z
+ 35xzeNkYuBvlmuS28ohU6FdbUNMfVyhL6D4rm9kAXG//iiiIYh8hUHbM3o7yhs8up4
+ eK4XhnBwJqefQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A90F4E77199;
+ Wed,  8 Jan 2025 05:44:50 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Date: Wed, 08 Jan 2025 13:45:14 +0800
+Subject: [PATCH] drm/bridge: it6505: fix HDCP V match check is not
+ performed correctly
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241213213340.2551697-3-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250108-fix-hdcp-v-comp-v1-1-9404811825cd@ite.com.tw>
+X-B4-Tracking: v=1; b=H4sIAOkQfmcC/x2MQQqAIBAAvyJ7bkGTMPpKdDBdcw+VKEQg/j3pO
+ DAzFQplpgKLqJDp4cL31UENAly010HIvjOMcpykkgYDvxi9S/igu8+EerczaW+sDxp6lTJ15T+
+ uW2sfDVAWQWEAAAA=
+X-Change-ID: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Hermes Wu <hermes.wu@ite.com.tw>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736315115; l=1308;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=dyqbMaHoVsNvXn2a4OvVKxfPmk0+fIgLG5w+5YquGSw=;
+ b=EGl+6seblMN/cphHfmfQmu8+zLNtcMleHGGC73U98PAlFWJbhZUhbWi9bnXbkwWE+NLl4YJxE
+ nThd4mrPDQCBAQTS5xdVBUtJist3GUlzl19zpwb1gmXlkAPnpSP6fwt
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,96 +82,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 13, 2024 at 02:33:35PM -0700, Jeffrey Hugo wrote:
-> From: Matthew Leung <quic_mattleun@quicinc.com>
-> 
-> Currently, mhi host only performs firmware transfer via BHI in PBL and
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-s/mhi/MHI here and below.
+The loop of V compare is expected to iterate for 5 times
+which compare V array form av[0][] to av[4][].
+It should check loop counter reach the last statement before return true
 
-> BHIe from SBL. To support BHIe transfer directly from PBL, a policy
-> needs to be added.
-> 
-> With this policy, BHIe will be used to transfer firmware in PBL if the
-> mhi controller has bhie regs, sets seg_len, and does not set
+Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V matching")
 
-s/bhie/BHIe
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-> fbc_download. The intention is to transfer firmware using BHIe in PBL
-> without further BHIe transfers in SBL.
-> 
-> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
-> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
-> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
-> ---
->  drivers/bus/mhi/host/boot.c     | 80 +++++++++++++++++++++++++++------
->  drivers/bus/mhi/host/init.c     |  2 +-
->  drivers/bus/mhi/host/internal.h |  8 ++++
->  3 files changed, 75 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
-> index e3f3c07166ad..c9ecb6427209 100644
-> --- a/drivers/bus/mhi/host/boot.c
-> +++ b/drivers/bus/mhi/host/boot.c
-> @@ -452,12 +452,62 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
->  	}
->  }
->  
-> +static enum mhi_fw_load_type mhi_fw_load_type_get(const struct mhi_controller *mhi_cntrl)
-> +{
-> +	enum mhi_fw_load_type ret = MHI_FW_LOAD_UNKNOWN;
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 88ef76a37fe6accacdd343839ff2569b31b18ceb..e87247aea1d2ffbdad192e241056d34fdfb32163 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2254,9 +2254,12 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+ 			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
+ 			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
+ 				break;
+-
+-			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
+-			return true;
++			if (i == 4) {
++				DRM_DEV_DEBUG_DRIVER(dev,
++						     "V' all match!! %d",
++						     retry);
++				return true;
++			}
+ 		}
+ 	}
+ 
 
-You can directly return the enum without a local variable.
+---
+base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+change-id: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
 
-> +
-> +	if (mhi_cntrl->fbc_download) {
-> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
-
-I don't think this condition can fail. If 'mhi_cntrl->bhie' is NULL,
-mhi_prepare_for_power_up() will fail. So I think MHI_FW_LOAD_UNKNOWN is not
-needed.
-
-Also, all the validation should be performed early, not while loading fw.
-
-> +			ret = MHI_FW_LOAD_FBC;
-> +	} else {
-> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
-> +			ret = MHI_FW_LOAD_BHIE;
-> +		else
-> +			ret = MHI_FW_LOAD_BHI;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int mhi_send_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
-
-mhi_load_image_bhi?
-
-> +{
-> +	struct image_info *image;
-> +	int ret;
-> +
-> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
-> +	if (ret)
-> +		return ret;
-> +
-> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
-> +
-> +	ret = mhi_fw_load_bhi(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
-> +	mhi_free_bhi_buffer(mhi_cntrl, image);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mhi_send_image_bhie(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
-
-mhi_load_image_bhie?
-
-- Mani
-
+Best regards,
 -- 
-மணிவண்ணன் சதாசிவம்
+Hermes Wu <Hermes.wu@ite.com.tw>
+
+
