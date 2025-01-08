@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D774A059A7
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 12:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA2CA059BB
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 12:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 090FD10E87C;
-	Wed,  8 Jan 2025 11:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 726B610EB98;
+	Wed,  8 Jan 2025 11:29:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LkI8gTgc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IbvtME0y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 963CF10E87F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 11:28:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B72710EB95
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 11:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736335707;
- bh=cISJnH6KQK8yqtXXOBp3N6WuuDpqVCNgWs+Yc+My1ms=;
+ s=mail; t=1736335708;
+ bh=MGDi6G7IlxIfQ4rsQ/pnsjcLKxBBNMus5UhZPN3ufAI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LkI8gTgcTGa4BqbwiyaBSkqaXGnXOMv6Z6vQl04WrlySNf+wfzKVsQqfd+TTRZlOu
- EkuoVe8KEKyxbcWY+E0aMRT1wO8wK1z1vETItXUOogYYJ3cbe5hIfHh6uUK7aWCBYH
- zwFeQc/e61XUN5Zd008gMXSs5h/VYoOMis4h8wPBAOklHquBpUwohruPoK23dk4KSx
- D2Xsz7xPjOOdCJtJ0XEW5PZmxDtr6oU4oBvCNOA1Uj5S1TwdCXB8Ee7KFr+Hauud0l
- Lt2B4bg6PT4u3193rQ8ktKt+DF0w0e4DFHHpxHrUjbrcMM36ShmEQeY53vQF8KRcax
- 8DXju5jqoiKBg==
+ b=IbvtME0yaOgcoHUj45xF434rhDzaWRlGIVvcw2FkPfMQUQ9aQ8lcd+Z1SffXRtPhI
+ tm2HXZo+cEC8M/qoJBbKWcn5jmDimEMZsYSAasl+t2i5c83ihnuICmkaniKczkbVYQ
+ wNgJHvs84yoYciCCJ1+zSbF7mNC28cd4EXtpSF9XLRBsMABMKYEXgXMG90/cSoRt8g
+ zumD37PHUmhWF7kmKEK6zMATIShhQ2Jd4kWSU8OY0MF6Q/rERZl1zmqc7oRDmGgQ65
+ gJzVNnKicXLwycCbXVKBpjH9Q5qK5Y5VchxWBwHDonbF0uuaqdo7WXsUVSj5vyMt9e
+ kjLZjoKfZlZrg==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0896C17E1587;
- Wed,  8 Jan 2025 12:28:25 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 89AEB17E158A;
+ Wed,  8 Jan 2025 12:28:27 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v4 19/34] drm/mediatek: mtk_hdmi: Move vendor/product strings
- to drm_bridge
-Date: Wed,  8 Jan 2025 12:27:29 +0100
-Message-ID: <20250108112744.64686-20-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v4 20/34] drm/mediatek: mtk_hdmi: Use dev_err_probe() in
+ mtk_hdmi_dt_parse_pdata()
+Date: Wed,  8 Jan 2025 12:27:30 +0100
+Message-ID: <20250108112744.64686-21-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20250108112744.64686-1-angelogioacchino.delregno@collabora.com>
 References: <20250108112744.64686-1-angelogioacchino.delregno@collabora.com>
@@ -70,60 +70,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the vendor and product strings to the appropriate entries
-of struct drm_bridge and use that in mtk_hdmi_setup_spd_infoframe
-instead of having the same as function parameters.
+Change error prints to use dev_err_probe() instead of dev_err()
+where possible in function mtk_hdmi_dt_parse_pdata(), used only
+during device probe.
+While at it, also beautify some prints.
 
-While at it, also beautify the strings, setting them to read
-"MediaTek On-Chip HDMI".
-
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 34 ++++++++++-------------------
+ 1 file changed, 11 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index bde7c1b068af..cde5f1f7e9e0 100644
+index cde5f1f7e9e0..42e6d1f64ab3 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -952,15 +952,14 @@ static int mtk_hdmi_setup_avi_infoframe(struct mtk_hdmi *hdmi,
- 	return 0;
- }
- 
--static int mtk_hdmi_setup_spd_infoframe(struct mtk_hdmi *hdmi,
--					const char *vendor,
--					const char *product)
-+static int mtk_hdmi_setup_spd_infoframe(struct mtk_hdmi *hdmi)
+@@ -1372,30 +1372,23 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
  {
-+	struct drm_bridge *bridge = &hdmi->bridge;
- 	struct hdmi_spd_infoframe frame;
- 	u8 buffer[HDMI_INFOFRAME_HEADER_SIZE + HDMI_SPD_INFOFRAME_SIZE];
- 	ssize_t err;
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *np = dev->of_node;
+-	struct device_node *cec_np, *remote, *i2c_np;
++	struct device_node *remote, *i2c_np;
+ 	struct platform_device *cec_pdev;
+ 	struct regmap *regmap;
+ 	int ret;
  
--	err = hdmi_spd_infoframe_init(&frame, vendor, product);
-+	err = hdmi_spd_infoframe_init(&frame, bridge->vendor, bridge->product);
- 	if (err < 0) {
- 		dev_err(hdmi->dev, "Failed to initialize SPD infoframe: %zd\n",
- 			err);
-@@ -1328,7 +1327,7 @@ static void mtk_hdmi_send_infoframe(struct mtk_hdmi *hdmi,
- {
- 	mtk_hdmi_setup_audio_infoframe(hdmi);
- 	mtk_hdmi_setup_avi_infoframe(hdmi, mode);
--	mtk_hdmi_setup_spd_infoframe(hdmi, "mediatek", "On-chip HDMI");
-+	mtk_hdmi_setup_spd_infoframe(hdmi);
- 	if (mode->flags & DRM_MODE_FLAG_3D_MASK)
- 		mtk_hdmi_setup_vendor_specific_infoframe(hdmi, mode);
- }
-@@ -1707,6 +1706,8 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
- 	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT | DRM_BRIDGE_OP_EDID
- 			 | DRM_BRIDGE_OP_HPD;
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-+	hdmi->bridge.vendor = "MediaTek";
-+	hdmi->bridge.product = "On-Chip HDMI";
- 	drm_bridge_add(&hdmi->bridge);
+ 	ret = mtk_hdmi_get_all_clk(hdmi, np);
+-	if (ret) {
+-		if (ret != -EPROBE_DEFER)
+-			dev_err(dev, "Failed to get clocks: %d\n", ret);
+-
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to get clocks\n");
  
- 	ret = mtk_hdmi_clk_enable_audio(hdmi);
+ 	/* The CEC module handles HDMI hotplug detection */
+ 	cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
+-	if (!cec_np) {
+-		dev_err(dev, "Failed to find CEC node\n");
+-		return -EINVAL;
+-	}
++	if (!cec_np)
++		return dev_err_probe(dev, -EINVAL, "Failed to find CEC node\n");
+ 
+ 	cec_pdev = of_find_device_by_node(cec_np);
+ 	if (!cec_pdev) {
+-		dev_err(hdmi->dev, "Waiting for CEC device %pOF\n",
+-			cec_np);
++		dev_err(hdmi->dev, "Waiting for CEC device %pOF\n", cec_np);
+ 		of_node_put(cec_np);
+ 		return -EPROBE_DEFER;
+ 	}
+@@ -1413,9 +1406,8 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+ 	if (IS_ERR(regmap))
+ 		ret = PTR_ERR(regmap);
+ 	if (ret) {
+-		dev_err(dev,
+-			"Failed to get system configuration registers: %d\n",
+-			ret);
++		dev_err_probe(dev, ret,
++			      "Failed to get system configuration registers\n");
+ 		goto put_device;
+ 	}
+ 	hdmi->sys_regmap = regmap;
+@@ -1443,20 +1435,16 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+ 	}
+ 
+ 	i2c_np = of_parse_phandle(remote, "ddc-i2c-bus", 0);
++	of_node_put(remote);
+ 	if (!i2c_np) {
+-		dev_err(dev, "Failed to find ddc-i2c-bus node in %pOF\n",
+-			remote);
+-		of_node_put(remote);
+-		ret = -EINVAL;
++		ret = dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
+ 		goto put_device;
+ 	}
+-	of_node_put(remote);
+ 
+ 	hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
+ 	of_node_put(i2c_np);
+ 	if (!hdmi->ddc_adpt) {
+-		dev_err(dev, "Failed to get ddc i2c adapter by node\n");
+-		ret = -EINVAL;
++		ret = dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
+ 		goto put_device;
+ 	}
+ 
 -- 
 2.47.0
 
