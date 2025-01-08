@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07619A0665F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 21:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419C4A0665D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Jan 2025 21:41:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7373810E6F9;
-	Wed,  8 Jan 2025 20:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB32110E93C;
+	Wed,  8 Jan 2025 20:41:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VPFveqrB";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="KaNvMVv3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1E910E6F9;
- Wed,  8 Jan 2025 20:41:25 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508Jshuk017872;
- Wed, 8 Jan 2025 20:41:22 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2FE810E92F;
+ Wed,  8 Jan 2025 20:41:16 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508HMV08014703;
+ Wed, 8 Jan 2025 20:41:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- UxprjraKA5Ab/Y/kC2APfM++20dgWYPhfYmzJujlbDY=; b=VPFveqrB8Pm/6MUJ
- fwtls0LieHxLNZk6M1UN3sJRjdJgLIO32fB3mri04xIWu9GYtwJUxPPIL9xiAQL+
- 7fhjoYILwcWiSNbtjGgp2Ywiy1pcYRp3Madlf37K+PJ5e8UUZhYfmFE5fIrVYvs5
- ebm00lsAP66/sUfMqm1s5lK7NIw0knUP4wRGwEiD+KfXuD36mzhIyQ86OF3ZdFuX
- foxLrT3lwG+pYF1DMSm4fvMyQwNdBJ8iGh3A1VZMgJ1d+SlkszF20+yG5HcYZkyn
- S7pmatp5MTf62DC5IOCf9Y2jNxRbvL/WC65rGYowUa2LKmUgzf5/pmSJgN9KzEdf
- XJxiDA==
+ II+9tTdCD7xr/nUhuVRr7cQjsHxkXM1WgKAVqkFla3g=; b=KaNvMVv3GC/hYwbW
+ Err9wghcqqDNj39DRJFIBzu7lQBG7jj6y0WqqO0k4WtQ5TF3oJlitZPCI9ArHEBn
+ a8oY2yu/ivyma2COCq7MjT906109Qzu2FYd3/6x9HWJ77XV2TneBiJ/bLD9+lO01
+ jt8lnEEMQx0xVNoFYNoCN7W3SO3ENjHYa4Qy1C1cFmf57kP3hcRTX3pbw5QqGbup
+ /dzXi8hmO8MyT0CyFDI63aBmWXa6QpfBe5KGRD5SUflMFYo3c2uQ4Byqazucc2ik
+ iMKHmvh0VP0J1pB6oQaffmuBTCKVUcEetz/1P5lPTI172uRPKuFLlaYrsPhaP8qS
+ qSMSwA==
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441yxfg39e-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441wq50f4v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 08 Jan 2025 20:41:22 +0000 (GMT)
+ Wed, 08 Jan 2025 20:41:12 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508Kf54t021185
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508KfBUl021251
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 8 Jan 2025 20:41:05 GMT
+ Wed, 8 Jan 2025 20:41:11 GMT
 Received: from [10.213.111.143] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
- 12:40:58 -0800
+ 12:41:05 -0800
 From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Date: Thu, 9 Jan 2025 02:10:02 +0530
-Subject: [PATCH v4 6/7] arm64: dts: qcom: x1e80100: Add ACD levels for GPU
+Date: Thu, 9 Jan 2025 02:10:03 +0530
+Subject: [PATCH v4 7/7] arm64: dts: qcom: x1e80100: Add OPPs up to Turbo L3
+ for GPU
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250109-gpu-acd-v4-6-08a5efaf4a23@quicinc.com>
+Message-ID: <20250109-gpu-acd-v4-7-08a5efaf4a23@quicinc.com>
 References: <20250109-gpu-acd-v4-0-08a5efaf4a23@quicinc.com>
 In-Reply-To: <20250109-gpu-acd-v4-0-08a5efaf4a23@quicinc.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
@@ -66,13 +67,14 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
  <andersson@kernel.org>, Maya Matuszczyk <maccraft123mc@gmail.com>
 CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>
+ <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736368821; l=2473;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736368821; l=1396;
  i=quic_akhilpo@quicinc.com; s=20240726; h=from:subject:message-id;
- bh=MuGVSG18TzhwaFtlgYY2hQWdcICn0qFLYzTXj3nKYUc=;
- b=C+HAVeZx7Ju+3UMNumZWAao9CvnZlhM7GxlUEog9HFEEXG/5pxmkSXrrHY0yEnV2gYYjhen3H
- NAcY7kdVId2Dj7e+wkIKYKOEM1RzXAyRkkbWg3LTFvZkLDZOHfXBwJ5
+ bh=eu/hhvVvgclHii1r94EBUS3tiCI0h4oiHiattns3nC8=;
+ b=4aslV3BTsDtYT2UgOGk+yRajrrM2croasgY9RpomOELdXDxO1alep7YiYyPQekPMX9V7jwuUW
+ 85Vs63kU5iPALk/KHnc8VqFarNhOoYZNHnqvYntlpNpolnAUqDGb8D8
 X-Developer-Key: i=quic_akhilpo@quicinc.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
 X-Originating-IP: [10.80.80.8]
@@ -81,17 +83,17 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: NS8kE4x2d945c-ekjVYsmIGy2cmFTPe2
-X-Proofpoint-GUID: NS8kE4x2d945c-ekjVYsmIGy2cmFTPe2
+X-Proofpoint-GUID: B8TLtuKi4fH4XcADykmwRqSHIQtuNoNk
+X-Proofpoint-ORIG-GUID: B8TLtuKi4fH4XcADykmwRqSHIQtuNoNk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 mlxscore=0
- impostorscore=0 priorityscore=1501 adultscore=0 mlxlogscore=749
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501080169
+ mlxscore=0 priorityscore=1501
+ suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 malwarescore=0 mlxlogscore=813 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501080168
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,88 +109,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update GPU node to include acd level values.
+Now that we have ACD support for GPU, add additional OPPs up to
+Turbo L3 which are supported across all existing SKUs.
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/x1e80100.dtsi | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 88805629ed2b..2cf16f904aaa 100644
+index 2cf16f904aaa..444723ab4f11 100644
 --- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
 +++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -3335,60 +3335,69 @@ zap-shader {
- 			};
- 
+@@ -3337,10 +3337,24 @@ zap-shader {
  			gpu_opp_table: opp-table {
--				compatible = "operating-points-v2";
-+				compatible = "operating-points-v2-adreno", "operating-points-v2";
+ 				compatible = "operating-points-v2-adreno", "operating-points-v2";
  
++				opp-1250000000 {
++					opp-hz = /bits/ 64 <1250000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L3>;
++					opp-peak-kBps = <16500000>;
++					qcom,opp-acd-level = <0xa82a5ffd>;
++				};
++
++				opp-1175000000 {
++					opp-hz = /bits/ 64 <1175000000>;
++					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L2>;
++					opp-peak-kBps = <14398438>;
++					qcom,opp-acd-level = <0xa82a5ffd>;
++				};
++
  				opp-1100000000 {
  					opp-hz = /bits/ 64 <1100000000>;
  					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
- 					opp-peak-kBps = <16500000>;
-+					qcom,opp-acd-level = <0xa82a5ffd>;
+-					opp-peak-kBps = <16500000>;
++					opp-peak-kBps = <14398438>;
+ 					qcom,opp-acd-level = <0xa82a5ffd>;
  				};
  
- 				opp-1000000000 {
- 					opp-hz = /bits/ 64 <1000000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO>;
- 					opp-peak-kBps = <14398438>;
-+					qcom,opp-acd-level = <0xa82b5ffd>;
- 				};
- 
- 				opp-925000000 {
- 					opp-hz = /bits/ 64 <925000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM_L1>;
- 					opp-peak-kBps = <14398438>;
-+					qcom,opp-acd-level = <0xa82b5ffd>;
- 				};
- 
- 				opp-800000000 {
- 					opp-hz = /bits/ 64 <800000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_NOM>;
- 					opp-peak-kBps = <12449219>;
-+					qcom,opp-acd-level = <0xa82c5ffd>;
- 				};
- 
- 				opp-744000000 {
- 					opp-hz = /bits/ 64 <744000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
- 					opp-peak-kBps = <10687500>;
-+					qcom,opp-acd-level = <0x882e5ffd>;
- 				};
- 
- 				opp-687000000 {
- 					opp-hz = /bits/ 64 <687000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
- 					opp-peak-kBps = <8171875>;
-+					qcom,opp-acd-level = <0x882e5ffd>;
- 				};
- 
- 				opp-550000000 {
- 					opp-hz = /bits/ 64 <550000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_SVS>;
- 					opp-peak-kBps = <6074219>;
-+					qcom,opp-acd-level = <0xc0285ffd>;
- 				};
- 
- 				opp-390000000 {
- 					opp-hz = /bits/ 64 <390000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS>;
- 					opp-peak-kBps = <3000000>;
-+					qcom,opp-acd-level = <0xc0285ffd>;
- 				};
- 
- 				opp-300000000 {
- 					opp-hz = /bits/ 64 <300000000>;
- 					opp-level = <RPMH_REGULATOR_LEVEL_LOW_SVS_D1>;
- 					opp-peak-kBps = <2136719>;
-+					qcom,opp-acd-level = <0xc02b5ffd>;
- 				};
- 			};
- 		};
 
 -- 
 2.45.2
