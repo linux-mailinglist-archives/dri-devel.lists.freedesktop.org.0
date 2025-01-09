@@ -2,56 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91751A07D11
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 17:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 687BEA07D1D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 17:15:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06D2610EED8;
-	Thu,  9 Jan 2025 16:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9D1D10EEDB;
+	Thu,  9 Jan 2025 16:15:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ICNnY8se";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LAG8oDTW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 868BF10EED8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 16:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KMJo9QzjchapVK+2LSUAbbI1m976OcWpPQEVsT63C8s=; b=ICNnY8seyTE7EkPJUKIsOf/U7/
- shQKz7aj6IbEY9pjgKfT5vQ9Nmmjva3EuIVSBKbfkL2D/CschNTN2VBw50csB8872uNYA/CGJONEh
- cuVd2Ms4WXhzKJIpSS7bouk8bYKDO5plE7eNrvV+MaIP/sZOQ1mtNPkAtNhfPE4CH+hWse8grvc8k
- TvXcYwFzRzhtB7UMemHXP7sO1zYFQUOEdQAREqc9ukVrXOAO5sJXRhqaZwRzULvKNBGTzsj7OfdVB
- n3c32f7+n2PErhaB1ComJeR4KbjICq+0wBdT1viRDmGuf98/2/QWtXkCIOYgfg5QTJVS1Sv1lnxL9
- p2tXdJDA==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tVvAD-00Dcsc-3a; Thu, 09 Jan 2025 17:13:41 +0100
-Message-ID: <a021ff53-a358-4f4e-9dc2-4b14535ee15e@igalia.com>
-Date: Thu, 9 Jan 2025 16:13:40 +0000
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED06C10EEDB;
+ Thu,  9 Jan 2025 16:15:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2A3005C5C38;
+ Thu,  9 Jan 2025 16:14:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D34F0C4CED3;
+ Thu,  9 Jan 2025 16:15:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736439320;
+ bh=IF+rz2PvsBQx52Qdi1CL3g27mHqZQX9cudkC8UuiDoA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=LAG8oDTWFUUe6/Sir0/NEC3wffDjChHNhzI/3k1cq8BTu48yngQtRSAePzF36xjpl
+ NtEFVZXU4xjC4zTKqdm91vqG8O1NTDLIowkJ7r1TVEVU5ttrJANAZvOTuPIGh5QXEd
+ 5W1bXyT3hl0ut/7P9cDbDWy8KqBW47YOEdYFlnIDAueewJaQpUu9fvgfUD5n6TQEbs
+ iUluazbhWpQNclNXQX076jbuIYffpTmIymmePW62HC2eJCmOU0B+ECFBVTR5mHc4WB
+ 84y2hYnyUlePZVb+J6ak2JUfs9lj6SXeDCIvUCkTsfB05+DEGHp+mF5u+RoTlJiogu
+ ZY4e7Mdv9igMw==
+Message-ID: <6ca8eb52-7538-47c0-afb5-e4a91322539b@kernel.org>
+Date: Thu, 9 Jan 2025 17:15:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 03/18] drm/sched: Remove one local variable
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-References: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
- <20250108183528.41007-4-tvrtko.ursulin@igalia.com>
- <6fa2fd44-c01c-4c29-b3ba-3e1e36b68605@amd.com>
- <b1abc40d-ebef-4426-9f81-2c3da6b08ccc@igalia.com>
- <1fdb8580-be43-4119-abb3-44aab2e2e1e6@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <1fdb8580-be43-4119-abb3-44aab2e2e1e6@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v4 5/7] dt-bindings: opp: Add v2-qcom-adreno vendor
+ bindings
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250109-gpu-acd-v4-0-08a5efaf4a23@quicinc.com>
+ <20250109-gpu-acd-v4-5-08a5efaf4a23@quicinc.com>
+ <67mvekrysu2ms5dsvjyh37wbl5dmcnk2r3xnow2e5xeeqahhrr@ar5zsq3wzip3>
+ <d23fe626-4025-4a6c-8916-1771641b2a78@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d23fe626-4025-4a6c-8916-1771641b2a78@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,104 +118,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 09/01/2025 14:17, Christian König wrote:
-> Am 09.01.25 um 14:20 schrieb Tvrtko Ursulin:
->>
->> On 09/01/2025 12:49, Christian König wrote:
->>> Am 08.01.25 um 19:35 schrieb Tvrtko Ursulin:
->>>> It is not helping readability nor it is required to keep the line 
->>>> length
->>>> in check.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Danilo Krummrich <dakr@redhat.com>
->>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>> Cc: Philipp Stanner <pstanner@redhat.com>
->>>> ---
->>>>   drivers/gpu/drm/scheduler/sched_main.c | 5 +----
->>>>   1 file changed, 1 insertion(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c 
->>>> b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index 1734c17aeea5..01e0d6e686d1 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -1175,7 +1175,6 @@ static void drm_sched_run_job_work(struct 
->>>> work_struct *w)
->>>>           container_of(w, struct drm_gpu_scheduler, work_run_job);
->>>>       struct drm_sched_entity *entity;
->>>>       struct dma_fence *fence;
->>>> -    struct drm_sched_fence *s_fence;
->>>>       struct drm_sched_job *sched_job;
->>>>       int r;
->>>> @@ -1194,15 +1193,13 @@ static void drm_sched_run_job_work(struct 
->>>> work_struct *w)
->>>>           return;
->>>>       }
->>>> -    s_fence = sched_job->s_fence;
->>>> -
->>>>       atomic_add(sched_job->credits, &sched->credit_count);
->>>>       drm_sched_job_begin(sched_job);
->>>>       trace_drm_run_job(sched_job, entity);
->>>>       fence = sched->ops->run_job(sched_job);
->>>>       complete_all(&entity->entity_idle);
->>>> -    drm_sched_fence_scheduled(s_fence, fence);
->>>> +    drm_sched_fence_scheduled(sched_job->s_fence, fence);
+On 09/01/2025 14:13, Akhil P Oommen wrote:
+> On 1/9/2025 1:36 PM, Krzysztof Kozlowski wrote:
+>> On Thu, Jan 09, 2025 at 02:10:01AM +0530, Akhil P Oommen wrote:
+>>> Add a new schema which extends opp-v2 to support a new vendor specific
+>>> property required for Adreno GPUs found in Qualcomm's SoCs. The new
+>>> property called "qcom,opp-acd-level" carries a u32 value recommended
+>>> for each opp needs to be shared to GMU during runtime.
 >>>
->>> Originally that was not for readability but for correctness.
+>>> Also, update MAINTAINERS file include the new opp-v2-qcom-adreno.yaml.
 >>>
->>> As soon as complete_all(&entity->entity_idle); was called the 
->>> sched_job could have been released.
->>
->> And without a comment ouch.
-> 
-> That changed long long time ago and IIRC we did had a comment for that.
-> 
->>
->>> But we changed that so that the sched_job is released from a separate 
->>> worker instead, so that is most likely not necessary any more.
->>
->> Very subtle. Especially given some drivers use unordered queue.
-> 
-> Hui? unordered queue? How should that work?
-> 
-> Job submission ordering is a mandatory requirement of the dma_fence.
-
-I think it is fine for submission since it is a single work item which 
-still runs serialized to itself. But free work can the overtake it on 
-drivers who pass in unordered queue.
-
-I think Matt promised to document the ordered vs unordered 
-criteria/requirements some time ago and maybe forgot*.
-
-In any case seems like moving the complete_all() to be last is the 
-safest option. I'll rework this patch to that effect for v3.
-
-Regards,
-
-Tvrtko
-
-*)
-https://lore.kernel.org/all/ZjlmZHBMfK9fld9c@DUT025-TGLU.fm.intel.com/T/
-
->> And for them sched_job is dereferenced a few more times in the block 
->> below so not sure how it is safe.
->>
->> Move complete_all() to the end of it all?
-> 
-> Most likely good idea, yes.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>>       if (!IS_ERR_OR_NULL(fence)) {
->>>>           /* Drop for original kref_init of the fence */
+>>> Cc: Rob Clark <robdclark@gmail.com>
+>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
+>>> ---
+>>>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 97 ++++++++++++++++++++++
+>>>  MAINTAINERS                                        |  1 +
+>>>  2 files changed, 98 insertions(+)
 >>>
+>>> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+>>> new file mode 100644
+>>> index 000000000000..de1f7c6c4f0e
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
+>>> @@ -0,0 +1,97 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: Qualcomm Adreno compatible OPP supply
+>>> +
+>>> +description:
+>>> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
+>>> +  ACD related information tailored for the specific chipset. This binding
+>>> +  provides the information needed to describe such a hardware value.
+>>> +
+>>> +maintainers:
+>>> +  - Rob Clark <robdclark@gmail.com>
+>>> +
+>>
+>> You need select: here. See bot's warnings and other schemas, like
+>> primecell, how they do it.
 > 
+> Somehow this error is not reproducible on my setup. I have upgraded both
+> Dtschema (2024.11) and and yamllint.
+
+
+You probably need to test all bindings, so skipping DT_SCHEMA_FILES
+
+> Anyway, could you please confirm if the below addition would be sufficient?
+> 
+> select:
+>   required:
+>     - compatible
+>   properties:
+>     compatible:
+>       contains:
+>         const: operating-points-v2-adreno
+
+
+For this binding yes, but if the warning persist, then you might need to
+update operating-points-v2 as well, with a similar select but without
+"contains:".
+
+
+Best regards,
+Krzysztof
