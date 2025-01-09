@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4CABA06C05
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:27:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF610A06C06
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:28:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65BBA10E996;
-	Thu,  9 Jan 2025 03:27:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE7B10E2C2;
+	Thu,  9 Jan 2025 03:28:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="MlgXNWYF";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="G275SnKV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m32124.qiye.163.com (mail-m32124.qiye.163.com
- [220.197.32.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10DDA10E2C2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 03:27:56 +0000 (UTC)
+Received: from mail-m49203.qiye.163.com (mail-m49203.qiye.163.com
+ [45.254.49.203])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 248EA10ECB3
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 03:28:01 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 82c0199f;
- Thu, 9 Jan 2025 11:27:51 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 82c019de;
+ Thu, 9 Jan 2025 11:27:58 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: heiko@sntech.de
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
@@ -30,28 +30,28 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v5 01/20] phy: phy-rockchip-samsung-hdptx: Swap the
- definitions of LCPLL_REF and ROPLL_REF
-Date: Thu,  9 Jan 2025 11:27:06 +0800
-Message-Id: <20250109032725.1102465-2-damon.ding@rock-chips.com>
+Subject: [PATCH v5 02/20] phy: phy-rockchip-samsung-hdptx: Supplement some
+ register names with their full version
+Date: Thu,  9 Jan 2025 11:27:07 +0800
+Message-Id: <20250109032725.1102465-3-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250109032725.1102465-1-damon.ding@rock-chips.com>
 References: <20250109032725.1102465-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkwZS1ZOTh9PSx1KSRhMQhhWFRQJFh
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhkaSlYdGUhOGh5LTRkYHklWFRQJFh
  oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
  NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a94491aa8b103a3kunm82c0199f
+X-HM-Tid: 0a94491ac45003a3kunm82c019de
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OjI6Cyo4CDIQTBRCLAwvTCws
- KzowCVFVSlVKTEhNSEJISUxISEpDVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFCQkw3Bg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OEk6Izo*KTIPAxQ5PAIWTBMU
+ LBxPCg9VSlVKTEhNSEJISUNLSkxLVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKSU5KNwY+
 DKIM-Signature: a=rsa-sha256;
- b=MlgXNWYFDT6XDzeqBAMqAOsi8hsXHu0jGPPfpfwItrhIFrVgLkLe7vK/0JM5cZIEF7cj9/A7cJKk1U/FQPZKDwfr7BsXc+SvAiFS+k04kipaj02AVf4vnrDI93BxP4q3QBc0oysP5NZdcSOTK9FL5zFK4Wxp/XrwFrm1Vy2vdwk=;
+ b=G275SnKVblXfyg3A3HulUj0/2jhQ902aCZPayg30bR2BhLOw0y+t8uFAYEBJzb2cOWjlt4HiYjzm4DOUHWl6XdLNHe4cA2IzR00a0Czk4YItFXdsdYqIA+He+LmtWFL31dbYZjUt09GVirUcAxY1z/drih6xiKRWLbqxu3CYTt4=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=nhjzsZ5DuSkGPzq8vUSDqW2fpa7f+NUoENjEMTPrzW0=;
+ bh=tywO7xGB2da8iEsHnvmYHdfB6wpe6ItXRYSerKfpSzc=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,31 +68,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to the datasheet, setting the dig_clk_sel bit of CMN_REG(0097)
-to 1'b1 selects LCPLL as the reference clock, while setting it to 1'b0
-selects the ROPLL.
+Complete the register names of CMN_REG(0081) and CMN_REG(0087) to their
+full version, and it can help to better match the datasheet.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-index 0965b9d4f9cf..efbea5b67c89 100644
+index efbea5b67c89..423c61b7469f 100644
 --- a/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
 +++ b/drivers/phy/rockchip/phy-rockchip-samsung-hdptx.c
-@@ -94,8 +94,8 @@
+@@ -82,14 +82,14 @@
+ #define ROPLL_SSC_EN			BIT(0)
+ /* CMN_REG(0081) */
+ #define OVRD_PLL_CD_CLK_EN		BIT(8)
+-#define PLL_CD_HSCLK_EAST_EN		BIT(0)
++#define ANA_PLL_CD_HSCLK_EAST_EN	BIT(0)
+ /* CMN_REG(0086) */
+ #define PLL_PCG_POSTDIV_SEL_MASK	GENMASK(7, 4)
+ #define PLL_PCG_CLK_SEL_MASK		GENMASK(3, 1)
+ #define PLL_PCG_CLK_EN			BIT(0)
+ /* CMN_REG(0087) */
+-#define PLL_FRL_MODE_EN			BIT(3)
+-#define PLL_TX_HS_CLK_EN		BIT(2)
++#define ANA_PLL_FRL_MODE_EN		BIT(3)
++#define ANA_PLL_TX_HS_CLK_EN		BIT(2)
+ /* CMN_REG(0089) */
  #define LCPLL_ALONE_MODE		BIT(1)
  /* CMN_REG(0097) */
- #define DIG_CLK_SEL			BIT(1)
--#define ROPLL_REF			BIT(1)
--#define LCPLL_REF			0
-+#define LCPLL_REF			BIT(1)
-+#define ROPLL_REF			0
- /* CMN_REG(0099) */
- #define CMN_ROPLL_ALONE_MODE		BIT(2)
- #define ROPLL_ALONE_MODE		BIT(2)
 -- 
 2.34.1
 
