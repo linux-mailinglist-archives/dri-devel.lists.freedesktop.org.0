@@ -2,154 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C36DA0782A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:51:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7A2A07834
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:53:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FB210EDE8;
-	Thu,  9 Jan 2025 13:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C759110EDEC;
+	Thu,  9 Jan 2025 13:53:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="i/6KX55b";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="tUfdHALg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="20ZoBBsD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xgWcDfsx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ywAop16h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2072.outbound.protection.outlook.com [40.107.101.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09FE310EDE8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:51:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GUsSipC+GMYNIvFJp+EQ0XKGSNL2mx4gxOKk2/E8HhYFXxvZtqENX5a8qPOB6KymxU08ovDN6z2w4qRK73zjDZxz9VGH1nan3bMLRXHfGDBGSB/o9w2wGoKqUvSKGkSR1CkEjibdNqkDznhP+As9JRPuprqF1aWQ1D2LZTeGHKBqF99W99LQ8CEUzfW076XYsAYAeaHTbRm4APBoP9kSmLsAlBWyRGbOVlwytyYDlOx51vnHxpGizaMc9GPbz2rZHAgDSBrdxFxClf+y19bjST6xAWCZ/1wHOjvR1Uoh1SceQ/G5kcgfIkHHs7Gm+4oHR7L5JwCnaMffwF5V6nk4uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CFGz4I30rnbQR4a4ln3tsLrof0QQZ5/Yo5ob5k0wHhY=;
- b=p99AWM8W+VGUSJ26Fi8cK1F8n3WxN3zAHG7Uy7BwV1c/5LxX/xR9SJmgjdaTrx6KLfLDRrOUnmWDnBowHdnrWMW6x636sgzUpO2IhFLCcrFt41IPb935dMGJxNfIhIF+l30aNbjdzbMY2cej94906kitQvM7rHJMD39uGKizsezMLVMfaEsaX4DklhMZ2KQ7rMSVwX8AqIUOhxMcTnLMVLpwh2s1xgluBG80AkZoPzbGqdx9S3m6gg72xsm8wHvwGRs0pkoSGPU2pDtBzXH1VpBXrR5uF//UbLbv8Lw/llTku0Z6hZPCfBr0Yj67cI18hO+PyMyHyEw/z5o17T5Wjg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CFGz4I30rnbQR4a4ln3tsLrof0QQZ5/Yo5ob5k0wHhY=;
- b=i/6KX55baa5S0liEZsBJdxcC5vPjD2/B7JcqkbIXJXljM9N5tZkY9oZx0UABF+S6dkD/7Xb8raxw7fzW5bkAe7qG3o14G+8daJp/C3cdspbfiiKkiHidLJiYXylVg2ynCX4fFy2kHUj+W1zqJKLz1ULaCFGtTJm2wgYVbXuLg7o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BY5PR12MB4099.namprd12.prod.outlook.com (2603:10b6:a03:20f::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.11; Thu, 9 Jan
- 2025 13:51:15 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8335.010; Thu, 9 Jan 2025
- 13:51:15 +0000
-Message-ID: <5a8c5f2c-b4fe-4061-a465-ba37ec9a568a@amd.com>
-Date: Thu, 9 Jan 2025 14:51:09 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 16/18] drm/sched: Connect with dma-fence deadlines
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>, Rob Clark <robdclark@gmail.com>
-References: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
- <20250108183528.41007-17-tvrtko.ursulin@igalia.com>
- <562bc7ae-ba04-4dc9-a524-3bbf3e8afd50@amd.com>
- <8afc7179-7ea4-4350-8382-618c90658c94@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <8afc7179-7ea4-4350-8382-618c90658c94@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0103.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a9::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 000B110EDEC
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:53:19 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 635821F393;
+ Thu,  9 Jan 2025 13:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736430798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
+ b=tUfdHALgs0ii3pMIm1AyUJOOe8LqskXpR1+ExWF91bdkGNa9CIjaLL1RoR+flsrumPwkqg
+ EaPUJ6ij78PGyWCM/G/CERrOsh00bww67F+gx8xxH8bfJjgV38AbsYQc/tWZsXKCqqIwXR
+ bD8qThtEhu1fEiGc1xcVyn7qS1zozzQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736430798;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
+ b=20ZoBBsDEjR1qcQlko21QPxkqS+sBTcGZ+7fmhr3A1uonEjrAiuzvzHlqkbOC0riqQ00uY
+ YKZukV9JOWNNDVDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736430797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
+ b=xgWcDfsxpwpyfVDCzoFPTGYjLGRQhWl56sD1iaz9ONSAFlT72hMZ4CtWNtK9Y9A74NIe4c
+ lnhiduHHOVghzNAvWl5PxON/oJ196i4bpaU2rqC+n/l83JEqpCaaWDPHf5sr5563ljl7l0
+ v+OyHKkUqmwJcWeY0m2/GmV/HX6FEbE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736430797;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
+ b=ywAop16hqbKpCohSHrBqKy/qQ/OYWtMcjfjLNPTMgszu7XHrCBFpt0u+Ep5ub9qDOYgo3B
+ ym/iuGhXxB7lC4DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7C5A13876;
+ Thu,  9 Jan 2025 13:53:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id tYxLM8zUf2esVAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Jan 2025 13:53:16 +0000
+Message-ID: <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
+Date: Thu, 9 Jan 2025 14:53:16 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4099:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4c156a0-118e-44f7-7667-08dd30b4af42
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bnMxM0p2OFczdGQ1YjIxK2phRDVHM0pDL0xsYzh1RUl0aG9iUllYMEJCQlVJ?=
- =?utf-8?B?a3h5ZkkwM0RaejRVMU4wQjM3eXROSUwzVmZab2drQnowSnVpSGlVSkJtd1Nv?=
- =?utf-8?B?M0NrUzZzRFQzTDQyL3QvVTFhNytXR1dOVHdLYjBiMXpwZDdJU3B2dlp2cnRR?=
- =?utf-8?B?RVhSSFFxMUtrcFYzbE9hVnE2UGVjMWpYQVl0VTA1SWZUR3RzVDE5UHNKbjdZ?=
- =?utf-8?B?K0pqY3F6VW1wd0RTcW1BM1VQWG02N2pzd0R5L0hPQmE2SmtSajhQemhWaEtI?=
- =?utf-8?B?Vk9EQWRXZGRWYmRkMHZmOVVrbUV3WXJuZFJOR01RK09MNWl6eThZMmxiTnJh?=
- =?utf-8?B?RmhKM2w1WE1NOUhQQzBNNVNGcUNrSDRrL2liZGJPNW9pZmVYaUhQUWVBQ2Z0?=
- =?utf-8?B?QUlwT3o1bkpDT3ZrV0VOK3Rwc0JRTHNWTHBKM2FTMS9mWlU2eWpHQitGYURk?=
- =?utf-8?B?Vjd1MnkydDkwbnJBdys2aGhiV0RZQlBUQWIvRS9sVk9RUE5rUmhDYWhKVXpk?=
- =?utf-8?B?eUNGYUhIVStkeXV5YmN1MTFibGJobklEYUhJOVJqVUxzVEZYZXliUFVVOTVU?=
- =?utf-8?B?UEM3djVhMzhlRmU0VGZGUC8zSURpSS9VQ1ljVmdLYkpRaUhOUGhIS3hoOWhi?=
- =?utf-8?B?SjVDSDdsbERET3ZJNGdma01PMlNGbWN3eG41WUEzczBEL0VGakJwY0VtR1Vu?=
- =?utf-8?B?eWFXcDc5M2pZYzkySGZQczdtQTd4ajZsNytOMkQ3OHZwWEo0Vmp6Wk5LTVVv?=
- =?utf-8?B?K3NKUHYxUUlwRG5nR1NqQWpMSUNMTFJzaGVPMEZGNlFVcmVOSlBoUVRJRTZy?=
- =?utf-8?B?UGRYTmphSlU1WkxJT2NPSzI5RVAvMVFEUzdEVTgwbis1SnVsMTVyZ2dJeTdO?=
- =?utf-8?B?RFRLTi9LRnpGMHovUnJXTnpyVjZmUFZ5V0JXUUdMbHYzaUZ1c1RKSTdxMGht?=
- =?utf-8?B?Tk5QK0QzZ1VUZWxHeFBwdjFqZFZZVDdMcjU5WEV5b1hMWkZDOTRjRmNXMnlh?=
- =?utf-8?B?WUZESWxnZDhKUHoveE9yTytRM2FlU1lUc3JZY2hyc0F2cnlEQjFFR1U4SHFu?=
- =?utf-8?B?SXVvTnVoMzdNdkVZRjNTMXUzbUFMLzRwQldVQWRpUEhvYmx6ZjZSOTRsaDc5?=
- =?utf-8?B?OUp2TEJDMnB5eFQwT0lGMFdsU2JNWG15YWRPS3cxRUdKVG9yQm9iZjlXRzRi?=
- =?utf-8?B?c3VCN0dXMC83Y2M0ZHNFSHJqVm9IK2tiSldNWGZyT0lhL0IvZmRUTWpEaXlj?=
- =?utf-8?B?YUpwTk9pNTBDazZaQkoxeVJYNHRaWllhMWtzQkgwOUVMeFFCKzdnMzd4OUJ3?=
- =?utf-8?B?eWtFb0JiU0tkNVlOTEtJTk1KYitIVWNzeDZOdHYrYXF3RmlKS0Z1aU5INXJ6?=
- =?utf-8?B?ajcwRFJZS0hHY2VPaHczL2ZBQTRDQ1ovOUlmYVYveXJ3cWNJMGUzN3RBei9r?=
- =?utf-8?B?N29aMXV1dkF6S1BldHlaWHhKYmRFM1pxS0FjREd1a1JxeTBBbUpjRjRFYnRI?=
- =?utf-8?B?cDl4a1hodXFFbW5WLy8vZXVITUtMUllURWNpZFpDeGZVNlhXakpmNjJhWVFk?=
- =?utf-8?B?VTYyeFVZSjRFZ0FYc1Q5M2tZdG1LNHBaMWlhVkVyakhqcnh0VFNSSGhNOUdz?=
- =?utf-8?B?VGFadnpyRU1zVlM5RnF0VFh1dVhIRkE4WGFDcmNhMmVKYVp6MTB3K2Y1VUNx?=
- =?utf-8?B?TjRNbVJYT21BOXBpMSt4OW1tR1lNMEsxbEVzQUR2Ti9YOExTdkJMeTZuYVZU?=
- =?utf-8?B?UVFFN1l6aWpXZEtBZzZsbi9NeGFZNTRJSXFVME1XaXVybityTVpra2hrTVJo?=
- =?utf-8?B?MGF5dGg1cjdUQUJYZFpyWG5oME9LenVOTWdDQXRMQ1dOMmdPY0FoVnBxR0Ri?=
- =?utf-8?Q?06IlOD+8DTIAL?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWZFeCtLQ285K0JjWnFKY20rR2dpdUN6Wk91dVpFMVdLSXhEVGU2TVNKVVhF?=
- =?utf-8?B?OWhkVWdFTlRKS25rNUtobFlmY09IeDUvQnp1Y3RXUHJ3dVNIRWNWRXAwRlpq?=
- =?utf-8?B?MjJhZnB0TmVQZTBUdXVBcHNSZ2FRcGNzMHVjekdkY0ZjMmNDbVFNSFhMMElT?=
- =?utf-8?B?RlE0dXdBY0loL2pndnc2SHpFU1VJZnRVRTNQNzlNK010RTRaVGZaalE3VWxB?=
- =?utf-8?B?Z2tXY1lzdTdJbVFZeHZzTjVHTlJMUHFrRkhBdVc4M0RQYmJLZmFPWS9ZbTFX?=
- =?utf-8?B?dXExaDB5Vml1ZVhkVUNpdkFrZVJ3bm1XTkZyMjFWMGJCcElmYk9qQ1RKMmhX?=
- =?utf-8?B?dWRmQTJzRU5mcjlRME9xQ0RvKzIrQkdxL2hEcy9qQy9lMTBsYTM5Qm1Va2s0?=
- =?utf-8?B?UHlWSXBxVHQzZkUybVViOEUrU1N2NENDOWEzVlpLYWRLN09NMGRTUExkaHBQ?=
- =?utf-8?B?Z1J4TkUrSmY2TTNjcmZyNVpRcGdIU3BhclF0U2FqVU5WVnB4TzQrcjlJV3ZZ?=
- =?utf-8?B?RWxqemZQNDQrSU1WdVpTUC9kQ292MXhLTEN6MVZxaEt0TTJkb3B5YXlsN2xD?=
- =?utf-8?B?ZXF3YjhsTWpROVptY3BoZUUwMnJOQXlqN090QUxkZm92ekNXNjgwT0NpQmNk?=
- =?utf-8?B?TTd5ZmVsN1Mxd2pHTFMxWXl4eis4SU8veVRXTUorSmJNdmlqeVIzYnplemll?=
- =?utf-8?B?d0pHcXFnWm0rWEZDQUErLzNGeHM0a0E2ampIdlVxeC9JT3E1RUVyZERRaDRq?=
- =?utf-8?B?Zmt6bkZLeWpBbGRhMHI3VE93c2dySWdTZjh4cnArb21ra1ZEcUlJcVZpU0pN?=
- =?utf-8?B?V2wvWjFMM0xqK1ZLRmFITEtWdzZud0NBZk9IdENnYUx4Rk9uL1Mvd3hUNUdo?=
- =?utf-8?B?eWpWSmMxNldNUUphaEpaeWVEZ3NUQkltZzF3dFZwMWVkbUNkdGlJM1BZbUNZ?=
- =?utf-8?B?WUd5dk9CSXF5NE16d25ZbWJVbnpBZDVEWmpva3J5M01NUzNMUWo0ckpzSGZR?=
- =?utf-8?B?VW5JazA4MHNFeFZicmhXMkpvbTBPVGxwRlpncW1pbFhSOEd5YlpiSHI2VVZv?=
- =?utf-8?B?TCtrVEhCVnhQK2xJUE93YVJKaDNVSm5lVWpFcUdDLzV2ZFdiUlh6SzNkdmdQ?=
- =?utf-8?B?aGptQUZHeHFTaVpjMWd6OVlyQWMwRHdmTjRqRWhTcXRHdUJxMXdCelVISXFF?=
- =?utf-8?B?dVd0TG9zK2tqVjJLQno0UHhTbWw1b2JvSHF1Nlk1dmZGT1JTem1wTEdHWW81?=
- =?utf-8?B?cUhFendQK2prR3hRcFJaMkI5dE4rNFAxeHMvdjZIMEdmeWNXZmJncm5teHlK?=
- =?utf-8?B?VzJLeHlVb3RDUXJPMWtQMjlKSVpYTmpuZkZSbUhIVTlCa2lzSVp4bXFvWlM1?=
- =?utf-8?B?RjdkbVdnSVFsRGhVNGZXaEpZQXJiM2JOSzNtUTk3L3hVOVFjWktsWE5LSFdl?=
- =?utf-8?B?V0RDNGpNY3J0b1hMS1c1aTkxUE52M0dFcW1HZXY1bVk4MTJmNWh2NGR4SVlV?=
- =?utf-8?B?bDBGbk9iZ3JpL1VocW5HZHNXYlJ6UER2b2p1UURoVUdsdGFUbU16TzRtZDZ2?=
- =?utf-8?B?KzB5dGVYMFZsSVMzVEJ2ZGcvM0pweEMwY0RMb3lqVUc1bmtTTWJ3ZFE5WUIr?=
- =?utf-8?B?dHpMRmZUbHRkYzhvZGhpRmh0UUwva2NKZDRpeXI2UVVtSUkwNmJ1R2lHbGFk?=
- =?utf-8?B?eE1CNTM0K1NNTk81RUtRdnF1WFIrV1QvTUFXZ3g4SVN4aVk4cjNWeDEwdGVy?=
- =?utf-8?B?b1VhYXBCZ2hUNGttS3BLMDhBY1didVl1M2ZLYTVubXRaN3M0SFF4ZS9HZlBa?=
- =?utf-8?B?NWdoRTl2ZUFPVnJkZW9KdHladndsR0pBU2RjcVBLOEhnTWUrbU9mZmlreGN6?=
- =?utf-8?B?N0lxWG83RWhGb2tIcG5KRmJxOEpFVFhIWEZTZms1UitCSXhqQXN3VnBIT1Zs?=
- =?utf-8?B?RWdiZUZqUEZURzZGU01yaG5uV3NXa29sQmQrRzU0eHpiZldXTFB5N1JjajAv?=
- =?utf-8?B?TlRjK3RXZTNoZUxDa2Z3b1BYUDQ2QlpvcXlESU5vT003UGhGNjVWOWJhN0RV?=
- =?utf-8?B?QUNrRno0N3ZxSWZyT0NzbzBscUYvMWs0Rk5RanpTeG1maUpZeFBsRmVQYWlY?=
- =?utf-8?Q?1ATHSUVyZhHuXK1l/sJNqSG8j?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4c156a0-118e-44f7-7667-08dd30b4af42
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 13:51:15.1792 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4ebwWV+oyS5LiDP404CHufPeqoh6v3AvBr5bD0qonv4C5fb9PHc7U6pbgQJrytgU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4099
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/6] drm: enforce rules for
+ drm_atomic_helper_check_modeset()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Archit Taneja <architt@codeaurora.org>, Rajesh Yadav
+ <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[linaro.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,quicinc.com,poorly.run,somainline.org,codeaurora.org,cosmicpenguin.net];
+ RCPT_COUNT_TWELVE(0.00)[20]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, bootlin.com:url,
+ ffwll.ch:email, suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,139 +155,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.01.25 um 14:41 schrieb Tvrtko Ursulin:
->
-> On 09/01/2025 13:07, Christian König wrote:
->> Am 08.01.25 um 19:35 schrieb Tvrtko Ursulin:
->>> Now that the scheduling policy is deadline based it feels completely
->>> natural to allow propagating externaly set deadlines to the scheduler.
->>>
->>> Scheduler deadlines are not a guarantee but as the dma-fence 
->>> facility is
->>> already in use by userspace lets wire it up.
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Danilo Krummrich <dakr@redhat.com>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Philipp Stanner <pstanner@redhat.com>
->>> Cc: Rob Clark <robdclark@gmail.com>
->>> ---
->>>   drivers/gpu/drm/scheduler/sched_entity.c | 24 
->>> ++++++++++++++++++++++--
->>>   1 file changed, 22 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index 98c78d1373d8..db5d34310b18 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -410,7 +410,16 @@ ktime_t
->>>   drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
->>>                     struct drm_sched_job *job)
->>>   {
->>> -    return __drm_sched_entity_get_job_deadline(entity, 
->>> job->submit_ts);
->>> +    struct drm_sched_fence *s_fence = job->s_fence;
->>> +    struct dma_fence *fence = &s_fence->finished;
->>> +    ktime_t deadline;
->>> +
->>> +    deadline = __drm_sched_entity_get_job_deadline(entity, 
->>> job->submit_ts);
->>> +    if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, 
->>> &fence->flags) &&
->>> +        ktime_before(s_fence->deadline, deadline))
->>> +        deadline = s_fence->deadline;
->>> +
->>> +    return deadline;
->>>   }
->>>   /*
->>> @@ -579,9 +588,12 @@ void drm_sched_entity_select_rq(struct 
->>> drm_sched_entity *entity)
->>>    */
->>>   void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>>   {
->>> +    struct drm_sched_fence *s_fence = sched_job->s_fence;
->>>       struct drm_sched_entity *entity = sched_job->entity;
->>> -    bool first;
->>> +    struct dma_fence *fence = &s_fence->finished;
->>> +    ktime_t fence_deadline;
->>>       ktime_t submit_ts;
->>> +    bool first;
->>>       trace_drm_sched_job(sched_job, entity);
->>>       atomic_inc(entity->rq->sched->score);
->>> @@ -593,6 +605,11 @@ void drm_sched_entity_push_job(struct 
->>> drm_sched_job *sched_job)
->>>        * Make sure to set the submit_ts first, to avoid a race.
->>>        */
->>>       sched_job->submit_ts = submit_ts = ktime_get();
->>> +    if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, 
->>> &fence->flags))
->>> +        fence_deadline = s_fence->deadline;
->>> +    else
->>> +        fence_deadline = KTIME_MAX;
->>> +
->>
->> That makes no sense. When the job is pushed the fence is not made 
->> public yet.
->>
->> So no deadline can be set on the fence.
->
-> You are correct, the push side of things was a mistake a laziness that 
-> I did not remove it from the RFC.
->
->>>       first = spsc_queue_push(&entity->job_queue, 
->>> &sched_job->queue_node);
->>>       /* first job wakes up scheduler */
->>> @@ -601,6 +618,9 @@ void drm_sched_entity_push_job(struct 
->>> drm_sched_job *sched_job)
->>>           submit_ts = __drm_sched_entity_get_job_deadline(entity,
->>>                                   submit_ts);
->>> +        if (ktime_before(fence_deadline, submit_ts))
->>> +            submit_ts = fence_deadline;
->>> +
->>
->> Yeah, that won't work at all as far as I can see.
->
-> It works from the pop side though.
+Hi
 
-Yeah, but only partially.
+
+Am 22.12.24 um 06:00 schrieb Dmitry Baryshkov:
+> As pointed out by Simona, the drm_atomic_helper_check_modeset() and
+> drm_atomic_helper_check() require the former function is rerun if the
+> driver's callbacks modify crtc_state->mode_changed. MSM is one of the
+> drivers which failed to follow this requirement.
+
+I'm concerned about the implications of this series. How does a driver 
+upgrade from simple pageflip to full modeset if necessary? The solution 
+in msm appears to be to run the related test before 
+drm_atomic_helper_check(). (Right?)
+
+My corner case is in mgag200, which has to reprogram the PLL if the 
+color mode changes. So it sets mode_changed to true in the primary 
+plane's atomic_check. [1] This works in practice because the plane 
+checks run before the CRTC checks. So the CRTC code will do the correct 
+thing. Reprogramming the PLL means to disable the display at some point. 
+So it comes down to a full modeset.
+
+You mention that drm_atomic_helper_check() needs to rerun if 
+mode_changed flips. Would it be possible to implement this instead 
+within the helper?
+
+Best regards
+Thomas
+
+[1] 
+https://elixir.bootlin.com/linux/v6.12/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L493
 
 >
-> When job N is scheduled, deadline is taken from N+1 and tree 
-> re-balanced. At the point of N scheduling N+1 can definitely have a 
-> real deadline set.
-
-The fundamental design problem with the fence deadline approach is that 
-it sets the deadline only on the last submission instead of the first one.
-
-E.g. unigine heaven for example uses 3 submissions on a typical system.
-
-We would somehow need to propagate a deadline to previous submissions 
-for this to work halve way correctly.
-
-> What does not work is for queue depth of one. No way at the moment to 
-> "bump" the entity in the tree while N is waiting for submission 
-> because we cannot dereference the entity from the job. (I had that in 
-> v1 of the series and realized it was unsafe.)
+> As suggested by Simona, implement generic code to verify that the
+> drivers abide to those requirement and rework MSM driver to follow that
+> restrictions.
 >
-> I (very) briefly though about reference counting entities but quickly 
-> had a feeling it would be annoying. So for now this patch only offers 
-> a partial solution.
-
-Nah, please not.
-
-Regards,
-Christian.
-
+> There are no dependencies between core and MSM parts, so they can go
+> separately via corresponding trees.
 >
-> Regards,
+> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Dmitry Baryshkov (6):
+>        drm/atomic-helper: document drm_atomic_helper_check() restrictions
+>        drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
+>        drm/msm/dpu: don't use active in atomic_check()
+>        drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
+>        drm/msm/dpu: simplify dpu_encoder_get_topology() interface
+>        drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
 >
-> Tvrtko
+>   drivers/gpu/drm/drm_atomic.c                |  3 +
+>   drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
+>   drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
+>   drivers/gpu/drm/msm/msm_kms.h               |  7 +++
+>   include/drm/drm_atomic.h                    | 10 ++++
+>   9 files changed, 192 insertions(+), 43 deletions(-)
+> ---
+> base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
+> change-id: 20241222-drm-dirty-modeset-88079bd27ae6
 >
->>>           sched = drm_sched_rq_add_entity(entity->rq, entity, 
->>> submit_ts);
->>>           if (sched)
->>>               drm_sched_wakeup(sched);
->>
+> Best regards,
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
