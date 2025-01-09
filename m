@@ -2,64 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A122A07172
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 10:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5F3A0728B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:15:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA7010E0D3;
-	Thu,  9 Jan 2025 09:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C61E10ED37;
+	Thu,  9 Jan 2025 10:15:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XxSyn6Ok";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="XKlxXs8O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39B2510E0D3
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 09:28:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E243BA41301;
- Thu,  9 Jan 2025 09:26:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 807A9C4CED2;
- Thu,  9 Jan 2025 09:28:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736414908;
- bh=cm/GOqwwiMkALA/fEFsX5hEEy5V6SjOqxswcdV/STbM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XxSyn6OkLmGCUGT46Xejk0oVc9wYD6k8fTUvHOcwReKi7cu6apM1Vv1rk43TPDSbX
- 7sksEqWG8naX3qZ+x3+Ac6FeG0lmDUVJPikfxBnc5gug7Hx8qjQxIgvULeiBnFWXuj
- SM8vT7SquKvEx0eHIPKAsmANxGan3rbJGW9vVoaVZqc3tkai/PWNcix/6rQRChz9Nb
- 2KoIvEiL7LeXPhq2jWy/Yhkp7s+tJ3Ly3EX1EZxh9Cs3SAjKPyzxFcQ05qLBYB3Y2W
- yr50Zso/lxP8NEHsbimRm8FzQti0ZSbgPIyYUmWNhduiWnACP6D+kuhmH+FRBFL4ZS
- onQxs8GNPbFsw==
-Date: Thu, 9 Jan 2025 11:28:23 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <20250109092823.GI87447@unreal>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-2-yilun.xu@linux.intel.com>
- <b1f3c179-31a9-4592-a35b-b96d2e8e8261@amd.com>
- <20250108132358.GP5556@nvidia.com>
- <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <0e7f92bd-7da3-4328-9081-0957b3d155ca@amd.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846FB10E45B
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:15:24 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-385f07cd1a4so453540f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:15:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736417663; x=1737022463;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=K/237DEZbmH5wVGbwoVnyMud2QLf/nwVGF7QU7PyuRI=;
+ b=XKlxXs8OyI8pfH9p2JvNQhlD4XN5hVc0KLs2IEUf9fdsAljaJGMoUE0iEpmnPCNGw7
+ Qk4lYuPk5q8cXYf853imm9f6oQaAV7aD2eh3bgFjuKiGOOB2mR/97EfDi6+0IORtvQT9
+ Tm40Q8y2tIRGqKp1TcVHs2H/NajASaYqheJW5ZGtOr6jO1RGlQgrw3OE+9rC3M8QWP2X
+ n03mSOlQjMCFI5lZllpiIs6EyHJIBp2nUOe4UHXF0mO9VLQuR53UpH//dHEHTt0W4Gwx
+ r5UgK8rNdcECnESem42IxyRb3W3vePZKkhspLWmeGxzAdj2DDdviFVbUzHOs/lJHLklL
+ iwYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736417663; x=1737022463;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K/237DEZbmH5wVGbwoVnyMud2QLf/nwVGF7QU7PyuRI=;
+ b=IyJtoBBY3nry4DaC5+hIY9e69ye9VzciYt8zv/aGSuPk/lrMfy+yoRCyxmYzTp1fS3
+ 26TpM8rexe2SIEd5BvA9wOF4rytqXlT17eI29TaHEhG8eKBupiqHzQub6pmmXFs8LptR
+ olxx/MkO/Bboa29c6HoGxpGq8ujw/hru+l4nctaAoifPrymQhG0GAhfkAp1O8ld44Kja
+ 9PrY/+nKCz9kJM0CGAkx+BV4DxJjbF//tuZleZfHlrykfgebRihH0lJG3x7e0XYFdlVK
+ 3tPAqUNcmxywJeaafy3L5atv/rAYzJuj5MnqAv/hCOee5f36aolkt9yY2mD7+fjTdL1k
+ 0E6A==
+X-Gm-Message-State: AOJu0YxSrGoL3t5hDKmoq+ud1x6YeNwenxsjL5qEkYR0v9+XbmNs8Qje
+ fMLvIMs7cF4t0fKm75Lc9p4oWHSMaiLO2bMik3d45M+CJsSTqAtZvk0YKtT21cQ=
+X-Gm-Gg: ASbGncupg3bmReqzgifCtrq5dPGCnvIip4p0ENCo1rH/C2BMS3OyrTzCMb7UioVE0Ct
+ ssqhDWUtokKDDUL9OguZbUft/KzEhkS6M+aD18pyXyneCiLlK5y4dpgX8XrgeL39NM5a0hx7lec
+ wgsCEe/NxEXM03AwW5JTEK1UwMuVy4FZeSuUSU7sNdTjXkR3lSU8TzfgZRXxEhrvWWv6RBSMOMy
+ NGFBvPM7ye92CJshG0mKpmnGiLH2hiJM42xbqmgDCa/MDQ2cCP+x8jTL6/RvU1UR0Ayondjfl1C
+ iI2+yNKROC28s+qNlfnhCSnNog==
+X-Google-Smtp-Source: AGHT+IEa1wvdA0r/Kzit2T66VOFD1pdDd/5gF4arR5cyzXkaJB7nZQwlEb/rszXxagpeRJrAJKWCbw==
+X-Received: by 2002:a5d:5f85:0:b0:386:3213:5b9b with SMTP id
+ ffacd0b85a97d-38a8732c132mr6080751f8f.43.1736417662676; 
+ Thu, 09 Jan 2025 02:14:22 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:5ee:79d0:125:358f:ea05:210e?
+ ([2a01:e0a:5ee:79d0:125:358f:ea05:210e])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a8e4b8209sm1384847f8f.70.2025.01.09.02.14.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jan 2025 02:14:22 -0800 (PST)
+Message-ID: <5b891e04-be1e-490c-aebc-84c0ce2e3611@baylibre.com>
+Date: Thu, 9 Jan 2025 11:14:20 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e7f92bd-7da3-4328-9081-0957b3d155ca@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 5/7] arm64: defconfig: enable STARTEK KD070FHFID015
+ panel
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20231023-display-support-v5-0-3905f1e4b835@baylibre.com>
+ <20231023-display-support-v5-5-3905f1e4b835@baylibre.com>
+ <00af138e-4e00-49e7-945f-9c6e489208b9@kernel.org>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <00af138e-4e00-49e7-945f-9c6e489208b9@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,59 +105,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2025 at 10:10:01AM +0100, Christian König wrote:
-> Am 08.01.25 um 17:22 schrieb Jason Gunthorpe:
-> > [SNIP]
-> > > > For P2P cases we are going toward (PFN + P2P source information) as
-> > > > input to the DMA API. The additional "P2P source information" provides
-> > > > a good way for co-operating drivers to represent private address
-> > > > spaces as well. Both importer and exporter can have full understanding
-> > > > what is being mapped and do the correct things, safely.
-> > > I can say from experience that this is clearly not going to work for all use
-> > > cases.
-> > > 
-> > > It would mean that we have to pull a massive amount of driver specific
-> > > functionality into the DMA API.
-> > That isn't what I mean. There are two distinct parts, the means to
-> > describe the source (PFN + P2P source information) that is compatible
-> > with the DMA API, and the DMA API itself that works with a few general
-> > P2P source information types.
-> > 
-> > Private source information would be detected by co-operating drivers
-> > and go down driver private paths. It would be rejected by other
-> > drivers. This broadly follows how the new API is working.
-> > 
-> > So here I mean you can use the same PFN + Source API between importer
-> > and exporter and the importer can simply detect the special source and
-> > do the private stuff. It is not shifting things under the DMA API, it
-> > is building along side it using compatible design approaches. You
-> > would match the source information, cast it to a driver structure, do
-> > whatever driver math is needed to compute the local DMA address and
-> > then write it to the device. Nothing is hard or "not going to work"
-> > here.
-> 
-> Well to be honest that sounds like an absolutely horrible design.
-> 
-> You are moving all responsibilities for inter driver handling into the
-> drivers themselves without any supervision by the core OS.
-> 
-> Drivers are notoriously buggy and should absolutely not do things like that
-> on their own.
+Thanks, fixed for v6
 
-IMHO, you and Jason give different meaning to word "driver" in this
-discussion. It is upto to the subsystems to decide how to provide new
-API to the end drivers. Worth to read this LWN article first.
+On 09/01/2025 08:54, Krzysztof Kozlowski wrote:
+> Squash the patches. It's one logical change to bring config optiosn for
+> display on your boards. Not each change per one symbol.
 
-Dancing the DMA two-step - https://lwn.net/Articles/997563/
-
-> 
-> Do you have pointers to this new API?
-
-Latest version is here - https://lore.kernel.org/all/cover.1734436840.git.leon@kernel.org/
-Unfortunately, I forgot to copy/paste cover letter but it can be seen in
-previous version https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org/.
-
-The most complex example is block layer implementation which hides DMA API from
-block drivers. https://lore.kernel.org/all/cover.1730037261.git.leon@kernel.org/
-
-Thanks
+-- 
+Regards,
+Alexandre
