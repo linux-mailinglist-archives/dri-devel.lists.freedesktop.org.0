@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF0EA080FF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 21:00:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8EAA08100
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 21:01:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1266810EFB5;
-	Thu,  9 Jan 2025 20:00:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7022810EFAF;
+	Thu,  9 Jan 2025 20:00:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZkHCUTL1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UbDJytAV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7D5810EFAE;
- Thu,  9 Jan 2025 20:00:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5064E10EFAF;
+ Thu,  9 Jan 2025 20:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736452855; x=1767988855;
+ t=1736452859; x=1767988859;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=zovJiXw/+qjYeUeIzoA3uvt9efrd53AhsF/iE6fhaW4=;
- b=ZkHCUTL1ydzxNbCDiEAg15XxSeb0OMbI69ro+BlTvCzoTHL76EY5UY2Z
- QwTKyFKu6q8v41pct7uQkPQ3CNNjkJL4mV4MF6UpY+J77UVXs+X2GewOK
- ZrqNMmfUnLoNSPjvtOV+sNGWTUtVaY9iX+oCU+0rHPseh7A8sr8jObOrA
- zIBYbFthJKWbFKQgDxo8ygOYBuhIDXmuzEdPL0eLNWkna4KSw/VIH+6qs
- e2VqJvriMAicLDn8FU+ONMUvigYfwgf8jvOWAShWRHQedYHDn2ub5dkRR
- pOQLkowe68jHqqK5MUowe8xKGi8Qd/77IqRhYQRr0EiQJg13j6L1DTQVd w==;
-X-CSE-ConnectionGUID: 5BfN1y1KT7izmeKuabZb+g==
-X-CSE-MsgGUID: tR5FsY3YSYWAZlul1NlzVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36619178"
-X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="36619178"
+ bh=bzhrxIfLVuF2mM4th0NRMuGMBGyBUOJ8015mDh/07i4=;
+ b=UbDJytAVj6ePdU5naYUBuybGmNFhVqQLQ15s2IjXW0NAclBCGfCgBKlB
+ a5BiObLEDPAKVXviCGOc7cXU3pGIKq+zo+dI8P0Vl/9xRsOMKKkZq6dlu
+ /qLmpziQQdr3EAuzZwOYWVZ68sVMw+WroT8jiAC7lXBLwYCHl/l27fU4N
+ 27tVToJ85Cwy0fw0Ypp/jCbhb9r0B+FQdweFt6wVCVzacMw4CSns/5C9d
+ LogfbgpETsJ2h9/0vpZwPmD3PvgGvfGF5bxlULd5BliPig7c7hwuPevVl
+ 98STobZmw0JKoqcxwbUYeN6U9EGjDQS6ymc2UG0YaIvCzXGccrvG2CNRW Q==;
+X-CSE-ConnectionGUID: qVDDYyy/TaibvjsFj54BhA==
+X-CSE-MsgGUID: ZQft6HipQaKNxVEzl0wEqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36619183"
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="36619183"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 12:00:55 -0800
-X-CSE-ConnectionGUID: m1v2RPRjRcO6dxrReiybrQ==
-X-CSE-MsgGUID: XOHv95RPSfSLBmTsVDLBrw==
+ 09 Jan 2025 12:00:58 -0800
+X-CSE-ConnectionGUID: zoPwICyxT3O/EeCESybLHw==
+X-CSE-MsgGUID: X+gsIDlJS2yq21f6c2GebQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="126798577"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="126798600"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2025 12:00:51 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2025 12:00:55 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Fri, 10 Jan 2025 01:15:30 +0530
-Subject: [PATCH v7 02/14] drm: Define ImageEnhancemenT LUT structures
- exposed to user
+Date: Fri, 10 Jan 2025 01:15:31 +0530
+Subject: [PATCH v7 03/14] drm/crtc: Expose API to create drm crtc property
+ for histogram
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250110-dpst-v7-2-605cb0271162@intel.com>
+Message-Id: <20250110-dpst-v7-3-605cb0271162@intel.com>
 References: <20250110-dpst-v7-0-605cb0271162@intel.com>
 In-Reply-To: <20250110-dpst-v7-0-605cb0271162@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
@@ -73,100 +73,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ImageEnhancemenT(IET) hardware interpolates the LUT value to generate
-the enhanced output image. LUT takes an input value, outputs a new
-value based on the data within the LUT. 1D LUT can remap individual
-input values to new output values based on the LUT sample. LUT can be
-interpolated by the hardware by multiple modes Ex: Direct Lookup LUT,
-Multiplicative LUT etc
-The list of supported mode by hardware along with the format(exponent
-mantissa) is exposed to user by the iet_lut_caps property. Maximum
-format being 8.24 i.e 8 exponent and 24 mantissa.
-For illustration a hardware supporting 1.9 format denotes this as
-0x10001FF. In order to know the exponent do a bitwise AND with
-0xF000000. The LUT value to be provided by user would be a 10bit value
-with 1 bit integer and 9 bit fractional value.
-
-Multiple formats can be supported, hence pointer is used over here.
-User can then provide the LUT with any one of the supported modes in
-any of the supported formats.
-The entries in the LUT can vary depending on the hardware capability
-with max being 255. This will also be exposed as iet_lut_caps so user
-can generate a LUT with the specified entries.
+Add drm-crtc property for histogram and for the properties added add
+the corresponding get/set_property.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- include/uapi/drm/drm_mode.h | 50 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 14 ++++++
+ drivers/gpu/drm/drm_atomic_uapi.c         | 15 +++++++
+ drivers/gpu/drm/drm_crtc.c                | 73 +++++++++++++++++++++++++++++++
+ include/drm/drm_crtc.h                    | 44 +++++++++++++++++++
+ 4 files changed, 146 insertions(+)
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 7a7039381142bb5dba269bdaec42c18be34e2d05..056c2efef1589848034afc0089f1838c2547bcf8 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1367,6 +1367,17 @@ struct drm_mode_closefb {
-  */
- #define DRM_MODE_HISTOGRAM_HSV_MAX_RGB			(1 << 0)
- 
-+/* LUT values are points on exponential graph with x axis and y-axis y=f(x) */
-+#define DRM_MODE_IET_LOOKUP_LUT				(1 << 0)
-+/*
-+ * LUT values, points on negative exponential graph with x-axis and y-axis
-+ * y = y/x so upon multiplying x, y is obtained, hence multiplicative. The
-+ * format of LUT can at max be 8.24(8integer 24 fractional) represented by
-+ * u32. Depending on the hardware capability and exponent mantissa can be
-+ * chosen.
-+ */
-+#define DRM_MODE_IET_MULTIPLICATIVE			(1 << 1)
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 519228eb109533d2596e899a57b571fa0995824f..dfe6293f7a42d034da3de593094019ca15014a02 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -143,6 +143,12 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
+ 		drm_property_blob_get(state->ctm);
+ 	if (state->gamma_lut)
+ 		drm_property_blob_get(state->gamma_lut);
++	if (state->histogram_caps)
++		drm_property_blob_get(state->histogram_caps);
++	if (state->histogram_enable)
++		drm_property_blob_get(state->histogram_enable);
++	if (state->histogram_data)
++		drm_property_blob_get(state->histogram_data);
+ 	state->mode_changed = false;
+ 	state->active_changed = false;
+ 	state->planes_changed = false;
+@@ -156,6 +162,8 @@ void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
+ 	/* Self refresh should be canceled when a new update is available */
+ 	state->active = drm_atomic_crtc_effectively_active(state);
+ 	state->self_refresh_active = false;
 +
- /**
-  * struct drm_histogram_caps
-  *
-@@ -1414,6 +1425,45 @@ struct drm_histogram {
- 	__u32 nr_elements;
- };
- 
-+/**
-+ * struct drm_iet_caps
-+ *
-+ * @iet_mode: pixel factor enhancement modes defined in the above macros
-+ * @iet_sample_format: holds the address of an array of u32 LUT sample formats
-+ *		       depending on the hardware capability. Max being 8.24
-+ *		       Doing a bitwise AND will get the present sample.
-+ *		       Ex: for 1 integer 9 fraction AND with 0x10001FF
-+ * @nr_iet_sample_formats: number of iet_sample_formsts supported by the
-+ *			   hardware
-+ * @nr_iet_lut_entries: number of LUT entries
-+ */
-+struct drm_iet_caps {
-+	__u8 iet_mode;
-+	u64 iet_sample_format;
-+	__u32 nr_iet_sample_formats;
-+	__u32 nr_iet_lut_entries;
-+};
-+
-+/**
-+ * struct drm_iet_1dlut_sample
-+ * @iet_mode: image enhancement mode, this will also convey the channel.
-+ * @iet_format: LUT exponent and mantissa format, max being 8.24
-+ * @data_ptr: pointer to the array of values which is of type u32.
-+ *	      1 channel: 10 bit corrected value and remaining bits are reserved.
-+ *	      multi channel: pointer to struct drm_color_lut
-+ * @nr_elements: number of entries pointed by the data @data_ptr
-+ * @reserved: reserved for future use
-+ * @reserved1: reserved for future use
-+ */
-+struct drm_iet_1dlut_sample {
-+	__u8 iet_mode;
-+	__u32 iet_format;
-+	__u64 data_ptr;
-+	__u32 nr_elements;
-+	__u32 reserved;
-+	__u32 reserved1;
-+};
-+
- #if defined(__cplusplus)
++	state->histogram_updated = false;
  }
- #endif
+ EXPORT_SYMBOL(__drm_atomic_helper_crtc_duplicate_state);
+ 
+@@ -215,6 +223,12 @@ void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state)
+ 	drm_property_blob_put(state->degamma_lut);
+ 	drm_property_blob_put(state->ctm);
+ 	drm_property_blob_put(state->gamma_lut);
++	if (state->histogram_caps)
++		drm_property_blob_put(state->histogram_caps);
++	if (state->histogram_enable)
++		drm_property_blob_put(state->histogram_enable);
++	if (state->histogram_data)
++		drm_property_blob_put(state->histogram_data);
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_crtc_destroy_state);
+ 
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 370dc676e3aa543c9827b50df20df78f02b738c9..459d30898196c94392a7f916b1fa9ca3a334eea8 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -415,6 +415,15 @@ static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+ 			return -EFAULT;
+ 
+ 		set_out_fence_for_crtc(state->state, crtc, fence_ptr);
++	} else if (property == crtc->histogram_enable_property) {
++		ret = drm_property_replace_blob_from_id(dev,
++							&state->histogram_enable,
++							val,
++							-1,
++							sizeof(struct drm_histogram_config),
++							&replaced);
++		state->histogram_updated |= replaced;
++		return ret;
+ 	} else if (property == crtc->scaling_filter_property) {
+ 		state->scaling_filter = val;
+ 	} else if (crtc->funcs->atomic_set_property) {
+@@ -452,6 +461,12 @@ drm_atomic_crtc_get_property(struct drm_crtc *crtc,
+ 		*val = (state->gamma_lut) ? state->gamma_lut->base.id : 0;
+ 	else if (property == config->prop_out_fence_ptr)
+ 		*val = 0;
++	else if (property == crtc->histogram_caps_property)
++		*val = (state->histogram_caps) ? state->histogram_caps->base.id : 0;
++	else if (property == crtc->histogram_enable_property)
++		*val = (state->histogram_enable) ? state->histogram_enable->base.id : 0;
++	else if (property == crtc->histogram_data_property)
++		*val = (state->histogram_data) ? state->histogram_data->base.id : 0;
+ 	else if (property == crtc->scaling_filter_property)
+ 		*val = state->scaling_filter;
+ 	else if (crtc->funcs->atomic_get_property)
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index 3488ff067c69bb820b36177c97bc9fe5d5cbfea1..a2903952e98244239374f10a2946e45ce1e47411 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -939,3 +939,76 @@ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_crtc_create_scaling_filter_property);
++
++/**
++ * drm_crtc_create_histogram_property: create histogram properties
++ *
++ * @crtc: pointer to the struct drm_crtc.
++ * @caps: pointer to the struct drm_histogram_caps, holds the
++ *	  histogram hardware capabilities.
++ *
++ * The property HISTOGRAM_CAPS exposes the hardware capability for
++ * histogram which includes the histogram mode, number of bins etc
++ * The property HISTOGRAM_ENABLE allows user to enable/disable the
++ * histogram feature and also configure the hardware.
++ * Upon KMD enabling by writing to the hardware registers, histogram
++ * is generated. Histogram is composed of 'n' bins with each bin
++ * being an integer(pixel count).
++ * An event HISTOGRAM will be sent to the user. User upon receiving this
++ * event can read the hardware generated histogram using crtc property
++ * HISTOGRAM_DATA.
++ * User can use this histogram data to enhance the image or in shaders.
++ *
++ * Property HISTOGRAM_CAPS is a blob pointing to the struct drm_histogram_caps
++ * Description of the structure is in include/uapi/drm/drm_mode.h
++ * Property HISTOGRAM_ENABLE is a blob pointing to the struct
++ * drm_histogram_config
++ * Description of the structure is in include/uapi/drm/drm_mode.h
++ * Property HISTOGRAM_DATA is a blob pointing to the struct drm_histogram
++ * Description of the structure is in include/uapi/drm/drm_mode.h
++ *
++ * RETURNS:
++ * Zero for success or -errno
++ */
++int drm_crtc_create_histogram_property(struct drm_crtc *crtc,
++				       struct drm_histogram_caps *caps)
++{
++	struct drm_property *prop;
++	struct drm_property_blob *blob;
++	struct drm_histogram_caps *blob_data;
++
++	blob = drm_property_create_blob(crtc->dev,
++					sizeof(struct drm_histogram_caps),
++					NULL);
++	if (IS_ERR(blob))
++		return -1;
++	blob_data = blob->data;
++	blob_data->histogram_mode = caps->histogram_mode;
++	blob_data->bins_count = caps->bins_count;
++
++	prop = drm_property_create(crtc->dev, DRM_MODE_PROP_ATOMIC |
++				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
++				   "HISTOGRAM_CAPS", blob->base.id);
++	if (!prop)
++		return -ENOMEM;
++	drm_object_attach_property(&crtc->base, prop, 0);
++	crtc->histogram_caps_property = prop;
++
++	prop = drm_property_create(crtc->dev, DRM_MODE_PROP_ATOMIC |
++				   DRM_MODE_PROP_BLOB, "HISTOGRAM_ENABLE", 0);
++	if (!prop)
++		return -ENOMEM;
++	drm_object_attach_property(&crtc->base, prop, 0);
++	crtc->histogram_enable_property = prop;
++
++	prop = drm_property_create(crtc->dev, DRM_MODE_PROP_ATOMIC |
++				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
++				   "HISTOGRAM_DATA", 0);
++	if (!prop)
++		return -ENOMEM;
++	drm_object_attach_property(&crtc->base, prop, 0);
++	crtc->histogram_data_property = prop;
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_crtc_create_histogram_property);
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 8b48a1974da3143c7de176e6fe3e01da9c8fc9d8..bdca7a84e9a34c405fcda5377b93df1ed575f1dd 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -274,6 +274,32 @@ struct drm_crtc_state {
+ 	 */
+ 	struct drm_property_blob *gamma_lut;
+ 
++	/**
++	 * @histogram_caps:
++	 *
++	 * The blob points to the structure drm_histogram_caps.
++	 * For more info on the elements of the struct drm_histogram_caps
++	 * see include/uapi/drm/drm_mode.h
++	 */
++	struct drm_property_blob *histogram_caps;
++	/**
++	 * @histogram_enable:
++	 *
++	 * The blob points to the structure drm_histogram_config.
++	 * For more information on the elements of struct drm_histogram_config
++	 * see include/uapi/drm/drm_mode.h
++	 */
++	struct drm_property_blob *histogram_enable;
++	/**
++	 * @histogram_data:
++	 *
++	 * The blob points to the structure drm_histogram.
++	 * For more information on the elements of struct drm_histogram
++	 * see include/uapi/drm/drm_mode.h
++	 */
++	struct drm_property_blob *histogram_data;
++	bool histogram_updated;
++
+ 	/**
+ 	 * @target_vblank:
+ 	 *
+@@ -1088,6 +1114,22 @@ struct drm_crtc {
+ 	 */
+ 	struct drm_property *scaling_filter_property;
+ 
++	/**
++	 * @histogram_caps_property: Optional CRTC property for getting the
++	 * histogram hardware capability.
++	 */
++	struct drm_property *histogram_caps_property;
++	/**
++	 * @histogram_enable_property: Optional CRTC property for enabling or
++	 * disabling global histogram.
++	 */
++	struct drm_property *histogram_enable_property;
++	/**
++	 * @histogram_data_proeprty: Optional CRTC property for getting the
++	 * histogram blob data.
++	 */
++	struct drm_property *histogram_data_property;
++
+ 	/**
+ 	 * @state:
+ 	 *
+@@ -1323,5 +1365,7 @@ static inline struct drm_crtc *drm_crtc_find(struct drm_device *dev,
+ 
+ int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+ 					    unsigned int supported_filters);
++int drm_crtc_create_histogram_property(struct drm_crtc *crtc,
++				       struct drm_histogram_caps *caps);
+ 
+ #endif /* __DRM_CRTC_H__ */
 
 -- 
 2.25.1
