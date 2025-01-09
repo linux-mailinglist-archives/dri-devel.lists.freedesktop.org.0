@@ -2,59 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952CAA0798F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 15:45:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DCBAA079A0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 15:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8DF610EE0B;
-	Thu,  9 Jan 2025 14:45:32 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="MkVvg9pZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66A6710EE18;
+	Thu,  9 Jan 2025 14:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8260510EE0B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 14:45:30 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YTSHY0SkBz9stY;
- Thu,  9 Jan 2025 15:44:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1736433897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O4T8TRq4jK6dbFnjF6ptf6C+DvnaKaI4Gqs9/G5oJds=;
- b=MkVvg9pZ1RY8F718FrylRfzY3SIYx3j8iaARS8ZBRDr9DTuKVBs0lYqvkYrocaC1z+nl7+
- u2258owIOcmSEnjK13lr2Gev8TWi5h+hkEJjBMgsVmaf9b/UjxBwWRHyGa6Makzqfez6fM
- 0ceSzf+W0WQmEn/+Kg/rl0Pj2BgyOJ8O08pBgnHBd6PdVkiD/DWvm95XvNuqqzU8KWEHum
- vSq7mekgpD9n3ZAKlvheo77K63ppORMgniuNnbSwEwMYMrVVx4wYdiEvp7o051YgolGE1V
- kQcEkrFsrNg02n506MFKovNIhxrWA438iPjNXms0aWGZqD2QBPaz53IslNBJ1w==
-Message-ID: <f12edb46-fce4-4822-a556-8435d8fe6863@mailbox.org>
-Date: Thu, 9 Jan 2025 15:44:53 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4603510EE17;
+ Thu,  9 Jan 2025 14:49:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 861CE5C5A84;
+ Thu,  9 Jan 2025 14:48:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35F4DC4CED2;
+ Thu,  9 Jan 2025 14:49:04 +0000 (UTC)
+Date: Thu, 9 Jan 2025 09:50:37 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <linux@weissschuh.net>, Kees Cook
+ <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-serial@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+ codalist@coda.cs.cmu.edu, linux-mm@kvack.org, linux-nfs@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev, fsverity@lists.linux.dev,
+ linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org,
+ kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, keyrings@vger.kernel.org
+Subject: Re: [PATCH] treewide: const qualify ctl_tables where applicable
+Message-ID: <20250109095037.0ac3fe09@gandalf.local.home>
+In-Reply-To: <20250109-jag-ctl_table_const-v1-1-622aea7230cf@kernel.org>
+References: <20250109-jag-ctl_table_const-v1-1-622aea7230cf@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [RFC 11/14] drm/sched: Connect with dma-fence deadlines
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Tvrtko Ursulin <tursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>, Rob Clark <robdclark@gmail.com>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <20241230165259.95855-12-tursulin@igalia.com>
- <7e74dffc-ff0c-449c-8b4d-20b500fa7800@mailbox.org>
- <70797b0f-e944-43e6-b5bd-5e22c92e2f38@igalia.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <70797b0f-e944-43e6-b5bd-5e22c92e2f38@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: hukq4t33fr4yxdaoi9jhrb14ngii3wgu
-X-MBO-RS-ID: ab9d97a1d18bbd15213
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,42 +61,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-01-09 14:31, Tvrtko Ursulin wrote:
-> On 09/01/2025 11:38, Michel Dänzer wrote:
->> On 2024-12-30 17:52, Tvrtko Ursulin wrote:
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
->>> index 0f35f009b9d3..dfc7f50d4e0d 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>> @@ -168,6 +168,8 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->>>         spin_unlock_irqrestore(&fence->lock, flags);
->>>   +    drm_sched_entity_set_deadline(fence->entity, deadline);
->>
->> AFAICT sync_file_ioctl_set_deadline passes through the unmodified deadline from user space. If the scheduler uses that directly, all user space can fake unlimited high priority for its jobs via the ioctl?
-> 
-> Yes, that wouldn't be great. I could only allow high priority contexts/entities to have their deadlines respected.
+On Thu, 09 Jan 2025 14:16:39 +0100
+Joel Granados <joel.granados@kernel.org> wrote:
 
-FWIW, there are more wrinkles here:
+> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
+> index 2e113f8b13a2..489cbab3d64c 100644
+> --- a/kernel/trace/ftrace.c
+> +++ b/kernel/trace/ftrace.c
+> @@ -8786,7 +8786,7 @@ ftrace_enable_sysctl(const struct ctl_table *table, int write,
+>  	return ret;
+>  }
+>  
+> -static struct ctl_table ftrace_sysctls[] = {
+> +static const struct ctl_table ftrace_sysctls[] = {
+>  	{
+>  		.procname       = "ftrace_enabled",
+>  		.data           = &ftrace_enabled,
+> diff --git a/kernel/trace/trace_events_user.c b/kernel/trace/trace_events_user.c
+> index 17bcad8f79de..97325fbd6283 100644
+> --- a/kernel/trace/trace_events_user.c
+> +++ b/kernel/trace/trace_events_user.c
+> @@ -2899,7 +2899,7 @@ static int set_max_user_events_sysctl(const struct ctl_table *table, int write,
+>  	return ret;
+>  }
+>  
+> -static struct ctl_table user_event_sysctls[] = {
+> +static const struct ctl_table user_event_sysctls[] = {
+>  	{
+>  		.procname	= "user_events_max",
+>  		.data		= &max_user_events,
 
-The user-space entity which sets the fence deadline isn't necessarily the one which submitted the corresponding GPU job, e.g. it could be the Wayland compositor. Not sure offhand whether the scheduling priority of the GPU job submitter and/or fence deadline setter should be taken into account in this case.
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org> # for kernel/trace/
 
-If the fence deadline is later than the original scheduler deadline based on job submission time and scheduling priority, should the scheduling deadline be moved back or not?
-
-
-> I hope the uapi side of deadlines did not make any hard promises. Well obviously it did not since it is not wired up at the moment anyway.
-
-Right, I guess it's essentially a hint by when user space would like the fence to have signalled if possible.
-
-
-> I also need to improve it and pull in the internal deadline to some time before the userspace one.
-
-Because the internal deadline corresponds to when the job starts executing, whereas the fence deadline to when it finishes? Not sure how that can be accounted for though, not knowing how long the job will take to execute.
-
-
-In summary, I'm not sure using the fence deadline for the scheduler one really makes sense after all.
-
-
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+-- Steve
