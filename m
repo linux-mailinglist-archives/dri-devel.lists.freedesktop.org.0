@@ -2,61 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403BEA06FEC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 09:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 100FEA06FEE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 09:27:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78B5D10ED13;
-	Thu,  9 Jan 2025 08:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7032310ED1B;
+	Thu,  9 Jan 2025 08:27:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EVpyqRP8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gMdPGvuh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3C710ED0C
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 08:26:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC70210ED1B
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 08:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736411195; x=1767947195;
+ t=1736411222; x=1767947222;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
- bh=EfRXrqBDrtd080Kn6yHQKDaLyGSZlOex1tAgOl9ZRDY=;
- b=EVpyqRP8XHbOpPIZ37B0l9vwZxCmh8YLWEJHkqafWnilyWvsLi99KRWu
- UXglfunGDk/DqWkHDPT31phFYlraCr+uKlYvzLUFXw+4mSZZ+WfqS3qSF
- Bp0x7GONPlBxLEQTAoM5JqHdxAppL1PuMKTIG61PTWXxuaCcx47FPcfPS
- G5Z5lUpnr4GrCUhGOUb+VwZxDyyXnYN6cmS6EmlfErHkGX3hj3bE/S5g+
- qH3zn0UhK9/YFtfsfo6u8fnsRdPSyhXlnPUFv5k8PbFPyKd4qv/pnIPUT
- 7uo4Y23R1PwuaSeQ0EogILLMSXyE2TbR74aEChxichIdotxJdZWMMHxSo g==;
-X-CSE-ConnectionGUID: 4vmbGibATOy9W5FzgfxTzg==
-X-CSE-MsgGUID: 8bIKqaYoQUmBh2+qHA5paA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="62037640"
-X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; d="scan'208";a="62037640"
+ bh=sM8dFIXfql+F91R3uZmsNrx9CNHQk8Dkd9vd3yg45rA=;
+ b=gMdPGvuhqrLIakrxVe3w3skfSZjXajMVlNcmMvV6rel+4qVLC5roSpDu
+ FoaVRNOJ/zVXEuhFa//+JwoNjEhiv6/tHx/b8WCrxuCmfSGZsExd4JiGx
+ vbdAvE5i0JBaplm1cyAht4AmbSMPnAL+pVnBmTy+Nagk2VLdTt6nWMGZ1
+ 05dxfOgsFdWu9891NMNhAXR8s4rzU436MxuADG26R5YLaqiPDrDpYP2XY
+ zB0kpdFz3d9K+uzEib1bjCVhoGed8K1G7nc/3o21i57mQ8qYcSMut2qIK
+ xfRlx/kBxR2bd5kwdly3206h8O9tWHHOAG1pBhWrjqZqlNGt4ix151TtW A==;
+X-CSE-ConnectionGUID: DPR0Yko3S06q24qCyog4Zg==
+X-CSE-MsgGUID: pgam/G3wSOuQjS//p3YvmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="62037686"
+X-IronPort-AV: E=Sophos;i="6.12,300,1728975600"; d="scan'208";a="62037686"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 00:26:35 -0800
-X-CSE-ConnectionGUID: XgKHJ6iZRbOGA/bfK68oPA==
-X-CSE-MsgGUID: yBbGTnLNRkOr14PIOpTJpg==
+ 09 Jan 2025 00:27:02 -0800
+X-CSE-ConnectionGUID: sanpVOk9RzaYGn6MO4l9Mg==
+X-CSE-MsgGUID: OcvA4+GDRDKMn5v8peZLJw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="134231942"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="134232034"
 Received: from mgorski-mobl1.ger.corp.intel.com (HELO [10.245.84.116])
  ([10.245.84.116])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 00:26:33 -0800
-Message-ID: <4c851df7-978c-4201-8dc6-d7e88ae614bd@linux.intel.com>
-Date: Thu, 9 Jan 2025 09:26:30 +0100
+ 09 Jan 2025 00:26:59 -0800
+Message-ID: <e696c647-d60a-4f03-9f37-315bed2a7cab@linux.intel.com>
+Date: Thu, 9 Jan 2025 09:26:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/14] accel/ivpu: Use workqueue for IRQ handling
+Subject: Re: [PATCH 06/14] accel/ivpu: Dump only first MMU fault from single
+ context
 To: Maciej Falkowski <maciej.falkowski@linux.intel.com>,
  dri-devel@lists.freedesktop.org
-Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ Karol Wachowski <karol.wachowski@intel.com>
 References: <20250107173238.381120-1-maciej.falkowski@linux.intel.com>
- <20250107173238.381120-6-maciej.falkowski@linux.intel.com>
+ <20250107173238.381120-7-maciej.falkowski@linux.intel.com>
 Content-Language: en-US
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
  Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250107173238.381120-6-maciej.falkowski@linux.intel.com>
+In-Reply-To: <20250107173238.381120-7-maciej.falkowski@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,290 +79,134 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
 On 1/7/2025 6:32 PM, Maciej Falkowski wrote:
-> Convert IRQ bottom half from the thread handler into workqueue.
-> This increases a stability in rare scenarios where driver on
-> debugging/hardening kernels processes IRQ too slow and misses
-> some interrupts due to it.
-> Workqueue handler also gives a very minor performance increase.
+> From: Karol Wachowski <karol.wachowski@intel.com>
 > 
+> Stop dumping consecutive faults from an already faulty context immediately,
+> instead of waiting for the context abort thread handler (IRQ handler bottom
+> half) to abort currently executing jobs.
+> 
+> Remove 'R' (record events) bit from context descriptor of a faulty
+> context to prevent future faults generation.
+> 
+> This change speeds up the IRQ handler by eliminating the need to print the
+> fault content repeatedly. Additionally, it prevents flooding dmesg with
+> errors, which was occurring due to the delay in the bottom half of the
+> handler stopping fault-generating jobs.
+> 
+> Signed-off-by: Karol Wachowski <karol.wachowski@intel.com>
 > Signed-off-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 > ---
->  drivers/accel/ivpu/ivpu_drv.c     | 39 ++++++++-----------------------
->  drivers/accel/ivpu/ivpu_drv.h     |  5 +++-
->  drivers/accel/ivpu/ivpu_hw.c      |  5 ----
->  drivers/accel/ivpu/ivpu_hw.h      |  9 -------
->  drivers/accel/ivpu/ivpu_hw_btrs.c |  3 +--
->  drivers/accel/ivpu/ivpu_ipc.c     |  7 +++---
->  drivers/accel/ivpu/ivpu_ipc.h     |  2 +-
->  drivers/accel/ivpu/ivpu_job.c     |  2 +-
->  drivers/accel/ivpu/ivpu_job.h     |  2 +-
->  drivers/accel/ivpu/ivpu_pm.c      |  3 ++-
->  drivers/accel/ivpu/ivpu_pm.h      |  2 +-
->  11 files changed, 24 insertions(+), 55 deletions(-)
+>  drivers/accel/ivpu/ivpu_mmu.c         | 51 ++++++++++++++++++++++++---
+>  drivers/accel/ivpu/ivpu_mmu_context.c | 13 -------
+>  drivers/accel/ivpu/ivpu_mmu_context.h |  2 --
+>  3 files changed, 46 insertions(+), 20 deletions(-)
 > 
-> diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-> index 300eea8c305f..9b0d99873fb3 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.c
-> +++ b/drivers/accel/ivpu/ivpu_drv.c
-> @@ -7,6 +7,7 @@
->  #include <linux/module.h>
->  #include <linux/pci.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/workqueue.h>
->  #include <generated/utsrelease.h>
->  
->  #include <drm/drm_accel.h>
-> @@ -421,6 +422,9 @@ void ivpu_prepare_for_reset(struct ivpu_device *vdev)
->  {
->  	ivpu_hw_irq_disable(vdev);
->  	disable_irq(vdev->irq);
-> +	cancel_work_sync(&vdev->irq_ipc_work);
-> +	cancel_work_sync(&vdev->irq_dct_work);
-> +	cancel_work_sync(&vdev->context_abort_work);
->  	ivpu_ipc_disable(vdev);
->  	ivpu_mmu_disable(vdev);
+> diff --git a/drivers/accel/ivpu/ivpu_mmu.c b/drivers/accel/ivpu/ivpu_mmu.c
+> index 21f820dd0c65..5ee4df892b3e 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu.c
+> +++ b/drivers/accel/ivpu/ivpu_mmu.c
+> @@ -870,23 +870,64 @@ static u32 *ivpu_mmu_get_event(struct ivpu_device *vdev)
+>  	return evt;
 >  }
-> @@ -465,31 +469,6 @@ static const struct drm_driver driver = {
->  	.major = 1,
->  };
 >  
-> -static irqreturn_t ivpu_irq_thread_handler(int irq, void *arg)
-> -{
-> -	struct ivpu_device *vdev = arg;
-> -	u8 irq_src;
-> -
-> -	if (kfifo_is_empty(&vdev->hw->irq.fifo))
-> -		return IRQ_NONE;
-> -
-> -	while (kfifo_get(&vdev->hw->irq.fifo, &irq_src)) {
-> -		switch (irq_src) {
-> -		case IVPU_HW_IRQ_SRC_IPC:
-> -			ivpu_ipc_irq_thread_handler(vdev);
-> -			break;
-> -		case IVPU_HW_IRQ_SRC_DCT:
-> -			ivpu_pm_dct_irq_thread_handler(vdev);
-> -			break;
-> -		default:
-> -			ivpu_err_ratelimited(vdev, "Unknown IRQ source: %u\n", irq_src);
-> -			break;
-> -		}
-> -	}
-> -
-> -	return IRQ_HANDLED;
-> -}
-> -
->  static int ivpu_irq_init(struct ivpu_device *vdev)
->  {
->  	struct pci_dev *pdev = to_pci_dev(vdev->drm.dev);
-> @@ -501,12 +480,16 @@ static int ivpu_irq_init(struct ivpu_device *vdev)
->  		return ret;
->  	}
->  
-> +	INIT_WORK(&vdev->irq_ipc_work, ivpu_ipc_irq_work_fn);
-> +	INIT_WORK(&vdev->irq_dct_work, ivpu_pm_irq_dct_work_fn);
-> +	INIT_WORK(&vdev->context_abort_work, ivpu_context_abort_work_fn);
+> +static int ivpu_mmu_disable_events(struct ivpu_device *vdev, u32 ssid)
+> +{
+> +	struct ivpu_mmu_info *mmu = vdev->mmu;
+> +	struct ivpu_mmu_cdtab *cdtab = &mmu->cdtab;
+> +	u64 *entry;
+> +	u64 val;
 > +
->  	ivpu_irq_handlers_init(vdev);
->  
->  	vdev->irq = pci_irq_vector(pdev, 0);
->  
-> -	ret = devm_request_threaded_irq(vdev->drm.dev, vdev->irq, ivpu_hw_irq_handler,
-> -					ivpu_irq_thread_handler, IRQF_NO_AUTOEN, DRIVER_NAME, vdev);
-> +	ret = devm_request_irq(vdev->drm.dev, vdev->irq, ivpu_hw_irq_handler,
-> +			       IRQF_NO_AUTOEN, DRIVER_NAME, vdev);
->  	if (ret)
->  		ivpu_err(vdev, "Failed to request an IRQ %d\n", ret);
->  
-> @@ -599,8 +582,6 @@ static int ivpu_dev_init(struct ivpu_device *vdev)
->  	vdev->db_limit.min = IVPU_MIN_DB;
->  	vdev->db_limit.max = IVPU_MAX_DB;
->  
-> -	INIT_WORK(&vdev->context_abort_work, ivpu_context_abort_thread_handler);
-> -
->  	ret = drmm_mutex_init(&vdev->drm, &vdev->context_list_lock);
->  	if (ret)
->  		goto err_xa_destroy;
-> diff --git a/drivers/accel/ivpu/ivpu_drv.h b/drivers/accel/ivpu/ivpu_drv.h
-> index ebfcf3e42a3d..b57d878f2fcd 100644
-> --- a/drivers/accel/ivpu/ivpu_drv.h
-> +++ b/drivers/accel/ivpu/ivpu_drv.h
-> @@ -137,12 +137,15 @@ struct ivpu_device {
->  	struct mutex context_list_lock; /* Protects user context addition/removal */
->  	struct xarray context_xa;
->  	struct xa_limit context_xa_limit;
-> -	struct work_struct context_abort_work;
->  
->  	struct xarray db_xa;
->  	struct xa_limit db_limit;
->  	u32 db_next;
->  
-> +	struct work_struct irq_ipc_work;
-> +	struct work_struct irq_dct_work;
-> +	struct work_struct context_abort_work;
+> +	if (ssid > IVPU_MMU_CDTAB_ENT_COUNT)
+> +		return -EINVAL;
 > +
->  	struct mutex bo_list_lock; /* Protects bo_list */
->  	struct list_head bo_list;
->  
-> diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
-> index 4e1054f3466e..1b691375ee4d 100644
-> --- a/drivers/accel/ivpu/ivpu_hw.c
-> +++ b/drivers/accel/ivpu/ivpu_hw.c
-> @@ -285,8 +285,6 @@ void ivpu_hw_profiling_freq_drive(struct ivpu_device *vdev, bool enable)
->  
->  void ivpu_irq_handlers_init(struct ivpu_device *vdev)
+> +	entry = cdtab->base + (ssid * IVPU_MMU_CDTAB_ENT_SIZE);
+> +
+> +	val = READ_ONCE(entry[0]);
+> +	val &= ~IVPU_MMU_CD_0_R;
+> +	WRITE_ONCE(entry[0], val);
+> +
+> +	if (!ivpu_is_force_snoop_enabled(vdev))
+> +		clflush_cache_range(entry, IVPU_MMU_CDTAB_ENT_SIZE);
+> +
+> +	ivpu_mmu_cmdq_write_cfgi_all(vdev);
+> +
+> +	return 0;
+> +}
+> +
+>  void ivpu_mmu_irq_evtq_handler(struct ivpu_device *vdev)
 >  {
-> -	INIT_KFIFO(vdev->hw->irq.fifo);
+> +	struct ivpu_file_priv *file_priv;
+> +	u32 last_ssid = -1;
+>  	u32 *event;
+>  	u32 ssid;
+>  
+>  	ivpu_dbg(vdev, IRQ, "MMU event queue\n");
+>  
+> -	while ((event = ivpu_mmu_get_event(vdev)) != NULL) {
+> -		ivpu_mmu_dump_event(vdev, event);
 > -
->  	if (ivpu_hw_ip_gen(vdev) == IVPU_HW_IP_37XX)
->  		vdev->hw->irq.ip_irq_handler = ivpu_hw_ip_irq_handler_37xx;
->  	else
-> @@ -300,7 +298,6 @@ void ivpu_irq_handlers_init(struct ivpu_device *vdev)
->  
->  void ivpu_hw_irq_enable(struct ivpu_device *vdev)
->  {
-> -	kfifo_reset(&vdev->hw->irq.fifo);
->  	ivpu_hw_ip_irq_enable(vdev);
->  	ivpu_hw_btrs_irq_enable(vdev);
->  }
-> @@ -327,8 +324,6 @@ irqreturn_t ivpu_hw_irq_handler(int irq, void *ptr)
->  	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
->  	ivpu_hw_btrs_global_int_enable(vdev);
->  
-> -	if (!kfifo_is_empty(&vdev->hw->irq.fifo))
-> -		return IRQ_WAKE_THREAD;
->  	if (ip_handled || btrs_handled)
->  		return IRQ_HANDLED;
->  	return IRQ_NONE;
-> diff --git a/drivers/accel/ivpu/ivpu_hw.h b/drivers/accel/ivpu/ivpu_hw.h
-> index fc4dbfc980c8..fbef9816b9d0 100644
-> --- a/drivers/accel/ivpu/ivpu_hw.h
-> +++ b/drivers/accel/ivpu/ivpu_hw.h
-> @@ -6,18 +6,10 @@
->  #ifndef __IVPU_HW_H__
->  #define __IVPU_HW_H__
->  
-> -#include <linux/kfifo.h>
-> -
->  #include "ivpu_drv.h"
->  #include "ivpu_hw_btrs.h"
->  #include "ivpu_hw_ip.h"
->  
-> -#define IVPU_HW_IRQ_FIFO_LENGTH 1024
-> -
-> -#define IVPU_HW_IRQ_SRC_IPC 1
-> -#define IVPU_HW_IRQ_SRC_MMU_EVTQ 2
-> -#define IVPU_HW_IRQ_SRC_DCT 3
-> -
->  struct ivpu_addr_range {
->  	resource_size_t start;
->  	resource_size_t end;
-> @@ -27,7 +19,6 @@ struct ivpu_hw_info {
->  	struct {
->  		bool (*btrs_irq_handler)(struct ivpu_device *vdev, int irq);
->  		bool (*ip_irq_handler)(struct ivpu_device *vdev, int irq);
-> -		DECLARE_KFIFO(fifo, u8, IVPU_HW_IRQ_FIFO_LENGTH);
->  	} irq;
->  	struct {
->  		struct ivpu_addr_range global;
-> diff --git a/drivers/accel/ivpu/ivpu_hw_btrs.c b/drivers/accel/ivpu/ivpu_hw_btrs.c
-> index 3212c99f3682..3753b00ed2d6 100644
-> --- a/drivers/accel/ivpu/ivpu_hw_btrs.c
-> +++ b/drivers/accel/ivpu/ivpu_hw_btrs.c
-> @@ -630,8 +630,7 @@ bool ivpu_hw_btrs_irq_handler_lnl(struct ivpu_device *vdev, int irq)
->  
->  	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, SURV_ERR, status)) {
->  		ivpu_dbg(vdev, IRQ, "Survivability IRQ\n");
-> -		if (!kfifo_put(&vdev->hw->irq.fifo, IVPU_HW_IRQ_SRC_DCT))
-> -			ivpu_err_ratelimited(vdev, "IRQ FIFO full\n");
-> +		queue_work(system_wq, &vdev->irq_dct_work);
->  	}
->  
->  	if (REG_TEST_FLD(VPU_HW_BTRS_LNL_INTERRUPT_STAT, FREQ_CHANGE, status))
-> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
-> index 01ebf88fe6ef..0e096fd9b95d 100644
-> --- a/drivers/accel/ivpu/ivpu_ipc.c
-> +++ b/drivers/accel/ivpu/ivpu_ipc.c
-> @@ -459,13 +459,12 @@ void ivpu_ipc_irq_handler(struct ivpu_device *vdev)
+> +	while ((event = ivpu_mmu_get_event(vdev))) {
+>  		ssid = FIELD_GET(IVPU_MMU_EVT_SSID_MASK, event[0]);
+> +
+> +		if (ssid == last_ssid)
+> +			continue;
+> +
+> +		xa_lock(&vdev->context_xa);
+> +		file_priv = xa_load(&vdev->context_xa, ssid);
+> +		if (file_priv) {
+> +			if (file_priv->has_mmu_faults) {
+> +				event = NULL;
+> +			} else {
+> +				ivpu_mmu_disable_events(vdev, ssid);
+> +				file_priv->has_mmu_faults = true;
+> +			}
+> +		}
+> +		xa_unlock(&vdev->context_xa);
+> +
+> +		if (event)
+> +			ivpu_mmu_dump_event(vdev, event);
+> +
+>  		if (ssid == IVPU_GLOBAL_CONTEXT_MMU_SSID) {
+>  			ivpu_pm_trigger_recovery(vdev, "MMU event");
+>  			return;
 >  		}
+> -
+> -		ivpu_mmu_user_context_mark_invalid(vdev, ssid);
+>  		REGV_WR32(IVPU_MMU_REG_EVTQ_CONS_SEC, vdev->mmu->evtq.cons);
 >  	}
 >  
-> -	if (!list_empty(&ipc->cb_msg_list))
-> -		if (!kfifo_put(&vdev->hw->irq.fifo, IVPU_HW_IRQ_SRC_IPC))
-> -			ivpu_err_ratelimited(vdev, "IRQ FIFO full\n");
-> +	queue_work(system_wq, &vdev->irq_ipc_work);
+> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.c b/drivers/accel/ivpu/ivpu_mmu_context.c
+> index 891967a95bc3..d373443bbc83 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu_context.c
+> +++ b/drivers/accel/ivpu/ivpu_mmu_context.c
+> @@ -631,16 +631,3 @@ void ivpu_mmu_reserved_context_fini(struct ivpu_device *vdev)
+>  	ivpu_mmu_cd_clear(vdev, vdev->rctx.id);
+>  	ivpu_mmu_context_fini(vdev, &vdev->rctx);
 >  }
+> -
+> -void ivpu_mmu_user_context_mark_invalid(struct ivpu_device *vdev, u32 ssid)
+> -{
+> -	struct ivpu_file_priv *file_priv;
+> -
+> -	xa_lock(&vdev->context_xa);
+> -
+> -	file_priv = xa_load(&vdev->context_xa, ssid);
+> -	if (file_priv)
+> -		file_priv->has_mmu_faults = true;
+> -
+> -	xa_unlock(&vdev->context_xa);
+> -}
+> diff --git a/drivers/accel/ivpu/ivpu_mmu_context.h b/drivers/accel/ivpu/ivpu_mmu_context.h
+> index 8042fc067062..f255310968cf 100644
+> --- a/drivers/accel/ivpu/ivpu_mmu_context.h
+> +++ b/drivers/accel/ivpu/ivpu_mmu_context.h
+> @@ -37,8 +37,6 @@ void ivpu_mmu_global_context_fini(struct ivpu_device *vdev);
+>  int ivpu_mmu_reserved_context_init(struct ivpu_device *vdev);
+>  void ivpu_mmu_reserved_context_fini(struct ivpu_device *vdev);
 >  
-> -void ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev)
-> +void ivpu_ipc_irq_work_fn(struct work_struct *work)
->  {
-> +	struct ivpu_device *vdev = container_of(work, struct ivpu_device, irq_ipc_work);
->  	struct ivpu_ipc_info *ipc = vdev->ipc;
->  	struct ivpu_ipc_rx_msg *rx_msg, *r;
->  	struct list_head cb_msg_list;
-> diff --git a/drivers/accel/ivpu/ivpu_ipc.h b/drivers/accel/ivpu/ivpu_ipc.h
-> index b4dfb504679b..b524a1985b9d 100644
-> --- a/drivers/accel/ivpu/ivpu_ipc.h
-> +++ b/drivers/accel/ivpu/ivpu_ipc.h
-> @@ -90,7 +90,7 @@ void ivpu_ipc_disable(struct ivpu_device *vdev);
->  void ivpu_ipc_reset(struct ivpu_device *vdev);
->  
->  void ivpu_ipc_irq_handler(struct ivpu_device *vdev);
-> -void ivpu_ipc_irq_thread_handler(struct ivpu_device *vdev);
-> +void ivpu_ipc_irq_work_fn(struct work_struct *work);
->  
->  void ivpu_ipc_consumer_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
->  			   u32 channel, ivpu_ipc_rx_callback_t callback);
-> diff --git a/drivers/accel/ivpu/ivpu_job.c b/drivers/accel/ivpu/ivpu_job.c
-> index 7fed3c8406ee..c678dcddb8d8 100644
-> --- a/drivers/accel/ivpu/ivpu_job.c
-> +++ b/drivers/accel/ivpu/ivpu_job.c
-> @@ -935,7 +935,7 @@ void ivpu_job_done_consumer_fini(struct ivpu_device *vdev)
->  	ivpu_ipc_consumer_del(vdev, &vdev->job_done_consumer);
->  }
->  
-> -void ivpu_context_abort_thread_handler(struct work_struct *work)
-> +void ivpu_context_abort_work_fn(struct work_struct *work)
->  {
->  	struct ivpu_device *vdev = container_of(work, struct ivpu_device, context_abort_work);
->  	struct ivpu_file_priv *file_priv;
-> diff --git a/drivers/accel/ivpu/ivpu_job.h b/drivers/accel/ivpu/ivpu_job.h
-> index fef8aed1fc88..ff77ee1fcee2 100644
-> --- a/drivers/accel/ivpu/ivpu_job.h
-> +++ b/drivers/accel/ivpu/ivpu_job.h
-> @@ -72,7 +72,7 @@ void ivpu_cmdq_abort_all_jobs(struct ivpu_device *vdev, u32 ctx_id, u32 cmdq_id)
->  
->  void ivpu_job_done_consumer_init(struct ivpu_device *vdev);
->  void ivpu_job_done_consumer_fini(struct ivpu_device *vdev);
-> -void ivpu_context_abort_thread_handler(struct work_struct *work);
-> +void ivpu_context_abort_work_fn(struct work_struct *work);
->  
->  void ivpu_jobs_abort_all(struct ivpu_device *vdev);
->  
-> diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
-> index 6821051dfa3a..f41b3bfe40af 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.c
-> +++ b/drivers/accel/ivpu/ivpu_pm.c
-> @@ -452,8 +452,9 @@ int ivpu_pm_dct_disable(struct ivpu_device *vdev)
->  	return 0;
->  }
->  
-> -void ivpu_pm_dct_irq_thread_handler(struct ivpu_device *vdev)
-> +void ivpu_pm_irq_dct_work_fn(struct work_struct *work)
->  {
-> +	struct ivpu_device *vdev = container_of(work, struct ivpu_device, irq_dct_work);
->  	bool enable;
->  	int ret;
->  
-> diff --git a/drivers/accel/ivpu/ivpu_pm.h b/drivers/accel/ivpu/ivpu_pm.h
-> index b70efe6c36e4..89b264cc0e3e 100644
-> --- a/drivers/accel/ivpu/ivpu_pm.h
-> +++ b/drivers/accel/ivpu/ivpu_pm.h
-> @@ -45,6 +45,6 @@ void ivpu_stop_job_timeout_detection(struct ivpu_device *vdev);
->  int ivpu_pm_dct_init(struct ivpu_device *vdev);
->  int ivpu_pm_dct_enable(struct ivpu_device *vdev, u8 active_percent);
->  int ivpu_pm_dct_disable(struct ivpu_device *vdev);
-> -void ivpu_pm_dct_irq_thread_handler(struct ivpu_device *vdev);
-> +void ivpu_pm_irq_dct_work_fn(struct work_struct *work);
->  
->  #endif /* __IVPU_PM_H__ */
+> -void ivpu_mmu_user_context_mark_invalid(struct ivpu_device *vdev, u32 ssid);
+> -
+>  int ivpu_mmu_context_insert_node(struct ivpu_mmu_context *ctx, const struct ivpu_addr_range *range,
+>  				 u64 size, struct drm_mm_node *node);
+>  void ivpu_mmu_context_remove_node(struct ivpu_mmu_context *ctx, struct drm_mm_node *node);
 
