@@ -2,63 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC8DA074EF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 12:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D3CA07514
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 12:50:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F4D110ED66;
-	Thu,  9 Jan 2025 11:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0507C10ED7A;
+	Thu,  9 Jan 2025 11:50:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bcu5+lxr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i1HueGXP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 935C310E366;
- Thu,  9 Jan 2025 11:40:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736422847; x=1767958847;
- h=mime-version:content-transfer-encoding:in-reply-to:
- references:subject:from:cc:to:date:message-id;
- bh=T80S+yxQ/RqsGrGT1wR4sGgHuW6WyFlx/IXOevajixg=;
- b=bcu5+lxrXH7weEOEn/0vVeegbFTOasxiOE07Yql4S6ij15qeKQgWNjaC
- gDnSD1/a6YIkGIEtv/nlVtpd78cHx96+XcWwMb3auc7R02519oZybiswe
- b56lrbnjx89eVH26icVaI8GT0fblsZlBAX3fLW845WekJ1bjkD4OxyEiY
- jYI1Doacfzo3e6mRPDzN8ruApbZURE+dJ6n0KpBeOJJThGFiTtaXLuc88
- d2c24aX3oKsu366632SZd/XBBchn6us+jyIx+G6ZVytc553WgckUUUeuU
- H0JhNfLmx5p54WStAkmIJJL9/plP0kQn9u3oC6My0GSYn0MVVD9w2BFCz w==;
-X-CSE-ConnectionGUID: NsBUEdeQTbOzYxH3edQGyw==
-X-CSE-MsgGUID: hz/K5Y7kScqhQc3Rfz+MEg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="35902086"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="35902086"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 03:40:47 -0800
-X-CSE-ConnectionGUID: bIGVgS6TQYKghfkCO2GGQA==
-X-CSE-MsgGUID: rO8phZF5Q0CnHrFOFvb74Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="103451015"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost)
- ([10.245.245.195])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 03:40:41 -0800
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 180F510ED7A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 11:50:15 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-43675b1155bso10119565e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 03:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736423413; x=1737028213; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=SBUIkyq8HThi2u/QbO+9Ek4VXanc8mg0IJge15zLjYc=;
+ b=i1HueGXPRAqV4nwUNppXRQUm28V4fYI/SqF0aHr5fzbW7MoMYKC6ipU/9Ltq4pV+Gq
+ uWqG+Gxvo87jtQSlh7hMtAP/xTEvrfsngpDnamE/6NAr1/nNWiFYUxJLSQujvvW2vevw
+ /4zQc7XIobLhDq/KsJledq5B2nItZVLV9Dg9+wGT0vHidsovFNzJaNZXRTbHdP7eoxUz
+ 1cYdt5a+ZOJk84lRBitKHmwZTE6ldNHNIX4llHqlNvvNC6bPvVHa0j7/kUMbT9Chp1V6
+ WAzj8YQgQlF6zgncT8Rr1mybOk/HKp/nwg3rpSX1PdFoSuRKoLE5NxBoEBVPU8RZXwO0
+ jD3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736423413; x=1737028213;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SBUIkyq8HThi2u/QbO+9Ek4VXanc8mg0IJge15zLjYc=;
+ b=LE+fhe2XD4w3xMYyC49ecOH0iN9XVbdbMyYg3pY12A3HfVCTJjWi0Aw3sgWZYrQHac
+ 7CQEL6jklMC5gxxn2RCRgs2GDgZCAjRsDAQv/e4WhbYPSKQOm4VBDdEUbBzxv6Sj6VXZ
+ 0g00UBtzv76SIgnzd9ppF2kxTGe2meEnBy7yE89crWTSk1cElkulivcSzgfunusI2+h+
+ wHGHWnrs4qglKm02xk/331UPp5o6L9qYV1RtHOxEaccwu1nIJjYbO8mL+LS8Q3ljlAzG
+ PIhtK6TEqA6KeJcOJLG/416zOSXHVaWA1GP6IaEP7N2xTv8FF0YjUa4fdEASmif0WonM
+ v1QQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0bcjfkFYNMxdIle21URL5IGbDuGb4LvOSw1DM2cL+yQjbba9leskSUpFaulBIWzX9y/e2pBvFHVA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpPDHjC9iDgqftJ93PI/igEq3+DwE6gjLYZTSoPwSstNOhSwus
+ QYCiwh17XWn6QI8Aj+KQtq6fl69wMlwPA+iIevbzh3+mqDJX24jXkesTJoShxxk=
+X-Gm-Gg: ASbGncvQ6HBBlz5QNpw8k0UE4IaDKYjm6S4b73fti4MoFYg13NQqQcywAti+keRxf38
+ Ky4frIqboMLMnbOHrdYzroh3kOQDKCu9L83YQkj36zFbwJdv38qsAyZdhdWqKBUhri6/Y7Uvq4o
+ 08mF0s/r54SRwQAzaEqxtERIAbZIWHzOeOOySQfaaWWySEz2AstK6EzrPwcQO+pKykXih8AjYF3
+ zA71VLekhvM8Lto8r/s+Z+wb8ZEdOCmpdvAwp7+J3H8i1zuyWDbdzE=
+X-Google-Smtp-Source: AGHT+IE6bPuwfgpmvhR0wnVywkO+uV/zmxqYUYfEIWBePuS9J7kF881P4MIK7Z1l4XbIG4X4Nze9zA==
+X-Received: by 2002:a05:600c:3152:b0:434:f9e1:5cf8 with SMTP id
+ 5b1f17b1804b1-436e271d3a2mr66267645e9.31.1736423413467; 
+ Thu, 09 Jan 2025 03:50:13 -0800 (PST)
+Received: from linaro.org ([86.121.162.10]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a8e3838a3sm1628874f8f.33.2025.01.09.03.50.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2025 03:50:12 -0800 (PST)
+Date: Thu, 9 Jan 2025 13:50:10 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Johan Hovold <johan+linaro@kernel.org>
+Subject: Re: [PATCH v4 4/4] drm/msm/dp: Add support for LTTPR handling
+Message-ID: <Z3+38i2MTgwNGKSU@linaro.org>
+References: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-0-918949bc2e3a@linaro.org>
+ <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-4-918949bc2e3a@linaro.org>
+ <zfyl7xvkackpv2tfabvcjqt6e3uxxgyxwg6t4fvjrlzeg5m6nf@wc5suvzcm54u>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250108105346.240103-1-jacek.lawrynowicz@linux.intel.com>
-References: <20250108105346.240103-1-jacek.lawrynowicz@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: Add VM_DONTEXPAND to exported buffers
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, karol.wachowski@intel.com,
- tomasz.rusinowicz@intel.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date: Thu, 09 Jan 2025 13:40:37 +0200
-Message-ID: <173642283773.28201.13348625605034220367@jlahtine-mobl.ger.corp.intel.com>
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <zfyl7xvkackpv2tfabvcjqt6e3uxxgyxwg6t4fvjrlzeg5m6nf@wc5suvzcm54u>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,135 +105,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 25-01-08 16:25:31, Bjorn Andersson wrote:
+> On Wed, Jan 08, 2025 at 04:31:46PM +0200, Abel Vesa wrote:
+> > Link Training Tunable PHY Repeaters (LTTPRs) are defined in DisplayPort
+> > 1.4a specification. As the name suggests, these PHY repeaters are
+> > capable of adjusting their output for link training purposes.
+> > 
+> > According to the DisplayPort standard, LTTPRs have two operating
+> > modes:
+> >  - non-transparent - it replies to DPCD LTTPR field specific AUX
+> >    requests, while passes through all other AUX requests
+> >  - transparent - it passes through all AUX requests.
+> > 
+> > Switching between this two modes is done by the DPTX by issuing
+> > an AUX write to the DPCD PHY_REPEATER_MODE register.
+> > 
+> > The msm DP driver is currently lacking any handling of LTTPRs.
+> > This means that if at least one LTTPR is found between DPTX and DPRX,
+> > the link training would fail if that LTTPR was not already configured
+> > in transparent mode.
+> > 
+> > The section 3.6.6.1 from the DisplayPort v2.0 specification mandates
+> > that before link training with the LTTPR is started, the DPTX may place
+> > the LTTPR in non-transparent mode by first switching to transparent mode
+> > and then to non-transparent mode. This operation seems to be needed only
+> > on first link training and doesn't need to be done again until device is
+> > unplugged.
+> > 
+> > It has been observed on a few X Elite-based platforms which have
+> > such LTTPRs in their board design that the DPTX needs to follow the
+> > procedure described above in order for the link training to be successful.
+> > 
+> > So add support for reading the LTTPR DPCD caps to figure out the number
+> > of such LTTPRs first. Then, for platforms (or Type-C dongles) that have
+> > at least one such an LTTPR, set its operation mode to transparent mode
+> > first and then to non-transparent, just like the mentioned section of
+> > the specification mandates.
+> > 
+> > Tested-by: Johan Hovold <johan+linaro@kernel.org>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
+> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++++++++++++++
+> >  1 file changed, 17 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index 24dd37f1682bf5016bb0efbeb44489061deff060..ad09daa4c8ab5c0eb67890509b94e72820bab870 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -107,6 +107,8 @@ struct msm_dp_display_private {
+> >  	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
+> >  	spinlock_t event_lock;
+> >  
+> > +	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
+> 
+> As far as I can see these 8 bytes are read and acted upon only within
+> msm_dp_display_lttpr_init() below. Any particular reason why you don't
+> just put them on the stack?
 
-Could you elaborate a bit more on which testcase or usecase this pops up wi=
-th?
+Sure, I can do that. My rationale here was that this caps hold more than
+just LTTPRs count. Thinks like max lane count or max link rate are part of
+the LTTPR common caps. There are drm generic helpers for each one where
+you need to pass on these caps. Yes, at this point they are not used in
+the drm/msm, but looking at the i915 and nouveau, they seem to be
+useful at some point. This is why I followed the i915 to safekeep them
+in this container struct.
 
-The check has been in place since 2019 so quite surprising that it's
-only popping up now.
+Anyway, I'll drop them from here and put them on stack.
 
-Regards, Joonas
+> 
+> Regards,
+> Bjorn
 
-Quoting Jacek Lawrynowicz (2025-01-08 12:53:46)
-> drm_gem_mmap_obj() expects VM_DONTEXPAND flag to be set after mmap
-> callback is executed. Set this flag at the end of i915_gem_dmabuf_mmap()
-> to prevent WARN on mmap in buffers imported from i915 e.g.,
->=20
-> [  283.623215] WARNING: CPU: 1 PID: 12693 at drivers/gpu/drm/drm_gem.c:10=
-87 drm_gem_mmap_obj+0x196/0x1c0
-> [  283.623221] Modules linked in: intel_vpu(OE) cmac nls_utf8 cifs cifs_a=
-rc4 nls_ucs2_utils cifs_md4 netfs overlay nls_iso8859_1 binfmt_misc intel_u=
-ncore_frequency intel_uncore_frequency_common x86_pkg_temp_thermal intel_po=
-werclamp intel_rapl_msr coretemp rapl intel_cstate kvm_intel wmi_bmof input=
-_leds kvm processor_thermal_device_pci processor_thermal_device processor_t=
-hermal_wt_hint processor_thermal_rfim processor_thermal_rapl intel_rapl_com=
-mon processor_thermal_wt_req intel_vsec processor_thermal_stc processor_the=
-rmal_power_floor igen6_edac processor_thermal_mbox pac1934 industrialio int=
-3403_thermal int340x_thermal_zone intel_pmc_core int3400_thermal pmt_teleme=
-try intel_hid pmt_class acpi_thermal_rel sparse_keymap acpi_tad acpi_pad ef=
-i_pstore autofs4 btrfs blake2b_generic raid10 raid456 async_raid6_recov asy=
-nc_memcpy async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 xe=
- drm_ttm_helper drm_suballoc_helper drm_gpuvm drm_exec hid_sensor_custom hi=
-d_sensor_hub intel_ishtp_hid hid_generic usbhid hid i915
-> [  283.623254]  crct10dif_pclmul i2c_algo_bit crc32_pclmul drm_buddy ghas=
-h_clmulni_intel ttm sha512_ssse3 sha256_ssse3 e1000e drm_display_helper nvm=
-e sha1_ssse3 intel_lpss_pci thunderbolt intel_ish_ipc intel_lpss vmd intel_=
-ishtp idma64 nvme_core drm_kms_helper video wmi pinctrl_meteorlake backligh=
-t pinctrl_intel aesni_intel crypto_simd cryptd [last unloaded: intel_vpu(OE=
-)]
-> [  283.623267] CPU: 1 UID: 0 PID: 12693 Comm: npu-kmd-test Tainted: G    =
- U     OE      6.12.0-performance-20241122-11972534541 #1 f86ee8132c283cf15=
-8e9fd89cc84f4adeb3b79b7
-> [  283.623269] Tainted: [U]=3DUSER, [O]=3DOOT_MODULE, [E]=3DUNSIGNED_MODU=
-LE
-> [  283.623270] Hardware name: Intel Corporation Meteor Lake Client Platfo=
-rm/MTL-P DDR5 SODIMM SBS RVP, BIOS MTLPFWI1.R00.4122.D21.2408281317 08/28/2=
-024
-> [  283.623271] RIP: 0010:drm_gem_mmap_obj+0x196/0x1c0
-> [  283.623273] Code: 49 8b 94 24 40 01 00 00 48 8b 12 48 85 d2 74 31 89 4=
-5 ec 4c 89 e7 ff d2 0f 1f 00 8b 45 ec e9 f8 fe ff ff 0f 0b e9 54 ff ff ff <=
-0f> 0b e9 ea fe ff ff b8 ea ff ff ff 31 d2 31 f6 31 ff c3 cc cc cc
-> [  283.623274] RSP: 0018:ffffc90004103b20 EFLAGS: 00010246
-> [  283.623275] RAX: 0000000000000000 RBX: ffff888313ebafd0 RCX: 000000000=
-0000000
-> [  283.623276] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 000000000=
-0000000
-> [  283.623276] RBP: ffffc90004103b38 R08: 0000000000000000 R09: ffffc9000=
-4103bd8
-> [  283.623277] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88810=
-8b95400
-> [  283.623277] R13: ffff888108b95400 R14: ffff88815ee50000 R15: ffff88830=
-133b000
-> [  283.623278] FS:  00007fcbf9063740(0000) GS:ffff88846fe40000(0000) knlG=
-S:0000000000000000
-> [  283.623279] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  283.623280] CR2: 00007fcbeb15d460 CR3: 00000001076a2002 CR4: 000000000=
-0f72ef0
-> [  283.623280] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 000000000=
-0000000
-> [  283.623281] DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 000000000=
-0000400
-> [  283.623281] PKRU: 55555554
-> [  283.623282] Call Trace:
-> [  283.623283]  <TASK>
-> [  283.623285]  ? show_regs+0x75/0x90
-> [  283.623289]  ? __warn+0x91/0x150
-> [  283.623291]  ? drm_gem_mmap_obj+0x196/0x1c0
-> [  283.623292]  ? report_bug+0x1af/0x1c0
-> [  283.623295]  ? handle_bug+0x6e/0xb0
-> [  283.623297]  ? exc_invalid_op+0x1d/0x90
-> [  283.623298]  ? asm_exc_invalid_op+0x1f/0x30
-> [  283.623302]  ? drm_gem_mmap_obj+0x196/0x1c0
-> [  283.623304]  drm_gem_mmap+0x125/0x200
-> [  283.623305]  __mmap_region+0x7bc/0xc30
-> [  283.623310]  mmap_region+0x96/0xd0
-> [  283.623311]  do_mmap+0x526/0x650
-> [  283.623313]  vm_mmap_pgoff+0xec/0x1c0
-> [  283.623315]  ? __count_memcg_events+0x89/0x160
-> [  283.623317]  ksys_mmap_pgoff+0x175/0x230
-> [  283.623318]  __x64_sys_mmap+0x37/0x70
-> [  283.623320]  x64_sys_call+0x1c1d/0x2790
-> [  283.623322]  do_syscall_64+0x62/0x180
-> [  283.623324]  entry_SYSCALL_64_after_hwframe+0x71/0x79
-> [  283.623325] RIP: 0033:0x7fcbf8b1ea27
-> [  283.623327] Code: 00 00 00 89 ef e8 59 ae ff ff eb e4 e8 42 7b 01 00 6=
-6 90 f3 0f 1e fa 41 89 ca 41 f7 c1 ff 0f 00 00 75 10 b8 09 00 00 00 0f 05 <=
-48> 3d 00 f0 ff ff 77 21 c3 48 8b 05 d9 b3 0f 00 64 c7 00 16 00 00
-> [  283.623328] RSP: 002b:00007fff157ded78 EFLAGS: 00000246 ORIG_RAX: 0000=
-000000000009
-> [  283.623329] RAX: ffffffffffffffda RBX: 00007fff157dedf0 RCX: 00007fcbf=
-8b1ea27
-> [  283.623330] RDX: 0000000000000003 RSI: 0000000000002000 RDI: 000000000=
-0000000
-> [  283.623330] RBP: 00007fff157def80 R08: 0000000000000004 R09: 000000010=
-418a000
-> [  283.623331] R10: 0000000000000001 R11: 0000000000000246 R12: 00007fff1=
-57dee70
-> [  283.623331] R13: 0000644e2fb203f8 R14: 00007fff157deef0 R15: 00007fff1=
-57deeb0
-> [  283.623333]  </TASK>
-> [  283.623333] ---[ end trace 0000000000000000 ]---
->=20
-> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm=
-/i915/gem/i915_gem_dmabuf.c
-> index 9473050ac8425..809018265e36f 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> @@ -110,6 +110,7 @@ static int i915_gem_dmabuf_mmap(struct dma_buf *dma_b=
-uf, struct vm_area_struct *
->         if (ret)
->                 return ret;
-> =20
-> +       vm_flags_set(vma, VM_DONTEXPAND);
->         vma_set_file(vma, obj->base.filp);
-> =20
->         return 0;
-> --=20
-> 2.45.1
->
+Thanks for reviewing!
+
+Abel
+
