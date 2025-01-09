@@ -2,128 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25741A069B7
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 00:56:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED01A06A19
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 02:03:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 230BA10E1C4;
-	Wed,  8 Jan 2025 23:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE07D10E2B3;
+	Thu,  9 Jan 2025 01:03:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="e84OSHep";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ipZjEjvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A640810E1C4
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Jan 2025 23:56:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kATsV3DFuDZWUgQiAM928+Ij80NdV5X37/Cz6MHQhIohfHx5r6I+VTp6djKot/gk2ed8MHDvdOZoKO2kctN0Ni4hUD0hx5l30/+Ipg4Jic/1wRaIL4HRLvZkVdwqOCMbmqlJevAqP1WFHAA7ARtI0axw7HzXF/faltclgsLCkuExHgPSsixWU/FR8YqjKMIpOpydyq3dP2HbLzrllbiwoFcYeW4fN7SroJS6yfR2c+QxPZE+pNmeZx4OgLXTABKir4HKpo4Auhde2hRRYVEtH7JxjspxBmmnH4WFIYVR3CI0PwGIFQ2jYkm1yI5y/KhoVi9WtMHn/ldJBMsbWbhgMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kLIIj4WCSG+yx0uvDjA1+jEmJL1W/1AAjqu75Q11WGk=;
- b=S6J9e0Ug18Wo23JXYGFUS97NYLA7jliw8v3xU6d9+N3EMTYtiyNEnPW1BSr+tiiQ//6DjeDt2m51U04j0OtZ/iitfAm7SAu8JiJOswV0Vq2Fyd51pzR3i+1glsvbfLv0dqoFbg5jsSOf1zJ5zgvbOfkBrdrfcAgU1u2M+D99aGajUk1LTPMGJ+I22TNou8CTXBVYegN6GGSHGlUitkDgDfYYaa9QvTtZKDj0PsFYof6dNiBY1ODQIO4CnLLDMCePt1MLZq3ZB2lHs+7Fb2Z4kD5Iv/6pH9jHzYa4+wolF5eqD1xc/f8JCmX7jp6VwCGoPvkLqJzpkG6UWT6P8RjZew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kLIIj4WCSG+yx0uvDjA1+jEmJL1W/1AAjqu75Q11WGk=;
- b=e84OSHepXmizik9UMaWx87BcA4yF0Na9KR0pfnGQsjVxvi2FQEFdLqXT7NEsRMsSIJrTvkuvUbjcFcMcleorJRrHgKhauCWctMgq3t0AItDoDdk6ZuCOwa3taIMVdyI5ausEW0eckjA2Fc4bXCI3nOMomOAnE4/aHeGUs5WFtkA=
-Received: from SA9PR11CA0019.namprd11.prod.outlook.com (2603:10b6:806:6e::24)
- by CY5PR12MB6432.namprd12.prod.outlook.com (2603:10b6:930:38::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Wed, 8 Jan
- 2025 23:41:59 +0000
-Received: from SA2PEPF00003AE9.namprd02.prod.outlook.com
- (2603:10b6:806:6e:cafe::57) by SA9PR11CA0019.outlook.office365.com
- (2603:10b6:806:6e::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.11 via Frontend Transport; Wed,
- 8 Jan 2025 23:41:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF00003AE9.mail.protection.outlook.com (10.167.248.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8335.7 via Frontend Transport; Wed, 8 Jan 2025 23:41:58 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 8 Jan
- 2025 17:41:58 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 8 Jan
- 2025 17:41:57 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 8 Jan 2025 17:41:57 -0600
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
- <king.tam@amd.com>, <mario.limonciello@amd.com>, Dan Carpenter
- <dan.carpenter@linaro.org>
-Subject: [PATCH] accel/amdxdna: Return error when setting clock failed for npu1
-Date: Wed, 8 Jan 2025 15:41:50 -0800
-Message-ID: <20250108234150.354703-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64EFD10E14E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 01:03:00 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-5d3d0205bd5so424073a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 17:03:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736384519; x=1736989319; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HIgUgl4N79dadeiXZRtpkyo/N44P164pFj//QzRGV20=;
+ b=ipZjEjvJsEODPUOWud7WPHDyom3zrGAFS6g14N2UdWeKSubvS2VFp3lPZPIAn5y4QK
+ D8bRD+NHkjht1pVmI0bn+kPuFb22P9kzsOz1P562evlQuWmibTxCkHLI7OAjPFDpbGH/
+ ejnnvQF1AG3iwNzle8Ol2QtWGctISRWwUTYM8p1fAihDWjrsr1ppcJQ4WmZ8EjpJ/O9c
+ fYhlwG+Um5yJRMeb/2PQBx8BAQ/8NRyao8xhqHwcFA9gVlaaK9eYo/aIP9J8lE21jV9M
+ JoGSuT2UuG6R4/xUpmkT3BJ5a5JSCDqrGhF9DyDpRkpjg1qA8VDZnJ4tFyg1Mk+rYKTk
+ zvaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736384519; x=1736989319;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HIgUgl4N79dadeiXZRtpkyo/N44P164pFj//QzRGV20=;
+ b=OaZAfF/BeML/+oBdrBK/559ieG3GjDEDvaSxU6amlmC16lb+Usce7ID8+msbIWa9rP
+ 0fX4i1iPApWy65Np7y5vF0E0GtNIH3nciXzByRgD1UYGLbq/D5Fqp+T7TN7L575x9pqJ
+ 0eGdRYt/YeT7HVAOw/TpSD06GPAJ/mE1CX6SjV98ZmY/7nf1zFReGKJCtl5kthggvFCT
+ sg0wPXGXVIWezR5iEFkxTcq/z4DNhPz6n0VzU6vYvvnLmMkNaBvAqDlLl8FEjuYvP842
+ w5zLzbrkLIvDw2yhmng45d2XvpwzVFY7OvDcq3DQJzJ3V5GUL7EPYRS2F4l85E9oey3y
+ 3MCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWo00gRruLP9uxio6RtikRAxgrfElKvXLs79Ygkx4usiL7X1OWJ/wkoxElYds8f9taJz4gUGM7WaqY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxtVAJ8w5c4cAdBf407XWIUR/qZQ/8jdHLoE2ln0RY2ahA8do/8
+ Nrwep0XL4sv4W7rkBl8D27QkEI5Zk0wqoXQnWGybU+FWrbgSuw++5Cn9lZByeg9xzy/s1YB2vAO
+ J
+X-Gm-Gg: ASbGncs7ORgBK6E6K89iZo27zT+sXS68T9A672TjYgqCeG1rQFDVTHYYX799w6EYpQC
+ De0oNgqpgv3jaPexqSsvR8swPfRMzP617w9xVZ44jD21Zvq8Vz8UPR8zR8fTNyNhbJXrwhbL6+z
+ rCj5jC3GZj63hUTemG9AVHQT0Fo2BnGjmjfm+zWg78TjTAhfs+yakJEnxeBFNVHiiyc0JsVk4fF
+ cXq4KgLEsToEt5dco98Kf+rFw6A1GMuvSDcT2VK1G82BlU+M2fHhFfzVn2wV9hGSVUmvbXjuG4n
+ dk08/sw0Eb4/ESZ1uOv9DlBohleywKdp6u+u
+X-Google-Smtp-Source: AGHT+IELUqPRnCGpQ4QsIILyGi10OQNYGAtMxjnWsGZVt+RoeZcTFjHg8GOZFcw/nz8qgnwgQ+uKZw==
+X-Received: by 2002:a05:6512:b0f:b0:540:3566:985c with SMTP id
+ 2adb3069b0e04-542845d1495mr1192732e87.26.1736381155638; 
+ Wed, 08 Jan 2025 16:05:55 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be49a28sm30057e87.42.2025.01.08.16.05.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 16:05:54 -0800 (PST)
+Date: Thu, 9 Jan 2025 02:05:51 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, quic_abhinavk@quicinc.com,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/msm/dpu: Initialize return value for
+ dpu_assign_plane_resources()
+Message-ID: <nlxhx5dlc6y4m5htbfv6l27ms66jpse4umj4c42fzrcctnvy6a@5dbsjmuqsjwn>
+References: <20250108-virtual-planes-fixes-v1-0-420cb36df94a@quicinc.com>
+ <20250108-virtual-planes-fixes-v1-1-420cb36df94a@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE9:EE_|CY5PR12MB6432:EE_
-X-MS-Office365-Filtering-Correlation-Id: 504abcc0-2e86-4f86-ed5a-08dd303e0b17
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1LuuzWPhX8NJM2LFISOJonXWuB7QhLgjB+ovw5nI9dOOqWarutPUxl8ORHvx?=
- =?us-ascii?Q?iikd3j+iSK32yB5+ZnC+tQxDSNjxCTtfElxt4UiKffJTQkCVboBe9LJ3JGA7?=
- =?us-ascii?Q?tt+1AXCed3430xowHOV/tDSjWmMepELIda2Vys1PZoQFQI1IQqywqOxgZ19o?=
- =?us-ascii?Q?4PipzJCIJ/CgUqIJO30p/amFcB4YNeVZfY+oz7TepN1r/p1nzPTPU0r/wVyK?=
- =?us-ascii?Q?Ogjl4k7YDKg5ZbVN4WiD7/vgYcWhl6lIGZpHarcdFpquqZ0C02P+xn+DyVoY?=
- =?us-ascii?Q?ycaxhJEIb2awcWybbF5iZ+eX2fz5o15ewdP74DAWhKe67fIstegELznlodl0?=
- =?us-ascii?Q?e5W7TqzT6YOAOZU+pm3hBsz/qfVvdNVBthX8BfUB3biXN4UZ0PRapAjcbDvE?=
- =?us-ascii?Q?7P6CwB7yi55kOK5uQfhbThKJxjt2RXPSyz6Odnrl/JrBKeUkA8wNgRnKWCMi?=
- =?us-ascii?Q?9dEQOUmAqplWvHA9IlVMBvmlGmmnUCrBicyhuLVq+u9Biix/h83F+XPfiYxO?=
- =?us-ascii?Q?CAMVkoug9MK6gPmctTkqA+fe8SP/jx8N1c+Bl2kaMGKb5+5Qy3xtYHK56haB?=
- =?us-ascii?Q?v1fuV1W762v62CMjkvfLfP8Oof40Ooqipet7ip1+3eN8EDGdt4Cx2a21TvKf?=
- =?us-ascii?Q?CzVyCKiY3aAPYT7U9Z2qdj1TmyFBXaGze7YORfSFi+tj5GVlTNeacIJADHt3?=
- =?us-ascii?Q?zcOHP/3IPDfu0ZkGYXXRCeT3SJb5aTjZN+5kXHyNSyrHl9gTzPKWQ4LV6eqj?=
- =?us-ascii?Q?nACBxTWYbaIBlkpnebbWPiVvNqO56LGQz3+q2PyIttCBAAlByhSbXxqp5x+G?=
- =?us-ascii?Q?nu57xouHPZBjt1kjmGdiDtD6pKEEn97/V9ODAxMN2rhtaxX4zQlSRaZLIV10?=
- =?us-ascii?Q?0xX/Wk/G8JiNrYczuWQoqNvQ+lqUwZesi+gkPoe+ZeUAbHEcj31tDDb+MVQx?=
- =?us-ascii?Q?poveaVuOaYAtVPfIwtRPvtbuAsz203dmIVckIjqxsw+iTeBW49Dy3kPGcI7O?=
- =?us-ascii?Q?GSexAsDLMCOHHpXAcbe2dEs0j4/wtTxkc3fbQeo/smeUsCwWfCG82c6FFSqU?=
- =?us-ascii?Q?B3jol8zdzo9j6mLrwVV1fMV1dvR9CWnuxfm0vD14QJN8FBt4BCyt5KmU/qOa?=
- =?us-ascii?Q?OqSMnxZXstz/Tn47MqsaagxReRs/nPn3RbZlGp78FckYkEJifqhRKMyFxnu8?=
- =?us-ascii?Q?36w41seAwZPI/lC9nq6fcF3xWgQkaPoQJx0T4RG4c3+sga/D2EtERyYpDsKI?=
- =?us-ascii?Q?eLjldUmI9o5PknbAlAkEwLBX39dDAMKYEMGHAeosF/YeyPDRZNEaEawu/eAD?=
- =?us-ascii?Q?bLdudBSdtNTk/ZyJsq6OZnJytgzSl35yxrhOnFrG9eXhmw37DVEtDW3AzSOu?=
- =?us-ascii?Q?eR+f1pUrNwwAlsToz4KDDVmSyWfoxBST39t/3/9ZMhI0gefSedrh5A1CEUtG?=
- =?us-ascii?Q?sWsDpDUPsbs2c1IWGzKG/MBPZ3hCnMZwAK/n6P8GdelJ/0Tx2pj9rajA6TIK?=
- =?us-ascii?Q?y7D5tpsHFefABR8=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 23:41:58.8233 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 504abcc0-2e86-4f86-ed5a-08dd303e0b17
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003AE9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6432
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108-virtual-planes-fixes-v1-1-420cb36df94a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,47 +96,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to miss returning error when setting clock, the smatch static
-checker reports warning:
-  drivers/accel/amdxdna/aie2_smu.c:68 npu1_set_dpm()
-  error: uninitialized symbol 'freq'.
+On Wed, Jan 08, 2025 at 02:40:47PM -0800, Jessica Zhang wrote:
+> Initialize the return value so that the dpu_crtc_atomic_check() doesn't
+> fail if the virtual planes command line parameter is enabled and no planes
+> are visible.
+> 
+> Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
+> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Fixes: f4d7b8a6bc8c ("accel/amdxdna: Enhance power management settings")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/dri-devel/202267d0-882e-4593-b58d-be9274592f9b@stanley.mountain/
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_smu.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/accel/amdxdna/aie2_smu.c b/drivers/accel/amdxdna/aie2_smu.c
-index 73388443c676..e68aaf7cd9f2 100644
---- a/drivers/accel/amdxdna/aie2_smu.c
-+++ b/drivers/accel/amdxdna/aie2_smu.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * Copyright (C) 2022-2024, Advanced Micro Devices, Inc.
-+ * Copyright (C) 2022-2025, Advanced Micro Devices, Inc.
-  */
- 
- #include <drm/drm_device.h>
-@@ -64,6 +64,7 @@ int npu1_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- 	if (ret) {
- 		XDNA_ERR(ndev->xdna, "Set npu clock to %d failed, ret %d\n",
- 			 ndev->priv->dpm_clk_tbl[dpm_level].npuclk, ret);
-+		return ret;
- 	}
- 	ndev->npuclk_freq = freq;
- 
-@@ -72,6 +73,7 @@ int npu1_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- 	if (ret) {
- 		XDNA_ERR(ndev->xdna, "Set h clock to %d failed, ret %d\n",
- 			 ndev->priv->dpm_clk_tbl[dpm_level].hclk, ret);
-+		return ret;
- 	}
- 	ndev->hclk_freq = freq;
- 	ndev->dpm_level = dpm_level;
 -- 
-2.34.1
-
+With best wishes
+Dmitry
