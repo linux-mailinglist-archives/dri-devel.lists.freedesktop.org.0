@@ -2,138 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571E7A06CFA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 05:28:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD507A06CDE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 05:23:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D629210E034;
-	Thu,  9 Jan 2025 04:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 856FF10E2BE;
+	Thu,  9 Jan 2025 04:23:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pCg2nraL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="eNhgPOpF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D718910E034;
- Thu,  9 Jan 2025 04:28:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XnAcaGl4WBNZoY615m4Xg4Pl/7Nv98ZZwac4wTwiAp5R4dKpNSLXdOE42czPOv4S3KTHiDmZC+VQxJqg7zDhlcR1lqteSI0OrzaQ6ItTPh0FI950zS626bK60Hnp26dWSrQaBov44Vt3ue4KtcnXv6S0hHnlUoKKxEjltsbH9+jkNnD4rLPHqYkrOKcA6u+ejPJBGbI4INd5KtGRff8C1rIOBY6NDqZGU8stk0xxczMOmm9muuhMGpiW7hqf4L+c7BT6Ma97MshhTeYJZiHs6Y/ThMFnSjDKcOk5vEkb56AYk/YmLb7dpfwIlK35wGOvVytrTxBmrmdQjiaKqenGiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7VOkhU87lh3eb6/1eLLPvwtKaULdY9Zdr3A7g3gORo8=;
- b=akS9uCPQHfMF2vQLgLEy0rpVYCzv4IYTeFPfKbqyaz3Ai9BAM6pxsEnFVzxEwxmMLXhrk9esz4hRd31AB4VKkH0/GlllwJPFLxx6Nke1BHvT6XbzXkz5nDLbDxxSWOvzdgQn1EsEjygT8nLTOJXbHid1h8GJVt/QmAZ/2kOWtyGgnZ41lP9dglNwlwWCRd6pKmDmDfWEWYGXcoTiQ4jmC939gyJnaGcHZIJHlvs08ORCSD1xtN96AePmovRJt4+4TjFU2OUR/oxJZp0NLXwOCAH17neHxF3+FvEtr//e+EQW7M2S7lQowQSTLygSN1ShgtGftVw2MNXaK81xi3+7AQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7VOkhU87lh3eb6/1eLLPvwtKaULdY9Zdr3A7g3gORo8=;
- b=pCg2nraLYmMaZJ6D0+2p/wuGvBAJ2FxecJbC3aeXVK3wtWkxHx29YnEnuOXR7uM/aMWGPHmyygLxn9JL26I+c90FG2q1URaOqzF+BZIzRyksMvuCJkiRi/zqZHUmgg8MK/XoqOfmaD6m+GvhwvCjJV2jYX5TMwKip3jF8nlgZ6pAXwr1TUeRi/LIbAwXDA0YXs/2Kal3ZGNBNKYPxmogGLvH36qAkg8PZbu3WhGQY7cLwdqv4kEYI9xMf+q3nWJvkBANOX0twpCztGwZAYDEIL6CltfDv+TZlA8TUnpqCoUdZstvkTWQhTbb3Y/7eWMUzPfUIMa0+1EUay0oxLBTqQ==
-Received: from SA9PR13CA0153.namprd13.prod.outlook.com (2603:10b6:806:28::8)
- by MN2PR12MB4094.namprd12.prod.outlook.com (2603:10b6:208:15f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Thu, 9 Jan
- 2025 04:13:49 +0000
-Received: from SA2PEPF00003AE6.namprd02.prod.outlook.com
- (2603:10b6:806:28:cafe::3f) by SA9PR13CA0153.outlook.office365.com
- (2603:10b6:806:28::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.11 via Frontend Transport; Thu,
- 9 Jan 2025 04:13:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SA2PEPF00003AE6.mail.protection.outlook.com (10.167.248.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.7 via Frontend Transport; Thu, 9 Jan 2025 04:13:48 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 Jan 2025
- 20:13:38 -0800
-Received: from [172.23.93.240] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 Jan 2025
- 20:13:37 -0800
-Message-ID: <cbe98670-a196-4764-9175-040018eb2682@nvidia.com>
-Date: Thu, 9 Jan 2025 14:13:28 +1000
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA01A10E2BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 04:23:44 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-304d9a1f198so3680531fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 20:23:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736396563; x=1737001363; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+8RZpQ2r9Mn21NHPw670vKYSiFhVy622sgKUY1Z4mzI=;
+ b=eNhgPOpFRshGplT4DHINypPwKEnYIp0h1qZofFkydL5W6oOVYF38IHKqIGaIBYErMh
+ ue2gg9V8hWa0EuiY2zPxWC2dXATFsGA0gddAY+iOSa+Y0IHe3cFCd9ezJ3CD17cNKq9P
+ KV9lG6nQ+tfmyB2CCBX6MjjZF9HCzEUwEBAOfSMLVhfhP8hvfav6WJ1FD73TB0Q6gk/a
+ w6RojJywmaA/HKJbArkZNnRprC/OMgQr6IK2DN4BHkWh68Cd9zB66um2WNUMqh2pCz6x
+ +haG+HDYK5KHAO/cpnzy2jclVjImPlpBTiVSN8YeVWlFR8B/Cye0IqDIpV+xO/fQPkTN
+ TZHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736396563; x=1737001363;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+8RZpQ2r9Mn21NHPw670vKYSiFhVy622sgKUY1Z4mzI=;
+ b=ilr9yHrWEyoJfnSJLPnS34d9KOpJZrcKV4lxj/4uyIta+SCvZNZschDM3Hnrz4Zf5u
+ GtBhxvHwzQ6yRdFemWh5wiCHYsnsObbgSYB1PnHLLdUbyVfuWQLO9lFAfnLkXGlres76
+ yxDjGWIW5Dq3h/CbxuQmb6ZhHa19MGw+TsaGv2Ol11oC4OBtqoBeOApBaKwEAuKpo2CC
+ d/9bP7MZdAEDp0QKNOjiZN8mL1s7zb4u6uHT7yaOrU1gWRIOi7M2/0RntPU1VK6AJAG9
+ pQ1X4kxDV7058g76iYtAzcfF1QTPep3X1eJw7thxhZfgeeTWG60SdqJqeum+XQO2wW/R
+ jT7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVk6YMcLICLklHfU7YzxzuRSZNWZRMWWVZ+CgMkz2xqHW+1QOgswgki8EA2zhhKp/PtQGtAu7sEXY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwF343rHH62uLtaMSq/rAwtUa32gCANCnqBpDBeGyItZstADyrE
+ MJbYx05HCMC86ZsEJ8QeNWFfhnHKZWdCp4JGy7ONwirf9xdqBCeOEpqKVjOM3to=
+X-Gm-Gg: ASbGncvXDgCmmxvlw72/Oeg5LWXBEB0zUmJa1ai3aeTlWSL1AThWiCsiCtp8IJNH9DN
+ W9lRhS09vT3SH0uA9pZ/7linL0oSLDX43xd9NltSNDWaqNE8S09xqO2wGU777XIZHWfUJ3HtrSZ
+ 4Zz7ebznG+lHqA3DJ0ePL8Ci+6sV+uB/g2i35UALymf/zPXmSQe2ITgvLrWwqlPYbtFiZvlI8WK
+ 6CVUs+trYM8KBEink+rCHcZjK4n/W8UgPtUSeicRGCYxTffa1y9n3lChC/LFrLgCCEPXp7VM7Z0
+ 8XJHuJdlmnjWx4OyNJm58wxe+rJAxS6sxgFN
+X-Google-Smtp-Source: AGHT+IG1V8Jg2MaRUXUmzF8uHSbf02lJcqcW8qbepGUCESN2xtzsOIioyzPL1t8gTqIQIkv8DzAQUg==
+X-Received: by 2002:a05:6512:3e23:b0:542:1bdd:511a with SMTP id
+ 2adb3069b0e04-542845268e7mr1247466e87.13.1736396562833; 
+ Wed, 08 Jan 2025 20:22:42 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be549c2sm73895e87.109.2025.01.08.20.22.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Jan 2025 20:22:41 -0800 (PST)
+Date: Thu, 9 Jan 2025 06:22:38 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, 
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Archit Taneja <architt@codeaurora.org>, Rajesh Yadav <ryadav@codeaurora.org>, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH 3/6] drm/msm/dpu: don't use active in atomic_check()
+Message-ID: <vhqmcb6fu6mfmbjo3jyjdhzpowhvnxbtxg2osk42xwogrsylku@5hvs6mtizqcr>
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+ <20241222-drm-dirty-modeset-v1-3-0e76a53eceb9@linaro.org>
+ <b4f1d7c2-c9eb-4b9a-b8b7-f335910601d8@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
-From: Ben Skeggs <bskeggs@nvidia.com>
-To: Dave Airlie <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>
-CC: <nouveau@lists.freedesktop.org>
-References: <20250109005553.623947-1-airlied@gmail.com>
- <64e2c9d9-17e7-4607-87e0-eb9c4005ee1c@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <64e2c9d9-17e7-4607-87e0-eb9c4005ee1c@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE6:EE_|MN2PR12MB4094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70848487-9f9a-4d5e-cf94-08dd306404bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1BQYTYwUXlmbU4wS3RoYjdmUURKWUo0MmZNY01YWWtXOFNhcjhYR3Mrc3N4?=
- =?utf-8?B?Y1BjamVtZ1IzcU1aRDZtbUtqLzROM3VMTk41RzZzU0lSOFUxeEM2TEdXdVZ4?=
- =?utf-8?B?MmlnVFhlaVArV1gvZ3k3NWRkSHJjTHBnQUJmOGp2K0Y5Mnpyb09aaVJETnZv?=
- =?utf-8?B?WFNFNm42RWpjOVF4cFpXRlQxbWh4ZlBERE91RTlDVnF0N0NtNS90OTBCeGRh?=
- =?utf-8?B?amxGSTZzVkYwMFZvVHI4d0ZXM2JtWVpMcUpXcGNlam16K2t2QWVKTnZDNDJv?=
- =?utf-8?B?Yi9NUXU3NjBJT0xMQ29YekZNMzV4T0xHcEpIYm5USHJrWHA0L0sxT256anZP?=
- =?utf-8?B?VklkM3JDVFVwT0VWdkZZa0UzeGxHSEFwNXZMd0EwOGpPOG9PTDhyS0phdlNF?=
- =?utf-8?B?TFprVjBvNlZtQ2FxaDhodjBZSE15QTlmZWFiMWI3NjVZVDZNc0FqOFpFNW5u?=
- =?utf-8?B?WWRzUGwxMzR4Vi9xQXpncHhkdjNvSzY0WXUvTW4yUGsxLzhCYUNkM0tMb2Vo?=
- =?utf-8?B?R05ETnk4amVVODY3cFRTTklCN3NoMHppYWVDNUR4R2lGUllVYlV0SGpYeGxl?=
- =?utf-8?B?OWNtUU45cWhVaGFhZ1VEWEVHOTRZdUZLa0tHWnEzMU81bEE3YlVWYUdwWEcv?=
- =?utf-8?B?a0FDQ3d5UkdvK09nNE9YRjY1V1I1OVIwVC9JNUphNlV2YkxSajFtZ0p6anpG?=
- =?utf-8?B?VStsSGg0TFliSGVpMmM1WU5USFdqZm1EYjZtb3BYYjRRQmZKRUZqRU5Uek53?=
- =?utf-8?B?NVV2LzlzZFhwUDRVNG5Qd0NjSzJyaFZUY0pFcUpFTzhkbitiTkJpT0tSSytK?=
- =?utf-8?B?cVR2QTlVUjllUzBLK1lnQlp0emdjTnhpLzZ1R2FUU01SUTg0cmZ6S0Q4RnBp?=
- =?utf-8?B?dEdYTUxLVFRCM2JOTG81dExOY1JKOWgwSitzSW55alFoQUFGaXN3cU5VQWRm?=
- =?utf-8?B?cUQxQ09tRW1DTk1OalNONUR0UkdJVWs4dnRITkg4ajRpUHRSUjYyV3VSVTBr?=
- =?utf-8?B?U0pKVGh1bjVFa044MXVCZGQvUHNjZVdpQW8wbHFKQlVYUXhMVWxqOURMSk93?=
- =?utf-8?B?eW5wMzJIQVVUTlBMT2hrN0VURVNpOW5wbnpPVWhpSjJpa1pUSCtaNU9wZVNN?=
- =?utf-8?B?ZHFUay9zTy9KMGJFVDJHYzByTmVUcE0xWkdVUUxVQWRPd1VOQjIrb2JuUWJR?=
- =?utf-8?B?TFNxM1NVVk9UbktCR0V1ZE5vNE9UdFhDOUl6TnpPZHhLVXY0V2htMVBKU0pu?=
- =?utf-8?B?YkRUQkMzQVFzZDcrZW9SM1pMV1QzckRPSVhnb29yT25vRjJWaVRpcVlHYk01?=
- =?utf-8?B?eGI0SHlRaU8rOGdFN05qYUdma25ndGN6Zk83SUxpVm5aYWxra3ZNbzRkRUY0?=
- =?utf-8?B?Nk13WGRiK2tLWGJlSlJJUjkrNHFuYVlzaUlYOTJEeUUvNkNneE9EbHhpemlF?=
- =?utf-8?B?NkNZOWZKVW5sM3JYdzRFMndPaWUzQm1pQUpYUFZyaTlJaG5zaVk2WTNPYmcr?=
- =?utf-8?B?Z2kwNzJ3QnBYL0VaVC93UWVCS0ttbnVhcjZSRkpKYkdIUkxmN1cvVHRzWEsy?=
- =?utf-8?B?RUpKakgvQjUxTTBtbi8xMHlUTGg4ZEIza0RRbTZNN2hMNkNldUF5ZXcxenZh?=
- =?utf-8?B?MnRlNVNqUTFZRVhhbFJ0b2REMzVUb2VyVWJQL2V6SmtCNUVTeEt5ZEc0dk1S?=
- =?utf-8?B?QVAyc1YwYmI0ZFYxYXNTMUV3SERMZDU1QjEyS0VUNUJDY1g5NHBSc21pa2VP?=
- =?utf-8?B?cFh5NnNYSHB1VGh1YlZVQnpXYytRMVhaWDN0U0xURVRDVUdjTFZZOVFJTitH?=
- =?utf-8?B?dHN1UG5EV2w5Z1VQaTRqc3BpWk9uLzZpUXMzVGh5L0VrQ0NyMDlvN2hVWHN6?=
- =?utf-8?B?Q2hvam9SZERCcXI1UVlQM1JSemNNNkxKQ1BFdE8vR0FxT2FRZ3VacVNYT2hH?=
- =?utf-8?B?WnpsZklka1hnVEdFeXRFMzRKVHRFS3lDODVuN2pHZTAxeFc1MmlIbXhrdXY4?=
- =?utf-8?Q?Gwafdvn0R6O54qaQiu9ZItLjbrb/Dw=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 04:13:48.9483 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70848487-9f9a-4d5e-cf94-08dd306404bd
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003AE6.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4094
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4f1d7c2-c9eb-4b9a-b8b7-f335910601d8@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,59 +101,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/1/25 13:42, Ben Skeggs wrote:
+On Wed, Jan 08, 2025 at 05:19:40PM -0800, Abhinav Kumar wrote:
+> 
+> 
+> On 12/21/2024 9:00 PM, Dmitry Baryshkov wrote:
+> > The driver isn't supposed to consult crtc_state->active/active_check for
+> > resource allocation. Instead all resources should be allocated if
+> > crtc_state->enabled is set. Stop consulting active / active_changed in
+> > order to determine whether the hardware resources should be
+> > (re)allocated.
+> > 
+> > Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+> > Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 4 ----
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +--
+> >   2 files changed, 1 insertion(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > index 7191b1a6d41b3a96f956d199398f12b2923e8c82..65e33eba61726929b740831c95330756b2817e28 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -1264,10 +1264,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+> >   	DRM_DEBUG_ATOMIC("%s: check\n", dpu_crtc->name);
+> > -	/* force a full mode set if active state changed */
+> > -	if (crtc_state->active_changed)
+> > -		crtc_state->mode_changed = true;
+> > -
+> >   	if (cstate->num_mixers) {
+> >   		rc = _dpu_crtc_check_and_setup_lm_bounds(crtc, crtc_state);
+> >   		if (rc)
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index 83de7564e2c1fe14fcf8c4f82335cafc937e1b99..d1ccdca6044353f110bf5b507788efe368f223a3 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -793,12 +793,11 @@ static int dpu_encoder_virt_atomic_check(
+> >   		crtc_state->mode_changed = true;
+> >   	/*
+> >   	 * Release and Allocate resources on every modeset
+> > -	 * Dont allocate when active is false.
+> >   	 */
+> >   	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+> >   		dpu_rm_release(global_state, drm_enc);
+> > -		if (!crtc_state->active_changed || crtc_state->enable)
+> 
+> I think this was leftover code.
+> 
+> What happened was, we used to have dpu_rm_reserve() both in dpu_encoder's
+> atomic_check and mode_set. Hence this is checking !active_changed because
+> that case was expected to get handled in mode_set to avoid duplicate
+> dpu_rm_reserve() calls. Code has progressed since then to drop the
+> dpu_rm_reserve() from mode_set and only use atomic_check.
+> 
+> So the correct fixes tag for this should be:
+> 
+> Fixes: de3916c70a24 ("drm/msm/dpu: Track resources in global state")
 
-> On 9/1/25 10:55, Dave Airlie wrote:
->
->> From: Dave Airlie <airlied@redhat.com>
->>
->> This is the 3rd iteration of this after talking to Ben and
->> Danilo, I think this makes sense now.
->>
->> The fence sync logic doesn't handle a fence sync across devices
->> as it tries to write to a channel offset from one device into
->> the fence bo from a different device, which won't work so well.
->>
->> This patch fixes that to avoid using the sync path in the case
->> where the fences come from different nouveau drm devices.
->>
->> This works fine on a single device as the fence bo is shared
->> across the devices, and mapped into each channels vma space,
->> the channel offsets are therefore okay to pass between sides,
->> so one channel can sync on the seqnos from the other by using
->> the offset into it's vma.
->>
->> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
+Actually it should be:
 
-Err, not sure what my fingers did there ;)
+Fixes: ccc862b957c6 ("drm/msm/dpu: Fix reservation failures in modeset")
 
-Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
+> With that addressed, this is
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> 
+> > +		if (crtc_state->enable)
+> >   			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
+> >   					drm_enc, crtc_state, topology);
+> >   		if (!ret)
+> > 
 
->
->> Cc: stable@vger.kernel.org
->> ---
->>   drivers/gpu/drm/nouveau/nouveau_fence.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c 
->> b/drivers/gpu/drm/nouveau/nouveau_fence.c
->> index ee5e9d40c166..a3eb1f447a29 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
->> @@ -367,11 +367,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, 
->> struct nouveau_channel *chan,
->>               if (f) {
->>                   struct nouveau_channel *prev;
->>                   bool must_wait = true;
->> +                bool local;
->>                     rcu_read_lock();
->>                   prev = rcu_dereference(f->channel);
->> -                if (prev && (prev == chan ||
->> -                         fctx->sync(f, prev, chan) == 0))
->> +                local = prev && prev->drm == chan->drm;
->> +                if (local && (prev == chan ||
->> +                          fctx->sync(f, prev, chan) == 0))
->>                       must_wait = false;
->>                   rcu_read_unlock();
->>                   if (!must_wait)
+-- 
+With best wishes
+Dmitry
