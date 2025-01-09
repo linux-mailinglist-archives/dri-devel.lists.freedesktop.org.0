@@ -2,49 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C966DA06DA0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 06:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EF5A06DA3
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 06:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5309B10ECE3;
-	Thu,  9 Jan 2025 05:35:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72F5210ECE6;
+	Thu,  9 Jan 2025 05:38:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q7Y1EU74";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="EgpBfsU/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A3D10ECE1;
- Thu,  9 Jan 2025 05:35:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4EC7D5C58D1;
- Thu,  9 Jan 2025 05:34:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA0DEC4CED3;
- Thu,  9 Jan 2025 05:35:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736400923;
- bh=sRToh2cb0vsMptfGOo9adh1nqnXrc+YUCfy2brT0Z1s=;
- h=From:To:Cc:Subject:Date:From;
- b=q7Y1EU74PJNmnyg/3DPKksERpVSCwgektc23WVWhDoCclSlH1meiRfQG32gMD+C1z
- Foz9felvKVplAbDibs/Kk++uyqJJyVo+vPSJjZ9caCBqiKpYTwhB0sO3fMXdDh0gGi
- GPWV5VfiRslI4W6LEA93jgsoZPjotwkpbMxRmMJgZOU/ANYBlRjfPJaxNuP85JYqaU
- d3yJmqqYgw8rEICh+qUIs/ww00eME6knENBAlM4mdts42JBfcsAcPdxCYAo9MAmIwz
- CrptGegPVn17DognvDey1xVafqkew9/+c1+Ik1dRHOG7cmleO0yQrW2iYW+vdYEvGS
- X0l8lzve8+6uQ==
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: chaitanya.dhere@amd.com,
-	jun.lei@amd.com
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch, nathan@kernel.org,
- ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- llvm@lists.linux.dev, tzungbi@kernel.org
-Subject: [PATCH] drm/amd/display: mark static functions noinline_for_stack
-Date: Thu,  9 Jan 2025 05:35:04 +0000
-Message-ID: <20250109053504.2998728-1-tzungbi@kernel.org>
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98EE810ECE5;
+ Thu,  9 Jan 2025 05:38:30 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508IhbSs009782;
+ Thu, 9 Jan 2025 05:37:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 7bcBrUGZU3oSdj+RMaXnYeauDYK8CRFSZRzCt4FDK1I=; b=EgpBfsU/C3jN/B5v
+ fYppFGu5YCVrrgc9y8amuepa2B5u5ST0gJTxR9Nr2f4u9t1F+Et+xf8gWeUfPgku
+ NFcDLuM2YyVQMhDvI+gR7Ipd9jZNNAh1AsSGtDwsf1H/rpA2pQULvCYyAlxC3pdo
+ PJVpueiH3dGBvQeg/MsobWs7oJ9O+Af5Z5zpIYFjeTSu2guafKBhg141booOmVEY
+ ed0G5ld+HnVR7ks3uFJr5vbJcic6V/dFS29E4MjQRMFqszWrOYc/dE+qs0cXA5SX
+ YZT7KIoeMSvWEy/7NoYNFu0v5gkeXLYHwOm9fdcWo6La+bpa7mdfgRpptOvzLs7K
+ XsTKfA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441xvns8bg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 09 Jan 2025 05:37:25 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5095bPpn026692
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 9 Jan 2025 05:37:25 GMT
+Received: from [10.110.60.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
+ 21:37:24 -0800
+Message-ID: <a8159ad0-3d33-4331-899c-6728862a728a@quicinc.com>
+Date: Wed, 8 Jan 2025 21:37:23 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] drm/msm/dpu: don't use active in atomic_check()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>, Jordan Crouse
+ <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Archit
+ Taneja <architt@codeaurora.org>,
+ Rajesh Yadav <ryadav@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+ <20241222-drm-dirty-modeset-v1-3-0e76a53eceb9@linaro.org>
+ <b4f1d7c2-c9eb-4b9a-b8b7-f335910601d8@quicinc.com>
+ <vhqmcb6fu6mfmbjo3jyjdhzpowhvnxbtxg2osk42xwogrsylku@5hvs6mtizqcr>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <vhqmcb6fu6mfmbjo3jyjdhzpowhvnxbtxg2osk42xwogrsylku@5hvs6mtizqcr>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: K-77J62A8fTO3UPPxfgqcT_bmKbYGZbG
+X-Proofpoint-ORIG-GUID: K-77J62A8fTO3UPPxfgqcT_bmKbYGZbG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ mlxlogscore=999 priorityscore=1501 spamscore=0 malwarescore=0 adultscore=0
+ mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501090044
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,190 +103,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When compiling allmodconfig (CONFIG_WERROR=y) with clang-19, see the
-following errors:
 
-.../display/dc/dml2/display_mode_core.c:6268:13: warning: stack frame size (3128) exceeds limit (3072) in 'dml_prefetch_check' [-Wframe-larger-than]
-.../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7236:13: warning: stack frame size (3256) exceeds limit (3072) in 'dml_core_mode_support' [-Wframe-larger-than]
 
-Mark static functions called by dml_prefetch_check() and
-dml_core_mode_support() noinline_for_stack to avoid them become huge
-functions and thus exceed the frame size limit.
+On 1/8/2025 8:22 PM, Dmitry Baryshkov wrote:
+> On Wed, Jan 08, 2025 at 05:19:40PM -0800, Abhinav Kumar wrote:
+>>
+>>
+>> On 12/21/2024 9:00 PM, Dmitry Baryshkov wrote:
+>>> The driver isn't supposed to consult crtc_state->active/active_check for
+>>> resource allocation. Instead all resources should be allocated if
+>>> crtc_state->enabled is set. Stop consulting active / active_changed in
+>>> order to determine whether the hardware resources should be
+>>> (re)allocated.
+>>>
+>>> Fixes: 25fdd5933e4c ("drm/msm: Add SDM845 DPU support")
+>>> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
+>>> Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 4 ----
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +--
+>>>    2 files changed, 1 insertion(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>>> index 7191b1a6d41b3a96f956d199398f12b2923e8c82..65e33eba61726929b740831c95330756b2817e28 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+>>> @@ -1264,10 +1264,6 @@ static int dpu_crtc_atomic_check(struct drm_crtc *crtc,
+>>>    	DRM_DEBUG_ATOMIC("%s: check\n", dpu_crtc->name);
+>>> -	/* force a full mode set if active state changed */
+>>> -	if (crtc_state->active_changed)
+>>> -		crtc_state->mode_changed = true;
+>>> -
+>>>    	if (cstate->num_mixers) {
+>>>    		rc = _dpu_crtc_check_and_setup_lm_bounds(crtc, crtc_state);
+>>>    		if (rc)
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> index 83de7564e2c1fe14fcf8c4f82335cafc937e1b99..d1ccdca6044353f110bf5b507788efe368f223a3 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+>>> @@ -793,12 +793,11 @@ static int dpu_encoder_virt_atomic_check(
+>>>    		crtc_state->mode_changed = true;
+>>>    	/*
+>>>    	 * Release and Allocate resources on every modeset
+>>> -	 * Dont allocate when active is false.
+>>>    	 */
+>>>    	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>>>    		dpu_rm_release(global_state, drm_enc);
+>>> -		if (!crtc_state->active_changed || crtc_state->enable)
+>>
+>> I think this was leftover code.
+>>
+>> What happened was, we used to have dpu_rm_reserve() both in dpu_encoder's
+>> atomic_check and mode_set. Hence this is checking !active_changed because
+>> that case was expected to get handled in mode_set to avoid duplicate
+>> dpu_rm_reserve() calls. Code has progressed since then to drop the
+>> dpu_rm_reserve() from mode_set and only use atomic_check.
+>>
+>> So the correct fixes tag for this should be:
+>>
+>> Fixes: de3916c70a24 ("drm/msm/dpu: Track resources in global state")
+> 
+> Actually it should be:
+> 
+> Fixes: ccc862b957c6 ("drm/msm/dpu: Fix reservation failures in modeset")
+> 
 
-A way to reproduce:
-$ git checkout next-20250107
-$ mkdir build_dir
-$ export PATH=/tmp/llvm-19.1.6-x86_64/bin:$PATH
-$ make LLVM=1 O=build_dir allmodconfig
-$ make LLVM=1 O=build_dir drivers/gpu/drm/ -j
+Ack.
 
-The way how it chose static functions to mark:
-[0] Unset CONFIG_WERROR in build_dir/.config.
-To get display_mode_core.o without errors.
-
-[1] Get a function list called by dml_prefetch_check().
-$ sed -n '6268,6711p' drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c \
-  | sed -n -r 's/.*\W(\w+)\(.*/\1/p' | sort -u >/tmp/syms
-
-[2] Get the non-inline function list.
-Objdump won't show the symbols if they are inline functions.
-
-$ make LLVM=1 O=build_dir drivers/gpu/drm/ -j
-$ objdump -d build_dir/.../display_mode_core.o | \
-  ./scripts/checkstack.pl x86_64 0 | \
-  grep -f /tmp/syms | cut -d' ' -f2- >/tmp/orig
-
-[3] Get the full function list.
-Append "-fno-inline" to `CFLAGS_.../display_mode_core.o` in
-drivers/gpu/drm/amd/display/dc/dml2/Makefile.
-
-$ make LLVM=1 O=build_dir drivers/gpu/drm/ -j
-$ objdump -d build_dir/.../display_mode_core.o | \
-  ./scripts/checkstack.pl x86_64 0 | \
-  grep -f /tmp/syms | cut -d' ' -f2- >/tmp/noinline
-
-[4] Get the inline function list.
-If a symbol only in /tmp/noinline but not in /tmp/orig, it is a good
-candidate to mark noinline.
-
-$ diff /tmp/orig /tmp/noinline
-
-Chosen functions and their stack sizes:
-CalculateBandwidthAvailableForImmediateFlip [display_mode_core.o]:144
-CalculateExtraLatency [display_mode_core.o]:176
-CalculateTWait [display_mode_core.o]:64
-CalculateVActiveBandwithSupport [display_mode_core.o]:112
-set_calculate_prefetch_schedule_params [display_mode_core.o]:48
-
-CheckGlobalPrefetchAdmissibility [dml2_core_dcn4_calcs.o]:544
-calculate_bandwidth_available [dml2_core_dcn4_calcs.o]:320
-calculate_vactive_det_fill_latency [dml2_core_dcn4_calcs.o]:272
-CalculateDCFCLKDeepSleep [dml2_core_dcn4_calcs.o]:208
-CalculateODMMode [dml2_core_dcn4_calcs.o]:208
-CalculateOutputLink [dml2_core_dcn4_calcs.o]:176
-
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
- .../gpu/drm/amd/display/dc/dml2/display_mode_core.c  | 12 ++++++------
- .../dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c  | 12 ++++++------
- 2 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-index 35bc917631ae..84a2de9a76d4 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-@@ -1736,7 +1736,7 @@ static void CalculateBytePerPixelAndBlockSizes(
- #endif
- } // CalculateBytePerPixelAndBlockSizes
- 
--static dml_float_t CalculateTWait(
-+static noinline_for_stack dml_float_t CalculateTWait(
- 		dml_uint_t PrefetchMode,
- 		enum dml_use_mall_for_pstate_change_mode UseMALLForPStateChange,
- 		dml_bool_t SynchronizeDRRDisplaysForUCLKPStateChangeFinal,
-@@ -4458,7 +4458,7 @@ static void CalculateSwathWidth(
- 	}
- } // CalculateSwathWidth
- 
--static  dml_float_t CalculateExtraLatency(
-+static noinline_for_stack dml_float_t CalculateExtraLatency(
- 		dml_uint_t RoundTripPingLatencyCycles,
- 		dml_uint_t ReorderingBytes,
- 		dml_float_t DCFCLK,
-@@ -5915,7 +5915,7 @@ static dml_uint_t DSCDelayRequirement(
- 	return DSCDelayRequirement_val;
- }
- 
--static dml_bool_t CalculateVActiveBandwithSupport(dml_uint_t NumberOfActiveSurfaces,
-+static noinline_for_stack dml_bool_t CalculateVActiveBandwithSupport(dml_uint_t NumberOfActiveSurfaces,
- 										dml_float_t ReturnBW,
- 										dml_bool_t NotUrgentLatencyHiding[],
- 										dml_float_t ReadBandwidthLuma[],
-@@ -6019,7 +6019,7 @@ static void CalculatePrefetchBandwithSupport(
- #endif
- }
- 
--static dml_float_t CalculateBandwidthAvailableForImmediateFlip(
-+static noinline_for_stack dml_float_t CalculateBandwidthAvailableForImmediateFlip(
- 													dml_uint_t NumberOfActiveSurfaces,
- 													dml_float_t ReturnBW,
- 													dml_float_t ReadBandwidthLuma[],
-@@ -6213,7 +6213,7 @@ static dml_uint_t CalculateMaxVStartup(
- 	return max_vstartup_lines;
- }
- 
--static void set_calculate_prefetch_schedule_params(struct display_mode_lib_st *mode_lib,
-+static noinline_for_stack void set_calculate_prefetch_schedule_params(struct display_mode_lib_st *mode_lib,
- 						   struct CalculatePrefetchSchedule_params_st *CalculatePrefetchSchedule_params,
- 						   dml_uint_t j,
- 						   dml_uint_t k)
-@@ -6265,7 +6265,7 @@ static void set_calculate_prefetch_schedule_params(struct display_mode_lib_st *m
- 				CalculatePrefetchSchedule_params->Tno_bw = &mode_lib->ms.Tno_bw[k];
- }
- 
--static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
-+static noinline_for_stack void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
- {
- 	struct dml_core_mode_support_locals_st *s = &mode_lib->scratch.dml_core_mode_support_locals;
- 	struct CalculatePrefetchSchedule_params_st *CalculatePrefetchSchedule_params = &mode_lib->scratch.CalculatePrefetchSchedule_params;
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-index b9ec243cf9ba..7fffca67ca9d 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-@@ -2778,7 +2778,7 @@ static double dml_get_return_bandwidth_available(
- 	return return_bw_mbps;
- }
- 
--static void calculate_bandwidth_available(
-+static noinline_for_stack void calculate_bandwidth_available(
- 	double avg_bandwidth_available_min[dml2_core_internal_soc_state_max],
- 	double avg_bandwidth_available[dml2_core_internal_soc_state_max][dml2_core_internal_bw_max],
- 	double urg_bandwidth_available_min[dml2_core_internal_soc_state_max], // min between SDP and DRAM
-@@ -3531,7 +3531,7 @@ static void CalculateUrgentBurstFactor(
- 
- }
- 
--static void CalculateDCFCLKDeepSleep(
-+static noinline_for_stack void CalculateDCFCLKDeepSleep(
- 	const struct dml2_display_cfg *display_cfg,
- 	unsigned int NumberOfActiveSurfaces,
- 	unsigned int BytePerPixelY[],
-@@ -4076,7 +4076,7 @@ static bool ValidateODMMode(enum dml2_odm_mode ODMMode,
- 	return true;
- }
- 
--static void CalculateODMMode(
-+static noinline_for_stack void CalculateODMMode(
- 	unsigned int MaximumPixelsPerLinePerDSCUnit,
- 	unsigned int HActive,
- 	enum dml2_output_format_class OutFormat,
-@@ -4173,7 +4173,7 @@ static void CalculateODMMode(
- #endif
- }
- 
--static void CalculateOutputLink(
-+static noinline_for_stack void CalculateOutputLink(
- 	struct dml2_core_internal_scratch *s,
- 	double PHYCLK,
- 	double PHYCLKD18,
-@@ -5928,7 +5928,7 @@ static double calculate_impacted_Tsw(unsigned int exclude_plane_idx, unsigned in
- }
- 
- // a global check against the aggregate effect of the per plane prefetch schedule
--static bool CheckGlobalPrefetchAdmissibility(struct dml2_core_internal_scratch *scratch,
-+static noinline_for_stack bool CheckGlobalPrefetchAdmissibility(struct dml2_core_internal_scratch *scratch,
- 											 struct dml2_core_calcs_CheckGlobalPrefetchAdmissibility_params *p)
- {
- 	struct dml2_core_calcs_CheckGlobalPrefetchAdmissibility_locals *s = &scratch->CheckGlobalPrefetchAdmissibility_locals;
-@@ -6941,7 +6941,7 @@ static void calculate_bytes_to_fetch_required_to_hide_latency(
- 	}
- }
- 
--static void calculate_vactive_det_fill_latency(
-+static noinline_for_stack void calculate_vactive_det_fill_latency(
- 		const struct dml2_display_cfg *display_cfg,
- 		unsigned int num_active_planes,
- 		unsigned int bytes_required_l[],
--- 
-2.47.1.613.gc27f4b7a9f-goog
-
+>> With that addressed, this is
+>>
+>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>
+>>> +		if (crtc_state->enable)
+>>>    			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
+>>>    					drm_enc, crtc_state, topology);
+>>>    		if (!ret)
+>>>
+> 
