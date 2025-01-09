@@ -2,88 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA2FA082E9
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 23:45:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DB9A082F0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 23:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF86210E140;
-	Thu,  9 Jan 2025 22:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3988E10E493;
+	Thu,  9 Jan 2025 22:48:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="cYjhZUBo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Yw7x0ryP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1C3110E140
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 22:45:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE0B10E493
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 22:48:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736462709;
+ s=mimecast20190719; t=1736462906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nRow9035Bo0QZTBawNw0uOPzuSvKj61rB461LFcLePo=;
- b=cYjhZUBo45EK+CJm0xw8k/zssMyBkySqd0CjJI/qGkvnL55tJVYVxxVZFZgliaznr0zVOZ
- bXWV7V2Y0KpQEOP4F3uF7OY42em7epadIuQkuREkC7IDBQaWRr/PHjiasPwzpMHyp3AiTS
- tDFvNO2+SbPbToHHvIgzYsEeEY+7S/k=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nFQhvlzRfd1XPg5mHyonWWTLUe72L1/YYIGM1ooxKFM=;
+ b=Yw7x0ryPBIXvu+JZO1KYmmzNudkc0mPWamp0qTSj0gbFD6PxjSG1VEDSc1Gn+cmQ+lvZzw
+ REPe/xDLVDPBlgfixeOENsw1+qBjyw4ycDwuUnb3em7sQ7H/k4EFbUsHUBUnM+wrg77asM
+ arNNv/4ot/zk6pOZgUPRlARbxdDKss0=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-388-yGCRD_8VPQ6_S5LVcVXzcA-1; Thu, 09 Jan 2025 17:45:08 -0500
-X-MC-Unique: yGCRD_8VPQ6_S5LVcVXzcA-1
-X-Mimecast-MFC-AGG-ID: yGCRD_8VPQ6_S5LVcVXzcA
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6dadae92652so28622706d6.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 14:45:08 -0800 (PST)
+ us-mta-494-W5_AtUxfP6GHoZFq-FpE_Q-1; Thu, 09 Jan 2025 17:48:25 -0500
+X-MC-Unique: W5_AtUxfP6GHoZFq-FpE_Q-1
+X-Mimecast-MFC-AGG-ID: W5_AtUxfP6GHoZFq-FpE_Q
+Received: by mail-qv1-f70.google.com with SMTP id
+ 6a1803df08f44-6d8860ab00dso22946176d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 14:48:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736462708; x=1737067508;
+ d=1e100.net; s=20230601; t=1736462904; x=1737067704;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WJMFHPacmQFQhw9ZlXJbsRUlAhvDb89C4CvRBZxGMVQ=;
- b=tzK6OAguDJZGo/7fO+LsZcOmfvOXhIaLpHpopgzHinI8F9vdS848SPR4Rk6Te3L0rw
- bweKZpMYjvPn2g/uhRnN4kXc466RPebP9CLcL87waTG0s8ZwAkysAP8KKjyqE+4Rj/gi
- 4ctijeclmoohaShsiwxlk2ZYKtJTLQW5V6eqUpacM9ruk+ebmnxAHSVdKDMrt2OlIEfK
- omou7lzhDRN0gMKNHc1KF9qTXMEf7Cwt4rFrdJ1kBbCucTg4uZC9/nMjGt7bvB3mHc87
- aqmuDZNXLBtabAqwi0Bt2hXRRkoW1ETKaY6hJiZmdrljJasTH3Yy1GjLy9/VHz6doGAr
- nb9w==
+ bh=GXLV1VYYaeLBSHFGJ0uNo1yI/8XGSslr4z0kjGVUu2A=;
+ b=msQo6bu15H+9tPx6IUREmmx6A+6ReFt/XcXjwjDt5f7C+pHjx9uN33nhx/1YmBFSq2
+ IzYpvAY3LPLfvlWXIh/dvdtUrZ6KP+pQyB0SKLT+zPKR3uFl50LEKdy0P1pH3tJqaZfX
+ 1Txl/1TurWbf6tIUP639bVp5aC91VWSchKPynctO5WbQLYpQNjpChgHId1w1ouTLiL/k
+ 0pVwhqdYMBZ9WQEFsjICvSeTUEOo8nTqqYrCxIwSfxLTlwebC5pVbuwD7ix+VwjPW0Ix
+ d1/+D+BVmqxKFEcCtpeDG3KUQKBlESj4MiMjdfzDhQylU3mQU+23YQv0m6HhoGtsQKNC
+ RscA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6R1VyZYoB+dpqb4ai8VZdJGHI0BiIfBltRMqC8j34L5drhQhR5Y46v/PlsZ1PXzGpfz8HxdvbIMw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1GU6zDhruIZvLd1Z4q3/Z5B0M/+UTpFTwJrT3pPFS/b0LqJuD
- PkUWZxEluevByHCgqwTb4AlA2aDSH4xoBTwRvvVSmSXS6jYvZBWE5VktEL6X6rQ2uOE6N0IguZr
- pKpLjspqppc0LV/4fib+73y6RPGQXUzef7Tzae+BgQXNc6f13Z72XP25dlOKGMIrucA==
-X-Gm-Gg: ASbGncsD+AayGdeKOKS1rsuz7kBl5R2F6RwkM8TlL76U+Ynq/tPItsa51LmCHTsdifT
- kxV+BeEwz8Rz+s5nj6k6ZZ6rNNk4ixpVX/FgsVj+r1clV6ud4V7bK541y5M9xAsDjxvhItwUlFT
- wqlVA3qYxAgh8zeTIXExrL5ZgVzSN9yhIigWiuwj2tT9kK+jou7+m3Ukn7w/7/RFI1mq15Dyq+2
- /nFAJSQJsRSySDnAY1DiIk5wdfczR7ScxwUypg1RASVx+a6MiWzB9dXk01t/CruYlLRAv+G62b9
- BWJ4wTne2Gq2RBLm43uQ4Tidz0I=
-X-Received: by 2002:a05:620a:1987:b0:7b6:d1e1:a239 with SMTP id
- af79cd13be357-7bcd9726fdbmr1170048785a.2.1736462707619; 
- Thu, 09 Jan 2025 14:45:07 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE0QNO/T6o3vuADgXI1oC6LRgqRJ8ntdwirAL7Rbg2OdJu6DN9fzZJlc0BbA+F2wUnX7AwIFQ==
-X-Received: by 2002:a05:620a:1987:b0:7b6:d1e1:a239 with SMTP id
- af79cd13be357-7bcd9726fdbmr1170046685a.2.1736462707359; 
- Thu, 09 Jan 2025 14:45:07 -0800 (PST)
+ AJvYcCWHtDa6NP6K6Arm2VUApWFwfBX0hKUJ24fdRk1K/vDkc//wyV0awpglfTe3e8Eh8TDr64cgeQb2TI0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz4i5Ef5k0twxO2xhgbxv0OyqNrEXYvhBb6N9C6WDh+mJwMmzQL
+ /4H35/PhFYLGn5WDx4dbarezVEx6l3fHi652yrk/3AbDdWVQQ59DuX3A8bQHWcREr8bJN1kNFOa
+ ecIB2+zR/QE1IGylSqvtFphFWce13S3TVrDD3UgcF/NGxixWyDpwOWVcT+A+W5dqOXsU2Rn4YYA
+ ==
+X-Gm-Gg: ASbGncvvUNAYPBxcuwgE+UO+FCYR0pdvCGX/rDDcajt1lWRfGTt1d4k4nmeyY9Jx4O6
+ EpmEg0/IwGIR8Q3zmmw4ZcktFUzKVWpshs8x2DxuXpy/AmdcbSgMhhZXfFIn7U3npIm+WzeUYvG
+ 2I37xm1uixs0oOOXa2LTWd7GK26TwalM3L/Fe5D1swnStQ+Mdj6tyfRW+kJjvGvPr0u89JCZBE7
+ idT0044nyaRNO3W19K2FuduS3FV34YQSRtP5KmXHSmjleRR25CtXsrlgzJzKEgMGrhhLdYWCKfa
+ TGIzkLZXDxi+BUJw1+9wuWyKw+U=
+X-Received: by 2002:a05:6214:2b08:b0:6d3:f1ff:f8d6 with SMTP id
+ 6a1803df08f44-6df9b30738emr108960066d6.40.1736462904278; 
+ Thu, 09 Jan 2025 14:48:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IERbk3WixkRtlm8nMCQZXidiPJiFJRKasnYvJpm7q8FHylmEH/cY/lGovnu4Utnvps8aG6F9A==
+X-Received: by 2002:a05:6214:2b08:b0:6d3:f1ff:f8d6 with SMTP id
+ 6a1803df08f44-6df9b30738emr108959886d6.40.1736462904028; 
+ Thu, 09 Jan 2025 14:48:24 -0800 (PST)
 Received: from ?IPv6:2600:4040:5c4c:a000:e00f:8b38:a80e:5592?
  ([2600:4040:5c4c:a000:e00f:8b38:a80e:5592])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6dfade8969fsm2940406d6.112.2025.01.09.14.45.06
+ 6a1803df08f44-6dfad9b29f1sm3067576d6.67.2025.01.09.14.48.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 14:45:06 -0800 (PST)
-Message-ID: <25953e61d90e6b74fdeccbaae83efe66af40166f.camel@redhat.com>
-Subject: Re: [PATCH v2 1/2] drm/dp_mst: Fix drm RAD print
+ Thu, 09 Jan 2025 14:48:23 -0800 (PST)
+Message-ID: <da549a9d7ccc3033f0b488035cbbb1728273806b.camel@redhat.com>
+Subject: Re: [PATCH v2 2/2] drm/dp_mst: Add helper to get port number at
+ specific LCT from RAD
 From: Lyude Paul <lyude@redhat.com>
 To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org
 Cc: imre.deak@intel.com, ville.syrjala@linux.intel.com, hwentlan@amd.com
-Date: Thu, 09 Jan 2025 17:45:05 -0500
-In-Reply-To: <20241223040726.3985676-2-Wayne.Lin@amd.com>
+Date: Thu, 09 Jan 2025 17:48:22 -0500
+In-Reply-To: <20241223040726.3985676-3-Wayne.Lin@amd.com>
 References: <20241223040726.3985676-1-Wayne.Lin@amd.com>
- <20241223040726.3985676-2-Wayne.Lin@amd.com>
+ <20241223040726.3985676-3-Wayne.Lin@amd.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zJJ_m42dEYLUmvu481BH4BsU7JvtTPq0cYbSwIYk1sc_1736462708
+X-Mimecast-MFC-PROC-ID: TRSMwimsgEZ2BA7Q5W_CSgzP2Ogmy4VV6x4SETyxg28_1736462905
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,20 +104,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey there! Patch looks good to me, just one small change:
+Patch looks good to me, just one small change:
 
 On Mon, 2024-12-23 at 12:07 +0800, Wayne Lin wrote:
-> +=09/**
-> +=09 * @rad: Relative Address of the MST branch.
-> +=09 * For drm_dp_mst_topology_mgr::mst_primary, it's rad[8] are all 0,
-> +=09 * unset and unused. For MST branches connected after mst_primary,
-> +=09 * in each element of rad[] the nibbles are ordered by the most
-> +=09 * signifcant 4 bits first and the least significant 4 bits second.
-> +=09 */
-> =C2=A0=09u8 rad[8];
+> -=09for (i =3D 0; i < lct - 1; i++) {
+> -=09=09int shift =3D (i % 2) ? 0 : 4;
+> -=09=09int port_num =3D (rad[i / 2] >> shift) & 0xf;
+> +=09for (i =3D 1; i < lct; i++) {
+> +=09=09int port_num =3D
+> +=09=09=09=09drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
+> =C2=A0
 
-Mind changing drm_dp_mst_topology_mgr::mst_primary to
-&drm_dp_mst_topology_mgr.mst_primary so kdoc formats it properly?
+Mind dropping the line break here ^ ?
 
 With that change:
 
