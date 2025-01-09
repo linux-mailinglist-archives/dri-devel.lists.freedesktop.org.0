@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE66A080FB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 21:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9298A080FC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 21:00:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2830910EF8C;
-	Thu,  9 Jan 2025 20:00:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CE0D10EFA4;
+	Thu,  9 Jan 2025 20:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m0VuuKeT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dttMi7M2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39ABF10E49C;
- Thu,  9 Jan 2025 20:00:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56EC010EFA4;
+ Thu,  9 Jan 2025 20:00:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736452849; x=1767988849;
- h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=vynMtNauuUMbL3VtAvgCwi9somgL/5jlFXs0t1NCMUE=;
- b=m0VuuKeTHfTbRFb8xHbt2HTVsUXIR3lq0CRYyMe0JsBkfdThPGrvR1ud
- L9hzGHrpHL7UfbZqF+CbxSbkgiNK1WMmYcAv0vAHBMfSAaOdpK+yFf7bc
- txJbTKoKnHV6R9SRWAewFjHF9ZahA28QSsAXAaaf9AdJzDCu7nA3muHwx
- sdL+GRKxTlm9MiUDUXKxbmORP7PEw4WH5RZL4Hu9Kdfh8l7LTPg8Lx9PZ
- kXmxb8K3bbLgmqoccWQK1meYPtbkaN+5EdadpkYQRZRRjGPVAOX46KcIg
- zqARsq1DCNZ7NX4dgcPvEmZhH7FVnKE8Lx1aIO6LK54cBJWOrUEjKSLbL g==;
-X-CSE-ConnectionGUID: DKmDK1UXQUypaXkvPr34vA==
-X-CSE-MsgGUID: C6eksGWiS4SI7j9hY2hK+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36619165"
-X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="36619165"
+ t=1736452852; x=1767988852;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=xlpWJPaaUMWaNR0lC667XgbjZCYBsdCy7l/KnObWHTg=;
+ b=dttMi7M2oeS5TW4uJmI6v2wSOO8CKRwMPwxrTF3ikDSV0r2TnPhLys5m
+ f8HLPz2PMbyy9KgvsIffa5y7fCV4JYzANTsVbvubG5qhCqRq0UUPhPwad
+ 2rUAcC+fdaT3dZQY+AV/WPMLTh6hwaUYh2yg3uHaMaDXDKdugfpNBwtsj
+ NJeApanfNYMI2JP4z4XZ16nH0Arvo9daWZc+xcnqHjh4Sop8VRZEWXwAg
+ Tp9Kmr02VoMkRJATdyTOSQEnIDJeYe52NMZIwZ3Azx8pxzsr7uPMOqqm8
+ SZkm0W2EuLGfrQsa0s+VJiHpBr1z8W6TWOsJGR/sZU2xiOWlDyCOe6sqG A==;
+X-CSE-ConnectionGUID: i/UhoOr2TbSOh/cicLiCiA==
+X-CSE-MsgGUID: L152n3rySn64rDwc8ulqQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36619174"
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="36619174"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 12:00:48 -0800
-X-CSE-ConnectionGUID: hCQ3ma4sTuyhSIiTS4s9qw==
-X-CSE-MsgGUID: 9OXUmn45Rc+26oIhpLvGSw==
+ 09 Jan 2025 12:00:51 -0800
+X-CSE-ConnectionGUID: dK8U8YxSRGW/VU/uM9fvAQ==
+X-CSE-MsgGUID: LGX0yJk2TFK5Co0QKZ55tw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="126798553"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="126798565"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2025 12:00:45 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2025 12:00:48 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Subject: [PATCH v7 00/14] Display Global Histogram
-Date: Fri, 10 Jan 2025 01:15:28 +0530
-Message-Id: <20250110-dpst-v7-0-605cb0271162@intel.com>
+Date: Fri, 10 Jan 2025 01:15:29 +0530
+Subject: [PATCH v7 01/14] drm: Define histogram structures exposed to user
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFkngGcC/03MQQ7CIBCF4as0sxYCk0pbV97DuKB0akkEmoEaT
- dO7S1y5/JL/vR0ysacMl2YHppfPPsWK7tSAW2x8kPBTNaDCVqPuxbTmIlxPbta9MjiOUNOVafb
- v383tXj1zCqIsTPZvrAZt8Kxaibo1ZugECstblCzDxmX5XH0s9JQuBTiOL69IjfuZAAAA
-X-Change-ID: 20241218-dpst-c8ecf18062bb
+Message-Id: <20250110-dpst-v7-1-605cb0271162@intel.com>
+References: <20250110-dpst-v7-0-605cb0271162@intel.com>
+In-Reply-To: <20250110-dpst-v7-0-605cb0271162@intel.com>
 To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
  intel-xe@lists.freedesktop.org
 Cc: dmitry.baryshkov@linaro.org, suraj.kandpal@intel.com, 
@@ -74,133 +72,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EDITME: Imported from f20241218-dpst-v7-0-81bfe7d08c2d@intel.com
-        Please review before sending.
+Display Histogram is an array of bins and can be generated in many ways
+referred to as modes.
+Ex: HSV max(RGB), Wighted RGB etc.
 
-Display histogram is a hardware functionality where a statistics for 'n'
-number of frames is generated to form a histogram data. This is notified
-to the user via histogram event. Compositor will then upon sensing the
-histogram event will read the histogram data from KMD via crtc property.
-User can use this histogram and apply various equilization techniques to
-enhance the image or use this histogram for shaders.
+Understanding the histogram data format(Ex: HSV max(RGB))
+Histogram is just the pixel count.
+For a maximum resolution of 10k (10240 x 4320 = 44236800)
+25 bits should be sufficient to represent this along with a buffer of 7
+bits(future use) u32 is being considered.
+max(RGB) can be 255 i.e 0xFF 8 bit, considering the most significant 5
+bits, hence 32 bins.
+Below mentioned algorithm illustrates the histogram generation in
+hardware.
 
-Display ImageEnhancemenT is a hardware that interpolates the LUT value
-to generate the enhanced output image. 1DLUT value is to be provided by
-the user via crtc property.
+hist[32] = {0};
+for (i = 0; i < resolution; i++) {
+	bin = max(RGB[i]);
+	bin = bin >> 3;	/* consider the most significant bits */
+	hist[bin]++;
+}
+If the entire image is Red color then max(255,0,0) is 255 so the pixel
+count of each pixels will be placed in the last bin. Hence except
+hist[31] all other bins will have a value zero.
+Generated histogram in this case would be hist[32] = {0,0,....44236800}
 
-One such library Global Histogram Enhancement(GHE) will take the histogram
-as input and apply the algorithm to enhance the density and then
-return the enhanced LUT factor. This library can be located @
-https://github.com/intel/ghe
+Description of the structures, properties defined are documented in the
+header file include/uapi/drm/drm_mode.h
 
-The corresponding mutter changes to enable/disable histogram, read the
-histogram data, communicate with the library and write the enhanced data
-back to the KMD is also pushed for review at https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3873
-and https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/3873/diffs?commit_id=270808ca7c8be48513553d95b4a47541f5d40206
-The IGT changes for validating the histogram event and reading the
-histogram is also pushed for review at https://patchwork.freedesktop.org/series/135789/
-
-NOTE: i915 driver changes for histogram and IET LUT is not fully tested
-and the series is pushed to get the inital feel of the histogram/IET LUT
-usage as well as to get started with the review.
-
-Test-with: 20240705091333.328322-1-mohammed.thasleem@intel.com
-
-Arun R Murthy (10):
-  drm/crtc: Add histogram properties
-  drm/crtc: Expose API to create drm crtc property for histogram
-  drm/i915/histogram: Define registers for histogram
-  drm/i915/histogram: Add support for histogram
-  drm/xe: Add histogram support to Xe builds
-  drm/i915/histogram: histogram interrupt handling
-  drm/i915/display: handle drm-crtc histogram property updates
-  drm/i915/histogram: histogram delay counter doesnt reset
-  drm/i915/histogram: Histogram changes for Display 20+
-  drm/i915/histogram: Enable pipe dithering
-
- drivers/gpu/drm/drm_atomic_state_helper.c     |   6 +
- drivers/gpu/drm/drm_atomic_uapi.c             |  17 +
- drivers/gpu/drm/drm_crtc.c                    |  30 ++
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/display/intel_atomic.c   |   1 +
- drivers/gpu/drm/i915/display/intel_crtc.c     |   7 +
- drivers/gpu/drm/i915/display/intel_display.c  |  17 +
- .../gpu/drm/i915/display/intel_display_irq.c  |   6 +-
- .../drm/i915/display/intel_display_types.h    |   4 +
- .../gpu/drm/i915/display/intel_histogram.c    | 380 ++++++++++++++++++
- .../gpu/drm/i915/display/intel_histogram.h    |  40 ++
- .../drm/i915/display/intel_histogram_regs.h   |  75 ++++
- drivers/gpu/drm/i915/i915_reg.h               |   5 +-
- drivers/gpu/drm/xe/Makefile                   |   1 +
- include/drm/drm_crtc.h                        |  49 +++
- include/uapi/drm/drm_mode.h                   |  11 +
- 16 files changed, 647 insertions(+), 3 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/display/intel_histogram.c
- create mode 100644 drivers/gpu/drm/i915/display/intel_histogram.h
- create mode 100644 drivers/gpu/drm/i915/display/intel_histogram_regs.h
-
---
-2.25.1
-
+Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
-Arun R Murthy (4):
-      drm: Define histogram structures exposed to user
-      drm: Define ImageEnhancemenT LUT structures exposed to user
-      drm/crtc: Expose API to create drm crtc property for histogram
-      drm/crtc: Expose API to create drm crtc property for IET LUT
+ include/uapi/drm/drm_mode.h | 59 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
- drivers/gpu/drm/drm_atomic_state_helper.c |  23 +++++++
- drivers/gpu/drm/drm_atomic_uapi.c         |  28 ++++++++
- drivers/gpu/drm/drm_crtc.c                |  97 +++++++++++++++++++++++++++
- include/drm/drm_crtc.h                    |  77 ++++++++++++++++++++++
- include/uapi/drm/drm_mode.h               | 105 ++++++++++++++++++++++++++++++
- 5 files changed, 330 insertions(+)
----
-base-commit: 78526dfb8799485890dae3877fea308e9501879c
-change-id: 20241218-dpst-c8ecf18062bb
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..7a7039381142bb5dba269bdaec42c18be34e2d05 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -1355,6 +1355,65 @@ struct drm_mode_closefb {
+ 	__u32 pad;
+ };
+ 
++/*
++ * Maximum resolution at present 10k, 10240x4320 = 44236800
++ * can be denoted in 25bits. With an additional 7 bits in buffer each bin
++ * can be a u32 value.
++ * Maximum value of max(RGB) is 255, so max 255 bins.
++ * If the most significant 5 bits are considered, then bins = 0xff >> 3
++ * will be 32 bins.
++ * For illustration consider a full RED image of 10k resolution considering all
++ * 8 bits histogram would look like hist[255] = {0,0,....44236800}
++ */
++#define DRM_MODE_HISTOGRAM_HSV_MAX_RGB			(1 << 0)
++
++/**
++ * struct drm_histogram_caps
++ *
++ * @histogram_mode: histogram generation modes, defined in the above macros
++ * @bins_count: number of bins for a chosen histogram mode. For illustration
++ *		refer the above defined histogram mode.
++ */
++struct drm_histogram_caps {
++	u8 histogram_mode;
++	u32 bins_count;
++};
++
++/**
++ * struct drm_histogram_config
++ *
++ * @enable: flag to enable/disable histogram
++ * @hist_mode: histogram mode(HSV max(RGB), RGB, LUMA etc)
++ * @reserved1: Reserved for future use
++ * @reserved2: Reserved for future use
++ * @reserved3: Reserved for future use
++ * @reserved4: Reserved for future use
++ */
++struct drm_histogram_config {
++	bool enable;
++	u8 hist_mode;
++	u32 reserved1;
++	u32 reserved2;
++	u32 reserved3;
++	u32 reserved4;
++};
++
++/**
++ * struct drm_histogram
++ *
++ * @config: histogram configuration data pointed by struct drm_histogram_config
++ * @data_ptr: pointer to the array of histogram.
++ *	      Histogram is an array of bins. Data format for each bin depends
++ *	      on the histogram mode. Refer to the above histogram modes for
++ *	      more information.
++ * @nr_elements: number of bins in the histogram.
++ */
++struct drm_histogram {
++	struct drm_histogram_config config;
++	__u64 data_ptr;
++	__u32 nr_elements;
++};
++
+ #if defined(__cplusplus)
+ }
+ #endif
 
-Best regards,
---
-Arun R Murthy <arun.r.murthy@intel.com>
-
----
-Arun R Murthy (14):
-      drm: Define histogram structures exposed to user
-      drm: Define ImageEnhancemenT LUT structures exposed to user
-      drm/crtc: Expose API to create drm crtc property for histogram
-      drm/crtc: Expose API to create drm crtc property for IET LUT
-      drm/i915/histogram: Define registers for histogram
-      drm/i915/histogram: Add support for histogram
-      drm/xe: Add histogram support to Xe builds
-      drm/i915/histogram: histogram interrupt handling
-      drm/i915/histogram: Hook i915 histogram with drm histogram
-      drm/i915/iet: Add support to writing the IET LUT data
-      drm/i915/crtc: Hook i915 IET LUT with the drm IET properties
-      drm/i915/histogram: histogram delay counter doesnt reset
-      drm/i915/histogram: Histogram changes for Display 20+
-      drm/i915/histogram: Enable pipe dithering
-
- drivers/gpu/drm/drm_atomic_state_helper.c          |  23 ++
- drivers/gpu/drm/drm_atomic_uapi.c                  |  28 ++
- drivers/gpu/drm/drm_crtc.c                         | 127 +++++++
- drivers/gpu/drm/i915/Makefile                      |   1 +
- drivers/gpu/drm/i915/display/intel_crtc.c          |  10 +
- drivers/gpu/drm/i915/display/intel_display.c       |  14 +
- drivers/gpu/drm/i915/display/intel_display_irq.c   |   6 +-
- drivers/gpu/drm/i915/display/intel_display_types.h |   2 +
- drivers/gpu/drm/i915/display/intel_histogram.c     | 396 +++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_histogram.h     |  55 +++
- .../gpu/drm/i915/display/intel_histogram_regs.h    |  75 ++++
- drivers/gpu/drm/i915/i915_reg.h                    |   5 +-
- drivers/gpu/drm/xe/Makefile                        |   1 +
- include/drm/drm_crtc.h                             |  80 +++++
- include/uapi/drm/drm_mode.h                        | 109 ++++++
- 15 files changed, 929 insertions(+), 3 deletions(-)
----
-base-commit: 78526dfb8799485890dae3877fea308e9501879c
-change-id: 20241218-dpst-c8ecf18062bb
-
-Best regards,
 -- 
-Arun R Murthy <arun.r.murthy@intel.com>
+2.25.1
 
