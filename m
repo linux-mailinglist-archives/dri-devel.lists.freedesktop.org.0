@@ -2,54 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152B8A077DC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326C6A077F9
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:44:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E51F10EDDD;
-	Thu,  9 Jan 2025 13:41:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF2510EDE0;
+	Thu,  9 Jan 2025 13:44:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="moFGecL5";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="xmWMGqN6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F28610EDDD
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:41:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=VMjcbXn3TmNgsHLS6Icm7lg61SsE5KPeQZeMVpDpmHY=; b=moFGecL59DmjaIdaXgu3Y8A5za
- w9Inl7KZvobsc/6HUgy84x5zLICNvscrjcoJn3B0UdSCza4c//7ArSqrFslxRb4D9cAB2Gzf+Limc
- zXcZcUG1AA8NKoHwLAndACtxFnIN14R2JXQKW2HKABD60S308AUrbSEll+JG6FAhO5+dKkJm+V3XE
- 34OzoeoOHUw0ivsDmbmO8MVfpM0I/txdkcqnew8bn9vMz9GtU+2X8fctYoyNHwyMJmsAVxFftQpAr
- haOiMLiaESkFH7Cllnrt1pJyi3dBGYBCVe3/fclTnpVX6K3SLjNz/9nWAKsK970FKlKNug8FAjKWa
- O6J3E6Kw==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tVsn3-00DZeM-TP; Thu, 09 Jan 2025 14:41:37 +0100
-Message-ID: <8afc7179-7ea4-4350-8382-618c90658c94@igalia.com>
-Date: Thu, 9 Jan 2025 13:41:37 +0000
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF1810EDE0
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:44:39 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-4362f61757fso9837965e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 05:44:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1736430277; x=1737035077;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ypYU+D7GLRSD5sI3qSNi4VvY56rGppry2QtFbqjX3IY=;
+ b=xmWMGqN65EpR8VySaNfiWWKXhcFxShUGXQDhDSb2xVHaPMTeIXc5x5Ln5p67ClV18x
+ WjIZuPj4DfS7Gi57up3R1G4i9sqd2P4+yN6vJKuPVAfK58J0qf5tnmLiKARnJxWbjMSU
+ vmP8WW9SGZjHp2Fdecc4Nx7ryysXRN24prcS1pBUkCjhUiRZKBNBPpP0YwuPvOWIYa3t
+ 5UQ6MKiP5pqHLv6adxq+1tl9pTPYj4u6dg5ESYsBhJTHMtFHBvxLStJo20QgJqZAXc8V
+ BbecHDsD3GBX4i3rUUXpRju0lONq6Fp45GtqHpr8JnQi9AasEP1elDUrukQAL9cePmtA
+ 37IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736430277; x=1737035077;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ypYU+D7GLRSD5sI3qSNi4VvY56rGppry2QtFbqjX3IY=;
+ b=bbOJ4MStNwSd+VKw0UHU+T7cJx+IuhybbXEHzaLnBFczWFEh6L9ZjToIghcgwTMq2k
+ ND+sZW7KJPhzVflEHs7RrvhZ964F26y+P5mcjdZIscD446+0+JMu1Y0AmWAlmUrIzcrz
+ tjJQtPIHjiU+cdZUfjGtbAfpyK3hrALHu3YQZ3EF/sB+xdykIWI8/KwFs45A5MfRKzyi
+ HPSQ5PkYYy8k7MY/N43HubW+8OwJgQu9OxF8e4Eu7c3Cgvhxz9+J0a0aElgCM4VYKQuu
+ zMq73GdYa+/sgbdvz16B3UZTRl7dZPWQHaQfGx4+gbo19PY8VGNJk8OPVsyCTX1LSyCT
+ 6NYA==
+X-Gm-Message-State: AOJu0Ywol3CSq95bkgHcC8SoMIxxKbVoJYEfedoqpMVrLCVDw1kAAWAd
+ xCGm1jSTVCoOKHSJdSqYr3bkSIqKkaEsB6q5Nfs5hWBHCRv93TX5wT3u4ikPM4w=
+X-Gm-Gg: ASbGncuZ9hsER5p9Jxm/Iei9T+68G3stVYa/AB6T/f+foFXYeYZJs6N1VcQajWPzUqc
+ +f8OKP/icjRe8rVmzThncimZndtX2rzSodsIdo7hQCDyRK78ww7f79pwLa5DjvvDxzVPTTKPep5
+ CWRxXywzmzOB8dRZDDjs+Xn/ZcQXmxyKGeAtEV8j0qm5M7Wc7mNGS2TEPesQ1RKIy/lFywW51Zk
+ olMTmGU7H5Mky/0v1i95/Ija8jvSd2aH2ExlMmbOX7WGBnA9kg6l9sSc0Wmdqs3O3MSzH7T
+X-Google-Smtp-Source: AGHT+IHYbRf/Xl1/HTWTTR0PbnhOKbUOwUNQEA9pSDIcGL1byIReR1tFyEabtoI22iqUyeZZOPtzbA==
+X-Received: by 2002:a5d:6da6:0:b0:385:f527:be6d with SMTP id
+ ffacd0b85a97d-38a8730fabamr5715141f8f.36.1736430277448; 
+ Thu, 09 Jan 2025 05:44:37 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a8e38325esm1865623f8f.27.2025.01.09.05.44.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jan 2025 05:44:37 -0800 (PST)
+Message-ID: <036bda23-a6a0-46f6-844a-567805cd0f7e@ursulin.net>
+Date: Thu, 9 Jan 2025 13:44:36 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 16/18] drm/sched: Connect with dma-fence deadlines
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>, Rob Clark <robdclark@gmail.com>
-References: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
- <20250108183528.41007-17-tvrtko.ursulin@igalia.com>
- <562bc7ae-ba04-4dc9-a524-3bbf3e8afd50@amd.com>
+Subject: Re: [PATCH 1/3] drm/sched: Document run_job() refcount hazard
+To: Philipp Stanner <phasta@kernel.org>, Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <pstanner@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250109133710.39404-2-phasta@kernel.org>
+ <20250109133710.39404-4-phasta@kernel.org>
 Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <562bc7ae-ba04-4dc9-a524-3bbf3e8afd50@amd.com>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250109133710.39404-4-phasta@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,114 +97,105 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 09/01/2025 13:07, Christian König wrote:
-> Am 08.01.25 um 19:35 schrieb Tvrtko Ursulin:
->> Now that the scheduling policy is deadline based it feels completely
->> natural to allow propagating externaly set deadlines to the scheduler.
->>
->> Scheduler deadlines are not a guarantee but as the dma-fence facility is
->> already in use by userspace lets wire it up.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@redhat.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <pstanner@redhat.com>
->> Cc: Rob Clark <robdclark@gmail.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_entity.c | 24 ++++++++++++++++++++++--
->>   1 file changed, 22 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->> b/drivers/gpu/drm/scheduler/sched_entity.c
->> index 98c78d1373d8..db5d34310b18 100644
->> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->> @@ -410,7 +410,16 @@ ktime_t
->>   drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
->>                     struct drm_sched_job *job)
->>   {
->> -    return __drm_sched_entity_get_job_deadline(entity, job->submit_ts);
->> +    struct drm_sched_fence *s_fence = job->s_fence;
->> +    struct dma_fence *fence = &s_fence->finished;
->> +    ktime_t deadline;
->> +
->> +    deadline = __drm_sched_entity_get_job_deadline(entity, 
->> job->submit_ts);
->> +    if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, 
->> &fence->flags) &&
->> +        ktime_before(s_fence->deadline, deadline))
->> +        deadline = s_fence->deadline;
->> +
->> +    return deadline;
->>   }
->>   /*
->> @@ -579,9 +588,12 @@ void drm_sched_entity_select_rq(struct 
->> drm_sched_entity *entity)
->>    */
->>   void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>   {
->> +    struct drm_sched_fence *s_fence = sched_job->s_fence;
->>       struct drm_sched_entity *entity = sched_job->entity;
->> -    bool first;
->> +    struct dma_fence *fence = &s_fence->finished;
->> +    ktime_t fence_deadline;
->>       ktime_t submit_ts;
->> +    bool first;
->>       trace_drm_sched_job(sched_job, entity);
->>       atomic_inc(entity->rq->sched->score);
->> @@ -593,6 +605,11 @@ void drm_sched_entity_push_job(struct 
->> drm_sched_job *sched_job)
->>        * Make sure to set the submit_ts first, to avoid a race.
->>        */
->>       sched_job->submit_ts = submit_ts = ktime_get();
->> +    if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &fence->flags))
->> +        fence_deadline = s_fence->deadline;
->> +    else
->> +        fence_deadline = KTIME_MAX;
->> +
+On 09/01/2025 13:37, Philipp Stanner wrote:
+> From: Philipp Stanner <pstanner@redhat.com>
 > 
-> That makes no sense. When the job is pushed the fence is not made public 
-> yet.
+> drm_sched_backend_ops.run_job() returns a dma_fence for the scheduler.
+> That fence is signalled by the driver once the hardware completed the
+> associated job. The scheduler does not increment the reference count on
+> that fence, but implicitly expects to inherit this fence from run_job().
 > 
-> So no deadline can be set on the fence.
-
-You are correct, the push side of things was a mistake a laziness that I 
-did not remove it from the RFC.
-
->>       first = spsc_queue_push(&entity->job_queue, 
->> &sched_job->queue_node);
->>       /* first job wakes up scheduler */
->> @@ -601,6 +618,9 @@ void drm_sched_entity_push_job(struct 
->> drm_sched_job *sched_job)
->>           submit_ts = __drm_sched_entity_get_job_deadline(entity,
->>                                   submit_ts);
->> +        if (ktime_before(fence_deadline, submit_ts))
->> +            submit_ts = fence_deadline;
->> +
+> This is relatively subtle and prone to misunderstandings.
 > 
-> Yeah, that won't work at all as far as I can see.
+> This implies that, to keep a reference for itself, a driver needs to
+> call dma_fence_get() in addition to dma_fence_init() in that callback.
+> 
+> It's further complicated by the fact that the scheduler even decrements
+> the refcount in drm_sched_run_job_work() since it created a new
+> reference in drm_sched_fence_scheduled(). It does, however, still use
+> its pointer to the fence after calling dma_fence_put() - which is safe
+> because of the aforementioned new reference, but actually still violates
+> the refcounting rules.
+> 
+> Improve the explanatory comment for that decrement.
+> 
+> Move the call to dma_fence_put() to the position behind the last usage
+> of the fence.
+> 
+> Document the necessity to increment the reference count in
+> drm_sched_backend_ops.run_job().
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 10 +++++++---
+>   include/drm/gpu_scheduler.h            | 19 +++++++++++++++----
+>   2 files changed, 22 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 57da84908752..5f46c01eb01e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1218,15 +1218,19 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>   	drm_sched_fence_scheduled(s_fence, fence);
+>   
+>   	if (!IS_ERR_OR_NULL(fence)) {
+> -		/* Drop for original kref_init of the fence */
+> -		dma_fence_put(fence);
+> -
+>   		r = dma_fence_add_callback(fence, &sched_job->cb,
+>   					   drm_sched_job_done_cb);
+>   		if (r == -ENOENT)
+>   			drm_sched_job_done(sched_job, fence->error);
+>   		else if (r)
+>   			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
+> +
+> +		/*
+> +		 * s_fence took a new reference to fence in the call to
+> +		 * drm_sched_fence_scheduled() above. The reference passed by
+> +		 * run_job() above is now not needed any longer. Drop it.
+> +		 */
+> +		dma_fence_put(fence);
+>   	} else {
+>   		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+>   				   PTR_ERR(fence) : 0);
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 95e17504e46a..d5cd2a78f27c 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -420,10 +420,21 @@ struct drm_sched_backend_ops {
+>   					 struct drm_sched_entity *s_entity);
+>   
+>   	/**
+> -         * @run_job: Called to execute the job once all of the dependencies
+> -         * have been resolved.  This may be called multiple times, if
+> -	 * timedout_job() has happened and drm_sched_job_recovery()
+> -	 * decides to try it again.
+> +	 * @run_job: Called to execute the job once all of the dependencies
+> +	 * have been resolved. This may be called multiple times, if
+> +	 * timedout_job() has happened and drm_sched_job_recovery() decides to
+> +	 * try it again.
+> +	 *
+> +	 * @sched_job: the job to run
+> +	 *
+> +	 * Returns: dma_fence the driver must signal once the hardware has
+> +	 *	completed the job ("hardware fence").
+> +	 *
+> +	 * Note that the scheduler expects to 'inherit' its own reference to
+> +	 * this fence from the callback. It does not invoke an extra
+> +	 * dma_fence_get() on it. Consequently, this callback must take a
+> +	 * reference for the scheduler, and additional ones for the driver's
+> +	 * respective needs.
 
-It works from the pop side though.
+Another thing which would be really good to document here is what other 
+things run_job can return apart from the fence.
 
-When job N is scheduled, deadline is taken from N+1 and tree 
-re-balanced. At the point of N scheduling N+1 can definitely have a real 
-deadline set.
-
-What does not work is for queue depth of one. No way at the moment to 
-"bump" the entity in the tree while N is waiting for submission because 
-we cannot dereference the entity from the job. (I had that in v1 of the 
-series and realized it was unsafe.)
-
-I (very) briefly though about reference counting entities but quickly 
-had a feeling it would be annoying. So for now this patch only offers a 
-partial solution.
+For instance amdgpu can return an ERR_PTR but I haven't looked into 
+other drivers.
 
 Regards,
 
 Tvrtko
 
->>           sched = drm_sched_rq_add_entity(entity->rq, entity, submit_ts);
->>           if (sched)
->>               drm_sched_wakeup(sched);
-> 
+>   	 */
+>   	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+>   
