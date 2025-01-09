@@ -2,54 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02027A07CCB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 17:03:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DFCA07CD3
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 17:06:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD5D110EEC1;
-	Thu,  9 Jan 2025 16:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96DCE10EED9;
+	Thu,  9 Jan 2025 16:06:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eDvqLHmx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kc6YdHA+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2296610EEC1
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 16:03:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=GGCLQmSKx7Bw4phSZMcqNzehhxYUWFOo+FNhvundpFY=; b=eDvqLHmxn439HRKE8r0018T5RI
- NEgaqbMcuduHtUtHAB+qIlOLcots7ZHW7M/MKn2+kS6githKF9evmOafmHpB7Pwthbl09siWlNgfQ
- a71KK/Alz8XlZ0nbB2W1Bk9RYVRCf2P3pBOYQPY/KLPr/1pRBlEKHqJi4xCx3qF/bQcuWnE2aGu+p
- 4QZ7eXxypyo9FYmL/dTk+zTq/VajWpbH6bto0rnAcsjKb1zTgFHjTzB63tz2V27jO/p5Buyl4PRMG
- Brzv6Ns4Jo4UsqinT5Fz2YqNb6MqiKRB1lrBLHZ1el5SBvfhpeatO9km97KAGziAlp2BPYO44s2kA
- y/5hLz0w==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tVv0K-00DcgZ-9b; Thu, 09 Jan 2025 17:03:28 +0100
-Message-ID: <ce62e2a0-6ed2-4960-97b7-8b51cf2ff8a7@igalia.com>
-Date: Thu, 9 Jan 2025 16:03:27 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 075FD10EED0;
+ Thu,  9 Jan 2025 16:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736438772; x=1767974772;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=p4XkuorIpNoSEU2HBpQ1O27DvwV5LvulfkLyMZfyAfg=;
+ b=kc6YdHA+f+SZjxp8KzB62WRPem4bWEcS8YiNIy7PHCFhyaofuvB7NV2f
+ IME/SDVAnup+dTqH7ZbtMCq9fv9J0SuKqWwJXS7kJ4vCMYyQd6QJ+rAGJ
+ HtU12PcqSeg9VB8k6y6wHHl1R6cTpk8jd36TA0E7vtNxn3Q7qAe6ASH+K
+ Cy2TYu9HinHmKPKVsP9IBl9saTzUeXYmvyHiUAo2uiGZhkupQ80VV3PO8
+ y5YyooVO2/vCmT5qwGtIJeirTxnlRnELWKQp69/r9hKG2BnTrOXsJApF3
+ tA95IbVgsudvFVzQa72Wt0VX64Ain9vpUzJCnQ/LwOaQ763e6zidg1JzE g==;
+X-CSE-ConnectionGUID: +pGtiyA8Q1u78MBM62QriA==
+X-CSE-MsgGUID: B19gXbXRQP6Dn7E53xDSTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="62086135"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="62086135"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 08:05:55 -0800
+X-CSE-ConnectionGUID: gYM7jUeoQau2+oJbNyjiWQ==
+X-CSE-MsgGUID: 8PkbOk3sQpqIzHIL0w463A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="103967271"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.245.241])
+ ([10.245.245.241])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 08:05:50 -0800
+Message-ID: <91c904f8-ba47-4595-be65-6fb57dcc9c64@intel.com>
+Date: Thu, 9 Jan 2025 16:05:47 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 16/18] drm/sched: Connect with dma-fence deadlines
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>, Rob Clark <robdclark@gmail.com>
-References: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
- <20250108183528.41007-17-tvrtko.ursulin@igalia.com>
- <562bc7ae-ba04-4dc9-a524-3bbf3e8afd50@amd.com>
- <8afc7179-7ea4-4350-8382-618c90658c94@igalia.com>
- <5a8c5f2c-b4fe-4061-a465-ba37ec9a568a@amd.com>
+Subject: Re: [PATCH v2 23/25] drm/xe: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-24-tzimmermann@suse.de>
 Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <5a8c5f2c-b4fe-4061-a465-ba37ec9a568a@amd.com>
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250109150310.219442-24-tzimmermann@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,149 +83,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 09/01/2025 14:57, Thomas Zimmermann wrote:
+> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch
+> and buffer size. Align the pitch to a multiple of 8. Align the
+> buffer size according to hardware requirements.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> ---
+>   drivers/gpu/drm/xe/xe_bo.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index e6c896ad5602..d75e3c39ab14 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -8,6 +8,7 @@
+>   #include <linux/dma-buf.h>
+>   
+>   #include <drm/drm_drv.h>
+> +#include <drm/drm_dumb_buffers.h>
+>   #include <drm/drm_gem_ttm_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/ttm/ttm_device.h>
+> @@ -2535,14 +2536,13 @@ int xe_bo_dumb_create(struct drm_file *file_priv,
+>   	struct xe_device *xe = to_xe_device(dev);
+>   	struct xe_bo *bo;
+>   	uint32_t handle;
+> -	int cpp = DIV_ROUND_UP(args->bpp, 8);
+>   	int err;
+>   	u32 page_size = max_t(u32, PAGE_SIZE,
+>   		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K);
+>   
+> -	args->pitch = ALIGN(args->width * cpp, 64);
+> -	args->size = ALIGN(mul_u32_u32(args->pitch, args->height),
+> -			   page_size);
+> +	err = drm_mode_size_dumb(dev, args, SZ_64, page_size);
 
-On 09/01/2025 13:51, Christian König wrote:
-> Am 09.01.25 um 14:41 schrieb Tvrtko Ursulin:
->>
->> On 09/01/2025 13:07, Christian König wrote:
->>> Am 08.01.25 um 19:35 schrieb Tvrtko Ursulin:
->>>> Now that the scheduling policy is deadline based it feels completely
->>>> natural to allow propagating externaly set deadlines to the scheduler.
->>>>
->>>> Scheduler deadlines are not a guarantee but as the dma-fence 
->>>> facility is
->>>> already in use by userspace lets wire it up.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Danilo Krummrich <dakr@redhat.com>
->>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>> Cc: Philipp Stanner <pstanner@redhat.com>
->>>> Cc: Rob Clark <robdclark@gmail.com>
->>>> ---
->>>>   drivers/gpu/drm/scheduler/sched_entity.c | 24 
->>>> ++++++++++++++++++++++--
->>>>   1 file changed, 22 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->>>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>>> index 98c78d1373d8..db5d34310b18 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>> @@ -410,7 +410,16 @@ ktime_t
->>>>   drm_sched_entity_get_job_deadline(struct drm_sched_entity *entity,
->>>>                     struct drm_sched_job *job)
->>>>   {
->>>> -    return __drm_sched_entity_get_job_deadline(entity, 
->>>> job->submit_ts);
->>>> +    struct drm_sched_fence *s_fence = job->s_fence;
->>>> +    struct dma_fence *fence = &s_fence->finished;
->>>> +    ktime_t deadline;
->>>> +
->>>> +    deadline = __drm_sched_entity_get_job_deadline(entity, 
->>>> job->submit_ts);
->>>> +    if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, 
->>>> &fence->flags) &&
->>>> +        ktime_before(s_fence->deadline, deadline))
->>>> +        deadline = s_fence->deadline;
->>>> +
->>>> +    return deadline;
->>>>   }
->>>>   /*
->>>> @@ -579,9 +588,12 @@ void drm_sched_entity_select_rq(struct 
->>>> drm_sched_entity *entity)
->>>>    */
->>>>   void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->>>>   {
->>>> +    struct drm_sched_fence *s_fence = sched_job->s_fence;
->>>>       struct drm_sched_entity *entity = sched_job->entity;
->>>> -    bool first;
->>>> +    struct dma_fence *fence = &s_fence->finished;
->>>> +    ktime_t fence_deadline;
->>>>       ktime_t submit_ts;
->>>> +    bool first;
->>>>       trace_drm_sched_job(sched_job, entity);
->>>>       atomic_inc(entity->rq->sched->score);
->>>> @@ -593,6 +605,11 @@ void drm_sched_entity_push_job(struct 
->>>> drm_sched_job *sched_job)
->>>>        * Make sure to set the submit_ts first, to avoid a race.
->>>>        */
->>>>       sched_job->submit_ts = submit_ts = ktime_get();
->>>> +    if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, 
->>>> &fence->flags))
->>>> +        fence_deadline = s_fence->deadline;
->>>> +    else
->>>> +        fence_deadline = KTIME_MAX;
->>>> +
->>>
->>> That makes no sense. When the job is pushed the fence is not made 
->>> public yet.
->>>
->>> So no deadline can be set on the fence.
->>
->> You are correct, the push side of things was a mistake a laziness that 
->> I did not remove it from the RFC.
->>
->>>>       first = spsc_queue_push(&entity->job_queue, 
->>>> &sched_job->queue_node);
->>>>       /* first job wakes up scheduler */
->>>> @@ -601,6 +618,9 @@ void drm_sched_entity_push_job(struct 
->>>> drm_sched_job *sched_job)
->>>>           submit_ts = __drm_sched_entity_get_job_deadline(entity,
->>>>                                   submit_ts);
->>>> +        if (ktime_before(fence_deadline, submit_ts))
->>>> +            submit_ts = fence_deadline;
->>>> +
->>>
->>> Yeah, that won't work at all as far as I can see.
->>
->> It works from the pop side though.
-> 
-> Yeah, but only partially.
-> 
->>
->> When job N is scheduled, deadline is taken from N+1 and tree 
->> re-balanced. At the point of N scheduling N+1 can definitely have a 
->> real deadline set.
-> 
-> The fundamental design problem with the fence deadline approach is that 
-> it sets the deadline only on the last submission instead of the first one.
-> 
-> E.g. unigine heaven for example uses 3 submissions on a typical system.
-> 
-> We would somehow need to propagate a deadline to previous submissions 
-> for this to work halve way correctly.
+AFAICT this looks to change the behaviour, where u64 size was 
+technically possible and was allowed given that args->size is u64, but 
+this helper is limiting the size to u32. Is that intentional? If so, we 
+should probably make that clear in the commit message.
 
-I played with this in one of my branches but was lacking a good test 
-case. In any case clean solution(s) would not be easy with the current 
-scheduler design.
+> +	if (err)
+> +		return err;
+>   
+>   	bo = xe_bo_create_user(xe, NULL, NULL, args->size,
+>   			       DRM_XE_GEM_CPU_CACHING_WC,
 
-Regards,
-
-Tvrtko
-
->> What does not work is for queue depth of one. No way at the moment to 
->> "bump" the entity in the tree while N is waiting for submission 
->> because we cannot dereference the entity from the job. (I had that in 
->> v1 of the series and realized it was unsafe.)
->>
->> I (very) briefly though about reference counting entities but quickly 
->> had a feeling it would be annoying. So for now this patch only offers 
->> a partial solution.
-> 
-> Nah, please not.
-> 
-> Regards,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>>           sched = drm_sched_rq_add_entity(entity->rq, entity, 
->>>> submit_ts);
->>>>           if (sched)
->>>>               drm_sched_wakeup(sched);
->>>
-> 
