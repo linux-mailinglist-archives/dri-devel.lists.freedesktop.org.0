@@ -2,124 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6C6A07A7F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 16:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C668A079DE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 15:58:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1354510EE68;
-	Thu,  9 Jan 2025 15:03:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE37310EE21;
+	Thu,  9 Jan 2025 14:58:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2FBrSVfz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nFY2Y+gq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2FBrSVfz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nFY2Y+gq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cghjW+RH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 694A210EE5B;
- Thu,  9 Jan 2025 15:03:30 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 159631F394;
- Thu,  9 Jan 2025 15:03:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736435009; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J6bJ5PrU9Ov2p7iX5J2NO4bVvOCLiJfa9aMPiWlnp7E=;
- b=2FBrSVfz1w+KP4I3u2gtjDD/MtYOx10aHYP/LL4/WsL1NbmD7aChz9t9GsCjwTPrzUywXL
- YLUrswaNhkQ+mf7kpSSRU4ubGefcEk+XNQYTQzS6g9qNntPm9eYMCpwWYtSOQr4QlsroFD
- HefHAQZto0zHeRu8eDV+wlFtE6iSkGc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736435009;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J6bJ5PrU9Ov2p7iX5J2NO4bVvOCLiJfa9aMPiWlnp7E=;
- b=nFY2Y+gqJVhTL9teBXFqe+a7/Xk+sWWQ7xUOoRyEJnHS3VXE14PBgZlrH+GYD1Qs9Ia+KX
- 9kWLL1DmCv/I8rDw==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2FBrSVfz;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nFY2Y+gq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736435009; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J6bJ5PrU9Ov2p7iX5J2NO4bVvOCLiJfa9aMPiWlnp7E=;
- b=2FBrSVfz1w+KP4I3u2gtjDD/MtYOx10aHYP/LL4/WsL1NbmD7aChz9t9GsCjwTPrzUywXL
- YLUrswaNhkQ+mf7kpSSRU4ubGefcEk+XNQYTQzS6g9qNntPm9eYMCpwWYtSOQr4QlsroFD
- HefHAQZto0zHeRu8eDV+wlFtE6iSkGc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736435009;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=J6bJ5PrU9Ov2p7iX5J2NO4bVvOCLiJfa9aMPiWlnp7E=;
- b=nFY2Y+gqJVhTL9teBXFqe+a7/Xk+sWWQ7xUOoRyEJnHS3VXE14PBgZlrH+GYD1Qs9Ia+KX
- 9kWLL1DmCv/I8rDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86A3213AA7;
- Thu,  9 Jan 2025 15:03:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 2P5jH0Dlf2c1awAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Jan 2025 15:03:28 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-Date: Thu,  9 Jan 2025 15:57:19 +0100
-Message-ID: <20250109150310.219442-26-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250109150310.219442-1-tzimmermann@suse.de>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C3EF10EE1B;
+ Thu,  9 Jan 2025 14:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736434695; x=1767970695;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=vefbR+WxUsl6W1mxf4BqpYTUFUuz57yEjCw3Nj1MESk=;
+ b=cghjW+RHi6qJMa4AKhOb/6xenEJRZnuPNroVDwsTs8Nwxq1z9wwyECeO
+ dezDmqSAStcw/g0ZbnQxcL1bsN58Ib0g3iVRG6NjXNj/F1jvU/Hp0+k87
+ C/efxtFSsV3aZHLKuY8qxoibXefkzMX44C5J7rcikzbQTPNrvV2fQttUg
+ HsfAqds8yl+nLLiiupUpGwUWiWYNqcdG9KUlrrPHW66kTR5uXlVIG/qRl
+ i6x26BMudrgozdaQsQO5FwtDUEVhJL/GXso9bopmUCI81nwtfoZYVy14T
+ iiv/VfaB1a+BhSoKkR/b7yJU6+WHKjy68CshfhjZD2vz+57DfO34lgqy8 w==;
+X-CSE-ConnectionGUID: My4i28gvTiqaxVtUf/3XSw==
+X-CSE-MsgGUID: RG0QBvtKRfuOJ3nAyn1ZpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="48110946"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="48110946"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 06:58:14 -0800
+X-CSE-ConnectionGUID: aAxGFyBISeOF2fi1TGSFDw==
+X-CSE-MsgGUID: hUbAKolZSWC8NTenKubm+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="108527826"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 06:58:04 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Joel Granados <joel.granados@kernel.org>, Thomas =?utf-8?Q?Wei=C3=9Fsc?=
+ =?utf-8?Q?huh?=
+ <linux@weissschuh.net>, Kees Cook <kees@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-serial@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+ codalist@coda.cs.cmu.edu, linux-mm@kvack.org, linux-nfs@vger.kernel.org,
+ ocfs2-devel@lists.linux.dev, fsverity@lists.linux.dev,
+ linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org,
+ kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, keyrings@vger.kernel.org, Joel
+ Granados <joel.granados@kernel.org>
+Subject: Re: [PATCH] treewide: const qualify ctl_tables where applicable
+In-Reply-To: <20250109-jag-ctl_table_const-v1-1-622aea7230cf@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250109-jag-ctl_table_const-v1-1-622aea7230cf@kernel.org>
+Date: Thu, 09 Jan 2025 16:58:01 +0200
+Message-ID: <87frlsjapy.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 159631F394
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- RCPT_COUNT_TWELVE(0.00)[21]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- R_RATELIMIT(0.00)[to_ip_from(RLqtkr6cif1ebgurukgmwdm7xc),to(RLbwen1niosrcqbxsafh1)];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -1.51
-X-Spam-Flag: NO
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,43 +85,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-buffer size. Align the pitch according to hardware requirements.
+On Thu, 09 Jan 2025, Joel Granados <joel.granados@kernel.org> wrote:
+> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+> index 2406cda75b7b..5384d1bb4923 100644
+> --- a/drivers/gpu/drm/i915/i915_perf.c
+> +++ b/drivers/gpu/drm/i915/i915_perf.c
+> @@ -4802,7 +4802,7 @@ int i915_perf_remove_config_ioctl(struct drm_device *dev, void *data,
+>  	return ret;
+>  }
+>  
+> -static struct ctl_table oa_table[] = {
+> +static const struct ctl_table oa_table[] = {
+>  	{
+>  	 .procname = "perf_stream_paranoid",
+>  	 .data = &i915_perf_stream_paranoid,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+For i915,
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-index b47463473472..7ea0cd4f71d3 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-@@ -19,6 +19,7 @@
- #include <drm/drm_crtc.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_dumb_buffers.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_fbdev_dma.h>
- #include <drm/drm_fourcc.h>
-@@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
- 				    struct drm_mode_create_dumb *args)
- {
- 	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
--	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-+	int ret;
- 
- 	/* Enforce the alignment constraints of the DMA engine. */
--	args->pitch = ALIGN(pitch, dpsub->dma_align);
-+	ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
-+	if (ret)
-+		return ret;
- 
- 	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
- }
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+
 -- 
-2.47.1
-
+Jani Nikula, Intel
