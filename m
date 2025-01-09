@@ -2,137 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AF5A06C92
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:57:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75341A06CB7
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 05:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 071F510E093;
-	Thu,  9 Jan 2025 03:57:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6375710ECD6;
+	Thu,  9 Jan 2025 04:20:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ohmBxtaK";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="UXXzbDEq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65C1410E093;
- Thu,  9 Jan 2025 03:57:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Npo5B0Q+ytLtF+f+MeMzHC7ciNN0YM1NzHSkO/ZZrm2Y2UKMkBzOG90xivg3M/XPAqE1BwSm3U9buin7YT0yAQnP6hIlo6JwUhqLc3BP80I8AEhf120RK71nEZ9Oo8wBBfSxU/giujsEEl5b8Bt05g+aXlubpnNG39Kx1XYRvqCTBHI6peBAz/IIa9C48uc7HXlqLoWENbEdF4mniG/WT1ZcXEKqPt7iCbRAwr3BH4qExlGRfW25HreeV3Aq+3+ZpoiGqlwIBM2rO4tefsf9Ac/TlH1V0o5DVt6DB1soRYZqZuliemjIdIGszJGchvRrI/5SZYNxVLXcd/sH0SLyTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dlt2qHKNCc56uxoORas+WAcbeEO+wlNPEMQGDmOCgnk=;
- b=gW4itH3ug8bNxZIIhAUMBoCb32topEzuPZIar2DgQmm6N/CYztBC/gG0kSUDg0YbqJI9Sr6m7kFbPkjxTKm2CK1WSjtbf67Tx3taTD58NQ56TEaxa7/udyqHM6j/fThpm5Fbjke5+C23QhodXM0zGC48ueUpnq8k7QSAdgjr4cVziNkJEHNDC3rjccWENl4VUxcA79g704ru3RIIhh3vtJqK7x9/SjoNQur6FZHTYJMbR+2fJy2bV7gavuqQiRgh6cMjdJNaTvT1Wsen0uR41AWdRNkyHGbLI5g0N6/qHFjquwMY3+CpHyJw3oR/ZqAY4bR6NsAKIgCiEAN1G6lweA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dlt2qHKNCc56uxoORas+WAcbeEO+wlNPEMQGDmOCgnk=;
- b=ohmBxtaKyMP2S1aIjD00UgJxO+nFUMhS7uOS0fzlBtJWbZxzGFuxDTC2GjKCyo0LFn4ARyoODLxCd6CkoKLywQ2LmKh5dVM0b4XOVF2BkXBtCufqRdoKeM+Yficmbsgq0HyhBRwf60W5zJKx+JhCT/jehDjTlGGue58RIWp1cscarQrfQOsrm7FaYYpkMscmfWfG7dceDmhDRXHOxIVN/0TJDw14JoDsg5BYJlI4Zxo3A42c0MfhnXluokVw3E1DCgHlklP4ZFv35eo2S9uP3PtnNuiF/QlzQgZC85kKMAEKWOL5NTWvTFlU4+jZq0S3gYNyxj034S2FmHQuQpzKew==
-Received: from MW4PR04CA0057.namprd04.prod.outlook.com (2603:10b6:303:6a::32)
- by DS7PR12MB5792.namprd12.prod.outlook.com (2603:10b6:8:77::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Thu, 9 Jan
- 2025 03:43:14 +0000
-Received: from SJ5PEPF000001CA.namprd05.prod.outlook.com
- (2603:10b6:303:6a:cafe::ed) by MW4PR04CA0057.outlook.office365.com
- (2603:10b6:303:6a::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.11 via Frontend Transport; Thu,
- 9 Jan 2025 03:43:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF000001CA.mail.protection.outlook.com (10.167.242.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.7 via Frontend Transport; Thu, 9 Jan 2025 03:43:13 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 Jan 2025
- 19:43:04 -0800
-Received: from [172.23.93.240] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 Jan 2025
- 19:43:02 -0800
-Message-ID: <64e2c9d9-17e7-4607-87e0-eb9c4005ee1c@nvidia.com>
-Date: Thu, 9 Jan 2025 13:42:59 +1000
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
+ [209.85.166.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80FA610ECD6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 04:20:26 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id
+ e9e14a558f8ab-3a81324bbdcso3018725ab.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 20:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1736396366; x=1737001166;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LD2fDRTNhQYFtCJ+BOChwfFayvwLv5iHFRRj4Z0igDI=;
+ b=UXXzbDEqhDiIg3aETdtbfo3julg64JnirSEjFmj9uujU5A2T2iohZhNYRKefAoBA+I
+ 32IU/s3Q3rVgTYrDfb8gY5uG71J7XlHhfbgD7FPEm5s4qwVosW1QMb6UcmxLuC0PBIGQ
+ 55RhQZv0ge+dpieC4TI2c82gmriomnUei+88o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736396366; x=1737001166;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LD2fDRTNhQYFtCJ+BOChwfFayvwLv5iHFRRj4Z0igDI=;
+ b=YLibFkUHk+n9JsevmI755EjZsBqWNDKZvq1KLcNAgS+ksRPDjMpIB5m2fv+ES3RBUp
+ d00sqaVMQXPun9ooRWgxmWSMaRPKvQ+siZtCTVKQm1Xr+mJu7CDIwQ6sbsCwcV/dnOci
+ lPrcMcR2HbP3acCBXzOcuZ80lXL9dgO8HtcmTR3yXBA9oeFB8cHSIxfYqVSRHaEDl1a9
+ cQ0ExPeq5gMjdW5iNpDSKGLFkruOt6RKN935UFa3Ctxy9Be50CrtBn/rLxx9eBtrG2P1
+ Q2ukmjTNyxAYeEErox/zO1DkssqHTF4BKRTCyJDTNe7Le22WyZ49S1p8HNfRWvK9siAq
+ OzEA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWNizVhx6p4G2XbHZ+Yql2Kq8Sa23AAOhUy4yEyrBlXmAnLC9iz6yCbkNsgqR5CHz/hT2DTinUqj9U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzRvo/NUBcAS4FClzO2bqRW1SCe6PBMoKJbmcMycpDiCupyPJ14
+ W6eVSs5e87AvN+8RB/nSc3O13I1npER328hUrFU65LnQdrmtq/FfpKnE3iWXNMLZI0V5cU+FBAE
+ gt7SkvStNLK0YxzMGdVrZYVPQFH4aVTngXOaXCNcp+D2GGkdq7A==
+X-Gm-Gg: ASbGncuCQjkkbJkrYV3kf31zrSgeLJnIF2PhJNp73qhH1FQ0RTwVOsQDBgJll7MGziZ
+ uBXiUxSYLefon10++nC1cTKqFsOSALGaEt0bPbuEeithkPYgrw+iH3bH8kj8hRcnLiQ==
+X-Google-Smtp-Source: AGHT+IFZVfkysXuaUToIJd7wwAJ6NkICB7YiNGOrz3XkzAeDda5DPhxMr8gz13udjJeC7AcgQbMkZz7LNnRv08EHejg=
+X-Received: by 2002:a05:6808:11c3:b0:3eb:5dcc:67aa with SMTP id
+ 5614622812f47-3ef2ebeec7fmr3396226b6e.2.1736394972156; Wed, 08 Jan 2025
+ 19:56:12 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
-To: Dave Airlie <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>
-CC: <nouveau@lists.freedesktop.org>
-References: <20250109005553.623947-1-airlied@gmail.com>
-Content-Language: en-US
-From: Ben Skeggs <bskeggs@nvidia.com>
-In-Reply-To: <20250109005553.623947-1-airlied@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CA:EE_|DS7PR12MB5792:EE_
-X-MS-Office365-Filtering-Correlation-Id: e71a1798-cd56-4f29-a4f3-08dd305fbed6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cWkzV0lMbG5RSk93QXltZWZWQlcweHUvaVN4VkpLUmNzTmo5SnkxSkp6NThn?=
- =?utf-8?B?aGIxUS9IRUFBY09HZ0h2azZubzQvbnBQUXdpTS9EWVdDTWJMSFRZcFFtQ0k5?=
- =?utf-8?B?K2xpU2t4TGg0TEc0WEk4RjArVlIvd3UxblJIaEp4MVJzb24xRy9YSXpWUTRJ?=
- =?utf-8?B?aDlDQmlLQjYrcUpXbnU5YkJQMzAxUUREQnU1anQ3U21FcGhlSFo2LzB1V29Z?=
- =?utf-8?B?cWI5WnRVc0JQMnlwSTBBdkhtVU1lcEdwNlFwUEFTcDlYcEo0N1pqaUkwSGFt?=
- =?utf-8?B?RFhCYTk2eFRuaDU4TkFnaUFiQUE0RnRmV0U3Z0V5WS81eSttZDRZcWh4NnFn?=
- =?utf-8?B?WDhoWUwvaU1GWUVoU0U0WVdTYS8yK1RNbmx6LzI3L0V0dmlqbnQ3L0lBVkVn?=
- =?utf-8?B?Y3NlMkZ6S2dJTFo4dUkwWXJNME9vQnpkRlJFcjEyR1JVT1g0SksvRFhrdzZq?=
- =?utf-8?B?U2J1SFRWVU5TMzIybEpMSmJiblBKM1lBSWFiRjFPRlhJdDY0anpLUGpuZnVm?=
- =?utf-8?B?RlA5cTJNQjZUZUY2QmQvS1ZHQ01OOW9aVGdmOVdYb1p4Qi94THptYTVwSjAz?=
- =?utf-8?B?eU1PczdLdUZ0SHlRd3hiSjFVNklaZGZOdk5MWnNyN1hKUmxHaG1UdHVHS01Q?=
- =?utf-8?B?MXZiKzBpdmJlWEFJdUJpdjZIQkpHT2owVkpxSWhPUGFHZ29MOXVLZEp4ZW03?=
- =?utf-8?B?VHZna1NId09wdzZBdVhuUHcrQXRFWm5vYURyNEkyN2MxbDNMNmlNeW5XQ0Zq?=
- =?utf-8?B?TzJ6d3lDV0NLWTJkZ0tPTUJhRElKK3NLU0tDR1ZvZDZPT1JMVFlaRFo0SjZT?=
- =?utf-8?B?bFAzN1p5eHpWUnBqZGdZTlFsS1FUVWJDU0NrbmNmVmZEdTlENER5SVpLTUpo?=
- =?utf-8?B?NGN1QVV0V2RnRWpRbWpFb2lzS2hNdk9Xb2tWQXA2RnBDUDZManh0SUJqVEZX?=
- =?utf-8?B?cFhnWWJnYzJyeTlvNjV0WmVLclVzc1RPTGFkRGd5d0QyTGFjWTdkd29iaDRT?=
- =?utf-8?B?dUpmd002QU1kZEg2cFBYcTlSbE9WRzRxNzJMYWFaZkwwK1pRbjk2TUQydDIv?=
- =?utf-8?B?WFQ3eVNHcE8xc3hWUmRoOHRYWldGak9DSHB2WWhjU2htZENrYXl3MEJ4dkhq?=
- =?utf-8?B?dGg3VU9jeStUUFdEdkdOMDNYSVdrUG5IM3ZEK1ViRzhtNEJuSnpVSDJXUlRS?=
- =?utf-8?B?dUhwRStHTTVBZlFaZFAxSVcrakN4d045eXphVytnakdybGh5THYwZ3FDSnFl?=
- =?utf-8?B?UVB3UmczUmcydWNQdUU1ZVM3QmYybGM2OE9MSVZZd3lVWWwybjlqZ3BDL2th?=
- =?utf-8?B?c2l0VjV5UXdtU2Z6Q05Kd3Y5RGZlYTNvUmh4eXE5VElJMmtPTFIxLzlSK2xa?=
- =?utf-8?B?QXZya245SzlWRlpERG44NlNoQ01jeUp1NSswYjVzMkNmNVFmTnlGdjQ4Ym1t?=
- =?utf-8?B?WjkrQmlBUVhIUTFnR1p1T3JkR25mZVRBWG5UZ1FoVUlSZW0wcEptRlo3Qzd1?=
- =?utf-8?B?Ulh5eDc2TTllM3FOSTM0bGVieE5PQ0FHVXVtb3VxZmlZbzJQUHVoSGRBanl4?=
- =?utf-8?B?V2lIbmFJSGJhVk16YmJVSmN6enBuWkJQcWl1ZDEwbUs5SDMxZ3FrNFNnQ0Ry?=
- =?utf-8?B?TkcvbWRDWE52TFEyUURHNmdHbXE1dmFwQkpFTHFrUVF4eldabEdWNFlmRm9I?=
- =?utf-8?B?RzNlQ2ZleXBsN0ErVHpqSWJJZW5rdVZZMFZkclRaeGo4Y0htVmpVL3FtcjZQ?=
- =?utf-8?B?NW5jdnNRRk44d05kZnlWUVQrN2N4dHh1b2RZU2luaTF4VjltcjRRTDUvVGl1?=
- =?utf-8?B?QjdlWDcvanlFVHFweTloUU83TzhDUDNjbEs3MkR5NlNsQ2R3U1RSM0FCWkNE?=
- =?utf-8?B?azN0a3N4ZDNMY2xxR2h5T25mdEJ2RHRvaUZNRFRsam1WTlpLSnB5eGV6NHRs?=
- =?utf-8?B?ck5QYXhudUF2ZFI0WGxyMEFYTFl4aHYxMStjZ0EwRTJlb1Rqa3JsN0V4QmVB?=
- =?utf-8?Q?t/QJrTrdAy+U8B+jv9MSruOO/fQ04U=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 03:43:13.8242 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e71a1798-cd56-4f29-a4f3-08dd305fbed6
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001CA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5792
+References: <20250108-fix-hdcp-v-comp-v1-1-9404811825cd@ite.com.tw>
+ <lu2haon4sj3kvge6cowqgratgnoxg26kiwrjyjdgh7pt5v2hwi@v3xulffewwy6>
+ <cb8f9927d2874ef29bdea3f16c4a9de1@ite.com.tw>
+In-Reply-To: <cb8f9927d2874ef29bdea3f16c4a9de1@ite.com.tw>
+From: Pin-yen Lin <treapking@chromium.org>
+Date: Thu, 9 Jan 2025 11:56:01 +0800
+X-Gm-Features: AbW1kvYCXp9w9rwF63NI7WY1YluYTMgnnUMIe7qbf-rPuwC_uapYJjqjFunzcTA
+Message-ID: <CAEXTbpfCEhKXOqhWRYqV2Q_Z8AEsoyFXyvBxd3xN2vmGdggYnw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: it6505: fix HDCP V match check is not
+ performed correctly
+To: Hermes.Wu@ite.com.tw
+Cc: dmitry.baryshkov@linaro.org, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, angelogioacchino.delregno@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,50 +88,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/1/25 10:55, Dave Airlie wrote:
+Hi Hermes,
 
-> From: Dave Airlie <airlied@redhat.com>
+On Thu, Jan 9, 2025 at 10:36=E2=80=AFAM <Hermes.Wu@ite.com.tw> wrote:
 >
-> This is the 3rd iteration of this after talking to Ben and
-> Danilo, I think this makes sense now.
+> hi
+> >
+> >-----Original Message-----
+> >From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >Sent: Wednesday, January 8, 2025 6:43 PM
+> >To: Hermes Wu (=E5=90=B3=E4=BD=B3=E5=AE=8F) <Hermes.Wu@ite.com.tw>
+> >Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstr=
+ong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart <Laurent.=
+pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec=
+ <jernej.skrabec@gmail.com>; Maarten Lankhorst <maarten.lankhorst@linux.int=
+el.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann <tzimmermann=
+@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch=
+>; AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>; dr=
+i-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Pet Weng (=E7=
+=BF=81=E7=8E=89=E8=8A=AC) <Pet.Weng@ite.com.tw>; Kenneth Hung (=E6=B4=AA=E5=
+=AE=B6=E5=80=AB) <Kenneth.Hung@ite.com.tw>; treapking@chromium.org
+> >Subject: Re: [PATCH] drm/bridge: it6505: fix HDCP V match check is not p=
+erformed correctly
+> >
+> >On Wed, Jan 08, 2025 at 01:45:14PM +0800, Hermes Wu via B4 Relay wrote:
+> >> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> >>
+> >> The loop of V compare is expected to iterate for 5 times which compare
+> >> V array form av[0][] to av[4][].
+> >> It should check loop counter reach the last statement before return
+> >> true
+> >>
+> >> Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V
+> >> matching")
+> >>
+> >> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> >
+> >No empty lines between tags, please.
+> >
+> >> ---
+> >>  drivers/gpu/drm/bridge/ite-it6505.c | 9 ++++++---
+> >>  1 file changed, 6 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/ite-it6505.c
+> >> b/drivers/gpu/drm/bridge/ite-it6505.c
+> >> index
+> >> 88ef76a37fe6accacdd343839ff2569b31b18ceb..e87247aea1d2ffbdad192e241056
+> >> d34fdfb32163 100644
+> >> --- a/drivers/gpu/drm/bridge/ite-it6505.c
+> >> +++ b/drivers/gpu/drm/bridge/ite-it6505.c
+> >> @@ -2254,9 +2254,12 @@ static bool it6505_hdcp_part2_ksvlist_check(str=
+uct it6505 *it6505)
+> >>                      if (bv[i][3] !=3D av[i][0] || bv[i][2] !=3D av[i]=
+[1] ||
+> >>                          av[i][1] !=3D av[i][2] || bv[i][0] !=3D av[i]=
+[3])
+> >>                              break;
+> >> -
+> >> -                    DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d"=
+, retry, i);
+> >> -                    return true;
+> >> +                    if (i =3D=3D 4) {
+> >
+> >I think there was a similar patch yesteday.
 >
-> The fence sync logic doesn't handle a fence sync across devices
-> as it tries to write to a channel offset from one device into
-> the fence bo from a different device, which won't work so well.
+> I can't find patch for it6505, would you provide link?
+> If it also fixes this bug, should I just drop this patch?
+
+I believe Dmitry is referring to
+https://lore.kernel.org/all/20250107110740.42892-1-dheeraj.linuxdev@gmail.c=
+om/
+
+You can upload a v2 for this and CC Dheeraj on your next patch.
 >
-> This patch fixes that to avoid using the sync path in the case
-> where the fences come from different nouveau drm devices.
+> >Anyway, I have exactly the same feedback: please pull this out of the lo=
+op, this is how it's usually checked / done.
+> >
+> I will move it out the loop,
 >
-> This works fine on a single device as the fence bo is shared
-> across the devices, and mapped into each channels vma space,
-> the channel offsets are therefore okay to pass between sides,
-> so one channel can sync on the seqnos from the other by using
-> the offset into it's vma.
+> Thanks.
 >
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
-> Cc: stable@vger.kernel.org
-> ---
->   drivers/gpu/drm/nouveau/nouveau_fence.c | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
+> >> +                            DRM_DEV_DEBUG_DRIVER(dev,
+> >> +                                                 "V' all match!! %d",
+> >> +                                                 retry);
+> >> +                            return true;
+> >> +                    }
+> >>              }
+> >>      }
+> >>
+> >>
+> >> ---
+> >> base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+> >> change-id: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+> >>
+> >> Best regards,
+> >> --
+> >> Hermes Wu <Hermes.wu@ite.com.tw>
+> >>
+> >>
+> >
+> >--
+> >With best wishes
+> >Dmitry
+> >
 >
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index ee5e9d40c166..a3eb1f447a29 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -367,11 +367,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
->   			if (f) {
->   				struct nouveau_channel *prev;
->   				bool must_wait = true;
-> +				bool local;
->   
->   				rcu_read_lock();
->   				prev = rcu_dereference(f->channel);
-> -				if (prev && (prev == chan ||
-> -					     fctx->sync(f, prev, chan) == 0))
-> +				local = prev && prev->drm == chan->drm;
-> +				if (local && (prev == chan ||
-> +					      fctx->sync(f, prev, chan) == 0))
->   					must_wait = false;
->   				rcu_read_unlock();
->   				if (!must_wait)
+> BR,
+> Hermes
+
+Regards,
+Pin-yen
