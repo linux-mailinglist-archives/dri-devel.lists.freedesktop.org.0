@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00577A06E3C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 07:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69607A06E5B
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 07:39:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2068D10E35D;
-	Thu,  9 Jan 2025 06:29:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5587A10E0CA;
+	Thu,  9 Jan 2025 06:39:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="MhG1HV36";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gw2YQ2rN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id A544E10E35D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 06:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=xNVUF8UGN6na3JrIgXHKi8KH+dFuTcPxSWvpjZfV1NQ=; b=M
- hG1HV36d/CdYz4NXULcYtzLAuec5UGZaWJwrxZivAkvc0bhSgoT14b5DpKPk5pzC
- SKx1QMDkvmKUzRzQAvLd99t5RVJ72eiJqKUN0niG13FCs0UR58DEu69ljGeqs/1T
- 9CIdaXsLTZVNhE/LvFloXmmC8wDp0W4zDJwDmgsq0c=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-121 (Coremail) ; Thu, 9 Jan 2025 14:28:36 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Thu, 9 Jan 2025 14:28:36 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Damon Ding" <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com, 
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de, 
- dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, 
- hjc@rock-chips.com, algea.cao@rock-chips.com, 
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-phy@lists.infradead.org
-Subject: Re:[PATCH v5 05/20] drm/rockchip: analogix_dp: Replace DRM_...()
- functions with drm_...() or dev_...()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250109032725.1102465-6-damon.ding@rock-chips.com>
-References: <20250109032725.1102465-1-damon.ding@rock-chips.com>
- <20250109032725.1102465-6-damon.ding@rock-chips.com>
-X-NTES-SC: AL_Qu2YBPibu0kq4COQZekfmkcVgOw9UcO5v/Qk3oZXOJF8jArp+TAefEJSMWvIws60LDKUmgmGdih16sFZbLt8cLIWzZj7DHW+VdjsZkBgVygZtw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5232A10E0CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 06:39:45 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8FCB7A40433;
+ Thu,  9 Jan 2025 06:37:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C2319C4CED2;
+ Thu,  9 Jan 2025 06:39:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736404782;
+ bh=IAno5pKTx2K+AER7WFysKsBBPJnJbbX9HJm6cKM74eY=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=gw2YQ2rNL2I3qBaF4OwRxQBIUpHE0ab5tpcxqvkg69B6Gyj5VlSGrrDuv/5ZNf7NG
+ Hp7o+29mYTsVSD+3oUAKQB2bzVMDSd/Xr1t+OUHQVZIVxJHEizVhQs3o0G44nV5kwd
+ faUvx51PEioYMz4SpioSFNkdL7OxfdW9kFU0zmKlwDxeuGoVznd3VzP9JvXkhfywjb
+ jsMnosYmlRjTLAb24JSmFrW3c0JNpOLfwLwdH7wRwxkWd135KdIiVtFeAgohYpfA0K
+ lLn6i/HlbyxDGMLgnHx7WP+2T1913R6sAHmSWHk9XZB3FwcKophCq/+ooYjiESHz7b
+ rgbWgZkE+uu4w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A7637E77197;
+ Thu,  9 Jan 2025 06:39:42 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Date: Thu, 09 Jan 2025 14:40:08 +0800
+Subject: [PATCH v3] drm/bridge: it6505: fix HDCP V match check is not
+ performed correctly
 MIME-Version: 1.0
-Message-ID: <40b09942.533e.19449c023a1.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: eSgvCgB3PMeUbH9ndwBTAA--.16079W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqR3PXmd-YuGrTwACsY
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250109-fix-hdcp-v-comp-v3-1-1258edb249ab@ite.com.tw>
+X-B4-Tracking: v=1; b=H4sIAEdvf2cC/2XNTQ6CMBAF4KuQrh3SHxqKK+5hXNR2kC4E0pKqI
+ dzdgcREw/LNvPlmYQljwMTOxcIi5pDCOFBQp4K53g53hOApM8ml5oLX0IUX9N5NkMGNjwnUzRp
+ Uvra+U4yupohU2cXLlXIf0jzG9/4gi236tczBygIENBWvjBBGaufbMGNJq3J+sg3L8hdojoAko
+ PYOudWNlqr7A9Z1/QBPq1XN8AAAAA==
+X-Change-ID: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Hermes Wu <hermes.wu@ite.com.tw>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736404808; l=1793;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=ZQI2HqzPneYgfzuW3Jkd0no7yYlB8RqeAikI2gt6gAg=;
+ b=Ww30Kk4kRj7A+HK87WjQj3bCC0NVLEq24nfdTnwIF3WeV9pLX7QWmKviUx06mpITJxWrKsI6c
+ hnG372CyOL+B1dM3Cbj97HJt+tPmco+ecNlRHvUvwcdo+DqTxJt8Zj5
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,101 +83,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERhbW9uLAoKQXQgMjAyNS0wMS0wOSAxMToyNzoxMCwgIkRhbW9uIERpbmciIDxkYW1vbi5k
-aW5nQHJvY2stY2hpcHMuY29tPiB3cm90ZToKPkFjY29yZGluZyB0byB0aGUgY29tbWVudHMgaW4g
-aW5jbHVkZS9kcm0vZHJtX3ByaW50LmgsIHRoZSBEUk1fLi4uKCkKPmZ1bmN0aW9ucyBhcmUgZGVw
-cmVjYXRlZCBpbiBmYXZvciBvZiBkcm1fLi4uKCkgb3IgZGV2Xy4uLigpIGZ1bmN0aW9ucy4KPgo+
-VXNlIGRybV9lcnIoKS9kcm1fZGJnX2NvcmUoKS9kcm1fZGJnX2ttcygpIGluc3RlYWQgb2YKPkRS
-TV9ERVZfRVJST1IoKS9EUk1fRVJST1IoKS9EUk1fREVWX0RFQlVHKCkvRFJNX0RFQlVHX0tNUygp
-IGFmdGVyCj5yb2NrY2hpcF9kcF9iaW5kKCkgaXMgY2FsbGVkLCBhbmQgcmVwbGFjZSBEUk1fREVW
-X0VSUk9SKCkgd2l0aCBkZXZfZXJyKCkKPmJlZm9yZSBjYWxsaW5nIGl0Lgo+Cj5TaWduZWQtb2Zm
-LWJ5OiBEYW1vbiBEaW5nIDxkYW1vbi5kaW5nQHJvY2stY2hpcHMuY29tPgo+LS0tCj4gLi4uL2dw
-dS9kcm0vcm9ja2NoaXAvYW5hbG9naXhfZHAtcm9ja2NoaXAuYyAgIHwgMjkgKysrKysrKysrKy0t
-LS0tLS0tLQo+IDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMo
-LSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1y
-b2NrY2hpcC5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2FuYWxvZ2l4X2RwLXJvY2tjaGlw
-LmMKPmluZGV4IDU0NmQxM2YxOWY5Yi4uODExNGMzMjM4NjA5IDEwMDY0NAo+LS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL3JvY2tjaGlwL2FuYWxvZ2l4X2RwLXJvY2tjaGlwLmMKPisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1yb2NrY2hpcC5jCj5AQCAtMTAwLDEzICsxMDAs
-MTMgQEAgc3RhdGljIGludCByb2NrY2hpcF9kcF9wb3dlcm9uKHN0cnVjdCBhbmFsb2dpeF9kcF9w
-bGF0X2RhdGEgKnBsYXRfZGF0YSkKPiAKPiAJcmV0ID0gY2xrX3ByZXBhcmVfZW5hYmxlKGRwLT5w
-Y2xrKTsKPiAJaWYgKHJldCA8IDApIHsKPi0JCURSTV9ERVZfRVJST1IoZHAtPmRldiwgImZhaWxl
-ZCB0byBlbmFibGUgcGNsayAlZFxuIiwgcmV0KTsKPisJCWRybV9lcnIoZHAtPmRybV9kZXYsICJm
-YWlsZWQgdG8gZW5hYmxlIHBjbGsgJWRcbiIsIHJldCk7CgogICAgICAgICAgICAgICBZb3UganVz
-dCBuZWVkIHRvIHBhc3MgZHAgaGVyZToKICAgICAgICAgICAgICAgIGRybV9lcnIoZHAsICJmYWls
-ZWQgdG8gZW5hYmxlIHBjbGsgJWRcbiIsIHJldCk7Cgo+IAkJcmV0dXJuIHJldDsKPiAJfQo+IAo+
-IAlyZXQgPSByb2NrY2hpcF9kcF9wcmVfaW5pdChkcCk7Cj4gCWlmIChyZXQgPCAwKSB7Cj4tCQlE
-Uk1fREVWX0VSUk9SKGRwLT5kZXYsICJmYWlsZWQgdG8gZHAgcHJlIGluaXQgJWRcbiIsIHJldCk7
-Cj4rCQlkcm1fZXJyKGRwLT5kcm1fZGV2LCAiZmFpbGVkIHRvIGRwIHByZSBpbml0ICVkXG4iLCBy
-ZXQpOwo+IAkJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGRwLT5wY2xrKTsKPiAJCXJldHVybiByZXQ7
-Cj4gCX0KPkBAIC0xMjYsMTIgKzEyNiwxMyBAQCBzdGF0aWMgaW50IHJvY2tjaGlwX2RwX3Bvd2Vy
-ZG93bihzdHJ1Y3QgYW5hbG9naXhfZHBfcGxhdF9kYXRhICpwbGF0X2RhdGEpCj4gc3RhdGljIGlu
-dCByb2NrY2hpcF9kcF9nZXRfbW9kZXMoc3RydWN0IGFuYWxvZ2l4X2RwX3BsYXRfZGF0YSAqcGxh
-dF9kYXRhLAo+IAkJCQkgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKPiB7Cj4rCXN0
-cnVjdCByb2NrY2hpcF9kcF9kZXZpY2UgKmRwID0gcGRhdGFfZW5jb2Rlcl90b19kcChwbGF0X2Rh
-dGEpOwo+IAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAqZGkgPSAmY29ubmVjdG9yLT5kaXNwbGF5
-X2luZm87Cj4gCS8qIFZPUCBjb3VsZG4ndCBvdXRwdXQgWVVWIHZpZGVvIGZvcm1hdCBmb3IgZURQ
-IHJpZ2h0bHkgKi8KPiAJdTMyIG1hc2sgPSBEUk1fQ09MT1JfRk9STUFUX1lDQkNSNDQ0IHwgRFJN
-X0NPTE9SX0ZPUk1BVF9ZQ0JDUjQyMjsKPiAKPiAJaWYgKChkaS0+Y29sb3JfZm9ybWF0cyAmIG1h
-c2spKSB7Cj4tCQlEUk1fREVCVUdfS01TKCJTd2FwcGluZyBkaXNwbGF5IGNvbG9yIGZvcm1hdCBm
-cm9tIFlVViB0byBSR0JcbiIpOwo+KwkJZHJtX2RiZ19rbXMoZHAtPmRybV9kZXYsICJTd2FwcGlu
-ZyBkaXNwbGF5IGNvbG9yIGZvcm1hdCBmcm9tIFlVViB0byBSR0JcbiIpOwo+IAkJZGktPmNvbG9y
-X2Zvcm1hdHMgJj0gfm1hc2s7Cj4gCQlkaS0+Y29sb3JfZm9ybWF0cyB8PSBEUk1fQ09MT1JfRk9S
-TUFUX1JHQjQ0NDsKPiAJCWRpLT5icGMgPSA4Owo+QEAgLTIwMSwxNyArMjAyLDE3IEBAIHN0YXRp
-YyB2b2lkIHJvY2tjaGlwX2RwX2RybV9lbmNvZGVyX2VuYWJsZShzdHJ1Y3QgZHJtX2VuY29kZXIg
-KmVuY29kZXIsCj4gCWVsc2UKPiAJCXZhbCA9IGRwLT5kYXRhLT5sY2RzZWxfYmlnOwo+IAo+LQlE
-Uk1fREVWX0RFQlVHKGRwLT5kZXYsICJ2b3AgJXMgb3V0cHV0IHRvIGRwXG4iLCAocmV0KSA/ICJM
-SVQiIDogIkJJRyIpOwo+Kwlkcm1fZGJnX2NvcmUoZHAtPmRybV9kZXYsICJ2b3AgJXMgb3V0cHV0
-IHRvIGRwXG4iLCAocmV0KSA/ICJMSVQiIDogIkJJRyIpOwo+IAo+IAlyZXQgPSBjbGtfcHJlcGFy
-ZV9lbmFibGUoZHAtPmdyZmNsayk7Cj4gCWlmIChyZXQgPCAwKSB7Cj4tCQlEUk1fREVWX0VSUk9S
-KGRwLT5kZXYsICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPisJCWRybV9l
-cnIoZHAtPmRybV9kZXYsICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPiAJ
-CXJldHVybjsKPiAJfQo+IAo+IAlyZXQgPSByZWdtYXBfd3JpdGUoZHAtPmdyZiwgZHAtPmRhdGEt
-PmxjZHNlbF9ncmZfcmVnLCB2YWwpOwo+IAlpZiAocmV0ICE9IDApCj4tCQlEUk1fREVWX0VSUk9S
-KGRwLT5kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwgcmV0KTsKPisJCWRybV9l
-cnIoZHAtPmRybV9kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwgcmV0KTsKPiAK
-PiAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGRwLT5ncmZjbGspOwo+IH0KPkBAIC0yMzYsNyArMjM3
-LDcgQEAgc3RhdGljIHZvaWQgcm9ja2NoaXBfZHBfZHJtX2VuY29kZXJfZGlzYWJsZShzdHJ1Y3Qg
-ZHJtX2VuY29kZXIgKmVuY29kZXIsCj4gCj4gCXJldCA9IHJvY2tjaGlwX2RybV93YWl0X3ZhY3Rf
-ZW5kKGNydGMsIFBTUl9XQUlUX0xJTkVfRkxBR19USU1FT1VUX01TKTsKPiAJaWYgKHJldCkKPi0J
-CURSTV9ERVZfRVJST1IoZHAtPmRldiwgImxpbmUgZmxhZyBpcnEgdGltZWQgb3V0XG4iKTsKPisJ
-CWRybV9lcnIoZHAtPmRybV9kZXYsICJsaW5lIGZsYWcgaXJxIHRpbWVkIG91dFxuIik7Cj4gfQo+
-IAo+IHN0YXRpYyBpbnQKPkBAIC0yNzcsNyArMjc4LDcgQEAgc3RhdGljIGludCByb2NrY2hpcF9k
-cF9vZl9wcm9iZShzdHJ1Y3Qgcm9ja2NoaXBfZHBfZGV2aWNlICpkcCkKPiAKPiAJZHAtPmdyZiA9
-IHN5c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUobnAsICJyb2NrY2hpcCxncmYiKTsKPiAJ
-aWYgKElTX0VSUihkcC0+Z3JmKSkgewo+LQkJRFJNX0RFVl9FUlJPUihkZXYsICJmYWlsZWQgdG8g
-Z2V0IHJvY2tjaGlwLGdyZiBwcm9wZXJ0eVxuIik7Cj4rCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0
-byBnZXQgcm9ja2NoaXAsZ3JmIHByb3BlcnR5XG4iKTsKPiAJCXJldHVybiBQVFJfRVJSKGRwLT5n
-cmYpOwo+IAl9Cj4gCj5AQCAtMjg3LDE5ICsyODgsMTkgQEAgc3RhdGljIGludCByb2NrY2hpcF9k
-cF9vZl9wcm9iZShzdHJ1Y3Qgcm9ja2NoaXBfZHBfZGV2aWNlICpkcCkKPiAJfSBlbHNlIGlmIChQ
-VFJfRVJSKGRwLT5ncmZjbGspID09IC1FUFJPQkVfREVGRVIpIHsKPiAJCXJldHVybiAtRVBST0JF
-X0RFRkVSOwo+IAl9IGVsc2UgaWYgKElTX0VSUihkcC0+Z3JmY2xrKSkgewo+LQkJRFJNX0RFVl9F
-UlJPUihkZXYsICJmYWlsZWQgdG8gZ2V0IGdyZiBjbG9ja1xuIik7Cj4rCQlkZXZfZXJyKGRldiwg
-ImZhaWxlZCB0byBnZXQgZ3JmIGNsb2NrXG4iKTsKPiAJCXJldHVybiBQVFJfRVJSKGRwLT5ncmZj
-bGspOwo+IAl9Cj4gCj4gCWRwLT5wY2xrID0gZGV2bV9jbGtfZ2V0KGRldiwgInBjbGsiKTsKPiAJ
-aWYgKElTX0VSUihkcC0+cGNsaykpIHsKPi0JCURSTV9ERVZfRVJST1IoZGV2LCAiZmFpbGVkIHRv
-IGdldCBwY2xrIHByb3BlcnR5XG4iKTsKPisJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIGdldCBw
-Y2xrIHByb3BlcnR5XG4iKTsKPiAJCXJldHVybiBQVFJfRVJSKGRwLT5wY2xrKTsKPiAJfQo+IAo+
-IAlkcC0+cnN0ID0gZGV2bV9yZXNldF9jb250cm9sX2dldChkZXYsICJkcCIpOwo+IAlpZiAoSVNf
-RVJSKGRwLT5yc3QpKSB7Cj4tCQlEUk1fREVWX0VSUk9SKGRldiwgImZhaWxlZCB0byBnZXQgZHAg
-cmVzZXQgY29udHJvbFxuIik7Cj4rCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBnZXQgZHAgcmVz
-ZXQgY29udHJvbFxuIik7Cj4gCQlyZXR1cm4gUFRSX0VSUihkcC0+cnN0KTsKPiAJfQo+IAo+QEAg
-LTMxNSwxMiArMzE2LDEyIEBAIHN0YXRpYyBpbnQgcm9ja2NoaXBfZHBfZHJtX2NyZWF0ZV9lbmNv
-ZGVyKHN0cnVjdCByb2NrY2hpcF9kcF9kZXZpY2UgKmRwKQo+IAo+IAllbmNvZGVyLT5wb3NzaWJs
-ZV9jcnRjcyA9IGRybV9vZl9maW5kX3Bvc3NpYmxlX2NydGNzKGRybV9kZXYsCj4gCQkJCQkJCSAg
-ICAgZGV2LT5vZl9ub2RlKTsKPi0JRFJNX0RFQlVHX0tNUygicG9zc2libGVfY3J0Y3MgPSAweCV4
-XG4iLCBlbmNvZGVyLT5wb3NzaWJsZV9jcnRjcyk7Cj4rCWRybV9kYmdfa21zKGRybV9kZXYsICJw
-b3NzaWJsZV9jcnRjcyA9IDB4JXhcbiIsIGVuY29kZXItPnBvc3NpYmxlX2NydGNzKTsKPiAKPiAJ
-cmV0ID0gZHJtX3NpbXBsZV9lbmNvZGVyX2luaXQoZHJtX2RldiwgZW5jb2RlciwKPiAJCQkJICAg
-ICAgRFJNX01PREVfRU5DT0RFUl9UTURTKTsKPiAJaWYgKHJldCkgewo+LQkJRFJNX0VSUk9SKCJm
-YWlsZWQgdG8gaW5pdGlhbGl6ZSBlbmNvZGVyIHdpdGggZHJtXG4iKTsKPisJCWRybV9lcnIoZHJt
-X2RldiwgImZhaWxlZCB0byBpbml0aWFsaXplIGVuY29kZXIgd2l0aCBkcm1cbiIpOwo+IAkJcmV0
-dXJuIHJldDsKPiAJfQo+IAo+QEAgLTM0MCw3ICszNDEsNyBAQCBzdGF0aWMgaW50IHJvY2tjaGlw
-X2RwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gCj4g
-CXJldCA9IHJvY2tjaGlwX2RwX2RybV9jcmVhdGVfZW5jb2RlcihkcCk7Cj4gCWlmIChyZXQpIHsK
-Pi0JCURSTV9FUlJPUigiZmFpbGVkIHRvIGNyZWF0ZSBkcm0gZW5jb2RlclxuIik7Cj4rCQlkcm1f
-ZXJyKGRybV9kZXYsICJmYWlsZWQgdG8gY3JlYXRlIGRybSBlbmNvZGVyXG4iKTsKPiAJCXJldHVy
-biByZXQ7Cj4gCX0KPiAKPi0tIAo+Mi4zNC4xCj4K
+From: Hermes Wu <Hermes.wu@ite.com.tw>
+
+The loop of V compare is expected to iterate for 5 times
+which compare V array form av[0][] to av[4][].
+It should check loop counter reach the last statement "i == 5"
+before return true
+
+Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V matching")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+---
+Changes in v3:
+- The V value compare loop from i = 0 to i = 4 and shall exit with i == 5 
+  if all V element matches
+- Link to v2: https://lore.kernel.org/r/20250109-fix-hdcp-v-comp-v2-1-7dce0a59523f@ite.com.tw
+
+Changes in v2:
+- pull the check of statment "i" out of V value check loop 
+- Link to v1: https://lore.kernel.org/r/20250108-fix-hdcp-v-comp-v1-1-9404811825cd@ite.com.tw
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 88ef76a37fe6accacdd343839ff2569b31b18ceb..2f82fbc0b8bf8c322c088dc257720c6825651bb8 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2250,12 +2250,13 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+ 			continue;
+ 		}
+ 
+-		for (i = 0; i < 5; i++) {
++		for (i = 0; i < 5; i++)
+ 			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
+ 			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
+ 				break;
+ 
+-			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
++		if (i == 5) {
++			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d", retry);
+ 			return true;
+ 		}
+ 	}
+
+---
+base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+change-id: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+
+Best regards,
+-- 
+Hermes Wu <Hermes.wu@ite.com.tw>
+
+
