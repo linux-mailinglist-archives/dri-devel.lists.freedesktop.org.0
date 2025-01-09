@@ -2,107 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687BEA07D1D
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 17:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810B6A07D6D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 17:26:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9D1D10EEDB;
-	Thu,  9 Jan 2025 16:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4264A10E38F;
+	Thu,  9 Jan 2025 16:26:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LAG8oDTW";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sbSREeiq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lfl2D7Ow";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sbSREeiq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lfl2D7Ow";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED06C10EEDB;
- Thu,  9 Jan 2025 16:15:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2A3005C5C38;
- Thu,  9 Jan 2025 16:14:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D34F0C4CED3;
- Thu,  9 Jan 2025 16:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736439320;
- bh=IF+rz2PvsBQx52Qdi1CL3g27mHqZQX9cudkC8UuiDoA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LAG8oDTWFUUe6/Sir0/NEC3wffDjChHNhzI/3k1cq8BTu48yngQtRSAePzF36xjpl
- NtEFVZXU4xjC4zTKqdm91vqG8O1NTDLIowkJ7r1TVEVU5ttrJANAZvOTuPIGh5QXEd
- 5W1bXyT3hl0ut/7P9cDbDWy8KqBW47YOEdYFlnIDAueewJaQpUu9fvgfUD5n6TQEbs
- iUluazbhWpQNclNXQX076jbuIYffpTmIymmePW62HC2eJCmOU0B+ECFBVTR5mHc4WB
- 84y2hYnyUlePZVb+J6ak2JUfs9lj6SXeDCIvUCkTsfB05+DEGHp+mF5u+RoTlJiogu
- ZY4e7Mdv9igMw==
-Message-ID: <6ca8eb52-7538-47c0-afb5-e4a91322539b@kernel.org>
-Date: Thu, 9 Jan 2025 17:15:08 +0100
+X-Greylist: delayed 4988 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Jan 2025 16:26:26 UTC
+Received: from smtp-out2.suse.de (smtp-out2.suse.de
+ [IPv6:2a07:de40:b251:101:10:150:64:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9DF110E0A2;
+ Thu,  9 Jan 2025 16:26:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8BEF71F394;
+ Thu,  9 Jan 2025 16:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736439985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NRmPm0ZNk/C3mZstvTuhKj0QjfwNtjAVVxCaUxWitUE=;
+ b=sbSREeiq9iYjhEjeQW4qdyaKgpxCCvgX4XR/fBFVbBO4pMWr9sS4BXsXIGQmQ85imThdW3
+ YEr9PS4vxUj00SkQvkhd+WdDG7ceEvYLGtYIwa15RLNL2aCvQCzad51udAuGukV2DSk9ep
+ xC+VFiwxwgPTMZtQGbOekt/679hQbN0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736439985;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NRmPm0ZNk/C3mZstvTuhKj0QjfwNtjAVVxCaUxWitUE=;
+ b=Lfl2D7OwYEWe79nVY++MQKtG++F9vBKMfMM+7FkArBH4/ckhXi+TbuY3f0MHOm2XwF8VUk
+ tzwhYX4d2YyHyaDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736439985; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NRmPm0ZNk/C3mZstvTuhKj0QjfwNtjAVVxCaUxWitUE=;
+ b=sbSREeiq9iYjhEjeQW4qdyaKgpxCCvgX4XR/fBFVbBO4pMWr9sS4BXsXIGQmQ85imThdW3
+ YEr9PS4vxUj00SkQvkhd+WdDG7ceEvYLGtYIwa15RLNL2aCvQCzad51udAuGukV2DSk9ep
+ xC+VFiwxwgPTMZtQGbOekt/679hQbN0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736439985;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=NRmPm0ZNk/C3mZstvTuhKj0QjfwNtjAVVxCaUxWitUE=;
+ b=Lfl2D7OwYEWe79nVY++MQKtG++F9vBKMfMM+7FkArBH4/ckhXi+TbuY3f0MHOm2XwF8VUk
+ tzwhYX4d2YyHyaDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 00C48139AB;
+ Thu,  9 Jan 2025 16:26:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 9qu0ObD4f2fqBgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Jan 2025 16:26:24 +0000
+Message-ID: <6666af19-a98d-41d7-8329-7b50807c04a9@suse.de>
+Date: Thu, 9 Jan 2025 17:26:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/7] dt-bindings: opp: Add v2-qcom-adreno vendor
- bindings
-To: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Maya Matuszczyk <maccraft123mc@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250109-gpu-acd-v4-0-08a5efaf4a23@quicinc.com>
- <20250109-gpu-acd-v4-5-08a5efaf4a23@quicinc.com>
- <67mvekrysu2ms5dsvjyh37wbl5dmcnk2r3xnow2e5xeeqahhrr@ar5zsq3wzip3>
- <d23fe626-4025-4a6c-8916-1771641b2a78@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2 23/25] drm/xe: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Matthew Auld <matthew.auld@intel.com>, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-24-tzimmermann@suse.de>
+ <91c904f8-ba47-4595-be65-6fb57dcc9c64@intel.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <d23fe626-4025-4a6c-8916-1771641b2a78@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <91c904f8-ba47-4595-be65-6fb57dcc9c64@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[intel.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[22]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,suse.de:email,suse.de:mid]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,70 +155,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/01/2025 14:13, Akhil P Oommen wrote:
-> On 1/9/2025 1:36 PM, Krzysztof Kozlowski wrote:
->> On Thu, Jan 09, 2025 at 02:10:01AM +0530, Akhil P Oommen wrote:
->>> Add a new schema which extends opp-v2 to support a new vendor specific
->>> property required for Adreno GPUs found in Qualcomm's SoCs. The new
->>> property called "qcom,opp-acd-level" carries a u32 value recommended
->>> for each opp needs to be shared to GMU during runtime.
->>>
->>> Also, update MAINTAINERS file include the new opp-v2-qcom-adreno.yaml.
->>>
->>> Cc: Rob Clark <robdclark@gmail.com>
->>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>> ---
->>>  .../bindings/opp/opp-v2-qcom-adreno.yaml           | 97 ++++++++++++++++++++++
->>>  MAINTAINERS                                        |  1 +
->>>  2 files changed, 98 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
->>> new file mode 100644
->>> index 000000000000..de1f7c6c4f0e
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
->>> @@ -0,0 +1,97 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/opp/opp-v2-qcom-adreno.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: Qualcomm Adreno compatible OPP supply
->>> +
->>> +description:
->>> +  Adreno GPUs present in Qualcomm's Snapdragon chipsets uses an OPP specific
->>> +  ACD related information tailored for the specific chipset. This binding
->>> +  provides the information needed to describe such a hardware value.
->>> +
->>> +maintainers:
->>> +  - Rob Clark <robdclark@gmail.com>
->>> +
+Hi
+
+
+Am 09.01.25 um 17:05 schrieb Matthew Auld:
+> On 09/01/2025 14:57, Thomas Zimmermann wrote:
+>> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch
+>> and buffer size. Align the pitch to a multiple of 8. Align the
+>> buffer size according to hardware requirements.
 >>
->> You need select: here. See bot's warnings and other schemas, like
->> primecell, how they do it.
-> 
-> Somehow this error is not reproducible on my setup. I have upgraded both
-> Dtschema (2024.11) and and yamllint.
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> ---
+>>   drivers/gpu/drm/xe/xe_bo.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+>> index e6c896ad5602..d75e3c39ab14 100644
+>> --- a/drivers/gpu/drm/xe/xe_bo.c
+>> +++ b/drivers/gpu/drm/xe/xe_bo.c
+>> @@ -8,6 +8,7 @@
+>>   #include <linux/dma-buf.h>
+>>     #include <drm/drm_drv.h>
+>> +#include <drm/drm_dumb_buffers.h>
+>>   #include <drm/drm_gem_ttm_helper.h>
+>>   #include <drm/drm_managed.h>
+>>   #include <drm/ttm/ttm_device.h>
+>> @@ -2535,14 +2536,13 @@ int xe_bo_dumb_create(struct drm_file 
+>> *file_priv,
+>>       struct xe_device *xe = to_xe_device(dev);
+>>       struct xe_bo *bo;
+>>       uint32_t handle;
+>> -    int cpp = DIV_ROUND_UP(args->bpp, 8);
+>>       int err;
+>>       u32 page_size = max_t(u32, PAGE_SIZE,
+>>           xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K);
+>>   -    args->pitch = ALIGN(args->width * cpp, 64);
+>> -    args->size = ALIGN(mul_u32_u32(args->pitch, args->height),
+>> -               page_size);
+>> +    err = drm_mode_size_dumb(dev, args, SZ_64, page_size);
+>
+> AFAICT this looks to change the behaviour, where u64 size was 
+> technically possible and was allowed given that args->size is u64, but 
+> this helper is limiting the size to u32. Is that intentional? If so, 
+> we should probably make that clear in the commit message.
 
+That's an interesting observation; thanks. The ioctl's internal checks 
+have always limited the size to 32 bit. [1] I think it is not supposed 
+to be larger than that. We can change the helper to support 64-bit sizes 
+as well.
 
-You probably need to test all bindings, so skipping DT_SCHEMA_FILES
+Having said that, is there any use case? Dumb buffers are for software 
+rendering only. Allocating more than a few dozen MiB seems like a 
+mistake. Maybe we should rather limit the allowed allocation size instead?
 
-> Anyway, could you please confirm if the below addition would be sufficient?
-> 
-> select:
->   required:
->     - compatible
->   properties:
->     compatible:
->       contains:
->         const: operating-points-v2-adreno
+Best regards
+Thomas
 
+[1] 
+https://elixir.bootlin.com/linux/v6.12.6/source/drivers/gpu/drm/drm_dumb_buffers.c#L82
 
-For this binding yes, but if the warning persist, then you might need to
-update operating-points-v2 as well, with a similar select but without
-"contains:".
+>
+>> +    if (err)
+>> +        return err;
+>>         bo = xe_bo_create_user(xe, NULL, NULL, args->size,
+>>                      DRM_XE_GEM_CPU_CACHING_WC,
+>
 
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-Best regards,
-Krzysztof
