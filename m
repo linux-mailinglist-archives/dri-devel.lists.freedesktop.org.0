@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40856A0768D
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E70AA0768C
 	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:08:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 262DD10EDC2;
-	Thu,  9 Jan 2025 13:08:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0FA310EDC4;
+	Thu,  9 Jan 2025 13:08:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="voxUVeZS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ok8Gqp+H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7E5E10EDC4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:08:51 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-385e971a2a0so44973f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 05:08:51 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A19DC10EDC4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:08:53 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id
+ ffacd0b85a97d-3862e570832so83145f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 05:08:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736428130; x=1737032930; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736428132; x=1737032932; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=4C8lFM4usc2WCSKaYFakQWoC1zk+7BImjfAxgt/bKlA=;
- b=voxUVeZSN3IyhK8bYJhbE+uFWeN8Hq3zTn9XlDFjXd41GCfbhu55dhToss+X9pTdOC
- KcD1A5JNyfJwfnblN+wx9Z2bx9VOrgNUAf9bM6Xj/A/eTiwETIgoq2zlHszw0ZMLGu7t
- buN/ChbpaYuPxCsUutQFd78dzz4zXSsXC3Xd4snR63A+IKtra/cLJM5MLBU74rdNRMDT
- vfbzTsx/QoL5ypuHFaON6Rj09/6OJ1aJmouezuklZjU15cGYVwffB5eeJUG56QV5TfQi
- min2neTQbmTIt7T8dRbveti7S5XdI7uJY08K4Li4Op+8zT3tnuPBBunJB6oKmiv6Py8C
- DHTg==
+ :reply-to; bh=7RJRN3DpHMoLX/jdimH6f+RprS9z729MmnmNKrGM77M=;
+ b=ok8Gqp+HkvzJ0Kmva3bNXy8G+u4vOvQeg3fMJT8JKJ4tdkmdFvbMMIBdCFrrYiIRNm
+ oHE073fWlmGtUJS63uR3U7o3hLbfv9P4GKi5R79wXK/d95LBOWsFoOZkMAZcX3uAVThC
+ lruS9cR1uNVJBX8/LNCb9Y4aX2k1Ec3Ot/F0qtKkkYflDp+E4hra0Jo/zM4fr9/kJjqR
+ XQShv5oSJmSobsevR5tWKBKCeumZvqFL0biXhYiI7zWSvxTa+pK4m7HDloSzdfDBrPrt
+ 3S6Dy9U3eRqyxDnoOW5gGPDvgiirazew+Fn7JLrHRVYzFxqBOtNMFRaUj+sHjIn10ESe
+ TiQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736428130; x=1737032930;
+ d=1e100.net; s=20230601; t=1736428132; x=1737032932;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4C8lFM4usc2WCSKaYFakQWoC1zk+7BImjfAxgt/bKlA=;
- b=IV+b2VgKipfnC1pJFQRUPaWfjNQE3S4bNPYVHPqeYjIpJKYaYQ77hLthfqtSf71lMY
- 4/p/kkdY/o8TYGKh9Nm/YTjjsEvYSslygW1CxAKC/WuU2k/PeINRC1y6CzFvLtVA5y94
- GmK7ucJMEzgCo5yd/54KxPW1nqL1L5r8jzOhbSDbCf/v0aAdxkm1fIUpwQhDjmrHyv7l
- yMy2YYsnLIcESmX/ThUlFEmpU9QG3ZRLnKsA+amlfa29GhWcuyWytWYa05AXPmPtmBB+
- cGpBLOgxwW0PbQjm0ckfX1bQJQCc1ppWueppeVdknZttsQIMeiLCel0jNxO9bBuyu3MJ
- +L1Q==
+ bh=7RJRN3DpHMoLX/jdimH6f+RprS9z729MmnmNKrGM77M=;
+ b=NklhD8YnmLVD2lh18fP2WZr6EDWBPObsOzuD14we9B1m6GOkB+Y5gKEaF1oiT26j3s
+ ZEOVVrwqu8TmrjgGMbmNW/rFP2MkC+JpOad9TIkH4ybu7YhPkVhmxyZeH1wErX8y3HZl
+ ZKJvNMjWgpT9bkfaGWybvT9I82ZSZ64+rVyV2nrhCcuYua3L0KWGo4CyiPqOEF7Aixcj
+ 4jf0jjpWckNEJgek+yRyHssmhdYeu+wzTB6AqVxSW7TdJLTtUPq0yxixYZjwVAoMmKf5
+ oKd8VouhW+c+BTH4eANnrrXNXeKZcjEgL7kxLKtohmAXGh9NTGYOKrNvEx79W/8ktdqH
+ gEcA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyX63FrgCnd19fJ1NH7HmA3k9VGRrJXLEoTp/umnQAJVgsojyc3J3HyV2Sud3gMB6/BHwsf35priU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkvsfXiR4fLJanreNY1FB22+Qo3yqyYW+8J0upvMKyEjpbcE6R
- 3py2qYqUHPXxcUk2YEdjOqb31EnotlAYNqjjSSfN+BeldYMmx1m8bjki0HcF+X8=
-X-Gm-Gg: ASbGncsXFkFcUfyXMcUYrPm/TXdV3v+HUcxuVhf3Q4rVAlCcqNpMny2lm7uy10nyS5z
- zTcoaK+XSy19kW9lc0/qreyt+podQFuXbOHv9znzoX4orAnWR+A8iqzerAgGZ0V49NjE32K0RFZ
- n2YwPzBJJG0447bHecpW26Z1wbD+mqnq3dNvCCMOrj6imaliw8UpuLu6f4ol9cc6Fh5H0U+/q9b
- qyz7iAmUxsv31bGF5o30vXKkR+BBdrTWumWE8NuRDxxDnMg+wF0C8hHNOJSrJGhP7AsOMxV
-X-Google-Smtp-Source: AGHT+IEUQcwvPKcbMIyP5ZKenACaYFV8nmJntcoucqUL76PjNvM3RVPBbc04BbNpWGPXqI3Qhp3mCg==
-X-Received: by 2002:a05:6000:1ac5:b0:385:f3d8:66b9 with SMTP id
- ffacd0b85a97d-38a873122f8mr1918123f8f.11.1736428130154; 
- Thu, 09 Jan 2025 05:08:50 -0800 (PST)
+ AJvYcCWKI5K0Nvg8v8/qpzg4fb6aroN06zLXBlKNv0OMaIt0DwVGdmgr3/S/v9xdCJbLxuuZ4wEgHCJhAp0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzP5KmPEjEGchXA772+5Sug/XRDXJSpGlDYXrRV6yDJ3T3rLSYc
+ uqQFIHbflS/wTOzysigSmgPG9RM6P6pF8QWMCXFGfNR1WY2HGvv/WAAokk0PuYM=
+X-Gm-Gg: ASbGncs1at+OsrLAW0UyL+eVl1BAL3hCxDq8QAZV512Y87ubRHA96MYO2/EjNl8iUMJ
+ eWp5RSXsFKned8YguHEw9ZcuhuhVlno+KQP/ea2/ZJ7z0eggghIxYogVhIdJ26qCPnNJGW0UBMt
+ 2KuUcoIsUQQnu2+39nfEoA3X65YLKU938CgUDWgfH3XxGTUsIGlrAUmvLmDTvI3htG9ntj5L30U
+ TWGTie/QO6aV/u8MEqvNKtn+VEueWlcietVDwMzJBp8+PKcVk731kaKZicWijs43YSytUuh
+X-Google-Smtp-Source: AGHT+IEFtVovrr+9PFDGQDnE7Sg3h8FRd+yDLavnYBVOD7Bk6TIaMXWKNWm8UdpJMRZJX54VO5h+OQ==
+X-Received: by 2002:a5d:47c4:0:b0:386:3a50:8c52 with SMTP id
+ ffacd0b85a97d-38a872e89f6mr2463710f8f.7.1736428132105; 
+ Thu, 09 Jan 2025 05:08:52 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a8e4b8124sm1789167f8f.81.2025.01.09.05.08.48
+ ffacd0b85a97d-38a8e4b8124sm1789167f8f.81.2025.01.09.05.08.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 05:08:49 -0800 (PST)
+ Thu, 09 Jan 2025 05:08:51 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Thu, 09 Jan 2025 14:08:30 +0100
-Subject: [PATCH RFC 03/11] dt-bindings: display/msm: dsi-phy-7nm: Add
- SM8750
+Date: Thu, 09 Jan 2025 14:08:31 +0100
+Subject: [PATCH RFC 04/11] dt-bindings: display/msm: dsi-controller-main:
+ Add SM8750
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250109-b4-sm8750-display-v1-3-b3f15faf4c97@linaro.org>
+Message-Id: <20250109-b4-sm8750-display-v1-4-b3f15faf4c97@linaro.org>
 References: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
 In-Reply-To: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -87,21 +87,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Srini Kandagatla <srinivas.kandagatla@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=871;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4323;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=e0kdcE7yovOEd8OkvRzLucewo18gCGxr8FZ8czNmUJA=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnf8pSigc0AOsfkJ1vj+FW+h4c8exWR+2AjLU03
- XWEbwBbG9CJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ3/KUgAKCRDBN2bmhouD
- 18w/D/9j523hP6tsD4X4WpxZoWwq7ujCH3x9l7dPbgGmHHl+HyR+0usvRdMuj7f/q3ivtb1FC6N
- 6tN9mdgETOhx7VB97ygMjvjJ1QFxhK4nmjOEmoe/Krsy3Zs5HOeWscofNGoTD5Zpi8zhR1t735y
- d/RLYaGNjybkPSXgeb1rgK2kygDY9TwMX/Ar3qJXk10HzJ27jmpc075iyX0kVywNbBX1hwivVc7
- Q2NvlUl+/Ph603mtdOK+CT6V3sgWaJbqAiUe/cO4UvM4kbvG9fTAt6XAKAVbGSL95yTMpIY5/H0
- eilgDltfq1/4fi8V/l1IfDz5LLZPyFXBJ45v/yu1xlViobbDzth8+kFSmBE6CIq8UNw714il5WJ
- L2hgMqP2+/YrXKvkQt/KjC3tqr7OtM7k+aDChiBqvk8Aa74O9rFRtkIYzmb1PXgLcn/Sn3x5pyW
- t3O7e45CyXFRNshgaqgq4tgOtQyDS1DV9am9enzibdw1GGc1rYWS4UvNaQWDL6rfyJdtIYIXXDr
- QKRcKklKuL2q+rrOZCG7UUYzqoY/0NoJ03aoJrmx00bbrLXtzMlqv+sHJWtKY/9ULc9UsHqSSDm
- ExSklXiwEDeHUUhVU+TvAw3M1wktdjJ36KSvMu2TdwaJybCjTRWMsx1Sz6d3P9oQzyrCFsqOSqA
- gLs4C6IxVhpCPyQ==
+ bh=MQ748T1GZYQKbZyfeje0RVYs6YjR4dtwJ7gT00apGuI=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnf8pTE+bwb3XSoenIMZ8b4rrtee1vP2mwnRg55
+ TXa2SIGWmKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ3/KUwAKCRDBN2bmhouD
+ 10yjD/9mxwC99k3zdXUhEOPmdViV/Fj5ffAa0bDAXAN1NO4g3cSuJP5Y6vP8KIh1M2tafuLNXLK
+ 36DaRgCmXwWUlFQKyCmi3WrUv2mI/HL/U+3Pj4qJ0sBDqnMwrdcL/Ukhta1Xo5TAvKIx13zfgNY
+ lIP8wr9CVDHty9XIaisa7zE13tV/G7/kmQAR6eHZs2+LV0/FT1tSaB8xNXZhLSu1goMjmFlhZP6
+ IR+9bHOqhw5sNBfxu886mrNkhDka04a8LA37dZ0XZCOFvPW+F1TE+/c6ziguUZ1NZCwleUXLT9L
+ U5LD2/mzmltKpWoIQ4GxjyHJo4EoK6oGvfgF0l5EBDlw5aY+fMq26ZwnW/lFFBCN9g9fD9J4cpJ
+ lqwRNoZ/0ytG34MnYiWiQBfyP7vFZ8HSsH7YOnvDIHF/QKCZ26K0bvYvEaMqiPhJc8eRlglA4EG
+ 0/1hR4Wu4oploJAJbj3tvB3c07A0Qoo6lGzd52WqHl23nPvR8sSqUeIABgCnL1baF3fV2nWOmXs
+ a8bjisCjrq4UYy4G+z3ZUxFdit9C89nO9cAOYPOanmSVs1xyaVGHGLjRzWCHb3lC28FmW9l5MNd
+ zU+D6lzgW9mBMiPNHfMuyZiDfzJn/tdKEaHRRMnk6Jm3unA6dIBuaFWeV1TcT/oogRwfhNMOVMR
+ VUJ69LaYhYIYVeA==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,26 +119,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add DSI PHY v7.0 for Qualcomm SM8750 SoC which is quite different from
+Add DSI controller for Qualcomm SM8750 SoC which is quite different from
 previous (SM8650) generation.
+
+It does not allow the display clock controller clocks like "byte" and
+"pixel" to be reparented to DSI PHY PLLs while the DSI PHY PLL is not
+configured (not prepared, rate not set).  Therefore
+assigned-clock-parents are not working here and driver is responsible
+for reparenting clocks with proper procedure.  These clocks are now
+inputs to the DSI controller device.
+
+Except that SM8750 DSI comes with several differences, new blocks and
+changes in registers, making it incompatible with SM8650.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ .../bindings/display/msm/dsi-controller-main.yaml  | 54 ++++++++++++++++++++--
+ 1 file changed, 49 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-index 7e764eac3ef31829e745673ea91d4135921d61e5..e356a65a97e901104a29ffe8e5ac04dbaaad6bd3 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
-@@ -23,6 +23,7 @@ properties:
-       - qcom,sm8450-dsi-phy-5nm
-       - qcom,sm8550-dsi-phy-4nm
-       - qcom,sm8650-dsi-phy-4nm
-+      - qcom,sm8750-dsi-phy-3nm
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+index c99dd06f2db9a7a77665ab057d05d87fd3ec2ec2..475b3b881c51c0bc526aed54955767a7149fb1d5 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
+@@ -40,6 +40,7 @@ properties:
+               - qcom,sm8450-dsi-ctrl
+               - qcom,sm8550-dsi-ctrl
+               - qcom,sm8650-dsi-ctrl
++              - qcom,sm8750-dsi-ctrl
+           - const: qcom,mdss-dsi-ctrl
+       - enum:
+           - qcom,dsi-ctrl-6g-qcm2290
+@@ -68,11 +69,11 @@ properties:
+        - mnoc:: MNOC clock
+        - pixel:: Display pixel clock.
+     minItems: 3
+-    maxItems: 9
++    maxItems: 12
  
-   reg:
-     items:
+   clock-names:
+     minItems: 3
+-    maxItems: 9
++    maxItems: 12
+ 
+   phys:
+     maxItems: 1
+@@ -107,7 +108,8 @@ properties:
+     minItems: 2
+     maxItems: 4
+     description: |
+-      Parents of "byte" and "pixel" for the given platform.
++      For DSI on SM8650 and older: parents of "byte" and "pixel" for the given
++      platform.
+       For DSIv2 platforms this should contain "byte", "esc", "src" and
+       "pixel_src" clocks.
+ 
+@@ -216,8 +218,6 @@ required:
+   - clocks
+   - clock-names
+   - phys
+-  - assigned-clocks
+-  - assigned-clock-parents
+   - ports
+ 
+ allOf:
+@@ -242,6 +242,9 @@ allOf:
+             - const: byte
+             - const: pixel
+             - const: core
++      required:
++        - assigned-clocks
++        - assigned-clock-parents
+ 
+   - if:
+       properties:
+@@ -264,6 +267,9 @@ allOf:
+             - const: byte
+             - const: pixel
+             - const: core
++      required:
++        - assigned-clocks
++        - assigned-clock-parents
+ 
+   - if:
+       properties:
+@@ -286,6 +292,9 @@ allOf:
+             - const: pixel
+             - const: core
+             - const: core_mmss
++      required:
++        - assigned-clocks
++        - assigned-clock-parents
+ 
+   - if:
+       properties:
+@@ -307,6 +316,9 @@ allOf:
+             - const: core_mmss
+             - const: pixel
+             - const: core
++      required:
++        - assigned-clocks
++        - assigned-clock-parents
+ 
+   - if:
+       properties:
+@@ -342,6 +354,35 @@ allOf:
+             - const: core
+             - const: iface
+             - const: bus
++      required:
++        - assigned-clocks
++        - assigned-clock-parents
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - qcom,sm8750-dsi-ctrl
++    then:
++      properties:
++        clocks:
++          minItems: 12
++          maxItems: 12
++        clock-names:
++          items:
++            - const: byte
++            - const: byte_intf
++            - const: pixel
++            - const: core
++            - const: iface
++            - const: bus
++            - const: dsi_pll_pixel
++            - const: dsi_pll_byte
++            - const: esync
++            - const: osc
++            - const: byte_src
++            - const: pixel_src
+ 
+   - if:
+       properties:
+@@ -365,6 +406,9 @@ allOf:
+             - const: core_mmss
+             - const: pixel
+             - const: core
++      required:
++        - assigned-clocks
++        - assigned-clock-parents
+ 
+ unevaluatedProperties: false
+ 
 
 -- 
 2.43.0
