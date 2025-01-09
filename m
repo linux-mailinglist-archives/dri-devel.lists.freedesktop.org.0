@@ -2,94 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D3CA07514
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 12:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EBEA07532
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 13:02:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0507C10ED7A;
-	Thu,  9 Jan 2025 11:50:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B6310ED7C;
+	Thu,  9 Jan 2025 12:01:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i1HueGXP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="i5cDiU/f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 180F510ED7A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 11:50:15 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-43675b1155bso10119565e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 03:50:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736423413; x=1737028213; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SBUIkyq8HThi2u/QbO+9Ek4VXanc8mg0IJge15zLjYc=;
- b=i1HueGXPRAqV4nwUNppXRQUm28V4fYI/SqF0aHr5fzbW7MoMYKC6ipU/9Ltq4pV+Gq
- uWqG+Gxvo87jtQSlh7hMtAP/xTEvrfsngpDnamE/6NAr1/nNWiFYUxJLSQujvvW2vevw
- /4zQc7XIobLhDq/KsJledq5B2nItZVLV9Dg9+wGT0vHidsovFNzJaNZXRTbHdP7eoxUz
- 1cYdt5a+ZOJk84lRBitKHmwZTE6ldNHNIX4llHqlNvvNC6bPvVHa0j7/kUMbT9Chp1V6
- WAzj8YQgQlF6zgncT8Rr1mybOk/HKp/nwg3rpSX1PdFoSuRKoLE5NxBoEBVPU8RZXwO0
- jD3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736423413; x=1737028213;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SBUIkyq8HThi2u/QbO+9Ek4VXanc8mg0IJge15zLjYc=;
- b=LE+fhe2XD4w3xMYyC49ecOH0iN9XVbdbMyYg3pY12A3HfVCTJjWi0Aw3sgWZYrQHac
- 7CQEL6jklMC5gxxn2RCRgs2GDgZCAjRsDAQv/e4WhbYPSKQOm4VBDdEUbBzxv6Sj6VXZ
- 0g00UBtzv76SIgnzd9ppF2kxTGe2meEnBy7yE89crWTSk1cElkulivcSzgfunusI2+h+
- wHGHWnrs4qglKm02xk/331UPp5o6L9qYV1RtHOxEaccwu1nIJjYbO8mL+LS8Q3ljlAzG
- PIhtK6TEqA6KeJcOJLG/416zOSXHVaWA1GP6IaEP7N2xTv8FF0YjUa4fdEASmif0WonM
- v1QQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0bcjfkFYNMxdIle21URL5IGbDuGb4LvOSw1DM2cL+yQjbba9leskSUpFaulBIWzX9y/e2pBvFHVA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpPDHjC9iDgqftJ93PI/igEq3+DwE6gjLYZTSoPwSstNOhSwus
- QYCiwh17XWn6QI8Aj+KQtq6fl69wMlwPA+iIevbzh3+mqDJX24jXkesTJoShxxk=
-X-Gm-Gg: ASbGncvQ6HBBlz5QNpw8k0UE4IaDKYjm6S4b73fti4MoFYg13NQqQcywAti+keRxf38
- Ky4frIqboMLMnbOHrdYzroh3kOQDKCu9L83YQkj36zFbwJdv38qsAyZdhdWqKBUhri6/Y7Uvq4o
- 08mF0s/r54SRwQAzaEqxtERIAbZIWHzOeOOySQfaaWWySEz2AstK6EzrPwcQO+pKykXih8AjYF3
- zA71VLekhvM8Lto8r/s+Z+wb8ZEdOCmpdvAwp7+J3H8i1zuyWDbdzE=
-X-Google-Smtp-Source: AGHT+IE6bPuwfgpmvhR0wnVywkO+uV/zmxqYUYfEIWBePuS9J7kF881P4MIK7Z1l4XbIG4X4Nze9zA==
-X-Received: by 2002:a05:600c:3152:b0:434:f9e1:5cf8 with SMTP id
- 5b1f17b1804b1-436e271d3a2mr66267645e9.31.1736423413467; 
- Thu, 09 Jan 2025 03:50:13 -0800 (PST)
-Received: from linaro.org ([86.121.162.10]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a8e3838a3sm1628874f8f.33.2025.01.09.03.50.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 03:50:12 -0800 (PST)
-Date: Thu, 9 Jan 2025 13:50:10 +0200
-From: Abel Vesa <abel.vesa@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Johan Hovold <johan@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH v4 4/4] drm/msm/dp: Add support for LTTPR handling
-Message-ID: <Z3+38i2MTgwNGKSU@linaro.org>
-References: <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-0-918949bc2e3a@linaro.org>
- <20250108-drm-dp-msm-add-lttpr-transparent-mode-set-v4-4-918949bc2e3a@linaro.org>
- <zfyl7xvkackpv2tfabvcjqt6e3uxxgyxwg6t4fvjrlzeg5m6nf@wc5suvzcm54u>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6551A10ED7C;
+ Thu,  9 Jan 2025 12:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736424117; x=1767960117;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pj8X71pXg7Fsy/PP0X8OyEOrQYa9XcFMClqlFIkKvgI=;
+ b=i5cDiU/fW595gkzSlufHMiBI8n16gVOqNR7Rq765SxdTFYQVZcedZEBo
+ gcpncLl07RTHUBYWOIo2PtAjPgjUt6Xiu7jMF8jG+iBB5MenPkkG21osj
+ iqlcx2XnyHcYwC/8ghl/gi3t9Q7YTUkZa65adVgA2kGq/L1E0bjBsVLcP
+ OBEcI1d0dcqyzK6olqzZe4zzEgZOw4+xvyNlJun49EcFF2A5OdPZCr/hb
+ 1UkNSCoGU935FK0ETd6r0ErsFGsTm8MmP6vYvb+vSdhPa65/okYA2AGyM
+ 7/NgHN90cFVZEn9ubal0G2JQL0g4HCKi3Z8+nLGZR8LUuLX49frNaim9T Q==;
+X-CSE-ConnectionGUID: LnBX1fgmTIeZ5G8lfgZPyw==
+X-CSE-MsgGUID: NfLI4hPURk+in0RayR50Tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36700202"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="36700202"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 04:01:57 -0800
+X-CSE-ConnectionGUID: Q6yshj7MRxmir841yRk6+A==
+X-CSE-MsgGUID: ro/BMow1ToqRc7c405BOIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="103455768"
+Received: from tejas-super-server.iind.intel.com ([10.145.169.166])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 04:01:53 -0800
+From: Tejas Upadhyay <tejas.upadhyay@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, badal.nilawar@intel.com,
+ vinay.belgaumkar@intel.com, michal.mrozek@intel.com,
+ szymon.morek@intel.com, jose.souza@intel.com, lucas.demarchi@intel.com,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>
+Subject: [RFC PATCH V2] drm/xe/guc: Use exec queue hints for GT frequency
+Date: Thu,  9 Jan 2025 17:37:05 +0530
+Message-Id: <20250109120705.3021126-1-tejas.upadhyay@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zfyl7xvkackpv2tfabvcjqt6e3uxxgyxwg6t4fvjrlzeg5m6nf@wc5suvzcm54u>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,80 +69,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25-01-08 16:25:31, Bjorn Andersson wrote:
-> On Wed, Jan 08, 2025 at 04:31:46PM +0200, Abel Vesa wrote:
-> > Link Training Tunable PHY Repeaters (LTTPRs) are defined in DisplayPort
-> > 1.4a specification. As the name suggests, these PHY repeaters are
-> > capable of adjusting their output for link training purposes.
-> > 
-> > According to the DisplayPort standard, LTTPRs have two operating
-> > modes:
-> >  - non-transparent - it replies to DPCD LTTPR field specific AUX
-> >    requests, while passes through all other AUX requests
-> >  - transparent - it passes through all AUX requests.
-> > 
-> > Switching between this two modes is done by the DPTX by issuing
-> > an AUX write to the DPCD PHY_REPEATER_MODE register.
-> > 
-> > The msm DP driver is currently lacking any handling of LTTPRs.
-> > This means that if at least one LTTPR is found between DPTX and DPRX,
-> > the link training would fail if that LTTPR was not already configured
-> > in transparent mode.
-> > 
-> > The section 3.6.6.1 from the DisplayPort v2.0 specification mandates
-> > that before link training with the LTTPR is started, the DPTX may place
-> > the LTTPR in non-transparent mode by first switching to transparent mode
-> > and then to non-transparent mode. This operation seems to be needed only
-> > on first link training and doesn't need to be done again until device is
-> > unplugged.
-> > 
-> > It has been observed on a few X Elite-based platforms which have
-> > such LTTPRs in their board design that the DPTX needs to follow the
-> > procedure described above in order for the link training to be successful.
-> > 
-> > So add support for reading the LTTPR DPCD caps to figure out the number
-> > of such LTTPRs first. Then, for platforms (or Type-C dongles) that have
-> > at least one such an LTTPR, set its operation mode to transparent mode
-> > first and then to non-transparent, just like the mentioned section of
-> > the specification mandates.
-> > 
-> > Tested-by: Johan Hovold <johan+linaro@kernel.org>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Reviewed-by: Johan Hovold <johan+linaro@kernel.org>
-> > Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/dp/dp_display.c | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > index 24dd37f1682bf5016bb0efbeb44489061deff060..ad09daa4c8ab5c0eb67890509b94e72820bab870 100644
-> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > @@ -107,6 +107,8 @@ struct msm_dp_display_private {
-> >  	struct msm_dp_event event_list[DP_EVENT_Q_MAX];
-> >  	spinlock_t event_lock;
-> >  
-> > +	u8 lttpr_caps[DP_LTTPR_COMMON_CAP_SIZE];
-> 
-> As far as I can see these 8 bytes are read and acted upon only within
-> msm_dp_display_lttpr_init() below. Any particular reason why you don't
-> just put them on the stack?
+Allow user to provide a low latency hint per exec queue. When set,
+KMD sends a hint to GuC which results in special handling for this
+exec queue. SLPC will ramp the GT frequency aggressively every time
+it switches to this exec queue.
 
-Sure, I can do that. My rationale here was that this caps hold more than
-just LTTPRs count. Thinks like max lane count or max link rate are part of
-the LTTPR common caps. There are drm generic helpers for each one where
-you need to pass on these caps. Yes, at this point they are not used in
-the drm/msm, but looking at the i915 and nouveau, they seem to be
-useful at some point. This is why I followed the i915 to safekeep them
-in this container struct.
+We need to enable the use of SLPC Compute strategy during init, but
+it will apply only to exec queues that set this bit during exec queue
+creation.
 
-Anyway, I'll drop them from here and put them on stack.
+Improvement with this approach as below:
 
-> 
-> Regards,
-> Bjorn
+Before,
 
-Thanks for reviewing!
+:~$ NEOReadDebugKeys=1 EnableDirectSubmission=0 clpeak --kernel-latency
+Platform: Intel(R) OpenCL Graphics
+  Device: Intel(R) Graphics [0xe20b]
+    Driver version  : 24.52.0 (Linux x64)
+    Compute units   : 160
+    Clock frequency : 2850 MHz
+    Kernel launch latency : 283.16 us
 
-Abel
+After,
+
+:~$ NEOReadDebugKeys=1 EnableDirectSubmission=0 clpeak --kernel-latency
+Platform: Intel(R) OpenCL Graphics
+  Device: Intel(R) Graphics [0xe20b]
+    Driver version  : 24.52.0 (Linux x64)
+    Compute units   : 160
+    Clock frequency : 2850 MHz
+
+    Kernel launch latency : 63.38 us
+
+UMD will indicate low latency hint with flag as mentioned below,
+
+*     struct drm_xe_exec_queue_create exec_queue_create = {
+*          .flags = DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT or 0
+*          .extensions = 0,
+*          .vm_id = vm,
+*          .num_bb_per_exec = 1,
+*          .num_eng_per_bb = 1,
+*          .instances = to_user_pointer(&instance),
+*     };
+*     ioctl(fd, DRM_IOCTL_XE_EXEC_QUEUE_CREATE, &exec_queue_create);
+
+Link to UMD PR : https://github.com/intel/compute-runtime/pull/794
+
+Note: There is outstanding issue on guc side to be not able to switch to max
+frequency as per strategy indicated by KMD, so for experminet/test result
+hardcoding apporch was taken and passed to guc as policy. Effort on debugging
+from guc side is going on in parallel.
+
+V2:
+  - DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT 1 is already planned for other hint(Szymon)
+  - Add motivation to description (Lucas)
+
+Cc:dri-devel@lists.freedesktop.org
+Cc:vinay.belgaumkar@intel.com
+Cc:Michal Mrozek <michal.mrozek@intel.com>
+Cc:Szymon Morek <szymon.morek@intel.com>
+Cc:José Roberto de Souza <jose.souza@intel.com>
+Signed-off-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
+---
+ drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h |  3 +++
+ drivers/gpu/drm/xe/xe_exec_queue.c            |  7 ++++---
+ drivers/gpu/drm/xe/xe_guc_pc.c                | 16 ++++++++++++++++
+ drivers/gpu/drm/xe/xe_guc_submit.c            |  7 +++++++
+ include/uapi/drm/xe_drm.h                     |  3 ++-
+ 5 files changed, 32 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h
+index 85abe4f09ae2..c50075b8270f 100644
+--- a/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h
++++ b/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h
+@@ -174,6 +174,9 @@ struct slpc_task_state_data {
+ 	};
+ } __packed;
+ 
++#define SLPC_EXEC_QUEUE_FREQ_REQ_IS_COMPUTE	REG_BIT(28)
++#define SLPC_OPTIMIZED_STRATEGY_COMPUTE		REG_BIT(0)
++
+ struct slpc_shared_data_header {
+ 	/* Total size in bytes of this shared buffer. */
+ 	u32 size;
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+index 8948f50ee58f..7747ba6c4bb8 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue.c
++++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+@@ -553,7 +553,8 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 	u32 len;
+ 	int err;
+ 
+-	if (XE_IOCTL_DBG(xe, args->flags) ||
++	if (XE_IOCTL_DBG(xe, args->flags &&
++			 !(args->flags & DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT)) ||
+ 	    XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
+ 		return -EINVAL;
+ 
+@@ -578,7 +579,7 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 
+ 		for_each_tile(tile, xe, id) {
+ 			struct xe_exec_queue *new;
+-			u32 flags = EXEC_QUEUE_FLAG_VM;
++			u32 flags = args->flags | EXEC_QUEUE_FLAG_VM;
+ 
+ 			if (id)
+ 				flags |= EXEC_QUEUE_FLAG_BIND_ENGINE_CHILD;
+@@ -626,7 +627,7 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 		}
+ 
+ 		q = xe_exec_queue_create(xe, vm, logical_mask,
+-					 args->width, hwe, 0,
++					 args->width, hwe, args->flags,
+ 					 args->extensions);
+ 		up_read(&vm->lock);
+ 		xe_vm_put(vm);
+diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
+index df7f130fb663..ff0b98ccf1a7 100644
+--- a/drivers/gpu/drm/xe/xe_guc_pc.c
++++ b/drivers/gpu/drm/xe/xe_guc_pc.c
+@@ -992,6 +992,19 @@ static int pc_init_freqs(struct xe_guc_pc *pc)
+ 	return ret;
+ }
+ 
++static int xe_guc_pc_set_strategy(struct xe_guc_pc *pc, u32 val)
++{
++	int ret = 0;
++
++	xe_pm_runtime_get(pc_to_xe(pc));
++	ret = pc_action_set_param(pc,
++				  SLPC_PARAM_STRATEGIES,
++				  val);
++	xe_pm_runtime_put(pc_to_xe(pc));
++
++	return ret;
++}
++
+ /**
+  * xe_guc_pc_start - Start GuC's Power Conservation component
+  * @pc: Xe_GuC_PC instance
+@@ -1052,6 +1065,9 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
+ 
+ 	ret = pc_action_setup_gucrc(pc, GUCRC_FIRMWARE_CONTROL);
+ 
++	/* Enable SLPC Optimized Strategy for compute */
++	xe_guc_pc_set_strategy(pc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
++
+ out:
+ 	xe_force_wake_put(gt_to_fw(gt), fw_ref);
+ 	return ret;
+diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+index 9c36329fe857..88a1987ac360 100644
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@ -15,6 +15,7 @@
+ #include <drm/drm_managed.h>
+ 
+ #include "abi/guc_actions_abi.h"
++#include "abi/guc_actions_slpc_abi.h"
+ #include "abi/guc_klvs_abi.h"
+ #include "regs/xe_lrc_layout.h"
+ #include "xe_assert.h"
+@@ -400,6 +401,7 @@ static void __guc_exec_queue_policy_add_##func(struct exec_queue_policy *policy,
+ MAKE_EXEC_QUEUE_POLICY_ADD(execution_quantum, EXECUTION_QUANTUM)
+ MAKE_EXEC_QUEUE_POLICY_ADD(preemption_timeout, PREEMPTION_TIMEOUT)
+ MAKE_EXEC_QUEUE_POLICY_ADD(priority, SCHEDULING_PRIORITY)
++MAKE_EXEC_QUEUE_POLICY_ADD(slpc_ctx_freq_req, SLPM_GT_FREQUENCY)
+ #undef MAKE_EXEC_QUEUE_POLICY_ADD
+ 
+ static const int xe_exec_queue_prio_to_guc[] = {
+@@ -414,14 +416,19 @@ static void init_policies(struct xe_guc *guc, struct xe_exec_queue *q)
+ 	struct exec_queue_policy policy;
+ 	enum xe_exec_queue_priority prio = q->sched_props.priority;
+ 	u32 timeslice_us = q->sched_props.timeslice_us;
++	u32 slpc_ctx_freq_req = 0;
+ 	u32 preempt_timeout_us = q->sched_props.preempt_timeout_us;
+ 
+ 	xe_gt_assert(guc_to_gt(guc), exec_queue_registered(q));
+ 
++	if (q->flags & DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT)
++		slpc_ctx_freq_req |= SLPC_EXEC_QUEUE_FREQ_REQ_IS_COMPUTE;
++
+ 	__guc_exec_queue_policy_start_klv(&policy, q->guc->id);
+ 	__guc_exec_queue_policy_add_priority(&policy, xe_exec_queue_prio_to_guc[prio]);
+ 	__guc_exec_queue_policy_add_execution_quantum(&policy, timeslice_us);
+ 	__guc_exec_queue_policy_add_preemption_timeout(&policy, preempt_timeout_us);
++	__guc_exec_queue_policy_add_slpc_ctx_freq_req(&policy, slpc_ctx_freq_req);
+ 
+ 	xe_guc_ct_send(&guc->ct, (u32 *)&policy.h2g,
+ 		       __guc_exec_queue_policy_action_size(&policy), 0, 0);
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index f62689ca861a..bd0150d2200c 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -1097,6 +1097,7 @@ struct drm_xe_vm_bind {
+  *         .engine_class = DRM_XE_ENGINE_CLASS_RENDER,
+  *     };
+  *     struct drm_xe_exec_queue_create exec_queue_create = {
++ *          .flags = DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT or 0
+  *          .extensions = 0,
+  *          .vm_id = vm,
+  *          .num_bb_per_exec = 1,
+@@ -1110,7 +1111,6 @@ struct drm_xe_exec_queue_create {
+ #define DRM_XE_EXEC_QUEUE_EXTENSION_SET_PROPERTY		0
+ #define   DRM_XE_EXEC_QUEUE_SET_PROPERTY_PRIORITY		0
+ #define   DRM_XE_EXEC_QUEUE_SET_PROPERTY_TIMESLICE		1
+-
+ 	/** @extensions: Pointer to the first extension struct, if any */
+ 	__u64 extensions;
+ 
+@@ -1123,6 +1123,7 @@ struct drm_xe_exec_queue_create {
+ 	/** @vm_id: VM to use for this exec queue */
+ 	__u32 vm_id;
+ 
++#define DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT	(0x1 << 1)
+ 	/** @flags: MBZ */
+ 	__u32 flags;
+ 
+-- 
+2.34.1
 
