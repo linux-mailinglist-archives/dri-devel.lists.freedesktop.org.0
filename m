@@ -2,88 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31013A06BEC
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C77A06C04
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:27:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D77010E984;
-	Thu,  9 Jan 2025 03:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF0310E0B6;
+	Thu,  9 Jan 2025 03:27:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lz7ThIw5";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="a2hk+6GO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C1A10E984;
- Thu,  9 Jan 2025 03:14:56 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508HMX9t014713;
- Thu, 9 Jan 2025 03:14:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YDF8yC5Gz8JMSRbuouAB/ciFth/iDl56jlffkxqQYu4=; b=lz7ThIw5QitpAz/7
- TIEEueEKeMKZ79rP+6QiXH4E8jTddJJucJHyz/IN4k98PSlhLHN/stXtxWCfAGrn
- zzmOhDxEalyJdwBOhTl9zw1DWeL3sv0ddO44IiQ11iQKXW68KvHeRxFgY1x/Kk0p
- YuhaBwgpJm6IApqX6aK9WgK+3UwcYN5QDL5nI7u3q9SDORB0P/mYMC0PErlqFudn
- WxhjBWS/qxCeBTsD47O+pZRLcRlta1TYNOxP8oBZVb+ve620PBAGEgyWKGwFcQMC
- PU0nN6rT9HeXQRXuo40be2vLmf7yxYnYH7+iMjzSQclJgahwMk3/OW4Ygi8/aZaH
- PvdeVw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441wq516sg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Jan 2025 03:14:54 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5093ErNI022120
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 9 Jan 2025 03:14:53 GMT
-Received: from [10.71.108.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
- 19:14:52 -0800
-Message-ID: <f9863c54-ca35-476b-b6aa-0eb1c18ec29e@quicinc.com>
-Date: Wed, 8 Jan 2025 19:14:51 -0800
+Received: from mail-m3296.qiye.163.com (mail-m3296.qiye.163.com
+ [220.197.32.96])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0451810E0B6
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 03:27:47 +0000 (UTC)
+Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 82c0195e;
+ Thu, 9 Jan 2025 11:27:43 +0800 (GMT+08:00)
+From: Damon Ding <damon.ding@rock-chips.com>
+To: heiko@sntech.de
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
+ vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v5 00/20] Add eDP support for RK3588
+Date: Thu,  9 Jan 2025 11:27:05 +0800
+Message-Id: <20250109032725.1102465-1-damon.ding@rock-chips.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: Force disabling commits to take non-async
- path
-To: Rob Clark <robdclark@gmail.com>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250108-async-disable-fix-v1-1-3f93eb600a3a@quicinc.com>
- <CAF6AEGtksLq5jpizGMj4t248rbNScgDvrxpxv09==b3DmpkLuQ@mail.gmail.com>
- <CAA8EJpqPZc7DNOb6WcRVtH0cFs9mUziL-dPgyakEJGO73=B6gA@mail.gmail.com>
- <58d9c139-c811-47aa-a527-4b1af110337c@quicinc.com>
- <CAF6AEGuFTW4hVursv-EKQ7GfVuUDJ4C0qWS0F+j1jPi+mP_xnA@mail.gmail.com>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <CAF6AEGuFTW4hVursv-EKQ7GfVuUDJ4C0qWS0F+j1jPi+mP_xnA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: YvBEMB-Dr7KUtfOies26vyrDkBUR19-E
-X-Proofpoint-ORIG-GUID: YvBEMB-Dr7KUtfOies26vyrDkBUR19-E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 priorityscore=1501
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=0
- clxscore=1015 malwarescore=0 mlxlogscore=999 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501090023
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQxlPSlYeQklNTEhPH05CThlWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a94491a88dc03a3kunm82c0195e
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pgg6Djo6EzIKFxQwLAJLTCwI
+ LT8KCgtVSlVKTEhNSEJISU1OS0xLVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFPS05JNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=a2hk+6GOC6v2e0a4ANeM4MO77pNsnsbtFVc/JQsu/z6E7nQIqOjRgDB9Qz1XLv6zmOgeaiTffyuUc2VCTXAIIk5ja7XU/Db3u0FolxWJCbfa2sr2TOVyL6+mjDPZi3N47vY5cXa4H2Rwum7m4HjqioJy2by2b1MQcjPc4uJXFaw=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=kOAA9iSyzFQMTnJ/IrrO9xw8dXd24x9YPykOwNf/caA=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,164 +65,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+These patchs have been tested with a 1536x2048p60 eDP panel on
+RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
+on RK3399 sapphire excavator board.
 
+Patch 1~4   are the eDP mode support of samsung hdptx phy driver.
+Patch 5~8   are preparations for the RK3588 eDP support on both Analogix
+            side and Rockchip side.
+Patch 9~12  are to support to get panel from the DP AUX bus.
+Patch 13~15 are the RK3588 Analogix DP driver support.
+Patch 16    is to add the power sequencing delays for panel model
+            LP079QX1-SP0V.
+Patch 17~18 are the renaming of hdptxphy node. It is not only used by
+            HDMI display but also for the eDP display.
+Patch 19    is the addition of RK3588 eDP0 node.
+Patch 20    is to enable the eDP0 display on RK3588S EVB1 board.
 
-On 1/8/2025 7:04 PM, Rob Clark wrote:
-> On Wed, Jan 8, 2025 at 6:22 PM Abhinav Kumar <quic_abhinavk@quicinc.com> wrote:
->>
->>
->>
->> On 1/8/2025 6:14 PM, Dmitry Baryshkov wrote:
->>> On Thu, 9 Jan 2025 at 03:45, Rob Clark <robdclark@gmail.com> wrote:
->>>>
->>>> On Wed, Jan 8, 2025 at 2:58 PM Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
->>>>>
->>>>> Force commit that are disabling a plane in the async_crtc to take the
->>>>> non-async commit tail path.
->>>>>
->>>>> In cases where there are two consecutive async cursor updates (one
->>>>> regular non-NULL update followed by a disabling NULL FB update), it is
->>>>> possible for the second NULL update to not be queued (due to the
->>>>> pending_crtc_mask check) or otherwise not be run before the cursor FB is
->>>>> deallocated by drm_atomic_helper_cleanup_planes(). This would cause a
->>>>> context fault since the hardware would try to fetch the old plane state
->>>>> with the stale FB address.
->>>>>
->>>>> Avoid this issue by forcing cursor updates that will disable the cursor
->>>>> plane to be blocking commits. This will ensure that hardware clears and
->>>>> stops fetching the FB source address before the driver deallocates the FB
->>>>>
->>>>> Fixes: 2d99ced787e3 ("drm/msm: async commit support")
->>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>>> ---
->>>>>    drivers/gpu/drm/msm/msm_atomic.c | 13 +++++++++++++
->>>>>    1 file changed, 13 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
->>>>> index 9c45d641b5212c11078ab38c13a519663d85e10a..ddc74c68148c643d34ca631dd28d4cdc2b8c7dc0 100644
->>>>> --- a/drivers/gpu/drm/msm/msm_atomic.c
->>>>> +++ b/drivers/gpu/drm/msm/msm_atomic.c
->>>>> @@ -142,6 +142,7 @@ static bool can_do_async(struct drm_atomic_state *state,
->>>>>           struct drm_connector_state *connector_state;
->>>>>           struct drm_connector *connector;
->>>>>           struct drm_crtc_state *crtc_state;
->>>>> +       struct drm_plane_state *plane_state;
->>>>>           struct drm_crtc *crtc;
->>>>>           int i, num_crtcs = 0;
->>>>>
->>>>> @@ -162,6 +163,18 @@ static bool can_do_async(struct drm_atomic_state *state,
->>>>>                   *async_crtc = crtc;
->>>>>           }
->>>>>
->>>>> +       /*
->>>>> +        * Force a blocking commit if the cursor is being disabled. This is to
->>>>> +        * ensure that the registers are cleared and hardware doesn't try to
->>>>> +        * fetch from a stale address.
->>>>> +        */
->>>>> +       if (*async_crtc) {
->>>>> +               plane_state = drm_atomic_get_new_plane_state(state,
->>>>> +                                                            (*async_crtc)->cursor);
->>>>> +               if (plane_state && !plane_state->fb)
->>>>> +                       return false;
->>>>
->>>> hmm, I suppose we want the same even if the fb changes?  Or
->>>> alternatively somewhere hold an extra ref to the backing obj until hw
->>>> has finished scanout?
->>>
->>
->> Hi Rob
->>
->> Do you mean we need to also check if old_plane_state->fb !=
->> new_plane_state->fb, then use blocking commit?
-> 
-> yeah, basically.. if we release any outgoing fb the backing bo could
-> be potentially freed+unmapped leading to the same problem.
-> 
+Damon Ding (20):
+  phy: phy-rockchip-samsung-hdptx: Swap the definitions of LCPLL_REF and
+    ROPLL_REF
+  phy: phy-rockchip-samsung-hdptx: Supplement some register names with
+    their full version
+  phy: phy-rockchip-samsung-hdptx: Add the '_MASK' suffix to all
+    registers
+  phy: phy-rockchip-samsung-hdptx: Add eDP mode support for RK3588
+  drm/rockchip: analogix_dp: Replace DRM_...() functions with drm_...()
+    or dev_...()
+  drm/rockchip: analogix_dp: Use formalized struct definition for grf
+    field
+  drm/rockchip: analogix_dp: Expand device data to support multiple edp
+    display
+  drm/bridge: analogix_dp: Add support for phy configuration.
+  dt-bindings: display: rockchip: analogix-dp: Add support to get panel
+    from the DP AUX bus
+  drm/bridge: analogix_dp: support to get &analogix_dp_device.plat_data
+    and &analogix_dp_device.aux
+  drm/bridge: analogix_dp: Add support to get panel from the DP AUX bus
+  drm/rockchip: analogix_dp: Add support to get panel from the DP AUX
+    bus
+  dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
+  drm/bridge: analogix_dp: Add support for RK3588
+  drm/rockchip: analogix_dp: Add support for RK3588
+  drm/edp-panel: Add LG Display panel model LP079QX1-SP0V
+  dt-bindings: display: rockchip: Fix label name of hdptxphy for RK3588
+    HDMI TX Controller
+  arm64: dts: rockchip: Fix label name of hdptxphy for RK3588
+  arm64: dts: rockchip: Add eDP0 node for RK3588
+  arm64: dts: rockchip: Enable eDP0 display on RK3588S EVB1 board
 
-Yeah true, this case also we can hit this. Will add it and check.
+ .../rockchip/rockchip,analogix-dp.yaml        |  40 +-
+ .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |   2 +-
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  32 +-
+ .../dts/rockchip/rk3588-coolpi-cm5-evb.dts    |   2 +-
+ .../rockchip/rk3588-coolpi-cm5-genbook.dts    |   2 +-
+ .../boot/dts/rockchip/rk3588-evb1-v10.dts     |   2 +-
+ .../rk3588-friendlyelec-cm3588-nas.dts        |   2 +-
+ .../arm64/boot/dts/rockchip/rk3588-jaguar.dts |   2 +-
+ .../boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |   2 +-
+ .../dts/rockchip/rk3588-orangepi-5-plus.dts   |   2 +-
+ .../boot/dts/rockchip/rk3588-rock-5b.dts      |   2 +-
+ .../boot/dts/rockchip/rk3588-tiger-haikou.dts |   2 +-
+ .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   2 +-
+ .../boot/dts/rockchip/rk3588s-evb1-v10.dts    |  54 +
+ .../dts/rockchip/rk3588s-indiedroid-nova.dts  |   2 +-
+ .../boot/dts/rockchip/rk3588s-nanopi-r6.dtsi  |   2 +-
+ .../boot/dts/rockchip/rk3588s-odroid-m2.dts   |   2 +-
+ .../boot/dts/rockchip/rk3588s-orangepi-5.dtsi |   2 +-
+ .../boot/dts/rockchip/rk3588s-rock-5a.dts     |   2 +-
+ .../boot/dts/rockchip/rk3588s-rock-5c.dts     |   2 +-
+ .../drm/bridge/analogix/analogix_dp_core.c    |  81 +-
+ .../drm/bridge/analogix/analogix_dp_core.h    |   1 +
+ .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  52 +
+ drivers/gpu/drm/panel/panel-edp.c             |   8 +
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 233 +++--
+ .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 971 +++++++++++++++++-
+ include/drm/bridge/analogix_dp.h              |   7 +-
+ 27 files changed, 1344 insertions(+), 169 deletions(-)
 
-> idk if this more conservative approach would cause fps issues..
-> holding an extra ref would avoid potential issues, but offhand I'm not
-> sure if it would be a perf problem in practice.  Maybe with animated
-> cursors?
-> 
+-- 
+2.34.1
 
-hmmm.... we did not see any significant lags or drops when we tested 
-this (that was also our major concern to make sure we dont)
-
-If we do have to hold an extra ref, we will have to do something like below:
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c 
-b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-index 098abc2c0003..97d9e056038c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-@@ -649,8 +649,10 @@ static int dpu_plane_prepare_fb(struct drm_plane 
-*plane,
-         struct dpu_kms *kms = _dpu_plane_get_kms(&pdpu->base);
-         int ret;
-
--       if (!new_state->fb)
-+       if (!new_state->fb) {
-+               refcount_inc(&msm_fb->dirtyfb);
-                 return 0;
-+       }
-
-         DPU_DEBUG_PLANE(pdpu, "FB[%u]\n", fb->base.id);
-
-@@ -682,8 +684,10 @@ static void dpu_plane_cleanup_fb(struct drm_plane 
-*plane,
-         struct dpu_plane *pdpu = to_dpu_plane(plane);
-         struct dpu_plane_state *old_pstate;
-
--       if (!old_state || !old_state->fb)
-+       if (!old_state || !old_state->fb) {
-+               refcount_dec(&msm_fb->dirtyfb);
-                 return;
-+       }
-
-         old_pstate = to_dpu_plane_state(old_state);
-
-I dont know if this is clean though. WDYT?
-
-
-> BR,
-> -R
-> 
->> We can try that out.
->>
->> holding extra ref gets tricky IMO. In this way, the calls are balanced
->> in places we know.
->>
->>> I think a more correct approach would be to run a worker, waiting for
->>> the commit to happen and then freeing the FBs.
->>>
->>
->> Hi Dmitry
->>
->> This option was tried . It gets very messy to handle it this way. Then
->> we realized that, the worker is going to try to do the same thing a
->> blocking commit does which is to wait for hw to finish scanout and then
->> cleanup planes. Hence this was preferred and is better IMO.
->>
->>>>
->>>> BR,
->>>> -R
->>>>
->>>>> +       }
->>>>> +
->>>>>           return true;
->>>>>    }
->>>>>
->>>>>
->>>>> ---
->>>>> base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
->>>>> change-id: 20250108-async-disable-fix-cc1b9a1d5b19
->>>>>
->>>>> Best regards,
->>>>> --
->>>>> Jessica Zhang <quic_jesszhan@quicinc.com>
->>>>>
->>>
->>>
->>>
