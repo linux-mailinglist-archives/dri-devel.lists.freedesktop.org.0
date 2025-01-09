@@ -2,90 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF548A082D0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 23:35:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A713A082DB
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 23:39:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACC7C10E054;
-	Thu,  9 Jan 2025 22:35:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 418F710E3A3;
+	Thu,  9 Jan 2025 22:39:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="dV83j3O5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jIY/h3mQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02CD10E054;
- Thu,  9 Jan 2025 22:35:00 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 509FrxDP007709;
- Thu, 9 Jan 2025 22:34:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Zsn3kyif31iFJ4ppZagZwE2L8CrShI9dIVDg0cVv8W4=; b=dV83j3O5RbXQQ2q0
- 7PB/AgblhqSBZ2Cd0iiyqOMXiY7mKcgIhexvUaBoi8rUyIIcE8QDQ9LausILssKv
- 6GWUKygmRkR7OysXt8AAwHJoSb+GfZYHQ+GM07gVyscCwnS+3VztLmwdXL9b4/qO
- q6jvn9JIY84siN28rykt71lrreB9B3YlvkrRXXdr+PVLReF/yjz6iOPRL8i4tGMv
- 8DgWIE7+bWZoNK0yuGx/r7o5LugVtVColPHpil8cpCYgga9gMu9fszrYlTbiXv22
- HPmoafrZnCz4Kua6MIi4e2sWw9XVL3JNUqXMDvv71jlOEPQtiL4ZN2S9+HYhwA/r
- 0XYKPw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442hgg0v2w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Jan 2025 22:34:50 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 509MYnsF015756
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 9 Jan 2025 22:34:49 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 Jan 2025
- 14:34:46 -0800
-Message-ID: <e47b33e6-142d-42d6-8ae9-f2d2c7793d18@quicinc.com>
-Date: Thu, 9 Jan 2025 14:34:44 -0800
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 054A210E3A3
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 22:39:49 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id
+ 2adb3069b0e04-54263b52b5aso1530962e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 14:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736462388; x=1737067188; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=H7PXcApU0JETFIR6N0uLhNM2Aw7BSg/72G4ZlEn/1Do=;
+ b=jIY/h3mQQHUMK3V3qinThPhXZKhaoT+uUlftHhJWIpmMsqmzsweKuWo0MxA5Z4WzRm
+ +1Sb3cowjS1ljk05wITz7awF1ZSRv/WxUOyS/kV1dMs9kAlzc/g86q7tWoNleiflfzYm
+ ToKnzhDw3Cnx1Tv/8w3+0QbJytbw/jK6l8TuGnvoEhqBRdlS9EMojdm5jt8KsK50OIs2
+ eywc4RSz+kUoWEvJd136nfGAFhZWDXfHM8krl3Aru+ZhckuJQ5xSGvTQWY4mDPDJusWV
+ d4xHoPPdPJ6CdBdCQmpp7AUGoB+he6/fn3mSvaCAn63VdneY7fwb91B0+WbkiI7b8+vS
+ zNfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736462388; x=1737067188;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=H7PXcApU0JETFIR6N0uLhNM2Aw7BSg/72G4ZlEn/1Do=;
+ b=VckPBBII1LvZXqb9wrXuyWV2ucQboulQjxqe/qbUNAzOpbmqi5kp4o/v8T406v7vgY
+ hpmZTn8mORM15L9Pp90xUsp/LRDrBQSyF+nctQ7h7ODMk3hoWo3OWuuxQ4OQgpEATqJq
+ WKt1ypsiN+J+JizeB8LkhPgBCECLsZBTRB2aijSG0OSOdEAPn40G/dXysekcg7wsPKM1
+ LTN1zwJsrqw4Fviab224VHToFuDGY6KQvTGjhkBf4PYTTEJOrYc2W9+qWbfB7p32mYXp
+ gNKZz5vAlUAPP3yUqxRt8xk4fZL8BGGf8Q9qU2J6EuUqNpHASqZpbYAovA9IFg1rKsAY
+ MfYg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjHaE+/bq4TSJOn/qqT4JqJO7TZG/5bL2n3FkKTEyQncbjjIIFM9ewfRKrcwzc74eeOvjYkIWHmqk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxaPLEuUAYb6jri18CcG8nckxw/CmEYCk1gbETwUZ+lLh4B+lVf
+ 1okIhB9yLvJNC3qtsao63SJ+A3+lDHOybZ0TsHfz6efQ47ZUMGDLYpP27oIKBLw=
+X-Gm-Gg: ASbGncu8YjFz90uOiWPcm6Mz/aJrrm4oRIMxdi8G2qiLvbHOb0zYfuxENxVmIqAxz2q
+ kYJH6h4wUiUkG5R11XId5u6sGfzM0apezqeB2bRq9yp1SBA0n4ohNm5MSVCBSrM1lA8KAp68Hci
+ hiSvegAD2yB/+XjjN9Fd9i7rbIymTfFUw+8BxhOYIafetNCE/9B7wC5DCkbvHt1ReRECELn+e8I
+ qu6DIIEk8J9cWiTzwYO9tBzQCpF4YyER356LHm1MHY07UcttY7AlhengiOGZvIMgtM25XTjAL9s
+ 6aXY4C0LeFP7+P/4/pU//8elBaBTAtrCS6JL
+X-Google-Smtp-Source: AGHT+IGjSVrLD+BTCfZfVNXTNwUqqxiO45ZG5ef6NG4hf2D5QyOSBg9wrPZDTY0SG9oxOVZaANgBhQ==
+X-Received: by 2002:a05:6512:3c83:b0:542:2929:63ea with SMTP id
+ 2adb3069b0e04-542845c1e8amr3117213e87.24.1736462388248; 
+ Thu, 09 Jan 2025 14:39:48 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be49eb2sm321608e87.41.2025.01.09.14.39.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Jan 2025 14:39:46 -0800 (PST)
+Date: Fri, 10 Jan 2025 00:39:44 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 
+ Srini Kandagatla <srinivas.kandagatla@linaro.org>
+Subject: Re: [PATCH RFC 10/11] drm/msm/mdss: Add support for SM8750
+Message-ID: <kn7gsm4nnp372t56ocbzkv6uw7o3ww2qel7jlcwvgxsugdk46w@d34hujbcswcw>
+References: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
+ <20250109-b4-sm8750-display-v1-10-b3f15faf4c97@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/25] drm/msm/dpu: Add CWB to msm_display_topology
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
- <20241216-concurrent-wb-v4-15-fe220297a7f0@quicinc.com>
- <ki35rornnos35r3fzg5yyqzxnqua3dyfb6ewq2aefrh4u74vfi@opdnf44ntten>
- <4069bd6a-c37f-4dbe-bbd6-5b333ee54ad8@quicinc.com>
- <a4akor2liqafta53zeev22x2pkqwzo5szwidr2ruzdvttvze5h@jtio3jue7ez3>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <a4akor2liqafta53zeev22x2pkqwzo5szwidr2ruzdvttvze5h@jtio3jue7ez3>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 4mAHlH4GWG49caUX4QoWVfljEr2XQVL8
-X-Proofpoint-ORIG-GUID: 4mAHlH4GWG49caUX4QoWVfljEr2XQVL8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- spamscore=0 phishscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501090178
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250109-b4-sm8750-display-v1-10-b3f15faf4c97@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,160 +102,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/3/2025 10:16 AM, Dmitry Baryshkov wrote:
-> On Fri, Jan 03, 2025 at 10:03:35AM -0800, Jessica Zhang wrote:
->>
->>
->> On 12/19/2024 9:03 PM, Dmitry Baryshkov wrote:
->>> On Mon, Dec 16, 2024 at 04:43:26PM -0800, Jessica Zhang wrote:
->>>> Add the cwb_enabled flag to msm_display topology and adjust the toplogy
->>>> to account for concurrent writeback
->>>
->>> Why?
->>
->> Hi Dmitry,
->>
->> This flag is necessary to specify that CWB mux(es) need to be assigned for
->> the given reqeusted topology.
+On Thu, Jan 09, 2025 at 02:08:37PM +0100, Krzysztof Kozlowski wrote:
+> Add support for the Qualcomm SM8750 platform.
 > 
-> Why is necessary? Please rephrase your statement (we need foo bar, so do
-> baz).
-
-Ack, what do you think of rephrasing the commit msg to this:
-
-```
-Add support for adjusting topology based on if concurrent writeback is 
-enabled.
-
-Currently, the topology is calculated based on the assumption that the 
-user cannot request real-time and writeback simultaneously. For example, 
-the number of LMs and CTLs are currently based off the number of phys 
-encoders under the assumption there will be at least 1 LM/CTL per phys 
-encoder.
-
-This will not hold true for concurrent writeback as 2 phys encoders (1 
-real-time and 1 writeback) can be driven by 1 LM/CTL when concurrent 
-writeback is enabled.
-
-To account for this, add a cwb_enabled flag and only adjust the number 
-of CTL/LMs needed by a given topology based on the number of phys 
-encoders only if CWB is not enabled.
-
-```
-
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/gpu/drm/msm/msm_mdss.c | 33 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/msm/msm_mdss.h |  1 +
+>  2 files changed, 34 insertions(+)
 > 
->>
->>>
->>>>
->>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 11 ++++++++++-
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c   | 10 ++++++++--
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h   |  2 ++
->>>>    3 files changed, 20 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>> index b4bfded3d53025853cee112ca598533ece290318..b063c8fe4c0594772d84401fa56c9c21afc0ad18 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->>>> @@ -1198,6 +1198,8 @@ static struct msm_display_topology dpu_crtc_get_topology(
->>>>    		dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
->>>>    					    &crtc_state->adjusted_mode);
->>>> +	topology.cwb_enabled = drm_crtc_in_clone_mode(crtc_state);
->>>> +
->>>>    	/*
->>>>    	 * Datapath topology selection
->>>>    	 *
->>>> @@ -1209,9 +1211,16 @@ static struct msm_display_topology dpu_crtc_get_topology(
->>>>    	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
->>>>    	 *
->>>>    	 * Add dspps to the reservation requirements if ctm is requested
->>>> +	 *
->>>> +	 * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
->>>> +	 * enabled. This is because in cases where CWB is enabled, num_intf will
->>>> +	 * count both the WB and real-time phys encoders.
->>>> +	 *
->>>> +	 * For non-DSC CWB usecases, have the num_lm be decided by the
->>>> +	 * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check.
->>>>    	 */
->>>> -	if (topology.num_intf == 2)
->>>> +	if (topology.num_intf == 2 && !topology.cwb_enabled)
->>>>    		topology.num_lm = 2;
->>>>    	else if (topology.num_dsc == 2)
->>>>    		topology.num_lm = 2;
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>>> index b763ef19f4c60ae8a35df6a6ffb19e8411bc63f8..85adaf256b2c705d2d7df378b6ffc0e578f52bc3 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
->>>> @@ -382,8 +382,14 @@ static int _dpu_rm_reserve_ctls(
->>>>    	int i = 0, j, num_ctls;
->>>>    	bool needs_split_display;
->>>> -	/* each hw_intf needs its own hw_ctrl to program its control path */
->>>> -	num_ctls = top->num_intf;
->>>> +	/*
->>>> +	 * For non-CWB mode, each hw_intf needs its own hw_ctl to program its
->>>> +	 * control path. Hardcode num_ctls to 1 if CWB is enabled
->>>> +	 */
->>>
->>> Why?
->>
->> This is because num_intf is based on the number of phys_encs. Since in the
->> CWB case, the WB and real-time encoders will be driven by the same CTL. I
->> can add this to the comment doc.
-> 
-> Why are they driven by the same CTL? Is it also the case for platforms
-> before DPU 5.x?
+> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+> index dcb49fd30402b80edd2cb5971f95a78eaad6081f..3f00eb6de3a9d2bee7637c6f516efff78b7d872b 100644
+> --- a/drivers/gpu/drm/msm/msm_mdss.c
+> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+> @@ -222,6 +222,24 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
+>  	}
+>  }
+>  
+> +static void msm_mdss_setup_ubwc_dec_50(struct msm_mdss *msm_mdss)
+> +{
+> +	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+> +	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
+> +		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
+> +
+> +	if (data->ubwc_bank_spread)
+> +		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
+> +
+> +	if (data->macrotile_mode)
+> +		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
+> +
+> +	writel_relaxed(value, msm_mdss->mmio + REG_MDSS_UBWC_STATIC);
+> +
+> +	writel_relaxed(4, msm_mdss->mmio + REG_MDSS_UBWC_CTRL_2);
+> +	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
 
-This is because the WB and real-time path for a given topology would be 
-driven by the same data path so the same CTL should enable the real-time 
-and WB active bits.
+Nit: this probably can be folded into the msm_mdss_setup_ubwc_dec_40(),
+but I would not require it.
 
-This is the same for pre-DPU 5.x.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-> 
->>
->> Thanks,
->>
->> Jessica Zhang
->>
->>>
->>>> +	if (top->cwb_enabled)
->>>> +		num_ctls = 1;
->>>> +	else
->>>> +		num_ctls = top->num_intf;
->>>>    	needs_split_display = _dpu_rm_needs_split_display(top);
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>>> index b061dfdab52e04ab7d777e912a30173273cb3db7..12db21a2403ec6930894c36a58e898c5d94c2568 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
->>>> @@ -46,6 +46,7 @@ struct dpu_rm {
->>>>     * @num_dspp:     number of dspp blocks used
->>>>     * @num_dsc:      number of Display Stream Compression (DSC) blocks used
->>>>     * @needs_cdm:    indicates whether cdm block is needed for this display topology
->>>> + * @cwb_enabled:  indicates whether CWB is enabled for this display topology
->>>>     */
->>>>    struct msm_display_topology {
->>>>    	u32 num_lm;
->>>> @@ -53,6 +54,7 @@ struct msm_display_topology {
->>>>    	u32 num_dspp;
->>>>    	u32 num_dsc;
->>>>    	bool needs_cdm;
->>>> +	bool cwb_enabled;
->>>>    };
->>>>    int dpu_rm_init(struct drm_device *dev,
->>>>
->>>> -- 
->>>> 2.34.1
->>>>
->>>
->>> -- 
->>> With best wishes
->>> Dmitry
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
+> +}
+> +
+>  #define MDSS_HW_MAJ_MIN		\
+>  	(MDSS_HW_VERSION_MAJOR__MASK | MDSS_HW_VERSION_MINOR__MASK)
+>  
 
+-- 
+With best wishes
+Dmitry
