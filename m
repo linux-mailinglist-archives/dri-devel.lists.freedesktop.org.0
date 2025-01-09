@@ -2,84 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6916BA069C4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 01:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F6DA06A15
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 01:57:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC0B10E246;
-	Thu,  9 Jan 2025 00:07:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="T/6TZzCC";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19FBC10E2AC;
+	Thu,  9 Jan 2025 00:57:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7F410E246
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 00:07:26 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53ffaaeeb76so406162e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 16:07:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736381184; x=1736985984; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bpDkH3lxJ4g2GFbV3coZXIbv+IWPbixM4fhCIhYbzhU=;
- b=T/6TZzCCA3/G9x3UrNA4l+QMBjZyV8pSN3ZXO+su5KJ7OpuhIXoAN07IbyTA1wqw+b
- 1wVgDzkQEHxe2PnDQlB3icm+g5ZX45Pcg7IxEj0i0XQdw0Np2Udion5On6f3tuDCHBtu
- /mhYLE37TXbBs8pAtbGxsjiU+5utJ6eXDMQVYLZnSTbiXM/40xN/bPNKOf5PmrxWpXLu
- SnyePUGHLFbyEndmtPYwFEzTlgJoHUTNv2mz20f3AxGBAuPnerDxJwSoLreYw3+nvntM
- opEHnf9ioG5WT6ROdLsod4EDhdnIQZKaztFWOnFxlFMpgzKYXx9ZGqSDOhFQcRmrCgbK
- 2R9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736381184; x=1736985984;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bpDkH3lxJ4g2GFbV3coZXIbv+IWPbixM4fhCIhYbzhU=;
- b=g2DZArus9x9UmNeZQoVjzShg8/YQHVSiBJLBRZ/+f9lK4ey7q+VB9uycu9COM28Ucd
- 90o0QuYJn2/4ruOV1xME5jsCPwBRWj3eUy+cFmyNv9hM5Oe2FzrVqm5CKJ0hJwRMlHiy
- kf/+4nqkeQ2ekVp5SpJgYR71VBDpz80Pw1PxCpZZKSknkVLAD1baaWohkqWYdL0Yqb7y
- I7OVnbom1rYqHBm9e2lIz0AtEXDj2olZh8dv1vJD80sGQZG+Ole/EfeuACIajtQK8ILx
- nAgd5PSgLk5G8efF4ORk4VFAHpfj1n/2SQQ2vq+I3EeBBjG/5EYfZpyKIQrZSNSdQMst
- ijWw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVikSxT26VuOngoFL7Az9aqaTCxD0YI84bWN8S5Z7WxJbyHsmgkx/HTuSwLOrcnV4p5WohTtyrwgJg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyG56QkwgT7iBQvrvuPTy6oMjH7DMykFDYbYEmg+U03ARgTkA9i
- xUjWttgzCQ6xCsibqqfnAAmE0mkPeSG/BmoZ5PWgd7EmQiF00IkEjZzDs6mjNbI=
-X-Gm-Gg: ASbGnctbc+i7RjZK8CW939844olTqHXwybdyj7LF8d8O2I06ZFt0uQa1d13oCUh5pLf
- 6sRb7/yJS9TdhlOhEtzMGdtECo2JyGoc4AXrICpJ5CbmL4LzdQ1IBWHoEJ9FIPW7evvuDNaVgvy
- RsN4spd7ZpdPyMQ5Q8fHZSPkUr9TZk8MluBVYheANxNiWCA1DMBZ1QWlIRO5YcW5ED5hINjlojP
- v3JFvgnwVj0cbQTGwVvdTaZo07CX5m2dzHmLNTlE2dja4vPEbhF9jMtNY8t9ZwYgc8xmS0wb4iY
- H+74z1gBefl4vVqjFZUseCZ9w2dm12R54gOz
-X-Google-Smtp-Source: AGHT+IF/y9uUzQydethAVpmH3oNgkVrcF2saaYHkqvOZukLpQEeojH3C6FDQnmUp2JA4G+6GtEX36w==
-X-Received: by 2002:a05:6512:3ba3:b0:53e:2f9d:6a73 with SMTP id
- 2adb3069b0e04-542844a8f6amr1336553e87.0.1736381184452; 
- Wed, 08 Jan 2025 16:06:24 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428beaaaa0sm29573e87.175.2025.01.08.16.06.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Jan 2025 16:06:23 -0800 (PST)
-Date: Thu, 9 Jan 2025 02:06:20 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, quic_abhinavk@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/msm/dpu: Drop extraneous return in
- dpu_crtc_reassign_planes()
-Message-ID: <5m2t3srguv7vha4e7np2tmd6tm4ajlk2dzc2vruut6krern7vx@ylmjghtj2kbu>
-References: <20250108-virtual-planes-fixes-v1-0-420cb36df94a@quicinc.com>
- <20250108-virtual-planes-fixes-v1-2-420cb36df94a@quicinc.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8772D10E030
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 00:57:04 +0000 (UTC)
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-163-inlg5nzvOJ-vpkKWYA24zQ-1; Wed,
+ 08 Jan 2025 19:55:58 -0500
+X-MC-Unique: inlg5nzvOJ-vpkKWYA24zQ-1
+X-Mimecast-MFC-AGG-ID: inlg5nzvOJ-vpkKWYA24zQ
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 75FAA1956087; Thu,  9 Jan 2025 00:55:57 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.64.136.7])
+ by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id C10AC19560AA; Thu,  9 Jan 2025 00:55:55 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org,
+	dakr@kernel.org
+Subject: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
+Date: Thu,  9 Jan 2025 10:55:53 +1000
+Message-ID: <20250109005553.623947-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108-virtual-planes-fixes-v1-2-420cb36df94a@quicinc.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: CphM63C0OflHxCGthzkip3cHk1xycu3tkU440V82mTc_1736384157
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,17 +59,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 08, 2025 at 02:40:48PM -0800, Jessica Zhang wrote:
-> Drop extra return at the end of dpu_crtc_reassign_planes()
-> 
-> Fixes: 774bcfb73176 ("drm/msm/dpu: add support for virtual planes")
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 2 --
->  1 file changed, 2 deletions(-)
+From: Dave Airlie <airlied@redhat.com>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+This is the 3rd iteration of this after talking to Ben and
+Danilo, I think this makes sense now.
 
--- 
-With best wishes
-Dmitry
+The fence sync logic doesn't handle a fence sync across devices
+as it tries to write to a channel offset from one device into
+the fence bo from a different device, which won't work so well.
+
+This patch fixes that to avoid using the sync path in the case
+where the fences come from different nouveau drm devices.
+
+This works fine on a single device as the fence bo is shared
+across the devices, and mapped into each channels vma space,
+the channel offsets are therefore okay to pass between sides,
+so one channel can sync on the seqnos from the other by using
+the offset into it's vma.
+
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouv=
+eau/nouveau_fence.c
+index ee5e9d40c166..a3eb1f447a29 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -367,11 +367,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct no=
+uveau_channel *chan,
+ =09=09=09if (f) {
+ =09=09=09=09struct nouveau_channel *prev;
+ =09=09=09=09bool must_wait =3D true;
++=09=09=09=09bool local;
+=20
+ =09=09=09=09rcu_read_lock();
+ =09=09=09=09prev =3D rcu_dereference(f->channel);
+-=09=09=09=09if (prev && (prev =3D=3D chan ||
+-=09=09=09=09=09     fctx->sync(f, prev, chan) =3D=3D 0))
++=09=09=09=09local =3D prev && prev->drm =3D=3D chan->drm;
++=09=09=09=09if (local && (prev =3D=3D chan ||
++=09=09=09=09=09      fctx->sync(f, prev, chan) =3D=3D 0))
+ =09=09=09=09=09must_wait =3D false;
+ =09=09=09=09rcu_read_unlock();
+ =09=09=09=09if (!must_wait)
+--=20
+2.43.0
+
