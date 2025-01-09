@@ -2,91 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE26EA07290
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD78A07296
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:16:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A0D710E45B;
-	Thu,  9 Jan 2025 10:15:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16DE710ED3E;
+	Thu,  9 Jan 2025 10:16:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OfKh2YsU";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="r5nethUC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F98310E45B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:15:44 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-38a8b17d7a7so372292f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:15:44 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 884D710ED3E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:16:26 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-436202dd7f6so9270335e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:16:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736417683; x=1737022483;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736417725; x=1737022525;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=i651SpluW1MRI3JjFDP6kaKt8+EEESD/wqEDYw6jbG8=;
- b=OfKh2YsUTYrnJKIIBeUlvhWN1H6KgddH1jdJ73HnalGIuvww5/13RWYJC9EpPAkX7W
- e/YYeWjdNpMbs8RFM5yHRROjFtcHu5vKp3ZcYb4dK8/cULn2GKJeobvFV55GtcPMcLrf
- 5Xe7IzChg3YIlVZB8sn6z1HlUYamBhM1a8HrVQpyp/G1RD1BJojC75yG5fWQ3Yb0/3wp
- EFjBRAfiJvBZOHP70zbh2lNbhmjQpwhn5RmwfrY619sFwY1BK65g1Xeuce/tXyjbCOiM
- jf+Ej9niy6v0rPlvpFYSDvi4/MFxzPl7TZkj6Fdp5yQwskJPxPcgxyz8EqPp+uyvMg3K
- 1Qqw==
+ bh=zArLxslrcGh/OtDf8pnaxX4ZYz74YYcQRl2Asrd/XEs=;
+ b=r5nethUCHbVhKTNEnYp7e89aPrn+6i35fjLHGK7STRctf6iRRtu+sXn+Ut7DWlMx/6
+ bc4fEGsQkkFxO0Pb1+Y6ZqeypWow/k39wyDuolZLx5ZB96kI0eemUuws1jdESMRO279b
+ 4FLOOuNJE9jcUO1F0IPgvBt7o8SFk0srUq9gFTzVaRkXIGzcMgC545wF8jd3BzrZGYOK
+ SXR7tU8/GWf9xcGj3vbcoJFC/KEmWkPZL6jzhIEy2RRgf84GvMaBVuScI2gi/GUcxYNw
+ OqbqUURpiJUSELjFCZInLfpC5ZCYNR0MztASio4Ha/HuGOKtp3gWXnFjc2GzF7m5tIFi
+ e2wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736417683; x=1737022483;
+ d=1e100.net; s=20230601; t=1736417725; x=1737022525;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=i651SpluW1MRI3JjFDP6kaKt8+EEESD/wqEDYw6jbG8=;
- b=t2YlQcz/s4dwMfjCZFW4sQZSLkZVWdKwTjHWtN5QHvW2izei2Q0UOZDBs0iq23i1X+
- xgjK3HxgChaKCgErAwIa4DdRr+rx7Uw8Xl+Fvm2A8EDBRKl1+EOvIJ1ctFaVb1GvfQbY
- Wza84z+Usw/+o8s0srsNbU7O9fg73GXs8Pj1W8GMPKQHT81xzQWrXZ/DuB8ssItllHkU
- nF/pGKYkS7UczfGncMwdzBmWwk5AsFIW98d8xEFrnFuBvKUDiyePhcETprpNw6Y5IfcA
- M62AsfNC2QkFLVsUXvxpvCj+vPBwvZAbJ17VRewM69lO9gOHMmxI0cdUhnz0rBrHdSHg
- +7kQ==
-X-Gm-Message-State: AOJu0YzuKJDHD/PYm69QXdVpOkcCEWa5fC+RbC4MOGUTiuZeM80uhAKm
- FWLkemX9559R6ybZ77fCdd3poYvhqx7CAMi79N68OeD0g5NynF7NS/3cXv8H50c=
-X-Gm-Gg: ASbGncvK9KtvNiEodzZ89U9XMviVaC/SVgc66MwztIPeVJxMqI3TSOI2JuRpJSfyM6T
- wDm6EOE06QexZ3c8DfQ6CTqSd+Mn+zbf9rkvxGaD3/Q2asRbC9UN1PyfE9VwLWsL2+/+CY/TYBo
- w/LDttUf5XZByOYbQIMLYHyzILyzmlEMBVABput7Qvm5LKmHp3bMi8PtwSTqZX3YeyeWC31RKqC
- zk47BUO2s+rHJ9oIqPWsfsCDG6h15cXR7pKD6zpJx+sYhnM2I+hskjhL2G7OCDPJfmy22fgWcJf
- FLP3ZVUOnbooDrGg7vM0GsU3Gg==
-X-Google-Smtp-Source: AGHT+IEXsj3cGfTM3WuiOcTVPO3qnoxJJ8qkHw0f0Dnd2kBWv/CZsMscUjyXI2o0KFisYvaJanIsLA==
-X-Received: by 2002:a5d:5f85:0:b0:385:fdc2:1808 with SMTP id
- ffacd0b85a97d-38a87336ee3mr5496376f8f.40.1736417683201; 
- Thu, 09 Jan 2025 02:14:43 -0800 (PST)
+ bh=zArLxslrcGh/OtDf8pnaxX4ZYz74YYcQRl2Asrd/XEs=;
+ b=AlWp88xBFUjP93Xy1du3Gi46K828Iz8W7GpetfOB2Pb5Z81WyRnC90ZTi9odHFm4qu
+ mdU8XOon/8SlsS2TDpcxmIyYQbwHTVeN2jiiaC4dEW+4ZcMQ1dLY7hZasq3rx0VYI+Ud
+ msXFb2j/h5ZYxPa6ieM8UizvlhSUxyoazRD5Zl9tyhfbG/ZRjo/nQgsGgdRqjfC5vmSL
+ PdGtsTEhRotu4sJ7w5+HzI/fGSSI4kfvS0tk+WNJIGGGcsLixB7veh9q0+jt7dxRFmog
+ bZnX+knWxfPNN/ukLj2XpSs9VxSMTpnfb5qxNC6dEC1JFqnEHyp0GqGgAFep4+x7gdtS
+ m3QQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIoaCKLUfyG/kIMdYPWThKK8MKz9mqYn3nw9gcLCFhmVjOL7HN5+qzm5ePyJI/2pbKEUy4sP3yzvs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxbclIqBrr1M/UV9VDmCYAvaP40gZputQkDuYYhDRQVPBsH1ZM+
+ M2MDfZoGeaKQZe64X3BqcnW6IS8Xn2x9ecForDry7iFkGufJmmSNtjCpx/O4ZK0=
+X-Gm-Gg: ASbGncuqnI5d6SjLy5PTKZ2foF8ZOl5cNLXaNkssw2SiVRcRUtJwcbxvsIfGvRpHsKz
+ XJGYyoAfZySuhIkY9iXiMV2fYVd5h7bbSntsIk3y3kRd7jiptohP+M7o8uvTvVF8xZMIYjYWqiS
+ txP1Deh8OO8kuuSD3xQDD1sP2mUV+bKnxmRWc6fKc+V3lBzEkbq/ugkGc1nCzwYjIcJ4SUtqKGo
+ t+yEOon6aqSi6ZikEL/YN/G+C3BMDp2Zw9du7IfBdP4z1D5ydg7NvTWv+79/cSOfpcNwAE6cpWd
+ Y9drGM3NLF5H/BEFITG2BURIXQ==
+X-Google-Smtp-Source: AGHT+IE5w//k14IKPlz1xAW4lBSZknnT4+N1Jzl2DExoz1dSucjgBd2oOBz/i2tz+E9s1wYVK89kVw==
+X-Received: by 2002:a05:600c:354e:b0:434:f9c4:a850 with SMTP id
+ 5b1f17b1804b1-436e269c42dmr62514755e9.10.1736417725129; 
+ Thu, 09 Jan 2025 02:15:25 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:5ee:79d0:125:358f:ea05:210e?
  ([2a01:e0a:5ee:79d0:125:358f:ea05:210e])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2df3610sm49767285e9.20.2025.01.09.02.14.42
+ 5b1f17b1804b1-436e2dc08bbsm49704145e9.12.2025.01.09.02.15.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Jan 2025 02:14:42 -0800 (PST)
-Message-ID: <35868716-a80a-4cb7-bc59-35ea6263546d@baylibre.com>
-Date: Thu, 9 Jan 2025 11:14:41 +0100
+ Thu, 09 Jan 2025 02:15:24 -0800 (PST)
+Message-ID: <9afabb6b-2e02-4b7c-8e51-9ca5b9a42aab@baylibre.com>
+Date: Thu, 9 Jan 2025 11:15:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/7] arm64: defconfig: enable display connector support
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
+Subject: Re: [PATCH v5 1/7] dt-bindings: display: mediatek: dpi: add
+ power-domains property
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Maxime Ripard <mripard@kernel.org>, Fabien Parent <fparent@baylibre.com>,
+ Will Deacon <will@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Simona Vetter <simona.vetter@ffwll.ch>, CK Hu <ck.hu@mediatek.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, Jitao Shi <jitao.shi@mediatek.com>,
+ Conor Dooley <conor+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 References: <20231023-display-support-v5-0-3905f1e4b835@baylibre.com>
- <20231023-display-support-v5-4-3905f1e4b835@baylibre.com>
- <6df0f935-b7d2-4961-a947-47b328a3758f@kernel.org>
+ <20231023-display-support-v5-1-3905f1e4b835@baylibre.com>
+ <173635697547.725897.5297567835361998238.robh@kernel.org>
 Content-Language: en-US
 From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <6df0f935-b7d2-4961-a947-47b328a3758f@kernel.org>
+In-Reply-To: <173635697547.725897.5297567835361998238.robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,9 +111,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Thanks, fixed for v6
 
 
-On 09/01/2025 08:53, Krzysztof Kozlowski wrote:
-> git grep -i i350-evk - zero results. Please use some recognizable names.
-> I have no clue where to even look for it - which vendor.
+On 08/01/2025 18:22, Rob Herring (Arm) wrote:
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> ./Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml:100:3:
+>   [error] duplication of key "power-domains" in mapping (key-duplicates)
 
 -- 
 Regards,
