@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21E6A06F74
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 08:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6D7A06F86
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 08:55:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C3610ECFD;
-	Thu,  9 Jan 2025 07:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F086B10ED0D;
+	Thu,  9 Jan 2025 07:55:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gHVi6Dg8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XQzW38XL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C34D10ECFD
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 07:54:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BDA310ED0C
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 07:55:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id BAB67A4135E;
- Thu,  9 Jan 2025 07:52:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 196BAC4CED2;
- Thu,  9 Jan 2025 07:54:29 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id DCB4CA402F6;
+ Thu,  9 Jan 2025 07:54:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A02C4CED2;
+ Thu,  9 Jan 2025 07:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736409277;
- bh=1jz7011LKNmLuJ37T5DIDKhsFcOCcRypALbf8zbLLrw=;
+ s=k20201202; t=1736409354;
+ bh=wgcey/kQiN800rSSdv2KSbHhuAIs+1NSfhJe54lJy3o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gHVi6Dg8VBbcijNFyGgtvajXGnTBVavG0rMozRlzfD71CrvvkI1LY4J3stFxxGHSB
- jvLqgq8/Jz67pRL/CtJaKlc2HII/eOJmKEkoF4vltmbIJNkRgsCIEd8qlQUNQ4csG5
- 0kAwI1ck5CxrLdmsJ1jGUS6Rqca4I9VLU4o/CoK1iRGMtcRMoCtKENEJ/aF4LuMPkH
- 7ty4JaslUpr8aZVAC141Ki1+ETUysRhJtlDFJAztfYk+6ndAHqo1UzlvbOUDwHB3ju
- iA8AF8yFaOHy2MZEPcBdXK2Xf9YrokN4zki7jm/oShciQGB0FpS9orDYonye5kSVB1
- 5s2ojTjnvPZBw==
-Message-ID: <00af138e-4e00-49e7-945f-9c6e489208b9@kernel.org>
-Date: Thu, 9 Jan 2025 08:54:27 +0100
+ b=XQzW38XL6YK6Nrzoc7Zi39V5umxnrJN8iJ7yKrkDhddQ0MA9aR9E6l6b3Jc/CKREL
+ 8eNwWkJ0l+0VBlgHBrCt9eYF/4nnZElboJDB76zVodb4TxJkQavtQL4LMmNiSZpksC
+ BDLd+tPs2NhMy6jZ2Jmv0Xulv+LJIpXuPIBe33k+viBke3DnBJurxe5JXZDU4uWBH8
+ EHjK14oPxl0rnEuw87Ov4zZyEPvmjNmNIsgnSapdrD9E8NxpTunxZt5Dja0mjsuTSj
+ rZj2fXCH+uhpdnoawiFmj5xH6uO16YFqBE+L4DB0fGgED2foQrTBwiSVFXP2Sncb/R
+ jZhmLyVqNROIg==
+Message-ID: <325c495b-8e5a-412f-9974-3ec7ab15b479@kernel.org>
+Date: Thu, 9 Jan 2025 08:55:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/7] arm64: defconfig: enable STARTEK KD070FHFID015
- panel
+Subject: Re: [PATCH v5 7/7] arm64: dts: mediatek: add display support for
+ mt8365-evk
 To: Alexandre Mergnat <amergnat@baylibre.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>,
@@ -52,7 +52,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
 References: <20231023-display-support-v5-0-3905f1e4b835@baylibre.com>
- <20231023-display-support-v5-5-3905f1e4b835@baylibre.com>
+ <20231023-display-support-v5-7-3905f1e4b835@baylibre.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -98,7 +98,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20231023-display-support-v5-5-3905f1e4b835@baylibre.com>
+In-Reply-To: <20231023-display-support-v5-7-3905f1e4b835@baylibre.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,12 +117,144 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 08/01/2025 17:15, Alexandre Mergnat wrote:
-> Build Startek KD070FHFID015 panel driver. This MIPI-DSI display
-> can be used for the mt8365-evk board for example.
-> 
+>  
+> +&i2c1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +	clock-div = <2>;
+> +	clock-frequency = <100000>;
+> +	pinctrl-0 = <&i2c1_pins>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	it66121_hdmi: hdmi@4c {
+> +		#sound-dai-cells = <0>;
 
-Squash the patches. It's one logical change to bring config optiosn for
-display on your boards. Not each change per one symbol.
+compatible is always, ALWAYS first.
+
+> +		compatible = "ite,it66121";
+
+reg follows.
+
+
+> +		interrupt-parent = <&pio>;
+> +		interrupts = <68 IRQ_TYPE_LEVEL_LOW>;
+> +		pinctrl-0 = <&ite_pins>;
+> +		pinctrl-names = "default";
+> +		reg = <0x4c>;
+> +		reset-gpios = <&pio 69 GPIO_ACTIVE_LOW>;
+> +		vcn18-supply = <&mt6357_vsim2_reg>;
+> +		vcn33-supply = <&mt6357_vibr_reg>;
+> +		vrf12-supply = <&mt6357_vrf12_reg>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				reg = <0>;
+> +				it66121_in: endpoint@0 {
+> +					reg = <0>;
+> +					bus-width = <12>;
+> +					remote-endpoint = <&dpi0_out>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				reg = <1>;
+> +				hdmi_connector_out: endpoint@0 {
+> +					reg = <0>;
+> +					remote-endpoint = <&hdmi_connector_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &mmc0 {
+>  	assigned-clock-parents = <&topckgen CLK_TOP_MSDCPLL>;
+>  	assigned-clocks = <&topckgen CLK_TOP_MSDC50_0_SEL>;
+> @@ -205,6 +362,11 @@ &mt6357_pmic {
+>  	mediatek,micbias1-microvolt = <1700000>;
+>  };
+>  
+> +&mt6357_vsim1_reg {
+> +	regulator-min-microvolt = <1800000>;
+> +	regulator-max-microvolt = <1800000>;
+> +};
+> +
+>  &pio {
+>  	aud_default_pins: audiodefault-pins {
+>  		clk-dat-pins {
+> @@ -267,6 +429,49 @@ clk-dat-pins {
+>  		};
+>  	};
+>  
+> +	dpi_default_pins: dpi-default-pins {
+> +		pins {
+> +			pinmux = <MT8365_PIN_0_GPIO0__FUNC_DPI_D0>,
+> +				 <MT8365_PIN_1_GPIO1__FUNC_DPI_D1>,
+> +				 <MT8365_PIN_2_GPIO2__FUNC_DPI_D2>,
+> +				 <MT8365_PIN_3_GPIO3__FUNC_DPI_D3>,
+> +				 <MT8365_PIN_4_GPIO4__FUNC_DPI_D4>,
+> +				 <MT8365_PIN_5_GPIO5__FUNC_DPI_D5>,
+> +				 <MT8365_PIN_6_GPIO6__FUNC_DPI_D6>,
+> +				 <MT8365_PIN_7_GPIO7__FUNC_DPI_D7>,
+> +				 <MT8365_PIN_8_GPIO8__FUNC_DPI_D8>,
+> +				 <MT8365_PIN_9_GPIO9__FUNC_DPI_D9>,
+> +				 <MT8365_PIN_10_GPIO10__FUNC_DPI_D10>,
+> +				 <MT8365_PIN_11_GPIO11__FUNC_DPI_D11>,
+> +				 <MT8365_PIN_12_GPIO12__FUNC_DPI_DE>,
+> +				 <MT8365_PIN_13_GPIO13__FUNC_DPI_VSYNC>,
+> +				 <MT8365_PIN_14_GPIO14__FUNC_DPI_CK>,
+> +				 <MT8365_PIN_15_GPIO15__FUNC_DPI_HSYNC>;
+> +			drive-strength = <4>;
+> +		};
+> +	};
+> +
+> +	dpi_idle_pins: dpi-idle-pins {
+> +		pins {
+> +			pinmux = <MT8365_PIN_0_GPIO0__FUNC_GPIO0>,
+> +				 <MT8365_PIN_1_GPIO1__FUNC_GPIO1>,
+> +				 <MT8365_PIN_2_GPIO2__FUNC_GPIO2>,
+> +				 <MT8365_PIN_3_GPIO3__FUNC_GPIO3>,
+> +				 <MT8365_PIN_4_GPIO4__FUNC_GPIO4>,
+> +				 <MT8365_PIN_5_GPIO5__FUNC_GPIO5>,
+> +				 <MT8365_PIN_6_GPIO6__FUNC_GPIO6>,
+> +				 <MT8365_PIN_7_GPIO7__FUNC_GPIO7>,
+> +				 <MT8365_PIN_8_GPIO8__FUNC_GPIO8>,
+> +				 <MT8365_PIN_9_GPIO9__FUNC_GPIO9>,
+> +				 <MT8365_PIN_10_GPIO10__FUNC_GPIO10>,
+> +				 <MT8365_PIN_11_GPIO11__FUNC_GPIO11>,
+> +				 <MT8365_PIN_12_GPIO12__FUNC_GPIO12>,
+> +				 <MT8365_PIN_13_GPIO13__FUNC_GPIO13>,
+> +				 <MT8365_PIN_14_GPIO14__FUNC_GPIO14>,
+> +				 <MT8365_PIN_15_GPIO15__FUNC_GPIO15>;
+> +		};
+> +	};
+> +
+>  	ethernet_pins: ethernet-pins {
+>  		phy_reset_pins {
+>  			pinmux = <MT8365_PIN_133_TDM_TX_DATA1__FUNC_GPIO133>;
+> @@ -308,6 +513,33 @@ pins {
+>  		};
+>  	};
+>  
+> +	i2c1_pins: i2c1-pins {
+> +		pins {
+> +			pinmux = <MT8365_PIN_59_SDA1__FUNC_SDA1_0>,
+> +				 <MT8365_PIN_60_SCL1__FUNC_SCL1_0>;
+> +			bias-pull-up;
+> +		};
+> +	};
+> +
+> +	ite_pins: ite-pins {
+> +		irq_ite_pins {
+That's some downstream copy-paste. Align DTS coding style.
 
 Best regards,
 Krzysztof
