@@ -2,144 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7A2A07834
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:53:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A070A0784C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:57:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C759110EDEC;
-	Thu,  9 Jan 2025 13:53:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1830910EDEF;
+	Thu,  9 Jan 2025 13:57:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="tUfdHALg";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="20ZoBBsD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xgWcDfsx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ywAop16h";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="O+Jrucou";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de
- [IPv6:2a07:de40:b251:101:10:150:64:2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 000B110EDEC
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:53:19 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 635821F393;
- Thu,  9 Jan 2025 13:53:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736430798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
- b=tUfdHALgs0ii3pMIm1AyUJOOe8LqskXpR1+ExWF91bdkGNa9CIjaLL1RoR+flsrumPwkqg
- EaPUJ6ij78PGyWCM/G/CERrOsh00bww67F+gx8xxH8bfJjgV38AbsYQc/tWZsXKCqqIwXR
- bD8qThtEhu1fEiGc1xcVyn7qS1zozzQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736430798;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
- b=20ZoBBsDEjR1qcQlko21QPxkqS+sBTcGZ+7fmhr3A1uonEjrAiuzvzHlqkbOC0riqQ00uY
- YKZukV9JOWNNDVDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736430797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
- b=xgWcDfsxpwpyfVDCzoFPTGYjLGRQhWl56sD1iaz9ONSAFlT72hMZ4CtWNtK9Y9A74NIe4c
- lnhiduHHOVghzNAvWl5PxON/oJ196i4bpaU2rqC+n/l83JEqpCaaWDPHf5sr5563ljl7l0
- v+OyHKkUqmwJcWeY0m2/GmV/HX6FEbE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736430797;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=BtpiwbAGjYqo8EDAGEE5AiW9KUDe9ltNVFkQF2I5wys=;
- b=ywAop16hqbKpCohSHrBqKy/qQ/OYWtMcjfjLNPTMgszu7XHrCBFpt0u+Ep5ub9qDOYgo3B
- ym/iuGhXxB7lC4DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7C5A13876;
- Thu,  9 Jan 2025 13:53:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tYxLM8zUf2esVAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 09 Jan 2025 13:53:16 +0000
-Message-ID: <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
-Date: Thu, 9 Jan 2025 14:53:16 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9931110EDE9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:57:42 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 509D8cHJ011816
+ for <dri-devel@lists.freedesktop.org>; Thu, 9 Jan 2025 13:57:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ JF0AHoOXM/Omt1W9DsxEmuSnjvh5YmVttxjnDNqIHSw=; b=O+Jrucou7GQu6Gk8
+ mvpM9O/P0I3Sbm5plAmC7W03BZ1Gauf7CMtg0qxbezqhR5tcGQCkpc+fMCcX3fVW
+ 4i8m+zkaJML/2nY4S6q0DS+QVzeEJowQ4gpWETycY3wpKmD6rYekopUif8T/cQY3
+ Er6F9Tck6BoHpM8BCQ3EpJ6RgSGuOqmin3KezBzJ7T0dRwb3313khvtHcGBJd/Bn
+ fofgLlZs86NQb3hjMr9rMHt4nY2BUycz5Df/KCfJdHCrFVVUIezdcGIYix3XZ2Je
+ MFUxVyTBaQCPAZI+4420D3gDLh70kI41KJL6vU0Jc1ZZuiUSKMgTQeeoX+JUw0af
+ mt+pvA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442f2kr3m2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 13:57:41 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7b6ee03d7d9so17809185a.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 05:57:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736431060; x=1737035860;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=JF0AHoOXM/Omt1W9DsxEmuSnjvh5YmVttxjnDNqIHSw=;
+ b=DoECFWQqXUhoKC5eDhDeWpQyqkmELA8ctgu4YdfccIoVZcQj38F5Eia6m0g6J7gdyn
+ BxIWs3XmZLnyK6JwLwEoui3ElMRt+8gwxD3kPJyMRzLWENTH2HUHBR7Q9o4+0lRt2iDA
+ fYn1g+D8IRHTUu/1I7zTiPiUjpUKt+AcookF2dZptBt2r6wUdHRR30mWatCsixuuBqHu
+ JjynUv5dZ318kkRRQAvdfU1HAfkjcOiNKkildKlxvFqgnsGUkg1fli5wb6NEQjN9c0SS
+ wPSCts+fv9ECLr10W/q1JHJ0AMewN5iDmSvvOgMWU3OPhnYf2Zo2/2dV0+go7TiwpczL
+ qjdg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXHaydtnBQD+obgMnfORJcE1Ja6UYhkXpUQ8YMkpNrgqZWLY/XhiSyj7oo69qQFolRWmeVNDxrMnkY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7pYQXktsqMVpRMufc/vp7qUOg34ClK9kGdqNMHNnqM7JUD1zv
+ OrYnxOb2E5ZIr5s/Mr33bvpPYm2R3VNp6yEFxF/XbXnlsz12cHM4AoJJf4iyFfiStrBqPaaRmLA
+ rG+Rwp9RSnKNw2Cx0UVUw9kYjUTEWKpJe6IEUShPaYRHUCIaafSSi/ZyEC/LpyBqpEEw=
+X-Gm-Gg: ASbGncv3rkEXxSJq3t3D8IqTfXwyMHY3F8G7ZPgPM4i87BbgkF9+m3OmOJfFRH+O62z
+ eBMbVJfY/1IzRcokkl+UminIzrSsHUXzL0a+uXmwco18yzWoADuLfnqkz6/TQ7E9lMWBAWc+kg2
+ EtS0mSTnMAFT3hEb8NcWUq7oYx9SI6i+lkAcXJZyymcqL99JZZNSty2jFxGTySAI7THvLfHbYA3
+ qkVAT+A1b60EzbysV/LmCoZ8sXJ8FK9+/3JdVnbjNRs1ws1vQReFkQSrdpsXKbXCmRYKUI6D/bB
+ FCYkk11m/brks6zJ0R8xBh5HsFE49pr0v+g=
+X-Received: by 2002:a05:620a:40c1:b0:7b6:dc4e:44a5 with SMTP id
+ af79cd13be357-7bcd973a062mr387280885a.5.1736431060067; 
+ Thu, 09 Jan 2025 05:57:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEvEFQOSMjPEdcmaa6JUHa/5+PkuCwquAgHnceMKaOpZSDG8+5Zh8OYxiwJczUZrYpLlO5jQA==
+X-Received: by 2002:a05:620a:40c1:b0:7b6:dc4e:44a5 with SMTP id
+ af79cd13be357-7bcd973a062mr387278285a.5.1736431059674; 
+ Thu, 09 Jan 2025 05:57:39 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d99008c3b5sm641951a12.12.2025.01.09.05.57.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jan 2025 05:57:39 -0800 (PST)
+Message-ID: <356986fa-e66c-4e78-ab92-2593b037ab9a@oss.qualcomm.com>
+Date: Thu, 9 Jan 2025 14:57:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] drm: enforce rules for
- drm_atomic_helper_check_modeset()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+Subject: Re: [PATCH RFC 1/4] drm/msm/adreno: Add speedbin support for X1-85
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Archit Taneja <architt@codeaurora.org>, Rajesh Yadav
- <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250109-x1e-speedbin-b4-v1-0-009e812b7f2a@quicinc.com>
+ <20250109-x1e-speedbin-b4-v1-1-009e812b7f2a@quicinc.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250109-x1e-speedbin-b4-v1-1-009e812b7f2a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[linaro.org,linux.intel.com,kernel.org,gmail.com,ffwll.ch,quicinc.com,poorly.run,somainline.org,codeaurora.org,cosmicpenguin.net];
- RCPT_COUNT_TWELVE(0.00)[20]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, bootlin.com:url,
- ffwll.ch:email, suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-Proofpoint-GUID: tJURmTaHUHoq0IKjh2Ya6-1Rb_O7CKli
+X-Proofpoint-ORIG-GUID: tJURmTaHUHoq0IKjh2Ya6-1Rb_O7CKli
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ adultscore=0 mlxlogscore=999 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 spamscore=0 phishscore=0 bulkscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501090111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,79 +122,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-
-Am 22.12.24 um 06:00 schrieb Dmitry Baryshkov:
-> As pointed out by Simona, the drm_atomic_helper_check_modeset() and
-> drm_atomic_helper_check() require the former function is rerun if the
-> driver's callbacks modify crtc_state->mode_changed. MSM is one of the
-> drivers which failed to follow this requirement.
-
-I'm concerned about the implications of this series. How does a driver 
-upgrade from simple pageflip to full modeset if necessary? The solution 
-in msm appears to be to run the related test before 
-drm_atomic_helper_check(). (Right?)
-
-My corner case is in mgag200, which has to reprogram the PLL if the 
-color mode changes. So it sets mode_changed to true in the primary 
-plane's atomic_check. [1] This works in practice because the plane 
-checks run before the CRTC checks. So the CRTC code will do the correct 
-thing. Reprogramming the PLL means to disable the display at some point. 
-So it comes down to a full modeset.
-
-You mention that drm_atomic_helper_check() needs to rerun if 
-mode_changed flips. Would it be possible to implement this instead 
-within the helper?
-
-Best regards
-Thomas
-
-[1] 
-https://elixir.bootlin.com/linux/v6.12/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L493
-
->
-> As suggested by Simona, implement generic code to verify that the
-> drivers abide to those requirement and rework MSM driver to follow that
-> restrictions.
->
-> There are no dependencies between core and MSM parts, so they can go
-> separately via corresponding trees.
->
-> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 8.01.2025 11:42 PM, Akhil P Oommen wrote:
+> Adreno X1-85 has an additional bit which is at a non-contiguous
+> location in qfprom. Add support for this new "hi" bit along with
+> the speedbin mappings.
 > ---
-> Dmitry Baryshkov (6):
->        drm/atomic-helper: document drm_atomic_helper_check() restrictions
->        drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
->        drm/msm/dpu: don't use active in atomic_check()
->        drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
->        drm/msm/dpu: simplify dpu_encoder_get_topology() interface
->        drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
->
->   drivers/gpu/drm/drm_atomic.c                |  3 +
->   drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
->   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
->   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
->   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
->   drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
->   drivers/gpu/drm/msm/msm_kms.h               |  7 +++
->   include/drm/drm_atomic.h                    | 10 ++++
->   9 files changed, 192 insertions(+), 43 deletions(-)
-> ---
-> base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
-> change-id: 20241222-drm-dirty-modeset-88079bd27ae6
->
-> Best regards,
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  5 +++++
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c   | 15 ++++++++++++++-
+>  2 files changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index 0c560e84ad5a53bb4e8a49ba4e153ce9cf33f7ae..e2261f50aabc6a2f931d810f3637dfdba5695f43 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -1412,6 +1412,11 @@ static const struct adreno_info a7xx_gpus[] = {
+>  			.gmu_cgc_mode = 0x00020202,
+>  		},
+>  		.address_space_size = SZ_256G,
+> +		.speedbins = ADRENO_SPEEDBINS(
+> +			{ 0,   0 },
+> +			{ 263, 1 },
+> +			{ 315, 0 },
+> +		),
+>  		.preempt_record_size = 4192 * SZ_1K,
+>  	}, {
+>  		.chip_ids = ADRENO_CHIP_IDS(0x43051401), /* "C520v2" */
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> index 75f5367e73caace4648491b041f80b7c4d26bf89..7b31379eff444cf3f8ed0dcfd23c14920c13ee9d 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> @@ -1078,7 +1078,20 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+>  
+>  int adreno_read_speedbin(struct device *dev, u32 *speedbin)
+>  {
+> -	return nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> +	u32 hi_bits = 0;
+> +	int ret;
+> +
+> +	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Some chipsets have MSB bits (BIT(8) and above) at a non-contiguous location */
+> +	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin_hi", &hi_bits);
+> +	if (ret != -ENOENT)
+> +		return ret;
+> +
+> +	*speedbin |= (hi_bits << 8);
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Now that we're overwriting speedbin, we should probably have some checks in
+order to make sure somebody passing a too-wide cell to one of these won't
+result in cripplingly-untraceable value corruption
 
+I guess we could just introduce nvmem_cell_read_variable_le_u8() and call it
+a day?
+
+Konrad
