@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D35A076AB
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81B8DA076AC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 14:10:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF5410EDC9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9E5410EDCA;
 	Thu,  9 Jan 2025 13:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ht+Oh8aT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FnaRjJWp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1843810EDC8
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:10:04 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-385e971a2a0so45015f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 05:10:04 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBAEB10EDC9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 13:10:05 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-436246b1f9bso1355525e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 05:10:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736428143; x=1737032943; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736428144; x=1737032944; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=IahHGy/Fda2UCFzLYdJQ2xhaS/fkMASiQTTXw59CQ5A=;
- b=Ht+Oh8aT/ai4WxxZ+mGfKYsaGN2np5LpKAzBbQofcOhjSIfurOsxSxsdR2kVdKtxzf
- vQPA9i7sA4BmqJ6fa7av3lx+oIysyWTr4M3G6NDp0nU2BL0W/3sa5paBj8daf2BYS7uz
- DX7tTpY42TzApxxxvB3ZVKVFGqkdDSfSuCLXPkPzGP4Ti/7SPokA+bLceIIMnRqZ0uvE
- VWYlxfhbfgRUMInZKPYnHDwl155bURGIXeozWamlN8IAka9zJWE+Kaig0XO3DCCPF0W8
- 3VtM/OcdS/ngTxCUDuK7SXj7GGzEZzbrr+k6KqroZG20siorUmEZGMTL9AwYtqwOO0Xd
- bM4Q==
+ :reply-to; bh=vmyMD3Uq9AhqTuS5zdgQtFCCk70JrG5wX/TvE2UGDH0=;
+ b=FnaRjJWpmcA7bRuAkbH/2/nB5laglWuL/hMlR8c/TLIcqEmAa25l8syhFPDli9yfmK
+ KPJm9UHb2yUNaXU7CMWYo6CDzU3zIn7+H1CcGprJASx6wXgqg5P9aXaFNBlG4vywBfsh
+ y9d01N8TO3v9gP3ccfGuBtFvNcweK2rGNKgDR/LAl47R+BGO5u6EtHGZWyFIBdwvYpnS
+ 9wAYClhBHEOTuIwKUT9ggtD2qOOFyYcEdNyslQoM8AKmQ8oCLJxAm3IiPjmC23S37/uJ
+ NnxHPSeqfezEkWJM0b0VZsNm6JoxPT2a+Kr04SAmXk+I8+Qpqxu9BOhlXhJrm1Ea8o31
+ vASA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736428143; x=1737032943;
+ d=1e100.net; s=20230601; t=1736428144; x=1737032944;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IahHGy/Fda2UCFzLYdJQ2xhaS/fkMASiQTTXw59CQ5A=;
- b=CFYWekCdSm1cbGid9Z2SDrtWHqXA3dA0QcIPWpSOosxHrXFhndB3qUUir16dIkVMo4
- 7hyCvLkp+dt4RVchVs8KeM05HJDPZGSgFqd+3P9geZLb0M6Rf/q2AKCcQuJFcgh3NISm
- +AVOerUKc3kbiMX9LcJpBIRH0J1huJACRZKUd3MiMMsjyjPMX1ppvfJNExErqso8fuXt
- 6s4MRsicnwn2JcnBHXpGIvotMRY3iC0AeZuT3POwhVv+SMKgd0uCY2XZb0JZxpJ9biux
- g8hqAMssdcjLAqTz84dEpqUW64l+WaWbIF2FwNAsVZ9fn0KocsEH9y+CxeeCY61uXfB/
- jOSg==
+ bh=vmyMD3Uq9AhqTuS5zdgQtFCCk70JrG5wX/TvE2UGDH0=;
+ b=elPyknPSRDPvQoTNqlOBMNaPJI8TnYz++HPqInB+dW9UzH6NiC7/88dkZb7A5olr18
+ vItEtHQw33dfQODPA1uuYJgiGoQ6G6ecHDQ/7f7RTFCm98Wclz5aKiIF+AO3yiyudJND
+ vzJvoP5Y87JLeBrfwu7kjQOBTs4TSKpHGGXudFugOb2/V9e/ByzullU+RvZUwxugq/Pa
+ r26ZHJisox/8ISQfuZdIIFiTiA7CI3HkJ4KnHAwMychrDYFgzBKOz3yl3wm6jVqD1FQx
+ n7nDoQyxwpvy4J4WYXNBGMTg5FLKdyavSW34wQNHSK8uP1KX208Bk+ww8XnfJ107xDUt
+ /96g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV3hf57NMLjasZ8/m7pJNzqj25NnGsnALp7wUnoLbaGMV2gTojszo7Z0hOlnkOudmpURFUVDF1D6Yw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXv8NA4EoJJKKXVCKk+l6Ge2yWjHLXjBgKRH5d8kIAS8FEXFgT
- JZ9AaM9k0lzpRVLADzXdpQJKrJAYWG5RpYJsVMMW0rhdEAmK63ALRxK2JkD1ejQ=
-X-Gm-Gg: ASbGncsjASal5wICpFWjnmrklx6qO3ym5CmPoKXX6d4RLb5UmWqzd0WljrsFDNVAmG4
- lcwC9jhLvyEMMmgMWibcxPJ6xpYipnuyqbwSd48V4pYoVp6b/Z4bWuQsdzTzd+LXZuqJaP/oq9d
- wGC2uHFWW6qT+QMLPzef0thjpPLkoN2dhVJB8hWrUsOZF6oPDHe8jHKmd+KG5TwVpJVxVYCHxjD
- TzZOa8mRnf723MT5E1dZzVzYitQD3z1sO0IX1Y7bvXYfSp5QckModUu/vnDWCpc1fSvB6Ff
-X-Google-Smtp-Source: AGHT+IGE1BMy5KJxDKlPOGD4A8Ycl/pEB6if3056FBx0nz4EBEvi1JnuU51/p7jeCBNC3L2MT0yt8Q==
-X-Received: by 2002:adf:9ccd:0:b0:386:3c21:b1f7 with SMTP id
- ffacd0b85a97d-38a872f40f3mr1880243f8f.7.1736428142600; 
- Thu, 09 Jan 2025 05:09:02 -0800 (PST)
+ AJvYcCXF985kcJftKbXzUp4dxV4NbiFJbngEhVonF3Ve1HA7B2A6MI4cGWIG93Gp74uY2RoLoncBnsGQ4dk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzeuf4rpEA6t+J8oYmU357LdNgKXhdYMDwyYKdU28eD+xfVRZDW
+ CfGMCjkHCmnaU3LDcH5b0GZkWfQp5qEQIvJKVbYVv4avkbyIIL/5YxnCYhLmi+o=
+X-Gm-Gg: ASbGnct+upLSruuf4LcKWjKqZyd0VKayc1S6c9DP6o++ptcYHJtG5tExONQOytnAT1m
+ 32yzIPn6u8vJbsVSPcu9ev0Axbm4Q6trrPRkmyfDvczqLfyq6bsbxa0xkHZRrmQqvrrjKKtcurj
+ 6j6h32gluST0ljejUo6v62xYImd9cyPv37fZbrIDKQwCwNSwkOagK8HeKTr/buVXIhEKd9YNXNl
+ X64h3ZSnkxrXHR8DKmtj40zXD4iDi+aANKh8kv9c+z/WPmvotQvAMnGDS0mGUtRttjpaqmR
+X-Google-Smtp-Source: AGHT+IF0yZQpE2T+mDEU7Qz0l8hUmiW2SIK+Ml2sGaqZkGBiX7CZXSeMJdBZDUAAKUVm9RnE3BY2xg==
+X-Received: by 2002:a05:600c:1385:b0:436:1b94:2deb with SMTP id
+ 5b1f17b1804b1-436e26f556fmr24399175e9.5.1736428144436; 
+ Thu, 09 Jan 2025 05:09:04 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a8e4b8124sm1789167f8f.81.2025.01.09.05.09.01
+ ffacd0b85a97d-38a8e4b8124sm1789167f8f.81.2025.01.09.05.09.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 05:09:02 -0800 (PST)
+ Thu, 09 Jan 2025 05:09:03 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Thu, 09 Jan 2025 14:08:37 +0100
-Subject: [PATCH RFC 10/11] drm/msm/mdss: Add support for SM8750
+Date: Thu, 09 Jan 2025 14:08:38 +0100
+Subject: [PATCH RFC / WIP 11/11] drm/msm/dpu: WIP: CTL_LAYER_EXT is gone
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250109-b4-sm8750-display-v1-10-b3f15faf4c97@linaro.org>
+Message-Id: <20250109-b4-sm8750-display-v1-11-b3f15faf4c97@linaro.org>
 References: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
 In-Reply-To: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -86,21 +86,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
  Srini Kandagatla <srinivas.kandagatla@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3130;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5291;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=p0pM/Ev9dlkrsTFP6t4YEadbGlQIQTws2872m+Bd38w=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnf8pZiTntv0IcOvcf5zrbYoy4sFGrs4p7XEg7w
- 0nTZ5hFSoSJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ3/KWQAKCRDBN2bmhouD
- 10nPD/4hm/1Edz1IQ80NKbrbj9ML+bSHneNqEwCDZ+3qLdSS3aZ7tmoqA9Tx6SPsEFfqVYXZNdW
- MmqAPZ/pHnCmvlXuE1m1XoKUuqRvN5m3C+WUIESzJMsiMpr+pZ9wg/lUuZd0QneLQOAVznHXCEn
- LlaxalxYnowAfS78FRCCWfEKMwTElNYvUYbzymHEWRrb0tH6f0GKkt20ibdG3FGCyqAf+blTEEA
- qG7JjnZ56Dv0W2dLqpMexCUlvN4lWwBvrB2hfwxuBHNzlZdtU2zsQ6MTQlxEnwhJomFr5hpa2fa
- VZdJt5NJs+tjEdJMEdXSHt0eTYawNyCKi4mpu8J3S2woAolpl2FO0PmG2stnjNd6Run148WtPFJ
- aisSjufD53JSghWAIHlFRLOWudCTLHn9mxn+lZgcqMwC6ZM9Xu3pOfVnmExPTxTMMrZpj/zBSXU
- sIJ5mMZsdbB/dkp9wM1Y4uMeMgLKkCZ5ZbOGisvc+UMD7y67oFrNkLKVbBas0fu04E98Gx0zZIC
- h5i8p0+qK3/XEMj5qDYJMSwnHVfRhLyJ2FGrZgAFzD8ZksGPovlJn8wDcqZdtiONC0c0yoR1LLQ
- ewm344yX7F6jatadtDSnLZ8w/12TIG9eOgUVCgY+TExfU9ucyPj9VOw+TmQKZIgY2IffhPNW4cJ
- tdRo6+oI7itTENw==
+ bh=TVMXYKtsPr9SmJtLCQujXcnxWHB0kWLUZE8cXhntq7s=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnf8pZrX/xmLRnouLbZzbTf+8JmOHcEvZFbhJLW
+ uKWtOsxV0iJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ3/KWQAKCRDBN2bmhouD
+ 19V5D/0XRUOYYup2mcozlO/v7zs+20lKubAIepFfnv1lO8cuSoDrqzzp3h83xK+BGOKPB96Gsae
+ 9OcEXFlGysxQ//yMKy51ALBjjkvMo+gxd53M9D0HAApgGW24Jemkann6DlDaJHtuNKPbDoQ2JM+
+ qGj8+zm1I8IGrzQ+ru7QKSgUiCPUX9kcSgH7MaFkVkFIIywt1NOzNa6zyBCXTKVw0hJHK8F+v2g
+ 1ZFBtD36fFxvyQ4s7lcCyLefxZeHq+f4ZYNUInEXotKeEIQVs9LV0NSmcJ7mgYTHefecDeszJi4
+ Zqlf2EetTd7wFNl5qvbVM25CdDeUabNHZTXSu5wWDQRh+6rx5MhFKNFS16pi4242pR+UaJNQZd8
+ yknn9SRrBGmfNXJ/7arklu7+mptNR2k0GX0YbT5vplQzrGq9pb8vK5P3lvVN9KjE+Hq7mY8yEuW
+ +vCN7h9JOYar8VWJIGzLT3KumqSFHIy75+D0EJPya0a5uS0U+9hnsrhX52KQSRJ1YffNig4ShLJ
+ IvIBNRtgLyaTJ7VCq+hFhNIEFtw/6auV5SiVkfmbHUS2zGC1PDXe5eLZCviiPZCpsMkARrTQIso
+ rrXDQHfy/sP4/81qOobC+coakacox92TjhYhBU211dg1r9gt4QOComHyBVmhLKXsd5X/DPRSvxE
+ nUklphySesF7goQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,91 +118,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Qualcomm SM8750 platform.
+Not finished. Looking around, maybe someone already did some works
+around new CTL_PIPE_ACTIVE and CTL_LAYER_ACTIVE registers?
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/gpu/drm/msm/msm_mdss.c | 33 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_mdss.h |  1 +
- 2 files changed, 34 insertions(+)
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h | 12 ++++++------
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c          |  3 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h          |  3 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c              | 10 ++++++++--
+ 4 files changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index dcb49fd30402b80edd2cb5971f95a78eaad6081f..3f00eb6de3a9d2bee7637c6f516efff78b7d872b 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -222,6 +222,24 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
- 	}
- }
- 
-+static void msm_mdss_setup_ubwc_dec_50(struct msm_mdss *msm_mdss)
-+{
-+	const struct msm_mdss_data *data = msm_mdss->mdss_data;
-+	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
-+		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
-+
-+	if (data->ubwc_bank_spread)
-+		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
-+
-+	if (data->macrotile_mode)
-+		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
-+
-+	writel_relaxed(value, msm_mdss->mmio + REG_MDSS_UBWC_STATIC);
-+
-+	writel_relaxed(4, msm_mdss->mmio + REG_MDSS_UBWC_CTRL_2);
-+	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
-+}
-+
- #define MDSS_HW_MAJ_MIN		\
- 	(MDSS_HW_VERSION_MAJOR__MASK | MDSS_HW_VERSION_MINOR__MASK)
- 
-@@ -339,6 +357,9 @@ static int msm_mdss_enable(struct msm_mdss *msm_mdss)
- 	case UBWC_4_3:
- 		msm_mdss_setup_ubwc_dec_40(msm_mdss);
- 		break;
-+	case UBWC_5_0:
-+		msm_mdss_setup_ubwc_dec_50(msm_mdss);
-+		break;
- 	default:
- 		dev_err(msm_mdss->dev, "Unsupported UBWC decoder version %x\n",
- 			msm_mdss->mdss_data->ubwc_dec_version);
-@@ -722,6 +743,17 @@ static const struct msm_mdss_data sm8550_data = {
- 	.reg_bus_bw = 57000,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h
+index b093f6e529f6d5f4a4b600d766cefb509619a3c1..df1ebb797959a67055acccd65137e4f1e342cd79 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_0_sm8750.h
+@@ -33,32 +33,32 @@ static const struct dpu_ctl_cfg sm8750_ctl[] = {
+ 	{
+ 		.name = "ctl_0", .id = CTL_0,
+ 		.base = 0x15000, .len = 0x1000,
+-		.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
++		.features = CTL_SM8750_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+ 		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 9),
+ 	}, {
+ 		.name = "ctl_1", .id = CTL_1,
+ 		.base = 0x16000, .len = 0x1000,
+-		.features = CTL_SM8550_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
++		.features = CTL_SM8750_MASK | BIT(DPU_CTL_SPLIT_DISPLAY),
+ 		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 10),
+ 	}, {
+ 		.name = "ctl_2", .id = CTL_2,
+ 		.base = 0x17000, .len = 0x1000,
+-		.features = CTL_SM8550_MASK,
++		.features = CTL_SM8750_MASK,
+ 		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 11),
+ 	}, {
+ 		.name = "ctl_3", .id = CTL_3,
+ 		.base = 0x18000, .len = 0x1000,
+-		.features = CTL_SM8550_MASK,
++		.features = CTL_SM8750_MASK,
+ 		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 12),
+ 	}, {
+ 		.name = "ctl_4", .id = CTL_4,
+ 		.base = 0x19000, .len = 0x1000,
+-		.features = CTL_SM8550_MASK,
++		.features = CTL_SM8750_MASK,
+ 		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 13),
+ 	}, {
+ 		.name = "ctl_5", .id = CTL_5,
+ 		.base = 0x1a000, .len = 0x1000,
+-		.features = CTL_SM8550_MASK,
++		.features = CTL_SM8750_MASK,
+ 		.intr_start = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR2, 23),
+ 	},
  };
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 40966ab6283e666d1f113a62ada50298de68833b..8e938455459119708967e9c02a84042f3962ead1 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -119,6 +119,9 @@
+ #define CTL_SM8550_MASK \
+ 	(CTL_SC7280_MASK | BIT(DPU_CTL_HAS_LAYER_EXT4))
  
-+static const struct msm_mdss_data sm8750_data = {
-+	.ubwc_enc_version = UBWC_5_0,
-+	.ubwc_dec_version = UBWC_5_0,
-+	.ubwc_swizzle = 6,
-+	.ubwc_bank_spread = true,
-+	/* TODO: highest_bank_bit = 2 for LP_DDR4 */
-+	.highest_bank_bit = 3,
-+	.macrotile_mode = true,
-+	.reg_bus_bw = 57000,
-+};
++#define CTL_SM8750_MASK \
++	(CTL_SC7280_MASK | BIT(DPU_CTL_NO_LAYER_EXT))
 +
- static const struct msm_mdss_data x1e80100_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_3,
-@@ -756,6 +788,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,sm8450-mdss", .data = &sm8350_data },
- 	{ .compatible = "qcom,sm8550-mdss", .data = &sm8550_data },
- 	{ .compatible = "qcom,sm8650-mdss", .data = &sm8550_data},
-+	{ .compatible = "qcom,sm8750-mdss", .data = &sm8750_data},
- 	{ .compatible = "qcom,x1e80100-mdss", .data = &x1e80100_data},
- 	{}
+ #define DSPP_SC7180_MASK BIT(DPU_DSPP_PCC)
+ 
+ #define INTF_SC7180_MASK \
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+index 1bd313f2c6f199d5eefcdaa5f7c18ea512d48684..0231849b9c86662b44a0c133c87a64d9af047e7f 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+@@ -137,6 +137,8 @@ enum {
+  * @DPU_CTL_FETCH_ACTIVE:	Active CTL for fetch HW (SSPPs)
+  * @DPU_CTL_VM_CFG:		CTL config to support multiple VMs
+  * @DPU_CTL_HAS_LAYER_EXT4:	CTL has the CTL_LAYER_EXT4 register
++ * @DPU_CTL_NO_LAYER_EXT:	CTL has no CTL_LAYER_EXT registers at all, but
++ *                              has active bits for pipes and layer mixers
+  * @DPU_CTL_DSPP_BLOCK_FLUSH:	CTL config to support dspp sub-block flush
+  * @DPU_CTL_MAX
+  */
+@@ -146,6 +148,7 @@ enum {
+ 	DPU_CTL_FETCH_ACTIVE,
+ 	DPU_CTL_VM_CFG,
+ 	DPU_CTL_HAS_LAYER_EXT4,
++	DPU_CTL_NO_LAYER_EXT,
+ 	DPU_CTL_DSPP_SUB_BLOCK_FLUSH,
+ 	DPU_CTL_MAX
  };
-diff --git a/drivers/gpu/drm/msm/msm_mdss.h b/drivers/gpu/drm/msm/msm_mdss.h
-index 14dc53704314558841ee1fe08d93309fd2233812..dd0160c6ba1a297cea5b87cd8b03895b2aa08213 100644
---- a/drivers/gpu/drm/msm/msm_mdss.h
-+++ b/drivers/gpu/drm/msm/msm_mdss.h
-@@ -22,6 +22,7 @@ struct msm_mdss_data {
- #define UBWC_3_0 0x30000000
- #define UBWC_4_0 0x40000000
- #define UBWC_4_3 0x40030000
-+#define UBWC_5_0 0x50000000
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+index 06b01cd36ce2442ee6e1b85be227851a234cc96b..502449cbbddcb21b7008f139ac065d187a16b68e 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c
+@@ -40,6 +40,8 @@
+ #define   CTL_INTF_FLUSH                0x110
+ #define   CTL_CDM_FLUSH                0x114
+ #define   CTL_PERIPH_FLUSH              0x128
++#define   CTL_PIPE_ACTIVE               0x12C
++#define   CTL_LAYER_ACTIVE              0x130
+ #define   CTL_INTF_MASTER               0x134
+ #define   CTL_DSPP_n_FLUSH(n)           ((0x13C) + ((n) * 4))
  
- const struct msm_mdss_data *msm_mdss_get_mdss_data(struct device *dev);
- 
+@@ -729,8 +731,12 @@ static void _setup_ctl_ops(struct dpu_hw_ctl_ops *ops,
+ 	ops->trigger_pending = dpu_hw_ctl_trigger_pending;
+ 	ops->reset = dpu_hw_ctl_reset_control;
+ 	ops->wait_reset_status = dpu_hw_ctl_wait_reset_status;
+-	ops->clear_all_blendstages = dpu_hw_ctl_clear_all_blendstages;
+-	ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
++	if (cap & BIT(DPU_CTL_NO_LAYER_EXT)) {
++		// TODO: NOT COMPLETE, This has to be implemented
++	} else {
++		ops->clear_all_blendstages = dpu_hw_ctl_clear_all_blendstages;
++		ops->setup_blendstage = dpu_hw_ctl_setup_blendstage;
++	}
+ 	ops->update_pending_flush_sspp = dpu_hw_ctl_update_pending_flush_sspp;
+ 	ops->update_pending_flush_mixer = dpu_hw_ctl_update_pending_flush_mixer;
+ 	if (cap & BIT(DPU_CTL_DSPP_SUB_BLOCK_FLUSH))
 
 -- 
 2.43.0
