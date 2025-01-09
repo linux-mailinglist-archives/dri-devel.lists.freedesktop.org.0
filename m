@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D101A07380
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:39:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE29A07381
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:39:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E76FF10ED58;
-	Thu,  9 Jan 2025 10:39:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28A1410ED57;
+	Thu,  9 Jan 2025 10:39:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="nmzimryg";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lRIlbcmL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A641F10ED56
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:39:02 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-3862d161947so375036f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:39:02 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE6BD10ED56
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:39:03 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-43624b2d453so8047845e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:39:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736419081; x=1737023881;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736419082; x=1737023882;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Z//BQnV3/BLX4Mqa0cv4eDxMczGWbcxFqozmONQlohE=;
- b=nmzimrygrhOSFBMwn8gR2omK4SGIQ2lUeB+8uyq+eYjnmqGYWzb+NvpgXW1Otjs/nI
- Lc+v9u0WGdcPgjBXGfsmwhGOxTEnnQ2e8E7Em4qzycEiWomJAlQBrR5zrlUhmnyLohGQ
- Y97/YbDysQtTVDvwZ2E+f4VUkNcmb8rB4EVa+SIrqchwV7ITO/Jl1Wgzjs0bA3i4/lIA
- majeEpRR1LOR6+UtO00NWa6/EqN73RD0e/sOW2GxtAMsHyp7Y8I/JUPZzpd0xpQ9VbhI
- oX31H+pLY+h8dE4XwvmXtxUtrFiOxrkSh5tl6IvsaQv/1cgXGXT0O5fexZM7ogNYuDyy
- seJw==
+ :reply-to; bh=DCXEkdQUkL2wd08/hMtAK7d558exhzf0emr4McwTqMY=;
+ b=lRIlbcmLWiwrpSsKwiq3QgM4iGLopAICoZRLCR+2rNRRQ+m/oiNxqth4AfCnc1y6il
+ wFz8bWeUAw+cd5H0gR79/r6awAipJ2OLg7YVZzpHlWujAr09R88wNJ7umXLZHy5tc0Xs
+ tv1gt8TE88q3Jn0Dg+rjTnZdoZW56t8ekd1/I3xXMlvOkbqEV20p8QPEmysT2TJNZfHO
+ 5lhbLwFeLyAJyeoRKE/f/3ILa8XzSW6pbOtAD+Kl8zITLEs/OcjyFBnBFI8BTrWUvpgz
+ hb9KF5KfC7c2ZQSxRAaKTKVHppMd8HoFFeOEBp76GFOi8Dfa3UtdTU7vVDXLi62N5xES
+ IZYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736419081; x=1737023881;
+ d=1e100.net; s=20230601; t=1736419082; x=1737023882;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Z//BQnV3/BLX4Mqa0cv4eDxMczGWbcxFqozmONQlohE=;
- b=vl0wQnQGfpoHOSGruVx/jwMB3gr5X4c+zXrhBUjy+KfwnQ5rAL0wwhc2IJwR429bMb
- LVnDV0BWXDtwmTTqe3xG668u4pAEvB0p/EHLYH5kw+fAAgZshm62yWGU2QldKSNBwjib
- StdncNMWOVftiuFguWBKTA9pR/Y100bne/CluGUYVO6icHpj+rBC8v+yBn++TE7pq94x
- iAXGWiuXYAx0dwqAFMbw7oMJpLMNIYyyHzwWJ7ge9iN85kOl7K1HEfyU9fS8oSGDrYjK
- V/TiNtv0vlrob42rnDPaCbkxQYZDbIkI3Zo8Ip/fqbCu6jXsp4dU3AxAaUmDzxHXNGra
- GbSg==
-X-Gm-Message-State: AOJu0YwSdny2Lt/OsCIMAUozz6ekSECfS6zA/rsHn38DvsCW2HB1dHER
- afr9yYWtMM8i5cJyejvh1OXW2JSuI1pZpjH8BuxN+qvQzTEUgulw7bjUtZu4DtI=
-X-Gm-Gg: ASbGncvhNQvXk2827A36vL2BlP+nBSjAb81j+ynIvTF14Vu/zAF9Wlizv99ALxujzGf
- KJMuFLK61HIiDWAk+VDBRmoO7CbugItXh3B/mKBtdtm+1puNW5UyQqNyAxw5DkJ5W8jE+8L2Jkg
- T1Ned6Qry5YW2D9zsvOk8bmikKyNp4crGpIlWHOCUw5E9WAZug+vMJzDEA4q6KoLHxSaup1f6oK
- c2FOYZN97sjuHSfFaXP1gb5QV5Govw4/n9TnO73Ozdk/USh/NiP2MaSY6w=
-X-Google-Smtp-Source: AGHT+IFCYv4uf2yFMNDeWwu8dxDCALmnbFIR9ZT4+Lxq9xNx5WM2hH8pnTeOj9g7LOIfFfGA1HWa3g==
-X-Received: by 2002:a5d:6d09:0:b0:386:1c13:30d5 with SMTP id
- ffacd0b85a97d-38a872f6ebfmr5116576f8f.7.1736419081275; 
- Thu, 09 Jan 2025 02:38:01 -0800 (PST)
+ bh=DCXEkdQUkL2wd08/hMtAK7d558exhzf0emr4McwTqMY=;
+ b=ecGX38LKhRUYIb8ZilHjzkLd9QlxKeCprWrI0p6uDrGfDtwAqegPvy1w4iw+6qPcJ5
+ LtUT1d6XHlYGo3lrtMafQxb5Ey/gBngz7hu0fsgim0/1vlHtf8ORoyHkO8zbA7pLqE/b
+ O2r7DFSYuOkl3yOKCg8nvue9ygJRwZwpAm5DSWmcjAjlPuVGx1acr6svoVnrUg0zsEiX
+ zB5gKKem4WuZoMTaIDmCtbfD2a4i5vEepRpf7i73cCijkn30yazKl3t4HwnvglmTk3ON
+ nGbZT51RMHXwFDhwyes5Xhbj0rpbgVQd4LAyn0EqFsAVWlLUFjGZ2RuMlreun+h2fVxH
+ JnJQ==
+X-Gm-Message-State: AOJu0Yxpj7DC0CQAnxs/FzYvROyIi3zXW4kNzxdWV+fQ93ncchGOiNpZ
+ FaFK3QnOR9fOFAdvTTrIWgibzSnnF1uE5zBmyTEZasYcRlkif7SIOlncnCYoGRA=
+X-Gm-Gg: ASbGncuSoZS2aoBflnAvRpM/pD4a/5oPBdnbFvIzMLwAQtVSKjLy1QPFOYB4QKGmHcc
+ sxK5tGQVG+M/5ErWl9av7rWIv9gGwyMEBHcVKoXuFXR22zbeVCfFphuS4EebFlvAFNMMFglGoog
+ OumJm9thPihq3o3POerPR5Tpl/V35NdKgjcQTqEt6BRAEczZu1ZPeFE9C4i/6W5A1TvywHn0/WS
+ NELbtkZuANo4K+9WnKqSqGS2re10jOD2tGACg5FwNpWYmHDY0VXXM4eAcA=
+X-Google-Smtp-Source: AGHT+IHDqk9Dn/QqIZHU6jgykmIRsxf9NASNh5jt9YjZTPMmzwA2ZvT2ZXMyssDp6F9Dcqpt/13q0Q==
+X-Received: by 2002:a05:600c:1c8b:b0:434:a852:ba77 with SMTP id
+ 5b1f17b1804b1-436e26a7e1emr61442675e9.15.1736419082410; 
+ Thu, 09 Jan 2025 02:38:02 -0800 (PST)
 Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:125:358f:ea05:210e])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-436e9dc8826sm16428195e9.11.2025.01.09.02.38.00
+ 5b1f17b1804b1-436e9dc8826sm16428195e9.11.2025.01.09.02.38.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 02:38:00 -0800 (PST)
-From: amergnat@baylibre.com
-Date: Thu, 09 Jan 2025 11:37:56 +0100
-Subject: [PATCH v6 3/6] drm/mediatek: add MT8365 SoC support
+ Thu, 09 Jan 2025 02:38:01 -0800 (PST)
+From: Alexandre Mergnat <amergnat@baylibre.com>
+Date: Thu, 09 Jan 2025 11:37:57 +0100
+Subject: [PATCH v6 4/6] arm64: defconfig: enable display support for mt8365-evk
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v6-3-c6af4f34f4d8@baylibre.com>
+Message-Id: <20231023-display-support-v6-4-c6af4f34f4d8@baylibre.com>
 References: <20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com>
 In-Reply-To: <20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -82,23 +82,22 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, 
- Alexandre Mergnat <amergnat@baylibre.com>, 
- Fabien Parent <fparent@baylibre.com>
+ Alexandre Mergnat <amergnat@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1705; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=884; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=wfidoNqLEIpqSK6RG2PAlzWtAyJfTIKDPdldVFKf2ag=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBnf6cDp6kGOPVCiEv8hl9KLU8i+wGPmqu2FquHDK5H
- Q2R0yViJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ3+nAwAKCRArRkmdfjHURc8XEA
- Cu3Qoq4Wqg3WdgXcnvmUQIYev871ySwkgvnV7At88mMQ+GkL66NFNsB4PSred1m+OtwjUlWXQe0ryv
- SGBXNcYk4OPx5tyI8k2cJIGhIlQQNxAdQ0gG5CIntqQ6Q5OeliwrbiIm7kekFMGlRBeHMSE88+Fjs9
- BtxhIUR7SoG/WRJCiuaPp1V+NZu0akJj9bmUb+BbRjtcnYzZDapTE3nVYP7JcuI6sVHGTM2KLKnGkT
- gxPGwTXWvM87+FNMlCHcOGxmuIsYzt3Ug3X07f/pPlA5p1HLiIUKnBmyEel1Qh3f578e/bc96J3B4z
- Sz6YAbXC5d4wlRvQIkggqXZAgpYjuJXh0pcXJyQ4x39eF484WQjmKvvN100KMbpVX3anhTXG82vHr0
- VGb/u2fh0BgIzC2cpTbr/Mh60SGd8YiLWpeEdefIZANN0Z4eA1d+qKkQF+MGNIRZWlvVoMQpsalqFD
- 1XyoCmR52dau4RmPhyUZ53FyhI3+1mh9FujyIwXqH7x5EhAn5lmmCPthg+Fysw2uU+vZWV4AZxzu/Y
- xEVF6zf+m0E3Go6wioVEbC9bq+FOr+5WQPqQmTRS0L8C8gGxXEgRnr6/6enaWGE7+nGdnIuOGCe734
- i4fZcUhVa5gefRq9qlSz6xBlUTS1Ra82yv1i4o8bKF+ukc1tLLU0fkbK2IpQ==
+ bh=5LcQ4cCyrjtrBHi+BM+fpfBFczkCA62rUsdMrSt+Gvg=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBnf6cDT94L4X0YgQPmvNBZWcAPwVjpeyziQ4f7xGFx
+ 12bbNdCJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ3+nAwAKCRArRkmdfjHURfIID/
+ 46lLcLh3k8s/bf1kjHlDFKxQYXHfHNEk+fM0kc/FCBgx/BsY3Pqwg5Xxop+5OsozYOirZeb6Pue8XR
+ MYFlq2xGGOhzoi6L6cv9U4D0aTPkyRAyotixoFwXz/vff51ZwS7HJbjE6lyv5LVw9Om+EDHfpv/Ri5
+ fcvo32f8ArHOWrw248Sq83AdKC6Rb/4oEf9NyEjCNhScCnoniayIQhsEvX2AnlGWRsk5SCFH/R3YAl
+ qH2wsE4mXIR2n11/R2OSbSVJPRQrJW4r5zP6thvZyO0tlHD6c4wQIB+f8xkqEMI7rpTMIvIxyzZwcC
+ /+K24WvmfO/rVeKeAEI/ZXh0kwYFmR5RlWlCBJEzah3Y7/HmnFGmHdZnGtU13PGuubeU1yKXBQeRoo
+ kb4auVvR8xbDwifrB5Rd3Rcdu45OercclIlfXA3SFsPqmR5VsW2Osvlhj+Bx1J5HLvHv5c5gu1q7Rc
+ UBw5z5jYRnBN9jLagFonr+sdNAabpWx03urz9/Dn6OHhxjwG2Gyi4opLY8Wj++uhF3vXa8pX0EGUpo
+ PrbUw7qmwh2ozUnc6YqBNjkGy/uMpHjS9XLUKh9HowiZyWvve+3pPsvCh48F1joL0yS3VPIk+jvWU6
+ e/eT7KD81nVSxjVNX6sTAW6Wo7/o4ICmWbBJ4BvUfK9LkwjnkH5G4YnoPJfw==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,50 +115,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fabien Parent <fparent@baylibre.com>
+Enable the DRM HDMI connector support.
+Enable the MIPI-DSI display Startek KD070FHFID015 panel.
 
-Add DRM support for MT8365 SoC.
-
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm64/configs/defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 0829ceb9967c..5471ef744cc1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -328,6 +328,10 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
- 	.min_height = 1,
- };
- 
-+static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data = {
-+	.mmsys_dev_num = 1,
-+};
-+
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-@@ -355,6 +359,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8195_vdosys0_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys1",
- 	  .data = &mt8195_vdosys1_driver_data},
-+	{ .compatible = "mediatek,mt8365-mmsys",
-+	  .data = &mt8365_mmsys_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-@@ -751,6 +757,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8195-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8365-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-od",
- 	  .data = (void *)MTK_DISP_OD },
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index c62831e61586..1e2963a13500 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -897,9 +897,11 @@ CONFIG_DRM_PANEL_NOVATEK_NT36672E=m
+ CONFIG_DRM_PANEL_RAYDIUM_RM67191=m
+ CONFIG_DRM_PANEL_SAMSUNG_ATNA33XC20=m
+ CONFIG_DRM_PANEL_SITRONIX_ST7703=m
++CONFIG_DRM_PANEL_STARTEK_KD070FHFID015=m
+ CONFIG_DRM_PANEL_TRULY_NT35597_WQXGA=m
+ CONFIG_DRM_PANEL_VISIONOX_VTDR6130=m
+ CONFIG_DRM_FSL_LDB=m
++CONFIG_DRM_DISPLAY_CONNECTOR=m
+ CONFIG_DRM_LONTIUM_LT8912B=m
+ CONFIG_DRM_LONTIUM_LT9611=m
+ CONFIG_DRM_LONTIUM_LT9611UXC=m
 
 -- 
 2.25.1
