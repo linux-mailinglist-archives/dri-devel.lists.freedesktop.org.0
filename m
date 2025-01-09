@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB192A07577
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 13:15:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C9DBA0757E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 13:16:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 475E410ED89;
-	Thu,  9 Jan 2025 12:15:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7364610ED9B;
+	Thu,  9 Jan 2025 12:16:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NnIxdpZ+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EZNOV9Hh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F30510ED94
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 12:15:56 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53f22fd6887so785607e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 04:15:56 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D664310ED92
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 12:16:54 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5401d3ea5a1so843993e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 04:16:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736424895; x=1737029695; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736424953; x=1737029753; darn=lists.freedesktop.org;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=7Y3HY3/3raPKrBdMfi/LEIgt0D1405I14g2HDD+nyIE=;
- b=NnIxdpZ+SUwegvc4Tl8L4QcP6qYkk31PRXgm8Wi0tTEHqWtDxWfWoxC/M39YY0c37o
- QTk5bDolr3Aayaql0s7ccLjVwhhHWHCCmpy4iz0Qi7YZWLXwqqGxcVuA7yQMy0Azfr+z
- lsPoTBSh1u3LaZkTco0uKUiR+jgrK3KF18zxSY99JgsWQi+C18h0SAhKCJQPZrBQFUCL
- GlUIVL6s+Hsigj3TvMeHkwBILOVULOrdUy40qoO1yk8NALLG54lwttL1Uglu3ZjwQtgI
- 82iEMmaE67XYB87QzqQbIhgMOI5pjk3ofPmH/30e79hTcKrTtlQ+IwBle0b3OC1eqVGF
- wJFg==
+ bh=51fiBQGJpPcUuo5vlJJmT51EBH56olvKE7bUWMTUTdc=;
+ b=EZNOV9HhnPdsIxxbnUMofwGlfh2rt79E4wT3IYRJQ9X5U7/0td7VJd9F7l0mDsQOlY
+ nGtn9lqObad7PrHjMhcGGil3fxGSHhYqNi81EsrbPEEbuOsMVxVY+wZOynNcXYj/n6iV
+ 5kA29A4ABM2Y+fQ2ANk8H8cSaELK8gP0syobsNJgl5v8FgiOBquZIw0gWkI68pOhd/m9
+ dehMELLN21YmG7hsgGfkZh1X3gBYsehYexMvUrMylVxpULChUQnVtEaCfkRK+OHA4H3o
+ SPLG+jmka3JaVAZBEhsoztMkwrRzn1Sbq4c+856w8XnjAOXcQ7qgCeh4nPhvMyCjBlXN
+ PEoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736424895; x=1737029695;
+ d=1e100.net; s=20230601; t=1736424953; x=1737029753;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=7Y3HY3/3raPKrBdMfi/LEIgt0D1405I14g2HDD+nyIE=;
- b=IJzaY1a8WS0BnaJX+rlA1vzALxGaT/P4GSsxG7mrBW/eATkGveGnDNPYSrX1amlari
- wMKlTdC924y+fApBjWDDCvmHp9p6BvR1cnzk0226k6b15Eut38EI6Z87y99vCwAyRY6z
- RpLpb7RxH9BjYp/ekX4qksbxhUWqz2D65I9xzZ4eHzKUI/F6W7pm9BO6iw88BKaDtc1f
- tF5JfG5g51H7of8HCxBZ3k8YkCbwzhB7eQUyETCulbUEre2VNB3zVFJIgyDHyvd5uf9f
- T6VQXZoSjdPhAmu7VaUOVAaGpsiRQcOX1Qv8qdGkgHQdG+p/0PI/Nwj9f9V0BkKnO7eK
- N2HA==
+ bh=51fiBQGJpPcUuo5vlJJmT51EBH56olvKE7bUWMTUTdc=;
+ b=v9EmN/0PIUSKQr0TWNVDg6iUA4Fzx4d3ozeQf3VwJ9kGL9lnSUuvHcUu8gnqcLN1eG
+ fDmW4QRK9we5E6Roh5U/OgdZrCCkLBpMpi7TwpLLCn809J0zO7YbEGbYX6lU7n2bKbMZ
+ ef0sUvkyz7e6Pr3bL7ICEqW6RvqKIvJ0eQCBEMBbL8K1UADKHfb9vrEIwQu4ds7R/CnF
+ p7nV90+ZDMQE6SSuAeJUmlMpeEwQ8kWR3D3Hh7EhMdLFAvQHtTahbDkr8k4q8JaoFaEm
+ w4rMRVhKRSyHap6y78OOzPZ73P8jYbE/o/ZlD49wACGk3AL0UxTxv5VRRCfboSyU9MBh
+ 3jjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCULq/ySasYR+rLzbxSNgNetT/lpFkAIov92K4lfSBiX2lpf4StbZjrv++W69GePQSt+zxoYVngzbkk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzJRCgaTw0LgNdotTtmTMWyBQsa+4gu3D31XVcu7shvb5RFxLT
- hSACThWONxJ9A2yuV0FfkD+kFEtQ4SHt5GUyDrioLXFAdg2azdEV8BJu6Z4aV3M=
-X-Gm-Gg: ASbGncvyJes67yqaliLZMipPV67awNtrtJ3lTznUI5j0FxEeh4VmJiMMp0/HGtWVRFZ
- DjMeFZcTYDc39Pk6m5zyTIgUzd1BW0XoXVC/Mb5dYOJv6oxk+drouFtwGrlLM4bCu7AKMKqGAvq
- jEhE7Zww03xutV5adHrqjZ/nZYa+iSOkpnHJqexGyLrwuMD7sfJq0zcoxOTnh4GxkZjg6tabayS
- PXaquoZAV8oOFRjyl4p9usQj6R2V7+jshR3bH2BrKwpELXoMZyQVZmfucxZm/KIz3G3QNeZ7T7y
- 1foAu7otrLPBUWL+pdstAn9+ElwSMi2c0f4b
-X-Google-Smtp-Source: AGHT+IG5w+mHeSxL6HLuB+vsJtc5xv9b0UjlOGR0qPmcZlQhgaehIdffVretPgnpXUgovXqCroBRTw==
-X-Received: by 2002:a05:6512:104c:b0:53e:383c:dfa9 with SMTP id
- 2adb3069b0e04-542845d32f9mr2107453e87.30.1736424894890; 
- Thu, 09 Jan 2025 04:14:54 -0800 (PST)
+ AJvYcCVSeLCQL5Kizkul3kIDs99LDrLie/EsYMIfdt8GWoEK2AaMtZFuFWje0YZpW3P+y1mOYjQTWMfpzpk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyB74WYFG7Vxw9prQxnDWw3ALWWiIbgZmvIVPAkWccuTYqjR4M
+ 99aqAVO2TdyLO+KYR0PFnLjvkMT8+P3diDZat7aw4Xgd2WuiQ/HC1D7LbFgCqvU=
+X-Gm-Gg: ASbGncuX8qPI2lSmxBD/aMzkhDB+QsGb12uq2jVzpS5FOBuljXDC2+uBcoNLS+5zECL
+ kjTp9I4/buaaFtpCL3KvuXKKQTcrQlP3uBrZyLHA8YJB++fE2EmIFGjV2dsE92jp+EkHYJDoZ+6
+ pkFOMfuBB8glPkAJp5qxeFNVHspuT/aeLq0x0Ox7qyH2pA9l+ROg+UlXfFxVtXl7tZqCIrCd5iH
+ JD57028c/qAaTZbxc+1dUL80TwPNddxwNAnYjaGKZ/Zw/wM8H2jI4C6K3KWNCM/yYUIiPHLRn3A
+ tWDINumj878OAiMLqwUr5axgfWa7Ir1bsy/s
+X-Google-Smtp-Source: AGHT+IH5j6fZ8mHbuQ1cCJLcbUHN8wITNN/T+GeApB/Zpmg3LUDNE3p8F7Pix0g3oCHAp6x7GNOU5w==
+X-Received: by 2002:a05:6512:2351:b0:542:2192:3eb6 with SMTP id
+ 2adb3069b0e04-542845c08a7mr1977249e87.52.1736424953245; 
+ Thu, 09 Jan 2025 04:15:53 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428be49a12sm180006e87.17.2025.01.09.04.14.53
+ 2adb3069b0e04-5428be4996fsm182328e87.56.2025.01.09.04.15.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 04:14:53 -0800 (PST)
-Date: Thu, 9 Jan 2025 14:14:52 +0200
+ Thu, 09 Jan 2025 04:15:52 -0800 (PST)
+Date: Thu, 9 Jan 2025 14:15:49 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jun Nie <jun.nie@linaro.org>
 Cc: Jessica Zhang <quic_jesszhan@quicinc.com>, 
@@ -72,18 +72,18 @@ Cc: Jessica Zhang <quic_jesszhan@quicinc.com>,
  linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 04/15] drm/msm/dpu: decide right side per last bit
-Message-ID: <4uzsmtbeoilcodnlbnbst2t2gfbhaucpzne2bzwavdeawmqs4q@u33sixkksfls>
+Subject: Re: [PATCH v3 05/15] drm/msm/dpu: fix mixer number counter on
+ allocation
+Message-ID: <k2tf3tnaquagm7stxho7lrqj5oylbti4jisenm6t53hj5kvyhs@degtp25bmkj5>
 References: <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-0-92c7c0a228e3@linaro.org>
- <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-4-92c7c0a228e3@linaro.org>
- <yqbze4h6obiwulmvh64r62slaiih75hzescf5tjwqgtmhqy3wi@y4uedbo5jrzu>
- <95b83e6f-e455-4df0-b121-a1d900de0a56@quicinc.com>
- <CABymUCOGzvR0utNUR3-6bFDi3c3yRTUu=CcTo2-eTKBvpoU-PA@mail.gmail.com>
+ <20241219-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-32-v3-5-92c7c0a228e3@linaro.org>
+ <da270bd6-3f7a-4100-8352-acbf14b62db5@quicinc.com>
+ <CABymUCPm-+RYVGx6aXXPqgEcg+x7vhrN_HanJvvNrFkJj6o5Aw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABymUCOGzvR0utNUR3-6bFDi3c3yRTUu=CcTo2-eTKBvpoU-PA@mail.gmail.com>
+In-Reply-To: <CABymUCPm-+RYVGx6aXXPqgEcg+x7vhrN_HanJvvNrFkJj6o5Aw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,81 +99,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2025 at 12:35:48PM +0800, Jun Nie wrote:
-> Jessica Zhang <quic_jesszhan@quicinc.com> 于2025年1月9日周四 07:41写道：
+On Thu, Jan 09, 2025 at 12:40:23PM +0800, Jun Nie wrote:
+> Jessica Zhang <quic_jesszhan@quicinc.com> 于2025年1月9日周四 09:29写道：
 > >
 > >
 > >
-> > On 12/19/2024 2:09 PM, Dmitry Baryshkov wrote:
-> > > On Thu, Dec 19, 2024 at 03:49:22PM +0800, Jun Nie wrote:
-> > >> decide right side of a pair per last bit, in case of multiple
-> > >> mixer pairs.
+> > On 12/18/2024 11:49 PM, Jun Nie wrote:
+> > > Add the case to reserve multiple pairs mixers for high resolution.
+> > > Current code only supports one pair of mixer usage case. To support
+> > > quad-pipe usage case, two pairs of mixers are needed.
 > > >
-> > > Proper English sentences, please. Also describe why, not what.
+> > > Current code resets number of mixer on failure of pair's peer test and
+> > > retry on another pair. If two pairs are needed, the failure on the test
+> > > of 2nd pair results clearing to the 1st pair. This patch only clear the
+> > > bit for the 2nd pair allocation before retry on another pair.
 > >
 > > Hi Jun,
 > >
-> > Can we also add a note in the commit message on why the last bit check
-> > works?
+> > I think the commit message wording is a bit unclear. Maybe something
+> > like "Reset the current lm_count to an even number instead of completely
+> > clearing it. This prevents all pairs from being cleared in cases where
+> > multiple LM pairs are needed"
 > 
-> Sure. How about this?
+> Thanks for the suggestion! Will adopt it.
+> >
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > ---
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 6 +++++-
+> > >   1 file changed, 5 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > > index cde3c5616f9bc..a8b01b78c02c7 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> > > @@ -316,7 +316,11 @@ static int _dpu_rm_reserve_lms(struct dpu_rm *rm,
+> > >               if (!rm->mixer_blks[i])
+> > >                       continue;
+> > >
+> > > -             lm_count = 0;
+> > > +             /*
+> > > +              * Clear the last bit to drop the previous primary mixer if
+> > > +              * fail to find its peer.
+> >
+> > Same here can we reword it to something like "Reset lm_count to an even
+> > index. This will drop the previous primary mixer if ..."
 > 
->     Currently we only support one pair of mixer, so counter's
->     non-zero value is enough to mark the right one. There will
->     be case with multiple mixer pairs, so let's use the last bit to
->     mark the right mixer in a mixer pair. If the last bit is set, it
->     marks the right mixer in the pair, it's left mixer otherwise.
+> Will do.
+> 
+> >
+> > > +              */
+> > > +             lm_count &= 0xfe;
+> >
+> > Nit: Can we directly clear the first bit instead of doing an 8-bit bitmask?
+> 
+> Could you elaborate on it? Or you are suggesting to mask 0xFFFFFFFE?
 
-You are not marking the right mixer, so it is not suitable.
+I assume it is &= ~1
 
+> 
+> - Jun
 > 
 > >
 > > Thanks,
 > >
 > > Jessica Zhang
 > >
+> > >               lm_idx[lm_count] = i;
 > > >
-> > >>
-> > >> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > >> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >> ---
-> > >>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++---
-> > >>   1 file changed, 2 insertions(+), 3 deletions(-)
-> > >>
-> > >> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > >> index 7191b1a6d41b3..41c9d3e3e3c7c 100644
-> > >> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > >> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > >> @@ -369,11 +369,10 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
-> > >>   static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
-> > >>   {
-> > >>      struct dpu_crtc_state *crtc_state;
-> > >> -    int lm_idx, lm_horiz_position;
-> > >> +    int lm_idx;
-> > >>
-> > >>      crtc_state = to_dpu_crtc_state(crtc->state);
-> > >>
-> > >> -    lm_horiz_position = 0;
-> > >>      for (lm_idx = 0; lm_idx < crtc_state->num_mixers; lm_idx++) {
-> > >>              const struct drm_rect *lm_roi = &crtc_state->lm_bounds[lm_idx];
-> > >>              struct dpu_hw_mixer *hw_lm = crtc_state->mixers[lm_idx].hw_lm;
-> > >> @@ -384,7 +383,7 @@ static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
-> > >>
-> > >>              cfg.out_width = drm_rect_width(lm_roi);
-> > >>              cfg.out_height = drm_rect_height(lm_roi);
-> > >> -            cfg.right_mixer = lm_horiz_position++;
-> > >> +            cfg.right_mixer = lm_idx & 0x1;
-> > >>              cfg.flags = 0;
-> > >>              hw_lm->ops.setup_mixer_out(hw_lm, &cfg);
-> > >>      }
-> > >>
-> > >> --
-> > >> 2.34.1
-> > >>
+> > >               if (!_dpu_rm_check_lm_and_get_connected_blks(rm, global_state,
 > > >
 > > > --
-> > > With best wishes
-> > > Dmitry
+> > > 2.34.1
+> > >
 > >
 
 -- 
