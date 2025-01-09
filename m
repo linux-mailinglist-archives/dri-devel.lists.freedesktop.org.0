@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2835CA0704E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 09:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ECFA0705F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 09:54:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804B610ED2C;
-	Thu,  9 Jan 2025 08:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1D810E382;
+	Thu,  9 Jan 2025 08:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kF3DRMo3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LpzT/UaH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD29710ED2D;
- Thu,  9 Jan 2025 08:49:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11D9610ED2A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 08:54:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 70E955C59C6;
- Thu,  9 Jan 2025 08:49:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC8D2C4CED2;
- Thu,  9 Jan 2025 08:49:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1218F5C5A3A;
+ Thu,  9 Jan 2025 08:54:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D48C4CED2;
+ Thu,  9 Jan 2025 08:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736412588;
- bh=LUMEQs7/oj8Rerkd59KYQ/bnSrqBgW2zdpEAd2kdomU=;
+ s=k20201202; t=1736412883;
+ bh=LombH1FD70xGrzs2x51pntDQW6o2Z1wYpa9hFitkHlE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kF3DRMo31jcM+XtiN+aNs1UkHRX97hWl+Wq3aNXeY33MBjooNR6hx///t4gQT60UB
- f0umTag5Tn/fY1UhoFaeQbq3q70KTr0Mg5bxs7iDTRP46vtCN22Gcq0tECApX2G5mb
- JnJaj+0ufdbiibh+9vVzJH4KjRJtsG5Mu3NeDxKlnbZ1XCDADGtB2HCsTPJKH9+Vqt
- 63ZiDwKtK/bKZ88cy1QIeYs3KKrOKLbu9FBbwg2eQ2c4t2gRMA24DbNi+ymS10wrPw
- u5+etT+xDrCStOAfEN1R9j06B56c8I6jipGzvtarjwRe7DdqkgAw81GgNHz2ViZJo3
- mm/W9DU5WWhJw==
-Date: Thu, 9 Jan 2025 09:49:39 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Mirsad Todorovac <mtodorovac69@gmail.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- Victor Skvortsov <victor.skvortsov@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, "Darrick J. Wong" <djwong@kernel.org>, 
- Chandan Babu R <chandanbabu@kernel.org>, Dave Chinner <dchinner@redhat.com>,
- linux-xfs@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] xfs/libxfs: replace kmalloc() and memcpy() with
- kmemdup()
-Message-ID: <mcf4scwistourkahjcnqg5p3c6hagowihuuawah4yo5mwp23t7@fe2kzzucxdgw>
-References: <20241217225811.2437150-2-mtodorovac69@gmail.com>
- <20241217225811.2437150-4-mtodorovac69@gmail.com>
+ b=LpzT/UaHrYznnPqZq03T5+rn1MsO3ikIHjM++A+fSpNYpveoizqxWcg1FM7AARFy+
+ uFTDL9ym1zgSHu1Go5E0lNhq+YjNmAVRRAwQ5bHn+/EvsjxrQdaInuFa5FA815DPST
+ 12BQgzy84zAw308jBjHtERr+wafzu9ujZLlmrfuNpRlwtJRl2KrtrYAaGW2R5VMMYR
+ zPiSQLoN3HLnQt0dnqdhL/8MAhj5MR27OPBFch0W76lnS9enoxZEPcRt7z+h5eVd0U
+ v0HmSl+a49k/GhFBnUAd475JIsgqZUGKDYHOIjpCYgqbo/fRMfxorrloywtbUx/zAC
+ Pw9Qiqf64Lifg==
+Date: Thu, 9 Jan 2025 09:54:40 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, 
+ dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, hjc@rock-chips.com, 
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org
+Subject: Re: [PATCH v5 13/20] dt-bindings: display: rockchip: analogix-dp:
+ Add support for RK3588
+Message-ID: <gmwmnjc4pzyzzstyozlfcdaw2ntfxg6ixofio2j746hmixhblc@sjbcvwcgitmy>
+References: <20250109032725.1102465-1-damon.ding@rock-chips.com>
+ <20250109032725.1102465-14-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241217225811.2437150-4-mtodorovac69@gmail.com>
+In-Reply-To: <20250109032725.1102465-14-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,67 +67,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mirsad.
-
-Did you send only this patch, or did I miss patch 1 and 3 of the series? I can't
-find them anywhere.
-
-Carlos
-
-On Tue, Dec 17, 2024 at 11:58:12PM +0100, Mirsad Todorovac wrote:
-> The source static analysis tool gave the following advice:
+On Thu, Jan 09, 2025 at 11:27:18AM +0800, Damon Ding wrote:
+> Compared with RK3288/RK3399, the HBR2 link rate support is the main
+> improvement of RK3588 eDP TX controller, and there are also two
+> independent eDP display interfaces on RK3588 Soc.
 > 
-> ./fs/xfs/libxfs/xfs_dir2.c:382:15-22: WARNING opportunity for kmemdup
+> The newly added 'apb' reset is to ensure the APB bus of eDP controller
+> works well on the RK3588 SoC.
 > 
->  → 382         args->value = kmalloc(len,
->    383                          GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_RETRY_MAYFAIL);
->    384         if (!args->value)
->    385                 return -ENOMEM;
->    386
->  → 387         memcpy(args->value, name, len);
->    388         args->valuelen = len;
->    389         return -EEXIST;
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 > 
-> Replacing kmalloc() + memcpy() with kmemdump() doesn't change semantics.
-> Original code works without fault, so this is not a bug fix but proposed improvement.
-> 
-> Link: https://lwn.net/Articles/198928/
-> Fixes: 94a69db2367ef ("xfs: use __GFP_NOLOCKDEP instead of GFP_NOFS")
-> Fixes: 384f3ced07efd ("[XFS] Return case-insensitive match for dentry cache")
-> Fixes: 2451337dd0439 ("xfs: global error sign conversion")
-> Cc: Carlos Maiolino <cem@kernel.org>
-> Cc: "Darrick J. Wong" <djwong@kernel.org>
-> Cc: Chandan Babu R <chandanbabu@kernel.org>
-> Cc: Dave Chinner <dchinner@redhat.com>
-> Cc: linux-xfs@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Mirsad Todorovac <mtodorovac69@gmail.com>
 > ---
->  v1:
-> 	initial version.
 > 
->  fs/xfs/libxfs/xfs_dir2.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> Changes in v2:
+> - Add the main defferences of the RK3588 eDP and the previous versions
+>   in commit message
 > 
-> diff --git a/fs/xfs/libxfs/xfs_dir2.c b/fs/xfs/libxfs/xfs_dir2.c
-> index 202468223bf9..24251e42bdeb 100644
-> --- a/fs/xfs/libxfs/xfs_dir2.c
-> +++ b/fs/xfs/libxfs/xfs_dir2.c
-> @@ -379,12 +379,11 @@ xfs_dir_cilookup_result(
->  					!(args->op_flags & XFS_DA_OP_CILOOKUP))
->  		return -EEXIST;
+> Changes in v3:
+> - Expand the property clock-names, resets and reset-names
+> 
+> Changes in v4:
+> - Remove 'spdif' clock which added in v3
+> - Add the comment of newly added 'apb' reset in commit message
+> 
+> Changes in v5:
+> - Put the differences between RK3288/RK3399 and RK3588 into 'allOf'
+> ---
+>  .../rockchip/rockchip,analogix-dp.yaml        | 37 ++++++++++++++++---
+>  1 file changed, 31 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+> index eaf4e67e232e..3cdea9e63522 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
+> @@ -15,6 +15,7 @@ properties:
+>      enum:
+>        - rockchip,rk3288-dp
+>        - rockchip,rk3399-edp
+> +      - rockchip,rk3588-edp
 >  
-> -	args->value = kmalloc(len,
-> +	args->value = kmemdup(name, len,
->  			GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_RETRY_MAYFAIL);
->  	if (!args->value)
->  		return -ENOMEM;
+>    clocks:
+>      minItems: 2
+> @@ -30,12 +31,6 @@ properties:
+>    power-domains:
+>      maxItems: 1
 >  
-> -	memcpy(args->value, name, len);
->  	args->valuelen = len;
->  	return -EEXIST;
->  }
-> -- 
-> 2.43.0
-> 
-> 
+> -  resets:
+> -    maxItems: 1
+> -
+> -  reset-names:
+> -    const: dp
+
+Widest constraints are always here. You only needed to add allOf.
+
+https://elixir.bootlin.com/linux/v6.11-rc6/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml
+
+Best regards,
+Krzysztof
+
