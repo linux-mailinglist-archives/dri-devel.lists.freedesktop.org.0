@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F53FA06C13
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43DA9A06C15
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 04:28:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E9410ECC4;
-	Thu,  9 Jan 2025 03:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE76010ECC6;
+	Thu,  9 Jan 2025 03:28:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="DEjkMKD+";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="jS6AlauJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3288.qiye.163.com (mail-m3288.qiye.163.com
- [220.197.32.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4806010ECC4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 03:28:27 +0000 (UTC)
+Received: from mail-m3298.qiye.163.com (mail-m3298.qiye.163.com
+ [220.197.32.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E05D10ECC2
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 03:28:29 +0000 (UTC)
 Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 82c01a9d;
- Thu, 9 Jan 2025 11:28:22 +0800 (GMT+08:00)
+ by smtp.qiye.163.com (Hmail) with ESMTP id 82c01aa7;
+ Thu, 9 Jan 2025 11:28:23 +0800 (GMT+08:00)
 From: Damon Ding <damon.ding@rock-chips.com>
 To: heiko@sntech.de
 Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
@@ -30,28 +30,27 @@ Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v5 13/20] dt-bindings: display: rockchip: analogix-dp: Add
- support for RK3588
-Date: Thu,  9 Jan 2025 11:27:18 +0800
-Message-Id: <20250109032725.1102465-14-damon.ding@rock-chips.com>
+Subject: [PATCH v5 14/20] drm/bridge: analogix_dp: Add support for RK3588
+Date: Thu,  9 Jan 2025 11:27:19 +0800
+Message-Id: <20250109032725.1102465-15-damon.ding@rock-chips.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250109032725.1102465-1-damon.ding@rock-chips.com>
 References: <20250109032725.1102465-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkpDQ1ZCS09OT0xLSEIZGk5WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a94491b20ef03a3kunm82c01a9d
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkpJTVZIT0sYSkxOT01NH0JWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
+ NVSktLVUpCS0tZBg++
+X-HM-Tid: 0a94491b27a803a3kunm82c01aa7
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PE06PSo5LDITKRQLS1YUQywT
- K0MKCz9VSlVKTEhNSEJISEtIQ01LVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJT0hONwY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Oj46MRw5FTIPLRQhPEtIQyMD
+ DiIKFC9VSlVKTEhNSEJISEtOTUJJVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKTEtLNwY+
 DKIM-Signature: a=rsa-sha256;
- b=DEjkMKD+mN98AV+36oiYZzyre3vIRLBL40Ptaa2Uz/zPUb5tFXEjHYmVg5hxEERni64WRlt0b6k5+1Fkpz5Um8X4TPqJuJ4q+wQiBl9a0nPCKbg0OIXJeltbZIaDaDJxW2pEnWNqIgfdkU/9tdQqsfF0rAFq9K2hoLGQlC5GfXE=;
+ b=jS6AlauJP5JyoWDRM/RGHExuVWzgQXi+Ln5yWq8iRsEgl//Kc5uMZ1aLrCGAgVr08X9Nt0WjEmzfWdhlScKTzbrpV9BRLnN7hzLBjX3j2fZC9GhnOCqNqWoU2prs9eaEMT+sbRZt+FHwvk1BPNpQGBbT/qvLgER4ldu/ouTXcfo=;
  c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=ao8k9gwtGMU7WrnpCl4HFcUPyAik3QHdJeSVA9XU5fY=;
+ bh=C1hAPTJc7QSuhxV6FNIUWt0rSqGrYqk38GUyZZwa9fQ=;
  h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,96 +67,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Compared with RK3288/RK3399, the HBR2 link rate support is the main
-improvement of RK3588 eDP TX controller, and there are also two
-independent eDP display interfaces on RK3588 Soc.
-
-The newly added 'apb' reset is to ensure the APB bus of eDP controller
-works well on the RK3588 SoC.
+Expand enum analogix_dp_devtype with RK3588_EDP, and add max_link_rate
+and max_lane_count configs for it.
 
 Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 
 ---
 
-Changes in v2:
-- Add the main defferences of the RK3588 eDP and the previous versions
-  in commit message
-
-Changes in v3:
-- Expand the property clock-names, resets and reset-names
-
-Changes in v4:
-- Remove 'spdif' clock which added in v3
-- Add the comment of newly added 'apb' reset in commit message
-
 Changes in v5:
-- Put the differences between RK3288/RK3399 and RK3588 into 'allOf'
+- Add the RK3588_EDP related modification in analogix_dp.h
+- Move this commit above related commit on the Rockchip side
 ---
- .../rockchip/rockchip,analogix-dp.yaml        | 37 ++++++++++++++++---
- 1 file changed, 31 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 4 ++++
+ include/drm/bridge/analogix_dp.h                   | 3 ++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-index eaf4e67e232e..3cdea9e63522 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,analogix-dp.yaml
-@@ -15,6 +15,7 @@ properties:
-     enum:
-       - rockchip,rk3288-dp
-       - rockchip,rk3399-edp
-+      - rockchip,rk3588-edp
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index 78e78fb474d3..9cc07c028043 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1513,6 +1513,10 @@ static int analogix_dp_dt_parse_pdata(struct analogix_dp_device *dp)
+ 		video_info->max_link_rate = 0x0A;
+ 		video_info->max_lane_count = 0x04;
+ 		break;
++	case RK3588_EDP:
++		video_info->max_link_rate = 0x14;
++		video_info->max_lane_count = 0x04;
++		break;
+ 	case EXYNOS_DP:
+ 		/*
+ 		 * NOTE: those property parseing code is used for
+diff --git a/include/drm/bridge/analogix_dp.h b/include/drm/bridge/analogix_dp.h
+index 1b119b547988..10ea6e7759b2 100644
+--- a/include/drm/bridge/analogix_dp.h
++++ b/include/drm/bridge/analogix_dp.h
+@@ -16,11 +16,12 @@ enum analogix_dp_devtype {
+ 	EXYNOS_DP,
+ 	RK3288_DP,
+ 	RK3399_EDP,
++	RK3588_EDP,
+ };
  
-   clocks:
-     minItems: 2
-@@ -30,12 +31,6 @@ properties:
-   power-domains:
-     maxItems: 1
+ static inline bool is_rockchip(enum analogix_dp_devtype type)
+ {
+-	return type == RK3288_DP || type == RK3399_EDP;
++	return type == RK3288_DP || type == RK3399_EDP || type == RK3588_EDP;
+ }
  
--  resets:
--    maxItems: 1
--
--  reset-names:
--    const: dp
--
-   rockchip,grf:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-@@ -55,6 +50,36 @@ required:
- allOf:
-   - $ref: /schemas/display/bridge/analogix,dp.yaml#
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - rockchip,rk3288-dp
-+              - rockchip,rk3399-edp
-+    then:
-+      properties:
-+        resets:
-+          maxItems: 1
-+        reset-names:
-+          const: dp
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - rockchip,rk3588-edp
-+    then:
-+      properties:
-+        resets:
-+          minItems: 2
-+          maxItems: 2
-+        reset-names:
-+          items:
-+            - const: dp
-+            - const: apb
-+
- unevaluatedProperties: false
- 
- examples:
+ struct analogix_dp_plat_data {
 -- 
 2.34.1
 
