@@ -2,74 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4F1A08175
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 21:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9D5A081FD
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 22:11:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A0910EF1D;
-	Thu,  9 Jan 2025 20:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0F9110E392;
+	Thu,  9 Jan 2025 21:11:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aTTkpxnX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HV5ogA08";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021B810EF1D;
- Thu,  9 Jan 2025 20:41:11 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- 98e67ed59e1d1-2ef79243680so268057a91.2; 
- Thu, 09 Jan 2025 12:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736455271; x=1737060071; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EnBMCdZsTt4lglc0qQTTeSi2hHu565uzhFPcflOVKWQ=;
- b=aTTkpxnXUWUIK0hNYV13xVcDPp/ztt/UA+57C2WrfS5R6sbp3RbPXPZqxayW3B7NY/
- LSxccNaRV6w5OZ8Y9MJYAryH9bErEwCo21sCea27QfwqCIwS34KQ5rF3re3u6EIGjxJS
- FOa/Rz5KdHcaUc2GFJhvUmNF85NerdbT+LAecf/GkpQAgZVt5OGOvXRRSJpIS4Tu9B9x
- FOX5F0mRdXTMVgRa/H8GvGgNof/LFTCeBZDW/u5otdVPwPT6FVM/XN82gvzzgKcecDdM
- ROx4ZvYicv0KPi+7bR7V0ZAiCI1ht/ugAWgevFkW5wKnWlPUq/c59coVVBKiWCqRoP59
- FomA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736455271; x=1737060071;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EnBMCdZsTt4lglc0qQTTeSi2hHu565uzhFPcflOVKWQ=;
- b=H+qRQn6ELDy4d/63Fr2MziN6SUWQDIrI0XJsEotad6M83bE3QC/vhUlf/oOig1QsQs
- KFbNuRMAEvJ0g5CQbwA78ctC2CzQsL6iidA94+7PPmk2KfF83d7ecwhxQxEq5p2906Ol
- I3ract6ja740JsrO3pSFlRY35PD0IVVQ99ii5s+n0E+rDr7BwgQGx+uXpn7LA2cAIAE0
- JozwJO+AJpNCozjpqJ4Pwkrr7IqPXhxJW7K8127cLl4x5NPGOiLpYGmMNHfRmcRl0JrA
- SR2Zk6F4JGACamYCzKx68Wm8sW/EGBhCfMyPb9ugWy62SbY1Xo1tTOSgtgMgfmXBzw6c
- Wbqw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0skXaRrGGm080eUuGkYimmeYwkrHmaepkJh2MaD8k9t566kS/NwP9BiaFVT7VDXKAWNiD1CpekIrU@lists.freedesktop.org,
- AJvYcCX0PGWTt2aGoWS2V1+qvXOHCSY4NXYmZHoE1bvmtQHdlaBsOByxwZSbjK65fVwYURsG7Mpds1qv@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz39vliT2yIbCZLTc4ScAFEvA8BvawJ1bPUaIqx3B0VB68ZCLQE
- 698uSxf6yRii8rt9kH0RbmUpq1KMAiYT9sV9XWixOZl2bmwhQcAKoNsmdqELp9fxF2ewCq/meYF
- SC7HD9n4M56b+ag7HNNfyW9bXsuY=
-X-Gm-Gg: ASbGncuQRkWaV3I2aPKO3/W6s8RWLhzR6gyZsbl+TjEBX/+HsnBSFr44TWkG/icBlZG
- KNn3m4Hc9/ORD2T0v14WKAzUdCWhcUi+wvY9S4Q==
-X-Google-Smtp-Source: AGHT+IHll+MhthP4/+kxpxt+aFJxJLlOi1Nj/wPzNf2LzsPDLGoQqz9Z71ltvDr65wF61D7sXC8SxhSUtYfhuQrvQY0=
-X-Received: by 2002:a17:90b:51c5:b0:2ee:948b:72d3 with SMTP id
- 98e67ed59e1d1-2f548f04dfbmr4614996a91.1.1736455271361; Thu, 09 Jan 2025
- 12:41:11 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C92DD10E10B;
+ Thu,  9 Jan 2025 21:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736457067; x=1767993067;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=S91ysM4Lt7SjaXdOkXizbrOZT23YvLWjX2JrgEqMksM=;
+ b=HV5ogA08WX2vOoCVlPawdGVrDBSAXVgmysRQBRkW7XvL4xtV0HjlB27n
+ cjgO0F+vcTwJIzJNrll+5lzhmCbQAtdrZZKfjiUswlcyOgT2vv90z2XPc
+ mZXsbdicPAUtSkLZH3m8auCzh4+21KJpt/Zn5/KvsaP/65GRfMZqtiLAK
+ tcBDos8pJuTY4pkpLEq+tQQqWem0MUeEUoltf90wi6prbXhsWKjLSNzrX
+ +xkH5gZLsZ1v7FdtbPQczxBxNSczLqEfD2Vg82xWix/2y179jSHI2dXWf
+ mS3FqqRxs8ehSf1Nq1yut47hxj2Eb5ZwNrbnLT84L3ti2AOYqV4FWVEP/ g==;
+X-CSE-ConnectionGUID: uAf5FfPORdGbi0qhstA/Yg==
+X-CSE-MsgGUID: h3b2taxTS3ChJ4UDngPiUg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36898823"
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="36898823"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 13:10:39 -0800
+X-CSE-ConnectionGUID: wsObGL7NRwqbn4RU5Dp3RA==
+X-CSE-MsgGUID: k0S1JV/CSvyzTXYXr0U16Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="108436408"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 09 Jan 2025 13:10:38 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 9 Jan 2025 13:10:37 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 9 Jan 2025 13:10:37 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 9 Jan 2025 13:10:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tjcyzIahO95vW1H3NNMreHdSDRf3Plwmbxz3rEWUOVSAA0HElk7ocZRcIt1dR/sLVN4aAK0xtRDV2zHSwmQ/TiPb48si3G/VAssre0NsJweGV4L2NdCMnX55AiN3ubcPXU+6RKk63InXim1+D0r3YycJfwSl0cmfuXC1jyD8yU6DOOqXl068STBNZWh/Pn/K1Jd5NeWBbHoV1dyDXFjdpNaS5KMbw4oVqCUPLUUFqdZ/4MObCcW/gQx2265O47L0SMi6IhB6UVDboLPUCvvDSyfRa7AiCg8qxaFz/XhoGF0ACT4NYQ9Ck0/4osBCyGlYLsKWrtJkdytnx4syVXHoBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=URbIv9Bc+nmkQhj0eRssnggIQymDmfN3dZxPdbh1fi8=;
+ b=TDEPje8URQisAwUo0vyIVn6DRCdJPuhQzU7MSweGZO4ovPT0Wo1zvarWDwVEH60YgcP9jNFPYhGMLQq4yTikoTdgp8kWGoLm3PA/jUCtu1P0lcxpCg99hWg4LvgMq/Iao+eBZ1BmFsW5IV+DZsvgptm3aosZ8unYx2qBZh29QlsjyBR9G3SKnvoclgAybyUeYi7i5cfMtSOBwdbfLb6LXqOVEWVAtuRt5B9aDRguITcb0GtU0+epBt+A0dc+KivwiAqGaf9n0so2bzDYlPAFVXuNhViuNAvmB2Y9M+vuD/7ApfHjPlBbVtPtQp8/BC2yYOWSpLpbiCEnoG/m1sec4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MW4PR11MB8290.namprd11.prod.outlook.com (2603:10b6:303:20f::21)
+ by LV8PR11MB8558.namprd11.prod.outlook.com (2603:10b6:408:1ed::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Thu, 9 Jan
+ 2025 21:10:28 +0000
+Received: from MW4PR11MB8290.namprd11.prod.outlook.com
+ ([fe80::4a98:509:3b05:29b4]) by MW4PR11MB8290.namprd11.prod.outlook.com
+ ([fe80::4a98:509:3b05:29b4%5]) with mapi id 15.20.8335.011; Thu, 9 Jan 2025
+ 21:10:28 +0000
+Date: Thu, 9 Jan 2025 16:10:24 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Zhenyu Wang <zhenyuw.linux@gmail.com>
+CC: "Dr. David Alan Gilbert" <linux@treblig.org>, <zhi.wang.linux@gmail.com>, 
+ <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <tursulin@ursulin.net>, <intel-gvt-dev@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/3] drm/i915/gvt: Deadcoding
+Message-ID: <Z4A7QDtTrU6w2Yhv@intel.com>
+References: <20241222002043.173080-1-linux@treblig.org>
+ <Z2dcZfW8eNMnxT0v@gallifrey> <Z3uGjO36tfhQsnfp@dell-wzy>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Z3uGjO36tfhQsnfp@dell-wzy>
+X-ClientProxiedBy: MW4PR04CA0124.namprd04.prod.outlook.com
+ (2603:10b6:303:84::9) To MW4PR11MB8290.namprd11.prod.outlook.com
+ (2603:10b6:303:20f::21)
 MIME-Version: 1.0
-References: <20250109201740.GEZ4Au5ESOtQd4o1R3@fat_crate.local>
-In-Reply-To: <20250109201740.GEZ4Au5ESOtQd4o1R3@fat_crate.local>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 9 Jan 2025 15:40:59 -0500
-X-Gm-Features: AbW1kvZgRnIzZwwnKvJS1-I8KOK5TkCxSkfn0TpC9lK6xqhrEABzZDSqJqM6kek
-Message-ID: <CADnq5_OfmegA2XzeCuUNq5PmvbQrX6cdn8vPOUMf4x4BQGb5fQ@mail.gmail.com>
-Subject: Re: kmemleak: Found object by alias at 0xffff888107b65918
-To: Borislav Petkov <bp@alien8.de>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR11MB8290:EE_|LV8PR11MB8558:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb1300d7-889f-41cf-2e31-08dd30f20ace
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rq4s6E6yp8+fo+Et5snYrK79+8W+N6in/JK6GGo+o6UtaL8/TxkM4jWPQVTn?=
+ =?us-ascii?Q?2c1W10zIX2d60baqbk4sZFeXR6hAeJn3TDcOhNMyMBO/o46DkEvx4eWFUHcR?=
+ =?us-ascii?Q?F5ggzA21X/r3Xei97M/c90MwPmh3Xu8onHFBFxRgHNe9XLGBmUNyWU8N6ANl?=
+ =?us-ascii?Q?Ce4bQPnhNd9Rune8/2r5+ro4NOWcIDivtfuC2U7jdHu7vDhM8czaxt7wVBCz?=
+ =?us-ascii?Q?udjNqLDu14DptJ/u03UH0mIS2auQPgc4C+rXQr3PcP4nj356ggmmV6YbGCyz?=
+ =?us-ascii?Q?wGUTcwGLbqb+aal5FeSCEHyn+6sE0wUkL1Sw7rLupgvCbSxEoyFkXP11nPef?=
+ =?us-ascii?Q?CwPA1n85Jva/1ohzKM9e3ep0Xj5jfFTRA+qyRFjG31uY5GOidEz2oVW/TczK?=
+ =?us-ascii?Q?npb8kWPzaRoRX+ARmpBcpVTFMO9j16v4boFhL0GFshZkZ+BVw0gcpWwrX+6W?=
+ =?us-ascii?Q?wmnYzAwRfIH/NOnXLCij8xHZIQyt9PUbRT3CowOpV7+4jrD6WAVXw6Cl0rOu?=
+ =?us-ascii?Q?pE6kAXnTRs+ByzPGsNJjFrvR9Z07gOVstftQJ6yC8Xj1Mrx2NeoGG36Rs2fU?=
+ =?us-ascii?Q?qe1m00fyxQB/L07jQbjbnnbtzN2YhLclpeCSOwozkxjI0spe+75lWS+nJkJq?=
+ =?us-ascii?Q?/mEdtb4NRxPsXUDOvM7Bu/zDX6G7lUNP7dGkayAQqDeMY1jPhFgLHfr73j5A?=
+ =?us-ascii?Q?Mo5EbxNPbSLGyZoVW6YrLEH75pIdCoOPbiylaH+MeRtJn3Ol9mtfMfzC0fdg?=
+ =?us-ascii?Q?t4vVKhpI2hUaEmcjXFPfWrQJX8QIZs/TvQp8XRfzxUkN4urU6eb1xD5yXioC?=
+ =?us-ascii?Q?Eri2TjymHgU3u5dGoZpPhpXme5k5SAhRG+S8lruaAo2p29N0OD8zmRrmah6s?=
+ =?us-ascii?Q?SidnpQt9s71HpZey2pPKiShoWf+D+L5q+k6GCmNIMRn6jsTtl2x4HIP0RIbq?=
+ =?us-ascii?Q?OxYckKA6/SmnvrBYdmzXqMXs7/KHhzZXNBlFDC/wL44bTrQ6/DjMA4p/k6Fp?=
+ =?us-ascii?Q?w2P31qUoYoliT6tHVAc2muZibd58vPiPR8RJBAS6DkpMp5TujMb91R762IpW?=
+ =?us-ascii?Q?Vjid3e08ckldt1/2dHjqnrnZO0XkhwpODLwhOOpdSSY9NlAobF1kDjdxHVs2?=
+ =?us-ascii?Q?3BvW4cvxAGCO7XQ+b9fo0xpCmXxuY0LHRn9RlIBNYf+WbwtCw/uOnAE2R5X+?=
+ =?us-ascii?Q?D1wmjRuB318HMhfu+ZePjulkXprMd4DHZXaTgdLA0D4JS30lyafq5VNTFPtK?=
+ =?us-ascii?Q?tcEtSsriwlWHPBw9oBoeZLsJNLP1M0bDL/AUfknE8sYz4KfB4yd3WX0V6i0c?=
+ =?us-ascii?Q?jFwu+3TWYSFP1ZbJ4ww/sRfjVpRDCYynx/oax2a62hpbZzLkh2szjSbZ3ffI?=
+ =?us-ascii?Q?sksB7Z5T8oM53S6heEByNDBTudVt?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR11MB8290.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qZxZOZsaOhLTV1j8Ru9EvnM9fGZjHk/+Mpy0sO/BVDe7KgQvOaQnD8uuETzV?=
+ =?us-ascii?Q?eRCje2LM4r25Ig7v9ZMcrZIp6CkGKEoxxOmsh6cn2+5XOg37+E9kFFt26q/d?=
+ =?us-ascii?Q?fXYbDltkjqDO7Es8Kvre/b/Z2nxuM2pZqBbLBmUuL0Nzqmea35zlONtFYNZk?=
+ =?us-ascii?Q?L9St5wV9Icp4/Wev/373yYINqicCyIKIY98p4o4Zrn5TpdT95xu4tVnDK4n3?=
+ =?us-ascii?Q?htKwe+5nyJB7pN1fG+or2LJtvHzoZk8KuyALsA2qf7NjQsJQadyAdT+QJLlV?=
+ =?us-ascii?Q?lk7jkHoDuNW3H9iQpiLoCFGvV0Vkr4RirOwaq87L4Qa/AhGEo6u5HqG2MBMU?=
+ =?us-ascii?Q?RLUZqsjOL3qeW4tiFNE3EYoOnbscbm8NLeith/G2daz37YHVUHImUFkLypmw?=
+ =?us-ascii?Q?YYWTGCmj2p9p3P4A+az3X/Oz6QvCBoChA9NkkjF4cPHq93yd17R5gDwlB1U4?=
+ =?us-ascii?Q?0CfVU+H0WC6PmTUPLjpn7zvqlq2oUoCNKM9qcTiWP3QAJWQkNjgUdVOGbzDG?=
+ =?us-ascii?Q?cOMp2URohGI+8kk3BkSJxCd9OB7EAG2OZxot6Jdr9M2qFjIO0LnuQP45e2Yp?=
+ =?us-ascii?Q?AqSIOkbaH8lNoQlYEqJHdD1b/A1h3t8ADwg+bIVqa3qqdZEyIjh+Z9nFeo7A?=
+ =?us-ascii?Q?EBylIsLjt0iTpEcc2ROLOEVYp+TGb8rhZ22/tqP4QP2le1CpCQoa/IDqJGuQ?=
+ =?us-ascii?Q?P49U+prRTckOHHQKjxJWD/e5gn/HtGQ5KldVIbbbKGx91PFUrYWCxioR0iqs?=
+ =?us-ascii?Q?+LnUGtdLKZv7jzwGuc/r4Wd8Ear/0+u/+QT3P9u1slCEdPlrJf3sNCdNAUjw?=
+ =?us-ascii?Q?ii0PORLzdsx0cMEiS6Cwi9gAcqcfegugAlKrrQeYZj3H0wav6nXiAz3tYbjT?=
+ =?us-ascii?Q?3jRsIBrR6QWxIw7oguIWtR5tTwMm0SnJeMDUgVmM4Q/W2GgwvXWz/alnREi7?=
+ =?us-ascii?Q?Ih+EMvjKmSwcYDLXHu53S2S4/1QEyh5yVdPei4caBJ5Tw+p6WokZRbsPDIxT?=
+ =?us-ascii?Q?YQ9I+U1SAMUSaHd62DSvkkwanRs+UIp+MQQyBOGw7w0JTaXqY4k78skobIb6?=
+ =?us-ascii?Q?h+UUlSMEqTQ5mlLX6IFIqsxJoZ6ePX7BsBNbLdLtdLXjXUfNISan0Mam7VgE?=
+ =?us-ascii?Q?vNiq9GoyWRJpJXvFrVuJcpQYltYugCMv2SSxDM6swit4hirK149w8RTqCTxk?=
+ =?us-ascii?Q?95EypEipFpHEbIR6dE9Qjfb+QHMf9zpQRvxkOdEAw++eIzynUME7I7Yc5eyU?=
+ =?us-ascii?Q?Q2s0Q3MkuKdru0NFDe3P84+9uvj+fILEZNXKEFYyLt2EhPciKeLuxuPY2AqY?=
+ =?us-ascii?Q?lLU4I0JGpfVrxE/E3xhCVJbc/4Y7Vm+ifJl07+XX7/iJDZV73IuYAkG/eVOn?=
+ =?us-ascii?Q?lIAN/zGlWTKDaemFR8pYjh4OFlhWeU7oetuziQiM6lZqU6GEeq8CqA4/TPhj?=
+ =?us-ascii?Q?oMm8ztgpbxbwKRoqQV350549UMJ9qLvO+DKkpY4d0z3lwGkJi45GhflDfAJL?=
+ =?us-ascii?Q?tKwcnN9eNtbu2UeEDkZ96cZm0sr2UsbXT/s4Orv2n/7W58xgD0eim0qFE6GE?=
+ =?us-ascii?Q?rN5K7as4rM0ZpJqg5azm0CL+m5NVODT9uTXkbBwm+zb+KL5W2epa7YpP4dhX?=
+ =?us-ascii?Q?hQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb1300d7-889f-41cf-2e31-08dd30f20ace
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB8290.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 21:10:28.0156 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /sZM1Nla+oBOCnKo6BQZY4IkfHWx82kEaJM1lSRGTWMJlkoesfTFdfNaCHFP/ruzGiOc7IK93zRBdspm8K6/NQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8558
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,102 +180,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 9, 2025 at 3:29=E2=80=AFPM Borislav Petkov <bp@alien8.de> wrote=
-:
->
-> Hi folks,
->
-> this is rc6 + tip/master, machine is Carrizo laptop.
+On Mon, Jan 06, 2025 at 04:30:20PM +0900, Zhenyu Wang wrote:
+> On Sun, Dec 22, 2024 at 12:25:09AM +0000, Dr. David Alan Gilbert wrote:
+> > Note: zhenyuw@linux.intel.com's address bounces:
+> > 
+> 
+> yeah, I've left Intel so can't use that box any more, looks Rodrigo hasn't
+> queue up my address change patch yet. Rodrigo?
 
-Possibly fixed by this patch?
-https://lore.kernel.org/lkml/CAJZ5v0i=3Dap+w4QZ8f2DsaHY6D=3DXUEuSNjyQ-2_=3D=
-DGOLfZjdn+w@mail.gmail.com/T/
+pushed to drm-intel-next now, although I was assuming this to come
+on a gvt pull request...
 
-Alex
+what about this patch here? coming in a PR or should I take this
+directly at drm-intel-next as well?
 
->
-> full dmesg attached.
->
-> Thx.
->
-> ...
-> [   13.271015] [drm] DM_PPLIB:    level           : 8
-> [   13.271658] [drm] Display Core v3.2.310 initialized on DCE 11.0
-> [   13.351651] kmemleak: Found object by alias at 0xffff888107b65918
-> [   13.352365] CPU: 0 UID: 0 PID: 1216 Comm: systemd-udevd Not tainted 6.=
-13.0-rc6+ #1
-> [   13.352642] Hardware name: HP HP EliteBook 745 G3/807E, BIOS N73 Ver. =
-01.39 04/16/2019
-> [   13.352928] Call Trace:
-> [   13.353023]  <TASK>
-> [   13.353108]  dump_stack_lvl+0x71/0xa0
-> [   13.353257]  __lookup_object+0x80/0x90
-> [   13.353403]  delete_object_full+0x39/0xa0
-> [   13.353555]  kfree+0x1dc/0x390
-> [   13.353676]  dm_helpers_probe_acpi_edid+0xd3/0x130 [amdgpu]
-> [   13.355424]  ? __pfx_dm_helpers_probe_acpi_edid+0x10/0x10 [amdgpu]
-> [   13.357127]  edid_block_read+0x50/0x100
-> [   13.357279]  _drm_do_get_edid+0xe8/0x380
-> [   13.357429]  ? __pfx_dm_helpers_probe_acpi_edid+0x10/0x10 [amdgpu]
-> [   13.359131]  drm_edid_read_custom+0x2e/0xc0
-> [   13.359296]  dm_helpers_read_local_edid+0x83/0x2a0 [amdgpu]
-> [   13.360992]  detect_link_and_local_sink+0x1db/0x1190 [amdgpu]
-> [   13.362715]  ? lock_acquire+0xe0/0x300
-> [   13.362864]  ? amdgpu_dm_init+0x12b5/0x2150 [amdgpu]
-> [   13.364528]  ? __mutex_lock+0x7e5/0xd00
-> [   13.364680]  ? amdgpu_dm_init+0x12b5/0x2150 [amdgpu]
-> [   13.366345]  ? dal_gpio_destroy+0x44/0x70 [amdgpu]
-> [   13.368016]  link_detect+0x30/0x530 [amdgpu]
-> [   13.369670]  ? dal_gpio_destroy_irq+0x21/0x40 [amdgpu]
-> [   13.371364]  ? query_hpd_status+0x60/0x80 [amdgpu]
-> [   13.373060]  amdgpu_dm_init+0x12d3/0x2150 [amdgpu]
-> [   13.374719]  dm_hw_init+0x1a/0x40 [amdgpu]
-> [   13.376349]  ? pp_hw_init+0x16/0x40 [amdgpu]
-> [   13.377994]  amdgpu_device_init+0x20d5/0x2720 [amdgpu]
-> [   13.379606]  ? _raw_spin_unlock_irqrestore+0x56/0x70
-> [   13.379800]  amdgpu_driver_load_kms+0x23/0xc0 [amdgpu]
-> [   13.381427]  amdgpu_pci_probe+0x1c9/0x5a0 [amdgpu]
-> [   13.383011]  local_pci_probe+0x53/0xb0
-> [   13.383159]  pci_device_probe+0xcc/0x1d0
-> [   13.383309]  really_probe+0xda/0x390
-> [   13.383448]  ? pm_runtime_barrier+0x61/0xb0
-> [   13.383606]  ? __pfx___driver_attach+0x10/0x10
-> [   13.383772]  __driver_probe_device+0x78/0x150
-> [   13.383934]  driver_probe_device+0x2d/0xb0
-> [   13.384088]  __driver_attach+0xdc/0x1d0
-> [   13.384233]  bus_for_each_dev+0x6a/0xb0
-> [   13.384381]  bus_add_driver+0x139/0x260
-> [   13.384526]  driver_register+0x55/0x100
-> [   13.384671]  ? __pfx_amdgpu_init+0x10/0x10 [amdgpu]
-> [   13.386278]  do_one_initcall+0x60/0x2b0
-> [   13.386430]  ? __kmalloc_cache_noprof+0x2c5/0x3c0
-> [   13.386612]  do_init_module+0x60/0x230
-> [   13.386756]  init_module_from_file+0x89/0xc0
-> [   13.386920]  idempotent_init_module+0x113/0x320
-> [   13.387094]  __x64_sys_finit_module+0x7b/0xf0
-> [   13.387257]  do_syscall_64+0x64/0x130
-> [   13.387399]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [   13.387586] RIP: 0033:0x7f39c5922059
-> [   13.387725] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 4=
-8 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <=
-48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 8f 1d 0d 00 f7 d8 64 89 01 48
-> [   13.388386] RSP: 002b:00007ffc51f9cc18 EFLAGS: 00000246 ORIG_RAX: 0000=
-000000000139
-> [   13.388662] RAX: ffffffffffffffda RBX: 0000558cb28bf670 RCX: 00007f39c=
-5922059
-> [   13.388919] RDX: 0000000000000000 RSI: 00007f39c5815ded RDI: 000000000=
-0000016
-> [   13.389176] RBP: 0000000000020000 R08: 0000000000000000 R09: 0000558cb=
-28b4a68
-> [   13.389432] R10: 0000000000000016 R11: 0000000000000246 R12: 00007f39c=
-5815ded
-> [   13.389688] R13: 0000000000000000 R14: 0000558cb28baa10 R15: 0000558cb=
-28bf670
-> [   13.389949]  </TASK>
->
->
-> --
-> Regards/Gruss,
->     Boris.
->
-> https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+Rodrigo.
