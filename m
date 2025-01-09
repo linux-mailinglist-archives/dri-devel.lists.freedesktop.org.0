@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F301A0737F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D101A07380
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:39:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 985B610ED55;
-	Thu,  9 Jan 2025 10:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76FF10ED58;
+	Thu,  9 Jan 2025 10:39:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="fbj+WkOo";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="nmzimryg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 811E610ED57
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:39:01 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-436a39e4891so5713185e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:39:01 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A641F10ED56
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:39:02 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3862d161947so375036f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 02:39:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736419080; x=1737023880;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736419081; x=1737023881;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fy/DbTIkkOlFt9RUb5dJSds3N2C+4xTIp3gr3Wl8Gls=;
- b=fbj+WkOo/NnlnehUVs693mJzhjoC9WJ0TKd6klI2D1CiZMMTZiSMYaaVefaKmhyV4v
- ywSehP4JnUYd8gjMnO8/5LTZArYYkpJzWw8Z5s1KeRn7J2Q2VhiCOuTxzQvNFFMBxRh6
- tzL7xvm5meaXZ17afVW9pn03WgmQFLZYQVB7Vmdv8bbfwbAoSCWEFJo9TQzh2U7J971T
- m3GX5fN5AwfFgyYT82kPPU96Y1ZHGq0Ft85Ubnvryv0e6sf/hqwjreFx6NOIs2QHm0NQ
- eBLCk6WG9/r6mn04zgsGGvSiL1F2R0Gz/OQGWNziri5cfhBLPVC0dmYswsI4o9cOpMhK
- +Dtg==
+ :reply-to; bh=Z//BQnV3/BLX4Mqa0cv4eDxMczGWbcxFqozmONQlohE=;
+ b=nmzimrygrhOSFBMwn8gR2omK4SGIQ2lUeB+8uyq+eYjnmqGYWzb+NvpgXW1Otjs/nI
+ Lc+v9u0WGdcPgjBXGfsmwhGOxTEnnQ2e8E7Em4qzycEiWomJAlQBrR5zrlUhmnyLohGQ
+ Y97/YbDysQtTVDvwZ2E+f4VUkNcmb8rB4EVa+SIrqchwV7ITO/Jl1Wgzjs0bA3i4/lIA
+ majeEpRR1LOR6+UtO00NWa6/EqN73RD0e/sOW2GxtAMsHyp7Y8I/JUPZzpd0xpQ9VbhI
+ oX31H+pLY+h8dE4XwvmXtxUtrFiOxrkSh5tl6IvsaQv/1cgXGXT0O5fexZM7ogNYuDyy
+ seJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736419080; x=1737023880;
+ d=1e100.net; s=20230601; t=1736419081; x=1737023881;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fy/DbTIkkOlFt9RUb5dJSds3N2C+4xTIp3gr3Wl8Gls=;
- b=nxXacaXdAWK3tteu0TWCsZJBfkNfDHA6fbs/FCr2yEskJcpzQ8ZVnVWwHZngRHQvxj
- cxzrTiTIJi0p+uQX4lAqiYT1ewdxXx2YNDSmOZkEfzoKcMKsl9qlDBd3K0NHA/Sp9Zi6
- FpDilkuVC8AcqV7ON69gXCwPUE6UHIzt7AmP/WRYfY7Cp3UJySo+k7K9j/jK4QoHqHXy
- a90JU+rwww0OnmZZEuTOWPZIdWu9YzjIcgj3lnDGQ3HRMuUSjjsMSgDD0L73gllBxgvZ
- K6Q/tkw33tOzQNjkzMRVvhxaebj4wiZH3DedhHYBGr+MOWfYvxGIhKOLojGTA0D/BOtr
- 0Leg==
-X-Gm-Message-State: AOJu0Yy1fCDKF9KhOWMclcQ0bfzkvoRbn4/iX+ru7NqBAq1jDlhclz5g
- mKQJhx93QBRnpH8dxEfQtkEXYwhGan69DRetxoloe+PFGcPPOLoItwujp9lidVg=
-X-Gm-Gg: ASbGnctBQVEtFx/jzikxJSHjVQjVpa19EdLRkkieqR1cN5zfMybwELUhl7ITig9jO2S
- W0OOtacz7zq63T42I1CUdGhtx7hBeTXyRz+U6FdFKxY3Zk4HFd4owje4oejBx+KAhvYw66AFgyf
- uxQiDsuSakTlS9mw+aNuVwLUUdtzi7IKy2kqNARsJ5p91wOsgeLqw3ft0TZiLrS5s3UlDMh8VT9
- xRWitJq26zW4sguEuOB1jdhpFcliWYvrdJYdrhR2QxEw9460MsRjkHfOZA=
-X-Google-Smtp-Source: AGHT+IFqrF9VBaIGIQv342u8nnxcL3grxMu66H5YdF4aKnHXSKZ8sqOEG/h96wNqmjPS/6bRF8WYeA==
-X-Received: by 2002:a05:600c:a44:b0:434:a852:ba6d with SMTP id
- 5b1f17b1804b1-436e2692d98mr53720915e9.9.1736419080138; 
- Thu, 09 Jan 2025 02:38:00 -0800 (PST)
+ bh=Z//BQnV3/BLX4Mqa0cv4eDxMczGWbcxFqozmONQlohE=;
+ b=vl0wQnQGfpoHOSGruVx/jwMB3gr5X4c+zXrhBUjy+KfwnQ5rAL0wwhc2IJwR429bMb
+ LVnDV0BWXDtwmTTqe3xG668u4pAEvB0p/EHLYH5kw+fAAgZshm62yWGU2QldKSNBwjib
+ StdncNMWOVftiuFguWBKTA9pR/Y100bne/CluGUYVO6icHpj+rBC8v+yBn++TE7pq94x
+ iAXGWiuXYAx0dwqAFMbw7oMJpLMNIYyyHzwWJ7ge9iN85kOl7K1HEfyU9fS8oSGDrYjK
+ V/TiNtv0vlrob42rnDPaCbkxQYZDbIkI3Zo8Ip/fqbCu6jXsp4dU3AxAaUmDzxHXNGra
+ GbSg==
+X-Gm-Message-State: AOJu0YwSdny2Lt/OsCIMAUozz6ekSECfS6zA/rsHn38DvsCW2HB1dHER
+ afr9yYWtMM8i5cJyejvh1OXW2JSuI1pZpjH8BuxN+qvQzTEUgulw7bjUtZu4DtI=
+X-Gm-Gg: ASbGncvhNQvXk2827A36vL2BlP+nBSjAb81j+ynIvTF14Vu/zAF9Wlizv99ALxujzGf
+ KJMuFLK61HIiDWAk+VDBRmoO7CbugItXh3B/mKBtdtm+1puNW5UyQqNyAxw5DkJ5W8jE+8L2Jkg
+ T1Ned6Qry5YW2D9zsvOk8bmikKyNp4crGpIlWHOCUw5E9WAZug+vMJzDEA4q6KoLHxSaup1f6oK
+ c2FOYZN97sjuHSfFaXP1gb5QV5Govw4/n9TnO73Ozdk/USh/NiP2MaSY6w=
+X-Google-Smtp-Source: AGHT+IFCYv4uf2yFMNDeWwu8dxDCALmnbFIR9ZT4+Lxq9xNx5WM2hH8pnTeOj9g7LOIfFfGA1HWa3g==
+X-Received: by 2002:a5d:6d09:0:b0:386:1c13:30d5 with SMTP id
+ ffacd0b85a97d-38a872f6ebfmr5116576f8f.7.1736419081275; 
+ Thu, 09 Jan 2025 02:38:01 -0800 (PST)
 Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:125:358f:ea05:210e])
  by smtp.googlemail.com with ESMTPSA id
- 5b1f17b1804b1-436e9dc8826sm16428195e9.11.2025.01.09.02.37.59
+ 5b1f17b1804b1-436e9dc8826sm16428195e9.11.2025.01.09.02.38.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 02:37:59 -0800 (PST)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Thu, 09 Jan 2025 11:37:55 +0100
-Subject: [PATCH v6 2/6] drm/mediatek: dsi: Improves the DSI lane setup
- robustness
+ Thu, 09 Jan 2025 02:38:00 -0800 (PST)
+From: amergnat@baylibre.com
+Date: Thu, 09 Jan 2025 11:37:56 +0100
+Subject: [PATCH v6 3/6] drm/mediatek: add MT8365 SoC support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v6-2-c6af4f34f4d8@baylibre.com>
+Message-Id: <20231023-display-support-v6-3-c6af4f34f4d8@baylibre.com>
 References: <20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com>
 In-Reply-To: <20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
@@ -83,22 +82,23 @@ To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, 
- Alexandre Mergnat <amergnat@baylibre.com>
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Fabien Parent <fparent@baylibre.com>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1234; i=amergnat@baylibre.com; 
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1705; i=amergnat@baylibre.com; 
  h=from:subject:message-id;
- bh=Yn0yDiaGCUYQbX+kBDNWi7Wqy2+4x3TU5RubErw6Doo=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBnf6cDwdONFcg4NoVECip2enCTYPobmCH1FlW7pj0f
- vkaE7iSJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ3+nAwAKCRArRkmdfjHURSPtD/
- 4w4jm96OBg+7I4Hu11Al/9Y0xh9+Oh3kbilSLdnrom4hY3QZ4s7zBD3cCsVUNkid0FLAfkhsMpd4eD
- phj+a50KyeJxdLZ2W9mahlJrExdjQhYo1QuiMNzOwvUhb0setLby8V6aFbs6qcjiHddZZh19gF2OL5
- IJwG0L1WBP48ANNIByya4m067yxpJr+JmuDQbkRVFtWB9oXwzfAkL62i2nYaiyA6tWQNL/q12MGydn
- cNcFzOWckYcGQWzG6MAM1XFekhLlrawheg/eYFMYrHD+gFX9cCU35y0+Go2MnFzYW4y7llOcVjwBOP
- vlLLQFuys/YltGsZ+2K/Mw2hrUO9PFHdQWGvnRfIslGH6jIFVcH1nJ+/FhHrpC6mAc9b/VlTjxjMTF
- 5zx0MZ8x4SKVvYp5YpnmmAaryXjax2HWnGX355TxNOb8JQLf0Su+Cb0ZbckN3+9FpOqwmTg2Ga0PbU
- k6uL0C7UZCbj9okzz1bFSMvAlWXvoQn0EicsTdbmucSljHbw4R7nCGRr+h4d/fYL1dkMpVvR5+3F7T
- GaTnq5/w5LziPJ+FE1wRHcGfYi9iTS/vNVfuFKgGNRpBKJBJFnsyNSU1bGpzHXmktkJbLimW1NpxEY
- pxQvTazZz+jDn8BL55TiOGLwoUJr8eBRA2Ioyd7Z2ctupdak/5s9qnWE66lg==
+ bh=wfidoNqLEIpqSK6RG2PAlzWtAyJfTIKDPdldVFKf2ag=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBnf6cDp6kGOPVCiEv8hl9KLU8i+wGPmqu2FquHDK5H
+ Q2R0yViJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ3+nAwAKCRArRkmdfjHURc8XEA
+ Cu3Qoq4Wqg3WdgXcnvmUQIYev871ySwkgvnV7At88mMQ+GkL66NFNsB4PSred1m+OtwjUlWXQe0ryv
+ SGBXNcYk4OPx5tyI8k2cJIGhIlQQNxAdQ0gG5CIntqQ6Q5OeliwrbiIm7kekFMGlRBeHMSE88+Fjs9
+ BtxhIUR7SoG/WRJCiuaPp1V+NZu0akJj9bmUb+BbRjtcnYzZDapTE3nVYP7JcuI6sVHGTM2KLKnGkT
+ gxPGwTXWvM87+FNMlCHcOGxmuIsYzt3Ug3X07f/pPlA5p1HLiIUKnBmyEel1Qh3f578e/bc96J3B4z
+ Sz6YAbXC5d4wlRvQIkggqXZAgpYjuJXh0pcXJyQ4x39eF484WQjmKvvN100KMbpVX3anhTXG82vHr0
+ VGb/u2fh0BgIzC2cpTbr/Mh60SGd8YiLWpeEdefIZANN0Z4eA1d+qKkQF+MGNIRZWlvVoMQpsalqFD
+ 1XyoCmR52dau4RmPhyUZ53FyhI3+1mh9FujyIwXqH7x5EhAn5lmmCPthg+Fysw2uU+vZWV4AZxzu/Y
+ xEVF6zf+m0E3Go6wioVEbC9bq+FOr+5WQPqQmTRS0L8C8gGxXEgRnr6/6enaWGE7+nGdnIuOGCe734
+ i4fZcUhVa5gefRq9qlSz6xBlUTS1Ra82yv1i4o8bKF+ukc1tLLU0fkbK2IpQ==
 X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
  fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,37 +116,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, mtk_dsi_lane_ready (which setup the DSI lane) is triggered
-before mtk_dsi_poweron. lanes_ready flag toggle to true during
-mtk_dsi_lane_ready function, and the DSI module is set up during
-mtk_dsi_poweron.
+From: Fabien Parent <fparent@baylibre.com>
 
-Later, during panel driver init, mtk_dsi_lane_ready is triggered but does
-nothing because lanes are considered ready. Unfortunately, when the panel
-driver try to communicate, the DSI returns a timeout.
+Add DRM support for MT8365 SoC.
 
-The solution found here is to put lanes_ready flag to false after the DSI
-module setup into mtk_dsi_poweron to init the DSI lanes after the power /
-setup of the DSI module.
-
+Signed-off-by: Fabien Parent <fparent@baylibre.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dsi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
-index e61b9bc68e9a..dcf0d93881b5 100644
---- a/drivers/gpu/drm/mediatek/mtk_dsi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
-@@ -724,6 +724,8 @@ static int mtk_dsi_poweron(struct mtk_dsi *dsi)
- 	mtk_dsi_config_vdo_timing(dsi);
- 	mtk_dsi_set_interrupt_enable(dsi);
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+index 0829ceb9967c..5471ef744cc1 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+@@ -328,6 +328,10 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
+ 	.min_height = 1,
+ };
  
-+	dsi->lanes_ready = false;
++static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data = {
++	.mmsys_dev_num = 1,
++};
 +
- 	return 0;
- err_disable_engine_clk:
- 	clk_disable_unprepare(dsi->engine_clk);
+ static const struct of_device_id mtk_drm_of_ids[] = {
+ 	{ .compatible = "mediatek,mt2701-mmsys",
+ 	  .data = &mt2701_mmsys_driver_data},
+@@ -355,6 +359,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
+ 	  .data = &mt8195_vdosys0_driver_data},
+ 	{ .compatible = "mediatek,mt8195-vdosys1",
+ 	  .data = &mt8195_vdosys1_driver_data},
++	{ .compatible = "mediatek,mt8365-mmsys",
++	  .data = &mt8365_mmsys_driver_data},
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
+@@ -751,6 +757,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
+ 	  .data = (void *)MTK_DISP_MUTEX },
+ 	{ .compatible = "mediatek,mt8195-disp-mutex",
+ 	  .data = (void *)MTK_DISP_MUTEX },
++	{ .compatible = "mediatek,mt8365-disp-mutex",
++	  .data = (void *)MTK_DISP_MUTEX },
+ 	{ .compatible = "mediatek,mt8173-disp-od",
+ 	  .data = (void *)MTK_DISP_OD },
+ 	{ .compatible = "mediatek,mt2701-disp-ovl",
 
 -- 
 2.25.1
