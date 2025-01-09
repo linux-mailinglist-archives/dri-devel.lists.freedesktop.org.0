@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCB5A07C31
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 16:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71C1A07C3F
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 16:46:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCECC10EEC2;
-	Thu,  9 Jan 2025 15:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F45F10EEC3;
+	Thu,  9 Jan 2025 15:46:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O2tH1iUn";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="pCuNPDyn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
- [IPv6:2607:f8b0:4864:20::d2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00A0410EEC7;
- Thu,  9 Jan 2025 15:44:36 +0000 (UTC)
-Received: by mail-io1-xd2f.google.com with SMTP id
- ca18e2360f4ac-844e1eb50e2so32619539f.0; 
- Thu, 09 Jan 2025 07:44:36 -0800 (PST)
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF07210EEC3
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 15:46:04 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id
+ 6a1803df08f44-6dd43aa1558so9212386d6.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 07:46:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736437476; x=1737042276; darn=lists.freedesktop.org;
+ d=fooishbar.org; s=google; t=1736437564; x=1737042364;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RyvHFgAQemGUxOtGmKefldysG5aDz/1ceoYMUjX+3Nc=;
- b=O2tH1iUn4Wbd/DWy91kUlufnuxg7uERPbJ0PCZ7kiqtnmb8ByrFy/TRXpARyo6IKl0
- yGepvF75sBSTbC7gMw3msD8W7NY/6qlkSuTEOvxIEa3iyiDiCR3hB2pVVdY+CzGrKzJs
- cJ+LA9P725JWexMY+NY+k8fxfPpQycG7QUVnfXCcY/CRGTqIrtp4P2s1+QfQ5x5SMNvy
- jKhNVLL/IF2jT8enTlg1APKhw8gRUGtaGDISRf2MfiN9242EPxaAioVKv4EGIFuyp0N1
- fey894E1UimZgh97C6+Dk9Y4SuZzyIMLFn6P6rSPpTjBpBMXNCOyjhoKu5D/L96+utw5
- uvsQ==
+ bh=PKZDZgwQw5DwdA0he+QO6w1IPSFJe7Dh+LI2SsNrZ0I=;
+ b=pCuNPDynyrnBqSbFaTBjMoyViWNQHUtji67w+O5nYlvqRB9jxcpVyZ4OHZ93S9Tygt
+ xeZ3gohLjvEFPKB3jrsSNr4tA1S0fAEFp7BKsq4R4oTkzL1xaZvyDeiYWmf3DTqLjIcV
+ cwGk+kpZ/WYqKrvYEnjXVW1JFVuBug9HrWwgCRJPzcUztftDruZgg7eBSuVBkAIVBHbt
+ xuKzc5FbiYjirslQ81IW1kKdrwT1DLioQMZUT1Oo+9kOtAJ4vlFW2Hbg31sTmv6umYss
+ JMcHKwUO0Z7cFF4qWAL4nfzS+tVpLfOoeW2p/MqFrKdN3HphSSlrdn07NS9eg9SPzQOr
+ Ze3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736437476; x=1737042276;
+ d=1e100.net; s=20230601; t=1736437564; x=1737042364;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RyvHFgAQemGUxOtGmKefldysG5aDz/1ceoYMUjX+3Nc=;
- b=jcjb8LPUaJ1v63sQjXLbLiq+EVX9xuZDqu+lNDOHhzQ5hi/Ozt+tgbnefGmc1S1boa
- 4Nb/pE2foYAjaclUneN1framm6ztwnzBU4MwSo00HpVDk5BajYot740i93ocbXCuDxCN
- 0GFzkMQiyDrGggGI8JaXnsGtUfFRFKPjaNgOBhm701O5zRo7GI+QZ9+Gj2IycAXOqn8E
- PWQFWG4xAH5wajlDLy8DDnIJ+mi4HYDyKOLp9s86XqR64jvPBy4tIHR6rtU6AjbnQR7D
- r1+dHm9PU4nWuTgeGX514g7k9u0yOicYWiHb+aGv+/abnpsPOxO2FtsRu0WSUqeOxfw4
- BuyQ==
+ bh=PKZDZgwQw5DwdA0he+QO6w1IPSFJe7Dh+LI2SsNrZ0I=;
+ b=j7CXlcYvMkjElQnmkTtd7Hdx7s/pZlX1k8CAihDDeorW+CUmoPeetSDPGmotjZUQQW
+ DSz2zIpDxKqA5JncYSUn7oue6ak3f3dyXDdkIkzbkzLI7qFU5qnczMvFku2/k7ggvezC
+ sztQBvrz4nCQMROpAFx31CKuwLgotju0F/1+5eCYbV5x0D/25aQfCHTxsxS8BLFz/fbH
+ JUd2BvU9ONWbyvMDfa2SZ7rIjsaCedVqcCXjcHcHN7fgShjBGWX9dg7h7iwW+EZjxTOB
+ jB/y25Tw+VS8uHYN3KXA/OSjusBHqYw61wIyCORYaeIZXeV43dHL1zllOaseZxaA2L/I
+ 27Qg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVLTk1mWoRja9w2f4QVpXuGaLA+SRgNdY1XdYhHnqA7WyYTzwW4XhkoveV15NU6wgOYBxggWMS6XpQ=@lists.freedesktop.org,
- AJvYcCWT7H2N1ltVIXhnWX+BYW3I11+PlTqoWi9rCbThIHQJDfdcpvuh495gkC5hnxdYTyJU2NrOD52wrfDw@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzi3k3iQr3zdPKuYesFsWZxGXgbftXR19tbxDFsFR9jxLS4rMew
- UIlz5Vz28T+bYade3O7hNTmx/FjUMjtI5RDK0oJEnO7mDRiXCd84kfeF2IFleyBgo0x4+5DVEhg
- nZ0KHV7Kccx0q7PUJd4O/KEvO2wM=
-X-Gm-Gg: ASbGnctiinP2veFZEeudrBcY+B3BCW8KHWaw+wGt05BpIueJ6hlcRLlYoEXLf//H2VN
- YnmnFBv6O3NMJpUDXOl9YdFE8Qf3eabmqNjhWebiu9xDWLWmwy6A1kpw7JWbLilnNi9Tl
-X-Google-Smtp-Source: AGHT+IH1uHRChV+q9fG3nQmU9PjOCTRBD0DeSzOQ4/o+oVqmyFmooEnJ9LKjoMSqbPXYgcjXxVq5cgZ+OAqRKJgySXs=
-X-Received: by 2002:a05:6e02:1d84:b0:3a7:6c5c:9aa4 with SMTP id
- e9e14a558f8ab-3ce3a888392mr56333685ab.12.1736437476062; Thu, 09 Jan 2025
- 07:44:36 -0800 (PST)
+ AJvYcCUK402C5b2vYFnIFc9BAy+pcSiYLh5CBLqpIvbhSZR+STfjsJW/1mjgNkApKFk9Gd8Rojc4B5aialo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcbZ+s1x4arGQ+8QzUVqDV7BRacv36T+Wi36e1hsVlnSUBDQfo
+ JTqbew30n/Io5DHJ1ALrbm1akbDhZPJgfCj511YAQ/ojk+R2KwP9WnpE8hG8MLfFcH1LRNhEtws
+ cOJdrx7STMfF6WfknH22+n0ED+aI0IJF6c0mI6w==
+X-Gm-Gg: ASbGncsrEtpYpua3T5nHEw6CmftrJe7mE117by7Hkfp3AKZnYLsXjxHeuc8ELLnuQjI
+ mpKcQXUAJOCnPYiNdtCkYCcKJqFr71IaCesg=
+X-Google-Smtp-Source: AGHT+IHnibi+F7gIUmfaOZwxYN2DJuHzXNQ918KBNgHdD1U2r3nyKomQIgCyi9mJfPc9VS9YdA+1fD01HIUqhpF+sp8=
+X-Received: by 2002:a05:6214:f6b:b0:6d8:7ed4:336a with SMTP id
+ 6a1803df08f44-6df9b2ad580mr127348616d6.31.1736437564144; Thu, 09 Jan 2025
+ 07:46:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20250108-async-disable-fix-v1-1-3f93eb600a3a@quicinc.com>
- <CAF6AEGtksLq5jpizGMj4t248rbNScgDvrxpxv09==b3DmpkLuQ@mail.gmail.com>
- <CAA8EJpqPZc7DNOb6WcRVtH0cFs9mUziL-dPgyakEJGO73=B6gA@mail.gmail.com>
- <58d9c139-c811-47aa-a527-4b1af110337c@quicinc.com>
- <CAF6AEGuFTW4hVursv-EKQ7GfVuUDJ4C0qWS0F+j1jPi+mP_xnA@mail.gmail.com>
- <f9863c54-ca35-476b-b6aa-0eb1c18ec29e@quicinc.com>
-In-Reply-To: <f9863c54-ca35-476b-b6aa-0eb1c18ec29e@quicinc.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 9 Jan 2025 07:44:24 -0800
-X-Gm-Features: AbW1kvZyFraHcis8-8bS-LzWqZzHknSnK9_IGXuJYlkQtzj04wvflqCRVla3TE4
-Message-ID: <CAF6AEGu26n2LELtkGYJnUNahNqvwhZnUDeoyZaSC3dPRg75K+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: Force disabling commits to take non-async
- path
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@chromium.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20231010170746.617366-1-daniel.vetter@ffwll.ch>
+ <20231011092051.640422-1-daniel.vetter@ffwll.ch>
+ <edea5e48-2723-49ea-ad03-8cd3d9aa53b3@suse.de>
+ <Z360aeAkou2OXMCg@phenom.ffwll.local>
+ <f82df11f-97c4-4b6c-a139-90e20e0f2eb0@mailbox.org>
+In-Reply-To: <f82df11f-97c4-4b6c-a139-90e20e0f2eb0@mailbox.org>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 9 Jan 2025 15:45:53 +0000
+X-Gm-Features: AbW1kvaLgHuoRaSUsg1goVa-U9qYmN209ryD6UjPy-DWpkWJaScUbRRONeJacYE
+Message-ID: <CAPj87rPQZk3uDu_Grmzyy_eK1ksoQSbtZorHM0unZE6vU0BVBw@mail.gmail.com>
+Subject: Re: [PATCH] drm/atomic: clarify the rules around
+ drm_atomic_state->allow_modeset
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Manasi Navare <navaremanasi@google.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,213 +95,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 8, 2025 at 7:14=E2=80=AFPM Abhinav Kumar <quic_abhinavk@quicinc=
-.com> wrote:
->
->
->
-> On 1/8/2025 7:04 PM, Rob Clark wrote:
-> > On Wed, Jan 8, 2025 at 6:22=E2=80=AFPM Abhinav Kumar <quic_abhinavk@qui=
-cinc.com> wrote:
-> >>
-> >>
-> >>
-> >> On 1/8/2025 6:14 PM, Dmitry Baryshkov wrote:
-> >>> On Thu, 9 Jan 2025 at 03:45, Rob Clark <robdclark@gmail.com> wrote:
-> >>>>
-> >>>> On Wed, Jan 8, 2025 at 2:58=E2=80=AFPM Jessica Zhang <quic_jesszhan@=
-quicinc.com> wrote:
-> >>>>>
-> >>>>> Force commit that are disabling a plane in the async_crtc to take t=
-he
-> >>>>> non-async commit tail path.
-> >>>>>
-> >>>>> In cases where there are two consecutive async cursor updates (one
-> >>>>> regular non-NULL update followed by a disabling NULL FB update), it=
- is
-> >>>>> possible for the second NULL update to not be queued (due to the
-> >>>>> pending_crtc_mask check) or otherwise not be run before the cursor =
-FB is
-> >>>>> deallocated by drm_atomic_helper_cleanup_planes(). This would cause=
- a
-> >>>>> context fault since the hardware would try to fetch the old plane s=
-tate
-> >>>>> with the stale FB address.
-> >>>>>
-> >>>>> Avoid this issue by forcing cursor updates that will disable the cu=
-rsor
-> >>>>> plane to be blocking commits. This will ensure that hardware clears=
- and
-> >>>>> stops fetching the FB source address before the driver deallocates =
-the FB
-> >>>>>
-> >>>>> Fixes: 2d99ced787e3 ("drm/msm: async commit support")
-> >>>>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> >>>>> ---
-> >>>>>    drivers/gpu/drm/msm/msm_atomic.c | 13 +++++++++++++
-> >>>>>    1 file changed, 13 insertions(+)
-> >>>>>
-> >>>>> diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm=
-/msm_atomic.c
-> >>>>> index 9c45d641b5212c11078ab38c13a519663d85e10a..ddc74c68148c643d34c=
-a631dd28d4cdc2b8c7dc0 100644
-> >>>>> --- a/drivers/gpu/drm/msm/msm_atomic.c
-> >>>>> +++ b/drivers/gpu/drm/msm/msm_atomic.c
-> >>>>> @@ -142,6 +142,7 @@ static bool can_do_async(struct drm_atomic_stat=
-e *state,
-> >>>>>           struct drm_connector_state *connector_state;
-> >>>>>           struct drm_connector *connector;
-> >>>>>           struct drm_crtc_state *crtc_state;
-> >>>>> +       struct drm_plane_state *plane_state;
-> >>>>>           struct drm_crtc *crtc;
-> >>>>>           int i, num_crtcs =3D 0;
-> >>>>>
-> >>>>> @@ -162,6 +163,18 @@ static bool can_do_async(struct drm_atomic_sta=
-te *state,
-> >>>>>                   *async_crtc =3D crtc;
-> >>>>>           }
-> >>>>>
-> >>>>> +       /*
-> >>>>> +        * Force a blocking commit if the cursor is being disabled.=
- This is to
-> >>>>> +        * ensure that the registers are cleared and hardware doesn=
-'t try to
-> >>>>> +        * fetch from a stale address.
-> >>>>> +        */
-> >>>>> +       if (*async_crtc) {
-> >>>>> +               plane_state =3D drm_atomic_get_new_plane_state(stat=
-e,
-> >>>>> +                                                            (*asyn=
-c_crtc)->cursor);
-> >>>>> +               if (plane_state && !plane_state->fb)
-> >>>>> +                       return false;
-> >>>>
-> >>>> hmm, I suppose we want the same even if the fb changes?  Or
-> >>>> alternatively somewhere hold an extra ref to the backing obj until h=
-w
-> >>>> has finished scanout?
-> >>>
-> >>
-> >> Hi Rob
-> >>
-> >> Do you mean we need to also check if old_plane_state->fb !=3D
-> >> new_plane_state->fb, then use blocking commit?
-> >
-> > yeah, basically.. if we release any outgoing fb the backing bo could
-> > be potentially freed+unmapped leading to the same problem.
-> >
->
-> Yeah true, this case also we can hit this. Will add it and check.
->
-> > idk if this more conservative approach would cause fps issues..
-> > holding an extra ref would avoid potential issues, but offhand I'm not
-> > sure if it would be a perf problem in practice.  Maybe with animated
-> > cursors?
-> >
->
-> hmmm.... we did not see any significant lags or drops when we tested
-> this (that was also our major concern to make sure we dont)
+Hi,
 
-It's tricky because it is very much at the mercy of what userspace
-does.. and different userspace does different things.
+On Thu, 9 Jan 2025 at 15:30, Michel D=C3=A4nzer <michel.daenzer@mailbox.org=
+> wrote:
+> On 2025-01-08 18:22, Simona Vetter wrote:
+> > Maybe I'm wrong, but my understanding is that English generally doesn't=
+ do
+> > compound words connected with dashes, you just line them up with spaces=
+.
+>
+> I hope you don't mind me jumping in, three native German speakers discuss=
+ing English grammar is merrier than just two. :)
+>
+> FWIW, LWN writes compound words with spaces when used as nouns ("code in =
+user space"), with dashes when used as adjectives ("user-space code"). I do=
+n't know if this is an official / general rule, I'm using it as a guideline=
+ though.
 
-I remember issues back in the gtk2 days with something (gdm?) trying
-to update a spinning cursor at 1000fps.  When that was clamped at
-60fps it would literally take 5min to login!
+To the extent that Australian counts as native English: yes, that's
+exactly the rule.
 
-> If we do have to hold an extra ref, we will have to do something like bel=
-ow:
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> index 098abc2c0003..97d9e056038c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> @@ -649,8 +649,10 @@ static int dpu_plane_prepare_fb(struct drm_plane
-> *plane,
->          struct dpu_kms *kms =3D _dpu_plane_get_kms(&pdpu->base);
->          int ret;
->
-> -       if (!new_state->fb)
-> +       if (!new_state->fb) {
-> +               refcount_inc(&msm_fb->dirtyfb);
->                  return 0;
-> +       }
->
->          DPU_DEBUG_PLANE(pdpu, "FB[%u]\n", fb->base.id);
->
-> @@ -682,8 +684,10 @@ static void dpu_plane_cleanup_fb(struct drm_plane
-> *plane,
->          struct dpu_plane *pdpu =3D to_dpu_plane(plane);
->          struct dpu_plane_state *old_pstate;
->
-> -       if (!old_state || !old_state->fb)
-> +       if (!old_state || !old_state->fb) {
-> +               refcount_dec(&msm_fb->dirtyfb);
->                  return;
-> +       }
->
->          old_pstate =3D to_dpu_plane_state(old_state);
->
-> I dont know if this is clean though. WDYT?
-
-The dirtyfb ref is not what you want.  It is tracking if any attached
-display changes need dirtyfb to flush changes to the panel.  See [1]
-
-The other issue is that cleanup_fb will be called when drm core
-_thinks_ the atomic commit is completed, not when it _actually_ has.
-
-Probably the dpu_plane should hold a ref of the scanout bo until
-vblank, rather than rely on the plane state holding a ref to the fb
-(which holds a ref to the bo)?  drm_flip_work might be helpful for
-this sort of thing.
-
-BR,
--R
-
-[1] https://lore.kernel.org/all/20220223191118.881321-1-robdclark@gmail.com=
-/
-
->
->
-> > BR,
-> > -R
-> >
-> >> We can try that out.
-> >>
-> >> holding extra ref gets tricky IMO. In this way, the calls are balanced
-> >> in places we know.
-> >>
-> >>> I think a more correct approach would be to run a worker, waiting for
-> >>> the commit to happen and then freeing the FBs.
-> >>>
-> >>
-> >> Hi Dmitry
-> >>
-> >> This option was tried . It gets very messy to handle it this way. Then
-> >> we realized that, the worker is going to try to do the same thing a
-> >> blocking commit does which is to wait for hw to finish scanout and the=
-n
-> >> cleanup planes. Hence this was preferred and is better IMO.
-> >>
-> >>>>
-> >>>> BR,
-> >>>> -R
-> >>>>
-> >>>>> +       }
-> >>>>> +
-> >>>>>           return true;
-> >>>>>    }
-> >>>>>
-> >>>>>
-> >>>>> ---
-> >>>>> base-commit: 866e43b945bf98f8e807dfa45eca92f931f3a032
-> >>>>> change-id: 20250108-async-disable-fix-cc1b9a1d5b19
-> >>>>>
-> >>>>> Best regards,
-> >>>>> --
-> >>>>> Jessica Zhang <quic_jesszhan@quicinc.com>
-> >>>>>
-> >>>
-> >>>
-> >>>
+Cheers,
+Daniel
