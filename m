@@ -2,62 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A932A07C01
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 16:30:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE72A07C16
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 16:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D83110E46D;
-	Thu,  9 Jan 2025 15:30:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF71410EE50;
+	Thu,  9 Jan 2025 15:35:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="rvCiPwZ7";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R04ADQfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E47D310E46D
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 15:30:39 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4YTTJD3YzQz9tFg;
- Thu,  9 Jan 2025 16:30:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1736436636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dDzXydWanX/h4CyCvG6rd+PRQi4Bip6YqYfXH8bhOhI=;
- b=rvCiPwZ70aHdIuoNIKBq1BYv1ujvq8ua5SX+UIquwVUWqXzKvQy1kFZlKKz7HEVAPYmg2C
- MnK2c0j4nmuvS02APaGzpRMYJ18qo+47hSf/VLTvnA6SbGMPvLJsBCd+U5A3cBhtK5HyKj
- H+KB+yY4nm0iqG9TZ7Ib0dT5FnTZwUqyXgk9q76WwTqVCZV0N3UjcLoCLf+g8iTyuFdVuY
- +5+SQppPvDfDItEmDZPhqDRraS/J+anglqHaYsxIXbx3C3BsPVMptvKLbvq9egOsfUsvSD
- BwdBdXAD1I7SwbAhoetpzgvnzco/7WK+yDq4hR9EBSpBfALycE7IiPt+NOPunw==
-Message-ID: <f82df11f-97c4-4b6c-a139-90e20e0f2eb0@mailbox.org>
-Date: Thu, 9 Jan 2025 16:30:33 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6F2B10EE50
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 15:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736436933; x=1767972933;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=SrcQ/8zYSyEihsRb2ykAIH/ByznPF+YacEjpgON4wFA=;
+ b=R04ADQfQk6I1xwVcLGrEnTkAQWQuBWCExOCntFPQsbnrzPc63I5MIZOr
+ VrnXWBd4LQt4HU2qorY3lC0z01VQs8ii19h5HyMNIlAJgAhXH/BWnK+2i
+ CCcKXIKlm/djL1THjn3nb8KQwQysyGz1JGNIPbG/ooDIv+7A1NdydOELv
+ ZlmXaQ0GItX3WvyD5xxmLKv5SL8rroEA+TPiH/FGFM/f/CjT99+v8rMcm
+ wmQ3p8r8eMrHMj7pGqJayDa/cAM1hj+F9pwxt0Oycx5xlEeHU3AkBVyUc
+ /DvPpqY3JNMQ4DyhpwMtWTReURwtaxD7e4WWw2R+pcRImTWI/JW+fyV+5 g==;
+X-CSE-ConnectionGUID: 6Z9hOHP0SkOFBP+eNLFH2w==
+X-CSE-MsgGUID: NBej3NJFScaDaqMv7Yah3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="59174621"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="59174621"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 07:35:21 -0800
+X-CSE-ConnectionGUID: YkkI/L/tSMG7jguLwGnmFQ==
+X-CSE-MsgGUID: MCwCzlA/TBWiqlR55nvWHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="104308721"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 09 Jan 2025 07:35:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tVuYy-000HkJ-0F;
+ Thu, 09 Jan 2025 15:35:12 +0000
+Date: Thu, 9 Jan 2025 23:34:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, jie.qiu@mediatek.com,
+ junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, dmitry.baryshkov@linaro.org,
+ lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
+ tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
+Subject: Re: [PATCH v4 02/34] drm/mediatek: mtk_dpi: Add support for Pattern
+ Generator in debugfs
+Message-ID: <202501092326.5Xw3bp4p-lkp@intel.com>
+References: <20250108112744.64686-3-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/atomic: clarify the rules around
- drm_atomic_state->allow_modeset
-To: Simona Vetter <simona.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Manasi Navare <navaremanasi@google.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Maxime Ripard
- <mripard@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>
-References: <20231010170746.617366-1-daniel.vetter@ffwll.ch>
- <20231011092051.640422-1-daniel.vetter@ffwll.ch>
- <edea5e48-2723-49ea-ad03-8cd3d9aa53b3@suse.de>
- <Z360aeAkou2OXMCg@phenom.ffwll.local>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <Z360aeAkou2OXMCg@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: b0b3d1d054f3114bc39
-X-MBO-RS-META: iexinsziqwy4mhagkdjw9tbq36et1xn4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108112744.64686-3-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,24 +83,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-01-08 18:22, Simona Vetter wrote:
-> On Wed, Oct 11, 2023 at 12:53:14PM +0200, Thomas Zimmermann wrote:
-> 
->> Comments on the text from a non-native speaker:
->>
->>> +	 *
->>> +	 * - Drivers must not consult @allow_modeset in the atomic commit path,
->>
->> 'atomic-commit' because it's the code path for atomic commits.
-> 
-> Maybe I'm wrong, but my understanding is that English generally doesn't do
-> compound words connected with dashes, you just line them up with spaces.
+Hi AngeloGioacchino,
 
-I hope you don't mind me jumping in, three native German speakers discussing English grammar is merrier than just two. :)
+kernel test robot noticed the following build errors:
 
-FWIW, LWN writes compound words with spaces when used as nouns ("code in user space"), with dashes when used as adjectives ("user-space code"). I don't know if this is an official / general rule, I'm using it as a guideline though.
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.13-rc6 next-20250109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250108-193136
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250108112744.64686-3-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v4 02/34] drm/mediatek: mtk_dpi: Add support for Pattern Generator in debugfs
+config: i386-buildonly-randconfig-003-20250109 (https://download.01.org/0day-ci/archive/20250109/202501092326.5Xw3bp4p-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501092326.5Xw3bp4p-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501092326.5Xw3bp4p-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/mediatek/mtk_dpi.c:22:
+   In file included from include/drm/drm_atomic_helper.h:31:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/mediatek/mtk_dpi.c:175:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     175 |                 val = FIELD_PREP(DPI_PAT_SEL, type) | DPI_PAT_EN;
+         |                       ^
+>> drivers/gpu/drm/mediatek/mtk_dpi.c:794:8: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     794 |         val = FIELD_GET(DPI_PAT_SEL, val);
+         |               ^
+   1 warning and 2 errors generated.
+
+
+vim +/FIELD_PREP +175 drivers/gpu/drm/mediatek/mtk_dpi.c
+
+   169	
+   170	static void mtk_dpi_test_pattern_en(struct mtk_dpi *dpi, u8 type, bool enable)
+   171	{
+   172		u32 val;
+   173	
+   174		if (enable)
+ > 175			val = FIELD_PREP(DPI_PAT_SEL, type) | DPI_PAT_EN;
+   176		else
+   177			val = 0;
+   178	
+   179		mtk_dpi_mask(dpi, DPI_PATTERN0, val, DPI_PAT_SEL | DPI_PAT_EN);
+   180	}
+   181	
 
 -- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
