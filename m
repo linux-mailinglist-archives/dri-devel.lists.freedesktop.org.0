@@ -2,91 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC100A06CAF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 05:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 571E7A06CFA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 05:28:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 545F210ECD5;
-	Thu,  9 Jan 2025 04:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D629210E034;
+	Thu,  9 Jan 2025 04:28:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="PlFNKvkh";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pCg2nraL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E26B910ECD5;
- Thu,  9 Jan 2025 04:12:41 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50940as2029440;
- Thu, 9 Jan 2025 04:11:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5xuZiycebPOPYYbxpoAxnVXljBUiyvsSpag7yB8Sxxs=; b=PlFNKvkhWvB3Crw4
- 2BykXAp467cdMg3GAoFeYUEE4IoIpAZoRNwYDglNl4jjXzFt9X/YW3N2yUzJwU3A
- PEA3Xk0pBKSSL0MuJHr+fvyMhqVLqi5yBqys05YwiATOuuOYo1+rufaQLTehlgNu
- rOknB0ltNR/dlWBngmdei1WhOosLBWgb+HIwR0MPKdlavOff5Pg6iQFdwHfiyB3c
- SEEJpS9ZubM+fO+ENKGR4TwA3lJzzZONSdcACGUkM31Xygum6IzIQgr/fkSIznZE
- +Fy3/+Qvvn8iYng2nvZw6rzfCj5WcqLxuDdUj7xbwZlaK2jayB8GlrhpYHqLNas6
- 44Y+PQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 442727r0pe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 09 Jan 2025 04:11:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5094BSk6009894
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 9 Jan 2025 04:11:28 GMT
-Received: from [10.110.60.159] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 8 Jan 2025
- 20:11:27 -0800
-Message-ID: <a6fa4aa2-d90b-4b5e-92fd-db3912ed248a@quicinc.com>
-Date: Wed, 8 Jan 2025 20:11:27 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D718910E034;
+ Thu,  9 Jan 2025 04:28:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XnAcaGl4WBNZoY615m4Xg4Pl/7Nv98ZZwac4wTwiAp5R4dKpNSLXdOE42czPOv4S3KTHiDmZC+VQxJqg7zDhlcR1lqteSI0OrzaQ6ItTPh0FI950zS626bK60Hnp26dWSrQaBov44Vt3ue4KtcnXv6S0hHnlUoKKxEjltsbH9+jkNnD4rLPHqYkrOKcA6u+ejPJBGbI4INd5KtGRff8C1rIOBY6NDqZGU8stk0xxczMOmm9muuhMGpiW7hqf4L+c7BT6Ma97MshhTeYJZiHs6Y/ThMFnSjDKcOk5vEkb56AYk/YmLb7dpfwIlK35wGOvVytrTxBmrmdQjiaKqenGiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7VOkhU87lh3eb6/1eLLPvwtKaULdY9Zdr3A7g3gORo8=;
+ b=akS9uCPQHfMF2vQLgLEy0rpVYCzv4IYTeFPfKbqyaz3Ai9BAM6pxsEnFVzxEwxmMLXhrk9esz4hRd31AB4VKkH0/GlllwJPFLxx6Nke1BHvT6XbzXkz5nDLbDxxSWOvzdgQn1EsEjygT8nLTOJXbHid1h8GJVt/QmAZ/2kOWtyGgnZ41lP9dglNwlwWCRd6pKmDmDfWEWYGXcoTiQ4jmC939gyJnaGcHZIJHlvs08ORCSD1xtN96AePmovRJt4+4TjFU2OUR/oxJZp0NLXwOCAH17neHxF3+FvEtr//e+EQW7M2S7lQowQSTLygSN1ShgtGftVw2MNXaK81xi3+7AQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7VOkhU87lh3eb6/1eLLPvwtKaULdY9Zdr3A7g3gORo8=;
+ b=pCg2nraLYmMaZJ6D0+2p/wuGvBAJ2FxecJbC3aeXVK3wtWkxHx29YnEnuOXR7uM/aMWGPHmyygLxn9JL26I+c90FG2q1URaOqzF+BZIzRyksMvuCJkiRi/zqZHUmgg8MK/XoqOfmaD6m+GvhwvCjJV2jYX5TMwKip3jF8nlgZ6pAXwr1TUeRi/LIbAwXDA0YXs/2Kal3ZGNBNKYPxmogGLvH36qAkg8PZbu3WhGQY7cLwdqv4kEYI9xMf+q3nWJvkBANOX0twpCztGwZAYDEIL6CltfDv+TZlA8TUnpqCoUdZstvkTWQhTbb3Y/7eWMUzPfUIMa0+1EUay0oxLBTqQ==
+Received: from SA9PR13CA0153.namprd13.prod.outlook.com (2603:10b6:806:28::8)
+ by MN2PR12MB4094.namprd12.prod.outlook.com (2603:10b6:208:15f::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Thu, 9 Jan
+ 2025 04:13:49 +0000
+Received: from SA2PEPF00003AE6.namprd02.prod.outlook.com
+ (2603:10b6:806:28:cafe::3f) by SA9PR13CA0153.outlook.office365.com
+ (2603:10b6:806:28::8) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.11 via Frontend Transport; Thu,
+ 9 Jan 2025 04:13:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SA2PEPF00003AE6.mail.protection.outlook.com (10.167.248.6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8335.7 via Frontend Transport; Thu, 9 Jan 2025 04:13:48 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 Jan 2025
+ 20:13:38 -0800
+Received: from [172.23.93.240] (10.126.231.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 Jan 2025
+ 20:13:37 -0800
+Message-ID: <cbe98670-a196-4764-9175-040018eb2682@nvidia.com>
+Date: Thu, 9 Jan 2025 14:13:28 +1000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] drm/msm/dpu: don't set crtc_state->mode_changed from
- atomic_check()
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>, Chandan
- Uddaraju <chandanu@codeaurora.org>, Jeykumar Sankaran
- <jsanka@codeaurora.org>, Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Archit
- Taneja <architt@codeaurora.org>,
- Rajesh Yadav <ryadav@codeaurora.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, Simona Vetter <simona.vetter@ffwll.ch>
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
- <20241222-drm-dirty-modeset-v1-6-0e76a53eceb9@linaro.org>
- <91dff265-5e13-45db-b46d-0eef4a95f5f6@quicinc.com>
+Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
+From: Ben Skeggs <bskeggs@nvidia.com>
+To: Dave Airlie <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>
+CC: <nouveau@lists.freedesktop.org>
+References: <20250109005553.623947-1-airlied@gmail.com>
+ <64e2c9d9-17e7-4607-87e0-eb9c4005ee1c@nvidia.com>
 Content-Language: en-US
-In-Reply-To: <91dff265-5e13-45db-b46d-0eef4a95f5f6@quicinc.com>
+In-Reply-To: <64e2c9d9-17e7-4607-87e0-eb9c4005ee1c@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: afdBVPKbn2g2f08926iE0DT8fb6RZhi5
-X-Proofpoint-ORIG-GUID: afdBVPKbn2g2f08926iE0DT8fb6RZhi5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 bulkscore=0 adultscore=0 priorityscore=1501
- mlxlogscore=999 mlxscore=0 impostorscore=0 phishscore=0 malwarescore=0
- suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501090030
+X-Originating-IP: [10.126.231.35]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE6:EE_|MN2PR12MB4094:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70848487-9f9a-4d5e-cf94-08dd306404bd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1BQYTYwUXlmbU4wS3RoYjdmUURKWUo0MmZNY01YWWtXOFNhcjhYR3Mrc3N4?=
+ =?utf-8?B?Y1BjamVtZ1IzcU1aRDZtbUtqLzROM3VMTk41RzZzU0lSOFUxeEM2TEdXdVZ4?=
+ =?utf-8?B?MmlnVFhlaVArV1gvZ3k3NWRkSHJjTHBnQUJmOGp2K0Y5Mnpyb09aaVJETnZv?=
+ =?utf-8?B?WFNFNm42RWpjOVF4cFpXRlQxbWh4ZlBERE91RTlDVnF0N0NtNS90OTBCeGRh?=
+ =?utf-8?B?amxGSTZzVkYwMFZvVHI4d0ZXM2JtWVpMcUpXcGNlam16K2t2QWVKTnZDNDJv?=
+ =?utf-8?B?Yi9NUXU3NjBJT0xMQ29YekZNMzV4T0xHcEpIYm5USHJrWHA0L0sxT256anZP?=
+ =?utf-8?B?VklkM3JDVFVwT0VWdkZZa0UzeGxHSEFwNXZMd0EwOGpPOG9PTDhyS0phdlNF?=
+ =?utf-8?B?TFprVjBvNlZtQ2FxaDhodjBZSE15QTlmZWFiMWI3NjVZVDZNc0FqOFpFNW5u?=
+ =?utf-8?B?WWRzUGwxMzR4Vi9xQXpncHhkdjNvSzY0WXUvTW4yUGsxLzhCYUNkM0tMb2Vo?=
+ =?utf-8?B?R05ETnk4amVVODY3cFRTTklCN3NoMHppYWVDNUR4R2lGUllVYlV0SGpYeGxl?=
+ =?utf-8?B?OWNtUU45cWhVaGFhZ1VEWEVHOTRZdUZLa0tHWnEzMU81bEE3YlVWYUdwWEcv?=
+ =?utf-8?B?a0FDQ3d5UkdvK09nNE9YRjY1V1I1OVIwVC9JNUphNlV2YkxSajFtZ0p6anpG?=
+ =?utf-8?B?VStsSGg0TFliSGVpMmM1WU5USFdqZm1EYjZtb3BYYjRRQmZKRUZqRU5Uek53?=
+ =?utf-8?B?NVV2LzlzZFhwUDRVNG5Qd0NjSzJyaFZUY0pFcUpFTzhkbitiTkJpT0tSSytK?=
+ =?utf-8?B?cVR2QTlVUjllUzBLK1lnQlp0emdjTnhpLzZ1R2FUU01SUTg0cmZ6S0Q4RnBp?=
+ =?utf-8?B?dEdYTUxLVFRCM2JOTG81dExOY1JKOWgwSitzSW55alFoQUFGaXN3cU5VQWRm?=
+ =?utf-8?B?cUQxQ09tRW1DTk1OalNONUR0UkdJVWs4dnRITkg4ajRpUHRSUjYyV3VSVTBr?=
+ =?utf-8?B?U0pKVGh1bjVFa044MXVCZGQvUHNjZVdpQW8wbHFKQlVYUXhMVWxqOURMSk93?=
+ =?utf-8?B?eW5wMzJIQVVUTlBMT2hrN0VURVNpOW5wbnpPVWhpSjJpa1pUSCtaNU9wZVNN?=
+ =?utf-8?B?ZHFUay9zTy9KMGJFVDJHYzByTmVUcE0xWkdVUUxVQWRPd1VOQjIrb2JuUWJR?=
+ =?utf-8?B?TFNxM1NVVk9UbktCR0V1ZE5vNE9UdFhDOUl6TnpPZHhLVXY0V2htMVBKU0pu?=
+ =?utf-8?B?YkRUQkMzQVFzZDcrZW9SM1pMV1QzckRPSVhnb29yT25vRjJWaVRpcVlHYk01?=
+ =?utf-8?B?eGI0SHlRaU8rOGdFN05qYUdma25ndGN6Zk83SUxpVm5aYWxra3ZNbzRkRUY0?=
+ =?utf-8?B?Nk13WGRiK2tLWGJlSlJJUjkrNHFuYVlzaUlYOTJEeUUvNkNneE9EbHhpemlF?=
+ =?utf-8?B?NkNZOWZKVW5sM3JYdzRFMndPaWUzQm1pQUpYUFZyaTlJaG5zaVk2WTNPYmcr?=
+ =?utf-8?B?Z2kwNzJ3QnBYL0VaVC93UWVCS0ttbnVhcjZSRkpKYkdIUkxmN1cvVHRzWEsy?=
+ =?utf-8?B?RUpKakgvQjUxTTBtbi8xMHlUTGg4ZEIza0RRbTZNN2hMNkNldUF5ZXcxenZh?=
+ =?utf-8?B?MnRlNVNqUTFZRVhhbFJ0b2REMzVUb2VyVWJQL2V6SmtCNUVTeEt5ZEc0dk1S?=
+ =?utf-8?B?QVAyc1YwYmI0ZFYxYXNTMUV3SERMZDU1QjEyS0VUNUJDY1g5NHBSc21pa2VP?=
+ =?utf-8?B?cFh5NnNYSHB1VGh1YlZVQnpXYytRMVhaWDN0U0xURVRDVUdjTFZZOVFJTitH?=
+ =?utf-8?B?dHN1UG5EV2w5Z1VQaTRqc3BpWk9uLzZpUXMzVGh5L0VrQ0NyMDlvN2hVWHN6?=
+ =?utf-8?B?Q2hvam9SZERCcXI1UVlQM1JSemNNNkxKQ1BFdE8vR0FxT2FRZ3VacVNYT2hH?=
+ =?utf-8?B?WnpsZklka1hnVEdFeXRFMzRKVHRFS3lDODVuN2pHZTAxeFc1MmlIbXhrdXY4?=
+ =?utf-8?Q?Gwafdvn0R6O54qaQiu9ZItLjbrb/Dw=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 04:13:48.9483 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70848487-9f9a-4d5e-cf94-08dd306404bd
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003AE6.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,225 +149,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 9/1/25 13:42, Ben Skeggs wrote:
 
-
-On 1/8/2025 6:27 PM, Abhinav Kumar wrote:
-> 
-> 
-> On 12/21/2024 9:00 PM, Dmitry Baryshkov wrote:
->> The MSM driver uses drm_atomic_helper_check() which mandates that none
->> of the atomic_check() callbacks toggles crtc_state->mode_changed.
->> Perform corresponding check before calling the drm_atomic_helper_check()
->> function.
->>
->> Fixes: 8b45a26f2ba9 ("drm/msm/dpu: reserve cdm blocks for writeback in 
->> case of YUV output")
->> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
->> Closes: 
->> https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 
->> +++++++++++++++++++++++++----
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++++
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 
->> +++++++++++++++++++++++
->>   drivers/gpu/drm/msm/msm_atomic.c            | 13 +++++++++++-
->>   drivers/gpu/drm/msm/msm_kms.h               |  7 +++++++
->>   5 files changed, 77 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index 
->> 209e6fb605b2d8724935b62001032e7d39540366..b7c3aa8d0e2ca58091deacdeaccb0819d2bf045c 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -753,6 +753,34 @@ static void 
->> dpu_encoder_assign_crtc_resources(struct dpu_kms *dpu_kms,
->>       cstate->num_mixers = num_lm;
->>   }
->> +/**
->> + * dpu_encoder_virt_check_mode_changed: check if full modeset is 
->> required
->> + * @drm_enc:    Pointer to drm encoder structure
->> + * @crtc_state:    Corresponding CRTC state to be checked
->> + * @conn_state: Corresponding Connector's state to be checked
->> + *
->> + * Check if the changes in the object properties demand full mode set.
->> + */
->> +int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
->> +                    struct drm_crtc_state *crtc_state,
->> +                    struct drm_connector_state *conn_state)
->> +{
->> +    struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
->> +    struct msm_display_topology topology;
->> +
->> +    DPU_DEBUG_ENC(dpu_enc, "\n");
->> +
->> +    /* Using mode instead of adjusted_mode as it wasn't computed yet */
->> +    topology = dpu_encoder_get_topology(dpu_enc, &crtc_state->mode, 
->> crtc_state, conn_state);
->> +
->> +    if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
->> +        crtc_state->mode_changed = true;
->> +    else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
->> +        crtc_state->mode_changed = true;
->> +
->> +    return 0;
->> +}
-> 
-> How will this work exactly?
-> 
-> needs_cdm is set in the encoder's atomic_check which is called inside 
-> drm_atomic_helper_check(). But this function is called before that.
-> 
-> So needs_cdm will never hit.
+> On 9/1/25 10:55, Dave Airlie wrote:
 >
-
-Sorry, my bad. after change (4) of this series needs_cdm is also 
-populated within  dpu_encoder_get_topology().
-
-To follow up on 
-https://patchwork.freedesktop.org/patch/629231/?series=137975&rev=4#comment_1148651
-
-So is the plan for CWB to add a dpu_crtc_check_mode_changed() like 
-dpu_encoder's and call it?
-
-
-> 
->> +
->>   static int dpu_encoder_virt_atomic_check(
->>           struct drm_encoder *drm_enc,
->>           struct drm_crtc_state *crtc_state,
->> @@ -786,10 +814,6 @@ static int dpu_encoder_virt_atomic_check(
->>       topology = dpu_encoder_get_topology(dpu_enc, adj_mode, 
->> crtc_state, conn_state);
->> -    if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
->> -        crtc_state->mode_changed = true;
->> -    else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
->> -        crtc_state->mode_changed = true;
->>       /*
->>        * Release and Allocate resources on every modeset
->>        */
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> index 
->> 92b5ee390788d16e85e195a664417896a2bf1cae..da133ee4701a329f566f6f9a7255f2f6d050f891 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
->> @@ -88,4 +88,8 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder 
->> *drm_enc,
->>   bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
->> +int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
->> +                    struct drm_crtc_state *crtc_state,
->> +                    struct drm_connector_state *conn_state);
->> +
->>   #endif /* __DPU_ENCODER_H__ */
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> index 
->> dae8a94d3366abfb8937d5f44d8968f1d0691c2d..e2d822f7d785dc0debcb28595029a3e2050b0cf4 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
->> @@ -446,6 +446,31 @@ static void dpu_kms_disable_commit(struct msm_kms 
->> *kms)
->>       pm_runtime_put_sync(&dpu_kms->pdev->dev);
->>   }
->> +static int dpu_kms_check_mode_changed(struct msm_kms *kms, struct 
->> drm_atomic_state *state)
->> +{
->> +    struct drm_crtc_state *new_crtc_state;
->> +    struct drm_connector *connector;
->> +    struct drm_connector_state *new_conn_state;
->> +    int i;
->> +
->> +    for_each_new_connector_in_state(state, connector, new_conn_state, 
->> i) {
->> +        struct drm_encoder *encoder;
->> +
->> +        WARN_ON(!!new_conn_state->best_encoder != 
->> !!new_conn_state->crtc);
->> +
->> +        if (!new_conn_state->crtc || !new_conn_state->best_encoder)
->> +            continue;
->> +
->> +        new_crtc_state = drm_atomic_get_new_crtc_state(state, 
->> new_conn_state->crtc);
->> +
->> +        encoder = new_conn_state->best_encoder;
->> +
->> +        dpu_encoder_virt_check_mode_changed(encoder, new_crtc_state, 
->> new_conn_state);
->> +    }
->> +
->> +    return 0;
->> +}
->> +
->>   static void dpu_kms_flush_commit(struct msm_kms *kms, unsigned 
->> crtc_mask)
->>   {
->>       struct dpu_kms *dpu_kms = to_dpu_kms(kms);
->> @@ -1049,6 +1074,7 @@ static const struct msm_kms_funcs kms_funcs = {
->>       .irq             = dpu_core_irq,
->>       .enable_commit   = dpu_kms_enable_commit,
->>       .disable_commit  = dpu_kms_disable_commit,
->> +    .check_mode_changed = dpu_kms_check_mode_changed,
->>       .flush_commit    = dpu_kms_flush_commit,
->>       .wait_flush      = dpu_kms_wait_flush,
->>       .complete_commit = dpu_kms_complete_commit,
->> diff --git a/drivers/gpu/drm/msm/msm_atomic.c 
->> b/drivers/gpu/drm/msm/msm_atomic.c
->> index 
->> a7a2384044ffdb13579cc9a10f56f8de9beca761..364df245e3a209094782ca1b47b752a729b32a5b 100644
->> --- a/drivers/gpu/drm/msm/msm_atomic.c
->> +++ b/drivers/gpu/drm/msm/msm_atomic.c
->> @@ -183,10 +183,16 @@ static unsigned get_crtc_mask(struct 
->> drm_atomic_state *state)
->>   int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state 
->> *state)
->>   {
->> +    struct msm_drm_private *priv = dev->dev_private;
->> +    struct msm_kms *kms = priv->kms;
->>       struct drm_crtc_state *old_crtc_state, *new_crtc_state;
->>       struct drm_crtc *crtc;
->> -    int i;
->> +    int i, ret = 0;
->> +    /*
->> +     * FIXME: stop setting allow_modeset and move this check to the DPU
->> +     * driver.
->> +     */
->>       for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state,
->>                         new_crtc_state, i) {
->>           if ((old_crtc_state->ctm && !new_crtc_state->ctm) ||
->> @@ -196,6 +202,11 @@ int msm_atomic_check(struct drm_device *dev, 
->> struct drm_atomic_state *state)
->>           }
->>       }
->> +    if (kms && kms->funcs && kms->funcs->check_mode_changed)
->> +        ret = kms->funcs->check_mode_changed(kms, state);
->> +    if (ret)
->> +        return ret;
->> +
->>       return drm_atomic_helper_check(dev, state);
->>   }
->> diff --git a/drivers/gpu/drm/msm/msm_kms.h 
->> b/drivers/gpu/drm/msm/msm_kms.h
->> index 
->> e60162744c669773b6e5aef824a173647626ab4e..ec2a75af89b09754faef1a07adc9338f7d78161e 100644
->> --- a/drivers/gpu/drm/msm/msm_kms.h
->> +++ b/drivers/gpu/drm/msm/msm_kms.h
->> @@ -59,6 +59,13 @@ struct msm_kms_funcs {
->>       void (*enable_commit)(struct msm_kms *kms);
->>       void (*disable_commit)(struct msm_kms *kms);
->> +    /**
->> +     * @check_mode_changed:
->> +     *
->> +     * Verify if the commit requires a full modeset on one of CRTCs.
->> +     */
->> +    int (*check_mode_changed)(struct msm_kms *kms, struct 
->> drm_atomic_state *state);
->> +
->>       /**
->>        * Prepare for atomic commit.  This is called after any previous
->>        * (async or otherwise) commit has completed.
+>> From: Dave Airlie <airlied@redhat.com>
 >>
+>> This is the 3rd iteration of this after talking to Ben and
+>> Danilo, I think this makes sense now.
+>>
+>> The fence sync logic doesn't handle a fence sync across devices
+>> as it tries to write to a channel offset from one device into
+>> the fence bo from a different device, which won't work so well.
+>>
+>> This patch fixes that to avoid using the sync path in the case
+>> where the fences come from different nouveau drm devices.
+>>
+>> This works fine on a single device as the fence bo is shared
+>> across the devices, and mapped into each channels vma space,
+>> the channel offsets are therefore okay to pass between sides,
+>> so one channel can sync on the seqnos from the other by using
+>> the offset into it's vma.
+>>
+>> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> Signed-off-by: Ben Skeggs <bskeggs@nvidia.com>
+
+Err, not sure what my fingers did there ;)
+
+Reviewed-by: Ben Skeggs <bskeggs@nvidia.com>
+
+>
+>> Cc: stable@vger.kernel.org
+>> ---
+>>   drivers/gpu/drm/nouveau/nouveau_fence.c | 6 ++++--
+>>   1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c 
+>> b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>> index ee5e9d40c166..a3eb1f447a29 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+>> @@ -367,11 +367,13 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, 
+>> struct nouveau_channel *chan,
+>>               if (f) {
+>>                   struct nouveau_channel *prev;
+>>                   bool must_wait = true;
+>> +                bool local;
+>>                     rcu_read_lock();
+>>                   prev = rcu_dereference(f->channel);
+>> -                if (prev && (prev == chan ||
+>> -                         fctx->sync(f, prev, chan) == 0))
+>> +                local = prev && prev->drm == chan->drm;
+>> +                if (local && (prev == chan ||
+>> +                          fctx->sync(f, prev, chan) == 0))
+>>                       must_wait = false;
+>>                   rcu_read_unlock();
+>>                   if (!must_wait)
