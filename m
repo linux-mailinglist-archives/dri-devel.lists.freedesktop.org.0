@@ -2,83 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FF6A06E22
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 07:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00577A06E3C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 07:29:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8BF10ECF8;
-	Thu,  9 Jan 2025 06:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2068D10E35D;
+	Thu,  9 Jan 2025 06:29:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PAMtX1Os";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="MhG1HV36";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6428B10ECF5
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 06:16:55 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-3ebb2d8dac4so299216b6e.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Jan 2025 22:16:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736403354; x=1737008154; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=vC9nJtt9rRq/geCAGZDFx6gLFWekfxOk8FhgpKUHqfQ=;
- b=PAMtX1OsiZ6iKb37enCJ1+vqlCLbsSUro6FNyCxJ7GZtJ/sR795oAmLmiUx2kJqmgq
- 338NXgNw+ewLIljoL5gp2KIGE/OLhzcgdooaOKfn162/VHAglgWprPdqRRgEQCu5qG2P
- YywS+Jww6Vbjz5ttl4/cixqkw4AKAz1aX8v0SzpfbKUSwngfUsq7IsxRUXVm2hz1VJqu
- 1SrdPo+weir5tRRQCemazFqhjaDCH3WP64mVUHXXTca8mPgmN8MemFtoU+mgS/KmsGCN
- TB85wSikGPGsmu7YhxfyOBtw8/N5JcQTZQjsZkEjx8/MQwYXQxBoIdk0TGdvI2VX22X3
- EmDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736403354; x=1737008154;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vC9nJtt9rRq/geCAGZDFx6gLFWekfxOk8FhgpKUHqfQ=;
- b=TcV3qTunuaVAv6gQowSuU5ffWuWlLsTxP4iNhKMMg0cBbDTZ7WFquAf6audJeG/Tni
- eAMrqtD2PhDTq85zTmCoq+8ejrkXfDgycNCp6DzuqPpgy/ffq/MllREIY73Vd6RAHcVP
- 9xgaH48FrL9wEuXIXASoaFkxFX8km+YenYiRPuI6hIV8WTJuvDVGi9Cu1/S76dIvq9UF
- UEJ1WGPPn6L7Il02I7mMGDcuCTJXwLR5QLRYrdYynBy0ZyJRp6avDM7Rd7ZECOvpnZtx
- OvEVVRqvhYlLioJUAurnvbBwtiHRAzTW37lrEGXi1suYN3Re3ofk/nhkmiMyd0KPQ0AC
- aoXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVWM2cjP7y1VdRj3eCN230R2+N8uy+urfH09IW5tdZhWjCY0KwXK6mzNQQEaF5uicII0dJkDcGL8A4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWrH2TggjJfAPwSOORBjSoQ9NPzTTUPOSJL5J+45c4YULqNyas
- Or66LLgwAxAClPPQ8eSVJN96Y6J1gPTS0ubx/n4dDuPrcFyHK20OhJW4SeXYe0QtHOH3baI+N+w
- rOnRsGViHcI8XDceGB2LPsX65/cXu8ejwa8TS3xRvcAOv+mtX4AE=
-X-Gm-Gg: ASbGncsJmo76W7mNvmlNGnYaTrzxn7DRkJUFC4jemT9MI4zuV4Joov7+olOKHu53dhZ
- DgpuJXZbW5fTVefKICZZHIUEmBW7hcxTHjjIkM7R7
-X-Google-Smtp-Source: AGHT+IFkDZGBtCpO5FflLFvbdwmJ3sWoUbJtvuojzOG7I1CBRhorYbwloT2u1hpJHzN4tOBjlfcQFIZrLZuRC0Ec89I=
-X-Received: by 2002:a05:6102:c8b:b0:4b2:adfb:4f91 with SMTP id
- ada2fe7eead31-4b3d0fb1764mr3879731137.21.1736402941990; Wed, 08 Jan 2025
- 22:09:01 -0800 (PST)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A544E10E35D
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 06:28:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=xNVUF8UGN6na3JrIgXHKi8KH+dFuTcPxSWvpjZfV1NQ=; b=M
+ hG1HV36d/CdYz4NXULcYtzLAuec5UGZaWJwrxZivAkvc0bhSgoT14b5DpKPk5pzC
+ SKx1QMDkvmKUzRzQAvLd99t5RVJ72eiJqKUN0niG13FCs0UR58DEu69ljGeqs/1T
+ 9CIdaXsLTZVNhE/LvFloXmmC8wDp0W4zDJwDmgsq0c=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-121 (Coremail) ; Thu, 9 Jan 2025 14:28:36 +0800 (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Thu, 9 Jan 2025 14:28:36 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Damon Ding" <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com, 
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de, 
+ dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, 
+ hjc@rock-chips.com, algea.cao@rock-chips.com, 
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org
+Subject: Re:[PATCH v5 05/20] drm/rockchip: analogix_dp: Replace DRM_...()
+ functions with drm_...() or dev_...()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250109032725.1102465-6-damon.ding@rock-chips.com>
+References: <20250109032725.1102465-1-damon.ding@rock-chips.com>
+ <20250109032725.1102465-6-damon.ding@rock-chips.com>
+X-NTES-SC: AL_Qu2YBPibu0kq4COQZekfmkcVgOw9UcO5v/Qk3oZXOJF8jArp+TAefEJSMWvIws60LDKUmgmGdih16sFZbLt8cLIWzZj7DHW+VdjsZkBgVygZtw==
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <Z2KsuAs-Dd4ZDaXR@phenom.ffwll.local>
- <CAFA6WYNVHu7_-bNAuTYBRBdoJwfk2VrW5M4aFVkb_UWQ=uxTvQ@mail.gmail.com>
- <Z36ujiS8yyG1mfbA@phenom.ffwll.local>
-In-Reply-To: <Z36ujiS8yyG1mfbA@phenom.ffwll.local>
-From: Sumit Garg <sumit.garg@linaro.org>
-Date: Thu, 9 Jan 2025 11:38:50 +0530
-X-Gm-Features: AbW1kvZpkNiFcSMyeI-DgMLrpBLgsFpc30qEZPbPGQ78luMHwy5kGq6PCahL58k
-Message-ID: <CAFA6WYPXxUQYe9TF3PB9C0NwCz1eceCdYNa1yoKpv320M20qDw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: simona.vetter@ffwll.ch
-Cc: Jens Wiklander <jens.wiklander@linaro.org>, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
- linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <40b09942.533e.19449c023a1.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: eSgvCgB3PMeUbH9ndwBTAA--.16079W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqR3PXmd-YuGrTwACsY
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,155 +68,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Jan 2025 at 22:27, Simona Vetter <simona.vetter@ffwll.ch> wrote:
->
-> On Tue, Dec 24, 2024 at 12:05:19PM +0530, Sumit Garg wrote:
-> > Hi Simona,
-> >
-> > On Wed, 18 Dec 2024 at 16:36, Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> > >
-> > > On Tue, Dec 17, 2024 at 11:07:36AM +0100, Jens Wiklander wrote:
-> > > > Hi,
-> > > >
-> > > > This patch set allocates the restricted DMA-bufs via the TEE subsystem.
-> > > >
-> > > > The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> > > > (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QCOMTEE) which sets up the
-> > > > restrictions for the memory used for the DMA-bufs.
-> > > >
-> > > > I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
-> > > > DMA-bufs. This IOCTL reaches the backend TEE driver, allowing it to choose
-> > > > how to allocate the restricted physical memory.
-> > > >
-> > > > TEE_IOC_RSTMEM_ALLOC takes in addition to a size and flags parameters also
-> > > > a use-case parameter. This is used by the backend TEE driver to decide on
-> > > > allocation policy and which devices should be able to access the memory.
-> > > >
-> > > > Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
-> > > > Recording) has been identified so far to serve as examples of what can be
-> > > > expected. More use-cases can be added in userspace ABI, but it's up to the
-> > > > backend TEE drivers to provide the implementation.
-> > > >
-> > > > Each use-case has it's own restricted memory pool since different use-cases
-> > > > requires isolation from different parts of the system. A restricted memory
-> > > > pool can be based on a static carveout instantiated while probing the TEE
-> > > > backend driver, or dynamically allocated from CMA and made restricted as
-> > > > needed by the TEE.
-> > > >
-> > > > This can be tested on QEMU with the following steps:
-> > > > repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml \
-> > > >         -b prototype/sdp-v4
-> > > > repo sync -j8
-> > > > cd build
-> > > > make toolchains -j$(nproc)
-> > > > make SPMC_AT_EL=1 all -j$(nproc)
-> > > > make SPMC_AT_EL=1 run-only
-> > > > # login and at the prompt:
-> > > > xtest --sdp-basic
-> > > >
-> > > > The SPMC_AT_EL=1 parameter configures the build with FF-A and an SPMC at
-> > > > S-EL1 inside OP-TEE. The parameter can be changed into SPMC_AT_EL=n to test
-> > > > without FF-A using the original SMC ABI instead. Please remember to do
-> > > > %rm -rf ../trusted-firmware-a/build/qemu
-> > > > for TF-A to be rebuilt properly using the new configuration.
-> > > >
-> > > > https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> > > > list dependencies needed to build the above.
-> > > >
-> > > > The tests are pretty basic, mostly checking that a Trusted Application in
-> > > > the secure world can access and manipulate the memory. There are also some
-> > > > negative tests for out of bounds buffers etc.
-> > >
-> > > I think I've dropped this on earlier encrypted dma-buf discussions for
-> > > TEE, but can't find one right now ...
-> >
-> > Thanks for raising this query.
-> >
-> > >
-> > > Do we have some open source userspace for this? To my knowledge we have
-> > > two implementations of encrypted/content protected dma-buf in upstream
-> > > right now in the amd and intel gpu drivers, and unless I'm mistaken they
-> > > both have some minimal userspace supporting EXT_protected_textures:
-> >
-> > First of all to clarify the support Jens is adding here for allocating
-> > restricted shared memory allocation in TEE subsystem is meant to be
-> > generic and not specific to only secure media pipeline use-case. Then
-> > here we not only have open source test applications but rather open
-> > source firmware too (OP-TEE as a Trusted OS) [1] supporting this as a
-> > core feature where we maintain a stable and extensible ABI among the
-> > kernel and the OP-TEE core.
-> >
-> > Restricted memory is a feature enforced by hardware specific firewalls
-> > where a particular TEE implementation governs which particular block
-> > of memory is accessible to a particular peripheral or a CPU running in
-> > a higher privileged mode than the Linux kernel. There can be numeric
-> > use-cases surrounding that as follows:
-> >
-> > - Secure media pipeline where the contents gets decrypted and stored
-> > in a restricted buffer which are then accessible only to media display
-> > pipeline peripherals.
-> > - Trusted user interface where a peripheral takes input from the user
-> > and stores it in a restricted buffer which then is accessible to TEE
-> > implementation only.
-> > - Another possible use-case can be for the TEE implementation to store
-> > key material in a restricted buffer which is only accessible to the
-> > hardware crypto accelerator.
-> >
-> > I am sure there will be more use-cases related to this feature but
-> > those will only be possible once we provide a stable and extensible
-> > restricted memory interface among the Linux user-space and the secure
-> > world user-space (normally referred to as Trusted Applications).
-> >
-> > [1] https://github.com/OP-TEE/optee_os/pull/7159
-> >
-> > >
-> > > https://github.com/KhronosGroup/OpenGL-Registry/blob/main/extensions/EXT/EXT_protected_textures.txt
-> > >
-> > > It's not great, but it does just barely clear the bar in my opinion. I
-> > > guess something in gstreamer or similar video pipeline framework would
-> > > also do the job.
-> > >
-> > > Especially with the context of the uapi discussion in the v1/RFC thread I
-> > > think we need more than a bare-bones testcase to make sure this works in
-> > > actual use.
-> >
-> > Currently the TEE subsystem already supports a stable ABI for shared
-> > memory allocator among Linux user-space and secure world user-space
-> > here [2]. And the stable ABI for restricted memory is also along the
-> > same lines meant to be a vendor neutral abstraction for the user-space
-> > access. The current test cases not only test the interface but also
-> > perform regression tests too.
-> >
-> > I am also in favour of end to end open source use-cases. But I fear
-> > without progressing in a step wise manner as with this proposal we
-> > would rather force developers to upstream all the software pieces in
-> > one go which will be kind of a chicken and egg situation. I am sure
-> > once this feature lands Mediatek folks will be interested to port
-> > their secure video playback patchset [3] on top of it. Similarly other
-> > silicon vendors like NXP, Qcom etc. will be motivated to do the same.
-> >
-> > [2] https://docs.kernel.org/userspace-api/tee.html
-> > [3] https://lore.kernel.org/linux-arm-kernel/20240515112308.10171-1-yong.wu@mediatek.com/
->
-> We get entire opengl/vulkan driver stacks ready before we merge new drm
-> drivers, I really don't think this is too hard from a technical pov. And I
-> think the mediatek patches had the same issue of lacking userspace for it,
-> so that's not moving things forward.
-> -Sima
->
-
-Okay fair enough, I think I get your point. Currently we are missing
-at least one peripheral support being the consumer for these
-restricted DMA-bufs. So I discussed with Jens offline that we can try
-with a crypto peripheral use-case first which can simply be
-demonstrated using the current OP-TEE client user-space.
-
-Also, in crypto peripheral use-case we can target the symmetric crypto
-use-case first which already has a concept of hardware backed
-symmetric key [1]. IOW, we should be able to come up with a generic
-symmetric crypto algorithm which can be supported by different crypto
-accelerators using a TEE backed restricted key DMA buffer.
-
-[1] https://www.youtube.com/watch?v=GbcpwUBFGDw
-
--Sumit
+CkhpIERhbW9uLAoKQXQgMjAyNS0wMS0wOSAxMToyNzoxMCwgIkRhbW9uIERpbmciIDxkYW1vbi5k
+aW5nQHJvY2stY2hpcHMuY29tPiB3cm90ZToKPkFjY29yZGluZyB0byB0aGUgY29tbWVudHMgaW4g
+aW5jbHVkZS9kcm0vZHJtX3ByaW50LmgsIHRoZSBEUk1fLi4uKCkKPmZ1bmN0aW9ucyBhcmUgZGVw
+cmVjYXRlZCBpbiBmYXZvciBvZiBkcm1fLi4uKCkgb3IgZGV2Xy4uLigpIGZ1bmN0aW9ucy4KPgo+
+VXNlIGRybV9lcnIoKS9kcm1fZGJnX2NvcmUoKS9kcm1fZGJnX2ttcygpIGluc3RlYWQgb2YKPkRS
+TV9ERVZfRVJST1IoKS9EUk1fRVJST1IoKS9EUk1fREVWX0RFQlVHKCkvRFJNX0RFQlVHX0tNUygp
+IGFmdGVyCj5yb2NrY2hpcF9kcF9iaW5kKCkgaXMgY2FsbGVkLCBhbmQgcmVwbGFjZSBEUk1fREVW
+X0VSUk9SKCkgd2l0aCBkZXZfZXJyKCkKPmJlZm9yZSBjYWxsaW5nIGl0Lgo+Cj5TaWduZWQtb2Zm
+LWJ5OiBEYW1vbiBEaW5nIDxkYW1vbi5kaW5nQHJvY2stY2hpcHMuY29tPgo+LS0tCj4gLi4uL2dw
+dS9kcm0vcm9ja2NoaXAvYW5hbG9naXhfZHAtcm9ja2NoaXAuYyAgIHwgMjkgKysrKysrKysrKy0t
+LS0tLS0tLQo+IDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMo
+LSkKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1y
+b2NrY2hpcC5jIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2FuYWxvZ2l4X2RwLXJvY2tjaGlw
+LmMKPmluZGV4IDU0NmQxM2YxOWY5Yi4uODExNGMzMjM4NjA5IDEwMDY0NAo+LS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL3JvY2tjaGlwL2FuYWxvZ2l4X2RwLXJvY2tjaGlwLmMKPisrKyBiL2RyaXZlcnMv
+Z3B1L2RybS9yb2NrY2hpcC9hbmFsb2dpeF9kcC1yb2NrY2hpcC5jCj5AQCAtMTAwLDEzICsxMDAs
+MTMgQEAgc3RhdGljIGludCByb2NrY2hpcF9kcF9wb3dlcm9uKHN0cnVjdCBhbmFsb2dpeF9kcF9w
+bGF0X2RhdGEgKnBsYXRfZGF0YSkKPiAKPiAJcmV0ID0gY2xrX3ByZXBhcmVfZW5hYmxlKGRwLT5w
+Y2xrKTsKPiAJaWYgKHJldCA8IDApIHsKPi0JCURSTV9ERVZfRVJST1IoZHAtPmRldiwgImZhaWxl
+ZCB0byBlbmFibGUgcGNsayAlZFxuIiwgcmV0KTsKPisJCWRybV9lcnIoZHAtPmRybV9kZXYsICJm
+YWlsZWQgdG8gZW5hYmxlIHBjbGsgJWRcbiIsIHJldCk7CgogICAgICAgICAgICAgICBZb3UganVz
+dCBuZWVkIHRvIHBhc3MgZHAgaGVyZToKICAgICAgICAgICAgICAgIGRybV9lcnIoZHAsICJmYWls
+ZWQgdG8gZW5hYmxlIHBjbGsgJWRcbiIsIHJldCk7Cgo+IAkJcmV0dXJuIHJldDsKPiAJfQo+IAo+
+IAlyZXQgPSByb2NrY2hpcF9kcF9wcmVfaW5pdChkcCk7Cj4gCWlmIChyZXQgPCAwKSB7Cj4tCQlE
+Uk1fREVWX0VSUk9SKGRwLT5kZXYsICJmYWlsZWQgdG8gZHAgcHJlIGluaXQgJWRcbiIsIHJldCk7
+Cj4rCQlkcm1fZXJyKGRwLT5kcm1fZGV2LCAiZmFpbGVkIHRvIGRwIHByZSBpbml0ICVkXG4iLCBy
+ZXQpOwo+IAkJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGRwLT5wY2xrKTsKPiAJCXJldHVybiByZXQ7
+Cj4gCX0KPkBAIC0xMjYsMTIgKzEyNiwxMyBAQCBzdGF0aWMgaW50IHJvY2tjaGlwX2RwX3Bvd2Vy
+ZG93bihzdHJ1Y3QgYW5hbG9naXhfZHBfcGxhdF9kYXRhICpwbGF0X2RhdGEpCj4gc3RhdGljIGlu
+dCByb2NrY2hpcF9kcF9nZXRfbW9kZXMoc3RydWN0IGFuYWxvZ2l4X2RwX3BsYXRfZGF0YSAqcGxh
+dF9kYXRhLAo+IAkJCQkgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcikKPiB7Cj4rCXN0
+cnVjdCByb2NrY2hpcF9kcF9kZXZpY2UgKmRwID0gcGRhdGFfZW5jb2Rlcl90b19kcChwbGF0X2Rh
+dGEpOwo+IAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAqZGkgPSAmY29ubmVjdG9yLT5kaXNwbGF5
+X2luZm87Cj4gCS8qIFZPUCBjb3VsZG4ndCBvdXRwdXQgWVVWIHZpZGVvIGZvcm1hdCBmb3IgZURQ
+IHJpZ2h0bHkgKi8KPiAJdTMyIG1hc2sgPSBEUk1fQ09MT1JfRk9STUFUX1lDQkNSNDQ0IHwgRFJN
+X0NPTE9SX0ZPUk1BVF9ZQ0JDUjQyMjsKPiAKPiAJaWYgKChkaS0+Y29sb3JfZm9ybWF0cyAmIG1h
+c2spKSB7Cj4tCQlEUk1fREVCVUdfS01TKCJTd2FwcGluZyBkaXNwbGF5IGNvbG9yIGZvcm1hdCBm
+cm9tIFlVViB0byBSR0JcbiIpOwo+KwkJZHJtX2RiZ19rbXMoZHAtPmRybV9kZXYsICJTd2FwcGlu
+ZyBkaXNwbGF5IGNvbG9yIGZvcm1hdCBmcm9tIFlVViB0byBSR0JcbiIpOwo+IAkJZGktPmNvbG9y
+X2Zvcm1hdHMgJj0gfm1hc2s7Cj4gCQlkaS0+Y29sb3JfZm9ybWF0cyB8PSBEUk1fQ09MT1JfRk9S
+TUFUX1JHQjQ0NDsKPiAJCWRpLT5icGMgPSA4Owo+QEAgLTIwMSwxNyArMjAyLDE3IEBAIHN0YXRp
+YyB2b2lkIHJvY2tjaGlwX2RwX2RybV9lbmNvZGVyX2VuYWJsZShzdHJ1Y3QgZHJtX2VuY29kZXIg
+KmVuY29kZXIsCj4gCWVsc2UKPiAJCXZhbCA9IGRwLT5kYXRhLT5sY2RzZWxfYmlnOwo+IAo+LQlE
+Uk1fREVWX0RFQlVHKGRwLT5kZXYsICJ2b3AgJXMgb3V0cHV0IHRvIGRwXG4iLCAocmV0KSA/ICJM
+SVQiIDogIkJJRyIpOwo+Kwlkcm1fZGJnX2NvcmUoZHAtPmRybV9kZXYsICJ2b3AgJXMgb3V0cHV0
+IHRvIGRwXG4iLCAocmV0KSA/ICJMSVQiIDogIkJJRyIpOwo+IAo+IAlyZXQgPSBjbGtfcHJlcGFy
+ZV9lbmFibGUoZHAtPmdyZmNsayk7Cj4gCWlmIChyZXQgPCAwKSB7Cj4tCQlEUk1fREVWX0VSUk9S
+KGRwLT5kZXYsICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPisJCWRybV9l
+cnIoZHAtPmRybV9kZXYsICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPiAJ
+CXJldHVybjsKPiAJfQo+IAo+IAlyZXQgPSByZWdtYXBfd3JpdGUoZHAtPmdyZiwgZHAtPmRhdGEt
+PmxjZHNlbF9ncmZfcmVnLCB2YWwpOwo+IAlpZiAocmV0ICE9IDApCj4tCQlEUk1fREVWX0VSUk9S
+KGRwLT5kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwgcmV0KTsKPisJCWRybV9l
+cnIoZHAtPmRybV9kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwgcmV0KTsKPiAK
+PiAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGRwLT5ncmZjbGspOwo+IH0KPkBAIC0yMzYsNyArMjM3
+LDcgQEAgc3RhdGljIHZvaWQgcm9ja2NoaXBfZHBfZHJtX2VuY29kZXJfZGlzYWJsZShzdHJ1Y3Qg
+ZHJtX2VuY29kZXIgKmVuY29kZXIsCj4gCj4gCXJldCA9IHJvY2tjaGlwX2RybV93YWl0X3ZhY3Rf
+ZW5kKGNydGMsIFBTUl9XQUlUX0xJTkVfRkxBR19USU1FT1VUX01TKTsKPiAJaWYgKHJldCkKPi0J
+CURSTV9ERVZfRVJST1IoZHAtPmRldiwgImxpbmUgZmxhZyBpcnEgdGltZWQgb3V0XG4iKTsKPisJ
+CWRybV9lcnIoZHAtPmRybV9kZXYsICJsaW5lIGZsYWcgaXJxIHRpbWVkIG91dFxuIik7Cj4gfQo+
+IAo+IHN0YXRpYyBpbnQKPkBAIC0yNzcsNyArMjc4LDcgQEAgc3RhdGljIGludCByb2NrY2hpcF9k
+cF9vZl9wcm9iZShzdHJ1Y3Qgcm9ja2NoaXBfZHBfZGV2aWNlICpkcCkKPiAKPiAJZHAtPmdyZiA9
+IHN5c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUobnAsICJyb2NrY2hpcCxncmYiKTsKPiAJ
+aWYgKElTX0VSUihkcC0+Z3JmKSkgewo+LQkJRFJNX0RFVl9FUlJPUihkZXYsICJmYWlsZWQgdG8g
+Z2V0IHJvY2tjaGlwLGdyZiBwcm9wZXJ0eVxuIik7Cj4rCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0
+byBnZXQgcm9ja2NoaXAsZ3JmIHByb3BlcnR5XG4iKTsKPiAJCXJldHVybiBQVFJfRVJSKGRwLT5n
+cmYpOwo+IAl9Cj4gCj5AQCAtMjg3LDE5ICsyODgsMTkgQEAgc3RhdGljIGludCByb2NrY2hpcF9k
+cF9vZl9wcm9iZShzdHJ1Y3Qgcm9ja2NoaXBfZHBfZGV2aWNlICpkcCkKPiAJfSBlbHNlIGlmIChQ
+VFJfRVJSKGRwLT5ncmZjbGspID09IC1FUFJPQkVfREVGRVIpIHsKPiAJCXJldHVybiAtRVBST0JF
+X0RFRkVSOwo+IAl9IGVsc2UgaWYgKElTX0VSUihkcC0+Z3JmY2xrKSkgewo+LQkJRFJNX0RFVl9F
+UlJPUihkZXYsICJmYWlsZWQgdG8gZ2V0IGdyZiBjbG9ja1xuIik7Cj4rCQlkZXZfZXJyKGRldiwg
+ImZhaWxlZCB0byBnZXQgZ3JmIGNsb2NrXG4iKTsKPiAJCXJldHVybiBQVFJfRVJSKGRwLT5ncmZj
+bGspOwo+IAl9Cj4gCj4gCWRwLT5wY2xrID0gZGV2bV9jbGtfZ2V0KGRldiwgInBjbGsiKTsKPiAJ
+aWYgKElTX0VSUihkcC0+cGNsaykpIHsKPi0JCURSTV9ERVZfRVJST1IoZGV2LCAiZmFpbGVkIHRv
+IGdldCBwY2xrIHByb3BlcnR5XG4iKTsKPisJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIGdldCBw
+Y2xrIHByb3BlcnR5XG4iKTsKPiAJCXJldHVybiBQVFJfRVJSKGRwLT5wY2xrKTsKPiAJfQo+IAo+
+IAlkcC0+cnN0ID0gZGV2bV9yZXNldF9jb250cm9sX2dldChkZXYsICJkcCIpOwo+IAlpZiAoSVNf
+RVJSKGRwLT5yc3QpKSB7Cj4tCQlEUk1fREVWX0VSUk9SKGRldiwgImZhaWxlZCB0byBnZXQgZHAg
+cmVzZXQgY29udHJvbFxuIik7Cj4rCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBnZXQgZHAgcmVz
+ZXQgY29udHJvbFxuIik7Cj4gCQlyZXR1cm4gUFRSX0VSUihkcC0+cnN0KTsKPiAJfQo+IAo+QEAg
+LTMxNSwxMiArMzE2LDEyIEBAIHN0YXRpYyBpbnQgcm9ja2NoaXBfZHBfZHJtX2NyZWF0ZV9lbmNv
+ZGVyKHN0cnVjdCByb2NrY2hpcF9kcF9kZXZpY2UgKmRwKQo+IAo+IAllbmNvZGVyLT5wb3NzaWJs
+ZV9jcnRjcyA9IGRybV9vZl9maW5kX3Bvc3NpYmxlX2NydGNzKGRybV9kZXYsCj4gCQkJCQkJCSAg
+ICAgZGV2LT5vZl9ub2RlKTsKPi0JRFJNX0RFQlVHX0tNUygicG9zc2libGVfY3J0Y3MgPSAweCV4
+XG4iLCBlbmNvZGVyLT5wb3NzaWJsZV9jcnRjcyk7Cj4rCWRybV9kYmdfa21zKGRybV9kZXYsICJw
+b3NzaWJsZV9jcnRjcyA9IDB4JXhcbiIsIGVuY29kZXItPnBvc3NpYmxlX2NydGNzKTsKPiAKPiAJ
+cmV0ID0gZHJtX3NpbXBsZV9lbmNvZGVyX2luaXQoZHJtX2RldiwgZW5jb2RlciwKPiAJCQkJICAg
+ICAgRFJNX01PREVfRU5DT0RFUl9UTURTKTsKPiAJaWYgKHJldCkgewo+LQkJRFJNX0VSUk9SKCJm
+YWlsZWQgdG8gaW5pdGlhbGl6ZSBlbmNvZGVyIHdpdGggZHJtXG4iKTsKPisJCWRybV9lcnIoZHJt
+X2RldiwgImZhaWxlZCB0byBpbml0aWFsaXplIGVuY29kZXIgd2l0aCBkcm1cbiIpOwo+IAkJcmV0
+dXJuIHJldDsKPiAJfQo+IAo+QEAgLTM0MCw3ICszNDEsNyBAQCBzdGF0aWMgaW50IHJvY2tjaGlw
+X2RwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gCj4g
+CXJldCA9IHJvY2tjaGlwX2RwX2RybV9jcmVhdGVfZW5jb2RlcihkcCk7Cj4gCWlmIChyZXQpIHsK
+Pi0JCURSTV9FUlJPUigiZmFpbGVkIHRvIGNyZWF0ZSBkcm0gZW5jb2RlclxuIik7Cj4rCQlkcm1f
+ZXJyKGRybV9kZXYsICJmYWlsZWQgdG8gY3JlYXRlIGRybSBlbmNvZGVyXG4iKTsKPiAJCXJldHVy
+biByZXQ7Cj4gCX0KPiAKPi0tIAo+Mi4zNC4xCj4K
