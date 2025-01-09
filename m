@@ -2,82 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF13A073B0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F212A073C4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Jan 2025 11:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B06610ED5C;
-	Thu,  9 Jan 2025 10:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCB3D10E2A2;
+	Thu,  9 Jan 2025 10:52:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tq-group.com header.i=@tq-group.com header.b="fsSNmHPI";
-	dkim=fail reason="key not found in DNS" (0-bit key; unprotected) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="kIxlrJyl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UHbvINMZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F364D10ED5C
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Jan 2025 10:49:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
- t=1736419763; x=1767955763;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=tVp/68k41NkFcAhuu7KioYy3MSHOTjh5xj32/pjsGg4=;
- b=fsSNmHPIZ+txES3MSl2AclDcDQZa+ZrnyOQgJNwrtgVn3rbg4M0hR0Ey
- fzSynPq6trDbezhlVUHLbj8eeg7C6jH3LWU9arOTUPcPRs4KHggC4lHMG
- s4AiDoOiqwKOI0ef3ppnojWmkjFtPEIGBcwYHdN3rQZqbvohk5YWu0uBv
- +9XAHy50amB2Xp907LAZvZOpRyZ2nenX7pzcJuFPxumSv/huSF99STnQ+
- k69nePDH30dYINODVRPr72Scu/DqNyt3CEsLU3LF12iqrrbzYsKedNR74
- jX9Y7zw9GkOA3peqJJuQ7T/QC6HcQ+XT33ZkvEbTKRfEhx/qSqePHItq+ Q==;
-X-CSE-ConnectionGUID: fA/fH8SWQ86/Mj4HifBiqw==
-X-CSE-MsgGUID: X6CWfte9SgCHKg57VIV8lw==
-X-IronPort-AV: E=Sophos;i="6.12,301,1728943200"; d="scan'208";a="40947954"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
- by mx1.tq-group.com with ESMTP; 09 Jan 2025 11:49:20 +0100
-X-CheckPoint: {677FA9B0-28-C6D8D88D-F91F9E6B}
-X-MAIL-CPID: 18EC4340A80C5DF26CABB0818066624A_2
-X-Control-Analysis: str=0001.0A682F29.677FA9B1.0063, ss=1, re=0.000, recu=0.000,
- reip=0.000, cl=1, cld=1, fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5A721168153; Thu,  9 Jan 2025 11:49:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
- s=dkim; t=1736419756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tVp/68k41NkFcAhuu7KioYy3MSHOTjh5xj32/pjsGg4=;
- b=kIxlrJylsUFKd9k4Ug86GqQ8f1FamKE6IjXoic8MT26rz0nZAbIK7svuRMcr3ki5JDpbus
- NetzVPx9ArCf5zpUoAIrw654dEfrLbkpVbzDlAB/xBo2yN73oIJ5/fJ99j0kW6wsZcZ4Vl
- MLYHMAYphVJZxFvfon/b0XxLJxRjAFYOhO5RuRf4V2XzLtOAT0mLBzPAU2qBnuthDicWFh
- eNvHZEjxTvJ2XUaAp2tCDJfy0Jh8tAvcYUqvNnECT3Kn/LtrMm4MdNIvFVloCsqYk6cmNn
- 2pOc/pEdvKQCm0e+u0iXvV6F65J6rLYvCJ3yowc5taUUNwZm1FhqzoRB3uNadg==
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Date: Thu, 09 Jan 2025 11:49:13 +0100
-Message-ID: <15398572.tv2OnDr8pf@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20250108184442.64f38fbc@bootlin.com>
-References: <20250108101907.410456-1-herve.codina@bootlin.com>
- <115787605.nniJfEyVGO@steina-w> <20250108184442.64f38fbc@bootlin.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE88410E359;
+ Thu,  9 Jan 2025 10:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736419964; x=1767955964;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=QBzI2Wbpho1NEfTzBYXTsUD5MhRmFj/3E7Z72jZHa5E=;
+ b=UHbvINMZYLvZIlyOEk2CPxPAqkzObVO/Nr6JqnPxNML3aBYG/0c5+zTA
+ 2OAYYrg97xly0jxYXQxeXSwzpmJ0u7IlPe67dohecLsJxFfhdTmn4z7sb
+ 7U1YixCiEBUX3C3a3+XkiVXqGap6WiUCIuMSzZC+WqafkkkIKZ+CCCfXI
+ qeGx0gdp4aaCC1hue+fwvj/RNeP6smPT6yvsrvkSsithUgfCYKw+cQlwz
+ SrXctFjEi78gABEVakJHSUV2kaFMUZ10MtKxb55Rpjw/syY9PNVxYo8g2
+ QVObOohk3JkC7Wh4lEubFS+nvhg18E3+zhpsZ+dphaIV5KWKpixks0l3C g==;
+X-CSE-ConnectionGUID: EalUXygGQBO1idRVX0P6YQ==
+X-CSE-MsgGUID: gh690MOfSW6QY0Sk/EwETA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36561813"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; d="scan'208";a="36561813"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 02:52:44 -0800
+X-CSE-ConnectionGUID: ngM6lUsGRSOvJdEPOlrkCA==
+X-CSE-MsgGUID: +rldYdQ4ReyMomNA6lK6cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="108481385"
+Received: from mklonows-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.206])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 02:52:40 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@redhat.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr?=
+ =?utf-8?Q?=C3=B6m?= <thomas.hellstrom@linux.intel.com>, DRM XE List
+ <intel-xe@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Matt Atwood
+ <matthew.s.atwood@intel.com>, Matt Roper <matthew.d.roper@intel.com>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: manual merge of the drm-xe tree with Linus' tree
+In-Reply-To: <20250109164142.07cd8023@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241125120921.1bbc1930@canb.auug.org.au>
+ <20241216183801.0d5c9a5f@canb.auug.org.au>
+ <20250109164142.07cd8023@canb.auug.org.au>
+Date: Thu, 09 Jan 2025 12:52:37 +0200
+Message-ID: <87sepsjm2y.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,91 +76,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Herve,
+On Thu, 09 Jan 2025, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> Hi all,
+>
+> On Mon, 16 Dec 2024 18:38:01 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>>
+>> On Mon, 25 Nov 2024 12:09:21 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>> >
+>> > Today's linux-next merge of the drm-xe tree got a conflict in:
+>> > 
+>> >   include/drm/intel/xe_pciids.h
+>> > 
+>> > between commit:
+>> > 
+>> >   493454445c95 ("drm/xe: switch to common PCI ID macros")
+>> > 
+>> > from Linus' tree and commit:
+>> > 
+>> >   ae78ec0a52c4 ("drm/xe/ptl: Add another PTL PCI ID")
+>> > 
+>> > from the drm-xe tree.
+>> > 
+>> > I fixed it up (I deleted the file and added the following merge fix patch)
+>> > and can carry the fix as necessary. This is now fixed as far as linux-next
+>> > is concerned, but any non trivial conflicts should be mentioned to your
+>> > upstream maintainer when your tree is submitted for merging.  You may
+>> > also want to consider cooperating with the maintainer of the conflicting
+>> > tree to minimise any particularly complex conflicts.
+>> > 
+>> > From: Stephen Rothwell <sfr@canb.auug.org.au>
+>> > Date: Mon, 25 Nov 2024 12:05:38 +1100
+>> > Subject: [PATCH] fix up for "drm/xe/ptl: Add another PTL PCI ID"
+>> > 
+>> > interacting with "drm/xe: switch to common PCI ID macros" from Linus'
+>> > tree.
+>> > ---
+>> >  include/drm/intel/pciids.h | 3 ++-
+>> >  1 file changed, 2 insertions(+), 1 deletion(-)
+>> > 
+>> > diff --git a/include/drm/intel/pciids.h b/include/drm/intel/pciids.h
+>> > index 32480b5563db..7883384acd5e 100644
+>> > --- a/include/drm/intel/pciids.h
+>> > +++ b/include/drm/intel/pciids.h
+>> > @@ -829,6 +829,7 @@
+>> >  	MACRO__(0xB092, ## __VA_ARGS__), \
+>> >  	MACRO__(0xB0A0, ## __VA_ARGS__), \
+>> >  	MACRO__(0xB0A1, ## __VA_ARGS__), \
+>> > -	MACRO__(0xB0A2, ## __VA_ARGS__)
+>> > +	MACRO__(0xB0A2, ## __VA_ARGS__), \
+>> > +	MACRO__(0xB0B0, ## __VA_ARGS__)
+>> >  
+>> >  #endif /* __PCIIDS_H__ */
+>> > -- 
+>> > 2.45.2  
+>> 
+>> OK, so commits ae78ec0a52c4 and 493454445c95 were merged in commit
+>> 
+>>   8f109f287fdc ("Merge drm/drm-next into drm-xe-next")
+>> 
+>> but include/drm/intel/xe_pciids.h was not deleted (it is not longer
+>> referenced anywhere in the tree) and the above patch was not applied :-(
+>> 
+>> Since then that part of the drm-xe tree has been merged into the drm
+>> tree in commit
+>> 
+>>   bdecb30d579e ("Merge tag 'drm-xe-next-2024-12-11' of https://gitlab.freedesktop.org/drm/xe/kernel into drm-next")
+>> 
+>> So, include/drm/intel/xe_pciids.h needs to be removed from the drm tree
+>> and the above patch applied there.
+>
+> Ping?
 
-Am Mittwoch, 8. Januar 2025, 18:44:42 CET schrieb Herve Codina:
-> Hi Alexander,
->=20
-> On Wed, 08 Jan 2025 11:54:49 +0100
-> Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
->=20
-> [...]
-> > >  #include <drm/drm_atomic_helper.h>
-> > >  #include <drm/drm_bridge.h>
-> > > +#include <drm/drm_drv.h> /* DRM_MODESET_LOCK_ALL_BEGIN() needs drm_d=
-rv_uses_atomic_modeset() */ =20
-> >=20
-> > Shouldn't this include be added to include/drm/drm_modeset_lock.h inste=
-ad?
->=20
-> Yes indeed. I will change that in the next iteration.
->=20
-> >=20
-> > >  #include <drm/drm_mipi_dsi.h>
-> > >  #include <drm/drm_of.h>
-> > >  #include <drm/drm_panel.h>
-> > > @@ -147,6 +150,9 @@ struct sn65dsi83 {
-> > >  	struct regulator		*vcc;
-> > >  	bool				lvds_dual_link;
-> > >  	bool				lvds_dual_link_even_odd_swap;
-> > > +	bool				use_irq;
-> > > +	struct delayed_work		monitor_work;
-> > > +	struct work_struct		reset_work; =20
-> >=20
-> > Can you please rebase? You are missing commit d2b8c6d549570
-> > ("drm/bridge: ti-sn65dsi83: Add ti,lvds-vod-swing optional properties")
->=20
-> Sure, I will rebase.
->=20
-> [...]
-> > > +static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
-> > > +{
-> > > +	unsigned int irq_stat;
-> > > +	int ret;
-> > > +
-> > > +	/*
-> > > +	 * Schedule a reset in case of:
-> > > +	 *  - the bridge doesn't answer
-> > > +	 *  - the bridge signals an error
-> > > +	 */
-> > > +
-> > > +	ret =3D regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
-> > > +	if (ret || irq_stat)
-> > > +		schedule_work(&ctx->reset_work); =20
-> >=20
-> > Shouldn't you clear the error bits as well?
->=20
-> Thanks for pointing that.
->=20
-> I can clear the error bit but further more, I probably need to simply
-> disable the interrupt.
->=20
-> In some cases, we observed i2c access failure. In that cases clearing err=
-or
-> bits is simply not possible.
->=20
-> To avoid some possible interrupt storms (the chip detect a failure, set i=
-ts
-> interrupt line but could be not accessible anymore), the best thing to do
-> is to disable the interrupt line here, let the reset work to do its job
-> performing a full reset of the device and re-enabling the interrupt line
-> when needed, probably in sn65dsi83_atomic_enable().
->=20
-> What do you think about that?
+Thanks for the ping. See [1].
 
-As I read the datasheet this is a active-high level interrupt, so as
-long as some enabled IRQs are pending the signal will stay high.
-There are 3 notes in section 9.1.3. IRQ usage that in various situations
-IRQ bits may be set/pending and have to be cleared.
-At least clear the interrupts before enabling it again to be on the
-safe side.
-
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+BR,
+Jani.
 
 
+[1] https://lore.kernel.org/r/20250109105032.2585416-1-jani.nikula@intel.com
+
+
+-- 
+Jani Nikula, Intel
