@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30972A08E9C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:54:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE67A08E9F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:54:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A24F810F06B;
-	Fri, 10 Jan 2025 10:54:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C32810F06D;
+	Fri, 10 Jan 2025 10:54:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Sxl1XtvR";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IJA2VD03";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F16E10F06B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:54:28 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-219f8263ae0so31371115ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:54:28 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98FED10F06D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:54:35 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-216281bc30fso36875945ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736506408; x=1737111208; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=MUduN7cqZODx/WZErSSw2uA1hy8xWc4PRagxewZHEUo=;
- b=Sxl1XtvRvWkcv0ri8DEMFqZgAier7TdNZiI7o6Raw5SzsoA2ZvKrK8AZfHBtnha8A/
- 6crIl0rHl93aZGZGN/fX1fPp3IsibeMCJy6425eIopwsYRHDojRvdUu5tH6z58N/zuyi
- rQQQIXXe4hPigjV7sLAVx2vsFwnjaPOpWNocesDUbp/+2F6HB4Y031u2owsy0WmBflMI
- hawv2SGQEmLYVzSPr/m91IWMTTqhWzmVNuiZlyCcZe0dowAH4kaFH1xeBWSNEOkreGMc
- YChCmd4EWKrbHU8QXLa7Hw7uOqmcZrk5DFl23u5PUWCg7iNjpcvUD9OTiDExFYuPbKgb
- tNLg==
+ d=gmail.com; s=20230601; t=1736506415; x=1737111215; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=LMSCq8ZRhOoVCRQ+Pn3L8jEsI2Ad0rp7ucXL8/818XA=;
+ b=IJA2VD03vsTt9q8Q4KoDJv31WmMmnkxVEDmwn+NOVredVt5v4FmQD5JtI1xOahe5HX
+ aoQN0LuvqLrA4tJrB1R4svRFXVo4wDLGx64K6086nUbbnrgldW93AgKbq3xzyUKf1RcW
+ 6Culci7p0gCeBGHjjV4utxcdS5hfsEvcwilImY8BrPvPwx147IIFNHMN0nN18es3z397
+ +ZEu3r2kooMrn+vq7L/HW1FxspgDXl3iYgre6Ko9Y88TPuRChdzL3NoU6tfx0oPwEko1
+ bSeQSePU4tNb50cMkGOCmIL4ZwOQUDk3qz+h26uOfb+TSd6w+XW53fEm0oyvq2LEgU9F
+ Z9EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736506408; x=1737111208;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MUduN7cqZODx/WZErSSw2uA1hy8xWc4PRagxewZHEUo=;
- b=EhPKHZgngC/GrMU/2sZActtau25IGU6cblOoD+E2LdEc18P8pCF/rOXSv6MecF83NM
- R3hAMOpHpmnbBH2b2C9/JWxP/QQRHlurYwTytZbBqbQ6TBGd2uiD64WJQ5ktcCtDEq5n
- xq5EGNAGuYYXxoDSXEBN8FZ6iRJKfksUJSlFzmQoLooiqKkqCfGla9/1QdTxtvHGxBSB
- 3AxQWSgew3q9ZVZsnyvRM+rOJhW2SAbvwSCu7TE6jJJX4N0PMMz5l7Vt+9ISo3EOc2gP
- 3QuCGDMl/4D47yoxCxWUfgJtwKTTVcSCFFrPH7hYuuKXsmr7MBYmklZrCR1tZQ829BhL
- 6JMg==
+ d=1e100.net; s=20230601; t=1736506415; x=1737111215;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=LMSCq8ZRhOoVCRQ+Pn3L8jEsI2Ad0rp7ucXL8/818XA=;
+ b=sncngRZn0pmAhA3+y/kb3iQnq9gk20f7TAadh0DpUpwk0+f0lXon8vgkCYn1+S59ag
+ HosLpNcDzrZPh5RLB8vxA8dJwJGE659YUVGIAElbAfaHW2ajnb5HZ5vvxV3gh0EUfxB9
+ gLSXyCD+J/UWlrGBcdqby0Pw6vO5xQPrWBWWwzvhEZOEvA05uXKTSpYMOdSX353l8WkV
+ WOdqch4L62dij7Zm7zwTdWT/Y45YDyiVg+mt4RC1+LYMHXsY2V2O+Hk6884iRdE7AdZv
+ wQ3cTc0PGWb6MhaYBjuNRUAU+91DZ57FGDYLtJtCMuha8vR9gS9o/teBTpkKJBrsinBm
+ x05A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWa+K/KHYIuX0ZstV9MHpJPnkDUnmlVzq9avOJ6HR5ahpXzNUeYdZl/+0ZkqV3/6+qJeV3f9wjYFHY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yze4o4eovsKb5Aje1m0bUWQGjWKcReeLczDs7Ms3KepRkmmnU5k
- kXHt2AWzZRXNiK+bsuSfjnYZLGD9djmG6IguMm8eIAP0SxGOrV7L
-X-Gm-Gg: ASbGnct4zBumzKP4WkJ4X77rmM2/wW1VkYFxx8b6YugwIZrMHBYiLt4DSybMpZsI7wl
- 79ntCJgqYZa93XyY7oeK1dW+XTjSF/mb5t7ilMLVuS9AQg7QgXO5ozOR9+LHgO77SmZ92VDzZWV
- RFwx3YC37hpkZHLyLfacfL/Kqdjj64ZZrXZ7s4q64H1ZUO99A2H3cnFB8y5z18J0gTUDbaWHEzF
- gzwphXscTohfP4lk7QyWZHi1SiuVD4j1mg5ZaOEE5HBB9zcOzlPFgRlQw==
-X-Google-Smtp-Source: AGHT+IEbb2zrjQUcRpFceG3h0m+QmzccmW9rBwdvM+e9BHDcwkzyX5aRGRbjkKUMhgcXHh+nuBGACw==
-X-Received: by 2002:a05:6a00:1255:b0:71e:6c3f:2fb6 with SMTP id
- d2e1a72fcca58-72d21f4b05emr16485016b3a.8.1736506408063; 
- Fri, 10 Jan 2025 02:53:28 -0800 (PST)
+ AJvYcCUYi94xgVbGkdfcQ38TVcaVq9/ifEv54TQXfhCQqBEt5n1wO7K0vJp3ytpeN/FIBgC5F//GISfFbTc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywfjjlza1QxEpDSjrgxJALB77eKQJ8XJuv2xUuRu/O3ksMSNCBi
+ R7QRwPM8spK9S4ddIDTNdOrvYC66MZqRWmZDl1peZ+b6ZKN0pOcN
+X-Gm-Gg: ASbGncsh6p++KrXHOlMyKz3wNajvKdEuyRzK2xQ0euC8q5YfA4JZm3c/vgcZ7WFedvp
+ M1ND1eVv0nJ95WrjjQVmOame6/DXw/mrZN/eR2s9XwnvsCnLyTaB7bBr8Bay8bxZ3ExzRrhzYmU
+ GPeUVo68eGbXQbF7mhfm+v8TRVpPZbrnRoobXSH/7G2R/d8NcQ6UjKdpR3RndWe5XsF6aQG2e5I
+ LQfQS8jLo0jqciEohtcr7lEx/JBbI+Ua/RQoqEFNFyfHtqdPy38Tsm25w==
+X-Google-Smtp-Source: AGHT+IGa4nMEUy38XaSxRcOiqyz7zYEKvL77D4BJO3pJ8lZTFzoYDKUJd+a0uiMcMH9BGkGZ+iGrIQ==
+X-Received: by 2002:a05:6a00:1152:b0:725:f282:1f04 with SMTP id
+ d2e1a72fcca58-72d21fcf2d9mr15063399b3a.18.1736506415194; 
+ Fri, 10 Jan 2025 02:53:35 -0800 (PST)
 Received: from nick-mbp.. ([59.188.211.160])
  by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-72d406a57dcsm1333403b3a.170.2025.01.10.02.53.24
+ d2e1a72fcca58-72d406a57dcsm1333403b3a.170.2025.01.10.02.53.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2025 02:53:27 -0800 (PST)
+ Fri, 10 Jan 2025 02:53:34 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lee Jones <lee@kernel.org>,
@@ -69,10 +71,14 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 0/3] Apple DWI backlight driver
-Date: Fri, 10 Jan 2025 18:52:03 +0800
-Message-ID: <20250110105304.71142-1-towinchenmi@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v5 1/3] dt-bindings: leds: backlight: apple,
+ dwi-bl: Add Apple DWI backlight
+Date: Fri, 10 Jan 2025 18:52:04 +0800
+Message-ID: <20250110105304.71142-2-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250110105304.71142-1-towinchenmi@gmail.com>
+References: <20250110105304.71142-1-towinchenmi@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,113 +96,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
-and iPod touches the backlight controller is connected via this interface.
-This series adds a backlight driver for backlight controllers connected
-this way.
+Add backlight controllers attached via Apple DWI 2-wire interface.
 
-Changes since v4:
-- Change type to BACKLIGHT_PLATFORM since the driver does not directly
-interface with the backlight controller. The actual backlight controller
-can be directly controlled via i2c and is not the same on all hardware
-that supports the dwi interface.
-- Rename file to apple_dwi_bl.c to better match config option.
-- Rename driver to apple-dwi-bl to better match config option
-
-v4: https://lore.kernel.org/asahi/20241211113512.19009-1-towinchenmi@gmail.com/T
-
-Changes since v3:
-- $ref to common.yaml in bindings
-- (and then additionalProperties is changed to unevaluatedProperties)
-- Use hex everywhere in bindings example
-- Use sizeof(*dwi_bl) instead of the type of the struct when doing
-devm_kzalloc()
-- Use devm_platform_get_and_ioremap_resource() in driver
-- Fix sorting in drivers/video/backlight/Makefile
-- In drivers/video/backlight/Kconfig, move config to right after
-BACKLIGHT_APPLE
-- Explain this driver being completely different from apple_bl
-
-v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gmail.com/T
-
-Changes since v2:
-- Add missing includes in driver
-- Fix file path in MAINTAINERS
-
-v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmail.com/T
-
-Changes since v1:
-- Fixed dt-bindings $id.
-- Make power-domains an optional property in dt-bindings.
-- Added missing error checking after devm_ioremap_resource() in
-dwi_bl_probe().
-
-v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail.com/T
-nick@nick-mbp:~/Documents/m1n1$ cat e.txt
-Apple DWI backlight driver
-
-Apple SoCs come with a 2-wire interface named DWI. On some iPhones, iPads
-and iPod touches the backlight controller is connected via this interface.
-This series adds a backlight driver for backlight controllers connected
-this way.
-
-Changes since v4:
-- Change type to BACKLIGHT_PLATFORM since the driver does not directly
-interface with the backlight controller. The actual backlight controller
-can be directly controlled via i2c and is not the same on all hardware
-that supports the dwi interface.
-- Rename file to apple_dwi_bl.c to better match config option.
-- Rename driver to apple-dwi-bl to better match config option
-
-v4: https://lore.kernel.org/asahi/20241211113512.19009-1-towinchenmi@gmail.com/T
-
-Changes since v3:
-- $ref to common.yaml in bindings
-- (and then additionalProperties is changed to unevaluatedProperties)
-- Use hex everywhere in bindings example
-- Use sizeof(*dwi_bl) instead of the type of the struct when doing
-devm_kzalloc()
-- Use devm_platform_get_and_ioremap_resource() in driver
-- Fix sorting in drivers/video/backlight/Makefile
-- In drivers/video/backlight/Kconfig, move config to right after
-BACKLIGHT_APPLE
-- Explain this driver being completely different from apple_bl
-
-v3: https://lore.kernel.org/asahi/20241209075908.140014-1-towinchenmi@gmail.com/T
-
-Changes since v2:
-- Add missing includes in driver
-- Fix file path in MAINTAINERS
-
-v2: https://lore.kernel.org/asahi/20241207130433.30351-1-towinchenmi@gmail.com/T
-
-Changes since v1:
-- Fixed dt-bindings $id.
-- Make power-domains an optional property in dt-bindings.
-- Added missing error checking after devm_ioremap_resource() in
-dwi_bl_probe().
-
-v1: https://lore.kernel.org/asahi/20241206172735.4310-1-towinchenmi@gmail.com/T
-
-Nick Chan
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
-
-Nick Chan (3):
-  dt-bindings: leds: backlight: apple,dwi-bl: Add Apple DWI backlight
-  backlight: apple_dwi_bl: Add Apple DWI backlight driver
-  MAINTAINERS: Add entries for Apple DWI backlight controller
-
- .../bindings/leds/backlight/apple,dwi-bl.yaml |  57 ++++++++
- MAINTAINERS                                   |   2 +
- drivers/video/backlight/Kconfig               |  12 ++
- drivers/video/backlight/Makefile              |   1 +
- drivers/video/backlight/apple_dwi_bl.c        | 123 ++++++++++++++++++
- 5 files changed, 195 insertions(+)
+ .../bindings/leds/backlight/apple,dwi-bl.yaml | 57 +++++++++++++++++++
+ 1 file changed, 57 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- create mode 100644 drivers/video/backlight/apple_dwi_bl.c
 
-
-base-commit: 4bbf9020becbfd8fc2c3da790855b7042fad455b
+diff --git a/Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml b/Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+new file mode 100644
+index 000000000000..29caeb356e6f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+@@ -0,0 +1,57 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/backlight/apple,dwi-bl.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple DWI 2-Wire Interface Backlight Controller
++
++maintainers:
++  - Nick Chan <towinchenmi@gmail.com>
++
++description:
++  Apple SoCs contain a 2-wire interface called DWI. On some Apple iPhones,
++  iPads and iPod touches with a LCD display, 1-2 backlight controllers
++  are connected via DWI. Interfacing with DWI controls all backlight
++  controllers at the same time. As such, the backlight controllers are
++  treated as a single controller regardless of the underlying
++  configuration.
++
++allOf:
++  - $ref: common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,s5l8960x-dwi-bl
++          - apple,t7000-dwi-bl
++          - apple,s8000-dwi-bl
++          - apple,t8010-dwi-bl
++          - apple,t8015-dwi-bl
++      - const: apple,dwi-bl
++
++  reg:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      dwi_bl: backlight@20e200010 {
++        compatible = "apple,s5l8960x-dwi-bl", "apple,dwi-bl";
++        reg = <0x2 0x0e200010 0x0 0x8>;
++        power-domains = <&ps_dwi>;
++      };
++    };
 -- 
 2.47.1
 
