@@ -2,105 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C1BA09203
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB85A091FA
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:31:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631C910F0BF;
-	Fri, 10 Jan 2025 13:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3C710E05F;
+	Fri, 10 Jan 2025 13:31:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="IMmSdu95";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="IS2EW3YU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB9B10F0C1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 13:31:30 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-4361dc6322fso15070795e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 05:31:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736515889; x=1737120689;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=X+ydmhpp1ri+ZdLuckw0JQJHXAllkad5qgHwwB9SlMQ=;
- b=IMmSdu95W/TW10C6ngUbkYPSnpzxx1Je52zytyVrPMlLJuvLC3EmzLQeF+ckcAms8p
- UUW84FZyDFe8U7WYwk3QdA/iV/Zsr+oFKAVytWnaftZ9k9/vhX8Z0DpF02Q/HdqCa22i
- IxSjxoAMc8CbQ941SjbhjPfrfIGbWCNEJaHJR5ZDj4UT8D5CIJzRCLz1U0yjfBNNiNEC
- qLUlQS1dLcKWs5OgtHwMk4Vh5Q5KgVfZW5PXJ1kAPoJw72LtrWoGqswJIcnBAkEFPkIg
- XyJ6tZ20nkSPA6EBPiublLdFFrf9ZbhG+AyDCRqzl76gpG/9lnZQWYwOZIj6BduzCSXf
- tSzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736515889; x=1737120689;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=X+ydmhpp1ri+ZdLuckw0JQJHXAllkad5qgHwwB9SlMQ=;
- b=oL7w7PXNSULYaqlgaj9uqab/EGfgL2VSIs4fSb8Xi/pfjs491AJhu/zhUxqpCNBzG2
- E+If3jzvpbemSTKe1ozcH6DYhqeBgL7vNyn6XIo+6DdvIsx8oC74EaRB0N1D7NqqP/r4
- nXLucPMhGI5FtpnOucsJB+ov5BWxrR0/IQSgf78DOnKvuSfhQN3oPjSVTqN91LCS5nVY
- GujhG4AWoPsQlz8F9YXsSMWV9pvmsiZDwkOoBSy2OFKeB9fEQuHxk7a5+UKIODo4W4FL
- QLgwHzshW/T4FbVSlvriR1LOEKFgra1b2nvX7OuBew9wo1m6I3ZLRnFBLe85N7Y/SKl3
- /zQA==
-X-Gm-Message-State: AOJu0YzCi3Pdc6Jcn6OlVtx/cPt7MFYvZH9AEJgKJr/JN6NfC8ANOtwW
- ERcpGY68LwpctCP6u5uVJv0iKufBIee8oB1nFArtDSYvb2NoDEMIQUdlpwObyco=
-X-Gm-Gg: ASbGncvq29rDtLCEf5GwDkcojsog79d7fkqBsoovpr9LbIQQpSOCGFfQDvvnyhtwSBH
- bVxAq+Ig8ynm9HDMFaxKF7C5xflQ99hbwZO/OMLoFgmbHwibyXoIUX+bppJ9BlBQo49UJucJpkn
- RmiX7jnAjs6ffCkMDhxaGpdnAEIKHc7/lHzsAxUtICJNJLQW1JnB6pP8It8rOg6KYaIZ6tpLG+1
- 5yPZjM51dBP17QN7JheSEb9+K6bswJjfUKfo/0q1Yzzbf+C0rvh73lu27Co
-X-Google-Smtp-Source: AGHT+IHOgBZiG80PdI6gQkHthMh4B3T84IIQ+Ibyw1a2z2GuYKQogQiNJn1l8VXim5ZVmA32oxHBEg==
-X-Received: by 2002:a05:600c:5129:b0:434:a315:19c with SMTP id
- 5b1f17b1804b1-436e2697002mr94418255e9.3.1736515888894; 
- Fri, 10 Jan 2025 05:31:28 -0800 (PST)
-Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:2555:edac:4d05:947d])
- by smtp.googlemail.com with ESMTPSA id
- ffacd0b85a97d-38a8e38c990sm4598193f8f.56.2025.01.10.05.31.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2025 05:31:28 -0800 (PST)
-From: Alexandre Mergnat <amergnat@baylibre.com>
-Date: Fri, 10 Jan 2025 14:31:16 +0100
-Subject: [PATCH v7 6/6] arm64: dts: mediatek: add display support for
- mt8365-evk
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2047.outbound.protection.outlook.com [40.107.243.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2984B10E05F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 13:31:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rvgg6BD/hXlMS3NiIFQrY4Ntq0xmThm3Sm/Me7P2dibYMWAxd8+Zk/jYXfz8w+IhMy+wF82jR948j8BDOqEB+D/ikPneGy9KFPy7dXlW0RmdcROzVlHB894wCgBXjREigV891bZcgz+cQb+DKK4u4pBzFklR4JFf9m/XpN+KV67RL9q2144tve7rQpCYURnYraiCsF2JInoAByX9uipTQPTxZ/BNqXYq4IiMEwncmn1WOT0TurqPmr70P227+W/QFDfqSfOkkXe0209u0POp/0A+suLt5HhcpH7rovxA+pG+YTvmSAof3MLYRgGAOf057ZzWdoUtVnxtOFqpmGGWLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=77aiwxsJ+58HxtiqysgzUexLC2FwsdWU162Q73ixL4c=;
+ b=lLwbEM8Xjvw6Ry9j8KrgcCIbzZQcn5rjWu2AJfykZ394ibp1t9s8/O20K6sxsGjvxdvWaVFMB3jT/fxBmrkRHQwbExNzjMwOhukkjRTasWn0IdQ5I3IYlC2HBfSmJL/yYqAsxVa1rXHrtgi8bVoJuUzggKcu/oP2FU1xfJaNWGSoPJNbssB39W1DnzPhjmajZUkG3FTEOB6I9AO/b8Oxgp+bpArYU5VqRg5H/MsZhISMH6pKLRi8lIwOG0hKAoEk1VS33qiLT4k8w3jyCMvDtVxrbGuY91mVwI5Ev570x51cCinyciPfjGCyufAeDCB9CbOC0mdvWMnE7KdVdsasjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=77aiwxsJ+58HxtiqysgzUexLC2FwsdWU162Q73ixL4c=;
+ b=IS2EW3YU3a9/hqxE3vuNcljvm6OdPApeQe4Z9b7UJmOy1arp9PS/dbVZ0ONuUG6XUr4WG4zqp47pWhRVDy5PkR/FZurFkOzQ2ihYqKaORKV9Gj8XMYlSqy6DYS9QaJSfZC70UBunSBE6Jbjx1xD5zmCCTSRwHFU4K461MT/wZ3Ite+dn8Jpjwff31sv2qREZBl0vRto2Y7Co/sirta8cpUSJMGcT6o61WVRHw87U7VM6PuJrG8byoXaGPnT4gadmGjp2pd3FxemQPsBn8F1aQSUsVubeIxQZhWSxh7dF7Hp3Jdhfax+di1B4X3eI+lrYt/6+Bi6nPMbqKXhu6UNGQw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MW4PR12MB5625.namprd12.prod.outlook.com (2603:10b6:303:168::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Fri, 10 Jan
+ 2025 13:31:17 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8314.015; Fri, 10 Jan 2025
+ 13:31:17 +0000
+Date: Fri, 10 Jan 2025 09:31:16 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
+ zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+Message-ID: <20250110133116.GF5556@nvidia.com>
+References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
+ <20250107142719.179636-9-yilun.xu@linux.intel.com>
+ <20250108133026.GQ5556@nvidia.com>
+ <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
+ <20250109144051.GX5556@nvidia.com>
+ <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
+X-ClientProxiedBy: BN0PR02CA0016.namprd02.prod.outlook.com
+ (2603:10b6:408:e4::21) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231023-display-support-v7-6-6703f3e26831@baylibre.com>
-References: <20231023-display-support-v7-0-6703f3e26831@baylibre.com>
-In-Reply-To: <20231023-display-support-v7-0-6703f3e26831@baylibre.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Alexandre Mergnat <amergnat@baylibre.com>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8129; i=amergnat@baylibre.com; 
- h=from:subject:message-id;
- bh=mR5QEUL3a78L+sYq6qQGF6wk0gc8QlcnD6i8hjpBduI=; 
- b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBngSEnfupoAl+fwmQa5qOSTPAbmJIL6hR4373elmf0
- 458SX+OJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ4EhJwAKCRArRkmdfjHURW0yEA
- CuPFV9Fo6HVc/tU0xJSXz0nxrF5RnoRINBK8NcymyFOqgQ01YsgxmbQ7EOkMpZYEC7rwdPEf6m76kL
- IO/J742uJp4PrMo8y5HIT2M7JHt2iDeN+6lqD6l2LLbrR4PB8/jbm7+MUx3sWb1glQ4gZR6+PYP2ly
- BYtfizhiXHI2fbUlTx7hAJgI4UJLH6GknFmdymks71QFUuZCagNVeLyOmOz4n8SAVG01Q3gI0wOy0O
- I/PssY++/CDoMTCrOBDCYnGZFl7c9Gn6RGqnQqib56iAqpEASBVClNvZzLI77agTswyIF9/F6qG3Mh
- DlGuJClcHtx286YeKZV434rSLbrSo2U5ekcdDXVLTeOlu5sh1DlYuqiRvFDEGNXI/D4hIno2QfP8v1
- 3FBi7DJgSLQ3mOSvxnMYDGwmIR0PJwbpBs4b2p95Eqoxmh3EFsD7Zi+gGLaGOrAUG6i30g98EN+IgH
- fwJ90H/YGThYyhQjfG6fS5F5jW+TIfTIBEfKBvN0OBqOYXeUuT+bG33biHBX7STnySbNYx8Zv4n6Wg
- SZ1YJOMRWqt9HOeyPee9j6r4VSI8h6iGHLzCb8ehS2wGCL8JFzWnOwlG0SNDmbnJR+/UWWVeuIiqxJ
- 178DdqVE7lEUy5fqMHXVmbU16vtFtLiOPcwjFfpGTWAUAt8ohG3kV0Soznzg==
-X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
- fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW4PR12MB5625:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d590e18-0ba5-438d-3a50-08dd317b1012
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VskdYZJ3YX7xMRnH4eD1t+e3CbkOMIBf4S/9uHqPp1ySsWqYUabrgJMZKejF?=
+ =?us-ascii?Q?5CeKzXMm0OA8lxJ9lPij1CLL7Aw7FYl63oLxdwq4lN30aLh+yGfbwIPQL49k?=
+ =?us-ascii?Q?iXqKUyfLKbYGx/ArGFy8fMi/NuF6MSJA8hQ5T3S7YxdlKJOkVG7NMkVK6kTh?=
+ =?us-ascii?Q?PEOBAMJ6UIXWwHcCWcjxV7X+eRoAI36T/zd+lJWAxufAIuHFm+oiCSzzTlFG?=
+ =?us-ascii?Q?dMZ3r4omyCazGQYSyHBuGIRVyXsuztD7B4m9JM9rU9ixxSwcoiR6Vrh9H+L1?=
+ =?us-ascii?Q?dPqx77a92rbEAawK5H5W3gdt4V2+WQ04sKbB8Djz2blQAb4/nLtjRlmXHdWt?=
+ =?us-ascii?Q?W0rFhZofYj56PZ9VizJ3pZgvc0cRBlM4W0F8mHgdzH1pnQZGbuARq11N1UAI?=
+ =?us-ascii?Q?wQHH+9uHhse5Q8xjEjN3kjYGPBAAxMzKTeGaD3vEyVRHKu/K4xDvAk6P4JNG?=
+ =?us-ascii?Q?dM44ob7EzbpfpirQcTz4YqCNmJENwu2YNW/clZvoPzLrP3as/OVtAvwrgX5P?=
+ =?us-ascii?Q?Qq3sQhiAAiF/luOI3CmN/8vOGmWgXAHr0GPQy0Nsk+/UkVPLah/9gvhq+7Ml?=
+ =?us-ascii?Q?zSW40Mf5hDfXoDKA9NJsCH6t6V9gL5tq8fY6j5eF3GoXEd0J8VT/oQ7Y/Ls2?=
+ =?us-ascii?Q?w1X5U2da1s5fzpj4q8dyCPa2VZRGOgn+h3mjOffGKoxiEXA0YHGetLZURxtw?=
+ =?us-ascii?Q?mCrhKI34rLCSGfZI1gC1i7s9XJXqFAQZghOgVhFYr2OBf/umCIQo6uIkhWrf?=
+ =?us-ascii?Q?5YBtFBZ3hxgRdX9QY08SEWNY9yYOSbZp5FnjDfFS5OQCHbxallIhUwVups4a?=
+ =?us-ascii?Q?PFXL29CFtUbBgkknzpY2z/KbBEiHJXciTmDasHBoFzUrNK0EUzYqGLsSybOj?=
+ =?us-ascii?Q?xKBTyc2as4x5TAIY7EhqCJWunj6pMmHdmrriezZUAmKxCJcaYheMXJujxua/?=
+ =?us-ascii?Q?5mQK+Zm8jGaQiGndHXtiOiB02E90DP4dU4H8/7UlxrHZ5WxD97SemHn5o+bC?=
+ =?us-ascii?Q?rdXIhygkjwbYirkBTO2WOy6DfOoYcwJmtDriQcnsbgmO7egtjJU3FDbU4j3p?=
+ =?us-ascii?Q?vuEw0s3WjJ+JPoEWogN7YVhN5/j6ugZWWqyQnTS1ypF9nDkbymKWsHHFskI0?=
+ =?us-ascii?Q?Ebx+aGZChEOH0lQQ8Y6VdiDtBqJWUJjb/7BTytEvGaeF4jgkDcP7M5wCX0To?=
+ =?us-ascii?Q?lTZGflffjYfoGxQXtRiSJ1mn1AfmzehD7WWdCr2RZPxt1A2TYEZfd4j5bMaq?=
+ =?us-ascii?Q?Rp5JR2FNehaIXXfeKJSOEdk4VCQcr2DrIvv7+pXiYrxjUvJ5Rb553ZQy2L1Z?=
+ =?us-ascii?Q?LlesnuF72fsXthdPsfnfdqVoa27Nf5QcgBI5oq4iLfdGItnyzVLDshWYs1TU?=
+ =?us-ascii?Q?dD8oA+tv5vUdCGLOVsDxTTtgZvdm?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZRZmZLhSAFh/S51GvJx5xSSwXwNDyFd6B/zauuxzal9XZvhREf9r47VHl/zr?=
+ =?us-ascii?Q?FySQG5Xm6MBn6wJoTOd5ucf/kApenCgghbqQ8ourjM3uX2yAt0PCuaR+WvtN?=
+ =?us-ascii?Q?ah3dR6OIiBhUz8VL4aiucPQ6RqpcNiDCVn5ZwXaynr+zZ0BmLC7aemC+r+Iy?=
+ =?us-ascii?Q?3qmL/j70s02ec0UQ8JqFY/GBxDzM7BFBGxn2N2SIaR7AcvlhMWm0XEaBC//4?=
+ =?us-ascii?Q?XJMazZSJ1U9F7P8kc2frjd8XwetFWh57/eC/Rp+SK0MB7DVsnboeROGHrcnq?=
+ =?us-ascii?Q?GOJMshvEEUHpFXSXreXsSvGaaKJv9slddWZfRJco8LVSNmdAG+0+wn0otWbT?=
+ =?us-ascii?Q?ulZwo7rZ+CEjTU7An/GZgKW8/Lt1udgYGH+fQEixqLQ9MdBX0wWeGINKlkMV?=
+ =?us-ascii?Q?jr261AxLxMInNgUEFGMWmdvn0Ir1Lw8FMto9xlXTJ4j2b6eJ60pDsJOVQ9VM?=
+ =?us-ascii?Q?aEtEjpjeYFaoOolTsUSu0kBKFGPNT+k5N+iH7mwFcQUeRXZk3rm3Kz/IYHG/?=
+ =?us-ascii?Q?tPtH5Ingso9ASBjBwQ9psq5GfeLkIo3VBB95pbcMUMKvH57O/sE3HzGWkcff?=
+ =?us-ascii?Q?A36NQLTxATqkl2TBSUxJKC0IOhru77pKtTqTXolSiDKteqB17mTZrv8T+GpT?=
+ =?us-ascii?Q?1n9wlgNPOiBJelNziv1DJDRXjB0jxkuUJ/qRcqV1aGF42VRCsgk8vBjqnJwA?=
+ =?us-ascii?Q?3RVqSNRLp5sRTAz/HC13z43/+/KpofYCYWr95eknx86rB0TAmeLFbhZMgsiv?=
+ =?us-ascii?Q?ybEwiY0jswuBzBc436aYn/NiiKaMYYnLFurB3qKXHeZiWBA2McQEAPHS4LUV?=
+ =?us-ascii?Q?qHHLbywZ6AdupnpsI8aYn3Ocb+56nCpmCXIvYDzaiymWXawDt53/R/Xo0/op?=
+ =?us-ascii?Q?uTmBoVYfikr5+qa3PyehK5xemK5x+1d1ECgs4NpNRpLHrDlAWkHmEnmneI9w?=
+ =?us-ascii?Q?Bkb8pGBbftCLwlkmUijCAfGlWAYTY/lx0Z/S5jP9OLPO6RY1VFr1KFBf5ehz?=
+ =?us-ascii?Q?oUzUeImv2n1KUT77bBFb1mj7HG/I64fv1JlGWb4jB6E6drLqtqlUjj2Jrddc?=
+ =?us-ascii?Q?gl/9wXFEu/iHv3DJ66bnmSeids2SdleMgW3UDxLtjlMNq6BnGPWoSLOeChyX?=
+ =?us-ascii?Q?eUMNiNg9APMSlbf5dM+O4+K99orxn53nuKtzg6ONuOS3RJYeCxeLtdgBdmzu?=
+ =?us-ascii?Q?RfUuYptXG0AQlEnVwzbZwhO33xLZyu9cHKeD1w9DodPVL7PqR9WVwI7ZaT+F?=
+ =?us-ascii?Q?gj/Zamb4U2v2e4+feQxGjOjPBa2I+Tvp03TBWIL0ypT1llubnSNbuQWFLscI?=
+ =?us-ascii?Q?KKG5IK1NkNPl1EWsIsDS80mk1w04V4SJl+7nOzEgUneSR6ebYnayVjjgF4zw?=
+ =?us-ascii?Q?ij3fmyis0AXL/bGAfVWnBEFYyrN2CZlwTyIHd4Prd8fFWpTcqXNNMLy0YQu3?=
+ =?us-ascii?Q?oLYQaY87kF7uZvSxMuvSGnn6LMiBgvzrbywZ/txTJbU0qAi3Aq+VS6LI0Xts?=
+ =?us-ascii?Q?zPZOkBDh0nAWFD/RXlNr0YQD+KbDAi4uWzPBCZG/jmpsyLGCXgjWhqmoXmET?=
+ =?us-ascii?Q?qpt1d4ws+D03vKlb0vLelEAhYFgnv1FAwC+LU9Hg?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d590e18-0ba5-438d-3a50-08dd317b1012
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2025 13:31:17.8163 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N5B6j8wP+5G338F0kZT/rNLU7j4YEQyzq9I8Pl3wXaMetklSK2PkRBYqOZhc2/5+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5625
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,337 +156,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MIPI DSI:
-- Add "vsys_lcm_reg" regulator support and setup the "mt6357_vsim1_reg",
-to power the pannel plugged to the DSI connector.
-- Setup the Display Parallel Interface.
-  - Add the startek kd070fhfid015 pannel support.
+On Fri, Jan 10, 2025 at 12:40:28AM +0800, Xu Yilun wrote:
 
-HDMI:
-- Add HDMI connector support.
-- Add the "ite,it66121" HDMI bridge support, driven by I2C1.
-- Setup the Display Parallel Interface.
+> So then we face with the shared <-> private device conversion in CoCo VM,
+> and in turn shared <-> private MMIO conversion. MMIO region has only one
+> physical backend so it is a bit like in-place conversion which is
+> complicated. I wanna simply the MMIO conversion routine based on the fact
+> that VMM never needs to access assigned MMIO for feature emulation, so
+> always disallow userspace MMIO mapping during the whole lifecycle. That's
+> why the flag is introduced.
 
-Fix a typo in the ethernet node.
+The VMM can simply not map it if for these cases. As part of the TDI
+flow the kernel can validate it is not mapped.
+ 
+> > can be sure what is the correct UAPI. In other words, make the
+> > VFIO device into a CC device should also prevent mmaping it and so on.
+> 
+> My idea is prevent mmaping first, then allow VFIO device into CC dev (TDI).
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
----
- arch/arm64/boot/dts/mediatek/mt8365-evk.dts | 245 +++++++++++++++++++++++++++-
- 1 file changed, 244 insertions(+), 1 deletion(-)
+I think you need to start the TDI process much earlier. Some arches
+are going to need work to prepare the TDI before the VM is started.
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-index 7d90112a7e27..c72b2f6f8ef4 100644
---- a/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8365-evk.dts
-@@ -27,6 +27,21 @@ chosen {
- 		stdout-path = "serial0:921600n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		label = "hdmi";
-+		type = "d";
-+
-+		port {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			hdmi_connector_in: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&hdmi_connector_out>;
-+			};
-+		};
-+	};
-+
- 	firmware {
- 		optee {
- 			compatible = "linaro,optee-tz";
-@@ -104,6 +119,16 @@ sound: sound {
- 		pinctrl-5 = <&aud_mosi_on_pins>;
- 		mediatek,platform = <&afe>;
- 	};
-+
-+	vsys_lcm_reg: regulator-vsys-lcm {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&pio 129 GPIO_ACTIVE_HIGH>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-min-microvolt = <5000000>;
-+		regulator-name = "vsys_lcm";
-+	};
-+
- };
- 
- &afe {
-@@ -131,13 +156,102 @@ &cpu3 {
- 	sram-supply = <&mt6357_vsram_proc_reg>;
- };
- 
-+&dither0_out {
-+	remote-endpoint = <&dsi0_in>;
-+};
-+
-+&dpi0 {
-+	pinctrl-0 = <&dpi_default_pins>;
-+	pinctrl-1 = <&dpi_idle_pins>;
-+	pinctrl-names = "default", "sleep";
-+	/*
-+	 * Ethernet and HDMI (DPI0) are sharing pins.
-+	 * Only one can be enabled at a time and require the physical switch
-+	 * SW2101 to be set on LAN position
-+	 */
-+	status = "disabled";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+			dpi0_in: endpoint@1 {
-+				reg = <1>;
-+				remote-endpoint = <&rdma1_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+			dpi0_out: endpoint@1 {
-+				reg = <1>;
-+				remote-endpoint = <&it66121_in>;
-+			};
-+		};
-+	};
-+};
-+
-+&dsi0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	panel@0 {
-+		compatible = "startek,kd070fhfid015";
-+		reg = <0>;
-+		enable-gpios = <&pio 67 GPIO_ACTIVE_HIGH>;
-+		reset-gpios = <&pio 20 GPIO_ACTIVE_HIGH>;
-+		iovcc-supply = <&mt6357_vsim1_reg>;
-+		power-supply = <&vsys_lcm_reg>;
-+
-+		port {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			panel_in: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&dsi0_out>;
-+			};
-+		};
-+	};
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <0>;
-+			dsi0_in: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&dither0_out>;
-+			};
-+		};
-+
-+		port@1 {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			reg = <1>;
-+			dsi0_out: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&panel_in>;
-+			};
-+		};
-+	};
-+};
-+
- &ethernet {
- 	pinctrl-0 = <&ethernet_pins>;
- 	pinctrl-names = "default";
- 	phy-handle = <&eth_phy>;
- 	phy-mode = "rmii";
- 	/*
--	 * Ethernet and HDMI (DSI0) are sharing pins.
-+	 * Ethernet and HDMI (DPI0) are sharing pins.
- 	 * Only one can be enabled at a time and require the physical switch
- 	 * SW2101 to be set on LAN position
- 	 * mt6357_vibr_reg and mt6357_vsim2_reg are needed to supply ethernet
-@@ -161,6 +275,56 @@ &i2c0 {
- 	status = "okay";
- };
- 
-+&i2c1 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	clock-div = <2>;
-+	clock-frequency = <100000>;
-+	pinctrl-0 = <&i2c1_pins>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+
-+	it66121_hdmi: hdmi@4c {
-+		compatible = "ite,it66121";
-+		reg = <0x4c>;
-+		#sound-dai-cells = <0>;
-+		interrupt-parent = <&pio>;
-+		interrupts = <68 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-0 = <&ite_pins>;
-+		pinctrl-names = "default";
-+		reset-gpios = <&pio 69 GPIO_ACTIVE_LOW>;
-+		vcn18-supply = <&mt6357_vsim2_reg>;
-+		vcn33-supply = <&mt6357_vibr_reg>;
-+		vrf12-supply = <&mt6357_vrf12_reg>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <0>;
-+				it66121_in: endpoint@0 {
-+					reg = <0>;
-+					bus-width = <12>;
-+					remote-endpoint = <&dpi0_out>;
-+				};
-+			};
-+
-+			port@1 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <1>;
-+				hdmi_connector_out: endpoint@0 {
-+					reg = <0>;
-+					remote-endpoint = <&hdmi_connector_in>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &mmc0 {
- 	assigned-clock-parents = <&topckgen CLK_TOP_MSDCPLL>;
- 	assigned-clocks = <&topckgen CLK_TOP_MSDC50_0_SEL>;
-@@ -205,6 +369,11 @@ &mt6357_pmic {
- 	mediatek,micbias1-microvolt = <1700000>;
- };
- 
-+&mt6357_vsim1_reg {
-+	regulator-min-microvolt = <1800000>;
-+	regulator-max-microvolt = <1800000>;
-+};
-+
- &pio {
- 	aud_default_pins: audiodefault-pins {
- 		clk-dat-pins {
-@@ -267,6 +436,49 @@ clk-dat-pins {
- 		};
- 	};
- 
-+	dpi_default_pins: dpi-default-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_0_GPIO0__FUNC_DPI_D0>,
-+				 <MT8365_PIN_1_GPIO1__FUNC_DPI_D1>,
-+				 <MT8365_PIN_2_GPIO2__FUNC_DPI_D2>,
-+				 <MT8365_PIN_3_GPIO3__FUNC_DPI_D3>,
-+				 <MT8365_PIN_4_GPIO4__FUNC_DPI_D4>,
-+				 <MT8365_PIN_5_GPIO5__FUNC_DPI_D5>,
-+				 <MT8365_PIN_6_GPIO6__FUNC_DPI_D6>,
-+				 <MT8365_PIN_7_GPIO7__FUNC_DPI_D7>,
-+				 <MT8365_PIN_8_GPIO8__FUNC_DPI_D8>,
-+				 <MT8365_PIN_9_GPIO9__FUNC_DPI_D9>,
-+				 <MT8365_PIN_10_GPIO10__FUNC_DPI_D10>,
-+				 <MT8365_PIN_11_GPIO11__FUNC_DPI_D11>,
-+				 <MT8365_PIN_12_GPIO12__FUNC_DPI_DE>,
-+				 <MT8365_PIN_13_GPIO13__FUNC_DPI_VSYNC>,
-+				 <MT8365_PIN_14_GPIO14__FUNC_DPI_CK>,
-+				 <MT8365_PIN_15_GPIO15__FUNC_DPI_HSYNC>;
-+			drive-strength = <4>;
-+		};
-+	};
-+
-+	dpi_idle_pins: dpi-idle-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_0_GPIO0__FUNC_GPIO0>,
-+				 <MT8365_PIN_1_GPIO1__FUNC_GPIO1>,
-+				 <MT8365_PIN_2_GPIO2__FUNC_GPIO2>,
-+				 <MT8365_PIN_3_GPIO3__FUNC_GPIO3>,
-+				 <MT8365_PIN_4_GPIO4__FUNC_GPIO4>,
-+				 <MT8365_PIN_5_GPIO5__FUNC_GPIO5>,
-+				 <MT8365_PIN_6_GPIO6__FUNC_GPIO6>,
-+				 <MT8365_PIN_7_GPIO7__FUNC_GPIO7>,
-+				 <MT8365_PIN_8_GPIO8__FUNC_GPIO8>,
-+				 <MT8365_PIN_9_GPIO9__FUNC_GPIO9>,
-+				 <MT8365_PIN_10_GPIO10__FUNC_GPIO10>,
-+				 <MT8365_PIN_11_GPIO11__FUNC_GPIO11>,
-+				 <MT8365_PIN_12_GPIO12__FUNC_GPIO12>,
-+				 <MT8365_PIN_13_GPIO13__FUNC_GPIO13>,
-+				 <MT8365_PIN_14_GPIO14__FUNC_GPIO14>,
-+				 <MT8365_PIN_15_GPIO15__FUNC_GPIO15>;
-+		};
-+	};
-+
- 	ethernet_pins: ethernet-pins {
- 		phy_reset_pins {
- 			pinmux = <MT8365_PIN_133_TDM_TX_DATA1__FUNC_GPIO133>;
-@@ -308,6 +520,33 @@ pins {
- 		};
- 	};
- 
-+	i2c1_pins: i2c1-pins {
-+		pins {
-+			pinmux = <MT8365_PIN_59_SDA1__FUNC_SDA1_0>,
-+				 <MT8365_PIN_60_SCL1__FUNC_SCL1_0>;
-+			bias-pull-up;
-+		};
-+	};
-+
-+	ite_pins: ite-pins {
-+		irq_ite_pins {
-+			pinmux = <MT8365_PIN_68_CMDAT0__FUNC_GPIO68>;
-+			input-enable;
-+			bias-pull-up;
-+		};
-+
-+		pwr_pins {
-+			pinmux = <MT8365_PIN_70_CMDAT2__FUNC_GPIO70>,
-+				 <MT8365_PIN_71_CMDAT3__FUNC_GPIO71>;
-+			output-high;
-+		};
-+
-+		rst_ite_pins {
-+			pinmux = <MT8365_PIN_69_CMDAT1__FUNC_GPIO69>;
-+			output-high;
-+		};
-+	};
-+
- 	mmc0_default_pins: mmc0-default-pins {
- 		clk-pins {
- 			pinmux = <MT8365_PIN_99_MSDC0_CLK__FUNC_MSDC0_CLK>;
-@@ -463,6 +702,10 @@ &pwm {
- 	status = "okay";
- };
- 
-+&rdma1_out {
-+	remote-endpoint = <&dpi0_in>;
-+};
-+
- &ssusb {
- 	dr_mode = "otg";
- 	maximum-speed = "high-speed";
+The other issue here is that Intel is somewhat different from others
+and when we build uapi for TDI it has to accommodate everyone.
 
--- 
-2.25.1
+> Yes. It carries out the idea of "KVM maps MMIO resources without firstly
+> mapping into the host" even for normal VM. That's why I think it could
+> be an independent patchset.
 
+Yes, just remove this patch and other TDI focused stuff. Just
+infrastructure to move to FD based mapping instead of VMA.
+
+Jason
