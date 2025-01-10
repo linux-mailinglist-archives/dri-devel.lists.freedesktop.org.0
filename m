@@ -2,137 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73608A08AD7
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 10:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996D7A08ADA
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 10:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D676F10E03D;
-	Fri, 10 Jan 2025 09:00:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DE5710F022;
+	Fri, 10 Jan 2025 09:02:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vE6/alT5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VGzneozC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E7710F01B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 09:00:30 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-385d7fe2732so99110f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 01:00:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736499569; x=1737104369; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=7hGLjdZowT5PE1ZxrLTVLx1p/trcvoJO2svUWorXuAc=;
- b=vE6/alT5vj18s24xmj8PhWH9pCLIDpWr5FPlC9b4Jg2IgiWClj9EIPvNNbPZU0OqQT
- 2cOWwX8SN1QavpxfeZu5nNLyP/+w/cbGK3TK9UX+7Fi8/2Pc5ZFTaFPfm7YILISXK8Yf
- heFMp/ydKDOoSEaNB8kYMkKHAyoxItb94AlroG/oORdWHRpnsQTH0ujLl9wUePVm8YwW
- vDNHgLl8Sdod3kGLKVcCigxpkjMJPpHcIApZGom0XZBviuvN/Gq3l2nQVvRBsZRweiWq
- 4vfZ5eQt/wEiQQqFkQxnbkwnShEvZUIFPfevLIyLPINuzXOxuAgj6L+eyZS+UVH59b73
- lGZQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FF6610F022
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 09:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1736499769;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=4WOJ3w75jtY5Q6TYGw/iqmA+q/AkMXTEBxiFCrQsJ1M=;
+ b=VGzneozC4FQjFL9ZLZr9hF8Ub/+Dy1MTfIrZmJtS2WCW4y1QQW98hDQ4UOsjTzpvRBCENN
+ 7Qrf438Xbm2ElRK3i5MvwF+fzqiWSARfIt2WcD2g9JJD2vFZjGmh/PMQqqz++16tXfxWqf
+ aSqIffoWjSL53+pjlla1D1cx0zaLu20=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-43-AM5LvpxWPWiFXajRqXQ3iA-1; Fri, 10 Jan 2025 04:02:47 -0500
+X-MC-Unique: AM5LvpxWPWiFXajRqXQ3iA-1
+X-Mimecast-MFC-AGG-ID: AM5LvpxWPWiFXajRqXQ3iA
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4359eb032c9so14517325e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 01:02:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736499569; x=1737104369;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7hGLjdZowT5PE1ZxrLTVLx1p/trcvoJO2svUWorXuAc=;
- b=A5YzmnNZJGxa8LIrq0eiFJNfp2YwUuk2wcW2Y0+MuX2Fhb+ENB0jwVC7QHXCom2WIa
- pKVXVRiRBT8ca45G59iw9u4vXjf7H3R3um84dJ6uO3VwbRJbuZrsdRSSRERvDYAKIZ5N
- cc76cNYeYVofYxAJF44FyfByA9ywEH/jxRwtV0C+PElgDolCkwFjZaNzNMDHb1uksCu1
- 7DF/wPcPJk67er+clecBzy4bfNFjtjqHuf4TcqnBG0e1dWqWRNDocLp3W8PqjMq4KqEK
- ZgJN+0zPuZ5qB76/nJ5yOJDf0Zp+Be1Uv4NyYf77Zfc6g/8A+q3nK5FOWJWMPlLFLsUM
- FrMw==
+ d=1e100.net; s=20230601; t=1736499766; x=1737104566;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4WOJ3w75jtY5Q6TYGw/iqmA+q/AkMXTEBxiFCrQsJ1M=;
+ b=M/NG1ESarrMaP6myYUugXYdHiUOzPRRLboTy0zrhtrfR3+p1BWh7h8N/43oZcQh3vj
+ A2vWyY9xlBaQcBVAzSJEJZPkbfU4dxxOLm8k/96Aj6MbyQXs/LF/IcuAnec38+dSxcwE
+ OpeM00v5VApKlipi+1sOdTbcbtoaSU8JVSHfeAeAZdOEIzA2HvZNZxAvrKE7YowtQ7Pe
+ y4HG90VSvy00MWwrhoXg8w9oot8JwDEw9fJ/37NGpS+r2YBhgXxCd6sMcfE6n/DQ6bik
+ UVCddszI99683f3p9FtBr2EOe9/1BxLFSyzcK9ufm4PzCTQcWj1jlNqpws8G4vY60sPS
+ pdqQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVSjn2hZNZjKi3yJlaGObl87Rxbwi6nNhdc6df3FG76ZVKRw4GsMaQN61+eBjEMPEekqHrrLatWTxQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLUneA5y8kDlApbrKsq7Wp6Klt8QUMmvrLywUUwrZxMDcTNtoJ
- W4Ofc4NTRNI9Mqho5dP3ccN5O+IUJeXEKSM9ykMADIAe+eolCNbshfrnsJ3RJvg=
-X-Gm-Gg: ASbGnct7oshjW/jiFi64yj/tcMbHqGbjcd2UDGCoTh/no90HH/jN3qS2A/3bvxSR1dg
- xE0JQVVtm6d9wqNHjt2/BbbJ/DfXASDo+uJwOc/z8/u2yFSuXX7Ce3hvznF6J2MVfTYZFOW/2iX
- PFUi3nFNKrz2mJduUFFsG+PfRb3nfFlejwx4g6NrcBODPyuSLy+Es3l2Vo4W6DOTCwSUcY24ufD
- imnOAULjsi2DMlSeBEaIa0eF2hTJjVbLzoiSIWvGIFJbv620nb409yu1EB2AnZaDBp72iW6lfMz
-X-Google-Smtp-Source: AGHT+IEwkrz+PoZxV4MO0Kjo8rXrqQ8ksbadzeeixn9+7H03IOjhaq561a8mPD+Elnwcr7igIHcNDw==
-X-Received: by 2002:a05:600c:4e52:b0:434:a339:ec67 with SMTP id
- 5b1f17b1804b1-436eba35780mr19968995e9.3.1736499569224; 
- Fri, 10 Jan 2025 00:59:29 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.165])
+ AJvYcCWHNVm+LSP0b+S1ZsuVHMwe+XLtm8qwl3ORxpBpCwalzIgMUKISvjuXDGpFxxmA3YdhICljWL9c0DI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxc0sMHpC5fS1rWiwYqowpeI92w7R7PhsychKB+FqQq2KVynhZQ
+ eg0/km2KugGluC+6a4Fb7C4GT2XcITXKhD0q65viHndHb1JIjfUNkCoWUuKUlmVMSavPKmUijbN
+ Ir1TrVLvRAb4WLUw9KmY5u+8c3GgipI49rPP3TAEli7j+m3Vb/SaqyVWbVyf9j+vSTA==
+X-Gm-Gg: ASbGncuuFZ5wPdg5ycz8gjvf5EpwoO+z/WGI7ypcZWUqibmte9Ph6VBkqTEKPkS8D2/
+ +j3R1MaTIi6+v33+k1iQ+jp+euan9Pwf2qqd1yOVtT2zAV4WQhkMVz82XJF/4k7pQp2vhRyh8aH
+ PbWm+GX97pee0SmWgDTKuXbaXglaQxHtmLuY78OBZ3y+OoW17PzH012zdxYnJ/I0KYD8Zn3Poen
+ 8Aky6bHITshqva+olPmdPXqwtE6NmtG
+X-Received: by 2002:a05:600c:a07:b0:434:a815:2b57 with SMTP id
+ 5b1f17b1804b1-436e27082e1mr87034585e9.20.1736499766382; 
+ Fri, 10 Jan 2025 01:02:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF2FpLNTlrXyxku0NvMBalD8uzV6r0w5RKPxtBo9lxq1ygqDJg58aVsONODuy+3Q6te4eRsmw==
+X-Received: by 2002:a05:600c:a07:b0:434:a815:2b57 with SMTP id
+ 5b1f17b1804b1-436e27082e1mr87034195e9.20.1736499765925; 
+ Fri, 10 Jan 2025 01:02:45 -0800 (PST)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2e92dc4sm79327445e9.39.2025.01.10.00.59.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jan 2025 00:59:28 -0800 (PST)
-Message-ID: <4fc7fdd5-36cd-42e6-af4a-e0e429f9f50b@linaro.org>
-Date: Fri, 10 Jan 2025 09:59:26 +0100
+ 5b1f17b1804b1-436e2ddd013sm81245515e9.24.2025.01.10.01.02.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jan 2025 01:02:45 -0800 (PST)
+Date: Fri, 10 Jan 2025 10:02:44 +0100
+From: Maxime Ripard <mripard@redhat.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, 
+ Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, cgroups@vger.kernel.org
+Subject: [PULL] dmem cgroup, v2
+Message-ID: <20250110-cryptic-warm-mandrill-b71f5d@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 08/11] drm/msm/dsi: Add support for SM8750
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Srini Kandagatla <srinivas.kandagatla@linaro.org>
-References: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
- <20250109-b4-sm8750-display-v1-8-b3f15faf4c97@linaro.org>
- <3p7kjok5jzwvgt7dxuad26xgdkjd52v4gbtuudvgkeoj33skqn@afl2ddtsq7s2>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <3p7kjok5jzwvgt7dxuad26xgdkjd52v4gbtuudvgkeoj33skqn@afl2ddtsq7s2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="3fa2kwnpd5jjbtlo"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,178 +94,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/01/2025 00:18, Dmitry Baryshkov wrote:
-> On Thu, Jan 09, 2025 at 02:08:35PM +0100, Krzysztof Kozlowski wrote:
->> Add support for DSI PHY v7.0 on Qualcomm SM8750 SoC which comes with two
->> differences worth noting:
->>
->> 1. ICODE_ACCUM_STATUS_LOW and ALOG_OBSV_BUS_STATUS_1 registers - their
->>    offsets were just switched.  Currently these registers are not used
->>    in the driver, so the easiest is to document both but keep them
->>    commented out to avoid conflict.
->>
->> 2. DSI PHY PLLs, the parents of pixel and byte clocks, cannot be used as
->>    parents before they are prepared and initial rate is set.  Therefore
->>    assigned-clock-parents are not working here and driver is responsible
->>    for reparenting clocks with proper procedure: see dsi_clk_init_6g_v2_9().
-> 
-> Isn't it a description of CLK_SET_PARENT_GATE and/or
 
-No - must be gated accross reparent - so opposite.
+--3fa2kwnpd5jjbtlo
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: [PULL] dmem cgroup, v2
+MIME-Version: 1.0
 
-> CLK_OPS_PARENT_ENABLE ?
+Hi,
 
-Yes, but does not work. Probably enabling parent, before
-assigned-clocks-parents, happens still too early:
+Here's a drm-next PR for the new "dmem" cgroup Maarten and I worked on.
+Given that it's only user for now is DRM, Tejun agreed to merge it
+through DRM.
 
-[    1.623554] DSI PLL(0) lock failed, status=0x00000000
-[    1.623556] PLL(0) lock failed
-[    1.624650] ------------[ cut here ]------------
-[    1.624651] disp_cc_mdss_byte0_clk_src: rcg didn't update its
-configuration.
+This is based on the series sent by Maarten here:
+https://lore.kernel.org/all/20241204134410.1161769-1-dev@lankhorst.se/
 
-Or maybe something is missing in the DSI PHY PLL driver?
+The three last patches are not part of it, for different reasons:
 
-> 
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>  drivers/gpu/drm/msm/dsi/dsi.h                      |  2 +
->>  drivers/gpu/drm/msm/dsi/dsi_cfg.c                  | 25 +++++++
->>  drivers/gpu/drm/msm/dsi/dsi_cfg.h                  |  1 +
->>  drivers/gpu/drm/msm/dsi/dsi_host.c                 | 80 ++++++++++++++++++++++
->>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c              |  2 +
->>  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |  1 +
->>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 78 +++++++++++++++++++--
->>  .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 14 ++++
-> 
-> Please separate DSI and PHY changes.
-> 
->>  8 files changed, 197 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.c b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> index 7754dcec33d06e3d6eb8a9d55e53f24af073adb9..e2a8d6fcc45b6c207a3018ea7c8744fcf34dabd2 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.c
->> @@ -205,6 +205,17 @@ static const struct msm_dsi_config sm8650_dsi_cfg = {
->>  	},
->>  };
->>  
->> +static const struct msm_dsi_config sm8750_dsi_cfg = {
->> +	.io_offset = DSI_6G_REG_SHIFT,
->> +	.regulator_data = sm8650_dsi_regulators,
->> +	.num_regulators = ARRAY_SIZE(sm8650_dsi_regulators),
->> +	.bus_clk_names = dsi_v2_4_clk_names,
->> +	.num_bus_clks = ARRAY_SIZE(dsi_v2_4_clk_names),
->> +	.io_start = {
->> +		{ 0xae94000, 0xae96000 },
->> +	},
->> +};
->> +
->>  static const struct regulator_bulk_data sc7280_dsi_regulators[] = {
->>  	{ .supply = "vdda", .init_load_uA = 8350 },	/* 1.2 V */
->>  	{ .supply = "refgen" },
->> @@ -257,6 +268,18 @@ static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_host_ops = {
->>  	.calc_clk_rate = dsi_calc_clk_rate_6g,
->>  };
->>  
->> +static const struct msm_dsi_host_cfg_ops msm_dsi_6g_v2_9_host_ops = {
->> +	.link_clk_set_rate = dsi_link_clk_set_rate_6g_v2_9,
->> +	.link_clk_enable = dsi_link_clk_enable_6g,
->> +	.link_clk_disable = dsi_link_clk_disable_6g,
->> +	.clk_init_ver = dsi_clk_init_6g_v2_9,
->> +	.tx_buf_alloc = dsi_tx_buf_alloc_6g,
->> +	.tx_buf_get = dsi_tx_buf_get_6g,
->> +	.tx_buf_put = dsi_tx_buf_put_6g,
->> +	.dma_base_get = dsi_dma_base_get_6g,
->> +	.calc_clk_rate = dsi_calc_clk_rate_6g,
->> +};
->> +
->>  static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
->>  	{MSM_DSI_VER_MAJOR_V2, MSM_DSI_V2_VER_MINOR_8064,
->>  		&apq8064_dsi_cfg, &msm_dsi_v2_host_ops},
->> @@ -300,6 +323,8 @@ static const struct msm_dsi_cfg_handler dsi_cfg_handlers[] = {
->>  		&sm8550_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->>  	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_8_0,
->>  		&sm8650_dsi_cfg, &msm_dsi_6g_v2_host_ops},
->> +	{MSM_DSI_VER_MAJOR_6G, MSM_DSI_6G_VER_MINOR_V2_9_0,
->> +		&sm8750_dsi_cfg, &msm_dsi_6g_v2_9_host_ops},
->>  };
->>  
->>  const struct msm_dsi_cfg_handler *msm_dsi_cfg_get(u32 major, u32 minor)
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_cfg.h b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
->> index 120cb65164c1ba1deb9acb513e5f073bd560c496..859c279afbb0377d16f8406f3e6b083640aff5a1 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_cfg.h
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_cfg.h
->> @@ -30,6 +30,7 @@
->>  #define MSM_DSI_6G_VER_MINOR_V2_6_0	0x20060000
->>  #define MSM_DSI_6G_VER_MINOR_V2_7_0	0x20070000
->>  #define MSM_DSI_6G_VER_MINOR_V2_8_0	0x20080000
->> +#define MSM_DSI_6G_VER_MINOR_V2_9_0	0x20090000
->>  
->>  #define MSM_DSI_V2_VER_MINOR_8064	0x0
->>  
->> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> index 2218d4f0c5130a0b13f428e89aa30ba2921da572..ced28ee61eedc0a82da9f1d0792f17ee2a5538c4 100644
->> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
->> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
->> @@ -119,6 +119,15 @@ struct msm_dsi_host {
->>  	struct clk *pixel_clk;
->>  	struct clk *byte_intf_clk;
->>  
->> +	/*
->> +	 * Clocks which needs to be properly parented between DISPCC and DSI PHY
->> +	 * PLL:
->> +	 */
->> +	struct clk *byte_src_clk;
->> +	struct clk *pixel_src_clk;
->> +	struct clk *dsi_pll_byte_clk;
->> +	struct clk *dsi_pll_pixel_clk;
->> +
->>  	unsigned long byte_clk_rate;
->>  	unsigned long byte_intf_clk_rate;
->>  	unsigned long pixel_clk_rate;
->> @@ -269,6 +278,38 @@ int dsi_clk_init_6g_v2(struct msm_dsi_host *msm_host)
->>  	return ret;
->>  }
->>  
->> +int dsi_clk_init_6g_v2_9(struct msm_dsi_host *msm_host)
->> +{
->> +	struct device *dev = &msm_host->pdev->dev;
->> +	int ret;
->> +
->> +	ret = dsi_clk_init_6g_v2(msm_host);
->> +	if (ret)
->> +		return ret;
->> +
->> +	msm_host->byte_src_clk = devm_clk_get(dev, "byte_src");
->> +	if (IS_ERR(msm_host->byte_src_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->byte_src_clk),
->> +				     "can't get byte_src clock\n");
->> +
->> +	msm_host->dsi_pll_byte_clk = devm_clk_get(dev, "dsi_pll_byte");
->> +	if (IS_ERR(msm_host->dsi_pll_byte_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_byte_clk),
->> +				     "can't get dsi_pll_byte clock\n");
->> +
->> +	msm_host->pixel_src_clk = devm_clk_get(dev, "pixel_src");
->> +	if (IS_ERR(msm_host->pixel_src_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->pixel_src_clk),
->> +				     "can't get pixel_src clock\n");
->> +
->> +	msm_host->dsi_pll_pixel_clk = devm_clk_get(dev, "dsi_pll_pixel");
->> +	if (IS_ERR(msm_host->dsi_pll_pixel_clk))
->> +		return dev_err_probe(dev, PTR_ERR(msm_host->dsi_pll_pixel_clk),
->> +				     "can't get dsi_pll_pixel clock\n");
-> 
-> How is this going to work in the bonded DSI mode when DSI1 is being fed
-> by the DSI0 PLL? For existing platforms this is being handled by
-> changing the parents in DT.
+  - patch 5: we haven't had the acks from the amdgpu maintainers
+  - patch 6: I didn't feel comfortable merging a patch defined as a "hack"
+  - patch 7: it's not clear yet how GEM is going to be supported, so we
+    need to have further discussion on this one.
 
-I don't see the problem - you just put different clock as input in DTS?
+This new version was asked by Dave to fix a warning introduced by an
+uninitialized variable, which has been addressed.
 
-Please trim your replies, so we won't need to keep scrolling to figure
-out that there is nothing more to read.
+Thanks!
+Maxime
 
-Best regards,
-Krzysztof
+The following changes since commit 9d89551994a430b50c4fffcb1e617a057fa76e20:
+
+  Linux 6.13-rc6 (2025-01-05 14:13:40 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git tags/cgroup-dmem-drm-v2
+
+for you to fetch changes up to dfe6aa163c3b3780add4392d93b686b399ceb591:
+
+  drm/xe: Implement cgroup for vram (2025-01-10 09:54:50 +0100)
+
+----------------------------------------------------------------
+DMEM cgroup pull request
+
+This introduces a new cgroup controller to limit the device memory.
+Notable users would be DRM, dma-buf heaps, or v4l2.
+
+This pull request is based on the series developped by Maarten
+Lankhorst, Friedrich Vock, and I:
+https://lore.kernel.org/all/20241204134410.1161769-1-dev@lankhorst.se/
+
+----------------------------------------------------------------
+Maarten Lankhorst (3):
+      kernel/cgroup: Add "dmem" memory accounting cgroup
+      drm/ttm: Handle cgroup based eviction in TTM
+      drm/xe: Implement cgroup for vram
+
+Maxime Ripard (1):
+      drm/drv: Add drmm managed registration helper for dmem cgroups.
+
+ Documentation/admin-guide/cgroup-v2.rst          |  58 +-
+ Documentation/core-api/cgroup.rst                |   9 +
+ Documentation/core-api/index.rst                 |   1 +
+ Documentation/gpu/drm-compute.rst                |  54 ++
+ drivers/gpu/drm/drm_drv.c                        |  32 +
+ drivers/gpu/drm/ttm/tests/ttm_bo_test.c          |  18 +-
+ drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c |   4 +-
+ drivers/gpu/drm/ttm/tests/ttm_resource_test.c    |   2 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                     |  52 +-
+ drivers/gpu/drm/ttm/ttm_resource.c               |  23 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr.c             |   8 +
+ include/drm/drm_drv.h                            |   5 +
+ include/drm/ttm/ttm_resource.h                   |  12 +-
+ include/linux/cgroup_dmem.h                      |  66 ++
+ include/linux/cgroup_subsys.h                    |   4 +
+ include/linux/page_counter.h                     |   2 +-
+ init/Kconfig                                     |  10 +
+ kernel/cgroup/Makefile                           |   1 +
+ kernel/cgroup/dmem.c                             | 861 +++++++++++++++++++++++
+ mm/page_counter.c                                |   4 +-
+ 20 files changed, 1194 insertions(+), 32 deletions(-)
+ create mode 100644 Documentation/core-api/cgroup.rst
+ create mode 100644 Documentation/gpu/drm-compute.rst
+ create mode 100644 include/linux/cgroup_dmem.h
+ create mode 100644 kernel/cgroup/dmem.c
+
+--3fa2kwnpd5jjbtlo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4DiNAAKCRAnX84Zoj2+
+dtsTAYDPJhsY75AuDCrZSIfvGZ1VCyYlrWWSmdkoVatZwPxh47MzdmvoR9Pq7Gvd
+F2w4MToBfitymaCigHlfK7D/5lDvKdgkb/4MZIMmxNut7zKY5CszyBfKcC2+sTVR
+mdDOn/BldQ==
+=wX7Z
+-----END PGP SIGNATURE-----
+
+--3fa2kwnpd5jjbtlo--
+
