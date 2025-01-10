@@ -2,72 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69278A08F5C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 12:29:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E7D1A08F51
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 12:28:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEF1710E4F2;
-	Fri, 10 Jan 2025 11:29:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEAF910E10D;
+	Fri, 10 Jan 2025 11:28:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S+Gfo9hI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UkrAyrUx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF0B10E4F2
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 11:29:52 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-304d760f118so13556411fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 03:29:51 -0800 (PST)
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C9F310E10D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 11:28:54 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-30227ccf803so15667851fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 03:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736508530; x=1737113330; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Olm0fGkKA8EgRKT9JLEzK6JuQbM/+wX4+5NIwdHgt0U=;
- b=S+Gfo9hIDzAVTruGU8YUG/363oM94Z8xXWpQBy3tN/IR22HFKfs5YUUkf+dlwJ5aAo
- OX+ZLsAwLT9c9++vyBiH6yRBxGOuwUIxYqwyWBCAC8MRh6LDTh5iLa571arNvv9kBAVg
- LUcK7QOh0xReCd2S8DUSAqwAhfWjiRrZQI/qRj/upcD3/iDDzenp3Vlqza9u771DuLhq
- Y/Z1XqFwNea4ftQGa+iaG1x9YwyTvG8C2cn0VkD1NFzFSLzLt/rPMqbIB1r4NRD9RPwA
- JxQKbeEVoy4KrrVLQgR2eyJcvTV8ba9T3TbR35xL5K6q1W66qNN8ZrGzTUrRuIMS2h08
- k67A==
+ d=linaro.org; s=google; t=1736508532; x=1737113332; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=d0vao2kszZEOdw8Rw0H4k+cRcCSPFR9JmZje0hGSkB0=;
+ b=UkrAyrUxUYRPUw2bExI7AfLgwG8p+4iTB70zO7DK7VysAFTAmSbWMDPBOccgpzo074
+ MxRl4eg4h/HruJGWZby8doHRSmbbOppuC2aXmpY/bgIsPg3Co+N5AxLHfXXN7wJLhBue
+ uZiS7yRKwOG4dd5MJcRtgYfK3LWJ0F+O9K+1vbOODd5k1HwWiCaGJk3AQ8hAkT9zvO/v
+ 3Koat6kStxIknx35b2llrhyruKpmBewN6u2RiAU82iLj/lxgosETyJu+LKMAzOL0Esuy
+ hMUsdQJNHSgLtwGSvmdDsg14a7fPYKr64kRh4jHudbfz8GQXsk7iUvGFqyinoefVeAdV
+ gxOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736508530; x=1737113330;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Olm0fGkKA8EgRKT9JLEzK6JuQbM/+wX4+5NIwdHgt0U=;
- b=p+JXczMPTAfBgGxh+S+AS3uqqg2elWyqVVyvqyKItKtwZlb+PWwVtaYjy1s50O0z1i
- lzsEAhzY8aRXp5zrRpCn7mLISKGeKSGwsZbguTdKIE8tPwYUCw88e4Z+JI+T9wgGOIxL
- L4jt5qO6jnmSarxzUKtFVR4Bu2ILhuz3ebLU63U/rpwfW9BrAsO2nda0+Zp2KFfSulfx
- Vcf+zxtMSOAvYLIfuuLNEf8y4z8tny5J9cXCWC+SAaPTkYEq8su9hxrYXNP9yWBhVxJv
- ROqjxZcQki5a5MyzM9rBcQX6/0miwmWrvx/mEHo8VEBHfmA+LD6nRaSg4/6FbUNNRq+7
- R1SA==
-X-Gm-Message-State: AOJu0Yy11M6oejUxWjRYDbuBZkSbINVakeuaFoD3Yn6CV/fHiWZ1r8+6
- aVN8shkMiY6GJ27f10ZKgoLF604u4gsmKNQdUVNSNlSe88TLpg3jo3MIeurfdt8=
-X-Gm-Gg: ASbGncvx6uSm51lUBarufdlcWxnR9eXwOBAyEhGLm1yh0wkWye733cYXy+IhgUhnqe9
- 9Ih0onJYKFDIllbDaELz5su4sPPdyyn/JFcujqhXqaJHh2YKzqWxSn91DSN2IA4o4LUzEYYEMOV
- kSNnqc87ctoUffRApQLX7OAkVypSxrPcowX861wq+Z6K3l/hjZ1ylUE6DjKuJqDB+tD6+ELn2Jk
- rtV2el/DyFpW646UJr9w8cBi75eR0enfPldRu6BFQZGfrMYGmnok2fcSl74IuVs
-X-Google-Smtp-Source: AGHT+IErOasjRMXHudN0cB9qvlQZWme6DxpwAWmz4xkg4SDdIOHVGX9R4of/A9RUmHAsu9ZL8qbS4Q==
-X-Received: by 2002:a05:651c:221b:b0:302:4115:190 with SMTP id
- 38308e7fff4ca-305f4531432mr29413291fa.6.1736508530158; 
- Fri, 10 Jan 2025 03:28:50 -0800 (PST)
+ d=1e100.net; s=20230601; t=1736508532; x=1737113332;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=d0vao2kszZEOdw8Rw0H4k+cRcCSPFR9JmZje0hGSkB0=;
+ b=wrX3UcUNmFGhzknxqCjOV5RcTLmzPCCcBPrFqD72zmNRKv/7l9YlI9A5aI6S82xGoQ
+ f4WGX/qzJmGON7DKib5gHBLMh5pNcIXJi44s2KHTk3wXOfD3H1OF6XGrhrm+82DrzG4g
+ pkmDFpfPpQOkxBeliqUIZDvBPEtBIFiOUI/eGTUp5Hs1J9S4it80AJUahoJZVvK/S7ZJ
+ AYqSwoYalbYXxEBaOegQnyXwws7EKhQqc/A0r+ybSSeZuAYOjjt2kkJYt5S2f2WSwrsA
+ UNMUQMKObWELXdAendHSYe+AaCwC8WW6wlECHaDKUWCq8VtjMRIrDGslqtFm/GmAuwEC
+ /AMQ==
+X-Gm-Message-State: AOJu0YzR6yrDTK4rLc/Pp5SgW75zWpccUC0TIZTijc9PiHU7PSgwJsZl
+ X61bN2T6ajnVMWt1a6/JO+cYiC0urWUgV/7W7iIH204LIJMy58/HHlLm7O8NzPk=
+X-Gm-Gg: ASbGncv4YyXUCyHH+j0A/edHzCu8DdAy+3Bmkz2TIzi0suSF4DEgmBtcGTDExMRSNMV
+ OWkahQwhRIyh5i056rlrlJFWu2jqjpb2oFMkQyvF/WXLkCD0vmQqyd+GaRRv1xu2MepAFiR6nK5
+ PlkYUGGwM4uPzlD8oT1nmUReXadEprGJ/DrDhJIAc02/KPJOqauqYlYWSUZcRLGvLXIPCo+W2/X
+ ZZnpkv3WbXcrbzSscPKIYJf1tYgi9INKkCRaZpLXT9i/MIb1ia3nRIGAxZlBLz+
+X-Google-Smtp-Source: AGHT+IFq2Z+1hncub4AWL3RFD0wdO8EZoDd5lrO7r7RLlPYAnsU1t4IN+aU/L5cOw5xszRkkuOIqeA==
+X-Received: by 2002:a2e:bea8:0:b0:302:1b18:2c09 with SMTP id
+ 38308e7fff4ca-305f45ba080mr33912761fa.27.1736508532537; 
+ Fri, 10 Jan 2025 03:28:52 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-305ff1c78e8sm4711081fa.86.2025.01.10.03.28.47
+ 38308e7fff4ca-305ff1c78e8sm4711081fa.86.2025.01.10.03.28.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2025 03:28:48 -0800 (PST)
+ Fri, 10 Jan 2025 03:28:51 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH RFC/RFT v2 0/8] drm/display: generic HDMI CEC helpers
-Date: Fri, 10 Jan 2025 13:28:43 +0200
-Message-Id: <20250110-drm-hdmi-connector-cec-v2-0-9067c8f34663@linaro.org>
+Date: Fri, 10 Jan 2025 13:28:44 +0200
+Subject: [PATCH RFC/RFT v2 1/8] drm/connector: add CEC-related fields
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGsEgWcC/3WOwQ6CMBBEf4Xs2dVSUJCTiYkfYLwZDlBW2cS22
- iLRGP7dinj0NpPJm5kXeHJMHoroBY569mxNMHIWgWorcybkJniQQqaxlAk2TmPbaEZljSHVWYe
- KFCbpWkhFeZrVGQT46ujEj7H4CPvddrHfHaD8Bo5u9zDUTWldeQptWnNXRJ96zV4tfgINPbqRb
- NmHted4tY9HdHq1/Peqj1FgnYskF2qVSRlvLmwqZ+fWnaEchuENUDlbXgABAAA=
-X-Change-ID: 20241223-drm-hdmi-connector-cec-34902ce847b7
+Message-Id: <20250110-drm-hdmi-connector-cec-v2-1-9067c8f34663@linaro.org>
+References: <20250110-drm-hdmi-connector-cec-v2-0-9067c8f34663@linaro.org>
+In-Reply-To: <20250110-drm-hdmi-connector-cec-v2-0-9067c8f34663@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -80,16 +77,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3370;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4115;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=fd9r4hgPoNEPzT0cMeFB8vRKjj6uquq5g8fly6kHV70=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBngQRtCJ6vwhECMJLKWTgFiyn5NFZmjSfAZxUZx
- 5Iotr4jT02JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4EEbQAKCRCLPIo+Aiko
- 1YFdCACcwNQDPlz8zM1iJdqHpvd4mR7R5r+iEPU2eZs+xq5JTl4++Zke82GDBwb1rUHXubojAnl
- ZrhcbxbYCfVoPxoecov0LgCzrn+AXBRtvySSlVFCw3vpAQUBGEZ8kDFoCUdDtQ/t0mK76cEc7Gr
- TUvRgKIOTjk7t+pvo/bhgLrrSotkLEPW6A5iiBMCJ5FEdrzPx/1ZLzjc/uP0iGRP0WM45NkISAq
- SX8HfVrhaeRlPioUi52opvcEgsjzFRiGSFlRXIeb+DuSN/G8L4fDSTutIvPCAHV06t3ZREkNF6w
- rSPN0qweXyRjIdV4ryrClhB//yTTLFtbaDrjGW+5EXJNfxGt
+ bh=exgmtXH0OIK6SdS9CCUitkYz/uNC3k7yD8vdgvaJocQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBngQRu7ntUsyUqEneqm2g2HPWApf+peseyOwvvh
+ gO4anRBflSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4EEbgAKCRCLPIo+Aiko
+ 1UhOB/9tLLGv24SNNG70JoNw3S7167gU88XGOGIVikq6nxtFGNDDNcPIuQTG095LMLScPVhJi+/
+ m7eWbJBCRO1pY4xvbcvm78R+Hny0RWJvuWAJ0IN+FjvJTdMLCOTHmKmJsVWJkJovs14hCnMVb7j
+ TICa6T9JKM+8rfRUmA3Z7A/lAFr3eQlCFj+DZ+znLEzFwiDj0c1K3UWDetCg4iEI3BEih9VaLJq
+ mnGggk+LPhS4wIxdZKegKFLm6gnyiEtridK3I7L8ktoZB2SX6T+B1qmtZYCLLU3B4TdwJUGtxpV
+ Ic34Y3W1kIJeZ96J5CnR+wpdK+SqzdGays2dYJSw3VzzLJRY
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,75 +104,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently it is next to impossible to implement CEC handling for the
-setup using drm_bridges and drm_bridge_connector: bridges don't have a
-hold of the connector at the proper time to be able to route CEC events.
-
-At the same time it not very easy and obvious to get the CEC physical
-address handling correctly. Drivers handle it at various places, ending
-up with the slight differences in behaviour.
-
-Follow up the HDMI Connector and HDMI Audio series and implement generic
-HDMI CEC set of helpers that link into the HDMI Connector and
-drm_bridge_connector frameworks and provide a way to implement CEC
-handling for HDMI bridges in an easy yet standard way.
-
-Notes:
-- the patchset was only compile-tested
-- being an RFC some of the API functions and structures are left
-  undocumented
-- although the patchset provides drm_bridge / drm_bridge_connector API
-  for working with CEC, there is no actual bridge that uses the API
-  (yet)
-
-- I'm pretty unhappy with the drm_bridge integration code, we end up
-  duplicating wrappers for CEC functions instead of reusing the
-  drm_connector wrapping functions. An easy way would be to map
-  drm_bridge to the corresponding drm_connector, but that would
-  either require a state or storing drm_connector inside a drm_bridge.
-  Current code stores cec_adapter instead.
+As a preparation to adding HDMI CEC helper code, add CEC-related fields
+to the struct drm_connector. Include both cec_adapter and cec_notifier,
+allowing drivers to select which one to use. The unregister callback
+is provided to let drivers unregister CEC-related data in a generic way
+without polluting drm_connector.c with dependencies on the CEC
+functions.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-Changes in v2:
-- Refactored CEC funcs, adding more wrappers to provide more consistent
-  interface (Maxime)
-- Removed export of drm_connector_cec_unregister() (Maxime)
-- Restored and rephrased comment in vc4_hdmi (Maxime)
-- Squashed vc4 patches
-- Link to v1: https://lore.kernel.org/r/20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org
+ drivers/gpu/drm/drm_connector.c | 13 ++++++++++++
+ include/drm/drm_connector.h     | 44 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
 
----
-Dmitry Baryshkov (8):
-      drm/connector: add CEC-related fields
-      drm/display: add CEC helpers code
-      drm/display: hdmi-state-helper: handle CEC physicall address
-      drm/vc4: hdmi: switch to generic CEC helpers
-      drm/display: bridge-connector: hook in CEC notifier support
-      drm/bridge: move private data to the end of the struct
-      drm/display: hdmi-cec-helper: add bridge-related functions
-      drm/display: bridge-connector: handle CEC adapters
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 1383fa9fff9bcf31488453e209a36c6fe97be2f1..fffb718b09eaaac200e6abc7524bbfe98c4741f4 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -279,6 +279,7 @@ static int drm_connector_init_only(struct drm_device *dev,
+ 	INIT_LIST_HEAD(&connector->probed_modes);
+ 	INIT_LIST_HEAD(&connector->modes);
+ 	mutex_init(&connector->mutex);
++	mutex_init(&connector->cec.mutex);
+ 	mutex_init(&connector->eld_mutex);
+ 	mutex_init(&connector->edid_override_mutex);
+ 	mutex_init(&connector->hdmi.infoframes.lock);
+@@ -698,6 +699,16 @@ static void drm_mode_remove(struct drm_connector *connector,
+ 	drm_mode_destroy(connector->dev, mode);
+ }
+ 
++static void drm_connector_cec_unregister(struct drm_connector *connector)
++{
++	mutex_lock(&connector->cec.mutex);
++
++	if (connector->cec.funcs->unregister)
++		connector->cec.funcs->unregister(connector);
++
++	mutex_unlock(&connector->cec.mutex);
++}
++
+ /**
+  * drm_connector_cleanup - cleans up an initialised connector
+  * @connector: connector to cleanup
+@@ -718,6 +729,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
+ 
+ 	platform_device_unregister(connector->hdmi_audio.codec_pdev);
+ 
++	drm_connector_cec_unregister(connector);
++
+ 	if (connector->privacy_screen) {
+ 		drm_privacy_screen_put(connector->privacy_screen);
+ 		connector->privacy_screen = NULL;
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index f13d597370a30dc1b14c630ee00145256052ba56..6da840673b1209c84bbc396643c6033679a7ec74 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -46,6 +46,7 @@ struct drm_property_blob;
+ struct drm_printer;
+ struct drm_privacy_screen;
+ struct drm_edid;
++struct cec_adapter;
+ struct edid;
+ struct hdmi_codec_daifmt;
+ struct hdmi_codec_params;
+@@ -1191,6 +1192,19 @@ struct drm_connector_hdmi_audio_funcs {
+ 			   bool enable, int direction);
+ };
+ 
++/**
++ * struct drm_connector_cec_funcs - drm_hdmi_connector control functions
++ */
++struct drm_connector_cec_funcs {
++	/**
++	 * @adap_unregister: unregister CEC adapter / notifier.
++	 *
++	 * The callback to unregister CEC adapter or notifier, so that the core
++	 * DRM layer doesn't depend on the CEC_CORE.
++	 */
++	void (*unregister)(struct drm_connector *connector);
++};
++
+ /**
+  * struct drm_connector_hdmi_funcs - drm_hdmi_connector control functions
+  */
+@@ -1832,6 +1846,31 @@ struct drm_connector_hdmi {
+ 	} infoframes;
+ };
+ 
++/**
++ * struct drm_connector_cec - DRM Connector CEC-related structure
++ */
++struct drm_connector_cec {
++	/**
++	 * @mutex: protects all CEC-related fields
++	 */
++	struct mutex mutex;
++
++	/**
++	 * @adap: CEC adapter corresponding to the DRM connector.
++	 */
++	struct cec_adapter *adapter;
++
++	/**
++	 * @notifier: CEC notifier corresponding to the DRM connector.
++	 */
++	struct cec_notifier *notifier;
++
++	/**
++	 * @funcs: CEC Control Functions
++	 */
++	const struct drm_connector_cec_funcs *funcs;
++};
++
+ /**
+  * struct drm_connector - central DRM connector control structure
+  *
+@@ -2253,6 +2292,11 @@ struct drm_connector {
+ 	 * @hdmi_audio: HDMI codec properties and non-DRM state.
+ 	 */
+ 	struct drm_connector_hdmi_audio hdmi_audio;
++
++	/**
++	 * @cec: CEC-related data.
++	 */
++	struct drm_connector_cec cec;
+ };
+ 
+ #define obj_to_connector(x) container_of(x, struct drm_connector, base)
 
- drivers/gpu/drm/bridge/lontium-lt9611.c         |   2 +-
- drivers/gpu/drm/display/Kconfig                 |   6 +
- drivers/gpu/drm/display/Makefile                |   2 +
- drivers/gpu/drm/display/drm_bridge_connector.c  | 106 +++++++++-
- drivers/gpu/drm/display/drm_hdmi_cec_helper.c   | 246 ++++++++++++++++++++++++
- drivers/gpu/drm/display/drm_hdmi_state_helper.c |   7 +-
- drivers/gpu/drm/drm_bridge.c                    |  16 ++
- drivers/gpu/drm/drm_connector.c                 |  13 ++
- drivers/gpu/drm/vc4/Kconfig                     |   1 +
- drivers/gpu/drm/vc4/vc4_hdmi.c                  | 132 +++++--------
- drivers/gpu/drm/vc4/vc4_hdmi.h                  |   1 -
- include/drm/display/drm_hdmi_cec_helper.h       |  70 +++++++
- include/drm/drm_bridge.h                        |  78 ++++++--
- include/drm/drm_connector.h                     |  44 +++++
- 14 files changed, 621 insertions(+), 103 deletions(-)
----
-base-commit: 74509d54ebf1ecfbdf5f7edec32c490fefa01b8b
-change-id: 20241223-drm-hdmi-connector-cec-34902ce847b7
-
-Best regards,
 -- 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+2.39.5
 
