@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A727A08E70
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2564A08E85
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:52:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E535110F065;
-	Fri, 10 Jan 2025 10:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54AD610F069;
+	Fri, 10 Jan 2025 10:51:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KBTIpvJo";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="DtXQpXDX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1E2F10F065;
- Fri, 10 Jan 2025 10:49:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736506176; x=1768042176;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=SnaSAbsGFkROn6W4/INC/c7SsSto/JbQV557wm4ip3s=;
- b=KBTIpvJor2XZRzGufZdKWXp59fKCmzFmytsUroPs2XLSdVRCPlwfMJHq
- sWaBnz08JxPOdLHvqddnfs58ebBMkGUdu3y2O2D89HBKinhhkLe//uLg+
- 1BYMgG5MqRMbrnqYmkezqHMfaCsgnKJBX80ODBvqrV4xmIXS65tod2lOC
- N1UxZqLu/vXSzCSO1qCd/ntTde/V6hD8LcmP8bs/jlISwqM2nt84jUDPt
- 5ADQCIL++3YhiJvjgpWeFr4zxcVan4rC9kH0RmxitOksIW/jLeTgJIKIM
- XN3kRtv0+tkjQ4DB4BAELlMHKlqCSoUhFLVycOH0lSrRll2I0873h4WTj A==;
-X-CSE-ConnectionGUID: c7+HwJxjQQW7J8uEUcEwHg==
-X-CSE-MsgGUID: AuBoHvUKRYCd4+WqKlE8Pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36012747"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; d="scan'208";a="36012747"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2025 02:49:35 -0800
-X-CSE-ConnectionGUID: Wied2noTQkmsKeXxcLSpAA==
-X-CSE-MsgGUID: tujqs8JnSW+sGWztNnVzxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; d="scan'208";a="103489544"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.15])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2025 02:49:30 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Zhenyu Wang
- <zhenyuw.linux@gmail.com>
-Cc: "Dr. David Alan Gilbert" <linux@treblig.org>, zhi.wang.linux@gmail.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: GVT-g status (was: Re: [PATCH 0/3] drm/i915/gvt: Deadcoding)
-In-Reply-To: <Z4A7QDtTrU6w2Yhv@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241222002043.173080-1-linux@treblig.org>
- <Z2dcZfW8eNMnxT0v@gallifrey> <Z3uGjO36tfhQsnfp@dell-wzy>
- <Z4A7QDtTrU6w2Yhv@intel.com>
-Date: Fri, 10 Jan 2025 12:49:27 +0200
-Message-ID: <877c73j64o.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5600B10F068
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ygJ4kWI2J3xVm5E9SmhcvFsPvSkTHg9NsrAlQ/ElFB4=; b=DtXQpXDXZ1RzejnRy95pyl/wuy
+ LzwDgjXvgawYqbJ9tjfiuElJNRZBXWxrQsdBS8XvkpwAqhU8e01WFOZKBkzxWPnNJOQoUkl/rAnt1
+ xSxNRF1gAK30oTGelwHU3a8DI8SZh9uRtXzjiYuOBJUXCEHjmIy5LejnI6XInlJiUbQSBeFg5leTt
+ MRo0Aum8dyA7N+DMcRhNcFE3ttd7cAZyUIHvW8QswHjk3FuIOpmzfhBlZ7HT8nPZoz9fTkOUDSSRs
+ TSQuj0aRuKz8J9VxPjGxMpMSPNe2PADNZeN5AYBaMplWdRCQrfHXbfbkrcopT7TiqHtadNxBgJ4ia
+ W3NeI8aA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tWCcJ-00DvBl-BT; Fri, 10 Jan 2025 11:51:51 +0100
+Message-ID: <6affb6c3-0335-46cf-9276-92222afac907@igalia.com>
+Date: Fri, 10 Jan 2025 10:51:50 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 01/18] drm/amdgpu: Use DRM scheduler API in
+ amdgpu_xcp_release_sched
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>, Alex Deucher <alexdeucher@gmail.com>
+References: <20250108183528.41007-1-tvrtko.ursulin@igalia.com>
+ <20250108183528.41007-2-tvrtko.ursulin@igalia.com>
+ <48e3b200-39e5-4e54-ba05-de72c627d876@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <48e3b200-39e5-4e54-ba05-de72c627d876@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,66 +66,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 09 Jan 2025, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> On Mon, Jan 06, 2025 at 04:30:20PM +0900, Zhenyu Wang wrote:
->> On Sun, Dec 22, 2024 at 12:25:09AM +0000, Dr. David Alan Gilbert wrote:
->> > Note: zhenyuw@linux.intel.com's address bounces:
->> > 
->> 
->> yeah, I've left Intel so can't use that box any more, looks Rodrigo hasn't
->> queue up my address change patch yet. Rodrigo?
->
-> pushed to drm-intel-next now, although I was assuming this to come
-> on a gvt pull request...
->
-> what about this patch here? coming in a PR or should I take this
-> directly at drm-intel-next as well?
 
-AFAICT the last gvt-next pull request was more than two years ago and
-gvt-fixes slightly less than one year ago.
+On 09/01/2025 12:30, Christian König wrote:
+> Am 08.01.25 um 19:35 schrieb Tvrtko Ursulin:
+>> Lets use the existing helper instead of peeking into the structure
+>> directly.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@redhat.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <pstanner@redhat.com>
+> 
+> Grr, I can't count of how many of those I already fixed :(
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
 
-There's a single cleanup commit in gvt-next applied two years ago for
-which there hasn't been a pull request.
+Thanks!
 
-The GVT github page [1] says, "This repository has been archived by the
-owner on Oct 3, 2024. It is now read-only." The intel-gvt-dev mailing
-list [2] appears to be mostly spam.
++ Alex
 
-Seems to me something like this would be appropriate:
+I forgot to cc amd-gfx for this one. Can you take it from here or I can 
+send it standalone?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1c3eab5d2b1a..161206fdaf05 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11557,11 +11557,10 @@ F:	drivers/gpio/gpio-tangier.h
- INTEL GVT-g DRIVERS (Intel GPU Virtualization)
- M:	Zhenyu Wang <zhenyuw.linux@gmail.com>
- M:	Zhi Wang <zhi.wang.linux@gmail.com>
--L:	intel-gvt-dev@lists.freedesktop.org
- L:	intel-gfx@lists.freedesktop.org
--S:	Supported
-+S:	Maintained
- W:	https://github.com/intel/gvt-linux/wiki
--T:	git https://github.com/intel/gvt-linux.git
-+T:	git https://gitlab.freedesktop.org/drm/i915/kernel.git
- F:	drivers/gpu/drm/i915/gvt/
- 
- INTEL HID EVENT DRIVER
+Regards,
 
-But I don't think it would be far from the truth to have "S: Odd Fixes"
-either. And the extreme would be to just remove the whole maintainers
-entry and have it fall back to the i915 entry.
+Tvrtko
 
-Thoughts?
-
-
-BR,
-Jani.
-
-
-[1] https://github.com/intel/gvt-linux/
-[2] https://lists.freedesktop.org/archives/intel-gvt-dev/
-
-
--- 
-Jani Nikula, Intel
+> 
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c 
+>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
+>> index e209b5e101df..23b6f7a4aa4a 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
+>> @@ -427,7 +427,7 @@ void amdgpu_xcp_release_sched(struct amdgpu_device 
+>> *adev,
+>>           return;
+>>       sched = entity->entity.rq->sched;
+>> -    if (sched->ready) {
+>> +    if (drm_sched_wqueue_ready(sched)) {
+>>           ring = to_amdgpu_ring(entity->entity.rq->sched);
+>>           atomic_dec(&adev->xcp_mgr->xcp[ring->xcp_id].ref_cnt);
+>>       }
+> 
