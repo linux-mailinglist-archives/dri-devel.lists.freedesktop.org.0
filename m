@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9209EA0869B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 06:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107ECA0869F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 06:40:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97B7110EFA5;
-	Fri, 10 Jan 2025 05:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C7A010EFAD;
+	Fri, 10 Jan 2025 05:40:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Lyzx8Bs0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LkN4DSzG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91EE510EF9F
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA71F10E4E2
  for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 05:39:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2F17CA41604;
- Fri, 10 Jan 2025 05:38:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0D632C4CEF4;
+ by dfw.source.kernel.org (Postfix) with ESMTP id CBAAA5C5D7D;
+ Fri, 10 Jan 2025 05:39:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 21CD4C4CEF5;
  Fri, 10 Jan 2025 05:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1736487596;
- bh=Nw1GxRUZam/tq1vSGi+OXpPMqcHfCVLgLJI8d7Bm8Ss=;
+ bh=8ZRw3syLVNYKAZHbvSYXlq0vVH0Cy1rPscvTJmdz8Ag=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=Lyzx8Bs0LMkl7ToDa678dSB5Vn2hxa8GDCPwbeBZ6mX5/BYo43fahJC5GKjAk5x1h
- QRbPEdgQt/bC3XBBkyGXhKHbxjApUI65GChYU+mrol8CUDMJUmP4vyAcinea5tMjD5
- /P8BP+W2cI7uMDwYolgCKbjol4WGtPgaUMxWu9dYqkFKPSicGm0d6F8u4hClV9uAFI
- wPo8IlZazFrzNT86KU5mf85lkJ/qIS+7zD4L9QqSx+2iaDTBv9ih4/+fhG4IwYhGS8
- +Qy8FRQxlcO3a0m3k1npsWkJR1l7eWUFzIuBvBX9BS8EnkXK08/UEkWHaWjd5jphyX
- AVrPQHCxlQ1ig==
+ b=LkN4DSzGs6FlTkGFlNGb407Ro6cFmDL89x1QBZIH/zL3lutCt5/HY7EpCDSUdbGqV
+ HN36Ij4tYzJKdaaOI+4Cf+jR4l2lhUdxnCI99S5CqEIrGk+pta2J/n+AFwmaBp7OdZ
+ Wh30MbzZZ5s62XOoXl7TVu4AthZZnA0hv9kXIfCWRf0UV73Cribo0Ju5nJh3Y8IgeK
+ UVT6DWotEy9jLM1UFYPeECYe8xnREnGYnSPck3vFguFcFIbR7n1j20EL20Y+yHAZrM
+ Qxx1AgCpspnS4qH4z5UOqQohHTBgrbG/3w7ZblakF0evQyaGDExnGemo3P1uhgdPwx
+ xqjH8L4Crrqsw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 047C1E7719C;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 17F16E77188;
  Fri, 10 Jan 2025 05:39:56 +0000 (UTC)
 From: Ao Xu via B4 Relay <devnull+ao.xu.amlogic.com@kernel.org>
-Date: Fri, 10 Jan 2025 13:39:57 +0800
-Subject: [PATCH 07/11] drm: meson: change api call parameter
+Date: Fri, 10 Jan 2025 13:39:58 +0800
+Subject: [PATCH 08/11] drm: meson: add hdmitx vmode timing support for S4
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250110-drm-s4-v1-7-cbc2d5edaae8@amlogic.com>
+Message-Id: <20250110-drm-s4-v1-8-cbc2d5edaae8@amlogic.com>
 References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
 In-Reply-To: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -56,11 +55,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org, Ao Xu <ao.xu@amlogic.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736487593; l=6404;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736487593; l=13515;
  i=ao.xu@amlogic.com; s=20250103; h=from:subject:message-id;
- bh=4USay3QtDuRbS8FCpdm9MAw33ZXb1TEINIc05tyQlYM=;
- b=VIGGkrGrVQnJ7yCira+Tj6lvZDk0IICJyvIkw2pXvabnZW9xtixF5K9TEzYjPmA2f2/77B6HH
- qiJXrflCXR7CwEKWaFqO3ADDBw83QA/T5qDaWHC25lkLeHHYbzukJQr
+ bh=LUyI3uauXSbgx+44CE2avmgLudmjXAgvYaFzCLYO4dg=;
+ b=b2kywszPo9FhOjdnZxbuQsTAluRutnZmUFDo8KF25E1GNv4T2fnh6TLRqUPuHNDyIWq0QmpDX
+ V6X75yGyvmcBlA/FWBI4oQ+m51rmR48NlnO1h29lGgrUh6URt0qzD/g
 X-Developer-Key: i=ao.xu@amlogic.com; a=ed25519;
  pk=c0TSXrwQuL4EhPVf3lJ676U27ax2yfFTqmRoseP/fA8=
 X-Endpoint-Received: by B4 Relay for ao.xu@amlogic.com/20250103 with
@@ -84,149 +83,464 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ao Xu <ao.xu@amlogic.com>
 
-Adjust the parameters passed to specific API calls in the
-Meson HDMI encoder to align with hardware requirements.
-Configure VCLK to use double pixels for
-480p and 576p resolutions in the Amlogic S4.
+Introduce support for HDMI TX video mode (vmode) timing in the
+Meson VENC driver for the Amlogic S4 SoC. These updates enable
+reliable HDMI output with correct timing for S4 devices.
 
 Signed-off-by: Ao Xu <ao.xu@amlogic.com>
 ---
- drivers/gpu/drm/meson/meson_encoder_hdmi.c | 19 +++++++++++++++----
- drivers/gpu/drm/meson/meson_venc.c         | 12 ++++++------
- drivers/gpu/drm/meson/meson_venc.h         |  4 ++--
- 3 files changed, 23 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/meson/meson_venc.c | 334 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 328 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-index 0593a1cde906ffab10c010c40942fb910059b2ab..5fde4cfc79ad66d3bb6c15cedce536f1346fce34 100644
---- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-+++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-@@ -98,7 +98,7 @@ static void meson_encoder_hdmi_set_vclk(struct meson_encoder_hdmi *encoder_hdmi,
- 	hdmi_freq = vclk_freq;
- 
- 	/* VENC double pixels for 1080i, 720p and YUV420 modes */
--	if (meson_venc_hdmi_venc_repeat(vic) ||
-+	if (meson_venc_hdmi_venc_repeat(priv, vic) ||
- 	    encoder_hdmi->output_bus_fmt == MEDIA_BUS_FMT_UYYVYY8_0_5X24)
- 		venc_freq *= 2;
- 
-@@ -107,6 +107,11 @@ static void meson_encoder_hdmi_set_vclk(struct meson_encoder_hdmi *encoder_hdmi,
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		venc_freq /= 2;
- 
-+	/* VCLK double pixels for 480p and 576p on S4 */
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
-+		if (vic == 2 || vic == 3 || vic == 17 || vic == 18)
-+			vclk_freq *= 2;
-+
- 	dev_dbg(priv->dev, "vclk:%d phy=%d venc=%d hdmi=%d enci=%d\n",
- 		phy_freq, vclk_freq, venc_freq, hdmi_freq,
- 		priv->venc.hdmi_use_enci);
-@@ -146,7 +151,7 @@ static enum drm_mode_status meson_encoder_hdmi_mode_valid(struct drm_bridge *bri
- 
- 		return meson_vclk_dmt_supported_freq(priv, mode->clock);
- 	/* Check against supported VIC modes */
--	} else if (!meson_venc_hdmi_supported_vic(vic))
-+	} else if (!meson_venc_hdmi_supported_vic(priv, vic))
- 		return MODE_BAD;
- 
- 	vclk_freq = mode->clock;
-@@ -168,7 +173,7 @@ static enum drm_mode_status meson_encoder_hdmi_mode_valid(struct drm_bridge *bri
- 	hdmi_freq = vclk_freq;
- 
- 	/* VENC double pixels for 1080i, 720p and YUV420 modes */
--	if (meson_venc_hdmi_venc_repeat(vic) ||
-+	if (meson_venc_hdmi_venc_repeat(priv, vic) ||
- 	    drm_mode_is_420_only(display_info, mode) ||
- 	    (!is_hdmi2_sink &&
- 	     drm_mode_is_420_also(display_info, mode)))
-@@ -179,6 +184,11 @@ static enum drm_mode_status meson_encoder_hdmi_mode_valid(struct drm_bridge *bri
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		venc_freq /= 2;
- 
-+	/* VCLK double pixels for 480p and 576p on S4 */
-+	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
-+		if (vic == 2 || vic == 3 || vic == 17 || vic == 18)
-+			vclk_freq *= 2;
-+
- 	dev_dbg(priv->dev, "%s: vclk:%d phy=%d venc=%d hdmi=%d\n",
- 		__func__, phy_freq, vclk_freq, venc_freq, hdmi_freq);
- 
-@@ -444,7 +454,8 @@ int meson_encoder_hdmi_probe(struct meson_drm *priv)
- 
- 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXL) ||
- 	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_GXM) ||
--	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A))
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A) ||
-+	    meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
- 		drm_connector_attach_hdr_output_metadata_property(meson_encoder_hdmi->connector);
- 
- 	drm_connector_attach_max_bpc_property(meson_encoder_hdmi->connector, 8, 8);
 diff --git a/drivers/gpu/drm/meson/meson_venc.c b/drivers/gpu/drm/meson/meson_venc.c
-index 3bf0d6e4fc30ae1e06f6ba77157325af416c786f..5c461b27ae49317d8f430dc55606c8e11a536240 100644
+index 5c461b27ae49317d8f430dc55606c8e11a536240..58e8e3bc854070ba152ee6dd4abde38ee1e28266 100644
 --- a/drivers/gpu/drm/meson/meson_venc.c
 +++ b/drivers/gpu/drm/meson/meson_venc.c
-@@ -878,7 +878,7 @@ meson_venc_hdmi_supported_mode(const struct drm_display_mode *mode)
- }
- EXPORT_SYMBOL_GPL(meson_venc_hdmi_supported_mode);
+@@ -68,6 +68,12 @@
+ #define HHI_VDAC_CNTL1_G12A	0x2F0 /* 0xbc offset in data sheet */
+ #define HHI_HDMI_PHY_CNTL0	0x3a0 /* 0xe8 offset in data sheet */
  
--bool meson_venc_hdmi_supported_vic(int vic)
-+bool meson_venc_hdmi_supported_vic(struct meson_drm *priv, int vic)
++/* ANA Registers */
++#define CLKCTRL_SYS_CLK_EN0_REG2	0x04c /* 0x13 offset in data sheet */
++#define ANACTRL_HDMIPHY_CTRL0		0x200 /* 0x80 */
++#define ANACTRL_VDAC_CTRL0		0x2c0 /* 0xb0 offset in data sheet */
++#define ANACTRL_VDAC_CTRL1		0x2c4 /* 0xb1 offset in data sheet */
++
+ struct meson_cvbs_enci_mode meson_cvbs_enci_pal = {
+ 	.mode_tag = MESON_VENC_MODE_CVBS_PAL,
+ 	.hso_begin = 3,
+@@ -228,6 +234,52 @@ static union meson_hdmi_venc_mode meson_hdmi_enci_mode_576i = {
+ 	},
+ };
+ 
++static union meson_hdmi_venc_mode meson_s4_hdmi_encp_mode_480p = {
++	.encp = {
++		.dvi_settings = 0x21,
++		.video_mode = 0x4000,
++		.video_mode_adv = 0x8,
++		.video_prog_mode = 0,
++		.video_prog_mode_present = true,
++		.video_sync_mode = 7,
++		.video_sync_mode_present = true,
++		/* video_yc_dly */
++		/* video_rgb_ctrl */
++		.video_filt_ctrl = 0x2052,
++		.video_filt_ctrl_present = true,
++		/* video_ofld_voav_ofst */
++		.yfp1_htime = 244,
++		.yfp2_htime = 1630,
++		.max_pxcnt = 857,
++		.hspuls_begin = 0x22,
++		.hspuls_end = 0xa0,
++		.hspuls_switch = 88,
++		.vspuls_begin = 0,
++		.vspuls_end = 1589,
++		.vspuls_bline = 0,
++		.vspuls_eline = 5,
++		.havon_begin = 122,
++		.havon_end = 841,
++		.vavon_bline = 36,
++		.vavon_eline = 515,
++		/* eqpuls_begin */
++		/* eqpuls_end */
++		/* eqpuls_bline */
++		/* eqpuls_eline */
++		.hso_begin = 0,
++		.hso_end = 62,
++		.vso_begin = 30,
++		.vso_end = 50,
++		.vso_bline = 0,
++		/* vso_eline */
++		.sy_val = 8,
++		.sy_val_present = true,
++		.sy2_val = 0x1d8,
++		.sy2_val_present = true,
++		.max_lncnt = 524,
++	},
++};
++
+ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_480p = {
+ 	.encp = {
+ 		.dvi_settings = 0x21,
+@@ -320,6 +372,52 @@ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_576p = {
+ 	},
+ };
+ 
++static union meson_hdmi_venc_mode meson_s4_hdmi_encp_mode_576p = {
++	.encp = {
++		.dvi_settings = 0x21,
++		.video_mode = 0x4000,
++		.video_mode_adv = 0x8,
++		.video_prog_mode = 0,
++		.video_prog_mode_present = true,
++		.video_sync_mode = 7,
++		.video_sync_mode_present = true,
++		/* video_yc_dly */
++		/* video_rgb_ctrl */
++		.video_filt_ctrl = 0x52,
++		.video_filt_ctrl_present = true,
++		/* video_ofld_voav_ofst */
++		.yfp1_htime = 235,
++		.yfp2_htime = 1674,
++		.max_pxcnt = 863,
++		.hspuls_begin = 0,
++		.hspuls_end = 0x80,
++		.hspuls_switch = 88,
++		.vspuls_begin = 0,
++		.vspuls_end = 1599,
++		.vspuls_bline = 0,
++		.vspuls_eline = 4,
++		.havon_begin = 132,
++		.havon_end = 851,
++		.vavon_bline = 44,
++		.vavon_eline = 619,
++		/* eqpuls_begin */
++		/* eqpuls_end */
++		/* eqpuls_bline */
++		/* eqpuls_eline */
++		.hso_begin = 0,
++		.hso_end = 64,
++		.vso_begin = 30,
++		.vso_end = 50,
++		.vso_bline = 5,
++		/* vso_eline */
++		.sy_val = 8,
++		.sy_val_present = true,
++		.sy2_val = 0x1d8,
++		.sy2_val_present = true,
++		.max_lncnt = 624,
++	},
++};
++
+ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
+ 	.encp = {
+ 		.dvi_settings = 0x2029,
+@@ -362,6 +460,48 @@ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p60 = {
+ 	},
+ };
+ 
++static union meson_hdmi_venc_mode meson_s4_hdmi_encp_mode_720p60 = {
++	.encp = {
++		.dvi_settings = 0x2029,
++		.video_mode = 0x4040,
++		.video_mode_adv = 0x18,
++		/* video_prog_mode */
++		/* video_sync_mode */
++		/* video_yc_dly */
++		/* video_rgb_ctrl */
++		/* video_filt_ctrl */
++		/* video_ofld_voav_ofst */
++		.yfp1_htime = 648,
++		.yfp2_htime = 3207,
++		.max_pxcnt = 1649,
++		.hspuls_begin = 80,
++		.hspuls_end = 240,
++		.hspuls_switch = 80,
++		.vspuls_begin = 688,
++		.vspuls_end = 3248,
++		.vspuls_bline = 4,
++		.vspuls_eline = 8,
++		.havon_begin = 260,
++		.havon_end = 1539,
++		.vavon_bline = 29,
++		.vavon_eline = 749,
++		/* eqpuls_begin */
++		/* eqpuls_end */
++		/* eqpuls_bline */
++		/* eqpuls_eline */
++		.hso_begin = 0,
++		.hso_end = 168,
++		.vso_begin = 168,
++		.vso_end = 256,
++		.vso_bline = 0,
++		.vso_eline = 5,
++		.vso_eline_present = true,
++		/* sy_val */
++		/* sy2_val */
++		.max_lncnt = 749,
++	},
++};
++
+ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
+ 	.encp = {
+ 		.dvi_settings = 0x202d,
+@@ -407,6 +547,51 @@ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_720p50 = {
+ 	},
+ };
+ 
++static union meson_hdmi_venc_mode meson_s4_hdmi_encp_mode_720p50 = {
++	.encp = {
++		.dvi_settings = 0x202d,
++		.video_mode = 0x4040,
++		.video_mode_adv = 0x18,
++		.video_prog_mode = 0x100,
++		.video_prog_mode_present = true,
++		.video_sync_mode = 0x407,
++		.video_sync_mode_present = true,
++		.video_yc_dly = 0,
++		.video_yc_dly_present = true,
++		/* video_rgb_ctrl */
++		/* video_filt_ctrl */
++		/* video_ofld_voav_ofst */
++		.yfp1_htime = 648,
++		.yfp2_htime = 3207,
++		.max_pxcnt = 1979,
++		.hspuls_begin = 80,
++		.hspuls_end = 240,
++		.hspuls_switch = 80,
++		.vspuls_begin = 688,
++		.vspuls_end = 3248,
++		.vspuls_bline = 4,
++		.vspuls_eline = 8,
++		.havon_begin = 260,
++		.havon_end = 1539,
++		.vavon_bline = 25,
++		.vavon_eline = 744,
++		/* eqpuls_begin */
++		/* eqpuls_end */
++		/* eqpuls_bline */
++		/* eqpuls_eline */
++		.hso_begin = 0,
++		.hso_end = 40,
++		.vso_begin = 30,
++		.vso_end = 50,
++		.vso_bline = 0,
++		.vso_eline = 5,
++		.vso_eline_present = true,
++		/* sy_val */
++		/* sy2_val */
++		.max_lncnt = 749,
++	},
++};
++
+ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
+ 	.encp = {
+ 		.dvi_settings = 0x2029,
+@@ -456,6 +641,55 @@ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i60 = {
+ 	},
+ };
+ 
++static union meson_hdmi_venc_mode meson_s4_hdmi_encp_mode_1080i60 = {
++	.encp = {
++		.dvi_settings = 0x2029,
++		.video_mode = 0x5ffc,
++		.video_mode_adv = 0x18,
++		.video_prog_mode = 0x100,
++		.video_prog_mode_present = true,
++		.video_sync_mode = 0x207,
++		.video_sync_mode_present = true,
++		/* video_yc_dly */
++		/* video_rgb_ctrl */
++		/* video_filt_ctrl */
++		.video_ofld_voav_ofst = 0x11,
++		.video_ofld_voav_ofst_present = true,
++		.yfp1_htime = 516,
++		.yfp2_htime = 4355,
++		.max_pxcnt = 2199,
++		.hspuls_begin = 88,
++		.hspuls_end = 264,
++		.hspuls_switch = 88,
++		.vspuls_begin = 440,
++		.vspuls_end = 2200,
++		.vspuls_bline = 0,
++		.vspuls_eline = 4,
++		.havon_begin = 192,
++		.havon_end = 2111,
++		.vavon_bline = 20,
++		.vavon_eline = 559,
++		.eqpuls_begin = 2288,
++		.eqpuls_begin_present = true,
++		.eqpuls_end = 2464,
++		.eqpuls_end_present = true,
++		.eqpuls_bline = 0,
++		.eqpuls_bline_present = true,
++		.eqpuls_eline = 4,
++		.eqpuls_eline_present = true,
++		.hso_begin = 0,
++		.hso_end = 44,
++		.vso_begin = 30,
++		.vso_end = 50,
++		.vso_bline = 0,
++		.vso_eline = 5,
++		.vso_eline_present = true,
++		/* sy_val */
++		/* sy2_val */
++		.max_lncnt = 1124,
++	},
++};
++
+ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
+ 	.encp = {
+ 		.dvi_settings = 0x202d,
+@@ -505,6 +739,55 @@ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080i50 = {
+ 	},
+ };
+ 
++static union meson_hdmi_venc_mode meson_s4_hdmi_encp_mode_1080i50 = {
++	.encp = {
++		.dvi_settings = 0x202d,
++		.video_mode = 0x5ffc,
++		.video_mode_adv = 0x18,
++		.video_prog_mode = 0x100,
++		.video_prog_mode_present = true,
++		.video_sync_mode = 0x7,
++		.video_sync_mode_present = true,
++		/* video_yc_dly */
++		/* video_rgb_ctrl */
++		/* video_filt_ctrl */
++		.video_ofld_voav_ofst = 0x11,
++		.video_ofld_voav_ofst_present = true,
++		.yfp1_htime = 526,
++		.yfp2_htime = 4365,
++		.max_pxcnt = 2639,
++		.hspuls_begin = 88,
++		.hspuls_end = 264,
++		.hspuls_switch = 88,
++		.vspuls_begin = 440,
++		.vspuls_end = 2200,
++		.vspuls_bline = 0,
++		.vspuls_eline = 4,
++		.havon_begin = 192,
++		.havon_end = 2111,
++		.vavon_bline = 20,
++		.vavon_eline = 559,
++		.eqpuls_begin = 2288,
++		.eqpuls_begin_present = true,
++		.eqpuls_end = 2464,
++		.eqpuls_end_present = true,
++		.eqpuls_bline = 0,
++		.eqpuls_bline_present = true,
++		.eqpuls_eline = 4,
++		.eqpuls_eline_present = true,
++		.hso_begin = 0,
++		.hso_end = 44,
++		.vso_begin = 30,
++		.vso_end = 50,
++		.vso_bline = 0,
++		.vso_eline = 5,
++		.vso_eline_present = true,
++		/* sy_val */
++		/* sy2_val */
++		.max_lncnt = 1124,
++	},
++};
++
+ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_1080p24 = {
+ 	.encp = {
+ 		.dvi_settings = 0xd,
+@@ -816,10 +1099,12 @@ static union meson_hdmi_venc_mode meson_hdmi_encp_mode_2160p30 = {
+ 	},
+ };
+ 
+-static struct meson_hdmi_venc_vic_mode {
++struct meson_hdmi_venc_vic_mode {
+ 	unsigned int vic;
+ 	union meson_hdmi_venc_mode *mode;
+-} meson_hdmi_venc_vic_modes[] = {
++};
++
++static struct meson_hdmi_venc_vic_mode meson_hdmi_venc_vic_modes[] = {
+ 	{ 6, &meson_hdmi_enci_mode_480i },
+ 	{ 7, &meson_hdmi_enci_mode_480i },
+ 	{ 21, &meson_hdmi_enci_mode_576i },
+@@ -845,6 +1130,23 @@ static struct meson_hdmi_venc_vic_mode {
+ 	{ 0, NULL}, /* sentinel */
+ };
+ 
++static struct meson_hdmi_venc_vic_mode meson_s4_hdmi_venc_vic_modes[] = {
++	{ 2, &meson_s4_hdmi_encp_mode_480p },
++	{ 3, &meson_s4_hdmi_encp_mode_480p },
++	{ 17, &meson_s4_hdmi_encp_mode_576p },
++	{ 18, &meson_s4_hdmi_encp_mode_576p },
++	{ 4, &meson_s4_hdmi_encp_mode_720p60 },
++	{ 19, &meson_s4_hdmi_encp_mode_720p50 },
++	{ 5, &meson_s4_hdmi_encp_mode_1080i60 },
++	{ 20, &meson_s4_hdmi_encp_mode_1080i50 },
++	{ 32, &meson_hdmi_encp_mode_1080p24 },
++	{ 33, &meson_hdmi_encp_mode_1080p50 },
++	{ 34, &meson_hdmi_encp_mode_1080p30 },
++	{ 31, &meson_hdmi_encp_mode_1080p50 },
++	{ 16, &meson_hdmi_encp_mode_1080p60 },
++	{ 0, NULL}, /* sentinel */
++};
++
+ static signed int to_signed(unsigned int a)
+ {
+ 	if (a <= 7)
+@@ -882,6 +1184,9 @@ bool meson_venc_hdmi_supported_vic(struct meson_drm *priv, int vic)
  {
  	struct meson_hdmi_venc_vic_mode *vmode = meson_hdmi_venc_vic_modes;
  
-@@ -917,7 +917,7 @@ static void meson_venc_hdmi_get_dmt_vmode(const struct drm_display_mode *mode,
- 	dmt_mode->encp.max_lncnt = mode->vtotal - 1;
- }
- 
--static union meson_hdmi_venc_mode *meson_venc_hdmi_get_vic_vmode(int vic)
-+static union meson_hdmi_venc_mode *meson_venc_hdmi_get_vic_vmode(struct meson_drm *priv, int vic)
++	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
++		vmode = meson_s4_hdmi_venc_vic_modes;
++
+ 	while (vmode->vic && vmode->mode) {
+ 		if (vmode->vic == vic)
+ 			return true;
+@@ -921,6 +1226,9 @@ static union meson_hdmi_venc_mode *meson_venc_hdmi_get_vic_vmode(struct meson_dr
  {
  	struct meson_hdmi_venc_vic_mode *vmode = meson_hdmi_venc_vic_modes;
  
-@@ -930,7 +930,7 @@ static union meson_hdmi_venc_mode *meson_venc_hdmi_get_vic_vmode(int vic)
- 	return NULL;
- }
++	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
++		vmode = meson_s4_hdmi_venc_vic_modes;
++
+ 	while (vmode->vic && vmode->mode) {
+ 		if (vmode->vic == vic)
+ 			return vmode->mode;
+@@ -932,6 +1240,8 @@ static union meson_hdmi_venc_mode *meson_venc_hdmi_get_vic_vmode(struct meson_dr
  
--bool meson_venc_hdmi_venc_repeat(int vic)
-+bool meson_venc_hdmi_venc_repeat(struct meson_drm *priv, int vic)
+ bool meson_venc_hdmi_venc_repeat(struct meson_drm *priv, int vic)
  {
++	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
++		return false;
  	/* Repeat VENC pixels for 480/576i/p, 720p50/60 and 1080p50/60 */
  	if (vic == 6 || vic == 7 || /* 480i */
-@@ -989,8 +989,8 @@ void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
- 		venc_hdmi_latency = 1;
+ 	    vic == 21 || vic == 22 || /* 576i */
+@@ -1957,12 +2267,19 @@ void meson_venc_enable_vsync(struct meson_drm *priv)
+ 		writel_relaxed(VENC_INTCTRL_ENCI_LNRST_INT_EN,
+ 			       priv->io_base + _REG(VENC_INTCTRL));
  	}
+-	regmap_update_bits(priv->hhi, HHI_GCLK_MPEG2, BIT(25), BIT(25));
++
++	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
++		regmap_update_bits(priv->clkctrl, CLKCTRL_SYS_CLK_EN0_REG2, BIT(4), BIT(4));
++	else
++		regmap_update_bits(priv->hhi, HHI_GCLK_MPEG2, BIT(25), BIT(25));
+ }
  
--	if (meson_venc_hdmi_supported_vic(vic)) {
--		vmode = meson_venc_hdmi_get_vic_vmode(vic);
-+	if (meson_venc_hdmi_supported_vic(priv, vic)) {
-+		vmode = meson_venc_hdmi_get_vic_vmode(priv, vic);
- 		if (!vmode) {
- 			dev_err(priv->dev, "%s: Fatal Error, unsupported mode "
- 				DRM_MODE_FMT "\n", __func__,
-@@ -1004,7 +1004,7 @@ void meson_venc_hdmi_mode_set(struct meson_drm *priv, int vic,
- 	}
+ void meson_venc_disable_vsync(struct meson_drm *priv)
+ {
+-	regmap_update_bits(priv->hhi, HHI_GCLK_MPEG2, BIT(25), 0);
++	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
++		regmap_update_bits(priv->clkctrl, CLKCTRL_SYS_CLK_EN0_REG2, BIT(4), 0);
++	else
++		regmap_update_bits(priv->hhi, HHI_GCLK_MPEG2, BIT(25), 0);
+ 	writel_relaxed(0, priv->io_base + _REG(VENC_INTCTRL));
+ }
  
- 	/* Repeat VENC pixels for 480/576i/p, 720p50/60 and 1080p50/60 */
--	if (meson_venc_hdmi_venc_repeat(vic))
-+	if (meson_venc_hdmi_venc_repeat(priv, vic))
- 		venc_repeat = true;
+@@ -1972,6 +2289,9 @@ void meson_venc_init(struct meson_drm *priv)
+ 	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_G12A)) {
+ 		regmap_write(priv->hhi, HHI_VDAC_CNTL0_G12A, 0);
+ 		regmap_write(priv->hhi, HHI_VDAC_CNTL1_G12A, 8);
++	} else if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4)) {
++		regmap_write(priv->hhi, ANACTRL_VDAC_CTRL0, 0);
++		regmap_write(priv->hhi, ANACTRL_VDAC_CTRL1, 8);
+ 	} else {
+ 		regmap_write(priv->hhi, HHI_VDAC_CNTL0, 0);
+ 		regmap_write(priv->hhi, HHI_VDAC_CNTL1, 8);
+@@ -1981,8 +2301,10 @@ void meson_venc_init(struct meson_drm *priv)
+ 	writel_relaxed(0xff, priv->io_base + _REG(VENC_VDAC_SETTING));
  
- 	eof_lines = mode->vsync_start - mode->vdisplay;
-diff --git a/drivers/gpu/drm/meson/meson_venc.h b/drivers/gpu/drm/meson/meson_venc.h
-index 0f59adb1c6db08ca39d0c556875cf5d0d8df430a..7cc6841f633048364c9880f5d1f0e18e3056c9f8 100644
---- a/drivers/gpu/drm/meson/meson_venc.h
-+++ b/drivers/gpu/drm/meson/meson_venc.h
-@@ -54,8 +54,8 @@ void meson_encl_load_gamma(struct meson_drm *priv);
- /* HDMI Clock parameters */
- enum drm_mode_status
- meson_venc_hdmi_supported_mode(const struct drm_display_mode *mode);
--bool meson_venc_hdmi_supported_vic(int vic);
--bool meson_venc_hdmi_venc_repeat(int vic);
-+bool meson_venc_hdmi_supported_vic(struct meson_drm *priv, int vic);
-+bool meson_venc_hdmi_venc_repeat(struct meson_drm *priv, int vic);
- 
- /* CVBS Timings and Parameters */
- extern struct meson_cvbs_enci_mode meson_cvbs_enci_pal;
+ 	/* Disable HDMI PHY */
+-	regmap_write(priv->hhi, HHI_HDMI_PHY_CNTL0, 0);
+-
++	if (meson_vpu_is_compatible(priv, VPU_COMPATIBLE_S4))
++		regmap_write(priv->hhi, ANACTRL_HDMIPHY_CTRL0, 0);
++	else
++		regmap_write(priv->hhi, HHI_HDMI_PHY_CNTL0, 0);
+ 	/* Disable HDMI */
+ 	writel_bits_relaxed(VPU_HDMI_ENCI_DATA_TO_HDMI |
+ 			    VPU_HDMI_ENCP_DATA_TO_HDMI, 0,
 
 -- 
 2.43.0
