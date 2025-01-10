@@ -2,93 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C89FA091CA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA489A091F7
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:31:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0A710F0A9;
-	Fri, 10 Jan 2025 13:23:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB9F10E042;
+	Fri, 10 Jan 2025 13:30:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="m+6oSc3X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ASsviGnm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m+6oSc3X";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ASsviGnm";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="T7cE6+as";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73X+XmBo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T7cE6+as";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73X+XmBo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E27D10E04B;
- Fri, 10 Jan 2025 13:23:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5F9510E05F;
+ Fri, 10 Jan 2025 13:30:57 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 087B921172;
- Fri, 10 Jan 2025 13:23:49 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 61D3221173;
+ Fri, 10 Jan 2025 13:30:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736515429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1736515856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PrilCMX5C09JO84DVBY8YiEapsTpHUYRcsRbRBep3cA=;
- b=m+6oSc3XjiJxQ7r2O4TIutB8rfN4Sn51k9uRZDknztaHK9SUvXjiQ6+F5InXDkhWZQjx2e
- bEKydpyg4D+gW9I2rZHGRVGFVmNINT6YqOEDsK35alPpZC67b21Ag5WeKkLepzWE0+aED1
- S9lfcFIhJOEC+GNPF38po+TNTa8tJCY=
+ bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
+ b=T7cE6+as5UgYLF0bXB5jDtXiUOTB8vL2wO3ekCJ1/PBTVH6BqvcF6I3CCclHQ1PlPBVXXd
+ jtHOz5yEnmYeFLhy33iCHayZnd61SXjQus/GDFLsc+sJOHqDlqjwwN1TDRpA/7fVJ4r6jd
+ idcCzDg2yQgv5vUMsJflc+eE+53PnOM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736515429;
+ s=susede2_ed25519; t=1736515856;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PrilCMX5C09JO84DVBY8YiEapsTpHUYRcsRbRBep3cA=;
- b=ASsviGnmX5mBcPbnd2R2scx+AS/t4X+QqjIZ1BzhB4fbdnEbKRUxbOVJHsRs2T+pwqFspq
- Yu0sZOw7CnwQ/GCA==
+ bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
+ b=73X+XmBoc1OYK+tz7wmvzjSwbtEeFDSpLq2pch9FpdzleO2KfbpO5EY/JErgjPKHSnVnNb
+ tA9D6u/HFk6n3MBA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=m+6oSc3X;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ASsviGnm
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=T7cE6+as;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=73X+XmBo
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736515429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1736515856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PrilCMX5C09JO84DVBY8YiEapsTpHUYRcsRbRBep3cA=;
- b=m+6oSc3XjiJxQ7r2O4TIutB8rfN4Sn51k9uRZDknztaHK9SUvXjiQ6+F5InXDkhWZQjx2e
- bEKydpyg4D+gW9I2rZHGRVGFVmNINT6YqOEDsK35alPpZC67b21Ag5WeKkLepzWE0+aED1
- S9lfcFIhJOEC+GNPF38po+TNTa8tJCY=
+ bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
+ b=T7cE6+as5UgYLF0bXB5jDtXiUOTB8vL2wO3ekCJ1/PBTVH6BqvcF6I3CCclHQ1PlPBVXXd
+ jtHOz5yEnmYeFLhy33iCHayZnd61SXjQus/GDFLsc+sJOHqDlqjwwN1TDRpA/7fVJ4r6jd
+ idcCzDg2yQgv5vUMsJflc+eE+53PnOM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736515429;
+ s=susede2_ed25519; t=1736515856;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=PrilCMX5C09JO84DVBY8YiEapsTpHUYRcsRbRBep3cA=;
- b=ASsviGnmX5mBcPbnd2R2scx+AS/t4X+QqjIZ1BzhB4fbdnEbKRUxbOVJHsRs2T+pwqFspq
- Yu0sZOw7CnwQ/GCA==
+ bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
+ b=73X+XmBoc1OYK+tz7wmvzjSwbtEeFDSpLq2pch9FpdzleO2KfbpO5EY/JErgjPKHSnVnNb
+ tA9D6u/HFk6n3MBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CB5D13763;
- Fri, 10 Jan 2025 13:23:48 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E49EC13763;
+ Fri, 10 Jan 2025 13:30:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id zEwkHWQfgWcIXgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 10 Jan 2025 13:23:48 +0000
-Content-Type: multipart/mixed; boundary="------------Ak8c05R8qA0Bhl3CK6SC6vGZ"
-Message-ID: <e800ebc2-39b5-46d5-89ec-883ed1c7626b@suse.de>
-Date: Fri, 10 Jan 2025 14:23:48 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id I3F6Ng8hgWdHYAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 10 Jan 2025 13:30:55 +0000
+Message-ID: <29dcf748-c571-4c91-92b7-481be5a43ff5@suse.de>
+Date: Fri, 10 Jan 2025 14:30:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/25] drm/dumb-buffers: Provide helper to set pitch
- and size
-To: Andy Yan <andyshrk@163.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
- xen-devel@lists.xenproject.org
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-3-tzimmermann@suse.de>
- <94f78e1.19bf.1944de709b0.Coremail.andyshrk@163.com>
+Subject: Re: [PATCH 0/6] drm: enforce rules for
+ drm_atomic_helper_check_modeset()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>,
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Archit Taneja <architt@codeaurora.org>, Rajesh Yadav
+ <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+ <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
+ <t7ga7l7hi5y634hc6sklp6mzae3jfqs66nkalviojrzrgez3kf@b4h4ue6fdj7j>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -115,34 +122,32 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <94f78e1.19bf.1944de709b0.Coremail.andyshrk@163.com>
-X-Rspamd-Queue-Id: 087B921172
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.91 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; MIME_BASE64_TEXT_BOGUS(1.00)[];
+In-Reply-To: <t7ga7l7hi5y634hc6sklp6mzae3jfqs66nkalviojrzrgez3kf@b4h4ue6fdj7j>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 61D3221173
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[multipart/mixed,text/plain,text/x-patch];
- MIME_BASE64_TEXT(0.10)[]; MX_GOOD(-0.01)[];
- MIME_TRACE(0.00)[0:+,1:+,2:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCPT_COUNT_TWELVE(0.00)[19];
- ARC_NA(0.00)[]; FREEMAIL_TO(0.00)[163.com];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[20]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,quicinc.com,poorly.run,somainline.org,codeaurora.org,cosmicpenguin.net,lists.freedesktop.org,vger.kernel.org];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,suse.de:mid,suse.de:dkim];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
- HAS_ATTACHMENT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
- infradead.org:email, infradead.org:url]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -1.91
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,248 +163,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------Ak8c05R8qA0Bhl3CK6SC6vGZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
 Hi
 
 
-Am 10.01.25 um 02:49 schrieb Andy Yan:
-> Hi Thomas,
->
-> At 2025-01-09 22:56:56, "Thomas Zimmermann" <tzimmermann@suse.de> wrote:
->> Add drm_modes_size_dumb(), a helper to calculate the dumb-buffer
->> scanline pitch and allocation size. Implementations of struct
->> drm_driver.dumb_create can call the new helper for their size
->> computations. There's currently quite a bit of code duplication
->> among DRM's memory managers. Each calculates scanline pitch and
->> buffer size from the given arguments, but the implementations are
->> inconsistent in how they treat alignment and format support. Later
->> patches will unify this code on top of drm_mode_size_dumb() as
->> much as possible.
+Am 10.01.25 um 00:57 schrieb Dmitry Baryshkov:
+> On Thu, Jan 09, 2025 at 02:53:16PM +0100, Thomas Zimmermann wrote:
+>> Hi
 >>
->> drm_mode_size_dumb() uses existing 4CC format helpers to interpret the
->> given color mode. This makes the dumb-buffer interface behave similar
->> the kernel's video= parameter. Again, current per-driver implementations
->> likely have subtle differences or bugs in how they support color modes.
 >>
->> Future directions: one bug is present in the current input validation
->> in drm_mode_create_dumb(). The dumb-buffer overflow tests round up any
->> given bits-per-pixel value to a multiple of 8. So even one-bit formats,
->> such as DRM_FORMAT_C1, require 8 bits per pixel. While not common,
->> low-end displays use such formats; with a possible overcommitment of
->> memory. At some point, the validation logic in drm_mode_size_dumb() is
->> supposed to replace the erronous code.
+>> Am 22.12.24 um 06:00 schrieb Dmitry Baryshkov:
+>>> As pointed out by Simona, the drm_atomic_helper_check_modeset() and
+>>> drm_atomic_helper_check() require the former function is rerun if the
+>>> driver's callbacks modify crtc_state->mode_changed. MSM is one of the
+>>> drivers which failed to follow this requirement.
+>> I'm concerned about the implications of this series. How does a driver
+>> upgrade from simple pageflip to full modeset if necessary? The solution in
+>> msm appears to be to run the related test before drm_atomic_helper_check().
+>> (Right?)
 >>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->> drivers/gpu/drm/drm_dumb_buffers.c | 93 ++++++++++++++++++++++++++++++
->> include/drm/drm_dumb_buffers.h     | 14 +++++
->> 2 files changed, 107 insertions(+)
->> create mode 100644 include/drm/drm_dumb_buffers.h
+>> My corner case is in mgag200, which has to reprogram the PLL if the color
+>> mode changes. So it sets mode_changed to true in the primary plane's
+>> atomic_check. [1] This works in practice because the plane checks run before
+>> the CRTC checks. So the CRTC code will do the correct thing. Reprogramming
+>> the PLL means to disable the display at some point. So it comes down to a
+>> full modeset.
 >>
->> diff --git a/drivers/gpu/drm/drm_dumb_buffers.c b/drivers/gpu/drm/drm_dumb_buffers.c
->> index 9916aaf5b3f2..fd39720bd617 100644
->> --- a/drivers/gpu/drm/drm_dumb_buffers.c
->> +++ b/drivers/gpu/drm/drm_dumb_buffers.c
->> @@ -25,6 +25,8 @@
->>
->> #include <drm/drm_device.h>
->> #include <drm/drm_drv.h>
->> +#include <drm/drm_dumb_buffers.h>
->> +#include <drm/drm_fourcc.h>
->> #include <drm/drm_gem.h>
->> #include <drm/drm_mode.h>
->>
->> @@ -57,6 +59,97 @@
->>   * a hardware-specific ioctl to allocate suitable buffer objects.
->>   */
->>
->> +static int drm_mode_align_dumb(struct drm_mode_create_dumb *args,
->> +			       unsigned long pitch_align,
->> +			       unsigned long size_align)
->> +{
->> +	u32 pitch = args->pitch;
->> +	u32 size;
->> +
->> +	if (!pitch)
->> +		return -EINVAL;
->> +
->> +	if (pitch_align)
->> +		pitch = roundup(pitch, pitch_align);
->> +
->> +	/* overflow checks for 32bit size calculations */
->> +	if (args->height > U32_MAX / pitch)
->> +		return -EINVAL;
->> +
->> +	if (!size_align)
->> +		size_align = PAGE_SIZE;
->> +	else if (!IS_ALIGNED(size_align, PAGE_SIZE))
->> +		return -EINVAL;
->> +
->> +	size = ALIGN(args->height * pitch, size_align);
->> +	if (!size)
->> +		return -EINVAL;
->> +
->> +	args->pitch = pitch;
->> +	args->size = size;
->> +
->> +	return 0;
->> +}
->> +
->> +/**
->> + * drm_mode_size_dumb - Calculates the scanline and buffer sizes for dumb buffers
->> + * @dev: DRM device
->> + * @args: Parameters for the dumb buffer
->> + * @pitch_align: Scanline alignment in bytes
->> + * @size_align: Buffer-size alignment in bytes
->> + *
->> + * The helper drm_mode_size_dumb() calculates the size of the buffer
->> + * allocation and the scanline size for a dumb buffer. Callers have to
->> + * set the buffers width, height and color mode in the argument @arg.
->> + * The helper validates the correctness of the input and tests for
->> + * possible overflows. If successful, it returns the dumb buffer's
->> + * required scanline pitch and size in &args.
->> + *
->> + * The parameter @pitch_align allows the driver to specifies an
->> + * alignment for the scanline pitch, if the hardware requires any. The
->> + * calculated pitch will be a multiple of the alignment. The parameter
->> + * @size_align allows to specify an alignment for buffer sizes. The
->> + * returned size is always a multiple of PAGE_SIZE.
->> + *
->> + * Returns:
->> + * Zero on success, or a negative error code otherwise.
->> + */
->> +int drm_mode_size_dumb(struct drm_device *dev,
->> +		       struct drm_mode_create_dumb *args,
->> +		       unsigned long pitch_align,
->> +		       unsigned long size_align)
->> +{
->> +	u32 fourcc;
->> +	const struct drm_format_info *info;
->> +	u64 pitch;
->> +
->> +	/*
->> +	 * The scanline pitch depends on the buffer width and the color
->> +	 * format. The latter is specified as a color-mode constant for
->> +	 * which we first have to find the corresponding color format.
->> +	 *
->> +	 * Different color formats can have the same color-mode constant.
->> +	 * For example XRGB8888 and BGRX8888 both have a color mode of 32.
->> +	 * It is possible to use different formats for dumb-buffer allocation
->> +	 * and rendering as long as all involved formats share the same
->> +	 * color-mode constant.
->> +	 */
->> +	fourcc = drm_driver_color_mode_format(dev, args->bpp);
-> This will return -EINVAL with bpp drm_mode_legacy_fb_format doesn't support,
-> such as(NV15, NV20, NV30, bpp is 10)[0]
+>> You mention that drm_atomic_helper_check() needs to rerun if mode_changed
+>> flips. Would it be possible to implement this instead within the helper?
+> I think this should be a driver's decision. For MSM it was easier to
+> move the mode_changed changes and to isolate that before calling into
+> the drm_atomic_helper_check_modeset() code. Other drivers might prefer
+> to rerun the helper.
 
-Thanks for taking a look. That NV-related code at [0] is a 'somewhat 
-non-idiomatic use' of the UAPI. The dumb-buffer interface really just 
-supports a single plane. The fix would be a new ioctl that takes a DRM 
-4cc constant and returns a buffer handle/pitch/size for each plane. But 
-that's separate series throughout the various components.
+Is it legal to do something like
 
-There's also code XRGB16161616F. This is a viable format for the UAPI, 
-but seems not very useful in practice.
+int atomic_check(state)
+{
+   ret = drm_atomic_helper_check(state)
+   if (state->dirty_needs_modeset)
+     ret = drm_atomic_helper_check(state)
+   return ret;
+}
 
->
-> And there are also some AFBC based format with bpp can't be handled here, see:
-> static __u32 drm_gem_afbc_get_bpp(struct drm_device *dev,
->                                    const struct drm_mode_fb_cmd2 *mode_cmd)
-> {
->          const struct drm_format_info *info;
->                  
->          info = drm_get_format_info(dev, mode_cmd);
->                  
->          switch (info->format) {
->          case DRM_FORMAT_YUV420_8BIT:
->                  return 12;
->          case DRM_FORMAT_YUV420_10BIT:
->                  return 15;
->          case DRM_FORMAT_VUY101010:
->                  return 30;
->          default:
->                  return drm_format_info_bpp(info, 0);
->          }
-> }
-
-Same problem here. These YUV formats are multi-planar and there should 
-be no dumb buffers for them.
-
-As we still have to support these all use cases, I've modified the new 
-helper to fallback to computing the pitch from the given bpp value. 
-That's what drivers currently do. Could you please apply the attached 
-patch on top of the series and report back the result of the test? You 
-should see a kernel warning about the unknown color mode, but allocation 
-should succeed.
+within the driver ? It appears that the atomic helpers warn then.
 
 Best regards
 Thomas
 
 >
->
-> [0]https://gitlab.freedesktop.org/mesa/drm/-/blob/main/tests/modetest/buffers.c?ref_type=heads#L159
->
-> This introduce a modetest failure on rockchip platform:
-> # modetest -M rockchip -s 70@68:1920x1080 -P 32@68:1920x1080@NV30
-> setting mode 1920x1080-60.00Hz on connectors 70, crtc 68
-> testing 1920x1080@NV30 overlay plane 32
-> failed to create dumb buffer: Invalid argument
->
-> I think other platform with bpp can't handler by  drm_mode_legacy_fb_format will
-> also see this kind of failure:
->
->
->
->> +	if (fourcc == DRM_FORMAT_INVALID)
->> +		return -EINVAL;
->> +	info = drm_format_info(fourcc);
->> +	if (!info)
->> +		return -EINVAL;
->> +	pitch = drm_format_info_min_pitch(info, 0, args->width);
->> +	if (!pitch || pitch > U32_MAX)
->> +		return -EINVAL;
->> +
->> +	args->pitch = pitch;
->> +
->> +	return drm_mode_align_dumb(args, pitch_align, size_align);
->> +}
->> +EXPORT_SYMBOL(drm_mode_size_dumb);
->> +
->> int drm_mode_create_dumb(struct drm_device *dev,
->> 			 struct drm_mode_create_dumb *args,
->> 			 struct drm_file *file_priv)
->> diff --git a/include/drm/drm_dumb_buffers.h b/include/drm/drm_dumb_buffers.h
->> new file mode 100644
->> index 000000000000..6fe36004b19d
->> --- /dev/null
->> +++ b/include/drm/drm_dumb_buffers.h
->> @@ -0,0 +1,14 @@
->> +/* SPDX-License-Identifier: MIT */
->> +
->> +#ifndef __DRM_DUMB_BUFFERS_H__
->> +#define __DRM_DUMB_BUFFERS_H__
->> +
->> +struct drm_device;
->> +struct drm_mode_create_dumb;
->> +
->> +int drm_mode_size_dumb(struct drm_device *dev,
->> +		       struct drm_mode_create_dumb *args,
->> +		       unsigned long pitch_align,
->> +		       unsigned long size_align);
->> +
->> +#endif
+>> Best regards
+>> Thomas
+>>
+>> [1] https://elixir.bootlin.com/linux/v6.12/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L493
+>>
+>>> As suggested by Simona, implement generic code to verify that the
+>>> drivers abide to those requirement and rework MSM driver to follow that
+>>> restrictions.
+>>>
+>>> There are no dependencies between core and MSM parts, so they can go
+>>> separately via corresponding trees.
+>>>
+>>> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
+>>> Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>> Dmitry Baryshkov (6):
+>>>         drm/atomic-helper: document drm_atomic_helper_check() restrictions
+>>>         drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
+>>>         drm/msm/dpu: don't use active in atomic_check()
+>>>         drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
+>>>         drm/msm/dpu: simplify dpu_encoder_get_topology() interface
+>>>         drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
+>>>
+>>>    drivers/gpu/drm/drm_atomic.c                |  3 +
+>>>    drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
+>>>    drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
+>>>    drivers/gpu/drm/msm/msm_kms.h               |  7 +++
+>>>    include/drm/drm_atomic.h                    | 10 ++++
+>>>    9 files changed, 192 insertions(+), 43 deletions(-)
+>>> ---
+>>> base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
+>>> change-id: 20241222-drm-dirty-modeset-88079bd27ae6
+>>>
+>>> Best regards,
 >> -- 
->> 2.47.1
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstrasse 146, 90461 Nuernberg, Germany
+>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+>> HRB 36809 (AG Nuernberg)
 >>
->>
->> _______________________________________________
->> Linux-rockchip mailing list
->> Linux-rockchip@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
 -- 
 --
@@ -410,47 +269,3 @@ Frankenstrasse 146, 90461 Nuernberg, Germany
 GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
 HRB 36809 (AG Nuernberg)
 
---------------Ak8c05R8qA0Bhl3CK6SC6vGZ
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-add-fallback-for-unknown-bpp.patch"
-Content-Disposition: attachment;
- filename="0001-add-fallback-for-unknown-bpp.patch"
-Content-Transfer-Encoding: base64
-
-RnJvbSAyZTcwMDU2NTRkNzZiNzFmNzhmZTA3ZmNmOThhMzU3MDAyMmY1MDM0IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4KRGF0ZTogRnJpLCAxMCBKYW4gMjAyNSAwOTozNToxMiArMDEwMApTdWJqZWN0
-OiBbUEFUQ0hdIGFkZCBmYWxsYmFjayBmb3IgdW5rbm93biBicHAKCi0tLQogZHJpdmVycy9n
-cHUvZHJtL2RybV9kdW1iX2J1ZmZlcnMuYyB8IDI4ICsrKysrKysrKysrKysrKysrKysrLS0t
-LS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygt
-KQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHVtYl9idWZmZXJzLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2R1bWJfYnVmZmVycy5jCmluZGV4IGZkMzk3MjBiZDYxNy4u
-NWYyZDAyNmM3NjRjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2R1bWJfYnVm
-ZmVycy5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHVtYl9idWZmZXJzLmMKQEAgLTEx
-OSw5ICsxMTksOCBAQCBpbnQgZHJtX21vZGVfc2l6ZV9kdW1iKHN0cnVjdCBkcm1fZGV2aWNl
-ICpkZXYsCiAJCSAgICAgICB1bnNpZ25lZCBsb25nIHBpdGNoX2FsaWduLAogCQkgICAgICAg
-dW5zaWduZWQgbG9uZyBzaXplX2FsaWduKQogeworCXU2NCBwaXRjaCA9IDA7CiAJdTMyIGZv
-dXJjYzsKLQljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICppbmZvOwotCXU2NCBwaXRj
-aDsKIAogCS8qCiAJICogVGhlIHNjYW5saW5lIHBpdGNoIGRlcGVuZHMgb24gdGhlIGJ1ZmZl
-ciB3aWR0aCBhbmQgdGhlIGNvbG9yCkBAIC0xMzUsMTIgKzEzNCwyNSBAQCBpbnQgZHJtX21v
-ZGVfc2l6ZV9kdW1iKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCiAJICogY29sb3ItbW9kZSBj
-b25zdGFudC4KIAkgKi8KIAlmb3VyY2MgPSBkcm1fZHJpdmVyX2NvbG9yX21vZGVfZm9ybWF0
-KGRldiwgYXJncy0+YnBwKTsKLQlpZiAoZm91cmNjID09IERSTV9GT1JNQVRfSU5WQUxJRCkK
-LQkJcmV0dXJuIC1FSU5WQUw7Ci0JaW5mbyA9IGRybV9mb3JtYXRfaW5mbyhmb3VyY2MpOwot
-CWlmICghaW5mbykKLQkJcmV0dXJuIC1FSU5WQUw7Ci0JcGl0Y2ggPSBkcm1fZm9ybWF0X2lu
-Zm9fbWluX3BpdGNoKGluZm8sIDAsIGFyZ3MtPndpZHRoKTsKKwlpZiAoZm91cmNjICE9IERS
-TV9GT1JNQVRfSU5WQUxJRCkgeworCQljb25zdCBzdHJ1Y3QgZHJtX2Zvcm1hdF9pbmZvICpp
-bmZvID0gZHJtX2Zvcm1hdF9pbmZvKGZvdXJjYyk7CisKKwkJaWYgKCFpbmZvKQorCQkJcmV0
-dXJuIC1FSU5WQUw7CisJCXBpdGNoID0gZHJtX2Zvcm1hdF9pbmZvX21pbl9waXRjaChpbmZv
-LCAwLCBhcmdzLT53aWR0aCk7CisJfSBlbHNlIGlmIChhcmdzLT5icHApIHsKKwkJLyoKKwkJ
-ICogU29tZSB1c2Vyc3BhY2UgdGhyb3dzIGluIGFyYml0cmFyeSB2YWx1ZXMgZm9yIGJwcCBh
-bmQKKwkJICogcmVsaWVzIG9uIHRoZSBrZXJuZWwgdG8gZmlndXJlIGl0IG91dC4gSW4gdGhp
-cyBjYXNlIHdlCisJCSAqIGZhbGwgYmFjayB0byB0aGUgb2xkIG1ldGhvZCBvZiB1c2luZyBi
-cHAgZGlyZWN0bHkuCisJCSAqLworCQlkcm1fd2FybihkZXYsICJVbmtub3duIGNvbG9yIG1v
-ZGUgJWQ7IGd1ZXNzaW5nIGJ1ZmZlciBzaXplLlxuIiwgYXJncy0+YnBwKTsKKwkJaWYgKGFy
-Z3MtPmJwcCA8IDgpCisJCQlwaXRjaCA9IERJVl9ST1VORF9VUChhcmdzLT53aWR0aCAqIGFy
-Z3MtPmJwcCwgU1pfOCk7CisJCWVsc2UKKwkJCXBpdGNoID0gYXJncy0+d2lkdGggKiBESVZf
-Uk9VTkRfVVAoYXJncy0+YnBwLCBTWl84KTsKKwl9CisKIAlpZiAoIXBpdGNoIHx8IHBpdGNo
-ID4gVTMyX01BWCkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLS0gCjIuNDcuMQoK
-
---------------Ak8c05R8qA0Bhl3CK6SC6vGZ--
