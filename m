@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31F47A09EFF
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 01:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAEDAA09F01
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 01:10:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8AF310F19D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D11E010F1A2;
 	Sat, 11 Jan 2025 00:10:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="VkQQcuNA";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="RoiLabX8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 155BB10F0C0
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5645510F0B4
  for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 12:38:53 +0000 (UTC)
-X-UUID: d6127b5ecf4f11efbd192953cf12861f-20250110
+X-UUID: d618e4b2cf4f11ef99858b75a2457dd9-20250110
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
  bh=iCYptYbHTJCtMnIRVZL/ESgJRF5lpqvKVREozV6dumE=; 
- b=VkQQcuNA9gV/mz+AqCneFlOst3z5CseoEKQr8cjKEdXXI4aWEhTtpXYRMkqMLP7tfCL58nJaBpYS2qTaPgUrhliDy/ybpAVxqRrNV58fIxe7NGa0NDQreluCjJ7ojs9FX6cX6Gv3UkklrRPdvAgx7QlBujIVjt09EOr/4CgyGnw=;
+ b=RoiLabX8Ax/QwYCoBNQy25HxuDvCjY5UHKt80ntcIU5+cNKJ4tRIv+k1tRpl6so6Bc1saBYnperVhmdzjNIZgWquMDM+a1aiD6a9vCXs6HbllJKB2pbFnH20YHZ30PK/aB2IiKGo9diKO0U7PsvqZiC/fQfo3OAZKk/crzJ8Ujs=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:a7d1322c-1cbd-4c17-8208-38c34a324a3c, IP:0,
+X-CID-O-INFO: VERSION:1.1.46, REQID:4b07122d-e74d-43fc-8cad-4472fdee44d3, IP:0,
  U
  RL:25,TC:0,Content:-25,EDM:-25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,AC
  TION:release,TS:-25
-X-CID-META: VersionHash:60aa074, CLOUDID:3333b037-e11c-4c1a-89f7-e7a032832c40,
+X-CID-META: VersionHash:60aa074, CLOUDID:a86f4e13-8831-4185-8e40-f83b1917e828,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:1,
  IP:nil,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
@@ -34,13 +34,13 @@ X-CID-META: VersionHash:60aa074, CLOUDID:3333b037-e11c-4c1a-89f7-e7a032832c40,
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: d6127b5ecf4f11efbd192953cf12861f-20250110
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
+X-UUID: d618e4b2cf4f11ef99858b75a2457dd9-20250110
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
+ mailgw01.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 2061143401; Fri, 10 Jan 2025 20:38:47 +0800
+ with ESMTP id 750545487; Fri, 10 Jan 2025 20:38:47 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Fri, 10 Jan 2025 20:38:45 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
@@ -60,8 +60,8 @@ CC: <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
 Subject: [PATCH 03/12] dt-bindings: display: mediatek: add EXDMA yaml for
  MT8196
-Date: Fri, 10 Jan 2025 20:33:58 +0800
-Message-ID: <20250110123835.2719824-4-paul-pl.chen@mediatek.com>
+Date: Fri, 10 Jan 2025 20:33:59 +0800
+Message-ID: <20250110123835.2719824-5-paul-pl.chen@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
 References: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
