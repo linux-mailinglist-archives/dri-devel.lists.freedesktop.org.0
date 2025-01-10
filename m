@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F20EA09EF3
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 01:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7164EA09EF5
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 01:10:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0433C10E53B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF11510E1AB;
 	Sat, 11 Jan 2025 00:10:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="JC/vdUDm";
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="XqvKNipA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C706D10F0A2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C710510F0A7
  for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 12:38:51 +0000 (UTC)
-X-UUID: d5d1f20acf4f11ef99858b75a2457dd9-20250110
+X-UUID: d5e86ca6cf4f11ef99858b75a2457dd9-20250110
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
  s=dk; 
  h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=MZ9fN4d8/knettSKa3c+M8kxpzH7EEl9U8LbDqG5g8o=; 
- b=JC/vdUDmkKF5NGQ81KuKooTZNjlNXahylxfPghx2x+HerKGv0XKOdpOFcYGSaqUaZZsz30nDi6+VBt1S+da5HTm/zFCk02nzGnM4krZzHVSXwtpcnW7J+5KPdLN0b3wzpZwnhbzf6JswXmnjdHceVRwvUBHiJk0W1QV51Mv1A1o=;
+ bh=GuNnWs7NvVCyXYhfvN4md9ZQKcZAEL1oFKVT7WxKP/c=; 
+ b=XqvKNipAEt/bVsYT5NR99dZrDHTs0Rr5mLX77D1vl1xO6aELiXpKFbJVmMKO2EnBO+15R7TNls57FxeXuqqea/pmpT4r6BuBcnLf97l42Lsrp5obSsscWv1s3QhGA+zYl6CJSGPyTS0k7dHz4g4jpQrCy81jGwMv9a6SPEYXLGg=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:5b21538c-9f12-4241-9275-c75f50032377, IP:0,
+X-CID-O-INFO: VERSION:1.1.46, REQID:0e981ec7-10a6-427d-aa85-28bb600f2f1a, IP:0,
  U
  RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
  release,TS:0
-X-CID-META: VersionHash:60aa074, CLOUDID:2033b037-e11c-4c1a-89f7-e7a032832c40,
+X-CID-META: VersionHash:60aa074, CLOUDID:a76f4e13-8831-4185-8e40-f83b1917e828,
  B
  ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
  ,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
@@ -34,13 +34,13 @@ X-CID-META: VersionHash:60aa074, CLOUDID:2033b037-e11c-4c1a-89f7-e7a032832c40,
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: d5d1f20acf4f11ef99858b75a2457dd9-20250110
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by
+X-UUID: d5e86ca6cf4f11ef99858b75a2457dd9-20250110
+Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by
  mailgw01.mediatek.com (envelope-from <paul-pl.chen@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1521977058; Fri, 10 Jan 2025 20:38:46 +0800
+ with ESMTP id 1676313267; Fri, 10 Jan 2025 20:38:46 +0800
 Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1118.26; Fri, 10 Jan 2025 20:38:45 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
@@ -58,10 +58,9 @@ CC: <matthias.bgg@gmail.com>, <p.zabel@pengutronix.de>,
  <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
  <linux-arm-kernel@lists.infradead.org>,
  <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH 01/12] dt-bindings: arm: mediatek: mmsys: add compatible for
- MT8196
-Date: Fri, 10 Jan 2025 20:33:56 +0800
-Message-ID: <20250110123835.2719824-2-paul-pl.chen@mediatek.com>
+Subject: [PATCH 02/12] dt-bindings: soc: mediatek: add mutex yaml for MT8196
+Date: Fri, 10 Jan 2025 20:33:57 +0800
+Message-ID: <20250110123835.2719824-3-paul-pl.chen@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
 References: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
@@ -86,29 +85,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: "Paul-pl.Chen" <paul-pl.chen@mediatek.com>
 
-Add compatible for mmsys yaml of MT8196
+Add compatible string to support mutex for MT8196.
 
 Signed-off-by: Paul-pl.Chen <paul-pl.chen@mediatek.com>
 ---
- .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml     | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml        | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-index 3f4262e93c78..5f244a8f6a47 100644
---- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-+++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
-@@ -39,6 +39,11 @@ properties:
-               - mediatek,mt8195-vdosys1
-               - mediatek,mt8195-vppsys0
-               - mediatek,mt8195-vppsys1
-+              - mediatek,mt8196-dispsys0
-+              - mediatek,mt8196-dispsys1
-+              - mediatek,mt8196-ovlsys0
-+              - mediatek,mt8196-ovlsys1
-+              - mediatek,mt8196-vdisp-ao
-               - mediatek,mt8365-mmsys
-           - const: syscon
+diff --git a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+index a10326a9683d..1be4e139a8b5 100644
+--- a/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
++++ b/Documentation/devicetree/bindings/soc/mediatek/mediatek,mutex.yaml
+@@ -36,6 +36,7 @@ properties:
+       - mediatek,mt8188-vpp-mutex
+       - mediatek,mt8192-disp-mutex
+       - mediatek,mt8195-disp-mutex
++      - mediatek,mt8196-disp-mutex
+       - mediatek,mt8195-vpp-mutex
+       - mediatek,mt8365-disp-mutex
  
+@@ -87,6 +88,7 @@ allOf:
+               - mediatek,mt8186-mdp3-mutex
+               - mediatek,mt8192-disp-mutex
+               - mediatek,mt8195-disp-mutex
++              - mediatek,mt8196-disp-mutex
+     then:
+       required:
+         - clocks
 -- 
 2.34.1
 
